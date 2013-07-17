@@ -99,4 +99,276 @@ class JAmazons3OperationsBucketsGet extends JAmazons3OperationsBuckets
 
 		return $response_body;
 	}
+
+	/**
+	 * Creates the request for getting a bucket's lifecycle and returns the response from Amazon
+	 *
+	 * @param   string  $bucket  The bucket name
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function getBucketLifecycle($bucket)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?lifecycle";
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+		);
+		$authorization = $this->createAuthorization("GET", $url, $headers);
+		$headers["Authorization"] = $authorization;
+
+		// Send the http request
+		$response = $this->client->get($url, $headers);
+
+		// Process the response
+		$response_body = $this->processResponse($response);
+
+		return $response_body;
+	}
+
+	/**
+	 * Creates the request for getting a bucket's policy and returns the response from Amazon
+	 *
+	 * @param   string  $bucket  The bucket name
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function getBucketPolicy($bucket)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?policy";
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+		);
+		$authorization = $this->createAuthorization("GET", $url, $headers);
+		$headers["Authorization"] = $authorization;
+
+		// Send the http request
+		$response = $this->client->get($url, $headers);
+
+		// Process the response
+		$response_body = $this->processResponse($response);
+
+		return $response_body;
+	}
+
+	/**
+	 * Creates the request for getting a bucket's location and returns the response from Amazon
+	 *
+	 * @param   string  $bucket  The bucket name
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function getBucketLocation($bucket)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?location";
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+		);
+		$authorization = $this->createAuthorization("GET", $url, $headers);
+		$headers["Authorization"] = $authorization;
+
+		// Send the http request
+		$response = $this->client->get($url, $headers);
+
+		// Process the response
+		$response_body = $this->processResponse($response);
+
+		return $response_body;
+	}
+
+	/**
+	 * Creates the request for getting a bucket's logging and returns the response from Amazon
+	 *
+	 * @param   string  $bucket  The bucket name
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function getBucketLogging($bucket)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?logging";
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+		);
+		$authorization = $this->createAuthorization("GET", $url, $headers);
+		$headers["Authorization"] = $authorization;
+
+		// Send the http request
+		$response = $this->client->get($url, $headers);
+
+		// Process the response
+		$response_body = $this->processResponse($response);
+
+		return $response_body;
+	}
+
+	/**
+	 * Creates the request for getting a bucket's notification and returns the response from Amazon
+	 *
+	 * @param   string  $bucket  The bucket name
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function getBucketNotification($bucket)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?notification";
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+		);
+		$authorization = $this->createAuthorization("GET", $url, $headers);
+		$headers["Authorization"] = $authorization;
+
+		// Send the http request
+		$response = $this->client->get($url, $headers);
+
+		// Process the response
+		$response_body = $this->processResponse($response);
+
+		return $response_body;
+	}
+
+	/**
+	 * Creates the request for getting a bucket's tagging and returns the response from Amazon
+	 *
+	 * @param   string  $bucket  The bucket name
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function getBucketTagging($bucket)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?tagging";
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+		);
+		$authorization = $this->createAuthorization("GET", $url, $headers);
+		$headers["Authorization"] = $authorization;
+
+		// Send the http request
+		$response = $this->client->get($url, $headers);
+
+		// Process the response
+		$response_body = $this->processResponse($response);
+
+		return $response_body;
+	}
+
+	/**
+	 * Creates the request for getting the versions of a bucket's objects
+	 * and returns the response from Amazon
+	 *
+	 * @param   string  $bucket  The bucket name
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function getBucketVersions($bucket)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?versions";
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+		);
+		$authorization = $this->createAuthorization("GET", $url, $headers);
+		$headers["Authorization"] = $authorization;
+
+		// Send the http request
+		$response = $this->client->get($url, $headers);
+
+		// Process the response
+		$response_body = $this->processResponse($response);
+
+		return $response_body;
+	}
+
+	/**
+	 * Creates the request for getting a bucket's request payment configuration
+	 * and returns the response from Amazon
+	 *
+	 * @param   string  $bucket  The bucket name
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function getBucketRequestPayment($bucket)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?requestPayment";
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+		);
+		$authorization = $this->createAuthorization("GET", $url, $headers);
+		$headers["Authorization"] = $authorization;
+
+		// Send the http request
+		$response = $this->client->get($url, $headers);
+
+		// Process the response
+		$response_body = $this->processResponse($response);
+
+		return $response_body;
+	}
+
+	/**
+	 * Creates the request for getting a bucket's versioning state and returns the response from Amazon
+	 *
+	 * @param   string  $bucket  The bucket name
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function getBucketVersioning($bucket)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?versioning";
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+		);
+		$authorization = $this->createAuthorization("GET", $url, $headers);
+		$headers["Authorization"] = $authorization;
+
+		// Send the http request
+		$response = $this->client->get($url, $headers);
+
+		// Process the response
+		$response_body = $this->processResponse($response);
+
+		return $response_body;
+	}
+
+	/**
+	 * Creates the request for getting a bucket's website and returns the response from Amazon
+	 *
+	 * @param   string  $bucket  The bucket name
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function getBucketWebsite($bucket)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?website";
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+		);
+		$authorization = $this->createAuthorization("GET", $url, $headers);
+		$headers["Authorization"] = $authorization;
+
+		// Send the http request
+		$response = $this->client->get($url, $headers);
+
+		// Process the response
+		$response_body = $this->processResponse($response);
+
+		return $response_body;
+	}
 }
