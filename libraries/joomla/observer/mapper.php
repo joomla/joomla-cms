@@ -15,6 +15,24 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Observable Subject pattern interface for Joomla
  *
+ * To make a class and its inheriting classes observable:
+ * 1) add: implements JObservableInterface
+ *    to its class
+ *
+ * 2) at the end of the constructor, add:
+ * // Create observer updater and attaches all observers interested by $this class:
+ * $this->_observers = new JObserverUpdater($this);
+ * JObserverMapper::attachAllObservers($this);
+ *
+ * 3) add the function attachObserver below to your class to add observers using the JObserverUpdater class:
+ * 	public function attachObserver(JObserverInterface $observer)
+ * 	{
+ * 		$this->_observers->attachObserver($observer);
+ * 	}
+ *
+ * 4) in the methods that need to be observed, add, e.g. (name of event, params of event):
+ * 		$this->_observers->update('onBeforeLoad', array($keys, $reset));
+ *
  * @package     Joomla
  * @subpackage  Observer
  * @link        http://docs.joomla.org/JObservableInterface
@@ -37,6 +55,35 @@ interface JObservableInterface
 
 /**
  * Observer pattern interface for Joomla
+ *
+ * A class that wants to observe another class must:
+ *
+ * 1) Add: implements JObserverInterface
+ *    to its class
+ *
+ * 2) Implement a constructor, that can look like this:
+ * 	public function __construct(JObservableInterface $observableObject)
+ * 	{
+ * 	    $observableObject->attachObserver($this);
+ *  	$this->observableObject = $observableObject;
+ * 	}
+ *
+ * 3) and must implement the instanciator function createObserver() below, e.g. as follows:
+ * 	public static function createObserver(JObservableInterface $observableObject, $params = array())
+ * 	{
+ * 	    $observer = new self($observableObject);
+ *      $observer->... = $params['...']; ...
+ * 	    return $observer;
+ * 	}
+ *
+ * 4) Then add functions corresponding to the events to be observed,
+ *    E.g. to respond to event: $this->_observers->update('onBeforeLoad', array($keys, $reset));
+ *    following function is needed in the obser:
+ *  public function onBeforeLoad($keys, $reset) { ... }
+ *
+ * 5) Finally, the binding is made outside the observable and observer classes, using:
+ * JObserverMapper::addObserverClassToClass('ObserverClassname', 'ObservableClassname', array('paramName' => 'paramValue'));
+ * where the last array will be provided to the observer instanciator function createObserver.
  *
  * @package     Joomla
  * @subpackage  Observer
