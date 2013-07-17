@@ -66,7 +66,7 @@ class JFormFieldText extends JFormField
 		$options = (array) $this->getSuggestions();
 		if(!empty($options))
 		{
-			$html[] = JHtml::_('select.suggestionlist', $options, '', "", 'value', 'text', $this->value, $this->id .'_datalist"');
+			$html[] = JHtml::_('select.suggestionlist', $options, 'value', 'text', $this->id .'_datalist"');
 			$list = ' list="'. $this->id .'_datalist"';
 		}
 

@@ -129,51 +129,23 @@ abstract class JHtmlSelect
 		return $html;
 	}
 
-	public static function suggestionlist($data, $name, $attribs = null, $optKey = 'value', $optText = 'text', $selected = null, $idtag = false,
-		$translate = false)
+	public static function suggestionlist($data, $optKey = 'value', $optText = 'text', $idtag ,$translate = false)
 	{
 		// Set default options
 		$options = array_merge(JHtml::$formatOptions, array('format.depth' => 0, 'id' => false));
 
-		if (is_array($attribs) && func_num_args() == 3)
-		{
-			// Assume we have an options array
-			$options = array_merge($options, $attribs);
-		}
-		else
-		{
-			// Get options from the parameters
-			$options['id'] = $idtag;
-			$options['list.attr'] = $attribs;
-			$options['list.translate'] = $translate;
-			$options['option.key'] = $optKey;
-			$options['option.text'] = $optText;
-			$options['list.select'] = $selected;
-		}
+		// Get options from the parameters
+		$options['id'] = $idtag;
+		$options['list.attr'] = null;
+		$options['list.translate'] = $translate;
+		$options['option.key'] = $optKey;
+		$options['option.text'] = $optText;
+		$options['list.select'] = null;
 
-		$attribs = '';
-
-		if (isset($options['list.attr']))
-		{
-			if (is_array($options['list.attr']))
-			{
-				$attribs = JArrayHelper::toString($options['list.attr']);
-			}
-			else
-			{
-				$attribs = $options['list.attr'];
-			}
-
-			if ($attribs != '')
-			{
-				$attribs = ' ' . $attribs;
-			}
-		}
-
-		$id = $options['id'] !== false ? $options['id'] : $name;
+		$id = ' id="' . $idtag . '"';
 
 		$baseIndent = str_repeat($options['format.indent'], $options['format.depth']++);
-		$html = $baseIndent . '<datalist id="' . $id . '">' . $options['format.eol']
+		$html = $baseIndent . '<datalist'. $id .'>' . $options['format.eol']
 			. static::options($data, $options) . $baseIndent . '</datalist>' . $options['format.eol'];
 
 		return $html;
