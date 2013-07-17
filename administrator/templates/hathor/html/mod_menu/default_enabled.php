@@ -20,7 +20,7 @@ $lang = JFactory::getLanguage();
 // Site SubMenu
 //
 $menu->addChild(
-	new JMenuNode(JText::_('JSITE'), '#'), true
+	new JMenuNode(JText::_('MOD_MENU_SYSTEM'), '#'), true
 );
 $menu->addChild(
 	new JMenuNode(JText::_('MOD_MENU_CONTROL_PANEL'), 'index.php', 'class:cpanel')
