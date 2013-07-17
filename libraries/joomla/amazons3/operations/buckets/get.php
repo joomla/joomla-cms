@@ -267,4 +267,24 @@ class JAmazons3OperationsBucketsGet extends JAmazons3OperationsBuckets
 
 		return $response_body;
 	}
+
+	/**
+	 * Creates the request for listing a bucket's multipart uploads
+	 * and returns the response from Amazon
+	 *
+	 * @param   string  $bucket  The bucket name
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function listMultipartUploads($bucket)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?uploads";
+
+		// Send the request and process the response
+		$response_body = $this->commonGetOperations($url);
+
+		return $response_body;
+	}
 }
