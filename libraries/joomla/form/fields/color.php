@@ -37,7 +37,7 @@ class JFormFieldColor extends JFormField
 	 */
 	protected function getInput()
 	{
-		//Translate placeholder text
+		// Translate placeholder text
 		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
 
 		// Control value can be: hue (default), saturation, brightness, wheel or simpel
@@ -125,6 +125,7 @@ class JFormFieldColor extends JFormField
 					$html[] = '<option>-</option>';
 				}
 			}
+
 			$html[] = '</select>';
 
 			return implode('', $html);
@@ -139,7 +140,7 @@ class JFormFieldColor extends JFormField
 			$required = $this->required ? ' required aria-required="true"' : '';
 			$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : '';
 
-			//Including fallback code for HTML5 non supported browsers.
+			// Including fallback code for HTML5 non supported browsers.
 			JHtml::_('jquery.framework');
 			JHtml::_('script', 'system/html5fallback.js', false, true);
 

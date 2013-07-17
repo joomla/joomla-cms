@@ -164,6 +164,7 @@ class JFormFieldGroupedList extends JFormField
 			);
 			$html[] = '<input type="hidden" name="' . $this->name . '" value="' . $this->value . '"/>';
 		}
+
 		// Create a regular list.
 		else
 		{

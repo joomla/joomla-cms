@@ -38,7 +38,7 @@ class JFormFieldEMail extends JFormField
 	 */
 	protected function getInput()
 	{
-		//Translate placeholder text
+		// Translate placeholder text
 		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
 
 		// Initialize some field attributes.
@@ -59,9 +59,9 @@ class JFormFieldEMail extends JFormField
 		// Including fallback code for HTML5 non supported browsers.
 		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/html5fallback.js', false, true);
-		
+
 		return '<input type="text" name="' . $this->name . '" class="validate-email' . $class . '" id="' . $this->id . '" value="'
 			. JStringPunycode::emailToUTF8($this->value, ENT_COMPAT, 'UTF-8') . '"' . $size . $disabled . $readonly . $onchange . $autocomplete
 			. $multiple . $maxLength . $hint . $required . $autofocus . '/>';
-		}
+	}
 }

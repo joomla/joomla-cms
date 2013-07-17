@@ -54,9 +54,11 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 		 * are supported.
 		 */
 		$supported = $this->element['supported'];
+
 		if (!empty($supported))
 		{
 			$supported = explode(',', $supported);
+
 			foreach ($supported as $support)
 			{
 				if (in_array($support, $available))
@@ -79,6 +81,7 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 		{
 			$options[''] = JText::_('JNONE');
 		}
+
 		return $options;
 	}
 }

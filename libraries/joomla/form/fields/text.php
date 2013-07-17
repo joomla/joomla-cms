@@ -38,7 +38,7 @@ class JFormFieldText extends JFormField
 	 */
 	protected function getInput()
 	{
-		//Translate placeholder text
+		// Translate placeholder text
 		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
 
 		// Initialize some field attributes.
@@ -64,13 +64,14 @@ class JFormFieldText extends JFormField
 
 		// Get the field suggestions.
 		$options = (array) $this->getSuggestions();
-		if(!empty($options))
+
+		if (!empty($options))
 		{
-			$html[] = JHtml::_('select.suggestionlist', $options, 'value', 'text', $this->id .'_datalist"');
-			$list = ' list="'. $this->id .'_datalist"';
+			$html[] = JHtml::_('select.suggestionlist', $options, 'value', 'text', $this->id . '_datalist"');
+			$list = ' list="' . $this->id . '_datalist"';
 		}
 
-		$html[] =  '<input type="text" name="' . $this->name . '" id="' . $this->id . '" dirname="'. $this->name .'.dir" value="' 
+		$html[] = '<input type="text" name="' . $this->name . '" id="' . $this->id . '" dirname="' . $this->name . '.dir" value="'
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $class . $size . $disabled . $readonly . $list
 			. $hint . $onchange . $maxLength . $required . $autocomplete . $autofocus . $spellcheck . $inputmode . '/>';
 

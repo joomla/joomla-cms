@@ -54,7 +54,6 @@ class JFormFieldUsergroup extends JFormField
 		// Iterate through the children and build an array of options.
 		foreach ($this->element->children() as $option)
 		{
-
 			// Only add <option /> elements.
 			if ($option->getName() != 'option')
 			{

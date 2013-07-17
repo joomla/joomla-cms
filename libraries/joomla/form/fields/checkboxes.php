@@ -54,7 +54,7 @@ class JFormFieldCheckboxes extends JFormField
 		$required = $this->required ? ' required aria-required="true"' : '';
 		$autofocus = $this->autofocus ? ' autofocus' : '';
 
-		//Including fallback code for HTML5 non supported browsers.
+		// Including fallback code for HTML5 non supported browsers.
 		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/html5fallback.js', false, true);
 
@@ -66,6 +66,7 @@ class JFormFieldCheckboxes extends JFormField
 
 		// Build the checkbox field output.
 		$html[] = '<ul>';
+
 		foreach ($options as $i => $option)
 		{
 			// Initialize some option attributes.
@@ -78,6 +79,7 @@ class JFormFieldCheckboxes extends JFormField
 				$value = !is_array($this->value) ? explode(',', $this->value) : $this->value;
 				$checked = (in_array((string) $option->value, $value) ? ' checked' : '');
 			}
+
 			$class = !empty($option->class) ? ' class="' . $option->class . '"' : '';
 			$disabled = !empty($option->disable) || $this->disabled ? ' disabled' : '';
 
@@ -91,6 +93,7 @@ class JFormFieldCheckboxes extends JFormField
 			$html[] = '<label for="' . $this->id . $i . '"' . $class . '>' . JText::_($option->text) . '</label>';
 			$html[] = '</li>';
 		}
+
 		$html[] = '</ul>';
 
 		// End the checkbox field output.
@@ -112,7 +115,6 @@ class JFormFieldCheckboxes extends JFormField
 
 		foreach ($this->element->children() as $option)
 		{
-
 			// Only add <option /> elements.
 			if ($option->getName() != 'option')
 			{

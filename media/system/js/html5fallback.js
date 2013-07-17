@@ -21,7 +21,7 @@
 			return new F();
 		};
 	}
-	
+
 	var H5Form = {
 		init: function(options, elem){
 			var self = this;
@@ -176,7 +176,7 @@
 				}
 			}
 			else if(specialTypes.test(type)){
-				
+
 				if(type === "checkbox"){
 					return !$elem.is(':checked');
 				}
@@ -323,6 +323,5 @@
 	};
 	$(function(){
 		$('form').h5f({doRenderMessage : true});
-		
 	});
 })(jQuery,document);

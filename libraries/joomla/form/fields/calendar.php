@@ -21,7 +21,6 @@ defined('JPATH_PLATFORM') or die;
  */
 class JFormFieldCalendar extends JFormField
 {
-
 	/**
 	 * The form field type.
 	 *
@@ -39,7 +38,7 @@ class JFormFieldCalendar extends JFormField
 	 */
 	protected function getInput()
 	{
-		//Translate placeholder text
+		// Translate placeholder text
 		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
 
 		// Initialize some field attributes.
@@ -47,20 +46,23 @@ class JFormFieldCalendar extends JFormField
 
 		// Build the attributes array.
 		$attributes = array();
+
 		if ($this->element['size'])
 		{
 			$attributes['size'] = (int) $this->element['size'];
 		}
+
 		if ($this->element['maxlength'])
 		{
 			$attributes['maxlength'] = (int) $this->element['maxlength'];
 		}
+
 		if ($this->element['class'])
 		{
 			$attributes['class'] = (string) $this->element['class'];
 		}
 
-		//Using the boolean attribute property which is the presence of attribute means it is true.
+		// Using the boolean attribute property which is the presence of attribute means it is true.
 		if ($this->readonly)
 		{
 			$attributes['readonly'] = '';
@@ -70,24 +72,29 @@ class JFormFieldCalendar extends JFormField
 		{
 			$attributes['disabled'] = '';
 		}
+
 		if ($this->element['onchange'])
 		{
 			$attributes['onchange'] = (string) $this->element['onchange'];
 		}
+
 		if ($this->required)
 		{
 			$attributes['required'] = '';
 			$attributes['aria-required'] = 'true';
 		}
+
 		if ($hint)
 		{
 			$attributes['placeholder'] = $hint;
 		}
-		if(!$this->autocomplete)
+
+		if (!$this->autocomplete)
 		{
 			$attributes['autocomplete'] = 'off';
 		}
-		if($this->autofocus)
+
+		if ($this->autofocus)
 		{
 			$attributes['autofocus'] = '';
 		}

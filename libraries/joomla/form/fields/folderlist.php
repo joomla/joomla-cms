@@ -21,7 +21,6 @@ JFormHelper::loadFieldClass('list');
  */
 class JFormFieldFolderList extends JFormFieldList
 {
-
 	/**
 	 * The form field type.
 	 *
@@ -49,6 +48,7 @@ class JFormFieldFolderList extends JFormFieldList
 
 		// Get the path in which to search for file options.
 		$path = (string) $this->element['directory'];
+
 		if (!is_dir($path))
 		{
 			$path = JPATH_ROOT . '/' . $path;
@@ -59,6 +59,7 @@ class JFormFieldFolderList extends JFormFieldList
 		{
 			$options[] = JHtml::_('select.option', '-1', JText::alt('JOPTION_DO_NOT_USE', preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)));
 		}
+
 		if (!$hideDefault)
 		{
 			$options[] = JHtml::_('select.option', '', JText::alt('JOPTION_USE_DEFAULT', preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)));
@@ -72,7 +73,6 @@ class JFormFieldFolderList extends JFormFieldList
 		{
 			foreach ($folders as $folder)
 			{
-
 				// Check to see if the file is in the exclude mask.
 				if ($exclude)
 				{

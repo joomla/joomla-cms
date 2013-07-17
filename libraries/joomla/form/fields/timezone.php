@@ -64,7 +64,6 @@ class JFormFieldTimezone extends JFormFieldGroupedList
 		// Build the group lists.
 		foreach ($zones as $zone)
 		{
-
 			// Time zones not in a group we will ignore.
 			if (strpos($zone, '/') === false)
 			{
@@ -77,7 +76,6 @@ class JFormFieldTimezone extends JFormFieldGroupedList
 			// Only use known groups.
 			if (in_array($group, self::$zones))
 			{
-
 				// Initialize the group if necessary.
 				if (!isset($groups[$group]))
 				{
@@ -94,6 +92,7 @@ class JFormFieldTimezone extends JFormFieldGroupedList
 
 		// Sort the group lists.
 		ksort($groups);
+
 		foreach ($groups as &$location)
 		{
 			sort($location);

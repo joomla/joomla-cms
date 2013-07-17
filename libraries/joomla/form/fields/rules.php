@@ -106,10 +106,12 @@ class JFormFieldRules extends JFormField
 
 		// Building tab nav
 		$html[] = '<ul class="nav nav-tabs">';
+
 		foreach ($groups as $group)
 		{
 			// Initial Active Tab
 			$active = "";
+
 			if ($group->value == 1)
 			{
 				$active = "active";
@@ -121,6 +123,7 @@ class JFormFieldRules extends JFormField
 			$html[] = '</a>';
 			$html[] = '</li>';
 		}
+
 		$html[] = '</ul>';
 
 		$html[] = '<div class="tab-content">';
@@ -130,6 +133,7 @@ class JFormFieldRules extends JFormField
 		{
 			// Initial Active Pane
 			$active = "";
+
 			if ($group->value == 1)
 			{
 				$active = " active";
@@ -150,6 +154,7 @@ class JFormFieldRules extends JFormField
 
 			// The calculated setting is not shown for the root group of global configuration.
 			$canCalculateSettings = ($group->parent_id || !empty($component));
+
 			if ($canCalculateSettings)
 			{
 				$html[] = '<th id="aclactionth' . $group->value . '">';
@@ -268,12 +273,12 @@ class JFormFieldRules extends JFormField
 
 			$html[] = '</tbody>';
 			$html[] = '</table></div>';
-
 		}
 
 		$html[] = '</div></div>';
 
 		$html[] = '<div class="alert">';
+
 		if ($section == 'component' || $section == null)
 		{
 			$html[] = JText::_('JLIB_RULES_SETTING_NOTES');
@@ -282,6 +287,7 @@ class JFormFieldRules extends JFormField
 		{
 			$html[] = JText::_('JLIB_RULES_SETTING_NOTES_ITEM');
 		}
+
 		$html[] = '</div>';
 
 		return implode("\n", $html);

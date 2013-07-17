@@ -50,7 +50,7 @@ class JFormFieldFile extends JFormField
 		$required = $this->required ? ' required aria-required="true"' : '';
 		$autofocus = $this->autofocus ? ' autofocus' : '';
 		$multiple = $this->multiple ? ' multiple' : '';
-		
+
 		// Initialize JavaScript field attributes.
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 

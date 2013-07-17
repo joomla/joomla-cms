@@ -20,7 +20,6 @@ JFormHelper::loadFieldClass('filelist');
  */
 class JFormFieldImageList extends JFormFieldFileList
 {
-
 	/**
 	 * The form field type.
 	 *
