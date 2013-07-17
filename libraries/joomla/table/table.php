@@ -83,17 +83,10 @@ abstract class JTable extends JObject implements JObservableInterface
 	/**
 	 * Generic observers for this JTable (Used e.g. for tags Processing)
 	 *
-	 * @var    JTableObserver[]
+	 * @var    JObserverUpdater
 	 * @since  3.1.2
 	 */
-	protected $_observers = array();
-
-	/**
-	 * Process observers (useful when a class extends significantly an observerved method, and calls observers itself
-	 * @var    boolean
-	 * @since  3.1.2
-	 */
-	protected $_callObservers = true;
+	protected $_observers;
 
 	/**
 	 * Object constructor to set table and key fields.  In most cases this will
@@ -139,11 +132,14 @@ abstract class JTable extends JObject implements JObservableInterface
 			$this->access = (int) JFactory::getConfig()->get('access');
 		}
 
-		// Attaches all observers interested by $this class:
+		// Implement JObservableInterface:
+		// Create observer updater and attaches all observers interested by $this class:
+		$this->_observers = new JObserverUpdater($this);
 		JObserverMapper::attachAllObservers($this);
 	}
 
 	/**
+	 * Implement JObservableInterface:
 	 * Adds an observer to this JTable instance.
 	 * Ideally, this method should be called fron the constructor of JTableObserver
 	 * which should be instanciated by the constructor of $this.
@@ -156,7 +152,7 @@ abstract class JTable extends JObject implements JObservableInterface
 	 */
 	public function attachObserver(JObserverInterface $observer)
 	{
-		$this->_observers[get_class($observer)] = $observer;
+		$this->_observers->attachObserver($observer);
 	}
 
 	/**
@@ -170,11 +166,7 @@ abstract class JTable extends JObject implements JObservableInterface
 	 */
 	public function getObserverOfClass($observerClass)
 	{
-		if (isset($this->_observers[$observerClass]))
-		{
-			return $this->_observers[$observerClass];
-		}
-		return null;
+		return $this->_observers->getObserverOfClass($observerClass);
 	}
 
 	/**
@@ -480,7 +472,7 @@ abstract class JTable extends JObject implements JObservableInterface
 	 *
 	 * @link    http://docs.joomla.org/JTable/bind
 	 * @since   11.1
-	 * @throws  UnexpectedValueException
+	 * @throws  InvalidArgumentException
 	 */
 	public function bind($src, $ignore = array())
 	{
@@ -535,14 +527,8 @@ abstract class JTable extends JObject implements JObservableInterface
 	 */
 	public function load($keys = null, $reset = true)
 	{
-		// Pre-processing by observers
-		if ($this->_callObservers)
-		{
-			foreach ($this->_observers as $observer)
-			{
-				$observer->onBeforeLoad($keys, $reset);
-			}
-		}
+		// Implement JObservableInterface: Pre-processing by observers
+		$this->_observers->update('onBeforeLoad', array($keys, $reset));
 
 		if (empty($keys))
 		{
@@ -601,14 +587,8 @@ abstract class JTable extends JObject implements JObservableInterface
 			$result = $this->bind($row);
 		}
 
-		// Post-processing by observers
-		if ($this->_callObservers)
-		{
-			foreach ($this->_observers as $observer)
-			{
-				$observer->onAfterLoad($result, $row);
-			}
-		}
+		// Implement JObservableInterface: Post-processing by observers
+		$this->_observers->update('onAfterLoad', array(&$result, $row));
 
 		return $result;
 	}
@@ -647,14 +627,8 @@ abstract class JTable extends JObject implements JObservableInterface
 	{
 		$k = $this->_tbl_key;
 
-		// Pre-processing by observers
-		if ($this->_callObservers)
-		{
-			foreach ($this->_observers as $observer)
-			{
-				$observer->onBeforeStore($updateNulls, $k);
-			}
-		}
+		// Implement JObservableInterface: Pre-processing by observers
+		$this->_observers->update('onBeforeStore', array($updateNulls, $k));
 
 		if (!empty($this->asset_id))
 		{
@@ -682,16 +656,11 @@ abstract class JTable extends JObject implements JObservableInterface
 			$result = $this->_db->insertObject($this->_tbl, $this, $this->_tbl_key);
 		}
 
-		// Post-processing by observers
-		if ($this->_callObservers)
-		{
-			foreach ($this->_observers as $observer)
-			{
-				$observer->onAfterStore($result);
-			}
-		}
+		// Implement JObservableInterface: Post-processing by observers
+		$this->_observers->update('onAfterStore', array(&$result));
 
-		//@TODO: This trackAssets after here (and above too) should go into a observer post-processing method:
+
+		// @TODO later: This trackAssets after here (and above too) could go into a observer post-processing method:
 
 		// If the table is not set to track assets return true.
 		if (!$this->_trackAssets)
@@ -838,14 +807,8 @@ abstract class JTable extends JObject implements JObservableInterface
 	{
 		$k = $this->_tbl_key;
 
-		// Pre-processing by observers
-		if ($this->_callObservers)
-		{
-			foreach ($this->_observers as $observer)
-			{
-				$observer->onBeforeDelete($pk, $k);
-			}
-		}
+		// Implement JObservableInterface: Pre-processing by observers
+		$this->_observers->update('onBeforeDelete', array($pk, $k));
 
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
@@ -891,14 +854,8 @@ abstract class JTable extends JObject implements JObservableInterface
 		// Check for a database error.
 		$this->_db->execute();
 
-		// Post-processing by observers
-		if ($this->_callObservers)
-		{
-			foreach ($this->_observers as $observer)
-			{
-				$observer->onAfterDelete($pk);
-			}
-		}
+		// Implement JObservableInterface: Post-processing by observers
+		$this->_observers->update('onAfterDelete', array($pk));
 
 		return true;
 	}
@@ -919,6 +876,7 @@ abstract class JTable extends JObject implements JObservableInterface
 	 *
 	 * @link    http://docs.joomla.org/JTable/checkOut
 	 * @since   11.1
+	 * @throws UnexpectedValueException
 	 */
 	public function checkOut($userId, $pk = null)
 	{
@@ -966,6 +924,7 @@ abstract class JTable extends JObject implements JObservableInterface
 	 *
 	 * @link    http://docs.joomla.org/JTable/checkIn
 	 * @since   11.1
+	 * @throws UnexpectedValueException
 	 */
 	public function checkIn($pk = null)
 	{
@@ -1090,6 +1049,7 @@ abstract class JTable extends JObject implements JObservableInterface
 	 *
 	 * @link    http://docs.joomla.org/JTable/getNextOrder
 	 * @since   11.1
+	 * @throws UnexpectedValueException
 	 */
 	public function getNextOrder($where = '')
 	{
@@ -1126,6 +1086,7 @@ abstract class JTable extends JObject implements JObservableInterface
 	 *
 	 * @link    http://docs.joomla.org/JTable/reorder
 	 * @since   11.1
+	 * @throws UnexpectedValueException
 	 */
 	public function reorder($where = '')
 	{

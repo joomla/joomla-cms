@@ -698,14 +698,8 @@ class JTableNested extends JTable
 	{
 		$k = $this->_tbl_key;
 
-		// Pre-processing by observers
-		if ($this->_callObservers)
-		{
-			foreach ($this->_observers as $observer)
-			{
-				$observer->onBeforeStore($updateNulls, $k);
-			}
-		}
+		// Implement JObservableInterface: Pre-processing by observers
+		$this->_observers->update('onBeforeStore', array($updateNulls, $k));
 
 		// @codeCoverageIgnoreStart
 		if ($this->_debug)
@@ -828,37 +822,32 @@ class JTableNested extends JTable
 		}
 
 		// Store the row to the database.
-		$oldCallObservers = $this->_callObservers;
-		$this->_callObservers = false;
-		if (!parent::store($updateNulls))
-		{
-			$this->_callObservers = $oldCallObservers;
-			$this->_unlock();
-			return false;
-		}
-		$this->_callObservers = $oldCallObservers;
 
-		// @codeCoverageIgnoreStart
-		if ($this->_debug)
-		{
-			$this->_logtable();
-		}
-		// @codeCoverageIgnoreEnd
+		// Implement JObservableInterface: We do not want parent::store to update observers,
+		// since tables are locked and we are updating it from this level of store():
+		$oldCallObservers = $this->_observers->doCallObservers(false);
 
+		$result = parent::store($updateNulls);
+
+		// Implement JObservableInterface: Restore previous callable observers state:
+		$this->_observers->doCallObservers($oldCallObservers);
+
+		if ($result)
+		{
+			// @codeCoverageIgnoreStart
+			if ($this->_debug)
+			{
+				$this->_logtable();
+			}
+			// @codeCoverageIgnoreEnd
+		}
 		// Unlock the table for writing.
 		$this->_unlock();
 
-		// Post-processing by observers
-		if ($this->_callObservers)
-		{
-			foreach ($this->_observers as $observer)
-			{
-				$result = true;
-				$observer->onAfterStore($result);
-			}
-		}
+		// Implement JObservableInterface: Post-processing by observers
+		$this->_observers->update('onAfterStore', array(&$result));
 
-		return true;
+		return $result;
 	}
 
 	/**
@@ -877,6 +866,7 @@ class JTableNested extends JTable
 	 *
 	 * @link    http://docs.joomla.org/JTableNested/publish
 	 * @since   11.1
+	 * @throws UnexpectedValueException
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
