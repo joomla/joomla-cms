@@ -101,7 +101,7 @@ class JDatabaseQueryElement
 	/**
 	 * Gets the elements of this element.
 	 *
-	 * @return  string
+	 * @return  array
 	 *
 	 * @since   11.1
 	 */
@@ -140,6 +140,10 @@ class JDatabaseQueryElement
  * @method      string  q()   q($text, $escape = true)  Alias for quote method
  * @method      string  qn()  qs($name, $as = null)     Alias for quoteName method
  * @method      string  e()   e($text, $extra = false)   Alias for escape method
+ * @property-read   JDatabaseQueryElement  $type
+ * @property-read   JDatabaseQueryElement  $select
+ * @property-read   JDatabaseQueryElement  $group
+ * @property-read   JDatabaseQueryElement  $having
  */
 abstract class JDatabaseQuery
 {
@@ -382,8 +386,8 @@ abstract class JDatabaseQuery
 				break;
 
 			case 'unionAll':
-					$query .= (string) $this->unionAll;
-					break;
+				$query .= (string) $this->unionAll;
+				break;
 
 			case 'delete':
 				$query .= (string) $this->delete;
@@ -877,6 +881,8 @@ abstract class JDatabaseQuery
 	 * @param   string  $subQueryAlias  Alias used when $tables is a JDatabaseQuery.
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @throws  RuntimeException
 	 *
 	 * @since   11.1
 	 */

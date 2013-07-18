@@ -4,6 +4,7 @@
 		<testsuite name="tests">
 			<directory>installation</directory>
 			<directory>components</directory>
+			<directory>content</directory>
 			<directory>control_panel</directory>
 			<directory>extensions</directory>
 			<directory>menus</directory>

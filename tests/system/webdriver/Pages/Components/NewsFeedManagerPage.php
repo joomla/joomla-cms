@@ -16,13 +16,13 @@ use SeleniumClient\WebElement;
  */
 
 /**
- * Page class for the back-end component tags menu.
+ * Page class for the back-end component newsfeed menu.
  *
  * @package     Joomla.Test
  * @subpackage  Webdriver
  * @since       3.0
  */
-class CategoryManagerPage extends AdminManagerPage
+class NewsFeedManagerPage extends AdminManagerPage
 {
   /**
 	 * XPath string used to uniquely identify this page
@@ -30,16 +30,16 @@ class CategoryManagerPage extends AdminManagerPage
 	 * @var    string
 	 * @since  3.0
 	 */
-	protected $waitForXpath =  "//ul/li/a[@href='index.php?option=com_categories&extension=com_content']";
-
+	protected $waitForXpath =  "//ul/li/a[@href='index.php?option=com_newsfeeds']";
+	
 	/**
 	 * URL used to uniquely identify this page
 	 *
 	 * @var    string
 	 * @since  3.0
 	 */
-	protected $url = 'option=com_categories&';
-
+	protected $url = 'administrator/index.php?option=com_newsfeeds';
+	
 	/**
 	 * Array of filter id values for this page
 	 *
@@ -47,106 +47,110 @@ class CategoryManagerPage extends AdminManagerPage
 	 * @since  3.0
 	 */
 	public $filters = array(
-			'Select Max Levels' => 'filter_level',
 			'Select Status' => 'filter_published',
+			'Select Category' => 'filter_category_id',
 			'Select Access' => 'filter_access',
 			'Select Language' => 'filter_language',
-			'Select Tag' => 'filter_tag'
+			'Select Tags' => 'filter_tag'
 			);
-
+			
 	/**
 	 * Array of toolbar id values for this page
 	 *
 	 * @var    array
 	 * @since  3.0
-	 */
+	 */	
 	public $toolbar = array (
 			'New' => 'toolbar-new',
 			'Edit' => 'toolbar-edit',
 			'Publish' => 'toolbar-publish',
 			'Unpublish' => 'toolbar-unpublish',
-			'Featured' => 'toolbar-featured',
 			'Archive' => 'toolbar-archive',
-			'Check In' => 'toolbar-checkin',
+			'Check In' => 'toolbar-check-in',
 			'Trash' => 'toolbar-trash',
 			'Empty Trash' => 'toolbar-delete',
 			'Batch' => 'toolbar-batch',
 			'Options' => 'toolbar-options',
 			'Help' => 'toolbar-help',
 			);
-
+			
 	/**
-	 * Add a new Category item in the Category Manager: Category Manager Screen.
+	 * Add a new NewsFeed item in the  News Feed Manager: Component screen.
 	 *
-	 * @param string   $name          Test Category Title
-	 *
-	 * @param string   $alias 	  	  Test Category Alias
-	 *
-	 * @param string   $desc		  Test Description of Category
-	 *
-	 * @return  CategoryManagerPage
+	 * @param string    $name           Test Feed Name
+	 * 
+	 * @param string    $link			Test URL for the News Feed
+	 * 
+	 * @param string 	$category 		Test Feed Category 
+	 * 
+	 * @param string 	$description	Test Feed description 
+	 * 
+	 * @param string 	$caption		Test Feed Image Caption
+	 * 
+	 * @param string 	$alt			Test Feed Image Alt
+	 * 
+	 * @return  NewsFeedManagerPage
 	 */
-	public function addCategory($name='ABC Testing', $alias='ABC SAMPLE ALIAS',$desc='Testing')
+	public function addFeed($name='Test Tag', $link='administrator/index.php/dummysrc', $category= 'Sample Data-Newsfeeds', $description='Sample', $caption='',$alt='')
 	{
 		$new_name = $name;
 		$this->clickButton('toolbar-new');
-		$categoryEditPage = $this->test->getPageObject('CategoryEditPage');
-		$categoryEditPage->setFieldValues(array('Title' => $name, 'Alias' => $alias,'Description'=>$desc));
-		$categoryEditPage->clickButton('toolbar-save');
-		$this->test->getPageObject('CategoryManagerPage');
+		$newsFeedEditPage = $this->test->getPageObject('NewsFeedEditPage');
+		$newsFeedEditPage->setFieldValues(array('Title' => $name, 'Link'=> $link, 'Category'=>$category, 'Description'=>$description, 'Caption'=>$caption, 'Alt text'=>$alt));
+		$newsFeedEditPage->clickButton('toolbar-save');
+		$this->test->getPageObject('NewsFeedManagerPage');
 	}
-
+	
 	/**
-	 * Edit a Category item in the Category Manager: Category Manager Screen.
+	 * Edit a News Feed item in the News Feed Manager: Newsfeed Items screen.
 	 *
-	 * @param string   $name	   Title field
+	 * @param string   $name	   Newsfeed Title field
 	 * @param array    $fields     associative array of fields in the form label => value.
 	 *
 	 * @return  void
 	 */
-	public function editCategory($name, $fields)
+	public function editFeed($name, $fields)
 	{
 		$this->clickItem($name);
-		$categoryEditPage = $this->test->getPageObject('CategoryEditPage');
-		$categoryEditPage->setFieldValues($fields);
-		$categoryEditPage->clickButton('toolbar-save');
-		$this->test->getPageObject('CategoryManagerPage');
+		$newsFeedEditPage = $this->test->getPageObject('NewsFeedEditPage');
+		$newsFeedEditPage->setFieldValues($fields);
+		$newsFeedEditPage->clickButton('toolbar-save');
+		$this->test->getPageObject('NewsFeedManagerPage');
 		$this->searchFor();
 	}
-
+	
 	/**
-	 * Get state  of a Category in Category Manager: Category Manager Screen.
+	 * Get state  of a News Feed in the News Feed Manager: News Feed Items screen.
 	 *
-	 * @param string   $name	   Category Title field
-	 *
-	 * @return  State of the Category //Published or Unpublished
+	 * @param string   $name	   News Feed Title field
+	 * 
+	 * @return  State of the NewsFeed //Published or Unpublished
 	 */
 	public function getState($name)
 	{
 		$result = false;
-		$this->searchFor($name);
 		$row = $this->getRowNumber($name);
 		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[3]/a"))->getAttribute(@onclick);
-		if (strpos($text, 'categories.unpublish') > 0)
+		if (strpos($text, 'newsfeeds.unpublish') > 0)
 		{
 			$result = 'published';
 		}
-		if (strpos($text, 'categories.publish') > 0)
+		if (strpos($text, 'newsfeeds.publish') > 0)
 		{
 			$result = 'unpublished';
 		}
 		return $result;
 	}
-
+	
 	/**
-	 * Change state of a Category in Category Manager: Category Manager Screen.
+	 * Change state of a News Feed item in the News Feed Manager: News Feed Items screen.
 	 *
-	 * @param string   $name	   Category Title field
-	 * @param string   $state      State of the Category
+	 * @param string   $name	   News Feed Title field
+	 * @param string   $state      State of the Feed
 	 *
 	 * @return  void
-	 */
-	public function changeCategoryState($name, $state = 'published')
+	 */	
+	public function changeFeedState($name, $state = 'published')
 	{
 		$this->searchFor($name);
 		$this->checkAll();
@@ -162,5 +166,5 @@ class CategoryManagerPage extends AdminManagerPage
 		}
 		$this->searchFor();
 	}
-
+	
 }
