@@ -29,7 +29,7 @@ abstract class JTableObserver implements JObserverInterface
 	/**
 	 * Constructor: Associates to $table $this observer
 	 *
-	 * @param   JTable   $table
+	 * @param   JTable  $table  Table to be observed
 	 */
 	public function __construct(JTable $table)
 	{
@@ -53,8 +53,8 @@ abstract class JTableObserver implements JObserverInterface
 	/**
 	 * Post-processor for $table->load($keys, $reset)
 	 *
-	 * @param   boolean   $result   The result of the load
-	 * @param   array     $row      The loaded (and already binded to $this->table) row of the database table
+	 * @param   boolean  &$result  The result of the load
+	 * @param   array    $row      The loaded (and already binded to $this->table) row of the database table
 	 *
 	 * @return  void
 	 */
@@ -65,8 +65,8 @@ abstract class JTableObserver implements JObserverInterface
 	/**
 	 * Pre-processor for $table->store($updateNulls)
 	 *
-	 * @param   boolean   $updateNulls   The result of the load
-	 * @param   string    $tableKey      The key of the table
+	 * @param   boolean  $updateNulls  The result of the load
+	 * @param   string   $tableKey     The key of the table
 	 *
 	 * @return  void
 	 */
@@ -77,16 +77,19 @@ abstract class JTableObserver implements JObserverInterface
 	/**
 	 * Post-processor for $table->store($updateNulls)
 	 *
-	 * @param   boolean   $result   The result of the store
+	 * @param   boolean  &$result  The result of the store
+	 *
+	 * @return  void
 	 */
 	public function onAfterStore(&$result)
 	{
 	}
+
 	/**
 	 * Pre-processor for $table->delete($pk)
 	 *
-	 * @param   mixed    $pk         An optional primary key value to delete.  If not set the instance property value is used.
-	 * @param   string   $tableKey   The normal key of the table
+	 * @param   mixed   $pk        An optional primary key value to delete.  If not set the instance property value is used.
+	 * @param   string  $tableKey  The normal key of the table
 	 *
 	 * @return  void
 	 *
@@ -99,7 +102,9 @@ abstract class JTableObserver implements JObserverInterface
 	/**
 	 * Post-processor for $table->delete($pk)
 	 *
-	 * @param   mixed    $pk         The deleted primary key value.
+	 * @param   mixed  $pk  The deleted primary key value.
+	 *
+	 * @return  void
 	 */
 	public function onAfterDelete($pk)
 	{

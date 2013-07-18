@@ -51,8 +51,8 @@ class JTableObserverTags extends JTableObserver
 	 * Creates the associated tags helper class instance
 	 * $typeAlias can be of the form "{variableName}.type", automatically replacing {variableName} with table-instance variables variableName
 	 *
-	 * @param   JObservableInterface|JTable   $observableObject
-	 * @param   array                         $params  ( 'typeAlias' => $typeAlias )
+	 * @param   JObservableInterface|JTable  $observableObject  The subject object to be observed
+	 * @param   array                        $params            ( 'typeAlias' => $typeAlias )
 	 *
 	 * @return  JObserverInterface|JTableObserverTags
 	 */
@@ -71,8 +71,8 @@ class JTableObserverTags extends JTableObserver
 	/**
 	 * Pre-processor for $table->store($updateNulls)
 	 *
-	 * @param   boolean   $updateNulls   The result of the load
-	 * @param   string    $tableKey      The key of the table
+	 * @param   boolean  $updateNulls  The result of the load
+	 * @param   string   $tableKey     The key of the table
 	 *
 	 * @return  void
 	 */
@@ -86,7 +86,9 @@ class JTableObserverTags extends JTableObserver
 	 * Post-processor for $table->store($updateNulls)
 	 * You can change optional params newTags and replaceTags of tagsHelper with method setNewTagsToAdd
 	 *
-	 * @param   boolean   $result   The result of the load
+	 * @param   boolean  &$result  The result of the load
+	 *
+	 * @return  void
 	 */
 	public function onAfterStore(&$result)
 	{
@@ -103,8 +105,8 @@ class JTableObserverTags extends JTableObserver
 	/**
 	 * Pre-processor for $table->delete($pk)
 	 *
-	 * @param   mixed    $pk         An optional primary key value to delete.  If not set the instance property value is used.
-	 * @param   string   $tableKey   The normal key of the table
+	 * @param   mixed   $pk        An optional primary key value to delete.  If not set the instance property value is used.
+	 * @param   string  $tableKey  The normal key of the table
 	 *
 	 * @return  void
 	 *
@@ -116,18 +118,18 @@ class JTableObserverTags extends JTableObserver
 		$this->tagsHelper->deleteTagData($this->table, $pk);
 	}
 
-
 	/**
 	 * Sets the new tags to be added/replaced to the table row
 	 *
-	 * @param  array    $newTags
-	 * @param  boolean  $replaceTags
+	 * @param   array    $newTags      New tags to be added or replaced
+	 * @param   boolean  $replaceTags  Replace tags (true) or add them (false)
 	 *
-	 * @return boolean
+	 * @return  boolean
 	 */
 	public function setNewTags($newTags, $replaceTags)
 	{
 		$this->parseTypeAlias();
+
 		return $this->tagsHelper->postStoreProcess($this->table, $newTags, $replaceTags);
 	}
 
@@ -136,10 +138,13 @@ class JTableObserverTags extends JTableObserver
 	 * Parses a TypeAlias of the form "{variableName}.type", replacing {variableName} with table-instance variables variableName
 	 * Storing result into $this->tagsHelper->typeAlias
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	protected function parseTypeAlias()
 	{
-		$this->tagsHelper->typeAlias = preg_replace_callback('/{([^}]+)}/', function($matches) { return $this->table->{$matches[1]}; }, $this->typeAliasPattern);
+		$this->tagsHelper->typeAlias = preg_replace_callback('/{([^}]+)}/',
+			function($matches) { return $this->table->{$matches[1]}; },
+			$this->typeAliasPattern
+		);
 	}
 }

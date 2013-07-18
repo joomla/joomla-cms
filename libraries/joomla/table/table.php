@@ -144,11 +144,11 @@ abstract class JTable extends JObject implements JObservableInterface
 	 * This method will be called fron the constructor of classes implementing JObserverInterface
 	 * which is instanciated by the constructor of $this with JObserverMapper::attachAllObservers($this)
 	 *
-	 * @param    JObserverInterface|JTableObserver   $observer
+	 * @param   JObserverInterface|JTableObserver  $observer  The observer object
 	 *
-	 * @return   void
+	 * @return  void
 	 *
-	 * @since    3.1.2
+	 * @since   3.1.2
 	 */
 	public function attachObserver(JObserverInterface $observer)
 	{
@@ -158,11 +158,11 @@ abstract class JTable extends JObject implements JObservableInterface
 	/**
 	 * Gets the instance of the observer of class $observerClass
 	 *
-	 * @param    string          $observerClass
+	 * @param   string  $observerClass  The observer class-name to return the object of
 	 *
-	 * @return   JTableObserver|null
+	 * @return  JTableObserver|null
 	 *
-	 * @since    3.1.2
+	 * @since   3.1.2
 	 */
 	public function getObserverOfClass($observerClass)
 	{
