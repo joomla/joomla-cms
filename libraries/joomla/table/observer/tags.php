@@ -47,6 +47,16 @@ class JTableObserverTags extends JTableObserver
 	protected $replaceTags = true;
 
 	/**
+	 * Not public, so marking private and deprecated, but needed internally in parseTypeAlias for
+	 * PHP < 5.4.0 as it's not passing context $this to closure function.
+	 *
+	 * @var JTableObserverTags
+	 * @deprecated Never use this
+	 * @private
+	 */
+	public static $myThisForPregReplace;
+
+	/**
 	 * Creates the associated observer instance and attaches it to the $observableObject
 	 * Creates the associated tags helper class instance
 	 * $typeAlias can be of the form "{variableName}.type", automatically replacing {variableName} with table-instance variables variableName
@@ -142,8 +152,11 @@ class JTableObserverTags extends JTableObserver
 	 */
 	protected function parseTypeAlias()
 	{
+		// Needed for PHP < 5.4.0 as it's not passing context $this to closure function
+		static::$myThisForPregReplace = $this;
+
 		$this->tagsHelper->typeAlias = preg_replace_callback('/{([^}]+)}/',
-			function($matches) { return $this->table->{$matches[1]}; },
+			function($matches) { return static::$myThisForPregReplace->table->{$matches[1]}; },
 			$this->typeAliasPattern
 		);
 	}
