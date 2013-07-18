@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Jul-2013 Jean-Marie Simonet
+# [#31477] Remove unneeded GROUP BY and fix duplicate article display. Thanks Thomas Hunziker
+
 06-Jul-2013 Jean-Marie Simonet
  $ [#31290] Add Debug User Group Help Screen language string. Thanks George Wilson
  # [#31348] Regression for plugin filter search with spaces in the title. Reverting
