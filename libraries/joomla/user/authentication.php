@@ -265,6 +265,7 @@ class JAuthentication extends JObject
 		$cookieName = md5(Juri::Root() . $uaShort);
 
 		$inputCookie = new JInputCookie();
+
 		if (JpluginHelper::isEnabled('system', 'remember') && $inputCookie->get($cookieName))
 		{
 			$plugins[] = JPluginHelper::getPlugin('system', 'remember');

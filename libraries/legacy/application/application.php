@@ -656,7 +656,7 @@ class JApplication extends JApplicationBase
 			JPluginHelper::importPlugin('user');
 			if (JPluginHelper::isEnabled('system', 'remember'))
 			{
-				$plugins[] = JPluginHelper::getPlugin('system', 'remember');
+				JPluginHelper::importPlugin('system', 'remember');
 			}
 
 			// OK, the credentials are authenticated and user is authorised.  Let's fire the onLogin event.
@@ -680,11 +680,6 @@ class JApplication extends JApplicationBase
 				// Set the remember me cookie if enabled.
 				if ((isset($options['remember']) &&  $options['remember'] === true) || $response->type == 'Remember' )
 				{
-
-					if (JPluginHelper::isEnabled('system', 'remember'))
-					{
-						$plugins[] = JPluginHelper::getPlugin('system', 'remember');
-					}
 
 					$options['responseType'] = $response->type;
 
@@ -753,11 +748,6 @@ class JApplication extends JApplicationBase
 
 		// OK, the credentials are built. Lets fire the onLogout event.
 		$results = $this->triggerEvent('onUserLogout', array($parameters, $options));
-
-		if (JPluginHelper::isEnabled('system', 'remember'))
-		{
-			$plugins[] = JPluginHelper::getPlugin('system', 'remember');
-		}
 
 		if (!in_array(false, $results, true))
 		{
