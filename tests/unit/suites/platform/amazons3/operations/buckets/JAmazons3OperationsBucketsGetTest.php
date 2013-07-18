@@ -100,4 +100,212 @@ class JAmazons3OperationsBucketsGetTest extends PHPUnit_Framework_TestCase
 			$this->equalTo($expectedResult)
 		);
 	}
+
+	/**
+	 * Tests the getBucketAcl method
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testGetBucketAcl()
+	{
+		$expectedResult = $this->commonGetTestOperations("?acl");
+		$this->assertThat(
+			$this->object->get->getBucketAcl($this->options->get("testBucket")),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the getBucketCors method
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testGetBucketCors()
+	{
+		$expectedResult = $this->commonGetTestOperations("?cors");
+		$this->assertThat(
+			$this->object->get->getBucketCors($this->options->get("testBucket")),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the getBucketLifecycle method
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testGetBucketLifecycle()
+	{
+		$expectedResult = $this->commonGetTestOperations("?lifecycle");
+		$this->assertThat(
+			$this->object->get->getBucketLifecycle($this->options->get("testBucket")),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the getBucketPolicy method
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testGetBucketPolicy()
+	{
+		$expectedResult = $this->commonGetTestOperations("?policy");
+		$this->assertThat(
+			$this->object->get->getBucketPolicy($this->options->get("testBucket")),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the getBucketLocation method
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testGetBucketLocation()
+	{
+		$expectedResult = $this->commonGetTestOperations("?location");
+		$this->assertThat(
+			$this->object->get->getBucketLocation($this->options->get("testBucket")),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the getBucketLogging method
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testGetBucketLogging()
+	{
+		$expectedResult = $this->commonGetTestOperations("?logging");
+		$this->assertThat(
+			$this->object->get->getBucketLogging($this->options->get("testBucket")),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the getBucketNotification method
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testGetBucketNotification()
+	{
+		$expectedResult = $this->commonGetTestOperations("?notification");
+		$this->assertThat(
+			$this->object->get->getBucketNotification($this->options->get("testBucket")),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the getBucketTagging method
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testGetBucketTagging()
+	{
+		$expectedResult = $this->commonGetTestOperations("?tagging");
+		$this->assertThat(
+			$this->object->get->getBucketTagging($this->options->get("testBucket")),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the getBucketVersions method
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testGetBucketVersions()
+	{
+		$expectedResult = $this->commonGetTestOperations("?versions");
+		$this->assertThat(
+			$this->object->get->getBucketVersions($this->options->get("testBucket")),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the getBucketRequestPayment method
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testGetBucketRequestPayment()
+	{
+		$expectedResult = $this->commonGetTestOperations("?requestPayment");
+		$this->assertThat(
+			$this->object->get->getBucketRequestPayment($this->options->get("testBucket")),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the getBucketVersioning method
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testGetBucketVersioning()
+	{
+		$expectedResult = $this->commonGetTestOperations("?versioning");
+		$this->assertThat(
+			$this->object->get->getBucketVersioning($this->options->get("testBucket")),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the getBucketWebsite method
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testGetBucketWebsite()
+	{
+		$expectedResult = $this->commonGetTestOperations("?website");
+		$this->assertThat(
+			$this->object->get->getBucketWebsite($this->options->get("testBucket")),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the listMultipartUploads method
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testListMultipartUploads()
+	{
+		$expectedResult = $this->commonGetTestOperations("?uploads");
+		$this->assertThat(
+			$this->object->get->listMultipartUploads($this->options->get("testBucket")),
+			$this->equalTo($expectedResult)
+		);
+	}
 }
