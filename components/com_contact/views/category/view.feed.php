@@ -18,4 +18,11 @@ defined('_JEXEC') or die;
  */
 class ContactViewCategory extends JViewCategoryfeed
 {
+	protected function reconcileNames($item)
+	{
+		parent::reconcileNames($item);
+
+		$item->description = $item->address;
+
+	}
 }

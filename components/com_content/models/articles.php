@@ -163,7 +163,7 @@ class ContentModelArticles extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.introtext, ' .
+				'a.id, a.title, a.alias, a.introtext, a.fulltext, ' .
 					'a.checked_out, a.checked_out_time, ' .
 					'a.catid, a.created, a.created_by, a.created_by_alias, ' .
 					// use created if modified is 0
@@ -504,7 +504,7 @@ class ContentModelArticles extends JModelList
 		return $query;
 	}
 
-	/**
+	/*
 	 * Method to get a list of articles.
 	 *
 	 * Overriden to inject convert the attribs field into a JParameter object.
