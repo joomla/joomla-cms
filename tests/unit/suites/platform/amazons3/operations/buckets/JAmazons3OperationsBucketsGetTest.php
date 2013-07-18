@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/amazons3/operations/service.php';
+require_once JPATH_PLATFORM . '/joomla/amazons3/operations/buckets.php';
 
 /**
  * Test class for JAmazons3.
@@ -17,7 +17,7 @@ require_once JPATH_PLATFORM . '/joomla/amazons3/operations/service.php';
  *
  * @since       ??.?
  */
-class JAmazons3OperationsServiceGetTest extends PHPUnit_Framework_TestCase
+class JAmazons3OperationsBucketsGetTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Amazons3 object.
@@ -46,22 +46,26 @@ class JAmazons3OperationsServiceGetTest extends PHPUnit_Framework_TestCase
 		$this->options = new JRegistry;
 		$this->options->set('api.accessKeyId', 'testAccessKeyId');
 		$this->options->set('api.secretAccessKey', 'testSecretAccessKey');
+		$this->options->set('api.url', 's3.amazonaws.com');
+		$this->options->set('testBucket', 'testBucket');
 
-		$this->client = $this->getMock('JAmazons3Http', array('get'));
+		$this->client = $this->getMock('JAmazons3Http', array('delete', 'get', 'post', 'put'));
 
-		$this->object = new JAmazons3OperationsService($this->options, $this->client);
+		$this->object = new JAmazons3OperationsBuckets($this->options, $this->client);
 	}
 
 	/**
-	 * Tests the getService method
+	 * Common test operations for methods which use GET requests
+	 *
+	 * @param   string  $subresource  The subresource that is used for creating the GET request.
 	 *
 	 * @return  void
 	 *
 	 * @since   ??.?
 	 */
-	public function testGetService()
+	protected function commonGetTestOperations($subresource)
 	{
-		$url = "https://" . $this->options->get("api.url") . "/";
+		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url") . "/" . $subresource;
 		$headers = array(
 			"Date" => date("D, d M Y H:i:s O"),
 		);
@@ -78,8 +82,21 @@ class JAmazons3OperationsServiceGetTest extends PHPUnit_Framework_TestCase
 			->with($url, $headers)
 			->will($this->returnValue($returnData));
 
+		return $expectedResult;
+	}
+
+	/**
+	 * Tests the getBucket method
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testGetBucket()
+	{
+		$expectedResult = $this->commonGetTestOperations("");
 		$this->assertThat(
-			$this->object->get->getService(),
+			$this->object->get->getBucket($this->options->get("testBucket")),
 			$this->equalTo($expectedResult)
 		);
 	}
