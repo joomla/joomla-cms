@@ -273,15 +273,22 @@ class JObserverMapper
 	 * Adds a mapping to observe $observerClass subjects with $observableClass observer/listener, attaching it on creation with $params
 	 * on $observableClass instance creations
 	 *
-	 * @param   string  $observerClass    The name of the observer class (implementing JObserverInterface)
-	 * @param   string  $observableClass  The name of the observable class (implementing JObservableInterface)
-	 * @param   array   $params           The params to give to the JObserverInterface::createObserver() function
+	 * @param   string         $observerClass    The name of the observer class (implementing JObserverInterface)
+	 * @param   string         $observableClass  The name of the observable class (implementing JObservableInterface)
+	 * @param   array|boolean  $params           The params to give to the JObserverInterface::createObserver() function, or false to remove mapping
 	 *
 	 * @return  void
 	 */
 	public static function addObserverClassToClass($observerClass, $observableClass, $params = array())
 	{
-		static::$observations[$observableClass][$observerClass] = $params;
+		if ($params !== false)
+		{
+			static::$observations[$observableClass][$observerClass] = $params;
+		}
+		else
+		{
+			unset(static::$observations[$observableClass][$observerClass]);
+		}
 	}
 
 	/**
