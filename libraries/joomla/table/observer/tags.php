@@ -156,7 +156,7 @@ class JTableObserverTags extends JTableObserver
 		static::$myThisForPregReplace = $this;
 
 		$this->tagsHelper->typeAlias = preg_replace_callback('/{([^}]+)}/',
-			function($matches) { return static::$myThisForPregReplace->table->{$matches[1]}; },
+			function($matches) { return JTableObserverTags::$myThisForPregReplace->table->{$matches[1]}; },
 			$this->typeAliasPattern
 		);
 	}
