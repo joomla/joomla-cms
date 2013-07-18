@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/amazons3/operations/service/get.php';
+require_once JPATH_PLATFORM . '/joomla/amazons3/operations/service.php';
 
 /**
  * Test class for JAmazons3.
@@ -26,7 +26,7 @@ class JAmazons3OperationsServiceGetTest extends PHPUnit_Framework_TestCase
 	protected $options;
 
 	/**
-	 * @var    JAmazons3  Object under test.
+	 * @var    JAmazons3Object  Object under test.
 	 * @since  ??.?
 	 */
 	protected $object;
@@ -44,7 +44,9 @@ class JAmazons3OperationsServiceGetTest extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		$this->options = new JRegistry;
-		$this->object = new JAmazons3($this->options);
+		$this->client = $this->getMock('JAmazons3Http', array('delete', 'get', 'post', 'put'));
+
+		$this->object = new JAmazons3OperationsService($this->options, $this->client);
 	}
 
 	/**
@@ -68,19 +70,28 @@ class JAmazons3OperationsServiceGetTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetService()
 	{
-		$this->options->set('api.accessKeyId', 'private');
-		$this->options->set('api.secretAccessKey', 'private');
+		$this->options->set('api.accessKeyId', 'testAccessKeyId');
+		$this->options->set('api.secretAccessKey', 'testSecretAccessKey');
 
-		$response = new JHttpResponse;
-		$response->code = 200;
-		$response->body = "<ListAllMyBucketsResult xmlns=\"http://s3.amazonaws.com/doc/2006-03-01/\">"
-			. "<Owner><ID>6e887773574284f7e38cacbac9e1455ecce62f79929260e9b68db3b84720ed96</ID>"
-			. "<DisplayName>alex.ukf</DisplayName></Owner><Buckets><Bucket><Name>jgsoc</Name>"
-			. "<CreationDate>2013-06-29T10:29:36.000Z</CreationDate></Bucket></Buckets></ListAllMyBucketsResult>";
-		$expectedResult = new SimpleXMLElement($response->body);
+		$url = "https://" . $this->options->get("api.url") . "/";
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+		);
+		$authorization = $this->object->createAuthorization("GET", $url, $headers);
+		$headers['Authorization'] = $authorization;
+
+		$returnData = new JHttpResponse;
+		$returnData->code = 200;
+		$returnData->body = "<test>response</test>";
+		$expectedResult = new SimpleXMLElement($returnData->body);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($url, $headers)
+			->will($this->returnValue($returnData));
 
 		$this->assertThat(
-			$this->object->service->get->getService(),
+			$this->object->get->getService(),
 			$this->equalTo($expectedResult)
 		);
 	}
