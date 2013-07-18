@@ -218,7 +218,7 @@ class JHelperRoute
 		return !empty($default->id) ? $default->id : null;
 	}
 
-	public static function getCategoryRoute($catid, $language = 0)
+	public static function getCategoryRoute($catid, $language = 0, $extension)
 	{
 		if ($catid instanceof JCategoryNode)
 		{
@@ -227,8 +227,10 @@ class JHelperRoute
 		}
 		else
 		{
+			//$extension = $catid->extension;
+			$extensionName = ucfirst(substr($extension, 4));
 			$id = (int) $catid;
-			$category = JCategories::getInstance('Content')->get($id);
+			$category = JCategories::getInstance($extensionName)->get($id);
 		}
 
 		if ($id < 1)
@@ -237,7 +239,7 @@ class JHelperRoute
 		}
 		else
 		{
-			$link = 'index.php?option=com_content&view=category&id='.$id;
+			$link = 'index.php?option=' . $extension . '&view=category&id='.$id;
 
 			$needles = array(
 					'category' => array($id)
