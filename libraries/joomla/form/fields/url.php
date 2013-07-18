@@ -43,7 +43,7 @@ class JFormFieldUrl extends JFormFieldText
 		// Initialize some field attributes.
 		$size = $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
 		$maxLength = $this->element['maxlength'] ? ' maxlength="' . (int) $this->element['maxlength'] . '"' : '';
-		$class = $this->element['class'] ? ' ' . (string) $this->element['class'] : '';
+		$class    = $this->element['class'] ? ' class="' . (string) $this->element['class'] . '" ' : '" ';
 		$readonly = ((string) $this->element['readonly'] == 'true') ? ' readonly="readonly"' : '';
 		$disabled = ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
 		$required = $this->required ? ' required="required" aria-required="true"' : '';
@@ -51,7 +51,7 @@ class JFormFieldUrl extends JFormFieldText
 		// Initialize JavaScript field attributes.
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
-		return '<input type="url" name="' . $this->name . $class . $this->id . '" value="'
+		return '<input type="url" name="' . $this->name . '"' . $class . ' id="' . $this->id . '" value="'
 			. JStringPunycode::urlToUTF8($this->value, ENT_COMPAT, 'UTF-8') . '"' . $size . $disabled . $readonly . $onchange . $maxLength . $required . '/>';
 	}
 }

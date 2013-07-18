@@ -51,10 +51,6 @@
 	font-style: normal;
 	speak: none;
 }
-[class^="icon-"].disabled,
-[class*=" icon-"].disabled {
-	font-weight: normal;
-}
 .icon-home:before {
 	content: "\21";
 }
@@ -862,10 +858,18 @@ div.toolbar-box h3 {
 	margin-bottom: 3px;
 	margin-top: 14px;
 }
-div.btn-toolbar {
+div.btn-toolbar,
+div.toolbar-list {
 	float: left;
 	text-align: left;
 	padding: 0;
+}
+div.toolbar-list li {
+	padding: 5px 1px 5px 4px;
+	text-align: center;
+	height: 52px;
+	list-style: none;
+	float: left;
 }
 div.toolbar-list li.spacer {
 	width: 10px;
@@ -881,6 +885,14 @@ div.toolbar-list span {
 	margin: 0 auto;
 	display: block;
 }
+div.toolbar-list a {
+	display: block;
+	float: left;
+	white-space: nowrap;
+	padding: 1px 5px;
+	cursor: pointer;
+	font-weight: bold;
+}
 div.btn-toolbar div.btn-group button {
 	display: block;
 	float: left;
@@ -890,7 +902,9 @@ div.btn-toolbar div.btn-group button {
 	text-align: center;
 }
 div.btn-toolbar button:hover,
-div.btn-toolbar button:focus {
+div.btn-toolbar button:focus,
+div.toolbar-list a:hover,
+div.toolbar-list a:focus {
 	text-decoration: none;
 }
 td#mm_pane {

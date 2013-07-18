@@ -92,6 +92,9 @@ class JFormRulePassword extends JFormRule
 		// We don't allow white space inside passwords
 		$valueTrim = trim($value);
 
+		// Set a variable to check if any errors are made in password
+		$validPassword = true;
+
 		if (strlen($valueTrim) != $valueLength)
 		{
 			JFactory::getApplication()->enqueueMessage(
@@ -99,7 +102,7 @@ class JFormRulePassword extends JFormRule
 				'warning'
 				);
 
-			return false;
+			$validPassword = false;
 		}
 
 		// Minimum number of integers required
@@ -114,7 +117,7 @@ class JFormRulePassword extends JFormRule
 					'warning'
 				);
 
-				return false;
+				$validPassword = false;
 			}
 		}
 
@@ -130,7 +133,7 @@ class JFormRulePassword extends JFormRule
 					'warning'
 				);
 
-				return false;
+				$validPassword = false;
 			}
 		}
 
@@ -146,7 +149,7 @@ class JFormRulePassword extends JFormRule
 					'warning'
 			);
 
-				return false;
+				$validPassword = false;
 			}
 		}
 
@@ -160,8 +163,14 @@ class JFormRulePassword extends JFormRule
 					'warning'
 					);
 
-				return false;
+				$validPassword = false;
 			}
+		}
+
+		// If valid has violated any rules above return false.
+		if (!$validPassword)
+		{
+			return false;
 		}
 
 		return true;

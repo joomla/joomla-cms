@@ -389,10 +389,12 @@ class JDate extends DateTime
 	 * @return  JDate
 	 *
 	 * @since   11.1
+	 * @note    This method can't be type hinted due to a PHP bug: https://bugs.php.net/bug.php?id=61483
 	 */
 	public function setTimezone($tz)
 	{
 		$this->tz = $tz;
+
 		return parent::setTimezone($tz);
 	}
 
@@ -420,7 +422,7 @@ class JDate extends DateTime
 	 *
 	 * @return  string     The date string in SQL datetime format.
 	 *
-	 * @link http://dev.mysql.com/doc/refman/5.0/en/datetime.html
+	 * @link    http://dev.mysql.com/doc/refman/5.0/en/datetime.html
 	 * @since   11.4
 	 */
 	public function toSql($local = false, JDatabaseDriver $db = null)
@@ -429,6 +431,7 @@ class JDate extends DateTime
 		{
 			$db = JFactory::getDbo();
 		}
+
 		return $this->format($db->getDateFormat(), $local, false);
 	}
 
