@@ -54,7 +54,7 @@ class JTableObserverTags extends JTableObserver
 	 * @deprecated Never use this
 	 * @private
 	 */
-	public static $myThisForPregReplace;
+	public static $_myTableForPregreplaceOnly;
 
 	/**
 	 * Creates the associated observer instance and attaches it to the $observableObject
@@ -153,10 +153,10 @@ class JTableObserverTags extends JTableObserver
 	protected function parseTypeAlias()
 	{
 		// Needed for PHP < 5.4.0 as it's not passing context $this to closure function
-		static::$myThisForPregReplace = $this->table;
+		static::$_myTableForPregreplaceOnly = $this->table;
 
 		$this->tagsHelper->typeAlias = preg_replace_callback('/{([^}]+)}/',
-			function($matches) { return JTableObserverTags::$myThisForPregReplace->{$matches[1]}; },
+			function($matches) { return JTableObserverTags::$_myTableForPregreplaceOnly->{$matches[1]}; },
 			$this->typeAliasPattern
 		);
 	}
