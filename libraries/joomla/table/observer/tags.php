@@ -153,10 +153,10 @@ class JTableObserverTags extends JTableObserver
 	protected function parseTypeAlias()
 	{
 		// Needed for PHP < 5.4.0 as it's not passing context $this to closure function
-		static::$myThisForPregReplace = $this;
+		static::$myThisForPregReplace = $this->table;
 
 		$this->tagsHelper->typeAlias = preg_replace_callback('/{([^}]+)}/',
-			function($matches) { return JTableObserverTags::$myThisForPregReplace->table->{$matches[1]}; },
+			function($matches) { return JTableObserverTags::$myThisForPregReplace->{$matches[1]}; },
 			$this->typeAliasPattern
 		);
 	}
