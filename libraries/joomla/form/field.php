@@ -167,6 +167,14 @@ abstract class JFormField
 	protected $name;
 
 	/**
+	 * The name of the form field direction (ltr or rtl).
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
+	protected $dirname;
+
+	/**
 	 * The name of the field.
 	 *
 	 * @var    string
@@ -461,6 +469,7 @@ abstract class JFormField
 		// Set the field name and id.
 		$this->fieldname = $this->getFieldName($name);
 		$this->name = $this->getName($this->fieldname);
+		$this->dirname = $this->getName($this->fieldname . '_dir');
 		$this->id = $this->getId($id, $this->fieldname);
 
 		// Set the field default value.
