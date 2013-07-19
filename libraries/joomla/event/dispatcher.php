@@ -94,7 +94,7 @@ class JEventDispatcher extends JObject
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @throws InvalidArgumentException
+	 * @throws  InvalidArgumentException
 	 */
 	public function register($event, $handler)
 	{
@@ -145,6 +145,7 @@ class JEventDispatcher extends JObject
 			// No Plugins Associated To Event!
 			return $result;
 		}
+
 		// Loop through all plugins having a method matching our event
 		foreach ($this->_methods[$event] as $key)
 		{
@@ -165,6 +166,7 @@ class JEventDispatcher extends JObject
 			{
 				$value = call_user_func_array($this->_observers[$key]['handler'], $args);
 			}
+
 			if (isset($value))
 			{
 				$result[] = $value;
