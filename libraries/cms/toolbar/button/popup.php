@@ -63,7 +63,11 @@ class JToolbarButtonPopup extends JToolbarButton
 		// Instantiate a new JLayoutFile instance and render the layout
 		$layout = new JLayoutFile('joomla.toolbar.popup');
 
-		$html = $layout->render($options);
+		$html = array();
+		$html[] = $layout->render($options);
+
+		// Place modal div and scripts in a new div
+		$html[] = '</div><div class="btn-group" style="width: 0; margin: 0">';
 
 		// Build the options array for the modal
 		$params = array();
@@ -71,18 +75,17 @@ class JToolbarButtonPopup extends JToolbarButton
 		$params['url']    = $options['doTask'];
 		$params['height'] = $height;
 		$params['width']  = $width;
-		$html .= "\n" . JHtml::_('bootstrap.renderModal', 'modal-' . $name, $params);
+		$html[] = JHtml::_('bootstrap.renderModal', 'modal-' . $name, $params);
 
 		// If an $onClose event is passed, add it to the modal JS object
 		if (strlen($onClose) >= 1)
 		{
-			$html .= "\n"
-				. '<script>'
+			$html[] = '<script>'
 				. 'jQuery(\'#modal-' . $name . '\').on(\'hide\', function () {' . $onClose . ';});'
-				. "</script>\n";
+				. '</script>';
 		}
 
-		return $html;
+		return implode("\n", $html);
 	}
 
 	/**

@@ -25,6 +25,37 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+; Below is merged into v3.1.2
+
+19-Jul-2013 Jean-Marie Simonet
+ # [#31525] Files uninstall is failing due to missing variable. Thanks Michael Babker
+
+17-Jul-2013 Jean-Marie Simonet
+ # [#31476] Remove unneeded GROUP BY and fix duplicate article display. Thanks Thomas Hunziker
+ # [#31445] Default value tag menu-items. Thanks Constantin Romankiewicz
+
+14-Jul-2013 Jean-Marie Simonet
+ # [#31455] Regression by [#31278]. Thanks Beat
+
+12-Jul-2013 Jean-Marie Simonet
+ # [#31362] Various PHP notices and strict errors. Thanks Mark Dexter
+ # [#31376] JToolbar layout change breaks mobile. Thanks Roberto Segura
+
+10-Jul-2013 Jean-Marie Simonet
+ ^ [#31388] Admin login shows language option. Thanks Brian Teeman
+ ^ [#31383] Article manager options. Thanks Brian Teeman
+ # [#30957] System cache issue. Thanks Dennis Hermatski
+ # [#31208] No border bottom right radius and border bottom top radius for buttons at com_finder view (2). Thanks Peter van Westen.
+
+09-Jul-2013 Jean-Marie Simonet
+ $ Updating installation lang files: eo-XX
+
+08-Jul-2013 Jean-Marie Simonet
+ $ Updating installation lang files: et-EE, fa-IR, nl-NL, vi-VN
+ ^ [#31219] Update to PHPMailer 5.2.6. Thanks Michael Babker.
+ # [#31044] media manager overlay preview broken 2. Thanks Landor LeBaron
+ # [#30790] Typo in header makes header useless. Thanks Tino Brackebusch
+
 07-Jul-2013 Michael Babker
  # [#31371] Commit for issue 31351 causes PHP notice in Banner Tracks
 
