@@ -21,8 +21,8 @@ abstract class JModuleHelper
 	/**
 	 * Get module by name (real, eg 'Breadcrumbs' or folder, eg 'mod_breadcrumbs')
 	 *
-	 * @param   string  $name   The name of the module
-	 * @param   string  $title  The title of the module, optional
+	 * @param   string $name   The name of the module
+	 * @param   string $title  The title of the module, optional
 	 *
 	 * @return  object  The Module object
 	 *
@@ -43,7 +43,7 @@ abstract class JModuleHelper
 				if (!$title || $modules[$i]->title == $title)
 				{
 					// Found it
-					$result = &$modules[$i];
+					$result = & $modules[$i];
 					break;
 				}
 			}
@@ -52,15 +52,15 @@ abstract class JModuleHelper
 		// If we didn't find it, and the name is mod_something, create a dummy object
 		if (is_null($result) && substr($name, 0, 4) == 'mod_')
 		{
-			$result            = new stdClass;
-			$result->id        = 0;
-			$result->title     = '';
-			$result->module    = $name;
-			$result->position  = '';
-			$result->content   = '';
+			$result = new stdClass;
+			$result->id = 0;
+			$result->title = '';
+			$result->module = $name;
+			$result->position = '';
+			$result->content = '';
 			$result->showtitle = 0;
-			$result->control   = '';
-			$result->params    = '';
+			$result->control = '';
+			$result->params = '';
 		}
 
 		return $result;
@@ -69,7 +69,7 @@ abstract class JModuleHelper
 	/**
 	 * Get modules by position
 	 *
-	 * @param   string  $position  The position of the module
+	 * @param   string $position  The position of the module
 	 *
 	 * @return  array  An array of module objects
 	 *
@@ -79,7 +79,7 @@ abstract class JModuleHelper
 	{
 		$position = strtolower($position);
 		$result = array();
-		$input  = JFactory::getApplication()->input;
+		$input = JFactory::getApplication()->input;
 
 		$modules =& self::_load();
 
@@ -88,7 +88,7 @@ abstract class JModuleHelper
 		{
 			if ($modules[$i]->position == $position)
 			{
-				$result[] = &$modules[$i];
+				$result[] = & $modules[$i];
 			}
 		}
 
@@ -109,7 +109,7 @@ abstract class JModuleHelper
 	/**
 	 * Checks if a module is enabled
 	 *
-	 * @param   string  $module  The module name
+	 * @param   string $module  The module name
 	 *
 	 * @return  boolean
 	 *
@@ -125,8 +125,8 @@ abstract class JModuleHelper
 	/**
 	 * Render the module.
 	 *
-	 * @param   object  $module   A module object.
-	 * @param   array   $attribs  An array of attributes for the module (probably from the XML).
+	 * @param   object $module   A module object.
+	 * @param   array  $attribs  An array of attributes for the module (probably from the XML).
 	 *
 	 * @return  string  The HTML content of the module output.
 	 *
@@ -153,6 +153,17 @@ abstract class JModuleHelper
 		$params = new JRegistry;
 		$params->loadString($module->params);
 
+		// Merge Show Title
+		$showTitle = $module->showtitle;
+		$ModParams = JComponentHelper::getParams('com_modules');
+
+		if ($showTitle == 2)
+		{
+			$module->showtitle = $ModParams->get("showtitle");
+		}
+
+		$params = self::mergeParams($params);
+		//var_dump($params);
 		// Get the template
 		$template = $app->getTemplate();
 
@@ -167,9 +178,9 @@ abstract class JModuleHelper
 
 			// 1.5 or Core then 1.6 3PD
 			$lang->load($module->module, JPATH_BASE, null, false, false) ||
-				$lang->load($module->module, dirname($path), null, false, false) ||
-				$lang->load($module->module, JPATH_BASE, $lang->getDefault(), false, false) ||
-				$lang->load($module->module, dirname($path), $lang->getDefault(), false, false);
+			$lang->load($module->module, dirname($path), null, false, false) ||
+			$lang->load($module->module, JPATH_BASE, $lang->getDefault(), false, false) ||
+			$lang->load($module->module, dirname($path), $lang->getDefault(), false, false);
 
 			$content = '';
 			ob_start();
@@ -246,8 +257,8 @@ abstract class JModuleHelper
 	/**
 	 * Get the path to a layout for a module
 	 *
-	 * @param   string  $module  The name of the module
-	 * @param   string  $layout  The name of the module layout. If alternative layout, in the form template:filename.
+	 * @param   string $module  The name of the module
+	 * @param   string $layout  The name of the module layout. If alternative layout, in the form template:filename.
 	 *
 	 * @return  string  The path to the module layout
 	 *
@@ -358,7 +369,7 @@ abstract class JModuleHelper
 		$dupes = array();
 		for ($i = 0, $n = count($modules); $i < $n; $i++)
 		{
-			$module = &$modules[$i];
+			$module = & $modules[$i];
 
 			// The module is excluded if there is an explicit prohibition
 			$negHit = ($negId === (int) $module->menuid);
@@ -406,15 +417,15 @@ abstract class JModuleHelper
 	 * 'safeuri'     Id created from $cacheparams->modeparams array,
 	 * 'id'          Module sets own cache id's
 	 *
-	 * @param   object  $module        Module object
-	 * @param   object  $moduleparams  Module parameters
-	 * @param   object  $cacheparams   Module cache parameters - id or url parameters, depending on the module cache mode
+	 * @param   object $module        Module object
+	 * @param   object $moduleparams  Module parameters
+	 * @param   object $cacheparams   Module cache parameters - id or url parameters, depending on the module cache mode
 	 *
 	 * @return  string
 	 *
 	 * @since   11.1
 	 *
-	 * @link JFilterInput::clean()
+	 * @link    JFilterInput::clean()
 	 */
 	public static function moduleCache($module, $moduleparams, $cacheparams)
 	{
@@ -519,5 +530,26 @@ abstract class JModuleHelper
 		}
 
 		return $ret;
+	}
+
+
+	/**
+	 * Merge Params
+	 *
+	 * @param $params
+	 *
+	 * @return mixed
+	 */
+	public static function mergeParams($params)
+	{
+		$modParams = JComponentHelper::getParams('com_modules');
+		$globalParams = $modParams;
+
+		if (is_null($params->get('moduleclass_sfx')))
+		{
+			$params->set('moduleclass_sfx', $globalParams->get('moduleclass_sfx'));
+		}
+
+		return $params;
 	}
 }
