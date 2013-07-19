@@ -62,7 +62,12 @@ $input = JFactory::getApplication()->input;
         background: #08c !important;
         color: #fff;
     }
-    .modal-body .column {width: 50%; float: left;}
+    .modal-body .column {
+        width: 50%; float: left;
+    }
+    #deleteFolder{
+        margin: 0;
+    }
 </style>
 <?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'editor')); ?>
 	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'editor', JText::_('Editor', true)); ?>
@@ -169,7 +174,7 @@ $input = JFactory::getApplication()->input;
                 class="well" >
                 <fieldset>
                     <label>File Type</label>
-                    <select name="type" required>
+                    <select name="type" required >
                         <option>- Select a file type -</option>
                         <option value="css">css</option>
                         <option value="php">php</option>
@@ -188,7 +193,8 @@ $input = JFactory::getApplication()->input;
             <form method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.uploadFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
                 class="well" enctype="multipart/form-data" >
                 <fieldset>
-                    <input type="file" name="file" />
+                    <input type="hidden" class="address" name="address" />
+                    <input type="file" name="files" required />
                     <input type="submit" value="Upload" class="btn btn-primary" />
                 </fieldset>
             </form>
@@ -224,7 +230,12 @@ $input = JFactory::getApplication()->input;
         </div>
     </div>
     <div class="modal-footer">
-        <a href="#" class="btn" data-dismiss="modal">Close</a>
-        <a href="<?php echo JRoute::_('index.php?option=com_templates&task=template.delete&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" class="btn btn-danger">Delete</a>
+        <form id="deleteFolder" method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.deleteFolder&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
+            <fieldset>
+                <a href="#" class="btn" data-dismiss="modal">Close</a>
+                <input type="hidden" class="address" name="address" />
+                <input type="submit" value="Delete" class="btn btn-danger" />
+            </fieldset>
+        </form>
     </div>
 </div>

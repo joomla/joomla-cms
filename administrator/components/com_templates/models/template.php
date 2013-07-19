@@ -612,6 +612,31 @@ class TemplatesModelTemplate extends JModelForm
         }
     }
 
+    public function uploadFile($file, $location)
+    {
+        jimport('joomla.filesystem.folder');
+        if ($template = $this->getTemplate())
+        {
+            $app        = JFactory::getApplication();
+            $client 	= JApplicationHelper::getClientInfo($template->client_id);
+            $path       = JPath::clean($client->path . '/templates/' . $template->element . '/');
+
+            if(file_exists(JPath::clean($path . '/' . $location . '/' . $file['name'])))
+            {
+                $app->enqueueMessage('File with the same name already exists.','error');
+                return false;
+            }
+
+            if(!JFile::upload($file['tmp_name'],JPath::clean($path . '/' . $location . '/' . $file['name'])))
+            {
+                $app->enqueueMessage('There was some error uploading the file.','error');
+                return false;
+            }
+
+            return true;
+        }
+    }
+
     public function createFolder($name, $location)
     {
         jimport('joomla.filesystem.folder');
@@ -630,6 +655,33 @@ class TemplatesModelTemplate extends JModelForm
             if(!JFolder::create(JPath::clean($path . '/' . $location . '/' . $name)))
             {
                 $app->enqueueMessage('There was some error creating the folder.','error');
+                return false;
+            }
+
+            return true;
+        }
+    }
+
+    public function deleteFolder($location)
+    {
+        jimport('joomla.filesystem.folder');
+        if ($template = $this->getTemplate())
+        {
+            $app        = JFactory::getApplication();
+            $client 	= JApplicationHelper::getClientInfo($template->client_id);
+            $path       = JPath::clean($client->path . '/templates/' . $template->element . '/' . $location);
+
+            if(!file_exists($path))
+            {
+                $app->enqueueMessage('The folder does not exist.','error');
+                return false;
+            }
+
+            $return = JFolder::delete($path);
+
+            if(!$return)
+            {
+                $app->enqueueMessage('Not able to delete the file.','error');
                 return false;
             }
 

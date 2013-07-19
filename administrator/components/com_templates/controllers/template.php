@@ -359,7 +359,37 @@ class TemplatesControllerTemplate extends JControllerLegacy
 
     public function uploadFile()
     {
+        $app            = JFactory::getApplication();
+        $model          = $this->getModel();
+        $id             = $app->input->get('id');
+        $file           = $app->input->get('file');
+        $upload         = $app->input->files->get('files');
+        $location       = base64_decode($app->input->get('address'));
 
+        $extensions     = array('ini','php','js','xml','less','css');
+
+        if(in_array(end(explode('.', $upload['name'])),$extensions))
+        {
+            if($model->uploadFile($upload, $location))
+            {
+                $app->enqueueMessage('Successfully uploaded file ' . $upload['name']);
+                $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+                $this->setRedirect(JRoute::_($url, false));
+            }
+            else
+            {
+                $app->enqueueMessage('Failed to upload file.','error');
+                $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+                $this->setRedirect(JRoute::_($url, false));
+            }
+        }
+
+        else
+        {
+            $app->enqueueMessage('File format not supported','error');
+            $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+            $this->setRedirect(JRoute::_($url, false));
+        }
     }
 
     public function createFolder()
@@ -387,7 +417,32 @@ class TemplatesControllerTemplate extends JControllerLegacy
 
     public function deleteFolder()
     {
+        $app            = JFactory::getApplication();
+        $model          = $this->getModel();
+        $id             = $app->input->get('id');
+        $file           = $app->input->get('file');
+        $location       = base64_decode($app->input->get('address'));
 
+        if(empty($location))
+        {
+            $app->enqueueMessage(JText::_('The root folder cannot be deleted.'),'warning');
+            $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+            $this->setRedirect(JRoute::_($url, false));
+        }
+
+        elseif($model->deleteFolder($location))
+        {
+            $this->setMessage(JText::_('Folder deleted successfully.'));
+            $file = base64_encode('index.php');
+            $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+            $this->setRedirect(JRoute::_($url, false));
+        }
+        else
+        {
+            $app->enqueueMessage(JText::_('Some error occurred. Failed to delete folder.'),'error');
+            $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+            $this->setRedirect(JRoute::_($url, false));
+        }
     }
 	
 }
