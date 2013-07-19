@@ -1799,7 +1799,7 @@ CREATE TABLE IF NOT EXISTS `#__user_keys` (
   `invalid` tinyint(4) NOT NULL,
   `time` varchar(200) NOT NULL,
   `uastring` varchar(255) NOT NULL,
-  PRIMARY KEY ('id'),
+  PRIMARY KEY (`id`),
   UNIQUE KEY `series` (`series`),
   UNIQUE KEY `series_2` (`series`),
   UNIQUE KEY `series_3` (`series`),
