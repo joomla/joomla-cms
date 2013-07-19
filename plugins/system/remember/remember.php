@@ -153,8 +153,7 @@ class PlgSystemRemember extends JPlugin
 
 						$testcrypt = JUserHelper::getCryptedPassword($series, $salt, 'md5-hex', false);
 
-						// We should probably add the timing safe compare here.
-						if ($crypt === $testcrypt)
+						if (JCrypt::timingSafeCompare($results[0]->token, $privateKey))
 						{
 							$match = true;
 						}
