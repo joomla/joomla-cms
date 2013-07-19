@@ -91,7 +91,7 @@ class TemplatesModelTemplate extends JModelForm
 				if (is_dir($dir . $value . '/')) 
 				{
                     $relativePath = str_replace($this->element,'',$dir . $value);
-					$result[$relativePath] = $this->getDirectoryTree($dir . $value . '/');
+					$result['/' . $relativePath] = $this->getDirectoryTree($dir . $value . '/');
 				} 
 				else 
 				{
@@ -99,7 +99,7 @@ class TemplatesModelTemplate extends JModelForm
 					if(in_array($ext, array('css','js','php','xml','ini','less')))
 					{
                         $relativePath = str_replace($this->element,'',$dir);
-						$info = $this->getFile($relativePath,$value);
+						$info = $this->getFile('/' . $relativePath,$value);
 						$result[] = $info;
 					}
 				} 
@@ -581,6 +581,55 @@ class TemplatesModelTemplate extends JModelForm
             if(!$return)
             {
                 $app->enqueueMessage('Not able to delete the file.','error');
+                return false;
+            }
+
+            return true;
+        }
+    }
+
+    public function createFile($name,$type,$location)
+    {
+        if ($template = $this->getTemplate())
+        {
+            $app        = JFactory::getApplication();
+            $client 	= JApplicationHelper::getClientInfo($template->client_id);
+            $path       = JPath::clean($client->path . '/templates/' . $template->element . '/');
+
+            if(file_exists(JPath::clean($path . '/' . $location . '/' . $name . '.' . $type)))
+            {
+                $app->enqueueMessage('File with the same name already exists.','error');
+                return false;
+            }
+
+            if(!fopen(JPath::clean($path . '/' . $location . '/' . $name . '.' . $type), 'x'))
+            {
+                $app->enqueueMessage('An error occurred creating the file.','error');
+                return false;
+            }
+
+            return true;
+        }
+    }
+
+    public function createFolder($name, $location)
+    {
+        jimport('joomla.filesystem.folder');
+        if ($template = $this->getTemplate())
+        {
+            $app        = JFactory::getApplication();
+            $client 	= JApplicationHelper::getClientInfo($template->client_id);
+            $path       = JPath::clean($client->path . '/templates/' . $template->element . '/');
+
+            if(file_exists(JPath::clean($path . '/' . $location . '/' . $name . '/')))
+            {
+                $app->enqueueMessage('Folder with the same name already exists.','error');
+                return false;
+            }
+
+            if(!JFolder::create(JPath::clean($path . '/' . $location . '/' . $name)))
+            {
+                $app->enqueueMessage('There was some error creating the folder.','error');
                 return false;
             }
 

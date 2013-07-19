@@ -110,8 +110,8 @@ protected function addToolbar()
 
 		if ($user->authorise('core.create', 'com_templates'))
 		{
-			$title = JText::_('Create Folder');
-			$dhtml = "<button data-toggle=\"collapse\" data-target=\"#\" class=\"btn btn-small \">
+			$title = JText::_('Manage Folders');
+			$dhtml = "<button data-toggle=\"modal\" data-target=\"#folderModal\" class=\"btn btn-small \">
 			<i class=\"icon-folder icon-white\" title=\"$title\"></i>
 			$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'upload');
@@ -121,7 +121,7 @@ protected function addToolbar()
 		if ($user->authorise('core.create', 'com_templates'))
 		{
 			$title = JText::_('New File');
-			$dhtml = "<button data-toggle=\"modal\" data-target=\"#\" class=\"btn btn-small\">
+			$dhtml = "<button data-toggle=\"modal\" data-target=\"#fileModal\" class=\"btn btn-small\">
 			<i class=\"icon-file\" title=\"$title\"></i>
 			$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'upload');
@@ -195,4 +195,28 @@ protected function addToolbar()
 		echo "</ul>";
 	
 	}
+
+    function listFolderTree($array)
+    {
+        echo "<ul class='nav nav-list folder-tree'>";
+        ksort($array, SORT_STRING);
+        foreach($array as $key => $value)
+        {
+            if(is_array($value))
+            {
+                echo "<li class='folder-select'>";
+                $encodedKey = base64_encode($key);
+                echo "<a class='folder-url' data-id='$encodedKey' href=''><i class='icon-folder-close'>&nbsp;";
+                echo end(explode('/',$key));
+                echo "</i></a>";
+                $this->listFolderTree($value);
+                echo "</li>";
+            }
+
+        }
+
+        echo "</ul>";
+
+    }
+
 }

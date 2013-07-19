@@ -331,5 +331,63 @@ class TemplatesControllerTemplate extends JControllerLegacy
             $this->setRedirect(JRoute::_($url, false));
         }
     }
+
+    public function createFile()
+    {
+        $app            = JFactory::getApplication();
+        $model          = $this->getModel();
+        $id             = $app->input->get('id');
+        $file           = $app->input->get('file');
+        $name           = $app->input->get('name');
+        $location       = base64_decode($app->input->get('address'));
+        $type           = $app->input->get('type');
+
+        if($model->createFile($name,$type,$location))
+        {
+            $this->setMessage(JText::_('File created successfully.'));
+            $file = urlencode(base64_encode($location . '/' . $name . '.' . $type));
+            $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+            $this->setRedirect(JRoute::_($url, false));
+        }
+        else
+        {
+            $app->enqueueMessage('Failed to create file.','error');
+            $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+            $this->setRedirect(JRoute::_($url, false));
+        }
+    }
+
+    public function uploadFile()
+    {
+
+    }
+
+    public function createFolder()
+    {
+        $app            = JFactory::getApplication();
+        $model          = $this->getModel();
+        $id             = $app->input->get('id');
+        $file           = $app->input->get('file');
+        $name           = $app->input->get('name');
+        $location       = base64_decode($app->input->get('address'));
+
+        if($model->createFolder($name, $location))
+        {
+            $this->setMessage(JText::_('Folder created successfully.'));
+            $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+            $this->setRedirect(JRoute::_($url, false));
+        }
+        else
+        {
+            $app->enqueueMessage('Failed to create folder.','error');
+            $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+            $this->setRedirect(JRoute::_($url, false));
+        }
+    }
+
+    public function deleteFolder()
+    {
+
+    }
 	
 }

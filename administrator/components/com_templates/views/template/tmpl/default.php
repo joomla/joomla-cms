@@ -36,8 +36,34 @@ $input = JFactory::getApplication()->input;
 			$(this).children('ul').toggle();
             e.stopPropagation();
 		});
-	});
+
+        $('#fileModal .folder-url').bind('click',function(e){
+            $('.folder-url').removeClass('selected');
+            e.stopPropagation();
+            $('#fileModal input.address').val($(this).attr('data-id'));
+            $(this).addClass('selected');
+        });
+
+        $('#folderModal .folder-url').bind('click',function(e){
+            $('.folder-url').removeClass('selected');
+            e.stopPropagation();
+            $('#folderModal input.address').val($(this).attr('data-id'));
+            $(this).addClass('selected');
+        });
+
+    });
 </script>
+<style>
+    .selected{
+        background: #08c;
+        color: #fff;
+    }
+    .selected:hover{
+        background: #08c !important;
+        color: #fff;
+    }
+    .modal-body .column {width: 50%; float: left;}
+</style>
 <?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'editor')); ?>
 	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'editor', JText::_('Editor', true)); ?>
 		<div class="row-fluid">
@@ -126,6 +152,76 @@ $input = JFactory::getApplication()->input;
     </div>
     <div class="modal-body">
         <p>The file <?php echo $this->fileName; ?> will be deleted.</p>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Close</a>
+        <a href="<?php echo JRoute::_('index.php?option=com_templates&task=template.delete&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" class="btn btn-danger">Delete</a>
+    </div>
+</div>
+<div  id="fileModal" class="modal hide fade">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3><?php echo JText::_('Create or Upload a new file.');?></h3>
+    </div>
+    <div class="modal-body">
+        <div class="column">
+            <form method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.createFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
+                class="well" >
+                <fieldset>
+                    <label>File Type</label>
+                    <select name="type" required>
+                        <option>- Select a file type -</option>
+                        <option value="css">css</option>
+                        <option value="php">php</option>
+                        <option value="js">js</option>
+                        <option value="xml">xml</option>
+                        <option value="ini">ini</option>
+                        <option value="less">less</option>
+                    </select>
+                    <label>File Name</label>
+                    <input type="text" name="name" required />
+                    <input type="hidden" class="address" name="address" />
+
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </fieldset>
+            </form>
+            <form method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.uploadFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
+                class="well" enctype="multipart/form-data" >
+                <fieldset>
+                    <input type="file" name="file" />
+                    <input type="submit" value="Upload" class="btn btn-primary" />
+                </fieldset>
+            </form>
+        </div>
+        <div class="column">
+            <?php $this->listFolderTree($this->files);?>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Close</a>
+    </div>
+</div>
+<div  id="folderModal" class="modal hide fade">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h3><?php echo JText::_('Manage Folders');?></h3>
+    </div>
+    <div class="modal-body">
+        <div class="column">
+            <form method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.createFolder&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
+                  class="well" >
+                <fieldset>
+                    <label>Folder Name</label>
+                    <input type="text" name="name" required />
+                    <input type="hidden" class="address" name="address" />
+
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </fieldset>
+            </form>
+        </div>
+        <div class="column">
+            <?php $this->listFolderTree($this->files);?>
+        </div>
     </div>
     <div class="modal-footer">
         <a href="#" class="btn" data-dismiss="modal">Close</a>
