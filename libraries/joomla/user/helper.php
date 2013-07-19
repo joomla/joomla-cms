@@ -436,12 +436,12 @@ abstract class JUserHelper
 	 *
 	 * @since   3.1.2
 	 */
-		static public function hasStrongPasswords()
-		{
-			static $pass = null;
+	static public function hasStrongPasswords()
+	{
+		static $pass = null;
 
-			if (is_null($pass))
-			{
+		if (is_null($pass))
+		{
 			// Check to see whether crypt() is supported.
 			if (version_compare(PHP_VERSION, '5.3.6', '>'))
 			{
@@ -463,8 +463,8 @@ abstract class JUserHelper
 			}
 		}
 
-		  return $pass;
-		}
+		return $pass;
+	}
 
 	/**
 	 * Returns a salt for the appropriate kind of password encryption.

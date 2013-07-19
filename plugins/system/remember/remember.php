@@ -21,6 +21,65 @@ defined('_JEXEC') or die;
  */
 class PlgSystemRemember extends JPlugin
 {
+	/**
+	 * @var    JApplication
+	 *
+	 * @since  3.1.2
+	 */
+	protected $app;
+
+	/**
+	 * @var    JApplication
+	 *
+	 * @since  3.1.2
+	 */
+	protected $db;
+
+	/**
+	 * @var    Domain for the cookie;
+	 *
+	 * @since  3.1.2
+	 */
+	protected $cookie_domain;
+
+	/**
+	 * @var    Path for the cookie.
+	 *
+	 * @since  3.1.2
+	 */
+	protected $cookie_path;
+
+	/**
+	 * @var    Whether to set as secure or not.
+	 *
+	 * @since  3.1.2
+	 */
+	protected $secure;
+
+	/**
+	 * @var    Cookie lifetime.
+	 *
+	 * @since  3.1.2
+	 */
+	protected $lifetime;
+
+	/**
+	 * Constructor. We use it to set the app and db properties.
+	 *
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An optional associative array of configuration settings.
+	 *                             Recognized key values include 'name', 'group', 'params', 'language'
+	 *                             (this list is not meant to be comprehensive).
+	 *
+	 * @since   11.1
+	 */
+	public function __construct(&$subject, $config = array())
+	{
+		parent::__construct($subject, $config);
+
+		$this->app = JFactory::getApplication();
+		$this->db = JFactory::getDbo();
+	}
 
 	/*
 	 * Remember me method to run onAfterInitialise
@@ -29,10 +88,8 @@ class PlgSystemRemember extends JPlugin
 	 */
 	public function onAfterInitialise()
 	{
-
 		// No remember me for admin
-		$app = JFactory::getApplication();
-		if ($app->isAdmin())
+		if ($this->app->isAdmin())
 		{
 			return;
 		}
@@ -42,51 +99,35 @@ class PlgSystemRemember extends JPlugin
 		// Check for a cookie
 		if ($user->get('guest') == 1)
 		{
-			$app = JFactory::getApplication();
-
-			JLoader::register('JAuthentication', JPATH_PLATFORM . '/joomla/user/authentication.php');
-
 			// Create the cookie name and data
 			$rememberArray = $this->getRememberCookieData();
 
-			if (!empty($rememberArray) && !empty($rememberArray[1]) && !empty($rememberArray[2]))
+			if ($rememberArray !== false)
 			{
+				list($privateKey, $series, $uastring) = $rememberArray;
+
 				$this->getCookieConfig();
+				$this->clearExpiredTokens();
 
-				// We're going to clear out expired tokens very time someone logs in with remember me.
-				$nowtime = time();
+				// Find the matching record if it exists
+				$query = $this->db->getQuery(true)
+					->select($this->db->quoteName(array('user_id', 'token', 'series', 'time', 'invalid')))
+					->from($this->db->quoteName('#__user_keys'))
+					->where($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($series)))
+					->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($uastring))
+					->order($this->db->quoteName('time') . ' DESC');
 
-				$db = JFactory::getDbo();
-				$query = $db->getQuery(true);
-				$query->delete('#__user_keys');
-				$query->where($db->quoteName('time') . ' < ' . $db->quote($nowtime));
-				$db->setQuery($query);
-				$db->execute();
-
-				$query->clear();
-
-				$credentials = array();
-
-				//Find the matching record if it exists
-				$db = JFactory::getDbo();
-				$query = $db->getQuery(true);
-				$query->select($db->quotename(array('user_id', 'token', 'series', 'time', 'invalid')))
-					->where($db->quoteName('series') . ' = ' . $db->quote(base64_encode($rememberArray[1])))
-					->where($db->quoteName('uastring') . ' = ' . $db->quote($rememberArray[2]))
-					->from($db->quoteName('#__user_keys'));
-				$db->setQuery($query);
-				$results = $db->loadObjectList();
+				$results = $this->db->setQuery($query)->loadObjectList();
 
 				$countResults = count($results);
 
-				// We have a cookie but it's not in the database or the cookie is invalid. Possible attack, invalidate every thing.
-				if ($countResults == 0 || !$results || $results[0]->invalid != 0)
+				// We have a cookie that's not in the database, or it's invalid. This is a possible attack, so invalidate everything.
+				if ($countResults === 0 || $results[0]->invalid != 0)
 				{
-					//Should this start by throwing an exception?
 					// We can only invalidate if there is a user.
 					if (!empty($results[0]->user_id))
 					{
-						$this->invalidateCookie($results[0]->user_id, $rememberArray[2], $this->cookie_path, $this->cookie_domain);
+						$this->invalidateCookie($results[0]->user_id, $uastring);
 						JLog::add('The remember me tokens were invalidated for user ' . $user->username  . ' because there was no matching record ', JLog::WARNING, 'security');
 
 						// Possibly e-mail user and admin here.
@@ -94,49 +135,50 @@ class PlgSystemRemember extends JPlugin
 					}
 				}
 
-				JLoader::register('JAuthentication', JPATH_ROOT . '/libraries/joomla/user/authentication.php');
-
-				if ($countResults == 1)
+				// We have a user with one cookie with a valid series and a corresponding record in the database.
+				if ($countResults === 1)
 				{
-						// Now we have a user with one cookie with a valid series and a corresponding record in the database.
-						// Now check the key
-						if (substr($results[0]->token, 0, 4) == '$2y$')
+					if (substr($results[0]->token, 0, 4) === '$2y$')
+					{
+						if (JUserHelper::hasStrongPasswords())
 						{
-
-							if (JUserHelper::hasStrongPasswords())
-							{
-								$match = password_verify($rememberArray[0], $results[0]->token);
-							}
+							$match = password_verify($privateKey, $results[0]->token);
 						}
-						else
+					}
+					else
+					{
+						$parts	= explode(':', $results[0]->token);
+						$crypt	= isset($parts[0]) ? $parts[0] : null;
+						$salt	= isset($parts[1]) ? $parts[1] : null;
+
+						$testcrypt = JUserHelper::getCryptedPassword($series, $salt, 'md5-hex', false);
+
+						// We should probably add the timing safe compare here.
+						if ($crypt === $testcrypt)
 						{
-							$parts	= explode(':', $results[0]->token);
-							$crypt	= $parts[0];
-							$salt	= @$parts[1];
-
-							$testcrypt = JUserHelper::getCryptedPassword($rememberArray[0], $salt, 'md5-hex', false);
-
-							if ($crypt == $testcrypt)
-							{
-								$match = true;
-							}
+							$match = true;
 						}
+					}
 
-						if (!$match)
-						{
-							JLog::add('Remember me login failed for user ' . $user->username , JLog::WARNING, 'security');
-							$this->invalidateCookie($results[0]->user_id, $cookieValue, $this->cookie_path, $this->cookie_domain);
+					if (!$match)
+					{
+						$this->invalidateCookie($results[0]->user_id, $uastring);
+						JLog::add('Remember me login failed for user ' . $user->username , JLog::WARNING, 'security');
 
-							return false;
-						}
+						return false;
+					}
 
-					// Set up the credentials array
-					$credentials['username'] = $results[0]->user_id;
+					// Set up the credentials array to pass to onUserAuthenticate
+					$credentials = array(
+						'username' => $results[0]->user_id
+					);
 
-					$return = $app->login($credentials, array('silent' => true));
+					return $this->app->login($credentials, array('silent' => true));
 				}
 			}
 		}
+
+		return false;
 	}
 
 
@@ -153,41 +195,40 @@ class PlgSystemRemember extends JPlugin
 	 */
 	public function onUserAuthenticate($credentials, $options, &$response)
 	{
+		JLoader::register('JAuthentication', JPATH_LIBRARIES . '/joomla/user/authentication.php');
 
 		$response->type = 'Remember';
 
 		// Get a database object and make sure there really is a user with this name
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true)
-			->select('id, username, password')
-			->from('#__users')
-			->where('username=' . $db->quote($credentials['username']));
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName(array('id', 'username', 'password')))
+			->from($this->db->quoteName('#__users'))
+			->where($this->db->quoteName('username') . ' = ' . $this->db->quote($credentials['username']));
 
-		$db->setQuery($query);
-		$result = $db->loadObject();
+		$result = $this->db->setQuery($query)->loadObject();
 
 		if ($result)
 		{
 			// Bring this in line with the rest of the system
 			$user = JUser::getInstance($result->id);
 			$series = $this->getShortHashedUserAgent();
-			$inputCookie = new JInputCookie();
 
 			// If there is no cookie, bail out
-			if (!$inputCookie->get($series))
+			if (!$this->app->input->cookie->get($series))
 			{
 				return;
 			}
 
 			$user->set('rememberLogin', true);
 
+			// Set response data.
 			$response->username = $result->username;
-
 			$response->email = $user->email;
 			$response->fullname = $user->name;
 			$response->password = $result->password;
 			$response->language = $user->getParam('language');
 
+			// Set response status.
 			$response->status = JAuthentication::STATUS_SUCCESS;
 			$response->error_message = '';
 		}
@@ -209,8 +250,9 @@ class PlgSystemRemember extends JPlugin
 	 */
 	public function onUserAfterLogin($options)
 	{
-		// No remember me for admin
+		// No remember me for the admin user.
 		$user = JFactory::getUser();
+
 		if ($user->get('isRoot'))
 		{
 			return;
@@ -240,73 +282,68 @@ class PlgSystemRemember extends JPlugin
 			// We are going to concatenate with . so we need to remove it from the strings.
 			$series = str_replace('.', '', $series);
 
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true);
-			$query->select($db->quoteName('series'))
-				->from($db->quoteName('#__user_keys'))
-				->where($db->quoteName('series') . ' = ' . $db->quote(base64_encode($series)));
-			$db->setQuery($query);
-			$results = $db->loadResult();
-			$query->clear();
+			$query = $this->db->getQuery(true)
+				->select($this->db->quoteName('series'))
+				->from($this->db->quoteName('#__user_keys'))
+				->where($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($series)));
+
+			$results = $this->db->setQuery($query)->loadResult();
 
 			if (is_null($results))
-				{
-					$unique = true;
+			{
+				$unique = true;
 			}
 		}
-		while ($unique == false);
+		while ($unique === false);
 
-		$user = JFactory::getUser();
-
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		// If a user logs in with non remember login and remember me checked we will delete any invalid entries so that
-		// they can use remember once again.
-		if ($options['responseType'] != 'Remember')
+		// If a user logs in with non remember login and remember me checked we will
+		// delete any invalid entries so that they can use remember once again.
+		if ($options['responseType'] !== 'Remember')
 		{
+			$query = $this->db->getQuery(true)
+				->delete('#__user_keys')
+				->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName))
+				->where($this->db->quoteName('user_id') . ' = ' . $this->db->quote($user->username));
 
-			$query->delete('#__user_keys');
-			$query->where($db->quoteName('uastring') . ' = ' . $db->quote($cookieName))
-				->where($db->quoteName('user_id') . ' = ' . $db->quote($user->username));
-			$db->setQuery($query);
-			$db->execute();
-			$query->clear();
+			$this->db->setQuery($query)->execute();
 		}
 
-		$cookieValue =  $privateKey . '.' . $series . '.' . $cookieName;
+		$cookieValue = $privateKey . '.' . $series . '.' . $cookieName;
 
 		// Use domain and path set in config for cookie if it exists.
 		$this->getCookieConfig();
 
 		// Destroy the old cookie.
-		setcookie($cookieName, false, time() - 42000, $this->cookie_path, $this->cookie_domain, $this->secure, true);
+		$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->cookie_path, $this->cookie_domain, $this->secure, true);
 
 		// And make a new one.
-		setcookie($cookieName, $cookieValue, $this->lifetime, $this->cookie_path, $this->cookie_domain, $this->secure, true);
+		$this->app->input->cookie->set($cookieName, $cookieValue, $this->lifetime, $this->cookie_path, $this->cookie_domain, $this->secure, true);
+
+		$query = $this->db->getQuery(true);
 
 		if (empty($user->rememberLogin))
 		{
 			// For users doing login from Joomla or other systems
-			$query->insert($db->quoteName('#__user_keys'));
+			$query->insert($this->db->quoteName('#__user_keys'));
 		}
 		else
 		{
-			$query->update($db->quoteName('#__user_keys'))
-				->where($db->quote($user->username) . ' = ' . $db->quoteName('user_id')
-					. ' AND ' .  $db->quote(base64_encode($rememberArray[1])) . ' = ' . $db->quoteName('series')
-					. ' AND ' . $db->quote($cookieName) . ' = ' . $db->quoteName('uastring'));
+			$query
+				->update($this->db->quoteName('#__user_keys'))
+				->where($this->db->quoteName('user_id') . ' = ' . $this->db->quote($user->username))
+				->where($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($rememberArray[1])))
+				->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName));
 		}
 
-		$query->set($db->quoteName('user_id') . ' = ' . $db->quote($user->username))
-			->set($db->quoteName('time') . ' = ' . $this->lifetime)
-			->set($db->quoteName('token') . ' = ' . $db->quote($cryptedKey))
-			->set($db->quoteName('series') . ' = ' . $db->quote(base64_encode($series)))
-			->set($db->quoteName('invalid') . ' = 0')
-			->set($db->quoteName('uastring') . ' = ' . $db->quote($cookieName));
-		$db->setQuery($query);
+		$query
+			->set($this->db->quoteName('user_id') . ' = ' . $this->db->quote($user->username))
+			->set($this->db->quoteName('time') . ' = ' . $this->lifetime)
+			->set($this->db->quoteName('token') . ' = ' . $this->db->quote($cryptedKey))
+			->set($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($series)))
+			->set($this->db->quoteName('invalid') . ' = 0')
+			->set($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName));
 
-		$db->execute();
+		$this->db->setQuery($query)->execute();
 
 		return true;
 	}
@@ -321,31 +358,32 @@ class PlgSystemRemember extends JPlugin
 	 */
 	public function onUserAfterLogout($options)
 	{
-
 		$rememberArray = $this->getRememberCookieData();
-		if (empty($rememberArray) || empty($rememberArray[2]))
+
+		// There are no cookies to delete.
+		if ($rememberArray === false)
 		{
 			return true;
 		}
+
+		list($privateKey, $series, $cookieName) = $rememberArray;
 
 		// Use domain and path set in config for cookie if it exists.
 		$this->getCookieConfig();
 
 		// Remove the record from the database
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
+		$query = $this->db->getQuery(true);
 
-		$db->setQuery($query);
-		$query->delete('#__user_keys')
-			->where($db->quoteName('uastring') . ' = ' . $db->quote($rememberArray[2]))
-			->where($db->quoteName('series') . ' = ' . $db->quote(base64_encode($rememberArray[1])))
-			->where($db->quoteName('user_id') . ' = ' . $db->quote($options['username']));
-		$db->setQuery($query);
-		$db->execute();
-		$query->clear();
+		$query
+			->delete('#__user_keys')
+			->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName))
+			->where($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($series)))
+			->where($this->db->quoteName('user_id') . ' = ' . $this->db->quote($options['username']));
+
+		$this->db->setQuery($query)->execute();
 
 		// Destroy the cookie
-		setcookie($rememberArray[2], false, time() - 42000, $this->cookie_path, $this->cookie_domain, $this->secure, true);
+		$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->cookie_path, $this->cookie_domain, $this->secure, true);
 
 		return true;
 	}
@@ -353,31 +391,27 @@ class PlgSystemRemember extends JPlugin
 	/**
 	 * Method to remove a cookie record from the database and the browser
 	 *
-	 * @param   string   $username       Username for this user
-	 * @param   string   $series         Series id (cookie name decoded)
-	 * @param   string   $cookie_path    Cookie path from configuration
-	 * @param   string   $cookie_domain  Cookie domain from configuration
-	 * @param   boolean  $secure         Use https only if true
-	 * @param   boolean  $httponly       If true cookie is only accessible from http.
+	 * @param   string   $userId      User ID for this user
+	 * @param   string   $cookieName  Series id (cookie name decoded)
 	 *
 	 * @return  boolean  True on success
 	 * @since   3.1.2
 	 * @see JInput::setCookie for more details
 	 */
-	protected function invalidateCookie($username, $cookieName, $cookie_path, $cookie_domain, $secure = false, $httponly = true)
+	protected function invalidateCookie($userId, $cookieName)
 	{
 		// Invalidate cookie in the database
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
+		$query = $this->db->getQuery(true);
 
-		$query->update($db->quoteName('#__user_keys'))
-		->set($db->quoteName('invalid') . '= ' . 1)
-		->where($db->quotename('user_id') . ' = ' . $db->quote($username));
-		$db->setQuery($query);
-		$db->execute();
+		$query
+			->update($this->db->quoteName('#__user_keys'))
+			->set($this->db->quoteName('invalid') . '= 1')
+			->where($this->db->quotename('user_id') . ' = ' . $this->db->quote($userId));
 
-		// Destroy the  cookie.
-		setcookie($cookieName, false, time() - 42000, $cookie_path, $cookie_domain, $secure, true);
+		$this->db->setQuery($query)->execute();
+
+		// Destroy the cookie in the browser.
+		$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->cookie_path, $this->cookie_domain, $this->secure, true);
 	}
 	/*
 	 * Method to get the cookie configuration data
@@ -386,18 +420,17 @@ class PlgSystemRemember extends JPlugin
 	 *
 	 * @since   3.1.2
 	 */
-
 	protected function getCookieConfig()
 	{
 		// Use domain and path set in config for cookie if it exists.
-		$app = JFactory::getApplication();
-		$this->cookie_domain = $app->getCfg('cookie_domain', '');
-		$this->cookie_path = $app->getCfg('cookie_path', '/');
+		$this->cookie_domain = $this->app->getCfg('cookie_domain', '');
+		$this->cookie_path = $this->app->getCfg('cookie_path', '/');
 		$this->lifetime = time() + ($this->params->get('cookie_lifetime', '60') * 24 * 60 * 60);
-		$this->secure = $app->isSSLConnection();
+		$this->secure = $this->app->isSSLConnection();
 
 		return true;
 	}
+
 	/*
 	 * Method to get a hashed user agent string that does not include browser version.
 	 * Used when frequent version changes cause problems.
@@ -428,8 +461,8 @@ class PlgSystemRemember extends JPlugin
 		// Create the cookie name
 		$cookieName = $this->getShortHashedUserAgent();
 
-		$inputCookie = new JInputCookie();
-		$cookieValue = $inputCookie->get($cookieName);
+		// Fetch the cookie value
+		$cookieValue = $this->app->input->cookie->get($cookieName);
 
 		if (!empty($cookieValue))
 		{
@@ -439,5 +472,23 @@ class PlgSystemRemember extends JPlugin
 		{
 			return false;
 		}
+	}
+
+	/**
+	 * Clear all expired tokens for all users.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1.2
+	 */
+	protected function clearExpiredTokens()
+	{
+		$now = time();
+
+		$query = $this->db->getQuery(true)
+			->delete('#__user_keys')
+			->where($this->db->quoteName('time') . ' < ' . $this->db->quote($now));
+
+		$this->db->setQuery($query)->execute();
 	}
 }
