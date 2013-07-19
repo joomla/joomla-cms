@@ -533,7 +533,14 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		if ($this->debug)
 		{
 			$this->timings[] = microtime(true);
-			$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+			if (defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
+			{
+				$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+			}
+			else
+			{
+				$this->callStacks[] = debug_backtrace();
+			}
 			$this->callStacks[count($this->callStacks) - 1][0]['memory'] = array($memoryBefore, memory_get_usage(), is_object($this->cursor) ? $this->getNumRows() : null);
 		}
 
