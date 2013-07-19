@@ -49,6 +49,12 @@ class JImage
 	const CROP_RESIZE = 5;
 
 	/**
+	 * @const  integer
+	 * @since  3.2
+	 */
+	const SCALE_FIT = 6;
+
+	/**
 	 * @var    resource  The image resource handle.
 	 * @since  11.3
 	 */
@@ -597,6 +603,16 @@ class JImage
 					// @codeCoverageIgnoreEnd
 				}
 				$this->handle = $handle;
+
+				// Set transparency for non-transparent PNGs.
+				if (!$this->isTransparent())
+				{
+					// Assign to black which is default for transparent PNGs
+					$transparency = imagecolorallocatealpha($handle, 0, 0, 0, 127);
+
+					imagecolortransparent($handle, $transparency);
+				}
+
 				break;
 
 			default:
@@ -640,8 +656,30 @@ class JImage
 		// Prepare the dimensions for the resize operation.
 		$dimensions = $this->prepareDimensions($width, $height, $scaleMethod);
 
-		// Create the new truecolor image handle.
-		$handle = imagecreatetruecolor($dimensions->width, $dimensions->height);
+		// Instantiate offset.
+		$offset = new stdClass;
+		$offset->x = $offset->y = 0;
+
+		// Center image if needed and create the new truecolor image handle.
+		if ($scaleMethod == self::SCALE_FIT)
+		{
+			// Get the offsets
+			$offset->x	= round(($width - $dimensions->width) / 2);
+			$offset->y	= round(($height - $dimensions->height) / 2);
+
+			$handle = imagecreatetruecolor($width, $height);
+
+			// Make image transparent, otherwise cavas outside initial image would default to black
+			if (!$this->isTransparent())
+			{
+				$transparency = imagecolorAllocateAlpha($this->handle, 0, 0, 0, 127);
+				imagecolorTransparent($this->handle, $transparency);
+			}
+		}
+		else
+		{
+			$handle = imagecreatetruecolor($dimensions->width, $dimensions->height);
+		}
 
 		// Allow transparency for the new image handle.
 		imagealphablending($handle, false);
@@ -651,17 +689,17 @@ class JImage
 		{
 			// Get the transparent color values for the current image.
 			$rgba = imageColorsForIndex($this->handle, imagecolortransparent($this->handle));
-			$color = imageColorAllocate($this->handle, $rgba['red'], $rgba['green'], $rgba['blue']);
+			$color = imageColorAllocateAlpha($this->handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
 
 			// Set the transparent color values for the new image.
 			imagecolortransparent($handle, $color);
 			imagefill($handle, 0, 0, $color);
 
-			imagecopyresized($handle, $this->handle, 0, 0, 0, 0, $dimensions->width, $dimensions->height, $this->getWidth(), $this->getHeight());
+			imagecopyresized($handle, $this->handle, $offset->x, $offset->y, 0, 0, $dimensions->width, $dimensions->height, $this->getWidth(), $this->getHeight());
 		}
 		else
 		{
-			imagecopyresampled($handle, $this->handle, 0, 0, 0, 0, $dimensions->width, $dimensions->height, $this->getWidth(), $this->getHeight());
+			imagecopyresampled($handle, $this->handle, $offset->x, $offset->y, 0, 0, $dimensions->width, $dimensions->height, $this->getWidth(), $this->getHeight());
 		}
 
 		// If we are resizing to a new image, create a new JImage object.
@@ -877,16 +915,17 @@ class JImage
 
 			case self::SCALE_INSIDE:
 			case self::SCALE_OUTSIDE:
+			case self::SCALE_FIT:
 				$rx = ($width > 0) ? ($this->getWidth() / $width) : 0;
 				$ry = ($height > 0) ? ($this->getHeight() / $height) : 0;
 
-				if ($scaleMethod == self::SCALE_INSIDE)
+				if ($scaleMethod != self::SCALE_OUTSIDE)
 				{
-					$ratio = ($rx > $ry) ? $rx : $ry;
+					$ratio = max($rx, $ry);
 				}
 				else
 				{
-					$ratio = ($rx < $ry) ? $rx : $ry;
+					$ratio = min($rx, $ry);
 				}
 
 				$dimensions->width = (int) round($this->getWidth() / $ratio);
