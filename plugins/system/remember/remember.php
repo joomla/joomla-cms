@@ -151,7 +151,7 @@ class PlgSystemRemember extends JPlugin
 						$crypt	= isset($parts[0]) ? $parts[0] : null;
 						$salt	= isset($parts[1]) ? $parts[1] : null;
 
-						$testcrypt = JUserHelper::getCryptedPassword($series, $salt, 'md5-hex', false);
+						$testcrypt = JUserHelper::getCryptedPassword($privateKey, $salt, 'md5-hex', false);
 
 						if (JCrypt::timingSafeCompare($results[0]->token, $privateKey))
 						{
