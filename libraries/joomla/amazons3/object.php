@@ -90,7 +90,15 @@ abstract class JAmazons3Object
 			throw new DomainException($error->message, $response->code);
 		}
 
-		return new SimpleXMLElement($response->body);
+		if ($response->body != null)
+		{
+			return new SimpleXMLElement($response->body);
+		}
+		else
+		{
+			// HEAD operations
+			return "The bucket exists and you have permission to access it.\n";
+		}
 	}
 
 	/**
