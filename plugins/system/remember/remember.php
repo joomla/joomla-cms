@@ -100,7 +100,7 @@ class PlgSystemRemember extends JPlugin
 		if ($user->get('guest') == 1)
 		{
 			// Create the cookie name and data
-			$rememberArray = $this->getRememberCookieData();
+			//$rememberArray = $this->getRememberCookieData();
 
 			if ($rememberArray !== false)
 			{
@@ -140,7 +140,7 @@ class PlgSystemRemember extends JPlugin
 				{
 					if (substr($results[0]->token, 0, 4) === '$2y$')
 					{
-						if (JUserHelper::hasStrongPasswords())
+						if (JCrypt::hasStrongPasswordSupport())
 						{
 							$match = password_verify($privateKey, $results[0]->token);
 						}
@@ -210,10 +210,10 @@ class PlgSystemRemember extends JPlugin
 		{
 			// Bring this in line with the rest of the system
 			$user = JUser::getInstance($result->id);
-			$series = $this->getShortHashedUserAgent();
+			$cookieName = $this->getShortHashedUserAgent();
 
 			// If there is no cookie, bail out
-			if (!$this->app->input->cookie->get($series))
+			if (!$this->app->input->cookie->get($cookieName))
 			{
 				return;
 			}
