@@ -843,7 +843,7 @@ class JUser extends JObject
 		$crypt = JUserHelper::getCryptedPassword($passwordString, $salt);
 
 		// The first condition is only for when BCrypt or PASSWORD_DEFAULT is the default.
-		if (JUserHelper::hasStrongPasswords() && !empty($defaultHash))
+		if (JCrypt::hasStrongPasswordSupport() && !empty($defaultHash))
 		{
 			$passwordInfo = password_get_info($passwordString);
 			return $crypt . (($passwordInfo['algo'] != 0
