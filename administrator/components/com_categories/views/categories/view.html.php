@@ -225,11 +225,15 @@ class CategoriesViewCategories extends JViewLegacy
 			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
 		);
 
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_TAG'),
-			'filter_tag',
-			JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag'))
-		);
+		if (JHelperTags::getTypes('objectList', array($extension . '.category'), true))
+		{
+			JHtmlSidebar::addFilter(
+				JText::_('JOPTION_SELECT_TAG'),
+				'filter_tag',
+				JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag'))
+			);
+		}
+
 	}
 
 	/**
