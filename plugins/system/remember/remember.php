@@ -264,7 +264,7 @@ class PlgSystemRemember extends JPlugin
 
 		// We need the old data to match against the current database
 		$rememberArray = $this->getRememberCookieData();
-		$length = $this->params->get('key_length', '20');
+		$length = $this->params->get('key_length', '16');
 
 		$privateKey = JUserHelper::genRandomPassword($length);
 
