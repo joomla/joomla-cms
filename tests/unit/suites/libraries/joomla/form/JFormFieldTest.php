@@ -403,7 +403,7 @@ class JFormFieldTest extends TestCase
 
 		$this->assertThat(
 			(string) $title['class'],
-			$this->equalTo('inputbox required'),
+			$this->equalTo('inputbox'),
 			'Line:' . __LINE__ . ' The property should be set from the XML.'
 		);
 
@@ -563,9 +563,9 @@ class JFormFieldTest extends TestCase
 			'Line:' . __LINE__ . ' The property should be set to the the group name.'
 		);
 
-		$this->assertEquals(
-			$field->element['class'],
-			'required',
+		$this->assertThat(
+			$field->required,
+			$this->isTrue(),
 			'Line:' . __LINE__ . ' The property should be computed from the XML.'
 		);
 	}
