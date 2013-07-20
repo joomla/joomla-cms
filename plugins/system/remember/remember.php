@@ -79,6 +79,12 @@ class PlgSystemRemember extends JPlugin
 
 		$this->app = JFactory::getApplication();
 		$this->db = JFactory::getDbo();
+
+		// Use domain and path set in config for cookie if it exists.
+		$this->cookie_domain = $this->app->getCfg('cookie_domain', '');
+		$this->cookie_path = $this->app->getCfg('cookie_path', '/');
+		$this->lifetime = time() + ($this->params->get('cookie_lifetime', '60') * 24 * 60 * 60);
+		$this->secure = $this->app->isSSLConnection();
 	}
 
 	/*
@@ -106,7 +112,6 @@ class PlgSystemRemember extends JPlugin
 			{
 				list($privateKey, $series, $uastring) = $rememberArray;
 
-				$this->getCookieConfig();
 				$this->clearExpiredTokens();
 
 				// Find the matching record if it exists
@@ -309,9 +314,6 @@ class PlgSystemRemember extends JPlugin
 
 		$cookieValue = $privateKey . '.' . $series . '.' . $cookieName;
 
-		// Use domain and path set in config for cookie if it exists.
-		$this->getCookieConfig();
-
 		// Destroy the old cookie.
 		$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->cookie_path, $this->cookie_domain, $this->secure, true);
 
@@ -367,9 +369,6 @@ class PlgSystemRemember extends JPlugin
 
 		list($privateKey, $series, $cookieName) = $rememberArray;
 
-		// Use domain and path set in config for cookie if it exists.
-		$this->getCookieConfig();
-
 		// Remove the record from the database
 		$query = $this->db->getQuery(true);
 
@@ -411,23 +410,6 @@ class PlgSystemRemember extends JPlugin
 
 		// Destroy the cookie in the browser.
 		$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->cookie_path, $this->cookie_domain, $this->secure, true);
-	}
-	/*
-	 * Method to get the cookie configuration data
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.1.2
-	 */
-	protected function getCookieConfig()
-	{
-		// Use domain and path set in config for cookie if it exists.
-		$this->cookie_domain = $this->app->getCfg('cookie_domain', '');
-		$this->cookie_path = $this->app->getCfg('cookie_path', '/');
-		$this->lifetime = time() + ($this->params->get('cookie_lifetime', '60') * 24 * 60 * 60);
-		$this->secure = $this->app->isSSLConnection();
-
-		return true;
 	}
 
 	/*
