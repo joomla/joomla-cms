@@ -27,6 +27,13 @@ $ -> Language fix or change
 
 ; Below is merged into v3.1.2
 
+20-Jul-2013 Jean-Marie Simonet
+ # [#31496] DEBUG_BACKTRACE_IGNORE_ARGS not supported in PHP 5.3.1-5.3.5. Thanks Beat
+ # [#31533] User Interface allows tags in Banner Categories but it should not. Thanks Elin waring
+
+19-Jul-2013 Jean-Marie Simonet
+ # [#31525] Files uninstall is failing due to missing variable. Thanks Michael Babker
+
 17-Jul-2013 Jean-Marie Simonet
  # [#31476] Remove unneeded GROUP BY and fix duplicate article display. Thanks Thomas Hunziker
  # [#31445] Default value tag menu-items. Thanks Constantin Romankiewicz
