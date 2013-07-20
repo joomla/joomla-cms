@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Jul-2013 Jean-Marie Simonet
+ # [#31496] DEBUG_BACKTRACE_IGNORE_ARGS not supported in PHP 5.3.1-5.3.5. Thanks Beat
+
 19-Jul-2013 Jean-Marie Simonet
  # [#31525] Files uninstall is failing due to missing variable. Thanks Michael Babker
 
