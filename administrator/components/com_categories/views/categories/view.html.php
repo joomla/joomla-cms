@@ -225,7 +225,7 @@ class CategoriesViewCategories extends JViewLegacy
 			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
 		);
 
-		if ($this->checkTags)
+		if (JHelperTags::getTypes('objectList', array($extension . '.category'), true))
 		{
 			JHtmlSidebar::addFilter(
 				JText::_('JOPTION_SELECT_TAG'),
