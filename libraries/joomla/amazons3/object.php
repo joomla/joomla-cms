@@ -89,6 +89,13 @@ abstract class JAmazons3Object
 			{
 				// Decode the error response and throw an exception.
 				$error = new SimpleXMLElement($response->body);
+
+				// The PUT requests return <Message>[...]</Message> in their bodies
+				if ($error->message == "")
+				{
+					$error->message = $error->Message;
+				}
+
 				throw new DomainException($error->message, $response->code);
 			}
 			else
