@@ -71,15 +71,14 @@ JHtml::_('behavior.keepalive');
 						<?php echo $this->form->getInput('language'); ?>
 					</li>
 					<!-- Tag field -->
-					<li><?php echo $this->form->getLabel('tags'); ?>
-					<div class="control-group">
-						<?php echo $this->form->getLabel('tags'); ?>
-						<div class="controls">
-							<?php echo $this->form->getInput('tags'); ?>
-						</div>
-					</div>
+					<li>
+						<?php if ($this->checkTags) : ?>
+							<?php echo $this->form->getLabel('tags'); ?>
+							<div class="is-tagbox">
+								<?php echo $this->form->getInput('tags'); ?>
+							</div>
+						<?php endif; ?>
 					</li>
-
 					<li>
 						<?php echo $this->form->getLabel('id'); ?>
 						<?php echo $this->form->getInput('id'); ?>
