@@ -85,7 +85,7 @@ abstract class JAmazons3Object
 		// Validate the response code.
 		if ($response->code != $expectedCode)
 		{
-			if ($response->body != null)
+			if ($response->body != null && $response->body[0] == '<')
 			{
 				// Decode the error response and throw an exception.
 				$error = new SimpleXMLElement($response->body);
@@ -98,7 +98,7 @@ abstract class JAmazons3Object
 			}
 		}
 
-		if ($response->body != null)
+		if ($response->body != null && $response->body[0] == '<')
 		{
 			return new SimpleXMLElement($response->body);
 		}

@@ -8,3 +8,14 @@
  */
 
 defined('JPATH_PLATFORM') or die;
+
+/**
+ * Defines the PUT operations on buckets
+ *
+ * @package     Joomla.Platform
+ * @subpackage  Amazons3
+ * @since       ??.?
+ */
+class JAmazons3OperationsBucketsPut extends JAmazons3OperationsBuckets
+{
+}
