@@ -28,7 +28,7 @@ $ -> Language fix or change
 20-Jul-2013 Jean-Marie Simonet
  # [#31496] DEBUG_BACKTRACE_IGNORE_ARGS not supported in PHP 5.3.1-5.3.5. Thanks Beat
  # [#31533] User Interface allows tags in Banner Categories but it should not. Thanks Elin Waring
-
+ # [#31522] No tag fields in hathor - you can't write Tags in component items. Thanks Elin Waring
 
 19-Jul-2013 Jean-Marie Simonet
  # [#31525] Files uninstall is failing due to missing variable. Thanks Michael Babker
