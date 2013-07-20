@@ -72,9 +72,13 @@ JHtml::_('behavior.keepalive');
 					</li>
 					<!-- Tag field -->
 					<li><?php echo $this->form->getLabel('tags'); ?>
-					<div class="is-tagbox">
-					<?php echo $this->form->getInput('tags'); ?>
-					</div></li>
+					<div class="control-group">
+						<?php echo $this->form->getLabel('tags'); ?>
+						<div class="controls">
+							<?php echo $this->form->getInput('tags'); ?>
+						</div>
+					</div>
+					</li>
 
 					<li>
 						<?php echo $this->form->getLabel('id'); ?>
