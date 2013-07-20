@@ -28,12 +28,15 @@
 					filter="integer"
 					required="required"
 			/>
-				<field name="key_length" type="text"
+				<field name="key_length" type="integer"
 					description="PLG_SYSTEM_REMEMBER_FIELD_KEY_LENGTH_DESC"
 					label="PLG_SYSTEM_REMEMBER_FIELD_KEY_LENGTH_LABEL"
 					class="btn-group"
 					default="20"
 					filter="integer"
+					first="4"
+					last="32"
+					step="4"
 					required="required"
 			/>
 
