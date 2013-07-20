@@ -200,7 +200,7 @@ JHtml::_('formbehavior.chosen', 'select');
 						<?php echo $this->form->getInput('language'); ?>
 					</div>
 				</div>
-				<?php if ($this->checkTags) :?>
+				<?php if ($this->checkTags) : ?>
 					<div class="control-group">
 						<?php echo $this->form->getLabel('tags'); ?>
 						<div class="controls">
