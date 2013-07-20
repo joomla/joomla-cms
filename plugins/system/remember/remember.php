@@ -100,7 +100,7 @@ class PlgSystemRemember extends JPlugin
 		if ($user->get('guest') == 1)
 		{
 			// Create the cookie name and data
-			//$rememberArray = $this->getRememberCookieData();
+			$rememberArray = $this->getRememberCookieData();
 
 			if ($rememberArray !== false)
 			{
