@@ -75,7 +75,7 @@ abstract class ContactHelperRoute
 			$category = JCategories::getInstance('Contact')->get($id);
 		}
 
-		if ($id < 1)
+		if ($id < 1 || !($category instanceof JCategoryNode))
 		{
 			$link = '';
 		}

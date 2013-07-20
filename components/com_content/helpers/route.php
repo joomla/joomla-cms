@@ -75,7 +75,7 @@ abstract class ContentHelperRoute
 			$category = JCategories::getInstance('Content')->get($id);
 		}
 
-		if ($id < 1)
+		if ($id < 1 || !($category instanceof JCategoryNode))
 		{
 			$link = '';
 		}
