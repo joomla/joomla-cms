@@ -85,9 +85,17 @@ abstract class JAmazons3Object
 		// Validate the response code.
 		if ($response->code != $expectedCode)
 		{
-			// Decode the error response and throw an exception.
-			$error = new SimpleXMLElement($response->body);
-			throw new DomainException($error->message, $response->code);
+			if ($response->body != null)
+			{
+				// Decode the error response and throw an exception.
+				$error = new SimpleXMLElement($response->body);
+				throw new DomainException($error->message, $response->code);
+			}
+			else
+			{
+				// HEAD operations
+				return "The bucket does not exist or you do not have permission to access it.\n";
+			}
 		}
 
 		if ($response->body != null)
