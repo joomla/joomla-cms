@@ -200,12 +200,15 @@ JHtml::_('formbehavior.chosen', 'select');
 						<?php echo $this->form->getInput('language'); ?>
 					</div>
 				</div>
-				<div class="control-group">
-					<?php echo $this->form->getLabel('tags'); ?>
-					<div class="controls">
-						<?php echo $this->form->getInput('tags'); ?>
+				<?php if ($this->checkTags)
+				{?>
+					<div class="control-group">
+						<?php echo $this->form->getLabel('tags'); ?>
+						<div class="controls">
+							<?php echo $this->form->getInput('tags'); ?>
+						</div>
 					</div>
-				</div>
+				<?php } ?>
 			</fieldset>
 		</div>
 		<!-- End Sidebar -->
