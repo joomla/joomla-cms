@@ -371,6 +371,24 @@ class JFormDataHelper
 			label="Title"
 			description="The title." />
 
+		<field
+			name="published_by_true"
+			type="text"
+			disabled="true"
+			readonly="true" />
+
+		<field
+			name="published_by_1"
+			type="text"
+			disabled="1"
+			readonly="1" />
+
+		<field
+			name="published_by_attr"
+			type="text"
+			disabled="disabled"
+			readonly="readonly" />
+
 		<fields
 			name="params">
 			<field
