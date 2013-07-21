@@ -3,9 +3,9 @@ Joomla! CMS [![Build Status](https://travis-ci.org/joomla/joomla-cms.png)](https
 
 What is this?
 ---------------------
-* This is a Joomla! installation/upgrade package to version 3.0.x
+* This is a Joomla! installation/upgrade package to version 3.x
 * Joomla! [Official site](http://www.joomla.org)
-* Joomla! 3.0 [version history](http://docs.joomla.org/Joomla_3.0_version_history)
+* Joomla! 3.1 [version history](http://docs.joomla.org/Joomla_3.1_version_history)
 * Detailed changes in the [Changelog](http://joomlacode.org/gf/project/joomla/scmsvn/?action=browse&path=/development/trunk/administrator/&view=log)
 
 What is Joomla?
@@ -61,13 +61,13 @@ Where can you get support and help?
 * Post questions at [our forums](http://forum.joomla.org)
 * [Joomla Resources Directory](http://resources.joomla.org/tos.html) (JRD):
 
-Do you already have a Joomla site that's not built with Joomla 3.0.x ?
+Do you already have a Joomla site that's not built with Joomla 3.x ?
 ---------------------
-* What's [new in Joomla 3.0.x](http://www.joomla.org/3)
-* What are the [main differences from 2.5 to 3.0](http://docs.joomla.org/Differences_from_Joomla_2.5_to_Joomla_3.0)?
-* How to [migrate from 2.5.x to 3.0.x](http://docs.joomla.org/Migrating_from_Joomla_2.5_to_Joomla_3.0)?
+* What's [new in Joomla 3.x](http://www.joomla.org/3)
+* What are the [main differences from 2.5 to 3.x](http://docs.joomla.org/Differences_from_Joomla_2.5_to_Joomla_3.0)?
+* How to [migrate from 2.5.x to 3.x](http://docs.joomla.org/Migrating_from_Joomla_2.5_to_Joomla_3.0)?
 * What are the [main differences from 1.5 to 2.5](http://docs.joomla.org/Differences_from_Joomla_1.5_to_Joomla_2.5)?
-* How to [migrate from 1.5.x to 3.0.x](http://docs.joomla.org/Migrating_from_Joomla_1.5_to_Joomla_3.0)?
+* How to [migrate from 1.5.x to 3.x](http://docs.joomla.org/Migrating_from_Joomla_1.5_to_Joomla_3.0)?
 * [Convert an existing Web site to Joomla](http://docs.joomla.org/How_to_Convert_an_existing_Web_site_to_a_Joomla!_Web_site)
 
 Do you want to improve Joomla?
@@ -81,6 +81,6 @@ Do you want to improve Joomla?
 Copyright:
 ---------------------
 * Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.
-* [Credits](http://docs.joomla.org/Joomla_3.0_Credits)
+* [Credits](http://docs.joomla.org/Joomla_3_Credits)
 * Distributed under the GNU General Public License version 2 or later
 * See [Licenses details](http://docs.joomla.org/Joomla_Licenses)

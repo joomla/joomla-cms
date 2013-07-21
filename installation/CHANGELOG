@@ -28,6 +28,7 @@ $ -> Language fix or change
 21-Jul-2013 Mark Dexter
  ^ [#31319] registration option disabled by default is safer. Thanks Brian Teeman.
  + [#31205] Automatically set $db and $app properties on plugins. Thanks Don Gilbert.
+ # [#30677] Need to update the readme files. Thanks David Hurley.
 
 21-Jul-2013 Michael Babker
  # [#31401] Fixed issue with $query object being overwritten by string.  Thanks Peter van Westen
