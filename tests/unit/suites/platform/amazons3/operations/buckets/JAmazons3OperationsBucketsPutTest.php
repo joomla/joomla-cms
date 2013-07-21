@@ -149,8 +149,8 @@ class JAmazons3OperationsBucketsPutTest extends PHPUnit_Framework_TestCase
 		$headers = array(
 			"Date" => date("D, d M Y H:i:s O"),
 			"x-amz-grant-read" => "emailAddress=\"xyz@amazon.com\", emailAddress=\"abc@amazon.com\"",
-			"x-amz-grant-full-control" => "6e887773574284f7e38cacbac9e1455ecce62f79929260e9b68db3b84720ed96",
-			"x-amz-grant-write-acp" => "http://acs.amazonaws.com/groups/global/AuthenticatedUsers",
+			"x-amz-grant-full-control" => "id=\"6e887773574284f7e38cacbac9e1455ecce62f79929260e9b68db3b84720ed96\"",
+			"x-amz-grant-write-acp" => "uri=\"http://acs.amazonaws.com/groups/global/AuthenticatedUsers\"",
 		);
 		$authorization = $this->object->createAuthorization("PUT", $url, $headers);
 		$headers["Authorization"] = $authorization;
@@ -172,8 +172,8 @@ class JAmazons3OperationsBucketsPutTest extends PHPUnit_Framework_TestCase
 				"",
 				array(
 					"read" => "emailAddress=\"xyz@amazon.com\", emailAddress=\"abc@amazon.com\"",
-					"full-control" => "6e887773574284f7e38cacbac9e1455ecce62f79929260e9b68db3b84720ed96",
-					"write-acp" => "http://acs.amazonaws.com/groups/global/AuthenticatedUsers",
+					"full-control" => "id=\"6e887773574284f7e38cacbac9e1455ecce62f79929260e9b68db3b84720ed96\"",
+					"write-acp" => "uri=\"http://acs.amazonaws.com/groups/global/AuthenticatedUsers\"",
 				)
 			),
 			$this->equalTo($expectedResult)
