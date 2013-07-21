@@ -158,6 +158,60 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 		$this->assertEquals('unpublished', $state, 'State should be unpublished');
 		$this->articleManagerPage->trashAndDelete('ABC_Test');
 	}
+	
+	/*
+	 * @test
+	 */
+	public function testEditArticleModal_FrontEndTest()
+	{
+		$cfg = new SeleniumConfig();
+		$this->driver->get($cfg->host.$cfg->path);
+		$this->doFrontEndLogin();
+		$d = $this->driver;
+		$this->driver->waitForElementUntilIsPresent(By::xPath("//a[contains(text(),'Home')]"),10);				
+		$d->findElement(By::xPath("//a/span[contains(@class, 'icon-cog')]"))->click();
+		$d->waitForElementUntilIsPresent(By::xPath("//a/span[contains(@class, 'icon-edit')]"),10);
+		$d->findElement(By::xPath("//a/span[contains(@class, 'icon-edit')]"))->click();
+		$d->waitForElementUntilIsPresent(By::xPath("//table[@id='jform_articletext_tbl']"),10);
+		
+		//Article Link Modal Window Testing the Search functionality
+		$d->findElement(By::xPath("//a[contains(text(),'Article')]"))->click();
+		$el = $d->waitForElementUntilIsPresent(By::xPath("//iframe[contains(@src, '&view=articles&layout=modal')]"),10);
+		$el = $d->switchTo()->getFrameByWebElement($el);
+		$el->waitForElementUntilIsPresent(By::xPath("//input[@id='filter_search']"),10);
+		$el->findElement(By::xPath("//input[@id='filter_search']"))->sendKeys('Archive Module');
+		$el->findElement(By::xPath("//a[contains(text(),'Archive Module')]"))->click();
+		$d->switchTo()->getDefaultFrame();
+		$d->waitForElementUntilIsPresent(By::xPath("//table[@id='jform_articletext_tbl']"),10);		
+		$el = $d->waitForElementUntilIsPresent(By::xPath("//iframe[contains(@id, 'jform_articletext_ifr')]"),10);
+		$el = $d->switchTo()->getFrameByWebElement($el);	
+		$arrayElement=$el->findElements(By::xPath("//a[contains(text(), 'Archive Module')]"));
+		$this->assertTrue(count($arrayElement)>0,'The link Must have appeared in the Editor');
+		$d->switchTo()->getDefaultFrame();
+				
+		//Open the Article Link Modal and Close it using the Close button
+		$d->findElement(By::xPath("//a[contains(text(),'Article')]"))->click();
+		$el = $d->waitForElementUntilIsPresent(By::xPath("//iframe[contains(@src, '&view=articles&layout=modal')]"),10);
+		$el = $d->switchTo()->getFrameByWebElement($el);	
+		$el->waitForElementUntilIsPresent(By::xPath("//input[@id='filter_search']"),10);
+		$d->switchTo()->getDefaultFrame();			
+		$d->findElement(By::xPath("//a[@id='sbox-btn-close']"))->click();
+		$d->waitForElementUntilIsPresent(By::xPath("//table[@id='jform_articletext_tbl']"),10);		
+		
+		//Open the Image Modal Window and CLose it using the Close Button
+		$d->findElement(By::xPath("//a[contains(text(),'Image')]"))->click();		
+		$el = $d->waitForElementUntilIsPresent(By::xPath("//iframe[contains(@src, '&view=images')]"),10);
+		$el = $d->switchTo()->getFrameByWebElement($el);	
+		$el->waitForElementUntilIsPresent(By::xPath("//button[contains(text(),'Insert')]"),10);
+		$d->switchTo()->getDefaultFrame();			
+		$d->findElement(By::xPath("//a[@id='sbox-btn-close']"))->click();
+		$d->waitForElementUntilIsPresent(By::xPath("//table[@id='jform_articletext_tbl']"),10);		
+		$arrayElement=$this->driver->findElements(By::xPath("//table[@id='jform_articletext_tbl']"));
+		$this->assertTrue(count($arrayElement)>0,'We must be still editing the article');
+		$d->findElement(By::xPath("//button[contains(@onclick,'article.cancel')]"))->click();
+		$this->driver->waitForElementUntilIsPresent(By::xPath("//a[contains(text(),'Home')]"),10);				
+		$this->doFrontEndLogout();
+	}
 
 
 }
