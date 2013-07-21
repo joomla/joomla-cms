@@ -119,6 +119,7 @@ interface JObserverUpdaterInterface
 	 * @param   JObservableInterface  $observable  The observable subject object
 	 */
 	public function __construct(JObservableInterface $observable);
+
 	/**
 	 * Adds an observer to the JObservableInterface instance updated by this
 	 * This method can be called fron JObservableInterface::attachObserver
