@@ -39,11 +39,7 @@ class JAmazons3OperationsBucketsPut extends JAmazons3OperationsBuckets
 			$content = "<CreateBucketConfiguration xmlns=\"http://s3.amazonaws.com/doc/2006-03-01/\">"
 				. "<LocationConstraint>" . $bucketRegion . "</LocationConstraint>"
 				. "</CreateBucketConfiguration>";
-		}
 
-		// Create the headers
-		if ($bucketRegion != "")
-		{
 			$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
 			$headers["Content-Length"] = strlen($content);
 		}
