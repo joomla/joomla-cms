@@ -698,6 +698,9 @@ class JTableNested extends JTable
 	{
 		$k = $this->_tbl_key;
 
+		// Implement JObservableInterface: Pre-processing by observers
+		$this->_observers->update('onBeforeStore', array($updateNulls, $k));
+
 		// @codeCoverageIgnoreStart
 		if ($this->_debug)
 		{
@@ -819,23 +822,32 @@ class JTableNested extends JTable
 		}
 
 		// Store the row to the database.
-		if (!parent::store($updateNulls))
-		{
-			$this->_unlock();
-			return false;
-		}
 
-		// @codeCoverageIgnoreStart
-		if ($this->_debug)
-		{
-			$this->_logtable();
-		}
-		// @codeCoverageIgnoreEnd
+		// Implement JObservableInterface: We do not want parent::store to update observers,
+		// since tables are locked and we are updating it from this level of store():
+		$oldCallObservers = $this->_observers->doCallObservers(false);
 
+		$result = parent::store($updateNulls);
+
+		// Implement JObservableInterface: Restore previous callable observers state:
+		$this->_observers->doCallObservers($oldCallObservers);
+
+		if ($result)
+		{
+			// @codeCoverageIgnoreStart
+			if ($this->_debug)
+			{
+				$this->_logtable();
+			}
+			// @codeCoverageIgnoreEnd
+		}
 		// Unlock the table for writing.
 		$this->_unlock();
 
-		return true;
+		// Implement JObservableInterface: Post-processing by observers
+		$this->_observers->update('onAfterStore', array(&$result));
+
+		return $result;
 	}
 
 	/**
@@ -854,6 +866,7 @@ class JTableNested extends JTable
 	 *
 	 * @link    http://docs.joomla.org/JTableNested/publish
 	 * @since   11.1
+	 * @throws UnexpectedValueException
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
