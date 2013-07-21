@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Jul-2013 Mark Dexter
+ ^ [#31319] registration option disabled by default is safer. Thanks Brian Teeman.
+
 21-Jul-2013 Michael Babker
  # [#31401] Fixed issue with $query object being overwritten by string.  Thanks Peter van Westen
 
