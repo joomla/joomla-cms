@@ -27,6 +27,9 @@ $ -> Language fix or change
 
 ; Below is merged into v3.1.2
 
+21-Jul-2013 Michael Babker
+ # [#31401] Fixed issue with $query object being overwritten by string.  Thanks Peter van Westen
+
 21-Jul-2013 Jean-Marie Simonet
  + [#31349] Display Error Message when Magic Quotes is Enabled. Thanks Brian Teeman
  #+ [#31488] Add Observer pattern to JTable (and use it for Tags implementation (which also fixes [#31339] too). Thanks Beat.
