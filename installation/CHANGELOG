@@ -31,6 +31,7 @@ $ -> Language fix or change
  ^ [#31319] registration option disabled by default is safer. Thanks Brian Teeman.
  + [#31205] Automatically set $db and $app properties on plugins. Thanks Don Gilbert.
  # [#30677] Need to update the readme files. Thanks David Hurley.
+ # [#31428] 3.1.2 backend menus don't react like previous version. Thanks Jérôme Glatigny.
 
 21-Jul-2013 Michael Babker
  # [#31401] Fixed issue with $query object being overwritten by string.  Thanks Peter van Westen
