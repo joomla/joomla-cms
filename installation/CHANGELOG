@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 21-Jul-2013 Jean-Marie Simonet
  + [#31349] Display Error Message when Magic Quotes is Enabled. Thanks Brian Teeman
+ #+ [#31488] Add Observer pattern to JTable (and use it for Tags implementation (which also fixes [#31339] too). Thanks Beat.
 
 20-Jul-2013 Jean-Marie Simonet
  # [#31496] DEBUG_BACKTRACE_IGNORE_ARGS not supported in PHP 5.3.1-5.3.5. Thanks Beat
