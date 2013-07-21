@@ -154,7 +154,6 @@ class JAmazons3OperationsBucketsPutTest extends PHPUnit_Framework_TestCase
 		);
 		$authorization = $this->object->createAuthorization("PUT", $url, $headers);
 		$headers["Authorization"] = $authorization;
-		unset($headers["Content-type"]);
 
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
@@ -170,6 +169,83 @@ class JAmazons3OperationsBucketsPutTest extends PHPUnit_Framework_TestCase
 			$this->object->put->putBucket(
 				$this->options->get("testBucket"),
 				"",
+				array(
+					"read" => "emailAddress=\"xyz@amazon.com\", emailAddress=\"abc@amazon.com\"",
+					"full-control" => "id=\"6e887773574284f7e38cacbac9e1455ecce62f79929260e9b68db3b84720ed96\"",
+					"write-acp" => "uri=\"http://acs.amazonaws.com/groups/global/AuthenticatedUsers\"",
+				)
+			),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the putBucketAcl method with canned ACL permissions
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testPutBucketAclCanned()
+	{
+		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url") . "/?acl";
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+			"x-amz-acl" => "public-read",
+		);
+		$authorization = $this->object->createAuthorization("PUT", $url, $headers);
+		$headers["Authorization"] = $authorization;
+		unset($headers["Content-type"]);
+
+		$returnData = new JHttpResponse;
+		$returnData->code = 200;
+		$returnData->body = "The bucket exists and you have permission to access it.\n";
+		$expectedResult = $returnData->body;
+
+		$this->client->expects($this->once())
+			->method('put')
+			->with($url, "", $headers)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->put->putBucketAcl($this->options->get("testBucket"), array("acl" => "public-read")),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the putBucketAcl method with explicitly specified ACL permissions
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testPutBucketAclExplicit()
+	{
+		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url") . "/?acl";
+
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+			"x-amz-grant-read" => "emailAddress=\"xyz@amazon.com\", emailAddress=\"abc@amazon.com\"",
+			"x-amz-grant-full-control" => "id=\"6e887773574284f7e38cacbac9e1455ecce62f79929260e9b68db3b84720ed96\"",
+			"x-amz-grant-write-acp" => "uri=\"http://acs.amazonaws.com/groups/global/AuthenticatedUsers\"",
+		);
+		$authorization = $this->object->createAuthorization("PUT", $url, $headers);
+		$headers["Authorization"] = $authorization;
+
+		$returnData = new JHttpResponse;
+		$returnData->code = 200;
+		$returnData->body = "The bucket exists and you have permission to access it.\n";
+		$expectedResult = $returnData->body;
+
+		$this->client->expects($this->once())
+			->method('put')
+			->with($url, "", $headers)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->put->putBucketAcl(
+				$this->options->get("testBucket"),
 				array(
 					"read" => "emailAddress=\"xyz@amazon.com\", emailAddress=\"abc@amazon.com\"",
 					"full-control" => "id=\"6e887773574284f7e38cacbac9e1455ecce62f79929260e9b68db3b84720ed96\"",
