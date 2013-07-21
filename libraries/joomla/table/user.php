@@ -334,7 +334,7 @@ class JTableUser extends JTable
 			$query->clear()
 			->delete($this->_db->quoteName('#__user_keys'))
 			->where($this->_db->quoteName('user_id') . ' = ' .  $this->_db->quote($this->username));
-			$this->_db->setQuery($query);echo $query->dump();
+			$this->_db->setQuery($query);
 			$this->_db->execute();
 			$query->clear();
 		}
