@@ -36,28 +36,28 @@ class PlgSystemRemember extends JPlugin
 	protected $db;
 
 	/**
-	 * @var    Domain for the cookie;
+	 * @var  string  Domain for the cookie;
 	 *
 	 * @since  3.1.2
 	 */
 	protected $cookie_domain;
 
 	/**
-	 * @var    Path for the cookie.
+	 * @var  string  Path for the cookie.
 	 *
 	 * @since  3.1.2
 	 */
 	protected $cookie_path;
 
 	/**
-	 * @var    Whether to set as secure or not.
+	 * @var  boolean  Whether to set as secure or not.
 	 *
 	 * @since  3.1.2
 	 */
 	protected $secure;
 
 	/**
-	 * @var    Cookie lifetime.
+	 * @var  time  Cookie lifetime in days.
 	 *
 	 * @since  3.1.2
 	 */
@@ -97,7 +97,7 @@ class PlgSystemRemember extends JPlugin
 		// No remember me for admin
 		if ($this->app->isAdmin())
 		{
-			return;
+			return false;
 		}
 
 		$user = JFactory::getUser();
