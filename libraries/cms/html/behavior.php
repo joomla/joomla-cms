@@ -145,18 +145,18 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include MooTools framework
-		static::framework();
-
-		JHtml::_('script', 'system/switcher.js', true, true);
+		// Include jQuery
+		JHtml::_('jquery.framework');
+		
+		JHtml::_('script', 'system/switcher-jquery-uncompressed.js', true, true);
 
 		$script = "
 			document.switcher = null;
-			window.addEvent('domready', function(){
-				toggler = document.id('submenu');
-				element = document.id('config-document');
+			jQuery(function($){
+				var toggler = document.getElementById('submenu');
+				var element = document.getElementById('config-document');
 				if (element) {
-					document.switcher = new JSwitcher(toggler, element, {cookieName: toggler.getProperty('class')});
+					document.switcher = new JSwitcher(toggler, element);
 				}
 			});";
 
