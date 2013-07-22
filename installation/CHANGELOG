@@ -26,6 +26,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 2.5.12 Stable Release 23-July-2013] ------------------
+
 21-Jul-2013 Mark Dexter
  ^ [#31319] registration option disabled by default is safer. Thanks Brian Teeman.
 

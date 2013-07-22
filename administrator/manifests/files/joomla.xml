@@ -7,7 +7,7 @@
 	<copyright>(C) 2005 - 2013 Open Source Matters. All rights reserved</copyright>
 	<license>GNU General Public License version 2 or later; see     LICENSE.txt</license>
 	<version>2.5.12</version>
-	<creationDate>June 2013</creationDate>
+	<creationDate>July 2013</creationDate>
 	<description>FILES_JOOMLA_XML_DESCRIPTION</description>
 
 	<scriptfile>administrator/components/com_admin/script.php</scriptfile>
