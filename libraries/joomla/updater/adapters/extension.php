@@ -94,7 +94,7 @@ class JUpdaterExtension extends JUpdateAdapter
 				// Check that the product matches and that the version matches (optionally a regexp)
 				// Check for optional min_dev_level and max_dev_level attributes to further specify targetplatform (e.g., 3.0.1)
 				if ($product == $this->current_update->targetplatform['NAME']
-					&& preg_match('/' . $this->currentUpdate->targetplatform->version . '/', $ver->RELEASE)
+					&& preg_match('/' . $this->current_update->targetplatform['VERSION'] . '/', $ver->RELEASE)
 					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) || $ver->DEV_LEVEL >= $this->currentUpdate->targetplatform->min_dev_level)
 					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || $ver->DEV_LEVEL <= $this->currentUpdate->targetplatform->max_dev_level))
 				{
