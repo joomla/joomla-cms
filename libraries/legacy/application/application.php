@@ -654,10 +654,6 @@ class JApplication extends JApplicationBase
 
 			// Import the user plugin group.
 			JPluginHelper::importPlugin('user');
-			if (JPluginHelper::isEnabled('system', 'remember'))
-			{
-				JPluginHelper::importPlugin('system', 'remember');
-			}
 
 			// OK, the credentials are authenticated and user is authorised.  Let's fire the onLogin event.
 			$results = $this->triggerEvent('onUserLogin', array((array) $response, $options));
@@ -669,28 +665,27 @@ class JApplication extends JApplicationBase
 			 * Any errors raised should be done in the plugin as this provides the ability
 			 * to provide much more information about why the routine may have failed.
 			 */
+			$user = JFactory::getUser();
 
-			if ($response->type == 'Remember')
+		/*	if ($response->type == 'Cookie')
 			{
-				$user = JFactory::getUser()->set('rememberLogin', true);
-			}
+				$user->set('cookieLogin', true);
+			}*/
 
 			if (in_array(false, $results, true) == false)
 			{
-				// Set the remember me cookie if enabled.
-				if ((isset($options['remember']) &&  $options['remember'] === true) || $response->type == 'Remember' )
-				{
+				$options['user'] = $user;
+				$options['responseType'] = $response->type;
+				$options['length'] = !empty($credentials['length']) ? $credentials['length'] : null;
+				$options['secure'] = !empty($credentials['secure']) ? $credentials['secure']: null;
+				$options['lifetime'] = !empty($credentials['lifetime']) ? $credentials['lifetime']: null;
 
-					$options['responseType'] = $response->type;
+				// The user is successfully logged in. Run the after login events
+				$this->triggerEvent('onUserAfterLogin', array($options));
 
-					// The user is successfully logged in. Set a remember me cookie if requested.
-					$this->triggerEvent('onUserAfterLogin', array($options));
-
-					return true;
-				}
-
-				return true;
 			}
+
+			return true;
 		}
 
 		// Trigger onUserLoginFailure Event.

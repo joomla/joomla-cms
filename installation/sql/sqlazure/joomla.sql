@@ -2707,6 +2707,28 @@ CREATE TABLE [#__updates](
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 ) ON [PRIMARY];
 
+/****** Object:  Table [#__user_keyss] ******/
+CREATE TABLE [#__user_keys] (
+  [id] [bigint] IDENTITY(1,1) NOT NULL,,
+  [user_id] [varchar](255) NOT NULL,
+  [token] [varchar](255) NOT NULL,
+  [series] [varchar](255) NOT NULL,
+  [invalid] [tinyint](4) NOT NULL,
+  [time] [varchar](200) NOT NULL,
+  [uastring] [varchar](255) NOT NULL,
+ CONSTRAINT [PK_#__id] PRIMARY KEY CLUSTERED
+(
+	[id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+) ON [PRIMARY];
+CREATE NONCLUSTERED INDEX [idx_id] ON [#__user_keys]
+(
+ [id] ASC
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+CREATE UNIQUE NONCLUSTERED INDEX [idx_series] ON [#__user_keys]
+(
+ [series] ASC
+)WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
 
 /****** Object:  Table [#__user_notes] ******/
 SET QUOTED_IDENTIFIER ON;

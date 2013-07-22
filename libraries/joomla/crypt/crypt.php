@@ -260,7 +260,7 @@ class JCrypt
 		return substr($randomStr, 0, $length);
 	}
 
-	/** 
+	/**
 	 * A timing safe comparison method. This defeats hacking
 	 * attempts that use timing based attack vectors.
 	 *
@@ -300,6 +300,7 @@ class JCrypt
 	 * @return  boolean  True if updated crypt() is available.
 	 *
 	 * @since   3.1.2
+	 * @note  To be removed when PHP 5.3.7 or higher is the minimum supported version.
 	 */
 	public static function hasStrongPasswordSupport()
 	{

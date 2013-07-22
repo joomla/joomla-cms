@@ -52,7 +52,7 @@ class JCryptPasswordSimple implements JCryptPassword
 		{
 			case '$2a$':
 			case JCryptPassword::BLOWFISH:
-				if (version_compare(PHP_VERSION, '5.3.7') >= 0)
+				if (static::hasStrongPasswordSupport())
 				{
 					$type = '$2y$';
 				}
@@ -130,7 +130,7 @@ class JCryptPasswordSimple implements JCryptPassword
 		// Check if the hash is a blowfish hash.
 		if (substr($hash, 0, 4) == '$2a$' || substr($hash, 0, 4) == '$2y$')
 		{
-			if (version_compare(PHP_VERSION, '5.3.7') >= 0)
+			if (static::hasStrongPasswordSupport())
 			{
 				$type = '$2y$';
 			}
@@ -187,4 +187,45 @@ class JCryptPasswordSimple implements JCryptPassword
 	{
 		return $this->defaultType;
 	}
+
+	/**
+	 * Tests for the availability of updated crypt().
+	 * Based on a method by Anthony Ferrera
+	 * https://github.com/ircmaxell/password_compat/blob/master/version-test.php
+	 *
+	 * @return  boolean  True if updated crypt() is available.
+	 *
+	 * @since   3.1.3
+	 * @note  To be removed when PHP 5.3.7 or higher is the minimum supported version.
+	 */
+	public static function hasStrongPasswordSupport()
+	{
+		static $pass = null;
+
+		if (is_null($pass))
+		{
+			// Check to see whether crypt() is supported.
+			if (version_compare(PHP_VERSION, '5.3.6', '>'))
+			{
+				// We have safe PHP version.
+				$pass = true;
+			}
+			else
+			{
+				// We need to test if we have patched PHP version.
+				$hash = '$2y$04$usesomesillystringfore7hnbRJHxXVLeakoG8K30oukPsA.ztMG';
+				$test = crypt("password", $hash);
+				$pass = ($test == $hash);
+			}
+
+			if ($pass && !defined('PASSWORD_DEFAULT'))
+			{
+				// Always make sure that the password hashing API has been defined.
+				include_once JPATH_ROOT . '/libraries/compat/password/lib/password.php';
+			}
+		}
+
+		return $pass;
+	}
+
 }

@@ -621,4 +621,95 @@ abstract class JUserHelper
 		}
 		return $bin;
 	}
+	/**
+	 * Method to remove a cookie record from the database and the browser
+	 *
+	 * @param   string   $userId      User ID for this user
+	 * @param   string   $cookieName  Series id (cookie name decoded)
+	 *
+	 * @return  boolean  True on success
+	 * @since   3.1.2
+	 * @see JInput::setCookie for more details
+	 */
+	public static function invalidateCookie($userId, $cookieName)
+	{
+		$this->db = JFactory::getDbo();
+		// Invalidate cookie in the database
+		$query = $this->db->getQuery(true);
+
+		$query
+			->update($this->db->quoteName('#__user_keys'))
+			->set($this->db->quoteName('invalid') . ' = 1')
+			->where($this->db->quotename('user_id') . ' = ' . $this->db->quote($userId));
+
+		$this->db->setQuery($query)->execute();
+
+		// Destroy the cookie in the browser.
+		$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->cookie_path, $this->cookie_domain, $this->secure, true);
+
+		return true;
+	}
+
+	/**
+	 * Clear all expired tokens for all users.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1.2
+	 */
+	public static function clearExpiredTokens()
+	{
+		$now = time();
+
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+		->delete('#__user_keys')
+		->where($db->quoteName('time') . ' < ' . $db->quote($now));
+
+		return $db->setQuery($query)->execute();
+	}
+	/*
+	 * Method to get the remember me cookie data
+	*
+	* @return  mixed  An array of information from the remember me cookie or false if there is no cookie
+	*
+	* @since   3.1.2
+	*/
+	public static function getRememberCookieData()
+	{
+		// Create the cookie name
+		$cookieName = static::getShortHashedUserAgent();
+
+		// Fetch the cookie value
+		$app = JFactory::getApplication();
+		$cookieValue = $app->input->cookie->get($cookieName);
+
+		if (!empty($cookieValue))
+		{
+			return explode('.', $cookieValue);
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/*
+	 * Method to get a hashed user agent string that does not include browser version.
+	* Used when frequent version changes cause problems.
+	*
+	* @return  string  A hashed user agent string with version replaced by 'abcd'
+	*
+	* @since   3.1.2
+	*/
+	public static function getShortHashedUserAgent()
+	{
+		$ua = new JApplicationWebClient;
+		$uaString = $ua->userAgent;
+		$browserVersion = $ua->browserVersion;
+		$uaShort = str_replace($browserVersion, 'abcd', $uaString);
+
+		return md5(JUri::base() . $uaShort);
+	}
+
 }

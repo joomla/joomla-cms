@@ -49,12 +49,15 @@ class PlgAuthenticationJoomla extends JPlugin
 			->from('#__users')
 			->where('username=' . $db->quote($credentials['username']));
 
-		$db->setQuery($query);
-		$result = $db->loadObject();
+		$result = $db->setQuery($query)->loadObject();
 
 		if (!empty($result))
 		{
-			if (substr($result->password,0,4) == '$2y$')
+			/*
+			 * Longer term this should use JCrypt for this.
+			 * Currently we only support BCrypt and older Joomla style hashing. For 5.5 move to PASSWORD_DAFAULT
+			 */
+			if (substr($result->password, 0, 4) == '$2y$')
 			{
 				// BCrypt passwords are always 60 characters, but it is possible that salt is appended although non standard.
 				$password60 = substr($result->password, 0, 60);

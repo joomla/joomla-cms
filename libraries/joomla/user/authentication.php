@@ -257,19 +257,8 @@ class JAuthentication extends JObject
 		// Get plugins
 		$plugins = JPluginHelper::getPlugin('authentication');
 
-		$ua = new JApplicationWebClient;
-		$uaString = $ua->userAgent;
-		$browserVersion = $ua->browserVersion;
-		$uaShort = str_replace($browserVersion, 'abcd', $uaString);
-
-		$cookieName = md5(Juri::Root() . $uaShort);
-
-		$inputCookie = new JInputCookie();
-
-		if (JpluginHelper::isEnabled('system', 'remember') && $inputCookie->get($cookieName))
-		{
-			$plugins[] = JPluginHelper::getPlugin('system', 'remember');
-		}
+		// Check for an authentication cookie.
+		$cookieName = JUserHelper::getShortHashedUserAgent();
 
 		// Create authentication response
 		$response = new JAuthenticationResponse;
@@ -297,7 +286,7 @@ class JAuthentication extends JObject
 
 			// Try to authenticate
 			$plugin->onUserAuthenticate($credentials, $options, $response);
-
+var_dump($plugin);
 			// If authentication is successful break out of the loop
 			if ($response->status === self::STATUS_SUCCESS)
 			{
@@ -341,11 +330,6 @@ class JAuthentication extends JObject
 	{
 		// Get plugins in case they haven't been imported already
 		JPluginHelper::importPlugin('user');
-
-		if (JPluginHelper::isEnabled('system','remember'))
-		{
-			JPluginHelper::importPlugin('system','remember');
-		}
 
 		JPluginHelper::importPlugin('authentication');
 		$dispatcher = JEventDispatcher::getInstance();
