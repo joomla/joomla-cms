@@ -25,6 +25,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 3.1.2 Stable Release [23-Jul-2013] ------------------
+
 21-Jul-2013 Mark Dexter
  ^ [#31319] registration option disabled by default is safer. Thanks Brian Teeman.
  + [#31205] Automatically set $db and $app properties on plugins. Thanks Don Gilbert.
