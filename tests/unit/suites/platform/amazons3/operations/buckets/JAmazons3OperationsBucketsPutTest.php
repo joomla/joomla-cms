@@ -86,7 +86,7 @@ class JAmazons3OperationsBucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
-		$returnData->body = "The bucket exists and you have permission to access it.\n";
+		$returnData->body = "The request was successful.\n";
 		$expectedResult = $returnData->body;
 
 		$this->client->expects($this->once())
@@ -120,7 +120,7 @@ class JAmazons3OperationsBucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
-		$returnData->body = "The bucket exists and you have permission to access it.\n";
+		$returnData->body = "The request was successful.\n";
 		$expectedResult = $returnData->body;
 
 		$this->client->expects($this->once())
@@ -157,7 +157,7 @@ class JAmazons3OperationsBucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
-		$returnData->body = "The bucket exists and you have permission to access it.\n";
+		$returnData->body = "The request was successful.\n";
 		$expectedResult = $returnData->body;
 
 		$this->client->expects($this->once())
@@ -199,7 +199,7 @@ class JAmazons3OperationsBucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
-		$returnData->body = "The bucket exists and you have permission to access it.\n";
+		$returnData->body = "The request was successful.\n";
 		$expectedResult = $returnData->body;
 
 		$this->client->expects($this->once())
@@ -235,7 +235,7 @@ class JAmazons3OperationsBucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
-		$returnData->body = "The bucket exists and you have permission to access it.\n";
+		$returnData->body = "The request was successful.\n";
 		$expectedResult = $returnData->body;
 
 		$this->client->expects($this->once())
