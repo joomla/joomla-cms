@@ -242,6 +242,14 @@ abstract class JFormField
 	protected $value;
 
 	/**
+	 * The class of the form field
+	 *
+	 * @var    mixed
+	 * @since  11.1
+	 */
+	protected $class;
+
+	/**
 	 * The label's CSS class of the form field
 	 *
 	 * @var    mixed
@@ -321,6 +329,7 @@ abstract class JFormField
 			case 'type':
 			case 'validate':
 			case 'value':
+			case 'class':
 			case 'labelClass':
 			case 'fieldname':
 			case 'group':
