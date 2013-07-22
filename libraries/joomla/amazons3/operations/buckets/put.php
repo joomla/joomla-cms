@@ -127,4 +127,77 @@ class JAmazons3OperationsBucketsPut extends JAmazons3OperationsBuckets
 
 		return $response_body;
 	}
+
+	/**
+	 * Creates the request for setting the CORS configuration for your bucket
+	 *
+	 * @param   string  $bucket  The bucket name
+	 * @param   string  $rules   An array containing the CORS rules
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function putBucketCors($bucket, $rules = null)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?cors";
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+		);
+		$content = "";
+
+		// Check for CORS rules
+		if (is_array($rules))
+		{
+			$content = "<CORSConfiguration>\n";
+
+			// $rules is an array of rules (which in turn are arrays of rule properties)
+			foreach ($rules as $rule)
+			{
+				$content .= "<CORSRule>\n";
+
+				// Parse the rule properties
+				foreach ($rule as $rulePropertyKey => $rulePropertyValue)
+				{
+					if (is_array($rulePropertyValue))
+					{
+						// Create a new XML node for each property value
+						foreach ($rulePropertyValue as $currentValue)
+						{
+							$content .= "<" . $rulePropertyKey . ">"
+								. $currentValue
+								. "</" . $rulePropertyKey . ">" . "\n";
+						}
+					}
+					else
+					{
+						$content .= "<" . $rulePropertyKey . ">"
+							. $rulePropertyValue
+							. "</" . $rulePropertyKey . ">" . "\n";
+					}
+				}
+
+				$content .= "</CORSRule>\n";
+			}
+
+			$content .= "</CORSConfiguration>\n";
+
+			// Set the content related headers
+			$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
+			$headers["Content-Length"] = strlen($content);
+			$headers["Content-MD5"] = base64_encode(md5($content, true));
+		}
+
+		$authorization = $this->createAuthorization("PUT", $url, $headers);
+		$headers["Authorization"] = $authorization;
+		unset($headers["Content-type"]);
+
+		// Send the http request
+		$response = $this->client->put($url, $content, $headers);
+
+		// Process the response
+		$response_body = $this->processResponse($response);
+
+		return $response_body;
+	}
 }
