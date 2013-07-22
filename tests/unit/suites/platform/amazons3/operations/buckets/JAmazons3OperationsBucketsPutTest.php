@@ -85,6 +85,24 @@ class JAmazons3OperationsBucketsPutTest extends PHPUnit_Framework_TestCase
 				),
 			)
 		);
+		$this->options->set(
+			'testPolicy',
+			array(
+				"Version" => "2008-10-17",
+				"Id" => "aaaa-bbbb-cccc-eeee",
+				"Statement" => array(
+					array(
+					"Effect" => "Allow",
+					"Sid" => "1",
+					"Principal" => array(
+						"CanonicalUser" => "6e887773574284f7e38cacbac9e1455ecce62f79929260e9b68db3b84720ed96"
+					),
+					"Action" => "s3:*",
+					"Resource" => "arn:aws:s3:::gsoc-test-2/*",
+					),
+				),
+			)
+		);
 
 		$this->client = $this->getMock('JAmazons3Http', array('delete', 'get', 'head', 'put'));
 
@@ -402,6 +420,51 @@ class JAmazons3OperationsBucketsPutTest extends PHPUnit_Framework_TestCase
 			$this->object->put->putBucketLifecycle(
 				$this->options->get("testBucket"),
 				$this->options->get("testLifecycle")
+			),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the putBucketPolicy method
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testPutBucketPolicy()
+	{
+		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url") . "/?policy";
+		$headers = array();
+
+		$content = '{"Version":"2008-10-17","Id":"aaaa-bbbb-cccc-eeee",'
+			. '"Statement":[{"Effect":"Allow","Sid":"1",'
+			. '"Principal":{"CanonicalUser":"6e887773574284f7e38cacbac9e1455ecce62f79929260e9b68db3b84720ed96"},'
+			. '"Action":"s3:*","Resource":"arn:aws:s3:::gsoc-test-2\/*"}]}';
+
+		$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
+		$headers["Content-Length"] = strlen($content);
+		$headers["Content-MD5"] = base64_encode(md5($content, true));
+
+		$headers["Date"] = date("D, d M Y H:i:s O");
+		$authorization = $this->object->createAuthorization("PUT", $url, $headers);
+		$headers["Authorization"] = $authorization;
+		unset($headers["Content-type"]);
+
+		$returnData = new JHttpResponse;
+		$returnData->code = 204;
+		$returnData->body = "The request was successful. Amazon S3 returned a 204 No Content response.\n";
+		$expectedResult = $returnData->body;
+
+		$this->client->expects($this->once())
+			->method('put')
+			->with($url, $content, $headers)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->put->putBucketPolicy(
+				$this->options->get("testBucket"),
+				$this->options->get("testPolicy")
 			),
 			$this->equalTo($expectedResult)
 		);
