@@ -45,7 +45,7 @@ class JFormFieldFile extends JFormField
 		// Initialize some field attributes.
 		$accept = $this->element['accept'] ? ' accept="' . (string) $this->element['accept'] . '"' : '';
 		$size = $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
-		$class = $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
+		$class = !empty($this->class) ? ' class="' . $this->class . '"' : '';
 		$disabled = $this->disabled ? ' disabled' : '';
 		$required = $this->required ? ' required aria-required="true"' : '';
 		$autofocus = $this->autofocus ? ' autofocus' : '';

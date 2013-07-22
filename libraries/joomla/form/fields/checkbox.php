@@ -41,7 +41,7 @@ class JFormFieldCheckbox extends JFormField
 	protected function getInput()
 	{
 		// Initialize some field attributes.
-		$class = $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
+		$class = !empty($this->class) ? ' class="' . $this->class . '"' : '';
 		$disabled = $this->disabled ? ' disabled' : '';
 		$value = $this->element['value'] ? (string) $this->element['value'] : '1';
 		$required = $this->required ? ' required aria-required="true"' : '';

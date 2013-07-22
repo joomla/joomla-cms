@@ -44,7 +44,7 @@ class JFormFieldEMail extends JFormField
 		// Initialize some field attributes.
 		$size = $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
 		$maxLength = $this->element['maxlength'] ? ' maxlength="' . (int) $this->element['maxlength'] . '"' : '';
-		$class = $this->element['class'] ? ' ' . (string) $this->element['class'] : '';
+		$class = !empty($this->class) ? ' class="' . $this->class . '"' : '';
 		$readonly = $this->readonly ? ' readonly' : '';
 		$disabled = $this->disabled ? ' disabled' : '';
 		$required = $this->required ? ' required aria-required="true"' : '';

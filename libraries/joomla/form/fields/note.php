@@ -46,7 +46,7 @@ class JFormFieldNote extends JFormField
 		$title = $this->element['label'] ? (string) $this->element['label'] : ($this->element['title'] ? (string) $this->element['title'] : '');
 		$heading = $this->element['heading'] ? (string) $this->element['heading'] : 'h4';
 		$description = (string) $this->element['description'];
-		$class = $this->element['class'] ? ' class="' . trim((string) $this->element['class']) . '"' : '';
+		$class = !empty($this->class) ? ' class="' . $this->class . '"' : '';
 		$close = (string) $this->element['close'];
 
 		$html = array();

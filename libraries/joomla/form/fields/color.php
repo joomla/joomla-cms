@@ -48,7 +48,7 @@ class JFormFieldColor extends JFormField
 		$position = ' data-position="' . $position . '"';
 
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
-		$class = (string) $this->element['class'];
+		$class = $this->class;
 		$autofocus = $this->autofocus ? ' autofocus' : '';
 
 		$color = strtolower($this->value);

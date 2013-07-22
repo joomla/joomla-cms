@@ -38,7 +38,7 @@ class JFormFieldHidden extends JFormField
 	protected function getInput()
 	{
 		// Initialize some field attributes.
-		$class = $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
+		$class = !empty($this->class) ? ' class="' . $this->class . '"' : '';
 		$disabled = $this->disabled ? ' disabled' : '';
 
 		// Initialize JavaScript field attributes.

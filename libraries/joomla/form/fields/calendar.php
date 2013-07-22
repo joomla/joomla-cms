@@ -59,7 +59,7 @@ class JFormFieldCalendar extends JFormField
 
 		if ($this->element['class'])
 		{
-			$attributes['class'] = (string) $this->element['class'];
+			$attributes['class'] = $this->class;
 		}
 
 		// Using the boolean attribute property which is the presence of attribute means it is true.

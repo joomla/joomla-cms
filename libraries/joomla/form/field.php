@@ -424,6 +424,7 @@ abstract class JFormField
 		$this->readonly = ($readonly == 'true' || $readonly == 'readonly' || $readonly == '1');
 		$this->validate = (string) $element['validate'];
 
+		$this->class = trim($class);
 		$this->inputmode = '';
 
 		$inputmode = explode(' ', $inputmode);

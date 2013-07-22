@@ -52,7 +52,7 @@ class JFormFieldSpacer extends JFormField
 	protected function getLabel()
 	{
 		$html = array();
-		$class = $this->element['class'] ? (string) $this->element['class'] : '';
+		$class = !empty($this->class) ? ' class="' . $this->class . '"' : '';
 
 		$html[] = '<span class="spacer">';
 		$html[] = '<span class="before"></span>';
