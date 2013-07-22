@@ -68,6 +68,23 @@ class JAmazons3OperationsBucketsPutTest extends PHPUnit_Framework_TestCase
 				)
 			)
 		);
+		$this->options->set(
+			'testLifecycle',
+			array(
+				array(
+					"ID" => "RuleUniqueId",
+					"Prefix" => "glacierobjects",
+					"Status"  => "Enabled",
+					"Transition" => array(
+						"Date" => "2013-12-31T00:00:00.000Z",
+						"StorageClass" => "GLACIER",
+					),
+					"Expiration" => array(
+						"Date" => "2022-10-12T00:00:00.000Z",
+					),
+				),
+			)
+		);
 
 		$this->client = $this->getMock('JAmazons3Http', array('delete', 'get', 'head', 'put'));
 
@@ -330,6 +347,61 @@ class JAmazons3OperationsBucketsPutTest extends PHPUnit_Framework_TestCase
 			$this->object->put->putBucketCors(
 				$this->options->get("testBucket"),
 				$this->options->get("testCORS")
+			),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the putBucketLifecycle method
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testPutBucketLifecycle()
+	{
+		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url") . "/?lifecycle";
+		$headers = array();
+
+		$content = "<LifecycleConfiguration>\n"
+			. "<Rule>\n"
+			. "<ID>" . "RuleUniqueId" . "</ID>\n"
+			. "<Prefix>" . "glacierobjects" . "</Prefix>\n"
+			. "<Status>" . "Enabled" . "</Status>\n"
+			. "<Transition>\n"
+			. "<Date>" . "2013-12-31T00:00:00.000Z" . "</Date>\n"
+			. "<StorageClass>" . "GLACIER" . "</StorageClass>\n"
+			. "</Transition>\n"
+			. "<Expiration>\n"
+			. "<Date>" . "2022-10-12T00:00:00.000Z" . "</Date>\n"
+			. "</Expiration>\n"
+			. "</Rule>\n"
+			. "</LifecycleConfiguration>\n";
+
+		$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
+		$headers["Content-Length"] = strlen($content);
+		$headers["Content-MD5"] = base64_encode(md5($content, true));
+
+		$headers["Date"] = date("D, d M Y H:i:s O");
+		$authorization = $this->object->createAuthorization("PUT", $url, $headers);
+		$headers["Authorization"] = $authorization;
+		unset($headers["Content-type"]);
+
+		$returnData = new JHttpResponse;
+		$returnData->code = 200;
+		$returnData->body = "The request was successful.\n";
+		$expectedResult = $returnData->body;
+
+		$this->client->expects($this->once())
+			->method('put')
+			->with($url, $content, $headers)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->put->putBucketLifecycle(
+				$this->options->get("testBucket"),
+				$this->options->get("testLifecycle")
 			),
 			$this->equalTo($expectedResult)
 		);
