@@ -674,14 +674,14 @@ class CategoriesModelCategory extends JModelAdmin
 				$table->reset();
 				$table->load($pk);
 				$tags = array($value);
-				//$typeAlias = $table->get('tagsHelper')->typeAlias;
-				$typeAlias = $table->extension . '.category';
-				$table->get('tagsHelper')->typeAlias = $typeAlias;
 
-				$oldTags = $table->get('tagsHelper')->getTagIds($pk, $typeAlias);
-				$table->get('tagsHelper')->oldTags = $oldTags;
+				/**
+				 * @var  JTableObserverTags  $tagsObserver
+				 */
+				$tagsObserver = $table->getObserverOfClass('JTableObserverTags');
+				$result = $tagsObserver->setNewTags($tags, false);
 
-				if (!$table->get('tagsHelper')->postStoreProcess($table, $tags, false))
+				if (!$result)
 				{
 					$this->setError($table->getError());
 
