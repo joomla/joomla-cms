@@ -29,6 +29,34 @@ class JFormFieldTextarea extends JFormField
 	protected $type = 'Textarea';
 
 	/**
+	 * The number of rows in textarea.
+	 *
+	 * @var    integer
+	 * @since  11.1
+	 */
+	protected $rows;
+
+	/**
+	 * Method to attach a JForm object to the field.
+	 *
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   mixed             $value    The form field value to validate.
+	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                      full field name would end up being "bar[foo]".
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @see 	JFormField::setup()
+	 * @since   11.1
+	 */
+	public function setup(SimpleXMLElement $element, $value, $group = null)
+	{
+		parent::setup($element, $value, $group);
+		$this->rows = $this->element['rows'] ? (int) $this->element['rows'] : false;
+	}
+
+	/**
 	 * Method to get the textarea field input markup.
 	 * Use the rows and columns attributes to specify the dimensions of the area.
 	 *
@@ -46,7 +74,7 @@ class JFormFieldTextarea extends JFormField
 		$disabled = $this->disabled ? ' disabled' : '';
 		$readonly = $this->readonly ? ' readonly' : '';
 		$columns = $this->element['cols'] ? ' cols="' . (int) $this->element['cols'] . '"' : '';
-		$rows = $this->element['rows'] ? ' rows="' . (int) $this->element['rows'] . '"' : '';
+		$rows = $this->rows ? ' rows="' . $this->rows . '"' : '';
 		$required = $this->required ? ' required aria-required="true"' : '';
 		$hint = $hint ? ' placeholder="' . $hint . '"' : '';
 		$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : '';
