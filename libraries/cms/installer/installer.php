@@ -1101,13 +1101,13 @@ class JInstaller extends JAdapter
 								}
 
 								// Process each query in the $queries array (split out of sql file).
-								foreach ($queries as $query)
+								foreach ($queries as $q)
 								{
-									$query = trim($query);
+									$q = trim($q);
 
-									if ($query != '' && $query{0} != '#')
+									if ($q != '' && $q{0} != '#')
 									{
-										$db->setQuery($query);
+										$db->setQuery($q);
 
 										if (!$db->execute())
 										{

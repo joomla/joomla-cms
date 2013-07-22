@@ -46,7 +46,7 @@
 		<field
 			name="useractivation"
 			type="list"
-			default="1"
+			default="2"
 			label="COM_USERS_CONFIG_FIELD_USERACTIVATION_LABEL"
 			description="COM_USERS_CONFIG_FIELD_USERACTIVATION_DESC">
 			<option
@@ -61,7 +61,7 @@
 			name="mail_to_admin"
 			type="radio"
 			class="btn-group"
-			default="0"
+			default="1"
 			label="COM_USERS_CONFIG_FIELD_MAILTOADMIN_LABEL"
 			description="COM_USERS_CONFIG_FIELD_MAILTOADMIN_DESC">
 			<option
