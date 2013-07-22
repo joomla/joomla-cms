@@ -49,6 +49,25 @@ class JAmazons3OperationsBucketsPutTest extends PHPUnit_Framework_TestCase
 		$this->options->set('api.url', 's3.amazonaws.com');
 		$this->options->set('testBucket', 'testBucket');
 		$this->options->set('testBucketRegion', 'testBucketRegion');
+		$this->options->set(
+			'testCORS',
+			array(
+				array(
+					"ID" => "RuleUniqueId",
+					"AllowedOrigin" => array("http://*.example1.com", "http://*.example2.com"),
+					"AllowedMethod" => array("PUT", "POST", "DELETE"),
+					"AllowedHeader" => "*",
+					"MaxAgeSeconds" => "3000",
+					"ExposeHeader"  => "x-amz-server-side-encryption",
+				),
+				array(
+					"AllowedOrigin" => "*",
+					"AllowedMethod" => "GET",
+					"AllowedHeader" => "*",
+					"MaxAgeSeconds" => "3000",
+				)
+			)
+		);
 
 		$this->client = $this->getMock('JAmazons3Http', array('delete', 'get', 'head', 'put'));
 
@@ -251,6 +270,66 @@ class JAmazons3OperationsBucketsPutTest extends PHPUnit_Framework_TestCase
 					"full-control" => "id=\"6e887773574284f7e38cacbac9e1455ecce62f79929260e9b68db3b84720ed96\"",
 					"write-acp" => "uri=\"http://acs.amazonaws.com/groups/global/AuthenticatedUsers\"",
 				)
+			),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the putBucketCors method
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testPutBucketCors()
+	{
+		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url") . "/?cors";
+		$headers = array();
+
+		$content = "<CORSConfiguration>\n"
+			. "<CORSRule>\n"
+			. "<ID>" . "RuleUniqueId" . "</ID>\n"
+			. "<AllowedOrigin>" . "http://*.example1.com" . "</AllowedOrigin>\n"
+			. "<AllowedOrigin>" . "http://*.example2.com" . "</AllowedOrigin>\n"
+			. "<AllowedMethod>" . "PUT" . "</AllowedMethod>\n"
+			. "<AllowedMethod>" . "POST" . "</AllowedMethod>\n"
+			. "<AllowedMethod>" . "DELETE" . "</AllowedMethod>\n"
+			. "<AllowedHeader>" . "*" . "</AllowedHeader>\n"
+			. "<MaxAgeSeconds>" . "3000" . "</MaxAgeSeconds>\n"
+			. "<ExposeHeader>" . "x-amz-server-side-encryption" . "</ExposeHeader>\n"
+			. "</CORSRule>\n"
+			. "<CORSRule>\n"
+			. "<AllowedOrigin>" . "*" . "</AllowedOrigin>\n"
+			. "<AllowedMethod>" . "GET" . "</AllowedMethod>\n"
+			. "<AllowedHeader>" . "*" . "</AllowedHeader>\n"
+			. "<MaxAgeSeconds>" . "3000" . "</MaxAgeSeconds>\n"
+			. "</CORSRule>\n"
+			. "</CORSConfiguration>\n";
+
+		$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
+		$headers["Content-Length"] = strlen($content);
+		$headers["Content-MD5"] = base64_encode(md5($content, true));
+
+		$headers["Date"] = date("D, d M Y H:i:s O");
+		$authorization = $this->object->createAuthorization("PUT", $url, $headers);
+		$headers["Authorization"] = $authorization;
+		unset($headers["Content-type"]);
+
+		$returnData = new JHttpResponse;
+		$returnData->code = 200;
+		$returnData->body = "The request was successful.\n";
+		$expectedResult = $returnData->body;
+
+		$this->client->expects($this->once())
+			->method('put')
+			->with($url, $content, $headers)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->put->putBucketCors(
+				$this->options->get("testBucket"),
+				$this->options->get("testCORS")
 			),
 			$this->equalTo($expectedResult)
 		);
