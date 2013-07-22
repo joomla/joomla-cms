@@ -44,6 +44,7 @@ class JFormFieldTextarea extends JFormField
 		// Initialize some field attributes.
 		$class = !empty($this->class) ? ' class="' . $this->class . '"' : '';
 		$disabled = $this->disabled ? ' disabled' : '';
+		$readonly = $this->readonly ? ' readonly' : '';
 		$columns = $this->element['cols'] ? ' cols="' . (int) $this->element['cols'] . '"' : '';
 		$rows = $this->element['rows'] ? ' rows="' . (int) $this->element['rows'] . '"' : '';
 		$required = $this->required ? ' required aria-required="true"' : '';
@@ -60,7 +61,7 @@ class JFormFieldTextarea extends JFormField
 		JHtml::_('script', 'system/html5fallback.js', false, true);
 
 		return '<textarea name="' . $this->name . '" id="' . $this->id . '"' . $columns . $rows . $class
-			. $hint . $disabled . $onchange . $required . $autocomplete . $autofocus . $spellcheck . '>'
+			. $hint . $disabled . $readonly . $onchange . $required . $autocomplete . $autofocus . $spellcheck . '>'
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '</textarea>';
 	}
 }

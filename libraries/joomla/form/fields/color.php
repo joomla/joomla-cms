@@ -113,7 +113,7 @@ class JFormFieldColor extends JFormField
 			$split = $split ? $split : 3;
 
 			$html = array();
-			$html[] = '<select name="' . $this->name . '" id="' . $this->id . '"'
+			$html[] = '<select name="' . $this->name . '" id="' . $this->id . '"' . $disabled . $required
 				. $class . $position . $onchange . $autofocus . ' style="visibility:hidden;width:22px;height:1px">';
 
 			foreach ($colors as $i => $c)

@@ -43,9 +43,7 @@ class JFormFieldRadio extends JFormField
 		$class = !empty($this->class) ? ' class="radio ' . $this->class . '"' : ' class="radio"';
 		$required = $this->required ? ' required aria-required="true"' : '';
 		$autofocus = $this->autofocus ? ' autofocus' : '';
-
-		$readonly = (string) $this->element['readonly'];
-		$readonly = ($readonly == 'true' || $readonly == 'readonly' || $readonly == '1');
+		$readonly = $this->readonly;
 
 		// Start the radio field output.
 		$html[] = '<fieldset id="' . $this->id . '"' . $class . $required . $autofocus . '>';
