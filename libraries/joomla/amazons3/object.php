@@ -100,7 +100,7 @@ abstract class JAmazons3Object
 			}
 			else
 			{
-				// HEAD responses do not return a body
+				// Some error responses do not return a body
 				$errorMessage = "The bucket does not exist or you do not have permission to access it.\n";
 				throw new DomainException($errorMessage, $response->code);
 			}
@@ -112,8 +112,7 @@ abstract class JAmazons3Object
 		}
 		else
 		{
-			// HEAD responses do not return a body
-			return "The bucket exists and you have permission to access it.\n";
+			return "The request was successful.\n";
 		}
 	}
 
