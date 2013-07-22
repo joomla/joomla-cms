@@ -277,4 +277,46 @@ class JAmazons3OperationsBucketsPut extends JAmazons3OperationsBuckets
 
 		return $response_body;
 	}
+
+	/**
+	 *  Adds to or replaces a policy on a bucket.
+	 *
+	 * @param   string  $bucket  The bucket name
+	 * @param   string  $policy  An array containing the bucket policy
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function putBucketPolicy($bucket, $policy = null)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?policy";
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+		);
+		$content = "";
+
+		// Check for lifecycle configuration rules
+		if (is_array($policy))
+		{
+			$content .= json_encode($policy);
+
+			// Set the content related headers
+			$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
+			$headers["Content-Length"] = strlen($content);
+			$headers["Content-MD5"] = base64_encode(md5($content, true));
+		}
+
+		$authorization = $this->createAuthorization("PUT", $url, $headers);
+		$headers["Authorization"] = $authorization;
+		unset($headers["Content-type"]);
+
+		// Send the http request
+		$response = $this->client->put($url, $content, $headers);
+
+		// Process the response
+		$response_body = $this->processResponse($response);
+
+		return $response_body;
+	}
 }

@@ -100,9 +100,16 @@ abstract class JAmazons3Object
 			}
 			else
 			{
-				// Some error responses do not return a body
-				$errorMessage = "The bucket does not exist or you do not have permission to access it.\n";
-				throw new DomainException($errorMessage, $response->code);
+				if ($response->code == 204)
+				{
+					return "The request was successful. Amazon S3 returned a 204 No Content response.\n";
+				}
+				else
+				{
+					// Some error responses do not return a body
+					$errorMessage = "The bucket does not exist or you do not have permission to access it.\n";
+					throw new DomainException($errorMessage, $response->code);
+				}
 			}
 		}
 
