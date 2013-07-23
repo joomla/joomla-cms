@@ -118,6 +118,13 @@ class JAmazons3OperationsBucketsPutTest extends PHPUnit_Framework_TestCase
 				),
 			)
 		);
+		$this->options->set(
+			'testNotification',
+			array(
+				"Topic" => "arn:aws:sns:us-east-1:123456789012:myTopic",
+				"Event" => "s3:ReducedRedundancyLostObject",
+			)
+		);
 
 		$this->client = $this->getMock('JAmazons3Http', array('delete', 'get', 'head', 'put'));
 
@@ -537,6 +544,54 @@ class JAmazons3OperationsBucketsPutTest extends PHPUnit_Framework_TestCase
 			$this->object->put->putBucketLogging(
 				$this->options->get("testBucket"),
 				$this->options->get("testLogging")
+			),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Sets the logging parameters for a bucket and specifies permissions for
+	 * who can view and modify the logging parameters
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testPutBucketNotification()
+	{
+		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url") . "/?notification";
+		$headers = array();
+
+		$content = "<NotificationConfiguration>\n"
+			. "<TopicConfiguration>\n"
+			. "<Topic>arn:aws:sns:us-east-1:123456789012:myTopic</Topic>\n"
+			. "<Event>s3:ReducedRedundancyLostObject</Event>\n"
+			. "</TopicConfiguration>\n"
+			. "</NotificationConfiguration>";
+
+		$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
+		$headers["Content-Length"] = strlen($content);
+		$headers["Content-MD5"] = base64_encode(md5($content, true));
+
+		$headers["Date"] = date("D, d M Y H:i:s O");
+		$authorization = $this->object->createAuthorization("PUT", $url, $headers);
+		$headers["Authorization"] = $authorization;
+		unset($headers["Content-type"]);
+
+		$returnData = new JHttpResponse;
+		$returnData->code = 200;
+		$returnData->body = "The request was successful.\n";
+		$expectedResult = $returnData->body;
+
+		$this->client->expects($this->once())
+			->method('put')
+			->with($url, $content, $headers)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->put->putBucketNotification(
+				$this->options->get("testBucket"),
+				$this->options->get("testNotification")
 			),
 			$this->equalTo($expectedResult)
 		);

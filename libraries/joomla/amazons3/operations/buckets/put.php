@@ -411,8 +411,67 @@ class JAmazons3OperationsBucketsPut extends JAmazons3OperationsBuckets
 		}
 		else
 		{
+			// If the method is called with only one argument, the logging is disabled
 			$content = '<?xml version="1.0" encoding="UTF-8"?>\n'
 				. '<BucketLoggingStatus xmlns="http://doc.s3.amazonaws.com/2006-03-01" />';
+		}
+
+		// Set the content related headers
+		$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
+		$headers["Content-Length"] = strlen($content);
+		$headers["Content-MD5"] = base64_encode(md5($content, true));
+		$authorization = $this->createAuthorization("PUT", $url, $headers);
+		$headers["Authorization"] = $authorization;
+		unset($headers["Content-type"]);
+
+		// Send the http request
+		$response = $this->client->put($url, $content, $headers);
+
+		// Process the response
+		$response_body = $this->processResponse($response);
+
+		return $response_body;
+	}
+
+	/**
+	 * Enables notifications of specified events for a bucket
+	 *
+	 * @param   string  $bucket        The bucket name
+	 * @param   string  $notification  An array containing the $notification details
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function putBucketNotification($bucket, $notification = null)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?notification";
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+		);
+		$content = "";
+
+		// Check for lifecycle configuration rules
+		if (is_array($notification))
+		{
+			$content = "<NotificationConfiguration>\n"
+				. "<TopicConfiguration>\n";
+
+			// $notification is an array of rules (which in turn are arrays of rule properties)
+			foreach ($notification as $ruleKey => $ruleValue)
+			{
+				$content .= "<" . $ruleKey . ">";
+				$content .= $ruleValue;
+				$content .= "</" . $ruleKey . ">\n";
+			}
+
+			$content .= "</TopicConfiguration>\n";
+			$content .= "</NotificationConfiguration>";
+		}
+		else
+		{
+			// If the method is called with only one argument, the logging is disabled
+			$content .= "<NotificationConfiguration />";
 		}
 
 		// Set the content related headers
