@@ -138,11 +138,11 @@ class PlgSystemRemember extends JPlugin
 
 				$countResults = count($results);
 
-				// We have a user but a cookie that's not in the database, or it's invalid. This is a possible attack, so invalidate everything.
+				// We have a user but a cookie that is not in the database, or it is invalid. This is a possible attack, so invalidate everything.
 				if (($countResults === 0 || $results[0]->invalid != 0) && !empty($results[0]->user_id))
 				{
 						JUserHelper::invalidateCookie($results[0]->user_id, $uastring);
-						JLog::add('The remember me tokens were invalidated for user ' . $user->username  . ' because there was no matching record ', JLog::WARNING, 'security');
+						JLog::add(JText::sprintf('PLG_SYSTEM_REMEMBER_ERROR_LOG_INVALIDATED_COOKIES', $user->username), JLog::WARNING, 'security');
 
 						// Possibly e-mail user and admin here.
 
@@ -176,7 +176,7 @@ class PlgSystemRemember extends JPlugin
 					if (empty($match))
 					{
 						JUserHelper:invalidateCookie($results[0]->user_id, $uastring);
-						JLog::add('Remember me login failed for user ' . $user->username , JLog::WARNING, 'security');
+						JLog::add(JText::sprintf('PLG_SYSTEM_REMEMBER_ERROR_LOG_LOGIN_FAILED', $user->username) , JLog::WARNING, 'security');
 
 						return false;
 					}

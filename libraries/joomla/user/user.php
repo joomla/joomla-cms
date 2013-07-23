@@ -193,6 +193,15 @@ class JUser extends JObject
 	protected $_errorMsg = null;
 
 	/**
+	 * Cookie login indicator
+	 *
+	 * @var    boolean
+	 * @since  3.1.3
+	 */
+	protected $cookieLogin = false;
+
+
+	/**
 	 * @var    array  JUser instances container.
 	 * @since  11.3
 	 */
@@ -843,7 +852,7 @@ class JUser extends JObject
 		$crypt = JUserHelper::getCryptedPassword($passwordString, $salt);
 
 		// The first condition is only for when BCrypt or PASSWORD_DEFAULT is the default.
-		if (JCrypt::hasStrongPasswordSupport() && !empty($defaultHash))
+		if (JCrypt::hasStrongPasswordSupport() && !empty($this->defaultHash))
 		{
 			$passwordInfo = password_get_info($passwordString);
 			return $crypt . (($passwordInfo['algo'] != 0

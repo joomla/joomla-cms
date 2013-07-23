@@ -21,6 +21,16 @@
 		<fields name="params">
 
 			<fieldset name="basic">
+				<field name="strong_passwords" type="radio"
+					class="btn-group"
+					default="0"
+					description="PLG_USER_JOOMLA_FIELD_STRONG_PASSWORDS_DESC"
+					label="PLG_USER_JOOMLA_FIELD_STRONG_PASSWORDS_LABEL"
+				>
+					<option value="0">JNo</option>
+					<option value="1">JYes</option>
+				</field>
+
 				<field name="autoregister" type="radio"
 					class="btn-group"
 					default="1"

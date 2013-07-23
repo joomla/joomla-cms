@@ -286,7 +286,7 @@ class JAuthentication extends JObject
 
 			// Try to authenticate
 			$plugin->onUserAuthenticate($credentials, $options, $response);
-var_dump($plugin);
+
 			// If authentication is successful break out of the loop
 			if ($response->status === self::STATUS_SUCCESS)
 			{

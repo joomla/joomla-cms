@@ -49,6 +49,13 @@ class PlgAuthenticationCookie extends JPlugin
 
 		$response->type = 'Cookie';
 
+		// Set cookie params.
+		$response->lifetime = $options['lifetime'];
+		$response->length = $options['length'];
+		$response->secure = $options['secure'];
+
+		$this->db = JFactory::getDbo();
+
 		// Make sure there really is a user with this name and get the data for the session.
 		$query = $this->db->getQuery(true)
 			->select($this->db->quoteName(array('id', 'username', 'password')))
@@ -63,13 +70,13 @@ class PlgAuthenticationCookie extends JPlugin
 			$user = JUser::getInstance($result->id);
 			$cookieName = JUserHelper::getShortHashedUserAgent();
 
+			$this->app = JFactory::getApplication();
+
 			// If there is no cookie, bail out
 			if (!$this->app->input->cookie->get($cookieName))
 			{
 				return;
 			}
-
-			$user->set('cookieLogin', true);
 
 			// Set response data.
 			$response->username = $result->username;
@@ -81,6 +88,7 @@ class PlgAuthenticationCookie extends JPlugin
 			// Set response status.
 			$response->status = JAuthentication::STATUS_SUCCESS;
 			$response->error_message = '';
+
 		}
 		else
 		{

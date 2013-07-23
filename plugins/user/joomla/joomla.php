@@ -21,16 +21,24 @@ class PlgUserJoomla extends JPlugin
 	/**
 	 * @var    JApplication database
 	 *
-	 * @since  3.1.2
+	 * @since  3.1.3
 	 */
 	protected $db;
 
 	/**
 	 * @var    JApplication
 	 *
-	 * @since  3.1.2
+	 * @since  3.1.3
 	 */
 	protected $app;
+
+	/**
+	 * @var    boolean
+	 *
+	 * @since  3.1.3
+	 */
+	protected $defaultHash;
+
 
 	/**
 	 * Constructor. We use it to set the app and db properties.
@@ -48,6 +56,9 @@ class PlgUserJoomla extends JPlugin
 
 		$this->app = JFactory::getApplication();
 		$this->db = JFactory::getDbo();
+
+		// This default is in place until 3.2 at which point it will default to true.
+		$this->defaultHash = $this->params->get('strong_passwords', false);
 	}
 
 	/**
@@ -69,8 +80,7 @@ class PlgUserJoomla extends JPlugin
 			return false;
 		}
 
-		$this->db = JFactory::getDbo();
-		$this->db->setQuery
+		$this->db->getQuery(true)
 			->delete($db->quoteName('#__session'))
 			->where($db->quoteName('userid') . ' = ' . (int) $user['id'])
 			->execute();
@@ -184,6 +194,7 @@ class PlgUserJoomla extends JPlugin
 
 		// Check the user can login.
 		$result = $instance->authorise($options['action']);
+
 		if (!$result)
 		{
 
@@ -316,28 +327,35 @@ class PlgUserJoomla extends JPlugin
 	 * We set the authentication cookie only after login is successfullly finished. We set a new cookie either for a user with no cookies or one
 	 * where the user used a cookie to authenticate.
 	 *
-	 * @param   array  options     Array holding options
+	 * @param   array  options  Array holding options
 	 *
 	 * @return  boolean  True on success
 	 * @since   3.1.2
 	 */
 	public function onUserAfterLogin($options)
 	{
+
 		// Currently this method only applies to Cookie based login.
 		if (!isset($options['responseType']) || ($options['responseType'] != 'Cookie' && !$options['remember']))
 		{
 			return true;
 		}
 
-			// We need the old data to match against the current database
-			$rememberArray = JUserHelper::getRememberCookieData();
+		// We get the parameter values differently for cookie and non-cookie logins.
+		$cookieLifetime	= empty($options['lifetime']) ? $this->app->rememberCookieLifetime : $options['lifetime'];
+		$length			= empty($options['length']) ? $this->app->rememberCookieLength : $options['length'];
+		$secure			= empty($options['secure']) ? $this->app->rememberCookieSecure : $options['secure'];
 
-			$privateKey = JUserHelper::genRandomPassword($this->app->rememberCookieLength);
+		// We need the old data to match against the current database
+		$rememberArray = JUserHelper::getRememberCookieData();
 
-			// We are going to concatenate with . so we need to remove it from the strings.
-			$privateKey = str_replace('.', '', $privateKey);
+		//$privateKey = JUserHelper::genRandomPassword($this->app->rememberCookieLength);
+		$privateKey = JUserHelper::genRandomPassword($length);
 
-			$cryptedKey = JUserHelper::getCryptedPassword($privateKey, '', 'bcrypt', false);
+		// We are going to concatenate with . so we need to remove it from the strings.
+		$privateKey = str_replace('.', '', $privateKey);
+
+		$cryptedKey = JUserHelper::getCryptedPassword($privateKey, '', 'bcrypt', false);
 
 			$cookieName = JUserHelper::getShortHashedUserAgent();
 
@@ -353,9 +371,9 @@ class PlgUserJoomla extends JPlugin
 				$series = str_replace('.', '', $series);
 
 				$query = $this->db->getQuery(true)
-				->select($this->db->quoteName('series'))
-				->from($this->db->quoteName('#__user_keys'))
-				->where($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($series)));
+					->select($this->db->quoteName('series'))
+					->from($this->db->quoteName('#__user_keys'))
+					->where($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($series)));
 
 				$results = $this->db->setQuery($query)->loadResult();
 
@@ -367,8 +385,8 @@ class PlgUserJoomla extends JPlugin
 			while ($unique === false);
 
 			// If a user logs in with non remember login and remember me checked we will
-			// delete any invalid entries so that they can use remember once again.
-			if ($options['responseType'] !== 'Remember')
+			// delete any invalid entries so that he or she can use remember once again.
+			if ($options['responseType'] !== 'Cookie')
 			{
 				$query = $this->db->getQuery(true)
 					->delete('#__user_keys')
@@ -384,11 +402,16 @@ class PlgUserJoomla extends JPlugin
 			$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->app->getCfg('cookie_path'), $this->app->getCfg('cookie_domain'));
 
 			// And make a new one.
-			$this->app->input->cookie->set($cookieName, $cookieValue, $this->app->rememberCookieLifetime, $this->app->getCfg('cookie_path'), $this->app->getCfg('cookie_domain'), $this->app->rememberCookieSecure, true);
+			//$this->app->input->cookie->set($cookieName, $cookieValue, $this->app->rememberCookieLifetime, $this->app->getCfg('cookie_path'),
+				//		$this->app->getCfg('cookie_domain'), $this->app->rememberCookieSecure, true);
+			// And make a new one.
+			$this->app->input->cookie->set($cookieName, $cookieValue, $lifetime, $this->app->getCfg('cookie_path'),
+					$this->app->getCfg('cookie_domain'), $secure);
+
 
 			$query = $this->db->getQuery(true);
 
-			if (empty($user->cookieLogin))
+			if (empty($user->cookieLogin) || $options['response'] != 'Coookie')
 			{
 				// For users doing login from Joomla or other systems
 				$query->insert($this->db->quoteName('#__user_keys'));
@@ -396,20 +419,21 @@ class PlgUserJoomla extends JPlugin
 			else
 			{
 				$query
-				->update($this->db->quoteName('#__user_keys'))
-				->where($this->db->quoteName('user_id') . ' = ' . $this->db->quote($options['user']->username))
-				->where($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($rememberArray[1])))
-				->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName));
+					->update($this->db->quoteName('#__user_keys'))
+					->where($this->db->quoteName('user_id') . ' = ' . $this->db->quote($options['user']->username))
+					->where($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($rememberArray[1])))
+					->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName));
 			}
 
 			$query
-			->set($this->db->quoteName('user_id') . ' = ' . $this->db->quote($options['user']->username))
-			->set($this->db->quoteName('time') . ' = ' . $this->app->rememberCookieLifetime)
-			->set($this->db->quoteName('token') . ' = ' . $this->db->quote($cryptedKey))
-			->set($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($series)))
-			->set($this->db->quoteName('invalid') . ' = 0')
-			->set($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName));
-
+				->set($this->db->quoteName('user_id') . ' = ' . $this->db->quote($options['user']->username))
+				->set($this->db->quoteName('time') . ' = ' . $lifetime)
+				//->set($this->db->quoteName('time') . ' = ' . $this->app->rememberCookieLifetime)
+				->set($this->db->quoteName('token') . ' = ' . $this->db->quote($cryptedKey))
+				->set($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($series)))
+				->set($this->db->quoteName('invalid') . ' = 0')
+				->set($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName));
+//echo $query->dump();die;
 			$this->db->setQuery($query)->execute();
 
 		return true;
@@ -439,10 +463,10 @@ class PlgUserJoomla extends JPlugin
 		$query = $this->db->getQuery(true);
 
 		$query
-		->delete('#__user_keys')
-		->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName))
-		->where($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($series)))
-		->where($this->db->quoteName('user_id') . ' = ' . $this->db->quote($options['username']));
+			->delete('#__user_keys')
+			->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName))
+			->where($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($series)))
+			->where($this->db->quoteName('user_id') . ' = ' . $this->db->quote($options['username']));
 
 		$this->db->setQuery($query)->execute();
 

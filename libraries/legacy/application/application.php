@@ -667,18 +667,19 @@ class JApplication extends JApplicationBase
 			 */
 			$user = JFactory::getUser();
 
-		/*	if ($response->type == 'Cookie')
+			if ($response->type == 'Cookie')
 			{
 				$user->set('cookieLogin', true);
-			}*/
+			}
 
 			if (in_array(false, $results, true) == false)
 			{
 				$options['user'] = $user;
 				$options['responseType'] = $response->type;
-				$options['length'] = !empty($credentials['length']) ? $credentials['length'] : null;
-				$options['secure'] = !empty($credentials['secure']) ? $credentials['secure']: null;
-				$options['lifetime'] = !empty($credentials['lifetime']) ? $credentials['lifetime']: null;
+
+				$options['length'] = $response->length;
+				$options['secure'] = $response->secure;
+				$options['lifetime'] = $response->lifetime;
 
 				// The user is successfully logged in. Run the after login events
 				$this->triggerEvent('onUserAfterLogin', array($options));
