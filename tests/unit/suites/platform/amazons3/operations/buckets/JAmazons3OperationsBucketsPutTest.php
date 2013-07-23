@@ -103,6 +103,21 @@ class JAmazons3OperationsBucketsPutTest extends PHPUnit_Framework_TestCase
 				),
 			)
 		);
+		$this->options->set(
+			'testLogging',
+			array(
+				"TargetBucket" => "gsoc-test-2",
+				"TargetPrefix" => "mybucket-access_log",
+				"TargetGrants" => array(
+					"Grant" => array(
+						"Grantee" => array(
+							"EmailAddress" => "alex.ukf@gmail.com",
+						),
+						"Permission" => "READ",
+					),
+				),
+			)
+		);
 
 		$this->client = $this->getMock('JAmazons3Http', array('delete', 'get', 'head', 'put'));
 
@@ -465,6 +480,63 @@ class JAmazons3OperationsBucketsPutTest extends PHPUnit_Framework_TestCase
 			$this->object->put->putBucketPolicy(
 				$this->options->get("testBucket"),
 				$this->options->get("testPolicy")
+			),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Sets the logging parameters for a bucket and specifies permissions for
+	 * who can view and modify the logging parameters
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testPutBucketLogging()
+	{
+		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url") . "/?logging";
+		$headers = array();
+
+		$content = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+			. "<BucketLoggingStatus xmlns=\"http://doc.s3.amazonaws.com/2006-03-01\">\n"
+			. "<LoggingEnabled>\n"
+			. "<TargetBucket>gsoc-test-2</TargetBucket>\n"
+			. "<TargetPrefix>mybucket-access_log</TargetPrefix>\n"
+			. "<TargetGrants>\n"
+			. "<Grant>\n"
+			. "<Grantee xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"AmazonCustomerByEmail\">\n"
+			. "<EmailAddress>alex.ukf@gmail.com</EmailAddress>\n"
+			. "</Grantee>\n"
+			. "<Permission>READ</Permission>\n"
+			. "</Grant>\n"
+			. "</TargetGrants>\n"
+			. "</LoggingEnabled>\n"
+			. "</BucketLoggingStatus>\n";
+
+		$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
+		$headers["Content-Length"] = strlen($content);
+		$headers["Content-MD5"] = base64_encode(md5($content, true));
+
+		$headers["Date"] = date("D, d M Y H:i:s O");
+		$authorization = $this->object->createAuthorization("PUT", $url, $headers);
+		$headers["Authorization"] = $authorization;
+		unset($headers["Content-type"]);
+
+		$returnData = new JHttpResponse;
+		$returnData->code = 200;
+		$returnData->body = "The request was successful.\n";
+		$expectedResult = $returnData->body;
+
+		$this->client->expects($this->once())
+			->method('put')
+			->with($url, $content, $headers)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->put->putBucketLogging(
+				$this->options->get("testBucket"),
+				$this->options->get("testLogging")
 			),
 			$this->equalTo($expectedResult)
 		);
