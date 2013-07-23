@@ -154,6 +154,27 @@ class JAmazons3OperationsBucketsPutTest extends PHPUnit_Framework_TestCase
 		);
 		$this->options->set("serialNr", "20899872");
 		$this->options->set("tokenCode", "301749");
+		$this->options->set(
+			'testWebsite',
+			array(
+				"IndexDocument" => array(
+					"Suffix" => "index.html"
+				),
+				"ErrorDocument" => array(
+					"Key" => "SomeErrorDocument.html"
+				),
+				"RoutingRules" => array(
+					"RoutingRule" => array(
+						"Condition" => array(
+							"KeyPrefixEquals" => "docs"
+						),
+						"Redirect" => array(
+							"ReplaceKeyPrefixWith" => "documents/"
+						)
+					)
+				)
+			)
+		);
 
 		$this->client = $this->getMock('JAmazons3Http', array('delete', 'get', 'head', 'put'));
 
@@ -811,6 +832,66 @@ class JAmazons3OperationsBucketsPutTest extends PHPUnit_Framework_TestCase
 				$this->options->get("testVersioningWithMfaDelete"),
 				$this->options->get("serialNr"),
 				$this->options->get("tokenCode")
+			),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Thests the putBucketWebsite, which sets the configuration of the website
+	 * that is specified in the website subresource
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testPutBucketWebsite()
+	{
+		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url") . "/?website";
+		$headers = array();
+
+		$content = "<WebsiteConfiguration xmlns=\"http://s3.amazonaws.com/doc/2006-03-01/\">\n"
+			. "<IndexDocument>\n"
+			. "<Suffix>index.html</Suffix>\n"
+			. "</IndexDocument>\n"
+			. "<ErrorDocument>\n"
+			. "<Key>SomeErrorDocument.html</Key>\n"
+			. "</ErrorDocument>\n"
+			. "<RoutingRules>\n"
+			. "<RoutingRule>\n"
+			. "<Condition>\n"
+			. "<KeyPrefixEquals>docs</KeyPrefixEquals>\n"
+			. "</Condition>\n"
+			. "<Redirect>\n"
+			. "<ReplaceKeyPrefixWith>documents/</ReplaceKeyPrefixWith>\n"
+			. "</Redirect>\n"
+			. "</RoutingRule>\n"
+			. "</RoutingRules>\n"
+			. "</WebsiteConfiguration>";
+
+		$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
+		$headers["Content-Length"] = strlen($content);
+		$headers["Content-MD5"] = base64_encode(md5($content, true));
+
+		$headers["Date"] = date("D, d M Y H:i:s O");
+		$authorization = $this->object->createAuthorization("PUT", $url, $headers);
+		$headers["Authorization"] = $authorization;
+		unset($headers["Content-type"]);
+
+		$returnData = new JHttpResponse;
+		$returnData->code = 200;
+		$returnData->body = "The request was successful.\n";
+		$expectedResult = $returnData->body;
+
+		$this->client->expects($this->once())
+			->method('put')
+			->with($url, $content, $headers)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->put->putBucketWebsite(
+				$this->options->get("testBucket"),
+				$this->options->get("testWebsite")
 			),
 			$this->equalTo($expectedResult)
 		);

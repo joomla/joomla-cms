@@ -643,4 +643,89 @@ class JAmazons3OperationsBucketsPut extends JAmazons3OperationsBuckets
 
 		return $response_body;
 	}
+
+	/**
+	 * Sets the configuration of the website that is specified in the website subresource
+	 *
+	 * @param   string  $bucket   The bucket name
+	 * @param   string  $website  An array containing website parameters
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function putBucketWebsite($bucket, $website)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?website";
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+		);
+
+		if (is_array($website))
+		{
+			$content = "<WebsiteConfiguration xmlns=\"http://s3.amazonaws.com/doc/2006-03-01/\">\n";
+
+			foreach ($website as $key => $value)
+			{
+				$content .= "<" . $key . ">\n";
+
+				foreach ($value as $subKey => $subValue)
+				{
+					$content .= "<" . $subKey . ">";
+
+					if (is_array($subValue))
+					{
+						$content .= "\n";
+
+						foreach ($subValue as $subKey2 => $subValue2)
+						{
+							if (is_array($subValue2))
+							{
+								$content .= "<" . $subKey2 . ">\n";
+
+								foreach ($subValue2 as $subKey3 => $subValue3)
+								{
+									$content .= "<" . $subKey3 . ">";
+									$content .= $subValue3;
+									$content .= "</" . $subKey3 . ">\n";
+								}
+
+								$content .= "</" . $subKey2 . ">\n";
+							}
+							else
+							{
+								$content .= $subValue2;
+							}
+						}
+					}
+					else
+					{
+						$content .= $subValue;
+					}
+
+					$content .= "</" . $subKey . ">\n";
+				}
+
+				$content .= "</" . $key . ">\n";
+			}
+
+			$content .= "</WebsiteConfiguration>";
+		}
+
+		// Set the content related headers
+		$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
+		$headers["Content-Length"] = strlen($content);
+		$headers["Content-MD5"] = base64_encode(md5($content, true));
+		$authorization = $this->createAuthorization("PUT", $url, $headers);
+		$headers["Authorization"] = $authorization;
+		unset($headers["Content-type"]);
+
+		// Send the http request
+		$response = $this->client->put($url, $content, $headers);
+
+		// Process the response
+		$response_body = $this->processResponse($response);
+
+		return $response_body;
+	}
 }
