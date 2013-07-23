@@ -125,6 +125,19 @@ class JAmazons3OperationsBucketsPutTest extends PHPUnit_Framework_TestCase
 				"Event" => "s3:ReducedRedundancyLostObject",
 			)
 		);
+		$this->options->set(
+			'testTagging',
+			array(
+				array(
+					"Key" => "Project",
+					"Value" => "Project One",
+				),
+				array(
+					"Key" => "User",
+					"Value" => "alexukf",
+				),
+			)
+		);
 
 		$this->client = $this->getMock('JAmazons3Http', array('delete', 'get', 'head', 'put'));
 
@@ -550,8 +563,7 @@ class JAmazons3OperationsBucketsPutTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Sets the logging parameters for a bucket and specifies permissions for
-	 * who can view and modify the logging parameters
+	 * Enables notifications of specified events for a bucket
 	 *
 	 * @return  void
 	 *
@@ -592,6 +604,59 @@ class JAmazons3OperationsBucketsPutTest extends PHPUnit_Framework_TestCase
 			$this->object->put->putBucketNotification(
 				$this->options->get("testBucket"),
 				$this->options->get("testNotification")
+			),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Adds a set of tags to an existing bucket
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testPutBucketTagging()
+	{
+		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url") . "/?tagging";
+		$headers = array();
+
+		$content = "<Tagging>\n"
+			. "<TagSet>\n"
+			. "<Tag>\n"
+			. "<Key>Project</Key>\n"
+			. "<Value>Project One</Value>\n"
+			. "</Tag>\n"
+			. "<Tag>\n"
+			. "<Key>User</Key>\n"
+			. "<Value>alexukf</Value>\n"
+			. "</Tag>\n"
+			. "</TagSet>\n"
+			. "</Tagging>";
+
+		$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
+		$headers["Content-Length"] = strlen($content);
+		$headers["Content-MD5"] = base64_encode(md5($content, true));
+
+		$headers["Date"] = date("D, d M Y H:i:s O");
+		$authorization = $this->object->createAuthorization("PUT", $url, $headers);
+		$headers["Authorization"] = $authorization;
+		unset($headers["Content-type"]);
+
+		$returnData = new JHttpResponse;
+		$returnData->code = 200;
+		$returnData->body = "The request was successful.\n";
+		$expectedResult = $returnData->body;
+
+		$this->client->expects($this->once())
+			->method('put')
+			->with($url, $content, $headers)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->put->putBucketTagging(
+				$this->options->get("testBucket"),
+				$this->options->get("testTagging")
 			),
 			$this->equalTo($expectedResult)
 		);
