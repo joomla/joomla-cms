@@ -33,11 +33,11 @@ class PlgUserJoomla extends JPlugin
 	protected $app;
 
 	/**
-	 * @var    boolean
+	 * @var  boolean  True to use strong password encryption
 	 *
 	 * @since  3.1.3
 	 */
-	protected $defaultHash;
+	protected $useStrongEncryption;
 
 
 	/**
@@ -58,7 +58,7 @@ class PlgUserJoomla extends JPlugin
 		$this->db = JFactory::getDbo();
 
 		// This default is in place until 3.2 at which point it will default to true.
-		$this->defaultHash = $this->params->get('strong_passwords', false);
+		$this->useStrongEncryption = $this->params->get('strong_passwords', false);
 	}
 
 	/**
@@ -148,8 +148,7 @@ class PlgUserJoomla extends JPlugin
 
 					if (!$mail->Send())
 					{
-						// TODO: Probably should raise a plugin error but this event is not error checked.
-						JError::raiseWarning(500, JText::_('ERROR_SENDING_EMAIL'));
+						$app->enqueueMessage(JText::_('ERROR_SENDING_EMAIL'), 'warning');
 					}
 				}
 			}
@@ -172,7 +171,7 @@ class PlgUserJoomla extends JPlugin
 	public function onUserLogin($user, $options = array())
 	{
 		$instance = $this->_getUser($user, $options);
-
+var_dump($instance);var_dump($user);
 		// If _getUser returned an error, then pass it back.
 		if ($instance instanceof Exception)
 		{
@@ -182,7 +181,8 @@ class PlgUserJoomla extends JPlugin
 		// If the user is blocked, redirect with an error
 		if ($instance->get('block') == 1)
 		{
-			JError::raiseWarning('SOME_ERROR_CODE', JText::_('JERROR_NOLOGIN_BLOCKED'));
+			$app->enqueueMessage(JText::_('JERROR_NOLOGIN_BLOCKED'), 'warning');
+
 			return false;
 		}
 
@@ -198,7 +198,8 @@ class PlgUserJoomla extends JPlugin
 		if (!$result)
 		{
 
-			JError::raiseWarning(401, JText::_('JERROR_LOGIN_DENIED'));
+			$app->enqueueMessage(JText::_('JERROR_LOGIN_DENIED'), 'warning');
+
 			return false;
 		}
 
@@ -212,13 +213,25 @@ class PlgUserJoomla extends JPlugin
 		// Check to see the the session already exists.
 		$this->app->checkSession();
 
+
+		if ($this->useStrongEncryption && JCrypt::hasStrongPasswordSupport())
+		{
+			$instance->password = password_hash($user->password, PASSWORD_BCRYPT);
+		}
+
 		// Update the user related fields for the Joomla sessions table.
 		$query = $this->db->getQuery(true)
 			->update($this->db->quoteName('#__session'))
 			->set($this->db->quoteName('guest') . ' = ' . $this->db->quote($instance->guest))
 			->set($this->db->quoteName('username') . ' = ' . $this->db->quote($instance->username))
-			->set($this->db->quoteName('userid') . ' = ' . (int) $instance->id)
-			->where($this->db->quoteName('session_id') . ' = ' . $this->db->quote($session->getId()));
+			->set($this->db->quoteName('userid') . ' = ' . (int) $instance->id);
+
+		if (isset($passwordNewHash))
+		{
+			$query->set($this->db->quoteName('password') . ' = ' . $this->db->quote($instance->password));
+		}
+
+		$query->where($this->db->quoteName('session_id') . ' = ' . $this->db->quote($session->getId()));
 		$this->db->setQuery($query)->execute();
 
 		// Hit the user last visit field
@@ -324,7 +337,8 @@ class PlgUserJoomla extends JPlugin
 	}
 
 	/**
-	 * We set the authentication cookie only after login is successfullly finished. We set a new cookie either for a user with no cookies or one
+	 * We set the authentication cookie only after login is successfullly finished.
+	 * We set a new cookie either for a user with no cookies or one
 	 * where the user used a cookie to authenticate.
 	 *
 	 * @param   array  options  Array holding options
@@ -335,7 +349,7 @@ class PlgUserJoomla extends JPlugin
 	public function onUserAfterLogin($options)
 	{
 
-		// Currently this method only applies to Cookie based login.
+		// Currently this portion of the method only applies to Cookie based login.
 		if (!isset($options['responseType']) || ($options['responseType'] != 'Cookie' && !$options['remember']))
 		{
 			return true;
@@ -349,7 +363,6 @@ class PlgUserJoomla extends JPlugin
 		// We need the old data to match against the current database
 		$rememberArray = JUserHelper::getRememberCookieData();
 
-		//$privateKey = JUserHelper::genRandomPassword($this->app->rememberCookieLength);
 		$privateKey = JUserHelper::genRandomPassword($length);
 
 		// We are going to concatenate with . so we need to remove it from the strings.
@@ -357,81 +370,80 @@ class PlgUserJoomla extends JPlugin
 
 		$cryptedKey = JUserHelper::getCryptedPassword($privateKey, '', 'bcrypt', false);
 
-			$cookieName = JUserHelper::getShortHashedUserAgent();
+		$cookieName = JUserHelper::getShortHashedUserAgent();
 
-			// Create an identifier and make sure that it is unique.
-			$unique = false;
+		// Create an identifier and make sure that it is unique.
+		$unique = false;
 
-			do
+		do
+		{
+			// Unique identifier for the device-user
+			$series = JUserHelper::genRandomPassword(20);
+
+			// We are going to concatenate with . so we need to remove it from the strings.
+			$series = str_replace('.', '', $series);
+
+			$query = $this->db->getQuery(true)
+				->select($this->db->quoteName('series'))
+				->from($this->db->quoteName('#__user_keys'))
+				->where($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($series)));
+
+			$results = $this->db->setQuery($query)->loadResult();
+
+			if (is_null($results))
 			{
-				// Unique identifier for the device-user
-				$series = JUserHelper::genRandomPassword(20);
-
-				// We are going to concatenate with . so we need to remove it from the strings.
-				$series = str_replace('.', '', $series);
-
-				$query = $this->db->getQuery(true)
-					->select($this->db->quoteName('series'))
-					->from($this->db->quoteName('#__user_keys'))
-					->where($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($series)));
-
-				$results = $this->db->setQuery($query)->loadResult();
-
-				if (is_null($results))
-				{
-					$unique = true;
-				}
+				$unique = true;
 			}
-			while ($unique === false);
+		}
+		while ($unique === false);
 
-			// If a user logs in with non remember login and remember me checked we will
-			// delete any invalid entries so that he or she can use remember once again.
-			if ($options['responseType'] !== 'Cookie')
-			{
-				$query = $this->db->getQuery(true)
-					->delete('#__user_keys')
-					->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName))
-					->where($this->db->quoteName('user_id') . ' = ' . $this->db->quote($options['user']->username));
+		// If a user logs in with non cookie login and remember me checked we will
+		// delete any invalid entries so that he or she can use remember once again.
+		if ($options['responseType'] !== 'Cookie')
+		{
+			$query = $this->db->getQuery(true)
+				->delete('#__user_keys')
+				->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName))
+				->where($this->db->quoteName('user_id') . ' = ' . $this->db->quote($options['user']->username));
 
-				$this->db->setQuery($query)->execute();
-			}
-
-			$cookieValue = $privateKey . '.' . $series . '.' . $cookieName;
-
-			// Destroy the old cookie.
-			$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->app->getCfg('cookie_path'), $this->app->getCfg('cookie_domain'));
-
-			// And make a new one.
-			$this->app->input->cookie->set($cookieName, $cookieValue, $cookieLifetime, $this->app->getCfg('cookie_path'),
-					$this->app->getCfg('cookie_domain'), $secure);
-
-
-			$query = $this->db->getQuery(true);
-
-			if (empty($user->cookieLogin) || $options['response'] != 'Coookie')
-			{
-				// For users doing login from Joomla or other systems
-				$query->insert($this->db->quoteName('#__user_keys'));
-			}
-			else
-			{
-				$query
-					->update($this->db->quoteName('#__user_keys'))
-					->where($this->db->quoteName('user_id') . ' = ' . $this->db->quote($options['user']->username))
-					->where($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($rememberArray[1])))
-					->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName));
-			}
-
-			$query
-				->set($this->db->quoteName('user_id') . ' = ' . $this->db->quote($options['user']->username))
-				->set($this->db->quoteName('time') . ' = ' . $cookieLifetime)
-				//->set($this->db->quoteName('time') . ' = ' . $this->app->rememberCookieLifetime)
-				->set($this->db->quoteName('token') . ' = ' . $this->db->quote($cryptedKey))
-				->set($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($series)))
-				->set($this->db->quoteName('invalid') . ' = 0')
-				->set($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName));
-//echo $query->dump();die;
 			$this->db->setQuery($query)->execute();
+		}
+
+		$cookieValue = $privateKey . '.' . $series . '.' . $cookieName;
+
+		// Destroy the old cookie.
+		$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->app->getCfg('cookie_path'), $this->app->getCfg('cookie_domain'));
+
+		// And make a new one.
+		$this->app->input->cookie->set($cookieName, $cookieValue, $cookieLifetime, $this->app->getCfg('cookie_path'),
+				$this->app->getCfg('cookie_domain'), $secure);
+
+
+		$query = $this->db->getQuery(true);
+
+		if (empty($user->cookieLogin) || $options['response'] != 'Coookie')
+		{
+			// For users doing login from Joomla or other systems
+			$query->insert($this->db->quoteName('#__user_keys'));
+		}
+		else
+		{
+			$query
+				->update($this->db->quoteName('#__user_keys'))
+				->where($this->db->quoteName('user_id') . ' = ' . $this->db->quote($options['user']->username))
+				->where($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($rememberArray[1])))
+				->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName));
+		}
+
+		$query
+			->set($this->db->quoteName('user_id') . ' = ' . $this->db->quote($options['user']->username))
+			->set($this->db->quoteName('time') . ' = ' . $cookieLifetime)
+			->set($this->db->quoteName('token') . ' = ' . $this->db->quote($cryptedKey))
+			->set($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($series)))
+			->set($this->db->quoteName('invalid') . ' = 0')
+			->set($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName));
+
+		$this->db->setQuery($query)->execute();
 
 		return true;
 	}

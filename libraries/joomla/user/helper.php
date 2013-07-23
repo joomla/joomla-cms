@@ -311,9 +311,12 @@ abstract class JUserHelper
 	 * @return  string  The encrypted password.
 	 *
 	 * @since   11.1
+	 * @note    In Joomla! CMS 3.2 the default encrytion will be set to bcrypt. When PHP 5.5 is the minimum
+	 *          supported version it will be changed to the PHP PASSWORD_DEFAULT constant.
 	 */
 	public static function getCryptedPassword($plaintext, $salt = '', $encryption = 'md5-hex', $show_encrypt = false)
 	{
+
 		// Get the salt to use.
 		$salt = JUserHelper::getSalt($encryption, $salt, $plaintext);
 
@@ -413,12 +416,13 @@ abstract class JUserHelper
 					}
 					else
 					{
-						// BCrypt isn't available, fall back to md5.
+						// BCrypt isn't available, fall back to md5 with salt.
 						return static::getCryptedPassword($plaintext, '', 'md5-hex', false);
 
 					}
 
 			case 'md5-hex':
+				// 'bcrypt' will be the default case starting in CMS 3.2.
 				default:
 				$encrypted = ($salt) ? md5($plaintext . $salt) : md5($plaintext);
 
@@ -444,6 +448,9 @@ abstract class JUserHelper
 	 * @return  string  The generated or extracted salt.
 	 *
 	 * @since   11.1
+	 * @note    Default $encryption will be changed to 'bcrypt' in CMS 3.2 and will at
+	 *          the type used by the PHP PASSWORD_DEFAULT constant until 5.5 is the minimum
+	 *          version required. At that point the default will be PASSWORD_DEFAULT.
 	 */
 	public static function getSalt($encryption = 'md5-hex', $seed = '', $plaintext = '')
 	{
@@ -621,6 +628,7 @@ abstract class JUserHelper
 		}
 		return $bin;
 	}
+
 	/**
 	 * Method to remove a cookie record from the database and the browser
 	 *
@@ -628,7 +636,7 @@ abstract class JUserHelper
 	 * @param   string   $cookieName  Series id (cookie name decoded)
 	 *
 	 * @return  boolean  True on success
-	 * @since   3.1.2
+	 * @since   3.1.3
 	 * @see JInput::setCookie for more details
 	 */
 	public static function invalidateCookie($userId, $cookieName)
@@ -655,7 +663,7 @@ abstract class JUserHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   3.1.2
+	 * @since   3.1.3
 	 */
 	public static function clearExpiredTokens()
 	{
@@ -671,9 +679,9 @@ abstract class JUserHelper
 	/*
 	 * Method to get the remember me cookie data
 	*
-	* @return  mixed  An array of information from the remember me cookie or false if there is no cookie
+	* @return  mixed  An array of information from an authentication cookie or false if there is no cookie
 	*
-	* @since   3.1.2
+	* @since   3.1.3
 	*/
 	public static function getRememberCookieData()
 	{
@@ -696,12 +704,12 @@ abstract class JUserHelper
 
 	/*
 	 * Method to get a hashed user agent string that does not include browser version.
-	* Used when frequent version changes cause problems.
-	*
-	* @return  string  A hashed user agent string with version replaced by 'abcd'
-	*
-	* @since   3.1.2
-	*/
+	 * Used when frequent version changes cause problems.
+	 *
+	 * @return  string  A hashed user agent string with version replaced by 'abcd'
+	 *
+	 * @since   3.1.3
+	 */
 	public static function getShortHashedUserAgent()
 	{
 		$ua = new JApplicationWebClient;
@@ -711,5 +719,4 @@ abstract class JUserHelper
 
 		return md5(JUri::base() . $uaShort);
 	}
-
 }

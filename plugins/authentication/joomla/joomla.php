@@ -18,6 +18,7 @@ defined('_JEXEC') or die;
  */
 class PlgAuthenticationJoomla extends JPlugin
 {
+
 	/**
 	 * This method should handle any authentication and report back to the subject
 	 *
@@ -59,7 +60,7 @@ class PlgAuthenticationJoomla extends JPlugin
 			 */
 			if (substr($result->password, 0, 4) == '$2y$')
 			{
-				// BCrypt passwords are always 60 characters, but it is possible that salt is appended although non standard.
+				// BCrypt password strings are always 60 characters, but it is possible that salt is appended although non standard.
 				$password60 = substr($result->password, 0, 60);
 
 				if (JCrypt::hasStrongPasswordSupport())
@@ -110,5 +111,6 @@ class PlgAuthenticationJoomla extends JPlugin
 			$response->status = JAuthentication::STATUS_FAILURE;
 			$response->error_message = JText::_('JGLOBAL_AUTH_NO_USER');
 		}
+
 	}
 }

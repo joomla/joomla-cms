@@ -50,9 +50,12 @@ class PlgAuthenticationCookie extends JPlugin
 		$response->type = 'Cookie';
 
 		// Set cookie params.
-		$response->lifetime = $options['lifetime'];
-		$response->length = $options['length'];
-		$response->secure = $options['secure'];
+		if (!empty($options['lifetime']) && !empty($options['length']) && !empty($options['secure']))
+		{
+			$response->lifetime = $options['lifetime'];
+			$response->length = $options['length'];
+			$response->secure = $options['secure'];
+		}
 
 		$this->db = JFactory::getDbo();
 
