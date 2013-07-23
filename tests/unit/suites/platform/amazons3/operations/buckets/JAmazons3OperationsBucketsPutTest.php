@@ -166,7 +166,7 @@ class JAmazons3OperationsBucketsPutTest extends PHPUnit_Framework_TestCase
 				"RoutingRules" => array(
 					"RoutingRule" => array(
 						"Condition" => array(
-							"KeyPrefixEquals" => "docs"
+							"KeyPrefixEquals" => "docs/"
 						),
 						"Redirect" => array(
 							"ReplaceKeyPrefixWith" => "documents/"
@@ -860,7 +860,7 @@ class JAmazons3OperationsBucketsPutTest extends PHPUnit_Framework_TestCase
 			. "<RoutingRules>\n"
 			. "<RoutingRule>\n"
 			. "<Condition>\n"
-			. "<KeyPrefixEquals>docs</KeyPrefixEquals>\n"
+			. "<KeyPrefixEquals>docs/</KeyPrefixEquals>\n"
 			. "</Condition>\n"
 			. "<Redirect>\n"
 			. "<ReplaceKeyPrefixWith>documents/</ReplaceKeyPrefixWith>\n"
