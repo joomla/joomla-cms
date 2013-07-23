@@ -490,4 +490,64 @@ class JAmazons3OperationsBucketsPut extends JAmazons3OperationsBuckets
 
 		return $response_body;
 	}
+
+	/**
+	 * Adds a set of tags to an existing bucket
+	 *
+	 * @param   string  $bucket  The bucket name
+	 * @param   string  $tags    An array containing the tags
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function putBucketTagging($bucket, $tags = null)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?tagging";
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+		);
+		$content = "";
+
+		// Check for lifecycle configuration rules
+		if (is_array($tags))
+		{
+			$content = "<Tagging>\n"
+				. "<TagSet>\n";
+
+			// $tags is an array of rules (which in turn are arrays of rule properties)
+			foreach ($tags as $tag)
+			{
+				$content .= "<Tag>\n";
+
+				foreach ($tag as $ruleKey => $ruleValue)
+				{
+					$content .= "<" . $ruleKey . ">";
+					$content .= $ruleValue;
+					$content .= "</" . $ruleKey . ">\n";
+				}
+
+				$content .= "</Tag>\n";
+			}
+
+			$content .= "</TagSet>\n";
+			$content .= "</Tagging>";
+		}
+
+		// Set the content related headers
+		$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
+		$headers["Content-Length"] = strlen($content);
+		$headers["Content-MD5"] = base64_encode(md5($content, true));
+		$authorization = $this->createAuthorization("PUT", $url, $headers);
+		$headers["Authorization"] = $authorization;
+		unset($headers["Content-type"]);
+
+		// Send the http request
+		$response = $this->client->put($url, $content, $headers);
+
+		// Process the response
+		$response_body = $this->processResponse($response);
+
+		return $response_body;
+	}
 }
