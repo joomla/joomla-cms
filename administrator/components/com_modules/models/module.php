@@ -767,6 +767,7 @@ class ModulesModelModule extends JModelAdmin
 		$user = JFactory::getUser();
 
 		$table->title		= htmlspecialchars_decode($table->title, ENT_QUOTES);
+		$table->position	= trim($table->position);
 
 		if (empty($table->id))
 		{
