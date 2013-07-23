@@ -550,4 +550,42 @@ class JAmazons3OperationsBucketsPut extends JAmazons3OperationsBuckets
 
 		return $response_body;
 	}
+
+	/**
+	 * Sets the request payment configuration of a bucket
+	 *
+	 * @param   string  $bucket  The bucket name
+	 * @param   string  $payer   Specifies who pays for the download and request fees.
+	 *                           Valid Values: Requester | BucketOwner
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function putBucketRequestPayment($bucket, $payer)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?requestPayment";
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+		);
+		$content = "<RequestPaymentConfiguration xmlns=\"http://s3.amazonaws.com/doc/2006-03-01/\">\n"
+			. "<Payer>" . $payer . "</Payer>\n"
+			. "</RequestPaymentConfiguration>";
+
+		// Set the content related headers
+		$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
+		$headers["Content-Length"] = strlen($content);
+		$headers["Content-MD5"] = base64_encode(md5($content, true));
+		$authorization = $this->createAuthorization("PUT", $url, $headers);
+		$headers["Authorization"] = $authorization;
+		unset($headers["Content-type"]);
+
+		// Send the http request
+		$response = $this->client->put($url, $content, $headers);
+
+		// Process the response
+		$response_body = $this->processResponse($response);
+
+		return $response_body;
+	}
 }
