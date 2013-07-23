@@ -594,12 +594,15 @@ class JAmazons3OperationsBucketsPut extends JAmazons3OperationsBuckets
 	 *
 	 * @param   string  $bucket      The bucket name
 	 * @param   string  $versioning  Array with Status and MfaDelete
+	 * @param   string  $serialNr    The serial number is generated using either a hardware or virtual MFA device
+	 *                               Required for MfaDelete
+	 * @param   string  $tokenCode   Also required for MfaDelete
 	 *
 	 * @return string  The response body
 	 *
 	 * @since   ??.?
 	 */
-	public function putBucketVersioning($bucket, $versioning)
+	public function putBucketVersioning($bucket, $versioning, $serialNr = null, $tokenCode = null)
 	{
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?versioning";
 		$headers = array(
@@ -611,8 +614,6 @@ class JAmazons3OperationsBucketsPut extends JAmazons3OperationsBuckets
 			// Check for MfaDelete
 			if (array_key_exists("MfaDelete", $versioning))
 			{
-				$serialNr = "20899872";
-				$tokenCode = "301749";
 				$headers["x-amz-mfa"] = $serialNr . " " . $tokenCode;
 			}
 

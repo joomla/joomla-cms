@@ -808,7 +808,9 @@ class JAmazons3OperationsBucketsPutTest extends PHPUnit_Framework_TestCase
 		$this->assertThat(
 			$this->object->put->putBucketVersioning(
 				$this->options->get("testBucket"),
-				$this->options->get("testVersioningWithMfaDelete")
+				$this->options->get("testVersioningWithMfaDelete"),
+				$this->options->get("serialNr"),
+				$this->options->get("tokenCode")
 			),
 			$this->equalTo($expectedResult)
 		);
