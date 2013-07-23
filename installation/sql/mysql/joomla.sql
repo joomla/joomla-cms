@@ -6,14 +6,14 @@
 --
 
 CREATE TABLE IF NOT EXISTS `#__assets` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
-  `parent_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set parent.',
-  `lft` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set lft.',
-  `rgt` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set rgt.',
-  `level` int(10) unsigned NOT NULL COMMENT 'The cached level in the nested tree.',
-  `name` varchar(50) NOT NULL COMMENT 'The unique name for the asset.\n',
-  `title` varchar(100) NOT NULL COMMENT 'The descriptive title for the asset.',
-  `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Clave primaria',
+  `parent_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Conjunto anidado padre.',
+  `lft` int(11) NOT NULL DEFAULT '0' COMMENT 'Conjunto anidado lft.',
+  `rgt` int(11) NOT NULL DEFAULT '0' COMMENT 'conjunto anidado rgt.',
+  `level` int(10) unsigned NOT NULL COMMENT 'Nivel de cache en el árbol anidado.',
+  `name` varchar(50) NOT NULL COMMENT 'Nombre único para el activo.\n',
+  `title` varchar(100) NOT NULL COMMENT 'Título descritivo para el activo.',
+  `rules` varchar(5120) NOT NULL COMMENT 'Control de acceso codificado en JSON.',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_asset_name` (`name`),
   KEY `idx_lft_rgt` (`lft`,`rgt`),
@@ -51,12 +51,12 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (24, 1, 53, 56, 1, 'com_users', 'com_users', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 (25, 1, 57, 60, 1, 'com_weblinks', 'com_weblinks', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}'),
 (26, 1, 61, 62, 1, 'com_wrapper', 'com_wrapper', '{}'),
-(27, 8, 18, 19, 2, 'com_content.category.2', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
-(28, 3, 4, 5, 2, 'com_banners.category.3', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(29, 7, 14, 15, 2, 'com_contact.category.4', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
-(30, 19, 42, 43, 2, 'com_newsfeeds.category.5', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
-(31, 25, 58, 59, 2, 'com_weblinks.category.6', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
-(32, 24, 54, 55, 1, 'com_users.notes.category.7', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(27, 8, 18, 19, 2, 'com_content.category.2', 'Sin Categoría', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
+(28, 3, 4, 5, 2, 'com_banners.category.3', 'Sin Categoría', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(29, 7, 14, 15, 2, 'com_contact.category.4', 'Sin Categoría', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
+(30, 19, 42, 43, 2, 'com_newsfeeds.category.5', 'Sin Categoría', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
+(31, 25, 58, 59, 2, 'com_weblinks.category.6', 'Sin Categoría', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
+(32, 24, 54, 55, 1, 'com_users.notes.category.7', 'Sin Categoría', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 (33, 1, 63, 64, 1, 'com_finder', 'com_finder', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
 (34, 1, 65, 66, 1, 'com_jokteupdate', 'com_jokteupdate', '{"core.admin":[],"core.manage":[],"core.delete":[],"core.edit.state":[]}');
 
@@ -67,9 +67,9 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 --
 
 CREATE TABLE IF NOT EXISTS `#__associations` (
-  `id` varchar(50) NOT NULL COMMENT 'A reference to the associated item.',
-  `context` varchar(50) NOT NULL COMMENT 'The context of the associated item.',
-  `key` char(32) NOT NULL COMMENT 'The key for the association computed from an md5 on associated ids.',
+  `id` varchar(50) NOT NULL COMMENT 'Referencia para el ítem asociado.',
+  `context` varchar(50) NOT NULL COMMENT 'Contexto del ítem asociado.',
+  `key` char(32) NOT NULL COMMENT 'Llave para la asociación computada md5 asociada a los ids.',
   PRIMARY KEY (`context`,`id`),
   KEY `idx_key` (`key`)
 ) DEFAULT CHARSET=utf8;
@@ -169,7 +169,7 @@ CREATE TABLE IF NOT EXISTS `#__banner_tracks` (
 
 CREATE TABLE IF NOT EXISTS `#__categories` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `asset_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to the #__assets table.',
+  `asset_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK para la tabla #__assets.',
   `parent_id` int(10) unsigned NOT NULL DEFAULT '0',
   `lft` int(11) NOT NULL DEFAULT '0',
   `rgt` int(11) NOT NULL DEFAULT '0',
@@ -185,9 +185,9 @@ CREATE TABLE IF NOT EXISTS `#__categories` (
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `access` int(10) unsigned NOT NULL DEFAULT '0',
   `params` text NOT NULL,
-  `metadesc` varchar(1024) NOT NULL COMMENT 'The meta description for the page.',
-  `metakey` varchar(1024) NOT NULL COMMENT 'The meta keywords for the page.',
-  `metadata` varchar(2048) NOT NULL COMMENT 'JSON encoded metadata properties.',
+  `metadesc` varchar(1024) NOT NULL COMMENT 'Meta descripción de la página.',
+  `metakey` varchar(1024) NOT NULL COMMENT 'Meta palabras clave para la página.',
+  `metadata` varchar(2048) NOT NULL COMMENT 'Propiedades metadatos codificados en JSON.',
   `created_user_id` int(10) unsigned NOT NULL DEFAULT '0',
   `created_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `modified_user_id` int(10) unsigned NOT NULL DEFAULT '0',
@@ -210,12 +210,12 @@ CREATE TABLE IF NOT EXISTS `#__categories` (
 
 INSERT INTO `#__categories` (`id`, `asset_id`, `parent_id`, `lft`, `rgt`, `level`, `path`, `extension`, `title`, `alias`, `note`, `description`, `published`, `checked_out`, `checked_out_time`, `access`, `params`, `metadesc`, `metakey`, `metadata`, `created_user_id`, `created_time`, `modified_user_id`, `modified_time`, `hits`, `language`) VALUES
 (1, 0, 0, 0, 13, 0, '', 'system', 'ROOT', 'root', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 0, '2009-10-18 16:07:09', 0, '0000-00-00 00:00:00', 0, '*'),
-(2, 27, 1, 1, 2, 1, 'uncategorised', 'com_content', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:26:37', 0, '0000-00-00 00:00:00', 0, '*'),
-(3, 28, 1, 3, 4, 1, 'uncategorised', 'com_banners', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":"","foobar":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:27:35', 0, '0000-00-00 00:00:00', 0, '*'),
-(4, 29, 1, 5, 6, 1, 'uncategorised', 'com_contact', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:27:57', 0, '0000-00-00 00:00:00', 0, '*'),
-(5, 30, 1, 7, 8, 1, 'uncategorised', 'com_newsfeeds', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:28:15', 0, '0000-00-00 00:00:00', 0, '*'),
-(6, 31, 1, 9, 10, 1, 'uncategorised', 'com_weblinks', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:28:33', 0, '0000-00-00 00:00:00', 0, '*'),
-(7, 32, 1, 11, 12, 1, 'uncategorised', 'com_users.notes', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:28:33', 0, '0000-00-00 00:00:00', 0, '*');
+(2, 27, 1, 1, 2, 1, 'sin-categoria', 'com_content', 'Sin Categoría', 'sin-categoria', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:26:37', 0, '0000-00-00 00:00:00', 0, '*'),
+(3, 28, 1, 3, 4, 1, 'sin-categoria', 'com_banners', 'Sin Categoría', 'sin-categoria', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":"","foobar":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:27:35', 0, '0000-00-00 00:00:00', 0, '*'),
+(4, 29, 1, 5, 6, 1, 'sin-categoria', 'com_contact', 'Sin Categoría', 'sin-categoria', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:27:57', 0, '0000-00-00 00:00:00', 0, '*'),
+(5, 30, 1, 7, 8, 1, 'sin-categoria', 'com_newsfeeds', 'Sin Categoría', 'sin-categoria', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:28:15', 0, '0000-00-00 00:00:00', 0, '*'),
+(6, 31, 1, 9, 10, 1, 'sin-categoria', 'com_weblinks', 'Sin Categoría', 'sin-categoria', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:28:33', 0, '0000-00-00 00:00:00', 0, '*'),
+(7, 32, 1, 11, 12, 1, 'sin-categoria', 'com_users.notes', 'Sin Categoría', 'sin-categoria', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2010-06-28 13:28:33', 0, '0000-00-00 00:00:00', 0, '*');
 
 -- --------------------------------------------------------
 
@@ -262,8 +262,8 @@ CREATE TABLE IF NOT EXISTS `#__contact_details` (
   `metakey` text NOT NULL,
   `metadesc` text NOT NULL,
   `metadata` text NOT NULL,
-  `featured` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'Set if article is featured.',
-  `xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
+  `featured` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'Opción para artículo destacado.',
+  `xreference` varchar(50) NOT NULL COMMENT 'Referencia para permitir conexiones a conjuntos de datos externos.',
   `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
@@ -285,11 +285,11 @@ CREATE TABLE IF NOT EXISTS `#__contact_details` (
 
 CREATE TABLE IF NOT EXISTS `#__content` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `asset_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to the #__assets table.',
+  `asset_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK para la tabla #__assets.',
   `title` varchar(255) NOT NULL DEFAULT '',
   `subtitle` varchar(255) NOT NULL DEFAULT '',
   `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
-  `title_alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'Deprecated in Joomla! 3.0',
+  `title_alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
   `copete` mediumtext NOT NULL,
   `introtext` mediumtext NOT NULL,
   `fulltext` mediumtext NOT NULL,
@@ -318,9 +318,9 @@ CREATE TABLE IF NOT EXISTS `#__content` (
   `access` int(10) unsigned NOT NULL DEFAULT '0',
   `hits` int(10) unsigned NOT NULL DEFAULT '0',
   `metadata` text NOT NULL,
-  `featured` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'Set if article is featured.',
-  `language` char(7) NOT NULL COMMENT 'The language code for the article.',
-  `xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
+  `featured` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'Opción para artículo destacado.',
+  `language` char(7) NOT NULL COMMENT 'Código del lenguaje para el artículo.',
+  `xreference` varchar(50) NOT NULL COMMENT 'Referencia para permitir conexiones a conjuntos de datos externos.',
   PRIMARY KEY (`id`),
   KEY `idx_access` (`access`),
   KEY `idx_checkout` (`checked_out`),
@@ -1135,28 +1135,28 @@ INSERT INTO `#__languages` (`lang_id`, `lang_code`, `title`, `title_native`, `se
 
 CREATE TABLE IF NOT EXISTS `#__menu` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `menutype` varchar(24) NOT NULL COMMENT 'The type of menu this item belongs to. FK to #__menu_types.menutype',
-  `title` varchar(255) NOT NULL COMMENT 'The display title of the menu item.',
-  `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'The SEF alias of the menu item.',
+  `menutype` varchar(24) NOT NULL COMMENT 'Pertenencia al tipo de menú para este item. FK para #__menu_types.menutype',
+  `title` varchar(255) NOT NULL COMMENT 'Título mostrado ítem de menú.',
+  `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'Alias SEF para el item de menú.',
   `note` varchar(255) NOT NULL DEFAULT '',
-  `path` varchar(1024) NOT NULL COMMENT 'The computed path of the menu item based on the alias field.',
-  `link` varchar(1024) NOT NULL COMMENT 'The actually link the menu item refers to.',
-  `type` varchar(16) NOT NULL COMMENT 'The type of link: Component, URL, Alias, Separator',
-  `published` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'The published state of the menu link.',
-  `parent_id` int(10) unsigned NOT NULL DEFAULT '1' COMMENT 'The parent menu item in the menu tree.',
-  `level` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'The relative level in the tree.',
-  `component_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to #__extensions.id',
-  `ordering` int(11) NOT NULL DEFAULT '0' COMMENT 'The relative ordering of the menu item in the tree.',
-  `checked_out` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to #__users.id',
-  `checked_out_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'The time the menu item was checked out.',
-  `browserNav` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'The click behaviour of the link.',
-  `access` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'The access level required to view the menu item.',
-  `img` varchar(255) NOT NULL COMMENT 'The image of the menu item.',
+  `path` varchar(1024) NOT NULL COMMENT 'Trayectoria calculada del elemento de menú en función del campo alias.',
+  `link` varchar(1024) NOT NULL COMMENT 'Enlace real de este ítem de menú.',
+  `type` varchar(16) NOT NULL COMMENT 'Tipo de enlace: Componente, URL, Alias, Separador',
+  `published` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'Estado de publicación del enlace.',
+  `parent_id` int(10) unsigned NOT NULL DEFAULT '1' COMMENT 'Item de menú pariente en el árbol de menú.',
+  `level` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Nivel relativo en el árbol.',
+  `component_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK para la tabla #__extensions.id',
+  `ordering` int(11) NOT NULL DEFAULT '0' COMMENT 'Ordenamiento relativo para el item de menú en el árbol.',
+  `checked_out` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK para la tabla #__users.id',
+  `checked_out_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Tiempo en el que el item de menú se liberó.',
+  `browserNav` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'Comportamiento del click en el vínnculo.',
+  `access` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Nivel de acceso requerido para ver el item de menú.',
+  `img` varchar(255) NOT NULL COMMENT 'Imagen del ítem de menú.',
   `template_style_id` int(10) unsigned NOT NULL DEFAULT '0',
-  `params` text NOT NULL COMMENT 'JSON encoded data for the menu item.',
-  `lft` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set lft.',
-  `rgt` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set rgt.',
-  `home` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'Indicates if this menu item is the home or default page.',
+  `params` text NOT NULL COMMENT 'Datos para del ítem de menú codificados en JSON.',
+  `lft` int(11) NOT NULL DEFAULT '0' COMMENT 'Conjunto anidado lft.',
+  `rgt` int(11) NOT NULL DEFAULT '0' COMMENT 'Conjunto anidado rgt.',
+  `home` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'Indica si el ítem de menú es el Inicio o la página por defecto.',
   `language` char(7) NOT NULL DEFAULT '',
   `client_id` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
@@ -1218,7 +1218,7 @@ CREATE TABLE IF NOT EXISTS `#__menu_types` (
 --
 
 INSERT INTO `#__menu_types` (`id`, `menutype`, `title`, `description`) VALUES
-(1, 'mainmenu', 'Main Menu', 'The main menu for the site');
+(1, 'mainmenu', 'Menú Principal', 'Menú principal del sitio');
 
 -- --------------------------------------------------------
 
@@ -1288,19 +1288,19 @@ CREATE TABLE IF NOT EXISTS `#__modules` (
 --
 INSERT INTO `#__modules` (`id`, `title`, `note`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `publish_up`, `publish_down`, `published`, `module`, `access`, `showtitle`, `params`, `client_id`, `language`) VALUES
 (1, 'Menu Principal activo', 'menu superior activo', '', 1, 'topmenu', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_menu', 1, 0, '{"menutype":"mainmenu","startLevel":"1","endLevel":"0","showAllChildren":"1","tag_id":"","class_sfx":"","window_open":"","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"itemid"}', 0, '*'),
-(2, 'Login', '', '', 1, 'login', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_login', 1, 1, '', 1, '*'),
-(3, 'Popular Articles', '', '', 5, 'cpanel', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_popular', 3, 1, '{"count":"5","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0","automatic_title":"1"}', 1, '*'),
-(4, 'Recently Added Articles', '', '', 6, 'cpanel', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_latest', 3, 1, '{"count":"5","ordering":"c_dsc","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0","automatic_title":"1"}', 1, '*'),
-(8, 'Toolbar', '', '', 1, 'toolbar', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_toolbar', 3, 1, '', 1, '*'),
-(9, 'Quick Icons', '', '', 1, 'icon', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_quickicon', 3, 1, '', 1, '*'),
-(10, 'Logged-in Users', '', '', 4, 'cpanel', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_logged', 3, 1, '{"count":"5","name":"1","layout":"_:default","moduleclass_sfx":"","cache":"0","automatic_title":"1"}', 1, '*'),
-(12, 'Admin Menu', '', '', 1, 'menu', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_menu', 3, 1, '{"layout":"","moduleclass_sfx":"","shownew":"1","showhelp":"1","cache":"0"}', 1, '*'),
-(13, 'Admin Submenu', '', '', 1, 'submenu', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_submenu', 3, 1, '', 1, '*'),
-(14, 'User Status', '', '', 2, 'status', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_status', 3, 1, '', 1, '*'),
-(15, 'Title', '', '', 1, 'title', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_title', 3, 1, '', 1, '*'),
+(2, 'Ingreso', '', '', 1, 'login', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_login', 1, 1, '', 1, '*'),
+(3, 'Artículos Populares', '', '', 5, 'cpanel', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_popular', 3, 1, '{"count":"5","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0","automatic_title":"1"}', 1, '*'),
+(4, 'Artículos Recientemente Agregados', '', '', 6, 'cpanel', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_latest', 3, 1, '{"count":"5","ordering":"c_dsc","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0","automatic_title":"1"}', 1, '*'),
+(8, 'Barra de Herramientas', '', '', 1, 'toolbar', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_toolbar', 3, 1, '', 1, '*'),
+(9, 'Iconos Rápidos', '', '', 1, 'icon', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_quickicon', 3, 1, '', 1, '*'),
+(10, 'Usuarios Ingresados', '', '', 4, 'cpanel', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_logged', 3, 1, '{"count":"5","name":"1","layout":"_:default","moduleclass_sfx":"","cache":"0","automatic_title":"1"}', 1, '*'),
+(12, 'Menú Administrador', '', '', 1, 'menu', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_menu', 3, 1, '{"layout":"","moduleclass_sfx":"","shownew":"1","showhelp":"1","cache":"0"}', 1, '*'),
+(13, 'Submenú Administrador', '', '', 1, 'submenu', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_submenu', 3, 1, '', 1, '*'),
+(14, 'Estado del Usuario', '', '', 2, 'status', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_status', 3, 1, '', 1, '*'),
+(15, 'Título', '', '', 1, 'title', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_title', 3, 1, '', 1, '*'),
 (16, 'Acceso', 'ejemplo', '', 1, 'bajocontent', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_login', 1, 1, '{"pretext":"Texto ejemplo inicial","posttext":"Texto ejemplo final","login":"","logout":"","greeting":"1","name":"0","usesecure":"0","layout":"_:default","moduleclass_sfx":" caja gris1","cache":"0"}', 0, '*'),
-(79, 'Multilanguage status', '', '', 1, 'status', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_multilangstatus', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
-(103, 'Joomla Version', '', '', 1, 'footer', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', -2, 'mod_version', 3, 1, '{"format":"short","product":"0","layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
+(79, 'Estado Multilenguaje', '', '', 1, 'status', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_multilangstatus', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
+(103, 'Versión Jokte', '', '', 1, 'footer', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', -2, 'mod_version', 3, 1, '{"format":"short","product":"0","layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
 (104, 'Juuntos Comunidad ', '', '', 1, 'banner1', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_juuntos_comunidad', 1, 1, '', 0, '*'),
 (106, 'Noticias JOKTE!', 'Canal RSS de Jokte.org', '', 3, 'cpanel', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_feed', 1, 1, '{"rssurl":"http:\\/\\/jokte.org\\/index.php?format=feed&type=rss","rssrtl":"0","rsstitle":"1","rssdesc":"1","rssimage":"1","rssitems":"3","rssitemdesc":"1","word_count":"0","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900"}', 1, '*'),
 (107, 'JOKTE! ON LINE', '', '<p><span style="font-size: xx-large;">JOKTE! CMS 100% Libre</span></p>', 1, 'cpanel', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_custom', 1, 1, '{"prepare_content":"1","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900"}', 1, '*'),
@@ -1384,7 +1384,7 @@ CREATE TABLE IF NOT EXISTS `#__newsfeeds` (
   `metakey` text NOT NULL,
   `metadesc` text NOT NULL,
   `metadata` text NOT NULL,
-  `xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
+  `xreference` varchar(50) NOT NULL COMMENT 'Referencia para permitir enlaces a conjunto de datos externos.',
   `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
@@ -1404,7 +1404,7 @@ CREATE TABLE IF NOT EXISTS `#__newsfeeds` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__overrider` (
-  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'Clave Primaria',
   `constant` varchar(255) NOT NULL,
   `string` text NOT NULL,
   `file` varchar(255) NOT NULL,
@@ -1483,8 +1483,8 @@ CREATE TABLE IF NOT EXISTS `#__template_styles` (
 --
 
 INSERT INTO `#__template_styles` (`id`, `template`, `client_id`, `home`, `title`, `params`) VALUES
-(2, 'storkantu', 1, '1', 'storkantu - Predeterminado', '{"showSiteName":"0","colourChoice":"","boldText":"0"}'),
-(3, 'jokteantu', 0, '1', 'jokteantu - Predeterminado', '{"logo":"images\\/logos\\/jokte-logo-front.png","sitename":"JoKte! CMS 100% Libre","siteslogan":"Software 100% Libre y Latinoamericano","typeslogan":"1","body":980,"tipomenu":"css2","typobody":"no-google","typoespecial":"Oswald","skincss":"red","errorskin":"base","user1":"25","banners":["50","50"],"userstop":["33","33","33"],"usersbottom":["33","33","33"],"left":"16","content":"67","right":"17","twitter":"jokte","isanalytics":"1","analyticsid":"UA-xxxxxx-x"}'),
+(2, 'storkantu', 1, '1', 'Stork Antu - Predeterminado', '{"showSiteName":"0","colourChoice":"","boldText":"0"}'),
+(3, 'jokteantu', 0, '1', 'Jokte Antu - Predeterminado', '{"logo":"images\\/logos\\/jokte-logo-front.png","sitename":"JoKte! CMS 100% Libre","siteslogan":"Software 100% Libre y Latinoamericano","typeslogan":"1","body":980,"tipomenu":"css2","typobody":"no-google","typoespecial":"Oswald","skincss":"red","errorskin":"base","user1":"25","banners":["50","50"],"userstop":["33","33","33"],"usersbottom":["33","33","33"],"left":"16","content":"67","right":"17","twitter":"jokte","isanalytics":"1","analyticsid":"UA-xxxxxx-x"}'),
 (4, 'hathor', 1, '0', 'Hathor - Predeterminado', '{"showSiteName":"0","colourChoice":"","boldText":"0"}');
 
 -- --------------------------------------------------------
@@ -1512,7 +1512,7 @@ CREATE TABLE IF NOT EXISTS `#__updates` (
   `rangetype` int(11) default '0',
   `rangeurl` text NOT NULL,
   PRIMARY KEY (`update_id`)
-) DEFAULT CHARSET=utf8 COMMENT='Available Updates' AUTO_INCREMENT=1 ;
+) DEFAULT CHARSET=utf8 COMMENT='Actualizaciones Disponibles' AUTO_INCREMENT=1 ;
 -- --------------------------------------------------------
 
 --
@@ -1526,7 +1526,7 @@ CREATE TABLE IF NOT EXISTS `#__update_categories` (
   `parent` int(11) DEFAULT '0',
   `updatesite` int(11) DEFAULT '0',
   PRIMARY KEY (`categoryid`)
-) DEFAULT CHARSET=utf8 COMMENT='Update Categories' AUTO_INCREMENT=1 ;
+) DEFAULT CHARSET=utf8 COMMENT='Actualizar Categorías' AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1542,7 +1542,7 @@ CREATE TABLE IF NOT EXISTS `#__update_sites` (
   `enabled` int(11) DEFAULT '0',
   `last_check_timestamp` bigint(20) DEFAULT '0',
   PRIMARY KEY (`update_site_id`)
-) DEFAULT CHARSET=utf8 COMMENT='Update Sites' AUTO_INCREMENT=1 ;
+) DEFAULT CHARSET=utf8 COMMENT='Actualizar Sitios' AUTO_INCREMENT=1 ;
 
 --
 -- Volcado de datos para la tabla `#__update_sites`
@@ -1563,7 +1563,7 @@ CREATE TABLE IF NOT EXISTS `#__update_sites_extensions` (
   `update_site_id` int(11) NOT NULL DEFAULT '0',
   `extension_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`update_site_id`,`extension_id`)
-) DEFAULT CHARSET=utf8 COMMENT='Links extensions to update sites';
+) DEFAULT CHARSET=utf8 COMMENT='Enlace a extensiones para actualizar sitio';
 
 --
 -- Volcado de datos para la tabla `#__update_sites_extensions`
@@ -1581,10 +1581,10 @@ INSERT INTO `#__update_sites_extensions` (`update_site_id`, `extension_id`) VALU
 --
 
 CREATE TABLE IF NOT EXISTS `#__usergroups` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
-  `parent_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Adjacency List Reference Id',
-  `lft` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set lft.',
-  `rgt` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set rgt.',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Clave Primaria',
+  `parent_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Lista Adjacente Referencia Id',
+  `lft` int(11) NOT NULL DEFAULT '0' COMMENT 'Conjunto anidado lft.',
+  `rgt` int(11) NOT NULL DEFAULT '0' COMMENT 'Conjunto anidado rgt.',
   `title` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_usergroup_parent_title_lookup` (`parent_id`,`title`),
@@ -1626,8 +1626,8 @@ CREATE TABLE IF NOT EXISTS `#__users` (
   `lastvisitDate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `activation` varchar(100) NOT NULL DEFAULT '',
   `params` text NOT NULL,
-  `lastResetTime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Date of last password reset',
-  `resetCount` int(11) NOT NULL DEFAULT '0' COMMENT 'Count of password resets since lastResetTime',
+  `lastResetTime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Fecha de última contraseña reiniciada',
+  `resetCount` int(11) NOT NULL DEFAULT '0' COMMENT 'Cantidad de reinicios de contraseña desde el último reinicio',
   PRIMARY KEY (`id`),
   KEY `usertype` (`usertype`),
   KEY `idx_name` (`name`),
@@ -1675,7 +1675,7 @@ CREATE TABLE IF NOT EXISTS `#__user_profiles` (
   `profile_value` varchar(255) NOT NULL,
   `ordering` int(11) NOT NULL DEFAULT '0',
   UNIQUE KEY `idx_user_id_profile_key` (`user_id`,`profile_key`)
-) DEFAULT CHARSET=utf8 COMMENT='Simple user profile storage table';
+) DEFAULT CHARSET=utf8 COMMENT='Tabla para almacenar perfil de usuarios ';
 
 -- --------------------------------------------------------
 
@@ -1684,8 +1684,8 @@ CREATE TABLE IF NOT EXISTS `#__user_profiles` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__user_usergroup_map` (
-  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__users.id',
-  `group_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__usergroups.id',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Clave Foránea para la tabla #__users.id',
+  `group_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Clave Foránea para la tabla #__usergroups.id',
   PRIMARY KEY (`user_id`,`group_id`)
 ) DEFAULT CHARSET=utf8;
 
@@ -1697,10 +1697,10 @@ CREATE TABLE IF NOT EXISTS `#__user_usergroup_map` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__viewlevels` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Clave Primaria',
   `title` varchar(100) NOT NULL DEFAULT '',
   `ordering` int(11) NOT NULL DEFAULT '0',
-  `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
+  `rules` varchar(5120) NOT NULL COMMENT 'Control de acceso codificado en JSON.',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_assetgroup_title_lookup` (`title`)
 ) DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
@@ -1710,9 +1710,9 @@ CREATE TABLE IF NOT EXISTS `#__viewlevels` (
 --
 
 INSERT INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
-(1, 'Public', 0, '[1]'),
-(2, 'Registered', 1, '[6,2,8]'),
-(3, 'Special', 2, '[6,3,8]');
+(1, 'Publico', 0, '[1]'),
+(2, 'Registrado', 1, '[6,2,8]'),
+(3, 'Especial', 2, '[6,3,8]');
 
 -- --------------------------------------------------------
 
@@ -1747,8 +1747,8 @@ CREATE TABLE IF NOT EXISTS `#__weblinks` (
   `metakey` text NOT NULL,
   `metadesc` text NOT NULL,
   `metadata` text NOT NULL,
-  `featured` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'Set if link is featured.',
-  `xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
+  `featured` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'Opción para enlace destacado.',
+  `xreference` varchar(50) NOT NULL COMMENT 'Referencia para permitir enlazar conjunto de datos externos.',
   `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
