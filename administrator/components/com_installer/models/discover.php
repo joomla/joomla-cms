@@ -170,7 +170,6 @@ class InstallerModelDiscover extends InstallerModel
 			}
 
 			JArrayHelper::toInteger($eid);
-			$app    = JFactory::getApplication();
 			$failed = false;
 
 			foreach ($eid as $id)
