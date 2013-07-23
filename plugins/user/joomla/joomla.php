@@ -402,10 +402,7 @@ class PlgUserJoomla extends JPlugin
 			$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->app->getCfg('cookie_path'), $this->app->getCfg('cookie_domain'));
 
 			// And make a new one.
-			//$this->app->input->cookie->set($cookieName, $cookieValue, $this->app->rememberCookieLifetime, $this->app->getCfg('cookie_path'),
-				//		$this->app->getCfg('cookie_domain'), $this->app->rememberCookieSecure, true);
-			// And make a new one.
-			$this->app->input->cookie->set($cookieName, $cookieValue, $lifetime, $this->app->getCfg('cookie_path'),
+			$this->app->input->cookie->set($cookieName, $cookieValue, $cookieLifetime, $this->app->getCfg('cookie_path'),
 					$this->app->getCfg('cookie_domain'), $secure);
 
 
@@ -427,7 +424,7 @@ class PlgUserJoomla extends JPlugin
 
 			$query
 				->set($this->db->quoteName('user_id') . ' = ' . $this->db->quote($options['user']->username))
-				->set($this->db->quoteName('time') . ' = ' . $lifetime)
+				->set($this->db->quoteName('time') . ' = ' . $cookieLifetime)
 				//->set($this->db->quoteName('time') . ' = ' . $this->app->rememberCookieLifetime)
 				->set($this->db->quoteName('token') . ' = ' . $this->db->quote($cryptedKey))
 				->set($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($series)))

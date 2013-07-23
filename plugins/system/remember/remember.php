@@ -54,7 +54,7 @@ class PlgSystemRemember extends JPlugin
 	 *
 	 * @since  3.1.3
 	 */
-	protected $secure;
+	protected $secure = false;
 
 	/**
 	 * @var  time  Cookie lifetime in days.
@@ -110,6 +110,10 @@ class PlgSystemRemember extends JPlugin
 		}
 
 		$user = JFactory::getUser();
+
+		$this->app->rememberCookieLifetime = $this->lifetime;
+		$this->app->rememberCookieSecure = $this->secure;
+		$this->app->rememberCookieLength = $this->length;
 
 		// Check for a cookie
 		if ($user->get('guest') == 1)
@@ -191,9 +195,6 @@ class PlgSystemRemember extends JPlugin
 			}
 		}
 
-		$this->app->rememberCookieLifetime = $this->lifetime;
-		$this->app->rememberCookieSecure = $this->secure;
-		$this->app->rememberCookieLength = $this->length;
 
 		return false;
 	}
