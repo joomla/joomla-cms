@@ -319,4 +319,116 @@ class JAmazons3OperationsBucketsPut extends JAmazons3OperationsBuckets
 
 		return $response_body;
 	}
+
+	/**
+	 * Sets the logging parameters for a bucket and specifies permissions for
+	 * who can view and modify the logging parameters
+	 *
+	 * @param   string  $bucket   The bucket name
+	 * @param   string  $logging  An array containing the logging details
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function putBucketLogging($bucket, $logging = null)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?logging";
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+		);
+		$content = "";
+
+		// Check for lifecycle configuration rules
+		if (is_array($logging))
+		{
+			$content = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+				. "<BucketLoggingStatus xmlns=\"http://doc.s3.amazonaws.com/2006-03-01\">\n"
+				. "<LoggingEnabled>\n";
+
+			// $logging is an array of rules (which in turn are arrays of rule properties)
+			foreach ($logging as $ruleKey => $ruleValue)
+			{
+				// Parse the rule properties
+				if (strcmp($ruleKey, "TargetGrants") == 0)
+				{
+					$content .= "<" . $ruleKey . ">\n";
+
+					foreach ($ruleValue as $currentKey => $currentValue)
+					{
+						$content .= "<" . $currentKey . ">\n";
+
+						foreach ($currentValue as $key => $val)
+						{
+							if (strcmp($key, "Grantee") == 0)
+							{
+								$content .= "<Grantee xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"";
+
+								if (array_key_exists("EmailAddress", $val))
+								{
+									$content .= "AmazonCustomerByEmail\">\n";
+									$content .= "<EmailAddress>" . $val["EmailAddress"] . "</EmailAddress>\n";
+								}
+								else
+								{
+									if (array_key_exists("URI", $val))
+									{
+										$content .= "Group\">\n";
+										$content .= "<URI>" . $val["EmailAddress"] . "</URI>\n";
+									}
+									else
+									{
+										// Specify the grantee by the person's ID
+										$content .= "CanonicalUser\">\n";
+										$content .= "<ID>" . $val["ID"] . "</ID>\n";
+										$content .= "<DisplayName>" . $val["DisplayName"] . "</DisplayName>\n";
+									}
+								}
+							}
+							else
+							{
+								$content .= "<" . $key . ">" . $val;
+							}
+
+							$content .= "</" . $key . ">\n";
+						}
+
+						$content .= "</" . $currentKey . ">\n";
+					}
+
+					$content .= "</" . $ruleKey . ">\n";
+				}
+				else
+				{
+					$content .= "<" . $ruleKey . ">"
+						. $ruleValue
+						. "</" . $ruleKey . ">" . "\n";
+				}
+			}
+
+			$content .= "</LoggingEnabled>\n"
+				. "</BucketLoggingStatus>\n";
+		}
+		else
+		{
+			$content = '<?xml version="1.0" encoding="UTF-8"?>\n'
+				. '<BucketLoggingStatus xmlns="http://doc.s3.amazonaws.com/2006-03-01" />';
+		}
+
+		// Set the content related headers
+		$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
+		$headers["Content-Length"] = strlen($content);
+		$headers["Content-MD5"] = base64_encode(md5($content, true));
+		$authorization = $this->createAuthorization("PUT", $url, $headers);
+		$headers["Authorization"] = $authorization;
+		unset($headers["Content-type"]);
+
+		// Send the http request
+		$response = $this->client->put($url, $content, $headers);
+
+		// Process the response
+		$response_body = $this->processResponse($response);
+
+		return $response_body;
+	}
 }
