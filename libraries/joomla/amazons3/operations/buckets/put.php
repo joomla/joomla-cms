@@ -588,4 +588,58 @@ class JAmazons3OperationsBucketsPut extends JAmazons3OperationsBuckets
 
 		return $response_body;
 	}
+
+	/**
+	 * Sets the versioning state of an existing bucket
+	 *
+	 * @param   string  $bucket      The bucket name
+	 * @param   string  $versioning  Array with Status and MfaDelete
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function putBucketVersioning($bucket, $versioning)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?versioning";
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+		);
+
+		if (is_array($versioning))
+		{
+			// Check for MfaDelete
+			if (array_key_exists("MfaDelete", $versioning))
+			{
+				$serialNr = "20899872";
+				$tokenCode = "301749";
+				$headers["x-amz-mfa"] = $serialNr . " " . $tokenCode;
+			}
+
+			$content = "<VersioningConfiguration xmlns=\"http://s3.amazonaws.com/doc/2006-03-01/\">\n";
+
+			foreach ($versioning as $key => $value)
+			{
+				$content .= "<" . $key . ">" . $value . "</" . $key . ">\n";
+			}
+
+			$content .= "</VersioningConfiguration>";
+		}
+
+		// Set the content related headers
+		$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
+		$headers["Content-Length"] = strlen($content);
+		$headers["Content-MD5"] = base64_encode(md5($content, true));
+		$authorization = $this->createAuthorization("PUT", $url, $headers);
+		$headers["Authorization"] = $authorization;
+		unset($headers["Content-type"]);
+
+		// Send the http request
+		$response = $this->client->put($url, $content, $headers);
+
+		// Process the response
+		$response_body = $this->processResponse($response);
+
+		return $response_body;
+	}
 }

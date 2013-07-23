@@ -139,6 +139,21 @@ class JAmazons3OperationsBucketsPutTest extends PHPUnit_Framework_TestCase
 			)
 		);
 		$this->options->set("testRequestPayment", "Requester");
+		$this->options->set(
+			'testVersioningWithoutMfaDelete',
+			array(
+				"Status" => "Enabled",
+			)
+		);
+		$this->options->set(
+			'testVersioningWithMfaDelete',
+			array(
+				"Status" => "Enabled",
+				"MfaDelete" => "Enabled",
+			)
+		);
+		$this->options->set("serialNr", "20899872");
+		$this->options->set("tokenCode", "301749");
 
 		$this->client = $this->getMock('JAmazons3Http', array('delete', 'get', 'head', 'put'));
 
@@ -704,6 +719,96 @@ class JAmazons3OperationsBucketsPutTest extends PHPUnit_Framework_TestCase
 			$this->object->put->putBucketRequestPayment(
 				$this->options->get("testBucket"),
 				$this->options->get("testRequestPayment")
+			),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Thests the putBucketVersioning, using only the Status request element
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testPutBucketVersioningWithoutMfaDelete()
+	{
+		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url") . "/?versioning";
+		$headers = array();
+
+		$content = "<VersioningConfiguration xmlns=\"http://s3.amazonaws.com/doc/2006-03-01/\">\n"
+			. "<Status>Enabled</Status>\n"
+			. "</VersioningConfiguration>";
+
+		$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
+		$headers["Content-Length"] = strlen($content);
+		$headers["Content-MD5"] = base64_encode(md5($content, true));
+
+		$headers["Date"] = date("D, d M Y H:i:s O");
+		$authorization = $this->object->createAuthorization("PUT", $url, $headers);
+		$headers["Authorization"] = $authorization;
+		unset($headers["Content-type"]);
+
+		$returnData = new JHttpResponse;
+		$returnData->code = 200;
+		$returnData->body = "The request was successful.\n";
+		$expectedResult = $returnData->body;
+
+		$this->client->expects($this->once())
+			->method('put')
+			->with($url, $content, $headers)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->put->putBucketVersioning(
+				$this->options->get("testBucket"),
+				$this->options->get("testVersioningWithoutMfaDelete")
+			),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Thests the putBucketVersioning, using both Status and MfaDelete request elements
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testPutBucketVersioningWithMfaDelete()
+	{
+		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url") . "/?versioning";
+		$headers = array();
+
+		$content = "<VersioningConfiguration xmlns=\"http://s3.amazonaws.com/doc/2006-03-01/\">\n"
+			. "<Status>Enabled</Status>\n"
+			. "<MfaDelete>Enabled</MfaDelete>\n"
+			. "</VersioningConfiguration>";
+
+		$headers["x-amz-mfa"] = $this->options->get("serialNr") . " " . $this->options->get("tokenCode");
+		$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
+		$headers["Content-Length"] = strlen($content);
+		$headers["Content-MD5"] = base64_encode(md5($content, true));
+
+		$headers["Date"] = date("D, d M Y H:i:s O");
+		$authorization = $this->object->createAuthorization("PUT", $url, $headers);
+		$headers["Authorization"] = $authorization;
+		unset($headers["Content-type"]);
+
+		$returnData = new JHttpResponse;
+		$returnData->code = 200;
+		$returnData->body = "The request was successful.\n";
+		$expectedResult = $returnData->body;
+
+		$this->client->expects($this->once())
+			->method('put')
+			->with($url, $content, $headers)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->put->putBucketVersioning(
+				$this->options->get("testBucket"),
+				$this->options->get("testVersioningWithMfaDelete")
 			),
 			$this->equalTo($expectedResult)
 		);
