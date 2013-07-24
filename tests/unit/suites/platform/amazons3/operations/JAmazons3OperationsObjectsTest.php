@@ -15,7 +15,7 @@
  *
  * @since       ??.?
  */
-class JAmazons3OperationsBucketsTest extends PHPUnit_Framework_TestCase
+class JAmazons3OperationsObjectsTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Amazons3 object.
@@ -67,8 +67,8 @@ class JAmazons3OperationsBucketsTest extends PHPUnit_Framework_TestCase
 	public function test__GetGet()
 	{
 		$this->assertThat(
-			$this->object->buckets->get,
-			$this->isInstanceOf('JAmazons3OperationsBucketsGet')
+			$this->object->objects->get,
+			$this->isInstanceOf('JAmazons3OperationsObjectsGet')
 		);
 	}
 
@@ -82,8 +82,8 @@ class JAmazons3OperationsBucketsTest extends PHPUnit_Framework_TestCase
 	public function test__GetHead()
 	{
 		$this->assertThat(
-			$this->object->buckets->head,
-			$this->isInstanceOf('JAmazons3OperationsBucketsHead')
+			$this->object->objects->head,
+			$this->isInstanceOf('JAmazons3OperationsObjectsHead')
 		);
 	}
 
@@ -97,8 +97,8 @@ class JAmazons3OperationsBucketsTest extends PHPUnit_Framework_TestCase
 	public function test__GetDelete()
 	{
 		$this->assertThat(
-			$this->object->buckets->delete,
-			$this->isInstanceOf('JAmazons3OperationsBucketsDelete')
+			$this->object->objects->delete,
+			$this->isInstanceOf('JAmazons3OperationsObjectsDelete')
 		);
 	}
 
@@ -112,8 +112,38 @@ class JAmazons3OperationsBucketsTest extends PHPUnit_Framework_TestCase
 	public function test__GetPut()
 	{
 		$this->assertThat(
-			$this->object->buckets->put,
-			$this->isInstanceOf('JAmazons3OperationsBucketsPut')
+			$this->object->objects->put,
+			$this->isInstanceOf('JAmazons3OperationsObjectsPut')
+		);
+	}
+
+	/**
+	 * Tests the magic __get method - post
+	 *
+	 * @since  ??.?
+	 *
+	 * @return void
+	 */
+	public function test__GetPost()
+	{
+		$this->assertThat(
+			$this->object->objects->post,
+			$this->isInstanceOf('JAmazons3OperationsObjectsPost')
+		);
+	}
+
+	/**
+	 * Tests the magic __get method - options
+	 *
+	 * @since  ??.?
+	 *
+	 * @return void
+	 */
+	public function test__GetOptions()
+	{
+		$this->assertThat(
+			$this->object->objects->optionss3,
+			$this->isInstanceOf('JAmazons3OperationsObjectsOptionss3')
 		);
 	}
 }
