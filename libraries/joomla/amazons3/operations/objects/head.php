@@ -8,3 +8,14 @@
  */
 
 defined('JPATH_PLATFORM') or die;
+
+/**
+ * Defines the HEAD operations on objects
+ *
+ * @package     Joomla.Platform
+ * @subpackage  Amazons3
+ * @since       ??.?
+ */
+class JAmazons3OperationsObjectsHead extends JAmazons3OperationsObjects
+{
+}

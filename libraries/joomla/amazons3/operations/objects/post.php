@@ -8,3 +8,14 @@
  */
 
 defined('JPATH_PLATFORM') or die;
+
+/**
+ * Defines the POST operations on objects
+ *
+ * @package     Joomla.Platform
+ * @subpackage  Amazons3
+ * @since       ??.?
+ */
+class JAmazons3OperationsObjectsPost extends JAmazons3OperationsObjects
+{
+}

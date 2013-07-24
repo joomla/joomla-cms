@@ -8,3 +8,14 @@
  */
 
 defined('JPATH_PLATFORM') or die;
+
+/**
+ * Defines the DELETE operations on objects
+ *
+ * @package     Joomla.Platform
+ * @subpackage  Amazons3
+ * @since       ??.?
+ */
+class JAmazons3OperationsObjectsDelete extends JAmazons3OperationsObjects
+{
+}

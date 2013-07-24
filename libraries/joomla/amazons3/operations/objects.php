@@ -31,19 +31,19 @@ class JAmazons3OperationsObjects extends JAmazons3Object
 	protected $get;
 
 	/**
-	 * @var    JAmazons3OperationsObjectsGet  Amazons3 API object for HEAD operations on objects.
+	 * @var    JAmazons3OperationsObjectsHead  Amazons3 API object for HEAD operations on objects.
 	 * @since  ??.?
 	 */
 	protected $head;
 
 	/**
-	 * @var    JAmazons3OperationsObjectsPut  Amazons3 API object for OPTIONS operations on objects.
+	 * @var    JAmazons3OperationsObjectsOptionss3  Amazons3 API object for OPTIONS operations on objects.
 	 * @since  ??.?
 	 */
-	protected $options;
+	protected $optionss3;
 
 	/**
-	 * @var    JAmazons3OperationsObjectsPut  Amazons3 API object for POST operations on objects.
+	 * @var    JAmazons3OperationsObjectsPost  Amazons3 API object for POST operations on objects.
 	 * @since  ??.?
 	 */
 	protected $post;

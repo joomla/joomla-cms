@@ -8,3 +8,14 @@
  */
 
 defined('JPATH_PLATFORM') or die;
+
+/**
+ * Defines the GET operations on objects
+ *
+ * @package     Joomla.Platform
+ * @subpackage  Amazons3
+ * @since       ??.?
+ */
+class JAmazons3OperationsObjectsGet extends JAmazons3OperationsObjects
+{
+}

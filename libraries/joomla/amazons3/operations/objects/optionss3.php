@@ -10,12 +10,12 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Defines the PUT operations on objects
+ * Defines the OPTIONS operations on objects
  *
  * @package     Joomla.Platform
  * @subpackage  Amazons3
  * @since       ??.?
  */
-class JAmazons3OperationsObjectsPut extends JAmazons3OperationsObjects
+class JAmazons3OperationsObjectsOptionss3 extends JAmazons3OperationsObjects
 {
 }
