@@ -52,6 +52,7 @@ class JAmazons3OperationsObjectsDeleteTest extends PHPUnit_Framework_TestCase
 		$this->options->set("versionId", "UIORUnfndfiufdisojhr398493jfdkjFJjkndnqUifhnw89493jJFJ");
 		$this->options->set("serialNr", "20899872");
 		$this->options->set("tokenCode", "301749");
+		$this->options->set("uploadId", "VXBsb2FkIElEIGZvciBlbHZpbmcncyBteS1tb3ZpZS5tMnRzIHVwbG9hZ");
 
 		$this->client = $this->getMock('JAmazons3Http', array('delete', 'get', 'head', 'put', 'post', 'optionss3'));
 
@@ -64,24 +65,32 @@ class JAmazons3OperationsObjectsDeleteTest extends PHPUnit_Framework_TestCase
 	 * @param   string   $objectName  The name of the object that will be deleted
 	 * @param   boolean  $versioning  Tells whether versioning should be used in the request
 	 * @param   boolean  $mfa         Tells whether the x-amz-mfa should be included
+	 * @param   string   $uploadId    The upload id
 	 *
 	 * @return  void
 	 *
 	 * @since   ??.?
 	 */
-	protected function commonDeleteTestOperations($objectName, $versioning = false, $mfa = false)
+	protected function commonDeleteTestOperations($objectName, $versioning = false, $mfa = false, $uploadId = false)
 	{
 		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url") . "/" . $objectName;
-
-		if ($versioning)
-		{
-			$url .= "?versionId=" . $this->options->get("versionId");
-		}
-
 		$headers = array(
 			"Date" => date("D, d M Y H:i:s O"),
-			"Content-Length" => "0",
 		);
+
+		if ($uploadId)
+		{
+			$url .= "?uploadId=" . $this->options->get("uploadId");
+		}
+		else
+		{
+			$headers["Content-Length"] = "0";
+
+			if ($versioning)
+			{
+				$url .= "?versionId=" . $this->options->get("versionId");
+			}
+		}
 
 		if ($mfa)
 		{
@@ -161,6 +170,31 @@ class JAmazons3OperationsObjectsDeleteTest extends PHPUnit_Framework_TestCase
 				$this->options->get("versionId"),
 				$this->options->get("serialNr"),
 				$this->options->get("tokenCode")
+			),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the abortMultipartUpload method
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testAbortMultipartUpload()
+	{
+		$expectedResult = $this->commonDeleteTestOperations(
+			$this->options->get("testObject"),
+			false,
+			false,
+			$this->options->get("uploadId")
+		);
+		$this->assertThat(
+			$this->object->delete->abortMultipartUpload(
+				$this->options->get("testBucket"),
+				$this->options->get("testObject"),
+				$this->options->get("uploadId")
 			),
 			$this->equalTo($expectedResult)
 		);

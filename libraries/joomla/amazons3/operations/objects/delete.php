@@ -56,4 +56,26 @@ class JAmazons3OperationsObjectsDelete extends JAmazons3OperationsObjects
 
 		return $response_body;
 	}
+
+	/**
+	 * This operation aborts a multipart upload
+	 *
+	 * @param   string  $bucket    The bucket name
+	 * @param   string  $object    The name of the object
+	 * @param   string  $uploadId  The upload id
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function abortMultipartUpload($bucket, $object, $uploadId)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/"
+			. $object . "?uploadId=" . $uploadId;
+
+		// Send the request and process the response
+		$response_body = $this->commonDeleteOperations($url);
+
+		return $response_body;
+	}
 }
