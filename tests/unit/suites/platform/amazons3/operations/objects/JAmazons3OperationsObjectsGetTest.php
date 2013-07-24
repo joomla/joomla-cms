@@ -236,4 +236,23 @@ class JAmazons3OperationsObjectsGetTest extends PHPUnit_Framework_TestCase
 			$this->equalTo($expectedResult)
 		);
 	}
+
+	/**
+	 * Tests the getObjectTorrent method
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testGetObjectTorrent()
+	{
+		$expectedResult = $this->commonGetTestOperations("torrent");
+		$this->assertThat(
+			$this->object->get->getObjectTorrent(
+				$this->options->get("testBucket"),
+				$this->options->get("testObject")
+			),
+			$this->equalTo($expectedResult)
+		);
+	}
 }
