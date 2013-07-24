@@ -53,9 +53,9 @@ abstract class JHtmlSidebar
 	{
 		// Collect display data
 		$data                 = new stdClass;
-		$data->list           = self::getEntries();
-		$data->filters        = self::getFilters();
-		$data->action         = self::getAction();
+		$data->list           = static::getEntries();
+		$data->filters        = static::getFilters();
+		$data->action         = static::getAction();
 		$data->displayMenu    = count($data->list);
 		$data->displayFilters = count($data->filters);
 		$data->hide           = JFactory::getApplication()->input->getBool('hidemainmenu');
@@ -80,7 +80,7 @@ abstract class JHtmlSidebar
 	 */
 	public static function addEntry($name, $link = '', $active = false)
 	{
-		array_push(self::$entries, array($name, $link, $active));
+		array_push(static::$entries, array($name, $link, $active));
 	}
 
 	/**
@@ -92,7 +92,7 @@ abstract class JHtmlSidebar
 	 */
 	public static function getEntries()
 	{
-		return self::$entries;
+		return static::$entries;
 	}
 
 	/**
@@ -109,7 +109,7 @@ abstract class JHtmlSidebar
 	 */
 	public static function addFilter($label, $name, $options, $noDefault = false)
 	{
-		array_push(self::$filters, array('label' => $label, 'name' => $name, 'options' => $options, 'noDefault' => $noDefault));
+		array_push(static::$filters, array('label' => $label, 'name' => $name, 'options' => $options, 'noDefault' => $noDefault));
 	}
 
 	/**
@@ -121,7 +121,7 @@ abstract class JHtmlSidebar
 	 */
 	public static function getFilters()
 	{
-		return self::$filters;
+		return static::$filters;
 	}
 
 	/**
@@ -135,7 +135,7 @@ abstract class JHtmlSidebar
 	 */
 	public static function setAction($action)
 	{
-		self::$action = $action;
+		static::$action = $action;
 	}
 
 	/**
@@ -147,6 +147,6 @@ abstract class JHtmlSidebar
 	 */
 	public static function getAction()
 	{
-		return self::$action;
+		return static::$action;
 	}
 }

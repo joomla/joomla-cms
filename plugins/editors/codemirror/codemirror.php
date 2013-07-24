@@ -32,7 +32,7 @@ class PlgEditorCodemirror extends JPlugin
 	{
 		JHtml::_('behavior.framework');
 		$uncompressed	= JFactory::getApplication()->getCfg('debug') ? '-uncompressed' : '';
-		JHtml::_('script', $this->_basePath . 'js/codemirror'.$uncompressed.'.js', false, false, false, false);
+		JHtml::_('script', $this->_basePath . 'js/codemirror' . $uncompressed . '.js', false, false, false, false);
 		JHtml::_('stylesheet', $this->_basePath . 'css/codemirror.css');
 
 		return '';
@@ -41,7 +41,7 @@ class PlgEditorCodemirror extends JPlugin
 	/**
 	 * Copy editor content to form field.
 	 *
-	 * @param   string	$id	The id of the editor field.
+	 * @param   string  $id  The id of the editor field.
 	 *
 	 * @return  string Javascript
 	 */
@@ -53,7 +53,7 @@ class PlgEditorCodemirror extends JPlugin
 	/**
 	 * Get the editor content.
 	 *
-	 * @param   string	$id	The id of the editor field.
+	 * @param   string  $id  The id of the editor field.
 	 *
 	 * @return  string Javascript
 	 */
@@ -65,8 +65,8 @@ class PlgEditorCodemirror extends JPlugin
 	/**
 	 * Set the editor content.
 	 *
-	 * @param   string	$id			The id of the editor field.
-	 * @param   string	$content	The content to set.
+	 * @param   string  $id       The id of the editor field.
+	 * @param   string  $content  The content to set.
 	 *
 	 * @return  string Javascript
 	 */
@@ -102,17 +102,17 @@ class PlgEditorCodemirror extends JPlugin
 	/**
 	 * Display the editor area.
 	 *
-	 * @param   string	$name		The control name.
-	 * @param   string	$html		The contents of the text area.
-	 * @param   string	$width		The width of the text area (px or %).
-	 * @param   string	$height		The height of the text area (px or %).
-	 * @param   integer  $col		The number of columns for the textarea.
-	 * @param   integer  $row		The number of rows for the textarea.
-	 * @param   boolean	$buttons	True and the editor buttons will be displayed.
-	 * @param   string	$id			An optional ID for the textarea (note: since 1.6). If not supplied the name is used.
-	 * @param   string	$asset
-	 * @param   object	$author
-	 * @param   array  $params		Associative array of editor parameters.
+	 * @param   string   $name     The control name.
+	 * @param   string   $content  The contents of the text area.
+	 * @param   string   $width    The width of the text area (px or %).
+	 * @param   string   $height   The height of the text area (px or %).
+	 * @param   integer  $col      The number of columns for the textarea.
+	 * @param   integer  $row      The number of rows for the textarea.
+	 * @param   boolean  $buttons  True and the editor buttons will be displayed.
+	 * @param   string   $id       An optional ID for the textarea (note: since 1.6). If not supplied the name is used.
+	 * @param   string   $asset    The object asset
+	 * @param   object   $author   The author.
+	 * @param   array    $params   Associative array of editor parameters.
 	 *
 	 * @return  string HTML
 	 */
@@ -148,7 +148,7 @@ class PlgEditorCodemirror extends JPlugin
 
 		if ($syntax)
 		{
-			switch($syntax)
+			switch ($syntax)
 			{
 				case 'css':
 					$parserFile = 'parsecss.js';
@@ -172,18 +172,18 @@ class PlgEditorCodemirror extends JPlugin
 
 				default:
 					break;
-			} //switch
+			}
 		}
 
 		foreach ($styleSheet as &$style)
 		{
-			$style = JURI::root(true).'/'.$this->_basePath.'css/'.$style;
+			$style = JUri::root(true) . '/' . $this->_basePath . 'css/' . $style;
 		}
 
 		$options	= new stdClass;
 
-		$options->basefiles		= array('basefiles'.$compressed.'.js');
-		$options->path			= JURI::root(true).'/'.$this->_basePath.'js/';
+		$options->basefiles		= array('basefiles' . $compressed . '.js');
+		$options->path			= JUri::root(true) . '/' . $this->_basePath . 'js/';
 		$options->parserfile	= $parserFile;
 		$options->stylesheet	= $styleSheet;
 		$options->height		= $height;
@@ -206,8 +206,8 @@ class PlgEditorCodemirror extends JPlugin
 		$html[] = $buttons;
 		$html[] = '<script type="text/javascript">';
 		$html[] = '(function() {';
-		$html[] = 'var editor = CodeMirror.fromTextArea("'.$id.'", '.json_encode($options).');';
-		$html[] = 'Joomla.editors.instances[\''.$id.'\'] = editor;';
+		$html[] = 'var editor = CodeMirror.fromTextArea("' . $id . '", ' . json_encode($options) . ');';
+		$html[] = 'Joomla.editors.instances[\'' . $id . '\'] = editor;';
 		$html[] = '})()';
 		$html[] = '</script>';
 
@@ -217,8 +217,10 @@ class PlgEditorCodemirror extends JPlugin
 	/**
 	 * Displays the editor buttons.
 	 *
-	 * @param string $name
-	 * @param mixed $buttons [array with button objects | boolean true to display buttons]
+	 * @param   string  $name     Name of the button
+	 * @param   mixed   $buttons  [array with button objects | boolean true to display buttons]
+	 * @param   string  $asset    The object asset
+	 * @param   object  $author   The author.
 	 *
 	 * @return  string HTML
 	 */
@@ -255,12 +257,12 @@ class PlgEditorCodemirror extends JPlugin
 				if ($button->get('name'))
 				{
 					$modal		= ($button->get('modal')) ? 'class="modal-button btn"' : null;
-					$href		= ($button->get('link')) ? ' class="btn" href="'.JURI::base().$button->get('link').'"' : null;
-					$onclick	= ($button->get('onclick')) ? 'onclick="'.$button->get('onclick').'"' : null;
+					$href		= ($button->get('link')) ? ' class="btn" href="' . JUri::base() . $button->get('link') . '"' : null;
+					$onclick	= ($button->get('onclick')) ? 'onclick="' . $button->get('onclick') . '"' : null;
 					$title      = ($button->get('title')) ? $button->get('title') : $button->get('text');
-					$html[] = '<a '.$modal.' title="'.$title.'" '.$href.' '.$onclick.' rel="'.$button->get('options').'">';
-					$html[] = '<i class="icon-' . $button->get('name'). '"></i> ';
-					$html[] = $button->get('text').'</a>';
+					$html[] = '<a ' . $modal . ' title="' . $title . '" ' . $href . ' ' . $onclick . ' rel="' . $button->get('options') . '">';
+					$html[] = '<i class="icon-' . $button->get('name') . '"></i> ';
+					$html[] = $button->get('text') . '</a>';
 				}
 			}
 

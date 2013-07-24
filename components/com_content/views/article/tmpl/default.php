@@ -232,7 +232,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 			<?php if ($params->get('show_create_date')) : ?>
 				<dd class="create">
 					<span class="icon-calendar"></span>
-					<?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC3'))); ?>
+					<?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_LC3'))); ?>
 				</dd>
 			<?php endif; ?>
 			<?php if ($params->get('show_modify_date')) : ?>
@@ -264,7 +264,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && $this->item->p
 	<?php //Optional link to let them register to see the whole article. ?>
 	<?php if ($params->get('show_readmore') && $this->item->fulltext != null) :
 		$link1 = JRoute::_('index.php?option=com_users&view=login');
-		$link = new JURI($link1);?>
+		$link = new JUri($link1);?>
 	<p class="readmore">
 		<a href="<?php echo $link; ?>">
 		<?php $attribs = json_decode($this->item->attribs); ?>

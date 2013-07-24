@@ -20,7 +20,7 @@
 .input-block-level {
 	display: block;
 	width: 100%;
-	min-height: ;
+	min-height: 25px;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
@@ -518,6 +518,27 @@ div.toolbar-box {
 	border-bottom: 1px solid #000000;
 	border-left: 1px solid #000000;
 	background: #ffffff;
+}
+div.toolbar-list li {
+	color: #2c2c2c;
+}
+div.toolbar-list li.divider {
+	border-right: 1px dotted #e5d9c3;
+}
+div.toolbar-list a {
+	border-left: 1px solid #e5d9c3;
+	border-top: 1px solid #e5d9c3;
+	border-right: 1px solid #000000;
+	border-bottom: 1px solid #000000;
+	background: #d5c1b2;
+}
+div.toolbar-list a:hover {
+	border-left: 1px solid #868778;
+	border-top: 1px solid #868778;
+	border-right: 1px solid #f6f7db;
+	border-bottom: 1px solid #f6f7db;
+	background: #e5d9c3;
+	color: #054993;
 }
 div.btn-toolbar {
 	margin-left: 5px;
@@ -1178,6 +1199,9 @@ a img.calendar {
 .icon-32-print {
 	background-image: url(../images/toolbar/icon-32-print.png);
 }
+.icon-32-batch {
+	background-image: url(../images/toolbar/icon-32-batch.png);
+}
 .icon-48-categories {
 	background-image: url(../images/header/icon-48-category.png);
 }
@@ -1384,6 +1408,9 @@ a img.calendar {
 }
 .icon-48-weblinks-category-add {
 	background-image: url(../images/header/icon-48-category-add.png);
+}
+.icon-48-tags {
+	background-image: url(../images/header/icon-48-tags.png);
 }
 div.message {
 	border: 1px solid #000000;

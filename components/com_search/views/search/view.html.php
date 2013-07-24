@@ -30,7 +30,6 @@ class SearchViewSearch extends JViewLegacy
 		require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/search.php';
 
 		$app     = JFactory::getApplication();
-		$pathway = $app->getPathway();
 		$uri     = JUri::getInstance();
 
 		$error   = null;
@@ -167,7 +166,7 @@ class SearchViewSearch extends JViewLegacy
 				$hl2         = '</span>';
 				$cnt         = 0;
 
-				foreach ($searchwords as $k => $hlword)
+				foreach ($searchwords as $hlword)
 				{
 					if (($pos = mb_strpos($srow, strtolower(SearchHelper::remove_accents($hlword)))) !== false)
 					{

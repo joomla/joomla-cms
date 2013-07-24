@@ -37,8 +37,7 @@ class JoomlaInstallerScript
 		$db = JFactory::getDbo();
 		if (substr($db->name, 0, 5) == 'mysql')
 		{
-			$query = 'SHOW ENGINES';
-			$db->setQuery($query);
+			$db->setQuery('SHOW ENGINES');
 			$results = $db->loadObjectList();
 			if ($db->getErrorNum())
 			{
@@ -49,8 +48,7 @@ class JoomlaInstallerScript
 			{
 				if ($result->Support == 'DEFAULT')
 				{
-					$query = 'ALTER TABLE #__update_sites_extensions ENGINE = ' . $result->Engine;
-					$db->setQuery($query);
+					$db->setQuery('ALTER TABLE #__update_sites_extensions ENGINE = ' . $result->Engine);
 					$db->execute();
 					if ($db->getErrorNum())
 					{
@@ -101,6 +99,7 @@ class JoomlaInstallerScript
 		$extensions[] = array('library', 'simplepie', '', 0);
 		$extensions[] = array('library', 'phputf8', '', 0);
 		$extensions[] = array('library', 'joomla', '', 0);
+		$extensions[] = array('library', 'idna_convert', '', 0);
 
 		// Modules site
 		// Site
@@ -602,6 +601,9 @@ class JoomlaInstallerScript
 			'/media/system/js/uploader.js',
 			'/media/system/swf/index.html',
 			'/media/system/swf/uploader.swf',
+			// Joomla! 3.2
+			'/administrator/components/com_contact/models/fields/modal/contacts.php',
+			'/administrator/components/com_newsfeeds/models/fields/modal/newsfeeds.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode

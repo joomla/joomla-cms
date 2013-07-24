@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
@@ -31,11 +32,11 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 <?php endif;?>
 		<div id="filter-bar" class="btn-toolbar">
 			<div class="filter-search btn-group pull-left">
-				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_REDIRECT_SEARCH_LINKS'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_REDIRECT_SEARCH_LINKS'); ?>" />
+				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_REDIRECT_SEARCH_LINKS'); ?>" />
 			</div>
 			<div class="btn-group pull-left">
-				<button class="btn hasTooltip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-				<button class="btn hasTooltip" type="button" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
+				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
 			</div>
 			<div class="btn-group pull-right hidden-phone">
 				<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?></label>
@@ -43,11 +44,22 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			</div>
 		</div>
 		<div class="clearfix"> </div>
+			<?php if ($this->enabled) : ?>
+		<div class="alert alert-info">
+			<a class="close" data-dismiss="alert">√ó</a>
+			<?php echo JText::_('COM_REDIRECT_PLUGIN_ENABLED'); ?>
+		</div>
+			<?php else : ?>
+		<div class="alert alert-error">
+			<a class="close" data-dismiss="alert">√ó</a>
+			<?php echo JText::_('COM_REDIRECT_PLUGIN_DISABLED'); ?>
+		</div>
+		<?php endif; ?>
 		<table class="table table-striped">
 			<thead>
 				<tr>
 					<th width="20">
-						<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
+						<?php echo JHtml::_('grid.checkall'); ?>
 					</th>
 					<th class="title">
 						<?php echo JHtml::_('grid.sort', 'COM_REDIRECT_HEADING_OLD_URL', 'a.old_url', $listDirn, $listOrder); ?>
@@ -70,13 +82,6 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<tr>
 					<td colspan="7">
 						<?php echo $this->pagination->getListFooter(); ?>
-						<p class="footer-tip">
-							<?php if ($this->enabled) : ?>
-								<span class="enabled"><?php echo JText::_('COM_REDIRECT_PLUGIN_ENABLED'); ?></span>
-							<?php else : ?>
-								<span class="disabled"><?php echo JText::_('COM_REDIRECT_PLUGIN_DISABLED'); ?></span>
-							<?php endif; ?>
-						</p>
 					</td>
 				</tr>
 			</tfoot>
@@ -94,9 +99,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<?php echo JHtml::_('redirect.published', $item->published, $i); ?>
 						<?php if ($canEdit) : ?>
 							<a href="<?php echo JRoute::_('index.php?option=com_redirect&task=link.edit&id='.$item->id);?>" title="<?php echo $this->escape($item->old_url); ?>">
-								<?php echo $this->escape(str_replace(JURI::root(), '', $item->old_url)); ?></a>
+								<?php echo $this->escape(str_replace(JUri::root(), '', $item->old_url)); ?></a>
 						<?php else : ?>
-								<?php echo $this->escape(str_replace(JURI::root(), '', $item->old_url)); ?>
+								<?php echo $this->escape(str_replace(JUri::root(), '', $item->old_url)); ?>
 						<?php endif; ?>
 					</td>
 					<td class="small">

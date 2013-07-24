@@ -26,7 +26,23 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-15-June-2013 Mark Dexter
+24-Jul-2013 Mark Dexter
+ + New Webdriver tests for changing article state and front-end login. Thanks Puneet Kala.
+
+18-Jul-2013 Mark Dexter
+ # Fix problem with failing system tests.
+
+16-Jul-2013 Mark Dexter
+ + Add webdriver tests for some components and extensions. Thanks Puneet Kala.
+
+07-Jul-2013 Mark Dexter
+ # Refactor delete method in webdriver tests
+ # Fix failing system tests due to markup changes.
+
+20-Jun-2013 Mark Dexter
+ # Fix Webdriver tests for Google Chrome, markup changes.
+
+15-Jun-2013 Mark Dexter
  # Fix failing system test.
 
 11-Jun-2013 Mark Dexter

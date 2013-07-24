@@ -619,22 +619,21 @@ class JPagination
 	{
 		$app = JFactory::getApplication();
 
+		$title = '';
+		if (!is_numeric($item->text))
+		{
+			JHtml::_('bootstrap.tooltip');
+			$title = ' class="hasTooltip" title="' . $item->text . '"';
+		}
+
 		if ($app->isAdmin())
 		{
-			if ($item->base > 0)
-			{
-				return "<a title=\"" . $item->text . "\" onclick=\"document.adminForm." . $this->prefix . "limitstart.value=" . $item->base
-					. "; Joomla.submitform();return false;\">" . $item->text . "</a>";
-			}
-			else
-			{
-				return "<a title=\"" . $item->text . "\" onclick=\"document.adminForm." . $this->prefix
-					. "limitstart.value=0; Joomla.submitform();return false;\">" . $item->text . "</a>";
-			}
+			return '<a' . $title . ' href="#" onclick="document.adminForm.' . $this->prefix
+			. 'limitstart.value=' . ($item->base > 0 ? $item->base : '0') . '; Joomla.submitform();return false;">' . $item->text . '</a>';
 		}
 		else
 		{
-			return "<a title=\"" . $item->text . "\" href=\"" . $item->link . "\" class=\"pagenav\">" . $item->text . "</a>";
+			return '<a' . $title . ' href="' . $item->link . '" class="pagenav">' . $item->text . '</a>';
 		}
 	}
 
@@ -653,11 +652,11 @@ class JPagination
 
 		if ($app->isAdmin())
 		{
-			return "<span>" . $item->text . "</span>";
+			return '<span>' . $item->text . '</span>';
 		}
 		else
 		{
-			return "<span class=\"pagenav\">" . $item->text . "</span>";
+			return '<span class="pagenav">' . $item->text . '</span>';
 		}
 	}
 

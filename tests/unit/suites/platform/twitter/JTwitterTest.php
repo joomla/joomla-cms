@@ -105,13 +105,11 @@ class JTwitterTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.3
+	 * @expectedException  InvalidArgumentException
 	 */
 	public function test__GetOther()
 	{
-		$this->assertThat(
-			$this->object->other,
-			$this->isNull()
-		);
+		$this->object->other;
 	}
 
 	/**

@@ -42,18 +42,17 @@ class JToolbarButtonConfirm extends JToolbarButton
 	 */
 	public function fetchButton($type = 'Confirm', $msg = '', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
 	{
-		$text = JText::_($text);
-		$msg = JText::_($msg, true);
-		$class = $this->fetchIconClass($name);
-		$doTask = $this->_getCommand($msg, $name, $task, $list);
+		// Store all data to the options array for use with JLayout
+		$options = array();
+		$options['text'] = JText::_($text);
+		$options['msg'] = JText::_($msg, true);
+		$options['class'] = $this->fetchIconClass($name);
+		$options['doTask'] = $this->_getCommand($options['msg'], $name, $task, $list);
 
-		$html = "<button onclick=\"$doTask\" class=\"btn btn-small\">\n";
-		$html .= "<span class=\"$class\">\n";
-		$html .= "</span>\n";
-		$html .= "$text\n";
-		$html .= "</button>\n";
+		// Instantiate a new JLayoutFile instance and render the layout
+		$layout = new JLayoutFile('joomla.toolbar.confirm');
 
-		return $html;
+		return $layout->render($options);
 	}
 
 	/**

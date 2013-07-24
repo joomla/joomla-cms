@@ -193,7 +193,7 @@ class JViewLegacy extends JObject
 			$this->setLayout('default');
 		}
 
-		$this->baseurl = JURI::base(true);
+		$this->baseurl = JUri::base(true);
 	}
 
 	/**
@@ -793,8 +793,6 @@ class JViewLegacy extends JObject
 	 */
 	protected function _createFileName($type, $parts = array())
 	{
-		$filename = '';
-
 		switch ($type)
 		{
 			case 'template':

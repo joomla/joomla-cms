@@ -73,15 +73,6 @@ class UserManagerPage extends AdminManagerPage
 		$this->searchFor();
 	}
 
-	public function deleteUser($name)
-	{
-		$this->searchFor($name);
-		$this->driver->findElement(By::name("checkall-toggle"))->click();
-		$this->clickButton('toolbar-delete');
-		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
-		$this->searchFor();
-	}
-
 	public function editUser($name, $fields, $groupNames = array())
 	{
 		$this->clickItem($name);

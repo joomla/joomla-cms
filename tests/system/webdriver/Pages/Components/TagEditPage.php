@@ -1,4 +1,4 @@
-<?php
+	<?php
 
 use SeleniumClient\By;
 use SeleniumClient\SelectElement;
@@ -46,7 +46,7 @@ class TagEditPage extends AdminEditPage
 	 * @var    array
 	 * @since  3.0
 	 */
-	public $tabs = array('general', 'publishing', 'metadata');
+	public $tabs = array('general', 'publishing', 'options', 'metadata');
 
 	/**
 	 * Array of tab labels for this page
@@ -54,7 +54,7 @@ class TagEditPage extends AdminEditPage
 	 * @var    array
 	 * @since  3.0
 	 */
-	public $tabLabels = array('Tag Details', 'Publishing Options', 'Metadata Options');
+	public $tabLabels = array('Tag Details', 'Publishing Options', 'Basic Options', 'Metadata Options');
 
 	/**
 	 * Array of all the field Details of the Edit page, along with the ID and tab value they are present on
@@ -65,23 +65,26 @@ class TagEditPage extends AdminEditPage
 	public $inputFields = array (
 			array('label' => 'Title', 'id' => 'jform_title', 'type' => 'input', 'tab' => 'general'),
 			array('label' => 'Teaser image', 'id' => 'jform_images_image_intro', 'type' => 'input', 'tab' => 'general'),
-            array('label' => 'Float', 'id' => 'jform_images_float_intro', 'type' => 'select', 'tab' => 'general'),
+			array('label' => 'Float', 'id' => 'jform_images_float_intro', 'type' => 'select', 'tab' => 'general'),
 			array('label' => 'Alt', 'id' => 'jform_images_image_intro_alt', 'type' => 'input', 'tab' => 'general'),
 			array('label' => 'Caption', 'id' => 'jform_images_image_intro_caption', 'type' => 'input', 'tab' => 'general'),
 			array('label' => 'Full image', 'id' => 'jform_images_image_fulltext', 'type' => 'input', 'tab' => 'general'),
 			array('label' => 'Float', 'id' => 'jform_images_float_fulltext', 'type' => 'select', 'tab' => 'general'),
 			array('label' => 'Alt', 'id' => 'jform_images_image_fulltext_alt', 'type' => 'input', 'tab' => 'general'),
 			array('label' => 'Caption', 'id' => 'jform_images_image_fulltext_caption', 'type' => 'input', 'tab' => 'general'),
-			array('label' => 'Alias', 'id' => 'jform_alias', 'type'=>'input', 'tab'=>'publishing'),
-			array('label' => 'ID', 'id' => 'jform_id', 'type'=>'input', 'tab'=>'publishing'),
-			array('label' => 'Created by', 'id' => 'jform_created_user_id_name', 'type'=>'input', 'tab'=>'publishing'),
-			array('label' => 'Author\'s Alias', 'id' => 'jform_created_by_alias', 'type'=>'input', 'tab'=>'publishing'),
-			array('label' => 'Created Date', 'id' => 'jform_created_time', 'type'=>'input', 'tab'=>'publishing'),
-			array('label' => 'Meta Description', 'id' => 'jform_metadesc', 'type'=>'textarea', 'tab'=>'metadata'),
-			array('label' => 'Meta Keywords', 'id' => 'jform_metakey', 'type'=>'textarea', 'tab'=>'metadata'),
-			array('label' => 'Author', 'id' => 'jform_metadata_author', 'type'=>'input', 'tab'=>'metadata'),
-			array('label' => 'Robots', 'id' => 'jform_metadata_robots', 'type'=>'select', 'tab'=>'metadata'),
-	);
+			array('label' => 'Alias', 'id' => 'jform_alias', 'type' => 'input', 'tab' => 'publishing'),
+			array('label' => 'ID', 'id' => 'jform_id', 'type' => 'input', 'tab' => 'publishing'),
+			array('label' => 'Created by', 'id' => 'jform_created_user_id_name', 'type' => 'input', 'tab' => 'publishing'),
+			array('label' => 'Author\'s Alias', 'id' => 'jform_created_by_alias', 'type' => 'input', 'tab' => 'publishing'),
+			array('label' => 'Created Date', 'id' => 'jform_created_time', 'type' => 'input', 'tab' => 'publishing'),
+			array('label' => 'Alternative Layout', 'id' => 'jform_params_tag_layout', 'type' => 'select', 'tab' => 'options'),
+			array('label' => 'CSS Class for tag link', 'id' => 'jform_params_tag_link_class', 'type' => 'input', 'tab' => 'options'),
+			array('label' => 'Note', 'id' => 'jform_note', 'type' => 'input', 'tab' => 'options'),
+			array('label' => 'Meta Description', 'id' => 'jform_metadesc', 'type' => 'textarea', 'tab' => 'metadata'),
+			array('label' => 'Meta Keywords', 'id' => 'jform_metakey', 'type' => 'textarea', 'tab' => 'metadata'),
+			array('label' => 'Author', 'id' => 'jform_metadata_author', 'type' => 'input', 'tab' => 'metadata'),
+			array('label' => 'Robots', 'id' => 'jform_metadata_robots', 'type' => 'select', 'tab' => 'metadata'),
+			);
 
 }
 
