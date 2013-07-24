@@ -58,7 +58,7 @@ class JUser extends JObject
 	public $email = null;
 
 	/**
-	 * MD5 encrypted password
+	 * Encrypted password
 	 *
 	 * @var    string
 	 * @since  11.1
@@ -200,12 +200,17 @@ class JUser extends JObject
 	 */
 	protected $cookieLogin = false;
 
-
 	/**
 	 * @var    array  JUser instances container.
 	 * @since  11.3
 	 */
 	protected static $instances = array();
+
+	/**
+	 * @var    boolean  Indicates that strong encryption should be used.
+	 * @since  3.14
+	 */
+	protected $useStrongEncryption = false;
 
 	/**
 	 * Constructor activating the default information of the language
@@ -232,6 +237,9 @@ class JUser extends JObject
 			$this->aid = 0;
 			$this->guest = 1;
 		}
+
+		$this->useStrongEncryption = JUserHelper::setDefaultEncryption();
+
 	}
 
 	/**
@@ -556,7 +564,7 @@ class JUser extends JObject
 				$array['password2'] = $array['password'];
 			}
 
-			// TODO: Backend controller checks the password, frontend doesn't but should.
+			// This is a fallback in case the equals rule in the fields is not used.
 			// Hence this code is required:
 			if (isset($array['password2']) && $array['password'] != $array['password2'])
 			{
@@ -567,7 +575,8 @@ class JUser extends JObject
 			$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
 
 			$salt = JUserHelper::genRandomPassword(32);
-			$crypt = JUserHelper::getCryptedPassword($array['password'], $salt);
+
+			$crypt = static::encryptPassword($array['password'], $salt);
 
 			$array['password'] = $this->createPasswordString($array['password']);
 
@@ -735,6 +744,7 @@ class JUser extends JObject
 			$dispatcher = JEventDispatcher::getInstance();
 
 			$result = $dispatcher->trigger('onUserBeforeSave', array($oldUser->getProperties(), $isNew, $this->getProperties()));
+
 			if (in_array(false, $result, true))
 			{
 				// Plugin will have to raise its own error or throw an exception.
@@ -846,21 +856,44 @@ class JUser extends JObject
 
 		return true;
 	}
+	/**
+	 * Method to construct the string saved in the password field
+	 *
+	 * @param   string  $passwordString  The plaintext password
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   11.1
+	 */
+
 	protected function createPasswordString($passwordString)
 	{
 		$salt = JUserHelper::genRandomPassword(32);
-		$crypt = JUserHelper::getCryptedPassword($passwordString, $salt);
+		$crypt = static::encryptPassword($passwordString);
 
 		// The first condition is only for when BCrypt or PASSWORD_DEFAULT is the default.
-		if (JCrypt::hasStrongPasswordSupport() && !empty($this->defaultHash))
+		if (JCrypt::hasStrongPasswordSupport() && $this->useStrongEncryption)
 		{
 			$passwordInfo = password_get_info($passwordString);
 			return $crypt . (($passwordInfo['algo'] != 0
-					&& $passwordInfo('algoName') != 'unknown') ? null : $salt);
+				&& $passwordInfo('algoName') != 'unknown') ? null : $salt);
 		}
 		else
 		{
 			return substr($crypt, 0, 4) == '$2y$' ? $crypt : $crypt . ':' .$salt;
 		}
+	}
+
+	protected function encryptPassword($password, $salt)
+	{
+		if (!$this->useStrongEncryption)
+		{
+			$crypt = JUserHelper::getCryptedPassword($array['password'], $salt, 'md5-hex');
+		}
+		else
+		{
+			$crypt = JUserHelper::getCryptedPassword($array['password'], null, 'bcrypt');
+		}
+
 	}
 }

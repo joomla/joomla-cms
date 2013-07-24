@@ -39,7 +39,6 @@ class PlgUserJoomla extends JPlugin
 	 */
 	protected $useStrongEncryption;
 
-
 	/**
 	 * Constructor. We use it to set the app and db properties.
 	 *
@@ -57,7 +56,7 @@ class PlgUserJoomla extends JPlugin
 		$this->app = JFactory::getApplication();
 		$this->db = JFactory::getDbo();
 
-		// This default is in place until 3.2 at which point it will default to true.
+		// This default is false until 3.2 at which point it will change to true.
 		$this->useStrongEncryption = $this->params->get('strong_passwords', false);
 	}
 
@@ -109,7 +108,7 @@ class PlgUserJoomla extends JPlugin
 		{
 			// TODO: Suck in the frontend registration emails here as well. Job for a rainy day.
 
-			if ($app->isAdmin())
+			if ($this->app->isAdmin())
 			{
 				if ($mail_to_user)
 				{
@@ -128,7 +127,7 @@ class PlgUserJoomla extends JPlugin
 					$emailBody = JText::sprintf(
 						'PLG_USER_JOOMLA_NEW_USER_EMAIL_BODY',
 						$user['name'],
-						$config->get('sitename'),
+						$this->app->getCfg('sitename'),
 						JUri::root(),
 						$user['username'],
 						$user['password_clear']
@@ -138,8 +137,8 @@ class PlgUserJoomla extends JPlugin
 					$mail = JFactory::getMailer()
 						->setSender(
 							array(
-								$config->get('mailfrom'),
-								$config->get('fromname')
+								$this->app->getCfg('mailfrom'),
+								$this->app->getCfg('fromname')
 							)
 						)
 						->addRecipient($user['email'])
@@ -148,7 +147,7 @@ class PlgUserJoomla extends JPlugin
 
 					if (!$mail->Send())
 					{
-						$app->enqueueMessage(JText::_('ERROR_SENDING_EMAIL'), 'warning');
+						$this->app->enqueueMessage(JText::_('ERROR_SENDING_EMAIL'), 'warning');
 					}
 				}
 			}
@@ -171,7 +170,7 @@ class PlgUserJoomla extends JPlugin
 	public function onUserLogin($user, $options = array())
 	{
 		$instance = $this->_getUser($user, $options);
-var_dump($instance);var_dump($user);
+
 		// If _getUser returned an error, then pass it back.
 		if ($instance instanceof Exception)
 		{
@@ -197,7 +196,6 @@ var_dump($instance);var_dump($user);
 
 		if (!$result)
 		{
-
 			$app->enqueueMessage(JText::_('JERROR_LOGIN_DENIED'), 'warning');
 
 			return false;
@@ -206,32 +204,30 @@ var_dump($instance);var_dump($user);
 		// Mark the user as logged in
 		$instance->set('guest', 0);
 
+		// If the user has an outdated hash, update it.
+		if ($this->useStrongEncryption && JCrypt::hasStrongPasswordSupport() == true
+			&& substr($user['password'], 0, 4) != '$2y$')
+		{
+			$instance->password = password_hash($user['password'], PASSWORD_BCRYPT);
+
+			$instance->save();
+		}
+
 		// Register the needed session variables
 		$session = JFactory::getSession();
 		$session->set('user', $instance);
 
 		// Check to see the the session already exists.
-		$this->app->checkSession();
-
-
-		if ($this->useStrongEncryption && JCrypt::hasStrongPasswordSupport())
-		{
-			$instance->password = password_hash($user->password, PASSWORD_BCRYPT);
-		}
+		$app = JFactory::getApplication();
+		$app->checkSession();
 
 		// Update the user related fields for the Joomla sessions table.
 		$query = $this->db->getQuery(true)
 			->update($this->db->quoteName('#__session'))
 			->set($this->db->quoteName('guest') . ' = ' . $this->db->quote($instance->guest))
 			->set($this->db->quoteName('username') . ' = ' . $this->db->quote($instance->username))
-			->set($this->db->quoteName('userid') . ' = ' . (int) $instance->id);
-
-		if (isset($passwordNewHash))
-		{
-			$query->set($this->db->quoteName('password') . ' = ' . $this->db->quote($instance->password));
-		}
-
-		$query->where($this->db->quoteName('session_id') . ' = ' . $this->db->quote($session->getId()));
+			->set($this->db->quoteName('userid') . ' = ' . (int) $instance->id)
+			->where($this->db->quoteName('session_id') . ' = ' . $this->db->quote($session->getId()));
 		$this->db->setQuery($query)->execute();
 
 		// Hit the user last visit field
@@ -449,7 +445,7 @@ var_dump($instance);var_dump($user);
 	}
 
 	/**
-	 * This is where we delete remember any authentication cookie when a user logs out
+	 * This is where we delete any authentication cookie when a user logs out
 	 *
 	 * @param   array  options     Array holding options (length, timeToExpiration,)
 	 *
