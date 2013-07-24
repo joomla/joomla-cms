@@ -32,7 +32,7 @@ class JAmazons3OperationsObjectsGet extends JAmazons3OperationsObjects
 	 */
 	public function getObject($bucket, $objectName, $versionId = null, $range = null)
 	{
-		$url = "https://" . $bucket. "." . $this->options->get("api.url") . "/" . $objectName;
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/" . $objectName;
 
 		if (! is_null($versionId))
 		{
