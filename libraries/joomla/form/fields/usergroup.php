@@ -52,8 +52,9 @@ class JFormFieldUsergroup extends JFormField
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
-		parent::setup($element, $value, $group);
 		$this->size = $this->element['size'] ? (int) $this->element['size'] : false;
+
+		return parent::setup($element, $value, $group);
 	}
 
 	/**
@@ -77,7 +78,8 @@ class JFormFieldUsergroup extends JFormField
 		$attr .= $this->autofocus ? ' autofocus' : '';
 
 		// Initialize JavaScript field attributes.
-		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
+		$attr .= !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
+		$attr .= !empty($this->onclick) ? ' onclick="' . $this->onclick . '"' : '';
 
 		// Iterate through the children and build an array of options.
 		foreach ($this->element->children() as $option)
@@ -88,10 +90,13 @@ class JFormFieldUsergroup extends JFormField
 				continue;
 			}
 
+			$disabled = (string) $option['disabled'];
+			$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
+
 			// Create a new option object based on the <option /> element.
 			$tmp = JHtml::_(
 				'select.option', (string) $option['value'], trim((string) $option), 'value', 'text',
-				((string) $option['disabled'] == 'true')
+				$disabled
 			);
 
 			// Set some option attributes.

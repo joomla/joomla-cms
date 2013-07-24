@@ -28,7 +28,37 @@ class JFormFieldCheckbox extends JFormField
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $type = 'Checkbox';
+	protected $type = 'Checkbox';
+
+	/**
+	 * The checked state of checkbox field.
+	 *
+	 * @var    boolean
+	 * @since  11.1
+	 */
+	protected $checked = false;
+
+	/**
+	 * Method to attach a JForm object to the field.
+	 *
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   mixed             $value    The form field value to validate.
+	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                      full field name would end up being "bar[foo]".
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @see 	JFormField::setup()
+	 * @since   11.1
+	 */
+	public function setup(SimpleXMLElement $element, $value, $group = null)
+	{
+		$checked = (string) $element['checked'];
+		$this->checked = ($checked == 'true' || $checked == 'checked' || $checked == '1');
+
+		return parent::setup($element, $value, $group);
+	}
 
 	/**
 	 * Method to get the field input markup.
@@ -46,25 +76,18 @@ class JFormFieldCheckbox extends JFormField
 		$value = $this->element['value'] ? (string) $this->element['value'] : '1';
 		$required = $this->required ? ' required aria-required="true"' : '';
 		$autofocus = $this->autofocus ? ' autofocus' : '';
-
-		if (empty($this->value))
-		{
-			$checked = (isset($this->element['checked'] )) ? ' checked' : '';
-		}
-		else
-		{
-			$checked = ' checked';
-		}
+		$checked = $this->checked || empty($this->value) ? ' checked' : '';
 
 		// Initialize JavaScript field attributes.
-		$onclick = $this->element['onclick'] ? ' onclick="' . (string) $this->element['onclick'] . '"' : '';
+		$onclick = !empty($this->onclick) ? ' onclick="' . $this->onclick . '"' : '';
+		$onchange = !empty($this->onclick) ? ' onclick="' . $this->onchange . '"' : '';
 
 		// Including fallback code for HTML5 non supported browsers.
 		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/html5fallback.js', false, true);
 
 		return '<input type="checkbox" name="' . $this->name . '" id="' . $this->id . '" value="'
-			. htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"' . $class . $checked . $disabled . $onclick
+			. htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"' . $class . $checked . $disabled . $onclick . $onchange
 			. $required . $autofocus . ' />';
 	}
 }

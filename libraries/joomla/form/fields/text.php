@@ -49,7 +49,7 @@ class JFormFieldText extends JFormField
 		$disabled = $this->disabled ? ' disabled' : '';
 		$required = $this->required ? ' required aria-required="true"' : '';
 		$hint = $hint ? ' placeholder="' . $hint . '"' : '';
-		$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : ' autocomplete="' . (string) $this->element['autocomplete'] . '"';
+		$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $this->autocomplete . '"';
 		$autofocus = $this->autofocus ? ' autofocus' : '';
 		$spellcheck = $this->spellcheck ? ' spellcheck="true"' : ' spellcheck="false"';
 		$inputmode = !empty($this->inputmode) ? ' inputmode="' . $this->inputmode . '"' : '';
@@ -57,7 +57,7 @@ class JFormFieldText extends JFormField
 		$list = '';
 
 		// Initialize JavaScript field attributes.
-		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
+		$onchange = !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
 
 		// Including fallback code for HTML5 non supported browsers.
 		JHtml::_('jquery.framework');

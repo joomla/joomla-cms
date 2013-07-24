@@ -43,13 +43,13 @@ abstract class JFormField
 	protected $inputmode;
 
 	/**
-	 * The autocomplete of state for the form field. If true element will be automatically
-	 * completed by browser otherwise not.
+	 * The autocomplete of state for the form field. If 'off' element will not be automatically
+	 * completed by browser.
 	 *
-	 * @var    boolean
+	 * @var    mixed
 	 * @since  11.1
 	 */
-	protected $autocomplete = true;
+	protected $autocomplete = 'on';
 
 	/**
 	 * The autocomplete of state for the form field. If true element will be automatically
@@ -242,6 +242,14 @@ abstract class JFormField
 	protected $value;
 
 	/**
+	 * The size of the form field.
+	 *
+	 * @var    int
+	 * @since  11.1
+	 */
+	protected $size;
+
+	/**
 	 * The class of the form field
 	 *
 	 * @var    mixed
@@ -256,6 +264,22 @@ abstract class JFormField
 	 * @since  11.1
 	 */
 	protected $labelClass;
+
+	/**
+	* The javascript onchange of the form field.
+	*
+	* @var    string
+	* @since  11.1
+	*/
+	protected $onchange;
+
+	/**
+	* The javascript onclick of the form field.
+	*
+	* @var    string
+	* @since  11.1
+	*/
+	protected $onclick;
 
 	/**
 	 * The count value for generated name field
@@ -331,6 +355,8 @@ abstract class JFormField
 			case 'value':
 			case 'class':
 			case 'labelClass':
+			case 'onchange':
+			case 'onclick':
 			case 'fieldname':
 			case 'group':
 			case 'disabled':
@@ -464,7 +490,7 @@ abstract class JFormField
 		$this->hint = (string) $element['hint'];
 
 		// Determine whether to automatically fill the field or not.
-		$this->autocomplete = !($autocomplete == 'false' || $autocomplete == 'off' || $autocomplete == '0');
+		$this->autocomplete = ($autocomplete == 'false' || $autocomplete == 'off' || $autocomplete == '0') ? false : $autocomplete;
 
 		// Determine whether to set focus on the field automatically or not.
 		$this->autofocus = ($autofocus == 'true' || $autofocus == 'on' || $autofocus == '1');
@@ -478,6 +504,12 @@ abstract class JFormField
 		// Set the dirname.
 		$dirname = ((string) $dirname == 'dirname' || $dirname == 'true' || $dirname == '1');
 		$this->dirname = $dirname ? $this->getName($this->fieldname . '_dir') : false;
+
+		// Set the javascript onchange and onclick method.
+		$this->onclick = (string) $element['onclick'];
+		$this->onchange = (string) $element['onchange'];
+
+		$this->size = (int) $element['size'];
 
 		// Determine whether to translate the field label and/or description and/or hint.
 		$this->translateLabel = !((string) $this->element['translate_label'] == 'false' || (string) $this->element['translate_label'] == '0');

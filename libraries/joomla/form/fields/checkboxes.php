@@ -38,6 +38,35 @@ class JFormFieldCheckboxes extends JFormField
 	protected $forceMultiple = true;
 
 	/**
+	 * The comma seprated list of checked checkboxes value.
+	 *
+	 * @var    mixed
+	 * @since  11.1
+	 */
+	public $checkedOptions;
+
+	/**
+	 * Method to attach a JForm object to the field.
+	 *
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   mixed             $value    The form field value to validate.
+	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                      full field name would end up being "bar[foo]".
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @see 	JFormField::setup()
+	 * @since   11.1
+	 */
+	public function setup(SimpleXMLElement $element, $value, $group = null)
+	{
+		$this->checkedOptions = (string) $element['checked'];
+
+		return parent::setup($element, $value, $group);
+	}
+
+	/**
 	 * Method to get the field input markup for check boxes.
 	 *
 	 * @return  string  The field input markup.
@@ -50,7 +79,7 @@ class JFormFieldCheckboxes extends JFormField
 
 		// Initialize some field attributes.
 		$class = !empty($this->class) ? ' class=checkboxes "' . $this->class . '"' : ' class="checkboxes"';
-		$checkedOptions = explode(',', (string) $this->element['checked']);
+		$checkedOptions = explode(',', (string) $this->checkedOptions);
 		$required = $this->required ? ' required aria-required="true"' : '';
 		$autofocus = $this->autofocus ? ' autofocus' : '';
 
@@ -72,7 +101,7 @@ class JFormFieldCheckboxes extends JFormField
 			// Initialize some option attributes.
 			if (!isset($this->value) || empty($this->value))
 			{
-				$checked = (in_array((string) $option->value, (array) $checkedOptions) ? ' checked="checked"' : '');
+				$checked = (in_array((string) $option->value, (array) $checkedOptions) ? ' checked' : '');
 			}
 			else
 			{
@@ -80,15 +109,18 @@ class JFormFieldCheckboxes extends JFormField
 				$checked = (in_array((string) $option->value, $value) ? ' checked' : '');
 			}
 
+			$checked = empty($checked) && $option->checked ? ' checked' : $checked;
+
 			$class = !empty($option->class) ? ' class="' . $option->class . '"' : '';
 			$disabled = !empty($option->disable) || $this->disabled ? ' disabled' : '';
 
 			// Initialize some JavaScript option attributes.
 			$onclick = !empty($option->onclick) ? ' onclick="' . $option->onclick . '"' : '';
+			$onchange = !empty($option->onchange) ? ' onchange="' . $option->onchange . '"' : '';
 
 			$html[] = '<li>';
 			$html[] = '<input type="checkbox" id="' . $this->id . $i . '" name="' . $this->name . '" value="'
-				. htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8') . '"' . $checked . $class . $onclick . $disabled . '/>';
+				. htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8') . '"' . $checked . $class . $onclick . $onchange . $disabled . '/>';
 
 			$html[] = '<label for="' . $this->id . $i . '"' . $class . '>' . JText::_($option->text) . '</label>';
 			$html[] = '</li>';
@@ -121,17 +153,25 @@ class JFormFieldCheckboxes extends JFormField
 				continue;
 			}
 
+			$disabled = (string) $option['disabled'];
+			$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
+
+			$checked = (string) $option['checked'];
+			$checked = ($checked == 'true' || $checked == 'checked' || $checked == '1');
+
 			// Create a new option object based on the <option /> element.
 			$tmp = JHtml::_(
 				'select.option', (string) $option['value'], trim((string) $option), 'value', 'text',
-				((string) $option['disabled'] == 'true')
+				$disabled
 			);
 
 			// Set some option attributes.
 			$tmp->class = (string) $option['class'];
+			$tmp->checked = $checked;
 
 			// Set some JavaScript option attributes.
 			$tmp->onclick = (string) $option['onclick'];
+			$tmp->onchange = (string) $option['onchange'];
 
 			// Add the option object to the result set.
 			$options[] = $tmp;

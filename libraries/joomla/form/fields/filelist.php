@@ -31,6 +31,88 @@ class JFormFieldFileList extends JFormFieldList
 	public $type = 'FileList';
 
 	/**
+	 * The filter.
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
+	protected $filter;
+
+	/**
+	 * The exclude.
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
+	protected $exclude;
+
+	/**
+	 * The hideNone.
+	 *
+	 * @var    boolean
+	 * @since  11.1
+	 */
+	protected $hideNone = false;
+
+	/**
+	 * The hideDefault.
+	 *
+	 * @var    boolean
+	 * @since  11.1
+	 */
+	protected $hideDefault = false;
+
+	/**
+	 * The stripExt.
+	 *
+	 * @var    boolean
+	 * @since  11.1
+	 */
+	protected $stripExt = false;
+
+	/**
+	 * The directory.
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
+	protected $directory;
+
+	/**
+	 * Method to attach a JForm object to the field.
+	 *
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   mixed             $value    The form field value to validate.
+	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                      full field name would end up being "bar[foo]".
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @see 	JFormField::setup()
+	 * @since   11.1
+	 */
+	public function setup(SimpleXMLElement $element, $value, $group = null)
+	{
+		$this->filter = (string) $element['filter'];
+		$this->exclude = (string) $element['exclude'];
+
+		$hideNone = (string) $element['hide_none'];
+		$this->hideNone = ($hideNone == 'true' || $hideNone == 'hideNone' || $hideNone == '1');
+
+		$hideDefault = (string) $element['hide_default'];
+		$this->hideDefault = ($hideDefault == 'true' || $hideDefault == 'hideDefault' || $hideDefault == '1');
+
+		$stripExt = (string) $element['stripext'];
+		$this->stripExt = ($stripExt == 'true' || $stripExt == 'stripExt' || $stripExt == '1');
+
+		// Get the path in which to search for file options.
+		$this->directory = (string) $element['directory'];
+
+		return parent::setup($element, $value, $group);
+	}
+
+	/**
 	 * Method to get the list of files for the field options.
 	 * Specify the target directory with a directory attribute
 	 * Attributes allow an exclude mask and stripping of extensions from file name.
@@ -44,15 +126,7 @@ class JFormFieldFileList extends JFormFieldList
 	{
 		$options = array();
 
-		// Initialize some field attributes.
-		$filter = (string) $this->element['filter'];
-		$exclude = (string) $this->element['exclude'];
-		$stripExt = (string) $this->element['stripext'];
-		$hideNone = (string) $this->element['hide_none'];
-		$hideDefault = (string) $this->element['hide_default'];
-
-		// Get the path in which to search for file options.
-		$path = (string) $this->element['directory'];
+		$path = $this->directory;
 
 		if (!is_dir($path))
 		{
@@ -60,18 +134,18 @@ class JFormFieldFileList extends JFormFieldList
 		}
 
 		// Prepend some default options based on field attributes.
-		if (!$hideNone)
+		if (!$this->hideNone)
 		{
 			$options[] = JHtml::_('select.option', '-1', JText::alt('JOPTION_DO_NOT_USE', preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)));
 		}
 
-		if (!$hideDefault)
+		if (!$this->hideDefault)
 		{
 			$options[] = JHtml::_('select.option', '', JText::alt('JOPTION_USE_DEFAULT', preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)));
 		}
 
 		// Get a list of files in the search path with the given filter.
-		$files = JFolder::files($path, $filter);
+		$files = JFolder::files($path, $this->filter);
 
 		// Build the options list from the list of files.
 		if (is_array($files))
@@ -79,16 +153,16 @@ class JFormFieldFileList extends JFormFieldList
 			foreach ($files as $file)
 			{
 				// Check to see if the file is in the exclude mask.
-				if ($exclude)
+				if ($this->exclude)
 				{
-					if (preg_match(chr(1) . $exclude . chr(1), $file))
+					if (preg_match(chr(1) . $this->exclude . chr(1), $file))
 					{
 						continue;
 					}
 				}
 
 				// If the extension is to be stripped, do it.
-				if ($stripExt)
+				if ($this->stripExt)
 				{
 					$file = JFile::stripExt($file);
 				}

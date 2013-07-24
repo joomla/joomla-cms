@@ -29,6 +29,62 @@ class JFormFieldColor extends JFormField
 	protected $type = 'Color';
 
 	/**
+	 * The control.
+	 *
+	 * @var    mixed
+	 * @since  11.1
+	 */
+	protected $control = 'hue';
+
+	/**
+	 * The position.
+	 *
+	 * @var    mixed
+	 * @since  11.1
+	 */
+	protected $position = 'right';
+
+	/**
+	 * The colors.
+	 *
+	 * @var    mixed
+	 * @since  11.1
+	 */
+	protected $colors;
+
+	/**
+	 * The split.
+	 *
+	 * @var    int
+	 * @since  11.1
+	 */
+	protected $split = 3;
+
+	/**
+	 * Method to attach a JForm object to the field.
+	 *
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   mixed             $value    The form field value to validate.
+	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                      full field name would end up being "bar[foo]".
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @see 	JFormField::setup()
+	 * @since   11.1
+	 */
+	public function setup(SimpleXMLElement $element, $value, $group = null)
+	{
+		$this->control = isset($element['control']) ? (string) $element['control'] : 'hue';
+		$this->position = isset($element['position']) ? (string) $element['position'] : 'right';
+		$this->colors = (string) $element['colors'];
+		$this->split = isset($element['split']) ? (int) $this->element['split'] : 3;
+
+		return parent::setup($element, $value, $group);
+	}
+
+	/**
 	 * Method to get the field input markup.
 	 *
 	 * @return  string  The field input markup.
@@ -40,14 +96,13 @@ class JFormFieldColor extends JFormField
 		// Translate placeholder text
 		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
 
-		// Control value can be: hue (default), saturation, brightness, wheel or simpel
-		$control = (string) $this->element['control'];
+		// Control value can be: hue (default), saturation, brightness, wheel or simple
+		$control = $this->control;
 
 		// Position of the panel can be: right (default), left, top or bottom
-		$position = $this->element['position'] ? (string) $this->element['position'] : 'right';
-		$position = ' data-position="' . $position . '"';
+		$position = ' data-position="' . $this->position . '"';
 
-		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
+		$onchange = !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
 		$class = $this->class;
 		$autofocus = $this->autofocus ? ' autofocus' : '';
 
@@ -67,7 +122,7 @@ class JFormFieldColor extends JFormField
 			$class = ' class="' . trim('simplecolors chzn-done ' . $class) . '"';
 			JHtml::_('behavior.simplecolorpicker');
 
-			$colors = strtolower((string) $this->element['colors']);
+			$colors = strtolower();
 
 			if (empty($colors))
 			{
@@ -91,7 +146,7 @@ class JFormFieldColor extends JFormField
 				$colors = explode(',', $colors);
 			}
 
-			$split = (int) $this->element['split'];
+			$split = $this->split;
 
 			if (!$split)
 			{

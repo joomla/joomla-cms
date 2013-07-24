@@ -48,7 +48,7 @@ class JFormFieldList extends JFormField
 		$attr .= $this->autofocus ? ' autofocus' : '';
 
 		// Initialize JavaScript field attributes.
-		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
+		$attr .= $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
 
 		// Get the field options.
 		$options = (array) $this->getOptions();
@@ -79,13 +79,17 @@ class JFormFieldList extends JFormField
 			}
 
 			$value = (string) $option['value'];
-			$disabled = $option['disabled'] == 'true' || ($this->readonly && $value != $this->value);
+
+			$disabled = (string) $option['disabled'];
+			$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
+
+			$disabled = $disabled || ($this->readonly && $value != $this->value);
 
 			// Create a new option object based on the <option /> element.
 			$tmp = JHtml::_(
 				'select.option', $value,
 				JText::alt(trim((string) $option), preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)), 'value', 'text',
-				(string) $disabled
+				$disabled
 			);
 
 			// Set some option attributes.

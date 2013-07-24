@@ -52,11 +52,14 @@ class JFormFieldGroupedList extends JFormField
 						$groups[$label] = array();
 					}
 
+					$disabled = (string) $element['disabled'];
+					$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
+
 					// Create a new option object based on the <option /> element.
 					$tmp = JHtml::_(
 						'select.option', ($element['value']) ? (string) $element['value'] : trim((string) $element),
 						JText::alt(trim((string) $element), preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)), 'value', 'text',
-						((string) $element['disabled'] == 'true')
+						$disabled
 					);
 
 					// Set some option attributes.
@@ -92,10 +95,13 @@ class JFormFieldGroupedList extends JFormField
 							continue;
 						}
 
+						$disabled = (string) $option['disabled'];
+						$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
+
 						// Create a new option object based on the <option /> element.
 						$tmp = JHtml::_(
 							'select.option', ($option['value']) ? (string) $option['value'] : JText::_(trim((string) $option)),
-							JText::_(trim((string) $option)), 'value', 'text', ((string) $option['disabled'] == 'true')
+							JText::_(trim((string) $option)), 'value', 'text', $disabled
 						);
 
 						// Set some option attributes.
@@ -140,20 +146,20 @@ class JFormFieldGroupedList extends JFormField
 
 		// Initialize some field attributes.
 		$attr .= !empty($this->class) ? ' class="' . $this->class . '"' : '';
-		$attr .= ((string) $this->element['disabled'] == 'true') ? ' disabled' : '';
-		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
+		$attr .= $this->disabled ? ' disabled' : '';
+		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
 		$attr .= $this->multiple ? ' multiple' : '';
 		$attr .= $this->required ? ' required aria-required="true"' : '';
 		$attr .= $this->autofocus ? ' autofocus' : '';
 
 		// Initialize JavaScript field attributes.
-		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
+		$attr .= !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
 
 		// Get the field groups.
 		$groups = (array) $this->getGroups();
 
 		// Create a read-only list (no name) with a hidden input to store the value.
-		if ((string) $this->element['readonly'] == 'true')
+		if ($this->readonly)
 		{
 			$html[] = JHtml::_(
 				'select.groupedlist', $groups, null,

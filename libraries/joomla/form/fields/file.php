@@ -29,6 +29,35 @@ class JFormFieldFile extends JFormField
 	public $type = 'File';
 
 	/**
+	 * The accepted file type list.
+	 *
+	 * @var    mixed
+	 * @since  11.1
+	 */
+	protected $accept;
+
+	/**
+	 * Method to attach a JForm object to the field.
+	 *
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   mixed             $value    The form field value to validate.
+	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                      full field name would end up being "bar[foo]".
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @see 	JFormField::setup()
+	 * @since   11.1
+	 */
+	public function setup(SimpleXMLElement $element, $value, $group = null)
+	{
+		$this->accept = (string) $element['accept'];
+
+		return parent::setup($element, $value, $group);
+	}
+
+	/**
 	 * Method to get the field input markup for the file field.
 	 * Field attributes allow specification of a maximum file size and a string
 	 * of accepted file extensions.
@@ -43,8 +72,8 @@ class JFormFieldFile extends JFormField
 	protected function getInput()
 	{
 		// Initialize some field attributes.
-		$accept = $this->element['accept'] ? ' accept="' . (string) $this->element['accept'] . '"' : '';
-		$size = $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
+		$accept = !empty($this->accept) ? ' accept="' . $this->accept . '"' : '';
+		$size = !empty($this->size) ? ' size="' . $this->size . '"' : '';
 		$class = !empty($this->class) ? ' class="' . $this->class . '"' : '';
 		$disabled = $this->disabled ? ' disabled' : '';
 		$required = $this->required ? ' required aria-required="true"' : '';
@@ -52,13 +81,13 @@ class JFormFieldFile extends JFormField
 		$multiple = $this->multiple ? ' multiple' : '';
 
 		// Initialize JavaScript field attributes.
-		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
+		$onchange = $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
 
 		// Including fallback code for HTML5 non supported browsers.
 		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/html5fallback.js', false, true);
 
-		return '<input type="file" name="' . $this->name . '" id="' . $this->id . '" value=""' . $accept . $disabled . $class . $size
-			. $onchange . $required . $autofocus . $multiple . ' />';
+		return '<input type="file" name="' . $this->name . '" id="' . $this->id . '" value=""' . $accept
+			. $disabled . $class . $size . $onchange . $required . $autofocus . $multiple . ' />';
 	}
 }

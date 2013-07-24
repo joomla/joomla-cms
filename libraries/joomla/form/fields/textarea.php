@@ -31,10 +31,18 @@ class JFormFieldTextarea extends JFormField
 	/**
 	 * The number of rows in textarea.
 	 *
-	 * @var    integer
+	 * @var    mixed
 	 * @since  11.1
 	 */
 	protected $rows;
+
+	/**
+	 * The number of columns in textarea.
+	 *
+	 * @var    mixed
+	 * @since  11.1
+	 */
+	protected $columns;
 
 	/**
 	 * Method to attach a JForm object to the field.
@@ -53,7 +61,9 @@ class JFormFieldTextarea extends JFormField
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
 		parent::setup($element, $value, $group);
-		$this->rows = $this->element['rows'] ? (int) $this->element['rows'] : false;
+
+		$this->rows = isset($this->element['rows']) ? (int) $this->element['rows'] : false;
+		$this->columns = isset($this->element['cols']) ? (int) $this->element['cols'] : false;
 	}
 
 	/**
@@ -73,23 +83,24 @@ class JFormFieldTextarea extends JFormField
 		$class = !empty($this->class) ? ' class="' . $this->class . '"' : '';
 		$disabled = $this->disabled ? ' disabled' : '';
 		$readonly = $this->readonly ? ' readonly' : '';
-		$columns = $this->element['cols'] ? ' cols="' . (int) $this->element['cols'] . '"' : '';
+		$columns = $this->columns ? ' cols="' . $this->columns . '"' : '';
 		$rows = $this->rows ? ' rows="' . $this->rows . '"' : '';
 		$required = $this->required ? ' required aria-required="true"' : '';
 		$hint = $hint ? ' placeholder="' . $hint . '"' : '';
-		$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : '';
+		$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $this->autocomplete . '"';
 		$autofocus = $this->autofocus ? ' autofocus' : '';
 		$spellcheck = $this->spellcheck ? ' spellcheck="true"' : ' spellcheck="false"';
 
 		// Initialize JavaScript field attributes.
-		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
+		$onchange = $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
+		$onclick = $this->onclick ? ' onclick="' . $this->onclick . '"' : '';
 
 		// Including fallback code for HTML5 non supported browsers.
 		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/html5fallback.js', false, true);
 
 		return '<textarea name="' . $this->name . '" id="' . $this->id . '"' . $columns . $rows . $class
-			. $hint . $disabled . $readonly . $onchange . $required . $autocomplete . $autofocus . $spellcheck . '>'
+			. $hint . $disabled . $readonly . $onchange . $onclick . $required . $autocomplete . $autofocus . $spellcheck . '>'
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '</textarea>';
 	}
 }

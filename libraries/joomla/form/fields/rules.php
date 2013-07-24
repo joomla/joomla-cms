@@ -29,6 +29,53 @@ class JFormFieldRules extends JFormField
 	public $type = 'Rules';
 
 	/**
+	 * The section.
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
+	protected $section;
+
+	/**
+	 * The component.
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
+	protected $component;
+
+	/**
+	 * The assetField.
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
+	protected $assetField;
+
+	/**
+	 * Method to attach a JForm object to the field.
+	 *
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   mixed             $value    The form field value to validate.
+	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                      full field name would end up being "bar[foo]".
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @see 	JFormField::setup()
+	 * @since   11.1
+	 */
+	public function setup(SimpleXMLElement $element, $value, $group = null)
+	{
+		parent::setup($element, $value, $group);
+
+		$this->section = $this->element['section'] ? (string) $this->element['section'] : '';
+		$this->component = $this->element['component'] ? (string) $this->element['component'] : '';
+		$this->assetField = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
+	}
+
+	/**
 	 * Method to get the field input markup for Access Control Lists.
 	 * Optionally can be associated with a specific component and section.
 	 *
@@ -43,9 +90,9 @@ class JFormFieldRules extends JFormField
 		JHtml::_('bootstrap.tooltip');
 
 		// Initialise some field attributes.
-		$section = $this->element['section'] ? (string) $this->element['section'] : '';
-		$component = $this->element['component'] ? (string) $this->element['component'] : '';
-		$assetField = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
+		$section = $this->section;
+		$component = $this->component;
+		$assetField = $this->assetField;
 
 		// Get the actions for the asset.
 		$actions = JAccess::getActions($component, $section);

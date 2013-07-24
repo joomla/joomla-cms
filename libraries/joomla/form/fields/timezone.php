@@ -38,12 +38,20 @@ class JFormFieldTimezone extends JFormFieldGroupedList
 	protected static $zones = array('Africa', 'America', 'Antarctica', 'Arctic', 'Asia', 'Atlantic', 'Australia', 'Europe', 'Indian', 'Pacific');
 
 	/**
-	 * The number of rows in textarea.
+	 * The number of rows in timezone field.
+	 *
+	 * @var    mixed
+	 * @since  11.1
+	 */
+	protected $rows;
+
+	/**
+	 * The keyField of timezone field.
 	 *
 	 * @var    integer
 	 * @since  11.1
 	 */
-	protected $rows;
+	protected $keyField;
 
 	/**
 	 * Method to attach a JForm object to the field.
@@ -61,8 +69,10 @@ class JFormFieldTimezone extends JFormFieldGroupedList
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
-		parent::setup($element, $value, $group);
 		$this->rows = isset($this->element['rows']) ? (int) $this->element['rows'] : false;
+		$this->keyField = (string) $this->element['key_field'];
+
+		return parent::setup($element, $value, $group);
 	}
 
 	/**
@@ -76,7 +86,7 @@ class JFormFieldTimezone extends JFormFieldGroupedList
 	{
 		$groups = array();
 
-		$keyField = $this->element['key_field'] ? (string) $this->element['key_field'] : 'id';
+		$keyField = !empty($this->keyField) ? $this->keyField : 'id';
 		$keyValue = $this->form->getValue($keyField);
 
 		// If the timezone is not set use the server setting.
