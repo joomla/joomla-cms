@@ -94,6 +94,16 @@ abstract class JPlugin extends JEvent
 			$this->loadLanguage();
 		}
 
+		if (property_exists($this, 'app') && is_null($this->app))
+		{
+			$this->app = JFactory::getApplication();
+		}
+
+		if (property_exists($this, 'db') && is_null($this->db))
+		{
+			$this->db = JFactory::getDbo();
+		}
+
 		parent::__construct($subject);
 	}
 

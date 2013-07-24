@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Jul-2013 Mark Dexter
+ # Fix problem with failing system tests.
+
 16-Jul-2013 Mark Dexter
  + Add webdriver tests for some components and extensions. Thanks Puneet Kala.
 

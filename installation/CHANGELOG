@@ -25,7 +25,35 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-; Below is merged into v3.1.2
+; Below is merged into v3.1.3
+
+23-Jul-2013 Michael Babker
+ # [#31500] Hathor: No Batch at some Managers.  Thanks Angelika Reisiger
+ # [#31547] IDN library missing from update sql files 3.1.2+master.  Thanks Elin Waring
+ # Incorrect quoting in PostgreSQL 3.1.2 updates.
+
+-------------------- 3.1.2 Stable Release [23-Jul-2013] ------------------
+
+21-Jul-2013 Mark Dexter
+ ^ [#31319] registration option disabled by default is safer. Thanks Brian Teeman.
+ + [#31205] Automatically set $db and $app properties on plugins. Thanks Don Gilbert.
+ # [#30677] Need to update the readme files. Thanks David Hurley.
+ # [#31428] 3.1.2 backend menus don't react like previous version. Thanks Jérôme Glatigny.
+
+21-Jul-2013 Michael Babker
+ # [#31401] Fixed issue with $query object being overwritten by string.  Thanks Peter van Westen
+
+21-Jul-2013 Jean-Marie Simonet
+ + [#31349] Display Error Message when Magic Quotes is Enabled. Thanks Brian Teeman
+ #+ [#31488] Add Observer pattern to JTable (and use it for Tags implementation (which also fixes [#31339] too). Thanks Beat.
+
+20-Jul-2013 Jean-Marie Simonet
+ # [#31496] DEBUG_BACKTRACE_IGNORE_ARGS not supported in PHP 5.3.1-5.3.5. Thanks Beat
+ # [#31533] User Interface allows tags in Banner Categories but it should not. Thanks Elin waring
+ # [#31522] No tag fields in hathor - you can't write Tags in component items. Thanks Elin Waring
+
+19-Jul-2013 Jean-Marie Simonet
+ # [#31525] Files uninstall is failing due to missing variable. Thanks Michael Babker
 
 17-Jul-2013 Jean-Marie Simonet
  # [#31476] Remove unneeded GROUP BY and fix duplicate article display. Thanks Thomas Hunziker
