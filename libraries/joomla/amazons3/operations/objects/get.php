@@ -95,4 +95,29 @@ class JAmazons3OperationsObjectsGet extends JAmazons3OperationsObjects
 
 		return $response_body;
 	}
+
+	/**
+	 * Returns torrent files from a bucket
+	 *
+	 * @param   string  $bucket      The bucket name
+	 * @param   string  $objectName  The object name
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function getObjectTorrent($bucket, $objectName)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url")
+			. "/" . $objectName . "?torrent";
+
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+		);
+
+		// Send the request and process the response
+		$response_body = $this->commonGetOperations($url, $headers);
+
+		return $response_body;
+	}
 }
