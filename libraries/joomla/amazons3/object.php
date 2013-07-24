@@ -47,17 +47,23 @@ abstract class JAmazons3Object
 	/**
 	 * Common operations performed by all of the methods that send GET requests
 	 *
-	 * @param   string  $url  The url that is used in the request
+	 * @param   string  $url      The url that is used in the request
+	 * @param   string  $headers  An array of headers
 	 *
 	 * @return string  The response body
 	 *
 	 * @since   ??.?
 	 */
-	public function commonGetOperations($url)
+	public function commonGetOperations($url, $headers = null)
 	{
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-		);
+		// The headers may be optionally set in advance
+		if (is_null($headers))
+		{
+			$headers = array(
+				"Date" => date("D, d M Y H:i:s O"),
+			);
+		}
+
 		$authorization = $this->createAuthorization("GET", $url, $headers);
 		$headers["Authorization"] = $authorization;
 
@@ -130,19 +136,6 @@ abstract class JAmazons3Object
 
 				throw new DomainException($error->message, $response->code);
 			}
-			else
-			{
-				if ($response->code == 204)
-				{
-					return "The request was successful. Amazon S3 returned a 204 No Content response.\n";
-				}
-				else
-				{
-					// Some error responses do not return a body
-					$errorMessage = "The bucket does not exist or you do not have permission to access it.\n";
-					throw new DomainException($errorMessage, $response->code);
-				}
-			}
 		}
 
 		if ($response->body != null && $response->body[0] == '<')
@@ -151,7 +144,8 @@ abstract class JAmazons3Object
 		}
 		else
 		{
-			return "The request was successful.\n";
+			return "Response code: " . $response->code . ".\n"
+				. "The request was successful.\n";
 		}
 	}
 
