@@ -55,15 +55,17 @@ class JAmazons3OperationsBucketsDeleteTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the getBucket method
+	 * Common test operations for methods which use DELETE requests
+	 *
+	 * @param   string  $subresource  The subresource that is used for creating the DELETE request.
 	 *
 	 * @return  void
 	 *
 	 * @since   ??.?
 	 */
-	public function testDeleteBucket()
+	protected function commonDeleteTestOperations($subresource)
 	{
-		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url") . "/";
+		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url") . "/" . $subresource;
 		$headers = array(
 			"Date" => date("D, d M Y H:i:s O"),
 		);
@@ -80,8 +82,101 @@ class JAmazons3OperationsBucketsDeleteTest extends PHPUnit_Framework_TestCase
 			->with($url, $headers)
 			->will($this->returnValue($returnData));
 
+		return $expectedResult;
+	}
+
+	/**
+	 * Tests the deleteBucket method
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testDeleteBucket()
+	{
+		$expectedResult = $this->commonDeleteTestOperations("");
 		$this->assertThat(
 			$this->object->delete->deleteBucket($this->options->get("testBucket")),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the deleteBucketCors method
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testDeleteBucketCors()
+	{
+		$expectedResult = $this->commonDeleteTestOperations("?cors");
+		$this->assertThat(
+			$this->object->delete->deleteBucketCors($this->options->get("testBucket")),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the deleteBucketLifecycle method
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testDeleteBucketLifecycle()
+	{
+		$expectedResult = $this->commonDeleteTestOperations("?lifecycle");
+		$this->assertThat(
+			$this->object->delete->deleteBucketLifecycle($this->options->get("testBucket")),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the deleteBucketPolicy method
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testDeleteBucketPolicy()
+	{
+		$expectedResult = $this->commonDeleteTestOperations("?policy");
+		$this->assertThat(
+			$this->object->delete->deleteBucketPolicy($this->options->get("testBucket")),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the deleteBucketTagging method
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testDeleteBucketTagging()
+	{
+		$expectedResult = $this->commonDeleteTestOperations("?tagging");
+		$this->assertThat(
+			$this->object->delete->deleteBucketTagging($this->options->get("testBucket")),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the deleteBucketWebsite method
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testDeleteBucketWebsite()
+	{
+		$expectedResult = $this->commonDeleteTestOperations("?website");
+		$this->assertThat(
+			$this->object->delete->deleteBucketWebsite($this->options->get("testBucket")),
 			$this->equalTo($expectedResult)
 		);
 	}

@@ -32,17 +32,104 @@ class JAmazons3OperationsBucketsDelete extends JAmazons3OperationsBuckets
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/";
 
 		// Send the request and process the response
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-		);
-		$authorization = $this->createAuthorization("DELETE", $url, $headers);
-		$headers["Authorization"] = $authorization;
+		$response_body = $this->commonDeleteOperations($url);
 
-		// Send the http request
-		$response = $this->client->delete($url, $headers);
+		return $response_body;
+	}
 
-		// Process the response
-		$response_body = $this->processResponse($response);
+	/**
+	 * Deletes the cors configuration information set for the bucket.
+	 *
+	 * @param   string  $bucket  The bucket name
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function deleteBucketCors($bucket)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?cors";
+
+		// Send the request and process the response
+		$response_body = $this->commonDeleteOperations($url);
+
+		return $response_body;
+	}
+
+	/**
+	 * Deletes the lifecycle configuration from the specified bucket
+	 *
+	 * @param   string  $bucket  The bucket name
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function deleteBucketLifecycle($bucket)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?lifecycle";
+
+		// Send the request and process the response
+		$response_body = $this->commonDeleteOperations($url);
+
+		return $response_body;
+	}
+
+	/**
+	 * This implementation of the DELETE operation uses the policy subresource
+	 * to delete the policy on a specified bucket.
+	 *
+	 * @param   string  $bucket  The bucket name
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function deleteBucketPolicy($bucket)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?policy";
+
+		// Send the request and process the response
+		$response_body = $this->commonDeleteOperations($url);
+
+		return $response_body;
+	}
+
+	/**
+	 * This implementation of the DELETE operation uses the tagging
+	 * subresource to remove a tag set from the specified bucket.
+	 *
+	 * @param   string  $bucket  The bucket name
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function deleteBucketTagging($bucket)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?tagging";
+
+		// Send the request and process the response
+		$response_body = $this->commonDeleteOperations($url);
+
+		return $response_body;
+	}
+
+	/**
+	 * This operation removes the website configuration for a bucket.
+	 *
+	 * @param   string  $bucket  The bucket name
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function deleteBucketWebsite($bucket)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?website";
+
+		// Send the request and process the response
+		$response_body = $this->commonDeleteOperations($url);
 
 		return $response_body;
 	}
