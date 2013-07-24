@@ -144,8 +144,7 @@ abstract class JAmazons3Object
 		}
 		else
 		{
-			return "Response code: " . $response->code . ".\n"
-				. "The request was successful.\n";
+			return "Response code: " . $response->code . ".\n";
 		}
 	}
 

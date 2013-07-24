@@ -72,7 +72,7 @@ class JAmazons3OperationsBucketsHeadTest extends PHPUnit_Framework_TestCase
 
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
-		$returnData->body = "The request was successful.\n";
+		$returnData->body = "Response code: " . $returnData->code . ".\n";
 		$expectedResult = $returnData->body;
 
 		$this->client->expects($this->once())
