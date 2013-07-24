@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Jul-2013 Mark Dexter
+ + New Webdriver tests for changing article state and front-end login. Thanks Puneet Kala.
+
 18-Jul-2013 Mark Dexter
  # Fix problem with failing system tests.
 
