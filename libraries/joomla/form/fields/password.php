@@ -54,18 +54,23 @@ class JFormFieldPassword extends JFormField
 		if ($meter)
 		{
 			JHtml::_('script', 'system/passwordstrength.js', true, true);
-			$script = '<script type="text/javascript">new Form.PasswordStrength("' . $this->id . '",
+			$script = 'new Form.PasswordStrength("' . $this->id . '",
 				{
 					threshold: ' . $threshold . ',
 					onUpdate: function(element, strength, threshold) {
 						element.set("data-passwordstrength", strength);
 					}
 				}
-			);</script>';
+			);';
+
+			// Load script on document load.
+			JFactory::getDocument()->addScriptDeclaration(
+				"jQuery(document).ready(function(){" . $script . "});"
+			);
 		}
 
 		return '<input type="password" name="' . $this->name . '" id="' . $this->id . '"' .
 			' value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' .
-			$auto . $class . $readonly . $disabled . $size . $maxLength . $required . '/>' . $script;
+			$auto . $class . $readonly . $disabled . $size . $maxLength . $required . '/>';
 	}
 }
