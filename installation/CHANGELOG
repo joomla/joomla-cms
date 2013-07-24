@@ -25,6 +25,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 3.1.4 Stable Release [25-Jul-2013] ------------------
+
 24-Jul-2013 Jean-Marie Simonet
  # [#31548] Toolbar: Different version of CSS vs LESS files + mobile resolution fixes. Thanks Roberto Segura
 
