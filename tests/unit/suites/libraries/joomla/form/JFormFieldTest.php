@@ -39,6 +39,10 @@ class JFormFieldTest extends TestCase
 	{
 		parent::setUp();
 
+		require_once JPATH_PLATFORM . '/joomla/form/fields/text.php';
+		require_once JPATH_PLATFORM . '/joomla/form/fields/hidden.php';
+		require_once JPATH_PLATFORM . '/joomla/form/fields/list.php';
+
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockApplication();
@@ -352,108 +356,67 @@ class JFormFieldTest extends TestCase
 	}
 
 	/**
-	 * Tests the JFormField::setup method
+	 * Tests the name, value, id, title, lalbel property setup by JFormField::setup method
 	 *
 	 * @covers JFormField::setup
 	 * @covers JFormField::__get
 	 *
 	 * @return void
 	 */
-	public function testSetup()
+	public function testSetupNameValueIdTitleLabel()
 	{
-		$form = new JFormInspector('form1');
+		$field = new JFormFieldText;
+		$element = simplexml_load_string(
+			'<field name="myName" type="text" id="myId" label="My Title" description="The description."  value="Text Field" />');
 
 		$this->assertThat(
-			$form->load(JFormDataHelper::$loadFieldDocument),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' XML string should load successfully.'
-		);
-
-		$field = new JFormFieldInspector($form);
-
-		// Standard usage.
-
-		$xml = $form->getXML();
-		$title = array_pop($xml->xpath('fields/field[@name="title"]'));
-
-		$this->assertThat(
-			$field->setup($title, 'The title'),
+			$field->setup($element, 'The text field.'),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
 
 		$this->assertThat(
 			$field->name,
-			$this->equalTo('title'),
-			'Line:' . __LINE__ . ' The property should be computed from the XML.'
+			$this->equalTo('myName'),
+			'Line:' . __LINE__ . ' The name property should be computed from the XML.'
 		);
 
 		$this->assertThat(
 			$field->value,
-			$this->equalTo('The title'),
+			$this->equalTo('The text field.'),
 			'Line:' . __LINE__ . ' The value should be set from the setup method argument.'
 		);
 
 		$this->assertThat(
 			$field->id,
-			$this->equalTo('title_id'),
-			'Line:' . __LINE__ . ' The property should be set from the XML (non-alpha transposed to underscore).'
-		);
-
-		$this->assertThat(
-			(string) $title['class'],
-			$this->equalTo('inputbox'),
-			'Line:' . __LINE__ . ' The property should be set from the XML.'
-		);
-
-		$this->assertThat(
-			$field->validate,
-			$this->equalTo('none'),
-			'Line:' . __LINE__ . ' The property should be set from the XML.'
-		);
-
-		$this->assertThat(
-			$field->multiple,
-			$this->isFalse(),
-			'Line:' . __LINE__ . ' The property should be computed from the XML.'
-		);
-
-		$this->assertThat(
-			$field->required,
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' The property should be computed from the XML.'
-		);
-
-		$this->assertThat(
-			$field->input,
-			$this->equalTo(''),
-			'Line:' . __LINE__ . ' The property should be computed from the XML.'
-		);
-
-		$equals = '<label id="title_id-lbl" for="title_id" class="hasTooltip required" title="<strong>Title</strong><br />The title.">' .
-			'Title<span class="star">&#160;*</span></label>';
-
-		$this->assertThat(
-			$field->label,
-			$this->equalTo($equals),
-			'Line:' . __LINE__ . ' The property should be computed from the XML.'
+			$this->equalTo('myId'),
+			'Line:' . __LINE__ . ' The id property should be set from the XML (non-alpha transposed to underscore).'
 		);
 
 		$this->assertThat(
 			$field->title,
-			$this->equalTo('Title'),
-			'Line:' . __LINE__ . ' The property should be computed from the XML.'
+			$this->equalTo('My Title'),
+			'Line:' . __LINE__ . ' The title property should be computed from the XML.'
+		);
+
+		$expectedLabel = '<label id="myId-lbl" for="myId" class="hasTooltip" title="<strong>My Title</strong><br />The description.">' .
+			'My Title</label>';
+
+		$this->assertThat(
+			$field->label,
+			$this->equalTo($expectedLabel),
+			'Line:' . __LINE__ . ' The label property should be rendered correctly.'
 		);
 
 		$this->assertThat(
 			$field->unexisting,
 			$this->equalTo(null),
-			'Line:' . __LINE__ . ' The property should be computed from the XML.'
+			'Line:' . __LINE__ . ' The unexisting property should not exists.'
 		);
 	}
 
 	/**
-	 * Tests multiple attribute and form group name in JFormField::setup method
+	 * Tests multiple attribute and form group name property setup by JFormField::setup method
 	 *
 	 * @covers JFormField::setup
 	 * @covers JFormField::__get
@@ -462,41 +425,25 @@ class JFormFieldTest extends TestCase
 	 */
 	public function testSetupMultipleAttributeFormGroup()
 	{
-		$form = new JFormInspector('form1');
+		$field = new JFormFieldText;
+		$element = simplexml_load_string(
+			'<field name="myName" type="text" id="myId"/>');
 
 		$this->assertThat(
-			$form->load(JFormDataHelper::$loadFieldDocument),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' XML string should load successfully.'
-		);
-
-		$field = new JFormFieldInspector($form);
-
-		$xml = $form->getXML();
-
-		$colours = array_pop($xml->xpath('fields/fields[@name="params"]/field[@name="colours"]'));
-
-		$this->assertThat(
-			$field->setup($colours, 'green', 'params'),
+			$field->setup($element, 'green', 'params'),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
 
 		$this->assertThat(
 			$field->id,
-			$this->equalTo('params_colours'),
+			$this->equalTo('params_myId'),
 			'Line:' . __LINE__ . ' The property should be computed from the XML.'
 		);
 
 		$this->assertThat(
 			$field->name,
-			$this->equalTo('params[colours][]'),
-			'Line:' . __LINE__ . ' The property should be computed from the XML.'
-		);
-
-		$this->assertThat(
-			$field->multiple,
-			$this->isTrue(),
+			$this->equalTo('params[myName]'),
 			'Line:' . __LINE__ . ' The property should be computed from the XML.'
 		);
 
@@ -508,7 +455,7 @@ class JFormFieldTest extends TestCase
 	}
 
 	/**
-	 * Tests hidden field type in JFormField::setup method
+	 * Tests hidden field type property setup by JFormField::setup method
 	 *
 	 * @covers JFormField::setup
 	 * @covers JFormField::__get
@@ -517,22 +464,12 @@ class JFormFieldTest extends TestCase
 	 */
 	public function testSetupHiddenFieldType()
 	{
-		$form = new JFormInspector('form1');
+		$field = new JFormFieldHidden;
+		$element = simplexml_load_string(
+			'<field name="myName" type="hidden" />');
 
 		$this->assertThat(
-			$form->load(JFormDataHelper::$loadFieldDocument),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' XML string should load successfully.'
-		);
-
-		$field = new JFormFieldInspector($form);
-
-		$xml = $form->getXML();
-
-		$id = array_pop($xml->xpath('fields/field[@name="id"]'));
-
-		$this->assertThat(
-			$field->setup($id, 42),
+			$field->setup($element, 42),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
@@ -545,7 +482,7 @@ class JFormFieldTest extends TestCase
 	}
 
 	/**
-	 * Tests hidden field attribute in JFormField::setup method
+	 * Tests field's hidden attribute property setup by JFormField::setup method
 	 *
 	 * @covers JFormField::setup
 	 * @covers JFormField::__get
@@ -554,22 +491,12 @@ class JFormFieldTest extends TestCase
 	 */
 	public function testSetupHiddenFieldAttribute()
 	{
-		$form = new JFormInspector('form1');
+		$field = new JFormFieldText;
+		$element = simplexml_load_string(
+			'<field name="myName" type="text" hidden="true" />');
 
 		$this->assertThat(
-			$form->load(JFormDataHelper::$loadFieldDocument),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' XML string should load successfully.'
-		);
-
-		$field = new JFormFieldInspector($form);
-
-		$xml = $form->getXML();
-
-		$createdDate = array_pop($xml->xpath('fields/field[@name="created_date"]'));
-
-		$this->assertThat(
-			$field->setup($createdDate, '0000-00-00 00:00:00'),
+			$field->setup($element, 42),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
@@ -577,12 +504,12 @@ class JFormFieldTest extends TestCase
 		$this->assertThat(
 			$field->hidden,
 			$this->isTrue(),
-			'Line:' . __LINE__ . ' The hidden property should be set from the hidden attribute.'
+			'Line:' . __LINE__ . ' The hidden property should be set from the field type.'
 		);
 	}
 
 	/**
-	 * Test automatic generated name in JFormField::setup method
+	 * Test automatic generated name property setup by JFormField::setup method
 	 *
 	 * @covers JFormField::setup
 	 * @covers JFormField::__get
@@ -591,22 +518,12 @@ class JFormFieldTest extends TestCase
 	 */
 	public function testSetupAutoGeneratedName()
 	{
-		$form = new JFormInspector('form1');
+		$field = new JFormFieldText;
+		$element = simplexml_load_string(
+			'<field type="text" label="Title" description="The title." />');
 
 		$this->assertThat(
-			$form->load(JFormDataHelper::$loadFieldDocument),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' XML string should load successfully.'
-		);
-
-		$field = new JFormFieldInspector($form);
-
-		$xml = $form->getXML();
-
-		$spacer = array_pop($xml->xpath('fields/field[@type="spacer"]'));
-
-		$this->assertThat(
-			$field->setup($spacer, ''),
+			$field->setup($element, ''),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
@@ -619,32 +536,21 @@ class JFormFieldTest extends TestCase
 	}
 
 	/**
-	 * Test nested groups and forced multiple in JFormField::setup method
+	 * Test nested groups property setup by JFormField::setup method
 	 *
 	 * @covers JFormField::setup
 	 * @covers JFormField::__get
 	 *
 	 * @return void
 	 */
-	public function testSetupNestedGroupForcedMultiple()
+	public function testSetupNestedGroup()
 	{
-		$form = new JFormInspector('form1');
+		$field = new JFormFieldText;
+		$element = simplexml_load_string(
+			'<field type="text" name="comment" />');
 
 		$this->assertThat(
-			$form->load(JFormDataHelper::$loadFieldDocument),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' XML string should load successfully.'
-		);
-
-		$field = new JFormFieldInspector($form);
-
-		$xml = $form->getXML();
-
-		$comment = array_pop($xml->xpath('fields/fields[@name="params"]/fields[@name="subparams"]/field[@name="comment"]'));
-		$field->forceMultiple = true;
-
-		$this->assertThat(
-			$field->setup($comment, 'My comment', 'params.subparams'),
+			$field->setup($element, 'My comment', 'params.subparams'),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
@@ -666,16 +572,10 @@ class JFormFieldTest extends TestCase
 			'params.subparams',
 			'Line:' . __LINE__ . ' The property should be set to the the group name.'
 		);
-
-		$this->assertThat(
-			$field->required,
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' The property should be computed from the XML.'
-		);
 	}
 
 	/**
-	 * Test disabled and readonly boolean attribute in JFormField::setup method
+	 * Test disabled and readonly boolean attribute property setup by JFormField::setup method
 	 *
 	 * @covers JFormField::setup
 	 * @covers JFormField::__get
@@ -684,22 +584,12 @@ class JFormFieldTest extends TestCase
 	 */
 	public function testSetupDisabledReadonly()
 	{
-		$form = new JFormInspector('form1');
+		$field = new JFormFieldText;
+		$element = simplexml_load_string(
+			'<field type="text" name="myName" disabled="true" readonly="true" />');
 
 		$this->assertThat(
-			$form->load(JFormDataHelper::$loadFieldDocument),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' XML string should load successfully.'
-		);
-
-		$field = new JFormFieldInspector($form);
-
-		$xml = $form->getXML();
-
-		$published_by_true = array_pop($xml->xpath('fields/field[@name="published_by_true"]'));
-
-		$this->assertThat(
-			$field->setup($published_by_true, 'User'),
+			$field->setup($element, 'User'),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
@@ -707,53 +597,413 @@ class JFormFieldTest extends TestCase
 		$this->assertThat(
 			$field->disabled,
 			$this->isTrue(),
-			'Line:' . __LINE__ . ' The setup method should return true if successful.'
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
 		);
 
 		$this->assertThat(
 			$field->readonly,
 			$this->isTrue(),
-			'Line:' . __LINE__ . ' The setup method should return true if successful.'
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
 		);
+	}
 
-		$published_by_1 = array_pop($xml->xpath('fields/field[@name="published_by_1"]'));
+	/**
+	 * Tests multiple attribute setup by JFormField::setup method
+	 *
+	 * @covers JFormField::setup
+	 * @covers JFormField::__get
+	 *
+	 * @return void
+	 */
+	public function testSetupMultipleAttribute()
+	{
+		$field = new JFormFieldText;
+		$element = simplexml_load_string(
+			'<field name="myName" type="text" id="myId" multiple="true" />');
 
 		$this->assertThat(
-			$field->setup($published_by_1, 'User'),
+			$field->setup($element, 'green'),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
 
 		$this->assertThat(
-			$field->disabled,
+			$field->multiple,
+			$this->isTrue(),
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
+		);
+
+		$element = simplexml_load_string(
+			'<field name="myName" type="text" id="myId" multiple="multiple" />');
+
+		$this->assertThat(
+			$field->multiple,
+			$this->isTrue(),
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
+		);
+
+		$element = simplexml_load_string(
+			'<field name="myName" type="text" id="myId" multiple="1" />');
+
+		$this->assertThat(
+			$field->multiple,
+			$this->isTrue(),
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
+		);
+	}
+
+	/**
+	 * Test forcemultiple property setup by JFormField::setup method
+	 *
+	 * @covers JFormField::setup
+	 * @covers JFormField::__get
+	 *
+	 * @return void
+	 */
+	public function testSetupForceMultiple()
+	{
+		$field = new JFormFieldList;
+		$element = simplexml_load_string('
+			<field type="list" name="myName">
+				<option value="red">Red</option>
+				<option value="blue">Blue</option>
+			</field>
+		');
+
+		$field->forceMultiple = true;
+
+		$this->assertThat(
+			$field->setup($element, 'Comment'),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
 
 		$this->assertThat(
-			$field->readonly,
+			$field->multiple,
+			$this->isTrue(),
+			'Line:' . __LINE__ . ' The property should be setted true forcefully.'
+		);
+
+		$this->assertThat(
+			$field->name,
+			$this->equalTo('myName[]'),
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
+		);
+	}
+
+	/**
+	 * Test class attribute property setup by JFormField::setup method
+	 *
+	 * @covers JFormField::setup
+	 * @covers JFormField::__get
+	 *
+	 * @return void
+	 */
+	public function testSetupClass()
+	{
+		$field = new JFormFieldText;
+		$element = simplexml_load_string(
+			'<field type="text" name="myName" />');
+
+		$this->assertThat(
+			$field->setup($element, ''),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
 
-		$published_by_attr = array_pop($xml->xpath('fields/field[@name="published_by_attr"]'));
+		$this->assertThat(
+			$field->class,
+			$this->equalTo(''),
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
+		);
+
+		$element = simplexml_load_string(
+			'<field type="text" name="myName" class="inputbox" />');
 
 		$this->assertThat(
-			$field->setup($published_by_attr, 'User'),
+			$field->setup($element, ''),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
 
 		$this->assertThat(
-			$field->disabled,
+			$field->class,
+			$this->equalTo('inputbox'),
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
+		);
+
+		$element = simplexml_load_string(
+			'<field type="text" name="myName" class="     inputbox      validate-numeric     " />');
+
+		$this->assertThat(
+			$field->setup($element, ''),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
 
 		$this->assertThat(
-			$field->readonly,
+			$field->class,
+			$this->equalTo('inputbox validate-numeric'),
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
+		);
+	}
+
+	/**
+	 * Tests required attribute and label for required field setup by JFormField::setup method
+	 *
+	 * @covers JFormField::setup
+	 * @covers JFormField::__get
+	 *
+	 * @return void
+	 */
+	public function testSetupRequiredLabel()
+	{
+		$field = new JFormFieldText;
+		$element = simplexml_load_string(
+			'<field name="myName" type="text" id="myId" required="true" label="My Title" description="The description." />');
+
+		$this->assertThat(
+			$field->setup($element, ''),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' The setup method should return true if successful.'
+		);
+
+		$this->assertThat(
+			$field->required,
+			$this->isTrue(),
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
+		);
+
+		$expectedLabel = '<label id="myId-lbl" for="myId" class="hasTooltip required" title="<strong>My Title</strong><br />The description.">' .
+			'My Title<span class="star">&#160;*</span></label>';
+
+		$this->assertThat(
+			$field->label,
+			$this->equalTo($expectedLabel),
+			'Line:' . __LINE__ . ' The label property should be rendered correctly.'
+		);
+	}
+
+	/**
+	 * Tests autofocus, autocomplete, spellcheck boolean attribute setup by JFormField::setup method
+	 *
+	 * @covers JFormField::setup
+	 * @covers JFormField::__get
+	 *
+	 * @return void
+	 */
+	public function testSetupAutofocusAutocompleteSpellcheck()
+	{
+		$field = new JFormFieldText;
+		$element = simplexml_load_string(
+			'<field name="myName" type="text" />');
+
+		$this->assertThat(
+			$field->setup($element, ''),
+			$this->isTrue(),
+			'Line:' . __LINE__ . ' The setup method should return true if successful.'
+		);
+
+		$this->assertThat(
+			$field->autofocus,
+			$this->isFalse(),
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
+		);
+
+		$this->assertThat(
+			$field->autocomplete,
+			$this->equalTo('on'),
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
+		);
+
+		$this->assertThat(
+			$field->spellcheck,
+			$this->isTrue(),
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
+		);
+
+		$element = simplexml_load_string(
+			'<field name="myName" type="text" autofocus="true" autocomplete="false" spellcheck="false" />');
+
+		$this->assertThat(
+			$field->setup($element, ''),
+			$this->isTrue(),
+			'Line:' . __LINE__ . ' The setup method should return true if successful.'
+		);
+
+		$this->assertThat(
+			$field->autofocus,
+			$this->isTrue(),
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
+		);
+
+		$this->assertThat(
+			$field->autocomplete,
+			$this->isFalse(),
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
+		);
+
+		$this->assertThat(
+			$field->spellcheck,
+			$this->isFalse(),
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
+		);
+	}
+
+	/**
+	 * Tests inputmode attribute setup by JFormField::setup method
+	 *
+	 * @covers JFormField::setup
+	 * @covers JFormField::__get
+	 *
+	 * @return void
+	 */
+	public function testSetupInputmode()
+	{
+		$field = new JFormFieldText;
+		$element = simplexml_load_string(
+			'<field name="myName" type="text" inputmode="latin numeric" />');
+
+		$this->assertThat(
+			$field->setup($element, ''),
+			$this->isTrue(),
+			'Line:' . __LINE__ . ' The setup method should return true if successful.'
+		);
+
+		$this->assertThat(
+			$field->inputmode,
+			$this->equalTo("latin numeric"),
+			'Line:' . __LINE__ . ' The label property should be rendered correctly.'
+		);
+	}
+
+	/**
+	 * Tests size attribute setup by JFormField::setup method
+	 *
+	 * @covers JFormField::setup
+	 * @covers JFormField::__get
+	 *
+	 * @return void
+	 */
+	public function testSetupSize()
+	{
+		$field = new JFormFieldText;
+		$element = simplexml_load_string(
+			'<field name="myName" type="text" size="51" />');
+
+		$this->assertThat(
+			$field->setup($element, ''),
+			$this->isTrue(),
+			'Line:' . __LINE__ . ' The setup method should return true if successful.'
+		);
+
+		$this->assertThat(
+			$field->size,
+			$this->equalTo(51),
+			'Line:' . __LINE__ . ' The label property should be rendered correctly.'
+		);
+	}
+
+	/**
+	 * Tests hint attribute setup by JFormField::setup method
+	 *
+	 * @covers JFormField::setup
+	 * @covers JFormField::__get
+	 *
+	 * @return void
+	 */
+	public function testSetupHint()
+	{
+		$field = new JFormFieldText;
+		$element = simplexml_load_string(
+			'<field name="myName" type="text" hint="Placeholder text." />');
+
+		$this->assertThat(
+			$field->setup($element, ''),
+			$this->isTrue(),
+			'Line:' . __LINE__ . ' The setup method should return true if successful.'
+		);
+
+		$this->assertThat(
+			$field->hint,
+			$this->equalTo('Placeholder text.'),
+			'Line:' . __LINE__ . ' The label property should be rendered correctly.'
+		);
+	}
+
+	/**
+	 * Tests validate attribute setup by JFormField::setup method
+	 *
+	 * @covers JFormField::setup
+	 * @covers JFormField::__get
+	 *
+	 * @return void
+	 */
+	public function testSetupValidate()
+	{
+		$field = new JFormFieldText;
+		$element = simplexml_load_string(
+			'<field name="myName" type="text" />');
+
+		$this->assertThat(
+			$field->setup($element, ''),
+			$this->isTrue(),
+			'Line:' . __LINE__ . ' The setup method should return true if successful.'
+		);
+
+		$this->assertThat(
+			$field->validate,
+			$this->equalTo(null),
+			'Line:' . __LINE__ . ' The label property should be rendered correctly.'
+		);
+
+		$field = new JFormFieldText;
+		$element = simplexml_load_string(
+			'<field name="myName" type="text" validate="equals" />');
+
+		$this->assertThat(
+			$field->setup($element, ''),
+			$this->isTrue(),
+			'Line:' . __LINE__ . ' The setup method should return true if successful.'
+		);
+
+		$this->assertThat(
+			$field->validate,
+			$this->equalTo('equals'),
+			'Line:' . __LINE__ . ' The label property should be rendered correctly.'
+		);
+	}
+
+	/**
+	 * Tests javascript onchange and onclick attribute setup by JFormField::setup method
+	 *
+	 * @covers JFormField::setup
+	 * @covers JFormField::__get
+	 *
+	 * @return void
+	 */
+	public function testSetupOnchangeOnclick()
+	{
+		$field = new JFormFieldText;
+		$element = simplexml_load_string(
+			'<field name="myName" type="text" onchange="iamchanged(this);"  onclick="iamclicked(this);" />');
+
+		$this->assertThat(
+			$field->setup($element, ''),
+			$this->isTrue(),
+			'Line:' . __LINE__ . ' The setup method should return true if successful.'
+		);
+
+		$this->assertThat(
+			$field->onchange,
+			$this->equalTo('iamchanged(this);'),
+			'Line:' . __LINE__ . ' The label property should be rendered correctly.'
+		);
+
+		$this->assertThat(
+			$field->onclick,
+			$this->equalTo('iamclicked(this);'),
+			'Line:' . __LINE__ . ' The label property should be rendered correctly.'
 		);
 	}
 }
