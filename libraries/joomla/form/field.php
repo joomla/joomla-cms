@@ -355,6 +355,7 @@ abstract class JFormField
 			case 'value':
 			case 'class':
 			case 'labelClass':
+			case 'size':
 			case 'onchange':
 			case 'onclick':
 			case 'fieldname':
@@ -366,6 +367,7 @@ abstract class JFormField
 			case 'spellcheck':
 			case 'hint':
 			case 'dirname':
+			case 'inputmode':
 				return $this->$name;
 
 			case 'input':
@@ -460,9 +462,11 @@ abstract class JFormField
 		$this->readonly = ($readonly == 'true' || $readonly == 'readonly' || $readonly == '1');
 		$this->validate = (string) $element['validate'];
 
-		$this->class = trim($class);
-		$this->inputmode = '';
+		// Removes spaces from left & right and extra spaces from middle
+		$this->class = preg_replace('/\s+/', ' ', trim($class));
 
+		$this->inputmode = '';
+		$inputmode = preg_replace('/\s+/', ' ', trim($inputmode));
 		$inputmode = explode(' ', $inputmode);
 
 		if (!empty($inputmode))
@@ -490,6 +494,7 @@ abstract class JFormField
 		$this->hint = (string) $element['hint'];
 
 		// Determine whether to automatically fill the field or not.
+		$autocomplete = $autocomplete == '' ? 'on' : $autocomplete;
 		$this->autocomplete = ($autocomplete == 'false' || $autocomplete == 'off' || $autocomplete == '0') ? false : $autocomplete;
 
 		// Determine whether to set focus on the field automatically or not.
