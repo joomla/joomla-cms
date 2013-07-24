@@ -60,21 +60,36 @@ class JAmazons3OperationsObjectsGetTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Common test operations for methods which use GET requests
 	 *
-	 * @param   string  $versionId  The version id
-	 * @param   string  $range      The range of bytes to be returned
+	 * @param   string  $subresource  The subresource to be added to the url
+	 * @param   string  $versionId    The version id
+	 * @param   string  $range        The range of bytes to be returned
 	 *
 	 * @return  void
 	 *
 	 * @since   ??.?
 	 */
-	protected function commonGetTestOperations($versionId = null, $range = null)
+	protected function commonGetTestOperations($subresource = null, $versionId = null, $range = null)
 	{
 		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url")
 			. "/" . $this->options->get("testObject");
 
-		if ($versionId)
+		if (! is_null($versionId))
 		{
 			$url .= "?versionId=" . $versionId;
+		}
+
+		if (! is_null($subresource))
+		{
+			if (is_null($versionId))
+			{
+				$url .= "?";
+			}
+			else
+			{
+				$url .= "&";
+			}
+
+			$url .= $subresource;
 		}
 
 		$headers = array(
@@ -103,7 +118,7 @@ class JAmazons3OperationsObjectsGetTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the getBucket method
+	 * Tests the getObject method
 	 *
 	 * @return  void
 	 *
@@ -122,7 +137,7 @@ class JAmazons3OperationsObjectsGetTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the getBucket method with a version Id
+	 * Tests the getObject method with a version Id
 	 *
 	 * @return  void
 	 *
@@ -130,7 +145,7 @@ class JAmazons3OperationsObjectsGetTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetObjectVersion()
 	{
-		$expectedResult = $this->commonGetTestOperations($this->options->get("versionId"));
+		$expectedResult = $this->commonGetTestOperations(null, $this->options->get("versionId"));
 		$this->assertThat(
 			$this->object->get->getObject(
 				$this->options->get("testBucket"),
@@ -142,7 +157,7 @@ class JAmazons3OperationsObjectsGetTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Tests the getBucket method with a version Id
+	 * Tests the getObject method with a version Id
 	 *
 	 * @return  void
 	 *
@@ -150,9 +165,69 @@ class JAmazons3OperationsObjectsGetTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetObjectRange()
 	{
-		$expectedResult = $this->commonGetTestOperations(null, $this->options->get("range"));
+		$expectedResult = $this->commonGetTestOperations(null, null, $this->options->get("range"));
 		$this->assertThat(
 			$this->object->get->getObject(
+				$this->options->get("testBucket"),
+				$this->options->get("testObject"),
+				null,
+				$this->options->get("range")
+			),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the getObjectAcl method
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testGetObjectAcl()
+	{
+		$expectedResult = $this->commonGetTestOperations("acl");
+		$this->assertThat(
+			$this->object->get->getObjectAcl(
+				$this->options->get("testBucket"),
+				$this->options->get("testObject")
+			),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the getObjectAcl method with a version Id
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testGetObjectVersionAcl()
+	{
+		$expectedResult = $this->commonGetTestOperations("acl", $this->options->get("versionId"));
+		$this->assertThat(
+			$this->object->get->getObjectAcl(
+				$this->options->get("testBucket"),
+				$this->options->get("testObject"),
+				$this->options->get("versionId")
+			),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the getObjectAcl method with a version Id
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testGetObjectRangeAcl()
+	{
+		$expectedResult = $this->commonGetTestOperations("acl", null, $this->options->get("range"));
+		$this->assertThat(
+			$this->object->get->getObjectAcl(
 				$this->options->get("testBucket"),
 				$this->options->get("testObject"),
 				null,
