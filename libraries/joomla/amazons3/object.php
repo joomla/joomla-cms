@@ -304,12 +304,67 @@ abstract class JAmazons3Object
 			if (array_key_exists("query", $parsedURL))
 			{
 				$queryParameters = explode("&", $parsedURL["query"]);
-				asort($queryParameters);
-				$sortedQueryParameters = implode("&", $queryParameters);
+				$validQueryParameters = $this->filterValidSubresources($queryParameters);
+				asort($validQueryParameters);
+				$sortedQueryParameters = implode("&", $validQueryParameters);
 				$canonicalizedResource .= "?" . $sortedQueryParameters;
 			}
 		}
 
 		return $canonicalizedResource;
+	}
+
+	/**
+	 * Removes all elements from the $parameters array which are not valid
+	 * subresources
+	 *
+	 * @param   string  $parameters  An array of subresources
+	 *
+	 * @return	string	The canonicalized resource
+	 *
+	 * @since   ??.?
+	 */
+	public function filterValidSubresources($parameters)
+	{
+		$validParameters = array(
+			"acl",
+			"lifecycle",
+			"location",
+			"logging",
+			"notification",
+			"partnumber",
+			"policy",
+			"requestPayment",
+			"torrent",
+			"uploadId",
+			"uploads",
+			"versionId",
+			"versioning",
+			"versions",
+			"website"
+		);
+
+		// Check which values are valid and remove the ones that are not
+		foreach ($parameters as $key => $value)
+		{
+			// Some parameters are simple (acl), while others have the "key=value" structure (versionid=3)
+			$position = strpos($value, "=");
+
+			if ($position === false)
+			{
+				$position = strlen($value);
+			}
+
+			// Remove the "=value" part from $value
+			$parameter = substr($value, 0, $position);
+
+			// Remove the invalid parameters
+			if (! in_array($parameter, $validParameters))
+			{
+				unset($parameters[$key]);
+			}
+		}
+
+		return $parameters;
 	}
 }

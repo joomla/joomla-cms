@@ -129,13 +129,39 @@ class JAmazons3ObjectTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCreateCanonicalizedResource()
 	{
-		$url = "https://jgsoc." . $this->options->get("api.url") . "/photos/puppy.jpg?acl&versionid=3&lifecycle=inf";
+		$url = "https://jgsoc." . $this->options->get("api.url") . "/photos/puppy.jpg?acl&versionId=3&lifecycle=inf";
 
-		$expectedResult = "/jgsoc/photos/puppy.jpg?acl&lifecycle=inf&versionid=3";
+		$expectedResult = "/jgsoc/photos/puppy.jpg?acl&lifecycle=inf&versionId=3";
 
 		$this->assertThat(
 			$this->object->createCanonicalizedResource($url),
 			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the filterValidSubresources method.
+	 *
+	 * @return void
+	 */
+	public function testFilterValidSubresources()
+	{
+		$parameters = array(
+			"acl",
+			"versionId=3",
+			"lifecycle=inf",
+			"invalidParameter",
+			"invalidParameter=value"
+		);
+		$validParameters = array(
+			"acl",
+			"versionId=3",
+			"lifecycle=inf",
+		);
+
+		$this->assertThat(
+			$this->object->filterValidSubresources($parameters),
+			$this->equalTo($validParameters)
 		);
 	}
 }
