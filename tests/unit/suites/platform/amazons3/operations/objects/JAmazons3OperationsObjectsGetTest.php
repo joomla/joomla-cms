@@ -51,6 +51,9 @@ class JAmazons3OperationsObjectsGetTest extends PHPUnit_Framework_TestCase
 		$this->options->set('testObject', 'testObject');
 		$this->options->set('versionId', '3/L4kqtJlcpXroDTDmpUMLUo');
 		$this->options->set('range', '0-9');
+		$this->options->set('uploadId', 'XXBsb2FkIElEIGZvciBlbHZpbmcncyVcdS1tb3ZpZS5tMnRzEEEwbG9hZA');
+		$this->options->set('max-parts', '2');
+		$this->options->set('part-number-marker', '1');
 
 		$this->client = $this->getMock('JAmazons3Http', array('delete', 'get', 'head', 'put', 'post', 'optionss3'));
 
@@ -251,6 +254,52 @@ class JAmazons3OperationsObjectsGetTest extends PHPUnit_Framework_TestCase
 			$this->object->get->getObjectTorrent(
 				$this->options->get("testBucket"),
 				$this->options->get("testObject")
+			),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the listParts method
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testListParts()
+	{
+		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url")
+			. "/" . $this->options->get("testObject");
+		$url .= "?uploadId=" . $this->options->get("uploadId");
+		$url .= "&max-parts=" . $this->options->get("max-parts");
+		$url .= "&part-number-marker=" . $this->options->get("part-number-marker");
+
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+		);
+
+		$authorization = $this->object->createAuthorization("GET", $url, $headers);
+		$headers['Authorization'] = $authorization;
+
+		$returnData = new JHttpResponse;
+		$returnData->code = 200;
+		$returnData->body = "<test>response</test>";
+		$expectedResult = new SimpleXMLElement($returnData->body);
+
+		$this->client->expects($this->once())
+			->method('get')
+			->with($url, $headers)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->get->listParts(
+				$this->options->get("testBucket"),
+				$this->options->get("testObject"),
+				array(
+					"uploadId" => $this->options->get("uploadId"),
+					"max-parts" => $this->options->get("max-parts"),
+					"part-number-marker" => $this->options->get("part-number-marker")
+				)
 			),
 			$this->equalTo($expectedResult)
 		);
