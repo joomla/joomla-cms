@@ -111,12 +111,40 @@ class JAmazons3OperationsObjectsGet extends JAmazons3OperationsObjects
 		$url = "https://" . $bucket . "." . $this->options->get("api.url")
 			. "/" . $objectName . "?torrent";
 
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-		);
+		// Send the request and process the response
+		$response_body = $this->commonGetOperations($url);
+
+		return $response_body;
+	}
+
+	/**
+	 * Returns torrent files from a bucket
+	 *
+	 * @param   string  $bucket      The bucket name
+	 * @param   string  $objectName  The object name
+	 * @param   string  $parameters  The upload parameters
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function listParts($bucket, $objectName, $parameters)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url")
+			. "/" . $objectName . "?uploadId=" . $parameters["uploadId"];
+
+		if (array_key_exists("max-parts", $parameters))
+		{
+			$url .= "&max-parts=" . $parameters["max-parts"];
+		}
+
+		if (array_key_exists("part-number-marker", $parameters))
+		{
+			$url .= "&part-number-marker=" . $parameters["part-number-marker"];
+		}
 
 		// Send the request and process the response
-		$response_body = $this->commonGetOperations($url, $headers);
+		$response_body = $this->commonGetOperations($url);
 
 		return $response_body;
 	}
