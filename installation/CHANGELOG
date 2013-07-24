@@ -25,7 +25,17 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-; Below is merged into v3.1.2
+; Below is merged into v3.1.3
+
+24-Jul-2013 Jean-Marie Simonet
+ # [#31548] Toolbar: Different version of CSS vs LESS files + mobile resolution fixes. Thanks Roberto Segura
+
+23-Jul-2013 Michael Babker
+ # [#31500] Hathor: No Batch at some Managers.  Thanks Angelika Reisiger
+ # [#31547] IDN library missing from update sql files 3.1.2+master.  Thanks Elin Waring
+ # Incorrect quoting in PostgreSQL 3.1.2 updates.
+
+-------------------- 3.1.2 Stable Release [23-Jul-2013] ------------------
 
 21-Jul-2013 Mark Dexter
  ^ [#31319] registration option disabled by default is safer. Thanks Brian Teeman.
