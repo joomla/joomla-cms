@@ -71,6 +71,32 @@ abstract class JAmazons3Object
 	}
 
 	/**
+	 * Common operations performed by all of the methods that send DELETE requests
+	 *
+	 * @param   string  $url  The url that is used in the request
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function commonDeleteOperations($url)
+	{
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+		);
+		$authorization = $this->createAuthorization("DELETE", $url, $headers);
+		$headers["Authorization"] = $authorization;
+
+		// Send the http request
+		$response = $this->client->delete($url, $headers);
+
+		// Process the response
+		$response_body = $this->processResponse($response);
+
+		return $response_body;
+	}
+
+	/**
 	 * Process the response and decode it.
 	 *
 	 * @param   JHttpResponse  $response      The response.
