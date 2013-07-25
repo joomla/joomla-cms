@@ -99,7 +99,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		// Turn MySQL profiling ON in debug mode:
 		if ($this->debug && $this->hasProfiling())
 		{
-			mysql_query($this->connection, "SET profiling = 1;");
+			mysql_query("SET profiling = 1;", $this->connection);
 		}
 	}
 
