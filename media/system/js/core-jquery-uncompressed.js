@@ -123,29 +123,32 @@ Joomla.checkAll = function(checkbox, stub) {
  * @return  void
  */
 Joomla.renderMessages = function(messages) {
+    var $ = jQuery.noConflict();
     Joomla.removeMessages();
-    var container = document.id('system-message-container');
+    var $container = $('#system-message-container');
 
-    Object.each(messages, function (item, type) {
-        var div = new Element('div', {
-            id: 'system-message',
-            'class': 'alert alert-' + type
+    $.each(messages, function(type, item) {
+        var $div = $('<div/>', {
+            'id' : 'system-message',
+            'class' : 'alert alert-' + type
         });
-        div.inject(container);
-        var h4 = new Element('h4', {
+        $container.append($div)
+
+        var $h4 = $('<h4/>', {
             'class' : 'alert-heading',
-            html: Joomla.JText._(type)
+            'text' : Joomla.JText._(type)
         });
-        h4.inject(div);
-        var divList = new Element('div');
-        Array.each(item, function (item, index, object) {
-            var p = new Element('p', {
-                html: item
+        $div.append($h4);
+
+        var $divList = $('<div/>');
+        $.each(item, function(index, item) {
+            var $p = $('<p/>', {
+                text : item
             });
-            p.inject(divList);
-        }, this);
-        divList.inject(div);
-    }, this);
+            $divList.append($p);
+        });
+        $div.append($divList);
+    });
 };
 
 
@@ -155,8 +158,7 @@ Joomla.renderMessages = function(messages) {
  * @return  void
  */
 Joomla.removeMessages = function() {
-    var children = $$('#system-message-container > *');
-    children.destroy();
+    jQuery('#system-message-container').empty();
 }
 
 /**
