@@ -156,7 +156,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		$this->setUTF();
 
 		// Turn MySQL profiling ON in debug mode:
-		if ($this->debug)
+		if ($this->debug && $this->hasProfiling())
 		{
 			mysqli_query($this->connection, "SET profiling_history_size = 100;");
 			mysqli_query($this->connection, "SET profiling = 1;");
@@ -808,5 +808,27 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		$this->setQuery('UNLOCK TABLES')->execute();
 
 		return $this;
+	}
+
+	/**
+	 * Internal function to check if profiling is available
+	 *
+	 * @return  boolean
+	 *
+	 * @since 3.1.3
+	 */
+	private function hasProfiling()
+	{
+		try
+		{
+			$res = mysqli_query($this->connection, "SHOW VARIABLES LIKE 'have_profiling'");
+			$row = mysqli_fetch_assoc($res);
+
+			return isset($row);
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
 	}
 }
