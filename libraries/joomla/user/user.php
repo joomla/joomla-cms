@@ -207,12 +207,6 @@ class JUser extends JObject
 	protected static $instances = array();
 
 	/**
-	 * @var    boolean  Indicates that strong encryption should be used.
-	 * @since  3.14
-	 */
-	protected $useStrongEncryption = false;
-
-	/**
 	 * Constructor activating the default information of the language
 	 *
 	 * @param   integer  $identifier  The primary key of the user to load (optional).
@@ -237,8 +231,6 @@ class JUser extends JObject
 			$this->aid = 0;
 			$this->guest = 1;
 		}
-
-		$this->useStrongEncryption = JUserHelper::setDefaultEncryption();
 
 	}
 
@@ -565,7 +557,7 @@ class JUser extends JObject
 			}
 
 			// This is a fallback in case the equals rule in the fields is not used.
-			// Hence this code is required:
+			// Hence this code is required although com_users does the validation.
 			if (isset($array['password2']) && $array['password'] != $array['password2'])
 			{
 				$this->setError(JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'));
@@ -856,6 +848,7 @@ class JUser extends JObject
 
 		return true;
 	}
+
 	/**
 	 * Method to construct the string saved in the password field
 	 *
@@ -863,16 +856,16 @@ class JUser extends JObject
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   3.1.5
 	 */
-
 	protected function createPasswordString($passwordString)
 	{
 		$salt = JUserHelper::genRandomPassword(32);
-		$crypt = static::encryptPassword($passwordString);
+		$crypt = static::encryptPassword($passwordString, $salt);
+		$app = JFactory::getApplication();
 
 		// The first condition is only for when BCrypt or PASSWORD_DEFAULT is the default.
-		if (JCrypt::hasStrongPasswordSupport() && $this->useStrongEncryption)
+		if (JCrypt::hasStrongPasswordSupport() && $app->getCfg('useStrongEncryption', 0))
 		{
 			$passwordInfo = password_get_info($passwordString);
 			return $crypt . (($passwordInfo['algo'] != 0
@@ -880,19 +873,33 @@ class JUser extends JObject
 		}
 		else
 		{
+			// Joomla style password strings require that the salt be appended.
 			return substr($crypt, 0, 4) == '$2y$' ? $crypt : $crypt . ':' .$salt;
 		}
 	}
 
-	protected function encryptPassword($password, $salt)
+	/**
+	 * Method to encrypt a plain text password
+	 *
+	 * @param   string  $password   The plaintext password
+	 * @param   string  $salt       The salt to use for encryption
+	 * @param   string  $encrytion  Encryption method to use
+	 *
+	 * @return  string  The ecnrypted password
+	 *
+	 * @since   3.1.5
+	 */
+
+	protected function encryptPassword($password, $salt, $encryption = null)
 	{
-		if (!$this->useStrongEncryption)
+		$app = JFactory::getApplication();
+		if ($app->getCfg('useStrongEncryption') != 1)
 		{
-			$crypt = JUserHelper::getCryptedPassword($array['password'], $salt, 'md5-hex');
+			return JUserHelper::getCryptedPassword($password, $salt, 'md5-hex');
 		}
 		else
 		{
-			$crypt = JUserHelper::getCryptedPassword($array['password'], null, 'bcrypt');
+			return JUserHelper::getCryptedPassword($password, null, 'bcrypt');
 		}
 
 	}

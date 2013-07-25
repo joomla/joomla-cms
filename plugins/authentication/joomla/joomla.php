@@ -58,6 +58,8 @@ class PlgAuthenticationJoomla extends JPlugin
 			 * Longer term this should use JCrypt for this.
 			 * Currently we only support BCrypt and older Joomla style hashing. For 5.5 move to PASSWORD_DAFAULT
 			 */
+			$match = false;
+
 			if (substr($result->password, 0, 4) == '$2y$')
 			{
 				// BCrypt password strings are always 60 characters, but it is possible that salt is appended although non standard.
@@ -81,6 +83,7 @@ class PlgAuthenticationJoomla extends JPlugin
 					$match = true;
 				}
 			}
+
 			if (isset($match) && $match === true)
 			{
 				// Bring this in line with the rest of the system

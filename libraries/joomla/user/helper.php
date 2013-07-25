@@ -317,8 +317,6 @@ abstract class JUserHelper
 	public static function getCryptedPassword($plaintext, $salt = '', $encryption = 'md5-hex', $show_encrypt = false)
 	{
 
-		$encryption = static::setDefaultEncryption();
-
 		// Get the salt to use.
 		$salt = JUserHelper::getSalt($encryption, $salt, $plaintext);
 
@@ -722,30 +720,5 @@ abstract class JUserHelper
 		return md5(JUri::base() . $uaShort);
 	}
 
-	/*
-	 * Method to set the default encryption for passwords
-	*
-	* @return  string  A hashed user agent string with version replaced by 'abcd'
-	*
-	* @since   3.1.3
-	*/
-	public static function setDefaultEncryption()
-	{
-		if (JPluginHelper::isEnabled('user', 'joomla'))
-		{
-			$userPlugin = JPluginHelper::getPlugin('user', 'joomla');
-			$userPluginParams = new JRegistry();
-			$userPluginParams->loadString($userPlugin->params);
-			$useStrongEncryption = $userPluginParams->get('strong_passwords');
 
-			if ($useStrongEncryption == 1)
-			{
-				return 'bcrypt';
-			}
-		}
-		else
-		{
-			return 'md5-hex';
-		}
-	}
 }

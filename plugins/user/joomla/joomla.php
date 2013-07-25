@@ -196,7 +196,7 @@ class PlgUserJoomla extends JPlugin
 
 		if (!$result)
 		{
-			$app->enqueueMessage(JText::_('JERROR_LOGIN_DENIED'), 'warning');
+			$this->app->enqueueMessage(JText::_('JERROR_LOGIN_DENIED'), 'warning');
 
 			return false;
 		}
@@ -481,4 +481,23 @@ class PlgUserJoomla extends JPlugin
 		return true;
 	}
 
+	/*
+	 * Method to set the default encryption for passwords
+	*
+	* @return  string  A hashed user agent string with version replaced by 'abcd'
+	*
+	* @since   3.1.3
+	*/
+	public static function setDefaultEncryption()
+	{
+
+		if ($userPluginParams->get('strong_passwords') == 1)
+		{
+			return 'bcrypt';
+		}
+		else
+		{
+			return 'md5-hex';
+		}
+	}
 }
