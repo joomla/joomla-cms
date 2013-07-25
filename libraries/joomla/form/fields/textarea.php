@@ -109,8 +109,9 @@ class JFormFieldTextarea extends JFormField
 		$required = $this->required ? ' required aria-required="true"' : '';
 		$hint = $hint ? ' placeholder="' . $hint . '"' : '';
 		$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $this->autocomplete . '"';
+		$autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
 		$autofocus = $this->autofocus ? ' autofocus' : '';
-		$spellcheck = $this->spellcheck ? ' spellcheck="true"' : ' spellcheck="false"';
+		$spellcheck = $this->spellcheck ? '' : ' spellcheck="false"';
 
 		// Initialize JavaScript field attributes.
 		$onchange = $this->onchange ? ' onchange="' . $this->onchange . '"' : '';

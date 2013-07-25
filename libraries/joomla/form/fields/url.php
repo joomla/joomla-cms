@@ -52,8 +52,9 @@ class JFormFieldUrl extends JFormFieldText
 		$required = $this->required ? ' required aria-required="true"' : '';
 		$hint = $hint ? ' placeholder="' . $hint . '"' : '';
 		$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $this->autocomplete . '"';
+		$autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
 		$autofocus = $this->autofocus ? ' autofocus' : '';
-		$spellcheck = $this->spellcheck ? ' spellcheck="true"' : ' spellcheck="false"';
+		$spellcheck = $this->spellcheck ? '' : ' spellcheck="false"';
 
 		// Initialize JavaScript field attributes.
 		$onchange = !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
@@ -64,6 +65,6 @@ class JFormFieldUrl extends JFormFieldText
 
 		return '<input type="url" name="' . $this->name . '"' . $class . ' id="' . $this->id . '" value="'
 			. JStringPunycode::urlToUTF8($this->value, ENT_COMPAT, 'UTF-8') . '"' . $size . $disabled . $readonly
-			. $hint . $autocomplete . $autofocus . $spellcheck . $onchange . $maxLength . $required . '/>';
+			. $hint . $autocomplete . $autofocus . $spellcheck . $onchange . $maxLength . $required . ' />';
 	}
 }

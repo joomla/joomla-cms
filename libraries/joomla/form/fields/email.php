@@ -49,7 +49,8 @@ class JFormFieldEMail extends JFormFieldText
 		$disabled = $this->disabled ? ' disabled' : '';
 		$required = $this->required ? ' required aria-required="true"' : '';
 		$hint = $hint ? ' placeholder="' . $hint . '"' : '';
-		$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : ' autocomplete="email"';
+		$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $this->autocomplete . '"';
+		$autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
 		$autofocus = $this->autofocus ? ' autofocus' : '';
 		$multiple = $this->multiple ? ' multiple' : '';
 

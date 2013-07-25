@@ -99,8 +99,9 @@ class JFormFieldText extends JFormField
 		$required = $this->required ? ' required aria-required="true"' : '';
 		$hint = $hint ? ' placeholder="' . $hint . '"' : '';
 		$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $this->autocomplete . '"';
+		$autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
 		$autofocus = $this->autofocus ? ' autofocus' : '';
-		$spellcheck = $this->spellcheck ? ' spellcheck="true"' : ' spellcheck="false"';
+		$spellcheck = $this->spellcheck ? '' : ' spellcheck="false"';
 		$inputmode = !empty($this->inputmode) ? ' inputmode="' . $this->inputmode . '"' : '';
 		$dirname = !empty($this->dirname) ? ' dirname="' . $this->dirname . '"' : '';
 		$list = '';

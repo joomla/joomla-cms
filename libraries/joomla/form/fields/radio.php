@@ -60,7 +60,7 @@ class JFormFieldRadio extends JFormField
 
 			$disabled = !empty($option->disable) || ($readonly && !$checked);
 
-			$disabled = $disabled ? ' disabled="disabled"' : '';
+			$disabled = $disabled ? ' disabled' : '';
 			$required = !empty($option->required) ? ' required="required" aria-required="true"' : '';
 
 			// Initialize some JavaScript option attributes.
