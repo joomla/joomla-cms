@@ -57,6 +57,8 @@ class JFormFieldCheckbox extends JFormField
 		$checked = (string) $element['checked'];
 		$this->checked = ($checked == 'true' || $checked == 'checked' || $checked == '1');
 
+		empty($this->value) && !$this->checked ? null : $this->checked = true;
+
 		return parent::setup($element, $value, $group);
 	}
 
@@ -73,7 +75,7 @@ class JFormFieldCheckbox extends JFormField
 		// Initialize some field attributes.
 		$class = !empty($this->class) ? ' class="' . $this->class . '"' : '';
 		$disabled = $this->disabled ? ' disabled' : '';
-		$value = $this->element['value'] ? (string) $this->element['value'] : '1';
+		$value = !empty($this->default) ? $this->default : '1';
 		$required = $this->required ? ' required aria-required="true"' : '';
 		$autofocus = $this->autofocus ? ' autofocus' : '';
 		$checked = $this->checked || empty($this->value) ? ' checked' : '';

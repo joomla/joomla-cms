@@ -242,6 +242,14 @@ abstract class JFormField
 	protected $value;
 
 	/**
+	 * The default value of the form field.
+	 *
+	 * @var    mixed
+	 * @since  11.1
+	 */
+	protected $default;
+
+	/**
 	 * The size of the form field.
 	 *
 	 * @var    int
@@ -460,7 +468,9 @@ abstract class JFormField
 		$this->disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
 		$this->multiple = ($multiple == 'true' || $multiple == 'multiple' || $multiple == '1');
 		$this->readonly = ($readonly == 'true' || $readonly == 'readonly' || $readonly == '1');
+
 		$this->validate = (string) $element['validate'];
+		$this->default = (string) $element['default'];
 
 		// Removes spaces from left & right and extra spaces from middle
 		$this->class = preg_replace('/\s+/', ' ', trim($class));
