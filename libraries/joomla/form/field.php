@@ -470,7 +470,7 @@ abstract class JFormField
 		$this->readonly = ($readonly == 'true' || $readonly == 'readonly' || $readonly == '1');
 
 		$this->validate = (string) $element['validate'];
-		$this->default = (string) $element['default'];
+		$this->default = isset($element['value']) ? (string) $element['value'] : (string) $element['default'];
 
 		// Removes spaces from left & right and extra spaces from middle
 		$this->class = preg_replace('/\s+/', ' ', trim($class));
