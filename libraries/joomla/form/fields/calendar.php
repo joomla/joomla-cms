@@ -47,56 +47,20 @@ class JFormFieldCalendar extends JFormField
 		// Build the attributes array.
 		$attributes = array();
 
-		if ($this->element['size'])
-		{
-			$attributes['size'] = (int) $this->element['size'];
-		}
-
-		if ($this->element['maxlength'])
-		{
-			$attributes['maxlength'] = (int) $this->element['maxlength'];
-		}
-
-		if ($this->element['class'])
-		{
-			$attributes['class'] = $this->class;
-		}
-
-		// Using the boolean attribute property which is the presence of attribute means it is true.
-		if ($this->readonly)
-		{
-			$attributes['readonly'] = '';
-		}
-
-		if ($this->disabled)
-		{
-			$attributes['disabled'] = '';
-		}
-
-		if ($this->element['onchange'])
-		{
-			$attributes['onchange'] = (string) $this->element['onchange'];
-		}
+		empty($this->size) 		? null : $attributes['size'] = $this->size;
+		empty($this->maxlength) ? null : $attributes['maxlength'] = $this->maxlength;
+		empty($this->class) 	? null : $attributes['class'] = $this->class;
+		$this->readonly 		? null : $attributes['readonly'] = '';
+		$this->disabled 		? null : $attributes['disabled'] = '';
+		empty($this->onchange) 	? null : $attributes['onchange'] = $this->onchange;
+		empty($hint) 			? null : $attributes['placeholder'] = $hint;
+		!$this->autocomplete 	? null : $attributes['autocomplete'] = 'off';
+		$this->autofocus 		? null : $attributes['autofocus'] = '';
 
 		if ($this->required)
 		{
 			$attributes['required'] = '';
 			$attributes['aria-required'] = 'true';
-		}
-
-		if ($hint)
-		{
-			$attributes['placeholder'] = $hint;
-		}
-
-		if (!$this->autocomplete)
-		{
-			$attributes['autocomplete'] = 'off';
-		}
-
-		if ($this->autofocus)
-		{
-			$attributes['autofocus'] = '';
 		}
 
 		// Handle the special case for "now".
