@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-if ($this->user->get('guest') || !empty($this->user->rememberLogin)):
+if ($this->user->get('guest') || !empty($this->user->cookieLogin)):
 
 	// The user is not logged in or needs to provide a password.
 	echo $this->loadTemplate('login');
