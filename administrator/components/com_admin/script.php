@@ -602,7 +602,7 @@ class JoomlaInstallerScript
 			'/media/system/swf/index.html',
 			'/media/system/swf/uploader.swf',
 			// Joomla! 3.2
-			'/administrator/components/com_contacts/models/fields/modal/contacts.php',
+			'/administrator/components/com_contact/models/fields/modal/contacts.php',
 			'/administrator/components/com_newsfeeds/models/fields/modal/newsfeeds.php',
 		);
 
