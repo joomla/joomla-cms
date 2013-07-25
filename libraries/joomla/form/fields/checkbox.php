@@ -57,7 +57,7 @@ class JFormFieldCheckbox extends JFormField
 		$checked = (string) $element['checked'];
 		$this->checked = ($checked == 'true' || $checked == 'checked' || $checked == '1');
 
-		empty($this->value) && !$this->checked ? null : $this->checked = true;
+		empty($this->value) || $this->checked ? null : $this->checked = true;
 
 		return parent::setup($element, $value, $group);
 	}
@@ -78,11 +78,11 @@ class JFormFieldCheckbox extends JFormField
 		$value = !empty($this->default) ? $this->default : '1';
 		$required = $this->required ? ' required aria-required="true"' : '';
 		$autofocus = $this->autofocus ? ' autofocus' : '';
-		$checked = $this->checked || empty($this->value) ? ' checked' : '';
+		$checked = $this->checked || !empty($this->value) ? ' checked' : '';
 
 		// Initialize JavaScript field attributes.
 		$onclick = !empty($this->onclick) ? ' onclick="' . $this->onclick . '"' : '';
-		$onchange = !empty($this->onclick) ? ' onclick="' . $this->onchange . '"' : '';
+		$onchange = !empty($this->onclick) ? ' onchange="' . $this->onchange . '"' : '';
 
 		// Including fallback code for HTML5 non supported browsers.
 		JHtml::_('jquery.framework');

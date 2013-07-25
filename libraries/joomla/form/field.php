@@ -376,6 +376,7 @@ abstract class JFormField
 			case 'hint':
 			case 'dirname':
 			case 'inputmode':
+			case 'checked':
 				return $this->$name;
 
 			case 'input':
