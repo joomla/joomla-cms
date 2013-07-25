@@ -35,7 +35,7 @@ final class JVersion
 	public $CODENAME = 'Ember';
 
 	/** @var  string  Release date. */
-	public $RELDATE = '23-July-2013';
+	public $RELDATE = '24-July-2013';
 
 	/** @var  string  Release time. */
 	public $RELTIME = '14:00';
