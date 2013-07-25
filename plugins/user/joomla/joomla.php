@@ -21,21 +21,21 @@ class PlgUserJoomla extends JPlugin
 	/**
 	 * @var    JApplication database
 	 *
-	 * @since  3.1.3
+	 * @since  3.1.5
 	 */
 	protected $db;
 
 	/**
 	 * @var    JApplication
 	 *
-	 * @since  3.1.3
+	 * @since  3.1.5
 	 */
 	protected $app;
 
 	/**
 	 * @var  boolean  True to use strong password encryption
 	 *
-	 * @since  3.1.3
+	 * @since  3.1.5
 	 */
 	protected $useStrongEncryption;
 
@@ -486,7 +486,7 @@ class PlgUserJoomla extends JPlugin
 	*
 	* @return  string  A hashed user agent string with version replaced by 'abcd'
 	*
-	* @since   3.1.3
+	* @since   3.1.5
 	*/
 	public static function setDefaultEncryption()
 	{

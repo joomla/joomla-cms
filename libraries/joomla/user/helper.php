@@ -636,7 +636,7 @@ abstract class JUserHelper
 	 * @param   string   $cookieName  Series id (cookie name decoded)
 	 *
 	 * @return  boolean  True on success
-	 * @since   3.1.3
+	 * @since   3.1.5
 	 * @see JInput::setCookie for more details
 	 */
 	public static function invalidateCookie($userId, $cookieName)
@@ -663,7 +663,7 @@ abstract class JUserHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   3.1.3
+	 * @since   3.1.5
 	 */
 	public static function clearExpiredTokens()
 	{
@@ -681,7 +681,7 @@ abstract class JUserHelper
 	*
 	* @return  mixed  An array of information from an authentication cookie or false if there is no cookie
 	*
-	* @since   3.1.3
+	* @since   3.1.5
 	*/
 	public static function getRememberCookieData()
 	{
@@ -708,7 +708,7 @@ abstract class JUserHelper
 	 *
 	 * @return  string  A hashed user agent string with version replaced by 'abcd'
 	 *
-	 * @since   3.1.3
+	 * @since   3.1.5
 	 */
 	public static function getShortHashedUserAgent()
 	{

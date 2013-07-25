@@ -24,49 +24,49 @@ class PlgSystemRemember extends JPlugin
 	/**
 	 * @var    JApplication
 	 *
-	 * @since  3.1.3
+	 * @since  3.1.5
 	 */
 	protected $app;
 
 	/**
 	 * @var    JApplication
 	 *
-	 * @since  3.1.3
+	 * @since  3.1.5
 	 */
 	protected $db;
 
 	/**
 	 * @var  string  Domain for the cookie;
 	 *
-	 * @since  3.1.3
+	 * @since  3.1.5
 	 */
 	protected $cookie_domain;
 
 	/**
 	 * @var  string  Path for the cookie.
 	 *
-	 * @since  3.1.3
+	 * @since  3.1.5
 	 */
 	protected $cookie_path;
 
 	/**
 	 * @var  boolean  Whether to set as secure or not.
 	 *
-	 * @since  3.1.3
+	 * @since  3.1.5
 	 */
 	protected $secure = false;
 
 	/**
 	 * @var  time  Cookie lifetime in days.
 	 *
-	 * @since  3.1.3
+	 * @since  3.1.5
 	 */
 	protected $lifetime;
 
 	/**
 	 * @var  length  Length of random string.
 	 *
-	 * @since  3.1.3
+	 * @since  3.1.5
 	 */
 	protected $length;
 

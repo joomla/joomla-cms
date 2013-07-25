@@ -196,7 +196,7 @@ class JUser extends JObject
 	 * Cookie login indicator
 	 *
 	 * @var    boolean
-	 * @since  3.1.3
+	 * @since  3.1.5
 	 */
 	protected $cookieLogin = false;
 
