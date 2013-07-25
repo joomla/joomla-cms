@@ -61,6 +61,29 @@ class JFormFieldColor extends JFormField
 	protected $split = 3;
 
 	/**
+	 * Method to get certain otherwise inaccessible properties from the form field object.
+	 *
+	 * @param   string  $name  The property name for which to the the value.
+	 *
+	 * @return  mixed  The property value or null.
+	 *
+	 * @since   11.1
+	 */
+	public function __get($name)
+	{
+		switch ($name)
+		{
+			case 'control':
+			case 'exclude':
+			case 'colors':
+			case 'split':
+				return $this->$name;
+		}
+
+		return parent::__get($name);
+	}
+
+	/**
 	 * Method to attach a JForm object to the field.
 	 *
 	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.

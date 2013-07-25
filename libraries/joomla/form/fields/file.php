@@ -26,7 +26,7 @@ class JFormFieldFile extends JFormField
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $type = 'File';
+	protected $type = 'File';
 
 	/**
 	 * The accepted file type list.
@@ -35,6 +35,26 @@ class JFormFieldFile extends JFormField
 	 * @since  11.1
 	 */
 	protected $accept;
+
+	/**
+	 * Method to get certain otherwise inaccessible properties from the form field object.
+	 *
+	 * @param   string  $name  The property name for which to the the value.
+	 *
+	 * @return  mixed  The property value or null.
+	 *
+	 * @since   11.1
+	 */
+	public function __get($name)
+	{
+		switch ($name)
+		{
+			case 'accept':
+				return $this->$name;
+		}
+
+		return parent::__get($name);
+	}
 
 	/**
 	 * Method to attach a JForm object to the field.

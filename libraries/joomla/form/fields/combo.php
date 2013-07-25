@@ -27,7 +27,7 @@ class JFormFieldCombo extends JFormFieldList
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $type = 'Combo';
+	protected $type = 'Combo';
 
 	/**
 	 * Method to get the field input markup for a combo box field.

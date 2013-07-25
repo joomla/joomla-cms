@@ -29,7 +29,7 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 	 * @var    string
 	 * @since  11.3
 	 */
-	public $type = 'DatabaseConnection';
+	protected $type = 'DatabaseConnection';
 
 	/**
 	 * Method to get the list of database options.

@@ -28,7 +28,7 @@ class JFormFieldFileList extends JFormFieldList
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $type = 'FileList';
+	protected $type = 'FileList';
 
 	/**
 	 * The filter.
@@ -77,6 +77,31 @@ class JFormFieldFileList extends JFormFieldList
 	 * @since  11.1
 	 */
 	protected $directory;
+
+	/**
+	 * Method to get certain otherwise inaccessible properties from the form field object.
+	 *
+	 * @param   string  $name  The property name for which to the the value.
+	 *
+	 * @return  mixed  The property value or null.
+	 *
+	 * @since   11.1
+	 */
+	public function __get($name)
+	{
+		switch ($name)
+		{
+			case 'filter':
+			case 'exclude':
+			case 'hideNone':
+			case 'hideDefault':
+			case 'stripExt':
+			case 'directory':
+				return $this->$name;
+		}
+
+		return parent::__get($name);
+	}
 
 	/**
 	 * Method to attach a JForm object to the field.

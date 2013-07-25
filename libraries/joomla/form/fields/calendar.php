@@ -27,7 +27,7 @@ class JFormFieldCalendar extends JFormField
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $type = 'Calendar';
+	protected $type = 'Calendar';
 
 	/**
 	 * Method to get the field input markup.

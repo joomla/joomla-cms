@@ -26,7 +26,7 @@ class JFormFieldImageList extends JFormFieldFileList
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $type = 'ImageList';
+	protected $type = 'ImageList';
 
 	/**
 	 * Method to get the list of images field options.

@@ -29,7 +29,7 @@ class JFormFieldAccessLevel extends JFormFieldList
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $type = 'AccessLevel';
+	protected $type = 'AccessLevel';
 
 	/**
 	 * Method to get the field input markup.
