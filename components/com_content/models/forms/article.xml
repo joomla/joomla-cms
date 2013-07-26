@@ -198,6 +198,7 @@
 			<field
 				name="image_intro"
 				type="media"
+                fileType="image"
 				label="COM_CONTENT_FIELD_INTRO_LABEL"
 				description="COM_CONTENT_FIELD_INTRO_DESC" />
 			<field name="image_intro_alt"
@@ -227,6 +228,7 @@
 				<field
 				name="image_fulltext"
 				type="media"
+                fileType="image"
 				label="COM_CONTENT_FIELD_FULL_LABEL"
 				description="COM_CONTENT_FIELD_FULL_DESC" />
 			<field name="image_fulltext_alt"
