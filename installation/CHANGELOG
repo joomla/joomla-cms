@@ -25,7 +25,7 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-; Below is merged into v3.1.3
+-------------------- 3.1.4 Stable Release [26-Jul-2013] ------------------
 
 25-Jul-2013 Michael Babker
  # [#31550] SQL error if profiling not available/not activated in mysql (3.1.2 pre release).  Thanks Beat
