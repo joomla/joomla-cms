@@ -460,25 +460,19 @@ class JViewLegacy extends JObject
 	{
 		if (empty($this->_name))
 		{
-			$classname = get_class($this);
-			$viewpos = strpos($classname, 'View');
+			$class = get_class($this);
+			$pos   = strpos($class, 'View');
 
-			if ($viewpos === false)
+			if ($pos === false)
 			{
-				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME'), 500);
+				JError::raiseError(500, JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME'));
 			}
 
-			$lastPart = substr($classname, $viewpos + 4);
-			$pathParts = explode(' ', JStringNormalise::fromCamelCase($lastPart));
+			$tmp = strtolower(substr($class, ($pos + 4)));
 
-			if (!empty($pathParts[1]))
-			{
-				$this->_name = strtolower($pathParts[0]);
-			}
-			else
-			{
-				$this->_name = strtolower($lastPart);
-			}
+			// Remove the format from the end of the string.
+			$format = JFactory::getApplication()->input->get('format', 'html');
+			$this->_name = preg_replace('/(' . strtolower($format) . ')$/', '', $tmp);
 		}
 
 		return $this->_name;
