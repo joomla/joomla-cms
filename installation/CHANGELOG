@@ -26,7 +26,7 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
--------------------- 2.5.12 Stable Release 23-July-2013] ------------------
+-------------------- 2.5.13 Stable Release 25-July-2013] ------------------
 
 21-Jul-2013 Mark Dexter
  ^ [#31319] registration option disabled by default is safer. Thanks Brian Teeman.
@@ -44,7 +44,7 @@ $ -> Language fix or change
 
 01-Jul-2013 Jean-Marie Simonet
  # [#31280] Loadmodule support for htmlspecialchars in title. Thanks Peter Wiseman
- 
+
 13-Jun-2013 Jean-Marie Simonet
  # [#31108] Fatal erorr right after install. Thanks Klas and Michael Babker
  # [#31120] [2.5] *plug-in manager search give errors and warning for '/','*' and '\
@@ -53,7 +53,7 @@ $ -> Language fix or change
  # [#30150] com_content loads articles before error checking. Thanks Richard McDaniel.
 
 07-Jun-2013 Jean-Marie Simonet
- + [#31106] Added Belgian flag for mod_languages. Thanks Fonny Smets 
+ + [#31106] Added Belgian flag for mod_languages. Thanks Fonny Smets
 
 24-May-2013 Michael Babker
  # [#30994] Untranslated String.  Thanks Jean-Marie Simonet

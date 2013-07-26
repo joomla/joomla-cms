@@ -32,7 +32,7 @@ $version = '2.5';
 
 // Set release for each build
 // Release is third digit (like '0', '1', or '2')
-$release = '13';
+$release = '12';
 
 // Set path to git binary (e.g., /usr/local/git/bin/git or /urs/bin/git)
 $gitPath = '/usr/bin/git';
@@ -148,8 +148,7 @@ for($num=$release-1; $num >= 0; $num--) {
 	system('tar --create --gzip  --no-recursion --directory '.$full.' --file packages'.$version.'/Joomla_'.$version.'.'.$fromName.'_to_'.$full.'-Stable-Patch_Package.tar.gz  --files-from diffconvert/'.$version.'.'.$num . '> /dev/null');
 
 	chdir(''.$full);
-	echo "Running: 7z a -tzip ../packages" . $version . "/Joomla_" . $version . "." . $fromName . "_to_" . $full . "-Stable-Patch_Package.zip $(cat ../diffconvert/" . $version . "." . $num . ")\n";
-	system("7z a -tzip ../packages" . $version . "/Joomla_" . $version . "." . $fromName . "_to_" . $full . "-Stable-Patch_Package.zip $(cat ../diffconvert/" . $version . "." . $num . ") > /dev/null");
+	system('zip ../packages'.$version.'/Joomla_'.$version.'.'.$fromName.'_to_'.$full.'-Stable-Patch_Package.zip -@ < ../diffconvert/'.$version.'.'.$num . '> /dev/null');
 	chdir('..');
 }
 
@@ -167,11 +166,11 @@ system('tar --create --bzip2 --file ../packages_full'.$full.'/Joomla_'.$full.'-S
 
 system('tar --create --gzip --file ../packages_full'.$full.'/Joomla_'.$full.'-Stable-Full_Package.tar.gz * > /dev/null');
 
-system('7za a -tzip -r ../packages_full'.$full.'/Joomla_'.$full.'-Stable-Full_Package.zip * > /dev/null');
+system('zip -r ../packages_full'.$full.'/Joomla_'.$full.'-Stable-Full_Package.zip * > /dev/null');
 
 // Create full update file without installation folder.
 echo "Build full update package.\n";
 system('rm -r installation');
-system('7za a -tzip -r ../packages_full'.$full.'/Joomla_'.$full.'-Stable-Update_Package.zip * > /dev/null');
+system('zip -r ../packages_full'.$full.'/Joomla_'.$full.'-Stable-Update_Package.zip * > /dev/null');
 
 echo "Build of version $full complete!\n";
