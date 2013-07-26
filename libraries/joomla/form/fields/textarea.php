@@ -81,10 +81,10 @@ class JFormFieldTextarea extends JFormField
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
-		parent::setup($element, $value, $group);
+		$this->rows = isset($element['rows']) ? (int) $element['rows'] : false;
+		$this->columns = isset($element['cols']) ? (int) $element['cols'] : false;
 
-		$this->rows = isset($this->element['rows']) ? (int) $this->element['rows'] : false;
-		$this->columns = isset($this->element['cols']) ? (int) $this->element['cols'] : false;
+		return parent::setup($element, $value, $group);
 	}
 
 	/**
@@ -122,7 +122,7 @@ class JFormFieldTextarea extends JFormField
 		JHtml::_('script', 'system/html5fallback.js', false, true);
 
 		return '<textarea name="' . $this->name . '" id="' . $this->id . '"' . $columns . $rows . $class
-			. $hint . $disabled . $readonly . $onchange . $onclick . $required . $autocomplete . $autofocus . $spellcheck . '>'
+			. $hint . $disabled . $readonly . $onchange . $onclick . $required . $autocomplete . $autofocus . $spellcheck . ' >'
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '</textarea>';
 	}
 }
