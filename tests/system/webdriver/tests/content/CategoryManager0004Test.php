@@ -61,7 +61,7 @@ class CategoryManager0004Test extends JoomlaWebdriverTestCase
 	public function frontEndCategoryChange_ChangeCategoryState_CategoryStateChanged()
 	{
 		
-    $cfg = new SeleniumConfig();
+    		$cfg = new SeleniumConfig();
 		$this->categoryManagerPage = $this->getPageObject('CategoryManagerPage');			
 		$this->categoryManagerPage->changeCategoryState('Sample Data-Articles','unpublished');
 		$this->driver->get($cfg->host.$cfg->path);
@@ -176,16 +176,16 @@ class CategoryManager0004Test extends JoomlaWebdriverTestCase
 		$this->driver->waitForElementUntilIsPresent(By::xPath("//a[contains(text(),'Home')]"),10);
 		$arrayElement=$this->driver->findElements(By::xPath("//h2//a[contains(text(), 'Beginners')]"));
 		$this->assertTrue(count($arrayElement)>0,'Beginners Must be Present');
-  }
+  	}
      
      
-  /**
-   * @test
-   */
-  public function frontEndCategoryState_ChangeCategoryState_FrontEndCategoryChanged()
-  {
+  	/**
+  	 * @test
+  	 */
+  	public function frontEndCategoryState_ChangeCategoryState_FrontEndCategoryChanged()
+  	{
 		
-    $cfg = new SeleniumConfig();
+    		$cfg = new SeleniumConfig();
 		$categoryUrl = 'index.php/using-joomla/extensions/components/content-component/article-categories';
 		$this->categoryManagerPage = $this->getPageObject('CategoryManagerPage');			
 		$this->categoryManagerPage->changeCategoryState('Park Site','unpublished');
@@ -255,5 +255,5 @@ class CategoryManager0004Test extends JoomlaWebdriverTestCase
 		$this->driver->waitForElementUntilIsPresent(By::xPath("//h3//a[contains(text(),'Joomla!')]"),10);				
 		$arrayElement = $this->driver->findElements(By::xPath("//h3//a[contains(text(),'Park Site')]"));
 		$this->assertTrue(count($arrayElement)>0, 'Park Site Must be Present Now');					
-  }	
+  	}	
 }
