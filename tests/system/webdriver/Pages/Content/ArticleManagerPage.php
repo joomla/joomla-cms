@@ -163,7 +163,12 @@ class ArticleManagerPage extends AdminManagerPage
 		{
 			$this->clickButton('toolbar-archive');
 			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
-		}		
+		}
+		elseif(strtolower($state) == 'trashed')
+		{
+			$this->clickButton('toolbar-trash');
+			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+		}
 		$this->searchFor();
 	}
 	
