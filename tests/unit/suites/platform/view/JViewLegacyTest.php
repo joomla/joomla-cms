@@ -7,12 +7,15 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+JLoader::register('ContentViewArticle', __DIR__ . '/stubs/ContentViewArticle.php');
+JLoader::register('ContentViewArticleHtml', __DIR__ . '/stubs/ContentViewArticleHtml.php');
+JLoader::register('MediaViewMediaList', __DIR__ . '/stubs/MediaViewMediaList.php');
+
 /**
  * Mockup object to test Model handling in JView
  *
  * @package     Joomla.UnitTest
  * @subpackage  View
- *
  * @since       11.3
  */
 class ModelMockupJView
@@ -43,7 +46,7 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * An instance of the test object.
 	 *
-	 * @var     JView
+	 * @var     JViewLegacy
 	 * @since   12.1
 	 */
 	protected $class;
@@ -210,12 +213,37 @@ class JViewLegacyTest extends TestCase
 	 */
 	public function testGetName()
 	{
-		// This test was broken by renaming JView to JViewLegacy
-		// $this->assertEquals('', $this->class->getName());
+		$class = new ContentViewArticle;
 
-		TestReflection::setValue($this->class, '_name', 'inspector2');
+		$this->assertEquals('article', $class->getName());
+	}
 
-		$this->assertEquals('inspector2', $this->class->getName());
+	/**
+	 * Test JViewLegacy::getName()
+	 *
+	 * @since   3.1.5
+	 *
+	 * @return  void
+	 */
+	public function testGetNameCamelCase()
+	{
+		$class = new MediaViewMediaList;
+
+		$this->assertEquals('medialist', $class->getName());
+	}
+
+	/**
+	 * Test JViewLegacy::getName()
+	 *
+	 * @since   3.1.5
+	 *
+	 * @return  void
+	 */
+	public function testGetNameFormat()
+	{
+		$class = new ContentViewArticleHtml;
+
+		$this->assertEquals('article', $class->getName());
 	}
 
 	/**
