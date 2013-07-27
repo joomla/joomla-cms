@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Jul-2013 Michael Babker
+ # [#31565] CamelCased view classes are broken in J!3.1.4.  Thanks Jean-Marie Simonet
+
 27-Jul-2013 Jean-Marie Simonet
  # [#31590] *New registration password field is displayed as Optional
 
