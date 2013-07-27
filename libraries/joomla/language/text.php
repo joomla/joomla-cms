@@ -80,6 +80,7 @@ class JText
 					}
 				}
 				$str = array_shift($strs);
+				$str = preg_replace('/\[\[%([0-9]+):[^\]]*\]\]/', '%\1$s', $str);
 				$str = vsprintf($str, $strs);
 
 				return $str;
@@ -237,6 +238,7 @@ class JText
 		{
 			if (is_array($args[$count - 1]))
 			{
+				$string = preg_replace('/\[\[%([0-9]+):[^\]]*\]\]/', '%\1$s', $string);
 				$args[0] = $lang->_(
 					$string, array_key_exists('jsSafe', $args[$count - 1]) ? $args[$count - 1]['jsSafe'] : false,
 					array_key_exists('interpretBackSlashes', $args[$count - 1]) ? $args[$count - 1]['interpretBackSlashes'] : true
