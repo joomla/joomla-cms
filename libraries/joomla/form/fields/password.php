@@ -91,8 +91,8 @@ class JFormFieldPassword extends JFormField
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
-		$this->maxlength 	= $element['maxlength'] ? (int) $element['maxlength'] : 99;
-		$this->threshold	= $element['threshold'] ? (int) $element['threshold'] : 66;
+		$this->maxLength = $element['maxlength'] ? (int) $element['maxlength'] : 99;
+		$this->threshold = $element['threshold'] ? (int) $element['threshold'] : 66;
 
 		$meter = (string) $element['strengthmeter'];
 		$this->meter = ($meter == 'true' || $meter == 'on' || $meter == '1');
@@ -114,7 +114,7 @@ class JFormFieldPassword extends JFormField
 
 		// Initialize some field attributes.
 		$size		= !empty($this->size) ? ' size="' . $this->size . '"' : '';
-		$maxLength	= !empty($this->maxlength) ? ' maxlength="' . $this->maxlength . '"' : '';
+		$maxLength	= !empty($this->maxLength) ? ' maxlength="' . $this->maxLength . '"' : '';
 		$class 		= !empty($this->class) ? ' class="' . $this->class . '"' : '';
 		$readonly	= $this->readonly ? ' readonly' : '';
 		$disabled	= $this->disabled ? ' disabled' : '';
@@ -144,6 +144,6 @@ class JFormFieldPassword extends JFormField
 
 		return '<input type="password" name="' . $this->name . '" id="' . $this->id . '"' .
 			' value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $hint . $autocomplete .
-			$class . $readonly . $disabled . $size . $maxLength . $required . $autofocus . '/>' . $script;
+			$class . $readonly . $disabled . $size . $maxLength . $required . $autofocus . ' />' . $script;
 	}
 }
