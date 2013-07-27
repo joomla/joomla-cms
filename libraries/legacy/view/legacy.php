@@ -469,7 +469,7 @@ class JViewLegacy extends JObject
 			}
 
 			$lastPart = substr($classname, $viewpos + 4);
-			$pathParts = explode(' ', JStringNormalise::fromCamelCase($lastPart));
+			$pathParts = JStringNormalise::fromCamelCase($lastPart, true);
 
 			if (!empty($pathParts[1]))
 			{
