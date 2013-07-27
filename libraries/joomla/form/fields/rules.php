@@ -90,11 +90,11 @@ class JFormFieldRules extends JFormField
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
-		parent::setup($element, $value, $group);
-
 		$this->section = $this->element['section'] ? (string) $this->element['section'] : '';
 		$this->component = $this->element['component'] ? (string) $this->element['component'] : '';
 		$this->assetField = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
+
+		return parent::setup($element, $value, $group);
 	}
 
 	/**
