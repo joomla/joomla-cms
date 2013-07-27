@@ -1160,13 +1160,26 @@ class JTableNested extends JTable
 		// Get the root item.
 		$k = $this->_tbl_key;
 
-		// Test for a unique record with parent_id = 0
-		$query = $this->_db->getQuery(true)
-			->select($k)
-			->from($this->_tbl)
-			->where('parent_id = 0');
+		// Store the result in this array to prevent multiple DB queries
+		static $loaded = array();
 
-		$result = $this->_db->setQuery($query)->loadColumn();
+		// If we've already searched this before no need to repeat the query
+		if (!array_key_exists((string) $k . '.' . $this->_tbl, $loaded))
+		{
+			// Test for a unique record with parent_id = 0
+			$query = $this->_db->getQuery(true)
+				->select($k)
+				->from($this->_tbl)
+				->where('parent_id = 0');
+
+			$result = $this->_db->setQuery($query)->loadColumn();
+			
+			$loaded[(string) $k . '.' . $this->_tbl] = $result;
+		}
+		else
+		{
+			$result = $loaded[(string) $k . '.' . $this->_tbl];
+		}
 
 		if (count($result) == 1)
 		{
