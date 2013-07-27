@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Jul-2013 Jean-Marie Simonet
+ # [#31590] *New registration password field is displayed as Optional
+
 -------------------- 3.1.4 Stable Release [26-Jul-2013] ------------------
 
 25-Jul-2013 Michael Babker
