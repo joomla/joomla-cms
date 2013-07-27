@@ -238,7 +238,6 @@ class JText
 		{
 			if (is_array($args[$count - 1]))
 			{
-				$string = preg_replace('/\[\[%([0-9]+):[^\]]*\]\]/', '%\1$s', $string);
 				$args[0] = $lang->_(
 					$string, array_key_exists('jsSafe', $args[$count - 1]) ? $args[$count - 1]['jsSafe'] : false,
 					array_key_exists('interpretBackSlashes', $args[$count - 1]) ? $args[$count - 1]['interpretBackSlashes'] : true
@@ -254,6 +253,7 @@ class JText
 			{
 				$args[0] = $lang->_($string);
 			}
+			$args[0] = preg_replace('/\[\[%([0-9]+):[^\]]*\]\]/', '%\1$s', $args[0]);
 			return call_user_func_array('sprintf', $args);
 		}
 		return '';
