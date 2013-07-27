@@ -10,11 +10,11 @@
 defined('_JEXEC') or die;
 
 /**
- * Helper for mod_random_image
+ * Helper for mod_image_slider
  *
  * @package     Joomla.Site
- * @subpackage  mod_random_image
- * @since       1.5
+ * @subpackage  mod_image_slider
+ * @since       3.1
  */
 class ModImageSliderHelper
 {
