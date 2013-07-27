@@ -10,6 +10,7 @@
 JLoader::register('ContentViewArticle', __DIR__ . '/stubs/ContentViewArticle.php');
 JLoader::register('ContentViewArticleHtml', __DIR__ . '/stubs/ContentViewArticleHtml.php');
 JLoader::register('MediaViewMediaList', __DIR__ . '/stubs/MediaViewMediaList.php');
+JLoader::register('ThirdPartyViewWith_Underscore_And_FormatHtml', __DIR__ . '/stubs/ThirdPartyViewWith_Underscore_And_FormatHtml.php');
 
 /**
  * Mockup object to test Model handling in JView
@@ -244,6 +245,13 @@ class JViewLegacyTest extends TestCase
 		$class = new ContentViewArticleHtml;
 
 		$this->assertEquals('article', $class->getName());
+	}
+
+	public function testGetNameWithUnderscoresAndFormat()
+	{
+		$class = new ThirdPartyViewWith_Underscore_And_FormatHtml;
+
+		$this->assertEquals('with_underscore_and_format', $class->getName());
 	}
 
 	/**
