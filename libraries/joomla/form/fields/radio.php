@@ -43,10 +43,11 @@ class JFormFieldRadio extends JFormField
 		$class = !empty($this->class) ? ' class="radio ' . $this->class . '"' : ' class="radio"';
 		$required = $this->required ? ' required aria-required="true"' : '';
 		$autofocus = $this->autofocus ? ' autofocus' : '';
+		$disabled = $this->disabled ? ' disabled' : '';
 		$readonly = $this->readonly;
 
 		// Start the radio field output.
-		$html[] = '<fieldset id="' . $this->id . '"' . $class . $required . $autofocus . '>';
+		$html[] = '<fieldset id="' . $this->id . '"' . $class . $required . $autofocus . $disabled . ' >';
 
 		// Get the field options.
 		$options = $this->getOptions();
@@ -61,17 +62,19 @@ class JFormFieldRadio extends JFormField
 			$disabled = !empty($option->disable) || ($readonly && !$checked);
 
 			$disabled = $disabled ? ' disabled' : '';
-			$required = !empty($option->required) ? ' required="required" aria-required="true"' : '';
 
 			// Initialize some JavaScript option attributes.
 			$onclick = !empty($option->onclick) ? ' onclick="' . $option->onclick . '"' : '';
 			$onchange = !empty($option->onchange) ? ' onchange="' . $option->onchange . '"' : '';
 
 			$html[] = '<input type="radio" id="' . $this->id . $i . '" name="' . $this->name . '" value="'
-				. htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8') . '"' . $checked . $class . $onclick . $onchange . $disabled . '/>';
+				. htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8') . '"' . $checked . $class . $required . $onclick
+				. $onchange . $disabled . ' />';
 
-			$html[] = '<label for="' . $this->id . $i . '"' . $class . '>'
+			$html[] = '<label for="' . $this->id . $i . '"' . $class . ' >'
 				. JText::alt($option->text, preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)) . '</label>';
+
+			$required = '';
 		}
 
 		// End the radio field output.
