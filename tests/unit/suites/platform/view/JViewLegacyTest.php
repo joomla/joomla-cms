@@ -247,6 +247,13 @@ class JViewLegacyTest extends TestCase
 		$this->assertEquals('article', $class->getName());
 	}
 
+	/**
+	 * Test JViewLegacy::getName()
+	 *
+	 * @since   3.1.5
+	 *
+	 * @return  void
+	 */
 	public function testGetNameWithUnderscoresAndFormat()
 	{
 		$class = new ThirdPartyViewWith_Underscore_And_FormatHtml;
