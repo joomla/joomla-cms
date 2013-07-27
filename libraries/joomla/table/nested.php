@@ -1162,13 +1162,14 @@ class JTableNested extends JTable
 
 		// Store the result in this array to prevent multiple DB queries
 		static $loaded = array();
+		
+		$query = $this->_db->getQuery(true);
 
 		// If we've already searched this before no need to repeat the query
 		if (!array_key_exists((string) $k . '.' . $this->_tbl, $loaded))
 		{
 			// Test for a unique record with parent_id = 0
-			$query = $this->_db->getQuery(true)
-				->select($k)
+			$query->select($k)
 				->from($this->_tbl)
 				->where('parent_id = 0');
 
