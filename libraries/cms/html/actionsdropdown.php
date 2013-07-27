@@ -27,6 +27,8 @@ abstract class JHtmlActionsDropdown
 	/**
 	 * Method to render current dropdown menu
 	 *
+	 * @param   string  $item  Item name
+	 *
 	 * @return  string  HTML markup for the dropdown list
 	 *
 	 * @since   3.2
@@ -59,6 +61,8 @@ abstract class JHtmlActionsDropdown
 	 * @param   string  $id      ID of corresponding checkbox of the record
 	 * @param   string  $prefix  The task prefix
 	 *
+	 * @return  void
+	 *
 	 * @since   3.2
 	 */
 	public static function publish($id, $prefix = '')
@@ -72,6 +76,8 @@ abstract class JHtmlActionsDropdown
 	 *
 	 * @param   string  $id      ID of corresponding checkbox of the record
 	 * @param   string  $prefix  The task prefix
+	 *
+	 * @return void
 	 *
 	 * @since   3.2
 	 */
@@ -87,6 +93,8 @@ abstract class JHtmlActionsDropdown
 	 * @param   string  $id      ID of corresponding checkbox of the record
 	 * @param   string  $prefix  The task prefix
 	 *
+	 * @return void
+	 *
 	 * @since   3.2
 	 */
 	public static function feature($id, $prefix = '')
@@ -100,6 +108,8 @@ abstract class JHtmlActionsDropdown
 	 *
 	 * @param   string  $id      ID of corresponding checkbox of the record
 	 * @param   string  $prefix  The task prefix
+	 *
+	 * @return void
 	 *
 	 * @since   3.2
 	 */
@@ -115,6 +125,8 @@ abstract class JHtmlActionsDropdown
 	 * @param   string  $id      ID of corresponding checkbox of the record
 	 * @param   string  $prefix  The task prefix
 	 *
+	 * @return   void
+	 *
 	 * @since   3.2
 	 */
 	public static function archive($id, $prefix = '')
@@ -129,12 +141,13 @@ abstract class JHtmlActionsDropdown
 	 * @param   string  $id      ID of corresponding checkbox of the record
 	 * @param   string  $prefix  The task prefix
 	 *
+	 * @return  void
+	 *
 	 * @since   3.2
 	 */
 	public static function unarchive($id, $prefix = '')
 	{
-		$task = ($prefix ? $prefix . '.' : '') . 'unpublish';
-		static::addCustomItem(JText::_('JTOOLBAR_UNARCHIVE'), 'unarchive', $id, $task);
+		self::publish($id, $prefix);
 	}
 
 	/**
@@ -142,6 +155,8 @@ abstract class JHtmlActionsDropdown
 	 *
 	 * @param   string  $id      ID of corresponding checkbox of the record
 	 * @param   string  $prefix  The task prefix
+	 *
+	 * @return  void
 	 *
 	 * @since   3.2
 	 */
@@ -157,6 +172,8 @@ abstract class JHtmlActionsDropdown
 	 * @param   string  $id      ID of corresponding checkbox of the record
 	 * @param   string  $prefix  The task prefix
 	 *
+	 * @return  void
+	 *
 	 * @since   3.2
 	 */
 	public static function trash($id, $prefix = '')
@@ -171,6 +188,8 @@ abstract class JHtmlActionsDropdown
 	 * @param   string  $id      ID of corresponding checkbox of the record
 	 * @param   string  $prefix  The task prefix
 	 *
+	 * @return  void
+	 *
 	 * @since   3.2
 	 */
 	public static function untrash($id, $prefix = '')
@@ -180,6 +199,8 @@ abstract class JHtmlActionsDropdown
 
 	/**
 	 * Writes a divider between dropdown items
+	 *
+	 * @return  void
 	 *
 	 * @since   3.0
 	 */
@@ -191,17 +212,19 @@ abstract class JHtmlActionsDropdown
 	/**
 	 * Append a custom item to current dropdown menu
 	 *
-	 * @param   string   $label           The label of item
-	 * @param   string   $icon            The icon classname
-	 * @param   string   $link            The link of item
-	 * @param   string   $linkAttributes  Custom link attributes
+	 * @param   string  $label  The label of item
+	 * @param   string  $icon   The icon classname
+	 * @param   string  $id     The link of item
+	 * @param   string  $task   Custom link attributes
+	 *
+	 * @return  void
 	 *
 	 * @since   3.2
 	 */
 	public static function addCustomItem($label, $icon = '', $id = '', $task = '')
 	{
 		static::$dropDownList[] = '<li>'
-			. '<a href = "javascript://" onclick="listItemTask(\'' . $id . '\', \'' . $task . '\')">'
+			. '<a href = "javascript://" onclick="return listItemTask(\'' . $id . '\', \'' . $task . '\')">'
 			. ($icon ? '<span class="icon-' . $icon . '"></span> ' : '')
 			. $label
 			. '</a>'
