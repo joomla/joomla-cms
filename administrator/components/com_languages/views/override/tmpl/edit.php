@@ -17,9 +17,9 @@ JHtml::_('formbehavior.chosen', 'select');
 
 ?>
 <script type="text/javascript">
-		window.addEvent('domready', function()
+	jQuery(function($)
 		{
-			document.id('jform_searchstring').addEvent('focus', function()
+			$('#jform_searchstring').on('focus', function(el)
 			{
 				if (!Joomla.overrider.states.refreshed)
 				{
@@ -28,12 +28,12 @@ JHtml::_('formbehavior.chosen', 'select');
 					Joomla.overrider.states.refreshed = true;
 					<?php endif; ?>
 				}
-				this.removeClass('invalid');
+				$(el.target).removeClass('invalid');
 			});
 		});
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'override.cancel' || document.formvalidator.isValid(document.id('override-form')))
+		if (task == 'override.cancel' || document.formvalidator.isValid(document.getElementById('override-form')))
 		{
 			Joomla.submitform(task, document.getElementById('override-form'));
 		}
