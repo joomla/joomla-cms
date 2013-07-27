@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
  * Helper for mod_contact_info
  *
  * @package     Joomla.Site
- * @subpackage  mod_random_image
+ * @subpackage  mod_contact_info
  * @since       3.1
  */
 class ModContactsInfoHelper
