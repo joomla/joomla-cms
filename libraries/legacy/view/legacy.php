@@ -470,12 +470,43 @@ class JViewLegacy extends JObject
 
 			$tmp = strtolower(substr($class, ($pos + 4)));
 
-			// Remove the format from the end of the string.
-			$format = JFactory::getApplication()->input->get('format', 'html');
-			$this->_name = preg_replace('/(' . strtolower($format) . ')$/', '', $tmp);
+			if ($this->shouldNotHaveFormatStripped())
+			{
+				$this->_name = $tmp;
+			}
+			else
+			{
+				// Remove the format from the end of the string.
+				$format = JFactory::getApplication()->input->get('format', 'html');
+				$this->_name = preg_replace('/(' . strtolower($format) . ')$/', '', $tmp);
+			}
 		}
 
 		return $this->_name;
+	}
+
+	/**
+	 * Tests whether or not to strip the format name when trying
+	 * to deduce the view name from the currently loaded class.
+	 *
+	 * The rules to not strip the format from the class name currently are:
+	 *   1) If there is no format set.
+	 *   2) If the format is exactly the same as the view.
+	 *
+	 * @return  boolean  True if the format should not be stripped.
+	 */
+	private function shouldNotHaveFormatStripped()
+	{
+		$app = JFactory::getApplication();
+		$format = $app->input->get('format');
+		$view = $app->input->get('view');
+
+		if (is_null($format) || $format === $view)
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
