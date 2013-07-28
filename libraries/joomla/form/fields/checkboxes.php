@@ -59,7 +59,6 @@ class JFormFieldCheckboxes extends JFormField
 		$options = $this->getOptions();
 
 		// Build the checkbox field output.
-		$html[] = '<ul>';
 		foreach ($options as $i => $option)
 		{
 			// Initialize some option attributes.
@@ -79,14 +78,12 @@ class JFormFieldCheckboxes extends JFormField
 			// Initialize some JavaScript option attributes.
 			$onclick = !empty($option->onclick) ? ' onclick="' . $option->onclick . '"' : '';
 
-			$html[] = '<li>';
+			$html[] = '<label for="'. $this->id . $i . '"' . $class . '>';
 			$html[] = '<input type="checkbox" id="' . $this->id . $i . '" name="' . $this->name . '" value="'
 				. htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8') . '"' . $checked . $class . $onclick . $disabled . $required . '/>';
 
-			$html[] = '<label for="' . $this->id . $i . '"' . $class . '>' . JText::_($option->text) . '</label>';
-			$html[] = '</li>';
+			$html[] = JText::_($option->text) . '</label>';
 		}
-		$html[] = '</ul>';
 
 		// End the checkbox field output.
 		$html[] = '</fieldset>';
