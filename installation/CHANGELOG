@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Jul-2013 Jean-Marie Simonet
+ # [#31585] Can't add tags to articles in 3.1.4. Thanks Roberto Segura
+
 27-Jul-2013 Michael Babker
  # [#31565] CamelCased view classes are broken in J!3.1.4.  Thanks Jean-Marie Simonet
 
