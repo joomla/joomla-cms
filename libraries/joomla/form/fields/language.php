@@ -53,7 +53,6 @@ class JFormFieldLanguage extends JFormFieldList
 			JLanguageHelper::createLanguageList($this->value, constant('JPATH_' . strtoupper($client)), true, true)
 		);
 
-
 		// Set the default value active language
 		if ($langParams = JComponentHelper::getParams('com_languages'))
 		{
@@ -69,6 +68,12 @@ class JFormFieldLanguage extends JFormFieldList
 				case 'backend':
 				case '1':
 					$this->value = $langParams->get('administrator', 'en-GB');
+					break;
+				case 'active':
+				case 'auto':
+					$lang = JFactory::getLanguage();
+					$this->value = $lang->getTag();
+					break;
 				default:
 				break;
 			}
