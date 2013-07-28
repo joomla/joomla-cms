@@ -87,25 +87,25 @@ $sortFields = $this->getSortFields();
 				<th width="10%" class="nowrap center">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_USERNAME', 'a.username', $listDirn, $listOrder); ?>
 				</th>
-				<th width="5%" class="nowrap center">
+				<th width="5%" class="nowrap center hidden-phone">
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_ENABLED', 'a.block', $listDirn, $listOrder); ?>
 				</th>
-				<th width="5%" class="nowrap center">
+				<th width="5%" class="nowrap center hidden-phone">
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
 				</th>
-				<th width="10%" class="nowrap center">
+				<th width="10%" class="nowrap center hidden-phone">
 					<?php echo JText::_('COM_USERS_HEADING_GROUPS'); ?>
 				</th>
 				<th width="15%" class="nowrap center">
 					<?php echo JHtml::_('grid.sort', 'JGLOBAL_EMAIL', 'a.email', $listDirn, $listOrder); ?>
 				</th>
-				<th width="10%" class="nowrap center">
+				<th width="10%" class="nowrap center visible-desktop">
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_LAST_VISIT_DATE', 'a.lastvisitDate', $listDirn, $listOrder); ?>
 				</th>
-				<th width="10%" class="nowrap center">
+				<th width="10%" class="nowrap center visible-desktop">
 					<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_REGISTRATION_DATE', 'a.registerDate', $listDirn, $listOrder); ?>
 				</th>
-				<th width="1%" class="nowrap center">
+				<th width="1%" class="nowrap center visible-desktop">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 				</th>
 			</tr>
@@ -155,7 +155,7 @@ $sortFields = $this->getSortFields();
 				<td class="center">
 					<?php echo $this->escape($item->username); ?>
 				</td>
-				<td class="center">
+				<td class="center hidden-phone">
 					<?php if ($canChange) : ?>
 						<?php
 						$self = $loggeduser->id == $item->id;
@@ -165,13 +165,13 @@ $sortFields = $this->getSortFields();
 						<?php echo JText::_($item->block ? 'JNO' : 'JYES'); ?>
 					<?php endif; ?>
 				</td>
-				<td class="center">
+				<td class="center hidden-phone">
 					<?php
 					$activated = empty( $item->activation) ? 0 : 1;
 					echo JHtml::_('jgrid.state', JHtmlUsers::activateStates(), $activated, $i, 'users.', (boolean) $activated);
 					?>
 				</td>
-				<td class="center">
+				<td class="center hidden-phone">
 					<?php if (substr_count($item->group_names, "\n") > 1) : ?>
 						<span class="hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_USERS_HEADING_GROUPS'), nl2br($item->group_names), 0); ?>"><?php echo JText::_('COM_USERS_USERS_MULTIPLE_GROUPS'); ?></span>
 					<?php else : ?>
@@ -181,17 +181,17 @@ $sortFields = $this->getSortFields();
 				<td class="center">
 					<?php echo JStringPunycode::emailToUTF8($this->escape($item->email)); ?>
 				</td>
-				<td class="center">
+				<td class="center visible-desktop">
 					<?php if ($item->lastvisitDate != '0000-00-00 00:00:00'):?>
 						<?php echo JHtml::_('date', $item->lastvisitDate, 'Y-m-d H:i:s'); ?>
 					<?php else:?>
 						<?php echo JText::_('JNEVER'); ?>
 					<?php endif;?>
 				</td>
-				<td class="center">
+				<td class="center visible-desktop">
 					<?php echo JHtml::_('date', $item->registerDate, 'Y-m-d H:i:s'); ?>
 				</td>
-				<td class="center">
+				<td class="center visible-desktop">
 					<?php echo (int) $item->id; ?>
 				</td>
 			</tr>
