@@ -25,7 +25,47 @@ class MenusViewMenutypes extends JViewLegacy
 	{
 		$input = JFactory::getApplication()->input;
 		$this->recordId = $input->getInt('recordId');
-		$this->types    = $this->get('TypeOptions');
+		$types = $this->get('TypeOptions');
+		
+		//Adding System Links
+		$list = array();
+		$o = new JObject;
+		$o->title		= 'COM_MENUS_TYPE_EXTERNAL_URL';
+		$o->type 		= 'url';
+		$o->description	= 'COM_MENUS_TYPE_EXTERNAL_URL_DESC';
+		$o->request		= null;
+		$list[] = $o;
+		
+		$o = new JObject;
+		$o->title		= 'COM_MENUS_TYPE_ALIAS';
+		$o->type 		= 'alias';
+		$o->description	= 'COM_MENUS_TYPE_ALIAS_DESC';
+		$o->request		= null;
+		$list[] = $o;
+		
+		$o = new JObject;
+		$o->title		= 'COM_MENUS_TYPE_SEPARATOR';
+		$o->type 		= 'separator';
+		$o->description	= 'COM_MENUS_TYPE_SEPARATOR_DESC';
+		$o->request		= null;
+		$list[] = $o;
+		
+		$o = new JObject;
+		$o->title		= 'COM_MENUS_TYPE_HEADING';
+		$o->type 		= 'heading';
+		$o->description	= 'COM_MENUS_TYPE_HEADING_DESC';
+		$o->request		= null;
+		$list[] = $o;
+		$types['COM_MENUS_TYPE_SYSTEM'] = $list;
+		
+		// The list must be in alphabetic ordering based on label, JText::_(component_name)
+		$orderedtypes = array();
+		foreach($types as $name => $list) {
+			$orderedtypes[JText::_($name)] = $list;
+		}
+		ksort($orderedtypes);
+		
+		$this->types = $orderedtypes;
 
 		$this->addToolbar();
 

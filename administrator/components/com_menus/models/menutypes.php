@@ -156,6 +156,7 @@ class MenusModelMenutypes extends JModelLegacy
 			// Create the menu option for the component.
 			$o = new JObject;
 			$o->title		= (string) $menu['name'];
+			$o->type        = (string) $menu['name'];
 			$o->description	= (string) $menu['msg'];
 			$o->request		= array('option' => $component);
 
@@ -189,6 +190,7 @@ class MenusModelMenutypes extends JModelLegacy
 					// Create the menu option for the component.
 					$o = new JObject;
 					$o->title		= (string) $child['name'];
+					$o->type        = (string) $child['name'];
 					$o->description	= (string) $child['msg'];
 					$o->request		= array('option' => $component, (string) $optionsNode['var'] => (string) $child['value']);
 
@@ -199,6 +201,7 @@ class MenusModelMenutypes extends JModelLegacy
 					// Create the menu option for the component.
 					$o = new JObject;
 					$o->title		= (string) $child['name'];
+					$o->type        = (string) $child['name'];
 					$o->description	= (string) $child['msg'];
 					$o->request		= array('option' => $component);
 
@@ -268,6 +271,7 @@ class MenusModelMenutypes extends JModelLegacy
 											// Create the menu option for the component.
 											$o = new JObject;
 											$o->title		= (string) $child['name'];
+											$o->type        = (string) $child['name'];
 											$o->description	= (string) $child['msg'];
 											$o->request		= array('option' => $component, 'view' => $view, (string) $optionsNode['var'] => (string) $child['value']);
 
@@ -278,6 +282,7 @@ class MenusModelMenutypes extends JModelLegacy
 											// Create the menu option for the component.
 											$o = new JObject;
 											$o->title		= (string) $child['name'];
+											$o->type        = (string) $child['name'];
 											$o->description	= (string) $child['msg'];
 											$o->request		= array('option' => $component, 'view' => $view);
 
@@ -378,6 +383,7 @@ class MenusModelMenutypes extends JModelLegacy
 				// Create the menu option for the layout.
 				$o = new JObject;
 				$o->title		= ucfirst($layout);
+				$o->type        = ucfirst($layout);
 				$o->description	= '';
 				$o->request		= array('option' => $component, 'view' => $view);
 
@@ -411,6 +417,12 @@ class MenusModelMenutypes extends JModelLegacy
 							if (!empty($menu['title']))
 							{
 								$o->title = trim((string) $menu['title']);
+							}
+							
+							// Populate type if they exist.
+							if (!empty($menu['type']))
+							{
+								$o->type = trim((string) $menu['title']);
 							}
 
 							if (!empty($menu->message[0]))
