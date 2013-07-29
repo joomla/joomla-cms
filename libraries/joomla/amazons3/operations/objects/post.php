@@ -129,4 +129,46 @@ class JAmazons3OperationsObjectsPost extends JAmazons3OperationsObjects
 
 		return $response_body;
 	}
+
+	/**
+	 * Restores a temporary copy of an archived object. In the request, you
+	 * specify the number of days that you want the restored copy to exist.
+	 *
+	 * @param   string  $bucket  The bucket name
+	 * @param   string  $object  The name of the object to be restored
+	 * @param   string  $days    The number of days that you want the restored copy to exist
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function postObjectRestore($bucket, $object, $days)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/"
+			. $object . "?restore";
+
+		$content = "<RestoreRequest xmlns=\"http://s3.amazonaws.com/doc/2006-3-01\">\n"
+			. "<Days>" . $days . "</Days>\n"
+			. "</RestoreRequest>\n";
+
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+		);
+
+		// Set the content related headers
+		$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
+		$headers["Content-Length"] = strlen($content);
+		$headers["Content-MD5"] = base64_encode(md5($content, true));
+		$authorization = $this->createAuthorization("POST", $url, $headers);
+		$headers["Authorization"] = $authorization;
+		unset($headers["Content-type"]);
+
+		// Send the http request
+		$response = $this->client->post($url, $content, $headers);
+
+		// Process the response
+		$response_body = $this->processResponse($response);
+
+		return $response_body;
+	}
 }

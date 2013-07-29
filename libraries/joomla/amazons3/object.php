@@ -335,6 +335,7 @@ abstract class JAmazons3Object
 			"partnumber",
 			"policy",
 			"requestPayment",
+			"restore",
 			"torrent",
 			"uploadId",
 			"uploads",
