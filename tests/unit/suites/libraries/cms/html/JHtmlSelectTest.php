@@ -33,6 +33,18 @@ class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test...
 	 *
+	 * @return  array
+	 *
+	 * @since   3.1
+	 */
+	public function getOptionData()
+	{
+		return JHtmlSelectTest_DataSet::$optionTest;
+	}
+
+	/**
+	 * Test...
+	 *
 	 * @todo Implement testBooleanlist().
 	 *
 	 * @return void
@@ -108,15 +120,22 @@ class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test...
 	 *
-	 * @todo Implement testOption().
+	 * @param   object  $expected  @todo
+	 * @param   string  $value     @todo
+	 * @param   string  $text      @todo
+	 * @param   array   $optKey    @todo
+	 * @param   string  $optText   @todo
+	 * @param   bool    $disable   @todo
 	 *
 	 * @return void
+	 *
+	 * @dataProvider  getOptionData
 	 */
-	public function testOption()
+	public function testOption($expected, $value, $text = '', $optKey = 'value', $optText = 'text', $disable = false)
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
+		$this->assertEquals(
+			(object) $expected,
+			JHtml::_('select.option', $value, $text, $optKey, $optText, $disable)
 		);
 	}
 
