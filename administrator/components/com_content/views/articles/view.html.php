@@ -27,7 +27,9 @@ class ContentViewArticles extends JViewLegacy
 	/**
 	 * Display the view
 	 *
-	 * @return  void
+	 * @param   string  $tpl  Name of the template to display
+	 *
+	 * @return  mixed         False on error / void on success
 	 */
 	public function display($tpl = null)
 	{
@@ -45,6 +47,7 @@ class ContentViewArticles extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -75,6 +78,8 @@ class ContentViewArticles extends JViewLegacy
 
 	/**
 	 * Add the page title and toolbar.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */

@@ -16,13 +16,16 @@ require_once __DIR__ . '/articles.php';
  *
  * @package     Joomla.Administrator
  * @subpackage  com_content
+ *
+ * @since       1.6
  */
 class ContentModelFeatured extends ContentModelArticles
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
 	 * @see     JController
 	 * @since   1.6
 	 */
@@ -56,7 +59,9 @@ class ContentModelFeatured extends ContentModelArticles
 	}
 
 	/**
-	 * @param   boolean    True to join selected foreign information
+	 * Generate the query to get a list of items
+	 *
+	 * @param   boolean  $resolveFKs  True to join selected foreign information
 	 *
 	 * @return  string
 	 */
@@ -108,6 +113,7 @@ class ContentModelFeatured extends ContentModelArticles
 
 		// Filter by published state
 		$published = $this->getState('filter.published');
+
 		if (is_numeric($published))
 		{
 			$query->where('a.state = ' . (int) $published);
@@ -120,6 +126,7 @@ class ContentModelFeatured extends ContentModelArticles
 		// Filter by a single or group of categories.
 		$baselevel = 1;
 		$categoryId = $this->getState('filter.category_id');
+
 		if (is_numeric($categoryId))
 		{
 			$cat_tbl = JTable::getInstance('Category', 'JTable');
@@ -145,6 +152,7 @@ class ContentModelFeatured extends ContentModelArticles
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
+
 		if (!empty($search))
 		{
 			if (stripos($search, 'id:') === 0)
@@ -167,7 +175,6 @@ class ContentModelFeatured extends ContentModelArticles
 		// Add the list ordering clause.
 		$query->order($db->escape($this->getState('list.ordering', 'a.title')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
-		//echo nl2br(str_replace('#__','jos_',(string)$query));
 		return $query;
 	}
 }

@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
+ * Article controller
+ *
  * @package     Joomla.Administrator
  * @subpackage  com_content
  * @since       1.6
@@ -96,6 +98,7 @@ class ContentControllerArticle extends JControllerForm
 		{
 			// Now test the owner is the user.
 			$ownerId = (int) isset($data['created_by']) ? $data['created_by'] : 0;
+
 			if (empty($ownerId) && $recordId)
 			{
 				// Need to do a lookup from the model.
@@ -140,21 +143,5 @@ class ContentControllerArticle extends JControllerForm
 		$this->setRedirect(JRoute::_('index.php?option=com_content&view=articles' . $this->getRedirectToListAppend(), false));
 
 		return parent::batch($model);
-	}
-
-	/**
-	 * Function that allows child controller access to model data after the data has been saved.
-	 *
-	 * @param   JModelLegacy  $model  The data model object.
-	 * @param   array         $validData   The validated data.
-	 *
-	 * @return	void
-	 *
-	 * @since	3.1
-	 */
-	protected function postSaveHook(JModelLegacy $model, $validData = array())
-	{
-
-		return;
 	}
 }
