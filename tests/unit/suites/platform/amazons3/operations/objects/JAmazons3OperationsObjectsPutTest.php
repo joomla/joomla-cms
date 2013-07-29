@@ -50,6 +50,15 @@ class JAmazons3OperationsObjectsPutTest extends PHPUnit_Framework_TestCase
 		$this->options->set('testBucket', 'testBucket');
 		$this->options->set("testObject", "testObject");
 		$this->options->set("testContent", "testContent");
+		$this->options->set("testObjectCopy", "testObjectCopy");
+		$this->options->set(
+			"testRequestHeaders",
+			array(
+				"x-amz-grant-read" => "uri=\"http://acs.amazonaws.com/groups/global/AllUsers\"",
+				"x-amz-grant-write-acp" => "emailAddress=\"alex.ukf@gmail.com\"",
+				"x-amz-grant-full-control" => "id=\"6e887773574284f7e38cacbac9e1455ecce62f79929260e9b68db3b84720ed96\""
+			)
+		);
 
 		$this->client = $this->getMock('JAmazons3Http', array('delete', 'get', 'head', 'put', 'post', 'optionss3'));
 
@@ -174,6 +183,45 @@ class JAmazons3OperationsObjectsPutTest extends PHPUnit_Framework_TestCase
 				)
 			),
 			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the putObjectCopy method
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testPutObjectCopy()
+	{
+		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url")
+			. "/" . $this->options->get("testObjectCopy");
+		$content = "";
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+			"x-amz-grant-read" => "uri=\"http://acs.amazonaws.com/groups/global/AllUsers\"",
+			"x-amz-grant-write-acp" => "emailAddress=\"alex.ukf@gmail.com\"",
+			"x-amz-grant-full-control" => "id=\"6e887773574284f7e38cacbac9e1455ecce62f79929260e9b68db3b84720ed96\""
+		);
+		$headers["x-amz-copy-source"] = "/" . $this->options->get("testBucket")
+			. "/" . $this->options->get("testObject");
+		$authorization = $this->object->createAuthorization("PUT", $url, $headers);
+		$headers['Authorization'] = $authorization;
+
+		$this->client->expects($this->once())
+			->method('put')
+			->with($url, $content, $headers)
+			->will($this->returnValue(null));
+
+		$this->assertThat(
+			$this->object->put->putObjectCopy(
+				$this->options->get("testBucket"),
+				$this->options->get("testObjectCopy"),
+				"/" . $this->options->get("testBucket") . "/" . $this->options->get("testObject"),
+				$this->options->get("testRequestHeaders")
+			),
+			$this->equalTo(null)
 		);
 	}
 }

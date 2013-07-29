@@ -118,4 +118,49 @@ class JAmazons3OperationsObjectsPut extends JAmazons3OperationsObjects
 
 		return $response_body;
 	}
+
+	/**
+	 * This implementation of the PUT operation creates a copy of an object
+	 * that is already stored in Amazon S3.
+	 *
+	 * @param   string  $bucket          The name of the bucket to copy in
+	 * @param   string  $object          The name of the new file
+	 * @param   string  $copySource      The path to the file to be copied (bucket + object)
+	 * @param   string  $requestHeaders  An array containing request headers
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function putObjectCopy($bucket, $object, $copySource, $requestHeaders = null)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/" . $object;
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+		);
+
+		// Check for request headers
+		if (is_array($requestHeaders))
+		{
+			foreach ($requestHeaders as $aclPermission => $aclGrantee)
+			{
+				$headers[$aclPermission] = $aclGrantee;
+			}
+		}
+
+		$headers["x-amz-copy-source"] = $copySource;
+		$authorization = $this->createAuthorization("PUT", $url, $headers);
+		$headers["Authorization"] = $authorization;
+
+		// Send the http request
+		$response = $this->client->put($url, "", $headers);
+
+		if (! is_null($response))
+		{
+			// Process the response
+			return $this->processResponse($response);
+		}
+
+		return null;
+	}
 }
