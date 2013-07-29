@@ -30,7 +30,7 @@ class JAmazons3OperationsObjectsPut extends JAmazons3OperationsObjects
 	 *
 	 * @since   ??.?
 	 */
-	public function putObject($bucket, $object, $content = null, $requestHeaders = null)
+	public function putObject($bucket, $object, $content = "", $requestHeaders = null)
 	{
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/" . $object;
 		$headers = array(
@@ -66,5 +66,56 @@ class JAmazons3OperationsObjectsPut extends JAmazons3OperationsObjects
 		}
 
 		return null;
+	}
+
+	/**
+	 * Creates the request for setting the permissions on an existing bucket
+	 * using access control lists (ACL)
+	 *
+	 * @param   string  $bucket  The bucket name
+	 * @param   string  $object  The object name
+	 * @param   string  $acl     An array containing the ACL permissions
+	 *                           (either canned or explicitly specified)
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function putObjectAcl($bucket, $object, $acl = null)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/"
+			. $object . "?acl";
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+		);
+
+		// Check for ACL permissions
+		if (is_array($acl))
+		{
+			// Check for canned ACL permission
+			if (array_key_exists("acl", $acl))
+			{
+				$headers["x-amz-acl"] = $acl["acl"];
+			}
+			else
+			{
+				// Access permissions were specified explicitly
+				foreach ($acl as $aclPermission => $aclGrantee)
+				{
+					$headers["x-amz-grant-" . $aclPermission] = $aclGrantee;
+				}
+			}
+		}
+
+		$authorization = $this->createAuthorization("PUT", $url, $headers);
+		$headers["Authorization"] = $authorization;
+
+		// Send the http request
+		$response = $this->client->put($url, "", $headers);
+
+		// Process the response
+		$response_body = $this->processResponse($response);
+
+		return $response_body;
 	}
 }
