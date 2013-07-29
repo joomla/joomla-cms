@@ -15,7 +15,7 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.formvalidation');
 
 // Load chosen.css
-JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('formbehavior.chosen', 'select:not(.ignore-chosen)');
 
 // Get the form fieldsets.
 $fieldsets = $this->form->getFieldsets();
