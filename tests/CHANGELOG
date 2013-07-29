@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Jul-2013 Michael Babker
+ + Add test coverage to JViewLegacy::getName()
+
 24-Jul-2013 Mark Dexter
  + New Webdriver tests for changing article state and front-end login. Thanks Puneet Kala.
 
