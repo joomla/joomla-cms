@@ -89,4 +89,44 @@ class JAmazons3OperationsObjectsPost extends JAmazons3OperationsObjects
 
 		return $response_body;
 	}
+
+	/**
+	 * The POST operation adds an object to a specified bucket using HTML forms
+	 *
+	 * @param   string  $bucket  The bucket name
+	 * @param   array   $fields  An array of objects to be deleted
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function postObject($bucket, $fields)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/";
+		$content = "";
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+		);
+
+		if (is_array($fields))
+		{
+			$url .= $fields['key'];
+			$content = $fields['file'];
+		}
+
+		// Set the content related headers
+		$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
+		$headers["Content-Length"] = strlen($content);
+		$authorization = $this->createAuthorization("POST", $url, $headers);
+		$headers["Authorization"] = $authorization;
+		unset($headers["Content-type"]);
+
+		// Send the http request
+		$response = $this->client->post($url, $content, $headers);
+
+		// Process the response
+		$response_body = $this->processResponse($response);
+
+		return $response_body;
+	}
 }

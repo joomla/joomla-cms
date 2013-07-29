@@ -62,6 +62,13 @@ class JAmazons3OperationsObjectsPostTest extends PHPUnit_Framework_TestCase
 		);
 		$this->options->set("serialNr", "20899872");
 		$this->options->set("tokenCode", "301749");
+		$this->options->set(
+			"testFields",
+			array(
+				"key" => "testFile.txt",
+				"file" => "test content",
+			)
+		);
 
 		$this->client = $this->getMock('JAmazons3Http', array('delete', 'get', 'head', 'put', 'post', 'optionss3'));
 
@@ -170,6 +177,49 @@ class JAmazons3OperationsObjectsPostTest extends PHPUnit_Framework_TestCase
 				true,
 				$this->options->get("serialNr"),
 				$this->options->get("tokenCode")
+			),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the postObject method
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testPostObject()
+	{
+		$testFields = $this->options->get("testFields");
+		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url")
+			. "/" . $testFields["key"];
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+		);
+
+		$content = $testFields["file"];
+
+		$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
+		$headers["Content-Length"] = strlen($content);
+		$authorization = $this->object->createAuthorization("POST", $url, $headers);
+		$headers['Authorization'] = $authorization;
+		unset($headers["Content-type"]);
+
+		$returnData = new JHttpResponse;
+		$returnData->code = 200;
+		$returnData->body = "<test>response</test>";
+		$expectedResult = new SimpleXMLElement($returnData->body);
+
+		$this->client->expects($this->once())
+			->method('post')
+			->with($url, $content, $headers)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->post->postObject(
+				$this->options->get("testBucket"),
+				$this->options->get("testFields")
 			),
 			$this->equalTo($expectedResult)
 		);
