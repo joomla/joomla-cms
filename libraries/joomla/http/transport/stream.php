@@ -211,6 +211,6 @@ class JHttpTransportStream implements JHttpTransport
 	 */
 	static public function isSupported()
 	{
-		return function_exists('fopen') && is_callable('fopen');
+		return function_exists('fopen') && is_callable('fopen') && ini_get('allow_url_fopen');
 	}
 }
