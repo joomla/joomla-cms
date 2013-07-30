@@ -19,48 +19,55 @@ $user	= JFactory::getUser();
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 
 // Load system style CSS
-$doc->addStyleSheet('templates/system/css/system.css');
+$doc->addScriptVersion('templates/system/css/system.css');
 
 // Loadtemplate CSS
-$doc->addStyleSheet('templates/'.$this->template.'/css/template.css');
+$doc->addStyleSheetVersion('templates/' . $this->template . '/css/template.css');
 
 // Load additional CSS styles for colors
-if (!$this->params->get('colourChoice')) :
-$colour = 'standard';
-else :
-$colour = htmlspecialchars($this->params->get('colourChoice'));
-endif;
-$doc->addStyleSheet('templates/'.$this->template.'/css/colour_'.$colour.'.css');
+if (!$this->params->get('colourChoice'))
+{
+	$colour = 'standard';
+}
+else
+{
+	$colour = htmlspecialchars($this->params->get('colourChoice'));
+}
+
+$doc->addStyleSheetVersion('templates/' . $this->template . '/css/colour_' . $colour . '.css');
 
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
+
 if (is_file($file))
 {
-	$doc->addStyleSheet($file);
+	$doc->addStyleSheetVersion($file);
 }
 
 // Load additional CSS styles for rtl sites
 if ($this->direction == 'rtl')
 {
-	$doc->addStyleSheet('templates/'.$this->template.'/css/template_rtl.css');
-	$doc->addStyleSheet('templates/'.$this->template.'/css/colour_'.$colour.'_rtl.css');
+	$doc->addStyleSheetVersion('templates/' . $this->template . '/css/template_rtl.css');
+	$doc->addStyleSheetVersion('templates/' . $this->template . '/css/colour_' . $colour . '_rtl.css');
 }
 
 // Load specific language related CSS
-$file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
+$file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
+
 if (JFile::exists($file))
 {
-	$doc->addStyleSheet($file);
+	$doc->addStyleSheetVersion($file);
 }
 
 // Load additional CSS styles for bold Text
 if ($this->params->get('boldText'))
 {
-	$doc->addStyleSheet('templates/'.$this->template.'/css/boldtext.css');
+	$doc->addStyleSheetVersion('templates/' . $this->template . '/css/boldtext.css');
 }
 
 // Load template javascript
-$doc->addScript('templates/'.$this->template.'/js/template.js', 'text/javascript');
+$doc->addScriptVersion('templates/' . $this->template . '/js/template.js', 'text/javascript');
+
 // Logo file
 if ($this->params->get('logoFile'))
 {

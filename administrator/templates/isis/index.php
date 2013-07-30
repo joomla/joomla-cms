@@ -31,7 +31,7 @@ JHtml::_('bootstrap.loadCss', false, $this->direction);
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
 if (is_file($file))
 {
-	$doc->addStyleSheet($file);
+	$doc->addStyleSheetVersion($file);
 }
 
 // Detecting Active Variables
