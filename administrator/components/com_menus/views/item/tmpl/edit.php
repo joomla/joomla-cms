@@ -15,7 +15,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.framework');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.modal');
-JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('formbehavior.chosen');
 
 $app = JFactory::getApplication();
 $assoc = isset($app->item_associations) ? $app->item_associations : 0;
