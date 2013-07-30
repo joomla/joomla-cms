@@ -332,7 +332,7 @@ abstract class JAmazons3Object
 			"location",
 			"logging",
 			"notification",
-			"partnumber",
+			"partNumber",
 			"policy",
 			"requestPayment",
 			"restore",

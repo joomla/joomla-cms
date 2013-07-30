@@ -59,6 +59,8 @@ class JAmazons3OperationsObjectsPutTest extends PHPUnit_Framework_TestCase
 				"x-amz-grant-full-control" => "id=\"6e887773574284f7e38cacbac9e1455ecce62f79929260e9b68db3b84720ed96\""
 			)
 		);
+		$this->options->set("testPartNumber", "1");
+		$this->options->set("testUploadId", "VCVsb2FkIElEIGZvciBlbZZpbmcncyBteS1tb3ZpZS5tMnRzIHVwbG9hZR");
 
 		$this->client = $this->getMock('JAmazons3Http', array('delete', 'get', 'head', 'put', 'post', 'optionss3'));
 
@@ -256,6 +258,41 @@ class JAmazons3OperationsObjectsPutTest extends PHPUnit_Framework_TestCase
 				$this->options->get("testBucket"),
 				$this->options->get("testObject"),
 				$this->options->get("testRequestHeaders")
+			),
+			$this->equalTo(null)
+		);
+	}
+
+	/**
+	 * Tests the uploadPart method
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testUploadPart()
+	{
+		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url")
+			. "/" . $this->options->get("testObject") . "?partNumber=" . $this->options->get("testPartNumber")
+			. "&uploadId=" . $this->options->get("testUploadId");
+		$content = "";
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+		);
+		$authorization = $this->object->createAuthorization("PUT", $url, $headers);
+		$headers['Authorization'] = $authorization;
+
+		$this->client->expects($this->once())
+			->method('put')
+			->with($url, $content, $headers)
+			->will($this->returnValue(null));
+
+		$this->assertThat(
+			$this->object->put->uploadPart(
+				$this->options->get("testBucket"),
+				$this->options->get("testObject"),
+				$this->options->get("testPartNumber"),
+				$this->options->get("testUploadId")
 			),
 			$this->equalTo(null)
 		);
