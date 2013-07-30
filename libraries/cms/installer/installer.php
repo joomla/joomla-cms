@@ -139,6 +139,7 @@ class JInstaller extends JAdapter
 		{
 			self::$instance = new JInstaller;
 		}
+
 		return self::$instance;
 	}
 
@@ -459,6 +460,9 @@ class JInstaller extends JAdapter
 
 			if ($result !== false)
 			{
+				// Refresh versionable assets cache
+				JFactory::getApplication()->flushAssets();
+
 				return true;
 			}
 			else
@@ -542,6 +546,9 @@ class JInstaller extends JAdapter
 
 					if ($result !== false)
 					{
+						// Refresh versionable assets cache
+						JFactory::getApplication()->flushAssets();
+
 						return true;
 					}
 					else
@@ -617,12 +624,14 @@ class JInstaller extends JAdapter
 		else
 		{
 			$this->abort(JText::_('JLIB_INSTALLER_ABORT_NOUPDATEPATH'));
+
 			return false;
 		}
 
 		if (!$this->setupInstall())
 		{
 			$this->abort(JText::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'));
+
 			return false;
 		}
 
@@ -701,6 +710,9 @@ class JInstaller extends JAdapter
 				'onExtensionAfterUninstall',
 				array('installer' => clone $this, 'eid' => $identifier, 'result' => $result)
 			);
+
+			// Refresh versionable assets cache
+			JFactory::getApplication()->flushAssets();
 
 			return $result;
 		}
@@ -1104,13 +1116,13 @@ class JInstaller extends JAdapter
 								}
 
 								// Process each query in the $queries array (split out of sql file).
-								foreach ($queries as $q)
+								foreach ($queries as $query)
 								{
-									$q = trim($q);
+									$query = trim($query);
 
-									if ($q != '' && $q{0} != '#')
+									if ($query != '' && $query{0} != '#')
 									{
-										$db->setQuery($q);
+										$db->setQuery($query);
 
 										if (!$db->execute())
 										{
@@ -1488,6 +1500,7 @@ class JInstaller extends JAdapter
 		{
 			return '{}';
 		}
+
 		// Getting the fieldset tags
 		$fieldsets = $this->manifest->config->fields->fieldset;
 
@@ -1557,7 +1570,6 @@ class JInstaller extends JAdapter
 		 */
 		if (is_array($files) && count($files) > 0)
 		{
-
 			foreach ($files as $file)
 			{
 				// Get the source and destination paths
@@ -1577,7 +1589,6 @@ class JInstaller extends JAdapter
 				}
 				elseif (($exists = file_exists($filedest)) && !$overwrite)
 				{
-
 					// It's okay if the manifest already exists
 					if ($this->getPath('manifest') == $filesource)
 					{
@@ -1845,7 +1856,6 @@ class JInstaller extends JAdapter
 		// If at least one XML file exists
 		if (!empty($xmlfiles))
 		{
-
 			foreach ($xmlfiles as $file)
 			{
 				// Is it a valid Joomla installation manifest file?
@@ -2016,6 +2026,7 @@ class JInstaller extends JAdapter
 						{
 							$container .= '/';
 						}
+
 						// Aappend the folder part
 						$container .= $part;
 
