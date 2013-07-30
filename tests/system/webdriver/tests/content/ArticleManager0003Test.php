@@ -61,14 +61,14 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 	public function frontEndArchivedArticle_ChangeToArchived_ArticleArchived()
 	{
 		$cfg = new SeleniumConfig();
-    		$archivedArticlePath = 'index.php/using-joomla/extensions/components/content-component/archived-articles';
-    		$this->driver->get($cfg->host.$cfg->path.$archivedArticlePath);
-    		$arrayElement = $this->driver->findElements(By::xPath("//h2//a[contains(text(), 'Beginners')]"));
-    		$this->assertEquals(count($arrayElement),0, 'Beginners Must Not be Present');
-    		$article_manager='administrator/index.php?option=com_content';
-    		$this->driver->get($cfg->host.$cfg->path.$article_manager);
-    		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
-    		$this->articleManagerPage->changeArticleState('Beginners', 'archived');
+		$archivedArticlePath = 'index.php/using-joomla/extensions/components/content-component/archived-articles';
+		$this->driver->get($cfg->host.$cfg->path.$archivedArticlePath);
+		$arrayElement = $this->driver->findElements(By::xPath("//h2//a[contains(text(), 'Beginners')]"));
+		$this->assertEquals(count($arrayElement),0, 'Beginners Must Not be Present');
+		$article_manager='administrator/index.php?option=com_content';
+		$this->driver->get($cfg->host.$cfg->path.$article_manager);
+		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
+		$this->articleManagerPage->changeArticleState('Beginners', 'archived');
     		$this->driver->get($cfg->host.$cfg->path.$archivedArticlePath);
     		$arrayElement = $this->driver->findElements(By::xPath("//h2//a[contains(text(), 'Beginners')]"));
     		$this->assertTrue(count($arrayElement)>0, 'Beginners Must be Present');
