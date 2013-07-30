@@ -40,8 +40,30 @@ class JFormFieldList extends JFormField
 		$html = array();
 		$attr = '';
 
+		// Get the field options.
+		$options = (array) $this->getOptions();
+
+		// Default to the class "advancedSelect" to support Chosen.
+		$class	= (string) $this->element['class'];
+		if (!$class)
+		{
+			$class = 'advancedSelect';
+		}
+
+		// In case of a huge amount of options we disable Chosen by removing the "advancedSelect" class.
+		if ($class && (count($options) > 10000))
+		{
+			$classes	= explode(' ', $class);
+			$key		= array_search('advancedSelect', $classes);
+			if (is_int($key))
+			{
+				unset($classes[$key]);
+				$class	= implode(' ', $classes);
+			}
+		}
+
 		// Initialize some field attributes.
-		$attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
+		$attr .= $class ? ' class="' . $class . '"' : '';
 
 		// To avoid user's confusion, readonly="true" should imply disabled="true".
 		if ((string) $this->element['readonly'] == 'true' || (string) $this->element['disabled'] == 'true')
@@ -55,9 +77,6 @@ class JFormFieldList extends JFormField
 
 		// Initialize JavaScript field attributes.
 		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
-
-		// Get the field options.
-		$options = (array) $this->getOptions();
 
 		// Create a read-only list (no name) with a hidden input to store the value.
 		if ((string) $this->element['readonly'] == 'true')
