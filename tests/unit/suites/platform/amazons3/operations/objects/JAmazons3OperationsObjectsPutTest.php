@@ -61,6 +61,13 @@ class JAmazons3OperationsObjectsPutTest extends PHPUnit_Framework_TestCase
 		);
 		$this->options->set("testPartNumber", "1");
 		$this->options->set("testUploadId", "VCVsb2FkIElEIGZvciBlbZZpbmcncyBteS1tb3ZpZS5tMnRzIHVwbG9hZR");
+		$this->options->set(
+			"testCopySource",
+			array(
+				"x-amz-copy-source" => "/jgsoc/my-movie.m2ts?versionId=OYcLXagmS.WaD..oyH4KRguB95_YhLs7",
+				"x-amz-copy-source-range" => "bytes=500-6291456",
+			)
+		);
 
 		$this->client = $this->getMock('JAmazons3Http', array('delete', 'get', 'head', 'put', 'post', 'optionss3'));
 
@@ -293,6 +300,44 @@ class JAmazons3OperationsObjectsPutTest extends PHPUnit_Framework_TestCase
 				$this->options->get("testObject"),
 				$this->options->get("testPartNumber"),
 				$this->options->get("testUploadId")
+			),
+			$this->equalTo(null)
+		);
+	}
+
+	/**
+	 * Tests the uploadPartCopy method
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testUploadPartCopy()
+	{
+		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url")
+			. "/" . $this->options->get("testObject") . "?partNumber=" . $this->options->get("testPartNumber")
+			. "&uploadId=" . $this->options->get("testUploadId");
+		$content = "";
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+			"x-amz-copy-source" => "/jgsoc/my-movie.m2ts?versionId=OYcLXagmS.WaD..oyH4KRguB95_YhLs7",
+			"x-amz-copy-source-range" => "bytes=500-6291456",
+		);
+		$authorization = $this->object->createAuthorization("PUT", $url, $headers);
+		$headers['Authorization'] = $authorization;
+
+		$this->client->expects($this->once())
+			->method('put')
+			->with($url, $content, $headers)
+			->will($this->returnValue(null));
+
+		$this->assertThat(
+			$this->object->put->uploadPartCopy(
+				$this->options->get("testBucket"),
+				$this->options->get("testObject"),
+				$this->options->get("testPartNumber"),
+				$this->options->get("testUploadId"),
+				$this->options->get("testCopySource")
 			),
 			$this->equalTo(null)
 		);
