@@ -25,7 +25,32 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-; Below is merged into v3.1.2
+30-Jul-2013 Jean-Marie Simonet
+ # [#31609] *Regression: [#30150] prevents subcategories drilldowns
+
+28-Jul-2013 Jean-Marie Simonet
+ # [#31585] Can't add tags to articles in 3.1.4. Thanks Roberto Segura
+
+27-Jul-2013 Michael Babker
+ # [#31565] CamelCased view classes are broken in J!3.1.4.  Thanks Jean-Marie Simonet
+
+27-Jul-2013 Jean-Marie Simonet
+ # [#31590] *New registration password field is displayed as Optional
+
+-------------------- 3.1.4 Stable Release [26-Jul-2013] ------------------
+
+25-Jul-2013 Michael Babker
+ # [#31550] SQL error if profiling not available/not activated in mysql (3.1.2 pre release).  Thanks Beat
+
+24-Jul-2013 Jean-Marie Simonet
+ # [#31548] Toolbar: Different version of CSS vs LESS files + mobile resolution fixes. Thanks Roberto Segura
+
+23-Jul-2013 Michael Babker
+ # [#31500] Hathor: No Batch at some Managers.  Thanks Angelika Reisiger
+ # [#31547] IDN library missing from update sql files 3.1.2+master.  Thanks Elin Waring
+ # Incorrect quoting in PostgreSQL 3.1.2 updates.
+
+-------------------- 3.1.2 Stable Release [23-Jul-2013] ------------------
 
 21-Jul-2013 Mark Dexter
  ^ [#31319] registration option disabled by default is safer. Thanks Brian Teeman.
