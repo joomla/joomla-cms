@@ -108,7 +108,7 @@ class ContentModelArticle extends JModelItem
 
 				// Get contact id
 				$subQuery = $db->getQuery(true);
-					if ($config->get('dbtype') == 'sqlsrv')
+					if ($config->get('dbtype') == 'sqlsrv' || $config->get('dbtype') == 'sqlazure')
 					{
 						$subQuery->select('contact.user_id, MAX(contact.id) AS id, contact.language');
 					}
@@ -119,7 +119,7 @@ class ContentModelArticle extends JModelItem
 
 					$subQuery->from('#__contact_details AS contact')
 						->where('contact.published = 1');
-					if ($config->get('dbtype') == 'sqlsrv')
+					if ($config->get('dbtype') == 'sqlsrv'  || $config->get('dbtype') == 'sqlazure')
 					{
 						$subquery->group('contact.user_id, contact.language');
 		-				$onjoin = 'contact.user_id = a.created_by';

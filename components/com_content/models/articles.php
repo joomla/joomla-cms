@@ -215,7 +215,7 @@ class ContentModelArticles extends JModelList
 		// Get contact id
 		$subQuery = $db->getQuery(true);
 
-			if ($config->get('dbtype') == 'sqlsrv')
+			if ($config->get('dbtype') == 'sqlsrv' || $config->get('dbtype') == 'sqlazure')
 			{
 				$subQuery->select('contact.user_id, MAX(contact.id) AS id, contact.language');
 			}
@@ -227,7 +227,7 @@ class ContentModelArticles extends JModelList
 			$subQuery->from('#__contact_details AS contact')
 			->where('contact.published = 1');
 
-			if ($config->get('dbtype') == 'sqlsrv')
+			if ($config->get('dbtype') == 'sqlsrv' || $config->get('dbtype') == 'sqlazure')
 			{
 						$subQuery->group('contact.user_id, contact.language');
 
@@ -530,7 +530,7 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Add the list ordering clause.
-		if ($config->get('dbtype') == 'sqlsrv')
+		if ($config->get('dbtype') == 'sqlsrv' || $config->get('dbtype') == 'sqlazire')
 		{
 			$query->order($this->getState('list.ordering', 'a.ordering') . ' ' . $this->getState('list.direction', 'ASC'))
 						->group('a.id, a.title, a.alias, a.introtext, a.checked_out, a.checked_out_time, a.catid, a.created, a.created_by, a.created_by_alias, a.created, a.modified, a.modified_by, uam.name, a.publish_up, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, a.hits, a.xreference, a.featured, a.fulltext, a.state, a.publish_down, badcats.id, c.title, c.path, c.access, c.alias, uam.id, ua.name, ua.email, contact.id, parent.title, parent.id, parent.path, parent.alias, v.rating_sum, v.rating_count, c.published, c.lft, a.ordering, parent.lft, fp.ordering, c.id, a.images, a.urls');
