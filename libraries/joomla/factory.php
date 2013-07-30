@@ -716,8 +716,16 @@ abstract class JFactory
 		$input = self::getApplication()->input;
 		$type = $input->get('format', 'html', 'word');
 
-		$attributes = array('charset' => 'utf-8', 'lineend' => 'unix', 'tab' => '  ', 'language' => $lang->getTag(),
-			'direction' => $lang->isRTL() ? 'rtl' : 'ltr');
+		$version = new JVersion;
+
+		$attributes = array(
+			'charset' => 'utf-8',
+			'lineend' => 'unix',
+			'tab' => '  ',
+			'language' => $lang->getTag(),
+			'direction' => $lang->isRTL() ? 'rtl' : 'ltr',
+			'mediatag' => $version->getMediaTag()
+		);
 
 		return JDocument::getInstance($type, $attributes);
 	}

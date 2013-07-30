@@ -137,4 +137,93 @@ final class JVersion
 			return $this->PRODUCT . '/' . $this->RELEASE . '.' . $this->DEV_LEVEL . ($component ? ' ' . $component : '');
 		}
 	}
+
+	/**
+	 * Gets a media tag which is used to append to Joomla core media files.
+	 *
+	 * This media tag is used to append to Joomla core media in order to trick browsers into
+	 * reloading the CSS and JavaScript, because they think the files are renewed.
+	 * The media tag is renewed after Joomla core update, install, discover_install and uninstallation.
+	 *
+	 * @return  string  The media tag.
+	 *
+	 * @since	3.1.5
+	 */
+	public function getMediaTag()
+	{
+		// Load the media tag and cache it for future use
+		static $mediaTag = null;
+
+		if ($mediaTag === null)
+		{
+			$db = JFactory::getDbo();
+			$config = JFactory::getConfig();
+			$debugEnabled = $config->get('debug', 0);
+
+			// Get the parameters of the Joomla library
+			$query = $db->getQuery(true)
+				->select($db->quoteName('params'))
+				->from($db->quoteName('#__extensions'))
+				->where($db->quoteName('type').' = '.$db->quote('library'))
+				->where($db->quoteName('element').' = '.$db->quote('joomla'));
+			$db->setQuery($query);
+			$rawparams = $db->loadResult();
+			$params = new JRegistry();
+			$params->loadString($rawparams, 'JSON');
+
+			// Get the mediatag
+			$mediaTag = $params->get('mediatag', '');
+
+			// Refresh assets in debug mode or when $mediaTag is not set
+			if ($debugEnabled || empty($mediaTag))
+			{
+				$date = new JDate();
+				$mediaTag = md5($this->getLongVersion() . $config->get('secret') . $date->toUnix());
+
+				$this->setMediaTag($mediaTag);
+			}
+		}
+
+		return $mediaTag;
+	}
+
+	/**
+	 * Sets the media tag which is used to append to Joomla core media files.
+	 *
+	 * @param	string	$mediaTag	The media tag.
+	 *
+	 * @return  JVersion instance of $this to allow chaining.
+	 *
+	 * @since	3.1.5
+	 */
+	public function setMediaTag($mediaTag)
+	{
+		$db = JFactory::getDbo();
+
+		// Get the parameters of the Joomla library
+		$query = $db->getQuery(true)
+			->select($db->quoteName('params'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('type').' = '.$db->quote('library'))
+			->where($db->quoteName('element').' = '.$db->quote('joomla'));
+		$db->setQuery($query);
+		$rawparams = $db->loadResult();
+		$params = new JRegistry();
+		$params->loadString($rawparams, 'JSON');
+
+		// Set $mediaTag
+		$params->set('mediatag', $mediaTag);
+
+		// Store the updated $params
+		$data = $params->toString('JSON');
+		$query = $db->getQuery(true)
+			->update($db->quoteName('#__extensions'))
+			->set($db->quoteName('params') . ' = ' . $db->quote($data))
+			->where($db->quoteName('type') . ' = ' . $db->quote('library'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('joomla'));
+		$db->setQuery($query);
+		$db->execute();
+
+		return $this;
+	}
 }
