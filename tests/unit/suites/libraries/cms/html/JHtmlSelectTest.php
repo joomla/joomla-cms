@@ -25,6 +25,18 @@ class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   3.1
 	 */
+	public function getGenericlistData()
+	{
+		return JHtmlSelectTest_DataSet::$genericTest;
+	}
+
+	/**
+	 * Test...
+	 *
+	 * @return  array
+	 *
+	 * @since   3.1
+	 */
 	public function getOptionsData()
 	{
 		return JHtmlSelectTest_DataSet::$optionsTest;
@@ -60,16 +72,37 @@ class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test...
 	 *
-	 * @todo Implement testGenericlist().
+	 * @param   string   $expected   @todo
+	 * @param   array    $data       @todo
+	 * @param   string   $name       @todo
+	 * @param   mixed    $attribs    @todo
+	 * @param   string   $optKey     @todo
+	 * @param   string   $optText    @todo
+	 * @param   mixed    $selected   @todo
+	 * @param   mixed    $idtag      @todo
+	 * @param   boolean  $translate  @todo
 	 *
 	 * @return void
+	 *
+	 * @dataProvider  getGenericlistData
 	 */
-	public function testGenericlist()
+	public function testGenericlist($expected, $data, $name, $attribs = null, $optKey = 'value', $optText = 'text',
+		$selected = null, $idtag = false, $translate = false)
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+		if (func_num_args() == 4)
+		{
+			$this->assertEquals(
+				$expected,
+				JHtml::_('select.genericlist', $data, $name, $attribs)
+			);
+		}
+		else
+		{
+			$this->assertEquals(
+				$expected,
+				JHtml::_('select.genericlist', $data, $name, $attribs, $optKey, $optText, $selected, $idtag, $translate)
+			);
+		}
 	}
 
 	/**

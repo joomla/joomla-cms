@@ -16,6 +16,62 @@
  */
 class JHtmlSelectTest_DataSet
 {
+	static public $genericTest = array(
+		// @todo remove: array($expected, $data, $name, $attribs = null, $optKey = 'value', $optText = 'text',
+		// 						$selected = null, $idtag = false, $translate = false)
+		array(
+			"<select id=\"myName\" name=\"myName\">\n\t<option value=\"1\">Foo</option>\n\t<option value=\"2\">Bar</option>\n</select>\n",
+			array(
+				array(
+					'value' => '1',
+					'text' => 'Foo',
+				),
+				array(
+					'value' => '2',
+					'text' => 'Bar',
+				),
+			),
+			'myName',
+		),
+		array(
+			"<select id=\"myId\" name=\"myName\">\n\t<option value=\"1\">Foo</option>\n\t<option value=\"2\" selected=\"selected\">Bar</option>\n</select>\n",
+			array(
+				array(
+					'value' => '1',
+					'text' => 'Foo',
+				),
+				array(
+					'value' => '2',
+					'text' => 'Bar',
+				),
+			),
+			'myName',
+			null,
+			'value',
+			'text',
+			'2',
+			'myId',
+		),
+		array(
+			"<select id=\"myId\" name=\"myName\">\n\t<option value=\"1\">Foo</option>\n\t<option value=\"2\" selected=\"selected\">Bar</option>\n</select>\n",
+			array(
+				array(
+					'value' => '1',
+					'text' => 'Foo',
+				),
+				array(
+					'value' => '2',
+					'text' => 'Bar',
+				),
+			),
+			'myName',
+			array(
+				'id' => 'myId',
+				'list.select' => '2',
+			),
+		),
+	);
+
 	static public $optionsTest = array(
 		// @todo remove: array($expected, $arr, $optKey = 'value', $optText = 'text', $selected = null, $translate = false)
 		array(
