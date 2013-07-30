@@ -206,4 +206,49 @@ class JAmazons3OperationsObjectsPut extends JAmazons3OperationsObjects
 
 		return null;
 	}
+
+	/**
+	 * This operation uploads a part in a multipart upload.
+	 *
+	 * @param   string  $bucket          The name of the bucket to upload to
+	 * @param   string  $object          The name of the uploaded file
+	 * @param   string  $partNumber      The part number
+	 * @param   string  $uploadId        The upload ID
+	 * @param   string  $requestHeaders  An array containing request headers
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function uploadPart($bucket, $object, $partNumber, $uploadId, $requestHeaders = null)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/"
+			. $object . "?partNumber=" . $partNumber . "&uploadId=" . $uploadId;
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+		);
+
+		// Check for request headers
+		if (is_array($requestHeaders))
+		{
+			foreach ($requestHeaders as $key => $value)
+			{
+				$headers[$key] = $value;
+			}
+		}
+
+		$authorization = $this->createAuthorization("PUT", $url, $headers);
+		$headers["Authorization"] = $authorization;
+
+		// Send the http request
+		$response = $this->client->put($url, "", $headers);
+
+		if (! is_null($response))
+		{
+			// Process the response
+			return $this->processResponse($response);
+		}
+
+		return null;
+	}
 }
