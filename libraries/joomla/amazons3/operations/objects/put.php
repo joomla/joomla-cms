@@ -142,13 +142,56 @@ class JAmazons3OperationsObjectsPut extends JAmazons3OperationsObjects
 		// Check for request headers
 		if (is_array($requestHeaders))
 		{
-			foreach ($requestHeaders as $aclPermission => $aclGrantee)
+			foreach ($requestHeaders as $key => $value)
 			{
-				$headers[$aclPermission] = $aclGrantee;
+				$headers[$key] = $value;
 			}
 		}
 
 		$headers["x-amz-copy-source"] = $copySource;
+		$authorization = $this->createAuthorization("PUT", $url, $headers);
+		$headers["Authorization"] = $authorization;
+
+		// Send the http request
+		$response = $this->client->put($url, "", $headers);
+
+		if (! is_null($response))
+		{
+			// Process the response
+			return $this->processResponse($response);
+		}
+
+		return null;
+	}
+
+	/**
+	 * This operation initiates a multipart upload and returns an upload ID
+	 *
+	 * @param   string  $bucket          The name of the bucket to upload to
+	 * @param   string  $object          The name of the uploaded file
+	 * @param   string  $requestHeaders  An array containing request headers
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function initiateMultipartUpload($bucket, $object, $requestHeaders = null)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/"
+			. $object . "?uploads";
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+		);
+
+		// Check for request headers
+		if (is_array($requestHeaders))
+		{
+			foreach ($requestHeaders as $key => $value)
+			{
+				$headers[$key] = $value;
+			}
+		}
+
 		$authorization = $this->createAuthorization("PUT", $url, $headers);
 		$headers["Authorization"] = $authorization;
 
