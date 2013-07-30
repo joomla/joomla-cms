@@ -414,6 +414,7 @@ abstract class JHtmlSelect
 			$options['option.text'] = $optText;
 			$options['disable'] = $disable;
 		}
+
 		$obj = new stdClass;
 		$obj->$options['option.key'] = $value;
 		$obj->$options['option.text'] = trim($text) ? $text : $value;
@@ -445,6 +446,7 @@ abstract class JHtmlSelect
 		{
 			$obj->$options['option.disable'] = $options['disable'];
 		}
+
 		return $obj;
 	}
 
@@ -722,6 +724,7 @@ abstract class JHtmlSelect
 			{
 				$extra .= ((string) $k == (string) $selected ? ' checked="checked"' : '');
 			}
+
 			$html .= "\n\t" . '<label for="' . $id_text . $k . '" id="' . $id_text . $k . '-lbl" class="radio">';
 			$html .= "\n\t\n\t" . '<input type="radio" name="' . $name . '" id="' . $id_text . $k . '" value="' . $k . '" ' . $extra . ' '
 				. $attribs . '>' . $t;
