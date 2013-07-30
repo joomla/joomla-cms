@@ -94,11 +94,11 @@ class JAmazons3OperationsObjectsPostTest extends PHPUnit_Framework_TestCase
 		$content = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 			. "<Delete>\n"
 			. "<Object>\n"
-			. "<Key>" . "404.txt" . "</Key>\n"
+			. "<Key>404.txt</Key>\n"
 			. "</Object>\n"
 			. "<Object>\n"
-			. "<Key>" . "SampleDocument.txt" . "</Key>\n"
-			. "<VersionId>" . "OYcLXagmS.WaD..oyH4KRguB95_YhLs7" . "</VersionId>\n"
+			. "<Key>SampleDocument.txt</Key>\n"
+			. "<VersionId>OYcLXagmS.WaD..oyH4KRguB95_YhLs7</VersionId>\n"
 			. "</Object>\n"
 			. "</Delete>";
 
@@ -146,11 +146,11 @@ class JAmazons3OperationsObjectsPostTest extends PHPUnit_Framework_TestCase
 			. "<Delete>\n"
 			. "<Quiet>true</Quiet>\n"
 			. "<Object>\n"
-			. "<Key>" . "404.txt" . "</Key>\n"
+			. "<Key>404.txt</Key>\n"
 			. "</Object>\n"
 			. "<Object>\n"
-			. "<Key>" . "SampleDocument.txt" . "</Key>\n"
-			. "<VersionId>" . "OYcLXagmS.WaD..oyH4KRguB95_YhLs7" . "</VersionId>\n"
+			. "<Key>SampleDocument.txt</Key>\n"
+			. "<VersionId>OYcLXagmS.WaD..oyH4KRguB95_YhLs7</VersionId>\n"
 			. "</Object>\n"
 			. "</Delete>";
 

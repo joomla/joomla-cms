@@ -68,6 +68,23 @@ class JAmazons3OperationsObjectsPutTest extends PHPUnit_Framework_TestCase
 				"x-amz-copy-source-range" => "bytes=500-6291456",
 			)
 		);
+		$this->options->set(
+			"testParts",
+			array(
+				array(
+					"PartNumber" => "1",
+					"ETag" => "a54357aff0632cce46d942af68356b38",
+				),
+				array(
+					"PartNumber" => "2",
+					"ETag" => "0c78aef83f66abc1fa1e8477f296d394",
+				),
+				array(
+					"PartNumber" => "3",
+					"ETag" => "acbd18db4cc2f85cedef654fccc4a4d8",
+				),
+			)
+		);
 
 		$this->client = $this->getMock('JAmazons3Http', array('delete', 'get', 'head', 'put', 'post', 'optionss3'));
 
@@ -340,6 +357,64 @@ class JAmazons3OperationsObjectsPutTest extends PHPUnit_Framework_TestCase
 				$this->options->get("testCopySource")
 			),
 			$this->equalTo(null)
+		);
+	}
+
+	/**
+	 * Tests the completeMultipartUpload method
+	 *
+	 * @return  void
+	 *
+	 * @since   ??.?
+	 */
+	public function testCompleteMultipartUpload()
+	{
+		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url")
+			. "/" . $this->options->get("testObject") . "?uploadId=" . $this->options->get("testUploadId");
+
+		$content = "<CompleteMultipartUpload>\n"
+			. "<Part>\n"
+			. "<PartNumber>1</PartNumber>\n"
+			. "<ETag>a54357aff0632cce46d942af68356b38</ETag>\n"
+			. "</Part>\n"
+			. "<Part>\n"
+			. "<PartNumber>2</PartNumber>\n"
+			. "<ETag>0c78aef83f66abc1fa1e8477f296d394</ETag>\n"
+			. "</Part>\n"
+			. "<Part>\n"
+			. "<PartNumber>3</PartNumber>\n"
+			. "<ETag>acbd18db4cc2f85cedef654fccc4a4d8</ETag>\n"
+			. "</Part>\n"
+			. "</CompleteMultipartUpload>";
+
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+			"Content-type" => "application/x-www-form-urlencoded; charset=utf-8",
+			"Content-Length" => strlen($content),
+			"Content-MD5" => base64_encode(md5($content, true)),
+		);
+		$authorization = $this->object->createAuthorization("PUT", $url, $headers);
+		$headers['Authorization'] = $authorization;
+		unset($headers["Content-type"]);
+
+		$returnData = new JHttpResponse;
+		$returnData->code = 200;
+		$returnData->body = "Response code: " . $returnData->code . ".\n";
+		$expectedResult = $returnData->body;
+
+		$this->client->expects($this->once())
+			->method('put')
+			->with($url, $content, $headers)
+			->will($this->returnValue($returnData));
+
+		$this->assertThat(
+			$this->object->put->completeMultipartUpload(
+				$this->options->get("testBucket"),
+				$this->options->get("testObject"),
+				$this->options->get("testUploadId"),
+				$this->options->get("testParts")
+			),
+			$this->equalTo($expectedResult)
 		);
 	}
 }

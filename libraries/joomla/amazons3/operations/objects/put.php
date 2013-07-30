@@ -298,4 +298,55 @@ class JAmazons3OperationsObjectsPut extends JAmazons3OperationsObjects
 
 		return null;
 	}
+
+	/**
+	 * This operation completes a multipart upload by assembling previously uploaded parts.
+	 *
+	 * @param   string  $bucket    The name of the bucket to upload to
+	 * @param   string  $object    The name of the uploaded file
+	 * @param   string  $uploadId  The upload ID
+	 * @param   string  $parts     An array of PartNumber and ETag pairs
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function completeMultipartUpload($bucket, $object, $uploadId, $parts)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/"
+			. $object . "?uploadId=" . $uploadId;
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+		);
+		$content = "";
+
+		if (is_array($parts))
+		{
+			$content = "<CompleteMultipartUpload>\n";
+
+			foreach ($parts as $part)
+			{
+				$content .= "<Part>\n";
+				$content .= "<PartNumber>" . $part["PartNumber"] . "</PartNumber>\n";
+				$content .= "<ETag>" . $part["ETag"] . "</ETag>\n";
+				$content .= "</Part>\n";
+			}
+
+			$content .= "</CompleteMultipartUpload>";
+		}
+
+		// Set the content related headers
+		$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
+		$headers["Content-Length"] = strlen($content);
+		$headers["Content-MD5"] = base64_encode(md5($content, true));
+		$authorization = $this->createAuthorization("PUT", $url, $headers);
+		$headers["Authorization"] = $authorization;
+		unset($headers["Content-type"]);
+
+		// Send the http request
+		$response = $this->client->put($url, $content, $headers);
+
+		// Process the response
+		return $this->processResponse($response);
+	}
 }
