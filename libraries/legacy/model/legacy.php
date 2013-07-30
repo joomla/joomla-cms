@@ -262,6 +262,7 @@ abstract class JModelLegacy extends JObject
 		elseif (defined('JPATH_COMPONENT_ADMINISTRATOR'))
 		{
 			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
+			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/table');
 		}
 
 		// Set the internal state marker - used to ignore setting state from the request
@@ -303,20 +304,34 @@ abstract class JModelLegacy extends JObject
 	}
 
 	/**
-	 * Returns a record count for the query
+	 * Returns a record count for the query.
 	 *
-	 * @param   string  $query  The query.
+	 * @param   JDatabaseQuery|string  $query  The query.
 	 *
-	 * @return  integer  Number of rows for query
+	 * @return  integer  Number of rows for query.
 	 *
 	 * @since   12.2
 	 */
 	protected function _getListCount($query)
 	{
+		// Use fast COUNT(*) on JDatabaseQuery objects if there no GROUP BY or HAVING clause:
+		if ($query instanceof JDatabaseQuery
+			&& $query->type == 'select'
+			&& $query->group === null
+			&& $query->having === null)
+		{
+			$query = clone $query;
+			$query->clear('select')->clear('order')->select('COUNT(*)');
+
+			$this->_db->setQuery($query);
+			return (int) $this->_db->loadResult();
+		}
+
+		// Otherwise fall back to inefficient way of counting all results.
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 
-		return $this->_db->getNumRows();
+		return (int) $this->_db->getNumRows();
 	}
 
 	/**

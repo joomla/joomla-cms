@@ -336,6 +336,7 @@ class JMediawikiUsers extends JMediawikiObject
 		$path = '?action=unblock';
 
 		// Build the request data.
+		// TODO: $data doesn't seem to be used!
 		$data = array(
 			'id' => $id,
 			'token' => $token,

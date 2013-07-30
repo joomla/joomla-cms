@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
  */
 abstract class ModTagsPopularHelper
 {
-	public static function getList($params)
+	public static function getList(&$params)
 	{
 		$db        = JFactory::getDbo();
 		$user      = JFactory::getUser();

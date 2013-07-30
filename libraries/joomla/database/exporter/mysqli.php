@@ -95,18 +95,7 @@ class JDatabaseExporterMysqli extends JDatabaseExporter
 		// Check everything is ok to run first.
 		$this->check();
 
-		$buffer = '';
-
-		// Get the format.
-		switch ($this->asFormat)
-		{
-			case 'xml':
-			default:
-				$buffer = $this->buildXml();
-				break;
-		}
-
-		return $buffer;
+		return $this->buildXml();
 	}
 
 	/**
@@ -172,16 +161,16 @@ class JDatabaseExporterMysqli extends JDatabaseExporter
 
 			foreach ($fields as $field)
 			{
-				$buffer[] = '   <field Field="' . $field->Field . '" Type="' . $field->Type . '" Null="' . $field->Null . '" Key="' .
+				$buffer[] = '   <field Field="' . $field->Field . '"' . ' Type="' . $field->Type . '"' . ' Null="' . $field->Null . '"' . ' Key="' .
 					$field->Key . '"' . (isset($field->Default) ? ' Default="' . $field->Default . '"' : '') . ' Extra="' . $field->Extra . '"' .
 					' />';
 			}
 
 			foreach ($keys as $key)
 			{
-				$buffer[] = '   <key Table="' . $table . '" Non_unique="' . $key->Non_unique . '" Key_name="' . $key->Key_name . '"' .
-					' Seq_in_index="' . $key->Seq_in_index . '" Column_name="' . $key->Column_name . '" Collation="' . $key->Collation . '"' .
-					' Null="' . $key->Null . '" Index_type="' . $key->Index_type . '" Comment="' . htmlspecialchars($key->Comment) . '"' .
+				$buffer[] = '   <key Table="' . $table . '"' . ' Non_unique="' . $key->Non_unique . '"' . ' Key_name="' . $key->Key_name . '"' .
+					' Seq_in_index="' . $key->Seq_in_index . '"' . ' Column_name="' . $key->Column_name . '"' . ' Collation="' . $key->Collation . '"' .
+					' Null="' . $key->Null . '"' . ' Index_type="' . $key->Index_type . '"' . ' Comment="' . htmlspecialchars($key->Comment) . '"' .
 					' />';
 			}
 

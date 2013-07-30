@@ -69,7 +69,7 @@ class PlgSystemSef extends JPlugin
 		}
 
 		// Replace src links
-		$base   = JURI::base(true).'/';
+		$base   = JUri::base(true).'/';
 		$buffer = JResponse::getBody();
 
 		$regex  = '#href="index.php\?([^"]*)#m';

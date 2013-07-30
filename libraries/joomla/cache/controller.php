@@ -171,7 +171,6 @@ class JCacheController
 	 */
 	public function get($id, $group = null)
 	{
-		$data = false;
 		$data = $this->cache->get($id, $group);
 
 		if ($data === false)
@@ -208,7 +207,7 @@ class JCacheController
 	 * @param   boolean  $wrkarounds  True to use wrkarounds
 	 *
 	 * @return  boolean  True if cache stored
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public function store($data, $id, $group = null, $wrkarounds = true)

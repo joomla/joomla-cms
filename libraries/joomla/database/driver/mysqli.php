@@ -82,10 +82,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 */
 	public function __destruct()
 	{
-		if (is_callable(array($this->connection, 'close')))
-		{
-			mysqli_close($this->connection);
-		}
+		$this->disconnect();
 	}
 
 	/**
@@ -157,6 +154,13 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 
 		// Set charactersets (needed for MySQL 4.1.2+).
 		$this->setUTF();
+
+		// Turn MySQL profiling ON in debug mode:
+		if ($this->debug && $this->hasProfiling())
+		{
+			mysqli_query($this->connection, "SET profiling_history_size = 100;");
+			mysqli_query($this->connection, "SET profiling = 1;");
+		}
 	}
 
 	/**
@@ -169,8 +173,13 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	public function disconnect()
 	{
 		// Close the connection.
-		if (is_callable($this->connection, 'close'))
+		if ($this->connection)
 		{
+			foreach ($this->disconnectHandlers as $h)
+			{
+				call_user_func_array($h, array( &$this));
+			}
+
 			mysqli_close($this->connection);
 		}
 
@@ -280,9 +289,20 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	{
 		$this->connect();
 
-		$this->setQuery('SHOW FULL COLUMNS FROM #__users');
+		$tables = $this->getTableList();
+
+		$this->setQuery('SHOW FULL COLUMNS FROM ' . $tables[0]);
 		$array = $this->loadAssocList();
-		return $array['2']['Collation'];
+
+		foreach ($array as $field)
+		{
+			if (!is_null($field['Collation']))
+			{
+				return $field['Collation'];
+			}
+		}
+
+		return null;
 	}
 
 	/**
@@ -428,7 +448,8 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Method to get the auto-incremented value from the last INSERT statement.
 	 *
-	 * @return  integer  The value of the auto-increment field from the last inserted row.
+	 * @return  mixed  The value of the auto-increment field from the last inserted row.
+	 *                 If the value is greater than maximal int value, it will return a string.
 	 *
 	 * @since   12.1
 	 */
@@ -484,6 +505,11 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		// Increment the query counter.
 		$this->count++;
 
+		// Reset the error values.
+		$this->errorNum = 0;
+		$this->errorMsg = '';
+		$memoryBefore = null;
+
 		// If debugging is enabled then let's log the query.
 		if ($this->debug)
 		{
@@ -491,14 +517,32 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 			$this->log[] = $query;
 
 			JLog::add($query, JLog::DEBUG, 'databasequery');
-		}
 
-		// Reset the error values.
-		$this->errorNum = 0;
-		$this->errorMsg = '';
+			$this->timings[] = microtime(true);
+
+			if (is_object($this->cursor))
+			{
+				$this->freeResult();
+			}
+			$memoryBefore = memory_get_usage();
+		}
 
 		// Execute the query. Error suppression is used here to prevent warnings/notices that the connection has been lost.
 		$this->cursor = @mysqli_query($this->connection, $query);
+
+		if ($this->debug)
+		{
+			$this->timings[] = microtime(true);
+			if (defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
+			{
+				$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+			}
+			else
+			{
+				$this->callStacks[] = debug_backtrace();
+			}
+			$this->callStacks[count($this->callStacks) - 1][0]['memory'] = array($memoryBefore, memory_get_usage(), is_object($this->cursor) ? $this->getNumRows() : null);
+		}
 
 		// If an error occurred handle it.
 		if (!$this->cursor)
@@ -600,49 +644,94 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	/**
 	 * Method to commit a transaction.
 	 *
+	 * @param   boolean  $toSavepoint  If true, commit to the last savepoint.
+	 *
 	 * @return  void
 	 *
 	 * @since   12.2
 	 * @throws  RuntimeException
 	 */
-	public function transactionCommit()
+	public function transactionCommit($toSavepoint = false)
 	{
 		$this->connect();
 
-		$this->setQuery('COMMIT');
-		$this->execute();
+		if (!$toSavepoint || $this->transactionDepth <= 1)
+		{
+			if ($this->setQuery('COMMIT')->execute())
+			{
+				$this->transactionDepth = 0;
+			}
+
+			return;
+		}
+
+		$this->transactionDepth--;
 	}
 
 	/**
 	 * Method to roll back a transaction.
 	 *
+	 * @param   boolean  $toSavepoint  If true, rollback to the last savepoint.
+	 *
 	 * @return  void
 	 *
 	 * @since   12.2
 	 * @throws  RuntimeException
 	 */
-	public function transactionRollback()
+	public function transactionRollback($toSavepoint = false)
 	{
 		$this->connect();
 
-		$this->setQuery('ROLLBACK');
-		$this->execute();
+		if (!$toSavepoint || $this->transactionDepth <= 1)
+		{
+			if ($this->setQuery('ROLLBACK')->execute())
+			{
+				$this->transactionDepth = 0;
+			}
+
+			return;
+		}
+
+		$savepoint = 'SP_' . ($this->transactionDepth - 1);
+		$this->setQuery('ROLLBACK TO SAVEPOINT ' . $this->quoteName($savepoint));
+
+		if ($this->execute())
+		{
+			$this->transactionDepth--;
+		}
 	}
 
 	/**
 	 * Method to initialize a transaction.
 	 *
+	 * @param   boolean  $asSavepoint  If true and a transaction is already active, a savepoint will be created.
+	 *
 	 * @return  void
 	 *
 	 * @since   12.2
 	 * @throws  RuntimeException
 	 */
-	public function transactionStart()
+	public function transactionStart($asSavepoint = false)
 	{
 		$this->connect();
 
-		$this->setQuery('START TRANSACTION');
-		$this->execute();
+		if (!$asSavepoint || !$this->transactionDepth)
+		{
+			if ($this->setQuery('START TRANSACTION')->execute())
+			{
+				$this->transactionDepth = 1;
+			}
+
+			return;
+		}
+
+		$savepoint = 'SP_' . $this->transactionDepth;
+		$this->setQuery('SAVEPOINT ' . $this->quoteName($savepoint));
+
+		if ($this->execute())
+		{
+			$this->transactionDepth++;
+		}
 	}
 
 	/**
@@ -700,6 +789,10 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	protected function freeResult($cursor = null)
 	{
 		mysqli_free_result($cursor ? $cursor : $this->cursor);
+		if ((! $cursor) || ($cursor === $this->cursor))
+		{
+			$this->cursor = null;
+		}
 	}
 
 	/**
@@ -715,5 +808,27 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		$this->setQuery('UNLOCK TABLES')->execute();
 
 		return $this;
+	}
+
+	/**
+	 * Internal function to check if profiling is available
+	 *
+	 * @return  boolean
+	 *
+	 * @since 3.1.3
+	 */
+	private function hasProfiling()
+	{
+		try
+		{
+			$res = mysqli_query($this->connection, "SHOW VARIABLES LIKE 'have_profiling'");
+			$row = mysqli_fetch_assoc($res);
+
+			return isset($row);
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
 	}
 }

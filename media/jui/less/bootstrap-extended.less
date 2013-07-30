@@ -439,7 +439,23 @@ input.invalid {
 	border: 1px solid @red;
 }
 
-/* Align tip text to left */
+/* Tweaking of tooltips */
+.tooltip {
+	max-width: 400px;
+}
+.tooltip-inner {
+	max-width: none;
+	text-align: left;
+	text-shadow: none;
+}
+th .tooltip-inner {
+	font-weight: normal;
+}
+.tooltip.hasimage {
+	opacity: 1;
+}
+
+/* Align tip text to left (old mootools tip) */
 .tip-text {
 	text-align:left;
 }

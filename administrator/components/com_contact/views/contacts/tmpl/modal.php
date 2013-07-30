@@ -9,7 +9,10 @@
 
 defined('_JEXEC') or die;
 
+require_once JPATH_ROOT . '/components/com_contact/helpers/route.php';
+
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+
 JHtml::_('bootstrap.tooltip');
 
 $input     = JFactory::getApplication()->input;
@@ -27,17 +30,16 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" size="30" title="<?php echo JText::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>" />
 			</div>
 			<div class="btn-group pull-left">
-				<button type="submit" class="btn hasTooltip" data-placement="bottom" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>">
+				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>" data-placement="bottom">
 					<i class="icon-search"></i></button>
-				<button type="button" class="btn hasTooltip" data-placement="bottom" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();">
+				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" data-placement="bottom" onclick="document.id('filter_search').value='';this.form.submit();">
 					<i class="icon-remove"></i></button>
 			</div>
-			<input onclick="if (window.parent) window.parent.<?php echo $this->escape($function);?>('0', '<?php echo $this->escape(addslashes(JText::_('COM_CONTACT_SELECT_A_CONTACT'))); ?>', null, null);" class="btn" type="button" value="<?php echo JText::_('COM_CONTACT_FIELD_VALUE_NONE'); ?>" />
 			<div class="clearfix"></div>
 		</div>
 		<hr class="hr-condensed" />
 
-		<div class="filters">
+		<div class="filters pull-left">
 			<select name="filter_access" class="input-medium" onchange="this.form.submit()">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
@@ -100,10 +102,30 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		</tfoot>
 		<tbody>
 		<?php foreach ($this->items as $i => $item) : ?>
+			<?php if ($item->language && JLanguageMultilang::isEnabled())
+			{
+				$tag = strlen($item->language);
+				if ($tag == 5)
+				{
+					$lang = substr($item->language, 0, 2);
+				}
+				elseif ($tag == 6)
+				{
+					$lang = substr($item->language, 0, 3);
+				}
+				else {
+					$lang = "";
+				}
+			}
+			elseif (!JLanguageMultilang::isEnabled())
+			{
+				$lang = "";
+			}
+			?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td>
-					<a class="pointer" onclick="if (window.parent) window.parent.<?php echo $this->escape($function);?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->name)); ?>');">
-						<?php echo $this->escape($item->name); ?></a>
+					<a href="javascript:void(0)" onclick="if (window.parent) window.parent.<?php echo $this->escape($function);?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->name)); ?>', '<?php echo $this->escape($item->catid); ?>', null, '<?php echo $this->escape(ContactHelperRoute::getContactRoute($item->id, $item->catid, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">
+					<?php echo $this->escape($item->name); ?></a>
 				</td>
 				<td align="center">
 					<?php if (!empty($item->linked_user)) : ?>

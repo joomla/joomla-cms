@@ -55,14 +55,20 @@ class JFormFieldSample extends JFormFieldRadio
 		$files = JFolder::files(JPATH_INSTALLATION . '/sql/' . $type, '^sample.*\.sql$');
 
 		// Add option to not install sampledata.
-		$options[] = JHtml::_('select.option', '', 'INSTL_SITE_INSTALL_SAMPLE_NONE');
+		$options[] = JHtml::_('select.option', '',
+			JHtml::_('tooltip', JText::_('INSTL_SITE_INSTALL_SAMPLE_NONE_DESC'), '', '', JText::_('INSTL_SITE_INSTALL_SAMPLE_NONE'))
+		);
 
 		// Build the options list from the list of files.
 		if (is_array($files))
 		{
 			foreach ($files as $file)
 			{
-				$options[] = JHtml::_('select.option', $file, $lang->hasKey($key = 'INSTL_' . ($file = JFile::stripExt($file)) . '_SET') ? $key : $file);
+				$options[] = JHtml::_('select.option', $file, $lang->hasKey($key = 'INSTL_' . ($file = JFile::stripExt($file)) . '_SET') ?
+					JHtml::_('tooltip', JText::_('INSTL_' . strtoupper($file = JFile::stripExt($file)) . '_SET_DESC'), '', '',
+						JText::_('INSTL_' . ($file = JFile::stripExt($file)) . '_SET')
+					) : $file
+				);
 			}
 		}
 
@@ -84,6 +90,7 @@ class JFormFieldSample extends JFormFieldRadio
 		if (!$this->value)
 		{
 			$conf = JFactory::getConfig();
+
 			if ($conf->get('sampledata'))
 			{
 				$this->value = $conf->get('sampledata');

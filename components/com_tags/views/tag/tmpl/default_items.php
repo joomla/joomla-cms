@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
-JHtml::_('behavior.tooltip');
+
 JHtml::_('behavior.framework');
 
 // Get the user object.
@@ -92,7 +92,7 @@ $n = count($this->items);
 		<?php endif; ?>
 			<?php echo $this->pagination->getPagesLinks(); ?>
 		</div>
-		</br>
+		<br/>
 	<?php endif; ?>
 </form>
 

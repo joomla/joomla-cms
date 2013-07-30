@@ -34,6 +34,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 	 * Use the parent element to indicate that the field will be used for assigning parent categories.
 	 *
 	 * @return  array  The field option objects.
+	 *
 	 * @since   1.6
 	 */
 	protected function getOptions()
@@ -56,7 +57,6 @@ class JFormFieldCategoryEdit extends JFormFieldList
 		else
 			// For items the old category is the category they are in when opened or 0 if new.
 		{
-			$thisItem = $jinput->get('id', 0);
 			$oldCat = $this->form->getValue($name, 0);
 			$extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $jinput->get('option', 'com_content');
 		}

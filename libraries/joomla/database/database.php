@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Database
  * @since       11.1
- * @deprecated  13.1 (Platform) & 4.0 (CMS)
+ * @deprecated  13.3 (Platform) & 4.0 (CMS)
  */
 abstract class JDatabase
 {
@@ -26,7 +26,7 @@ abstract class JDatabase
 	 *
 	 * @since   11.1
 	 * @throws  RuntimeException
-	 * @deprecated  13.1
+	 * @deprecated  13.1 (Platform) & 4.0 (CMS)
 	 */
 	public function query()
 	{
@@ -59,7 +59,7 @@ abstract class JDatabase
 	 *
 	 * @return  string  The error message for the most recent query.
 	 *
-	 * @deprecated  12.1
+	 * @deprecated  13.3 (Platform) & 4.0 (CMS)
 	 * @since   11.1
 	 */
 	public function getErrorMsg($escaped = false)
@@ -82,7 +82,7 @@ abstract class JDatabase
 	 * @return      integer  The error number for the most recent query.
 	 *
 	 * @since       11.1
-	 * @deprecated  12.1
+	 * @deprecated  13.3 (Platform) & 4.0 (CMS)
 	 */
 	public function getErrorNum()
 	{
@@ -140,7 +140,7 @@ abstract class JDatabase
 	 * @return  string  The error message for the most recent query.
 	 *
 	 * @since   11.1
-	 * @deprecated  12.1
+	 * @deprecated  13.3 (Platform) & 4.0 (CMS)
 	 */
 	public function stderr($showSQL = false)
 	{

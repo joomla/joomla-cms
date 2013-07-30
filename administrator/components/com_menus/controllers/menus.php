@@ -119,33 +119,33 @@ class MenusControllerMenus extends JControllerLegacy
 	public function resync()
 	{
 		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
 		$parts = null;
 
 		try
 		{
-			// Load a lookup table of all the component id's.
-			$components = $db->setQuery(
-				'SELECT element, extension_id' .
-					' FROM #__extensions' .
-					' WHERE type = ' . $db->quote('component')
-			)->loadAssocList('element', 'extension_id');
+			$query->select('element, extension_id')
+				->from('#__extensions')
+				->where('type = ' . $db->quote('component'));
+			$db->setQuery($query);
+
+			$components = $db->loadAssocList('element', 'extension_id');
 		}
 		catch (RuntimeException $e)
 		{
 			return JError::raiseWarning(500, $e->getMessage());
 		}
 
-		try
-		{
-			// Load all the component menu links
-			$query = $db->getQuery(true)
-				->select($db->quoteName('id'))
-				->select($db->quoteName('link'))
-				->select($db->quoteName('component_id'))
-				->from('#__menu')
-				->where($db->quoteName('type') . ' = ' . $db->quote('component.item'));
+		// Load all the component menu links
+		$query->select($db->quoteName('id'))
+			->select($db->quoteName('link'))
+			->select($db->quoteName('component_id'))
+			->from('#__menu')
+			->where($db->quoteName('type') . ' = ' . $db->quote('component.item'));
 			$db->setQuery($query);
 
+		try
+		{
 			$items = $db->loadObjectList();
 		}
 		catch (RuntimeException $e)
@@ -181,13 +181,14 @@ class MenusControllerMenus extends JControllerLegacy
 					$log = "Link $item->id refers to $item->component_id, converting to $componentId ($item->link)";
 					echo "<br/>$log";
 
+					$query->clear();
+					$query->update('#__menu')
+						->set('component_id = ' . $componentId)
+						->where('id = ' . $item->id);
+
 					try
 					{
-						$db->setQuery(
-							'UPDATE #__menu' .
-								' SET component_id = ' . $componentId .
-								' WHERE id = ' . $item->id
-						)->execute();
+						$db->setQuery($query)->execute();
 					}
 					catch (RuntimeException $e)
 					{

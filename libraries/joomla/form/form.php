@@ -1241,7 +1241,7 @@ class JForm
 					// If it looks like an internal link, then add the root.
 					if (substr($value, 0) == 'index.php')
 					{
-						$value = JURI::root() . $value;
+						$value = JUri::root() . $value;
 					}
 
 					// Otherwise we treat it is an external link.
@@ -1252,7 +1252,7 @@ class JForm
 				// If relative URLS are allowed we assume that URLs without protocols are internal.
 				elseif (!$protocol && $element['relative'])
 				{
-					$host = JURI::getInstance('SERVER')->gethost();
+					$host = JUri::getInstance('SERVER')->gethost();
 
 					// If it starts with the host string, just prepend the protocol.
 					if (substr($value, 0) == $host)
@@ -1262,7 +1262,7 @@ class JForm
 					// Otherwise prepend the root.
 					else
 					{
-						$value = JURI::root() . $value;
+						$value = JUri::root() . $value;
 					}
 				}
 

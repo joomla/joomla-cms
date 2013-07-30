@@ -12,9 +12,10 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
-// Load the tooltip behavior.
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
+
+// Load chosen.css
+JHtml::_('formbehavior.chosen', 'select');
 
 // Get the form fieldsets.
 $fieldsets = $this->form->getFieldsets();

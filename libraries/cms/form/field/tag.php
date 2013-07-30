@@ -112,10 +112,7 @@ class JFormFieldTag extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$options = array();
-
 		$published = $this->element['published']? $this->element['published'] : array(0,1);
-		$name = (string) $this->element['name'];
 
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true)
@@ -139,8 +136,6 @@ class JFormFieldTag extends JFormFieldList
 		}
 
 		$query->where($db->quoteName('a.alias') . ' <> ' . $db->quote('root'));
-
-		// Filter to only load active items
 
 		// Filter on the published state
 		if (is_numeric($published))

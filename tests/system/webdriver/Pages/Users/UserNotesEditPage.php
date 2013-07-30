@@ -23,7 +23,7 @@ class UserNotesEditPage extends AdminEditPage
 	 */
 	public $inputFields = array (
 			array('label' => 'Subject', 'id' => 'jform_subject', 'type' => 'input', 'tab' => 'none'),
-			array('label' => 'ID', 'id' => 'jform_user_id_id', 'type' => 'input', 'tab' => 'none'),
+			array('label' => 'ID', 'id' => 'jform_user_id_name', 'type' => 'input', 'tab' => 'none'),
 			array('label' => 'Category', 'id' => 'jform_catid', 'type' => 'select', 'tab' => 'none'),
 			array('label' => 'Status', 'id' => 'jform_state', 'type' => 'select', 'tab' => 'none'),
 			array('label' => 'Review time', 'id' => 'jform_review_time', 'type' => 'input', 'tab' => 'none'),
@@ -69,7 +69,7 @@ class UserNotesEditPage extends AdminEditPage
 		$el = $this->driver->waitForElementUntilIsPresent(By::id('filter_search'));
 		$el->clear();
 		$el->sendKeys($userName);
-		$this->driver->findElement(By::xPath("//button[@title='Search']"))->click();
+		$this->driver->findElement(By::xPath("//button[@title='Search' or @data-original-title='Search']"))->click();
 		$this->driver->waitForElementUntilIsPresent(By::id('filter_search'));
 		$this->driver->findElement(By::xPath("//a[contains(@onclick, '" . $userName . "')]"))->click();
 		$this->driver->waitForElementUntilIsNotPresent(By::xPath($frameXpath));

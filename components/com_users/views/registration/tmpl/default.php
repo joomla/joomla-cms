@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 ?>
 <div class="registration<?php echo $this->pageclass_sfx?>">

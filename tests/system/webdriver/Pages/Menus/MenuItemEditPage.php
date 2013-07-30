@@ -17,6 +17,34 @@ class MenuItemEditPage extends AdminEditPage
 	protected $url = 'administrator/index.php?option=com_menus&view=item&layout=edit';
 
 	/**
+	 * Array of tabs present on this page
+	 *
+	 * @var    array
+	 * @since  3.2
+	 */
+	public $tabs = array('details', 'options', 'modules');
+
+	/**
+	 * Array of tab labels for this page
+	 *
+	 * @var    array
+	 * @since  3.2
+	 */
+	public $tabLabels = array('Details', 'Advanced Options', 'Module Assignment for this Menu Item');
+
+	/**
+	 * Array of groups for this page. A group is a collapsable slider inside a tab.
+	 * The format of this array is <tab id> => <group label>. Note that each menu item type has its own options and its own groups.
+	 * These are the common ones for almost all core menu item types.
+	 *
+	 * @var    array
+	 * @since  3.2
+	 */
+	public $groups = array(
+		'options' => array('Link Type Options', 'Page Display Options', 'Metadata Options'),
+			);
+
+	/**
 	 * Associative array of expected input fields for the Menu Manager: Add / Edit Menu
 	 * @var array
 	 */
@@ -34,18 +62,18 @@ class MenuItemEditPage extends AdminEditPage
 		array('label' => 'Language', 'id' => 'jform_language', 'type' => 'select', 'tab' => 'details'),
 		array('label' => 'Note', 'id' => 'jform_note', 'type' => 'input', 'tab' => 'details'),
 		array('label' => 'ID', 'id' => 'jform_id', 'type' => 'input', 'tab' => 'details'),
-		array('label' => 'Link Title Attribute', 'id' => 'jform_params_menu_anchor_title', 'type' => 'input', 'tab' => 'options'),
-		array('label' => 'Link CSS Style', 'id' => 'jform_params_menu_anchor_css', 'type' => 'input', 'tab' => 'options'),
-		array('label' => 'Link Image', 'id' => 'jform_params_menu_image', 'type' => 'input', 'tab' => 'options'),
-		array('label' => 'Add Menu Title', 'id' => 'jform_params_menu_text', 'type' => 'fieldset', 'tab' => 'options'),
-		array('label' => 'Browser Page Title', 'id' => 'jform_params_page_title', 'type' => 'input', 'tab' => 'options'),
-		array('label' => 'Show Page Heading', 'id' => 'jform_params_show_page_heading', 'type' => 'fieldset', 'tab' => 'options'),
-		array('label' => 'Page Heading', 'id' => 'jform_params_page_heading', 'type' => 'input', 'tab' => 'options'),
-		array('label' => 'Page Class', 'id' => 'jform_params_pageclass_sfx', 'type' => 'input', 'tab' => 'options'),
-		array('label' => 'Meta Description', 'id' => 'jform_params_menu_meta_description', 'type' => 'textarea', 'tab' => 'options'),
-		array('label' => 'Meta Keywords', 'id' => 'jform_params_menu_meta_keywords', 'type' => 'textarea', 'tab' => 'options'),
-		array('label' => 'Robots', 'id' => 'jform_params_robots', 'type' => 'select', 'tab' => 'options'),
-		array('label' => 'Secure', 'id' => 'jform_params_secure', 'type' => 'select', 'tab' => 'options'),
+		array('label' => 'Link Title Attribute', 'id' => 'jform_params_menu_anchor_title', 'type' => 'input', 'tab' => 'options', 'group' => 'Link Type Options'),
+		array('label' => 'Link CSS Style', 'id' => 'jform_params_menu_anchor_css', 'type' => 'input', 'tab' => 'options', 'group' => 'Link Type Options'),
+		array('label' => 'Link Image', 'id' => 'jform_params_menu_image', 'type' => 'input', 'tab' => 'options', 'group' => 'Link Type Options'),
+		array('label' => 'Add Menu Title', 'id' => 'jform_params_menu_text', 'type' => 'fieldset', 'tab' => 'options', 'group' => 'Link Type Options'),
+		array('label' => 'Browser Page Title', 'id' => 'jform_params_page_title', 'type' => 'input', 'tab' => 'options', 'group' => 'Page Display Options'),
+		array('label' => 'Show Page Heading', 'id' => 'jform_params_show_page_heading', 'type' => 'fieldset', 'tab' => 'options', 'group' => 'Page Display Options'),
+		array('label' => 'Page Heading', 'id' => 'jform_params_page_heading', 'type' => 'input', 'tab' => 'options', 'group' => 'Page Display Options'),
+		array('label' => 'Page Class', 'id' => 'jform_params_pageclass_sfx', 'type' => 'input', 'tab' => 'options', 'group' => 'Page Display Options'),
+		array('label' => 'Meta Description', 'id' => 'jform_params_menu_meta_description', 'type' => 'textarea', 'tab' => 'options', 'group' => 'Metadata Options'),
+		array('label' => 'Meta Keywords', 'id' => 'jform_params_menu_meta_keywords', 'type' => 'textarea', 'tab' => 'options', 'group' => 'Metadata Options'),
+		array('label' => 'Robots', 'id' => 'jform_params_robots', 'type' => 'select', 'tab' => 'options', 'group' => 'Metadata Options'),
+		array('label' => 'Secure', 'id' => 'jform_params_secure', 'type' => 'select', 'tab' => 'options', 'group' => 'Metadata Options'),
 		array('label' => 'Hide Unassigned Modules', 'id' => 'showmods', 'type' => 'input', 'tab' => 'modules'),
 			);
 
@@ -196,7 +224,7 @@ class MenuItemEditPage extends AdminEditPage
 	{
 		$this->selectTab('Details');
 		$d = $this->driver;
-		$d->findElement(By::xPath("//a[@class = 'modal btn'][contains(@rel, 'iframe')]"))->click();
+		$d->findElement(By::xPath("//a[contains(@class, 'modal btn')][contains(@rel, 'iframe')]"))->click();
 		$frameElement = $d->waitForElementUntilIsPresent(By::xPath("//iframe[contains(@src, 'layout=modal')]"));
 		$d->switchTo()->getFrameByWebElement($frameElement);
 		$filter = $d->waitForElementUntilIsPresent(By::id('filter_search'));
