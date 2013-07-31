@@ -210,19 +210,6 @@ class ContentModelArticles extends JModelList
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by')
 			->join('LEFT', '#__users AS uam ON uam.id = a.modified_by');
 
-		// Get contact id
-		$subQuery = $db->getQuery(true)
-			->select('MAX(contact.id) AS id')
-			->from('#__contact_details AS contact')
-			->where('contact.published = 1')
-			->where('contact.user_id = a.created_by');
-			// Filter by language
-			if ($this->getState('filter.language'))
-			{
-				$subQuery->where('(contact.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ') OR contact.language IS NULL)');
-			}
-		$query->select('(' . $subQuery . ') as contactid');
-
 		// Join over the categories to get parent category titles
 		$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias')
 			->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
@@ -495,8 +482,11 @@ class ContentModelArticles extends JModelList
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
+            $query->select('1 as filter_language');
 			$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
-		}
+		} else {
+            $query->select('0 as filter_language');
+        }
 
 		// Add the list ordering clause.
 		$query->order($this->getState('list.ordering', 'a.ordering') . ' ' . $this->getState('list.direction', 'ASC'));
@@ -637,10 +627,6 @@ class ContentModelArticles extends JModelList
 					$item->params->set('access-view', in_array($item->access, $groups) && in_array($item->category_access, $groups));
 				}
 			}
-
-			// Get the tags
-			$item->tags = new JHelperTags;
-			$item->tags->getItemTags('com_content.article', $item->id);
 		}
 
 		return $items;
