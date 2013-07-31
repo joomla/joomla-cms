@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Jul-2013 Jean-Marie Simonet
+ # [#31609] *Regression: [#30150] prevents subcategories drilldowns
+
 28-Jul-2013 Jean-Marie Simonet
  # [#31585] Can't add tags to articles in 3.1.4. Thanks Roberto Segura
 
