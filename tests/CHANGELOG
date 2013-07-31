@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 31-Jul-2013 Michael Babker
  + Add test coverage to JPlugin constructor testing private vars
+ + Add test coverage to JLoader::registerPrefix()
 
 27-Jul-2013 Michael Babker
  + Add test coverage to JViewLegacy::getName()
