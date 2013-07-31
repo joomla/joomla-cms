@@ -30,29 +30,29 @@ class PlgContentContact extends JPlugin
 	 */
 	public function onContentPrepare($context, &$row, $params, $page = 0)
 	{
-        if ($context == 'com_content.category'
-            || $context = 'com_content.article') {
-        } else {
-            return $row;
+        if ($context != 'com_content.category' && $context != 'com_content.article')
+        {
+            return true;
         }
 
-        if ($params === null || $params === '') {
-            return $row;
+        if ($params === null || $params === '')
+        {
+            return true;
         }
 
-        if ($params->get('link_author') == 1) {
-        } else {
-            return $row;
+        if ($params->get('link_author') == 0)
+        {
+            return true;
         }
 
-        if (isset($row->id) && (int) $row->id > 0) {
-        } else {
-            return $row;
+        if (! isset($row->id) || (int) $row->id == 0)
+        {
+            return true;
         }
 
         $row->contactid = $this->getContactID($row->created_by, $row->filter_language);
 
-		return $row;
+		return true;
 	}
 
     /**
@@ -74,7 +74,8 @@ class PlgContentContact extends JPlugin
         $query->where('contact.published = 1');
         $query->where('contact.user_id = ' . (int) $created_by);
 
-        if ($filter_language == 1) {
+        if ($filter_language == 1)
+        {
             $query->where('(contact.language in '
                 . '(' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ') '
                 . ' OR contact.language IS NULL)');

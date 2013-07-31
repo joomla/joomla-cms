@@ -30,13 +30,18 @@ class PlgContentTags extends JPlugin
 	 */
 	public function onContentPrepare($context, &$row, $params, $page = 0)
 	{
-        if ($context == 'com_content.category') {
+        if ($context == 'com_content.category' || $context == 'com_content.article')
+        {
             $context = 'com_content.article';
         }
+        else
+        {
+            return true;
+        }
 
-        if (isset($row->id)) {
-        } else {
-            return $row;
+        if (! isset($row->id) || (int) $row->id == 0)
+        {
+            return true;
         }
 
 		if (is_object($row))
@@ -45,6 +50,6 @@ class PlgContentTags extends JPlugin
             $row->contact->getItemTags($context, $row->id);
 		}
 
-		return $row;
+        return true;
 	}
 }
