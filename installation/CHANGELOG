@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+31-Jul-2013 Michael Babker
+ # [#31620] Some plugins cause blank pages in 3.1.4.  Thanks Don Gilbert
+
 30-Jul-2013 Jean-Marie Simonet
  # [#31609] *Regression: [#30150] prevents subcategories drilldowns
 
