@@ -40,7 +40,7 @@ class PlgContentContact extends JPlugin
             return true;
         }
 
-        if ($params->get('link_author') == 0)
+        if ((int) $params->get('link_author') == 0)
         {
             return true;
         }
@@ -51,6 +51,19 @@ class PlgContentContact extends JPlugin
         }
 
         $row->contactid = $this->getContactID($row->created_by, $row->filter_language);
+
+        if (!empty($row->contactid))
+        {
+            $needle = 'index.php?option=com_contact&view=contact&id=' . $row->contactid;
+            $menu = JFactory::getApplication()->getMenu();
+            $item = $menu->getItems('link', $needle, true);
+            $link = !empty($item) ? $needle . '&Itemid=' . $row->id : $needle;
+            $row->contact_link = JRoute::_($link);
+        }
+        else
+        {
+            $row->contact_link = '';
+        }
 
 		return true;
 	}

@@ -29,19 +29,18 @@ $params = $this->params;
 					<div class="createdby">
 					<?php $author = $item->author; ?>
 					<?php $author = ($item->created_by_alias ? $item->created_by_alias : $author); ?>
-						<?php if (!empty($item->contactid ) && $params->get('link_author') == true) : ?>
-							<?php echo JText::sprintf(
-							'COM_CONTENT_WRITTEN_BY',
-							JHtml::_('link', JRoute::_('index.php?option=com_contact&view=contact&id='.$item->contactid), $author)
-							); ?>
-						<?php else :?>
+						<?php if (!empty($item->contact_link) && $params->get('link_author') == true) : ?>
+                            <?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY',
+                                JHtml::_('link', $this->item->contact_link, $author)); ?>
+						<?php else: ?>
 							<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
 						<?php endif; ?>
 					</div>
 				<?php endif; ?>
 			</div>
-		<?php $useDefList = ($params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_create_date')
-			|| $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category')); ?>
+		<?php $useDefList = ($params->get('show_modify_date') || $params->get('show_publish_date')
+            || $params->get('show_create_date') || $params->get('show_hits') || $params->get('show_category')
+            || $params->get('show_parent_category')); ?>
 		<?php if ($useDefList && ($info == 0 || $info == 2)) : ?>
 			<div class="article-info muted">
 				<dl class="article-info">
