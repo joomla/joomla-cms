@@ -717,6 +717,9 @@ ENDDATA;
 			$installer->set('extension_message', $msg);
 		}
 
+		// Reset the mediatag to force assets cache cleanup
+		JFactory::getApplication()->flushAssets();
+
 		return true;
 	}
 
