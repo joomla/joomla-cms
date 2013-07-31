@@ -482,11 +482,8 @@ class ContentModelArticles extends JModelList
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-            $query->select('1 as filter_language');
 			$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
-		} else {
-            $query->select('0 as filter_language');
-        }
+		}
 
 		// Add the list ordering clause.
 		$query->order($this->getState('list.ordering', 'a.ordering') . ' ' . $this->getState('list.direction', 'ASC'));

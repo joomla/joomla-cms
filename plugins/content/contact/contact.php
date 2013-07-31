@@ -50,7 +50,7 @@ class PlgContentContact extends JPlugin
             return true;
         }
 
-        $row->contactid = $this->getContactID($row->created_by, $row->filter_language);
+        $row->contactid = $this->getContactID($row->created_by);
 
         if (!empty($row->contactid))
         {
@@ -76,7 +76,7 @@ class PlgContentContact extends JPlugin
      *
      * @return  mixed|null|integer
      */
-    protected function getContactID($created_by, $filter_language)
+    protected function getContactID($created_by)
     {
         $db = JFactory::getDbo();
         $query = $db->getQuery(true);
@@ -87,7 +87,7 @@ class PlgContentContact extends JPlugin
         $query->where('contact.published = 1');
         $query->where('contact.user_id = ' . (int) $created_by);
 
-        if ($filter_language == 1)
+        if (JLanguageMultilang::isEnabled() == 1)
         {
             $query->where('(contact.language in '
                 . '(' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ') '

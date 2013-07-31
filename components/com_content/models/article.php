@@ -108,10 +108,7 @@ class ContentModelArticle extends JModelItem
 				// Filter by language
                 if ($this->getState('filter.language'))
                 {
-                    $query->select('1 as filter_language');
                     $query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
-                } else {
-                    $query->select('0 as filter_language');
                 }
 
 				// Join over the categories to get parent category titles
