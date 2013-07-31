@@ -49,6 +49,15 @@ class MediaViewMediaList extends JViewLegacy
 		$folders = $this->get('folders');
 		$state = $this->get('state');
 
+		// Check for invalid folder name
+		if (empty($state->folder)) {
+			$dirname = JRequest::getVar('folder', '', '', 'string');
+			if (!empty($dirname)) {
+				$dirname = htmlspecialchars($dirname, ENT_COMPAT, 'UTF-8');
+				JError::raiseWarning(100, JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_BROWSE_FOLDER_WARNDIRNAME', $dirname));
+			}
+		}
+
 		$this->baseURL = JURI::root();
 		$this->assignRef('images', $images);
 		$this->assignRef('documents', $documents);
