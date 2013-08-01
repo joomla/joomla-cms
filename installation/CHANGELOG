@@ -25,6 +25,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 3.1.5 Stable Release [01-Aug-2013] ------------------
+
 31-Jul-2013 Michael Babker
  # [#31620] Some plugins cause blank pages in 3.1.4.  Thanks Don Gilbert
  # [#31607] REGRESSION: Changing the autoload order in a point release.  Thanks Don Gilbert
