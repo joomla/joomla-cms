@@ -66,8 +66,7 @@ $info    = $this->item->params->get('info_block_position', 0);
 				<?php $author = $this->item->author; ?>
 				<?php $author = ($this->item->created_by_alias ? $this->item->created_by_alias : $author); ?>
 				<?php if (!empty($this->item->contact_link) && $params->get('link_author') == true) : ?>
-                    <?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY',
-                        JHtml::_('link', $this->item->contact_link, $author)); ?>
+                    <?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $this->item->contact_link, $author)); ?>
 				<?php else: ?>
 					<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
 				<?php endif; ?>
@@ -155,9 +154,8 @@ $info    = $this->item->params->get('info_block_position', 0);
 					<?php $author = $this->item->author; ?>
 					<?php $author = ($this->item->created_by_alias ? $this->item->created_by_alias : $author); ?>
                     <?php if (!empty($this->item->contact_link) && $params->get('link_author') == true) : ?>
-                        <?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY',
-                            JHtml::_('link', $this->item->contact_link, $author)); ?>
-					<?php else : ?>
+                        <?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $this->item->contact_link, $author)); ?>
+                    <?php else : ?>
 						<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
 					<?php endif; ?>
 				</dd>
