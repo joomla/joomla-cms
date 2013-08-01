@@ -142,7 +142,7 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 		$this->driver->get($cfg->host.$cfg->path.$article_manager);		
 		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
 		$this->driver->findElement(By::xPath("//div[@id='filter_published_chzn']/a"))->click();
-		$this->driver->findElement(By::xPath("//div[@id='filter_published_chzn']//ul[@class='chzn-results']/li[contains(.,'Archived')]"))->click();		
+		$this->driver->findElement(By::xPath("//div[@id='filter_published_chzn']//ul[@class='chzn-results']/li[contains(.,'Archived')]"))->click();
 		$this->articleManagerPage->changeArticleState('Getting Started', 'published');
 	}
 	
