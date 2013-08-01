@@ -159,7 +159,51 @@ class ArticleManagerPage extends AdminManagerPage
 			$this->clickButton('toolbar-unpublish');
 			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 		}
+		elseif(strtolower($state) == 'archived')
+		{
+			$this->clickButton('toolbar-archive');
+			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+		}
+		elseif(strtolower($state) == 'trashed')
+		{
+			$this->clickButton('toolbar-trash');
+			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+		}
 		$this->searchFor();
+	}
+	
+	/**
+	 * get access level of article
+	 *
+	 * @param string   $name	   Article Title field
+	 * 
+	 * @return  accesslevel
+	 */	
+	public function getAccessLevel($name)
+	{
+		$this->searchFor($name);
+		$row = $this->getRowNumber($name);		
+		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[5]"))->getText();
+		return $text;
+	}
+	
+	/**
+	 * Change access level of article
+	 *
+	 * @param string   $name	      Article Title field
+	 * @param string   $accessLevel   Desired Access level to which we want it to change to    
+	 *
+	 * @return  void
+	 */	
+	public function changeAccessLevel($name, $accessLevel)
+	{
+		$this->searchFor($name);
+		$this->checkAll();
+		$this->clickButton('toolbar-batch');
+		$this->driver->waitForElementUntilIsPresent(By::xPath("//button[contains(text(),'Process')]"),10);
+		$this->driver->findElement(By::xPath("//div[@id='batch_access_chzn']/a"))->click();
+		$this->driver->findElement(By::xPath("//div[@id='batch_access_chzn']//ul[@class='chzn-results']/li[contains(.,'".$accessLevel."')]"))->click();		
+		$this->driver->findElement(By::xPath("//button[contains(text(),'Process')]"))->click();	
 	}
 	
 }
