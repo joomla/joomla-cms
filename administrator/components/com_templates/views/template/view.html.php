@@ -36,23 +36,38 @@ class TemplatesViewTemplate extends JViewLegacy
 
     protected $fileName;
 
+    protected $type;
+
+    protected $image;
+
 	/**
 	 * Display the view
 	 */
 	public function display($tpl = null)
 	{
+        $app            = JFactory::getApplication();
+        $this->file     = $app->input->get('file');
+        $this->fileName = base64_decode($this->file);
+        $ext            = end(explode('.',$this->fileName));
 		$this->files	= $this->get('Files');
 		$this->state	= $this->get('State');
 		$this->template	= $this->get('Template');
-		
-		$this->form		= $this->get('Form');
-		$this->source	= $this->get('Source');
+
+        if(in_array($ext, array('css','js','php','xml','ini','less')))
+        {
+            $this->form		= $this->get('Form');
+            $this->source	= $this->get('Source');
+            $this->type 	= 'file';
+        }
+        elseif(in_array($ext, array('jpg','jpeg','png','gif')))
+        {
+            $this->image    = $this->get('Image');
+            $this->type 	= 'image';
+        }
 		$this->overridesList	= $this->get('OverridesList');
         $this->id       = $this->state->get('extension.id');
 
-        $app            = JFactory::getApplication();
-        $this->file     = $app->input->get('file');
-        $this->fileName = urldecode(base64_decode($this->file));
+
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -82,12 +97,34 @@ protected function addToolbar()
         $ext = end(explode('.',$this->fileName));
 
 		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE'), 'thememanager');
-		
-		if ($canDo->get('core.edit'))
-		{
-			JToolbarHelper::apply('template.apply');
-			JToolbarHelper::save('template.save');
-		}
+
+        if($this->type == 'file')
+        {
+            if ($canDo->get('core.edit'))
+            {
+                JToolbarHelper::apply('template.apply');
+                JToolbarHelper::save('template.save');
+            }
+        }
+
+        elseif($this->type == 'image')
+        {
+            if ($canDo->get('core.edit'))
+            {
+                $bar->appendButton('Standard', 'archive', 'Crop', 'template.cropImage', false);
+            }
+
+            if ($canDo->get('core.edit'))
+            {
+                $title = JText::_('Resize');
+                $href  = JRoute::_('index.php?option=com_templates&view=template&task=template.cropImage&id=' . $this->id . '&file=' . $this->file);
+                $dhtml = "<a class=\"btn btn-small\" href=\"$href\">
+                <i class=\"icon-move\" title=\"$title\"></i>
+                $title</a>";
+                $bar->appendButton('Custom', $dhtml);
+            }
+        }
+
 		
 		// Add a copy button
 		if ($user->authorise('core.create', 'com_templates'))
@@ -149,7 +186,7 @@ protected function addToolbar()
                 $bar->appendButton('Custom', $dhtml, 'upload');
             }
 		}
-		
+
 		JToolbarHelper::cancel('template.cancel', 'JTOOLBAR_CLOSE');
 
 		JToolbarHelper::divider();

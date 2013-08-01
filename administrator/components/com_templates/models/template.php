@@ -96,7 +96,7 @@ class TemplatesModelTemplate extends JModelForm
 				else 
 				{
 					$ext = pathinfo($dir . $value, PATHINFO_EXTENSION);
-					if(in_array($ext, array('css','js','php','xml','ini','less')))
+					if(in_array($ext, array('css','js','php','xml','ini','less','jpg','jpeg','png','gif')))
 					{
                         $relativePath = str_replace($this->element,'',$dir);
 						$info = $this->getFile('/' . $relativePath,$value);
@@ -686,6 +686,59 @@ class TemplatesModelTemplate extends JModelForm
             }
 
             return true;
+        }
+    }
+
+    public function getImage()
+    {
+        if ($template = $this->getTemplate())
+        {
+            $app        = JFactory::getApplication();
+            $client 	= JApplicationHelper::getClientInfo($template->client_id);
+            $fileName   = base64_decode($app->input->get('file'));
+            $path       = JPath::clean($client->path . '/templates/' . $template->element . '/');
+
+            if(file_exists(JPath::clean($path . '/' . $fileName)))
+            {
+                $JImage = new JImage(JPath::clean($path . '/' . $fileName));
+                $base = end(explode('/',JPATH_ROOT));
+                $image['address'] = str_replace(JPATH_ROOT, '/' . $base, $JImage->getPath());
+
+                $image['height'] = $JImage->getHeight();
+                $image['width']  = $JImage->getWidth();
+            }
+
+            else
+            {
+                $app->enqueueMessage('Source file not found.','error');
+                return false;
+            }
+
+            return $image;
+        }
+    }
+
+    public function cropImage($file, $w, $h, $x, $y)
+    {
+        if ($template = $this->getTemplate())
+        {
+            $app        = JFactory::getApplication();
+            $client 	= JApplicationHelper::getClientInfo($template->client_id);
+            $relPath    = base64_decode($file);
+            $path       = JPath::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
+
+            $JImage = new JImage($path);
+
+            try
+            {
+                $image = $JImage->crop($w, $h, $x, $y, true);
+                $image->toFile($path);
+                return true;
+            }
+            catch(Exception $e)
+            {
+                $app->enqueueMessage($e->getMessage(),'error');
+            }
         }
     }
 

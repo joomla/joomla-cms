@@ -194,7 +194,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'),'error');
             return false;
 		}
-		elseif ($data['filename'] != base64_decode($fileName))
+		elseif ($data['filename'] != end(explode(':',base64_decode($fileName))))
 		{
 			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'),'error');
             return false;
@@ -366,7 +366,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
         $upload         = $app->input->files->get('files');
         $location       = base64_decode($app->input->get('address'));
 
-        $extensions     = array('ini','php','js','xml','less','css');
+        $extensions     = array('ini','php','js','xml','less','css','jpg','jpeg','png');
 
         if(in_array(end(explode('.', $upload['name'])),$extensions))
         {
@@ -440,6 +440,39 @@ class TemplatesControllerTemplate extends JControllerLegacy
         else
         {
             $app->enqueueMessage(JText::_('Some error occurred. Failed to delete folder.'),'error');
+            $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+            $this->setRedirect(JRoute::_($url, false));
+        }
+    }
+
+    public function cropImage()
+    {
+        $app            = JFactory::getApplication();
+        $id             = $app->input->get('id');
+        $file           = $app->input->get('file');
+        $x              = $app->input->get('x');
+        $y              = $app->input->get('y');
+        $w              = $app->input->get('w');
+        $h              = $app->input->get('h');
+        $model          = $this->getModel();
+
+        if(empty($w) && empty($h) && empty($x) && empty($y))
+        {
+            $app->enqueueMessage(JText::_('Crop area not selected.'),'error');
+            $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+            $this->setRedirect(JRoute::_($url, false));
+        }
+
+        elseif($model->cropImage($file, $w, $h, $x, $y))
+        {
+            $app->enqueueMessage(JText::_('Image cropped successfully.'));
+            $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+            $this->setRedirect(JRoute::_($url, false));
+        }
+
+        else
+        {
+            $app->enqueueMessage(JText::_('Failed to crop image.'),'error');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
             $this->setRedirect(JRoute::_($url, false));
         }
