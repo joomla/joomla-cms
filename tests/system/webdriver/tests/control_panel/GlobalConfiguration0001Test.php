@@ -99,7 +99,6 @@ class GlobalConfiguration0001Test extends JoomlaWebdriverTestCase
 		//Set Back the Editor
 		$cpPage = $this->doAdminLogin();
 		$this->gcPage = $cpPage->clickMenu('Global Configuration', 'GlobalConfigurationPage');	
-		//$this->driver->waitForElementUntilIsPresent(By::xPath("//div[@id='toolbar-save']/button"),10);								
 		$gc->changeEditorMode('TINY');
 		$this->gcPage = $cpPage->clickMenu('Global Configuration', 'GlobalConfigurationPage');	
 	}
