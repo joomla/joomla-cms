@@ -416,10 +416,18 @@ div.toolbar-box h3 {
 	margin-top: 14px;
 }
 
-div.btn-toolbar {
+div.btn-toolbar, div.toolbar-list {
 	float: left;
 	text-align: left;
 	padding: 0;
+}
+
+div.toolbar-list li {
+	padding: 5px 1px 5px 4px;
+	text-align: center;
+	height: 52px;
+	list-style: none;
+	float: left;
 }
 
 div.toolbar-list li.spacer {
@@ -439,6 +447,15 @@ div.toolbar-list span {
 	display: block;
 }
 
+div.toolbar-list a {
+	display: block;
+	float: left;
+	white-space: nowrap;
+	padding: 1px 5px;
+	cursor: pointer;
+	font-weight: bold;
+}
+
 div.btn-toolbar div.btn-group button {
 	display: block;
 	float: left;
@@ -448,7 +465,7 @@ div.btn-toolbar div.btn-group button {
 	text-align: center;
 }
 
-div.btn-toolbar button:hover, div.btn-toolbar button:focus {
+div.btn-toolbar button:hover, div.btn-toolbar button:focus, div.toolbar-list a:hover, div.toolbar-list a:focus {
 	text-decoration: none;
 }
 
@@ -3011,6 +3028,11 @@ ul.helpmenu li {
 	background-image: url(../images/menu/icon-16-links-cat.png);
 }
 
+.menu-tags {
+	background-image: url(../images/menu/icon-16-tags.png);
+}
+
+
 /**
  * Extra positioning rules for limited noscript keyboard accessibility
  * need the backgrounds here to keep the background as the nav background
@@ -3313,9 +3335,12 @@ fieldset.uploadform {
 
 .alert .close {
 	position: relative;
-	top: -2px;
-	right: -21px;
+	right: -30px;
+	top: -5px;
 	line-height: 18px;
+	float: right;
+	font-size: 20px;
+	font-weight: bold;
 }
 
 .alert-success {
@@ -3432,4 +3457,26 @@ table {
 .item-associations li a,
 table.adminlist .item-associations li a  {
 	color: #ffffff;
+}
+
+// Bootstrap Tooltips (need to load last, something is overriding these styles in the CSS, debug later ;-) )
+@import "../../../../media/jui/less/tooltip.less";
+
+.tooltip {
+	max-width: 400px;
+}
+.tooltip-inner {
+	max-width: none;
+	text-align: left;
+	text-shadow: none;
+}
+th .tooltip-inner {
+	font-weight: normal;
+}
+.tooltip.hasimage {
+	opacity: 1;
+}
+fieldset.panelform .tooltip img {
+	float: none;
+	margin: 0;
 }

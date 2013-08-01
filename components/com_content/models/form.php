@@ -153,4 +153,25 @@ class ContentModelForm extends ContentModelArticle
 	{
 		return base64_encode($this->getState('return_page'));
 	}
+
+	/**
+	 * Method to save the form data.
+	 *
+	 * @param   array  $data  The form data.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.2
+	 */
+	public function save($data)
+	{
+		// Prevent deleting multilang associations
+		$app = JFactory::getApplication();
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$app->item_associations = 0;
+		$result = parent::save($data);
+		$app->item_associations = $assoc;
+
+		return $result;
+	}
 }

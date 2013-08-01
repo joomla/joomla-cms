@@ -129,9 +129,9 @@ class JTableNested extends JTable
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
 		// Get the path from the node to the root.
-		$query = $this->_db->getQuery(true);
 		$select = ($diagnostic) ? 'p.' . $k . ', p.parent_id, p.level, p.lft, p.rgt' : 'p.*';
-		$query->select($select)
+		$query = $this->_db->getQuery(true)
+			->select($select)
 			->from($this->_tbl . ' AS n, ' . $this->_tbl . ' AS p')
 			->where('n.lft BETWEEN p.lft AND p.rgt')
 			->where('n.' . $k . ' = ' . (int) $pk)
@@ -159,9 +159,9 @@ class JTableNested extends JTable
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
 		// Get the node and children as a tree.
-		$query = $this->_db->getQuery(true);
 		$select = ($diagnostic) ? 'n.' . $k . ', n.parent_id, n.level, n.lft, n.rgt' : 'n.*';
-		$query->select($select)
+		$query = $this->_db->getQuery(true)
+			->select($select)
 			->from($this->_tbl . ' AS n, ' . $this->_tbl . ' AS p')
 			->where('n.lft BETWEEN p.lft AND p.rgt')
 			->where('p.' . $k . ' = ' . (int) $pk)
@@ -251,7 +251,6 @@ class JTableNested extends JTable
 		{
 			$query->where($where);
 		}
-		$position = 'after';
 		if ($delta > 0)
 		{
 			$query->where('rgt > ' . $this->rgt)
@@ -345,7 +344,7 @@ class JTableNested extends JTable
 		/*
 		 * Move the sub-tree out of the nested sets by negating its left and right values.
 		 */
-		$query = $this->_db->getQuery(true)
+		$query->clear()
 			->update($this->_tbl)
 			->set('lft = lft * (-1), rgt = rgt * (-1)')
 			->where('lft BETWEEN ' . (int) $node->lft . ' AND ' . (int) $node->rgt);
@@ -357,7 +356,7 @@ class JTableNested extends JTable
 		 * Close the hole in the tree that was opened by removing the sub-tree from the nested sets.
 		 */
 		// Compress the left values.
-		$query = $this->_db->getQuery(true)
+		$query->clear()
 			->update($this->_tbl)
 			->set('lft = lft - ' . (int) $node->width)
 			->where('lft > ' . (int) $node->rgt);
@@ -366,7 +365,7 @@ class JTableNested extends JTable
 		$this->_runQuery($query, 'JLIB_DATABASE_ERROR_MOVE_FAILED');
 
 		// Compress the right values.
-		$query = $this->_db->getQuery(true)
+		$query->clear()
 			->update($this->_tbl)
 			->set('rgt = rgt - ' . (int) $node->width)
 			->where('rgt > ' . (int) $node->rgt);
@@ -397,7 +396,7 @@ class JTableNested extends JTable
 		else
 		{
 			// Get the last root node as the reference node.
-			$query = $this->_db->getQuery(true)
+			$query->clear()
 				->select($this->_tbl_key . ', parent_id, level, lft, rgt')
 				->from($this->_tbl)
 				->where('parent_id = 0')
@@ -426,7 +425,7 @@ class JTableNested extends JTable
 		 */
 
 		// Shift left values.
-		$query = $this->_db->getQuery(true)
+		$query->clear()
 			->update($this->_tbl)
 			->set('lft = lft + ' . (int) $node->width)
 			->where($repositionData->left_where);
@@ -435,7 +434,7 @@ class JTableNested extends JTable
 		$this->_runQuery($query, 'JLIB_DATABASE_ERROR_MOVE_FAILED');
 
 		// Shift right values.
-		$query = $this->_db->getQuery(true)
+		$query->clear()
 			->update($this->_tbl)
 			->set('rgt = rgt + ' . (int) $node->width)
 			->where($repositionData->right_where);
@@ -451,7 +450,7 @@ class JTableNested extends JTable
 		$levelOffset = $repositionData->new_level - $node->level;
 
 		// Move the nodes back into position in the tree using the calculated offsets.
-		$query = $this->_db->getQuery(true)
+		$query->clear()
 			->update($this->_tbl)
 			->set('rgt = ' . (int) $offset . ' - rgt')
 			->set('lft = ' . (int) $offset . ' - lft')
@@ -562,24 +561,26 @@ class JTableNested extends JTable
 			return false;
 		}
 
+		$query = $this->_db->getQuery(true);
+
 		// Should we delete all children along with the node?
 		if ($children)
 		{
 			// Delete the node and all of its children.
-			$query = $this->_db->getQuery(true)
+			$query->clear()
 				->delete($this->_tbl)
 				->where('lft BETWEEN ' . (int) $node->lft . ' AND ' . (int) $node->rgt);
 			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_DELETE_FAILED');
 
 			// Compress the left values.
-			$query = $this->_db->getQuery(true)
+			$query->clear()
 				->update($this->_tbl)
 				->set('lft = lft - ' . (int) $node->width)
 				->where('lft > ' . (int) $node->rgt);
 			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_DELETE_FAILED');
 
 			// Compress the right values.
-			$query = $this->_db->getQuery(true)
+			$query->clear()
 				->update($this->_tbl)
 				->set('rgt = rgt - ' . (int) $node->width)
 				->where('rgt > ' . (int) $node->rgt);
@@ -589,7 +590,7 @@ class JTableNested extends JTable
 		else
 		{
 			// Delete the node.
-			$query = $this->_db->getQuery(true)
+			$query->clear()
 				->delete($this->_tbl)
 				->where('lft = ' . (int) $node->lft);
 			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_DELETE_FAILED');
@@ -697,6 +698,9 @@ class JTableNested extends JTable
 	{
 		$k = $this->_tbl_key;
 
+		// Implement JObservableInterface: Pre-processing by observers
+		$this->_observers->update('onBeforeStore', array($updateNulls, $k));
+
 		// @codeCoverageIgnoreStart
 		if ($this->_debug)
 		{
@@ -772,7 +776,7 @@ class JTableNested extends JTable
 				$this->_runQuery($query, 'JLIB_DATABASE_ERROR_STORE_FAILED');
 
 				// Create space in the tree at the new location for the new node in right ids.
-				$query = $this->_db->getQuery(true)
+				$query->clear()
 					->update($this->_tbl)
 					->set('rgt = rgt + 2')
 					->where($repositionData->right_where);
@@ -818,23 +822,32 @@ class JTableNested extends JTable
 		}
 
 		// Store the row to the database.
-		if (!parent::store($updateNulls))
-		{
-			$this->_unlock();
-			return false;
-		}
 
-		// @codeCoverageIgnoreStart
-		if ($this->_debug)
-		{
-			$this->_logtable();
-		}
-		// @codeCoverageIgnoreEnd
+		// Implement JObservableInterface: We do not want parent::store to update observers,
+		// since tables are locked and we are updating it from this level of store():
+		$oldCallObservers = $this->_observers->doCallObservers(false);
 
+		$result = parent::store($updateNulls);
+
+		// Implement JObservableInterface: Restore previous callable observers state:
+		$this->_observers->doCallObservers($oldCallObservers);
+
+		if ($result)
+		{
+			// @codeCoverageIgnoreStart
+			if ($this->_debug)
+			{
+				$this->_logtable();
+			}
+			// @codeCoverageIgnoreEnd
+		}
 		// Unlock the table for writing.
 		$this->_unlock();
 
-		return true;
+		// Implement JObservableInterface: Post-processing by observers
+		$this->_observers->update('onAfterStore', array(&$result));
+
+		return $result;
 	}
 
 	/**
@@ -853,10 +866,12 @@ class JTableNested extends JTable
 	 *
 	 * @link    http://docs.joomla.org/JTableNested/publish
 	 * @since   11.1
+	 * @throws UnexpectedValueException
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
 		$k = $this->_tbl_key;
+		$query = $this->_db->getQuery(true);
 
 		// Sanitize input.
 		JArrayHelper::toInteger($pks);
@@ -900,7 +915,7 @@ class JTableNested extends JTable
 			if ($checkoutSupport)
 			{
 				// Ensure that children are not checked out.
-				$query = $this->_db->getQuery(true)
+				$query->clear()
 					->select('COUNT(' . $k . ')')
 					->from($this->_tbl)
 					->where('lft BETWEEN ' . (int) $node->lft . ' AND ' . (int) $node->rgt)
@@ -911,9 +926,10 @@ class JTableNested extends JTable
 				if ($this->_db->loadResult())
 				{
 					// TODO Convert to a conflict exception when available.
-					$pksImploded = implode(',', $pks);
+					$implodedPks = implode(',', $pks);
 					$e = new RuntimeException(sprintf(__CLASS__ . '::' . __FUNCTION__ . '(%s, %d, %d) checked-out conflict.', get_class($this), $implodedPks, $state, $userId));
 					$this->setError($e);
+
 					return false;
 				}
 			}
@@ -922,7 +938,7 @@ class JTableNested extends JTable
 			if ($node->parent_id)
 			{
 				// Get any ancestor nodes that have a lower publishing state.
-				$query = $this->_db->getQuery(true)
+				$query->clear()
 					->select('n.' . $k)
 					->from($this->_db->quoteName($this->_tbl) . ' AS n')
 					->where('n.lft < ' . (int) $node->lft)
@@ -946,7 +962,7 @@ class JTableNested extends JTable
 			}
 
 			// Update and cascade the publishing state.
-			$query = $this->_db->getQuery(true)
+			$query->clear()
 				->update($this->_db->quoteName($this->_tbl))
 				->set('published = ' . (int) $state)
 				->where('(lft > ' . (int) $node->lft . ' AND rgt < ' . (int) $node->rgt . ') OR ' . $k . ' = ' . (int) $pk);
@@ -1158,7 +1174,7 @@ class JTableNested extends JTable
 		}
 
 		// Test for a unique record with lft = 0
-		$query = $this->_db->getQuery(true)
+		$query->clear()
 			->select($k)
 			->from($this->_tbl)
 			->where('lft = 0');
@@ -1175,7 +1191,7 @@ class JTableNested extends JTable
 		if (array_key_exists('alias', $fields))
 		{
 			// Test for a unique record alias = root
-			$query = $this->_db->getQuery(true)
+			$query->clear()
 				->select($k)
 				->from($this->_tbl)
 				->where('alias = ' . $this->_db->quote('root'));
@@ -1221,10 +1237,12 @@ class JTableNested extends JTable
 			}
 		}
 
+		$query = $this->_db->getQuery(true);
+
 		// Build the structure of the recursive query.
 		if (!isset($this->_cache['rebuild.sql']))
 		{
-			$query = $this->_db->getQuery(true)
+			$query->clear()
 				->select($this->_tbl_key . ', alias')
 				->from($this->_tbl)
 				->where('parent_id = %d');
@@ -1270,7 +1288,7 @@ class JTableNested extends JTable
 
 		// We've got the left value, and now that we've processed
 		// the children of this node we also know the right value.
-		$query = $this->_db->getQuery(true)
+		$query->clear()
 			->update($this->_tbl)
 			->set('lft = ' . (int) $leftId)
 			->set('rgt = ' . (int) $rightId)
@@ -1328,7 +1346,7 @@ class JTableNested extends JTable
 		$path = trim(implode('/', $segments), ' /\\');
 
 		// Update the path field for the node.
-		$query = $this->_db->getQuery(true)
+		$query->clear()
 			->update($this->_tbl)
 			->set('path = ' . $this->_db->quote($path))
 			->where($this->_tbl_key . ' = ' . (int) $pk);

@@ -21,7 +21,7 @@ class JRouterInstallation extends JRouter
 	/**
 	 * Function to convert a route to an internal URI
 	 *
-	 * @param   JURI  $url  The uri.
+	 * @param   JUri  $url  The uri.
 	 *
 	 * @return  boolean
 	 *

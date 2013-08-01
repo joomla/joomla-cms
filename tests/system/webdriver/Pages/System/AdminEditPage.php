@@ -13,6 +13,34 @@ use SeleniumClient\WebElement;
  */
 abstract class AdminEditPage extends AdminPage
 {
+
+	/**
+	 * Array of tabs present on this page
+	 *
+	 * @var    array
+	 * @since  3.2
+	 */
+	public $tabs = array();
+
+	/**
+	 * Array of tab labels for this page
+	 *
+	 * @var    array
+	 * @since  3.2
+	 */
+	public $tabLabels = array();
+
+	/**
+	 * Array of groups for this page. A group is a collapsable slider inside a tab.
+	 * The format of this array is <tab id> => <array of group labels>.
+	 * Note that each menu item type has its own options and its own groups.
+	 * These are the common ones for almost all core menu item types.
+	 *
+	 * @var    array
+	 * @since  3.2
+	 */
+	public $groups = array();
+
 	/**
 	 * Array of expected id values for toolbar div elements
 	 * @var array
@@ -54,14 +82,21 @@ abstract class AdminEditPage extends AdminPage
 				$tabLink = $this->driver->findElement(By::xPath("//ul[@class='nav nav-tabs']//a[contains(@href, '" . $tabId . "')]"));
 				$tabLink->click();
 				$div = $this->driver->findElement(By::id($tabId));
-				$labels = $div->findElements(By::xPath("//div[@id='" . $tabId . "']//div/label"));
-				foreach ($labels as $label)
+
+				// If there are accordian groups inside this tab, loop through each group
+				if (isset($this->groups[$tabId]))
 				{
-					if ($object = $this->getInputField($tabId, $label))
+					foreach ($this->groups[$tabId] as $groupLabel)
 					{
-						$return[] = $object;
+						$this->expandAccordionGroup($groupLabel);
+						$return = array_merge($return, $this->getInputFieldsForTab($tabId, $div, $groupLabel));
 					}
 				}
+				else
+				{
+					$return = array_merge($return, $this->getInputFieldsForTab($tabId, $div));
+				}
+
 			}
 		}
 		else
@@ -74,6 +109,48 @@ abstract class AdminEditPage extends AdminPage
 			}
 		}
 		return $return;
+	}
+
+	protected function getInputFieldsForTab($tabId, $div, $groupLabel = null)
+	{
+		$return = array();
+		$labels = $div->findElements(By::xPath("//div[@id='" . $tabId . "']//div/label"));
+		foreach ($labels as $label)
+		{
+			if ($object = $this->getInputField($tabId, $label))
+			{
+				if ($groupLabel)
+				{
+					$object->group = $groupLabel;
+				}
+				$return[] = $object;
+			}
+		}
+		return $return;
+	}
+
+	protected function expandAccordionGroup($groupLabel)
+	{
+		$toggleSelector = "//a[@class='accordion-toggle'][contains(text(),'" . $groupLabel . "')]";
+		$containerSelector = $toggleSelector . "/../../..//div[contains(@class, 'accordion-body')]";
+		$toggleElement = $this->driver->findElement(By::xPath($toggleSelector));
+		$containerElement = $this->driver->findElement(By::xPath($containerSelector));
+		if ($containerElement->getAttribute('class') == 'accordion-body collapse')
+		{
+			try
+			{
+				$toggleElement->click();
+			}
+			catch (Exception $e)
+			{
+				$this->driver->executeScript("window.scrollBy(0,400)");
+				$toggleElement->click();
+				$this->driver->executeScript("window.scrollTo(0,0)");
+			}
+
+		}
+		sleep(1);
+
 	}
 
 	protected function getInputField($tabId, $label)
@@ -232,14 +309,21 @@ abstract class AdminEditPage extends AdminPage
 		}
 	}
 
-	public function selectTab($label)
+	public function selectTab($label, $group = null)
 	{
 		if ($label == 'none')
 		{
 			return;
 		}
 		$this->driver->executeScript("window.scrollTo(0,0)");
-		$this->driver->findElement(By::xPath("//ul[@class='nav nav-tabs']//a[contains(@href, '" . strtolower($label) . "')]"))->click();
+		$el = $this->driver->findElement(By::xPath("//ul[@class='nav nav-tabs']//a[contains(@href, '" . strtolower($label) . "')]"));
+		$el->click();
+		sleep(1);
+		$el->click();
+		if ($group)
+		{
+			$this->expandAccordionGroup($group);
+		}
 	}
 
 	public function setFieldValue($label, $value)
@@ -249,6 +333,8 @@ abstract class AdminEditPage extends AdminPage
 			$fieldArray = $this->inputFields[$i];
 			$fieldArray['value'] = $value;
 			$fieldType = $fieldArray['type'];
+			$group = isset($fieldArray['group']) ? $fieldArray['group'] : null;
+			$this->selectTab($fieldArray['tab'], $group);
 			switch ($fieldType)
 			{
 				case 'select' :
@@ -266,7 +352,6 @@ abstract class AdminEditPage extends AdminPage
 				case 'textarea' :
 					$this->setTextAreaValues($fieldArray);
 					break;
-
 			}
 		}
 	}
@@ -282,30 +367,35 @@ abstract class AdminEditPage extends AdminPage
 
 	protected function setRadioValues(array $values)
 	{
-		$this->selectTab($values['tab']);
 		$this->driver->findElement(By::xPath("//" . $values['type'] . "[@id='" . $values['id'] . "']/label[contains(text(), '" . $values['value'] . "')]"))->click();
 	}
 
 	protected function setSelectValues (array $values)
 	{
-		$this->selectTab($values['tab']);
-
 		// Need to determine whether we are using Chosen JS for this select field
 		$checkArray = $this->driver->findElements(By::xPath("//div[@id='" . $values['id'] . "_chzn']"));
 		if (count($checkArray) == 1)
 		{
 			// Process a Chosen select field
 			$container = $checkArray[0];
+
 			$type = $container->getAttribute('class');
 			if (strpos($type, 'chzn-container-single-nosearch') > 0)
 			{
 				$this->driver->findElement(By::xPath("//div[@id='" . $values['id'] . "_chzn']/a"))->click();
+
+				// Click the last element in the list to make sure they are all in view
+				$lastElement = $this->driver->findElement(By::xPath("//div[@id='" . $values['id'] . "_chzn']//ul[@class='chzn-results']/li[last()]"));
+				$lastElement->getLocationOnScreenOnceScrolledIntoView();
 				$this->driver->findElement(By::xPath("//div[@id='" . $values['id'] . "_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $values['value'] . "')]"))->click();
 			}
 			elseif (strpos($type, 'chzn-container-single') > 0)
 			{
 				$this->driver->findElement(By::xPath("//div[@id='" . $values['id'] . "_chzn']/a"))->click();
-				$this->driver->findElement(By::xPath("//div[@id='" . $values['id'] . "_chzn']//input"))->sendKeys($values['value'] . "\n");
+				$el = $this->driver->findElement(By::xPath("//div[@id='" . $values['id'] . "_chzn']//input"));
+				$el->clear();
+				$el->sendKeys($values['value']);
+				$el->sendKeys(chr(9));
 			}
 		}
 		else
@@ -317,7 +407,6 @@ abstract class AdminEditPage extends AdminPage
 
 	protected function setTextValues(array $values)
 	{
-		$this->selectTab($values['tab']);
 		$inputElement = $this->driver->findElement(By::id($values['id']));
 		$inputElement->clear();
 		$inputElement->sendKeys($values['value']);
@@ -325,7 +414,6 @@ abstract class AdminEditPage extends AdminPage
 
 	protected function setTextAreaValues(array $values)
 	{
-		$this->selectTab($values['tab']);
 		// Check whether this field uses a GUI editor
 		// First see if we are inside a tab
 		$tab = $this->driver->findElements(By::xPath("//div[@class='tab-pane active']"));

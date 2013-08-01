@@ -398,8 +398,7 @@ class JApplicationWebTest extends TestCase
 			TestReflection::getValue($this->class, 'response')->headers,
 			$this->equalTo(
 				array(
-					0 => array('name' => 'Content-Encoding', 'value' => 'gzip'),
-					1 => array('name' => 'X-Content-Encoded-By', 'value' => 'Joomla')
+					0 => array('name' => 'Content-Encoding', 'value' => 'gzip')
 				)
 			),
 			'Checks the headers were set correctly.'
@@ -454,8 +453,7 @@ class JApplicationWebTest extends TestCase
 			TestReflection::getValue($this->class, 'response')->headers,
 			$this->equalTo(
 				array(
-					0 => array('name' => 'Content-Encoding', 'value' => 'deflate'),
-					1 => array('name' => 'X-Content-Encoded-By', 'value' => 'Joomla')
+					0 => array('name' => 'Content-Encoding', 'value' => 'deflate')
 				)
 			),
 			'Checks the headers were set correctly.'

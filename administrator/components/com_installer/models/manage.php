@@ -266,7 +266,6 @@ class InstallerModelManage extends InstallerModel
 		}
 		else
 		{
-			$result = false;
 			JError::raiseWarning(403, JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
 		}
 	}

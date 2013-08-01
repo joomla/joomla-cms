@@ -70,6 +70,9 @@ class JFormRuleEmail extends JFormRule
 
 		if (!$multiple)
 		{
+			// Handle idn e-mail addresses by converting to punycode.
+			$value = JStringPunycode::emailToPunycode($value);
+
 			// Test the value against the regular expression.
 			if (!parent::test($element, $value, $group, $input, $form))
 			{
@@ -80,6 +83,9 @@ class JFormRuleEmail extends JFormRule
 		{
 			foreach ($values as $value)
 			{
+				// Handle idn e-mail addresses by converting to punycode.
+				$value = JStringPunycode::emailToPunycode($value);
+
 				// Test the value against the regular expression.
 				if (!parent::test($element, $value, $group, $input, $form))
 				{

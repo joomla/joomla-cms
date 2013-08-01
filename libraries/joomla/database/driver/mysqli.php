@@ -82,10 +82,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 */
 	public function __destruct()
 	{
-		if (is_callable(array($this->connection, 'close')))
-		{
-			mysqli_close($this->connection);
-		}
+		$this->disconnect();
 	}
 
 	/**
@@ -108,7 +105,6 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		 * have to extract them from the host string.
 		 */
 		$tmp = substr(strstr($this->options['host'], ':'), 1);
-
 		if (!empty($tmp))
 		{
 			// Get the port number or socket name
@@ -158,6 +154,13 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 
 		// Set charactersets (needed for MySQL 4.1.2+).
 		$this->setUTF();
+
+		// Turn MySQL profiling ON in debug mode:
+		if ($this->debug && $this->hasProfiling())
+		{
+			mysqli_query($this->connection, "SET profiling_history_size = 100;");
+			mysqli_query($this->connection, "SET profiling = 1;");
+		}
 	}
 
 	/**
@@ -170,8 +173,13 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	public function disconnect()
 	{
 		// Close the connection.
-		if (is_callable($this->connection, 'close'))
+		if ($this->connection)
 		{
+			foreach ($this->disconnectHandlers as $h)
+			{
+				call_user_func_array($h, array( &$this));
+			}
+
 			mysqli_close($this->connection);
 		}
 
@@ -329,7 +337,6 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 
 		// Sanitize input to an array and iterate over the list.
 		settype($tables, 'array');
-
 		foreach ($tables as $table)
 		{
 			// Set the query to get the table CREATE statement.
@@ -489,37 +496,59 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		}
 
 		// Take a local copy so that we don't modify the original query and cause issues later
-		$sql = $this->replacePrefix((string) $this->sql);
-
+		$query = $this->replacePrefix((string) $this->sql);
 		if ($this->limit > 0 || $this->offset > 0)
 		{
-			$sql .= ' LIMIT ' . $this->offset . ', ' . $this->limit;
+			$query .= ' LIMIT ' . $this->offset . ', ' . $this->limit;
 		}
 
 		// Increment the query counter.
 		$this->count++;
 
+		// Reset the error values.
+		$this->errorNum = 0;
+		$this->errorMsg = '';
+		$memoryBefore = null;
+
 		// If debugging is enabled then let's log the query.
 		if ($this->debug)
 		{
 			// Add the query to the object queue.
-			$this->log[] = $sql;
+			$this->log[] = $query;
 
-			JLog::add($sql, JLog::DEBUG, 'databasequery');
+			JLog::add($query, JLog::DEBUG, 'databasequery');
+
+			$this->timings[] = microtime(true);
+
+			if (is_object($this->cursor))
+			{
+				$this->freeResult();
+			}
+			$memoryBefore = memory_get_usage();
 		}
 
-		// Reset the error values.
-		$this->errorNum = 0;
-		$this->errorMsg = '';
-
 		// Execute the query. Error suppression is used here to prevent warnings/notices that the connection has been lost.
-		$this->cursor = @mysqli_query($this->connection, $sql);
+		$this->cursor = @mysqli_query($this->connection, $query);
+
+		if ($this->debug)
+		{
+			$this->timings[] = microtime(true);
+			if (defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
+			{
+				$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+			}
+			else
+			{
+				$this->callStacks[] = debug_backtrace();
+			}
+			$this->callStacks[count($this->callStacks) - 1][0]['memory'] = array($memoryBefore, memory_get_usage(), is_object($this->cursor) ? $this->getNumRows() : null);
+		}
 
 		// If an error occurred handle it.
 		if (!$this->cursor)
 		{
 			$this->errorNum = (int) mysqli_errno($this->connection);
-			$this->errorMsg = (string) mysqli_error($this->connection) . ' SQL=' . $sql;
+			$this->errorMsg = (string) mysqli_error($this->connection) . ' SQL=' . $query;
 
 			// Check if the server was disconnected.
 			if (!$this->connected())
@@ -760,6 +789,10 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	protected function freeResult($cursor = null)
 	{
 		mysqli_free_result($cursor ? $cursor : $this->cursor);
+		if ((! $cursor) || ($cursor === $this->cursor))
+		{
+			$this->cursor = null;
+		}
 	}
 
 	/**
@@ -775,5 +808,27 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		$this->setQuery('UNLOCK TABLES')->execute();
 
 		return $this;
+	}
+
+	/**
+	 * Internal function to check if profiling is available
+	 *
+	 * @return  boolean
+	 *
+	 * @since 3.1.3
+	 */
+	private function hasProfiling()
+	{
+		try
+		{
+			$res = mysqli_query($this->connection, "SHOW VARIABLES LIKE 'have_profiling'");
+			$row = mysqli_fetch_assoc($res);
+
+			return isset($row);
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
 	}
 }

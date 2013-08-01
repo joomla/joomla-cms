@@ -108,6 +108,53 @@ class JoomlaWebdriverTestCase extends PHPUnit_Framework_TestCase
 		$this->assertTrue(is_a($loginPage, 'AdminloginPage'));
 		return $loginPage;
 	}
+	
+	//function to login to the frontend site
+	function doFrontEndLogin()
+	{
+		$cfg=new SeleniumConfig();
+		$username=$cfg->username;
+		$password=$cfg->password;
+		$d = $this->driver;
+		$d->clearCurrentCookies();
+		$d->findElement(By::xPath("//a[contains(text(), 'Login')]"))->click();
+		$d->waitForElementUntilIsPresent(By::xPath("//input[@id='username']"));		
+		$d->findElement(By::xPath("//input[@id='username']"))->sendKeys($username);
+		$d->findElement(By::xPath("//input[@id='password']"))->sendKeys($password);
+		$d->findElement(By::xPath("//button[contains(text(), 'Log in')]"))->click();
+		$d->findElement(By::xPath("//a[contains(text(), 'Home')]"))->click();	
+	}
+	
+	//function to logout from the frontend site
+	function doFrontEndLogout()
+	{
+		$d = $this->driver;
+		$d->findElement(By::xPath("//a[contains(text(), 'Login')]"))->click();
+		$d->clearCurrentCookies();				
+		$d->waitForElementUntilIsPresent(By::xPath("//button[contains(text(), 'Log out')]"));
+		$d->findElement(By::xPath("//button[contains(text(), 'Log out')]"))->click();
+		$d->waitForElementUntilIsPresent(By::xPath("//input[@id='username']"));
+		$d->findElement(By::xPath("//a[contains(text(), 'Home')]"))->click();				
+	}
+
+	public function getActualFieldsFromElements($testElements)
+	{
+		$actualFields = array();
+		foreach ($testElements as $el)
+		{
+			$el->labelText = (substr($el->labelText, -2) == ' *') ? substr($el->labelText, 0, -2) : $el->labelText;
+			if (isset($el->group))
+			{
+				$actualFields[] = array('label' => $el->labelText, 'id' => $el->id, 'type' => $el->tag, 'tab' => $el->tab, 'group' => $el->group);
+			}
+			else
+			{
+				$actualFields[] = array('label' => $el->labelText, 'id' => $el->id, 'type' => $el->tag, 'tab' => $el->tab);
+			}
+
+		}
+		return $actualFields;
+	}
 
 	/**
 	 * Takes screenshot of current screen, saves it in specified default directory or as specified in parameter

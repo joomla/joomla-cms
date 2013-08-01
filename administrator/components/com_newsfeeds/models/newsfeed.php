@@ -357,7 +357,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 					$query->clear()
 						->insert('#__associations');
 
-					foreach ($associations as $tag => $id)
+					foreach ($associations as $id)
 					{
 						$query->values($id . ',' . $db->quote('com_newsfeeds.item') . ',' . $db->quote($key));
 					}
@@ -531,10 +531,12 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 					$add = true;
 					$field = $fieldset->addChild('field');
 					$field->addAttribute('name', $tag);
-					$field->addAttribute('type', 'modal_newsfeeds');
+					$field->addAttribute('type', 'modal_newsfeed');
 					$field->addAttribute('language', $tag);
 					$field->addAttribute('label', $language->title);
 					$field->addAttribute('translate_label', 'false');
+					$field->addAttribute('edit', 'true');
+					$field->addAttribute('clear', 'true');
 				}
 			}
 			if ($add)

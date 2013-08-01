@@ -35,7 +35,6 @@ function ContactBuildRoute(&$query)
 		$menuItem = $menu->getItem($query['Itemid']);
 	}
 	$mView = (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
-	$mCatid = (empty($menuItem->query['catid'])) ? null : $menuItem->query['catid'];
 	$mId = (empty($menuItem->query['id'])) ? null : $menuItem->query['id'];
 
 	if (isset($query['view']))

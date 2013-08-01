@@ -45,6 +45,7 @@ class PlgSearchCategories extends JPlugin
 	 * The sql must return the following fields that are
 	 * used in a common display routine: href, title, section, created, text,
 	 * browsernav
+	 *
 	 * @param string Target search string
 	 * @param string mathcing option, exact|any|all
 	 * @param string ordering option, newest|oldest|popular|alpha|category
@@ -79,12 +80,18 @@ class PlgSearchCategories extends JPlugin
 			$state[] = 2;
 		}
 
+		if (!empty($state))
+		{
+			return array();
+		}
+
 		$text = trim($text);
 		if ($text == '')
 		{
 			return array();
 		}
 
+		/* TODO: The $where variable does not seem to be used at all
 		switch ($phrase)
 		{
 			case 'exact':
@@ -111,6 +118,7 @@ class PlgSearchCategories extends JPlugin
 				$where = '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
 				break;
 		}
+		*/
 
 		switch ($ordering)
 		{
@@ -129,51 +137,49 @@ class PlgSearchCategories extends JPlugin
 		$text = $db->quote('%' . $db->escape($text, true) . '%', false);
 		$query = $db->getQuery(true);
 
-		$return = array();
-		if (!empty($state))
+		//sqlsrv changes
+		$case_when = ' CASE WHEN ';
+		$case_when .= $query->charLength('a.alias', '!=', '0');
+		$case_when .= ' THEN ';
+		$a_id = $query->castAsChar('a.id');
+		$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
+		$case_when .= ' ELSE ';
+		$case_when .= $a_id . ' END as slug';
+		$query->select('a.title, a.description AS text, \'\' AS created, \'2\' AS browsernav, a.id AS catid, ' . $case_when)
+			->from('#__categories AS a')
+			->where(
+				'(a.title LIKE ' . $text . ' OR a.description LIKE ' . $text . ') AND a.published IN (' . implode(',', $state) . ') AND a.extension = ' . $db->quote('com_content')
+					. 'AND a.access IN (' . $groups . ')'
+			)
+			->group('a.id, a.title, a.description, a.alias')
+			->order($order);
+		if ($app->isSite() && JLanguageMultilang::isEnabled())
 		{
-			//sqlsrv changes
-			$case_when = ' CASE WHEN ';
-			$case_when .= $query->charLength('a.alias', '!=', '0');
-			$case_when .= ' THEN ';
-			$a_id = $query->castAsChar('a.id');
-			$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
-			$case_when .= ' ELSE ';
-			$case_when .= $a_id . ' END as slug';
-			$query->select('a.title, a.description AS text, \'\' AS created, \'2\' AS browsernav, a.id AS catid, ' . $case_when)
-				->from('#__categories AS a')
-				->where(
-					'(a.title LIKE ' . $text . ' OR a.description LIKE ' . $text . ') AND a.published IN (' . implode(',', $state) . ') AND a.extension = ' . $db->quote('com_content')
-						. 'AND a.access IN (' . $groups . ')'
-				)
-				->group('a.id, a.title, a.description, a.alias')
-				->order($order);
-			if ($app->isSite() && JLanguageMultilang::isEnabled())
+			$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+		}
+
+		$db->setQuery($query, 0, $limit);
+		$rows = $db->loadObjectList();
+
+		$return = array();
+		if ($rows)
+		{
+			$count = count($rows);
+			for ($i = 0; $i < $count; $i++)
 			{
-				$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+				$rows[$i]->href = ContentHelperRoute::getCategoryRoute($rows[$i]->slug);
+				$rows[$i]->section = JText::_('JCATEGORY');
 			}
 
-			$db->setQuery($query, 0, $limit);
-			$rows = $db->loadObjectList();
-
-			if ($rows)
+			foreach ($rows as $category)
 			{
-				$count = count($rows);
-				for ($i = 0; $i < $count; $i++)
+				if (searchHelper::checkNoHTML($category, $searchText, array('name', 'title', 'text')))
 				{
-					$rows[$i]->href = ContentHelperRoute::getCategoryRoute($rows[$i]->slug);
-					$rows[$i]->section = JText::_('JCATEGORY');
-				}
-
-				foreach ($rows as $key => $category)
-				{
-					if (searchHelper::checkNoHTML($category, $searchText, array('name', 'title', 'text')))
-					{
-						$return[] = $category;
-					}
+					$return[] = $category;
 				}
 			}
 		}
+
 		return $return;
 	}
 }

@@ -27,7 +27,7 @@ class JFeedFactory
 	/**
 	 * Method to load a URI into the feed reader for parsing.
 	 *
-	 * @param   string  $uri  The URI of the feed to load.
+	 * @param   string  $uri  The URI of the feed to load. Idn uris must be passed already converted to punycode.
 	 *
 	 * @return  JFeedReader
 	 *

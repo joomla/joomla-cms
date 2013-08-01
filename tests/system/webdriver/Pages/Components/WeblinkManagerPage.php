@@ -87,7 +87,8 @@ class WeblinkManagerPage extends AdminManagerPage
 		$this->clickButton('toolbar-new');
 		$contactEditPage = $this->test->getPageObject('WeblinkEditPage');
 		$contactEditPage->setFieldValues(array('Title' => $name, 'URL' => $url));
-		if($fields) {
+		if ($fields)
+		{
 			$contactEditPage->setFieldValues($fields);
 		}
 		$contactEditPage->clickButton('toolbar-save');

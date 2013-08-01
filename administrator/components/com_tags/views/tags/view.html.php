@@ -79,7 +79,7 @@ class TagsViewTags extends JViewLegacy
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 
-		JToolbarHelper::title(JText::_('COM_TAGS_MANAGER_TAGS'), 'modules.png');
+		JToolbarHelper::title(JText::_('COM_TAGS_MANAGER_TAGS'), 'tags');
 
 		if ($canDo->get('core.create'))
 		{
@@ -114,9 +114,11 @@ class TagsViewTags extends JViewLegacy
 		{
 			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
-			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn btn-small\">
-						<i class=\"icon-checkbox-partial\" title=\"$title\"></i>
-						$title</button>";
+
+			// Instantiate a new JLayoutFile instance and render the batch button
+			$layout = new JLayoutFile('joomla.toolbar.batch');
+
+			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 		if ($canDo->get('core.admin'))

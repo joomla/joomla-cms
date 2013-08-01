@@ -103,8 +103,8 @@ class UsersModelRegistration extends JModelForm
 			);
 
 			// get all admin users
-			$query = $db->getQuery(true);
-			$query->select($db->quoteName(array('name', 'email', 'sendEmail', 'id')))
+			$query->clear()
+				->select($db->quoteName(array('name', 'email', 'sendEmail', 'id')))
 				->from($db->quoteName('#__users'))
 				->where($db->quoteName('sendEmail') . ' = ' . 1);
 
@@ -338,8 +338,6 @@ class UsersModelRegistration extends JModelForm
 	 */
 	public function register($temp)
 	{
-		$config = JFactory::getConfig();
-		$db = $this->getDbo();
 		$params = JComponentHelper::getParams('com_users');
 
 		// Initialise the table with JUser.
@@ -353,7 +351,7 @@ class UsersModelRegistration extends JModelForm
 		}
 
 		// Prepare the data for the user object.
-		$data['email'] = $data['email1'];
+		$data['email'] = JStringPunycode::emailToPunycode($data['email1']);
 		$data['password'] = $data['password1'];
 		$useractivation = $params->get('useractivation');
 		$sendpassword = $params->get('sendpassword', 1);
@@ -381,6 +379,10 @@ class UsersModelRegistration extends JModelForm
 			$this->setError(JText::sprintf('COM_USERS_REGISTRATION_SAVE_FAILED', $user->getError()));
 			return false;
 		}
+
+		$config = JFactory::getConfig();
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
 
 		// Compile the notification mail values.
 		$data = $user->getProperties();
@@ -515,8 +517,8 @@ class UsersModelRegistration extends JModelForm
 			);
 
 			// Get all admin users
-			$query = $db->getQuery(true);
-			$query->select($db->quoteName(array('name', 'email', 'sendEmail')))
+			$query->clear()
+				->select($db->quoteName(array('name', 'email', 'sendEmail')))
 				->from($db->quoteName('#__users'))
 				->where($db->quoteName('sendEmail') . ' = ' . 1);
 
@@ -553,8 +555,8 @@ class UsersModelRegistration extends JModelForm
 
 			// Send a system message to administrators receiving system mails
 			$db = JFactory::getDbo();
-			$query = $db->getQuery(true);
-			$query->select($db->quoteName(array('name', 'email', 'sendEmail', 'id')))
+			$query->clear()
+				->select($db->quoteName(array('name', 'email', 'sendEmail', 'id')))
 				->from($db->quoteName('#__users'))
 				->where($db->quoteName('block') . ' = ' . (int) 0)
 				->where($db->quoteName('sendEmail') . ' = ' . (int) 1);
@@ -578,8 +580,8 @@ class UsersModelRegistration extends JModelForm
 				foreach ($sendEmail as $userid)
 				{
 					$values = array($db->quote($userid), $db->quote($userid), $db->quote($jdate->toSql()), $db->quote(JText::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT')), $db->quote(JText::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username'])));
-					$query = $db->getQuery(true);
-					$query->insert($db->quoteName('#__messages'))
+					$query->clear()
+						->insert($db->quoteName('#__messages'))
 						->columns($db->quoteName(array('user_id_from', 'user_id_to', 'date_time', 'subject', 'message')))
 						->values(implode(',', $values));
 					$db->setQuery($query);

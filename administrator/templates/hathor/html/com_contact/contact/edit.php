@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-JHtml::_('behavior.tooltip');
+
 JHtml::_('behavior.formvalidation');
 
 $app = JFactory::getApplication();
@@ -64,14 +64,11 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 				<?php echo $this->form->getInput('language'); ?></li>
 
 				<!-- Tag field -->
-				<?php foreach ($this->get('form')->getFieldset('jmetadata') as $field) : ?>
-					<?php if ($field->name == 'jform[metadata][tags][]') :?>
-						<li>
-							<?php echo $field->label; ?>
-							<?php echo $field->input; ?>
-						</li>
-					<?php endif; ?>
-				<?php endforeach; ?>
+				<li><?php echo $this->form->getLabel('tags'); ?>
+					<div class="is-tagbox">
+						<?php echo $this->form->getInput('tags'); ?>
+					</div>
+				</li>
 
 				<li><?php echo $this->form->getLabel('id'); ?>
 				<?php echo $this->form->getInput('id'); ?></li>
