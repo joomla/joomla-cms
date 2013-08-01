@@ -107,7 +107,7 @@ class PlgAuthenticationGMail extends JPlugin
 		}
 		else
 		{
-			$message = 'curl isn\'t insalled';
+			$message = 'curl isn\'t installed';
 		}
 
 		$response->type = 'GMail';
