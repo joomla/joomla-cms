@@ -26,6 +26,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 2.5.14 Stable Release 01-August-2013] ------------------
+
+31-Jul-2013 Jean-Marie Simonet
+ # Missing list of Subcategories in a blog view. Revert [#30150]
+
 -------------------- 2.5.13 Stable Release 25-July-2013] ------------------
 
 21-Jul-2013 Mark Dexter
