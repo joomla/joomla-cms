@@ -489,7 +489,7 @@ class JDocument
 			$version = $this->getMediaTag();
 		}
 
-		if (!empty($version))
+		if (!empty($version) && strpos($url, '?') === false)
 		{
 			$url .= '?' . $version;
 		}
@@ -564,7 +564,7 @@ class JDocument
 			$version = $this->getMediaTag();
 		}
 
-		if (!empty($version))
+		if (!empty($version) && strpos($url, '?') === false)
 		{
 			$url .= '?' . $version;
 		}

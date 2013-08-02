@@ -19,7 +19,7 @@ $user	= JFactory::getUser();
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 
 // Load system style CSS
-$doc->addScriptVersion('templates/system/css/system.css');
+$doc->addStyleSheetVersion('templates/system/css/system.css');
 
 // Loadtemplate CSS
 $doc->addStyleSheetVersion('templates/' . $this->template . '/css/template.css');
@@ -66,7 +66,7 @@ if ($this->params->get('boldText'))
 }
 
 // Load template javascript
-$doc->addScriptVersion('templates/' . $this->template . '/js/template.js', 'text/javascript');
+$doc->addScriptVersion('templates/' . $this->template . '/js/template.js');
 
 // Logo file
 if ($this->params->get('logoFile'))
@@ -80,7 +80,10 @@ else
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo  $this->language; ?>" lang="<?php echo  $this->language; ?>" dir="<?php echo  $this->direction; ?>">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xml:lang="<?php echo  $this->language; ?>"
+	lang="<?php echo  $this->language; ?>"
+	dir="<?php echo  $this->direction; ?>">
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<jdoc:include type="head" />
@@ -125,24 +128,26 @@ else
 	<div id="module-status">
 		<jdoc:include type="modules" name="status"/>
 			<?php
-			//Display an harcoded logout
+			// Display an harcoded logout
 			$task = $app->input->get('task');
+
 			if ($task == 'edit' || $task == 'editA' || $app->input->getInt('hidemainmenu'))
 			{
 				$logoutLink = '';
-			} else {
-				$logoutLink = JRoute::_('index.php?option=com_login&task=logout&'. JSession::getFormToken() .'=1');
 			}
+			else
+			{
+				$logoutLink = JRoute::_('index.php?option=com_login&task=logout&' . JSession::getFormToken() . '=1');
+			}
+
 			$hideLinks = $app->input->getBool('hidemainmenu');
 			$output = array();
-			// Print the Preview link to Main site.
-			//$output[] = '<span class="viewsite"><a href="'.JUri::root().'" target="_blank">'.JText::_('JGLOBAL_VIEW_SITE').'</a></span>';
-			// Print the logout link.
-			//$output[] = '<span class="logout">' .($hideLinks ? '' : '<a href="'.$logoutLink.'">').JText::_('JLOGOUT').($hideLinks ? '' : '</a>').'</span>';
-			// Output the items.
-			foreach ($output as $item) :
-			echo $item;
-			endforeach;
+
+			foreach ($output as $item)
+			{
+				echo $item;
+			}
+
 			?>
 	</div>
 

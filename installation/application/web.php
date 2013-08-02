@@ -16,8 +16,16 @@ defined('_JEXEC') or die;
  * @subpackage  Application
  * @since       3.1
  */
-final class InstallationApplicationWeb extends JApplicationCms
+final class InstallationApplicationWeb extends JApplicationWeb
 {
+	/**
+	 * The application message queue.
+	 *
+	 * @var    array
+	 * @since  3.1
+	 */
+	protected $_messageQueue = array();
+
 	/**
 	 * Class constructor.
 	 *
@@ -61,14 +69,8 @@ final class InstallationApplicationWeb extends JApplicationCms
 		// Register the application to JFactory
 		JFactory::$application = $this;
 
-		// Register the application name
-		$this->_name = 'installation';
-
-		// Register the client ID
-		$this->_clientId = 2;
-
 		// Set the root in the URI based on the application name
-		JUri::root(null, str_ireplace('/' . $this->getName(), '', JUri::base(true)));
+		JUri::root(null, str_ireplace('/installation', '', JUri::base(true)));
 	}
 
 	/**
@@ -110,11 +112,13 @@ final class InstallationApplicationWeb extends JApplicationCms
 			ksort($orphans, SORT_STRING);
 
 			$guesses = array();
+
 			foreach ($orphans as $key => $occurance)
 			{
 				$guess = str_replace('_', ' ', $key);
 
 				$parts = explode(' ', $guess);
+
 				if (count($parts) > 1)
 				{
 					array_shift($parts);
@@ -221,22 +225,32 @@ final class InstallationApplicationWeb extends JApplicationCms
 	}
 
 	/**
-	 * Method to load a PHP configuration class file based on convention and return the instantiated data object.  You
-	 * will extend this method in child classes to provide configuration data from whatever data source is relevant
-	 * for your specific application.
+	 * Enqueue a system message.
 	 *
-	 * @param   string  $file   The path and filename of the configuration file. If not provided, configuration.php
-	 *                          in JPATH_BASE will be used.
-	 * @param   string  $class  The class name to instantiate.
+	 * @param   string  $msg   The message to enqueue.
+	 * @param   string  $type  The message type. Default is message.
 	 *
-	 * @return  mixed   Either an array or object to be loaded into the configuration object.
+	 * @return  void
 	 *
-	 * @since   11.3
-	 * @throws  RuntimeException
+	 * @since   3.1
 	 */
-	protected function fetchConfigurationData($file = '', $class = 'JConfig')
+	public function enqueueMessage($msg, $type = 'message')
 	{
-		return array();
+		// For empty queue, if messages exists in the session, enqueue them first.
+		if (!count($this->_messageQueue))
+		{
+			$session = JFactory::getSession();
+			$sessionQueue = $session->get('application.queue');
+
+			if (count($sessionQueue))
+			{
+				$this->_messageQueue = $sessionQueue;
+				$session->set('application.queue', null);
+			}
+		}
+
+		// Enqueue the message.
+		$this->_messageQueue[] = array('message' => $msg, 'type' => strtolower($type));
 	}
 
 	/**
@@ -267,6 +281,18 @@ final class InstallationApplicationWeb extends JApplicationCms
 
 		// Nothing found. Panic.
 		throw new RuntimeException('Class ' . $class . ' not found');
+	}
+
+	/**
+	 * Gets the client id of the current running application.
+	 *
+	 * @return  integer  A client identifier.
+	 *
+	 * @since   3.1
+	 */
+	public function getClientId()
+	{
+		return 2;
 	}
 
 	/**
@@ -314,6 +340,8 @@ final class InstallationApplicationWeb extends JApplicationCms
 	 */
 	public function getLocaliseAdmin($db = false)
 	{
+		jimport('joomla.filesystem.folder');
+
 		// Read the files in the admin area
 		$path = JLanguage::getLanguagePath(JPATH_ADMINISTRATOR);
 		$langfiles['admin'] = JFolder::folders($path);
@@ -345,7 +373,6 @@ final class InstallationApplicationWeb extends JApplicationCms
 						{
 							$langfiles['site'][] = $lang->element;
 						}
-
 						break;
 
 					// Administrator
@@ -354,13 +381,37 @@ final class InstallationApplicationWeb extends JApplicationCms
 						{
 							$langfiles['admin'][] = $lang->element;
 						}
-
 						break;
 				}
 			}
 		}
 
 		return $langfiles;
+	}
+
+	/**
+	 * Get the system message queue.
+	 *
+	 * @return  array  The system message queue.
+	 *
+	 * @since   3.1
+	 */
+	public function getMessageQueue()
+	{
+		// For empty queue, if messages exists in the session, enqueue them.
+		if (!count($this->_messageQueue))
+		{
+			$session = JFactory::getSession();
+			$sessionQueue = $session->get('application.queue');
+
+			if (count($sessionQueue))
+			{
+				$this->_messageQueue = $sessionQueue;
+				$session->set('application.queue', null);
+			}
+		}
+
+		return $this->_messageQueue;
 	}
 
 	/**
@@ -379,6 +430,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 			$template = new stdClass;
 			$template->template = 'template';
 			$template->params = new JRegistry;
+
 			return $template;
 		}
 
@@ -449,6 +501,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 		if (empty($options['language']))
 		{
 			$requestLang = $this->input->getCmd('lang', null);
+
 			if (!is_null($requestLang))
 			{
 				$options['language'] = $requestLang;
@@ -505,40 +558,20 @@ final class InstallationApplicationWeb extends JApplicationCms
 	 *
 	 * @param   JSession  $session  An optional session object. If omitted, the session is created.
 	 *
-	 * @return  InstallationApplicationWeb  This method is chainable.
+	 * @return  JApplicationWeb This method is chainable.
 	 *
 	 * @since   3.1
 	 */
 	public function loadSession(JSession $session = null)
 	{
-		// Generate a session name.
-		$name = md5($this->get('secret') . $this->get('session_name', get_class($this)));
+		jimport('legacy.application.application');
 
-		// Calculate the session lifetime.
-		$lifetime = (($this->get('lifetime')) ? $this->get('lifetime') * 60 : 900);
+		$options = array();
+		$options['name'] = JApplication::getHash($this->config->get('session_name'));
 
-		// Get the session handler from the configuration.
-		$handler = $this->get('session_handler', 'none');
-
-		// Initialize the options for JSession.
-		$options = array(
-			'name' => $name,
-			'expire' => $lifetime,
-			'force_ssl' => $this->get('force_ssl')
-		);
-
-		// Instantiate the session object.
-		$session = JSession::getInstance($handler, $options);
-		$session->initialise($this->input, $this->dispatcher);
-
-		if ($session->getState() == 'expired')
-		{
-			$session->restart();
-		}
-		else
-		{
-			$session->start();
-		}
+		$session = JFactory::getSession($options);
+		$session->initialise($this->input);
+		$session->start();
 
 		if (!$session->get('registry') instanceof JRegistry)
 		{

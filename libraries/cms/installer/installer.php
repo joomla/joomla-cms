@@ -9,10 +9,10 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.filesystem.file');
-jimport('joomla.filesystem.folder');
-jimport('joomla.filesystem.path');
-jimport('joomla.base.adapter');
+JLoader::import('joomla.filesystem.file');
+JLoader::import('joomla.filesystem.folder');
+JLoader::import('joomla.filesystem.path');
+JLoader::import('joomla.base.adapter');
 
 /**
  * Joomla base installer class
