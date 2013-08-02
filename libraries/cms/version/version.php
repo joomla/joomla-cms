@@ -164,11 +164,12 @@ final class JVersion
 			$query = $db->getQuery(true)
 				->select($db->quoteName('params'))
 				->from($db->quoteName('#__extensions'))
-				->where($db->quoteName('type').' = '.$db->quote('library'))
-				->where($db->quoteName('element').' = '.$db->quote('joomla'));
+				->where($db->quoteName('type') . ' = ' . $db->quote('library'))
+				->where($db->quoteName('element') . ' = ' . $db->quote('joomla'));
 			$db->setQuery($query);
 			$rawparams = $db->loadResult();
-			$params = new JRegistry();
+			$params = new JRegistry;
+
 			$params->loadString($rawparams, 'JSON');
 
 			// Get the mediatag
@@ -177,7 +178,7 @@ final class JVersion
 			// Refresh assets in debug mode or when $mediaTag is not set
 			if ($debugEnabled || empty($mediaTag))
 			{
-				$date = new JDate();
+				$date = new JDate;
 				$mediaTag = md5($this->getLongVersion() . $config->get('secret') . $date->toUnix());
 
 				$this->setMediaTag($mediaTag);
@@ -190,7 +191,7 @@ final class JVersion
 	/**
 	 * Sets the media tag which is used to append to Joomla core media files.
 	 *
-	 * @param	string	$mediaTag	The media tag.
+	 * @param   string  $mediaTag  The media tag.
 	 *
 	 * @return  JVersion instance of $this to allow chaining.
 	 *
@@ -204,11 +205,11 @@ final class JVersion
 		$query = $db->getQuery(true)
 			->select($db->quoteName('params'))
 			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('type').' = '.$db->quote('library'))
-			->where($db->quoteName('element').' = '.$db->quote('joomla'));
+			->where($db->quoteName('type') . ' = ' . $db->quote('library'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('joomla'));
 		$db->setQuery($query);
 		$rawparams = $db->loadResult();
-		$params = new JRegistry();
+		$params = new JRegistry;
 		$params->loadString($rawparams, 'JSON');
 
 		// Set $mediaTag
