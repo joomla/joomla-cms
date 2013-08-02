@@ -45,7 +45,7 @@ abstract class MediaHelper
 	 * @param string An error message to be returned
 	 * @return  boolean
 	 */
-	public static function canUpload($file, &$err)
+	public static function canUpload($file, $err)
 	{
 		$params = JComponentHelper::getParams('com_media');
 
