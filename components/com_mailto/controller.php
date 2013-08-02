@@ -24,10 +24,19 @@ class MailtoController extends JControllerLegacy
 	 */
 	public function mailto()
 	{
-		$session = JFactory::getSession();
-		$session->set('com_mailto.formtime', time());
-		$this->input->set('view', 'mailto');
-		$this->display();
+		// Check if Send a friend is turned off
+		$showMail = JComponentHelper::getParams('com_content')->get('show_email_icon');
+		if ($showMail)
+		{
+			$session = JFactory::getSession();
+			$session->set('com_mailto.formtime', time());
+			$this->input->set('view', 'mailto');
+			$this->display();
+		}
+		else
+		{
+			JError::raiseError(500, JText::_('JERROR_ALERTNOAUTHOR'));
+		}
 	}
 
 	/**
