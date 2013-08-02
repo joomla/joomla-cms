@@ -6,35 +6,44 @@
             description="COM_MODULE_CONFIG_MODULE_SETTINGS_DESC">
 
         <field
-                name="showtitle"
-                type="radio"
-                class="btn-group"
-                default="1"
-                label="COM_MODULES_FIELD_SHOWTITLE_LABEL"
-                description="COM_MODULES_FIELD_SHOWTITLE_DESC"
-                size="1">
-            <option value="1">JSHOW</option>
-            <option value="0">JHIDE</option>
-
-        </field>
-        <field
                 name="moduleclass_sfx"
                 type="textarea" rows="3"
                 label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
                 description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"/>
+
         <field
-                name="owncache"
-                type="list"
-                default="1"
-                label="COM_MODULES_FIELD_CACHING_LABEL"
-                description="COM_MODULES_FIELD_CACHING_DESC">
-            <option
-                    value="1">JGLOBAL_USE_GLOBAL
-            </option>
-            <option
-                    value="0">COM_MODULES_FIELD_VALUE_NOCACHING
-            </option>
-        </field>
+                name="module_tag"
+                type="moduletag"
+                label="COM_MODULES_FIELD_MODULE_TAG_LABEL"
+                description="COM_MODULES_FIELD_MODULE_TAG_DESC"
+                default="div"
+                />
+
+        <field
+                name="bootstrap_size"
+                type="integer"
+                first="0"
+                last="12"
+                step="1"
+                label="COM_MODULES_FIELD_BOOTSTRAP_SIZE_LABEL"
+                description="COM_MODULES_FIELD_BOOTSTRAP_SIZE_DESC"
+                />
+
+        <field
+                name="header_tag"
+                type="headertag"
+                default="h3"
+                label="COM_MODULES_FIELD_HEADER_TAG_LABEL"
+                description="COM_MODULES_FIELD_HEADER_TAG_DESC"
+                />
+
+        <field
+                name="header_class"
+                type="text"
+                label="COM_MODULES_FIELD_HEADER_CLASS_LABEL"
+                description="COM_MODULES_FIELD_HEADER_CLASS_DESC"
+                />
+
     </fieldset>
     <fieldset
             name="permissions"

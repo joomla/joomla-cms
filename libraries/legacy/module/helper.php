@@ -153,17 +153,8 @@ abstract class JModuleHelper
 		$params = new JRegistry;
 		$params->loadString($module->params);
 
-		// Merge Show Title
-		$showTitle = $module->showtitle;
-		$ModParams = JComponentHelper::getParams('com_modules');
-
-		if ($showTitle == 2)
-		{
-			$module->showtitle = $ModParams->get("showtitle");
-		}
-
 		$params = self::mergeParams($params);
-		//var_dump($params);
+
 		// Get the template
 		$template = $app->getTemplate();
 
@@ -534,7 +525,7 @@ abstract class JModuleHelper
 
 
 	/**
-	 * Merge Params
+	 * Merge Local and Global Params
 	 *
 	 * @param $params
 	 *
@@ -542,14 +533,11 @@ abstract class JModuleHelper
 	 */
 	public static function mergeParams($params)
 	{
-		$modParams = JComponentHelper::getParams('com_modules');
-		$globalParams = $modParams;
+		$localParams = $params->toArray();
+		$globalParams = JComponentHelper::getParams('com_modules')->toArray();
+		$modParams = new JRegistry;
+		$modParams->loadArray(array_merge($globalParams, $localParams));
 
-		if (is_null($params->get('moduleclass_sfx')))
-		{
-			$params->set('moduleclass_sfx', $globalParams->get('moduleclass_sfx'));
-		}
-
-		return $params;
+		return $modParams;
 	}
 }
