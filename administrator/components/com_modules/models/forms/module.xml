@@ -32,12 +32,11 @@
 
 		<field name="showtitle" type="radio"
 			class="btn-group"
-            default="2"
+            default="1"
 			description="COM_MODULES_FIELD_SHOWTITLE_DESC"
 			label="COM_MODULES_FIELD_SHOWTITLE_LABEL"
 			size="1"
 		>
-            <option value="2">JGLOBAL_USE_GLOBAL</option>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
