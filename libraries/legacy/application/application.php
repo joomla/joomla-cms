@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.environment.response');
+JLoader::import('joomla.environment.response');
 
 /**
  * Base class for a Joomla! application.
@@ -1201,13 +1201,13 @@ class JApplication extends JApplicationBase
 	}
 
 	/**
-	 * Flush the mediatag version to refresh versionable assets
+	 * Flush the media version to refresh versionable assets
 	 *
 	 * @return  JApplication  Return itself to allow chainable methods
 	 */
 	public function flushAssets()
 	{
 		$version = new JVersion;
-		$version->setMediaTag(null);
+		$version->refreshMediaVersion();
 	}
 }

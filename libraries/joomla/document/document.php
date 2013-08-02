@@ -200,11 +200,11 @@ class JDocument
 	protected static $instances = array();
 
 	/**
-	 * Mediatag added to assets
+	 * Media version added to assets
 	 *
 	 * @var  string
 	 */
-	protected $mediatag = null;
+	protected $mediaVersion = null;
 
 	/**
 	 * Class constructor.
@@ -250,9 +250,9 @@ class JDocument
 			$this->setBase($options['base']);
 		}
 
-		if (array_key_exists('mediatag', $options))
+		if (array_key_exists('mediaversion', $options))
 		{
-			$this->setMediatag($options['mediatag']);
+			$this->setMediaVersion($options['mediaversion']);
 		}
 	}
 
@@ -486,7 +486,7 @@ class JDocument
 		// Automatic version
 		if ($version === null)
 		{
-			$version = $this->getMediaTag();
+			$version = $this->getMediaVersion();
 		}
 
 		if (!empty($version) && strpos($url, '?') === false)
@@ -561,7 +561,7 @@ class JDocument
 		// Automatic version
 		if ($version === null)
 		{
-			$version = $this->getMediaTag();
+			$version = $this->getMediaVersion();
 		}
 
 		if (!empty($version) && strpos($url, '?') === false)
@@ -709,27 +709,27 @@ class JDocument
 	}
 
 	/**
-	 * Sets mediatag that will be added to assets
+	 * Set the assets version
 	 *
-	 * @param   string  $mediatag  Mediatag to use
+	 * @param   string  $mediaVersion  Media version to use
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 */
-	public function setMediatag($mediatag)
+	public function setMediaVersion($mediaVersion)
 	{
-		$this->mediatag = strtolower($mediatag);
+		$this->mediaVersion = strtolower($mediaVersion);
 
 		return $this;
 	}
 
 	/**
-	 * Return the mediatag of the document.
+	 * Return the media version
 	 *
 	 * @return  string
 	 */
-	public function getMediaTag()
+	public function getMediaVersion()
 	{
-		return $this->mediatag;
+		return $this->mediaVersion;
 	}
 
 	/**

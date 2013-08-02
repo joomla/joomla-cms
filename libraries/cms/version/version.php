@@ -139,91 +139,96 @@ final class JVersion
 	}
 
 	/**
-	 * Gets a media tag which is used to append to Joomla core media files.
+	 * Generate a media version string for assets
+	 * Public to allow third part developers to use it
 	 *
-	 * This media tag is used to append to Joomla core media in order to trick browsers into
-	 * reloading the CSS and JavaScript, because they think the files are renewed.
-	 * The media tag is renewed after Joomla core update, install, discover_install and uninstallation.
-	 *
-	 * @return  string  The media tag.
+	 * @return  string
 	 *
 	 * @since	3.1.5
 	 */
-	public function getMediaTag()
+	public function generateMediaVersion()
 	{
-		// Load the media tag and cache it for future use
-		static $mediaTag = null;
+		$date = new JDate;
+		$config = JFactory::getConfig();
 
-		if ($mediaTag === null)
-		{
-			$db = JFactory::getDbo();
-			$config = JFactory::getConfig();
-			$debugEnabled = $config->get('debug', 0);
-
-			// Get the parameters of the Joomla library
-			$query = $db->getQuery(true)
-				->select($db->quoteName('params'))
-				->from($db->quoteName('#__extensions'))
-				->where($db->quoteName('type') . ' = ' . $db->quote('library'))
-				->where($db->quoteName('element') . ' = ' . $db->quote('joomla'));
-			$db->setQuery($query);
-			$rawparams = $db->loadResult();
-			$params = new JRegistry;
-
-			$params->loadString($rawparams, 'JSON');
-
-			// Get the mediatag
-			$mediaTag = $params->get('mediatag', '');
-
-			// Refresh assets in debug mode or when $mediaTag is not set
-			if ($debugEnabled || empty($mediaTag))
-			{
-				$date = new JDate;
-				$mediaTag = md5($this->getLongVersion() . $config->get('secret') . $date->toUnix());
-
-				$this->setMediaTag($mediaTag);
-			}
-		}
-
-		return $mediaTag;
+		return md5($this->getLongVersion() . $config->get('secret') . $date->toUnix());
 	}
 
 	/**
-	 * Sets the media tag which is used to append to Joomla core media files.
+	 * Gets a media version which is used to append to Joomla core media files.
 	 *
-	 * @param   string  $mediaTag  The media tag.
+	 * This media version is used to append to Joomla core media in order to trick browsers into
+	 * reloading the CSS and JavaScript, because they think the files are renewed.
+	 * The media version is renewed after Joomla core update, install, discover_install and uninstallation.
+	 *
+	 * @return  string  The media version.
+	 *
+	 * @since	3.1.5
+	 */
+	public function getMediaVersion()
+	{
+		// Load the media version and cache it for future use
+		static $mediaVersion = null;
+
+		if ($mediaVersion === null)
+		{
+			$config = JFactory::getConfig();
+			$debugEnabled = $config->get('debug', 0);
+
+			// Get the joomla library params
+			$params = JLibraryHelper::getParams('joomla');
+
+			// Get the media version
+			$mediaVersion = $params->get('mediaversion', '');
+
+			// Refresh assets in debug mode or when the media version is not set
+			if ($debugEnabled || empty($mediaVersion))
+			{
+				$mediaVersion = $this->generateMediaVersion();
+
+				$this->setMediaVersion($mediaVersion);
+			}
+		}
+
+		return $mediaVersion;
+	}
+
+	/**
+	 * Function to refresh the media version
 	 *
 	 * @return  JVersion instance of $this to allow chaining.
 	 *
 	 * @since	3.1.5
 	 */
-	public function setMediaTag($mediaTag)
+	public function refreshMediaVersion()
 	{
-		$db = JFactory::getDbo();
+		$newMediaVersion = $this->generateMediaVersion();
 
-		// Get the parameters of the Joomla library
-		$query = $db->getQuery(true)
-			->select($db->quoteName('params'))
-			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('type') . ' = ' . $db->quote('library'))
-			->where($db->quoteName('element') . ' = ' . $db->quote('joomla'));
-		$db->setQuery($query);
-		$rawparams = $db->loadResult();
-		$params = new JRegistry;
-		$params->loadString($rawparams, 'JSON');
+		return $this->setMediaVersion($newMediaVersion);
+	}
 
-		// Set $mediaTag
-		$params->set('mediatag', $mediaTag);
+	/**
+	 * Sets the media version which is used to append to Joomla core media files.
+	 *
+	 * @param   string  $mediaVersion  The media version.
+	 *
+	 * @return  JVersion instance of $this to allow chaining.
+	 *
+	 * @since	3.1.5
+	 */
+	public function setMediaVersion($mediaVersion)
+	{
+		// Do not allow empty media versions
+		if (!empty($mediaVersion))
+		{
+			// Get library parameters
+			$params = JLibraryHelper::getParams('joomla');
 
-		// Store the updated $params
-		$data = $params->toString('JSON');
-		$query = $db->getQuery(true)
-			->update($db->quoteName('#__extensions'))
-			->set($db->quoteName('params') . ' = ' . $db->quote($data))
-			->where($db->quoteName('type') . ' = ' . $db->quote('library'))
-			->where($db->quoteName('element') . ' = ' . $db->quote('joomla'));
-		$db->setQuery($query);
-		$db->execute();
+			$params->set('mediaversion', $mediaVersion);
+
+			// Save modified params
+			JLibraryHelper::saveParams('joomla', $params);
+		}
 
 		return $this;
 	}
