@@ -22,10 +22,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<div id="j-sidebar-container" class="span2">
 			<?php echo $this->sidebar; ?>
 		</div>
-		<div id="j-main-container" class="span10">
-	<?php else : ?>
-		<div id="j-main-container">
 	<?php endif; ?>
+		<div id="j-main-container"<?php echo !empty($this->sidebar) ? ' class="span10"' : ''; ?>>
 
 	<?php if ($this->showMessage) : ?>
 		<div class="alert alert-info">

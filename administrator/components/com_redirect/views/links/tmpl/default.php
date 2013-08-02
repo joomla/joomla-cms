@@ -26,10 +26,8 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
-	<div id="j-main-container" class="span10">
-<?php else : ?>
-	<div id="j-main-container">
-<?php endif;?>
+<?php endif; ?>
+	<div id="j-main-container"<?php echo !empty($this->sidebar) ? ' class="span10"' : ''; ?>>
 		<div id="filter-bar" class="btn-toolbar">
 			<div class="filter-search btn-group pull-left">
 				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_REDIRECT_SEARCH_LINKS'); ?>" />
@@ -104,13 +102,13 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 								<?php echo $this->escape(str_replace(JUri::root(), '', $item->old_url)); ?>
 						<?php endif; ?>
 					</td>
-					<td class="small">
+					<td>
 						<?php echo $this->escape($item->new_url); ?>
 					</td>
-					<td class="small">
+					<td>
 						<?php echo $this->escape($item->referer); ?>
 					</td>
-					<td class="small">
+					<td>
 						<?php echo JHtml::_('date', $item->created_date, JText::_('DATE_FORMAT_LC4')); ?>
 					</td>
 					<td class="center">

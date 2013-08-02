@@ -14,11 +14,9 @@ defined('_JEXEC') or die;
   <?php if (!empty( $this->sidebar)) : ?>
     <div id="j-sidebar-container" class="span2">
       <?php echo $this->sidebar; ?>
-    </div>  
-    <div id="j-main-container" class="span10">
-  <?php else : ?>
-    <div id="j-main-container">
-  <?php endif;?>
+    </div>
+  <?php endif; ?>
+	<div id="j-main-container"<?php echo !empty($this->sidebar) ? ' class="span10"' : ''; ?>>
   	<fieldset>
   		<legend><?php echo JText::_('COM_CACHE_PURGE_EXPIRED_ITEMS'); ?></legend>
   		<p><?php echo JText::_('COM_CACHE_PURGE_INSTRUCTIONS'); ?></p>

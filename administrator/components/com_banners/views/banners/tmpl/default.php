@@ -54,11 +54,9 @@ $sortFields = $this->getSortFields();
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
-	<div id="j-main-container" class="span10">
-<?php else : ?>
-	<div id="j-main-container">
-<?php endif;?>
-		<div id="filter-bar" class="btn-toolbar">
+<?php endif; ?>
+	<div id="j-main-container"<?php echo !empty($this->sidebar) ? ' class="span10"' : ''; ?>>
+	<div id="filter-bar" class="btn-toolbar">
 			<div class="filter-search btn-group pull-left">
 				<label for="filter_search" class="element-invisible"><?php echo JText::_('COM_BANNERS_SEARCH_IN_TITLE');?></label>
 				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_BANNERS_SEARCH_IN_TITLE'); ?>" />
@@ -218,18 +216,18 @@ $sortFields = $this->getSortFields();
 					<td class="center hidden-phone">
 						<?php echo JHtml::_('banner.pinned', $item->sticky, $i, $canChange); ?>
 					</td>
-					<td class="small hidden-phone">
+					<td class="hidden-phone">
 						<?php echo $item->client_name;?>
 					</td>
-					<td class="small hidden-phone">
+					<td class="hidden-phone">
 						<?php echo JText::sprintf('COM_BANNERS_IMPRESSIONS', $item->impmade, $item->imptotal ? $item->imptotal : JText::_('COM_BANNERS_UNLIMITED'));?>
 					</td>
-					<td class="center small hidden-phone">
+					<td class="center hidden-phone">
 						<?php echo $item->clicks;?> -
 						<?php echo sprintf('%.2f%%', $item->impmade ? 100 * $item->clicks / $item->impmade : 0);?>
 					</td>
 
-					<td class="small nowrap hidden-phone">
+					<td class="nowrap hidden-phone">
 						<?php if ($item->language == '*'):?>
 							<?php echo JText::alt('JALL', 'language'); ?>
 						<?php else:?>

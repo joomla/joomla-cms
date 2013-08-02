@@ -50,10 +50,8 @@ $sortFields = $this->getSortFields();
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
-	<div id="j-main-container" class="span10">
-<?php else : ?>
-	<div id="j-main-container">
-<?php endif;?>
+<?php endif; ?>
+	<div id="j-main-container"<?php echo !empty($this->sidebar) ? ' class="span10"' : ''; ?>>
 
 		<div id="filter-bar" class="btn-toolbar">
 			<div class="filter-search btn-group pull-left">
@@ -207,28 +205,28 @@ $sortFields = $this->getSortFields();
 								?>
 						</div>
 					</td>
-					<td class="small hidden-phone">
+					<td class="hidden-phone">
 						<?php if ($item->position) : ?>
-							<span class="label label-info">
+							<span>
 								<?php echo $item->position; ?>
 							</span>
 						<?php else : ?>
-							<span class="label">
+							<span>
 								<?php echo JText::_('JNONE'); ?>
 							</span>
 						<?php endif; ?>
 					</td>
-					<td class="small hidden-phone">
+					<td class="hidden-phone">
 						<?php echo $item->name;?>
 					</td>
-					<td class="small hidden-phone">
+					<td class="hidden-phone">
 						<?php echo $item->pages; ?>
 					</td>
 
-					<td class="small hidden-phone">
+					<td class="hidden-phone">
 						<?php echo $this->escape($item->access_level); ?>
 					</td>
-					<td class="small hidden-phone">
+					<td class="hidden-phone">
 						<?php if ($item->language == ''):?>
 							<?php echo JText::_('JDEFAULT'); ?>
 						<?php elseif ($item->language == '*'):?>

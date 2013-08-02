@@ -42,10 +42,8 @@ $sortFields = $this->getSortFields();
     <div id="j-sidebar-container" class="span2">
       <?php echo $this->sidebar; ?>
     </div>
-    <div id="j-main-container" class="span10">
-  <?php else : ?>
-    <div id="j-main-container">
-  <?php endif;?>
+<?php endif; ?>
+	<div id="j-main-container"<?php echo !empty($this->sidebar) ? ' class="span10"' : ''; ?>>
   	<div id="filter-bar" class="btn-toolbar">
   		<div class="filter-search btn-group pull-left">
   			<label class="filter-hide-lbl" for="filter_begin"><?php echo JText::_('COM_BANNERS_BEGIN_LABEL'); ?></label>
@@ -115,7 +113,7 @@ $sortFields = $this->getSortFields();
   				<td>
   					<?php echo $item->client_name;?>
   				</td>
-  				<td class="small hidden-phone">
+  				<td class="hidden-phone">
   					<?php echo $item->track_type == 1 ? JText::_('COM_BANNERS_IMPRESSION') : JText::_('COM_BANNERS_CLICK');?>
   				</td>
   				<td class="hidden-phone">
