@@ -9,9 +9,10 @@
 
 defined('_JEXEC') or die;
 
-$list    = JSubMenuHelper::getEntries();
-$filters = JSubMenuHelper::getFilters();
-$action  = JSubMenuHelper::getAction();
+// Initialise variables.
+$list    = JHtmlSidebar::getEntries();
+$filters = JHtmlSidebar::getFilters();
+$action  = JHtmlSidebar::getAction();
 
 $displayMenu    = count($list);
 $displayFilters = count($filters);
@@ -20,5 +21,6 @@ $hide = JFactory::getApplication()->input->getBool('hidemainmenu');
 
 if ($displayMenu || $displayFilters)
 {
+	// Render the module.
 	require JModuleHelper::getLayoutPath('mod_submenu', $params->get('layout', 'default'));
 }
