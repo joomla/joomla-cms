@@ -155,6 +155,8 @@ class ContentModelArticles extends JModelList
 	 */
 	protected function getListQuery()
 	{
+		$config = JFactory::getConfig();
+
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
@@ -211,19 +213,48 @@ class ContentModelArticles extends JModelList
 			->join('LEFT', '#__users AS uam ON uam.id = a.modified_by');
 
 		// Get contact id
-		$subQuery = $db->getQuery(true)
-			->select('MAX(contact.id) AS id')
-			->from('#__contact_details AS contact')
-			->where('contact.published = 1')
-			->where('contact.user_id = a.created_by');
-			// Filter by language
-			if ($this->getState('filter.language'))
-			{
-				$subQuery->where('(contact.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ') OR contact.language IS NULL)');
-			}
-		$query->select('(' . $subQuery . ') as contactid');
+		$subQuery = $db->getQuery(true);
 
-		// Join over the categories to get parent category titles
+			if ($config->get('dbtype') == 'sqlsrv' || $config->get('dbtype') == 'sqlazure')
+			{
+				$subQuery->select('contact.user_id, MAX(contact.id) AS id, contact.language');
+			}
+			else
+			{
+				$subQuery->select('MAX(contact.id) AS id');
+			}
+
+			$subQuery->from('#__contact_details AS contact')
+			->where('contact.published = 1');
+
+			if ($config->get('dbtype') == 'sqlsrv' || $config->get('dbtype') == 'sqlazure')
+			{
+						$subQuery->group('contact.user_id, contact.language');
+
+					$onjoin = 'contact.user_id = a.created_by';
+
+					// Filter by language
+					if ($this->getState('filter.language'))
+						{
+							$onjoin .= ' AND (contact.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ') OR contact.language IS NULL)';
+						}
+
+						$query->select('contact.id as contactid')
+							->join('LEFT', '(' . $subQuery . ') AS contact ON ' . $onjoin);
+			}
+			else
+			{
+				$subQuery->where('contact.user_id = a.created_by');
+
+				// Filter by language
+				if ($this->getState('filter.language'))
+				{
+					$subQuery->where('(contact.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ') OR contact.language IS NULL)');
+				}
+				$query->select('(' . $subQuery . ') as contactid');
+			}
+
+			// Join over the categories to get parent category titles
 		$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias')
 			->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
 
@@ -233,15 +264,15 @@ class ContentModelArticles extends JModelList
 
 		// Join to check for category published state in parent categories up the tree
 		$query->select('c.published, CASE WHEN badcats.id is null THEN c.published ELSE 0 END AS parents_published');
-		$subquery = 'SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ';
-		$subquery .= 'ON cat.lft BETWEEN parent.lft AND parent.rgt ';
-		$subquery .= 'WHERE parent.extension = ' . $db->quote('com_content');
+		$subQuery = 'SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ';
+		$subQuery .= 'ON cat.lft BETWEEN parent.lft AND parent.rgt ';
+		$subQuery .= 'WHERE parent.extension = ' . $db->quote('com_content');
 
 		if ($this->getState('filter.published') == 2)
 		{
 			// Find any up-path categories that are archived
 			// If any up-path categories are archived, include all children in archived layout
-			$subquery .= ' AND parent.published = 2 GROUP BY cat.id ';
+			$subQuery .= ' AND parent.published = 2 GROUP BY cat.id ';
 			// Set effective state to archived if up-path category is archived
 			$publishedWhere = 'CASE WHEN badcats.id is null THEN a.state ELSE 2 END';
 		}
@@ -249,11 +280,11 @@ class ContentModelArticles extends JModelList
 		{
 			// Find any up-path categories that are not published
 			// If all categories are published, badcats.id will be null, and we just use the article state
-			$subquery .= ' AND parent.published != 1 GROUP BY cat.id ';
+			$subQuery .= ' AND parent.published != 1 GROUP BY cat.id ';
 			// Select state to unpublished if up-path category is unpublished
 			$publishedWhere = 'CASE WHEN badcats.id is null THEN a.state ELSE 0 END';
 		}
-		$query->join('LEFT OUTER', '(' . $subquery . ') AS badcats ON badcats.id = c.id');
+		$query->join('LEFT OUTER', '(' . $subQuery . ') AS badcats ON badcats.id = c.id');
 
 		// Filter by access level.
 		if ($access = $this->getState('filter.access'))
@@ -499,7 +530,15 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$query->order($this->getState('list.ordering', 'a.ordering') . ' ' . $this->getState('list.direction', 'ASC'));
+		if ($config->get('dbtype') == 'sqlsrv' || $config->get('dbtype') == 'sqlazire')
+		{
+			$query->order($this->getState('list.ordering', 'a.ordering') . ' ' . $this->getState('list.direction', 'ASC'))
+						->group('a.id, a.title, a.alias, a.introtext, a.checked_out, a.checked_out_time, a.catid, a.created, a.created_by, a.created_by_alias, a.created, a.modified, a.modified_by, uam.name, a.publish_up, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, a.hits, a.xreference, a.featured, a.fulltext, a.state, a.publish_down, badcats.id, c.title, c.path, c.access, c.alias, uam.id, ua.name, ua.email, contact.id, parent.title, parent.id, parent.path, parent.alias, v.rating_sum, v.rating_count, c.published, c.lft, a.ordering, parent.lft, fp.ordering, c.id, a.images, a.urls');
+		}
+		else
+		{
+			$query->order($this->getState('list.ordering', 'a.ordering') . ' ' . $this->getState('list.direction', 'ASC'));
+		}
 
 		return $query;
 	}
