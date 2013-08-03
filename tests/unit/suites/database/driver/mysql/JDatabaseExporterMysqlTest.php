@@ -205,7 +205,7 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test__toString()
 	{
-		$instance = new JDatabaseExporterMySqlInspector;
+		$instance = new JDatabaseExporterMysqlInspector;
 
 		// Set up the export settings.
 		$instance
@@ -242,7 +242,7 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAsXml()
 	{
-		$instance = new JDatabaseExporterMySqlInspector;
+		$instance = new JDatabaseExporterMysqlInspector;
 
 		$result = $instance->asXml();
 
@@ -268,7 +268,7 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testBuildXml()
 	{
-		$instance = new JDatabaseExporterMySqlInspector;
+		$instance = new JDatabaseExporterMysqlInspector;
 
 		// Set up the export settings.
 		$instance
@@ -306,7 +306,7 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testBuildXmlStructure()
 	{
-		$instance = new JDatabaseExporterMySqlInspector;
+		$instance = new JDatabaseExporterMysqlInspector;
 
 		// Set up the export settings.
 		$instance
@@ -339,7 +339,7 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithNoDbo()
 	{
-		$instance = new JDatabaseExporterMySqlInspector;
+		$instance = new JDatabaseExporterMysqlInspector;
 
 		try
 		{
@@ -365,7 +365,7 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithNoTables()
 	{
-		$instance = new JDatabaseExporterMySqlInspector;
+		$instance = new JDatabaseExporterMysqlInspector;
 		$instance->setDbo($this->dbo);
 
 		try
@@ -392,7 +392,7 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithGoodInput()
 	{
-		$instance = new JDatabaseExporterMySqlInspector;
+		$instance = new JDatabaseExporterMysqlInspector;
 		$instance->setDbo($this->dbo);
 		$instance->from('foobar');
 
@@ -423,7 +423,7 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testFromWithBadInput()
 	{
-		$instance = new JDatabaseExporterMySqlInspector;
+		$instance = new JDatabaseExporterMysqlInspector;
 
 		try
 		{
@@ -449,7 +449,7 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testFromWithGoodInput()
 	{
-		$instance = new JDatabaseExporterMySqlInspector;
+		$instance = new JDatabaseExporterMysqlInspector;
 
 		try
 		{
@@ -484,7 +484,7 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetGenericTableName()
 	{
-		$instance = new JDatabaseExporterMySqlInspector;
+		$instance = new JDatabaseExporterMysqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -503,7 +503,7 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetDboWithBadInput()
 	{
-		$instance = new JDatabaseExporterMySqlInspector;
+		$instance = new JDatabaseExporterMysqlInspector;
 
 		try
 		{
@@ -529,7 +529,7 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetDboWithGoodInput()
 	{
-		$instance = new JDatabaseExporterMySqlInspector;
+		$instance = new JDatabaseExporterMysqlInspector;
 
 		try
 		{
@@ -560,7 +560,7 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testWithStructure()
 	{
-		$instance = new JDatabaseExporterMySqlInspector;
+		$instance = new JDatabaseExporterMysqlInspector;
 
 		$result = $instance->withStructure();
 

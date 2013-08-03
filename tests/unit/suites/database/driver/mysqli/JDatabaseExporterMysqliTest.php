@@ -7,16 +7,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once __DIR__ . '/JDatabaseExporterMySqliInspector.php';
+require_once __DIR__ . '/JDatabaseExporterMysqliInspector.php';
 
 /**
- * Tests the JDatabaseExporterMySqli class.
+ * Tests the JDatabaseExporterMysqli class.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
  * @since       11.1
  */
-class JDatabaseExporterMySqliTest extends PHPUnit_Framework_TestCase
+class JDatabaseExporterMysqliTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var    object  The mocked database object for use by test methods.
@@ -205,7 +205,7 @@ class JDatabaseExporterMySqliTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test__toString()
 	{
-		$instance = new JDatabaseExporterMySqliInspector;
+		$instance = new JDatabaseExporterMysqliInspector;
 
 		// Set up the export settings.
 		$instance
@@ -242,7 +242,7 @@ class JDatabaseExporterMySqliTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAsXml()
 	{
-		$instance = new JDatabaseExporterMySqliInspector;
+		$instance = new JDatabaseExporterMysqliInspector;
 
 		$result = $instance->asXml();
 
@@ -268,7 +268,7 @@ class JDatabaseExporterMySqliTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testBuildXml()
 	{
-		$instance = new JDatabaseExporterMySqliInspector;
+		$instance = new JDatabaseExporterMysqliInspector;
 
 		// Set up the export settings.
 		$instance
@@ -306,7 +306,7 @@ class JDatabaseExporterMySqliTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testBuildXmlStructure()
 	{
-		$instance = new JDatabaseExporterMySqliInspector;
+		$instance = new JDatabaseExporterMysqliInspector;
 
 		// Set up the export settings.
 		$instance
@@ -339,7 +339,7 @@ class JDatabaseExporterMySqliTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithNoDbo()
 	{
-		$instance = new JDatabaseExporterMySqliInspector;
+		$instance = new JDatabaseExporterMysqliInspector;
 
 		try
 		{
@@ -365,7 +365,7 @@ class JDatabaseExporterMySqliTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithNoTables()
 	{
-		$instance = new JDatabaseExporterMySqliInspector;
+		$instance = new JDatabaseExporterMysqliInspector;
 		$instance->setDbo($this->dbo);
 
 		try
@@ -392,7 +392,7 @@ class JDatabaseExporterMySqliTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithGoodInput()
 	{
-		$instance = new JDatabaseExporterMySqliInspector;
+		$instance = new JDatabaseExporterMysqliInspector;
 		$instance->setDbo($this->dbo);
 		$instance->from('foobar');
 
@@ -423,7 +423,7 @@ class JDatabaseExporterMySqliTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testFromWithBadInput()
 	{
-		$instance = new JDatabaseExporterMySqliInspector;
+		$instance = new JDatabaseExporterMysqliInspector;
 
 		try
 		{
@@ -449,7 +449,7 @@ class JDatabaseExporterMySqliTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testFromWithGoodInput()
 	{
-		$instance = new JDatabaseExporterMySqliInspector;
+		$instance = new JDatabaseExporterMysqliInspector;
 
 		try
 		{
@@ -484,7 +484,7 @@ class JDatabaseExporterMySqliTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetGenericTableName()
 	{
-		$instance = new JDatabaseExporterMySqliInspector;
+		$instance = new JDatabaseExporterMysqliInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -503,7 +503,7 @@ class JDatabaseExporterMySqliTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetDboWithBadInput()
 	{
-		$instance = new JDatabaseExporterMySqliInspector;
+		$instance = new JDatabaseExporterMysqliInspector;
 
 		try
 		{
@@ -529,7 +529,7 @@ class JDatabaseExporterMySqliTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetDboWithGoodInput()
 	{
-		$instance = new JDatabaseExporterMySqliInspector;
+		$instance = new JDatabaseExporterMysqliInspector;
 
 		try
 		{
@@ -560,7 +560,7 @@ class JDatabaseExporterMySqliTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testWithStructure()
 	{
-		$instance = new JDatabaseExporterMySqliInspector;
+		$instance = new JDatabaseExporterMysqliInspector;
 
 		$result = $instance->withStructure();
 

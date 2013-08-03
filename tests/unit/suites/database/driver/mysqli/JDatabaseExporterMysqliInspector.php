@@ -14,7 +14,7 @@
  * @subpackage  Database
  * @since       11.1
  */
-class JDatabaseExporterMySqliInspector extends JDatabaseExporterMysqli
+class JDatabaseExporterMysqliInspector extends JDatabaseExporterMysqli
 {
 	/**
 	 * Gets any property from the class.
