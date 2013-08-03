@@ -35,7 +35,7 @@ class MailtoController extends JControllerLegacy
 		}
 		else
 		{
-			JError::raiseError(500, JText::_('JERROR_ALERTNOAUTHOR'));
+			throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 500);
 		}
 	}
 
