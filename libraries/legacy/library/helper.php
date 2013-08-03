@@ -34,7 +34,7 @@ class JLibraryHelper
 	 *
 	 * @return  object   An object with the library's information.
 	 *
-	 * @since   11.1
+	 * @since   3.1.5
 	 */
 	public static function getLibrary($element, $strict = false)
 	{
@@ -65,7 +65,7 @@ class JLibraryHelper
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   3.1.5
 	 */
 	public static function isEnabled($element)
 	{
@@ -83,7 +83,7 @@ class JLibraryHelper
 	 * @return  JRegistry  A JRegistry object.
 	 *
 	 * @see     JRegistry
-	 * @since   11.1
+	 * @since   3.1.5
 	 */
 	public static function getParams($element, $strict = false)
 	{
@@ -101,7 +101,7 @@ class JLibraryHelper
 	 * @return  JRegistry  A JRegistry object.
 	 *
 	 * @see     JRegistry
-	 * @since   11.1
+	 * @since   3.1.5
 	 */
 	public static function saveParams($element, $params)
 	{

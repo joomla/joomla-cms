@@ -151,7 +151,7 @@ final class JVersion
 		$date = new JDate;
 		$config = JFactory::getConfig();
 
-		return md5($this->getLongVersion() . $config->get('secret') . $date->toUnix());
+		return md5($this->getLongVersion() . $config->get('secret') . $date->toSql());
 	}
 
 	/**

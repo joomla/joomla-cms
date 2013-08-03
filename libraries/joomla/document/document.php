@@ -480,6 +480,8 @@ class JDocument
 	 * @param   boolean  $async    [description]
 	 *
 	 * @return  void
+	 *
+	 * @since   3.1.5
 	 */
 	public function addScriptVersion($url, $version = null, $type = "text/javascript", $defer = false, $async = false)
 	{
@@ -554,7 +556,7 @@ class JDocument
 	 *
 	 * @return  JDocument instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   3.1.5
 	 */
 	public function addStyleSheetVersion($url, $version = null, $type = "text/css", $media = null, $attribs = array())
 	{
@@ -714,6 +716,8 @@ class JDocument
 	 * @param   string  $mediaVersion  Media version to use
 	 *
 	 * @return  JDocument instance of $this to allow chaining
+	 *
+	 * @since   3.1.5
 	 */
 	public function setMediaVersion($mediaVersion)
 	{
@@ -726,6 +730,8 @@ class JDocument
 	 * Return the media version
 	 *
 	 * @return  string
+	 *
+	 * @since   3.1.5
 	 */
 	public function getMediaVersion()
 	{
