@@ -1507,7 +1507,8 @@ class JForm
 		/*
 		 * Get an array of <field /> elements that are underneath a <fieldset /> element
 		 * with the appropriate name attribute, and also any <field /> elements with
-		 * the appropriate fieldset attribute.
+		 * the appropriate fieldset attribute. To allow repeatable elements only immediate
+		 * field descendants of the fieldset are selected.
 		 */
 		$fields = $this->xml->xpath('//fieldset[@name="' . $name . '"]/field | //field[@fieldset="' . $name . '"]');
 
