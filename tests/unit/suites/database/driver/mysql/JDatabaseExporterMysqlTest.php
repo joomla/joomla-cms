@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once __DIR__ . '/JDatabaseExporterMySqlInspector.php';
+require_once __DIR__ . '/JDatabaseExporterMysqlInspector.php';
 
 /**
  * Tests the JDatabaseExporterMysql class.
