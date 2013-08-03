@@ -36,6 +36,7 @@ $ -> Language fix or change
  # [#31411] Show Offline image only if it exists. Thanks Tobias Zulauf
  # [#31360] The site is offline but anyhow the error page will show (e.g. at a 404 error). Thanks Mihail Irintchev
  # [#31440] Cleanup & fixes for the admin menu. Thanks Sander Potjer
+ # [#31387] Button class missing for export banner tracks. Thanks Brian Teeman
 
 02-Aug-2013 Jean-Marie Simonet
  $ Updating installation lang files: ru-RU, sv-SE
