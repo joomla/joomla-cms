@@ -31,41 +31,18 @@ $document = JFactory::getDocument();
 	<?php
 		$i = 0;
 		foreach ($this->types as $name => $list) : ?>
-		<?php echo JHtml::_('bootstrap.addSlide', 'collapseTypes', JText::_($name), 'collapse' . $i++); ?>
+		<?php echo JHtml::_('bootstrap.addSlide', 'collapseTypes', $name, 'collapse' . $i++); ?>
 			<ul class="nav nav-tabs nav-stacked">
-				<?php foreach ($list as $item) : ?>
+				<?php foreach ($list as $title => $item) : ?>
 					<li>
 						<a class="choose_type" href="#" title="<?php echo JText::_($item->description); ?>"
-							onclick="javascript:setmenutype('<?php echo base64_encode(json_encode(array('id' => $this->recordId, 'title' => $item->title, 'request' => $item->request))); ?>')">
-							<?php echo JText::_($item->title);?> <small class="muted"><?php echo JText::_($item->description); ?></small>
+							onclick="javascript:setmenutype('<?php echo base64_encode(json_encode(array('id' => $this->recordId, 'title' => (isset($item->type) ? $item->type : $item->title), 'request' => $item->request))); ?>')">
+							<?php echo $title;?> <small class="muted"><?php echo JText::_($item->description); ?></small>
 						</a>
 					</li>
 				<?php endforeach; ?>
 			</ul>
 		<?php echo JHtml::_('bootstrap.endSlide'); ?>
 	<?php endforeach; ?>
-	<?php echo JHtml::_('bootstrap.addSlide', 'collapseTypes', JText::_('COM_MENUS_TYPE_SYSTEM'), 'collapse-system'); ?>
-		<ul class="nav nav-tabs nav-stacked">
-			<li><a class="choose_type" href="#" title="<?php echo JText::_('COM_MENUS_TYPE_EXTERNAL_URL_DESC'); ?>"
-					onclick="javascript:setmenutype('<?php echo base64_encode(json_encode(array('id' => $this->recordId, 'title' => 'url'))); ?>')">
-					<?php echo JText::_('COM_MENUS_TYPE_EXTERNAL_URL'); ?> <small class="muted"><?php echo JText::_('COM_MENUS_TYPE_EXTERNAL_URL_DESC'); ?></small>
-				</a>
-			</li>
-			<li><a class="choose_type" href="#" title="<?php echo JText::_('COM_MENUS_TYPE_ALIAS_DESC'); ?>"
-					onclick="javascript:setmenutype('<?php echo base64_encode(json_encode(array('id' => $this->recordId, 'title' => 'alias'))); ?>')">
-					<?php echo JText::_('COM_MENUS_TYPE_ALIAS'); ?> <small class="muted"><?php echo JText::_('COM_MENUS_TYPE_ALIAS_DESC'); ?></small>
-				</a>
-			</li>
-			<li><a class="choose_type" href="#" title="<?php echo JText::_('COM_MENUS_TYPE_SEPARATOR_DESC'); ?>"
-					onclick="javascript:setmenutype('<?php echo base64_encode(json_encode(array('id' => $this->recordId, 'title' => 'separator'))); ?>')">
-					<?php echo JText::_('COM_MENUS_TYPE_SEPARATOR'); ?> <small class="muted"><?php echo JText::_('COM_MENUS_TYPE_SEPARATOR_DESC'); ?></small>
-				</a>
-			</li>
-			<li><a class="choose_type" href="#" title="<?php echo JText::_('COM_MENUS_TYPE_HEADING_DESC'); ?>"
-					onclick="javascript:setmenutype('<?php echo base64_encode(json_encode(array('id' => $this->recordId, 'title' => 'heading'))); ?>')">
-					<?php echo JText::_('COM_MENUS_TYPE_HEADING'); ?> <small class="muted"><?php echo JText::_('COM_MENUS_TYPE_HEADING_DESC'); ?></small>
-				</a>
-			</li>
-		</ul>
 	<?php echo JHtml::_('bootstrap.endSlide'); ?>
 <?php echo JHtml::_('bootstrap.endAccordion'); ?>
