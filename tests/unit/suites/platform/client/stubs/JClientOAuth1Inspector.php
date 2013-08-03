@@ -1,21 +1,21 @@
 <?php
 /**
  * @package     Joomla.UnitTest
- * @subpackage  OAuth
+ * @subpackage  Client
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 /**
- * Inspector for the JOAuth1Client class.
+ * Inspector for the JClientOAuth1 class.
  *
  * @package     Joomla.UnitTest
- * @subpackage  OAuth
+ * @subpackage  Client
  *
  * @since       13.1
  */
-class JOAuth1ClientInspector extends JOAuth1Client
+class JClientOAuth1Inspector extends JClientOAuth1
 {
 	/**
 	 * Mimic verifing credentials.
