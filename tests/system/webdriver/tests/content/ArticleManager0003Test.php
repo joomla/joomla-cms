@@ -24,12 +24,12 @@ use SeleniumClient\DesiredCapabilities;
  */
 class ArticleManager0003Test extends JoomlaWebdriverTestCase
 {
-  /**
-	 * The page class being tested.
-	 *
-	 * @var     ArticleManagerPage
-	 * @since   3.2
-	 */
+	/**
+   	* The page class being tested.
+   	*
+  	* @var     ArticleManagerPage
+   	* @since   3.2
+   	*/
 	protected $articleManagerPage = null;
 	
 	/**
@@ -152,15 +152,15 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 	 */
 	 public function batchAccessLevel_ChangeBatchAccessLevel_AccessLevelChanged()
 	 {
-		$newAccessLevel = 'Special';
-		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
-		$actualAccessLevel = $this->articleManagerPage->getAccessLevel('Archive Module');
-		$this->assertEquals($actualAccessLevel,'Public', 'Initial Access Level Must be Public');		
-		$this->articleManagerPage->changeAccessLevel('Archive Module', $newAccessLevel);
-		$currentAccessLevel = $this->articleManagerPage->getAccessLevel('Archive Module');
-		$this->assertEquals($newAccessLevel,$currentAccessLevel, 'Current Access Level Should have changed to Special');
-		$this->articleManagerPage->changeAccessLevel('Archive Module', 'Public');
-		$currentAccessLevel = $this->articleManagerPage->getAccessLevel('Archive Module');
-		$this->assertEquals('Public',$currentAccessLevel, 'Current Access Level Should have changed back to public');
+	 	$newAccessLevel = 'Special';
+	 	$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
+	 	$actualAccessLevel = $this->articleManagerPage->getAccessLevel('Archive Module');
+	 	$this->assertEquals($actualAccessLevel,'Public', 'Initial Access Level Must be Public');
+	 	$this->articleManagerPage->changeAccessLevel('Archive Module', $newAccessLevel);
+	 	$currentAccessLevel = $this->articleManagerPage->getAccessLevel('Archive Module');
+	 	$this->assertEquals($newAccessLevel,$currentAccessLevel, 'Current Access Level Should have changed to Special');
+	 	$this->articleManagerPage->changeAccessLevel('Archive Module', 'Public');
+	 	$currentAccessLevel = $this->articleManagerPage->getAccessLevel('Archive Module');
+	 	$this->assertEquals('Public',$currentAccessLevel, 'Current Access Level Should have changed back to public');
 	 }		
 }
