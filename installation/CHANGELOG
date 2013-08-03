@@ -42,6 +42,7 @@ $ -> Language fix or change
  # [#31384] Hathor - Modal broken. Thanks cata castillo
  # [#30806] Incorrect database type in the Statistics site module. Thanks Brian Teeman
  # [#31439] email cloaking inserts space. Thanks Peter Martin
+ # [#31480] Dropdown look and fix in Message Select user modal view. Thanks Gunjan Patel
 
 02-Aug-2013 Jean-Marie Simonet
  $ Updating installation lang files: ru-RU, sv-SE
