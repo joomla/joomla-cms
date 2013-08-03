@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#31536] Adding filters in backend Installation Discover view for 3.x. Thanks Gunjan Patel
  # [#31564] Missing images in sample data categories. Thanks Roland Dalmulder
  #$ [#30793] Spelling error in the title of the Edit Article Category screen
+ #$ [#31357] Add the Default parameter to the colour options for the templates to the desc strings. Thanks Tobias Zulauf
 
 02-Aug-2013 Jean-Marie Simonet
  $ Updating installation lang files: ru-RU, sv-SE
