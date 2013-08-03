@@ -35,6 +35,7 @@ $ -> Language fix or change
  #$ [#31357] Add the Default parameter to the colour options for the templates to the desc strings. Thanks Tobias Zulauf
  # [#31411] Show Offline image only if it exists. Thanks Tobias Zulauf
  # [#31360] The site is offline but anyhow the error page will show (e.g. at a 404 error). Thanks Mihail Irintchev
+ $ [#31356] Media manager option desc. Thanks Tobias Zulauf.
 
 02-Aug-2013 Jean-Marie Simonet
  $ Updating installation lang files: ru-RU, sv-SE
