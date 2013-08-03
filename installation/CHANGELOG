@@ -39,6 +39,7 @@ $ -> Language fix or change
  # [#31387] Button class missing for export banner tracks. Thanks Brian Teeman
  # [#31554] Module manager allows positions with trailing spaces. Thanks Richard McDaniel
  # [#31632] Small data type fix in phpdoc. Thanks Gunjan Patel
+ # [#31384] Hathor - Modal broken. Thanks cata castillo
 
 02-Aug-2013 Jean-Marie Simonet
  $ Updating installation lang files: ru-RU, sv-SE
