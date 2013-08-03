@@ -8,14 +8,13 @@
  */
 
 /**
- * Class to expose protected properties and methods in JDatabaseMySqlExporter for testing purposes.
+ * Class to expose protected properties and methods in JDatabaseExporterPostgresql for testing purposes
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- *
- * @since       11.1
+ * @since       12.1
  */
-class JDatabaseExporterMySqlInspector extends JDatabaseExporterMysql
+class JDatabaseExporterPostgresqlInspector extends JDatabaseExporterPostgresql
 {
 	/**
 	 * Gets any property from the class.
@@ -24,7 +23,7 @@ class JDatabaseExporterMySqlInspector extends JDatabaseExporterMysql
 	 *
 	 * @return  mixed   The value of the class property.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function __get($property)
 	{
@@ -34,10 +33,10 @@ class JDatabaseExporterMySqlInspector extends JDatabaseExporterMysql
 	/**
 	 * Exposes the protected buildXml method.
 	 *
-	 * @return  string    An XML string
+	 * @return  string	An XML string
 	 *
 	 * @throws  Exception if an error occurs.
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function buildXml()
 	{
@@ -50,7 +49,7 @@ class JDatabaseExporterMySqlInspector extends JDatabaseExporterMysql
 	 * @return  array  An array of XML lines (strings).
 	 *
 	 * @throws  Exception if an error occurs.
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function buildXmlStructure()
 	{
@@ -62,7 +61,7 @@ class JDatabaseExporterMySqlInspector extends JDatabaseExporterMysql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function check()
 	{
@@ -76,7 +75,7 @@ class JDatabaseExporterMySqlInspector extends JDatabaseExporterMysql
 	 *
 	 * @return  array  An array of column definitions.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function getColumns($table)
 	{
@@ -90,7 +89,7 @@ class JDatabaseExporterMySqlInspector extends JDatabaseExporterMysql
 	 *
 	 * @return  string  The name of the table with the database prefix replaced with #__.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function getGenericTableName($table)
 	{
@@ -104,7 +103,7 @@ class JDatabaseExporterMySqlInspector extends JDatabaseExporterMysql
 	 *
 	 * @return  array  An array of key definitions.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function getKeys($table)
 	{
@@ -118,7 +117,7 @@ class JDatabaseExporterMySqlInspector extends JDatabaseExporterMysql
 	 *
 	 * @return  void
 	 *
-	 * @since    11.1
+	 * @since	12.1
 	 */
 	public function withStructure($setting = true)
 	{

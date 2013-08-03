@@ -7,35 +7,35 @@
  */
 
 /**
- * Abstract test case class for MySQLi database testing.
+ * Abstract test case class for Microsoft SQL Server database testing.
  *
  * @package  Joomla.Test
  * @since    12.1
  */
-abstract class TestCaseDatabaseMysqli extends TestCaseDatabase
+abstract class TestCaseDatabaseSqlsrv extends TestCaseDatabase
 {
 	/**
-	 * @var    JDatabaseDriverMysqli  The active database driver being used for the tests.
+	 * @var    JDatabaseDriverSqlsrv  The active database driver being used for the tests.
 	 * @since  12.1
 	 */
 	protected static $driver;
 
 	/**
-	 * @var    array  The JDatabaseDriver options for the connection.
+	 * @var    array  The database driver options for the connection.
 	 * @since  12.1
 	 */
-	private static $_options = array('driver' => 'mysqli');
+	private static $options = array('driver' => 'sqlsrv');
 
 	/**
-	 * @var    JDatabaseDriverMysqli  The saved database driver to be restored after these tests.
+	 * @var    JDatabaseDriverSqlsrv  The saved database driver to be restored after these tests.
 	 * @since  12.1
 	 */
-	private static $_stash;
+	private static $stash;
 
 	/**
 	 * This method is called before the first test of this test class is run.
 	 *
-	 * An example DSN would be: host=localhost;dbname=joomla_ut;user=utuser;pass=ut1234
+	 * An example DSN would be: host=localhost;port=5432;dbname=joomla_ut;user=utuser;pass=ut1234
 	 *
 	 * @return  void
 	 *
@@ -44,19 +44,19 @@ abstract class TestCaseDatabaseMysqli extends TestCaseDatabase
 	public static function setUpBeforeClass()
 	{
 		// First let's look to see if we have a DSN defined or in the environment variables.
-		if (defined('JTEST_DATABASE_MYSQLI_DSN') || getenv('JTEST_DATABASE_MYSQLI_DSN'))
+		if (defined('JTEST_DATABASE_SQLSRV_DSN') || getenv('JTEST_DATABASE_SQLSRV_DSN'))
 		{
-			$dsn = defined('JTEST_DATABASE_MYSQLI_DSN') ? JTEST_DATABASE_MYSQLI_DSN : getenv('JTEST_DATABASE_MYSQLI_DSN');
+			$dsn = defined('JTEST_DATABASE_SQLSRV_DSN') ? JTEST_DATABASE_SQLSRV_DSN : getenv('JTEST_DATABASE_SQLSRV_DSN');
 		}
 		else
 		{
 			return;
 		}
 
-		// First let's trim the mysql: part off the front of the DSN if it exists.
-		if (strpos($dsn, 'mysql:') === 0)
+		// First let's trim the sqlsrv: part off the front of the DSN if it exists.
+		if (strpos($dsn, 'sqlsrv:') === 0)
 		{
-			$dsn = substr($dsn, 6);
+			$dsn = substr($dsn, 7);
 		}
 
 		// Split the DSN into its parts over semicolons.
@@ -70,16 +70,16 @@ abstract class TestCaseDatabaseMysqli extends TestCaseDatabase
 			switch ($k)
 			{
 				case 'host':
-					self::$_options['host'] = $v;
+					self::$options['host'] = $v;
 					break;
 				case 'dbname':
-					self::$_options['database'] = $v;
+					self::$options['database'] = $v;
 					break;
 				case 'user':
-					self::$_options['user'] = $v;
+					self::$options['user'] = $v;
 					break;
 				case 'pass':
-					self::$_options['password'] = $v;
+					self::$options['password'] = $v;
 					break;
 			}
 		}
@@ -87,7 +87,7 @@ abstract class TestCaseDatabaseMysqli extends TestCaseDatabase
 		try
 		{
 			// Attempt to instantiate the driver.
-			self::$driver = JDatabaseDriver::getInstance(self::$_options);
+			self::$driver = JDatabaseDriver::getInstance(self::$options);
 		}
 		catch (RuntimeException $e)
 		{
@@ -101,7 +101,7 @@ abstract class TestCaseDatabaseMysqli extends TestCaseDatabase
 		}
 
 		// Setup the factory pointer for the driver and stash the old one.
-		self::$_stash = JFactory::$database;
+		self::$stash = JFactory::$database;
 		JFactory::$database = self::$driver;
 	}
 
@@ -114,7 +114,7 @@ abstract class TestCaseDatabaseMysqli extends TestCaseDatabase
 	 */
 	public static function tearDownAfterClass()
 	{
-		JFactory::$database = self::$_stash;
+		JFactory::$database = self::$stash;
 		self::$driver = null;
 	}
 
@@ -128,11 +128,11 @@ abstract class TestCaseDatabaseMysqli extends TestCaseDatabase
 	protected function getConnection()
 	{
 		// Compile the connection DSN.
-		$dsn = 'mysql:host=' . self::$_options['host'] . ';dbname=' . self::$_options['database'];
+		$dsn = 'sqlsrv:Server=' . self::$options['host'] . ';Database=' . self::$options['database'];
 
 		// Create the PDO object from the DSN and options.
-		$pdo = new PDO($dsn, self::$_options['user'], self::$_options['password']);
+		$pdo = new PDO($dsn, self::$options['user'], self::$options['password']);
 
-		return $this->createDefaultDBConnection($pdo, self::$_options['database']);
+		return $this->createDefaultDBConnection($pdo, self::$options['database']);
 	}
 }

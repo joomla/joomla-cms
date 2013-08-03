@@ -7,17 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once JPATH_PLATFORM . '/joomla/database/exporter/postgresql.php';
-
 /**
- * Class to expose protected properties and methods in JDatabasePostgresqlExporter for testing purposes
+ * Class to expose protected properties and methods in JDatabaseExporterMysqli for testing purposes.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- *
- * @since       12.1
+ * @since       11.1
  */
-class JDatabaseExporterPostgresqlInspector extends JDatabaseExporterPostgresql
+class JDatabaseExporterMySqliInspector extends JDatabaseExporterMysqli
 {
 	/**
 	 * Gets any property from the class.
@@ -26,7 +23,7 @@ class JDatabaseExporterPostgresqlInspector extends JDatabaseExporterPostgresql
 	 *
 	 * @return  mixed   The value of the class property.
 	 *
-	 * @since   12.1
+	 * @since   11.1
 	 */
 	public function __get($property)
 	{
@@ -36,10 +33,10 @@ class JDatabaseExporterPostgresqlInspector extends JDatabaseExporterPostgresql
 	/**
 	 * Exposes the protected buildXml method.
 	 *
-	 * @return  string	An XML string
+	 * @return  string    An XML string
 	 *
 	 * @throws  Exception if an error occurs.
-	 * @since   12.1
+	 * @since   11.1
 	 */
 	public function buildXml()
 	{
@@ -52,7 +49,7 @@ class JDatabaseExporterPostgresqlInspector extends JDatabaseExporterPostgresql
 	 * @return  array  An array of XML lines (strings).
 	 *
 	 * @throws  Exception if an error occurs.
-	 * @since   12.1
+	 * @since   11.1
 	 */
 	public function buildXmlStructure()
 	{
@@ -64,7 +61,7 @@ class JDatabaseExporterPostgresqlInspector extends JDatabaseExporterPostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   11.1
 	 */
 	public function check()
 	{
@@ -78,7 +75,7 @@ class JDatabaseExporterPostgresqlInspector extends JDatabaseExporterPostgresql
 	 *
 	 * @return  array  An array of column definitions.
 	 *
-	 * @since   12.1
+	 * @since   11.1
 	 */
 	public function getColumns($table)
 	{
@@ -92,7 +89,7 @@ class JDatabaseExporterPostgresqlInspector extends JDatabaseExporterPostgresql
 	 *
 	 * @return  string  The name of the table with the database prefix replaced with #__.
 	 *
-	 * @since   12.1
+	 * @since   11.1
 	 */
 	public function getGenericTableName($table)
 	{
@@ -106,7 +103,7 @@ class JDatabaseExporterPostgresqlInspector extends JDatabaseExporterPostgresql
 	 *
 	 * @return  array  An array of key definitions.
 	 *
-	 * @since   12.1
+	 * @since   11.1
 	 */
 	public function getKeys($table)
 	{
@@ -120,11 +117,10 @@ class JDatabaseExporterPostgresqlInspector extends JDatabaseExporterPostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since	12.1
+	 * @since    11.1
 	 */
 	public function withStructure($setting = true)
 	{
 		return parent::withStructure($setting);
 	}
-
 }

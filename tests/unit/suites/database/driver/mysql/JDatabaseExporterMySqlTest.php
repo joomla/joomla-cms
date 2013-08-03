@@ -10,13 +10,13 @@
 require_once __DIR__ . '/JDatabaseExporterMySqlInspector.php';
 
 /**
- * Tests the JDatabaseExporterMySql class.
+ * Tests the JDatabaseExporterMysql class.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
  * @since       11.1
  */
-class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
+class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var    object  The mocked database object for use by test methods.
@@ -516,7 +516,7 @@ class JDatabaseExporterMySqlTest extends PHPUnit_Framework_TestCase
 		}
 
 		$this->fail(
-			'setDbo requires a JDatabaseMySql object and should throw an exception.'
+			'setDbo requires a JDatabaseDriverMysql object and should throw an exception.'
 		);
 	}
 

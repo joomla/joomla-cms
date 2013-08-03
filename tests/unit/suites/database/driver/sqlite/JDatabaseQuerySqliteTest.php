@@ -7,31 +7,31 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once __DIR__ . '/JDatabaseQuerySqlsrvInspector.php';
-require_once JPATH_PLATFORM . '/joomla/database/query/sqlsrv.php';
+require_once __DIR__ . '/JDatabaseQuerySqliteInspector.php';
 
 /**
- * Test class for JDatabaseSqlsrvQuery.
-*
-* @package     Joomla.UnitTest
-* @subpackage  Database
-*
-* @since       11.3
-*/
-class JDatabaseSqlsrvQueryTest extends TestCase
+ * Test class for JDatabaseQuerySqlite.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Database
+ * @since       11.3
+ */
+class JDatabaseQuerySqliteTest extends TestCase
 {
 	/**
-	 * @var  JDatabase  A mock of the JDatabase object for testing purposes.
+	 * @var    JDatabaseDriver  A mock of the JDatabaseDriver object for testing purposes.
+	 * @since  13.1
 	 */
 	protected $dbo;
 
 	/**
 	 * The instance of the object to test.
 	 *
-	 * @var    JDatabaseSqlsrvQuery
+	 * @var    JDatabaseQuerySqlite
 	 * @since  12.3
 	 */
 	private $_instance;
+
 
 	/**
 	 * Sets up the fixture.
@@ -48,10 +48,10 @@ class JDatabaseSqlsrvQueryTest extends TestCase
 
 		$this->dbo = $this->getMockDatabase();
 
-		$this->_instance = new JDatabaseQuerySqlsrvInspector($this->dbo);
+		$this->_instance = new JDatabaseQuerySqliteInspector($this->dbo);
 	}
 
-	/**
+/**
 	 * Data for the testDateAdd test.
 	 *
 	 * @return  array
@@ -62,14 +62,15 @@ class JDatabaseSqlsrvQueryTest extends TestCase
 	{
 		return array(
 				// date, interval, datepart, expected
-				'Add date'			=> array('2008-12-31', '1', 'day', "DATEADD('day', '1', '2008-12-31')"),
-				'Subtract date'		=> array('2008-12-31', '-1', 'day', "DATEADD('day', '-1', '2008-12-31')"),
-				'Add datetime'		=> array('2008-12-31 23:59:59', '1', 'day', "DATEADD('day', '1', '2008-12-31 23:59:59')"),
-		);
+				'Add date'			=> array('2008-12-31', '1', 'DAY', "datetime('2008-12-31', '+1 DAY')"),
+				'Subtract date'		=> array('2008-12-31', '-1', 'DAY', "datetime('2008-12-31', '-1 DAY')"),
+				'Add datetime'		=> array('2008-12-31 23:59:59', '1', 'DAY', "datetime('2008-12-31 23:59:59', '+1 DAY')"),
+				'Add microseconds'	=> array('2008-12-31 23:59:59', '53', 'microseconds', "datetime('2008-12-31 23:59:59', '+0.053 seconds')"),
+				);
 	}
 
 	/**
-	 * Tests the JDatabaseSqlsrvQuery::DateAdd method
+	 * Tests the JDatabaseSqliteQuery::DateAdd method
 	 *
 	 * @param   datetime  $date      The date or datetime to add to.
 	 * @param   string    $interval  The maximum length of the text.
