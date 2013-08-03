@@ -46,13 +46,19 @@ class CheckinViewCheckin extends JViewLegacy
 	protected function addToolbar()
 	{
 		JToolbarHelper::title(JText::_('COM_CHECKIN_GLOBAL_CHECK_IN'), 'checkin.png');
-		if (JFactory::getUser()->authorise('core.admin', 'com_checkin'))
+
+		if (JFactory::getUser()->authorise('core.manage', 'com_checkin'))
 		{
 			JToolbarHelper::custom('checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
 			JToolbarHelper::divider();
+		}
+
+		if (JFactory::getUser()->authorise('core.admin', 'com_checkin'))
+		{
 			JToolbarHelper::preferences('com_checkin');
 			JToolbarHelper::divider();
 		}
+
 		JToolbarHelper::help('JHELP_SITE_MAINTENANCE_GLOBAL_CHECK-IN');
 	}
 }
