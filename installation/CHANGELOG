@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-Aug-2013 Jean-Marie Simonet
+ # [#31297] Content language manager missing drag drop ordering. Thanks Nguyen Huu Hien
+
 02-Aug-2013 Jean-Marie Simonet
  $ Updating installation lang files: ru-RU, sv-SE
 
