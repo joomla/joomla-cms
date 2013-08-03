@@ -16,14 +16,6 @@ defined('_JEXEC') or die;
 class ContactTableContact extends JTable
 {
 	/**
-	 * Helper object for storing and deleting tag information.
-	 *
-	 * @var    JHelperTags
-	 * @since  3.1
-	 */
-	protected $tagsHelper = null;
-
-	/**
 	 * Constructor
 	 *
 	 * @param   JDatabaseDriver  &$db  Database connector object
@@ -33,8 +25,6 @@ class ContactTableContact extends JTable
 	public function __construct(&$db)
 	{
 		parent::__construct('#__contact_details', 'id', $db);
-		$this->tagsHelper = new JHelperTags;
-		$this->tagsHelper->typeAlias = 'com_contact.contact';
 	}
 
 	/**
@@ -63,22 +53,6 @@ class ContactTableContact extends JTable
 		}
 
 		return parent::bind($array, $ignore);
-	}
-
-	/**
-	 * Override parent delete method to delete tags information.
-	 *
-	 * @param   integer  $pk  Primary key to delete.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   3.1
-	 * @throws  UnexpectedValueException
-	 */
-	public function delete($pk = null)
-	{
-		$result = parent::delete($pk);
-		return $result && $this->tagsHelper->deleteTagData($this, $pk);
 	}
 
 	/**
@@ -156,12 +130,8 @@ class ContactTableContact extends JTable
 			return false;
 		}
 
-		$this->tagsHelper->preStoreProcess($this);
-		$result = parent::store($updateNulls);
-
-		$this->newTags = isset($this->newTags) ? $this->newTags : array();
-		return $result && $this->tagsHelper->postStoreProcess($this, $this->newTags);
-		}
+		return parent::store($updateNulls);
+	}
 
 	/**
 	 * Overloaded check function

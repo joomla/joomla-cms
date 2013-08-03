@@ -365,13 +365,35 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   12.1
 	 * @covers  JLoader::registerPrefix
-	 * @todo    Implement testRegisterPrefix().
 	 */
 	public function testRegisterPrefix()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
+		// Clear the prefixes array for this test
+		TestReflection::setValue('JLoader', 'prefixes', array());
+
+		// Add the libraries/joomla and libraries/legacy folders to the array
+		JLoader::registerPrefix('J', JPATH_PLATFORM . '/joomla');
+		JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
+
+		// Get the current prefixes array
+		$prefixes = TestReflection::getValue('JLoader', 'prefixes');
+
+		$this->assertEquals(
+			$prefixes['J'][0],
+			JPATH_PLATFORM . '/joomla',
+			'Assert that paths are added in FIFO order by default'
+		);
+
+		// Add the libraries/cms folder to the front of the array
+		JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms', false, true);
+
+		// Get the current prefixes array
+		$prefixes = TestReflection::getValue('JLoader', 'prefixes');
+
+		$this->assertEquals(
+			$prefixes['J'][0],
+			JPATH_PLATFORM . '/cms',
+			'Assert that the libraries/cms folder is prepended to the front of the array'
 		);
 	}
 

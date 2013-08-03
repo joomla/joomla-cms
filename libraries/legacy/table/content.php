@@ -20,14 +20,6 @@ defined('JPATH_PLATFORM') or die;
 class JTableContent extends JTable
 {
 	/**
-	 * Helper object for storing and deleting tag information.
-	 *
-	 * @var    JHelperTags
-	 * @since  3.1
-	 */
-	protected $tagsHelper = null;
-
-	/**
 	 * Constructor
 	 *
 	 * @param   JDatabaseDriver  $db  A database connector object
@@ -38,8 +30,16 @@ class JTableContent extends JTable
 	{
 		parent::__construct('#__content', 'id', $db);
 
-		$this->tagsHelper = new JHelperTags;
-		$this->tagsHelper->typeAlias = 'com_content.article';
+		/*
+		 * This is left here for reference:
+		 *
+		 * This would set up the tags observer in $this from here (so not entirely decoupled):
+		 * JTableObserverTags::createObserver($this, array('typeAlias' => 'com_content.article'));
+		 *
+		 * But this makes the relation between content and tags completely external to Content as JTable is observable:
+		 * So we are doing this only once in libraries/cms.php:
+		 * JObserverFactory::addObserverClassToClass('JTableObserverTags', 'JTableContent', array('typeAlias' => 'com_content.article'));
+		 */
 	}
 
 	/**
@@ -241,23 +241,6 @@ class JTableContent extends JTable
 	}
 
 	/**
-	 * Override parent delete method to delete tags information.
-	 *
-	 * @param   integer  $pk  Primary key to delete.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   3.1
-	 * @throws  UnexpectedValueException
-	 */
-	public function delete($pk = null)
-	{
-		$result = parent::delete($pk);
-		$this->tagsHelper->typeAlias = 'com_content.article';
-		return $result && $this->tagsHelper->deleteTagData($this, $pk);
-	}
-
-	/**
 	 * Overrides JTable::store to set modified data and user id.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
@@ -302,12 +285,7 @@ class JTableContent extends JTable
 			return false;
 		}
 
-		$this->tagsHelper->typeAlias = 'com_content.article';
-		$this->tagsHelper->preStoreProcess($this);
-		$result = parent::store($updateNulls);
-
-		$this->newTags = isset($this->newTags) ? $this->newTags : array();
-		return $result && $this->tagsHelper->postStoreProcess($this, $this->newTags);
+		return parent::store($updateNulls);
 	}
 
 	/**

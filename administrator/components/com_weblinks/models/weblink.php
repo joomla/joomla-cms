@@ -234,11 +234,12 @@ class WeblinksModelWeblink extends JModelAdmin
 				$table->modified	= $date->toSql();
 				$table->modified_by	= $user->get('id');
 			}
-
-			// Increment the content version number.
-			$table->version++;
 		}
+
+		// Increment the weblink version number.
+		$table->version++;
 	}
+	
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *

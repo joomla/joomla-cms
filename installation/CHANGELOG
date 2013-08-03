@@ -25,7 +25,75 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-; Below is merged into v3.1.2
+03-Aug-2013 Jean-Marie Simonet
+ # [#31297] Content language manager missing drag drop ordering. Thanks Nguyen Huu Hien
+ # [#27476] Menu types view not sorted alphabetically. Thanks Lao Neo
+ # [#31586] Typo in model administrator/components/com_content/models/article.php. Thanks Volkmar Schlothauer and Brian Teeman
+ # [#31536] Adding filters in backend Installation Discover view for 3.x. Thanks Gunjan Patel
+ # [#31564] Missing images in sample data categories. Thanks Roland Dalmulder
+ #$ [#30793] Spelling error in the title of the Edit Article Category screen
+ #$ [#31357] Add the Default parameter to the colour options for the templates to the desc strings. Thanks Tobias Zulauf
+ # [#31411] Show Offline image only if it exists. Thanks Tobias Zulauf
+ # [#31360] The site is offline but anyhow the error page will show (e.g. at a 404 error). Thanks Mihail Irintchev
+ # [#31440] Cleanup & fixes for the admin menu. Thanks Sander Potjer
+ # [#31387] Button class missing for export banner tracks. Thanks Brian Teeman
+ # [#31554] Module manager allows positions with trailing spaces. Thanks Richard McDaniel
+ # [#31632] Small data type fix in phpdoc. Thanks Gunjan Patel
+ # [#31384] Hathor - Modal broken. Thanks cata castillo
+ # [#30806] Incorrect database type in the Statistics site module. Thanks Brian Teeman
+ # [#31439] email cloaking inserts space. Thanks Peter Martin
+ # [#31480] Dropdown look and fix in Message Select user modal view. Thanks Gunjan Patel
+ # [#29696] Weblink revision is not incremented. Thanks Dennis Hermatski
+
+02-Aug-2013 Jean-Marie Simonet
+ $ Updating installation lang files: ru-RU, sv-SE
+
+-------------------- 3.1.5 Stable Release [01-Aug-2013] ------------------
+
+31-Jul-2013 Michael Babker
+ # [#31620] Some plugins cause blank pages in 3.1.4.  Thanks Don Gilbert
+ # [#31607] REGRESSION: Changing the autoload order in a point release.  Thanks Don Gilbert
+ # [#31598] Fix for B/C break related to Tag saving using *old* way.  Thanks Thomas Hunziker
+
+30-Jul-2013 Jean-Marie Simonet
+ # [#31609] *Regression: [#30150] prevents subcategories drilldowns
+
+28-Jul-2013 Jean-Marie Simonet
+ # [#31585] Can't add tags to articles in 3.1.4. Thanks Roberto Segura
+
+27-Jul-2013 Michael Babker
+ # [#31565] CamelCased view classes are broken in J!3.1.4.  Thanks Jean-Marie Simonet
+
+27-Jul-2013 Jean-Marie Simonet
+ # [#31590] *New registration password field is displayed as Optional
+
+-------------------- 3.1.4 Stable Release [26-Jul-2013] ------------------
+
+25-Jul-2013 Michael Babker
+ # [#31550] SQL error if profiling not available/not activated in mysql (3.1.2 pre release).  Thanks Beat
+
+24-Jul-2013 Jean-Marie Simonet
+ # [#31548] Toolbar: Different version of CSS vs LESS files + mobile resolution fixes. Thanks Roberto Segura
+
+23-Jul-2013 Michael Babker
+ # [#31500] Hathor: No Batch at some Managers.  Thanks Angelika Reisiger
+ # [#31547] IDN library missing from update sql files 3.1.2+master.  Thanks Elin Waring
+ # Incorrect quoting in PostgreSQL 3.1.2 updates.
+
+-------------------- 3.1.2 Stable Release [23-Jul-2013] ------------------
+
+21-Jul-2013 Mark Dexter
+ ^ [#31319] registration option disabled by default is safer. Thanks Brian Teeman.
+ + [#31205] Automatically set $db and $app properties on plugins. Thanks Don Gilbert.
+ # [#30677] Need to update the readme files. Thanks David Hurley.
+ # [#31428] 3.1.2 backend menus don't react like previous version. Thanks Jérôme Glatigny.
+
+21-Jul-2013 Michael Babker
+ # [#31401] Fixed issue with $query object being overwritten by string.  Thanks Peter van Westen
+
+21-Jul-2013 Jean-Marie Simonet
+ + [#31349] Display Error Message when Magic Quotes is Enabled. Thanks Brian Teeman
+ #+ [#31488] Add Observer pattern to JTable (and use it for Tags implementation (which also fixes [#31339] too). Thanks Beat.
 
 20-Jul-2013 Jean-Marie Simonet
  # [#31496] DEBUG_BACKTRACE_IGNORE_ARGS not supported in PHP 5.3.1-5.3.5. Thanks Beat
