@@ -28,6 +28,7 @@ $ -> Language fix or change
 03-Aug-2013 Jean-Marie Simonet
  # [#31297] Content language manager missing drag drop ordering. Thanks Nguyen Huu Hien
  # [#27476] Menu types view not sorted alphabetically. Thanks Lao Neo
+ # [#31586] Typo in model administrator/components/com_content/models/article.php. Thanks Volkmar Schlothauer and Brian Teeman
 
 02-Aug-2013 Jean-Marie Simonet
  $ Updating installation lang files: ru-RU, sv-SE
