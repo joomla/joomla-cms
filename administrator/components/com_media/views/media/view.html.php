@@ -23,6 +23,11 @@ class MediaViewMedia extends JViewLegacy
 		$app	= JFactory::getApplication();
 		$config = JComponentHelper::getParams('com_media');
 
+		if (!$app->isAdmin())
+		{
+			return $app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
+		}
+
 		$lang	= JFactory::getLanguage();
 
 		$style = $app->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
