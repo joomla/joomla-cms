@@ -36,7 +36,7 @@ abstract class JHtmlString
 	public static function truncate($text, $length = 0, $noSplit = true, $allowHtml = true)
 	{
 		// Assume a lone open tag is invalid HTML.
-		if ($length == 1 && substr($text, 0, 1) == '<')
+		if ($length == 1 && JString::substr($text, 0, 1) == '<')
 		{
 			return '...';
 		}
@@ -61,31 +61,52 @@ abstract class JHtmlString
 		// Whether or not allowing HTML, truncate the item text if it is too long.
 		if ($length > 0 && JString::strlen($text) > $length)
 		{
-			$tmp = trim(JString::substr($text, 0, $length));
 
-			if (substr($tmp, 0, 1) == '<' && strpos($tmp, '>') === false)
+			// Because we are adding { ...} to the end we only need to look at the
+			// length - 4 substring but we need to make sure that length is bigger then 4
+			if ($length <= 4)
 			{
 				return '...';
+			}
+			$tmp = trim(JString::substr($text, 0, $length - 4));
+
+			// We are within a html tag add the tag doesn't end within the lenght.
+			if (JString::substr($tmp, 0, 1) == '<' && JString::strpos($tmp, '>') === false)
+			{
+					return '...';
 			}
 
 			// $noSplit true means that we do not allow splitting of words.
 			if ($noSplit)
 			{
-				// Find the position of the last space within the allowed length.
+				// Find the position of the last space within the substring.
 				$offset = JString::strrpos($tmp, ' ');
-				$tmp = JString::substr($tmp, 0, $offset + 1);
 
-				// If there are no spaces and the string is longer than the maximum
-				// we need to just use the ellipsis. In that case we are done.
-				if ($offset === false && strlen($text) > $length)
+				// Handling multibyte spaces
+				$multiByteSpace = "\xE3\x80\x80";
+				$mb_offset = JString::strrpos($tmp, $multiByteSpace);
+
+				if ($mb_offset !== false)
+				{
+					if ($offset === false || $mb_offset > $offset)
+					{
+						$offset = $mb_offset;
+					}
+				}
+
+				// If there are no spaces we need to just use the ellipsis.
+				if ($offset === false)
 				{
 					return '...';
 				}
+				$tmp2 = JString::substr($tmp, 0, $offset);
 
-				if (JString::strlen($tmp) > $length - 3)
+				// Check if we are within a tag
+				if (JString::strrpos($tmp2, '<') > JString::strrpos($tmp2, '>'))
 				{
-					$tmp = trim(JString::substr($tmp, 0, JString::strrpos($tmp, ' ')));
+					$offset = JString::strrpos($tmp2, '<');
 				}
+				$tmp = JString::trim(JString::substr($tmp2, 0, $offset));
 			}
 
 			if ($allowHtml)
@@ -107,7 +128,7 @@ abstract class JHtmlString
 				// All tags are closed so trim the text and finish.
 				if (count($closedTags) == $numOpened)
 				{
-					return trim($tmp) . '...';
+					return JString::trim($tmp) . '...';
 				}
 
 				// Closing tags need to be in the reverse order of opening tags.
@@ -126,10 +147,9 @@ abstract class JHtmlString
 					}
 				}
 			}
-
-			if ($tmp === false || strlen($text) > strlen($tmp))
+			if ( $tmp === false || JString::strlen($text) > JString::strlen($tmp))
 			{
-				$text = trim($tmp) . '...';
+				$text = JString::trim($tmp) . '...';
 			}
 		}
 
