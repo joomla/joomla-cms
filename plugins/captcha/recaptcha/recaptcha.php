@@ -140,7 +140,7 @@ class plgCaptchaRecaptcha extends JPlugin
 	/**
 	 * Encodes the given data into a query string format.
 	 *
-	 * @param   string  $data  Array of string elements to be encoded
+	 * @param   array  $data  Array of string elements to be encoded
 	 *
 	 * @return  string  Encoded request
 	 *
