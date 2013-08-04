@@ -271,9 +271,6 @@ body .navbar-fixed-top{
 	display: inline-block;
 	margin: 0 0 5px 5px;
 }
-.btn-toolbar .btn-wrapper:first-child {
-	margin-left: 0;
-}
 .subhead-fixed{
 	position: fixed;
 	width: 100%;
@@ -557,6 +554,9 @@ h6 { font-size: 12px; line-height: 14px; }
 	.view-login .navbar-fixed-bottom{
 		display: none;
 	}
+	.btn-toolbar .btn-wrapper .btn {
+	  width: 93% !important;
+	}
 }
 
 // Navbar
@@ -767,4 +767,9 @@ th .tooltip-inner {
 /* Component pop-up */
 .container-popup {
 	padding: 15px;
+}
+
+/* Min-width on buttons */
+.controls .btn-group > .btn {
+	min-width: 50px;
 }

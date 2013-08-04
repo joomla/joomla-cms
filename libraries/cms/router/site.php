@@ -27,7 +27,7 @@ class JRouterSite extends JRouter
 	 *
 	 * @return  array
 	 */
-	public function parse($uri)
+	public function parse(&$uri)
 	{
 		$vars = array();
 
@@ -140,7 +140,7 @@ class JRouterSite extends JRouter
 	 *
 	 * @return  array
 	 */
-	protected function _parseRawRoute($uri)
+	protected function _parseRawRoute(&$uri)
 	{
 		$vars = array();
 		$app  = JApplication::getInstance('site');
@@ -197,7 +197,7 @@ class JRouterSite extends JRouter
 	 *
 	 * @return  string  Internal URI
 	 */
-	protected function _parseSefRoute($uri)
+	protected function _parseSefRoute(&$uri)
 	{
 		$app   = JApplication::getInstance('site');
 		$menu  = $app->getMenu(true);
@@ -380,7 +380,7 @@ class JRouterSite extends JRouter
 	 *
 	 * @return  string  Raw Route
 	 */
-	protected function _buildRawRoute($uri)
+	protected function _buildRawRoute(&$uri)
 	{
 	}
 
@@ -391,7 +391,7 @@ class JRouterSite extends JRouter
 	 *
 	 * @return  void
 	 */
-	protected function _buildSefRoute($uri)
+	protected function _buildSefRoute(&$uri)
 	{
 		// Get the route
 		$route = $uri->getPath();
@@ -501,7 +501,7 @@ class JRouterSite extends JRouter
 	 *
 	 * @return  array  The array of processed URI variables
 	 */
-	protected function _processParseRules($uri)
+	protected function _processParseRules(&$uri)
 	{
 		// Process the attached parse rules
 		$vars = parent::_processParseRules($uri);
@@ -526,7 +526,7 @@ class JRouterSite extends JRouter
 	 *
 	 * @return  void
 	 */
-	protected function _processBuildRules($uri)
+	protected function _processBuildRules(&$uri)
 	{
 		// Make sure any menu vars are used if no others are specified
 		if (($this->_mode != JROUTER_MODE_SEF) && $uri->getVar('Itemid') && count($uri->getQuery(true)) == 2)

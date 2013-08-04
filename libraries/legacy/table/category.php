@@ -18,15 +18,6 @@ defined('JPATH_PLATFORM') or die;
  */
 class JTableCategory extends JTableNested
 {
-
-	/**
-	 * Helper object for storing and deleting tag information.
-	 *
-	 * @var    JHelperTags
-	 * @since  3.1
-	 */
-	protected $tagsHelper = null;
-
 	/**
 	 * Constructor
 	 *
@@ -39,7 +30,6 @@ class JTableCategory extends JTableNested
 		parent::__construct('#__categories', 'id', $db);
 
 		$this->access = (int) JFactory::getConfig()->get('access');
-		$this->tagsHelper = new JHelperTags;
 	}
 
 	/**
@@ -197,24 +187,6 @@ class JTableCategory extends JTableNested
 	}
 
 	/**
-	 * Override parent delete method to process tags
-	 *
-	 * @param   integer  $pk        The primary key of the node to delete.
-	 * @param   boolean  $children  True to delete child nodes, false to move them up a level.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   3.1
-	 * @throws  UnexpectedValueException
-	 */
-	public function delete($pk = null, $children = true)
-	{
-		$result = parent::delete($pk);
-		$this->tagsHelper->typeAlias = $this->extension . '.category';
-		return $result && $this->tagsHelper->deleteTagData($this, $pk);
-	}
-
-	/**
 	 * Overridden JTable::store to set created/modified and user id.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
@@ -252,11 +224,6 @@ class JTableCategory extends JTableNested
 			return false;
 		}
 
-		$this->tagsHelper->typeAlias = $this->extension . '.category';
-		$this->tagsHelper->preStoreProcess($this);
-		$result = parent::store($updateNulls);
-
-		$this->newTags = isset($this->newTags) ? $this->newTags : array();
-		return $result && $this->tagsHelper->postStoreProcess($this, $this->newTags);
+		return parent::store($updateNulls);
 	}
 }
