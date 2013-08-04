@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 04-Aug-2013 Michael Babker
  # [#30834] Template errors when no CSS folder.  Thanks Rune Sjøen
+ # [#31318] Bad display of images at Media Manager (IE/FF22).  Thanks Lu Nguyen
 
 04-Aug-2013 Jean-Marie Simonet
  # [#31382] Added min-width to (bootstrap) radio buttons to prettify settings. Thanks Peter van Westen

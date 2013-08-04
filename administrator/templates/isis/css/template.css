@@ -7290,3 +7290,6 @@ th .tooltip-inner {
 .controls .btn-group > .btn {
 	min-width: 50px;
 }
+.img-preview > img {
+	max-height: 100%;
+}
