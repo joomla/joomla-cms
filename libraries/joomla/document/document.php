@@ -496,7 +496,7 @@ class JDocument
 			$url .= '?' . $version;
 		}
 
-		return $this->addScript($url, $type = "text/javascript", $defer = false, $async = false);
+		return $this->addScript($url, $type, $defer, $async);
 	}
 
 	/**
@@ -571,7 +571,7 @@ class JDocument
 			$url .= '?' . $version;
 		}
 
-		return $this->addStyleSheet($url, $type = 'text/css', $media = null, $attribs = array());
+		return $this->addStyleSheet($url, $type, $media, $attribs);
 	}
 
 	/**
