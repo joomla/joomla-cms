@@ -67,7 +67,8 @@ class JDocumentRendererRSSTest extends TestCase
 		);
 
 		$_SERVER['REQUEST_METHOD'] = 'get';
-		JRequest::setVar('type', 'rss');
+		$input = JFactory::getApplication()->input;
+		$input->set('type', 'rss');
 		$this->object = new JDocumentFeed;
 		$_SERVER['HTTP_HOST'] = 'localhost';
 		$_SERVER['SCRIPT_NAME'] = '';
