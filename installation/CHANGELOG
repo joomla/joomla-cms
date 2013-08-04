@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Aug-2013 Jean-Marie Simonet
+ # [#31382] Added min-width to (bootstrap) radio buttons to prettify settings. Thanks Peter van Westen
+
 03-Aug-2013 Jean-Marie Simonet
  # [#31297] Content language manager missing drag drop ordering. Thanks Nguyen Huu Hien
  # [#27476] Menu types view not sorted alphabetically. Thanks Lao Neo
