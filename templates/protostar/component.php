@@ -32,7 +32,7 @@ JHtmlBootstrap::loadCss($includeMaincss = false, $this->direction);
 	<script src="<?php echo $this->baseurl ?>/media/jui/js/html5.js"></script>
 <![endif]-->
 </head>
-<body class="contentpane modal">
+<body class="contentpane">
 	<jdoc:include type="message" />
 	<jdoc:include type="component" />
 </body>
