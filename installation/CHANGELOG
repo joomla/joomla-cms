@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Aug-2013 Michael Babker
+ # [#30834] Template errors when no CSS folder.  Thanks Rune Sjøen
+
 04-Aug-2013 Jean-Marie Simonet
  # [#31382] Added min-width to (bootstrap) radio buttons to prettify settings. Thanks Peter van Westen
  # [#30027] Impossible to enter custom module position name if you have less than about 8 positions in the list. Thanks Sebastian Łuckoś
