@@ -29,6 +29,7 @@ $ -> Language fix or change
  # [#31382] Added min-width to (bootstrap) radio buttons to prettify settings. Thanks Peter van Westen
  # [#30027] Impossible to enter custom module position name if you have less than about 8 positions in the list. Thanks Sebastian Łuckoś
  # [#31354] To much clear lines at the Media Manager Options. Thanks Tobias Zulauf
+ # [#31511] JRouter needs to take $uri by reference to properly pass it to rules. Thanks Klas
 
 03-Aug-2013 Jean-Marie Simonet
  # [#31297] Content language manager missing drag drop ordering. Thanks Nguyen Huu Hien

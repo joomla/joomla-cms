@@ -27,7 +27,7 @@ class JRouterAdministrator extends JRouter
 	 *
 	 * @return  array
 	 */
-	public function parse($uri)
+	public function parse(&$uri)
 	{
 		return array();
 	}
