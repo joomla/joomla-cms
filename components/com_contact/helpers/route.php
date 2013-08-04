@@ -212,7 +212,8 @@ abstract class ContactHelperRoute
 		}
 
 		$active = $menus->getActive();
-		if ($active && ($active->language == '*' || !JLanguageMultilang::isEnabled()))
+		if ($active && ($active->language == '*' || !JLanguageMultilang::isEnabled())
+			|| ($active->component == 'com_tags'))
 		{
 			return $active->id;
 		}

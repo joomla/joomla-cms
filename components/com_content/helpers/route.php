@@ -227,7 +227,9 @@ abstract class ContentHelperRoute
 		}
 
 		$active = $menus->getActive();
-		if ($active && $active->component == 'com_content' && ($active->language == '*' || !JLanguageMultilang::isEnabled()))
+		if ($active &&
+			($active->component == 'com_content' && ($active->language == '*' || !JLanguageMultilang::isEnabled())) ||
+			($active->component == 'com_tags'))
 		{
 			return $active->id;
 		}
