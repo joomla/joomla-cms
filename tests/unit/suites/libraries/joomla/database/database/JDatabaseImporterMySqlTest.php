@@ -7,16 +7,17 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once __DIR__ . '/JDatabaseImporterMysqlInspector.php';
+require_once __DIR__ . '/JDatabaseImporterMySqlInspector.php';
 
 /**
- * Tests the JDatabaseImporterMysql class.
+ * Tests the JDatabaseMySqlExporter class.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
+ *
  * @since       11.1
  */
-class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
+class JDatabaseImporterMySqlTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var    object  The mocked database object for use by test methods.
@@ -358,7 +359,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAsXml()
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMySqlInspector;
 
 		$result = $instance->asXml();
 
@@ -384,7 +385,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithNoDbo()
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMySqlInspector;
 
 		try
 		{
@@ -410,7 +411,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithNoFrom()
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMySqlInspector;
 		$instance->setDbo($this->dbo);
 
 		try
@@ -437,7 +438,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithGoodInput()
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMySqlInspector;
 		$instance->setDbo($this->dbo);
 		$instance->from('foobar');
 
@@ -468,7 +469,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testFromWithGoodInput()
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMySqlInspector;
 
 		try
 		{
@@ -505,7 +506,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetAddColumnSQL()
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMySqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -531,7 +532,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetAddKeySQL()
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMySqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -563,7 +564,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetAlterTableSQL($structure, $expected, $message)
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMySqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -586,7 +587,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetChangeColumnSQL()
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMySqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -617,7 +618,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetColumnSQL($field, $expected, $message)
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMySqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -636,7 +637,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetDropColumnSQL()
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMySqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -660,7 +661,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetDropKeySQL()
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMySqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -684,7 +685,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetDropPrimaryKeySQL()
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMySqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -707,7 +708,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetKeyLookup()
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMySqlInspector;
 
 		$o1 = (object) array('Key_name' => 'id', 'foo' => 'bar1');
 		$o2 = (object) array('Key_name' => 'id', 'foo' => 'bar2');
@@ -760,7 +761,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetKeySQL($field, $expected, $message)
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMySqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -779,7 +780,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetRealTableName()
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMySqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -798,7 +799,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetDboWithBadInput()
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMySqlInspector;
 
 		try
 		{
@@ -811,7 +812,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 		}
 
 		$this->fail(
-			'setDbo requires a JDatabaseDriverMysql object and should throw an exception.'
+			'setDbo requires a JDatabaseMySql object and should throw an exception.'
 		);
 	}
 
@@ -824,7 +825,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetDboWithGoodInput()
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMySqlInspector;
 
 		try
 		{
@@ -855,7 +856,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testWithStructure()
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMySqlInspector;
 
 		$result = $instance->withStructure();
 

@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_TESTS . '/suites/platform/application/stubs/JApplicationWebInspector.php';
+require_once JPATH_TESTS . '/suites/libraries/joomla/application/stubs/JApplicationWebInspector.php';
 
 /**
  * Test class for JGoogleAuthOauth2Test .

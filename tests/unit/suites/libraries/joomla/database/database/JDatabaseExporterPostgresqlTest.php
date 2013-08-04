@@ -7,47 +7,57 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once __DIR__ . '/JDatabaseExporterMysqlInspector.php';
+require_once __DIR__ . '/JDatabaseExporterPostgresqlInspector.php';
 
 /**
- * Tests the JDatabaseExporterMysql class.
+ * Test the JDatabaseExporterPostgresql class.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- * @since       11.1
+ *
+ * @since       12.1
  */
-class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
+class JDatabaseExporterPostgresqlTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var    object  The mocked database object for use by test methods.
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	protected $dbo = null;
 
 	/**
 	 * @var    string  The last query sent to the dbo setQuery method.
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	protected $lastQuery = '';
+
+	/**
+	 * @var    bool  Boolean value to know if current database version is newer than 9.1.0
+	 * @since  12.1
+	 */
+	private $_ver9dot1 = true;
 
 	/**
 	 * Sets up the testing conditions
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
-	public function setup()
+	protected function setup()
 	{
-		// Set up the database object mock.
+		parent::setUp();
 
+		// Set up the database object mock.
 		$this->dbo = $this->getMock(
-			'JDatabaseDriverMysql',
+			'JDatabaseDriverPostgresql',
 			array(
 				'getErrorNum',
 				'getPrefix',
 				'getTableColumns',
 				'getTableKeys',
+				'getTableSequences',
+				'getVersion',
 				'quoteName',
 				'loadObjectList',
 				'setQuery',
@@ -60,8 +70,8 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 		$this->dbo->expects(
 			$this->any()
 		)
-			->method('getPrefix')
-			->will(
+		->method('getPrefix')
+		->will(
 			$this->returnValue(
 				'jos_'
 			)
@@ -70,56 +80,37 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 		$this->dbo->expects(
 			$this->any()
 		)
-			->method('getTableColumns')
-			->will(
+		->method('getTableColumns')
+		->will(
 			$this->returnValue(
 				array(
 					(object) array(
-						'Field' => 'id',
-						'Type' => 'int(11) unsigned',
-						'Collation' => null,
-						'Null' => 'NO',
-						'Key' => 'PRI',
-						'Default' => '',
-						'Extra' => 'auto_increment',
-						'Privileges' => 'select,insert,update,references',
-						'Comment' => '',
+						'column_name' => 'id',
+						'type' => 'integer',
+						'null' => 'NO',
+						'default' => 'nextval(\'jos_dbtest_id_seq\'::regclass)',
+						'comments' => '',
 					),
 					(object) array(
-						'Field' => 'title',
-						'Type' => 'varchar(255)',
-						'Collation' => 'utf8_general_ci',
-						'Null' => 'NO',
-						'Key' => '',
-						'Default' => '',
-						'Extra' => '',
-						'Privileges' => 'select,insert,update,references',
-						'Comment' => '',
+						'column_name' => 'title',
+						'type' => 'character varying(50)',
+						'null' => 'NO',
+						'default' => 'NULL',
+						'comments' => '',
 					),
-				)
-			)
-		);
-
-		$this->dbo->expects(
-			$this->any()
-		)
-			->method('getTableKeys')
-			->will(
-			$this->returnValue(
-				array(
 					(object) array(
-						'Table' => 'jos_test',
-						'Non_unique' => '0',
-						'Key_name' => 'PRIMARY',
-						'Seq_in_index' => '1',
-						'Column_name' => 'id',
-						'Collation' => 'A',
-						'Cardinality' => '2695',
-						'Sub_part' => '',
-						'Packed' => '',
-						'Null' => '',
-						'Index_type' => 'BTREE',
-						'Comment' => '',
+						'column_name' => 'start_date',
+						'type' => 'timestamp without time zone',
+						'null' => 'NO',
+						'default' => 'NULL',
+						'comments' => '',
+					),
+					(object) array(
+						'column_name' => 'description',
+						'type' => 'text',
+						'null' => 'NO',
+						'default' => 'NULL',
+						'comments' => '',
 					)
 				)
 			)
@@ -128,8 +119,71 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 		$this->dbo->expects(
 			$this->any()
 		)
-			->method('quoteName')
-			->will(
+		->method('getTableKeys')
+		->will(
+			$this->returnValue(
+				array(
+					(object) array(
+						'idxName' => 'jos_dbtest_pkey',
+						'isPrimary' => 'TRUE',
+						'isUnique' => 'TRUE',
+						'Query' => 'ALTER TABLE "jos_dbtest" ADD PRIMARY KEY (id)',
+					)
+				)
+			)
+		);
+
+		/* Check if database is at least 9.1.0 */
+		$this->dbo->expects(
+			$this->any()
+		)
+		->method('getVersion')
+		->will(
+			$this->returnValue(
+				'9.1.2'
+			)
+		);
+
+		if (version_compare($this->dbo->getVersion(), '9.1.0') >= 0)
+		{
+			$this->_ver9dot1 = true;
+			$start_val = '1';
+		}
+		else
+		{
+			/* Older version */
+			$this->_ver9dot1 = false;
+			$start_val = null;
+		}
+
+		$this->dbo->expects(
+			$this->any()
+		)
+		->method('getTableSequences')
+		->will(
+			$this->returnValue(
+				array(
+					(object) array(
+						'sequence' => 'jos_dbtest_id_seq',
+						'schema' => 'public',
+						'table' => 'jos_dbtest',
+						'column' => 'id',
+						'data_type' => 'bigint',
+						'start_value' => $start_val,
+						'minimum_value' => '1',
+						'maximum_value' => '9223372036854775807',
+						'increment' => '1',
+						'cycle_option' => 'NO',
+					)
+				)
+			)
+		);
+
+		$this->dbo->expects(
+			$this->any()
+		)
+		->method('quoteName')
+		->will(
 			$this->returnCallback(
 				array($this, 'callbackQuoteName')
 			)
@@ -138,8 +192,8 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 		$this->dbo->expects(
 			$this->any()
 		)
-			->method('setQuery')
-			->will(
+		->method('setQuery')
+		->will(
 			$this->returnCallback(
 				array($this, 'callbackSetQuery')
 			)
@@ -148,8 +202,8 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 		$this->dbo->expects(
 			$this->any()
 		)
-			->method('loadObjectList')
-			->will(
+		->method('loadObjectList')
+		->will(
 			$this->returnCallback(
 				array($this, 'callbackLoadObjectList')
 			)
@@ -161,7 +215,7 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return array  An array of results based on the setting of the last query.
 	 *
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	public function callbackLoadObjectList()
 	{
@@ -173,13 +227,13 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @param   string  $value  The value to be quoted.
 	 *
-	 * @return string  The value passed wrapped in MySQL quotes.
+	 * @return string  The value passed wrapped in PostgreSQL quotes.
 	 *
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	public function callbackQuoteName($value)
 	{
-		return "`$value`";
+		return '"$value"';
 	}
 
 	/**
@@ -189,7 +243,7 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	public function callbackSetQuery($query)
 	{
@@ -201,11 +255,11 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function test__toString()
 	{
-		$instance = new JDatabaseExporterMysqlInspector;
+		$instance = new JDatabaseExporterPostgresqlInspector;
 
 		// Set up the export settings.
 		$instance
@@ -213,17 +267,30 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 			->from('jos_test')
 			->withStructure(true);
 
+		/* Depending on which version is running, 9.1.0 or older */
+		$start_val = null;
+
+		if ($this->_ver9dot1)
+		{
+			$start_val = '1';
+		}
+
 		$expecting = '<?xml version="1.0"?>
-<mysqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<postgresqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
  <database name="">
   <table_structure name="#__test">
-   <field Field="id" Type="int(11) unsigned" Null="NO" Key="PRI" Default="" Extra="auto_increment" />
-   <field Field="title" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" />
-   <key Table="#__test" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="id" Collation="A" Null="" Index_type="BTREE" Comment="" />
+   <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' .
+			$start_val . '" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />
+   <field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />
+   <field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />
+   <field Field="start_date" Type="timestamp without time zone" Null="NO" Default="NULL" Comments="" />
+   <field Field="description" Type="text" Null="NO" Default="NULL" Comments="" />
+   <key Index="jos_dbtest_pkey" is_primary="TRUE" is_unique="TRUE" Query="ALTER TABLE "jos_dbtest" ADD PRIMARY KEY (id)" />
   </table_structure>
  </database>
-</mysqldump>';
+</postgresqldump>';
 
+		// Replace used to prevent platform conflicts
 		$this->assertThat(
 			preg_replace('/\v/', '', (string) $instance),
 			$this->equalTo(
@@ -238,11 +305,11 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	public function testAsXml()
 	{
-		$instance = new JDatabaseExporterMysqlInspector;
+		$instance = new JDatabaseExporterPostgresqlInspector;
 
 		$result = $instance->asXml();
 
@@ -264,11 +331,11 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function testBuildXml()
 	{
-		$instance = new JDatabaseExporterMysqlInspector;
+		$instance = new JDatabaseExporterPostgresqlInspector;
 
 		// Set up the export settings.
 		$instance
@@ -276,16 +343,28 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 			->from('jos_test')
 			->withStructure(true);
 
+		/* Depending on which version is running, 9.1.0 or older */
+		$start_val = null;
+
+		if ($this->_ver9dot1)
+		{
+			$start_val = '1';
+		}
+
 		$expecting = '<?xml version="1.0"?>
-<mysqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<postgresqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
  <database name="">
   <table_structure name="#__test">
-   <field Field="id" Type="int(11) unsigned" Null="NO" Key="PRI" Default="" Extra="auto_increment" />
-   <field Field="title" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" />
-   <key Table="#__test" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="id" Collation="A" Null="" Index_type="BTREE" Comment="" />
+   <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' .
+			$start_val . '" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />
+   <field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />
+   <field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />
+   <field Field="start_date" Type="timestamp without time zone" Null="NO" Default="NULL" Comments="" />
+   <field Field="description" Type="text" Null="NO" Default="NULL" Comments="" />
+   <key Index="jos_dbtest_pkey" is_primary="TRUE" is_unique="TRUE" Query="ALTER TABLE "jos_dbtest" ADD PRIMARY KEY (id)" />
   </table_structure>
  </database>
-</mysqldump>';
+</postgresqldump>';
 
 		// Replace used to prevent platform conflicts
 		$this->assertThat(
@@ -302,11 +381,11 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function testBuildXmlStructure()
 	{
-		$instance = new JDatabaseExporterMysqlInspector;
+		$instance = new JDatabaseExporterPostgresqlInspector;
 
 		// Set up the export settings.
 		$instance
@@ -314,15 +393,26 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 			->from('jos_test')
 			->withStructure(true);
 
+		/* Depending on which version is running, 9.1.0 or older */
+		$start_val = null;
+
+		if ($this->_ver9dot1)
+		{
+			$start_val = '1';
+		}
+
 		$this->assertThat(
 			$instance->buildXmlStructure(),
 			$this->equalTo(
 				array(
 					'  <table_structure name="#__test">',
-					'   <field Field="id" Type="int(11) unsigned" Null="NO" Key="PRI" Default="" Extra="auto_increment" />',
-					'   <field Field="title" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" />',
-					'   <key Table="#__test" Non_unique="0" Key_name="PRIMARY" Seq_in_index="1" Column_name="id" Collation="A" ' .
-					'Null="" Index_type="BTREE" Comment="" />',
+					'   <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' .
+					$start_val . '" Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />',
+					'   <field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />',
+					'   <field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />',
+					'   <field Field="start_date" Type="timestamp without time zone" Null="NO" Default="NULL" Comments="" />',
+					'   <field Field="description" Type="text" Null="NO" Default="NULL" Comments="" />',
+					'   <key Index="jos_dbtest_pkey" is_primary="TRUE" is_unique="TRUE" Query="ALTER TABLE "jos_dbtest" ADD PRIMARY KEY (id)" />',
 					'  </table_structure>'
 				)
 			),
@@ -335,11 +425,11 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	public function testCheckWithNoDbo()
 	{
-		$instance = new JDatabaseExporterMysqlInspector;
+		$instance = new JDatabaseExporterPostgresqlInspector;
 
 		try
 		{
@@ -361,11 +451,11 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	public function testCheckWithNoTables()
 	{
-		$instance = new JDatabaseExporterMysqlInspector;
+		$instance	= new JDatabaseExporterPostgresqlInspector;
 		$instance->setDbo($this->dbo);
 
 		try
@@ -388,11 +478,11 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	public function testCheckWithGoodInput()
 	{
-		$instance = new JDatabaseExporterMysqlInspector;
+		$instance	= new JDatabaseExporterPostgresqlInspector;
 		$instance->setDbo($this->dbo);
 		$instance->from('foobar');
 
@@ -419,11 +509,11 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	public function testFromWithBadInput()
 	{
-		$instance = new JDatabaseExporterMysqlInspector;
+		$instance = new JDatabaseExporterPostgresqlInspector;
 
 		try
 		{
@@ -445,11 +535,11 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	public function testFromWithGoodInput()
 	{
-		$instance = new JDatabaseExporterMysqlInspector;
+		$instance = new JDatabaseExporterPostgresqlInspector;
 
 		try
 		{
@@ -480,11 +570,11 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function testGetGenericTableName()
 	{
-		$instance = new JDatabaseExporterMysqlInspector;
+		$instance = new JDatabaseExporterPostgresqlInspector;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
@@ -499,11 +589,11 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	public function testSetDboWithBadInput()
 	{
-		$instance = new JDatabaseExporterMysqlInspector;
+		$instance	= new JDatabaseExporterPostgresqlInspector;
 
 		try
 		{
@@ -516,7 +606,7 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 		}
 
 		$this->fail(
-			'setDbo requires a JDatabaseDriverMysql object and should throw an exception.'
+			'setDbo requires a JDatabasePostgresql object and should throw an exception.'
 		);
 	}
 
@@ -525,11 +615,11 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  11.1
+	 * @since  12.1
 	 */
 	public function testSetDboWithGoodInput()
 	{
-		$instance = new JDatabaseExporterMysqlInspector;
+		$instance = new JDatabaseExporterPostgresqlInspector;
 
 		try
 		{
@@ -556,11 +646,11 @@ class JDatabaseExporterMysqlTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 */
 	public function testWithStructure()
 	{
-		$instance = new JDatabaseExporterMysqlInspector;
+		$instance = new JDatabaseExporterPostgresqlInspector;
 
 		$result = $instance->withStructure();
 
