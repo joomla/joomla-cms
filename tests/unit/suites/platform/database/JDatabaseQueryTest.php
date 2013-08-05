@@ -8,7 +8,6 @@
  */
 
 require_once __DIR__ . '/JDatabaseQueryInspector.php';
-require_once JPATH_PLATFORM . '/joomla/database/query/mysqli.php';
 
 /**
  * Test class for JDatabaseQuery.
@@ -21,7 +20,8 @@ require_once JPATH_PLATFORM . '/joomla/database/query/mysqli.php';
 class JDatabaseQueryTest extends TestCase
 {
 	/**
-	 * @var  JDatbabase  A mock of the JDatabase object for testing purposes.
+	 * @var    JDatabaseDriver  A mock of the JDatabaseDriver object for testing purposes.
+	 * @since  13.1
 	 */
 	protected $dbo;
 

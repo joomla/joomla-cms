@@ -7,14 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once JPATH_PLATFORM . '/joomla/database/exporter/postgresql.php';
-
 /**
- * Class to expose protected properties and methods in JDatabasePostgresqlExporter for testing purposes
+ * Class to expose protected properties and methods in JDatabaseExporterPostgresql for testing purposes
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- *
  * @since       12.1
  */
 class JDatabaseExporterPostgresqlInspector extends JDatabaseExporterPostgresql

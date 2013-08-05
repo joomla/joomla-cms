@@ -8,14 +8,13 @@
  */
 
 /**
- * Test class for JDatabaseResults using MySQL engine.
+ * Test class for JDatabaseIteratorMysqli.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- *
  * @since       12.1
  */
-class JDatabaseIteratorMySQLTest extends TestCaseDatabaseMysql
+class JDatabaseIteratorMysqliTest extends TestCaseDatabaseMysqli
 {
 	/**
 	 * Data provider for the testForEach method
@@ -129,8 +128,9 @@ class JDatabaseIteratorMySQLTest extends TestCaseDatabaseMysql
 		{
 			$this->setExpectedException($exception);
 		}
+
 		self::$driver->setQuery(self::$driver->getQuery(true)->select($select)->from($from)->setLimit($limit, $offset));
-		$iterator = new JDatabaseIteratorMysql(self::$driver->execute(), $column, $class);
+		$iterator = self::$driver->getIterator($column, $class);
 
 		// Run the Iterator pattern
 		$this->assertThat(
@@ -151,21 +151,21 @@ class JDatabaseIteratorMySQLTest extends TestCaseDatabaseMysql
 	{
 		self::$driver->setQuery(self::$driver->getQuery(true)->select('title')->from('#__dbtest'));
 		$this->assertThat(
-			count(new JDatabaseIteratorMysql(self::$driver->execute())),
+			count(self::$driver->getIterator()),
 			$this->equalTo(4),
 			__LINE__
 		);
 
 		self::$driver->setQuery(self::$driver->getQuery(true)->select('title')->from('#__dbtest')->setLimit(2));
 		$this->assertThat(
-			count(new JDatabaseIteratorMysql(self::$driver->execute())),
+			count(self::$driver->getIterator()),
 			$this->equalTo(2),
 			__LINE__
 		);
 
 		self::$driver->setQuery(self::$driver->getQuery(true)->select('title')->from('#__dbtest')->setLimit(2, 3));
 		$this->assertThat(
-			count(new JDatabaseIteratorMysql(self::$driver->execute())),
+			count(self::$driver->getIterator()),
 			$this->equalTo(1),
 			__LINE__
 		);

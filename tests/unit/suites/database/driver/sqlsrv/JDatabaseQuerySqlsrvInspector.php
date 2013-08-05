@@ -7,17 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once JPATH_PLATFORM . '/joomla/database/query/postgresql.php';
-
 /**
  * Class to expose protected properties and methods in JDatabaseQuery for testing purposes.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- *
- * @since       11.1
+ * @since       13.1
  */
-class JDatabaseQueryPostgresqlInspector extends JDatabaseQueryPostgresql
+class JDatabaseQuerySqlsrvInspector extends JDatabaseQuerySqlsrv
 {
 	/**
 	 * Sets any property from the class.
@@ -27,7 +24,7 @@ class JDatabaseQueryPostgresqlInspector extends JDatabaseQueryPostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   13.1
 	 */
 	public function __set($property, $value)
 	{
@@ -41,10 +38,11 @@ class JDatabaseQueryPostgresqlInspector extends JDatabaseQueryPostgresql
 	 *
 	 * @return  mixed   The value of the class property.
 	 *
-	 * @since   11.1
+	 * @since   13.1
 	 */
 	public function get($property)
 	{
 		return $this->$property;
 	}
 }
+
