@@ -101,11 +101,12 @@ class JHtmlUsers
 		}
 
 		$title = JText::plural('COM_USERS_N_USER_NOTES', $count);
+		
+		$html  = '<a class="btn btn-micro hasTooltip" href="' . JRoute::_('index.php?option=com_users&view=notes&filter_search=uid:' . (int)$userId) . '" ';
+		$html .= 'title="' . $title . '"><i class="icon icon-filter text-info"></i></a>';
 
-		return '<a class="modal"'
-			. ' href="' . JRoute::_('index.php?option=com_users&view=notes&tmpl=component&layout=modal&u_id=' . (int) $userId) . '"'
-			. ' rel="{handler: \'iframe\', size: {x: 800, y: 450}}">'
-			. '<span class="label label-info"><i class="icon-drawer-2"></i>' . $title . '</span></a>';
+		return $html;
+
 	}
 
 	/**
