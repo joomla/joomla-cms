@@ -166,8 +166,12 @@ class JUpdate extends JObject
 	{
 		array_push($this->_stack, $name);
 		$tag = $this->_getStackLocation();
+
 		// Reset the data
-		eval('$this->' . $tag . '->_data = "";');
+		if (isset($this->$tag))
+		{
+			$this->$tag->_data = "";
+		}
 
 		switch ($name)
 		{
@@ -181,11 +185,20 @@ class JUpdate extends JObject
 			// For everything else there's...the default!
 			default:
 				$name = strtolower($name);
-				$this->_current_update->$name->_data = '';
+
+				if (isset($this->_current_update->$name))
+				{
+					$this->_current_update->$name->_data = '';
+				}
+
 				foreach ($attrs as $key => $data)
 				{
 					$key = strtolower($key);
-					$this->_current_update->$name->$key = $data;
+
+					if (isset($this->_current_update->$name))
+					{
+						$this->_current_update->$name->$key = $data;
+					}
 				}
 				break;
 		}
@@ -211,7 +224,9 @@ class JUpdate extends JObject
 			case 'UPDATE':
 				$ver = new JVersion;
 				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd'));
-				if ($product == $this->_current_update->targetplatform->name
+
+				if (isset($this->_current_update->targetplatform->name)
+					&& $product == $this->_current_update->targetplatform->name
 					&& preg_match('/' . $this->_current_update->targetplatform->version . '/', $ver->RELEASE))
 				{
 					if (isset($this->_latest))
@@ -265,7 +280,11 @@ class JUpdate extends JObject
 		//$this->$tag->_data .= $data;
 		// Throw the data for this item together
 		$tag = strtolower($tag);
-		$this->_current_update->$tag->_data .= $data;
+
+		if (isset($this->_current_update->$tag))
+		{
+			$this->_current_update->$tag->_data .= $data;
+		}
 	}
 
 	/**
