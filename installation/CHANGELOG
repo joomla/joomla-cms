@@ -29,6 +29,7 @@ $ -> Language fix or change
  # [#31659] Dropdown at frontend search. Thanks Tobias Zulauf
  # [#31350] Missing space in Calendar.
  # [#31676] *Isis: Filter drop-down items hidden by status bar
+ # [#31661] Unclosed span tag in debug console. Thanks Constantin Romankiewicz
 
 04-Aug-2013 Michael Babker
  # [#30834] Template errors when no CSS folder.  Thanks Rune Sjøen
