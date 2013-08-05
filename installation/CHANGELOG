@@ -26,6 +26,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-Aug-2013 Jean-Marie Simonet
+ # [#31411] Show Offline image only if it exists. Thanks Tobias Zulauf
+ # [#31360] The site is offline but anyhow the error page will show (e.g. at a 404 error). Thanks Mihail Irintchev
+ # [#31630] email cloaking inserts space (2.5.13). Thanks Peter Martin and Marc Antoine Thevenet
+
 -------------------- 2.5.14 Stable Release 01-August-2013] ------------------
 
 31-Jul-2013 Jean-Marie Simonet
