@@ -66,7 +66,7 @@ class JHtmlUsers
 	 * @param   integer  $count   The number of notes for the user
 	 * @param   integer  $userId  The user ID
 	 *
-	 * @return  string  A button link to apply a filter
+	 * @return  string  A link to apply a filter
 	 *
 	 * @since   2.5
 	 */
