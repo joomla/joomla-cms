@@ -206,7 +206,7 @@ class JUri
 			self::$instances[$uri] = new JUri($theURI);
 		}
 
-		return clone self::$instances[$uri];
+		return self::$instances[$uri];
 	}
 
 	/**

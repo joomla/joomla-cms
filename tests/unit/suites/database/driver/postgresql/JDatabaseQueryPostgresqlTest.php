@@ -6,28 +6,28 @@
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 require_once __DIR__ . '/JDatabaseQueryPostgresqlInspector.php';
-require_once JPATH_PLATFORM . '/joomla/database/query/postgresql.php';
 
 /**
- * Test class for JDatabasePostgresqlQuery.
+ * Test class for JDatabaseQueryPostgresql.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- *
  * @since       11.3
  */
-class JDatabasePostgresqlQueryTest extends TestCase
+class JDatabaseQueryPostgresqlTest extends TestCase
 {
 	/**
-	 * @var  JDatabase  A mock of the JDatabase object for testing purposes.
+	 * @var    JDatabaseDriver  A mock of the JDatabaseDriver object for testing purposes.
+	 * @since  13.1
 	 */
 	protected $dbo;
 
 	/**
 	 * The instance of the object to test.
 	 *
-	 * @var    JDatabasePostgresqlQuery
+	 * @var    JDatabaseQueryPostgresql
 	 * @since  12.3
 	 */
 	private $_instance;

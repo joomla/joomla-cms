@@ -25,6 +25,42 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Aug-2013 Michael Babker
+ # [#30834] Template errors when no CSS folder.  Thanks Rune Sjøen
+ # [#31318] Bad display of images at Media Manager (IE/FF22).  Thanks Lu Nguyen
+ # [#30445] mod_feed template error when displaying feed title.  Thanks Ben Eberle
+
+04-Aug-2013 Jean-Marie Simonet
+ # [#31382] Added min-width to (bootstrap) radio buttons to prettify settings. Thanks Peter van Westen
+ # [#30027] Impossible to enter custom module position name if you have less than about 8 positions in the list. Thanks Sebastian Łuckoś
+ # [#31354] To much clear lines at the Media Manager Options. Thanks Tobias Zulauf
+ # [#31511] JRouter needs to take $uri by reference to properly pass it to rules. Thanks Klas
+
+03-Aug-2013 Jean-Marie Simonet
+ # [#31297] Content language manager missing drag drop ordering. Thanks Nguyen Huu Hien
+ # [#27476] Menu types view not sorted alphabetically. Thanks Lao Neo
+ # [#31586] Typo in model administrator/components/com_content/models/article.php. Thanks Volkmar Schlothauer and Brian Teeman
+ # [#31536] Adding filters in backend Installation Discover view for 3.x. Thanks Gunjan Patel
+ # [#31564] Missing images in sample data categories. Thanks Roland Dalmulder
+ #$ [#30793] Spelling error in the title of the Edit Article Category screen
+ #$ [#31357] Add the Default parameter to the colour options for the templates to the desc strings. Thanks Tobias Zulauf
+ # [#31411] Show Offline image only if it exists. Thanks Tobias Zulauf
+ # [#31360] The site is offline but anyhow the error page will show (e.g. at a 404 error). Thanks Mihail Irintchev
+ # [#31440] Cleanup & fixes for the admin menu. Thanks Sander Potjer
+ # [#31387] Button class missing for export banner tracks. Thanks Brian Teeman
+ # [#31554] Module manager allows positions with trailing spaces. Thanks Richard McDaniel
+ # [#31632] Small data type fix in phpdoc. Thanks Gunjan Patel
+ # [#31384] Hathor - Modal broken. Thanks cata castillo
+ # [#30806] Incorrect database type in the Statistics site module. Thanks Brian Teeman
+ # [#31439] email cloaking inserts space. Thanks Peter Martin
+ # [#31480] Dropdown look and fix in Message Select user modal view. Thanks Gunjan Patel
+ # [#29696] Weblink revision is not incremented. Thanks Dennis Hermatski
+
+02-Aug-2013 Jean-Marie Simonet
+ $ Updating installation lang files: ru-RU, sv-SE
+
+-------------------- 3.1.5 Stable Release [01-Aug-2013] ------------------
+
 31-Jul-2013 Michael Babker
  # [#31620] Some plugins cause blank pages in 3.1.4.  Thanks Don Gilbert
  # [#31607] REGRESSION: Changing the autoload order in a point release.  Thanks Don Gilbert

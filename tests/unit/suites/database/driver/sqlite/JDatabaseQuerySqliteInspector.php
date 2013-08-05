@@ -7,17 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once JPATH_PLATFORM . '/joomla/database/query/sqlsrv.php';
-
 /**
  * Class to expose protected properties and methods in JDatabaseQuery for testing purposes.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- *
  * @since       13.1
  */
-class JDatabaseQuerySqlsrvInspector extends JDatabaseQuerySqlsrv
+class JDatabaseQuerySqliteInspector extends JDatabaseQuerySqlite
 {
 	/**
 	 * Sets any property from the class.
@@ -48,4 +45,3 @@ class JDatabaseQuerySqlsrvInspector extends JDatabaseQuerySqlsrv
 		return $this->$property;
 	}
 }
-
