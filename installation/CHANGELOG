@@ -30,6 +30,7 @@ $ -> Language fix or change
  # [#31350] Missing space in Calendar.
  # [#31676] *Isis: Filter drop-down items hidden by status bar
  # [#31661] Unclosed span tag in debug console. Thanks Constantin Romankiewicz
+ # [#30752] J! Update component - > empty custom URL causes error.
 
 04-Aug-2013 Michael Babker
  # [#30834] Template errors when no CSS folder.  Thanks Rune Sjøen
