@@ -28,6 +28,7 @@ $ -> Language fix or change
 05-Aug-2013 Jean-Marie Simonet
  # [#31659] Dropdown at frontend search. Thanks Tobias Zulauf
  # [#31350] Missing space in Calendar.
+ # [#31676] *Isis: Filter drop-down items hidden by status bar
 
 04-Aug-2013 Michael Babker
  # [#30834] Template errors when no CSS folder.  Thanks Rune Sjøen
