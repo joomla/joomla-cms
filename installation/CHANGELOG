@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Aug-2013 Jean-Marie Simonet
+ # [#31478] User Note could be saved without User ID. THanks Khai Vu Dinh
+
 05-Aug-2013 Jean-Marie Simonet
  # [#31659] Dropdown at frontend search. Thanks Tobias Zulauf
  # [#31350] Missing space in Calendar.
