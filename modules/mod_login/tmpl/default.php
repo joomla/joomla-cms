@@ -22,7 +22,7 @@ JHtml::_('bootstrap.tooltip');
 		<div id="form-login-username" class="control-group">
 			<div class="controls">
 				<?php if (!$params->get('usetext')) : ?>
-					<div class="input-prepend input-append">
+					<div class="input-prepend">
 						<span class="add-on">
 							<span class="icon-user tip" title="<?php echo JText::_('MOD_LOGIN_VALUE_USERNAME') ?>"></span>
 							<label for="modlgn-username" class="element-invisible"><?php echo JText::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
@@ -31,14 +31,14 @@ JHtml::_('bootstrap.tooltip');
 					</div>
 				<?php else: ?>
 					<label for="modlgn-username"><?php echo JText::_('MOD_LOGIN_VALUE_USERNAME') ?></label>
-						<input id="modlgn-username" type="text" name="username" class="input-small" tabindex="0" size="18" placeholder="<?php echo JText::_('MOD_LOGIN_VALUE_USERNAME') ?>" />
+					<input id="modlgn-username" type="text" name="username" class="input-small" tabindex="0" size="18" placeholder="<?php echo JText::_('MOD_LOGIN_VALUE_USERNAME') ?>" />
 				<?php endif; ?>
 			</div>
 		</div>
 		<div id="form-login-password" class="control-group">
 			<div class="controls">
 				<?php if (!$params->get('usetext')) : ?>
-					<div class="input-prepend input-append">
+					<div class="input-prepend">
 						<span class="add-on">
 							<span class="icon-lock tip" title="<?php echo JText::_('JGLOBAL_PASSWORD') ?>">
 							</span>
@@ -46,7 +46,7 @@ JHtml::_('bootstrap.tooltip');
 							</label>
 						</span>
 						<input id="modlgn-passwd" type="password" name="password" class="input-small" tabindex="0" size="18" placeholder="<?php echo JText::_('JGLOBAL_PASSWORD') ?>" />
-				</div>
+					</div>
 				<?php else: ?>
 					<label for="modlgn-passwd"><?php echo JText::_('JGLOBAL_PASSWORD') ?></label>
 					<input id="modlgn-passwd" type="password" name="password" class="input-small" tabindex="0" size="18" placeholder="<?php echo JText::_('JGLOBAL_PASSWORD') ?>" />
