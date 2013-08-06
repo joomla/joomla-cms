@@ -100,16 +100,6 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 					$query .= (string) $this->order;
 				}
 
-				if ($this->limit)
-				{
-					$query .= (string) $this->limit;
-				}
-
-				if ($this->offset)
-				{
-					$query .= (string) $this->offset;
-				}
-
 				if ($this->forUpdate)
 				{
 					$query .= (string) $this->forUpdate;
@@ -191,6 +181,11 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 
 		}
 
+		if ($this instanceof JDatabaseQueryLimitable)
+		{
+			$query = $this->processLimit($query, $this->limit, $this->offset);
+		}
+
 		return $query;
 	}
 
@@ -199,7 +194,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 *
 	 * @param   string  $clause  Optionally, the name of the clause to clear, or nothing to clear the whole query.
 	 *
-	 * @return  void
+	 * @return  JDatabaseQueryPostgresql  Returns this object to allow chaining.
 	 *
 	 * @since   11.3
 	 */
@@ -581,9 +576,9 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 * @param   integer  $limit   The limit for the result set
 	 * @param   integer  $offset  The offset for the result set
 	 *
-	 * @return string
+	 * @return  string
 	 *
-	 * @since 12.1
+	 * @since   12.1
 	 */
 	public function processLimit($query, $limit, $offset = 0)
 	{

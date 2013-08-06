@@ -27,7 +27,7 @@ if (!class_exists('JLoader'))
 }
 
 // Register the library base path for CMS libraries.
-JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms');
+JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms', false, true);
 
 // Register a handler for uncaught exceptions that shows a pretty error page when possible
 set_exception_handler(array('JErrorPage', 'render'));
