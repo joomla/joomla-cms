@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 06-Aug-2013 Jean-Marie Simonet
  # [#31478] User Note could be saved without User ID. THanks Khai Vu Dinh
+ # [#31648] TAGS Options: Wrong Color on Option Selection.
 
 05-Aug-2013 Jean-Marie Simonet
  # [#31659] Dropdown at frontend search. Thanks Tobias Zulauf
