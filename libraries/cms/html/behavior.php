@@ -63,7 +63,7 @@ abstract class JHtmlBehavior
 		JHtml::_('script', 'system/mootools-' . $type . '.js', false, true, false, false, $debug);
 		// Include jQuery
 		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/core-jquery-uncompressed.js', false, true);
+		JHtml::_('script', 'system/core-uncompressed.js', false, true);
 		static::$loaded[__METHOD__][$type] = true;
 
 		return;
