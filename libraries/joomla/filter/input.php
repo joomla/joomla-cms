@@ -653,10 +653,24 @@ class JFilterInput
 		$source = strtr($source, $ttr);
 
 		// Convert decimal
-		$source = preg_replace('/&#(\d+);/me', "utf8_encode(chr(\\1))", $source); // decimal notation
+		
+		if (version_compare(phpversion(), '5.5.0', '<')) {
+			$source = preg_replace('/&#(\d+);/me', "utf8_encode(chr(\\1))", $source); // decimal notation
+		}
+		else
+		{
+			$source = preg_replace_callback ('/&#(\d+);/m', function ($match) { return utf8_encode(chr($match[1]));}, $source); // decimal notation
+		}
+		
 
 		// Convert hex
-		$source = preg_replace('/&#x([a-f0-9]+);/mei', "utf8_encode(chr(0x\\1))", $source); // hex notation
+		if (version_compare(phpversion(), '5.5.0', '<')) {
+			$source = preg_replace('/&#x([a-f0-9]+);/mei', "utf8_encode(chr(0x\\1))", $source); // hex notation
+		}
+		else
+		{
+			$source = preg_replace_callback('/&#x([a-f0-9]+);/mi',  function ($match) {utf8_encode(chr("0x".$match[1]));}, $source); // hex notation
+		}
 		return $source;
 	}
 
