@@ -522,7 +522,8 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 
 			if (is_object($this->cursor))
 			{
-				$this->freeResult();
+				// Avoid warning if result already freed by third-party library
+				@$this->freeResult();
 			}
 			$memoryBefore = memory_get_usage();
 		}
