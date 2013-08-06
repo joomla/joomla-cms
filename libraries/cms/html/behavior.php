@@ -616,7 +616,7 @@ abstract class JHtmlBehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 		
-		JHtml::_('script', 'system/highlighter-jquery-uncompressed.js', true, true);
+		JHtml::_('script', 'system/highlighter-uncompressed.js', true, true);
 
 		$terms = str_replace('"', '\"', $terms);
 
