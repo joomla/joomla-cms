@@ -1,38 +1,43 @@
 /**
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
  * JavaScript behavior to allow shift select in administrator grids
  */
-(function() {
-	Joomla = Joomla || {};
+(function($) {
+    
+    Joomla = Joomla || {};
+    var $boxes;
+    Joomla.JMultiSelect = function(table) {
+        var $last;
 
-	Joomla.JMultiSelect = new Class({
-		initialize : function(table) {
-			this.table = document.id(table);
-			if (this.table) {
-				this.boxes = this.table.getElements('input[type=checkbox]');
-				this.boxes.addEvent('click', function(e){
-					this.doselect(e);
-				}.bind(this));
-			}
-		},
+        var initialize = function(table) {
+            $boxes = $('#' + table).find('input[type=checkbox]');
+            $boxes.on('click', function(e) {
+                doselect(e)
+            });
+        }
+        
+        var doselect = function(e) {
+            var $current = $(e.target);
+            if (e.shiftKey && $last.length) {
+                var isChecked = $current.is(':checked');
+                var lastIndex = $boxes.index($last);
+                var currentIndex = $boxes.index($current);
+                if (currentIndex < lastIndex) {
+                    // handle selection from bottom up
+                    var swap = lastIndex;
+                    lastIndex = currentIndex;
+                    currentIndex = swap;
+                }
+                $boxes.slice(lastIndex, currentIndex + 1).attr('checked', isChecked);
+            }
 
-		doselect: function(e) {
-			var current = document.id(e.target);
-			if (e.shift && typeOf(this.last) !== 'null') {
-				var checked = current.getProperty('checked') ? 'checked' : '';
-				var range = [this.boxes.indexOf(current), this.boxes.indexOf(this.last)].sort(function(a, b) {
-					//Shorthand to make sort() sort numerical instead of lexicographic
-					return a-b;
-				});
-				for (var i=range[0]; i <= range[1]; i++) {
-					this.boxes[i].setProperty('checked', checked);
-				}
-			}
-			this.last = current;
-		}
-	});
-})();
+            $last = $current;
+        }
+        initialize(table);
+    }
+
+})(jQuery);
