@@ -1,81 +1,75 @@
 /**
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
  * Switcher behavior
  *
- * @package		Joomla
- * @since		1.5
+ * @package     Joomla
+ * @since       1.5
  */
-var JSwitcher = new Class({
-	Implements: [Options, Events],
+var JSwitcher = function(toggler, element, _options) {
+    var $, $togglers, $elements, current, options = {
+        onShow : function() {
+        },
+        onHide : function() {
+        },
+        cookieName : 'switcher',
+        togglerSelector : 'a',
+        elementSelector : 'div.tab',
+        elementPrefix : 'page-'
+    };
 
-	togglers: null,
-	elements: null,
-	current: null,
+    initialize = function(toggler, element, _options) {
+        $ = jQuery.noConflict();
+        $.extend(options, _options);
 
-	options : {
-		onShow: function(){},
-		onHide: function(){},
-		cookieName: 'switcher',
-		togglerSelector: 'a',
-		elementSelector: 'div.tab',
-		elementPrefix: 'page-'
-	},
+        $togglers = $(toggler).find(options.togglerSelector);
+        $elements = $(element).find(options.elementSelector);
 
-	initialize: function(toggler, element, options) {
-		this.setOptions(options);
-		this.togglers = document.id(toggler).getElements(this.options.togglerSelector);
-		this.elements = document.id(element).getElements(this.options.elementSelector);
+        if (($togglers.length === 0) || ($togglers.length !== $elements.length)) {
+            return;
+        }
 
-		if ((this.togglers.length == 0) || (this.togglers.length != this.elements.length)) {
-			return;
-		}
+        hideAll();
 
-		this.hideAll();
+        $togglers.each(function() {
+            $(this).on('click', function() {
+                display($(this).attr('id'));
+            });
+        })
+        var first = document.location.hash.substring(1);
+        display(first);
+    }
+    display = function(togglerId) {
+        var $toggler = $('#' + togglerId), $element = $('#' + options.elementPrefix + togglerId);
 
-		this.togglers.each(function(el) {
-			el.addEvent('click', this.display.bind(this, el.id));
-		}.bind(this));
+        if ($toggler.length === 0 || $element.length === 0 || togglerId === current) {
+            return this;
+        }
 
-		var first = [Cookie.read(this.options.cookieName), this.togglers[0].id].pick();
-		this.display(first);
-	},
+        if (current) {
+            hide($('#' + options.elementPrefix + current));
+            $('#' + current).removeClass('active');
+        }
 
-	display: function(togglerID) {
-		var toggler = document.id(togglerID);
-		var element = document.id(this.options.elementPrefix+togglerID);
-
-		if (toggler == null || element == null || toggler == this.current) {
-			return this;
-		}
-
-		if (this.current != null) {
-			this.hide(document.id(this.options.elementPrefix+this.current));
-			document.id(this.current).removeClass('active');
-		}
-
-		this.show(element);
-		toggler.addClass('active');
-
-		this.current = toggler.id;
-		Cookie.write(this.options.cookieName, this.current);
-	},
-
-	hide: function(element) {
-		this.fireEvent('hide', element);
-		element.setStyle('display', 'none');
-	},
-
-	hideAll: function() {
-		this.elements.setStyle('display', 'none');
-		this.togglers.removeClass('active');
-	},
-
-	show: function (element) {
-		this.fireEvent('show', element);
-		element.setStyle('display', 'block');
-	}
-});
+        show($element);
+        $toggler.addClass('active');
+        current = togglerId;
+        document.location.hash = current;
+    }
+    hide = function(element) {
+        options.onShow(element);
+        $(element).hide();
+    }
+    hideAll = function() {
+        $elements.hide();
+        $togglers.removeClass('active');
+    }
+    show = function(element) {
+        options.onHide(element);
+        $(element).show();
+    }
+    initialize(toggler, element, _options);
+};

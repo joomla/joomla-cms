@@ -148,7 +148,7 @@ abstract class JHtmlBehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 		
-		JHtml::_('script', 'system/switcher-jquery-uncompressed.js', true, true);
+		JHtml::_('script', 'system/switcher-uncompressed.js', true, true);
 
 		$script = "
 			document.switcher = null;
