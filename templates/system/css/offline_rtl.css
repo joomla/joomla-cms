@@ -13,3 +13,9 @@
 
 #frame form{ text-align: right; }
 label { float:right; }
+
+/* -- message styles ----------------------------------- */
+
+#system-message {
+	text-align: right;
+}
