@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 07-Aug-2013 Jean-Marie Simonet
  $ [#31606] Small typo fix in lang. Thanks Brian Teeman
+ # [#31314] language change dropdown at installation don't work if you scroll down. Thanks Lu Nguyen
 
 06-Aug-2013 Jean-Marie Simonet
  # [#31478] User Note could be saved without User ID. THanks Khai Vu Dinh
