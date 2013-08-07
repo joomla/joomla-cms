@@ -27,7 +27,7 @@ abstract class TestCaseDatabaseOracle extends TestCaseDatabase
 	private static $_options = array('driver' => 'oracle');
 
 	/**
-	 * @var    JDatabaseDriver  The saved database driver to be restored after these tests.
+	 * @var    JDatabaseDriverOracle  The saved database driver to be restored after these tests.
 	 * @since  12.1
 	 */
 	private static $_stash;

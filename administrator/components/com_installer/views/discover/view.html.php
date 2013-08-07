@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 include_once __DIR__ . '/../default/view.php';
 
 /**
- * Extension Manager Manage View
+ * Extension Manager Discover View
  *
  * @package     Joomla.Administrator
  * @subpackage  com_installer
@@ -44,7 +44,7 @@ class InstallerViewDiscover extends InstallerViewDefault
 	 *
 	 * @return  void
 	 *
-	 * @since   1.6
+	 * @since   3.1
 	 */
 	protected function addToolbar()
 	{
@@ -54,7 +54,28 @@ class InstallerViewDiscover extends InstallerViewDefault
 		JToolbarHelper::custom('discover.install', 'upload', 'upload', 'JTOOLBAR_INSTALL', true, false);
 		JToolbarHelper::custom('discover.refresh', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_DISCOVER', false, false);
 		JToolbarHelper::divider();
-		parent::addToolbar();
 		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_DISCOVER');
+
+		JHtmlSidebar::setAction('index.php?option=com_installer&view=discover');
+
+		JHtmlSidebar::addFilter(
+			JText::_('COM_INSTALLER_VALUE_CLIENT_SELECT'),
+			'filter_client_id',
+			JHtml::_('select.options', array('0' => 'JSITE', '1' => 'JADMINISTRATOR'), 'value', 'text', $this->state->get('filter.client_id'), true)
+		);
+
+		JHtmlSidebar::addFilter(
+			JText::_('COM_INSTALLER_VALUE_TYPE_SELECT'),
+			'filter_type',
+			JHtml::_('select.options', InstallerHelper::getExtensionTypes(), 'value', 'text', $this->state->get('filter.type'), true)
+		);
+
+		JHtmlSidebar::addFilter(
+			JText::_('COM_INSTALLER_VALUE_FOLDER_SELECT'),
+			'filter_group',
+			JHtml::_('select.options', array_merge(InstallerHelper::getExtensionGroupes(), array('*' => JText::_('COM_INSTALLER_VALUE_FOLDER_NONAPPLICABLE'))), 'value', 'text', $this->state->get('filter.group'), true)
+		);
+
+		parent::addToolbar();
 	}
 }
