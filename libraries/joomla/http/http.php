@@ -169,7 +169,14 @@ class JHttp
 			$timeout = $this->options->get('timeout');
 		}
 
-		return $this->transport->request('GET', new JUri($url), null, $headers, $timeout, $this->options->get('userAgent', null));
+		try
+		{
+			return $this->transport->request('GET', new JUri($url), null, $headers, $timeout, $this->options->get('userAgent', null));
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
 	}
 
 	/**

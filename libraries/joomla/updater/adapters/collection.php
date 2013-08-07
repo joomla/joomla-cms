@@ -232,7 +232,16 @@ class JUpdaterCollection extends JUpdateAdapter
 		$db = $this->parent->getDBO();
 
 		$http = JHttpFactory::getHttp();
-		$response = $http->get($url);
+
+		if (is_object($http->get($url)))
+		{
+			$response = $http->get($url);
+		}
+		else
+		{
+			throw new RuntimeException('Unable to connect to ' . $url);
+		}
+
 		if (200 != $response->code)
 		{
 			$query = $db->getQuery(true)
