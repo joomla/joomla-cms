@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Aug-2013 Jean-Marie Simonet
+ $ [#31606] Small typo fix in lang. Thanks Brian Teeman
+
 06-Aug-2013 Jean-Marie Simonet
  # [#31478] User Note could be saved without User ID. THanks Khai Vu Dinh
  # [#31648] TAGS Options: Wrong Color on Option Selection.
