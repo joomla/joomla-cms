@@ -25,6 +25,8 @@ class ContactTableContact extends JTable
 	public function __construct(&$db)
 	{
 		parent::__construct('#__contact_details', 'id', $db);
+
+		JTableObserverTags::createObserver($this, array('typeAlias' => 'com_contact.contact'));
 	}
 
 	/**
