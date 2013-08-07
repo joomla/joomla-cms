@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#23638] *Uninstalling 2 different extensions gets only one message. Thanks Thong Tran
  # [#31683] In debug mode with mysqli some extensions have warnings when freeing mysqli cursor themselves. Thanks Beat
  # [#31410] Warnings at the offline screen looks bad. Thanks Lu Nguyen
+ # [#31197] Deprecated: preg_replace(): The /e modifier is deprecated, use preg_replace_callback instead. Thanks Yurii Korotia
 
 06-Aug-2013 Jean-Marie Simonet
  # [#31478] User Note could be saved without User ID. THanks Khai Vu Dinh
