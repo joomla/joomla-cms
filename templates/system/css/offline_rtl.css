@@ -22,4 +22,5 @@ label { float:right; }
 .alert .close {
 	float: left;
 	left: -20px;
+	right: 0px;
 }
