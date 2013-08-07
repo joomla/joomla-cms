@@ -889,6 +889,7 @@ ul.adminformlist li {
 	margin: 0;
 	padding: 0;
 	list-style: none;
+	clear: both;
 }
 
 fieldset label,
