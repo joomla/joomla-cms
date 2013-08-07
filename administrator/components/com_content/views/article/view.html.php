@@ -26,6 +26,10 @@ class ContentViewArticle extends JViewLegacy
 
 	/**
 	 * Display the view
+	 *
+	 * @param   string  $tpl  Name of the template to display
+	 *
+	 * @return  mixed         False on error / void on success
 	 */
 	public function display($tpl = null)
 	{
@@ -38,6 +42,7 @@ class ContentViewArticle extends JViewLegacy
 			$document->setTitle(JText::_('COM_CONTENT_PAGEBREAK_DOC_TITLE'));
 			$this->eName = &$eName;
 			parent::display($tpl);
+
 			return;
 		}
 
@@ -50,6 +55,7 @@ class ContentViewArticle extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -66,6 +72,8 @@ class ContentViewArticle extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function addToolbar()
@@ -76,7 +84,7 @@ class ContentViewArticle extends JViewLegacy
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 		$canDo		= ContentHelper::getActions($this->state->get('filter.category_id'), $this->item->id);
-		JToolbarHelper::title(JText::_('COM_CONTENT_PAGE_'.($checkedOut ? 'VIEW_ARTICLE' : ($isNew ? 'ADD_ARTICLE' : 'EDIT_ARTICLE'))), 'article-add.png');
+		JToolbarHelper::title(JText::_('COM_CONTENT_PAGE_' . ($checkedOut ? 'VIEW_ARTICLE' : ($isNew ? 'ADD_ARTICLE' : 'EDIT_ARTICLE'))), 'article-add.png');
 
 		// Built the actions for new and existing records.
 

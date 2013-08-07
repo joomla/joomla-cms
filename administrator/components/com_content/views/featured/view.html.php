@@ -10,8 +10,12 @@
 defined('_JEXEC') or die;
 
 /**
+ * Featured view controller
+ *
  * @package     Joomla.Administrator
  * @subpackage  com_content
+ *
+ * @since       1.6
  */
 class ContentViewFeatured extends JViewLegacy
 {
@@ -23,6 +27,10 @@ class ContentViewFeatured extends JViewLegacy
 
 	/**
 	 * Display the view
+	 *
+	 * @param   string  $tpl  Name of the template to display
+	 *
+	 * @return  mixed         False on error / void on success
 	 */
 	public function display($tpl = null)
 	{
@@ -37,6 +45,7 @@ class ContentViewFeatured extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -63,6 +72,8 @@ class ContentViewFeatured extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function addToolbar()
@@ -76,6 +87,7 @@ class ContentViewFeatured extends JViewLegacy
 		{
 			JToolbarHelper::addNew('article.add');
 		}
+
 		if ($canDo->get('core.edit'))
 		{
 			JToolbarHelper::editList('article.edit');
@@ -93,7 +105,8 @@ class ContentViewFeatured extends JViewLegacy
 		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('', 'articles.delete', 'JTOOLBAR_EMPTY_TRASH');
-		} elseif ($canDo->get('core.edit.state'))
+		}
+		elseif ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::trash('articles.trash');
 		}
@@ -102,6 +115,7 @@ class ContentViewFeatured extends JViewLegacy
 		{
 			JToolbarHelper::preferences('com_content');
 		}
+
 		JToolbarHelper::help('JHELP_CONTENT_FEATURED_ARTICLES');
 
 		JHtmlSidebar::setAction('index.php?option=com_content&view=featured');

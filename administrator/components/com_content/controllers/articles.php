@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_content
+ *
  * @since       1.6
  */
 class ContentControllerArticles extends JControllerAdmin
@@ -21,10 +22,10 @@ class ContentControllerArticles extends JControllerAdmin
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  $config	An optional associative array of configuration settings.
-
-	 * @return  ContentControllerArticles
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
 	 * @see     JController
+	 *
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -45,6 +46,7 @@ class ContentControllerArticles extends JControllerAdmin
 	 * Method to toggle the featured setting of a list of articles.
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public function featured()
@@ -61,7 +63,7 @@ class ContentControllerArticles extends JControllerAdmin
 		// Access checks.
 		foreach ($ids as $i => $id)
 		{
-			if (!$user->authorise('core.edit.state', 'com_content.article.'.(int) $id))
+			if (!$user->authorise('core.edit.state', 'com_content.article.' . (int) $id))
 			{
 				// Prune items that you can't change.
 				unset($ids[$i]);
@@ -91,10 +93,12 @@ class ContentControllerArticles extends JControllerAdmin
 	/**
 	 * Proxy for getModel.
 	 *
-	 * @param   string	$name	The name of the model.
-	 * @param   string	$prefix	The prefix for the PHP class name.
+	 * @param   string  $name    The name of the model.
+	 * @param   string  $prefix  The prefix for the PHP class name.
+	 * @param   array   $config  Optional associative configuration array
 	 *
 	 * @return  JModel
+	 *
 	 * @since   1.6
 	 */
 	public function getModel($name = 'Article', $prefix = 'ContentModel', $config = array('ignore_request' => true))
@@ -103,20 +107,4 @@ class ContentControllerArticles extends JControllerAdmin
 
 		return $model;
 	}
-
-	/**
-	 * Function that allows child controller access to model data
-	 * after the item has been deleted.
-	 *
-	 * @param   JModelLegacy  $model  The data model object.
-	 * @param   integer       $ids    The array of ids for items being deleted.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.2
-	 */
-	protected function postDeleteHook(JModelLegacy $model, $ids = null)
-	{
-	}
-
 }
