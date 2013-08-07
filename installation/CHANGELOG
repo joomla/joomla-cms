@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Aug-2013 Jean-Marie Simonet
+ #$ [#31622] Media Manager doesn't cope with folder names that include spaces. Thanks Richard McDaniel
+
 03-Aug-2013 Jean-Marie Simonet
  # [#31411] Show Offline image only if it exists. Thanks Tobias Zulauf
  # [#31360] The site is offline but anyhow the error page will show (e.g. at a 404 error). Thanks Mihail Irintchev
