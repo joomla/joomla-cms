@@ -53,9 +53,6 @@ class PlgUserJoomla extends JPlugin
 	{
 		parent::__construct($subject, $config);
 
-		$this->app = JFactory::getApplication();
-		$this->db = JFactory::getDbo();
-
 		// This default is false until 3.2 at which point it will change to true.
 		$this->useStrongEncryption = $this->params->get('strong_passwords', false);
 	}
@@ -80,8 +77,8 @@ class PlgUserJoomla extends JPlugin
 		}
 
 		$this->db->getQuery(true)
-			->delete($db->quoteName('#__session'))
-			->where($db->quoteName('userid') . ' = ' . (int) $user['id'])
+			->delete($this->db->quoteName('#__session'))
+			->where($this->db->quoteName('userid') . ' = ' . (int) $user['id'])
 			->execute();
 
 		return true;
@@ -180,7 +177,7 @@ class PlgUserJoomla extends JPlugin
 		// If the user is blocked, redirect with an error
 		if ($instance->get('block') == 1)
 		{
-			$app->enqueueMessage(JText::_('JERROR_NOLOGIN_BLOCKED'), 'warning');
+			$this->app->enqueueMessage(JText::_('JERROR_NOLOGIN_BLOCKED'), 'warning');
 
 			return false;
 		}
@@ -218,8 +215,7 @@ class PlgUserJoomla extends JPlugin
 		$session->set('user', $instance);
 
 		// Check to see the the session already exists.
-		$app = JFactory::getApplication();
-		$app->checkSession();
+		$this->app->checkSession();
 
 		// Update the user related fields for the Joomla sessions table.
 		$query = $this->db->getQuery(true)
