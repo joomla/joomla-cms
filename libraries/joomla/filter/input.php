@@ -657,6 +657,8 @@ class JFilterInput
 
 		// Convert hex
 		$source = preg_replace_callback('/&#x([a-f0-9]+);/mi', function($m){return utf8_encode(chr('0x'.$m[1]));}, $source); // hex notation
+
+
 		return $source;
 	}
 
