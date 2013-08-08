@@ -23,7 +23,7 @@ class JRouterSite extends JRouter
 	/**
 	 * Function to convert a route to an internal URI
 	 *
-	 * @param   JUri  $uri  The uri.
+	 * @param   JUri  &$uri  The uri.
 	 *
 	 * @return  array
 	 */
@@ -136,7 +136,7 @@ class JRouterSite extends JRouter
 	/**
 	 * Function to convert a raw route to an internal URI
 	 *
-	 * @param   JUri  $uri  The raw route
+	 * @param   JUri  &$uri  The raw route
 	 *
 	 * @return  array
 	 */
@@ -193,7 +193,7 @@ class JRouterSite extends JRouter
 	/**
 	 * Function to convert a sef route to an internal URI
 	 *
-	 * @param   JUri  $uri  The sef URI
+	 * @param   JUri  &$uri  The sef URI
 	 *
 	 * @return  string  Internal URI
 	 */
@@ -376,7 +376,7 @@ class JRouterSite extends JRouter
 	/**
 	 * Function to build a raw route
 	 *
-	 * @param   JUri  $uri  The internal URL
+	 * @param   JUri  &$uri  The internal URL
 	 *
 	 * @return  string  Raw Route
 	 */
@@ -387,7 +387,7 @@ class JRouterSite extends JRouter
 	/**
 	 * Function to build a sef route
 	 *
-	 * @param   JUri  $uri  The uri
+	 * @param   JUri  &$uri  The uri
 	 *
 	 * @return  void
 	 */
@@ -497,7 +497,7 @@ class JRouterSite extends JRouter
 	/**
 	 * Process the parsed router variables based on custom defined rules
 	 *
-	 * @param   JUri  $uri  The URI to parse
+	 * @param   JUri  &$uri  The URI to parse
 	 *
 	 * @return  array  The array of processed URI variables
 	 */
@@ -522,7 +522,7 @@ class JRouterSite extends JRouter
 	/**
 	 * Process the build uri query data based on custom defined rules
 	 *
-	 * @param   JUri  $uri  The URI
+	 * @param   JUri  &$uri  The URI
 	 *
 	 * @return  void
 	 */
