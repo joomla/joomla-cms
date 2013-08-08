@@ -92,7 +92,7 @@ class MenusModelMenutypes extends JModelLegacy
 		}
 
 		// Allow a system plugin to insert dynamic menu types to the list shown in menus:
-		JDispatcher::getInstance()->trigger('onAfterGetMenuTypeOptions', array(&$list, $this));
+		JEventDispatcher::getInstance()->trigger('onAfterGetMenuTypeOptions', array(&$list, $this));
 
 		return $list;
 	}
