@@ -25,6 +25,15 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Aug-2013 Jean-Marie Simonet
+ $ [#31606] Small typo fix in lang. Thanks Brian Teeman
+ # [#31314] language change dropdown at installation don't work if you scroll down. Thanks Lu Nguyen
+ # [#23638] *Uninstalling 2 different extensions gets only one message. Thanks Thong Tran
+ # [#31683] In debug mode with mysqli some extensions have warnings when freeing mysqli cursor themselves. Thanks Beat
+ # [#31410] Warnings at the offline screen looks bad. Thanks Lu Nguyen
+ #$ [#31622] *Media Manager doesn't cope with folder names that include spaces. Thanks Richard McDaniel
+ # [#31633] Detailed changelog in readme.txt points to SVN which is out of date. Thanks Brian Teeman
+
 06-Aug-2013 Jean-Marie Simonet
  # [#31478] User Note could be saved without User ID. THanks Khai Vu Dinh
  # [#31648] TAGS Options: Wrong Color on Option Selection.
