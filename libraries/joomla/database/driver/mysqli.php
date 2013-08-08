@@ -231,7 +231,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 */
 	public function connected()
 	{
-		if (is_object($this->connection))
+		if (is_object($this->connection)  && !is_null($this->get('connection')))
 		{
 			return mysqli_ping($this->connection);
 		}
