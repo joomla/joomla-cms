@@ -128,6 +128,9 @@ class JTableNested extends JTable
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
+		// Start the transaction.
+		$this->_db->transactionStart();
+
 		// Get the path from the node to the root.
 		$select = ($diagnostic) ? 'p.' . $k . ', p.parent_id, p.level, p.lft, p.rgt' : 'p.*';
 		$query = $this->_db->getQuery(true)
@@ -138,6 +141,8 @@ class JTableNested extends JTable
 			->order('p.lft');
 
 		$this->_db->setQuery($query);
+
+		$this->_db->transactionCommit();
 
 		return $this->_db->loadObjectList();
 	}
@@ -352,6 +357,7 @@ class JTableNested extends JTable
 		/*
 		 * Close the hole in the tree that was opened by removing the sub-tree from the nested sets.
 		 */
+
 		// Compress the left values.
 		$query->clear()
 			->update($this->_tbl)
@@ -556,9 +562,10 @@ class JTableNested extends JTable
 
 						throw new RuntimeException($e, 500);
 					}
+
 					try
 					{
-						$this->transactionCommit();
+						$this->_db->transactionCommit();
 					}
 					catch(Exception $e)
 					{
@@ -733,7 +740,7 @@ class JTableNested extends JTable
 		$k = $this->_tbl_key;
 
 		// Implement JObservableInterface: Pre-processing by observers
-		$this->_observers->update('onBeforeStore', array($updateNulls, $k));
+		//$this->_observers->update('onBeforeStore', array($updateNulls, $k));
 
 		// @codeCoverageIgnoreStart
 		if ($this->_debug)
@@ -1359,6 +1366,9 @@ class JTableNested extends JTable
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
+		// Start the transaction.
+		$this->_db->transactionStart();
+
 		// Get the aliases for the path from the node to the root node.
 		$query = $this->_db->getQuery(true)
 			->select('p.alias')
@@ -1386,6 +1396,16 @@ class JTableNested extends JTable
 			->where($this->_tbl_key . ' = ' . (int) $pk);
 
 		$this->_db->setQuery($query)->execute();
+		try
+		{
+			// Commit the transaction.
+			$this->_db->transactionCommit();
+		}
+		catch (Exception $e)
+		{
+			$this->_db->transactionRollback();
+			throw $e;
+		}
 
 		// Update the current record's path to the new one:
 		$this->path = $path;

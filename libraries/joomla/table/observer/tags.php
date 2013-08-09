@@ -104,6 +104,7 @@ class JTableObserverTags extends JTableObserver
 	{
 		if ($result)
 		{
+			$this->parseTypeAlias();
 			$result = $this->tagsHelper->postStoreProcess($this->table);
 
 			// Restore default values for the optional params:
@@ -138,7 +139,7 @@ class JTableObserverTags extends JTableObserver
 	 */
 	public function setNewTags($newTags, $replaceTags)
 	{
-		$this->parseTypeAlias();
+		$this->parseTypeAlias();var_dump($this->tagsHelper->typeAlias);die;
 
 		return $this->tagsHelper->postStoreProcess($this->table, $newTags, $replaceTags);
 	}

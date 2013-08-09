@@ -36,7 +36,7 @@ class JHelperTags
 	protected $replaceTags = false;
 
 	/**
-	 * Alias for quering mapping and content type table.
+	 * Alias for querying mapping and content type table.
 	 *
 	 * @var    string
 	 * @since  3.1
