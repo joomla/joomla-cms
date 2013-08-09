@@ -19,8 +19,8 @@ var JSwitcher = function(toggler, element, _options) {
         togglerSelector : 'a',
         elementSelector : 'div.tab',
         elementPrefix : 'page-'
-    };
-
+    },
+    
     initialize = function(toggler, element, _options) {
         $ = jQuery.noConflict();
         $.extend(options, _options);
@@ -41,7 +41,8 @@ var JSwitcher = function(toggler, element, _options) {
         })
         var first = document.location.hash.substring(1);
         display(first);
-    }
+    },
+    
     display = function(togglerId) {
         var $toggler = $('#' + togglerId), $element = $('#' + options.elementPrefix + togglerId);
 
@@ -58,18 +59,29 @@ var JSwitcher = function(toggler, element, _options) {
         $toggler.addClass('active');
         current = togglerId;
         document.location.hash = current;
-    }
+    },
+    
     hide = function(element) {
         options.onShow(element);
         $(element).hide();
-    }
+    },
+    
     hideAll = function() {
         $elements.hide();
         $togglers.removeClass('active');
-    }
+    },
+    
     show = function(element) {
         options.onHide(element);
         $(element).show();
-    }
+    };
+    
     initialize(toggler, element, _options);
+    
+    return{
+        display: display,
+        hide: hide,
+        hideAll: hideAll,
+        show: show        
+    };
 };
