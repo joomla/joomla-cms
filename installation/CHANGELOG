@@ -29,6 +29,7 @@ $ -> Language fix or change
  # [#31694] No search result at the contacts, weblinks, newsfeeds, categories. Thanks Carsten Wirtz
  # [#31639] Com_search is using mb string functions (regression)
  # [#31701] Article, newsfeeds, contact modal Clear button broken. Thanks Philip Schell
+ $ [#30629] Menu Item "Type" for Tags should probably change to "Content Type". Thanks Brian Teeman
  # [#31689] remove "input-append" in login module. Thanks Constantin Romankiewicz
  # [#31412] We can't look what "search results" have searches that are not viewed in first pagination page. Thanks Bojan Nišević
  #+ [#31368] jdoc:include tag fails on type "component" and "head" without space before "/>". Thanks Lu Nguyen
