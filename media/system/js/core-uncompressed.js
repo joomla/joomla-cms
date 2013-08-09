@@ -61,8 +61,8 @@ Joomla.JText = {
  * Method to replace all request tokens on the page with a new one.
  */
 Joomla.replaceTokens = function(n) {
-    var els = document.getElementsByTagName('input');
-    for (var i = 0; i < els.length; i++) {
+    var els = document.getElementsByTagName('input'), i;
+    for (i = 0; i < els.length; i++) {
         if ((els[i].type == 'hidden') && (els[i].name.length == 32) && els[i].value == '1') {
             els[i].name = n;
         }
@@ -97,9 +97,9 @@ Joomla.checkAll = function(checkbox, stub) {
         stub = 'cb';
     }
     if (checkbox.form) {
-        var c = 0;
-        for (var i = 0, n = checkbox.form.elements.length; i < n; i++) {
-            var e = checkbox.form.elements[i];
+        var c = 0, i, e;
+        for (i = 0, n = checkbox.form.elements.length; i < n; i++) {
+            e = checkbox.form.elements[i];
             if (e.type == checkbox.type) {
                 if ((stub && e.id.indexOf(stub) == 0) || !stub) {
                     e.checked = checkbox.checked;
@@ -122,26 +122,26 @@ Joomla.checkAll = function(checkbox, stub) {
  * @return  void
  */
 Joomla.renderMessages = function(messages) {
-    var $ = jQuery.noConflict();
+    var $ = jQuery.noConflict(), $container, $div, $h4, $divList, $p;
     Joomla.removeMessages();
-    var $container = $('#system-message-container');
+    $container = $('#system-message-container');
 
     $.each(messages, function(type, item) {
-        var $div = $('<div/>', {
+        $div = $('<div/>', {
             'id' : 'system-message',
             'class' : 'alert alert-' + type
         });
         $container.append($div)
 
-        var $h4 = $('<h4/>', {
+        $h4 = $('<h4/>', {
             'class' : 'alert-heading',
             'text' : Joomla.JText._(type)
         });
         $div.append($h4);
 
-        var $divList = $('<div/>');
+        $divList = $('<div/>');
         $.each(item, function(index, item) {
-            var $p = $('<p/>', {
+            $p = $('<p/>', {
                 text : item
             });
             $divList.append($p);
@@ -189,11 +189,11 @@ Joomla.isChecked = function(isitchecked, form) {
  * Pops up a new window in the middle of the screen
  */
 Joomla.popupWindow = function(mypage, myname, w, h, scroll) {
-    var winl = (screen.width - w) / 2;
-    var wint = (screen.height - h) / 2;
-    var winprops = 'height=' + h + ',width=' + w + ',top=' + wint + ',left=' + winl
+    var winl = (screen.width - w) / 2, wint, winprops, win;
+    wint = (screen.height - h) / 2;
+    winprops = 'height=' + h + ',width=' + w + ',top=' + wint + ',left=' + winl
             + ',scrollbars=' + scroll + ',resizable'
-    var win = window.open(mypage, myname, winprops)
+    win = window.open(mypage, myname, winprops)
     win.window.focus();
 }
 
@@ -227,11 +227,11 @@ Joomla.tableOrdering = function(order, dir, task, form) {
  *          The original item value that was selected
  */
 function writeDynaList(selectParams, source, key, orig_key, orig_val) {
-    var html = '\n  <select ' + selectParams + '>';
-    var i = 0;
+    var html = '\n  <select ' + selectParams + '>', i, selected;
+    i = 0;
     for (x in source) {
         if (source[x][0] == key) {
-            var selected = '';
+            selected = '';
             if ((orig_key == key && orig_val == source[x][1])
                     || (i == 0 && orig_key != key)) {
                 selected = 'selected="selected"';
@@ -298,7 +298,7 @@ function radioGetCheckedValue(radioObj) {
     if (!radioObj) {
         return '';
     }
-    var n = radioObj.length;
+    var n = radioObj.length, i;
     if (n == undefined) {
         if (radioObj.checked) {
             return radioObj.value;
@@ -306,7 +306,7 @@ function radioGetCheckedValue(radioObj) {
             return '';
         }
     }
-    for ( var i = 0; i < n; i++) {
+    for (i = 0; i < n; i++) {
         if (radioObj[i].checked) {
             return radioObj[i].value;
         }
@@ -332,8 +332,8 @@ function radioGetCheckedValue(radioObj) {
  * @return
  */
 function getSelectedValue(frmName, srcListName) {
-    var form = document[frmName];
-    var srcList = form[srcListName];
+    var form = document[frmName],
+    srcList = form[srcListName];
 
     i = srcList.selectedIndex;
     if (i != null && i > -1) {
@@ -351,11 +351,11 @@ function getSelectedValue(frmName, srcListName) {
  * @return
  */
 function listItemTask(id, task) {
-    var f = document.adminForm;
-    var cb = f[id];
+    var f = document.adminForm, i, cbx,
+    cb = f[id];
     if (cb) {
-        for (var i = 0; true; i++) {
-            var cbx = f['cb'+i];
+        for (i = 0; true; i++) {
+            cbx = f['cb'+i];
             if (!cbx)
                 break;
             cbx.checked = false;
@@ -406,9 +406,9 @@ function checkAll_button(n, task) {
     if (!task) {
         task = 'saveorder';
     }
-
-    for (var j = 0; j <= n; j++) {
-        var box = document.adminForm['cb'+j];
+    var j, box;
+    for (j = 0; j <= n; j++) {
+        box = document.adminForm['cb'+j];
         if (box) {
             if (box.checked == false) {
                 box.checked = true;
