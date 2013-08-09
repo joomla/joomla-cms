@@ -80,7 +80,7 @@ if (isset($displayData['language']))
 
 if (!in_array('<script src="http://connect.facebook.net/' . $language . '/all.js#xfbml=1' . $appId . '"></script>', $document->_custom))
 {
-	$document->addCustomTag('<script src="http://connect.facebook.net/' . $language . '/all.js#xfbml=1"></script>');
+	$document->addCustomTag('<script src="http://connect.facebook.net/' . $language . '/all.js#xfbml=1&status=0"></script>');
 }
 ?>
 <!-- Facebook button JLayout -->
