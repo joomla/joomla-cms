@@ -7,17 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once JPATH_PLATFORM . '/joomla/database/importer/postgresql.php';
-
 /**
- * Class to expose protected properties and methods in JDatabasePostgresqlImporter for testing purposes
+ * Class to expose protected properties and methods in JDatabaseImporterMysqli for testing purposes.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- *
- * @since       12.1
+ * @since       11.1
  */
-class JDatabaseImporterPostgresqlInspector extends JDatabaseImporterPostgresql
+class JDatabaseImporterMysqliInspector extends JDatabaseImporterMysqli
 {
 	/**
 	 * Gets any property from the class.
@@ -26,7 +23,7 @@ class JDatabaseImporterPostgresqlInspector extends JDatabaseImporterPostgresql
 	 *
 	 * @return  mixed   The value of the class property.
 	 *
-	 * @since   12.1
+	 * @since   11.1
 	 */
 	public function __get($property)
 	{
@@ -38,7 +35,7 @@ class JDatabaseImporterPostgresqlInspector extends JDatabaseImporterPostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   11.1
 	 */
 	public function check()
 	{
@@ -53,7 +50,7 @@ class JDatabaseImporterPostgresqlInspector extends JDatabaseImporterPostgresql
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   11.1
 	 */
 	public function getAddColumnSQL($table, SimpleXMLElement $field)
 	{
@@ -63,39 +60,26 @@ class JDatabaseImporterPostgresqlInspector extends JDatabaseImporterPostgresql
 	/**
 	 * Exposes the protected getAddKeySQL method.
 	 *
-	 * @param   SimpleXMLElement  $field  The XML index definition.
+	 * @param   string  $table  The table name.
+	 * @param   array   $keys   An array of the fields pertaining to this key.
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   11.1
 	 */
-	public function getAddIndexSQL(SimpleXMLElement $field)
+	public function getAddKeySQL($table, $keys)
 	{
-		return parent::getAddIndexSQL($field);
-	}
-
-	/**
-	 * Exposes the protected getAddSequenceSQL method.
-	 *
-	 * @param   SimpleXMLElement  $structure  The XML sequence definition.
-	 *
-	 * @return  string
-	 *
-	 * @since   12.1
-	 */
-	public function getAddSequenceSQL(SimpleXMLElement $structure)
-	{
-		return parent::getAddSequenceSQL($structure);
+		return parent::getAddKeySQL($table, $keys);
 	}
 
 	/**
 	 * Exposes the protected getAlterTableSQL method.
 	 *
-	 * @param   SimpleXMLElement  $structure  The XML structure of the table.
+	 * @param   SimpleXMLElement  $structure  The structure.
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   11.1
 	 */
 	public function getAlterTableSQL(SimpleXMLElement $structure)
 	{
@@ -105,12 +89,12 @@ class JDatabaseImporterPostgresqlInspector extends JDatabaseImporterPostgresql
 	/**
 	 * Exposes the protected getChangeColumnSQL method.
 	 *
-	 * @param   string            $table  The table name.
-	 * @param   SimpleXMLElement  $field  The XML field definition.
+	 * @param   string            $table  Table name.
+	 * @param   SimpleXMLElement  $field  The field.
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   11.1
 	 */
 	public function getChangeColumnSQL($table, SimpleXMLElement $field)
 	{
@@ -124,25 +108,11 @@ class JDatabaseImporterPostgresqlInspector extends JDatabaseImporterPostgresql
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   11.1
 	 */
 	public function getColumnSQL(SimpleXMLElement $field)
 	{
 		return parent::getColumnSQL($field);
-	}
-
-	/**
-	 * Exposes the protected getChangeSequenceSQL method.
-	 *
-	 * @param   SimpleXMLElement  $structure  The XML sequence definition.
-	 *
-	 * @return  string
-	 *
-	 * @since   12.1
-	 */
-	public function getChangeSequenceSQL(SimpleXMLElement $structure)
-	{
-		return parent::getChangeSequenceSQL($structure);
 	}
 
 	/**
@@ -153,7 +123,7 @@ class JDatabaseImporterPostgresqlInspector extends JDatabaseImporterPostgresql
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   11.1
 	 */
 	public function getDropColumnSQL($table, $name)
 	{
@@ -164,11 +134,13 @@ class JDatabaseImporterPostgresqlInspector extends JDatabaseImporterPostgresql
 	 * Exposes the protected getDropKeySQL method.
 	 *
 	 * @param   string  $table  The table name.
-	 * @param   string  $name   The name of the key to drop.
+	 * @param   string  $name   @todo
+	 *
+	 * @internal param string $field The name of the key to drop.
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since    11.1
 	 */
 	public function getDropKeySQL($table, $name)
 	{
@@ -179,73 +151,43 @@ class JDatabaseImporterPostgresqlInspector extends JDatabaseImporterPostgresql
 	 * Exposes the protected getDropPrimaryKeySQL method.
 	 *
 	 * @param   string  $table  The table name.
-	 * @param   string  $name   The constraint name.
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   11.1
 	 */
-	public function getDropPrimaryKeySQL($table, $name)
+	public function getDropPrimaryKeySQL($table)
 	{
-		return parent::getDropPrimaryKeySQL($table, $name);
+		return parent::getDropPrimaryKeySQL($table);
 	}
 
 	/**
-	 * Exposes the protected getDropIndexSQL method.
+	 * Exposes the protected getKeyLookup method.
 	 *
-	 * @param   string  $name  The index name.
+	 * @param   array  $keys  An array of objects that comprise the keys for the table.
 	 *
-	 * @return  string
+	 * @return  array The lookup array. array({key name} => array(object, ...))
 	 *
-	 * @since   12.1
-	 */
-	public function getDropIndexSQL($name)
-	{
-		return parent::getDropIndexSQL($name);
-	}
-
-	/**
-	 * Exposes the protected getDropSequenceSQL method.
-	 *
-	 * @param   string  $name  The index name.
-	 *
-	 * @return  string
-	 *
-	 * @since   12.1
-	 */
-	public function getDropSequenceSQL($name)
-	{
-		return parent::getDropSequenceSQL($name);
-	}
-
-	/**
-	 * Exposes the protected getIdxLookup method.
-	 *
-	 * @param   array  $keys  An array of objects that comprise the indexes for the table.
-	 *
-	 * @return  array	The lookup array. array({key name} => array(object, ...))
-	 *
-	 * @since   12.1
+	 * @since   11.1
 	 * @throws	Exception
 	 */
-	public function getIdxLookup($keys)
+	public function getKeyLookup($keys)
 	{
-		return parent::getIdxLookup($keys);
+		return parent::getKeyLookup($keys);
 	}
 
 	/**
-	 * Exposes the protected getSeqLookup method.
+	 * Exposes the protected getKeySQL method.
 	 *
-	 * @param   array  $sequences  An array of objects that comprise the sequences for the table.
+	 * @param   array  $columns  An array of SimpleXMLElement objects comprising the key.
 	 *
-	 * @return  array	The lookup array. array({key name} => array(object, ...))
+	 * @return  string
 	 *
-	 * @since   12.1
-	 * @throws	Exception
+	 * @since   11.1
 	 */
-	public function getSeqLookup($sequences)
+	public function getKeySQL($columns)
 	{
-		return parent::getSeqLookup($sequences);
+		return parent::getKeySQL($columns);
 	}
 
 	/**
@@ -255,7 +197,7 @@ class JDatabaseImporterPostgresqlInspector extends JDatabaseImporterPostgresql
 	 *
 	 * @return  string	The real name of the table.
 	 *
-	 * @since   12.1
+	 * @since   11.1
 	 */
 	public function getRealTableName($table)
 	{
@@ -267,7 +209,7 @@ class JDatabaseImporterPostgresqlInspector extends JDatabaseImporterPostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   11.1
 	 * @throws  Exception on error.
 	 */
 	public function mergeStructure()
@@ -278,11 +220,11 @@ class JDatabaseImporterPostgresqlInspector extends JDatabaseImporterPostgresql
 	/**
 	 * Exposes the protected withStructure method.
 	 *
-	 * @param   boolean  $setting  True to export the structure, false to not.
+	 * @param   boolean	  $setting  True to export the structure, false to not.
 	 *
 	 * @return  void
 	 *
-	 * @since	12.1
+	 * @since	11.1
 	 */
 	public function withStructure($setting = true)
 	{

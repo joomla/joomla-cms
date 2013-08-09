@@ -7,14 +7,13 @@
  */
 
 /**
- * Test class for JDatabasePostgresql.
+ * Test class for JDatabaseDriverPostgresql.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- *
  * @since       11.3
  */
-class JDatabasePostgresqlTest extends TestCaseDatabasePostgresql
+class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 {
 	/**
 	 * Data for the testEscape test.

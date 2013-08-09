@@ -8,13 +8,13 @@
  */
 
 /**
- * Test class for JDatabaseMySQL.
+ * Test class for JDatabaseDriverMysql.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
  * @since       11.1
  */
-class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
+class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 {
 	/**
 	 * Data for the testEscape test.
@@ -44,7 +44,7 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	}
 
 	/**
-	 * Test __destruct method.
+	 * Tests the __destruct method.
 	 *
 	 * @return  void
 	 *
@@ -56,7 +56,7 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	}
 
 	/**
-	 * Test connected method.
+	 * Tests the connected method.
 	 *
 	 * @return  void
 	 *
@@ -76,7 +76,7 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	 */
 	public function testDropTable()
 	{
-		$this->assertThat(self::$driver->dropTable('#__bar', true), $this->isInstanceOf('JDatabaseDriverMysqli'), 'The table is dropped if present.');
+		$this->assertThat(self::$driver->dropTable('#__bar', true), $this->isInstanceOf('JDatabaseDriverMysql'), 'The table is dropped if present.');
 	}
 
 	/**
@@ -101,7 +101,7 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   11.1
 	 */
 	public function testGetAffectedRows()
 	{
@@ -142,7 +142,7 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	{
 		$this->assertThat(
 			self::$driver->getExporter(),
-			$this->isInstanceOf('JDatabaseExporterMysqli'),
+			$this->isInstanceOf('JDatabaseExporterMysql'),
 			'Line:' . __LINE__ . ' The getExporter method should return the correct exporter.'
 		);
 	}
@@ -158,7 +158,7 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	{
 		$this->assertThat(
 			self::$driver->getImporter(),
-			$this->isInstanceOf('JDatabaseImporterMysqli'),
+			$this->isInstanceOf('JDatabaseImporterMysql'),
 			'Line:' . __LINE__ . ' The getImporter method should return the correct importer.'
 		);
 	}
@@ -336,23 +336,11 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	}
 
 	/**
-	 * Test insertObject method.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.4
-	 */
-	public function testInsertObject()
-	{
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
 	 * Test loadAssoc method.
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   11.1
 	 */
 	public function testLoadAssoc()
 	{
@@ -370,7 +358,7 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   11.1
 	 */
 	public function testLoadAssocList()
 	{
@@ -392,7 +380,7 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   11.1
 	 */
 	public function testLoadColumn()
 	{
@@ -434,7 +422,7 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   11.1
 	 */
 	public function testLoadObject()
 	{
@@ -459,7 +447,7 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   11.1
 	 */
 	public function testLoadObjectList()
 	{
@@ -512,7 +500,7 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   11.1
 	 */
 	public function testLoadResult()
 	{
@@ -533,7 +521,7 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   11.1
 	 */
 	public function testLoadRow()
 	{
@@ -554,7 +542,7 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   11.1
 	 */
 	public function testLoadRowList()
 	{
@@ -571,11 +559,11 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	}
 
 	/**
-	 * Test the JDatabaseDriverMysqli::execute() method
+	 * Test the JDatabaseDriverMysql::execute() method
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   11.1
 	 */
 	public function testExecute()
 	{
@@ -730,7 +718,7 @@ class JDatabaseMysqliTest extends TestCaseDatabaseMysqli
 	 */
 	public function testIsSupported()
 	{
-		$this->assertThat(JDatabaseDriverMysqli::isSupported(), $this->isTrue(), __LINE__);
+		$this->assertThat(JDatabaseDriverMysql::isSupported(), $this->isTrue(), __LINE__);
 	}
 
 	/**

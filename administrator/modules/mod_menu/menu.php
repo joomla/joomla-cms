@@ -85,11 +85,24 @@ class JAdminCssMenu extends JObject
 		$this->_current = &$this->_root;
 	}
 
+	/**
+	 * Method to add a separator
+	 *
+	 * @return  void
+	 */
 	public function addSeparator()
 	{
 		$this->addChild(new JMenuNode(null, null, 'separator', false));
 	}
 
+	/**
+	 * Method to render the menu
+	 *
+	 * @param   string  $id     The id of the menu to be rendered
+	 * @param   string  $class  The class of the menu to be rendered
+	 *
+	 * @return  void
+	 */
 	public function renderMenu($id = 'menu', $class = '')
 	{
 		$depth = 1;
@@ -126,6 +139,13 @@ class JAdminCssMenu extends JObject
 		}
 	}
 
+	/**
+	 * Method to render a given level of a menu
+	 *
+	 * @param   int  $depth  The level of the menu to be rendered
+	 *
+	 * @return  void
+	 */
 	public function renderLevel($depth)
 	{
 		// Build the CSS class suffix
@@ -344,6 +364,16 @@ class JMenuNode extends JObject
 	 */
 	protected $_children = array();
 
+	/**
+	 * Constructor for the class.
+	 *
+	 * @param   string   $title      The title of the node
+	 * @param   string   $link       The node link
+	 * @param   string   $class      The CSS class for the node
+	 * @param   boolean  $active     True if node is active, false otherwise
+	 * @param   string   $target     The link target
+	 * @param   string   $titleicon  The title icon for the node
+	 */
 	public function __construct($title, $link = null, $class = null, $active = false, $target = null, $titleicon = null)
 	{
 		$this->title	= $titleicon ? $title . $titleicon : $title;

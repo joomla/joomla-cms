@@ -8,14 +8,13 @@
  */
 
 /**
- * Class to expose protected properties and methods in JDatabaseMySqlExporter for testing purposes.
+ * Class to expose protected properties and methods in JDatabaseExporterMysql for testing purposes.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- *
  * @since       11.1
  */
-class JDatabaseExporterMySqlInspector extends JDatabaseExporterMysql
+class JDatabaseExporterMysqlInspector extends JDatabaseExporterMysql
 {
 	/**
 	 * Gets any property from the class.
