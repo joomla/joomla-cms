@@ -34,6 +34,7 @@ $ -> Language fix or change
  # [#30794] Title admin module doesn't disable the component toolbar title. Thanks Michael Babker
  # [#31412] We can't look what "search results" have searches that are not viewed in first pagination page. Thanks Bojan Nišević
  #+ [#31368] jdoc:include tag fails on type "component" and "head" without space before "/>". Thanks Lu Nguyen
+ # [#31711] Cannot delete web site entry for a contact. Thanks Achal Aggarwal
 
 07-Aug-2013 Jean-Marie Simonet
  $ [#31606] Small typo fix in lang. Thanks Brian Teeman
