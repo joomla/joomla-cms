@@ -30,6 +30,7 @@ $ -> Language fix or change
  # [#31639] Com_search is using mb string functions (regression)
  # [#31701] Article, newsfeeds, contact modal Clear button broken. Thanks Philip Schell
  # [#31689] remove "input-append" in login module. Thanks Constantin Romankiewicz
+ # [#30794] Title admin module doesn't disable the component toolbar title. Thanks Michael Babker
 
 07-Aug-2013 Jean-Marie Simonet
  $ [#31606] Small typo fix in lang. Thanks Brian Teeman
