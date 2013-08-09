@@ -26,8 +26,9 @@ $ -> Language fix or change
 ! -> Note
 
 09-Aug-2013 Jean-Marie Simonet
- # [#31694] No search result at the contacts, weblinks, newsfeeds, categories. Thanks Carsten Wirtz and Tobias Zulauf
+ # [#31694] No search result at the contacts, weblinks, newsfeeds, categories. Thanks Carsten Wirtz
  # [#31639] Com_search is using mb string functions (regression)
+ # [#31701] Article, newsfeeds, contact modal Clear button broken. Thanks Philip Schell
 
 07-Aug-2013 Jean-Marie Simonet
  $ [#31606] Small typo fix in lang. Thanks Brian Teeman
