@@ -18,17 +18,17 @@ jimport('joomla.application.component.modeladmin');
  */
 class UsersModelGroup extends JModelAdmin
 {
-	/**
-	 * @var		string	The event to trigger after saving the data.
-	 * @since	1.6
-	 */
-	protected $event_after_save = 'onUserAfterSaveGroup';
+	public function __construct($config = array())
+	{
+		$config = array_merge(array(
+			'event_after_delete'  => 'onUserAfterDeleteGroup',
+			'event_after_save'    => 'onUserAfterSaveGroup',
+			'event_before_delete' => 'onUserBeforeDeleteGroup',
+			'event_before_save'   => 'onUserBeforeSaveGroup',
+			'plugin_type'         => 'user'), $config);
 
-	/**
-	 * @var		string	The event to trigger after before the data.
-	 * @since	1.6
-	 */
-	protected $event_before_save = 'onUserBeforeSaveGroup';
+		parent::__construct($config);
+	}
 
 	/**
 	 * Returns a reference to the a Table object, always creating it.
@@ -112,9 +112,6 @@ class UsersModelGroup extends JModelAdmin
 	 */
 	public function save($data)
 	{
-		// Include the content plugins for events.
-		JPluginHelper::importPlugin('user');
-
 		// Check the super admin permissions for group
 		// We get the parent group permissions and then check the group permissions manually
 		// We have to calculate the group permissions manually because we haven't saved the group yet
@@ -198,7 +195,7 @@ class UsersModelGroup extends JModelAdmin
 		$table = $this->getTable();
 
 		// Load plugins.
-		JPluginHelper::importPlugin('user');
+		JPluginHelper::importPlugin($this->plugin_type);
 		$dispatcher = JDispatcher::getInstance();
 
 		// Check if I am a Super Admin
@@ -221,14 +218,14 @@ class UsersModelGroup extends JModelAdmin
 
 				if ($allow) {
 					// Fire the onUserBeforeDeleteGroup event.
-					$dispatcher->trigger('onUserBeforeDeleteGroup', array($table->getProperties()));
+					$dispatcher->trigger($this->event_before_delete, array($table->getProperties()));
 
 					if (!$table->delete($pk)) {
 						$this->setError($table->getError());
 						return false;
 					} else {
 						// Trigger the onUserAfterDeleteGroup event.
-						$dispatcher->trigger('onUserAfterDeleteGroup', array($table->getProperties(), true, $this->getError()));
+						$dispatcher->trigger($this->event_after_delete, array($table->getProperties(), true, $this->getError()));
 					}
 				} else {
 					// Prune items that you can't change.

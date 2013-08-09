@@ -19,6 +19,27 @@ jimport('joomla.application.component.modeladmin');
 class LanguagesModelLanguage extends JModelAdmin
 {
 	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @see     JController
+	 * @since   11.1
+	 */
+	public function __construct($config = array())
+	{
+		$config = array_merge(array(
+			'event_after_delete'  => 'onExtensionAfterDelete',
+			'event_after_save'    => 'onExtensionAfterSave',
+			'event_before_delete' => 'onExtensionBeforeDelete',
+			'event_before_save'   => 'onExtensionBeforeSave',
+			'plugin_type'         => 'extension',
+			'event_change_state'  => 'onExtensionChangeState'), $config);
+
+		parent::__construct($config);
+	}
+
+	/**
 	 * Override to get the table
 	 *
 	 * @return	JTable
@@ -130,11 +151,14 @@ class LanguagesModelLanguage extends JModelAdmin
 	 */
 	public function save($data)
 	{
-		$langId	= (int) $this->getState('language.id');
+		$langId = (!empty($data['lang_id'])) ? $data['lang_id'] : (int) $this->getState('language.id');
+
 		$isNew	= true;
 
 		$dispatcher = JDispatcher::getInstance();
-		JPluginHelper::importPlugin('extension');
+		JPluginHelper::importPlugin($this->plugin_type);
+
+		$context = $this->option . '.' . $this->name;
 
 		$table = $this->getTable();
 
@@ -157,7 +181,7 @@ class LanguagesModelLanguage extends JModelAdmin
 		}
 
 		// Trigger the onExtensionBeforeSave event.
-		$result = $dispatcher->trigger('onExtensionBeforeSave', array('com_languages.language', &$table, $isNew));
+		$result = $dispatcher->trigger($this->event_before_save, array($context, &$table, $isNew));
 
 		// Check the event responses.
 		if (in_array(false, $result, true)) {
@@ -172,7 +196,7 @@ class LanguagesModelLanguage extends JModelAdmin
 		}
 
 		// Trigger the onExtensionAfterSave event.
-		$dispatcher->trigger('onExtensionAfterSave', array('com_languages.language', &$table, $isNew));
+		$dispatcher->trigger($this->event_after_save, array($context, &$table, $isNew));
 
 		$this->setState('language.id', $table->lang_id);
 

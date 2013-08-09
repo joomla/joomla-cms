@@ -258,6 +258,19 @@ class ConfigModelApplication extends JModelForm
 			JError::raiseNotice('SOME_ERROR_CODE', JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'));
 		}
 
+		$dispatcher = JDispatcher::getInstance();
+		$context = $this->option . '.' . $this->name;
+		JPluginHelper::importPlugin('content');
+
+		$data = new JObject(array('config' => $config));
+
+		$result = $dispatcher->trigger('onContentBeforeSave', array($context, $data, false));
+		if (in_array(false, $result, true))
+		{
+			$this->setError($data->getError());
+			return false;
+		}
+
 		// Attempt to write the configuration file as a PHP class named JConfig.
 		$configuration = $config->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
 		if (!JFile::write($file, $configuration))
@@ -265,6 +278,9 @@ class ConfigModelApplication extends JModelForm
 			$this->setError(JText::_('COM_CONFIG_ERROR_WRITE_FAILED'));
 			return false;
 		}
+
+		// Trigger the after save event.
+		$dispatcher->trigger('onContentAfterSave', array($context, $data, false));
 
 		// Attempt to make the file unwriteable if using FTP.
 		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0444'))
