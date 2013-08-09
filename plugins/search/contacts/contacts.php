@@ -75,7 +75,7 @@ class PlgSearchContacts extends JPlugin
 			$state[] = 2;
 		}
 
-		if (!empty($state))
+		if (empty($state))
 		{
 			return array();
 		}

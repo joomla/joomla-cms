@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Aug-2013 Jean-Marie Simonet
+ # [#31694] No search result at the contacts, weblinks, newsfeeds, categories. Thanks Carsten Wirtz and Tobias Zulauf
+
 07-Aug-2013 Jean-Marie Simonet
  $ [#31606] Small typo fix in lang. Thanks Brian Teeman
  # [#31314] language change dropdown at installation don't work if you scroll down. Thanks Lu Nguyen
