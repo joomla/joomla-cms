@@ -15,23 +15,23 @@
  */
 
 Fx.ProgressBar = function(_element, _options) {
-    var $, userHtml5, now, $element, indeterminate, options = {
+    var $, useHtml5, now, $element, indeterminate, options = {
         onComplete : function() {
         },
         text : null,
         html5 : true
-    }
-
-    var initialize = function(_element, _options) {
+    },
+    
+    initialize = function(_element, _options) {
         $ = jQuery.noConflict();
         $.extend(options, _options);
 
-        var element, url = options.url, classes = $(_element).attr('class'), id = $(_element).attr('id');
+        var element, classes = $(_element).attr('class'), id = $(_element).attr('id'), progress;
 
         element = $(_element).get(0);
         useHtml5 = options.html5 && supportsHtml5();
         if (useHtml5) {
-            var progress = $('<progress></progress>', {
+            progress = $('<progress></progress>', {
                 'value' : 10,
                 'max' : 100,
                 'class' : classes,
@@ -40,7 +40,7 @@ Fx.ProgressBar = function(_element, _options) {
             $(element).replaceWith(progress);
             element = progress;
         } else {
-            var progress = $('<div>', {
+            progress = $('<div>', {
                 'id' : id,
                 'class' : classes,
                 'class' : 'progress progress-striped',
@@ -57,11 +57,13 @@ Fx.ProgressBar = function(_element, _options) {
 
         $element = $(element);
         set(0);
-    }
-    var supportsHtml5 = function() {
+    },
+    
+    supportsHtml5 = function() {
         return 'value' in document.createElement('progress');
-    }
-    var setIndeterminate = function() {
+    },
+    
+    setIndeterminate = function() {
         indeterminate = true;
 
         if (useHtml5) {
@@ -70,8 +72,9 @@ Fx.ProgressBar = function(_element, _options) {
             $element.find('.bar').css('width', '100%').addClass('active');
             $element.removeAttr('aria-valuenow').attr('title', '');
         }
-    }
-    var set = function(to) {
+    },
+    
+    set = function(to) {
         var $text = $(options.text);
 
         if (to >= 100) {
@@ -94,12 +97,13 @@ Fx.ProgressBar = function(_element, _options) {
         }
 
         return this;
-    }
+    };
+    
     initialize(_element, _options);
 
     return {
         set : set,
         setIndeterminate : setIndeterminate,
         element : $element.get(0)
-    }
+    };
 }
