@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Aug-2013 Jean-Marie Simonet
+ # [#31597] Undefined variable in com_banners model. Thanks Mario Proenca
+
 09-Aug-2013 Jean-Marie Simonet
  # [#31694] No search result at the contacts, weblinks, newsfeeds, categories. Thanks Carsten Wirtz
  # [#31639] Com_search is using mb string functions (regression)
