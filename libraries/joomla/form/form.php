@@ -225,19 +225,13 @@ class JForm
 			// Get the field value from the data input.
 			if ($group)
 			{
-				// Filter the value if it exists.
-				if ($input->exists($group . '.' . $name))
-				{
-					$output->set($group . '.' . $name, $this->filterField($field, $input->get($group . '.' . $name, (string) $field['default'])));
-				}
+				// Filter the value if it exists otherwise filters its default value.
+				$output->set($group . '.' . $name, $this->filterField($field, $input->get($group . '.' . $name, (string) $field['default'])));
 			}
 			else
 			{
-				// Filter the value if it exists.
-				if ($input->exists($name))
-				{
-					$output->set($name, $this->filterField($field, $input->get($name, (string) $field['default'])));
-				}
+				// Filter the value if it exists otherwise filters its default value.
+				$output->set($name, $this->filterField($field, $input->get($name, (string) $field['default'])));
 			}
 		}
 

@@ -29,6 +29,7 @@ $ -> Language fix or change
  # [#31597] Undefined variable in com_banners model. Thanks Mario Proenca
  # [#31432] News Feed Manager: News Feed Page. --> System does not displayed the proper tootl tip. Thanks Sebastian Łuckoś
  # [#31685] No article Message does not Show on Blog category. Thanks Brian Teeman
+ # [#31697] *Tags menu items: impossible to delete the last "Type". Thanks Achal Aggarwal
 
 09-Aug-2013 Jean-Marie Simonet
  # [#31694] No search result at the contacts, weblinks, newsfeeds, categories. Thanks Carsten Wirtz
