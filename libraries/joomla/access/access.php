@@ -313,6 +313,7 @@ class JAccess
 			{
 				$db = JFactory::getDbo();
 
+				$db->startTransaction();
 				// Build the database query to get the rules for the asset.
 				$query = $db->getQuery(true)
 					->select($recursive ? 'b.id' : 'a.id');
@@ -338,6 +339,7 @@ class JAccess
 				// Execute the query and load the rules from the result.
 				$db->setQuery($query);
 				$result = $db->loadColumn();
+				$db->commitTransaction();
 
 				// Clean up any NULL or duplicate values, just in case
 				JArrayHelper::toInteger($result);
