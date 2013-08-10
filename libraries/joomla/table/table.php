@@ -645,6 +645,16 @@ abstract class JTable extends JObject implements JObservableInterface
 		{
 			unset($this->asset_id);
 		}
+		try
+		{
+			$this->_db->transactionStart();
+		}
+		catch(Exception $e)
+		{
+			$this->_db->rollbackTransaction;
+
+			throw new RuntimeException($e, 500);
+		}
 
 		// If a primary key exists update the object, otherwise insert it.
 		if ($this->$k)
@@ -655,7 +665,16 @@ abstract class JTable extends JObject implements JObservableInterface
 		{
 			$result = $this->_db->insertObject($this->_tbl, $this, $this->_tbl_key);
 		}
+		try
+		{
+			$this->_db->transactionCommit();
+		}
+		catch(Exception $e)
+		{
+			$this->_db->rollbackTransaction;
 
+			throw new RuntimeException($e, 500);
+		}
 		// If the table is not set to track assets return true.
 		if ($this->_trackAssets)
 		{

@@ -297,6 +297,7 @@ class JFormFieldRules extends JFormField
 	protected function getUserGroups()
 	{
 		$db = JFactory::getDbo();
+		$db->startTransaction();
 		$query = $db->getQuery(true)
 			->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level, a.parent_id')
 			->from('#__usergroups AS a')
@@ -305,6 +306,7 @@ class JFormFieldRules extends JFormField
 			->order('a.lft ASC');
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
+		$db->commitTransaction();
 
 		return $options;
 	}

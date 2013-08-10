@@ -85,6 +85,17 @@ class JFormFieldModulelayout extends JFormField
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 
+			try
+			{
+				$db->transactionStart();
+			}
+			catch(Exception $e)
+			{
+				$db->rollbackTransaction;
+
+				throw new RuntimeException($e, 500);
+			}
+
 			// Build the query.
 			$query->select('element, name')
 				->from('#__extensions as e')
@@ -106,6 +117,17 @@ class JFormFieldModulelayout extends JFormField
 			// Set the query and load the templates.
 			$db->setQuery($query);
 			$templates = $db->loadObjectList('element');
+
+			try
+			{
+				$db->transactionCommit();
+			}
+			catch(Exception $e)
+			{
+				$db->rollbackTransaction;
+
+				throw new RuntimeException($e, 500);
+			}
 
 			// Build the search paths for module layouts.
 			$module_path = JPath::clean($client->path . '/modules/' . $module . '/tmpl');

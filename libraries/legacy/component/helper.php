@@ -370,9 +370,11 @@ class JComponentHelper
 	protected static function _load($option)
 	{
 		$db = JFactory::getDbo();
+
+		$db->transactionStart();
 		$query = $db->getQuery(true)
 			->select('extension_id AS id, element AS "option", params, enabled')
-			->from('#__extensions')
+			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('component'))
 			->where($db->quoteName('element') . ' = ' . $db->quote($option));
 		$db->setQuery($query);
@@ -382,6 +384,8 @@ class JComponentHelper
 		try
 		{
 			self::$components[$option] = $cache->get(array($db, 'loadObject'), null, $option, false);
+			$db->transactionCommit();
+
 		}
 		catch (RuntimeException $e)
 		{
@@ -397,6 +401,8 @@ class JComponentHelper
 			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $error), JLog::WARNING, 'jerror');
 			return false;
 		}
+
+		$db->transactionCommit();
 
 		// Convert the params to an object.
 		if (is_string(self::$components[$option]->params))

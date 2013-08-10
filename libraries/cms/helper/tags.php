@@ -67,6 +67,7 @@ class JHelperTags
 			$tags = self::createTagsFromField($tags);
 		}
 
+		$db->transactionStart();
 		$query = $db->getQuery(true);
 		$query->insert('#__contentitem_tag_map');
 		$query->columns(array($db->quoteName('type_alias'), $db->quoteName('core_content_id'), $db->quoteName('content_item_id'), $db->quoteName('tag_id'), $db->quoteName('tag_date'),  $db->quoteName('type_id')));
@@ -77,8 +78,10 @@ class JHelperTags
 		}
 
 		$db->setQuery($query);
+		$result = (boolean) $db->execute();
+		$db->transactionCommit();
 
-		return (boolean) $db->execute();
+		return $result;
 	}
 
 	/**
@@ -372,7 +375,7 @@ class JHelperTags
 		{
 			$id = implode($id);
 		}
-
+		$db->transactionStart();
 		// Initialize some variables.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -412,6 +415,7 @@ class JHelperTags
 
 		$db->setQuery($query);
 		$this->itemTags = $db->loadObjectList();
+		$db->transactionCommit();
 
 		return $this->itemTags;
 	}
@@ -947,6 +951,7 @@ class JHelperTags
 	 */
 	public function tagDeleteInstances($tag_id)
 	{
+		$db->startTransaction();
 		// Delete the old tag maps.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -954,6 +959,7 @@ class JHelperTags
 			->where($db->quoteName('tag_id') . ' = ' . (int) $tag_id);
 		$db->setQuery($query);
 		$db->execute();
+		$db->commitTransaction();
 	}
 
 	/**

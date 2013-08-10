@@ -127,6 +127,18 @@ class JTableAsset extends JTableNested
 		// JTableNested does not allow parent_id = 0, override this.
 		if ($this->parent_id > 0)
 		{
+			// Lock the table for writing.
+			try
+			{
+				$this->_db->transactionStart();
+			}
+			catch(Exception $e)
+			{
+				$this->_db->transactionRollback();
+
+				throw RuntimeException($e);
+			}
+
 			// Get the JDatabaseQuery object
 			$query = $this->_db->getQuery(true)
 				->select('COUNT(id)')
@@ -142,6 +154,16 @@ class JTableAsset extends JTableNested
 				$this->setError('Invalid Parent ID');
 				return false;
 			}
+		}
+		try
+		{
+			$this->_db->transactionCommit();
+		}
+		catch(Exception $e)
+		{
+			$this->_db->rollbackTransaction;
+
+			throw new RuntimeException($e, 500);
 		}
 
 		return true;
