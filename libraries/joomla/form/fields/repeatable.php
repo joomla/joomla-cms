@@ -52,10 +52,8 @@ class JFormFieldRepeatable extends JFormField
 
 		// Needed for repeating modals in gmaps viz
 		$subForm->repeatCounter = (int) @$this->form->repeatCounter;
-
 		$input = $app->input;
-		$view = $input->get('view', 'list');
-
+		$view = $input->get('view', 'item');
 		$children = $this->element->children();
 
 		// This fires a strict standard warning deep in JForm, suppress error for now
@@ -65,7 +63,15 @@ class JFormFieldRepeatable extends JFormField
 		$modalid = $this->id . '_modal';
 
 		// As JForm will render child fieldsets we have to hide it via CSS
-		$fieldSetId = str_replace('jform_params_', '', $modalid);
+		if ($view != 'plugin')
+		{
+			$fieldSetId = str_replace('jform_params_', '', $modalid);
+		}
+		else
+		{
+			//Plugins fieldsets have 'options-' prefixed to them
+			$fieldSetId = str_replace('jform_params_', 'options-', $modalid);
+		}
 		$css = '#' . $fieldSetId . ' { display: none; }';
 		$document->addStyleDeclaration($css);
 
@@ -149,12 +155,10 @@ class JFormFieldRepeatable extends JFormField
 			});";
 
 			// Wont work when rendering in admin module page
-			// @TODO test this now that the list and form pages are loading plugins via ajax (18/08/2012)
 			self::addJs();
 		}
 
 		$close = "function(c){" . $modalid . ".onClose(c);}";
-
 		$icon = $this->element['icon'] ? '<i class="icon-' . $this->element['icon'] . '"></i> ' : '';
 		$str[] = '<button class="btn" id="' . $modalid . '_button" data-modal="' . $modalid . '">' . $icon . JText::_('JLIB_FORM_BUTTON_SELECT') . '</button>';
 
@@ -182,7 +186,7 @@ class JFormFieldRepeatable extends JFormField
 				this.el = {};
 				this.field = {};
 
-				// If the parent field is inserted via js then we delay the loading untill the html is present
+				// If the parent field is inserted via js then we delay the loading until the html is present
 				if (!this.ready()) {
 					this.timer = this.testReady.periodical(500, this);
 				} else {
@@ -249,24 +253,9 @@ class JFormFieldRepeatable extends JFormField
 
 			makeTarget: function (target) {
 				this.win[target] = new Element('div', {'data-modal-content': target, 'styles': {'padding': '5px', 'background-color': '#fff', 'display': 'none', 'z-index': 9999}}).inject(document.body);
-
 			},
 
 			makeWin: function (target) {
-
-				// Testing adopting in.out on show/hide
-				//this.win[target].adopt(this.el[target]);
-				/*var close = new Element('button.btn.button').set('text', 'close');
-				close.addEvent('click', function (e) {
-					e.stop();
-					this.store(target);
-					this.el[target].hide();
-					this.el[target].inject(this.origContainer);
-					this.close();
-				}.bind(this));
-				var controls = new Element('div.controls', {'styles': {'text-align': 'right'}}).adopt(close);*/
-
-
 				var close = new Element('button.btn.button.btn-primary').set('text', 'close');
 				close.addEvent('click', function (e) {
 					e.stop();
