@@ -51,9 +51,6 @@ abstract class NewsfeedsHelperRoute
 		if ($item = self::_findItem($needles)) {
 			$link .= '&Itemid='.$item;
 		}
-		elseif ($item = self::_findItem()) {
-			$link .= '&Itemid='.$item;
-		}
 
 		return $link;
 	}
@@ -77,32 +74,18 @@ abstract class NewsfeedsHelperRoute
 		}
 		else
 		{
-			$needles = array(
-				'category' => array($id)
-			);
+			$needles = array();
+			
+			//Create the link
+			$link = 'index.php?option=com_newsfeeds&view=category&id='.$id;
+			
+			$catids = array_reverse($category->getPath());
+			$needles['category'] = $catids;
+			$needles['categories'] = $catids;
 
 			if ($item = self::_findItem($needles))
 			{
-				$link = 'index.php?Itemid='.$item;
-			}
-			else
-			{
-				//Create the link
-				$link = 'index.php?option=com_newsfeeds&view=category&id='.$id;
-				if($category)
-				{
-					$catids = array_reverse($category->getPath());
-					$needles = array(
-						'category' => $catids,
-						'categories' => $catids
-					);
-					if ($item = self::_findItem($needles)) {
-						$link .= '&Itemid='.$item;
-					}
-					elseif ($item = self::_findItem()) {
-						$link .= '&Itemid='.$item;
-					}
-				}
+				$link .= '&Itemid='.$item;
 			}
 		}
 
