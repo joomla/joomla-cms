@@ -375,9 +375,10 @@ class JHelperTags
 		{
 			$id = implode($id);
 		}
-		$db->transactionStart();
+
 		// Initialize some variables.
 		$db = JFactory::getDbo();
+		$db->transactionStart();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('m.tag_id'))
 			->from($db->quoteName('#__contentitem_tag_map') . ' AS m ')
