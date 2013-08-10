@@ -156,6 +156,9 @@ class JFormFieldRepeatable extends JFormField
 
 			// Wont work when rendering in admin module page
 			self::addJs();
+			
+			$document = JFactory::getDocument();
+			$document->addScriptDeclaration( $script );
 		}
 
 		$close = "function(c){" . $modalid . ".onClose(c);}";
