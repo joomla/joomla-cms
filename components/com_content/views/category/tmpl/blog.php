@@ -44,7 +44,7 @@ JHtml::_('behavior.caption');
 	<?php endif; ?>
 	<?php if (empty($this->lead_items) && empty($this->link_items) && empty($this->intro_items)) : ?>
 		<?php if ($this->params->get('show_no_articles', 1)) : ?>
-		<p><?php echo JText::_('COM_CONTENT_NO_ARTICLES'); ?></p>
+			<p><?php echo JText::_('COM_CONTENT_NO_ARTICLES'); ?></p>
 		<?php endif; ?>
 	<?php endif; ?>
 	<?php $leadingcount = 0; ?>
