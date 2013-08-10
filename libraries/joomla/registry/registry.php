@@ -222,7 +222,7 @@ class JRegistry implements JsonSerializable
 	}
 
 	/**
-	 * Load a associative array of values into the default namespace
+	 * Load an associative array of values into the default namespace
 	 *
 	 * @param   array  $array  Associative array of value to load
 	 *

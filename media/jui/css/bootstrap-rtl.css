@@ -457,6 +457,10 @@ body {
 	margin-left: 0;
 	margin-right: 5px;
 }
+.btn-toolbar .btn-wrapper {
+	display: inline-block;
+	margin: 0 5px 5px 0;
+}
 .btn-group > .btn + .btn {
 	margin-left: 0;
 	margin-right: -1px;
@@ -545,4 +549,14 @@ body {
 }
 .tooltip-inner {
 	text-align: right;
+}
+@media (max-width: 480px) {
+	.btn-toolbar .btn-wrapper {
+		display: block;
+		margin: 0 0 5px 0;
+	}
+	.btn-toolbar .btn-wrapper .btn {
+		margin-left: 0px;
+		margin-right: 10px;
+	}
 }

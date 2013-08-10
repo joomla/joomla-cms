@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 /**
+ * Helper for mod_stats_admin
+ *
  * @package     Joomla.Administrator
  * @subpackage  mod_stats_admin
  * @since       3.0
@@ -19,7 +21,7 @@ class ModStatsHelper
 	/**
 	 * Method to retrieve information about the site
 	 *
-	 * @param   JObject  $params  Params object
+	 * @param   JObject  &$params  Params object
 	 *
 	 * @return  array  Array containing site information
 	 *
@@ -38,6 +40,7 @@ class ModStatsHelper
 		$increase   = $params->get('increase');
 
 		$i = 0;
+
 		if ($serverinfo)
 		{
 			$rows[$i]        = new stdClass;

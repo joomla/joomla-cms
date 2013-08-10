@@ -23,7 +23,7 @@ class UserNotesEditPage extends AdminEditPage
 	 */
 	public $inputFields = array (
 			array('label' => 'Subject', 'id' => 'jform_subject', 'type' => 'input', 'tab' => 'none'),
-			array('label' => 'ID', 'id' => 'jform_user_id_name', 'type' => 'input', 'tab' => 'none'),
+			array('label' => 'ID', 'id' => 'jform_user_id', 'type' => 'input', 'tab' => 'none'),
 			array('label' => 'Category', 'id' => 'jform_catid', 'type' => 'select', 'tab' => 'none'),
 			array('label' => 'Status', 'id' => 'jform_state', 'type' => 'select', 'tab' => 'none'),
 			array('label' => 'Review time', 'id' => 'jform_review_time', 'type' => 'input', 'tab' => 'none'),
@@ -96,7 +96,7 @@ class UserNotesEditPage extends AdminEditPage
 		$result = false;
 		if ($label == 'ID')
 		{
-			$result = $this->driver->findElement(By::id('jform_user_id_name'))->getAttribute('value');
+			$result = $this->driver->findElement(By::id('jform_user_id'))->getAttribute('value');
 		}
 		else
 		{

@@ -112,80 +112,71 @@ class JFormFieldTag extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		if (!empty($this->value[0]) || $this->element['parent'])
+		$published = $this->element['published']? $this->element['published'] : array(0,1);
+
+		$db		= JFactory::getDbo();
+		$query	= $db->getQuery(true)
+			->select('a.id AS value, a.path, a.title AS text, a.level, a.published')
+			->from('#__tags AS a')
+			->join('LEFT', $db->quoteName('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+
+		// Ajax tag only loads assigned values
+		if (!$this->isNested())
 		{
-			$published = $this->element['published']? $this->element['published'] : array(0,1);
+			// Only item assigned values
+			$values = (array) $this->value;
+			JArrayHelper::toInteger($values);
+			$query->where('a.id IN (' . implode(',', $values) . ')');
+		}
 
-			$db		= JFactory::getDbo();
-			$query	= $db->getQuery(true)
-				->select('a.id AS value, a.path, a.title AS text, a.level, a.published')
-				->from('#__tags AS a')
-				->join('LEFT', $db->quoteName('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+		// Filter language
+		if (!empty($this->element['language']))
+		{
+			$query->where('a.language = ' . $db->quote($this->element['language']));
+		}
 
-			// Ajax tag only loads assigned values
-			if (!$this->isNested())
-			{
-				// Only item assigned values
-				$values = (array) $this->value;
-				JArrayHelper::toInteger($values);
-				$query->where('a.id IN (' . implode(',', $values) . ')');
-			}
+		$query->where($db->quoteName('a.alias') . ' <> ' . $db->quote('root'));
 
-			// Filter language
-			if (!empty($this->element['language']))
-			{
-				$query->where('a.language = ' . $db->quote($this->element['language']));
-			}
+		// Filter on the published state
+		if (is_numeric($published))
+		{
+			$query->where('a.published = ' . (int) $published);
+		}
+		elseif (is_array($published))
+		{
+			JArrayHelper::toInteger($published);
+			$query->where('a.published IN (' . implode(',', $published) . ')');
+		}
 
-			$query->where($db->quoteName('a.alias') . ' <> ' . $db->quote('root'));
+		$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.parent_id, a.published, a.path')
+			->order('a.lft ASC');
 
-			// Filter to only load active items
+		// Get the options.
+		$db->setQuery($query);
 
-			// Filter on the published state
-			if (is_numeric($published))
-			{
-				$query->where('a.published = ' . (int) $published);
-			}
-			elseif (is_array($published))
-			{
-				JArrayHelper::toInteger($published);
-				$query->where('a.published IN (' . implode(',', $published) . ')');
-			}
+		try
+		{
+			$options = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			return false;
+		}
 
-			$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.parent_id, a.published, a.path')
-				->order('a.lft ASC');
+		// Merge any additional options in the XML definition.
+		$options = array_merge(parent::getOptions(), $options);
 
-			// Get the options.
-			$db->setQuery($query);
-
-			try
-			{
-				$options = $db->loadObjectList();
-			}
-			catch (RuntimeException $e)
-			{
-				return false;
-			}
-
-			// Merge any additional options in the XML definition.
-			$options = array_merge(parent::getOptions(), $options);
-
-			// Prepare nested data
-			if ($this->isNested())
-			{
-				$this->prepareOptionsNested($options);
-			}
-			else
-			{
-				$options = JHelperTags::convertPathsToNames($options);
-			}
-
-			return $options;
+		// Prepare nested data
+		if ($this->isNested())
+		{
+			$this->prepareOptionsNested($options);
 		}
 		else
 		{
-			return true;
+			$options = JHelperTags::convertPathsToNames($options);
 		}
+
+		return $options;
 	}
 
 	/**

@@ -53,10 +53,10 @@ class SearchModelSearches extends JModelList
 	protected function populateState($ordering = null, $direction = null)
 	{
 		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', false, 'string', false);
 		$this->setState('filter.search', $search);
 
-		$showResults = $this->getUserStateFromRequest($this->context . '.filter.results', 'filter_results', null, 'int');
+		$showResults = $this->getUserStateFromRequest($this->context . '.filter.results', 'filter_results', null, 'int', false);
 		$this->setState('filter.results', $showResults);
 
 		// Load the parameters.

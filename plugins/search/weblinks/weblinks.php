@@ -80,7 +80,7 @@ class PlgSearchWeblinks extends JPlugin
 			$state[] = 2;
 		}
 
-		if (!empty($state))
+		if (empty($state))
 		{
 			return array();
 		}
@@ -90,9 +90,8 @@ class PlgSearchWeblinks extends JPlugin
 		{
 			return array();
 		}
-		$section = JText::_('PLG_SEARCH_WEBLINKS');
+		$searchWeblinks = JText::_('PLG_SEARCH_WEBLINKS');
 
-		/* TODO: The $where variable does not seem to be used at all
 		switch ($phrase)
 		{
 			case 'exact':
@@ -121,7 +120,6 @@ class PlgSearchWeblinks extends JPlugin
 				$where = '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
 				break;
 		}
-		*/
 
 		switch ($ordering)
 		{
@@ -164,15 +162,13 @@ class PlgSearchWeblinks extends JPlugin
 		$case_when1 .= ' ELSE ';
 		$case_when1 .= $c_id . ' END as catslug';
 
-		$query->select(
-			'a.title AS title, a.description AS text, a.created AS created, a.url, '
-				. $case_when . ',' . $case_when1 . ', '
-				. $query->concatenate(array($db->quote($section), "c.title"), " / ") . ' AS section, \'1\' AS browsernav'
-		)
-			->from('#__weblinks AS a')
-			->join('INNER', '#__categories AS c ON c.id = a.catid')
-			->where('(' . $where . ') AND a.state in (' . implode(',', $state) . ') AND  c.published=1 AND  c.access IN (' . $groups . ')')
-			->order($order);
+		$query->select('a.title AS title, \'\' AS created, a.url, a.description AS text, ' . $case_when . "," . $case_when1)
+		->select($query->concatenate(array($db->quote($searchWeblinks), 'c.title'), " / ") . ' AS section')
+		->select('\'1\' AS browsernav')
+		->from('#__weblinks AS a')
+		->join('INNER', '#__categories as c ON c.id = a.catid')
+		->where('(' . $where . ') AND a.state IN (' . implode(',', $state) . ') AND c.published = 1 AND c.access IN (' . $groups . ')')
+		->order($order);
 
 		// Filter by language
 		if ($app->isSite() && JLanguageMultilang::isEnabled())

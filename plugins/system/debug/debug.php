@@ -873,6 +873,8 @@ class PlgSystemDebug extends JPlugin
 					$htmlTiming .= ' ' . JText::sprintf('PLG_DEBUG_QUERY_AFTER_LAST', sprintf('<span class="label">%.2f&nbsp;ms</span>', $timing[$id]['1']));
 				}
 
+				$htmlTiming .= '</span>';
+
 				if (isset($callStacks[$id][0]['memory']))
 				{
 					$memoryUsed = $callStacks[$id][0]['memory'][1] - $callStacks[$id][0]['memory'][0];
@@ -1297,17 +1299,35 @@ class PlgSystemDebug extends JPlugin
 
 		if ($dbVersion5037)
 		{
-			// Run a SHOW PROFILE query:
-			$db->setQuery('SHOW PROFILES'); //SHOW PROFILE ALL FOR QUERY ' . (int) ($k+1));
-			$this->sqlShowProfiles = $db->loadAssocList();
-
-			if ($this->sqlShowProfiles)
+			try
 			{
-				foreach ($this->sqlShowProfiles as $qn)
+				// Check if profiling is enabled:
+				$db->setQuery("SHOW VARIABLES LIKE 'have_profiling'");
+				$hasProfiling = $db->loadResult();
+
+				if ($hasProfiling)
 				{
-					$db->setQuery('SHOW PROFILE FOR QUERY ' . (int) ($qn['Query_ID']));
-					$this->sqlShowProfileEach[(int) ($qn['Query_ID'] - 1)] = $db->loadAssocList();
+					// Run a SHOW PROFILE query:
+					$db->setQuery('SHOW PROFILES');
+					$this->sqlShowProfiles = $db->loadAssocList();
+
+					if ($this->sqlShowProfiles)
+					{
+						foreach ($this->sqlShowProfiles as $qn)
+						{
+							// Run SHOW PROFILE FOR QUERY for each query where a profile is available (max 100):
+							$db->setQuery('SHOW PROFILE FOR QUERY ' . (int) ($qn['Query_ID']));
+							$this->sqlShowProfileEach[(int) ($qn['Query_ID'] - 1)] = $db->loadAssocList();
+						}
+					}
 				}
+				else
+				{
+					$this->sqlShowProfileEach[0] = array(array('Error' => 'MySql have_profiling = off'));
+				}
+			}
+			catch (Exception $e) {
+				$this->sqlShowProfileEach[0] = array(array('Error' => $e->getMessage()));
 			}
 		}
 
