@@ -154,10 +154,10 @@ class JFormFieldRepeatable extends JFormField
 				}
 			});";
 
-			// Wont work when rendering in admin module page
-			self::addJs();
-			
 			$document = JFactory::getDocument();
+			// Wont work when rendering in admin module page
+			$document->addScriptDeclaration( self::addJs() );
+			
 			$document->addScriptDeclaration( $script );
 		}
 
@@ -471,7 +471,6 @@ class JFormFieldRepeatable extends JFormField
 
 		});";
 
-		$doc = JFactory::getDocument();
-		$doc->addScriptDeclaration( $js );
+		return $js;
 	}
 }
