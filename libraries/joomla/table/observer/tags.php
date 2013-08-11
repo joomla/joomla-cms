@@ -139,7 +139,7 @@ class JTableObserverTags extends JTableObserver
 	 */
 	public function setNewTags($newTags, $replaceTags)
 	{
-		$this->parseTypeAlias();var_dump($this->tagsHelper->typeAlias);die;
+		$this->parseTypeAlias();
 
 		return $this->tagsHelper->postStoreProcess($this->table, $newTags, $replaceTags);
 	}

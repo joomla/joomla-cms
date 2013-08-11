@@ -740,7 +740,7 @@ class JTableNested extends JTable
 		$k = $this->_tbl_key;
 
 		// Implement JObservableInterface: Pre-processing by observers
-		//$this->_observers->update('onBeforeStore', array($updateNulls, $k));
+		$this->_observers->update('onBeforeStore', array($updateNulls, $k));
 
 		// @codeCoverageIgnoreStart
 		if ($this->_debug)
