@@ -236,5 +236,34 @@ class GlobalConfigurationPage extends AdminEditPage
 
 		return $helpText;
 	}
+	
+	/**
+	 * Change Editor Mode from the Configuration Page
+	 *
+	 * @param string   $mode	   Editor Mode that the user wants to set
+	 * 
+	 */
+	public function changeEditorMode($mode='No Editor')
+	{
+		
+		switch (strtoupper($mode))
+		{
+			case 'NO EDITOR':
+			case 'NONE':
+				$select = 'Editor - None';
+				break;
 
+			case 'CODEMIRROR':
+				$select = 'Editor - CodeMirror';
+
+			case 'TINYMCE':
+			case 'TINY':
+			default:
+				$select = 'Editor - TinyMCE';
+				break;
+		}
+		$globalConfigurationPage = $this->test->getPageObject('GlobalConfigurationPage');
+		$globalConfigurationPage->setFieldValues(array('Default Editor'=>$select));
+		$globalConfigurationPage->clickButton('Save & Close');				
+	}
 }
