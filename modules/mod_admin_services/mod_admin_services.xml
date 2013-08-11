@@ -37,6 +37,14 @@
 					<option value="0">JNO
 					</option>
 				</field>
+				<field name="templates_visible" type="radio" class="btn-group"
+					default="1" label="MOD_ADMIN_SERVICES_FIELD_TEMPLATES_VISIBLE_LABEL"
+					description="MOD_ADMIN_SERVICES_FIELD_TEMPLATES_VISIBLE_DESCRIPTION">
+					<option value="1">JYES
+					</option>
+					<option value="0">JNO
+					</option>
+				</field>
 			</fieldset>
 		</fields>
 	</config>

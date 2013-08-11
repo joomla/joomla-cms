@@ -54,6 +54,11 @@ if ($array[0] == 'config')
 	// For Config
 	$classname  = 'ServicesControllerConfig' . ucfirst($activity);
 }
+elseif ($array[0] == 'templates')
+{
+	// For Templates
+	$classname  = 'ServicesControllerTemplates' . ucfirst($activity);
+}
 else
 {
 	$app->enqueueMessage(JText::_('COM_SERVICES_ERROR_CONTROLLER_NOT_FOUND'), 'error');
