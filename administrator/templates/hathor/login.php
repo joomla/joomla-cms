@@ -82,6 +82,7 @@ else
 	<script src="../media/jui/js/html5.js"></script>
 <![endif]-->
 
+<?php JHtml::_('jquery.framework'); ?>
 <!-- Load Template JavaScript -->
 <script type="text/javascript" src="templates/<?php  echo  $this->template  ?>/js/template.js"></script>
 
