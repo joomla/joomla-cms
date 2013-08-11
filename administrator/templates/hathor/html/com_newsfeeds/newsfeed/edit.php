@@ -24,7 +24,7 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'newsfeed.cancel' || document.formvalidator.isValid(document.id('newsfeed-form')))
+		if (task == 'newsfeed.cancel' || document.formvalidator.isValid(document.getElementById('newsfeed-form')))
 		{
 			Joomla.submitform(task, document.getElementById('newsfeed-form'));
 		}

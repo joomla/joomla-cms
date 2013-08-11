@@ -24,7 +24,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<label class="filter-search-lbl" for="filter_search"><?php echo JText::_('JSEARCH_FILTER'); ?></label>
 			<input type="text" name="filter_search" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_USERS_SEARCH_IN_NAME'); ?>" />
 			<button type="submit"><?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?></button>
-			<button type="button" onclick="document.id('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
+			<button type="button" onclick="document.getElementById('filter_search').value='';this.form.submit();"><?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 			<button type="button" onclick="if (window.parent) window.parent.<?php echo $this->escape($function);?>('', '<?php echo JText::_('JLIB_FORM_SELECT_USER') ?>');"><?php echo JText::_('JOPTION_NO_USER')?></button>
 		</div>
 
