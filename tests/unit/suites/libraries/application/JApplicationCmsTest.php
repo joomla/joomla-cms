@@ -258,8 +258,6 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 */
 	public function testExecuteWithDocument()
 	{
-		$this->saveFactoryState();
-
 		JFactory::$application = $this->class;
 
 		$dispatcher = $this->getMockDispatcher();
@@ -307,8 +305,6 @@ class JApplicationCmsTest extends TestCaseDatabase
 			$this->equalTo('JWeb Body'),
 			'Check that the body is output correctly.'
 		);
-
-		$this->restoreFactoryState();
 	}
 
 	/**
@@ -711,8 +707,6 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 */
 	public function testRender()
 	{
-		$this->saveFactoryState();
-
 		JFactory::$application = $this->class;
 
 		$document = $this->getMockDocument();
@@ -730,7 +724,5 @@ class JApplicationCmsTest extends TestCaseDatabase
 				array('JWeb Body')
 			)
 		);
-
-		$this->restoreFactoryState();
 	}
 }
