@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.environment.response');
+JLog::add('JApplication is deprecated.', JLog::WARNING, 'deprecated');
 
 /**
  * Base class for a Joomla! application.

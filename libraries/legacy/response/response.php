@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Environment
+ * @package     Joomla.Legacy
+ * @subpackage  Response
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -17,8 +17,8 @@ JLog::add('JResponse is deprecated.', JLog::WARNING, 'deprecated');
  * This class serves to provide the Joomla Platform with a common interface to access
  * response variables.  This includes header and body.
  *
- * @package     Joomla.Platform
- * @subpackage  Environment
+ * @package     Joomla.Legacy
+ * @subpackage  Response
  * @since       11.1
  * @deprecated  4.0  Use JApplicationWeb instead
  */
