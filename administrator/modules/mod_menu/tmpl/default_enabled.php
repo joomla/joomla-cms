@@ -177,7 +177,7 @@ if ($user->authorise('core.manage', 'com_menus'))
 		}
 		elseif ($menuType->home > 1)
 		{
-			$titleicon = ' <span>'.JHtml::_('image', 'mod_languages/icon-16-language.png', $menuType->home, array('title' => JText::_('MOD_MENU_HOME_MULTIPLE')), true).'</span>';
+			$titleicon = ' <span>' . JHtml::_('image', 'mod_languages/icon-16-language.png', $menuType->home, array('title' => JText::_('MOD_MENU_HOME_MULTIPLE')), true) . '</span>';
 		}
 		else
 		{
@@ -194,17 +194,18 @@ if ($user->authorise('core.manage', 'com_menus'))
 		}
 
 		$menu->addChild(
-			new JMenuNode($menuType->title,	'index.php?option=com_menus&view=items&menutype='.$menuType->menutype, 'class:menu', null, null, $titleicon), $createMenu
+			new JMenuNode($menuType->title,	'index.php?option=com_menus&view=items&menutype=' . $menuType->menutype, 'class:menu', null, null, $titleicon), $createMenu
 		);
 
 		if ($createMenu)
 		{
 			$menu->addChild(
-				new JMenuNode(JText::_('MOD_MENU_MENU_MANAGER_NEW_MENU_ITEM'), 'index.php?option=com_menus&view=item&layout=edit&menutype='.$menuType->menutype, 'class:newarticle')
+				new JMenuNode(JText::_('MOD_MENU_MENU_MANAGER_NEW_MENU_ITEM'), 'index.php?option=com_menus&view=item&layout=edit&menutype=' . $menuType->menutype, 'class:newarticle')
 			);
 			$menu->getParent();
 		}
 	}
+
 	$menu->getParent();
 }
 
@@ -290,7 +291,6 @@ if ($components)
 			}
 
 			$menu->getParent();
-
 		}
 		else
 		{

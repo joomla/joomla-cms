@@ -77,7 +77,7 @@ class NewsFeedEditPage extends AdminEditPage
 			array('label' => 'Caption', 'id' => 'jform_images_image_second_caption', 'type' => 'input', 'tab' => 'details'),
 			array('label' => 'Alias', 'id' => 'jform_alias', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'ID', 'id' => 'jform_id', 'type' => 'input', 'tab' => 'publishing'),
-			array('label' => 'Created by', 'id' => 'jform_created_by_name', 'type' => 'input', 'tab' => 'publishing'),
+			array('label' => 'Created by', 'id' => 'jform_created_by', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'Author\'s Alias', 'id' => 'jform_created_by_alias', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'Created Date', 'id' => 'jform_created', 'type'=>'input', 'tab'=>'publishing'),
 			array('label' => 'Start Publishing', 'id' => 'jform_publish_up', 'type'=>'input', 'tab'=>'publishing'),
