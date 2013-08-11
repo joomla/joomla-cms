@@ -607,6 +607,7 @@ class JoomlaInstallerScript
 			'/libraries/idna_convert/example.php',
 			'/administrator/includes/application.php',
 			'/includes/application.php',
+			'/libraries/legacy/application/helper.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
