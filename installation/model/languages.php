@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Installation
  * @subpackage  Model
@@ -6,7 +7,6 @@
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 defined('_JEXEC') or die;
 
 jimport('joomla.updater.update');
@@ -80,8 +80,8 @@ class InstallationModelLanguages extends JModelBase
 		 */
 		$updater->findUpdates(array(600), 0);
 
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true);
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
 		// Select the required fields from the updates table
 		$query->select('update_id, name, version')
@@ -159,7 +159,7 @@ class InstallationModelLanguages extends JModelBase
 			// Cleanup the install files in tmp folder
 			if (!is_file($package['packagefile']))
 			{
-				$config = JFactory::getConfig();
+				$config                 = JFactory::getConfig();
 				$package['packagefile'] = $config->get('tmp_path') . '/' . $package['packagefile'];
 			}
 
@@ -226,11 +226,12 @@ class InstallationModelLanguages extends JModelBase
 		if (!$p_file)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL'), 'warning');
+
 			return false;
 		}
 
-		$config		= JFactory::getConfig();
-		$tmp_dest	= $config->get('tmp_path');
+		$config   = JFactory::getConfig();
+		$tmp_dest = $config->get('tmp_path');
 
 		// Unpack the downloaded package file
 		$package = JInstallerHelper::unpack($tmp_dest . '/' . $p_file);
@@ -283,9 +284,9 @@ class InstallationModelLanguages extends JModelBase
 
 		foreach ($langlist as $lang)
 		{
-			$file = $path . '/' . $lang . '/' . $lang . '.xml';
-			$info = JInstaller::parseXMLInstallFile($file);
-			$row = new stdClass;
+			$file          = $path . '/' . $lang . '/' . $lang . '.xml';
+			$info          = JInstaller::parseXMLInstallFile($file);
+			$row           = new stdClass;
 			$row->language = $lang;
 
 			if (!is_array($info))
@@ -303,7 +304,7 @@ class InstallationModelLanguages extends JModelBase
 
 			if ($params->get($client->name, 'en-GB') == $row->language)
 			{
-				$row->published	= 1;
+				$row->published = 1;
 			}
 			else
 			{
@@ -311,7 +312,7 @@ class InstallationModelLanguages extends JModelBase
 			}
 
 			$row->checked_out = 0;
-			$data[] = $row;
+			$data[]           = $row;
 		}
 
 		usort($data, array($this, 'compareLanguages'));
@@ -331,13 +332,12 @@ class InstallationModelLanguages extends JModelBase
 	protected function getLanguageList($client_id = 1)
 	{
 		// Create a new db object.
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Select field element from the extensions table.
 		$query->select('a.element, a.name')
 			->from('#__extensions AS a')
-
 			->where('a.type = ' . $db->quote('language'))
 			->where('state = 0')
 			->where('enabled = 1')
@@ -376,7 +376,7 @@ class InstallationModelLanguages extends JModelBase
 	{
 		if (is_null($this->path))
 		{
-			$client = $this->getClient();
+			$client     = $this->getClient();
 			$this->path = JLanguage::getLanguagePath($client->path);
 		}
 
@@ -415,7 +415,7 @@ class InstallationModelLanguages extends JModelBase
 		/* @var InstallationApplicationWeb $app */
 		$app = JFactory::getApplication();
 
-		$client	= $this->getClient($cms_client);
+		$client = $this->getClient($cms_client);
 
 		$params = JComponentHelper::getParams('com_languages');
 		$params->set($client->name, $language);
@@ -427,6 +427,7 @@ class InstallationModelLanguages extends JModelBase
 		if (!$table->load($id))
 		{
 			$app->enqueueMessage($table->getError(), 'warning');
+
 			return false;
 		}
 
@@ -436,6 +437,7 @@ class InstallationModelLanguages extends JModelBase
 		if (!$table->check())
 		{
 			$app->enqueueMessage($table->getError(), 'warning');
+
 			return false;
 		}
 
@@ -443,6 +445,7 @@ class InstallationModelLanguages extends JModelBase
 		if (!$table->store())
 		{
 			$app->enqueueMessage($table->getError(), 'warning');
+
 			return false;
 		}
 
@@ -462,5 +465,52 @@ class InstallationModelLanguages extends JModelBase
 		$options = $session->get('setup.options', array());
 
 		return $options;
+	}
+
+	/**
+	 * Method to get the form.
+	 *
+	 * @param   string  $view  The view being processed
+	 *
+	 * @return  mixed  JForm object on success, false on failure.
+	 *
+	 * @since   3.1
+	 */
+	public function getForm($view = null)
+	{
+		/* @var InstallationApplicationWeb $app */
+		$app = JFactory::getApplication();
+
+		if (!$view)
+		{
+			$view = $app->input->getWord('view', 'defaultlanguage');
+		}
+
+		// Get the form.
+		JForm::addFormPath(JPATH_COMPONENT . '/model/forms');
+		JForm::addFieldPath(JPATH_COMPONENT . '/model/fields');
+		JForm::addRulePath(JPATH_COMPONENT . '/model/rules');
+
+		try
+		{
+			$form = JForm::getInstance('jform', $view, array('control' => 'jform'));
+		}
+		catch (Exception $e)
+		{
+			$app->enqueueMessage($e->getMessage(), 'error');
+
+			return false;
+		}
+
+		// Check the session for previously entered form data.
+		$data = (array) $this->getOptions();
+
+		// Bind the form data if present.
+		if (!empty($data))
+		{
+			$form->bind($data);
+		}
+
+		return $form;
 	}
 }

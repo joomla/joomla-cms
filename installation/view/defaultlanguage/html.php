@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Installation
  * @subpackage  View
@@ -6,7 +7,6 @@
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 defined('_JEXEC') or die;
 
 /**
@@ -24,7 +24,7 @@ class InstallationViewDefaultlanguageHtml extends JViewHtml
 	 * @var    array
 	 * @since  3.1
 	 */
-	protected $items;
+	public $items;
 
 	/**
 	 * Redefine the model so the correct type hinting is available.
@@ -43,9 +43,10 @@ class InstallationViewDefaultlanguageHtml extends JViewHtml
 	 */
 	public function render()
 	{
-		$this->items = new stdClass;
+		$this->items                = new stdClass;
 		$this->items->administrator = $this->model->getInstalledlangsAdministrator();
 		$this->items->frontend      = $this->model->getInstalledlangsFrontend();
+		$this->form                 = $this->model->getForm();
 
 		return parent::render();
 	}
