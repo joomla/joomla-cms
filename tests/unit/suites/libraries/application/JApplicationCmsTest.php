@@ -16,7 +16,7 @@ include_once __DIR__ . '/stubs/JApplicationCmsInspector.php';
  * @subpackage  Application
  * @since       3.2
  */
-class JApplicationCmsTest extends TestCase
+class JApplicationCmsTest extends TestCaseDatabase
 {
 	/**
 	 * Value for test host.
@@ -116,6 +116,24 @@ class JApplicationCmsTest extends TestCase
 		$this->restoreFactoryState();
 
 		parent::tearDown();
+	}
+
+	/**
+	 * Gets the data set to be loaded into the database during setup
+	 *
+	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
+	 *
+	 * @since   3.2
+	 */
+	protected function getDataSet()
+	{
+		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+
+		$dataSet->addTable('jos_usergroups', JPATH_TEST_DATABASE . '/jos_usergroups.csv');
+		$dataSet->addTable('jos_users', JPATH_TEST_DATABASE . '/jos_users.csv');
+		$dataSet->addTable('jos_viewlevels', JPATH_TEST_DATABASE . '/jos_viewlevels.csv');
+
+		return $dataSet;
 	}
 
 	/**
