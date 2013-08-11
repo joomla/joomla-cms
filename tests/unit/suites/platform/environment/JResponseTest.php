@@ -17,13 +17,31 @@ require_once JPATH_PLATFORM . '/joomla/environment/response.php';
  * @subpackage  Environment
  * @since       11.1
  */
-class JResponseTest extends PHPUnit_Framework_TestCase
+class JResponseTest extends TestCase
 {
+	/**
+	 * Sets up the fixture, for example, open a network connection.
+	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	protected function setUp()
+	{
+		$this->saveFactoryState();
+
+		JFactory::$application = $this->getMockWeb();
+	}
 
 	/**
-	 * @var JResponse
+	 * Tears down the fixture, for example, close a network connection.
+	 * This method is called after a test is executed.
 	 */
-	protected $object;
+	protected function tearDown()
+	{
+		$this->restoreFactoryState();
+	}
 
 	/**
 	 * Test...

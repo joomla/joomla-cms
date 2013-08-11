@@ -33,10 +33,10 @@ class TestMockApplicationWeb
 	/**
 	 * Mock storage for the response cache status.
 	 *
-	 * @var    array
+	 * @var    boolean
 	 * @since  3.2
 	 */
-	public static $cachable;
+	public static $cachable = false;
 
 	/**
 	 * Creates and instance of the mock JApplicationWeb object.
@@ -134,6 +134,7 @@ class TestMockApplicationWeb
 				'setBody' => array((is_callable(array($test, 'mockSetBody')) ? $test : get_called_class()), 'mockSetBody'),
 				'getHeaders' => array((is_callable(array($test, 'mockGetHeaders')) ? $test : get_called_class()), 'mockGetHeaders'),
 				'setHeader' => array((is_callable(array($test, 'mockSetHeader')) ? $test : get_called_class()), 'mockSetHeader'),
+				'clearHeaders' => array((is_callable(array($test, 'mockClearHeaders')) ? $test : get_called_class()), 'mockClearHeaders'),
 				'allowCache' => array((is_callable(array($test, 'mockAllowCache')) ? $test : get_called_class()), 'mockAllowCache'),
 			)
 		);
@@ -145,7 +146,7 @@ class TestMockApplicationWeb
 		static::$headers = array();
 
 		// Reset the cache storage.
-		static::$cachable = array();
+		static::$cachable = false;
 
 		return $mockObject;
 	}
@@ -252,6 +253,18 @@ class TestMockApplicationWeb
 
 		// Add the header to the internal array.
 		static::$headers[] = array('name' => $name, 'value' => $value);
+	}
+
+	/**
+	 * Mock JApplicationWeb->clearHeaders method.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public static function mockClearHeaders()
+	{
+		static::$headers = array();
 	}
 
 	/**
