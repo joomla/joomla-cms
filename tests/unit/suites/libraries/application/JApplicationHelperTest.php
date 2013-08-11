@@ -12,14 +12,16 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Application
- * @since       12.3
+ * @since       3.2
  */
 class JApplicationHelperInspector extends JApplicationHelper
 {
 	/**
 	 * Method to get the current application data
 	 *
-	 * @return array The array of application data objects.
+	 * @return  array  The array of application data objects.
+	 *
+	 * @since   3.2
 	 */
 	public static function get()
 	{
@@ -31,7 +33,9 @@ class JApplicationHelperInspector extends JApplicationHelper
 	 *
 	 * @param   string  $apps  The app to set.
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   3.2
 	 */
 	public static function set($apps)
 	{
@@ -44,7 +48,7 @@ class JApplicationHelperInspector extends JApplicationHelper
  *
  * @package     Joomla.UnitTest
  * @subpackage  Application
- * @since       11.1
+ * @since       3.2
  */
 class JApplicationHelperTest extends TestCase
 {
