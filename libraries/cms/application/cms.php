@@ -471,6 +471,30 @@ class JApplicationCms extends JApplicationWeb
 	}
 
 	/**
+	 * Gets the name of the current template.
+	 *
+	 * @param   boolean  $params  An optional associative array of configuration settings
+	 *
+	 * @return  mixed  System is the fallback.
+	 *
+	 * @since   3.2
+	 */
+	public function getTemplate($params = false)
+	{
+		$template = new stdClass;
+
+		$template->template = 'system';
+		$template->params   = new JRegistry;
+
+		if ($params)
+		{
+			return $template;
+		}
+
+		return $template->template;
+	}
+
+	/**
 	 * Gets a user state.
 	 *
 	 * @param   string  $key      The path of the state.

@@ -7,37 +7,13 @@
  */
 
 /**
- * Class to mock JApplicationWeb.
+ * Class to mock JApplicationCms.
  *
  * @package  Joomla.Test
- * @since    12.1
+ * @since    3.2
  */
-class TestMockApplicationWeb
+class TestMockApplicationCms extends TestMockApplicationWeb
 {
-	/**
-	 * Mock storage for the response body.
-	 *
-	 * @var    array
-	 * @since  12.2
-	 */
-	public static $body = array();
-
-	/**
-	 * Mock storage for the response headers.
-	 *
-	 * @var    array
-	 * @since  3.2
-	 */
-	public static $headers = array();
-
-	/**
-	 * Mock storage for the response cache status.
-	 *
-	 * @var    array
-	 * @since  3.2
-	 */
-	public static $cachable;
-
 	/**
 	 * Creates and instance of the mock JApplicationWeb object.
 	 *
@@ -46,9 +22,6 @@ class TestMockApplicationWeb
 	 * - mockGetBody
 	 * - mockPrepentBody
 	 * - mockSetBody
-	 * - mockGetHeaders
-	 * - mockSetHeaders
-	 * - mockAllowCache
 	 *
 	 * If any *Body methods are implemented in the test class, all should be implemented otherwise behaviour will be unreliable.
 	 *
@@ -57,7 +30,7 @@ class TestMockApplicationWeb
 	 *
 	 * @return  PHPUnit_Framework_MockObject_MockObject
 	 *
-	 * @since   11.3
+	 * @since   3.2
 	 */
 	public static function create($test, $options = array())
 	{
@@ -67,7 +40,7 @@ class TestMockApplicationWeb
 			$_SERVER['HTTP_HOST'] = 'localhost';
 		}
 
-		// Collect all the relevant methods in JApplicationWeb (work in progress).
+		// Collect all the relevant methods in JApplicationCms (work in progress).
 		$methods = array(
 			'allowCache',
 			'appendBody',
@@ -80,7 +53,12 @@ class TestMockApplicationWeb
 			'getHeaders',
 			'getIdentity',
 			'getLanguage',
+			'getMenu',
+			'getPathway',
+			'getRouter',
 			'getSession',
+			'getTemplate',
+			'initialiseApp',
 			'loadConfiguration',
 			'loadDispatcher',
 			'loadDocument',
@@ -99,7 +77,7 @@ class TestMockApplicationWeb
 
 		// Create the mock.
 		$mockObject = $test->getMock(
-			'JApplicationWeb',
+			'JApplicationCms',
 			$methods,
 			// Constructor arguments.
 			array(),
@@ -148,128 +126,5 @@ class TestMockApplicationWeb
 		static::$cachable = array();
 
 		return $mockObject;
-	}
-
-	/**
-	 * Mock JApplicationWeb->appendBody method.
-	 *
-	 * @param   string  $content  The content to append to the response body.
-	 *
-	 * @return  mixed
-	 *
-	 * @since   12.2
-	 */
-	public static function mockAppendBody($content)
-	{
-		array_push(static::$body, (string) $content);
-	}
-
-	/**
-	 * Mock JApplicationWeb->getBody method.
-	 *
-	 * @param   boolean  $asArray  True to return the body as an array of strings.
-	 *
-	 * @return  mixed
-	 *
-	 * @since   12.2
-	 */
-	public static function mockGetBody($asArray = false)
-	{
-		return $asArray ? static::$body : implode((array) static::$body);
-	}
-
-	/**
-	 * Mock JApplicationWeb->appendBody method.
-	 *
-	 * @param   string  $content  The content to append to the response body.
-	 *
-	 * @return  mixed
-	 *
-	 * @since   12.2
-	 */
-	public static function mockPrependBody($content)
-	{
-		array_unshift(static::$body, (string) $content);
-	}
-
-	/**
-	 * Mock JApplicationWeb->setBody method.
-	 *
-	 * @param   string  $content  The body of the response.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.2
-	 */
-	public static function mockSetBody($content)
-	{
-		static::$body = array($content);
-	}
-
-	/**
-	 * Mock JApplicationWeb->getHeaders method.
-	 *
-	 * @return  array
-	 *
-	 * @since   3.2
-	 */
-	public static function mockGetHeaders()
-	{
-		return static::$headers;
-	}
-
-	/**
-	 * Mock JApplicationWeb->setHeader method.
-	 *
-	 * @param   string   $name     The name of the header to set.
-	 * @param   string   $value    The value of the header to set.
-	 * @param   boolean  $replace  True to replace any headers with the same name.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function mockSetHeader($name, $value, $replace = false)
-	{
-		// Sanitize the input values.
-		$name = (string) $name;
-		$value = (string) $value;
-
-		// If the replace flag is set, unset all known headers with the given name.
-		if ($replace)
-		{
-			foreach (static::$headers as $key => $header)
-			{
-				if ($name == $header['name'])
-				{
-					unset(static::$headers[$key]);
-				}
-			}
-
-			// Clean up the array as unsetting nested arrays leaves some junk.
-			static::$headers = array_values(static::$headers);
-		}
-
-		// Add the header to the internal array.
-		static::$headers[] = array('name' => $name, 'value' => $value);
-	}
-
-	/**
-	 * Mock JApplicationWeb->allowCache method.
-	 *
-	 * @param   boolean  $allow  True to allow browser caching.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.2
-	 */
-	public static function mockAllowCache($allow = null)
-	{
-		if ($allow !== null)
-		{
-			static::$cachable = (bool) $allow;
-		}
-
-		return static::$cachable;
 	}
 }

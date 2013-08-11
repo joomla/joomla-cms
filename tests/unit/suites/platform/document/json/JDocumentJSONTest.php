@@ -18,25 +18,26 @@ require_once JPATH_PLATFORM . '/joomla/document/json/json.php';
  * @subpackage  Document
  * @since       11.1
  */
-class JDocumentJSONTest extends PHPUnit_Framework_TestCase
+class JDocumentJSONTest extends TestCase
 {
 	/**
-	 * @var    JDocumentJSON
-	 * @access protected
-	 */
+	 * @var  JDocumentJSON
+\	 */
 	protected $object;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @access protected
-	 *
-	 * @return void
+	 * @return  void
 	 */
 	protected function setUp()
 	{
 		parent::setUp();
+
+		$this->saveFactoryState();
+
+		JFactory::$application = $this->getMockWeb();
 
 		$this->object = new JDocumentJSON;
 	}
@@ -45,12 +46,11 @@ class JDocumentJSONTest extends PHPUnit_Framework_TestCase
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
 	 *
-	 * @access protected
-	 *
-	 * @return void
+	 * @return  void
 	 */
 	protected function tearDown()
 	{
+		$this->restoreFactoryState();
 	}
 
 	/**
@@ -62,8 +62,7 @@ class JDocumentJSONTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRender()
 	{
-		JResponse::clearHeaders();
-		JResponse::allowCache(true);
+		JFactory::getApplication()->allowCache(true);
 
 		$this->object->setBuffer('Unit Test Buffer');
 
@@ -73,10 +72,7 @@ class JDocumentJSONTest extends PHPUnit_Framework_TestCase
 			'We did not get the buffer back properly'
 		);
 
-		$headers = JResponse::getHeaders();
-
-		$expires = false;
-		$disposition = false;
+		$headers = JFactory::getApplication()->getHeaders();
 
 		foreach ($headers as $head)
 		{
@@ -87,7 +83,6 @@ class JDocumentJSONTest extends PHPUnit_Framework_TestCase
 					$this->stringContains('GMT'),
 					'The expires header was not set properly (was parent::render called?)'
 				);
-				$expires = true;
 			}
 
 			if ($head['name'] == 'Content-disposition')
@@ -97,11 +92,10 @@ class JDocumentJSONTest extends PHPUnit_Framework_TestCase
 					$this->stringContains('.json'),
 					'The content disposition did not include json extension'
 				);
-				$disposition = true;
 			}
 		}
 		$this->assertThat(
-			JResponse::allowCache(),
+			JFactory::getApplication()->allowCache(),
 			$this->isFalse(),
 			'Caching was not disabled'
 		);
