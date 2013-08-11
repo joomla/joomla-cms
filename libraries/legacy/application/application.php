@@ -21,6 +21,7 @@ jimport('joomla.environment.response');
  * @package     Joomla.Legacy
  * @subpackage  Application
  * @since       11.1
+ * @deprecated  4.0  Use JApplicationCms instead unless specified otherwise
  */
 class JApplication extends JApplicationBase
 {
@@ -29,6 +30,7 @@ class JApplication extends JApplicationBase
 	 *
 	 * @var    integer
 	 * @since  11.1
+	 * @deprecated  4.0
 	 */
 	protected $_clientId = null;
 
@@ -37,6 +39,7 @@ class JApplication extends JApplicationBase
 	 *
 	 * @var    array
 	 * @since  11.1
+	 * @deprecated  4.0
 	 */
 	protected $_messageQueue = array();
 
@@ -45,6 +48,7 @@ class JApplication extends JApplicationBase
 	 *
 	 * @var    array
 	 * @since  11.1
+	 * @deprecated  4.0
 	 */
 	protected $_name = null;
 
@@ -53,6 +57,7 @@ class JApplication extends JApplicationBase
 	 *
 	 * @var    string
 	 * @since  11.1
+	 * @deprecated  4.0
 	 */
 	public $scope = null;
 
@@ -61,6 +66,7 @@ class JApplication extends JApplicationBase
 	 *
 	 * @var    date
 	 * @since  11.1
+	 * @deprecated  4.0
 	 */
 	public $requestTime = null;
 
@@ -69,18 +75,21 @@ class JApplication extends JApplicationBase
 	 *
 	 * @var    integer
 	 * @since  11.1
+	 * @deprecated  4.0
 	 */
 	public $startTime = null;
 
 	/**
 	 * @var    JApplicationWebClient  The application client object.
 	 * @since  12.2
+	 * @deprecated  4.0
 	 */
 	public $client;
 
 	/**
 	 * @var    array  JApplication instances container.
 	 * @since  11.3
+	 * @deprecated  4.0
 	 */
 	protected static $instances = array();
 
@@ -91,6 +100,7 @@ class JApplication extends JApplicationBase
 	 * session_name, clientId and others. This is not exhaustive.
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 */
 	public function __construct($config = array())
 	{
@@ -173,6 +183,7 @@ class JApplication extends JApplicationBase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 */
 	public function initialise($options = array())
 	{
@@ -215,6 +226,7 @@ class JApplication extends JApplicationBase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 */
 	public function route()
 	{
@@ -246,6 +258,7 @@ class JApplication extends JApplicationBase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 */
 	public function dispatch($component = null)
 	{
@@ -269,6 +282,7 @@ class JApplication extends JApplicationBase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 */
 	public function render()
 	{
@@ -309,6 +323,7 @@ class JApplication extends JApplicationBase
 	 * @return  void  Calls exit().
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 *
 	 * @see     JApplication::enqueueMessage()
 	 */
@@ -399,6 +414,7 @@ class JApplication extends JApplicationBase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 */
 	public function enqueueMessage($msg, $type = 'message')
 	{
@@ -425,6 +441,7 @@ class JApplication extends JApplicationBase
 	 * @return  array  The system message queue.
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 */
 	public function getMessageQueue()
 	{
@@ -455,6 +472,7 @@ class JApplication extends JApplicationBase
 	 * @return  mixed  The user state.
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 */
 	public function getCfg($varname, $default = null)
 	{
@@ -471,6 +489,7 @@ class JApplication extends JApplicationBase
 	 * @return  string  The name of the dispatcher.
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 */
 	public function getName()
 	{
@@ -498,6 +517,7 @@ class JApplication extends JApplicationBase
 	 * @return  mixed  The user state or null.
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 */
 	public function getUserState($key, $default = null)
 	{
@@ -521,6 +541,7 @@ class JApplication extends JApplicationBase
 	 * @return  mixed  The previous state, if one existed.
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 */
 	public function setUserState($key, $value)
 	{
@@ -546,6 +567,7 @@ class JApplication extends JApplicationBase
 	 * @return  The request user state.
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 */
 	public function getUserStateFromRequest($key, $request, $default = null, $type = 'none')
 	{
@@ -583,6 +605,7 @@ class JApplication extends JApplicationBase
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 */
 	public function login($credentials, $options = array())
 	{
@@ -700,6 +723,7 @@ class JApplication extends JApplicationBase
 	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 */
 	public function logout($userid = null, $options = array())
 	{
@@ -743,15 +767,16 @@ class JApplication extends JApplicationBase
 	/**
 	 * Gets the name of the current template.
 	 *
-	 * @param   array  $params  An optional associative array of configuration settings
+	 * @param   boolean  $params  An optional associative array of configuration settings
 	 *
-	 * @return  string  System is the fallback.
+	 * @return  mixed  System is the fallback.
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 */
 	public function getTemplate($params = false)
 	{
-		$template = new StdClass;
+		$template = new stdClass;
 
 		$template->template = 'system';
 		$template->params   = new JRegistry;
@@ -773,6 +798,7 @@ class JApplication extends JApplicationBase
 	 * @return  JRouter  A JRouter object
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 */
 	static public function getRouter($name = null, array $options = array())
 	{
@@ -806,19 +832,11 @@ class JApplication extends JApplicationBase
 	 * @return  string  Processed string
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0  Use JApplicationHelper::stringURLSafe instead
 	 */
 	static public function stringURLSafe($string)
 	{
-		if (JFactory::getConfig()->get('unicodeslugs') == 1)
-		{
-			$output = JFilterOutput::stringURLUnicodeSlug($string);
-		}
-		else
-		{
-			$output = JFilterOutput::stringURLSafe($string);
-		}
-
-		return $output;
+		return JApplicationHelper::stringURLSafe($string);
 	}
 
 	/**
@@ -830,6 +848,7 @@ class JApplication extends JApplicationBase
 	 * @return  JPathway  A JPathway object
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 */
 	public function getPathway($name = null, $options = array())
 	{
@@ -859,6 +878,7 @@ class JApplication extends JApplicationBase
 	 * @return  JMenu  JMenu object.
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 */
 	public function getMenu($name = null, $options = array())
 	{
@@ -887,10 +907,11 @@ class JApplication extends JApplicationBase
 	 * @return  string  A secure hash
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0  Use JApplicationHelper::getHash instead
 	 */
 	public static function getHash($seed)
 	{
-		return md5(JFactory::getConfig()->get('secret') . $seed);
+		return JApplicationHelper::getHash($seed);
 	}
 
 	/**
@@ -901,6 +922,7 @@ class JApplication extends JApplicationBase
 	 * @return  JConfig  A JConfig object
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 */
 	protected function _createConfiguration($file)
 	{
@@ -931,6 +953,7 @@ class JApplication extends JApplicationBase
 	 * @return  JSession  JSession on success. May call exit() on database error.
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 */
 	protected function _createSession($name)
 	{
@@ -998,6 +1021,7 @@ class JApplication extends JApplicationBase
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 */
 	public function checkSession()
 	{
@@ -1057,6 +1081,7 @@ class JApplication extends JApplicationBase
 	 * @return  void
 	 *
 	 * @since   12.2
+	 * @deprecated  4.0
 	 */
 	public function afterSessionStart()
 	{
@@ -1074,6 +1099,7 @@ class JApplication extends JApplicationBase
 	 * @return  integer  A client identifier.
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 */
 	public function getClientId()
 	{
@@ -1086,6 +1112,7 @@ class JApplication extends JApplicationBase
 	 * @return  boolean  True if this application is administrator.
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 */
 	public function isAdmin()
 	{
@@ -1098,6 +1125,7 @@ class JApplication extends JApplicationBase
 	 * @return  boolean  True if this application is site.
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 */
 	public function isSite()
 	{
@@ -1110,7 +1138,7 @@ class JApplication extends JApplicationBase
 	 * @return  boolean  True if Windows OS
 	 *
 	 * @since   11.1
-	 * @deprecated  13.3 Use the IS_WIN constant instead.
+	 * @deprecated  13.3 (Platform) & 4.0 (CMS) Use the IS_WIN constant instead.
 	 */
 	public static function isWinOS()
 	{
@@ -1125,6 +1153,7 @@ class JApplication extends JApplicationBase
 	 * @return  boolean  True if using SSL, false if not.
 	 *
 	 * @since   12.2
+	 * @deprecated  4.0
 	 */
 	public function isSSLConnection()
 	{
@@ -1137,6 +1166,7 @@ class JApplication extends JApplicationBase
 	 * @return  string  The response
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0
 	 */
 	public function __toString()
 	{

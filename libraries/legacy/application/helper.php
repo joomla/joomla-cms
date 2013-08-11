@@ -57,6 +57,45 @@ class JApplicationHelper
 	}
 
 	/**
+	 * Provides a secure hash based on a seed
+	 *
+	 * @param   string  $seed  Seed string.
+	 *
+	 * @return  string  A secure hash
+	 *
+	 * @since   11.1
+	 */
+	public static function getHash($seed)
+	{
+		return md5(JFactory::getConfig()->get('secret') . $seed);
+	}
+
+	/**
+	 * This method transliterates a string into an URL
+	 * safe string or returns a URL safe UTF-8 string
+	 * based on the global configuration
+	 *
+	 * @param   string  $string  String to process
+	 *
+	 * @return  string  Processed string
+	 *
+	 * @since   3.2
+	 */
+	public static function stringURLSafe($string)
+	{
+		if (JFactory::getConfig()->get('unicodeslugs') == 1)
+		{
+			$output = JFilterOutput::stringURLUnicodeSlug($string);
+		}
+		else
+		{
+			$output = JFilterOutput::stringURLSafe($string);
+		}
+
+		return $output;
+	}
+
+	/**
 	 * Gets information on a specific client id.  This method will be useful in
 	 * future versions when we start mapping applications in the database.
 	 *
