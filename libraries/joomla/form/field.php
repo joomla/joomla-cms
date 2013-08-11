@@ -209,6 +209,7 @@ abstract class JFormField
 		if (!isset($this->type))
 		{
 			$parts = JStringNormalise::fromCamelCase(get_called_class(), true);
+
 			if ($parts[0] == 'J')
 			{
 				$this->type = JString::ucfirst($parts[count($parts) - 1], '_');
@@ -454,7 +455,6 @@ abstract class JFormField
 
 		if ($this->hidden)
 		{
-
 			return $title;
 		}
 
@@ -537,6 +537,7 @@ abstract class JFormField
 		{
 			// If we already have a name segment add the group control as another level.
 			$groups = explode('.', $this->group);
+
 			if ($name)
 			{
 				foreach ($groups as $group)
@@ -547,6 +548,7 @@ abstract class JFormField
 			else
 			{
 				$name .= array_shift($groups);
+
 				foreach ($groups as $group)
 				{
 					$name .= '[' . $group . ']';
@@ -604,7 +606,39 @@ abstract class JFormField
 		else
 		{
 			self::$count = self::$count + 1;
+
 			return self::$generated_fieldname . self::$count;
 		}
+	}
+
+	/**
+	 * Method to get an attribute of the field
+	 *
+	 * @param   string  $name     Name of the attribute to get
+	 * @param   mixed   $default  Optional value to return if attribute not found
+	 *
+	 * @return  mixed             Value of the attribute / default
+	 *
+	 * @since   3.2
+	 */
+	public function getAttribute($name, $default = null)
+	{
+		if ($this->element instanceof SimpleXMLElement)
+		{
+			$attributes = $this->element->attributes();
+
+			// Ensure that the attribute exists
+			if (property_exists($attributes, $name))
+			{
+				$value = $attributes->$name;
+
+				if ($value !== null)
+				{
+					return (string) $value;
+				}
+			}
+		}
+
+		return $default;
 	}
 }
