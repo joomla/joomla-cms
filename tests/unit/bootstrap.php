@@ -86,6 +86,10 @@ if (!defined('JPATH_THEMES'))
 {
 	define('JPATH_THEMES', JPATH_BASE . '/templates');
 }
+if (!defined('JDEBUG'))
+{
+	define('JDEBUG', false);
+}
 
 // Import the platform in legacy mode.
 require_once JPATH_PLATFORM . '/import.legacy.php';

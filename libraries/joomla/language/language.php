@@ -86,7 +86,7 @@ class JLanguage
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $strings = null;
+	protected $strings = array();
 
 	/**
 	 * An array of used text, used during debugging.

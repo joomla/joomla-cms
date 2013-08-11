@@ -122,7 +122,7 @@ class JApplicationCms extends JApplicationWeb
 		// Set the session default name.
 		if (is_null($this->config->get('session_name')))
 		{
-			$this->config->set('session_name', $this->_name);
+			$this->config->set('session_name', $this->getName());
 		}
 
 		// Create the session if a session name is passed.
@@ -293,7 +293,7 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	public function getCfg($varname, $default = null)
 	{
-		return $this->config->get($varname, $default);
+		return $this->get($varname, $default);
 	}
 
 	/**
@@ -357,7 +357,7 @@ class JApplicationCms extends JApplicationWeb
 	{
 		if (!isset($name))
 		{
-			$name = $this->_name;
+			$name = $this->getName();
 		}
 
 		try
@@ -423,7 +423,7 @@ class JApplicationCms extends JApplicationWeb
 	{
 		if (!isset($name))
 		{
-			$name = $this->_name;
+			$name = $this->getName();
 		}
 
 		try
@@ -597,7 +597,7 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	public function isAdmin()
 	{
-		return ($this->_clientId == 1);
+		return ($this->getClientId() === 1);
 	}
 
 	/**
@@ -609,7 +609,7 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	public function isSite()
 	{
-		return ($this->_clientId == 0);
+		return ($this->getClientId() === 0);
 	}
 
 	/**
@@ -649,7 +649,7 @@ class JApplicationCms extends JApplicationWeb
 			'expire' => $lifetime
 		);
 
-		switch ($this->_clientId)
+		switch ($this->getClientId())
 		{
 			case 0:
 				if ($this->get('force_ssl') == 2)
