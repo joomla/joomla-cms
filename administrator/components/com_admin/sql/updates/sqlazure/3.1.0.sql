@@ -328,9 +328,6 @@ INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id,
 
 SET IDENTITY_INSERT #__extensions  OFF;
 
-SET IDENTITY_INSERT #__menu  ON;
+INSERT INTO #__menu (menutype, title, alias, note, path, link, type, published, parent_id, level, component_id, ordering, checked_out, checked_out_time, browserNav, access, img, template_style_id, params, lft, rgt, home, language, client_id)
+  SELECT 'menu', 'com_tags', 'Tags', '', 'Tags', 'index.php?option=com_tags', 'component', 0, 1, 1, 29, 0, '1900-01-01 00:00:00', 0, 0, 'class:tags', 0, '', 43, 44, 0, '*', 1
 
-INSERT INTO #__menu (id, menutype, title, alias, note, path, link, type, published, parent_id, level, component_id, ordering, checked_out, checked_out_time, browserNav, access, img, template_style_id, params, lft, rgt, home, language, client_id)
-  SELECT 23, 'menu', 'com_tags', 'Tags', '', 'Tags', 'index.php?option=com_tags', 'component', 0, 1, 1, 29, 0, '1900-01-01 00:00:00', 0, 0, 'class:tags', 0, '', 43, 44, 0, '*', 1
-
-SET IDENTITY_INSERT #__menu  OFF;
