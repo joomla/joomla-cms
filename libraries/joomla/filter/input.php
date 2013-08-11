@@ -183,7 +183,7 @@ class JFilterInput
 	 *                           ARRAY:     An array,
 	 *                           PATH:      A sanitised file path,
 	 *                           USERNAME:  Do not use (use an application specific filter),
-	 *                           NONE:      The raw string is returned with no filtering,
+	 *                           RAW:       The raw string is returned with no filtering,
 	 *                           unknown:   An unknown filter will act like STRING. If the input is an array it will return an
 	 *                                      array of fully decoded and sanitised strings.
 	 *
