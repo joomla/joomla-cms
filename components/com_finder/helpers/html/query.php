@@ -139,7 +139,7 @@ abstract class JHtmlQuery
 			{
 				if (isset($token->suggestion))
 				{
-					$suggested = str_replace($token->term, $token->suggestion, $suggested);
+					$suggested = str_ireplace($token->term, $token->suggestion, $suggested);
 				}
 			}
 
@@ -148,7 +148,7 @@ abstract class JHtmlQuery
 			{
 				if (isset($token->suggestion))
 				{
-					$suggested = str_replace($token->term, $token->suggestion, $suggested);
+					$suggested = str_ireplace($token->term, $token->suggestion, $suggested);
 				}
 			}
 
