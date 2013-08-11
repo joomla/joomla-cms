@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 11-Aug-2013 Jean-Marie Simonet
  # Reverting #31697 which breaks installation.
+ # [#31726] Saving with no tags gives sql error. Thanks Elin Waring
 
 10-Aug-2013 Jean-Marie Simonet
  # [#31597] Undefined variable in com_banners model. Thanks Mario Proenca
