@@ -34,14 +34,14 @@ class ServicesControllerConfigDisplay extends JControllerBase
 		// Get the document object.
 		$document     = JFactory::getDocument();
 
-		$viewName     = $app->input->getWord('view', 'config');
+		$viewName     = $this->input->getWord('view', 'config');
 		$viewFormat   = $document->getType();
-		$layoutName   = $app->input->getWord('layout', 'default');
+		$layoutName   = $this->input->getWord('layout', 'default');
 
-		$app->input->set('view', $viewName);
+
 
 		// Access back-end com_config
-		JLoader::registerPrefix('Config', JPATH_ADMINISTRATOR . '/components/com_config');
+		JLoader::registerPrefix(ucfirst($viewName), JPATH_ADMINISTRATOR . '/components/com_config');
 		$displayClass = new ConfigControllerApplicationDisplay;
 
 		// Set back-end required params
@@ -57,7 +57,7 @@ class ServicesControllerConfigDisplay extends JControllerBase
 
 		// Register the layout paths for the view
 		$paths = new SplPriorityQueue;
-		$paths->insert(JPATH_COMPONENT . '/view/' . 'config' . '/tmpl', 'normal');
+		$paths->insert(JPATH_COMPONENT . '/view/' . $viewName . '/tmpl', 'normal');
 
 		$viewClass  = 'ServicesView' . ucfirst($viewName) . ucfirst($viewFormat);
 		$modelClass = 'ServicesModel' . ucfirst($viewName);

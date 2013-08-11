@@ -28,7 +28,10 @@ class ConfigControllerApplicationRemoveroot extends JControllerBase
 	public function execute()
 	{
 		// Check for request forgeries.
-		JSession::checkToken('get') or die('Invalid Token');
+		if(!JSession::checkToken('get'))
+		{
+			JFactory::getApplication()->redirect('index.php', JText::_('JINVALID_TOKEN'));
+		}
 
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorise('core.admin'))

@@ -46,12 +46,12 @@ class ConfigController extends JControllerLegacy
 
 		if (ucfirst($vName) == 'Application')
 		{
-			include JPATH_ADMINISTRATOR . '/components/com_config/controller/application/display.php';
+			include_once JPATH_ADMINISTRATOR . '/components/com_config/controller/application/display.php';
 			$controller = new ConfigControllerApplicationDisplay;
 		}
 		else if (ucfirst($vName) == 'Component')
 		{
-			include JPATH_ADMINISTRATOR . '/components/com_config/controller/component/display.php';
+			include_once JPATH_ADMINISTRATOR . '/components/com_config/controller/component/display.php';
 			$controller = new ConfigControllerComponentDisplay;
 		}
 

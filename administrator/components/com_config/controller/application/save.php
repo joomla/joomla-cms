@@ -27,7 +27,10 @@ class ConfigControllerApplicationSave extends JControllerBase
 	public function execute()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		if(!JSession::checkToken())
+		{
+			JFactory::getApplication()->redirect('index.php', JText::_('JINVALID_TOKEN'));
+		}
 
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorise('core.admin'))

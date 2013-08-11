@@ -27,6 +27,12 @@ class ConfigControllerComponentCancel extends JControllerBase
 	 */
 	public function execute()
 	{
+		// Check for request forgeries.
+		if(!JSession::checkToken())
+		{
+			JFactory::getApplication()->redirect('index.php', JText::_('JINVALID_TOKEN'));
+		}
+
 		// Clean the session data.
 		$app = JFactory::getApplication();
 		$app->setUserState('com_config.config.global.data', null);

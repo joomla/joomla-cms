@@ -49,7 +49,7 @@ class ConfigControllerComponent extends JControllerLegacy
 	{
 
 		JLog::add('ConfigControllerComponent is deprecated. Use ConfigControllerComponentCancel instead.', JLog::WARNING, 'deprecated');
-		include JPATH_ADMINISTRATOR . '/components/com_config/controller/component/cancel.php';
+		include_once JPATH_ADMINISTRATOR . '/components/com_config/controller/component/cancel.php';
 		$controller = new ConfigControllerComponentCancel;
 
 		$controller->execute();
@@ -63,7 +63,7 @@ class ConfigControllerComponent extends JControllerLegacy
 	{
 
 		JLog::add('ConfigControllerComponent is deprecated. Use ConfigControllerComponentSave instead.', JLog::WARNING, 'deprecated');
-		include JPATH_ADMINISTRATOR . '/components/com_config/controller/component/save.php';
+		include_once JPATH_ADMINISTRATOR . '/components/com_config/controller/component/save.php';
 		$controller = new ConfigControllerComponentSave;
 
 		return $controller->execute();

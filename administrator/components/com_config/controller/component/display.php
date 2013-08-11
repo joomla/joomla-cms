@@ -34,15 +34,15 @@ class ConfigControllerComponentDisplay extends JControllerBase
 		// Get the document object.
 		$document     = JFactory::getDocument();
 
-		$viewName     = $app->input->getWord('view', 'component');
+		$viewName     = $this->input->getWord('view', 'component');
 		$viewFormat   = $document->getType();
-		$layoutName   = $app->input->getWord('layout', 'default');
+		$layoutName   = $this->input->getWord('layout', 'default');
 
-		$app->input->set('view', $viewName);
+
 
 		// Register the layout paths for the view
 		$paths = new SplPriorityQueue;
-		$paths->insert(JPATH_COMPONENT . '/view/' . 'component' . '/tmpl', 'normal');
+		$paths->insert(JPATH_ADMINISTRATOR . '/components/com_config/view/' . $viewName . '/tmpl', 'normal');
 
 		$viewClass  = 'ConfigView' . ucfirst($viewName) . ucfirst($viewFormat);
 		$modelClass = 'ConfigModel' . ucfirst($viewName);
