@@ -19,7 +19,7 @@ $canDo = LanguagesHelper::getActions();
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'language.cancel' || document.formvalidator.isValid(document.id('language-form')))
+		if (task == 'language.cancel' || document.formvalidator.isValid(document.getElementById('language-form')))
 		{
 			Joomla.submitform(task, document.getElementById('language-form'));
 		}

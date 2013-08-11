@@ -23,7 +23,7 @@ $this->fieldsets = $this->form->getFieldsets('params');
 
 $script = "Joomla.submitbutton = function(task)
 	{
-			if (task == 'module.cancel' || document.formvalidator.isValid(document.id('module-form'))) {";
+			if (task == 'module.cancel' || document.formvalidator.isValid(document.getElementById('module-form'))) {";
 if ($hasContent)
 {
 	$script .= $this->form->getField('content')->save();

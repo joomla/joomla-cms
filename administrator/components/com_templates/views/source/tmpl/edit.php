@@ -17,7 +17,7 @@ JHtml::_('behavior.keepalive');
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'source.cancel' || document.formvalidator.isValid(document.id('source-form')))
+		if (task == 'source.cancel' || document.formvalidator.isValid(document.getElementById('source-form')))
 		{
 			<?php echo $this->form->getField('source')->save(); ?>
 			Joomla.submitform(task, document.getElementById('source-form'));

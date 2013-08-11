@@ -26,14 +26,14 @@ class MediaViewMediaList extends JViewLegacy
 		JHtml::_('behavior.framework', true);
 
 		JFactory::getDocument()->addScriptDeclaration("
-		window.addEvent('domready', function()
+		jQuery(function($)
 		{
 			window.parent.document.updateUploader();
-			$$('a.img-preview').each(function(el)
+			$('a.img-preview').each(function()
 			{
-				el.addEvent('click', function(e)
+				$(this).on('click', function()
 				{
-					window.top.document.preview.fromElement(el);
+					window.top.document.preview.fromElement(this);
 					return false;
 				});
 			});

@@ -50,8 +50,8 @@ class JFormFieldModal_Newsfeed extends JFormField
 
 		// Select button script
 		$script[] = '	function jSelectNewsfeed_'.$this->id.'(id, name, object) {';
-		$script[] = '		document.id("'.$this->id.'_id").value = id;';
-		$script[] = '		document.id("'.$this->id.'_name").value = name;';
+		$script[] = '		document.getElementById("'.$this->id.'_id").value = id;';
+		$script[] = '		document.getElementById("'.$this->id.'_name").value = name;';
 
 		if ($allowEdit)
 		{

@@ -29,7 +29,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			</div>
 			<div class="btn-group pull-left hidden-phone">
 				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
 				<button type="button" class="btn" onclick="if (window.parent) window.parent.<?php echo $this->escape($function); ?>('', '<?php echo JText::_('JLIB_FORM_SELECT_USER'); ?>');"><?php echo JText::_('JOPTION_NO_USER'); ?></button>
 			</div>
 			<div class="btn-group pull-right hidden-phone">

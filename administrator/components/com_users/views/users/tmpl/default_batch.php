@@ -41,7 +41,7 @@ JHtml::_('formbehavior.chosen', 'select');
 		</div>
 	</div>
 	<div class="modal-footer">
-		<button class="btn" type="button" onclick="document.id('batch-group-id').value=''" data-dismiss="modal">
+		<button class="btn" type="button" onclick="document.getElementById('batch-group-id').value=''" data-dismiss="modal">
 			<?php echo JText::_('JCANCEL'); ?>
 		</button>
 		<button class="btn btn-primary" type="submit" onclick="Joomla.submitbutton('user.batch');">
