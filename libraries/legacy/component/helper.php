@@ -401,13 +401,15 @@ class JComponentHelper
 
 		$db->transactionCommit();
 
+		$temp = new JRegistry;
+
 		// Convert the params to an object.
 		if (is_string(self::$components[$option]->params))
 		{
-			$temp = new JRegistry;
 			$temp->loadString(self::$components[$option]->params);
-			self::$components[$option]->params = $temp;
 		}
+
+		self::$components[$option]->params = $temp;
 
 		return true;
 	}

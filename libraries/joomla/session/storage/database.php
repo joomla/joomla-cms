@@ -35,7 +35,6 @@ class JSessionStorageDatabase extends JSessionStorage
 
 		try
 		{
-			$db->transactionStart();
 			// Get the session data from the database table.
 			$query = $db->getQuery(true)
 				->select($db->quoteName('data'))
@@ -45,7 +44,6 @@ class JSessionStorageDatabase extends JSessionStorage
 			$db->setQuery($query);
 
 			$result = (string) $db->loadResult();
-			$db->transactionCommit();
 
 			$result = str_replace('\0\0\0', chr(0) . '*' . chr(0), $result);
 
@@ -74,7 +72,6 @@ class JSessionStorageDatabase extends JSessionStorage
 
 		$data = str_replace(chr(0) . '*' . chr(0), '\0\0\0', $data);
 
-		$db->transactionStart();
 		try
 		{
 			$query = $db->getQuery(true)
@@ -88,11 +85,8 @@ class JSessionStorageDatabase extends JSessionStorage
 
 			if (!$db->execute())
 			{
-				$db->transactionRollback();
 				return false;
 			}
-
-			$db->transactionCommit();
 
 			/* Since $db->execute did not throw an exception, the query was successful.
 			Either the data changed, or the data was identical.

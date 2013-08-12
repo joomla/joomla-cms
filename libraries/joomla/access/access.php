@@ -296,7 +296,7 @@ class JAccess
 			// TODO: Uncouple this from JComponentHelper and allow for a configuration setting or value injection.
 			if (class_exists('JComponentHelper'))
 			{
-				$userParams = JComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
+				$guestUsergroup = JComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
 			}
 			else
 			{
