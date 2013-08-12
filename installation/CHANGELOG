@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Aug-2013 Jean-Marie Simonet
+ # [#31703] Fixed BC issue with tooltip/popover being added in wrong place. Thanks Peter Van Westen
+
 11-Aug-2013 Jean-Marie Simonet
  # Reverting #31697 which breaks installation.
  # [#31726] Saving with no tags gives sql error. Thanks Elin Waring
