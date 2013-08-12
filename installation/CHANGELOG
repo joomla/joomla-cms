@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#31697] *Tags menu items: impossible to delete the last "Type". Thanks Roberto Segura.
  $ [#31365] Statistics Module 'Visitors' should be 'Registered users'. Thanks Stefania Gaianigo and Brian Teeman
  # [#30413] Calender popup problem in pages containing calendar fields. Thanks Achal Aggarwal
+ # [#31658] correct header for some ini files. Thanks Tobias Zulauf
 
 11-Aug-2013 Jean-Marie Simonet
  # Reverting #31697 which breaks installation.
