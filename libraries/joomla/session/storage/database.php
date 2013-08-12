@@ -45,9 +45,10 @@ class JSessionStorageDatabase extends JSessionStorage
 			$db->setQuery($query);
 
 			$result = (string) $db->loadResult();
+			$db->transactionCommit();
 
 			$result = str_replace('\0\0\0', chr(0) . '*' . chr(0), $result);
-			$db->transactionCommit();
+
 			return $result;
 		}
 		catch (Exception $e)
@@ -84,12 +85,16 @@ class JSessionStorageDatabase extends JSessionStorage
 
 			// Try to update the session data in the database table.
 			$db->setQuery($query);
+
 			if (!$db->execute())
 			{
+				$db->transactionRollback();
 				return false;
 			}
+
 			$db->transactionCommit();
-			/* Since $db->execute did not throw an exception, so the query was successful.
+
+			/* Since $db->execute did not throw an exception, the query was successful.
 			Either the data changed, or the data was identical.
 			In either case we are done.
 			*/

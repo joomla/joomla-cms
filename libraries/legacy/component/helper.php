@@ -371,7 +371,6 @@ class JComponentHelper
 	{
 		$db = JFactory::getDbo();
 
-		$db->transactionStart();
 		$query = $db->getQuery(true)
 			->select('extension_id AS id, element AS "option", params, enabled')
 			->from($db->quoteName('#__extensions'))
@@ -384,8 +383,6 @@ class JComponentHelper
 		try
 		{
 			self::$components[$option] = $cache->get(array($db, 'loadObject'), null, $option, false);
-			$db->transactionCommit();
-
 		}
 		catch (RuntimeException $e)
 		{
