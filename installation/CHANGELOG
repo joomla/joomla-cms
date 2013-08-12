@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Aug-2013 Jean-Marie Simonet
+ # [#31681] Module manager allows positions with trailing spaces. Thanks Richard McDaniel
+
 07-Aug-2013 Jean-Marie Simonet
  #$ [#31622] Media Manager doesn't cope with folder names that include spaces. Thanks Richard McDaniel
  # [#31410] Warnings at the offline screen looks bad. Thanks Lu Nguyen
