@@ -30,6 +30,7 @@ $ -> Language fix or change
  $ [#31210] Add the "!" at the mod_menu.ini for the adminmenu "Help". Thanks Tobias Zulauf
  # [#31697] *Tags menu items: impossible to delete the last "Type". Thanks Roberto Segura.
  $ [#31365] Statistics Module 'Visitors' should be 'Registered users'. Thanks Stefania Gaianigo and Brian Teeman
+ # [#30413] Calender popup problem in pages containing calendar fields. Thanks Achal Aggarwal
 
 11-Aug-2013 Jean-Marie Simonet
  # Reverting #31697 which breaks installation.
