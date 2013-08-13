@@ -85,7 +85,7 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 		 $this->assertEquals(count($arrayElement),0, 'Beginners Must Not be Present');
 	 }
 	
-    /**
+    	/**
 	 * @test
 	 */ 
 	 public function frontEndSingleArticleState_ChangeArticleState_ArticleStateChanged()
@@ -172,7 +172,7 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 	  */
 	 public function batchCopy_BatchCopyArticle_ArticleCopied()
 	 {
-	    $cpPage = $this->doAdminLogin();
+	 	  $cpPage = $this->doAdminLogin();
 		  $this->articleManagerPage = $cpPage->clickMenu('Article Manager', 'ArticleManagerPage');
 		  $this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
 		  $originalCategory = 'Content Modules';
