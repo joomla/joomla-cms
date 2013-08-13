@@ -53,7 +53,7 @@ class JFormFieldHelpsite extends JFormFieldList
 	 */
 	protected function getInput()
 	{
-		JFactory::getDocument()->addScript(JUri::root() . 'media/system/js/helpsite.js');
+		JHtml::script('system/helpsite.js', false, true);
 
 		$html = parent::getInput();
 		$button = '<button type="button" class="btn btn-small" id="helpsite-refresh" rel="' . $this->id . '"><span>' . JText::_('COM_CONFIG_HELPREFRESH_BUTTON') . '</span></button>';

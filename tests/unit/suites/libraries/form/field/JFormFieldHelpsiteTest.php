@@ -16,6 +16,14 @@ require_once JPATH_TESTS . '/stubs/FormInspectors.php';
 class JFormFieldHelpsiteTest extends TestCase
 {
 	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var    array
+	 * @since  3.1
+	 */
+	protected $backupServer;
+
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
@@ -30,8 +38,12 @@ class JFormFieldHelpsiteTest extends TestCase
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockApplication();
+		JFactory::$document = $this->getMockDocument();
+
+		$this->backupServer = $_SERVER;
 
 		$_SERVER['HTTP_HOST'] = 'example.com';
+		$_SERVER['SCRIPT_NAME'] = '';
 	}
 
 	/**
@@ -44,6 +56,8 @@ class JFormFieldHelpsiteTest extends TestCase
 	 */
 	protected function tearDown()
 	{
+		$_SERVER = $this->backupServer;
+
 		$this->restoreFactoryState();
 
 		parent::tearDown();
