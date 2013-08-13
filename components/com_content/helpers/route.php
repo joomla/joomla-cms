@@ -21,6 +21,8 @@ abstract class ContentHelperRoute
 {
 	protected static $lookup = array();
 
+	private static $_languages = array();
+
 	/**
 	 * @param   integer  The route of the content item
 	 */
@@ -44,21 +46,11 @@ abstract class ContentHelperRoute
 		}
 		if ($language && $language != "*" && JLanguageMultilang::isEnabled())
 		{
-			$db		= JFactory::getDbo();
-			$query	= $db->getQuery(true)
-				->select('a.sef AS sef')
-				->select('a.lang_code AS lang_code')
-				->from('#__languages AS a');
-
-			$db->setQuery($query);
-			$langs = $db->loadObjectList();
-			foreach ($langs as $lang)
+			$langs = self::_getLanguages();
+			if (isset($langs[$language]))
 			{
-				if ($language == $lang->lang_code)
-				{
-					$link .= '&lang='.$lang->sef;
-					$needles['language'] = $language;
-				}
+				$link .= '&lang='.$langs[$language]->sef;
+				$needles['language'] = $language;
 			}
 		}
 
@@ -72,6 +64,27 @@ abstract class ContentHelperRoute
 		}
 
 		return $link;
+	}
+
+	private static function _getLanguages()
+	{
+		if (empty(self::$_languages))
+		{
+			$db		= JFactory::getDbo();
+			$query	= $db->getQuery(true)
+				->select('a.sef AS sef')
+				->select('a.lang_code AS lang_code')
+				->from('#__languages AS a');
+
+			$db->setQuery($query);
+			$langs = $db->loadObjectList();
+			foreach ($langs as $lang)
+			{
+				self::$_languages[$lang->lang_code] = $lang;
+			}
+		}
+
+		return self::$_languages;
 	}
 
 	public static function getCategoryRoute($catid, $language = 0)
