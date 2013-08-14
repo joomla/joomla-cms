@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 14-Aug-2013 Jean-Marie Simonet
  #$ [#31631] Small typo fix in Plugin. Thanks Gunjan Patel and Tobias Zulauf
+ # [#27824] Offline image overflow. Thanks Angelika Reisiger
 
 12-Aug-2013 Jean-Marie Simonet
  # [#31681] Module manager allows positions with trailing spaces. Thanks Richard McDaniel
