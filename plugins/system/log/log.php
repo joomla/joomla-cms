@@ -31,13 +31,14 @@ class PlgSystemLog extends JPlugin
 
 			case JAuthentication::STATUS_FAILURE:
 				$errorlog['status']  = $response['type'] . " FAILURE: ";
-				if ($this->params->get('log_username', 0))
+				$errorlog['comment'] = $response['error_message'];
+				if ($this->params->get('log_username', 0) && $this->params->get('log_sourceip',0))
 				{
-					$errorlog['comment'] = $response['error_message'] . ' ("' . $response['username'] . '")';
+					$errorlog['comment'] .= ' (username="' . $response['username'] . '",srcip=' . $_SERVER["REMOTE_ADDR"] . ')';
 				}
-				else
+				elseif ($this->params->get('log_username', 0) && $this->params->get('log_sourceip',1))
 				{
-					$errorlog['comment'] = $response['error_message'];
+					$errorlog['comment'] .= ' (username="' . $response['username'] . '")';
 				}
 				break;
 
