@@ -166,8 +166,12 @@ class JUpdate extends JObject
 	{
 		array_push($this->_stack, $name);
 		$tag = $this->_getStackLocation();
+
 		// Reset the data
-		eval('$this->' . $tag . '->_data = "";');
+		if (isset($this->$tag))
+		{
+			$this->$tag->_data = "";
+		}
 
 		switch ($name)
 		{
@@ -175,17 +179,28 @@ class JUpdate extends JObject
 			case 'UPDATE':
 				$this->_current_update = new stdClass;
 				break;
+
 			// Don't do anything
 			case 'UPDATES':
 				break;
+
 			// For everything else there's...the default!
 			default:
 				$name = strtolower($name);
-				$this->_current_update->$name->_data = '';
+
+				if (isset($this->_current_update->$name))
+				{
+					$this->_current_update->$name->_data = '';
+				}
+
 				foreach ($attrs as $key => $data)
 				{
 					$key = strtolower($key);
-					$this->_current_update->$name->$key = $data;
+
+					if (isset($this->_current_update->$name))
+					{
+						$this->_current_update->$name->$key = $data;
+					}
 				}
 				break;
 		}
@@ -205,13 +220,16 @@ class JUpdate extends JObject
 	public function _endElement($parser, $name)
 	{
 		array_pop($this->_stack);
+
 		switch ($name)
 		{
 			// Closing update, find the latest version and check
 			case 'UPDATE':
 				$ver = new JVersion;
 				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd'));
-				if ($product == $this->_current_update->targetplatform->name
+
+				if (isset($this->_current_update->targetplatform->name)
+					&& $product == $this->_current_update->targetplatform->name
 					&& preg_match('/' . $this->_current_update->targetplatform->version . '/', $ver->RELEASE))
 				{
 					if (isset($this->_latest))
@@ -235,6 +253,7 @@ class JUpdate extends JObject
 					{
 						$this->$key = $val;
 					}
+
 					unset($this->_latest);
 					unset($this->_current_update);
 				}
@@ -261,11 +280,15 @@ class JUpdate extends JObject
 	public function _characterData($parser, $data)
 	{
 		$tag = $this->_getLastTag();
-		//if(!isset($this->$tag->_data)) $this->$tag->_data = '';
-		//$this->$tag->_data .= $data;
+		/*if(!isset($this->$tag->_data)) $this->$tag->_data = '';
+		$this->$tag->_data .= $data;*/
 		// Throw the data for this item together
 		$tag = strtolower($tag);
-		$this->_current_update->$tag->_data .= $data;
+
+		if (isset($this->_current_update->$tag))
+		{
+			$this->_current_update->$tag->_data .= $data;
+		}
 	}
 
 	/**
@@ -283,6 +306,7 @@ class JUpdate extends JObject
 		{
 			// TODO: Add a 'mark bad' setting here somehow
 			JError::raiseWarning('101', JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url));
+
 			return false;
 		}
 
@@ -303,7 +327,9 @@ class JUpdate extends JObject
 				);
 			}
 		}
+
 		xml_parser_free($this->xml_parser);
+
 		return true;
 	}
 }
