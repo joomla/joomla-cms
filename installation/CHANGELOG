@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 14-Aug-2013 Jean-Marie Simonet
  # [#31692] JFormFieldUrl garble HTML with emtpy class. Thanks Anthony THERREAU
+ #$ [#31631] Small typo fix in Plugin. Thanks Gunjan Patel
 
 12-Aug-2013 Jean-Marie Simonet
  # [#31703] Fixed BC issue with tooltip/popover being added in wrong place. Thanks Peter Van Westen
