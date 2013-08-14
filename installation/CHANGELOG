@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Aug-2013 Jean-Marie Simonet
+ # [#31692] JFormFieldUrl garble HTML with emtpy class. Thanks Anthony THERREAU
+
 12-Aug-2013 Jean-Marie Simonet
  # [#31703] Fixed BC issue with tooltip/popover being added in wrong place. Thanks Peter Van Westen
  $ [#31210] Add the "!" at the mod_menu.ini for the adminmenu "Help". Thanks Tobias Zulauf
