@@ -399,8 +399,6 @@ class JComponentHelper
 			return false;
 		}
 
-		$db->transactionCommit();
-
 		$temp = new JRegistry;
 
 		// Convert the params to an object.
