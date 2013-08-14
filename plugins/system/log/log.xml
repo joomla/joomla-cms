@@ -28,6 +28,14 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
+                                <field name="log_sourceip" type="radio"
+                                        description="PLG_SYSTEM_LOG_FIELD_LOG_IPADDRESS_DESC"
+                                        label="PLG_SYSTEM_LOG_FIELD_LOG_IPADDRESS_LABEL"
+                                        default="0"
+                                >
+                                        <option value="0">JNO</option>
+                                        <option value="1">JYES</option>
+                                </field>
 			</fieldset>
 		</fields>
 	</config>
