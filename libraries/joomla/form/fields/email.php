@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+JFormHelper::loadFieldClass('text');
+
 /**
  * Form Field class for the Joomla Platform.
  * Provides and input field for e-mail addresses

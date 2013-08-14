@@ -18,9 +18,20 @@
 class JFormFieldCalendarTest extends TestCase
 {
 	/**
-	 * Sets up dependancies for the test.
+	 * Backup of the SERVER superglobal
 	 *
-	 * @return void
+	 * @var    array
+	 * @since  3.1
+	 */
+	protected $backupServer;
+
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
 	 */
 	protected function setUp()
 	{
@@ -29,16 +40,34 @@ class JFormFieldCalendarTest extends TestCase
 		require_once JPATH_PLATFORM . '/joomla/form/fields/calendar.php';
 		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
 		$this->saveFactoryState();
+
+		JFactory::$application = $this->getMockApplication();
+		JFactory::$config      = $this->getMockConfig();
+		JFactory::$document    = $this->getMockDocument();
+		JFactory::$language    = $this->getMockLanguage();
+		JFactory::$session     = $this->getMockSession();
+
+		$this->backupServer = $_SERVER;
+
+		$_SERVER['HTTP_HOST'] = 'example.com';
+		$_SERVER['SCRIPT_NAME'] = '';
 	}
 
 	/**
-	 * Test...
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   3.1
 	 */
 	protected function tearDown()
 	{
+		$_SERVER = $this->backupServer;
+
 		$this->restoreFactoryState();
+
+		parent::tearDown();
 	}
 
 	/**
@@ -285,24 +314,6 @@ class JFormFieldCalendarTest extends TestCase
 	 */
 	public function testGetInputAttributes($name, $id, $value, $element, $expectedParameters)
 	{
-		// We create stubs for config and session/user objects
-		$config = new stdClass;
-
-		// Put the stub in place
-		JFactory::$config = $config;
-		$sessionMock = $this->getMock('sessionMock', array('get'));
-
-		require_once JPATH_PLATFORM . '/joomla/user/user.php';
-		$userObject = new JUser;
-
-		$sessionMock->expects($this->any())
-			->method('get')
-			->with('user')
-			->will($this->returnValue($userObject));
-
-		// Put the stub in place
-		JFactory::$session = $sessionMock;
-
 		// Include our inspector which will allow us to manipulate and call protected methods and attributes
 		require_once __DIR__ . '/inspectors/JFormFieldCalendar.php';
 		$calendar = new JFormFieldCalendarInspector;
@@ -344,31 +355,13 @@ class JFormFieldCalendarTest extends TestCase
 	 */
 	public function testGetInputServer_UTC()
 	{
-		// We create stubs for config and session/user objects
-		$config = new JObject;
+		// Create a stub JConfig
+		$config = new JRegistry;
 
 		// Put the stub in place
 		JFactory::$config = $config;
-		$sessionMock = $this->getMock('sessionMock', array('get'));
 
-		require_once JPATH_PLATFORM . '/joomla/user/user.php';
 		$userObject = new JUser;
-
-		$sessionMock->expects($this->any())
-			->method('get')
-			->with('user')
-			->will($this->returnValue($userObject));
-
-		// Put the stub in place
-		JFactory::$session = $sessionMock;
-
-		$languageMock = $this->getMock('languageMock', array('getTag'));
-		$languageMock->expects($this->any())
-			->method('getTag')
-			->will($this->returnValue('en-GB'));
-
-		// Put the stub in place
-		JFactory::$language = $languageMock;
 
 		// Include our inspector which will allow us to manipulate and call protected methods and attributes
 		require_once __DIR__ . '/inspectors/JFormFieldCalendar.php';
@@ -431,31 +424,13 @@ class JFormFieldCalendarTest extends TestCase
 	 */
 	public function testGetInputUser_UTC()
 	{
-		// We create stubs for config and session/user objects
-		$config = new JObject;
+		// Create a stub JConfig
+		$config = new JRegistry;
 
 		// Put the stub in place
 		JFactory::$config = $config;
-		$sessionMock = $this->getMock('sessionMock', array('get'));
 
-		require_once JPATH_PLATFORM . '/joomla/user/user.php';
 		$userObject = new JUser;
-
-		$sessionMock->expects($this->any())
-			->method('get')
-			->with('user')
-			->will($this->returnValue($userObject));
-
-		// Put the stub in place
-		JFactory::$session = $sessionMock;
-
-		$languageMock = $this->getMock('languageMock', array('getTag'));
-		$languageMock->expects($this->any())
-			->method('getTag')
-			->will($this->returnValue('en-GB'));
-
-		// Put the stub in place
-		JFactory::$language = $languageMock;
 
 		// Include our inspector which will allow us to manipulate and call protected methods and attributes
 		require_once __DIR__ . '/inspectors/JFormFieldCalendar.php';

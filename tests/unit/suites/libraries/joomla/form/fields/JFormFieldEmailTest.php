@@ -29,6 +29,32 @@ class JFormFieldEMailTest extends TestCase
 
 		require_once JPATH_PLATFORM . '/joomla/form/fields/email.php';
 		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
+
+		$this->saveFactoryState();
+
+		JFactory::$application = $this->getMockApplication();
+
+		$this->backupServer = $_SERVER;
+
+		$_SERVER['HTTP_HOST'] = 'example.com';
+		$_SERVER['SCRIPT_NAME'] = '';
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	protected function tearDown()
+	{
+		$_SERVER = $this->backupServer;
+
+		$this->restoreFactoryState();
+
+		parent::tearDown();
 	}
 
 	/**

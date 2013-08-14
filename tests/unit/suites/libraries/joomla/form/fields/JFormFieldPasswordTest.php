@@ -207,7 +207,7 @@ class JFormFieldPasswordTest extends TestCase
 		TestReflection::setValue($formField, 'hint', 'Type your password.');
 
 		$this->assertEquals(
-			'<input type="password" name="myTestName" id="myTestId" value="" hint="Type your password." />',
+			'<input type="password" name="myTestName" id="myTestId" value="" placeholder="Type your password." />',
 			TestReflection::invoke($formField, 'getInput'),
 			'Line:' . __LINE__ . ' The field with hint attribute did not produce the right html'
 		);
@@ -231,7 +231,7 @@ class JFormFieldPasswordTest extends TestCase
 		$this->assertEquals(
 			'<input type="password" name="myTestName" id="myTestId" value="" autocomplete="off" />',
 			TestReflection::invoke($formField, 'getInput'),
-			'Line:' . __LINE__ . ' The field with hint attribute did not produce the right html'
+			'Line:' . __LINE__ . ' The field with autocomplete attribute did not produce the right html'
 		);
 	}
 
@@ -253,7 +253,7 @@ class JFormFieldPasswordTest extends TestCase
 		$this->assertEquals(
 			'<input type="password" name="myTestName" id="myTestId" value="" class="foo bar" />',
 			TestReflection::invoke($formField, 'getInput'),
-			'Line:' . __LINE__ . ' The field with hint attribute did not produce the right html'
+			'Line:' . __LINE__ . ' The field with class attribute did not produce the right html'
 		);
 	}
 
@@ -276,7 +276,7 @@ class JFormFieldPasswordTest extends TestCase
 		$this->assertEquals(
 			'<input type="password" name="myTestName" id="myTestId" value="" readonly disabled />',
 			TestReflection::invoke($formField, 'getInput'),
-			'Line:' . __LINE__ . ' The field with hint attribute did not produce the right html'
+			'Line:' . __LINE__ . ' The field with readonly and disabled attribute did not produce the right html'
 		);
 	}
 
@@ -297,7 +297,7 @@ class JFormFieldPasswordTest extends TestCase
 		TestReflection::setValue($formField, 'size', 60);
 
 		$this->assertEquals(
-			'<input type="password" name="myTestName" id="myTestId" size="60" />',
+			'<input type="password" name="myTestName" id="myTestId" value="" size="60" />',
 			TestReflection::invoke($formField, 'getInput'),
 			'Line:' . __LINE__ . ' The field with size attribute did not produce the right html'
 		);
@@ -343,7 +343,7 @@ class JFormFieldPasswordTest extends TestCase
 		TestReflection::setValue($formField, 'required', true);
 
 		$this->assertEquals(
-			'<input type="password" name="myTestName" id="myTestId" dirname="" value="" required aria-required="true" />',
+			'<input type="password" name="myTestName" id="myTestId" value="" required aria-required="true" />',
 			TestReflection::invoke($formField, 'getInput'),
 			'Line:' . __LINE__ . ' The field with required attribute set did not produce the right html'
 		);
@@ -359,14 +359,14 @@ class JFormFieldPasswordTest extends TestCase
 	 */
 	public function testGetInputAutofocus()
 	{
-		$formField = new JFormFieldText;
+		$formField = new JFormFieldPassword;
 
 		TestReflection::setValue($formField, 'id', 'myTestId');
 		TestReflection::setValue($formField, 'name', 'myTestName');
 		TestReflection::setValue($formField, 'autofocus', true);
 
 		$this->assertEquals(
-			'<input type="password" name="myTestName" id="myTestId" dirname="" value="" autofocus />',
+			'<input type="password" name="myTestName" id="myTestId" value="" autofocus />',
 			TestReflection::invoke($formField, 'getInput'),
 			'Line:' . __LINE__ . ' The field with autofocus attribute did not produce the right html'
 		);
