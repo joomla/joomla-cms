@@ -15,7 +15,7 @@ require_once __DIR__ . '/helper.php';
 $lang = JFactory::getLanguage();
 $app  = JFactory::getApplication();
 
-if ($params->get('opensearch', 1) && $app->input->getCmd('format', 'html') == 'html')
+if ($params->get('opensearch', 1))
 {
 	$doc = JFactory::getDocument();
 
