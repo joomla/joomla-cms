@@ -28,7 +28,7 @@ $ -> Language fix or change
 14-Aug-2013 Jean-Marie Simonet
  # [#31692] JFormFieldUrl garble HTML with emtpy class. Thanks Anthony THERREAU
  #$ [#31631] Small typo fix in Plugin. Thanks Gunjan Patel
- # [#31623] Beez3: bad display of tooltips e.g. at the FE user profile. Thanks Achal Aggarwal
+ $ [#31714] Confusing text "search by tag" in the banner module. Thanks Brian Teeman
 
 12-Aug-2013 Jean-Marie Simonet
  # [#31703] Fixed BC issue with tooltip/popover being added in wrong place. Thanks Peter Van Westen
