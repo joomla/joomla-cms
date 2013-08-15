@@ -561,6 +561,7 @@ class JViewLegacyTest extends TestCase
 		$this->saveFactoryState();
 
 		JFactory::$application = TestMockApplication::create($this);
+		JFactory::$application->input = new JInput(array());
 
 		defined('JPATH_COMPONENT') or define('JPATH_COMPONENT', JPATH_BASE . '/components/com_foobar');
 		isset($_SERVER['REQUEST_METHOD']) or ($_SERVER['REQUEST_METHOD'] = 'get');
