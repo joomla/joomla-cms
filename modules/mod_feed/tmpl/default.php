@@ -49,6 +49,7 @@ else
 		$direction = " redirect-rtl";	}
 	?>
 	<?php
+
 	if ($feed != false)
 	{
 		//image handling
