@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 30-Oct-2013 Michael Babker
  # [#32421] Installation 3.2.b2 fails on PostgreSQL
+ # [#31604] Invalid column name 'RowNumber' from articles model with MS SQL Server
 
 30-Oct-2013 Jean-Marie Simonet
  # [#32237] Different Display at the edit views  Thanks Tobias Zulauf
