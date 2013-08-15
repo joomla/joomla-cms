@@ -28,7 +28,7 @@ class ModFeedHelper
 	public static function getFeed($params)
 	{
 		// Module params
-		$rssurl = $params->get('rssurl', '');
+		$rssurl	= JStringPunycode::urlToPunycode($params->get('rssurl', ''));
 
 		// Get RSS parsed object
 		try
