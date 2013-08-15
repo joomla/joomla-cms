@@ -28,7 +28,6 @@ class ConfigHelperComponent
 	public static function getAllComponents()
 	{
 		$db = JFactory::getDbo();
-		$db->transactionStart();
 
 			$query = $db->getQuery(true)
 				->select('element')
@@ -37,7 +36,6 @@ class ConfigHelperComponent
 				->where('enabled = 1');
 			$db->setQuery($query);
 			$result = $db->loadColumn();
-		$db->transactionCommit();
 
 		return $result;
 	}

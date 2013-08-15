@@ -87,16 +87,6 @@ class TemplatesHelper
 		{
 			$query->where('client_id=' . (int) $clientId);
 		}
-		try
-		{
-			$this->_db->transactionStart();
-		}
-		catch(Exception $e)
-		{
-			$this->_db->rollbackTransaction;
-
-			throw new RuntimeException($e, 500);
-		}
 
 		$query->select('element as value, name as text, extension_id as e_id')
 			->from('#__extensions')
@@ -106,16 +96,6 @@ class TemplatesHelper
 			->order('name');
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
-		try
-		{
-			$this->_db->transactionCommit();
-		}
-		catch(Exception $e)
-		{
-			$this->_db->rollbackTransaction;
-
-			throw new RuntimeException($e, 500);
-		}
 
 		return $options;
 	}

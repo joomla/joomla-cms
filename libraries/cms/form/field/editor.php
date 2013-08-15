@@ -106,16 +106,6 @@ class JFormFieldEditor extends JFormField
 
 				// Get the database object.
 				$db = JFactory::getDbo();
-				try
-				{
-					$db->transactionStart();
-				}
-				catch(Exception $e)
-				{
-					$db->rollbackTransaction;
-
-					throw new RuntimeException($e, 500);
-				}
 
 				// Iterate over teh types looking for an existing editor.
 				foreach ($types as $element)
@@ -131,16 +121,6 @@ class JFormFieldEditor extends JFormField
 					// Check of the editor exists.
 					$db->setQuery($query, 0, 1);
 					$editor = $db->loadResult();
-					try
-					{
-						$db->transactionCommit();
-					}
-					catch(Exception $e)
-					{
-						$db->rollbackTransaction;
-
-						throw new RuntimeException($e, 500);
-					}
 
 					// If an editor was found stop looking.
 					if ($editor)
