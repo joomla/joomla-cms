@@ -1,11 +1,13 @@
 <?php
 /**
- * @package    Joomla.UnitTest
+ * @package     Joomla.UnitTest
+ * @subpackage  Archive
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+require_once __DIR__ . '/JArchiveTestCase.php';
 
 /**
  * Test class for JArchiveTar.
@@ -13,10 +15,9 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Archive
- *
  * @since       11.1
  */
-class JArchiveTarTest extends PHPUnit_Framework_TestCase
+class JArchiveTarTest extends JArchiveTestCase
 {
 	protected static $outputPath;
 

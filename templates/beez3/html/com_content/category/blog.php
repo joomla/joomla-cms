@@ -26,7 +26,6 @@ $cparams = JComponentHelper::getParams('com_media');
 	<?php echo $this->escape($this->params->get('page_heading')); ?>
 	<?php if ($this->params->get('show_category_title'))
 	{
-
 		echo '<span class="subheading-category">'.$this->category->title.'</span>';
 	}
 	?>
@@ -45,7 +44,11 @@ $cparams = JComponentHelper::getParams('com_media');
 	</div>
 <?php endif; ?>
 
-
+<?php if (empty($this->lead_items) && empty($this->link_items) && empty($this->intro_items)) : ?>
+	<?php if ($this->params->get('show_no_articles', 1)) : ?>
+		<p><?php echo JText::_('COM_CONTENT_NO_ARTICLES'); ?></p>
+	<?php endif; ?>
+<?php endif; ?>
 
 <?php $leadingcount = 0; ?>
 <?php if (!empty($this->lead_items)) : ?>
@@ -57,9 +60,7 @@ $cparams = JComponentHelper::getParams('com_media');
 				echo $this->loadTemplate('item');
 			?>
 		</article>
-		<?php
-			$leadingcount++;
-		?>
+		<?php $leadingcount++; ?>
 	<?php endforeach; ?>
 </div>
 <?php endif; ?>
@@ -88,22 +89,17 @@ $cparams = JComponentHelper::getParams('com_media');
 	<?php if (($rowcount == $this->columns) or ($counter == $introcount)) : ?>
 				<span class="row-separator"></span>
 				</div>
-
-			<?php endif; ?>
+	<?php endif; ?>
 	<?php endforeach; ?>
-
 
 <?php endif; ?>
 
 <?php if (!empty($this->link_items)) : ?>
-
 	<?php echo $this->loadTemplate('links'); ?>
-
 <?php endif; ?>
 
-  	<div class="cat-children">
+	<div class="cat-children">
 	<?php if (is_array($this->children[$this->category->id]) && count($this->children[$this->category->id]) > 0 && $this->params->get('maxLevel') != 0) : ?>
-
 		<?php if ($this->params->get('show_category_heading_title_text', 1) == 1) : ?>
 		<h3>
 			<?php echo JTEXT::_('JGLOBAL_SUBCATEGORIES'); ?>
@@ -116,16 +112,13 @@ $cparams = JComponentHelper::getParams('com_media');
 
 <?php if (($this->params->def('show_pagination', 1) == 1  || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
 		<div class="pagination">
-						<?php  if ($this->params->def('show_pagination_results', 1)) : ?>
-						<p class="counter">
-								<?php echo $this->pagination->getPagesCounter(); ?>
-						</p>
-
-				<?php endif; ?>
-				<?php echo $this->pagination->getPagesLinks(); ?>
+		<?php  if ($this->params->def('show_pagination_results', 1)) : ?>
+			<p class="counter">
+			<?php echo $this->pagination->getPagesCounter(); ?>
+			</p>
+		<?php endif; ?>
+		<?php echo $this->pagination->getPagesLinks(); ?>
 		</div>
 <?php  endif; ?>
 
 </section>
-
-
