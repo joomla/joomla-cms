@@ -74,12 +74,36 @@ class JTableAsset extends JTableNested
 	 */
 	public function loadByName($name)
 	{
+		// Lock the table for writing.
+		try
+		{
+			$this->_db->transactionStart();
+		}
+		catch(Exception $e)
+		{
+			$this->_db->transactionRollback();
+
+			throw RuntimeException($e);
+		}
+
 		$query = $this->_db->getQuery(true)
 			->select($this->_db->quoteName('id'))
 			->from($this->_db->quoteName('#__assets'))
 			->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote($name));
 		$this->_db->setQuery($query);
 		$assetId = (int) $this->_db->loadResult();
+
+		try
+		{
+			$this->_db->transactionCommit();
+		}
+		catch(Exception $e)
+		{
+			$this->_db->rollbackTransaction;
+
+			throw new RuntimeException($e, 500);
+		}
+
 		if (empty($assetId))
 		{
 			return false;
@@ -103,6 +127,18 @@ class JTableAsset extends JTableNested
 		// JTableNested does not allow parent_id = 0, override this.
 		if ($this->parent_id > 0)
 		{
+			// Lock the table for writing.
+			try
+			{
+				$this->_db->transactionStart();
+			}
+			catch(Exception $e)
+			{
+				$this->_db->transactionRollback();
+
+				throw RuntimeException($e);
+			}
+
 			// Get the JDatabaseQuery object
 			$query = $this->_db->getQuery(true)
 				->select('COUNT(id)')
@@ -118,6 +154,16 @@ class JTableAsset extends JTableNested
 				$this->setError('Invalid Parent ID');
 				return false;
 			}
+		}
+		try
+		{
+			$this->_db->transactionCommit();
+		}
+		catch(Exception $e)
+		{
+			$this->_db->rollbackTransaction;
+
+			throw new RuntimeException($e, 500);
 		}
 
 		return true;

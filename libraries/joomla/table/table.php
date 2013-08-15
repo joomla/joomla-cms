@@ -645,6 +645,16 @@ abstract class JTable extends JObject implements JObservableInterface
 		{
 			unset($this->asset_id);
 		}
+		try
+		{
+			$this->_db->transactionStart();
+		}
+		catch(Exception $e)
+		{
+			$this->_db->rollbackTransaction;
+
+			throw new RuntimeException($e, 500);
+		}
 
 		// If a primary key exists update the object, otherwise insert it.
 		if ($this->$k)
@@ -655,16 +665,30 @@ abstract class JTable extends JObject implements JObservableInterface
 		{
 			$result = $this->_db->insertObject($this->_tbl, $this, $this->_tbl_key);
 		}
+		try
+		{
+			$this->_db->transactionCommit();
+		}
+		catch(Exception $e)
+		{
+			$this->_db->rollbackTransaction;
 
+			throw new RuntimeException($e, 500);
+		}
 		// If the table is not set to track assets return true.
 		if ($this->_trackAssets)
 		{
 
-			if ($this->_locked)
+			try
 			{
-				$this->_unlock();
+				// Commit the transaction if there is one.
+				$this->_db->transactionCommit();
 			}
-
+			catch (Exception $e)
+			{
+				$this->_db->transactionRollback();
+				throw $e;
+			}
 			/*
 			 * Asset Tracking
 			 */
@@ -711,9 +735,13 @@ abstract class JTable extends JObject implements JObservableInterface
 				}
 				else
 				{
+
 					// Create an asset_id or heal one that is corrupted.
 					if (empty($this->asset_id) || ($currentAssetId != $this->asset_id && !empty($this->asset_id)))
 					{
+						// Start the transaction.
+						$this->_db->transactionStart();
+
 						// Update the asset_id field in this table.
 						$this->asset_id = (int) $asset->id;
 
@@ -724,6 +752,17 @@ abstract class JTable extends JObject implements JObservableInterface
 						$this->_db->setQuery($query);
 
 						$this->_db->execute();
+
+						try
+						{
+							// Commit the transaction.
+							$this->_db->transactionCommit();
+						}
+						catch (Exception $e)
+						{
+							$this->_db->transactionRollback();
+							throw $e;
+						}
 					}
 				}
 			}

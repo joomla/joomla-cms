@@ -311,6 +311,16 @@ abstract class JModuleHelper
 		$clientId = (int) $app->getClientId();
 
 		$db = JFactory::getDbo();
+		try
+		{
+			$db->transactionStart();
+		}
+		catch(Exception $e)
+		{
+			$db->rollbackTransaction;
+
+			throw new RuntimeException($e, 500);
+		}
 
 		$query = $db->getQuery(true)
 			->select('m.id, m.title, m.module, m.position, m.content, m.showtitle, m.params, mm.menuid')
@@ -341,6 +351,7 @@ abstract class JModuleHelper
 
 		// Set the query
 		$db->setQuery($query);
+
 		$clean = array();
 
 		try
@@ -351,6 +362,16 @@ abstract class JModuleHelper
 		{
 			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()), JLog::WARNING, 'jerror');
 			return $clean;
+		}
+		try
+		{
+			$db->transactionCommit();
+		}
+		catch(Exception $e)
+		{
+			$db->rollbackTransaction;
+
+			throw new RuntimeException($e, 500);
 		}
 
 		// Apply negative selections and eliminate duplicates

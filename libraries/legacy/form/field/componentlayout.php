@@ -89,6 +89,16 @@ class JFormFieldComponentlayout extends JFormField
 			// Get the database object and a new query object.
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
+			try
+			{
+				$db->transactionStart();
+			}
+			catch(Exception $e)
+			{
+				$db->rollbackTransaction;
+
+				throw new RuntimeException($e, 500);
+			}
 
 			// Build the query.
 			$query->select('e.element, e.name')
@@ -111,6 +121,16 @@ class JFormFieldComponentlayout extends JFormField
 			// Set the query and load the templates.
 			$db->setQuery($query);
 			$templates = $db->loadObjectList('element');
+			try
+			{
+				$db->transactionCommit();
+			}
+			catch(Exception $e)
+			{
+				$db->rollbackTransaction;
+
+				throw new RuntimeException($e, 500);
+			}
 
 			// Build the search paths for component layouts.
 			$component_path = JPath::clean($client->path . '/components/' . $extn . '/views/' . $view . '/tmpl');

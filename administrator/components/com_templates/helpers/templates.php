@@ -96,6 +96,7 @@ class TemplatesHelper
 			->order('name');
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
+
 		return $options;
 	}
 

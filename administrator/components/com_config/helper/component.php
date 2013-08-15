@@ -28,13 +28,14 @@ class ConfigHelperComponent
 	public static function getAllComponents()
 	{
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('element')
-			->from('#__extensions')
-			->where('type = ' . $db->quote('component'))
-			->where('enabled = 1');
-		$db->setQuery($query);
-		$result = $db->loadColumn();
+
+			$query = $db->getQuery(true)
+				->select('element')
+				->from('#__extensions')
+				->where('type = ' . $db->quote('component'))
+				->where('enabled = 1');
+			$db->setQuery($query);
+			$result = $db->loadColumn();
 
 		return $result;
 	}

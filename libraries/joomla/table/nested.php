@@ -128,6 +128,9 @@ class JTableNested extends JTable
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
+		// Start the transaction.
+		$this->_db->transactionStart();
+
 		// Get the path from the node to the root.
 		$select = ($diagnostic) ? 'p.' . $k . ', p.parent_id, p.level, p.lft, p.rgt' : 'p.*';
 		$query = $this->_db->getQuery(true)
@@ -138,6 +141,8 @@ class JTableNested extends JTable
 			->order('p.lft');
 
 		$this->_db->setQuery($query);
+
+		$this->_db->transactionCommit();
 
 		return $this->_db->loadObjectList();
 	}
@@ -335,11 +340,8 @@ class JTableNested extends JTable
 			return false;
 		}
 
-		// Lock the table for writing.
-		if (!$this->_lock())
-		{
-			return false;
-		}
+		// Start the transaction.
+		$this->_db->transactionStart();
 
 		/*
 		 * Move the sub-tree out of the nested sets by negating its left and right values.
@@ -355,6 +357,7 @@ class JTableNested extends JTable
 		/*
 		 * Close the hole in the tree that was opened by removing the sub-tree from the nested sets.
 		 */
+
 		// Compress the left values.
 		$query->clear()
 			->update($this->_tbl)
@@ -380,16 +383,14 @@ class JTableNested extends JTable
 			if (!$reference = $this->_getNode($referenceId))
 			{
 				// Error message set in getNode method.
-				$this->_unlock();
-				return false;
+				$this->_db->transactionRollback();
 			}
 
 			// Get the reposition data for shifting the tree and re-inserting the node.
 			if (!$repositionData = $this->_getTreeRepositionData($reference, $node->width, $position))
 			{
 				// Error message set in getNode method.
-				$this->_unlock();
-				return false;
+				$this->_db->transactionRollback();
 			}
 		}
 		// We are moving the tree to be the last child of the root node
@@ -414,9 +415,7 @@ class JTableNested extends JTable
 			// Get the reposition data for re-inserting the node after the found root.
 			if (!$repositionData = $this->_getTreeRepositionData($reference, $node->width, 'last-child'))
 			{
-				// Error message set in getNode method.
-				$this->_unlock();
-				return false;
+				$this->_db->transactionRollback();
 			}
 		}
 
@@ -486,8 +485,15 @@ class JTableNested extends JTable
 			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_MOVE_FAILED');
 		}
 
-		// Unlock the table for writing.
-		$this->_unlock();
+		try
+		{
+			// Commit the transaction.
+			$this->_db->transactionCommit();
+		}
+		catch(Exception $e)
+		{
+			throw new RuntimeException($e, 500);
+		}
 
 		// Set the object values.
 		$this->parent_id = $repositionData->new_parent_id;
@@ -513,11 +519,13 @@ class JTableNested extends JTable
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
-		// Lock the table for writing.
-		if (!$this->_lock())
+		try
 		{
-			// Error message set in lock method.
-			return false;
+			$this->_db->commitTransaction;
+		}
+		catch(Exception $e)
+		{
+			$this->_db->rollbackTransaction;
 		}
 
 		// If tracking assets, remove the asset first.
@@ -526,39 +534,63 @@ class JTableNested extends JTable
 			$name = $this->_getAssetName();
 			$asset = JTable::getInstance('Asset');
 
+
 			// Lock the table for writing.
-			if (!$asset->_lock())
+			try
 			{
-				// Error message set in lock method.
-				return false;
+				$this->_db->transactionStart();
+			}
+			catch(Exception $e)
+			{
+				$this->_db->transactionRollback();
+
+				throw RuntimeException($e);
 			}
 
-			if ($asset->loadByName($name))
+			try
 			{
-				// Delete the node in assets table.
-				if (!$asset->delete(null, $children))
+				if ($asset->loadByName($name))
 				{
-					$this->setError($asset->getError());
-					$asset->_unlock();
-					return false;
+					try
+					{
+						// Delete the node in assets table.
+						$asset->delete(null, $children);
+					}
+					catch(Exception $e)
+					{
+						$this->_db->transactionRollback();
+
+						throw new RuntimeException($e, 500);
+					}
+
+					try
+					{
+						$this->_db->transactionCommit();
+					}
+					catch(Exception $e)
+					{
+						$this->_db->rollbackTransaction;
+
+						throw new RuntimeException($e, 500);
+					}
+
 				}
-				$asset->_unlock();
 			}
-			else
+			catch(Exception $e)
 			{
-				$this->setError($asset->getError());
-				$asset->_unlock();
-				return false;
+				$this->_db->transactionRollback();
+				throw new RunTimeException($e, 500);
 			}
 		}
 
 		// Get the node by id.
 		$node = $this->_getNode($pk);
+
 		if (empty($node))
 		{
 			// Error message set in getNode method.
-			$this->_unlock();
-			return false;
+			$this->_db->transactionRollback();
+			throw new UnexpectedValueException($e, 500);
 		}
 
 		$query = $this->_db->getQuery(true);
@@ -626,8 +658,17 @@ class JTableNested extends JTable
 			$this->_runQuery($query, 'JLIB_DATABASE_ERROR_DELETE_FAILED');
 		}
 
-		// Unlock the table for writing.
-		$this->_unlock();
+		try
+		{
+			// Finish the transaction.
+			$this->_db->transactionCommit();
+			throw new RunTimeException($e, 500);
+		}
+		catch(Exception $e)
+		{
+			$this->_db->transactionRollback();
+			throw new RunTimeException($e, 500);
+		}
 
 		return true;
 	}
@@ -722,12 +763,9 @@ class JTableNested extends JTable
 			 */
 			if ($this->_location_id >= 0)
 			{
-				// Lock the table for writing.
-				if (!$this->_lock())
-				{
-					// Error message set in lock method.
-					return false;
-				}
+
+				// Start the transaction.
+				$this->_db->transactionStart();
 
 				// We are inserting a node relative to the last root node.
 				if ($this->_location_id == 0)
@@ -755,7 +793,7 @@ class JTableNested extends JTable
 					if (!$reference = $this->_getNode($this->_location_id))
 					{
 						// Error message set in getNode method.
-						$this->_unlock();
+						$this->_db->transactionRollback();
 						return false;
 					}
 				}
@@ -764,7 +802,7 @@ class JTableNested extends JTable
 				if (!($repositionData = $this->_getTreeRepositionData($reference, 2, $this->_location)))
 				{
 					// Error message set in getNode method.
-					$this->_unlock();
+					$this->_db->transactionRollback();
 					return false;
 				}
 
@@ -841,8 +879,9 @@ class JTableNested extends JTable
 			}
 			// @codeCoverageIgnoreEnd
 		}
-		// Unlock the table for writing.
-		$this->_unlock();
+
+		// Commit the transaction.
+		$this->_db->transactionCommit();
 
 		// Implement JObservableInterface: Post-processing by observers
 		$this->_observers->update('onAfterStore', array(&$result));
@@ -1013,7 +1052,8 @@ class JTableNested extends JTable
 		if (empty($node))
 		{
 			// Error message set in getNode method.
-			$this->_unlock();
+			$this->_db->transactionRollback();
+
 			return false;
 		}
 
@@ -1023,10 +1063,10 @@ class JTableNested extends JTable
 		if (empty($sibling))
 		{
 			// Error message set in getNode method.
-			$this->_unlock();
+			$this->_db->transactionRollback();
+
 			return false;
 		}
-
 		try
 		{
 			// Get the primary keys of child nodes.
@@ -1056,12 +1096,12 @@ class JTableNested extends JTable
 		}
 		catch (RuntimeException $e)
 		{
-			$this->_unlock();
+			$this->_db->transactionRollback();
 			throw $e;
 		}
 
-		// Unlock the table for writing.
-		$this->_unlock();
+		// Finish the transaction
+		$this->_db->transactionCommit();
 
 		return true;
 	}
@@ -1093,7 +1133,7 @@ class JTableNested extends JTable
 		if (empty($node))
 		{
 			// Error message set in getNode method.
-			$this->_unlock();
+			$this->_db->transactionRollback();
 			return false;
 		}
 
@@ -1101,11 +1141,12 @@ class JTableNested extends JTable
 
 		// Get the right sibling node.
 		$sibling = $this->_getNode($node->rgt + 1, 'left');
+
 		if (empty($sibling))
 		{
 			// Error message set in getNode method.
-			$query->_unlock($this->_db);
-			$this->_locked = false;
+			$this->_db->transactionRollback();
+
 			return false;
 		}
 
@@ -1138,12 +1179,12 @@ class JTableNested extends JTable
 		}
 		catch (RuntimeException $e)
 		{
-			$this->_unlock();
+			$this->_db->transactionRollback();
 			throw $e;
 		}
 
-		// Unlock the table for writing.
-		$this->_unlock();
+		// Finish the transaction
+		$this->_db->transactionCommit();
 
 		return true;
 	}
@@ -1325,6 +1366,9 @@ class JTableNested extends JTable
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
+		// Start the transaction.
+		$this->_db->transactionStart();
+
 		// Get the aliases for the path from the node to the root node.
 		$query = $this->_db->getQuery(true)
 			->select('p.alias')
@@ -1352,6 +1396,16 @@ class JTableNested extends JTable
 			->where($this->_tbl_key . ' = ' . (int) $pk);
 
 		$this->_db->setQuery($query)->execute();
+		try
+		{
+			// Commit the transaction.
+			$this->_db->transactionCommit();
+		}
+		catch (Exception $e)
+		{
+			$this->_db->transactionRollback();
+			throw $e;
+		}
 
 		// Update the current record's path to the new one:
 		$this->path = $path;
@@ -1406,7 +1460,7 @@ class JTableNested extends JTable
 		}
 		catch (Exception $e)
 		{
-			$this->_unlock();
+			$this->_db->transactionRollback();
 			throw $e;
 		}
 	}
@@ -1457,9 +1511,7 @@ class JTableNested extends JTable
 		if (empty($row))
 		{
 			$e = new UnexpectedValueException(sprintf('%s::_getNode(%d, %s) failed.', get_class($this), $id, $key));
-			$this->setError($e);
 
-			return false;
 		}
 
 		// Do some simple calculations.
@@ -1628,10 +1680,10 @@ class JTableNested extends JTable
 		}
 		catch (Exception $e)
 		{
-			// Unlock the tables and rethrow.
-			$this->_unlock();
+			// Rollback the transaction and rethrow.
+			$this->_db->transactionRollback();
 
-			throw $e;
+			throw new RuntimeException($e, 500);
 		}
 	}
 }

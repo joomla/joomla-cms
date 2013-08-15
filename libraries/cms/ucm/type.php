@@ -76,6 +76,8 @@ class JUcmType implements JUcm
 		{
 			$pk = $this->getTypeId();
 		}
+		// Start the transaction.
+		$this->db->transactionStart();
 
 		$query	= $this->db->getQuery(true);
 		$query->select('ct.*');
@@ -85,6 +87,16 @@ class JUcmType implements JUcm
 		$this->db->setQuery($query);
 
 		$type = $this->db->loadObject();
+
+		try
+		{
+			// Commit the transaction.
+			$this->db->transactionCommit();
+		}
+		catch(Exception $e)
+		{
+			throw new RuntimeException($e, 500);
+		}
 
 		return $type;
 	}
@@ -105,6 +117,9 @@ class JUcmType implements JUcm
 			$alias = $this->alias;
 		}
 
+		// Commit the transaction.
+		$this->db->transactionStart();
+
 		$query = $this->db->getQuery(true);
 		$query->select('ct.type_id');
 		$query->from($this->db->quoteName('#__content_types', 'ct'));
@@ -113,6 +128,16 @@ class JUcmType implements JUcm
 		$this->db->setQuery($query);
 
 		$id = $this->db->loadResult();
+
+		try
+		{
+			// Commit the transaction.
+			$this->db->transactionCommit();
+		}
+		catch(Exception $e)
+		{
+			throw new RuntimeException($e, 500);
+		}
 
 		if (!$id)
 		{

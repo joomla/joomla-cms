@@ -220,6 +220,7 @@ class JAccess
 		// Get the database connection object.
 		$db = JFactory::getDbo();
 
+		$db->startTransaction();
 		// Build the database query to get the rules for the asset.
 		$query = $db->getQuery(true)
 			->select($recursive ? 'b.rules' : 'a.rules')
@@ -248,10 +249,12 @@ class JAccess
 		// Execute the query and load the rules from the result.
 		$db->setQuery($query);
 		$result = $db->loadColumn();
+		$db->commitTransaction();
 
 		// Get the root even if the asset is not found and in recursive mode
 		if (empty($result))
 		{
+			$db->startTransaction();
 			$db = JFactory::getDbo();
 			$assets = JTable::getInstance('Asset', 'JTable', array('dbo' => $db));
 			$rootId = $assets->getRootId();
@@ -261,6 +264,7 @@ class JAccess
 				->where('id = ' . $db->quote($rootId));
 			$db->setQuery($query);
 			$result = $db->loadResult();
+			$db->commitTransaction();
 			$result = array($result);
 		}
 		// Instantiate and return the JAccessRules object for the asset rules.
@@ -309,6 +313,7 @@ class JAccess
 			{
 				$db = JFactory::getDbo();
 
+				$db->startTransaction();
 				// Build the database query to get the rules for the asset.
 				$query = $db->getQuery(true)
 					->select($recursive ? 'b.id' : 'a.id');
@@ -334,6 +339,7 @@ class JAccess
 				// Execute the query and load the rules from the result.
 				$db->setQuery($query);
 				$result = $db->loadColumn();
+				$db->commitTransaction();
 
 				// Clean up any NULL or duplicate values, just in case
 				JArrayHelper::toInteger($result);

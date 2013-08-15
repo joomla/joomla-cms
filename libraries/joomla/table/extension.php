@@ -97,13 +97,23 @@ class JTableExtension extends JTable
 
 		foreach ($options as $col => $val)
 		{
-			$query->where($col . ' = ' . $this->_db->quote($val));
+			if (is_int($val))
+			{
+				$query->where($col . ' = ' . $val);
+			}
+			else
+			{
+				$query->where($col . ' = ' . $this->_db->quote($val));
+			}
 		}
-
+		$this->_db->transactionStart();
 		$query->select($this->_db->quoteName('extension_id'))
 			->from($this->_db->quoteName('#__extensions'));
 		$this->_db->setQuery($query);
-		return $this->_db->loadResult();
+		$result = $this->_db->loadResult();
+		$this->_db->transactionCommit();
+
+		return $result;
 	}
 
 	/**

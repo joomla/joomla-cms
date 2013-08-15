@@ -370,9 +370,10 @@ class JComponentHelper
 	protected static function _load($option)
 	{
 		$db = JFactory::getDbo();
+
 		$query = $db->getQuery(true)
 			->select('extension_id AS id, element AS "option", params, enabled')
-			->from('#__extensions')
+			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('component'))
 			->where($db->quoteName('element') . ' = ' . $db->quote($option));
 		$db->setQuery($query);
@@ -398,13 +399,15 @@ class JComponentHelper
 			return false;
 		}
 
+		$temp = new JRegistry;
+
 		// Convert the params to an object.
 		if (is_string(self::$components[$option]->params))
 		{
-			$temp = new JRegistry;
 			$temp->loadString(self::$components[$option]->params);
-			self::$components[$option]->params = $temp;
 		}
+
+		self::$components[$option]->params = $temp;
 
 		return true;
 	}
