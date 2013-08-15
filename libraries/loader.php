@@ -351,7 +351,7 @@ abstract class JLoader
 	 *
 	 * @since   12.3
 	 */
-	public static function setup($enablePsr = false, $enablePrefixes = true, $enableClasses = true)
+	public static function setup($enablePsr = true, $enablePrefixes = true, $enableClasses = true)
 	{
 		if ($enableClasses)
 		{
