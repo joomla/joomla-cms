@@ -43,7 +43,7 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 		<script type="text/javascript">
 			window.addEvent('domready', function()
 			{
-				window.Install = new Installation('container-installation', '<?php echo JURI::current(); ?>');
+				window.Install = new Installation('container-installation', '<?php echo JUri::current(); ?>');
 			});
 		</script>
 	</head>

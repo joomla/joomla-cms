@@ -93,7 +93,7 @@ class FinderIndexerHelper
 		$input = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,]+#mui', ' ', $input);
 		$input = preg_replace('#(^|\s)[+-.,]+([\pL\pM]+)#mui', ' $1', $input);
 		$input = preg_replace('#([\pL\pM\pN]+)[+-.,]+(\s|$)#mui', '$1 ', $input);
-		$input = preg_replace('#([\pL\pM]+)[+.,]+([\pL\pM]+)#muiU', '$1 $2', $input); // Ungreedy
+		$input = preg_replace('#([\pL\pM]+)[+.,]+([\pL\pM]+)#muiU', '$1 $2', $input);
 		$input = preg_replace('#(^|\s)[\'+-.,]+(\s|$)#mui', ' ', $input);
 		$input = preg_replace('#(^|\s)[\p{Pi}\p{Pf}]+(\s|$)#mui', ' ', $input);
 		$input = preg_replace('#[' . $quotes . ']+#mui', '\'', $input);
@@ -417,7 +417,7 @@ class FinderIndexerHelper
 		// Build the relative route.
 		$uri = $router->build($url);
 		$route = $uri->toString(array('path', 'query', 'fragment'));
-		$route = str_replace(JURI::base(true) . '/', '', $route);
+		$route = str_replace(JUri::base(true) . '/', '', $route);
 
 		return $route;
 	}

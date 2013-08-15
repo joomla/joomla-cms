@@ -707,8 +707,6 @@ class JLanguage
 		$filename = $internal ? $lang : $lang . '.' . $extension;
 		$filename = "$path/$filename.ini";
 
-		$result = false;
-
 		if (isset($this->paths[$extension][$filename]) && !$reload)
 		{
 			// This file has already been tested for loading.

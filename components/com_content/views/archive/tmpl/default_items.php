@@ -113,7 +113,7 @@ $params = $this->params;
 		<?php endif; ?>
 
 		<?php if ($params->get('show_intro')) :?>
-			<div class="intro"> <?php echo JHtml::_('string.truncate', $item->introtext, $params->get('introtext_limit')); ?> </div>
+			<div class="intro"> <?php echo JHtml::_('string.truncateComplex', $item->introtext, $params->get('introtext_limit')); ?> </div>
 		<?php endif; ?>
 
 		<?php if ($useDefList && ($info == 1 || $info == 2)) : ?>

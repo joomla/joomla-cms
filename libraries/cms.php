@@ -27,7 +27,7 @@ if (!class_exists('JLoader'))
 }
 
 // Register the library base path for CMS libraries.
-JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms');
+JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms', false, true);
 
 // Register a handler for uncaught exceptions that shows a pretty error page when possible
 set_exception_handler(array('JErrorPage', 'render'));
@@ -58,3 +58,11 @@ JLoader::register('JInstallerPackage',  JPATH_PLATFORM . '/cms/installer/adapter
 JLoader::register('JInstallerPlugin',  JPATH_PLATFORM . '/cms/installer/adapter/plugin.php');
 JLoader::register('JInstallerTemplate',  JPATH_PLATFORM . '/cms/installer/adapter/template.php');
 JLoader::register('JExtension',  JPATH_PLATFORM . '/cms/installer/extension.php');
+
+// Register Observers:
+// Add Tags to Content, Contact, NewsFeeds, WebLinks and Categories: (this is the only link between them here!):
+JObserverMapper::addObserverClassToClass('JTableObserverTags', 'JTableContent', array('typeAlias' => 'com_content.article'));
+JObserverMapper::addObserverClassToClass('JTableObserverTags', 'ContactTableContact', array('typeAlias' => 'com_contact.contact'));
+JObserverMapper::addObserverClassToClass('JTableObserverTags', 'NewsfeedsTableNewsfeed', array('typeAlias' => 'com_newsfeeds.newsfeed'));
+JObserverMapper::addObserverClassToClass('JTableObserverTags', 'WeblinksTableWeblink', array('typeAlias' => 'com_weblinks.weblink'));
+JObserverMapper::addObserverClassToClass('JTableObserverTags', 'JTableCategory', array('typeAlias' => '{extension}.category'));

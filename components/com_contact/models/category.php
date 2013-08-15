@@ -215,7 +215,6 @@ class ContactModelCategory extends JModelList
 	{
 		$app = JFactory::getApplication();
 		$params = JComponentHelper::getParams('com_contact');
-		$db = $this->getDbo();
 
 		// List state information
 		$format = $app->input->getWord('format');

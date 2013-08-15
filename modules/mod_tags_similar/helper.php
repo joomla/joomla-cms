@@ -18,7 +18,7 @@ defined('_JEXEC') or die;
  */
 abstract class ModTagssimilarHelper
 {
-	public static function getList($params)
+	public static function getList(&$params)
 	{
 		$db         = JFactory::getDbo();
 		$app        = JFactory::getApplication();

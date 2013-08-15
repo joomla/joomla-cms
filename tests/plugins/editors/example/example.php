@@ -173,7 +173,7 @@ class plgEditorExample extends JPlugin
 				// Results should be an object
 				if ($button->get('name')) {
 					$modal		= ($button->get('modal')) ? 'class="modal-button"' : null;
-					$href		= ($button->get('link')) ? 'href="'.JURI::base().$button->get('link').'"' : null;
+					$href		= ($button->get('link')) ? 'href="'.JUri::base().$button->get('link').'"' : null;
 					$onclick	= ($button->get('onclick')) ? 'onclick="'.$button->get('onclick').'"' : null;
 					$title      = ($button->get('title')) ? $button->get('title') : $button->get('text');
 					$return .= "<div class=\"button2-left\"><div class=\"".$button->get('name')."\"><a ".$modal." title=\"".$title."\" ".$href." ".$onclick." rel=\"".$button->get('options')."\">".$button->get('text')."</a></div></div>\n";

@@ -55,8 +55,6 @@ class UsersModelGroup extends JModelAdmin
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		$app = JFactory::getApplication();
-
 		// Get the form.
 		$form = $this->loadForm('com_users.group', 'group', array('control' => 'jform', 'load_data' => $loadData));
 		if (empty($form))
@@ -216,7 +214,7 @@ class UsersModelGroup extends JModelAdmin
 		$iAmSuperAdmin	= $user->authorise('core.admin');
 
 		// do not allow to delete groups to which the current user belongs
-		foreach ($pks as $i => $pk)
+		foreach ($pks as $pk)
 		{
 			if (in_array($pk, $groups))
 			{

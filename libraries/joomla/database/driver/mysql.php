@@ -54,10 +54,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 */
 	public function __destruct()
 	{
-		if (is_resource($this->connection))
-		{
-			mysql_close($this->connection);
-		}
+		$this->disconnect();
 	}
 
 	/**
@@ -98,6 +95,12 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 
 		// Set charactersets (needed for MySQL 4.1.2+).
 		$this->setUTF();
+
+		// Turn MySQL profiling ON in debug mode:
+		if ($this->debug && $this->hasProfiling())
+		{
+			mysql_query("SET profiling = 1;", $this->connection);
+		}
 	}
 
 	/**
@@ -110,7 +113,15 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	public function disconnect()
 	{
 		// Close the connection.
-		mysql_close($this->connection);
+		if (is_resource($this->connection))
+		{
+			foreach ($this->disconnectHandlers as $h)
+			{
+				call_user_func_array($h, array( &$this));
+			}
+
+			mysql_close($this->connection);
+		}
 
 		$this->connection = null;
 	}
@@ -245,31 +256,47 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		}
 
 		// Take a local copy so that we don't modify the original query and cause issues later
-		$sql = $this->replacePrefix((string) $this->sql);
+		$query = $this->replacePrefix((string) $this->sql);
 
 		if ($this->limit > 0 || $this->offset > 0)
 		{
-			$sql .= ' LIMIT ' . $this->offset . ', ' . $this->limit;
+			$query .= ' LIMIT ' . $this->offset . ', ' . $this->limit;
 		}
 
 		// Increment the query counter.
 		$this->count++;
 
-		// If debugging is enabled then let's log the query.
-		if ($this->debug)
-		{
-			// Add the query to the object queue.
-			$this->log[] = $sql;
-
-			JLog::add($sql, JLog::DEBUG, 'databasequery');
-		}
-
 		// Reset the error values.
 		$this->errorNum = 0;
 		$this->errorMsg = '';
 
+		// If debugging is enabled then let's log the query.
+		if ($this->debug)
+		{
+			// Add the query to the object queue.
+			$this->log[] = $query;
+
+			JLog::add($query, JLog::DEBUG, 'databasequery');
+
+			$this->timings[] = microtime(true);
+		}
+
 		// Execute the query. Error suppression is used here to prevent warnings/notices that the connection has been lost.
-		$this->cursor = @mysql_query($sql, $this->connection);
+		$this->cursor = @mysql_query($query, $this->connection);
+
+		if ($this->debug)
+		{
+			$this->timings[] = microtime(true);
+
+			if (defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
+			{
+				$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+			}
+			else
+			{
+				$this->callStacks[] = debug_backtrace();
+			}
+		}
 
 		// If an error occurred handle it.
 		if (!$this->cursor)
@@ -288,7 +315,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 				{
 					// Get the error number and message.
 					$this->errorNum = (int) mysql_errno($this->connection);
-					$this->errorMsg = (string) mysql_error($this->connection) . ' SQL=' . $sql;
+					$this->errorMsg = (string) mysql_error($this->connection) . ' SQL=' . $query;
 
 					// Throw the normal query exception.
 					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
@@ -303,7 +330,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 			{
 				// Get the error number and message.
 				$this->errorNum = (int) mysql_errno($this->connection);
-				$this->errorMsg = (string) mysql_error($this->connection) . ' SQL=' . $sql;
+				$this->errorMsg = (string) mysql_error($this->connection) . ' SQL=' . $query;
 
 				// Throw the normal query exception.
 				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
@@ -410,5 +437,27 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	protected function freeResult($cursor = null)
 	{
 		mysql_free_result($cursor ? $cursor : $this->cursor);
+	}
+
+	/**
+	 * Internal function to check if profiling is available
+	 *
+	 * @return  boolean
+	 *
+	 * @since 3.1.3
+	 */
+	private function hasProfiling()
+	{
+		try
+		{
+			$res = mysql_query("SHOW VARIABLES LIKE 'have_profiling'", $this->connection);
+			$row = mysql_fetch_assoc($res);
+
+			return isset($row);
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
 	}
 }

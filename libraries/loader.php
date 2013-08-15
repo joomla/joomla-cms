@@ -256,9 +256,10 @@ abstract class JLoader
 	 * set to true then any registered lookups for the given prefix will be overwritten with the current
 	 * lookup path. When loaded, prefix paths are searched in a "last in, first out" order.
 	 *
-	 * @param   string   $prefix  The class prefix to register.
-	 * @param   string   $path    Absolute file path to the library root where classes with the given prefix can be found.
-	 * @param   boolean  $reset   True to reset the prefix with only the given lookup path.
+	 * @param   string   $prefix   The class prefix to register.
+	 * @param   string   $path     Absolute file path to the library root where classes with the given prefix can be found.
+	 * @param   boolean  $reset    True to reset the prefix with only the given lookup path.
+	 * @param   boolean  $prepend  If true, push the path to the beginning of the prefix lookup paths array.
 	 *
 	 * @return  void
 	 *
@@ -266,7 +267,7 @@ abstract class JLoader
 	 *
 	 * @since   12.1
 	 */
-	public static function registerPrefix($prefix, $path, $reset = false)
+	public static function registerPrefix($prefix, $path, $reset = false, $prepend = false)
 	{
 		// Verify the library path exists.
 		if (!file_exists($path))
@@ -282,7 +283,14 @@ abstract class JLoader
 		// Otherwise we want to simply add the path to the prefix.
 		else
 		{
-			array_unshift(self::$prefixes[$prefix], $path);
+			if ($prepend)
+			{
+				array_unshift(self::$prefixes[$prefix], $path);
+			}
+			else
+			{
+				self::$prefixes[$prefix][] = $path;
+			}
 		}
 	}
 
@@ -292,6 +300,7 @@ abstract class JLoader
 	 * @param   string   $namespace  A case sensitive Namespace to register.
 	 * @param   string   $path       A case sensitive absolute file path to the library root where classes of the given namespace can be found.
 	 * @param   boolean  $reset      True to reset the namespace with only the given lookup path.
+	 * @param   boolean  $prepend    If true, push the path to the beginning of the namespace lookup paths array.
 	 *
 	 * @return  void
 	 *
@@ -299,7 +308,7 @@ abstract class JLoader
 	 *
 	 * @since   12.3
 	 */
-	public static function registerNamespace($namespace, $path, $reset = false)
+	public static function registerNamespace($namespace, $path, $reset = false, $prepend = false)
 	{
 		// Verify the library path exists.
 		if (!file_exists($path))
@@ -316,7 +325,14 @@ abstract class JLoader
 		// Otherwise we want to simply add the path to the namespace.
 		else
 		{
-			array_unshift(self::$namespaces[$namespace], $path);
+			if ($prepend)
+			{
+				array_unshift(self::$namespaces[$namespace], $path);
+			}
+			else
+			{
+				self::$namespaces[$namespace][] = $path;
+			}
 		}
 	}
 

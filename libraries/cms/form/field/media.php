@@ -79,7 +79,7 @@ class JFormFieldMedia extends JFormField
 			$script[] = '		var img = document.id(id + "_preview");';
 			$script[] = '		if (img) {';
 			$script[] = '			if (value) {';
-			$script[] = '				img.src = "' . JURI::root() . '" + value;';
+			$script[] = '				img.src = "' . JUri::root() . '" + value;';
 			$script[] = '				document.id(id + "_preview_empty").setStyle("display", "none");';
 			$script[] = '				document.id(id + "_preview_img").setStyle("display", "");';
 			$script[] = '			} else { ';
@@ -150,7 +150,7 @@ class JFormFieldMedia extends JFormField
 		{
 			if ($this->value && file_exists(JPATH_ROOT . '/' . $this->value))
 			{
-				$src = JURI::root() . $this->value;
+				$src = JUri::root() . $this->value;
 			}
 			else
 			{

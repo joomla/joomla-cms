@@ -14,33 +14,36 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  Openstreetmap
- *
  * @since       13.1
  */
-
 abstract class JOpenstreetmapObject
 {
-
 	/**
-	 * @var    JRegistry  Options for the Openstreetmap object.
+	 * Options for the Openstreetmap object.
+	 *
+	 * @var    JRegistry
 	 * @since  13.1
 	 */
 	protected $options;
 
 	/**
-	 * @var    JHttp  The HTTP client object to use in sending HTTP requests.
+	 * The HTTP client object to use in sending HTTP requests.
+	 *
+	 * @var    JHttp
 	 * @since  13.1
 	 */
 	protected $client;
 
 	/**
-	 * @var JOpenstreetmapOauth The OAuth client.
-	 * @since 13.1
+	 * The OAuth client.
+	 *
+	 * @var    JOpenstreetmapOauth
+	 * @since  13.1
 	 */
 	protected $oauth;
 
 	/**
-	 * Constructor.
+	 * Constructor
 	 *
 	 * @param   JRegistry            &$options  Openstreetmap options object.
 	 * @param   JHttp                $client    The HTTP client object.
@@ -99,7 +102,7 @@ abstract class JOpenstreetmapObject
 	 * @since   13.1
 	 * @throws  DomainException
 	 */
-	public function sendRequest($path, $method='GET', $headers = array(), $data='')
+	public function sendRequest($path, $method = 'GET', $headers = array(), $data = '')
 	{
 		// Send the request.
 		switch ($method)
@@ -107,6 +110,7 @@ abstract class JOpenstreetmapObject
 			case 'GET':
 				$response = $this->client->get($path, $headers);
 				break;
+
 			case 'POST':
 				$response = $this->client->post($path, $data, $headers);
 				break;

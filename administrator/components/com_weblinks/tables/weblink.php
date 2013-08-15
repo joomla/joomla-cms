@@ -19,14 +19,6 @@ defined('_JEXEC') or die;
 class WeblinksTableWeblink extends JTable
 {
 	/**
-	 * Helper object for storing and deleting tag information.
-	 *
-	 * @var    JHelperTags
-	 * @since  3.1
-	 */
-	protected $tagsHelper = null;
-
-	/**
 	 * Constructor
 	 *
 	 * @param   JDatabaseDriver  &$db  A database connector object
@@ -34,9 +26,6 @@ class WeblinksTableWeblink extends JTable
 	public function __construct(&$db)
 	{
 		parent::__construct('#__weblinks', 'id', $db);
-
-		$this->tagsHelper = new JHelperTags;
-		$this->tagsHelper->typeAlias = 'com_weblinks.weblink';
 	}
 
 	/**
@@ -87,6 +76,7 @@ class WeblinksTableWeblink extends JTable
 	{
 		$date	= JFactory::getDate();
 		$user	= JFactory::getUser();
+
 		if ($this->id)
 		{
 			// Existing item
@@ -128,9 +118,10 @@ class WeblinksTableWeblink extends JTable
 			return false;
 		}
 
-		$this->tagsHelper->preStoreProcess($this);
-		$result = parent::store($updateNulls);
-		return $result && $this->tagsHelper->postStoreProcess($this);
+		// Convert IDN urls to punycode
+		$this->url = JStringPunycode::urlToPunycode($this->url);
+
+		return parent::store($updateNulls);
 	}
 
 	/**
@@ -201,22 +192,6 @@ class WeblinksTableWeblink extends JTable
 		}
 
 		return true;
-	}
-
-	/**
-	 * Override parent delete method to delete tags information.
-	 *
-	 * @param   integer  $pk  Primary key to delete.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   3.1
-	 * @throws  UnexpectedValueException
-	 */
-	public function delete($pk = null)
-	{
-		$result = parent::delete($pk);
-		return $result && $this->tagsHelper->deleteTagData($this, $pk);
 	}
 
 	/**

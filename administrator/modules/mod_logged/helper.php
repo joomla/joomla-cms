@@ -21,11 +21,11 @@ abstract class ModLoggedHelper
 	/**
 	 * Get a list of logged users.
 	 *
-	 * @param   JRegistry  $params  The module parameters.
+	 * @param   JRegistry  &$params  The module parameters.
 	 *
 	 * @return  mixed  An array of users, or false on error.
 	 */
-	public static function getList($params)
+	public static function getList(&$params)
 	{
 		$db    = JFactory::getDbo();
 		$user  = JFactory::getUser();

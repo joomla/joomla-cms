@@ -40,7 +40,5 @@ $published = $this->state->get('filter.published');
 		<button class="btn btn-primary" type="submit" onclick="Joomla.submitbutton('tag.batch');">
 			<?php echo JText::_('JGLOBAL_BATCH_PROCESS'); ?>
 		</button>
-
-		</button>
 	</div>
 </div>

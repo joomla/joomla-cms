@@ -182,12 +182,37 @@ class MenusControllerItem extends JControllerForm
 		// Check for the special 'request' entry.
 		if ($data['type'] == 'component' && isset($data['request']) && is_array($data['request']) && !empty($data['request']))
 		{
+			$removeArgs = array();
+
+			// Preprocess request fields to ensure that we remove not set or empty request params
+			$request = $form->getGroup('request');
+
+			if (!empty($request))
+			{
+				foreach ($request as $field)
+				{
+					$fieldName = $field->getAttribute('name');
+
+					if (!isset($data['request'][$fieldName]) || $data['request'][$fieldName] == '')
+					{
+						$removeArgs[$fieldName] = '';
+					}
+				}
+			}
+
 			// Parse the submitted link arguments.
 			$args = array();
 			parse_str(parse_url($data['link'], PHP_URL_QUERY), $args);
 
 			// Merge in the user supplied request arguments.
 			$args = array_merge($args, $data['request']);
+
+			// Remove the unused request params
+			if (!empty($args) && !empty($removeArgs))
+			{
+				$args = array_diff_key($args, $removeArgs);
+			}
+
 			$data['link'] = 'index.php?' . urldecode(http_build_query($args, '', '&'));
 			unset($data['request']);
 		}
@@ -298,7 +323,6 @@ class MenusControllerItem extends JControllerForm
 
 		// Get the posted values from the request.
 		$data = $this->input->post->get('jform', array(), 'array');
-		$recordId = $this->input->getInt('id');
 
 		// Get the type.
 		$type = $data['type'];
@@ -321,7 +345,7 @@ class MenusControllerItem extends JControllerForm
 				$component = JComponentHelper::getComponent($type->request->option);
 				$data['component_id'] = $component->id;
 
-				$app->setUserState('com_menus.edit.item.link', 'index.php?' . JURI::buildQuery((array) $type->request));
+				$app->setUserState('com_menus.edit.item.link', 'index.php?' . JUri::buildQuery((array) $type->request));
 			}
 		}
 		// If the type is alias you just need the item id from the menu item referenced.

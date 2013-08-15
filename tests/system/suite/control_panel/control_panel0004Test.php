@@ -359,7 +359,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->assertContains("Featured Articles", $this->getTable("//table[@class='adminlist'].10.1"));
 
 		$this->jPrint ("Move Content Component Menu Item Down One\n");
-		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Content Component')]/../../td//a[@title='Move Down']");
+		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Content Component')]/../../td//i[@class='icon-downarrow']");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"));
 		$this->jPrint ("Check that Contact Component and Content Component Menu Items are in new order\n");
@@ -376,7 +376,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->assertContains("Featured Articles", $this->getTable("//table[@class='adminlist'].15.1"));
 
 		$this->jPrint ("Move Content Component Menu Item Up One\n");
-		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Content Component')]/../../td//a[@title='Move Up']");
+		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Content Component')]/../../td//i[@class='icon-uparrow']");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"));
 		$this->jPrint ("Check that Contact Component and Content Component Menu Items are in original order\n");
@@ -393,7 +393,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->assertContains("Featured Articles", $this->getTable("//table[@class='adminlist'].10.1"));
 
 		$this->jPrint ("Move Getting Started menu item down one\n");
-		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Getting Started')]/../../td//a[@title='Move Down']");
+		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Getting Started')]/../../td//i[@class='icon-downarrow']");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"));
 		$this->jPrint ("Check that Using Joomla! is now in first row\n");
@@ -402,7 +402,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->select("limit", "value=0");
 		$this->clickGo();
 		$this->waitForPageToLoad("30000");
-		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Getting Started')]/../../td//a[@title='Move Up']");
+		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Getting Started')]/../../td//i[@class='icon-uparrow']");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"));
 		$this->jPrint ("Check that Getting Started is now in first row\n");
@@ -417,12 +417,12 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->click("//a[contains(@href, 'option=com_categories&extension=com_weblinks')]");
 		$this->waitForPageToLoad("30000");
 		$this->jPrint ("Move weblinks Uncatgorised up\n");
-		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Uncategorised')]/../../td//a[@title='Move Up']");
+		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Uncategorised')]/../../td//i[@class='icon-uparrow']");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"));
 		$this->assertContains("Uncategorised", $this->getTable("//table[@class='adminlist'].1.1"));
 		$this->jPrint ("Move weblinks Uncatgorised back down\n");
-		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Uncategorised')]/../../td//a[@title='Move Down']");
+		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Uncategorised')]/../../td//i[@class='icon-downarrow']");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"));
 		$this->assertContains("Sample Data-Weblinks", $this->getTable("//table[@class='adminlist'].1.1"));

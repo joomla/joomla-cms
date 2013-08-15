@@ -120,7 +120,6 @@ class JComponentHelper
 		$whiteListTags			= array();
 		$whiteListAttributes	= array();
 
-		$noHtml		= false;
 		$whiteList	= false;
 		$blackList	= false;
 		$customList	= false;
@@ -143,7 +142,6 @@ class JComponentHelper
 			if ($filterType == 'NH')
 			{
 				// Maximum HTML filtering.
-				$noHtml = true;
 			}
 			elseif ($filterType == 'NONE')
 			{
@@ -324,8 +322,6 @@ class JComponentHelper
 		{
 			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
-
-		$task = $app->input->getString('task');
 
 		// Load common and local language files.
 		$lang->load($option, JPATH_BASE, null, false, false) || $lang->load($option, JPATH_COMPONENT, null, false, false)

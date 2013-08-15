@@ -21,18 +21,19 @@ class JHtmlIcon
 {
 	public static function create($weblink, $params)
 	{
-		$uri = JURI::getInstance();
+		JHtml::_('bootstrap.tooltip');
 
+		$uri = JUri::getInstance();
 		$url = JRoute::_(WeblinksHelperRoute::getFormRoute(0, base64_encode($uri)));
 		$text = JHtml::_('image', 'system/new.png', JText::_('JNEW'), null, true);
 		$button = JHtml::_('link', $url, $text);
-		$output = '<span class="hasTip" title="'.JText::_('COM_WEBLINKS_FORM_CREATE_WEBLINK').'">'.$button.'</span>';
+		$output = '<span class="hasTooltip" title="' . JHtml::tooltipText('COM_WEBLINKS_FORM_CREATE_WEBLINK') . '">' . $button . '</span>';
 		return $output;
 	}
 
 	public static function edit($weblink, $params, $attribs = array())
 	{
-		$uri = JURI::getInstance();
+		$uri = JUri::getInstance();
 
 		if ($params && $params->get('popup'))
 		{
@@ -44,7 +45,8 @@ class JHtmlIcon
 			return;
 		}
 
-		JHtml::_('behavior.tooltip');
+		JHtml::_('bootstrap.tooltip');
+
 		$url	= WeblinksHelperRoute::getFormRoute($weblink->id, base64_encode($uri));
 		$icon	= $weblink->state ? 'edit.png' : 'edit_unpublished.png';
 		$text	= JHtml::_('image', 'system/'.$icon, JText::_('JGLOBAL_EDIT'), null, true);
@@ -68,7 +70,7 @@ class JHtmlIcon
 
 		$button = JHtml::_('link', JRoute::_($url), $text);
 
-		$output = '<span class="hasTip" title="'.JText::_('COM_WEBLINKS_EDIT').' :: '.$overlib.'">'.$button.'</span>';
+		$output = '<span class="hasTooltip" title="' . JHtml::tooltipText('COM_WEBLINKS_EDIT') . ' :: ' . $overlib . '">' . $button . '</span>';
 
 		return $output;
 	}

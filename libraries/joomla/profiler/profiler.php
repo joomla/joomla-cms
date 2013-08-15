@@ -38,6 +38,12 @@ class JProfiler
 	protected $buffer = null;
 
 	/**
+	 * @var    array  The profiling messages.
+	 * @since  12.1
+	 */
+	protected $marks = null;
+
+	/**
 	 * @var    float
 	 * @since  12.1
 	 */
@@ -64,8 +70,9 @@ class JProfiler
 	 */
 	public function __construct($prefix = '')
 	{
-		$this->start = $this->getmicrotime();
+		$this->start = microtime(1);
 		$this->prefix = $prefix;
+		$this->marks = array();
 		$this->buffer = array();
 	}
 
@@ -103,23 +110,32 @@ class JProfiler
 	 */
 	public function mark($label)
 	{
-		$current = self::getmicrotime() - $this->start;
-		$currentMem = 0;
-
+		$current = microtime(1) - $this->start;
 		$currentMem = memory_get_usage() / 1048576;
-		$mark = sprintf(
-			'<code>%s %.3f seconds (+%.3f); %0.2f MB (%s%0.3f) - %s</code>',
-			$this->prefix,
-			$current,
-			$current - $this->previousTime,
-			$currentMem,
-			($currentMem > $this->previousMem) ? '+' : '', $currentMem - $this->previousMem,
-			$label
+
+		$m = (object) array(
+			'prefix' => $this->prefix,
+			'time' => ($current > $this->previousTime ? '+' : '-') . (($current - $this->previousTime) * 1000),
+			'totalTime' => ($current * 1000),
+			'memory' => ($currentMem > $this->previousMem ? '+' : '-') . ($currentMem - $this->previousMem),
+			'totalMemory' => $currentMem,
+			'label' => $label
 		);
+		$this->marks[] = $m;
+
+		$mark = sprintf(
+			'%s %.3f seconds (%.3f); %0.2f MB (%0.3f) - %s',
+			$m->prefix,
+			$m->totalTime / 1000,
+			$m->time / 1000,
+			$m->totalMemory,
+			$m->memory,
+			$m->label
+		);
+		$this->buffer[] = $mark;
 
 		$this->previousTime = $current;
 		$this->previousMem = $currentMem;
-		$this->buffer[] = $mark;
 
 		return $mark;
 	}
@@ -130,6 +146,7 @@ class JProfiler
 	 * @return  float The current time
 	 *
 	 * @since   11.1
+	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use PHP's microtime(1)
 	 */
 	public static function getmicrotime()
 	{
@@ -156,6 +173,19 @@ class JProfiler
 	 * Get all profiler marks.
 	 *
 	 * Returns an array of all marks created since the Profiler object
+	 * was instantiated.  Marks are objects as per {@link JProfiler::mark()}.
+	 *
+	 * @return  array  Array of profiler marks
+	 */
+	public function getMarks()
+	{
+		return $this->marks;
+	}
+
+	/**
+	 * Get all profiler mark buffers.
+	 *
+	 * Returns an array of all mark buffers created since the Profiler object
 	 * was instantiated.  Marks are strings as per {@link JProfiler::mark()}.
 	 *
 	 * @return  array  Array of profiler marks

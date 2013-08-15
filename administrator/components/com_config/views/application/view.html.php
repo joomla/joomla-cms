@@ -31,8 +31,8 @@ class ConfigViewApplication extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$form	= $this->get('Form');
-		$data	= $this->get('Data');
+		$form = $this->get('Form');
+		$data = $this->get('Data');
 		$user = JFactory::getUser();
 
 		// Check for model errors.

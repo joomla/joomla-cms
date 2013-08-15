@@ -99,59 +99,23 @@ class JLinkedin
 	 * @return  JLinkedinObject  Linkedin API object (statuses, users, favorites, etc.).
 	 *
 	 * @since   13.1
+	 * @throws  InvalidArgumentException
 	 */
 	public function __get($name)
 	{
-		switch ($name)
+		$class = 'JLinkedin' . ucfirst($name);
+
+		if (class_exists($class))
 		{
-			case 'people':
-				if ($this->people == null)
-				{
-					$this->people = new JLinkedinPeople($this->options, $this->client, $this->oauth);
-				}
+			if (false == isset($this->$name))
+			{
+				$this->$name = new $class($this->options, $this->client, $this->oauth);
+			}
 
-				return $this->people;
-
-			case 'groups':
-				if ($this->groups == null)
-				{
-					$this->groups = new JLinkedinGroups($this->options, $this->client, $this->oauth);
-				}
-
-				return $this->groups;
-
-			case 'companies':
-				if ($this->companies == null)
-				{
-					$this->companies = new JLinkedinCompanies($this->options, $this->client, $this->oauth);
-				}
-
-				return $this->companies;
-
-			case 'jobs':
-				if ($this->jobs == null)
-				{
-					$this->jobs = new JLinkedinJobs($this->options, $this->client, $this->oauth);
-				}
-
-				return $this->jobs;
-
-			case 'stream':
-				if ($this->stream == null)
-				{
-					$this->stream = new JLinkedinStream($this->options, $this->client, $this->oauth);
-				}
-
-				return $this->stream;
-
-			case 'communications':
-				if ($this->communications == null)
-				{
-					$this->communications = new JLinkedinCommunications($this->options, $this->client, $this->oauth);
-				}
-
-				return $this->communications;
+			return $this->$name;
 		}
+
+		throw new InvalidArgumentException(sprintf('Argument %s produced an invalid class name: %s', $name, $class));
 	}
 
 	/**

@@ -68,7 +68,7 @@ else
 // Logo file or site title param
 if ($this->params->get('logoFile'))
 {
-	$logo = '<img src="'. JURI::root() . $this->params->get('logoFile') .'" alt="'. $sitename .'" />';
+	$logo = '<img src="'. JUri::root() . $this->params->get('logoFile') .'" alt="'. $sitename .'" />';
 }
 elseif ($this->params->get('sitetitle'))
 {

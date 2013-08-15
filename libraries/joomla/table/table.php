@@ -22,7 +22,7 @@ jimport('joomla.filesystem.path');
  * @since       11.1
  * @tutorial	Joomla.Platform/jtable.cls
  */
-abstract class JTable extends JObject
+abstract class JTable extends JObject implements JObservableInterface
 {
 	/**
 	 * Include paths for searching for JTable classes.
@@ -81,6 +81,14 @@ abstract class JTable extends JObject
 	protected $_locked = false;
 
 	/**
+	 * Generic observers for this JTable (Used e.g. for tags Processing)
+	 *
+	 * @var    JObserverUpdater
+	 * @since  3.1.2
+	 */
+	protected $_observers;
+
+	/**
 	 * Object constructor to set table and key fields.  In most cases this will
 	 * be overridden by child classes to explicitly set the table and key fields
 	 * for a particular database table.
@@ -123,6 +131,42 @@ abstract class JTable extends JObject
 		{
 			$this->access = (int) JFactory::getConfig()->get('access');
 		}
+
+		// Implement JObservableInterface:
+		// Create observer updater and attaches all observers interested by $this class:
+		$this->_observers = new JObserverUpdater($this);
+		JObserverMapper::attachAllObservers($this);
+	}
+
+	/**
+	 * Implement JObservableInterface:
+	 * Adds an observer to this instance.
+	 * This method will be called fron the constructor of classes implementing JObserverInterface
+	 * which is instanciated by the constructor of $this with JObserverMapper::attachAllObservers($this)
+	 *
+	 * @param   JObserverInterface|JTableObserver  $observer  The observer object
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1.2
+	 */
+	public function attachObserver(JObserverInterface $observer)
+	{
+		$this->_observers->attachObserver($observer);
+	}
+
+	/**
+	 * Gets the instance of the observer of class $observerClass
+	 *
+	 * @param   string  $observerClass  The observer class-name to return the object of
+	 *
+	 * @return  JTableObserver|null
+	 *
+	 * @since   3.1.2
+	 */
+	public function getObserverOfClass($observerClass)
+	{
+		return $this->_observers->getObserverOfClass($observerClass);
 	}
 
 	/**
@@ -428,7 +472,7 @@ abstract class JTable extends JObject
 	 *
 	 * @link    http://docs.joomla.org/JTable/bind
 	 * @since   11.1
-	 * @throws  UnexpectedValueException
+	 * @throws  InvalidArgumentException
 	 */
 	public function bind($src, $ignore = array())
 	{
@@ -483,6 +527,9 @@ abstract class JTable extends JObject
 	 */
 	public function load($keys = null, $reset = true)
 	{
+		// Implement JObservableInterface: Pre-processing by observers
+		$this->_observers->update('onBeforeLoad', array($keys, $reset));
+
 		if (empty($keys))
 		{
 			// If empty, use the value of the current key
@@ -532,11 +579,18 @@ abstract class JTable extends JObject
 		// Check that we have a result.
 		if (empty($row))
 		{
-			return false;
+			$result = false;
+		}
+		else
+		{
+			// Bind the object with the row and return.
+			$result = $this->bind($row);
 		}
 
-		// Bind the object with the row and return.
-		return $this->bind($row);
+		// Implement JObservableInterface: Post-processing by observers
+		$this->_observers->update('onAfterLoad', array(&$result, $row));
+
+		return $result;
 	}
 
 	/**
@@ -572,6 +626,10 @@ abstract class JTable extends JObject
 	public function store($updateNulls = false)
 	{
 		$k = $this->_tbl_key;
+
+		// Implement JObservableInterface: Pre-processing by observers
+		$this->_observers->update('onBeforeStore', array($updateNulls, $k));
+
 		if (!empty($this->asset_id))
 		{
 			$currentAssetId = $this->asset_id;
@@ -591,84 +649,90 @@ abstract class JTable extends JObject
 		// If a primary key exists update the object, otherwise insert it.
 		if ($this->$k)
 		{
-			$this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
+			$result = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_key, $updateNulls);
 		}
 		else
 		{
-			$this->_db->insertObject($this->_tbl, $this, $this->_tbl_key);
+			$result = $this->_db->insertObject($this->_tbl, $this, $this->_tbl_key);
 		}
 
 		// If the table is not set to track assets return true.
-		if (!$this->_trackAssets)
+		if ($this->_trackAssets)
 		{
-			return true;
+
+			if ($this->_locked)
+			{
+				$this->_unlock();
+			}
+
+			/*
+			 * Asset Tracking
+			 */
+
+			$parentId = $this->_getAssetParentId();
+			$name = $this->_getAssetName();
+			$title = $this->_getAssetTitle();
+
+			$asset = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
+			$asset->loadByName($name);
+
+			// Re-inject the asset id.
+			$this->asset_id = $asset->id;
+
+			// Check for an error.
+			$error = $asset->getError();
+			if ($error)
+			{
+				$this->setError($error);
+				$result = false;
+			}
+			else
+			{
+				// Specify how a new or moved node asset is inserted into the tree.
+				if (empty($this->asset_id) || $asset->parent_id != $parentId)
+				{
+					$asset->setLocation($parentId, 'last-child');
+				}
+
+				// Prepare the asset to be stored.
+				$asset->parent_id = $parentId;
+				$asset->name = $name;
+				$asset->title = $title;
+
+				if ($this->_rules instanceof JAccessRules)
+				{
+					$asset->rules = (string) $this->_rules;
+				}
+
+				if (!$asset->check() || !$asset->store($updateNulls))
+				{
+					$this->setError($asset->getError());
+					$result = false;
+				}
+				else
+				{
+					// Create an asset_id or heal one that is corrupted.
+					if (empty($this->asset_id) || ($currentAssetId != $this->asset_id && !empty($this->asset_id)))
+					{
+						// Update the asset_id field in this table.
+						$this->asset_id = (int) $asset->id;
+
+						$query = $this->_db->getQuery(true)
+							->update($this->_db->quoteName($this->_tbl))
+							->set('asset_id = ' . (int) $this->asset_id)
+							->where($this->_db->quoteName($k) . ' = ' . (int) $this->$k);
+						$this->_db->setQuery($query);
+
+						$this->_db->execute();
+					}
+				}
+			}
 		}
 
-		if ($this->_locked)
-		{
-			$this->_unlock();
-		}
+		// Implement JObservableInterface: Post-processing by observers
+		$this->_observers->update('onAfterStore', array(&$result));
 
-		/*
-		 * Asset Tracking
-		 */
-
-		$parentId = $this->_getAssetParentId();
-		$name = $this->_getAssetName();
-		$title = $this->_getAssetTitle();
-
-		$asset = self::getInstance('Asset', 'JTable', array('dbo' => $this->getDbo()));
-		$asset->loadByName($name);
-
-		// Re-inject the asset id.
-		$this->asset_id = $asset->id;
-
-		// Check for an error.
-		$error = $asset->getError();
-		if ($error)
-		{
-			$this->setError($error);
-			return false;
-		}
-
-		// Specify how a new or moved node asset is inserted into the tree.
-		if (empty($this->asset_id) || $asset->parent_id != $parentId)
-		{
-			$asset->setLocation($parentId, 'last-child');
-		}
-
-		// Prepare the asset to be stored.
-		$asset->parent_id = $parentId;
-		$asset->name = $name;
-		$asset->title = $title;
-
-		if ($this->_rules instanceof JAccessRules)
-		{
-			$asset->rules = (string) $this->_rules;
-		}
-
-		if (!$asset->check() || !$asset->store($updateNulls))
-		{
-			$this->setError($asset->getError());
-			return false;
-		}
-
-		// Create an asset_id or heal one that is corrupted.
-		if (empty($this->asset_id) || ($currentAssetId != $this->asset_id && !empty($this->asset_id)))
-		{
-			// Update the asset_id field in this table.
-			$this->asset_id = (int) $asset->id;
-
-			$query = $this->_db->getQuery(true)
-				->update($this->_db->quoteName($this->_tbl))
-				->set('asset_id = ' . (int) $this->asset_id)
-				->where($this->_db->quoteName($k) . ' = ' . (int) $this->$k);
-			$this->_db->setQuery($query);
-
-			$this->_db->execute();
-		}
-
-		return true;
+		return $result;
 	}
 
 	/**
@@ -729,7 +793,7 @@ abstract class JTable extends JObject
 	}
 
 	/**
-	 * Override parent delete method to delete tags information.
+	 * Deletes this row in database (or if provided, the row of key $pk)
 	 *
 	 * @param   mixed  $pk  An optional primary key value to delete.  If not set the instance property value is used.
 	 *
@@ -742,6 +806,10 @@ abstract class JTable extends JObject
 	public function delete($pk = null)
 	{
 		$k = $this->_tbl_key;
+
+		// Implement JObservableInterface: Pre-processing by observers
+		$this->_observers->update('onBeforeDelete', array($pk, $k));
+
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
 		// If no primary key is given, return false.
@@ -754,6 +822,8 @@ abstract class JTable extends JObject
 		if ($this->_trackAssets)
 		{
 			// Get and the asset name.
+			$savedK = $this->$k;
+
 			$this->$k = $pk;
 			$name = $this->_getAssetName();
 			$asset = self::getInstance('Asset');
@@ -771,6 +841,8 @@ abstract class JTable extends JObject
 				$this->setError($asset->getError());
 				return false;
 			}
+
+			$this->$k = $savedK;
 		}
 
 		// Delete the row by primary key.
@@ -781,6 +853,9 @@ abstract class JTable extends JObject
 
 		// Check for a database error.
 		$this->_db->execute();
+
+		// Implement JObservableInterface: Post-processing by observers
+		$this->_observers->update('onAfterDelete', array($pk));
 
 		return true;
 	}
@@ -801,6 +876,7 @@ abstract class JTable extends JObject
 	 *
 	 * @link    http://docs.joomla.org/JTable/checkOut
 	 * @since   11.1
+	 * @throws UnexpectedValueException
 	 */
 	public function checkOut($userId, $pk = null)
 	{
@@ -848,6 +924,7 @@ abstract class JTable extends JObject
 	 *
 	 * @link    http://docs.joomla.org/JTable/checkIn
 	 * @since   11.1
+	 * @throws UnexpectedValueException
 	 */
 	public function checkIn($pk = null)
 	{
@@ -972,6 +1049,7 @@ abstract class JTable extends JObject
 	 *
 	 * @link    http://docs.joomla.org/JTable/getNextOrder
 	 * @since   11.1
+	 * @throws UnexpectedValueException
 	 */
 	public function getNextOrder($where = '')
 	{
@@ -1008,6 +1086,7 @@ abstract class JTable extends JObject
 	 *
 	 * @link    http://docs.joomla.org/JTable/reorder
 	 * @since   11.1
+	 * @throws UnexpectedValueException
 	 */
 	public function reorder($where = '')
 	{
@@ -1045,7 +1124,7 @@ abstract class JTable extends JObject
 				if ($row->ordering != $i + 1)
 				{
 					// Update the row ordering field.
-					$query = $this->_db->getQuery(true)
+					$query->clear()
 						->update($this->_tbl)
 						->set('ordering = ' . ($i + 1))
 						->where($this->_tbl_key . ' = ' . $this->_db->quote($row->$k));
@@ -1121,7 +1200,7 @@ abstract class JTable extends JObject
 		if (!empty($row))
 		{
 			// Update the ordering field for this instance to the row's ordering value.
-			$query = $this->_db->getQuery(true)
+			$query->clear()
 				->update($this->_tbl)
 				->set('ordering = ' . (int) $row->ordering)
 				->where($this->_tbl_key . ' = ' . $this->_db->quote($this->$k));
@@ -1129,7 +1208,7 @@ abstract class JTable extends JObject
 			$this->_db->execute();
 
 			// Update the ordering field for the row to this instance's ordering value.
-			$query = $this->_db->getQuery(true)
+			$query->clear()
 				->update($this->_tbl)
 				->set('ordering = ' . (int) $this->ordering)
 				->where($this->_tbl_key . ' = ' . $this->_db->quote($row->$k));
@@ -1142,7 +1221,7 @@ abstract class JTable extends JObject
 		else
 		{
 			// Update the ordering field for this instance.
-			$query = $this->_db->getQuery(true)
+			$query->clear()
 				->update($this->_tbl)
 				->set('ordering = ' . (int) $this->ordering)
 				->where($this->_tbl_key . ' = ' . $this->_db->quote($this->$k));

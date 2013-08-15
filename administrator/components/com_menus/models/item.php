@@ -1086,6 +1086,7 @@ class MenusModelItem extends JModelAdmin
 	{
 		// Initialiase variables.
 		$db = $this->getDbo();
+		$query = $db->getQuery(true);
 		$table = $this->getTable();
 
 		if (!$table->rebuild())
@@ -1094,13 +1095,11 @@ class MenusModelItem extends JModelAdmin
 			return false;
 		}
 
-		// Convert the parameters not in JSON format.
-		$db->setQuery(
-			'SELECT id, params' .
-				' FROM #__menu' .
-				' WHERE params NOT LIKE ' . $db->quote('{%') .
-				'  AND params <> ' . $db->quote('')
-		);
+		$query->select('id, params')
+			->from('#__menu')
+			->where('params NOT LIKE ' . $db->quote('{%'))
+			->where('params <> ' . $db->quote(''));
+		$db->setQuery($query);
 
 		try
 		{
@@ -1108,8 +1107,7 @@ class MenusModelItem extends JModelAdmin
 		}
 		catch (RuntimeException $e)
 		{
-			$this->setError($e->getMessage());
-			return false;
+			return JError::raiseWarning(500, $e->getMessage());
 		}
 
 		foreach ($items as &$item)
@@ -1118,15 +1116,18 @@ class MenusModelItem extends JModelAdmin
 			$registry->loadString($item->params);
 			$params = (string) $registry;
 
-			$db->setQuery(
-				'UPDATE #__menu' .
-					' SET params = ' . $db->quote($params) .
-					' WHERE id = ' . (int) $item->id
-			);
-			if (!$db->execute())
+			$query->clear();
+			$query->update('#__menu')
+				->set('params = ' . $db->quote($params))
+				->where('id = ' . $item->id);
+
+			try
 			{
-				$this->setError($error);
-				return false;
+				$db->setQuery($query)->execute();
+			}
+			catch (RuntimeException $e)
+			{
+				return JError::raiseWarning(500, $e->getMessage());
 			}
 
 			unset($registry);
@@ -1292,7 +1293,7 @@ class MenusModelItem extends JModelAdmin
 				$key = md5(json_encode($associations));
 				$query->clear()
 					->insert('#__associations');
-				foreach ($associations as $tag => $id)
+				foreach ($associations as $id)
 				{
 					$query->values($id . ',' . $db->quote('com_menus.item') . ',' . $db->quote($key));
 				}
@@ -1315,8 +1316,8 @@ class MenusModelItem extends JModelAdmin
 
 		if (isset($data['link']))
 		{
-			$base = JURI::base();
-			$juri = JURI::getInstance($base . $data['link']);
+			$base = JUri::base();
+			$juri = JUri::getInstance($base . $data['link']);
 			$option = $juri->getVar('option');
 
 			// Clean the cache
@@ -1367,7 +1368,6 @@ class MenusModelItem extends JModelAdmin
 	{
 		$table = $this->getTable();
 		$pks = (array) $pks;
-		$user = JFactory::getUser();
 
 		$languages = array();
 		$onehome = false;

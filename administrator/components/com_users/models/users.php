@@ -329,7 +329,7 @@ class UsersModelUsers extends JModelList
 		$range = $this->getState('filter.range');
 
 		// Apply the range filter.
-		if ($range = $this->getState('filter.range'))
+		if ($range)
 		{
 			// Get UTC for now.
 			$dNow = new JDate;

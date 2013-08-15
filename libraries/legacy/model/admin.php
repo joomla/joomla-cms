@@ -565,13 +565,14 @@ abstract class JModelAdmin extends JModelForm
 			{
 				$table->reset();
 				$table->load($pk);
-				$metaObject = json_decode($table->metadata);
-				$metaObject->tags = (isset($metaObject->tags) && is_array($metaObject->tags)) ? $metaObject->tags : array();
-				$metaObject->tags[] = (int) $value;
-				$metaObject->tags = array_unique($metaObject->tags);
-				$table->metadata = json_encode($metaObject);
+				$tags = array($value);
 
-				if (!$table->store())
+				/**
+				 * @var  JTableObserverTags  $tagsObserver
+				 */
+				$tagsObserver = $table->getObserverOfClass('JTableObserverTags');
+				$result = $tagsObserver->setNewTags($tags, false);
+				if (!$result)
 				{
 					$this->setError($table->getError());
 
@@ -977,7 +978,6 @@ abstract class JModelAdmin extends JModelForm
 					continue;
 				}
 
-				$where = array();
 				$where = $this->getReorderConditions($table);
 
 				if (!$table->move($delta, $where))
@@ -1024,6 +1024,11 @@ abstract class JModelAdmin extends JModelForm
 	{
 		$dispatcher = JEventDispatcher::getInstance();
 		$table = $this->getTable();
+
+		if ((!empty($data['tags']) && $data['tags'][0] != ''))
+		{
+			$table->newTags = $data['tags'];
+		}
 
 		$key = $table->getKeyName();
 		$pk = (!empty($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');

@@ -1286,3 +1286,12 @@ div.btn-toolbar {
 	float:none;
 	margin: 10px 20px;
 }
+
+.alert .close {
+	right: 5px;
+	float: left;
+}
+
+.tooltip-inner {
+	text-align: right;
+}

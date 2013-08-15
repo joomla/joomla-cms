@@ -95,18 +95,7 @@ class JDatabaseExporterMysqli extends JDatabaseExporter
 		// Check everything is ok to run first.
 		$this->check();
 
-		$buffer = '';
-
-		// Get the format.
-		switch ($this->asFormat)
-		{
-			case 'xml':
-			default:
-				$buffer = $this->buildXml();
-				break;
-		}
-
-		return $buffer;
+		return $this->buildXml();
 	}
 
 	/**

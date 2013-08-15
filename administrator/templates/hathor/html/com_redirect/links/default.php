@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-JHtml::_('behavior.tooltip');
+
 JHtml::_('behavior.multiselect');
 
 $user		= JFactory::getUser();
@@ -92,9 +92,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<td>
 					<?php if ($canEdit) : ?>
 						<a href="<?php echo JRoute::_('index.php?option=com_redirect&task=link.edit&id='.$item->id);?>" title="<?php echo $this->escape($item->old_url); ?>">
-							<?php echo $this->escape(str_replace(JURI::root(), '', $item->old_url)); ?></a>
+							<?php echo $this->escape(str_replace(JUri::root(), '', $item->old_url)); ?></a>
 					<?php else : ?>
-							<?php echo $this->escape(str_replace(JURI::root(), '', $item->old_url)); ?>
+							<?php echo $this->escape(str_replace(JUri::root(), '', $item->old_url)); ?>
 					<?php endif; ?>
 				</td>
 				<td>

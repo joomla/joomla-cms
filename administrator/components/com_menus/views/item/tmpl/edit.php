@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-// Load the tooltip behavior.
 JHtml::_('behavior.framework');
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.modal');
 JHtml::_('formbehavior.chosen', 'select');
@@ -55,6 +53,7 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate form-horizontal">
+
 	<fieldset>
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 

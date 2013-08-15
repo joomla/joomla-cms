@@ -93,7 +93,6 @@ class JCacheStorageFile extends JCacheStorage
 
 		foreach ($folders as $folder)
 		{
-			$files = array();
 			$files = $this->_filesInFolder($path . '/' . $folder);
 			$item = new JCacheStorageHelper($folder);
 

@@ -36,6 +36,7 @@
 		mode="nested"
 		validate="notequals"
 		field="id"
+		parent="parent"
 	>
 		<option value="1">JNONE</option>
 	</field>
