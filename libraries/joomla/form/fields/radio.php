@@ -55,7 +55,7 @@ class JFormFieldRadio extends JFormField
 		foreach ($options as $i => $option)
 		{
 			// Initialize some option attributes.
-			$checked = ((string) $option->value == (string) $this->value) ? ' checked' : '';
+			$checked = ((string) $option->value == (string) $this->value) ? ' checked="checked"' : '';
 			$class = !empty($option->class) ? ' class="' . $option->class . '"' : '';
 
 			$disabled = !empty($option->disable) || ($readonly && !$checked);
