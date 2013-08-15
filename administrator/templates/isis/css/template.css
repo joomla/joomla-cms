@@ -7293,3 +7293,6 @@ th .tooltip-inner {
 .img-preview > img {
 	max-height: 100%;
 }
+#helpsite-refresh {
+	vertical-align: top;
+}

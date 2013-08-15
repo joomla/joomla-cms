@@ -31,7 +31,7 @@ class LanguageManagerPage extends AdminManagerPage
 	 * @since  3.0
 	 */
 	protected $waitForXpath =  "//ul/li/a[@href='index.php?option=com_languages&view=languages']";
-	
+
 	/**
 	 * URL used to uniquely identify this page
 	 *
@@ -39,7 +39,7 @@ class LanguageManagerPage extends AdminManagerPage
 	 * @since  3.0
 	 */
 	protected $url = 'administrator/index.php?option=com_languages';
-	
+
 	/**
 	 * Array of filter id values for this page
 	 *
@@ -50,13 +50,13 @@ class LanguageManagerPage extends AdminManagerPage
 			'Select Status' => 'filter_published',
 			'Select Access' => 'filter_access',
 			);
-			
+
 	/**
 	 * Array of toolbar id values for this page
 	 *
 	 * @var    array
 	 * @since  3.0
-	 */	
+	 */
 	public $toolbar = array (
 			'New' => 'toolbar-new',
 			'Edit' => 'toolbar-edit',
@@ -68,20 +68,20 @@ class LanguageManagerPage extends AdminManagerPage
 			'Options' => 'toolbar-options',
 			'Help' => 'toolbar-help',
 			);
-			
+
 	/**
 	 * Add a new Language item in the Language Manager: Component screen.
 	 *
 	 * @param string   $title          Test Language Name
-	 * 
+	 *
 	 * @param string   $native_title 	 Native Title for the Test Language
-	 * 
+	 *
 	 * @param string   $url			  URL for the Test Language
-	 * 
+	 *
 	 * @param string   $image_prefix		  image prefix for the test Language
-	 * 
+	 *
 	 * @param string 	$language_tag		Tag for the test language
-	 * 
+	 *
 	 * @return  LanguageManagerPage
 	 */
 	public function addLanguage($title='Test Lang', $native_title='Default', $url='Default', $image_prefix='us', $language_tag='Default')
@@ -94,7 +94,7 @@ class LanguageManagerPage extends AdminManagerPage
 		$this->test->getPageObject('LanguageManagerPage');
 
 	}
-	
+
 	/**
 	 * Edit a Language Content item in the Language Manager: Language-Content Screen Items screen.
 	 *
@@ -112,19 +112,19 @@ class LanguageManagerPage extends AdminManagerPage
 		$this->test->getPageObject('LanguageManagerPage');
 		$this->searchFor();
 	}
-	
+
 	/**
 	 * Get state  of a Language item in the Language Manager: Language Items screen.
 	 *
 	 * @param string   $name	   Language Title field
-	 * 
+	 *
 	 * @return  State of the Language //Published or Unpublished
 	 */
 	public function getState($name)
 	{
 		$result = false;
 		$row = $this->getRowNumber($name);
-		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[2]/a"))->getAttribute(@onclick);
+		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[3]/a"))->getAttribute(@onclick);
 		if (strpos($text, 'languages.unpublish') > 0)
 		{
 			$result = 'published';
@@ -135,7 +135,7 @@ class LanguageManagerPage extends AdminManagerPage
 		}
 		return $result;
 	}
-	
+
 	/**
 	 * Change state of a Language item in the Language Manager: Language Items screen.
 	 *
@@ -143,7 +143,7 @@ class LanguageManagerPage extends AdminManagerPage
 	 * @param string   $state      State of the Language
 	 *
 	 * @return  void
-	 */	
+	 */
 	public function changeLanguageState($name, $state = 'published')
 	{
 		$this->searchFor($name);
@@ -160,5 +160,5 @@ class LanguageManagerPage extends AdminManagerPage
 		}
 		$this->searchFor();
 	}
-	
+
 }

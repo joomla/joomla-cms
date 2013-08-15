@@ -169,7 +169,7 @@ class SearchViewSearch extends JViewLegacy
 				foreach ($searchwords as $hlword)
 				{
 					if (extension_loaded('mbstring'))
- 					{
+					{
 						if (($pos = mb_strpos($srow, strtolower(SearchHelper::remove_accents($hlword)))) !== false)
 						{
 							$pos += $cnt++ * mb_strlen($hl1 . $hl2);

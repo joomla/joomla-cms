@@ -73,7 +73,7 @@ abstract class JStringPunycode
 		if (!isset($parsed['host']) || $parsed['host'] == '')
 		{
 			// If there is no host we do not need to convert it.
-			return;
+			return '';
 		}
 
 		$host = $parsed['host'];

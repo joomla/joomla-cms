@@ -25,6 +25,31 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Aug-2013 Jean-Marie Simonet
+ # [#31692] JFormFieldUrl garble HTML with emtpy class. Thanks Anthony THERREAU
+ #$ [#31631] Small typo fix in Plugin. Thanks Gunjan Patel
+ $ [#31714] Confusing text "search by tag" in the banner module. Thanks Brian Teeman
+ + [#31436] *Create a update button to list new Help servers. Thanks Julien Vonthron
+
+12-Aug-2013 Jean-Marie Simonet
+ # [#31703] Fixed BC issue with tooltip/popover being added in wrong place. Thanks Peter Van Westen
+ $ [#31210] Add the "!" at the mod_menu.ini for the adminmenu "Help". Thanks Tobias Zulauf
+ # [#31697] *Tags menu items: impossible to delete the last "Type". Thanks Roberto Segura.
+ $ [#31365] Statistics Module 'Visitors' should be 'Registered users'. Thanks Stefania Gaianigo and Brian Teeman
+ # [#30413] Calender popup problem in pages containing calendar fields. Thanks Achal Aggarwal
+ # [#31658] correct header for some ini files. Thanks Tobias Zulauf
+ # [#31695] Installation screen shows placeholder instead of email address. Thanks Achal Aggarwal
+
+11-Aug-2013 Jean-Marie Simonet
+ # Reverting #31697 which breaks installation.
+ # [#31726] Saving with no tags gives sql error. Thanks Elin Waring
+
+10-Aug-2013 Jean-Marie Simonet
+ # [#31597] Undefined variable in com_banners model. Thanks Mario Proenca
+ # [#31432] News Feed Manager: News Feed Page. --> System does not displayed the proper tootl tip. Thanks Sebastian Łuckoś
+ # [#31685] No article Message does not Show on Blog category. Thanks Brian Teeman
+ # [#31697] *Tags menu items: impossible to delete the last "Type". Thanks Achal Aggarwal
+
 09-Aug-2013 Jean-Marie Simonet
  # [#31694] No search result at the contacts, weblinks, newsfeeds, categories. Thanks Carsten Wirtz
  # [#31639] Com_search is using mb string functions (regression)
@@ -34,6 +59,8 @@ $ -> Language fix or change
  # [#30794] Title admin module doesn't disable the component toolbar title. Thanks Michael Babker
  # [#31412] We can't look what "search results" have searches that are not viewed in first pagination page. Thanks Bojan Nišević
  #+ [#31368] jdoc:include tag fails on type "component" and "head" without space before "/>". Thanks Lu Nguyen
+ # [#31711] Cannot delete web site entry for a contact. Thanks Achal Aggarwal
+ + [#31596] Language field improvements + registration language. Thanks Roberto Segura
 
 07-Aug-2013 Jean-Marie Simonet
  $ [#31606] Small typo fix in lang. Thanks Brian Teeman

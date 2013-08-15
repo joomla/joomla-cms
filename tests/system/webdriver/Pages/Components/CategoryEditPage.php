@@ -69,7 +69,7 @@ class CategoryEditPage extends AdminEditPage
 
 			array('label' => 'ID', 'id' => 'jform_id', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'Hits', 'id' => 'jform_hits', 'type' => 'input', 'tab' => 'publishing'),
-			array('label' => 'Created by', 'id' => 'jform_created_user_id_name', 'type' => 'input', 'tab' => 'publishing'),
+			array('label' => 'Created by', 'id' => 'jform_created_user_id', 'type' => 'input', 'tab' => 'publishing'),
 
 			array('label' => 'Alternative Layout', 'id' => 'jform_params_category_layout', 'type' => 'select', 'tab' => 'options'),
 			array('label' => 'Image', 'id' => 'jform_params_image', 'type' => 'input', 'tab' => 'options'),
