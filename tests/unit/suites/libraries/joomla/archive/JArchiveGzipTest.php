@@ -1,10 +1,13 @@
 <?php
 /**
- * @package    Joomla.UnitTest
+ * @package     Joomla.UnitTest
+ * @subpackage  Archive
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+require_once __DIR__ . '/JArchiveTestCase.php';
 
 /**
  * Test class for JArchiveGzip.
@@ -12,15 +15,12 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Archive
- *
  * @since       11.1
  */
-class JArchiveGzipTest extends PHPUnit_Framework_TestCase
+class JArchiveGzipTest extends JArchiveTestCase
 {
-	protected static $outputPath;
-
 	/**
-     * @var JArchiveGzip
+     * @var  JArchiveGzip
      */
 	protected $object;
 
@@ -28,40 +28,19 @@ class JArchiveGzipTest extends PHPUnit_Framework_TestCase
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
 	 *
-	 * @return void
+	 * @return  void
      */
 	protected function setUp()
 	{
 		parent::setUp();
 
-		self::$outputPath = __DIR__ . '/output';
-
-		if (!is_dir(self::$outputPath))
-		{
-			mkdir(self::$outputPath, 0777);
-		}
-
 		$this->object = new JArchiveGzip;
-	}
-
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @return void
-	 */
-	protected function tearDown()
-	{
-
 	}
 
 	/**
 	 * Tests the extract Method.
 	 *
-	 * @group   JArchive
 	 * @return  void
-	 *
-	 * @covers  JArchiveGzip::extract
 	 */
 	public function testExtract()
 	{
@@ -84,11 +63,7 @@ class JArchiveGzipTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the extract Method.
 	 *
-	 * @group   JArchive
 	 * @return  void
-	 *
-	 * @covers  JArchiveGzip::extract
-	 * @covers  JArchiveGzip::_getFilePosition
 	 */
 	public function testExtractWithStreams()
 	{
@@ -111,10 +86,7 @@ class JArchiveGzipTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the isSupported Method.
 	 *
-	 * @group   JArchive
 	 * @return  void
-	 *
-	 * @covers  JArchiveGzip::isSupported
 	 */
 	public function testIsSupported()
 	{
@@ -135,7 +107,7 @@ class JArchiveGzipTest extends PHPUnit_Framework_TestCase
 	{
 		// Remove the following lines when you implement this test.
 		$this->markTestIncomplete(
-				'This test has not been implemented yet.'
+			'This test has not been implemented yet.'
 		);
 	}
 }
