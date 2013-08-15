@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Aug-2013 Jean-Marie Simonet
+ # [#31744] Featured articles menu item error. Thanks Anthony THERREAU
+
 14-Aug-2013 Jean-Marie Simonet
  # [#31692] JFormFieldUrl garble HTML with emtpy class. Thanks Anthony THERREAU
  #$ [#31631] Small typo fix in Plugin. Thanks Gunjan Patel
