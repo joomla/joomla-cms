@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Aug-2013 Mark Dexter
+ # Fix failing system tests due to markup changes.
+
 09-Aug-2013 Mark Dexter
  # Fix failing system tests due to markup changes.
 
