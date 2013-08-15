@@ -110,7 +110,9 @@ class JFormFieldMedia extends JFormField
 		$attr = '';
 
 		// Initialize some field attributes.
-		$attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
+		$attr_class = $this->element['class'] ? ' ' . (string) $this->element['class'] : '';
+
+		$attr .= ' class="input-small' . $attr_class . '"';
 		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
 
 		// Initialize JavaScript field attributes.
@@ -194,7 +196,7 @@ class JFormFieldMedia extends JFormField
 			}
 		}
 
-		$html[] = '	<input type="text" class="input-small" name="' . $this->name . '" id="' . $this->id . '" value="'
+		$html[] = '	<input type="text" name="' . $this->name . '" id="' . $this->id . '" value="'
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" readonly="readonly"' . $attr . ' />';
 
 		$directory = (string) $this->element['directory'];
