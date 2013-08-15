@@ -269,7 +269,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
         $app            = JFactory::getApplication();
         $model          = $this->getModel();
         $file           = $app->input->get('file');
-        $override       = urldecode(base64_decode($app->input->get('folder')));
+        $override       = base64_decode($app->input->get('folder'));
         $id             = $app->input->get('id');
 
         if($model->createOverride($override))
@@ -445,6 +445,35 @@ class TemplatesControllerTemplate extends JControllerLegacy
         }
     }
 
+    public function renameFile()
+    {
+        $app            = JFactory::getApplication();
+        $model          = $this->getModel();
+        $id             = $app->input->get('id');
+        $file           = $app->input->get('file');
+        $newName        = $app->input->get('new_name');
+
+        if(base64_decode(urldecode($file)) == 'index.php')
+        {
+            $app->enqueueMessage(JText::_('The file index.php cannot be renamed.'),'warning');
+            $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+            $this->setRedirect(JRoute::_($url, false));
+        }
+
+        elseif($rename = $model->renameFile($file, $newName))
+        {
+            $this->setMessage(JText::_('File renamed successfully.'));
+            $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $rename;
+            $this->setRedirect(JRoute::_($url, false));
+        }
+        else
+        {
+            $app->enqueueMessage(JText::_('Some error occurred. Failed to rename file.'),'error');
+            $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+            $this->setRedirect(JRoute::_($url, false));
+        }
+    }
+
     public function cropImage()
     {
         $app            = JFactory::getApplication();
@@ -473,6 +502,30 @@ class TemplatesControllerTemplate extends JControllerLegacy
         else
         {
             $app->enqueueMessage(JText::_('Failed to crop image.'),'error');
+            $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+            $this->setRedirect(JRoute::_($url, false));
+        }
+    }
+
+    public function resizeImage()
+    {
+        $app            = JFactory::getApplication();
+        $id             = $app->input->get('id');
+        $file           = $app->input->get('file');
+        $width          = $app->input->get('width');
+        $height         = $app->input->get('height');
+        $model          = $this->getModel();
+
+        if($model->resizeImage($file, $width, $height))
+        {
+            $app->enqueueMessage(JText::_('Image resized successfully.'));
+            $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+            $this->setRedirect(JRoute::_($url, false));
+        }
+
+        else
+        {
+            $app->enqueueMessage(JText::_('Failed to resize image.'),'error');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
             $this->setRedirect(JRoute::_($url, false));
         }

@@ -146,7 +146,7 @@ if($this->type == 'image')
 	
 	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'overrides', JText::_('Create Overrides', true)); ?>
         <div class="row-fluid">
-            <div class="span6">
+            <div class="span4">
                 <legend><?php echo JText::_('Modules');?></legend>
                 <ul class="nav nav-list">
                     <?php foreach($this->overridesList['modules'] as $module): ?>
@@ -156,7 +156,7 @@ if($this->type == 'image')
                     <?php endforeach; ?>
                 </ul>
             </div>
-            <div class="span6">
+            <div class="span4">
                 <legend><?php echo JText::_('Components');?></legend>
                 <ul class="nav nav-list">
                     <?php foreach($this->overridesList['components'] as $component): ?>
@@ -166,12 +166,19 @@ if($this->type == 'image')
                     <?php endforeach; ?>
                 </ul>
             </div>
+            <div class="span4">
+                <legend><?php echo JText::_('Layouts');?></legend>
+                <ul class="nav nav-list">
+                    <?php foreach($this->overridesList['layouts'] as $layout): ?>
+                        <li><a href="
+                            <?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $layout->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>
+                        "><i class="icon-copy"></i>&nbsp;<?php echo $layout->name; ?></a></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
         </div>
 	<?php echo JHtml::_('bootstrap.endTab'); ?>
-    <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'less', JText::_('LESS Parameters', true)); ?>
-
-    <?php echo JHtml::_('bootstrap.endTab'); ?>
-    <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'preview', JText::_('Template Preview', true)); ?>
+    <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'less', JText::_('CDN Files', true)); ?>
 
     <?php echo JHtml::_('bootstrap.endTab'); ?>
 <?php echo JHtml::_('bootstrap.endTabSet'); ?>
@@ -200,6 +207,30 @@ if($this->type == 'image')
 	</div>
 	<?php echo JHtml::_('form.token'); ?>
 </form>
+<form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.renameFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
+      method="post" >
+    <div  id="renameModal" class="modal hide fade">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3>Rename file <?php echo $this->fileName; ?></h3>
+        </div>
+        <div class="modal-body">
+            <div id="template-manager-css" class="form-horizontal">
+                <div class="control-group">
+                    <label for="new_name" class="control-label hasTooltip" title="<?php echo JHtml::tooltipText('New File Name.'); ?>"><?php echo JText::_('New File Name')?></label>
+                    <div class="controls">
+                        <input class="input-xlarge" type="text" name="new_name" required />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">Close</a>
+            <button class="btn btn-primary" type="submit"><?php echo JText::_('Rename'); ?></button>
+        </div>
+    </div>
+    <?php echo JHtml::_('form.token'); ?>
+</form>
 <div  id="deleteModal" class="modal hide fade">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -213,6 +244,7 @@ if($this->type == 'image')
         <a href="<?php echo JRoute::_('index.php?option=com_templates&task=template.delete&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" class="btn btn-danger">Delete</a>
     </div>
 </div>
+
 <div  id="fileModal" class="modal hide fade">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -289,3 +321,32 @@ if($this->type == 'image')
         </form>
     </div>
 </div>
+<form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.resizeImage&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
+      method="post" >
+    <div  id="resizeModal" class="modal hide fade">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3><?php echo JText::_('Resize Image'); ?></h3>
+        </div>
+        <div class="modal-body">
+            <div id="template-manager-css" class="form-horizontal">
+                <div class="control-group">
+                    <label for="height" class="control-label hasTooltip" title="<?php echo JHtml::tooltipText('Height'); ?>"><?php echo JText::_('Height')?></label>
+                    <div class="controls">
+                        <input class="input-xlarge" type="number" name="height" placeholder="<?php echo $this->image['height']; ?> px" required />
+                    </div>
+                    <br />
+                    <label for="width" class="control-label hasTooltip" title="<?php echo JHtml::tooltipText('Width'); ?>"><?php echo JText::_('Width')?></label>
+                    <div class="controls">
+                        <input class="input-xlarge" type="number" name="width" placeholder="<?php echo $this->image['width']; ?> px" required />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">Close</a>
+            <button class="btn btn-primary" type="submit"><?php echo JText::_('Resize'); ?></button>
+        </div>
+    </div>
+    <?php echo JHtml::_('form.token'); ?>
+</form>

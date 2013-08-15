@@ -451,7 +451,7 @@ class TemplatesModelTemplate extends JModelForm
     {
         $folder = new stdClass();
         $folder->name = $name;
-        $folder->path = urlencode(base64_encode($path . $name));
+        $folder->path = base64_encode($path . $name);
 
         return $folder;
     }
@@ -463,6 +463,7 @@ class TemplatesModelTemplate extends JModelForm
             $client 	= JApplicationHelper::getClientInfo($template->client_id);
             $componentPath		= JPath::clean($client->path.'/components/');
             $modulePath		= JPath::clean($client->path.'/modules/');
+            $layoutPath		= JPath::clean(JPATH_ROOT . '/layouts/joomla/');
             $components = JFolder::folders($componentPath);
             foreach($components as $component)
             {
@@ -473,14 +474,10 @@ class TemplatesModelTemplate extends JModelForm
             {
                 $result['modules'][] = $this->getOverridesFolder($module,$modulePath);
             }
-            $html = JPath::clean($client->path . '/templates/' . $template->element . '/html/');
-            if(file_exists($html))
+            $layouts = JFolder::folders($layoutPath);
+            foreach($layouts as $layout)
             {
-                $overrides = JFolder::folders($html);
-                foreach($overrides as $override)
-                {
-                    $result['exists'][] = $override;
-                }
+                $result['layouts'][] = $this->getOverridesFolder($layout,$layoutPath);
             }
 
         }
@@ -498,7 +495,15 @@ class TemplatesModelTemplate extends JModelForm
             $app        = JFactory::getApplication();
             $name       = end(explode('/',$override));
             $client 	= JApplicationHelper::getClientInfo($template->client_id);
-            $htmlPath   = JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $name);
+            if(stristr($name,'mod_') != FALSE || stristr($name,'com_') != FALSE)
+            {
+                $htmlPath   = JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $name);
+            }
+            else
+            {
+                $htmlPath   = JPath::clean($client->path . '/templates/' . $template->element . '/html/layouts/joomla/' .  $name);
+            }
+
             if(JFolder::exists($htmlPath))
             {
                 $app->enqueueMessage('Override already exists.','error');
@@ -527,6 +532,10 @@ class TemplatesModelTemplate extends JModelForm
                     }
                     $return = JFolder::copy($override . '/views/' . $folder . '/tmpl',$htmlPath . '/' . $folder,'',true);
                 }
+            }
+            else
+            {
+                $return = JFolder::copy($override,$htmlPath,'',true);
             }
 
             if($return)
@@ -689,6 +698,27 @@ class TemplatesModelTemplate extends JModelForm
         }
     }
 
+    public function renameFile($file, $name)
+    {
+        if ($template = $this->getTemplate())
+        {
+            $app        = JFactory::getApplication();
+            $client 	= JApplicationHelper::getClientInfo($template->client_id);
+            $path       = JPath::clean($client->path . '/templates/' . $template->element . '/');
+            $fileName   = base64_decode($file);
+            $type       = end(explode('.', $fileName));
+            $newName    = str_replace(end(explode('/', $fileName)), $name . '.' . $type, $fileName);
+
+            if(!rename($path . $fileName, $path . $newName))
+            {
+                $app->enqueueMessage('An error occurred creating the file.','error');
+                return false;
+            }
+
+            return base64_encode($newName);
+        }
+    }
+
     public function getImage()
     {
         if ($template = $this->getTemplate())
@@ -702,7 +732,7 @@ class TemplatesModelTemplate extends JModelForm
             {
                 $JImage = new JImage(JPath::clean($path . '/' . $fileName));
                 $base = end(explode('/',JPATH_ROOT));
-                $image['address'] = str_replace(JPATH_ROOT, '/' . $base, $JImage->getPath());
+                $image['address'] = str_replace(JPATH_ROOT, '/' . $base, $JImage->getPath() . '?' . time());
 
                 $image['height'] = $JImage->getHeight();
                 $image['width']  = $JImage->getWidth();
@@ -732,6 +762,30 @@ class TemplatesModelTemplate extends JModelForm
             try
             {
                 $image = $JImage->crop($w, $h, $x, $y, true);
+                $image->toFile($path);
+                return true;
+            }
+            catch(Exception $e)
+            {
+                $app->enqueueMessage($e->getMessage(),'error');
+            }
+        }
+    }
+
+    public function resizeImage($file, $width, $height)
+    {
+        if ($template = $this->getTemplate())
+        {
+            $app        = JFactory::getApplication();
+            $client 	= JApplicationHelper::getClientInfo($template->client_id);
+            $relPath    = base64_decode($file);
+            $path       = JPath::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
+
+            $JImage = new JImage($path);
+
+            try
+            {
+                $image = $JImage->resize($width, $height, true, 1);
                 $image->toFile($path);
                 return true;
             }

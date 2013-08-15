@@ -117,11 +117,10 @@ protected function addToolbar()
             if ($canDo->get('core.edit'))
             {
                 $title = JText::_('Resize');
-                $href  = JRoute::_('index.php?option=com_templates&view=template&task=template.cropImage&id=' . $this->id . '&file=' . $this->file);
-                $dhtml = "<a class=\"btn btn-small\" href=\"$href\">
-                <i class=\"icon-move\" title=\"$title\"></i>
-                $title</a>";
-                $bar->appendButton('Custom', $dhtml);
+                $dhtml = "<button data-toggle=\"modal\" data-target=\"#resizeModal\" class=\"btn btn-small\">
+			    <i class=\"icon-move\" title=\"$title\"></i>
+			    $title</button>";
+                $bar->appendButton('Custom', $dhtml, 'upload');
             }
         }
 
@@ -138,9 +137,9 @@ protected function addToolbar()
 
         if ($user->authorise('core.create', 'com_templates'))
         {
-            $title = JText::_('Save Parameters');
+            $title = JText::_('Template Preview');
             $dhtml = "<button data-toggle=\"collapse\" data-target=\"#\" class=\"btn btn-small \">
-			<i class=\"icon-list icon-white\" title=\"$title\"></i>
+			<i class=\"icon-picture icon-white\" title=\"$title\"></i>
 			$title</button>";
             $bar->appendButton('Custom', $dhtml, 'upload');
         }
@@ -163,6 +162,16 @@ protected function addToolbar()
 			$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'upload');
 		}
+
+        // Add new overrides button
+        if ($user->authorise('core.create', 'com_templates'))
+        {
+            $title = JText::_('Rename');
+            $dhtml = "<button data-toggle=\"modal\" data-target=\"#renameModal\" class=\"btn btn-small\">
+			<i class=\"icon-refresh\" title=\"$title\"></i>
+			$title</button>";
+            $bar->appendButton('Custom', $dhtml, 'upload');
+        }
 		
 		// Add new overrides button
 		if ($user->authorise('core.create', 'com_templates'))
