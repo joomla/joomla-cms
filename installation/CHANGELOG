@@ -25,10 +25,19 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Aug-2013 Michael Babker
+ # [#31732] administrator/components/com_admin/sql/updates/postgresql/3.0.3.sql has wrong type should be integer instead of int(11).  Thanks Alan Hicks
+
+15-Aug-2013 Jean-Marie Simonet
+ # [#31744] Featured articles menu item error. Thanks Anthony THERREAU
+ # [#30572] No backend javascript validation on com_content option input fields. Thanks Duong Nguyen
+ # [#31717] output mod_newsfeed. Thanks Przemysław Pałyga
+
 14-Aug-2013 Jean-Marie Simonet
  # [#31692] JFormFieldUrl garble HTML with emtpy class. Thanks Anthony THERREAU
  #$ [#31631] Small typo fix in Plugin. Thanks Gunjan Patel
  $ [#31714] Confusing text "search by tag" in the banner module. Thanks Brian Teeman
+ + [#31436] *Create a update button to list new Help servers. Thanks Julien Vonthron
 
 12-Aug-2013 Jean-Marie Simonet
  # [#31703] Fixed BC issue with tooltip/popover being added in wrong place. Thanks Peter Van Westen

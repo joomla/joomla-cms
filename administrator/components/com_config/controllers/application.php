@@ -168,6 +168,13 @@ class ConfigControllerApplication extends JControllerLegacy
 		{
 			$this->setRedirect('index.php?option=com_config', JText::_('COM_CONFIG_HELPREFRESH_SUCCESS'));
 		}
+
+		if ($this->input->get('format') == 'json')
+		{
+			$options = JHelp::createSiteList(JPATH_ADMINISTRATOR . '/help/helpsites.xml');
+			echo json_encode($options);
+			JFactory::getApplication()->close();
+		}
 	}
 
 	/**
