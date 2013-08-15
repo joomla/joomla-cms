@@ -28,6 +28,7 @@ $ -> Language fix or change
 15-Aug-2013 Jean-Marie Simonet
  # [#31744] Featured articles menu item error. Thanks Anthony THERREAU
  # [#30572] No backend javascript validation on com_content option input fields. Thanks Duong Nguyen
+ # [#31717] output mod_newsfeed. Thanks Przemysław Pałyga
 
 14-Aug-2013 Jean-Marie Simonet
  # [#31692] JFormFieldUrl garble HTML with emtpy class. Thanks Anthony THERREAU
