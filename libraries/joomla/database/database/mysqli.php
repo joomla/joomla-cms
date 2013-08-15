@@ -359,7 +359,7 @@ class JDatabaseMySQLi extends JDatabaseMySQL
 
 		// Take a local copy so that we don't modify the original query and cause issues later
 		$sql = $this->replacePrefix((string) $this->sql);
-		if ($this->limit > 0 || $this->offset > 0)
+		if (!($this->sql instanceof JDatabaseQuery) && ($this->limit > 0 || $this->offset > 0))
 		{
 			$sql .= ' LIMIT ' . $this->offset . ', ' . $this->limit;
 		}
