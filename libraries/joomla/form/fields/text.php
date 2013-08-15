@@ -53,6 +53,7 @@ class JFormFieldText extends JFormField
 		$autofocus = $this->autofocus ? ' autofocus' : '';
 		$spellcheck = $this->spellcheck ? ' spellcheck="true"' : ' spellcheck="false"';
 		$inputmode = !empty($this->inputmode) ? ' inputmode="' . $this->inputmode . '"' : '';
+		$dirname = !empty($this->dirname) ? ' dirname="' . $this->dirname . '"' : '';
 		$list = '';
 
 		// Initialize JavaScript field attributes.
@@ -71,7 +72,7 @@ class JFormFieldText extends JFormField
 			$list = ' list="' . $this->id . '_datalist"';
 		}
 
-		$html[] = '<input type="text" name="' . $this->name . '" id="' . $this->id . '" dirname="' . $this->dirname . '" value="'
+		$html[] = '<input type="text" name="' . $this->name . '" id="' . $this->id . $dirname . ' value="'
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $class . $size . $disabled . $readonly . $list
 			. $hint . $onchange . $maxLength . $required . $autocomplete . $autofocus . $spellcheck . $inputmode . '/>';
 
@@ -91,7 +92,6 @@ class JFormFieldText extends JFormField
 
 		foreach ($this->element->children() as $option)
 		{
-
 			// Only add <option /> elements.
 			if ($option->getName() != 'option')
 			{

@@ -425,6 +425,7 @@ abstract class JFormField
 		$spellcheck = (string) $element['spellcheck'];
 		$hidden = (string) $element['hidden'];
 		$inputmode = (string) $element['inputmode'];
+		$dirname = (string) $element['dirname'];
 
 		// Set the required, disabled, readonly, multiple and validation options.
 		$this->required = ($required == 'true' || $required == 'required' || $required == '1');
@@ -474,6 +475,10 @@ abstract class JFormField
 		// Set the visibility.
 		$this->hidden = ((string) $element['type'] == 'hidden' || $hidden == 'true' || $hidden == '1');
 
+		// Set the dirname.
+		$dirname = ((string) $dirname == 'dirname' || $dirname == 'true' || $dirname == '1');
+		$this->dirname = $dirname ? $this->getName($this->fieldname . '_dir') : false;
+
 		// Determine whether to translate the field label and/or description and/or hint.
 		$this->translateLabel = !((string) $this->element['translate_label'] == 'false' || (string) $this->element['translate_label'] == '0');
 		$this->translateDescription = !((string) $this->element['translate_description'] == 'false'
@@ -486,7 +491,6 @@ abstract class JFormField
 		// Set the field name and id.
 		$this->fieldname = $this->getFieldName($name);
 		$this->name = $this->getName($this->fieldname);
-		$this->dirname = $this->getName($this->fieldname . '_dir');
 		$this->id = $this->getId($id, $this->fieldname);
 
 		// Set the field default value.
