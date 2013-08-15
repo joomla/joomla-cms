@@ -30,6 +30,75 @@ class JFormFieldCalendar extends JFormField
 	protected $type = 'Calendar';
 
 	/**
+	 * The allowable maxlength of password.
+	 *
+	 * @var    int
+	 * @since  11.1
+	 */
+	protected $maxlength;
+
+	/**
+	 * The format of date and time.
+	 *
+	 * @var    int
+	 * @since  11.1
+	 */
+	protected $format;
+
+	/**
+	 * The format of date and time.
+	 *
+	 * @var    int
+	 * @since  11.1
+	 */
+	protected $filter;
+
+	/**
+	 * Method to get certain otherwise inaccessible properties from the form field object.
+	 *
+	 * @param   string  $name  The property name for which to the the value.
+	 *
+	 * @return  mixed  The property value or null.
+	 *
+	 * @since   11.1
+	 */
+	public function __get($name)
+	{
+		switch ($name)
+		{
+			case 'maxlength':
+			case 'format':
+			case 'filter':
+				return $this->$name;
+		}
+
+		return parent::__get($name);
+	}
+
+	/**
+	 * Method to attach a JForm object to the field.
+	 *
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   mixed             $value    The form field value to validate.
+	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                      full field name would end up being "bar[foo]".
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @see 	JFormField::setup()
+	 * @since   11.1
+	 */
+	public function setup(SimpleXMLElement $element, $value, $group = null)
+	{
+		$this->maxlength = (int) $element['maxlength'] ? (int) $element['maxlength'] : 45;
+		$this->format = (string) $element['format'] ? (string) $element['format'] : '%Y-%m-%d';
+		$this->filter = (string) $element['filter'] ? (string) $element['filter'] : 'USER_UTC';
+
+		return parent::setup($element, $value, $group);
+	}
+
+	/**
 	 * Method to get the field input markup.
 	 *
 	 * @return  string   The field input markup.
@@ -42,7 +111,7 @@ class JFormFieldCalendar extends JFormField
 		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
 
 		// Initialize some field attributes.
-		$format = $this->element['format'] ? (string) $this->element['format'] : '%Y-%m-%d';
+		$format = $this->format;
 
 		// Build the attributes array.
 		$attributes = array();
@@ -50,12 +119,12 @@ class JFormFieldCalendar extends JFormField
 		empty($this->size) 		? null : $attributes['size'] = $this->size;
 		empty($this->maxlength) ? null : $attributes['maxlength'] = $this->maxlength;
 		empty($this->class) 	? null : $attributes['class'] = $this->class;
-		$this->readonly 		? null : $attributes['readonly'] = '';
-		$this->disabled 		? null : $attributes['disabled'] = '';
+		!$this->readonly 		? null : $attributes['readonly'] = '';
+		!$this->disabled 		? null : $attributes['disabled'] = '';
 		empty($this->onchange) 	? null : $attributes['onchange'] = $this->onchange;
 		empty($hint) 			? null : $attributes['placeholder'] = $hint;
-		!$this->autocomplete 	? null : $attributes['autocomplete'] = 'off';
-		$this->autofocus 		? null : $attributes['autofocus'] = '';
+		$this->autocomplete 	? null : $attributes['autocomplete'] = 'off';
+		!$this->autofocus 		? null : $attributes['autofocus'] = '';
 
 		if ($this->required)
 		{
@@ -74,7 +143,7 @@ class JFormFieldCalendar extends JFormField
 		$user = JFactory::getUser();
 
 		// If a known filter is given use it.
-		switch (strtoupper((string) $this->element['filter']))
+		switch (strtoupper($this->filter))
 		{
 			case 'SERVER_UTC':
 				// Convert a date to UTC based on the server timezone.
@@ -95,6 +164,7 @@ class JFormFieldCalendar extends JFormField
 				{
 					// Get a date object based on the correct timezone.
 					$date = JFactory::getDate($this->value, 'UTC');
+
 					$date->setTimezone(new DateTimeZone($user->getParam('timezone', $config->get('offset'))));
 
 					// Transform the date string.

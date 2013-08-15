@@ -75,57 +75,101 @@ class JFormFieldCalendarTest extends TestCase
 	 *
 	 * @return array
 	 */
-	public function attributeData()
+	public function getSetupData()
 	{
-
 		return array(
 			/*
 			* Test normal parameters
 			*/
 			'normal' => array(
-				'myCalendarElement',
-				'myCalendarId',
-				'myValue',
 				array(
+					'name' => 'myCalendarElement',
+					'id' => 'myCalendarId',
 					'format' => '%m-%Y-%d',
-					'size' => '25',
 					'maxlength' => '45',
-					'class' => 'myClass',
-					'readonly' => 'true',
-					'disabled' => 'false',
-					'onchange' => '',
-					'filter' => ''
+					'filter' => 'SERVER_UTC',
 				),
 				array(
-					'myValue',
-					'myCalendarElement',
-					'myCalendarId',
-					'%m-%Y-%d',
-					array(
-						'size' => '25',
-						'maxlength' => '45',
-						'class' => 'myClass',
-						'readonly' => 'readonly',
-					)
-				)
+					'name' => 'myCalendarElement',
+					'id' => 'myCalendarId',
+					'format' => '%m-%Y-%d',
+					'maxlength' => 45,
+					'filter' => 'SERVER_UTC',
+				),
 			),
 
 			/*
 			* Non integer size
 			*/
 			'nonintsize' => array(
-				'myCalendarElement',
-				'myCalendarId',
-				'myValue',
 				array(
+					'name' => 'myCalendarElement',
+					'id' => 'myCalendarId',
+					'maxlength' => 'thirty five foo',
+				),
+				array(
+					'name' => 'myCalendarElement',
+					'id' => 'myCalendarId',
+					'maxlength' => 45,
+				),
+			),
+
+			/*
+			* No format provided
+			*/
+			'noformat' => array(
+				array(
+					'name' => 'myCalendarElement',
+					'id' => 'myCalendarId',
+				),
+				array(
+					'name' => 'myCalendarElement',
+					'id' => 'myCalendarId',
+					'format' => '%Y-%m-%d',
+				),
+			),
+
+			/*
+			* No filter provided
+			*/
+			'noformat' => array(
+				array(
+					'name' => 'myCalendarElement',
+					'id' => 'myCalendarId',
+				),
+				array(
+					'name' => 'myCalendarElement',
+					'id' => 'myCalendarId',
+					'filter' => 'USER_UTC',
+				),
+			),
+		);
+	}
+
+	/**
+	 * Test...
+	 *
+	 * @return array
+	 */
+	public function getInputAttributeData()
+	{
+		return array(
+			/*
+			* Test normal parameters
+			*/
+			'normal' => array(
+				array(
+					'name' => 'myCalendarElement',
+					'id' => 'myCalendarId',
+					'value' => 'myValue',
 					'format' => '%m-%Y-%d',
-					'size' => '25est',
-					'maxlength' => 'forty five',
+					'size' => 25,
+					'maxlength' => 45,
 					'class' => 'myClass',
-					'readonly' => 'true',
-					'disabled' => 'false',
+					'readonly' => true,
+					'disabled' => false,
 					'onchange' => '',
-					'filter' => ''
+					'filter' => '',
 				),
 				array(
 					'myValue',
@@ -133,135 +177,10 @@ class JFormFieldCalendarTest extends TestCase
 					'myCalendarId',
 					'%m-%Y-%d',
 					array(
-						'size' => '25',
-						'maxlength' => '0',
+						'size' => 25,
+						'maxlength' => 45,
 						'class' => 'myClass',
-						'readonly' => 'readonly',
-					)
-				)
-			),
-
-			/*
-			* No format provided
-			*/
-			'noformat' => array(
-				'myCalendarElement',
-				'myCalendarId',
-				'myValue',
-				array(
-					'format' => '',
-					'size' => '25est',
-					'maxlength' => 'forty five',
-					'class' => 'myClass',
-					'readonly' => 'true',
-					'disabled' => 'false',
-					'onchange' => '',
-					'filter' => ''
-				),
-				array(
-					'myValue',
-					'myCalendarElement',
-					'myCalendarId',
-					'%Y-%m-%d',
-					array(
-						'size' => '25',
-						'maxlength' => '0',
-						'class' => 'myClass',
-						'readonly' => 'readonly',
-					)
-				)
-			),
-
-			/*
-			* With an onchange value
-			*/
-			'onchange' => array(
-				'myCalendarElement',
-				'myCalendarId',
-				'myValue',
-				array(
-					'format' => '',
-					'size' => '25est',
-					'maxlength' => 'forty five',
-					'class' => 'myClass',
-					'readonly' => 'true',
-					'disabled' => 'false',
-					'onchange' => 'This is my onchange value',
-					'filter' => ''
-				),
-				array(
-					'myValue',
-					'myCalendarElement',
-					'myCalendarId',
-					'%Y-%m-%d',
-					array(
-						'size' => '25',
-						'maxlength' => '0',
-						'class' => 'myClass',
-						'onchange' => 'This is my onchange value',
-						'readonly' => 'readonly',
-					)
-				)
-			),
-
-			/*
-			* With bad readonly value
-			*/
-			'bad_readonly' => array(
-				'myCalendarElement',
-				'myCalendarId',
-				'myValue',
-				array(
-					'format' => '',
-					'size' => '25est',
-					'maxlength' => 'forty five',
-					'class' => 'myClass',
-					'readonly' => '1',
-					'disabled' => 'false',
-					'onchange' => 'This is my onchange value',
-					'filter' => ''
-				),
-				array(
-					'myValue',
-					'myCalendarElement',
-					'myCalendarId',
-					'%Y-%m-%d',
-					array(
-						'size' => '25',
-						'maxlength' => '0',
-						'class' => 'myClass',
-						'onchange' => 'This is my onchange value',
-					)
-				)
-			),
-
-			/*
-			* disabled is true, no class
-			*/
-			'disabled_no_class' => array(
-				'myCalendarElement',
-				'myCalendarId',
-				'myValue',
-				array(
-					'format' => '',
-					'size' => '25est',
-					'maxlength' => 'forty five',
-					'class' => '',
-					'readonly' => '1',
-					'disabled' => 'true',
-					'onchange' => 'This is my onchange value',
-					'filter' => ''
-				),
-				array(
-					'myValue',
-					'myCalendarElement',
-					'myCalendarId',
-					'%Y-%m-%d',
-					array(
-						'size' => '25',
-						'maxlength' => '0',
-						'disabled' => 'disabled',
-						'onchange' => 'This is my onchange value',
+						'readonly' => '',
 					)
 				)
 			),
@@ -270,18 +189,16 @@ class JFormFieldCalendarTest extends TestCase
 			* value = 'NOW'
 			*/
 			'value_is_now' => array(
-				'myCalendarElement',
-				'myCalendarId',
-				'NOW',
 				array(
-					'format' => '',
-					'size' => '25est',
-					'maxlength' => 'forty five',
-					'class' => '',
-					'readonly' => '1',
-					'disabled' => 'true',
+					'name' => 'myCalendarElement',
+					'id' => 'myCalendarId',
+					'value' => 'NOW',
+					'format' => '%Y-%m-%d',
+					'size' => 25,
+					'maxlength' => 45,
+					'disabled' => true,
 					'onchange' => 'This is my onchange value',
-					'filter' => ''
+					'filter' => '',
 				),
 				array(
 					'strftime(\'%Y-%m-%d\')',
@@ -289,9 +206,9 @@ class JFormFieldCalendarTest extends TestCase
 					'myCalendarId',
 					'%Y-%m-%d',
 					array(
-						'size' => '25',
-						'maxlength' => '0',
-						'disabled' => 'disabled',
+						'size' => 25,
+						'maxlength' => 45,
+						'disabled' => '',
 						'onchange' => 'This is my onchange value',
 					)
 				)
@@ -302,17 +219,56 @@ class JFormFieldCalendarTest extends TestCase
 	/**
 	 * Tests various attribute methods - this method does not handle filters
 	 *
-	 * @param   string   $name                @todo
-	 * @param   integer  $id                  @todo
-	 * @param   mixed    $value               @todo
-	 * @param   mixed    $element             @todo
-	 * @param   string   $expectedParameters  @todo
+	 * @param   array  $element         @todo
+	 * @param   array  $expectedResult  @todo
 	 *
-	 * @dataProvider attributeData
+	 * @dataProvider getSetupData
 	 *
 	 * @return void
 	 */
-	public function testGetInputAttributes($name, $id, $value, $element, $expectedParameters)
+	public function testSetup($element, $expectedResult)
+	{
+		require_once JPATH_PLATFORM . '/joomla/form/fields/calendar.php';
+
+		$elementStr = '';
+
+		foreach ($element as $attr => $value)
+		{
+			$elementStr .= ' ' . $attr . '="' . $value . '"';
+		}
+
+		$element = '<field type="calendar" ' . $elementStr . " />";
+
+		$field = new JFormFieldCalendar;
+		$element = simplexml_load_string($element);
+
+		$this->assertThat(
+			$field->setup($element, ''),
+			$this->isTrue(),
+			'Line:' . __LINE__ . ' The setup method should return true if successful.'
+		);
+
+		foreach ($expectedResult as $property => $value)
+		{
+			$this->assertThat(
+				$field->$property,
+				$this->equalTo($value),
+				'Line:' . __LINE__ . ' The property ' . $property . ' should be computed from the XML.'
+			);
+		}
+	}
+
+	/**
+	 * Tests various attribute methods - this method does not handle filters
+	 *
+	 * @param   array   $element             @todo
+	 * @param   string  $expectedParameters  @todo
+	 *
+	 * @dataProvider getInputAttributeData
+	 *
+	 * @return void
+	 */
+	public function testGetInputAttributes($element, $expectedParameters)
 	{
 		// Include our inspector which will allow us to manipulate and call protected methods and attributes
 		require_once __DIR__ . '/inspectors/JFormFieldCalendar.php';
@@ -325,10 +281,10 @@ class JFormFieldCalendarTest extends TestCase
 		}
 
 		// Setup our values from our data set
-		$calendar->setProtectedProperty('element', $element);
-		$calendar->setProtectedProperty('name', $name);
-		$calendar->setProtectedProperty('id', $id);
-		$calendar->setProtectedProperty('value', $value);
+		foreach ($element as $attr => $value)
+		{
+			$calendar->setProtectedProperty($attr, $value);
+		}
 
 		// Create the mock to implant into JHtml so that we can check our values
 		$mock = $this->getMock('calendarHandler', array('calendar'));
@@ -368,20 +324,16 @@ class JFormFieldCalendarTest extends TestCase
 		$calendar = new JFormFieldCalendarInspector;
 
 		// Setup our values from our data set
-		$calendar->setProtectedProperty('element',
-			array(
-				'format' => '%m-%Y-%d',
-				'size' => '25',
-				'maxlength' => '45',
-				'class' => 'myClass',
-				'readonly' => 'true',
-				'disabled' => 'false',
-				'onchange' => '',
-				'filter' => 'SERVER_UTC'
-			)
-		);
-		$calendar->setProtectedProperty('name', 'myElementName');
 		$calendar->setProtectedProperty('id', 'myElementId');
+		$calendar->setProtectedProperty('name', 'myElementName');
+		$calendar->setProtectedProperty('format', '%m-%Y-%d');
+		$calendar->setProtectedProperty('size', 25);
+		$calendar->setProtectedProperty('maxlength', 45);
+		$calendar->setProtectedProperty('class', 'myClass');
+		$calendar->setProtectedProperty('readonly', true);
+		$calendar->setProtectedProperty('disabled', false);
+		$calendar->setProtectedProperty('onchange', '');
+		$calendar->setProtectedProperty('filter', 'USER_UTC');
 
 		// 1269442718
 		$calendar->setProtectedProperty('value', 1269442718);
@@ -400,10 +352,10 @@ class JFormFieldCalendarTest extends TestCase
 			->method('calendar')
 			->with('2010-03-24 10:58:38', 'myElementName', 'myElementId', '%m-%Y-%d',
 			array(
-				'size' => '25',
-				'maxlength' => '45',
+				'size' => 25,
+				'maxlength' => 45,
 				'class' => 'myClass',
-				'readonly' => 'readonly'
+				'readonly' => ''
 			)
 		);
 
@@ -437,20 +389,16 @@ class JFormFieldCalendarTest extends TestCase
 		$calendar = new JFormFieldCalendarInspector;
 
 		// Setup our values from our data set
-		$calendar->setProtectedProperty('element',
-			array(
-				'format' => '%m-%Y-%d',
-				'size' => '25',
-				'maxlength' => '45',
-				'class' => 'myClass',
-				'readonly' => 'true',
-				'disabled' => 'false',
-				'onchange' => '',
-				'filter' => 'USER_UTC'
-			)
-		);
-		$calendar->setProtectedProperty('name', 'myElementName');
 		$calendar->setProtectedProperty('id', 'myElementId');
+		$calendar->setProtectedProperty('name', 'myElementName');
+		$calendar->setProtectedProperty('format', '%m-%Y-%d');
+		$calendar->setProtectedProperty('size', 25);
+		$calendar->setProtectedProperty('maxlength', 45);
+		$calendar->setProtectedProperty('class', 'myClass');
+		$calendar->setProtectedProperty('readonly', true);
+		$calendar->setProtectedProperty('disabled', false);
+		$calendar->setProtectedProperty('onchange', '');
+		$calendar->setProtectedProperty('filter', 'USER_UTC');
 
 		// 1269442718
 		$calendar->setProtectedProperty('value', 1269442718);
@@ -468,10 +416,10 @@ class JFormFieldCalendarTest extends TestCase
 			->method('calendar')
 			->with('2010-03-24 18:58:38', 'myElementName', 'myElementId', '%m-%Y-%d',
 			array(
-				'size' => '25',
-				'maxlength' => '45',
+				'size' => 25,
+				'maxlength' => 45,
 				'class' => 'myClass',
-				'readonly' => 'readonly'
+				'readonly' => ''
 			)
 		);
 
@@ -484,6 +432,9 @@ class JFormFieldCalendarTest extends TestCase
 		// Unregister the mock
 		JHtml::unregister('jhtml..calendar');
 
+		// 1269442718
+		$calendar->setProtectedProperty('value', 1269442718);
+
 		// Create the mock to implant into JHtml so that we can check our values
 		$mock2 = $this->getMock('calendarHandler', array('calendar'));
 
@@ -492,10 +443,10 @@ class JFormFieldCalendarTest extends TestCase
 			->method('calendar')
 			->with('2010-03-24 22:58:38', 'myElementName', 'myElementId', '%m-%Y-%d',
 			array(
-				'size' => '25',
-				'maxlength' => '45',
+				'size' => 25,
+				'maxlength' => 45,
 				'class' => 'myClass',
-				'readonly' => 'readonly'
+				'readonly' => ''
 			)
 		);
 

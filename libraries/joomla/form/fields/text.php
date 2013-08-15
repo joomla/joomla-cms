@@ -122,7 +122,7 @@ class JFormFieldText extends JFormField
 			$list = ' list="' . $this->id . '_datalist"';
 		}
 
-		$html[] = '<input type="text" name="' . $this->name . '" id="' . $this->id . $dirname . ' value="'
+		$html[] = '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' . $dirname . ' value="'
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' . $class . $size . $disabled . $readonly . $list
 			. $hint . $onchange . $maxLength . $required . $autocomplete . $autofocus . $spellcheck . $inputmode . ' />';
 

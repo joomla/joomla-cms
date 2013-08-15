@@ -218,7 +218,7 @@ class JFormFieldRadioTest extends TestCase
 			'<fieldset id="myTestId" class="radio" >'
 				. '<input type="radio" id="myTestId0" name="myTestName" value="1" disabled />'
 				. '<label for="myTestId0" >Yes</label>'
-				. '<input type="radio" id="myTestId1" name="myTestName" value="0" checked />'
+				. '<input type="radio" id="myTestId1" name="myTestName" value="0" checked="checked" />'
 				. '<label for="myTestId1" >No</label>'
 				. '<input type="radio" id="myTestId2" name="myTestName" value="-1" disabled />'
 				. '<label for="myTestId2" >None</label>'

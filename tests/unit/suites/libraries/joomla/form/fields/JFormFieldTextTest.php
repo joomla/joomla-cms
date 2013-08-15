@@ -140,7 +140,7 @@ class JFormFieldTextTest extends TestCase
 		);
 
 		$this->assertEquals(
-			'<input type="text" name="myTestName" id="myTestId" dirname="" value="http://foobar.com" />',
+			'<input type="text" name="myTestName" id="myTestId" value="http://foobar.com" />',
 			TestReflection::invoke($formField, 'getInput'),
 			'Line:' . __LINE__ . ' The field with value attribute did not produce the right html'
 		);
@@ -167,7 +167,7 @@ class JFormFieldTextTest extends TestCase
 		);
 
 		$this->assertEquals(
-			'<input type="text" name="myTestName" id="myTestId" dirname="" value="" class="foo bar" />',
+			'<input type="text" name="myTestName" id="myTestId" value="" class="foo bar" />',
 			TestReflection::invoke($formField, 'getInput'),
 			'Line:' . __LINE__ . ' The field with class attribute did not produce the right html'
 		);
@@ -194,7 +194,7 @@ class JFormFieldTextTest extends TestCase
 		);
 
 		$this->assertEquals(
-			'<input type="text" name="myTestName" id="myTestId" dirname="" value="" size="60" />',
+			'<input type="text" name="myTestName" id="myTestId" value="" size="60" />',
 			TestReflection::invoke($formField, 'getInput'),
 			'Line:' . __LINE__ . ' The field with size attribute did not produce the right html'
 		);
@@ -222,7 +222,7 @@ class JFormFieldTextTest extends TestCase
 		);
 
 		$this->assertEquals(
-			'<input type="text" name="myTestName" id="myTestId" dirname="" value="" disabled readonly />',
+			'<input type="text" name="myTestName" id="myTestId" value="" disabled readonly />',
 			TestReflection::invoke($formField, 'getInput'),
 			'Line:' . __LINE__ . ' The field with diabled and readonly attribute did not produce the right html'
 		);
@@ -249,7 +249,7 @@ class JFormFieldTextTest extends TestCase
 		);
 
 		$this->assertEquals(
-			'<input type="text" name="myTestName" id="myTestId" dirname="" value="" placeholder="Type any url." />',
+			'<input type="text" name="myTestName" id="myTestId" value="" placeholder="Type any url." />',
 			TestReflection::invoke($formField, 'getInput'),
 			'Line:' . __LINE__ . ' The field with hint attribute did not produce the right html'
 		);
@@ -276,7 +276,7 @@ class JFormFieldTextTest extends TestCase
 		);
 
 		$this->assertEquals(
-			'<input type="text" name="myTestName" id="myTestId" dirname="" value="" autocomplete="off" />',
+			'<input type="text" name="myTestName" id="myTestId" value="" autocomplete="off" />',
 			TestReflection::invoke($formField, 'getInput'),
 			'Line:' . __LINE__ . ' The field with autocomplete attribute did not produce the right html'
 		);
@@ -303,7 +303,7 @@ class JFormFieldTextTest extends TestCase
 		);
 
 		$this->assertEquals(
-			'<input type="text" name="myTestName" id="myTestId" dirname="" value="" autofocus />',
+			'<input type="text" name="myTestName" id="myTestId" value="" autofocus />',
 			TestReflection::invoke($formField, 'getInput'),
 			'Line:' . __LINE__ . ' The field with autofocus attribute did not produce the right html'
 		);
@@ -330,7 +330,7 @@ class JFormFieldTextTest extends TestCase
 		);
 
 		$this->assertEquals(
-			'<input type="text" name="myTestName" id="myTestId" dirname="" value="" spellcheck="false" />',
+			'<input type="text" name="myTestName" id="myTestId" value="" spellcheck="false" />',
 			TestReflection::invoke($formField, 'getInput'),
 			'Line:' . __LINE__ . ' The field with spellcheck attribute did not produce the right html'
 		);
@@ -357,7 +357,7 @@ class JFormFieldTextTest extends TestCase
 		);
 
 		$this->assertEquals(
-			'<input type="text" name="myTestName" id="myTestId" dirname="" value="" onchange="foobar();" />',
+			'<input type="text" name="myTestName" id="myTestId" value="" onchange="foobar();" />',
 			TestReflection::invoke($formField, 'getInput'),
 			'Line:' . __LINE__ . ' The field with onchange attribute did not produce the right html'
 		);
@@ -384,7 +384,7 @@ class JFormFieldTextTest extends TestCase
 		);
 
 		$this->assertEquals(
-			'<input type="text" name="myTestName" id="myTestId" dirname="" value="" maxlength="250" />',
+			'<input type="text" name="myTestName" id="myTestId" value="" maxlength="250" />',
 			TestReflection::invoke($formField, 'getInput'),
 			'Line:' . __LINE__ . ' The field with maxlength attribute did not produce the right html'
 		);
@@ -411,7 +411,7 @@ class JFormFieldTextTest extends TestCase
 		);
 
 		$this->assertEquals(
-			'<input type="text" name="myTestName" id="myTestId" dirname="" value="" required aria-required="true" />',
+			'<input type="text" name="myTestName" id="myTestId" value="" required aria-required="true" />',
 			TestReflection::invoke($formField, 'getInput'),
 			'Line:' . __LINE__ . ' The field with required attribute set did not produce the right html'
 		);
