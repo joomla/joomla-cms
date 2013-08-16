@@ -56,6 +56,7 @@ class JHttpTransportCurl implements JHttpTransport
 	 * @return  JHttpResponse
 	 *
 	 * @since   11.3
+	 * @throws  RuntimeException
 	 */
 	public function request($method, JUri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
 	{
@@ -79,6 +80,7 @@ class JHttpTransportCurl implements JHttpTransport
 			{
 				$options[CURLOPT_POSTFIELDS] = $data;
 			}
+
 			// Otherwise we need to encode the value first.
 			else
 			{
@@ -99,6 +101,7 @@ class JHttpTransportCurl implements JHttpTransport
 
 		// Build the headers string for the request.
 		$headerArray = array();
+
 		if (isset($headers))
 		{
 			foreach ($headers as $key => $value)
@@ -120,7 +123,7 @@ class JHttpTransportCurl implements JHttpTransport
 		// If an explicit user agent is given use it.
 		if (isset($userAgent))
 		{
-			$headers[CURLOPT_USERAGENT] = $userAgent;
+			$options[CURLOPT_USERAGENT] = $userAgent;
 		}
 
 		// Set the request URL.
@@ -145,6 +148,20 @@ class JHttpTransportCurl implements JHttpTransport
 		// Execute the request and close the connection.
 		$content = curl_exec($ch);
 
+		// Check if the content is a string. If it is not, it must be an error.
+		if (!is_string($content))
+		{
+			$message = curl_error($ch);
+
+			if (empty($message))
+			{
+				// Error but nothing from cURL? Create our own
+				$message = 'No HTTP response received';
+			}
+
+			throw new RuntimeException($message);
+		}
+
 		// Get the request information.
 		$info = curl_getinfo($ch);
 
@@ -157,7 +174,8 @@ class JHttpTransportCurl implements JHttpTransport
 	/**
 	 * Method to get a response object from a server response.
 	 *
-	 * @param   string  $content  The complete server response, including headers.
+	 * @param   string  $content  The complete server response, including headers
+	 *                            as a string if the response has no errors.
 	 * @param   array   $info     The cURL request information.
 	 *
 	 * @return  JHttpResponse
@@ -169,12 +187,6 @@ class JHttpTransportCurl implements JHttpTransport
 	{
 		// Create the response object.
 		$return = new JHttpResponse;
-
-		// Check if the content is actually a string.
-		if (!is_string($content))
-		{
-			throw new UnexpectedValueException('No HTTP response received.');
-		}
 
 		// Get the number of redirects that occurred.
 		$redirects = isset($info['redirect_count']) ? $info['redirect_count'] : 0;
@@ -196,10 +208,12 @@ class JHttpTransportCurl implements JHttpTransport
 		preg_match('/[0-9]{3}/', array_shift($headers), $matches);
 
 		$code = count($matches) ? $matches[0] : null;
+
 		if (is_numeric($code))
 		{
 			$return->code = (int) $code;
 		}
+
 		// No valid response code was detected.
 		else
 		{
@@ -223,7 +237,7 @@ class JHttpTransportCurl implements JHttpTransport
 	 *
 	 * @since   12.1
 	 */
-	static public function isSupported()
+	public static function isSupported()
 	{
 		return function_exists('curl_version') && curl_version();
 	}
