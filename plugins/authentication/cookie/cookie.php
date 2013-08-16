@@ -49,6 +49,9 @@ class PlgAuthenticationCookie extends JPlugin
 
 		$response->type = 'Cookie';
 
+		// Check for an authentication cookie.
+		$cookieName = JUserHelper::getShortHashedUserAgent();
+
 		// Set cookie params.
 		if (!empty($options['lifetime']) && !empty($options['length']) && !empty($options['secure']))
 		{

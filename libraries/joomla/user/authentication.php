@@ -257,9 +257,6 @@ class JAuthentication extends JObject
 		// Get plugins
 		$plugins = JPluginHelper::getPlugin('authentication');
 
-		// Check for an authentication cookie.
-		$cookieName = JUserHelper::getShortHashedUserAgent();
-
 		// Create authentication response
 		$response = new JAuthenticationResponse;
 
