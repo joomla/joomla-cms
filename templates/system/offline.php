@@ -52,10 +52,12 @@ JHtml::_('bootstrap.framework');
 			<label for="passwd"><?php echo JText::_('JGLOBAL_PASSWORD') ?></label>
 			<input type="password" name="password" class="inputbox" size="18" alt="<?php echo JText::_('JGLOBAL_PASSWORD') ?>" id="passwd" />
 		</p>
+		<?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>
 		<p id="form-login-remember">
 			<label for="remember"><?php echo JText::_('JGLOBAL_REMEMBER_ME') ?></label>
 			<input type="checkbox" name="remember" class="inputbox" value="yes" alt="<?php echo JText::_('JGLOBAL_REMEMBER_ME') ?>" id="remember" />
 		</p>
+		<?php endif; ?>
 		<input type="submit" name="Submit" class="button" value="<?php echo JText::_('JLOGIN') ?>" />
 		<input type="hidden" name="option" value="com_users" />
 		<input type="hidden" name="task" value="user.login" />
