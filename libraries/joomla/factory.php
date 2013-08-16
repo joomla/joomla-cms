@@ -306,12 +306,7 @@ abstract class JFactory
 	{
 		if (!self::$database)
 		{
-			//get the debug configuration setting
-			$conf = self::getConfig();
-			$debug = $conf->get('debug');
-
 			self::$database = self::createDbo();
-			self::$database->setDebug($debug);
 		}
 
 		return self::$database;
@@ -359,7 +354,7 @@ abstract class JFactory
 			$cache->setLifeTime($cache_time);
 		}
 
-		$simplepie = new SimplePie();
+		$simplepie = new SimplePie(null, null, 0);
 
 		$simplepie->enable_cache(false);
 		$simplepie->set_feed_url($url);

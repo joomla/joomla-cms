@@ -9,7 +9,7 @@ defined('JPATH_BASE') or die;
 
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
-JLoader::register('JFormFieldList', JPATH_LIBRARIES.'/joomla/form/fields/list.php');
+JLoader::register('JFormFieldRadio', JPATH_LIBRARIES.'/joomla/form/fields/radio.php');
 
 /**
  * Sample data Form Field class.
@@ -17,7 +17,7 @@ JLoader::register('JFormFieldList', JPATH_LIBRARIES.'/joomla/form/fields/list.ph
  * @package		Joomla.Installation
  * @since		1.6
  */
-class JFormFieldSample extends JFormFieldList
+class JFormFieldSample extends JFormFieldRadio
 {
 	/**
 	 * The form field type.

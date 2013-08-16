@@ -41,7 +41,7 @@ class joomlaInstallerScript
 		{
 			$query = $db->getQuery(true);
 			$query->insert('#__schemas');
-			$query->set('extension_id=700, version_id='.$db->quote('1.1.8'));
+			$query->set('extension_id=700, version_id='.$db->quote('1.3.0'));
 			$db->setQuery($query);
 			$db->query();
 		}

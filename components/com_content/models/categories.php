@@ -15,7 +15,7 @@ jimport('joomla.application.component.modellist');
  * @subpackage	com_content
  * @since		1.6
  */
-class ContentModelCategories extends JModelLegacy
+class ContentModelCategories extends JModelList
 {
 	/**
 	 * Model context string.
@@ -42,7 +42,7 @@ class ContentModelCategories extends JModelLegacy
 	 *
 	 * @since	1.6
 	 */
-	protected function populateState()
+	protected function populateState($ordering = null, $direction = null)
 	{
 		$app = JFactory::getApplication();
 		$this->setState('filter.extension', $this->_extension);
