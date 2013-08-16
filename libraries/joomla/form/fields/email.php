@@ -45,8 +45,8 @@ class JFormFieldEMail extends JFormFieldText
 
 		// Initialize some field attributes.
 		$size = !empty($this->size) ? ' size="' . $this->size . '"' : '';
-		$maxLength = !empty($this->maxlength) ? ' maxlength="' . $this->maxlength . '"' : '';
-		$class = !empty($this->class) ? ' class="' . $this->class . '"' : '';
+		$maxLength = !empty($this->maxLength) ? ' maxlength="' . $this->maxLength . '"' : '';
+		$class = !empty($this->class) ? ' class="validate-email ' . $this->class . '"' : ' class="validate-email"';
 		$readonly = $this->readonly ? ' readonly' : '';
 		$disabled = $this->disabled ? ' disabled' : '';
 		$required = $this->required ? ' required aria-required="true"' : '';
@@ -55,6 +55,7 @@ class JFormFieldEMail extends JFormFieldText
 		$autocomplete = $autocomplete == ' autocomplete="on"' ? '' : $autocomplete;
 		$autofocus = $this->autofocus ? ' autofocus' : '';
 		$multiple = $this->multiple ? ' multiple' : '';
+		$spellcheck = $this->spellcheck ? '' : ' spellcheck="false"';
 
 		// Initialize JavaScript field attributes.
 		$onchange = $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
@@ -63,8 +64,8 @@ class JFormFieldEMail extends JFormFieldText
 		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/html5fallback.js', false, true);
 
-		return '<input type="email" name="' . $this->name . '" class="validate-email' . $class . '" id="' . $this->id . '" value="'
-			. JStringPunycode::emailToUTF8($this->value, ENT_COMPAT, 'UTF-8') . '"' . $size . $disabled . $readonly . $onchange . $autocomplete
-			. $multiple . $maxLength . $hint . $required . $autofocus . '/>';
+		return '<input type="email" name="' . $this->name . '"' . $class . ' id="' . $this->id . '" value="'
+			. JStringPunycode::emailToUTF8($this->value, ENT_COMPAT, 'UTF-8') . '"' . $spellcheck . $size . $disabled . $readonly . $onchange . $autocomplete
+			. $multiple . $maxLength . $hint . $required . $autofocus . ' />';
 	}
 }
