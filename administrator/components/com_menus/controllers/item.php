@@ -182,12 +182,37 @@ class MenusControllerItem extends JControllerForm
 		// Check for the special 'request' entry.
 		if ($data['type'] == 'component' && isset($data['request']) && is_array($data['request']) && !empty($data['request']))
 		{
+			$removeArgs = array();
+
+			// Preprocess request fields to ensure that we remove not set or empty request params
+			$request = $form->getGroup('request');
+
+			if (!empty($request))
+			{
+				foreach ($request as $field)
+				{
+					$fieldName = $field->getAttribute('name');
+
+					if (!isset($data['request'][$fieldName]) || $data['request'][$fieldName] == '')
+					{
+						$removeArgs[$fieldName] = '';
+					}
+				}
+			}
+
 			// Parse the submitted link arguments.
 			$args = array();
 			parse_str(parse_url($data['link'], PHP_URL_QUERY), $args);
 
 			// Merge in the user supplied request arguments.
 			$args = array_merge($args, $data['request']);
+
+			// Remove the unused request params
+			if (!empty($args) && !empty($removeArgs))
+			{
+				$args = array_diff_key($args, $removeArgs);
+			}
+
 			$data['link'] = 'index.php?' . urldecode(http_build_query($args, '', '&'));
 			unset($data['request']);
 		}

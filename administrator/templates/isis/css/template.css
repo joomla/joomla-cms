@@ -7076,14 +7076,14 @@ h6 {
 		margin-left: 10px;
 	}
 	.subhead-fixed {
-		box-shadow: 0 0 0 rgba(0, 0, 0, 0.2);
+		box-shadow: 0 0 0 rgba(0,0,0,0.2);
 	}
 	.subhead {
 		background: none repeat scroll 0 0 transparent;
 		border-bottom: 0 solid #D3D3D3;
 	}
 	.btn-group + .btn-group {
-	  margin-left: 10px;
+		margin-left: 10px;
 	}
 	.login .chzn-single {
 		width: 222px !important;
@@ -7096,6 +7096,9 @@ h6 {
 @media (max-width: 320px) {
 	.view-login .navbar-fixed-bottom {
 		display: none;
+	}
+	.btn-toolbar .btn-wrapper .btn {
+		width: 93% !important;
 	}
 }
 .nav-collapse .nav li a,
@@ -7206,7 +7209,7 @@ ul.manager .height-50 .icon-folder-2 {
 	z-index: 3;
 }
 .admin .chzn-container .chzn-drop {
-	z-index: 100;
+	z-index: 1040;
 }
 ul.treeselect,
 ul.treeselect li {
@@ -7283,4 +7286,13 @@ th .tooltip-inner {
 }
 .container-popup {
 	padding: 15px;
+}
+.controls .btn-group > .btn {
+	min-width: 50px;
+}
+.img-preview > img {
+	max-height: 100%;
+}
+#helpsite-refresh {
+	vertical-align: top;
 }

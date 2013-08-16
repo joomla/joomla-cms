@@ -156,7 +156,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		$this->setUTF();
 
 		// Turn MySQL profiling ON in debug mode:
-		if ($this->debug)
+		if ($this->debug && $this->hasProfiling())
 		{
 			mysqli_query($this->connection, "SET profiling_history_size = 100;");
 			mysqli_query($this->connection, "SET profiling = 1;");
@@ -522,7 +522,8 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 
 			if (is_object($this->cursor))
 			{
-				$this->freeResult();
+				// Avoid warning if result already freed by third-party library
+				@$this->freeResult();
 			}
 			$memoryBefore = memory_get_usage();
 		}
@@ -533,7 +534,14 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		if ($this->debug)
 		{
 			$this->timings[] = microtime(true);
-			$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+			if (defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
+			{
+				$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+			}
+			else
+			{
+				$this->callStacks[] = debug_backtrace();
+			}
 			$this->callStacks[count($this->callStacks) - 1][0]['memory'] = array($memoryBefore, memory_get_usage(), is_object($this->cursor) ? $this->getNumRows() : null);
 		}
 
@@ -801,5 +809,27 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		$this->setQuery('UNLOCK TABLES')->execute();
 
 		return $this;
+	}
+
+	/**
+	 * Internal function to check if profiling is available
+	 *
+	 * @return  boolean
+	 *
+	 * @since 3.1.3
+	 */
+	private function hasProfiling()
+	{
+		try
+		{
+			$res = mysqli_query($this->connection, "SHOW VARIABLES LIKE 'have_profiling'");
+			$row = mysqli_fetch_assoc($res);
+
+			return isset($row);
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
 	}
 }

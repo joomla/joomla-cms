@@ -26,7 +26,7 @@ class JTableUpdate extends JTable
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($db)
+	public function __construct(JDatabaseDriver $db)
 	{
 		parent::__construct('#__updates', 'update_id', $db);
 	}
@@ -45,6 +45,7 @@ class JTableUpdate extends JTable
 		if (trim($this->name) == '' || trim($this->element) == '')
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
+
 			return false;
 		}
 		return true;
@@ -93,15 +94,18 @@ class JTableUpdate extends JTable
 	public function find($options = array())
 	{
 		$where = array();
+
 		foreach ($options as $col => $val)
 		{
 			$where[] = $col . ' = ' . $this->_db->quote($val);
 		}
+
 		$query = $this->_db->getQuery(true)
 			->select($this->_db->quoteName($this->_tbl_key))
 			->from($this->_db->quoteName($this->_tbl))
 			->where(implode(' AND ', $where));
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadResult();
 	}
 }

@@ -26,6 +26,28 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Aug-2013 Mark Dexter
+ # Fix failing system tests due to markup changes.
+
+09-Aug-2013 Mark Dexter
+ # Fix failing system tests due to markup changes.
+
+31-Jul-2013 Michael Babker
+ + Add test coverage to JPlugin constructor testing private vars
+ + Add test coverage to JLoader::registerPrefix()
+
+27-Jul-2013 Michael Babker
+ + Add test coverage to JViewLegacy::getName()
+
+24-Jul-2013 Mark Dexter
+ + New Webdriver tests for changing article state and front-end login. Thanks Puneet Kala.
+
+18-Jul-2013 Mark Dexter
+ # Fix problem with failing system tests.
+
+16-Jul-2013 Mark Dexter
+ + Add webdriver tests for some components and extensions. Thanks Puneet Kala.
+
 07-Jul-2013 Mark Dexter
  # Refactor delete method in webdriver tests
  # Fix failing system tests due to markup changes.

@@ -366,10 +366,10 @@ abstract class JHtmlBootstrap
 		$opt['placement'] = isset($params['placement']) ? $params['placement'] : null;
 		$opt['selector'] = isset($params['selector']) ? $params['selector'] : null;
 		$opt['title'] = isset($params['title']) ? $params['title'] : null;
-		$opt['trigger'] = isset($params['trigger']) ? $params['trigger'] : 'hover';
+		$opt['trigger'] = isset($params['trigger']) ? $params['trigger'] : 'hover focus';
 		$opt['content'] = isset($params['content']) ? $params['content'] : null;
 		$opt['delay'] = isset($params['delay']) ? $params['delay'] : null;
-		$opt['container'] = isset($params['container']) ? $params['container'] : false;
+		$opt['container'] = isset($params['container']) ? $params['container'] : "body";
 
 		$options = JHtml::getJSObject($opt);
 
@@ -460,13 +460,13 @@ abstract class JHtmlBootstrap
 
 			// Setup options object
 			$opt['animation'] = isset($params['animation']) ? (boolean) $params['animation'] : null;
-			$opt['html']      = isset($params['html']) ? (boolean) $params['html'] : null;
+			$opt['html']      = isset($params['html']) ? (boolean) $params['html'] : true;
 			$opt['placement'] = isset($params['placement']) ? (string) $params['placement'] : null;
 			$opt['selector']  = isset($params['selector']) ? (string) $params['selector'] : null;
 			$opt['title']     = isset($params['title']) ? (string) $params['title'] : null;
 			$opt['trigger']   = isset($params['trigger']) ? (string) $params['trigger'] : null;
 			$opt['delay']     = isset($params['delay']) ? (int) $params['delay'] : null;
-			$opt['container'] = isset($params['container']) ? (int) $params['container'] : false;
+			$opt['container'] = isset($params['container']) ? (int) $params['container'] : "body";
 			$opt['template']  = isset($params['template']) ? (string) $params['template'] : null;
 
 			$options = JHtml::getJSObject($opt);

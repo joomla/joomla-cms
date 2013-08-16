@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 /**
  * Recaptcha Plugin.
- * Based on the oficial recaptcha library( http://recaptcha.net/plugins/php/ )
+ * Based on the official recaptcha library( https://developers.google.com/recaptcha/docs/php )
  *
  * @package     Joomla.Plugin
  * @subpackage  Captcha
@@ -153,7 +153,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 	/**
 	 * Encodes the given data into a query string format.
 	 *
-	 * @param   string  $data  Array of string elements to be encoded
+	 * @param   array  $data  Array of string elements to be encoded
 	 *
 	 * @return  string  Encoded request
 	 *
