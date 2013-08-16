@@ -79,15 +79,15 @@ class JLayoutFile extends JLayoutBase
 	 */
 	public function render($displayData)
 	{
-		if ($this->options->get('debug', false))
-		{
-			echo $this->debugInfo();
-		}
-
 		$layoutOutput = '';
 
 		// Check possible overrides, and build the full path to layout file
 		$path = $this->getPath();
+
+		if ($this->options->get('debug', false))
+		{
+			echo "<pre>" . $this->renderDebugMessages() . "</pre>";
+		}
 
 		// If there exists such a layout file, include it and collect its output
 		if (!empty($path))
@@ -114,12 +114,44 @@ class JLayoutFile extends JLayoutBase
 
 		if (is_null($this->fullPath) && !empty($this->layoutId))
 		{
+			$this->addDebugMessage('<strong>Layout:</strong> ' . $this->layoutId);
+
 			// Refresh paths
 			$this->refreshIncludePaths();
 
+			$this->addDebugMessage('<strong>Include Paths:</strong> ' . print_r($this->includePaths, true));
+
+			$suffixes = $this->options->get('suffixes', array());
+
+			// Search for suffixed versions. Example: tags.j31.php
+			if (!empty($suffixes))
+			{
+				$this->addDebugMessage('<strong>Suffixes:</strong> ' . print_r($suffixes, true));
+
+				foreach ($suffixes as $suffix)
+				{
+					$rawPath  = str_replace('.', '/', $this->layoutId) . '.' . $suffix . '.php';
+					$this->addDebugMessage('<strong>Searching layout for:</strong> ' . $rawPath);
+
+					if ($this->fullPath = JPath::find($this->includePaths, $rawPath))
+					{
+						$this->addDebugMessage('<strong>Found layout:</strong> ' . $this->fullPath);
+
+						return $this->fullPath;
+					}
+				}
+			}
+
+			// Standard version
 			$rawPath  = str_replace('.', '/', $this->layoutId) . '.php';
+			$this->addDebugMessage('<strong>Searching layout for:</strong> ' . $rawPath);
 
 			$this->fullPath = JPath::find($this->includePaths, $rawPath);
+
+			if ($this->fullPath = JPath::find($this->includePaths, $rawPath))
+			{
+				$this->addDebugMessage('<strong>Found layout:</strong> ' . $this->fullPath);
+			}
 		}
 
 		return $this->fullPath;
@@ -157,45 +189,6 @@ class JLayoutFile extends JLayoutBase
 				array_unshift($this->includePaths, $paths);
 			}
 		}
-	}
-
-	/**
-	 * Dirty function to debug layout/path errors
-	 *
-	 * @return  void
-	 */
-	public function debugInfo()
-	{
-		$rawPath  = str_replace('.', '/', $this->layoutId) . '.php';
-
-		$html = "<pre>";
-		$html .= '<strong>Layout:</strong> ' . $this->layoutId . '<br />';
-		$html .= '<strong>RAW Layout path:</strong> ' . $rawPath . '<br>';
-		$html .= '<strong>includePaths:</strong> ';
-		$html .= print_r($this->includePaths, true);
-		$html .= '<strong>Checking paths:</strong> <br />';
-
-		if ($this->includePaths)
-		{
-			foreach ($this->includePaths as $path)
-			{
-				$file = $path . '/' . $rawPath;
-
-				if (!file_exists($file))
-				{
-					$html .= 'NOT exists: ' . $file . '<br />';
-				}
-				else
-				{
-					$html .= '<strong>EXISTS: ' . $file . '</strong><br />';
-					break;
-				}
-			}
-		}
-
-		$html .= "</pre>";
-
-		return $html;
 	}
 
 	/**

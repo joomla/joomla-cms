@@ -27,6 +27,13 @@ class JLayoutBase implements JLayout
 	protected $options = null;
 
 	/**
+	 * Debug information messages
+	 *
+	 * @var  array
+	 */
+	protected $debugMessages = array();
+
+	/**
 	 * Set the options
 	 *
 	 * @param   mixed  $options  Array / JRegistry object with the options to load
@@ -94,6 +101,16 @@ class JLayoutBase implements JLayout
 	}
 
 	/**
+	 * Get the debug messages array
+	 *
+	 * @return  array
+	 */
+	public function getDebugMessages()
+	{
+		return $this->debugMessages;
+	}
+
+	/**
 	 * Method to render the layout.
 	 *
 	 * @param   object  $displayData  Object which properties are used inside the layout file to build displayed output
@@ -105,5 +122,27 @@ class JLayoutBase implements JLayout
 	public function render($displayData)
 	{
 		return '';
+	}
+
+	/**
+	 * Render the list of debug messages
+	 *
+	 * @return  string  Output text/HTML code
+	 */
+	public function renderDebugMessages()
+	{
+		return implode($this->debugMessages, "\n");
+	}
+
+	/**
+	 * Add a debug message to the debug messages array
+	 *
+	 * @param   string  $message  Message to save
+	 *
+	 * @return  void
+	 */
+	public function addDebugMessage($message)
+	{
+		$this->debugMessages[] = $message;
 	}
 }
