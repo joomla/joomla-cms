@@ -60,3 +60,5 @@ if (version_compare(PHP_VERSION, '5.4.0', '<'))
 // Register classes that don't follow one file per class naming conventions.
 JLoader::register('JText', JPATH_PLATFORM . '/joomla/language/text.php');
 JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/application/route.php');
+
+require_once JPATH_LIBRARIES . '/framework/aliases.php';
