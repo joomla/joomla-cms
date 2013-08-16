@@ -104,8 +104,8 @@ class JoomlaWebdriverTestCase extends PHPUnit_Framework_TestCase
 		// Clear cookies to force logout
 		$this->driver->clearCurrentCookies();
 		$url = $this->cfg->host . $this->cfg->path . 'administrator/index.php';
-		$loginPage = $this->getPageObject('AdminloginPage', true, $url);
-		$this->assertTrue(is_a($loginPage, 'AdminloginPage'));
+		$loginPage = $this->getPageObject('AdminLoginPage', true, $url);
+		$this->assertTrue(is_a($loginPage, 'AdminLoginPage'));
 		return $loginPage;
 	}
 	
@@ -117,24 +117,28 @@ class JoomlaWebdriverTestCase extends PHPUnit_Framework_TestCase
 		$password=$cfg->password;
 		$d = $this->driver;
 		$d->clearCurrentCookies();
-		$d->findElement(By::xPath("//a[contains(text(), 'Login')]"))->click();
-		$d->waitForElementUntilIsPresent(By::xPath("//input[@id='username']"));		
-		$d->findElement(By::xPath("//input[@id='username']"))->sendKeys($username);
-		$d->findElement(By::xPath("//input[@id='password']"))->sendKeys($password);
-		$d->findElement(By::xPath("//button[contains(text(), 'Log in')]"))->click();
-		$d->findElement(By::xPath("//a[contains(text(), 'Home')]"))->click();	
+		$url = $this->cfg->host.$this->cfg->path.'index.php/login';
+		$d->findElement(By::xPath("//a[contains(text(), 'Login')]"))->click();		
+		$loginPage = $this->getPageObject('FrontEndLoginPage', true, $url);
+		$loginPage->frontEndloginUser($username,$password);
+		$loginPage = $this->getPageObject('FrontEndLoginPage', true, $url);		
+		$d->findElement(By::xPath("//a[contains(text(), 'Home')]"))->click();
+		$url = $this->cfg->host.$this->cfg->path.'index.php';
+		$homePage = $this->getPageObject('FrontEndHomePage', true, $url);	
 	}
 	
 	//function to logout from the frontend site
 	function doFrontEndLogout()
 	{
 		$d = $this->driver;
-		$d->findElement(By::xPath("//a[contains(text(), 'Login')]"))->click();
-		$d->clearCurrentCookies();				
-		$d->waitForElementUntilIsPresent(By::xPath("//button[contains(text(), 'Log out')]"));
+		$url = $this->cfg->host.$this->cfg->path.'index.php/login';		
+		$loginpage = $this->getPageObject('FrontEndLoginPage', true, $url);
+		$d->clearCurrentCookies();						
 		$d->findElement(By::xPath("//button[contains(text(), 'Log out')]"))->click();
-		$d->waitForElementUntilIsPresent(By::xPath("//input[@id='username']"));
-		$d->findElement(By::xPath("//a[contains(text(), 'Home')]"))->click();				
+		$loginpage = $this->getPageObject('FrontEndLoginPage', true, $url);		
+		$d->findElement(By::xPath("//a[contains(text(), 'Home')]"))->click();
+		$url = $this->cfg->host.$this->cfg->path.'index.php';
+		$homePage = $this->getPageObject('FrontEndHomePage', true, $url);				
 	}
 
 	public function getActualFieldsFromElements($testElements)
