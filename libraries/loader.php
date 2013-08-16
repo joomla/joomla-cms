@@ -487,8 +487,6 @@ abstract class JLoader
 		}
 	}
 
-
-
 	/**
 	 * Autoload a class based on name.
 	 *
