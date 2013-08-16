@@ -33,7 +33,7 @@ class JLayoutBase implements JLayout
 	 *
 	 * @return  JLayoutBase      An instance of itself for chaining
 	 */
-	public function bindOptions($options = null)
+	public function setOptions($options = null)
 	{
 		// Received JRegistry
 		if ($options instanceof JRegistry)
@@ -76,9 +76,7 @@ class JLayoutBase implements JLayout
 	 */
 	public function resetOptions()
 	{
-		$this->options = new JRegistry;
-
-		return $this;
+		return $this->setOptions(null);
 	}
 
 	/**

@@ -57,7 +57,7 @@ class JLayoutFile extends JLayoutBase
 	public function __construct($layoutId, $basePath = null, $options = null)
 	{
 		// Initialise / Load options
-		$this->bindOptions($options);
+		$this->setOptions($options);
 
 		// Main properties
 		$this->setLayout($layoutId);
