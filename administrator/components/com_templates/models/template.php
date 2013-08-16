@@ -541,7 +541,7 @@ class TemplatesModelTemplate extends JModelForm
 
             if($return)
             {
-                $app->enqueueMessage('Override created');
+                $app->enqueueMessage('Override created in ' . str_replace(JPATH_ROOT,'',$htmlPath));
                 return true;
             }
             else
