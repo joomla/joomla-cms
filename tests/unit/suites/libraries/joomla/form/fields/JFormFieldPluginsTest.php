@@ -49,11 +49,15 @@ class JFormFieldPluginsTest extends TestCaseDatabase
 		TestReflection::setValue($formField, 'id', 'myTestId');
 		TestReflection::setValue($formField, 'name', 'editors');
 		TestReflection::setValue($formField, 'folder', 'editors');
+		TestReflection::setValue(
+			$formField, 'element',
+			simplexml_load_string('<field name="editors" type="plugins" folder="editors" />')
+		);
 
 		if (!is_null(self::$driver))
 		{
 			$this->assertThat(
-				strlen($formField->input),
+				strlen($field->input),
 				$this->greaterThan(0),
 				'Line:' . __LINE__ . ' The getInput method should return something without error.'
 			);
