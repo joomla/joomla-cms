@@ -471,7 +471,7 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($foundAutoload);
 
 		// Assert the PSR-0 loader is not found.
-		$this->assertFalse($foundLoadByPsr0);
+		$this->assertTrue($foundLoadByPsr0);
 	}
 
 	/**
