@@ -4,4 +4,6 @@
 /configuration.php
 /nbproject/private/
 /logs/*
+/cache/*
+/tmp/*
 .idea
