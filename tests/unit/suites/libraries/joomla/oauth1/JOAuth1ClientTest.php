@@ -10,7 +10,6 @@
 include_once __DIR__ . '/stubs/JOAuth1ClientInspector.php';
 include_once __DIR__ . '/../application/stubs/JApplicationWebInspector.php';
 
-
 /**
  * Test class for JOAuth1Client.
  *
@@ -21,7 +20,7 @@ include_once __DIR__ . '/../application/stubs/JApplicationWebInspector.php';
 class JOAuth1ClientTest extends TestCase
 {
 	/**
-	 * @var    Input  input for the OAuth object.
+	 * @var    JInput  input for the OAuth object.
 	 * @since  13.1
 	 */
 	protected $input;
@@ -42,12 +41,13 @@ class JOAuth1ClientTest extends TestCase
 	 * An instance of the object to test.
 	 *
 	 * @var    JOAuth1ClientInspector
-	 * @since  11.3
+	 * @since  13.1
 	 */
-	protected $class;
+	protected $object;
 
 	/**
-	 * @var   JApplicationWeb  The application object to send HTTP headers for redirects.
+	 * @var    JApplicationWeb  The application object to send HTTP headers for redirects.
+	 * @since  13.1
 	 */
 	protected $application;
 
@@ -82,7 +82,7 @@ class JOAuth1ClientTest extends TestCase
 
 		$this->options = new JRegistry;
 		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
-		$this->input = new JInput;
+		$this->input = new JInput(array());
 		$this->application = new JApplicationWebInspector;
 
 		$this->options->set('consumer_key', $key);
@@ -157,7 +157,6 @@ class JOAuth1ClientTest extends TestCase
 				->will($this->returnValue($returnData));
 
 			$input = TestReflection::getValue($this->object, 'input');
-			$input->set('oauth_verifier', null);
 			TestReflection::setValue($this->object, 'input', $input);
 
 			if (strcmp($version, '1.0a') === 0)

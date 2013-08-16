@@ -59,8 +59,9 @@ class ContentViewFeatured extends JViewLegacy
 		// PREPARE THE DATA
 
 		// Get the metrics for the structural page layout.
-		$numLeading = $params->def('num_leading_articles', 1);
-		$numIntro = $params->def('num_intro_articles', 4);
+		$numLeading	= (int) $params->def('num_leading_articles', 1);
+		$numIntro	= (int) $params->def('num_intro_articles', 4);
+		$numLinks	= (int) $params->def('num_links', 4);
 
 		// Compute the article slugs and prepare introtext (runs content plugins).
 		foreach ($items as &$item)
