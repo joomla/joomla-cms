@@ -44,21 +44,11 @@ class JFormFieldPluginsTest extends TestCaseDatabase
 	 */
 	public function testGetInput()
 	{
-		$form = new JFormInspector('form1');
+		$formField = new JFormFieldPlugins;
 
-		$this->assertThat(
-			$form->load('<form><field name="editors" type="plugins" folder="editors" /></form>'),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' XML string should load successfully.'
-		);
-
-		$field = new JFormFieldPlugins($form);
-
-		$this->assertThat(
-			$field->setup($form->getXml()->field, 'value'),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' The setup method should return true.'
-		);
+		TestReflection::setValue($formField, 'id', 'myTestId');
+		TestReflection::setValue($formField, 'name', 'editors');
+		TestReflection::setValue($formField, 'folder', 'editors');
 
 		if (!is_null(self::$driver))
 		{
