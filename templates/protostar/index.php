@@ -89,7 +89,7 @@ else
 	if ($this->params->get('googleFont'))
 	{
 	?>
-		<link href='http://fonts.googleapis.com/css?family=<?php echo $this->params->get('googleFontName');?>' rel='stylesheet' type='text/css' />
+		<link href='//fonts.googleapis.com/css?family=<?php echo $this->params->get('googleFontName');?>' rel='stylesheet' type='text/css' />
 		<style type="text/css">
 			h1,h2,h3,h4,h5,h6,.site-title{
 				font-family: '<?php echo str_replace('+', ' ', $this->params->get('googleFontName'));?>', sans-serif;

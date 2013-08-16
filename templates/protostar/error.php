@@ -81,7 +81,7 @@ else
 	if ($params->get('googleFont'))
 	{
 	?>
-		<link href='http://fonts.googleapis.com/css?family=<?php echo $params->get('googleFontName');?>' rel='stylesheet' type='text/css'>
+		<link href='//fonts.googleapis.com/css?family=<?php echo $params->get('googleFontName');?>' rel='stylesheet' type='text/css'>
 	<?php
 	}
 	?>
