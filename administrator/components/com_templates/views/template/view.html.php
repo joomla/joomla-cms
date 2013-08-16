@@ -48,7 +48,8 @@ class TemplatesViewTemplate extends JViewLegacy
         $app            = JFactory::getApplication();
         $this->file     = $app->input->get('file');
         $this->fileName = base64_decode($this->file);
-        $ext            = end(explode('.',$this->fileName));
+        $explodeArray   = explode('.',$this->fileName);
+        $ext            = end($explodeArray);
 		$this->files	= $this->get('Files');
 		$this->state	= $this->get('State');
 		$this->template	= $this->get('Template');
@@ -93,8 +94,8 @@ protected function addToolbar()
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 		$user  = JFactory::getUser();
-
-        $ext = end(explode('.',$this->fileName));
+        $explodeArray = explode('.',$this->fileName);
+        $ext = end($explodeArray);
 
 		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE'), 'thememanager');
 
@@ -221,7 +222,8 @@ protected function addToolbar()
                 }
 				echo "<li class='" . $class . "'>";
 				echo "<a class='folder-url' href=''><i class='icon-folder-close'>&nbsp;";
-				echo end(explode('/',$key));
+                $explodeArray = explode('/',$key);
+				echo end($explodeArray);
 				echo "</i></a>";
 				$this->listDirectoryTree($value);
 				echo "</li>";
@@ -253,7 +255,8 @@ protected function addToolbar()
                 echo "<li class='folder-select'>";
                 $encodedKey = base64_encode($key);
                 echo "<a class='folder-url' data-id='$encodedKey' href=''><i class='icon-folder-close'>&nbsp;";
-                echo end(explode('/',$key));
+                $explodeArray = explode('/',$key);
+                echo end($explodeArray);
                 echo "</i></a>";
                 $this->listFolderTree($value);
                 echo "</li>";

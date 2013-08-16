@@ -145,7 +145,8 @@ class PlgEditorCodemirror extends JPlugin
 
 		// Look if we need special syntax coloring.
 		$file = JFactory::getApplication()->input->get('file');
-		$syntax = end(explode('.',base64_decode($file)));
+        $explodeArray = explode('.',base64_decode($file));
+		$syntax = end($explodeArray);
 
 		if ($syntax)
 		{
@@ -191,11 +192,18 @@ class PlgEditorCodemirror extends JPlugin
 		$options->width			= $width;
 		$options->continuousScanning = 500;
 
-		if ($this->params->get('linenumbers', 0))
+
+        // Enabled the line numbers.
+		/*if ($this->params->get('linenumbers', 0))
 		{
 			$options->lineNumbers	= true;
 			$options->textWrapping	= false;
-		}
+		}*/
+
+        // Uncomment the above code and delete these lines to enable
+        // if you want to enable/disable line number from the admin panel
+        $options->lineNumbers	= true;
+        $options->textWrapping	= false;
 
 		if ($this->params->get('tabmode', '') == 'shift')
 		{

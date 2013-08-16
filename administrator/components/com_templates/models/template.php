@@ -493,7 +493,8 @@ class TemplatesModelTemplate extends JModelForm
         if ($template = $this->getTemplate())
         {
             $app        = JFactory::getApplication();
-            $name       = end(explode('/',$override));
+            $explodeArray = explode('/',$override);
+            $name       = end($explodeArray);
             $client 	= JApplicationHelper::getClientInfo($template->client_id);
             if(stristr($name,'mod_') != FALSE || stristr($name,'com_') != FALSE)
             {
@@ -561,7 +562,8 @@ class TemplatesModelTemplate extends JModelForm
             $client 	= JApplicationHelper::getClientInfo($template->client_id);
             $path       = JPath::clean($client->path . '/templates/' . $template->element . '/');
             $inFile     = urldecode(base64_decode($input));
-            $fileName   = end(explode('/',$inFile));
+            $explodeArray = explode('/',$inFile);
+            $fileName   = end($explodeArray);
             $outFile    = reset(explode('.',$fileName));
             $less       = new JLess();
             try
@@ -706,8 +708,10 @@ class TemplatesModelTemplate extends JModelForm
             $client 	= JApplicationHelper::getClientInfo($template->client_id);
             $path       = JPath::clean($client->path . '/templates/' . $template->element . '/');
             $fileName   = base64_decode($file);
-            $type       = end(explode('.', $fileName));
-            $newName    = str_replace(end(explode('/', $fileName)), $name . '.' . $type, $fileName);
+            $explodeArray = explode('.', $fileName);
+            $type       = end($explodeArray);
+            $explodeArray = explode('/', $fileName);
+            $newName    = str_replace(end($explodeArray), $name . '.' . $type, $fileName);
 
             if(!rename($path . $fileName, $path . $newName))
             {
@@ -731,7 +735,8 @@ class TemplatesModelTemplate extends JModelForm
             if(file_exists(JPath::clean($path . '/' . $fileName)))
             {
                 $JImage = new JImage(JPath::clean($path . '/' . $fileName));
-                $base = end(explode('/',JPATH_ROOT));
+                $explodeArray = explode('/',JPATH_ROOT);
+                $base = end($explodeArray);
                 $image['address'] = str_replace(JPATH_ROOT, '/' . $base, $JImage->getPath() . '?' . time());
 
                 $image['height'] = $JImage->getHeight();

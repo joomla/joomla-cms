@@ -175,6 +175,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		$task    = $this->getTask();
 		$model   = $this->getModel();
         $fileName = $app->input->get('file');
+        $explodeArray = explode(':',base64_decode($fileName));
 	
 		// Access check.
 		if (!$this->allowSave())
@@ -194,7 +195,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'),'error');
             return false;
 		}
-		elseif ($data['filename'] != end(explode(':',base64_decode($fileName))))
+		elseif ($data['filename'] != end($explodeArray))
 		{
 			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'),'error');
             return false;
@@ -367,8 +368,9 @@ class TemplatesControllerTemplate extends JControllerLegacy
         $location       = base64_decode($app->input->get('address'));
 
         $extensions     = array('ini','php','js','xml','less','css','jpg','jpeg','png');
+        $explodeArray = explode('.', $upload['name']);
 
-        if(in_array(end(explode('.', $upload['name'])),$extensions))
+        if(in_array(end($explodeArray),$extensions))
         {
             if($model->uploadFile($upload, $location))
             {
