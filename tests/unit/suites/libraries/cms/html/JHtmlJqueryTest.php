@@ -82,6 +82,12 @@ class JHtmlJqueryTest extends TestCase
 			$document->_scripts,
 			'Verify that the jQuery JS is loaded'
 		);
+
+		$this->assertArrayHasKey(
+			'/media/jui/js/jquery-migrate.min.js',
+			$document->_scripts,
+			'Verify that the jQuery Migrate JS is loaded'
+		);
 	}
 
 	/**
