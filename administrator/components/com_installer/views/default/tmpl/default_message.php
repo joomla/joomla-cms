@@ -16,7 +16,7 @@ $message2		= $state->get('extension_message');
 
 <?php if ($message1) : ?>
 	<div class="span12">
-		<?php echo $message1 ?>
+		<?php echo $message1; ?>
 	</div>
 <?php endif; ?>
 
