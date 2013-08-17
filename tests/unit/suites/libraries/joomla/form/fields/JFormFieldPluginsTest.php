@@ -36,6 +36,33 @@ class JFormFieldPluginsTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Tests folder attribute setup by JFormFieldPlugins::setup method
+	 *
+	 * @covers JFormField::setup
+	 * @covers JFormField::__get
+	 *
+	 * @return void
+	 */
+	public function testSetupFolder()
+	{
+		$field = new JFormFieldPlugins;
+		$element = simplexml_load_string(
+			'<field name="editors" type="plugins" folder="editors" />');
+
+		$this->assertThat(
+			$field->setup($element, ''),
+			$this->isTrue(),
+			'Line:' . __LINE__ . ' The setup method should return true if successful.'
+		);
+
+		$this->assertThat(
+			$field->folder,
+			$this->equalTo("editors"),
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
+		);
+	}
+
+	/**
 	 * Test the getInput method.
 	 *
 	 * @return  void
@@ -57,7 +84,7 @@ class JFormFieldPluginsTest extends TestCaseDatabase
 		if (!is_null(self::$driver))
 		{
 			$this->assertThat(
-				strlen($field->input),
+				strlen($formField->input),
 				$this->greaterThan(0),
 				'Line:' . __LINE__ . ' The getInput method should return something without error.'
 			);

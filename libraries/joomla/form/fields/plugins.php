@@ -72,7 +72,7 @@ class JFormFieldPlugins extends JFormFieldList
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
-		$this->folder = (string) $this->element['folder'];
+		$this->folder = (string) $element['folder'];
 
 		return parent::setup($element, $value, $group);
 	}
