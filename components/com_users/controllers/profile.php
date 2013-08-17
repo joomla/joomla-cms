@@ -42,13 +42,16 @@ class UsersControllerProfile extends UsersController
 			return false;
 		}
 
-		// Check if the user logged in with remember me.
-		if (!empty($user->rememberLogin))
+
+		$cookieLogin = $user->get('cookieLogin');
+
+		// Check if the user logged in with a cookie
+		if (!empty($cookieLogin))
 		{
 			// If so, the user must login to edit the password and other data.
-			// What should happen here? Should we force a logout which detroys the cookies?]
 			$app->enqueueMessage(JText::_('JGLOBAL_REMEMBER_MUST_LOGIN'), 'message');
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false));
+
 			return false;
 		}
 
