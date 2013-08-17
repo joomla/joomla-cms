@@ -559,8 +559,8 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include MooTools framework
-		static::framework();
+		// Include jQuery
+		JHtml::_('jquery.framework');
 
 		$config = JFactory::getConfig();
 		$lifetime = ($config->get('lifetime') * 60000);
@@ -577,10 +577,10 @@ abstract class JHtmlBehavior
 		$document = JFactory::getDocument();
 		$script = '';
 		$script .= 'function keepAlive() {';
-		$script .= '	var myAjax = new Request({method: "get", url: "index.php"}).send();';
+		$script .= '	jQuery.get("index.php");';
 		$script .= '}';
-		$script .= ' window.addEvent("domready", function()';
-		$script .= '{ keepAlive.periodical(' . $refreshTime . '); }';
+		$script .= 'jQuery(function($)';
+		$script .= '{ setInterval(keepAlive, ' . $refreshTime . '); }';
 		$script .= ');';
 
 		$document->addScriptDeclaration($script);
