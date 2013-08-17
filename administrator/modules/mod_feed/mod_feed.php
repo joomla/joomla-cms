@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 // Include the syndicate functions only once
 require_once __DIR__ . '/helper.php';
 
-$rssurl = $params->get('rssurl', '');
+$rssurl	= JStringPunycode::urlToPunycode($params->get('rssurl', ''));
 $rssrtl = $params->get('rssrtl', 0);
 
 // Check if feed URL has been set
