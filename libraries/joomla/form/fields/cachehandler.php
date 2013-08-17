@@ -28,7 +28,7 @@ class JFormFieldCacheHandler extends JFormFieldList
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $type = 'CacheHandler';
+	protected $type = 'CacheHandler';
 
 	/**
 	 * Method to get the field options.

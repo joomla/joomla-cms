@@ -29,6 +29,55 @@ class JFormFieldPlugins extends JFormFieldList
 	protected $type = 'Plugins';
 
 	/**
+	 * The path to folder for plugins.
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
+	protected $folder;
+
+	/**
+	 * Method to get certain otherwise inaccessible properties from the form field object.
+	 *
+	 * @param   string  $name  The property name for which to the the value.
+	 *
+	 * @return  mixed  The property value or null.
+	 *
+	 * @since   11.1
+	 */
+	public function __get($name)
+	{
+		switch ($name)
+		{
+			case 'folder':
+				return $this->$name;
+		}
+
+		return parent::__get($name);
+	}
+
+	/**
+	 * Method to attach a JForm object to the field.
+	 *
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   mixed             $value    The form field value to validate.
+	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                      full field name would end up being "bar[foo]".
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @see 	JFormField::setup()
+	 * @since   11.1
+	 */
+	public function setup(SimpleXMLElement $element, $value, $group = null)
+	{
+		$this->folder = (string) $element['folder'];
+
+		return parent::setup($element, $value, $group);
+	}
+
+	/**
 	 * Method to get a list of options for a list input.
 	 *
 	 * @return	array		An array of JHtml options.
@@ -37,7 +86,7 @@ class JFormFieldPlugins extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$folder	= $this->element['folder'];
+		$folder	= $this->folder;
 
 		if (!empty($folder))
 		{
@@ -54,6 +103,7 @@ class JFormFieldPlugins extends JFormFieldList
 			$options = $db->loadObjectList();
 
 			$lang = JFactory::getLanguage();
+
 			foreach ($options as $i => $item)
 			{
 				$source = JPATH_PLUGINS . '/' . $folder . '/' . $item->value;

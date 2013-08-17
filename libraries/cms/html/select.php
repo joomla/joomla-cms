@@ -129,6 +129,28 @@ abstract class JHtmlSelect
 		return $html;
 	}
 
+	public static function suggestionlist($data, $optKey = 'value', $optText = 'text', $idtag ,$translate = false)
+	{
+		// Set default options
+		$options = array_merge(JHtml::$formatOptions, array('format.depth' => 0, 'id' => false));
+
+		// Get options from the parameters
+		$options['id'] = $idtag;
+		$options['list.attr'] = null;
+		$options['list.translate'] = $translate;
+		$options['option.key'] = $optKey;
+		$options['option.text'] = $optText;
+		$options['list.select'] = null;
+
+		$id = ' id="' . $idtag . '"';
+
+		$baseIndent = str_repeat($options['format.indent'], $options['format.depth']++);
+		$html = $baseIndent . '<datalist'. $id .'>' . $options['format.eol']
+			. static::options($data, $options) . $baseIndent . '</datalist>' . $options['format.eol'];
+
+		return $html;
+	}
+
 	/**
 	 * Generates a grouped HTML selection list from nested arrays.
 	 *
@@ -414,6 +436,7 @@ abstract class JHtmlSelect
 			$options['option.text'] = $optText;
 			$options['disable'] = $disable;
 		}
+
 		$obj = new stdClass;
 		$obj->$options['option.key'] = $value;
 		$obj->$options['option.text'] = trim($text) ? $text : $value;
@@ -445,6 +468,7 @@ abstract class JHtmlSelect
 		{
 			$obj->$options['option.disable'] = $options['disable'];
 		}
+
 		return $obj;
 	}
 
@@ -603,10 +627,10 @@ abstract class JHtmlSelect
 			else
 			{
 				// If no string after hyphen - take hyphen out
-				$splitText = explode(' - ', $text, 2);
+				$splitText = preg_split('/ -[\s]*/', $text, 2);
 				$text = $splitText[0];
 
-				if (isset($splitText[1]))
+				if (!empty($splitText[1]))
 				{
 					$text .= ' - ' . $splitText[1];
 				}
@@ -703,7 +727,7 @@ abstract class JHtmlSelect
 			$id = (isset($obj->id) ? $obj->id : null);
 
 			$extra = '';
-			$extra .= $id ? ' id="' . $obj->id . '"' : '';
+			$id = $id ? $obj->id : $id_text . $k;
 
 			if (is_array($selected))
 			{
@@ -713,21 +737,23 @@ abstract class JHtmlSelect
 
 					if ($k == $k2)
 					{
-						$extra .= ' selected="selected"';
+						$extra .= ' selected="selected" ';
 						break;
 					}
 				}
 			}
 			else
 			{
-				$extra .= ((string) $k == (string) $selected ? ' checked="checked"' : '');
+				$extra .= ((string) $k == (string) $selected ? ' checked="checked" ' : '');
 			}
-			$html .= "\n\t" . '<label for="' . $id_text . $k . '" id="' . $id_text . $k . '-lbl" class="radio">';
-			$html .= "\n\t\n\t" . '<input type="radio" name="' . $name . '" id="' . $id_text . $k . '" value="' . $k . '" ' . $extra . ' '
-				. $attribs . '>' . $t;
+
+			$html .= "\n\t" . '<label for="' . $id . '" id="' . $id . '-lbl" class="radio">';
+			$html .= "\n\t\n\t" . '<input type="radio" name="' . $name . '" id="' . $id . '" value="' . $k . '" ' . $extra
+				. $attribs . ' >' . $t;
 			$html .= "\n\t" . '</label>';
 		}
 
+		$html .= "\n";
 		$html .= '</div>';
 		$html .= "\n";
 

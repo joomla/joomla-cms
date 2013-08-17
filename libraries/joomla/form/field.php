@@ -27,6 +27,49 @@ abstract class JFormField
 	protected $description;
 
 	/**
+	 * The hint text for the form field used to display hint inside the field.
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
+	protected $hint;
+
+	/**
+	 * The mode of input associated with the field.
+	 *
+	 * @var    mixed
+	 * @since  11.1
+	 */
+	protected $inputmode;
+
+	/**
+	 * The autocomplete of state for the form field. If 'off' element will not be automatically
+	 * completed by browser.
+	 *
+	 * @var    mixed
+	 * @since  11.1
+	 */
+	protected $autocomplete = 'on';
+
+	/**
+	 * The autocomplete of state for the form field. If true element will be automatically
+	 * completed by browser otherwise not.
+	 *
+	 * @var    boolean
+	 * @since  11.1
+	 */
+	protected $spellcheck = true;
+
+	/**
+	 * The autofocus request for the form field. If true element will be automatically
+	 * focused on document load.
+	 *
+	 * @var    boolean
+	 * @since  11.1
+	 */
+	protected $autofocus = false;
+
+	/**
 	 * The SimpleXMLElement object of the <field /> XML element that describes the form field.
 	 *
 	 * @var    SimpleXMLElement
@@ -75,6 +118,14 @@ abstract class JFormField
 	protected $translateDescription = true;
 
 	/**
+	 * True to translate the field hint string.
+	 *
+	 * @var    boolean
+	 * @since  11.1
+	 */
+	protected $translateHint = true;
+
+	/**
 	 * The document id for the form field.
 	 *
 	 * @var    string
@@ -116,6 +167,14 @@ abstract class JFormField
 	protected $name;
 
 	/**
+	 * The name of the form field direction (ltr or rtl).
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
+	protected $dirname;
+
+	/**
 	 * The name of the field.
 	 *
 	 * @var    string
@@ -139,6 +198,23 @@ abstract class JFormField
 	 * @since  11.1
 	 */
 	protected $required = false;
+
+	/**
+	 * The disabled state for the form field.  If true then the field will be disabled and user can't
+	 * interact with the field.
+	 *
+	 * @var    boolean
+	 * @since  11.1
+	 */
+	protected $disabled = false;
+
+	/**
+	 * The readonly state for the form field.  If true then the field will be readonly.
+	 *
+	 * @var    boolean
+	 * @since  11.1
+	 */
+	protected $readonly = false;
 
 	/**
 	 * The form field type.
@@ -166,12 +242,52 @@ abstract class JFormField
 	protected $value;
 
 	/**
+	 * The default value of the form field.
+	 *
+	 * @var    mixed
+	 * @since  11.1
+	 */
+	protected $default;
+
+	/**
+	 * The size of the form field.
+	 *
+	 * @var    int
+	 * @since  11.1
+	 */
+	protected $size;
+
+	/**
+	 * The class of the form field
+	 *
+	 * @var    mixed
+	 * @since  11.1
+	 */
+	protected $class;
+
+	/**
 	 * The label's CSS class of the form field
 	 *
 	 * @var    mixed
 	 * @since  11.1
 	 */
 	protected $labelClass;
+
+	/**
+	* The javascript onchange of the form field.
+	*
+	* @var    string
+	* @since  11.1
+	*/
+	protected $onchange;
+
+	/**
+	* The javascript onclick of the form field.
+	*
+	* @var    string
+	* @since  11.1
+	*/
+	protected $onclick;
 
 	/**
 	 * The count value for generated name field
@@ -235,6 +351,7 @@ abstract class JFormField
 		switch ($name)
 		{
 			case 'description':
+			case 'hint':
 			case 'formControl':
 			case 'hidden':
 			case 'id':
@@ -244,9 +361,21 @@ abstract class JFormField
 			case 'type':
 			case 'validate':
 			case 'value':
+			case 'class':
 			case 'labelClass':
+			case 'size':
+			case 'onchange':
+			case 'onclick':
 			case 'fieldname':
 			case 'group':
+			case 'disabled':
+			case 'readonly':
+			case 'autofocus':
+			case 'autocomplete':
+			case 'spellcheck':
+			case 'hint':
+			case 'dirname':
+			case 'inputmode':
 				return $this->$name;
 
 			case 'input':
@@ -325,29 +454,42 @@ abstract class JFormField
 		$multiple = (string) $element['multiple'];
 		$name = (string) $element['name'];
 		$required = (string) $element['required'];
+		$disabled = (string) $element['disabled'];
+		$readonly = (string) $element['readonly'];
+		$autofocus = (string) $element['autofocus'];
+		$autocomplete = (string) $element['autocomplete'];
+		$spellcheck = (string) $element['spellcheck'];
+		$hidden = (string) $element['hidden'];
+		$inputmode = (string) $element['inputmode'];
+		$dirname = (string) $element['dirname'];
 
-		// Set the required and validation options.
+		// Set the required, disabled, readonly, multiple and validation options.
 		$this->required = ($required == 'true' || $required == 'required' || $required == '1');
+		$this->disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
+		$this->multiple = ($multiple == 'true' || $multiple == 'multiple' || $multiple == '1');
+		$this->readonly = ($readonly == 'true' || $readonly == 'readonly' || $readonly == '1');
+
 		$this->validate = (string) $element['validate'];
+		$this->default = isset($element['value']) ? (string) $element['value'] : (string) $element['default'];
 
-		// Add the required class if the field is required.
-		if ($this->required)
+		// Removes spaces from left & right and extra spaces from middle
+		$this->class = preg_replace('/\s+/', ' ', trim($class));
+
+		$this->inputmode = '';
+		$inputmode = preg_replace('/\s+/', ' ', trim($inputmode));
+		$inputmode = explode(' ', $inputmode);
+
+		if (!empty($inputmode))
 		{
-			if ($class)
-			{
-				if (strpos($class, 'required') === false)
-				{
-					$this->element['class'] = $class . ' required';
-				}
-			}
-			else
-			{
-				$this->element['class'] = 'required';
-			}
-		}
+			$defaultInputmode = in_array('default', $inputmode) ? JText::_("JLIB_FORM_INPUTMODE") . ' ' : '';
 
-		// Set the multiple values option.
-		$this->multiple = ($multiple == 'true' || $multiple == 'multiple');
+			foreach (array_keys($inputmode, 'default') as $key)
+			{
+				unset($inputmode[$key]);
+			}
+
+			$this->inputmode = $defaultInputmode . implode(" ", $inputmode);
+		}
 
 		// Allow for field classes to force the multiple values option.
 		if (isset($this->forceMultiple))
@@ -358,13 +500,37 @@ abstract class JFormField
 		// Set the field description text.
 		$this->description = (string) $element['description'];
 
-		// Set the visibility.
-		$this->hidden = ((string) $element['type'] == 'hidden' || (string) $element['hidden'] == 'true');
+		// Set the field hint text.
+		$this->hint = (string) $element['hint'];
 
-		// Determine whether to translate the field label and/or description.
+		// Determine whether to automatically fill the field or not.
+		$autocomplete = $autocomplete == '' ? 'on' : $autocomplete;
+		$this->autocomplete = ($autocomplete == 'false' || $autocomplete == 'off' || $autocomplete == '0') ? false : $autocomplete;
+
+		// Determine whether to set focus on the field automatically or not.
+		$this->autofocus = ($autofocus == 'true' || $autofocus == 'on' || $autofocus == '1');
+
+		// Determine whether to off spellcheck or not.
+		$this->spellcheck = !($spellcheck == 'false' || $spellcheck == 'off' || $spellcheck == '0');
+
+		// Set the visibility.
+		$this->hidden = ((string) $element['type'] == 'hidden' || $hidden == 'true' || $hidden == '1');
+
+		// Set the dirname.
+		$dirname = ((string) $dirname == 'dirname' || $dirname == 'true' || $dirname == '1');
+		$this->dirname = $dirname ? $this->getName($this->fieldname . '_dir') : false;
+
+		// Set the javascript onchange and onclick method.
+		$this->onclick = (string) $element['onclick'];
+		$this->onchange = (string) $element['onchange'];
+
+		$this->size = (int) $element['size'];
+
+		// Determine whether to translate the field label and/or description and/or hint.
 		$this->translateLabel = !((string) $this->element['translate_label'] == 'false' || (string) $this->element['translate_label'] == '0');
 		$this->translateDescription = !((string) $this->element['translate_description'] == 'false'
 			|| (string) $this->element['translate_description'] == '0');
+		$this->translateHint = !((string) $this->element['translate_hint'] == 'false' || (string) $this->element['hint'] == '0');
 
 		// Set the group of the field.
 		$this->group = $group;

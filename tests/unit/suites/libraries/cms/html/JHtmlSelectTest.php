@@ -25,9 +25,45 @@ class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @since   3.1
 	 */
+	public function getGenericlistData()
+	{
+		return JHtmlSelectTest_DataSet::$genericTest;
+	}
+
+	/**
+	 * Test...
+	 *
+	 * @return  array
+	 *
+	 * @since   3.1
+	 */
+	public function getRadiolistData()
+	{
+		return JHtmlSelectTest_DataSet::$radioTest;
+	}
+
+	/**
+	 * Test...
+	 *
+	 * @return  array
+	 *
+	 * @since   3.1
+	 */
 	public function getOptionsData()
 	{
 		return JHtmlSelectTest_DataSet::$optionsTest;
+	}
+
+	/**
+	 * Test...
+	 *
+	 * @return  array
+	 *
+	 * @since   3.1
+	 */
+	public function getOptionData()
+	{
+		return JHtmlSelectTest_DataSet::$optionTest;
 	}
 
 	/**
@@ -48,16 +84,37 @@ class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test...
 	 *
-	 * @todo Implement testGenericlist().
+	 * @param   string   $expected   @todo
+	 * @param   array    $data       @todo
+	 * @param   string   $name       @todo
+	 * @param   mixed    $attribs    @todo
+	 * @param   string   $optKey     @todo
+	 * @param   string   $optText    @todo
+	 * @param   mixed    $selected   @todo
+	 * @param   mixed    $idtag      @todo
+	 * @param   boolean  $translate  @todo
 	 *
 	 * @return void
+	 *
+	 * @dataProvider  getGenericlistData
 	 */
-	public function testGenericlist()
+	public function testGenericlist($expected, $data, $name, $attribs = null, $optKey = 'value', $optText = 'text',
+		$selected = null, $idtag = false, $translate = false)
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+		if (func_num_args() == 4)
+		{
+			$this->assertEquals(
+				$expected,
+				JHtml::_('select.genericlist', $data, $name, $attribs)
+			);
+		}
+		else
+		{
+			$this->assertEquals(
+				$expected,
+				JHtml::_('select.genericlist', $data, $name, $attribs, $optKey, $optText, $selected, $idtag, $translate)
+			);
+		}
 	}
 
 	/**
@@ -108,15 +165,22 @@ class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test...
 	 *
-	 * @todo Implement testOption().
+	 * @param   object  $expected  @todo
+	 * @param   string  $value     @todo
+	 * @param   string  $text      @todo
+	 * @param   array   $optKey    @todo
+	 * @param   string  $optText   @todo
+	 * @param   bool    $disable   @todo
 	 *
 	 * @return void
+	 *
+	 * @dataProvider  getOptionData
 	 */
-	public function testOption()
+	public function testOption($expected, $value, $text = '', $optKey = 'value', $optText = 'text', $disable = false)
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
+		$this->assertEquals(
+			(object) $expected,
+			JHtml::_('select.option', $value, $text, $optKey, $optText, $disable)
 		);
 	}
 
@@ -151,15 +215,43 @@ class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Test...
 	 *
-	 * @todo Implement testRadiolist().
+	 * @param   string   $expected   @todo
+	 * @param   array    $data       @todo
+	 * @param   string   $name       @todo
+	 * @param   mixed    $attribs    @todo
+	 * @param   string   $optKey     @todo
+	 * @param   string   $optText    @todo
+	 * @param   mixed    $selected   @todo
+	 * @param   mixed    $idtag      @todo
+	 * @param   boolean  $translate  @todo
 	 *
 	 * @return void
+	 *
+	 * @dataProvider  getRadiolistData
 	 */
-	public function testRadiolist()
+	public function testRadiolist($expected, $data, $name, $attribs = null, $optKey = 'value', $optText = 'text', $selected = null, $idtag = false,
+		$translate = false)
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete(
-			'This test has not been implemented yet.'
-		);
+		foreach ($data as $arr)
+		{
+			$dataObject[] = (object) $arr;
+		}
+
+		$data = $dataObject;
+
+		if (func_num_args() == 4)
+		{
+			$this->assertEquals(
+				$expected,
+				JHtml::_('select.radiolist', (object) $data, $name, $attribs)
+			);
+		}
+		else
+		{
+			$this->assertEquals(
+				$expected,
+				JHtml::_('select.radiolist', (object) $data, $name, $attribs, $optKey, $optText, $selected, $idtag, $translate)
+			);
+		}
 	}
 }
