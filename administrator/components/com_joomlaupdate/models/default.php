@@ -120,7 +120,17 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			$cache_timeout = 3600 * $cache_timeout;
 		}
 		$updater = JUpdater::getInstance();
-		$updater->findUpdates(700, $cache_timeout);
+
+		try
+		{
+			$updater->findUpdates(700, $cache_timeout);
+		}
+		catch (Exception $e)
+		{
+			$app = JFactory::getApplication();
+			$app->enqueueMessage(JText::_('COM_JOOMLAUPDATE_MESSAGE_CANNOT_CONNECT'), 'warning');
+		}
+
 	}
 
 	/**
