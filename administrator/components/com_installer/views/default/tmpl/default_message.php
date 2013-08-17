@@ -16,9 +16,9 @@ $message2		= $state->get('extension_message');
 <table class="adminform">
 	<tbody>
 		<?php if ($message1) : ?>
-		<tr>
-			<th><?php echo $message1 ?></th>
-		</tr>
+		<th>
+			<td><?php echo $message1 ?></td>
+		</th>
 		<?php endif; ?>
 		<?php if ($message2) : ?>
 		<tr>
