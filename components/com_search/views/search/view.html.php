@@ -168,15 +168,31 @@ class SearchViewSearch extends JViewLegacy
 
 				foreach ($searchwords as $hlword)
 				{
-					if (($pos = mb_strpos($srow, strtolower(SearchHelper::remove_accents($hlword)))) !== false)
+					if (extension_loaded('mbstring'))
 					{
-						$pos += $cnt++ * mb_strlen($hl1 . $hl2);
+						if (($pos = mb_strpos($srow, strtolower(SearchHelper::remove_accents($hlword)))) !== false)
+						{
+							$pos += $cnt++ * mb_strlen($hl1 . $hl2);
 
-						// iconv transliterates '€' to 'EUR'
-						// TODO: add other expanding translations?
-						$eur_compensation = $pos > 0 ? substr_count($row, "\xE2\x82\xAC", 0, $pos) * 2 : 0;
-						$pos -= $eur_compensation;
-						$row = mb_substr($row, 0, $pos) . $hl1 . mb_substr($row, $pos, mb_strlen($hlword)) . $hl2 . mb_substr($row, $pos + mb_strlen($hlword));
+							// iconv transliterates '€' to 'EUR'
+							// TODO: add other expanding translations?
+							$eur_compensation = $pos > 0 ? substr_count($row, "\xE2\x82\xAC", 0, $pos) * 2 : 0;
+							$pos -= $eur_compensation;
+							$row = mb_substr($row, 0, $pos) . $hl1 . mb_substr($row, $pos, mb_strlen($hlword)) . $hl2 . mb_substr($row, $pos + mb_strlen($hlword));
+						}
+					}
+					else
+					{
+						if (($pos = JString::strpos($srow, strtolower(SearchHelper::remove_accents($hlword)))) !== false)
+						{
+							$pos += $cnt++ * JString::strlen($hl1 . $hl2);
+
+							// iconv transliterates '€' to 'EUR'
+							// TODO: add other expanding translations?
+							$eur_compensation = $pos > 0 ? substr_count($row, "\xE2\x82\xAC", 0, $pos) * 2 : 0;
+							$pos -= $eur_compensation;
+							$row = JString::substr($row, 0, $pos) . $hl1 . JString::substr($row, $pos, JString::strlen($hlword)) . $hl2 . JString::substr($row, $pos + JString::strlen($hlword));
+						}
 					}
 				}
 

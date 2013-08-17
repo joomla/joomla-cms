@@ -26,6 +26,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Aug-2013 Mark Dexter
+ # Fix failing system tests due to markup changes.
+
+09-Aug-2013 Mark Dexter
+ # Fix failing system tests due to markup changes.
+
 31-Jul-2013 Michael Babker
  + Add test coverage to JPlugin constructor testing private vars
  + Add test coverage to JLoader::registerPrefix()
