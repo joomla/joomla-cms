@@ -119,7 +119,7 @@ abstract class JModuleHelper
 	{
 		$result = self::getModule($module);
 
-		return !is_null($result);
+		return (!is_null($result) && $result->id !== 0);
 	}
 
 	/**

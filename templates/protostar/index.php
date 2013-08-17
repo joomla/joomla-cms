@@ -199,5 +199,10 @@ else
 		</div>
 	</footer>
 	<jdoc:include type="modules" name="debug" style="none" />
+	<?php
+		$moduleObject = JModuleHelper::isEnabled('mod_menu');
+		echo '<pre>IsEnabled: ' . print_r($moduleObject, true) . '</pre>';
+
+	?>
 </body>
 </html>
