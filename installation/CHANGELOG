@@ -26,6 +26,18 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Aug-2013 Jean-Marie Simonet
+ #$ [#31631] Small typo fix in Plugin. Thanks Gunjan Patel and Tobias Zulauf
+ # [#27824] Offline image overflow. Thanks Angelika Reisiger
+
+12-Aug-2013 Jean-Marie Simonet
+ # [#31681] Module manager allows positions with trailing spaces. Thanks Richard McDaniel
+
+07-Aug-2013 Jean-Marie Simonet
+ #$ [#31622] Media Manager doesn't cope with folder names that include spaces. Thanks Richard McDaniel
+ # [#31410] Warnings at the offline screen looks bad. Thanks Lu Nguyen
+ # [#31633] Detailed changelog in readme.txt points to SVN which is out of date. Thanks Brian Teeman
+
 03-Aug-2013 Jean-Marie Simonet
  # [#31411] Show Offline image only if it exists. Thanks Tobias Zulauf
  # [#31360] The site is offline but anyhow the error page will show (e.g. at a 404 error). Thanks Mihail Irintchev
