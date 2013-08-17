@@ -50,7 +50,7 @@ class JFormFieldSQL extends JFormFieldList
 	 * @var    boolean
 	 * @since  11.1
 	 */
-	protected $translate;
+	protected $translate = false;
 
 	/**
 	 * The query.
@@ -99,10 +99,10 @@ class JFormFieldSQL extends JFormFieldList
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
-		$this->keyField = $this->element['key_field'] ? (string) $this->element['key_field'] : 'value';
-		$this->valueField = $this->element['value_field'] ? (string) $this->element['value_field'] : (string) $this->element['name'];
-		$this->translate = $this->element['translate'] ? (string) $this->element['translate'] : false;
-		$this->query = (string) $this->element['query'];
+		$this->keyField = $element['key_field'] ? (string) $element['key_field'] : 'value';
+		$this->valueField = $element['value_field'] ? (string) $element['value_field'] : (string) $element['name'];
+		$this->translate = $element['translate'] ? (string) $element['translate'] : false;
+		$this->query = (string) $element['query'];
 
 		return parent::setup($element, $value, $group);
 	}
