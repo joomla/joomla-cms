@@ -1234,7 +1234,6 @@ class JForm
 					return false;
 				}
 
-				$value = JStringPunycode::urlToPunycode($value);
 				$value = JFilterInput::getInstance()->clean($value, 'html');
 				$value = trim($value);
 
@@ -1277,6 +1276,7 @@ class JForm
 					}
 				}
 
+				$value = JStringPunycode::urlToPunycode($value);
 				$return = $value;
 				break;
 
