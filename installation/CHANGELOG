@@ -25,6 +25,15 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Aug-2013 Jean-Marie Simonet
+ # [#31649] During Installation, PHP Setting Display Errors is Not Reported/Identified Correctly. Thanks Chad Windnagle
+ # [#30934] Language Pack Install fail on Joomla V3.1.1 with PostGreSQL DB Backend. Thanks Michael Babker
+ # [#31556] Strength meter of password field. Thanks Achal Aggarwal
+ # [#31754] *mod_feed issues in FE as well as BE. Thanks Achal Aggarwal
+
+15-Aug-2013 Michael Babker
+ # [#31732] administrator/components/com_admin/sql/updates/postgresql/3.0.3.sql has wrong type should be integer instead of int(11).  Thanks Alan Hicks
+
 15-Aug-2013 Jean-Marie Simonet
  # [#31744] Featured articles menu item error. Thanks Anthony THERREAU
  # [#30572] No backend javascript validation on com_content option input fields. Thanks Duong Nguyen

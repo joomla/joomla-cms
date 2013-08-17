@@ -270,6 +270,7 @@ class JAuthentication extends JObject
 		foreach ($plugins as $plugin)
 		{
 			$className = 'plg' . $plugin->type . $plugin->name;
+
 			if (class_exists($className))
 			{
 				$plugin = new $className($this, (array) $plugin);

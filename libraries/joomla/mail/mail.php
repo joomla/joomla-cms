@@ -34,6 +34,8 @@ class JMail extends PHPMailer
 
 	/**
 	 * Constructor
+	 *
+	 * @since   11.1
 	 */
 	public function __construct()
 	{
@@ -106,12 +108,14 @@ class JMail extends PHPMailer
 	/**
 	 * Set the email sender
 	 *
-	 * @param   array  $from  email address and Name of sender
-	 *                        <code>array([0] => email Address [1] => Name)</code>
+	 * @param   mixed  $from  email address and Name of sender
+	 *                        <code>array([0] => email Address, [1] => Name)</code>
+	 *                        or as a string
 	 *
 	 * @return  JMail  Returns this object for chaining.
 	 *
 	 * @since   11.1
+	 * @throws  UnexpectedValueException
 	 */
 	public function setSender($from)
 	{
@@ -135,8 +139,10 @@ class JMail extends PHPMailer
 		}
 		else
 		{
-			// If it is neither, we throw a warning
+			// If it is neither, we log a message and throw an exception
 			JLog::add(JText::sprintf('JLIB_MAIL_INVALID_EMAIL_SENDER', $from), JLog::WARNING, 'jerror');
+
+			throw new UnexpectedValueException(sprintf('Invalid email Sender: %s, JMail::setSender(%s)', $from));
 		}
 
 		return $this;
@@ -188,6 +194,7 @@ class JMail extends PHPMailer
 	 * @return  JMail  Returns this object for chaining.
 	 *
 	 * @since   11.1
+	 * @throws  InvalidArgumentException
 	 */
 	protected function add($recipient, $name = '', $method = 'AddAddress')
 	{
@@ -213,6 +220,7 @@ class JMail extends PHPMailer
 			else
 			{
 				$name = JMailHelper::cleanLine($name);
+
 				foreach ($recipient as $to)
 				{
 					$to = JMailHelper::cleanLine($to);
@@ -242,6 +250,7 @@ class JMail extends PHPMailer
 	public function addRecipient($recipient, $name = '')
 	{
 		$this->add($recipient, $name, 'AddAddress');
+
 		return $this;
 	}
 
@@ -346,6 +355,23 @@ class JMail extends PHPMailer
 	public function addReplyTo($replyto, $name = '')
 	{
 		$this->add($replyto, $name, 'AddReplyTo');
+
+		return $this;
+	}
+
+	/**
+	 * Sets message type to HTML
+	 *
+	 * @param   boolean  $ishtml  Boolean true or false.
+	 *
+	 * @return  JMail  Returns this object for chaining.
+	 *
+	 * @since   12.3
+	 */
+	public function isHtml($ishtml = true)
+	{
+		parent::IsHTML($ishtml);
+
 		return $this;
 	}
 

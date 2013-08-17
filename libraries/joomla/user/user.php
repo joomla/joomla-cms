@@ -35,7 +35,8 @@ class JUser extends JObject
 	public $id = null;
 
 	/**
-	 * The users real name (or nickname)
+	 * The user's real name (or nickname)
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -58,7 +59,7 @@ class JUser extends JObject
 	public $email = null;
 
 	/**
-	 * Encrypted password
+	 * MD5 encrypted password
 	 *
 	 * @var    string
 	 * @since  11.1
@@ -155,6 +156,7 @@ class JUser extends JObject
 
 	/**
 	 * User parameters
+	 *
 	 * @var    JRegistry
 	 * @since  11.1
 	 */
@@ -193,14 +195,6 @@ class JUser extends JObject
 	protected $_errorMsg = null;
 
 	/**
-	 * Cookie login indicator
-	 *
-	 * @var    boolean
-	 * @since  3.1.5
-	 */
-	protected $cookieLogin = false;
-
-	/**
 	 * @var    array  JUser instances container.
 	 * @since  11.3
 	 */
@@ -231,7 +225,6 @@ class JUser extends JObject
 			$this->aid = 0;
 			$this->guest = 1;
 		}
-
 	}
 
 	/**
@@ -252,8 +245,8 @@ class JUser extends JObject
 			if (!$id = JUserHelper::getUserId($identifier))
 			{
 				JLog::add(JText::sprintf('JLIB_USER_ERROR_ID_NOT_EXISTS', $identifier), JLog::WARNING, 'jerror');
-				$retval = false;
-				return $retval;
+
+				return false;
 			}
 		}
 		else
@@ -363,6 +356,7 @@ class JUser extends JObject
 				if (JAccess::getAssetRules(1)->allow('core.admin', $identities))
 				{
 					$this->isRoot = true;
+
 					return true;
 				}
 			}
@@ -395,6 +389,7 @@ class JUser extends JObject
 		$db->setQuery($query);
 		$allCategories = $db->loadObjectList('id');
 		$allowedCategories = array();
+
 		foreach ($allCategories as $category)
 		{
 			if ($this->authorise($action, $category->asset_name))
@@ -402,6 +397,7 @@ class JUser extends JObject
 				$allowedCategories[] = (int) $category->id;
 			}
 		}
+
 		return $allowedCategories;
 	}
 
@@ -426,6 +422,7 @@ class JUser extends JObject
 
 		return $this->_authLevels;
 	}
+
 	/**
 	 * Gets an array of the authorised user groups
 	 *
@@ -447,6 +444,7 @@ class JUser extends JObject
 
 		return $this->_authGroups;
 	}
+
 	/**
 	 * Pass through method to the table for setting the last visit date
 	 *
@@ -556,27 +554,28 @@ class JUser extends JObject
 				$array['password2'] = $array['password'];
 			}
 
-			// This is a fallback in case the equals rule in the fields is not used.
-			// Hence this code is required although com_users does the validation.
+			// Not all controllers check the password, although they should.
+			// Hence this code is required:
 			if (isset($array['password2']) && $array['password'] != $array['password2'])
 			{
 				$this->setError(JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'));
+
 				return false;
 			}
 
 			$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
 
 			$salt = JUserHelper::genRandomPassword(32);
-
-			$crypt = static::encryptPassword($array['password'], $salt);
-
-			$array['password'] = $this->createPasswordString($array['password']);
+			$crypt = JUserHelper::getCryptedPassword($array['password'], $salt);
+			$array['password'] = $crypt . ':' . $salt;
 
 			// Set the registration timestamp
+
 			$this->set('registerDate', JFactory::getDate()->toSql());
 
 			// Check that username is not greater than 150 characters
 			$username = $this->get('username');
+
 			if (strlen($username) > 150)
 			{
 				$username = substr($username, 0, 150);
@@ -600,11 +599,15 @@ class JUser extends JObject
 				if ($array['password'] != $array['password2'])
 				{
 					$this->setError(JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'));
+
 					return false;
 				}
 
 				$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
-				$array['password'] = $this->createPasswordString($array['password']);
+
+				$salt = JUserHelper::genRandomPassword(32);
+				$crypt = JUserHelper::getCryptedPassword($array['password'], $salt);
+				$array['password'] = $crypt . ':' . $salt;
 			}
 			else
 			{
@@ -632,6 +635,7 @@ class JUser extends JObject
 		if (!$this->setProperties($array))
 		{
 			$this->setError(JText::_('JLIB_USER_ERROR_BIND_ARRAY'));
+
 			return false;
 		}
 
@@ -666,6 +670,7 @@ class JUser extends JObject
 			if (!$table->check())
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 
@@ -822,6 +827,7 @@ class JUser extends JObject
 			$this->guest = 1;
 
 			JLog::add(JText::sprintf('JLIB_USER_ERROR_UNABLE_TO_LOAD_USER', $id), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -847,60 +853,5 @@ class JUser extends JObject
 		}
 
 		return true;
-	}
-
-	/**
-	 * Method to construct the string saved in the password field
-	 *
-	 * @param   string  $passwordString  The plaintext password
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   3.1.5
-	 */
-	protected function createPasswordString($passwordString)
-	{
-		$salt = JUserHelper::genRandomPassword(32);
-		$crypt = static::encryptPassword($passwordString, $salt);
-		$app = JFactory::getApplication();
-
-		// The first condition is only for when BCrypt or PASSWORD_DEFAULT is the default.
-		if (JCrypt::hasStrongPasswordSupport() && $app->getCfg('useStrongEncryption', 0))
-		{
-			$passwordInfo = password_get_info($passwordString);
-			return $crypt . (($passwordInfo['algo'] != 0
-				&& $passwordInfo('algoName') != 'unknown') ? null : $salt);
-		}
-		else
-		{
-			// Joomla style password strings require that the salt be appended.
-			return substr($crypt, 0, 4) == '$2y$' ? $crypt : $crypt . ':' .$salt;
-		}
-	}
-
-	/**
-	 * Method to encrypt a plain text password
-	 *
-	 * @param   string  $password   The plaintext password
-	 * @param   string  $salt       The salt to use for encryption
-	 * @param   string  $encrytion  Encryption method to use
-	 *
-	 * @return  string  The ecnrypted password
-	 *
-	 * @since   3.1.5
-	 */
-
-	protected function encryptPassword($password, $salt, $encryption = null)
-	{
-		$app = JFactory::getApplication();
-		if ($app->getCfg('useStrongEncryption') != 1)
-		{
-			return JUserHelper::getCryptedPassword($password, $salt, 'md5-hex');
-		}
-		else
-		{
-			return JUserHelper::getCryptedPassword($password, null, 'bcrypt');
-		}
-
 	}
 }

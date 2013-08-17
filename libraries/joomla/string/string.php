@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  String
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -227,7 +227,7 @@ abstract class JString
 	 *
 	 * @return  mixed  Either string in lowercase or FALSE is UTF-8 invalid
 	 *
-	 * @see http://www.php.net/strtolower
+	 * @see     http://www.php.net/strtolower
 	 * @since   11.1
 	 */
 	public static function strtolower($str)
@@ -264,7 +264,7 @@ abstract class JString
 	 *
 	 * @return  integer  Number of UTF-8 characters in string.
 	 *
-	 * @see http://www.php.net/strlen
+	 * @see     http://www.php.net/strlen
 	 * @since   11.1
 	 */
 	public static function strlen($str)
@@ -477,7 +477,7 @@ abstract class JString
 	 * @param   string  $str     The haystack
 	 * @param   string  $search  The needle
 	 *
-	 * @return string the sub string
+	 * @return  string the sub string
 	 *
 	 * @see     http://www.php.net/stristr
 	 * @since   11.1
@@ -893,6 +893,7 @@ abstract class JString
 				}
 			}
 		}
+
 		return true;
 	}
 
@@ -964,6 +965,7 @@ abstract class JString
 				$result[$key] = urldecode(str_replace($replacements, $entities, $value));
 			}
 		}
+
 		return $result;
 	}
 }
