@@ -312,12 +312,22 @@ class JFormFieldCalendarTest extends TestCase
 	public function testGetInputServer_UTC()
 	{
 		// Create a stub JConfig
-		$config = new JRegistry;
+		$config = new JObject;
 
 		// Put the stub in place
 		JFactory::$config = $config;
+		$sessionMock = $this->getMock('sessionMock', array('get'));
 
+		require_once JPATH_PLATFORM . '/joomla/user/user.php';
 		$userObject = new JUser;
+
+		$sessionMock->expects($this->any())
+			->method('get')
+			->with('user')
+			->will($this->returnValue($userObject));
+
+		// Put the stub in place
+		JFactory::$session = $sessionMock;
 
 		// Include our inspector which will allow us to manipulate and call protected methods and attributes
 		require_once __DIR__ . '/inspectors/JFormFieldCalendar.php';
@@ -333,7 +343,7 @@ class JFormFieldCalendarTest extends TestCase
 		$calendar->setProtectedProperty('readonly', true);
 		$calendar->setProtectedProperty('disabled', false);
 		$calendar->setProtectedProperty('onchange', '');
-		$calendar->setProtectedProperty('filter', 'USER_UTC');
+		$calendar->setProtectedProperty('filter', 'SERVER_UTC');
 
 		// 1269442718
 		$calendar->setProtectedProperty('value', 1269442718);
@@ -377,12 +387,22 @@ class JFormFieldCalendarTest extends TestCase
 	public function testGetInputUser_UTC()
 	{
 		// Create a stub JConfig
-		$config = new JRegistry;
+		$config = new JObject;
 
 		// Put the stub in place
 		JFactory::$config = $config;
+		$sessionMock = $this->getMock('sessionMock', array('get'));
 
+		require_once JPATH_PLATFORM . '/joomla/user/user.php';
 		$userObject = new JUser;
+
+		$sessionMock->expects($this->any())
+			->method('get')
+			->with('user')
+			->will($this->returnValue($userObject));
+
+		// Put the stub in place
+		JFactory::$session = $sessionMock;
 
 		// Include our inspector which will allow us to manipulate and call protected methods and attributes
 		require_once __DIR__ . '/inspectors/JFormFieldCalendar.php';
@@ -431,9 +451,6 @@ class JFormFieldCalendarTest extends TestCase
 
 		// Unregister the mock
 		JHtml::unregister('jhtml..calendar');
-
-		// 1269442718
-		$calendar->setProtectedProperty('value', 1269442718);
 
 		// Create the mock to implant into JHtml so that we can check our values
 		$mock2 = $this->getMock('calendarHandler', array('calendar'));
