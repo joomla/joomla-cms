@@ -100,15 +100,18 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 
 		if ($activeMultilanguage)
 		{
-			if (!$model->enablePlugin('plg_system_languagefilter')) {
+			if (!$model->enablePlugin('plg_system_languagefilter'))
+			{
 				$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_PLG_LANGUAGEFILTER', $frontend_lang));
 			}
 
-			if (!$model->enablePlugin('plg_system_languagecode')) {
+			if (!$model->enablePlugin('plg_system_languagecode'))
+			{
 				$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_PLG_LANGUAGECODE', $frontend_lang));
 			}
 
-			if (!$model->addModuleLanguageSwitcher()) {
+			if (!$model->addModuleLanguageSwitcher())
+			{
 				$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_MODULESWHITCHER_LANGUAGECODE', $frontend_lang));
 			}
 
@@ -116,9 +119,9 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 			JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
 			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/tables/');
 
-			$SiteLanguages = $model->getInstalledlangsFrontend();
+			$siteLanguages = $model->getInstalledlangsFrontend();
 
-			foreach ($SiteLanguages as $SiteLang)
+			foreach ($siteLanguages as $siteLang)
 			{
 				$error = false;
 
@@ -126,28 +129,30 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 				$tableLanguage = JTable::getInstance('Language');
 
 				// Search if just added
-				$return = $tableLanguage->load(array('lang_code' => $SiteLang->language));
+				$return = $tableLanguage->load(array('lang_code' => $siteLang->language));
+
 				if ($return === false)
 				{
-					if(!$model->addLanguage($SiteLang)) {
-						$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $SiteLang->name));
+					if (!$model->addLanguage($siteLang))
+					{
+						$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name));
 						$error = true;
 					}
 				}
 
-				if (!$error && !$model->addMenuGroup($SiteLang))
+				if (!$error && !$model->addMenuGroup($siteLang))
 				{
-					$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU', $SiteLang->name));
+					$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU', $siteLang->name));
 					$error = true;
 				}
 
-				if (!$error && !$model->addMenuItem($SiteLang))
+				if (!$error && !$model->addMenuItem($siteLang))
 				{
-					$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_ITEM', $SiteLang->name));
+					$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_ITEM', $siteLang->name));
 					$error = true;
 				}
 
-				if (!$error && !$model->addModuleMenu($SiteLang))
+				if (!$error && !$model->addModuleMenu($siteLang))
 				{
 					$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_MODULESMENU_LANGUAGECODE', $frontend_lang));
 					$error = true;

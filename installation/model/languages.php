@@ -517,13 +517,13 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Method enable the pluging
 	 *
-	 * @param   string  $plugingName    The name of plugin
+	 * @param   string  $pluginName  The name of plugin
 	 *
 	 * @return  boolean
 	 *
 	 * @since   3.1
 	 */
-	public function enablePlugin($plugingName)
+	public function enablePlugin($pluginName)
 	{
 		// Create a new db object.
 		$db    = JFactory::getDbo();
@@ -533,7 +533,7 @@ class InstallationModelLanguages extends JModelBase
 			->clear()
 			->update('#__extensions')
 			->set('enabled = 1')
-			->where('name = ' . $db->quote($plugingName))
+			->where('name = ' . $db->quote($pluginName))
 			->where('type = ' . $db->quote('plugin'));
 		$db->setQuery($query);
 
@@ -541,6 +541,7 @@ class InstallationModelLanguages extends JModelBase
 		{
 			return false;
 		}
+
 		return true;
 	}
 
@@ -588,13 +589,13 @@ class InstallationModelLanguages extends JModelBase
 			return false;
 		}
 
-		return $this->addModuleInModuleMenu((int)$tableModule->id);
+		return $this->addModuleInModuleMenu((int) $tableModule->id);
 	}
 
 	/**
 	 * Method Add Module in Module menus
 	 *
-	 * @param   integer  $moduleId    The Id of module
+	 * @param   integer  $moduleId  The Id of module
 	 *
 	 * @return  boolean
 	 *
@@ -627,33 +628,33 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Method Add Language
 	 *
-	 * @param   stdclass  $itemlanguage    Object language
+	 * @param   stdclass  $itemLanguage  Object language
 	 *
 	 * @return  boolean
 	 *
 	 * @since   3.1
 	 */
-	public function addLanguage($itemlanguage)
+	public function addLanguage($itemLanguage)
 	{
 		$tableLanguage = JTable::getInstance('Language');
 
-		$langs  = explode('-', $itemlanguage->language);
+		$langs  = explode('-', $itemLanguage->language);
 		$lang   = $langs[0];
 
 		// Load the native language name
-		$installationLocalisedIni	= new JLanguage($itemlanguage->language, false);
+		$installationLocalisedIni	= new JLanguage($itemLanguage->language, false);
 		$nativeLanguageName			= $installationLocalisedIni->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
 
 		// If the local name do not exist in the translation file we use the international standard name
 		if ($nativeLanguageName == 'INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME')
 		{
-			$nativeLanguageName = $itemlanguage->name;
+			$nativeLanguageName = $itemLanguage->name;
 		}
 
 		$langData = array(
 			'lang_id'      => 0,
-			'lang_code'    => $itemlanguage->language,
-			'title'        => $itemlanguage->name,
+			'lang_code'    => $itemLanguage->language,
+			'title'        => $itemLanguage->name,
 			'title_native' => $nativeLanguageName,
 			'sef'          => $lang,
 			'image'        => $lang,
@@ -684,13 +685,13 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Method Add Menu Group
 	 *
-	 * @param   stdclass  $itemlanguage    Object language
+	 * @param   stdclass  $itemLanguage  Object language
 	 *
 	 * @return  boolean
 	 *
 	 * @since   3.1
 	 */
-	public function addMenuGroup($itemlanguage)
+	public function addMenuGroup($itemLanguage)
 	{
 		// Add menus
 		JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
@@ -701,9 +702,9 @@ class InstallationModelLanguages extends JModelBase
 
 		$menuData = array(
 			'id'          => 0,
-			'menutype'    => 'mainmenu_' . $itemlanguage->language,
-			'title'       => 'Main Menu (' . $itemlanguage->language . ')',
-			'description' => 'The main menu for the site in language ' . $itemlanguage->name
+			'menutype'    => 'mainmenu_' . $itemLanguage->language,
+			'title'       => 'Main Menu (' . $itemLanguage->language . ')',
+			'description' => 'The main menu for the site in language ' . $itemLanguage->name
 		);
 
 		// Bind the data.
@@ -730,27 +731,27 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Method Add Menu Item
 	 *
-	 * @param   stdclass  $itemlanguage    Object language
+	 * @param   stdclass  $itemLanguage  Object language
 	 *
 	 * @return  boolean
 	 *
 	 * @since   3.1
 	 */
-	public function addMenuItem($itemlanguage)
+	public function addMenuItem($itemLanguage)
 	{
 		// Add Menu Item
 		$tableItem = JTable::getInstance('Menu', 'MenusTable');
 
-		$newlanguage = new JLanguage($itemlanguage->language, false);
-		$newlanguage->load('com_languages', JPATH_ADMINISTRATOR, $itemlanguage->language, true);
+		$newlanguage = new JLanguage($itemLanguage->language, false);
+		$newlanguage->load('com_languages', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
 		$title = $newlanguage->_('COM_LANGUAGES_HOMEPAGE');
-		$alias = 'home_' . $itemlanguage->language;
+		$alias = 'home_' . $itemLanguage->language;
 
 		$menuItem = array(
 			'id'           => 0,
 			'title'        => $title,
 			'alias'        => $alias,
-			'menutype'     => 'mainmenu-' . $itemlanguage->language,
+			'menutype'     => 'mainmenu-' . $itemLanguage->language,
 			'type'         => 'component',
 			'link'         => 'index.php?option=com_content&view=featured',
 			'component_id' => 22,
@@ -759,7 +760,7 @@ class InstallationModelLanguages extends JModelBase
 			'level'        => 1,
 			'home'         => 1,
 			'params'       => '{"featured_categories":[""],"num_leading_articles":"1","num_intro_articles":"3","num_columns":"3","num_links":"0","orderby_pri":"","orderby_sec":"front","order_date":"","multi_column_order":"1","show_pagination":"2","show_pagination_results":"1","show_noauth":"","article-allow_ratings":"","article-allow_comments":"","show_feed_link":"1","feed_summary":"","show_title":"","link_titles":"","show_intro":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_readmore":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","show_page_heading":1,"page_title":"","page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',
-			'language'     => $itemlanguage->language
+			'language'     => $itemLanguage->language
 		);
 
 		// Bind the data.
@@ -795,13 +796,13 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Method add Module Menu
 	 *
-	 * @param   stdclass  $itemlanguage    Object language
+	 * @param   stdclass  $itemLanguage  Object language
 	 *
 	 * @return  boolean
 	 *
 	 * @since   3.1
 	 */
-	public function addModuleMenu($itemlanguage)
+	public function addModuleMenu($itemLanguage)
 	{
 		$tableModule = JTable::getInstance('Module', 'JTable');
 
@@ -814,9 +815,9 @@ class InstallationModelLanguages extends JModelBase
 			'module'    => 'mod_menu',
 			'access'    => 1,
 			'showtitle' => 1,
-			'params'    => '{"menutype":"mainmenu-' . strtolower($itemlanguage->language) . '","startLevel":"0","endLevel":"0","showAllChildren":"0","tag_id":"","class_sfx":"","window_open":"","layout":"","moduleclass_sfx":"_menu","cache":"1","cache_time":"900","cachemode":"itemid"}',
+			'params'    => '{"menutype":"mainmenu-' . strtolower($itemLanguage->language) . '","startLevel":"0","endLevel":"0","showAllChildren":"0","tag_id":"","class_sfx":"","window_open":"","layout":"","moduleclass_sfx":"_menu","cache":"1","cache_time":"900","cachemode":"itemid"}',
 			'client_id' => 0,
-			'language'  => $itemlanguage->language,
+			'language'  => $itemLanguage->language,
 			'published' => 1
 		);
 
@@ -838,7 +839,7 @@ class InstallationModelLanguages extends JModelBase
 			return false;
 		}
 
-		return $this->addModuleInModuleMenu((int)$tableModule->id);
+		return $this->addModuleInModuleMenu((int) $tableModule->id);
 	}
 
 	/**
@@ -855,7 +856,8 @@ class InstallationModelLanguages extends JModelBase
 		$query = $db->getQuery(true);
 
 		// Add Module in Module menus
-		$query->clear()
+		$query
+			->clear()
 			->update($db->quoteName('#__modules'))
 			->set($db->quoteName('published') . ' = 0')
 			->where($db->quoteName('module') . ' = ' . $db->quote('mod_menu'))
@@ -868,6 +870,7 @@ class InstallationModelLanguages extends JModelBase
 		{
 			return false;
 		}
+
 		return true;
 	}
 
@@ -894,19 +897,20 @@ class InstallationModelLanguages extends JModelBase
 		{
 			return false;
 		}
+
 		return true;
 	}
 
 	/**
-	 * Method create a category for language
+	 * Method create a category for a specific language
 	 *
-	 * @param   stdclass  $itemlanguage    Object language
+	 * @param   stdclass  $itemLanguage  Object language
 	 *
 	 * @return  boolean
 	 *
 	 * @since   3.1
 	 */
-	public function addCategory($itemlanguage)
+	public function addCategory($itemLanguage)
 	{
 		// Initialize a new category
 		$category = JTable::getInstance('Category');
@@ -936,6 +940,7 @@ class InstallationModelLanguages extends JModelBase
 
 		// Build the path for our category
 		$category->rebuildPath($category->id);
+
 		return true;
 	}
 }
