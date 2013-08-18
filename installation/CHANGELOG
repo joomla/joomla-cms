@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Aug-2013 Jean-Marie Simonet
+ $ [#30664] User Categories helps screen strings missing. Thanks George Wilson
+
 14-Aug-2013 Jean-Marie Simonet
  #$ [#31631] Small typo fix in Plugin. Thanks Gunjan Patel and Tobias Zulauf
  # [#27824] Offline image overflow. Thanks Angelika Reisiger
