@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Aug-2013 Jean-Marie Simonet
+ # [#31775] Sample data for Joomla Announcements Feed is wrong. Thanks Elin Waring
+
 17-Aug-2013 Jean-Marie Simonet
  # [#31649] During Installation, PHP Setting Display Errors is Not Reported/Identified Correctly. Thanks Chad Windnagle
  # [#30934] Language Pack Install fail on Joomla V3.1.1 with PostGreSQL DB Backend. Thanks Michael Babker
