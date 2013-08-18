@@ -164,7 +164,7 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 				$app->enqueueMessage(JText::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_UNPUBLISH_MOD_DEFAULTMENU'));
 			}
 
-			if (!$model->enableModuleMultilanguageBackend())
+			if (!$model->enableModule('mod_multilangstatus'))
 			{
 				$app->enqueueMessage(JText::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_PUBLISH_MOD_MULTILANGSTATUS'));
 			}

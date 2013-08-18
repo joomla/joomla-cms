@@ -515,7 +515,7 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
-	 * Method enable the pluging
+	 * Method to enable a Joomla plugin
 	 *
 	 * @param   string  $pluginName  The name of plugin
 	 *
@@ -875,22 +875,25 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
-	 * Method enable Multilanguage status admin module in backend
+	 * Method to enable modules
+	 *
+	 * @param   string  $moduleName  The Name of the module to activate
 	 *
 	 * @return  boolean
 	 *
 	 * @since   3.1
 	 */
-	public function enableModuleMultilanguageBackend()
+	public function enableModule($moduleName)
 	{
 		// Create a new db object.
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
-		$query->clear()
+		$query
+			->clear()
 			->update($db->quoteName('#__modules'))
 			->set($db->quoteName('published') . ' = 1')
-			->where($db->quoteName('module') . ' = ' . $db->quote('mod_multilangstatus'));
+			->where($db->quoteName('module') . ' = ' . $db->quote($moduleName));
 		$db->setQuery($query);
 
 		if (!$db->execute())
