@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 18-Aug-2013 Jean-Marie Simonet
  # [#31775] Sample data for Joomla Announcements Feed is wrong. Thanks Elin Waring
+ $ [#30664] User Categories helps screen strings missing. Thanks George Wilson
 
 17-Aug-2013 Jean-Marie Simonet
  # [#31649] During Installation, PHP Setting Display Errors is Not Reported/Identified Correctly. Thanks Chad Windnagle
