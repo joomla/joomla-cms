@@ -152,6 +152,16 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 					$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_MODULESMENU_LANGUAGECODE', $frontend_lang));
 					$error = true;
 				}
+
+				if (!$error)
+				{
+					$tableCategory = $model->addCategory($siteLang);
+					if ($tableCategory === false)
+					{
+						$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CATEGORY', $frontend_lang));
+						$error = true;
+					}
+				}
 			}
 
 			if (!$model->disableModuleMainMenu())

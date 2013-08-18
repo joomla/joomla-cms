@@ -909,7 +909,7 @@ class InstallationModelLanguages extends JModelBase
 	 *
 	 * @param   stdclass  $itemLanguage  Object language
 	 *
-	 * @return  boolean
+	 * @return  JTable Category Object
 	 *
 	 * @since   3.1
 	 */
@@ -918,13 +918,13 @@ class InstallationModelLanguages extends JModelBase
 		// Initialize a new category
 		$category = JTable::getInstance('Category');
 		$category->extension = 'com_content';
-		$category->title = 'My Category';
-		$category->description = 'A category for my extension';
+		$category->title = 'Main Category ('.strtolower($itemLanguage->language).')';
+		$category->description = 'A category for the site in language ' . $itemLanguage->name;
 		$category->published = 1;
 		$category->access = 1;
 		$category->params = '{"target":"","image":""}';
 		$category->metadata = '{"page_title":"","author":"","robots":""}';
-		$category->language = '*';
+		$category->language = $itemLanguage->language;
 
 		// Set the location in the tree
 		$category->setLocation(1, 'last-child');
@@ -944,6 +944,6 @@ class InstallationModelLanguages extends JModelBase
 		// Build the path for our category
 		$category->rebuildPath($category->id);
 
-		return true;
+		return $category;
 	}
 }
