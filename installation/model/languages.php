@@ -513,4 +513,429 @@ class InstallationModelLanguages extends JModelBase
 
 		return $form;
 	}
+
+	/**
+	 * Method enable the pluging
+	 *
+	 * @param   string  $plugingName    The name of plugin
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.1
+	 */
+	public function enablePlugin($plugingName)
+	{
+		// Create a new db object.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query
+			->clear()
+			->update('#__extensions')
+			->set('enabled = 1')
+			->where('name = ' . $db->quote($plugingName))
+			->where('type = ' . $db->quote('plugin'));
+		$db->setQuery($query);
+
+		if (!$db->execute())
+		{
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Method add Module Language Switcher
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.1
+	 */
+	public function addModuleLanguageSwitcher()
+	{
+		JTable::addIncludePath(JPATH_LIBRARIES . '/legacy/table/');
+		$tableModule = JTable::getInstance('Module', 'JTable');
+		$moduleData  = array(
+			'id'        => 0,
+			'title'     => 'Language Switcher',
+			'note'      => '',
+			'content'   => '',
+			'position'  => 'position-0',
+			'module'    => 'mod_languages',
+			'access'    => 1,
+			'showtitle' => 0,
+			'params'    => '{"header_text":"","footer_text":"","dropdown":"0","image":"1","inline":"1","show_active":"1","full_name":"1","layout":"_:default","moduleclass_sfx":"","cache":"0","cache_time":"900","cachemode":"itemid","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}',
+			'client_id' => 0,
+			'language'  => '*',
+			'published' => 1
+		);
+
+		// Bind the data.
+		if (!$tableModule->bind($moduleData))
+		{
+			return false;
+		}
+
+		// Check the data.
+		if (!$tableModule->check())
+		{
+			return false;
+		}
+
+		// Store the data.
+		if (!$tableModule->store())
+		{
+			return false;
+		}
+
+		return $this->addModuleInModuleMenu((int)$tableModule->id);
+	}
+
+	/**
+	 * Method Add Module in Module menus
+	 *
+	 * @param   integer  $moduleId    The Id of module
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.1
+	 */
+	public function addModuleInModuleMenu($moduleId)
+	{
+		// Create a new db object.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		// Add Module in Module menus
+		$query->clear()
+			->insert('#__modules_menu')
+			->columns(array($db->quoteName('moduleid'), $db->quoteName('menuid')))
+			->values($moduleId . ', 0');
+		$db->setQuery($query);
+
+		try
+		{
+			$db->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Method Add Language
+	 *
+	 * @param   stdclass  $itemlanguage    Object language
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.1
+	 */
+	public function addLanguage($itemlanguage)
+	{
+		$tableLanguage = JTable::getInstance('Language');
+
+		$langs  = explode('-', $itemlanguage->language);
+		$lang   = $langs[0];
+
+		// Load the native language name
+		$installationLocalisedIni	= new JLanguage($itemlanguage->language, false);
+		$nativeLanguageName			= $installationLocalisedIni->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
+
+		// If the local name do not exist in the translation file we use the international standard name
+		if ($nativeLanguageName == 'INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME')
+		{
+			$nativeLanguageName = $itemlanguage->name;
+		}
+
+		$langData = array(
+			'lang_id'      => 0,
+			'lang_code'    => $itemlanguage->language,
+			'title'        => $itemlanguage->name,
+			'title_native' => $nativeLanguageName,
+			'sef'          => $lang,
+			'image'        => $lang,
+			'published'    => 1
+		);
+
+		// Bind the data.
+		if (!$tableLanguage->bind($langData))
+		{
+			return false;
+		}
+
+		// Check the data.
+		if (!$tableLanguage->check())
+		{
+			return false;
+		}
+
+		// Store the data.
+		if (!$tableLanguage->store())
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method Add Menu Group
+	 *
+	 * @param   stdclass  $itemlanguage    Object language
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.1
+	 */
+	public function addMenuGroup($itemlanguage)
+	{
+		// Add menus
+		JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/tables/');
+
+		// Add Menu Group
+		$tableMenu = JTable::getInstance('Type', 'JTableMenu');
+
+		$menuData = array(
+			'id'          => 0,
+			'menutype'    => 'mainmenu_' . $itemlanguage->language,
+			'title'       => 'Main Menu (' . $itemlanguage->language . ')',
+			'description' => 'The main menu for the site in language ' . $itemlanguage->name
+		);
+
+		// Bind the data.
+		if (!$tableMenu->bind($menuData))
+		{
+			return false;
+		}
+
+		// Check the data.
+		if (!$tableMenu->check())
+		{
+			return false;
+		}
+
+		// Store the data.
+		if (!$tableMenu->store())
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method Add Menu Item
+	 *
+	 * @param   stdclass  $itemlanguage    Object language
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.1
+	 */
+	public function addMenuItem($itemlanguage)
+	{
+		// Add Menu Item
+		$tableItem = JTable::getInstance('Menu', 'MenusTable');
+
+		$newlanguage = new JLanguage($itemlanguage->language, false);
+		$newlanguage->load('com_languages', JPATH_ADMINISTRATOR, $itemlanguage->language, true);
+		$title = $newlanguage->_('COM_LANGUAGES_HOMEPAGE');
+		$alias = 'home_' . $itemlanguage->language;
+
+		$menuItem = array(
+			'id'           => 0,
+			'title'        => $title,
+			'alias'        => $alias,
+			'menutype'     => 'mainmenu-' . $itemlanguage->language,
+			'type'         => 'component',
+			'link'         => 'index.php?option=com_content&view=featured',
+			'component_id' => 22,
+			'published'    => 1,
+			'parent_id'    => 1,
+			'level'        => 1,
+			'home'         => 1,
+			'params'       => '{"featured_categories":[""],"num_leading_articles":"1","num_intro_articles":"3","num_columns":"3","num_links":"0","orderby_pri":"","orderby_sec":"front","order_date":"","multi_column_order":"1","show_pagination":"2","show_pagination_results":"1","show_noauth":"","article-allow_ratings":"","article-allow_comments":"","show_feed_link":"1","feed_summary":"","show_title":"","link_titles":"","show_intro":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_readmore":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","show_page_heading":1,"page_title":"","page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',
+			'language'     => $itemlanguage->language
+		);
+
+		// Bind the data.
+		if (!$tableItem->bind($menuItem))
+		{
+			return false;
+		}
+
+		$tableItem->setLocation($menuItem['parent_id'], 'last-child');
+
+		// Check the data.
+		if (!$tableItem->check())
+		{
+			return false;
+		}
+
+		// Store the data.
+		if (!$tableItem->store())
+		{
+			return false;
+		}
+
+		// Rebuild the tree path.
+		if (!$tableItem->rebuildPath($tableItem->id))
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+
+	/**
+	 * Method add Module Menu
+	 *
+	 * @param   stdclass  $itemlanguage    Object language
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.1
+	 */
+	public function addModuleMenu($itemlanguage)
+	{
+		$tableModule = JTable::getInstance('Module', 'JTable');
+
+		$moduleData  = array(
+			'id'        => 0,
+			'title'     => 'Main Menu',
+			'note'      => '',
+			'content'   => '',
+			'position'  => 'position-7',
+			'module'    => 'mod_menu',
+			'access'    => 1,
+			'showtitle' => 1,
+			'params'    => '{"menutype":"mainmenu-' . strtolower($itemlanguage->language) . '","startLevel":"0","endLevel":"0","showAllChildren":"0","tag_id":"","class_sfx":"","window_open":"","layout":"","moduleclass_sfx":"_menu","cache":"1","cache_time":"900","cachemode":"itemid"}',
+			'client_id' => 0,
+			'language'  => $itemlanguage->language,
+			'published' => 1
+		);
+
+		// Bind the data.
+		if (!$tableModule->bind($moduleData))
+		{
+			return false;
+		}
+
+		// Check the data.
+		if (!$tableModule->check())
+		{
+			return false;
+		}
+
+		// Store the data.
+		if (!$tableModule->store())
+		{
+			return false;
+		}
+
+		return $this->addModuleInModuleMenu((int)$tableModule->id);
+	}
+
+	/**
+	 * Method disable Module Main Menu Default from
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.1
+	 */
+	public function disableModuleMainMenu()
+	{
+		// Create a new db object.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		// Add Module in Module menus
+		$query->clear()
+			->update($db->quoteName('#__modules'))
+			->set($db->quoteName('published') . ' = 0')
+			->where($db->quoteName('module') . ' = ' . $db->quote('mod_menu'))
+			->where($db->quoteName('language') . ' = ' . $db->quote('*'))
+			->where($db->quoteName('client_id') . ' = ' . $db->quote('0'))
+			->where($db->quoteName('position') . ' = ' . $db->quote('position-7'));
+		$db->setQuery($query);
+
+		if (!$db->execute())
+		{
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Method enable Multilanguage status admin module in backend
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.1
+	 */
+	public function enableModuleMultilanguageBackend()
+	{
+		// Create a new db object.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query->clear()
+			->update($db->quoteName('#__modules'))
+			->set($db->quoteName('published') . ' = 1')
+			->where($db->quoteName('module') . ' = ' . $db->quote('mod_multilangstatus'));
+		$db->setQuery($query);
+
+		if (!$db->execute())
+		{
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Method create a category for language
+	 *
+	 * @param   stdclass  $itemlanguage    Object language
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.1
+	 */
+	public function addCategory($itemlanguage)
+	{
+		// Initialize a new category
+		$category = JTable::getInstance('Category');
+		$category->extension = 'com_content';
+		$category->title = 'My Category';
+		$category->description = 'A category for my extension';
+		$category->published = 1;
+		$category->access = 1;
+		$category->params = '{"target":"","image":""}';
+		$category->metadata = '{"page_title":"","author":"","robots":""}';
+		$category->language = '*';
+
+		// Set the location in the tree
+		$category->setLocation(1, 'last-child');
+
+		// Check to make sure our data is valid
+		if (!$category->check())
+		{
+			return false;
+		}
+
+		// Now store the category
+		if (!$category->store(true))
+		{
+			return false;
+		}
+
+		// Build the path for our category
+		$category->rebuildPath($category->id);
+		return true;
+	}
 }
