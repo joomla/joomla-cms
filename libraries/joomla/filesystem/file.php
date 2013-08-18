@@ -61,9 +61,6 @@ class JFile
 	 */
 	public static function makeSafe($file)
 	{
-		// Remove any trailing dots, as those aren't ever valid file names.
-		$file = rtrim($file, '.');
-
 		$regex = array('#(\.){2,}#', '#[^A-Za-z0-9\.\_\- ]#', '#^\.#');
 
 		return preg_replace($regex, '', $file);
@@ -94,6 +91,7 @@ class JFile
 		if (!is_readable($src))
 		{
 			JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_JFILE_FIND_COPY', $src), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -104,6 +102,7 @@ class JFile
 			if (!$stream->copy($src, $dest))
 			{
 				JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_JFILE_STREAMS', $src, $dest, $stream->getError()), JLog::WARNING, 'jerror');
+
 				return false;
 			}
 
@@ -127,6 +126,7 @@ class JFile
 
 				// Translate the destination path for the FTP account
 				$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
+
 				if (!$ftp->store($src, $dest))
 				{
 
@@ -140,6 +140,7 @@ class JFile
 				if (!@ copy($src, $dest))
 				{
 					JLog::add(JText::_('JLIB_FILESYSTEM_ERROR_COPY_FAILED'), JLog::WARNING, 'jerror');
+
 					return false;
 				}
 				$ret = true;
@@ -195,6 +196,7 @@ class JFile
 			elseif ($FTPOptions['enabled'] == 1)
 			{
 				$file = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
+
 				if (!$ftp->delete($file))
 				{
 					// FTP connector throws an error
@@ -206,6 +208,7 @@ class JFile
 			{
 				$filename = basename($file);
 				JLog::add(JText::sprintf('JLIB_FILESYSTEM_DELETE_FAILED', $filename), JLog::WARNING, 'jerror');
+
 				return false;
 			}
 		}
@@ -247,6 +250,7 @@ class JFile
 			if (!$stream->move($src, $dest))
 			{
 				JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_JFILE_MOVE_STREAMS', $stream->getError()), JLog::WARNING, 'jerror');
+
 				return false;
 			}
 
@@ -269,6 +273,7 @@ class JFile
 				if (!$ftp->rename($src, $dest))
 				{
 					JLog::add(JText::_('JLIB_FILESYSTEM_ERROR_RENAME_FILE'), JLog::WARNING, 'jerror');
+
 					return false;
 				}
 			}
@@ -277,6 +282,7 @@ class JFile
 				if (!@ rename($src, $dest))
 				{
 					JLog::add(JText::_('JLIB_FILESYSTEM_ERROR_RENAME_FILE'), JLog::WARNING, 'jerror');
+
 					return false;
 				}
 			}
@@ -304,6 +310,7 @@ class JFile
 		JLog::add(__METHOD__ . ' is deprecated. Use native file_get_contents() syntax.', JLog::WARNING, 'deprecated');
 
 		$data = null;
+
 		if ($amount && $chunksize > $amount)
 		{
 			$chunksize = $amount;
@@ -312,6 +319,7 @@ class JFile
 		if (false === $fh = fopen($filename, 'rb', $incpath))
 		{
 			JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_READ_UNABLE_TO_OPEN_FILE', $filename), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
@@ -348,6 +356,7 @@ class JFile
 				$data .= fread($fh, $chunksize);
 			}
 		}
+
 		fclose($fh);
 
 		return $data;
@@ -380,11 +389,12 @@ class JFile
 			$stream = JFactory::getStream();
 
 			// Beef up the chunk size to a meg
-			$stream->set('chunksize', (1024 * 1024 * 1024));
+			$stream->set('chunksize', (1024 * 1024));
 
 			if (!$stream->writeFile($file, $buffer))
 			{
 				JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_WRITE_STREAMS', $file, $stream->getError()), JLog::WARNING, 'jerror');
+
 				return false;
 			}
 
@@ -445,6 +455,7 @@ class JFile
 			if (!$stream->upload($src, $dest))
 			{
 				JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_UPLOAD', $stream->getError()), JLog::WARNING, 'jerror');
+
 				return false;
 			}
 
@@ -529,6 +540,7 @@ class JFile
 		// Convert back slashes to forward slashes
 		$file = str_replace('\\', '/', $file);
 		$slash = strrpos($file, '/');
+
 		if ($slash !== false)
 		{
 
