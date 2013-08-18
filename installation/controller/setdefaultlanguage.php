@@ -105,11 +105,6 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 				$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_PLG_LANGUAGEFILTER', $frontend_lang));
 			}
 
-			if (!$model->enablePlugin('plg_system_languagecode'))
-			{
-				$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_PLG_LANGUAGECODE', $frontend_lang));
-			}
-
 			if (!$model->addModuleLanguageSwitcher())
 			{
 				$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_MODULESWHITCHER_LANGUAGECODE', $frontend_lang));
