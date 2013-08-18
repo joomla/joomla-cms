@@ -316,6 +316,7 @@ class JForm
 		{
 			return (string) $element[$attribute];
 		}
+
 		// Otherwise return the given default value.
 		else
 		{
@@ -342,6 +343,7 @@ class JForm
 		{
 			$elements = $this->findFieldsByFieldset($set);
 		}
+
 		// Get all fields.
 		else
 		{
@@ -439,6 +441,7 @@ class JForm
 					$fieldsets[$fieldset->name] = $fieldset;
 				}
 			}
+
 			// Must be dealing with a fieldset attribute.
 			else
 			{
@@ -453,6 +456,7 @@ class JForm
 					{
 						$fieldset = (object) array('name' => (string) $set, 'label' => '', 'description' => '');
 					}
+
 					// Build the fieldset object from the element.
 					else
 					{
@@ -670,6 +674,7 @@ class JForm
 
 				return true;
 			}
+
 			// Create a root element for the form.
 			else
 			{
@@ -950,6 +955,7 @@ class JForm
 		{
 			return false;
 		}
+
 		// Otherwise set the attribute and return true.
 		else
 		{
@@ -1262,6 +1268,7 @@ class JForm
 					{
 						$value = 'http://' . $value;
 					}
+
 					// Otherwise prepend the root.
 					else
 					{
@@ -1269,6 +1276,7 @@ class JForm
 					}
 				}
 
+				$value = JStringPunycode::urlToPunycode($value);
 				$return = $value;
 				break;
 
@@ -1292,6 +1300,7 @@ class JForm
 
 					$result = '1.' . $number;
 				}
+
 				// If not, does it match ITU-T?
 				elseif (preg_match('/^\+(?:[0-9] ?){6,14}[0-9]$/', $value) == 1)
 				{
@@ -1301,6 +1310,7 @@ class JForm
 					$number = (string) preg_replace('/[^\d]/', '', $number);
 					$result = $countrycode . '.' . $number;
 				}
+
 				// If not, does it match EPP?
 				elseif (preg_match('/^\+[0-9]{1,3}\.[0-9]{4,14}(?:x.+)?$/', $value) == 1)
 				{
@@ -1312,11 +1322,13 @@ class JForm
 
 					$result = str_replace('+', '', $value);
 				}
+
 				// Maybe it is already ccc.nnnnnnn?
 				elseif (preg_match('/[0-9]{1,3}\.[0-9]{4,14}$/', $value) == 1)
 				{
 					$result = $value;
 				}
+
 				// If not, can we make it a string of digits?
 				else
 				{
@@ -1338,6 +1350,7 @@ class JForm
 							$result = substr($value, 0, $cclen) . '.' . substr($value, $cclen);
 						}
 					}
+
 					// If not let's not save anything.
 					else
 					{
@@ -1354,11 +1367,13 @@ class JForm
 				{
 					$return = call_user_func(explode('::', $filter), $value);
 				}
+
 				// Filter using a callback function if specified.
 				elseif (function_exists($filter))
 				{
 					$return = call_user_func($filter, $value);
 				}
+
 				// Filter using JFilterInput. All HTML code is filtered by default.
 				else
 				{
@@ -1449,6 +1464,7 @@ class JForm
 				{
 					continue;
 				}
+
 				// Found it!
 				else
 				{
@@ -1532,6 +1548,7 @@ class JForm
 					{
 						$fields = array_merge($fields, $tmp);
 					}
+
 					// If we want to exclude nested groups then we need to check each field.
 					else
 					{
