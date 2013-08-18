@@ -250,4 +250,16 @@ class JHttpTransportSocket implements JHttpTransport
 
 		return $this->connections[$key];
 	}
+
+	/**
+	 * method to check if http transport socket available for using
+	 *
+	 * @return bool true if available else false
+	 *
+	 * @since   12.1
+	 */
+	static public function isSupported()
+	{
+		return function_exists('fsockopen') && is_callable('fsockopen');
+	}
 }
