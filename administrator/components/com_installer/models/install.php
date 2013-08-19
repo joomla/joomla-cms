@@ -8,6 +8,8 @@
  */
 
 defined('_JEXEC') or die;
+jimport('joomla.client.http');
+
 
 /**
  * Extension Manager Install Model
@@ -272,5 +274,13 @@ class InstallerModelInstall extends JModelLegacy
 		$package = JInstallerHelper::unpack($tmp_dest . '/' . $p_file);
 
 		return $package;
+	}
+	
+	public function installfromweb() {
+		//@TODO: Construct the URL by passing along all URL vars except option & task
+		$getvars = JRequest::get('get');
+		$http = JHttpFactory::getHttp();
+		$html = $http->get('http://extensions.joomla.org');
+		return $html->body;
 	}
 }
