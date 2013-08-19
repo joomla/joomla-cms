@@ -1,11 +1,12 @@
 <?php
 /**
- * Display a json loaded window with a repeatble set of sub fields
+ * Display a json loaded window with a repeatable set of sub fields
  *
- * @package     Joomla
+ * @package     Joomla.Libraries
  * @subpackage  Form
- * @copyright   Copyright (C) 2005-2013 fabrikar.com - All rights reserved.
- * @license     GNU/GPL http://www.gnu.org/copyleft/gpl.html
+ *
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 // No direct access
@@ -20,7 +21,6 @@ jimport('joomla.form.formfield');
  * @subpackage  Form
  * @since       1.6
  */
-
 class JFormFieldRepeatable extends JFormField
 {
 	/**
@@ -45,12 +45,11 @@ class JFormFieldRepeatable extends JFormField
 		$app = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		$options = array();
-		JHtml::stylesheet('administrator/components/com_fabrik/views/fabrikadmin.css');
 		$subForm = new JForm($this->name, array('control' => 'jform'));
 		$xml = $this->element->children()->asXML();
 		$subForm->load($xml);
 
-		// Needed for repeating modals in gmaps viz
+		// Needed for repeating modals in gmaps
 		$subForm->repeatCounter = (int) @$this->form->repeatCounter;
 		$input = $app->input;
 		$view = $input->get('view', 'item');
@@ -59,23 +58,9 @@ class JFormFieldRepeatable extends JFormField
 		// This fires a strict standard warning deep in JForm, suppress error for now
 		@$subForm->setFields($children);
 
-		$str = array();
 		$modalid = $this->id . '_modal';
 
-		// As JForm will render child fieldsets we have to hide it via CSS
-		if ($view != 'plugin')
-		{
-			$fieldSetId = str_replace('jform_params_', '', $modalid);
-		}
-		else
-		{
-			//Plugins fieldsets have 'options-' prefixed to them
-			$fieldSetId = str_replace('jform_params_', 'options-', $modalid);
-		}
-		$css = '#' . $fieldSetId . ' { display: none; }';
-		$document->addStyleDeclaration($css);
-
-		$path = 'templates/' . $app->getTemplate() . '/images/menu/';
+		$str = array();
 		$str[] = '<div id="' . $modalid . '" style="display:none">';
 		$str[] = '<table class="adminlist ' . $this->element['class'] . ' table table-striped">';
 		$str[] = '<thead><tr class="row0">';
@@ -106,28 +91,31 @@ class JFormFieldRepeatable extends JFormField
 		$str[] = '</tr></tbody>';
 		$str[] = '</table>';
 		$str[] = '</div>';
-		$form = implode("\n", $str);
+
 		static $modalrepeat;
+
 		if (!isset($modalrepeat))
 		{
 			$modalrepeat = array();
 		}
+
 		if (!array_key_exists($modalid, $modalrepeat))
 		{
 			$modalrepeat[$modalid] = array();
 		}
+
 		if (!isset($this->form->repeatCounter))
 		{
 			$this->form->repeatCounter = 0;
 		}
+
 		if (!array_key_exists($this->form->repeatCounter, $modalrepeat[$modalid]))
 		{
-			// If loaded as js template then we don't want to repeat this again. (fabrik)
+			// If loaded as js template then we don't want to repeat this again
 			$names = json_encode($names);
-			$pane = str_replace('jform_params_', '', $modalid) . '-options';
 
 			$modalrepeat[$modalid][$this->form->repeatCounter] = true;
-			$script = str_replace('-', '', $modalid) . " = new FabrikModalRepeat('$modalid', $names, '$this->id');";
+			$script = str_replace('-', '', $modalid) . " = new ModalRepeat('$modalid', $names, '$this->id');";
 			$option = $input->get('option');
 
 			$context = strtoupper($option);
@@ -135,10 +123,9 @@ class JFormFieldRepeatable extends JFormField
 			{
 				$context = 'COM_MODULES';
 			}
-			$j3pane = $context . '_' . str_replace('jform_params_', '', $modalid) . '_FIELDSET_LABEL';
 
-			$script = "window.addEvent('domready', function() {
-				var a = jQuery(\"a:contains('$j3pane')\");
+			$script .= "window.addEvent('domready', function() {
+				var a = jQuery(\"a:contains('" . $context . '_' . str_replace('jform_params_', '', $modalid) . '_FIELDSET_LABEL' . "')\");
 				if (a.length > 0) {
 					a = a[0];
 					var href= a.get('href');
@@ -155,9 +142,10 @@ class JFormFieldRepeatable extends JFormField
 			});";
 
 			$document = JFactory::getDocument();
-			// Wont work when rendering in admin module page
+			// Won't work when rendering in Admin Module page			
+			JHtml::_('behavior.framework');
 			$document->addScriptDeclaration( self::addJs() );
-			
+
 			$document->addScriptDeclaration( $script );
 		}
 
@@ -169,6 +157,7 @@ class JFormFieldRepeatable extends JFormField
 		{
 			$this->value = array_shift($this->value);
 		}
+
 		$value = htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8');
 		$str[] = '<input type="hidden" name="' . $this->name . '" id="' . $this->id . '" value="' . $value . '" />';
 
@@ -177,7 +166,7 @@ class JFormFieldRepeatable extends JFormField
 
 	private function addJs()
 	{
-		$js = "var FabrikModalRepeat = new Class({
+		$js = "var ModalRepeat = new Class({
 
 			initialize: function (el, names, field) {
 				this.names = names;
@@ -255,11 +244,11 @@ class JFormFieldRepeatable extends JFormField
 			},
 
 			makeTarget: function (target) {
-				this.win[target] = new Element('div', {'data-modal-content': target, 'styles': {'padding': '5px', 'background-color': '#fff', 'display': 'none', 'z-index': 9999}}).inject(document.body);
+				this.win[target] = new Element('div', {'data-modal-content': target, 'styles': {'background-color': '#fff', 'display': 'none', 'z-index': 9999}}).inject(document.body);
 			},
 
 			makeWin: function (target) {
-				var close = new Element('button.btn.button.btn-primary').set('text', 'close');
+				var close = new Element('button.btn.button.btn-primary').set('text', 'Close');
 				close.addEvent('click', function (e) {
 					e.stop();
 					this.store(target);
@@ -281,10 +270,8 @@ class JFormFieldRepeatable extends JFormField
 					var size = this.el[key].getDimensions(true);
 					var wsize = win.getDimensions(true);
 					win.setStyles({'width': size.x + 'px'});
-					if (!Fabrik.bootstrapped) {
-						var y = setup ? wsize.y : size.y + 30;
-						win.setStyle('height', y + 'px');
-					}
+					var y = setup ? wsize.y : size.y + 30;
+					win.setStyle('height', y + 'px');
 				}.bind(this));
 			},
 
