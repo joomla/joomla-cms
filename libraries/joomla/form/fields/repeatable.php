@@ -142,6 +142,10 @@ class JFormFieldRepeatable extends JFormField
 			});";
 
 			$document = JFactory::getDocument();
+
+			// Define the close lang string
+			JText::script('JTOOLBAR_CLOSE');
+
 			// Won't work when rendering in Admin Module page			
 			JHtml::_('behavior.framework');
 			$document->addScriptDeclaration( self::addJs() );
@@ -248,7 +252,7 @@ class JFormFieldRepeatable extends JFormField
 			},
 
 			makeWin: function (target) {
-				var close = new Element('button.btn.button.btn-primary').set('text', 'Close');
+				var close = new Element('button.btn.button.btn-primary').set('text', Joomla.JText._('JTOOLBAR_CLOSE'));
 				close.addEvent('click', function (e) {
 					e.stop();
 					this.store(target);
