@@ -161,9 +161,17 @@ class JUpdaterExtension extends JUpdateAdapter
 		$dbo = $this->parent->getDBO();
 
 		$http = JHttpFactory::getHttp();
-		$response = $http->get($url);
 
-		if (200 != $response->code)
+		try
+		{
+			$response = $http->get($url);
+		}
+		catch (Exception $exc)
+		{
+			$response = null;
+		}
+
+		if (is_null($response) || ($response->code != 200))
 		{
 			$query = $dbo->getQuery(true);
 			$query->update('#__update_sites');

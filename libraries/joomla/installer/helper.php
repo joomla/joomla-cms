@@ -47,7 +47,22 @@ abstract class JInstallerHelper
 		ini_set('user_agent', $version->getUserAgent('Installer'));
 
 		$http = JHttpFactory::getHttp();
-		$response = $http->get($url);
+
+		try
+		{
+			$response = $http->get($url);
+		}
+		catch (Exception $exc)
+		{
+			$response = null;
+		}
+
+		if (is_null($response))
+		{
+			JError::raiseWarning(42, JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $error));
+
+			return false;
+		}
 
 		if (302 == $response->code && isset($response->headers['Location']))
 		{
