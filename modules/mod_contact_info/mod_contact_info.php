@@ -15,5 +15,11 @@ require_once dirname(__FILE__) . '/helper.php';
 $contact = $params->get('contact');
 $dataContact = ModContactsInfoHelper::getData($contact, 'com_contact', '#__contact_details', 'id');
 
+if (empty($dataContact))
+{
+	echo JText::_('MOD_CONTACT_INFO_NO_CONTACT');
+	return;
+}
+
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'));
 require JModuleHelper::getLayoutPath('mod_contact_info', $params->get('layout', 'default'));

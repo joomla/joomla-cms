@@ -20,7 +20,7 @@ class ModContactsInfoHelper
 {
 	public static function getData($id, $component, $table, $field = 'id', $selector = '*')
 	{
-		if (1 == JComponentHelper::isEnabled($component))
+		if (JComponentHelper::isEnabled($component))
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);

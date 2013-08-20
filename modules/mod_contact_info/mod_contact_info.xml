@@ -37,7 +37,6 @@
                         key_field="id"
                         value_field="name"
                         description="MOD_CONTACT_INFO_FIELD_CONTACT_DESCRIPTION">
-
                 </field>
 
                 <field

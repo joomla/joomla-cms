@@ -10,9 +10,7 @@ defined('_JEXEC') or die;
 ?>
 
 <div class="contact_info<?php echo $moduleclass_sfx ?>">
-	<!-- if returned contact data is not empty -->
-	<?php if (!empty($dataContact)) : ?>
-		<!-- check each show/hide entry -->
+
 		<?php if ($params->get('name_linked') == "1") : ?>
 			<?php $url = JRoute::_("index.php?option=com_contact&view=contact&id=" . $dataContact->id); ?>
 			<a href="<?php echo $url; ?>"><?php echo $dataContact->name; ?></a>
@@ -52,5 +50,4 @@ defined('_JEXEC') or die;
 				<br>
 			<?php endif ?>
 		<?php endif ?>
-	<?php endif ?>
 </div>
