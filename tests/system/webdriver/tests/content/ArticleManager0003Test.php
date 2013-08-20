@@ -16,7 +16,7 @@ use SeleniumClient\WebDriverWait;
 use SeleniumClient\DesiredCapabilities;
 
 /**
- * This class tests the  Article: Add / Edit  Screen.
+ * This class tests the  Article: Front End and Add/Edit Screens.
  *
  * @package     Joomla.Test
  * @subpackage  Webdriver
@@ -82,8 +82,9 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 		 
 		 $this->articleManagerPage->changeFilter('Select Status', 'Archived');
 		 $this->articleManagerPage->changeArticleState('Beginners', 'published');
-		 $this->driver->get($cfg->host.$cfg->path.$archivedArticlePath);
+		 $this->driver->get($url);
 		 $this->archivedArticlePage = $this->getPageObject('FrontEndArchivedArticlesPage',true,$url);
 		 $arrayTitles = $this->archivedArticlePage->getArticleTitles();
 		 $this->assertFalse(in_array('Beginners',$arrayTitles),'Article Must not be present');
 	 }
+}
