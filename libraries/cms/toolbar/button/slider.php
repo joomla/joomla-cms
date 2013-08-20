@@ -48,7 +48,6 @@ class JToolbarButtonSlider extends JToolbarButton
 		$options = array();
 		$options['text'] = JText::_($text);
 		$options['name'] = $name;
-		$options['title'] = JText::_($title);
 		$options['class'] = $this->fetchIconClass($name);
 		$options['onClose'] = '';
 

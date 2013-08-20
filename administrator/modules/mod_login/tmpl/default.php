@@ -51,19 +51,21 @@ $altDirection  = $document->direction == 'rtl' ? 'left' : 'right';
 				</div>
 			</div>
 		</div>
-		<div class="control-group">
-			<div class="controls">
-				<div class="input-prepend">
-					<span class="add-on">
-						<i class="icon-comment hasTooltip" data-placement="<?php echo $mainDirection; ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('MOD_LOGIN_LANGUAGE'); ?>"></i>
-						<label for="lang" class="element-invisible">
-							<?php echo JText::_('MOD_LOGIN_LANGUAGE'); ?>
-						</label>
-					</span>
-					<?php echo $langs; ?>
+		<?php if (!empty($langs)) : ?>
+			<div class="control-group">
+				<div class="controls">
+					<div class="input-prepend">
+						<span class="add-on">
+							<i class="icon-comment hasTooltip" data-placement="<?php echo $mainDirection; ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('MOD_LOGIN_LANGUAGE'); ?>"></i>
+							<label for="lang" class="element-invisible">
+								<?php echo JText::_('MOD_LOGIN_LANGUAGE'); ?>
+							</label>
+						</span>
+						<?php echo $langs; ?>
+					</div>
 				</div>
 			</div>
-		</div>
+		<?php endif; ?>
 		<div class="control-group">
 			<div class="controls">
 				<div class="btn-group pull-left">

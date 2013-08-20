@@ -105,7 +105,7 @@ class ContactManager0001Test extends JoomlaWebdriverTestCase
 		$message = $this->contactManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'Contact successfully saved') >= 0, 'Contact save should return success');
 		$this->assertEquals(5, $this->contactManagerPage->getRowNumber($contactName), 'Test Contact should be in row 5');
-		$this->contactManagerPage->deleteItem($contactName);
+		$this->contactManagerPage->trashAndDelete($contactName);
 		$this->assertFalse($this->contactManagerPage->getRowNumber($contactName), 'Test Contact should not be present');
 	}
 
@@ -127,7 +127,7 @@ class ContactManager0001Test extends JoomlaWebdriverTestCase
 		$this->assertEquals(5, $this->contactManagerPage->getRowNumber($contactName), 'Test test contact should be in row 5');
 		$values = $this->contactManagerPage->getFieldValues('ContactEditPage', $contactName, array('Name', 'Address', 'City or Suburb', 'Country'));
 		$this->assertEquals(array($contactName,$address,$city,$country), $values, 'Actual name, address, city and country should match expected');
-		$this->contactManagerPage->deleteItem($contactName);
+		$this->contactManagerPage->trashAndDelete($contactName);
 		$this->assertFalse($this->contactManagerPage->getRowNumber($contactName), 'Test contact should not be present');
 	}
 
@@ -142,7 +142,7 @@ class ContactManager0001Test extends JoomlaWebdriverTestCase
 		$this->contactManagerPage->addContact($contactName, false);
 		$this->contactManagerPage->editContact($contactName, array('Country' => 'England', 'Address' => '10 Downing Street', 'City or Suburb' => 'London'));
 		$values = $this->contactManagerPage->getFieldValues('ContactEditPage', $contactName, array('Country', 'Address', 'City or Suburb'));
-		$this->contactManagerPage->deleteItem($contactName);
+		$this->contactManagerPage->trashAndDelete($contactName);
 	}
 
 	/**
@@ -158,6 +158,6 @@ class ContactManager0001Test extends JoomlaWebdriverTestCase
 		$this->contactManagerPage->changeContactState($contactName, 'unpublished');
 		$state = $this->contactManagerPage->getState($contactName);
 		$this->assertEquals('unpublished', $state, 'State should be unpublished');
-		$this->contactManagerPage->deleteItem($contactName);
+		$this->contactManagerPage->trashAndDelete($contactName);
 	}
 }

@@ -70,7 +70,7 @@ class GroupManager0001Test extends JoomlaWebdriverTestCase
 		$message = $this->groupManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'Group successfully saved') >= 0, 'Group save should return success');
 		$this->assertEquals(12, $this->groupManagerPage->getRowNumber('Test Group'), 'Test group should be in row 2');
-		$this->groupManagerPage->deleteGroup('Test Group');
+		$this->groupManagerPage->delete('Test Group');
 		$this->assertFalse($this->groupManagerPage->getRowNumber('Test Group'), 'Test group should not be present');
 	}
 
@@ -89,7 +89,7 @@ class GroupManager0001Test extends JoomlaWebdriverTestCase
 		$this->assertTrue($this->groupManagerPage->getRowNumber($groupName) > 0, 'Test group should be on the page');
 		$values = $this->groupManagerPage->getFieldValues('GroupEditPage', $groupName, array('Group Parent'));
 		$this->assertStringEndsWith($parent, $values[0], 'Actual group parent should match expected');
-		$this->groupManagerPage->deleteGroup($groupName);
+		$this->groupManagerPage->delete($groupName);
 		$this->assertFalse($this->groupManagerPage->getRowNumber($groupName), 'Test group should not be present');
 	}
 
@@ -107,7 +107,7 @@ class GroupManager0001Test extends JoomlaWebdriverTestCase
 		$rowText = $this->groupManagerPage->getRowText($groupName);
 		$values = $this->groupManagerPage->getFieldValues('GroupEditPage', $groupName, array('Group Parent'));
 		$this->assertStringEndsWith('Publisher', $values[0], 'Actual group parent should be Publisher');
-		$this->groupManagerPage->deleteGroup($groupName);
+		$this->groupManagerPage->delete($groupName);
 	}
 
 	/**
@@ -132,9 +132,15 @@ class GroupManager0001Test extends JoomlaWebdriverTestCase
 		$actualRowNumbers = $this->groupManagerPage->orderAndGetRowNumbers($orderings, $rows);
 
 		$expectedRowNumbers = array(
-				'Group Title' => array('ascending' => array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11), 'descending' => array(11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1)),
-				'ID' => array('ascending' => array(7, 3, 10, 4, 11, 6, 1, 5, 2, 9, 8), 'descending' => array(5, 9, 2, 8, 1, 6, 11, 7, 10, 3, 4))
-		);
+				'Group Title' => array(
+					'ascending' => array(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11),
+					'descending' => array(11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1)
+					),
+				'ID' => array(
+					'ascending' => array(7, 3, 10, 4, 11, 6, 1, 5, 2, 9, 8),
+					'descending' => array(5, 9, 2, 8, 1, 6, 11, 7, 10, 3, 4)
+					)
+				);
 
 		foreach ($actualRowNumbers as $ordering => $orderingRowNumbers)
 		{

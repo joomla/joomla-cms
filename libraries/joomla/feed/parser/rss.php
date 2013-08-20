@@ -189,7 +189,9 @@ class JFeedParserRss extends JFeedParser
 	 */
 	protected function handleLink(JFeed $feed, SimpleXMLElement $el)
 	{
-		$feed->uri = (string) $el;
+		$link = new JFeedLink;
+		$link->uri = (string) $el['href'];
+		$feed->link = $link;
 	}
 
 	/**
@@ -323,6 +325,7 @@ class JFeedParserRss extends JFeedParser
 		{
 			$name = trim($tmp[1], ' ()');
 		}
+
 		$email = trim($tmp[0]);
 
 		$feed->addContributor($name, $email, null, 'webmaster');

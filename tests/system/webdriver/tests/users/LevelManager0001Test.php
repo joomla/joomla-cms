@@ -70,7 +70,7 @@ class LevelManager0001Test extends JoomlaWebdriverTestCase
 		$message = $this->levelManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'Level successfully saved') >= 0, 'Level save should return success');
 		$this->assertEquals(6, $this->levelManagerPage->getRowNumber('Test Level'), 'Test level should be in row 6');
-		$this->levelManagerPage->deleteLevel('Test Level');
+		$this->levelManagerPage->delete('Test Level');
 		$this->assertFalse($this->levelManagerPage->getRowNumber('Test Level'), 'Test level should not be present');
 	}
 
@@ -91,7 +91,7 @@ class LevelManager0001Test extends JoomlaWebdriverTestCase
 		sort($groups);
 		sort($actualGroups);
 		$this->assertEquals($groups, $actualGroups, 'Assigned groups should be as expected');
-		$this->levelManagerPage->deleteLevel($levelName);
+		$this->levelManagerPage->delete($levelName);
 		$this->assertFalse($this->levelManagerPage->getRowNumber($levelName), 'Test level should not be present');
 	}
 
@@ -111,7 +111,7 @@ class LevelManager0001Test extends JoomlaWebdriverTestCase
 		sort($actualGroups);
 		sort($newGroups);
 		$this->assertEquals($newGroups, $actualGroups, 'New groups should be assigned to level');
-		$this->levelManagerPage->deleteLevel($levelName);
+		$this->levelManagerPage->delete($levelName);
 	}
 
 	/**

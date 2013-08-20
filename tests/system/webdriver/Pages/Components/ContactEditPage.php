@@ -65,13 +65,13 @@ class ContactEditPage extends AdminEditPage
 	public $inputFields = array (
 			array('label' => 'Name', 'id' => 'jform_name', 'type' => 'input', 'tab' => 'details'),
 			array('label' => 'Alias', 'id' => 'jform_alias', 'type' => 'input', 'tab' => 'details'),
-            array('label' => 'Linked User', 'id' => 'jform_user_id_name', 'type' => 'input', 'tab' => 'details'),
+            array('label' => 'Linked User', 'id' => 'jform_user_id', 'type' => 'input', 'tab' => 'details'),
 			array('label' => 'Category', 'id' => 'jform_catid', 'type' => 'select', 'tab' => 'details'),
 			// Ordering only shows on edit, not on a new contact.
 			//array('label' => 'Ordering', 'id' => 'jformordering', 'type' => 'select', 'tab' => 'details'),
 			array('label' => 'ID', 'id' => 'jform_id', 'type' => 'input', 'tab' => 'details'),
 			array('label' => 'Miscellaneous Information', 'id' => 'jform_misc', 'type' => 'textarea', 'tab' => 'details'),
-			array('label' => 'Created by', 'id' => 'jform_created_by_name', 'type' => 'input', 'tab' => 'publishing'),
+			array('label' => 'Created by', 'id' => 'jform_created_by', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'Created By Alias', 'id' => 'jform_created_by_alias', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'Created date', 'id' => 'jform_created', 'type'=>'input', 'tab'=>'publishing'),
 			array('label' => 'Start Publishing', 'id' => 'jform_publish_up', 'type'=>'input', 'tab'=>'publishing'),

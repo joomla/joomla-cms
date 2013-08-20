@@ -80,7 +80,7 @@ class TagManager0002Test extends JoomlaWebdriverTestCase
 		$this->assertFalse($this->tagManagerPage->getRowNumber($tagName), 'Tag should not show');
 		$test = $this->tagManagerPage->setFilter('filter_published', 'Published');
 		$this->assertEquals(1, $this->tagManagerPage->getRowNumber($tagName), 'Tag should be in row 1');
-		$this->tagManagerPage->deleteItem($tagName);
+		$this->tagManagerPage->trashAndDelete($tagName);
 		$this->assertFalse($this->tagManagerPage->getRowNumber($tagName), 'Tag should not be present');
 	}
 	
@@ -115,8 +115,8 @@ class TagManager0002Test extends JoomlaWebdriverTestCase
 		$this->assertEquals(1, $this->tagManagerPage->getRowNumber($tagName_1), 'Tag should be in row 1');
 		
 		$this->tagManagerPage->setFilter('Select Status', 'Select Status');
-		$this->tagManagerPage->deleteItem($tagName_1);
-		$this->tagManagerPage->deleteItem($tagName_2);
+		$this->tagManagerPage->trashAndDelete($tagName_1);
+		$this->tagManagerPage->trashAndDelete($tagName_2);
 	}
 	
 }
