@@ -83,7 +83,7 @@ class plgAuthenticationGMail extends JPlugin {
 				$message = JText::_('JGLOBAL_AUTH_USER_BLACKLISTED');
 			}
 		} else {
-			$message = 'curl isn\'t insalled';
+			$message = 'curl isn\'t installed';
 		}
 		$response->type = 'GMail';
 		if ($success) {

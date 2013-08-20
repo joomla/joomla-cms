@@ -32,7 +32,7 @@ $version = '2.5';
 
 // Set release for each build
 // Release is third digit (like '0', '1', or '2')
-$release = '12';
+$release = '14';
 
 // Set path to git binary (e.g., /usr/local/git/bin/git or /urs/bin/git)
 $gitPath = '/usr/bin/git';
@@ -113,9 +113,9 @@ for($num=$release-1; $num >= 0; $num--) {
 	// Loop through and add all files except: tests, installation, build, .git, or docs
 	foreach($files AS $file)
 	{
-		if (substr($file, 2, 5) != 'tests' && substr($file, 2, 12) != 'installation' && substr($file,2,5) != 'build'
-		&& substr($file, 2, 4) != '.git' && substr($file, 2, 4) != 'docs' &&  substr($file, 2, 7) != '.travis'
-		&&  substr($file, 2, 6) != 'travis' &&  substr($file, 2, 7) != 'phpunit')
+		if (substr($file, 2, 5) != 'tests' && substr($file, 2, 12) != 'installation' && substr($file, 2, 5) != 'build'
+		&& substr($file, 2, 4) != '.git' && substr($file, 2, 4) != 'docs' && substr($file, 2, 7) != '.travis'
+		&& substr($file, 2, 6) != 'travis' && substr($file, 2, 7) != 'phpunit' && substr($file, -3) != '.md')
 		{
 			// Don't add deleted files to the list
 			if (substr($file, 0, 1) != 'D')
