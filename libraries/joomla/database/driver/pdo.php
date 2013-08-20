@@ -90,8 +90,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 */
 	public function __destruct()
 	{
-		$this->freeResult();
-		unset($this->connection);
+		$this->disconnect();
 	}
 
 	/**
@@ -307,6 +306,11 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 */
 	public function disconnect()
 	{
+		foreach ($this->disconnectHandlers as $h)
+		{
+			call_user_func_array($h, array( &$this));
+		}
+
 		$this->freeResult();
 		unset($this->connection);
 	}
@@ -374,6 +378,10 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		// Increment the query counter.
 		$this->count++;
 
+		// Reset the error values.
+		$this->errorNum = 0;
+		$this->errorMsg = '';
+
 		// If debugging is enabled then let's log the query.
 		if ($this->debug)
 		{
@@ -381,11 +389,9 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 			$this->log[] = $query;
 
 			JLog::add($query, JLog::DEBUG, 'databasequery');
-		}
 
-		// Reset the error values.
-		$this->errorNum = 0;
-		$this->errorMsg = '';
+			$this->timings[] = microtime(true);
+		}
 
 		// Execute the query.
 		$this->executed = false;
@@ -402,6 +408,19 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 			}
 
 			$this->executed = $this->prepared->execute();
+		}
+
+		if ($this->debug)
+		{
+			$this->timings[] = microtime(true);
+			if (defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
+			{
+				$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+			}
+			else
+			{
+				$this->callStacks[] = debug_backtrace();
+			}
 		}
 
 		// If an error occurred handle it.

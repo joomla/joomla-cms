@@ -115,7 +115,7 @@ class MenuItemsManager0001Test extends JoomlaWebdriverTestCase
 		$this->assertTrue(strpos($message, 'Menu successfully saved') >= 0, 'Menu save should return success');
 		$this->menuItemsManagerPage->setFilter('menutype', 'Main Menu');
 		$this->assertTrue($this->menuItemsManagerPage->getRowNumber('Test Menu') > 0, 'Test menu should be in list');
-		$this->menuItemsManagerPage->deleteItem('Test Menu');
+		$this->menuItemsManagerPage->trashAndDelete('Test Menu');
 		$this->assertFalse($this->menuItemsManagerPage->getRowNumber('Test Menu'), 'Test menu should not be present');
 	}
 
@@ -140,7 +140,7 @@ class MenuItemsManager0001Test extends JoomlaWebdriverTestCase
 		$actualValues = $this->menuItemsManagerPage->getFieldValues('MenuItemEditPage', $title, array('Menu Title', 'Menu Item Type', 'contact'));
 		$expectedValues = array ($title, $menuType, $itemName);
 		$this->assertEquals($expectedValues, $actualValues, 'Actual values should match entered values');
-		$this->menuItemsManagerPage->deleteItem($title);
+		$this->menuItemsManagerPage->trashAndDelete($title);
 		$this->menuItemsManagerPage->searchFor($title);
 		$this->assertFalse($this->menuItemsManagerPage->getRowNumber($title), 'Test menu should not be present');
 		$this->menuItemsManagerPage->searchFor();
@@ -168,7 +168,7 @@ class MenuItemsManager0001Test extends JoomlaWebdriverTestCase
 		$actualValues = $this->menuItemsManagerPage->getFieldValues('MenuItemEditPage', $title, array('Menu Title', 'Menu Item Type', 'category'));
 		$expectedValues = array ($title, $menuType, $itemName);
 		$this->assertEquals($expectedValues, $actualValues, 'Actual values should match entered values');
-		$this->menuItemsManagerPage->deleteItem($title);
+		$this->menuItemsManagerPage->trashAndDelete($title);
 		$this->menuItemsManagerPage->searchFor($title);
 		$this->assertFalse($this->menuItemsManagerPage->getRowNumber($title), 'Test menu should not be present');
 		$this->menuItemsManagerPage->searchFor();
@@ -198,7 +198,7 @@ class MenuItemsManager0001Test extends JoomlaWebdriverTestCase
 		$actualValues = $this->menuItemsManagerPage->getFieldValues('MenuItemEditPage', $newTitle, array('Menu Title', 'Menu Item Type', 'category', 'Menu Location'));
 		$expectedValues = array ($newTitle, $newMenuType, $newCategory, $newMenuLocation);
 		$this->assertEquals($expectedValues, $actualValues, 'Actual values should match entered values');
-		$this->menuItemsManagerPage->deleteItem($newTitle);
+		$this->menuItemsManagerPage->trashAndDelete($newTitle);
 		$this->assertFalse($this->menuItemsManagerPage->getRowNumber($newTitle), 'Test menu item should not be present');
 	}
 }

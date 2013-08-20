@@ -44,7 +44,7 @@ abstract class JHtmlUsers
 	{
 		if (empty($value))
 		{
-			return self::value($value);
+			return static::value($value);
 		}
 		else
 		{
@@ -79,7 +79,7 @@ abstract class JHtmlUsers
 	{
 		if (empty($value))
 		{
-			return self::value($value);
+			return static::value($value);
 		}
 		else
 		{
@@ -96,7 +96,7 @@ abstract class JHtmlUsers
 			}
 			else
 			{
-				return self::value('');
+				return static::value('');
 			}
 		}
 	}
@@ -105,7 +105,7 @@ abstract class JHtmlUsers
 	{
 		if (empty($value))
 		{
-			return self::value($value);
+			return static::value($value);
 		}
 		else
 		{
@@ -124,7 +124,7 @@ abstract class JHtmlUsers
 			}
 			else
 			{
-				return self::value('');
+				return static::value('');
 			}
 		}
 	}
@@ -133,7 +133,7 @@ abstract class JHtmlUsers
 	{
 		if (empty($value))
 		{
-			return self::value($value);
+			return static::value($value);
 		}
 		else
 		{
@@ -152,7 +152,7 @@ abstract class JHtmlUsers
 			}
 			else
 			{
-				return self::value('');
+				return static::value('');
 			}
 		}
 	}
@@ -161,7 +161,7 @@ abstract class JHtmlUsers
 	{
 		if (empty($value))
 		{
-			return self::value($value);
+			return static::value($value);
 		}
 		else
 		{
@@ -185,7 +185,7 @@ abstract class JHtmlUsers
 			}
 			else
 			{
-				return self::value('');
+				return static::value('');
 			}
 		}
 	}

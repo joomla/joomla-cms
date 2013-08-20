@@ -312,6 +312,7 @@ class JAccess
 				// Build the database query to get the rules for the asset.
 				$query = $db->getQuery(true)
 					->select($recursive ? 'b.id' : 'a.id');
+
 				if (empty($userId))
 				{
 					$query->from('#__usergroups AS a')
@@ -457,20 +458,19 @@ class JAccess
 	 *
 	 * @return  array  List of actions available for the given component and section.
 	 *
-	 * @since   11.1
-	 *
-	 * @deprecated  12.3  Use JAccess::getActionsFromFile or JAccess::getActionsFromData instead.
-	 *
+	 * @since       11.1
+	 * @deprecated  12.3 (Platform) & 4.0 (CMS)  Use JAccess::getActionsFromFile or JAccess::getActionsFromData instead.
 	 * @codeCoverageIgnore
-	 *
 	 */
 	public static function getActions($component, $section = 'component')
 	{
-		JLog::add(__METHOD__ . ' is deprecated. Use JAccess::getActionsFromFile or JAcces::getActionsFromData instead.', JLog::WARNING, 'deprecated');
+		JLog::add(__METHOD__ . ' is deprecated. Use JAccess::getActionsFromFile or JAccess::getActionsFromData instead.', JLog::WARNING, 'deprecated');
+
 		$actions = self::getActionsFromFile(
 			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml',
 			"/access/section[@name='" . $section . "']/"
 		);
+
 		if (empty($actions))
 		{
 			return array();
@@ -502,6 +502,7 @@ class JAccess
 		{
 			// Else return the actions from the xml.
 			$xml = simplexml_load_file($file);
+
 			return self::getActionsFromData($xml, $xpath);
 		}
 	}

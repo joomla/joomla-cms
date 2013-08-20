@@ -66,7 +66,7 @@ abstract class MediaHelper
 
 		$allowable = explode(',', $params->get('upload_extensions'));
 		$ignored = explode(',', $params->get('ignore_extensions'));
-		if (!in_array($format, $allowable) && !in_array($format, $ignored))
+		if ($format == '' || $format == false || (!in_array($format, $allowable) && !in_array($format, $ignored)))
 		{
 			$err = 'COM_MEDIA_ERROR_WARNFILETYPE';
 			return false;

@@ -43,7 +43,7 @@ abstract class JHtmlMenu
 	 */
 	public static function menus()
 	{
-		if (empty(self::$menus))
+		if (empty(static::$menus))
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
@@ -51,10 +51,10 @@ abstract class JHtmlMenu
 				->from($db->quoteName('#__menu_types'))
 				->order('title');
 			$db->setQuery($query);
-			self::$menus = $db->loadObjectList();
+			static::$menus = $db->loadObjectList();
 		}
 
-		return self::$menus;
+		return static::$menus;
 	}
 
 	/**
@@ -68,7 +68,7 @@ abstract class JHtmlMenu
 	 */
 	public static function menuitems($config = array())
 	{
-		if (empty(self::$items))
+		if (empty(static::$items))
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
@@ -118,31 +118,31 @@ abstract class JHtmlMenu
 				$item->text = str_repeat('- ', $item->level) . $item->text;
 			}
 
-			self::$items = array();
+			static::$items = array();
 
 			foreach ($menus as &$menu)
 			{
 				// Start group:
-				self::$items[] = JHtml::_('select.optgroup', $menu->text);
+				static::$items[] = JHtml::_('select.optgroup', $menu->text);
 
 				// Special "Add to this Menu" option:
-				self::$items[] = JHtml::_('select.option', $menu->value . '.1', JText::_('JLIB_HTML_ADD_TO_THIS_MENU'));
+				static::$items[] = JHtml::_('select.option', $menu->value . '.1', JText::_('JLIB_HTML_ADD_TO_THIS_MENU'));
 
 				// Menu items:
 				if (isset($lookup[$menu->value]))
 				{
 					foreach ($lookup[$menu->value] as &$item)
 					{
-						self::$items[] = JHtml::_('select.option', $menu->value . '.' . $item->value, $item->text);
+						static::$items[] = JHtml::_('select.option', $menu->value . '.' . $item->value, $item->text);
 					}
 				}
 
 				// Finish group:
-				self::$items[] = JHtml::_('select.optgroup', $menu->text);
+				static::$items[] = JHtml::_('select.optgroup', $menu->text);
 			}
 		}
 
-		return self::$items;
+		return static::$items;
 	}
 
 	/**
@@ -161,7 +161,7 @@ abstract class JHtmlMenu
 	{
 		static $count;
 
-		$options = self::menuitems($config);
+		$options = static::menuitems($config);
 
 		return JHtml::_(
 			'select.genericlist', $options, $name,
@@ -252,7 +252,7 @@ abstract class JHtmlMenu
 		}
 
 		// Second pass - get an indent list of the items
-		$list = self::treerecurse((int) $mitems[0]->parent_id, '', array(), $children, 9999, 0, 0);
+		$list = static::treerecurse((int) $mitems[0]->parent_id, '', array(), $children, 9999, 0, 0);
 
 		// Code that adds menu name to Display of Page(s)
 		$mitems = array();
@@ -348,7 +348,7 @@ abstract class JHtmlMenu
 				$list[$id] = $v;
 				$list[$id]->treename = $indent . $txt;
 				$list[$id]->children = count(@$children[$id]);
-				$list = self::treerecurse($id, $indent . $spacer, $list, $children, $maxlevel, $level + 1, $type);
+				$list = static::treerecurse($id, $indent . $spacer, $list, $children, $maxlevel, $level + 1, $type);
 			}
 		}
 

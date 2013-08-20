@@ -18,7 +18,7 @@ require_once JPATH_COMPONENT . '/helpers/debug.php';
  * @subpackage  com_users
  * @since       1.6
  */
-class UsersModelDebugGroup extends JModelList
+class UsersModelDebuggroup extends JModelList
 {
 	/**
 	 * Get a list of the actions.

@@ -40,24 +40,26 @@ class JToolbarButtonStandard extends JToolbarButton
 	 */
 	public function fetchButton($type = 'Standard', $name = '', $text = '', $task = '', $list = true)
 	{
-		$i18n_text = JText::_($text);
-		$class = $this->fetchIconClass($name);
-		$doTask = $this->_getCommand($text, $task, $list);
+		// Store all data to the options array for use with JLayout
+		$options = array();
+		$options['text'] = JText::_($text);
+		$options['class'] = $this->fetchIconClass($name);
+		$options['doTask'] = $this->_getCommand($options['text'], $task, $list);
 
 		if ($name == 'apply' || $name == 'new')
 		{
-			$btnClass = 'btn btn-small btn-success';
-			$class .= ' icon-white';
+			$options['btnClass'] = 'btn btn-small btn-success';
+			$options['class'] .= ' icon-white';
 		}
 		else
 		{
-			$btnClass = 'btn btn-small';
+			$options['btnClass'] = 'btn btn-small';
 		}
 
-		return '<button onclick="' . $doTask . '" class="' . $btnClass . '">'
-			. '<i class="' . trim($class) . '"></i> '
-			. $i18n_text
-			. '</button>';
+		// Instantiate a new JLayoutFile instance and render the layout
+		$layout = new JLayoutFile('joomla.toolbar.standard');
+
+		return $layout->render($options);
 	}
 
 	/**

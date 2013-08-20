@@ -38,10 +38,20 @@
 		>
 			<option value="*">JALL</option>
 		</field>
+
+		<field name="tags" 
+			type="tag"
+			label="JTAG"
+			description="JTAG_DESC"
+			class="inputbox span12 small"
+			multiple="true"
+		>
+		</field>
+
 		<field name="description" type="editor" buttons="true" hide="pagebreak,readmore"
 			class="inputbox"
 			filter="JComponentHelper::filterText"
-			label="JGLOBAL_DESCRIPTION" description="COM_WEBLINKS_FIELD_DESCRIPTION_DESC" />
+			label="JGLOBAL_DESCRIPTION" description="COM_NEWSFEEDS_FIELD_DESCRIPTION_DESC" />
 
 		<field name="link" type="url" filter="url" class="inputbox"
 			size="60" label="COM_NEWSFEEDS_FIELD_LINK_LABEL"
@@ -94,7 +104,6 @@
 		<field name="version" type="text" class="readonly"
 			label="COM_NEWSFEEDS_FIELD_VERSION_LABEL" size="6" description="COM_NEWSFEEDS_FIELD_VERSION_DESC"
 			readonly="true" filter="unset" />
-
 
 		<field name="checked_out" type="Text" class="inputbox"
 			size="6" label="JGLOBAL_FIELD_CHECKEDOUT_LABEL"
@@ -251,12 +260,6 @@
 
 	<fields name="metadata">
 		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
-
-			<field name="tags" type="tag"
-				label="JTAG" description="JTAG_DESC"
-				class="inputbox" multiple="true"
-			>
-			</field>
 
 			<field name="robots"
 			type="list"

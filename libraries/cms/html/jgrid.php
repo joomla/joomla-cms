@@ -58,13 +58,18 @@ abstract class JHtmlJGrid
 		if ($tip)
 		{
 			JHtml::_('bootstrap.tooltip');
+
+			$title = $enabled ? $active_title : $inactive_title;
+			$title = $translate ? JText::_($title) : $title;
+			$title = JHtml::tooltipText($title, '', 0);
 		}
 
 		if ($enabled)
 		{
 			$html[] = '<a class="btn btn-micro ' . ($active_class == "publish" ? 'active' : '') . ' ' . ($tip ? 'hasTooltip"' : '') . '"';
 			$html[] = ' href="javascript:void(0);" onclick="return listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
-			$html[] = ' title="' . addslashes(htmlspecialchars($translate ? JText::_($active_title) : $active_title, ENT_COMPAT, 'UTF-8')) . '">';
+			$html[] = $tip ? ' title="' . $title . '"' : '';
+			$html[] = '>';
 			$html[] = '<i class="icon-' . $active_class . '">';
 			$html[] = '</i>';
 			$html[] = '</a>';
@@ -72,7 +77,8 @@ abstract class JHtmlJGrid
 		else
 		{
 			$html[] = '<a class="btn btn-micro disabled jgrid ' . ($tip ? 'hasTooltip"' : '') . '"';
-			$html[] = ' title="' . addslashes(htmlspecialchars($translate ? JText::_($inactive_title) : $inactive_title, ENT_COMPAT, 'UTF-8')) . '">';
+			$html[] = $tip ? ' title="' . $title . '"' : '';
+			$html[] = '>';
 
 			if ($active_class == "protected")
 			{
@@ -127,7 +133,7 @@ abstract class JHtmlJGrid
 		$active_class = array_key_exists('active_class', $state) ? $state['active_class'] : (array_key_exists(5, $state) ? $state[5] : '');
 		$inactive_class = array_key_exists('inactive_class', $state) ? $state['inactive_class'] : (array_key_exists(6, $state) ? $state[6] : '');
 
-		return self::action(
+		return static::action(
 			$i, $task, $prefix, $text, $active_title, $inactive_title, $tip,
 			$active_class, $inactive_class, $enabled, $translate, $checkbox
 		);
@@ -221,10 +227,10 @@ abstract class JHtmlJGrid
 				}
 			}
 
-			return self::state($states, $value, $i, array('prefix' => $prefix, 'translate' => !$tip), $enabled, true, $checkbox);
+			return static::state($states, $value, $i, array('prefix' => $prefix, 'translate' => !$tip), $enabled, true, $checkbox);
 		}
 
-		return self::state($states, $value, $i, $prefix, $enabled, true, $checkbox);
+		return static::state($states, $value, $i, $prefix, $enabled, true, $checkbox);
 	}
 
 	/**
@@ -252,11 +258,11 @@ abstract class JHtmlJGrid
 		}
 
 		$states = array(
-			1 => array('unsetDefault', 'JDEFAULT', 'JLIB_HTML_UNSETDEFAULT_ITEM', 'JDEFAULT', false, 'featured', 'featured'),
-			0 => array('setDefault', '', 'JLIB_HTML_SETDEFAULT_ITEM', '', false, 'unfeatured', 'unfeatured'),
+			0 => array('setDefault', '', 'JLIB_HTML_SETDEFAULT_ITEM', '', 1, 'unfeatured', 'unfeatured'),
+			1 => array('unsetDefault', 'JDEFAULT', 'JLIB_HTML_UNSETDEFAULT_ITEM', 'JDEFAULT', 1, 'featured', 'featured'),
 		);
 
-		return self::state($states, $value, $i, $prefix, $enabled, true, $checkbox);
+		return static::state($states, $value, $i, $prefix, $enabled, true, $checkbox);
 	}
 
 	/**
@@ -320,6 +326,8 @@ abstract class JHtmlJGrid
 	 */
 	public static function checkedout($i, $editorName, $time, $prefix = '', $enabled = false, $checkbox = 'cb')
 	{
+		JHtml::_('bootstrap.tooltip');
+
 		if (is_array($prefix))
 		{
 			$options = $prefix;
@@ -328,13 +336,11 @@ abstract class JHtmlJGrid
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
 
-		$text = addslashes(htmlspecialchars($editorName, ENT_COMPAT, 'UTF-8'));
-		$date = addslashes(htmlspecialchars(JHtml::_('date', $time, JText::_('DATE_FORMAT_LC')), ENT_COMPAT, 'UTF-8'));
-		$time = addslashes(htmlspecialchars(JHtml::_('date', $time, 'H:i'), ENT_COMPAT, 'UTF-8'));
-		$active_title = JText::_('JLIB_HTML_CHECKIN') . '<br />' . $text . '<br />' . $date . '<br />' . $time;
-		$inactive_title = JText::_('JLIB_HTML_CHECKED_OUT') . '<br />' . $text . '<br />' . $date . '<br />' . $time;
+		$text = $editorName . '<br />' . JHtml::_('date', $time, JText::_('DATE_FORMAT_LC')) . '<br />' . JHtml::_('date', $time, 'H:i');
+		$active_title = JHtml::tooltipText(JText::_('JLIB_HTML_CHECKIN'), $text, 0);
+		$inactive_title = JHtml::tooltipText(JText::_('JLIB_HTML_CHECKED_OUT'), $text, 0);
 
-		return self::action(
+		return static::action(
 			$i, 'checkin', $prefix, JText::_('JLIB_HTML_CHECKED_OUT'), $active_title, $inactive_title, true, 'checkedout',
 			'checkedout', $enabled, false, $checkbox
 		);
@@ -364,7 +370,7 @@ abstract class JHtmlJGrid
 			$checkbox = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
-		return self::action($i, $task, $prefix, $text, $text, $text, false, 'uparrow', 'uparrow_disabled', $enabled, true, $checkbox);
+		return static::action($i, $task, $prefix, $text, $text, $text, false, 'uparrow', 'uparrow_disabled', $enabled, true, $checkbox);
 	}
 
 	/**
@@ -392,6 +398,6 @@ abstract class JHtmlJGrid
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
 
-		return self::action($i, $task, $prefix, $text, $text, $text, false, 'downarrow', 'downarrow_disabled', $enabled, true, $checkbox);
+		return static::action($i, $task, $prefix, $text, $text, $text, false, 'downarrow', 'downarrow_disabled', $enabled, true, $checkbox);
 	}
 }

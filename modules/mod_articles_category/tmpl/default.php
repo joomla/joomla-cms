@@ -21,16 +21,13 @@ defined('_JEXEC') or die;
 						<a class="mod-articles-category-title <?php echo $item->active; ?>" href="<?php echo $item->link; ?>">
 						<?php echo $item->title; ?>
 						</a>
-						<?php if ($item->displayHits) : ?>
-							<span class="mod-articles-category-hits">
-							(<?php echo $item->displayHits; ?>) </span>
-						<?php endif; ?>
 					<?php else : ?>
 						<?php echo $item->title; ?>
-						<?php if ($item->displayHits) :?>
-							<span class="mod-articles-category-hits">
-							(<?php echo $item->displayHits; ?>)  </span>
-						<?php endif; ?>
+					<?php endif; ?>
+
+					<?php if ($item->displayHits) : ?>
+						<span class="mod-articles-category-hits">
+						(<?php echo $item->displayHits; ?>)  </span>
 					<?php endif; ?>
 
 					<?php if ($params->get('show_author')) :?>
@@ -87,16 +84,13 @@ defined('_JEXEC') or die;
 				<a class="mod-articles-category-title <?php echo $item->active; ?>" href="<?php echo $item->link; ?>">
 				<?php echo $item->title; ?>
 				</a>
-				<?php if ($item->displayHits) :?>
-					<span class="mod-articles-category-hits">
-					(<?php echo $item->displayHits; ?>)  </span>
-				<?php endif; ?>
 			<?php else : ?>
 				<?php echo $item->title; ?>
-				<?php if ($item->displayHits) :?>
-					<span class="mod-articles-category-hits">
-					(<?php echo $item->displayHits; ?>)  </span>
-				<?php endif; ?>
+			<?php endif; ?>
+
+			<?php if ($item->displayHits) :?>
+				<span class="mod-articles-category-hits">
+				(<?php echo $item->displayHits; ?>)  </span>
 			<?php endif; ?>
 
 			<?php if ($params->get('show_author')) :?>

@@ -858,10 +858,18 @@ div.toolbar-box h3 {
 	margin-bottom: 3px;
 	margin-top: 14px;
 }
-div.btn-toolbar {
+div.btn-toolbar,
+div.toolbar-list {
 	float: left;
 	text-align: left;
 	padding: 0;
+}
+div.toolbar-list li {
+	padding: 5px 1px 5px 4px;
+	text-align: center;
+	height: 52px;
+	list-style: none;
+	float: left;
 }
 div.toolbar-list li.spacer {
 	width: 10px;
@@ -877,6 +885,14 @@ div.toolbar-list span {
 	margin: 0 auto;
 	display: block;
 }
+div.toolbar-list a {
+	display: block;
+	float: left;
+	white-space: nowrap;
+	padding: 1px 5px;
+	cursor: pointer;
+	font-weight: bold;
+}
 div.btn-toolbar div.btn-group button {
 	display: block;
 	float: left;
@@ -886,7 +902,9 @@ div.btn-toolbar div.btn-group button {
 	text-align: center;
 }
 div.btn-toolbar button:hover,
-div.btn-toolbar button:focus {
+div.btn-toolbar button:focus,
+div.toolbar-list a:hover,
+div.toolbar-list a:focus {
 	text-decoration: none;
 }
 td#mm_pane {
@@ -3114,9 +3132,12 @@ fieldset.uploadform {
 }
 .alert .close {
 	position: relative;
-	top: -2px;
-	right: -21px;
+	right: -30px;
+	top: -5px;
 	line-height: 18px;
+	float: right;
+	font-size: 20px;
+	font-weight: bold;
 }
 .alert-success {
 	background-color: #dff0d8;
@@ -3290,4 +3311,22 @@ table.adminlist .item-associations li a {
 	margin-left: -5px;
 	border-width: 0 5px 5px;
 	border-bottom-color: #000000;
+}
+.tooltip {
+	max-width: 400px;
+}
+.tooltip-inner {
+	max-width: none;
+	text-align: left;
+	text-shadow: none;
+}
+th .tooltip-inner {
+	font-weight: normal;
+}
+.tooltip.hasimage {
+	opacity: 1;
+}
+fieldset.panelform .tooltip img {
+	float: none;
+	margin: 0;
 }

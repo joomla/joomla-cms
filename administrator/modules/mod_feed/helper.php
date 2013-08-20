@@ -25,7 +25,7 @@ class ModFeedHelper
 	 *
 	 * @return  JFeedReader|string  Return a JFeedReader object or a string message if error.
 	 */
-	static function getFeed($params)
+	public static function getFeed($params)
 	{
 		// Module params
 		$rssurl = $params->get('rssurl', '');
@@ -39,12 +39,17 @@ class ModFeedHelper
 		}
 		catch (InvalidArgumentException $e)
 		{
-			return JText::_('MOD_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
+			return JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
 		}
 		catch (RunTimeException $e)
 		{
 			return JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
 		}
+		catch (LogicException $e)
+		{
+			return JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
+		}
+
 		if (empty($rssDoc))
 		{
 			return JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');

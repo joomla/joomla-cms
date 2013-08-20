@@ -82,10 +82,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 */
 	public function __destruct()
 	{
-		if (is_callable(array($this->connection, 'close')))
-		{
-			mysqli_close($this->connection);
-		}
+		$this->disconnect();
 	}
 
 	/**
@@ -157,6 +154,13 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 
 		// Set charactersets (needed for MySQL 4.1.2+).
 		$this->setUTF();
+
+		// Turn MySQL profiling ON in debug mode:
+		if ($this->debug && $this->hasProfiling())
+		{
+			mysqli_query($this->connection, "SET profiling_history_size = 100;");
+			mysqli_query($this->connection, "SET profiling = 1;");
+		}
 	}
 
 	/**
@@ -169,8 +173,13 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	public function disconnect()
 	{
 		// Close the connection.
-		if (is_callable($this->connection, 'close'))
+		if ($this->connection)
 		{
+			foreach ($this->disconnectHandlers as $h)
+			{
+				call_user_func_array($h, array( &$this));
+			}
+
 			mysqli_close($this->connection);
 		}
 
@@ -496,6 +505,11 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		// Increment the query counter.
 		$this->count++;
 
+		// Reset the error values.
+		$this->errorNum = 0;
+		$this->errorMsg = '';
+		$memoryBefore = null;
+
 		// If debugging is enabled then let's log the query.
 		if ($this->debug)
 		{
@@ -503,14 +517,33 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 			$this->log[] = $query;
 
 			JLog::add($query, JLog::DEBUG, 'databasequery');
-		}
 
-		// Reset the error values.
-		$this->errorNum = 0;
-		$this->errorMsg = '';
+			$this->timings[] = microtime(true);
+
+			if (is_object($this->cursor))
+			{
+				// Avoid warning if result already freed by third-party library
+				@$this->freeResult();
+			}
+			$memoryBefore = memory_get_usage();
+		}
 
 		// Execute the query. Error suppression is used here to prevent warnings/notices that the connection has been lost.
 		$this->cursor = @mysqli_query($this->connection, $query);
+
+		if ($this->debug)
+		{
+			$this->timings[] = microtime(true);
+			if (defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
+			{
+				$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+			}
+			else
+			{
+				$this->callStacks[] = debug_backtrace();
+			}
+			$this->callStacks[count($this->callStacks) - 1][0]['memory'] = array($memoryBefore, memory_get_usage(), is_object($this->cursor) ? $this->getNumRows() : null);
+		}
 
 		// If an error occurred handle it.
 		if (!$this->cursor)
@@ -757,6 +790,10 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	protected function freeResult($cursor = null)
 	{
 		mysqli_free_result($cursor ? $cursor : $this->cursor);
+		if ((! $cursor) || ($cursor === $this->cursor))
+		{
+			$this->cursor = null;
+		}
 	}
 
 	/**
@@ -772,5 +809,27 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		$this->setQuery('UNLOCK TABLES')->execute();
 
 		return $this;
+	}
+
+	/**
+	 * Internal function to check if profiling is available
+	 *
+	 * @return  boolean
+	 *
+	 * @since 3.1.3
+	 */
+	private function hasProfiling()
+	{
+		try
+		{
+			$res = mysqli_query($this->connection, "SHOW VARIABLES LIKE 'have_profiling'");
+			$row = mysqli_fetch_assoc($res);
+
+			return isset($row);
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
 	}
 }

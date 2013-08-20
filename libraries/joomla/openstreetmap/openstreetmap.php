@@ -111,51 +111,23 @@ class JOpenstreetmap
 	 * @return  JOpenstreetmapObject  Openstreetmap API object
 	 *
 	 * @since   13.1
+	 * @throws  InvalidArgumentException
 	 */
 	public function __get($name)
 	{
-		switch ($name)
+		$class = 'JOpenstreetmap' . ucfirst($name);
+
+		if (class_exists($class))
 		{
-			case 'changesets':
-				if ($this->changesets == null)
-				{
-					$this->changesets = new JOpenstreetmapChangesets($this->options, $this->client, $this->oauth);
-				}
+			if (false == isset($this->$name))
+			{
+				$this->$name = new $class($this->options, $this->client, $this->oauth);
+			}
 
-				return $this->changesets;
-
-			case 'elements':
-				if ($this->elements == null)
-				{
-					$this->elements = new JOpenstreetmapElements($this->options, $this->client, $this->oauth);
-				}
-
-				return $this->elements;
-
-			case 'gps':
-				if ($this->gps == null)
-				{
-					$this->gps = new JOpenstreetmapGps($this->options, $this->client, $this->oauth);
-				}
-
-				return $this->gps;
-
-			case 'info':
-				if ($this->info == null)
-				{
-					$this->info = new JOpenstreetmapInfo($this->options, $this->client, $this->oauth);
-				}
-
-				return $this->info;
-
-			case 'user':
-				if ($this->user == null)
-				{
-					$this->user = new JOpenstreetmapUser($this->options, $this->client, $this->oauth);
-				}
-
-				return $this->user;
+			return $this->$name;
 		}
+
+		throw new InvalidArgumentException(sprintf('Argument %s produced an invalid class name: %s', $name, $class));
 	}
 
 	/**

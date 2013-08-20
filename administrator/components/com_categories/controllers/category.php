@@ -30,7 +30,6 @@ class CategoriesControllerCategory extends JControllerForm
 	 * Constructor.
 	 *
 	 * @param  array  $config  An optional associative array of configuration settings.
-	 *
 	 * @since  1.6
 	 * @see    JController
 	 */
@@ -119,9 +118,9 @@ class CategoriesControllerCategory extends JControllerForm
 	/**
 	 * Method to run batch operations.
 	 *
-	 * @param   object  $model  The model.
+	 * @param   object   $model  The model.
 	 *
-	 * @return  boolean   True if successful, false otherwise and internal error is set.
+	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *
 	 * @since   1.6
 	 */
@@ -170,6 +169,7 @@ class CategoriesControllerCategory extends JControllerForm
 
 		return $append;
 	}
+
 	/**
 	 * Function that allows child controller access to model data after the data has been saved.
 	 *
@@ -177,6 +177,7 @@ class CategoriesControllerCategory extends JControllerForm
 	 * @param   array         $validData  The validated data.
 	 *
 	 * @return  void
+	 *
 	 * @since   3.1
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())

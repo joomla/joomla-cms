@@ -261,7 +261,7 @@ class AdminModelSysInfo extends JModelLegacy
 			$this->_addDirectory('modules', JPATH_SITE . '/modules');
 			$this->_addDirectory('plugins', JPATH_PLUGINS);
 
-			$plugin_groups = new DirectoryIterator(JPATH_SITE . '/language');
+			$plugin_groups = new DirectoryIterator(JPATH_SITE . '/plugins');
 			foreach ($plugin_groups as $folder)
 			{
 				if (!$folder->isDir() || $folder->isDot())

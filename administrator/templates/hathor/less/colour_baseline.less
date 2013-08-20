@@ -157,6 +157,31 @@ div.toolbar-box {
 	background: @bodyBackground;
 }
 
+div.toolbar-list li {
+	color: @textColor;
+}
+
+div.toolbar-list li.divider {
+	border-right: 1px dotted @hoverBackground;
+}
+
+div.toolbar-list a {
+	border-left: 1px solid @hoverBackground;
+	border-top: 1px solid @hoverBackground;
+	border-right: 1px solid @mainBorder;
+	border-bottom: 1px solid @mainBorder;
+	background: @altBackground;
+}
+
+div.toolbar-list a:hover {
+	border-left: 1px solid @NWBorder;
+	border-top: 1px solid @NWBorder;
+	border-right: 1px solid @SEBorder;
+	border-bottom: 1px solid @SEBorder;
+	background: @hoverBackground;
+	color: @toolbarColor;
+}
+
 div.btn-toolbar {
 	margin-left: 5px;
 	padding-top: 3px;
@@ -944,6 +969,10 @@ a img.calendar {
 
 .icon-32-print {
 	background-image: url(../images/toolbar/icon-32-print.png);
+}
+
+.icon-32-batch {
+	background-image: url(../images/toolbar/icon-32-batch.png);
 }
 
 /**

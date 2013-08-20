@@ -98,6 +98,7 @@
 			name="created"
 			type="calendar"
 			filter="unset" />
+
 		<field
 			id="created_by"
 			name="created_by"
@@ -142,6 +143,15 @@
 			description="JFIELD_LANGUAGE_DESC"
 			class="inputbox">
 			<option value="*">JALL</option>
+		</field>
+
+		<field name="tags" 
+			type="tag"
+			label="JTAG"
+			description="JTAG_DESC"
+			class="inputbox span12 small"
+			multiple="true"
+		>
 		</field>
 
 		<field
@@ -287,11 +297,6 @@
 		<fields name="metadata">
 			<fieldset name="jmetadata"
 				label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
-					<field name="tags" type="tag"
-						label="JTAG" description="JTAG_DESC"
-						class="inputbox" multiple="true"
-					>
-					</field>
 		
 					<field name="robots"
 						type="hidden"

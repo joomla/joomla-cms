@@ -293,7 +293,6 @@ class ContentModelArticle extends JModelAdmin
 			{
 				$item->tags = new JHelperTags;
 				$item->tags->getTagIds($item->id, 'com_content.article');
-				$item->metadata['tags'] = $item->tags;
 			}
 		}
 
@@ -454,7 +453,7 @@ class ContentModelArticle extends JModelAdmin
 
 			foreach ($data['urls'] as $i => $url)
 			{
-				if ($url != false && ($i == 'urla' || $i == 'urlb' || $i = 'urlc'))
+				if ($url != false && ($i == 'urla' || $i == 'urlb' || $i == 'urlc'))
 				{
 					$data['urls'][$i] = JStringPunycode::urlToPunycode($url);
 				}
@@ -695,6 +694,8 @@ class ContentModelArticle extends JModelAdmin
 					$field->addAttribute('language', $tag);
 					$field->addAttribute('label', $language->title);
 					$field->addAttribute('translate_label', 'false');
+					$field->addAttribute('edit', 'true');
+					$field->addAttribute('clear', 'true');
 				}
 			}
 			if ($add)
