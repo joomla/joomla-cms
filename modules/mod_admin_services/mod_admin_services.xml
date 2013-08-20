@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension type="module" version="3.2" client="site" method="upgrade">
-	<name>Admin Services</name>
+	<name>mod_admin_services</name>
 	<author>Joomla! Project</author>
 	<creationDate>June 2013</creationDate>
 	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights
