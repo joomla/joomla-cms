@@ -42,16 +42,12 @@ class JFormFieldRepeatable extends JFormField
 	protected function getInput()
 	{
 		// Initialize variables.
-		$app = JFactory::getApplication();
-		$document = JFactory::getDocument();
-		$options = array();
 		$subForm = new JForm($this->name, array('control' => 'jform'));
 		$xml = $this->element->children()->asXML();
 		$subForm->load($xml);
 
 		// Needed for repeating modals in gmaps
 		$subForm->repeatCounter = (int) @$this->form->repeatCounter;
-		$input = $app->input;
 		$children = $this->element->children();
 
 		$subForm->setFields($children);
@@ -92,7 +88,7 @@ class JFormFieldRepeatable extends JFormField
 
 		$names = json_encode($names);
 
-		JHTML::_('script', 'system/repeatable.js', true, true);
+		JHtml::_('script', 'system/repeatable.js', true, true);
 
 		$script = "(function ($){
 			$(document).ready(function (){
