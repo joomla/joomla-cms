@@ -38,7 +38,6 @@
 		<field
 			name="sef"
 			type="radio"
-			class="btn-group"
 			default="1"
 			label="COM_SERVICES_FIELD_SEF_URL_LABEL"
 			description="COM_SERVICES_FIELD_SEF_URL_DESC"
@@ -82,7 +81,6 @@
 		<field
 			name="offline"
 			type="radio"
-			class="btn-group"
 			default="0"
 			label="COM_SERVICES_FIELD_SITE_OFFLINE_LABEL"
 			description="COM_SERVICES_FIELD_SITE_OFFLINE_DESC"
