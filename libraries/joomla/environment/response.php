@@ -203,6 +203,7 @@ class JResponse
 		}
 
 		ob_start();
+
 		foreach (self::$body as $content)
 		{
 			echo $content;

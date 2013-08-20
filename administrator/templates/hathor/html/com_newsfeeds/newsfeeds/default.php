@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('behavior.multiselect');
+JHtml::_('behavior.modal');
 
 $app		= JFactory::getApplication();
 $user		= JFactory::getUser();

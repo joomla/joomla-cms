@@ -210,23 +210,18 @@ class ContentModelArticles extends JModelList
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by')
 			->join('LEFT', '#__users AS uam ON uam.id = a.modified_by');
 
-		// Join on contact table
+		// Get contact id
 		$subQuery = $db->getQuery(true)
-			->select('contact.user_id, MAX(contact.id) AS id, contact.language')
+			->select('MAX(contact.id) AS id')
 			->from('#__contact_details AS contact')
 			->where('contact.published = 1')
-			->group('contact.user_id, contact.language');
-
-		$onjoin = 'contact.user_id = a.created_by';
-
-		// Filter by language
-		if ($this->getState('filter.language'))
-		{
-			$onjoin .= ' AND (contact.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ') OR contact.language IS NULL)';
-		}
-
-		$query->select('contact.id as contactid')
-			->join('LEFT', '(' . $subQuery . ') AS contact ON ' . $onjoin);
+			->where('contact.user_id = a.created_by');
+			// Filter by language
+			if ($this->getState('filter.language'))
+			{
+				$subQuery->where('(contact.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ') OR contact.language IS NULL)');
+			}
+		$query->select('(' . $subQuery . ') as contactid');
 
 		// Join over the categories to get parent category titles
 		$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias')
@@ -504,8 +499,8 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Add the list ordering clause.
-		$query->order($this->getState('list.ordering', 'a.ordering') . ' ' . $this->getState('list.direction', 'ASC'))
-			->group('a.id, a.title, a.alias, a.introtext, a.checked_out, a.checked_out_time, a.catid, a.created, a.created_by, a.created_by_alias, a.created, a.modified, a.modified_by, uam.name, a.publish_up, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, a.hits, a.xreference, a.featured, a.fulltext, a.state, a.publish_down, badcats.id, c.title, c.path, c.access, c.alias, uam.id, ua.name, ua.email, contact.id, parent.title, parent.id, parent.path, parent.alias, v.rating_sum, v.rating_count, c.published, c.lft, a.ordering, parent.lft, fp.ordering, c.id, a.images, a.urls');
+		$query->order($this->getState('list.ordering', 'a.ordering') . ' ' . $this->getState('list.direction', 'ASC'));
+
 		return $query;
 	}
 

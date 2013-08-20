@@ -71,15 +71,14 @@ JHtml::_('behavior.keepalive');
 						<?php echo $this->form->getInput('language'); ?>
 					</li>
 					<!-- Tag field -->
-					<?php foreach ($this->get('form')->getFieldset('jmetadata') as $field) : ?>
-						<?php if ($field->name == 'jform[metadata][tags][]') : ?>
-							<li>
-								<?php echo $field->label; ?>
-								<?php echo $field->input; ?>
-
-							</li>
+					<li>
+						<?php if ($this->checkTags) : ?>
+							<?php echo $this->form->getLabel('tags'); ?>
+							<div class="is-tagbox">
+								<?php echo $this->form->getInput('tags'); ?>
+							</div>
 						<?php endif; ?>
-					<?php endforeach; ?>
+					</li>
 					<li>
 						<?php echo $this->form->getLabel('id'); ?>
 						<?php echo $this->form->getInput('id'); ?>
@@ -128,15 +127,15 @@ JHtml::_('behavior.keepalive');
 								<li>
 									<?php echo $field->label; ?>
 									<?php echo $field->input; ?>
-								</li>                            <?php endforeach; ?>
+								</li>
+							<?php endforeach; ?>
 						</ul>
 					</fieldset>
 				<?php endif; ?>
 			<?php endforeach; ?>
 
-			<?php $fieldSets = $this->form->getFieldsets('associations');
-			<?
-			php 				foreach ($fieldSets as $name => $fieldSet) : ?>
+			<?php $fieldSets = $this->form->getFieldsets('associations'); ?>
+			<?php foreach ($fieldSets as $name => $fieldSet) : ?>
 				<?php
 				$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_CATEGORIES_' . $name . '_FIELDSET_LABEL';
 				echo JHtml::_('sliders.panel', JText::_($label), $name . '-options');
@@ -152,7 +151,8 @@ JHtml::_('behavior.keepalive');
 							<li>
 								<?php echo $field->label; ?>
 								<?php echo $field->input; ?>
-							</li>                        <?php endforeach; ?>
+							</li>
+						<?php endforeach; ?>
 					</ul>
 				</fieldset>
 			<?php endforeach;?>
