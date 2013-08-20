@@ -21,7 +21,8 @@ class BannersModelBanners extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
 	 * @see     JController
 	 * @since   1.6
 	 */
@@ -78,6 +79,7 @@ class BannersModelBanners extends JModelList
 	 * Build an SQL query to load the list data.
 	 *
 	 * @return  JDatabaseQuery
+	 *
 	 * @since   1.6
 	 */
 	protected function getListQuery()
@@ -90,13 +92,13 @@ class BannersModelBanners extends JModelList
 			$this->getState(
 				'list.select',
 				'a.id AS id, a.name AS name, a.alias AS alias,' .
-					'a.checked_out AS checked_out,' .
-					'a.checked_out_time AS checked_out_time, a.catid AS catid,' .
-					'a.clicks AS clicks, a.metakey AS metakey, a.sticky AS sticky,' .
-					'a.impmade AS impmade, a.imptotal AS imptotal,' .
-					'a.state AS state, a.ordering AS ordering,' .
-					'a.purchase_type as purchase_type,' .
-					'a.language, a.publish_up, a.publish_down'
+				'a.checked_out AS checked_out,' .
+				'a.checked_out_time AS checked_out_time, a.catid AS catid,' .
+				'a.clicks AS clicks, a.metakey AS metakey, a.sticky AS sticky,' .
+				'a.impmade AS impmade, a.imptotal AS imptotal,' .
+				'a.state AS state, a.ordering AS ordering,' .
+				'a.purchase_type as purchase_type,' .
+				'a.language, a.publish_up, a.publish_down'
 			)
 		);
 		$query->from($db->quoteName('#__banners') . ' AS a');
@@ -187,8 +189,10 @@ class BannersModelBanners extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id    A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
+	 *
 	 * @return  string  A store id.
+	 *
 	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
@@ -206,10 +210,12 @@ class BannersModelBanners extends JModelList
 	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
-	 * @param   type      The table type to instantiate
-	 * @param   string    A prefix for the table class name. Optional.
-	 * @param   array     Configuration array for model. Optional.
-	 * @return  JTable    A database object
+	 * @param   type    $type    The table type to instantiate
+	 * @param   string  $prefix  A prefix for the table class name. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  JTable  A database object
+	 *
 	 * @since   1.6
 	 */
 	public function getTable($type = 'Banner', $prefix = 'BannersTable', $config = array())

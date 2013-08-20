@@ -20,24 +20,24 @@ class AdminModelHelp extends JModelLegacy
 {
 	/**
 	 * The search string
-	 * @var    string
 	 *
+	 * @var    string
 	 * @since  1.6
 	 */
 	protected $help_search = null;
 
 	/**
 	 * The page to be viewed
-	 * @var    string
 	 *
+	 * @var    string
 	 * @since  1.6
 	 */
 	protected $page = null;
 
 	/**
 	 * The iso language tag
-	 * @var    string
 	 *
+	 * @var    string
 	 * @since  1.6
 	 */
 	protected $lang_tag = null;
@@ -110,7 +110,6 @@ class AdminModelHelp extends JModelLegacy
 				// Use english as fallback
 				$this->lang_tag = 'en-GB';
 			}
-
 		}
 
 		return $this->lang_tag;

@@ -54,9 +54,9 @@ class BannersViewClients extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		require_once JPATH_COMPONENT.'/helpers/banners.php';
+		require_once JPATH_COMPONENT . '/helpers/banners.php';
 
-		$canDo	= BannersHelper::getActions();
+		$canDo = BannersHelper::getActions();
 
 		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_CLIENTS'), 'banners-clients.png');
 		if ($canDo->get('core.create'))
@@ -77,7 +77,8 @@ class BannersViewClients extends JViewLegacy
 		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('', 'clients.delete', 'JTOOLBAR_EMPTY_TRASH');
-		} elseif ($canDo->get('core.edit.state'))
+		}
+		elseif ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::trash('clients.trash');
 		}
@@ -97,6 +98,7 @@ class BannersViewClients extends JViewLegacy
 			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.state'), true)
 		);
 	}
+
 	/**
 	 * Returns an array of fields the table can be sorted by
 	 *

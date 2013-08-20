@@ -29,9 +29,9 @@ class AdminViewProfile extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->form			= $this->get('Form');
-		$this->item			= $this->get('Item');
-		$this->state		= $this->get('State');
+		$this->form		= $this->get('Form');
+		$this->item		= $this->get('Item');
+		$this->state	= $this->get('State');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -40,8 +40,8 @@ class AdminViewProfile extends JViewLegacy
 			return false;
 		}
 
-		$this->form->setValue('password',	null);
-		$this->form->setValue('password2',	null);
+		$this->form->setValue('password', null);
+		$this->form->setValue('password2', null);
 
 		parent::display($tpl);
 		$this->addToolbar();

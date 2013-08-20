@@ -28,16 +28,16 @@ defined('_JEXEC') or die;
 			</tr>
 		</tfoot>
 		<tbody>
-			<?php foreach ($this->config as $key => $value):?>
-			<tr>
-				<td>
-					<?php echo $key;?>
-				</td>
-				<td>
-					<?php echo htmlspecialchars($value, ENT_QUOTES);?>
-				</td>
-			</tr>
-			<?php endforeach;?>
+			<?php foreach ($this->config as $key => $value): ?>
+				<tr>
+					<td>
+						<?php echo $key; ?>
+					</td>
+					<td>
+						<?php echo htmlspecialchars($value, ENT_QUOTES); ?>
+					</td>
+				</tr>
+			<?php endforeach; ?>
 		</tbody>
 	</table>
 </fieldset>

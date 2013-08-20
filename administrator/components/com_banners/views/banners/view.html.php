@@ -31,7 +31,7 @@ class BannersViewBanners extends JViewLegacy
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
 	 *
-	 * @return  mixed  A string if successful, otherwise a JError object.
+	 * @return  mixed   A string if successful, otherwise a JError object.
 	 *
 	 * @since   1.6
 	 */

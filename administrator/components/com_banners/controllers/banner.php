@@ -35,15 +35,15 @@ class BannersControllerBanner extends JControllerForm
 	 */
 	protected function allowAdd($data = array())
 	{
-		$user       = JFactory::getUser();
-		$filter     = $this->input->getInt('filter_category_id');
+		$user = JFactory::getUser();
+		$filter = $this->input->getInt('filter_category_id');
 		$categoryId = JArrayHelper::getValue($data, 'catid', $filter, 'int');
-		$allow      = null;
+		$allow = null;
 
 		if ($categoryId)
 		{
 			// If the category has been passed in the URL check it.
-			$allow	= $user->authorise('core.create', $this->option . '.category.' . $categoryId);
+			$allow = $user->authorise('core.create', $this->option . '.category.' . $categoryId);
 		}
 
 		if ($allow === null)
@@ -69,8 +69,8 @@ class BannersControllerBanner extends JControllerForm
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
-		$user		= JFactory::getUser();
-		$recordId	= (int) isset($data[$key]) ? $data[$key] : 0;
+		$user = JFactory::getUser();
+		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
 		$categoryId = 0;
 
 		if ($recordId)
@@ -104,12 +104,11 @@ class BannersControllerBanner extends JControllerForm
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Set the model
-		$model	= $this->getModel('Banner', '', array());
+		$model = $this->getModel('Banner', '', array());
 
 		// Preset the redirect
 		$this->setRedirect(JRoute::_('index.php?option=com_banners&view=banners' . $this->getRedirectToListAppend(), false));
 
 		return parent::batch($model);
 	}
-
 }

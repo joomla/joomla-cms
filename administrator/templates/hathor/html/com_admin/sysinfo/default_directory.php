@@ -29,14 +29,14 @@ defined('_JEXEC') or die;
 		</tfoot>
 		<tbody>
 			<?php foreach ($this->directory as $dir => $info) : ?>
-			<tr>
-				<td>
-					<?php echo JHtml::_('directory.message', $dir, $info['message']);?>
-				</td>
-				<td>
-					<?php echo JHtml::_('directory.writable', $info['writable']);?>
-				</td>
-			</tr>
+				<tr>
+					<td>
+						<?php echo JHtml::_('directory.message', $dir, $info['message']); ?>
+					</td>
+					<td>
+						<?php echo JHtml::_('directory.writable', $info['writable']); ?>
+					</td>
+				</tr>
 			<?php endforeach; ?>
 		</tbody>
 	</table>

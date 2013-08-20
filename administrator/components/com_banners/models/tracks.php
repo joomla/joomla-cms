@@ -21,7 +21,8 @@ class BannersModelTracks extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
 	 * @see     JController
 	 * @since   1.6
 	 */
@@ -84,6 +85,7 @@ class BannersModelTracks extends JModelList
 	 * Build an SQL query to load the list data.
 	 *
 	 * @return  JDatabaseQuery
+	 *
 	 * @since   1.6
 	 */
 	protected function getListQuery()
@@ -97,8 +99,8 @@ class BannersModelTracks extends JModelList
 		// Select the required fields from the table.
 		$query->select(
 			'a.track_date as track_date,'
-				. 'a.track_type as track_type,'
-				. $db->quoteName('a.count') . ' as ' . $db->quoteName('count')
+			. 'a.track_type as track_type,'
+			. $db->quoteName('a.count') . ' as ' . $db->quoteName('count')
 		);
 		$query->from($db->quoteName('#__banner_tracks') . ' AS a');
 
@@ -159,8 +161,6 @@ class BannersModelTracks extends JModelList
 
 	/**
 	 * Method to delete rows.
-	 *
-	 * @param   array  An array of item ids.
 	 *
 	 * @return  boolean  Returns true on success, false on failure.
 	 */
@@ -248,6 +248,7 @@ class BannersModelTracks extends JModelList
 	 * Get file name
 	 *
 	 * @return  string    The file name
+	 *
 	 * @since   1.6
 	 */
 	public function getBaseName()
@@ -345,6 +346,7 @@ class BannersModelTracks extends JModelList
 	 * Get the category name.
 	 *
 	 * @return  string    The category name
+	 *
 	 * @since   1.6
 	 */
 	protected function getCategoryName()
@@ -382,6 +384,7 @@ class BannersModelTracks extends JModelList
 	 * Get the category name
 	 *
 	 * @return  string    The category name.
+	 *
 	 * @since   1.6
 	 */
 	protected function getClientName()
@@ -419,6 +422,7 @@ class BannersModelTracks extends JModelList
 	 * Get the file type.
 	 *
 	 * @return  string    The file type
+	 *
 	 * @since   1.6
 	 */
 	public function getFileType()
@@ -430,6 +434,7 @@ class BannersModelTracks extends JModelList
 	 * Get the mime type.
 	 *
 	 * @return  string    The mime type.
+	 *
 	 * @since   1.6
 	 */
 	public function getMimeType()
@@ -441,6 +446,7 @@ class BannersModelTracks extends JModelList
 	 * Get the content
 	 *
 	 * @return  string    The content.
+	 *
 	 * @since   1.6
 	 */
 	public function getContent()
@@ -451,22 +457,22 @@ class BannersModelTracks extends JModelList
 			$this->content = '';
 			$this->content .=
 				'"' . str_replace('"', '""', JText::_('COM_BANNERS_HEADING_NAME')) . '","' .
-					str_replace('"', '""', JText::_('COM_BANNERS_HEADING_CLIENT')) . '","' .
-					str_replace('"', '""', JText::_('JCATEGORY')) . '","' .
-					str_replace('"', '""', JText::_('COM_BANNERS_HEADING_TYPE')) . '","' .
-					str_replace('"', '""', JText::_('COM_BANNERS_HEADING_COUNT')) . '","' .
-					str_replace('"', '""', JText::_('JDATE')) . '"' . "\n";
+				str_replace('"', '""', JText::_('COM_BANNERS_HEADING_CLIENT')) . '","' .
+				str_replace('"', '""', JText::_('JCATEGORY')) . '","' .
+				str_replace('"', '""', JText::_('COM_BANNERS_HEADING_TYPE')) . '","' .
+				str_replace('"', '""', JText::_('COM_BANNERS_HEADING_COUNT')) . '","' .
+				str_replace('"', '""', JText::_('JDATE')) . '"' . "\n";
 
 			foreach ($this->getItems() as $item)
 			{
 
 				$this->content .=
 					'"' . str_replace('"', '""', $item->name) . '","' .
-						str_replace('"', '""', $item->client_name) . '","' .
-						str_replace('"', '""', $item->category_title) . '","' .
-						str_replace('"', '""', ($item->track_type == 1 ? JText::_('COM_BANNERS_IMPRESSION') : JText::_('COM_BANNERS_CLICK'))) . '","' .
-						str_replace('"', '""', $item->count) . '","' .
-						str_replace('"', '""', $item->track_date) . '"' . "\n";
+					str_replace('"', '""', $item->client_name) . '","' .
+					str_replace('"', '""', $item->category_title) . '","' .
+					str_replace('"', '""', ($item->track_type == 1 ? JText::_('COM_BANNERS_IMPRESSION') : JText::_('COM_BANNERS_CLICK'))) . '","' .
+					str_replace('"', '""', $item->count) . '","' .
+					str_replace('"', '""', $item->track_date) . '"' . "\n";
 			}
 
 			if ($this->getState('compressed'))

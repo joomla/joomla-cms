@@ -11,6 +11,6 @@ defined('_JEXEC') or die;
 
 // No access check.
 
-$controller	= JControllerLegacy::getInstance('Admin');
+$controller = JControllerLegacy::getInstance('Admin');
 $controller->execute(JFactory::getApplication()->input->get('task'));
 $controller->redirect();

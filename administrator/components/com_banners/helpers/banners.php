@@ -24,6 +24,7 @@ class BannersHelper
 	 * @param   string	The name of the active view.
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public static function addSubmenu($vName)
@@ -43,7 +44,8 @@ class BannersHelper
 		{
 			JToolbarHelper::title(
 				JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', JText::_('com_banners')),
-				'banners-categories');
+				'banners-categories'
+			);
 		}
 
 		JHtmlSidebar::addEntry(
@@ -62,15 +64,16 @@ class BannersHelper
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @param   integer  The category ID.
+	 * @param   integer  $categoryId  The category ID.
 	 *
 	 * @return  JObject
+	 *
 	 * @since   1.6
 	 */
 	public static function getActions($categoryId = 0)
 	{
-		$user	= JFactory::getUser();
-		$result	= new JObject;
+		$user = JFactory::getUser();
+		$result = new JObject;
 
 		if (empty($categoryId))
 		{
@@ -79,7 +82,7 @@ class BannersHelper
 		}
 		else
 		{
-			$assetName = 'com_banners.category.'.(int) $categoryId;
+			$assetName = 'com_banners.category.' . (int) $categoryId;
 			$level = 'category';
 		}
 
@@ -87,7 +90,7 @@ class BannersHelper
 
 		foreach ($actions as $action)
 		{
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
+			$result->set($action->name, $user->authorise($action->name, $assetName));
 		}
 
 		return $result;
@@ -95,6 +98,7 @@ class BannersHelper
 
 	/**
 	 * @return  boolean
+	 *
 	 * @since   1.6
 	 */
 	public static function updateReset()
@@ -140,25 +144,25 @@ class BannersHelper
 				$purchase_type = $params->get('purchase_type');
 			}
 
-			switch($purchase_type)
+			switch ($purchase_type)
 			{
 				case 1:
 					$reset = $nullDate;
 					break;
 				case 2:
-					$date = JFactory::getDate('+1 year '.date('Y-m-d', strtotime('now')));
+					$date = JFactory::getDate('+1 year ' . date('Y-m-d', strtotime('now')));
 					$reset = $db->quote($date->toSql());
 					break;
 				case 3:
-					$date = JFactory::getDate('+1 month '.date('Y-m-d', strtotime('now')));
+					$date = JFactory::getDate('+1 month ' . date('Y-m-d', strtotime('now')));
 					$reset = $db->quote($date->toSql());
 					break;
 				case 4:
-					$date = JFactory::getDate('+7 day '.date('Y-m-d', strtotime('now')));
+					$date = JFactory::getDate('+7 day ' . date('Y-m-d', strtotime('now')));
 					$reset = $db->quote($date->toSql());
 					break;
 				case 5:
-					$date = JFactory::getDate('+1 day '.date('Y-m-d', strtotime('now')));
+					$date = JFactory::getDate('+1 day ' . date('Y-m-d', strtotime('now')));
 					$reset = $db->quote($date->toSql());
 					break;
 			}

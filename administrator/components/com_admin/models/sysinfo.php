@@ -287,6 +287,7 @@ class AdminModelSysInfo extends JModelLegacy
 	 * Method to add a directory
 	 *
 	 * @return void
+	 *
 	 * @since  1.6
 	 */
 	private function _addDirectory($name, $path, $message = '')
@@ -300,7 +301,6 @@ class AdminModelSysInfo extends JModelLegacy
 	 * @return  string The default editor
 	 *
 	 * @note: has to be removed (it is present in the config...)
-	 *
 	 * @since  1.6
 	 */
 	public function &getEditor()
