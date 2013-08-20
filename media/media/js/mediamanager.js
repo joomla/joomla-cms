@@ -32,7 +32,7 @@ var MediaManager = this.MediaManager = {
 				   	uri = this._getUriObject(this.frameurl);
 				   	current	= uri.file+'?'+uri.query;
 
-					if (current != 'undefined?undefined' && current != node.data.url) {
+					if (current != 'undefined?undefined' && current != encodeURI(node.data.url)) {
 						window.frames[target].location.href = node.data.url;
 					}
 				}.bind(this)
@@ -62,7 +62,7 @@ var MediaManager = this.MediaManager = {
 			this.updatepaths.each(function(path){ path.value =folder; });
 			this.folderpath.value = basepath+'/'+folder;
 //			node = this.tree.get('node_'+folder);
-			node.toggle(false, true);
+//			node.toggle(false, true);
 		} else {
 			this.updatepaths.each(function(path){ path.value = ''; });
 			this.folderpath.value = basepath;

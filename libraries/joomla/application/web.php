@@ -895,6 +895,7 @@ class JApplicationWeb extends JApplicationBase
 	 * @return  mixed   Either an array or object to be loaded into the configuration object.
 	 *
 	 * @since   11.3
+	 * @throws  RuntimeException
 	 */
 	protected function fetchConfigurationData($file = '', $class = 'JConfig')
 	{
@@ -1046,6 +1047,7 @@ class JApplicationWeb extends JApplicationBase
 		// Instantiate the session object.
 		$session = JSession::getInstance($handler, $options);
 		$session->initialise($this->input, $this->dispatcher);
+
 		if ($session->getState() == 'expired')
 		{
 			$session->restart();
@@ -1071,6 +1073,7 @@ class JApplicationWeb extends JApplicationBase
 	public function afterSessionStart()
 	{
 		$session = JFactory::getSession();
+
 		if ($session->isNew())
 		{
 			$session->set('registry', new JRegistry('session'));
@@ -1104,6 +1107,7 @@ class JApplicationWeb extends JApplicationBase
 
 		// Check to see if an explicit base URI has been set.
 		$siteUri = trim($this->get('site_uri'));
+
 		if ($siteUri != '')
 		{
 			$uri = JUri::getInstance($siteUri);
@@ -1153,6 +1157,7 @@ class JApplicationWeb extends JApplicationBase
 
 		// Get an explicitly set media URI is present.
 		$mediaURI = trim($this->get('media_uri'));
+
 		if ($mediaURI)
 		{
 			if (strpos($mediaURI, '://') !== false)
@@ -1163,7 +1168,8 @@ class JApplicationWeb extends JApplicationBase
 			else
 			{
 				// Normalise slashes.
-				$mediaURI = '/' . trim($mediaURI, '/\\') . '/';
+				$mediaURI = trim($mediaURI, '/\\');
+				$mediaURI = !empty($mediaURI) ? '/' . $mediaURI . '/' : '/';
 				$this->set('uri.media.full', $this->get('uri.base.host') . $mediaURI);
 				$this->set('uri.media.path', $mediaURI);
 			}
@@ -1175,16 +1181,4 @@ class JApplicationWeb extends JApplicationBase
 			$this->set('uri.media.path', $this->get('uri.base.path') . 'media/');
 		}
 	}
-}
-
-/**
- * Deprecated class placeholder.  You should use JApplicationWeb instead.
- *
- * @package     Joomla.Platform
- * @subpackage  Application
- * @since       11.3
- * @deprecated  12.3 (Platform) & 4.0 (CMS)
- */
-class JWeb extends JApplicationWeb
-{
 }

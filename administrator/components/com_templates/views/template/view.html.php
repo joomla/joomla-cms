@@ -65,9 +65,11 @@ class TemplatesViewTemplate extends JViewLegacy
 		if ($user->authorise('core.create', 'com_templates'))
 		{
 			$title = JText::_('JLIB_HTML_BATCH_COPY');
-			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn btn-small\">
-						<i class=\"icon-copy\" title=\"$title\"></i>
-						$title</button>";
+
+			// Instantiate a new JLayoutFile instance and render the batch button
+			$layout = new JLayoutFile('joomla.toolbar.batch');
+
+			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'upload');
 		}
 

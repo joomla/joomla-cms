@@ -75,6 +75,7 @@ class PlgEditorTinymce extends JPlugin
 		}
 
 		$text_direction = 'ltr';
+
 		if ($language->isRTL())
 		{
 			$text_direction = 'rtl';
@@ -98,18 +99,19 @@ class PlgEditorTinymce extends JPlugin
 		$content_css = '';
 
 		$templates_path = JPATH_SITE . '/templates';
-		// loading of css file for 'styles' dropdown
+
+		// Loading of css file for 'styles' dropdown
 		if ( $content_css_custom )
 		{
 			// If URL, just pass it to $content_css
 			if (strpos($content_css_custom, 'http') !== false)
 			{
-				$content_css = 'content_css : "'. $content_css_custom .'",';
+				$content_css = 'content_css : "' . $content_css_custom . '",';
 			}
 			// If it is not a URL, assume it is a file name in the current template folder
 			else
 			{
-				$content_css = 'content_css : "'. JUri::root() .'templates/'. $template . '/css/'. $content_css_custom .'",';
+				$content_css = 'content_css : "' . JUri::root() . 'templates/' . $template . '/css/' . $content_css_custom . '",';
 
 				// Issue warning notice if the file is not found (but pass name to $content_css anyway to avoid TinyMCE error
 				if (!file_exists($templates_path . '/' . $template . '/css/' . $content_css_custom))
@@ -121,26 +123,26 @@ class PlgEditorTinymce extends JPlugin
 		}
 		else
 		{
-			// process when use_content_css is Yes and no custom file given
+			// Process when use_content_css is Yes and no custom file given
 			if ($use_content_css)
 			{
-				// first check templates folder for default template
+				// First check templates folder for default template
 				// if no editor.css file in templates folder, check system template folder
 				if (!file_exists($templates_path . '/' . $template . '/css/editor.css'))
 				{
-					// if no editor.css file in system folder, show alert
+					// If no editor.css file in system folder, show alert
 					if (!file_exists($templates_path . '/system/css/editor.css'))
 					{
 						JError::raiseNotice('SOME_ERROR_CODE', JText::_('PLG_TINY_ERR_EDITORCSSFILENOTPRESENT'));
 					}
 					else
 					{
-						$content_css = 'content_css : "' . JUri::root() .'templates/system/css/editor.css",';
+						$content_css = 'content_css : "' . JUri::root() . 'templates/system/css/editor.css",';
 					}
 				}
 				else
 				{
-					$content_css = 'content_css : "' . JUri::root() .'templates/'. $template . '/css/editor.css",';
+					$content_css = 'content_css : "' . JUri::root() . 'templates/' . $template . '/css/editor.css",';
 				}
 			}
 		}
@@ -149,12 +151,12 @@ class PlgEditorTinymce extends JPlugin
 
 		if ($relative_urls)
 		{
-			// relative
+			// Relative
 			$relative_urls = "true";
 		}
 		else
 		{
-			// absolute
+			// Absolute
 			$relative_urls = "false";
 		}
 
@@ -208,7 +210,7 @@ class PlgEditorTinymce extends JPlugin
 
 		// Plugins
 
-		// fonts
+		// Fonts
 		$fonts = $this->params->def('fonts', 1);
 
 		if ($fonts)
@@ -216,7 +218,7 @@ class PlgEditorTinymce extends JPlugin
 			$buttons1_add[]	= 'fontselect,fontsizeselect';
 		}
 
-		// paste
+		// Paste
 		$paste = $this->params->def('paste', 1);
 
 		if ($paste)
@@ -227,7 +229,7 @@ class PlgEditorTinymce extends JPlugin
 			$buttons4[]	= 'selectall,|';
 		}
 
-		// search & replace
+		// Search & replace
 		$searchreplace = $this->params->def('searchreplace', 1);
 
 		if ($searchreplace)
@@ -236,7 +238,7 @@ class PlgEditorTinymce extends JPlugin
 			$buttons2_add_before[]	= 'search,replace,|';
 		}
 
-		// insert date and/or time plugin
+		// Insert date and/or time plugin
 		$insertdate			= $this->params->def('insertdate', 1);
 		$format_date		= $this->params->def('format_date', '%Y-%m-%d');
 		$inserttime			= $this->params->def('inserttime', 1);
@@ -245,6 +247,7 @@ class PlgEditorTinymce extends JPlugin
 		if ($insertdate or $inserttime)
 		{
 			$plugins[]	= 'insertdatetime';
+
 			if ($insertdate)
 			{
 				$buttons2_add[]	= 'insertdate';
@@ -256,7 +259,7 @@ class PlgEditorTinymce extends JPlugin
 			}
 		}
 
-		// colors
+		// Colors
 		$colors = $this->params->def('colors', 1);
 
 		if ($colors)
@@ -264,7 +267,7 @@ class PlgEditorTinymce extends JPlugin
 			$buttons2_add[]	= 'forecolor,backcolor';
 		}
 
-		// table
+		// Table
 		$table = $this->params->def('table', 1);
 
 		if ($table)
@@ -273,7 +276,7 @@ class PlgEditorTinymce extends JPlugin
 			$buttons3_add_before[]	= 'tablecontrols';
 		}
 
-		// emotions
+		// Emotions
 		$smilies = $this->params->def('smilies', 1);
 
 		if ($smilies)
@@ -282,7 +285,7 @@ class PlgEditorTinymce extends JPlugin
 			$buttons3_add[]	= 'emotions';
 		}
 
-		//media plugin
+		// Media plugin
 		$media = $this->params->def('media', 1);
 
 		if ($media)
@@ -291,7 +294,7 @@ class PlgEditorTinymce extends JPlugin
 			$buttons3_add[] = 'media';
 		}
 
-		// horizontal line
+		// Horizontal line
 		$hr = $this->params->def('hr', 1);
 
 		if ($hr)
@@ -305,7 +308,7 @@ class PlgEditorTinymce extends JPlugin
 			$elements[] = 'hr[id|class|title|alt]';
 		}
 
-		// rtl/ltr buttons
+		// RTL/LTR buttons
 		$directionality	= $this->params->def('directionality', 1);
 
 		if ($directionality)
@@ -314,7 +317,7 @@ class PlgEditorTinymce extends JPlugin
 			$buttons3_add[] = 'ltr,rtl';
 		}
 
-		// fullscreen
+		// Fullscreen
 		$fullscreen	= $this->params->def('fullscreen', 1);
 
 		if ($fullscreen)
@@ -323,7 +326,7 @@ class PlgEditorTinymce extends JPlugin
 			$buttons2_add[]	= 'fullscreen';
 		}
 
-		// layer
+		// Layer
 		$layer = $this->params->def('layer', 1);
 
 		if ($layer)
@@ -335,7 +338,7 @@ class PlgEditorTinymce extends JPlugin
 			$buttons4[]	= 'absolute';
 		}
 
-		// style
+		// Style
 		$style = $this->params->def('style', 1);
 
 		if ($style)
@@ -353,7 +356,7 @@ class PlgEditorTinymce extends JPlugin
 			$buttons4[]	= 'cite,abbr,acronym,ins,del,attribs';
 		}
 
-		// visualchars
+		// Visualchars
 		$visualchars = $this->params->def('visualchars', 1);
 
 		if ($visualchars)
@@ -362,7 +365,7 @@ class PlgEditorTinymce extends JPlugin
 			$buttons4[]	= 'visualchars';
 		}
 
-		// visualblocks
+		// Visualblocks
 		$visualblocks = $this->params->def('visualblocks', 1);
 
 		if ($visualblocks)
@@ -371,7 +374,7 @@ class PlgEditorTinymce extends JPlugin
 			$buttons4[]	= 'visualblocks';
 		}
 
-		// non-breaking
+		// Non-breaking
 		$nonbreaking = $this->params->def('nonbreaking', 1);
 
 		if ($nonbreaking)
@@ -380,7 +383,7 @@ class PlgEditorTinymce extends JPlugin
 			$buttons4[]	= 'nonbreaking';
 		}
 
-		// blockquote
+		// Blockquote
 		$blockquote	= $this->params->def('blockquote', 1);
 
 		if ($blockquote)
@@ -388,7 +391,7 @@ class PlgEditorTinymce extends JPlugin
 			$buttons4[] = 'blockquote';
 		}
 
-		// wordcount
+		// Wordcount
 		$wordcount	= $this->params->def('wordcount', 1);
 
 		if ($wordcount)
@@ -396,7 +399,7 @@ class PlgEditorTinymce extends JPlugin
 			$plugins[] = 'wordcount';
 		}
 
-		// template
+		// Template
 		$template = $this->params->def('template', 1);
 
 		if ($template)
@@ -405,7 +408,7 @@ class PlgEditorTinymce extends JPlugin
 			$buttons4[]	= 'template';
 		}
 
-		// advimage
+		// Advimage
 		$advimage = $this->params->def('advimage', 1);
 
 		if ($advimage)
@@ -414,7 +417,7 @@ class PlgEditorTinymce extends JPlugin
 			$elements[]	= 'img[class|src|alt|title|hspace|vspace|width|height|align|onmouseover|onmouseout|name|style]';
 		}
 
-		// advlink
+		// Advlink
 		$advlink	= $this->params->def('advlink', 1);
 
 		if ($advlink)
@@ -423,7 +426,7 @@ class PlgEditorTinymce extends JPlugin
 			$elements[]	= 'a[id|class|name|href|hreflang|target|title|onclick|rel|style]';
 		}
 
-		//advlist
+		// Advlist
 		$advlist	= $this->params->def('advlist', 1);
 
 		if ($advlist)
@@ -431,7 +434,7 @@ class PlgEditorTinymce extends JPlugin
 			$plugins[]	= 'advlist';
 		}
 
-		// autosave
+		// Autosave
 		$autosave = $this->params->def('autosave', 1);
 
 		if ($autosave)
@@ -439,7 +442,7 @@ class PlgEditorTinymce extends JPlugin
 			$plugins[]	= 'autosave';
 		}
 
-		// context menu
+		// Context menu
 		$contextmenu = $this->params->def('contextmenu', 1);
 
 		if ($contextmenu)
@@ -447,7 +450,7 @@ class PlgEditorTinymce extends JPlugin
 			$plugins[]	= 'contextmenu';
 		}
 
-		// inline popups
+		// Inline popups
 		$inlinepopups			= $this->params->def('inlinepopups', 1);
 
 		if ($inlinepopups)
@@ -488,8 +491,8 @@ class PlgEditorTinymce extends JPlugin
 		switch ($mode)
 		{
 			case 0: /* Simple mode*/
-				$load = "\t<script type=\"text/javascript\" src=\"".
-						JUri::root().$this->_basePath.
+				$load = "\t<script type=\"text/javascript\" src=\"" .
+						JUri::root() . $this->_basePath .
 						"/tiny_mce.js\"></script>\n";
 
 				$return = $load .
@@ -498,7 +501,7 @@ class PlgEditorTinymce extends JPlugin
 					// General
 					directionality: \"$text_direction\",
 					editor_selector : \"mce_editable\",
-					language : \"". $langPrefix . "\",
+					language : \"" . $langPrefix . "\",
 					mode : \"specific_textareas\",
 					$skin
 					theme : \"$theme[$mode]\",
@@ -512,14 +515,14 @@ class PlgEditorTinymce extends JPlugin
 					remove_script_host : false,
 					// Layout
 					$content_css
-					document_base_url : \"". JUri::root() ."\"
+					document_base_url : \"" . JUri::root() . "\"
 				});
 				</script>";
 				break;
 
 			case 1: /* Advanced mode*/
-				$load = "\t<script type=\"text/javascript\" src=\"".
-						JUri::root().$this->_basePath.
+				$load = "\t<script type=\"text/javascript\" src=\"" .
+						JUri::root() . $this->_basePath .
 						"/tiny_mce.js\"></script>\n";
 
 				$return = $load .
@@ -528,7 +531,7 @@ class PlgEditorTinymce extends JPlugin
 					// General
 					directionality: \"$text_direction\",
 					editor_selector : \"mce_editable\",
-					language : \"". $langPrefix . "\",
+					language : \"" . $langPrefix . "\",
 					mode : \"specific_textareas\",
 					$skin
 					theme : \"$theme[$mode]\",
@@ -542,7 +545,7 @@ class PlgEditorTinymce extends JPlugin
 					// URL
 					relative_urls : $relative_urls,
 					remove_script_host : false,
-					document_base_url : \"". JUri::root() ."\",
+					document_base_url : \"" . JUri::root() . "\",
 					// Layout
 					$content_css
 					// Advanced theme
@@ -558,8 +561,8 @@ class PlgEditorTinymce extends JPlugin
 				break;
 
 			case 2: /* Extended mode*/
-				$load = "\t<script type=\"text/javascript\" src=\"".
-						JUri::root().$this->_basePath.
+				$load = "\t<script type=\"text/javascript\" src=\"" .
+						JUri::root() . $this->_basePath .
 						"/tiny_mce.js\"></script>\n";
 
 				$return = $load .
@@ -569,7 +572,7 @@ class PlgEditorTinymce extends JPlugin
 					$dialog_type
 					directionality: \"$text_direction\",
 					editor_selector : \"mce_editable\",
-					language : \"". $langPrefix . "\",
+					language : \"" . $langPrefix . "\",
 					mode : \"specific_textareas\",
 					plugins : \"$plugins\",
 					$skin
@@ -584,9 +587,9 @@ class PlgEditorTinymce extends JPlugin
 					// URL
 					relative_urls : $relative_urls,
 					remove_script_host : false,
-					document_base_url : \"". JUri::root() ."\",
+					document_base_url : \"" . JUri::root() . "\",
 					//Templates
-					template_external_list_url :  \"". JUri::root() ."media/editors/tinymce/templates/template_list.js\",
+					template_external_list_url :  \"" . JUri::root() . "media/editors/tinymce/templates/template_list.js\",
 					// Layout
 					$content_css
 					// Advanced theme
@@ -620,40 +623,42 @@ class PlgEditorTinymce extends JPlugin
 	/**
 	 * TinyMCE WYSIWYG Editor - get the editor content
 	 *
-	 * @param  string  The name of the editor
+	 * @param   string  $editor  The name of the editor
 	 *
 	 * @return  string
 	 */
 	public function onGetContent($editor)
 	{
-		return 'tinyMCE.get(\''.$editor.'\').getContent();';
+		return 'tinyMCE.get(\'' . $editor . '\').getContent();';
 	}
 
 	/**
 	 * TinyMCE WYSIWYG Editor - set the editor content
 	 *
-	 * @param   string  The name of the editor
+	 * @param   string  $editor  The name of the editor
+	 * @param   string  $html    HTML code to set as the content for the editor
 	 *
 	 * @return  string
 	 */
 	public function onSetContent($editor, $html)
 	{
-		return 'tinyMCE.get(\''.$editor.'\').setContent('.$html.');';
+		return 'tinyMCE.get(\'' . $editor . '\').setContent(' . $html . ');';
 	}
 
 	/**
 	 * TinyMCE WYSIWYG Editor - copy editor content to form field
 	 *
-	 * @param   string  The name of the editor
+	 * @param   string  $editor  The name of the editor
 	 *
 	 * @return  string
 	 */
 	public function onSave($editor)
 	{
-		return 'if (tinyMCE.get("'.$editor.'").isHidden()) {tinyMCE.get("'.$editor.'").show()}; tinyMCE.get("'.$editor.'").save();';
+		return 'if (tinyMCE.get("' . $editor . '").isHidden()) {tinyMCE.get("' . $editor . '").show()}; tinyMCE.get("' . $editor . '").save();';
 	}
 
 	/**
+	 * @param  string  $name
 	 *
 	 * @return  boolean
 	 */
@@ -699,14 +704,16 @@ class PlgEditorTinymce extends JPlugin
 	/**
 	 * Display the editor area.
 	 *
-	 * @param   string   The name of the editor area.
-	 * @param   string   The content of the field.
-	 * @param   string   The width of the editor area.
-	 * @param   string   The height of the editor area.
-	 * @param   int      The number of columns for the editor area.
-	 * @param   int      The number of rows for the editor area.
-	 * @param   boolean  True and the editor buttons will be displayed.
-	 * @param   string   An optional ID for the textarea. If not supplied the name is used.
+	 * @param   string   $name     The control name.
+	 * @param   string   $content  The contents of the text area.
+	 * @param   string   $width    The width of the text area (px or %).
+	 * @param   string   $height   The height of the text area (px or %).
+	 * @param   integer  $col      The number of columns for the textarea.
+	 * @param   integer  $row      The number of rows for the textarea.
+	 * @param   boolean  $buttons  True and the editor buttons will be displayed.
+	 * @param   string   $id       An optional ID for the textarea (note: since 1.6). If not supplied the name is used.
+	 * @param   string   $asset    The object asset
+	 * @param   object   $author   The author.
 	 *
 	 * @return  string
 	 */
@@ -736,8 +743,14 @@ class PlgEditorTinymce extends JPlugin
 	}
 
 	/**
+	 * Displays the editor buttons.
 	 *
-	 * @return  string
+	 * @param   string  $name
+	 * @param   mixed   $buttons  [array with button objects | boolean true to display buttons]
+	 * @param   string  $asset
+	 * @param   string  $author
+	 *
+	 * @return  string HTML
 	 */
 	private function _displayButtons($name, $buttons, $asset, $author)
 	{
@@ -800,7 +813,7 @@ class PlgEditorTinymce extends JPlugin
 	{
 		$return  = '';
 		$return .= "\n<div class=\"toggle-editor btn-toolbar pull-right\">\n";
-		$return .= "<div class=\"btn-group\"><a class=\"btn\" href=\"#\" onclick=\"tinyMCE.execCommand('mceToggleEditor', false, '" . $name . "');return false;\" title=\"".JText::_('PLG_TINY_BUTTON_TOGGLE_EDITOR').'"><i class="icon-eye"></i> '.JText::_('PLG_TINY_BUTTON_TOGGLE_EDITOR')."</a></div>";
+		$return .= "<div class=\"btn-group\"><a class=\"btn\" href=\"#\" onclick=\"tinyMCE.execCommand('mceToggleEditor', false, '" . $name . "');return false;\" title=\"" . JText::_('PLG_TINY_BUTTON_TOGGLE_EDITOR') . '"><i class="icon-eye"></i> ' . JText::_('PLG_TINY_BUTTON_TOGGLE_EDITOR') . "</a></div>";
 		$return .= "</div>\n";
 
 		$return .= "<div class=\"clearfix\"></div>\n";

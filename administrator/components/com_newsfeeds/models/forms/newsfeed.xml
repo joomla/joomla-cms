@@ -51,7 +51,7 @@
 		<field name="description" type="editor" buttons="true" hide="pagebreak,readmore"
 			class="inputbox"
 			filter="JComponentHelper::filterText"
-			label="JGLOBAL_DESCRIPTION" description="COM_WEBLINKS_FIELD_DESCRIPTION_DESC" />
+			label="JGLOBAL_DESCRIPTION" description="COM_NEWSFEEDS_FIELD_DESCRIPTION_DESC" />
 
 		<field name="link" type="url" filter="url" class="inputbox"
 			size="60" label="COM_NEWSFEEDS_FIELD_LINK_LABEL"

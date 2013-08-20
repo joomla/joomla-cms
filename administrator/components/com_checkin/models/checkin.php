@@ -45,9 +45,10 @@ class CheckinModelCheckin extends JModelList
 	/**
 	 * Checks in requested tables
 	 *
-	 * @param   array  $ids  An array of table names. Optional.
+	 * @param   array    $ids  An array of table names. Optional.
 	 *
-	 * @return  integer   Checked in item count
+	 * @return  integer  Checked in item count
+	 *
 	 * @since   1.6
 	 */
 	public function checkin($ids = array())
@@ -98,6 +99,7 @@ class CheckinModelCheckin extends JModelList
 	 * Get total of tables
 	 *
 	 * @return  int    Total to check-in tables
+	 *
 	 * @since   1.6
 	 */
 	public function getTotal()
@@ -113,6 +115,7 @@ class CheckinModelCheckin extends JModelList
 	 * Get tables
 	 *
 	 * @return  array  Checked in table names as keys and checked in item count as values
+	 *
 	 * @since   1.6
 	 */
 	public function getItems()

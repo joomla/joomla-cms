@@ -41,13 +41,12 @@ class JCacheControllerPage extends JCacheController
 	 *
 	 * @param   string   $id          The cache data id
 	 * @param   string   $group       The cache data group
-	 * @param   boolean  $wrkarounds  True to use wrkarounds
 	 *
 	 * @return  boolean  True if the cache is hit (false else)
 	 *
 	 * @since   11.1
 	 */
-	public function get($id = false, $group = 'page', $wrkarounds = true)
+	public function get($id = false, $group = 'page')
 	{
 		// If an id is not given, generate it from the request
 		if ($id == false)
@@ -88,10 +87,8 @@ class JCacheControllerPage extends JCacheController
 		if ($data !== false)
 		{
 			$data = unserialize(trim($data));
-			if ($wrkarounds === true)
-			{
-				$data = JCache::getWorkarounds($data);
-			}
+			
+			$data = JCache::getWorkarounds($data);
 
 			$this->_setEtag($id);
 			if ($this->_locktest->locked == true)
@@ -102,8 +99,9 @@ class JCacheControllerPage extends JCacheController
 		}
 
 		// Set id and group placeholders
-		$this->_id = $id;
-		$this->_group = $group;
+		$this->_id 		= $id;
+		$this->_group 	= $group;
+		
 		return false;
 	}
 
@@ -121,20 +119,34 @@ class JCacheControllerPage extends JCacheController
 	 */
 	public function store($data, $id, $group = null, $wrkarounds = true)
 	{
-		// Get page data from JResponse body
-		$data = JResponse::getBody();
+		// Get page data from JResponse
+		if (empty($data))
+		{
+			$data = JResponse::getBody();
+		}
 
 		// Get id and group and reset the placeholders
-		$id = $this->_id;
-		$group = $this->_group;
-		$this->_id = null;
-		$this->_group = null;
+		if (empty($id))
+		{
+			$id = $this->_id;
+		}
+		if (empty($group))
+		{
+			$group = $this->_group;
+		}
 
 		// Only attempt to store if page data exists
 		if ($data)
 		{
-			$data = $wrkarounds == false ? $data : JCache::setWorkarounds($data);
-
+			if ($wrkarounds) {
+				$data = JCache::setWorkarounds($data, array(
+					'nopathway' => 1,
+					'nohead' 	=> 1,
+					'nomodules' => 1,
+					'headers' 	=> true
+				));
+			}
+			
 			if ($this->_locktest->locked == false)
 			{
 				$this->_locktest = $this->cache->lock($id, $group);

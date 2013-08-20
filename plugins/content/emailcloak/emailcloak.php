@@ -23,7 +23,7 @@ class PlgContentEmailcloak extends JPlugin
 	 *
 	 * @param   string   $context  The context of the content being passed to the plugin.
 	 * @param   mixed    &$row     An object with a "text" property or the string to be cloaked.
-	 * @param   array    &$params  Additional parameters. See {@see PlgContentEmailcloak()}.
+	 * @param   mixed    &$params  Additional parameters. See {@see PlgContentEmailcloak()}.
 	 * @param   integer  $page     Optional page number. Unused. Defaults to zero.
 	 *
 	 * @return  boolean	True on success.
@@ -45,26 +45,27 @@ class PlgContentEmailcloak extends JPlugin
 	}
 
 	/**
-	 * Genarate a search pattern based on link and text.
+	 * Generate a search pattern based on link and text.
 	 *
-	 * @param   string	The target of an email link.
-	 * @param   string	The text enclosed by the link.
+	 * @param   string  $link  The target of an email link.
+	 * @param   string  $text  The text enclosed by the link.
+	 *
 	 * @return  string	A regular expression that matches a link containing the parameters.
 	 */
 	protected function _getPattern ($link, $text)
 	{
 		$pattern = '~(?:<a ([\w "\'=\@\.\-:;]*)href\s*=\s*"mailto:'
 			. $link . '"([\w "\'=\@\.\-:;]*))>' . $text . '</a>~i';
+
 		return $pattern;
 	}
 
 	/**
 	 * Adds an attributes to the js cloaked email.
 	 *
-	 * @param  string Js cloaked email.
-	 * @param  string Attributes before email.
-	 * @param  string Attributes after email.
-	 * @return string Js cloaked email with attributes.
+	 * @param   string  $jsEmail  Js cloaked email.
+	 * @param   string  $before   Attributes before email.
+	 * @param   string  $after    Attributes after email.
 	 *
 	 * @deprecated 3.2
 	 */
@@ -76,9 +77,10 @@ class PlgContentEmailcloak extends JPlugin
 	/**
 	 * Cloak all emails in text from spambots via Javascript.
 	 *
-	 * @param   string  The string to be cloaked.
-	 * @param   array   Additional parameters. Parameter "mode" (integer, default 1)
-	 *                  replaces addresses with "mailto:" links if nonzero.
+	 * @param   string  &$text    The string to be cloaked.
+	 * @param   mixed   &$params  Additional parameters. Parameter "mode" (integer, default 1)
+	 *                             replaces addresses with "mailto:" links if nonzero.
+	 *
 	 * @return  boolean  True on success.
 	 */
 	protected function _cloak(&$text, &$params)
@@ -90,6 +92,7 @@ class PlgContentEmailcloak extends JPlugin
 		if (JString::strpos($text, '{emailcloak=off}') !== false)
 		{
 			$text = JString::str_ireplace('{emailcloak=off}', '', $text);
+
 			return true;
 		}
 
@@ -108,13 +111,15 @@ class PlgContentEmailcloak extends JPlugin
 		$mode = $this->params->def('mode', 1);
 
 		// any@email.address.com
-		$searchEmail = '([\w\.\-]+\@(?:[a-z0-9\.\-]+\.)+(?:[a-z0-9\-]{2,4}))';
+		$searchEmail = '([\w\.\-]+\@(?:[a-z0-9\.\-]+\.)+(?:[a-z0-9\-]{2,10}))';
+
 		// any@email.address.com?subject=anyText
 		$searchEmailLink = $searchEmail . '([?&][\x20-\x7f][^"<>]+)';
-		// anyText
+
+		// Any Text
 		$searchText = '([\x20-\x7f][^<>]+)';
 
-		//Any Image link
+		// Any Image link
 		$searchImage	=	"(<img[^>]+>)";
 
 		/*
@@ -270,7 +275,7 @@ class PlgContentEmailcloak extends JPlugin
 	{
 		if (strpos($str, '</script>') === false)
 		{
-			return 0;
+			return false;
 		}
 
 		$pattern = '#<script[\s>].*?</script>#si';
@@ -281,9 +286,11 @@ class PlgContentEmailcloak extends JPlugin
 				$r = '<!-- >> PROTECTED JS >> -->' . base64_encode($match['0']) . '<!-- << PROTECTED JS << -->';
 				$str = str_replace($match['0'], $r, $str);
 			}
-			return 1;
+
+			return true;
 		}
-		return 0;
+
+		return false;
 	}
 
 	/**

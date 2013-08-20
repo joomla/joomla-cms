@@ -614,7 +614,14 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 		if ($this->debug)
 		{
 			$this->timings[] = microtime(true);
-			$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+			if (defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
+			{
+				$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+			}
+			else
+			{
+				$this->callStacks[] = debug_backtrace();
+			}
 		}
 
 		// If an error occurred handle it.

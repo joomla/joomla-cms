@@ -11,12 +11,12 @@ defined('_JEXEC') or die;
 
 $this->name = JText::_('COM_CONFIG_CACHE_SETTINGS');
 $this->fieldsname = 'cache';
-if (isset($this->data['cache_handler']) &&
-	$this->data['cache_handler'] == 'memcache' ||
-	$this->data['session_handler'] == 'memcache' ||
-	$this->data['cache_handler'] == 'memcached' ||
-	$this->data['session_handler'] == 'memcached'
-	)
+if (isset($this->data['cache_handler'])
+	&& $this->data['cache_handler'] == 'memcache'
+	|| $this->data['session_handler'] == 'memcache'
+	|| $this->data['cache_handler'] == 'memcached'
+	|| $this->data['session_handler'] == 'memcached'
+)
 {
 	$this->fieldsname .= ',memcache';
 }

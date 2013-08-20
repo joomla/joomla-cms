@@ -45,57 +45,32 @@ class JFormFieldPassword extends JFormField
 		$auto		= ((string) $this->element['autocomplete'] == 'off') ? ' autocomplete="off"' : '';
 		$readonly	= ((string) $this->element['readonly'] == 'true') ? ' readonly="readonly"' : '';
 		$disabled	= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
-		$meter		= ((string) $this->element['strengthmeter'] == 'true' ? ' $meter= 1' : ' $meter = 0');
+		$meter		= $this->element['strengthmeter'] == 'true';
 		$required   = $this->required ? ' required="required" aria-required="true"' : '';
 		$threshold	= $this->element['threshold'] ? (int) $this->element['threshold'] : 66;
-		$minimumLength = $this->element['minimum_length'] ? (int) $this->element['minimum_length'] : 4;
-		$minimumIntegers = $this->element['minimum_integers'] ? (int) $this->element['minimum_integers'] : 0;
-		$minimumSymbols = $this->element['minimum_symbols'] ? (int) $this->element['minimum_symbols'] : 0;
-		$minimumUppercase = $this->element['minimum_uppercase'] ? (int) $this->element['minimum_uppercase'] : 0;
-
-		// If we have parameters from com_users, use those instead.
-		// Some of these may be empty for legacy reasons.
-		$app = JFactory::getApplication();
-
-		if ($app->getClientId() != 2)
-		{
-			$params = JComponentHelper::getParams('com_users');
-
-			if (!empty($params))
-			{
-				$minimumLengthp = $params->get('minimum_length');
-				$minimumIntegersp = $params->get('minimum_integers');
-				$minimumSymbolsp = $params->get('minimum_symbols');
-				$minimumUppercasep = $params->get('minimum_uppercase');
-
-				if (!empty($minimumLengthp))
-				{
-					$minimumLength = (int) $minimumLengthp;
-				}
-
-				empty($minimumIntegersp) ? : $minimumIntegers = (int) $minimumIntegersp;
-				empty($minimumSymbolsp) ? : $minimumSymbols = (int) $minimumSymbolsp;
-				empty($minimumUppercasep) ? : $minimumUppercase = (int) $minimumUppercasep;
-			}
-		}
 
 		$script = '';
 
-		if ($meter == 1)
+		if ($meter)
 		{
 			JHtml::_('script', 'system/passwordstrength.js', true, true);
-			$script = '<script type="text/javascript">new Form.PasswordStrength("' . $this->id . '",
+			$script = 'new Form.PasswordStrength("' . $this->id . '",
 				{
 					threshold: ' . $threshold . ',
 					onUpdate: function(element, strength, threshold) {
 						element.set("data-passwordstrength", strength);
 					}
 				}
-			);</script>';
+			);';
+
+			// Load script on document load.
+			JFactory::getDocument()->addScriptDeclaration(
+				"jQuery(document).ready(function(){" . $script . "});"
+			);
 		}
 
 		return '<input type="password" name="' . $this->name . '" id="' . $this->id . '"' .
 			' value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"' .
-			$auto . $class . $readonly . $disabled . $size . $maxLength . $required . '/>' . $script;
+			$auto . $class . $readonly . $disabled . $size . $maxLength . $required . '/>';
 	}
 }
