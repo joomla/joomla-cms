@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
  */
 
 error_reporting(E_ALL);
-ini_set('display_errors', true);
 const JDEBUG = false;
 @ini_set('magic_quotes_runtime', 0);
 

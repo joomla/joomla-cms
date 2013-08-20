@@ -26,18 +26,20 @@ class JTableContent extends JTable
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($db)
+	public function __construct(JDatabaseDriver $db)
 	{
 		parent::__construct('#__content', 'id', $db);
 
-		// This is left here for reference:
-		//
-		// This would set up the tags observer in $this from here (so not entirely decoupled):
-		// JTableObserverTags::createObserver($this, array('typeAlias' => 'com_content.article'));
-		//
-		// But this makes the relation between content and tags completely external to Content as JTable is observable:
-		// So we are doing this only once in libraries/cms.php:
-		// JObserverFactory::addObserverClassToClass('JTableObserverTags', 'JTableContent', array('typeAlias' => 'com_content.article'));
+		/*
+		 * This is left here for reference:
+		 *
+		 * This would set up the tags observer in $this from here (so not entirely decoupled):
+		 * JTableObserverTags::createObserver($this, array('typeAlias' => 'com_content.article'));
+		 *
+		 * But this makes the relation between content and tags completely external to Content as JTable is observable:
+		 * So we are doing this only once in libraries/cms.php:
+		 * JObserverFactory::addObserverClassToClass('JTableObserverTags', 'JTableContent', array('typeAlias' => 'com_content.article'));
+		 */
 	}
 
 	/**
@@ -52,6 +54,7 @@ class JTableContent extends JTable
 	protected function _getAssetName()
 	{
 		$k = $this->_tbl_key;
+
 		return 'com_content.article.' . (int) $this->$k;
 	}
 
@@ -77,7 +80,7 @@ class JTableContent extends JTable
 	 *
 	 * @since   11.1
 	 */
-	protected function _getAssetParentId($table = null, $id = null)
+	protected function _getAssetParentId(JTable $table = null, $id = null)
 	{
 		$assetId = null;
 
@@ -92,6 +95,7 @@ class JTableContent extends JTable
 
 			// Get the asset id from the database.
 			$this->_db->setQuery($query);
+
 			if ($result = $this->_db->loadResult())
 			{
 				$assetId = (int) $result;
@@ -177,6 +181,7 @@ class JTableContent extends JTable
 		if (trim($this->title) == '')
 		{
 			$this->setError(JText::_('COM_CONTENT_WARNING_PROVIDE_VALID_NAME'));
+
 			return false;
 		}
 
@@ -319,6 +324,7 @@ class JTableContent extends JTable
 			else
 			{
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+
 				return false;
 			}
 		}
@@ -350,6 +356,7 @@ class JTableContent extends JTable
 		catch (RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
+
 			return false;
 		}
 

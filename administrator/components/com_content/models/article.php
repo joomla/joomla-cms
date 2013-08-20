@@ -453,7 +453,7 @@ class ContentModelArticle extends JModelAdmin
 
 			foreach ($data['urls'] as $i => $url)
 			{
-				if ($url != false && ($i == 'urla' || $i == 'urlb' || $i = 'urlc'))
+				if ($url != false && ($i == 'urla' || $i == 'urlb' || $i == 'urlc'))
 				{
 					$data['urls'][$i] = JStringPunycode::urlToPunycode($url);
 				}
