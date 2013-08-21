@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=<?php echo $this->getCharset(); ?>" />
-	<title><?php echo $this->error->code ?> - <?php echo $this->title; ?></title>
+	<title><?php echo $this->title; ?></title>
 	<link rel="stylesheet" href="templates/system/css/error.css" type="text/css" />
 </head>
 <body>
