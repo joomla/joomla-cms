@@ -56,7 +56,7 @@ class JFormFieldRepeatable extends JFormField
 
 		$str = array();
 		$str[] = '<div id="' . $modalid . '" style="display:none">';
-		$str[] = '<table class="adminlist ' . $this->element['class'] . ' table table-striped">';
+		$str[] = '<table id="' . $modalid . '_table" class="adminlist ' . $this->element['class'] . ' table table-striped">';
 		$str[] = '<thead><tr>';
 		$names = array();
 		$attributes = $this->element->attributes();
@@ -90,9 +90,12 @@ class JFormFieldRepeatable extends JFormField
 
 		JHtml::_('script', 'system/repeatable.js', true, true);
 
+		// If a maximum value isn't set then we'll make the maximum amount of cells a large number
+		$maximum = $this->element['maximum'] ? (int) $this->element['maximum'] : '999';
+
 		$script = "(function ($){
 			$(document).ready(function (){
-				var repeatable = new $.JRepeatable('$modalid', $names, '$this->id');
+				var repeatable = new $.JRepeatable('$modalid', $names, '$this->id', '$maximum');
 			});
 		})(jQuery);";
 

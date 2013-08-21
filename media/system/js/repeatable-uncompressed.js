@@ -6,15 +6,15 @@
  */
 
 (function ($) {
-	$.JRepeatable = function (elid, names, field) {
+	$.JRepeatable = function (elid, names, field, maximum) {
 		var field = null, win = null, el = null, tmpl, names, origContent,
 		button = $(elid + '_button'),
 		cancelled = false,
 		origContainer = null,
 		mask = $('<div>');
 		mask.css({'background-color': '#000', 'opacity': 0.4, 'z-index': 9998, 'position': 'fixed', 'left': 0, 'top': 0, 'height': '100%', 'width': '100%'}).hide();
-		mask.appendTo('body');   
-		
+		mask.appendTo('body');
+
 		/**
 		 * Open the window
 		 */
@@ -125,6 +125,13 @@
 		watchButtons = function () {
 			win.on('click', 'a.add', function (e) {
 				if (tr = findTr(e)) {
+					var rowcount = document.getElementById(elid + '_table').getElementsByTagName('tbody')[0].getElementsByTagName('tr').length;
+
+					// Don't allow a new row to be added if we're at the maximum value
+					if (rowcount == maximum)
+					{
+						return false;
+					}
 
 					// Store radio button selections
 					var radiovals = getRadioValues();
@@ -132,6 +139,13 @@
 					var body = $(tr).closest('table').find('tbody');
 					var clone = tmpl.clone(true, true);
 					clone.appendTo(body);
+					
+					// 'Disable' the new button if we are at the maximum value
+					if (rowcount == (maximum - 1))
+					{
+						$(".add").removeClass("btn-success").addClass("disabled");
+					}
+
 					renameInputs();
 
 					// Reapply values as renaming radio buttons
@@ -145,6 +159,13 @@
 			win.on('click', 'a.remove', function (e) {
 				if (tr = findTr(e)) {
 					tr.remove();
+					var rowcount = document.getElementById(elid + '_table').getElementsByTagName('tbody')[0].getElementsByTagName('tr').length;
+					
+					// Unstyle disabled add buttons
+					if($(".add").hasClass("disabled"))
+					{
+						$(".add").removeClass("disabled").addClass("btn-success");
+					}
 				}
 				resizeWin();
 				return false;
