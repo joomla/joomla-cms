@@ -98,9 +98,10 @@ class JFormFieldRepeatable extends JFormField
 
 		$document = JFactory::getDocument();
 		$document->addScriptDeclaration($script);
-
+		
+		$select = (string) $this->element['select'] ? JText::_((string) $this->element['select']) : JText::_('JLIB_FORM_BUTTON_SELECT');
 		$icon = $this->element['icon'] ? '<i class="icon-' . $this->element['icon'] . '"></i> ' : '';
-		$str[] = '<button class="btn" id="' . $modalid . '_button" data-modal="' . $modalid . '">' . $icon . JText::_('JLIB_FORM_BUTTON_SELECT') . '</button>';
+		$str[] = '<button class="btn" id="' . $modalid . '_button" data-modal="' . $modalid . '">' . $icon . $select . '</button>';
 
 		if (is_array($this->value))
 		{
