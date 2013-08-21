@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 21-Aug-2013 Jean-Marie Simonet
  # [#31724] Error pages: charset not defined - XSS risk.
+ # [#28496] *Register Email multilingual Problem in Joomla! 2.5.13
 
 18-Aug-2013 Jean-Marie Simonet
  $ [#30664] User Categories helps screen strings missing. Thanks George Wilson
