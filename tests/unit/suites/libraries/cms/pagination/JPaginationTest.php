@@ -123,7 +123,6 @@ class JPaginationTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers        JPagination::__construct
 	 * @dataProvider  dataTestConstructor
 	 * @since         3.1
 	 */
@@ -175,7 +174,6 @@ class JPaginationTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers        JPagination::getPagesLinks
 	 * @dataProvider  dataTestGetPagesLinks
 	 * @since         3.2
 	 */
