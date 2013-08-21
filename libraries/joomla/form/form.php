@@ -68,6 +68,13 @@ class JForm
 	 * @since  11.1
 	 */
 	protected static $forms = array();
+	
+	/**
+	 * Alows extensions to implement repeating elements
+	 * @var    mixed
+	 * @since  11.1
+	 */
+	public $repeat = false;
 
 	/**
 	 * Method to instantiate the form object.
@@ -1502,7 +1509,7 @@ class JForm
 		 * with the appropriate name attribute, and also any <field /> elements with
 		 * the appropriate fieldset attribute.
 		 */
-		$fields = $this->xml->xpath('//fieldset[@name="' . $name . '"]//field | //field[@fieldset="' . $name . '"]');
+		$fields = $this->xml->xpath('//fieldset[@name="' . $name . '"]/field | //field[@fieldset="' . $name . '"]');
 
 		return $fields;
 	}
