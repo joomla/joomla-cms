@@ -93,7 +93,19 @@ class JPaginationTest extends TestCase
 					'pages.start' => 1,
 					'pages.stop' => 5
 				)
-			)
+			),
+			
+			array(10, 20, 20,
+				array(
+					'total' => 10,
+					'limitstart' => 0,
+					'limit' => 20,
+					'pages.total' => 1,
+					'pages.current' => 1,
+					'pages.start' => 1,
+					'pages.stop' => 1
+				)
+			),
 
 		);
 	}
