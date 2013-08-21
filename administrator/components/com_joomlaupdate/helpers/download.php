@@ -325,6 +325,8 @@ class AdmintoolsHelperDownload
 		$return = '';
 		while (!feof($ih) && $result)
 		{
+			set_time_limit(ini_get('max_execution_time'));
+
 			$contents = fread($ih, 4096);
 			if ($contents === false)
 			{
