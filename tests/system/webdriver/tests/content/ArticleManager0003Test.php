@@ -59,13 +59,13 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 	/**
 	 * @test
 	 */
-	 public function frontEndArchivedArticle_ChangeToArchived_ArticleArchived()
+	 public function SiteArchivedArticle_ChangeToArchived_ArticleArchived()
 	 {
 		 $cfg = new SeleniumConfig();
 		 $archivedArticlePath = 'index.php/using-joomla/extensions/components/content-component/archived-articles';
 		 $url = $cfg->host.$cfg->path.$archivedArticlePath;
 		 $this->driver->get($url); 
-		 $this->archivedArticlePage = $this->getPageObject('FrontEndArchivedArticlesPage',true,$url);
+		 $this->archivedArticlePage = $this->getPageObject('SiteArchivedArticlesPage',true,$url);
 		 $arrayTitles = $this->archivedArticlePage->getArticleTitles();
 		 $this->assertFalse(in_array('Beginners',$arrayTitles),'Article Must not be present');
 		 $articleManager='administrator/index.php?option=com_content';
@@ -74,7 +74,7 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 		 $this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
 		 $this->articleManagerPage->changeArticleState('Beginners', 'archived');
 		 $this->driver->get($url);
-		 $this->archivedArticlePage = $this->getPageObject('FrontEndArchivedArticlesPage',true,$url);
+		 $this->archivedArticlePage = $this->getPageObject('SiteArchivedArticlesPage',true,$url);
 		 $arrayTitles = $this->archivedArticlePage->getArticleTitles();
 		 $this->assertTrue(in_array('Beginners',$arrayTitles),'Article Must be present');		
 		 $this->driver->get($cfg->host.$cfg->path.$articleManager);
@@ -83,7 +83,7 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 		 $this->articleManagerPage->changeFilter('Select Status', 'Archived');
 		 $this->articleManagerPage->changeArticleState('Beginners', 'published');
 		 $this->driver->get($url);
-		 $this->archivedArticlePage = $this->getPageObject('FrontEndArchivedArticlesPage',true,$url);
+		 $this->archivedArticlePage = $this->getPageObject('SiteArchivedArticlesPage',true,$url);
 		 $arrayTitles = $this->archivedArticlePage->getArticleTitles();
 		 $this->assertFalse(in_array('Beginners',$arrayTitles),'Article Must not be present');
 	 }
