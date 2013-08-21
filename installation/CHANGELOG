@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Aug-2013 Jean-Marie Simonet
+ # [#31793] No Bootstrap dropdown edit profil FE. Thanks Tobias Zulauf
+
 18-Aug-2013 Jean-Marie Simonet
  # [#31775] Sample data for Joomla Announcements Feed is wrong. Thanks Elin Waring
  $ [#30664] User Categories helps screen strings missing. Thanks George Wilson
