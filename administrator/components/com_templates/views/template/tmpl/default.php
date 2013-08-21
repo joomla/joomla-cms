@@ -106,15 +106,25 @@ if($this->type == 'image')
 </style>
 <?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'editor')); ?>
 	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'editor', JText::_('Editor', true)); ?>
+        <div class="row-fluid">
+            <div class="span12">
+                <?php if($this->type == 'file'): ?>
+                    <p class="well well-small lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></p>
+                <?php endif; ?>
+                <?php if($this->type == 'image'): ?>
+                    <p class="well well-small lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->image['address'], $this->template->element); ?></p>
+                <?php endif; ?>
+            </div>
+        </div>
 		<div class="row-fluid">
 			<div class="span3">
 				<?php $this->listDirectoryTree($this->files);?>
 			</div>
-			<div class="span9 thumbnail">
+			<div class="span9">
                 <?php if($this->type == 'file'): ?>
                     <form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
                         <fieldset class="adminform">
-                            <legend><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></legend>
+
                             <div class="clr"></div>
                             <div class="editor-border">
                                 <?php echo $this->form->getInput('source'); ?>
@@ -130,7 +140,7 @@ if($this->type == 'image')
                 <?php if($this->type == 'image'): ?>
                     <form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
                         <fieldset class="adminform">
-                            <img id="image-crop" src="<?php echo $this->image['address']; ?>" />
+                            <img id="image-crop" src="<?php echo $this->image['address'] . '?' . time(); ?>" />
                             <input type ="hidden" id="x" name="x" />
                             <input type ="hidden" id="y" name="y" />
                             <input type ="hidden" id="h" name="h" />

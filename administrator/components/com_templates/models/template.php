@@ -737,7 +737,7 @@ class TemplatesModelTemplate extends JModelForm
                 $JImage = new JImage(JPath::clean($path . '/' . $fileName));
                 $explodeArray = explode('/',JPATH_ROOT);
                 $base = end($explodeArray);
-                $image['address'] = str_replace(JPATH_ROOT, '/' . $base, $JImage->getPath() . '?' . time());
+                $image['address'] = str_replace(JPATH_ROOT, '/' . $base, $JImage->getPath());
 
                 $image['height'] = $JImage->getHeight();
                 $image['width']  = $JImage->getWidth();
