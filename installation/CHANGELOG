@@ -28,6 +28,7 @@ $ -> Language fix or change
 21-Aug-2013 Jean-Marie Simonet
  # [#31793] No Bootstrap dropdown edit profil FE. Thanks Tobias Zulauf
  #$ [#31794] Untranslated string at the FE profil. Thanks Tobias Zulauf
+ # [#31724] Error pages: charset not defined - XSS risk.
 
 18-Aug-2013 Jean-Marie Simonet
  # [#31775] Sample data for Joomla Announcements Feed is wrong. Thanks Elin Waring
