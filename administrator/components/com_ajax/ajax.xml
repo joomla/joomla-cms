@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="3.1" method="upgrade">
-	<name>Ajax</name>
+	<name>com_ajax</name>
 	<creationDate>May 20, 2013</creationDate>
 	<author>Matt Thomas</author>
 	<authorUrl>http://betweenbrain.com</authorUrl>
 	<copyright>Copyright (C) 2013 betweenbrain llc. All rights reserved.</copyright>
 	<version>0.1</version>
-	<description>A Joomla Ajax interface</description>
+	<description>COM_AJAX_DESC</description>
 
 	<scriptfile>script.php</scriptfile>
 
