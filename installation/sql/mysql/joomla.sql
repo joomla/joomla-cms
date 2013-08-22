@@ -66,7 +66,7 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (33, 1, 63, 64, 1, 'com_finder', 'com_finder', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
 (34, 1, 65, 66, 1, 'com_joomlaupdate', 'com_joomlaupdate', '{"core.admin":[],"core.manage":[],"core.delete":[],"core.edit.state":[]}'),
 (35, 1, 67, 68, 1, 'com_tags', 'com_tags', '{"core.admin":[],"core.manage":[],"core.manage":[],"core.delete":[],"core.edit.state":[]}'),
-(36, 1, 69, 70, 1, 'com_ajax', 'ajax', '{}');
+(36, 1, 69, 71, 1, 'com_ajax', 'ajax', '{}');
 -- --------------------------------------------------------
 
 --
