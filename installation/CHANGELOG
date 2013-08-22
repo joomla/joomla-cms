@@ -28,6 +28,7 @@ $ -> Language fix or change
 22-Aug-2013 Jean-Marie Simonet
  # [#31804] Two classes assigned to pagination links. Thanks George Wilson
  # [#31641] Fatal pass by reference error in MediaHelper. Thanks Elin Waring
+ # [#31796] Beez3: Login form. Thanks Tobias Zulauf
 
 21-Aug-2013 Jean-Marie Simonet
  # [#31793] No Bootstrap dropdown edit profil FE. Thanks Tobias Zulauf
