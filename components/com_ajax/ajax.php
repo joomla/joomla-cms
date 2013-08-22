@@ -12,7 +12,7 @@
 $app = JFactory::getApplication();
 
 // JInput object
-$input = JFactory::getApplication()->input;
+$input = $app->input;
 
 // Requested format passed via URL
 $format = strtolower($input->get('format'));
