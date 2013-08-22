@@ -34,7 +34,7 @@ CREATE NONCLUSTERED INDEX [idx_parent_id] ON [#__assets]
 SET IDENTITY_INSERT #__assets ON;
 
 INSERT INTO #__assets (id,parent_id,lft,rgt,level,name,title,rules)
-SELECT 1,0,1,69,0,'root.1','Root Asset','{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'
+SELECT 1,0,1,71,0,'root.1','Root Asset','{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'
 UNION ALL
 SELECT 2,1,1,2,1,'com_admin','com_admin','{}'
 UNION ALL
@@ -104,7 +104,7 @@ SELECT 34,1,65,66,1,'com_joomlaupdate','com_joomlaupdate','{"core.admin":[],"cor
 UNION ALL
 SELECT 35,1,67,68,1,'com_tags','com_tags','{"core.admin":[],"core.manage":[],"core.delete":[],"core.edit.state":[]}'
 UNION ALL
-SELECT 36,1,69,71,1,'com_ajax','com_ajax','{}';
+SELECT 36,1,69,70,1,'com_ajax','com_ajax','{}';
 
 SET IDENTITY_INSERT #__assets OFF;
 
