@@ -37,6 +37,7 @@ $ -> Language fix or change
  # [#28349] Incorrect ordering in Newsflash module. Thanks Gregory Wyman and Brian Teeman
  # [#31813] Add nav-pill class to top menu. Thanks Brian Teeman
  # Updating Russian flag. Thanks Peter Farrer
+ # [#31273] Sample Blog: ordering of menu items in main menu. Thanks Stefania Gaianigo
 
 21-Aug-2013 Jean-Marie Simonet
  # [#31793] No Bootstrap dropdown edit profil FE. Thanks Tobias Zulauf
