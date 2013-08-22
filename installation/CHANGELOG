@@ -34,6 +34,7 @@ $ -> Language fix or change
  # [#31619] Fix subpackage tag in layouts + copyright. Thanks Brian Teeman
  # [#30144] Obsolete class 'ModulesHelperXML'. Thanks Elijah Madden
  # [#31662] Splitting the file containing JObserverMapper into own files for each interface / class. Thanks Thomas Hunziker
+ # [#28349] Incorrect ordering in Newsflash module. Thanks Gregory Wyman and Brian Teeman
 
 21-Aug-2013 Jean-Marie Simonet
  # [#31793] No Bootstrap dropdown edit profil FE. Thanks Tobias Zulauf
