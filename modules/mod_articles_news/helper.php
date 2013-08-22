@@ -53,7 +53,7 @@ abstract class modArticlesNewsHelper
 		if (trim($ordering) == 'rand()') {
 			$model->setState('list.direction', '');
 		} else {
-			$model->setState('list.direction', 'DESC');
+			$model->setState('list.direction', 'ASC');
 		}
 
 		//	Retrieve Content
