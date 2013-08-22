@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 22-Aug-2013 Jean-Marie Simonet
  # [#28349] Incorrect ordering in Newsflash module. Thanks Gregory Wyman and Brian Teeman
+ # Updating Russian flag. Thanks Peter Farrer
 
 21-Aug-2013 Jean-Marie Simonet
  # [#31724] Error pages: charset not defined - XSS risk.
