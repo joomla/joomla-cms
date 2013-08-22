@@ -56,6 +56,8 @@ defined('_JEXEC') or die;
 	}
 	
 	Joomla.loadweb = function(url) {
+		if ('' == url) { return false; }
+		
 		jQuery.get(url, function(data) {
 			jQuery('#web-loader').hide();
 			jQuery('#jed-container').html(data);
@@ -104,7 +106,7 @@ defined('_JEXEC') or die;
 		<?php echo $this->loadTemplate('message'); ?>
 	<?php endif; ?>
 
-	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'upload')); ?>
+	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'web')); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'upload', JText::_('COM_INSTALLER_UPLOAD_PACKAGE_FILE', true)); ?>
 			<fieldset class="uploadform">

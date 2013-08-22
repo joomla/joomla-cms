@@ -280,7 +280,7 @@ class InstallerModelInstall extends JModelLegacy
 		//@TODO: Construct the URL by passing along all URL vars except option & task
 		$getvars = JRequest::get('get');
 		$http = JHttpFactory::getHttp();
-		$html = $http->get('http://extensions.joomla.org');
+		$html = $http->get('http://localhost/joomla-cms/index.php?option=com_apps&view=dashboard&format=raw');
 		return $html->body;
 	}
 }

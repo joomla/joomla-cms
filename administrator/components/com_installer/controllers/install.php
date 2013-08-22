@@ -53,7 +53,8 @@ class InstallerControllerInstall extends JControllerLegacy
 		$model = $this->getModel('install');
 		$html = $model->installfromweb();
 		
-		echo $this->temphtml();
+		//echo $this->temphtml();
+		echo $html;
 		jexit();
 	}
 	
@@ -106,61 +107,6 @@ class InstallerControllerInstall extends JControllerLegacy
 EOT;
 	
 	return $html;
-	}
-	public function getCategories() {
-		
-		$doc = JFactory::getDocument();
-		$doc->setMimeEncoding('application/json');
-		
-		$categories[0]->id = 1;
-		$categories[0]->name = 'Access & Security';
-		$children[0]->id = 2;
-		$children[0]->name = 'Site Access';
-		$children[1]->id = 3;
-		$children[1]->name = 'Site Security';
-		$categories[0]->children = $children;
-		
-		$categories[1]->id = 4;
-		$categories[1]->name = 'Administration';
-		$children[0]->id = 5;
-		$children[0]->name = 'Admin Desk';
-		$children[1]->id = 6;
-		$children[1]->name = 'Admin Navigation';
-		$children[1]->id = 7;
-		$children[1]->name = 'Admin Performance';
-		$children[1]->id = 8;
-		$children[1]->name = 'Admin Reports';
-		$children[1]->id = 9;
-		$children[1]->name = 'Admin Templates';
-		$children[1]->id = 10;
-		$children[1]->name = 'Extensions Quick Icons';
-		$categories[1]->children = $children;
-		
-		echo json_encode($categories);
-		jexit();
-
-	}
-
-	public function getExtensions() {
-		$extension[0]->id = 1;
-		$extension[0]->name = 'JBolo!';
-		$extension[0]->user = 'techjoomla';
-		$extension[0]->rating = 4.5;
-		$extension[0]->tags = array('C','P','M','S');
-		$extension[0]->image = 'http://extensions.joomla.org/components/com_mtree/img/listings/s/51430.png';
-		$extension[0]->compatibility = array('2.5', '3.0');
-		$extension[0]->version = 3.8;
-		
-		$extension[0]->id = 2;
-		$extension[0]->name = 'Akeeba Backup';
-		$extension[0]->user = 'nikosdion';
-		$extension[0]->rating = 4.5;
-		$extension[0]->tags = array('C','P','M','S');
-		$extension[0]->image = 'http://extensions.joomla.org/components/com_mtree/img/listings/s/13048.png';
-		$extension[0]->compatibility = array('2.5', '3.0');
-		$extension[0]->version = array('2.5', '3.0');
-		
-	}
-	
+	}	
 	
 }
