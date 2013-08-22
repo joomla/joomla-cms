@@ -43,7 +43,7 @@ if ($input->get('module'))
 	{
 
 		jimport('joomla.filesystem.file');
-		$helperFile = JPATH_ROOT . '/modules/mod_' . $module . '/helper.php';
+		$helperFile = JPATH_BASE . '/modules/mod_' . $module . '/helper.php';
 
 		$class  = 'mod' . ucfirst($module) . 'Helper';
 		$method = $input->get('method') ? $input->get('method') : 'get';
