@@ -8,8 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-jimport('joomla.client.http');
-
+define('APPS_BASE_URL', 'http://localhost/joomla-cms-apps/');
 
 /**
  * Extension Manager Install Model
@@ -278,9 +277,17 @@ class InstallerModelInstall extends JModelLegacy
 	
 	public function installfromweb() {
 		//@TODO: Construct the URL by passing along all URL vars except option & task
-		$getvars = JRequest::get('get');
+		$apps_dashboard = APPS_BASE_URL.'index.php?option=com_apps&view=dashboard&format=raw';
+		$response = '';
+		
 		$http = JHttpFactory::getHttp();
-		$html = $http->get('http://localhost/joomla-cms/index.php?option=com_apps&view=dashboard&format=raw');
-		return $html->body;
+		try {
+			$html = $http->get($apps_dashboard);
+			$response = $html->body;
+		} catch (Exception $e) {
+			// @TODO: set a http 503 code here
+		}
+		
+		return $response;
 	}
 }
