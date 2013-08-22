@@ -1,11 +1,12 @@
 <?php defined('_JEXEC') or die;
 
 /**
- * @package     Joomla.Site
- * @subpackage  com_ajax
- *
- * @copyright   Copyright (C) 2013 betweenbrain llc. All Rights Reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * File       ajax.php
+ * Created    5/20/13 4:54 PM
+ * Author     Matt Thomas | matt@betweenbrain.com | http://betweenbrain.com
+ * Support    https://github.com/betweenbrain/Joomla-Ajax-Interface/issues
+ * Copyright  Copyright (C) 2013 betweenbrain llc. All Rights Reserved.
+ * License    GNU General Public License version 2, or later.
  */
 
 // Reference global application object
@@ -17,8 +18,9 @@ $input = JFactory::getApplication()->input;
 // Requested format passed via URL
 $format = strtolower($input->get('format'));
 
-// Initialized to prevent notice in case someone tries to access directly
-$results = '';
+// Initialized to prevent notices
+$results = null;
+$error   = null;
 
 /*
  * Module support.
@@ -57,20 +59,17 @@ if ($input->get('module'))
 			}
 			else
 			{
-				// getAjax method does not exist
-				JError::raiseError(404, JText::_("Page Not Found"));
+				$error = JText::sprintf('COM_AJAX_METHOD_DOES_NOT_EXIST', $method . 'Ajax');
 			}
 		}
 		else
 		{
-			// Helper file does not exist
-			JError::raiseError(404, JText::_("Page Not Found"));
+			$error = JText::sprintf('COM_AJAX_HELPER_DOES_NOT_EXIST', 'mod_' . $module . '/helper.php');
 		}
 	}
 	else
 	{
-		// Module not published
-		JError::raiseError(404, JText::_("Page Not Found"));
+		$error = JText::_sprintf('COM_AJAX_MODULE_NOT_PUBLISHED', 'mod_' . $module);
 	}
 }
 
@@ -90,10 +89,17 @@ if ($input->get('plugin'))
 	$results    = $dispatcher->trigger('onAjax' . $plugin);
 }
 
+if (!is_null($error))
+{
+	echo $error;
+	$app->close();
+}
+
 // Return the results in the desired format
 switch ($format)
 {
 	case 'json':
+		JResponse::setHeader('Content-Type', 'application/json', true);
 		echo json_encode($results);
 		$app->close();
 		break;
