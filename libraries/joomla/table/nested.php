@@ -518,6 +518,9 @@ class JTableNested extends JTable
 		$k = $this->_tbl_key;
 		$pk = (is_null($pk)) ? $this->$k : $pk;
 
+		// Implement JObservableInterface: Pre-processing by observers
+		$this->_observers->update('onBeforeDelete', array($pk));
+
 		// Lock the table for writing.
 		if (!$this->_lock())
 		{
@@ -637,6 +640,9 @@ class JTableNested extends JTable
 
 		// Unlock the table for writing.
 		$this->_unlock();
+
+		// Implement JObservableInterface: Post-processing by observers
+		$this->_observers->update('onAfterDelete', array($pk));
 
 		return true;
 	}
