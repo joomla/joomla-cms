@@ -157,7 +157,7 @@ class JPaginationTest extends TestCase
 	public function dataTestGetPagesLinks()
 	{
 		return array(
-			array(100, 50, 20, '<ul><li class="pagination-start"><a class="hasTooltip" title="JLIB_HTML_START" href="" class="pagenav">JLIB_HTML_START</a></li><li class="pagination-prev"><a class="hasTooltip" title="JPREV" href="" class="pagenav">JPREV</a></li><li><a href="" class="pagenav">1</a></li><li><a href="" class="pagenav">2</a></li><li><span class="pagenav">3</span></li><li><a href="" class="pagenav">4</a></li><li><a href="" class="pagenav">5</a></li><li class="pagination-next"><a class="hasTooltip" title="JNEXT" href="" class="pagenav">JNEXT</a></li><li class="pagination-end"><a class="hasTooltip" title="JLIB_HTML_END" href="" class="pagenav">JLIB_HTML_END</a></li></ul>'),
+			array(100, 50, 20, '<ul><li class="pagination-start"><a title="JLIB_HTML_START" href="" class="hasTooltip pagenav">JLIB_HTML_START</a></li><li class="pagination-prev"><a title="JPREV" href="" class="hasTooltip pagenav">JPREV</a></li><li><a href="" class="pagenav">1</a></li><li><a href="" class="pagenav">2</a></li><li><span class="pagenav">3</span></li><li><a href="" class="pagenav">4</a></li><li><a href="" class="pagenav">5</a></li><li class="pagination-next"><a title="JNEXT" href="" class="hasTooltip pagenav">JNEXT</a></li><li class="pagination-end"><a title="JLIB_HTML_END" href="" class="hasTooltip pagenav">JLIB_HTML_END</a></li></ul>'),
 		);
 	}
 

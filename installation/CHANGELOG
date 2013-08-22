@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Aug-2013 Jean-Marie Simonet
+ # [#31804] Two classes assigned to pagination links. Thanks George Wilson
+
 21-Aug-2013 Jean-Marie Simonet
  # [#31793] No Bootstrap dropdown edit profil FE. Thanks Tobias Zulauf
  #$ [#31794] Untranslated string at the FE profil. Thanks Tobias Zulauf
