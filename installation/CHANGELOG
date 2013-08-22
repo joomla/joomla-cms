@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#31796] Beez3: Login form. Thanks Tobias Zulauf
  # [#31799] Missing maxlength attribute for input type password in Joomla 3.x. Thanks Ionut Lupu
  # [#31750] class attribute for form field type media will be ignored. Thanks Anthony THERREAU
+ # [#31619] Fix subpackage tag in layouts + copyright. Thanks Brian Teeman
 
 21-Aug-2013 Jean-Marie Simonet
  # [#31793] No Bootstrap dropdown edit profil FE. Thanks Tobias Zulauf
