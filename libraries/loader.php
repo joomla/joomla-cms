@@ -41,6 +41,14 @@ abstract class JLoader
 	protected static $prefixes = array();
 
 	/**
+	 * Holds proxy classes and the class names the proxy.
+	 *
+	 * @var    array
+	 * @since  3.2
+	 */
+	protected static $classAliases = array();
+
+	/**
 	 * Container for namespace => path map.
 	 *
 	 * @var    array
@@ -295,6 +303,29 @@ abstract class JLoader
 	}
 
 	/**
+	 * Offers the ability for "just in time" usage of `class_alias()`.
+	 * You cannot overwrite an existing alias.
+	 *
+	 * @param   string  $alias     The alias name to register.
+	 * @param   string  $original  The original class to alias.
+	 *
+	 * @return  boolean  True if registration was successful. False if the alias already exists.
+	 *
+	 * @since   3.2
+	 */
+	public static function registerAlias($alias, $original)
+	{
+		if (!isset(self::$classAliases[$alias]))
+		{
+			self::$classAliases[$alias] = $original;
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Register a namespace to the autoloader. When loaded, namespace paths are searched in a "last in, first out" order.
 	 *
 	 * @param   string   $namespace  A case sensitive Namespace to register.
@@ -351,7 +382,7 @@ abstract class JLoader
 	 *
 	 * @since   12.3
 	 */
-	public static function setup($enablePsr = false, $enablePrefixes = true, $enableClasses = true)
+	public static function setup($enablePsr = true, $enablePrefixes = true, $enableClasses = true)
 	{
 		if ($enableClasses)
 		{
@@ -372,6 +403,7 @@ abstract class JLoader
 		{
 			// Register the PSR-0 based autoloader.
 			spl_autoload_register(array('JLoader', 'loadByPsr0'));
+			spl_autoload_register(array('JLoader', 'loadByAlias'));
 		}
 	}
 
@@ -430,6 +462,29 @@ abstract class JLoader
 		}
 
 		return false;
+	}
+
+	/**
+	 * Method to autoload classes that have been aliased using the registerAlias method.
+	 *
+	 * @param   string  $class  The fully qualified class name to autoload.
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   3.2
+	 */
+	public static function loadByAlias($class)
+	{
+		// Remove the root backslash if present.
+		if ($class[0] == '\\')
+		{
+			$class = substr($class, 1);
+		}
+
+		if (isset(self::$classAliases[$class]))
+		{
+			class_alias(self::$classAliases[$class], $class);
+		}
 	}
 
 	/**

@@ -54,6 +54,19 @@ class JModelLegacyTest extends TestCase
 	}
 
 	/**
+	 * This method is called after the last test of this test class is run.
+	 *
+	 * @return  void
+	 *
+	 * @since    3.1
+	 */
+	public static function tearDownAfterClass()
+	{
+		// Reset JTable::$_includePaths
+		TestReflection::setValue('JTable', '_includePaths', array());
+	}
+
+	/**
 	 * Tests the __construct method.
 	 *
 	 * @since   12.3
