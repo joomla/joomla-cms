@@ -53,13 +53,13 @@ body.modal {
 .row-even,.row-odd {
 	padding: 5px;
 	width: 99%;
-	border-bottom: 1px solid @tableBorder;
+	border-bottom: 1px solid @table-border-color;
 }
 .row-odd {
-	background-color: @tableBackground;
+	background-color: @table-bg;
 }
 .row-even {
-	background-color: @tableBackgroundAccent;
+	background-color: @table-bg-accent;
 }
 
 .blog-row-rule,
@@ -233,7 +233,7 @@ hr.hr-condensed {
 	line-height: 18px;
 	text-align: left;
 	vertical-align: middle;
-	border-top: 1px solid @tableBorder;
+	border-top: 1px solid @table-border-color;
 	margin-left: 0;
 }
 
@@ -241,7 +241,7 @@ hr.hr-condensed {
 .list-striped dd,
 .row-striped .row,
 .row-striped .row-fluid {
-	border-bottom: 1px solid @tableBorder;
+	border-bottom: 1px solid @table-border-color;
 	padding: 8px;
 }
 
@@ -249,14 +249,14 @@ hr.hr-condensed {
 .list-striped dd:nth-child(odd),
 .row-striped .row:nth-child(odd),
 .row-striped .row-fluid:nth-child(odd) {
-	background-color: @tableBackgroundAccent;
+	background-color: @table-bg-accent;
 }
 
 .list-striped li:hover,
 .list-striped dd:hover,
 .row-striped .row:hover,
 .row-striped .row-fluid:hover {
-	background-color: @tableBackgroundHover;
+	background-color: @table-bg-hover;
 }
 
 .row-striped .row-fluid {
@@ -292,8 +292,8 @@ hr.hr-condensed {
 	text-align: left;
 	vertical-align: middle;
 	margin-left: 0;
-	border: 1px solid @tableBorder;
-	.border-radius(4px);
+	border: 1px solid @table-border-color;
+	border-radius: 4px;
 }
 
 /* Radio Button Groups */
@@ -315,7 +315,7 @@ fieldset.radio.btn-group {
 
 /* iFrames */
 .iframe-bordered {
-	border: 1px solid @tableBorder;
+	border: 1px solid @table-border-color;
 }
 
 /* Tabbed Content */
@@ -351,10 +351,10 @@ fieldset.radio.btn-group {
 .tip-wrap {
 	max-width: 200px;
 	padding: 3px 8px;
-	color: @white;
+	color: #ffffff;
 	text-align: center;
 	text-decoration: none;
-	background-color: @black;
+	background-color: #000000;
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
 	border-radius: 4px;
@@ -368,7 +368,7 @@ fieldset.radio.btn-group {
 }
 /* Input Prepend Chosen Select Boxes */
 .input-prepend .chzn-container-single .chzn-single {
-	border-color: @inputBorder;
+	border-color: @input-border;
 	height: 26px;
 	-webkit-border-radius: 0 3px 3px 0;
 	-moz-border-radius: 0 3px 3px 0;
@@ -383,7 +383,7 @@ fieldset.radio.btn-group {
 	border-radius: 0 3px 0 0;
 }
 .input-prepend .chzn-container-single .chzn-drop{
-	border-color: @inputBorder;
+	border-color: @input-border;
 }
 .input-prepend > .add-on,
 .input-append > .add-on{
