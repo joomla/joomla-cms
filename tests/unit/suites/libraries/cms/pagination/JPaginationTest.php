@@ -178,6 +178,44 @@ class JPaginationTest extends TestCase
 	}
 
 	/**
+	 * This method tests the getAdditionalUrlParam function by setting a url with Reflection then retrieving it.
+	 *
+	 * @return  void
+	 *
+	 * @covers        JPagination::getAdditionalUrlParam
+	 * @since         3.1
+	 */
+	public function testGetAdditionalUrlParam()
+	{
+		$pagination = new JPagination(100, 50, 20);
+		$value = '//www.joomla.org';
+		$key = 'Joomla';
+
+		TestReflection::setValue($pagination, 'additionalUrlParams', array($key => $value));
+
+		$this->assertEquals($value, $pagination->getAdditionalUrlParam($key), 'The URL is not the value expected');
+
+		unset($pagination);
+	}
+
+	/**
+	 * This method tests the getRowOffset function.
+	 *
+	 * @return  void
+	 *
+	 * @covers        JPagination::getRowOffset
+	 * @since         3.1
+	 */
+	public function testGetRowOffset($index = 1, $limitstart = 50, $value = 52)
+	{
+		$pagination = new JPagination(100, $limitstart, 20);
+
+		$this->assertEquals($pagination->getRowOffset($index), $value);
+
+		unset($pagination);
+	}
+
+	/**
 	 * This method tests the setAdditionalUrlParam function by emptying an existing URL.
 	 *
 	 * @return  void
