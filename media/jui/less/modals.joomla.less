@@ -10,16 +10,16 @@ div.modal {
   position: fixed;
   top: 10%;
   left: 50%;
-  z-index: @zindexModal;
+  z-index: @zindex-modal;
   width: 560px;
   margin-left: -280px;
-  background-color: @white;
+  background-color: #ffffff;
   border: 1px solid #999;
   border: 1px solid rgba(0,0,0,.3);
   *border: 1px solid #999; /* IE6-7 */
-  .border-radius(6px);
+  border-radius: 6px;
   .box-shadow(0 3px 7px rgba(0,0,0,0.3));
-  .background-clip(padding-box);
+  background-clip: padding-box;
   // Remove focus outline from opened modal
   outline: none;
 
