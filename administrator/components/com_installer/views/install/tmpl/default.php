@@ -54,6 +54,41 @@ defined('_JEXEC') or die;
 			form.submit();
 		}
 	}
+	
+	Joomla.loadweb = function(url) {
+		if ('' == url) { return false; }
+		
+		jQuery.get(url, function(data) {
+			response = JSON.parse(data);
+			jQuery('#web-loader').hide();
+			jQuery('#jed-container').html(response.data);
+		}).fail(function() { 
+			jQuery('#web-loader').hide();
+			jQuery('#web-loader-error').show();
+		});
+	}
+	
+	Joomla.installfromweb = function(install_url, name) {
+		if ('' == install_url) {
+			alert("<?php echo JText::_('COM_INSTALLER_MSG_INSTALL_WEB_INVALID_URL', true); ?>");
+			return false;
+		}
+		jQuery('#install_url').val(install_url);
+		jQuery('#uploadform-web-url').text(install_url);
+		jQuery('#uploadform-web-name').text(name);
+		jQuery('#jed-container').slideUp(300);
+		jQuery('#uploadform-web').show();
+	}
+	
+	Joomla.installfromwebcancel = function() {
+		jQuery('#uploadform-web').hide();
+		jQuery('#jed-container').slideDown(300);
+	}
+	
+	jQuery(document).ready(function() { 
+		Joomla.loadweb('index.php?option=com_installer&task=install.installfromweb');
+	});
+	
 </script>
 
 <div id="installer-install">
@@ -115,6 +150,29 @@ defined('_JEXEC') or die;
 				</div>
 				<div class="form-actions">
 					<input type="button" class="btn btn-primary" value="<?php echo JText::_('COM_INSTALLER_INSTALL_BUTTON'); ?>" onclick="Joomla.submitbutton4()" />
+				</div>
+			</fieldset>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'web', JText::_('COM_INSTALLER_INSTALL_FROM_WEB', true)); ?>
+			<div id="jed-container">
+				<div class="well" id="web-loader">
+					<h2><?php echo JText::_('COM_INSTALLER_INSTALL_WEB_LOADING'); ?></h2>
+				</div>
+				<div class="alert alert-error" id="web-loader-error" style="display:none">
+					<a class="close" data-dismiss="alert">×</a><?php echo JText::_('COM_INSTALLER_INSTALL_WEB_LOADING_ERROR'); ?>
+				</div>
+			</div>
+
+			<fieldset class="uploadform" id="uploadform-web" style="display:none">
+				<div class="control-group">
+					<strong><?php echo JText::sprintf('COM_INSTALLER_INSTALL_WEB_CONFIRM'); ?></strong><br />
+					<?php echo JText::sprintf('COM_INSTALLER_INSTALL_WEB_CONFIRM_NAME'); ?> <span id="uploadform-web-name"></span><br />
+					<?php echo JText::sprintf('COM_INSTALLER_INSTALL_WEB_CONFIRM_URL'); ?> <span id="uploadform-web-url"></span>
+				</div>
+				<div class="form-actions">
+					<input type="button" class="btn btn-primary" value="<?php echo JText::_('COM_INSTALLER_INSTALL_BUTTON'); ?>" onclick="Joomla.submitbutton4()" />
+					<input type="button" class="btn btn-secondary" value="<?php echo JText::_('COM_INSTALLER_CANCEL_BUTTON'); ?>" onclick="Joomla.installfromwebcancel()" />
 				</div>
 			</fieldset>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
