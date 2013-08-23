@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Aug-2013 Jean-Marie Simonet
+ # Reverting [#31641] which breaks Notices (File Type error message not displayed)
+
 22-Aug-2013 Jean-Marie Simonet
  # [#31804] Two classes assigned to pagination links. Thanks George Wilson
  # [#31641] Fatal pass by reference error in MediaHelper. Thanks Elin Waring
