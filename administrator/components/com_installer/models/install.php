@@ -278,14 +278,19 @@ class InstallerModelInstall extends JModelLegacy
 	public function installfromweb() {
 		//@TODO: Construct the URL by passing along all URL vars except option & task
 		$apps_dashboard = APPS_BASE_URL.'index.php?option=com_apps&view=dashboard&format=raw';
-		$response = '';
+		$response = array();
 		
 		$http = JHttpFactory::getHttp();
 		try {
 			$html = $http->get($apps_dashboard);
-			$response = $html->body;
+			$response['body'] = $html->body;
+			$response['message'] = '';
+			$response['error'] = false;
 		} catch (Exception $e) {
-			// @TODO: set a http 503 code here
+			header('HTTP/1.1 503 Service Temporarily Unavailable');
+			header('Status: 503 Service Temporarily Unavailable');
+			$response['message'] = $e->getMessage();
+			$response['error'] = true;
 		}
 		
 		return $response;

@@ -59,8 +59,9 @@ defined('_JEXEC') or die;
 		if ('' == url) { return false; }
 		
 		jQuery.get(url, function(data) {
+			response = JSON.parse(data);
 			jQuery('#web-loader').hide();
-			jQuery('#jed-container').html(data);
+			jQuery('#jed-container').html(response.data);
 		}).fail(function() { 
 			jQuery('#web-loader').hide();
 			jQuery('#web-loader-error').show();
@@ -68,7 +69,7 @@ defined('_JEXEC') or die;
 	}
 	
 	Joomla.installfromweb = function(install_url, name) {
-		if (install_url == '') {
+		if ('' == install_url) {
 			alert("<?php echo JText::_('COM_INSTALLER_MSG_INSTALL_WEB_INVALID_URL', true); ?>");
 			return false;
 		}
@@ -106,7 +107,7 @@ defined('_JEXEC') or die;
 		<?php echo $this->loadTemplate('message'); ?>
 	<?php endif; ?>
 
-	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'web')); ?>
+	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'upload')); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'upload', JText::_('COM_INSTALLER_UPLOAD_PACKAGE_FILE', true)); ?>
 			<fieldset class="uploadform">
