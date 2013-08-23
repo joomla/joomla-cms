@@ -324,6 +324,89 @@ class JPaginationTest extends TestCase
 	}
 
 	/**
+	 * Provides the data to test the orderUpIcon method.
+	 *
+	 * @return  array
+	 *
+	 * @since   3.2
+	 */
+	public function dataTestOrderUpIcon()
+	{
+		return array(
+			array(0, '<a class="btn btn-micro  " href="javascript:void(0);" onclick="return listItemTask(\'cb0\',\'orderup\')"><i class="icon-uparrow"></i></a>', true, 'orderup', 'JLIB_HTML_MOVE_UP', true, 'cb'),
+			array(2, '<a class="btn btn-micro  " href="javascript:void(0);" onclick="return listItemTask(\'cb2\',\'orderup\')"><i class="icon-uparrow"></i></a>', true, 'orderup', 'JLIB_HTML_MOVE_UP', true, 'cb'),
+			array(2, '&#160;', false, 'orderup', 'JLIB_HTML_MOVE_UP', true, 'cb'),
+		);
+	}
+
+	/**
+	 * Test the html string for the orderUpIcon function.
+	 *
+	 * @param   integer  $i          The row index.
+	 * @param   string   $expected   The expected html string
+	 * @param   boolean  $condition  True to show the icon.
+	 * @param   string   $task       The task to fire.
+	 * @param   string   $alt        The image alternative text string.
+	 * @param   boolean  $enabled    An optional setting for access control on the action.
+	 * @param   string   $checkbox   An optional prefix for checkboxes.
+	 *
+	 * @return  void
+	 *
+	 * @covers        JPagination::orderUpIcon
+	 * @dataProvider  dataTestOrderUpIcon
+	 * @since         3.2
+	 */
+	public function testOrderUpIcon($i, $expected, $condition = true, $task = 'orderup', $alt = 'JLIB_HTML_MOVE_UP', $enabled = true, $checkbox = 'cb')
+	{
+		$pagination = new JPagination(100, 50, 20);
+		$string = $pagination->orderUpIcon($i, $condition, $task, $alt, $enabled, $checkbox);
+
+		$this->assertEquals($string, $expected, 'This is not the expected order up html');
+	}
+
+	/**
+	 * Provides the data to test the orderUpIcon method.
+	 *
+	 * @return  array
+	 *
+	 * @since   3.2
+	 */
+	public function dataTestOrderDownIcon()
+	{
+		return array(
+			array(0, 100, '<a class="btn btn-micro  " href="javascript:void(0);" onclick="return listItemTask(\'cb0\',\'orderup\')"><i class="icon-downarrow"></i></a>', true, 'orderup', 'JLIB_HTML_MOVE_DOWN', true, 'cb'),
+			array(2, 100, '<a class="btn btn-micro  " href="javascript:void(0);" onclick="return listItemTask(\'cb2\',\'orderup\')"><i class="icon-downarrow"></i></a>', true, 'orderup', 'JLIB_HTML_MOVE_DOWN', true, 'cb'),
+			array(2, 100, '&#160;', false, 'orderup', 'JLIB_HTML_MOVE_DOWN', true, 'cb'),
+		);
+	}
+
+	/**
+	 * Test the html string for the orderDownIcon function.
+	 *
+	 * @param   integer  $i          The row index.
+	 * @param   integer  $n          The number of items in the list.
+	 * @param   string   $expected   The expected html string
+	 * @param   boolean  $condition  True to show the icon.
+	 * @param   string   $task       The task to fire.
+	 * @param   string   $alt        The image alternative text string.
+	 * @param   boolean  $enabled    An optional setting for access control on the action.
+	 * @param   string   $checkbox   An optional prefix for checkboxes.
+	 *
+	 * @return  void
+	 *
+	 * @covers        JPagination::orderDownIcon
+	 * @dataProvider  dataTestOrderDownIcon
+	 * @since         3.2
+	 */
+	public function testOrderDownIcon($i, $n, $expected, $condition = true, $task = 'orderdown', $alt = 'JLIB_HTML_MOVE_DOWN', $enabled = true, $checkbox = 'cb')
+	{
+		$pagination = new JPagination($n, 50, 20);
+		$string = $pagination->orderDownIcon($i, $n, $condition, $task, $alt, $enabled, $checkbox);
+
+		$this->assertEquals($string, $expected, 'This is not the expected order up html');
+	}
+
+	/**
 	 * Provides the data to test the _list_render method.
 	 *
 	 * @return  array
@@ -542,6 +625,7 @@ class JPaginationTest extends TestCase
 		return array(
 			array('limitstart', 40, 40),
 			array('viewall', true, true),
+			array('pages.start', 30, 30),
 		);
 	}
 
@@ -563,7 +647,23 @@ class JPaginationTest extends TestCase
 		$pagination = new JPagination(100, 50, 20);
 
 		$pagination->set($property, $value);
-		$result = $pagination->get($property);
+
+		if ($property == 'viewall')
+		{
+			$result = TestReflection::getValue($pagination, $property);
+		}
+		elseif(strpos($property, '.'))
+		{
+			$prop = explode('.', $property);
+			$prop[1] = ucfirst($prop[1]);
+			$property = implode($prop);
+			$result = $pagination->$property;
+		}
+		else
+		{
+			$result = $pagination->$property;
+		}
+
 		$this->assertEquals($result, $expected, 'The expected output of the property is incorrect');
 
 		unset($pagination);
@@ -582,6 +682,7 @@ class JPaginationTest extends TestCase
 			array('limitstart', '', 50),
 			array('viewall', '', false),
 			array('falseproperty', null, null),
+			array('pages.stop', null, 5),
 		);
 	}
 
