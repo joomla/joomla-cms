@@ -135,6 +135,7 @@ class JPagination
 		{
 			$this->pagesStart = 1;
 		}
+
 		if ($this->pagesStart + $displayedPages > $this->pagesTotal)
 		{
 			$this->pagesStop = $this->pagesTotal;
@@ -621,6 +622,7 @@ class JPagination
 
 		$title = '';
 		$class = '';
+
 		if (!is_numeric($item->text))
 		{
 			JHtml::_('bootstrap.tooltip');
