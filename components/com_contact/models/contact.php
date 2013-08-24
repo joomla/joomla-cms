@@ -376,7 +376,7 @@ class ContactModelContact extends JModelForm
 	/**
 	 * Increment the hit counter for the contact.
 	 *
-	 * @param   integer  Optional primary key of the contact to increment.
+	 * @param   integer  $pk  Optional primary key of the contact to increment.
 	 *
 	 * @return  boolean  True if successful; false otherwise and internal error set.
 	 */

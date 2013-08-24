@@ -379,7 +379,7 @@ class ContactModelCategory extends JModelList
 	/**
 	 * Increment the hit counter for the category.
 	 *
-	 * @param   int  $pk  Optional primary key of the category to increment.
+	 * @param   integer  $pk  Optional primary key of the category to increment.
 	 *
 	 * @return  boolean True if successful; false otherwise and internal error set.
 	 */
