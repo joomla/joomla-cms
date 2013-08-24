@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Aug-2013 Michael Babker
+ # [#31074] Cannot call abstract method FinderIndexer::toggleTables()
+
 23-Aug-2013 Jean-Marie Simonet
  # Reverting [#31641] which breaks Notices (File Type error message not displayed)
 
