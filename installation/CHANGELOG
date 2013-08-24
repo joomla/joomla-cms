@@ -25,6 +25,39 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Aug-2013 Jean-Marie Simonet
+ # Reverting [#31641] which breaks Notices (File Type error message not displayed)
+
+22-Aug-2013 Jean-Marie Simonet
+ # [#31804] Two classes assigned to pagination links. Thanks George Wilson
+ # [#31641] Fatal pass by reference error in MediaHelper. Thanks Elin Waring
+ # [#31796] Beez3: Login form. Thanks Tobias Zulauf
+ # [#31799] Missing maxlength attribute for input type password in Joomla 3.x. Thanks Ionut Lupu
+ # [#31750] class attribute for form field type media will be ignored. Thanks Anthony THERREAU
+ # [#31619] Fix subpackage tag in layouts + copyright. Thanks Brian Teeman
+ # [#30144] Obsolete class 'ModulesHelperXML'. Thanks Elijah Madden
+ # [#31662] Splitting the file containing JObserverMapper into own files for each interface / class. Thanks Thomas Hunziker
+ # [#28349] Incorrect ordering in Newsflash module. Thanks Gregory Wyman and Brian Teeman
+ # [#31813] Add nav-pill class to top menu. Thanks Brian Teeman
+ # Updating Russian flag. Thanks Peter Farrer
+ # [#31273] Sample Blog: ordering of menu items in main menu. Thanks Stefania Gaianigo
+
+21-Aug-2013 Jean-Marie Simonet
+ # [#31793] No Bootstrap dropdown edit profil FE. Thanks Tobias Zulauf
+ #$ [#31794] Untranslated string at the FE profil. Thanks Tobias Zulauf
+ # [#31724] Error pages: charset not defined - XSS risk.
+ # [#31778] Rows in #__contentitem_tag_map table not deleted during category delete. Thanks Mark Dexter
+
+18-Aug-2013 Jean-Marie Simonet
+ # [#31775] Sample data for Joomla Announcements Feed is wrong. Thanks Elin Waring
+ $ [#30664] User Categories helps screen strings missing. Thanks George Wilson
+
+17-Aug-2013 Jean-Marie Simonet
+ # [#31649] During Installation, PHP Setting Display Errors is Not Reported/Identified Correctly. Thanks Chad Windnagle
+ # [#30934] Language Pack Install fail on Joomla V3.1.1 with PostGreSQL DB Backend. Thanks Michael Babker
+ # [#31556] Strength meter of password field. Thanks Achal Aggarwal
+ # [#31754] *mod_feed issues in FE as well as BE. Thanks Achal Aggarwal
+
 15-Aug-2013 Michael Babker
  # [#31732] administrator/components/com_admin/sql/updates/postgresql/3.0.3.sql has wrong type should be integer instead of int(11).  Thanks Alan Hicks
 
