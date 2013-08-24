@@ -27,6 +27,7 @@ class JLanguage
 
 	/**
 	 * Debug language, If true, highlights if string isn't found.
+	 *
 	 * @var    boolean
 	 * @since  11.1
 	 */
@@ -34,6 +35,7 @@ class JLanguage
 
 	/**
 	 * The default language, used when a language file in the requested language does not exist.
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -41,6 +43,7 @@ class JLanguage
 
 	/**
 	 * An array of orphaned text.
+	 *
 	 * @var    array
 	 * @since  11.1
 	 */
@@ -48,6 +51,7 @@ class JLanguage
 
 	/**
 	 * Array holding the language metadata.
+	 *
 	 * @var    array
 	 * @since  11.1
 	 */
@@ -55,6 +59,7 @@ class JLanguage
 
 	/**
 	 * Array holding the language locale or boolean null if none.
+	 *
 	 * @var    array|boolean
 	 * @since  11.1
 	 */
@@ -62,6 +67,7 @@ class JLanguage
 
 	/**
 	 * The language to load.
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -69,6 +75,7 @@ class JLanguage
 
 	/**
 	 * A nested array of language files that have been loaded
+	 *
 	 * @var    array
 	 * @since  11.1
 	 */
@@ -76,6 +83,7 @@ class JLanguage
 
 	/**
 	 * List of language files that are in error state
+	 *
 	 * @var    array
 	 * @since  11.1
 	 */
@@ -83,6 +91,7 @@ class JLanguage
 
 	/**
 	 * Translations
+	 *
 	 * @var    array
 	 * @since  11.1
 	 */
@@ -90,6 +99,7 @@ class JLanguage
 
 	/**
 	 * An array of used text, used during debugging.
+	 *
 	 * @var    array
 	 * @since  11.1
 	 */
@@ -97,6 +107,7 @@ class JLanguage
 
 	/**
 	 * Counter for number of loads.
+	 *
 	 * @var    integer
 	 * @since  11.1
 	 */
@@ -104,6 +115,7 @@ class JLanguage
 
 	/**
 	 * An array used to store overrides.
+	 *
 	 * @var    array
 	 * @since  11.1
 	 */
@@ -111,6 +123,7 @@ class JLanguage
 
 	/**
 	 * Name of the transliterator function for this language.
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -118,35 +131,40 @@ class JLanguage
 
 	/**
 	 * Name of the pluralSuffixesCallback function for this language.
-	 * @var    string
+	 *
+	 * @var    callable
 	 * @since  11.1
 	 */
 	protected $pluralSuffixesCallback = null;
 
 	/**
 	 * Name of the ignoredSearchWordsCallback function for this language.
-	 * @var    string
+	 *
+	 * @var    callable
 	 * @since  11.1
 	 */
 	protected $ignoredSearchWordsCallback = null;
 
 	/**
 	 * Name of the lowerLimitSearchWordCallback function for this language.
-	 * @var    string
+	 *
+	 * @var    callable
 	 * @since  11.1
 	 */
 	protected $lowerLimitSearchWordCallback = null;
 
 	/**
-	 * Name of the uppperLimitSearchWordCallback function for this language
-	 * @var    string
+	 * Name of the uppperLimitSearchWordCallback function for this language.
+	 *
+	 * @var    callable
 	 * @since  11.1
 	 */
 	protected $upperLimitSearchWordCallback = null;
 
 	/**
 	 * Name of the searchDisplayedCharactersNumberCallback function for this language.
-	 * @var    string
+	 *
+	 * @var    callable
 	 * @since  11.1
 	 */
 	protected $searchDisplayedCharactersNumberCallback = null;
@@ -181,12 +199,14 @@ class JLanguage
 				ksort($contents, SORT_STRING);
 				$this->override = $contents;
 			}
+
 			unset($contents);
 		}
 
 		// Look for a language specific localise class
 		$class = str_replace('-', '_', $lang . 'Localise');
 		$paths = array();
+
 		if (defined('JPATH_SITE'))
 		{
 			// Note: Manual indexing to enforce load order.
@@ -210,6 +230,7 @@ class JLanguage
 			{
 				require_once $path;
 			}
+
 			$path = next($paths);
 		}
 
@@ -918,6 +939,7 @@ class JLanguage
 
 		// Search through the backtrace to our caller
 		$continue = true;
+
 		while ($continue && next($backtrace))
 		{
 			$step = current($backtrace);
@@ -1269,11 +1291,13 @@ class JLanguage
 			try
 			{
 				$metadata = self::parseXMLLanguageFile($file->getRealPath());
+
 				if ($metadata)
 				{
 					$lang = str_replace('.xml', '', $fileName);
 					$langs[$lang] = $metadata;
 				}
+
 				$languages = array_merge($languages, $langs);
 			}
 			catch (RuntimeException $e)
@@ -1303,6 +1327,7 @@ class JLanguage
 
 		// Try to load the file
 		$xml = simplexml_load_file($path);
+
 		if (!$xml)
 		{
 			return null;

@@ -88,7 +88,7 @@ abstract class JTableObserver implements JObserverInterface
 	/**
 	 * Pre-processor for $table->delete($pk)
 	 *
-	 * @param   mixed   $pk  An optional primary key value to delete.  If not set the instance property value is used.
+	 * @param   mixed  $pk  An optional primary key value to delete.  If not set the instance property value is used.
 	 *
 	 * @return  void
 	 *

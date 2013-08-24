@@ -427,8 +427,6 @@ abstract class JFactory
 			throw new BadMethodCallException('JEditor not found');
 		}
 
-		JLog::add(__METHOD__ . ' is deprecated. Use JEditor directly.', JLog::WARNING, 'deprecated');
-
 		// Get the editor configuration setting
 		if (is_null($editor))
 		{
