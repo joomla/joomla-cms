@@ -9,8 +9,6 @@
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.application.router');
-
 /**
  * Class to create and parse routes
  *

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Legacy
+ * @package     Joomla.Libraries
  * @subpackage  Pathway
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
@@ -14,27 +14,29 @@ defined('JPATH_PLATFORM') or die;
  *
  * The user's navigated path within the application.
  *
- * @package     Joomla.Legacy
+ * @package     Joomla.Libraries
  * @subpackage  Pathway
- * @since       11.1
+ * @since       1.5
  */
 class JPathway
 {
 	/**
 	 * @var    array  Array to hold the pathway item objects
-	 * @since  11.1
+	 * @since  1.5
+	 * @deprecated  4.0  Will convert to $pathway
 	 */
 	protected $_pathway = array();
 
 	/**
 	 * @var    integer  Integer number of items in the pathway
-	 * @since  11.1
+	 * @since  1.5
+	 * @deprecated  4.0  Will convert to $count
 	 */
 	protected $_count = 0;
 
 	/**
 	 * @var    array  JPathway instances container.
-	 * @since  11.3
+	 * @since  1.7
 	 */
 	protected static $instances = array();
 
@@ -43,7 +45,7 @@ class JPathway
 	 *
 	 * @param   array  $options  The class options.
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function __construct($options = array())
 	{
@@ -57,7 +59,7 @@ class JPathway
 	 *
 	 * @return  JPathway  A JPathway object.
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 * @throws  RuntimeException
 	 */
 	public static function getInstance($client, $options = array())
@@ -69,16 +71,17 @@ class JPathway
 
 			if (!class_exists($classname))
 			{
-				JLog::add('Non-autoloadable JPathway subclasses are deprecated.', JLog::WARNING, 'deprecated');
-
+				// @deprecated 4.0 Everything in this block is deprecated but the warning is only logged after the file_exists
 				// Load the pathway object
 				$info = JApplicationHelper::getClientInfo($client, true);
 
 				if (is_object($info))
 				{
 					$path = $info->path . '/includes/pathway.php';
+
 					if (file_exists($path))
 					{
+						JLog::add('Non-autoloadable JPathway subclasses are deprecated, support will be removed in 4.0.', JLog::WARNING, 'deprecated');
 						include_once $path;
 					}
 				}
@@ -98,11 +101,11 @@ class JPathway
 	}
 
 	/**
-	 * Return the JPathWay items array
+	 * Return the JPathway items array
 	 *
 	 * @return  array  Array of pathway items
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function getPathway()
 	{
@@ -119,7 +122,7 @@ class JPathway
 	 *
 	 * @return  array  The previous pathway data.
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function setPathway($pathway)
 	{
@@ -136,7 +139,7 @@ class JPathway
 	 *
 	 * @return  array  Array of names of pathway items
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function getPathwayNames()
 	{
@@ -160,13 +163,13 @@ class JPathway
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function addItem($name, $link = '')
 	{
 		$ret = false;
 
-		if ($this->_pathway[] = $this->_makeItem($name, $link))
+		if ($this->_pathway[] = $this->makeItem($name, $link))
 		{
 			$ret = true;
 			$this->_count++;
@@ -183,7 +186,7 @@ class JPathway
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function setItemName($id, $name)
 	{
@@ -206,9 +209,25 @@ class JPathway
 	 *
 	 * @return  JPathway  Pathway item object
 	 *
-	 * @since   11.1
+	 * @since   1.5
+	 * @deprecated  4.0  Use makeItem() instead
 	 */
 	protected function _makeItem($name, $link)
+	{
+		return $this->makeItem($name, $link);
+	}
+
+	/**
+	 * Create and return a new pathway object.
+	 *
+	 * @param   string  $name  Name of the item
+	 * @param   string  $link  Link to the item
+	 *
+	 * @return  JPathway  Pathway item object
+	 *
+	 * @since   3.1
+	 */
+	protected function makeItem($name, $link)
 	{
 		$item = new stdClass;
 		$item->name = html_entity_decode($name, ENT_COMPAT, 'UTF-8');

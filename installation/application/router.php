@@ -8,8 +8,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.router');
-
 /**
  * Class to create and parse routes
  *
