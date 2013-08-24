@@ -270,6 +270,7 @@ class JAuthentication extends JObject
 		foreach ($plugins as $plugin)
 		{
 			$className = 'plg' . $plugin->type . $plugin->name;
+
 			if (class_exists($className))
 			{
 				$plugin = new $className($this, (array) $plugin);
@@ -330,6 +331,7 @@ class JAuthentication extends JObject
 		JPluginHelper::importPlugin('authentication');
 		$dispatcher = JEventDispatcher::getInstance();
 		$results = $dispatcher->trigger('onUserAuthorisation', array($response, $options));
+
 		return $results;
 	}
 }

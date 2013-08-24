@@ -31,9 +31,20 @@ abstract class JImageFilter
 	 *
 	 * @since   11.3
 	 * @throws  InvalidArgumentException
+	 * @throws  RuntimeException
 	 */
 	public function __construct($handle)
 	{
+		// Verify that image filter support for PHP is available.
+		if (!function_exists('imagefilter'))
+		{
+			// @codeCoverageIgnoreStart
+			JLog::add('The imagefilter function for PHP is not available.', JLog::ERROR);
+			throw new RuntimeException('The imagefilter function for PHP is not available.');
+
+			// @codeCoverageIgnoreEnd
+		}
+
 		// Make sure the file handle is valid.
 		if (!is_resource($handle) || (get_resource_type($handle) != 'gd'))
 		{

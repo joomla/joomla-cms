@@ -31,6 +31,7 @@
 					name="rssurl"
 					type="url"
 					size="50"
+					filter="url"
 					label="MOD_FEED_FIELD_RSSURL_LABEL"
 					description="MOD_FEED_FIELD_RSSURL_DESC" />
 				<field
