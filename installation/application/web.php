@@ -69,8 +69,10 @@ final class InstallationApplicationWeb extends JApplicationWeb
 		// Register the application to JFactory
 		JFactory::$application = $this;
 
-		// Set the root in the URI based on the application name
-		JUri::root(null, str_ireplace('/installation', '', JUri::base(true)));
+		// Set the root in the URI one level up.
+		$parts = explode('/', JUri::base(true));
+		array_pop($parts);
+		JUri::root(null, implode('/', $parts));
 	}
 
 	/**
