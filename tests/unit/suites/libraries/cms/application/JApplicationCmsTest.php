@@ -61,8 +61,8 @@ class JApplicationCmsTest extends TestCaseDatabase
 	{
 		return array(
 			// Note: url, base, request, (expected result)
-			array('/foo', 'http://j.org/', 'http://j.org/index.php?v=3.2', 'http://j.org/foo'),
-			array('foo', 'http://j.org/', 'http://j.org/index.php?v=3.2', 'http://j.org/foo'),
+			array('/foo', 'http://mydomain.com/', 'http://mydomain.com/index.php?v=3.2', 'http://mydomain.com/foo'),
+			array('foo', 'http://mydomain.com/', 'http://mydomain.com/index.php?v=3.2', 'http://mydomain.com/foo'),
 		);
 	}
 
@@ -467,7 +467,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 */
 	public function testRedirect()
 	{
-		$base = 'http://j.org/';
+		$base = 'http://mydomain.com/';
 		$url = 'index.php';
 
 		// Inject the client information.
@@ -508,7 +508,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 */
 	public function testRedirectLegacy()
 	{
-		$base = 'http://j.org/';
+		$base = 'http://mydomain.com/';
 		$url = 'index.php';
 
 		// Inject the client information.
@@ -564,7 +564,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 */
 	public function testRedirectWithHeadersSent()
 	{
-		$base = 'http://j.org/';
+		$base = 'http://mydomain.com/';
 		$url = 'index.php';
 
 		// Emulate headers already sent.
@@ -597,7 +597,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 */
 	public function testRedirectWithJavascriptRedirect()
 	{
-		$url = 'http://j.org/index.php?phi=Φ';
+		$url = 'http://mydomain.com/index.php?phi=Φ';
 
 		// Inject the client information.
 		TestReflection::setValue(
@@ -634,7 +634,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 */
 	public function testRedirectWithMoved()
 	{
-		$url = 'http://j.org/index.php';
+		$url = 'http://mydomain.com/index.php';
 
 		// Inject the client information.
 		TestReflection::setValue(
