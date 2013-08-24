@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 24-Aug-2013 Michael Babker
  # [#31074] Cannot call abstract method FinderIndexer::toggleTables()
+ # [#29758] *Media Manager Maximum Upload Size.  Thanks Ram Tripathi
 
 23-Aug-2013 Jean-Marie Simonet
  # Reverting [#31641] which breaks Notices (File Type error message not displayed)
