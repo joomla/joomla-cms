@@ -86,7 +86,7 @@ defined('_JEXEC') or die;
 	}
 	
 	jQuery(document).ready(function() { 
-		Joomla.loadweb('index.php?option=com_installer&task=install.installfromweb');
+		Joomla.loadweb('index.php?option=com_installer&task=install.installfromweb&format=json');
 	});
 	
 </script>

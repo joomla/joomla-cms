@@ -49,15 +49,4 @@ class InstallerControllerInstall extends JControllerLegacy
 		$this->setRedirect($redirect_url);
 	}
 	
-	public function installfromweb() {
-		$model = $this->getModel('install');
-		$response = $model->installfromweb();
-		//$document = JFactory::getDocument();
-		//$document->setType('json');
-		//$document->setMimeEncoding ('application/json');
-
-		echo new JResponseJson($response['body'], $response['message'], $response['error']);
-		jexit();
-	}
-	
 }
