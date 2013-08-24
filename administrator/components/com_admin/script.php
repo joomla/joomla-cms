@@ -604,6 +604,7 @@ class JoomlaInstallerScript
 			// Joomla! 3.2
 			'/administrator/components/com_contact/models/fields/modal/contacts.php',
 			'/administrator/components/com_newsfeeds/models/fields/modal/newsfeeds.php',
+			'/libraries/idna_convert/example.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode

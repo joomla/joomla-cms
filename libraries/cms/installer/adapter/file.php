@@ -389,7 +389,7 @@ class JInstallerAdapterFile extends JAdapterInstance
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
 		$uid = $update->find(
-			array('element' => $this->get('element'), 'type' => 'file', 'client_id' => '', 'folder' => '')
+			array('element' => $this->get('element'), 'type' => 'file', 'client_id' => (int) '', 'folder' => '')
 		);
 
 		if ($uid)

@@ -2,7 +2,7 @@
 	* This is a Joomla! installation/upgrade package to version 3.x
 	* Joomla! Official site: http://www.joomla.org
 	* Joomla 3.1 version history - http://docs.joomla.org/Joomla_3.1_version_history
-	* Detailed changes in the Changelog: http://joomlacode.org/gf/project/joomla/scmsvn/?action=browse&path=/development/trunk/administrator/&view=log
+	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/master
 
 2- What is Joomla?
 	* Joomla is a Content Management System (CMS) which enables you to build Web sites and powerful online applications.

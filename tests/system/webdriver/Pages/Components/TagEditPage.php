@@ -74,7 +74,7 @@ class TagEditPage extends AdminEditPage
 			array('label' => 'Caption', 'id' => 'jform_images_image_fulltext_caption', 'type' => 'input', 'tab' => 'general'),
 			array('label' => 'Alias', 'id' => 'jform_alias', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'ID', 'id' => 'jform_id', 'type' => 'input', 'tab' => 'publishing'),
-			array('label' => 'Created by', 'id' => 'jform_created_user_id_name', 'type' => 'input', 'tab' => 'publishing'),
+			array('label' => 'Created by', 'id' => 'jform_created_user_id', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'Author\'s Alias', 'id' => 'jform_created_by_alias', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'Created Date', 'id' => 'jform_created_time', 'type' => 'input', 'tab' => 'publishing'),
 			array('label' => 'Alternative Layout', 'id' => 'jform_params_tag_layout', 'type' => 'select', 'tab' => 'options'),
