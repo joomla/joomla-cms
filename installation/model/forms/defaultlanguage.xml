@@ -12,11 +12,23 @@
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
-		<field name="activatePluginIsoCode"
+		<field name="installLocalisedContent"
 		       type="radio"
-		       id="activatePluginIsoCode"
+		       id="installLocalisedContent"
 		       class="btn-group"
-		       label="INSTL_DEFAULTLANGUAGE_ACTIVATE_ISO_CODE_PLUGIN"
+		       label="INSTL_DEFAULTLANGUAGE_INSTALL_LOCALISED_CONTENT"
+		       filter="integer"
+		       showon="activateMultilanguage:1"
+		       default="1"
+				>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+		<field name="activatePluginLanguageCode"
+		       type="radio"
+		       id="activatePluginLanguageCode"
+		       class="btn-group"
+		       label="INSTL_DEFAULTLANGUAGE_ACTIVATE_LANGUAGE_CODE_PLUGIN"
 		       filter="integer"
 		       showon="activateMultilanguage:1"
 		       default="0"

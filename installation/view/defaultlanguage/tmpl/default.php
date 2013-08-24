@@ -6,6 +6,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
+
 ?>
 <?php echo JHtml::_('installation.stepbarlanguages'); ?>
 <form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">
@@ -37,31 +38,38 @@ defined('_JEXEC') or die;
 
 	<h3><?php echo JText::_('INSTL_DEFAULTLANGUAGE_MULTILANGUAGE_TITLE'); ?></h3>
 	<hr class="hr-condensed" />
-	<p><?php echo JText::_('INSTL_DEFAULTLANGUAGE_MULTILANGUAGE_TITLE_DESC'); ?></p>
+	<p><?php echo JText::_('INSTL_DEFAULTLANGUAGE_MULTILANGUAGE_DESC'); ?></p>
 	<div class="control-group">
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('activateMultilanguage'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('activateMultilanguage'); ?>
-				<p class="help-block">
-					<?php echo JText::_('INSTL_DEFAULTLANGUAGE_ACTIVATE_MULTILANGUAGE_DESC'); ?>
-				</p>
-			</div>
+		<div class="control-label">
+			<?php echo $this->form->getLabel('activateMultilanguage'); ?>
+		</div>
+		<div class="controls">
+			<?php echo $this->form->getInput('activateMultilanguage'); ?>
+			<p class="help-block">
+				<?php echo JText::_('INSTL_DEFAULTLANGUAGE_ACTIVATE_MULTILANGUAGE_DESC'); ?>
+			</p>
 		</div>
 	</div>
 	<div class="control-group">
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('activatePluginIsoCode'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('activatePluginIsoCode'); ?>
-				<p class="help-block">
-					<?php echo JText::_('INSTL_DEFAULTLANGUAGE_ACTIVATE_ISO_CODE_PLUGIN_DESC'); ?>
-				</p>
-			</div>
+		<div class="control-label">
+			<?php echo $this->form->getLabel('installLocalisedContent'); ?>
+		</div>
+		<div class="controls">
+			<?php echo $this->form->getInput('installLocalisedContent'); ?>
+			<p class="help-block">
+				<?php echo JText::_('INSTL_DEFAULTLANGUAGE_INSTALL_LOCALISED_CONTENT_DESC'); ?>
+			</p>
+		</div>
+	</div>
+	<div class="control-group">
+		<div class="control-label">
+			<?php echo $this->form->getLabel('activatePluginLanguageCode'); ?>
+		</div>
+		<div class="controls">
+			<?php echo $this->form->getInput('activatePluginLanguageCode'); ?>
+			<p class="help-block">
+				<?php echo JText::_('INSTL_DEFAULTLANGUAGE_ACTIVATE_LANGUAGE_CODE_PLUGIN_DESC'); ?>
+			</p>
 		</div>
 	</div>
 
