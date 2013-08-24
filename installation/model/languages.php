@@ -915,11 +915,16 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	public function addCategory($itemLanguage)
 	{
+
+		$newlanguage = new JLanguage($itemLanguage->language, false);
+		$newlanguage->load('joomla', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
+		$title = $newlanguage->_('JCATEGORY');
+
 		// Initialize a new category
 		$category = JTable::getInstance('Category');
 		$category->extension = 'com_content';
-		$category->title = 'Main Category ('.strtolower($itemLanguage->language).')';
-		$category->description = 'A category for the site in language ' . $itemLanguage->name;
+		$category->title = $title.' ('.strtolower($itemLanguage->language).')';
+		$category->description = '';
 		$category->published = 1;
 		$category->access = 1;
 		$category->params = '{"target":"","image":""}';
