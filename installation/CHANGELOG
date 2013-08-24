@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#30692] *wrong display of attribute in readonly user field.  Thanks Jean-Marie Simonet
  # [#31831] Beez3: image overflow.  Thanks Tobias Zulauf
  $# [#31699] Remove last uses of JDispatcher.  Thanks George Wilson
+ ^ [#31629] Fix https problem if you are using Google Fonts protostar Template.  Thanks Ervis Tusha
 
 23-Aug-2013 Jean-Marie Simonet
  # Reverting [#31641] which breaks Notices (File Type error message not displayed)
