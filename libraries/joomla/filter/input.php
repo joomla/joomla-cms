@@ -641,7 +641,7 @@ class JFilterInput extends JObject
 		if (!is_array($ttr))
 		{
 			// Entity decode
-			$trans_tbl = get_html_translation_table(HTML_ENTITIES);
+			$trans_tbl = get_html_translation_table(HTML_ENTITIES, ENT_COMPAT, 'ISO-8859-1');
 			foreach ($trans_tbl as $k => $v)
 			{
 				$ttr[$v] = utf8_encode($k);
