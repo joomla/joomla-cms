@@ -12,5 +12,17 @@
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
+		<field name="activatePluginIsoCode"
+		       type="radio"
+		       id="activatePluginIsoCode"
+		       class="btn-group"
+		       label="INSTL_DEFAULTLANGUAGE_ACTIVATE_ISO_CODE_PLUGIN"
+		       filter="integer"
+		       showon="activateMultilanguage:1"
+		       default="0"
+				>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
 	</fieldset>
 </form>
