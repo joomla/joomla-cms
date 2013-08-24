@@ -40,7 +40,7 @@ class JFormFieldPassword extends JFormField
 	{
 		// Initialize some field attributes.
 		$size		= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
-		$maxLength	= $this->element['maxlength'] ? ' maxlength="' . (int) $this->element['maxlength'] . '"' : '99';
+		$maxLength	= $this->element['maxlength'] ? ' maxlength="' . (int) $this->element['maxlength'] . '"' : ' maxlength="99"';
 		$class		= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
 		$auto		= ((string) $this->element['autocomplete'] == 'off') ? ' autocomplete="off"' : '';
 		$readonly	= ((string) $this->element['readonly'] == 'true') ? ' readonly="readonly"' : '';

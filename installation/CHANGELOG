@@ -25,6 +25,23 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Aug-2013 Jean-Marie Simonet
+ # Reverting [#31641] which breaks Notices (File Type error message not displayed)
+
+22-Aug-2013 Jean-Marie Simonet
+ # [#31804] Two classes assigned to pagination links. Thanks George Wilson
+ # [#31641] Fatal pass by reference error in MediaHelper. Thanks Elin Waring
+ # [#31796] Beez3: Login form. Thanks Tobias Zulauf
+ # [#31799] Missing maxlength attribute for input type password in Joomla 3.x. Thanks Ionut Lupu
+ # [#31750] class attribute for form field type media will be ignored. Thanks Anthony THERREAU
+ # [#31619] Fix subpackage tag in layouts + copyright. Thanks Brian Teeman
+ # [#30144] Obsolete class 'ModulesHelperXML'. Thanks Elijah Madden
+ # [#31662] Splitting the file containing JObserverMapper into own files for each interface / class. Thanks Thomas Hunziker
+ # [#28349] Incorrect ordering in Newsflash module. Thanks Gregory Wyman and Brian Teeman
+ # [#31813] Add nav-pill class to top menu. Thanks Brian Teeman
+ # Updating Russian flag. Thanks Peter Farrer
+ # [#31273] Sample Blog: ordering of menu items in main menu. Thanks Stefania Gaianigo
+
 21-Aug-2013 Jean-Marie Simonet
  # [#31793] No Bootstrap dropdown edit profil FE. Thanks Tobias Zulauf
  #$ [#31794] Untranslated string at the FE profil. Thanks Tobias Zulauf
