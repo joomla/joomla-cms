@@ -59,7 +59,7 @@ abstract class MediaHelper
 
 		jimport('joomla.filesystem.file');
 
-		if ($file['name'] !== JFile::makesafe($file['name']))
+		if ($file['name'] !== JFile::makeSafe($file['name']))
 		{
 			$app = JFactory::getApplication();
 			$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNFILENAME'), 'notice');
