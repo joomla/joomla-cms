@@ -25,7 +25,7 @@ class ModFeedHelper
 	 *
 	 * @return  JFeedReader|string  Return a JFeedReader object or a string message if error.
 	 */
-	static function getFeed($params)
+	public static function getFeed($params)
 	{
 		// Module params
 		$rssurl = $params->get('rssurl', '');

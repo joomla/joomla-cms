@@ -56,7 +56,7 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function getAllInputFields_ScreenDisplayed_EqualExpected()
 	{
@@ -77,7 +77,7 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function constructor_OpenEditScreen_ArticleEditOpened()
 	{
@@ -89,7 +89,7 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function addArticle_WithFieldDefaults_ArticleAdded()
 	{
@@ -106,7 +106,7 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function addArticle_WithGivenFields_ArticleAdded()
 	{
@@ -126,7 +126,7 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @xtest
+	 * @test
 	*/
 	public function editArticle_ChangeFields_FieldsChanged()
 	{
@@ -145,7 +145,7 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function changeTagState_ChangeEnabledUsingToolbar_EnabledChanged()
 	{
@@ -160,7 +160,7 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function changeArticleStatus_TestAtFrontEnd()
 	{
@@ -181,10 +181,10 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 		$this->assertTrue($this->driver->findElement(By::xPath("//h2//a[contains(text(), 'Professionals')]"))->isDisplayed(), 'Professionals Must be Present');
 	}
 
-	/*
+	/**
 	 * @test
 	 */
-	public function testArticleEditPermission_TestAtFrontEnd()
+	public function articleEditPermission_TestAtFrontEnd()
 	{
 		$cfg=new SeleniumConfig();
 		$this->driver->get($cfg->host.$cfg->path);

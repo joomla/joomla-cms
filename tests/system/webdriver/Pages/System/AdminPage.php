@@ -98,7 +98,7 @@ abstract class AdminPage
 			'Content'				=> 'administrator/index.php#',
 			'Article Manager'		=> 'administrator/index.php?option=com_content',
 			'Add New Article'		=> 'administrator/index.php?option=com_content&task=article.add',
-			'Category Manager'		=> 'administrator/index.php?option=com_categories&view=categories',
+			'Category Manager'		=> 'administrator/index.php?option=com_categories&extension=com_content',
 			'Add New Category'		=> 'administrator/index.php?option=com_categories&task=category.add&extension=com_content',
 			'Featured Articles'		=> 'administrator/index.php?option=com_content&view=featured',
 			'Media Manager'			=> 'administrator/index.php?option=com_media',

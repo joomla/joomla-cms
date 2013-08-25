@@ -26,6 +26,22 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Aug-2013 Mark Dexter
+ + Start new front-end tests for articles. Thanks Puneet Kala!
+
+16-Aug-2013 Michael Babker
+ ^ Add a conditional for running app install
+
+15-Aug-2013 Mark Dexter
+ # Fix failing system tests due to markup changes.
+
+09-Aug-2013 Mark Dexter
+ # Fix failing system tests due to markup changes.
+
+31-Jul-2013 Michael Babker
+ + Add test coverage to JPlugin constructor testing private vars
+ + Add test coverage to JLoader::registerPrefix()
+
 27-Jul-2013 Michael Babker
  + Add test coverage to JViewLegacy::getName()
 
