@@ -98,11 +98,12 @@ class JFormFieldModal_Contact extends JFormField
 
 		// Get the title of the linked chart
 		$db = JFactory::getDbo();
-		$db->setQuery(
-			'SELECT name' .
-			' FROM #__contact_details' .
-			' WHERE id = '.(int) $this->value
-		);
+		$query = $db->getQuery(true)
+					->select($db->quoteName('name'))
+					->from($db->quoteName('#__contact_details'))
+					->where('id = ' . (int) $this->value);
+
+		$db->setQuery($query);
 
 		try
 		{
