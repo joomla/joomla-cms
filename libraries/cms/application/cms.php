@@ -671,7 +671,7 @@ class JApplicationCms extends JApplicationWeb
 		$this->registerEvent('onAfterSessionStart', array($this, 'afterSessionStart'));
 
 		$session = JSession::getInstance($handler, $options);
-		$session->initialise($this->input);
+		$session->initialise($this->input, $this->dispatcher);
 
 		if ($session->getState() == 'expired')
 		{
