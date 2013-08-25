@@ -903,9 +903,9 @@ class JApplicationWeb extends JApplicationBase
 		// Instantiate variables.
 		$config = array();
 
-		if (empty($file) && defined('JPATH_BASE'))
+		if (empty($file) && defined('JPATH_ROOT'))
 		{
-			$file = JPATH_BASE . '/configuration.php';
+			$file = JPATH_ROOT . '/configuration.php';
 
 			// Applications can choose not to have any configuration data
 			// by not implementing this method and not having a config file.
