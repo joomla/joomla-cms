@@ -10,22 +10,3 @@ UPDATE `#__content_types` SET `field_mappings` = '{"common":{"core_content_item_
 UPDATE `#__content_types` SET `field_mappings` = '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"published","core_alias":"alias","core_created_time":"created_time","core_modified_time":"modified_time","core_body":"description", "core_hits":"hits","core_publish_up":"null","core_publish_down":"null","core_access":"access", "core_params":"params", "core_featured":"null", "core_metadata":"metadata", "core_language":"language", "core_images":"null", "core_urls":"null", "core_version":"version", "core_ordering":"null", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"parent_id", "core_xreference":"null", "asset_id":"asset_id"}, "special": {"parent_id":"parent_id","lft":"lft","rgt":"rgt","level":"level","path":"path","extension":"extension","note":"note"}}' WHERE `type_id` = '9';
 UPDATE `#__content_types` SET `field_mappings` = '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"published","core_alias":"alias","core_created_time":"created_time","core_modified_time":"modified_time","core_body":"description", "core_hits":"hits","core_publish_up":"null","core_publish_down":"null","core_access":"access", "core_params":"params", "core_featured":"featured", "core_metadata":"metadata", "core_language":"language", "core_images":"images", "core_urls":"urls", "core_version":"version", "core_ordering":"null", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"null", "core_xreference":"null", "asset_id":"null"}, "special": {"parent_id":"parent_id","lft":"lft","rgt":"rgt","level":"level","path":"path"}}' WHERE `type_id` = '10';
 -- --------------------------------------------------------
-
---
--- Table structure for table `#__user_keys`
---
-
-CREATE TABLE IF NOT EXISTS `#__user_keys` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` varchar(255) NOT NULL,
-  `token` varchar(255) NOT NULL,
-  `series` varchar(255) NOT NULL,
-  `invalid` tinyint(4) NOT NULL,
-  `time` varchar(200) NOT NULL,
-  `uastring` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `series` (`series`),
-  UNIQUE KEY `series_2` (`series`),
-  UNIQUE KEY `series_3` (`series`),
-  KEY `user_id` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;

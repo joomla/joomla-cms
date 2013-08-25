@@ -13,22 +13,22 @@ defined('_JEXEC') or die;
  * Joomla Authentication plugin
  *
  * @package     Joomla.Plugin
- * @subpackage  Authentication.joomla
- * @since       1.5
+ * @subpackage  Authentication.cookie
+ * @since       3.2
  */
 class PlgAuthenticationCookie extends JPlugin
 {
 	/**
 	 * @var    JApplication
 	 *
-	 * @since  3.1.2
+	 * @since  3.2
 	 */
 	protected $app;
 
 	/**
 	 * @var    JApplication
 	 *
-	 * @since  3.1.2
+	 * @since  3.2
 	 */
 	protected $db;
 
@@ -41,7 +41,7 @@ class PlgAuthenticationCookie extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   3.1.2
+	 * @since   3.2
 	 */
 	public function onUserAuthenticate($credentials, $options, &$response)
 	{

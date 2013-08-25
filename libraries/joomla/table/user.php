@@ -339,7 +339,7 @@ class JTableUser extends JTable
 			}
 		}
 
-		// If a user is blocked, delete the remember me rows
+		// If a user is blocked, delete the cookie login rows
 		if ($this->block == (int) 1)
 		{
 			$query->clear()

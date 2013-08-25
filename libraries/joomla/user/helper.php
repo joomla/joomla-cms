@@ -311,10 +311,10 @@ abstract class JUserHelper
 	 * @return  string  The encrypted password.
 	 *
 	 * @since   11.1
-	 * @note    In Joomla! CMS 3.2 the default encrytion will be set to bcrypt. When PHP 5.5 is the minimum
+	 * @note    In Joomla! CMS 3.2 the default encrytion has been changed to bcrypt. When PHP 5.5 is the minimum
 	 *          supported version it will be changed to the PHP PASSWORD_DEFAULT constant.
 	 */
-	public static function getCryptedPassword($plaintext, $salt = '', $encryption = 'md5-hex', $show_encrypt = false)
+	public static function getCryptedPassword($plaintext, $salt = '', $encryption = 'bcrypt', $show_encrypt = false)
 	{
 
 		// Get the salt to use.
@@ -400,7 +400,14 @@ abstract class JUserHelper
 
 				return '$apr1$' . $salt . '$' . implode('', $p) . self::_toAPRMD5(ord($binary[11]), 3);
 
+			case 'md5-hex':
+				$encrypted = ($salt) ? md5($plaintext . $salt) : md5($plaintext);
+
+				return ($show_encrypt) ? '{MD5}' . $encrypted : $encrypted;
+
 			case 'bcrypt':
+				// 'bcrypt' is be the default case starting in CMS 3.2.
+				default:
 
 				if (JCrypt::hasStrongPasswordSupport())
 				{
@@ -421,12 +428,6 @@ abstract class JUserHelper
 
 				}
 
-			case 'md5-hex':
-				// 'bcrypt' will be the default case starting in CMS 3.2.
-				default:
-				$encrypted = ($salt) ? md5($plaintext . $salt) : md5($plaintext);
-
-				return ($show_encrypt) ? '{MD5}' . $encrypted : $encrypted;
 
 		}
 	}

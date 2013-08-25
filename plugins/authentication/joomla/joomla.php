@@ -56,7 +56,7 @@ class PlgAuthenticationJoomla extends JPlugin
 		{
 			/*
 			 * Longer term this should use JCrypt for this.
-			 * Currently we only support BCrypt and older Joomla style hashing. For 5.5 move to PASSWORD_DAFAULT
+			 * Currently we only support BCrypt and older Joomla style hashing. For 5.5 move to PASSWORD_DEFAULT
 			 */
 			$match = false;
 

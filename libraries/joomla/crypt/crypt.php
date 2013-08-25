@@ -268,6 +268,8 @@ class JCrypt
 	 * @param   string  $unknown  An unknown string to check.
 	 *
 	 * @return  bool	True if the two strings are exactly the same.
+	 * 
+	 * @since  3.2
 	 */
 	public static function timingSafeCompare($known, $unknown)
 	{
@@ -299,7 +301,7 @@ class JCrypt
 	 *
 	 * @return  boolean  True if updated crypt() is available.
 	 *
-	 * @since   3.1.2
+	 * @since   3.2
 	 * @note  To be removed when PHP 5.3.7 or higher is the minimum supported version.
 	 */
 	public static function hasStrongPasswordSupport()
