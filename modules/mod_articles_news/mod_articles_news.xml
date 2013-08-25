@@ -151,7 +151,7 @@
 				<field
 					name="direction"
 					type="list"
-					default="1"
+					default="0"
 					label="JGLOBAL_ORDER_DIRECTION_LABEL"
 					description="JGLOBAL_ORDER_DIRECTION_DESC">
 					<option
