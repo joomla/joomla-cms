@@ -894,7 +894,7 @@ class JForm
 		}
 
 		// Find the form field element from the definition.
-		$old = &$this->findField((string) $element['name'], $group);
+		$old = $this->findField((string) $element['name'], $group);
 
 		// If an existing field is found and replace flag is false do nothing and return true.
 		if (!$replace && !empty($old))
