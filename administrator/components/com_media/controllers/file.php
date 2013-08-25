@@ -117,8 +117,8 @@ class MediaControllerFile extends JControllerLegacy
 
 			if (!MediaHelper::canUpload($file, $err))
 			{
-				// The file can't be upload
-				JError::raiseNotice(100, JText::_($err));
+				// The file can't be uploaded
+
 				return false;
 			}
 
