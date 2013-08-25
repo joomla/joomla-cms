@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Microdata
- * @since       13.1
+ * @since       3.2
  */
 class JMicrodata
 {
@@ -22,7 +22,7 @@ class JMicrodata
 	 * Array with all available Types and Properties
 	 *
 	 * @var     array
-	 * @since   13.1
+	 * @since   3.2
 	 */
 	protected static $types = null;
 
@@ -30,7 +30,7 @@ class JMicrodata
 	 * The Schema.org Type
 	 *
 	 * @var		string
-	 * @since	13.1
+	 * @since	3.2
 	 */
 	protected $type;
 
@@ -38,7 +38,7 @@ class JMicrodata
 	 * The Property
 	 *
 	 * @var		string
-	 * @since	13.1
+	 * @since	3.2
 	 */
 	protected $property = null;
 
@@ -46,7 +46,7 @@ class JMicrodata
 	 * The Human value or Machine value
 	 *
 	 * @var		string
-	 * @since	13.1
+	 * @since	3.2
 	 */
 	protected $content = '';
 
@@ -54,7 +54,7 @@ class JMicrodata
 	 * Fallback Type
 	 *
 	 * @var		string
-	 * @since	13.1
+	 * @since	3.2
 	 */
 	protected $fallbackType = null;
 
@@ -62,7 +62,7 @@ class JMicrodata
 	 * Fallback Property
 	 *
 	 * @var		string
-	 * @since	13.1
+	 * @since	3.2
 	 */
 	protected $fallbackProperty = null;
 
@@ -70,7 +70,7 @@ class JMicrodata
 	 * Used to check if a Fallback must be used
 	 *
 	 * @var		string
-	 * @since	13.1
+	 * @since	3.2
 	 */
 	protected $fallback = false;
 
@@ -78,7 +78,7 @@ class JMicrodata
 	 * Used to check if the Microdata semantics output are enabled or disabled
 	 *
 	 * @var 	boolean
-	 * @since	13.1
+	 * @since	3.2
 	 */
 	protected $enabled = true;
 
@@ -92,7 +92,6 @@ class JMicrodata
 		// Load the JSON file
 		if (!self::$types)
 		{
-			// TODO cache somewhere
 			$path = JPATH_PLATFORM . '/joomla/microdata/types.json';
 			self::$types = json_decode(file_get_contents($path), true);
 		}
@@ -613,7 +612,7 @@ class JMicrodata
 	 *
 	 * @return	string
 	 *
-	 * @since	13.1
+	 * @since	3.2
 	 */
 	public static function htmlMeta($content, $property, $scope = '', $inverse = false)
 	{
@@ -653,7 +652,7 @@ class JMicrodata
 	 *
 	 * @return	string
 	 *
-	 * @since	13.1
+	 * @since	3.2
 	 */
 	public static function htmlSpan($content, $property = '', $scope = '', $inverse = false)
 	{
@@ -694,7 +693,7 @@ class JMicrodata
 	 *
 	 * @return	string
 	 *
-	 * @since	13.1
+	 * @since	3.2
 	 */
 	public static function htmlDiv($content, $property = '', $scope = '', $inverse = false)
 	{

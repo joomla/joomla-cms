@@ -15,7 +15,7 @@ require_once JPATH_PLATFORM . '/joomla/microdata/microdata.php';
 * @package     Joomla.UnitTest
 * @subpackage  Microdata
 *
-* @since       13.1
+* @since       3.2
 */
 class JMicrodataTest extends PHPUnit_Framework_TestCase
 {
@@ -403,7 +403,7 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 		// Setup
 		$type = 'Article';
 		$method = self::getMethod('getExpectedDisplayType');
-		$obj = new JMicrodata();
+		$obj = new JMicrodata;
 
 		// Test if Display Type is 'normal'
 		$this->assertEquals(
@@ -463,6 +463,11 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue(in_array('Thing', $responce));
 	}
 
+	/**
+	 * Test the static htmlMeta() function
+	 * 
+	 * @return	void
+	 */
 	public function testHtmlMeta()
 	{
 		$scope = 'Article';
@@ -577,7 +582,9 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 	/**
 	 * A function helper that allows to test protected functions
 	 *
-	 * @param  string  $name
+	 * @param   string  $name  The name of the method
+	 * 
+	 * @return	object
 	 */
 	protected static function getMethod($name)
 	{
