@@ -24,7 +24,7 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 	</div>
 <?php endif; ?>
 
-<form id="member-profile" action="<?php echo JRoute::_('index.php?option=com_users&task=profile.save'); ?>" method="post" class="form-validate form-horizontal" enctype="multipart/form-data">
+<form id="member-profile" action="<?php echo JRoute::_('index.php?option=com_users&task=profile.save'); ?>" method="post" class="form-validate form-horizontal well" enctype="multipart/form-data">
 <?php foreach ($this->form->getFieldsets() as $group => $fieldset):// Iterate through the form fieldsets and display each one.?>
 	<?php $fields = $this->form->getFieldset($group);?>
 	<?php if (count($fields)):?>
@@ -57,13 +57,14 @@ $lang->load('plg_user_profile', JPATH_ADMINISTRATOR);
 	<?php endif;?>
 <?php endforeach;?>
 
-		<div class="form-actions">
-			<button type="submit" class="btn btn-primary validate"><span><?php echo JText::_('JSUBMIT'); ?></span></button>
-			<a class="btn" href="<?php echo JRoute::_(''); ?>" title="<?php echo JText::_('JCANCEL'); ?>"><?php echo JText::_('JCANCEL'); ?></a>
-
-			<input type="hidden" name="option" value="com_users" />
-			<input type="hidden" name="task" value="profile.save" />
-			<?php echo JHtml::_('form.token'); ?>
+		<div class="control-group">
+			<div class="controls">
+				<button type="submit" class="btn btn-primary validate"><span><?php echo JText::_('JSUBMIT'); ?></span></button>
+				<a class="btn" href="<?php echo JRoute::_(''); ?>" title="<?php echo JText::_('JCANCEL'); ?>"><?php echo JText::_('JCANCEL'); ?></a>
+				<input type="hidden" name="option" value="com_users" />
+				<input type="hidden" name="task" value="profile.save" />
+			</div>
 		</div>
+		<?php echo JHtml::_('form.token'); ?>
 	</form>
 </div>
