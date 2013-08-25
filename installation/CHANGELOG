@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 25-Aug-2013 Jean-Marie Simonet
  # [#31830] Fatal pass by reference error in MediaHelper Take 2. Thanks Elin Waring
+ # [#29973] Searching for updates throws out exception when url doesn't return body content. Thanks Piotr Cz
 
 24-Aug-2013 Elin Waring
  ^ [#31005] Move JMenu, JRouter, and JPathway to the CMS tree. Thanks Michael Babker
