@@ -189,8 +189,8 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery
 	 * @return  string  The string with the appropriate sql for addition of dates
 	 *
 	 * @since   13.1
-	 * @note Not all drivers support all units.
-	 * @link http://msdn.microsoft.com/en-us/library/ms186819.aspx for more information
+	 * @note    Not all drivers support all units.
+	 * @link    http://msdn.microsoft.com/en-us/library/ms186819.aspx for more information
 	 */
 	public function dateAdd($date, $interval, $datePart)
 	{

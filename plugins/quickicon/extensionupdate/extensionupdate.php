@@ -46,7 +46,7 @@ class PlgQuickiconExtensionupdate extends JPlugin
 
 		JHtml::_('jquery.framework');
 
-		$ajax_url = JURI::base().'index.php?option=com_installer&view=update&task=update.ajax';
+		$ajax_url = JUri::base().'index.php?option=com_installer&view=update&task=update.ajax';
 		$script = "var plg_quickicon_extensionupdate_ajax_url = '$ajax_url';\n";
 		$script .= 'var plg_quickicon_extensionupdate_text = {"UPTODATE" : "'.
 			JText::_('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE', true).'", "UPDATEFOUND": "'.

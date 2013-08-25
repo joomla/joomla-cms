@@ -156,7 +156,9 @@ class JToolbar
 		$html = array();
 
 		// Start toolbar div.
-		$html[] = '<div class="btn-toolbar" id="' . $this->_name . '">';
+		$layout = new JLayoutFile('joomla.toolbar.containeropen');
+
+		$html[] = $layout->render(array('id' => $this->_name));
 
 		// Render each button in the toolbar.
 		foreach ($this->_bar as $button)
@@ -165,9 +167,11 @@ class JToolbar
 		}
 
 		// End toolbar div.
-		$html[] = '</div>';
+		$layout = new JLayoutFile('joomla.toolbar.containerclose');
 
-		return implode("\n", $html);
+		$html[] = $layout->render(array());
+
+		return implode('', $html);
 	}
 
 	/**

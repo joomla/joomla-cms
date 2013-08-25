@@ -116,7 +116,7 @@ class MediaViewMedia extends JViewLegacy
 		// Add a create folder button
 		if ($user->authorise('core.create', 'com_media'))
 		{
-			$title = JText::_('COM_MEDIA_CREATE_FOLDER');
+			$title = JText::_('COM_MEDIA_CREATE_NEW_FOLDER');
 			$dhtml = "<button data-toggle=\"collapse\" data-target=\"#collapseFolder\" class=\"btn btn-small\">
 						<i class=\"icon-folder\" title=\"$title\"></i>
 						$title</button>";
@@ -128,7 +128,7 @@ class MediaViewMedia extends JViewLegacy
 		if ($user->authorise('core.delete', 'com_media'))
 		{
 			$title = JText::_('JTOOLBAR_DELETE');
-			$dhtml = "<button href=\"#\" onclick=\"MediaManager.submit('folder.delete')\" class=\"btn btn-small\">
+			$dhtml = "<button onclick=\"MediaManager.submit('folder.delete')\" class=\"btn btn-small\">
 						<i class=\"icon-remove\" title=\"$title\"></i>
 						$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'delete');

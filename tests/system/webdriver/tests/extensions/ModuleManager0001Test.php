@@ -84,12 +84,7 @@ class ModuleManager0001Test extends JoomlaWebdriverTestCase
 		$this->driver->waitForElementUntilIsPresent(By::xPath("//a[contains(., 'Articles Categories')]"))->click();
 		$moduleEditPage = $this->getPageObject('ModuleEditPage');
 		$testElements = $moduleEditPage->getAllInputFields($moduleEditPage->tabs);
-		$actualFields = array();
-		foreach ($testElements as $el)
-		{
-			$el->labelText = (substr($el->labelText, -2) == ' *') ? substr($el->labelText, 0, -2) : $el->labelText;
-			$actualFields[] = array('label' => $el->labelText, 'id' => $el->id, 'type' => $el->tag, 'tab' => $el->tab);
-		}
+		$actualFields = $this->getActualFieldsFromElements($testElements);
 		$this->assertEquals($moduleEditPage->inputFields, $actualFields);
 		$moduleEditPage->clickButton('toolbar-cancel');
 		$this->moduleManagerPage = $this->getPageObject('ModuleManagerPage');
@@ -106,7 +101,7 @@ class ModuleManager0001Test extends JoomlaWebdriverTestCase
 		$this->assertTrue(strpos($message, 'Module successfully saved') >= 0, 'Module save should return success');
 		$this->moduleManagerPage->searchFor('Test Module');
 		$this->assertTrue($this->moduleManagerPage->getRowNumber('Test Module') > 0, 'Test module should be in row 2');
-		$this->moduleManagerPage->deleteItem('Test Module');
+		$this->moduleManagerPage->trashAndDelete('Test Module');
 		$this->assertFalse($this->moduleManagerPage->getRowNumber('Test Module'), 'Test module should not be present');
 	}
 
@@ -132,7 +127,7 @@ class ModuleManager0001Test extends JoomlaWebdriverTestCase
 
 		$values = $this->moduleManagerPage->getModuleFieldValues($title, $client, array('Position', 'Module Class Suffix'));
 		$this->assertEquals(array($position, $suffix), $values, 'Actual position and suffix should match expected');
-		$this->moduleManagerPage->deleteItem($title);
+		$this->moduleManagerPage->trashAndDelete($title);
 		$this->moduleManagerPage->searchFor($title);
 		$this->assertFalse($this->moduleManagerPage->getRowNumber($title), 'Test module should not be present');
 		$this->moduleManagerPage->searchFor();
@@ -169,7 +164,7 @@ class ModuleManager0001Test extends JoomlaWebdriverTestCase
 
 		$values = $this->moduleManagerPage->getModuleFieldValues($newTitle, $client, array('Title', 'Position', 'Module Class Suffix', 'Note'));
 		$this->assertEquals(array($newTitle, $newPosition, $newSuffix, $newNote), $values, 'Actual values should match expected');
-		$this->moduleManagerPage->deleteItem($newTitle);
+		$this->moduleManagerPage->trashAndDelete($newTitle);
 	}
 
 	/**
@@ -183,7 +178,7 @@ class ModuleManager0001Test extends JoomlaWebdriverTestCase
 		$this->moduleManagerPage->changeModuleState('Test Module', 'unpublished');
 		$state = $this->moduleManagerPage->getState('Test Module');
 		$this->assertEquals('unpublished', $state, 'State should be unpublished');
-		$this->moduleManagerPage->deleteItem('Test Module');
+		$this->moduleManagerPage->trashAndDelete('Test Module');
 	}
 
 }

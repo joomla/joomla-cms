@@ -56,8 +56,6 @@ class BannersModelTracks extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = JFactory::getApplication('administrator');
-
 		// Load the filter state.
 		$type = $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type');
 		$this->setState('filter.type', $type);

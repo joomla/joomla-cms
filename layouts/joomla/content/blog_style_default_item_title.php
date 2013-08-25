@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 $params = $displayData->params;
 $canEdit = $displayData->params->get('access-edit');
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.framework');
 ?>
 

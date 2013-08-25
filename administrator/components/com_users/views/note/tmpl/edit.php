@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-/* @var $this UsersViewNote */
-
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
 ?>

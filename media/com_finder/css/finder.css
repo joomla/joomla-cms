@@ -27,7 +27,7 @@
 
 #search-results li.search-result .mime-pdf {
 	padding-left:20px;
-	background:url(../images/mime/pdf.png) no-repeat;
+	background:url(../../system/images/pdf_button.png) no-repeat;
 }
 
 #search-results .search-pagination,

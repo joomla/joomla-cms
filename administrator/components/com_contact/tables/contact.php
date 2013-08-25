@@ -16,25 +16,15 @@ defined('_JEXEC') or die;
 class ContactTableContact extends JTable
 {
 	/**
-	 * Helper object for storing and deleting tag information.
-	 *
-	 * @var    JHelperTags
-	 * @since  3.1
-	 */
-	protected $tagsHelper = null;
-
-	/**
 	 * Constructor
 	 *
-	 * @param  JDatabase  Database connector object
+	 * @param   JDatabaseDriver  &$db  Database connector object
 	 *
-	 * @since 1.0
+	 * @since   1.0
 	 */
-	public function __construct(& $db)
+	public function __construct(&$db)
 	{
 		parent::__construct('#__contact_details', 'id', $db);
-		$this->tagsHelper = new JHelperTags();
-		$this->tagsHelper->typeAlias = 'com_contact.contact';
 	}
 
 	/**
@@ -65,27 +55,10 @@ class ContactTableContact extends JTable
 		return parent::bind($array, $ignore);
 	}
 
-
-	/**
-	 * Override parent delete method to delete tags information.
-	 *
-	 * @param   integer  $pk  Primary key to delete.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   3.1
-	 * @throws  UnexpectedValueException
-	 */
-	public function delete($pk = null)
-	{
-		$result = parent::delete($pk);
-		return $result && $this->tagsHelper->deleteTagData($this, $pk);
-	}
-
 	/**
 	 * Stores a contact
 	 *
-	 * @param   boolean	True to update fields even if they are null.
+	 * @param   boolean  True to update fields even if they are null.
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
@@ -142,6 +115,12 @@ class ContactTableContact extends JTable
 			$this->xreference = '';
 		}
 
+		// Store utf8 email as punycode
+		$this->email_to = JStringPunycode::emailToPunycode($this->email_to);
+
+		// Convert IDN urls to punycode
+		$this->webpage = JStringPunycode::urlToPunycode($this->webpage);
+
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Contact', 'ContactTable');
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
@@ -151,10 +130,8 @@ class ContactTableContact extends JTable
 			return false;
 		}
 
-		$this->tagsHelper->preStoreProcess($this);
-		$result = parent::store($updateNulls);
-
-		return $result && $this->tagsHelper->postStoreProcess($this);	}
+		return parent::store($updateNulls);
+	}
 
 	/**
 	 * Overloaded check function

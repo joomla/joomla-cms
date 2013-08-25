@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_users
  * @since       1.6
  */
-class UsersViewDebugUser extends JViewLegacy
+class UsersViewDebuguser extends JViewLegacy
 {
 	protected $actions;
 

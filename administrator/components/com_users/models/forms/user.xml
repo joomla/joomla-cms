@@ -22,6 +22,7 @@
 			class="inputbox validate-password"
 			description="COM_USERS_USER_FIELD_PASSWORD_DESC"
 			filter="raw"
+			validate="password"
 			label="JGLOBAL_PASSWORD"
 			size="30"
 		/>
@@ -34,7 +35,7 @@
 			label="COM_USERS_USER_FIELD_PASSWORD2_LABEL"
 			size="30"
 			validate="equals"
-			field="password2"
+			field="password"
 		/>
 
 		<field name="email" type="email"

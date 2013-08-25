@@ -40,11 +40,11 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<?php echo $this->pagination->getLimitBox(); ?>
 			</div>
 			<div class="filter-search btn-group pull-left">
-				<input type="text" name="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('JSEARCH_FILTER'); ?>" />
+				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_INSTALLER_FILTER_LABEL'); ?>" />
 			</div>
 			<div class="btn-group pull-left">
-				<button class="btn tip hasTooltip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-				<button class="btn tip hasTooltip" type="button" onclick="document.id('filter_search').value='';this.form.submit();" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>"><i class="icon-remove"></i></button>
+				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
+				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
 			</div>
 		</div>
 		<div class="clearfix"> </div>
@@ -54,7 +54,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<thead>
 				<tr>
 					<th width="20">
-						<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
+						<?php echo JHtml::_('grid.checkall'); ?>
 					</th>
 					<th class="nowrap">
 						<?php echo JHtml::_('grid.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
@@ -99,7 +99,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<?php echo JHtml::_('grid.id', $i, $item->extension_id); ?>
 					</td>
 					<td>
-						<span class="bold hasTip" title="<?php echo htmlspecialchars($item->name.'::'.$item->description); ?>">
+						<span class="bold hasTooltip" title="<?php echo JHtml::tooltipText($item->name, $item->description, 0); ?>">
 							<?php echo $item->name; ?>
 						</span>
 					</td>
@@ -123,7 +123,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<?php echo @$item->creationDate != '' ? $item->creationDate : '&#160;'; ?>
 					</td>
 					<td class="center">
-						<span class="editlinktip hasTip" title="<?php echo addslashes(htmlspecialchars(JText::_('COM_INSTALLER_AUTHOR_INFORMATION').'::'.$item->author_info)); ?>">
+						<span class="editlinktip hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_INSTALLER_AUTHOR_INFORMATION'), $item->author_info, 0); ?>">
 							<?php echo @$item->author != '' ? $item->author : '&#160;'; ?>
 						</span>
 					</td>

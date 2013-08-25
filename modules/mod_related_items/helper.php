@@ -20,13 +20,14 @@ require_once JPATH_SITE . '/components/com_content/helpers/route.php';
  */
 abstract class ModRelatedItemsHelper
 {
-	public static function getList($params)
+	public static function getList(&$params)
 	{
 		$db = JFactory::getDbo();
 		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 		$date = JFactory::getDate();
+		$maximum = (int) $params->get('maximum', 5);
 
 		$option = $app->input->get('option');
 		$view = $app->input->get('view');
@@ -111,7 +112,7 @@ abstract class ModRelatedItemsHelper
 						$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 					}
 
-					$db->setQuery($query);
+					$db->setQuery($query, 0, $maximum);
 					$temp = $db->loadObjectList();
 
 					if (count($temp))

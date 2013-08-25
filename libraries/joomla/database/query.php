@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -101,7 +101,7 @@ class JDatabaseQueryElement
 	/**
 	 * Gets the elements of this element.
 	 *
-	 * @return  string
+	 * @return  array
 	 *
 	 * @since   11.1
 	 */
@@ -140,6 +140,10 @@ class JDatabaseQueryElement
  * @method      string  q()   q($text, $escape = true)  Alias for quote method
  * @method      string  qn()  qs($name, $as = null)     Alias for quoteName method
  * @method      string  e()   e($text, $extra = false)   Alias for escape method
+ * @property-read   JDatabaseQueryElement  $type
+ * @property-read   JDatabaseQueryElement  $select
+ * @property-read   JDatabaseQueryElement  $group
+ * @property-read   JDatabaseQueryElement  $having
  */
 abstract class JDatabaseQuery
 {
@@ -382,8 +386,8 @@ abstract class JDatabaseQuery
 				break;
 
 			case 'unionAll':
-					$query .= (string) $this->unionAll;
-					break;
+				$query .= (string) $this->unionAll;
+				break;
 
 			case 'delete':
 				$query .= (string) $this->delete;
@@ -877,6 +881,8 @@ abstract class JDatabaseQuery
 	 * @param   string  $subQueryAlias  Alias used when $tables is a JDatabaseQuery.
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @throws  RuntimeException
 	 *
 	 * @since   11.1
 	 */
@@ -1398,15 +1404,15 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->setQuery('select * from #__users');
 	 *
-	 * @param   mixed  $query  An SQL Query
+	 * @param   mixed  $sql  An SQL Query
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @since   12.1
 	 */
-	public function setQuery($query)
+	public function setQuery($sql)
 	{
-		$this->sql = $query;
+		$this->sql = $sql;
 
 		return $this;
 	}
@@ -1490,31 +1496,31 @@ abstract class JDatabaseQuery
 		return $this;
 	}
 
-   /**
-     * Method to provide deep copy support to nested objects and
-     * arrays when cloning.
-     *
-     * @return  void
-     *
-     * @since   11.3
-     */
-    public function __clone()
-    {
-        foreach ($this as $k => $v)
-        {
-            if ($k === 'db')
-            {
-                continue;
-            }
+	/**
+	 * Method to provide deep copy support to nested objects and
+	 * arrays when cloning.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.3
+	 */
+	public function __clone()
+	{
+		foreach ($this as $k => $v)
+		{
+			if ($k === 'db')
+			{
+				continue;
+			}
 
-            if (is_object($v) || is_array($v))
-            {
-                $this->$k = unserialize(serialize($v));
-            }
-        }
-    }
+			if (is_object($v) || is_array($v))
+			{
+				$this->{$k} = unserialize(serialize($v));
+			}
+		}
+	}
 
-    /**
+	/**
 	 * Add a query to UNION with the current query.
 	 * Multiple unions each require separate statements and create an array of unions.
 	 *
@@ -1561,7 +1567,6 @@ abstract class JDatabaseQuery
 		// Otherwise append the second UNION.
 		else
 		{
-			$glue = '';
 			$this->union->append($query);
 		}
 
@@ -1789,9 +1794,8 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  The string with the appropriate sql for addition of dates
 	 *
+	 * @see     http://dev.mysql.com/doc/refman/5.1/en/date-and-time-functions.html#function_date-add
 	 * @since   13.1
-	 *
-	 * @see http://dev.mysql.com/doc/refman/5.1/en/date-and-time-functions.html#function_date-add
 	 */
 	public function dateAdd($date, $interval, $datePart)
 	{
@@ -1829,7 +1833,6 @@ abstract class JDatabaseQuery
 		// Otherwise append the second UNION.
 		else
 		{
-			$glue = '';
 			$this->unionAll->append($query);
 		}
 

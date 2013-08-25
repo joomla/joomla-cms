@@ -32,8 +32,6 @@ class AdmintoolsHelperDownload
 	{
 		jimport('joomla.filesystem.file');
 
-		$hackPermissions = false;
-
 		// Make sure the target does not exist
 		if (JFile::exists($target))
 		{
@@ -54,7 +52,6 @@ class AdmintoolsHelperDownload
 				if ( self::chmod($target, 511) )
 				{
 					$fp = @fopen($target, 'wb');
-					$hackPermissions = true;
 				}
 			}
 		}
@@ -173,8 +170,6 @@ class AdmintoolsHelperDownload
 	 */
 	private static function &getCURL($url, $fp = null, $nofollow = false)
 	{
-		$result = false;
-
 		$ch = curl_init($url);
 
 		if ( !@curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1) && !$nofollow )
@@ -286,12 +281,6 @@ class AdmintoolsHelperDownload
 	private static function &getFOPEN($url, $fp = null)
 	{
 		$result = false;
-
-		// Track errors
-		if ( function_exists('ini_set') )
-		{
-			$track_errors = ini_set('track_errors', true);
-		}
 
 		// Open the URL for reading
 		if (function_exists('stream_context_create'))
@@ -435,6 +424,7 @@ class AdmintoolsHelperDownload
 		{
 			return false;
 		}
+		return $ret;
 	}
 
 }

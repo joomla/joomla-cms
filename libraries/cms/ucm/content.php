@@ -53,9 +53,9 @@ class JUcmContent extends JUcmBase
 	/**
 	 * Instantiate JUcmContent.
 	 *
-	 * @param   JTable    $table   The table object
-	 * @param   sring     $alias   The type alias
-	 * @param   JUcmType  $type    The type object
+	 * @param   JTable    $table  The table object
+	 * @param   sring     $alias  The type alias
+	 * @param   JUcmType  $type   The type object
 	 *
 	 * @since   3.1
 	 */
@@ -100,7 +100,7 @@ class JUcmContent extends JUcmBase
 		if (isset($ucmData['special']))
 		{
 			$table = $this->table;
-			$this->store($ucmData['special'], $table,'');
+			$this->store($ucmData['special'], $table, '');
 		}
 
 		return true;
@@ -151,11 +151,13 @@ class JUcmContent extends JUcmBase
 	{
 		$contentType = isset($type) ? $type : $this->type;
 
-		$fields = json_decode($contentType->type->field_mappings, true);
+		$fields = json_decode($contentType->type->field_mappings);
 
 		$ucmData = array();
 
-		foreach ($fields['common'][0] as $i => $field)
+		$common = (is_object($fields->common)) ? $fields->common : $fields->common[0];
+
+		foreach ($common as $i => $field)
 		{
 			if ($field && $field != 'null' && array_key_exists($field, $original))
 			{
@@ -165,7 +167,9 @@ class JUcmContent extends JUcmBase
 
 		if (array_key_exists('special', $ucmData))
 		{
-			foreach ($fields['special'][0] as $i => $field)
+			$special = (is_object($fields->special)) ? $fields->special : $fields->special[0];
+
+			foreach ($special as $i => $field)
 			{
 				if ($field && $field != 'null' && array_key_exists($field, $original))
 				{
@@ -215,7 +219,7 @@ class JUcmContent extends JUcmBase
 
 			if (parent::store($baseData))
 			{
-				$primaryKey = $this->getPrimaryKey($typeId,$data['core_content_item_id']);
+				$primaryKey = $this->getPrimaryKey($typeId, $data['core_content_item_id']);
 			}
 		}
 
@@ -225,7 +229,7 @@ class JUcmContent extends JUcmBase
 	/**
 	 * Get the value of the primary key from #__ucm_base
 	 *
-	 * @param   string   $typeId	     The ID for the type
+	 * @param   string   $typeId         The ID for the type
 	 * @param   integer  $contentItemId  Value of the primary key in the legacy or secondary table
 	 *
 	 * @return  integer  The integer of the primary key

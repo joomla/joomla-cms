@@ -26,7 +26,7 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 		<?php if ($notice_homes) : ?>
 			<tr class="warning">
 				<td>
-					<i class="icon-warning"></i>
+					<i class="icon-pending"></i>
 				</td>
 				<td>
 					<?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_HOMES_MISSING'); ?>
@@ -36,7 +36,7 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 		<?php if ($notice_disabled) : ?>
 			<tr class="warning">
 				<td>
-					<i class="icon-warning"></i>
+					<i class="icon-pending"></i>
 				</td>
 				<td>
 					<?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_LANGUAGEFILTER_DISABLED'); ?>
@@ -46,7 +46,7 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 		<?php if ($notice_switchers) : ?>
 			<tr class="warning">
 				<td>
-					<i class="icon-warning"></i>
+					<i class="icon-pending"></i>
 				</td>
 				<td>
 					<?php echo JText::_('COM_LANGUAGES_MULTILANGSTATUS_LANGSWITCHER_UNPUBLISHED'); ?>
@@ -57,7 +57,7 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 			<?php if (array_key_exists($contentlang->lang_code, $this->homepages) && (!array_key_exists($contentlang->lang_code, $this->site_langs) || !$contentlang->published)) : ?>
 				<tr class="warning">
 					<td>
-						<i class="icon-warning"></i>
+						<i class="icon-pending"></i>
 					</td>
 					<td>
 						<?php echo JText::sprintf('COM_LANGUAGES_MULTILANGSTATUS_ERROR_CONTENT_LANGUAGE', $contentlang->lang_code); ?>
@@ -166,7 +166,7 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 				<?php endif; ?>
 				<?php if ($status->element) : // Published Site languages ?>
 						<td class="center">
-							<i class="icon-checkmark"></i>
+							<i class="icon-ok"></i>
 						</td>
 				<?php else : ?>
 						<td class="center">
@@ -175,20 +175,20 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 				<?php endif; ?>
 				<?php if ($status->lang_code && $status->published) : // Published Content languages ?>
 						<td class="center">
-							<i class="icon-checkmark"></i>
+							<i class="icon-ok"></i>
 						</td>
 				<?php else : ?>
 						<td class="center">
-							<i class="icon-warning"></i>
+							<i class="icon-pending"></i>
 						</td>
 				<?php endif; ?>
 				<?php if ($status->home_language) : // Published Home pages ?>
 						<td class="center">
-							<i class="icon-checkmark"></i>
+							<i class="icon-ok"></i>
 						</td>
 				<?php else : ?>
 						<td class="center">
-							<i class="icon-minus"></i>
+							<i class="icon-not-ok"></i>
 						</td>
 				<?php endif; ?>
 				</tr>
@@ -200,22 +200,22 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 							<?php echo $contentlang->lang_code; ?>
 						</td>
 						<td class="center">
-							<i class="icon-warning"></i>
+							<i class="icon-pending"></i>
 						</td>
 						<td class="center">
 							<?php if ($contentlang->published) : ?>
-								<i class="icon-checkmark"></i>
+								<i class="icon-ok"></i>
 							<?php elseif (!$contentlang->published && array_key_exists($contentlang->lang_code, $this->homepages)) : ?>
-								<i class="icon-minus"></i>
+								<i class="icon-not-ok"></i>
 							<?php elseif (!$contentlang->published) : ?>
-								<i class="icon-warning"></i>
+								<i class="icon-pending"></i>
 							<?php endif; ?>
 						</td>
 						<td class="center">
 							<?php if (!array_key_exists($contentlang->lang_code, $this->homepages)) : ?>
-								<i class="icon-warning"></i>
+								<i class="icon-pending"></i>
 							<?php else : ?>
-								<i class="icon-checkmark"></i>
+								<i class="icon-ok"></i>
 							<?php endif; ?>
 						</td>
 				<?php endif; ?>

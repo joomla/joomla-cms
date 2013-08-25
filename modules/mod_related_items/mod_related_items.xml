@@ -39,6 +39,11 @@
 					<option
 						value="1">JSHOW</option>
 				</field>
+				<field name="maximum"
+					type="text"
+					default="5"
+					label="MOD_RELATED_FIELD_MAX_LABEL"
+					description="MOD_RELATED_FIELD_MAX_DESC" />
 			</fieldset>
 			<fieldset
 				name="advanced">

@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 <?php
 if (!empty($feed) && is_string($feed))
 {
-		echo $feed;
+	echo $feed;
 }
 else
 {
@@ -28,7 +28,7 @@ else
 	// feed description
 	elseif ($lang->isRTL() && $myrtl == 1)
 	{
-			$direction = " redirect-ltr";
+		$direction = " redirect-ltr";
 	}
 
 	elseif ($lang->isRTL() && $myrtl == 2)
@@ -62,7 +62,7 @@ else
 		{
 			?>
 					<h2 class="<?php echo $direction; ?>">
-						<a href="<?php echo str_replace('&', '&amp', $feed->link); ?>" target="_blank">
+						<a href="<?php echo str_replace('&', '&amp', $feed->link->uri); ?>" target="_blank">
 						<?php echo $feed->title; ?></a>
 					</h2>
 			<?php
@@ -78,7 +78,6 @@ else
 		if ($params->get('rssimage', 1) && $iUrl) :
 		?>
 			<img src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>"/>
-
 		<?php endif; ?>
 
 	<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?>">
@@ -87,13 +86,15 @@ else
 	{ ?>
 	<ul>
 		<?php for  ($i = 0; $i < $params->get('rssitems', 5); $i++)
-		{  ?>
+		{
+			if( !$feed->offsetExists($i)) {
+				break;
+			}
+			?>
 			<?php
 				$uri = (!empty($feed[$i]->guid) || !is_null($feed[$i]->guid)) ? $feed[$i]->guid : $feed[$i]->uri;
-
 				$uri = substr($uri, 0, 4) != 'http' ? $params->get('rsslink') : $uri;
 				$text = !empty($feed[$i]->content) ||  !is_null($feed[$i]->content) ? $feed[$i]->content : $feed[$i]->description;
-
 			?>
 				<li>
 					<?php if (!empty($uri)) : ?>
@@ -119,6 +120,8 @@ else
 					</li>
 			<?php } ?>
 			</ul>
+		</ul>
+	</div>
 	<?php }
 	}
 }

@@ -114,6 +114,7 @@ class UsersModelReset extends JModelForm
 	{
 		// Get the form.
 		$form = $this->getResetCompleteForm();
+		$data['email'] = JStringPunycode::emailToPunycode($data['email']);
 
 		// Check for an error.
 		if ($form instanceof Exception)
@@ -200,6 +201,7 @@ class UsersModelReset extends JModelForm
 	{
 		// Get the form.
 		$form = $this->getResetConfirmForm();
+		$data['email'] = JStringPunycode::emailToPunycode($data['email']);
 
 		// Check for an error.
 		if ($form instanceof Exception)
@@ -299,6 +301,8 @@ class UsersModelReset extends JModelForm
 
 		// Get the form.
 		$form = $this->getForm();
+
+		$data['email'] = JStringPunycode::emailToPunycode($data['email']);
 
 		// Check for an error.
 		if ($form instanceof Exception)

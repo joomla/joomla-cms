@@ -43,6 +43,20 @@ $app->initialise(
 	array('language' => $app->getUserState('application.lang'))
 );
 
+// Test for magic quotes
+if (get_magic_quotes_gpc())
+{
+	$lang = JFactory::getLanguage();
+	if ($lang->hasKey('JERROR_MAGIC_QUOTES'))
+	{
+		JFactory::getApplication()->enqueueMessage(JText::_('JERROR_MAGIC_QUOTES'), 'Error');
+	}
+	else
+	{
+		JFactory::getApplication()->enqueueMessage('Your host needs to disable magic_quotes_gpc to run this version of Joomla!', 'Error');
+	}
+}
+
 // Mark afterIntialise in the profiler.
 JDEBUG ? $_PROFILER->mark('afterInitialise') : null;
 

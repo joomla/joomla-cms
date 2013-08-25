@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile 
+	version="3.1" 
+	client="installation" >
+	<name>Gàidhlig</name>
+	<version>3.0</version>
+	<creationDate>April 2013</creationDate>
+	<author>akerbeltz</author>
+	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description></description>
+	<files>
+		<filename>gd-GB.ini</filename>
+	</files>
+	<metadata>
+		<name>Gàidhlig</name>
+		<tag>gd-GB</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params />
+</metafile>

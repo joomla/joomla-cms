@@ -70,7 +70,7 @@ class SearchModelSearch extends JModelLegacy
 		$this->setSearch($keyword, $match, $ordering);
 
 		//Set the search areas
-		$areas = $app->input->get('areas');
+		$areas = $app->input->get('areas', null, 'array');
 		$this->setAreas($areas);
 	}
 

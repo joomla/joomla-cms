@@ -199,7 +199,7 @@ class ContentControllerArticle extends JControllerForm
 	{
 		// Need to override the parent method completely.
 		$tmpl   = $this->input->get('tmpl');
-		$layout = $this->input->get('layout', 'edit');
+//		$layout = $this->input->get('layout', 'edit');
 		$append = '';
 
 		// Setup redirect info.

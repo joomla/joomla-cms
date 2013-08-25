@@ -63,11 +63,10 @@ class UsersViewUser extends JViewLegacy
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		$user  = JFactory::getUser();
-		$isNew = ($this->item->id == 0);
 		$canDo = UsersHelper::getActions();
-
 		$isNew	= ($this->item->id == 0);
 		$isProfile = $this->item->id == $user->id;
+
 		JToolbarHelper::title(JText::_($isNew ? 'COM_USERS_VIEW_NEW_USER_TITLE' : ($isProfile ? 'COM_USERS_VIEW_EDIT_PROFILE_TITLE' : 'COM_USERS_VIEW_EDIT_USER_TITLE')), $isNew ? 'user-add' : ($isProfile ? 'user-profile' : 'user-edit'));
 		if ($canDo->get('core.edit')||$canDo->get('core.create'))
 		{

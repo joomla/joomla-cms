@@ -102,7 +102,7 @@ class ContactControllerContact extends JControllerForm
 		}
 
 		// Passed Validation: Process the contact plugins to integrate with other applications
-		$results = $dispatcher->trigger('onSubmitContact', array(&$contact, &$data));
+		$dispatcher->trigger('onSubmitContact', array(&$contact, &$data));
 
 		// Send the email
 		$sent = false;
@@ -140,7 +140,6 @@ class ContactControllerContact extends JControllerForm
 	private function _sendEmail($data, $contact)
 	{
 			$app		= JFactory::getApplication();
-			$params 	= JComponentHelper::getParams('com_contact');
 			if ($contact->email_to == '' && $contact->user_id != 0)
 			{
 				$contact_user = JUser::getInstance($contact->user_id);
@@ -149,15 +148,14 @@ class ContactControllerContact extends JControllerForm
 			$mailfrom	= $app->getCfg('mailfrom');
 			$fromname	= $app->getCfg('fromname');
 			$sitename	= $app->getCfg('sitename');
-			$copytext 	= JText::sprintf('COM_CONTACT_COPYTEXT_OF', $contact->name, $sitename);
 
 			$name		= $data['contact_name'];
-			$email		= $data['contact_email'];
+			$email		= JstringPunycode::emailToPunycode($data['contact_email']);
 			$subject	= $data['contact_subject'];
 			$body		= $data['contact_message'];
 
 			// Prepare email body
-			$prefix = JText::sprintf('COM_CONTACT_ENQUIRY_TEXT', JURI::base());
+			$prefix = JText::sprintf('COM_CONTACT_ENQUIRY_TEXT', JUri::base());
 			$body	= $prefix."\n".$name.' <'.$email.'>'."\r\n\r\n".stripslashes($body);
 
 			$mail = JFactory::getMailer();

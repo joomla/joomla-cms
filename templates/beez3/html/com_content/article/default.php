@@ -14,6 +14,7 @@ $templateparams = $app->getTemplate(true)->params;
 $images = json_decode($this->item->images);
 $urls = json_decode($this->item->urls);
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
+JHtml::_('behavior.caption');
 
 // Create shortcut to parameters.
 $params = $this->item->params;
