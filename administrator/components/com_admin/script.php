@@ -540,6 +540,7 @@ class JoomlaInstallerScript
 			'/media/plg_quickicon_extensionupdate/extensionupdatecheck.js',
 			'/media/plg_quickicon_joomlaupdate/jupdatecheck.js',
 			// Joomla! 3.1
+			'/libraries/joomla/application/router.php',
 			'/libraries/joomla/form/rules/boolean.php',
 			'/libraries/joomla/form/rules/color.php',
 			'/libraries/joomla/form/rules/email.php',
@@ -592,6 +593,10 @@ class JoomlaInstallerScript
 			'/libraries/legacy/html/contentlanguage.php',
 			'/libraries/legacy/html/index.html',
 			'/libraries/legacy/html/menu.php',
+			'/libraries/legacy/menu/index.html',
+			'/libraries/legacy/menu/menu.php',
+			'/libraries/legacy/pathway/index.html',
+			'/libraries/legacy/pathway/pathway.php',
 			'/media/system/css/mooRainbow.css',
 			'/media/system/js/mooRainbow-uncompressed.js',
 			'/media/system/js/mooRainbow.js',
@@ -650,6 +655,8 @@ class JoomlaInstallerScript
 			'/libraries/joomla/installer',
 			'/libraries/joomla/pagination',
 			'/libraries/legacy/html',
+			'/libraries/legacy/menu',
+			'/libraries/legacy/pathway',
 			'/media/system/swf/',
 		);
 

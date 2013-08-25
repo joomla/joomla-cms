@@ -160,6 +160,83 @@ class JPaginationTest extends TestCase
 	}
 
 	/**
+	 * This method tests the setAdditionalUrlParam function by setting a url.
+	 *
+	 * @return  void
+	 *
+	 * @covers        JPagination::setAdditionalUrlParam
+	 * @since         3.1
+	 */
+	public function testSetAdditionalUrlParam()
+	{
+		$pagination = new JPagination(100, 50, 20);
+
+		$pagination->setAdditionalUrlParam('Joomla', '//www.joomla.org');
+		$this->assertEquals(TestReflection::getValue($pagination, 'additionalUrlParams'), array('Joomla' => '//www.joomla.org'), 'The URL is not the value expected');
+
+		unset($pagination);
+	}
+
+	/**
+	 * This method tests the getAdditionalUrlParam function by setting a url with Reflection then retrieving it.
+	 *
+	 * @return  void
+	 *
+	 * @covers        JPagination::getAdditionalUrlParam
+	 * @since         3.1
+	 */
+	public function testGetAdditionalUrlParam()
+	{
+		$pagination = new JPagination(100, 50, 20);
+		$value = '//www.joomla.org';
+		$key = 'Joomla';
+
+		TestReflection::setValue($pagination, 'additionalUrlParams', array($key => $value));
+
+		$this->assertEquals($value, $pagination->getAdditionalUrlParam($key), 'The URL is not the value expected');
+
+		unset($pagination);
+	}
+
+	/**
+	 * This method tests the getRowOffset function.
+	 *
+	 * @return  void
+	 *
+	 * @covers        JPagination::getRowOffset
+	 * @since         3.1
+	 */
+	public function testGetRowOffset($index = 1, $limitstart = 50, $value = 52)
+	{
+		$pagination = new JPagination(100, $limitstart, 20);
+
+		$this->assertEquals($pagination->getRowOffset($index), $value);
+
+		unset($pagination);
+	}
+
+	/**
+	 * This method tests the setAdditionalUrlParam function by emptying an existing URL.
+	 *
+	 * @return  void
+	 *
+	 * @covers        JPagination::setAdditionalUrlParam
+	 * @since         3.1
+	 */
+	public function testSetEmptyAdditionalUrlParam()
+	{
+		$pagination = new JPagination(100, 50, 20);
+
+		$pagination->setAdditionalUrlParam('Joomla', '//www.joomla.org');
+		$this->assertEquals(TestReflection::getValue($pagination, 'additionalUrlParams'), array('Joomla' => '//www.joomla.org'), 'The URL is not the value expected');
+
+		$pagination->setAdditionalUrlParam('Joomla', null);
+		$this->assertArrayNotHasKey('Joomla', TestReflection::getValue($pagination, 'additionalUrlParams'));
+
+		unset($pagination);
+	}
+
+	/**
 	 * Provides the data to test the testBuildDataObject and getData methods.
 	 *
 	 * @return  array
@@ -319,6 +396,55 @@ class JPaginationTest extends TestCase
 		$result = $pagination->getPagesLinks();
 
 		$this->assertEquals($result, $expected, 'The expected output of the pagination is incorrect');
+
+		unset($pagination);
+	}
+
+	/**
+	 * Provides the data to test the getLimitBox method.
+	 *
+	 * @return  array
+	 *
+	 * @since   3.1
+	 */
+	public function dataTestGetLimitBox()
+	{
+		return array(
+			array(100, 0, 20,
+				"<select id=\"limit\" name=\"limit\" class=\"inputbox input-mini\" size=\"1\" onchange=\"this.form.submit()\">\n"
+				. "\t<option value=\"5\">5</option>\n"
+				. "\t<option value=\"10\">10</option>\n"
+				. "\t<option value=\"15\">15</option>\n"
+				. "\t<option value=\"20\" selected=\"selected\">20</option>\n"
+				. "\t<option value=\"25\">25</option>\n"
+				. "\t<option value=\"30\">30</option>\n"
+				. "\t<option value=\"50\">J50</option>\n"
+				. "\t<option value=\"100\">J100</option>\n"
+				. "\t<option value=\"0\">JALL</option>\n"
+				. "</select>\n"
+			),
+		);
+	}
+
+	/**
+	 * This method tests the getLimitBox function.
+	 *
+	 * @param   integer  $total       The total number of items.
+	 * @param   integer  $limitstart  The offset of the item to start at.
+	 * @param   integer  $limit       The number of items to display per page.
+	 * @param   string   $expected    The expected results for the JPagination object
+	 *
+	 * @return  void
+	 *
+	 * @covers        JPagination::getLimitBox
+	 * @dataProvider  dataTestGetLimitBox
+	 * @since         3.1
+	 */
+	public function testGetLimitBox($total, $limitstart, $limit, $expected)
+	{
+		$pagination = new JPagination($total, $limitstart, $limit);
+
+		$this->assertEquals($pagination->getLimitBox(), $expected, 'The limit box results are not as expected');
 
 		unset($pagination);
 	}

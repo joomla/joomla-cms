@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Application
+ * @package     Joomla.Libraries
+ * @subpackage  Router
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -18,9 +18,9 @@ const JROUTER_MODE_SEF = 1;
 /**
  * Class to create and parse routes
  *
- * @package     Joomla.Platform
- * @subpackage  Application
- * @since       11.1
+ * @package     Joomla.Libraries
+ * @subpackage  Router
+ * @since       1.5
  */
 class JRouter
 {
@@ -28,7 +28,7 @@ class JRouter
 	 * The rewrite mode
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.5
 	 */
 	protected $mode = null;
 
@@ -36,8 +36,8 @@ class JRouter
 	 * The rewrite mode
 	 *
 	 * @var    integer
-	 * @since  11.1
-	 * @deprecated use $mode declare as private
+	 * @since  1.5
+	 * @deprecated  4.0 Will convert to $mode
 	 */
 	protected $_mode = null;
 
@@ -45,7 +45,7 @@ class JRouter
 	 * An array of variables
 	 *
 	 * @var     array
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	protected $vars = array();
 
@@ -53,8 +53,8 @@ class JRouter
 	 * An array of variables
 	 *
 	 * @var     array
-	 * @since   11.1
-	 * @deprecated use $vars declare as private
+	 * @since  1.5
+	 * @deprecated  4.0 Will convert to $vars
 	 */
 	protected $_vars = array();
 
@@ -62,7 +62,7 @@ class JRouter
 	 * An array of rules
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.5
 	 */
 	protected $rules = array(
 		'build' => array(),
@@ -73,8 +73,8 @@ class JRouter
 	 * An array of rules
 	 *
 	 * @var    array
-	 * @since  11.1
-	 * @deprecated use $rules declare as private
+	 * @since  1.5
+	 * @deprecated  4.0 Will convert to $rules
 	 */
 	protected $_rules = array(
 		'build' => array(),
@@ -82,8 +82,10 @@ class JRouter
 	);
 
 	/**
-	 * @var    array  JRouter instances container.
-	 * @since  11.3
+	 * JRouter instances container.
+	 *
+	 * @var    array
+	 * @since  1.7
 	 */
 	protected static $instances = array();
 
@@ -92,7 +94,7 @@ class JRouter
 	 *
 	 * @param   array  $options  Array of options
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function __construct($options = array())
 	{
@@ -115,7 +117,7 @@ class JRouter
 	 *
 	 * @return  JRouter  A JRouter object.
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 * @throws  RuntimeException
 	 */
 	public static function getInstance($client, $options = array())
@@ -127,8 +129,7 @@ class JRouter
 
 			if (!class_exists($classname))
 			{
-				JLog::add('Non-autoloadable JRouter subclasses are deprecated.', JLog::WARNING, 'deprecated');
-
+				// @deprecated 4.0 Everything in this block is deprecated but the warning is only logged after the file_exists
 				// Load the router object
 				$info = JApplicationHelper::getClientInfo($client, true);
 
@@ -138,6 +139,7 @@ class JRouter
 
 					if (file_exists($path))
 					{
+						JLog::add('Non-autoloadable JRouter subclasses are deprecated, support will be removed in 4.0.', JLog::WARNING, 'deprecated');
 						include_once $path;
 					}
 				}
@@ -163,7 +165,7 @@ class JRouter
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function parse(&$uri)
 	{
@@ -192,7 +194,7 @@ class JRouter
 	 *
 	 * @return  string  The absolute search engine friendly URL
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function build($url)
 	{
@@ -222,7 +224,7 @@ class JRouter
 	 *
 	 * @return  integer
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function getMode()
 	{
@@ -236,7 +238,7 @@ class JRouter
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function setMode($mode)
 	{
@@ -252,7 +254,7 @@ class JRouter
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function setVar($key, $value, $create = true)
 	{
@@ -270,7 +272,7 @@ class JRouter
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function setVars($vars = array(), $merge = true)
 	{
@@ -291,7 +293,7 @@ class JRouter
 	 *
 	 * @return  mixed  Value of the variable
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function getVar($key)
 	{
@@ -310,7 +312,7 @@ class JRouter
 	 *
 	 * @return  array  An associative array of router variables
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function getVars()
 	{
@@ -324,7 +326,7 @@ class JRouter
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1.
+	 * @since   1.5
 	 */
 	public function attachBuildRule($callback)
 	{
@@ -338,7 +340,7 @@ class JRouter
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function attachParseRule($callback)
 	{
@@ -352,9 +354,24 @@ class JRouter
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.5
+	 * @deprecated  4.0  Use parseRawRoute() instead
 	 */
 	protected function _parseRawRoute(&$uri)
+	{
+		return $this->parseRawRoute($uri);
+	}
+
+	/**
+	 * Function to convert a raw route to an internal URI
+	 *
+	 * @param   JUri  &$uri  The raw route
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.2
+	 */
+	protected function parseRawRoute(&$uri)
 	{
 		return false;
 	}
@@ -366,9 +383,24 @@ class JRouter
 	 *
 	 * @return  string  Internal URI
 	 *
-	 * @since   11.1
+	 * @since   1.5
+	 * @deprecated  4.0  Use parseSefRoute() instead
 	 */
 	protected function _parseSefRoute(&$uri)
+	{
+		return $this->parseSefRoute($uri);
+	}
+
+	/**
+	 * Function to convert a sef route to an internal URI
+	 *
+	 * @param   JUri  &$uri  The sef URI
+	 *
+	 * @return  string  Internal URI
+	 *
+	 * @since   3.2
+	 */
+	protected function parseSefRoute(&$uri)
 	{
 		return false;
 	}
@@ -380,9 +412,24 @@ class JRouter
 	 *
 	 * @return  string  Raw Route
 	 *
-	 * @since   11.1
+	 * @since   1.5
+	 * @deprecated  4.0  Use buildRawRoute() instead
 	 */
 	protected function _buildRawRoute(&$uri)
+	{
+		return $this->buildRawRoute($uri);
+	}
+
+	/**
+	 * Function to build a raw route
+	 *
+	 * @param   JUri  &$uri  The internal URL
+	 *
+	 * @return  string  Raw Route
+	 *
+	 * @since   3.2
+	 */
+	protected function buildRawRoute(&$uri)
 	{
 	}
 
@@ -393,9 +440,24 @@ class JRouter
 	 *
 	 * @return  string  The SEF route
 	 *
-	 * @since   11.1
+	 * @since   1.5
+	 * @deprecated  4.0  Use buildSefRoute() instead
 	 */
 	protected function _buildSefRoute(&$uri)
+	{
+		return $this->buildSefRoute($uri);
+	}
+
+	/**
+	 * Function to build a sef route
+	 *
+	 * @param   JUri  &$uri  The uri
+	 *
+	 * @return  string  The SEF route
+	 *
+	 * @since   3.2
+	 */
+	protected function buildSefRoute(&$uri)
 	{
 	}
 
@@ -406,9 +468,24 @@ class JRouter
 	 *
 	 * @return  array  The array of processed URI variables
 	 *
-	 * @since   11.1
+	 * @since   1.5
+	 * @deprecated  4.0  Use processParseRules() instead
 	 */
 	protected function _processParseRules(&$uri)
+	{
+		return $this->processParseRules($uri);
+	}
+
+	/**
+	 * Process the parsed router variables based on custom defined rules
+	 *
+	 * @param   JUri  &$uri  The URI to parse
+	 *
+	 * @return  array  The array of processed URI variables
+	 *
+	 * @since   3.2
+	 */
+	protected function processParseRules(&$uri)
 	{
 		$vars = array();
 
@@ -427,9 +504,24 @@ class JRouter
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.5
+	 * @deprecated  4.0  Use processBuildRules() instead
 	 */
 	protected function _processBuildRules(&$uri)
+	{
+		$this->processBuildRules($uri);
+	}
+
+	/**
+	 * Process the build uri query data based on custom defined rules
+	 *
+	 * @param   JUri  &$uri  The URI
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	protected function processBuildRules(&$uri)
 	{
 		foreach ($this->_rules['build'] as $rule)
 		{
@@ -444,9 +536,24 @@ class JRouter
 	 *
 	 * @return  JUri
 	 *
-	 * @since   11.1
+	 * @since   1.5
+	 * @deprecated  4.0  Use createURI() instead
 	 */
 	protected function _createURI($url)
+	{
+		return $this->createURI($url);
+	}
+
+	/**
+	 * Create a uri based on a full or partial url string
+	 *
+	 * @param   string  $url  The URI
+	 *
+	 * @return  JUri
+	 *
+	 * @since   3.2
+	 */
+	protected function createURI($url)
 	{
 		// Create full URL if we are only appending variables to it
 		if (substr($url, 0, 1) == '&')
@@ -484,9 +591,24 @@ class JRouter
 	 *
 	 * @return  array  Array of encoded route segments
 	 *
-	 * @since   11.1
+	 * @since   1.5
+	 * @deprecated  4.0  Use encodeSegments() instead
 	 */
 	protected function _encodeSegments($segments)
+	{
+		return $this->encodeSegments($segments);
+	}
+
+	/**
+	 * Encode route segments
+	 *
+	 * @param   array  $segments  An array of route segments
+	 *
+	 * @return  array  Array of encoded route segments
+	 *
+	 * @since   3.2
+	 */
+	protected function encodeSegments($segments)
 	{
 		$total = count($segments);
 
@@ -505,9 +627,24 @@ class JRouter
 	 *
 	 * @return  array  Array of decoded route segments
 	 *
-	 * @since 11.1
+	 * @since   1.5
+	 * @deprecated  4.0  Use decodeSegments() instead
 	 */
 	protected function _decodeSegments($segments)
+	{
+		return $this->decodeSegments($segments);
+	}
+
+	/**
+	 * Decode route segments
+	 *
+	 * @param   array  $segments  An array of route segments
+	 *
+	 * @return  array  Array of decoded route segments
+	 *
+	 * @since   3.2
+	 */
+	protected function decodeSegments($segments)
 	{
 		$total = count($segments);
 
