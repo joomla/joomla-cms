@@ -374,7 +374,6 @@ class JGoogleDataAdsense extends JGoogleData
 			$options['startDate'] = $startobj->format('Y-m-d');
 			$options['endDate'] = $endobj->format('Y-m-d');
 
-			$begin = array_key_exists('startIndex', $options) ? $options['startIndex'] : 0;
 			unset($options['startIndex']);
 
 			$url = 'https://www.googleapis.com/adsense/v1.1/accounts/' . urlencode($accountID) . '/reports?' . http_build_query($options);

@@ -150,6 +150,11 @@
 					type="text"
 					label="MOD_FINDER_FIELD_OPENSEARCH_TEXT_LABEL"
 					description="MOD_FINDER_FIELD_OPENSEARCH_TEXT_DESCRIPTION" />
+				<field
+					name="set_itemid"
+					type="text"
+					label="MOD_FINDER_FIELDSET_ADVANCED_SETITEMID_LABEL"
+					description="MOD_FINDER_FIELDSET_ADVANCED_SETITEMID_DESCRIPTION" />
 			</fieldset>
 		</fields>
 	</config>

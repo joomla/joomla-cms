@@ -62,7 +62,7 @@ abstract class JApplicationWebRouter
 	 *
 	 * @param   string  $route  The route string for which to find and execute a controller.
 	 *
-	 * @return  void
+	 * @return  mixed   The return value of the controller executed
 	 *
 	 * @since   12.2
 	 * @throws  InvalidArgumentException
@@ -77,7 +77,7 @@ abstract class JApplicationWebRouter
 		$controller = $this->fetchController($name);
 
 		// Execute the controller.
-		$controller->execute();
+		return $controller->execute();
 	}
 
 	/**

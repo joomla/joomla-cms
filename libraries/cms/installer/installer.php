@@ -1027,7 +1027,6 @@ class JInstaller extends JAdapter
 	 */
 	public function parseSchemaUpdates(SimpleXMLElement $schema, $eid)
 	{
-		$files = array();
 		$update_count = 0;
 
 		// Ensure we have an XML element and a valid extension id
@@ -1102,13 +1101,13 @@ class JInstaller extends JAdapter
 								}
 
 								// Process each query in the $queries array (split out of sql file).
-								foreach ($queries as $query)
+								foreach ($queries as $q)
 								{
-									$query = trim($query);
+									$q = trim($q);
 
-									if ($query != '' && $query{0} != '#')
+									if ($q != '' && $q{0} != '#')
 									{
-										$db->setQuery($query);
+										$db->setQuery($q);
 
 										if (!$db->execute())
 										{
@@ -1125,7 +1124,7 @@ class JInstaller extends JAdapter
 					}
 
 					// Update the database
-					$query = $db->getQuery(true)
+					$query->clear()
 						->delete('#__schemas')
 						->where('extension_id = ' . $eid);
 					$db->setQuery($query);
@@ -1655,13 +1654,6 @@ class JInstaller extends JAdapter
 
 		$retval = true;
 
-		$debug = false;
-
-		if (isset($GLOBALS['installerdebug']) && $GLOBALS['installerdebug'])
-		{
-			$debug = true;
-		}
-
 		// Get the client info if we're using a specific client
 		if ($cid > -1)
 		{
@@ -1793,7 +1785,7 @@ class JInstaller extends JAdapter
 
 		if (!empty($folder))
 		{
-			$val = JFolder::delete($source);
+			JFolder::delete($source);
 		}
 
 		return $retval;

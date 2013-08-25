@@ -184,7 +184,7 @@ class MediaControllerFolder extends JControllerLegacy
 				$object_file = new JObject(array('filepath' => $path));
 				JPluginHelper::importPlugin('content');
 				$dispatcher	= JEventDispatcher::getInstance();
-				$result = $dispatcher->trigger('onContentBeforeSave', array('com_media.folder', &$object_file));
+				$result = $dispatcher->trigger('onContentBeforeSave', array('com_media.folder', &$object_file, true));
 
 				if (in_array(false, $result, true))
 				{

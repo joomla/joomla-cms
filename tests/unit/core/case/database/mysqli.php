@@ -15,7 +15,7 @@
 abstract class TestCaseDatabaseMysqli extends TestCaseDatabase
 {
 	/**
-	 * @var    JDatabaseDriver  The active database driver being used for the tests.
+	 * @var    JDatabaseDriverMysqli  The active database driver being used for the tests.
 	 * @since  12.1
 	 */
 	protected static $driver;
@@ -27,7 +27,7 @@ abstract class TestCaseDatabaseMysqli extends TestCaseDatabase
 	private static $_options = array('driver' => 'mysqli');
 
 	/**
-	 * @var    JDatabaseDriver  The saved database driver to be restored after these tests.
+	 * @var    JDatabaseDriverMysqli  The saved database driver to be restored after these tests.
 	 * @since  12.1
 	 */
 	private static $_stash;

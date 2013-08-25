@@ -47,7 +47,7 @@ class ModLoginHelper
 		if (!$url)
 		{
 			// Stay on the same page
-			$uri = clone JURI::getInstance();
+			$uri = clone JUri::getInstance();
 			$vars = $router->parse($uri);
 			unset($vars['lang']);
 			if ($router->getMode() == JROUTER_MODE_SEF)
@@ -63,17 +63,17 @@ class ModLoginHelper
 						$url = 'index.php?Itemid='.$itemid;
 					}
 					else {
-						$url = 'index.php?'.JURI::buildQuery($vars).'&Itemid='.$itemid;
+						$url = 'index.php?'.JUri::buildQuery($vars).'&Itemid='.$itemid;
 					}
 				}
 				else
 				{
-					$url = 'index.php?'.JURI::buildQuery($vars);
+					$url = 'index.php?'.JUri::buildQuery($vars);
 				}
 			}
 			else
 			{
-				$url = 'index.php?'.JURI::buildQuery($vars);
+				$url = 'index.php?'.JUri::buildQuery($vars);
 			}
 		}
 

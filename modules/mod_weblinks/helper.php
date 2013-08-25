@@ -22,7 +22,7 @@ JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_weblinks/models', 'We
  */
 class ModWeblinksHelper
 {
-	public static function getList($params)
+	public static function getList(&$params)
 	{
 		// Get an instance of the generic articles model
 		$model = JModelLegacy::getInstance('Category', 'WeblinksModel', array('ignore_request' => true));

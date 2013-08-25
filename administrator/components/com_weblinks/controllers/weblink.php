@@ -47,6 +47,8 @@ class WeblinksControllerWeblink extends JControllerForm
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
+		$task = $this->getTask();
+
 		if ($task == 'save')
 		{
 			$this->setRedirect(JRoute::_($redirectUrl, false));

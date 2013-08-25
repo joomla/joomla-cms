@@ -259,7 +259,7 @@ class JCacheStorage
 	 * @return  boolean  True on success, false otherwise.
 	 *
 	 * @since   11.1
-	 * @deprecated  12.3
+	 * @deprecated  12.3 (Platform) & 4.0 (CMS)
 	 */
 	public static function test()
 	{

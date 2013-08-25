@@ -9,11 +9,11 @@
 
 defined('_JEXEC') or die;
 
-if (!JFactory::getUser()->authorise('core.admin'))
+if (!JFactory::getUser()->authorise('core.manage', 'com_checkin'))
 {
 	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
-$controller	= JControllerLegacy::getInstance('Checkin');
+$controller = JControllerLegacy::getInstance('Checkin');
 $controller->execute(JFactory::getApplication()->input->get('task'));
 $controller->redirect();

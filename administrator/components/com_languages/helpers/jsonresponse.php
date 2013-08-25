@@ -15,14 +15,15 @@ defined('_JEXEC') or die;
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  * @since       2.5
+ * @deprecated	4.0
  */
 class JJsonResponse
 {
 	/**
 	 * Determines whether the request was successful
 	 *
-	 * @var		boolean
-	 * @since	2.5
+	 * @var    boolean
+	 * @since  2.5
 	 */
 	public $success = true;
 
@@ -31,48 +32,49 @@ class JJsonResponse
 	 * This is always the negation of $this->success,
 	 * so you can use both flags equivalently.
 	 *
-	 * @var		boolean
-	 * @since	2.5
+	 * @var    boolean
+	 * @since  2.5
 	 */
 	public $error = false;
 
 	/**
 	 * The main response message
 	 *
-	 * @var		string
-	 * @since	2.5
+	 * @var    string
+	 * @since  2.5
 	 */
 	public $message = null;
 
 	/**
 	 * Array of messages gathered in the JApplication object
 	 *
-	 * @var		array
-	 * @since	2.5
+	 * @var    array
+	 * @since  2.5
 	 */
 	public $messages = null;
 
 	/**
 	 * The response data
 	 *
-	 * var		array/object
-	 * @since	2.5
+	 * @var    mixed
+	 * @since  2.5
 	 */
 	public $data = null;
 
 	/**
 	 * Constructor
 	 *
-	 * @param   	array/object	$response	The Response data
-	 * @param   	string				$message	The main response message
-	 * @param   	boolean				$error		True, if the success flag shall be set to false, defaults to false
-	 *
-	 * @return  void
+	 * @param   mixed    $response  The Response data
+	 * @param   string   $message   The main response message
+	 * @param   boolean  $error     True, if the success flag shall be set to false, defaults to false
 	 *
 	 * @since		2.5
+	 * @deprecated	4.0	 Use JResponseJson instead
 	 */
 	public function __construct($response = null, $message = null, $error = false)
 	{
+		JLog::add('Class JJsonResponse is deprecated. Use class JResponseJson instead.', JLog::WARNING, 'deprecated');
+
 		$this->message = $message;
 
 		// Get the message queue
@@ -116,9 +118,9 @@ class JJsonResponse
 	/**
 	 * Magic toString method for sending the response in JSON format
 	 *
-	 * @return  string	The response in JSON format
+	 * @return  string  The response in JSON format
 	 *
-	 * @since		2.5
+	 * @since   2.5
 	 */
 	public function __toString()
 	{

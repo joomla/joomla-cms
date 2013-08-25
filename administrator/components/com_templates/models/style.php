@@ -69,7 +69,7 @@ class TemplatesModelStyle extends JModelAdmin
 		$table	= $this->getTable();
 
 		// Iterate the items to delete each one.
-		foreach ($pks as $i => $pk)
+		foreach ($pks as $pk)
 		{
 			if ($table->load($pk))
 			{
@@ -113,7 +113,6 @@ class TemplatesModelStyle extends JModelAdmin
 	public function duplicate(&$pks)
 	{
 		$user	= JFactory::getUser();
-		$db		= $this->getDbo();
 
 		// Access checks.
 		if (!$user->authorise('core.create', 'com_templates'))
@@ -185,8 +184,6 @@ class TemplatesModelStyle extends JModelAdmin
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		$app = JFactory::getApplication();
-
 		// The folder and element vars are passed when saving the form.
 		if (empty($data))
 		{

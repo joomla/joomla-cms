@@ -19,7 +19,7 @@ $input  = JFactory::getApplication()->input;
 $query	= $db->getQuery(true)
 	->select('COUNT(*)')
 	->from('#__messages')
-	->where('state = 0 AND user_id_to = '.(int) $user->get('id'));
+	->where('state = 0 AND user_id_to = ' . (int) $user->get('id'));
 
 $db->setQuery($query);
 $unread = (int) $db->loadResult();
@@ -47,7 +47,9 @@ else
 if ($unread)
 {
 	$inboxClass = 'unread-messages';
-} else {
+}
+else
+{
 	$inboxClass = 'no-unread-messages';
 }
 

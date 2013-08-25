@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
 ?>
@@ -46,6 +45,9 @@ JHtml::_('formbehavior.chosen', 'select');
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_banners&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="banner-form" class="form-validate form-horizontal">
+
+<?php echo JLayoutHelper::render('joomla.edit.item_title', $this); ?>
+
 <!-- Begin Banner -->
 <div class="span10 form-horizontal">
 

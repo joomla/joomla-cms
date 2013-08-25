@@ -124,13 +124,15 @@ class BannersViewBanners extends JViewLegacy
 		}
 
 		// Add a batch button
-		if ($user->authorise('core.edit'))
+		if ($user->authorise('core.create', 'com_banners') && $user->authorise('core.edit', 'com_banners') && $user->authorise('core.edit.state', 'com_banners'))
 		{
 			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
-			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn btn-small\">
-						<i class=\"icon-checkbox-partial\" title=\"$title\"></i>
-						$title</button>";
+
+			// Instantiate a new JLayoutFile instance and render the batch button
+			$layout = new JLayoutFile('joomla.toolbar.batch');
+
+			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 

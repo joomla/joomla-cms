@@ -9,8 +9,6 @@
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.application.router');
-
 /**
  * Class to create and parse routes
  *
@@ -23,11 +21,13 @@ class JRouterAdministrator extends JRouter
 	/**
 	 * Function to convert a route to an internal URI.
 	 *
-	 * @param   JURI  $uri  The uri.
+	 * @param   JUri  &$uri  The uri.
 	 *
 	 * @return  array
+	 *
+	 * @since   1.5
 	 */
-	public function parse($uri)
+	public function parse(&$uri)
 	{
 		return array();
 	}
@@ -50,7 +50,7 @@ class JRouterAdministrator extends JRouter
 		$route = $uri->getPath();
 
 		// Add basepath to the uri
-		$uri->setPath(JURI::base(true) . '/' . $route);
+		$uri->setPath(JUri::base(true) . '/' . $route);
 
 		return $uri;
 	}

@@ -389,7 +389,7 @@ class JInstallerAdapterFile extends JAdapterInstance
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
 		$uid = $update->find(
-			array('element' => $this->get('element'), 'type' => 'file', 'client_id' => '', 'folder' => '')
+			array('element' => $this->get('element'), 'type' => 'file', 'client_id' => (int) '', 'folder' => '')
 		);
 
 		if ($uid)
@@ -558,7 +558,6 @@ class JInstallerAdapterFile extends JAdapterInstance
 			// Loop through all elements and get list of files and folders
 			foreach ($xml->fileset->files as $eFiles)
 			{
-				$folder = (string) $eFiles->attributes()->folder;
 				$target = (string) $eFiles->attributes()->target;
 
 				// Create folder path

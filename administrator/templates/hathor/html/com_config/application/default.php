@@ -9,10 +9,8 @@
 
 defined('_JEXEC') or die;
 
-// Load tooltips behavior
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.switcher');
-JHtml::_('behavior.tooltip');
 
 // Load submenu template, using element id 'submenu' as needed by behavior.switcher
 $this->document->setBuffer($this->loadTemplate('navigation'), 'modules', 'submenu');
@@ -21,14 +19,13 @@ $this->document->setBuffer($this->loadTemplate('navigation'), 'modules', 'submen
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'application.cancel' || document.formvalidator.isValid(document.id('application-form')))
-		{
+		if (task == 'application.cancel' || document.formvalidator.isValid(document.id('application-form'))) {
 			Joomla.submitform(task, document.getElementById('application-form'));
 		}
 	}
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_config');?>" id="application-form" method="post" name="adminForm" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="application-form" method="post" name="adminForm" class="form-validate">
 	<?php if ($this->ftp) : ?>
 		<?php echo $this->loadTemplate('ftplogin'); ?>
 	<?php endif; ?>

@@ -287,17 +287,6 @@
 			<fieldset name="display"
 				label="MOD_ARTICLES_CATEGORY_FIELD_GROUP_DISPLAY_LABEL"
 			>
-				<field name="item_heading" type="list" default="4"
-					label="MOD_ARTICLES_CATEGORY_TITLE_HEADING"
-					description="MOD_ARTICLES_CATEGORY_TITLE_HEADING_DESCRIPTION"
-				>
-					<option value="1">JH1</option>
-					<option value="2">JH2</option>
-					<option value="3">JH3</option>
-					<option value="4">JH4</option>
-					<option value="5">JH5</option>
-					<option value="6">JH6</option>
-				</field>
 
 				<field name="link_titles" type="radio" default="1"
 					class="btn-group"

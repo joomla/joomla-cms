@@ -37,7 +37,7 @@ class LoginModelLogin extends JModelLegacy
 		if ($return = JRequest::getVar('return', '', 'method', 'base64'))
 		{
 			$return = base64_decode($return);
-			if (!JURI::isInternal($return))
+			if (!JUri::isInternal($return))
 			{
 				$return = '';
 			}

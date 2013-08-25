@@ -373,12 +373,13 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 * @return  mixed  Data from Google
 	 *
 	 * @since   12.3
-	 * @throws UnexpectedValueException
+	 * @throws  RuntimeException
 	 */
 	public function upload($file, $title = '', $summary = '')
 	{
 		if ($this->isAuthenticated())
 		{
+			jimport('joomla.filesystem.file');
 			$title = $title != '' ? $title : JFile::getName($file);
 
 			if (!($type = $this->getMIME($file)))

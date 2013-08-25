@@ -33,9 +33,9 @@ abstract class JToolbarHelper
 	{
 		// Strip the extension.
 		$icons = explode(' ', $icon);
-		foreach ($icons as &$icon)
+		foreach ($icons as $i => $icon)
 		{
-			$icon = 'icon-48-' . preg_replace('#\.[^.]*$#', '', $icon);
+			$icons[$i] = 'icon-48-' . preg_replace('#\.[^.]*$#', '', $icon);
 		}
 
 		$html = '<div class="pagetitle ' . htmlspecialchars(implode(' ', $icons)) . '"><h2>' . $title . '</h2></div>';

@@ -35,11 +35,6 @@ iframe#imageframe {
 	height: 200px;
 }
 
-a {
-	padding: 5px;
-	border: 1px solid ButtonFace;
-}
-
 a:hover {
 	border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighlight;
 }

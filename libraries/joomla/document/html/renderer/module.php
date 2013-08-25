@@ -83,8 +83,6 @@ class JDocumentRendererModule extends JDocumentRenderer
 			$module->params = (string) $params;
 		}
 
-		$contents = '';
-
 		// Default for compatibility purposes. Set cachemode parameter or use JModuleHelper::moduleCache from within the
 		// module instead
 		$cachemode = $params->get('cachemode', 'oldstatic');

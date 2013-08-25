@@ -119,6 +119,15 @@
 			<option value="1">JYES</option>
 		</field>
 
+		<field name="tags" 
+			type="tag"
+			label="JTAG"
+			description="JTAG_DESC"
+			class="inputbox span12 small"
+			multiple="true"
+		>
+		</field>
+
 		<field name="rules" type="rules" label="JFIELD_RULES_LABEL"
 			translate_label="false" class="inputbox" filter="rules"
 			component="com_content" section="article" validate="rules"
@@ -797,11 +806,6 @@
 	<fields name="metadata">
 		<fieldset name="jmetadata"
 			label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
-				<field name="tags" type="tag"
-					label="JTAG" description="JTAG_DESC"
-					class="inputbox span12 small" multiple="true"
-				>
-				</field>
 	
 				<field name="robots"
 					type="list"
