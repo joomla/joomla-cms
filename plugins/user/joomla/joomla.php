@@ -62,11 +62,12 @@ class PlgUserJoomla extends JPlugin
 	 *
 	 * Method is called after user data is deleted from the database
 	 *
-	 * @param   array          $user     Holds the user data
-	 * @param   boolean        $success  True if user was succesfully deleted from the database
-	 * @param   string         $msg      Message
+	 * @param   array    $user    Holds the user data
+	 * @param   boolean  $succes  True if user was succesfully stored in the database
+	 * @param   string   $msg     Message
 	 *
 	 * @return  boolean
+	 *
 	 * @since   1.6
 	 */
 	public function onUserAfterDelete($user, $success, $msg)
@@ -89,12 +90,13 @@ class PlgUserJoomla extends JPlugin
 	 *
 	 * This method sends a registration email to new users created in the backend.
 	 *
-	 * @param   array          $user         Holds the new user data.
-	 * @param   boolean        $isnew        True if a new user is stored.
-	 * @param   boolean        $success      True if user was succesfully stored in the database.
-	 * @param   string         $msg          Message.
+	 * @param   array    $user     Holds the new user data.
+	 * @param   boolean  $isnew    True if a new user is stored.
+	 * @param   boolean  $success  True if user was succesfully stored in the database.
+	 * @param   string   $msg      Message.
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public function onUserAfterSave($user, $isnew, $success, $msg)
@@ -158,10 +160,11 @@ class PlgUserJoomla extends JPlugin
 	/**
 	 * This method should handle any login logic and report back to the subject
 	 *
-	 * @param   array  $user        Holds the user data
-	 * @param   array  $options     Array holding options (remember, autoregister, group)
+	 * @param   array  $user     Holds the user data
+	 * @param   array  $options  Array holding options (remember, autoregister, group)
 	 *
 	 * @return  boolean  True on success
+	 *
 	 * @since   1.5
 	 */
 	public function onUserLogin($user, $options = array())
@@ -177,6 +180,7 @@ class PlgUserJoomla extends JPlugin
 		// If the user is blocked, redirect with an error
 		if ($instance->get('block') == 1)
 		{
+
 			$this->app->enqueueMessage(JText::_('JERROR_NOLOGIN_BLOCKED'), 'warning');
 
 			return false;
@@ -235,15 +239,16 @@ class PlgUserJoomla extends JPlugin
 	/**
 	 * This method should handle any logout logic and report back to the subject
 	 *
-	 * @param   array  $user        Holds the user data.
-	 * @param   array  $options     Array holding options (client, ...).
+	 * @param   array  $user     Holds the user data.
+	 * @param   array  $options  Array holding options (client, ...).
 	 *
 	 * @return  object  True on success
+	 *
 	 * @since   1.5
 	 */
 	public function onUserLogout($user, $options = array())
 	{
-		$my = JFactory::getUser();
+		$my      = JFactory::getUser();
 		$session = JFactory::getSession();
 
 		// Make sure we're a valid user first
@@ -277,10 +282,11 @@ class PlgUserJoomla extends JPlugin
 	 *
 	 * If options['autoregister'] is true, if the user doesn't exist yet he will be created
 	 *
-	 * @param   array  $user        Holds the user data.
-	 * @param   array  $options     Array holding options (remember, autoregister, group).
+	 * @param   array  $user     Holds the user data.
+	 * @param   array  $options  Array holding options (remember, autoregister, group).
 	 *
 	 * @return  object  A JUser object
+	 *
 	 * @since   1.5
 	 */
 	protected function _getUser($user, $options = array())
@@ -291,10 +297,11 @@ class PlgUserJoomla extends JPlugin
 		if ($id)
 		{
 			$instance->load($id);
+
 			return $instance;
 		}
 
-		//TODO : move this out of the plugin
+		// TODO : move this out of the plugin
 		$config = JComponentHelper::getParams('com_users');
 
 		// Hard coded default to match the default value from com_users.
@@ -305,11 +312,13 @@ class PlgUserJoomla extends JPlugin
 		$instance->set('username', $user['username']);
 		$instance->set('password_clear', $user['password_clear']);
 
+
 		// Result should contain an email (check).
 		$instance->set('email', $user['email']);
 		$instance->set('groups', array($defaultUserGroup));
 
 		// If autoregister is set let's register the user
+
 		$autoregister = isset($options['autoregister']) ? $options['autoregister'] : $this->params->get('autoregister', 1);
 
 		if ($autoregister)

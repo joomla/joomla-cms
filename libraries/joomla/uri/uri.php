@@ -191,11 +191,8 @@ class JUri
 					}
 				}
 
-				// Check for quotes in the URL to prevent injections through the Host header
-				if ($theURI !== str_replace(array("'", '"', '<', '>'), '', $theURI))
-				{
-					throw new InvalidArgumentException('Invalid URI detected.');
-				}
+				// Extra cleanup to remove invalid chars in the URL to prevent injections through the Host header
+				$theURI = str_replace(array("'", '"', '<', '>'), array("%27", "%22", "%3C", "%3E"), $theURI);
 			}
 			else
 			{

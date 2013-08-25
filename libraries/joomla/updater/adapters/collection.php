@@ -233,7 +233,18 @@ class JUpdaterCollection extends JUpdateAdapter
 
 		$http = JHttpFactory::getHttp();
 		$response = $http->get($url);
-		if (200 != $response->code)
+
+		// JHttp transport throws an exception when there's no reponse.
+		try
+		{
+			$response = $http->get($url);
+		}
+		catch (Exception $e)
+		{
+			$response = null;
+		}
+
+		if (!isset($response) || 200 != $response->code)
 		{
 			$query = $db->getQuery(true)
 				->update('#__update_sites')

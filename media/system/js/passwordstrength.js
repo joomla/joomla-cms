@@ -48,7 +48,6 @@ Form.PasswordStrength = new Class({
 				'background-color': this.options.bgcolor
 			}
 		}).inject(this.element, 'after');
-		console.log(bar);
 		var meter = new Element('div', {
 			styles: {
 				'width': 0,
