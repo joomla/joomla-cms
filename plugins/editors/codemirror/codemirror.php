@@ -32,7 +32,8 @@ class PlgEditorCodemirror extends JPlugin
 	{
 		JHtml::_('behavior.framework');
 		$uncompressed	= JFactory::getApplication()->getCfg('debug') ? '-uncompressed' : '';
-		JHtml::_('script', $this->_basePath . 'js/codemirror'.$uncompressed.'.js', false, false, false, false);
+		JHtml::_('script', $this->_basePath . 'js/codemirror.js', false, false, false, false);
+		JHtml::_('script', $this->_basePath . 'js/fullscreen.js', false, false, false, false);
 		JHtml::_('stylesheet', $this->_basePath . 'css/codemirror.css');
 
 		return '';
@@ -139,10 +140,6 @@ class PlgEditorCodemirror extends JPlugin
 
 		$compressed	= JFactory::getApplication()->getCfg('debug') ? '-uncompressed' : '';
 
-		// Default syntax
-		$parserFile = 'parsexml.js';
-		$styleSheet = array('xmlcolors.css');
-
 		// Look if we need special syntax coloring.
 		$file = JFactory::getApplication()->input->get('file');
         $explodeArray = explode('.',base64_decode($file));
@@ -153,23 +150,45 @@ class PlgEditorCodemirror extends JPlugin
 			switch($syntax)
 			{
 				case 'css':
-					$parserFile = 'parsecss.js';
-					$styleSheet = array('csscolors.css');
+                    $parserFile = array('css.js', 'closebrackets.js');
+                    $mode = 'text/css';
+                    $autoCloseBrackets = true;
+                    $autoCloseTags     = false;
 					break;
+
+                case 'ini':
+                    $parserFile = array('css.js');
+                    $mode = 'text/css';
+                    $autoCloseBrackets = false;
+                    $autoCloseTags     = false;
+                    break;
+
+                case 'xml':
+                    $parserFile = array('xml.js', 'closetag.js');
+                    $mode = 'application/xml';
+                    $autoCloseBrackets = false;
+                    $autoCloseTags     = true;
+                    break;
 
 				case 'js':
-					$parserFile = array('tokenizejavascript.js', 'parsejavascript.js');
-					$styleSheet = array('jscolors.css');
+					$parserFile = array('javascript.js', 'closebrackets.js');
+                    $mode = 'text/javascript';
+                    $autoCloseBrackets = true;
+                    $autoCloseTags     = false;
 					break;
 
-				case 'html':
-					$parserFile = array('parsexml.js', 'parsecss.js', 'tokenizejavascript.js', 'parsejavascript.js', 'parsehtmlmixed.js');
-					$styleSheet = array('xmlcolors.css', 'jscolors.css', 'csscolors.css');
+				case 'less':
+                    $parserFile = array('less.js', 'css.js', 'closebrackets.js');
+                    $mode = 'text/x-less';
+                    $autoCloseBrackets = true;
+                    $autoCloseTags     = false;
 					break;
 
 				case 'php':
-					$parserFile = array('parsexml.js', 'parsecss.js', 'tokenizejavascript.js', 'parsejavascript.js', 'tokenizephp.js', 'parsephp.js', 'parsephphtmlmixed.js');
-					$styleSheet = array('xmlcolors.css', 'jscolors.css', 'csscolors.css', 'phpcolors.css');
+					$parserFile = array('xml.js', 'clike.js', 'css.js', 'javascript.js', 'htmlmixed.js', 'php.js', 'closebrackets.js', 'closetag.js');
+                    $mode = 'application/x-httpd-php';
+                    $autoCloseBrackets = true;
+                    $autoCloseTags     = true;
 					break;
 
 				default:
@@ -177,14 +196,14 @@ class PlgEditorCodemirror extends JPlugin
 			} //switch
 		}
 
-		foreach ($styleSheet as &$style)
+		foreach ($parserFile as $file)
 		{
-			$style = JUri::root(true).'/'.$this->_basePath.'css/'.$style;
+            JHtml::_('script', $this->_basePath . 'js/' . $file, false, false, false, false);
 		}
 
 		$options	= new stdClass;
 
-		$options->basefiles		= array('basefiles'.$compressed.'.js');
+		/*$options->basefiles		= array('basefiles'.$compressed.'.js');
 		$options->path			= JUri::root(true).'/'.$this->_basePath.'js/';
 		$options->parserfile	= $parserFile;
 		$options->stylesheet	= $styleSheet;
@@ -194,7 +213,7 @@ class PlgEditorCodemirror extends JPlugin
 
 
         // Enabled the line numbers.
-		/*if ($this->params->get('linenumbers', 0))
+		if ($this->params->get('linenumbers', 0))
 		{
 			$options->lineNumbers	= true;
 			$options->textWrapping	= false;
@@ -202,20 +221,27 @@ class PlgEditorCodemirror extends JPlugin
 
         // Uncomment the above code and delete these lines to enable
         // if you want to enable/disable line number from the admin panel
-        $options->lineNumbers	= true;
-        $options->textWrapping	= false;
+        $options->lineNumbers	    = true;
+        $options->lineWrapping	    = true;
+        $options->mode	            = $mode;
+        $options->autofocus	        = true;
+        $options->autoCloseBrackets	= $autoCloseBrackets;
+        $options->autoCloseTags	    = $autoCloseTags;
 
-		if ($this->params->get('tabmode', '') == 'shift')
+
+        //$options->viewportMargin	= 'Infinity';
+
+		/*if ($this->params->get('tabmode', '') == 'shift')
 		{
 			$options->tabMode = 'shift';
-		}
+		}*/
 
 		$html = array();
 		$html[]	= "<textarea name=\"$name\" id=\"$id\" cols=\"$col\" rows=\"$row\">$content</textarea>";
 		$html[] = $buttons;
 		$html[] = '<script type="text/javascript">';
 		$html[] = '(function() {';
-		$html[] = 'var editor = CodeMirror.fromTextArea("'.$id.'", '.json_encode($options).');';
+		$html[] = 'var editor = CodeMirror.fromTextArea(document.getElementById("'.$id.'"), '.json_encode($options).');';
 		$html[] = 'Joomla.editors.instances[\''.$id.'\'] = editor;';
 		$html[] = '})()';
 		$html[] = '</script>';

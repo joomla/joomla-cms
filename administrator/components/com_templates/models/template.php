@@ -58,6 +58,11 @@ class TemplatesModelTemplate extends JModelForm
 			$path		= JPath::clean($client->path.'/templates/'.$template->element.'/');
             $this->element = $path;
 
+            if(!is_writable($path))
+            {
+                $app->enqueueMessage(JText::_('The template directory is not writable. Some features may not work.'),'error');
+            }
+
 			if (is_dir($path))
 			{
 				$result = $this->getDirectoryTree($path);
@@ -443,6 +448,14 @@ class TemplatesModelTemplate extends JModelForm
             $app->enqueueMessage(JText::sprintf('COM_TEMPLATES_ERROR_FAILED_TO_SAVE_FILENAME', $fileName),'warning');
 			return false;
 		}
+
+        $explodeArray = explode('.',$fileName);
+        $ext = end($explodeArray);
+
+        if($ext == 'less')
+        {
+            $app->enqueueMessage(JText::_('You should compile ' . $fileName . ' to generate a css file.'));
+        }
 	
 		return true;
 	}
@@ -460,24 +473,27 @@ class TemplatesModelTemplate extends JModelForm
     {
         if ($template = $this->getTemplate())
         {
-            $client 	= JApplicationHelper::getClientInfo($template->client_id);
-            $componentPath		= JPath::clean($client->path.'/components/');
-            $modulePath		= JPath::clean($client->path.'/modules/');
-            $layoutPath		= JPath::clean(JPATH_ROOT . '/layouts/joomla/');
-            $components = JFolder::folders($componentPath);
+            $client 	        = JApplicationHelper::getClientInfo($template->client_id);
+            $componentPath		= JPath::clean($client->path . '/components/');
+            $modulePath		    = JPath::clean($client->path . '/modules/');
+            $layoutPath		    = JPath::clean(JPATH_ROOT . '/layouts/joomla/');
+            $components         = JFolder::folders($componentPath);
+
             foreach($components as $component)
             {
-                $result['components'][] = $this->getOverridesFolder($component,$componentPath);
+                $result['components'][] = $this->getOverridesFolder($component, $componentPath);
             }
             $modules = JFolder::folders($modulePath);
+
             foreach($modules as $module)
             {
-                $result['modules'][] = $this->getOverridesFolder($module,$modulePath);
+                $result['modules'][] = $this->getOverridesFolder($module, $modulePath);
             }
             $layouts = JFolder::folders($layoutPath);
+
             foreach($layouts as $layout)
             {
-                $result['layouts'][] = $this->getOverridesFolder($layout,$layoutPath);
+                $result['layouts'][] = $this->getOverridesFolder($layout, $layoutPath);
             }
 
         }
@@ -492,10 +508,10 @@ class TemplatesModelTemplate extends JModelForm
         jimport('joomla.filesystem.folder');
         if ($template = $this->getTemplate())
         {
-            $app        = JFactory::getApplication();
-            $explodeArray = explode('/',$override);
-            $name       = end($explodeArray);
-            $client 	= JApplicationHelper::getClientInfo($template->client_id);
+            $app            = JFactory::getApplication();
+            $explodeArray   = explode('/',$override);
+            $name           = end($explodeArray);
+            $client 	    = JApplicationHelper::getClientInfo($template->client_id);
             if(stristr($name,'mod_') != FALSE || stristr($name,'com_') != FALSE)
             {
                 $htmlPath   = JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $name);
@@ -519,7 +535,7 @@ class TemplatesModelTemplate extends JModelForm
 
             if(stristr($name,'mod_') != FALSE)
             {
-                $return = JFolder::copy($override . '/tmpl',$htmlPath,'',true);
+                $return = JFolder::copy($override . '/tmpl', $htmlPath, '', true);
             }
             elseif(stristr($name,'com_') != FALSE)
             {
@@ -732,12 +748,20 @@ class TemplatesModelTemplate extends JModelForm
             $fileName   = base64_decode($app->input->get('file'));
             $path       = JPath::clean($client->path . '/templates/' . $template->element . '/');
 
+            if(stristr($client->path,'administrator') == FALSE)
+            {
+                $folder = '/templates/';
+            }
+            else
+            {
+                $folder = '/administrator/templates/';
+            }
+            $uri        = JPath::clean(JUri::root(true) . $folder . $template->element . '/');
+
             if(file_exists(JPath::clean($path . '/' . $fileName)))
             {
                 $JImage = new JImage(JPath::clean($path . '/' . $fileName));
-                $explodeArray = explode('/',JPATH_ROOT);
-                $base = end($explodeArray);
-                $image['address'] = str_replace(JPATH_ROOT, '/' . $base, $JImage->getPath());
+                $image['address'] = $uri . '/' . $fileName;
 
                 $image['height'] = $JImage->getHeight();
                 $image['width']  = $JImage->getWidth();

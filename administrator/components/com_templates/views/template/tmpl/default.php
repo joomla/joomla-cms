@@ -103,6 +103,22 @@ if($this->type == 'image')
     #deleteFolder{
         margin: 0;
     }
+
+    .CodeMirror {
+        border: 1px solid #eee;
+        height: auto;
+    }
+    .CodeMirror-scroll {
+        overflow-y: hidden;
+        overflow-x: auto;
+    }
+    .CodeMirror-fullscreen {
+        display: block;
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%;
+        z-index: 9999;
+    }
 </style>
 <?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'editor')); ?>
 	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'editor', JText::_('Editor', true)); ?>
@@ -160,9 +176,11 @@ if($this->type == 'image')
                 <legend><?php echo JText::_('Modules');?></legend>
                 <ul class="nav nav-list">
                     <?php foreach($this->overridesList['modules'] as $module): ?>
-                        <li><a href="
-                            <?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $module->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>
-                        "><i class="icon-copy"></i>&nbsp;<?php echo $module->name; ?></a></li>
+                        <li>
+                            <a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $module->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
+                                <i class="icon-copy"></i>&nbsp;<?php echo $module->name; ?>
+                            </a>
+                        </li>
                     <?php endforeach; ?>
                 </ul>
             </div>
@@ -170,9 +188,11 @@ if($this->type == 'image')
                 <legend><?php echo JText::_('Components');?></legend>
                 <ul class="nav nav-list">
                     <?php foreach($this->overridesList['components'] as $component): ?>
-                        <li><a href="
-                            <?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $component->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>
-                        "><i class="icon-copy"></i>&nbsp;<?php echo $component->name; ?></a></li>
+                        <li>
+                            <a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $component->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
+                                <i class="icon-copy"></i>&nbsp;<?php echo $component->name; ?>
+                            </a>
+                        </li>
                     <?php endforeach; ?>
                 </ul>
             </div>
@@ -180,15 +200,17 @@ if($this->type == 'image')
                 <legend><?php echo JText::_('Layouts');?></legend>
                 <ul class="nav nav-list">
                     <?php foreach($this->overridesList['layouts'] as $layout): ?>
-                        <li><a href="
-                            <?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $layout->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>
-                        "><i class="icon-copy"></i>&nbsp;<?php echo $layout->name; ?></a></li>
+                        <li>
+                            <a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $layout->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
+                                <i class="icon-copy"></i>&nbsp;<?php echo $layout->name; ?>
+                            </a>
+                        </li>
                     <?php endforeach; ?>
                 </ul>
             </div>
         </div>
 	<?php echo JHtml::_('bootstrap.endTab'); ?>
-    <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'less', JText::_('CDN Files', true)); ?>
+    <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('Template Description', true)); ?>
 
     <?php echo JHtml::_('bootstrap.endTab'); ?>
 <?php echo JHtml::_('bootstrap.endTabSet'); ?>
