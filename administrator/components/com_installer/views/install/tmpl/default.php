@@ -8,8 +8,15 @@
  */
 
 defined('_JEXEC') or die;
+
+$document = JFactory::getDocument();
+$instance = new JVersion;
+
+$version  = $instance->getShortVersion();
+$document->addStylesheet(APPS_BASE_URL . 'apps/css/client.css?jversion=' . $version);
 ?>
 <script type="text/javascript">
+	apps_base_url = '<?php echo APPS_BASE_URL; ?>';
 	Joomla.submitbutton = function(pressbutton)
 	{
 		var form = document.getElementById('adminForm');
@@ -54,52 +61,8 @@ defined('_JEXEC') or die;
 			form.submit();
 		}
 	}
-	
-	Joomla.loadweb = function(url) {
-		if ('' == url) { return false; }
-		
-		jQuery.get(url, function(data) {
-			response = JSON.parse(data);
-			jQuery('#web-loader').hide();
-			jQuery('#jed-container').html(response.data);
-		}, 'jsonp').fail(function() { 
-			jQuery('#web-loader').hide();
-			jQuery('#web-loader-error').show();
-		});
-	}
-	
-	Joomla.installfromweb = function(install_url, name) {
-		if ('' == install_url) {
-			alert("<?php echo JText::_('COM_INSTALLER_MSG_INSTALL_WEB_INVALID_URL', true); ?>");
-			return false;
-		}
-		jQuery('#install_url').val(install_url);
-		jQuery('#uploadform-web-url').text(install_url);
-		jQuery('#uploadform-web-name').text(name);
-		jQuery('#jed-container').slideUp(300);
-		jQuery('#uploadform-web').show();
-	}
-	
-	Joomla.installfromwebcancel = function() {
-		jQuery('#uploadform-web').hide();
-		jQuery('#jed-container').slideDown(300);
-	}
-	
-	jQuery(document).ready(function() {
-		apps_base_url = 'http://localhost/joomla-cms-apps/';
-		Joomla.loadweb(apps_base_url+'index.php?option=com_apps&view=dashboard&format=raw');
-		
-		jQuery('a.transcode').live('click', function(event){
-			ajax_url = alert(jQuery(this).attr('href'));
-			event.preventDefault();
-			Joomla.loadweb(apps_base_url + ajax_url);
-		});
-	});
-	
-
-
-	
 </script>
+<script src="<?php echo APPS_BASE_URL . 'apps/js/client.js?jversion=' . $version; ?>" type="text/javascript"></script>
 
 <div id="installer-install">
 <form enctype="multipart/form-data" action="<?php echo JRoute::_('index.php?option=com_installer&view=install');?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
