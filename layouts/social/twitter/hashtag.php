@@ -19,7 +19,7 @@ $hashtag = $params->get('hashtag');
 
 if ($hashtag == '')
 {
-	JLog::add(JText::sprintf('TWITTER_USER_REQUIRED', JText::_('TWITTER_MENTION')), JLog::WARNING);
+	JLog::add(JText::_('JLAYOUT_TWITTER_HASHTAG_REQUIRED'), JLog::WARNING);
 }
 else
 {
@@ -63,7 +63,7 @@ else
 			<?php echo $size . $related; ?>
 			data-lang="<?php echo $language; ?>"
 		>
-			<?php echo JText::sprintf(JText::_('TWITTER_TWEET_HASHTAG'), $hashtag); ?>
+			<?php echo JText::sprintf(JText::_('JLAYOUT_TWITTER_TWEET_HASHTAG'), $hashtag); ?>
 		</a>
 	</div>
 <?php

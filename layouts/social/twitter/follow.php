@@ -19,7 +19,7 @@ $user = $params->get('user', '');
 
 if ($user == '')
 {
-	JLog::add(JText::sprintf('TWITTER_USER_REQUIRED', JText::_('TWITTER_MENTION')), JLog::WARNING);
+	JLog::add(JText::sprintf('JLAYOUT_TWITTER_USER_REQUIRED', JText::_('JLAYOUT_TWITTER_MENTION')), JLog::WARNING);
 }
 else
 {
@@ -43,7 +43,7 @@ else
 			data-show-count="<?php echo $showCount; ?>"
 			data-lang="<?php echo $language; ?>"
 		>
-			<?php echo JText::sprintf(JText::_('TWITTER_FOLLOW_CAPITAL'), $user); ?>
+			<?php echo JText::sprintf(JText::_('JLAYOUT_TWITTER_FOLLOW_CAPITAL'), $user); ?>
 		</a>
 	</div>
 <?php
