@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Legacy
+ * @package     Joomla.Libraries
  * @subpackage  Menu
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
@@ -12,9 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JMenu class
  *
- * @package     Joomla.Legacy
+ * @package     Joomla.Libraries
  * @subpackage  Menu
- * @since       11.1
+ * @since       1.5
  */
 class JMenu
 {
@@ -22,7 +22,8 @@ class JMenu
 	 * Array to hold the menu items
 	 *
 	 * @var    array
-	 * @since   11.1
+	 * @since  1.5
+	 * @deprecated  4.0  Will convert to $items
 	 */
 	protected $_items = array();
 
@@ -30,7 +31,8 @@ class JMenu
 	 * Identifier of the default menu item
 	 *
 	 * @var    integer
-	 * @since   11.1
+	 * @since  1.5
+	 * @deprecated  4.0  Will convert to $default
 	 */
 	protected $_default = array();
 
@@ -38,13 +40,14 @@ class JMenu
 	 * Identifier of the active menu item
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.5
+	 * @deprecated  4.0  Will convert to $active
 	 */
 	protected $_active = 0;
 
 	/**
 	 * @var    array  JMenu instances container.
-	 * @since  11.3
+	 * @since  1.7
 	 */
 	protected static $instances = array();
 
@@ -53,7 +56,7 @@ class JMenu
 	 *
 	 * @param   array  $options  An array of configuration options.
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function __construct($options = array())
 	{
@@ -82,7 +85,8 @@ class JMenu
 	 *
 	 * @return  JMenu  A menu object.
 	 *
-	 * @since   11.1
+	 * @since   1.5
+	 * @throws  Exception
 	 */
 	public static function getInstance($client, $options = array())
 	{
@@ -93,16 +97,17 @@ class JMenu
 
 			if (!class_exists($classname))
 			{
-				// @deprecated 13.3 Everything in this block is deprecated but the warning is only logged after the file_exists
+				// @deprecated 4.0 Everything in this block is deprecated but the warning is only logged after the file_exists
 				// Load the menu object
 				$info = JApplicationHelper::getClientInfo($client, true);
 
 				if (is_object($info))
 				{
 					$path = $info->path . '/includes/menu.php';
+
 					if (file_exists($path))
 					{
-						JLog::add('Non-autoloadable JMenu subclasses are deprecated.', JLog::WARNING, 'deprecated');
+						JLog::add('Non-autoloadable JMenu subclasses are deprecated, support will be removed in 4.0.', JLog::WARNING, 'deprecated');
 						include_once $path;
 					}
 				}
@@ -128,11 +133,12 @@ class JMenu
 	 *
 	 * @return  mixed    The item object, or null if not found
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function getItem($id)
 	{
 		$result = null;
+
 		if (isset($this->_items[$id]))
 		{
 			$result = &$this->_items[$id];
@@ -149,13 +155,14 @@ class JMenu
 	 *
 	 * @return  boolean  True, if successful
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function setDefault($id, $language = '')
 	{
 		if (isset($this->_items[$id]))
 		{
 			$this->_default[$language] = $id;
+
 			return true;
 		}
 
@@ -169,7 +176,7 @@ class JMenu
 	 *
 	 * @return  object  The item object
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function getDefault($language = '*')
 	{
@@ -194,7 +201,7 @@ class JMenu
 	 *
 	 * @return  mixed  If successful the active item, otherwise null
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function setActive($id)
 	{
@@ -202,6 +209,7 @@ class JMenu
 		{
 			$this->_active = $id;
 			$result = &$this->_items[$id];
+
 			return $result;
 		}
 
@@ -213,13 +221,14 @@ class JMenu
 	 *
 	 * @return  object  The item object.
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function getActive()
 	{
 		if ($this->_active)
 		{
 			$item = &$this->_items[$this->_active];
+
 			return $item;
 		}
 
@@ -236,7 +245,7 @@ class JMenu
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function getItems($attributes, $values, $firstonly = false)
 	{
@@ -252,6 +261,7 @@ class JMenu
 			}
 
 			$test = true;
+
 			for ($i = 0, $count = count($attributes); $i < $count; $i++)
 			{
 				if (is_array($values[$i]))
@@ -293,7 +303,7 @@ class JMenu
 	 *
 	 * @return  JRegistry  A JRegistry object
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function getParams($id)
 	{
@@ -312,7 +322,7 @@ class JMenu
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function getMenu()
 	{
@@ -327,7 +337,7 @@ class JMenu
 	 *
 	 * @return  boolean  True if authorised
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function authorise($id)
 	{
@@ -349,7 +359,7 @@ class JMenu
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function load()
 	{
