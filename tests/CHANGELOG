@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Aug-2013 Mark Dexter
+ + Start new front-end tests for articles. Thanks Puneet Kala!
+
 16-Aug-2013 Michael Babker
  ^ Add a conditional for running app install
 
