@@ -8,7 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-define('APPS_BASE_URL', 'http://localhost/joomla-cms-apps/');
 
 /**
  * Extension Manager Install Model
@@ -273,26 +272,5 @@ class InstallerModelInstall extends JModelLegacy
 		$package = JInstallerHelper::unpack($tmp_dest . '/' . $p_file);
 
 		return $package;
-	}
-	
-	public function installfromweb() {
-		//@TODO: Construct the URL by passing along all URL vars except option & task
-		$apps_dashboard = APPS_BASE_URL.'index.php?option=com_apps&view=dashboard&format=raw';
-		$response = array();
-		
-		$http = JHttpFactory::getHttp();
-		try {
-			$html = $http->get($apps_dashboard);
-			$response['body'] = $html->body;
-			$response['message'] = '';
-			$response['error'] = false;
-		} catch (Exception $e) {
-			header('HTTP/1.1 503 Service Temporarily Unavailable');
-			header('Status: 503 Service Temporarily Unavailable');
-			$response['message'] = $e->getMessage();
-			$response['error'] = true;
-		}
-		
-		return $response;
 	}
 }
