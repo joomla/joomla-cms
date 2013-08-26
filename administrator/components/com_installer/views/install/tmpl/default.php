@@ -62,7 +62,7 @@ defined('_JEXEC') or die;
 			response = JSON.parse(data);
 			jQuery('#web-loader').hide();
 			jQuery('#jed-container').html(response.data);
-		}).fail(function() { 
+		}, 'jsonp').fail(function() { 
 			jQuery('#web-loader').hide();
 			jQuery('#web-loader-error').show();
 		});
@@ -85,9 +85,19 @@ defined('_JEXEC') or die;
 		jQuery('#jed-container').slideDown(300);
 	}
 	
-	jQuery(document).ready(function() { 
-		Joomla.loadweb('index.php?option=com_installer&task=install.installfromweb&format=json');
+	jQuery(document).ready(function() {
+		apps_base_url = 'http://localhost/joomla-cms-apps/';
+		Joomla.loadweb(apps_base_url+'index.php?option=com_apps&view=dashboard&format=raw');
+		
+		jQuery('a.transcode').live('click', function(event){
+			ajax_url = alert(jQuery(this).attr('href'));
+			event.preventDefault();
+			Joomla.loadweb(apps_base_url + ajax_url);
+		});
 	});
+	
+
+
 	
 </script>
 
