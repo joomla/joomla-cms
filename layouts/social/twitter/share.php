@@ -76,15 +76,13 @@ $document = JFactory::getDocument();
  * Should be in the form of xx.
 **/
 $language = JFactory::getLanguage()->getLocale()['4'];
+
 if (isset($displayData['language']))
 {
 	$language = $displayData['language'];
 }
 
-if (!in_array('<script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>', $document->_custom))
-{
-	$document->addCustomTag('<script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>');
-}
+$document->addScript("http://platform.twitter.com/widgets.js");
 ?>
 <div class="TwitterButton">
 	<a href="https://twitter.com/share" class="twitter-share-button" <?php echo 'data-lang="' . $language . '"' . $hashtags . $via . $size . 'data-url="' . $url . '"' . $text . $related; ?>><?php echo JText::_('TWITTER_TWEET'); ?></a>

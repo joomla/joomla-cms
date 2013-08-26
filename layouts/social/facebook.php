@@ -42,9 +42,8 @@ if (isset($displayData['show-faces']) && (!is_bool($displayData['show-faces'])))
 // Layout by default is standard but allow other 2 layouts if specified
 $layout = 'standard';
 
-if (isset($displayData['data-layout']) &&
-		($displayData['data-layout'] == 'button_count' || $displayData['data-layout'] == 'box_count')
-	)
+if (isset($displayData['data-layout'])
+	&& ($displayData['data-layout'] == 'button_count' || $displayData['data-layout'] == 'box_count'))
 {
 	$layout = $displayData['data-layout'];
 }
@@ -73,6 +72,7 @@ $document = JFactory::getDocument();
  * Should be in the form of xx_XX.
 **/
 $language = JFactory::getLanguage()->getLocale()['2'];
+
 if (isset($displayData['language']))
 {
 	$language = $displayData['language'];

@@ -12,9 +12,8 @@ defined('_JEXEC') or die;
 // Layout by default is standard but allow other 3 layouts if specified
 $layout = 'standard';
 
-if (isset($displayData['data-size']) &&
-		($displayData['data-size'] == 'small' || $displayData['data-size'] == 'medium' || $displayData['data-size'] == 'tall')
-	)
+if (isset($displayData['data-size'])
+	&& ($displayData['data-size'] == 'small' || $displayData['data-size'] == 'medium' || $displayData['data-size'] == 'tall'))
 {
 	$layout = $displayData['data-size'];
 }
@@ -22,9 +21,8 @@ if (isset($displayData['data-size']) &&
 // Layout by default is inline but allow other 2 layouts if specified
 $annotation = 'inline';
 
-if (isset($displayData['data-annotation']) &&
-		($displayData['data-annotation'] == 'inline' || $displayData['data-annotation'] == 'none')
-	)
+if (isset($displayData['data-annotation'])
+	&& ($displayData['data-annotation'] == 'inline' || $displayData['data-annotation'] == 'none'))
 {
 	$annotation = $displayData['data-annotation'];
 }
@@ -63,6 +61,7 @@ $GlanguageLong	= array('zh-HK', 'zh-CN', 'zh-TW', 'en-GB', 'en-US', 'fr-CA', 'pt
  * Should be in the form of xx_XX.
 **/
 $language = JFactory::getLanguage()->getLocale()['2'];
+
 if (isset($displayData['language']))
 {
 	$language = $displayData['language'];

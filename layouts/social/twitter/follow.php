@@ -33,12 +33,13 @@ else
 		{
 			$showCount = $displayData['show-count'];
 		}
-		
+
 		/**
 		 * Auto-detect language - but let that be overridden if wanted from extensions languages
 		 * Should be in the form of xx.
 		**/
 		$language = $lang->getLocale()['4'];
+
 		if (isset($displayData['language']))
 		{
 			$language = $displayData['language'];
@@ -47,10 +48,7 @@ else
 		// Get Document to add in twitter script if not already included
 		$document = JFactory::getDocument();
 
-		if (!in_array('<script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>', $document->_custom))
-		{
-			$document->addCustomTag('<script src="http://platform.twitter.com/widgets.js" type="text/javascript"></script>');
-		}
+		$document->addScript("http://platform.twitter.com/widgets.js");
 		?>
 		<div class="TwitterButton">
 			<a href="https://twitter.com/<?php echo $displayData['user']; ?>"
