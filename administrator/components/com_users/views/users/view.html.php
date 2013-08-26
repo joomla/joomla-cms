@@ -58,6 +58,7 @@ class UsersViewUsers extends JViewLegacy
 	protected function addToolbar()
 	{
 		$canDo	= UsersHelper::getActions();
+		$user 	= JFactory::getUser();
 
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
@@ -89,13 +90,15 @@ class UsersViewUsers extends JViewLegacy
 		}
 
 		// Add a batch button
-		if ($canDo->get('core.edit'))
+		if ($user->authorise('core.create', 'com_users') && $user->authorise('core.edit', 'com_users') && $user->authorise('core.edit.state', 'com_users'))
 		{
 			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
-			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn btn-small\">
-			<i class=\"icon-checkbox-partial\" title=\"$title\"></i>
-			$title</button>";
+
+			// Instantiate a new JLayoutFile instance and render the batch button
+			$layout = new JLayoutFile('joomla.toolbar.batch');
+
+			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
@@ -131,6 +134,27 @@ class UsersViewUsers extends JViewLegacy
 			JText::_('COM_USERS_OPTION_FILTER_DATE'),
 			'filter_range',
 			JHtml::_('select.options', Usershelper::getRangeOptions(), 'value', 'text', $this->state->get('filter.range'))
+		);
+	}
+
+	/**
+	 * Returns an array of fields the table can be sorted by
+	 *
+	 * @return  array  Array containing the field name to sort by as the key and display text as value
+	 *
+	 * @since   3.0
+	 */
+	protected function getSortFields()
+	{
+		return array(
+				'a.name' => JText::_('COM_USERS_HEADING_NAME'),
+				'a.username' => JText::_('JGLOBAL_USERNAME'),
+				'a.block' => JText::_('COM_USERS_HEADING_ENABLED'),
+				'a.activation' => JText::_('COM_USERS_HEADING_ACTIVATED'),
+				'a.email' => JText::_('JGLOBAL_EMAIL'),
+				'a.lastvisitDate' => JText::_('COM_USERS_HEADING_LAST_VISIT_DATE'),
+				'a.registerDate' => JText::_('COM_USERS_HEADING_REGISTRATION_DATE'),
+				'a.id' => JText::_('JGRID_HEADING_ID')
 		);
 	}
 }

@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.updater.updateadapter');
+
 /**
  * Extension class for updater
  *
@@ -168,18 +169,28 @@ class JUpdaterExtension extends JUpdateAdapter
 			$url .= 'extension.xml';
 		}
 
-		$dbo = $this->parent->getDBO();
+		$db = $this->parent->getDBO();
 
 		$http = JHttpFactory::getHttp();
-		$response = $http->get($url);
-		if (!empty($response->code) && 200 != $response->code)
+
+		// JHttp transport throws an exception when there's no reponse.
+		try
 		{
-			$query = $dbo->getQuery(true);
-			$query->update('#__update_sites');
-			$query->set('enabled = 0');
-			$query->where('update_site_id = ' . $this->updateSiteId);
-			$dbo->setQuery($query);
-			$dbo->execute();
+			$response = $http->get($url);
+		}
+		catch (Exception $e)
+		{
+			$response = null;
+		}
+
+		if (!isset($response) || (!empty($response->code) && 200 != $response->code))
+		{
+			$query = $db->getQuery(true)
+				->update('#__update_sites')
+				->set('enabled = 0')
+				->where('update_site_id = ' . $this->updateSiteId);
+			$db->setQuery($query);
+			$db->execute();
 
 			JLog::add("Error opening url: " . $url, JLog::WARNING, 'updater');
 			$app = JFactory::getApplication();

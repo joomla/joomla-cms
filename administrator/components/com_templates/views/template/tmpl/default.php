@@ -11,7 +11,8 @@ defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-JHtml::_('behavior.tooltip');
+
+JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.modal');
 JHtml::_('formbehavior.chosen', 'select');
 
@@ -130,7 +131,7 @@ $input = JFactory::getApplication()->input;
 		<div class="modal-body">
 			<div id="template-manager-css" class="form-horizontal">
 				<div class="control-group">
-					<label for="new_name" class="control-label hasTip" title="<?php echo JText::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_DESC'); ?>"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_LABEL')?></label>
+					<label for="new_name" class="control-label hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_TEMPLATE_NEW_NAME_DESC'); ?>"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_LABEL')?></label>
 					<div class="controls">
 						<input class="input-xlarge" type="text" id="new_name" name="new_name"  />
 					</div>
@@ -144,4 +145,4 @@ $input = JFactory::getApplication()->input;
 	</div>
 	<?php echo JHtml::_('form.token'); ?>
 </form>
-	
+

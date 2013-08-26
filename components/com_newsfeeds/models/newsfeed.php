@@ -78,38 +78,37 @@ class NewsfeedsModelNewsfeed extends JModelItem
 			try
 			{
 				$db = $this->getDbo();
-				$query = $db->getQuery(true);
-
-				$query->select($this->getState('item.select', 'a.*'));
-				$query->from('#__newsfeeds AS a');
+				$query = $db->getQuery(true)
+					->select($this->getState('item.select', 'a.*'))
+					->from('#__newsfeeds AS a');
 
 				// Join on category table.
-				$query->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access');
-				$query->join('LEFT', '#__categories AS c on c.id = a.catid');
+				$query->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access')
+					->join('LEFT', '#__categories AS c on c.id = a.catid');
 
 				// Join on user table.
-				$query->select('u.name AS author');
-				$query->join('LEFT', '#__users AS u on u.id = a.created_by');
+				$query->select('u.name AS author')
+					->join('LEFT', '#__users AS u on u.id = a.created_by');
 
 				// Join over the categories to get parent category titles
-				$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias');
-				$query->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
+				$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias')
+					->join('LEFT', '#__categories as parent ON parent.id = c.parent_id')
 
-				$query->where('a.id = ' . (int) $pk);
+					->where('a.id = ' . (int) $pk);
 
 				// Filter by start and end dates.
-				$nullDate = $db->Quote($db->getNullDate());
-				$nowDate = $db->Quote(JFactory::getDate()->toSql());
+				$nullDate = $db->quote($db->getNullDate());
+				$nowDate = $db->quote(JFactory::getDate()->toSql());
 
 				// Filter by published state.
 				$published = $this->getState('filter.published');
 				$archived = $this->getState('filter.archived');
 				if (is_numeric($published))
 				{
-					$query->where('(a.published = ' . (int) $published . ' OR a.published =' . (int) $archived . ')');
-					$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
-					$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
-					$query->where('(c.published = ' . (int) $published . ' OR c.published =' . (int) $archived . ')');
+					$query->where('(a.published = ' . (int) $published . ' OR a.published =' . (int) $archived . ')')
+						->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
+						->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')')
+						->where('(c.published = ' . (int) $published . ' OR c.published =' . (int) $archived . ')');
 				}
 
 				$db->setQuery($query);

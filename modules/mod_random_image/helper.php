@@ -109,7 +109,7 @@ class ModRandomImageHelper
 	{
 		$folder	= $params->get('folder');
 
-		$LiveSite	= JURI::base();
+		$LiveSite	= JUri::base();
 
 		// if folder includes livesite info, remove
 		if (JString::strpos($folder, $LiveSite) === 0)

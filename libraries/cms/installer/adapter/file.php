@@ -220,11 +220,11 @@ class JInstallerAdapterFile extends JAdapterInstance
 		 * we can assume that it was (badly) uninstalled
 		 * If it isn't, add an entry to extensions
 		 */
-		$query = $db->getQuery(true);
-		$query->select($query->qn('extension_id'))
-			->from($query->qn('#__extensions'));
-		$query->where($query->qn('type') . ' = ' . $query->q('file'))
-			->where($query->qn('element') . ' = ' . $query->q($element));
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('file'))
+			->where($db->quoteName('element') . ' = ' . $db->quote($element));
 		$db->setQuery($query);
 
 		try
@@ -389,7 +389,7 @@ class JInstallerAdapterFile extends JAdapterInstance
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
 		$uid = $update->find(
-			array('element' => $this->get('element'), 'type' => 'file', 'client_id' => '', 'folder' => '')
+			array('element' => $this->get('element'), 'type' => 'file', 'client_id' => (int) '', 'folder' => '')
 		);
 
 		if ($uid)
@@ -549,9 +549,8 @@ class JInstallerAdapterFile extends JAdapterInstance
 			}
 
 			// Remove the schema version
-			$query = $db->getQuery(true);
-			$query->delete()
-				->from('#__schemas')
+			$query = $db->getQuery(true)
+				->delete('#__schemas')
 				->where('extension_id = ' . $row->extension_id);
 			$db->setQuery($query);
 			$db->execute();
@@ -559,7 +558,6 @@ class JInstallerAdapterFile extends JAdapterInstance
 			// Loop through all elements and get list of files and folders
 			foreach ($xml->fileset->files as $eFiles)
 			{
-				$folder = (string) $eFiles->attributes()->folder;
 				$target = (string) $eFiles->attributes()->target;
 
 				// Create folder path
@@ -646,11 +644,11 @@ class JInstallerAdapterFile extends JAdapterInstance
 		// Get a database connector object
 		$db = $this->parent->getDBO();
 
-		$query = $db->getQuery(true);
-		$query->select($query->qn('extension_id'))
-			->from($query->qn('#__extensions'));
-		$query->where($query->qn('type') . ' = ' . $query->q('file'))
-			->where($query->qn('element') . ' = ' . $query->q($extension));
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('file'))
+			->where($db->quoteName('element') . ' = ' . $db->quote($extension));
 		$db->setQuery($query);
 
 		try

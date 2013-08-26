@@ -14,6 +14,7 @@ $templateparams = $app->getTemplate(true)->params;
 $images = json_decode($this->item->images);
 $urls = json_decode($this->item->urls);
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
+JHtml::_('behavior.caption');
 
 // Create shortcut to parameters.
 $params = $this->item->params;
@@ -158,7 +159,7 @@ if ($params->get('show_title')) : ?>
 	<?php  if (isset($images->image_fulltext) and !empty($images->image_fulltext)) : ?>
 	<?php $imgfloat = (empty($images->float_fulltext)) ? $params->get('float_fulltext') : $images->float_fulltext; ?>
 
-	<div class="img-fulltext-"<?php echo htmlspecialchars($imgfloat); ?>">
+	<div class="img-fulltext-<?php echo htmlspecialchars($imgfloat); ?>">
 	<img
 		<?php if ($images->image_fulltext_caption):
 			echo 'class="caption"'.' title="' .htmlspecialchars($images->image_fulltext_caption) .'"';

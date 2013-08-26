@@ -25,6 +25,7 @@
 		<folder>less</folder>
 	</files>
 	<positions>
+		<position>banner</position>
 		<position>debug</position>
 		<position>position-0</position>
 		<position>position-1</position>

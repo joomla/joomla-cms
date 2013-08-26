@@ -47,12 +47,7 @@ class GlobalConfiguration0001Test extends JoomlaWebdriverTestCase
 	{
 		$gc = $this->gcPage;
 		$testElements = $gc->getAllInputFields(array('page-site', 'page-system', 'page-server', 'page-permissions'));
-		$actualFields = array();
-		foreach ($testElements as $el)
-		{
-			$el->labelText = (substr($el->labelText, -2) == ' *') ? substr($el->labelText, 0, -2) : $el->labelText;
-			$actualFields[] = array('label' => $el->labelText, 'id' => $el->id, 'type' => $el->tag, 'tab' => $el->tab);
-		}
+		$actualFields = $this->getActualFieldsFromElements($testElements);
 		$this->assertEquals($actualFields, $gc->inputFields);
 	}
 

@@ -69,7 +69,7 @@ class TemplatesModelStyle extends JModelAdmin
 		$table	= $this->getTable();
 
 		// Iterate the items to delete each one.
-		foreach ($pks as $i => $pk)
+		foreach ($pks as $pk)
 		{
 			if ($table->load($pk))
 			{
@@ -113,7 +113,6 @@ class TemplatesModelStyle extends JModelAdmin
 	public function duplicate(&$pks)
 	{
 		$user	= JFactory::getUser();
-		$db		= $this->getDbo();
 
 		// Access checks.
 		if (!$user->authorise('core.create', 'com_templates'))
@@ -185,8 +184,6 @@ class TemplatesModelStyle extends JModelAdmin
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		$app = JFactory::getApplication();
-
 		// The folder and element vars are passed when saving the form.
 		if (empty($data))
 		{
@@ -459,12 +456,12 @@ class TemplatesModelStyle extends JModelAdmin
 				JArrayHelper::toInteger($data['assigned']);
 
 				// Update the mapping for menu items that this style IS assigned to.
-				$query = $db->getQuery(true);
-				$query->update('#__menu');
-				$query->set('template_style_id='.(int) $table->id);
-				$query->where('id IN ('.implode(',', $data['assigned']).')');
-				$query->where('template_style_id!='.(int) $table->id);
-				$query->where('checked_out in (0,'.(int) $user->id.')');
+				$query = $db->getQuery(true)
+					->update('#__menu')
+					->set('template_style_id='.(int) $table->id)
+					->where('id IN ('.implode(',', $data['assigned']).')')
+					->where('template_style_id!='.(int) $table->id)
+					->where('checked_out in (0,'.(int) $user->id.')');
 				$db->setQuery($query);
 				$db->execute();
 				$n += $db->getAffectedRows();
@@ -472,16 +469,16 @@ class TemplatesModelStyle extends JModelAdmin
 
 			// Remove style mappings for menu items this style is NOT assigned to.
 			// If unassigned then all existing maps will be removed.
-			$query = $db->getQuery(true);
-			$query->update('#__menu');
-			$query->set('template_style_id=0');
+			$query = $db->getQuery(true)
+				->update('#__menu')
+				->set('template_style_id=0');
 			if (!empty($data['assigned']))
 			{
 				$query->where('id NOT IN ('.implode(',', $data['assigned']).')');
 			}
 
-			$query->where('template_style_id='.(int) $table->id);
-			$query->where('checked_out in (0,'.(int) $user->id.')');
+			$query->where('template_style_id='.(int) $table->id)
+				->where('checked_out in (0,'.(int) $user->id.')');
 			$db->setQuery($query);
 			$db->execute();
 

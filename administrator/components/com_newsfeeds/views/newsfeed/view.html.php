@@ -40,6 +40,12 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 			return false;
 		}
 
+		if ($this->getLayout() == 'modal')
+		{
+			$this->form->setFieldAttribute('language', 'readonly', 'true');
+			$this->form->setFieldAttribute('catid', 'readonly', 'true');
+		}
+
 		$this->addToolbar();
 		parent::display($tpl);
 	}
@@ -54,7 +60,6 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		$user		= JFactory::getUser();
-		$userId		= $user->get('id');
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		// Since we don't track these assets at the item level, use the category id.

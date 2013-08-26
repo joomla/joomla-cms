@@ -24,8 +24,6 @@ class TagsViewTag extends JViewLegacy
 
 	protected $state;
 
-	protected $assoc;
-
 	/**
 	 * Display the view
 	 */
@@ -35,8 +33,6 @@ class TagsViewTag extends JViewLegacy
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
 		$this->canDo = TagsHelper::getActions($this->state->get('tags.component'));
-		$this->assoc = $this->get('Assoc');
-
 		$input = JFactory::getApplication()->input;
 
 		// Check for errors.
@@ -57,7 +53,6 @@ class TagsViewTag extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$input      = JFactory::getApplication()->input;
 		$user		= JFactory::getUser();
 		$userId		= $user->get('id');
 
@@ -80,7 +75,7 @@ class TagsViewTag extends JViewLegacy
 		$title = JText::_('COM_TAGS_BASE_'.($isNew?'ADD':'EDIT').'_TITLE');
 
 		// Prepare the toolbar.
-		JToolbarHelper::title($title, 'tag-'.($isNew?'add':'edit').($isNew?'add':'edit'));
+		JToolbarHelper::title($title, 'tags.png');
 
 		// For new records, check the create permission.
 		if ($isNew)
@@ -110,7 +105,7 @@ class TagsViewTag extends JViewLegacy
 		else {
 			JToolbarHelper::cancel('tag.cancel', 'JTOOLBAR_CLOSE');
 		}
-
+		JToolbarHelper::help('JHELP_COMPONENTS_TAGS_MANAGER_EDIT');
 		JToolbarHelper::divider();
 
 	}

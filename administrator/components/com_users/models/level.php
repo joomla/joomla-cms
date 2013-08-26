@@ -141,8 +141,6 @@ class UsersModelLevel extends JModelAdmin
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		$app = JFactory::getApplication();
-
 		// Get the form.
 		$form = $this->loadForm('com_users.level', 'level', array('control' => 'jform', 'load_data' => $loadData));
 

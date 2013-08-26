@@ -8,6 +8,9 @@
  */
 
 defined('_JEXEC') or die;
+
+JHtml::_('bootstrap.tooltip');
+
 $class = ' class="first"';
 if (count($this->items[$this->parent->id]) > 0 && $this->maxLevelcat != 0) :
 ?>
@@ -25,7 +28,7 @@ if (count($this->items[$this->parent->id]) > 0 && $this->maxLevelcat != 0) :
 				<a href="<?php echo JRoute::_(NewsfeedsHelperRoute::getCategoryRoute($item->id));?>">
 					<?php echo $this->escape($item->title); ?></a>
 					<?php if ($this->params->get('show_cat_items_cat') == 1) :?>
-						<span class="badge badge-info tip hasTooltip" title="<?php echo JText::_('COM_NEWSFEEDS_NUM_ITEMS'); ?>">
+						<span class="badge badge-info tip hasTooltip" title="<?php echo JHtml::tooltipText('COM_NEWSFEEDS_NUM_ITEMS'); ?>">
 							<?php echo $item->numitems; ?>
 						</span>
 					<?php endif; ?>
@@ -36,8 +39,7 @@ if (count($this->items[$this->parent->id]) > 0 && $this->maxLevelcat != 0) :
 				<?php if ($this->params->get('show_subcat_desc_cat') == 1) :?>
 					<?php if ($item->description) : ?>
 						<div class="category-desc">
-					<?php echo JHtml::_('content.prepare', $item->description, '', 'com_newsfeeds.categories'); ?>
-							<?php echo JHtml::_('content.prepare', $item->description, '', 'com_contact.categories'); ?>
+							<?php echo JHtml::_('content.prepare', $item->description, '', 'com_newsfeeds.categories'); ?>
 						</div>
 					<?php endif; ?>
 				<?php endif; ?>

@@ -40,7 +40,7 @@ class JFormFieldRules extends JFormField
 	 */
 	protected function getInput()
 	{
-		JHtml::_('behavior.tooltip');
+		JHtml::_('bootstrap.tooltip');
 
 		// Initialise some field attributes.
 		$section = $this->element['section'] ? (string) $this->element['section'] : '';
@@ -65,10 +65,10 @@ class JFormFieldRules extends JFormField
 		{
 			// Need to find the asset id by the name of the component.
 			$db = JFactory::getDbo();
-			$query = $db->getQuery(true);
-			$query->select($db->quoteName('id'));
-			$query->from($db->quoteName('#__assets'));
-			$query->where($db->quoteName('name') . ' = ' . $db->quote($component));
+			$query = $db->getQuery(true)
+				->select($db->quoteName('id'))
+				->from($db->quoteName('#__assets'))
+				->where($db->quoteName('name') . ' = ' . $db->quote($component));
 			$db->setQuery($query);
 			$assetId = (int) $db->loadResult();
 		}
@@ -95,9 +95,6 @@ class JFormFieldRules extends JFormField
 		// Get the available user groups.
 		$groups = $this->getUserGroups();
 
-		// Build the form control.
-		$curLevel = 0;
-
 		// Prepare output
 		$html = array();
 
@@ -119,9 +116,9 @@ class JFormFieldRules extends JFormField
 			}
 
 			$html[] = '<li class="' . $active . '">';
-				$html[] = '<a href="#permission-' . $group->value . '" data-toggle="tab">';
-				$html[] = str_repeat('<span class="level">&ndash; ', $curLevel = $group->level) . $group->text;
-				$html[] = '</a>';
+			$html[] = '<a href="#permission-' . $group->value . '" data-toggle="tab">';
+			$html[] = str_repeat('<span class="level">&ndash;</span> ', $curLevel = $group->level) . $group->text;
+			$html[] = '</a>';
 			$html[] = '</li>';
 		}
 		$html[] = '</ul>';
@@ -137,8 +134,6 @@ class JFormFieldRules extends JFormField
 			{
 				$active = " active";
 			}
-
-			$difLevel = $group->level - $curLevel;
 
 			$html[] = '<div class="tab-pane' . $active . '" id="permission-' . $group->value . '">';
 			$html[] = '<table class="table table-striped">';
@@ -170,7 +165,7 @@ class JFormFieldRules extends JFormField
 			{
 				$html[] = '<tr>';
 				$html[] = '<td headers="actions-th' . $group->value . '">';
-				$html[] = '<label class="tip" for="' . $this->id . '_' . $action->name . '_' . $group->value . '" title="'
+				$html[] = '<label for="' . $this->id . '_' . $action->name . '_' . $group->value . '" class="hasTooltip" title="'
 					. htmlspecialchars(JText::_($action->title) . ' ' . JText::_($action->description), ENT_COMPAT, 'UTF-8') . '">';
 				$html[] = JText::_($action->title);
 				$html[] = '</label>';
@@ -301,11 +296,11 @@ class JFormFieldRules extends JFormField
 	 */
 	protected function getUserGroups()
 	{
-		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
-		$query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level, a.parent_id')
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level, a.parent_id')
 			->from('#__usergroups AS a')
-			->leftJoin($db->quoteName('#__usergroups') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt')
+			->join('LEFT', $db->quoteName('#__usergroups') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt')
 			->group('a.id, a.title, a.lft, a.rgt, a.parent_id')
 			->order('a.lft ASC');
 		$db->setQuery($query);

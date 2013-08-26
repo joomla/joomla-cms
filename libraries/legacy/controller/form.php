@@ -276,7 +276,8 @@ class JControllerForm extends JControllerLegacy
 		}
 		else
 		{
-			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_FAILED', $model->getError()));
+			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_FAILED', $model->getError()), 'warning');
+
 			return false;
 		}
 	}
@@ -680,6 +681,11 @@ class JControllerForm extends JControllerLegacy
 			);
 
 			return false;
+		}
+
+		if (!isset($validData['tags']))
+		{
+			$validData['tags'] = null;
 		}
 
 		// Attempt to save the data.

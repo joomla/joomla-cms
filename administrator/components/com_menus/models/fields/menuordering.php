@@ -23,7 +23,7 @@ class JFormFieldMenuOrdering extends JFormFieldList
 	/**
 	 * The form field type.
 	 *
-	 * @var		string
+	 * @var        string
 	 * @since   1.7
 	 */
 	protected $type = 'MenuOrdering';
@@ -41,25 +41,24 @@ class JFormFieldMenuOrdering extends JFormFieldList
 
 		// Get the parent
 		$parent_id = $this->form->getValue('parent_id', 0);
-		if ( empty($parent_id))
+		if (empty($parent_id))
 		{
 			return false;
 		}
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
+		$query = $db->getQuery(true)
+			->select('a.id AS value, a.title AS text')
+			->from('#__menu AS a')
 
-		$query->select('a.id AS value, a.title AS text');
-		$query->from('#__menu AS a');
-
-		$query->where('a.published >= 0');
-		$query->where('a.parent_id =' . (int) $parent_id);
+			->where('a.published >= 0')
+			->where('a.parent_id =' . (int) $parent_id);
 		if ($menuType = $this->form->getValue('menutype'))
 		{
-			$query->where('a.menutype = '.$db->quote($menuType));
+			$query->where('a.menutype = ' . $db->quote($menuType));
 		}
 		else
 		{
-			$query->where('a.menutype != '.$db->quote(''));
+			$query->where('a.menutype != ' . $db->quote(''));
 		}
 
 		$query->order('a.lft ASC');
@@ -87,6 +86,7 @@ class JFormFieldMenuOrdering extends JFormFieldList
 
 		return $options;
 	}
+
 	/**
 	 * Method to get the field input markup
 	 *

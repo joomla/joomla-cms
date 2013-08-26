@@ -15,7 +15,7 @@
 			name="user_id"
 			type="user"
 			size="50"
-			class="inputbox"
+			class="input-medium"
 			required="true"
 			label="COM_USERS_FIELD_USER_ID_LABEL"
 			/>

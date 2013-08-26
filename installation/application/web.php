@@ -91,7 +91,7 @@ final class InstallationApplicationWeb extends JApplicationWeb
 		{
 			$output .= '<ul>';
 
-			foreach ($errorfiles as $file => $error)
+			foreach ($errorfiles as $error)
 			{
 				$output .= "<li>$error</li>";
 			}
@@ -111,6 +111,7 @@ final class InstallationApplicationWeb extends JApplicationWeb
 		{
 			ksort($orphans, SORT_STRING);
 
+			$guesses = array();
 			foreach ($orphans as $key => $occurance)
 			{
 				$guess = str_replace('_', ' ', $key);
@@ -354,10 +355,10 @@ final class InstallationApplicationWeb extends JApplicationWeb
 			$langfiles = array();
 			$langfiles['admin'] = array();
 			$langfiles['site'] = array();
-			$query = $db->getQuery(true);
-			$query->select($db->quoteName(array('element','client_id')));
-			$query->from($db->quoteName('#__extensions'));
-			$query->where($db->quoteName('type') . ' = ' . $db->quote('language'));
+			$query = $db->getQuery(true)
+				->select($db->quoteName(array('element','client_id')))
+				->from($db->quoteName('#__extensions'))
+				->where($db->quoteName('type') . ' = ' . $db->quote('language'));
 			$db->setQuery($query);
 			$langs = $db->loadObjectList();
 			foreach ($langs as $lang)

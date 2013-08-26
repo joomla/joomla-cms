@@ -34,20 +34,23 @@ class PlgSystemSef extends JPlugin
 			return true;
 		}
 
-		$uri     = JUri::getInstance();
+		$router = $app->getRouter();
+
+		$uri     = clone JUri::getInstance();
 		$domain  = $this->params->get('domain');
-		$current = JUri::current();
 
 		if ($domain === null || $domain === '')
 		{
 			$domain = $uri->toString(array('scheme', 'host', 'port'));
 		}
 
-		$link = 'index.php' . $uri->toString(array('query','fragment'));
-		$link = $domain . JRoute::_($link);
-		if ($current !== $link)
+		$parsed = $router->parse($uri);
+		$fakelink = 'index.php?' . http_build_query($parsed);
+		$link = $domain . JRoute::_($fakelink, false);
+
+		if ($uri !== $link)
 		{
-			$doc->addHeadLink($link, 'canonical');
+			$doc->addHeadLink(htmlspecialchars($link), 'canonical');
 		}
 	}
 
@@ -66,7 +69,7 @@ class PlgSystemSef extends JPlugin
 		}
 
 		// Replace src links
-		$base   = JURI::base(true).'/';
+		$base   = JUri::base(true).'/';
 		$buffer = JResponse::getBody();
 
 		$regex  = '#href="index.php\?([^"]*)#m';

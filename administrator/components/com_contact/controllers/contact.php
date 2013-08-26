@@ -115,36 +115,5 @@ class ContactControllerContact extends JControllerForm
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
-		$task = $this->getTask();
-		$item = $model->getItem();
-		if (isset($item->params) && is_array($item->params))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($item->params);
-			$item->params = (string) $registry;
-		}
-
-		if (isset($item->metadata) && is_array($item->metadata))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($item->metadata);
-			$item->metadata = (string) $registry;
-		}
-		$id = $item->id;
-
-		if (empty($validData['tags']) && !empty($item->tags))
-		{
-			$oldTags = new JTags;
-			$oldTags->unTagItem($id, 'com_contact.contact');
-		}
-
-		$tags = $validData['tags'];
-
-		if ($tags[0] != '')
-		{
-			$isNew = $item->id == 0 ? 1 : 0;
-			$tagsHelper = new JTags;
-			$tagsHelper->tagItem($id, 'com_contact.contact', $isNew, $item, $tags, null);
-		}
 	}
 }

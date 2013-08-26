@@ -41,10 +41,10 @@ class InstallationControllerInstallDatabase extends JControllerBase
 		$options = $model->getOptions();
 
 		// Get the database model.
-		$database = new InstallationModelDatabase;
+		$db = new InstallationModelDatabase;
 
 		// Attempt to create the database tables.
-		$return = $database->createTables($options);
+		$return = $db->createTables($options);
 
 		$r = new stdClass;
 		$r->view = 'install';

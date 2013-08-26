@@ -32,11 +32,6 @@ class TagsHelper
 		$parts = explode('.', $extension);
 		$component = $parts[0];
 
-		if (count($parts) > 1)
-		{
-			$section = $parts[1];
-		}
-
 		// Try to find the component helper.
 		$file = JPath::clean(JPATH_ADMINISTRATOR . '/components/com_tags/helpers/tags.php');
 
@@ -85,38 +80,5 @@ class TagsHelper
 		}
 
 		return $result;
-	}
-
-	public static function getAssociations($pk)
-	{
-		$associations = array();
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->from('#__tags as c');
-		$query->innerJoin('#__associations as a ON a.id = c.id AND a.context=' . $db->quote('com_tags.item'));
-		$query->innerJoin('#__associations as a2 ON a.key = a2.key');
-		$query->innerJoin('#__tags as c2 ON a2.id = c2.id');
-		$query->where('c.id =' . (int) $pk);
-		$select = array(
-				'c2.language',
-				$query->concatenate(array('c2.id', 'c2.alias'), ':') . ' AS id',
-		);
-		$query->select($select);
-		$db->setQuery($query);
-		$contactitems = $db->loadObjectList('language');
-
-		// Check for a database error.
-		if ($error = $db->getErrorMsg())
-		{
-			JError::raiseWarning(500, $error);
-			return false;
-		}
-
-		foreach ($contactitems as $tag => $item)
-		{
-			$associations[$tag] = $item;
-		}
-
-		return $associations;
 	}
 }

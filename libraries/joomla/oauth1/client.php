@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  OAuth
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -373,7 +373,7 @@ abstract class JOAuth1Client
 		{
 			if (is_array($value))
 			{
-				foreach ($value as $k => $v)
+				foreach ($value as $v)
 				{
 					if (strpos($url, '?') === false)
 					{
@@ -454,7 +454,7 @@ abstract class JOAuth1Client
 
 			if (is_array($value))
 			{
-				foreach ($value as $k => $v)
+				foreach ($value as $v)
 				{
 					$v = $this->safeEncode($v);
 					$kv[] = "{$key}={$v}";

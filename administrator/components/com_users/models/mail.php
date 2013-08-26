@@ -28,8 +28,6 @@ class UsersModelMail extends JModelAdmin
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		$app = JFactory::getApplication();
-
 		// Get the form.
 		$form = $this->loadForm('com_users.mail', 'mail', array('control' => 'jform', 'load_data' => $loadData));
 		if (empty($form))
@@ -103,10 +101,10 @@ class UsersModelMail extends JModelAdmin
 		$to = $access->getUsersByGroup($grp, $recurse);
 
 		// Get all users email and group except for senders
-		$query	= $db->getQuery(true);
-		$query->select('email');
-		$query->from('#__users');
-		$query->where('id != '.(int) $user->get('id'));
+		$query	= $db->getQuery(true)
+			->select('email')
+			->from('#__users')
+			->where('id != '.(int) $user->get('id'));
 		if ($grp !== 0)
 		{
 			if (empty($to))

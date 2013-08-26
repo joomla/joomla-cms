@@ -70,6 +70,9 @@ class JFormRuleEmail extends JFormRule
 
 		if (!$multiple)
 		{
+			// Handle idn e-mail addresses by converting to punycode.
+			$value = JStringPunycode::emailToPunycode($value);
+
 			// Test the value against the regular expression.
 			if (!parent::test($element, $value, $group, $input, $form))
 			{
@@ -80,6 +83,9 @@ class JFormRuleEmail extends JFormRule
 		{
 			foreach ($values as $value)
 			{
+				// Handle idn e-mail addresses by converting to punycode.
+				$value = JStringPunycode::emailToPunycode($value);
+
 				// Test the value against the regular expression.
 				if (!parent::test($element, $value, $group, $input, $form))
 				{
@@ -95,13 +101,13 @@ class JFormRuleEmail extends JFormRule
 		{
 
 			// Get the database object and a new query object.
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 
 			// Build the query.
-			$query->select('COUNT(*)');
-			$query->from('#__users');
-			$query->where('email = ' . $db->quote($value));
+			$query->select('COUNT(*)')
+				->from('#__users')
+				->where('email = ' . $db->quote($value));
 
 			// Get the extra field check attribute.
 			$userId = ($form instanceof JForm) ? $form->getValue('id') : '';

@@ -39,7 +39,6 @@ class ContentViewCategory extends JViewLegacy
 	public function display($tpl = null)
 	{
 		$app	= JFactory::getApplication();
-		$user	= JFactory::getUser();
 
 		// Get some data from the models
 		$state		= $this->get('State');
@@ -82,9 +81,9 @@ class ContentViewCategory extends JViewLegacy
 
 		// PREPARE THE DATA
 		// Get the metrics for the structural page layout.
-		$numLeading	= $params->def('num_leading_articles', 1);
-		$numIntro	= $params->def('num_intro_articles', 4);
-		$numLinks	= $params->def('num_links', 4);
+		$numLeading	= (int) $params->def('num_leading_articles', 1);
+		$numIntro	= (int) $params->def('num_intro_articles', 4);
+		$numLinks	= (int) $params->def('num_links', 4);
 
 		// Compute the article slugs and prepare introtext (runs content plugins).
 		for ($i = 0, $n = count($items); $i < $n; $i++)
@@ -112,7 +111,7 @@ class ContentViewCategory extends JViewLegacy
 			}
 
 			JPluginHelper::importPlugin('content');
-			$results = $dispatcher->trigger('onContentPrepare', array ('com_content.category', &$item, &$this->params, 0));
+			$dispatcher->trigger('onContentPrepare', array ('com_content.category', &$item, &$this->params, 0));
 
 			// Old plugins: Use processed text as introtext
 			$item->introtext = $item->text;
@@ -202,7 +201,7 @@ class ContentViewCategory extends JViewLegacy
 		$model = $this->getModel();
 		$model->hit();
 
-		$this->category->tags = new JTags;
+		$this->category->tags = new JHelperTags;
 		$this->category->tags->getItemTags('com_content.category', $this->category->id);
 
 		$this->_prepareDocument();

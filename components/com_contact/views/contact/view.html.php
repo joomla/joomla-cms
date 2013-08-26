@@ -32,7 +32,6 @@ class ContactViewContact extends JViewLegacy
 	{
 		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();
-		$dispatcher = JEventDispatcher::getInstance();
 		$state		= $this->get('State');
 		$item		= $this->get('Item');
 		$this->form	= $this->get('Form');
@@ -161,7 +160,7 @@ class ContactViewContact extends JViewLegacy
 		$this->user     = &$user;
 		$this->contacts = &$contacts;
 
-		$item->tags = new JTags;
+		$item->tags = new JHelperTags;
 		$item->tags->getItemTags('com_contact.contact', $this->item->id);
 
 		// Override the layout only if this is not the active menu item

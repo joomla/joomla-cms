@@ -8,14 +8,8 @@
  */
 
 defined('_JEXEC') or die;
-?>
-<fieldset class="form-vertical">
-	<legend><?php echo JText::_('COM_CONFIG_TEXT_FILTER_SETTINGS'); ?></legend>
-	<p><?php echo JText::_('COM_CONFIG_TEXT_FILTERS_DESC'); ?></p>
-	<?php foreach ($this->form->getFieldset('filters') as $field) : ?>
-		<div class="control-group">
-			<div class="control-label"><?php echo $field->label; ?></div>
-			<div class="controls"><?php echo $field->input; ?></div>
-		</div>
-	<?php endforeach; ?>
-</fieldset>
+
+$this->name = JText::_('COM_CONFIG_TEXT_FILTER_SETTINGS');
+$this->fieldsname = 'filters';
+$this->description = JText::_('COM_CONFIG_TEXT_FILTERS_DESC');
+echo JLayoutHelper::render('joomla.content.options_default', $this);

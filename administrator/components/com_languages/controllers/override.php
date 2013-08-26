@@ -150,7 +150,6 @@ class LanguagesControllerOverride extends JControllerForm
 		{
 			case 'apply':
 				// Set the record data in the session
-				$recordId = $model->getState($this->context.'.id');
 				$app->setUserState($context.'.data', null);
 
 				// Redirect back to the edit screen

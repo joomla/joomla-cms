@@ -61,7 +61,7 @@ class JFormFieldRadio extends JFormField
 			// Initialize some JavaScript option attributes.
 			$onclick = !empty($option->onclick) ? ' onclick="' . $option->onclick . '"' : '';
 
-			$html[] = '<input type="radio" id="' . $this->id . $i . '" name="' . $this->name . '"' . ' value="'
+			$html[] = '<input type="radio" id="' . $this->id . $i . '" name="' . $this->name . '" value="'
 				. htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8') . '"' . $checked . $class . $onclick . $disabled . $required . '/>';
 
 			$html[] = '<label for="' . $this->id . $i . '"' . $class . '>'

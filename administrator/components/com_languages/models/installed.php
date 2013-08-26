@@ -244,16 +244,16 @@ class LanguagesModelInstalled extends JModelList
 		$client = $this->getState('filter.client_id');
 		$type = "language";
 		// Select field element from the extensions table.
-		$query->select($this->getState('list.select', 'a.element'));
-		$query->from('#__extensions AS a');
+		$query->select($this->getState('list.select', 'a.element'))
+			->from('#__extensions AS a');
 
-		$type = $db->Quote($type);
-		$query->where('(a.type = '.$type.')');
+		$type = $db->quote($type);
+		$query->where('(a.type = '.$type.')')
 
-		$query->where('state = 0');
-		$query->where('enabled = 1');
+			->where('state = 0')
+			->where('enabled = 1')
 
-		$query->where('client_id=' . (int) $client);
+			->where('client_id=' . (int) $client);
 
 		// for client_id = 1 do we need to check language table also ?
 		$db->setQuery($query);

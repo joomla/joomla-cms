@@ -56,7 +56,7 @@ class ContentModelFeatured extends ContentModelArticles
 	}
 
 	/**
-	 * @param   boolean	True to join selected foreign information
+	 * @param   boolean    True to join selected foreign information
 	 *
 	 * @return  string
 	 */
@@ -71,34 +71,34 @@ class ContentModelFeatured extends ContentModelArticles
 			$this->getState(
 				'list.select',
 				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid, a.state, a.access, a.created, a.hits,' .
-				'a.language, a.created_by_alias, a.publish_up, a.publish_down'
+					'a.language, a.created_by_alias, a.publish_up, a.publish_down'
 			)
 		);
 		$query->from('#__content AS a');
 
 		// Join over the language
-		$query->select('l.title AS language_title');
-		$query->join('LEFT', $db->quoteName('#__languages').' AS l ON l.lang_code = a.language');
+		$query->select('l.title AS language_title')
+			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
 
 		// Join over the content table.
-		$query->select('fp.ordering');
-		$query->join('INNER', '#__content_frontpage AS fp ON fp.content_id = a.id');
+		$query->select('fp.ordering')
+			->join('INNER', '#__content_frontpage AS fp ON fp.content_id = a.id');
 
 		// Join over the users for the checked out user.
-		$query->select('uc.name AS editor');
-		$query->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
+		$query->select('uc.name AS editor')
+			->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
 
 		// Join over the asset groups.
-		$query->select('ag.title AS access_level');
-		$query->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
+		$query->select('ag.title AS access_level')
+			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Join over the categories.
-		$query->select('c.title AS category_title');
-		$query->join('LEFT', '#__categories AS c ON c.id = a.catid');
+		$query->select('c.title AS category_title')
+			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Join over the users for the author.
-		$query->select('ua.name AS author_name');
-		$query->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
+		$query->select('ua.name AS author_name')
+			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
 		// Filter by access level.
 		if ($access = $this->getState('filter.access'))
@@ -111,7 +111,8 @@ class ContentModelFeatured extends ContentModelArticles
 		if (is_numeric($published))
 		{
 			$query->where('a.state = ' . (int) $published);
-		} elseif ($published === '')
+		}
+		elseif ($published === '')
 		{
 			$query->where('(a.state = 0 OR a.state = 1)');
 		}
@@ -126,20 +127,20 @@ class ContentModelFeatured extends ContentModelArticles
 			$rgt = $cat_tbl->rgt;
 			$lft = $cat_tbl->lft;
 			$baselevel = (int) $cat_tbl->level;
-			$query->where('c.lft >= '.(int) $lft);
-			$query->where('c.rgt <= '.(int) $rgt);
+			$query->where('c.lft >= ' . (int) $lft)
+				->where('c.rgt <= ' . (int) $rgt);
 		}
 		elseif (is_array($categoryId))
 		{
 			JArrayHelper::toInteger($categoryId);
 			$categoryId = implode(',', $categoryId);
-			$query->where('a.catid IN ('.$categoryId.')');
+			$query->where('a.catid IN (' . $categoryId . ')');
 		}
 
 		// Filter on the level.
 		if ($level = $this->getState('filter.level'))
 		{
-			$query->where('c.level <= '.((int) $level + (int) $baselevel - 1));
+			$query->where('c.level <= ' . ((int) $level + (int) $baselevel - 1));
 		}
 
 		// Filter by search in title
@@ -148,21 +149,23 @@ class ContentModelFeatured extends ContentModelArticles
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where('a.id = '.(int) substr($search, 3));
-			} else {
-				$search = $db->Quote('%'.$db->escape($search, true).'%');
-				$query->where('a.title LIKE '.$search.' OR a.alias LIKE '.$search);
+				$query->where('a.id = ' . (int) substr($search, 3));
+			}
+			else
+			{
+				$search = $db->quote('%' . $db->escape($search, true) . '%');
+				$query->where('a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search);
 			}
 		}
 
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->where('a.language = '.$db->quote($language));
+			$query->where('a.language = ' . $db->quote($language));
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering', 'a.title')).' '.$db->escape($this->getState('list.direction', 'ASC')));
+		$query->order($db->escape($this->getState('list.ordering', 'a.title')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
 		//echo nl2br(str_replace('#__','jos_',(string)$query));
 		return $query;

@@ -413,9 +413,17 @@ class FinderIndexerResult
 		// Add the node to the taxonomy branch.
 		$this->taxonomy[$branch][$node->title] = $node;
 	}
+
+	/**
+	 * Method to set the item language
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
 	public function setLanguage()
 	{
-		if ($this->language = '*' || $this->language = '')
+		if ($this->language == '*' || $this->language == '')
 		{
 			$this->language = $this->defaultLanguage;
 		}

@@ -1561,6 +1561,10 @@ a img.calendar {
 	background-image: url(../images/header/icon-48-category-add.png);
 }
 
+.icon-48-tags {
+	background-image: url(../images/header/icon-48-tags.png);
+}
+
 /**
  * General styles
  */

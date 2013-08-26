@@ -66,10 +66,18 @@ class FinderIndexerTest extends TestCaseDatabase
 
 	/**
 	 * Gets the data set to be loaded into the database during setup
+	 *
+	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
+	 *
+	 * @since   3.1
 	 */
 	protected function getDataSet()
 	{
-		return $this->createXMLDataSet(__DIR__ . '/data/FinderIndexerData.xml');
+		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+
+		$dataSet->addTable('jos_extensions', JPATH_TEST_DATABASE . '/jos_extensions.csv');
+
+		return $dataSet;
 	}
 
 	/**
@@ -103,8 +111,6 @@ class FinderIndexerTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  FinderIndexer::getInstance
 	 */
 	public function testGetInstance()
 	{
@@ -113,7 +119,7 @@ class FinderIndexerTest extends TestCaseDatabase
 
 		$this->assertThat(
 			FinderIndexer::getInstance(),
-			$this->isInstanceOf('FinderIndexer')
+			$this->isInstanceOf('FinderIndexerDriverMysql')
 		);
 
 		// Restore the database
@@ -121,8 +127,56 @@ class FinderIndexerTest extends TestCaseDatabase
 	}
 
 	/**
-	 * @covers FinderIndexer::getState
-	 * @todo   Implement testGetState().
+	 * Tests the getInstance method
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
+	public function testGetInstanceSqlazure()
+	{
+		// Override the database in this method
+		$this->saveFactoryDatabase();
+
+		JFactory::$database->name = 'sqlazure';
+
+		$this->assertThat(
+			FinderIndexer::getInstance(),
+			$this->isInstanceOf('FinderIndexerDriverSqlsrv')
+		);
+
+		// Restore the database
+		$this->restoreFactoryDatabase();
+	}
+
+	/**
+	 * Tests the getInstance method
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
+	public function testGetInstanceException()
+	{
+		// Override the database in this method
+		$this->saveFactoryDatabase();
+
+		JFactory::$database->name = 'nosql';
+
+		$this->setExpectedException('RuntimeException');
+
+		FinderIndexer::getInstance();
+
+		// Restore the database
+		$this->restoreFactoryDatabase();
+	}
+
+	/**
+	 * Tests the setState method
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
 	 */
 	public function testGetState()
 	{
@@ -138,8 +192,6 @@ class FinderIndexerTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  FinderIndexer::setState
 	 */
 	public function testSetState()
 	{
@@ -170,13 +222,38 @@ class FinderIndexerTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Tests the setState method with an invalid data object
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
+	public function testSetStateBadData()
+	{
+		// Override the database in this method
+		$this->saveFactoryDatabase();
+
+		// Set up our test object
+		$test = new JRegistry;
+		$test->set('string', 'Testing FinderIndexer::setState()');
+
+		// Attempt to set the state
+		$this->assertThat(
+			FinderIndexer::setState($test),
+			$this->isFalse(),
+			'setState method is not compatible with JRegistry'
+		);
+
+		// Restore the database
+		$this->restoreFactoryDatabase();
+	}
+
+	/**
 	 * Tests the resetState method
 	 *
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @covers  FinderIndexer::resetState
 	 */
 	public function testResetState()
 	{

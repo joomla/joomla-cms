@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_users
  * @since       1.6
  */
-class UsersViewDebugUser extends JViewLegacy
+class UsersViewDebuguser extends JViewLegacy
 {
 	protected $actions;
 
@@ -31,6 +31,12 @@ class UsersViewDebugUser extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		// Access check.
+		if (!JFactory::getUser()->authorise('core.manage', 'com_users') || !JFactory::getConfig()->get('debug'))
+		{
+			return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+		}
+
 		$this->actions		= $this->get('DebugActions');
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');

@@ -149,56 +149,12 @@ class ContentControllerArticle extends JControllerForm
 	 * @param   array         $validData   The validated data.
 	 *
 	 * @return	void
-	 * @since	1.6
+	 *
+	 * @since	3.1
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
-		//Most of this should go into JAdminFormcontent
-		$task = $this->getTask();
 
-		$item = $model->getItem();
-		if (isset($item->attribs) && is_array($item->attribs))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($item->attribs);
-			$item->attribs = (string) $registry;
-		}
-		if (isset($item->images) && is_array($item->images))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($item->images);
-			$item->images = (string) $registry;
-		}
-		if (isset($item->urls) && is_array($item->urls))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($item->urls);
-			$item->urls = (string) $registry;
-		}
-		if (isset($item->metadata) && is_array($item->metadata))
-		{
-			$registry = new JRegistry;
-			$registry->loadArray($item->metadata);
-			$item->metadata = (string) $registry;
-		}
-		$id = $item->id;
-
-		if (empty($validData['tags']) && !empty($item->tags))
-		{
-			$oldTags = new JTags;
-			$oldTags->unTagItem($id, 'com_content.article');
-			return;
-		}
-
-		$tags = $validData['tags'];
-
-		// Store the tag data if the article data was saved.
-		if ($tags[0] != '')
-		{
-			$isNew = $item->id == 0 ? 1 : 0;
-			$tagsHelper = new JTags;
-			$tagsHelper->tagItem($id, 'com_content.article', $isNew, $item, $tags, null);
-		}
 		return;
 	}
 }

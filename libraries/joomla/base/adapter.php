@@ -72,7 +72,7 @@ class JAdapter extends JObject
 		$this->_classprefix = $classprefix ? $classprefix : 'J';
 		$this->_adapterfolder = $adapterfolder ? $adapterfolder : 'adapters';
 
-		$this->_db = JFactory::getDBO();
+		$this->_db = JFactory::getDbo();
 	}
 
 	/**
@@ -113,6 +113,7 @@ class JAdapter extends JObject
 			require_once $fullpath;
 
 			$class = $this->_classprefix . ucfirst($name);
+
 			if (!class_exists($class))
 			{
 				return false;

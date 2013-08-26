@@ -273,7 +273,7 @@ abstract class JInstallerHelper
 	 * Splits contents of a sql file into array of discreet queries.
 	 * Queries need to be delimited with end of statement marker ';'
 	 *
-	 * @param   string  $sql  The SQL statement.
+	 * @param   string  $query  The SQL statement.
 	 *
 	 * @return  array  Array of queries
 	 *
@@ -281,11 +281,11 @@ abstract class JInstallerHelper
 	 * @deprecated  13.3  Use JDatabaseDriver::splitSql() directly
 	 * @codeCoverageIgnore
 	 */
-	public static function splitSql($sql)
+	public static function splitSql($query)
 	{
 		JLog::add('JInstallerHelper::splitSql() is deprecated. Use JDatabaseDriver::splitSql() instead.', JLog::WARNING, 'deprecated');
 		$db = JFactory::getDbo();
 
-		return $db->splitSql($sql);
+		return $db->splitSql($query);
 	}
 }

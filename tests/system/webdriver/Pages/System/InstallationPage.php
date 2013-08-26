@@ -107,7 +107,7 @@ class InstallationPage extends AdminPage
 
 	public function setSampleData($option = 'Default')
 	{
-		$this->driver->findElement(By::xPath("//label[contains(text(), '"  . $option . "')]"))->click();
+		$this->driver->findElement(By::xPath("//label[contains(., '"  . $option . "')]"))->click();
 	}
 
 	public function installSampleData()

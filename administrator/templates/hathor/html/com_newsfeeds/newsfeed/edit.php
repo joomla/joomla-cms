@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 // Include the HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-JHtml::_('behavior.tooltip');
+
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 
@@ -60,6 +60,13 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 			<li><?php echo $this->form->getLabel('language'); ?>
 			<?php echo $this->form->getInput('language'); ?></li>
 
+			<!-- Tag field -->
+			<li><?php echo $this->form->getLabel('tags'); ?>
+				<div class="is-tagbox">
+					<?php echo $this->form->getInput('tags'); ?>
+				</div>
+			</li>
+
 			<li><?php echo $this->form->getLabel('id'); ?>
 			<?php echo $this->form->getInput('id'); ?></li>
 			</ul>
@@ -105,15 +112,16 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 
 				<li><?php echo $this->form->getLabel('rtl'); ?>
 				<?php echo $this->form->getInput('rtl'); ?></li>
-
-				<li><?php //echo $this->form->getLabel('xreference'); // Missing from schema! ?>
-				<?php //echo $this->form->getInput('xreference'); ?></li>
 			</ul>
 			</fieldset>
 
 			<?php echo $this->loadTemplate('params'); ?>
 
-			<?php echo $this->loadTemplate('metadata'); ?>
+			<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'meta-options'); ?>
+			<fieldset class="panelform">
+			<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
+				<?php echo $this->loadTemplate('metadata'); ?>
+			</fieldset>
 
 			<?php if ($assoc) : ?>
 				<?php echo $this->loadTemplate('associations'); ?>

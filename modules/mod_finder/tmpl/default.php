@@ -9,9 +9,10 @@
 
 defined('_JEXEC') or die;
 
+JHtml::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
+
 JHtml::_('behavior.framework');
 JHtml::_('bootstrap.tooltip');
-JHtml::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
 
 // Load the smart search component language file.
 $lang = JFactory::getLanguage();
@@ -157,6 +158,6 @@ JHtml::stylesheet('com_finder/finder.css', false, true, false);
 				</div>
 			<?php endif; ?>
 		<?php endif; ?>
-		<?php echo modFinderHelper::getGetFields($route); ?>
+		<?php echo modFinderHelper::getGetFields($route, (int) $params->get('set_itemid')); ?>
 	</div>
 </form>

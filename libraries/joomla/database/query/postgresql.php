@@ -70,6 +70,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 			case 'select':
 				$query .= (string) $this->select;
 				$query .= (string) $this->from;
+
 				if ($this->join)
 				{
 					// Special case for joins
@@ -97,16 +98,6 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 				if ($this->order)
 				{
 					$query .= (string) $this->order;
-				}
-
-				if ($this->limit)
-				{
-					$query .= (string) $this->limit;
-				}
-
-				if ($this->offset)
-				{
-					$query .= (string) $this->offset;
 				}
 
 				if ($this->forUpdate)
@@ -168,6 +159,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 					}
 
 					$elements = $this->values->getElements();
+
 					if (!($elements[0] instanceof $this))
 					{
 						$query .= ' VALUES ';
@@ -189,6 +181,11 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 
 		}
 
+		if ($this instanceof JDatabaseQueryLimitable)
+		{
+			$query = $this->processLimit($query, $this->limit, $this->offset);
+		}
+
 		return $query;
 	}
 
@@ -197,7 +194,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 *
 	 * @param   string  $clause  Optionally, the name of the clause to clear, or nothing to clear the whole query.
 	 *
-	 * @return  void
+	 * @return  JDatabaseQueryPostgresql  Returns this object to allow chaining.
 	 *
 	 * @since   11.3
 	 */
@@ -579,9 +576,9 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 * @param   integer  $limit   The limit for the result set
 	 * @param   integer  $offset  The offset for the result set
 	 *
-	 * @return string
+	 * @return  string
 	 *
-	 * @since 12.1
+	 * @since   12.1
 	 */
 	public function processLimit($query, $limit, $offset = 0)
 	{
@@ -608,11 +605,11 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 * @param   string    $interval  The string representation of the appropriate number of units
 	 * @param   string    $datePart  The part of the date to perform the addition on
 	 *
-	 * @return  sring  The string with the appropriate sql for addition of dates
+	 * @return  string  The string with the appropriate sql for addition of dates
 	 *
 	 * @since   13.1
-	 * @note Not all drivers support all units. Check appropriate references
-	 * @link http://www.postgresql.org/docs/9.0/static/functions-datetime.html.
+	 * @note    Not all drivers support all units. Check appropriate references
+	 * @link    http://www.postgresql.org/docs/9.0/static/functions-datetime.html.
 	 */
 	public function dateAdd($date, $interval, $datePart)
 	{

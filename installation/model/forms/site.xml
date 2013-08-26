@@ -21,7 +21,6 @@
 
 		<field name="admin_user" type="text" id="admin_user" class="inputbox"
 			label="INSTL_ADMIN_USER_LABEL"
-			default="admin"
 			required="true"
 		/>
 

@@ -240,7 +240,7 @@ class JApplication extends JApplicationBase
 	public function route()
 	{
 		// Get the full request URI.
-		$uri = clone JURI::getInstance();
+		$uri = clone JUri::getInstance();
 
 		$router = $this->getRouter();
 		$result = $router->parse($uri);
@@ -293,7 +293,9 @@ class JApplication extends JApplicationBase
 	 */
 	public function render()
 	{
-		$params = array('template' => $this->getTemplate(), 'file' => 'index.php', 'directory' => JPATH_THEMES, 'params' => $template->params);
+		$template = $this->getTemplate(true);
+
+		$params = array('template' => $template->template, 'file' => 'index.php', 'directory' => JPATH_THEMES, 'params' => $template->params);
 
 		// Parse the document.
 		$document = JFactory::getDocument();
@@ -336,7 +338,7 @@ class JApplication extends JApplicationBase
 		// Check for relative internal links.
 		if (preg_match('#^index2?\.php#', $url))
 		{
-			$url = JURI::base() . $url;
+			$url = JUri::base() . $url;
 		}
 
 		// Strip out any line breaks.
@@ -350,7 +352,7 @@ class JApplication extends JApplicationBase
 		 */
 		if (!preg_match('#^http#i', $url))
 		{
-			$uri = JURI::getInstance();
+			$uri = JUri::getInstance();
 			$prefix = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 
 			if ($url[0] == '/')
@@ -385,7 +387,7 @@ class JApplication extends JApplicationBase
 		// so we will output a javascript redirect statement.
 		if (headers_sent())
 		{
-			echo "<script>document.location.href='" . htmlspecialchars($url) . "';</script>\n";
+			echo "<script>document.location.href='" . str_replace("'", "&apos;", $url) . "';</script>\n";
 		}
 		else
 		{
@@ -396,7 +398,7 @@ class JApplication extends JApplicationBase
 			{
 				// MSIE type browser and/or server cause issues when url contains utf8 character,so use a javascript redirect method
 				echo '<html><head><meta http-equiv="content-type" content="text/html; charset=' . $document->getCharset() . '" />'
-					. '<script>document.location.href=\'' . htmlspecialchars($url) . '\';</script></head></html>';
+					. '<script>document.location.href=\'' . str_replace("'", "&apos;", $url) . '\';</script></head></html>';
 			}
 			else
 			{
@@ -670,13 +672,15 @@ class JApplication extends JApplicationBase
 
 					$key = new JCryptKey('simple', $privateKey, $privateKey);
 					$crypt = new JCrypt(new JCryptCipherSimple, $key);
-					$rcookie = $crypt->encrypt(serialize($credentials));
+					$rcookie = $crypt->encrypt(json_encode($credentials));
 					$lifetime = time() + 365 * 24 * 60 * 60;
 
 					// Use domain and path set in config for cookie if it exists.
 					$cookie_domain = $this->getCfg('cookie_domain', '');
 					$cookie_path = $this->getCfg('cookie_path', '/');
-					setcookie(self::getHash('JLOGIN_REMEMBER'), $rcookie, $lifetime, $cookie_path, $cookie_domain);
+
+					$secure = $this->isSSLConnection();
+					setcookie(self::getHash('JLOGIN_REMEMBER'), $rcookie, $lifetime, $cookie_path, $cookie_domain, $secure, true);
 				}
 
 				return true;
@@ -766,9 +770,19 @@ class JApplication extends JApplicationBase
 	 *
 	 * @since   11.1
 	 */
-	public function getTemplate($params = array())
+	public function getTemplate($params = false)
 	{
-		return 'system';
+		$template = new StdClass;
+
+		$template->template = 'system';
+		$template->params   = new JRegistry;
+
+		if ($params)
+		{
+			return $template;
+		}
+
+		return $template->template;
 	}
 
 	/**
@@ -788,8 +802,6 @@ class JApplication extends JApplicationBase
 			$app = JFactory::getApplication();
 			$name = $app->getName();
 		}
-
-		jimport('joomla.application.router');
 
 		try
 		{
@@ -969,7 +981,7 @@ class JApplication extends JApplicationBase
 
 		// TODO: At some point we need to get away from having session data always in the db.
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// Remove expired sessions from the database.
 		$time = time();
@@ -977,9 +989,9 @@ class JApplication extends JApplicationBase
 		{
 			// The modulus introduces a little entropy, making the flushing less accurate
 			// but fires the query less than half the time.
-			$query = $db->getQuery(true);
-			$query->delete($query->qn('#__session'))
-				->where($query->qn('time') . ' < ' . $query->q((int) ($time - $session->getExpire())));
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__session'))
+				->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())));
 
 			$db->setQuery($query);
 			$db->execute();
@@ -1008,14 +1020,14 @@ class JApplication extends JApplicationBase
 	 */
 	public function checkSession()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$session = JFactory::getSession();
 		$user = JFactory::getUser();
 
-		$query = $db->getQuery(true);
-		$query->select($query->qn('session_id'))
-			->from($query->qn('#__session'))
-			->where($query->qn('session_id') . ' = ' . $query->q($session->getId()));
+		$query = $db->getQuery(true)
+			->select($db->quoteName('session_id'))
+			->from($db->quoteName('#__session'))
+			->where($db->quoteName('session_id') . ' = ' . $db->quote($session->getId()));
 
 		$db->setQuery($query, 0, 1);
 		$exists = $db->loadResult();
@@ -1026,21 +1038,21 @@ class JApplication extends JApplicationBase
 			$query->clear();
 			if ($session->isNew())
 			{
-				$query->insert($query->qn('#__session'))
-					->columns($query->qn('session_id') . ', ' . $query->qn('client_id') . ', ' . $query->qn('time'))
-					->values($query->q($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . $query->q((int) time()));
+				$query->insert($db->quoteName('#__session'))
+					->columns($db->quoteName('session_id') . ', ' . $db->quoteName('client_id') . ', ' . $db->quoteName('time'))
+					->values($db->quote($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . $db->quote((int) time()));
 				$db->setQuery($query);
 			}
 			else
 			{
-				$query->insert($query->qn('#__session'))
+				$query->insert($db->quoteName('#__session'))
 					->columns(
-						$query->qn('session_id') . ', ' . $query->qn('client_id') . ', ' . $query->qn('guest') . ', ' .
-						$query->qn('time') . ', ' . $query->qn('userid') . ', ' . $query->qn('username')
+						$db->quoteName('session_id') . ', ' . $db->quoteName('client_id') . ', ' . $db->quoteName('guest') . ', ' .
+						$db->quoteName('time') . ', ' . $db->quoteName('userid') . ', ' . $db->quoteName('username')
 					)
 					->values(
-						$query->q($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . (int) $user->get('guest') . ', ' .
-						$query->q((int) $session->get('session.timer.start')) . ', ' . (int) $user->get('id') . ', ' . $query->q($user->get('username'))
+						$db->quote($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . (int) $user->get('guest') . ', ' .
+						$db->quote((int) $session->get('session.timer.start')) . ', ' . (int) $user->get('id') . ', ' . $db->quote($user->get('username'))
 					);
 
 				$db->setQuery($query);

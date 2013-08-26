@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
-// Load the tooltip behavior.
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 
@@ -92,6 +90,13 @@ endif;
 
 				<li><?php echo $this->form->getLabel('language'); ?>
 				<?php echo $this->form->getInput('language'); ?></li>
+
+				<!-- Tag field -->
+				<li><?php echo $this->form->getLabel('tags'); ?>
+					<div class="is-tagbox">
+						<?php echo $this->form->getInput('tags'); ?>
+					</div>
+				</li>
 
 				<li><?php echo $this->form->getLabel('id'); ?>
 				<?php echo $this->form->getInput('id'); ?></li>
@@ -182,10 +187,6 @@ endif;
 			<?php endforeach; ?>
 			<?php // Not the best place, but here for continuity with 1.5/1/6/1.7 ?>
 				<fieldset class="panelform">
-				<ul class="adminformlist">
-						<li><?php echo $this->form->getLabel('xreference'); ?>
-						<?php echo $this->form->getInput('xreference'); ?></li>
-				</ul>
 				</fieldset>
 				<?php
 					// We need to make a separate space for the configuration

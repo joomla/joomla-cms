@@ -52,7 +52,7 @@ class JFormFieldFile extends JFormField
 		// Initialize JavaScript field attributes.
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
-		return '<input type="file" name="' . $this->name . '" id="' . $this->id . '"' . ' value=""' . $accept . $disabled . $class . $size
+		return '<input type="file" name="' . $this->name . '" id="' . $this->id . '" value=""' . $accept . $disabled . $class . $size
 			. $onchange . $required . ' />';
 	}
 }

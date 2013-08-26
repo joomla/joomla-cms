@@ -34,9 +34,9 @@ if (count($this->children[$this->category->id]) > 0 && $this->maxLevel != 0) :
 
 			<?php if ($this->params->get('show_subcat_desc') == 1) : ?>
 				<?php if ($child->description) : ?>
-					<small class="category-desc">
+					<div class="category-desc">
 						<?php echo JHtml::_('content.prepare', $child->description, '', 'com_contact.category'); ?>
-					</small>
+					</div>
 				<?php endif; ?>
 			<?php endif; ?>
 

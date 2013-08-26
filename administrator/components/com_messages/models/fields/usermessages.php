@@ -38,9 +38,9 @@ class JFormFieldUserMessages extends JFormFieldUser
 	{
 		// Compute usergroups
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select('id');
-		$query->from('#__usergroups');
+		$query = $db->getQuery(true)
+			->select('id')
+			->from('#__usergroups');
 		$db->setQuery($query);
 
 		try

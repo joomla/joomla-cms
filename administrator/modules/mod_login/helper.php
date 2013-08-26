@@ -26,6 +26,12 @@ abstract class ModLoginHelper
 	public static function getLanguageList()
 	{
 		$languages = JLanguageHelper::createLanguageList(null, JPATH_ADMINISTRATOR, false, true);
+
+		if (count($languages) <= 1)
+		{
+			return '';
+		}
+
 		array_unshift($languages, JHtml::_('select.option', '', JText::_('JDEFAULTLANGUAGE')));
 
 		return JHtml::_('select.genericlist', $languages, 'lang', ' class="inputbox advancedSelect"', 'value', 'text', null);
@@ -39,7 +45,7 @@ abstract class ModLoginHelper
 	public static function getReturnURI()
 	{
 		$uri    = JUri::getInstance();
-		$return = 'index.php'.$uri->toString(array('query'));
+		$return = 'index.php' . $uri->toString(array('query'));
 
 		if ($return != 'index.php?option=com_login')
 		{

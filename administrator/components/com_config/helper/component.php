@@ -27,12 +27,12 @@ class ConfigHelperComponent
 	 */
 	public static function getAllComponents()
 	{
-		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
-		$query->select('element');
-		$query->from('#__extensions');
-		$query->where('type = ' . $db->quote('component'));
-		$query->where('enabled = 1');
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('element')
+			->from('#__extensions')
+			->where('type = ' . $db->quote('component'))
+			->where('enabled = 1');
 		$db->setQuery($query);
 		$result = $db->loadColumn();
 
@@ -99,15 +99,14 @@ class ConfigHelperComponent
 		foreach ($components as $component)
 		{
 			if (!empty($component))
-				{
-					// Load the core file then
-					// Load extension-local file.
-					$lang->load($component . '.sys', JPATH_BASE, null, false, false)
-				||	$lang->load($component . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component, null, false, false)
-				||	$lang->load($component . '.sys', JPATH_BASE, $lang->getDefault(), false, false)
-				||	$lang->load($component . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component, $lang->getDefault(), false, false);
+			{
+				// Load the core file then
+				// Load extension-local file.
+				$lang->load($component . '.sys', JPATH_BASE, null, false, false)
+				|| $lang->load($component . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component, null, false, false)
+				|| $lang->load($component . '.sys', JPATH_BASE, $lang->getDefault(), false, false)
+				|| $lang->load($component . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component, $lang->getDefault(), false, false);
 			}
 		}
 	}
-
 }

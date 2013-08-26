@@ -155,7 +155,7 @@ class JSchemaChangeitemPostgresql extends JSchemaChangeitem
 			$this->checkQueryExpected = 0;
 			$this->msgElements = array($this->fixQuote($idx));
 		}
-		elseif ($alterCommand == 'CREATE INDEX' || (strtoupper($alterCommand . $wordArray[2]) == 'CREATE UNIQUE INDEX'))
+		elseif ($command == 'CREATE INDEX' || (strtoupper($command . $wordArray[2]) == 'CREATE UNIQUE INDEX'))
 		{
 			if ($wordArray[1] === 'UNIQUE')
 			{

@@ -48,10 +48,10 @@ class InstallationControllerDatabase extends JControllerBase
 		$r->view = $useftp ? 'ftp' : 'summary';
 
 		// Get the database model.
-		$database = new InstallationModelDatabase;
+		$db = new InstallationModelDatabase;
 
 		// Attempt to initialise the database.
-		$return = $database->createDatabase($vars);
+		$return = $db->createDatabase($vars);
 
 		// Check if the database was initialised
 		if (!$return)

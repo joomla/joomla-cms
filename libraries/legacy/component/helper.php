@@ -120,7 +120,6 @@ class JComponentHelper
 		$whiteListTags			= array();
 		$whiteListAttributes	= array();
 
-		$noHtml		= false;
 		$whiteList	= false;
 		$blackList	= false;
 		$customList	= false;
@@ -143,7 +142,6 @@ class JComponentHelper
 			if ($filterType == 'NH')
 			{
 				// Maximum HTML filtering.
-				$noHtml = true;
 			}
 			elseif ($filterType == 'NONE')
 			{
@@ -325,8 +323,6 @@ class JComponentHelper
 			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
 
-		$task = $app->input->getString('task');
-
 		// Load common and local language files.
 		$lang->load($option, JPATH_BASE, null, false, false) || $lang->load($option, JPATH_COMPONENT, null, false, false)
 			|| $lang->load($option, JPATH_BASE, $lang->getDefault(), false, false)
@@ -374,11 +370,11 @@ class JComponentHelper
 	protected static function _load($option)
 	{
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select('extension_id AS id, element AS "option", params, enabled');
-		$query->from('#__extensions');
-		$query->where($query->qn('type') . ' = ' . $db->quote('component'));
-		$query->where($query->qn('element') . ' = ' . $db->quote($option));
+		$query = $db->getQuery(true)
+			->select('extension_id AS id, element AS "option", params, enabled')
+			->from('#__extensions')
+			->where($db->quoteName('type') . ' = ' . $db->quote('component'))
+			->where($db->quoteName('element') . ' = ' . $db->quote($option));
 		$db->setQuery($query);
 
 		$cache = JFactory::getCache('_system', 'callback');
@@ -390,7 +386,7 @@ class JComponentHelper
 		catch (RuntimeException $e)
 		{
 			// Fatal error.
-			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $error), JLog::WARNING, 'jerror');
+			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $e->getMessage()), JLog::WARNING, 'jerror');
 			return false;
 		}
 

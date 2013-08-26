@@ -186,11 +186,11 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery
 	 * @param   string    $interval  The string representation of the appropriate number of units
 	 * @param   string    $datePart  The part of the date to perform the addition on
 	 *
-	 * @return  sring  The string with the appropriate sql for addition of dates
+	 * @return  string  The string with the appropriate sql for addition of dates
 	 *
 	 * @since   13.1
-	 * @note Not all drivers support all units.
-	 * @link http://msdn.microsoft.com/en-us/library/ms186819.aspx for more information
+	 * @note    Not all drivers support all units.
+	 * @link    http://msdn.microsoft.com/en-us/library/ms186819.aspx for more information
 	 */
 	public function dateAdd($date, $interval, $datePart)
 	{

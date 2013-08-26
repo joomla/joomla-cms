@@ -16,7 +16,9 @@ defined('_JEXEC') or die;
 
 	foreach ($fieldSets as $name => $fieldSet) :
 		$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_MODULES_'.$name.'_FIELDSET_LABEL';
-		echo JHtml::_('bootstrap.addSlide', 'moduleOptions', JText::_($label), 'collapse' . $i++);
+		$class = isset($fieldSet->class) && !empty($fieldSet->class) ? $fieldSet->class : '';
+
+		echo JHtml::_('bootstrap.addSlide', 'moduleOptions', JText::_($label), 'collapse' . $i++, $class);
 			if (isset($fieldSet->description) && trim($fieldSet->description)) :
 				echo '<p class="tip">'.$this->escape(JText::_($fieldSet->description)).'</p>';
 			endif;

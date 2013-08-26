@@ -125,17 +125,16 @@ class ContentModelCategory extends JModelList
 				// Create a new query object.
 		$db		= $this->getDbo();
 		$query	= $db->getQuery(true);
-		$groups	= implode(',', $user->getAuthorisedViewLevels());
 
 		if ((!$user->authorise('core.edit.state', 'com_content')) &&  (!$user->authorise('core.edit', 'com_content'))){
 			// limit to published for people who can't edit or edit.state.
 			$this->setState('filter.published', 1);
 			// Filter by start and end dates.
-			$nullDate = $db->Quote($db->getNullDate());
-			$nowDate = $db->Quote(JFactory::getDate()->toSQL());
+			$nullDate = $db->quote($db->getNullDate());
+			$nowDate = $db->quote(JFactory::getDate()->toSQL());
 
-			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
-			$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
+				->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
 		}
 		else
 		{
@@ -210,7 +209,6 @@ class ContentModelCategory extends JModelList
 	 */
 	function getItems()
 	{
-		$params = $this->getState()->get('params');
 		$limit = $this->getState('list.limit');
 
 		if ($this->_articles === null && $category = $this->getCategory())
@@ -331,7 +329,6 @@ class ContentModelCategory extends JModelList
 			if (is_object($this->_item))
 			{
 				$user	= JFactory::getUser();
-				$userId	= $user->get('id');
 				$asset	= 'com_content.category.'.$this->_item->id;
 
 				// Check general create permission.
@@ -453,10 +450,10 @@ class ContentModelCategory extends JModelList
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
 
 		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-		$query->update('#__categories');
-		$query->set('hits = hits + 1');
-		$query->where('id = ' . (int) $pk);
+		$query = $db->getQuery(true)
+			->update('#__categories')
+			->set('hits = hits + 1')
+			->where('id = ' . (int) $pk);
 		$db->setQuery($query);
 
 		try

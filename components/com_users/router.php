@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @return  array  The array of query string values for which to build a route.
  * @return  array  The URL route with segments represented as an array.
- * @since	1.5
+ * @since    1.5
  */
 function UsersBuildRoute(&$query)
 {
@@ -34,9 +34,9 @@ function UsersBuildRoute(&$query)
 	if (empty($items))
 	{
 		// Get all relevant menu items.
-		$app	= JFactory::getApplication();
-		$menu	= $app->getMenu();
-		$items	= $menu->getItems('component', 'com_users');
+		$app = JFactory::getApplication();
+		$menu = $app->getMenu();
+		$items = $menu->getItems('component', 'com_users');
 
 		// Build an array of serialized query strings to menu item id mappings.
 		for ($i = 0, $n = count($items); $i < $n; $i++)
@@ -73,8 +73,8 @@ function UsersBuildRoute(&$query)
 
 			// Check to see if we have found the profile menu item.
 			if (empty($profile) && !empty($items[$i]->query['view']) && ($items[$i]->query['view'] == 'profile'))
-		{
-			$profile = $items[$i]->id;
+			{
+				$profile = $items[$i]->id;
 			}
 		}
 
@@ -82,10 +82,12 @@ function UsersBuildRoute(&$query)
 		if ($profile)
 		{
 			$default = $profile;
-		} elseif ($registration)
+		}
+		elseif ($registration)
 		{
 			$default = $registration;
-		} elseif ($login)
+		}
+		elseif ($login)
 		{
 			$default = $login;
 		}
@@ -99,7 +101,9 @@ function UsersBuildRoute(&$query)
 				if ($query['Itemid'] = $reset)
 				{
 					unset ($query['view']);
-				} else {
+				}
+				else
+				{
 					$query['Itemid'] = $default;
 				}
 				break;
@@ -108,7 +112,9 @@ function UsersBuildRoute(&$query)
 				if ($query['Itemid'] = $resend)
 				{
 					unset ($query['view']);
-				} else {
+				}
+				else
+				{
 					$query['Itemid'] = $default;
 				}
 				break;
@@ -117,7 +123,9 @@ function UsersBuildRoute(&$query)
 				if ($query['Itemid'] = $remind)
 				{
 					unset ($query['view']);
-				} else {
+				}
+				else
+				{
 					$query['Itemid'] = $default;
 				}
 				break;
@@ -126,7 +134,9 @@ function UsersBuildRoute(&$query)
 				if ($query['Itemid'] = $login)
 				{
 					unset ($query['view']);
-				} else {
+				}
+				else
+				{
 					$query['Itemid'] = $default;
 				}
 				break;
@@ -135,7 +145,9 @@ function UsersBuildRoute(&$query)
 				if ($query['Itemid'] = $registration)
 				{
 					unset ($query['view']);
-				} else {
+				}
+				else
+				{
 					$query['Itemid'] = $default;
 				}
 				break;
@@ -150,7 +162,9 @@ function UsersBuildRoute(&$query)
 				if ($query['Itemid'] = $profile)
 				{
 					unset ($query['view']);
-				} else {
+				}
+				else
+				{
 					$query['Itemid'] = $default;
 				}
 
@@ -174,7 +188,7 @@ function UsersBuildRoute(&$query)
  *
  * @return  array  The URL route with segments represented as an array.
  * @return  array  The array of variables to set in the request.
- * @since	1.5
+ * @since    1.5
  */
 function UsersParseRoute($segments)
 {
@@ -200,9 +214,9 @@ function UsersParseRoute($segments)
 		// Get the package id from the packages table by alias.
 		$db = JFactory::getDbo();
 		$db->setQuery(
-			'SELECT '.$db->quoteName('id') .
-			' FROM '.$db->quoteName('#__users') .
-			' WHERE '.$db->quoteName('id').' = '.(int) $userId
+			'SELECT ' . $db->quoteName('id') .
+				' FROM ' . $db->quoteName('#__users') .
+				' WHERE ' . $db->quoteName('id') . ' = ' . (int) $userId
 		);
 		$userId = $db->loadResult();
 	}
@@ -218,7 +232,9 @@ function UsersParseRoute($segments)
 		{
 			$vars['view'] = 'profile';
 		}
-	} else {
+	}
+	else
+	{
 		JError::raiseError(404, JText::_('JGLOBAL_RESOURCE_NOT_FOUND'));
 	}
 
