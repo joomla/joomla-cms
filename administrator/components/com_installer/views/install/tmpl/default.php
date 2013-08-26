@@ -8,6 +8,7 @@
  */
 
 defined('_JEXEC') or die;
+define('APPS_BASE_URL', 'http://localhost/joomla-cms-apps/');
 
 $document = JFactory::getDocument();
 $instance = new JVersion;
