@@ -48,5 +48,4 @@ class InstallerControllerInstall extends JControllerLegacy
 		}
 		$this->setRedirect($redirect_url);
 	}
-	
 }
