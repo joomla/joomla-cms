@@ -12,56 +12,46 @@ defined('_JEXEC') or die;
 // An integer to tell facebook the appID of the fb user. Defaults to an empty string
 $appId = '';
 
-if (isset($displayData['appid']) && ((int) $displayData['appid'] == $displayData['appid']))
+$params = new JInput($displayData);
+
+$appId = $params->get('appid', '', 'int');
+
+if ($appId != '')
 {
-	$appId = '&appId=' . $displayData['appid'];
+	$appId = '&appId=' . $appId;
 }
 
 // If not set by the user use the current URL
-if (!isset($displayData['data-href']))
-{
-	$displayData['data-href'] = JUri::current();
-}
+$href = $params->get('data-href', JUri::current());
 
 // Check if the user has specified a (integer) width. Set it to the default 450 otherwise
-$width = '450';
-
-if (isset($displayData['data-width']) && ((int) $displayData['data-width'] == $displayData['data-width']))
-{
-	$width = $displayData['data-width'];
-}
+$width = $params->get('data-width', 450, 'int');
 
 // Check if the user has specified a (boolean) to show faces. Set it to the default true otherwise
-$showFaces = true;
+$showFaces = $params->get('show-faces', true, 'bool');
 
-if (isset($displayData['show-faces']) && (!is_bool($displayData['show-faces'])))
+// Layout by default is standard but allow other 2 layouts if specified: button_count, box_count
+$layout = $params->get('data-layout');
+
+if ($layout != 'button_count' && $layout != 'box_count' && $layout != 'standard')
 {
-	$showFaces = $displayData['show-faces'];
-}
-
-// Layout by default is standard but allow other 2 layouts if specified
-$layout = 'standard';
-
-if (isset($displayData['data-layout'])
-	&& ($displayData['data-layout'] == 'button_count' || $displayData['data-layout'] == 'box_count'))
-{
-	$layout = $displayData['data-layout'];
+	$layout = 'standard';
 }
 
 // Default action is like but allow recommend if specified
-$action = 'like';
+$like = $params->get('data-action');
 
-if (isset($displayData['data-action']) && $displayData['data-action'] == 'recommend')
+if ($like != 'recommend' && $like != 'like')
 {
-	$action = 'recommend';
+	$action = 'like';
 }
 
 // Set the default colour scheme as light unless dark is specified
-$colour = 'light';
+$colour = $params->get('data-colorscheme');
 
-if (isset($displayData['data-colorscheme']) && $displayData['data-colorscheme'] == 'dark')
+if ($colour != 'light' && $colour != 'dark')
 {
-	$colour = 'dark';
+	$colour = 'light';
 }
 
 // Get Document to add in FB script if not already included
@@ -71,12 +61,7 @@ $document = JFactory::getDocument();
  * Auto-detect language - but let that be overridden if wanted from extensions languages
  * Should be in the form of xx_XX.
 **/
-$language = JFactory::getLanguage()->getLocale()['2'];
-
-if (isset($displayData['language']))
-{
-	$language = $displayData['language'];
-}
+$language = $params->get('language', JFactory::getLanguage()->getLocale()['2']);
 
 if (!in_array('<script src="http://connect.facebook.net/' . $language . '/all.js#xfbml=1' . $appId . '&status=0"></script>', $document->_custom))
 {
@@ -86,7 +71,7 @@ if (!in_array('<script src="http://connect.facebook.net/' . $language . '/all.js
 <!-- Facebook button JLayout -->
 <div class="FacebookButton">
 	<div class="fb-like"
-		data-href="<?php echo $displayData['data-href']; ?>"
+		data-href="<?php echo $href; ?>"
 		data-send="true"
 		data-layout="<?php echo $layout; ?>"
 		data-show-faces="<?php echo $showFaces; ?>"

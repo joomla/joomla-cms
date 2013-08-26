@@ -9,99 +9,76 @@
 
 defined('_JEXEC') or die;
 
-// Layout by default is standard but allow other 3 layouts if specified
-$layout = 'standard';
+// Valid Google language codes
+$googleLanguages = array(
+	'short' => array(
+		'af', 'am', 'ar', 'eu', 'bn', 'bg', 'ca', 'hr', 'cs', 'da', 'nl', 'et', 'fil', 'fi',
+		'fr', 'gl', 'de', 'el', 'gu', 'iw', 'hi', 'hu', 'is', 'id', 'it', 'ja', 'kn', 'ko',
+		'lv', 'lt', 'ms', 'ml', 'mr', 'no', 'fa', 'pl', 'ro', 'ru', 'sr', 'sk', 'sl', 'es',
+		'sw', 'sv', 'ta', 'te', 'th', 'tr', 'uk', 'ur', 'vi', 'zu'
+	),
+	'long' => array(
+		'zh-HK', 'zh-CN', 'zh-TW', 'en-GB', 'en-US', 'fr-CA', 'pt-BR', 'pt-PT', 'es-419'
+	)
+);
 
-if (isset($displayData['data-size'])
-	&& ($displayData['data-size'] == 'small' || $displayData['data-size'] == 'medium' || $displayData['data-size'] == 'tall'))
+$params = new JInput($displayData);
+
+// Layout by default is standard but allow other 3 layouts if specified: small, medium or tall
+$layout = $params->get('data-size');
+
+if ($layout != 'small' && $layout != 'medium' && $layout != 'tall' && $layout != 'standard')
 {
-	$layout = $displayData['data-size'];
+	$layout = 'standard';
 }
 
-// Layout by default is inline but allow other 2 layouts if specified
-$annotation = 'inline';
+// Layout by default is inline but allow other 2 layouts if specified: inline, block
+$annotation = $params->get('data-annotation');
 
-if (isset($displayData['data-annotation'])
-	&& ($displayData['data-annotation'] == 'inline' || $displayData['data-annotation'] == 'none'))
+if ($annotation != 'inline' && $annotation != 'block')
 {
-	$annotation = $displayData['data-annotation'];
+	$annotation = 'inline';
 }
 
 // Check if the user has specified a (integer) width. Set it to the default 300 otherwise
-$width = '300';
-
-if (isset($displayData['data-width']) && ((int) $displayData['data-width'] == $displayData['data-width']))
-{
-	$width = $displayData['data-width'];
-}
+$width = $params->get('data-width', 300, 'int');
 
 // If not set by the user use the current URL
-if (!isset($displayData['data-href']))
-{
-	$displayData['data-href'] = JUri::current();
-}
+$href = $params->get('data-href', JUri::current());
 
 // Check if the user has specified a (boolean) to show the number of times the page has been +1'd. Set it to the default true otherwise
-$count = true;
+$count = $params->get('data-count', true, 'bool');
 
-if (isset($displayData['show-count']) && (!is_bool($displayData['show-count'])))
-{
-	$count = $displayData['show-count'];
-}
-
-$GlanguageShort = array(
-				'af', 'am', 'ar', 'eu', 'bn', 'bg', 'ca', 'hr', 'cs', 'da', 'nl', 'et', 'fil', 'fi',
-				'fr', 'gl', 'de', 'el', 'gu', 'iw', 'hi', 'hu', 'is', 'id', 'it', 'ja', 'kn', 'ko',
-				'lv', 'lt', 'ms', 'ml', 'mr', 'no', 'fa', 'pl', 'ro', 'ru', 'sr', 'sk', 'sl', 'es',
-				'sw', 'sv', 'ta', 'te', 'th', 'tr', 'uk', 'ur', 'vi', 'zu');
-$GlanguageLong	= array('zh-HK', 'zh-CN', 'zh-TW', 'en-GB', 'en-US', 'fr-CA', 'pt-BR', 'pt-PT', 'es-419');
-
-/**
- * Auto-detect language - but let that be overridden if wanted from extensions languages
- * Should be in the form of xx_XX.
-**/
-$language = JFactory::getLanguage()->getLocale()['2'];
-
-if (isset($displayData['language']))
-{
-	$language = $displayData['language'];
-}
+// Auto-detect language - but let it be overridden if wanted from extensions languages - Should be in the form of xx_XX.
+$langCode = $params->get('language', JFactory::getLanguage()->getLocale()['2']);
+$language = '';
 
 // Check the short language code based on the site's language
-if (in_array(substr($language, 0, 2), $GlanguageShort))
+if (in_array(substr($langCode, 0, 2), $googleLanguages['short']))
 {
-	$Glang = 'window.___gcfg = {lang: "' . substr($language, 0, 2) . '"};';
+	$language = 'window.___gcfg = {lang: "' . substr($langCode, 0, 2) . '"};';
 }
 
 // Check the long language code based on the site's language
-elseif (in_array($language, $GlanguageLong))
+elseif (in_array($langCode, $googleLanguages['long']))
 {
-	$Glang = 'window.___gcfg = {lang: "' . $language . '"};';
+	$language = 'window.___gcfg = {lang: "' . $langCode . '"};';
 }
 
-// None of the above are matched, define no language
-else
-{
-	$Glang = '';
-}
 
-// Get Document to add in google script if not already included
 $document = JFactory::getDocument();
-
-if (!in_array('<script type="text/javascript" src="https://apis.google.com/js/plusone.js">' . $Glang . '</script>', $document->_custom))
-{
-	$document->addCustomTag('<script type="text/javascript" src="https://apis.google.com/js/plusone.js">' . $Glang . '</script>');
-}
+$document->addScript('https://apis.google.com/js/plusone.js');
+$document->addScriptDeclaration($language);
 
 ?>
 <div class="GoogleButton">
 	<!-- Place this tag where you want the +1 button to render. -->
 	<div class="g-plusone"
-		data-annotation="<?php echo $annotation; ?>"
-		data-width="<?php echo $width; ?>"
-		data-size="<?php echo $layout; ?>"
-		data-href="<?php echo $displayData['data-href']; ?>"
-		data-count="<?php echo $count; ?>"
-	>
+	     data-annotation="<?php echo $annotation; ?>"
+	     data-width="<?php echo $width; ?>"
+	     data-size="<?php echo $layout; ?>"
+	     data-href="<?php echo $href; ?>"
+	     data-count="<?php echo $count; ?>"
+		>
 	</div>
 </div>

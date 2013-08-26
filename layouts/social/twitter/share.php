@@ -9,63 +9,49 @@
 
 defined('_JEXEC') or die;
 
+$params = new JInput($displayData);
+
 // Allow hashtags to be put into the share
-if (isset($displayData['data-hashtags']))
+$hashtags = $params->get('data-hashtags', '');
+
+if ($hashtags != '')
 {
-	$hashtags = 'data-hashtags="' . $displayData['data-hashtags'] . '"';
-}
-else
-{
-	$hashtags = '';
+	$hashtags = 'data-hashtags="' . $hashtags . '"';
 }
 
 // Allow a user to be put into the share
-if (isset($displayData['data-via']))
+$via = $params->get('data-via', '');
+
+if ($via != '')
 {
-	$via = 'data-via="' . $displayData['data-via'] . '"';
-}
-else
-{
-	$via = '';
+	$via = 'data-via="' . $via . '"';
 }
 
-if (isset($displayData['data-size']))
+// Size of the share box can either be regular (blank) or large
+$size = $params->get('data-size', '');
+
+if ($size != '')
 {
 	$size = 'data-size="large"';
 }
-else
-{
-	$size = '';
-}
 
 // Allow a URL to be put into the share (defaults to current URL)
-if (isset($displayData['data-href']))
-{
-	$url = $displayData['data-href'];
-}
-else
-{
-	$url = JUri::current();
-}
+$url = $params->get('data-href', JUri::current());
 
 // Allow text to be put into the share
-if (isset($displayData['data-text']))
+$text = $params->get('data-text', '');
+
+if ($text != '')
 {
-	$text = 'data-text="' . $displayData['data-text'] . '"';
-}
-else
-{
-	$text = '';
+	$text = 'data-text="' . $text . '"';
 }
 
 // Allow related users to be put into the share
-if (isset($displayData['data-related']))
+$related = $params->get('data-related', '');
+
+if ($related != '')
 {
-	$related = 'data-related="' . $displayData['data-related'] . '"';
-}
-else
-{
-	$related = '';
+	$related = 'data-related="' . $related . '"';
 }
 
 // Get Document to add in twitter script if not already included
@@ -75,12 +61,7 @@ $document = JFactory::getDocument();
  * Auto-detect language - but let that be overridden if wanted from extensions languages
  * Should be in the form of xx.
 **/
-$language = JFactory::getLanguage()->getLocale()['4'];
-
-if (isset($displayData['language']))
-{
-	$language = $displayData['language'];
-}
+$language = $params->get('language', JFactory::getLanguage()->getLocale()['4']);
 
 $document->addScript("http://platform.twitter.com/widgets.js");
 ?>
