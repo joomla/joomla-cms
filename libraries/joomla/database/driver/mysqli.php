@@ -108,32 +108,32 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 
 		if (preg_match('/^(?P<host>((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))(:(?P<port>.+))?$/', $this->options['host'], $matches))
 		{
-			//It's an IPv4 address with ot without port
+			// It's an IPv4 address with ot without port
 			$this->options['host'] = $matches['host'];
 			if (!empty($matches['port']))
 				$port = $matches['port'];
 		}
 		elseif (preg_match('/^(?P<host>\[.*\])(:(?P<port>.+))?$/', $this->options['host'], $matches))
 		{
-			//We assume square-bracketed IPv6 address with or without port, e.g. [fe80:102::2%eth1]:3306
+			// We assume square-bracketed IPv6 address with or without port, e.g. [fe80:102::2%eth1]:3306
 			$this->options['host'] = $matches['host'];
 			if (!empty($matches['port']))
 				$port = $matches['port'];
 		}
 		elseif (preg_match('/^(?P<host>(\w+:\/{2,3})?[a-z0-9\.\-]+)(:(?P<port>[^:]+))?$/i', $this->options['host'], $matches))
 		{
-			//Named host (e.g domain.com or localhost) with ot without port
+			// Named host (e.g domain.com or localhost) with ot without port
 			$this->options['host'] = $matches['host'];
 			if (!empty($matches['port']))
 				$port = $matches['port'];
 		}
 		elseif (preg_match('/^:(?P<port>[^:]+)$/', $this->options['host'], $matches))
 		{
-			//Empty host, just port, e.g. ':3306'
+			// Empty host, just port, e.g. ':3306'
 			$this->options['host'] = 'localhost';
 			$port = $matches['port'];
 		}
-		//... else we assume normal (naked) IPv6 address, so host and port stay as they are or default
+		// ... else we assume normal (naked) IPv6 address, so host and port stay as they are or default
 
 		// Get the port number or socket name
 		if (is_numeric($port))
