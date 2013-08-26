@@ -3,7 +3,7 @@ TRUNCATE TABLE [#__assets];
 
 SET IDENTITY_INSERT  [#__assets] ON;
 
-INSERT INTO [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES ('1', '0', '1', '81', '0', N'root.1', N'Root Asset', N'{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}');
+INSERT INTO [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES ('1', '0', '1', '82', '0', N'root.1', N'Root Asset', N'{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}');
 INSERT INTO [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES ('2', '1', '1', '2', '1', N'com_admin', N'com_admin', N'{}');
 INSERT INTO [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES ('3', '1', '3', '6', '1', N'com_banners', N'com_banners', N'{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}');
 INSERT INTO [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES ('4', '1', '7', '8', '1', N'com_cache', N'com_cache', N'{"core.admin":{"7":1},"core.manage":{"7":1}}');
@@ -44,6 +44,7 @@ INSERT INTO [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [titl
 INSERT INTO [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES ('39', '36', '31', '32', '3', N'com_content.article.5', N'Article 3 Title ', N'{"core.delete":[],"core.edit":[],"core.edit.state":[]}');
 INSERT INTO [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES ('40', '27', '23', '24', '3', N'com_content.article.6', N'Creating Your Site', N'{"core.delete":[],"core.edit":[],"core.edit.state":[]}');
 INSERT INTO [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES('41', '1', '79', '80', '1', 'com_joomlaupdate', 'com_joomlaupdate', '{"core.admin":[],"core.manage":[],"core.delete":[],"core.edit.state":[]}');
+INSERT INTO[#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES ('42', '1', '81', '82', '1', 'com_ajax', 'com_ajax', '{}'
 
 SET IDENTITY_INSERT [#__assets] OFF;
 
