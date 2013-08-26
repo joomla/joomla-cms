@@ -20,8 +20,17 @@ $user    = JFactory::getUser();
 $info    = $params->get('info_block_position', 0);
 JHtml::_('behavior.caption');
 
+// FIXME instance somewhere else
+$microdata = new JMicrodata;
+
+// TODO Retrieve the Type from the db
+$microdata->setType('Article');
+
+// TODO Retrieve the toggle from the db
+$microdata->enable(true);
+
 ?>
-<div class="item-page<?php echo $this->pageclass_sfx?>">
+<div class="item-page<?php echo $this->pageclass_sfx?>"<?php echo $microdata->displayScope();?>>
 	<?php if ($this->params->get('show_page_heading') && $params->get('show_title')) : ?>
 	<div class="page-header">
 		<h1> <?php echo $this->escape($this->params->get('page_heading')); ?> </h1>
@@ -40,9 +49,9 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 			<?php endif; ?>
 			<?php if ($params->get('show_title')) : ?>
 				<?php if ($params->get('link_titles') && !empty($this->item->readmore_link)) : ?>
-					<a href="<?php echo $this->item->readmore_link; ?>"> <?php echo $this->escape($this->item->title); ?></a>
+					<a href="<?php echo $this->item->readmore_link; ?>"<?php echo $microdata->property('url')->display();?>> <?php echo $microdata->content($this->escape($this->item->title))->property('name')->display();?></a>
 				<?php else : ?>
-					<?php echo $this->escape($this->item->title); ?>
+					<?php echo $microdata->content($this->escape($this->item->title))->property('name')->display(); ?>
 				<?php endif; ?>
 			<?php endif; ?>
 		</h2>
@@ -90,7 +99,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 						?>
 						<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', JRoute::_($cntlink), $author)); ?>
 					<?php else: ?>
-						<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
+						<?php echo $microdata->content(JText::sprintf('COM_CONTENT_WRITTEN_BY', $author))->property('createdBy')->fallback('Person', 'name')->display(); ?>
 					<?php endif; ?>
 				</dd>
 			<?php endif; ?>
@@ -206,7 +215,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 						<?php if ($params->get('link_parent_category') && $this->item->parent_slug) : ?>
 							<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
 						<?php else : ?>
-							<?php echo JText::sprintf('COM_CONTENT_PARENT', $title); ?>
+							<?php echo $microdata->content(JText::sprintf('COM_CONTENT_PARENT', $title))->property('genre')->display(); ?>
 						<?php endif; ?>
 					</dd>
 				<?php endif; ?>
