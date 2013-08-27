@@ -22,7 +22,7 @@ use SeleniumClient\WebElement;
  * @subpackage  Webdriver
  * @since       3.2
  */
-class SiteHomePage extends SitePage
+class SiteContentFeaturedPage extends SitePage
 {
 	/**
 	 * XPath string used to uniquely identify this page
