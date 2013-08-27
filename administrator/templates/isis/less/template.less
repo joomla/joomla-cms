@@ -650,6 +650,23 @@ h6 { font-size: 12px; line-height: 14px; }
 		vertical-align: middle;
 	}
 }
+.form-inline-header {
+  margin: 5px 0;
+  .control-group,
+  .control-label,
+  .controls {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+  }
+  .control-label {
+    width: auto;
+    padding-right: 5px;
+  }
+  .controls {
+    padding-right: 10px;
+  }
+}
 
 /* Display checkboxes without bullets in list */
 fieldset.checkboxes input {
