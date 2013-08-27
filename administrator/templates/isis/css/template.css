@@ -7199,6 +7199,27 @@ h6 {
 .form-horizontal #jform_catid_chzn {
 	vertical-align: middle;
 }
+.form-inline-header {
+	margin: 5px 0;
+}
+.form-inline-header .control-group {
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+}
+.form-inline-header .control-label {
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	width: auto;
+	padding-right: 5px;
+}
+.form-inline-header .controls {
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	padding-right: 10px;
+}
 fieldset.checkboxes input {
 	float: left;
 }
