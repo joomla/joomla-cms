@@ -172,6 +172,7 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 		);
 
 		// Test for a meta display with content
+		$content = '01 January 2011';
 		$responce = $this->handler
 			->property('datePublished')
 			->content($content)
@@ -179,7 +180,7 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals(
 			$responce,
-			"<meta itemprop='datePublished' content='$content'/>"
+			"<meta itemprop='datePublished' content='$content'/>$content"
 		);
 
 		// Test if the JMicrodata is disabled

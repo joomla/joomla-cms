@@ -110,10 +110,10 @@ class JMicrodata
 	protected static function loadTypes()
 	{
 		// Load the JSON
-		if (!self::$types)
+		if (!static::$types)
 		{
 			$path = JPATH_PLATFORM . '/joomla/microdata/types.json';
-			self::$types = json_decode(file_get_contents($path), true);
+			static::$types = json_decode(file_get_contents($path), true);
 		}
 	}
 
@@ -146,10 +146,10 @@ class JMicrodata
 		}
 
 		// Sanitize the Type
-		$this->type = self::sanitizeType($type);
+		$this->type = static::sanitizeType($type);
 
 		// If the given Type isn't available, fallback to Thing
-		if ( !self::isTypeAvailable($this->type) )
+		if ( !static::isTypeAvailable($this->type) )
 		{
 			$this->type	= 'Thing';
 		}
@@ -182,10 +182,10 @@ class JMicrodata
 		}
 
 		// Sanitize the Property
-		$property = self::sanitizeProperty($property);
+		$property = static::sanitizeProperty($property);
 
 		// Control if the Property exist in the given Type and setup it, if not leave NULL
-		if ( self::isPropertyInType($this->type, $property) )
+		if ( static::isPropertyInType($this->type, $property) )
 		{
 			$this->property = $property;
 		}
@@ -247,16 +247,16 @@ class JMicrodata
 		}
 
 		// Sanitize the Type
-		$this->fallbackType = self::sanitizeType($type);
+		$this->fallbackType = static::sanitizeType($type);
 
 		// If the given Type isn't available, fallback to Thing
-		if (!self::isTypeAvailable($this->fallbackType))
+		if (!static::isTypeAvailable($this->fallbackType))
 		{
 			$this->fallbackType = 'Thing';
 		}
 
 		// Control if the Property exist in the given Type and setup it, if not leave NULL
-		if (self::isPropertyInType($this->fallbackType, $property))
+		if (static::isPropertyInType($this->fallbackType, $property))
 		{
 			$this->fallbackProperty = $property;
 		}
@@ -318,20 +318,20 @@ class JMicrodata
 				switch ($displayType)
 				{
 					case 'span':
-						$html = self::htmlSpan($this->content, $this->property);
+						$html = static::htmlSpan($this->content, $this->property);
 						break;
 
 					case 'div':
-						$html = self::htmlDiv($this->content, $this->property);
+						$html = static::htmlDiv($this->content, $this->property);
 						break;
 
 					case 'meta':
-						$html = self::htmlMeta($this->content, $this->property);
+						$html = static::htmlMeta($this->content, $this->property);
 						break;
 
 					default:
 						// Default $displayType = 'inline'
-						$html = self::htmlProperty($this->property);
+						$html = static::htmlProperty($this->property);
 						break;
 				}
 			}
@@ -340,18 +340,18 @@ class JMicrodata
 				/* Process and return the HTML in an automatic way,
 				 * with the Property expected Types an display the Microdata in the right way,
 				* check if the Property is normal, nested or must be rendered in a metadata tag */
-				switch (self::getExpectedDisplayType($this->type, $this->property))
+				switch (static::getExpectedDisplayType($this->type, $this->property))
 				{
 					case 'nested':
 						// Retrive the expected nested Type of the Property
-						$nestedType = self::getExpectedTypes($this->type, $this->property);
+						$nestedType = static::getExpectedTypes($this->type, $this->property);
 						$nestedType = $nestedType[0];
 
 						/* Check if a Content is available,
 						 * otherwise Fallback to an 'inline' display type */
 						if ($this->content)
 						{
-							$html = self::htmlSpan(
+							$html = static::htmlSpan(
 								$this->content,
 								$this->property,
 								$nestedType,
@@ -360,8 +360,8 @@ class JMicrodata
 						}
 						else
 						{
-							$html = self::htmlProperty($this->property)
-							. " " . self::htmlScope($nestedType);
+							$html = static::htmlProperty($this->property)
+								. " " . static::htmlScope($nestedType);
 						}
 						break;
 
@@ -370,11 +370,12 @@ class JMicrodata
 						 * otherwise Fallback to an 'inline' display Type */
 						if ($this->content)
 						{
-							$html = self::htmlMeta($this->content, $this->property);
+							$html = static::htmlMeta($this->content, $this->property)
+								. $this->content;
 						}
 						else
 						{
-							$html = self::htmlProperty($this->property);
+							$html = static::htmlProperty($this->property);
 						}
 						break;
 
@@ -384,11 +385,11 @@ class JMicrodata
 						 * otherwise Fallback to an 'inline' display Type */
 						if ($this->content)
 						{
-							$html = self::htmlSpan($this->content, $this->property);
+							$html = static::htmlSpan($this->content, $this->property);
 						}
 						else
 						{
-							$html = self::htmlProperty($this->property);
+							$html = static::htmlProperty($this->property);
 						}
 						break;
 				}
@@ -402,21 +403,21 @@ class JMicrodata
 				switch ($displayType)
 				{
 					case 'span':
-						$html = self::htmlSpan($this->content, $this->fallbackProperty, $this->fallbackType);
+						$html = static::htmlSpan($this->content, $this->fallbackProperty, $this->fallbackType);
 						break;
 
 					case 'div':
-						$html = self::htmlDiv($this->content, $this->fallbackProperty, $this->fallbackType);
+						$html = static::htmlDiv($this->content, $this->fallbackProperty, $this->fallbackType);
 						break;
 
 					case 'meta':
-						$html = self::htmlMeta($this->content, $this->fallbackProperty, $this->fallbackType);
+						$html = static::htmlMeta($this->content, $this->fallbackProperty, $this->fallbackType);
 						break;
 
 					default:
 						// Default $displayType = 'inline'
-						$html = self::htmlScope($type::scope())
-						. ' ' . self::htmlProperty($this->fallbackProperty);
+						$html = static::htmlScope($type::scope())
+							. ' ' . static::htmlProperty($this->fallbackProperty);
 						break;
 				}
 			}
@@ -425,19 +426,19 @@ class JMicrodata
 				/* Process and return the HTML in an automatic way,
 				 * with the Property expected Types an display the Microdata in the right way,
 				* check if the Property is nested or must be rendered in a metadata tag */
-				switch (self::getExpectedDisplayType($this->fallbackType, $this->fallbackProperty))
+				switch (static::getExpectedDisplayType($this->fallbackType, $this->fallbackProperty))
 				{
 					case 'meta':
 						/* Check if the Content value is available,
 						 * otherwise Fallback to an 'inline' display Type */
 						if ($this->content)
 						{
-							$html = self::htmlMeta($this->content, $this->fallbackProperty, $this->fallbackType);
+							$html = static::htmlMeta($this->content, $this->fallbackProperty, $this->fallbackType);
 						}
 						else
 						{
-							$html = self::htmlScope($this->fallbackType)
-							. ' ' . self::htmlProperty($this->fallbackProperty);
+							$html = static::htmlScope($this->fallbackType)
+								. ' ' . static::htmlProperty($this->fallbackProperty);
 						}
 						break;
 
@@ -447,12 +448,12 @@ class JMicrodata
 						 * otherwise Fallback to an 'inline' display Type */
 						if ($this->content)
 						{
-							$html = self::htmlSpan($this->content, $this->fallbackProperty, $this->fallbackType);
+							$html = static::htmlSpan($this->content, $this->fallbackProperty, $this->fallbackType);
 						}
 						else
 						{
-							$html = self::htmlScope($this->fallbackType)
-							. ' ' . self::htmlProperty($this->fallbackProperty);
+							$html = static::htmlScope($this->fallbackType)
+								. ' ' . static::htmlProperty($this->fallbackProperty);
 						}
 						break;
 				}
@@ -482,7 +483,7 @@ class JMicrodata
 			return '';
 		}
 
-		return self::htmlScope($this->type);
+		return static::htmlScope($this->type);
 	}
 
 	/**
@@ -516,9 +517,9 @@ class JMicrodata
 	 */
 	public static function getTypes()
 	{
-		self::loadTypes();
+		static::loadTypes();
 
-		return self::$types;
+		return static::$types;
 	}
 
 	/**
@@ -528,9 +529,9 @@ class JMicrodata
 	 */
 	public static function getAvailableTypes()
 	{
-		self::loadTypes();
+		static::loadTypes();
 
-		return array_keys(self::$types);
+		return array_keys(static::$types);
 	}
 
 	/**
@@ -543,9 +544,9 @@ class JMicrodata
 	 */
 	public static function getExpectedTypes($type, $property)
 	{
-		self::loadTypes();
+		static::loadTypes();
 
-		$tmp = self::$types[$type]['properties'];
+		$tmp = static::$types[$type]['properties'];
 
 		// Check if the Property is in the Type
 		if (isset($tmp[$property]))
@@ -554,12 +555,12 @@ class JMicrodata
 		}
 
 		// Check if the Property is inherit
-		$extendedType = self::$types[$type]['extends'];
+		$extendedType = static::$types[$type]['extends'];
 
 		// Recursive
 		if (!empty($extendedType))
 		{
-			return self::getExpectedTypes($extendedType, $property);
+			return static::getExpectedTypes($extendedType, $property);
 		}
 
 		return array();
@@ -579,8 +580,7 @@ class JMicrodata
 	 */
 	protected static function getExpectedDisplayType($type, $property)
 	{
-		// FIXME If the user want to use one of the expected Types, not the first Type found
-		$expectedTypes = self::getExpectedTypes($type, $property);
+		$expectedTypes = static::getExpectedTypes($type, $property);
 
 		// Retrieve the first expected type
 		$type = $expectedTypes[0];
@@ -611,23 +611,23 @@ class JMicrodata
 	 */
 	public static function isPropertyInType($type, $property)
 	{
-		if (!self::isTypeAvailable($type))
+		if (!static::isTypeAvailable($type))
 		{
 			return false;
 		}
 
 		// Control if the Property exists, and return true
-		if (array_key_exists($property, self::$types[$type]['properties']))
+		if (array_key_exists($property, static::$types[$type]['properties']))
 		{
 			return true;
 		}
 
 		// Recursive: Check if the Property is inherit
-		$extendedType = self::$types[$type]['extends'];
+		$extendedType = static::$types[$type]['extends'];
 
 		if (!empty($extendedType))
 		{
-			return self::isPropertyInType($extendedType, $property);
+			return static::isPropertyInType($extendedType, $property);
 		}
 
 		return false;
@@ -642,9 +642,9 @@ class JMicrodata
 	 */
 	public static function isTypeAvailable($type)
 	{
-		self::loadTypes();
+		static::loadTypes();
 
-		return ( array_key_exists($type, self::$types) ) ? true : false;
+		return ( array_key_exists($type, static::$types) ) ? true : false;
 	}
 
 	/**
@@ -664,13 +664,13 @@ class JMicrodata
 		// Control if the Property has allready the itemprop
 		if (stripos($property, 'itemprop') !== 0)
 		{
-			$property = self::htmlProperty($property);
+			$property = static::htmlProperty($property);
 		}
 
 		// Control if the Scope have allready the itemtype
 		if (!empty($scope) && stripos($scope, 'itemscope') !== 0)
 		{
-			$scope = self::htmlScope($scope);
+			$scope = static::htmlScope($scope);
 		}
 
 		if ($inverse)
@@ -704,13 +704,13 @@ class JMicrodata
 		// Control if the Property has allready the itemprop
 		if (!empty($property) && stripos($property, 'itemprop') !== 0)
 		{
-			$property = self::htmlProperty($property);
+			$property = static::htmlProperty($property);
 		}
 
 		// Control if the Scope have allready the itemtype
 		if (!empty($scope) && stripos($scope, 'itemscope') !== 0)
 		{
-			$scope = self::htmlScope($scope);
+			$scope = static::htmlScope($scope);
 		}
 
 		if ($inverse)
@@ -745,13 +745,13 @@ class JMicrodata
 		// Control if the Property has allready the itemprop
 		if (!empty($property) && stripos($property, 'itemprop') !== 0)
 		{
-			$property = self::htmlProperty($property);
+			$property = static::htmlProperty($property);
 		}
 
 		// Control if the Scope have allready the itemtype
 		if (!empty($scope) && stripos($scope, 'itemscope') !== 0)
 		{
-			$scope = self::htmlScope($scope);
+			$scope = static::htmlScope($scope);
 		}
 
 		if ($inverse)

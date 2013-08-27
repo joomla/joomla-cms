@@ -12,25 +12,20 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 // Create shortcuts to some parameters.
-$params  = $this->item->params;
-$images  = json_decode($this->item->images);
-$urls    = json_decode($this->item->urls);
-$canEdit = $params->get('access-edit');
-$user    = JFactory::getUser();
-$info    = $params->get('info_block_position', 0);
+$params		= $this->item->params;
+$images		= json_decode($this->item->images);
+$urls		= json_decode($this->item->urls);
+$canEdit	= $params->get('access-edit');
+$user		= JFactory::getUser();
+$info		= $params->get('info_block_position', 0);
+$microdata	= JFactory::getMicrodata();
 JHtml::_('behavior.caption');
 
-// FIXME instance somewhere else
-$microdata = new JMicrodata;
-
-// TODO Retrieve the Type from the db
-$microdata->setType('Article');
-
-// TODO Retrieve the toggle from the db
-$microdata->enable(true);
+// TODO Retrieve the Type, enabled or not params from the db
+$microdata->enable(true)->setType('Article');
 
 ?>
-<div class="item-page<?php echo $this->pageclass_sfx?>"<?php echo $microdata->displayScope();?>>
+<div class="item-page<?php echo $this->pageclass_sfx?>" <?php echo $microdata->displayScope();?>>
 	<?php if ($this->params->get('show_page_heading') && $params->get('show_title')) : ?>
 	<div class="page-header">
 		<h1> <?php echo $this->escape($this->params->get('page_heading')); ?> </h1>
@@ -49,7 +44,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 			<?php endif; ?>
 			<?php if ($params->get('show_title')) : ?>
 				<?php if ($params->get('link_titles') && !empty($this->item->readmore_link)) : ?>
-					<a href="<?php echo $this->item->readmore_link; ?>"<?php echo $microdata->property('url')->display();?>> <?php echo $microdata->content($this->escape($this->item->title))->property('name')->display();?></a>
+					<a href="<?php echo $this->item->readmore_link; ?>" <?php echo $microdata->property('url')->display();?>><?php echo $microdata->content($this->escape($this->item->title))->property('name')->display();?></a>
 				<?php else : ?>
 					<?php echo $microdata->content($this->escape($this->item->title))->property('name')->display(); ?>
 				<?php endif; ?>
@@ -97,56 +92,56 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 						$item = $menu->getItems('link', $needle, true);
 						$cntlink = !empty($item) ? $needle . '&Itemid=' . $item->id : $needle;
 						?>
-						<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', JRoute::_($cntlink), $author)); ?>
+						<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', JRoute::_($cntlink), $microdata->content($author)->property('author')->fallback('Person', 'name')->display())); ?>
 					<?php else: ?>
-						<?php echo $microdata->content(JText::sprintf('COM_CONTENT_WRITTEN_BY', $author))->property('createdBy')->fallback('Person', 'name')->display(); ?>
+						<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $microdata->content($author)->property('author')->fallback('Person', 'name')->display()); ?>
 					<?php endif; ?>
 				</dd>
 			<?php endif; ?>
 			<?php if ($params->get('show_parent_category') && !empty($this->item->parent_slug)) : ?>
 				<dd class="parent-category-name">
 					<?php $title = $this->escape($this->item->parent_title);
-					$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)).'">'.$title.'</a>';?>
+					$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)).'">' . $microdata->content($title)->property('genre')->display() . '</a>';?>
 					<?php if ($params->get('link_parent_category') && !empty($this->item->parent_slug)) : ?>
 						<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
 					<?php else : ?>
-						<?php echo JText::sprintf('COM_CONTENT_PARENT', $title); ?>
+						<?php echo JText::sprintf('COM_CONTENT_PARENT', $microdata->content($title)->property('genre')->display()); ?>
 					<?php endif; ?>
 				</dd>
 			<?php endif; ?>
 			<?php if ($params->get('show_category')) : ?>
 				<dd class="category-name">
 					<?php $title = $this->escape($this->item->category_title);
-					$url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)) . '">' . $title . '</a>';?>
+					$url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)) . '">' . $microdata->content($title)->property('genre')->display() . '</a>';?>
 					<?php if ($params->get('link_category') && $this->item->catslug) : ?>
 						<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
 					<?php else : ?>
-						<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $title); ?>
+						<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $microdata->content($title)->property('genre')->display()); ?>
 					<?php endif; ?>
 				</dd>
 			<?php endif; ?>
 
 			<?php if ($params->get('show_publish_date')) : ?>
 				<dd class="published">
-					<span class="icon-calendar"></span> <?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC3'))); ?>
+					<span class="icon-calendar"></span> <?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', $microdata->content(JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC3')))->property('datePublished')->display()); ?>
 				</dd>
 			<?php endif; ?>
 
 			<?php if ($info == 0) : ?>
 				<?php if ($params->get('show_modify_date')) : ?>
 					<dd class="modified">
-						<span class="icon-calendar"></span> <?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC3'))); ?>
+						<span class="icon-calendar"></span> <?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', $microdata->content(JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC3')))->property('dateModified')->display()); ?>
 					</dd>
 				<?php endif; ?>
 				<?php if ($params->get('show_create_date')) : ?>
 					<dd class="create">
-						<span class="icon-calendar"></span> <?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_LC3'))); ?>
+						<span class="icon-calendar"></span> <?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', $microdata->content(JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_LC3')))->property('dateCreated')->display()); ?>
 					</dd>
 				<?php endif; ?>
 
 				<?php if ($params->get('show_hits')) : ?>
 					<dd class="hits">
-						<span class="icon-eye-open"></span> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?>
+						<span class="icon-eye-open"></span> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $microdata->content($this->item->hits)->property('interactionCount')->display()); ?>
 					</dd>
 				<?php endif; ?>
 			<?php endif; ?>
@@ -184,7 +179,9 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 	<?php if (isset ($this->item->toc)) :
 		echo $this->item->toc;
 	endif; ?>
+	<div <?php echo $microdata->property('articleBody')->display();?>>
 	<?php echo $this->item->text; ?>
+	</div>
 
 	<?php if ($useDefList && ($info == 1 || $info == 2)) : ?>
 		<div class="article-info muted">
@@ -202,38 +199,38 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 						$item = $menu->getItems('link', $needle, true);
 						$cntlink = !empty($item) ? $needle . '&Itemid=' . $item->id : $needle;
 						?>
-						<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', JRoute::_($cntlink), $author)); ?>
+						<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', JRoute::_($cntlink), $microdata->content($author)->property('author')->fallback('Person', 'name')->display())); ?>
 						<?php else: ?>
-						<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
+						<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $microdata->content($author)->property('author')->fallback('Person', 'name')->display()); ?>
 						<?php endif; ?>
 					</dd>
 				<?php endif; ?>
 				<?php if ($params->get('show_parent_category') && !empty($this->item->parent_slug)) : ?>
 					<dd class="parent-category-name">
 						<?php	$title = $this->escape($this->item->parent_title);
-						$url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)) . '">' . $title . '</a>';?>
+						$url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->parent_slug)) . '">' . $microdata->content($title)->property('genre')->display() . '</a>';?>
 						<?php if ($params->get('link_parent_category') && $this->item->parent_slug) : ?>
 							<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
 						<?php else : ?>
-							<?php echo $microdata->content(JText::sprintf('COM_CONTENT_PARENT', $title))->property('genre')->display(); ?>
+							<?php echo JText::sprintf('COM_CONTENT_PARENT', $microdata->content($title)->property('genre')->display()); ?>
 						<?php endif; ?>
 					</dd>
 				<?php endif; ?>
 				<?php if ($params->get('show_category')) : ?>
 					<dd class="category-name">
 						<?php 	$title = $this->escape($this->item->category_title);
-						$url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)) . '">' . $title . '</a>';?>
+						$url = '<a href="' . JRoute::_(ContentHelperRoute::getCategoryRoute($this->item->catslug)) . '">' . $microdata->content($title)->property('genre')->display() . '</a>';?>
 						<?php if ($params->get('link_category') && $this->item->catslug) : ?>
 							<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $url); ?>
 						<?php else : ?>
-							<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $title); ?>
+							<?php echo JText::sprintf('COM_CONTENT_CATEGORY', $microdata->content($title)->property('genre')->display()); ?>
 						<?php endif; ?>
 					</dd>
 				<?php endif; ?>
 				<?php if ($params->get('show_publish_date')) : ?>
 					<dd class="published">
 						<span class="icon-calendar"></span>
-						<?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC3'))); ?>
+						<?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', $microdata->content(JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC3')))->property('datePublished')->display()); ?>
 					</dd>
 				<?php endif; ?>
 			<?php endif; ?>
@@ -241,18 +238,18 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 			<?php if ($params->get('show_create_date')) : ?>
 				<dd class="create">
 					<span class="icon-calendar"></span>
-					<?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_LC3'))); ?>
+					<?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', $microdata->content(JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_LC3')))->property('dateCreated')->display()); ?>
 				</dd>
 			<?php endif; ?>
 			<?php if ($params->get('show_modify_date')) : ?>
 				<dd class="modified">
 					<span class="icon-calendar"></span>
-					<?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC3'))); ?>
+					<?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', $microdata->content(JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC3')))->property('dateModified')->display()); ?>
 				</dd>
 			<?php endif; ?>
 			<?php if ($params->get('show_hits')) : ?>
 				<dd class="hits">
-					<span class="icon-eye-open"></span> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $this->item->hits); ?>
+					<span class="icon-eye-open"></span> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $microdata->content($this->item->hits)->property('interactionCount')->display()); ?>
 				</dd>
 			<?php endif; ?>
 			</dl>
