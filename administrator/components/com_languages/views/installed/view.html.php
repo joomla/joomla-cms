@@ -82,7 +82,6 @@ class LanguagesViewInstalled extends JViewLegacy
 		if ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::makeDefault('installed.setDefault');
-			JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin'))
@@ -90,10 +89,8 @@ class LanguagesViewInstalled extends JViewLegacy
 			// Add install languages link to the lang installer component
 			$bar = JToolbar::getInstance('toolbar');
 			$bar->appendButton('Link', 'upload', 'COM_LANGUAGES_INSTALL', 'index.php?option=com_installer&view=languages');
-			JToolbarHelper::divider();
 
 			JToolbarHelper::preferences('com_languages');
-			JToolbarHelper::divider();
 		}
 
 		JToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_INSTALLED');

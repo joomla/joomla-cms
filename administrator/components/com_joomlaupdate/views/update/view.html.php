@@ -34,7 +34,6 @@ class JoomlaupdateViewUpdate extends JViewLegacy
 
 		// Set the toolbar information
 		JToolbarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'install');
-		JToolBarHelper::divider();
 		JToolBarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
 
 		// Add toolbar buttons

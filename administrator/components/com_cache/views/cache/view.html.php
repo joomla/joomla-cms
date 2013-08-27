@@ -51,12 +51,10 @@ class CacheViewCache extends JViewLegacy
 	{
 		JToolbarHelper::title(JText::_('COM_CACHE_CLEAR_CACHE'), 'clear.png');
 		JToolbarHelper::custom('delete', 'delete.png', 'delete_f2.png', 'JTOOLBAR_DELETE', true);
-		JToolbarHelper::divider();
 		if (JFactory::getUser()->authorise('core.admin', 'com_cache'))
 		{
 			JToolbarHelper::preferences('com_cache');
 		}
-		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_SITE_MAINTENANCE_CLEAR_CACHE');
 
 		JHtmlSidebar::setAction('index.php?option=com_cache');

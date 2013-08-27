@@ -87,7 +87,6 @@ class TemplatesViewTemplates extends JViewLegacy
 		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::preferences('com_templates');
-			JToolbarHelper::divider();
 		}
 		JToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_TEMPLATES');
 

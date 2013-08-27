@@ -71,7 +71,6 @@ class TemplatesViewStyles extends JViewLegacy
 		if ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::makeDefault('styles.setDefault', 'COM_TEMPLATES_TOOLBAR_SET_HOME');
-			JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.edit'))
@@ -81,19 +80,16 @@ class TemplatesViewStyles extends JViewLegacy
 		if ($canDo->get('core.create'))
 		{
 			JToolbarHelper::custom('styles.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
-			JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('', 'styles.delete');
-			JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::preferences('com_templates');
-			JToolbarHelper::divider();
 		}
 		JToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_STYLES');
 

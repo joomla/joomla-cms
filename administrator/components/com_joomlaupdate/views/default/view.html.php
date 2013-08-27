@@ -50,7 +50,6 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		{
 			JToolbarHelper::preferences('com_joomlaupdate');
 		}
-		JToolBarHelper::divider();
 		JToolBarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
 
 		// Load mooTools

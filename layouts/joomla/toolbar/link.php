@@ -9,12 +9,12 @@
 
 defined('_JEXEC') or die;
 
-$doTask = $displayData['doTask'];
-$class  = $displayData['class'];
-$text   = $displayData['text'];
+$url = $displayData['url'];
+$class = $displayData['class'];
+$text = $displayData['text'];
 
 ?>
-<button onclick="location.href='<?php echo $doTask; ?>';" class="btn btn-small">
+<a href="<?php echo $url; ?>" class="btn btn-small">
 	<span class="<?php echo $class; ?>"></span>
 	<?php echo $text; ?>
-</button>
+</a>
