@@ -1,41 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="2.5" type="plugin" group="editors">
+<extension version="2.5" type="plugin" group="editors" method="upgrade">
 	<name>plg_editors_codemirror</name>
-	<version>1.0</version>
-	<creationDate>28 March 2011</creationDate>
+	<version>2.0</version>
+	<creationDate>19 August 2013</creationDate>
 	<author>Marijn Haverbeke</author>
 	<authorEmail>N/A</authorEmail>
 	<authorUrl></authorUrl>
 	<copyright></copyright>
 	<license></license>
 	<description>PLG_CODEMIRROR_XML_DESCRIPTION</description>
+
 	<files>
 		<filename plugin="codemirror">codemirror.php</filename>
-		<filename>index.html</filename>	</files>
-	<languages>
-		<language tag="en-GB">en-GB.plg_editors_codemirror.ini</language>
-		<language tag="en-GB">en-GB.plg_editors_codemirror.sys.ini</language>
-	</languages>
+		<filename>codemirror.xml</filename>
+		<filename>index.html</filename>
+		<folder>language</folder>
+	</files>
+
+	<media folder="media" destination="editors/codemirror">
+		<folder>addon</folder>
+		<folder>keymap</folder>
+		<folder>lib</folder>
+		<folder>mode</folder>
+		<folder>theme</folder>
+		<file>LICENSE</file>
+	</media>
+
 	<config>
 		<fields name="params">
 
 			<fieldset name="basic">
-				<field name="linenumbers" type="radio"
-					default="0"
+				<field name="linenumbers" type="radio" class="btn-group" default="0" filter="options"
 					description="PLG_CODEMIRROR_FIELD_LINENUMBERS_DESC"
 					label="PLG_CODEMIRROR_FIELD_LINENUMBERS_LABEL"
 				>
-					<option value="0">JOFF</option>
 					<option value="1">JON</option>
+					<option value="0">JOFF</option>
 				</field>
 
-				<field name="tabmode" type="radio"
-					default="indent"
-					description="PLG_CODEMIRROR_FIELD_TABMODE_DESC"
-					label="PLG_CODEMIRROR_FIELD_TABMODE_LABEL"
+				<field name="keybinding" type="list" class="btn-group" default="0" filter="options"
+					description="PLG_CODEMIRROR_FIELD_KEYBINDING_DESC"
+					label="PLG_CODEMIRROR_FIELD_KEYBINDING_LABEL"
 				>
-					<option value="indent">PLG_CODEMIRROR_FIELD_VALUE_TABMODE_INDENT</option>
-					<option value="shift">PLG_CODEMIRROR_FIELD_VALUE_TABMODE_SHIFT</option>
+					<option value="0">JNONE</option>
+					<option value="vim">vim</option>
+					<option value="emacs">emacs</option>
+				</field>
+
+				<field name="activeline" type="radio" class="btn-group" default="0" filter="options"
+					description="PLG_CODEMIRROR_FIELD_ACTIVELINE_DESC"
+					label="PLG_CODEMIRROR_FIELD_ACTIVELINE_LABEL"
+				>
+					<option value="1">JON</option>
+					<option value="0">JOFF</option>
+				</field>
+
+				<field name="activeline_color" type="color" default="#a4c2eb" filter="color"
+					description="PLG_CODEMIRROR_FIELD_ACTIVELINE_COLOR_DESC"
+					label="PLG_CODEMIRROR_FIELD_ACTIVELINE_COLOR_LABEL" />
+
+				<field name="hilight_match" type="radio" class="btn-group" default="0" filter="options"
+					description="PLG_CODEMIRROR_FIELD_HILIGHT_MATCH_DESC"
+					label="PLG_CODEMIRROR_FIELD_HILIGHT_MATCH_LABEL"
+				>
+					<option value="1">JON</option>
+					<option value="0">JOFF</option>
+				</field>
+
+				<field name="hilight_match_color" type="color" default="#fa542f" filter="color"
+					description="PLG_CODEMIRROR_FIELD_HILIGHT_MATCH_COLOR_DESC"
+					label="PLG_CODEMIRROR_FIELD_HILIGHT_MATCH_COLOR_LABEL" />
+
+				<field name="autoclose" type="radio" class="btn-group" default="0" filter="options"
+					description="PLG_CODEMIRROR_FIELD_AUTOCLOSE_DESC"
+					label="PLG_CODEMIRROR_FIELD_AUTOCLOSE_LABEL"
+				>
+					<option value="1">JON</option>
+					<option value="0">JOFF</option>
+				</field>
+
+				<field name="min_height" type="integer" filter="intval"
+					default="250" first="200" last="600" step="10"
+					description="PLG_CODEMIRROR_FIELD_MIN_HEIGHT_DESC"
+					label="PLG_CODEMIRROR_FIELD_MIN_HEIGHT_LABEL" />
+			</fieldset>
+
+
+			<fieldset name="fonts" label="PLG_CODEMIRROR_FIELDSET_APPEARANCE_OPTIONS_LABEL">
+
+				<field name="theme" type="filelist" default="" filter="\.css$" stripext="true"
+					hide_none="true" hide_default="false"
+					directory="media/editors/codemirror/theme"
+					description="PLG_CODEMIRROR_FIELD_THEME_DESC"
+					label="PLG_CODEMIRROR_FIELD_THEME_LABEL" >
+					<option value="">JDEFAULT</option>
+				</field>
+
+				<field name="font_family" type="list" filter="options"
+					default="0"
+					description="PLG_CODEMIRROR_FIELD_FONT_FAMILY_DESC"
+					label="PLG_CODEMIRROR_FIELD_FONT_FAMILY_LABEL"
+				>
+					<option value="0">PLG_CODEMIRROR_FIELD_VALUE_FONT_FAMILY_DEFAULT</option>
+					<option value="anonymous_pro">Anonymous Pro</option>
+					<option value="cousine">Cousine</option>
+					<option value="cutive_mono">Cutive Mono</option>
+					<option value="droid_sans_mono">Droid Sans Mono</option>
+					<option value="inconsolata">Inconsolata</option>
+					<option value="lekton">Lekton</option>
+					<option value="nova_mono">Nova Mono</option>
+					<option value="oxygen_mono">Oxygen Mono</option>
+					<option value="press_start_2p">Press Start 2P</option>
+					<option value="pt_mono">PT Mono</option>
+					<option value="share_tech_mono">Share Tech Mono</option>
+					<option value="source_code_pro">Source Code Pro</option>
+					<option value="ubuntu_mono">Ubuntu Mono</option>
+					<option value="vt323">VT323</option>
+				</field>
+
+				<field name="font_size" type="integer" filter="intval"
+					first="6" last="16" step="1" default="10"
+					description="PLG_CODEMIRROR_FIELD_FONT_SIZE_DESC"
+					label="PLG_CODEMIRROR_FIELD_FONT_SIZE_LABEL"
+				/>
+
+				<field name="line_height" type="list" filter="options"
+					default="1.2"
+					description="PLG_CODEMIRROR_FIELD_LINE_HEIGHT_DESC"
+					label="PLG_CODEMIRROR_FIELD_LINE_HEIGHT_LABEL"
+				>
+					<option value="1.0">1.0</option>
+					<option value="1.1">1.1</option>
+					<option value="1.2">1.2</option>
+					<option value="1.3">1.3</option>
+					<option value="1.4">1.4</option>
+					<option value="1.5">1.5</option>
+					<option value="1.6">1.6</option>
+					<option value="1.7">1.7</option>
+					<option value="1.8">1.8</option>
+					<option value="1.9">1.9</option>
+					<option value="2.0">2.0</option>
 				</field>
 			</fieldset>
 

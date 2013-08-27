@@ -1,0 +1,16 @@
+(function(){function a(p){if(typeof p=="string"){return{token:function(q){if(q.match(p)){return"searching";}q.next();q.skipTo(p.charAt(0))||q.skipToEnd();
+}};}return{token:function(q){if(q.match(p)){return"searching";}while(!q.eol()){q.next();if(q.match(p,false)){break;}}}};}function l(){this.posFrom=this.posTo=this.query=null;
+this.overlay=null;}function g(p){return p.state.search||(p.state.search=new l());}function n(p,q,r){return p.getSearchCursor(q,r,typeof q=="string"&&q==q.toLowerCase());
+}function k(p,s,q,r){if(p.openDialog){p.openDialog(s,r);}else{r(prompt(q,""));}}function o(q,s,r,p){if(q.openConfirm){q.openConfirm(s,p);}else{if(confirm(r)){p[0]();
+}}}function d(q){var p=q.match(/^\/(.*)\/([a-z]*)$/);return p?new RegExp(p[1],p[2].indexOf("i")==-1?"":"i"):q;}var c='Search: <input type="text" style="width: 10em"/> <span style="color: #888">(Use /re/ syntax for regexp search)</span>';
+function j(p,q){var r=g(p);if(r.query){return h(p,q);}k(p,c,"Search for:",function(s){p.operation(function(){if(!s||r.query){return;}r.query=d(s);p.removeOverlay(r.overlay);
+r.overlay=a(r.query);p.addOverlay(r.overlay);r.posFrom=r.posTo=p.getCursor();h(p,q);});});}function h(p,q){p.operation(function(){var r=g(p);var s=n(p,r.query,q?r.posFrom:r.posTo);
+if(!s.find(q)){s=n(p,r.query,q?CodeMirror.Pos(p.lastLine()):CodeMirror.Pos(p.firstLine(),0));if(!s.find(q)){return;}}p.setSelection(s.from(),s.to());r.posFrom=s.from();
+r.posTo=s.to();});}function m(p){p.operation(function(){var q=g(p);if(!q.query){return;}q.query=null;p.removeOverlay(q.overlay);});}var f='Replace: <input type="text" style="width: 10em"/> <span style="color: #888">(Use /re/ syntax for regexp search)</span>';
+var i='With: <input type="text" style="width: 10em"/>';var e="Replace? <button>Yes</button> <button>No</button> <button>Stop</button>";function b(p,q){k(p,f,"Replace:",function(r){if(!r){return;
+}r=d(r);k(p,i,"Replace with:",function(v){if(q){p.operation(function(){for(var x=n(p,r);x.findNext();){if(typeof r!="string"){var w=p.getRange(x.from(),x.to()).match(r);
+x.replace(v.replace(/\$(\d)/,function(y,z){return w[z];}));}else{x.replace(v);}}});}else{m(p);var u=n(p,r,p.getCursor());var t=function(){var x=u.from(),w;
+if(!(w=u.findNext())){u=n(p,r);if(!(w=u.findNext())||(x&&u.from().line==x.line&&u.from().ch==x.ch)){return;}}p.setSelection(u.from(),u.to());o(p,e,"Replace?",[function(){s(w);
+},t]);};var s=function(w){u.replace(typeof r=="string"?v:v.replace(/\$(\d)/,function(x,y){return w[y];}));t();};t();}});});}CodeMirror.commands.find=function(p){m(p);
+j(p);};CodeMirror.commands.findNext=j;CodeMirror.commands.findPrev=function(p){j(p,true);};CodeMirror.commands.clearSearch=m;CodeMirror.commands.replace=b;
+CodeMirror.commands.replaceAll=function(p){b(p,true);};})();

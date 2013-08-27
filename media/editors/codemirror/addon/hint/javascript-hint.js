@@ -1,0 +1,17 @@
+(function(){var j=CodeMirror.Pos;function f(n,p){for(var o=0,q=n.length;o<q;++o){p(n[o]);}}function d(n,p){if(!Array.prototype.indexOf){var o=n.length;
+while(o--){if(n[o]===p){return true;}}return false;}return n.indexOf(p)!=-1;}function g(r,q,s,u){var t=r.getCursor(),p=s(r,t),v=p;p.state=CodeMirror.innerMode(r.getMode(),p.state).state;
+if(!/^[\w$_]*$/.test(p.string)){p=v={start:t.ch,end:t.ch,string:"",state:p.state,type:p.string=="."?"property":null};}while(v.type=="property"){v=s(r,j(t.line,v.start));
+if(v.string!="."){return;}v=s(r,j(t.line,v.start));if(v.string==")"){var n=1;do{v=s(r,j(t.line,v.start));switch(v.string){case")":n++;break;case"(":n--;
+break;default:break;}}while(n>0);v=s(r,j(t.line,v.start));if(v.type.indexOf("variable")===0){v.type="function";}else{return;}}if(!o){var o=[];}o.push(v);
+}return{list:h(p,o,q,u),from:j(t.line,p.start),to:j(t.line,p.end)};}function a(o,n){return g(o,c,function(p,q){return p.getTokenAt(q);},n);}CodeMirror.javascriptHint=a;
+CodeMirror.registerHelper("hint","javascript",a);function b(o,p){var n=o.getTokenAt(p);if(p.ch==n.start+1&&n.string.charAt(0)=="."){n.end=n.start;n.string=".";
+n.type="property";}else{if(/^\.[\w$_]*$/.test(n.string)){n.type="property";n.start++;n.string=n.string.replace(/\./,"");}}return n;}function i(o,n){return g(o,l,b,n);
+}CodeMirror.coffeescriptHint=i;CodeMirror.registerHelper("hint","coffeescript",i);var k=("charAt charCodeAt indexOf lastIndexOf substring substr slice trim trimLeft trimRight toUpperCase toLowerCase split concat match replace search").split(" ");
+var m=("length concat join splice push pop shift unshift slice reverse sort indexOf lastIndexOf every some filter forEach map reduce reduceRight ").split(" ");
+var e="prototype apply call bind".split(" ");var c=("break case catch continue debugger default delete do else false finally for function if in instanceof new null return switch throw true try typeof var void while with").split(" ");
+var l=("and break catch class continue delete do else extends false finally for if in instanceof isnt new no not null of off on or return switch then throw true try typeof until void while with yes").split(" ");
+function h(r,p,u,y){var x=[],o=r.string;function s(v){if(v.indexOf(o)==0&&!d(x,v)){x.push(v);}}function q(z){if(typeof z=="string"){f(k,s);}else{if(z instanceof Array){f(m,s);
+}else{if(z instanceof Function){f(e,s);}}}for(var v in z){s(v);}}if(p){var t=p.pop(),n;if(t.type.indexOf("variable")===0){if(y&&y.additionalContext){n=y.additionalContext[t.string];
+}n=n||window[t.string];}else{if(t.type=="string"){n="";}else{if(t.type=="atom"){n=1;}else{if(t.type=="function"){if(window.jQuery!=null&&(t.string=="$"||t.string=="jQuery")&&(typeof window.jQuery=="function")){n=window.jQuery();
+}else{if(window._!=null&&(t.string=="_")&&(typeof window._=="function")){n=window._();}}}}}}while(n!=null&&p.length){n=n[p.pop().string];}if(n!=null){q(n);
+}}else{for(var w=r.state.localVars;w;w=w.next){s(w.name);}for(var w=r.state.globalVars;w;w=w.next){s(w.name);}q(window);f(u,s);}return x;}})();

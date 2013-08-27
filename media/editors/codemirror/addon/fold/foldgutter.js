@@ -1,0 +1,12 @@
+(function(){CodeMirror.defineOption("foldGutter",false,function(l,n,m){if(m&&m!=CodeMirror.Init){l.clearGutter(l.state.foldGutter.options.gutter);l.state.foldGutter=null;
+l.off("gutterClick",j);l.off("change",f);l.off("viewportChange",k);l.off("fold",d);l.off("unfold",d);}if(n){l.state.foldGutter=new i(h(n));b(l);l.on("gutterClick",j);
+l.on("change",f);l.on("viewportChange",k);l.on("fold",d);l.on("unfold",d);}});var g=CodeMirror.Pos;function i(l){this.options=l;this.from=this.to=0;}function h(l){if(l===true){l={};
+}if(l.gutter==null){l.gutter="CodeMirror-foldgutter";}if(l.indicatorOpen==null){l.indicatorOpen="CodeMirror-foldgutter-open";}if(l.indicatorFolded==null){l.indicatorFolded="CodeMirror-foldgutter-folded";
+}return l;}function c(l,m){var o=l.findMarksAt(g(m));for(var n=0;n<o.length;++n){if(o[n].__isFold&&o[n].find().from.line==m){return true;}}}function e(l){if(typeof l=="string"){var m=document.createElement("div");
+m.className=l;return m;}else{return l.cloneNode(true);}}function a(l,p,o){var m=l.state.foldGutter.options,n=p;l.eachLine(p,o,function(q){var u=null;if(c(l,n)){u=e(m.indicatorFolded);
+}else{var t=g(n,0),s=m.rangeFinder||l.getHelper(t,"fold");var r=s&&s(l,t);if(r&&r.from.line+1<r.to.line){u=e(m.indicatorOpen);}}l.setGutterMarker(q,m.gutter,u);
+++n;});}function b(l){var m=l.getViewport(),n=l.state.foldGutter;if(!n){return;}l.operation(function(){a(l,m.from,m.to);});n.from=m.from;n.to=m.to;}function j(l,m,o){var n=l.state.foldGutter.options;
+if(o!=n.gutter){return;}l.foldCode(g(m,0),n.rangeFinder);}function f(l){var m=l.state.foldGutter;m.from=m.to=0;clearTimeout(m.changeUpdate);m.changeUpdate=setTimeout(function(){b(l);
+},600);}function k(l){var m=l.state.foldGutter;clearTimeout(m.changeUpdate);m.changeUpdate=setTimeout(function(){var n=l.getViewport();if(m.from==m.to||n.from-m.to>20||m.from-n.to>20){b(l);
+}else{l.operation(function(){if(n.from<m.from){a(l,n.from,m.from);m.from=n.from;}if(n.to>m.to){a(l,m.to,n.to);m.to=n.to;}});}},400);}function d(l,o){var n=l.state.foldGutter,m=o.line;
+if(m>=n.from&&m<n.to){a(l,m,m+1);}}})();

@@ -1,0 +1,4 @@
+(function(){var b=/[\w$]+/,a=500;CodeMirror.registerHelper("hint","anyword",function(j,n){var e=n&&n.word||b;var i=n&&n.range||a;var l=j.getCursor(),d=j.getLine(l.line);
+var g=l.ch,h=g;while(h<d.length&&e.test(d.charAt(h))){++h;}while(g&&e.test(d.charAt(g-1))){--g;}var f=g!=h&&d.slice(g,h);var k=[],c={};function m(r){var q=l.line,p=Math.min(Math.max(q+r*i,j.firstLine()),j.lastLine())+r;
+for(;q!=p;q+=r){var t=j.getLine(q),o;var s=new RegExp(e.source,"g");while(o=s.exec(t)){if(q==l.line&&o[0]===f){continue;}if((!f||o[0].indexOf(f)==0)&&!c.hasOwnProperty(o[0])){c[o[0]]=true;
+k.push(o[0]);}}}}m(-1);m(1);return{list:k,from:CodeMirror.Pos(l.line,g),to:CodeMirror.Pos(l.line,h)};});})();

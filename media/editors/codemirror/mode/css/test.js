@@ -1,0 +1,18 @@
+(function(){var b=CodeMirror.getMode({tabSize:4},"css");function a(c){test.mode(c,b,Array.prototype.slice.call(arguments,1));}a("atMediaEmpty","[def @media] [error {] }");
+a("atMediaMultiple","[def @media] [keyword not] [attribute screen] [operator and] ([property color]), [keyword not] [attribute print] [operator and] ([property color]) { }");
+a("atMediaCheckStack","[def @media] [attribute screen] { } [tag foo] { }");a("atMediaCheckStack","[def @media] [attribute screen] ([property color]) { } [tag foo] { }");
+a("atMediaPropertyOnly","[def @media] ([property color]) { } [tag foo] { }");a("atMediaCheckStackInvalidAttribute","[def @media] [attribute&error foobarhello] { [tag foo] { } }");
+a("atMediaCheckStackInvalidAttribute","[def @media] [attribute&error foobarhello] { } [tag foo] { }");a("atMediaInvalidAttribute","[def @media] [attribute&error foobarhello] { }");
+a("atMediaInvalidAnd","[def @media] [error and] [attribute screen] { }");a("atMediaInvalidNot","[def @media] [attribute screen] [error not] ([error not]) { }");
+a("atMediaInvalidOnly","[def @media] [attribute screen] [error only] ([error only]) { }");a("atMediaUnknownType","[def @media] [attribute screen] [operator and] [error foobarhello] { }");
+a("atMediaInvalidType","[def @media] [attribute screen] [operator and] [error color] { }");a("atMediaInvalidProperty","[def @media] [attribute screen] [operator and] ([error print]) { }");
+a("atMediaUnknownProperty","[def @media] [attribute screen] [operator and] ([property&error foobarhello]) { }");a("atMediaMaxWidthNested","[def @media] [attribute screen] [operator and] ([property max-width][operator :] [number 25px]) { [tag foo] { } }");
+a("tagSelector","[tag foo] { }");a("classSelector","[qualifier .foo-bar_hello] { }");a("idSelector","[builtin #foo] { [error #foo] }");a("tagSelectorUnclosed","[tag foo] { [property margin][operator :] [number 0] } [tag bar] { }");
+a("tagStringNoQuotes","[tag foo] { [property font-family][operator :] [variable-2 hello] [variable-2 world]; }");a("tagStringDouble",'[tag foo] { [property font-family][operator :] [string "hello world"]; }');
+a("tagStringSingle","[tag foo] { [property font-family][operator :] [string 'hello world']; }");a("tagColorKeyword","[tag foo] {[property color][operator :] [keyword black];[property color][operator :] [keyword navy];[property color][operator :] [keyword yellow];}");
+a("tagColorHex3","[tag foo] { [property background][operator :] [atom #fff]; }");a("tagColorHex6","[tag foo] { [property background][operator :] [atom #ffffff]; }");
+a("tagColorHex4","[tag foo] { [property background][operator :] [atom&error #ffff]; }");a("tagColorHexInvalid","[tag foo] { [property background][operator :] [atom&error #ffg]; }");
+a("tagNegativeNumber","[tag foo] { [property margin][operator :] [number -5px]; }");a("tagPositiveNumber","[tag foo] { [property padding][operator :] [number 5px]; }");
+a("tagVendor","[tag foo] { [meta -foo-][property box-sizing][operator :] [meta -foo-][string-2 border-box]; }");a("tagBogusProperty","[tag foo] { [property&error barhelloworld][operator :] [number 0]; }");
+a("tagTwoProperties","[tag foo] { [property margin][operator :] [number 0]; [property padding][operator :] [number 0]; }");a("tagTwoPropertiesURL","[tag foo] { [property background][operator :] [string-2 url]([string //example.com/foo.png]); [property padding][operator :] [number 0]; }");
+a("commentSGML","[comment <!--comment-->]");})();

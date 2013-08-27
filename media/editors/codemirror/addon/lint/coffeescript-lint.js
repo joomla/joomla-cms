@@ -1,0 +1,3 @@
+CodeMirror.registerHelper("lint","coffeescript",function(g){var c=[];var f=function(e){var h=e.lineNumber;c.push({from:CodeMirror.Pos(h-1,0),to:CodeMirror.Pos(h,0),severity:e.level,message:e.message});
+};try{var b=coffeelint.lint(g);for(var a=0;a<b.length;a++){f(b[a]);}}catch(d){c.push({from:CodeMirror.Pos(d.location.first_line,0),to:CodeMirror.Pos(d.location.last_line,d.location.last_column),severity:"error",message:d.message});
+}return c;});CodeMirror.coffeeValidator=CodeMirror.lint.coffeescript;

@@ -1,0 +1,12 @@
+(function(){var b=CodeMirror.getMode({tabSize:4},"text/x-scss");function a(c){test.mode(c,b,Array.prototype.slice.call(arguments,1),"scss");}a("url_with_quotation","[tag foo] { [property background][operator :][string-2 url]([string test.jpg]) }");
+a("url_with_double_quotes",'[tag foo] { [property background][operator :][string-2 url]([string "test.jpg"]) }');a("url_with_single_quotes","[tag foo] { [property background][operator :][string-2 url]([string 'test.jpg']) }");
+a("string",'[def @import] [string "compass/css3"]');a("important_keyword","[tag foo] { [property background][operator :][string-2 url]([string 'test.jpg']) [keyword !important] }");
+a("variable","[variable-2 $blue][operator :][atom #333]");a("variable_as_attribute","[tag foo] { [property color][operator :][variable-2 $blue] }");a("numbers","[tag foo] { [property padding][operator :][number 10px] [number 10] [number 10em] [number 8in] }");
+a("number_percentage","[tag foo] { [property width][operator :][number 80%] }");a("selector","[builtin #hello][qualifier .world]{}");a("singleline_comment","[comment // this is a comment]");
+a("multiline_comment","[comment /*foobar*/]");a("attribute_with_hyphen","[tag foo] { [property font-size][operator :][number 10px] }");a("string_after_attribute",'[tag foo] { [property content][operator :][string "::"] }');
+a("directives","[def @include] [qualifier .mixin]");a("basic_structure","[tag p] { [property background][operator :][keyword red]; }");a("nested_structure","[tag p] { [tag a] { [property color][operator :][keyword red]; } }");
+a("mixin","[def @mixin] [tag table-base] {}");a("number_without_semicolon","[tag p] {[property width][operator :][number 12]}","[tag a] {[property color][operator :][keyword red];}");
+a("atom_in_nested_block","[tag p] { [tag a] { [property color][operator :][atom #000]; } }");a("interpolation_in_property","[tag foo] { [operator #{][variable-2 $hello][operator }:][number 2]; }");
+a("interpolation_in_selector","[tag foo][operator #{][variable-2 $hello][operator }] { [property color][operator :][atom #000]; }");a("interpolation_error","[tag foo][operator #{][error foo][operator }] { [property color][operator :][atom #000]; }");
+a("divide_operator","[tag foo] { [property width][operator :][number 4] [operator /] [number 2] }");a("nested_structure_with_id_selector","[tag p] { [builtin #hello] { [property color][operator :][keyword red]; } }");
+})();

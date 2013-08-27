@@ -1,0 +1,6 @@
+(function(){var c=["clike","css","javascript"];for(var a=0;a<c.length;++a){CodeMirror.extendMode(c[a],{blockCommentStart:"/*",blockCommentEnd:"*/",blockCommentContinue:" * "});
+}function b(l){var k=l.getCursor(),e=l.getTokenAt(k);var h=CodeMirror.innerMode(l.getMode(),e.state).mode;var d;if(e.type=="comment"&&h.blockCommentStart){var f=e.string.indexOf(h.blockCommentEnd);
+var j=l.getRange(CodeMirror.Pos(k.line,0),CodeMirror.Pos(k.line,e.end)),m;if(f!=-1&&f==e.string.length-h.blockCommentEnd.length){}else{if(e.string.indexOf(h.blockCommentStart)==0){d=j.slice(0,e.start);
+if(!/^\s*$/.test(d)){d="";for(var g=0;g<e.start;++g){d+=" ";}}}else{if((m=j.indexOf(h.blockCommentContinue))!=-1&&m+h.blockCommentContinue.length>e.start&&/^\s*$/.test(j.slice(0,m))){d=j.slice(0,m);
+}}}}if(d!=null){l.replaceSelection("\n"+d+h.blockCommentContinue,"end");}else{return CodeMirror.Pass;}}CodeMirror.defineOption("continueComments",null,function(d,g,e){if(e&&e!=CodeMirror.Init){d.removeKeyMap("continueComment");
+}var f={name:"continueComment"};f[typeof g=="string"?g:"Enter"]=b;d.addKeyMap(f);});})();

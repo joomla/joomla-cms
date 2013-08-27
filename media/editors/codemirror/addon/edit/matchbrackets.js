@@ -1,0 +1,13 @@
+(function(){var b=/MSIE \d/.test(navigator.userAgent)&&(document.documentMode==null||document.documentMode<8);var d=CodeMirror.Pos;var g={"(":")>",")":"(<","[":"]>","]":"[<","{":"}>","}":"{<"};
+function c(n,p,z){var j=n.state.matchBrackets;var u=(j&&j.maxScanLineLength)||10000;var h=p||n.getCursor(),q=n.getLineHandle(h.line),k=h.ch-1;var m=(k>=0&&g[q.text.charAt(k)])||g[q.text.charAt(++k)];
+if(!m){return null;}var o=m.charAt(1)==">",y=o?1:-1;if(z&&o!=(k==h.ch)){return null;}var w=n.getTokenTypeAt(d(h.line,k+1));var l=[q.text.charAt(k)],t=/[(){}[\]]/;
+function s(A,F,E){if(!A.text){return;}var D=o?0:A.text.length-1,i=o?A.text.length:-1;if(A.text.length>u){return null;}if(E!=null){D=E+y;}for(;D!=i;D+=y){var C=A.text.charAt(D);
+if(t.test(C)&&n.getTokenTypeAt(d(F,D+1))==w){var B=g[C];if(B.charAt(1)==">"==o){l.push(C);}else{if(l.pop()!=B.charAt(0)){return{pos:D,match:false};}else{if(!l.length){return{pos:D,match:true};
+}}}}}}for(var v=h.line,r,x=o?Math.min(v+100,n.lineCount()):Math.max(-1,v-100);v!=x;v+=y){if(v==h.line){r=s(q,v,k);}else{r=s(n.getLineHandle(v),v);}if(r){break;
+}}return{from:d(h.line,k),to:r&&d(v,r.pos),match:r&&r.match,forward:o};}function a(i,o){var l=i.state.matchBrackets.maxHighlightLineLength||1000;var n=c(i);
+if(!n||i.getLine(n.from.line).length>l||n.to&&i.getLine(n.to.line).length>l){return;}var m=n.match?"CodeMirror-matchingbracket":"CodeMirror-nonmatchingbracket";
+var k=i.markText(n.from,d(n.from.line,n.from.ch+1),{className:m});var j=n.to&&i.markText(n.to,d(n.to.line,n.to.ch+1),{className:m});if(b&&i.state.focused){i.display.input.focus();
+}var h=function(){i.operation(function(){k.clear();j&&j.clear();});};if(o){setTimeout(h,800);}else{return h;}}var e=null;function f(h){h.operation(function(){if(e){e();
+e=null;}if(!h.somethingSelected()){e=a(h,false);}});}CodeMirror.defineOption("matchBrackets",false,function(h,j,i){if(i&&i!=CodeMirror.Init){h.off("cursorActivity",f);
+}if(j){h.state.matchBrackets=typeof j=="object"?j:{};h.on("cursorActivity",f);}});CodeMirror.defineExtension("matchBrackets",function(){a(this,true);});
+CodeMirror.defineExtension("findMatchingBracket",function(i,h){return c(this,i,h);});})();

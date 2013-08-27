@@ -1,0 +1,13 @@
+CodeMirror.registerHelper("fold","brace",function(l,g){var n=g.line,f=l.getLine(n);var m,s;function c(t){for(var i=g.ch,u=0;;){var v=i<=0?-1:f.lastIndexOf(t,i-1);
+if(v==-1){if(u==1){break;}u=1;i=f.length;continue;}if(u==1&&v<g.ch){break;}s=l.getTokenTypeAt(CodeMirror.Pos(n,v+1));if(!/^(comment|string)/.test(s)){return v+1;
+}i=v-1;}}var h="{",d="}",m=c("{");if(m==null){h="[",d="]";m=c("[");}if(m==null){return;}var k=1,b=l.lastLine(),e,p;outer:for(var r=n;r<=b;++r){var o=l.getLine(r),j=r==n?m:0;
+for(;;){var a=o.indexOf(h,j),q=o.indexOf(d,j);if(a<0){a=o.length;}if(q<0){q=o.length;}j=Math.min(a,q);if(j==o.length){break;}if(l.getTokenTypeAt(CodeMirror.Pos(r,j+1))==s){if(j==a){++k;
+}else{if(!--k){e=r;p=j;break outer;}}}++j;}}if(e==null||n==e&&p==m){return;}return{from:CodeMirror.Pos(n,m),to:CodeMirror.Pos(e,p)};});CodeMirror.braceRangeFinder=CodeMirror.fold.brace;
+CodeMirror.registerHelper("fold","import",function(a,g){function f(j){if(j<a.firstLine()||j>a.lastLine()){return null;}var n=a.getTokenAt(CodeMirror.Pos(j,1));
+if(!/\S/.test(n.string)){n=a.getTokenAt(CodeMirror.Pos(j,n.end+1));}if(n.type!="keyword"||n.string!="import"){return null;}for(var k=j,l=Math.min(a.lastLine(),j+10);
+k<=l;++k){var m=a.getLine(k),h=m.indexOf(";");if(h!=-1){return{startCh:n.end,end:CodeMirror.Pos(k,h)};}}}var g=g.line,c=f(g),e;if(!c||f(g-1)||((e=f(g-2))&&e.end.line==g-1)){return null;
+}for(var b=c.end;;){var d=f(b.line+1);if(d==null){break;}b=d.end;}return{from:a.clipPos(CodeMirror.Pos(g,c.startCh+1)),to:b};});CodeMirror.importRangeFinder=CodeMirror.fold["import"];
+CodeMirror.registerHelper("fold","include",function(a,f){function e(g){if(g<a.firstLine()||g>a.lastLine()){return null;}var h=a.getTokenAt(CodeMirror.Pos(g,1));
+if(!/\S/.test(h.string)){h=a.getTokenAt(CodeMirror.Pos(g,h.end+1));}if(h.type=="meta"&&h.string.slice(0,8)=="#include"){return h.start+8;}}var f=f.line,c=e(f);
+if(c==null||e(f-1)!=null){return null;}for(var b=f;;){var d=e(b+1);if(d==null){break;}++b;}return{from:CodeMirror.Pos(f,c+1),to:a.clipPos(CodeMirror.Pos(b))};
+});CodeMirror.includeRangeFinder=CodeMirror.fold.include;

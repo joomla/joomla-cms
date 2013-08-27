@@ -1,0 +1,2 @@
+CodeMirror.defineOption("showTrailingSpace",false,function(a,c,b){if(b==CodeMirror.Init){b=false;}if(b&&!c){a.removeOverlay("trailingspace");}else{if(!b&&c){a.addOverlay({token:function(f){for(var d=f.string.length,e=d;
+e&&/\s/.test(f.string.charAt(e-1));--e){}if(e>f.pos){f.pos=e;return null;}f.pos=d;return"trailingspace";},name:"trailingspace"});}}});

@@ -1,0 +1,4 @@
+(function(){var d="CodeMirror-activeline";var c="CodeMirror-activeline-background";CodeMirror.defineOption("styleActiveLine",false,function(e,h,f){var g=f&&f!=CodeMirror.Init;
+if(h&&!g){b(e);e.on("cursorActivity",b);}else{if(!h&&g){e.off("cursorActivity",b);a(e);delete e.state.activeLine;}}});function a(e){if("activeLine" in e.state){e.removeLineClass(e.state.activeLine,"wrap",d);
+e.removeLineClass(e.state.activeLine,"background",c);}}function b(e){var f=e.getLineHandleVisualStart(e.getCursor().line);if(e.state.activeLine==f){return;
+}a(e);e.addLineClass(f,"wrap",d);e.addLineClass(f,"background",c);e.state.activeLine=f;}})();
