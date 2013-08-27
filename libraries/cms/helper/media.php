@@ -106,7 +106,9 @@ class JHelperMedia
 		if ($params->get('restrict_uploads', 1))
 		{
 			$images = explode(',', $params->get('image_extensions'));
-			if (in_array($format, $images)) {
+
+			if (in_array($format, $images))
+			{
 				// If it is an image run it through getimagesize
 				// If tmp_name is empty, then the file was bigger than the PHP limit
 				if (!empty($file['tmp_name']))
