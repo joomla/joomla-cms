@@ -29,6 +29,7 @@ $ -> Language fix or change
  # [#31795] No Bootstrap dropdown FE newsfeed category + tags. Thanks Tobias Zulauf
  # [#31836] *JFile::makeSafe lets upload files with space in name
  # [#31545] Numeric tags and SEF. Thanks Marco Richter
+ # [#31838] Make the contact modal form field work on non-mysql db's. Thanks George Wilson
 
 25-Aug-2013 Jean-Marie Simonet
  # [#31830] Fatal pass by reference error in MediaHelper Take 2. Thanks Elin Waring
