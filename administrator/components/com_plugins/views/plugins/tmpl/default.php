@@ -83,7 +83,12 @@ $sortFields = $this->getSortFields();
 				</select>
 			</div>
 		</div>
-		<div class="clearfix"> </div>
+
+		<div class="clearfix"></div>
+
+		<?php if (empty($this->items)): ?>
+			<div class="alert alert-no-items"><?php echo JText::sprintf('JLIB_HTML_NO_ITEMS_FOUND', JText::_('COM_PLUGINS_PLUGINS')); ?></div>
+		<?php else: ?>
 		<table class="table table-striped" id="articleList">
 			<thead>
 				<tr>
@@ -180,6 +185,7 @@ $sortFields = $this->getSortFields();
 			<?php endforeach; ?>
 			</tbody>
 		</table>
+		<?php endif; ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

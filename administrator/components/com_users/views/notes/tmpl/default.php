@@ -70,7 +70,8 @@ $sortFields = $this->getSortFields();
 					<?php echo JHtml::_('select.options', $sortFields, 'value', 'text', $listOrder); ?>
 				</select>
 			</div>
-			<div class="clearfix"> </div>
+
+			<div class="clearfix"></div>
 		</div>
 
 		<table class="table table-striped">

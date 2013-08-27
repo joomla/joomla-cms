@@ -68,7 +68,9 @@ Joomla.submitbutton = function(pressbutton)
 				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
 			</div>
 		</div>
-		<div class="clearfix"> </div>
+
+		<div class="clearfix"></div>
+
 		<?php if (!$this->pluginState['plg_content_finder']->enabled) : ?>
 			<div class="alert fade in">
 				<button class="close" data-dismiss="alert">×</button>

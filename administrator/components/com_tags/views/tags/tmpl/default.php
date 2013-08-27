@@ -92,6 +92,7 @@ $assoc = isset($app->item_associations);
 					<?php echo JHtml::_('select.options', $sortFields, 'value', 'text', $listOrder); ?>
 				</select>
 			</div>
+
 			<div class="clearfix"></div>
 		</div>
 

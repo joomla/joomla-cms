@@ -91,7 +91,12 @@ $langs = isset($app->languages_enabled);
 				</select>
 			</div>
 		</div>
+
 		<div class="clearfix"></div>
+
+		<?php if (empty($this->items)): ?>
+			<div class="alert alert-no-items"><?php echo JText::sprintf('JLIB_HTML_NO_ITEMS_FOUND', JText::_('COM_MODULES_MODULES')); ?></div>
+		<?php else: ?>
 		<table class="table table-striped" id="articleList">
 			<thead>
 				<tr>
@@ -236,6 +241,7 @@ $langs = isset($app->languages_enabled);
 				<?php endforeach; ?>
 			</tbody>
 		</table>
+		<?php endif; ?>
 
 		<?php //Load the batch processing form. ?>
 		<?php echo $this->loadTemplate('batch'); ?>

@@ -40,6 +40,7 @@ $assoc = isset($app->item_associations);
 				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" data-placement="bottom" onclick="document.id('filter_search').value='';this.form.submit();">
 					<i class="icon-remove"></i></button>
 			</div>
+
 			<div class="clearfix"></div>
 		</div>
 		<hr class="hr-condensed" />

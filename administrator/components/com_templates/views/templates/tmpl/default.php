@@ -39,7 +39,12 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   			<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
   		</div>
   	</div>
-  	<div class="clearfix"> </div>
+
+  	<div class="clearfix"></div>
+
+	<?php if (empty($this->items)): ?>
+		<div class="alert alert-no-items"><?php echo JText::sprintf('JLIB_HTML_NO_ITEMS_FOUND', JText::_('COM_TEMPLATES_SUBMENU_TEMPLATES')); ?></div>
+	<?php else: ?>
   	<table class="table table-striped" id="template-mgr">
   		<thead>
   			<tr>
@@ -118,6 +123,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   			<?php endforeach; ?>
   		</tbody>
   	</table>
+	<?php endif; ?>
 
   	<input type="hidden" name="task" value="" />
   	<input type="hidden" name="boxchecked" value="0" />

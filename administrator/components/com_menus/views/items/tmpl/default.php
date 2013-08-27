@@ -89,8 +89,12 @@ $assoc = isset($app->item_associations);
 				</select>
 			</div>
 		</div>
-		<div class="clearfix"> </div>
 
+		<div class="clearfix"></div>
+
+		<?php if (empty($this->items)): ?>
+			<div class="alert alert-no-items"><?php echo JText::sprintf('JLIB_HTML_NO_ITEMS_FOUND', JText::_('COM_MENUS_SUBMENU_ITEMS')); ?></div>
+		<?php else: ?>
 		<table class="table table-striped" id="itemList">
 			<thead>
 				<tr>
@@ -270,6 +274,7 @@ $assoc = isset($app->item_associations);
 		<?php if ($user->authorise('core.create', 'com_menus') || $user->authorise('core.edit', 'com_menus')) : ?>
 			<?php echo $this->loadTemplate('batch'); ?>
 		<?php endif;?>
+		<?php endif; ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

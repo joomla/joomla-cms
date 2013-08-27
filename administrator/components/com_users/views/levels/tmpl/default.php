@@ -81,7 +81,8 @@ if ($saveOrder)
 				</select>
 			</div>
 		</div>
-		<div class="clearfix"> </div>
+
+		<div class="clearfix"></div>
 
 		<table class="table table-striped" id="levelList">
 			<thead>

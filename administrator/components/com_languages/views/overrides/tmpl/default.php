@@ -34,6 +34,9 @@ $listDirn  = $this->escape($this->state->get('list.direction')); ?>
 			</div>
 		</div>
 
+		<?php if (empty($this->items)): ?>
+			<div class="alert alert-no-items"><?php echo JText::sprintf('JLIB_HTML_NO_ITEMS_FOUND', JText::_('COM_LANGUAGES_SUBMENU_OVERRIDES')); ?></div>
+		<?php else: ?>
 		<table class="table table-striped">
 			<thead>
 				<tr>
@@ -90,6 +93,7 @@ $listDirn  = $this->escape($this->state->get('list.direction')); ?>
 			endforeach; ?>
 			</tbody>
 		</table>
+		<?php endif; ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

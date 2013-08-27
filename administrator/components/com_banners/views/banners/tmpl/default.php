@@ -88,7 +88,12 @@ $assoc = isset($app->item_associations);
 				</select>
 			</div>
 		</div>
-		<div class="clearfix"> </div>
+
+		<div class="clearfix"></div>
+
+		<?php if (empty($this->items)): ?>
+			<div class="alert alert-no-items"><?php echo JText::sprintf('JLIB_HTML_NO_ITEMS_FOUND', JText::_('COM_BANNERS_SUBMENU_BANNERS')); ?></div>
+		<?php else: ?>
 		<table class="table table-striped" id="articleList">
 			<thead>
 				<tr>
@@ -229,6 +234,7 @@ $assoc = isset($app->item_associations);
 		</table>
 		<?php //Load the batch processing form. ?>
 		<?php echo $this->loadTemplate('batch'); ?>
+		<?php endif; ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

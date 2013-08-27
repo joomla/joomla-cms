@@ -24,4 +24,6 @@ JHtml::_('bootstrap.tooltip');
 		<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
 	</div>
 </div>
-<div class="clearfix"> </div>
+
+<div class="clearfix"></div>
+

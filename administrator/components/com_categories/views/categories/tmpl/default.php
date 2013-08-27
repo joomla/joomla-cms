@@ -83,9 +83,13 @@ $sortFields = $this->getSortFields();
 					<?php echo JHtml::_('select.options', $sortFields, 'value', 'text', $listOrder); ?>
 				</select>
 			</div>
+
 			<div class="clearfix"></div>
 		</div>
 
+		<?php if (empty($this->items)): ?>
+			<div class="alert alert-no-items"><?php echo JText::sprintf('JLIB_HTML_NO_ITEMS_FOUND', JText::_('JCATEGORIES')); ?></div>
+		<?php else: ?>
 		<table class="table table-striped" id="categoryList">
 			<thead>
 				<tr>
@@ -237,6 +241,7 @@ $sortFields = $this->getSortFields();
 		</table>
 		<?php //Load the batch processing form. ?>
 		<?php echo $this->loadTemplate('batch'); ?>
+		<?php endif; ?>
 
 		<input type="hidden" name="extension" value="<?php echo $extension; ?>" />
 		<input type="hidden" name="task" value="" />

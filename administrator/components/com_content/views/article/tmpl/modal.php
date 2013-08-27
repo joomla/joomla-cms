@@ -80,7 +80,8 @@ if (!empty($this->item->attribs['show_urls_images_backend']))
 	<button class="btn" type="button" onclick="Joomla.submitbutton('article.cancel');"><?php echo JText::_('JCANCEL') ?></button>
 </div>
 
-<div class="clearfix"> </div>
+<div class="clearfix"></div>
+
 <hr class="hr-condensed" />
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&layout=modal&tmpl=component&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
