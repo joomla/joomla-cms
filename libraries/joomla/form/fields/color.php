@@ -29,6 +29,85 @@ class JFormFieldColor extends JFormField
 	protected $type = 'Color';
 
 	/**
+	 * The control.
+	 *
+	 * @var    mixed
+	 * @since  11.1
+	 */
+	protected $control = 'hue';
+
+	/**
+	 * The position.
+	 *
+	 * @var    mixed
+	 * @since  11.1
+	 */
+	protected $position = 'right';
+
+	/**
+	 * The colors.
+	 *
+	 * @var    mixed
+	 * @since  11.1
+	 */
+	protected $colors;
+
+	/**
+	 * The split.
+	 *
+	 * @var    int
+	 * @since  11.1
+	 */
+	protected $split = 3;
+
+	/**
+	 * Method to get certain otherwise inaccessible properties from the form field object.
+	 *
+	 * @param   string  $name  The property name for which to the the value.
+	 *
+	 * @return  mixed  The property value or null.
+	 *
+	 * @since   11.1
+	 */
+	public function __get($name)
+	{
+		switch ($name)
+		{
+			case 'control':
+			case 'exclude':
+			case 'colors':
+			case 'split':
+				return $this->$name;
+		}
+
+		return parent::__get($name);
+	}
+
+	/**
+	 * Method to attach a JForm object to the field.
+	 *
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   mixed             $value    The form field value to validate.
+	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                      full field name would end up being "bar[foo]".
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @see 	JFormField::setup()
+	 * @since   11.1
+	 */
+	public function setup(SimpleXMLElement $element, $value, $group = null)
+	{
+		$this->control = isset($element['control']) ? (string) $element['control'] : 'hue';
+		$this->position = isset($element['position']) ? (string) $element['position'] : 'right';
+		$this->colors = (string) $element['colors'];
+		$this->split = isset($element['split']) ? (int) $this->element['split'] : 3;
+
+		return parent::setup($element, $value, $group);
+	}
+
+	/**
 	 * Method to get the field input markup.
 	 *
 	 * @return  string  The field input markup.
@@ -37,15 +116,18 @@ class JFormFieldColor extends JFormField
 	 */
 	protected function getInput()
 	{
-		// Control value can be: hue (default), saturation, brightness, wheel or simpel
-		$control = (string) $this->element['control'];
+		// Translate placeholder text
+		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
+
+		// Control value can be: hue (default), saturation, brightness, wheel or simple
+		$control = $this->control;
 
 		// Position of the panel can be: right (default), left, top or bottom
-		$position = $this->element['position'] ? (string) $this->element['position'] : 'right';
-		$position = ' data-position="' . $position . '"';
+		$position = ' data-position="' . $this->position . '"';
 
-		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
-		$class = (string) $this->element['class'];
+		$onchange = !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
+		$class = $this->class;
+		$autofocus = $this->autofocus ? ' autofocus' : '';
 
 		$color = strtolower($this->value);
 
@@ -63,7 +145,7 @@ class JFormFieldColor extends JFormField
 			$class = ' class="' . trim('simplecolors chzn-done ' . $class) . '"';
 			JHtml::_('behavior.simplecolorpicker');
 
-			$colors = strtolower((string) $this->element['colors']);
+			$colors = strtolower();
 
 			if (empty($colors))
 			{
@@ -87,7 +169,7 @@ class JFormFieldColor extends JFormField
 				$colors = explode(',', $colors);
 			}
 
-			$split = (int) $this->element['split'];
+			$split = $this->split;
 
 			if (!$split)
 			{
@@ -109,8 +191,8 @@ class JFormFieldColor extends JFormField
 			$split = $split ? $split : 3;
 
 			$html = array();
-			$html[] = '<select name="' . $this->name . '" id="' . $this->id . '"'
-				. $class . $position . $onchange . ' style="visibility:hidden;width:22px;height:1px">';
+			$html[] = '<select name="' . $this->name . '" id="' . $this->id . '"' . $disabled . $required
+				. $class . $position . $onchange . $autofocus . ' style="visibility:hidden;width:22px;height:1px">';
 
 			foreach ($colors as $i => $c)
 			{
@@ -121,6 +203,7 @@ class JFormFieldColor extends JFormField
 					$html[] = '<option>-</option>';
 				}
 			}
+
 			$html[] = '</select>';
 
 			return implode('', $html);
@@ -129,12 +212,21 @@ class JFormFieldColor extends JFormField
 		{
 			$class = ' class="' . trim('minicolors ' . $class) . '"';
 			$control = $control ? ' data-control="' . $control . '"' : '';
-			$disabled = ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
+			$disabled = $this->disabled ? ' disabled' : '';
+			$readonly = $this->readonly ? ' readonly' : '';
+			$hint = $hint ? ' placeholder="' . $hint . '"' : ' placeholder="#rrggbb"';
+			$required = $this->required ? ' required aria-required="true"' : '';
+			$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : '';
+
+			// Including fallback code for HTML5 non supported browsers.
+			JHtml::_('jquery.framework');
+			JHtml::_('script', 'system/html5fallback.js', false, true);
 
 			JHtml::_('behavior.colorpicker');
 
 			return '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
-				. htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '"' . $class . $position . $control . $disabled . $onchange . '/>';
+				. htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '"' . $hint . $class . $position . $control
+				. $disabled . $required . $onchange . $autocomplete . $autofocus . '/>';
 		}
 	}
 }
