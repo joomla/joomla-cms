@@ -95,10 +95,10 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 	 {
 		 $cfg = new SeleniumConfig();
 		 $urlHome = $this->cfg->host.$this->cfg->path.'index.php';
-		 $homePage = $this->getPageObject('SiteHomePage', true, $urlHome);
+		 $homePage = $this->getPageObject('SiteContentFeaturedPage', true, $urlHome);
 		 $urlGettingStarted = $this->cfg->host.$this->cfg->path.'index.php/getting-started';
 		 $this->driver->get($urlGettingStarted);
-		 $gettingStartedPage = $this->getPageObject('SiteGettingStartedPage', true, $urlGettingStarted);		 	 
+		 $gettingStartedPage = $this->getPageObject('SiteSingleArticlePage', true, $urlGettingStarted);		 	 
 		 $this->assertTrue($gettingStartedPage->isArticlePresent('Getting Started'), 'Getting Started Must be Present');
 		 
 		 $this->doAdminLogin();
@@ -107,11 +107,11 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 		 $this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
 		 $this->articleManagerPage->changeArticleState('Getting Started', 'unpublished');
 		 $this->driver->get($urlGettingStarted);
-		 $gettingStartedPage = $this->getPageObject('SiteGettingStartedPage', true, $urlGettingStarted);
+		 $gettingStartedPage = $this->getPageObject('SiteSingleArticlePage', true, $urlGettingStarted);
 		 $this->assertFalse($gettingStartedPage->isArticlePresent('Getting Started'), 'Getting Started Must not be Present');
 		 $this->doSiteLogin();
 		 $this->driver->get($urlGettingStarted);
-		 $gettingStartedPage = $this->getPageObject('SiteGettingStartedPage', true, $urlGettingStarted);
+		 $gettingStartedPage = $this->getPageObject('SiteSingleArticlePage', true, $urlGettingStarted);
 		 $this->assertTrue($gettingStartedPage->isEditPresent(),'Edit Icons Must be Present');
 		 $this->doSiteLogout();
 		 
@@ -121,7 +121,7 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 		 $this->articleManagerPage->changeFilter('Status','Unpublished');
 		 $this->articleManagerPage->changeArticleState('Getting Started', 'published');
 		 $this->driver->get($urlGettingStarted);
-		 $gettingStartedPage = $this->getPageObject('SiteGettingStartedPage', true, $urlGettingStarted);
+		 $gettingStartedPage = $this->getPageObject('SiteSingleArticlePage', true, $urlGettingStarted);
 		 $this->assertTrue($gettingStartedPage->isArticlePresent('Getting Started'), 'Getting Started Must be Present');
 		 
 		 $this->driver->get($cfg->host.$cfg->path.$articleManager);
@@ -129,7 +129,7 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 		 $this->articleManagerPage->changeFilter('Status','Published');	 
 		 $this->articleManagerPage->changeArticleState('Getting Started', 'archived');
 		 $this->driver->get($urlGettingStarted);
-		 $gettingStartedPage = $this->getPageObject('SiteGettingStartedPage', true, $urlGettingStarted);
+		 $gettingStartedPage = $this->getPageObject('SiteSingleArticlePage', true, $urlGettingStarted);
 		 $this->assertTrue($gettingStartedPage->isArticlePresent('Getting Started'), 'Getting Started Must be Present');
 		 $this->driver->get($cfg->host.$cfg->path.$articleManager);
 		 $this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
