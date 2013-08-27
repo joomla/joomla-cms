@@ -20,9 +20,9 @@
 		<fields name="params">
 
 			<fieldset name="basic">
-				<field name="linenumbers" type="radio"
+				<field name="lineNumbers" type="radio"
 					class="btn-group"
-					default="0"
+					default="1"
 					description="PLG_CODEMIRROR_FIELD_LINENUMBERS_DESC"
 					label="PLG_CODEMIRROR_FIELD_LINENUMBERS_LABEL"
 				>
@@ -30,15 +30,85 @@
 					<option value="1">JON</option>
 				</field>
 
-				<field name="resize" type="radio"
+				<field name="lineWrapping" type="radio"
 					class="btn-group"
-					default="0"
-					description="Resize Editor"
-					label="Resize"
+					default="1"
+					description="Line Wrapping"
+					label="Line Wrapping"
 				>
 					<option value="0">JOFF</option>
 					<option value="1">JON</option>
 				</field>
+
+                <field name="matchTags" type="radio"
+                       class="btn-group"
+                       default="1"
+                       description="Highlight Matching Tags"
+                       label="Match Tags"
+                        >
+                    <option value="0">JOFF</option>
+                    <option value="1">JON</option>
+                </field>
+
+                <field name="matchBrackets" type="radio"
+                       class="btn-group"
+                       default="1"
+                       description="Highlight Matching Brackets"
+                       label="Match Brackets"
+                        >
+                    <option value="0">JOFF</option>
+                    <option value="1">JON</option>
+                </field>
+
+                <field name="marker-gutter" type="radio"
+                       class="btn-group"
+                       default="1"
+                       description="Code Marker and Code Folding"
+                       label="Gutters"
+                        >
+                    <option value="0">JOFF</option>
+                    <option value="1">JON</option>
+                </field>
+
+                <field name="autoCloseTags" type="radio"
+                       class="btn-group"
+                       default="1"
+                       description="Automatic Tag Completion"
+                       label="Automatic Tag Completion"
+                        >
+                    <option value="0">JOFF</option>
+                    <option value="1">JON</option>
+                </field>
+
+                <field name="autoCloseBrackets" type="radio"
+                       class="btn-group"
+                       default="1"
+                       description="Automatic Bracket Completion"
+                       label="Automatic Bracket Completion"
+                        >
+                    <option value="0">JOFF</option>
+                    <option value="1">JON</option>
+                </field>
+
+                <field name="autoFocus" type="radio"
+                       class="btn-group"
+                       default="1"
+                       description="Auto Focus"
+                       label="Auto Focus"
+                        >
+                    <option value="0">JOFF</option>
+                    <option value="1">JON</option>
+                </field>
+
+                <field name="theme" type="list"
+                       class="btn-group"
+                       default="default"
+                       description="Code Folding"
+                       label="Select a theme"
+                        >
+                    <option value="default">Light</option>
+                    <option value="ambiance">Dark</option>
+                </field>
 
 				<field name="tabmode" type="list"
 					default="indent"

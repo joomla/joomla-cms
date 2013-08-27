@@ -31,11 +31,10 @@ class PlgEditorCodemirror extends JPlugin
 	public function onInit()
 	{
 		JHtml::_('behavior.framework');
-		$uncompressed	= JFactory::getApplication()->getCfg('debug') ? '-uncompressed' : '';
 		JHtml::_('script', $this->_basePath . 'js/codemirror.js', false, false, false, false);
 		JHtml::_('script', $this->_basePath . 'js/fullscreen.js', false, false, false, false);
 		JHtml::_('stylesheet', $this->_basePath . 'css/codemirror.css');
-
+		JHtml::_('stylesheet', $this->_basePath . 'css/configuration.css');
 		return '';
 	}
 
@@ -138,7 +137,6 @@ class PlgEditorCodemirror extends JPlugin
 		// Must pass the field id to the buttons in this editor.
 		$buttons = $this->_displayButtons($id, $buttons, $asset, $author);
 
-		$compressed	= JFactory::getApplication()->getCfg('debug') ? '-uncompressed' : '';
 
 		// Look if we need special syntax coloring.
 		$file = JFactory::getApplication()->input->get('file');
@@ -154,6 +152,10 @@ class PlgEditorCodemirror extends JPlugin
                     $mode = 'text/css';
                     $autoCloseBrackets = true;
                     $autoCloseTags     = false;
+                    $fold              = true;
+                    $matchTags         = false;
+                    $matchBrackets     = true;
+                    JHtml::_('script', $this->_basePath . 'js/brace-fold.js', false, false, false, false);
 					break;
 
                 case 'ini':
@@ -161,13 +163,20 @@ class PlgEditorCodemirror extends JPlugin
                     $mode = 'text/css';
                     $autoCloseBrackets = false;
                     $autoCloseTags     = false;
+                    $fold              = false;
+                    $matchTags         = false;
+                    $matchBrackets     = false;
                     break;
 
                 case 'xml':
                     $parserFile = array('xml.js', 'closetag.js');
                     $mode = 'application/xml';
+                    $fold              = true;
                     $autoCloseBrackets = false;
                     $autoCloseTags     = true;
+                    $matchTags         = true;
+                    $matchBrackets     = false;
+                    JHtml::_('script', $this->_basePath . 'js/xml-fold.js', false, false, false, false);
                     break;
 
 				case 'js':
@@ -175,6 +184,10 @@ class PlgEditorCodemirror extends JPlugin
                     $mode = 'text/javascript';
                     $autoCloseBrackets = true;
                     $autoCloseTags     = false;
+                    $fold              = true;
+                    $matchTags         = false;
+                    $matchBrackets     = true;
+                    JHtml::_('script', $this->_basePath . 'js/brace-fold.js', false, false, false, false);
 					break;
 
 				case 'less':
@@ -182,6 +195,10 @@ class PlgEditorCodemirror extends JPlugin
                     $mode = 'text/x-less';
                     $autoCloseBrackets = true;
                     $autoCloseTags     = false;
+                    $fold              = true;
+                    $matchTags         = false;
+                    $matchBrackets     = true;
+                    JHtml::_('script', $this->_basePath . 'js/brace-fold.js', false, false, false, false);
 					break;
 
 				case 'php':
@@ -189,6 +206,11 @@ class PlgEditorCodemirror extends JPlugin
                     $mode = 'application/x-httpd-php';
                     $autoCloseBrackets = true;
                     $autoCloseTags     = true;
+                    $fold              = true;
+                    $matchTags         = true;
+                    $matchBrackets     = true;
+                    JHtml::_('script', $this->_basePath . 'js/brace-fold.js', false, false, false, false);
+                    JHtml::_('script', $this->_basePath . 'js/xml-fold.js', false, false, false, false);
 					break;
 
 				default:
@@ -203,38 +225,64 @@ class PlgEditorCodemirror extends JPlugin
 
 		$options	= new stdClass;
 
-		/*$options->basefiles		= array('basefiles'.$compressed.'.js');
-		$options->path			= JUri::root(true).'/'.$this->_basePath.'js/';
-		$options->parserfile	= $parserFile;
-		$options->stylesheet	= $styleSheet;
-		$options->height		= $height;
-		$options->width			= $width;
-		$options->continuousScanning = 500;
-
+        $options->mode = $mode;
 
         // Enabled the line numbers.
-		if ($this->params->get('linenumbers', 0))
+		if ($this->params->get('lineNumbers') == "1")
 		{
-			$options->lineNumbers	= true;
-			$options->textWrapping	= false;
-		}*/
+			$options->lineNumbers = true;
+        }
+        if ($this->params->get('autoFocus') == "1")
+        {
+            $options->autofocus	= true;
+        }
 
-        // Uncomment the above code and delete these lines to enable
-        // if you want to enable/disable line number from the admin panel
-        $options->lineNumbers	    = true;
-        $options->lineWrapping	    = true;
-        $options->mode	            = $mode;
-        $options->autofocus	        = true;
-        $options->autoCloseBrackets	= $autoCloseBrackets;
-        $options->autoCloseTags	    = $autoCloseTags;
+        if ($this->params->get('autoCloseBrackets') == "1")
+        {
+            $options->autoCloseBrackets	= $autoCloseBrackets;
+        }
+
+        if ($this->params->get('autoCloseTags') == "1")
+        {
+            $options->autoCloseTags	= $autoCloseTags;
+        }
+
+        if ($this->params->get('matchTags') == "1")
+        {
+            $options->matchTags = $matchTags;
+            JHtml::_('script', $this->_basePath . 'js/matchtags.js', false, false, false, false);
+        }
+
+        if ($this->params->get('matchBrackets') == "1")
+        {
+            $options->matchBrackets = $matchBrackets;
+            JHtml::_('script', $this->_basePath . 'js/matchbrackets.js', false, false, false, false);
+        }
+
+        if ($this->params->get('marker-gutter') == "1")
+        {
+            $options->foldGutter = $fold;
+            $options->gutters = array('CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'breakpoints');
+            JHtml::_('script', $this->_basePath . 'js/foldcode.js', false, false, false, false);
+            JHtml::_('script', $this->_basePath . 'js/foldgutter.js', false, false, false, false);
+        }
 
 
-        //$options->viewportMargin	= 'Infinity';
+        if($this->params->get('theme', '') == 'ambiance')
+        {
+            $options->theme	= 'ambiance';
+            JHtml::_('stylesheet', $this->_basePath . 'css/ambiance.css');
+        }
 
-		/*if ($this->params->get('tabmode', '') == 'shift')
+        if($this->params->get('lineWrapping') == "1")
+        {
+            $options->lineWrapping = true;
+        }
+
+		if ($this->params->get('tabmode', '') == 'shift')
 		{
 			$options->tabMode = 'shift';
-		}*/
+		}
 
 		$html = array();
 		$html[]	= "<textarea name=\"$name\" id=\"$id\" cols=\"$col\" rows=\"$row\">$content</textarea>";
@@ -242,9 +290,27 @@ class PlgEditorCodemirror extends JPlugin
 		$html[] = '<script type="text/javascript">';
 		$html[] = '(function() {';
 		$html[] = 'var editor = CodeMirror.fromTextArea(document.getElementById("'.$id.'"), '.json_encode($options).');';
+		$html[] = 'editor.setOption("extraKeys", {';
+        $html[] = '"F11": function(cm) {';
+        $html[] = 'setFullScreen(cm, !isFullScreen(cm));';
+        $html[] = '},';
+        $html[] = '"Esc": function(cm) {';
+        $html[] = 'if (isFullScreen(cm)) setFullScreen(cm, false);';
+        $html[] = '}';
+        $html[] = '});';
+		$html[] = 'editor.on("gutterClick", function(cm, n) {';
+        $html[] = 'var info = cm.lineInfo(n)';
+        $html[] = 'cm.setGutterMarker(n, "breakpoints", info.gutterMarkers ? null : makeMarker())';
+        $html[] = '})';
+        $html[] = 'function makeMarker() {';
+        $html[] = 'var marker = document.createElement("div")';
+        $html[] = 'marker.style.color = "#822"';
+        $html[] = 'marker.innerHTML = "●"';
+        $html[] = 'return marker';
+        $html[] = '}';
 		$html[] = 'Joomla.editors.instances[\''.$id.'\'] = editor;';
 		$html[] = '})()';
-		$html[] = '</script>';
+        $html[] = '</script>';
 
 		return implode("\n", $html);
 	}

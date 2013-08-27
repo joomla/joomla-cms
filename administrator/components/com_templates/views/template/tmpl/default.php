@@ -32,6 +32,7 @@ if($this->type == 'image')
 ?>
 <script type="text/javascript">
 	jQuery(document).ready(function($){
+
 		$('.folder ul').hide();
 		$('.show > ul').show();
 		$('.folder-url').click(function(event){
@@ -104,21 +105,6 @@ if($this->type == 'image')
         margin: 0;
     }
 
-    .CodeMirror {
-        border: 1px solid #eee;
-        height: auto;
-    }
-    .CodeMirror-scroll {
-        overflow-y: hidden;
-        overflow-x: auto;
-    }
-    .CodeMirror-fullscreen {
-        display: block;
-        position: absolute;
-        top: 0; left: 0;
-        width: 100%;
-        z-index: 9999;
-    }
 </style>
 <?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'editor')); ?>
 	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'editor', JText::_('Editor', true)); ?>
@@ -139,15 +125,15 @@ if($this->type == 'image')
 			<div class="span9">
                 <?php if($this->type == 'file'): ?>
                     <form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
-                        <fieldset class="adminform">
 
+                            <p class="label">Press F11 to toggle Full Screen editing.</p>
                             <div class="clr"></div>
                             <div class="editor-border">
                                 <?php echo $this->form->getInput('source'); ?>
                             </div>
                             <input type="hidden" name="task" value="" />
                             <?php echo JHtml::_('form.token'); ?>
-                        </fieldset>
+
 
                         <?php echo $this->form->getInput('extension_id'); ?>
                         <?php echo $this->form->getInput('filename'); ?>
@@ -211,7 +197,13 @@ if($this->type == 'image')
         </div>
 	<?php echo JHtml::_('bootstrap.endTab'); ?>
     <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('Template Description', true)); ?>
-
+        <div class="pull-left">
+            <?php echo JHtml::_('templates.thumb', $this->template->element, $this->template->client_id); ?>
+        </div>
+        <h2><?php echo ucfirst($this->template->element); ?></h2>
+        <?php $client = JApplicationHelper::getClientInfo($this->template->client_id); ?>
+        <p><?php $this->template->xmldata = TemplatesHelper::parseXMLTemplateFile($client->path, $this->template->element);?></p>
+        <p><?php  echo JText::_($this->template->xmldata->description); ?></p>
     <?php echo JHtml::_('bootstrap.endTab'); ?>
 <?php echo JHtml::_('bootstrap.endTabSet'); ?>
 

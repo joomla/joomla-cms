@@ -343,7 +343,14 @@ class TemplatesControllerTemplate extends JControllerLegacy
         $location       = base64_decode($app->input->get('address'));
         $type           = $app->input->get('type');
 
-        if($model->createFile($name,$type,$location))
+
+        if(!preg_match('/^[a-z0-9-_]+$/',$name))
+        {
+            $app->enqueueMessage(JText::_('Invalid file name. Please chose a file name containing a-z, A-Z, 0-9, - and _.'),'error');
+            $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+            $this->setRedirect(JRoute::_($url, false));
+        }
+        elseif($model->createFile($name,$type,$location))
         {
             $this->setMessage(JText::_('File created successfully.'));
             $file = urlencode(base64_encode($location . '/' . $name . '.' . $type));
@@ -403,7 +410,14 @@ class TemplatesControllerTemplate extends JControllerLegacy
         $name           = $app->input->get('name');
         $location       = base64_decode($app->input->get('address'));
 
-        if($model->createFolder($name, $location))
+
+        if(!preg_match('/^[a-z0-9-_]+$/',$name))
+        {
+            $app->enqueueMessage(JText::_('Invalid folder name. Please chose a folder name containing a-z, A-Z, 0-9, - and _.'),'error');
+            $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+            $this->setRedirect(JRoute::_($url, false));
+        }
+        elseif($model->createFolder($name, $location))
         {
             $this->setMessage(JText::_('Folder created successfully.'));
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
@@ -461,7 +475,12 @@ class TemplatesControllerTemplate extends JControllerLegacy
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
             $this->setRedirect(JRoute::_($url, false));
         }
-
+        elseif(!preg_match('/^[a-z0-9-_]+$/',$newName))
+        {
+            $app->enqueueMessage(JText::_('Invalid file name. Please chose a file name containing a-z, A-Z, 0-9, - and _.'),'error');
+            $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+            $this->setRedirect(JRoute::_($url, false));
+        }
         elseif($rename = $model->renameFile($file, $newName))
         {
             $this->setMessage(JText::_('File renamed successfully.'));
