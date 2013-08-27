@@ -83,7 +83,9 @@ $sortFields = $this->getSortFields();
 				</select>
 			</div>
 		</div>
-		<div class="clearfix"> </div>
+
+		<div class="clearfix"></div>
+
 		<table class="table table-striped" id="contentList">
 			<thead>
 				<tr>

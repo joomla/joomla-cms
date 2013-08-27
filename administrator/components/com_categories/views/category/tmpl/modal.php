@@ -48,7 +48,8 @@ JHtml::_('formbehavior.chosen', 'select');
 	<button class="btn" type="button" onclick="Joomla.submitbutton('category.cancel');"><?php echo JText::_('JCANCEL') ?></button>
 </div>
 
-<div class="clearfix"> </div>
+<div class="clearfix"></div>
+
 <hr class="hr-condensed" />
 
 <form action="<?php echo JRoute::_('index.php?option=com_categories&extension=' . $input->getCmd('extension', 'com_content') . '&layout=modal&tmpl=component&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate form-horizontal">

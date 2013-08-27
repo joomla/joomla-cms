@@ -18,6 +18,7 @@ defined('_JEXEC') or die;
 		<button type="button" class="btn" onclick="window.parent.SqueezeBox.close();">
 		<?php echo JText::_('JCANCEL');?></button>
 	</div>
+
 	<div class="clearfix"></div>
 </div>
 

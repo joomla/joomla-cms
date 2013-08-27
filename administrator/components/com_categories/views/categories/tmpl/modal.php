@@ -45,6 +45,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<button type="button" class="btn hasTooltip" data-placement="bottom" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();">
 					<span class="icon-remove"></span><?php echo '&#160;' . JText::_('JSEARCH_FILTER_CLEAR'); ?></button>
 			</div>
+
 			<div class="clearfix"></div>
 		</div>
 		<hr class="hr-condensed" />

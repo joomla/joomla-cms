@@ -89,7 +89,9 @@ $assoc = isset($app->item_associations);
 				</select>
 			</div>
 		</div>
-		<div class="clearfix"> </div>
+
+		<div class="clearfix"></div>
+
 		<table class="table table-striped" id="articleList">
 			<thead>
 				<tr>

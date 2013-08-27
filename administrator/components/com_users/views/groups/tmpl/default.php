@@ -99,7 +99,8 @@ JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 				</select>
 			</div>
 		</div>
-		<div class="clearfix"> </div>
+
+		<div class="clearfix"></div>
 
 		<table class="table table-striped">
 			<thead>

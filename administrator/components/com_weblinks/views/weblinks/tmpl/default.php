@@ -86,7 +86,9 @@ $langs = isset($app->languages_enabled);
 				</select>
 			</div>
 		</div>
-		<div class="clearfix"> </div>
+
+		<div class="clearfix"></div>
+
 		<table class="table table-striped" id="weblinkList">
 			<thead>
 				<tr>
