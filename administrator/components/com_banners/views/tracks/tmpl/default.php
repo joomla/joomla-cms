@@ -79,58 +79,58 @@ $sortFields = $this->getSortFields();
 	<?php if (empty($this->items)): ?>
 		<div class="alert alert-no-items"><?php echo JText::sprintf('JLIB_HTML_NO_ITEMS_FOUND', JText::_('COM_BANNERS_SUBMENU_TRACKS')); ?></div>
 	<?php else: ?>
-  	<table class="table table-striped">
-  		<thead>
-  			<tr>
-  				<th class="title">
-  					<?php echo JText::_('COM_BANNERS_HEADING_NAME');?>
-  				</th>
-  				<th width="20%" class="nowrap">
-  					<?php echo JText::_('COM_BANNERS_HEADING_CLIENT');?>
-  				</th>
-  				<th width="10%" class="nowrap hidden-phone">
-  					<?php echo JText::_('COM_BANNERS_HEADING_TYPE');?>
-  				</th>
-  				<th width="10%" class="nowrap hidden-phone">
-  					<?php echo JText::_('COM_BANNERS_HEADING_COUNT');?>
-  				</th>
-  				<th width="10%" class="nowrap hidden-phone">
-  					<?php echo JText::_('JDATE');?>
-  				</th>
-  			</tr>
-  		</thead>
-  		<tfoot>
-  			<tr>
-  				<td colspan="6">
-  					<?php echo $this->pagination->getListFooter(); ?>
-  				</td>
-  			</tr>
-  		</tfoot>
-  		<tbody>
-  		<?php foreach ($this->items as $i => $item) :?>
-  			<tr class="row<?php echo $i % 2; ?>">
-  				<td>
-  					<?php echo $item->name;?>
-  					<div class="small">
-  						<?php echo $item->category_title;?>
-  					</div>
-  				</td>
-  				<td>
-  					<?php echo $item->client_name;?>
-  				</td>
-  				<td class="hidden-phone">
-  					<?php echo $item->track_type == 1 ? JText::_('COM_BANNERS_IMPRESSION') : JText::_('COM_BANNERS_CLICK');?>
-  				</td>
-  				<td class="hidden-phone">
-  					<?php echo $item->count;?>
-  				</td>
-  				<td class="hidden-phone">
-  					<?php echo JHtml::_('date', $item->track_date, JText::_('DATE_FORMAT_LC4').' H:i');?>
-  				</td>
-  			</tr>
-  		<?php endforeach; ?>
-  		</tbody>
-  	</table>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th class="title">
+						<?php echo JText::_('COM_BANNERS_HEADING_NAME');?>
+					</th>
+					<th width="20%" class="nowrap">
+						<?php echo JText::_('COM_BANNERS_HEADING_CLIENT');?>
+					</th>
+					<th width="10%" class="nowrap hidden-phone">
+						<?php echo JText::_('COM_BANNERS_HEADING_TYPE');?>
+					</th>
+					<th width="10%" class="nowrap hidden-phone">
+						<?php echo JText::_('COM_BANNERS_HEADING_COUNT');?>
+					</th>
+					<th width="10%" class="nowrap hidden-phone">
+						<?php echo JText::_('JDATE');?>
+					</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<td colspan="6">
+						<?php echo $this->pagination->getListFooter(); ?>
+					</td>
+				</tr>
+			</tfoot>
+			<tbody>
+			<?php foreach ($this->items as $i => $item) :?>
+				<tr class="row<?php echo $i % 2; ?>">
+					<td>
+						<?php echo $item->name;?>
+						<div class="small">
+							<?php echo $item->category_title;?>
+						</div>
+					</td>
+					<td>
+						<?php echo $item->client_name;?>
+					</td>
+					<td class="hidden-phone">
+						<?php echo $item->track_type == 1 ? JText::_('COM_BANNERS_IMPRESSION') : JText::_('COM_BANNERS_CLICK');?>
+					</td>
+					<td class="hidden-phone">
+						<?php echo $item->count;?>
+					</td>
+					<td class="hidden-phone">
+						<?php echo JHtml::_('date', $item->track_date, JText::_('DATE_FORMAT_LC4').' H:i');?>
+					</td>
+				</tr>
+			<?php endforeach; ?>
+			</tbody>
+		</table>
 	<?php endif; ?>
 
   	<input type="hidden" name="task" value="" />
