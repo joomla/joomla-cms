@@ -136,7 +136,7 @@ class ConfigModelComponent extends JModelForm
 	 */
 	public function save($data)
 	{
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 		$table = JTable::getInstance('extension');
 		$isNew = true;
 

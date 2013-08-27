@@ -19,9 +19,6 @@ class JHtmlIconsTest extends TestCase
 	 */
 	protected function setUp()
 	{
-		// Import dependencies
-		jimport('joomla.application.router');
-
 		// We need to mock the application
 		$this->saveFactoryState();
 
