@@ -113,11 +113,8 @@ class UsersViewNotes extends JViewLegacy
 
 		if ($canDo->get('core.edit.state'))
 		{
-			JToolbarHelper::divider();
 			JToolbarHelper::publish('notes.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('notes.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-
-			JToolbarHelper::divider();
 			JToolbarHelper::archiveList('notes.archive');
 			JToolbarHelper::checkin('notes.checkin');
 		}
@@ -125,18 +122,15 @@ class UsersViewNotes extends JViewLegacy
 		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('', 'notes.delete', 'JTOOLBAR_EMPTY_TRASH');
-			JToolbarHelper::divider();
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::trash('notes.trash');
-			JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::preferences('com_users');
-			JToolbarHelper::divider();
 		}
 		JToolbarHelper::help('JHELP_USERS_USER_NOTES');
 

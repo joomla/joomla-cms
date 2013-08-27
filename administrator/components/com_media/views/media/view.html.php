@@ -110,7 +110,6 @@ class MediaViewMedia extends JViewLegacy
 						<i class=\"icon-plus icon-white\" title=\"$title\"></i>
 						$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'upload');
-			JToolbarHelper::divider();
 		}
 
 		// Add a create folder button
@@ -121,7 +120,6 @@ class MediaViewMedia extends JViewLegacy
 						<i class=\"icon-folder\" title=\"$title\"></i>
 						$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'folder');
-			JToolbarHelper::divider();
 		}
 
 		// Add a delete button
@@ -132,13 +130,11 @@ class MediaViewMedia extends JViewLegacy
 						<i class=\"icon-remove\" title=\"$title\"></i>
 						$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'delete');
-			JToolbarHelper::divider();
 		}
 		// Add a delete button
 		if ($user->authorise('core.admin', 'com_media'))
 		{
 			JToolbarHelper::preferences('com_media');
-			JToolbarHelper::divider();
 		}
 		JToolbarHelper::help('JHELP_CONTENT_MEDIA_MANAGER');
 	}

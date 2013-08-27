@@ -74,17 +74,14 @@ class UsersViewUsers extends JViewLegacy
 
 		if ($canDo->get('core.edit.state'))
 		{
-			JToolbarHelper::divider();
 			JToolbarHelper::publish('users.activate', 'COM_USERS_TOOLBAR_ACTIVATE', true);
 			JToolbarHelper::unpublish('users.block', 'COM_USERS_TOOLBAR_BLOCK', true);
 			JToolbarHelper::custom('users.unblock', 'unblock.png', 'unblock_f2.png', 'COM_USERS_TOOLBAR_UNBLOCK', true);
-			JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('', 'users.delete');
-			JToolbarHelper::divider();
 		}
 
 		// Add a batch button
@@ -103,7 +100,6 @@ class UsersViewUsers extends JViewLegacy
 		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::preferences('com_users');
-			JToolbarHelper::divider();
 		}
 
 		JToolbarHelper::help('JHELP_USERS_USER_MANAGER');

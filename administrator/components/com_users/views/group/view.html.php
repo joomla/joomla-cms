@@ -81,8 +81,6 @@ class UsersViewGroup extends JViewLegacy
 		{
 			JToolbarHelper::cancel('group.cancel', 'JTOOLBAR_CLOSE');
 		}
-
-		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_USERS_GROUPS_EDIT');
 	}
 }

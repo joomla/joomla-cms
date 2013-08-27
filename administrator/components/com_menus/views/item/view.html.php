@@ -102,8 +102,6 @@ class MenusViewItem extends JViewLegacy
 			JToolbarHelper::cancel('item.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		JToolbarHelper::divider();
-
 		// Get the help information for the menu item.
 		$lang = JFactory::getLanguage();
 

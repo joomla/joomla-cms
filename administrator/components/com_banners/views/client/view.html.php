@@ -86,8 +86,6 @@ class BannersViewClient extends JViewLegacy
 		{
 			JToolbarHelper::cancel('client.cancel', 'JTOOLBAR_CLOSE');
 		}
-
-		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_CLIENTS_EDIT');
 	}
 }
