@@ -25,14 +25,17 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Aug-2013 Jean-Marie Simonet
+ # [#31795] No Bootstrap dropdown FE newsfeed category + tags. Thanks Tobias Zulauf
+
 25-Aug-2013 Jean-Marie Simonet
  # [#31830] Fatal pass by reference error in MediaHelper Take 2. Thanks Elin Waring
  # [#29973] Searching for updates throws out exception when url doesn't return body content. Thanks Piotr Cz
 
 24-Aug-2013 Elin Waring
  ^ [#31005] Move JMenu, JRouter, and JPathway to the CMS tree. Thanks Michael Babker
- # [#31036] Search is broken on Chrome (and possibly reveals Joomla installation path). THanks Roberto Segura
- # [#31786] get_html_translation_table requires encoding value for PHP 5.4. THanks Tobias Zulauf
+ # [#31036] Search is broken on Chrome (and possibly reveals Joomla installation path). Thanks Roberto Segura
+ # [#31786] get_html_translation_table requires encoding value for PHP 5.4. Thanks Tobias Zulauf
 
 24-Aug-2013 Michael Babker
  # [#31074] Cannot call abstract method FinderIndexer::toggleTables()
