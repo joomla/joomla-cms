@@ -17,28 +17,29 @@ defined('_JEXEC') or die;
 /*
  * Installation check, and check on removal of the install directory.
  */
-if (!file_exists(JPATH_CONFIGURATION.'/configuration.php') || (filesize(JPATH_CONFIGURATION.'/configuration.php') < 10) /*|| file_exists(JPATH_INSTALLATION.'/index.php')*/) {
+if (!file_exists(JPATH_CONFIGURATION . '/configuration.php') || (filesize(JPATH_CONFIGURATION . '/configuration.php') < 10) /*|| file_exists(JPATH_INSTALLATION . '/index.php')*/)
+{
 	header('Location: ../installation/index.php');
 	exit();
 }
 
-//
-// Joomla system startup.
-//
+/**
+ * Joomla! system startup.
+ */
 
 // System includes.
-require_once JPATH_LIBRARIES.'/import.legacy.php';
+require_once JPATH_LIBRARIES . '/import.legacy.php';
 
 JError::setErrorHandling(E_NOTICE, 'message');
 JError::setErrorHandling(E_WARNING, 'message');
 JError::setErrorHandling(E_ERROR, 'message', array('JError', 'customErrorPage'));
 
-// Botstrap the CMS libraries.
-require_once JPATH_LIBRARIES.'/cms.php';
+// Bootstrap the CMS libraries.
+require_once JPATH_LIBRARIES . '/cms.php';
 
 // Pre-Load configuration.
 ob_start();
-require_once JPATH_CONFIGURATION.'/configuration.php';
+require_once JPATH_CONFIGURATION . '/configuration.php';
 ob_end_clean();
 
 // System configuration.
