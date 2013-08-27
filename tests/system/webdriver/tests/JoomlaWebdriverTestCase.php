@@ -124,7 +124,7 @@ class JoomlaWebdriverTestCase extends PHPUnit_Framework_TestCase
 		$loginPage = $this->getPageObject('SiteLoginPage', true, $url);		
 		$urlHome = $this->cfg->host.$this->cfg->path.'index.php';
 		$this->driver->get($urlHome); 		
-		$homePage = $this->getPageObject('SiteHomePage', true, $urlHome);			
+		$homePage = $this->getPageObject('SiteContentFeaturedPage', true, $urlHome);			
 	}
 	
 	//Front End Logout Function
@@ -139,7 +139,7 @@ class JoomlaWebdriverTestCase extends PHPUnit_Framework_TestCase
 		$loginPage = $this->getPageObject('SiteLoginPage', true, $url);								
 		$urlHome = $this->cfg->host.$this->cfg->path.'index.php';
 		$this->driver->get($urlHome); 		
-		$homePage = $this->getPageObject('SiteHomePage', true, $urlHome);				
+		$homePage = $this->getPageObject('SiteContentFeaturedPage', true, $urlHome);				
 	}
 
 	public function getActualFieldsFromElements($testElements)
