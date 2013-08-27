@@ -104,9 +104,7 @@ class ConfigViewComponent extends JViewLegacy
 		JToolbarHelper::title(JText::_($this->component->option . '_configuration'), 'config.png');
 		JToolbarHelper::apply('component.apply');
 		JToolbarHelper::save('component.save');
-		JToolbarHelper::divider();
 		JToolbarHelper::cancel('component.cancel');
-		JToolbarHelper::divider();
 
 		// Get the correct help key for this screen
 		if (isset($this->helpScreenArray[$this->component->option]))

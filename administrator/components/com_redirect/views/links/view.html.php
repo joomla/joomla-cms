@@ -72,13 +72,11 @@ class RedirectViewLinks extends JViewLegacy
 		if ($canDo->get('core.edit.state'))
 		{
 			if ($state->get('filter.state') != 2){
-				JToolbarHelper::divider();
 				JToolbarHelper::publish('links.publish', 'JTOOLBAR_ENABLE', true);
 				JToolbarHelper::unpublish('links.unpublish', 'JTOOLBAR_DISABLE', true);
 			}
 			if ($state->get('filter.state') != -1 )
 			{
-				JToolbarHelper::divider();
 				if ($state->get('filter.state') != 2)
 				{
 					JToolbarHelper::archiveList('links.archive');
@@ -92,16 +90,13 @@ class RedirectViewLinks extends JViewLegacy
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('', 'links.delete', 'JTOOLBAR_EMPTY_TRASH');
-			JToolbarHelper::divider();
 		} elseif ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::trash('links.trash');
-			JToolbarHelper::divider();
 		}
 		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::preferences('com_redirect');
-			JToolbarHelper::divider();
 		}
 		JToolbarHelper::help('JHELP_COMPONENTS_REDIRECT_MANAGER');
 

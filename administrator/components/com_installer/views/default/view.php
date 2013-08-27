@@ -78,7 +78,6 @@ class InstallerViewDefault extends JViewLegacy
 		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::preferences('com_installer');
-			JToolbarHelper::divider();
 		}
 
 		// Document

@@ -85,8 +85,6 @@ class WeblinksViewWeblink extends JViewLegacy
 		{
 			JToolbarHelper::cancel('weblink.cancel', 'JTOOLBAR_CLOSE');
 		}
-
-		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_COMPONENTS_WEBLINKS_LINKS_EDIT');
 	}
 }

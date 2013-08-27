@@ -108,7 +108,6 @@ class FinderViewFilter extends JViewLegacy
 			}
 			JToolbarHelper::cancel('filter.cancel', 'JTOOLBAR_CLOSE');
 		}
-		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_SEARCH_FILTERS_EDIT');
 	}
 }

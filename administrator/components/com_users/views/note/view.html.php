@@ -115,8 +115,6 @@ class UsersViewNote extends JViewLegacy
 		{
 			JToolbarHelper::cancel('note.cancel', 'JTOOLBAR_CLOSE');
 		}
-
-		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_USERS_USER_NOTES_EDIT');
 	}
 }

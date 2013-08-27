@@ -72,8 +72,6 @@ class TemplatesViewTemplate extends JViewLegacy
 			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'upload');
 		}
-
-		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_TEMPLATES_EDIT');
 	}
 }

@@ -65,23 +65,19 @@ class MessagesViewMessages extends JViewLegacy
 
 		if ($canDo->get('core.edit.state'))
 		{
-			JToolbarHelper::divider();
 			JToolbarHelper::publish('messages.publish', 'COM_MESSAGES_TOOLBAR_MARK_AS_READ');
 			JToolbarHelper::unpublish('messages.unpublish', 'COM_MESSAGES_TOOLBAR_MARK_AS_UNREAD');
 		}
 
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
-			JToolbarHelper::divider();
 			JToolbarHelper::deleteList('', 'messages.delete', 'JTOOLBAR_EMPTY_TRASH');
 		} elseif ($canDo->get('core.edit.state'))
 		{
-			JToolbarHelper::divider();
 			JToolbarHelper::trash('messages.trash');
 		}
 
 		//JToolbarHelper::addNew('module.add');
-		JToolbarHelper::divider();
 		$bar = JToolBar::getInstance('toolbar');
 		JHtml::_('bootstrap.modal', 'collapseModal');
 		$title = JText::_('COM_MESSAGES_TOOLBAR_MY_SETTINGS');
@@ -94,8 +90,6 @@ class MessagesViewMessages extends JViewLegacy
 		{
 			JToolbarHelper::preferences('com_messages');
 		}
-
-		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_COMPONENTS_MESSAGING_INBOX');
 	}
 }
