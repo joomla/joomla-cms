@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 /**
  * @package     Joomla.Libraries
- * @subpackage  Cms.helper
+ * @subpackage  Helper
  * @since       3.2
  */
 class JHelperMedia
@@ -22,6 +22,8 @@ class JHelperMedia
 	 * @param string The filename
 	 *
 	 * @return  boolean
+	 *
+	 * @since  3.2
 	 */
 	public function isImage($fileName)
 	{
@@ -35,7 +37,8 @@ class JHelperMedia
 	 * @param string The filename
 	 *
 	 * @return  boolean
-	 * @deprecated  4.0
+	 *
+	 * @since  3.2
 	 */
 	public static function getTypeIcon($fileName)
 	{
@@ -46,19 +49,20 @@ class JHelperMedia
 	/**
 	 * Checks if the file can be uploaded
 	 *
-	 * @param   array   $file  File information
-	 * @param   string  $err   An error message to be returned
+	 * @param   array   $file        File information
+	 * @param   string  $component   The option name for the component storing the parameters
 	 *
 	 * @return  boolean
+	 * @since  3.2
 	 */
-	public function canUpload($file)
+	public function canUpload($file, $component = 'com_media')
 	{
-		$params = JComponentHelper::getParams('com_media');
+		$params = JComponentHelper::getParams($component);
 
 		if (empty($file['name']))
 		{
 			$app = JFactory::getApplication();
-			$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_UPLOAD_INPUT'), 'notice');
+			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'), 'notice');
 
 			return false;
 		}
@@ -68,7 +72,7 @@ class JHelperMedia
 		if ($file['name'] !== JFile::makeSafe($file['name']))
 		{
 			$app = JFactory::getApplication();
-			$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNFILENAME'), 'notice');
+			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILENAME'), 'notice');
 
 			return false;
 		}
@@ -81,7 +85,7 @@ class JHelperMedia
 		if ($format == '' || $format == false || (!in_array($format, $allowable) && !in_array($format, $ignored)))
 		{
 			$app = JFactory::getApplication();
-			$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNFILETYPE'), 'notice');
+			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'notice');
 
 			return false;
 		}
@@ -91,7 +95,7 @@ class JHelperMedia
 		if ($maxSize > 0 && (int) $file['size'] > $maxSize)
 		{
 			$app = JFactory::getApplication();
-			$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 'notice');
+			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETOOLARGE'), 'notice');
 
 			return false;
 		}
@@ -102,14 +106,15 @@ class JHelperMedia
 		if ($params->get('restrict_uploads', 1))
 		{
 			$images = explode(',', $params->get('image_extensions'));
-			if (in_array($format, $images)) { // if its an image run it through getimagesize
-				// if tmp_name is empty, then the file was bigger than the PHP limit
+			if (in_array($format, $images)) {
+				// If it is an image run it through getimagesize
+				// If tmp_name is empty, then the file was bigger than the PHP limit
 				if (!empty($file['tmp_name']))
 				{
 					if (($imginfo = getimagesize($file['tmp_name'])) === false)
 					{
 						$app = JFactory::getApplication();
-						$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNINVALID_IMG'), 'notice');
+						$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNINVALID_IMG'), 'notice');
 
 						return false;
 					}
@@ -117,7 +122,7 @@ class JHelperMedia
 				else
 				{
 					$app = JFactory::getApplication();
-					$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 'notice');
+					$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETOOLARGE'), 'notice');
 
 					return false;
 				}
@@ -137,7 +142,7 @@ class JHelperMedia
 					if (strlen($type) && !in_array($type, $allowed_mime) && in_array($type, $illegal_mime))
 					{
 						$app = JFactory::getApplication();
-						$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNINVALID_MIME'), 'notice');
+						$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNINVALID_MIME'), 'notice');
 
 						return false;
 					}
@@ -152,7 +157,7 @@ class JHelperMedia
 					if (strlen($type) && !in_array($type, $allowed_mime) && in_array($type, $illegal_mime))
 					{
 						$app = JFactory::getApplication();
-						$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNINVALID_MIME'), 'notice');
+						$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNINVALID_MIME'), 'notice');
 
 						return false;
 					}
@@ -160,7 +165,7 @@ class JHelperMedia
 				elseif (!$user->authorise('core.manage'))
 				{
 					$app = JFactory::getApplication();
-					$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNNOTADMIN'), 'notice');
+					$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNNOTADMIN'), 'notice');
 
 					return false;
 				}
@@ -176,7 +181,7 @@ class JHelperMedia
 			if (stristr($xss_check, '<'.$tag.' ') || stristr($xss_check, '<'.$tag.'>'))
 			{
 				$app = JFactory::getApplication();
-				$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNIEXSS'), 'notice');
+				$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNIEXSS'), 'notice');
 
 				return false;
 			}
@@ -185,6 +190,15 @@ class JHelperMedia
 		return true;
 	}
 
+	/**
+	 * Counts the files and directories in a directory
+	 *
+	 * @param   string  $dir  Directory name
+	 *
+	 * @return  array  The number of files and directories in the given directory
+	 *
+	 * @since  3.2
+	 */
 	public function countFiles($dir)
 	{
 		$total_file = 0;
