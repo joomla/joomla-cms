@@ -31,11 +31,14 @@ class UsersControllerUser extends UsersController
 
 		$app = JFactory::getApplication();
 
+		$input = $app->input;
+		$method = $input->getMethod();
+
 		// Populate the data array:
 		$data = array();
 		$data['return'] = base64_decode($app->input->post->get('return', '', 'BASE64'));
-		$data['username'] = JRequest::getVar('username', '', 'method', 'username');
-		$data['password'] = JRequest::getString('password', '', 'post', JREQUEST_ALLOWRAW);
+		$data['username'] = $input->$method->get('username', '', 'BASE64');
+		$data['password'] = $input->$method->get('password', '', 'BASE64');
 
 		// Set the return URL if empty.
 		if (empty($data['return']))
@@ -86,11 +89,14 @@ class UsersControllerUser extends UsersController
 		// Perform the log in.
 		$error = $app->logout();
 
+		$input = $app->input;
+		$method = $input->getMethod();
+
 		// Check if the log out succeeded.
 		if (!($error instanceof Exception))
 		{
 			// Get the return url from the request and validate that it is internal.
-			$return = JRequest::getVar('return', '', 'method', 'base64');
+			$return = $input->$method->get('return', '', 'BASE64');
 			$return = base64_decode($return);
 			if (!JUri::isInternal($return))
 			{
