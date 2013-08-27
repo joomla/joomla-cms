@@ -1,6 +1,8 @@
 .CodeMirror {
     border: 1px solid #eee;
     height: 600px;
+    line-height: 1.30;
+    font-size: 14px;
 }
 .CodeMirror-fullscreen {
     display: block;

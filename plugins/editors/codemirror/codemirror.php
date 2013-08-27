@@ -226,6 +226,7 @@ class PlgEditorCodemirror extends JPlugin
 		$options	= new stdClass;
 
         $options->mode = $mode;
+        $options->smartIndent = true;
 
         // Enabled the line numbers.
 		if ($this->params->get('lineNumbers') == "1")
