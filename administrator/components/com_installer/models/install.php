@@ -29,6 +29,11 @@ class InstallerModelInstall extends JModelLegacy
 	protected $_url = null;
 
 	/**
+	 * @var string URL for the Joomla Apps
+	 */
+	public static $appsBaseUrl = 'http://localhost/joomla-cms-apps/';
+
+	/**
 	 * Model context string.
 	 *
 	 * @var		string

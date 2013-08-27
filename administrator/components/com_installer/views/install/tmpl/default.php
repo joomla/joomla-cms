@@ -10,14 +10,16 @@
 defined('_JEXEC') or die;
 define('APPS_BASE_URL', 'http://localhost/joomla-cms-apps/');
 
+$appsBaseUrl = InstallerModelInstall::$appsBaseUrl;
+
 $document = JFactory::getDocument();
 $instance = new JVersion;
 
 $version  = $instance->getShortVersion();
-$document->addStylesheet(APPS_BASE_URL . 'apps/css/client.css?jversion=' . $version);
+$document->addStylesheet($appsBaseUrl . 'apps/css/client.css?jversion=' . $version);
 ?>
 <script type="text/javascript">
-	apps_base_url = '<?php echo APPS_BASE_URL; ?>';
+	apps_base_url = '<?php echo $appsBaseUrl; ?>';
 	Joomla.submitbutton = function(pressbutton)
 	{
 		var form = document.getElementById('adminForm');
@@ -63,7 +65,7 @@ $document->addStylesheet(APPS_BASE_URL . 'apps/css/client.css?jversion=' . $vers
 		}
 	}
 </script>
-<script src="<?php echo APPS_BASE_URL . 'apps/js/client.js?jversion=' . $version; ?>" type="text/javascript"></script>
+<script src="<?php echo $appsBaseUrl . 'apps/js/client.js?jversion=' . $version; ?>" type="text/javascript"></script>
 
 <div id="installer-install">
 <form enctype="multipart/form-data" action="<?php echo JRoute::_('index.php?option=com_installer&view=install');?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
