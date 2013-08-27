@@ -663,7 +663,6 @@ class PlgEditorTinymce extends JPlugin
 					theme_advanced_source_editor_width : \"$html_width\",
 					theme_advanced_resizing : $resizing,
 					theme_advanced_resize_horizontal : $resize_horizontal,
-					image_advtab: true
 				});
 				</script>";
 			break;
