@@ -26,6 +26,15 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Aug-2013 Jean-Marie Simonet
+ # [#28349] Incorrect ordering in Newsflash module. Thanks Gregory Wyman and Brian Teeman
+ # Updating Russian flag. Thanks Peter Farrer
+
+21-Aug-2013 Jean-Marie Simonet
+ # [#31724] Error pages: charset not defined - XSS risk.
+ # [#28496] *Register Email multilingual Problem in Joomla! 2.5.13
+ # [#29442] Automatic updates are confusing - better handling required. Thanks Nicholas Dionysopoulos
+
 18-Aug-2013 Jean-Marie Simonet
  $ [#30664] User Categories helps screen strings missing. Thanks George Wilson
 

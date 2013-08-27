@@ -112,7 +112,7 @@ class JHttpTransportCurl implements JHttpTransport
 		// If an explicit user agent is given use it.
 		if (isset($userAgent))
 		{
-			$headers[CURLOPT_USERAGENT] = $userAgent;
+			$options[CURLOPT_USERAGENT] = $userAgent;
 		}
 
 		// Set the request URL.
@@ -179,5 +179,17 @@ class JHttpTransportCurl implements JHttpTransport
 		}
 
 		return $return;
+	}
+
+	/**
+	 * Method to check if HTTP transport cURL is available for use
+	 *
+	 * @return boolean true if available, else false
+	 *
+	 * @since   12.1
+	 */
+	static public function isSupported()
+	{
+		return function_exists('curl_version') && curl_version();
 	}
 }
