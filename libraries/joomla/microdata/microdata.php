@@ -32,7 +32,7 @@ class JMicrodata
 	 * @var		string
 	 * @since	3.2
 	 */
-	protected $type;
+	protected $type = null;
 
 	/**
 	 * The Property
@@ -85,30 +85,42 @@ class JMicrodata
 	/**
 	 * Initialize the class and setup the default Type
 	 *
-	 * @param   string  $type  Optional, Fallback to Thing Type
+	 * @param   string   $type  Optional, Fallback to Thing Type
+	 * @param   boolean  $flag  Enable or disable microdata output
 	 */
-	public function __construct($type = '')
+	public function __construct($type = '', $flag = true)
 	{
-		// Load the JSON file
+		if ($this->enabled = $flag)
+		{
+			// Fallback to Thing Type
+			if (!$type)
+			{
+				$type = 'Thing';
+			}
+
+			$this->setType($type);
+		}
+	}
+
+	/**
+	 * Load all Types and Properties from the types.json file
+	 * 
+	 * @return	void
+	 */
+	protected static function loadTypes()
+	{
+		// Load the JSON
 		if (!self::$types)
 		{
 			$path = JPATH_PLATFORM . '/joomla/microdata/types.json';
 			self::$types = json_decode(file_get_contents($path), true);
 		}
-
-		// Fallback to Thing Type
-		if (!$type)
-		{
-			$type = 'Thing';
-		}
-
-		$this->setType($type);
 	}
 
 	/**
 	 * Enable or Disable Microdata semantics output
 	 *
-	 * @param   boolean  $flag  Enable or disable
+	 * @param   boolean  $flag  Enable or disable microdata output
 	 *
 	 * @return	object
 	 */
@@ -128,6 +140,11 @@ class JMicrodata
 	 */
 	public function setType($type)
 	{
+		if (!$this->enabled)
+		{
+			return $this;
+		}
+
 		// Sanitize the Type
 		$this->type = self::sanitizeType($type);
 
@@ -159,6 +176,11 @@ class JMicrodata
 	 */
 	public function property($property)
 	{
+		if (!$this->enabled)
+		{
+			return $this;
+		}
+
 		// Sanitize the Property
 		$property = self::sanitizeProperty($property);
 
@@ -219,6 +241,11 @@ class JMicrodata
 	 */
 	public function fallback($type, $property)
 	{
+		if (!$this->enabled)
+		{
+			return $this;
+		}
+
 		// Sanitize the Type
 		$this->fallbackType = self::sanitizeType($type);
 
@@ -483,12 +510,26 @@ class JMicrodata
 	}
 
 	/**
-	 * Return an array with all available Types
+	 * Return an array with all Types and Properties 
 	 *
 	 * @return	array
 	 */
 	public static function getTypes()
 	{
+		self::loadTypes();
+
+		return self::$types;
+	}
+
+	/**
+	 * Return an array with all available Types
+	 *
+	 * @return	array
+	 */
+	public static function getAvailableTypes()
+	{
+		self::loadTypes();
+
 		return array_keys(self::$types);
 	}
 
@@ -502,6 +543,8 @@ class JMicrodata
 	 */
 	public static function getExpectedTypes($type, $property)
 	{
+		self::loadTypes();
+
 		$tmp = self::$types[$type]['properties'];
 
 		// Check if the Property is in the Type
@@ -599,6 +642,8 @@ class JMicrodata
 	 */
 	public static function isTypeAvailable($type)
 	{
+		self::loadTypes();
+
 		return ( array_key_exists($type, self::$types) ) ? true : false;
 	}
 

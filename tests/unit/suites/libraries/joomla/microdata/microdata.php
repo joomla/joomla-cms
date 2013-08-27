@@ -183,11 +183,10 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 		);
 
 		// Test if the JMicrodata is disabled
-		$responce = $this->handler
+		$responce = $this->handler->enable(false)
 			->content($content)
 			->fallback('Article', 'about')
 			->property('datePublished')
-			->enable(false)
 			->display();
 
 		$this->assertEquals($responce, $content);
@@ -201,7 +200,7 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 	public function testDisplayFallbacks()
 	{
 		// Setup
-		$this->handler->setType('Article');
+		$this->handler->enable(true)->setType('Article');
 		$content = 'anything';
 
 		// Test without content if fallbacks, the Property isn't available in the current Type
@@ -353,12 +352,12 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 	{
 		// Test if the method return true with an available Type
 		$this->assertTrue(
-			$this->handler->isTypeAvailable('Article')
+			JMicrodata::isTypeAvailable('Article')
 		);
 
 		// Test if the method return false with an unavailable Type
 		$this->assertFalse(
-			$this->handler->isTypeAvailable('SomethingThatDoesNotExist')
+			JMicrodata::isTypeAvailable('SomethingThatDoesNotExist')
 		);
 	}
 
@@ -374,22 +373,22 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 
 		// Test a Property that is available in the Type
 		$this->assertTrue(
-			$this->handler->isPropertyInType($type, 'articleBody')
+			JMicrodata::isPropertyInType($type, 'articleBody')
 		);
 
 		// Test an inherit Property that is available in the Type
 		$this->assertTrue(
-			$this->handler->isPropertyInType($type, 'about')
+			JMicrodata::isPropertyInType($type, 'about')
 		);
 
 		// Test a Property that is unavailable in the Type
 		$this->assertFalse(
-			$this->handler->isPropertyInType($type, 'aPropertyThatDoesNotExist')
+			JMicrodata::isPropertyInType($type, 'aPropertyThatDoesNotExist')
 		);
 
 		// Test a Property in an unanvailable Type
 		$this->assertFalse(
-			$this->handler->isPropertyInType('aTypeThatDoesNotExist', 'aPropertyThatDoesNotExist')
+			JMicrodata::isPropertyInType('aTypeThatDoesNotExist', 'aPropertyThatDoesNotExist')
 		);
 	}
 
@@ -433,8 +432,8 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 	{
 		// Setup
 		$type = 'Article';
-		$this->handler->setType($type)
-			->enable(true);
+		$this->handler->enable(true)
+			->setType($type);
 
 		// Test a displayScope() when microdata are enabled
 		$this->assertEquals(
@@ -450,13 +449,13 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Test the getTypes() function
+	 * Test the getAvailableTypes() function
 	 *
 	 * @return	void
 	 */
-	public function testGetAllTypes()
+	public function testGetAvailableTypes()
 	{
-		$responce = $this->handler->getTypes();
+		$responce = JMicrodata::getAvailableTypes();
 
 		$this->assertGreaterThan(500, count($responce));
 		$this->assertNotEmpty($responce);
