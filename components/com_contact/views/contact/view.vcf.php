@@ -19,15 +19,26 @@ class ContactViewContact extends JViewLegacy
 
 	protected $item;
 
-	public function display()
+	/**
+	 * Method to display the view.
+	 *
+	 * @param   string  $tpl  A template file to load. [optional]
+	 *
+	 * @return  mixed  Exception on failure, void on success.
+	 *
+	 * @since   1.5
+	 */
+	public function display($tpl = null)
 	{
-		// Get model data.
-		$item = $this->get('Item');
-
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		try
 		{
-			JError::raiseWarning(500, implode("\n", $errors));
+			// Get model data.
+			$item = $this->get('Item');
+		}
+		catch (Exception $e)
+		{
+			JErrorPage::render($e);
+
 			return false;
 		}
 

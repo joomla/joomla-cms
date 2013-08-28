@@ -25,19 +25,27 @@ class ContactViewContact extends JViewLegacy
 	protected $state;
 
 	/**
-	 * Display the view
+	 * Method to display the view.
+	 *
+	 * @param   string  $tpl  A template file to load. [optional]
+	 *
+	 * @return  mixed  Exception on failure, void on success.
+	 *
+	 * @since   1.5
 	 */
 	public function display($tpl = null)
 	{
-		// Initialise variables.
-		$this->form		= $this->get('Form');
-		$this->item		= $this->get('Item');
-		$this->state	= $this->get('State');
-
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		try
 		{
-			JError::raiseError(500, implode("\n", $errors));
+			// Initialise variables.
+			$this->form		= $this->get('Form');
+			$this->item		= $this->get('Item');
+			$this->state	= $this->get('State');
+		}
+		catch (Exception $e)
+		{
+			JErrorPage::render($e);
+
 			return false;
 		}
 

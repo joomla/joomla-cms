@@ -29,27 +29,33 @@ class ContactViewFeatured extends JViewLegacy
 	protected $pagination;
 
 	/**
-	 * Display the view
+	 * Method to display the view.
 	 *
-	 * @return  mixed  False on error, null otherwise.
+	 * @param   string  $tpl  A template file to load. [optional]
+	 *
+	 * @return  mixed  Exception on failure, void on success.
+	 *
+	 * @since   1.5
 	 */
 	public function display($tpl = null)
 	{
 		$app		= JFactory::getApplication();
 		$params		= $app->getParams();
 
-		// Get some data from the models
-		$state		= $this->get('State');
-		$items		= $this->get('Items');
-		$category	= $this->get('Category');
-		$children	= $this->get('Children');
-		$parent 	= $this->get('Parent');
-		$pagination	= $this->get('Pagination');
-
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		try
 		{
-			JError::raiseWarning(500, implode("\n", $errors));
+			// Get some data from the models
+			$state		= $this->get('State');
+			$items		= $this->get('Items');
+			$category	= $this->get('Category');
+			$children	= $this->get('Children');
+			$parent 	= $this->get('Parent');
+			$pagination	= $this->get('Pagination');
+		}
+		catch (Exception $e)
+		{
+			JErrorPage::render($e);
+
 			return false;
 		}
 
@@ -63,9 +69,11 @@ class ContactViewFeatured extends JViewLegacy
 			$temp->loadString($item->params);
 			$item->params = clone($params);
 			$item->params->merge($temp);
+
 			if ($item->params->get('show_email', 0) == 1)
 			{
 				$item->email_to = trim($item->email_to);
+
 				if (!empty($item->email_to) && JMailHelper::isEmailAddress($item->email_to))
 				{
 					$item->email_to = JHtml::_('email.cloak', $item->email_to);

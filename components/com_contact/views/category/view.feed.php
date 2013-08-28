@@ -18,15 +18,17 @@ defined('_JEXEC') or die;
  */
 class ContactViewCategory extends JViewLegacy
 {
+	/**
+	 * Method to display the view.
+	 *
+	 * @param   string  $tpl  A template file to load. [optional]
+	 *
+	 * @return  mixed  Exception on failure, void on success.
+	 *
+	 * @since   1.5
+	 */
 	public function display($tpl = null)
 	{
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			JError::raiseError(500, implode("\n", $errors));
-			return false;
-		}
-
 		$app = JFactory::getApplication();
 
 		$doc	= JFactory::getDocument();
@@ -34,29 +36,39 @@ class ContactViewCategory extends JViewLegacy
 		$siteEmail = $app->getCfg('mailfrom');
 
 		$app->input->set('limit', $app->getCfg('feed_limit'));
-		// Get some data from the models
-		$category = $this->get('Category');
-		$rows     = $this->get('Items');
+
+		try
+		{
+			// Get some data from the models
+			$category = $this->get('Category');
+			$rows     = $this->get('Items');
+		}
+		catch (Exception $e)
+		{
+			JErrorPage::render($e);
+
+			return false;
+		}
 
 		$doc->link = JRoute::_(ContactHelperRoute::getCategoryRoute($category->id));
 
 		foreach ($rows as $row)
 		{
-			// strip html from feed item title
+			// Strip html from feed item title
 			$title = $this->escape($row->name);
 			$title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
 
 			// Compute the contact slug
 			$row->slug = $row->alias ? ($row->id . ':' . $row->alias) : $row->id;
 
-			// url link to article
+			// URL link to article
 			$link = JRoute::_(ContactHelperRoute::getContactRoute($row->slug, $row->catid));
 
 			$description	= $row->address;
 			$author			= $row->created_by_alias ? $row->created_by_alias : $row->author;
 			@$date			= ($row->created ? date('r', strtotime($row->created)) : '');
 
-			// load individual item creator class
+			// Load individual item creator class
 			$item = new JFeedItem;
 			$item->title       = $title;
 			$item->link        = $link;
