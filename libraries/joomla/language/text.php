@@ -65,7 +65,7 @@ class JText
 				$jsSafe = false;
 			}
 		}
-		if (!(strpos($string, ',') === false))
+		if (strpos($string, ','))
 		{
 			$test = substr($string, strpos($string, ','));
 			if (strtoupper($test) === $test)
