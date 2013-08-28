@@ -1,3 +1,4 @@
+# Placeholder file for database changes for version 3.2.0
 INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`) VALUES
 (36, 1, 69, 70, 1, 'com_services', 'com_services', '{}');
 

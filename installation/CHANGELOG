@@ -25,6 +25,90 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Aug-2013 Jean-Marie Simonet
+ # [#31795] No Bootstrap dropdown FE newsfeed category + tags. Thanks Tobias Zulauf
+ # [#31836] *JFile::makeSafe lets upload files with space in name
+ # [#31545] Numeric tags and SEF. Thanks Marco Richter
+ # [#31838] Make the contact modal form field work on non-mysql db's. Thanks George Wilson
+
+25-Aug-2013 Jean-Marie Simonet
+ # [#31830] Fatal pass by reference error in MediaHelper Take 2. Thanks Elin Waring
+ # [#29973] Searching for updates throws out exception when url doesn't return body content. Thanks Piotr Cz
+
+24-Aug-2013 Elin Waring
+ ^ [#31005] Move JMenu, JRouter, and JPathway to the CMS tree. Thanks Michael Babker
+ # [#31036] Search is broken on Chrome (and possibly reveals Joomla installation path). Thanks Roberto Segura
+ # [#31786] get_html_translation_table requires encoding value for PHP 5.4. Thanks Tobias Zulauf
+
+24-Aug-2013 Michael Babker
+ # [#31074] Cannot call abstract method FinderIndexer::toggleTables()
+ # [#29758] *Media Manager Maximum Upload Size.  Thanks Ram Tripathi
+ # [#30692] *wrong display of attribute in readonly user field.  Thanks Jean-Marie Simonet
+ # [#31831] Beez3: image overflow.  Thanks Tobias Zulauf
+ $# [#31699] Remove last uses of JDispatcher.  Thanks George Wilson
+ ^ [#31629] Fix https problem if you are using Google Fonts protostar Template.  Thanks Ervis Tusha
+ ^ [#30718] minor code optimization: libraries/legacy/html/menu.php.  Thanks Jan Schönherr
+
+23-Aug-2013 Jean-Marie Simonet
+ # Reverting [#31641] which breaks Notices (File Type error message not displayed)
+
+22-Aug-2013 Jean-Marie Simonet
+ # [#31804] Two classes assigned to pagination links. Thanks George Wilson
+ # [#31641] Fatal pass by reference error in MediaHelper. Thanks Elin Waring
+ # [#31796] Beez3: Login form. Thanks Tobias Zulauf
+ # [#31799] Missing maxlength attribute for input type password in Joomla 3.x. Thanks Ionut Lupu
+ # [#31750] class attribute for form field type media will be ignored. Thanks Anthony THERREAU
+ # [#31619] Fix subpackage tag in layouts + copyright. Thanks Brian Teeman
+ # [#30144] Obsolete class 'ModulesHelperXML'. Thanks Elijah Madden
+ # [#31662] Splitting the file containing JObserverMapper into own files for each interface / class. Thanks Thomas Hunziker
+ # [#28349] Incorrect ordering in Newsflash module. Thanks Gregory Wyman and Brian Teeman
+ # [#31813] Add nav-pill class to top menu. Thanks Brian Teeman
+ # Updating Russian flag. Thanks Peter Farrer
+ # [#31273] Sample Blog: ordering of menu items in main menu. Thanks Stefania Gaianigo
+
+21-Aug-2013 Jean-Marie Simonet
+ # [#31793] No Bootstrap dropdown edit profil FE. Thanks Tobias Zulauf
+ #$ [#31794] Untranslated string at the FE profil. Thanks Tobias Zulauf
+ # [#31724] Error pages: charset not defined - XSS risk.
+ # [#31778] Rows in #__contentitem_tag_map table not deleted during category delete. Thanks Mark Dexter
+
+18-Aug-2013 Jean-Marie Simonet
+ # [#31775] Sample data for Joomla Announcements Feed is wrong. Thanks Elin Waring
+ $ [#30664] User Categories helps screen strings missing. Thanks George Wilson
+
+17-Aug-2013 Jean-Marie Simonet
+ # [#31649] During Installation, PHP Setting Display Errors is Not Reported/Identified Correctly. Thanks Chad Windnagle
+ # [#30934] Language Pack Install fail on Joomla V3.1.1 with PostGreSQL DB Backend. Thanks Michael Babker
+ # [#31556] Strength meter of password field. Thanks Achal Aggarwal
+ # [#31754] *mod_feed issues in FE as well as BE. Thanks Achal Aggarwal
+
+15-Aug-2013 Michael Babker
+ # [#31732] administrator/components/com_admin/sql/updates/postgresql/3.0.3.sql has wrong type should be integer instead of int(11).  Thanks Alan Hicks
+
+15-Aug-2013 Jean-Marie Simonet
+ # [#31744] Featured articles menu item error. Thanks Anthony THERREAU
+ # [#30572] No backend javascript validation on com_content option input fields. Thanks Duong Nguyen
+ # [#31717] output mod_newsfeed. Thanks Przemysław Pałyga
+
+14-Aug-2013 Jean-Marie Simonet
+ # [#31692] JFormFieldUrl garble HTML with emtpy class. Thanks Anthony THERREAU
+ #$ [#31631] Small typo fix in Plugin. Thanks Gunjan Patel
+ $ [#31714] Confusing text "search by tag" in the banner module. Thanks Brian Teeman
+ + [#31436] *Create a update button to list new Help servers. Thanks Julien Vonthron
+
+12-Aug-2013 Jean-Marie Simonet
+ # [#31703] Fixed BC issue with tooltip/popover being added in wrong place. Thanks Peter Van Westen
+ $ [#31210] Add the "!" at the mod_menu.ini for the adminmenu "Help". Thanks Tobias Zulauf
+ # [#31697] *Tags menu items: impossible to delete the last "Type". Thanks Roberto Segura.
+ $ [#31365] Statistics Module 'Visitors' should be 'Registered users'. Thanks Stefania Gaianigo and Brian Teeman
+ # [#30413] Calender popup problem in pages containing calendar fields. Thanks Achal Aggarwal
+ # [#31658] correct header for some ini files. Thanks Tobias Zulauf
+ # [#31695] Installation screen shows placeholder instead of email address. Thanks Achal Aggarwal
+
+11-Aug-2013 Jean-Marie Simonet
+ # Reverting #31697 which breaks installation.
+ # [#31726] Saving with no tags gives sql error. Thanks Elin Waring
+
 10-Aug-2013 Jean-Marie Simonet
  # [#31597] Undefined variable in com_banners model. Thanks Mario Proenca
  # [#31432] News Feed Manager: News Feed Page. --> System does not displayed the proper tootl tip. Thanks Sebastian Łuckoś

@@ -45,20 +45,25 @@ abstract class MediaHelper
 	 * @param string An error message to be returned
 	 * @return  boolean
 	 */
-	public static function canUpload($file, &$err)
+	public static function canUpload($file, $err = '')
 	{
 		$params = JComponentHelper::getParams('com_media');
 
 		if (empty($file['name']))
 		{
-			$err = 'COM_MEDIA_ERROR_UPLOAD_INPUT';
+			$app = JFactory::getApplication();
+			$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_UPLOAD_INPUT'), 'notice');
+
 			return false;
 		}
 
 		jimport('joomla.filesystem.file');
-		if ($file['name'] !== JFile::makesafe($file['name']))
+
+		if ($file['name'] !== JFile::makeSafe($file['name']) || preg_match('/\s/', JFile::makeSafe($file['name'])))
 		{
-			$err = 'COM_MEDIA_ERROR_WARNFILENAME';
+			$app = JFactory::getApplication();
+			$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNFILENAME'), 'notice');
+
 			return false;
 		}
 
@@ -66,21 +71,28 @@ abstract class MediaHelper
 
 		$allowable = explode(',', $params->get('upload_extensions'));
 		$ignored = explode(',', $params->get('ignore_extensions'));
+
 		if ($format == '' || $format == false || (!in_array($format, $allowable) && !in_array($format, $ignored)))
 		{
-			$err = 'COM_MEDIA_ERROR_WARNFILETYPE';
+			$app = JFactory::getApplication();
+			$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNFILETYPE'), 'notice');
+
 			return false;
 		}
 
 		$maxSize = (int) ($params->get('upload_maxsize', 0) * 1024 * 1024);
+
 		if ($maxSize > 0 && (int) $file['size'] > $maxSize)
 		{
-			$err = 'COM_MEDIA_ERROR_WARNFILETOOLARGE';
+			$app = JFactory::getApplication();
+			$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 'notice');
+
 			return false;
 		}
 
 		$user = JFactory::getUser();
 		$imginfo = null;
+
 		if ($params->get('restrict_uploads', 1))
 		{
 			$images = explode(',', $params->get('image_extensions'));
@@ -90,41 +102,60 @@ abstract class MediaHelper
 				{
 					if (($imginfo = getimagesize($file['tmp_name'])) === false)
 					{
-						$err = 'COM_MEDIA_ERROR_WARNINVALID_IMG';
+						$app = JFactory::getApplication();
+						$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNINVALID_IMG'), 'notice');
+
 						return false;
 					}
-				} else {
-					$err = 'COM_MEDIA_ERROR_WARNFILETOOLARGE';
+				}
+				else
+				{
+					$app = JFactory::getApplication();
+					$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 'notice');
+
 					return false;
 				}
-			} elseif (!in_array($format, $ignored))
+			}
+			elseif (!in_array($format, $ignored))
 			{
 				// if its not an image...and we're not ignoring it
 				$allowed_mime = explode(',', $params->get('upload_mime'));
 				$illegal_mime = explode(',', $params->get('upload_mime_illegal'));
+
 				if (function_exists('finfo_open') && $params->get('check_mime', 1))
 				{
 					// We have fileinfo
 					$finfo = finfo_open(FILEINFO_MIME);
 					$type = finfo_file($finfo, $file['tmp_name']);
+
 					if (strlen($type) && !in_array($type, $allowed_mime) && in_array($type, $illegal_mime))
 					{
-						$err = 'COM_MEDIA_ERROR_WARNINVALID_MIME';
+						$app = JFactory::getApplication();
+						$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNINVALID_MIME'), 'notice');
+
 						return false;
 					}
 					finfo_close($finfo);
-				} elseif (function_exists('mime_content_type') && $params->get('check_mime', 1))
+				}
+				elseif (function_exists('mime_content_type') && $params->get('check_mime', 1))
 				{
-					// we have mime magic
+					// We have mime magic.
+
 					$type = mime_content_type($file['tmp_name']);
+
 					if (strlen($type) && !in_array($type, $allowed_mime) && in_array($type, $illegal_mime))
 					{
-						$err = 'COM_MEDIA_ERROR_WARNINVALID_MIME';
+						$app = JFactory::getApplication();
+						$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNINVALID_MIME'), 'notice');
+
 						return false;
 					}
-				} elseif (!$user->authorise('core.manage'))
+				}
+				elseif (!$user->authorise('core.manage'))
 				{
-					$err = 'COM_MEDIA_ERROR_WARNNOTADMIN';
+					$app = JFactory::getApplication();
+					$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNNOTADMIN'), 'notice');
+
 					return false;
 				}
 			}
@@ -138,10 +169,13 @@ abstract class MediaHelper
 			// A tag is '<tagname ', so we need to add < and a space or '<tagname>'
 			if (stristr($xss_check, '<'.$tag.' ') || stristr($xss_check, '<'.$tag.'>'))
 			{
-				$err = 'COM_MEDIA_ERROR_WARNIEXSS';
+				$app = JFactory::getApplication();
+				$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNIEXSS'), 'notice');
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 

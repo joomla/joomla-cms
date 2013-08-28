@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 <?php foreach ($fieldSets as $name => $fieldSet) : ?>
 	<?php $label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_CATEGORIES_' . $name . '_FIELDSET_LABEL'; ?>
 	<?php if ($name != 'editorConfig' && $name != 'basic-limited') : ?>
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'attrib-' . $name, trim($label)); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'attrib-' . $name, JText::_(trim($label))); ?>
 		<fieldset>
 			<?php if (isset($fieldSet->description) && trim($fieldSet->description)) : ?>
 				<p class="tip"><?php echo $this->escape(JText::_($fieldSet->description)); ?></p>

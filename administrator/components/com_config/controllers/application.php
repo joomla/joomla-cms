@@ -80,7 +80,9 @@ class ConfigControllerApplication extends JControllerLegacy
 		include_once JPATH_ADMINISTRATOR . '/components/com_config/controller/application/refreshhelp.php';
 		$controller = new ConfigControllerApplicationRefreshhelp;
 
+
 		$controller->execute();
+
 	}
 
 	/**

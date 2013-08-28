@@ -1,3 +1,4 @@
+# Placeholder file for database changes for version 3.2.0
 SET IDENTITY_INSERT #__assets  ON;
 
 INSERT INTO #__assets (id,parent_id,lft,rgt,level,name,title,rules)

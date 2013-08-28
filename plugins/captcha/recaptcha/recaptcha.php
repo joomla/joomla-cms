@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 /**
  * Recaptcha Plugin.
- * Based on the oficial recaptcha library( http://recaptcha.net/plugins/php/ )
+ * Based on the official recaptcha library( https://developers.google.com/recaptcha/docs/php )
  *
  * @package     Joomla.Plugin
  * @subpackage  Captcha
