@@ -345,12 +345,35 @@ class JMicrodata
 					case 'nested':
 						// Retrive the expected nested Type of the Property
 						$nestedType = static::getExpectedTypes($this->type, $this->property);
-						$nestedType = $nestedType[0];
+						$nestedProperty = '';
+
+						// If there is a Fallback Type then probably it could be the expectedType
+						if (in_array($this->fallbackType, $nestedType))
+						{
+							$nestedType = $this->fallbackType;
+
+							if ($this->fallbackProperty)
+							{
+								$nestedProperty = $this->fallbackProperty;
+							}
+						}
+						else
+						{
+							$nestedType = $nestedType[0];
+						}
 
 						/* Check if a Content is available,
 						 * otherwise Fallback to an 'inline' display type */
 						if ($this->content)
 						{
+							if ($nestedProperty)
+							{
+								$this->content = static::htmlSpan(
+									$this->content,
+									$nestedProperty
+								);
+							}
+
 							$html = static::htmlSpan(
 								$this->content,
 								$this->property,
@@ -362,6 +385,11 @@ class JMicrodata
 						{
 							$html = static::htmlProperty($this->property)
 								. " " . static::htmlScope($nestedType);
+
+							if ($nestedProperty)
+							{
+								$html .= ' ' . static::htmlProperty($nestedProperty);
+							}
 						}
 						break;
 

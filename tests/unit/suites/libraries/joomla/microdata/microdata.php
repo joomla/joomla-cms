@@ -161,6 +161,29 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 			"<span itemprop='author' itemscope itemtype='https://schema.org/Organization'>$content</span>"
 		);
 
+		// Test for a nested display with content and Fallback
+		$responce = $this->handler
+			->fallback('Person', 'name')
+			->property('author')
+			->content($content)
+			->display();
+
+		$this->assertEquals(
+			$responce,
+			"<span itemprop='author' itemscope itemtype='https://schema.org/Person'><span itemprop='name'>$content</span></span>"
+		);
+
+		// Test for a nested display with Fallback and without content
+		$responce = $this->handler
+			->fallback('Person', 'name')
+			->property('author')
+			->display();
+
+		$this->assertEquals(
+			$responce,
+			"itemprop='author' itemscope itemtype='https://schema.org/Person' itemprop='name'"
+		);
+
 		// Test for a meta display without content
 		$responce = $this->handler
 			->property('datePublished')
