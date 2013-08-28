@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Aug-2013 Jean-Marie Simonet
+ #^ [#31389] TinyMCE 4.0.5 Update. Thanks George Wilson
+
 27-Aug-2013 Jean-Marie Simonet
  # [#31795] No Bootstrap dropdown FE newsfeed category + tags. Thanks Tobias Zulauf
  # [#31836] *JFile::makeSafe lets upload files with space in name
