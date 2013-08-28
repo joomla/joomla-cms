@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 28-Aug-2013 Jean-Marie Simonet
  #^ [#31389] TinyMCE 4.0.5 Update. Thanks George Wilson
+ + [#31774] Add the Framework DI Container to the CMS. Thanks Don Gilbert
 
 27-Aug-2013 Jean-Marie Simonet
  # [#31795] No Bootstrap dropdown FE newsfeed category + tags. Thanks Tobias Zulauf
