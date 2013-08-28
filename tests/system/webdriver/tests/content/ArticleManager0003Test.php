@@ -136,4 +136,57 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 		 $this->articleManagerPage->changeFilter('Status','Archived');
 		 $this->articleManagerPage->changeArticleState('Getting Started', 'published');
 	 }
+	 
+	 /**
+	 * @test
+	 */
+	 public function batchAccessLevel_ChangeBatchAccessLevel_AccessLevelChanged()
+	 {
+		 $newAccessLevel = 'Special';
+		 $cpPage = $this->doAdminLogin();
+		 $this->articleManagerPage = $cpPage->clickMenu('Article Manager', 'ArticleManagerPage');
+		 $this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
+		 $actualAccessLevel = $this->articleManagerPage->getAccessLevel('Archive Module');
+		 $this->assertEquals($actualAccessLevel,'Public', 'Initial Access Level Must be Public');
+		 $this->articleManagerPage->changeAccessLevel('Archive Module', $newAccessLevel);
+		 $currentAccessLevel = $this->articleManagerPage->getAccessLevel('Archive Module');
+		 $this->assertEquals($newAccessLevel,$currentAccessLevel, 'Current Access Level Should have changed to Special');
+		 $this->articleManagerPage->changeAccessLevel('Archive Module', 'Public');
+		 $currentAccessLevel = $this->articleManagerPage->getAccessLevel('Archive Module');
+		 $this->assertEquals('Public',$currentAccessLevel, 'Current Access Level Should have changed back to public');
+	 }
+	 
+	 /**
+	  * @test
+	  */
+	 public function batchCopy_BatchCopyArticle_ArticleCopied()
+	 {
+		 $cpPage = $this->doAdminLogin();
+		 $this->articleManagerPage = $cpPage->clickMenu('Article Manager', 'ArticleManagerPage');
+		 $this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
+		 $originalCategory = 'Content Modules';
+		 
+		 //Category to which we will copy the artcile using Batch Process
+		 $newCategory = 'Park Site';
+		 $value = $this->articleManagerPage->getCategoryName('Archive Module');
+		 $this->assertEquals($value,'Category: Content Modules','Initially Archive Module Must belong to Content Modules Category');
+		 $this->articleManagerPage->doBatchAction('Archive Module','Park',$newCategory,'copy'); 
+		 $this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
+		 $this->articleManagerPage->changeCategoryFilter($newCategory,'Park');
+		 $this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
+		 $value = $this->articleManagerPage->getCategoryName('Archive Module');
+		 $this->assertEquals($value,'Category: Park Site','The Article Must have got copied into the new Category');
+		 $this->articleManagerPage->trashAndDelete('Archive Module'); 
+		 $this->articleManagerPage->changeCategoryFilter();
+		 $this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
+		 
+		 //Now we will copy the article into same category using Batch Process
+		 $this->articleManagerPage->doBatchAction('Archive Module','Content',$originalCategory,'copy');
+		 $this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
+		 $value = $this->articleManagerPage->getCategoryName('Archive Module (2)');
+		 $this->assertEquals($value,'Category: Content Modules','The Article Must have got copied into the same original Category');
+		 $this->articleManagerPage->trashAndDelete('Archive Module (2)');  
+		 $this->articleManagerPage->changeCategoryFilter();
+		 $this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
+	  }
 }
