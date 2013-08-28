@@ -405,7 +405,7 @@ class PlgEditorTinymce extends JPlugin
 			$toolbar4_add[] = 'template';
 
 			// Note this check for the template_list.js file will be removed in Joomla 4.0
-			if(JFile::exists(JPATH_ROOT . "/media/editors/tinymce/templates/template_list.js"))
+			if (JFile::exists(JPATH_ROOT . "/media/editors/tinymce/templates/template_list.js"))
 			{
 				// If using the legacy file we need to include and input the files the new way
 				$str = file_get_contents(JUri::root() . "media/editors/tinymce/templates/template_list.js");
@@ -415,14 +415,15 @@ class PlgEditorTinymce extends JPlugin
 
 				$templates = "templates: [";
 
-				//Set variables
+				// Set variables
 				foreach ($matches['0'] as $match)
 				{
 					preg_match_all('/\".*\"/', $match, $values);
 					$result = trim($values["0"]["0"], '"');
-					$final_result = explode (',', $result);
+					$final_result = explode(',', $result);
 					$templates .= "{title: '" . trim($final_result['0'], ' " ') . "', description: '" . trim($final_result['2'], ' " ') . "', url: '" . JUri::root() . trim($final_result['1'], ' " ') . "'},";
 				}
+
 				$templates .= "],";
 			}
 			else
@@ -514,7 +515,7 @@ class PlgEditorTinymce extends JPlugin
 		$toolbar2 = implode(' ', $toolbar2_add);
 		$toolbar3 = implode(' ', $toolbar3_add);
 		$toolbar4 = implode(' ', $toolbar4_add);
-		
+
 		// See if mobileVersion is activated
 		$mobileVersion = $this->params->get('mobile', 1);
 
@@ -654,7 +655,7 @@ class PlgEditorTinymce extends JPlugin
 					remove_script_host : false,
 					document_base_url : \"" . JUri::root() . "\",
 					//Templates
-					". $templates ."
+					" . $templates . "
 					// Layout
 					$content_css
 					importcss_append: true,
