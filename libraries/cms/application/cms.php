@@ -318,6 +318,7 @@ class JApplicationCms extends JApplicationWeb
 	 * @return  JApplicationCms
 	 *
 	 * @since   3.2
+	 * @throws  RuntimeException
 	 */
 	public static function getInstance($name = null)
 	{
@@ -326,18 +327,12 @@ class JApplicationCms extends JApplicationWeb
 			// Create a JApplicationCms object.
 			$classname = 'JApplication' . ucfirst($name);
 
-			if (class_exists($classname))
+			if (!class_exists($classname))
 			{
-				$instance = new $classname;
-			}
-			else
-			{
-				$error = JError::raiseError(500, JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $name));
-
-				return $error;
+				throw new RuntimeException(JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $name), 500);
 			}
 
-			static::$instances[$name] = $instance;
+			static::$instances[$name] = new $classname;
 		}
 
 		return static::$instances[$name];
