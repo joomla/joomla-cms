@@ -6723,6 +6723,10 @@ body {
 .small {
 	font-size: 11px;
 }
+input.input-large-text {
+	font-size: 18px;
+	height: auto;
+}
 .row-even .small,
 .row-odd .small,
 .row-even .small a,
