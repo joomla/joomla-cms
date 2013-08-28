@@ -1,5 +1,10 @@
-Joomla! CMS [![Build Status](https://travis-ci.org/joomla/joomla-cms.png)](https://travis-ci.org/joomla/joomla-cms)
+Joomla! CMS
 ====================
+
+Build Status
+---------------------
+Travis-CI: [![Build Status](https://travis-ci.org/joomla/joomla-cms.png)](https://travis-ci.org/joomla/joomla-cms)
+Jenkins: [![Build Status](http://build.joomla.org/job/cms/badge/icon)](http://build.joomla.org/job/cms/)
 
 What is this?
 ---------------------

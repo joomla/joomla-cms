@@ -39,9 +39,6 @@ class JRouterAdministratorTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
-		// Import dependencies
-		jimport('joomla.application.router');
-
 		$this->backupServer = $_SERVER;
 
 		$_SERVER['HTTP_HOST'] = 'example.com';
