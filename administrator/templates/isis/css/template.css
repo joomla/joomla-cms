@@ -6765,7 +6765,7 @@ body .navbar-fixed-top {
 	background-repeat: repeat-x;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff17568c', endColorstr='#ff1a3867', GradientType=0);
 	border-top: 1px solid rgba(255,255,255,0.2);
-	padding: 5px;
+	padding: 5px 25px;
 }
 .navbar .btn-navbar {
 	background: #17568c;
@@ -6806,7 +6806,8 @@ body .navbar-fixed-top {
 	height: auto;
 }
 .container-logo {
-	text-align: center;
+	float: right;
+	text-align: right;
 }
 .page-title {
 	color: white;
@@ -6816,6 +6817,16 @@ body .navbar-fixed-top {
 	line-height: 36px;
 	margin: 0;
 }
+@media (max-width: 767px) {
+	.container-logo {
+		float: none;
+		text-align: center;
+	}
+	.page-title {
+		text-align: center;
+	}
+}
+
 .content-title {
 	font-size: 24px;
 	font-weight: normal;
@@ -7013,9 +7024,6 @@ h6 {
 	}
 }
 @media (max-width: 767px) {
-	.page-title {
-		text-align: center;
-	}
 	.navbar-search.pull-right {
 		float: none;
 		text-align: center;

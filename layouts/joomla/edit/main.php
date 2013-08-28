@@ -16,11 +16,13 @@ $fields = $displayData->get('fields');
 $fields = !empty($fields) ? $fields : array(
 	array('category', 'catid'),
 	array('parent', 'parent_id'),
+	'ordering',
 	'tags',
 	array('published', 'state'),
 	'featured',
 	'access',
-	'language'
+	'language',
+	'note'
 );
 
 $hidden_fields = $displayData->get('hidden_fields');
@@ -28,29 +30,30 @@ $hidden_fields = !empty($hidden_fields) ? $hidden_fields : array();
 
 if (!isset($app->languages_enabled))
 {
-	$hidden[] = 'language';
+	$hidden_fields[] = 'language';
 }
 
-?>
-<fieldset class="form-vertical">
-	<?php foreach ($fields as $field) : ?>
-		<?php $field = is_array($field) ? $field : array($field); ?>
-		<?php foreach ($field as $f) : ?>
-			<?php if ($form->getField($f)) : ?>
-				<?php if (in_array($f, $hidden_fields)) : ?>
-					<input type="hidden" name="language" value="<?php echo $form->getValue($f); ?>" />
-				<?php else : ?>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $form->getLabel($f); ?>
-						</div>
-						<div class="controls">
-							<?php echo $form->getInput($f); ?>
-						</div>
-					</div>
-				<?php endif; ?>
-				<?php break; ?>
-			<?php endif; ?>
-		<?php endforeach; ?>
-	<?php endforeach; ?>
-</fieldset>
+$html = array();
+$html[] = '<fieldset class="form-vertical">';
+
+foreach ($fields as $field)
+{
+	$field = is_array($field) ? $field : array($field);
+	foreach ($field as $f)
+	{
+		if ($form->getField($f))
+		{
+			if (in_array($f, $hidden_fields))
+			{
+				$form->setFieldAttribute($f, 'type', 'hidden');
+			}
+
+			$html[] = $form->getControlGroup($f);
+			break;
+		}
+	}
+}
+
+$html[] = '</fieldset>';
+
+echo implode('', $html);

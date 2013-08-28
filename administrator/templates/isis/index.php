@@ -153,15 +153,11 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	<!-- Header -->
 	<?php if ($displayHeader) : ?>
 	<header class="header">
-		<div class="container-fluid">
-			<div class="row-fluid">
-				<div class="span2 container-logo">
-					<a class="logo" href="<?php echo $this->baseurl; ?>"><img src="<?php echo $logo; ?>" alt="<?php echo $sitename; ?>" /></a>
-				</div>
-				<div class="span10">
-					<jdoc:include type="modules" name="title" />
-				</div>
-			</div>
+		<div class="container-logo">
+			<a class="logo" href="<?php echo $this->baseurl; ?>"><img src="<?php echo $logo; ?>" alt="<?php echo $sitename; ?>" /></a>
+		</div>
+		<div class="container-title">
+			<jdoc:include type="modules" name="title" />
 		</div>
 	</header>
 	<?php endif; ?>
