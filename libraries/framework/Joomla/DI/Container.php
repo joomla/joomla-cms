@@ -43,7 +43,7 @@ class Container
 	/**
 	 * Constructor for the DI Container
 	 *
-	 * @param  Container  $parent  Parent for hierarchical containers.
+	 * @param   Container  $parent  Parent for hierarchical containers.
 	 *
 	 * @since  1.0
 	 */
@@ -78,7 +78,10 @@ class Container
 		// If there are no parameters, just return a new object.
 		if (is_null($constructor))
 		{
-			$callback = function () use ($key) { return new $key; };
+			$callback = function () use ($key)
+			{
+				return new $key;
+			};
 		}
 		else
 		{
@@ -96,9 +99,7 @@ class Container
 	/**
 	 * Convenience method for building a shared object.
 	 *
-	 * @param   string   $key                The class name to build.
-	 * @param   array    $constructorParams  Array of named parameters to pass to constructor.
-	 * @param   boolean  $shared             True to create a shared resource.
+	 * @param   string  $key  The class name to build.
 	 *
 	 * @return  object  Instance of class specified by $key with all dependencies injected.
 	 *
@@ -125,7 +126,7 @@ class Container
 	 * works very similar to a decorator pattern.  Note that this only works on service Closures
 	 * that have been defined in the current Provider, not parent providers.
 	 *
-	 * @param   string   $key       The unique identifier for the Closure or property.
+	 * @param   string    $key       The unique identifier for the Closure or property.
 	 * @param   \Closure  $callable  A Closure to wrap the original service Closure.
 	 *
 	 * @return  void
@@ -153,8 +154,8 @@ class Container
 	 * Build an array of constructor parameters.
 	 *
 	 * @param   \ReflectionMethod  $method  Method for which to build the argument array.
-	 * @param   array              $params  Array of parameters from which to pull named dependencies.
 	 *
+	 * @throws  DependencyResolutionException  Thrown if the dependency can't be resolved.
 	 * @return  array  Array of arguments to pass to the method.
 	 */
 	protected function getMethodArgs(\ReflectionMethod $method)
@@ -279,6 +280,7 @@ class Container
 	 * @param   string   $key       Name of the dataStore key to get.
 	 * @param   boolean  $forceNew  True to force creation and return of a new instance.
 	 *
+	 * @throws  \InvalidArgumentException  Thrown if the key isn't registered with the container
 	 * @return  mixed   Results of running the $callback for the specified $key.
 	 *
 	 * @since   1.0
@@ -344,7 +346,7 @@ class Container
 	/**
 	 * Register a service provider to the container.
 	 *
-	 * @param   ServiceProviderInterface $provider
+	 * @param   ServiceProviderInterface  $provider  The service provider interface to be registered
 	 *
 	 * @return  Container  This object for chaining.
 	 *
@@ -357,4 +359,3 @@ class Container
 		return $this;
 	}
 }
-
