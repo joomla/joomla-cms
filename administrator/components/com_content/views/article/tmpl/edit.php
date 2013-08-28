@@ -37,26 +37,8 @@ $input = $app->input;
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
-	<div class="form-inline form-inline-header">
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('title'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('title'); ?>
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('alias'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('alias'); ?>
-			</div>
-		</div>
-	</div>
+	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-	<!-- Begin Content -->
 	<div class="form-horizontal">
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
 
@@ -68,9 +50,7 @@ $input = $app->input;
 				</fieldset>
 			</div>
 			<div class="span3">
-				<!-- Begin Sidebar -->
 				<?php echo JLayoutHelper::render('joomla.edit.main', $this); ?>
-				<!-- End Sidebar -->
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
@@ -255,5 +235,4 @@ $input = $app->input;
 		<input type="hidden" name="return" value="<?php echo $input->getCmd('return'); ?>" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
-	<!-- End Content -->
 </form>
