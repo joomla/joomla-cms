@@ -405,6 +405,11 @@ abstract class JUserHelper
 
 				return ($show_encrypt) ? '{MD5}' . $encrypted : $encrypted;
 
+			case 'sha256':
+				$encrypted = ($salt) ? hash('sha256', $plaintext . $salt) : hash('sha256', $plaintext) ;
+
+				return ($show_encrypt) ? '{SHA256}' . $encrypted : $encrypted;
+
 			case 'bcrypt':
 				// 'bcrypt' is be the default case starting in CMS 3.2.
 				default:
@@ -423,12 +428,10 @@ abstract class JUserHelper
 				}
 				else
 				{
-					// BCrypt isn't available, fall back to md5 with salt.
-					return static::getCryptedPassword($plaintext, '', 'md5-hex', false);
+					// BCrypt isn't available, fall back to sha256.
+					return static::getCryptedPassword($plaintext, '', 'sha256', false);
 
 				}
-
-
 		}
 	}
 

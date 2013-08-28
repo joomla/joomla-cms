@@ -53,8 +53,8 @@ class PlgUserJoomla extends JPlugin
 	{
 		parent::__construct($subject, $config);
 
-		// This default is false until 3.2 at which point it will change to true.
-		$this->useStrongEncryption = $this->params->get('strong_passwords', false);
+		// As of CMS 3.2 strong encryption is the default.
+		$this->useStrongEncryption = $this->params->get('strong_passwords', true);
 	}
 
 	/**
