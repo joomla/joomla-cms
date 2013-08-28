@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Aug-2013 Mark Dexter
+ + Add some system tests for front end. Thanks Puneet Kala!
+
 21-Aug-2013 Mark Dexter
  + Start new front-end tests for articles. Thanks Puneet Kala!
 
