@@ -67,6 +67,31 @@ abstract class MediaHelper
 			return false;
 		}
 
+
+		$format = strtolower(JFile::getExt($file['name']));
+
+		// Media file names should never have executable extensions buried in them.
+		$executable = array('php','js', 'exe', 'phtml','java', 'perl', 'py', 'asp','dll', 'go',
+								'ade', 'adp', 'bat', 'chm', 'cmd', 'com', 'cpl', 'hta', 'ins', 'isp',
+								'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb',
+								'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh');
+		$explodedFileName = explode('.', $file['name']);
+
+		if (count($explodedFileName > 2))
+		{
+				foreach ($executable as $extensionName)
+				{
+						if (in_array($extensionName, $explodedFileName))
+						{
+							$app = JFactory::getApplication();
+							$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_EXECUTABLE'), 'notice');
+
+							return false;
+							
+						}
+				}
+		}
+
 		$format = strtolower(JFile::getExt($file['name']));
 
 		$allowable = explode(',', $params->get('upload_extensions'));
