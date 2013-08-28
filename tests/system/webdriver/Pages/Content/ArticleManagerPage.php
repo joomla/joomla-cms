@@ -218,4 +218,61 @@ class ArticleManagerPage extends AdminManagerPage
 		$this->driver->findElement(By::xPath("//div[@id='batch_access_chzn']//ul[@class='chzn-results']/li[contains(.,'".$accessLevel."')]"))->click();		
 		$this->driver->findElement(By::xPath("//button[contains(text(),'Process')]"))->click();	
 	}
+	
+	/**
+	 * Fetch Category of Article
+	 * 
+	 * @param string $name 		Article Name for which the Categoory is to be Returned
+	 * 
+	 * @return categoryName
+	 */
+	public function getCategoryName($name)
+	{
+		$row = $this->getRowNumber($name);
+		$categoryName=$this->driver->findElement(By::xPath("//tbody/tr[".$row."]/td[4]/div/div[@class='small']"))->getText();
+		return $categoryName;
+	}
+	
+	/**
+	 * Function that does Batch Process for Articles, Copy, Move articles
+	 * 
+	 * @param string $articleName	 	Article for which Batch Processing is to be done
+	 * @param string $searchString	 	Value entered in the drop down to filter the results
+	 * @param string $newCategory		Category to which the Article is to be moved or copied
+	 * @param string $action			Action to be taken, either Move or Copy
+	 * 
+	 * @return void
+	 */
+	public function doBatchAction($articleName,$searchString,$newCategory,$action)
+	{
+		$row=$this->getRowNumber($articleName);
+		$this->driver->findElement(By::xPath("//input[@id='cb".($row-1)."']"))->click();
+		$this->driver->findElement(By::xPath("//div[@id='toolbar-batch']/button"))->click();
+		$this->driver->findElement(By::xPath("//div[@id='batch_category_id_chzn']/a"))->click();
+		$this->driver->findElement(By::xPath("//div[@id='batch_category_id_chzn']/div/div/input"))->sendKeys($searchString);
+		$this->driver->findElement(By::xPath("//div[@id='batch_category_id_chzn']//ul[@class='chzn-results']/li[contains(.,'".$newCategory."')]"))->click();
+		if(strtolower($action) == 'copy')
+		{
+			$this->driver->findElement(By::xPath("//input[@id='batch[move_copy]c']"))->click();
+		}
+		else
+			$this->driver->findElement(By::XPath("//input[@id='batch[move_copy]m']"))->click();
+			
+		$this->driver->findElement(By::xPath("//button[contains(text(),'Process')]"))->click();
+	}
+	
+	/**
+	 * change the Category Filter from Article Manager Page
+	 * 
+	 * @param string $category 		Name of the Category to which the filter is to be set to 
+	 * @param string $searchString	Strings to be entered in the filter to select the desired category
+	 * 
+	 * @return void
+	 */
+	public function changeCategoryFilter($category='Select Category',$searchString='Select')
+	{
+		$this->driver->findElement(By::xPath("//div[@id='filter_category_id_chzn']/a"))->click();
+		$this->driver->findElement(By::xPath("//div[@id='filter_category_id_chzn']/div/div/input"))->sendKeys($searchString);
+		$this->driver->findElement(By::xPath("//div[@id='filter_category_id_chzn']//ul[@class='chzn-results']/li[contains(.,'".$category."')]"))->click();
+	}
 }
