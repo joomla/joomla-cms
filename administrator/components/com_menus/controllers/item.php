@@ -373,7 +373,7 @@ class MenusControllerItem extends JControllerForm
 	 *
 	 * @return  void
 	 *
-	 * @since   1.6
+	 * @since   3.2
 	 */
 	function getParentItem()
 	{
