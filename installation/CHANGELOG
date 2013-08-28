@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Aug-2013 Michael Babker
+ $^ [#31009] Add a switch to turn mail sending on/off.  Thanks Roland Dalmulder
+
 28-Aug-2013 Jean-Marie Simonet
  #^ [#31389] TinyMCE 4.0.5 Update. Thanks George Wilson
  + [#31774] Add the Framework DI Container to the CMS. Thanks Don Gilbert
