@@ -27,7 +27,7 @@ class JFormFieldCombo extends JFormFieldList
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $type = 'Combo';
+	protected $type = 'Combo';
 
 	/**
 	 * Method to get the field input markup for a combo box field.
@@ -42,14 +42,14 @@ class JFormFieldCombo extends JFormFieldList
 		$attr = '';
 
 		// Initialize some field attributes.
-		$attr .= $this->element['class'] ? ' class="combobox ' . (string) $this->element['class'] . '"' : ' class="combobox"';
-		$attr .= ((string) $this->element['readonly'] == 'true') ? ' readonly="readonly"' : '';
-		$attr .= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
-		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
-		$attr .= $this->required ? ' required="required" aria-required="true"' : '';
+		$attr .= !empty($this->class) ? ' class=combobox"' . $this->class . '"' : ' class="combobox"';
+		$attr .= $this->readonly ? ' readonly' : '';
+		$attr .= $this->disabled ? ' disabled' : '';
+		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
+		$attr .= $this->required ? ' required aria-required="true"' : '';
 
 		// Initialize JavaScript field attributes.
-		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
+		$attr .= $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
 
 		// Get the field options.
 		$options = $this->getOptions();
@@ -63,10 +63,12 @@ class JFormFieldCombo extends JFormFieldList
 
 		// Build the list for the combo box.
 		$html[] = '<ul id="combobox-' . $this->id . '" style="display:none;">';
+
 		foreach ($options as $option)
 		{
 			$html[] = '<li>' . $option->text . '</li>';
 		}
+
 		$html[] = '</ul>';
 
 		return implode($html);
