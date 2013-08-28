@@ -268,7 +268,7 @@ class JCrypt
 	 * @param   string  $unknown  An unknown string to check.
 	 *
 	 * @return  bool	True if the two strings are exactly the same.
-	 * 
+	 *
 	 * @since  3.2
 	 */
 	public static function timingSafeCompare($known, $unknown)
@@ -284,7 +284,8 @@ class JCrypt
 		$result = $knownLength - $unknownLength;
 
 		// Note that we ALWAYS iterate over the user-supplied length to prevent leaking length info.
-		for ($i = 0; $i < $unknownLength; $i++) {
+		for ($i = 0; $i < $unknownLength; $i++)
+		{
 			// Using % here is a trick to prevent notices. It's safe, since
 			// if the lengths are different, $result is already non-0
 			$result |= (ord($known[$i % $knownLength]) ^ ord($unknown[$i]));

@@ -206,8 +206,8 @@ class PlgUserJoomla extends JPlugin
 		$instance->set('guest', 0);
 
 		// If the user has an outdated hash, update it.
-		if ($this->useStrongEncryption && JCrypt::hasStrongPasswordSupport() == true
-			&& substr($user['password'], 0, 4) != '$2y$')
+		if (substr($user['password'], 0, 4) != '$2y$' && $this->useStrongEncryption
+				&& JCrypt::hasStrongPasswordSupport() == true)
 		{
 			$instance->password = password_hash($user['password'], PASSWORD_BCRYPT);
 
