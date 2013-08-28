@@ -129,6 +129,28 @@ abstract class JHtmlSelect
 		return $html;
 	}
 
+	public static function suggestionlist($data, $optKey = 'value', $optText = 'text', $idtag ,$translate = false)
+	{
+		// Set default options
+		$options = array_merge(JHtml::$formatOptions, array('format.depth' => 0, 'id' => false));
+
+		// Get options from the parameters
+		$options['id'] = $idtag;
+		$options['list.attr'] = null;
+		$options['list.translate'] = $translate;
+		$options['option.key'] = $optKey;
+		$options['option.text'] = $optText;
+		$options['list.select'] = null;
+
+		$id = ' id="' . $idtag . '"';
+
+		$baseIndent = str_repeat($options['format.indent'], $options['format.depth']++);
+		$html = $baseIndent . '<datalist'. $id .'>' . $options['format.eol']
+			. static::options($data, $options) . $baseIndent . '</datalist>' . $options['format.eol'];
+
+		return $html;
+	}
+
 	/**
 	 * Generates a grouped HTML selection list from nested arrays.
 	 *
@@ -608,7 +630,7 @@ abstract class JHtmlSelect
 				$splitText = preg_split('/ -[\s]*/', $text, 2, PREG_SPLIT_NO_EMPTY);
 				$text = isset($splitText[0]) ? $splitText[0] : '';
 
-				if (isset($splitText[1]))
+				if (!empty($splitText[1]))
 				{
 					$text .= ' - ' . $splitText[1];
 				}
