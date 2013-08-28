@@ -42,7 +42,7 @@ $assoc = isset($app->item_associations);
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('JCATEGORY', true)); ?>
 		<div class="row-fluid">
 			<div class="span9">
-				<?php echo $this->form->getControlGroup('extension'); ?>
+				<?php echo $this->form->getInput('description'); ?>
 			</div>
 			<div class="span3">
 				<?php echo JLayoutHelper::render('joomla.edit.main', $this); ?>
@@ -77,6 +77,7 @@ $assoc = isset($app->item_associations);
 
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 
+		<?php echo $this->form->getInput('extension'); ?>
 		<input type="hidden" name="task" value="" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
