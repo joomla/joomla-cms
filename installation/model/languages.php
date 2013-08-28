@@ -982,6 +982,7 @@ class InstallationModelLanguages extends JModelBase
 		$article->catid = $categoryId;
 		$article->metadata = '{"robots":"","author":"","rights":"","xreference":"","tags":null}';
 		$article->language = $itemLanguage->language;
+		$article->featured = 1;
 
 		// Check to make sure our data is valid
 		if (!$article->check())
