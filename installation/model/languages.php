@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Installation
  * @subpackage  Model
@@ -6,7 +7,6 @@
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 defined('_JEXEC') or die;
 
 jimport('joomla.updater.update');
@@ -80,8 +80,8 @@ class InstallationModelLanguages extends JModelBase
 		 */
 		$updater->findUpdates(array(600), 0);
 
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true);
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
 		// Select the required fields from the updates table
 		$query->select('update_id, name, version')
@@ -159,7 +159,7 @@ class InstallationModelLanguages extends JModelBase
 			// Cleanup the install files in tmp folder
 			if (!is_file($package['packagefile']))
 			{
-				$config = JFactory::getConfig();
+				$config                 = JFactory::getConfig();
 				$package['packagefile'] = $config->get('tmp_path') . '/' . $package['packagefile'];
 			}
 
@@ -226,11 +226,12 @@ class InstallationModelLanguages extends JModelBase
 		if (!$p_file)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_INSTALLER_MSG_INSTALL_INVALID_URL'), 'warning');
+
 			return false;
 		}
 
-		$config		= JFactory::getConfig();
-		$tmp_dest	= $config->get('tmp_path');
+		$config   = JFactory::getConfig();
+		$tmp_dest = $config->get('tmp_path');
 
 		// Unpack the downloaded package file
 		$package = JInstallerHelper::unpack($tmp_dest . '/' . $p_file);
@@ -283,9 +284,9 @@ class InstallationModelLanguages extends JModelBase
 
 		foreach ($langlist as $lang)
 		{
-			$file = $path . '/' . $lang . '/' . $lang . '.xml';
-			$info = JInstaller::parseXMLInstallFile($file);
-			$row = new stdClass;
+			$file          = $path . '/' . $lang . '/' . $lang . '.xml';
+			$info          = JInstaller::parseXMLInstallFile($file);
+			$row           = new stdClass;
 			$row->language = $lang;
 
 			if (!is_array($info))
@@ -303,7 +304,7 @@ class InstallationModelLanguages extends JModelBase
 
 			if ($params->get($client->name, 'en-GB') == $row->language)
 			{
-				$row->published	= 1;
+				$row->published = 1;
 			}
 			else
 			{
@@ -311,7 +312,7 @@ class InstallationModelLanguages extends JModelBase
 			}
 
 			$row->checked_out = 0;
-			$data[] = $row;
+			$data[]           = $row;
 		}
 
 		usort($data, array($this, 'compareLanguages'));
@@ -331,13 +332,12 @@ class InstallationModelLanguages extends JModelBase
 	protected function getLanguageList($client_id = 1)
 	{
 		// Create a new db object.
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Select field element from the extensions table.
 		$query->select('a.element, a.name')
 			->from('#__extensions AS a')
-
 			->where('a.type = ' . $db->quote('language'))
 			->where('state = 0')
 			->where('enabled = 1')
@@ -376,7 +376,7 @@ class InstallationModelLanguages extends JModelBase
 	{
 		if (is_null($this->path))
 		{
-			$client = $this->getClient();
+			$client     = $this->getClient();
 			$this->path = JLanguage::getLanguagePath($client->path);
 		}
 
@@ -415,7 +415,7 @@ class InstallationModelLanguages extends JModelBase
 		/* @var InstallationApplicationWeb $app */
 		$app = JFactory::getApplication();
 
-		$client	= $this->getClient($cms_client);
+		$client = $this->getClient($cms_client);
 
 		$params = JComponentHelper::getParams('com_languages');
 		$params->set($client->name, $language);
@@ -427,6 +427,7 @@ class InstallationModelLanguages extends JModelBase
 		if (!$table->load($id))
 		{
 			$app->enqueueMessage($table->getError(), 'warning');
+
 			return false;
 		}
 
@@ -436,6 +437,7 @@ class InstallationModelLanguages extends JModelBase
 		if (!$table->check())
 		{
 			$app->enqueueMessage($table->getError(), 'warning');
+
 			return false;
 		}
 
@@ -443,6 +445,7 @@ class InstallationModelLanguages extends JModelBase
 		if (!$table->store())
 		{
 			$app->enqueueMessage($table->getError(), 'warning');
+
 			return false;
 		}
 
@@ -462,5 +465,490 @@ class InstallationModelLanguages extends JModelBase
 		$options = $session->get('setup.options', array());
 
 		return $options;
+	}
+
+	/**
+	 * Method to get the form.
+	 *
+	 * @param   string  $view  The view being processed
+	 *
+	 * @return  mixed  JForm object on success, false on failure.
+	 *
+	 * @since   3.1
+	 */
+	public function getForm($view = null)
+	{
+		/* @var InstallationApplicationWeb $app */
+		$app = JFactory::getApplication();
+
+		if (!$view)
+		{
+			$view = $app->input->getWord('view', 'defaultlanguage');
+		}
+
+		// Get the form.
+		JForm::addFormPath(JPATH_COMPONENT . '/model/forms');
+		JForm::addFieldPath(JPATH_COMPONENT . '/model/fields');
+		JForm::addRulePath(JPATH_COMPONENT . '/model/rules');
+
+		try
+		{
+			$form = JForm::getInstance('jform', $view, array('control' => 'jform'));
+		}
+		catch (Exception $e)
+		{
+			$app->enqueueMessage($e->getMessage(), 'error');
+
+			return false;
+		}
+
+		// Check the session for previously entered form data.
+		$data = (array) $this->getOptions();
+
+		// Bind the form data if present.
+		if (!empty($data))
+		{
+			$form->bind($data);
+		}
+
+		return $form;
+	}
+
+	/**
+	 * Method to enable a Joomla plugin
+	 *
+	 * @param   string  $pluginName  The name of plugin
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.1
+	 */
+	public function enablePlugin($pluginName)
+	{
+		// Create a new db object.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query
+			->clear()
+			->update('#__extensions')
+			->set('enabled = 1')
+			->where('name = ' . $db->quote($pluginName))
+			->where('type = ' . $db->quote('plugin'));
+		$db->setQuery($query);
+
+		if (!$db->execute())
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method add Module Language Switcher
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.1
+	 */
+	public function addModuleLanguageSwitcher()
+	{
+		JTable::addIncludePath(JPATH_LIBRARIES . '/legacy/table/');
+		$tableModule = JTable::getInstance('Module', 'JTable');
+		$moduleData  = array(
+			'id'        => 0,
+			'title'     => 'Language Switcher',
+			'note'      => '',
+			'content'   => '',
+			'position'  => 'position-0',
+			'module'    => 'mod_languages',
+			'access'    => 1,
+			'showtitle' => 0,
+			'params'    => '{"header_text":"","footer_text":"","dropdown":"0","image":"1","inline":"1","show_active":"1","full_name":"1","layout":"_:default","moduleclass_sfx":"","cache":"0","cache_time":"900","cachemode":"itemid","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}',
+			'client_id' => 0,
+			'language'  => '*',
+			'published' => 1
+		);
+
+		// Bind the data.
+		if (!$tableModule->bind($moduleData))
+		{
+			return false;
+		}
+
+		// Check the data.
+		if (!$tableModule->check())
+		{
+			return false;
+		}
+
+		// Store the data.
+		if (!$tableModule->store())
+		{
+			return false;
+		}
+
+		return $this->addModuleInModuleMenu((int) $tableModule->id);
+	}
+
+	/**
+	 * Method Add Module in Module menus
+	 *
+	 * @param   integer  $moduleId  The Id of module
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.1
+	 */
+	public function addModuleInModuleMenu($moduleId)
+	{
+		// Create a new db object.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		// Add Module in Module menus
+		$query->clear()
+			->insert('#__modules_menu')
+			->columns(array($db->quoteName('moduleid'), $db->quoteName('menuid')))
+			->values($moduleId . ', 0');
+		$db->setQuery($query);
+
+		try
+		{
+			$db->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Method Add Language
+	 *
+	 * @param   stdclass  $itemLanguage  Object language
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.1
+	 */
+	public function addLanguage($itemLanguage)
+	{
+		$tableLanguage = JTable::getInstance('Language');
+
+		$langs  = explode('-', $itemLanguage->language);
+		$lang   = $langs[0];
+
+		// Load the native language name
+		$installationLocalisedIni	= new JLanguage($itemLanguage->language, false);
+		$nativeLanguageName			= $installationLocalisedIni->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
+
+		// If the local name do not exist in the translation file we use the international standard name
+		if ($nativeLanguageName == 'INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME')
+		{
+			$nativeLanguageName = $itemLanguage->name;
+		}
+
+		$langData = array(
+			'lang_id'      => 0,
+			'lang_code'    => $itemLanguage->language,
+			'title'        => $itemLanguage->name,
+			'title_native' => $nativeLanguageName,
+			'sef'          => $lang,
+			'image'        => $lang,
+			'published'    => 1
+		);
+
+		// Bind the data.
+		if (!$tableLanguage->bind($langData))
+		{
+			return false;
+		}
+
+		// Check the data.
+		if (!$tableLanguage->check())
+		{
+			return false;
+		}
+
+		// Store the data.
+		if (!$tableLanguage->store())
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method Add Menu Group
+	 *
+	 * @param   stdclass  $itemLanguage  Object language
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.1
+	 */
+	public function addMenuGroup($itemLanguage)
+	{
+		// Add menus
+		JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/tables/');
+
+		// Add Menu Group
+		$tableMenu = JTable::getInstance('Type', 'JTableMenu');
+
+		$menuData = array(
+			'id'          => 0,
+			'menutype'    => 'mainmenu_' . $itemLanguage->language,
+			'title'       => 'Main Menu (' . $itemLanguage->language . ')',
+			'description' => 'The main menu for the site in language ' . $itemLanguage->name
+		);
+
+		// Bind the data.
+		if (!$tableMenu->bind($menuData))
+		{
+			return false;
+		}
+
+		// Check the data.
+		if (!$tableMenu->check())
+		{
+			return false;
+		}
+
+		// Store the data.
+		if (!$tableMenu->store())
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method Add Menu Item
+	 *
+	 * @param   stdclass  $itemLanguage  Object language
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.1
+	 */
+	public function addMenuItem($itemLanguage)
+	{
+		// Add Menu Item
+		$tableItem = JTable::getInstance('Menu', 'MenusTable');
+
+		$newlanguage = new JLanguage($itemLanguage->language, false);
+		$newlanguage->load('com_languages', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
+		$title = $newlanguage->_('COM_LANGUAGES_HOMEPAGE');
+		$alias = 'home_' . $itemLanguage->language;
+
+		$menuItem = array(
+			'id'           => 0,
+			'title'        => $title,
+			'alias'        => $alias,
+			'menutype'     => 'mainmenu-' . $itemLanguage->language,
+			'type'         => 'component',
+			'link'         => 'index.php?option=com_content&view=featured',
+			'component_id' => 22,
+			'published'    => 1,
+			'parent_id'    => 1,
+			'level'        => 1,
+			'home'         => 1,
+			'params'       => '{"featured_categories":[""],"num_leading_articles":"1","num_intro_articles":"3","num_columns":"3","num_links":"0","orderby_pri":"","orderby_sec":"front","order_date":"","multi_column_order":"1","show_pagination":"2","show_pagination_results":"1","show_noauth":"","article-allow_ratings":"","article-allow_comments":"","show_feed_link":"1","feed_summary":"","show_title":"","link_titles":"","show_intro":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_readmore":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","show_page_heading":1,"page_title":"","page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',
+			'language'     => $itemLanguage->language
+		);
+
+		// Bind the data.
+		if (!$tableItem->bind($menuItem))
+		{
+			return false;
+		}
+
+		$tableItem->setLocation($menuItem['parent_id'], 'last-child');
+
+		// Check the data.
+		if (!$tableItem->check())
+		{
+			return false;
+		}
+
+		// Store the data.
+		if (!$tableItem->store())
+		{
+			return false;
+		}
+
+		// Rebuild the tree path.
+		if (!$tableItem->rebuildPath($tableItem->id))
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+
+	/**
+	 * Method add Module Menu
+	 *
+	 * @param   stdclass  $itemLanguage  Object language
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.1
+	 */
+	public function addModuleMenu($itemLanguage)
+	{
+		$tableModule = JTable::getInstance('Module', 'JTable');
+
+		$moduleData  = array(
+			'id'        => 0,
+			'title'     => 'Main Menu',
+			'note'      => '',
+			'content'   => '',
+			'position'  => 'position-7',
+			'module'    => 'mod_menu',
+			'access'    => 1,
+			'showtitle' => 1,
+			'params'    => '{"menutype":"mainmenu-' . strtolower($itemLanguage->language) . '","startLevel":"0","endLevel":"0","showAllChildren":"0","tag_id":"","class_sfx":"","window_open":"","layout":"","moduleclass_sfx":"_menu","cache":"1","cache_time":"900","cachemode":"itemid"}',
+			'client_id' => 0,
+			'language'  => $itemLanguage->language,
+			'published' => 1
+		);
+
+		// Bind the data.
+		if (!$tableModule->bind($moduleData))
+		{
+			return false;
+		}
+
+		// Check the data.
+		if (!$tableModule->check())
+		{
+			return false;
+		}
+
+		// Store the data.
+		if (!$tableModule->store())
+		{
+			return false;
+		}
+
+		return $this->addModuleInModuleMenu((int) $tableModule->id);
+	}
+
+	/**
+	 * Method disable Module Main Menu Default from
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.1
+	 */
+	public function disableModuleMainMenu()
+	{
+		// Create a new db object.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		// Add Module in Module menus
+		$query
+			->clear()
+			->update($db->quoteName('#__modules'))
+			->set($db->quoteName('published') . ' = 0')
+			->where($db->quoteName('module') . ' = ' . $db->quote('mod_menu'))
+			->where($db->quoteName('language') . ' = ' . $db->quote('*'))
+			->where($db->quoteName('client_id') . ' = ' . $db->quote('0'))
+			->where($db->quoteName('position') . ' = ' . $db->quote('position-7'));
+		$db->setQuery($query);
+
+		if (!$db->execute())
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to enable modules
+	 *
+	 * @param   string  $moduleName  The Name of the module to activate
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.1
+	 */
+	public function enableModule($moduleName)
+	{
+		// Create a new db object.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query
+			->clear()
+			->update($db->quoteName('#__modules'))
+			->set($db->quoteName('published') . ' = 1')
+			->where($db->quoteName('module') . ' = ' . $db->quote($moduleName));
+		$db->setQuery($query);
+
+		if (!$db->execute())
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method create a category for a specific language
+	 *
+	 * @param   stdclass  $itemLanguage  Object language
+	 *
+	 * @return  JTable Category Object
+	 *
+	 * @since   3.1
+	 */
+	public function addCategory($itemLanguage)
+	{
+
+		$newlanguage = new JLanguage($itemLanguage->language, false);
+		$newlanguage->load('joomla', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
+		$title = $newlanguage->_('JCATEGORY');
+
+		// Initialize a new category
+		$category = JTable::getInstance('Category');
+		$category->extension = 'com_content';
+		$category->title = $title.' ('.strtolower($itemLanguage->language).')';
+		$category->description = '';
+		$category->published = 1;
+		$category->access = 1;
+		$category->params = '{"target":"","image":""}';
+		$category->metadata = '{"page_title":"","author":"","robots":""}';
+		$category->language = $itemLanguage->language;
+
+		// Set the location in the tree
+		$category->setLocation(1, 'last-child');
+
+		// Check to make sure our data is valid
+		if (!$category->check())
+		{
+			return false;
+		}
+
+		// Now store the category
+		if (!$category->store(true))
+		{
+			return false;
+		}
+
+		// Build the path for our category
+		$category->rebuildPath($category->id);
+
+		return $category;
 	}
 }
