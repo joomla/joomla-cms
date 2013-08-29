@@ -16,7 +16,7 @@ $fields = $displayData->get('fields') ?: array(
 	array('category', 'catid'),
 	array('parent', 'parent_id'),
 	'tags',
-	array('published', 'state'),
+	array('published', 'state', 'enabled'),
 	'featured',
 	'access',
 	'language',

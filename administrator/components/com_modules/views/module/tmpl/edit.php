@@ -15,9 +15,6 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.combobox');
 JHtml::_('formbehavior.chosen', 'select');
 
-$app = JFactory::getApplication();
-$langs = isset($app->languages_enabled);
-
 $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $this->item->module == 'mod_custom';
 
 // Get Params Fieldsets
@@ -83,6 +80,7 @@ if ((string) $this->item->xml->name == 'mod_login')
 								echo JText::_('COM_MODULES_ERR_XML');
 							}
 							?>
+							<br />
 							<span class="label"><?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?></span>
 						</h4>
 						<div>
@@ -102,7 +100,6 @@ if ((string) $this->item->xml->name == 'mod_login')
 							}
 							?>
 						</div>
-						<hr />
 					<?php endif; ?>
 				<?php else : ?>
 					<div class="alert alert-error"><?php echo JText::_('COM_MODULES_ERR_XML'); ?></div>
@@ -113,7 +110,8 @@ if ((string) $this->item->xml->name == 'mod_login')
 					echo $this->form->getInput('content');
 				}
 				$this->fieldset = 'basic';
-				echo JLayoutHelper::render('joomla.edit.fieldset', $this);
+				$html = JLayoutHelper::render('joomla.edit.fieldset', $this);
+				echo $html ? '<hr />' . $html : '';
 				?>
 			</div>
 			<div class="span3">
