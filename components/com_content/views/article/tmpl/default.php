@@ -18,9 +18,8 @@ $urls       = json_decode($this->item->urls);
 $canEdit    = $params->get('access-edit');
 $user       = JFactory::getUser();
 $info       = $params->get('info_block_position', 0);
+$microdata  = JFactory::getMicrodata()->enable($params->get('microdata'))->setType($params->get('microdata_type'));
 
-// TODO Retrieve the Type, enabled or not params from the db
-$microdata  = JFactory::getMicrodata()->enable(true)->setType('Article');
 JHtml::_('behavior.caption');
 ?>
 <div class="item-page<?php echo $this->pageclass_sfx?>" <?php echo $microdata->displayScope();?>>

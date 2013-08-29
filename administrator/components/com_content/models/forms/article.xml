@@ -183,6 +183,7 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
+
 			<field
 				name="info_block_position"
 				type="list"
@@ -417,6 +418,28 @@
 				useglobal="true"
 				extension="com_content" view="article" labelclass="control-label"
 			/>
+			
+			<field
+				name="microdata"
+				type="radio"
+				class="btn-group"
+				label="JGLOBAL_MICRODATA_LABEL"
+				description="JGLOBAL_MICRODATA_DESC"
+				labelclass="control-label">
+				<option	value="">JGLOBAL_USE_GLOBAL</option>
+				<option	value="0">JNO</option>
+				<option	value="1">JYES</option>
+			</field>
+
+			<field
+				name="microdata_type"
+				type="list"
+				default="article"
+				label="JGLOBAL_MICRODATA_TYPE_LABEL"
+				description="JGLOBAL_MICRODATA_TYPE_DESC">
+				<option value="article">Article</option>
+				<option value="thing">Thing</option>
+			</field>
 		</fieldset>
 
 		<fieldset name="editorConfig">
@@ -831,7 +854,6 @@
 					label="COM_CONTENT_FIELD_XREFERENCE_LABEL"
 					description="COM_CONTENT_FIELD_XREFERENCE_DESC"
 					class="inputbox" size="20" labelclass="control-label" />
-
 		</fieldset>
 	</fields>
 
