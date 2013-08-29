@@ -215,7 +215,7 @@ class JHelperMedia
 	}
 
 	/**
-	 * Counts the files and directories in a directory
+	 * Counts the files and directories in a directory that are not php or html files.
 	 *
 	 * @param   string  $dir  Directory name
 	 *

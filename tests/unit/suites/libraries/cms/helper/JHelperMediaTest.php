@@ -10,8 +10,22 @@
 /**
  * Test class for JHelperMedia.
  */
-class JHelperMediaTest extends PHPUnit_Framework_TestCase
+class JHelperMediaTest extends TestCaseDatabase
 {
+	/**
+	 * The mock database object
+	 *
+	 * @var  JDatabaseDriver
+	 */
+	protected $db;
+
+	/**
+	 * The factory database object
+	 *
+	 * @var  JDatabaseDriver
+	 */
+	protected $factoryDb;
+
 	/**
 	 * @var    JHelperMedia
 	 * @since  3.1
@@ -28,8 +42,31 @@ class JHelperMediaTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+		JFactory::$application = $this->getMockApplication();
+
+
 		$this->object = new JHelperMedia;
+
 	}
+
+	/**
+	 * Gets the data set to be loaded into the database during setup
+	 *
+	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
+	 *
+	 * @since   3.2
+	 */
+	protected function getDataSet()
+	{
+
+		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+
+		$dataSet->addTable('jos_extensions', JPATH_TEST_DATABASE . '/jos_extensions.csv');
+
+		return $dataSet;
+	}
+
 
 	/**
 	 * isImage data
@@ -40,10 +77,10 @@ class JHelperMediaTest extends PHPUnit_Framework_TestCase
 	{
 		return
 		array(
-				array('Image file' => 'mypicture.jpg', 'true'),
-				array('Invalid type' => 'mypicture.php', 'false'),
-				array('No extension' => 'mypicture', 'false'),
-				array('Empty string' => '', 'false'),
+				array('Image file' => 'mypicture.jpg', 1),
+				array('Invalid type' => 'mypicture.php', 0),
+				array('No extension' => 'mypicture', 0),
+				array('Empty string' => '', 0),
 		);
 	}
 
@@ -58,24 +95,8 @@ class JHelperMediaTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testIsImage($fileName, $expected)
 	{
-		if ($expected == 'false')
-		{
-			// Test fail conditions.
-			$this->assertThat(
-					$this->object->isImage($fileName),
-					$this->isFalse(),
-					'Line:' . __LINE__ . ' The method should return' . $expected . '.'
-			);
-		}
-		if ($expected == 'true')
-		{
-			// Test pass conditions.
-			$this->assertThat(
-					$this->object->isImage($fileName),
-					$this->isTrue(),
-					'Line:' . __LINE__ . ' The rule should return' . $expected . '.'
-			);
-		}
+		$isImage = $this->object->isImage($fileName);
+		$this->assertEquals($isImage, $expected);
 	}
 
 	/**
@@ -100,27 +121,16 @@ class JHelperMediaTest extends PHPUnit_Framework_TestCase
 	{
 		return
 		array(
-				array('Image file' => 'mypicture.jpg', 'true'),
-				array('Invalid type' => 'mypicture.php', 'false'),
-				array('No extension' => 'mypicture', 'false'),
-				array('Empty string' => '', 'false'),
+				array('Valid image file' => array('name' => 'mypicture.jpg', 'type' => 'image/jpeg', 'tmp_name' => JPATH_TESTS . '/suites/libraries/joomla/image/stubs/koala.jpg', 'error' => 0, 'size' => 8), true),
+				//array('File too big' => array('name' => 'mypicture.jpg', 'type' => 'image/jpeg', 'tmp_name' => JPATH_TESTS . '/suites/libraries/joomla/image/stubs/koala.jpg', 'error' => 0, 'size' => 20), false),
+				array('Not an image' => array('name' => 'mypicture.php', 'type' => 'image/jpeg', 'tmp_name' => JPATH_TESTS . '/suites/libraries/joomla/image/stubs/koala.jpg', 'error' => 0, 'size' => 8), false),
+				array('Ends with .' => array('name' => 'mypicture.png.', 'type' => 'image/jpeg', 'tmp_name' => JPATH_TESTS . '/suites/libraries/joomla/image/stubs/koala.jpg', 'error' => 0, 'size' => 8), false),
+				array('Name contains bad characters' => array('name' => 'my<body>picture.jpg', 'type' => 'image/jpeg', 'tmp_name' => JPATH_TESTS . '/suites/libraries/joomla/image/stubs/koala.jpg', 'error' => 0, 'size' => 8), false),
+				array('Name contains bad extension' => array('name' => 'myscript.php.jpg', 'type' => 'image/jpeg', 'tmp_name' => JPATH_TESTS . '/suites/libraries/joomla/image/stubs/koala.jpg', 'error' => 0, 'size' => 8), false),
+
 		);
 	}
 
-
-	/**
-	 * Tests the canUpload method
-	 *
-	 * @dataProvider  canUploadProvider
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function testCanUpload()
-	{
-		$this->markTestSkipped('Test not implemented.');
-	}
 
 	/**
 	 * Tests the countFiles method
@@ -131,7 +141,23 @@ class JHelperMediaTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCountFiles()
 	{
-		$this->markTestSkipped('Test not implemented.');
+
+		$countFiles = $this->object->countFiles(JPATH_LIBRARIES . '/phputf8');
+		$this->assertSame(array(2, 3), $countFiles);
 	}
 
+	/**
+	 * Tests the canUpload method
+	 *
+	 * @dataProvider  canUploadProvider
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public function testCanUpload($file, $expected)
+	{
+		$canUpload = $this->object->canUpload($file);
+		$this->assertEquals($canUpload, $expected);
+	}
 }
