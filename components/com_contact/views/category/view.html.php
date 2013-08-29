@@ -28,42 +28,54 @@ class ContactViewCategory extends JViewLegacy
 
 	protected $pagination;
 
+	/**
+	 * Method to display the view.
+	 *
+	 * @param   string  $tpl  A template file to load. [optional]
+	 *
+	 * @return  mixed  Exception on failure, void on success.
+	 *
+	 * @since   1.5
+	 */
 	public function display($tpl = null)
 	{
-		$app		= JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$params		= $app->getParams();
 
-		// Get some data from the models
-		$state		= $this->get('State');
-		$items		= $this->get('Items');
-		$category	= $this->get('Category');
-		$children	= $this->get('Children');
-		$parent 	= $this->get('Parent');
-		$pagination	= $this->get('Pagination');
-
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		try
 		{
-			JError::raiseError(500, implode("\n", $errors));
+			// Get some data from the models
+			$state		= $this->get('State');
+			$items		= $this->get('Items');
+			$category	= $this->get('Category');
+			$children	= $this->get('Children');
+			$parent 	= $this->get('Parent');
+			$pagination	= $this->get('Pagination');
+
+			if ($category == false)
+			{
+				throw new Exception(JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
+			}
+
+			if ($parent == false)
+			{
+				throw new Exception(JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
+			}
+
+			// Check whether category access level allows access.
+			$user	= JFactory::getUser();
+			$groups	= $user->getAuthorisedViewLevels();
+
+			if (!in_array($category->access, $groups))
+			{
+				throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			}
+		}
+		catch (Exception $e)
+		{
+			JErrorPage::render($e);
+
 			return false;
-		}
-
-		if ($category == false)
-		{
-			return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
-		}
-
-		if ($parent == false)
-		{
-			return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
-		}
-
-		// Check whether category access level allows access.
-		$user	= JFactory::getUser();
-		$groups	= $user->getAuthorisedViewLevels();
-		if (!in_array($category->access, $groups))
-		{
-			return JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
 		}
 
 		// Prepare the data.
@@ -85,7 +97,8 @@ class ContactViewCategory extends JViewLegacy
 				{
 					$item->email_to = JHtml::_('email.cloak', $item->email_to);
 				}
-				else {
+				else
+				{
 					$item->email_to = '';
 				}
 			}

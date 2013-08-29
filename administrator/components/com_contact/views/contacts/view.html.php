@@ -31,18 +31,21 @@ class ContactViewContacts extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
-
-		ContactHelper::addSubmenu('contacts');
-
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		try
 		{
-			JError::raiseError(500, implode("\n", $errors));
+			$this->items		= $this->get('Items');
+			$this->pagination	= $this->get('Pagination');
+			$this->state		= $this->get('State');
+		}
+		catch (Exception $e)
+		{
+			JErrorPage::render($e);
+
 			return false;
 		}
+
+
+		ContactHelper::addSubmenu('contacts');
 
 		// Preprocess the list of items to find ordering divisions.
 		// TODO: Complete the ordering stuff with nested sets

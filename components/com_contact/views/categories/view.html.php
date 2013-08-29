@@ -27,39 +27,47 @@ class ContactViewCategories extends JViewLegacy
 	protected $pagination = null;
 
 	/**
-	 * Display the view
+	 * Method to display the view.
 	 *
-	 * @return  mixed  False on error, null otherwise.
+	 * @param   string  $tpl  A template file to load. [optional]
+	 *
+	 * @return  mixed  Exception on failure, void on success.
+	 *
+	 * @since   1.5
 	 */
 	public function display($tpl = null)
 	{
-		$state		= $this->get('State');
-		$items		= $this->get('Items');
-		$parent		= $this->get('Parent');
+		$app = JFactory::getApplication();
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		try
 		{
-			JError::raiseWarning(500, implode("\n", $errors));
+			// Get some data from the models
+			$state		= $this->get('State');
+			$items		= $this->get('Items');
+			$parent		= $this->get('Parent');
+
+			if ($items === false)
+			{
+				throw new Exception(JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
+			}
+
+			if ($parent == false)
+			{
+				throw new Exception(JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
+			}
+		}
+		catch (Exception $e)
+		{
+			JErrorPage::render($e);
+
 			return false;
-		}
-
-		if ($items === false)
-		{
-			return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
-
-		}
-
-		if ($parent == false)
-		{
-			return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
 		}
 
 		$params = &$state->params;
 
 		$items = array($parent->id => $items);
 
-		//Escape strings for HTML output
+		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
 		$this->maxLevelcat = $params->get('maxLevelcat', -1);

@@ -28,13 +28,33 @@ class ContactViewContact extends JViewLegacy
 
 	protected $return_page;
 
+	/**
+	 * Method to display the view.
+	 *
+	 * @param   string  $tpl  A template file to load. [optional]
+	 *
+	 * @return  mixed  Exception on failure, void on success.
+	 *
+	 * @since   1.5
+	 */
 	public function display($tpl = null)
 	{
 		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();
-		$state		= $this->get('State');
-		$item		= $this->get('Item');
-		$this->form	= $this->get('Form');
+
+		try
+		{
+			// Get some data from the models
+			$state		= $this->get('State');
+			$item		= $this->get('Item');
+			$this->form	= $this->get('Form');
+		}
+		catch (Exception $e)
+		{
+			JErrorPage::render($e);
+
+			return false;
+		}
 
 		// Get the parameters
 		$params = JComponentHelper::getParams('com_contact');
@@ -54,23 +74,23 @@ class ContactViewContact extends JViewLegacy
 			$contacts = $categoryModel->getItems();
 		}
 
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			JError::raiseWarning(500, implode("\n", $errors));
-
-			return false;
-		}
-
-		// check if access is not public
+		// Check if access is not public
 		$groups	= $user->getAuthorisedViewLevels();
 
 		$return = '';
 
-		if ((!in_array($item->access, $groups)) || (!in_array($item->category_access, $groups)))
+		try
 		{
-			JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
-			return;
+			if ((!in_array($item->access, $groups)) || (!in_array($item->category_access, $groups)))
+			{
+				throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			}
+		}
+		catch (Exception $e)
+		{
+			JErrorPage::render($e);
+
+			return false;
 		}
 
 		$options['category_id']	= $item->catid;
@@ -81,16 +101,17 @@ class ContactViewContact extends JViewLegacy
 		{
 			$item->email_to = JHtml::_('email.cloak', $item->email_to);
 		}
-			if ($params->get('show_street_address') || $params->get('show_suburb') || $params->get('show_state') || $params->get('show_postcode') || $params->get('show_country'))
+
+		if ($params->get('show_street_address') || $params->get('show_suburb') || $params->get('show_state') || $params->get('show_postcode') || $params->get('show_country'))
+		{
+			if (!empty ($item->address) || !empty ($item->suburb) || !empty ($item->state) || !empty ($item->postcode) || !empty ($item->country))
 			{
-				if (!empty ($item->address) || !empty ($item->suburb) || !empty ($item->state) || !empty ($item->country) || !empty ($item->postcode))
-				{
 				$params->set('address_check', 1);
 			}
-		}
-		else
-		{
-			$params->set('address_check', 0);
+			else
+			{
+				$params->set('address_check', 0);
+			}
 		}
 
 		// Manage the display mode for contact detail groups

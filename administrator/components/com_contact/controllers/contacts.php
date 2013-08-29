@@ -37,7 +37,10 @@ class ContactControllerContacts extends JControllerAdmin
 	/**
 	 * Method to toggle the featured setting of a list of contacts.
 	 *
+	 * @throws  Exception
+	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public function featured()
@@ -62,20 +65,20 @@ class ContactControllerContacts extends JControllerAdmin
 			{
 				// Prune items that you can't change.
 				unset($ids[$i]);
-				JError::raiseNotice(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 403);
 			}
 		}
 
 		if (empty($ids))
 		{
-			JError::raiseWarning(500, JText::_('COM_CONTACT_NO_ITEM_SELECTED'));
+			throw new Exception(JText::_('COM_CONTACT_NO_ITEM_SELECTED'), 500);
 		}
 		else
 		{
 			// Publish the items.
 			if (!$model->featured($ids, $value))
 			{
-				JError::raiseWarning(500, $model->getError());
+				throw new Exception($model->getError(), 500);
 			}
 		}
 
@@ -88,7 +91,7 @@ class ContactControllerContacts extends JControllerAdmin
 	 * @param   string	$name	The name of the model.
 	 * @param   string	$prefix	The prefix for the PHP class name.
 	 *
-	 * @return  JModel
+	 * @return  JModelLegacy
 	 * @since   1.6
 	 */
 	public function getModel($name = 'Contact', $prefix = 'ContactModel', $config = array('ignore_request' => true))

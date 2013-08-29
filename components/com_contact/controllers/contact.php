@@ -38,19 +38,28 @@ class ContactControllerContact extends JControllerForm
 
 		$params->merge($contact->params);
 
-		// Check for a valid session cookie
-		if ($params->get('validate_session', 0))
+		try
 		{
-			if (JFactory::getSession()->getState() != 'active'){
-				JError::raiseWarning(403, JText::_('COM_CONTACT_SESSION_INVALID'));
-
-				// Save the data in the session.
-				$app->setUserState('com_contact.contact.data', $data);
-
-				// Redirect back to the contact form.
-				$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contact&id='.$stub, false));
-				return false;
+			// Check for a valid session cookie
+			if ($params->get('validate_session', 0))
+			{
+				if (JFactory::getSession()->getState() != 'active')
+				{
+					throw new Exception(JText::_('COM_CONTACT_SESSION_INVALID'), 403);
+				}
 			}
+		}
+		catch (Exception $e)
+		{
+			$app->enqueueMessage($e->getMessage());
+
+			// Save the data in the session.
+			$app->setUserState('com_contact.contact.data', $data);
+
+			// Redirect back to the contact form.
+			$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contact&id=' . $stub, false));
+
+			return false;
 		}
 
 		// Contact plugins
@@ -59,9 +68,18 @@ class ContactControllerContact extends JControllerForm
 
 		// Validate the posted data.
 		$form = $model->getForm();
-		if (!$form)
+
+		try
 		{
-			JError::raiseError(500, $model->getError());
+			if (!$form)
+			{
+				throw new Exception($model->getError(), 500);
+			}
+		}
+		catch (Exception $e)
+		{
+			JErrorPage::render($e);
+
 			return false;
 		}
 
@@ -86,7 +104,8 @@ class ContactControllerContact extends JControllerForm
 			$app->setUserState('com_contact.contact.data', $data);
 
 			// Redirect back to the contact form.
-			$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contact&id='.$stub, false));
+			$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contact&id=' . $stub, false));
+
 			return false;
 		}
 
@@ -106,6 +125,7 @@ class ContactControllerContact extends JControllerForm
 
 		// Send the email
 		$sent = false;
+
 		if (!$params->get('custom_reply'))
 		{
 			$sent = $this->_sendEmail($data, $contact);
@@ -131,7 +151,7 @@ class ContactControllerContact extends JControllerForm
 		}
 		else
 		{
-			$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contact&id='.$stub, false), $msg);
+			$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contact&id=' . $stub, false), $msg);
 		}
 
 		return true;
