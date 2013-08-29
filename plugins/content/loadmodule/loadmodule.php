@@ -169,11 +169,13 @@ class PlgContentLoadmodule extends JPlugin
 		$renderer	= $document->loadRenderer('module');
 		$mod		= JModuleHelper::getModule($module, $title);
 
-		// If the module without the mod_ isn't found, try it with mod_.
-		// This allows people to enter it either way in the content
+		/**
+		 * If the module without the mod_ isn't found, try it with mod_.
+		 * This allows people to enter it either way in the content
+		 */
 		if (!isset($mod))
 		{
-			$name = 'mod_'.$module;
+			$name = 'mod_' . $module;
 			$mod  = JModuleHelper::getModule($name, $title);
 		}
 

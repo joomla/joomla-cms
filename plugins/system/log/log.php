@@ -18,11 +18,20 @@ defined('_JEXEC') or die;
  */
 class PlgSystemLog extends JPlugin
 {
+	/**
+	 * This function logs the system Authorisation attempts.
+	 *
+	 * @param   JAuthenticationResponse  $response  The response given at the event
+	 *
+	 * @return  void
+	 *
+	 * @since  1.5
+	 */
 	public function onUserLoginFailure($response)
 	{
 		$errorlog = array();
 
-		switch($response['status'])
+		switch ($response['status'])
 		{
 			case JAuthentication::STATUS_SUCCESS:
 				$errorlog['status']  = $response['type'] . " CANCELED: ";
@@ -31,6 +40,7 @@ class PlgSystemLog extends JPlugin
 
 			case JAuthentication::STATUS_FAILURE:
 				$errorlog['status']  = $response['type'] . " FAILURE: ";
+
 				if ($this->params->get('log_username', 0))
 				{
 					$errorlog['comment'] = $response['error_message'] . ' ("' . $response['username'] . '")';
@@ -39,6 +49,7 @@ class PlgSystemLog extends JPlugin
 				{
 					$errorlog['comment'] = $response['error_message'];
 				}
+
 				break;
 
 			default:
@@ -46,6 +57,7 @@ class PlgSystemLog extends JPlugin
 				$errorlog['comment'] = $response['error_message'];
 				break;
 		}
+
 		JLog::addLogger(array(), JLog::INFO);
 		JLog::add($errorlog['comment'], JLog::INFO, $errorlog['status']);
 	}

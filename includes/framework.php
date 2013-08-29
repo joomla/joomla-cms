@@ -8,31 +8,33 @@
 
 defined('_JEXEC') or die;
 
-//
-// Joomla system checks.
-//
+/**
+ * Joomla system checks.
+ */
 
 @ini_set('magic_quotes_runtime', 0);
 
-//
-// Installation check, and check on removal of the install directory.
-//
+/**
+ * Installation check, and check on removal of the install directory.
+ */
 
-if (!file_exists(JPATH_CONFIGURATION.'/configuration.php') || (filesize(JPATH_CONFIGURATION.'/configuration.php') < 10) /*|| file_exists(JPATH_INSTALLATION.'/index.php')*/) {
+if (!file_exists(JPATH_CONFIGURATION . '/configuration.php') || (filesize(JPATH_CONFIGURATION . '/configuration.php') < 10) /*|| file_exists(JPATH_INSTALLATION . '/index.php')*/) {
 
-	if (file_exists(JPATH_INSTALLATION.'/index.php'))
+	if (file_exists(JPATH_INSTALLATION . '/index.php'))
 	{
-		header('Location: '.substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], 'index.php')).'installation/index.php');
+		header('Location: ' . substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], 'index.php')) . 'installation/index.php');
 		exit();
-	} else {
+	}
+	else
+	{
 		echo 'No configuration file found and no installation code available. Exiting...';
 		exit();
 	}
 }
 
-//
-// Joomla system startup.
-//
+/**
+ * Joomla system startup.
+ */
 
 // System includes.
 require_once JPATH_LIBRARIES.'/import.legacy.php';
@@ -42,11 +44,11 @@ JError::setErrorHandling(E_WARNING, 'message');
 JError::setErrorHandling(E_ERROR, 'callback', array('JError', 'customErrorPage'));
 
 // Bootstrap the CMS libraries.
-require_once JPATH_LIBRARIES.'/cms.php';
+require_once JPATH_LIBRARIES . '/cms.php';
 
 // Pre-Load configuration.
 ob_start();
-require_once JPATH_CONFIGURATION.'/configuration.php';
+require_once JPATH_CONFIGURATION . '/configuration.php';
 ob_end_clean();
 
 // System configuration.
@@ -89,9 +91,9 @@ define('JDEBUG', $config->debug);
 
 unset($config);
 
-//
-// Joomla framework loading.
-//
+/**
+ * Joomla framework loading.
+ */
 
 // System profiler.
 if (JDEBUG)

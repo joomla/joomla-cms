@@ -20,12 +20,13 @@ else
 	$lang = JFactory::getLanguage();
 	$myrtl = $params->get('rssrtl');
 	$direction = " ";
+
 	if ($lang->isRTL() && $myrtl == 0)
 	{
 		$direction = " redirect-rtl";
 	}
 
-	// feed description
+	// Feed description
 	elseif ($lang->isRTL() && $myrtl == 1)
 	{
 		$direction = " redirect-ltr";
@@ -46,18 +47,19 @@ else
 	}
 	elseif ($myrtl == 2)
 	{
-		$direction = " redirect-rtl";	}
+		$direction = " redirect-rtl";
+	}
 	?>
 	<?php
 	if ($feed != false)
 	{
-		//image handling
+		// Image handling
 		$iUrl	= isset($feed->image)	? $feed->image	: null;
 		$iTitle = isset($feed->imagetitle) ? $feed->imagetitle : null;
 		?>
 		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?> ! important"  class="feed<?php echo $moduleclass_sfx; ?>">
 		<?php
-		// feed description
+		// Feed description
 		if (!is_null($feed->title) && $params->get('rsstitle', 1))
 		{
 			?>
@@ -67,14 +69,14 @@ else
 					</h2>
 			<?php
 		}
-		// feed description
+
+		// Feed description
 		if ($params->get('rssdesc', 1))
 		{
-		?>
-			<?php echo $feed->description; ?>
-			<?php
+			echo $feed->description;
 		}
-		// feed image
+
+		// Feed image
 		if ($params->get('rssimage', 1) && $iUrl) :
 		?>
 			<img src="<?php echo $iUrl; ?>" alt="<?php echo @$iTitle; ?>"/>
@@ -85,9 +87,10 @@ else
 	<?php if (!empty($feed))
 	{ ?>
 	<ul>
-		<?php for  ($i = 0; $i < $params->get('rssitems', 5); $i++)
+		<?php for ($i = 0; $i < $params->get('rssitems', 5); $i++)
 		{
-			if( !$feed->offsetExists($i)) {
+			if (!$feed->offsetExists($i))
+			{
 				break;
 			}
 			?>
@@ -103,7 +106,7 @@ else
 						<?php  echo $feed[$i]->title; ?></a></h5>
 					<?php else : ?>
 						<h5 class="feed-link"><?php  echo $feed[$i]->title; ?></h5>
-					<?php  endif; ?>
+					<?php endif; ?>
 
 					<?php if ($params->get('rssitemdesc') && !empty($text)) : ?>
 						<div class="feed-item-description">

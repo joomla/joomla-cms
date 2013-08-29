@@ -791,7 +791,7 @@ class PlgEditorTinymce extends JPlugin
 			$height .= 'px';
 		}
 
-		$editor  = '<textarea name="' . $name . '" id="' . $id .'" cols="' . $col .'" rows="' . $row . '" style="width: ' . $width . '; height:' . $height . ';" class="mce_editable">' . $content . "</textarea>\n" .
+		$editor  = '<textarea name="' . $name . '" id="' . $id . '" cols="' . $col . '" rows="' . $row . '" style="width: ' . $width . '; height:' . $height . ';" class="mce_editable">' . $content . "</textarea>\n" .
 		$this->_displayButtons($id, $buttons, $asset, $author) .
 		$this->_toogleButton($id);
 
@@ -846,11 +846,11 @@ class PlgEditorTinymce extends JPlugin
 				{
 					$class		= ($button->get('class')) ? $button->get('class') : null;
 					$class		.= ($button->get('modal')) ? ' modal-button' : null;
-					$href		= ($button->get('link')) ? ' href="'.JUri::base().$button->get('link').'"' : null;
-					$onclick	= ($button->get('onclick')) ? ' onclick="'.$button->get('onclick').'"' : ' onclick="IeCursorFix(); return false;"';
+					$href		= ($button->get('link')) ? ' href="' . JUri::base() . $button->get('link') . '"' : null;
+					$onclick	= ($button->get('onclick')) ? ' onclick="' . $button->get('onclick') . '"' : ' onclick="IeCursorFix(); return false;"';
 					$title      = ($button->get('title')) ? $button->get('title') : $button->get('text');
 					$return .= '<a class="' . $class . '" title="' . $title . '"' . $href . $onclick . ' rel="' . $button->get('options')
-						. '"><i class="icon-' . $button->get('name'). '"></i> ' . $button->get('text') . "</a>\n";
+						. '"><i class="icon-' . $button->get('name') . '"></i> ' . $button->get('text') . "</a>\n";
 				}
 			}
 
