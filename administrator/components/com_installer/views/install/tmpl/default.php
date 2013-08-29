@@ -8,12 +8,11 @@
  */
 
 defined('_JEXEC') or die;
-//define('APPS_BASE_URL', 'http://localhost/joomla-cms-apps/');
 
 $appsBaseUrl = InstallerModelInstall::$appsBaseUrl;
 
 $document = JFactory::getDocument();
-$document->addStylesheet($appsBaseUrl . 'apps/css/client.css?jversion=' . JVERSION);
+$document->addStylesheet($appsBaseUrl . 'jedapps/css/client.css?jversion=' . JVERSION);
 ?>
 <script type="text/javascript">
 	apps_base_url = '<?php echo $appsBaseUrl; ?>';
@@ -62,7 +61,7 @@ $document->addStylesheet($appsBaseUrl . 'apps/css/client.css?jversion=' . JVERSI
 		}
 	}
 </script>
-<script src="<?php echo $appsBaseUrl . 'apps/js/client.js?jversion=' . JVERSION; ?>" type="text/javascript"></script>
+<script src="<?php echo $appsBaseUrl . 'jedapps/js/client.js?jversion=' . JVERSION; ?>" type="text/javascript"></script>
 
 <div id="installer-install">
 <form enctype="multipart/form-data" action="<?php echo JRoute::_('index.php?option=com_installer&view=install');?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
