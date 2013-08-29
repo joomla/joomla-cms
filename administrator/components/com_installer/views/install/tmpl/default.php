@@ -15,10 +15,37 @@ $document = JFactory::getDocument();
 $instance = new JVersion;
 
 $version  = $instance->getShortVersion();
-$document->addStylesheet($appsBaseUrl . 'jedapps/css/client.css?jversion=' . $version);
 ?>
 <script type="text/javascript">
 	apps_base_url = '<?php echo $appsBaseUrl; ?>';
+	jQuery(document).ready(function() {
+		jQuery(jQuery('#myTabTabs a[href="#web"]').get(0)).closest('li').click(function (event){
+			jQuery.ajax({
+				url: "<?php echo $appsBaseUrl . 'jedapps/js/client.js?jversion=' . $version; ?>",
+				dataType: 'script',
+				timeout: 20000,
+				success: function(response) {
+					var script=document.createElement('script');
+					script.type='text/javascript';
+					jQuery(script).html(response);
+					jQuery('head').append(script);
+					Joomla.apps.initialize();
+				},
+				fail: function() {
+					jQuery('#web-loader').hide();
+					jQuery('#web-loader-error').show();
+				},
+				error: function(request, status, error) {
+					if (request.responseText) {
+						jQuery('#web-loader-error').html(request.responseText);
+					}
+					jQuery('#web-loader').hide();
+					jQuery('#web-loader-error').show();
+				}
+			});
+		});
+	});
+
 	Joomla.submitbutton = function(pressbutton)
 	{
 		var form = document.getElementById('adminForm');
@@ -64,7 +91,6 @@ $document->addStylesheet($appsBaseUrl . 'jedapps/css/client.css?jversion=' . $ve
 		}
 	}
 </script>
-<script src="<?php echo $appsBaseUrl . 'jedapps/js/client.js?jversion=' . $version; ?>" type="text/javascript"></script>
 
 <div id="installer-install">
 <form enctype="multipart/form-data" action="<?php echo JRoute::_('index.php?option=com_installer&view=install');?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
