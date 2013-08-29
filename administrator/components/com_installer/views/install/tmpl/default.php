@@ -12,12 +12,42 @@ $app = JFactory::getApplication();
 $appsBaseUrl = InstallerModelInstall::$appsBaseUrl;
 $installfrom = base64_decode($app->input->get('installfrom', '', 'base64'));
 $document = JFactory::getDocument();
-$document->addStylesheet($appsBaseUrl . 'jedapps/css/client.css?jversion=' . JVERSION);
 ?>
 <script type="text/javascript">
 	apps_base_url = '<?php echo $appsBaseUrl; ?>';
 	apps_installat_url = '<?php echo base64_encode(JURI::current(true) . '?option=com_installer&view=install'); ?>';
 	apps_installfrom_url = '<?php echo $installfrom; ?>';
+
+	jQuery(document).ready(function() {
+		jQuery(jQuery('#myTabTabs a[href="#web"]').get(0)).closest('li').click(function (event){
+			if (typeof Joomla.apps == 'undefined') {
+				jQuery.ajax({
+					url: "<?php echo $appsBaseUrl . 'jedapps/js/client.js?jversion=' . $version; ?>",
+					dataType: 'script',
+					timeout: 20000,
+					success: function(response) {
+						var script=document.createElement('script');
+						script.type='text/javascript';
+						jQuery(script).html(response);
+						jQuery('head').append(script);
+						Joomla.apps.initialize();
+					},
+					fail: function() {
+						jQuery('#web-loader').hide();
+						jQuery('#web-loader-error').show();
+					},
+					error: function(request, status, error) {
+						if (request.responseText) {
+							jQuery('#web-loader-error').html(request.responseText);
+						}
+						jQuery('#web-loader').hide();
+						jQuery('#web-loader-error').show();
+					}
+				});
+			}
+		});
+	});
+
 	Joomla.submitbutton = function(pressbutton)
 	{
 		var form = document.getElementById('adminForm');
@@ -79,7 +109,6 @@ $document->addStylesheet($appsBaseUrl . 'jedapps/css/client.css?jversion=' . JVE
 	}
 
 </script>
-<script src="<?php echo $appsBaseUrl . 'jedapps/js/client.js?jversion=' . JVERSION; ?>" type="text/javascript"></script>
 
 <div id="installer-install">
 <form enctype="multipart/form-data" action="<?php echo JRoute::_('index.php?option=com_installer&view=install');?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
