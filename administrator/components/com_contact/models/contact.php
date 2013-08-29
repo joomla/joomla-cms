@@ -45,7 +45,8 @@ class ContactModelContact extends JModelAdmin
 
 		if (empty($pks))
 		{
-			$this->setError(JText::_('JGLOBAL_NO_ITEM_SELECTED'));
+			JFactory::getApplication()->enqueueMessage(JText::_('JGLOBAL_NO_ITEM_SELECTED'));
+
 			return false;
 		}
 
@@ -116,7 +117,8 @@ class ContactModelContact extends JModelAdmin
 
 		if (!$done)
 		{
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
+			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
+
 			return false;
 		}
 
@@ -153,12 +155,14 @@ class ContactModelContact extends JModelAdmin
 				if ($error = $categoryTable->getError())
 				{
 					// Fatal error
-					$this->setError($error);
+					JFactory::getApplication()->enqueueMessage($error);
+
 					return false;
 				}
 				else
 				{
-					$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
+					JFactory::getApplication()->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
+
 					return false;
 				}
 			}
@@ -166,7 +170,8 @@ class ContactModelContact extends JModelAdmin
 
 		if (empty($categoryId))
 		{
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
+			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
+
 			return false;
 		}
 
@@ -174,7 +179,8 @@ class ContactModelContact extends JModelAdmin
 		$user = JFactory::getUser();
 		if (!$user->authorise('core.create', 'com_contact.category.' . $categoryId))
 		{
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
+			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
+
 			return false;
 		}
 
@@ -192,13 +198,15 @@ class ContactModelContact extends JModelAdmin
 				if ($error = $table->getError())
 				{
 					// Fatal error
-					$this->setError($error);
+					JFactory::getApplication()->enqueueMessage($error);
+
 					return false;
 				}
 				else
 				{
 					// Not fatal error
-					$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					JFactory::getApplication()->enqueueMessage(JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+
 					continue;
 				}
 			}
@@ -220,14 +228,16 @@ class ContactModelContact extends JModelAdmin
 			// Check the row.
 			if (!$table->check())
 			{
-				$this->setError($table->getError());
+				JFactory::getApplication()->enqueueMessage($table->getError());
+
 				return false;
 			}
 
 			// Store the row.
 			if (!$table->store())
 			{
-				$this->setError($table->getError());
+				JFactory::getApplication()->enqueueMessage($table->getError());
+
 				return false;
 			}
 
@@ -272,13 +282,15 @@ class ContactModelContact extends JModelAdmin
 
 				if (!$table->store())
 				{
-					$this->setError($table->getError());
+					JFactory::getApplication()->enqueueMessage($table->getError());
+
 					return false;
 				}
 			}
 			else
 			{
-				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				JFactory::getApplication()->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+
 				return false;
 			}
 		}
@@ -305,6 +317,7 @@ class ContactModelContact extends JModelAdmin
 			{
 				return;
 			}
+
 			$user = JFactory::getUser();
 			return $user->authorise('core.delete', 'com_contact.category.' . (int) $record->catid);
 		}
@@ -465,9 +478,12 @@ class ContactModelContact extends JModelAdmin
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param   array  The form data.
+	 * @param   array  $data  The form data.
+	 *
+	 * @throws  Exception  Throws a 403 exception on issues with item association
 	 *
 	 * @return  boolean  True on success.
+	 *
 	 * @since    3.0
 	 */
 	public function save($data)
@@ -518,7 +534,7 @@ class ContactModelContact extends JModelAdmin
 
 				if ($all_language && !empty($associations))
 				{
-					JError::raiseNotice(403, JText::_('COM_CONTACT_ERROR_ALL_LANGUAGE_ASSOCIATED'));
+					throw new Exception(JText::_('COM_CONTACT_ERROR_ALL_LANGUAGE_ASSOCIATED'), 403);
 				}
 
 				$associations[$item->language] = $item->id;
@@ -530,11 +546,15 @@ class ContactModelContact extends JModelAdmin
 					->where('context=' . $db->quote('com_contact.item'))
 					->where('id IN (' . implode(',', $associations) . ')');
 				$db->setQuery($query);
-				$db->execute();
 
-				if ($error = $db->getErrorMsg())
+				try
 				{
-					$this->setError($error);
+					$db->execute();
+				}
+				catch (RuntimeException $e)
+				{
+					JFactory::getApplication()->enqueueMessage($e->getMessage());
+
 					return false;
 				}
 
@@ -551,11 +571,15 @@ class ContactModelContact extends JModelAdmin
 					}
 
 					$db->setQuery($query);
-					$db->execute();
 
-					if ($error = $db->getErrorMsg())
+					try
 					{
-						$this->setError($error);
+						$db->execute();
+					}
+					catch (RuntimeException $e)
+					{
+						JFactory::getApplication()->enqueueMessage($e->getMessage());
+
 						return false;
 					}
 				}
@@ -689,7 +713,8 @@ class ContactModelContact extends JModelAdmin
 
 		if (empty($pks))
 		{
-			$this->setError(JText::_('COM_CONTACT_NO_ITEM_SELECTED'));
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_CONTACT_NO_ITEM_SELECTED'));
+
 			return false;
 		}
 
@@ -708,7 +733,8 @@ class ContactModelContact extends JModelAdmin
 		}
 		catch (Exception $e)
 		{
-			$this->setError($e->getMessage());
+			JFactory::getApplication()->enqueueMessage($e->getMessage());
+
 			return false;
 		}
 
