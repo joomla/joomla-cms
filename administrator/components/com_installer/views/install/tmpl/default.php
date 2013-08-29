@@ -20,29 +20,31 @@ $version  = $instance->getShortVersion();
 	apps_base_url = '<?php echo $appsBaseUrl; ?>';
 	jQuery(document).ready(function() {
 		jQuery(jQuery('#myTabTabs a[href="#web"]').get(0)).closest('li').click(function (event){
-			jQuery.ajax({
-				url: "<?php echo $appsBaseUrl . 'jedapps/js/client.js?jversion=' . $version; ?>",
-				dataType: 'script',
-				timeout: 20000,
-				success: function(response) {
-					var script=document.createElement('script');
-					script.type='text/javascript';
-					jQuery(script).html(response);
-					jQuery('head').append(script);
-					Joomla.apps.initialize();
-				},
-				fail: function() {
-					jQuery('#web-loader').hide();
-					jQuery('#web-loader-error').show();
-				},
-				error: function(request, status, error) {
-					if (request.responseText) {
-						jQuery('#web-loader-error').html(request.responseText);
+			if (typeof Joomla.apps == 'undefined') {
+				jQuery.ajax({
+					url: "<?php echo $appsBaseUrl . 'jedapps/js/client.js?jversion=' . $version; ?>",
+					dataType: 'script',
+					timeout: 20000,
+					success: function(response) {
+						var script=document.createElement('script');
+						script.type='text/javascript';
+						jQuery(script).html(response);
+						jQuery('head').append(script);
+						Joomla.apps.initialize();
+					},
+					fail: function() {
+						jQuery('#web-loader').hide();
+						jQuery('#web-loader-error').show();
+					},
+					error: function(request, status, error) {
+						if (request.responseText) {
+							jQuery('#web-loader-error').html(request.responseText);
+						}
+						jQuery('#web-loader').hide();
+						jQuery('#web-loader-error').show();
 					}
-					jQuery('#web-loader').hide();
-					jQuery('#web-loader-error').show();
-				}
-			});
+				});
+			}
 		});
 	});
 
