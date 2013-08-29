@@ -8,14 +8,16 @@
  */
 
 defined('_JEXEC') or die;
-
+$app = JFactory::getApplication();
 $appsBaseUrl = InstallerModelInstall::$appsBaseUrl;
-
+$installfrom = base64_decode($app->input->get('installfrom', '', 'base64'));
 $document = JFactory::getDocument();
 $document->addStylesheet($appsBaseUrl . 'jedapps/css/client.css?jversion=' . JVERSION);
 ?>
 <script type="text/javascript">
 	apps_base_url = '<?php echo $appsBaseUrl; ?>';
+	apps_installat_url = '<?php echo base64_encode(JURI::current(true) . '?option=com_installer&view=install'); ?>';
+	apps_installfrom_url = '<?php echo $installfrom; ?>';
 	Joomla.submitbutton = function(pressbutton)
 	{
 		var form = document.getElementById('adminForm');
@@ -60,6 +62,22 @@ $document->addStylesheet($appsBaseUrl . 'jedapps/css/client.css?jversion=' . JVE
 			form.submit();
 		}
 	}
+	
+	Joomla.submitbutton5 = function(pressbutton)
+	{
+		var form = document.getElementById('adminForm');
+
+		// do field validation
+		if (form.install_url.value == ""){
+			alert("<?php echo JText::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL', true); ?>");
+		}
+		else
+		{
+			form.installtype.value = 'web';
+			form.submit();
+		}
+	}
+
 </script>
 <script src="<?php echo $appsBaseUrl . 'jedapps/js/client.js?jversion=' . JVERSION; ?>" type="text/javascript"></script>
 
@@ -79,7 +97,7 @@ $document->addStylesheet($appsBaseUrl . 'jedapps/css/client.css?jversion=' . JVE
 		<?php echo $this->loadTemplate('message'); ?>
 	<?php endif; ?>
 
-	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'upload')); ?>
+	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => $installfrom ? 'web' : 'upload')); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'upload', JText::_('COM_INSTALLER_UPLOAD_PACKAGE_FILE', true)); ?>
 			<fieldset class="uploadform">
@@ -139,11 +157,11 @@ $document->addStylesheet($appsBaseUrl . 'jedapps/css/client.css?jversion=' . JVE
 			<fieldset class="uploadform" id="uploadform-web" style="display:none">
 				<div class="control-group">
 					<strong><?php echo JText::sprintf('COM_INSTALLER_INSTALL_WEB_CONFIRM'); ?></strong><br />
-					<?php echo JText::sprintf('COM_INSTALLER_INSTALL_WEB_CONFIRM_NAME'); ?> <span id="uploadform-web-name"></span><br />
+					<span id="uploadform-web-name-label"><?php echo JText::sprintf('COM_INSTALLER_INSTALL_WEB_CONFIRM_NAME'); ?></span> <span id="uploadform-web-name"></span><br />
 					<?php echo JText::sprintf('COM_INSTALLER_INSTALL_WEB_CONFIRM_URL'); ?> <span id="uploadform-web-url"></span>
 				</div>
 				<div class="form-actions">
-					<input type="button" class="btn btn-primary" value="<?php echo JText::_('COM_INSTALLER_INSTALL_BUTTON'); ?>" onclick="Joomla.submitbutton4()" />
+					<input type="button" class="btn btn-primary" value="<?php echo JText::_('COM_INSTALLER_INSTALL_BUTTON'); ?>" onclick="Joomla.submitbutton5()" />
 					<input type="button" class="btn btn-secondary" value="<?php echo JText::_('COM_INSTALLER_CANCEL_BUTTON'); ?>" onclick="Joomla.installfromwebcancel()" />
 				</div>
 			</fieldset>
