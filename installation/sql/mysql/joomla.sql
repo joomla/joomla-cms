@@ -1122,7 +1122,7 @@ CREATE TABLE IF NOT EXISTS `#__languages` (
 
 INSERT INTO `#__languages` (`lang_id`, `lang_code`, `title`, `title_native`, `sef`, `image`, `description`, `metakey`, `metadesc`, `sitename`, `published`, `access`, `ordering`) VALUES
 (1, 'es-LA', 'Español (LA)', 'Español (LA)', 'es', 'es', '', '', '', '', 1, 0, 1),
-(2, 'pt-BR', 'Português (Brasil)', 'Português (Brasil) ', 'pt', 'pt', '', '', '', '', 1, 0, 0),
+(2, 'pt-BR', 'Português (Brasil)', 'Português (Brasil) ', 'pt', 'pt', '', '', '', '', 1, 0, 0);
 
 -- --------------------------------------------------------
 
