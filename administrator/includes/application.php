@@ -67,17 +67,17 @@ class JAdministrator extends JApplication
 			} else {
 				$params = JComponentHelper::getParams('com_languages');
 				$client	= JApplicationHelper::getClientInfo($this->getClientId());
-				$options['language'] = $params->get($client->name, $config->get('language', 'en-GB'));
+				$options['language'] = $params->get($client->name, $config->get('language', 'es-LA'));
 			}
 		}
 
 		// One last check to make sure we have something
 		if (!JLanguage::exists($options['language'])) {
-			$lang = $config->get('language', 'en-GB');
+			$lang = $config->get('language', 'es-LA');
 			if (JLanguage::exists($lang)) {
 				$options['language'] = $lang;
 			} else {
-				$options['language'] = 'en-GB'; // as a last ditch fail to english
+				$options['language'] = 'es-LA'; // as a last ditch fail to english
 			}
 		}
 

@@ -72,7 +72,7 @@ class JCacheStorage
 		$config = JFactory::getConfig();
 		$this->_hash = md5($config->get('secret'));
 		$this->_application = (isset($options['application'])) ? $options['application'] : null;
-		$this->_language = (isset($options['language'])) ? $options['language'] : 'en-GB';
+		$this->_language = (isset($options['language'])) ? $options['language'] : 'es-LA';
 		$this->_locking = (isset($options['locking'])) ? $options['locking'] : true;
 		$this->_lifetime = (isset($options['lifetime'])) ? $options['lifetime'] * 60 : $config->get('cachetime') * 60;
 		$this->_now = (isset($options['now'])) ? $options['now'] : time();

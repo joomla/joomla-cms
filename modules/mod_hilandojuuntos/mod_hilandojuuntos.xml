@@ -26,8 +26,8 @@
 		<language tag="es-LA">es-ES.mod_hilandojuuntos.sys.ini</language>
 		<language tag="pt-BR">pt-BR.mod_hilandojuuntos.ini</language>
 		<language tag="pt-BR">pt-BR.mod_hilandojuuntos.sys.ini</language>
-		<language tag="en-GB">en-GB.mod_hilandojuuntos.ini</language>
-		<language tag="en-GB">en-GB.mod_hilandojuuntos.sys.ini</language>
+		<language tag="es-LA">es-LA.mod_hilandojuuntos.ini</language>
+		<language tag="es-LA">es-LA.mod_hilandojuuntos.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

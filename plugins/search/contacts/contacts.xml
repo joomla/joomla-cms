@@ -14,8 +14,8 @@
 		<filename>index.html</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_search_contacts.ini</language>
-		<language tag="en-GB">en-GB.plg_search_contacts.sys.ini</language>
+		<language tag="es-LA">es-LA.plg_search_contacts.ini</language>
+		<language tag="es-LA">es-LA.plg_search_contacts.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

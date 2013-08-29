@@ -110,7 +110,7 @@ class JHelp
 		$search = array('{app}', // Application name (eg. 'Administrator')
 			'{component}', // Component name (eg. 'com_content')
 			'{keyref}', // Help screen key reference
-			'{language}', // Full language code (eg. 'en-GB')
+			'{language}', // Full language code (eg. 'es-LA')
 			'{langcode}', // Short language code (eg. 'en')
 			'{langregion}', // Region code (eg. 'GB')
 			'{major}', // Joomla major version number

@@ -21,7 +21,7 @@
 		<folder>views</folder>
 	</files>
 	<languages folder="site">
-		<language tag="en-GB">language/en-GB.com_users.ini
+		<language tag="es-LA">language/es-LA.com_users.ini
 		</language>
 	</languages>
 	<administration>
@@ -36,7 +36,7 @@
 			<folder>views</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_users.ini
+			<language tag="es-LA">language/es-LA.com_users.ini
 			</language>
 		</languages>
 	</administration>

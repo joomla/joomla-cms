@@ -18,7 +18,7 @@
 			<folder>models</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_login.ini
+			<language tag="es-LA">language/es-LA.com_login.ini
 			</language>
 		</languages>
 	</administration>

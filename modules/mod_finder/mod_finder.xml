@@ -17,8 +17,8 @@
 		<filename>mod_finder.xml</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.mod_finder.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.mod_finder.sys.ini</language>
+		<language tag="es-LA">language/es-LA/es-LA.mod_finder.ini</language>
+		<language tag="es-LA">language/es-LA/es-LA.mod_finder.sys.ini</language>
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_SMART_SEARCH" />
 	<config>

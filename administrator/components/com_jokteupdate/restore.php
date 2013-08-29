@@ -4470,7 +4470,7 @@ class AKText extends AKAbstractObject
 		// Start with the default translation
 		$this->strings = $this->default_translation;
 		// Try loading the translation file in English, if it exists
-		$this->loadTranslation('en-GB');
+		$this->loadTranslation('es-LA');
 		// Try loading the translation file in the browser's preferred language, if it exists
 		$this->getBrowserLanguage();
 		if(!is_null($this->language))

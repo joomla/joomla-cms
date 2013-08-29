@@ -21,8 +21,8 @@
 	</files>
 
 	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.mod_multilangstatus.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.mod_multilangstatus.sys.ini</language>
+		<language tag="es-LA">language/es-LA/es-LA.mod_multilangstatus.ini</language>
+		<language tag="es-LA">language/es-LA/es-LA.mod_multilangstatus.sys.ini</language>
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_MULTILANG" />
 	<config>

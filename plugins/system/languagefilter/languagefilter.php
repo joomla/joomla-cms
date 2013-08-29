@@ -42,7 +42,7 @@ class plgSystemLanguageFilter extends JPlugin
 				self::$mode_sef 	= ($router->getMode() == JROUTER_MODE_SEF) ? true : false;
 				self::$sefs 		= JLanguageHelper::getLanguages('sef');
 				self::$lang_codes 	= JLanguageHelper::getLanguages('lang_code');
-				self::$default_lang = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+				self::$default_lang = JComponentHelper::getParams('com_languages')->get('site', 'es-LA');
 				self::$default_sef 	= self::$lang_codes[self::$default_lang]->sef;
 
 				$user = JFactory::getUser();

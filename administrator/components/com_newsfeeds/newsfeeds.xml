@@ -32,7 +32,7 @@
 		<folder>views</folder>
 	</files>
 	<languages folder="site">
-		<language tag="en-GB">language/en-GB.com_newsfeeds.ini</language>
+		<language tag="es-LA">language/es-LA.com_newsfeeds.ini</language>
 	</languages>
 	<administration>
 		<menu img="class:newsfeeds">com_newsfeeds</menu>
@@ -60,8 +60,8 @@
 			<folder>views</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_newsfeeds.ini</language>
-			<language tag="en-GB">language/en-GB.com_newsfeeds.sys.ini</language>
+			<language tag="es-LA">language/es-LA.com_newsfeeds.ini</language>
+			<language tag="es-LA">language/es-LA.com_newsfeeds.sys.ini</language>
 		</languages>
 	</administration>
 </extension>

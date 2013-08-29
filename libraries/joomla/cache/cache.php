@@ -52,7 +52,7 @@ class JCache extends JObject
 		$this->_options = array(
 			'cachebase' => $conf->get('cache_path', JPATH_CACHE),
 			'lifetime' => (int) $conf->get('cachetime'),
-			'language' => $conf->get('language', 'en-GB'),
+			'language' => $conf->get('language', 'es-LA'),
 			'storage' => $conf->get('cache_handler', ''),
 			'defaultgroup' => 'default',
 			'locking' => true,

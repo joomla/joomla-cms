@@ -21,7 +21,7 @@
 		<folder>views</folder>
 	</files>
 	<languages folder="site">
-		<language tag="en-GB">language/en-GB.com_search.ini
+		<language tag="es-LA">language/es-LA.com_search.ini
 		</language>
 	</languages>
 	<administration>
@@ -37,9 +37,9 @@
 			<folder>views</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_search.ini
+			<language tag="es-LA">language/es-LA.com_search.ini
 			</language>
-			<language tag="en-GB">language/en-GB.com_search.sys.ini
+			<language tag="es-LA">language/es-LA.com_search.sys.ini
 			</language>
 		</languages>
 	</administration>

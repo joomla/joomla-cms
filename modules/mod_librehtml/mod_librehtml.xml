@@ -14,7 +14,7 @@
         <filename module="mod_librehtml">mod_librehtml.php</filename>
     </files>
     <languages>
-        <language tag="en-GB">language/en-GB.mod_librehtml.ini</language>
+        <language tag="es-LA">language/es-LA.mod_librehtml.ini</language>
         <language tag="es-LA">language/es-LA.mod_librehtml.ini</language>
         <language tag="pt-BR">language/pt-BR.mod_librehtml.ini</language>
     </languages>

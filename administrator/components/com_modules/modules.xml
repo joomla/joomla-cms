@@ -21,7 +21,7 @@
 			<folder>views</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_modules.ini
+			<language tag="es-LA">language/es-LA.com_modules.ini
 			</language>
 		</languages>
 	</administration>

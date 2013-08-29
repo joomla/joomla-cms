@@ -60,8 +60,8 @@
 			<folder>views</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_banners.ini</language>
-			<language tag="en-GB">language/en-GB.com_banners.sys.ini</language>
+			<language tag="es-LA">language/es-LA.com_banners.ini</language>
+			<language tag="es-LA">language/es-LA.com_banners.sys.ini</language>
 		</languages>
 	</administration>
 </extension>

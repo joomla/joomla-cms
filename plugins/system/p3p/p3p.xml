@@ -14,8 +14,8 @@
 		<filename>index.html</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_system_p3p.ini</language>
-		<language tag="en-GB">en-GB.plg_system_p3p.sys.ini</language>
+		<language tag="es-LA">es-LA.plg_system_p3p.ini</language>
+		<language tag="es-LA">es-LA.plg_system_p3p.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

@@ -50,7 +50,7 @@ class LanguagesModelStrings extends JModelLegacy
 
 		// Initialize some variables
 		$client		= $app->getUserState('com_languages.overrides.filter.client', 'site') ? 'administrator' : 'site';
-		$language	= $app->getUserState('com_languages.overrides.filter.language', 'en-GB');
+		$language	= $app->getUserState('com_languages.overrides.filter.language', 'es-LA');
 
 
 		$base = constant('JPATH_'.strtoupper($client));

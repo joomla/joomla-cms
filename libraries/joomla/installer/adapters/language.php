@@ -119,7 +119,7 @@ class JInstallerLanguage extends JAdapterInstance
 		$name = JFilterInput::getInstance()->clean((string) $this->manifest->name, 'cmd');
 		$this->set('name', $name);
 
-		// Get the Language tag [ISO tag, eg. en-GB]
+		// Get the Language tag [ISO tag, eg. es-LA]
 		$tag = (string) $this->manifest->tag;
 
 		// Check if we found the tag - if we didn't, we may be trying to install from an older language package
@@ -323,7 +323,7 @@ class JInstallerLanguage extends JAdapterInstance
 		$name = JFilterInput::getInstance()->clean($name, 'cmd');
 		$this->set('name', $name);
 
-		// Get the Language tag [ISO tag, eg. en-GB]
+		// Get the Language tag [ISO tag, eg. es-LA]
 		$tag = (string) $xml->tag;
 
 		// Check if we found the tag - if we didn't, we may be trying to install from an older language package
@@ -469,7 +469,7 @@ class JInstallerLanguage extends JAdapterInstance
 			return false;
 		}
 
-		// Check that the language is not protected, Normally en-GB.
+		// Check that the language is not protected, Normally es-LA.
 		$protected = $extension->get('protected');
 		if ($protected == 1)
 		{

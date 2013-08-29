@@ -56,8 +56,8 @@ class JInstallationModelDatabase extends JModelLegacy
 
 		// Load the back-end language files so that the DB error messages work
 		$jlang = JFactory::getLanguage();
-		// Pre-load en-GB in case the chosen language files do not exist
-		$jlang->load('joomla', JPATH_ADMINISTRATOR, 'en-GB', true);
+		// Pre-load es-LA in case the chosen language files do not exist
+		$jlang->load('joomla', JPATH_ADMINISTRATOR, 'es-LA', true);
 		// Load the selected language
 		$jlang->load('joomla', JPATH_ADMINISTRATOR, $options->language, true);
 
@@ -278,8 +278,8 @@ class JInstallationModelDatabase extends JModelLegacy
 				$params = array();
 
 				// Set default administrator/site language to sample data values:
-				$params['administrator'] = 'en-GB';
-				$params['site'] = 'en-GB';
+				$params['administrator'] = 'es-LA';
+				$params['site'] = 'es-LA';
 
 				if (in_array($options->language, $languages['admin'])) {
 					$params['administrator'] = $options->language;

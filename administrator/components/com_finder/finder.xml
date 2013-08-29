@@ -39,7 +39,7 @@
 		</sql>
 	</uninstall>
 	<languages folder="site/language">
-		<language tag="en-GB">en-GB/en-GB.com_finder.ini</language>
+		<language tag="es-LA">es-LA/es-LA.com_finder.ini</language>
 	</languages>
 	<administration>
 		<files folder="admin">
@@ -56,8 +56,8 @@
 			<folder>views</folder>
 		</files>
 		<languages folder="admin/language">
-			<language tag="en-GB">en-GB/en-GB.com_finder.ini</language>
-			<language tag="en-GB">en-GB/en-GB.com_finder.sys.ini</language>
+			<language tag="es-LA">es-LA/es-LA.com_finder.ini</language>
+			<language tag="es-LA">es-LA/es-LA.com_finder.sys.ini</language>
 		</languages>
 		<menu img="class:finder" link="option=com_finder">COM_FINDER</menu>
 	</administration>

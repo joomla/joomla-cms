@@ -21,8 +21,8 @@
 		<filename>mod_banners.xml</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_banners.ini</language>
-		<language tag="en-GB">en-GB.mod_banners.sys.ini</language>
+		<language tag="es-LA">es-LA.mod_banners.ini</language>
+		<language tag="es-LA">es-LA.mod_banners.sys.ini</language>
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_BANNERS" />
 	<config>

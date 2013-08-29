@@ -14,7 +14,7 @@
 		<filename>index.html</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_system_remember.ini</language>
-		<language tag="en-GB">en-GB.plg_system_remember.sys.ini</language>
+		<language tag="es-LA">es-LA.plg_system_remember.ini</language>
+		<language tag="es-LA">es-LA.plg_system_remember.sys.ini</language>
 	</languages>
 </extension>

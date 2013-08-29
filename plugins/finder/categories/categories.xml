@@ -15,7 +15,7 @@
     	<filename>index.html</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_finder_categories.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_finder_categories.sys.ini</language>
+		<language tag="es-LA">language/es-LA/es-LA.plg_finder_categories.ini</language>
+		<language tag="es-LA">language/es-LA/es-LA.plg_finder_categories.sys.ini</language>
 	</languages>
 </extension>

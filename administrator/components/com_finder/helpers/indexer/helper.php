@@ -374,7 +374,7 @@ class FinderIndexerHelper
 		// Get the default language.
 		if (empty($lang))
 		{
-			$lang = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+			$lang = JComponentHelper::getParams('com_languages')->get('site', 'es-LA');
 		}
 
 		return $lang;
@@ -383,7 +383,7 @@ class FinderIndexerHelper
 	/**
 	 * Method to parse a language/locale key and return a simple language string.
 	 *
-	 * @param   string  $lang  The language/locale key. For example: en-GB
+	 * @param   string  $lang  The language/locale key. For example: es-LA
 	 *
 	 * @return  string  The simple language string. For example: en
 	 *

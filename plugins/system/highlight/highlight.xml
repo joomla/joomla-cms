@@ -16,7 +16,7 @@
 		<folder>media</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">language/en-GB/en-GB.plg_system_highlight.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_system_highlight.sys.ini</language>
+		<language tag="es-LA">language/es-LA/es-LA.plg_system_highlight.ini</language>
+		<language tag="es-LA">language/es-LA/es-LA.plg_system_highlight.sys.ini</language>
 	</languages>
 </extension>

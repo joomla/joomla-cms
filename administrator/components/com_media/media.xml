@@ -17,7 +17,7 @@
 		<folder>helpers</folder>
 	</files>
 	<languages folder="site">
-		<language tag="en-GB">language/en-GB.com_media.ini
+		<language tag="es-LA">language/es-LA.com_media.ini
 		</language>
 	</languages>
 	<administration>
@@ -32,7 +32,7 @@
 			<folder>views</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_media.ini
+			<language tag="es-LA">language/es-LA.com_media.ini
 			</language>
 		</languages>
 	</administration>

@@ -22,7 +22,7 @@
 			<folder>views</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_jokteupdate.ini</language>
+			<language tag="es-LA">language/es-LA.com_jokteupdate.ini</language>
 			<language tag="es-LA">language/es-LA.com_jokteupdate.ini</language>			
 		</languages>
 	</administration>

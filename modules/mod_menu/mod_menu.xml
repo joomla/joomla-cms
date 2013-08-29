@@ -20,8 +20,8 @@
 		<filename>index.html</filename>		<filename>mod_menu.xml</filename>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_menu.ini</language>
-		<language tag="en-GB">en-GB.mod_menu.sys.ini</language>
+		<language tag="es-LA">es-LA.mod_menu.ini</language>
+		<language tag="es-LA">es-LA.mod_menu.sys.ini</language>
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_MENU" />
 	<config>

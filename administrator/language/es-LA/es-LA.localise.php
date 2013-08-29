@@ -7,7 +7,7 @@
  */
 
 /**
- * en-GB localise class
+ * es-LA localise class
  *
  * @package		Joomla.Site
  * @since		1.6
