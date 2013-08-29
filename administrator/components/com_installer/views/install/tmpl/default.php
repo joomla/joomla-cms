@@ -15,7 +15,7 @@ $document = JFactory::getDocument();
 $instance = new JVersion;
 
 $version  = $instance->getShortVersion();
-$document->addStylesheet($appsBaseUrl . 'apps/css/client.css?jversion=' . $version);
+$document->addStylesheet($appsBaseUrl . 'jedapps/css/client.css?jversion=' . $version);
 ?>
 <script type="text/javascript">
 	apps_base_url = '<?php echo $appsBaseUrl; ?>';
@@ -64,7 +64,7 @@ $document->addStylesheet($appsBaseUrl . 'apps/css/client.css?jversion=' . $versi
 		}
 	}
 </script>
-<script src="<?php echo $appsBaseUrl . 'apps/js/client.js?jversion=' . $version; ?>" type="text/javascript"></script>
+<script src="<?php echo $appsBaseUrl . 'jedapps/js/client.js?jversion=' . $version; ?>" type="text/javascript"></script>
 
 <div id="installer-install">
 <form enctype="multipart/form-data" action="<?php echo JRoute::_('index.php?option=com_installer&view=install');?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
