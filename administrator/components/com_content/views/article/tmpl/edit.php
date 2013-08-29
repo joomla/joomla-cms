@@ -101,7 +101,7 @@ $input = $app->input;
 		<?php endif; ?>
 
 		<?php $this->show_options = $params->get('show_article_options'); ?>
-		<?php echo JLayoutHelper::render('joomla.edit.options', $this); ?>
+		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 

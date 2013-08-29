@@ -45,7 +45,6 @@ JFactory::getDocument()->addScriptDeclaration($script);
 $this->fields = array(
 	'showtitle',
 	'position',
-	'ordering',
 	'published',
 	'publish_up',
 	'publish_down',
@@ -87,14 +86,45 @@ if ((string) $this->item->xml->name == 'mod_login')
 							<span class="label"><?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?></span>
 						</h4>
 						<div>
-							<?php echo JText::_($this->item->xml->description); ?>
+							<?php
+							$short_description = JText::_($this->item->xml->description);
+
+							$this->fieldset = 'description';
+							$long_description = JLayoutHelper::render('joomla.edit.fieldset', $this);
+
+							if (!$long_description)
+							{
+								$trimmed = JHtmlString::truncate($short_description, 200);
+
+								if ($trimmed != $short_description)
+								{
+									$short_description = $trimmed;
+								}
+							}
+							echo $short_description;
+							if ($long_description)
+							{
+								echo '<p class="readmore">'
+									. '<a href="#" onclick="jQuery(\'.nav-tabs a[href=#description]\').tab(\'show\');">'
+									. JText::_('JGLOBAL_SHOW_FULL_DESCRIPTION')
+									. '</a>'
+									. '</p>';
+							}
+							?>
 						</div>
 						<hr />
 					<?php endif; ?>
 				<?php else : ?>
 					<div class="alert alert-error"><?php echo JText::_('COM_MODULES_ERR_XML'); ?></div>
 				<?php endif; ?>
-				<?php echo $this->form->getControlGroups('basic'); ?>
+				<?php
+				if ($hasContent)
+				{
+					echo $this->form->getInput('content');
+				}
+				$this->fieldset = 'basic';
+				echo JLayoutHelper::render('joomla.edit.fieldset', $this);
+				?>
 			</div>
 			<div class="span3">
 				<?php echo JLayoutHelper::render('joomla.edit.main', $this); ?>
@@ -102,9 +132,9 @@ if ((string) $this->item->xml->name == 'mod_login')
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php if ($hasContent) : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'content', JText::_('COM_MODULES_CUSTOM_OUTPUT', true)); ?>
-			<?php echo $this->loadTemplate('content'); ?>
+		<?php if ($long_description) : ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('JGLOBAL_FIELDSET_DESCRIPTION', true)); ?>
+			<?php echo $long_description; ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
@@ -114,8 +144,11 @@ if ((string) $this->item->xml->name == 'mod_login')
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
-		<?php $this->ignore_fieldsets = array('basic'); ?>
-		<?php echo JLayoutHelper::render('joomla.edit.options', $this); ?>
+		<?php
+		$this->fieldsets = array();
+		$this->ignore_fieldsets = array('basic');
+		echo JLayoutHelper::render('joomla.edit.params', $this);
+		?>
 
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 

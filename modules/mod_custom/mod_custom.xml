@@ -25,7 +25,8 @@
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_CUSTOM_HTML" />
 	<config>
 		<fields name="params">
-			<fieldset name="basic">
+			<fieldset
+				name="advanced">
 				<field
 					name="prepare_content"
 					type="radio"
@@ -38,11 +39,10 @@
 					<option
 						value="1">JYES</option>
 				</field>
+
 				<field name="backgroundimage" type="media"
 					label="MOD_CUSTOM_FIELD_BACKGROUNDIMAGE_LABEL" description="MOD_BACKGROUNDIMAGE_FIELD_LOGO_DESC" />
-			</fieldset>
-			<fieldset
-				name="advanced">
+
 				<field
 					name="layout"
 					type="modulelayout"

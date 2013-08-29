@@ -73,7 +73,7 @@ $assoc = isset($app->item_associations);
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
-		<?php echo JLayoutHelper::render('joomla.edit.options', $this); ?>
+		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 

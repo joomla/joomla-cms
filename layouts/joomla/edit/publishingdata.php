@@ -13,25 +13,19 @@ $app = JFactory::getApplication();
 $form = $displayData->get('form');
 
 $fields = $displayData->get('fields') ?: array(
-	array('category', 'catid'),
-	array('parent', 'parent_id'),
-	'tags',
-	array('published', 'state'),
-	'featured',
-	'access',
-	'language',
-	'note'
+	'publish_up',
+	'publish_down',
+	array('created', 'created_time'),
+	array('created_by', 'created_user_id'),
+	'created_by_alias',
+	array('modified', 'modified_time'),
+	array('modified_by', 'modified_user_id'),
+	'version',
+	'hits',
+	'id'
 );
 
 $hiddenFields = $displayData->get('hidden_fields') ?: array();
-
-if (!isset($app->languages_enabled))
-{
-	$hiddenFields[] = 'language';
-}
-
-$html = array();
-$html[] = '<fieldset class="form-vertical">';
 
 foreach ($fields as $field)
 {
@@ -45,12 +39,8 @@ foreach ($fields as $field)
 				$form->setFieldAttribute($f, 'type', 'hidden');
 			}
 
-			$html[] = $form->getControlGroup($f);
+			echo $form->getControlGroup($f);
 			break;
 		}
 	}
 }
-
-$html[] = '</fieldset>';
-
-echo implode('', $html);
