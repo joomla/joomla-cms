@@ -16,13 +16,13 @@ $document = JFactory::getDocument();
 <script type="text/javascript">
 	apps_base_url = '<?php echo $appsBaseUrl; ?>';
 	apps_installat_url = '<?php echo base64_encode(JURI::current(true) . '?option=com_installer&view=install'); ?>';
-	apps_installfrom_url = '<?php echo $installfrom; ?>';
+	apps_installfrom_url = '<?php echo addslashes($installfrom); ?>';
 
 	jQuery(document).ready(function() {
 		jQuery(jQuery('#myTabTabs a[href="#web"]').get(0)).closest('li').click(function (event){
 			if (typeof Joomla.apps == 'undefined') {
 				jQuery.ajax({
-					url: "<?php echo $appsBaseUrl . 'jedapps/js/client.js?jversion=' . $version; ?>",
+					url: "<?php echo $appsBaseUrl . 'jedapps/js/client.js?jversion=' . JVERSION; ?>",
 					dataType: 'script',
 					timeout: 20000,
 					success: function(response) {
@@ -46,6 +46,10 @@ $document = JFactory::getDocument();
 				});
 			}
 		});
+		
+		if (apps_installfrom_url != '') {
+			jQuery('#myTabTabs a[href="#web"]').get(0)).closest('li').trigger('click');
+		}
 	});
 
 	Joomla.submitbutton = function(pressbutton)
