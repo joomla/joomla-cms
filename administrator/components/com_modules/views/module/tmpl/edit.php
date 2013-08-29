@@ -87,22 +87,12 @@ if ((string) $this->item->xml->name == 'mod_login')
 						</h4>
 						<div>
 							<?php
-							$short_description = JText::_($this->item->xml->description);
+							echo JText::_($this->item->xml->description);
 
 							$this->fieldset = 'description';
-							$long_description = JLayoutHelper::render('joomla.edit.fieldset', $this);
+							$description = JLayoutHelper::render('joomla.edit.fieldset', $this);
 
-							if (!$long_description)
-							{
-								$trimmed = JHtmlString::truncate($short_description, 200);
-
-								if ($trimmed != $short_description)
-								{
-									$short_description = $trimmed;
-								}
-							}
-							echo $short_description;
-							if ($long_description)
+							if ($description)
 							{
 								echo '<p class="readmore">'
 									. '<a href="#" onclick="jQuery(\'.nav-tabs a[href=#description]\').tab(\'show\');">'
@@ -132,9 +122,9 @@ if ((string) $this->item->xml->name == 'mod_login')
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php if ($long_description) : ?>
+		<?php if ($description) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('JGLOBAL_FIELDSET_DESCRIPTION', true)); ?>
-			<?php echo $long_description; ?>
+			<?php echo $description; ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
