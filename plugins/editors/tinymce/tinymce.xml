@@ -208,7 +208,7 @@
 
 				<field name="resize_horizontal" type="radio"
 					class="btn-group"
-					default="false"
+					default="true"
 					description="PLG_TINY_FIELD_RESIZE_HORIZONTAL_DESC"
 					label="PLG_TINY_FIELD_RESIZE_HORIZONTAL_LABEL"
 				>
