@@ -14,8 +14,8 @@ $lang = JFactory::getLanguage();
 $lang->load('tpl_hathor', JPATH_ADMINISTRATOR)
 || $lang->load('tpl_hathor', JPATH_ADMINISTRATOR . '/templates/hathor/language');
 
-$app	= JFactory::getApplication();
-$doc	= JFactory::getDocument();
+$app  = JFactory::getApplication();
+$doc  = JFactory::getDocument();
 
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
@@ -38,27 +38,27 @@ $doc->addStyleSheet('templates/'.$this->template.'/css/colour_'.$colour.'.css');
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
 if (is_file($file))
 {
-	$doc->addStyleSheet($file);
+  $doc->addStyleSheet($file);
 }
 
 // Load additional CSS styles for rtl sites
 if ($this->direction == 'rtl')
 {
-	$doc->addStyleSheet('templates/'.$this->template.'/css/template_rtl.css');
-	$doc->addStyleSheet('templates/'.$this->template.'/css/colour_'.$colour.'_rtl.css');
+  $doc->addStyleSheet('templates/'.$this->template.'/css/template_rtl.css');
+  $doc->addStyleSheet('templates/'.$this->template.'/css/colour_'.$colour.'_rtl.css');
 }
 
 // Load specific language related CSS
 $file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
 if (JFile::exists($file))
 {
-	$doc->addStyleSheet($file);
+  $doc->addStyleSheet($file);
 }
 
 // Load additional CSS styles for bold Text
 if ($this->params->get('boldText'))
 {
-	$doc->addStyleSheet('templates/'.$this->template.'/css/boldtext.css');
+  $doc->addStyleSheet('templates/'.$this->template.'/css/boldtext.css');
 }
 
 // Load template javascript
@@ -66,11 +66,11 @@ $doc->addScript('templates/'.$this->template.'/js/template.js', 'text/javascript
 // Logo file
 if ($this->params->get('logoFile'))
 {
-	$logo = JUri::root() . $this->params->get('logoFile');
+  $logo = JUri::root() . $this->params->get('logoFile');
 }
 else
 {
-	$logo = $this->baseurl . "/templates/" . $this->template . "/images/logo.png";
+  $logo = $this->baseurl . "/templates/" . $this->template . "/images/logo.png";
 }
 
 ?>
@@ -81,11 +81,11 @@ else
 <jdoc:include type="head" />
 
 <!--[if lt IE 9]>
-	<script src="../media/jui/js/html5.js"></script>
+  <script src="../media/jui/js/html5.js"></script>
 <![endif]-->
 </head>
 <body class="contentpane">
-	<jdoc:include type="message" />
-	<jdoc:include type="component" />
+  <jdoc:include type="message" />
+  <jdoc:include type="component" />
 </body>
 </html>
