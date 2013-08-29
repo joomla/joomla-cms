@@ -185,7 +185,7 @@ class JMicrodata
 		$property = static::sanitizeProperty($property);
 
 		// Control if the Property exist in the given Type and setup it, if not leave NULL
-		if ( static::isPropertyInType($this->type, $property) )
+		if (static::isPropertyInType($this->type, $property))
 		{
 			$this->property = $property;
 		}
@@ -338,8 +338,8 @@ class JMicrodata
 			else
 			{
 				/* Process and return the HTML in an automatic way,
-				 * with the Property expected Types an display the Microdata in the right way,
-				* check if the Property is normal, nested or must be rendered in a metadata tag */
+				 * with the Property expected Types and display the Microdata in the right way,
+				 * check if the Property is normal, nested or must be rendered in a metadata tag */
 				switch (static::getExpectedDisplayType($this->type, $this->property))
 				{
 					case 'nested':
@@ -364,7 +364,7 @@ class JMicrodata
 
 						/* Check if a Content is available,
 						 * otherwise Fallback to an 'inline' display type */
-						if ($this->content)
+						if ($this->content !== '')
 						{
 							if ($nestedProperty)
 							{
@@ -396,7 +396,7 @@ class JMicrodata
 					case 'meta':
 						/* Check if the Content value is available,
 						 * otherwise Fallback to an 'inline' display Type */
-						if ($this->content)
+						if ($this->content !== '')
 						{
 							$html = static::htmlMeta($this->content, $this->property)
 								. $this->content;
@@ -411,7 +411,7 @@ class JMicrodata
 						/* Default expected display type = 'normal'
 						 * Check if the Content value is available,
 						 * otherwise Fallback to an 'inline' display Type */
-						if ($this->content)
+						if ($this->content !== '')
 						{
 							$html = static::htmlSpan($this->content, $this->property);
 						}
@@ -459,7 +459,7 @@ class JMicrodata
 					case 'meta':
 						/* Check if the Content value is available,
 						 * otherwise Fallback to an 'inline' display Type */
-						if ($this->content)
+						if ($this->content !== '')
 						{
 							$html = static::htmlMeta($this->content, $this->fallbackProperty, $this->fallbackType);
 						}
@@ -474,7 +474,7 @@ class JMicrodata
 						/* Default expected display type = 'normal'
 						 * Check if the Content value is available,
 						 * otherwise Fallback to an 'inline' display Type */
-						if ($this->content)
+						if ($this->content !== '')
 						{
 							$html = static::htmlSpan($this->content, $this->fallbackProperty, $this->fallbackType);
 						}

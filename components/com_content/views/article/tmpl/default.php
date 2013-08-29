@@ -12,18 +12,16 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 // Create shortcuts to some parameters.
-$params		= $this->item->params;
-$images		= json_decode($this->item->images);
-$urls		= json_decode($this->item->urls);
-$canEdit	= $params->get('access-edit');
-$user		= JFactory::getUser();
-$info		= $params->get('info_block_position', 0);
-$microdata	= JFactory::getMicrodata();
-JHtml::_('behavior.caption');
+$params     = $this->item->params;
+$images     = json_decode($this->item->images);
+$urls       = json_decode($this->item->urls);
+$canEdit    = $params->get('access-edit');
+$user       = JFactory::getUser();
+$info       = $params->get('info_block_position', 0);
 
 // TODO Retrieve the Type, enabled or not params from the db
-$microdata->enable(true)->setType('Article');
-
+$microdata  = JFactory::getMicrodata()->enable(true)->setType('Article');
+JHtml::_('behavior.caption');
 ?>
 <div class="item-page<?php echo $this->pageclass_sfx?>" <?php echo $microdata->displayScope();?>>
 	<?php if ($this->params->get('show_page_heading') && $params->get('show_title')) : ?>

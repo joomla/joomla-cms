@@ -12,10 +12,10 @@ defined('JPATH_BASE') or die;
 ?>
 			<dd class="parent-category-name">
 				<?php $title = $this->escape($displayData['item']->parent_title);
-				$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($displayData['item']->parent_slug)).'">'.$title.'</a>';?>
+				$url = '<a href="'.JRoute::_(ContentHelperRoute::getCategoryRoute($displayData['item']->parent_slug)).'">' . JFactory::getMicrodata()->content($title)->property('genre')->display() . '</a>';?>
 				<?php if ($displayData['params']->get('link_parent_category') && !empty($displayData['item']->parent_slug)) : ?>
 					<?php echo JText::sprintf('COM_CONTENT_PARENT', $url); ?>
 				<?php else : ?>
-					<?php echo JText::sprintf('COM_CONTENT_PARENT', $title); ?>
+					<?php echo JText::sprintf('COM_CONTENT_PARENT', JFactory::getMicrodata()->content($title)->property('genre')->display()); ?>
 				<?php endif; ?>
 			</dd>

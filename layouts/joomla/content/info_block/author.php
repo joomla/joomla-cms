@@ -16,9 +16,9 @@ defined('JPATH_BASE') or die;
 				<?php if (!empty($displayData['item']->contactid ) && $displayData['params']->get('link_author') == true) : ?>
 					<?php
 					echo JText::sprintf('COM_CONTENT_WRITTEN_BY',
-						JHtml::_('link', JRoute::_('index.php?option=com_contact&view=contact&id='.$displayData['item']->contactid), $author)
+						JHtml::_('link', JRoute::_('index.php?option=com_contact&view=contact&id='.$displayData['item']->contactid), JFactory::getMicrodata()->content($author)->property('author')->fallback('Person', 'name')->display())
 					); ?>
 				<?php else :?>
-					<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
+					<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JFactory::getMicrodata()->content($author)->property('author')->fallback('Person', 'name')->display()); ?>
 				<?php endif; ?>
 			</dd>
