@@ -54,6 +54,10 @@ if ($displayData->get('show_options', 1))
 
 	foreach ($fieldSet as $field)
 	{
+		if($count == $split && $field->getAttribute('type') == 'spacer' && $field->getAttribute('hr') ) {
+			continue;
+		}
+
 		$html[] = $field->getControlGroup();
 
 		if (++$count == $split)

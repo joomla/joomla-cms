@@ -76,23 +76,24 @@ $this->fieldsets = $this->form->getFieldsets('params');
 			<div class="span3">
 				<?php echo JLayoutHelper::render('joomla.edit.main', $this); ?>
 			</div>
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
-
-			<?php if ($description) : ?>
-				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('JGLOBAL_FIELDSET_DESCRIPTION', true)); ?>
-				<?php echo $description; ?>
-				<?php echo JHtml::_('bootstrap.endTab'); ?>
-			<?php endif; ?>
-
-			<?php
-			$this->fieldsets = array();
-			$this->ignore_fieldsets = array('basic');
-			echo JLayoutHelper::render('joomla.edit.params', $this);
-			?>
-
-			<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 		</div>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<input type="hidden" name="task" value="" />
-		<?php echo JHtml::_('form.token'); ?>
+		<?php if ($description) : ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('JGLOBAL_FIELDSET_DESCRIPTION', true)); ?>
+			<?php echo $description; ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php endif; ?>
+
+		<?php
+		$this->fieldsets = array();
+		$this->ignore_fieldsets = array('basic');
+		echo JLayoutHelper::render('joomla.edit.params', $this);
+		?>
+
+		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+	</div>
+
+	<input type="hidden" name="task" value="" />
+	<?php echo JHtml::_('form.token'); ?>
 </form>
