@@ -38,23 +38,6 @@ $script .= "	Joomla.submitform(task, document.getElementById('module-form'));
 
 JFactory::getDocument()->addScriptDeclaration($script);
 
-// Set main fields.
-$this->fields = array(
-	'showtitle',
-	'position',
-	'published',
-	'publish_up',
-	'publish_down',
-	'access',
-	'language',
-	'note'
-);
-
-if ((string) $this->item->xml->name == 'mod_login')
-{
-	$this->fields = array_diff($this->fields, array('published', 'publish_up', 'publish_down'));
-}
-
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_modules&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="module-form" class="form-validate">
 
@@ -69,7 +52,8 @@ if ((string) $this->item->xml->name == 'mod_login')
 			<div class="span9">
 				<?php if ($this->item->xml) : ?>
 					<?php if ($this->item->xml->description) : ?>
-						<h4>
+						<span class="label"><?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?></span>
+						<h3>
 							<?php
 							if ($this->item->xml)
 							{
@@ -80,25 +64,20 @@ if ((string) $this->item->xml->name == 'mod_login')
 								echo JText::_('COM_MODULES_ERR_XML');
 							}
 							?>
-							<br />
-							<span class="label"><?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?></span>
-						</h4>
+						</h3>
 						<div>
+							<p><?php echo JText::_($this->item->xml->description); ?></p>
 							<?php
-							echo JText::_($this->item->xml->description);
-
 							$this->fieldset = 'description';
 							$description = JLayoutHelper::render('joomla.edit.fieldset', $this);
-
-							if ($description)
-							{
-								echo '<p class="readmore">'
-									. '<a href="#" onclick="jQuery(\'.nav-tabs a[href=#description]\').tab(\'show\');">'
-									. JText::_('JGLOBAL_SHOW_FULL_DESCRIPTION')
-									. '</a>'
-									. '</p>';
-							}
 							?>
+							<?php if ($description) : ?>
+								<p class="readmore">
+									<a href="#" onclick="jQuery('.nav-tabs a[href=#description]').tab('show');">
+										<?php echo JText::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
+									</a>
+								</p>
+							<?php endif; ?>
 						</div>
 					<?php endif; ?>
 				<?php else : ?>
@@ -115,6 +94,24 @@ if ((string) $this->item->xml->name == 'mod_login')
 				?>
 			</div>
 			<div class="span3">
+				<?php
+				// Set main fields.
+				$this->fields = array(
+					'showtitle',
+					'position',
+					'published',
+					'publish_up',
+					'publish_down',
+					'access',
+					'language',
+					'note'
+				);
+
+				if ((string) $this->item->xml->name == 'mod_login')
+				{
+					$this->fields = array_diff($this->fields, array('published', 'publish_up', 'publish_down'));
+				}
+				?>
 				<?php echo JLayoutHelper::render('joomla.edit.main', $this); ?>
 			</div>
 		</div>

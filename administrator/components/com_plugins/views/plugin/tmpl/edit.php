@@ -35,7 +35,9 @@ $this->fieldsets = $this->form->getFieldsets('params');
 
 				<?php if ($this->item->xml) : ?>
 					<?php if ($this->item->xml->description) : ?>
-						<h4>
+						<span class="label"><?php echo $this->form->getValue('folder'); ?></span> /
+						<span class="label"><?php echo $this->form->getValue('element'); ?></span>
+						<h3>
 							<?php
 							if ($this->item->xml)
 							{
@@ -46,26 +48,20 @@ $this->fieldsets = $this->form->getFieldsets('params');
 								echo JText::_('COM_PLUGINS_XML_ERR');
 							}
 							?>
-							<br />
-							<span class="label"><?php echo $this->form->getValue('folder'); ?></span> /
-							<span class="label"><?php echo $this->form->getValue('element'); ?></span>
-						</h4>
+						</h3>
 						<div>
+							<p><?php echo JText::_($this->item->xml->description); ?></p>
 							<?php
-							echo JText::_($this->item->xml->description);
-
 							$this->fieldset = 'description';
 							$description = JLayoutHelper::render('joomla.edit.fieldset', $this);
-
-							if ($description)
-							{
-								echo '<p class="readmore">'
-									. '<a href="#" onclick="jQuery(\'.nav-tabs a[href=#description]\').tab(\'show\');">'
-									. JText::_('JGLOBAL_SHOW_FULL_DESCRIPTION')
-									. '</a>'
-									. '</p>';
-							}
 							?>
+							<?php if ($description) : ?>
+								<p class="readmore">
+									<a href="#" onclick="jQuery('.nav-tabs a[href=#description]').tab('show');">
+										<?php echo JText::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
+									</a>
+								</p>
+							<?php endif; ?>
 						</div>
 					<?php endif; ?>
 				<?php else : ?>

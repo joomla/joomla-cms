@@ -29,7 +29,7 @@
 			description="JFIELD_ALIAS_DESC"
 			placeholder="JFIELD_ALIAS_PLACEHOLDER"
 			class="inputbox"
-			size="45" />
+			size="40" />
 
 		<field name="articletext"
 			type="editor"
