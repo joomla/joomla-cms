@@ -16,22 +16,22 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Rackspace
  * @since       ??.?
  */
-class JRackspaceOperationsStorage extends JRackspaceObject
+class JRackspaceStorage extends JRackspaceObject
 {
 	/**
-	 * @var    JRackspaceOperationsStorageAccount  Rackspace API object for Storage Account Services
+	 * @var    JRackspaceStorageAccount  Rackspace API object for Storage Account Services
 	 * @since  ??.?
 	 */
 	protected $account;
 
 	/**
-	 * @var    JRackspaceOperationsStorageContainer Rackspace API object for Storage Container Services
+	 * @var    JRackspaceStorageContainer Rackspace API object for Storage Container Services
 	 * @since  ??.?
 	 */
 	protected $container;
 
 	/**
-	 * @var    JRackspaceOperationsStorageObject  Rackspace API object for Storage Object Services
+	 * @var    JRackspaceStorageObject  Rackspace API object for Storage Object Services
 	 * @since  ??.?
 	 */
 	protected $object;
@@ -48,7 +48,7 @@ class JRackspaceOperationsStorage extends JRackspaceObject
 	 */
 	public function __get($name)
 	{
-		$class = 'JRackspaceOperationsStorage' . ucfirst($name);
+		$class = 'JRackspaceStorage' . ucfirst($name);
 
 		if (class_exists($class))
 		{

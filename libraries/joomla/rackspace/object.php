@@ -25,7 +25,7 @@ abstract class JRackspaceObject
 	protected $options;
 
 	/**
-	 * @var    JHttp  The HTTP client object to use in sending HTTP requests.
+	 * @var    JRackspaceHttp  The HTTP client object to use in sending HTTP requests.
 	 * @since  ??.?
 	 */
 	protected $client;
@@ -33,15 +33,15 @@ abstract class JRackspaceObject
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry  $options  Rackspace options object.
-	 * @param   JHttp      $client   The HTTP client object.
+	 * @param   JRegistry       $options  Rackspace options object.
+	 * @param   JRackspaceHttp  $client   The HTTP client object.
 	 *
 	 * @since   ??.?
 	 */
-	public function __construct(JRegistry $options = null, JHttp $client = null)
+	public function __construct(JRegistry $options = null, JRackspaceHttp $client = null)
 	{
 		$this->options = isset($options) ? $options : new JRegistry;
-		$this->client = isset($client) ? $client : new JHttp($this->options);
+		$this->client = isset($client) ? $client : new JRackspaceHttp($this->options);
 	}
 
 	/**
@@ -65,5 +65,32 @@ abstract class JRackspaceObject
 		}
 
 		return json_decode($response->body);
+	}
+
+	/**
+	 * Send an authentication request.
+	 *
+	 * @return string
+	 */
+	public function getAuthTokenHeaders()
+	{
+		$url = "https://" . $this->options->get("auth.host.us") . "/v1.0";
+
+		// Create the headers
+		$headers = array(
+			"Host" => $this->options->get("auth.host.us"),
+			"X-Auth-User" => $this->options->get('api.authUser'),
+			"X-Auth-Key" => $this->options->get('api.authKey'),
+		);
+
+		// Send the http request
+		$response = $this->client->get($url, $headers);
+
+		if ($response->code == 204)
+		{
+			return $response->headers;
+		}
+
+		return null;
 	}
 }

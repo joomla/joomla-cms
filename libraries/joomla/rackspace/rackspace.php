@@ -25,25 +25,25 @@ class JRackspace
 	protected $options;
 
 	/**
-	 * @var    JHttp  The HTTP client object to use in sending HTTP requests.
+	 * @var    JRackspaceHttp  The HTTP client object to use in sending HTTP requests.
 	 * @since  ??.?
 	 */
 	protected $client;
 
 	/**
-	 * @var    JRackspaceOperationsAccount  Rackspace API object for Storage Account Services.
+	 * @var    JRackspaceAccount  Rackspace API object for Storage Account Services.
 	 * @since  ??.?
 	 */
 	protected $account;
 
 	/**
-	 * @var    JRackspaceOperationsContainer  Rackspace API object for Storage Container Services.
+	 * @var    JRackspaceContainer  Rackspace API object for Storage Container Services.
 	 * @since  ??.?
 	 */
 	protected $container;
 
 	/**
-	 * @var    JRackspaceOperationsObject  Rackspace API object for Storage Object Services.
+	 * @var    JRackspaceObject  Rackspace API object for Storage Object Services.
 	 * @since  ??.?
 	 */
 	protected $object;
@@ -57,13 +57,16 @@ class JRackspace
 	 *
 	 * @since   ??.?
 	 */
-	public function __construct(JRegistry $options = null, JHttp $client = null)
+	public function __construct(JRegistry $options = null, JRackspaceHttp $client = null)
 	{
 		$this->options = isset($options) ? $options : new JRegistry;
-		$this->client  = isset($client) ? $client : new JHttp($this->options);
+		$this->client  = isset($client) ? $client : new JRackspaceHttp($this->options);
 
 		// Setup the default API url if not already set.
 		$this->options->def('api.url', 'rackspace.com/cloud/files/api/');
+		$this->options->def('api.version', 'v1.0');
+		$this->options->def('auth.host.us', 'identity.api.rackspacecloud.com');
+		$this->options->def('storage.host', 'storage.clouddrive.com');
 	}
 
 	/**
@@ -78,7 +81,7 @@ class JRackspace
 	 */
 	public function __get($name)
 	{
-		$class = 'JRackspaceOperations' . ucfirst($name);
+		$class = 'JRackspace' . ucfirst($name);
 
 		if (class_exists($class))
 		{

@@ -16,28 +16,28 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Rackspace
  * @since       ??.?
  */
-class JRackspaceOperationsCdn extends JRackspaceObject
+class JRackspaceCdn extends JRackspaceObject
 {
 	/**
-	 * @var    JRackspaceOperationsCdnAccount  Rackspace API object for CDN Account Services
+	 * @var    JRackspaceCdnAccount  Rackspace API object for CDN Account Services
 	 * @since  ??.?
 	 */
 	protected $account;
 
 	/**
-	 * @var    JRackspaceOperationsCdnContainer Rackspace API object for CDN Container Services
+	 * @var    JRackspaceCdnContainer Rackspace API object for CDN Container Services
 	 * @since  ??.?
 	 */
 	protected $container;
 
 	/**
-	 * @var    JRackspaceOperationsCdnObject  Rackspace API object for CDN Object Services
+	 * @var    JRackspaceCdnObject  Rackspace API object for CDN Object Services
 	 * @since  ??.?
 	 */
 	protected $object;
 
 	/**
-	 * @var    JRackspaceOperationsCdnStaticweb  Rackspace API object for CDN Static Web  Services
+	 * @var    JRackspaceCdnStaticweb  Rackspace API object for CDN Static Web  Services
 	 * @since  ??.?
 	 */
 	protected $staticweb;
@@ -54,7 +54,7 @@ class JRackspaceOperationsCdn extends JRackspaceObject
 	 */
 	public function __get($name)
 	{
-		$class = 'JRackspaceOperationsCdn' . ucfirst($name);
+		$class = 'JRackspaceCdn' . ucfirst($name);
 
 		if (class_exists($class))
 		{
