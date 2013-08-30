@@ -48,7 +48,7 @@ $document = JFactory::getDocument();
 		});
 		
 		if (apps_installfrom_url != '') {
-			jQuery('#myTabTabs a[href="#web"]').get(0)).closest('li').trigger('click');
+			jQuery(jQuery('#myTabTabs a[href="#web"]').get(0)).closest('li').trigger('click');
 		}
 	});
 
@@ -194,7 +194,7 @@ $document = JFactory::getDocument();
 					<?php echo JText::sprintf('COM_INSTALLER_INSTALL_WEB_CONFIRM_URL'); ?> <span id="uploadform-web-url"></span>
 				</div>
 				<div class="form-actions">
-					<input type="button" class="btn btn-primary" value="<?php echo JText::_('COM_INSTALLER_INSTALL_BUTTON'); ?>" onclick="Joomla.submitbutton5()" />
+					<input type="button" class="btn btn-primary" value="<?php echo JText::_('COM_INSTALLER_INSTALL_BUTTON'); ?>" onclick="Joomla.submitbutton<?php echo $installfrom != '' ? 4 : 5; ?>()" />
 					<input type="button" class="btn btn-secondary" value="<?php echo JText::_('COM_INSTALLER_CANCEL_BUTTON'); ?>" onclick="Joomla.installfromwebcancel()" />
 				</div>
 			</fieldset>
