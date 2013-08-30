@@ -69,34 +69,31 @@ class TagsViewTag extends JViewLegacy
 				$itemElement->params->merge($temp);
 				$itemElement->params = (array) json_decode($itemElement->params);
 			}
-			if ($items !== false)
+		}
+
+		if ($items !== false)
+		{
+			foreach ($items as $itemElement)
 			{
-				foreach ($items as $itemElement)
-				{
-					$itemElement->event = new stdClass;
+				$itemElement->event = new stdClass;
 
-					// For some plugins.
-					!empty($itemElement->core_body)? $itemElement->text = $itemElement->core_body : $itemElement->text = null;
+				// For some plugins.
+				!empty($itemElement->core_body)? $itemElement->text = $itemElement->core_body : $itemElement->text = null;
 
-					$dispatcher = JEventDispatcher::getInstance();
+				$dispatcher = JEventDispatcher::getInstance();
 
-					JPluginHelper::importPlugin('content');
-					$dispatcher->trigger('onContentPrepare', array ('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
+				JPluginHelper::importPlugin('content');
+				$dispatcher->trigger('onContentPrepare', array ('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
 
-					$results = $dispatcher->trigger('onContentAfterTitle', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
-					$itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
+				$results = $dispatcher->trigger('onContentAfterTitle', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
+				$itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
 
-					$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
-					$itemElement->event->beforeDisplayContent = trim(implode("\n", $results));
+				$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
+				$itemElement->event->beforeDisplayContent = trim(implode("\n", $results));
 
-					$results = $dispatcher->trigger('onContentAfterDisplay', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
-					$itemElement->event->afterDisplayContent = trim(implode("\n", $results));
+				$results = $dispatcher->trigger('onContentAfterDisplay', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
+				$itemElement->event->afterDisplayContent = trim(implode("\n", $results));
 
-					if ($itemElement->text)
-					{
-						$itemElement->core_body = $itemElement->text;
-					}
-				}
 			}
 		}
 
