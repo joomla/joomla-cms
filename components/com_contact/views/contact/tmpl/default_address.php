@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
  * marker_class: Class based on the selection of text, none, or icons
  * jicon-text, jicon-none, jicon-icon
  */
+$microdata = JFactory::getMicrodata();
 ?>
 <dl class="contact-address dl-horizontal">
 	<?php if (($this->params->get('address_check') > 0) &&
@@ -28,7 +29,7 @@ defined('_JEXEC') or die;
 		<?php if ($this->contact->address && $this->params->get('show_street_address')) : ?>
 			<dd>
 				<span class="contact-street">
-					<?php echo $this->contact->address .'<br/>'; ?>
+					<?php echo $microdata->content($this->contact->address)->property('address')->fallback('PostalAddress', 'streetAddress')->display() .'<br/>'; ?>
 				</span>
 			</dd>
 		<?php endif; ?>
@@ -36,28 +37,28 @@ defined('_JEXEC') or die;
 		<?php if ($this->contact->suburb && $this->params->get('show_suburb')) : ?>
 			<dd>
 				<span class="contact-suburb">
-					<?php echo $this->contact->suburb .'<br/>'; ?>
+					<?php echo $microdata->content($this->contact->suburb)->fallback('PostalAddress', 'addressLocality')->display() .'<br/>'; ?>
 				</span>
 			</dd>
 		<?php endif; ?>
 		<?php if ($this->contact->state && $this->params->get('show_state')) : ?>
 			<dd>
 				<span class="contact-state">
-					<?php echo $this->contact->state . '<br/>'; ?>
+					<?php echo $microdata->content($this->contact->state)->fallback('PostalAddress', 'addressRegion')->display() . '<br/>'; ?>
 				</span>
 			</dd>
 		<?php endif; ?>
 		<?php if ($this->contact->postcode && $this->params->get('show_postcode')) : ?>
 			<dd>
 				<span class="contact-postcode">
-					<?php echo $this->contact->postcode .'<br/>'; ?>
+					<?php echo $microdata->content($this->contact->postcode)->fallback('PostalAddress', 'postalCode')->display() .'<br/>'; ?>
 				</span>
 			</dd>
 		<?php endif; ?>
 		<?php if ($this->contact->country && $this->params->get('show_country')) : ?>
 		<dd>
 			<span class="contact-country">
-				<?php echo $this->contact->country .'<br/>'; ?>
+				<?php echo $microdata->content($this->contact->country)->fallback('PostalAddress' ,'addressCountry')->display() .'<br/>'; ?>
 			</span>
 		</dd>
 		<?php endif; ?>
@@ -70,7 +71,7 @@ defined('_JEXEC') or die;
 		</span>
 	</dt>
 	<dd>
-		<span class="contact-emailto">
+		<span class="contact-emailto" <?php echo $microdata->property('email')->display(); ?>>
 			<?php echo $this->contact->email_to; ?>
 		</span>
 	</dd>
@@ -83,7 +84,7 @@ defined('_JEXEC') or die;
 		</span>
 	</dt>
 	<dd>
-		<span class="contact-telephone">
+		<span class="contact-telephone" <?php echo $microdata->property('telephone')->display(); ?>>
 			<?php echo nl2br($this->contact->telephone); ?>
 		</span>
 	</dd>
@@ -95,7 +96,7 @@ defined('_JEXEC') or die;
 		</span>
 	</dt>
 	<dd>
-		<span class="contact-fax">
+		<span class="contact-fax" <?php echo $microdata->property('faxNumber')->display(); ?>>
 		<?php echo nl2br($this->contact->fax); ?>
 		</span>
 	</dd>
@@ -107,7 +108,7 @@ defined('_JEXEC') or die;
 		</span>
 	</dt>
 	<dd>
-		<span class="contact-mobile">
+		<span class="contact-mobile" <?php echo $microdata->property('telephone')->display(); ?>>
 			<?php echo nl2br($this->contact->mobile); ?>
 		</span>
 	</dd>
@@ -119,7 +120,7 @@ defined('_JEXEC') or die;
 	</dt>
 	<dd>
 		<span class="contact-webpage">
-			<a href="<?php echo $this->contact->webpage; ?>" target="_blank">
+			<a href="<?php echo $this->contact->webpage; ?>" target="_blank" <?php echo $microdata->property('url')->display(); ?>>
 			<?php echo JStringPunycode::urlToUTF8($this->contact->webpage); ?></a>
 		</span>
 	</dd>

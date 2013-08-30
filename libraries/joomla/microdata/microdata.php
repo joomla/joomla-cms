@@ -48,7 +48,7 @@ class JMicrodata
 	 * @var		string
 	 * @since	3.2
 	 */
-	protected $content = '';
+	protected $content = null;
 
 	/**
 	 * Fallback Type
@@ -301,7 +301,7 @@ class JMicrodata
 	public function display($displayType = '')
 	{
 		// Initialize the HTML to output
-		$html = $this->content;
+		$html = ($this->content !== null) ? $this->content : '';
 
 		// Control if the Microdata output is enabled, otherwise return the content or empty string
 		if (!$this->enabled)
@@ -318,15 +318,15 @@ class JMicrodata
 				switch ($displayType)
 				{
 					case 'span':
-						$html = static::htmlSpan($this->content, $this->property);
+						$html = static::htmlSpan($html, $this->property);
 						break;
 
 					case 'div':
-						$html = static::htmlDiv($this->content, $this->property);
+						$html = static::htmlDiv($html, $this->property);
 						break;
 
 					case 'meta':
-						$html = static::htmlMeta($this->content, $this->property);
+						$html = static::htmlMeta($html, $this->property);
 						break;
 
 					default:
@@ -364,18 +364,18 @@ class JMicrodata
 
 						/* Check if a Content is available,
 						 * otherwise Fallback to an 'inline' display type */
-						if ($this->content !== '')
+						if ($this->content !== null)
 						{
 							if ($nestedProperty)
 							{
-								$this->content = static::htmlSpan(
+								$html = static::htmlSpan(
 									$this->content,
 									$nestedProperty
 								);
 							}
 
 							$html = static::htmlSpan(
-								$this->content,
+								$html,
 								$this->property,
 								$nestedType,
 								true
@@ -396,7 +396,7 @@ class JMicrodata
 					case 'meta':
 						/* Check if the Content value is available,
 						 * otherwise Fallback to an 'inline' display Type */
-						if ($this->content !== '')
+						if ($this->content !== null)
 						{
 							$html = static::htmlMeta($this->content, $this->property)
 								. $this->content;
@@ -411,7 +411,7 @@ class JMicrodata
 						/* Default expected display type = 'normal'
 						 * Check if the Content value is available,
 						 * otherwise Fallback to an 'inline' display Type */
-						if ($this->content !== '')
+						if ($this->content !== null)
 						{
 							$html = static::htmlSpan($this->content, $this->property);
 						}
@@ -431,15 +431,15 @@ class JMicrodata
 				switch ($displayType)
 				{
 					case 'span':
-						$html = static::htmlSpan($this->content, $this->fallbackProperty, $this->fallbackType);
+						$html = static::htmlSpan($html, $this->fallbackProperty, $this->fallbackType);
 						break;
 
 					case 'div':
-						$html = static::htmlDiv($this->content, $this->fallbackProperty, $this->fallbackType);
+						$html = static::htmlDiv($html, $this->fallbackProperty, $this->fallbackType);
 						break;
 
 					case 'meta':
-						$html = static::htmlMeta($this->content, $this->fallbackProperty, $this->fallbackType);
+						$html = static::htmlMeta($html, $this->fallbackProperty, $this->fallbackType);
 						break;
 
 					default:
@@ -459,7 +459,7 @@ class JMicrodata
 					case 'meta':
 						/* Check if the Content value is available,
 						 * otherwise Fallback to an 'inline' display Type */
-						if ($this->content !== '')
+						if ($this->content !== null)
 						{
 							$html = static::htmlMeta($this->content, $this->fallbackProperty, $this->fallbackType);
 						}
@@ -474,7 +474,7 @@ class JMicrodata
 						/* Default expected display type = 'normal'
 						 * Check if the Content value is available,
 						 * otherwise Fallback to an 'inline' display Type */
-						if ($this->content !== '')
+						if ($this->content !== null)
 						{
 							$html = static::htmlSpan($this->content, $this->fallbackProperty, $this->fallbackType);
 						}
@@ -489,11 +489,11 @@ class JMicrodata
 		}
 
 		// Reset params
-		$this->content			= '';
-		$this->property			= null;
-		$this->fallbackProperty	= null;
-		$this->fallbackType		= null;
-		$this->fallback			= false;
+		$this->content          = null;
+		$this->property         = null;
+		$this->fallbackProperty = null;
+		$this->fallbackType     = null;
+		$this->fallback         = false;
 
 		return $html;
 	}

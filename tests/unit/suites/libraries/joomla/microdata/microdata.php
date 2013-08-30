@@ -140,6 +140,14 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals($responce, "<span itemprop='url'>$content</span>");
 
+		// Test for a simple display if the content is empty ''
+		$responce = $this->handler->enable(true)
+			->content('')
+			->property('name')
+			->display();
+
+		$this->assertEquals($responce, "<span itemprop='name'></span>");
+
 		// Test for a simple nested display
 		$responce = $this->handler
 			->property('author')
