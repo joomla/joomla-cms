@@ -9,36 +9,38 @@
 			description ="JGLOBAL_FIELD_ID_DESC"
 			default="0"
 			filter="int"
-			readonly="true"/>
+			readonly="true" />
 
 		<field
 			name="title"
 			type="text"
 			label="COM_MENUS_ITEM_FIELD_TITLE_LABEL"
 			description="COM_MENUS_ITEM_FIELD_TITLE_DESC"
-			class="inputbox"
+			class="inputbox input-xxlarge input-large-text"
 			size="40"
-			required="true"/>
+			required="true" />
 
 		<field
 			name="alias"
 			type="alias"
 			label="JFIELD_ALIAS_LABEL"
 			description="JFIELD_ALIAS_DESC"
+			placeholder="JFIELD_ALIAS_PLACEHOLDER"
 			class="inputbox"
-			size="40"/>
+			size="40" />
 
 		<field name="aliastip"
-			type="spacer"
-			label="COM_MENUS_TIP_ALIAS_LABEL"/>
+			type="note"
+			description="COM_MENUS_TIP_ALIAS_LABEL"
+			class="alert" />
 
 		<field
 			name="note"
 			type="text"
 			label="JFIELD_NOTE_LABEL"
 			description="COM_MENUS_ITEM_FIELD_NOTE_DESC"
-			class="inputbox"
-			size="40"/>
+			class="inputbox span12"
+			size="40" />
 
 		<field
 			name="link"
@@ -46,7 +48,7 @@
 			label="COM_MENUS_ITEM_FIELD_LINK_LABEL"
 			description="COM_MENUS_ITEM_FIELD_LINK_DESC"
 			readonly="true"
-			class="inputbox"
+			class="inputbox input-xxlarge"
 			size="50"/>
 
 		<field
@@ -54,7 +56,7 @@
 			type="menu"
 			label="COM_MENUS_ITEM_FIELD_ASSIGNED_LABEL"
 			description="COM_MENUS_ITEM_FIELD_ASSIGNED_DESC"
-			class="inputbox"
+			class="inputbox span12"
 			required="true"
 			size="1" />
 
@@ -96,14 +98,14 @@
 			description="COM_MENUS_ITEM_FIELD_PARENT_DESC"
 			default="1"
 			filter="int"
-			class="inputbox"
+			class="inputbox span12"
 			size="1">
 			<option
 				value="1">COM_MENUS_ITEM_ROOT</option>
 		</field>
 
 		<field
-			name="menuordering"		
+			name="menuordering"
 			type="menuordering"
 			label="COM_MENUS_ITEM_FIELD_ORDERING_LABEL"
 			description="COM_MENUS_ITEM_FIELD_ORDERING_DESC"
@@ -142,7 +144,7 @@
 			name="access"
 			type="accesslevel"
 			id="access"
-			class="inputbox"
+			class="inputbox span12"
 			label="JFIELD_ACCESS_LABEL"
 			description="JFIELD_ACCESS_DESC"
 			default="1"
@@ -178,7 +180,7 @@
 			type="contentlanguage"
 			label="JFIELD_LANGUAGE_LABEL"
 			description="COM_MENUS_ITEM_FIELD_LANGUAGE_DESC"
-			class="inputbox">
+			class="inputbox span12">
 			<option value="*">JALL</option>
 		</field>
 
