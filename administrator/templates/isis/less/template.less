@@ -151,6 +151,10 @@ body {
 .small{
 	font-size: 11px;
 }
+input.input-large-text {
+	font-size: 26px;
+	height: auto;
+}
 .row-even .small,
 .row-odd .small,
 .row-even .small a,
@@ -231,7 +235,8 @@ body .navbar-fixed-top{
 	height: auto;
 }
 .container-logo{
-	text-align: center;
+	float: right;
+	text-align: right;
 }
 /* Page Title */
 .page-title{
@@ -241,6 +246,15 @@ body .navbar-fixed-top{
 	font-size:20px;
 	line-height: 36px;
 	margin: 0;
+}
+@media (max-width: 767px) {
+	.container-logo {
+		float: none;
+		text-align: center;
+	}
+	.page-title {
+		text-align: center;
+	}
 }
 /* Page Title in Content */
 .content-title {
@@ -449,9 +463,6 @@ h6 { font-size: 12px; line-height: 14px; }
 	}
 }
 @media (max-width: 767px) {
-	.page-title{
-		text-align: center;
-	}
 	.navbar-search.pull-right{
 		float: none;
 		text-align: center;

@@ -30,7 +30,7 @@ class MenuItemEditPage extends AdminEditPage
 	 * @var    array
 	 * @since  3.2
 	 */
-	public $tabLabels = array('Details', 'Advanced Options', 'Module Assignment for this Menu Item');
+	public $tabLabels = array('Details', 'Advanced Options', 'Module Assignment');
 
 	/**
 	 * Array of groups for this page. A group is a collapsable slider inside a tab.
@@ -41,7 +41,7 @@ class MenuItemEditPage extends AdminEditPage
 	 * @since  3.2
 	 */
 	public $groups = array(
-		'options' => array('Link Type Options', 'Page Display Options', 'Metadata Options'),
+		'options' => array('Link Type', 'Page Display', 'Metadata'),
 			);
 
 	/**
