@@ -108,9 +108,9 @@ abstract class JModuleHelper
 
 	/**
 	 * Checks if a module is enabled. A given module will only be returned
-     * if it meets the following criteria: it is enabled; it is assigned to
-     * the current menu item or all items, and the user meets the access level
-     * requirements.
+	 * if it meets the following criteria: it is enabled; it is assigned to
+	 * the current menu item or all items, and the user meets the access level
+	 * requirements.
 	 *
 	 * @param   string  $module  The module name
 	 *
