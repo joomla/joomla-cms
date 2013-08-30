@@ -20,13 +20,10 @@ $document = JFactory::getDocument();
 
 	jQuery(document).ready(function() {
 		var link = jQuery('#myTabTabs a[href="#web"]').get(0);
-		var csshref1 = "<?php echo $appsBaseUrl . 'components/com_apps/views/dashboard/css/japps.css'; ?>";
-		var csshref2 = "<?php echo $appsBaseUrl . 'components/com_apps/views/dashboard/css/jquery.jscrollpane.css'; ?>";
-		var jshref = "<?php echo $appsBaseUrl . 'jedapps/js/client.js?jversion=' . JVERSION; ?>";
 		jQuery(link).closest('li').click(function (event){
 			if (typeof Joomla.apps == 'undefined') {
 				jQuery.ajax({
-					url: jshref,
+					url: "<?php echo $appsBaseUrl . 'jedapps/js/client.js?jversion=' . JVERSION; ?>",
 					dataType: 'script',
 					timeout: 20000,
 					success: function(response) {
@@ -34,9 +31,13 @@ $document = JFactory::getDocument();
 						script.type='text/javascript';
 						jQuery(script).html(response);
 						jQuery('head').append(script);
-						jQuery('<link rel="stylesheet" type="text/css" href="'+csshref1+'" />').appendTo("head");
-						jQuery('<link rel="stylesheet" type="text/css" href="'+csshref2+'" />').appendTo("head");
+						for (var i = 0; i < Joomla.apps.cssfiles.length; i++) {
+							jQuery('<link rel="stylesheet" type="text/css" href="<?php echo $appsBaseUrl; ?>'+Joomla.apps.cssfiles[i]+'" />').appendTo("head");
+						}
 						jQuery('<link rel="stylesheet" type="text/css" href="'+Joomla.apps.fonturl+'" />').appendTo("head");
+						for (var i = 0; i < Joomla.apps.jsfiles.length; i++) {
+							jQuery('<script type="text/javascript" src="<?php echo $appsBaseUrl; ?>'+Joomla.apps.jsfiles[i]+'" />').appendTo("head");
+						}
 						Joomla.apps.initialize();
 					},
 					fail: function() {
