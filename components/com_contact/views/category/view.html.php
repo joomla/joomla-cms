@@ -28,6 +28,15 @@ class ContactViewCategory extends JViewLegacy
 
 	protected $pagination;
 
+	/**
+	 * Method to display the view.
+	 *
+	 * @param   string  $tpl  A template file to load. [optional]
+	 *
+	 * @return  mixed  Exception on failure, void on success.
+	 *
+	 * @since   1.5
+	 */
 	public function display($tpl = null)
 	{
 		$app		= JFactory::getApplication();
@@ -45,6 +54,7 @@ class ContactViewCategory extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -61,6 +71,7 @@ class ContactViewCategory extends JViewLegacy
 		// Check whether category access level allows access.
 		$user	= JFactory::getUser();
 		$groups	= $user->getAuthorisedViewLevels();
+
 		if (!in_array($category->access, $groups))
 		{
 			return JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
@@ -85,9 +96,36 @@ class ContactViewCategory extends JViewLegacy
 				{
 					$item->email_to = JHtml::_('email.cloak', $item->email_to);
 				}
-				else {
+				else
+				{
 					$item->email_to = '';
 				}
+			}
+		}
+
+		foreach ($items as $itemElement)
+		{
+			$itemElement->event = new stdClass;
+
+			// For some plugins.
+			!empty($itemElement->description)? $itemElement->text = $itemElement->description : $itemElement->text = null;
+
+			$dispatcher = JEventDispatcher::getInstance();
+			JPluginHelper::importPlugin('content');
+			$dispatcher->trigger('onContentPrepare', array ('com_contact.category', &$itemElement, &$itemElement->core_params, 0));
+
+			$results = $dispatcher->trigger('onContentAfterTitle', array('com_contact.category', &$itemElement, &$itemElement->core_params, 0));
+			$itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
+
+			$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_contact.category', &$itemElement, &$itemElement->core_params, 0));
+			$itemElement->event->beforeDisplayContent = trim(implode("\n", $results));
+
+			$results = $dispatcher->trigger('onContentAfterDisplay', array('com_contact.category', &$itemElement, &$itemElement->core_params, 0));
+			$itemElement->event->afterDisplayContent = trim(implode("\n", $results));
+
+			if ($itemElement->text)
+			{
+				$itemElement->description = $itemElement->text;
 			}
 		}
 
@@ -108,12 +146,13 @@ class ContactViewCategory extends JViewLegacy
 		$this->pagination = &$pagination;
 		$this->user       = &$user;
 
-		//Escape strings for HTML output
+		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'));
 
 		// Check for layout override only if this is not the active menu item
 		// If it is the active menu item, then the view and category id will match
 		$active	= $app->getMenu()->getActive();
+
 		if ((!$active) || ((strpos($active->link, 'view=category') === false) || (strpos($active->link, '&id=' . (string) $this->category->id) === false)))
 		{
 			if ($layout = $category->params->get('category_layout'))
@@ -137,6 +176,10 @@ class ContactViewCategory extends JViewLegacy
 
 	/**
 	 * Prepares the document
+	 *
+	 * @return  void
+	 *
+	 * @since   1.5
 	 */
 	protected function _prepareDocument()
 	{

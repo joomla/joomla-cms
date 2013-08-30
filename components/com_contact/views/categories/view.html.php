@@ -27,9 +27,13 @@ class ContactViewCategories extends JViewLegacy
 	protected $pagination = null;
 
 	/**
-	 * Display the view
+	 * Method to display the view.
 	 *
-	 * @return  mixed  False on error, null otherwise.
+	 * @param   string  $tpl  A template file to load. [optional]
+	 *
+	 * @return  mixed  Exception on failure, void on success.
+	 *
+	 * @since   1.5
 	 */
 	public function display($tpl = null)
 	{
@@ -41,13 +45,13 @@ class ContactViewCategories extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseWarning(500, implode("\n", $errors));
+
 			return false;
 		}
 
 		if ($items === false)
 		{
 			return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
-
 		}
 
 		if ($parent == false)
@@ -59,8 +63,35 @@ class ContactViewCategories extends JViewLegacy
 
 		$items = array($parent->id => $items);
 
-		//Escape strings for HTML output
+		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
+
+		foreach ($items as $itemElement)
+		{
+			$itemElement->event = new stdClass;
+
+			// For some plugins.
+			!empty($itemElement->description)? $itemElement->text = $itemElement->description : $itemElement->text = null;
+
+			$dispatcher = JEventDispatcher::getInstance();
+
+			JPluginHelper::importPlugin('content');
+			$dispatcher->trigger('onContentPrepare', array ('com_contact.categories', &$itemElement, &$itemElement->core_params, 0));
+
+			$results = $dispatcher->trigger('onContentAfterTitle', array('com_contact.categories', &$itemElement, &$itemElement->core_params, 0));
+			$itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
+
+			$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_contact.categories', &$itemElement, &$itemElement->core_params, 0));
+			$itemElement->event->beforeDisplayContent = trim(implode("\n", $results));
+
+			$results = $dispatcher->trigger('onContentAfterDisplay', array('com_contact.categories', &$itemElement, &$itemElement->core_params, 0));
+			$itemElement->event->afterDisplayContent = trim(implode("\n", $results));
+
+			if ($itemElement->text)
+			{
+				$itemElement->description = $itemElement->text;
+			}
+		}
 
 		$this->maxLevelcat = $params->get('maxLevelcat', -1);
 		$this->params = &$params;
@@ -74,6 +105,10 @@ class ContactViewCategories extends JViewLegacy
 
 	/**
 	 * Prepares the document
+	 *
+	 * @return  void
+	 *
+	 * @since   1.5
 	 */
 	protected function _prepareDocument()
 	{
@@ -105,6 +140,7 @@ class ContactViewCategories extends JViewLegacy
 		{
 			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
 		}
+
 		$this->document->setTitle($title);
 
 		if ($this->params->get('menu-meta_description'))
