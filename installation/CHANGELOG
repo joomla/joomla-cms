@@ -25,7 +25,223 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-; Below is merged into v3.1.2
+28-Aug-2013 Michael Babker
+ $^ [#31009] Add a switch to turn mail sending on/off.  Thanks Roland Dalmulder
+
+28-Aug-2013 Jean-Marie Simonet
+ #^ [#31389] TinyMCE 4.0.5 Update. Thanks George Wilson
+ + [#31774] Add the Framework DI Container to the CMS. Thanks Don Gilbert
+
+27-Aug-2013 Jean-Marie Simonet
+ # [#31795] No Bootstrap dropdown FE newsfeed category + tags. Thanks Tobias Zulauf
+ # [#31836] *JFile::makeSafe lets upload files with space in name
+ # [#31545] Numeric tags and SEF. Thanks Marco Richter
+ # [#31838] Make the contact modal form field work on non-mysql db's. Thanks George Wilson
+
+25-Aug-2013 Jean-Marie Simonet
+ # [#31830] Fatal pass by reference error in MediaHelper Take 2. Thanks Elin Waring
+ # [#29973] Searching for updates throws out exception when url doesn't return body content. Thanks Piotr Cz
+
+24-Aug-2013 Elin Waring
+ ^ [#31005] Move JMenu, JRouter, and JPathway to the CMS tree. Thanks Michael Babker
+ # [#31036] Search is broken on Chrome (and possibly reveals Joomla installation path). Thanks Roberto Segura
+ # [#31786] get_html_translation_table requires encoding value for PHP 5.4. Thanks Tobias Zulauf
+
+24-Aug-2013 Michael Babker
+ # [#31074] Cannot call abstract method FinderIndexer::toggleTables()
+ # [#29758] *Media Manager Maximum Upload Size.  Thanks Ram Tripathi
+ # [#30692] *wrong display of attribute in readonly user field.  Thanks Jean-Marie Simonet
+ # [#31831] Beez3: image overflow.  Thanks Tobias Zulauf
+ $# [#31699] Remove last uses of JDispatcher.  Thanks George Wilson
+ ^ [#31629] Fix https problem if you are using Google Fonts protostar Template.  Thanks Ervis Tusha
+ ^ [#30718] minor code optimization: libraries/legacy/html/menu.php.  Thanks Jan Schönherr
+
+23-Aug-2013 Jean-Marie Simonet
+ # Reverting [#31641] which breaks Notices (File Type error message not displayed)
+
+22-Aug-2013 Jean-Marie Simonet
+ # [#31804] Two classes assigned to pagination links. Thanks George Wilson
+ # [#31641] Fatal pass by reference error in MediaHelper. Thanks Elin Waring
+ # [#31796] Beez3: Login form. Thanks Tobias Zulauf
+ # [#31799] Missing maxlength attribute for input type password in Joomla 3.x. Thanks Ionut Lupu
+ # [#31750] class attribute for form field type media will be ignored. Thanks Anthony THERREAU
+ # [#31619] Fix subpackage tag in layouts + copyright. Thanks Brian Teeman
+ # [#30144] Obsolete class 'ModulesHelperXML'. Thanks Elijah Madden
+ # [#31662] Splitting the file containing JObserverMapper into own files for each interface / class. Thanks Thomas Hunziker
+ # [#28349] Incorrect ordering in Newsflash module. Thanks Gregory Wyman and Brian Teeman
+ # [#31813] Add nav-pill class to top menu. Thanks Brian Teeman
+ # Updating Russian flag. Thanks Peter Farrer
+ # [#31273] Sample Blog: ordering of menu items in main menu. Thanks Stefania Gaianigo
+
+21-Aug-2013 Jean-Marie Simonet
+ # [#31793] No Bootstrap dropdown edit profil FE. Thanks Tobias Zulauf
+ #$ [#31794] Untranslated string at the FE profil. Thanks Tobias Zulauf
+ # [#31724] Error pages: charset not defined - XSS risk.
+ # [#31778] Rows in #__contentitem_tag_map table not deleted during category delete. Thanks Mark Dexter
+
+18-Aug-2013 Jean-Marie Simonet
+ # [#31775] Sample data for Joomla Announcements Feed is wrong. Thanks Elin Waring
+ $ [#30664] User Categories helps screen strings missing. Thanks George Wilson
+
+17-Aug-2013 Jean-Marie Simonet
+ # [#31649] During Installation, PHP Setting Display Errors is Not Reported/Identified Correctly. Thanks Chad Windnagle
+ # [#30934] Language Pack Install fail on Joomla V3.1.1 with PostGreSQL DB Backend. Thanks Michael Babker
+ # [#31556] Strength meter of password field. Thanks Achal Aggarwal
+ # [#31754] *mod_feed issues in FE as well as BE. Thanks Achal Aggarwal
+
+15-Aug-2013 Michael Babker
+ # [#31732] administrator/components/com_admin/sql/updates/postgresql/3.0.3.sql has wrong type should be integer instead of int(11).  Thanks Alan Hicks
+
+15-Aug-2013 Jean-Marie Simonet
+ # [#31744] Featured articles menu item error. Thanks Anthony THERREAU
+ # [#30572] No backend javascript validation on com_content option input fields. Thanks Duong Nguyen
+ # [#31717] output mod_newsfeed. Thanks Przemysław Pałyga
+
+14-Aug-2013 Jean-Marie Simonet
+ # [#31692] JFormFieldUrl garble HTML with emtpy class. Thanks Anthony THERREAU
+ #$ [#31631] Small typo fix in Plugin. Thanks Gunjan Patel
+ $ [#31714] Confusing text "search by tag" in the banner module. Thanks Brian Teeman
+ + [#31436] *Create a update button to list new Help servers. Thanks Julien Vonthron
+
+12-Aug-2013 Jean-Marie Simonet
+ # [#31703] Fixed BC issue with tooltip/popover being added in wrong place. Thanks Peter Van Westen
+ $ [#31210] Add the "!" at the mod_menu.ini for the adminmenu "Help". Thanks Tobias Zulauf
+ # [#31697] *Tags menu items: impossible to delete the last "Type". Thanks Roberto Segura.
+ $ [#31365] Statistics Module 'Visitors' should be 'Registered users'. Thanks Stefania Gaianigo and Brian Teeman
+ # [#30413] Calender popup problem in pages containing calendar fields. Thanks Achal Aggarwal
+ # [#31658] correct header for some ini files. Thanks Tobias Zulauf
+ # [#31695] Installation screen shows placeholder instead of email address. Thanks Achal Aggarwal
+
+11-Aug-2013 Jean-Marie Simonet
+ # Reverting #31697 which breaks installation.
+ # [#31726] Saving with no tags gives sql error. Thanks Elin Waring
+
+10-Aug-2013 Jean-Marie Simonet
+ # [#31597] Undefined variable in com_banners model. Thanks Mario Proenca
+ # [#31432] News Feed Manager: News Feed Page. --> System does not displayed the proper tootl tip. Thanks Sebastian Łuckoś
+ # [#31685] No article Message does not Show on Blog category. Thanks Brian Teeman
+ # [#31697] *Tags menu items: impossible to delete the last "Type". Thanks Achal Aggarwal
+
+09-Aug-2013 Jean-Marie Simonet
+ # [#31694] No search result at the contacts, weblinks, newsfeeds, categories. Thanks Carsten Wirtz
+ # [#31639] Com_search is using mb string functions (regression)
+ # [#31701] Article, newsfeeds, contact modal Clear button broken. Thanks Philip Schell
+ $ [#30629] Menu Item "Type" for Tags should probably change to "Content Type". Thanks Brian Teeman
+ # [#31689] remove "input-append" in login module. Thanks Constantin Romankiewicz
+ # [#30794] Title admin module doesn't disable the component toolbar title. Thanks Michael Babker
+ # [#31412] We can't look what "search results" have searches that are not viewed in first pagination page. Thanks Bojan Nišević
+ #+ [#31368] jdoc:include tag fails on type "component" and "head" without space before "/>". Thanks Lu Nguyen
+ # [#31711] Cannot delete web site entry for a contact. Thanks Achal Aggarwal
+ + [#31596] Language field improvements + registration language. Thanks Roberto Segura
+
+07-Aug-2013 Jean-Marie Simonet
+ $ [#31606] Small typo fix in lang. Thanks Brian Teeman
+ # [#31314] language change dropdown at installation don't work if you scroll down. Thanks Lu Nguyen
+ # [#23638] *Uninstalling 2 different extensions gets only one message. Thanks Thong Tran
+ # [#31683] In debug mode with mysqli some extensions have warnings when freeing mysqli cursor themselves. Thanks Beat
+ # [#31410] Warnings at the offline screen looks bad. Thanks Lu Nguyen
+ #$ [#31622] *Media Manager doesn't cope with folder names that include spaces. Thanks Richard McDaniel
+ # [#31633] Detailed changelog in readme.txt points to SVN which is out of date. Thanks Brian Teeman
+
+06-Aug-2013 Jean-Marie Simonet
+ # [#31478] User Note could be saved without User ID. THanks Khai Vu Dinh
+ # [#31648] TAGS Options: Wrong Color on Option Selection.
+
+05-Aug-2013 Jean-Marie Simonet
+ # [#31659] Dropdown at frontend search. Thanks Tobias Zulauf
+ # [#31350] Missing space in Calendar.
+ # [#31676] *Isis: Filter drop-down items hidden by status bar
+ # [#31661] Unclosed span tag in debug console. Thanks Constantin Romankiewicz
+ # [#30752] J! Update component - > empty custom URL causes error.
+
+04-Aug-2013 Michael Babker
+ # [#30834] Template errors when no CSS folder.  Thanks Rune Sjøen
+ # [#31318] Bad display of images at Media Manager (IE/FF22).  Thanks Lu Nguyen
+ # [#30445] mod_feed template error when displaying feed title.  Thanks Ben Eberle
+
+04-Aug-2013 Jean-Marie Simonet
+ # [#31382] Added min-width to (bootstrap) radio buttons to prettify settings. Thanks Peter van Westen
+ # [#30027] Impossible to enter custom module position name if you have less than about 8 positions in the list. Thanks Sebastian Łuckoś
+ # [#31354] To much clear lines at the Media Manager Options. Thanks Tobias Zulauf
+ # [#31511] JRouter needs to take $uri by reference to properly pass it to rules. Thanks Klas
+
+03-Aug-2013 Jean-Marie Simonet
+ # [#31297] Content language manager missing drag drop ordering. Thanks Nguyen Huu Hien
+ # [#27476] Menu types view not sorted alphabetically. Thanks Lao Neo
+ # [#31586] Typo in model administrator/components/com_content/models/article.php. Thanks Volkmar Schlothauer and Brian Teeman
+ # [#31536] Adding filters in backend Installation Discover view for 3.x. Thanks Gunjan Patel
+ # [#31564] Missing images in sample data categories. Thanks Roland Dalmulder
+ #$ [#30793] Spelling error in the title of the Edit Article Category screen
+ #$ [#31357] Add the Default parameter to the colour options for the templates to the desc strings. Thanks Tobias Zulauf
+ # [#31411] Show Offline image only if it exists. Thanks Tobias Zulauf
+ # [#31360] The site is offline but anyhow the error page will show (e.g. at a 404 error). Thanks Mihail Irintchev
+ # [#31440] Cleanup & fixes for the admin menu. Thanks Sander Potjer
+ # [#31387] Button class missing for export banner tracks. Thanks Brian Teeman
+ # [#31554] Module manager allows positions with trailing spaces. Thanks Richard McDaniel
+ # [#31632] Small data type fix in phpdoc. Thanks Gunjan Patel
+ # [#31384] Hathor - Modal broken. Thanks cata castillo
+ # [#30806] Incorrect database type in the Statistics site module. Thanks Brian Teeman
+ # [#31439] email cloaking inserts space. Thanks Peter Martin
+ # [#31480] Dropdown look and fix in Message Select user modal view. Thanks Gunjan Patel
+ # [#29696] Weblink revision is not incremented. Thanks Dennis Hermatski
+
+02-Aug-2013 Jean-Marie Simonet
+ $ Updating installation lang files: ru-RU, sv-SE
+
+-------------------- 3.1.5 Stable Release [01-Aug-2013] ------------------
+
+31-Jul-2013 Michael Babker
+ # [#31620] Some plugins cause blank pages in 3.1.4.  Thanks Don Gilbert
+ # [#31607] REGRESSION: Changing the autoload order in a point release.  Thanks Don Gilbert
+ # [#31598] Fix for B/C break related to Tag saving using *old* way.  Thanks Thomas Hunziker
+
+30-Jul-2013 Jean-Marie Simonet
+ # [#31609] *Regression: [#30150] prevents subcategories drilldowns
+
+28-Jul-2013 Jean-Marie Simonet
+ # [#31585] Can't add tags to articles in 3.1.4. Thanks Roberto Segura
+
+27-Jul-2013 Michael Babker
+ # [#31565] CamelCased view classes are broken in J!3.1.4.  Thanks Jean-Marie Simonet
+
+27-Jul-2013 Jean-Marie Simonet
+ # [#31590] *New registration password field is displayed as Optional
+
+-------------------- 3.1.4 Stable Release [26-Jul-2013] ------------------
+
+25-Jul-2013 Michael Babker
+ # [#31550] SQL error if profiling not available/not activated in mysql (3.1.2 pre release).  Thanks Beat
+
+24-Jul-2013 Jean-Marie Simonet
+ # [#31548] Toolbar: Different version of CSS vs LESS files + mobile resolution fixes. Thanks Roberto Segura
+
+23-Jul-2013 Michael Babker
+ # [#31500] Hathor: No Batch at some Managers.  Thanks Angelika Reisiger
+ # [#31547] IDN library missing from update sql files 3.1.2+master.  Thanks Elin Waring
+ # Incorrect quoting in PostgreSQL 3.1.2 updates.
+
+-------------------- 3.1.2 Stable Release [23-Jul-2013] ------------------
+
+21-Jul-2013 Mark Dexter
+ ^ [#31319] registration option disabled by default is safer. Thanks Brian Teeman.
+ + [#31205] Automatically set $db and $app properties on plugins. Thanks Don Gilbert.
+ # [#30677] Need to update the readme files. Thanks David Hurley.
+ # [#31428] 3.1.2 backend menus don't react like previous version. Thanks Jérôme Glatigny.
+
+21-Jul-2013 Michael Babker
+ # [#31401] Fixed issue with $query object being overwritten by string.  Thanks Peter van Westen
+
+21-Jul-2013 Jean-Marie Simonet
+ + [#31349] Display Error Message when Magic Quotes is Enabled. Thanks Brian Teeman
+ #+ [#31488] Add Observer pattern to JTable (and use it for Tags implementation (which also fixes [#31339] too). Thanks Beat.
+
+20-Jul-2013 Jean-Marie Simonet
+ # [#31496] DEBUG_BACKTRACE_IGNORE_ARGS not supported in PHP 5.3.1-5.3.5. Thanks Beat
+ # [#31533] User Interface allows tags in Banner Categories but it should not. Thanks Elin waring
+ # [#31522] No tag fields in hathor - you can't write Tags in component items. Thanks Elin Waring
+
+19-Jul-2013 Jean-Marie Simonet
+ # [#31525] Files uninstall is failing due to missing variable. Thanks Michael Babker
 
 17-Jul-2013 Jean-Marie Simonet
  # [#31476] Remove unneeded GROUP BY and fix duplicate article display. Thanks Thomas Hunziker
