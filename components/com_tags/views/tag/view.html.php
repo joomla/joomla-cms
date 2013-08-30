@@ -30,75 +30,40 @@ class TagsViewTag extends JViewLegacy
 
 	protected $params;
 
+	/**
+	 * Method to display the view.
+	 *
+	 * @param   string  $tpl  A template file to load. [optional]
+	 *
+	 * @return  mixed  Exception on failure, void on success.
+	 *
+	 * @since   3.1
+	 */
 	public function display($tpl = null)
 	{
 		$app		= JFactory::getApplication();
 		$params		= $app->getParams();
 
-		// Get some data from the models
-		$state		= $this->get('State');
-		$items		= $this->get('Items');
-		$item		= $this->get('Item');
-		$children	= $this->get('Children');
-		$parent 	= $this->get('Parent');
-		$pagination	= $this->get('Pagination');
+		try
+		{
+			// Get some data from the models
+			$state		= $this->get('State');
+			$items		= $this->get('Items');
+			$item		= $this->get('Item');
+			$children	= $this->get('Children');
+			$parent 	= $this->get('Parent');
+			$pagination	= $this->get('Pagination');
+		}
+		catch (Exception $e)
+		{
+			JErrorPage::render($e);
 
-		// Change to catch
-		/*if (count($errors = $this->get('Errors'))) {
-			JError::raiseError(500, implode("\n", $errors));
 			return false;
-		}*/
+		}
 
 		// Check whether access level allows access.
 		// TODO: SHould already be computed in $item->params->get('access-view')
 		$user	= JFactory::getUser();
-		$groups	= $user->getAuthorisedViewLevels();
-		foreach ($item as $itemElement)
-		{
-			if (!in_array($itemElement->access, $groups))
-			{
-				unset($itemElement);
-			}
-
-			// Prepare the data.
-			if (!empty($itemElement))
-			{
-				$temp = new JRegistry;
-				$temp->loadString($itemElement->params);
-				$itemElement->params = clone($params);
-				$itemElement->params->merge($temp);
-				$itemElement->params = (array) json_decode($itemElement->params);
-			}
-			if ($items !== false)
-			{
-				foreach ($items as $itemElement)
-				{
-					$itemElement->event = new stdClass;
-
-					// For some plugins.
-					!empty($itemElement->core_body)? $itemElement->text = $itemElement->core_body : $itemElement->text = null;
-
-					$dispatcher = JEventDispatcher::getInstance();
-
-					JPluginHelper::importPlugin('content');
-					$dispatcher->trigger('onContentPrepare', array ('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
-
-					$results = $dispatcher->trigger('onContentAfterTitle', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
-					$itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
-
-					$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
-					$itemElement->event->beforeDisplayContent = trim(implode("\n", $results));
-
-					$results = $dispatcher->trigger('onContentAfterDisplay', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
-					$itemElement->event->afterDisplayContent = trim(implode("\n", $results));
-
-					if ($itemElement->text)
-					{
-						$itemElement->core_body = $itemElement->text;
-					}
-				}
-			}
-		}
 
 		$this->state      = &$state;
 		$this->items      = &$items;
@@ -121,14 +86,17 @@ class TagsViewTag extends JViewLegacy
 		if ($active)
 		{
 			$currentLink = $active->link;
+
 			// If the current view is the active item and an tag view for one tag, then the menu item params take priority
-			if (strpos($currentLink, 'view=tag') && (strpos($currentLink, '&id[0]='.(string) $item[0]->id)))
+			if (strpos($currentLink, 'view=tag') && (strpos($currentLink, '&id[0]=' . (string) $item[0]->id)))
 			{
 				// $item->params are the article params, $temp are the menu item params
 				// Merge so that the menu item params take priority
 				$this->params->merge($temp);
+
 				// Load layout from active query (in case it is an alternative menu item)
-				if (isset($active->query['layout'])) {
+				if (isset($active->query['layout']))
+				{
 					$this->setLayout($active->query['layout']);
 				}
 			}
@@ -152,6 +120,7 @@ class TagsViewTag extends JViewLegacy
 			// Merge so that item params take priority
 			$temp->merge($item[0]->params);
 			$item[0]->params = $temp;
+
 			// Check for alternative layouts (since we are not in a single-tag menu item)
 			// Single-tag menu item layout takes priority over alt layout for an article
 			if ($layout = $item[0]->params->get('tag_layout'))
@@ -167,6 +136,10 @@ class TagsViewTag extends JViewLegacy
 
 	/**
 	 * Prepares the document
+	 *
+	 * @return  void
+	 *
+	 * @since  3.1
 	 */
 	protected function _prepareDocument()
 	{
@@ -246,7 +219,6 @@ class TagsViewTag extends JViewLegacy
 			{
 				$this->document->setMetaData('author', $itemElement->created_user_id);
 			}
-
 		}
 
 		// TODO create tag feed document
@@ -256,9 +228,9 @@ class TagsViewTag extends JViewLegacy
 		{
 			$link	= '&format=feed&limitstart=';
 			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-			$this->document->addHeadLink(JRoute::_($link.'&type=rss'), 'alternate', 'rel', $attribs);
+			$this->document->addHeadLink(JRoute::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
 			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-			$this->document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
+			$this->document->addHeadLink(JRoute::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
 		}
 	}
 }
