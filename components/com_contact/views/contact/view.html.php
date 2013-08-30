@@ -3,18 +3,20 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT . '/models/category.php';
+require_once JPATH_COMPONENT.'/models/category.php';
 
 /**
  * HTML Contact View class for the Contact component
  *
- * @since  1.5
+ * @package     Joomla.Site
+ * @subpackage  com_contact
+ * @since       1.5
  */
 class ContactViewContact extends JViewLegacy
 {
@@ -25,7 +27,6 @@ class ContactViewContact extends JViewLegacy
 	 * @since  1.6
 	 */
 	protected $state;
-
 	/**
 	 * The form object for the contact item
 	 *
@@ -33,7 +34,6 @@ class ContactViewContact extends JViewLegacy
 	 * @since  1.6
 	 */
 	protected $form;
-
 	/**
 	 * The item object details
 	 *
@@ -41,7 +41,6 @@ class ContactViewContact extends JViewLegacy
 	 * @since  1.6
 	 */
 	protected $item;
-
 	/**
 	 * The page to return to on sumission
 	 *
@@ -52,19 +51,21 @@ class ContactViewContact extends JViewLegacy
 	protected $return_page;
 
 	/**
-	 * Execute and display a template script.
+	 * Method to display the view.
 	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 * @param   string  $tpl  A template file to load. [optional]
 	 *
-	 * @return  mixed  A string if successful, otherwise a Error object.
+	 * @return  mixed  Exception on failure, void on success.
+	 *
+	 * @since   1.5
 	 */
 	public function display($tpl = null)
 	{
-		$app        = JFactory::getApplication();
-		$user       = JFactory::getUser();
-		$state      = $this->get('State');
-		$item       = $this->get('Item');
-		$this->form = $this->get('Form');
+		$app		= JFactory::getApplication();
+		$user		= JFactory::getUser();
+		$state		= $this->get('State');
+		$item		= $this->get('Item');
+		$this->form	= $this->get('Form');
 
 		// Get the parameters
 		$params = JComponentHelper::getParams('com_contact');
@@ -93,26 +94,26 @@ class ContactViewContact extends JViewLegacy
 		}
 
 		// Check if access is not public
-		$groups = $user->getAuthorisedViewLevels();
+		$groups	= $user->getAuthorisedViewLevels();
 
 		$return = '';
 
 		if ((!in_array($item->access, $groups)) || (!in_array($item->category_access, $groups)))
 		{
-			$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
-			$app->setHeader('status', 403, true);
+			JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
 
-			return;
+			return false;
 		}
 
-		$options['category_id'] = $item->catid;
-		$options['order by']    = 'a.default_con DESC, a.ordering ASC';
+		$options['category_id']	= $item->catid;
+		$options['order by']	= 'a.default_con DESC, a.ordering ASC';
 
 		// Handle email cloaking
 		if ($item->email_to && $params->get('show_email'))
 		{
 			$item->email_to = JHtml::_('email.cloak', $item->email_to);
 		}
+
 		if ($params->get('show_street_address') || $params->get('show_suburb') || $params->get('show_state')
 			|| $params->get('show_postcode') || $params->get('show_country'))
 		{
@@ -231,6 +232,31 @@ class ContactViewContact extends JViewLegacy
 			$item->link = JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid));
 		}
 
+		// Process the content plugins.
+		$dispatcher	= JEventDispatcher::getInstance();
+		JPluginHelper::importPlugin('content');
+		$offset = $state->get('list.offset');
+
+		// Fix for where some plugins require a text attribute
+		!empty($item->description)? $item->text = $item->description : $item->text = null;
+		$dispatcher->trigger('onContentPrepare', array ('com_contact.contact', &$item, &$this->params, $offset));
+
+		// Store the events for later
+		$item->event = new stdClass;
+		$results = $dispatcher->trigger('onContentAfterTitle', array('com_contact.contact', &$item, &$this->params, $offset));
+		$item->event->afterDisplayTitle = trim(implode("\n", $results));
+
+		$results = $dispatcher->trigger('onContentBeforeDisplay', array('com_contact.contact', &$item, &$this->params, $offset));
+		$item->event->beforeDisplayContent = trim(implode("\n", $results));
+
+		$results = $dispatcher->trigger('onContentAfterDisplay', array('com_contact.contact', &$item, &$this->params, $offset));
+		$item->event->afterDisplayContent = trim(implode("\n", $results));
+
+		if ($item->text)
+		{
+			$item->description = $item->text;
+		}
+
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
@@ -273,13 +299,15 @@ class ContactViewContact extends JViewLegacy
 	 * Prepares the document
 	 *
 	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	protected function _prepareDocument()
 	{
-		$app     = JFactory::getApplication();
-		$menus   = $app->getMenu();
-		$pathway = $app->getPathway();
-		$title   = null;
+		$app		= JFactory::getApplication();
+		$menus		= $app->getMenu();
+		$pathway	= $app->getPathway();
+		$title 		= null;
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
@@ -298,15 +326,15 @@ class ContactViewContact extends JViewLegacy
 
 		$id = (int) @$menu->query['id'];
 
-		// If the menu item does not concern this contact
+		// if the menu item does not concern this contact
 		if ($menu && ($menu->query['option'] != 'com_contact' || $menu->query['view'] != 'contact' || $id != $this->item->id))
 		{
-
 			// If this is not a single contact menu item, set the page title to the contact title
 			if ($this->item->name)
 			{
 				$title = $this->item->name;
 			}
+
 			$path = array(array('title' => $this->contact->name, 'link' => ''));
 			$category = JCategories::getInstance('Contact')->get($this->contact->catid);
 
@@ -326,28 +354,29 @@ class ContactViewContact extends JViewLegacy
 
 		if (empty($title))
 		{
-			$title = $app->get('sitename');
+			$title = $app->getCfg('sitename');
 		}
-		elseif ($app->get('sitename_pagetitles', 0) == 1)
+		elseif ($app->getCfg('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
 		}
-		elseif ($app->get('sitename_pagetitles', 0) == 2)
+		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
 		}
 
 		if (empty($title))
 		{
 			$title = $this->item->name;
 		}
+
 		$this->document->setTitle($title);
 
 		if ($this->item->metadesc)
 		{
 			$this->document->setDescription($this->item->metadesc);
 		}
-		elseif ($this->params->get('menu-meta_description'))
+		elseif (!$this->item->metadesc && $this->params->get('menu-meta_description'))
 		{
 			$this->document->setDescription($this->params->get('menu-meta_description'));
 		}
@@ -356,7 +385,7 @@ class ContactViewContact extends JViewLegacy
 		{
 			$this->document->setMetadata('keywords', $this->item->metakey);
 		}
-		elseif ($this->params->get('menu-meta_keywords'))
+		elseif (!$this->item->metakey && $this->params->get('menu-meta_keywords'))
 		{
 			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
 		}
