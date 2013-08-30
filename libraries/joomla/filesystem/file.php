@@ -63,7 +63,7 @@ class JFile
 	{
 		$regex = array('#(\.){2,}#', '#[^A-Za-z0-9\.\_\- ]#', '#^\.#');
 
-		return preg_replace($regex, '', $file);
+		return trim(preg_replace($regex, '', $file));
 	}
 
 	/**

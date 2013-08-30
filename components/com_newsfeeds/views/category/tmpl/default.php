@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 
 JHtml::_('behavior.caption');
+JHtml::_('formbehavior.chosen', 'select');
 
 $pageClass = $this->params->get('pageclass_sfx');
 ?>
