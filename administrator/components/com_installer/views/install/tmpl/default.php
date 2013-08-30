@@ -19,10 +19,14 @@ $document = JFactory::getDocument();
 	apps_installfrom_url = '<?php echo addslashes($installfrom); ?>';
 
 	jQuery(document).ready(function() {
-		jQuery(jQuery('#myTabTabs a[href="#web"]').get(0)).closest('li').click(function (event){
+		var link = jQuery('#myTabTabs a[href="#web"]').get(0);
+		var csshref1 = "<?php echo $appsBaseUrl . 'components/com_apps/views/dashboard/css/japps.css'; ?>";
+		var csshref2 = "<?php echo $appsBaseUrl . 'components/com_apps/views/dashboard/css/jquery.jscrollpane.css'; ?>";
+		var jshref = "<?php echo $appsBaseUrl . 'jedapps/js/client.js?jversion=' . JVERSION; ?>";
+		jQuery(link).closest('li').click(function (event){
 			if (typeof Joomla.apps == 'undefined') {
 				jQuery.ajax({
-					url: "<?php echo $appsBaseUrl . 'jedapps/js/client.js?jversion=' . JVERSION; ?>",
+					url: jshref,
 					dataType: 'script',
 					timeout: 20000,
 					success: function(response) {
@@ -30,6 +34,9 @@ $document = JFactory::getDocument();
 						script.type='text/javascript';
 						jQuery(script).html(response);
 						jQuery('head').append(script);
+						jQuery('<link rel="stylesheet" type="text/css" href="'+csshref1+'" />').appendTo("head");
+						jQuery('<link rel="stylesheet" type="text/css" href="'+csshref2+'" />').appendTo("head");
+						jQuery('<link rel="stylesheet" type="text/css" href="'+Joomla.apps.fonturl+'" />').appendTo("head");
 						Joomla.apps.initialize();
 					},
 					fail: function() {
@@ -48,7 +55,7 @@ $document = JFactory::getDocument();
 		});
 		
 		if (apps_installfrom_url != '') {
-			jQuery(jQuery('#myTabTabs a[href="#web"]').get(0)).closest('li').trigger('click');
+			jQuery(link).closest('li').trigger('click');
 		}
 	});
 
@@ -100,9 +107,14 @@ $document = JFactory::getDocument();
 	Joomla.submitbutton5 = function(pressbutton)
 	{
 		var form = document.getElementById('adminForm');
-
+		
 		// do field validation
-		if (form.install_url.value == ""){
+		if (form.install_url.value != "" && form.install_url.value != "http://")
+		{
+			Joomla.submitbutton4();
+		}
+		else if (form.install_url.value == "")
+		{
 			alert("<?php echo JText::_('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL', true); ?>");
 		}
 		else
