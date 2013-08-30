@@ -34,12 +34,17 @@ class PlgContentVote extends JPlugin
 	 * @param   object   &$params  The article params
 	 * @param   integer  $page     The 'page' number
 	 *
-	 * @return  string  html string containing code for the votes
+	 * @return  mixed  html string containing code for the votes if in com_content else boolean false
 	 *
 	 * @since   1.6
 	 */
 	public function onContentBeforeDisplay($context, &$row, &$params, $page=0)
 	{
+		if ($context != com_content.article)
+		{
+			return false;
+		}
+
 		$html = '';
 
 		if (!empty($params) && $params->get('show_vote', null))
