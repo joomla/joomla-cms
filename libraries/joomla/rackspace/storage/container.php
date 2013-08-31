@@ -77,13 +77,53 @@ class JRackspaceStorageContainer extends JRackspaceStorage
 
 		if ($response->code == 201)
 		{
-			return "The container was successfully created.\n";
+			return "The \"" . $container . "\" container was successfully created.\n";
 		}
 		elseif ($response->code == 202)
 		{
-			return "A container with the same name already exists.\n";
+			return "A container with the name \"" . $container . "\" already exists.\n";
 		}
 
 		return $response->body;
+	}
+
+	/**
+	 * DELETE operations against a storage container permanently remove it.
+	 * The container must be empty before it can be deleted.
+	 *
+	 * @param   string  $container  The container name
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function deleteContainer($container)
+	{
+		$authTokenHeaders = $this->getAuthTokenHeaders();
+		$url = $authTokenHeaders["X-Storage-Url"] . "/" . $container;
+
+		// Create the headers
+		$headers = array(
+			"Host" => $this->options->get("storage.host"),
+		);
+		$headers["X-Auth-Token"] = $authTokenHeaders["X-Auth-Token"];
+
+		// Send the http request
+		$response = $this->client->delete($url, $headers);
+
+		if ($response->code == 204)
+		{
+			return "The \"" . $container . "\" container was successfully deleted.\n";
+		}
+		elseif ($response->code == 404)
+		{
+			return "The \"" . $container . "\" container was not found.\n";
+		}
+		elseif ($response->code == 409)
+		{
+			return "The \"" . $container . "\" container is not empty.\n";
+		}
+
+		return null;
 	}
 }
