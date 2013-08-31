@@ -173,40 +173,40 @@ if($this->type == 'image')
                     <div class="font-preview">
                         <form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
                             <fieldset class="adminform">
-                                <h1>H1 ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmonpqrstuvwzyz</h1>
-                                <h2>H2 ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmonpqrstuvwzyz</h2>
-                                <h3>H3 ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmonpqrstuvwzyz</h3>
-                                <h4>H4 ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmonpqrstuvwzyz</h4>
-                                <h5>H5 ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmonpqrstuvwzyz</h5>
-                                <h6>H6 ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmonpqrstuvwzyz</h6>
-                                <p>P The quick brown fox ran over the lazy dog. THE QUICK BROWN FOX RAN OVER THE LAZY DOG.</p>
+                                <h1>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h1>
+                                <h2>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h2>
+                                <h3>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h3>
+                                <h4>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h4>
+                                <h5>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h5>
+                                <h6>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h6>
+                                <p>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </p>
                                 <ul>
-                                    <li>Item</li>
-                                    <li>Item</li>
-                                    <li>Item<br />
+                                    <li>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </li>
+                                    <li>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </li>
+                                    <li>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML <br />
                                         <ul>
-                                            <li>Item</li>
-                                            <li>Item</li>
-                                            <li>Item<br />
+                                            <li>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </li>
+                                            <li>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </li>
+                                            <li>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML <br />
                                                 <ul>
-                                                    <li>Item</li>
-                                                    <li>Item</li>
-                                                    <li>Item</li>
+                                                    <li>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </li>
+                                                    <li>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </li>
+                                                    <li>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </li>
                                                 </ul>
                                             </li>
                                         </ul>
                                     </li>
                                 </ul>
                                 <ol>
-                                    <li>tem</li>
-                                    <li>Item</li>
-                                    <li>Item<br /><ol>
-                                            <li>Item</li>
-                                            <li>Item</li>
-                                            <li>Item<br /><ol>
-                                                    <li>Item</li>
-                                                    <li>Item</li>
-                                                    <li>Item</li>
+                                    <li>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </li>
+                                    <li>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </li>
+                                    <li>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML <br /><ol>
+                                            <li>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </li>
+                                            <li>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </li>
+                                            <li>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML <br /><ol>
+                                                    <li>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </li>
+                                                    <li>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </li>
+                                                    <li>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </li>
                                                 </ol></li>
                                         </ol></li>
                                 </ol>
