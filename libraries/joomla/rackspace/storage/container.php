@@ -8,3 +8,47 @@
  */
 
 defined('JPATH_PLATFORM') or die;
+
+/**
+ * Defines the operations on storage container services
+ *
+ * @package     Joomla.Platform
+ * @subpackage  Rackspace
+ * @since       ??.?
+ */
+class JRackspaceStorageContainer extends JRackspaceStorage
+{
+	/**
+	 * See how many objects are in a container (X-Container-Object-Count)and
+	 * the custom metadata you have set on the container (X-Container-Meta-TraitX)
+	 *
+	 * @param   string  $container  The container name
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function viewContainerDetails($container)
+	{
+		$authTokenHeaders = $this->getAuthTokenHeaders();
+		$url = $authTokenHeaders["X-Storage-Url"] . "/" . $container;
+
+		// Create the headers
+		$headers = array(
+			"Accept-Encoding" => "gzip",
+			"Host" => $this->options->get("storage.host"),
+		);
+		$headers["X-Auth-Token"] = $authTokenHeaders["X-Auth-Token"];
+
+		// Send the http request
+		$response = $this->client->head($url, $headers);
+
+		if ($response->code == 204)
+		{
+			// The headers contain X-Container-Object-Count and X-Container-Meta-TraitX
+			return $response->headers;
+		}
+
+		return null;
+	}
+}
