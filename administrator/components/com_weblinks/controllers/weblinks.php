@@ -18,27 +18,38 @@ defined('_JEXEC') or die;
  */
 class WeblinksControllerWeblinks extends JControllerAdmin
 {
+	/*
+	 * @var  string Model
+	 * @since  3.1
+	*/
+	protected $name = 'Weblink';
+	/*
+	 * @var  string   Model prefix
+	 * @since  3.1
+	 */
+	protected $prefix = 'WeblinksModel';
+	/**
+	 * The URL option for the component.
+	 *
+	 * @var    string
+	 * @since  3.1
+	 */
+	protected $option = 'com_weblinks';
 	/**
 	 * Proxy for getModel.
 	 * @since   1.6
 	 */
+
+	/*
+	 * @var  $redirectUrl  Url for redirection after featuring
+	* @since  3.1
+	*/
+	protected $redirectUrl = 'index.php?option=com_weblinks&view=weblinks';
+
 	public function getModel($name = 'Weblink', $prefix = 'WeblinksModel', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
 		return $model;
 	}
 
-	/**
-	 * Method to provide child classes the opportunity to process after the delete task.
-	 *
-	 * @param   JModelLegacy   $model   The model for the component
-	 * @param   mixed          $ids     array of ids deleted.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	protected function postDeleteHook(JModelLegacy $model, $ids = null)
-	{
-	}
 }

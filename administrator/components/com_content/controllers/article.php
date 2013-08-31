@@ -16,13 +16,25 @@ defined('_JEXEC') or die;
  */
 class ContentControllerArticle extends JControllerForm
 {
+	/*
+	 * @var  string Model name
+	 * @since  3.1
+	 */
+	protected $modelName = 'Article';
+
+	/*
+	 * @var  $redirectUrl  Url for redirection after featuring
+	*/
+	protected $redirectUrl = 'index.php?option=com_content&view=articles';
+
 	/**
 	 * Class constructor.
 	 *
 	 * @param   array  $config  A named array of configuration variables.
 	 *
-	 * @since   1.6
+	 * @since   3.1
 	 */
+
 	public function __construct($config = array())
 	{
 		parent::__construct($config);
@@ -37,39 +49,8 @@ class ContentControllerArticle extends JControllerForm
 	}
 
 	/**
-	 * Method override to check if you can add a new record.
-	 *
-	 * @param   array  $data  An array of input data.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   1.6
-	 */
-	protected function allowAdd($data = array())
-	{
-		$user = JFactory::getUser();
-		$categoryId = JArrayHelper::getValue($data, 'catid', $this->input->getInt('filter_category_id'), 'int');
-		$allow = null;
-
-		if ($categoryId)
-		{
-			// If the category has been passed in the data or URL check it.
-			$allow = $user->authorise('core.create', 'com_content.category.' . $categoryId);
-		}
-
-		if ($allow === null)
-		{
-			// In the absense of better information, revert to the component permissions.
-			return parent::allowAdd();
-		}
-		else
-		{
-			return $allow;
-		}
-	}
-
-	/**
 	 * Method override to check if you can edit an existing record.
+	 * Articles track assets.
 	 *
 	 * @param   array   $data  An array of input data.
 	 * @param   string  $key   The name of the key for the primary key.
@@ -131,30 +112,9 @@ class ContentControllerArticle extends JControllerForm
 	 */
 	public function batch($model = null)
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-
-		// Set the model
-		$model = $this->getModel('Article', '', array());
-
-		// Preset the redirect
-		$this->setRedirect(JRoute::_('index.php?option=com_content&view=articles' . $this->getRedirectToListAppend(), false));
 
 		return parent::batch($model);
 	}
 
-	/**
-	 * Function that allows child controller access to model data after the data has been saved.
-	 *
-	 * @param   JModelLegacy  $model  The data model object.
-	 * @param   array         $validData   The validated data.
-	 *
-	 * @return	void
-	 *
-	 * @since	3.1
-	 */
-	protected function postSaveHook(JModelLegacy $model, $validData = array())
-	{
 
-		return;
-	}
 }

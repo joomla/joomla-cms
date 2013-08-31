@@ -18,6 +18,23 @@ defined('_JEXEC') or die;
  */
 class ModulesControllerModule extends JControllerForm
 {
+	/*
+	 * @var  string Model name
+	* @since  3.1
+	*/
+	protected $modelName = 'Module';
+
+	/**
+	 * @var    string  The URL option for the component.
+	 * @since  3.1
+	 */
+	protected $option = 'com_modules';
+
+	/*
+	 * @var  $redirectUrl  Url for redirection after featuring
+	*/
+	protected $redirectUrl = 'index.php?option=com_modules&view=modules';
+
 	/**
 	 * Override parent add method.
 	 *

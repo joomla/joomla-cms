@@ -20,9 +20,20 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/content.php';
  */
 class ContentModelArticle extends JModelAdmin
 {
+    /*
+	 * @var  string Model name
+	 * @since  3.1
+	 */
+	protected $modelName = 'Article';
+
 	/**
-	 * @var        string    The prefix to use with controller messages.
-	 * @since   1.6
+	 * @var    string  The URL option for the component.
+	 * @since  3.1
+	 */
+	protected $option = 'com_content';
+	/**
+	 * @var    string  The prefix to use with controller messages.
+	 * @since  1.6
 	 */
 	protected $text_prefix = 'COM_CONTENT';
 
@@ -552,94 +563,6 @@ class ContentModelArticle extends JModelAdmin
 		return false;
 	}
 
-	/**
-	 * Method to toggle the featured setting of articles.
-	 *
-	 * @param   array    The ids of the items to toggle.
-	 * @param   integer  The value to toggle to.
-	 *
-	 * @return  boolean  True on success.
-	 */
-	public function featured($pks, $value = 0)
-	{
-		// Sanitize the ids.
-		$pks = (array) $pks;
-		JArrayHelper::toInteger($pks);
-
-		if (empty($pks))
-		{
-			$this->setError(JText::_('COM_CONTENT_NO_ITEM_SELECTED'));
-			return false;
-		}
-
-		$table = $this->getTable('Featured', 'ContentTable');
-
-		try
-		{
-			$db = $this->getDbo();
-			$query = $db->getQuery(true)
-						->update($db->quoteName('#__content'))
-						->set('featured = ' . (int) $value)
-						->where('id IN (' . implode(',', $pks) . ')');
-			$db->setQuery($query);
-			$db->execute();
-
-			if ((int) $value == 0)
-			{
-				// Adjust the mapping table.
-				// Clear the existing features settings.
-				$query = $db->getQuery(true)
-							->delete($db->quoteName('#__content_frontpage'))
-							->where('content_id IN (' . implode(',', $pks) . ')');
-				$db->setQuery($query);
-				$db->execute();
-			}
-			else
-			{
-				// first, we find out which of our new featured articles are already featured.
-				$query = $db->getQuery(true)
-					->select('f.content_id')
-					->from('#__content_frontpage AS f')
-					->where('content_id IN (' . implode(',', $pks) . ')');
-				//echo $query;
-				$db->setQuery($query);
-
-				$old_featured = $db->loadColumn();
-
-				// we diff the arrays to get a list of the articles that are newly featured
-				$new_featured = array_diff($pks, $old_featured);
-
-				// Featuring.
-				$tuples = array();
-				foreach ($new_featured as $pk)
-				{
-					$tuples[] = $pk . ', 0';
-				}
-				if (count($tuples))
-				{
-					$db = $this->getDbo();
-					$columns = array('content_id', 'ordering');
-					$query = $db->getQuery(true)
-						->insert($db->quoteName('#__content_frontpage'))
-						->columns($db->quoteName($columns))
-						->values($tuples);
-					$db->setQuery($query);
-					$db->execute();
-				}
-			}
-		}
-		catch (Exception $e)
-		{
-			$this->setError($e->getMessage());
-			return false;
-		}
-
-		$table->reorder();
-
-		$this->cleanCache();
-
-		return true;
-	}
 
 	/**
 	 * A protected method to get a set of ordering conditions.

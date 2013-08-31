@@ -18,6 +18,23 @@ defined('_JEXEC') or die;
  */
 class MenusControllerItem extends JControllerForm
 {
+	/*
+	 * @var  string Model name
+	* @since  3.1
+	*/
+	protected $modelName = 'Item';
+
+	/**
+	 * @var    string  The URL option for the component.
+	 * @since  3.1
+	 */
+	protected $option = 'com_menus';
+
+	/*
+	 * @var  $redirectUrl  Url for redirection after featuring
+	*/
+	protected $redirectUrl = 'index.php?option=com_menus&view=items';
+
 	/**
 	 * Method to add a new menu item.
 	 *

@@ -18,5 +18,22 @@ defined('_JEXEC') or die;
  */
 class RedirectControllerLink extends JControllerForm
 {
+	/*
+	 * @var  string Model name
+	* @since  3.1
+	*/
+	protected $modelName = 'Link';
+
+	/**
+	 * @var    string  The URL option for the component.
+	 * @since  3.1
+	 */
+	protected $option = 'com_redirects';
+
+	/*
+	 * @var  $redirectUrl  Url for redirection after featuring
+	*/
+	protected $redirectUrl = 'index.php?option=com_redirects&view=links';
+
 	// Parent class access checks are sufficient for this controller.
 }

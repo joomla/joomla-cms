@@ -18,8 +18,32 @@ defined('_JEXEC') or die;
  */
 class BannersControllerBanners extends JControllerAdmin
 {
+	/*
+	 * @var  string Model name
+	*/
+	protected $name = Banner;
+
+	/*
+	 * @var  string   Model prefix
+	*/
+	protected $prefix = BannersModel;
+
+	/*
+	 * @var  $redirectUrl  Url for redirection after featuring
+	 * @since  3.1
+	 */
+	protected $redirectUrl = 'index.php?option=com_banners&view=banners';
+
 	/**
-	 * @var		string	The prefix to use with controller messages.
+	 * The URL option for the component.
+	 *
+	 * @var    string
+	 * @since  3.1
+	 */
+	protected $option = 'com_banners';
+
+	/**
+	 * @var     string  The prefix to use with controller messages.
 	 * @since   1.6
 	 */
 	protected $text_prefix = 'COM_BANNERS_BANNERS';
@@ -27,7 +51,7 @@ class BannersControllerBanners extends JControllerAdmin
 	/**
 	 * Constructor.
 	 *
-	 * @param   array An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
 	 * @see     JController
 	 * @since   1.6
 	 */
@@ -40,11 +64,20 @@ class BannersControllerBanners extends JControllerAdmin
 
 	/**
 	 * Proxy for getModel.
+	 *
+	 * @param   string  $name    The name of the model.
+	 * @param   string  $prefix  The prefix for the PHP class name.
+	 * @param   string  $config  Array of configuration options
+	 *
+	 * @return  JModelLegacy
+	 *
 	 * @since   1.6
+	 * @deprecated  3.5
 	 */
 	public function getModel($name = 'Banner', $prefix = 'BannersModel', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
+
 		return $model;
 	}
 

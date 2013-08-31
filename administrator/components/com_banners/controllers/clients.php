@@ -24,6 +24,32 @@ class BannersControllerClients extends JControllerAdmin
 	 */
 	protected $text_prefix = 'COM_BANNERS_CLIENTS';
 
+	/*
+	 * @var  $redirectUrl  Url for redirection after featuring
+	 * @since  3.1
+	 */
+	protected $redirectUrl = 'index.php?option=com_banners&view=clients';
+
+	/**
+	 * The URL option for the component.
+	 *
+	 * @var    string
+	 * @since  3.1
+	 */
+	protected $option = 'com_banners';
+
+	/*
+	 * @var  string  Model name
+	* @since  3.1
+	*/
+	protected $name = 'Client';
+
+	/*
+	 * @var  string   Model prefix
+	* @since  3.1
+	*/
+	protected $prefix = 'BannersModel';
+
 	/**
 	 * Method to get a model object, loading it if required.
 	 *
@@ -34,6 +60,7 @@ class BannersControllerClients extends JControllerAdmin
 	 * @return  object  The model.
 	 *
 	 * @since   1.6
+	 * @deprecated  3.5
 	 */
 	public function getModel($name = 'Client', $prefix = 'BannersModel', $config = array('ignore_request' => true))
 	{

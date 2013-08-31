@@ -24,10 +24,37 @@ class UsersControllerLevels extends JControllerAdmin
 	 */
 	protected $text_prefix = 'COM_USERS_LEVELS';
 
+	/*
+	 * @var  $redirectUrl  Url for redirection after featuring
+	* @since  3.1
+	*/
+	protected $redirectUrl = 'index.php?option=com_users&view=levels';
+
+	/**
+	 * The URL option for the component.
+	 *
+	 * @var    string
+	 * @since  3.1
+	 */
+	protected $option = 'com_users';
+
+	/*
+	 * @var  string  Model name
+	* @since  3.1
+	*/
+	protected $name = 'Level';
+
+	/*
+	 * @var  string   Model prefix
+	* @since  3.1
+	*/
+	protected $prefix = 'UsersModel';
+
 	/**
 	 * Proxy for getModel.
 	 *
 	 * @since   1.6
+	 * @deprecated 3.5
 	 */
 	public function getModel($name = 'Level', $prefix = 'UsersModel')
 	{

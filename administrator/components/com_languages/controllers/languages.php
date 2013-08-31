@@ -16,6 +16,25 @@ defined('_JEXEC') or die;
  */
 class LanguagesControllerLanguages extends JControllerAdmin
 {
+	/*
+	 * @var  $redirectUrl  Url for redirection after featuring
+	* @since  3.1
+	*/
+	protected $redirectUrl = 'index.php?option=com_content&view=articles';
+
+
+	/*
+	 * @var  string  Model name
+	* @since  3.1
+	*/
+	protected $name = 'Language';
+
+	/*
+	 * @var  string   Model prefix
+	* @since  3.1
+	*/
+	protected $prefix = 'LangagesModel';
+
 	/**
 	 * Method to get a model object, loading it if required.
 	 *

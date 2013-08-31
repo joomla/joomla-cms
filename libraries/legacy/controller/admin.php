@@ -45,6 +45,30 @@ class JControllerAdmin extends JControllerLegacy
 	 */
 	protected $view_list;
 
+	/*
+	 * @var  string Model name Example Weblinks
+	*/
+	protected $name;
+
+	/*
+	 * @var  string   Model prefix Example: WeblinksModel
+	 * @since  3.1
+	 */
+	protected $prefix;
+
+	/*
+	 * @var  $redirectUrl  Url for redirection after featuring
+	*/
+	protected $redirectUrl = null;
+
+	/**
+	 * @var    string  The comoponent and section for featuring. This class assumes that
+	 *                 the context is category with and the item has a property of $catid.
+	 *                 To check individual assets or for other structures this must be overriden
+	 * @since  3.1
+	 */
+	protected $featureContext = null;
+
 	/**
 	 * Constructor.
 	 *
@@ -74,6 +98,8 @@ class JControllerAdmin extends JControllerLegacy
 		$this->registerTask('orderup', 'reorder');
 		$this->registerTask('orderdown', 'reorder');
 
+		$this->registerTask('unfeatured', 'featured');
+
 		// Guess the option as com_NameOfController.
 		if (empty($this->option))
 		{
@@ -96,6 +122,22 @@ class JControllerAdmin extends JControllerLegacy
 			}
 			$this->view_list = strtolower($r[2]);
 		}
+	}
+
+	/**
+	 * Proxy for getModel.
+	 * @param   string  $name    The name of the model.
+	 * @param   string  $prefix  The prefix for the PHP class name.
+	 * @param   string  $config  Array of configuration options
+	 *
+	 * @since   1.6
+	 */
+	public function getModel($name = '', $prefix = '', $config = array())
+	{
+		$config = array('ignore_request' => true);
+		$model = parent::getModel($this->name, $this->prefix, $config);
+
+		return $model;
 	}
 
 	/**
@@ -342,7 +384,6 @@ class JControllerAdmin extends JControllerLegacy
 			return true;
 		}
 	}
-
 	/**
 	 * Method to save the submitted ordering values for records via AJAX.
 	 *
@@ -353,15 +394,16 @@ class JControllerAdmin extends JControllerLegacy
 	public function saveOrderAjax()
 	{
 		// Get the input
-		$pks = $this->input->post->get('cid', array(), 'array');
-		$order = $this->input->post->get('order', array(), 'array');
+		$input = JFactory::getApplication()->input;
+		$pks = $input->post->get('cid', array(), 'array');
+		$order = $input->post->get('order', array(), 'array');
 
 		// Sanitize the input
 		JArrayHelper::toInteger($pks);
 		JArrayHelper::toInteger($order);
 
 		// Get the model
-		$model = $this->getModel();
+		$model = $this->getModel($name, $prefix, array('ignore_request' => true));
 
 		// Save the ordering
 		$return = $model->saveorder($pks, $order);
@@ -374,4 +416,59 @@ class JControllerAdmin extends JControllerLegacy
 		// Close the application
 		JFactory::getApplication()->close();
 	}
+
+	/**
+	 * Method to toggle the featured setting of a list of items.
+	 *
+	 * @return  void
+	 * @since   3.2
+	 */
+	public function featured()
+	{
+		if (empty($this->featuredContext))
+		{
+			return false;
+		}
+		// Check for request forgeries
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+
+		$user   = JFactory::getUser();
+		$ids    = $this->input->get('cid', array(), 'array');
+		$values = array('featured' => 1, 'unfeatured' => 0);
+		$task   = $this->getTask();
+		$value  = JArrayHelper::getValue($values, $task, 0, 'int');
+		$app     = JFactory::getApplication();
+
+		// Get the  model.
+		$model  = $this->getModel();
+
+		// Access checks. If tracking individual assets this needs to be overridden.
+		foreach ($ids as $i => $id)
+		{
+			$item = $model->getItem($id);
+
+			if (!$user->authorise('core.edit.state', $this->featureContext . (int) $item->catid))
+			{
+				// Prune items that you can't change.
+				unset($ids[$i]);
+				$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
+			}
+		}
+
+		if (empty($ids))
+		{
+			$app->enqueueMessage(JText::_('JERROR_NO_ITEMS_SELECTED'), 'notice');
+		}
+		else
+		{
+			// Feature the items.
+			if (!$model->featured($ids, $value))
+			{
+				$app->enqueueMessage($model->getError(), 'error');
+			}
+		}
+
+		$this->setRedirect($this->redirectUrl);
+	}
+
 }

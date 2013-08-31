@@ -18,6 +18,36 @@ defined('_JEXEC') or die;
  */
 class PluginsControllerPlugins extends JControllerAdmin
 {
+	/*
+	 * @var  string Model name
+	*/
+	protected $name = Plugin;
+
+	/*
+	 * @var  string   Model prefix
+	*/
+	protected $prefix = PluginsModel;
+
+	/*
+	 * @var  $redirectUrl  Url for redirection after featuring
+	* @since  3.1
+	*/
+	protected $redirectUrl = 'index.php?option=com_plugins&view=plugins';
+
+	/**
+	 * The URL option for the component.
+	 *
+	 * @var    string
+	 * @since  3.1
+	 */
+	protected $option = 'com_plugins';
+
+	/**
+	 * @var     string  The prefix to use with controller messages.
+	 * @since   1.6
+	 */
+	protected $text_prefix = 'COM_PLUGINS_PLUGINS';
+
 	/**
 	 * Method to get a model object, loading it if required.
 	 *
@@ -28,6 +58,7 @@ class PluginsControllerPlugins extends JControllerAdmin
 	 * @return  object  The model.
 	 *
 	 * @since   1.6
+	 * @deprecated  3.5
 	 */
 	public function getModel($name = 'Plugin', $prefix = 'PluginsModel', $config = array('ignore_request' => true))
 	{

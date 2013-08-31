@@ -18,10 +18,21 @@ defined('_JEXEC') or die;
  */
 class LanguagesControllerLanguage extends JControllerForm
 {
+	/*
+	 * @var  string Model name
+	* @since  3.1
+	*/
+	protected $modelName = 'Language';
+
+	/**
+	 * @var    string  The URL option for the component.
+	 * @since  3.1
+	 */
+	protected $option = 'com_languages';
 	/**
 	 * Gets the URL arguments to append to an item redirect.
 	 *
-	 * @param   int      $recordId  The primary key id for the item.
+	 * @param   int     $recordId  The primary key id for the item.
 	 * @param   string  $key        The name of the primary key variable.
 	 *
 	 * @return  string  The arguments to append to the redirect URL.

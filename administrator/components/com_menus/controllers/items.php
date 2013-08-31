@@ -18,6 +18,32 @@ defined('_JEXEC') or die;
  */
 class MenusControllerItems extends JControllerAdmin
 {
+	/*
+	 * @var  $redirectUrl  Url for redirection after featuring
+	 * @since  3.1
+	 */
+	protected $redirectUrl = 'index.php?option=com_menus&view=items';
+
+	/**
+	 * The URL option for the component.
+	 *
+	 * @var    string
+	 * @since  3.1
+	 */
+	protected $option = 'com_menus';
+
+	/*
+	 * @var  string  Model name
+	* @since  3.1
+	*/
+	protected $name = 'Item';
+
+	/*
+	 * @var  string   Model prefix
+	* @since  3.1
+	*/
+	protected $prefix = 'MenusModel';
+
 	public function __construct($config = array())
 	{
 		parent::__construct($config);

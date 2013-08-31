@@ -18,14 +18,51 @@ defined('_JEXEC') or die;
  */
 class TagsControllerTags extends JControllerAdmin
 {
+
+	/*
+	 * @var  $redirectUrl  Url for redirection after featuring
+	 * @since  3.1
+	 */
+	protected $redirectUrl = 'index.php?option=com_tags&view=tags';
+
+	/**
+	 * The URL option for the component.
+	 *
+	 * @var    string
+	 * @since  3.1
+	 */
+	protected $option = 'com_tags';
+
+	/*
+	 * @var  string  Model name
+	* @since  3.1
+	*/
+	protected $name = 'Tag';
+
+	/*
+	 * @var  string   Model prefix
+	* @since  3.1
+	*/
+	protected $prefix = 'TagsModel';
+
+	/**
+	 * @var     string  The prefix to use with controller messages.
+	 * @since   1.6
+	 */
+	protected $text_prefix = 'COM_TAGS_TAGS';
+
+
 	/**
 	 * Proxy for getModel
 	 *
 	 * @param   string  $name    The model name. Optional.
 	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Array of configuration options.
 	 *
 	 * @return  JModelLegacy  The model.
+	 *
 	 * @since   3.1
+	 * @deprecated  3.5
 	 */
 	public function getModel($name = 'Tag', $prefix = 'TagsModel', $config = array('ignore_request' => true))
 	{

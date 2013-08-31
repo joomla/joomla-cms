@@ -380,4 +380,5 @@ class JTableContent extends JTable
 
 		return true;
 	}
+
 }

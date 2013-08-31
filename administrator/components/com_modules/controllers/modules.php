@@ -18,6 +18,29 @@ defined('_JEXEC') or die;
  */
 class ModulesControllerModules extends JControllerAdmin
 {
+	/*
+	 * @var  string Model
+	*/
+	protected $name = 'Module';
+
+	/*
+	 * @var  string   Model prefix
+	*/
+	protected $prefix = 'ModulesModel';
+	/**
+	 * The URL option for the component.
+	 *
+	 * @var    string
+	 * @since  12.2
+	 */
+	protected $option = 'com_modules';
+
+	/*
+	 * @var  string   Redirection url used after featuring items
+	*/
+	protected $redirectUrl = 'index.php?option=com_modules&view=modules';
+
+
 	/**
 	 * Method to clone an existing module.
 	 * @since   1.6
@@ -56,6 +79,7 @@ class ModulesControllerModules extends JControllerAdmin
 	 * @return  object  The model.
 	 *
 	 * @since   1.6
+	 * @deprecated  3.5
 	 */
 	public function getModel($name = 'Module', $prefix = 'ModulesModel', $config = array('ignore_request' => true))
 	{

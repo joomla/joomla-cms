@@ -18,75 +18,41 @@ defined('_JEXEC') or die;
  */
 class ContactControllerContacts extends JControllerAdmin
 {
-	/**
-	 * Constructor.
-	 *
-	 * @param   array  $config	An optional associative array of configuration settings.
-	 *
-	 * @return  ContactControllerContacts
-	 * @see     JController
-	 * @since   1.6
+	/*
+	 * @var  string Model
 	 */
-	public function __construct($config = array())
-	{
-		parent::__construct($config);
+	protected $name = 'Contact';
 
-		$this->registerTask('unfeatured',	'featured');
-	}
-
-	/**
-	 * Method to toggle the featured setting of a list of contacts.
-	 *
-	 * @return  void
-	 * @since   1.6
+	/*
+	 * @var  string   Model prefix
 	 */
-	public function featured()
-	{
-		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+	protected $prefix = 'ContactModel';
+	/**
+	 * The URL option for the component.
+	 *
+	 * @var    string
+	 * @since  12.2
+	 */
+	protected $option = 'com_contact';
 
-		$user   = JFactory::getUser();
-		$ids    = $this->input->get('cid', array(), 'array');
-		$values = array('featured' => 1, 'unfeatured' => 0);
-		$task   = $this->getTask();
-		$value  = JArrayHelper::getValue($values, $task, 0, 'int');
+	/*
+	 * @var  string   Redirection url used after featuring items
+	 */
+	protected $redirectUrl = 'index.php?option=com_contact&view=contacts';
 
-		// Get the model.
-		$model  = $this->getModel();
+	/*
+	 * @var  string   Dot separated string giving the component and section for access checking of
+	 *                featuring.
+	 */
+	protected $featuredContext = 'com_contact.category';
 
-		// Access checks.
-		foreach ($ids as $i => $id)
-		{
-			$item = $model->getItem($id);
-			if (!$user->authorise('core.edit.state', 'com_contact.category.'.(int) $item->catid))
-			{
-				// Prune items that you can't change.
-				unset($ids[$i]);
-				JError::raiseNotice(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
-			}
-		}
-
-		if (empty($ids))
-		{
-			JError::raiseWarning(500, JText::_('COM_CONTACT_NO_ITEM_SELECTED'));
-		}
-		else
-		{
-			// Publish the items.
-			if (!$model->featured($ids, $value))
-			{
-				JError::raiseWarning(500, $model->getError());
-			}
-		}
-
-		$this->setRedirect('index.php?option=com_contact&view=contacts');
-	}
 
 	/**
 	 * Proxy for getModel.
 	 *
-	 * @param   string	$name	The name of the model.
-	 * @param   string	$prefix	The prefix for the PHP class name.
+	 * @param   string  $name    The name of the model.
+	 * @param   string  $prefix  The prefix for the PHP class name.
+	 * @param   string  $config  Array of configuration options
 	 *
 	 * @return  JModel
 	 * @since   1.6
@@ -97,20 +63,4 @@ class ContactControllerContacts extends JControllerAdmin
 
 		return $model;
 	}
-
-	/**
-	 * Function that allows child controller access to model data
-	 * after the item has been deleted.
-	 *
-	 * @param   JModelLegacy  $model  The data model object.
-	 * @param   integer       $ids    The array of ids for items being deleted.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.2
-	 */
-	protected function postDeleteHook(JModelLegacy $model, $ids = null)
-	{
-	}
-
 }

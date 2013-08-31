@@ -609,7 +609,7 @@ abstract class JModelAdmin extends JModelForm
 	}
 
 	/**
-	 * Method to test whether a record can be deleted.
+	 * Method to test whether a record can have its state edited.
 	 *
 	 * @param   object  $record  A record object.
 	 *
@@ -766,13 +766,75 @@ abstract class JModelAdmin extends JModelForm
 	}
 
 	/**
+	 * Method to toggle the featured setting of articles.
+	 *
+	 * @param   array    The ids of the items to toggle.
+	 * @param   integer  The value to toggle to.
+	 *
+	 * @return  boolean  True on success.
+	 */
+	public function featured($pks, $value = 1)
+	{
+		// Sanitize the ids.
+		$pks = (array) $pks;
+		JArrayHelper::toInteger($pks);
+
+		if (empty($pks))
+		{
+			$this->enqueueMessage(JText::_('NO_ITEM_SELECTED'));
+			return false;
+		}
+
+		$featuredTable = JTable::getInstance('Featured', 'JTable');
+
+		try
+		{
+			$table  = $this->getTable();
+			foreach ($pks as $pk)
+			{
+				$table->reset();
+				$table->load($pk);
+				$table->featured = $value;
+				$table->store();
+				if ($featuredTable->load($pk) === false && $value == 1)
+				{
+					// Workaround because we are not using autoincrement.
+					$db = $this->getDbo();
+					$query = $db->getQuery(true)
+						->insert($db->quoteName('#__content_frontpage'))
+						->columns(array($db->quoteName('content_id'), $db->quoteName('ordering')))
+						->values($pk . ',' . (int) 0);
+					$db->setQuery($query);
+					$db->execute();
+
+				}
+				elseif ($featuredTable->load($pk) === true && $value == 0)
+				{
+					$featuredTable->delete($pk);
+				}
+
+			}
+		}
+		catch (Exception $e)
+		{
+			$this->setError($e->getMessage());
+			return false;
+		}
+
+		$table->reorder();
+
+		$this->cleanCache();
+
+		return true;
+	}
+	/**
 	 * Method to change the title & alias.
 	 *
 	 * @param   integer  $category_id  The id of the category.
 	 * @param   string   $alias        The alias.
 	 * @param   string   $title        The title.
 	 *
-	 * @return	array  Contains the modified title and alias.
+	 * @return  array  Contains the modified title and alias.
 	 *
 	 * @since	12.2
 	 */

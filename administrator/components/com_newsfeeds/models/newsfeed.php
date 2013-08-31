@@ -25,7 +25,17 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	 * @since   1.6
 	 */
 	protected $text_prefix = 'COM_NEWSFEEDS';
+	/*
+	 * @var  string Model name
+	 * @since  3.1
+	 */
+	protected $modelName = 'Newsfeed';
 
+	/**
+	 * @var    string  The URL option for the component.
+	 * @since  3.1
+	 */
+	protected $option = 'com_newsfeeds';
 	/**
 	 * Batch copy items to a new category or current.
 	 *

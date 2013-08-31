@@ -18,8 +18,36 @@ defined('_JEXEC') or die;
  */
 class TemplatesControllerStyles extends JControllerAdmin
 {
+
+	/*
+	 * @var  $redirectUrl  Url for redirection after featuring
+	* @since  3.1
+	*/
+	protected $redirectUrl = 'index.php?option=com_templates&view=styles';
+
 	/**
-	 * Method to clone and existing template style.
+	 * The URL option for the component.
+	 *
+	 * @var    string
+	 * @since  3.1
+	 */
+	protected $option = 'com_templates';
+
+	/*
+	 * @var  string  Model name
+	* @since  3.1
+	*/
+	protected $name = 'Style';
+
+	/*
+	 * @var  string   Model prefix
+	* @since  3.1
+	*/
+	protected $prefix = 'TemplatesModel';
+
+
+	/**
+	 * Method to clone an existing template style.
 	 */
 	public function duplicate()
 	{
@@ -53,6 +81,7 @@ class TemplatesControllerStyles extends JControllerAdmin
 	 * Proxy for getModel.
 	 *
 	 * @since   1.6
+	 * @deprecated  3.5
 	 */
 	public function getModel($name = 'Style', $prefix = 'TemplatesModel', $config = array())
 	{

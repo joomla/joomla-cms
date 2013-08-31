@@ -18,15 +18,37 @@ defined('_JEXEC') or die;
  */
 class NewsfeedsControllerNewsfeeds extends JControllerAdmin
 {
+	/*
+	 * @var  string Model name
+	 */
+	protected $name = 'Newsfeed';
+	/*
+	 * @var  string   Model prefix
+	 */
+	protected  $prefix = 'NewsfeedsModel';
+
+	/**
+	 * The URL option for the component.
+	 *
+	 * @var    string
+	 * @since  12.2
+	 */
+	protected $option = 'com_newsfeeds';
 	/**
 	 * Proxy for getModel.
+	 *
+	 * @param   string  $name    The name of the model.
+	 * @param   string  $prefix  The prefix for the PHP class name.
+	 * @param   string  $config  Array of configuration options
+	 *
+	 * @return  JModel
+	 * @since   1.6
 	 */
 	public function getModel($name = 'Newsfeed', $prefix = 'NewsfeedsModel', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
 		return $model;
 	}
-
 	protected function postDeleteHook(JModelLegacy $model, $ids = null)
 	{
 	}
