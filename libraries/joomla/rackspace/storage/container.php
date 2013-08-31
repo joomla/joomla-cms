@@ -20,7 +20,7 @@ class JRackspaceStorageContainer extends JRackspaceStorage
 {
 	/**
 	 * See how many objects are in a container (X-Container-Object-Count)and
-	 * the custom metadata you have set on the container (X-Container-Meta-TraitX)
+	 * the custom metadata you have set on the container (X-Container-Meta-TraitX).
 	 *
 	 * @param   string  $container  The container name
 	 *
@@ -50,5 +50,40 @@ class JRackspaceStorageContainer extends JRackspaceStorage
 		}
 
 		return null;
+	}
+
+	/**
+	 * PUT operations against a storage container are used to create that container.
+	 *
+	 * @param   string  $container  The container name
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function createContainer($container)
+	{
+		$authTokenHeaders = $this->getAuthTokenHeaders();
+		$url = $authTokenHeaders["X-Storage-Url"] . "/" . $container;
+
+		// Create the headers
+		$headers = array(
+			"Host" => $this->options->get("storage.host"),
+		);
+		$headers["X-Auth-Token"] = $authTokenHeaders["X-Auth-Token"];
+
+		// Send the http request
+		$response = $this->client->put($url, "", $headers);
+
+		if ($response->code == 201)
+		{
+			return "The container was successfully created.\n";
+		}
+		elseif ($response->code == 202)
+		{
+			return "A container with the same name already exists.\n";
+		}
+
+		return $response->body;
 	}
 }
