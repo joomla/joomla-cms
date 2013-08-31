@@ -933,7 +933,6 @@ class InstallationModelLanguages extends JModelBase
 		$category->params          = '{"target":"","image":""}';
 		$category->metadata        = '{"page_title":"","author":"","robots":""}';
 		$category->created_time    = JFactory::getDate()->toSql();
-		$category->created_user_id = $this->getAdminId();
 		$category->language        = $itemLanguage->language;
 
 		// Set the location in the tree
@@ -945,7 +944,7 @@ class InstallationModelLanguages extends JModelBase
 			return false;
 		}
 
-		// Now store the category
+		// Store the category
 		if (!$category->store(true))
 		{
 			return false;
