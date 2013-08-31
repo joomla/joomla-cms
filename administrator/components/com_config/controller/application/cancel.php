@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage  com_config
  * @since       3.2
  */
-class ConfigControllerApplicationCancel extends JControllerBase
+class ConfigControllerApplicationCancel extends JControllerCanceladmin
 {
 
 	/**
@@ -28,11 +28,6 @@ class ConfigControllerApplicationCancel extends JControllerBase
 	 */
 	public function execute()
 	{
-		// Check for request forgeries.
-		if(!JSession::checkToken())
-		{
-			JFactory::getApplication()->redirect('index.php', JText::_('JINVALID_TOKEN'));
-		}
 
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorise('core.admin', 'com_config'))
@@ -42,14 +37,9 @@ class ConfigControllerApplicationCancel extends JControllerBase
 			return;
 		}
 
+		$this->context = 'com_config.config.global';
 
+		parent::execute();
 
-		// Clean the session data.
-		$app = JFactory::getApplication();
-		$app->setUserState('com_config.config.global.data',	null);
-
-		$app->redirect(JRoute::_('index.php', false));
-
-		return true;
 	}
 }

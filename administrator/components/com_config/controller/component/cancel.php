@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage  com_config
  * @since       3.2
 */
-class ConfigControllerComponentCancel extends JControllerBase
+class ConfigControllerComponentCancel extends JControllerCanceladmin
 {
 	/**
 	 * Method to cancel global configuration component.
@@ -27,15 +27,8 @@ class ConfigControllerComponentCancel extends JControllerBase
 	 */
 	public function execute()
 	{
-		// Check for request forgeries.
-		if(!JSession::checkToken())
-		{
-			JFactory::getApplication()->redirect('index.php', JText::_('JINVALID_TOKEN'));
-		}
 
-		// Clean the session data.
-		$app = JFactory::getApplication();
-		$app->setUserState('com_config.config.global.data', null);
+		$this->context = 'com_config.config.global';
 
 		$return = $this->input->post->get('return', null, 'base64');
 		$redirect = 'index.php';
@@ -45,8 +38,7 @@ class ConfigControllerComponentCancel extends JControllerBase
 			$redirect = base64_decode($return);
 		}
 
-		$app->redirect(JRoute::_($redirect, false));
+		parent::execute();
 
-		return true;
 	}
 }

@@ -39,14 +39,17 @@ elseif ($array[1] == 'apply')
 else $activity = $array[1];
 
 // Create the controller
-// if ($array[0]=='application')
-	// For Application
-	$classname  = 'ConfigControllerApplication' . ucfirst($activity);// only for applications
-//if ($array[0] == 'component') - not worked
+
+// For Application
+$classname  = 'ConfigControllerApplication' . ucfirst($activity);// only for applications
+
+// Check if component mentioned
 $componentRequired = $app->input->get('component');
 if(!empty($componentRequired))
+{
 	// For Component
-	$classname  = 'ConfigControllerComponent' . ucfirst($activity); // if task=component.* etc
+	$classname  = 'ConfigControllerComponent' . ucfirst($activity);
+}
 
 $controller = new $classname;
 
