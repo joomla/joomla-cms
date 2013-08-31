@@ -112,13 +112,13 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 			{
 				if (!$model->enablePlugin('plg_system_languagecode'))
 				{
-					$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_PLG_LANGUAGECODE', $frontend_lang));
+					$app->enqueueMessage(JText::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_PLG_LANGUAGECODE'));
 				}
 			}
 
 			if (!$model->addModuleLanguageSwitcher())
 			{
-				$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_MODULESWHITCHER_LANGUAGECODE', $frontend_lang));
+				$app->enqueueMessage(JText::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_MODULESWHITCHER_LANGUAGECODE'));
 			}
 
 			// Add menus
@@ -160,7 +160,7 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 
 				if (!$error && !$model->addModuleMenu($siteLang))
 				{
-					$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_MODULESMENU_LANGUAGECODE', $frontend_lang));
+					$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_MODULE', $frontend_lang));
 					$error = true;
 				}
 
