@@ -126,4 +126,87 @@ class JRackspaceStorageContainer extends JRackspaceStorage
 
 		return null;
 	}
+
+	/**
+	 * You may set any custom or arbitrary metadata headers as you find useful.
+	 * They must, however, take the format X-Container-Meta-XXXX, where XXXX is the name of your custom header.
+	 *
+	 * @param   string  $container  The container name
+	 * @param   array   $metadata   An array of metadata items to be set
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function setOrEditContainerMetadata($container, $metadata)
+	{
+		$authTokenHeaders = $this->getAuthTokenHeaders();
+		$url = $authTokenHeaders["X-Storage-Url"] . "/" . $container;
+
+		// Create the headers
+		$headers = array(
+			"Host" => $this->options->get("storage.host"),
+		);
+		$headers["X-Auth-Token"] = $authTokenHeaders["X-Auth-Token"];
+
+		foreach ($metadata as $key => $value)
+		{
+			$headers["X-Container-Meta-" . $key] = $value;
+		}
+
+		// Send the http request
+		$response = $this->client->post($url, "", $headers);
+
+		if ($response->code == 204)
+		{
+			return "The \"" . $container . "\" container metadata were successfully set.\n";
+		}
+		elseif ($response->code == 404)
+		{
+			return "The \"" . $container . "\" container was not found.\n";
+		}
+
+		return null;
+	}
+
+	/**
+	 * Remove the specified container metadata.
+	 *
+	 * @param   string  $container  The container name
+	 * @param   array   $metadata   An array of metadata items to be set
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function removeContainerMetadata($container, $metadata)
+	{
+		$authTokenHeaders = $this->getAuthTokenHeaders();
+		$url = $authTokenHeaders["X-Storage-Url"] . "/" . $container;
+
+		// Create the headers
+		$headers = array(
+			"Host" => $this->options->get("storage.host"),
+		);
+		$headers["X-Auth-Token"] = $authTokenHeaders["X-Auth-Token"];
+
+		foreach ($metadata as $key)
+		{
+			$headers["X-Remove-Container-Meta-" . $key] = "foo";
+		}
+
+		// Send the http request
+		$response = $this->client->post($url, "", $headers);
+
+		if ($response->code == 204)
+		{
+			return "The \"" . $container . "\" container metadata were successfully removed.\n";
+		}
+		elseif ($response->code == 404)
+		{
+			return "The \"" . $container . "\" container was not found.\n";
+		}
+
+		return null;
+	}
 }
