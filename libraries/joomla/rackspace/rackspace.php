@@ -63,8 +63,6 @@ class JRackspace
 		$this->client  = isset($client) ? $client : new JRackspaceHttp($this->options);
 
 		// Setup the default API url if not already set.
-		$this->options->def('api.url', 'rackspace.com/cloud/files/api/');
-		$this->options->def('api.version', 'v1.0');
 		$this->options->def('auth.host.us', 'identity.api.rackspacecloud.com');
 		$this->options->def('storage.host', 'storage.clouddrive.com');
 	}
