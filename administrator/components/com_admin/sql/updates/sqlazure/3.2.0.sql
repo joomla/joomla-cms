@@ -15,3 +15,9 @@ SELECT 318, 'mod_admin_services', 'module', 'mod_admin_services', '', 0, 1, 0, 0
 
 SET IDENTITY_INSERT #__extensions  OFF;
 
+SET IDENTITY_INSERT #__modules  ON;
+
+INSERT INTO #__modules (title, note, content, ordering, position, name, checked_out, checked_out_time, publish_up, publish_down, published, module, access, showtitle, params, client_id, language)
+SELECT 'Admin Services', '', '', 1,  'position-7', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_admin_services', 1, 1, '{"config_visible":"1","templates_visible":"1","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 0, '*';
+
+SET IDENTITY_INSERT #__modules  OFF;
