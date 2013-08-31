@@ -118,7 +118,7 @@ class JPath
 	}
 
 	/**
-	 * Get the permissions of the file/folder at a give path.
+	 * Get the permissions of the file/folder at a given path.
 	 *
 	 * @param   string  $path  The path of a file/folder.
 	 *
