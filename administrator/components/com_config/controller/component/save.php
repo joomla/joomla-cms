@@ -111,15 +111,11 @@ class ConfigControllerComponentSave extends JControllerBase
 			return false;
 		}
 
-		// Added for testing ---------------------------
-
 		$task = $app->input->get('task');
-		$array = explode(".", $task);
-
-		// ------------------------------------
+		$tasks = explode(".", $task);
 
 		// Set the redirect based on the task.
-		switch ($array[1])
+		switch ($tasks[1])
 		{
 			case 'apply':
 				$message = JText::_('COM_CONFIG_SAVE_SUCCESS');
