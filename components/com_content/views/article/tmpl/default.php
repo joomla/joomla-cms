@@ -41,7 +41,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 			<?php endif; ?>
 			<?php if ($params->get('show_title')) : ?>
 				<?php if ($params->get('link_titles') && !empty($this->item->readmore_link)) : ?>
-					<a href="<?php echo $this->item->readmore_link; ?>" <?php echo $microdata->property('url')->display();?>><?php echo $microdata->content($this->escape($this->item->title))->property('name')->display();?></a>
+					<a href="<?php echo $this->item->readmore_link; ?>" <?php echo $microdata->property('url')->display(); ?>><?php echo $microdata->content($this->escape($this->item->title))->property('name')->display(); ?></a>
 				<?php else : ?>
 					<?php echo $microdata->content($this->escape($this->item->title))->property('name')->display(); ?>
 				<?php endif; ?>
@@ -166,7 +166,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 	<?php if ($images->image_fulltext_caption):
 		echo 'class="caption"'.' title="' .htmlspecialchars($images->image_fulltext_caption) . '"';
 	endif; ?>
-	src="<?php echo htmlspecialchars($images->image_fulltext); ?>" alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>"/> </div>
+	src="<?php echo htmlspecialchars($images->image_fulltext); ?>" alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>" <?php echo $microdata->property('image')->display(); ?>/> </div>
 	<?php endif; ?>
 	<?php
 	if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->paginationposition && !$this->item->paginationrelative):

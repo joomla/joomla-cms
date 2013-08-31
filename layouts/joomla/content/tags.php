@@ -13,7 +13,7 @@ JLoader::register('TagsHelperRoute', JPATH_BASE . '/components/com_tags/helpers/
 
 ?>
 <?php if (!empty($displayData)) : ?>
-	<div class="tags">
+	<div class="tags" <?php echo JFactory::getMicrodata()->property('keywords')->display(); ?>>
 		<?php foreach ($displayData as $i => $tag) : ?>
 			<?php if (in_array($tag->access, JAccess::getAuthorisedViewLevels(JFactory::getUser()->get('id')))) : ?>
 				<?php $tagParams = new JRegistry($tag->params); ?>

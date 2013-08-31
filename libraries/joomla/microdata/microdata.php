@@ -132,6 +132,16 @@ class JMicrodata
 	}
 
 	/**
+	 * Return true if Microdata semantics output are enabled
+	 * 
+	 * @return	boolean
+	 */
+	public function isEnabled()
+	{
+		return ($this->enabled) ? true : false;
+	}
+
+	/**
 	 * Set a new Schema.org Type
 	 *
 	 * @param   string  $type  The Type to be setup
@@ -476,7 +486,8 @@ class JMicrodata
 						 * otherwise Fallback to an 'inline' display Type */
 						if ($this->content !== null)
 						{
-							$html = static::htmlSpan($this->content, $this->fallbackProperty, $this->fallbackType);
+							$html = static::htmlSpan($this->content, $this->fallbackProperty);
+							$html = static::htmlSpan($html, '', $this->fallbackType);
 						}
 						else
 						{

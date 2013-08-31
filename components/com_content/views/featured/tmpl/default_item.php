@@ -26,7 +26,7 @@ $microdata = JFactory::getMicrodata()->enable(true)->setType('Article');
 <?php if ($params->get('show_title')) : ?>
 	<h2 class="item-title">
 	<?php if ($params->get('link_titles') && $params->get('access-view')) : ?>
-		<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid)); ?>"> <?php echo $microdata->content($this->escape($this->item->title))->property('name')->display(); ?></a>
+		<a href="<?php echo JRoute::_(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid)); ?>" <?php echo $microdata->property('url')->display(); ?>> <?php echo $microdata->content($this->escape($this->item->title))->property('name')->display(); ?></a>
 	<?php else : ?>
 		<?php echo $microdata->content($this->escape($this->item->title))->property('name')->display(); ?>
 	<?php endif; ?>

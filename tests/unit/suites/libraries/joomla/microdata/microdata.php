@@ -255,7 +255,7 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals(
 			$responce,
-			"<span itemscope itemtype='https://schema.org/Article' itemprop='about'>$content</span>"
+			"<span itemscope itemtype='https://schema.org/Article'><span itemprop='about'>$content</span></span>"
 		);
 
 		// Test if fallbacks, the Property isn't available in the current and fallback Type

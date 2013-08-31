@@ -580,8 +580,8 @@ abstract class JHtml
 		else
 		{
 			return '<img src="' . $file . '" alt="' . $alt . '" '
-			. trim((is_array($attribs) ? JArrayHelper::toString($attribs) : $attribs) . ' /')
-			. '>';
+				. trim((is_array($attribs) ? JArrayHelper::toString($attribs) : $attribs) . ' /')
+				. '>';
 		}
 	}
 
@@ -998,6 +998,7 @@ abstract class JHtml
 				);
 				$done[] = $id;
 			}
+
 			return '<div class="input-append"><input type="text" class="hasTooltip" title="' . (0 !== (int) $value ? static::_('date', $value, null, null) : '')
 				. '" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
 				. '<button type="button" class="btn" id="' . $id . '_img"><i class="icon-calendar"></i></button></div>';

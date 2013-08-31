@@ -75,8 +75,8 @@ jimport('joomla.html.html.bootstrap');
 	<?php endif; ?>
 
 	<?php if ($this->contact->image && $this->params->get('show_image')) : ?>
-		<div class="thumbnail pull-right" <?php echo $microdata->property('image')->display(); ?>>
-			<?php echo JHtml::_('image', $this->contact->image, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('align' => 'middle')); ?>
+		<div class="thumbnail pull-right">
+			<?php echo JHtml::_('image', $this->contact->image, JText::_('COM_CONTACT_IMAGE_DETAILS'), ($microdata->isEnabled()) ? array('align' => 'middle', 'itemprop' => 'image') : array('align' => 'middle')); ?>
 		</div>
 	<?php endif; ?>
 
@@ -89,6 +89,7 @@ jimport('joomla.html.html.bootstrap');
 	<?php endif; ?>
 
 	<?php echo $this->loadTemplate('address'); ?>
+	<?php $microdata->setType($this->params->get('microdata_type')); ?>
 
 	<?php if ($this->params->get('allow_vcard')) :	?>
 		<?php echo JText::_('COM_CONTACT_DOWNLOAD_INFORMATION_AS');?>
