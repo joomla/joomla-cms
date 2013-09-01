@@ -18,30 +18,43 @@ defined('_JEXEC') or die;
  */
 class TemplatesViewTemplate extends JViewLegacy
 {
+    // directory files and folders
 	protected $files;
-	
+
+    // extension state
 	protected $state;
 
+    // template details
 	protected $template;
 
+    // source form
 	protected $form;
-	
+
+    // source file contents
 	protected $source;
 
+    // extension id
     protected $id;
 
+    // file name with location
     protected $file;
 
+    // a list of available overrides
     protected $overridesList;
 
+    // name of the present file
     protected $fileName;
 
+    // the type of file - image, source, font
     protected $type;
 
+    // image information
     protected $image;
 
+    // template id for preview
     protected $preview;
 
+    // font information
     protected $font;
 
 	/**
@@ -109,6 +122,7 @@ protected function addToolbar()
 
 		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE'), 'thememanager');
 
+        //Add a Apply and save button
         if($this->type == 'file')
         {
             if ($canDo->get('core.edit'))
@@ -118,6 +132,7 @@ protected function addToolbar()
             }
         }
 
+        //Add a Crop and Resize button
         elseif($this->type == 'image')
         {
             if ($canDo->get('core.edit'))
@@ -146,6 +161,7 @@ protected function addToolbar()
 			$bar->appendButton('Custom', $dhtml, 'upload');
 		}
 
+        //Add a Template preview button
         if ($this->preview->client_id == 0)
         {
             $title = JText::_('COM_TEMPLATES_BUTTON_PREVIEW');
@@ -156,6 +172,7 @@ protected function addToolbar()
             $bar->appendButton('Custom', $dhtml, 'upload');
         }
 
+        //Add Manage folders button
 		if ($user->authorise('core.create', 'com_templates'))
 		{
 			$title = JText::_('COM_TEMPLATES_BUTTON_FOLDERS');
@@ -175,6 +192,7 @@ protected function addToolbar()
 			$bar->appendButton('Custom', $dhtml, 'upload');
 		}
 
+        //Add a Rename file Button
         if ($user->authorise('core.create', 'com_templates'))
         {
             $title = JText::_('COM_TEMPLATES_BUTTON_RENAME');
@@ -184,6 +202,7 @@ protected function addToolbar()
             $bar->appendButton('Custom', $dhtml, 'upload');
         }
 
+        //Add a Delete file Button
 		if ($user->authorise('core.create', 'com_templates'))
 		{
 			$title = JText::_('COM_TEMPLATES_BUTTON_DELETE');
@@ -211,9 +230,15 @@ protected function addToolbar()
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_TEMPLATES_EDIT');
 	}
-	
-	
-	function listDirectoryTree($array)
+
+    /**
+     * Method for creating the collapsible tree.
+     *
+     * uses recursion
+     *
+     * @since   3.2
+     */
+	protected function listDirectoryTree($array)
 	{
 		echo "<ul class='nav nav-list directory-tree'>";
 		ksort($array, SORT_STRING);
@@ -253,7 +278,14 @@ protected function addToolbar()
 	
 	}
 
-    function listFolderTree($array)
+    /**
+     * Method for listing the folder tree in modals.
+     *
+     * uses recursion
+     *
+     * @since   3.2
+     */
+    protected function listFolderTree($array)
     {
         echo "<ul class='nav nav-list folder-tree'>";
         ksort($array, SORT_STRING);

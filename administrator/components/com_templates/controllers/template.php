@@ -34,12 +34,26 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		// Apply, Save & New, and Save As copy should be standard on forms.
 		$this->registerTask('apply', 'save');
 	}
-	
+
+    /**
+     * Method for closing the template.
+     *
+     * @return  string encoded string containing the new file location.
+     *
+     * @since   3.2
+     */
 	public function cancel()
 	{
 		$this->setRedirect(JRoute::_('index.php?option=com_templates&view=templates', false));
 	}
 
+    /**
+     * Method for copying the template.
+     *
+     * @return  boolean     true on success, false otherwise
+     *
+     * @since   3.2
+     */
 	public function copy()
 	{
 		// Check for request forgeries
@@ -265,6 +279,11 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		}
 	}
 
+    /**
+     * Method for creating override.
+     *
+     * @since   3.2
+     */
     public function overrides()
     {
         $app            = JFactory::getApplication();
@@ -284,6 +303,11 @@ class TemplatesControllerTemplate extends JControllerLegacy
 
     }
 
+    /**
+     * Method for compiling less.
+     *
+     * @since   3.2
+     */
     public function less()
     {
         $app            = JFactory::getApplication();
@@ -304,6 +328,11 @@ class TemplatesControllerTemplate extends JControllerLegacy
         $this->setRedirect(JRoute::_($url, false));
     }
 
+    /**
+     * Method for deleting a file.
+     *
+     * @since   3.2
+     */
     public function delete()
     {
         $app            = JFactory::getApplication();
@@ -333,6 +362,11 @@ class TemplatesControllerTemplate extends JControllerLegacy
         }
     }
 
+    /**
+     * Method for creating a new file.
+     *
+     * @since   3.2
+     */
     public function createFile()
     {
         $app            = JFactory::getApplication();
@@ -365,6 +399,11 @@ class TemplatesControllerTemplate extends JControllerLegacy
         }
     }
 
+    /**
+     * Method for uploading a file.
+     *
+     * @since   3.2
+     */
     public function uploadFile()
     {
         $app            = JFactory::getApplication();
@@ -374,10 +413,27 @@ class TemplatesControllerTemplate extends JControllerLegacy
         $upload         = $app->input->files->get('files');
         $location       = base64_decode($app->input->get('address'));
 
-        $extensions     = array('ini','php','js','xml','less','css','jpg','jpeg','png','eot','ttf','woff');
-        $explodeArray = explode('.', $upload['name']);
+        $fileUploadExtensions       = array(
+                                            'text/plain',
+                                            'application/octet-stream',
+                                            'application/x-httpd-php',
+                                            'application/x-httpd-php5',
+                                            'application/x-httpd-php-source',
+                                            'application/x-php',
+                                            'application/javascript',
+                                            'application/xml',
+                                            'text/css',
+                                            'image/jpeg',
+                                            'image/gif',
+                                            'image/png',
+                                            'application/x-font-ttf',
+                                            'application/x-font-opentype',
+                                            'application/font-woff',
+                                            'application/vnd.ms-fontobject'
+                                        );
+        $uploadedFileExtension      = $upload['type'];
 
-        if(in_array(end($explodeArray),$extensions))
+        if(in_array($uploadedFileExtension, $fileUploadExtensions))
         {
             if($model->uploadFile($upload, $location))
             {
@@ -401,6 +457,11 @@ class TemplatesControllerTemplate extends JControllerLegacy
         }
     }
 
+    /**
+     * Method for creating a new folder.
+     *
+     * @since   3.2
+     */
     public function createFolder()
     {
         $app            = JFactory::getApplication();
@@ -431,6 +492,11 @@ class TemplatesControllerTemplate extends JControllerLegacy
         }
     }
 
+    /**
+     * Method for deleting a folder.
+     *
+     * @since   3.2
+     */
     public function deleteFolder()
     {
         $app            = JFactory::getApplication();
@@ -461,6 +527,11 @@ class TemplatesControllerTemplate extends JControllerLegacy
         }
     }
 
+    /**
+     * Method for renaming a file.
+     *
+     * @since   3.2
+     */
     public function renameFile()
     {
         $app            = JFactory::getApplication();
@@ -495,6 +566,11 @@ class TemplatesControllerTemplate extends JControllerLegacy
         }
     }
 
+    /**
+     * Method for cropping an image.
+     *
+     * @since   3.2
+     */
     public function cropImage()
     {
         $app            = JFactory::getApplication();
@@ -528,6 +604,11 @@ class TemplatesControllerTemplate extends JControllerLegacy
         }
     }
 
+    /**
+     * Method for resizing an image.
+     *
+     * @since   3.2
+     */
     public function resizeImage()
     {
         $app            = JFactory::getApplication();

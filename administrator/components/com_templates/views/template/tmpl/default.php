@@ -33,19 +33,29 @@ if($this->type == 'image')
 <script type="text/javascript">
 	jQuery(document).ready(function($){
 
+        // Hide all the folder when the page loads
 		$('.folder ul').hide();
+
+        // Show all the lists in the path of an open file
 		$('.show > ul').show();
+
+        // Stop the default action of anchor tag on a click event
 		$('.folder-url').click(function(event){
 			event.preventDefault();
 		});
+
+        // Prevent the click event from proliferating
         $('.file').bind('click',function(e){
             e.stopPropagation();
         });
+
+        // Toggle the child indented list on a click event
 		$('.folder').bind('click',function(e){
 			$(this).children('ul').toggle();
             e.stopPropagation();
 		});
 
+        // New file tree
         $('#fileModal .folder-url').bind('click',function(e){
             $('.folder-url').removeClass('selected');
             e.stopPropagation();
@@ -53,6 +63,7 @@ if($this->type == 'image')
             $(this).addClass('selected');
         });
 
+        // Folder manager tree
         $('#folderModal .folder-url').bind('click',function(e){
             $('.folder-url').removeClass('selected');
             e.stopPropagation();
@@ -63,6 +74,7 @@ if($this->type == 'image')
         <?php if($this->type == 'image'): ?>
             var jcrop_api;
 
+            // Configuration for image cropping
             $('#image-crop').Jcrop({
                 onChange:   showCoords,
                 onSelect:   showCoords,
@@ -72,6 +84,7 @@ if($this->type == 'image')
                 jcrop_api = this;
             });
 
+            // Function for calculating the crop coordinates
             function showCoords(c)
             {
                 $('#x').val(c.x);
@@ -80,6 +93,7 @@ if($this->type == 'image')
                 $('#h').val(c.h);
             };
 
+            // Function for clearing the coordinates
             function clearCoords()
             {
                 $('#adminForm input').val('');
@@ -90,6 +104,8 @@ if($this->type == 'image')
     });
 </script>
 <style>
+
+    /* Styles for modals */
     .selected{
         background: #08c;
         color: #fff;
@@ -107,6 +123,7 @@ if($this->type == 'image')
 
 <?php if($this->type == 'font'): ?>
 
+    /* Styles for font preview */
     @font-face
     {
         font-family: previewFont;

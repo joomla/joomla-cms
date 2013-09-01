@@ -1,50 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.2" type="plugin" group="editors">
-	<name>plg_editors_codemirror</name>
-	<version>3.15</version>
-	<creationDate>28 March 2011</creationDate>
-	<author>Marijn Haverbeke</author>
-	<authorEmail>N/A</authorEmail>
-	<authorUrl></authorUrl>
-	<copyright></copyright>
-	<license></license>
-	<description>PLG_CODEMIRROR_XML_DESCRIPTION</description>
-	<files>
-		<filename plugin="codemirror">codemirror.php</filename>
-		<filename>index.html</filename>	</files>
-	<languages>
-		<language tag="en-GB">en-GB.plg_editors_codemirror.ini</language>
-		<language tag="en-GB">en-GB.plg_editors_codemirror.sys.ini</language>
-	</languages>
-	<config>
-		<fields name="params">
+    <name>plg_editors_codemirror</name>
+    <version>3.15</version>
+    <creationDate>28 March 2011</creationDate>
+    <author>Marijn Haverbeke</author>
+    <authorEmail>N/A</authorEmail>
+    <authorUrl></authorUrl>
+    <copyright></copyright>
+    <license></license>
+    <description>PLG_CODEMIRROR_XML_DESCRIPTION</description>
+    <files>
+        <filename plugin="codemirror">codemirror.php</filename>
+        <filename>index.html</filename>	</files>
+    <languages>
+        <language tag="en-GB">en-GB.plg_editors_codemirror.ini</language>
+        <language tag="en-GB">en-GB.plg_editors_codemirror.sys.ini</language>
+    </languages>
+    <config>
+        <fields name="params">
 
-			<fieldset name="basic">
-				<field name="lineNumbers" type="radio"
-					class="btn-group"
-					default="1"
-					description="PLG_CODEMIRROR_FIELD_LINENUMBERS_DESC"
-					label="PLG_CODEMIRROR_FIELD_LINENUMBERS_LABEL"
-				>
-					<option value="0">JOFF</option>
-					<option value="1">JON</option>
-				</field>
+            <fieldset name="basic">
+                <field name="lineNumbers" type="radio"
+                       class="btn-group"
+                       default="1"
+                       description="PLG_CODEMIRROR_FIELD_LINENUMBERS_DESC"
+                       label="PLG_CODEMIRROR_FIELD_LINENUMBERS_LABEL"
+                        >
+                    <option value="0">JOFF</option>
+                    <option value="1">JON</option>
+                </field>
 
-				<field name="lineWrapping" type="radio"
-					class="btn-group"
-					default="1"
-					description="Line Wrapping"
-					label="Line Wrapping"
-				>
-					<option value="0">JOFF</option>
-					<option value="1">JON</option>
-				</field>
+                <field name="lineWrapping" type="radio"
+                       class="btn-group"
+                       default="1"
+                       description="PLG_CODEMIRROR_FIELD_LINEWRAPPING_DESC"
+                       label="PLG_CODEMIRROR_FIELD_LINEWRAPPING_LABEL"
+                        >
+                    <option value="0">JOFF</option>
+                    <option value="1">JON</option>
+                </field>
 
                 <field name="matchTags" type="radio"
                        class="btn-group"
                        default="1"
-                       description="Highlight Matching Tags"
-                       label="Match Tags"
+                       description="PLG_CODEMIRROR_FIELD_MATCHTAGS_DESC"
+                       label="PLG_CODEMIRROR_FIELD_MATCHTAGS_LABEL"
                         >
                     <option value="0">JOFF</option>
                     <option value="1">JON</option>
@@ -53,8 +53,8 @@
                 <field name="matchBrackets" type="radio"
                        class="btn-group"
                        default="1"
-                       description="Highlight Matching Brackets"
-                       label="Match Brackets"
+                       description="PLG_CODEMIRROR_FIELD_MATCHBRACKETS_DESC"
+                       label="PLG_CODEMIRROR_FIELD_MATCHBRACKETS_LABEL"
                         >
                     <option value="0">JOFF</option>
                     <option value="1">JON</option>
@@ -63,8 +63,8 @@
                 <field name="marker-gutter" type="radio"
                        class="btn-group"
                        default="1"
-                       description="Code Marker and Code Folding"
-                       label="Gutters"
+                       description="PLG_CODEMIRROR_FIELD_MARKERGUTTER_DESC"
+                       label="PLG_CODEMIRROR_FIELD_MARKERGUTTER_LABEL"
                         >
                     <option value="0">JOFF</option>
                     <option value="1">JON</option>
@@ -73,8 +73,8 @@
                 <field name="autoCloseTags" type="radio"
                        class="btn-group"
                        default="1"
-                       description="Automatic Tag Completion"
-                       label="Automatic Tag Completion"
+                       description="PLG_CODEMIRROR_FIELD_AUTOCLOSETAGS_DESC"
+                       label="PLG_CODEMIRROR_FIELD_AUTOCLOSETAGS_LABEL"
                         >
                     <option value="0">JOFF</option>
                     <option value="1">JON</option>
@@ -83,8 +83,8 @@
                 <field name="autoCloseBrackets" type="radio"
                        class="btn-group"
                        default="1"
-                       description="Automatic Bracket Completion"
-                       label="Automatic Bracket Completion"
+                       description="PLG_CODEMIRROR_FIELD_AUTOCLOSEBRACKET_DESC"
+                       label="PLG_CODEMIRROR_FIELD_AUTOCLOSEBRACKET_LABEL"
                         >
                     <option value="0">JOFF</option>
                     <option value="1">JON</option>
@@ -93,8 +93,8 @@
                 <field name="autoFocus" type="radio"
                        class="btn-group"
                        default="1"
-                       description="Auto Focus"
-                       label="Auto Focus"
+                       description="PLG_CODEMIRROR_FIELD_AUTOFOCUS_DESC"
+                       label="PLG_CODEMIRROR_FIELD_AUTOFOCUS_LABEL"
                         >
                     <option value="0">JOFF</option>
                     <option value="1">JON</option>
@@ -103,23 +103,23 @@
                 <field name="theme" type="list"
                        class="btn-group"
                        default="default"
-                       description="Code Folding"
-                       label="Select a theme"
+                       description="PLG_CODEMIRROR_FIELD_THEME_DESC"
+                       label="PLG_CODEMIRROR_FIELD_THEME_LABEL"
                         >
-                    <option value="default">Light</option>
-                    <option value="ambiance">Dark</option>
+                    <option value="default">PLG_CODEMIRROR_FIELD_VALUE_THEME_LIGHT</option>
+                    <option value="ambiance">PLG_CODEMIRROR_FIELD_VALUE_THEME_DARK</option>
                 </field>
 
-				<field name="tabmode" type="list"
-					default="indent"
-					description="PLG_CODEMIRROR_FIELD_TABMODE_DESC"
-					label="PLG_CODEMIRROR_FIELD_TABMODE_LABEL"
-				>
-					<option value="indent">PLG_CODEMIRROR_FIELD_VALUE_TABMODE_INDENT</option>
-					<option value="shift">PLG_CODEMIRROR_FIELD_VALUE_TABMODE_SHIFT</option>
-				</field>
-			</fieldset>
+                <field name="tabmode" type="list"
+                       default="indent"
+                       description="PLG_CODEMIRROR_FIELD_TABMODE_DESC"
+                       label="PLG_CODEMIRROR_FIELD_TABMODE_LABEL"
+                        >
+                    <option value="indent">PLG_CODEMIRROR_FIELD_VALUE_TABMODE_INDENT</option>
+                    <option value="shift">PLG_CODEMIRROR_FIELD_VALUE_TABMODE_SHIFT</option>
+                </field>
+            </fieldset>
 
-		</fields>
-	</config>
+        </fields>
+    </config>
 </extension>

@@ -76,12 +76,12 @@ class TemplatesModelTemplate extends JModelForm
 	}
 
     /**
-     * Method to get the directory tree.
+     * Get the directory tree.
      *
      * @param $dir
-     * @internal param \The $string base path.
+     * @internal param The $string base path.
      * @return  array
-     * @since   3.1
+     * @since   3.2
      */
 	
 	public function getDirectoryTree($dir)
@@ -396,7 +396,7 @@ class TemplatesModelTemplate extends JModelForm
 	/**
 	 * Method to store the source file contents.
 	 *
-	 * @param   array  The souce data to save.
+	 * @param   array  The source data to save.
 	 *
 	 * @return  boolean  True on success, false otherwise and internal error set.
 	 * @since   1.6
@@ -461,6 +461,16 @@ class TemplatesModelTemplate extends JModelForm
 		return true;
 	}
 
+    /**
+     * Get overrides folder.
+     *
+     * @param   string $name     The name of override.
+     * @param   string $path      Location of override.
+     *
+     * @return  object containing override name and path.
+     *
+     * @since   3.2
+     */
     public function getOverridesFolder($name,$path)
     {
         $folder = new stdClass();
@@ -470,6 +480,13 @@ class TemplatesModelTemplate extends JModelForm
         return $folder;
     }
 
+    /**
+     * Get a list of overrides.
+     *
+     * @return  array containing overrides.
+     *
+     * @since   3.2
+     */
     public function getOverridesList()
     {
         if ($template = $this->getTemplate())
@@ -504,6 +521,15 @@ class TemplatesModelTemplate extends JModelForm
         }
     }
 
+    /**
+     * Create overrides.
+     *
+     * @param $override     The override location.
+     *
+     * @return  boolean     true if override creation is successful, false otherwise
+     *
+     * @since   3.2
+     */
     public function createOverride($override)
     {
         jimport('joomla.filesystem.folder');
@@ -570,6 +596,15 @@ class TemplatesModelTemplate extends JModelForm
         }
     }
 
+    /**
+     * Compile less using the less compiler under /build.
+     *
+     * @param   string $input     The relative location of the less file.
+     *
+     * @return  boolean     true if compilation is successful, false otherwise
+     *
+     * @since   3.2
+     */
     public function compileLess($input)
     {
         if ($template = $this->getTemplate())
@@ -595,6 +630,15 @@ class TemplatesModelTemplate extends JModelForm
         }
     }
 
+    /**
+     * Delete a particular file.
+     *
+     * @param   string $file     The relative location of the file.
+     *
+     * @return  boolean     true if file deletion is successful, false otherwise
+     *
+     * @since   3.2
+     */
     public function deleteFile($file)
     {
         if ($template = $this->getTemplate())
@@ -616,6 +660,17 @@ class TemplatesModelTemplate extends JModelForm
         }
     }
 
+    /**
+     * Create new file.
+     *
+     * @param   string $name      The name of file.
+     * @param   string $type      The extension of the file.
+     * @param   string $location  Location for the new file.
+     *
+     * @return  boolean           true if file created successfully, false otherwise
+     *
+     * @since   3.2
+     */
     public function createFile($name,$type,$location)
     {
         if ($template = $this->getTemplate())
@@ -640,6 +695,16 @@ class TemplatesModelTemplate extends JModelForm
         }
     }
 
+    /**
+     * Upload new file.
+     *
+     * @param   string $file       The name of the file.
+     * @param   string $location   Location for the new file.
+     *
+     * @return  boolean     true if file uploaded successfully, false otherwise
+     *
+     * @since   3.2
+     */
     public function uploadFile($file, $location)
     {
         jimport('joomla.filesystem.folder');
@@ -648,6 +713,7 @@ class TemplatesModelTemplate extends JModelForm
             $app        = JFactory::getApplication();
             $client 	= JApplicationHelper::getClientInfo($template->client_id);
             $path       = JPath::clean($client->path . '/templates/' . $template->element . '/');
+            $fileName   = JFile::makeSafe($file['name']);
 
             if(file_exists(JPath::clean($path . '/' . $location . '/' . $file['name'])))
             {
@@ -655,7 +721,7 @@ class TemplatesModelTemplate extends JModelForm
                 return false;
             }
 
-            if(!JFile::upload($file['tmp_name'],JPath::clean($path . '/' . $location . '/' . $file['name'])))
+            if(!JFile::upload($file['tmp_name'],JPath::clean($path . '/' . $location . '/' . $fileName)))
             {
                 $app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_UPLOAD_ERROR'),'error');
                 return false;
@@ -665,6 +731,16 @@ class TemplatesModelTemplate extends JModelForm
         }
     }
 
+    /**
+     * Create new folder.
+     *
+     * @param   string $name     The name of the new folder.
+     * @param   string $location      Location for the new folder.
+     *
+     * @return  boolean     true if override folder is created successfully, false otherwise
+     *
+     * @since   3.2
+     */
     public function createFolder($name, $location)
     {
         jimport('joomla.filesystem.folder');
@@ -690,6 +766,15 @@ class TemplatesModelTemplate extends JModelForm
         }
     }
 
+    /**
+     * Delete a folder.
+     *
+     * @param   string $location     The name and location of the folder.
+     *
+     * @return  boolean     true if override folder is deleted successfully, false otherwise
+     *
+     * @since   3.2
+     */
     public function deleteFolder($location)
     {
         jimport('joomla.filesystem.folder');
@@ -717,6 +802,16 @@ class TemplatesModelTemplate extends JModelForm
         }
     }
 
+    /**
+     * Rename a file.
+     *
+     * @param   string $file      The name and location of the old file
+     * @param   string $name      The new name of the file.
+     *
+     * @return  string encoded string containing the new file location.
+     *
+     * @since   3.2
+     */
     public function renameFile($file, $name)
     {
         if ($template = $this->getTemplate())
@@ -740,6 +835,13 @@ class TemplatesModelTemplate extends JModelForm
         }
     }
 
+    /**
+     * Get an image address, height and width.
+     *
+     * @return  array an associative array containing image address, height and width.
+     *
+     * @since   3.2
+     */
     public function getImage()
     {
         if ($template = $this->getTemplate())
@@ -778,6 +880,19 @@ class TemplatesModelTemplate extends JModelForm
         }
     }
 
+    /**
+     * Crop an image.
+     *
+     * @param   string $file      The name and location of the file
+     * @param   string $w         width.
+     * @param   string $h         height.
+     * @param   string $x         x-coordinate.
+     * @param   string $y         y-coordinate.
+     *
+     * @return  boolean     true if image cropped successfully, false otherwise.
+     *
+     * @since   3.2
+     */
     public function cropImage($file, $w, $h, $x, $y)
     {
         if ($template = $this->getTemplate())
@@ -802,6 +917,17 @@ class TemplatesModelTemplate extends JModelForm
         }
     }
 
+    /**
+     * Resize an image.
+     *
+     * @param   string $file      The name and location of the file
+     * @param   string $width     The new width of the image.
+     * @param   string $height    The new height of the image.
+     *
+     * @return  boolean     true if image resize successful, false otherwise.
+     *
+     * @since   3.2
+     */
     public function resizeImage($file, $width, $height)
     {
         if ($template = $this->getTemplate())
@@ -826,7 +952,15 @@ class TemplatesModelTemplate extends JModelForm
         }
     }
 
-    public function getPreview(){
+    /**
+     * Template preview.
+     *
+     * @return  object      object containing the id of the template.
+     *
+     * @since   3.2
+     */
+    public function getPreview()
+    {
 
         $app = JFactory::getApplication();
         $db = $this->getDbo();
@@ -856,6 +990,13 @@ class TemplatesModelTemplate extends JModelForm
 
     }
 
+    /**
+     * Rename a file.
+     *
+     * @return  mixed   array on success, false on failure
+     *
+     * @since   3.2
+     */
     public function getFont()
     {
         if ($template = $this->getTemplate())
