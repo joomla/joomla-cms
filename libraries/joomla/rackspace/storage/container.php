@@ -250,7 +250,55 @@ class JRackspaceStorageContainer extends JRackspaceStorage
 
 		if ($response->code == 204)
 		{
-			return "The \"" . $container . "\" container metadata were successfully removed.\n";
+			return "The \"" . $container . "\" container headers were successfully set.\n";
+		}
+		elseif ($response->code == 404)
+		{
+			return "The \"" . $container . "\" container was not found.\n";
+		}
+
+		return null;
+	}
+
+	/**
+	 * Lists the objects in a container. The information returned is size
+	 * (number of bytes), hash, object name, date & time modified (in GMT),
+	 * and content type.
+	 *
+	 * @param   string  $container   The container name
+	 * @param   array   $parameters  An array of metadata items to be set
+	 *
+	 * @return string  An array with the objects in the container or a message
+	 *				   corresponding to the response code.
+	 *
+	 * @since   ??.?
+	 */
+	public function listContainerObjects($container, $parameters = null)
+	{
+		$authTokenHeaders = $this->getAuthTokenHeaders();
+		$url = $authTokenHeaders["X-Storage-Url"] . "/" . $container . "?format=json";
+
+		foreach ($parameters as $key => $value)
+		{
+			$url .= "&" . $key . "=" . $value;
+		}
+
+		// Create the headers
+		$headers = array(
+			"Host" => $this->options->get("storage.host"),
+		);
+		$headers["X-Auth-Token"] = $authTokenHeaders["X-Auth-Token"];
+
+		// Send the http request
+		$response = $this->client->get($url, $headers);
+
+		if ($response->code == 200)
+		{
+			return $this->processResponse($response);
+		}
+		elseif ($response->code == 204)
+		{
+			return "There are no objects in the \"" . $container . "\" container.\n";
 		}
 		elseif ($response->code == 404)
 		{
