@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Sep-2013 Mark Dexter
+ # Fix problem with renamed test method.
+
 27-Aug-2013 Mark Dexter
  + Add some system tests for front end. Thanks Puneet Kala!
 
