@@ -24,7 +24,7 @@ class JRackspaceStorageContainer extends JRackspaceStorage
 	 *
 	 * @param   string  $container  The container name
 	 *
-	 * @return string  The response body
+	 * @return string  The response headers or a message corresponding to the response code
 	 *
 	 * @since   ??.?
 	 */
@@ -47,6 +47,10 @@ class JRackspaceStorageContainer extends JRackspaceStorage
 		{
 			// The headers contain X-Container-Object-Count and X-Container-Meta-TraitX
 			return $response->headers;
+		}
+		elseif ($response->code == 404)
+		{
+			return "The \"" . $container . "\" container was not found.\n";
 		}
 
 		return null;
@@ -93,7 +97,7 @@ class JRackspaceStorageContainer extends JRackspaceStorage
 	 *
 	 * @param   string  $container  The container name
 	 *
-	 * @return string  The response body
+	 * @return string  A message corresponding to the response code
 	 *
 	 * @since   ??.?
 	 */
@@ -134,7 +138,7 @@ class JRackspaceStorageContainer extends JRackspaceStorage
 	 * @param   string  $container  The container name
 	 * @param   array   $metadata   An array of metadata items to be set
 	 *
-	 * @return string  The response body
+	 * @return string  A message corresponding to the response code
 	 *
 	 * @since   ??.?
 	 */
@@ -175,7 +179,7 @@ class JRackspaceStorageContainer extends JRackspaceStorage
 	 * @param   string  $container  The container name
 	 * @param   array   $metadata   An array of metadata items to be set
 	 *
-	 * @return string  The response body
+	 * @return string  A message corresponding to the response code
 	 *
 	 * @since   ??.?
 	 */
@@ -193,6 +197,52 @@ class JRackspaceStorageContainer extends JRackspaceStorage
 		foreach ($metadata as $key)
 		{
 			$headers["X-Remove-Container-Meta-" . $key] = "foo";
+		}
+
+		// Send the http request
+		$response = $this->client->post($url, "", $headers);
+
+		if ($response->code == 204)
+		{
+			return "The \"" . $container . "\" container metadata were successfully removed.\n";
+		}
+		elseif ($response->code == 404)
+		{
+			return "The \"" . $container . "\" container was not found.\n";
+		}
+
+		return null;
+	}
+
+	/**
+	 * CORS (Cross Origin Resource Sharing) container headers allow users to
+	 * upload files from one website--or origin--to your Cloud Files account.
+	 * The three CORS headers set for containers are:
+	 * - X-Container-Meta-Access-Control-Allow-Origin
+	 * - X-Container-Meta-Access-Control-Max-Age
+	 * - X-Container-Meta-Access-Control-Allow-Headers
+	 *
+	 * @param   string  $container  The container name
+	 * @param   array   $options    An array of metadata items to be set
+	 *
+	 * @return string  A message corresponding to the response code
+	 *
+	 * @since   ??.?
+	 */
+	public function corsContainerHeaders($container, $options)
+	{
+		$authTokenHeaders = $this->getAuthTokenHeaders();
+		$url = $authTokenHeaders["X-Storage-Url"] . "/" . $container;
+
+		// Create the headers
+		$headers = array(
+			"Host" => $this->options->get("storage.host"),
+		);
+		$headers["X-Auth-Token"] = $authTokenHeaders["X-Auth-Token"];
+
+		foreach ($options as $key => $value)
+		{
+			$headers[$key] = $value;
 		}
 
 		// Send the http request
