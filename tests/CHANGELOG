@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 01-Sep-2013 Mark Dexter
  # Fix problem with renamed test method.
+ # Fix failing system test due to new option in Global Configuration.
 
 27-Aug-2013 Mark Dexter
  + Add some system tests for front end. Thanks Puneet Kala!
