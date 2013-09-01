@@ -133,7 +133,12 @@ class JRackspaceStorageContainer extends JRackspaceStorage
 
 	/**
 	 * You may set any custom or arbitrary metadata headers as you find useful.
-	 * They must, however, take the format X-Container-Meta-XXXX, where XXXX is the name of your custom header.
+	 * They must, however, take the format X-Container-Meta-XXXX, where XXXX
+	 * is the name of your custom header.
+	 * For example, this can be used to set the container quotas or access log:
+	 * - X-Container-Meta-Quota-Bytes
+	 * - X-Container-Meta-Quota-Count
+	 * - X-Container-Meta-Access-Log-Delivery
 	 *
 	 * @param   string  $container  The container name
 	 * @param   array   $metadata   An array of metadata items to be set
