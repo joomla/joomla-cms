@@ -144,7 +144,7 @@ class ContactViewContact extends JViewLegacy
 				}
 				
 				if ($params->get('icon_fax')) {
-					$image4 = JHtml::_('image', 'contacts/'.$params->get('icon_fax', 'con_fax.png'), JText::_('COM_CONTACT_FAX').": ", null, false);
+					$image4 = JHtml::_('image', $params->get('icon_fax', 'con_fax.png'), JText::_('COM_CONTACT_FAX').": ", null, false);
 				}
 				else 
 				{
