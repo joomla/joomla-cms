@@ -37,6 +37,21 @@ class CpanelViewCpanel extends JViewLegacy
 		// Display the cpanel modules
 		$this->modules = JModuleHelper::getModules('cpanel');
 
+		$user = JFactory::getUser();
+
+		// This check should be done through the 3.x series as the issue impacts migrated sites which will
+		// most often come for the LTS release. Remove for version 4 or if eAccelerator support is added.
+		if ($user->authorise('core.admin'))
+		{
+			$app = JFactory::getApplication();
+			$cacheHandler = $app->getCfg('cacheHandler', '');
+
+			if ($cacheHandler == 'Eaccelerator')
+			{
+				$app->enqueueMessage(JText::_('COM_CPANEL_MSG_EACCELERATOR'), 'warning');
+			}
+		}
+
 		parent::display($tpl);
 	}
 }
