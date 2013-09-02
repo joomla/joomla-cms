@@ -182,7 +182,7 @@ class JRackspaceStorageContainer extends JRackspaceStorage
 	 * Remove the specified container metadata.
 	 *
 	 * @param   string  $container  The container name
-	 * @param   array   $metadata   An array of metadata items to be set
+	 * @param   array   $metadata   An array of metadata items to be removed
 	 *
 	 * @return string  A message corresponding to the response code
 	 *
@@ -209,7 +209,7 @@ class JRackspaceStorageContainer extends JRackspaceStorage
 
 		if ($response->code == 204)
 		{
-			return "The \"" . $container . "\" container metadata were successfully removed.\n";
+			return "The \"" . $container . "\" container's metadata were successfully removed.\n";
 		}
 		elseif ($response->code == 404)
 		{

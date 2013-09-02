@@ -236,7 +236,7 @@ class JRackspaceStorageObject extends JRackspaceStorage
 	 *
 	 * @param   string  $container  The container name
 	 * @param   string  $object     The object name
-	 * @param   array   $metadata   The metadata to be set
+	 * @param   array   $metadata   An array of metadata items to be set
 	 *
 	 * @return string  A message regarding the success or failure of the request
 	 *
@@ -271,5 +271,47 @@ class JRackspaceStorageObject extends JRackspaceStorage
 			return "The \"" . $object . "\" object's metadata were not successfully updated.\n"
 				. "Response code: " . $response->code . ".";
 		}
+	}
+
+	/**
+	 * Remove the specified object metadata.
+	 *
+	 * @param   string  $container  The container name
+	 * @param   string  $object     The object name
+	 * @param   array   $metadata   An array of metadata items to be removed
+	 *
+	 * @return string  A message corresponding to the response code
+	 *
+	 * @since   ??.?
+	 */
+	public function removeObjectMetadata($container, $object, $metadata)
+	{
+		$authTokenHeaders = $this->getAuthTokenHeaders();
+		$url = $authTokenHeaders["X-Storage-Url"] . "/" . $container . "/" . $object;
+
+		// Create the headers
+		$headers = array(
+			"Host" => $this->options->get("storage.host"),
+		);
+		$headers["X-Auth-Token"] = $authTokenHeaders["X-Auth-Token"];
+
+		foreach ($metadata as $key)
+		{
+			$headers["X-Remove-Object-Meta-" . $key] = "foo";
+		}
+
+		// Send the http request
+		$response = $this->client->post($url, "", $headers);
+
+		if ($response->code == 202)
+		{
+			return "The \"" . $object . "\" object's metadata were successfully removed.\n";
+		}
+		elseif ($response->code == 404)
+		{
+			return "The \"" . $object . "\" object was not found.\n";
+		}
+
+		return null;
 	}
 }
