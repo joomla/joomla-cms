@@ -177,7 +177,7 @@ class JTableCorecontent extends JTable
 	 * @since   3.1
 	 * @throws  UnexpectedValueException
 	 */
-	public function deleteByContentId($contentItemId = null,$typeAlias = null)
+	public function deleteByContentId($contentItemId = null, $typeAlias = null)
 	{
 		if ($contentItemId === null || ((int) $contentItemId) === 0)
 		{
