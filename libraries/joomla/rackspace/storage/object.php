@@ -157,4 +157,40 @@ class JRackspaceStorageObject extends JRackspaceStorage
 				. "Response code: " . $response->code . ".";
 		}
 	}
+
+	/**
+	 * DELETE operations on an object are used to permanently remove an object
+	 * from the storage system (data and metadata).
+	 *
+	 * @param   string  $container  The container name
+	 * @param   string  $object     The object name
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function deleteObject($container, $object)
+	{
+		$authTokenHeaders = $this->getAuthTokenHeaders();
+		$url = $authTokenHeaders["X-Storage-Url"] . "/" . $container . "/" . $object;
+
+		// Create the headers
+		$headers = array(
+			"Host" => $this->options->get("storage.host"),
+		);
+		$headers["X-Auth-Token"] = $authTokenHeaders["X-Auth-Token"];
+
+		// Send the http request
+		$response = $this->client->delete($url, $headers);
+
+		if ($response->code == 204)
+		{
+			return "The \"" . $object . "\" object was successfully deleted.\n";
+		}
+		else
+		{
+			return "The \"" . $object . "\" object was not successfully deleted.\n"
+				. "Response code: " . $response->code . ".";
+		}
+	}
 }
