@@ -314,4 +314,35 @@ class JRackspaceStorageObject extends JRackspaceStorage
 
 		return null;
 	}
+
+	/**
+	 * Remove the specified object metadata.
+	 *
+	 * @param   string  $archive      The archive name
+	 * @param   string  $upload_path  The upload path
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function extractArchive($archive, $upload_path)
+	{
+		$authTokenHeaders = $this->getAuthTokenHeaders();
+		$url = $authTokenHeaders["X-Storage-Url"] . "/" . $upload_path
+			. "?extract-archive=tar";
+
+		// Create the headers
+		$headers = array(
+			"Host" => $this->options->get("storage.host"),
+		);
+		$headers["X-Auth-Token"] = $authTokenHeaders["X-Auth-Token"];
+
+		// Set the data
+		$data = file_get_contents($archive);
+
+		// Send the http request
+		$response = $this->client->put($url, $data, $headers);
+
+		return $response->body;
+	}
 }
