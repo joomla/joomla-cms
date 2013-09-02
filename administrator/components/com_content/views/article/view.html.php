@@ -115,7 +115,14 @@ class ContentViewArticle extends JViewLegacy
 
 			JToolbarHelper::cancel('article.cancel', 'JTOOLBAR_CLOSE');
 		}
-
+		
+		if ($this->state->params->get('save_history') && $user->authorise('core.edit'))
+		{
+			$itemId = $this->item->id; 
+			$typeAlias = 'com_content.article';
+			JToolbarHelper::versions($typeAlias, $itemId);
+		}
+		
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_CONTENT_ARTICLE_MANAGER_EDIT');
 	}

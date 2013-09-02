@@ -84,6 +84,13 @@ class WeblinksViewWeblink extends JViewLegacy
 			JToolbarHelper::cancel('weblink.cancel', 'JTOOLBAR_CLOSE');
 		}
 
+		if ($this->state->params->get('save_history') && $user->authorise('core.edit'))
+		{
+			$itemId = $this->item->id;
+			$typeAlias = 'com_weblinks.weblink';
+			JToolbarHelper::versions($typeAlias, $itemId);
+		}
+
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_COMPONENTS_WEBLINKS_LINKS_EDIT');
 	}

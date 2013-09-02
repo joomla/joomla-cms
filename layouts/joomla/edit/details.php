@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 // JLayout for standard handling of the details sidebar in administrator edit screens.
 $title = $displayData->get('form')->getValue('title');
 $published = $displayData->get('form')->getField('published');
+$saveHistory = $displayData->get('state')->get('params')->get('save_history', 0);
 ?>
 <div class="span2">
 <h4><?php echo JText::_('JDETAILS');?></h4>
@@ -83,6 +84,17 @@ $published = $displayData->get('form')->getField('published');
 						<?php echo $displayData->get('form')->getInput('tags'); ?>
 					</div>
 				</div>
+				<?php if ($saveHistory) : ?>
+					<div class="control-group">
+					<div class="control-label">
+						<?php echo $displayData->get('form')->getLabel('version_note'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $displayData->get('form')->getInput('version_note'); ?>
+					</div>
+					</div>
+				<?php endif; ?>
+
 			</fieldset>
 		</div>
 

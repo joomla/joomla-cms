@@ -449,6 +449,50 @@ abstract class JModelLegacy extends JObject
 	}
 
 	/**
+	 * Method to load a row for editing from the version history table.
+	 *
+	 * @param   integer  $version_id    Key to the version history table.
+	 * @param   JTable   $table         Content table object being loaded.
+	 *
+	 * @return  boolean  False on failure or error, true otherwise.
+	 *
+	 * @since   12.2
+	 */
+	public function loadHistory($version_id, JTable &$table)
+	{
+		// Only attempt to check the row in if it exists.
+		if ($version_id)
+		{
+			$user = JFactory::getUser();
+
+			// Get an instance of the row to checkout.
+			$historyTable = JTable::getInstance('Contenthistory');
+			if (!$historyTable->load($version_id))
+			{
+				$this->setError($historyTable->getError());
+				return false;
+			}
+			$rowArray = JArrayHelper::fromObject(json_decode($historyTable->version_data));
+
+			$typeId = JTable::getInstance('Contenttype')->getTypeId($this->typeAlias);
+			if ($historyTable->ucm_type_id != $typeId)
+			{
+				$this->setError(JText::_('JLIB_APPLICATION_ERROR_HISTORY_ID_MISMATCH'));
+				$key = $table->getKeyName();
+				if (isset($rowArray[$key]))
+				{
+					$table->checkIn($rowArray[$key]);
+				}
+				return false;
+			}
+		}
+
+		$this->setState('save_date', $historyTable->save_date);
+		$this->setState('version_note', $historyTable->version_note);
+		return $table->bind($rowArray);
+	}
+
+	/**
 	 * Method to auto-populate the model state.
 	 *
 	 * This method should only be called once per instantiation and is designed

@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-Sep-2013 Jean-Marie Simonet
+ + [#30944] Content versioning for core and third-party components. Thanks Mark Dexter
+
 28-Aug-2013 Michael Babker
  $^ [#31009] Add a switch to turn mail sending on/off.  Thanks Roland Dalmulder
 
