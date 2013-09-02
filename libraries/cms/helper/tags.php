@@ -352,7 +352,7 @@ class JHelperTags
 		 */
 		$ucmContentTable = JTable::getInstance('Corecontent');
 
-		return $result && $ucmContentTable->deleteByContentId($contentItemId,$this->typeAlias);
+		return $result && $ucmContentTable->deleteByContentId($contentItemId, $this->typeAlias);
 	}
 
 	/**
