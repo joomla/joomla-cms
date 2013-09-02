@@ -20,13 +20,10 @@ JLoader::register('ContenthistoryHelper', JPATH_ADMINISTRATOR . '/components/com
  */
 class ContenthistoryModelCompare extends JModelItem
 {
-
 	/**
 	 * Method to get a version history row.
 	 *
-	 * @param  integer  $versionId  The id of the JTableContenthistory table.
-	 *
-	 * @return mixed    On success, array of populated tables. False on failure.
+	 * @return  mixed    On success, array of populated tables. False on failure.
 	 *
 	 * @since   3.2
 	 */
@@ -37,16 +34,18 @@ class ContenthistoryModelCompare extends JModelItem
 		$id1 = JFactory::getApplication()->input->getInt('id1');
 		$id2 = JFactory::getApplication()->input->getInt('id2');
 		$result = array();
+
 		if ($table1->load($id1) && $table2->load($id2))
 		{
 			foreach (array($table1, $table2) as $table)
 			{
-				$object = new stdClass();
+				$object = new stdClass;
 				$object->data = ContenthistoryHelper::prepareData($table);
 				$object->version_note = $table->version_note;
 				$object->save_date = $table->save_date;
 				$result[] = $object;
 			}
+
 			return $result;
 		}
 		else
@@ -54,5 +53,4 @@ class ContenthistoryModelCompare extends JModelItem
 			return false;
 		}
 	}
-
 }

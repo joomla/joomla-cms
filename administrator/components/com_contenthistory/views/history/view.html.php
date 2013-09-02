@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
- * @since       1.5
+ * @since       3.2
  */
 class ContenthistoryViewHistory extends JViewLegacy
 {
@@ -25,9 +25,13 @@ class ContenthistoryViewHistory extends JViewLegacy
 	protected $state;
 
 	/**
-	 * Display the view
+	 * Method to display the view.
 	 *
-	 * @return  void
+	 * @param   string  $tpl  A template file to load. [optional]
+	 *
+	 * @return  mixed  Exception on failure, void on success.
+	 *
+	 * @since   3.2
 	 */
 	public function display($tpl = null)
 	{
@@ -39,10 +43,10 @@ class ContenthistoryViewHistory extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
 		parent::display($tpl);
 	}
-
 }

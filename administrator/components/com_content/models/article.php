@@ -25,7 +25,7 @@ class ContentModelArticle extends JModelAdmin
 	 * @since   1.6
 	 */
 	protected $text_prefix = 'COM_CONTENT';
-	
+
 	/**
 	 * The type alias for this content type (for example, 'com_content.article').
 	 *

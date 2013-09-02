@@ -19,7 +19,6 @@ defined('JPATH_PLATFORM') or die;
  */
 class JHelperContenthistory
 {
-
 	/**
 	 * Alias for storing type in versions table
 	 *
@@ -43,7 +42,7 @@ class JHelperContenthistory
 	/**
 	 * Method to delete the history for an item.
 	 *
-	 * @param   JTable   $table  JTable object being tagged
+	 * @param   JTable  $table  JTable object being tagged
 	 *
 	 * @return  boolean  true on success, otherwise false.
 	 *
@@ -61,13 +60,14 @@ class JHelperContenthistory
 			->where($db->quoteName('ucm_item_id') . ' = ' . (int) $id)
 			->where($db->quoteName('ucm_type_id') . ' = ' . (int) $typeId);
 		$db->setQuery($query);
+
 		return $db->execute();
 	}
 
 	/**
 	 * Method to get an object containing all of the table columns.
 	 *
-	 * @param   JTable object.
+	 * @param   JTable  $table  JTable object.
 	 *
 	 * @return  stdClass with all of the columns and values.
 	 *
@@ -76,15 +76,16 @@ class JHelperContenthistory
 	public function getDataObject(JTable $table)
 	{
 		$fields = $table->getFields();
-		$dataObject = new stdClass();
+		$dataObject = new stdClass;
+
 		foreach ($fields as $field)
 		{
 			$fieldName = $field->Field;
 			$dataObject->$fieldName = $table->get($fieldName);
 		}
+
 		return $dataObject;
 	}
-
 
 	/**
 	 * Method to get a list of available versions of this item.
@@ -107,13 +108,14 @@ class JHelperContenthistory
 			->where($db->quoteName('ucm_type_id') . ' = ' . (int) $typeId)
 			->order($db->quoteName('save_date') . ' DESC ');
 		$db->setQuery($query);
+
 		return $db->loadObjectList();
 	}
 
 	/**
 	 * Method to save a version snapshot to the content history table.
 	 *
-	 * @param   JTable   $table  JTable object being tagged
+	 * @param   JTable  $table  JTable object being tagged
 	 *
 	 * @return  boolean  true on success, otherwise false.
 	 *
@@ -138,6 +140,7 @@ class JHelperContenthistory
 		$historyTable->set('version_data', json_encode($dataObject));
 		$input = JFactory::getApplication()->input;
 		$data = $input->get('jform', array(), 'array');
+
 		if (isset($data['version_note']))
 		{
 			$versionName = JFilterInput::getInstance()->clean($data['version_note'], 'string');
@@ -146,6 +149,7 @@ class JHelperContenthistory
 
 		// Don't save if hash already exists and same version note
 		$historyTable->set('sha1_hash', $historyTable->getSha1($dataObject));
+
 		if ($historyRow = $historyTable->getHashMatch())
 		{
 			if (!$versionName || ($historyRow->version_note == $versionName))
@@ -154,18 +158,18 @@ class JHelperContenthistory
 			}
 			else
 			{
-				// update existing row to set version note
+				// Update existing row to set version note
 				$historyTable->set('version_id', $historyRow->version_id);
 			}
 		}
 
-		$result =  $historyTable->store();
+		$result = $historyTable->store();
 
 		if ($maxVersions = JComponentHelper::getParams('com_content')->get('history_limit', 0))
 		{
 			$historyTable->deleteOldVersions($maxVersions);
 		}
+
 		return $result;
 	}
-
 }

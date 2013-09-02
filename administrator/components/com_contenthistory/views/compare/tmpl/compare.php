@@ -17,13 +17,13 @@ JHtml::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/html');
 JHtml::_('textdiff.textdiff', 'diff');
 
 JFactory::getDocument()->addScriptDeclaration("
-			(function ($){
-				$(document).ready(function (){
- 					jQuery('.diffhtml, .diffhtml-header').hide();
- 				});
-			})(jQuery);
-			"
- 	);
+	(function ($){
+		$(document).ready(function (){
+            jQuery('.diffhtml, .diffhtml-header').hide();
+        });
+	})(jQuery);
+"
+);
 
 ?>
 <fieldset>

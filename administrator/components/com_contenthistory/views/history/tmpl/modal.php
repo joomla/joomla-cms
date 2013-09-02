@@ -8,16 +8,16 @@
  */
 
 defined('_JEXEC') or die;
-JRequest::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
+JSession::checkToken('get') or die(JText::_('JINVALID_TOKEN'));
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('jquery.framework');
 
 $input = JFactory::getApplication()->input;
 $field = $input->getCmd('field');
-$function = 'jSelectContenthistory_'.$field;
+$function = 'jSelectContenthistory_' . $field;
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
 $message = JText::_('COM_CONTENTHISTORY_BUTTON_SELECT_ONE');
@@ -31,7 +31,7 @@ $loadUrl = JRoute::_('index.php?option=' . $filter->clean($option) . '&amp;task=
 $deleteUrl = JRoute::_('index.php?option=com_contenthistory&task=history.delete');
 $hash = $this->state->get('sha1_hash');
 $formUrl = 'index.php?option=com_contenthistory&view=history&layout=modal&tmpl=component&item_id=' . $this->state->get('item_id') . '&type_id='
-	. $this->state->get('type_id')  . '&type_alias=' . $this->state->get('type_alias')  . '&' . JSession::getFormToken() . '=1';
+	. $this->state->get('type_id') . '&type_alias=' . $this->state->get('type_alias') . '&' . JSession::getFormToken() . '=1';
 
 JFactory::getDocument()->addScriptDeclaration("
 	(function ($){
@@ -168,7 +168,6 @@ JFactory::getDocument()->addScriptDeclaration("
 							onclick="return listItemTask('cb<?php echo $i; ?>','history.keep')"
 							data-original-title="<?php echo JText::_('COM_CONTENTHISTORY_BUTTON_KEEP_TOGGLE_ON'); ?>">
 							<?php echo JText::_('JNO'); ?>
-
 					<?php endif; ?>
 				</td>
 				<td align="left">
