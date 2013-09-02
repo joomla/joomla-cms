@@ -34,4 +34,38 @@ class JRackspaceHttp extends JHttp
 		// Set the default timeout to 120 seconds.
 		$this->options->def('timeout', 120);
 	}
+
+	/**
+	 * Method to send the DELETE command to the server.
+	 *
+	 * @param   string   $url      Path to the resource.
+	 * @param   mixed    $data     Either an associative array or a string to be sent with the request.
+	 * @param   array    $headers  An array of name-value pairs to include in the header of the request.
+	 * @param   integer  $timeout  Read timeout in seconds.
+	 *
+	 * @return  JHttpResponse
+	 *
+	 * @since   11.3
+	 */
+	public function deleteWithBody($url, $data, array $headers = null, $timeout = null)
+	{
+		// Look for headers set in the options.
+		$temp = (array) $this->options->get('headers');
+
+		foreach ($temp as $key => $val)
+		{
+			if (!isset($headers[$key]))
+			{
+				$headers[$key] = $val;
+			}
+		}
+
+		// Look for timeout set in the options.
+		if ($timeout === null && $this->options->exists('timeout'))
+		{
+			$timeout = $this->options->get('timeout');
+		}
+
+		return $this->transport->request('DELETE', new JUri($url), $data, $headers, $timeout, $this->options->get('userAgent', null));
+	}
 }

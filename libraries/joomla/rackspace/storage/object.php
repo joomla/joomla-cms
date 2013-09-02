@@ -316,7 +316,8 @@ class JRackspaceStorageObject extends JRackspaceStorage
 	}
 
 	/**
-	 * Remove the specified object metadata.
+	 * Bulk upload of files from archive.
+	 * Accepted formats are tar, tar.gz, and tar.bz2.
 	 *
 	 * @param   string  $archive      The archive name
 	 * @param   string  $upload_path  The upload path
@@ -334,6 +335,7 @@ class JRackspaceStorageObject extends JRackspaceStorage
 		// Create the headers
 		$headers = array(
 			"Host" => $this->options->get("storage.host"),
+			"Accept" => "application/json",
 		);
 		$headers["X-Auth-Token"] = $authTokenHeaders["X-Auth-Token"];
 
@@ -343,6 +345,44 @@ class JRackspaceStorageObject extends JRackspaceStorage
 		// Send the http request
 		$response = $this->client->put($url, $data, $headers);
 
-		return $response->body;
+		return $this->processResponse($response);
+	}
+
+	/**
+	 * This request will delete multiple objects or containers from their
+	 * account with a single request.
+	 *
+	 * @param   array  $list  An array containing a newline separated list
+	 *                        of URL encoded objects to delete
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function bulkDelete($list)
+	{
+		$authTokenHeaders = $this->getAuthTokenHeaders();
+		$url = $authTokenHeaders["X-Storage-Url"] . "?bulk-delete=1";
+		$data = "";
+
+		// Create the list of URLs to be deleted
+		foreach ($list as $item)
+		{
+			$data .= $item . "\n";
+		}
+
+		// Create the headers
+		$headers = array(
+			"Host" => $this->options->get("storage.host"),
+			"Content-Type" => "text/plain",
+			"Content-Length" => strlen($data),
+			"Accept" => "application/json",
+		);
+		$headers["X-Auth-Token"] = $authTokenHeaders["X-Auth-Token"];
+
+		// Send the http request
+		$response = $this->client->deleteWithBody($url, $data, $headers);
+
+		return $this->processResponse($response);
 	}
 }
