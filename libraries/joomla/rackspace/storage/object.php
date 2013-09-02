@@ -42,9 +42,12 @@ class JRackspaceStorageObject extends JRackspaceStorage
 		$headers["X-Auth-Token"] = $authTokenHeaders["X-Auth-Token"];
 
 		// Set additional headers
-		foreach ($options as $key => $value)
+		if ($options != null)
 		{
-			$headers[$key] = $value;
+			foreach ($options as $key => $value)
+			{
+				$headers[$key] = $value;
+			}
 		}
 
 		// Send the http request
@@ -83,9 +86,12 @@ class JRackspaceStorageObject extends JRackspaceStorage
 		}
 
 		// Set additional headers
-		foreach ($options as $key => $value)
+		if ($options != null)
 		{
-			$headers[$key] = $value;
+			foreach ($options as $key => $value)
+			{
+				$headers[$key] = $value;
+			}
 		}
 
 		// Set the content
@@ -101,6 +107,53 @@ class JRackspaceStorageObject extends JRackspaceStorage
 		else
 		{
 			return "The \"" . $object . "\" object was not successfully created.\n"
+				. "Response code: " . $response->code . ".";
+		}
+	}
+
+	/**
+	 * Server-side copy feature.
+	 *
+	 * @param   string  $container          The container name
+	 * @param   string  $sourceObject       The source object name
+	 * @param   string  $destinationObject  The destination object name
+	 * @param   array   $options            Additional headers
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function copyObject($container, $sourceObject, $destinationObject, $options = null)
+	{
+		$authTokenHeaders = $this->getAuthTokenHeaders();
+		$url = $authTokenHeaders["X-Storage-Url"] . "/" . $container . "/" . $destinationObject;
+
+		// Create the headers
+		$headers = array(
+			"Host" => $this->options->get("storage.host"),
+			"X-Copy-From" => "/" . $container . "/" . $sourceObject ,
+		);
+		$headers["X-Auth-Token"] = $authTokenHeaders["X-Auth-Token"];
+
+		// Set additional headers
+		if ($options != null)
+		{
+			foreach ($options as $key => $value)
+			{
+				$headers[$key] = $value;
+			}
+		}
+
+		// Send the http request
+		$response = $this->client->put($url, "", $headers);
+
+		if ($response->code == 201)
+		{
+			return "The \"" . $sourceObject . "\" object was successfully copied.\n";
+		}
+		else
+		{
+			return "The \"" . $sourceObject . "\" object was not successfully copied.\n"
 				. "Response code: " . $response->code . ".";
 		}
 	}
