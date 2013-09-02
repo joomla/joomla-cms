@@ -216,7 +216,8 @@ class ArticleManagerPage extends AdminManagerPage
 		$this->driver->waitForElementUntilIsPresent(By::xPath("//button[contains(text(),'Process')]"),10);
 		$this->driver->findElement(By::xPath("//div[@id='batch_access_chzn']/a"))->click();
 		$this->driver->findElement(By::xPath("//div[@id='batch_access_chzn']//ul[@class='chzn-results']/li[contains(.,'".$accessLevel."')]"))->click();		
-		$this->driver->findElement(By::xPath("//button[contains(text(),'Process')]"))->click();	
+		$this->driver->findElement(By::xPath("//button[contains(text(),'Process')]"))->click();
+		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 	}
 	
 	/**
@@ -259,6 +260,7 @@ class ArticleManagerPage extends AdminManagerPage
 			$this->driver->findElement(By::XPath("//input[@id='batch[move_copy]m']"))->click();
 			
 		$this->driver->findElement(By::xPath("//button[contains(text(),'Process')]"))->click();
+		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 	}
 	
 	/**
@@ -274,5 +276,6 @@ class ArticleManagerPage extends AdminManagerPage
 		$this->driver->findElement(By::xPath("//div[@id='filter_category_id_chzn']/a"))->click();
 		$this->driver->findElement(By::xPath("//div[@id='filter_category_id_chzn']/div/div/input"))->sendKeys($searchString);
 		$this->driver->findElement(By::xPath("//div[@id='filter_category_id_chzn']//ul[@class='chzn-results']/li[contains(.,'".$category."')]"))->click();
+		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 	}
 }
