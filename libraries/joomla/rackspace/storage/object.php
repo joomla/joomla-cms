@@ -64,7 +64,7 @@ class JRackspaceStorageObject extends JRackspaceStorage
 	 * @param   array   $etag       The MD5 checksum  of the object's data
 	 * @param   array   $options    Additional headers
 	 *
-	 * @return string  The response body
+	 * @return string  A message regarding the success or failure of the request
 	 *
 	 * @since   ??.?
 	 */
@@ -119,7 +119,7 @@ class JRackspaceStorageObject extends JRackspaceStorage
 	 * @param   string  $destinationObject  The destination object name
 	 * @param   array   $options            Additional headers
 	 *
-	 * @return string  The response body
+	 * @return string  A message regarding the success or failure of the request
 	 *
 	 * @since   ??.?
 	 */
@@ -165,7 +165,7 @@ class JRackspaceStorageObject extends JRackspaceStorage
 	 * @param   string  $container  The container name
 	 * @param   string  $object     The object name
 	 *
-	 * @return string  The response body
+	 * @return string  A message regarding the success or failure of the request
 	 *
 	 * @since   ??.?
 	 */
@@ -200,13 +200,12 @@ class JRackspaceStorageObject extends JRackspaceStorage
 	 *
 	 * @param   string  $container  The container name
 	 * @param   string  $object     The object name
-	 * @param   array   $options    Additional headers
 	 *
-	 * @return string  The response body
+	 * @return string  The response headers
 	 *
 	 * @since   ??.?
 	 */
-	public function retrieveObjectMetadata($container, $object, $options = null)
+	public function retrieveObjectMetadata($container, $object)
 	{
 		$authTokenHeaders = $this->getAuthTokenHeaders();
 		$url = $authTokenHeaders["X-Storage-Url"] . "/" . $container . "/" . $object;
@@ -217,15 +216,6 @@ class JRackspaceStorageObject extends JRackspaceStorage
 		);
 		$headers["X-Auth-Token"] = $authTokenHeaders["X-Auth-Token"];
 
-		// Set additional headers
-		if ($options != null)
-		{
-			foreach ($options as $key => $value)
-			{
-				$headers[$key] = $value;
-			}
-		}
-
 		// Send the http request
 		$response = $this->client->head($url, $headers);
 
@@ -235,7 +225,50 @@ class JRackspaceStorageObject extends JRackspaceStorage
 		}
 		else
 		{
-			return "The \"" . $object . "\" object's metadata was not successfully retrieved.\n"
+			return "The \"" . $object . "\" object's metadata were not successfully retrieved.\n"
+				. "Response code: " . $response->code . ".";
+		}
+	}
+
+	/**
+	 * You may set your own custom object metadata by using a POST request
+	 * to the object name.
+	 *
+	 * @param   string  $container  The container name
+	 * @param   string  $object     The object name
+	 * @param   array   $metadata   The metadata to be set
+	 *
+	 * @return string  A message regarding the success or failure of the request
+	 *
+	 * @since   ??.?
+	 */
+	public function updateObjectMetadata($container, $object, $metadata)
+	{
+		$authTokenHeaders = $this->getAuthTokenHeaders();
+		$url = $authTokenHeaders["X-Storage-Url"] . "/" . $container . "/" . $object;
+
+		// Create the headers
+		$headers = array(
+			"Host" => $this->options->get("storage.host"),
+		);
+		$headers["X-Auth-Token"] = $authTokenHeaders["X-Auth-Token"];
+
+		// Set the metadata
+		foreach ($metadata as $key => $value)
+		{
+			$headers["X-Object-Meta-" . $key] = $value;
+		}
+
+		// Send the http request
+		$response = $this->client->post($url, "", $headers);
+
+		if ($response->code == 202)
+		{
+			return "The \"" . $object . "\" object's metadata were successfully updated.\n";
+		}
+		else
+		{
+			return "The \"" . $object . "\" object's metadata were not successfully updated.\n"
 				. "Response code: " . $response->code . ".";
 		}
 	}
