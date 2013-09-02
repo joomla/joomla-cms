@@ -18,7 +18,6 @@ defined('_JEXEC') or die;
  */
 class JTableContenthistory extends JTable
 {
-
 	/**
 	 * Array of object fields to unset from the data object before calculating SHA1 hash. This allows us to detect a meaningful change
 	 * in the database row using the hash.
@@ -53,12 +52,15 @@ class JTableContenthistory extends JTable
 	public function store($updateNulls = false)
 	{
 		$this->set('character_count', strlen($this->get('version_data')));
+
 		if (!isset($this->sha1_hash))
 		{
 			$this->set('sha1_hash', $this->getSha1($this->get('version_data')));
 		}
+
 		$this->set('editor_user_id', JFactory::getUser()->id);
 		$this->set('save_date', JFactory::getDate()->toSql());
+
 		return parent::store($updateNulls);
 	}
 
@@ -66,7 +68,7 @@ class JTableContenthistory extends JTable
 	 * Utility method to get the hash after removing selected values. This lets us detect changes other than
 	 * modified date (which will change on every save).
 	 *
-	 * @param   mixed   $jsonData      Either an object or a string with json-encoded data
+	 * @param   mixed  $jsonData  Either an object or a string with json-encoded data
 	 *
 	 * @return  string  SHA1 hash on sucess. Empty string on failure.
 	 *
@@ -75,6 +77,7 @@ class JTableContenthistory extends JTable
 	public function getSha1($jsonData)
 	{
 		$object = (is_object($jsonData)) ? $jsonData : json_decode($jsonData);
+
 		foreach ($this->ignoreChanges as $remove)
 		{
 			if (isset($object->$remove))
@@ -99,15 +102,18 @@ class JTableContenthistory extends JTable
 				$object->$name = (is_int($value) || is_bool($value)) ? (string) $value : $value;
 			}
 		}
+
 		// Work around empty publish_up, publish_down values
 		if (isset($object->publish_down))
 		{
 			$object->publish_down = (int) $object->publish_down;
 		}
+
 		if (isset($object->publish_up))
 		{
 			$object->publish_up = (int) $object->publish_up;
 		}
+
 		return sha1(json_encode($object));
 	}
 
@@ -129,13 +135,14 @@ class JTableContenthistory extends JTable
 			->where($db->quoteName('ucm_type_id') . ' = ' . $this->get('ucm_type_id'))
 			->where($db->quoteName('sha1_hash') . ' = ' . $db->quote($this->get('sha1_hash')));
 		$db->setQuery($query, 0, 1);
+
 		return $db->loadObject();
 	}
 
 	/**
 	 * Utility method to remove the oldest versions of an item, saving only the most recent versions.
 	 *
-	 * @param   integer   $maxVersions   The maximum number of versions to save. All others will be deleted.
+	 * @param   integer  $maxVersions  The maximum number of versions to save. All others will be deleted.
 	 *
 	 * @return  boolean   true on sucess, false on failure.
 	 *
@@ -144,6 +151,7 @@ class JTableContenthistory extends JTable
 	public function deleteOldVersions($maxVersions)
 	{
 		$result = true;
+
 		// Get the list of version_id values we want to save
 		$db = $this->_db;
 		$query = $db->getQuery(true);
@@ -169,7 +177,7 @@ class JTableContenthistory extends JTable
 			$db->setQuery($query);
 			$result = (boolean) $db->execute();
 		}
+
 		return $result;
 	}
-
 }
