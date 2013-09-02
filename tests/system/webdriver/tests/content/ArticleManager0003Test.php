@@ -149,9 +149,11 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 		 $actualAccessLevel = $this->articleManagerPage->getAccessLevel('Archive Module');
 		 $this->assertEquals($actualAccessLevel,'Public', 'Initial Access Level Must be Public');
 		 $this->articleManagerPage->changeAccessLevel('Archive Module', $newAccessLevel);
+		 $this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
 		 $currentAccessLevel = $this->articleManagerPage->getAccessLevel('Archive Module');
 		 $this->assertEquals($newAccessLevel,$currentAccessLevel, 'Current Access Level Should have changed to Special');
 		 $this->articleManagerPage->changeAccessLevel('Archive Module', 'Public');
+		 $this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
 		 $currentAccessLevel = $this->articleManagerPage->getAccessLevel('Archive Module');
 		 $this->assertEquals('Public',$currentAccessLevel, 'Current Access Level Should have changed back to public');
 	 }
@@ -213,6 +215,7 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 		 
 		 //Move Article Back to Original Category
 		 $this->articleManagerPage->doBatchAction('Archive Module','content',$originalCategory,'move');
+		 $this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
 		 $this->articleManagerPage->changeCategoryFilter($originalCategory,'content');
 		 $this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
 		 $value = $this->articleManagerPage->getCategoryName('Archive Module');
