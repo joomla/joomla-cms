@@ -90,7 +90,7 @@ class JMicrodata
 	 */
 	public function __construct($type = '', $flag = true)
 	{
-		if ($this->enabled = $flag)
+		if ($this->enabled = (boolean) $flag)
 		{
 			// Fallback to Thing Type
 			if (!$type)

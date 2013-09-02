@@ -351,7 +351,7 @@ abstract class JFactory
 	{
 		if (!self::$microdata)
 		{
-			self::$microdata = new JMicrodata('', false);
+			self::$microdata = new JMicrodata('', self::getConfig()->get('microdata'));
 		}
 
 		return self::$microdata;

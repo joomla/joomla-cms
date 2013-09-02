@@ -63,12 +63,10 @@ class PlgContentVote extends JPlugin
 				$img .= $starImageOff;
 			}
 
-			$microdata = JFactory::getMicrodata()
-				->enable(JFactory::getConfig()->get('microdata'))
-				->setType('Article');
+			$microdata = JFactory::getMicrodata()->setType('Article');
 
 			$html .= '<div class="content_rating">'
-				. '<p class="unseen element-invisible"' . $microdata->property('contentRating')->display() . '>' . JText::sprintf('PLG_VOTE_USER_RATING', $rating, '5') . '</p>'
+				. '<p class="unseen element-invisible" ' . $microdata->property('aggregateRating')->display() . '>' . JText::sprintf('PLG_VOTE_USER_RATING', $microdata->setType('AggregateRating')->content($rating)->property('ratingValue')->display(), $microdata->content('5')->property('bestRating')->display()) . '</p>'
 				. $img . '</div>';
 
 			if ($view == 'article' && $row->state == 1)
