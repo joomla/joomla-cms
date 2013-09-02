@@ -38,7 +38,7 @@
   <exclude-pattern type="relative">plugins/*</exclude-pattern>
   <exclude-pattern type="relative">modules/*</exclude-pattern>
   <exclude-pattern type="relative">libraries/*</exclude-pattern>
-  <exclude-pattern type="relative">includes/*</exclude-pattern>
+  <exclude-pattern type="relative">includes/application.php</exclude-pattern>
   <!-- These exceptions are permanent -->
   <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
   <exclude-pattern type="relative">templates/*</exclude-pattern>

@@ -27,6 +27,8 @@ class PlgContentFinder extends JPlugin
 	 * @param   object  $article  A JTableContent object
 	 * @param   bool    $isNew    If the content has just been created
 	 *
+	 * @return  void
+	 *
 	 * @since	2.5
 	 */
 	public function onContentAfterSave($context, $article, $isNew)
@@ -47,6 +49,8 @@ class PlgContentFinder extends JPlugin
 	 * @param   object  $article  A JTableContent object
 	 * @param   bool    $isNew    If the content is just about to be created
 	 *
+	 * @return  void
+	 *
 	 * @since   2.5
 	 */
 	public function onContentBeforeSave($context, $article, $isNew)
@@ -65,6 +69,8 @@ class PlgContentFinder extends JPlugin
 	 *
 	 * @param   string  $context  The context of the content passed to the plugin (added in 1.6)
 	 * @param   object  $article  A JTableContent object
+	 *
+	 * @return  void
 	 *
 	 * @since   2.5
 	 */
@@ -87,6 +93,8 @@ class PlgContentFinder extends JPlugin
 	 * @param   array    $pks      A list of primary key ids of the content that has changed state.
 	 * @param   integer  $value    The value of the state that the content has been changed to.
 	 *
+	 * @return  void
+	 *
 	 * @since   2.5
 	 */
 	public function onContentChangeState($context, $pks, $value)
@@ -106,6 +114,8 @@ class PlgContentFinder extends JPlugin
 	 * @param   string   $extension  The extension whose category has been updated.
 	 * @param   array    $pks        A list of primary key ids of the content that has changed state.
 	 * @param   integer  $value      The value of the state that the content has been changed to.
+	 *
+	 * @return  void
 	 *
 	 * @since   2.5
 	 */

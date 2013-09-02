@@ -38,7 +38,8 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 *
 	 * @return  Boolean	True on success, false otherwise
 	 *
-	 * @since  2.5
+	 * @since   2.5
+	 * @throws  Exception  Throws an exception if the necessary key's don't exist
 	 */
 	public function onInit($id)
 	{
@@ -79,7 +80,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 *
 	 * @return  string  The HTML to be embedded in the form.
 	 *
-	 * @since  2.5
+	 * @since   2.5
 	 */
 	public function onDisplay($name, $id, $class)
 	{
@@ -87,12 +88,14 @@ class PlgCaptchaRecaptcha extends JPlugin
 	}
 
 	/**
-	  * Calls an HTTP POST function to verify if the user's guess was correct
-	  *
-	  * @return  True if the answer is correct, false otherwise
-	  *
-	  * @since  2.5
-	  */
+	 * Calls an HTTP POST function to verify if the user's guess was correct
+	 *
+	 * @param   string  $code  The code to check
+	 *
+	 * @return  boolean  True if the answer is correct, false otherwise
+	 *
+	 * @since   2.5
+	 */
 	public function onCheckAnswer($code)
 	{
 		$input      = JFactory::getApplication()->input;
@@ -133,7 +136,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 				'challenge'  => $challenge,
 				'response'   => $response
 			)
-	);
+		);
 
 		$answers = explode("\n", $response[1]);
 
@@ -157,7 +160,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 *
 	 * @return  string  Encoded request
 	 *
-	 * @since  2.5
+	 * @since   2.5
 	 */
 	private function _recaptcha_qsencode($data)
 	{
@@ -184,7 +187,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 *
 	 * @return  array   Response
 	 *
-	 * @since  2.5
+	 * @since   2.5
 	 */
 	private function _recaptcha_http_post($host, $path, $data, $port = 80)
 	{
@@ -224,7 +227,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since  2.5
+	 * @since   2.5
 	 */
 	private function _getLanguage()
 	{
