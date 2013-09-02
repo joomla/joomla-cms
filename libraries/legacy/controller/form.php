@@ -564,14 +564,18 @@ class JControllerForm extends JControllerLegacy
 							. $this->getRedirectToListAppend(), false
 					)
 			);
+
 			return false;
 		}
+
 		// Determine the name of the primary key for the data.
 		if (empty($key))
 		{
 			$key = $table->getKeyName();
 		}
+
 		$recordId = $table->$key;
+
 		// To avoid data collisions the urlVar may be different from the primary key.
 		$urlVar = empty($this->urlVar) ? $key : $this->url;
 
@@ -588,6 +592,7 @@ class JControllerForm extends JControllerLegacy
 				)
 			);
 			$table->checkin();
+
 			return false;
 		}
 

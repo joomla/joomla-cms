@@ -585,7 +585,7 @@ abstract class JToolbarHelper
 			'index.php?option=com_config&amp;view=component&amp;component=' . $component . '&amp;path=' . $path . '&amp;return=' . $return
 		);
 	}
-	
+
 	/**
 	 * Writes a version history 
 	 *
@@ -611,7 +611,7 @@ abstract class JToolbarHelper
 			JSession::getFormToken() . '=1" ' .
 			'title=' . $title . ' class="btn btn-small modal_jform_contenthistory">' .
 			'<i class="icon-archive"></i>' . "\n" . $title . "\n" . '</a>';
-	
+
 	$bar = JToolbar::getInstance('toolbar');
 	$bar->appendButton('Custom', $dhtml, 'versions');
 	}

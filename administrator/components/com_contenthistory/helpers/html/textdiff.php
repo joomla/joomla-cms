@@ -12,8 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * HTML utility class for creating text diffs using jQuery, diff_patch_match.js and jquery.pretty-text-diff.js JavaScript libraries.
  *
- * @package     com_contenthistory
- * @subpackage  HTML
+ * @package     Joomla.Administrator
+ * @subpackage  com_contenthistory.HTML
  * @since       3.2
  */
 abstract class JHtmlTextdiff
@@ -27,7 +27,7 @@ abstract class JHtmlTextdiff
 	/**
 	 * Method to load Javascript text diff
 	 *
-	 * @param   string   $containerID    DOM id of the element where the diff will be rendered
+	 * @param   string  $containerId  DOM id of the element where the diff will be rendered
 	 *
 	 * @return  void
 	 *
@@ -44,9 +44,9 @@ abstract class JHtmlTextdiff
 		// Depends on jQuery UI
 		$document = JFactory::getDocument();
 		JHtml::_('bootstrap.framework');
-		$document->addScript( JURI::root( true ).'/administrator/components/com_contenthistory/media/js/diff_match_patch.js', 'text/javascript', true);
-		$document->addScript( JURI::root( true ).'/administrator/components/com_contenthistory/media/js/jquery.pretty-text-diff.min.js', 'text/javascript', true);
-		$document->addStyleSheet( JURI::root( true ).'/administrator/components/com_contenthistory/media/css/jquery.pretty-text-diff.css');
+		$document->addScript(JUri::root(true) . '/administrator/components/com_contenthistory/media/js/diff_match_patch.js', 'text/javascript', true);
+		$document->addScript(JUri::root(true) . '/administrator/components/com_contenthistory/media/js/jquery.pretty-text-diff.min.js', 'text/javascript', true);
+		$document->addStyleSheet(JUri::root(true) . '/administrator/components/com_contenthistory/media/css/jquery.pretty-text-diff.css');
 
 		// Attach diff to document
 		JFactory::getDocument()->addScriptDeclaration("
@@ -60,7 +60,7 @@ abstract class JHtmlTextdiff
 
 		// Set static array
 		self::$loaded[__METHOD__] = true;
+
 		return;
 	}
-
 }
