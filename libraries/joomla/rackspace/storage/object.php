@@ -193,4 +193,50 @@ class JRackspaceStorageObject extends JRackspaceStorage
 				. "Response code: " . $response->code . ".";
 		}
 	}
+
+	/**
+	 * HEAD operations on an object are used to retrieve object metadata
+	 * and other standard HTTP headers.
+	 *
+	 * @param   string  $container  The container name
+	 * @param   string  $object     The object name
+	 * @param   array   $options    Additional headers
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function retrieveObjectMetadata($container, $object, $options = null)
+	{
+		$authTokenHeaders = $this->getAuthTokenHeaders();
+		$url = $authTokenHeaders["X-Storage-Url"] . "/" . $container . "/" . $object;
+
+		// Create the headers
+		$headers = array(
+			"Host" => $this->options->get("storage.host"),
+		);
+		$headers["X-Auth-Token"] = $authTokenHeaders["X-Auth-Token"];
+
+		// Set additional headers
+		if ($options != null)
+		{
+			foreach ($options as $key => $value)
+			{
+				$headers[$key] = $value;
+			}
+		}
+
+		// Send the http request
+		$response = $this->client->head($url, $headers);
+
+		if ($response->code / 100 == 2)
+		{
+			return $response->headers;
+		}
+		else
+		{
+			return "The \"" . $object . "\" object's metadata was not successfully retrieved.\n"
+				. "Response code: " . $response->code . ".";
+		}
+	}
 }
