@@ -18,7 +18,6 @@ defined('_JEXEC') or die;
  */
 class ContenthistoryControllerHistory extends JControllerAdmin
 {
-
 	/**
 	 * Deletes and returns correctly.
 	 *
@@ -57,19 +56,30 @@ class ContenthistoryControllerHistory extends JControllerAdmin
 			}
 		}
 
-
-		$this->setRedirect(JRoute::_('index.php?option=com_contenthistory&view=history&layout=modal&tmpl=component&item_id='
+		$this->setRedirect(
+			JRoute::_(
+				'index.php?option=com_contenthistory&view=history&layout=modal&tmpl=component&item_id='
 				. $this->input->getInt('item_id') . '&type_id=' . $this->input->getInt('type_id')
-				. '&type_alias=' . $this->input->getCmd('type_alias')  . '&' . JSession::getFormToken() . '=1', false));
+				. '&type_alias=' . $this->input->getCmd('type_alias') . '&' . JSession::getFormToken() . '=1', false
+			)
+		);
 	}
 
 	/**
 	 * Proxy for getModel.
+	 *
+	 * @param   string  $name    The name of the model
+	 * @param   string  $prefix  The prefix for the model
+	 * @param   array   $config  An additional array of parameters
+	 *
+	 * @return  JModelLegacy  The model
+	 *
 	 * @since   3.2
 	 */
 	public function getModel($name = 'History', $prefix = 'ContenthistoryModel', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
+
 		return $model;
 	}
 
@@ -111,24 +121,12 @@ class ContenthistoryControllerHistory extends JControllerAdmin
 			}
 		}
 
-
-		$this->setRedirect(JRoute::_('index.php?option=com_contenthistory&view=history&layout=modal&tmpl=component&item_id='
+		$this->setRedirect(
+			JRoute::_(
+				'index.php?option=com_contenthistory&view=history&layout=modal&tmpl=component&item_id='
 				. $this->input->getInt('item_id') . '&type_id=' . $this->input->getInt('type_id')
-				. '&type_alias=' . $this->input->getCmd('type_alias')  . '&' . JSession::getFormToken() . '=1', false));
+				. '&type_alias=' . $this->input->getCmd('type_alias') . '&' . JSession::getFormToken() . '=1', false
+			)
+		);
 	}
-
-	/**
-	 * Method to provide child classes the opportunity to process after the delete task.
-	 *
-	 * @param   JModelLegacy   $model   The model for the component
-	 * @param   mixed          $ids     array of ids deleted.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	protected function postDeleteHook(JModelLegacy $model, $ids = null)
-	{
-	}
-
 }
