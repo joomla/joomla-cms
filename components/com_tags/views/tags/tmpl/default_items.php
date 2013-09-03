@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 
 JHtml::_('behavior.framework');
+JHtml::_('formbehavior.chosen', 'select');
 
 // Get the user object.
 $user = JFactory::getUser();
@@ -75,7 +76,7 @@ $n = count($this->items);
 		<?php if ((!empty($item->access)) && in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
  			<li class="cat-list-row<?php echo $i % 2; ?>" >
 				<h3>
-					<a href="<?php echo JRoute::_(TagsHelperRoute::getTagRoute($item->id . ':' . $item->alias)); ?>">
+					<a href="<?php echo JRoute::_(TagsHelperRoute::getTagRoute($item->id . '-' . $item->alias)); ?>">
 						<?php echo $this->escape($item->title); ?>
 					</a>
 				</h3>
