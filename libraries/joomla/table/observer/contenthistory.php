@@ -77,6 +77,7 @@ class JTableObserverContenthistory extends JTableObserver
 		{
 			$this->parseTypeAlias();
 			$aliasParts = explode('.', $this->contenthistoryHelper->typeAlias);
+
 			if (JComponentHelper::getParams($aliasParts[0])->get('save_history', 0))
 			{
 				$this->contenthistoryHelper->store($this->table);
@@ -87,7 +88,7 @@ class JTableObserverContenthistory extends JTableObserver
 	/**
 	 * Pre-processor for $table->delete($pk)
 	 *
-	 * @param   mixed   $pk  An optional primary key value to delete.  If not set the instance property value is used.
+	 * @param   mixed  $pk  An optional primary key value to delete.  If not set the instance property value is used.
 	 *
 	 * @return  void
 	 *
@@ -97,6 +98,7 @@ class JTableObserverContenthistory extends JTableObserver
 	{
 		$this->parseTypeAlias();
 		$aliasParts = explode('.', $this->contenthistoryHelper->typeAlias);
+
 		if (JComponentHelper::getParams($aliasParts[0])->get('save_history', 0))
 		{
 			$this->parseTypeAlias();

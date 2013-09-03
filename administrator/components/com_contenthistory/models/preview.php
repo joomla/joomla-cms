@@ -24,8 +24,6 @@ class ContenthistoryModelPreview extends JModelItem
 	/**
 	 * Method to get a version history row.
 	 *
-	 * @param  integer  $versionId  The id of the JTableContenthistory table.
-	 *
 	 * @return mixed    On success, standard object with row data. False on failure.
 	 *
 	 * @since   3.2
@@ -34,9 +32,10 @@ class ContenthistoryModelPreview extends JModelItem
 	{
 		$table = JTable::getInstance('Contenthistory');
 		$versionId = JFactory::getApplication()->input->getInt('version_id');
+
 		if ($table->load($versionId))
 		{
-			$result = new stdClass();
+			$result = new stdClass;
 			$result->save_date = $table->save_date;
 			$result->version_note = $table->version_note;
 			$result->data = ContenthistoryHelper::prepareData($table);
@@ -45,7 +44,7 @@ class ContenthistoryModelPreview extends JModelItem
 		{
 			$result = false;
 		}
+
 		return $result;
 	}
-
 }

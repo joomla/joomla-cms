@@ -21,7 +21,8 @@ class ContenthistoryModelHistory extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
 	 * @see     JController
 	 * @since   1.6
 	 */
@@ -47,6 +48,7 @@ class ContenthistoryModelHistory extends JModelList
 	 * @param   object  $record  A JTable object.
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
+	 *
 	 * @since   3.2
 	 */
 	protected function canEdit($record)
@@ -58,14 +60,18 @@ class ContenthistoryModelHistory extends JModelList
 			// Check that the type id matches the type alias
 			$typeAlias = JFactory::getApplication()->input->get('type_alias');
 			$contentTypeTable = JTable::getInstance('Contenttype', 'JTable');
+
 			if ($contentTypeTable->getTypeId($typeAlias) == $record->ucm_type_id)
 			{
-				// Make sure user has edit privileges for this content item. Note that we use edit permissions
-				// for the content item, not delete permissions for the content history row.
+				/**
+				 * Make sure user has edit privileges for this content item. Note that we use edit permissions
+				 * for the content item, not delete permissions for the content history row.
+				 */
 				$user = JFactory::getUser();
 				$result = $user->authorise('core.edit', $typeAlias . (int) $record->version_id);
 			}
 		}
+
 		return $result;
 	}
 
@@ -93,31 +99,34 @@ class ContenthistoryModelHistory extends JModelList
 					if (!$table->delete($pk))
 					{
 						$this->setError($table->getError());
+
 						return false;
 					}
-
 				}
 				else
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
 					$error = $this->getError();
+
 					if ($error)
 					{
 						JLog::add($error, JLog::WARNING, 'jerror');
+
 						return false;
 					}
 					else
 					{
 						JLog::add(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+
 						return false;
 					}
 				}
-
 			}
 			else
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 		}
@@ -166,9 +175,11 @@ class ContenthistoryModelHistory extends JModelList
 				if ($this->canEdit($table))
 				{
 					$table->keep_forever = $table->keep_forever ? 0 : 1;
+
 					if (!$table->store())
 					{
 						$this->setError($table->getError());
+
 						return false;
 					}
 				}
@@ -177,14 +188,17 @@ class ContenthistoryModelHistory extends JModelList
 					// Prune items that you can't change.
 					unset($pks[$i]);
 					$error = $this->getError();
+
 					if ($error)
 					{
 						JLog::add($error, JLog::WARNING, 'jerror');
+
 						return false;
 					}
 					else
 					{
 						JLog::add(JText::_('COM_CONTENTHISTORY_ERROR_KEEP_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+
 						return false;
 					}
 				}
@@ -192,6 +206,7 @@ class ContenthistoryModelHistory extends JModelList
 			else
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 		}
@@ -207,6 +222,11 @@ class ContenthistoryModelHistory extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
@@ -221,6 +241,7 @@ class ContenthistoryModelHistory extends JModelList
 		$this->setState('type_id', $typeId);
 		$this->setState('type_alias', $typeAlias);
 		$this->setState('sha1_hash', $this->getSha1Hash());
+
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_contenthistory');
 		$this->setState('params', $params);
@@ -233,6 +254,7 @@ class ContenthistoryModelHistory extends JModelList
 	 * Build an SQL query to load the list data.
 	 *
 	 * @return  JDatabaseQuery
+	 *
 	 * @since   1.6
 	 */
 	protected function getListQuery()
@@ -261,6 +283,7 @@ class ContenthistoryModelHistory extends JModelList
 		$orderCol = $this->state->get('list.ordering');
 		$orderDirn = $this->state->get('list.direction');
 		$query->order($db->quoteName($orderCol) . $orderDirn);
+
 		return $query;
 	}
 
@@ -281,13 +304,15 @@ class ContenthistoryModelHistory extends JModelList
 		JTable::addIncludePath(JPATH_ROOT . '/administrator/components/' . $typeAliasArray[0] . '/tables');
 		$contentTable = $typesTable->getContentTable();
 		$keyValue = JFactory::getApplication()->input->getInteger('item_id', 0);
+
 		if ($contentTable && $contentTable->load($keyValue))
 		{
 			$helper = new JHelperContenthistory(null);
+
 			$dataObject = $helper->getDataObject($contentTable);
 			$result = $this->getTable('Contenthistory', 'JTable')->getSha1(json_encode($dataObject));
 		}
+
 		return $result;
 	}
-
 }
