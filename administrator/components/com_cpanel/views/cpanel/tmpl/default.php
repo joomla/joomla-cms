@@ -12,17 +12,6 @@ defined('_JEXEC') or die;
 $user = JFactory::getUser();
 ?>
 <div class="row-fluid">
-	<div class="span9">
-		<?php
-		foreach ($this->modules as $module)
-		{
-			$output = JModuleHelper::renderModule($module, array('style' => 'well'));
-			$params = new JRegistry;
-			$params->loadString($module->params);
-			echo $output;
-		}
-		?>
-	</div>
 	<div class="span3 cpanel-links">
 		<?php
 		// Display the submenu position modules
@@ -32,6 +21,17 @@ $user = JFactory::getUser();
 			$output = JModuleHelper::renderModule($iconmodule, array('style' => ''));
 			$params = new JRegistry;
 			$params->loadString($iconmodule->params);
+			echo $output;
+		}
+		?>
+	</div>
+	<div class="span9">
+		<?php
+		foreach ($this->modules as $module)
+		{
+			$output = JModuleHelper::renderModule($module, array('style' => 'well'));
+			$params = new JRegistry;
+			$params->loadString($module->params);
 			echo $output;
 		}
 		?>
