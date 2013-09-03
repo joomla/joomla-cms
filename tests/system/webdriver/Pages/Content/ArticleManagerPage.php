@@ -197,6 +197,7 @@ class ArticleManagerPage extends AdminManagerPage
 		$this->searchFor($name);
 		$row = $this->getRowNumber($name);		
 		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[5]"))->getText();
+		$this->searchFor();
 		return $text;
 	}
 	
@@ -213,11 +214,12 @@ class ArticleManagerPage extends AdminManagerPage
 		$this->searchFor($name);
 		$this->checkAll();
 		$this->clickButton('toolbar-batch');
-		$this->driver->waitForElementUntilIsPresent(By::xPath("//button[contains(text(),'Process')]"),10);
+		$this->driver->waitForElementUntilIsPresent(By::xPath("//div[@class='modal hide fade in']"));
 		$this->driver->findElement(By::xPath("//div[@id='batch_access_chzn']/a"))->click();
-		$this->driver->findElement(By::xPath("//div[@id='batch_access_chzn']//ul[@class='chzn-results']/li[contains(.,'".$accessLevel."')]"))->click();		
+		$this->driver->findElement(By::xPath("//div[@id='batch_access_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $accessLevel . "')]"))->click();		
 		$this->driver->findElement(By::xPath("//button[contains(text(),'Process')]"))->click();
 		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+		$this->searchFor();
 	}
 	
 	/**
@@ -230,7 +232,7 @@ class ArticleManagerPage extends AdminManagerPage
 	public function getCategoryName($name)
 	{
 		$row = $this->getRowNumber($name);
-		$categoryName=$this->driver->findElement(By::xPath("//tbody/tr[".$row."]/td[4]/div/div[@class='small']"))->getText();
+		$categoryName=$this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[4]/div/div[@class='small']"))->getText();
 		return $categoryName;
 	}
 	
@@ -244,21 +246,23 @@ class ArticleManagerPage extends AdminManagerPage
 	 * 
 	 * @return void
 	 */
-	public function doBatchAction($articleName,$searchString,$newCategory,$action)
+	public function doBatchAction($articleName, $searchString, $newCategory, $action)
 	{
 		$row=$this->getRowNumber($articleName);
-		$this->driver->findElement(By::xPath("//input[@id='cb".($row-1)."']"))->click();
-		$this->driver->findElement(By::xPath("//div[@id='toolbar-batch']/button"))->click();
+		$this->driver->findElement(By::xPath("//input[@id='cb" . ($row-1) . "']"))->click();
+		$this->clickButton('toolbar-batch');
+		$this->driver->waitForElementUntilIsPresent(By::xPath("//div[@class='modal hide fade in']"));
 		$this->driver->findElement(By::xPath("//div[@id='batch_category_id_chzn']/a"))->click();
 		$this->driver->findElement(By::xPath("//div[@id='batch_category_id_chzn']/div/div/input"))->sendKeys($searchString);
-		$this->driver->findElement(By::xPath("//div[@id='batch_category_id_chzn']//ul[@class='chzn-results']/li[contains(.,'".$newCategory."')]"))->click();
+		$this->driver->findElement(By::xPath("//div[@id='batch_category_id_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $newCategory . "')]"))->click();
 		if(strtolower($action) == 'copy')
 		{
 			$this->driver->findElement(By::xPath("//input[@id='batch[move_copy]c']"))->click();
 		}
 		else
+		{
 			$this->driver->findElement(By::XPath("//input[@id='batch[move_copy]m']"))->click();
-			
+		}	
 		$this->driver->findElement(By::xPath("//button[contains(text(),'Process')]"))->click();
 		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 	}
@@ -275,7 +279,7 @@ class ArticleManagerPage extends AdminManagerPage
 	{
 		$this->driver->findElement(By::xPath("//div[@id='filter_category_id_chzn']/a"))->click();
 		$this->driver->findElement(By::xPath("//div[@id='filter_category_id_chzn']/div/div/input"))->sendKeys($searchString);
-		$this->driver->findElement(By::xPath("//div[@id='filter_category_id_chzn']//ul[@class='chzn-results']/li[contains(.,'".$category."')]"))->click();
+		$this->driver->findElement(By::xPath("//div[@id='filter_category_id_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $category . "')]"))->click();
 		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 	}
 }
