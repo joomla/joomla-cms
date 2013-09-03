@@ -44,6 +44,7 @@ class JTableModule extends JTable
 	protected function _getAssetName()
 	{
 		$k = $this->_tbl_key;
+		
 		return 'com_modules.module.' . (int) $this->$k;
 	}
 
@@ -69,27 +70,27 @@ class JTableModule extends JTable
 	 *
 	 * @since   11.1
 	 */
-	protected function _getAssetParentId($table = null, $id = null)
+	protected function _getAssetParentId(JTable $table = null, $id = null)
 	{
-		// Initialise variables.
 		$assetId = null;
 
-		// This is a menutype that needs to parent with the extension.
-        if ($assetId === null)
-        {
-            // Build the query to get the asset id of the parent component.
-            $query = $this->_db->getQuery(true);
-            $query->select($this->_db->quoteName('id'));
-            $query->from($this->_db->quoteName('#__assets'));
-            $query->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote('com_modules'));
+		// This is a module that needs to parent with the extension.
+		if ($assetId === null)
+		{
+			// Build the query to get the asset id of the parent component.
+			$query = $this->_db->getQuery(true)
+				->select($this->_db->quoteName('id'))
+				->from($this->_db->quoteName('#__assets'))
+				->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote($this->extension));
 
-            // Get the asset id from the database.
-            $this->_db->setQuery($query);
-            if ($result = $this->_db->loadResult())
-            {
-                $assetId = (int) $result;
-            }
-        }
+			// Get the asset id from the database.
+			$this->_db->setQuery($query);
+
+			if ($result = $this->_db->loadResult())
+			{
+				$assetId = (int) $result;
+			}
+		}
 
 		// Return the asset id.
 		if ($assetId)
