@@ -99,7 +99,7 @@ if (!is_null($error))
 switch ($format)
 {
 	case 'json':
-		JResponse::setHeader('Content-Type', 'application/json', true);
+		header('Content-Type: application/json');
 		echo json_encode($results);
 		$app->close();
 		break;
