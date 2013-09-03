@@ -56,4 +56,36 @@ class JRackspaceCdnContainer extends JRackspaceStorage
 
 		return "The response code was " . $response->code;
 	}
+
+	/**
+	 * HEAD operations against a CDN-enabled container are used to determine
+	 * the CDN attributes of the container.
+	 *
+	 * @param   string  $container  The container name
+	 *
+	 * @return string  A message regarding the success of the operation
+	 *
+	 * @since   ??.?
+	 */
+	public function listCdnEnabledContainerMetadata($container)
+	{
+		$authTokenHeaders = $this->getAuthTokenHeaders();
+		$url = $authTokenHeaders["X-CDN-Management-Url"] . "/" . $container;
+
+		// Create the headers
+		$headers = array(
+			"Host" => $this->options->get("cdn.host"),
+		);
+		$headers["X-Auth-Token"] = $authTokenHeaders["X-Auth-Token"];
+
+		// Send the http request
+		$response = $this->client->head($url, $headers);
+
+		if ($response->code == 404)
+		{
+			return "The \"" . $container . "\" container does not exist.\n";
+		}
+
+		return $response->headers;
+	}
 }
