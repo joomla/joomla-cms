@@ -21,6 +21,14 @@ require_once JPATH_ADMINISTRATOR.'/components/com_content/models/article.php';
  */
 class ContentModelForm extends ContentModelArticle
 {
+	
+	/**
+	 * Model typeAlias string. Used for version history.
+	 *
+	 * @var        string
+	 */
+	public $typeAlias = 'com_content.article';
+	
 	/**
 	 * Method to auto-populate the model state.
 	 *

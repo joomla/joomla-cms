@@ -10,7 +10,8 @@
  <exclude-pattern type="relative">tmp/*</exclude-pattern>
  <exclude-pattern type="relative">logs/*</exclude-pattern>
 
- <!-- Exclude 3rd party libraries. -->
+ <!-- Exclude 3rd party libraries and Framework code. -->
+ <exclude-pattern type="relative">libraries/framework/*</exclude-pattern>
  <exclude-pattern type="relative">libraries/idna_convert/*</exclude-pattern>
  <exclude-pattern type="relative">libraries/phputf8/*</exclude-pattern>
  <exclude-pattern type="relative">libraries/simplepie/*</exclude-pattern>
@@ -33,7 +34,6 @@
 	 <!-- These exceptions are temporary -->
   <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
   <exclude-pattern type="relative">administrator/includes/application.php</exclude-pattern>
-  <exclude-pattern type="relative">administrator/includes/framework.php</exclude-pattern>
   <exclude-pattern type="relative">components/*</exclude-pattern>
   <exclude-pattern type="relative">plugins/*</exclude-pattern>
   <exclude-pattern type="relative">modules/*</exclude-pattern>
