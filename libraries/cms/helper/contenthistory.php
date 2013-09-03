@@ -34,7 +34,7 @@ class JHelperContenthistory
 	 *
 	 * @since   3.2
 	 */
-	public function __construct($typeAlias)
+	public function __construct($typeAlias = null)
 	{
 		$this->typeAlias = $typeAlias;
 	}
