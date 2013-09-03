@@ -74,6 +74,36 @@ class ModulesControllerModule extends JControllerForm
 	}
 
 	/**
+	 * Method override to check if you can add a new module.
+	 *
+	 * @param   array  $data  An array of input data.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.2
+	 */
+	protected function allowAdd($data = array())
+	{
+		$user = JFactory::getUser();
+		$allow = null;
+
+			// If the user is authorized to create
+			if($user->authorise('core.create', 'com_modules')){
+				$allow=true;
+			}
+
+		if ($allow === null)
+		{
+			// In the absense of better information, revert to the parent permissions.
+			return parent::allowAdd();
+		}
+		else
+		{
+			return $allow;
+		}
+	}
+
+	/**
 	 * Override parent allowSave method.
 	 *
 	 * @param   array   $data  An array of input data.
@@ -97,6 +127,33 @@ class ModulesControllerModule extends JControllerForm
 		}
 
 		return parent::allowSave($data, $key);
+	}
+	
+	/**
+	 * Method override to check if you can edit an existing record.
+	 *
+	 * @param   array   $data  An array of input data.
+	 * @param   string  $key   The name of the key for the primary key.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.2
+	 */
+	protected function allowEdit($data = array(), $key = 'id')
+	{
+		// Initialise variables.
+		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
+		$user = JFactory::getUser();
+		$userId = $user->get('id');
+
+		// Check general edit permission first.
+		if ($user->authorise('core.edit', 'com_modules.module.' . $recordId))
+		{
+			return true;
+		}
+
+		// Since there is no asset tracking, revert to the component permissions.
+		return parent::allowEdit($data, $key);
 	}
 
 	/**
