@@ -201,6 +201,10 @@ class JPaginationTest extends TestCase
 	/**
 	 * This method tests the getRowOffset function.
 	 *
+	 * @param   integer  $index       The row index
+	 * @param   integer  $limitstart  The offset of the item to start at.
+	 * @param   integer  $value       The expected rationalised offset for a row with a given index.
+	 *
 	 * @return  void
 	 *
 	 * @covers        JPagination::getRowOffset
@@ -357,6 +361,45 @@ class JPaginationTest extends TestCase
 		$this->assertEquals($object->pages[$active]->link, $expected["5"]["link"], 'This is not the expected active link value');
 		$this->assertEquals($object->pages[$active]->prefix, $expected["5"]["prefix"], 'This is not the expected active prefix value');
 		$this->assertEquals($object->pages[$active]->active, $expected["5"]["active"], 'This is not the expected active active value');
+
+		unset($pagination);
+	}
+
+	/**
+	 * Provides the data to test the getPagesCounter() method.
+	 *
+	 * @return  array
+	 *
+	 * @since   3.2
+	 */
+	public function dataTestGetPagesCounter()
+	{
+		return array(
+			array(100, 50, 20, 'JLIB_HTML_PAGE_CURRENT_OF_TOTAL'),
+			array(20, 50, 0, ''),
+		);
+	}
+
+	/**
+	 * Tests the getPagesCounter method.
+	 *
+	 * @param   integer  $total       The total number of items.
+	 * @param   integer  $limitstart  The offset of the item to start at.
+	 * @param   integer  $limit       The number of items to display per page.
+	 * @param   array    $expected    The expected results for the JPagination object
+	 *
+	 * @return  void
+	 *
+	 * @covers        JPagination::getPagesCounter
+	 * @dataProvider  dataTestGetPagesCounter
+
+	 * @since  3.2
+	 */
+	public function testGetPagesCounter($total, $limitstart, $limit, $expected)
+	{
+		$pagination = new JPagination($total, $limitstart, $limit);
+
+		$this->assertEquals($pagination->getPagesCounter(), $expected);
 
 		unset($pagination);
 	}

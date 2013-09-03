@@ -92,4 +92,47 @@ class JTableContenttype extends JTable
 	{
 		return $this->fieldmap = json_decode($this->fieldmappings, $assoc);
 	}
+
+	/**
+	 * Method to get the id given the type alias
+	 *
+	 * @param   string    $typeAlias  Content type alias (for example, 'com_content.article').
+	 *
+	 * @return  mixed     type_id for this alias if successful, otherwise null.
+	 *
+	 * @since   3.2
+	 */
+	public function getTypeId($typeAlias)
+	{
+		$db = $this->_db;
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('type_id'))
+			->from($db->quoteName('#__content_types'))
+			->where($db->quoteName('type_alias') . ' = ' . $db->quote($typeAlias));
+		$db->setQuery($query);
+		return $db->loadResult($query);
+	}
+
+	/**
+	 * Method to get the JTable object for the content type from the table object.
+	 *
+	 * @return  mixed     JTable object on success, otherwise false.
+	 *
+	 * @since   3.2
+	 */
+	public function getContentTable()
+	{
+		$result = false;
+		$tableInfo = json_decode($this->table);
+		if (is_object($tableInfo) && isset($tableInfo->special))
+		{
+			if (is_object($tableInfo->special) && isset($tableInfo->special->type) && isset($tableInfo->special->prefix))
+			{
+				$result = JTable::getInstance($tableInfo->special->type, $tableInfo->special->prefix);
+			}
+		}
+		return $result;
+	}
+
+
 }
