@@ -25,6 +25,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-Sep-2013 Michael Babker
+ + [#31800] Add Joomla Ajax Interface to core.  Thanks Matt Thomas
+
+03-Sep-2013 Jean-Marie Simonet
+ $ Adding Tamil to tinymce lang files
+
 02-Sep-2013 Mark Dexter
  # Fix code-style issues from [#30944] Content versioning. Thanks George Wilson.
 
