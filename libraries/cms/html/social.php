@@ -27,7 +27,7 @@ abstract class JHtmlSocial
 	 *
 	 * @since   3.2
 	 */
-	public function facebook($array = array())
+	public static function facebook($array = array())
 	{
 		$layout = new JLayoutFile('social.facebook');
 
@@ -43,7 +43,7 @@ abstract class JHtmlSocial
 	 *
 	 * @since   3.2
 	 */
-	public function google($array = array())
+	public static function google($array = array())
 	{
 		$layout = new JLayoutFile('social.google');
 
@@ -59,7 +59,7 @@ abstract class JHtmlSocial
 	 *
 	 * @since   3.2
 	 */
-	public function follow($array = array('user' => 'joomla'))
+	public static function follow($array = array('user' => 'joomla'))
 	{
 		$layout = new JLayoutFile('social.twitter.follow');
 
@@ -75,7 +75,7 @@ abstract class JHtmlSocial
 	 *
 	 * @since   3.2
 	 */
-	public function hashtag($array = array('hashtag' => 'jpositiv'))
+	public static function hashtag($array = array('hashtag' => 'jpositiv'))
 	{
 		$layout = new JLayoutFile('social.twitter.hashtag');
 
@@ -91,7 +91,7 @@ abstract class JHtmlSocial
 	 *
 	 * @since   3.2
 	 */
-	public function mention($array = array('user' => 'joomla'))
+	public static function mention($array = array('user' => 'joomla'))
 	{
 		$layout = new JLayoutFile('social.twitter.mention');
 
@@ -107,7 +107,7 @@ abstract class JHtmlSocial
 	 *
 	 * @since   3.2
 	 */
-	public function share($array = array())
+	public static function share($array = array())
 	{
 		$layout = new JLayoutFile('social.twitter.share');
 
