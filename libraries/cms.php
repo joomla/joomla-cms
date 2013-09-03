@@ -58,3 +58,12 @@ JLoader::register('JInstallerPackage',  JPATH_PLATFORM . '/cms/installer/adapter
 JLoader::register('JInstallerPlugin',  JPATH_PLATFORM . '/cms/installer/adapter/plugin.php');
 JLoader::register('JInstallerTemplate',  JPATH_PLATFORM . '/cms/installer/adapter/template.php');
 JLoader::register('JExtension',  JPATH_PLATFORM . '/cms/installer/extension.php');
+
+// Register Observers for Version History
+JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'ContactTableContact', array('typeAlias' => 'com_contact.contact'));
+JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'JTableContent', array('typeAlias' => 'com_content.article'));
+JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'JTableCategory', array('typeAlias' => '{extension}.category'));
+JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'NewsfeedsTableNewsfeed', array('typeAlias' => 'com_newsfeeds.newsfeed'));
+JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'WeblinksTableWeblink', array('typeAlias' => 'com_weblinks.weblink'));
+
+require_once JPATH_LIBRARIES . '/framework/aliases.php';

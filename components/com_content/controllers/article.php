@@ -30,6 +30,14 @@ class ContentControllerArticle extends JControllerForm
 	 * @since  1.6
 	 */
 	protected $view_list = 'categories';
+	
+	/**
+	 * The URL edit variable.
+	 *
+	 * @var    string
+	 * @since  3.2
+	 */
+	protected $urlVar = 'a.id';
 
 	/**
 	 * Method to add a new record.
