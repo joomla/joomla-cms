@@ -17,6 +17,7 @@ $app = JFactory::getApplication();
 $title = $displayData->get('form')->getValue('title');
 $published = $displayData->get('form')->getField('published');
 $langs = isset($app->languages_enabled);
+$saveHistory = $displayData->get('state')->get('params')->get('save_history', 0);
 ?>
 <div class="span2">
 	<h4><?php echo JText::_('JDETAILS'); ?></h4>
@@ -90,5 +91,15 @@ $langs = isset($app->languages_enabled);
 				<?php echo $displayData->get('form')->getInput('tags'); ?>
 			</div>
 		</div>
+		<?php if ($saveHistory) : ?>
+			<div class="control-group">
+			<div class="control-label">
+				<?php echo $displayData->get('form')->getLabel('version_note'); ?>
+			</div>
+			<div class="controls">
+				<?php echo $displayData->get('form')->getInput('version_note'); ?>
+			</div>
+			</div>
+		<?php endif; ?>
 	</fieldset>
 </div>

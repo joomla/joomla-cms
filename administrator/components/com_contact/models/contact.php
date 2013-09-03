@@ -20,6 +20,15 @@ JLoader::register('ContactHelper', JPATH_ADMINISTRATOR . '/components/com_contac
  */
 class ContactModelContact extends JModelAdmin
 {
+
+	/**
+	 * The type alias for this content type.
+	 *
+	 * @var      string
+	 * @since    3.2
+	 */
+	public $typeAlias = 'com_contact.contact';
+
 	/**
 	 * Method to perform batch operations on an item or a set of items.
 	 *

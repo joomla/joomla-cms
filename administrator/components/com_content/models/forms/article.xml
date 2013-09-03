@@ -30,6 +30,9 @@
 			placeholder="JFIELD_ALIAS_PLACEHOLDER"
 			class="inputbox"
 			size="40" />
+			
+		<field name="version_note" type="text" label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+			description="JGLOBAL_FIELD_VERSION_NOTE_DESC" class="inputbox" size="45" labelclass="control-label" />
 
 		<field name="articletext"
 			type="editor"
@@ -225,7 +228,7 @@
 			validate="rules" />
 	</fieldset>
 
-	<fields name="attribs">
+	<fields name="attribs" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">
 		<fieldset name="basic"
 			label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">
 
@@ -502,7 +505,7 @@
 		size="20"
 		labelclass="control-label" />
 
-	<fields name="images">
+	<fields name="images" label="COM_CONTENT_FIELD_IMAGE_OPTIONS">
 		<field name="image_intro"
 			type="media"
 			label="COM_CONTENT_FIELD_INTRO_LABEL"
@@ -574,7 +577,7 @@
 			labelclass="control-label" />
 	</fields>
 
-	<fields name="urls">
+	<fields name="urls" label="COM_CONTENT_FIELD_URLS_OPTIONS">
 		<field name="urla"
 			type="url"
 			validate="url"
@@ -677,7 +680,7 @@
 		</field>
 	</fields>
 
-	<fields name="metadata">
+	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 		<fieldset name="jmetadata"
 			label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 
@@ -718,5 +721,10 @@
 				size="20"
 				labelclass="control-label" />
 		</fieldset>
+	</fields>
+	<!-- These fields are used to get labels for the Content History Preview and Compare Views -->
+	<fields>
+		<field name="introtext" label="COM_CONTENT_FIELD_INTROTEXT" />
+		<field name="fulltext" label="COM_CONTENT_FIELD_FULLTEXT" />
 	</fields>
 </form>
