@@ -10,25 +10,25 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Common items for operations on the service
+ * Common items for public access to the cloud account
  *
  * @package     Joomla.Platform
  * @subpackage  Rackspace
  * @since       ??.?
  */
-class JRackspaceCdn extends JRackspaceObject
+class JRackspacePublic extends JRackspaceObject
 {
 	/**
-	 * @var    JRackspaceCdnAccount  Rackspace API object for CDN Account Services
+	 * @var    JRackspacePublicTempurl  Rackspace API object for creating a Temporary URL
 	 * @since  ??.?
 	 */
-	protected $account;
+	protected $tempurl;
 
 	/**
-	 * @var    JRackspaceCdnContainer Rackspace API object for CDN Container Services
+	 * @var    JRackspacePublicFormpost Rackspace API object for FormPost
 	 * @since  ??.?
 	 */
-	protected $container;
+	protected $formpost;
 
 	/**
 	 * Magic method to lazily create API objects
@@ -42,7 +42,7 @@ class JRackspaceCdn extends JRackspaceObject
 	 */
 	public function __get($name)
 	{
-		$class = 'JRackspaceCdn' . ucfirst($name);
+		$class = 'JRackspacePublic' . ucfirst($name);
 
 		if (class_exists($class))
 		{
