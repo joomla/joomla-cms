@@ -51,14 +51,26 @@ class JRackspaceStorageAccount extends JRackspaceStorage
 	/**
 	 * Creates a request to view a list of the containers in your account
 	 *
+	 * @param   array  $queryParameters  An array with query parameters:
+	 *                                   limit, marker or end_marker.
+	 *
 	 * @return string  The response body
 	 *
 	 * @since   ??.?
 	 */
-	public function listContainers()
+	public function listContainers($queryParameters = null)
 	{
 		$authTokenHeaders = $this->getAuthTokenHeaders();
 		$url = $authTokenHeaders["X-Storage-Url"] . "?format=json";
+
+		// Add the query parameters
+		if ($queryParameters != null)
+		{
+			foreach ($queryParameters as $parameter => $value)
+			{
+				$url .= "&" . $parameter . "=" . $value;
+			}
+		}
 
 		// Create the headers
 		$headers = array(

@@ -65,6 +65,7 @@ class JRackspace
 		// Setup the default API url if not already set.
 		$this->options->def('auth.host.us', 'identity.api.rackspacecloud.com');
 		$this->options->def('storage.host', 'storage.clouddrive.com');
+		$this->options->def('cdn.host', 'cdn.clouddrive.com');
 	}
 
 	/**
