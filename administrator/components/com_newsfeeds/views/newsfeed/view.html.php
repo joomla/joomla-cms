@@ -29,8 +29,6 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$app = JFactory::getApplication();
-
 		$this->state	= $this->get('State');
 		$this->item		= $this->get('Item');
 		$this->form		= $this->get('Form');
@@ -92,6 +90,15 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		{
 			JToolbarHelper::cancel('newsfeed.cancel', 'JTOOLBAR_CLOSE');
 		}
+
+		if ($this->state->params->get('save_history') && $user->authorise('core.edit'))
+		{
+			$itemId = $this->item->id;
+			$typeAlias = 'com_newsfeeds.newsfeed';
+			JToolbarHelper::versions($typeAlias, $itemId);
+		}
+
+		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_COMPONENTS_NEWSFEEDS_FEEDS_EDIT');
 	}
 }

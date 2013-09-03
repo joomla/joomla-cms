@@ -585,6 +585,36 @@ abstract class JToolbarHelper
 			'index.php?option=com_config&amp;view=component&amp;component=' . $component . '&amp;path=' . $path . '&amp;return=' . $return
 		);
 	}
+
+	/**
+	 * Writes a version history 
+	 *
+	 * @param   string  $typeAlias  The component and type, for example 'com_content.article'
+	 * @param   int     $itemId     The id of the item, for example the article id.
+	 * @param   int     $height     The height of the popup.
+	 * @param   int     $width      The width of the popup.
+	 * @param   string  $alt        The name of the button.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public static function versions($typeAlias, $itemId, $height = '800', $width = '500', $alt = 'JToolbar_Versions', $path = '')
+	{
+	JHtml::_('behavior.modal', 'a.modal_jform_contenthistory');
+	$contentTypeTable = JTable::getInstance('Contenttype');
+	$typeId = $contentTypeTable->getTypeId($typeAlias);
+	$title = JText::_($alt);
+	$dhtml = '<a rel="{handler: \'iframe\', size: {x:' . $height . ', y: ' . $width . '}}" ' .
+			'href="index.php?option=com_contenthistory&amp;view=history&amp;layout=modal&amp;tmpl=component&amp;' .
+			'item_id=' . (int) $itemId . '&amp;type_id=' . $typeId . '&amp;type_alias=' . $typeAlias . '&amp;' .
+			JSession::getFormToken() . '=1" ' .
+			'title=' . $title . ' class="btn btn-small modal_jform_contenthistory">' .
+			'<i class="icon-archive"></i>' . "\n" . $title . "\n" . '</a>';
+
+	$bar = JToolbar::getInstance('toolbar');
+	$bar->appendButton('Custom', $dhtml, 'versions');
+	}
 }
 
 /**
