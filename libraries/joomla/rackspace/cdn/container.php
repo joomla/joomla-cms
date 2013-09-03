@@ -92,7 +92,7 @@ class JRackspaceCdnContainer extends JRackspaceStorage
 	/**
 	 * You may use the POST request against a CDN-enabled container to adjust
 	 * CDN attributes. The only metadata that may be changed on the CDN is
-	 * X-Log-Retention, X-CDN-enabled, and X-TTL
+	 * X-Log-Retention, X-CDN-enabled, and X-TTL.
 	 *
 	 * @param   string  $container  The container name
 	 * @param   string  $metadata   An array with the metadata to be set
@@ -122,6 +122,37 @@ class JRackspaceCdnContainer extends JRackspaceStorage
 
 		// Send the http request
 		$response = $this->client->post($url, "", $headers);
+
+		if ($response->code == 404)
+		{
+			return "The \"" . $container . "\" container does not exist.\n";
+		}
+
+		return $response->headers;
+	}
+
+	/**
+	 * HEAD operations against a CDN-enabled container can also return an SSL URL.
+	 *
+	 * @param   string  $container  The container name
+	 *
+	 * @return string  A message regarding the success of the operation
+	 *
+	 * @since   ??.?
+	 */
+	public function cdnEnabledContainersServedThroughSsl($container)
+	{
+		$authTokenHeaders = $this->getAuthTokenHeaders();
+		$url = $authTokenHeaders["X-CDN-Management-Url"] . "/" . $container;
+
+		// Create the headers
+		$headers = array(
+			"Host" => $this->options->get("cdn.host"),
+		);
+		$headers["X-Auth-Token"] = $authTokenHeaders["X-Auth-Token"];
+
+		// Send the http request
+		$response = $this->client->head($url, $headers);
 
 		if ($response->code == 404)
 		{
