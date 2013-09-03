@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Rackspace
  * @since       ??.?
  */
-class JRackspaceCdnAccount extends JRackspaceStorage
+class JRackspaceCdnAccount extends JRackspaceCdn
 {
 	/**
 	 * GET operations against the X-CDN-Management-Url for an account are

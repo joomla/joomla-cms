@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Rackspace
  * @since       ??.?
  */
-class JRackspaceCdnContainer extends JRackspaceStorage
+class JRackspaceCdnContainer extends JRackspaceCdn
 {
 	/**
 	 * Before a container can be CDN-enabled, it must exist in the storage system.

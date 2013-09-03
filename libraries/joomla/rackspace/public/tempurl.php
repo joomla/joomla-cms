@@ -17,43 +17,8 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Rackspace
  * @since       ??.?
  */
-class JRackspacePublicTempurl extends JRackspaceStorage
+class JRackspacePublicTempurl extends JRackspacePublic
 {
-	/**
-	 * To create a Temporary URL, you must first set the metadata header
-	 * X-Account-Meta-Temp-URL-Key on your Cloud Files account to a key
-	 * that only you know.
-	 *
-	 * @param   string  $key  This key can be any arbitrary sequence as it is
-	 *                        for encoding your account.
-	 *
-	 * @return string  The response body
-	 *
-	 * @since   ??.?
-	 */
-	public function setAccountTempUrlMetadataKey($key)
-	{
-		$authTokenHeaders = $this->getAuthTokenHeaders();
-		$url = $authTokenHeaders["X-Storage-Url"];
-
-		// Create the headers
-		$headers = array(
-			"Host" => $this->options->get("cdn.host"),
-			"X-Account-Meta-Temp-Url-Key" => $key,
-		);
-		$headers["X-Auth-Token"] = $authTokenHeaders["X-Auth-Token"];
-
-		// Send the http request
-		$response = $this->client->get($url, $headers);
-
-		if ($response->code / 100 == 2)
-		{
-			return "The metadata key was successfully set.";
-		}
-
-		return "The response code was " . $response->code . ".";
-	}
-
 	/**
 	 * Generate a TempURL.
 	 *
