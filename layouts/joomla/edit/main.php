@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
 $form = $displayData->get('form');
+$input = $app->input;
+$saveHistory = JComponentHelper::getParams($input->getCmd('extension', 'com_content'))->get('save_history', 0);
 
 $fields = $displayData->get('fields') ?: array(
 	array('category', 'catid'),
@@ -20,7 +22,8 @@ $fields = $displayData->get('fields') ?: array(
 	'featured',
 	'access',
 	'language',
-	'note'
+	'note',
+	'version_note'
 );
 
 $hiddenFields = $displayData->get('hidden_fields') ?: array();
@@ -29,6 +32,10 @@ if (!isset($app->languages_enabled))
 {
 	$hiddenFields[] = 'language';
 }
+if (!$saveHistory)
+{
+	$hiddenFields[] = 'version_note';
+} 
 
 $html = array();
 $html[] = '<fieldset class="form-vertical">';
