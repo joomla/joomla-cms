@@ -135,6 +135,7 @@ class JPagination
 		{
 			$this->pagesStart = 1;
 		}
+
 		if ($this->pagesStart + $displayedPages > $this->pagesTotal)
 		{
 			$this->pagesStop = $this->pagesTotal;
@@ -620,10 +621,13 @@ class JPagination
 		$app = JFactory::getApplication();
 
 		$title = '';
+		$class = '';
+
 		if (!is_numeric($item->text))
 		{
 			JHtml::_('bootstrap.tooltip');
-			$title = ' class="hasTooltip" title="' . $item->text . '"';
+			$title = ' title="' . $item->text . '"';
+			$class = 'hasTooltip ';
 		}
 
 		if ($app->isAdmin())
@@ -633,7 +637,7 @@ class JPagination
 		}
 		else
 		{
-			return '<a' . $title . ' href="' . $item->link . '" class="pagenav">' . $item->text . '</a>';
+			return '<a' . $title . ' href="' . $item->link . '" class="' . $class . 'pagenav">' . $item->text . '</a>';
 		}
 	}
 

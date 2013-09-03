@@ -768,6 +768,7 @@ class ModulesModelModule extends JModelAdmin
 	protected function prepareTable($table)
 	{
 		$table->title		= htmlspecialchars_decode($table->title, ENT_QUOTES);
+		$table->position	= trim($table->position);
 	}
 
 	/**

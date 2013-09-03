@@ -159,7 +159,29 @@ class ArticleManagerPage extends AdminManagerPage
 			$this->clickButton('toolbar-unpublish');
 			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 		}
+		elseif(strtolower($state) == 'archived')
+		{
+			$this->clickButton('toolbar-archive');
+			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+		}
+		elseif(strtolower($state) == 'trashed')
+		{
+			$this->clickButton('toolbar-trash');
+			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+		}
 		$this->searchFor();
 	}
 	
+	/**
+	 * change the Filter state for the page
+	 * 
+	 * @param string $label 	Filter Label which is to be changed
+	 * @param string $value 	Value to which the filter is to be changed
+	 * 
+	 * @return void
+	 */
+	public function changeFilter($label,$value)
+	{
+		$this->setFilter($label,$value);
+	}
 }
