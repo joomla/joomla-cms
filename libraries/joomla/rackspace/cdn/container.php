@@ -8,3 +8,52 @@
  */
 
 defined('JPATH_PLATFORM') or die;
+
+/**
+ * Defines the operations on CDN container services
+ *
+ * @package     Joomla.Platform
+ * @subpackage  Rackspace
+ * @since       ??.?
+ */
+class JRackspaceCdnContainer extends JRackspaceStorage
+{
+	/**
+	 * Before a container can be CDN-enabled, it must exist in the storage system.
+	 *
+	 * @param   string  $container  The container name
+	 * @param   int     $ttl        Time to live (in seconds)
+	 * @param   string  $enable     "True" for enable or "False" for disable
+	 *
+	 * @return string  A message regarding the success of the operation
+	 *
+	 * @since   ??.?
+	 */
+	public function cdnEnableOrDisableContainer($container, $ttl, $enable = "True")
+	{
+		$authTokenHeaders = $this->getAuthTokenHeaders();
+		$url = $authTokenHeaders["X-CDN-Management-Url"] . "/" . $container;
+
+		// Create the headers
+		$headers = array(
+			"Host" => $this->options->get("cdn.host"),
+			"X-TTL" => $ttl,
+			"X-CDN-Enabled" => $enable,
+		);
+		$headers["X-Auth-Token"] = $authTokenHeaders["X-Auth-Token"];
+
+		// Send the http request
+		$response = $this->client->put($url, "", $headers);
+
+		if ($response->code == 201)
+		{
+			return "The container was CDN-enabled as requested.\n";
+		}
+		elseif ($response->code == 202)
+		{
+			return "The container was already CDN-enabled.\n";
+		}
+
+		return "The response code was " . $response->code;
+	}
+}
