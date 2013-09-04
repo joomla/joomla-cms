@@ -243,7 +243,7 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
-	 * get Languages item data for the Administrator
+	 * Get Languages item data for the Administrator
 	 *
 	 * @return  array
 	 *
@@ -255,7 +255,7 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
-	 * get Languages item data for the Frontend
+	 * Get Languages item data for the Frontend
 	 *
 	 * @return  array  List of installed languages in the frontend application
 	 *
@@ -267,9 +267,9 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
-	 * get Languages item data
+	 * Get Languages item data
 	 *
-	 * @param   string  $cms_client  name of the cms client
+	 * @param   string  $cms_client  Name of the cms client
 	 *
 	 * @return  array
 	 *
@@ -324,7 +324,7 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
-	 * get installed languages data.
+	 * Get installed languages data.
 	 *
 	 * @param   integer  $client_id  The client ID to retrieve data for
 	 *
@@ -354,10 +354,10 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
-	 * compare two languages in order to sort them.
+	 * Compare two languages in order to sort them.
 	 *
-	 * @param   object  $lang1  the first language
-	 * @param   object  $lang2  the second language
+	 * @param   object  $lang1  The first language
+	 * @param   object  $lang2  The second language
 	 *
 	 * @return  integer
 	 *
@@ -369,7 +369,7 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
-	 * get the languages folder path.
+	 * Get the languages folder path.
 	 *
 	 * @return  string  The path to the languages folders
 	 *
@@ -387,9 +387,9 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
-	 * get the client object of Administrator or Frontend.
+	 * Get the client object of Administrator or Frontend.
 	 *
-	 * @param   string  $client  name of the client object
+	 * @param   string  $client  Name of the client object
 	 *
 	 * @return  object
 	 *
@@ -403,7 +403,7 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
-	 * set the default language.
+	 * Set the default language.
 	 *
 	 * @param   string  $language    The language to be set as default
 	 * @param   string  $cms_client  The name of the CMS client
