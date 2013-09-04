@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 03-Sep-2013 Michael Babker
  + [#31800] Add Joomla Ajax Interface to core.  Thanks Matt Thomas
+ # [#31915] *Strict Standards: Only variables should be passed by reference when saving/deleting lang override.  Thanks Jean-Marie Simonet
 
 03-Sep-2013 Jean-Marie Simonet
  $ Adding Tamil to tinymce lang files
