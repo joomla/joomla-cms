@@ -124,6 +124,10 @@ abstract class JModelCms extends JModelDatabase
 		{
 			$this->event_clean_cache = 'onContentCleanCache';
 		}
+
+		$state = new JRegistry($config); 
+
+		parent::__construct($state);
 	}
 
 	/**
