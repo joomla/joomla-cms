@@ -222,7 +222,6 @@ label,input,button,select,textarea {
 
 label {
 	color: #333333;
-	display: block;
 	margin-bottom: 5px;
 	max-width: 90%
 }

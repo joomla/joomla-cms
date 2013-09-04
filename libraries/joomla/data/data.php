@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Data
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -33,7 +33,7 @@ class JData implements JDataDumpable, IteratorAggregate, JsonSerializable, Count
 	 * @param   mixed  $properties  Either an associative array or another object
 	 *                              by which to set the initial properties of the new object.
 	 *
-	 * @since   11.1
+	 * @since   12.3
 	 * @throws  InvalidArgumentException
 	 */
 	public function __construct($properties = array())
@@ -254,6 +254,7 @@ class JData implements JDataDumpable, IteratorAggregate, JsonSerializable, Count
 					$value = $value->dump($depth - 1, $dumped);
 				}
 			}
+
 			// Check if the object is a date.
 			if ($value instanceof JDate)
 			{

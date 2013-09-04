@@ -249,10 +249,11 @@ class LanguagesModelOverrides extends JModelList
 		// Write override.ini file with the left strings
 		$registry = new JRegistry;
 		$registry->loadObject($strings);
+		$reg = $registry->toString('INI');
 
 		$filename = constant('JPATH_' . strtoupper($this->getState('filter.client'))) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
 
-		if (!JFile::write($filename, $registry->toString('INI')))
+		if (!JFile::write($filename, $reg))
 		{
 			return false;
 		}

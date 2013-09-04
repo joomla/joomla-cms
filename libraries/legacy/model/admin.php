@@ -566,12 +566,13 @@ abstract class JModelAdmin extends JModelForm
 				$table->reset();
 				$table->load($pk);
 				$tags = array($value);
-				$typeAlias = $table->get('tagsHelper')->typeAlias;
 
-				$oldTags = $table->get('tagsHelper')->getTagIds($pk, $typeAlias);
-				$table->get('tagsHelper')->oldTags = $oldTags;
-
-				if (!$table->get('tagsHelper')->postStoreProcess($table, $tags, false))
+				/**
+				 * @var  JTableObserverTags  $tagsObserver
+				 */
+				$tagsObserver = $table->getObserverOfClass('JTableObserverTags');
+				$result = $tagsObserver->setNewTags($tags, false);
+				if (!$result)
 				{
 					$this->setError($table->getError());
 

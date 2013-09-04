@@ -155,6 +155,7 @@ class JBuffer
 				if ($offset < strlen($this->buffers[$this->name]) && $offset >= 0)
 				{
 					$this->position = $offset;
+
 					return true;
 				}
 				else
@@ -167,6 +168,7 @@ class JBuffer
 				if ($offset >= 0)
 				{
 					$this->position += $offset;
+
 					return true;
 				}
 				else
@@ -179,6 +181,7 @@ class JBuffer
 				if (strlen($this->buffers[$this->name]) + $offset >= 0)
 				{
 					$this->position = strlen($this->buffers[$this->name]) + $offset;
+
 					return true;
 				}
 				else
