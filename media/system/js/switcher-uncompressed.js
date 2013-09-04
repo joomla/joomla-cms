@@ -39,8 +39,13 @@ var JSwitcher = function(toggler, element, _options) {
                 display($(this).attr('id'));
             });
         })
+            
         var first = document.location.hash.substring(1);
-        display(first);
+        if (first) {
+            display(first);
+        } else if ($togglers.length) {
+            display($togglers.first().attr('id'));
+        }
     },
     
     display = function(togglerId) {
