@@ -30,6 +30,7 @@ class JFormFieldOrdering extends JFormField
 	 * Method to get the field input markup.
 	 *
 	 * @return  string	The field input markup.
+	 *
 	 * @since   1.6
 	 */
 	protected function getInput()
@@ -38,12 +39,12 @@ class JFormFieldOrdering extends JFormField
 		$attr = '';
 
 		// Initialize some field attributes.
-		$attr .= $this->element['class'] ? ' class="'.(string) $this->element['class'].'"' : '';
+		$attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
 		$attr .= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
-		$attr .= $this->element['size'] ? ' size="'.(int) $this->element['size'].'"' : '';
+		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
 
 		// Initialize JavaScript field attributes.
-		$attr .= $this->element['onchange'] ? ' onchange="'.(string) $this->element['onchange'].'"' : '';
+		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
 		// Get some field values from the form.
 		$bannerId	= (int) $this->form->getValue('id');
@@ -59,10 +60,11 @@ class JFormFieldOrdering extends JFormField
 		if ((string) $this->element['readonly'] == 'true')
 		{
 			$html[] = JHtml::_('list.ordering', '', $query, trim($attr), $this->value, $bannerId ? 0 : 1);
-			$html[] = '<input type="hidden" name="'.$this->name.'" value="'.$this->value.'"/>';
+			$html[] = '<input type="hidden" name="' . $this->name . '" value="' . $this->value . '"/>';
 		}
-		// Create a regular list.
-		else {
+		else
+		{
+			// Create a regular list.
 			$html[] = JHtml::_('list.ordering', $this->name, $query, trim($attr), $this->value, $bannerId ? 0 : 1);
 		}
 
