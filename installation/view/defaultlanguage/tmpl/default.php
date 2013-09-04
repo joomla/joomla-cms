@@ -21,7 +21,7 @@ defined('_JEXEC') or die;
 				<i class="icon-arrow-left"></i>
 				<?php echo JText::_('JPREVIOUS'); ?>
 			</a>
-			<?php // Check if ther is any languages to list, if not you cannot move forward   ?>
+			<?php // Check if there are languages in the list, if not you cannot move forward ?>
 			<?php if ($this->items->administrator) : ?>
 				<a
 					class="btn btn-primary"

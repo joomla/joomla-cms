@@ -707,7 +707,7 @@ class InstallationModelLanguages extends JModelBase
 
 		$menuData = array(
 			'id'          => 0,
-			'menutype'    => 'mainmenu_' . $itemLanguage->language,
+			'menutype'    => 'mainmenu-' . strtolower($itemLanguage->language),
 			'title'       => 'Main Menu (' . $itemLanguage->language . ')',
 			'description' => 'The main menu for the site in language ' . $itemLanguage->name
 		);
@@ -756,7 +756,7 @@ class InstallationModelLanguages extends JModelBase
 			'id'           => 0,
 			'title'        => $title,
 			'alias'        => $alias,
-			'menutype'     => 'mainmenu-' . $itemLanguage->language,
+			'menutype'     => 'mainmenu-' . strtolower($itemLanguage->language),
 			'type'         => 'component',
 			'link'         => 'index.php?option=com_content&view=featured',
 			'component_id' => 22,
@@ -764,7 +764,7 @@ class InstallationModelLanguages extends JModelBase
 			'parent_id'    => 1,
 			'level'        => 1,
 			'home'         => 1,
-			'params'       => '{"featured_categories":[""],"num_leading_articles":"1","num_intro_articles":"3","num_columns":"3","num_links":"0","orderby_pri":"","orderby_sec":"front","order_date":"","multi_column_order":"1","show_pagination":"2","show_pagination_results":"1","show_noauth":"","article-allow_ratings":"","article-allow_comments":"","show_feed_link":"1","feed_summary":"","show_title":"","link_titles":"","show_intro":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_readmore":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","show_page_heading":1,"page_title":"","page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',
+			'params'       => '{"featured_categories":[""],"layout_type":"blog","num_leading_articles":"1","num_intro_articles":"3","num_columns":"3","num_links":"0","orderby_pri":"","orderby_sec":"front","order_date":"","multi_column_order":"1","show_pagination":"2","show_pagination_results":"1","show_noauth":"","article-allow_ratings":"","article-allow_comments":"","show_feed_link":"1","feed_summary":"","show_title":"","link_titles":"","show_intro":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_readmore":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","show_page_heading":1,"page_title":"","page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',
 			'language'     => $itemLanguage->language
 		);
 
@@ -809,10 +809,11 @@ class InstallationModelLanguages extends JModelBase
 	public function addModuleMenu($itemLanguage)
 	{
 		$tableModule = JTable::getInstance('Module', 'JTable');
+		$title = 'Main menu ' . $itemLanguage->language;
 
 		$moduleData = array(
 			'id'        => 0,
-			'title'     => 'Main Menu',
+			'title'     => $title,
 			'note'      => '',
 			'content'   => '',
 			'position'  => 'position-7',
