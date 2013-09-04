@@ -44,7 +44,8 @@ class PlgContentVote extends JPlugin
 
 		if (!empty($params) && $params->get('show_vote', null))
 		{
-			$rating = (int) @$row->rating;
+			$rating      = (int) @$row->rating;
+			$ratingCount = (int) $row->rating_count;
 
 			$view = JFactory::getApplication()->input->getString('view', '');
 			$img  = '';
@@ -63,10 +64,14 @@ class PlgContentVote extends JPlugin
 				$img .= $starImageOff;
 			}
 
-			$microdata = JFactory::getMicrodata()->setType('Article');
+			$microdata = JFactory::getMicrodata();
 
 			$html .= '<div class="content_rating">'
-				. '<p class="unseen element-invisible" ' . $microdata->property('aggregateRating')->display() . '>' . JText::sprintf('PLG_VOTE_USER_RATING', $microdata->setType('AggregateRating')->content($rating)->property('ratingValue')->display(), $microdata->content('5')->property('bestRating')->display()) . '</p>'
+				. '<p class="unseen element-invisible" ' . $microdata->property('aggregateRating')->display() . '>'
+				. JText::sprintf('PLG_VOTE_USER_RATING', $microdata->setType('AggregateRating')->content($rating)->property('ratingValue')->display(), $microdata->content('5')->property('bestRating')->display())
+				. $microdata->property('ratingCount')->content($ratingCount)->display('meta')
+				. $microdata->property('worstRating')->content('0')->display('meta')
+				. '</p>'
 				. $img . '</div>';
 
 			if ($view == 'article' && $row->state == 1)

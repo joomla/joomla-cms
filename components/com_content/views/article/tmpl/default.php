@@ -19,10 +19,12 @@ $canEdit    = $params->get('access-edit');
 $user       = JFactory::getUser();
 $info       = $params->get('info_block_position', 0);
 $microdata  = JFactory::getMicrodata()->enable($params->get('microdata'))->setType($params->get('microdata_type'));
+$language   = ($this->item->language === '*') ? JFactory::getConfig()->get('language') : $this->item->language;
 
 JHtml::_('behavior.caption');
 ?>
 <div class="item-page<?php echo $this->pageclass_sfx?>" <?php echo $microdata->displayScope();?>>
+	<?php echo $microdata->content($language)->property('inLanguage')->fallback('Language', 'name')->display('meta'); ?>
 	<?php if ($this->params->get('show_page_heading') && $params->get('show_title')) : ?>
 	<div class="page-header">
 		<h1> <?php echo $this->escape($this->params->get('page_heading')); ?> </h1>

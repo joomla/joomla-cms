@@ -438,6 +438,12 @@
 				label="JGLOBAL_MICRODATA_TYPE_LABEL"
 				description="JGLOBAL_MICRODATA_TYPE_DESC">
 				<option value="article">Article</option>
+				<option value="blogPosting">BlogPosting</option>
+				<option value="medicalScholarlyArticle">MedicalScholarlyArticle</option>
+				<option value="newsArticle">NewsArticle</option>
+				<option value="recipe">Recipe</option>
+				<option value="review">Review</option>
+				<option value="techArticle">TechArticle</option>
 				<option value="thing">Thing</option>
 			</field>
 		</fieldset>
