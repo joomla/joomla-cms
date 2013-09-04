@@ -18,22 +18,6 @@ defined('_JEXEC') or die;
  */
 class ServicesModelTemplates extends JModelCmsform
 {
-	/**
-	 * @var		string	The help screen key for the module.
-	 * @since   3.2
-	 */
-	protected $helpKey = 'JHELP_EXTENSIONS_TEMPLATE_MANAGER_STYLES_EDIT';
-
-	/**
-	 * @var		string	The help screen base URL for the module.
-	 * @since   3.2
-	 */
-	protected $helpURL;
-
-	/**
-	 * Item cache.
-	 */
-	private $_cache = array();
 
 	/**
 	 * Method to auto-populate the model state.
@@ -59,15 +43,34 @@ class ServicesModelTemplates extends JModelCmsform
 	 *
 	 * @param   array    $data      An optional array of data for the form to interogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
-	 * 
+	 *
 	 * @return  JForm	A JForm object on success, false on failure
-	 * 
+	 *
 	 * @since   3.2
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
-		$form = $this->loadForm('com_services.templates', 'templates', array('control' => 'jform', 'load_data' => $loadData));
+				$form = $this->loadForm('com_services.templates', 'templates', array('control' => 'jform', 'load_data' => $loadData));
+/*
+		try
+		{
+			$form = new JForm('com_services.templates');
+			$data = array();
+			$this->preprocessForm($form, $data);
+
+			// Load the data into the form
+			$form->bind($data);
+		}
+		catch (Exception $e)
+		{
+			
+			$app = JFactory::getApplication();
+			$app->enqueueMessage($e->getMessage());
+
+			return false;
+		}
+*/
 
 		if (empty($form))
 		{
@@ -80,7 +83,7 @@ class ServicesModelTemplates extends JModelCmsform
 	/**
 	 * @param   object  $form  A form object.
 	 * @param   mixed   $data  The data expected for the form.
-	 * 
+	 *
 	 * @throws	Exception if there is an error in the form event.
 	 * @since   3.2
 	 */
@@ -95,7 +98,7 @@ class ServicesModelTemplates extends JModelCmsform
 		jimport('joomla.filesystem.path');
 
 		// Load the core and/or local language file(s).
-			$lang->load('tpl_' . $template, JPATH_BASE, null, false, false)
+		$lang->load('tpl_' . $template, JPATH_BASE, null, false, false)
 		||	$lang->load('tpl_' . $template, JPATH_BASE . '/templates/' . $template, null, false, false)
 		||	$lang->load('tpl_' . $template, JPATH_BASE, $lang->getDefault(), false, false)
 		||	$lang->load('tpl_' . $template, JPATH_BASE . '/templates/' . $template, $lang->getDefault(), false, false);
@@ -118,29 +121,10 @@ class ServicesModelTemplates extends JModelCmsform
 			}
 		}
 
-		// Disable home field if it is default style
-		if ((is_array($data) && array_key_exists('home', $data) && $data['home'] == '1')
-			|| ((is_object($data) && isset($data->home) && $data->home == '1')))
-		{
-			$form->setFieldAttribute('home', 'readonly', 'true');
-		}
-
 		// Attempt to load the xml file.
 		if (!$xml = simplexml_load_file($formFile))
 		{
 			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
-		}
-
-		// Get the help data from the XML file if present.
-		$help = $xml->xpath('/extension/help');
-
-		if (!empty($help))
-		{
-			$helpKey = trim((string) $help[0]['key']);
-			$helpURL = trim((string) $help[0]['url']);
-
-			$this->helpKey = $helpKey ? $helpKey : $this->helpKey;
-			$this->helpURL = $helpURL ? $helpURL : $this->helpURL;
 		}
 
 		// Trigger the default form events.

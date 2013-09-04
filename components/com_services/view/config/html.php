@@ -19,7 +19,6 @@ defined('_JEXEC') or die;
  */
 class ServicesViewConfigHtml extends JViewCms
 {
-	public $state;
 
 	public $form;
 
@@ -28,32 +27,13 @@ class ServicesViewConfigHtml extends JViewCms
 	/**
 	 * Method to display the view.
 	 * 
-	 * @param   string  $tpl          Layout
-	 * 
 	 * @return  void
 	 *
 	 */
 	public function render()
 	{
 
-		try
-		{
-			$user = JFactory::getUser();
-			$app   = JFactory::getApplication();
-		}
-		catch (Exception $e)
-		{
-			$app->enqueueMessage($e->getMessage(), 'error');
-		}
-		// Check for model errors.
-		/* if ($errors = $this->get('Errors'))
-		{
-			$app->enqueueMessage(implode('<br />', $errors), 'error');
-			
-			return;
-
-		} */
-
+		$user = JFactory::getUser();
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
 
 		return parent::render();

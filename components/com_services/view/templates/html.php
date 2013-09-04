@@ -18,14 +18,16 @@ defined('_JEXEC') or die;
  */
 class ServicesViewTemplatesHtml extends JViewCms
 {
+
 	public $item;
 
 	public $form;
 
-	public $state;
-
 	/**
-	 * Display the view
+	 * Method to display the view.
+	 * 
+	 * @return  void
+	 * 
 	 */
 	public function render()
 	{
