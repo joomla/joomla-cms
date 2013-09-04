@@ -52,7 +52,7 @@ abstract class JRackspaceObject
 	 *
 	 * @throws DomainException
 	 *
-	 * @return mixed
+	 * @return mixed  The decoded response body
 	 */
 	public function processResponse(JHttpResponse $response, $expectedCode = 200)
 	{
@@ -70,7 +70,7 @@ abstract class JRackspaceObject
 	/**
 	 * Send an authentication request.
 	 *
-	 * @return string
+	 * @return string  The response headers
 	 */
 	public function getAuthTokenHeaders()
 	{
@@ -91,6 +91,6 @@ abstract class JRackspaceObject
 			return $response->headers;
 		}
 
-		return null;
+		return "The response code was " . $response->code . ".";
 	}
 }

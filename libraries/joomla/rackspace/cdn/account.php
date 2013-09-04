@@ -61,6 +61,6 @@ class JRackspaceCdnAccount extends JRackspaceCdn
 			return "The account has no containers.\n";
 		}
 
-		return $response->headers;
+		return "The response code was " . $response->code . ".";
 	}
 }

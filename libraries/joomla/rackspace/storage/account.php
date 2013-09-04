@@ -21,7 +21,7 @@ class JRackspaceStorageAccount extends JRackspaceStorage
 	/**
 	 * Creates a request to view the account information
 	 *
-	 * @return string  The response body
+	 * @return string  The response headers
 	 *
 	 * @since   ??.?
 	 */
@@ -45,7 +45,7 @@ class JRackspaceStorageAccount extends JRackspaceStorage
 			return $response->headers;
 		}
 
-		return null;
+		return "The response code was " . $response->code . ".";
 	}
 
 	/**
@@ -87,6 +87,6 @@ class JRackspaceStorageAccount extends JRackspaceStorage
 			return $this->processResponse($response);
 		}
 
-		return null;
+		return "The response code was " . $response->code . ".";
 	}
 }

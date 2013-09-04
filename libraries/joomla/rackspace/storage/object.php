@@ -25,7 +25,7 @@ class JRackspaceStorageObject extends JRackspaceStorage
 	 * @param   string  $object     The object name
 	 * @param   array   $options    Additional headers
 	 *
-	 * @return string  The response body
+	 * @return string  The response body or a message corresponding to the response code
 	 *
 	 * @since   ??.?
 	 */
@@ -53,11 +53,20 @@ class JRackspaceStorageObject extends JRackspaceStorage
 		// Send the http request
 		$response = $this->client->get($url, $headers);
 
-		return $response->body;
+		if ($response->code == 200)
+		{
+			return $response->body;
+		}
+		elseif ($response->code == 404)
+		{
+			return "The \"" . $container . "/" . $object . "\" object was not found.\n";
+		}
+
+		return "The response code was " . $response->code . ".";
 	}
 
 	/**
-	 * PUT operations are used to write, or overwrite, an object's content and metadata.
+	 * PUT operations are used to write or overwrite an object's content and metadata.
 	 *
 	 * @param   string  $container  The container name
 	 * @param   string  $object     The object name
@@ -104,11 +113,8 @@ class JRackspaceStorageObject extends JRackspaceStorage
 		{
 			return "The \"" . $object . "\" object was successfully created.\n";
 		}
-		else
-		{
-			return "The \"" . $object . "\" object was not successfully created.\n"
-				. "Response code: " . $response->code . ".";
-		}
+
+		return "The response code was " . $response->code . ".";
 	}
 
 	/**
@@ -151,11 +157,8 @@ class JRackspaceStorageObject extends JRackspaceStorage
 		{
 			return "The \"" . $sourceObject . "\" object was successfully copied.\n";
 		}
-		else
-		{
-			return "The \"" . $sourceObject . "\" object was not successfully copied.\n"
-				. "Response code: " . $response->code . ".";
-		}
+
+		return "The response code was " . $response->code . ".";
 	}
 
 	/**
@@ -185,13 +188,11 @@ class JRackspaceStorageObject extends JRackspaceStorage
 
 		if ($response->code == 204)
 		{
-			return "The \"" . $object . "\" object was successfully deleted.\n";
+			return "The \"" . $container . "/" . $object . "\" object "
+				. "was successfully deleted.\n";
 		}
-		else
-		{
-			return "The \"" . $object . "\" object was not successfully deleted.\n"
-				. "Response code: " . $response->code . ".";
-		}
+
+		return "The response code was " . $response->code . ".";
 	}
 
 	/**
@@ -223,11 +224,8 @@ class JRackspaceStorageObject extends JRackspaceStorage
 		{
 			return $response->headers;
 		}
-		else
-		{
-			return "The \"" . $object . "\" object's metadata were not successfully retrieved.\n"
-				. "Response code: " . $response->code . ".";
-		}
+
+		return "The response code was " . $response->code . ".";
 	}
 
 	/**
@@ -256,7 +254,7 @@ class JRackspaceStorageObject extends JRackspaceStorage
 		// Set the metadata
 		foreach ($metadata as $key => $value)
 		{
-			$headers["X-Object-Meta-" . $key] = $value;
+			$headers[$key] = $value;
 		}
 
 		// Send the http request
@@ -264,13 +262,15 @@ class JRackspaceStorageObject extends JRackspaceStorage
 
 		if ($response->code == 202)
 		{
-			return "The \"" . $object . "\" object's metadata were successfully updated.\n";
+			return "The \"" . $container . "/" . $object . "\" object's "
+				. "metadata were successfully (un)set.\n";
 		}
-		else
+		elseif ($response->code == 404)
 		{
-			return "The \"" . $object . "\" object's metadata were not successfully updated.\n"
-				. "Response code: " . $response->code . ".";
+			return "The \"" . $container . "/" . $object . "\" object was not found.\n";
 		}
+
+		return "The response code was " . $response->code . ".";
 	}
 
 	/**
@@ -286,30 +286,35 @@ class JRackspaceStorageObject extends JRackspaceStorage
 	 */
 	public function removeObjectMetadata($container, $object, $metadata)
 	{
-		$authTokenHeaders = $this->getAuthTokenHeaders();
-		$url = $authTokenHeaders["X-Storage-Url"] . "/" . $container . "/" . $object;
-
-		// Create the headers
-		$headers = array(
-			"Host" => $this->options->get("storage.host"),
-		);
-		$headers["X-Auth-Token"] = $authTokenHeaders["X-Auth-Token"];
-
 		foreach ($metadata as $key)
 		{
-			$headers["X-Remove-Object-Meta-" . $key] = "foo";
+			$removeMetadata[$key] = "foo";
 		}
 
-		// Send the http request
-		$response = $this->client->post($url, "", $headers);
+		return $this->updateObjectMetadata($container, $object, $removeMetadata);
+	}
 
-		if ($response->code == 202)
+	/**
+	 * Seeks for one of the tar, tar.gz, or tar.bz2 extensions and returns it.
+	 *
+	 * @param   string  $archive  The archive name
+	 *
+	 * @return string  The matching extension
+	 *
+	 * @since   ??.?
+	 */
+	public function getExtension($archive)
+	{
+		// Specify the valid extensions
+		$validExtensions = array("tar", "tar.gz", "tar.bz2");
+
+		// Look for them at the end of the archive
+		foreach ($validExtensions as $ext)
 		{
-			return "The \"" . $object . "\" object's metadata were successfully removed.\n";
-		}
-		elseif ($response->code == 404)
-		{
-			return "The \"" . $object . "\" object was not found.\n";
+			if (substr_compare($archive, $ext, -strlen($ext), strlen($ext)) === 0)
+			{
+				return $ext;
+			}
 		}
 
 		return null;
@@ -328,9 +333,16 @@ class JRackspaceStorageObject extends JRackspaceStorage
 	 */
 	public function extractArchive($archive, $upload_path)
 	{
+		$extension = $this->getExtension($archive);
+
+		if ($extension == null)
+		{
+			return "The only accepted formats are tar, tar.gz and tar.bz2.";
+		}
+
 		$authTokenHeaders = $this->getAuthTokenHeaders();
 		$url = $authTokenHeaders["X-Storage-Url"] . "/" . $upload_path
-			. "?extract-archive=tar";
+			. "?extract-archive=" . $extension;
 
 		// Create the headers
 		$headers = array(
@@ -345,6 +357,8 @@ class JRackspaceStorageObject extends JRackspaceStorage
 		// Send the http request
 		$response = $this->client->put($url, $data, $headers);
 
+		// The response code is always 200. You have to check the request body
+		// to see if it was actually successful or not.
 		return $this->processResponse($response);
 	}
 
@@ -383,6 +397,8 @@ class JRackspaceStorageObject extends JRackspaceStorage
 		// Send the http request
 		$response = $this->client->deleteWithBody($url, $data, $headers);
 
+		// The response code is always 200. You have to check the request body
+		// to see if it was actually successful or not.
 		return $this->processResponse($response);
 	}
 }
