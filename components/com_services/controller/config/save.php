@@ -27,7 +27,7 @@ class ServicesControllerConfigSave extends JControllerBase
 	public function execute()
 	{
 		// Check for request forgeries.
-		if(!JSession::checkToken())
+		if (!JSession::checkToken())
 		{
 			JFactory::getApplication()->redirect('index.php', JText::_('JINVALID_TOKEN'));
 		}

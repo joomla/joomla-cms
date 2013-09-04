@@ -24,19 +24,19 @@ $app = JFactory::getApplication();
 
 if ($controllerTask = $app->input->get('controller'))
 	// Checking for new MVC controller
-	$array = explode(".", $controllerTask);
+	$tasks = explode('.', $controllerTask);
 else
 {
 	// Checking for old MVC task
 	$task = $app->input->get('task');
-	$array = explode(".", $task);
+	$tasks = explode('.', $task);
 }
 
-if (empty($array[1]))
+if (empty($tasks[1]))
 	$activity = 'display';
-elseif ($array[1] == 'apply')
+elseif ($tasks[1] == 'apply')
 	$activity = 'save';
-else $activity = $array[1];
+else $activity = $tasks[1];
 
 // Create the controller
 

@@ -10,7 +10,8 @@ defined('_JEXEC') or die;
 
 class modAdminServicesHelper {
 
-	public static function execute($params){
+	public static function execute($params)
+	{
 
 		$result = '';
 

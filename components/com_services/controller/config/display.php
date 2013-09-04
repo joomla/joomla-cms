@@ -38,8 +38,6 @@ class ServicesControllerConfigDisplay extends JControllerBase
 		$viewFormat   = $document->getType();
 		$layoutName   = $this->input->getWord('layout', 'default');
 
-
-
 		// Access back-end com_config
 		JLoader::registerPrefix(ucfirst($viewName), JPATH_ADMINISTRATOR . '/components/com_config');
 		$displayClass = new ConfigControllerApplicationDisplay;
@@ -79,7 +77,7 @@ class ServicesControllerConfigDisplay extends JControllerBase
 				}
 
 			}
-			
+
 			$view = new $viewClass($model, $paths);
 
 			$view->setLayout($layoutName);
@@ -89,6 +87,7 @@ class ServicesControllerConfigDisplay extends JControllerBase
 
 			// Load form and bind data
 			$form = $model->getForm();
+
 			if ($form)
 			{
 				$form->bind($serviceData);
