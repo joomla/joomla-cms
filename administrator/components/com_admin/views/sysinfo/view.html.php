@@ -19,32 +19,38 @@ defined('_JEXEC') or die;
 class AdminViewSysinfo extends JViewLegacy
 {
 	/**
-	 * @var array some php settings
+	 * @var  array   Some php settings
 	 */
 	protected $php_settings = null;
 
 	/**
-	 * @var array config values
+	 * @var   array  Config values
 	 */
 	protected $config = null;
 
 	/**
-	 * @var array somme system values
+	 * @var   array  Some system values
 	 */
 	protected $info = null;
 
 	/**
-	 * @var string php info
+	 * @var   string  PHP info
 	 */
 	protected $php_info = null;
 
 	/**
-	 * @var array informations about writable state of directories
+	 * @var   array  Information about writable state of directories
 	 */
 	protected $directory = null;
 
 	/**
-	 * Display the view
+	 * Method to display the view.
+	 *
+	 * @param   string  $tpl  A template file to load. [optional]
+	 *
+	 * @return  mixed   void on success, JError on failure
+	 *
+	 * @since   1.5
 	 */
 	public function display($tpl = null)
 	{
@@ -87,7 +93,9 @@ class AdminViewSysinfo extends JViewLegacy
 	}
 
 	/**
-	 * Setup the Toolbar
+	 * Add the page title and toolbar.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */

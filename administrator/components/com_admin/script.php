@@ -21,7 +21,7 @@ class JoomlaInstallerScript
 	/**
 	 * Method to update Joomla!
 	 *
-	 * @param   JInstallerFile    $installer    The class calling this method
+	 * @param   JInstallerFile  $installer  The class calling this method
 	 *
 	 * @return void
 	 */
@@ -35,26 +35,33 @@ class JoomlaInstallerScript
 	protected function updateDatabase()
 	{
 		$db = JFactory::getDbo();
+
 		if (substr($db->name, 0, 5) == 'mysql')
 		{
 			$db->setQuery('SHOW ENGINES');
 			$results = $db->loadObjectList();
+
 			if ($db->getErrorNum())
 			{
 				echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()) . '<br />';
+
 				return;
 			}
+
 			foreach ($results as $result)
 			{
 				if ($result->Support == 'DEFAULT')
 				{
 					$db->setQuery('ALTER TABLE #__update_sites_extensions ENGINE = ' . $result->Engine);
 					$db->execute();
+
 					if ($db->getErrorNum())
 					{
 						echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()) . '<br />';
+
 						return;
 					}
+
 					break;
 				}
 			}
@@ -64,9 +71,10 @@ class JoomlaInstallerScript
 	protected function updateManifestCaches()
 	{
 		$extensions = array();
+
 		// Components
 
-		//`type`, `element`, `folder`, `client_id`
+		// `type`, `element`, `folder`, `client_id`
 		$extensions[] = array('component', 'com_mailto', '', 0);
 		$extensions[] = array('component', 'com_wrapper', '', 0);
 		$extensions[] = array('component', 'com_admin', '', 1);
@@ -214,19 +222,24 @@ class JoomlaInstallerScript
 		$query = $db->getQuery(true)
 			->select('*')
 			->from('#__extensions');
+
 		foreach ($extensions as $extension)
 		{
 			$query->where('type=' . $db->quote($extension[0]) . ' AND element=' . $db->quote($extension[1]) . ' AND folder=' . $db->quote($extension[2]) . ' AND client_id=' . $extension[3], 'OR');
 		}
+
 		$db->setQuery($query);
 		$extensions = $db->loadObjectList();
 		$installer = new JInstaller;
+
 		// Check for a database error.
 		if ($db->getErrorNum())
 		{
 			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()) . '<br />';
+
 			return;
 		}
+
 		foreach ($extensions as $extension)
 		{
 			if (!$installer->refreshManifestCache($extension->extension_id))
@@ -973,6 +986,7 @@ class JoomlaInstallerScript
 		);
 
 		jimport('joomla.filesystem.file');
+
 		foreach ($files as $file)
 		{
 			if (JFile::exists(JPATH_ROOT . $file) && !JFile::delete(JPATH_ROOT . $file))
@@ -982,6 +996,7 @@ class JoomlaInstallerScript
 		}
 
 		jimport('joomla.filesystem.folder');
+
 		foreach ($folders as $folder)
 		{
 			if (JFolder::exists(JPATH_ROOT . $folder) && !JFolder::delete(JPATH_ROOT . $folder))

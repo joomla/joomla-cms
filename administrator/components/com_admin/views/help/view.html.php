@@ -49,7 +49,13 @@ class AdminViewHelp extends JViewLegacy
 	protected $start_here = null;
 
 	/**
-	 * Display the view
+	 * Method to display the view.
+	 *
+	 * @param   string  $tpl  A template file to load. [optional]
+	 *
+	 * @return  void
+	 *
+	 * @since   1.5
 	 */
 	public function display($tpl = null)
 	{
@@ -62,8 +68,11 @@ class AdminViewHelp extends JViewLegacy
 		$this->addToolbar();
 		parent::display($tpl);
 	}
+
 	/**
-	 * Setup the Toolbar
+	 * Add the page title.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
