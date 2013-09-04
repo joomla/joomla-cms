@@ -25,6 +25,19 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-Sep-2013 Michael Babker
+ + [#31800] Add Joomla Ajax Interface to core.  Thanks Matt Thomas
+ # [#31915] *Strict Standards: Only variables should be passed by reference when saving/deleting lang override.  Thanks Jean-Marie Simonet
+
+03-Sep-2013 Jean-Marie Simonet
+ $ Adding Tamil to tinymce lang files
+
+02-Sep-2013 Mark Dexter
+ # Fix code-style issues from [#30944] Content versioning. Thanks George Wilson.
+
+02-Sep-2013 Jean-Marie Simonet
+ + [#30944] Content versioning for core and third-party components. Thanks Mark Dexter
+
 28-Aug-2013 Michael Babker
  $^ [#31009] Add a switch to turn mail sending on/off.  Thanks Roland Dalmulder
 
