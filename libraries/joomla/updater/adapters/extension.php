@@ -59,11 +59,11 @@ class JUpdaterExtension extends JUpdateAdapter
 				if (in_array($name, $this->updatecols))
 				{
 					$name = strtolower($name);
-					$this->currentUpdate ->$name = '';
+					$this->currentUpdate->$name = '';
 				}
 				if ($name == 'TARGETPLATFORM')
 				{
-					$this->currentUpdate ->targetplatform = $attrs;
+					$this->currentUpdate->targetplatform = $attrs;
 				}
 				break;
 		}
