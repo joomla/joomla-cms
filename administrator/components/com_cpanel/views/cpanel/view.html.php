@@ -46,7 +46,7 @@ class CpanelViewCpanel extends JViewLegacy
 			$app = JFactory::getApplication();
 			$cacheHandler = $app->getCfg('cacheHandler', '');
 
-			if ($cacheHandler == 'Eaccelerator')
+			if (ucfirst($cacheHandler) == 'Eaccelerator')
 			{
 				$app->enqueueMessage(JText::_('COM_CPANEL_MSG_EACCELERATOR'), 'warning');
 			}
