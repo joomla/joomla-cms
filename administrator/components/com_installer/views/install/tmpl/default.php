@@ -12,11 +12,15 @@ $app = JFactory::getApplication();
 $appsBaseUrl = InstallerModelInstall::$appsBaseUrl;
 $installfrom = base64_decode($app->input->get('installfrom', '', 'base64'));
 $document = JFactory::getDocument();
+$ver = new JVersion;
 ?>
 <script type="text/javascript">
 	apps_base_url = '<?php echo $appsBaseUrl; ?>';
 	apps_installat_url = '<?php echo base64_encode(JURI::current(true) . '?option=com_installer&view=install'); ?>';
 	apps_installfrom_url = '<?php echo addslashes($installfrom); ?>';
+	apps_product = '<?php echo base64_encode($ver->PRODUCT); ?>';
+	apps_release = '<?php echo base64_encode($ver->RELEASE); ?>';
+	apps_dev_level = '<?php echo base64_encode($ver->DEV_LEVEL); ?>';
 
 	jQuery(document).ready(function() {
 		var link = jQuery('#myTabTabs a[href="#web"]').get(0);
