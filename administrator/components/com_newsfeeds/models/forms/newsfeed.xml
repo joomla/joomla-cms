@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
+
 	<fieldset addfieldpath="/administrator/components/com_categories/models/fields" >
+
 		<field name="id" type="text" default="0"
 			readonly="true" class="readonly" label="JGLOBAL_FIELD_ID_LABEL"
 			description="JGLOBAL_FIELD_ID_DESC" />
@@ -15,8 +17,7 @@
 
 		<field name="published" type="list"
 			label="JSTATUS" description="JFIELD_PUBLISHED_DESC"
-			class="inputbox span12 small" size="1" default="1"
-		>
+			class="inputbox span12 small" size="1" default="1">
 			<option value="1">
 				JPUBLISHED</option>
 			<option value="0">
@@ -29,32 +30,28 @@
 
 		<field name="catid" type="categoryedit" extension="com_newsfeeds"
 			label="JCATEGORY" description="COM_NEWSFEEDS_FIELD_CATEGORY_DESC"
-			class="inputbox" required="true"
-		>
+			class="inputbox" required="true">
 		</field>
 
 		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
-			description="COM_NEWSFEEDS_FIELD_LANGUAGE_DESC" class="inputbox span12 small"
-		>
+			description="COM_NEWSFEEDS_FIELD_LANGUAGE_DESC" class="inputbox span12 small">
 			<option value="*">JALL</option>
 		</field>
 
-		<field name="tags" 
+		<field name="tags"
 			type="tag"
 			label="JTAG"
 			description="JTAG_DESC"
 			class="inputbox span12 small"
-			multiple="true"
-		>
+			multiple="true">
 		</field>
-		
-		<field name="version_note" 
-			type="text" 
+
+		<field name="version_note"
+			type="text"
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
-			description="JGLOBAL_FIELD_VERSION_NOTE_DESC" 
-			class="inputbox span12" size="45" 
-			labelclass="control-label"
-		/>
+			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
+			class="inputbox span12" size="45"
+			labelclass="control-label" />
 
 		<field name="description" type="editor" buttons="true" hide="pagebreak,readmore"
 			class="inputbox"
@@ -80,14 +77,10 @@
 
 		<field name="rtl" type="list" class="inputbox"
 			default="0" label="COM_NEWSFEEDS_FIELD_RTL_LABEL"
-			description="COM_NEWSFEEDS_FIELD_RTL_DESC"
-		>
-			<option value="0">COM_NEWSFEEDS_FIELD_VALUE_SITE
-			</option>
-			<option value="1">COM_NEWSFEEDS_FIELD_VALUE_LTR
-			</option>
-			<option value="2">COM_NEWSFEEDS_FIELD_VALUE_RTL
-			</option>
+			description="COM_NEWSFEEDS_FIELD_RTL_DESC">
+			<option value="0">COM_NEWSFEEDS_FIELD_VALUE_SITE</option>
+			<option value="1">COM_NEWSFEEDS_FIELD_VALUE_LTR</option>
+			<option value="2">COM_NEWSFEEDS_FIELD_VALUE_RTL</option>
 		</field>
 
 		<field name="created" type="calendar"
@@ -149,14 +142,15 @@
 			class="inputbox" size="20" />
 
 	</fieldset>
+
 	<fields name="images" label="JGLOBAL_FIELDSET_IMAGE_OPTIONS">
-			<field
-				name="image_first"
+
+			<field name="image_first"
 				type="media"
 				label="COM_NEWSFEEDS_FIELD_FIRST_LABEL"
 				description="COM_NEWSFEEDS_FIELD_FIRST_DESC" />
-			<field
-				name="float_first"
+
+			<field name="float_first"
 				type="list"
 				label="COM_NEWSFEEDS_FLOAT_LABEL"
 				description="COM_NEWSFEEDS_FLOAT_DESC">
@@ -165,30 +159,31 @@
 					<option value="left">COM_NEWSFEEDS_LEFT</option>
 					<option value="none">COM_NEWSFEEDS_NONE</option>
 			</field>
+
 			<field name="image_first_alt"
 				type="text"
 				label="COM_NEWSFEEDS_FIELD_IMAGE_ALT_LABEL"
 				description="COM_NEWSFEEDS_FIELD_IMAGE_ALT_DESC"
 				class="inputbox"
 				size="20" />
+
 			<field name="image_first_caption"
 				type="text"
 				label="COM_NEWSFEEDS_FIELD_IMAGE_CAPTION_LABEL"
 				description="COM_NEWSFEEDS_FIELD_IMAGE_CAPTION_DESC"
 				class="inputbox"
 				size="20" />
-			<field
-				name="spacer1"
+
+			<field name="spacer1"
 				type="spacer"
-				hr="true"
-				/>
-			<field
-				name="image_second"
+				hr="true" />
+
+			<field name="image_second"
 				type="media"
 				label="COM_NEWSFEEDS_FIELD_SECOND_LABEL"
 				description="COM_NEWSFEEDS_FIELD_SECOND_DESC" />
-			<field
-				name="float_second"
+
+			<field name="float_second"
 				type="list"
 				label="COM_NEWSFEEDS_FLOAT_LABEL"
 				description="COM_NEWSFEEDS_FLOAT_DESC">
@@ -197,27 +192,30 @@
 					<option value="left">COM_NEWSFEEDS_LEFT</option>
 					<option value="none">COM_NEWSFEEDS_NONE</option>
 			</field>
+
 			<field name="image_second_alt"
 				type="text"
 				label="COM_NEWSFEEDS_FIELD_IMAGE_ALT_LABEL"
 				description="COM_NEWSFEEDS_FIELD_IMAGE_ALT_DESC"
 				class="inputbox"
 				size="20" />
+
 			<field name="image_second_caption"
 				type="text"
 				label="COM_NEWSFEEDS_FIELD_IMAGE_CAPTION_LABEL"
 				description="COM_NEWSFEEDS_FIELD_IMAGE_CAPTION_DESC"
 				class="inputbox"
 				size="20" />
+
 	</fields>
 
 	<fields name="params" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
+
 		<fieldset name="jbasic" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
 
 			<field name="show_feed_image" type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
-				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC"
-			>
+				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -225,8 +223,7 @@
 
 			<field name="show_feed_description" type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
-				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_DESC"
-			>
+				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -234,8 +231,7 @@
 
 			<field name="show_item_description" type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
-				description="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_DESC"
-			>
+				description="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -244,36 +240,35 @@
 			<field name="feed_character_count" type="text" size="6"
 				default="0" label="COM_NEWSFEEDS_FIELD_CHARACTERS_COUNT_LABEL"
 				description="COM_NEWSFEEDS_FIELD_CHARACTERS_COUNT_DESC" />
-			<field
-				name="newsfeed_layout"
+
+			<field name="newsfeed_layout"
 				type="componentlayout"
 				label="JFIELD_ALT_LAYOUT_LABEL"
 				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
 				extension="com_newsfeeds"
 				view="newsfeed"
-				useglobal="true"
-				/>
+				useglobal="true" />
 
 			<field name="feed_display_order" type="list"
 				label="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_LABEL"
-				description="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_DESC"
-			>
+				description="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="des">JGLOBAL_MOST_RECENT_FIRST</option>
 				<option value="asc">JGLOBAL_OLDEST_FIRST</option>
 			</field>
 
 		</fieldset>
+
 	</fields>
 
 	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+
 		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 
 			<field name="robots"
 			type="list"
 			label="JFIELD_METADATA_ROBOTS_LABEL"
-			description="JFIELD_METADATA_ROBOTS_DESC"
-			>
+			description="JFIELD_METADATA_ROBOTS_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
 				<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
@@ -284,6 +279,7 @@
 			<field name="rights" type="text"
 				label="JFIELD_META_RIGHTS_LABEL" description="JFIELD_META_RIGHTS_DESC"
 				required="false" filter="string" cols="30" rows="2" />
+
 		</fieldset>
 
 		<field name="hits"

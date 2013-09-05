@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
-$form = $displayData->get('form');
+$form = $displayData->getForm();
 
 $name = $displayData->get('fieldset');
 $fieldSet = $form->getFieldset($name);

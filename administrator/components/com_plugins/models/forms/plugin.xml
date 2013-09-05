@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset>
-		<field
-			name="extension_id"
+
+		<field name="extension_id"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			description ="JGLOBAL_FIELD_ID_DESC"
 			type="text"
@@ -10,16 +10,14 @@
 			readonly="true"
 			class="readonly" />
 
-		<field
-			name="name"
+		<field name="name"
 			type="hidden"
 			label="COM_PLUGINS_FIELD_NAME_LABEL"
 			description="COM_PLUGINS_FIELD_NAME_DESC" />
 
-		<field
-			name="enabled"
+		<field name="enabled"
 			type="list"
-			class="chzn-color"
+			class="chzn-color-state"
 			label="JSTATUS"
 			description="COM_PLUGINS_FIELD_ENABLED_DESC"
 			size="1"
@@ -28,8 +26,7 @@
 			<option value="0">JDISABLED</option>
 		</field>
 
-		<field
-			name="folder"
+		<field name="folder"
 			type="text"
 			class="readonly"
 			size="20"
@@ -37,8 +34,7 @@
 			description="COM_PLUGINS_FIELD_FOLDER_DESC"
 			readonly="true" />
 
-		<field
-			name="element"
+		<field name="element"
 			type="text"
 			class="readonly"
 			size="20"
@@ -46,16 +42,14 @@
 			description="COM_PLUGINS_FIELD_ELEMENT_DESC"
 			readonly="true" />
 
-		<field
-			name="access"
+		<field name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
 			description="JFIELD_ACCESS_DESC"
 			class="inputbox"
 			size="1" />
 
-		<field
-			name="ordering"
+		<field name="ordering"
 			type="ordering"
 			class="inputbox"
 			label="JFIELD_ORDERING_LABEL"

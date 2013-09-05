@@ -6069,22 +6069,6 @@ fieldset.radio.btn-group {
 .form-vertical .controls {
 	margin-left: 0;
 }
-
-.form-vertical-desktop .control-label {
-	float: none;
-	width: auto;
-	padding-right: 0;
-	padding-top: 0;
-	text-align: left;
-}
-.form-vertical-desktop .control-label > label {
-	display: inline-block;
-	*display: inline;
-	*zoom: 1;
-}
-.form-vertical-desktop .controls {
-	margin-left: 0;
-}
 @media (max-width: 979px) {
 	.form-horizontal-desktop .control-label {
 		float: none;
@@ -6099,6 +6083,23 @@ fieldset.radio.btn-group {
 		*zoom: 1;
 	}
 	.form-horizontal-desktop .controls {
+		margin-left: 0;
+	}
+}
+@media (max-width: 1200px) {
+	.row-fluid .row-fluid .form-horizontal-desktop .control-label {
+		float: none;
+		width: auto;
+		padding-right: 0;
+		padding-top: 0;
+		text-align: left;
+	}
+	.row-fluid .row-fluid .form-horizontal-desktop .control-label > label {
+		display: inline-block;
+		*display: inline;
+		*zoom: 1;
+	}
+	.row-fluid .row-fluid .form-horizontal-desktop .controls {
 		margin-left: 0;
 	}
 }
@@ -7365,6 +7366,11 @@ th .tooltip-inner {
 .controls .btn-group > .btn {
 	min-width: 50px;
 }
+.controls .btn-group.btn-group-yesno > .btn {
+	min-width: 84px;
+	padding: 2px 12px;
+}
+
 .img-preview > img {
 	max-height: 100%;
 }
@@ -7380,12 +7386,17 @@ th .tooltip-inner {
 .alert-joomlaupdate button {
 	vertical-align: baseline;
 }
-.chzn-color.chzn-single {
+[class^="chzn-color"].chzn-single,
+[class*=" chzn-color"].chzn-single,
+[class^="chzn-color"].chzn-single .chzn-single-with-drop,
+[class*=" chzn-color"].chzn-single .chzn-single-with-drop {
 	-webkit-box-shadow: none;
 	-moz-box-shadow: none;
 	box-shadow: none;
 }
-.chzn-color.chzn-single[rel="value_1"] {
+.chzn-color.chzn-single[rel="value_1"],
+.chzn-color-reverse.chzn-single[rel="value_0"],
+.chzn-color-state.chzn-single[rel="value_1"] {
 	color: #fff;
 	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
 	background-color: #5bb75b;
@@ -7401,8 +7412,10 @@ th .tooltip-inner {
 	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
 .chzn-color.chzn-single[rel="value_0"],
-.chzn-color.chzn-single[rel="value_-1"],
-.chzn-color.chzn-single[rel="value_-2"] {
+.chzn-color-reverse.chzn-single[rel="value_1"],
+.chzn-color-state.chzn-single[rel="value_0"],
+.chzn-color-state.chzn-single[rel="value_-1"],
+.chzn-color-state.chzn-single[rel="value_-2"] {
 	color: #fff;
 	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
 	background-color: #da4f49;

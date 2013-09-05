@@ -2,54 +2,48 @@
 <config>
 	<fieldset
 		name="page-options"
-		label="COM_MENUS_PAGE_OPTIONS_LABEL"
-		>
+		label="COM_MENUS_PAGE_OPTIONS_LABEL">
 
-		<field
-			name="page_title"
+		<field name="page_title"
 			type="text"
 			label="COM_MENUS_ITEM_FIELD_PAGE_TITLE_LABEL"
-			description="COM_MENUS_ITEM_FIELD_PAGE_TITLE_DESC"
-			/>
-		<field
-			name="show_page_heading"
+			description="COM_MENUS_ITEM_FIELD_PAGE_TITLE_DESC" />
+
+		<field name="show_page_heading"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			label="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_LABEL"
 			description="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_DESC"
 			default="0"
-			filter="integer"
-			>
+			filter="integer">
 			<option value="0" class="no">JNO</option>
 			<option value="1" class="yes">JYES</option>
 		</field>
-		<field
-			name="page_heading"
+
+		<field name="page_heading"
 			type="text"
 			label="COM_MENUS_ITEM_FIELD_PAGE_HEADING_LABEL"
-			description="COM_MENUS_ITEM_FIELD_PAGE_HEADING_DESC"
-			/>
-		<field
-			name="pageclass_sfx"
+			description="COM_MENUS_ITEM_FIELD_PAGE_HEADING_DESC" />
+
+		<field name="pageclass_sfx"
 			type="text"
 			label="COM_MENUS_ITEM_FIELD_PAGE_CLASS_LABEL"
-			description="COM_MENUS_ITEM_FIELD_PAGE_CLASS_DESC"
-			/>
+			description="COM_MENUS_ITEM_FIELD_PAGE_CLASS_DESC" />
+
 	</fieldset>
 
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
-		description="JCONFIG_PERMISSIONS_DESC"
-		>
+		description="JCONFIG_PERMISSIONS_DESC">
 
-		<field
-			name="rules"
+		<field name="rules"
 			type="rules"
 			label="JCONFIG_PERMISSIONS_LABEL"
 			filter="rules"
 			validate="rules"
 			component="com_menus"
 			section="component" />
+
 	</fieldset>
 </config>

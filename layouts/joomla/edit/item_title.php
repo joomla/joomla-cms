@@ -10,8 +10,8 @@
  */
 
 defined('JPATH_BASE') or die;
-$title = $displayData->get('form')->getValue('title');
-$name = $displayData->get('form')->getValue('name');
+$title = $displayData->getForm()->getValue('title');
+$name = $displayData->getForm()->getValue('name');
 
 ?>
 

@@ -26,8 +26,11 @@
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_FEED_DISPLAY" />
 
 	<config>
+
 		<fields name="params">
+
 			<fieldset name="basic">
+
 				<field name="rssurl"
 					type="url"
 					size="50"
@@ -37,7 +40,7 @@
 
 				<field name="rssrtl"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="0"
 					label="MOD_FEED_FIELD_RTL_LABEL"
 					description="MOD_FEED_FIELD_RTL_DESC">
@@ -47,7 +50,7 @@
 
 				<field name="rsstitle"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					label="MOD_FEED_FIELD_RSSTITLE_LABEL"
 					description="MOD_FEED_FIELD_RSSTITLE_DESC">
@@ -57,7 +60,7 @@
 
 				<field name="rssdesc"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					label="MOD_FEED_FIELD_DESCRIPTION_LABEL"
 					description="MOD_FEED_FIELD_DESCRIPTION_DESC">
@@ -67,7 +70,7 @@
 
 				<field name="rssimage"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					label="MOD_FEED_FIELD_IMAGE_LABEL"
 					description="MOD_FEED_FIELD_IMAGE_DESC">
@@ -83,7 +86,7 @@
 
 				<field name="rssitemdesc"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					label="MOD_FEED_FIELD_ITEMDESCRIPTION_LABEL"
 					description="MOD_FEED_FIELD_ITEMDESCRIPTION_DESC">
@@ -97,9 +100,11 @@
 					default="0"
 					label="MOD_FEED_FIELD_WORDCOUNT_LABEL"
 					description="MOD_FEED_FIELD_WORDCOUNT_DESC" />
+
 			</fieldset>
 
 			<fieldset name="advanced">
+
 				<field name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
@@ -124,7 +129,9 @@
 					default="900"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
+
 			</fieldset>
+
 		</fields>
 	</config>
 </extension>

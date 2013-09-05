@@ -2,6 +2,7 @@
 <form>
 
 	<fieldset addfieldpath="/administrator/components/com_categories/models/fields">
+
 		<field name="id"
 			type="text"
 			class="readonly"
@@ -48,7 +49,7 @@
 
 		<field name="state"
 			type="list"
-			class="chzn-color"
+			class="chzn-color-state"
 			label="JSTATUS"
 			description="JFIELD_PUBLISHED_DESC"
 			filter="intval"
@@ -201,7 +202,7 @@
 
 		<field name="featured"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			label="JFEATURED"
 			description="COM_CONTENT_FIELD_FEATURED_DESC"
 			default="0">
@@ -217,15 +218,17 @@
 			component="com_content"
 			section="article"
 			validate="rules" />
+
 	</fieldset>
 
 	<fields name="attribs" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">
+
 		<fieldset name="basic"
 			label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">
 
 			<field name="show_title"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_SHOW_TITLE_LABEL"
 				description="JGLOBAL_SHOW_TITLE_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -234,8 +237,8 @@
 			</field>
 
 			<field name="link_titles"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_LINKED_TITLES_LABEL"
 				description="JGLOBAL_LINKED_TITLES_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -244,8 +247,8 @@
 			</field>
 
 			<field name="show_tags"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="COM_CONTENT_FIELD_SHOW_TAGS_LABEL"
 				description="COM_CONTENT_FIELD_SHOW_TAGS_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -254,8 +257,8 @@
 			</field>
 
 			<field name="show_intro"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				description="JGLOBAL_SHOW_INTRO_DESC"
 				label="JGLOBAL_SHOW_INTRO_LABEL">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -275,8 +278,8 @@
 			</field>
 
 			<field name="show_category"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_SHOW_CATEGORY_LABEL"
 				description="JGLOBAL_SHOW_CATEGORY_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -285,8 +288,8 @@
 			</field>
 
 			<field name="link_category"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_LINK_CATEGORY_LABEL"
 				description="JGLOBAL_LINK_CATEGORY_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -295,8 +298,8 @@
 			</field>
 
 			<field name="show_parent_category"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL"
 				description="JGLOBAL_SHOW_PARENT_CATEGORY_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -305,8 +308,8 @@
 			</field>
 
 			<field name="link_parent_category"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL"
 				description="JGLOBAL_LINK_PARENT_CATEGORY_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -315,8 +318,8 @@
 			</field>
 
 			<field name="show_author"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_SHOW_AUTHOR_LABEL"
 				description="JGLOBAL_SHOW_AUTHOR_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -325,8 +328,8 @@
 			</field>
 
 			<field name="link_author"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_LINK_AUTHOR_LABEL"
 				description="JGLOBAL_LINK_AUTHOR_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -335,8 +338,8 @@
 			</field>
 
 			<field name="show_create_date"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
 				description="JGLOBAL_SHOW_CREATE_DATE_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -345,8 +348,8 @@
 			</field>
 
 			<field name="show_modify_date"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
 				description="JGLOBAL_SHOW_MODIFY_DATE_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -355,8 +358,8 @@
 			</field>
 
 			<field name="show_publish_date"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL"
 				description="JGLOBAL_SHOW_PUBLISH_DATE_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -365,8 +368,8 @@
 			</field>
 
 			<field name="show_item_navigation"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_SHOW_NAVIGATION_LABEL"
 				description="JGLOBAL_SHOW_NAVIGATION_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -375,8 +378,8 @@
 			</field>
 
 			<field name="show_icons"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_SHOW_ICONS_LABEL"
 				description="JGLOBAL_SHOW_ICONS_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -385,8 +388,8 @@
 			</field>
 
 			<field name="show_print_icon"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_SHOW_PRINT_ICON_LABEL"
 				description="JGLOBAL_SHOW_PRINT_ICON_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -395,8 +398,8 @@
 			</field>
 
 			<field name="show_email_icon"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_SHOW_EMAIL_ICON_LABEL"
 				description="JGLOBAL_SHOW_EMAIL_ICON_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -405,8 +408,8 @@
 			</field>
 
 			<field name="show_vote"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_SHOW_VOTE_LABEL"
 				description="JGLOBAL_SHOW_VOTE_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -415,8 +418,8 @@
 			</field>
 
 			<field name="show_hits"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_SHOW_HITS_LABEL"
 				description="JGLOBAL_SHOW_HITS_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -425,8 +428,8 @@
 			</field>
 
 			<field name="show_noauth"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"
 				description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -435,8 +438,8 @@
 			</field>
 
 			<field name="urls_position"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				label="COM_CONTENT_FIELD_URLSPOSITION_LABEL"
 				description="COM_CONTENT_FIELD_URLSPOSITION_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -462,7 +465,9 @@
 				useglobal="true"
 				extension="com_content"
 				view="article" />
+
 		</fieldset>
+
 	</fields>
 
 	<field name="xreference"
@@ -473,6 +478,7 @@
 		size="20" />
 
 	<fields name="images" label="COM_CONTENT_FIELD_IMAGE_OPTIONS">
+
 		<field name="image_intro"
 			type="media"
 			label="COM_CONTENT_FIELD_INTRO_LABEL"
@@ -534,9 +540,11 @@
 			description="COM_CONTENT_FIELD_IMAGE_CAPTION_DESC"
 			class="inputbox"
 			size="20" />
+
 	</fields>
 
 	<fields name="urls" label="COM_CONTENT_FIELD_URLS_OPTIONS">
+
 		<field name="urla"
 			type="url"
 			validate="url"
@@ -628,9 +636,11 @@
 			<option value="2">JBROWSERTARGET_POPUP</option>
 			<option value="3">JBROWSERTARGET_MODAL</option>
 		</field>
+
 	</fields>
 
 	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+
 		<fieldset name="jmetadata"
 			label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 
@@ -666,11 +676,16 @@
 				description="COM_CONTENT_FIELD_XREFERENCE_DESC"
 				class="inputbox"
 				size="20" />
+
 		</fieldset>
+
 	</fields>
 	<!-- These fields are used to get labels for the Content History Preview and Compare Views -->
 	<fields>
+
 		<field name="introtext" label="COM_CONTENT_FIELD_INTROTEXT" />
+
 		<field name="fulltext" label="COM_CONTENT_FIELD_FULLTEXT" />
+
 	</fields>
 </form>

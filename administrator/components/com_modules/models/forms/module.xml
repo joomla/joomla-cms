@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset>
+
 		<field name="id"
 			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
@@ -33,7 +34,7 @@
 
 		<field name="showtitle"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			description="COM_MODULES_FIELD_SHOWTITLE_DESC"
 			label="COM_MODULES_FIELD_SHOWTITLE_LABEL"
@@ -44,11 +45,11 @@
 
 		<field name="published"
 			type="list"
+			class="chzn-color-state"
 			default="1"
 			description="COM_MODULES_FIELD_PUBLISHED_DESC"
 			label="JSTATUS"
-			size="1"
-			class="chzn-color">
+			size="1">
 			<option value="1">JPUBLISHED</option>
 			<option value="0"><span class="icon-check"></span> JUNPUBLISHED</option>
 			<option value="-2">JTRASHED</option>
@@ -58,7 +59,6 @@
 			type="calendar"
 			description="COM_MODULES_FIELD_PUBLISH_UP_DESC"
 			filter="user_utc"
-			class="input-medium"
 			format="%Y-%m-%d %H:%M:%S"
 			label="COM_MODULES_FIELD_PUBLISH_UP_LABEL"
 			size="22" />
@@ -67,7 +67,6 @@
 			type="calendar"
 			description="COM_MODULES_FIELD_PUBLISH_DOWN_DESC"
 			filter="user_utc"
-			class="input-medium"
 			format="%Y-%m-%d %H:%M:%S"
 			label="COM_MODULES_FIELD_PUBLISH_DOWN_LABEL"
 			size="22" />
@@ -119,5 +118,6 @@
 
 		<field name="assigned"
 			type="hidden" />
+
 	</fieldset>
 </form>

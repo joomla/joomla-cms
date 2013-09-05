@@ -25,50 +25,52 @@
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ARTICLES_RELATED" />
 	<config>
+
 		<fields name="params">
+
 			<fieldset name="basic">
-				<field
-					name="showDate"
+
+				<field name="showDate"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="0"
 					label="MOD_RELATED_FIELD_SHOWDATE_LABEL"
 					description="MOD_RELATED_FIELD_SHOWDATE_DESC">
-					<option
-						value="0">JHIDE</option>
-					<option
-						value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
+
 				<field name="maximum"
 					type="text"
 					default="5"
 					label="MOD_RELATED_FIELD_MAX_LABEL"
 					description="MOD_RELATED_FIELD_MAX_DESC" />
+
 			</fieldset>
 			<fieldset
 				name="advanced">
-				<field
-					name="layout"
+
+				<field name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
-				<field
-					name="moduleclass_sfx"
+
+				<field name="moduleclass_sfx"
 					type="textarea" rows="3"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
-				<field
-					name="owncache"
+
+				<field name="owncache"
 					type="list"
 					default="1"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC">
-					<option
-						value="1">JGLOBAL_USE_GLOBAL</option>
-					<option
-						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+					<option value="1">JGLOBAL_USE_GLOBAL</option>
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
+
 			</fieldset>
+
 		</fields>
 	</config>
 </extension>

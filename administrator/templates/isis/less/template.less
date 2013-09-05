@@ -665,8 +665,44 @@ h6 {
 	.control-label {
 		> label {
 			display: inline-block;
-			*display: inline;
-			*zoom: 1;
+			.ie7-inline-block();
+		}
+	}
+}
+
+@media (max-width: 979px) {
+	.form-horizontal-desktop {
+		.control-label {
+			float: none;
+			width: auto;
+			padding-right: 0;
+			padding-top: 0;
+			text-align: left;
+			> label {
+				display: inline-block;
+				.ie7-inline-block();
+			}
+		}
+		.controls {
+			margin-left: 0;
+		}
+	}
+}
+@media (max-width: 1200px) {
+	.row-fluid .row-fluid .form-horizontal-desktop {
+		.control-label {
+			float: none;
+			width: auto;
+			padding-right: 0;
+			padding-top: 0;
+			text-align: left;
+			> label {
+				display: inline-block;
+				.ie7-inline-block();
+			}
+		}
+		.controls {
+			margin-left: 0;
 		}
 	}
 }
@@ -676,8 +712,7 @@ h6 {
 	.control-label,
 	.controls {
 		display: inline-block;
-		*display: inline;
-		*zoom: 1;
+		.ie7-inline-block();
 	}
 	.control-label {
 		width: auto;
@@ -815,6 +850,10 @@ th .tooltip-inner {
 .controls .btn-group > .btn {
 	min-width: 50px;
 }
+.controls .btn-group.btn-group-yesno > .btn {
+	min-width: 84px;
+	padding: 2px 12px;
+}
 
 .img-preview > img {
 	max-height: 100%;
@@ -837,18 +876,23 @@ th .tooltip-inner {
 	}
 }
 /* Chosen coloring */
-.chzn-color.chzn-single {
-	color: #fff;
-	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+[class^="chzn-color"].chzn-single,
+[class*=" chzn-color"].chzn-single,
+[class^="chzn-color"].chzn-single .chzn-single-with-drop,
+[class*=" chzn-color"].chzn-single .chzn-single-with-drop {
 	-webkit-box-shadow: none;
 	-moz-box-shadow: none;
 	box-shadow: none;
-	&[rel="value_1"] {
-		.buttonBackground(@btnSuccessBackground, @btnSuccessBackgroundHighlight);
-	}
-	&[rel="value_0"],
-	&[rel="value_-1"],
-	&[rel="value_-2"] {
-		.buttonBackground(@btnDangerBackground, @btnDangerBackgroundHighlight);
-	}
+}
+.chzn-color.chzn-single[rel="value_1"],
+.chzn-color-reverse.chzn-single[rel="value_0"],
+.chzn-color-state.chzn-single[rel="value_1"] {
+	.buttonBackground(@btnSuccessBackground, @btnSuccessBackgroundHighlight);
+}
+.chzn-color.chzn-single[rel="value_0"],
+.chzn-color-reverse.chzn-single[rel="value_1"],
+.chzn-color-state.chzn-single[rel="value_0"],
+.chzn-color-state.chzn-single[rel="value_-1"],
+.chzn-color-state.chzn-single[rel="value_-2"] {
+	.buttonBackground(@btnDangerBackground, @btnDangerBackgroundHighlight);
 }
