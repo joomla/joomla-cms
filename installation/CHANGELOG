@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Sep-2013 Michael Babker
+ + [#31704] Two factor authentication for Joomla!.  Thanks Nicholas Dionysopoulos
+
 06-Sep-2013 Jean-Marie Simonet
  #$ [#31885] TinyMCE horizontal Resizing. Thanks George Wilson
  $ [#31934] Change language strings in System - Log Component. Thanks George Wilson
