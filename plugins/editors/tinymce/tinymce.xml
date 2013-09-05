@@ -198,22 +198,22 @@
 
 				<field name="resizing" type="radio"
 					class="btn-group"
-					default="true"
+					default="1"
 					description="PLG_TINY_FIELD_RESIZING_DESC"
 					label="PLG_TINY_FIELD_RESIZING_LABEL"
 				>
-					<option value="false">JOFF</option>
-					<option value="true">JON</option>
+					<option value="0">JOFF</option>
+					<option value="1">JON</option>
 				</field>
 
 				<field name="resize_horizontal" type="radio"
 					class="btn-group"
-					default="false"
+					default="1"
 					description="PLG_TINY_FIELD_RESIZE_HORIZONTAL_DESC"
 					label="PLG_TINY_FIELD_RESIZE_HORIZONTAL_LABEL"
 				>
-					<option value="false">JOFF</option>
-					<option value="true">JON</option>
+					<option value="0">JOFF</option>
+					<option value="1">JON</option>
 				</field>
 
 				<field name="element_path" type="radio"
