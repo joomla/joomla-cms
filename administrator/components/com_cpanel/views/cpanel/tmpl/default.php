@@ -25,7 +25,7 @@ $user = JFactory::getUser();
 			<?php if ($user->authorise('core.manage', 'com_cache')):?>
 				<li><a href="<?php echo $this->baseurl; ?>/index.php?option=com_cache"><?php echo JText::_('COM_CPANEL_LINK_CLEAR_CACHE'); ?></a></li>
 			<?php endif;?>
-			<?php if ($user->authorise('core.admin', 'com_checkin')):?>
+			<?php if ($user->authorise('core.manage', 'com_checkin')):?>
 				<li><a href="<?php echo $this->baseurl; ?>/index.php?option=com_checkin"><?php echo JText::_('COM_CPANEL_LINK_CHECKIN'); ?></a></li>
 			<?php endif;?>
 			<?php if ($user->authorise('core.manage', 'com_installer')):?>
