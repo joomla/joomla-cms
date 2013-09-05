@@ -29,6 +29,7 @@ $ -> Language fix or change
  + [#31844] Rapid Application Framework (Joomla! RAD).  Thanks Nicholas Dionysopoulos
  # [#30815] Check updates for extensions causes long list in Apache error.log.  Thanks George Wilson
  # [#31924] Regression with ContentHistory commit.  Thanks Thomas Hunziker
+ ^ [#31925] Code Optimisation Issue for JHelperContenthistory.  Thanks George Wilson
 
 03-Sep-2013 Michael Babker
  + [#31800] Add Joomla Ajax Interface to core.  Thanks Matt Thomas
