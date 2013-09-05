@@ -21,6 +21,11 @@ include_once __DIR__ . '/../default/view.php';
 class InstallerViewInstall extends InstallerViewDefault
 {
 	/**
+	 * @var  string  URL for the Joomla Apps (populated in display() from the model InstallerModelInstall
+	 */
+	protected $appsBaseUrl;
+
+	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  Template
@@ -37,6 +42,8 @@ class InstallerViewInstall extends InstallerViewDefault
 
 		$this->paths = &$paths;
 		$this->state = &$state;
+
+		$this->appsBaseUrl = $this->get('appsBaseUrl');
 
 		parent::display($tpl);
 	}

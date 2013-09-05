@@ -9,13 +9,12 @@
 
 defined('_JEXEC') or die;
 $app = JFactory::getApplication();
-$appsBaseUrl = InstallerModelInstall::$appsBaseUrl;
 $installfrom = base64_decode($app->input->get('installfrom', '', 'base64'));
 $document = JFactory::getDocument();
 $ver = new JVersion;
 ?>
 <script type="text/javascript">
-	apps_base_url = '<?php echo $appsBaseUrl; ?>';
+	apps_base_url = '<?php echo addslashes($this->appsBaseUrl); ?>';
 	apps_installat_url = '<?php echo base64_encode(JURI::current(true) . '?option=com_installer&view=install'); ?>';
 	apps_installfrom_url = '<?php echo addslashes($installfrom); ?>';
 	apps_product = '<?php echo base64_encode($ver->PRODUCT); ?>';
@@ -27,7 +26,7 @@ $ver = new JVersion;
 		jQuery(link).closest('li').click(function (event){
 			if (typeof Joomla.apps == 'undefined') {
 				jQuery.ajax({
-					url: "<?php echo $appsBaseUrl . 'jedapps/js/client.js?jversion=' . JVERSION; ?>",
+					url: "<?php echo addslashes($this->appsBaseUrl . 'jedapps/js/client.js?jversion=' . JVERSION); ?>",
 					dataType: 'script',
 					timeout: 20000,
 					success: function(response) {
@@ -36,11 +35,11 @@ $ver = new JVersion;
 						jQuery(script).html(response);
 						jQuery('head').append(script);
 						for (var i = 0; i < Joomla.apps.cssfiles.length; i++) {
-							jQuery('<link rel="stylesheet" type="text/css" href="<?php echo $appsBaseUrl; ?>'+Joomla.apps.cssfiles[i]+'" />').appendTo("head");
+							jQuery('<link rel="stylesheet" type="text/css" href="<?php echo htmlspecialchars($this->appsBaseUrl); ?>'+Joomla.apps.cssfiles[i]+'" />').appendTo("head");
 						}
 						jQuery('<link rel="stylesheet" type="text/css" href="'+Joomla.apps.fonturl+'" />').appendTo("head");
 						for (var i = 0; i < Joomla.apps.jsfiles.length; i++) {
-							jQuery('<script type="text/javascript" src="<?php echo $appsBaseUrl; ?>'+Joomla.apps.jsfiles[i]+'" />').appendTo("head");
+							jQuery('<script type="text/javascript" src="<?php echo htmlspecialchars($this->appsBaseUrl); ?>'+Joomla.apps.jsfiles[i]+'" />').appendTo("head");
 						}
 						Joomla.apps.initialize();
 					},
@@ -212,7 +211,7 @@ $ver = new JVersion;
 				</div>
 				<div class="form-actions">
 					<input type="button" class="btn btn-primary" value="<?php echo JText::_('COM_INSTALLER_INSTALL_BUTTON'); ?>" onclick="Joomla.submitbutton<?php echo $installfrom != '' ? 4 : 5; ?>()" />
-					<input type="button" class="btn btn-secondary" value="<?php echo JText::_('COM_INSTALLER_CANCEL_BUTTON'); ?>" onclick="Joomla.installfromwebcancel()" />
+					<input type="button" class="btn btn-secondary" value="<?php echo JText::_('JCANCEL'); ?>" onclick="Joomla.installfromwebcancel()" />
 				</div>
 			</fieldset>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
