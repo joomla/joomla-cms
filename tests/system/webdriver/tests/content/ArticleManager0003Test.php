@@ -166,7 +166,7 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
 		$originalCategory = 'Content Modules';
 		
-		//Category to which we will copy the artcile using Batch Process
+		// Category to which we will copy the article using Batch Process
 		$newCategory = 'Park Site';
 		$value = $this->articleManagerPage->getCategoryName('Archive Module');
 		$this->assertEquals($value,'Category: Content Modules','Initially Archive Module Must belong to Content Modules Category');
@@ -196,7 +196,7 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
 		$originalCategory = 'Content Modules';
 		
-		//Category to which we will move the artcile using Batch Process
+		// Category to which we will move the article using Batch Process
 		$newCategory = 'Languages';
 		$value = $this->articleManagerPage->getCategoryName('Archive Module');
 		$this->assertEquals($value, 'Category: Content Modules','Initially Archive Module Must belong to Content Modules Category');
@@ -205,7 +205,7 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 		$value = $this->articleManagerPage->getCategoryName('Archive Module');
 		$this->assertEquals($value, 'Category: Languages','The Article Must have got moved into the new Category');
 		
-		//Move Article Back to Original Category
+		// Move Article Back to Original Category
 		$this->articleManagerPage->doBatchAction('Archive Module', 'content', $originalCategory, 'move');
 		$this->articleManagerPage->changeCategoryFilter($originalCategory, 'content');
 		$value = $this->articleManagerPage->getCategoryName('Archive Module');
