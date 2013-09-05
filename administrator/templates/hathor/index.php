@@ -14,6 +14,9 @@ $doc	= JFactory::getDocument();
 $lang	= JFactory::getLanguage();
 $input	= $app->input;
 $user	= JFactory::getUser();
+$jversion = new JVersion;
+$mediaversion = md5($jversion->getShortVersion());
+
 
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
@@ -22,7 +25,7 @@ JHtml::_('bootstrap.loadCss', false, $this->direction);
 $doc->addStyleSheet('templates/system/css/system.css');
 
 // Loadtemplate CSS
-$doc->addStyleSheet('templates/'.$this->template.'/css/template.css');
+$doc->addStyleSheet('templates/'.$this->template.'/css/template.css' . '?' . $mediaversion);
 
 // Load additional CSS styles for colors
 if (!$this->params->get('colourChoice')) :
@@ -60,7 +63,7 @@ if ($this->params->get('boldText'))
 }
 
 // Load template javascript
-$doc->addScript('templates/'.$this->template.'/js/template.js', 'text/javascript');
+$doc->addScript('templates/'.$this->template.'/js/template.js'  . '?' . $mediaversion, 'text/javascript');
 // Logo file
 if ($this->params->get('logoFile'))
 {

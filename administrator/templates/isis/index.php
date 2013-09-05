@@ -16,13 +16,15 @@ $this->language = $doc->language;
 $this->direction = $doc->direction;
 $input = $app->input;
 $user  = JFactory::getUser();
+$jversion = new JVersion;
+$mediaversion = md5($jversion->getShortVersion());
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
-$doc->addScript('templates/' .$this->template. '/js/template.js');
+$doc->addScript('templates/' .$this->template. '/js/template.js' . '?' . $mediaversion);
 
 // Add Stylesheets
-$doc->addStyleSheet('templates/' . $this->template . '/css/template.css');
+$doc->addStyleSheet('templates/' . $this->template . '/css/template.css' . '?' . $mediaversion);
 
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
