@@ -6656,6 +6656,13 @@ div.modal.fade.in {
 .icon-out-2:before {
 	content: "\e024";
 }
+.icon-info:before {
+	content: "\e025";
+}
+.icon-joomla:before {
+	content: "\e042";
+}
+
 html {
 	height: 100%;
 }
@@ -6747,10 +6754,19 @@ body .navbar-fixed-top {
 .navbar .navbar-text {
 	line-height: 30px;
 }
+.navbar .admin-logo {
+	float: left;
+	padding: 7px 12px 0px 15px;
+	font-size: 16px;
+	color: #d9d9d9;
+}
+.navbar .admin-logo:hover {
+	color: #ffffff;
+}
 .navbar .brand {
+	float: right;
 	padding: 5px 12px 5px 12px;
 	font-size: 16px;
-	margin-left: 0;
 }
 .navbar .nav > li > a {
 	padding: 6px 10px;
@@ -6784,6 +6800,9 @@ body .navbar-fixed-top {
 		margin-left: -20px;
 		margin-right: -20px;
 	}
+	.navbar .admin-logo {
+		padding: 9px 9px 0 9px;
+	}
 }
 .header .navbar-search {
 	margin-top: 0;
@@ -6800,14 +6819,14 @@ body .navbar-fixed-top {
 .navbar-search .search-query {
 	background: rgba(255,255,255,0.3);
 }
+.container-logo {
+	float: right;
+	text-align: right;
+}
 .logo {
 	width: 100%;
 	max-width: 143px;
 	height: auto;
-}
-.container-logo {
-	float: right;
-	text-align: right;
 }
 .page-title {
 	color: white;
@@ -6826,7 +6845,6 @@ body .navbar-fixed-top {
 		text-align: center;
 	}
 }
-
 .content-title {
 	font-size: 24px;
 	font-weight: normal;

@@ -135,8 +135,10 @@ window.onload = function() {
 			'icon-download' : '&#xe021;',
 			'icon-upload' : '&#xe022;',
 			'icon-bookmark' : '&#xe023;',
-			'icon-out-2' : '&#xe024;'
-		},
+			'icon-out-2' : '&#xe024;',
+			'icon-info' : '&#xe025;',
+			'icon-joomla' : '&#xe042;'
+},
 		els = document.getElementsByTagName('*'),
 		i, attr, html, c, el;
 	for (i = 0; i < els.length; i += 1) {

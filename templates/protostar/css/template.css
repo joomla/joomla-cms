@@ -6609,6 +6609,12 @@ div.modal.fade.in {
 .icon-out-2:before {
 	content: "\e024";
 }
+.icon-info:before {
+	content: "\e025";
+}
+.icon-joomla:before {
+	content: "\e042";
+}
 body.site {
 	border-top: 3px solid #0088cc;
 	padding: 20px;
