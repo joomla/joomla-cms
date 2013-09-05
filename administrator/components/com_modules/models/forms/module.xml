@@ -43,14 +43,14 @@
 		</field>
 
 		<field name="published"
-			type="radio"
-			class="btn-group"
+			type="list"
 			default="1"
 			description="COM_MODULES_FIELD_PUBLISHED_DESC"
 			label="JSTATUS"
-			size="1">
+			size="1"
+			class="chzn-color">
 			<option value="1">JPUBLISHED</option>
-			<option value="0">JUNPUBLISHED</option>
+			<option value="0"><span class="icon-check"></span> JUNPUBLISHED</option>
 			<option value="-2">JTRASHED</option>
 		</field>
 
@@ -91,14 +91,12 @@
 			type="accesslevel"
 			description="JFIELD_ACCESS_DESC"
 			label="JFIELD_ACCESS_LABEL"
-			size="1"
-			class="span12" />
+			size="1" />
 
 		<field name="ordering"
 			type="moduleorder"
 			description="JFIELD_ORDERING_DESC"
-			label="JFIELD_ORDERING_LABEL"
-			class="span12" />
+			label="JFIELD_ORDERING_LABEL" />
 
 		<field name="content"
 			type="editor"
@@ -112,8 +110,7 @@
 		<field name="language"
 			type="contentlanguage"
 			description="JFIELD_MODULE_LANGUAGE_DESC"
-			label="JFIELD_LANGUAGE_LABEL"
-			class="span12">
+			label="JFIELD_LANGUAGE_LABEL">
 			<option value="*">JALL</option>
 		</field>
 

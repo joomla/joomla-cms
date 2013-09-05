@@ -18,8 +18,8 @@
 
 		<field
 			name="enabled"
-			type="radio"
-			class="btn-group"
+			type="list"
+			class="chzn-color"
 			label="JSTATUS"
 			description="COM_PLUGINS_FIELD_ENABLED_DESC"
 			size="1"

@@ -58,7 +58,7 @@ $input = $app->input;
 		<?php // Do not show the publishing options if the edit form is configured not to. ?>
 		<?php if ($params->get('show_publishing_options')) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('COM_CONTENT_FIELDSET_PUBLISHING', true)); ?>
-			<div class="row-fluid">
+			<div class="row-fluid form-horizontal-desktop">
 				<div class="span6">
 					<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
 				</div>
@@ -72,7 +72,7 @@ $input = $app->input;
 		<?php // Do not show the images and links options if the edit form is configured not to. ?>
 		<?php if ($params->get('show_urls_images_backend')) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'images', JText::_('COM_CONTENT_FIELDSET_URLS_AND_IMAGES', true)); ?>
-			<div class="row-fluid">
+			<div class="row-fluid form-horizontal-desktop">
 				<div class="span6">
 					<?php echo $this->form->getControlGroup('images'); ?>
 					<?php foreach ($this->form->getGroup('images') as $field) : ?>

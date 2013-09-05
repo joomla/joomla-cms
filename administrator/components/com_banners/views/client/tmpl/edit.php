@@ -31,7 +31,7 @@ $canDo	= BannersHelper::getActions();
 
 	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', empty($this->item->id) ? JText::_('COM_BANNERS_NEW_CLIENT', true) : JText::sprintf('COM_BANNERS_EDIT_CLIENT', $this->item->id, true)); ?>
-			<div class="row-fluid">
+			<div class="row-fluid form-horizontal-desktop">
 				<div class="span6">
 					<?php if ($canDo->get('core.edit.state')) : ?>
 						<div class="control-group">
