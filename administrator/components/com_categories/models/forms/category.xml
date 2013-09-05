@@ -70,16 +70,14 @@
 		label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 		description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
 		class="inputbox span12"
-		size="45"
-		labelclass="control-label" />
+		size="45" />
 
 	<field name="note"
 		type="text"
 		label="JFIELD_NOTE_LABEL"
 		description="JFIELD_NOTE_DESC"
 		class="inputbox span12"
-		size="40"
-		labelclass="control-label" />
+		size="40" />
 
 	<field name="description"
 		type="editor"
@@ -200,15 +198,12 @@
 				label="JFIELD_ALT_LAYOUT_LABEL"
 				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
 				view="category"
-				useglobal="true"
-				labelclass="control-label"
-				/>
+				useglobal="true" />
 
 			<field name="image"
 				type="media"
 				label="COM_CATEGORIES_FIELD_IMAGE_LABEL"
-				description="COM_CATEGORIES_FIELD_IMAGE_DESC"
-				labelclass="control-label" />
+				description="COM_CATEGORIES_FIELD_IMAGE_DESC" />
 		</fieldset>
 	</fields>
 
