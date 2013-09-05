@@ -166,11 +166,11 @@ class JBrowser
 	 * @param   string  $userAgent  The browser string to parse.
 	 * @param   string  $accept     The HTTP_ACCEPT settings to use.
 	 *
-	 * @return JBrowser  The Browser object.
+	 * @return  JBrowser  The Browser object.
 	 *
-	 * @since  11.1
+	 * @since   11.1
 	 */
-	static public function getInstance($userAgent = null, $accept = null)
+	public static function getInstance($userAgent = null, $accept = null)
 	{
 		$signature = serialize(array($userAgent, $accept));
 
@@ -207,6 +207,7 @@ class JBrowser
 		{
 			$this->agent = $userAgent;
 		}
+
 		$this->lowerAgent = strtolower($this->agent);
 
 		// Set our accept string.
@@ -296,6 +297,7 @@ class JBrowser
 			{
 				$this->setBrowser('amaya');
 				$this->majorVersion = $version[1];
+
 				if (isset($version[2]))
 				{
 					$this->minorVersion = $version[2];
@@ -316,6 +318,7 @@ class JBrowser
 				// rendering engine.
 				$this->setBrowser('konqueror');
 				$this->majorVersion = $version[1];
+
 				if (isset($version[2]))
 				{
 					$this->minorVersion = $version[2];
@@ -442,15 +445,19 @@ class JBrowser
 	 * Set browser version, not by engine version
 	 * Fallback to use when no other method identify the engine version
 	 *
-	 * @return void
+	 * @return  void
+	 *
+	 * @since   11.1
 	 */
 	protected function identifyBrowserVersion()
 	{
 		if (preg_match('|Version[/ ]([0-9.]+)|', $this->agent, $version))
 		{
 			list ($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
+
 			return;
 		}
+
 		// Can't identify browser version
 		$this->majorVersion = 0;
 		$this->minorVersion = 0;
@@ -488,7 +495,7 @@ class JBrowser
 	 *
 	 * @return  integer  The current browser's major version
 	 *
-	 * @since   11.1.
+	 * @since   11.1
 	 */
 	public function getMajor()
 	{
@@ -547,6 +554,7 @@ class JBrowser
 				return substr($_SERVER['SERVER_PROTOCOL'], $pos + 1);
 			}
 		}
+
 		return null;
 	}
 
@@ -580,6 +588,7 @@ class JBrowser
 			if (strpos($this->accept, '*/*') !== false)
 			{
 				$wildcard_match = true;
+
 				if ($type != 'image')
 				{
 					return true;
@@ -636,6 +645,7 @@ class JBrowser
 				return true;
 			}
 		}
+
 		return false;
 	}
 

@@ -57,10 +57,40 @@ input    { border: 1px solid #0E67A1; }
 input.button 		 { background-color: white; }
 input.button:hover { border-color:  #FC902E; }
 
-
-
 #frmlogin	      { margin: 0 10px 0 10px;  }
 #frmlogin fieldset.button { text-align: right; }
 
+/* -- message styles ----------------------------------- */
 
+#system-message {
+	margin: 0 auto;
+	padding: 20px 0 0;
+	width: 445px;
+}
 
+.alert {
+	background: none repeat scroll 0 0 #FFFFFF;
+	border: 1px solid #CCCCCC;
+	padding: 8px 25px 8px 14px;
+	text-align: left;
+}
+
+.alert h4 {
+	color: red;
+	margin: 5px 0;
+}
+
+.alert p {
+	padding: 0px;
+	margin: 0px;
+}
+
+.alert .close {
+	float: right;
+	font-size: 24px;
+	line-height: 18px;
+	position: relative;
+	right: -20px;
+	top: -2px;
+	cursor: pointer;
+}

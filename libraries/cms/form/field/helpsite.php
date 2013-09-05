@@ -43,4 +43,21 @@ class JFormFieldHelpsite extends JFormFieldList
 
 		return $options;
 	}
+
+	/**
+	 * Override to add refresh button
+	 *
+	 * @return  string  The field input markup.
+	 *
+	 * @since   11.1
+	 */
+	protected function getInput()
+	{
+		JHtml::script('system/helpsite.js', false, true);
+
+		$html = parent::getInput();
+		$button = '<button type="button" class="btn btn-small" id="helpsite-refresh" rel="' . $this->id . '"><span>' . JText::_('JGLOBAL_HELPREFRESH_BUTTON') . '</span></button>';
+
+		return $html . $button;
+	}
 }
