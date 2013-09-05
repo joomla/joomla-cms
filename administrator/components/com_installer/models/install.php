@@ -31,7 +31,7 @@ class InstallerModelInstall extends JModelLegacy
 	/**
 	 * @var string URL for the Joomla Apps
 	 */
-	public static $appsBaseUrl = 'http://appscdn.extensions.joomla.org/webapps/';       // TODO: Replace by https when SSL CDN is setup
+	public $appsBaseUrl = 'https://appscdn.joomla.org/webapps/';
 
 	/**
 	 * Model context string.
@@ -277,5 +277,15 @@ class InstallerModelInstall extends JModelLegacy
 		$package = JInstallerHelper::unpack($tmp_dest . '/' . $p_file);
 
 		return $package;
+	}
+
+	/**
+	 * Gets the apps dashboard URL for the Install from Web function
+	 *
+	 * @return string
+	 */
+	public function getappsBaseUrl()
+	{
+		return $this->appsBaseUrl;
 	}
 }
