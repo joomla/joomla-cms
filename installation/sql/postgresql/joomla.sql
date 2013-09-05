@@ -528,7 +528,8 @@ INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder"
 (101, 'SimplePie', 'library', 'simplepie', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (102, 'phputf8', 'library', 'phputf8', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (103, 'Joomla! Platform', 'library', 'joomla', '', 0, 1, 1, 1, '{"legacy":false,"name":"Joomla! Platform","type":"library","creationDate":"2008","author":"Joomla! Project","copyright":"Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.","authorEmail":"admin@joomla.org","authorUrl":"http:\\/\\/www.joomla.org","version":"13.1","description":"LIB_JOOMLA_XML_DESCRIPTION","group":""}', '{}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
-(104, 'IDNA Convert', 'library', 'idna_convert', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0);
+(104, 'IDNA Convert', 'library', 'idna_convert', '', 0, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
+(105, 'FOF', 'library', 'lib_fof', '', 0, 1, 1, 1, '{"legacy":false,"name":"FOF","type":"library","creationDate":"2013-09-03","author":"Nicholas K. Dionysopoulos \/ Akeeba Ltd","copyright":"(C)2011-2013 Nicholas K. Dionysopoulos","authorEmail":"nicholas@akeebabackup.com","authorUrl":"https:\/\/www.akeebabackup.com","version":"2.1.rc2","description":"Framework-on-Framework (FOF) - A rapid component development framework for Joomla!","group":""}', '{}', '', '', 0, '1970-01-01 00:00:00', 0, 0);
 
 -- Modules
 -- Site
@@ -2323,11 +2324,13 @@ COMMENT ON TABLE "#__update_sites" IS 'Update Sites';
 --
 INSERT INTO "#__update_sites" ("update_site_id", "name", "type", "location", "enabled", "last_check_timestamp") VALUES
 (1, 'Joomla Core', 'collection', 'http://update.joomla.org/core/list.xml', 1, 0),
-(2, 'Joomla Extension Directory', 'collection', 'http://update.joomla.org/jed/list.xml', 1, 0);
+(2, 'Joomla Extension Directory', 'collection', 'http://update.joomla.org/jed/list.xml', 1, 0),
+(3, 'Accredited Joomla! Translations','collection','http://update.joomla.org/language/translationlist_3.xml', 1 ,0),
+(4, 'FOF Updates (official releases)','extension','http://cdn.akeebabackup.com/updates/fof.xml',1,0);
 
 
 SELECT nextval('#__update_sites_update_site_id_seq');
-SELECT setval('#__update_sites_update_site_id_seq', 3, false);
+SELECT setval('#__update_sites_update_site_id_seq', 5, false);
 
 
 --
@@ -2346,7 +2349,9 @@ COMMENT ON TABLE "#__update_sites_extensions" IS 'Links extensions to update sit
 --
 INSERT INTO "#__update_sites_extensions" ("update_site_id", "extension_id") VALUES
 (1, 700),
-(2, 700);
+(2, 700),
+(3, 400),
+(4, 105);
 
 
 --
