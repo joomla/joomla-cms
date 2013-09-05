@@ -78,7 +78,7 @@ class JAmazons3
 	 */
 	public function __get($name)
 	{
-		$class = 'JAmazons3Operations' . ucfirst($name);
+		$class = 'JAmazons3' . ucfirst($name);
 
 		if (class_exists($class))
 		{
