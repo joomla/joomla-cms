@@ -75,7 +75,8 @@ class PlgQuickiconJoomlaupdate extends JPlugin
 				'image' => 'download',
 				'icon' => 'header/icon-48-download.png',
 				'text' => JText::_('PLG_QUICKICON_JOOMLAUPDATE_CHECKING'),
-				'id' => 'plg_quickicon_joomlaupdate'
+				'id' => 'plg_quickicon_joomlaupdate',
+				'group' => 'MOD_QUICKICON_MAINTENANCE'
 			)
 		);
 	}

@@ -37,7 +37,7 @@
 }
 .navbar .brand {
 	float: right;
-	padding: 8px 20px 12px;
+	padding: 8px 20px 8px 12px;
 	margin-right: -20px;
 	margin-left: 0;
 }
@@ -355,11 +355,13 @@ body {
 	padding-left: 5px;
 }
 .navbar .nav > li > a {
-	padding: 9px 10px;
+	padding: 8px 10px;
 	color: #D2E3FC;
 }
 .container-logo {
 	padding-top: 6px;
+	float: left;
+	text-align: left;
 }
 .modal-header .close {
 	float: left;

@@ -61,7 +61,8 @@ class PlgQuickiconExtensionupdate extends JPlugin
 			'image' => 'asterisk',
 			'icon' => 'header/icon-48-extension.png',
 			'text' => JText::_('PLG_QUICKICON_EXTENSIONUPDATE_CHECKING'),
-			'id' => 'plg_quickicon_extensionupdate'
+			'id' => 'plg_quickicon_extensionupdate',
+			'group' => 'MOD_QUICKICON_MAINTENANCE'
 		));
 	}
 }
