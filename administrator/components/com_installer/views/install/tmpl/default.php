@@ -10,6 +10,19 @@
 defined('_JEXEC') or die;
 $app = JFactory::getApplication();
 $installfrom = base64_decode($app->input->get('installfrom', '', 'base64'));
+
+$field = new SimpleXMLElement('<field></field>');
+$rule = new JFormRuleUrl;
+if ($rule->test($field, $installfrom) && preg_match('/\.xml\s*$/', $installfrom)) {
+	jimport('joomla.updater.update');
+	$update = new JUpdate;
+	$update->loadFromXML($installfrom);
+	$package_url = trim($update->get('downloadurl', false)->_data);
+	if ($package_url) {
+		$installfrom = $package_url;
+	}
+}
+
 $document = JFactory::getDocument();
 $ver = new JVersion;
 ?>
