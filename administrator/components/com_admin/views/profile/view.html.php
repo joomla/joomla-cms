@@ -25,7 +25,13 @@ class AdminViewProfile extends JViewLegacy
 	protected $state;
 
 	/**
-	 * Display the view
+	 * Method to display the view.
+	 *
+	 * @param   string  $tpl  A template file to load. [optional]
+	 *
+	 * @return  mixed   void on success, false on failure
+	 *
+	 * @since   1.5
 	 */
 	public function display($tpl = null)
 	{
@@ -37,6 +43,7 @@ class AdminViewProfile extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -49,6 +56,8 @@ class AdminViewProfile extends JViewLegacy
 
 	/**
 	 * Add the page title and toolbar.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
