@@ -70,7 +70,7 @@
 		                label="MOD_MAPS_CENTER_LABEL"
                         description="MOD_MAPS_CENTER_DESC">
                             <option value="address">MOD_MAPS_ADDRESS_BASED_LABEL</option>
-                            <option value="coordinate">MOD_MAPS_CORDINATES_BASED_LABEL</option>
+                            <option value="coordinate">MOD_MAPS_COORDINATES_BASED_LABEL</option>
                 </field>
 
                 <field
@@ -83,8 +83,8 @@
                 <field
 		               name="mapCenterCoordinate"
 		               type="text"
-                       label="MOD_MAPS_CENTER_CORDINATE_LABEL"
-                       description="MOD_MAPS_CENTER_CORDINATE_DESC" />
+                       label="MOD_MAPS_CENTER_COORDINATE_LABEL"
+                       description="MOD_MAPS_CENTER_COORDINATE_DESC" />
 
 	            <field
 			           name="mapApiKey"
