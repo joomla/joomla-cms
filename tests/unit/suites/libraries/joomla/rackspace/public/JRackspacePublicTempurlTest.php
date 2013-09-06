@@ -70,7 +70,9 @@ class JRackspacePublicTempurlTest extends PHPUnit_Framework_TestCase
 		$url = "http://MySampleUrl/v1/SamplePath";
 		$ttl = 120;
 		$key = "MySampleKey";
-		$expectedResult = "http://MySampleUrl/v1/SamplePath?temp_url_sig=7b8ce6ee863b35f86edb76938aa7f1567cdb81e3&temp_url_expires=1378459390";
+		$expires = (int) (time() + $ttl);
+		$sig = hash_hmac("sha1", "$method\n$expires\nv1/SamplePath", $key);
+		$expectedResult = "http://MySampleUrl/v1/SamplePath?temp_url_sig=" . $sig . "&temp_url_expires=" . $expires;
 
 		$this->assertThat(
 			$this->object->public->tempurl->createTempUrl($method, $url, $ttl, $key),
