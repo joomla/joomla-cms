@@ -24,7 +24,7 @@ $language   = ($this->item->language === '*') ? JFactory::getConfig()->get('lang
 JHtml::_('behavior.caption');
 ?>
 <div class="item-page<?php echo $this->pageclass_sfx?>" <?php echo $microdata->displayScope();?>>
-	<?php echo $microdata->content($language)->property('inLanguage')->fallback('Language', 'name')->display('meta'); ?>
+	<?php echo $microdata->content($language)->property('inLanguage')->fallback('Language', 'name')->display('meta', true); ?>
 	<?php if ($this->params->get('show_page_heading') && $params->get('show_title')) : ?>
 	<div class="page-header">
 		<h1> <?php echo $this->escape($this->params->get('page_heading')); ?> </h1>
@@ -122,25 +122,25 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 
 			<?php if ($params->get('show_publish_date')) : ?>
 				<dd class="published">
-					<span class="icon-calendar"></span> <?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', $microdata->content(JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC3')))->property('datePublished')->display()); ?>
+					<span class="icon-calendar"></span> <?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', $microdata->content(JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC3')), JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_ISO')))->property('datePublished')->display()); ?>
 				</dd>
 			<?php endif; ?>
 
 			<?php if ($info == 0) : ?>
 				<?php if ($params->get('show_modify_date')) : ?>
 					<dd class="modified">
-						<span class="icon-calendar"></span> <?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', $microdata->content(JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC3')))->property('dateModified')->display()); ?>
+						<span class="icon-calendar"></span> <?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', $microdata->content(JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC3')), JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_ISO')))->property('dateModified')->display()); ?>
 					</dd>
 				<?php endif; ?>
 				<?php if ($params->get('show_create_date')) : ?>
 					<dd class="create">
-						<span class="icon-calendar"></span> <?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', $microdata->content(JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_LC3')))->property('dateCreated')->display()); ?>
+						<span class="icon-calendar"></span> <?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', $microdata->content(JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_LC3')), JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_ISO')))->property('dateCreated')->display()); ?>
 					</dd>
 				<?php endif; ?>
 
 				<?php if ($params->get('show_hits')) : ?>
 					<dd class="hits">
-						<span class="icon-eye-open"></span> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $microdata->content($this->item->hits)->property('interactionCount')->display()); ?>
+						<span class="icon-eye-open"></span> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $microdata->content($this->item->hits, 'UserPageVisits:' . $this->item->hits)->property('interactionCount')->display()); ?>
 					</dd>
 				<?php endif; ?>
 			<?php endif; ?>
@@ -229,7 +229,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 				<?php if ($params->get('show_publish_date')) : ?>
 					<dd class="published">
 						<span class="icon-calendar"></span>
-						<?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', $microdata->content(JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC3')))->property('datePublished')->display()); ?>
+						<?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', $microdata->content(JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_LC3')), JHtml::_('date', $this->item->publish_up, JText::_('DATE_FORMAT_ISO')))->property('datePublished')->display()); ?>
 					</dd>
 				<?php endif; ?>
 			<?php endif; ?>
@@ -237,18 +237,18 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 			<?php if ($params->get('show_create_date')) : ?>
 				<dd class="create">
 					<span class="icon-calendar"></span>
-					<?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', $microdata->content(JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_LC3')))->property('dateCreated')->display()); ?>
+					<?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', $microdata->content(JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_LC3')), JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_ISO')))->property('dateCreated')->display()); ?>
 				</dd>
 			<?php endif; ?>
 			<?php if ($params->get('show_modify_date')) : ?>
 				<dd class="modified">
 					<span class="icon-calendar"></span>
-					<?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', $microdata->content(JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC3')))->property('dateModified')->display()); ?>
+					<?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', $microdata->content(JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC3')), JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_ISO')))->property('dateModified')->display()); ?>
 				</dd>
 			<?php endif; ?>
 			<?php if ($params->get('show_hits')) : ?>
 				<dd class="hits">
-					<span class="icon-eye-open"></span> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $microdata->content($this->item->hits)->property('interactionCount')->display()); ?>
+					<span class="icon-eye-open"></span> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $microdata->content($this->item->hits, 'UserPageVisits:' . $this->item->hits)->property('interactionCount')->display()); ?>
 				</dd>
 			<?php endif; ?>
 			</dl>

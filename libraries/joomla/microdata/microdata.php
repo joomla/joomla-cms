@@ -51,6 +51,14 @@ class JMicrodata
 	protected $content = null;
 
 	/**
+	 * The Machine value
+	 * 
+	 * @var     string
+	 * @since   3.2
+	 */
+	protected $machineContent = null;
+
+	/**
 	 * Fallback Type
 	 *
 	 * @var		string
@@ -220,13 +228,15 @@ class JMicrodata
 	/**
 	 * Setup a Text value or Content value for the Microdata
 	 *
-	 * @param   string  $value  The human value or marchine value to be used
-	 *
+	 * @param   string  $value         The human value or marchine value to be used
+	 * @param   string  $machineValue  The machine value
+	 * 
 	 * @return	object
 	 */
-	public function content($value)
+	public function content($value, $machineValue = null)
 	{
 		$this->content = $value;
+		$this->machineContent = $machineValue;
 
 		return $this;
 	}
@@ -304,11 +314,12 @@ class JMicrodata
 	 * then reset all params for the next use and
 	 * return the Microdata HTML
 	 *
-	 * @param   string  $displayType  Optional, 'inline', available ['inline'|'span'|'div'|meta]
+	 * @param   string   $displayType  Optional, 'inline', available ['inline'|'span'|'div'|meta]
+	 * @param   boolean  $emptyOutput  Return an empty string if the microdata output is disabled and there is a $content value
 	 *
 	 * @return	string
 	 */
-	public function display($displayType = '')
+	public function display($displayType = '', $emptyOutput = false)
 	{
 		// Initialize the HTML to output
 		$html = ($this->content !== null) ? $this->content : '';
@@ -316,7 +327,7 @@ class JMicrodata
 		// Control if the Microdata output is enabled, otherwise return the content or empty string
 		if (!$this->enabled)
 		{
-			return $html;
+			return ($emptyOutput) ? '' : $html;
 		}
 
 		// If the property is wrong for the current Type check if Fallback available, otherwise return empty HTML
@@ -336,6 +347,7 @@ class JMicrodata
 						break;
 
 					case 'meta':
+						$html = ($this->machineContent !== null) ? $this->machineContent : $html;
 						$html = static::htmlMeta($html, $this->property);
 						break;
 
@@ -408,7 +420,8 @@ class JMicrodata
 						 * otherwise Fallback to an 'inline' display Type */
 						if ($this->content !== null)
 						{
-							$html = static::htmlMeta($this->content, $this->property)
+							$html = ($this->machineContent !== null) ? $this->machineContent : $this->content;
+							$html = static::htmlMeta($html, $this->property)
 								. $this->content;
 						}
 						else
@@ -449,6 +462,7 @@ class JMicrodata
 						break;
 
 					case 'meta':
+						$html = ($this->machineContent !== null) ? $this->machineContent : $html;
 						$html = static::htmlMeta($html, $this->fallbackProperty, $this->fallbackType);
 						break;
 
@@ -471,7 +485,8 @@ class JMicrodata
 						 * otherwise Fallback to an 'inline' display Type */
 						if ($this->content !== null)
 						{
-							$html = static::htmlMeta($this->content, $this->fallbackProperty, $this->fallbackType);
+							$html = ($this->machineContent !== null) ? $this->machineContent : $this->content;
+							$html = static::htmlMeta($html, $this->fallbackProperty, $this->fallbackType);
 						}
 						else
 						{
@@ -497,6 +512,10 @@ class JMicrodata
 						break;
 				}
 			}
+		}
+		elseif (!$this->fallbackProperty && $this->fallbackType !== null)
+		{
+			$html = static::htmlScope($this->fallbackType);
 		}
 
 		// Reset params
@@ -624,16 +643,16 @@ class JMicrodata
 		// Retrieve the first expected type
 		$type = $expectedTypes[0];
 
+		// Check if it's a meta display
+		if ($type === 'Date' || $type === 'DateTime' || $property === 'interactionCount')
+		{
+			return 'meta';
+		}
+
 		// Check if it's a normal display
 		if ($type === 'Text' || $type === 'URL' || $type === 'Boolean' || $type === 'Number')
 		{
 			return 'normal';
-		}
-
-		// Check if it's a meta display
-		if ($type === 'Date' || $type === 'DateTime')
-		{
-			return 'meta';
 		}
 
 		// Otherwise it's a nested display

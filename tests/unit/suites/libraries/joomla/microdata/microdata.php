@@ -222,6 +222,15 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 			->display();
 
 		$this->assertEquals($responce, $content);
+
+		// Test if JMicrodata is disabled and have a $content it must return an empty string
+		$responce = $this->handler->enable(false)
+			->content('en-GB')
+			->property('inLanguage')
+			->fallback('Language', 'name')
+			->display('meta', true);
+
+		$this->assertEquals($responce, '');
 	}
 
 	/**
@@ -264,7 +273,10 @@ class JMicrodataTest extends PHPUnit_Framework_TestCase
 			->fallback('Article', 'anUnanvailableProperty')
 			->display();
 
-		$this->assertEquals($responce, "");
+		$this->assertEquals(
+			$responce,
+			"itemscope itemtype='https://schema.org/Article'"
+		);
 
 		// Test with content if fallbacks, the Property isn't available in the current and fallback Type
 		$responce = $this->handler

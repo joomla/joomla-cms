@@ -82,7 +82,7 @@ $microdata = JFactory::getMicrodata()->enable(true)->setType('Article');
 				<?php if ($params->get('show_publish_date')) : ?>
 					<dd>
 						<div class="published">
-							<span class="icon-calendar"></span> <?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', $microdata->content(JHtml::_('date', $item->publish_up, JText::_('DATE_FORMAT_LC3')))->property('datePublished')->display()); ?>
+							<span class="icon-calendar"></span> <?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', $microdata->content(JHtml::_('date', $item->publish_up, JText::_('DATE_FORMAT_LC3')), JHtml::_('date', $item->publish_up, JText::_('DATE_FORMAT_ISO')))->property('datePublished')->display()); ?>
 						</div>
 					</dd>
 				<?php endif; ?>
@@ -91,14 +91,14 @@ $microdata = JFactory::getMicrodata()->enable(true)->setType('Article');
 					<?php if ($params->get('show_modify_date')) : ?>
 						<dd>
 							<div class="modified">
-								<span class="icon-calendar"></span> <?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', $microdata->content(JHtml::_('date', $item->modified, JText::_('DATE_FORMAT_LC3')))->property('dateModified')->display()); ?>
+								<span class="icon-calendar"></span> <?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', $microdata->content(JHtml::_('date', $item->modified, JText::_('DATE_FORMAT_LC3')), JHtml::_('date', $item->modified, JText::_('DATE_FORMAT_ISO')))->property('dateModified')->display()); ?>
 							</div>
 						</dd>
 					<?php endif; ?>
 					<?php if ($params->get('show_create_date')) : ?>
 						<dd>
 							<div class="create">
-								<span class="icon-calendar"></span> <?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', $microdata->content(JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC3')))->property('dateCreated')->display()); ?>
+								<span class="icon-calendar"></span> <?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', $microdata->content(JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC3')), JHtml::_('date', $item->created, JText::_('DATE_FORMAT_ISO')))->property('dateCreated')->display()); ?>
 							</div>
 						</dd>
 					<?php endif; ?>
@@ -106,7 +106,7 @@ $microdata = JFactory::getMicrodata()->enable(true)->setType('Article');
 					<?php if ($params->get('show_hits')) : ?>
 						<dd>
 							<div class="hits">
-								<span class="icon-eye-open"></span> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $microdata->content($item->hits)->property('interactionCount')->display()); ?>
+								<span class="icon-eye-open"></span> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $microdata->content($item->hits, 'UserPageVisits:' . $item->hits)->property('interactionCount')->display()); ?>
 							</div>
 						</dd>
 					<?php endif; ?>
@@ -154,7 +154,7 @@ $microdata = JFactory::getMicrodata()->enable(true)->setType('Article');
 					<?php if ($params->get('show_publish_date')) : ?>
 						<dd>
 							<div class="published">
-								<span class="icon-calendar"></span> <?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', $microdata->content(JHtml::_('date', $item->publish_up, JText::_('DATE_FORMAT_LC3')))->property('datePublished')->display()); ?>
+								<span class="icon-calendar"></span> <?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', $microdata->content(JHtml::_('date', $item->publish_up, JText::_('DATE_FORMAT_LC3')), JHtml::_('date', $item->publish_up, JText::_('DATE_FORMAT_ISO')))->property('datePublished')->display()); ?>
 							</div>
 						</dd>
 					<?php endif; ?>
@@ -163,21 +163,21 @@ $microdata = JFactory::getMicrodata()->enable(true)->setType('Article');
 				<?php if ($params->get('show_create_date')) : ?>
 					<dd>
 						<div class="create"><span class="icon-calendar">
-							</span> <?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', $microdata->content(JHtml::_('date', $item->modified, JText::_('DATE_FORMAT_LC3')))->property('dateCreated')->display()); ?>
+							</span> <?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', $microdata->content(JHtml::_('date', $item->modified, JText::_('DATE_FORMAT_LC3')), JHtml::_('date', $item->modified, JText::_('DATE_FORMAT_ISO')))->property('dateCreated')->display()); ?>
 						</div>
 					</dd>
 				<?php endif; ?>
 				<?php if ($params->get('show_modify_date')) : ?>
 					<dd>
 						<div class="modified"><span class="icon-calendar">
-							</span> <?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', $microdata->content(JHtml::_('date', $item->modified, JText::_('DATE_FORMAT_LC3')))->property('dateModified')->display()); ?>
+							</span> <?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', $microdata->content(JHtml::_('date', $item->modified, JText::_('DATE_FORMAT_LC3')), JHtml::_('date', $item->modified, JText::_('DATE_FORMAT_ISO')))->property('dateModified')->display()); ?>
 						</div>
 					</dd>
 				<?php endif; ?>
 				<?php if ($params->get('show_hits')) : ?>
 					<dd>
 						<div class="hits">
-							<span class="icon-eye-open"></span> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $microdata->content($item->hits)->property('interactionCount')->display()); ?>
+							<span class="icon-eye-open"></span> <?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $microdata->content($item->hits, 'UserPageVisits:' . $item->hits)->property('interactionCount')->display()); ?>
 						</div>
 					</dd>
 				<?php endif; ?>

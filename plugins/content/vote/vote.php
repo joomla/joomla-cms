@@ -67,7 +67,7 @@ class PlgContentVote extends JPlugin
 			$microdata = JFactory::getMicrodata();
 
 			$html .= '<div class="content_rating">'
-				. '<p class="unseen element-invisible" ' . $microdata->property('aggregateRating')->display() . '>'
+				. '<p class="unseen element-invisible" ' . $microdata->property('aggregateRating')->fallback('AggregateRating', '')->display() . '>'
 				. JText::sprintf('PLG_VOTE_USER_RATING', $microdata->setType('AggregateRating')->content($rating)->property('ratingValue')->display(), $microdata->content('5')->property('bestRating')->display())
 				. $microdata->property('ratingCount')->content($ratingCount)->display('meta')
 				. $microdata->property('worstRating')->content('0')->display('meta')
