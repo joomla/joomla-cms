@@ -74,11 +74,12 @@ abstract class JRackspaceObject
 	 */
 	public function getAuthTokenHeaders()
 	{
-		$url = "https://" . $this->options->get("auth.host.us") . "/v1.0";
+		$host = $this->options->get("auth.host." . $this->options->get("api.location"));
+		$url = "https://" . $host . "/v1.0";
 
 		// Create the headers
 		$headers = array(
-			"Host" => $this->options->get("auth.host.us"),
+			"Host" => $host,
 			"X-Auth-User" => $this->options->get('api.authUser'),
 			"X-Auth-Key" => $this->options->get('api.authKey'),
 		);
