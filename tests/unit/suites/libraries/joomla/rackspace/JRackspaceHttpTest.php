@@ -10,7 +10,7 @@
 require_once JPATH_PLATFORM . '/joomla/rackspace/http.php';
 
 /**
- * Test class for JRackspace.
+ * Test class for JRackspaceHttp.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Rackspace

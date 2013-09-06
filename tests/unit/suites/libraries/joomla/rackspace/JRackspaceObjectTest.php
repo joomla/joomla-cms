@@ -11,7 +11,7 @@ require_once JPATH_PLATFORM . '/joomla/rackspace/object.php';
 require_once __DIR__ . '/stubs/JRackspaceObjectMock.php';
 
 /**
- * Test class for JRackspace.
+ * Test class for JRackspaceObject.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Rackspace

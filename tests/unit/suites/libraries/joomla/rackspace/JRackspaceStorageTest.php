@@ -8,7 +8,7 @@
  */
 
 /**
- * Test class for JRackspace.
+ * Test class for JRackspaceStorage.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Rackspace
