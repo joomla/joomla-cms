@@ -28,6 +28,7 @@ $ -> Language fix or change
 06-Sep-2013 Jean-Marie Simonet
  #$ [#31885] TinyMCE horizontal Resizing. Thanks George Wilson
  $ [#31934] Change language strings in System - Log Component. Thanks George Wilson
+ # [#31828] Missing error message in single article menu item. Thanks Carsten Wirtz
 
 05-Sep-2013 Michael Babker
  + [#31844] Rapid Application Framework (Joomla! RAD).  Thanks Nicholas Dionysopoulos
