@@ -929,12 +929,6 @@ class ModulesModelModule extends JModelAdmin
 		// Process the menu link mappings.
 		$assignment = isset($data['assignment']) ? $data['assignment'] : 0;
 
-		// Delete old module to menu item associations
-		// $db->setQuery(
-		//	'DELETE FROM #__modules_menu'.
-		//	' WHERE moduleid = '.(int) $table->id
-		// );
-
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->delete('#__modules_menu')

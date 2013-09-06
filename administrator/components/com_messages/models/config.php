@@ -107,10 +107,10 @@ class MessagesModelConfig extends JModelForm
 
 		if ($userId = (int) $this->getState('user.id'))
 		{
-			$db->setQuery(
-				'DELETE FROM #__messages_cfg'.
-				' WHERE user_id = '. $userId
-			);
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__messages_cfg'))
+				->where($db->quoteName('user_id' . '=' . (int) $userId));
+			$db->setQuery($query);
 
 			try
 			{
