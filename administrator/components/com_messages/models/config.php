@@ -51,7 +51,7 @@ class MessagesModelConfig extends JModelForm
 		$query = $db->getQuery(true)
 			->select('cfg_name, cfg_value')
 			->from('#__messages_cfg')
-			->where('user_id') . ' = '.(int) $this->getState('user.id');
+			->where($db->quoteName('user_id') . ' = '. (int) $this->getState('user.id'));
 
 		$db->setQuery($query);
 
@@ -109,7 +109,7 @@ class MessagesModelConfig extends JModelForm
 		{
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__messages_cfg'))
-				->where($db->quoteName('user_id' . '=' . (int) $userId));
+				->where($db->quoteName('user_id') . '=' . (int) $userId);
 			$db->setQuery($query);
 
 			try
