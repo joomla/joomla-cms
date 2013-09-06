@@ -24,6 +24,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 $ordering 	= ($listOrder == 'a.lft');
 $canOrder	= $user->authorise('core.edit.state',	'com_tags');
 $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
+
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_tags&task=tags.saveOrderAjax';
@@ -121,6 +122,7 @@ $sortFields = $this->getSortFields();
 			<tbody>
 			<?php
 			$originalOrders = array();
+
 			foreach ($this->items as $i => $item) :
 				$orderkey   = array_search($item->id, $this->ordering[$item->parent_id]);
 				$canCreate  = $user->authorise('core.create',     'com_tags');

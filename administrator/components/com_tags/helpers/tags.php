@@ -21,7 +21,7 @@ class TagsHelper
 	/**
 	 * Configure the Submenu links.
 	 *
-	 * @param   string  The extension.
+	 * @param   string  $extension  The extension.
 	 *
 	 * @return  void
 	 *
@@ -46,13 +46,13 @@ class TagsHelper
 				if (is_callable(array($cName, 'addSubmenu')))
 				{
 					$lang = JFactory::getLanguage();
-					// loading language file from the administrator/language directory then
-					// loading language file from the administrator/components/*extension*/language directory
+
+					// Loading language file from the administrator/language directory then
+					// Loading language file from the administrator/components/*extension*/language directory
 						$lang->load($component, JPATH_BASE, null, false, false)
 					||	$lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, false)
 					||	$lang->load($component, JPATH_BASE, $lang->getDefault(), false, false)
 					||	$lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), $lang->getDefault(), false, false);
-
 				}
 			}
 		}

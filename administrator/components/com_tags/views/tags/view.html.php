@@ -26,6 +26,10 @@ class TagsViewTags extends JViewLegacy
 
 	/**
 	 * Display the view
+	 *
+	 * @param   string  $tpl  Template to display
+	 *
+	 * @return  mixed         False on error / void on success
 	 */
 	public function display($tpl = null)
 	{
@@ -36,10 +40,13 @@ class TagsViewTags extends JViewLegacy
 		TagsHelper::addSubmenu('tags');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
+
 		// Preprocess the list of items to find ordering divisions.
 		foreach ($this->items as &$item)
 		{
@@ -69,6 +76,8 @@ class TagsViewTags extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
+	 * @return  void
+	 *
 	 * @since   3.1
 	 */
 	protected function addToolbar()
@@ -76,6 +85,7 @@ class TagsViewTags extends JViewLegacy
 		$state	= $this->get('State');
 		$canDo	= TagsHelper::getActions($state->get('filter.parent_id'));
 		$user	= JFactory::getUser();
+
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 
@@ -97,10 +107,12 @@ class TagsViewTags extends JViewLegacy
 			JToolbarHelper::unpublish('tags.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 			JToolbarHelper::archiveList('tags.archive');
 		}
+
 		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::checkin('tags.checkin');
 		}
+
 		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('', 'tags.delete', 'JTOOLBAR_EMPTY_TRASH');
@@ -109,6 +121,7 @@ class TagsViewTags extends JViewLegacy
 		{
 			JToolbarHelper::trash('tags.trash');
 		}
+
 		// Add a batch button
 		if ($user->authorise('core.create', 'com_tags') && $user->authorise('core.edit', 'com_tags') && $user->authorise('core.edit.state', 'com_tags'))
 		{
@@ -121,10 +134,12 @@ class TagsViewTags extends JViewLegacy
 			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
+
 		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::preferences('com_tags');
 		}
+
 		JToolbarHelper::help('JHELP_COMPONENTS_TAGS_MANAGER');
 
 		JHtmlSidebar::setAction('index.php?option=com_tags&view=tags');
