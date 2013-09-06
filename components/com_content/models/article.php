@@ -297,11 +297,11 @@ class ContentModelArticle extends JModelItem
 			$userIP = $_SERVER['REMOTE_ADDR'];
 			$db = $this->getDbo();
 
-			$db->setQuery(
-				'SELECT *' .
-					' FROM #__content_rating' .
-					' WHERE content_id = ' . (int) $pk
-			);
+			$query = $db->getQuery(true)
+						->select('*')
+						->from($db->quoteName('#__content_rating'))
+						->where($db->quoteName('content_id') . ' = ' . (int) $pk);
+			$db->setQuery($query);
 
 			$rating = $db->loadObject();
 

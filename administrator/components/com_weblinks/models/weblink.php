@@ -249,7 +249,11 @@ class WeblinksModelWeblink extends JModelAdmin
 			if (empty($table->ordering))
 			{
 				$db = JFactory::getDbo();
-				$db->setQuery('SELECT MAX(ordering) FROM #__weblinks');
+				$query = $db->getQuery(true)
+							->select('MAX(ordering)')
+							->from($db->quoteName('#__weblinks'));
+
+				$db->setQuery($query);
 				$max = $db->loadResult();
 
 				$table->ordering = $max + 1;
