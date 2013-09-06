@@ -31,6 +31,12 @@ class JRackspaceCdn extends JRackspaceObject
 	protected $container;
 
 	/**
+	 * @var    JRackspaceCdnObject Rackspace API object for CDN Object Services
+	 * @since  ??.?
+	 */
+	protected $object;
+
+	/**
 	 * Magic method to lazily create API objects
 	 *
 	 * @param   string  $name  Name of property to retrieve.
