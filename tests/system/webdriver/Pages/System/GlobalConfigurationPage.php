@@ -266,5 +266,4 @@ class GlobalConfigurationPage extends AdminEditPage
 		$this->setFieldValues(array('Default Editor'=>$select));
 		$this->clickButton('Save & Close');						
 	}
-
 }
