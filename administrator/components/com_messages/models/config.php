@@ -130,15 +130,15 @@ class MessagesModelConfig extends JModelForm
 
 			if ($tuples)
 			{
-				$db->setQuery(
-					'INSERT INTO #__messages_cfg'.
-					' (user_id, cfg_name, cfg_value)'.
-					' VALUES '.implode(',', $tuples)
-				);
+				$query = $db->getQuery(true)
+							->insert($db->quoteName('#__messages_cfg'))
+							->columns($db->quoteName(array('user_id', 'cfg_name', 'cfg_value')))
+							->values(implode(',', $tuples));
+				$db->setQuery($query);
 
 				try
 				{
-				$db->execute();
+					$db->execute();
 				}
 				catch (RuntimeException $e)
 				{
