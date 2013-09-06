@@ -26,7 +26,8 @@ $ -> Language fix or change
 ! -> Note
 
 06-Sep-2013 Jean-Marie Simonet
- # [#31885] TinyMCE horizontal Resizing. Thanks George Wilson
+ #$ [#31885] TinyMCE horizontal Resizing. Thanks George Wilson
+ $ [#31934] Change language strings in System - Log Component. Thanks George Wilson
 
 05-Sep-2013 Michael Babker
  + [#31844] Rapid Application Framework (Joomla! RAD).  Thanks Nicholas Dionysopoulos
@@ -45,7 +46,7 @@ $ -> Language fix or change
  # Fix code-style issues from [#30944] Content versioning. Thanks George Wilson.
 
 02-Sep-2013 Jean-Marie Simonet
- + [#30944] Content versioning for core and third-party components. Thanks Mark Dexter
+ +$ [#30944] Content versioning for core and third-party components. Thanks Mark Dexter
 
 28-Aug-2013 Michael Babker
  $^ [#31009] Add a switch to turn mail sending on/off.  Thanks Roland Dalmulder
