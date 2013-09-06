@@ -37,7 +37,7 @@ class JRackspacePublicTempurl extends JRackspacePublic
 	{
 		$method = strtoupper($method);
 		list($base_url, $object_path) = preg_split("/v1/", $url);
-		$object_path = "/v1/" . $object_path;
+		$object_path = "v1" . $object_path;
 		$ttl = (int) $ttl;
 		$expires = (int) (time() + $ttl);
 		$hmac_body = "$method\n$expires\n$object_path";
