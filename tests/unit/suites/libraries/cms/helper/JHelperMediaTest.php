@@ -45,7 +45,6 @@ class JHelperMediaTest extends TestCaseDatabase
 		parent::setUp();
 		JFactory::$application = $this->getMockApplication();
 
-
 		$this->object = new JHelperMedia;
 
 	}
@@ -122,7 +121,7 @@ class JHelperMediaTest extends TestCaseDatabase
 		return
 		array(
 				array('Valid image file' => array('name' => 'mypicture.jpg', 'type' => 'image/jpeg', 'tmp_name' => JPATH_TESTS . '/suites/libraries/joomla/image/stubs/koala.jpg', 'error' => 0, 'size' => 8), true),
-				//array('File too big' => array('name' => 'mypicture.jpg', 'type' => 'image/jpeg', 'tmp_name' => JPATH_TESTS . '/suites/libraries/joomla/image/stubs/koala.jpg', 'error' => 0, 'size' => 20), false),
+				array('File too big' => array('name' => 'mypicture.jpg', 'type' => 'image/jpeg', 'tmp_name' => JPATH_TESTS . '/suites/libraries/joomla/image/stubs/koala.jpg', 'error' => 0, 'size' => 10485770), false),
 				array('Not an image' => array('name' => 'mypicture.php', 'type' => 'image/jpeg', 'tmp_name' => JPATH_TESTS . '/suites/libraries/joomla/image/stubs/koala.jpg', 'error' => 0, 'size' => 8), false),
 				array('Ends with .' => array('name' => 'mypicture.png.', 'type' => 'image/jpeg', 'tmp_name' => JPATH_TESTS . '/suites/libraries/joomla/image/stubs/koala.jpg', 'error' => 0, 'size' => 8), false),
 				array('Name contains bad characters' => array('name' => 'my<body>picture.jpg', 'type' => 'image/jpeg', 'tmp_name' => JPATH_TESTS . '/suites/libraries/joomla/image/stubs/koala.jpg', 'error' => 0, 'size' => 8), false),

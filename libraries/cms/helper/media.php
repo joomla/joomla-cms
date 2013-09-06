@@ -93,10 +93,10 @@ class JHelperMedia
 						if (in_array($extensionName, $explodedFileName))
 						{
 							$app = JFactory::getApplication();
-							$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_EXECUTABLE'), 'notice');
+							$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'notice');
 
 							return false;
-							
+
 						}
 				}
 		}
@@ -219,7 +219,7 @@ class JHelperMedia
 	 *
 	 * @param   string  $dir  Directory name
 	 *
-	 * @return  array  The number of files and directories in the given directory
+	 * @return  array  The number of media files and directories in the given directory
 	 *
 	 * @since  3.2
 	 */
