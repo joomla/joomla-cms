@@ -39,8 +39,4 @@
 		<file>index.html</file>
 		<file>version.txt</file>
 	</files>
-	
-	<updateservers>
-		<server type="extension" priority="1" name="FOF Updates (official releases)">http://cdn.akeebabackup.com/updates/fof.xml</server>
-	</updateservers>
 </extension>
