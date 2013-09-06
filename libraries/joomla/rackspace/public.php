@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Common items for public access to the cloud account
+ * Public Access to the Cloud Files Account
  *
  * @package     Joomla.Platform
  * @subpackage  Rackspace

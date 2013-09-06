@@ -31,22 +31,22 @@ class JRackspace
 	protected $client;
 
 	/**
-	 * @var    JRackspaceAccount  Rackspace API object for Storage Account Services.
+	 * @var    JRackspaceCdn  API Operations for CDN Services
 	 * @since  ??.?
 	 */
-	protected $account;
+	protected $cdn;
 
 	/**
-	 * @var    JRackspaceContainer  Rackspace API object for Storage Container Services.
+	 * @var    JRackspacePublic Public Access to the Cloud Files Account
 	 * @since  ??.?
 	 */
-	protected $container;
+	protected $public;
 
 	/**
-	 * @var    JRackspaceObject  Rackspace API object for Storage Object Services.
+	 * @var    JRackspaceStorage  API Operations for Storage Services
 	 * @since  ??.?
 	 */
-	protected $object;
+	protected $storage;
 
 	/**
 	 * Constructor.

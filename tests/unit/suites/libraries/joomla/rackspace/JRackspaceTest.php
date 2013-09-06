@@ -7,26 +7,26 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/amazons3/amazons3.php';
+require_once JPATH_PLATFORM . '/joomla/rackspace/rackspace.php';
 
 /**
- * Test class for JAmazons3.
+ * Test class for JRackspace.
  *
  * @package     Joomla.UnitTest
- * @subpackage  Amazons3
+ * @subpackage  Rackspace
  *
  * @since       ??.?
  */
-class JAmazons3Test extends PHPUnit_Framework_TestCase
+class JRackspaceTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var    JRegistry  Options for the Amazons3 object.
+	 * @var    JRegistry  Options for the Rackspace object.
 	 * @since  ??.?
 	 */
 	protected $options;
 
 	/**
-	 * @var    JAmazons3  Object under test.
+	 * @var    JRackspace  Object under test.
 	 * @since  ??.?
 	 */
 	protected $object;
@@ -44,7 +44,7 @@ class JAmazons3Test extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		$this->options = new JRegistry;
-		$this->object = new JAmazons3($this->options);
+		$this->object = new JRackspace($this->options);
 	}
 
 	/**
@@ -69,53 +69,53 @@ class JAmazons3Test extends PHPUnit_Framework_TestCase
 	public function test__Construct()
 	{
 		$this->assertThat(
-			$this->object->getOption('api.url'),
-			$this->equalTo("s3.amazonaws.com")
+			$this->object->getOption('auth.host.us'),
+			$this->equalTo("identity.api.rackspacecloud.com")
 		);
 	}
 
 	/**
-	 * Tests the magic __get method - service
+	 * Tests the magic __get method - CDN
 	 *
 	 * @since  ??.?
 	 *
 	 * @return void
 	 */
-	public function test__GetService()
+	public function test__GetCdn()
 	{
 		$this->assertThat(
-			$this->object->service,
-			$this->isInstanceOf('JAmazons3Service')
+			$this->object->cdn,
+			$this->isInstanceOf('JRackspaceCdn')
 		);
 	}
 
 	/**
-	 * Tests the magic __get method - buckets
+	 * Tests the magic __get method - public
 	 *
 	 * @since  ??.?
 	 *
 	 * @return void
 	 */
-	public function test__GetBuckets()
+	public function test__GetPublic()
 	{
 		$this->assertThat(
-			$this->object->buckets,
-			$this->isInstanceOf('JAmazons3Buckets')
+			$this->object->public,
+			$this->isInstanceOf('JRackspacePublic')
 		);
 	}
 
 	/**
-	 * Tests the magic __get method - objects
+	 * Tests the magic __get method - storage
 	 *
 	 * @since  ??.?
 	 *
 	 * @return void
 	 */
-	public function test__GetObjects()
+	public function test__GetStorage()
 	{
 		$this->assertThat(
-			$this->object->objects,
-			$this->isInstanceOf('JAmazons3Objects')
+			$this->object->storage,
+			$this->isInstanceOf('JRackspaceStorage')
 		);
 	}
 

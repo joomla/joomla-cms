@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Common items for operations on the service
+ * API Operations for Storage Services
  *
  * @package     Joomla.Platform
  * @subpackage  Rackspace
