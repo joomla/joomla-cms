@@ -29,6 +29,7 @@ $ -> Language fix or change
  # [#31707] Regression: [#29933] prevents showing only page header. Thanks George Wilson
  $ [#31883] Replace all instance of Super Admin with Super User in languages files. Thanks Brian Teeman
  $ [#31888] Standardising on plugin instead of plug-in. Thanks Brian Teeman
+ $ [#31917] Remove double space. Thanks Brian Teeman
 
 06-Sep-2013 Michael Babker
  +$ [#31704] Two factor authentication for Joomla!. Thanks Nicholas Dionysopoulos
