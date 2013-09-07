@@ -7,11 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;?>
-<?php
+defined('_JEXEC') or die;
+
 // Create a shortcut for params.
 $params = $this->item->params;
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 $canEdit = $this->item->params->get('access-edit');
 JHtml::_('behavior.framework');
 ?>

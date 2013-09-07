@@ -9,11 +9,14 @@
 
 defined('_JEXEC') or die;
 
-$cparams = JComponentHelper::getParams('com_media');
+$cparams   = JComponentHelper::getParams('com_media');
+
+// TODO retrieve the enable toggle and Type from the database
+$microdata = JFactory::getMicrodata()->enable($this->params->get('microdata'))->setType($this->params->get('microdata_type'));
 
 jimport('joomla.html.html.bootstrap');
 ?>
-<div class="contact<?php echo $this->pageclass_sfx?>">
+<div class="contact<?php echo $this->pageclass_sfx?>" <?php echo $microdata->displayScope(); ?>>
 	<?php if ($this->params->get('show_page_heading')) : ?>
 		<h1>
 			<?php echo $this->escape($this->params->get('page_heading')); ?>
@@ -25,7 +28,7 @@ jimport('joomla.html.html.bootstrap');
 				<?php if ($this->item->published == 0) : ?>
 					<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 				<?php endif; ?>
-				<span class="contact-name"><?php echo $this->contact->name; ?></span>
+				<span class="contact-name" <?php echo $microdata->property('name')->display(); ?>><?php echo $this->contact->name; ?></span>
 			</h2>
 		</div>
 	<?php endif;  ?>
@@ -73,19 +76,20 @@ jimport('joomla.html.html.bootstrap');
 
 	<?php if ($this->contact->image && $this->params->get('show_image')) : ?>
 		<div class="thumbnail pull-right">
-			<?php echo JHtml::_('image', $this->contact->image, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('align' => 'middle')); ?>
+			<?php echo JHtml::_('image', $this->contact->image, JText::_('COM_CONTACT_IMAGE_DETAILS'), ($microdata->isEnabled()) ? array('align' => 'middle', 'itemprop' => 'image') : array('align' => 'middle')); ?>
 		</div>
 	<?php endif; ?>
 
 	<?php if ($this->contact->con_position && $this->params->get('show_position')) : ?>
 		<dl class="contact-position dl-horizontal">
-			<dd>
+			<dd <?php echo $microdata->property('jobTitle')->display(); ?>>
 				<?php echo $this->contact->con_position; ?>
 			</dd>
 		</dl>
 	<?php endif; ?>
 
 	<?php echo $this->loadTemplate('address'); ?>
+	<?php $microdata->setType($this->params->get('microdata_type')); ?>
 
 	<?php if ($this->params->get('allow_vcard')) :	?>
 		<?php echo JText::_('COM_CONTACT_DOWNLOAD_INFORMATION_AS');?>

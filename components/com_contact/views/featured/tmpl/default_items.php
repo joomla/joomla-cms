@@ -95,7 +95,7 @@ $params = &$this->item->params;
 
 		<tbody>
 			<?php foreach ($this->items as $i => $item) : ?>
-				<tr class="<?php echo ($i % 2) ? "odd" : "even"; ?>">
+				<tr class="<?php echo ($i % 2) ? "odd" : "even"; ?>" <?php echo JFactory::getMicrodata()->displayScope(); ?>>
 					<td class="item-num">
 						<?php echo $i; ?>
 					</td>
@@ -104,55 +104,55 @@ $params = &$this->item->params;
 						<?php if ($this->items[$i]->published == 0) : ?>
 							<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 						<?php endif; ?>
-						<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
-							<?php echo $item->name; ?></a>
+						<a <?php echo JFactory::getMicrodata()->property('url')->display(); ?> href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
+							<?php echo JFactory::getMicrodata()->content($item->name)->property('name')->display(); ?></a>
 					</td>
 
 					<?php if ($this->params->get('show_position_headings')) : ?>
-						<td class="item-position">
+						<td class="item-position" <?php echo JFactory::getMicrodata()->property('jobTitle')->display(); ?>>
 							<?php echo $item->con_position; ?>
 						</td>
 					<?php endif; ?>
 
 					<?php if ($this->params->get('show_email_headings')) : ?>
-						<td class="item-email">
+						<td class="item-email" <?php echo JFactory::getMicrodata()->property('email')->display(); ?>>
 							<?php echo $item->email_to; ?>
 						</td>
 					<?php endif; ?>
 
 					<?php if ($this->params->get('show_telephone_headings')) : ?>
-						<td class="item-phone">
+						<td class="item-phone" <?php echo JFactory::getMicrodata()->property('telephone')->display(); ?>>
 							<?php echo $item->telephone; ?>
 						</td>
 					<?php endif; ?>
 
 					<?php if ($this->params->get('show_mobile_headings')) : ?>
-						<td class="item-phone">
+						<td class="item-phone" <?php echo JFactory::getMicrodata()->property('telephone')->display(); ?>>
 							<?php echo $item->mobile; ?>
 						</td>
 					<?php endif; ?>
 
 					<?php if ($this->params->get('show_fax_headings')) : ?>
-					<td class="item-phone">
+					<td class="item-phone" <?php echo JFactory::getMicrodata()->property('faxNumber')->display(); ?>>
 						<?php echo $item->fax; ?>
 					</td>
 					<?php endif; ?>
 
 					<?php if ($this->params->get('show_suburb_headings')) : ?>
 					<td class="item-suburb">
-						<?php echo $item->suburb; ?>
+						<?php echo JFactory::getMicrodata()->content($item->suburb)->fallback('PostalAddress', 'addressLocality')->display(); ?>
 					</td>
 					<?php endif; ?>
 
 					<?php if ($this->params->get('show_state_headings')) : ?>
 					<td class="item-state">
-						<?php echo $item->state; ?>
+						<?php echo JFactory::getMicrodata()->content($item->state)->fallback('PostalAddress', 'addressRegion')->display(); ?>
 					</td>
 					<?php endif; ?>
 
 					<?php if ($this->params->get('show_country_headings')) : ?>
 					<td class="item-state">
-						<?php echo $item->country; ?>
+						<?php echo JFactory::getMicrodata()->content($item->country)->fallback('PostalAddress', 'addressCountry')->display(); ?>
 					</td>
 					<?php endif; ?>
 				</tr>

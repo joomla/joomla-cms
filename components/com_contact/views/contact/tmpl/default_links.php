@@ -38,7 +38,7 @@ defined('_JEXEC') or die;
 			$label = ($label) ? $label : $link;
 			?>
 			<li>
-				<a href="<?php echo $link; ?>">
+				<a href="<?php echo $link; ?>" <?php JFactory::getMicrodata()->property('url')->display(); ?>>
 					<?php echo $label; ?>
 				</a>
 			</li>

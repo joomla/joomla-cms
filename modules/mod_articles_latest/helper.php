@@ -49,6 +49,7 @@ abstract class ModArticlesLatestHelper
 
 		// User filter
 		$userId = JFactory::getUser()->get('id');
+
 		switch ($params->get('user_id'))
 		{
 			case 'by_me':

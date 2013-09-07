@@ -78,6 +78,12 @@ abstract class JFactory
 	public static $mailer = null;
 
 	/**
+	 * @var    JMicrodata
+	 * @since  13.1
+	 */
+	public static $microdata = null;
+
+	/**
 	 * Get a application object.
 	 *
 	 * Returns the global {@link JApplication} object, only creating it if it doesn't already exist.
@@ -245,10 +251,12 @@ abstract class JFactory
 	public static function getCache($group = '', $handler = 'callback', $storage = null)
 	{
 		$hash = md5($group . $handler . $storage);
+
 		if (isset(self::$cache[$hash]))
 		{
 			return self::$cache[$hash];
 		}
+
 		$handler = ($handler == 'function') ? 'callback' : $handler;
 
 		$options = array('defaultgroup' => $group);
@@ -323,9 +331,30 @@ abstract class JFactory
 		{
 			self::$mailer = self::createMailer();
 		}
+
 		$copy = clone self::$mailer;
 
 		return $copy;
+	}
+
+	/**
+	 * Get a microdata object.
+	 *
+	 * Returns the global {@link JMicrodata} object, only creating it if it doesn't already exist.
+	 *
+	 * @return  JMicrodata
+	 *
+	 * @see     JMicrodata
+	 * @since   13.1
+	 */
+	public static function getMicrodata()
+	{
+		if (!self::$microdata)
+		{
+			self::$microdata = new JMicrodata('', self::getConfig()->get('microdata'));
+		}
+
+		return self::$microdata;
 	}
 
 	/**
@@ -370,6 +399,7 @@ abstract class JFactory
 		JLog::add(__METHOD__ . ' is deprecated. Use SimpleXML directly.', JLog::WARNING, 'deprecated');
 
 		$class = 'SimpleXMLElement';
+
 		if (class_exists('JXMLElement'))
 		{
 			$class = 'JXMLElement';
@@ -568,6 +598,7 @@ abstract class JFactory
 		$options['expire'] = ($conf->get('lifetime')) ? $conf->get('lifetime') * 60 : 900;
 
 		$session = JSession::getInstance($handler, $options);
+
 		if ($session->getState() == 'expired')
 		{
 			$session->restart();
@@ -608,6 +639,7 @@ abstract class JFactory
 			{
 				header('HTTP/1.1 500 Internal Server Error');
 			}
+
 			jexit('Database Error: ' . $e->getMessage());
 		}
 

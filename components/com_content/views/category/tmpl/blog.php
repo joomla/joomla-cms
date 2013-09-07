@@ -9,11 +9,14 @@
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
+
+// TODO Retrieve the Type, enabled or not params from the db
+$microdata = JFactory::getMicrodata()->enable(true)->setType('Blog');
 
 JHtml::_('behavior.caption');
 ?>
-<div class="blog<?php echo $this->pageclass_sfx;?>">
+<div class="blog<?php echo $this->pageclass_sfx;?>" <?php echo $microdata->displayScope(); ?>>
 	<?php if ($this->params->get('show_page_heading', 1)) : ?>
 	<div class="page-header">
 		<h1> <?php echo $this->escape($this->params->get('page_heading')); ?> </h1>
@@ -54,7 +57,7 @@ JHtml::_('behavior.caption');
 	<?php if (!empty($this->lead_items)) : ?>
 	<div class="items-leading clearfix">
 		<?php foreach ($this->lead_items as &$item) : ?>
-		<div class="leading-<?php echo $leadingcount; ?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>">
+		<div class="leading-<?php echo $leadingcount; ?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>" <?php echo $microdata->setType('BlogPosting')->displayScope(); ?>>
 			<?php
 				$this->item = &$item;
 				echo $this->loadTemplate('item');
@@ -81,7 +84,7 @@ JHtml::_('behavior.caption');
 		<div class="items-row cols-<?php echo (int) $this->columns;?> <?php echo 'row-'.$row; ?> row-fluid clearfix">
 		<?php endif; ?>
 			<div class="span<?php echo round((12 / $this->columns));?>">
-				<div class="item column-<?php echo $rowcount;?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>">
+				<div class="item column-<?php echo $rowcount;?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>" <?php echo $microdata->setType('BlogPosting')->displayScope(); ?>>
 					<?php
 					$this->item = &$item;
 					echo $this->loadTemplate('item');
