@@ -25,8 +25,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Sep-2013 Jean-Marie Simonet
+# [#31707] Regression: [#29933] prevents showing only page header. Thanks George Wilson
+
 06-Sep-2013 Michael Babker
- + [#31704] Two factor authentication for Joomla!.  Thanks Nicholas Dionysopoulos
+ + [#31704] Two factor authentication for Joomla!. Thanks Nicholas Dionysopoulos
 
 06-Sep-2013 Jean-Marie Simonet
  #$ [#31885] TinyMCE horizontal Resizing. Thanks George Wilson
