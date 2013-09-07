@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.path');
+jimport('joomla.filesystem.file');
 require_once JPATH_COMPONENT . '/helpers/menus.php';
 
 /**
@@ -557,6 +558,7 @@ class MenusModelItem extends JModelAdmin
 
 		// Get the form.
 		$form = $this->loadForm('com_menus.item', 'item', array('control' => 'jform', 'load_data' => $loadData), true);
+
 		if (empty($form))
 		{
 			return false;
@@ -695,6 +697,7 @@ class MenusModelItem extends JModelAdmin
 
 					// Determine the component id.
 					$component = JComponentHelper::getComponent($args['option']);
+
 					if (isset($component->id))
 					{
 						$table->component_id = $component->id;
@@ -928,13 +931,19 @@ class MenusModelItem extends JModelAdmin
 				$formFile = false;
 
 				// Check for the layout XML file. Use standard xml file if it exists.
-				$path = JPath::clean($base . '/views/' . $view . '/tmpl/' . $layout . '.xml');
+				$path = $base . '/view/' . $view . '/tmpl/' . $layout . '.xml';
+
+				if (!JFile::exists($path))
+				{
+					$path = $base . '/views/' . $view . '/tmpl/' . $layout . '.xml';
+				}
+
 				if (is_file($path))
 				{
 					$formFile = $path;
 				}
 
-				// if custom layout, get the xml file from the template folder
+				// If custom layout, get the xml file from the template folder
 				// template folder is first part of file name -- template:folder
 				if (!$formFile && (strpos($layout, ':') > 0))
 				{
@@ -950,7 +959,11 @@ class MenusModelItem extends JModelAdmin
 			//Now check for a view manifest file
 			if (!$formFile)
 			{
-				if (isset($view) && is_file($path = JPath::clean($base . '/views/' . $view . '/metadata.xml')))
+				if (isset($view) && is_file($path = JPath::clean($base . '/view/' . $view . '/metadata.xml')))
+				{
+					$formFile = $path;
+				}
+				elseif (isset($view) && is_file($path = JPath::clean($base . '/views/' . $view . '/metadata.xml')))
 				{
 					$formFile = $path;
 				}

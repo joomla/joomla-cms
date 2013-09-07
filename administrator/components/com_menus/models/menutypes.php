@@ -215,7 +215,12 @@ class MenusModelMenutypes extends JModelLegacy
 		$options = array();
 
 		// Get the views for this component.
-		$path = JPATH_SITE . '/components/' . $component . '/views';
+		$path = JPATH_SITE . '/components/' . $component . '/view';
+
+		if (!is_dir(JPath::clean($path)))
+		{
+			$path = JPATH_SITE . '/components/' . $component . '/views';
+		}
 
 		if (is_dir($path))
 		{
@@ -311,7 +316,12 @@ class MenusModelMenutypes extends JModelLegacy
 		$lang = JFactory::getLanguage();
 
 		// Get the layouts from the view folder.
-		$path = JPATH_SITE . '/components/' . $component . '/views/' . $view . '/tmpl';
+		$path = JPATH_SITE . '/components/' . $component . '/view/' . $view . '/tmpl';
+		if (!is_dir(JPath::clean($path)))
+		{
+			$path = JPATH_SITE . '/components/' . $component . '/views/' . $view . '/tmpl';
+		}
+
 		if (is_dir($path))
 		{
 			$layouts = array_merge($layouts, JFolder::files($path, '.xml$', false, true));

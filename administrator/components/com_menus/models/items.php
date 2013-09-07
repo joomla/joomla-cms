@@ -8,6 +8,7 @@
  */
 
 defined('_JEXEC') or die;
+jimport('joomla.filesystem.file');
 
 /**
  * Menu Item List Model for Menus.

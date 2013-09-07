@@ -171,6 +171,7 @@ class MenusControllerItem extends JControllerForm
 		// Validate the posted data.
 		// This post is made up of two forms, one for the item and one for params.
 		$form = $model->getForm($data);
+
 		if (!$form)
 		{
 			JError::raiseError(500, $model->getError());

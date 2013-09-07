@@ -88,7 +88,13 @@ class MenusViewItems extends JViewLegacy
 						if (isset($vars['view']))
 						{
 							// Attempt to load the view xml file.
-							$file = JPATH_SITE.'/components/'.$item->componentname.'/views/'.$vars['view'].'/metadata.xml';
+							$file = JPATH_SITE . '/components/' . $item->componentname . '/view/' . $vars['view'] . '/metadata.xml';
+
+							if (!is_file($file))
+							{
+								$file = JPATH_SITE . '/components/' . $item->componentname . '/views/' . $vars['view'] . '/metadata.xml';
+							}
+
 							if (is_file($file) && $xml = simplexml_load_file($file))
 							{
 								// Look for the first view node off of the root node.
@@ -115,7 +121,13 @@ class MenusViewItems extends JViewLegacy
 										else
 										{
 											// Get XML file from component folder for standard layouts
-											$file = JPATH_SITE.'/components/'.$item->componentname.'/views/'.$vars['view'].'/tmpl/'.$vars['layout'].'.xml';
+											$file = JPATH_SITE.'/components/'.$item->componentname.'/view/'.$vars['view'].'/tmpl/'.$vars['layout'].'.xml';
+
+											if (!JFile::exists($file))
+											{
+												$file = JPATH_SITE.'/components/'.$item->componentname.'/view/'.$vars['view'].'/tmpl/'.$vars['layout'].'.xml';
+											}
+
 										}
 										if (is_file($file) && $xml = simplexml_load_file($file))
 										{
