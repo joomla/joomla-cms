@@ -32,6 +32,7 @@ $ -> Language fix or change
  $ [#31917] Remove double space. Thanks Brian Teeman
  # [#31914] mod_footer - replacement in language override string doesn`t work correct. Thanks Carsten Wirtz
  # [#31876] Contact Icons are missing when selecting new ones. Thanks Carsten Wirtz
+ $ [#31886] Standardise on check-in language strings. Thanks Brian Teeman
 
 06-Sep-2013 Michael Babker
  +$ [#31704] Two factor authentication for Joomla!. Thanks Nicholas Dionysopoulos
