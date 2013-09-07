@@ -28,12 +28,6 @@ UPDATE `#__content_types` SET `content_history_options` = '{"form_file":"adminis
 
 UPDATE `#__content_types` SET `content_history_options` = '{"form_file":"administrator\\/components\\/com_categories\\/models\\/forms\\/category.xml", "hide_fields":["asset_id","checked_out","checked_out_time","version","lft","rgt","level","path","extension"], "display_lookup":[{"source_column":"created_user_id","target_table":"#__users","target_column":"id","display_column":"name"}, {"source_column":"access","target_table":"#__viewlevels","target_column":"id","display_column":"title"}, {"source_column":"modified_user_id","target_table":"#__users","target_column":"id","display_column":"name"},{"source_column":"parent_id","target_table":"#__categories","target_column":"id","display_column":"title"}]}' WHERE `type_alias` IN ('com_content.category', 'com_contact.category', 'com_newsfeeds.category', 'com_weblinks.category');
 
-INSERT INTO `#__update_sites` (`name`, `type`, `location`, `enabled`, `last_check_timestamp`) VALUES
-('FOF Updates (official releases)', 'extension', 'http://cdn.akeebabackup.com/updates/fof.xml', 1, 0);
-
-INSERT INTO `#__update_sites_extensions` (`update_site_id`, `extension_id`) VALUES
-(LAST_INSERT_ID(), 105);
-
 ALTER TABLE `#__users` ADD COLUMN `otpKey` varchar(1000) NOT NULL DEFAULT '' COMMENT 'Two factor authentication encrypted keys';
 
 ALTER TABLE `#__users` ADD COLUMN `otep` varchar(1000) NOT NULL DEFAULT '' COMMENT 'One time emergency passwords';

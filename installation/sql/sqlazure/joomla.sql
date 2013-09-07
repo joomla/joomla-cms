@@ -2657,7 +2657,6 @@ SET IDENTITY_INSERT #__update_sites ON;
 INSERT INTO #__update_sites (update_site_id,name,type,location,enabled,last_check_timestamp) VALUES (1, 'Joomla Core', 'collection', 'http://update.joomla.org/core/list.xml', 1, 0);
 INSERT INTO #__update_sites (update_site_id,name,type,location,enabled,last_check_timestamp) VALUES (2, 'Joomla Extension Directory', 'collection', 'http://update.joomla.org/jed/list.xml', 1, 0);
 INSERT INTO #__update_sites (update_site_id,name,type,location,enabled,last_check_timestamp) VALUES (3, 'Accredited Joomla! Translations', 'collection', 'http://update.joomla.org/language/translationlist_3.xml', 1, 0);
-INSERT INTO #__update_sites (update_site_id,name,type,location,enabled,last_check_timestamp) VALUES (4, 'FOF Updates (official releases)', 'extension', 'http://cdn.akeebabackup.com/updates/fof.xml', 1, 0);
 
 SET IDENTITY_INSERT #__update_sites OFF;
 
@@ -2680,9 +2679,7 @@ SELECT 1, 700
 UNION ALL
 SELECT 2, 700
 UNION ALL
-SELECT 3, 600
-UNION ALL
-SELECT 4, 105;
+SELECT 3, 600;
 
 /****** Object:  Table [#__updates] ******/
 SET QUOTED_IDENTIFIER ON;
