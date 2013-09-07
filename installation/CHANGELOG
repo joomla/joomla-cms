@@ -34,6 +34,7 @@ $ -> Language fix or change
  # [#31876] Contact Icons are missing when selecting new ones. Thanks Carsten Wirtz
  $ [#31886] Standardise on check-in language strings. Thanks Brian Teeman
  # [#31896] Stupid return in contact component table. Thanks George Wilson
+ # [#31884] *Smart search Index and Statistics buttons broken if lang debug is on
 
 06-Sep-2013 Michael Babker
  +$ [#31704] Two factor authentication for Joomla!. Thanks Nicholas Dionysopoulos
