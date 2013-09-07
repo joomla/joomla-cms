@@ -106,5 +106,4 @@ class JImageFilterBrightnessTest extends TestCase
 
 		$filter->execute(array());
 	}
-
 }

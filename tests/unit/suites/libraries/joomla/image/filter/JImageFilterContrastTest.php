@@ -107,5 +107,4 @@ class JImageFilterContrastTest extends TestCase
 
 		$filter->execute(array());
 	}
-
 }
