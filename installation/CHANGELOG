@@ -36,6 +36,7 @@ $ -> Language fix or change
  # [#31896] Stupid return in contact component table. Thanks George Wilson
  # [#31884] *Smart search Index and Statistics buttons broken if lang debug is on
  $ [#31846] Small correction to franglais in languages strings. Thanks Brian Teeman
+ # [#31936] Add active class to breadcrumb module for more bootstrap compatibility. Thanks Michael Babker.
 
 06-Sep-2013 Michael Babker
  +$ [#31704] Two factor authentication for Joomla!. Thanks Nicholas Dionysopoulos
