@@ -18,6 +18,15 @@ defined('_JEXEC') or die;
  */
 class WeblinksModelWeblink extends JModelAdmin
 {
+
+	/**
+	 * The type alias for this content type.
+	 *
+	 * @var      string
+	 * @since    3.2
+	 */
+	public $typeAlias = 'com_weblinks.weblink';
+
 	/**
 	 * The prefix to use with controller messages.
 	 *

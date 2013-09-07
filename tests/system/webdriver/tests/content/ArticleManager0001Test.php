@@ -188,7 +188,7 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 	{
 		$cfg=new SeleniumConfig();
 		$this->driver->get($cfg->host.$cfg->path);
-		$this->doFrontEndLogin();
+		$this->doSiteLogin();
 		$this->driver->waitForElementUntilIsPresent(By::xPath("//a[contains(text(),'Home')]"),10);
 		$arrayElement=$this->driver->findElements(By::xPath("//a[contains(text(), 'Edit')]"));
 		$this->assertTrue(count($arrayElement)>0,'Edit Icons Must be Present');
@@ -200,7 +200,7 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 		$this->assertTrue(count($arrayElement)>0,'Edit Icons Must be Present');
 		$d->findElement(By::xPath("//a[contains(text(), 'Home')]"))->click();
 		$d->waitForElementUntilIsPresent(By::xPath("//a[contains(text(),'Login')]"),10);
-		$this->doFrontEndLogout();
+		$this->doSiteLogout();
 		$arrayElement=$this->driver->findElements(By::xPath("//a[contains(text(), 'Edit')]"));
 		$this->assertEquals(count($arrayElement),0,'Edit Icons Must Not be Present');
 		$d->findElement(By::xPath("//a[contains(text(),'Sample Sites')]"))->click();
