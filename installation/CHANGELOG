@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 07-Sep-2013 Jean-Marie Simonet
  # [#31914] mod_footer - replacement in language override string doesn`t work correct. Thanks Carsten Wirtz
+ # [#31896] Stupid return in contact component table. Thanks George Wilson
 
 22-Aug-2013 Jean-Marie Simonet
  # [#28349] Incorrect ordering in Newsflash module. Thanks Gregory Wyman and Brian Teeman
