@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Libraries
- * @subpackage  CMS
+ * @subpackage  Helper
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * the #__content_types table and rows found in the #__ucm_content table.
  *
  * @package     Joomla.Libraries
- * @subpackage  CMS
+ * @subpackage  Helper
  * @since       3.1
  */
 class JHelperRoute

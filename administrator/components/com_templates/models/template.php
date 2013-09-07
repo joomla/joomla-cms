@@ -721,7 +721,17 @@ class TemplatesModelTemplate extends JModelForm
                 return false;
             }
 
-            if(!JFile::upload($file['tmp_name'],JPath::clean($path . '/' . $location . '/' . $fileName)))
+            $err = null;
+            JLoader::register('TemplateHelper', JPATH_COMPONENT_ADMINISTRATOR.'/helpers/template.php');
+
+            if(!TemplateHelper::canUpload($file, $err))
+            {
+                // Can't upload the file
+
+                return false;
+            }
+
+            if(!JFile::upload($file['tmp_name'], JPath::clean($path . '/' . $location . '/' . $fileName)))
             {
                 $app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_UPLOAD_ERROR'),'error');
                 return false;
@@ -744,6 +754,7 @@ class TemplatesModelTemplate extends JModelForm
     public function createFolder($name, $location)
     {
         jimport('joomla.filesystem.folder');
+
         if ($template = $this->getTemplate())
         {
             $app        = JFactory::getApplication();
@@ -751,6 +762,7 @@ class TemplatesModelTemplate extends JModelForm
             $path       = JPath::clean($client->path . '/templates/' . $template->element . '/');
 
             if(file_exists(JPath::clean($path . '/' . $location . '/' . $name . '/')))
+
             {
                 $app->enqueueMessage(JText::_('COM_TEMPLATES_FOLDER_EXISTS'),'error');
                 return false;

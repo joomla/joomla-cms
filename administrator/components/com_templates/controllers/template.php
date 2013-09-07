@@ -25,7 +25,10 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	 * Constructor.
 	 *
 	 * @param   array An optional associative array of configuration settings.
-	 * @see     JController
+     *
+	 * @see     JControllerLegacy
+     *
+     * @since   3.2
 	 */
 	public function __construct($config = array())
 	{
@@ -59,7 +62,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-        $app        = JFactory::getApplication();
+        $app = JFactory::getApplication();
 		$this->input->set('installtype', 'folder');
 		$newName    = $this->input->get('new_name');
 		$newNameRaw = $this->input->get('new_name', null, 'string');
@@ -304,7 +307,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
     }
 
     /**
-     * Method for compiling less.
+     * Method for compiling LESS.
      *
      * @since   3.2
      */
@@ -413,45 +416,15 @@ class TemplatesControllerTemplate extends JControllerLegacy
         $upload         = $app->input->files->get('files');
         $location       = base64_decode($app->input->get('address'));
 
-        $fileUploadExtensions       = array(
-                                            'text/plain',
-                                            'application/octet-stream',
-                                            'application/x-httpd-php',
-                                            'application/x-httpd-php5',
-                                            'application/x-httpd-php-source',
-                                            'application/x-php',
-                                            'application/javascript',
-                                            'application/xml',
-                                            'text/css',
-                                            'image/jpeg',
-                                            'image/gif',
-                                            'image/png',
-                                            'application/x-font-ttf',
-                                            'application/x-font-opentype',
-                                            'application/font-woff',
-                                            'application/vnd.ms-fontobject'
-                                        );
-        $uploadedFileExtension      = $upload['type'];
-
-        if(in_array($uploadedFileExtension, $fileUploadExtensions))
+        if($model->uploadFile($upload, $location))
         {
-            if($model->uploadFile($upload, $location))
-            {
-                $app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_UPLOAD_SUCCESS') . $upload['name']);
-                $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-                $this->setRedirect(JRoute::_($url, false));
-            }
-            else
-            {
-                $app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_FILE_UPLOAD'),'error');
-                $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-                $this->setRedirect(JRoute::_($url, false));
-            }
+            $app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_UPLOAD_SUCCESS') . $upload['name']);
+            $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+            $this->setRedirect(JRoute::_($url, false));
         }
-
         else
         {
-            $app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_FILE_FORMAT'),'error');
+            $app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_FILE_UPLOAD'),'error');
             $url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
             $this->setRedirect(JRoute::_($url, false));
         }
