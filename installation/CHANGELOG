@@ -26,10 +26,11 @@ $ -> Language fix or change
 ! -> Note
 
 07-Sep-2013 Jean-Marie Simonet
-# [#31707] Regression: [#29933] prevents showing only page header. Thanks George Wilson
+ # [#31707] Regression: [#29933] prevents showing only page header. Thanks George Wilson
+ $ [#31883] Replace all instance of Super Admin with Super User in languages files. Thanks Brian Teeman
 
 06-Sep-2013 Michael Babker
- + [#31704] Two factor authentication for Joomla!. Thanks Nicholas Dionysopoulos
+ +$ [#31704] Two factor authentication for Joomla!. Thanks Nicholas Dionysopoulos
 
 06-Sep-2013 Jean-Marie Simonet
  #$ [#31885] TinyMCE horizontal Resizing. Thanks George Wilson
