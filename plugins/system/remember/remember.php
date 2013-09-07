@@ -24,52 +24,51 @@ class PlgSystemRemember extends JPlugin
 	/**
 	 * @var    JApplication
 	 *
-	 * @since  3.1.5
+	 * @since  3.2
 	 */
 	protected $app;
 
 	/**
-	 * @var    JApplication
+	 * @var    JDatabase
 	 *
-	 * @since  3.1.5
+	 * @since  3.2
 	 */
 	protected $db;
 
 	/**
 	 * @var  string  Domain for the cookie;
 	 *
-	 * @since  3.1.5
+	 * @since  3.2
 	 */
 	protected $cookie_domain;
 
 	/**
 	 * @var  string  Path for the cookie.
 	 *
-	 * @since  3.1.5
+	 * @since  3.2
 	 */
 	protected $cookie_path;
 
 	/**
 	 * @var  boolean  Whether to set as secure or not.
 	 *
-	 * @since  3.1.5
+	 * @since  3.2
 	 */
 	protected $secure = false;
 
 	/**
 	 * @var  time  Cookie lifetime in days.
 	 *
-	 * @since  3.1.5
+	 * @since  3.2
 	 */
 	protected $lifetime;
 
 	/**
 	 * @var  length  Length of random string.
 	 *
-	 * @since  3.1.5
+	 * @since  3.2
 	 */
 	protected $length;
-
 
 	/**
 	 * Constructor. We use it to set the app and db properties.
@@ -84,9 +83,6 @@ class PlgSystemRemember extends JPlugin
 	public function __construct(&$subject, $config = array())
 	{
 		parent::__construct($subject, $config);
-
-		$this->app = JFactory::getApplication();
-		$this->db = JFactory::getDbo();
 
 		// Use domain and path set in config for cookie if it exists.
 		$this->cookie_domain = $this->app->getCfg('cookie_domain', '');

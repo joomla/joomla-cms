@@ -26,7 +26,7 @@ class PlgAuthenticationCookie extends JPlugin
 	protected $app;
 
 	/**
-	 * @var    JApplication
+	 * @var    JDatabase
 	 *
 	 * @since  3.2
 	 */
@@ -75,8 +75,6 @@ class PlgAuthenticationCookie extends JPlugin
 			// Bring this in line with the rest of the system
 			$user = JUser::getInstance($result->id);
 			$cookieName = JUserHelper::getShortHashedUserAgent();
-
-			$this->app = JFactory::getApplication();
 
 			// If there is no cookie, bail out
 			if (!$this->app->input->cookie->get($cookieName))

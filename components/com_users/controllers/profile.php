@@ -42,7 +42,6 @@ class UsersControllerProfile extends UsersController
 			return false;
 		}
 
-
 		$cookieLogin = $user->get('cookieLogin');
 
 		// Check if the user logged in with a cookie

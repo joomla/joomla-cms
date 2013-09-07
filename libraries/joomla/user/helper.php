@@ -318,7 +318,7 @@ abstract class JUserHelper
 	{
 
 		// Get the salt to use.
-		$salt = JUserHelper::getSalt($encryption, $salt, $plaintext);
+		$salt = self::getSalt($encryption, $salt, $plaintext);
 
 		// Encrypt the password.
 		switch ($encryption)
@@ -640,21 +640,21 @@ abstract class JUserHelper
 	 * @param   string   $cookieName  Series id (cookie name decoded)
 	 *
 	 * @return  boolean  True on success
-	 * @since   3.1.5
+	 * @since   3.2
 	 * @see JInput::setCookie for more details
 	 */
 	public static function invalidateCookie($userId, $cookieName)
 	{
-		$this->db = JFactory::getDbo();
+		$db = JFactory::getDbo();
 		// Invalidate cookie in the database
-		$query = $this->db->getQuery(true);
+		$query = $db->getQuery(true);
 
 		$query
-			->update($this->db->quoteName('#__user_keys'))
-			->set($this->db->quoteName('invalid') . ' = 1')
-			->where($this->db->quotename('user_id') . ' = ' . $this->db->quote($userId));
+			->update($db->quoteName('#__user_keys'))
+			->set($db->quoteName('invalid') . ' = 1')
+			->where($db->quotename('user_id') . ' = ' . $db->quote($userId));
 
-		$this->db->setQuery($query)->execute();
+		$db->setQuery($query)->execute();
 
 		// Destroy the cookie in the browser.
 		$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->cookie_path, $this->cookie_domain, $this->secure, true);

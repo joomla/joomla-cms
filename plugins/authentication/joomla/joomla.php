@@ -54,12 +54,6 @@ class PlgAuthenticationJoomla extends JPlugin
 
 		if ($result)
 		{
-			// Check the password
-			$parts	= explode(':', $result->password);
-			$crypt	= $parts[0];
-			$salt	= @$parts[1];
-			$testcrypt = JUserHelper::getCryptedPassword($credentials['password'], $salt);
-
 			if ($crypt == $testcrypt)
 			{
 				// Bring this in line with the rest of the system
@@ -106,8 +100,8 @@ class PlgAuthenticationJoomla extends JPlugin
 				return;
 			}
 
-            require_once JPATH_ADMINISTRATOR . '/components/com_users/models/user.php';
-            $model = new UsersModelUser;
+			require_once JPATH_ADMINISTRATOR . '/components/com_users/models/user.php';
+			$model = new UsersModelUser;
 
 			// Load the user's OTP (one time password, a.k.a. two factor auth) configuration
 			if (!array_key_exists('otp_config', $options))
@@ -159,9 +153,11 @@ class PlgAuthenticationJoomla extends JPlugin
 
 			$check = false;
 
-            // This looks like noob code but DO NOT TOUCH IT and do not convert
-            // to in_array(). During testing in_array() inexplicably returned
-            // null when the OTEP begins with a zero! o_O
+			/*
+			 * This looks like noob code but DO NOT TOUCH IT and do not convert
+			 * to in_array(). During testing in_array() inexplicably returned
+			 * null when the OTEP begins with a zero! o_O
+			 */
 			if (!empty($otpAuthReplies))
 			{
 				foreach ($otpAuthReplies as $authReply)
@@ -170,47 +166,50 @@ class PlgAuthenticationJoomla extends JPlugin
 				}
 			}
 
-            // Fall back to one time emergency passwords
-            if (!$check)
-            {
-                // Did the user use an OTEP instead?
-                if (empty($otpConfig->otep))
-                {
-                    if (empty($otpConfig->method) || ($otpConfig->method == 'none'))
-                    {
-                        // Two factor authentication is not enabled on this account.
-                        // Any string is assumed to be a valid OTEP.
-                        return true;
-                    }
-                    else
-                    {
-                        // Two factor authentication enabled and no OTEPs defined. The
-                        // user has used them all up. Therefore anything he enters is
-                        // an invalid OTEP.
-                        return false;
-                    }
-                }
+			// Fall back to one time emergency passwords
+			if (!$check)
+			{
+				// Did the user use an OTEP instead?
+				if (empty($otpConfig->otep))
+				{
+					if (empty($otpConfig->method) || ($otpConfig->method == 'none'))
+					{
+						// Two factor authentication is not enabled on this account.
+						// Any string is assumed to be a valid OTEP.
 
-                // Clean up the OTEP (remove dashes, spaces and other funny stuff
-                // our beloved users may have unwittingly stuffed in it)
-                $otep = $credentials['secretkey'];
-                $otep = filter_var($otep, FILTER_SANITIZE_NUMBER_INT);
-                $otep = str_replace('-', '', $otep);
+						return true;
+					}
+					else
+					{
+						/*
+						 * Two factor authentication enabled and no OTEPs defined. The
+						 * user has used them all up. Therefore anything he enters is
+						 * an invalid OTEP.
+						 */
+						return false;
+					}
+					}
 
-                $check = false;
+				// Clean up the OTEP (remove dashes, spaces and other funny stuff
+				// our beloved users may have unwittingly stuffed in it)
+				$otep = $credentials['secretkey'];
+				$otep = filter_var($otep, FILTER_SANITIZE_NUMBER_INT);
+				$otep = str_replace('-', '', $otep);
 
-                // Did we find a valid OTEP?
-                if (in_array($otep, $otpConfig->otep))
-                {
-                    // Remove the OTEP from the array
-                    $otpConfig->otep = array_diff($otpConfig->otep, array($otep));
+				$check = false;
 
-                    $model->setOtpConfig($result->id, $otpConfig);
+				// Did we find a valid OTEP?
+				if (in_array($otep, $otpConfig->otep))
+				{
+					// Remove the OTEP from the array
+					$otpConfig->otep = array_diff($otpConfig->otep, array($otep));
 
-                    // Return true; the OTEP was a valid one
-                    $check = true;
-                }
-            }
+					$model->setOtpConfig($result->id, $otpConfig);
+
+					// Return true; the OTEP was a valid one
+					$check = true;
+				}
+			}
 
 			if (!$check)
 			{

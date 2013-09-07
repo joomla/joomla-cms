@@ -86,8 +86,8 @@ class JApplication extends JApplicationBase
 
 	/**
 	 * @var    boolean  Indicates that strong encryption should be used.
-	 * @since  3.1.5
-	 * @note  Default will change to true for release 3.2
+	 * @since  3.2
+	 * @note  Default has been changed as of 3.2. If salted md5 is required it must be explictly set.
 	 */
 	protected $useStrongEncryption = false;
 
