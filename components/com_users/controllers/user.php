@@ -36,6 +36,7 @@ class UsersControllerUser extends UsersController
 		$data['return'] = base64_decode($app->input->post->get('return', '', 'BASE64'));
 		$data['username'] = JRequest::getVar('username', '', 'method', 'username');
 		$data['password'] = JRequest::getString('password', '', 'post', JREQUEST_ALLOWRAW);
+		$data['secretkey'] = JRequest::getString('secretkey', '');
 
 		// Set the return URL if empty.
 		if (empty($data['return']))
@@ -53,8 +54,9 @@ class UsersControllerUser extends UsersController
 
 		// Get the log in credentials.
 		$credentials = array();
-		$credentials['username'] = $data['username'];
-		$credentials['password'] = $data['password'];
+		$credentials['username']  = $data['username'];
+		$credentials['password']  = $data['password'];
+		$credentials['secretkey'] = $data['secretkey'];
 
 		// Perform the log in.
 		if (true === $app->login($credentials, $options))

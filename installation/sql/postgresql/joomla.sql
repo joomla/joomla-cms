@@ -2343,6 +2343,8 @@ CREATE TABLE "#__users" (
   "params" text NOT NULL,
   "lastResetTime" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "resetCount" bigint DEFAULT 0 NOT NULL,
+  "otpKey" varchar(1000) DEFAULT '' NOT NULL,
+  "otep" varchar(1000) DEFAULT '' NOT NULL,
   PRIMARY KEY ("id")
 );
 CREATE INDEX "#__users_usertype" ON "#__users" ("usertype");

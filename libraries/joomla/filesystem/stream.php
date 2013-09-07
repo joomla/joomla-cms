@@ -19,8 +19,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * This class adheres to the stream wrapper operations:
- *
+ * @note        This class adheres to the stream wrapper operations:
  * @see         http://php.net/manual/en/function.stream-get-wrappers.php
  * @see         http://php.net/manual/en/intro.stream.php PHP Stream Manual
  * @see         http://php.net/manual/en/wrappers.php Stream Wrappers
