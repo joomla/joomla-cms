@@ -12,3 +12,5 @@ INSERT INTO #__update_sites_extensions ("update_site_id", "extension_id") VALUES
 ALTER TABLE "#__users" ADD COLUMN "otpKey" varchar(1000) DEFAULT '' NOT NULL;
 
 ALTER TABLE "#__users" ADD COLUMN "otep" varchar(1000) DEFAULT '' NOT NULL;
+
+ALTER TABLE `#__modules` ADD COLUMN `asset_id` INT(10) UNSIGNED DEFAULT 0 NOT NULL AFTER `id`;

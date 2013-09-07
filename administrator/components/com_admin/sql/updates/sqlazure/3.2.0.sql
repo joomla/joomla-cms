@@ -18,3 +18,5 @@ INSERT INTO #__update_sites_extensions (update_site_id, extension_id) VALUES
 ALTER TABLE [#__users] ADD [otpKey] [nvarchar](max) NOT NULL DEFAULT '';
 
 ALTER TABLE [#__users] ADD [otep] [nvarchar](max) NOT NULL DEFAULT '';
+
+ALTER TABLE [#__modules] ADD [asset_id] [int](10) NOT NULL DEFAULT 0 AFTER [id];
