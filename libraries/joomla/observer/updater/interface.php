@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Observer updater pattern implementation for Joomla
  *
- * @package     Joomla
+ * @package     Joomla.Platform
  * @subpackage  Observer
  * @link        http://docs.joomla.org/JObserverUpdater
  * @since       3.1.2
@@ -23,6 +23,8 @@ interface JObserverUpdaterInterface
 	 * Constructor
 	 *
 	 * @param   JObservableInterface  $observable  The observable subject object
+	 *
+	 * @since   3.1.2
 	 */
 	public function __construct(JObservableInterface $observable);
 
@@ -32,7 +34,9 @@ interface JObserverUpdaterInterface
 	 *
 	 * @param   JObserverInterface  $observer  The observer object
 	 *
-	 * @return   void
+	 * @return  void
+	 *
+	 * @since   3.1.2
 	 */
 	public function attachObserver(JObserverInterface $observer);
 
@@ -43,6 +47,8 @@ interface JObserverUpdaterInterface
 	 * @param   array   $params  Params of event (params in observer function)
 	 *
 	 * @return  void
+	 *
+	 * @since   3.1.2
 	 */
 	public function update($event, $params);
 
@@ -52,6 +58,8 @@ interface JObserverUpdaterInterface
 	 * @param   boolean  $enabled  Enable (true) or Disable (false) the observer events
 	 *
 	 * @return  boolean  Returns old state
+	 *
+	 * @since   3.1.2
 	 */
 	public function doCallObservers($enabled);
 }

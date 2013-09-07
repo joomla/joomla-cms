@@ -79,14 +79,6 @@ class JFormFieldRules extends JFormField
 			$assetId = $this->form->getValue($assetField);
 		}
 
-		// Use the compact form for the content rules (deprecated).
-
-		/* @todo remove code:
-		if (!empty($component) && $section != 'component') {
-			return JHtml::_('rules.assetFormWidget', $actions, $assetId, $assetId ? null : $component, $this->name, $this->id);
-		}
-		 */
-
 		// Full width format.
 
 		// Get the rules for just this asset (non-recursive).

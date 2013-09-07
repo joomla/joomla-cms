@@ -87,6 +87,7 @@ class GlobalConfigurationPage extends AdminEditPage
 			array('label' => 'Database Username', 'id' => 'jform_user', 'type' => 'input', 'tab' => 'page-server'),
 			array('label' => 'Database Name', 'id' => 'jform_db', 'type' => 'input', 'tab' => 'page-server'),
 			array('label' => 'Database Tables Prefix', 'id' => 'jform_dbprefix', 'type' => 'input', 'tab' => 'page-server'),
+			array('label' => 'Send mail', 'id' => 'jform_mailonline', 'type' => 'fieldset', 'tab' => 'page-server'),
 			array('label' => 'Mailer', 'id' => 'jform_mailer', 'type' => 'select', 'tab' => 'page-server'),
 			array('label' => 'From email', 'id' => 'jform_mailfrom', 'type' => 'input', 'tab' => 'page-server'),
 			array('label' => 'From Name', 'id' => 'jform_fromname', 'type' => 'input', 'tab' => 'page-server'),
