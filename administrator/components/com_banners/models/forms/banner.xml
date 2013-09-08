@@ -36,7 +36,7 @@
                 class="inputbox"
                 label="JFIELD_ORDERING_LABEL"
                 description="JFIELD_ORDERING_DESC"
-                table="#__banners"
+                content_type="com_banners.banner"
         />
 
 		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
