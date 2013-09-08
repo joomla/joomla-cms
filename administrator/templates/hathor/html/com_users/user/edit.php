@@ -89,7 +89,7 @@ $fieldsets = $this->form->getFieldsets();
 		<?php endforeach; ?>
 
 		<?php if (!empty($this->tfaform) && $this->item->id): ?>
-		<?php echo JHtml::_('sliders.panel', JText::_('COM_USERS_USER_TWO_FACTOR_AUTH', 'twofactorauth')); ?>
+		<?php echo JHtml::_('sliders.panel', JText::_('COM_USERS_USER_TWO_FACTOR_AUTH'), 'twofactorauth'); ?>
 		<div class="control-group">
 			<div class="control-label">
 				<label id="jform_twofactor_method-lbl" for="jform_twofactor_method" class="hasTooltip"
