@@ -40,6 +40,8 @@ class FinderViewMaps extends JViewLegacy
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
 
+		FinderHelper::addSubmenu('maps');
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
@@ -84,7 +86,7 @@ class FinderViewMaps extends JViewLegacy
 		{
 			JToolbarHelper::preferences('com_finder');
 		}
-		$toolbar->appendButton('Popup', 'stats', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
+		$toolbar->appendButton('Popup', '', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
 		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_CONTENT_MAPS');
 
 		JHtmlSidebar::setAction('index.php?option=com_finder&view=maps');

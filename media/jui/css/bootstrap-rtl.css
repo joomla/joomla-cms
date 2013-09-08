@@ -562,6 +562,10 @@ body {
 		margin-right: 10px;
 	}
 }
+#pop-print {
+	float: left;
+	margin: 10px;
+}
 .dropdown-menu {
 	text-align: right;
 }

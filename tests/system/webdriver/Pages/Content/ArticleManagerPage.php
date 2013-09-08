@@ -184,4 +184,102 @@ class ArticleManagerPage extends AdminManagerPage
 	{
 		$this->setFilter($label,$value);
 	}
+	
+	/**
+	 * get access level of article
+	 *
+	 * @param string   $name	   Article Title field
+	 * 
+	 * @return  accesslevel
+	 */	
+	public function getAccessLevel($name)
+	{
+		$this->searchFor($name);
+		$row = $this->getRowNumber($name);		
+		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[5]"))->getText();
+		$this->searchFor();
+		return $text;
+	}
+	
+	/**
+	 * Change access level of article
+	 *
+	 * @param string   $name	      Article Title field
+	 * @param string   $accessLevel   Desired Access level to which we want it to change to    
+	 *
+	 * @return  void
+	 */	
+	public function changeAccessLevel($name, $accessLevel)
+	{
+		$this->searchFor($name);
+		$this->checkAll();
+		$this->clickButton('toolbar-batch');
+		$this->driver->waitForElementUntilIsPresent(By::xPath("//div[@class='modal hide fade in']"));
+		$this->driver->findElement(By::xPath("//div[@id='batch_access_chzn']/a"))->click();
+		$this->driver->findElement(By::xPath("//div[@id='batch_access_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $accessLevel . "')]"))->click();		
+		$this->driver->findElement(By::xPath("//button[contains(text(),'Process')]"))->click();
+		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+		$this->searchFor();
+	}
+	
+	/**
+	 * Fetch Category of Article
+	 * 
+	 * @param string $name 		Article Name for which the Categoory is to be Returned
+	 * 
+	 * @return categoryName
+	 */
+	public function getCategoryName($name)
+	{
+		$row = $this->getRowNumber($name);
+		$categoryName=$this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[4]/div/div[@class='small']"))->getText();
+		return $categoryName;
+	}
+	
+	/**
+	 * Function that does Batch Process for Articles, Copy, Move articles
+	 * 
+	 * @param string $articleName	 	Article for which Batch Processing is to be done
+	 * @param string $searchString	 	Value entered in the drop down to filter the results
+	 * @param string $newCategory		Category to which the Article is to be moved or copied
+	 * @param string $action			Action to be taken, either Move or Copy
+	 * 
+	 * @return void
+	 */
+	public function doBatchAction($articleName, $searchString, $newCategory, $action)
+	{
+		$row=$this->getRowNumber($articleName);
+		$this->driver->findElement(By::xPath("//input[@id='cb" . ($row-1) . "']"))->click();
+		$this->clickButton('toolbar-batch');
+		$this->driver->waitForElementUntilIsPresent(By::xPath("//div[@class='modal hide fade in']"));
+		$this->driver->findElement(By::xPath("//div[@id='batch_category_id_chzn']/a"))->click();
+		$this->driver->findElement(By::xPath("//div[@id='batch_category_id_chzn']/div/div/input"))->sendKeys($searchString);
+		$this->driver->findElement(By::xPath("//div[@id='batch_category_id_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $newCategory . "')]"))->click();
+		if(strtolower($action) == 'copy')
+		{
+			$this->driver->findElement(By::xPath("//input[@id='batch[move_copy]c']"))->click();
+		}
+		else
+		{
+			$this->driver->findElement(By::XPath("//input[@id='batch[move_copy]m']"))->click();
+		}	
+		$this->driver->findElement(By::xPath("//button[contains(text(),'Process')]"))->click();
+		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+	}
+	
+	/**
+	 * change the Category Filter from Article Manager Page
+	 * 
+	 * @param string $category 		Name of the Category to which the filter is to be set to 
+	 * @param string $searchString	Strings to be entered in the filter to select the desired category
+	 * 
+	 * @return void
+	 */
+	public function changeCategoryFilter($category='Select Category',$searchString='Select')
+	{
+		$this->driver->findElement(By::xPath("//div[@id='filter_category_id_chzn']/a"))->click();
+		$this->driver->findElement(By::xPath("//div[@id='filter_category_id_chzn']/div/div/input"))->sendKeys($searchString);
+		$this->driver->findElement(By::xPath("//div[@id='filter_category_id_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $category . "')]"))->click();
+		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+	}
 }

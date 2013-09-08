@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="3.1" method="upgrade">
+<extension type="component" version="3.2" method="upgrade">
 	<name>com_contenthistory</name>
 	<author>Joomla! Project</author>
 	<creationDate>May 2013</creationDate>
-	<copyright>(C) 2005 - 2013 Open Source Matters. All rights reserved.
-	</copyright>
-	<license>GNU General Public License version 2 or later; see
-		LICENSE.txt</license>
+	<copyright>(C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.2.0</version>
 	<description>COM_CONTENTHISTORY_XML_DESCRIPTION</description>
 
-	<administration>
-		<menu img="class:weblinks">com_contenthistory</menu>
+	<files folder="site">
+		<filename>contenthistory.php</filename>
+		<filename>index.html</filename>
+	</files>
 
+	<administration>
 		<files folder="admin">
-			<filename>access.xml</filename>
 			<filename>config.xml</filename>
 			<filename>controller.php</filename>
 			<filename>index.html</filename>

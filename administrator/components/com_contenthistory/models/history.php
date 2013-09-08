@@ -307,7 +307,7 @@ class ContenthistoryModelHistory extends JModelList
 
 		if ($contentTable && $contentTable->load($keyValue))
 		{
-			$helper = new JHelperContenthistory(null);
+			$helper = new JHelperContenthistory;
 
 			$dataObject = $helper->getDataObject($contentTable);
 			$result = $this->getTable('Contenthistory', 'JTable')->getSha1(json_encode($dataObject));

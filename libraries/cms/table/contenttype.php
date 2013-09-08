@@ -69,6 +69,7 @@ class JTableContenttype extends JTable
 	{
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Contenttype', 'JTable');
+
 		if ($table->load(array('type_alias' => $this->type_alias)) && ($table->type_id != $this->type_id || $this->type_id == 0))
 		{
 			$this->setError(JText::_('COM_TAGS_ERROR_UNIQUE_ALIAS'));
@@ -96,7 +97,7 @@ class JTableContenttype extends JTable
 	/**
 	 * Method to get the id given the type alias
 	 *
-	 * @param   string    $typeAlias  Content type alias (for example, 'com_content.article').
+	 * @param   string  $typeAlias  Content type alias (for example, 'com_content.article').
 	 *
 	 * @return  mixed     type_id for this alias if successful, otherwise null.
 	 *
@@ -110,6 +111,7 @@ class JTableContenttype extends JTable
 			->from($db->quoteName('#__content_types'))
 			->where($db->quoteName('type_alias') . ' = ' . $db->quote($typeAlias));
 		$db->setQuery($query);
+
 		return $db->loadResult($query);
 	}
 
@@ -124,6 +126,7 @@ class JTableContenttype extends JTable
 	{
 		$result = false;
 		$tableInfo = json_decode($this->table);
+
 		if (is_object($tableInfo) && isset($tableInfo->special))
 		{
 			if (is_object($tableInfo->special) && isset($tableInfo->special->type) && isset($tableInfo->special->prefix))
@@ -131,8 +134,7 @@ class JTableContenttype extends JTable
 				$result = JTable::getInstance($tableInfo->special->type, $tableInfo->special->prefix);
 			}
 		}
+
 		return $result;
 	}
-
-
 }
