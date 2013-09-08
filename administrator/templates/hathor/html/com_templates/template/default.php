@@ -18,6 +18,49 @@ JHtml::_('behavior.modal');
 $canDo = TemplatesHelper::getActions();
 $input = JFactory::getApplication()->input;
 ?>
+<script type="text/javascript">
+    jQuery(document).ready(function($){
+
+        // Hide all the folder when the page loads
+        $('.folder ul').hide();
+
+        // Show all the lists in the path of an open file
+        $('.show > ul').show();
+
+        // Stop the default action of anchor tag on a click event
+        $('.folder-url').click(function(event){
+            event.preventDefault();
+        });
+
+        // Prevent the click event from proliferating
+        $('.file').bind('click',function(e){
+            e.stopPropagation();
+        });
+
+        // Toggle the child indented list on a click event
+        $('.folder').bind('click',function(e){
+            $(this).children('ul').toggle();
+            e.stopPropagation();
+        });
+
+        // New file tree
+        $('#fileModal .folder-url').bind('click',function(e){
+            $('.folder-url').removeClass('selected');
+            e.stopPropagation();
+            $('#fileModal input.address').val($(this).attr('data-id'));
+            $(this).addClass('selected');
+        });
+
+        // Folder manager tree
+        $('#folderModal .folder-url').bind('click',function(e){
+            $('.folder-url').removeClass('selected');
+            e.stopPropagation();
+            $('#folderModal input.address').val($(this).attr('data-id'));
+            $(this).addClass('selected');
+        });
+
+    });
+</script>
 <form action="<?php echo JRoute::_('index.php?option=com_templates&view=templates'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="width-50 fltlft">
 		<fieldset class="adminform" id="template-manager">
@@ -34,54 +77,7 @@ $input = JFactory::getApplication()->input;
 		<fieldset class="adminform" id="template-manager">
 			<legend><?php echo JText::_('COM_TEMPLATES_TEMPLATE_MASTER_FILES');?></legend>
 
-			<ul>
-				<li>
-					<?php $id = $this->files['main']['index']->id; ?>
-					<?php if ($canDo->get('core.edit')) : ?>
-					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=source.edit&id='.$id);?>">
-					<?php endif; ?>
-						<?php echo JText::_('COM_TEMPLATES_TEMPLATE_EDIT_MAIN');?>
-					<?php if ($canDo->get('core.edit')) : ?>
-						</a>
-					<?php endif; ?>
-				</li>
-				<?php if ($this->files['main']['error']->exists) : ?>
-				<li>
-					<?php $id = $this->files['main']['error']->id; ?>
-					<?php if ($canDo->get('core.edit')) : ?>
-						<a href="<?php echo JRoute::_('index.php?option=com_templates&task=source.edit&id='.$id);?>">
-					<?php endif; ?>
-						<?php echo JText::_('COM_TEMPLATES_TEMPLATE_EDIT_ERROR');?>
-					<?php if ($canDo->get('core.edit')) : ?>
-						</a>
-					<?php endif; ?>
-				</li>
-				<?php endif; ?>
-				<?php if ($this->files['main']['offline']->exists) : ?>
-					<li>
-						<?php $id = $this->files['main']['offline']->id; ?>
-						<?php if ($canDo->get('core.edit')) : ?>
-							<a href="<?php echo JRoute::_('index.php?option=com_templates&task=source.edit&id='.$id);?>">
-						<?php endif; ?>
-						<?php echo JText::_('COM_TEMPLATES_TEMPLATE_EDIT_OFFLINEVIEW');?>
-						<?php if ($canDo->get('core.edit')) : ?>
-							</a>
-						<?php endif; ?>
-					</li>
-				<?php endif; ?>
-				<?php if ($this->files['main']['print']->exists) : ?>
-				<li>
-					<?php $id = $this->files['main']['print']->id; ?>
-					<?php if ($canDo->get('core.edit')) : ?>
-						<a href="<?php echo JRoute::_('index.php?option=com_templates&task=source.edit&id='.$id);?>">
-					<?php endif; ?>
-						<?php echo JText::_('COM_TEMPLATES_TEMPLATE_EDIT_PRINTVIEW');?>
-					<?php if ($canDo->get('core.edit')) : ?>
-						</a>
-					<?php endif; ?>
-				</li>
-				<?php endif; ?>
-			</ul>
+            <?php $this->listDirectoryTree($this->files);?>
 		</fieldset>
 
 		<div class="clr"></div>
@@ -130,4 +126,107 @@ $input = JFactory::getApplication()->input;
 	</fieldset>
 	<?php echo JHtml::_('form.token'); ?>
 </form>
+</div>
+<div class="width-50 fltrt">
+
+    <fieldset class="adminform" id="template-manager-css">
+        <legend>
+            <?php if($this->type == 'file'): ?>
+                <p><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></p>
+            <?php endif; ?>
+            <?php if($this->type == 'image'): ?>
+                <p><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->image['address'], $this->template->element); ?></p>
+            <?php endif; ?>
+            <?php if($this->type == 'font'): ?>
+                <p><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->font['address'], $this->template->element); ?></p>
+            <?php endif; ?>
+        </legend>
+
+        <?php if($this->type == 'file'): ?>
+            <form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
+
+                <p class="label"><?php echo JText::_('COM_TEMPLATES_TOGGLE_FULL_SCREEN'); ?></p>
+                <div class="clr"></div>
+                <div class="editor-border">
+                    <?php echo $this->form->getInput('source'); ?>
+                </div>
+                <input type="hidden" name="task" value="" />
+                <?php echo JHtml::_('form.token'); ?>
+
+
+                <?php echo $this->form->getInput('extension_id'); ?>
+                <?php echo $this->form->getInput('filename'); ?>
+            </form>
+        <?php endif; ?>
+        <?php if($this->type == 'image'): ?>
+            <form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
+                <fieldset class="adminform">
+                    <img id="image-crop" src="<?php echo $this->image['address'] . '?' . time(); ?>" />
+                    <input type ="hidden" id="x" name="x" />
+                    <input type ="hidden" id="y" name="y" />
+                    <input type ="hidden" id="h" name="h" />
+                    <input type ="hidden" id="w" name="w" />
+                    <input type="hidden" name="task" value="" />
+                    <?php echo JHtml::_('form.token'); ?>
+                </fieldset>
+            </form>
+        <?php endif; ?>
+        <?php if($this->type == 'font'): ?>
+            <div class="font-preview">
+                <form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
+                    <fieldset class="adminform">
+                        <p class="lead">H1</p><h1>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h1>
+                        <p class="lead">H2</p><h2>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h2>
+                        <p class="lead">H3</p><h3>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h3>
+                        <p class="lead">H4</p><h4>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h4>
+                        <p class="lead">H5</p><h5>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h5>
+                        <p class="lead">H6</p> <h6>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h6>
+                        <p class="lead">Bold</p><b>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </b>
+                        <p class="lead">Italics</p><i>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </i>
+                        <p class="lead">Unordered List</p>
+                        <ul>
+                            <li>Item</li>
+                            <li>Item</li>
+                            <li>Item<br />
+                                <ul>
+                                    <li>Item</li>
+                                    <li>Item</li>
+                                    <li>Item<br />
+                                        <ul>
+                                            <li>Item</li>
+                                            <li>Item</li>
+                                            <li>Item</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p class="lead">Ordered List</p>
+                        <ol>
+                            <li>Item</li>
+                            <li>Item</li>
+                            <li>Item<br />
+                                <ul>
+                                    <li>Item</li>
+                                    <li>Item</li>
+                                    <li>Item<br />
+                                        <ul>
+                                            <li>Item</li>
+                                            <li>Item</li>
+                                            <li>Item</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ol>
+                        <input type="hidden" name="task" value="" />
+                        <?php echo JHtml::_('form.token'); ?>
+                    </fieldset>
+                </form>
+            </div>
+        <?php endif; ?>
+
+    </fieldset>
+    <div class="clr"></div>
+    <input type="hidden" name="task" value="" />
 </div>
