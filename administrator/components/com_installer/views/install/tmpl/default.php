@@ -44,10 +44,7 @@ $ver = new JVersion;
 					dataType: 'script',
 					timeout: 20000,
 					success: function(response) {
-						var script=document.createElement('script');
-						script.type='text/javascript';
-						jQuery(script).html(response);
-						jQuery('head').append(script);
+						jQuery('<script type="text/javascript">'+response+'</'+'script>').appendTo('head');
 						for (var i = 0; i < Joomla.apps.cssfiles.length; i++) {
 							jQuery('<link rel="stylesheet" type="text/css" href="<?php echo $appsBaseUrl; ?>'+Joomla.apps.cssfiles[i]+'" />').appendTo("head");
 						}
