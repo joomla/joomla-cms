@@ -2,8 +2,7 @@
 <form>
 	<fields name="params">
 		<fieldset name="menu-options"
-			label="COM_MENUS_LINKTYPE_OPTIONS_LABEL"
-		>
+			label="COM_MENUS_LINKTYPE_OPTIONS_LABEL">
 		</fieldset>
 	</fields>
 	<help key="JHELP_MENUS_MENU_ITEM_MENU_ITEM_HEADING" />

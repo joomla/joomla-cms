@@ -2,8 +2,7 @@
 <metadata>
 	<layout title="COM_NEWSFEEDS_CATEGORIES_VIEW_DEFAULT_TITLE" option="COM_NEWSFEEDS_CATEGORIES_VIEW_DEFAULT_OPTION">
 		<help
-			key = "JHELP_MENUS_MENU_ITEM_NEWSFEED_CATEGORIES"
-		/>
+			key = "JHELP_MENUS_MENU_ITEM_NEWSFEED_CATEGORIES" />
 		<message>
 			<![CDATA[COM_NEWSFEEDS_CATEGORIES_VIEW_DEFAULT_DESC]]>
 		</message>
@@ -11,15 +10,13 @@
 
 	<!-- Add fields to the request variables for the layout. -->
 	<fields name="request">
-		<fieldset name="request"
-		>
+		<fieldset name="request">
 			<field name="id" type="category"
 				description="JGLOBAL_FIELD_CATEGORIES_CHOOSE_CATEGORY_DESC"
 				extension="com_newsfeeds"
 				label="JGLOBAL_FIELD_CATEGORIES_CHOOSE_CATEGORY_LABEL"
 				show_root="true"
-				required="true"
-			/>
+				required="true" />
 		</fieldset>
 	</fields>
 
@@ -29,8 +26,7 @@
 			<field name="show_base_description" type="list"
 				label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
 				description="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_DESC"
-
-			>
+>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -40,13 +36,11 @@
 				description="JGLOBAL_FIELD_CATEGORIES_DESC_DESC"
 				label="JGLOBAL_FIELD_CATEGORIES_DESC_LABEL"
 				cols="25"
-				rows="5"
-			/>
+				rows="5" />
 			<field name="maxLevelcat" type="list"
 				description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
-
-			>
+>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="-1">JALL</option>
 				<option value="1">J1</option>
@@ -58,8 +52,7 @@
 
 			<field name="show_empty_categories_cat" type="list"
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
-				description="COM_NEWSFEEDS_SHOW_EMPTY_CATEGORIES_DESC"
-			>
+				description="COM_NEWSFEEDS_SHOW_EMPTY_CATEGORIES_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -67,8 +60,7 @@
 
 			<field name="show_subcat_desc_cat" type="list"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
-			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
-			>
+			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -76,8 +68,7 @@
 
 			<field name="show_cat_items_cat" type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_LABEL"
-				description="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_DESC"
-			>
+				description="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -86,13 +77,11 @@
 
 		<fieldset name="category" label="JGLOBAL_CATEGORY_OPTIONS">
 			<field name="spacer2" type="spacer" class="text"
-					label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
-			/>
+					label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL" />
 
 			<field name="show_category_title" type="list"
 				label="JGLOBAL_SHOW_CATEGORY_TITLE"
-				description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
-				>
+				description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -100,8 +89,7 @@
 
 			<field name="show_description" type="list"
 				description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC"
-				label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
-			>
+				label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -109,8 +97,7 @@
 
 			<field name="show_description_image" type="list"
 				description="JGLOBAL_SHOW_CATEGORY_IMAGE_DESC"
-				label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
-			>
+				label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -118,8 +105,7 @@
 
 			<field name="maxLevel" type="list"
 				description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
-				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
-			>
+				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="-1">JALL</option>
 				<option value="0">JNONE</option>
@@ -132,8 +118,7 @@
 
 			<field name="show_empty_categories" type="list"
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
-				description="COM_NEWSFEEDS_SHOW_EMPTY_CATEGORIES_DESC"
-			>
+				description="COM_NEWSFEEDS_SHOW_EMPTY_CATEGORIES_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -141,8 +126,7 @@
 
 			<field name="show_subcat_desc" type="list"
 				label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
-				description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
-			>
+				description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -152,8 +136,7 @@
 				name="show_cat_items"
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_LABEL"
-				description="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_DESC"
-			>
+				description="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -163,16 +146,13 @@
 
 		<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS">
 			<field name="spacer1" type="spacer" class="text"
-					label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
-			/>
+					label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL" />
 
-			<field
-				name="filter_field"
+			<field name="filter_field"
 				type="list"
 				default=""
 				description="JGLOBAL_FILTER_FIELD_DESC"
-				label="JGLOBAL_FILTER_FIELD_LABEL"
-			>
+				label="JGLOBAL_FILTER_FIELD_LABEL">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="hide">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -181,15 +161,13 @@
 			<field name="show_pagination_limit"
 				type="list"
 				label="JGLOBAL_DISPLAY_SELECT_LABEL"
-				description="JGLOBAL_DISPLAY_SELECT_DESC"
-			>
+				description="JGLOBAL_DISPLAY_SELECT_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field
-				id="show_headings"
+			<field id="show_headings"
 				name="show_headings"
 				type="list"
 				label="JGLOBAL_SHOW_HEADINGS_LABEL"
@@ -200,8 +178,7 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field
-				id="show_articles"
+			<field id="show_articles"
 				name="show_articles"
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_LABEL"
@@ -212,8 +189,7 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field
-				id="show_link"
+			<field id="show_link"
 				name="show_link"
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_LINKS_LABEL"
@@ -235,8 +211,7 @@
 				<option value="2">JGLOBAL_AUTO</option>
 			</field>
 
-			<field
-				name="show_pagination_results"
+			<field name="show_pagination_results"
 				type="list"
 				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 				description="JGLOBAL_PAGINATION_RESULTS_DESC">
@@ -252,8 +227,7 @@
 
 			<field name="show_feed_image" type="list"
 				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC"
-				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
-			>
+				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -261,8 +235,7 @@
 
 			<field name="show_feed_description" type="list"
 				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_DESC"
-				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
-			>
+				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -270,8 +243,7 @@
 
 			<field name="show_item_description" type="list"
 				description="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_DESC"
-				label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
-			>
+				label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -281,8 +253,7 @@
 				default="0"
 				description="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_DESC"
 				label="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_LABEL"
-				size="6"
-			/>
+				size="6" />
 		</fieldset>
 
 	</fields>

@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset>
-		<field
-			name="extension_id"
+		<field name="extension_id"
 			type="hidden" />
 
-		<field
-			name="filename"
+		<field name="filename"
 			type="hidden" />
 
-		<field
-			name="source"
+		<field name="source"
 			type="editor"
 			editor="codemirror|none"
 			buttons="no"

@@ -13,5 +13,5 @@
     <packager>Joomla!</packager>
     <packagerurl>http://www.joomla.org</packagerurl>
     <update>http://update.joomla.org/packages/joomla</update>
-    <files/>
+    <files />
 </extension>

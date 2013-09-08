@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="3.1" client="site"
-	method="upgrade"
->
+	method="upgrade">
 	<name>mod_articles_archive</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
@@ -46,8 +45,7 @@
 				<field name="cache" type="list"
 					default="1"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC"
-				>
+					description="COM_MODULES_FIELD_CACHING_DESC">
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
@@ -56,12 +54,10 @@
 					default="900"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
-				<field
-					name="cachemode"
+				<field name="cachemode"
 					type="hidden"
 					default="static">
-					<option
-						value="static"></option>
+					<option value="static"></option>
 				</field>
 			</fieldset>
 		</fields>

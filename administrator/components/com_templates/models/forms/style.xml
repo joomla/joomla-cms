@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset>
-		<field
-			id="id"
+		<field id="id"
 			name="id"
 			type="text"
 			default="0"
@@ -11,8 +10,7 @@
 			label="JGLOBAL_FIELD_ID_LABEL"
 			description ="JGLOBAL_FIELD_ID_DESC" />
 
-		<field
-			name="template"
+		<field name="template"
 			type="text"
 			label="COM_TEMPLATES_FIELD_TEMPLATE_LABEL"
 			description="COM_TEMPLATES_FIELD_TEMPLATE_DESC"
@@ -20,8 +18,7 @@
 			size="30"
 			readonly="true" />
 
-		<field
-			name="client_id"
+		<field name="client_id"
 			type="hidden"
 			label="COM_TEMPLATES_FIELD_CLIENT_LABEL"
 			description="COM_TEMPLATES_FIELD_CLIENT_DESC"
@@ -29,8 +26,7 @@
 			default="0"
 			readonly="true" />
 
-		<field
-			name="title"
+		<field name="title"
 			type="text"
 			class="inputbox"
 			size="50"

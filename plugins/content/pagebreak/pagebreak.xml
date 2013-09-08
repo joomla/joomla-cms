@@ -25,8 +25,7 @@
 					class="btn-group"
 					default="1"
 					description="PLG_CONTENT_PAGEBREAK_SITE_TITLE_DESC"
-					label="PLG_CONTENT_PAGEBREAK_SITE_TITLE_LABEL"
-				>
+					label="PLG_CONTENT_PAGEBREAK_SITE_TITLE_LABEL">
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
@@ -34,8 +33,7 @@
 					class="btn-group"
 					default="1"
 					description="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEX_DESC"
-					label="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEX_LABEL"
-				>
+					label="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEX_LABEL">
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
@@ -47,8 +45,7 @@
 					class="btn-group"
 					default="1"
 					description="PLG_CONTENT_PAGEBREAK_TOC_DESC"
-					label="PLG_CONTENT_PAGEBREAK_TOC_LABEL"
-				>
+					label="PLG_CONTENT_PAGEBREAK_TOC_LABEL">
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
@@ -57,16 +54,14 @@
 					class="btn-group"
 					default="1"
 					description="PLG_CONTENT_PAGEBREAK_SHOW_ALL_DESC"
-					label="PLG_CONTENT_PAGEBREAK_SHOW_ALL_LABEL"
-				>
+					label="PLG_CONTENT_PAGEBREAK_SHOW_ALL_LABEL">
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
 				<field name="style" type="list"
 					default="pages"
 					description="PLG_CONTENT_PAGEBREAK_STYLE_DESC"
-					label="PLG_CONTENT_PAGEBREAK_STYLE_LABEL"
-				>
+					label="PLG_CONTENT_PAGEBREAK_STYLE_LABEL">
 					<option value="pages">PLG_CONTENT_PAGEBREAK_PAGES</option>
 					<option value="sliders">PLG_CONTENT_PAGEBREAK_SLIDERS</option>
 					<option value="tabs">PLG_CONTENT_PAGEBREAK_TABS</option>

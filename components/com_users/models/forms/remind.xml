@@ -6,14 +6,11 @@
 			label="COM_USERS_FIELD_REMIND_EMAIL_LABEL"
 			required="true"
 			size="30"
-			validate="email"
-		/>
-		<field
-			name="captcha"
+			validate="email" />
+		<field name="captcha"
 			type="captcha"
 			label="COM_USERS_CAPTCHA_LABEL"
 			description="COM_USERS_CAPTCHA_DESC"
-			validate="captcha"
-		/>
+			validate="captcha" />
 	</fieldset>
 </form>

@@ -23,21 +23,18 @@
 			<fieldset name="basic">
 				<field name="autowebpage" type="text" size="40"
 					description="PLG_CONTACTCREATOR_FIELD_AUTOMATIC_WEBPAGE_DESC"
-					label="PLG_CONTACTCREATOR_FIELD_AUTOMATIC_WEBPAGE_LABEL"
-				/>
+					label="PLG_CONTACTCREATOR_FIELD_AUTOMATIC_WEBPAGE_LABEL" />
 
 				<field name="category" type="category"
 					description="PLG_CONTACTCREATOR_FIELD_CATEGORY_DESC"
 					extension="com_contact"
-					label="JCATEGORY"
-				/>
+					label="JCATEGORY" />
 
 				<field name="autopublish" type="radio"
 					class="btn-group"
 					default="0"
 					description="PLG_CONTACTCREATOR_FIELD_AUTOPUBLISH_DESC"
-					label="PLG_CONTACTCREATOR_FIELD_AUTOPUBLISH_LABEL"
-				>
+					label="PLG_CONTACTCREATOR_FIELD_AUTOPUBLISH_LABEL">
 					<option value="0">JNo</option>
 					<option value="1">JYes</option>
 				</field>

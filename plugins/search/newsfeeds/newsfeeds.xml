@@ -26,15 +26,13 @@
 					default="50"
 					description="JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC"
 					label="JFIELD_PLG_SEARCH_SEARCHLIMIT_LABEL"
-					size="5"
-				/>
+					size="5" />
 
 				<field name="search_content" type="radio"
 					class="btn-group"
 					default="0"
 					description="JFIELD_PLG_SEARCH_ALL_DESC"
-					label="JFIELD_PLG_SEARCH_ALL_LABEL"
-				>
+					label="JFIELD_PLG_SEARCH_ALL_LABEL">
 					<option value="0">JOFF</option>
 					<option value="1">JON</option>
 				</field>
@@ -43,8 +41,7 @@
 					class="btn-group"
 					default="0"
 					description="JFIELD_PLG_SEARCH_ARCHIVED_DESC"
-					label="JFIELD_PLG_SEARCH_ARCHIVED_LABEL"
-				>
+					label="JFIELD_PLG_SEARCH_ARCHIVED_LABEL">
 					<option value="0">JOFF</option>
 					<option value="1">JON</option>
 				</field>

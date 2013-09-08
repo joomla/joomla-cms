@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset name="details"
-		addfieldpath="/administrator/components/com_banners/models/fields"
-	>
+		addfieldpath="/administrator/components/com_banners/models/fields">
 		<field name="id" type="text" default="0"
 			readonly="true" class="readonly"
 			label="JGLOBAL_FIELD_ID_LABEL" 	description ="JGLOBAL_FIELD_ID_DESC" />
@@ -18,9 +17,7 @@
 		<field name="catid" type="categoryedit" extension="com_banners"
 			label="JCATEGORY" description="COM_BANNERS_FIELD_CATEGORY_DESC"
 			class="inputbox" required="true"
-			addfieldpath="/administrator/components/com_categories/models/fields"
-	>
-		>
+			addfieldpath="/administrator/components/com_categories/models/fields">>
 		</field>
 		<field name="state" type="list"
 			label="JSTATUS" description="COM_BANNERS_FIELD_STATE_DESC"
@@ -30,18 +27,15 @@
 			<option value="2">JARCHIVED</option>
 			<option value="-2">JTRASHED</option>
 		</field>
-		<field
-                name="ordering"
+		<field name="ordering"
                 type="ordering"
                 class="inputbox"
                 label="JFIELD_ORDERING_LABEL"
                 description="JFIELD_ORDERING_DESC"
-                table="#__banners"
-        />
+                table="#__banners" />
 
 		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
-			description="COM_BANNERS_FIELD_LANGUAGE_DESC" class="inputbox span12 small"
-		>
+			description="COM_BANNERS_FIELD_LANGUAGE_DESC" class="inputbox span12 small">
 			<option value="*">JALL</option>
 		</field>
 
@@ -52,12 +46,9 @@
 
 		<field name="type" type="list"
 			label="COM_BANNERS_FIELD_TYPE_LABEL" description="COM_BANNERS_FIELD_TYPE_DESC"
-			default="0" class="inputbox"
-		>
-			<option value="0">COM_BANNERS_FIELD_VALUE_IMAGE
-			</option>
-			<option value="1">COM_BANNERS_FIELD_VALUE_CUSTOM
-			</option>
+			default="0" class="inputbox">
+			<option value="0">COM_BANNERS_FIELD_VALUE_IMAGE</option>
+			<option value="1">COM_BANNERS_FIELD_VALUE_CUSTOM</option>
 		</field>
 
 		<field name="custombannercode" type="textarea" class="inputbox"
@@ -70,8 +61,7 @@
 	</fieldset>
 
 	<fieldset name="publish"
-		label="COM_BANNERS_GROUP_LABEL_PUBLISHING_DETAILS"
-	>
+		label="COM_BANNERS_GROUP_LABEL_PUBLISHING_DETAILS">
 
 		<field name="created" type="calendar"
 			label="COM_BANNERS_FIELD_CREATED_LABEL" description="COM_BANNERS_FIELD_CREATED_DESC"
@@ -92,8 +82,7 @@
 		label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
 		class="readonly"
 		readonly="true"
-		filter="unset"
-		 />
+		filter="unset" />
 		<field name="version" type="text" class="readonly"
 			label="COM_BANNERS_FIELD_VERSION_LABEL" size="6" description="COM_BANNERS_FIELD_VERSION_DESC"
 			readonly="true" filter="unset" />
@@ -110,14 +99,12 @@
 	</fieldset>
 
 	<fieldset name="bannerdetails"
-		label="COM_BANNERS_GROUP_LABEL_BANNER_DETAILS"
-	>
+		label="COM_BANNERS_GROUP_LABEL_BANNER_DETAILS">
 
 			<field name="sticky" type="list" default="0"
 			label="COM_BANNERS_FIELD_STICKY_LABEL"
 			description="COM_BANNERS_FIELD_STICKY_DESC"
-			class="span12 small"
-		>
+			class="span12 small">
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
@@ -138,45 +125,33 @@
 
 		<field name="purchase_type" type="list"
 			label="COM_BANNERS_FIELD_PURCHASETYPE_LABEL" description="COM_BANNERS_FIELD_PURCHASETYPE_DESC"
-			default="0" class="inputbox"
-		>
-			<option value="-1">COM_BANNERS_FIELD_VALUE_USECLIENTDEFAULT
-			</option>
-			<option value="1">COM_BANNERS_FIELD_VALUE_1
-			</option>
-			<option value="2">COM_BANNERS_FIELD_VALUE_2
-			</option>
-			<option value="3">COM_BANNERS_FIELD_VALUE_3
-			</option>
-			<option value="4">COM_BANNERS_FIELD_VALUE_4
-			</option>
-			<option value="5">COM_BANNERS_FIELD_VALUE_5
-			</option>
+			default="0" class="inputbox">
+			<option value="-1">COM_BANNERS_FIELD_VALUE_USECLIENTDEFAULT</option>
+			<option value="1">COM_BANNERS_FIELD_VALUE_1</option>
+			<option value="2">COM_BANNERS_FIELD_VALUE_2</option>
+			<option value="3">COM_BANNERS_FIELD_VALUE_3</option>
+			<option value="4">COM_BANNERS_FIELD_VALUE_4</option>
+			<option value="5">COM_BANNERS_FIELD_VALUE_5</option>
 		</field>
 
 		<field name="track_impressions" type="list" default="0"
 			label="COM_BANNERS_FIELD_TRACKIMPRESSION_LABEL"
-			description="COM_BANNERS_FIELD_TRACKIMPRESSION_DESC"
-		>
-			<option value="-1">COM_BANNERS_FIELD_VALUE_USECLIENTDEFAULT
-			</option>
+			description="COM_BANNERS_FIELD_TRACKIMPRESSION_DESC">
+			<option value="-1">COM_BANNERS_FIELD_VALUE_USECLIENTDEFAULT</option>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
 
 		<field name="track_clicks" type="list" default="0"
-			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL" description="COM_BANNERS_FIELD_TRACKCLICK_DESC"
-		>
-			<option value="-1">COM_BANNERS_FIELD_VALUE_USECLIENTDEFAULT
-			</option>
+			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL" description="COM_BANNERS_FIELD_TRACKCLICK_DESC">
+			<option value="-1">COM_BANNERS_FIELD_VALUE_USECLIENTDEFAULT</option>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
 	</fieldset>
 
 	<fieldset name="metadata"
-		label="JGLOBAL_FIELDSET_METADATA_OPTIONS"
-	>
+		label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 
 		<field name="metakey" type="textarea" class="inputbox"
 			rows="3" cols="30" label="JFIELD_META_KEYWORDS_LABEL"
@@ -185,8 +160,7 @@
 		<field name="own_prefix" type="radio" class="btn-group"
 			label="COM_BANNERS_FIELD_BANNEROWNPREFIX_LABEL"
 			description="COM_BANNERS_FIELD_BANNEROWNPREFIX_DESC"
-			default="0"
-		>
+			default="0">
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
