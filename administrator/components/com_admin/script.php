@@ -927,6 +927,8 @@ class JoomlaInstallerScript
 			'administrator/components/com_newsfeeds/models/fields/ordering.php',
 			'administrator/components/com_plugins/models/fields/ordering.php',
 			'administrator/components/com_weblinks/models/fields/ordering.php',
+			'administrator/components/com_weblinks/models/fields/weblinkordering.php',
+			'administrator/components/com_weblinks/models/fields/index.html',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -976,6 +978,7 @@ class JoomlaInstallerScript
 			'/libraries/legacy/pathway',
 			'/media/system/swf/',
 			'/media/editors/tinymce/jscripts',
+			'administrator/components/com_weblinks/models/fields',
 		);
 
 		jimport('joomla.filesystem.file');
