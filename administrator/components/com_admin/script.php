@@ -927,7 +927,6 @@ class JoomlaInstallerScript
 			'administrator/components/com_newsfeeds/models/fields/ordering.php',
 			'administrator/components/com_plugins/models/fields/ordering.php',
 			'administrator/components/com_weblinks/models/fields/ordering.php',
-			'administrator/components/com_weblinks/models/fields/weblinkordering.php',
 			'administrator/components/com_weblinks/models/fields/index.html',
 		);
 
