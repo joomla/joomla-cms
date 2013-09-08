@@ -11,6 +11,7 @@
  <exclude-pattern type="relative">logs/*</exclude-pattern>
 
  <!-- Exclude 3rd party libraries and Framework code. -->
+ <exclude-pattern type="relative">libraries/fof/*</exclude-pattern>
  <exclude-pattern type="relative">libraries/framework/*</exclude-pattern>
  <exclude-pattern type="relative">libraries/idna_convert/*</exclude-pattern>
  <exclude-pattern type="relative">libraries/phputf8/*</exclude-pattern>

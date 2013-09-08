@@ -72,7 +72,7 @@
 
 				<field name="lang_mode" type="radio"
 					class="btn-group"
-					default="0"
+					default="1"
 					description="PLG_TINY_FIELD_LANGSELECT_DESC"
 					label="PLG_TINY_FIELD_LANGSELECT_LABEL"
 				>
@@ -163,27 +163,6 @@
 			<fieldset name="advanced"
 				label="PLG_TINY_FIELD_LABEL_ADVANCEDPARAMS"
 			>
-
-				<field name="toolbar" type="radio"
-					class="btn-group"
-					default="top"
-					description="PLG_TINY_FIELD_TOOLBAR_DESC"
-					label="PLG_TINY_FIELD_TOOLBAR_LABEL"
-				>
-					<option value="top">PLG_TINY_FIELD_VALUE_TOP</option>
-					<option value="bottom">PLG_TINY_FIELD_VALUE_BOTTOM</option>
-				</field>
-
-				<field name="toolbar_align" type="list"
-					default="left"
-					description="PLG_TINY_FIELD_TOOLBAR_ALIGN_DESC"
-					label="PLG_TINY_FIELD_TOOLBAR_ALIGN_LABEL"
-				>
-					<option value="left">PLG_TINY_FIELD_VALUE_LEFT</option>
-					<option value="center">PLG_TINY_FIELD_VALUE_CENTER</option>
-					<option value="right">PLG_TINY_FIELD_VALUE_RIGHT</option>
-				</field>
-
 				<field name="html_height" type="text"
 					default="550"
 					description="PLG_TINY_FIELD_HTMLHEIGHT_DESC"
@@ -198,22 +177,12 @@
 
 				<field name="resizing" type="radio"
 					class="btn-group"
-					default="true"
+					default="1"
 					description="PLG_TINY_FIELD_RESIZING_DESC"
 					label="PLG_TINY_FIELD_RESIZING_LABEL"
 				>
-					<option value="false">JOFF</option>
-					<option value="true">JON</option>
-				</field>
-
-				<field name="resize_horizontal" type="radio"
-					class="btn-group"
-					default="false"
-					description="PLG_TINY_FIELD_RESIZE_HORIZONTAL_DESC"
-					label="PLG_TINY_FIELD_RESIZE_HORIZONTAL_LABEL"
-				>
-					<option value="false">JOFF</option>
-					<option value="true">JON</option>
+					<option value="0">JOFF</option>
+					<option value="1">JON</option>
 				</field>
 
 				<field name="element_path" type="radio"
