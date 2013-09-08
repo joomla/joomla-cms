@@ -26,7 +26,7 @@ $ -> Language fix or change
 ! -> Note
 
 08-Sep-2013 Elin Waring
-^+ [#31946] Support new mvc components in com_menus. Thanks George Wilson
+^+ [#31930] Ordering Form Field Changes Thanks George Wilson
 
 08-Sep-2013 Jean-Marie Simonet
  +$ [#31725] Joomla multilingual site automatic installer. Thanks Carles Serrats and Javier Gómez
