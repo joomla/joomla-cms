@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Sep-2013 Jean-Marie Simonet
+ +$ [#31725] Joomla multilingual site automatic installer. Thanks Carles Serrats and Javier Gómez
+
 07-Sep-2013 Jean-Marie Simonet
  # [#31707] Regression: [#29933] prevents showing only page header. Thanks George Wilson
  $ [#31883] Replace all instance of Super Admin with Super User in languages files. Thanks Brian Teeman

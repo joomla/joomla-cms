@@ -23,7 +23,7 @@
 				<field name="detect_browser" type="list"
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_DETECT_BROWSER_DESC"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_DETECT_BROWSER_LABEL"
-					default="1"
+					default="0"
 				>
 					<option value="0">PLG_SYSTEM_LANGUAGEFILTER_SITE_LANGUAGE</option>
 					<option value="1">PLG_SYSTEM_LANGUAGEFILTER_BROWSER_SETTINGS</option>
@@ -40,7 +40,7 @@
 				<field name="item_associations" type="radio"
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_ITEM_ASSOCIATIONS_DESC"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_ITEM_ASSOCIATIONS_LABEL"
-					default="0"
+					default="1"
 					class="btn-group"
 				>
 					<option value="0">JNO</option>
@@ -58,7 +58,7 @@
 				<field name="lang_cookie" type="radio"
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_COOKIE_DESC"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_COOKIE_LABEL"
-					default="1"
+					default="0"
 					class="btn-group"
 				>
 					<option value="0">PLG_SYSTEM_LANGUAGEFILTER_OPTION_SESSION</option>
@@ -67,7 +67,7 @@
 				<field name="alternate_meta" type="radio"
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_ALTERNATE_META_DESC"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_ALTERNATE_META_LABEL"
-					default="0"
+					default="1"
 					class="btn-group"
 				>
 					<option value="0">JNO</option>
