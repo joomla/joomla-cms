@@ -51,7 +51,7 @@ abstract class TemplateHelper
 		if (empty($file['name']))
 		{
 			$app = JFactory::getApplication();
-			$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_UPLOAD_INPUT'), 'error');
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_UPLOAD_INPUT'), 'error');
 
 			return false;
 		}
@@ -70,7 +70,7 @@ abstract class TemplateHelper
 				if (in_array($extensionName, $explodedFileName))
 				{
 					$app = JFactory::getApplication();
-					$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_EXECUTABLE'), 'error');
+					$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_EXECUTABLE'), 'error');
 
 					return false;					
 				}
@@ -82,7 +82,7 @@ abstract class TemplateHelper
 		if ($file['name'] !== JFile::makeSafe($file['name']) || preg_match('/\s/', JFile::makeSafe($file['name'])))
 		{
 			$app = JFactory::getApplication();
-			$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNFILENAME'), 'error');
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_WARNFILENAME'), 'error');
 
 			return false;
 		}
@@ -95,7 +95,7 @@ abstract class TemplateHelper
 		if ($format == '' || $format == false || (!in_array($format, $allowable)))
 		{
 			$app = JFactory::getApplication();
-			$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNFILETYPE'), 'error');
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_WARNFILETYPE'), 'error');
 
 			return false;
 		}
@@ -106,7 +106,7 @@ abstract class TemplateHelper
 		if ($maxSize > 0 && (int) $file['size'] > $maxSize)
 		{
 			$app = JFactory::getApplication();
-			$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 'error');
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_WARNFILETOOLARGE'), 'error');
 
 			return false;
 		}
@@ -120,7 +120,7 @@ abstract class TemplateHelper
 			if (stristr($xss_check, '<'.$tag.' ') || stristr($xss_check, '<'.$tag.'>'))
 			{
 				$app = JFactory::getApplication();
-				$app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNIEXSS'), 'error');
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_WARNIEXSS'), 'error');
 
 				return false;
 			}
