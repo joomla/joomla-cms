@@ -60,14 +60,14 @@ JHtml::_('bootstrap.tooltip');
 				<?php if (!$params->get('usetext')) : ?>
 					<div class="input-prepend input-append">
 						<span class="add-on">
-							<span class="icon-star hasTooltip" title="<?php echo JText::_('JGLOBAL_SECRETKEY') ?>"
+							<span class="icon-star hasTooltip" title="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>">
 							</span>
 								<label for="modlgn-secretkey" class="element-invisible"><?php echo JText::_('JGLOBAL_SECRETKEY'); ?>
 							</label>
 						</span>
 						<input id="modlgn-secretkey" type="text" name="secretkey" class="input-small" tabindex="0" size="18" placeholder="<?php echo JText::_('JGLOBAL_SECRETKEY') ?>" />
 						<span class="btn width-auto hasTooltip" title="<?php echo JText::_('JGLOBAL_SECRETKEY_HELP'); ?>">
-							<i class="icon-help"></i>
+							<span class="icon-help"></span>
 						</span>
 				</div>
 				<?php else: ?>
