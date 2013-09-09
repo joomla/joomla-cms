@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Sep-2013 Michael Babker
+ # [#31955] Two factor authentication is broken in the back-end. Thanks Nicholas Dionysopoulos
+
 08-Sep-2013 Elin Waring
 ^+ [#31930] Ordering Form Field Changes Thanks George Wilson
 
