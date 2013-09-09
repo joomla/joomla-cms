@@ -17,6 +17,9 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.modal');
 JHtml::_('formbehavior.chosen', 'select');
 
+JText::script('ERROR');
+JText::script('JGLOBAL_VALIDATION_FORM_FAILED');
+
 $app = JFactory::getApplication();
 $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 
@@ -48,6 +51,9 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 				var name = idReversed.substr(separatorLocation).split("").reverse().join("")+'name';
 				document.id(name).addClass('invalid');
 			});
+
+			$('system-message').getElement('h4').innerHTML  = Joomla.JText._('ERROR');
+			$('system-message').getElement('div').innerHTML = Joomla.JText._('JGLOBAL_VALIDATION_FORM_FAILED');
 		}
 	}
 </script>

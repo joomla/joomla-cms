@@ -803,8 +803,6 @@ class JApplication extends JApplicationBase
 			$name = $app->getName();
 		}
 
-		jimport('joomla.application.router');
-
 		try
 		{
 			$router = JRouter::getInstance($name, $options);

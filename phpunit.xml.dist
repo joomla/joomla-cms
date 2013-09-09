@@ -10,14 +10,17 @@
 	-->
 
 	<testsuites>
-		<testsuite name="libraries">
-			<directory>tests/unit/suites/libraries</directory>
+		<testsuite name="libraries-cms">
+			<directory>tests/unit/suites/libraries/cms</directory>
+		</testsuite>
+		<testsuite name="libraries-platform">
+			<directory>tests/unit/suites/libraries/joomla</directory>
+		</testsuite>
+		<testsuite name="libraries-legacy">
+			<directory>tests/unit/suites/libraries/legacy</directory>
 		</testsuite>
 		<testsuite name="database">
 			<directory>tests/unit/suites/database</directory>
-		</testsuite>
-		<testsuite name="platform">
-			<directory>tests/unit/suites/platform</directory>
 		</testsuite>
 		<testsuite name="administrator">
 			<directory>tests/unit/suites/administrator</directory>

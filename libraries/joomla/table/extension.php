@@ -26,7 +26,7 @@ class JTableExtension extends JTable
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($db)
+	public function __construct(JDatabaseDriver $db)
 	{
 		parent::__construct('#__extensions', 'extension_id', $db);
 	}
@@ -45,6 +45,7 @@ class JTableExtension extends JTable
 		if (trim($this->name) == '' || trim($this->element) == '')
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
+
 			return false;
 		}
 		return true;
@@ -103,6 +104,7 @@ class JTableExtension extends JTable
 		$query->select($this->_db->quoteName('extension_id'))
 			->from($this->_db->quoteName('#__extensions'));
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadResult();
 	}
 
@@ -140,6 +142,7 @@ class JTableExtension extends JTable
 			else
 			{
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+
 				return false;
 			}
 		}
@@ -182,6 +185,7 @@ class JTableExtension extends JTable
 		}
 
 		$this->setError('');
+
 		return true;
 	}
 }

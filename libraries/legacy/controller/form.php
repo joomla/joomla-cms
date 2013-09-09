@@ -539,6 +539,80 @@ class JControllerForm extends JControllerLegacy
 	}
 
 	/**
+	 * Method to load a row from version history
+	 *
+	 * @return  mixed  True if the record can be added, a error object if not.
+	 *
+	 * @since   3.2
+	 */
+	public function loadhistory()
+	{
+		$app = JFactory::getApplication();
+		$lang  = JFactory::getLanguage();
+		$model = $this->getModel();
+		$table = $model->getTable();
+		$historyId = $app->input->get('version_id', null, 'integer');
+		$context = "$this->option.edit.$this->context";
+
+		if (!$model->loadhistory($historyId, $table))
+		{
+			$this->setMessage($model->getError(), 'error');
+
+			$this->setRedirect(
+					JRoute::_(
+							'index.php?option=' . $this->option . '&view=' . $this->view_list
+							. $this->getRedirectToListAppend(), false
+					)
+			);
+
+			return false;
+		}
+
+		// Determine the name of the primary key for the data.
+		if (empty($key))
+		{
+			$key = $table->getKeyName();
+		}
+
+		$recordId = $table->$key;
+
+		// To avoid data collisions the urlVar may be different from the primary key.
+		$urlVar = empty($this->urlVar) ? $key : $this->url;
+
+		// Access check.
+		if (!$this->allowEdit(array($key => $recordId), $key))
+		{
+			$this->setError(JText::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
+			$this->setMessage($this->getError(), 'error');
+
+			$this->setRedirect(
+				JRoute::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_list
+					. $this->getRedirectToListAppend(), false
+				)
+			);
+			$table->checkin();
+
+			return false;
+		}
+
+		$table->store();
+		$this->setRedirect(
+				JRoute::_(
+						'index.php?option=' . $this->option . '&view=' . $this->view_item
+						. $this->getRedirectToItemAppend($recordId, $urlVar), false
+				)
+		);
+
+		$this->setMessage(JText::sprintf('JLIB_APPLICATION_SUCCESS_LOAD_HISTORY', $model->getState('save_date'), $model->getState('version_note')));
+
+		// Invoke the postSave method to allow for the child class to access the model.
+		$this->postSaveHook($model);
+
+		return true;
+	}
+
+	/**
 	 * Method to save a record.
 	 *
 	 * @param   string  $key     The name of the primary key of the URL variable.
