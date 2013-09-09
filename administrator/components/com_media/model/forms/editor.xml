@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset addfieldpath="/administrator/components/com_categories/models/fields">
+        <field name="id" type="text" class="readonly" label="JGLOBAL_FIELD_ID_LABEL"
+               description="JGLOBAL_FIELD_ID_DESC" size="10" default="0"
+               readonly="true"/>
+
+        <field name="asset_id" type="hidden" filter="unset"/>
+
+        <field name="title" type="text" label="JGLOBAL_TITLE"
+               description="JFIELD_TITLE_DESC" class="input-xlarge" size="30"
+               required="true" labelclass="control-label"/>
+
+        <field name="alias" type="text" label="JFIELD_ALIAS_LABEL"
+               description="JFIELD_ALIAS_DESC" class="inputbox" size="45" labelclass="control-label"/>
+
+        <field name="catid" type="categoryedit"
+               label="JCATEGORY" description="JFIELD_CATEGORY_DESC"
+               class="inputbox" required="true"
+                >
+        </field>
+
+        <field name="created" type="calendar" label="COM_MEDIA_FIELD_CREATED_LABEL"
+               description="COM_MEDIA_FIELD_CREATED_DESC" class="inputbox" size="22"
+               format="%Y-%m-%d %H:%M:%S" filter="user_utc" labelclass="control-label"/>
+
+        <field name="created_by" type="user"
+               label="COM_MEDIA_FIELD_CREATED_BY_LABEL" description="COM_MEDIA_FIELD_CREATED_BY_DESC"
+               labelclass="control-label"/>
+
+        <field name="created_by_alias" type="text"
+               label="COM_MEDIA_FIELD_CREATED_BY_ALIAS_LABEL" description="COM_MEDIA_FIELD_CREATED_BY_ALIAS_DESC"
+               class="inputbox" size="20" labelclass="control-label"/>
+
+        <field name="modified" type="calendar" class="readonly"
+               label="JGLOBAL_FIELD_MODIFIED_LABEL" description="COM_MEDIA_FIELD_MODIFIED_DESC"
+               size="22" readonly="true" format="%Y-%m-%d %H:%M:%S" filter="user_utc" labelclass="control-label"/>
+
+        <field name="modified_by" type="user"
+               label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
+               class="readonly"
+               readonly="true"
+               filter="unset"
+               labelclass="control-label"
+                />
+
+        <field name="checked_out" type="hidden" filter="unset"/>
+
+        <field name="checked_out_time" type="hidden" filter="unset"/>
+
+        <field name="ordering" type="text" label="JFIELD_ORDERING_LABEL"
+               description="JFIELD_ORDERING_DESC" class="inputbox" size="6"
+               default="0" labelclass="control-label"/>
+
+        <field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"
+               description="JFIELD_ACCESS_DESC" class="span12 small" size="1"/>
+
+        <field name="tags" type="tag" mode="ajax"
+               label="JTAG" description="JTAG_DESC"
+               class="inputbox span12 small" multiple="true"
+                />
+
+        <field name="rules" type="rules" label="JFIELD_RULES_LABEL"
+               translate_label="false" class="inputbox" filter="rules"
+               component="COM_MEDIA" section="media" validate="rules"
+                />
+
+    </fieldset>
+</form>

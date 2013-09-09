@@ -12,24 +12,50 @@ defined('_JEXEC') or die;
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_media
- * @since       1.5
+ * @since       3.2
  */
 abstract class MediaHelper
 {
 	/**
 	 * Checks if the file is an image
-	 * @param string The filename
+	 *
+	 * @param   string $fileName  File name
+	 *
+	 * @return  boolean
+	 */
+
+	public static function addSubmenu($vName)
+	{
+		JHtmlSidebar::addEntry(
+			JText::_('JGLOBAL_MEDIA'),
+			'index.php?option=com_media',
+			$vName == 'media'
+		);
+		JHtmlSidebar::addEntry(
+			JText::_('COM_MEDIA_SUBMENU_CATEGORIES'),
+			'index.php?option=com_categories&extension=com_media',
+			$vName == 'categories');
+	}
+
+	/**
+	 * Checks if the file is an image
+	 *
+	 * @param   string  $fileName  file name
+	 *
 	 * @return  boolean
 	 */
 	public static function isImage($fileName)
 	{
 		static $imageTypes = 'xcf|odg|gif|jpg|png|bmp';
+
 		return preg_match("/\.(?:$imageTypes)$/i", $fileName);
 	}
 
 	/**
-	 * Checks if the file is an image
-	 * @param string The filename
+	 * Get image type
+	 *
+	 * @param   string $fileName  file name
+	 *
 	 * @return  boolean
 	 */
 	public static function getTypeIcon($fileName)
@@ -41,8 +67,9 @@ abstract class MediaHelper
 	/**
 	 * Checks if the file can be uploaded
 	 *
-	 * @param array File information
-	 * @param string An error message to be returned
+	 * @param   $file  File information
+	 * @param   $err  An error message to be returned
+	 *
 	 * @return  boolean
 	 */
 	public static function canUpload($file, &$err)
@@ -52,13 +79,16 @@ abstract class MediaHelper
 		if (empty($file['name']))
 		{
 			$err = 'COM_MEDIA_ERROR_UPLOAD_INPUT';
+
 			return false;
 		}
 
 		jimport('joomla.filesystem.file');
+
 		if ($file['name'] !== JFile::makesafe($file['name']))
 		{
 			$err = 'COM_MEDIA_ERROR_WARNFILENAME';
+
 			return false;
 		}
 
@@ -66,65 +96,87 @@ abstract class MediaHelper
 
 		$allowable = explode(',', $params->get('upload_extensions'));
 		$ignored = explode(',', $params->get('ignore_extensions'));
+
 		if (!in_array($format, $allowable) && !in_array($format, $ignored))
 		{
 			$err = 'COM_MEDIA_ERROR_WARNFILETYPE';
+
 			return false;
 		}
 
 		$maxSize = (int) ($params->get('upload_maxsize', 0) * 1024 * 1024);
+
 		if ($maxSize > 0 && (int) $file['size'] > $maxSize)
 		{
 			$err = 'COM_MEDIA_ERROR_WARNFILETOOLARGE';
+
 			return false;
 		}
 
 		$user = JFactory::getUser();
 		$imginfo = null;
+
 		if ($params->get('restrict_uploads', 1))
 		{
 			$images = explode(',', $params->get('image_extensions'));
-			if (in_array($format, $images)) { // if its an image run it through getimagesize
-				// if tmp_name is empty, then the file was bigger than the PHP limit
+
+			if (in_array($format, $images))
+			{
+				// If its an image run it through getimagesize
+				// If tmp_name is empty, then the file was bigger than the PHP limit
 				if (!empty($file['tmp_name']))
 				{
 					if (($imginfo = getimagesize($file['tmp_name'])) === false)
 					{
 						$err = 'COM_MEDIA_ERROR_WARNINVALID_IMG';
+
 						return false;
 					}
-				} else {
+				}
+				else
+				{
 					$err = 'COM_MEDIA_ERROR_WARNFILETOOLARGE';
+
 					return false;
 				}
-			} elseif (!in_array($format, $ignored))
+			}
+			elseif (!in_array($format, $ignored))
 			{
-				// if its not an image...and we're not ignoring it
+				// If its not an image...and we're not ignoring it
 				$allowed_mime = explode(',', $params->get('upload_mime'));
 				$illegal_mime = explode(',', $params->get('upload_mime_illegal'));
+
 				if (function_exists('finfo_open') && $params->get('check_mime', 1))
 				{
 					// We have fileinfo
 					$finfo = finfo_open(FILEINFO_MIME);
 					$type = finfo_file($finfo, $file['tmp_name']);
+
 					if (strlen($type) && !in_array($type, $allowed_mime) && in_array($type, $illegal_mime))
 					{
 						$err = 'COM_MEDIA_ERROR_WARNINVALID_MIME';
+
 						return false;
 					}
+
 					finfo_close($finfo);
-				} elseif (function_exists('mime_content_type') && $params->get('check_mime', 1))
+				}
+				elseif (function_exists('mime_content_type') && $params->get('check_mime', 1))
 				{
-					// we have mime magic
+					// We have mime magic
 					$type = mime_content_type($file['tmp_name']);
+
 					if (strlen($type) && !in_array($type, $allowed_mime) && in_array($type, $illegal_mime))
 					{
 						$err = 'COM_MEDIA_ERROR_WARNINVALID_MIME';
+
 						return false;
 					}
-				} elseif (!$user->authorise('core.manage'))
+				}
+				elseif (!$user->authorise('core.manage'))
 				{
 					$err = 'COM_MEDIA_ERROR_WARNNOTADMIN';
+
 					return false;
 				}
 			}
@@ -136,36 +188,31 @@ abstract class MediaHelper
 		foreach ($html_tags as $tag)
 		{
 			// A tag is '<tagname ', so we need to add < and a space or '<tagname>'
-			if (stristr($xss_check, '<'.$tag.' ') || stristr($xss_check, '<'.$tag.'>'))
+			if (stristr($xss_check, '<' . $tag . ' ') || stristr($xss_check, '<' . $tag . '>'))
 			{
 				$err = 'COM_MEDIA_ERROR_WARNIEXSS';
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 
 	/**
-	 * Method to parse a file size
+	 * Checks if the file can be uploaded
 	 *
-	 * @param   integer  $size  The file size in bytes
+	 * @param   $width      width to resize
+	 * @param   $height     height to resize
+	 * @param   $target     target image
 	 *
-	 * @return  string  The converted file size
-	 *
-	 * @since   1.6
-	 * @deprecated  4.0  Use JHtmlNumber::bytes() instead
+	 * @return  array
 	 */
-	public static function parseSize($size)
-	{
-		JLog::add('MediaHelper::parseSize() is deprecated. Use JHtmlNumber::bytes() instead.', JLog::WARNING, 'deprecated');
-		return JHtml::_('number.bytes', $size);
-	}
-
 	public static function imageResize($width, $height, $target)
 	{
-		//takes the larger size of the width and height and applies the
-		//formula accordingly...this is so this script will work
-		//dynamically with any size image
+		/* Takes the larger size of the width and height and applies the
+		      formula accordingly...this is so this script will work
+			 dynamically with any size image */
 		if ($width > $height)
 		{
 			$percentage = ($target / $width);
@@ -175,13 +222,19 @@ abstract class MediaHelper
 			$percentage = ($target / $height);
 		}
 
-		//gets the new value and applies the percentage, then rounds the value
+		// Gets the new value and applies the percentage, then rounds the value
 		$width = round($width * $percentage);
 		$height = round($height * $percentage);
 
 		return array($width, $height);
 	}
 
+	/**
+	 * Count number of files in a directory
+	 *
+	 * @param   $dir  directory
+	 * @return  array
+	 */
 	public static function countFiles($dir)
 	{
 		$total_file = 0;
@@ -197,6 +250,7 @@ abstract class MediaHelper
 				{
 					$total_file++;
 				}
+
 				if (substr($entry, 0, 1) != '.' && is_dir($dir . DIRECTORY_SEPARATOR . $entry))
 				{
 					$total_dir++;
@@ -206,7 +260,43 @@ abstract class MediaHelper
 			$d->close();
 		}
 
-		return array ($total_file, $total_dir);
+		return array($total_file, $total_dir);
 	}
 
+	/**
+	 * Get media permissions
+	 *
+	 * @param   $categoryId     Category ID
+	 * @param   $mediaId        Media ID
+	 * @return  array
+	 */
+	public static function getActions($categoryId = 0, $mediaId = 0)
+	{
+		$user	= JFactory::getUser();
+		$result	= new JObject;
+
+		if (empty($mediaId) && empty($categoryId))
+		{
+			$assetName = 'com_media';
+		}
+		elseif (empty($mediaId))
+		{
+			$assetName = 'com_media.category.' . (int) $categoryId;
+		}
+		else
+		{
+			$assetName = 'com_media.media.' . (int) $mediaId;
+		}
+
+		$actions = array(
+			'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.own', 'core.edit.state', 'core.delete'
+		);
+
+		foreach ($actions as $action)
+		{
+			$result->set($action,	$user->authorise($action, $assetName));
+		}
+
+		return $result;
+	}
 }

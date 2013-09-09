@@ -101,6 +101,36 @@
 			default="text/html"
 			label="COM_MEDIA_FIELD_ILLEGAL_MIME_TYPES_LABEL"
 			description="COM_MEDIA_FIELD_ILLEGAL_MIME_TYPES_DESC" />
+
+        <field name="spacer4" type="spacer"
+               hr="true"
+                />
+
+        <field
+                name="auto_thumb"
+                type="radio"
+                class="btn-group"
+                default="0"
+                label="COM_MEDIA_FIELD_AUTO_THUMB"
+                description="COM_MEDIA_FIELD_AUTO_THUMB_DESC">
+        <option
+                value="0">JNO</option>
+        <option
+                value="1">JYES</option>
+        </field>
+
+        <field
+                name="thumb_width"
+                type="text"
+                size="50"
+                label="COM_MEDIA_FIELD_AUTO_THUMB_WIDTH"
+                description="COM_MEDIA_FIELD_AUTO_THUMB_WIDTH" />
+        <field
+                name="thumb_ratio"
+                type="text"
+                size="50"
+                label="COM_MEDIA_FIELD_AUTO_THUMB_RATIO"
+                description="COM_MEDIA_FIELD_AUTO_THUMB_RATIO" />
 	</fieldset>
 
 	<fieldset

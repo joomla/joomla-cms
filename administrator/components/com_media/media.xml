@@ -10,6 +10,12 @@
 	<version>3.0.0</version>
 	<description>COM_MEDIA_XML_DESCRIPTION</description>
 
+    <install>
+        <sql>
+            <file driver="mysql" charset="utf8">sql/install.mysql.utf8.sql</file>
+        </sql>
+    </install>
+
 	<files folder="site">
 		<filename>controller.php</filename>
 		<filename>index.html</filename>
@@ -22,13 +28,16 @@
 	<administration>
 		<files folder="admin">
 			<filename>config.xml</filename>
-			<filename>controller.php</filename>
+            <filename>access.xml</filename>
+            <filename>media.xml</filename>
 			<filename>index.html</filename>
 			<filename>media.php</filename>
-			<folder>controllers</folder>
+			<folder>controller</folder>
 			<folder>helpers</folder>
-			<folder>models</folder>
-			<folder>views</folder>
+			<folder>model</folder>
+			<folder>sql</folder>
+            <folder>tables</folder>
+            <folder>view</folder>
 		</files>
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB.com_media.ini</language>
