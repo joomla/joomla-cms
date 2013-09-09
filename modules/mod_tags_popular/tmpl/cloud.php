@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-$display_count	= $params->get('display_count', 0);
 $minsize		= $params->get('minsize', 1);
 $maxsize		= $params->get('maxsize', 2);
 
@@ -17,9 +16,9 @@ JLoader::register('TagsHelperRoute', JPATH_BASE . '/components/com_tags/helpers/
 ?>
 <div class="tagspopular<?php echo $moduleclass_sfx; ?> tagscloud<?php echo $moduleclass_sfx; ?>">
 <?php
-if (!count($list)) :
-	echo $params->get('no_results_text', false);
-else :
+if (!count($list)) : ?>
+	<div class="alert alert-no-items"><?php echo JText::_('MOD_TAGS_POPULAR_NO_ITEMS_FOUND'); ?></div>
+<?php else :
 	// find maximum and minimum count
 	$mincount = null;
 	$maxcount = null;
@@ -41,7 +40,8 @@ else :
 		endif;
 ?>
 		<span class="tag">
-			<a class="tag-name" style="font-size: <?php echo $fontsize.'em'; ?>" href="<?php echo JRoute::_(TagsHelperRoute::getTagRoute($item->tag_id . ':' . $item->alias)); ?>"><?php echo htmlspecialchars($item->title); ?></a>
+			<a class="tag-name" style="font-size: <?php echo $fontsize.'em'; ?>" href="<?php echo JRoute::_(TagsHelperRoute::getTagRoute($item->tag_id . ':' . $item->alias)); ?>">
+				<?php echo htmlspecialchars($item->title); ?></a>
 			<?php if ($display_count) : ?>
 				<span class="tag-count badge badge-info"><?php echo $item->count; ?></span>
 			<?php endif; ?>
