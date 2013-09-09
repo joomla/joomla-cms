@@ -1027,9 +1027,6 @@ class UsersModelUser extends JModelAdmin
 				try
 				{
 					$app = JFactory::getApplication();
-
-					$this->loadLanguage();
-
 					$app->enqueueMessage($warnMessage, 'warning');
 				}
 				catch (Exception $exc)
