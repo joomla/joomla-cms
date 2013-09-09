@@ -12,8 +12,7 @@
 	</fieldset>
 
 	<fieldset name="menu-options"
-			label="COM_MENUS_LINKTYPE_OPTIONS_LABEL"
-		>
+			label="COM_MENUS_LINKTYPE_OPTIONS_LABEL">
 
 			<field name="menu-anchor_title" type="text"
 				label="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_LABEL"
@@ -30,8 +29,7 @@
 			<field name="menu_text" type="radio" class="btn-group"
 				label="COM_MENUS_ITEM_FIELD_MENU_TEXT_LABEL"
 				description="COM_MENUS_ITEM_FIELD_MENU_TEXT_DESC"
-				default="1" filter="integer"
-			>
+				default="1" filter="integer">
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>

@@ -2,8 +2,7 @@
 <metadata>
 	<layout title="com_content_article_view_default_title" option="com_content_article_view_default_option">
 		<help
-			key = "JHELP_MENUS_MENU_ITEM_ARTICLE_SINGLE_ARTICLE"
-		/>
+			key = "JHELP_MENUS_MENU_ITEM_ARTICLE_SINGLE_ARTICLE" />
 		<message>
 			<![CDATA[com_content_article_view_default_desc]]>
 		</message>
@@ -19,8 +18,7 @@
 				required="true"
 				edit="true"
 				clear="false"
-				description="COM_CONTENT_FIELD_SELECT_ARTICLE_DESC"
-			/>
+				description="COM_CONTENT_FIELD_SELECT_ARTICLE_DESC" />
 		</fieldset>
 	</fields>
 
@@ -31,8 +29,7 @@
 		<fieldset name="basic"
 			label="COM_CONTENT_ATTRIBS_ARTICLE_SETTINGS_LABEL">
 
-		<field
-			name="show_title"
+		<field name="show_title"
 			type="radio"
 			class="btn-group"
 			label="JGLOBAL_SHOW_TITLE_LABEL"
@@ -42,8 +39,7 @@
 			<option value="1">JSHOW</option>
 		</field>
 
-		<field
-			name="link_titles"
+		<field name="link_titles"
 			type="radio"
 			class="btn-group"
 			label="JGLOBAL_LINKED_TITLES_LABEL"
@@ -53,8 +49,7 @@
 			<option value="1">JYES</option>
 		</field>
 
-		<field 
-			name="show_intro" 
+		<field name="show_intro"
 			type="radio"
 			class="btn-group"
 			description="JGLOBAL_SHOW_INTRO_DESC"
@@ -64,8 +59,7 @@
 			<option value="1">JSHOW</option>
 		</field>
 
-		<field
-			name="info_block_position"
+		<field name="info_block_position"
 			type="radio"
 			class="btn-group"
 			label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
@@ -77,8 +71,7 @@
 		</field>
 
 
-		<field
-			name="show_category"
+		<field name="show_category"
 			type="radio"
 			class="btn-group"
 			label="JGLOBAL_SHOW_CATEGORY_LABEL"
@@ -88,8 +81,7 @@
 			<option	value="1">JSHOW</option>
 		</field>
 
-		<field
-			name="link_category"
+		<field name="link_category"
 			type="radio"
 			class="btn-group"
 			label="JGLOBAL_LINK_CATEGORY_LABEL"
@@ -99,8 +91,7 @@
 			<option	value="1">JYES</option>
 		</field>
 
-		<field
-			name="show_parent_category"
+		<field name="show_parent_category"
 			type="radio"
 			class="btn-group"
 			label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL"
@@ -110,8 +101,7 @@
 			<option	value="1">JSHOW</option>
 		</field>
 
-		<field
-			name="link_parent_category"
+		<field name="link_parent_category"
 			type="radio"
 			class="btn-group"
 			label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL"
@@ -121,8 +111,7 @@
 			<option	value="1">JYES</option>
 		</field>
 
-		<field
-			name="show_author"
+		<field name="show_author"
 			type="radio"
 			class="btn-group"
 			label="JGLOBAL_SHOW_AUTHOR_LABEL"
@@ -132,8 +121,7 @@
 			<option	value="1">JSHOW</option>
 		</field>
 
-		<field
-			name="link_author"
+		<field name="link_author"
 			type="radio"
 			class="btn-group"
 			label="JGLOBAL_LINK_AUTHOR_LABEL"
@@ -143,8 +131,7 @@
 			<option	value="1">JYES</option>
 		</field>
 
-		<field
-			name="show_create_date"
+		<field name="show_create_date"
 			type="radio"
 			class="btn-group"
 			label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
@@ -154,8 +141,7 @@
 			<option	value="1">JSHOW</option>
 		</field>
 
-		<field
-			name="show_modify_date"
+		<field name="show_modify_date"
 			type="radio"
 			class="btn-group"
 			label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
@@ -165,8 +151,7 @@
 			<option	value="1">JSHOW</option>
 		</field>
 
-		<field
-			name="show_publish_date"
+		<field name="show_publish_date"
 			type="radio"
 			class="btn-group"
 			label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL"
@@ -176,8 +161,7 @@
 			<option	value="1">JSHOW</option>
 		</field>
 
-		<field
-			name="show_item_navigation"
+		<field name="show_item_navigation"
 			type="radio"
 			class="btn-group"
 			label="JGLOBAL_SHOW_NAVIGATION_LABEL"
@@ -187,8 +171,7 @@
 			<option	value="1">JSHOW</option>
 		</field>
 
-		<field
-			name="show_vote"
+		<field name="show_vote"
 			type="radio"
 			class="btn-group"
 			label="JGLOBAL_SHOW_VOTE_LABEL"
@@ -198,7 +181,7 @@
 			<option	value="1">JSHOW</option>
 		</field>
 
-		<field name="show_tags" 
+		<field name="show_tags"
 			type="radio"
 			class="btn-group"
 			label="COM_CONTENT_FIELD_SHOW_TAGS_LABEL"
@@ -208,8 +191,7 @@
 			<option value="1">JSHOW</option>
 		</field>
 
-		<field
-			name="show_icons"
+		<field name="show_icons"
 			type="radio"
 			class="btn-group"
 			label="JGLOBAL_SHOW_ICONS_LABEL"
@@ -219,8 +201,7 @@
 			<option	value="1">JSHOW</option>
 		</field>
 
-		<field
-			name="show_print_icon"
+		<field name="show_print_icon"
 			type="radio"
 			class="btn-group"
 			label="JGLOBAL_SHOW_PRINT_ICON_LABEL"
@@ -230,8 +211,7 @@
 			<option	value="1">JSHOW</option>
 		</field>
 
-		<field
-			name="show_email_icon"
+		<field name="show_email_icon"
 			type="radio"
 			class="btn-group"
 			label="JGLOBAL_SHOW_EMAIL_ICON_LABEL"
@@ -241,8 +221,7 @@
 			<option	value="1">JSHOW</option>
 		</field>
 
-		<field
-			name="show_hits"
+		<field name="show_hits"
 			type="radio"
 			class="btn-group"
 			label="JGLOBAL_SHOW_HITS_LABEL"
@@ -252,8 +231,7 @@
 			<option	value="1">JSHOW</option>
 		</field>
 
-		<field
-			name="show_tags"
+		<field name="show_tags"
 			type="radio"
 			class="btn-group"
 			label="JGLOBAL_SHOW_TAGS_LABEL"
@@ -263,8 +241,7 @@
 			<option	value="1">JSHOW</option>
 		</field>
 
-		<field
-			name="show_noauth"
+		<field name="show_noauth"
 			type="radio"
 			class="btn-group"
 			label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"
@@ -273,8 +250,7 @@
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
-		<field
-			name="urls_position"
+		<field name="urls_position"
 			type="radio"
 			class="btn-group"
 		    	label="COM_CONTENT_FIELD_URLSPOSITION_LABEL"

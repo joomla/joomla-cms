@@ -8,26 +8,21 @@
 				supported="mysql,mysqli,postgresql,sqlsrv,sqlazure"
 				required="true"
 				default="mysqli"
-				filter="string"
-			/>
+				filter="string" />
 
 			<field name="db_host" type="text" id="db_host" class="inputbox"
 				label="INSTL_DATABASE_HOST_LABEL"
 				default="localhost"
-				required="true"
-			/>
+				required="true" />
 			<field name="db_user" type="text" id="db_user" class="inputbox"
 				label="INSTL_DATABASE_USER_LABEL"
-				required="true"
-			/>
+				required="true" />
 			<field name="db_pass" type="password" id="db_pass" class="inputbox"
 				label="INSTL_DATABASE_PASSWORD_LABEL"
-				filter="raw"
-			/>
+				filter="raw" />
 			<field name="db_name" type="text" id="db_name" class="inputbox"
 				label="INSTL_DATABASE_NAME_LABEL"
-				required="true"
-			/>
+				required="true" />
 		</fieldset>
 
 		<!-- Advanced Settings -->
@@ -35,8 +30,7 @@
 			<field name="db_old" type="radio" id="db_old" class="btn-group"
 				label="INSTL_DATABASE_OLD_PROCESS_LABEL"
 				default="backup"
-				required="true"
-			>
+				required="true">
 				<option value="backup">INSTL_DATABASE_FIELD_VALUE_BACKUP</option>
 				<option value="remove">INSTL_DATABASE_FIELD_VALUE_REMOVE</option>
 			</field>
@@ -44,8 +38,7 @@
 				label="INSTL_DATABASE_PREFIX_LABEL"
 				required="true"
 				validate="prefix"
-				message="INSTL_DATABASE_PREFIX_MSG"
-			/>
+				message="INSTL_DATABASE_PREFIX_MSG" />
 		</fieldset>
 	</fieldset>
 </form>

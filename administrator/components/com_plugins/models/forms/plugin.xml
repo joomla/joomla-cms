@@ -3,8 +3,7 @@
     <fieldset
             addfieldpath="/administrator/components/com_plugins/models/fields"
             >
-        <field
-                name="extension_id"
+        <field name="extension_id"
                 label="JGLOBAL_FIELD_ID_LABEL"
                 description ="JGLOBAL_FIELD_ID_DESC"
                 type="text"
@@ -12,14 +11,12 @@
                 readonly="true"
                 class="readonly" />
 
-        <field
-                name="name"
+        <field name="name"
                 type="hidden"
                 label="COM_PLUGINS_FIELD_NAME_LABEL"
                 description="COM_PLUGINS_FIELD_NAME_DESC" />
 
-        <field
-                name="enabled"
+        <field name="enabled"
                 type="radio"
                 class="btn-group"
                 label="JSTATUS"
@@ -30,8 +27,7 @@
             <option value="0">JDISABLED</option>
         </field>
 
-        <field
-                name="folder"
+        <field name="folder"
                 type="text"
                 class="readonly"
                 size="20"
@@ -39,8 +35,7 @@
                 description="COM_PLUGINS_FIELD_FOLDER_DESC"
                 readonly="true" />
 
-        <field
-                name="element"
+        <field name="element"
                 type="text"
                 class="readonly"
                 size="20"
@@ -48,17 +43,15 @@
                 description="COM_PLUGINS_FIELD_ELEMENT_DESC"
                 readonly="true" />
 
-        <field
-                name="access"
+        <field name="access"
                 type="accesslevel"
                 label="JFIELD_ACCESS_LABEL"
                 description="JFIELD_ACCESS_DESC"
                 class="inputbox"
                 size="1" />
 
-        <field
-                name="ordering"
-                type="Pluginordering"
+        <field name="ordering"
+                type="pluginordering"
                 class="inputbox"
                 label="JFIELD_ORDERING_LABEL"
                 description="JFIELD_ORDERING_DESC" />

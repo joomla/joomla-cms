@@ -83,8 +83,7 @@
 				<field name="navposition" type="list" default="center"
 					label="TPL_BEEZ3_FIELD_NAVPOSITION_LABEL"
 					description="TPL_BEEZ3_FIELD_NAVPOSITION_DESC"
-					filter="word"
-				>
+					filter="word">
 					<option value="center">TPL_BEEZ3_OPTION_AFTER_CONTENT</option>
 					<option value="left">TPL_BEEZ3_OPTION_BEFORE_CONTENT</option>
 				</field>
@@ -92,14 +91,12 @@
 				<field name="bootstrap" type="textarea"
 					label="TPL_BEEZ3_FIELD_BOOTSTRAP_LABEL"
 					description="TPL_BEEZ3_FIELD_BOOTSTRAP_DESC"
-					rows="4" columns="30"
-				/>
-				
+					rows="4" columns="30" />
+
 				<field name="templatecolor" type="list" default="nature"
 					label="TPL_BEEZ3_FIELD_TEMPLATECOLOR_LABEL"
 					description="TPL_BEEZ3_FIELD_TEMPLATECOLOR_DESC"
-					filter="word"
-				>
+					filter="word">
 					<option value="nature">TPL_BEEZ3_OPTION_NATURE</option>
 					<option value="personal">TPL_BEEZ3_OPTION_PERSONAL</option>
 					<option value="red">TPL_BEEZ3_OPTION_RED</option>

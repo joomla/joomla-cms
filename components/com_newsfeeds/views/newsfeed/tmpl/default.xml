@@ -2,8 +2,7 @@
 <metadata>
 	<layout title="COM_NEWSFEEDS_NEWSFEED_VIEW_DEFAULT_TITLE" option="COM_NEWSFEEDS_NEWSFEED_VIEW_DEFAULT_OPTION">
 		<help
-			key = "JHELP_MENUS_MENU_ITEM_NEWSFEED_SINGLE_NEWSFEED"
-		/>
+			key = "JHELP_MENUS_MENU_ITEM_NEWSFEED_SINGLE_NEWSFEED" />
 		<message>
 			<![CDATA[COM_NEWSFEEDS_NEWSFEED_VIEW_DEFAULT_DESC]]>
 		</message>
@@ -20,8 +19,7 @@
 				label="COM_NEWSFEEDS_FIELD_SELECT_FEED_LABEL"
 				required="true"
 				edit="true"
-				clear="false"
-			/>
+				clear="false" />
 		</fieldset>
 	</fields>
 
@@ -32,8 +30,7 @@
 <fieldset name="basic" label="COM_NEWSFEEDS_FIELDSET_MORE_OPTIONS_LABEL">
 			<field name="show_feed_image" type="list"
 				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC"
-				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
-			>
+				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -41,8 +38,7 @@
 
 			<field name="show_feed_description" type="list"
 				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_DESC"
-				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
-			>
+				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -50,8 +46,7 @@
 
 			<field name="show_item_description" type="list"
 				description="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_DESC"
-				label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
-			>
+				label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -59,8 +54,7 @@
 
 			<field name="show_tags" type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_TAGS_LABEL"
-				description="COM_NEWSFEEDS_FIELD_SHOW_TAGS_DESC"
-			>
+				description="COM_NEWSFEEDS_FIELD_SHOW_TAGS_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -70,18 +64,16 @@
 				default="0"
 				description="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_DESC"
 				label="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_LABEL"
-				size="6"
-			/>
+				size="6" />
 
 			<field name="feed_display_order" type="list"
 				description="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_DESC"
-				label="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_LABEL"
-			>
+				label="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_LABEL">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="des">JGLOBAL_MOST_RECENT_FIRST</option>
 				<option value="asc">JGLOBAL_OLDEST_FIRST</option>
 			</field>
-			
+
 		</fieldset>
 	</fields>
 </metadata>

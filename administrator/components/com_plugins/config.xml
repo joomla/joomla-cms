@@ -5,8 +5,7 @@
 		label="JCONFIG_PERMISSIONS_LABEL"
 		description="JCONFIG_PERMISSIONS_DESC">
 
-		<field
-			name="rules"
+		<field name="rules"
 			type="rules"
 			label="JCONFIG_PERMISSIONS_LABEL"
 			filter="rules"

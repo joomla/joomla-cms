@@ -2,42 +2,34 @@
 <config>
 	<fieldset name="component"
 		label="COM_WEBLINKS_COMPONENT_LABEL"
-		description="COM_WEBLINKS_COMPONENT_DESC"
-	>
+		description="COM_WEBLINKS_COMPONENT_DESC">
 
 		<field name="target" type="list"
 			default="0"
 			description="COM_WEBLINKS_FIELD_TARGET_DESC"
-			label="COM_WEBLINKS_FIELD_TARGET_LABEL"
-		>
+			label="COM_WEBLINKS_FIELD_TARGET_LABEL">
 			<option value="0">JBROWSERTARGET_PARENT</option>
 			<option value="1">JBROWSERTARGET_NEW</option>
 			<option value="2">JBROWSERTARGET_POPUP</option>
 			<option value="3">JBROWSERTARGET_MODAL</option>
 		</field>
 
-		<field
-			name="save_history"
+		<field name="save_history"
 			type="radio"
 			class="btn-group"
 			default="1"
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
-			description="JGLOBAL_SAVE_HISTORY_OPTIONS_DESC"
-			>
-			<option
-				value="0">JNO</option>
-			<option
-				value="1">JYES</option>
+			description="JGLOBAL_SAVE_HISTORY_OPTIONS_DESC">
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
-		
-		<field
-			name="history_limit"
+
+		<field name="history_limit"
 			type="text"
 			filter="integer"
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
-			default="5"
-		/>
+			default="5" />
 
 		<field	name="count_clicks" type="radio"
 				class="btn-group"
@@ -61,11 +53,9 @@
 
 		<field name="link_icons" type="media"
 			description="COM_WEBLINKS_FIELD_CONFIG_ICON_DESC"
-			label="COM_WEBLINKS_FIELD_CONFIG_ICON_LABEL"
-		/>
+			label="COM_WEBLINKS_FIELD_CONFIG_ICON_LABEL" />
 
-		<field
-			name="float_first"
+		<field name="float_first"
 			type="list"
 			label="COM_WEBLINKS_FLOAT_LABEL"
 			description="COM_WEBLINKS_FLOAT_DESC">
@@ -73,8 +63,7 @@
 				<option value="left">COM_WEBLINKS_LEFT</option>
 				<option value="none">COM_WEBLINKS_NONE</option>
 		</field>
-		<field
-			name="float_second"
+		<field name="float_second"
 			type="list"
 			label="COM_WEBLINKS_FLOAT_LABEL"
 			description="COM_WEBLINKS_FLOAT_DESC">
@@ -83,8 +72,7 @@
 				<option value="none">COM_WEBLINKS_NONE</option>
 		</field>
 
-		<field
-			id="show_tags"
+		<field id="show_tags"
 			name="show_tags"
 			type="radio"
 			class="btn-group"
@@ -99,24 +87,20 @@
 
 	<fieldset name="category"
 		label="JCATEGORY"
-		description="COM_WEBLINKS_CATEGORY_DESC"
-	>
+		description="COM_WEBLINKS_CATEGORY_DESC">
 
-		<field
-			name="category_layout" type="componentlayout"
+		<field name="category_layout" type="componentlayout"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
 			description="JGLOBAL_FIELD_LAYOUT_DESC"
 			menuitems="true"
 			extension="com_weblinks"
-			view="category"
-		/>
+			view="category" />
 
 		<field name="show_category_title" type="radio"
 				class="btn-group"
 				label="JGLOBAL_SHOW_CATEGORY_TITLE"
 				description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
-				default="1"
-			>
+				default="1">
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 		</field>
@@ -144,8 +128,7 @@
 		<field name="maxLevel" type="list"
 				description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
-				default="-1"
-			>
+				default="-1">
 				<option value="0">JNONE</option>
 				<option value="-1">JALL</option>
 				<option value="1">J1</option>
@@ -159,8 +142,7 @@
 				class="btn-group"
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 				description="COM_WEBLINKS_SHOW_EMPTY_CATEGORIES_DESC"
-				default="0"
-			>
+				default="0">
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -169,8 +151,7 @@
 			class="btn-group"
 			default="1"
 			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
-			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
-		>
+			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
@@ -179,8 +160,7 @@
 			class="btn-group"
 			default="1"
 			description="COM_WEBLINKS_FIELD_CONFIG_CAT_SHOWNUMBERS_DESC"
-			label="COM_WEBLINKS_FIELD_CONFIG_CAT_SHOWNUMBERS_LABEL"
-		>
+			label="COM_WEBLINKS_FIELD_CONFIG_CAT_SHOWNUMBERS_LABEL">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
@@ -189,8 +169,7 @@
 			label="COM_WEBLINKS_FIELD_SHOW_CAT_TAGS_LABEL"
 			description="COM_WEBLINKS_FIELD_SHOW_CAT_TAGS_DESC"
 			class="btn-group"
-			default="1"
-		>
+			default="1">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
@@ -199,14 +178,12 @@
 
 	<fieldset name="categories"
 		label="JCATEGORIES"
-		description="COM_WEBLINKS_CATEGORIES_DESC"
-	>
+		description="COM_WEBLINKS_CATEGORIES_DESC">
 			<field name="show_base_description" type="radio"
 				class="btn-group"
 				default="1"
 				label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
-				description="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_DESC"
-			>
+				description="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_DESC">
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 		</field>
@@ -214,8 +191,7 @@
 		<field name="maxLevelcat" type="list"
 				default="-1"
 				description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
-				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
-			>
+				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL">
 				<option value="-1">JALL</option>
 				<option value="1">J1</option>
 				<option value="2">J2</option>
@@ -228,8 +204,7 @@
 				class="btn-group"
 				default="0"
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
-				description="COM_WEBLINKS_SHOW_EMPTY_CATEGORIES_DESC"
-			>
+				description="COM_WEBLINKS_SHOW_EMPTY_CATEGORIES_DESC">
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -238,8 +213,7 @@
 				class="btn-group"
 				default="1"
 				description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
-				label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
-			>
+				label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL">
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
@@ -248,8 +222,7 @@
 				class="btn-group"
 				default="1"
 				description="COM_WEBLINKS_FIELD_CONFIG_CAT_SHOWNUMBERS_DESC"
-				label="COM_WEBLINKS_FIELD_CONFIG_CAT_SHOWNUMBERS_LABEL"
-			>
+				label="COM_WEBLINKS_FIELD_CONFIG_CAT_SHOWNUMBERS_LABEL">
 
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -260,22 +233,18 @@
 
 	<fieldset name="list_layout"
 		label="JGLOBAL_LIST_LAYOUT_OPTIONS"
-		description="COM_WEBLINKS_LIST_LAYOUT_DESC"
-	>
+		description="COM_WEBLINKS_LIST_LAYOUT_DESC">
 
-		<field
-			name="filter_field"
+		<field name="filter_field"
 			type="list"
 			default="1"
 			description="JGLOBAL_FILTER_FIELD_DESC"
-			label="JGLOBAL_FILTER_FIELD_LABEL"
-			>
+			label="JGLOBAL_FILTER_FIELD_LABEL">
 				<option value="hide">JHIDE</option>
 				<option value="1">JSHOW</option>
 		</field>
 
-		<field
-			name="show_pagination_limit"
+		<field name="show_pagination_limit"
 			type="radio" default="1"
 			class="btn-group"
 			label="JGLOBAL_DISPLAY_SELECT_LABEL"
@@ -288,8 +257,7 @@
 			default="1"
 			class="btn-group"
 			description="JGLOBAL_SHOW_HEADINGS_DESC"
-			label="JGLOBAL_SHOW_HEADINGS_LABEL"
-		>
+			label="JGLOBAL_SHOW_HEADINGS_LABEL">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
@@ -298,8 +266,7 @@
 			default="1"
 			class="btn-group"
 			description="COM_WEBLINKS_FIELD_CONFIG_LINKDESCRIPTION_DESC"
-			label="COM_WEBLINKS_FIELD_CONFIG_LINKDESCRIPTION_LABEL"
-		>
+			label="COM_WEBLINKS_FIELD_CONFIG_LINKDESCRIPTION_LABEL">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
@@ -308,8 +275,7 @@
 			class="btn-group"
 			default="1"
 			description="COM_WEBLINKS_FIELD_CONFIG_HITS_DESC"
-			label="JGLOBAL_HITS"
-		>
+			label="JGLOBAL_HITS">
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
@@ -339,11 +305,9 @@
 	<fieldset
 		name="integration"
 		label="JGLOBAL_INTEGRATION_LABEL"
-		description="COM_WEBLINKS_CONFIG_INTEGRATION_SETTINGS_DESC"
-		>
+		description="COM_WEBLINKS_CONFIG_INTEGRATION_SETTINGS_DESC">
 
-		<field
-			name="show_feed_link"
+		<field name="show_feed_link"
 			type="radio"
 			class="btn-group"
 			default="1"
@@ -357,8 +321,7 @@
 
 	<fieldset name="permissions"
 		description="JCONFIG_PERMISSIONS_DESC"
-		label="JCONFIG_PERMISSIONS_LABEL"
-	>
+		label="JCONFIG_PERMISSIONS_LABEL">
 
 		<field name="rules" type="rules"
 			component="com_weblinks"

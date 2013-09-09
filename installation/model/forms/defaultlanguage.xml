@@ -7,8 +7,7 @@
 			class="btn-group"
 			label="INSTL_DEFAULTLANGUAGE_ACTIVATE_MULTILANGUAGE"
 			filter="integer"
-			default="0"
-		>
+			default="0">
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
@@ -19,8 +18,7 @@
 			label="INSTL_DEFAULTLANGUAGE_INSTALL_LOCALISED_CONTENT"
 			filter="integer"
 			showon="activateMultilanguage:1"
-			default="1"
-		>
+			default="1">
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
@@ -31,8 +29,7 @@
 			label="INSTL_DEFAULTLANGUAGE_ACTIVATE_LANGUAGE_CODE_PLUGIN"
 			filter="integer"
 			showon="activateMultilanguage:1"
-			default="0"
-		>
+			default="0">
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>

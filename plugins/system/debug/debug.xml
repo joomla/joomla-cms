@@ -25,15 +25,13 @@
 					description="PLG_DEBUG_FIELD_ALLOWED_GROUPS_DESC"
 					label="PLG_DEBUG_FIELD_ALLOWED_GROUPS_LABEL"
 					multiple="true"
-					size="10"
-				/>
+					size="10" />
 
 				<field name="profile" type="radio"
 					class="btn-group"
 					default="1"
 					description="PLG_DEBUG_FIELD_PROFILING_DESC"
-					label="PLG_DEBUG_FIELD_PROFILING_LABEL"
-				>
+					label="PLG_DEBUG_FIELD_PROFILING_LABEL">
 					<option value="1">JYes</option>
 					<option value="0">JNo</option>
 				</field>
@@ -42,8 +40,7 @@
 					class="btn-group"
 					default="1"
 					description="PLG_DEBUG_FIELD_QUERIES_DESC"
-					label="PLG_DEBUG_FIELD_QUERIES_LABEL"
-				>
+					label="PLG_DEBUG_FIELD_QUERIES_LABEL">
 					<option value="1">JYes</option>
 					<option value="0">JNo</option>
 				</field>
@@ -52,8 +49,7 @@
 					class="btn-group"
 					default="1"
 					description="PLG_DEBUG_FIELD_QUERY_TYPES_DESC"
-					label="PLG_DEBUG_FIELD_QUERY_TYPES_LABEL"
-				>
+					label="PLG_DEBUG_FIELD_QUERY_TYPES_LABEL">
 					<option value="1">JYes</option>
 					<option value="0">JNo</option>
 				</field>
@@ -62,8 +58,7 @@
 					class="btn-group"
 					default="1"
 					description="PLG_DEBUG_FIELD_MEMORY_DESC"
-					label="PLG_DEBUG_FIELD_MEMORY_LABEL"
-				>
+					label="PLG_DEBUG_FIELD_MEMORY_LABEL">
 					<option value="1">JYes</option>
 					<option value="0">JNo</option>
 				</field>
@@ -72,16 +67,14 @@
 					class="btn-group"
 					default="1"
 					description="PLG_DEBUG_FIELD_LOGS_DESC"
-					label="PLG_DEBUG_FIELD_LOGS_LABEL"
-				>
+					label="PLG_DEBUG_FIELD_LOGS_LABEL">
 					<option value="1">JYes</option>
 					<option value="0">JNo</option>
 				</field>
 
 				<field name="log_priorities" type="list" multiple="true" default="all"
 					label="PLG_DEBUG_FIELD_LOG_PRIORITIES_LABEL"
-					description="PLG_DEBUG_FIELD_LOG_PRIORITIES_DESC"
-				>
+					description="PLG_DEBUG_FIELD_LOG_PRIORITIES_DESC">
 					<option value="all">PLG_DEBUG_FIELD_LOG_PRIORITIES_ALL</option>
 					<option value="emergency">PLG_DEBUG_FIELD_LOG_PRIORITIES_EMERGENCY</option>
 					<option value="alert">PLG_DEBUG_FIELD_LOG_PRIORITIES_ALERT</option>
@@ -95,13 +88,11 @@
 
 				<field name="log_categories" type="text" size="60" default=""
 					label="PLG_DEBUG_FIELD_LOG_CATEGORIES_LABEL"
-					description="PLG_DEBUG_FIELD_LOG_CATEGORIES_DESC"
-				/>
+					description="PLG_DEBUG_FIELD_LOG_CATEGORIES_DESC" />
 
 				<field name="log_category_mode" type="hidden" default="0"
 					label="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_LABEL"
-					description="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_DESC"
-				>
+					description="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_DESC">
 					<option value="0">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_INCLUDE</option>
 					<option value="1">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_EXCLUDE</option>
 				</field>
@@ -114,8 +105,7 @@
 					class="btn-group"
 					default="1"
 					description="PLG_DEBUG_FIELD_LANGUAGE_ERRORFILES_DESC"
-					label="PLG_DEBUG_FIELD_LANGUAGE_ERRORFILES_LABEL"
-				>
+					label="PLG_DEBUG_FIELD_LANGUAGE_ERRORFILES_LABEL">
 					<option value="1">JYes</option>
 					<option value="0">JNo</option>
 				</field>
@@ -124,8 +114,7 @@
 					class="btn-group"
 					default="1"
 					description="PLG_DEBUG_FIELD_LANGUAGE_FILES_DESC"
-					label="PLG_DEBUG_FIELD_LANGUAGE_FILES_LABEL"
-				>
+					label="PLG_DEBUG_FIELD_LANGUAGE_FILES_LABEL">
 					<option value="1">JYes</option>
 					<option value="0">JNo</option>
 				</field>
@@ -134,8 +123,7 @@
 					class="btn-group"
 					default="1"
 					description="PLG_DEBUG_FIELD_LANGUAGE_STRING_DESC"
-					label="PLG_DEBUG_FIELD_LANGUAGE_STRING_LABEL"
-				>
+					label="PLG_DEBUG_FIELD_LANGUAGE_STRING_LABEL">
 					<option value="1">JYes</option>
 					<option value="0">JNo</option>
 				</field>
@@ -144,8 +132,7 @@
 					class="btn-group"
 					default="1"
 					description="PLG_DEBUG_FIELD_STRIP_FIRST_DESC"
-					label="PLG_DEBUG_FIELD_STRIP_FIRST_LABEL"
-				>
+					label="PLG_DEBUG_FIELD_STRIP_FIRST_LABEL">
 					<option value="1">JYes</option>
 					<option value="0">JNo</option>
 				</field>
@@ -154,15 +141,13 @@
 					cols="30"
 					description="PLG_DEBUG_FIELD_STRIP_PREFIX_DESC"
 					label="PLG_DEBUG_FIELD_STRIP_PREFIX_LABEL"
-					rows="4"
-				/>
+					rows="4" />
 
 				<field name="strip-suffix" type="textarea"
 					cols="30"
 					description="PLG_DEBUG_FIELD_STRIP_SUFFIX_DESC"
 					label="PLG_DEBUG_FIELD_STRIP_SUFFIX_LABEL"
-					rows="4"
-				/>
+					rows="4" />
 			</fieldset>
 
 			<fieldset name="logging"
@@ -172,8 +157,7 @@
 					class="btn-group"
 					default="0"
 					description="PLG_DEBUG_FIELD_LOG_DEPRECATED_DESC"
-					label="PLG_DEBUG_FIELD_LOG_DEPRECATED_LABEL"
-				>
+					label="PLG_DEBUG_FIELD_LOG_DEPRECATED_LABEL">
 					<option value="1">JYes</option>
 					<option value="0">JNo</option>
 				</field>

@@ -2,8 +2,7 @@
 <metadata>
 	<layout title="COM_FINDER_MENU_SEARCH_VIEW_DEFAULT_TITLE">
 		<help
-			key = "JHELP_MENUS_MENU_ITEM_FINDER_SEARCH"
-		/>
+			key = "JHELP_MENUS_MENU_ITEM_FINDER_SEARCH" />
 		<message>
 			<![CDATA[COM_FINDER_MENU_SEARCH_VIEW_DEFAULT_TEXT]]>
 		</message>
@@ -15,14 +14,12 @@
 				type="text"
 				label="COM_FINDER_SEARCH_SEARCH_QUERY_LABEL"
 				description="COM_FINDER_SEARCH_SEARCH_QUERY_DESC"
-				size="30"
-			/>
+				size="30" />
 			<field name="f"
 				type="searchfilter"
 				default=""
 				label="COM_FINDER_SEARCH_FILTER_SEARCH_LABEL"
-				description="COM_FINDER_SEARCH_FILTER_SEARCH_DESC"
-			/>
+				description="COM_FINDER_SEARCH_FILTER_SEARCH_DESC" />
 		</fieldset>
 	</fields>
 	<fields name="params" addfieldpath="/administrator/components/com_finder/models/fields">
@@ -74,8 +71,7 @@
 				filter="integer"
 				label="COM_FINDER_CONFIG_DESCRIPTION_LENGTH_LABEL"
 				description="COM_FINDER_CONFIG_DESCRIPTION_LENGTH_DESC"
-				size="5"
-			/>
+				size="5" />
 			<field name="show_url"
 				type="list"
 				default=""

@@ -24,8 +24,7 @@
 					description="PLG_P3P_HEADER_DESCRIPTION"
 					label="PLG_P3P_HEADER_LABEL"
 					default="NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM"
-					size="37"
-				/>
+					size="37" />
 			</fieldset>
 		</fields>
 	</config>

@@ -18,7 +18,7 @@
 		<language tag="en-GB">en-GB.plg_twofactorauth_totp.ini</language>
 		<language tag="en-GB">en-GB.plg_twofactorauth_totp.sys.ini</language>
 	</languages>
-	
+
 	<config>
 		<fields name="params">
 
@@ -27,8 +27,7 @@
 					default="3"
 					class="btn-group"
 					description="PLG_TWOFACTORAUTH_TOTP_SECTION_DESC"
-					label="PLG_TWOFACTORAUTH_TOTP_SECTION_LABEL"
-				>
+					label="PLG_TWOFACTORAUTH_TOTP_SECTION_LABEL">
 					<option value="1">PLG_TWOFACTORAUTH_TOTP_SECTION_SITE</option>
 					<option value="2">PLG_TWOFACTORAUTH_TOTP_SECTION_ADMIN</option>
 					<option value="3">PLG_TWOFACTORAUTH_TOTP_SECTION_BOTH</option>
