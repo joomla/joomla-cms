@@ -8,7 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-jimport('joomla.filesystem.file');
 
 /**
  * The HTML Menus Menu Item View.

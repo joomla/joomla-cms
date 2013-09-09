@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.path');
-jimport('joomla.filesystem.file');
 require_once JPATH_COMPONENT . '/helpers/menus.php';
 
 /**
@@ -931,12 +930,11 @@ class MenusModelItem extends JModelAdmin
 				$formFile = false;
 
 				// Check for the layout XML file. Use standard xml file if it exists.
-				$path = $base . '/view/' . $view . '/tmpl/' . $layout . '.xml';
-
-				if (!JFile::exists($path))
-				{
-					$path = $base . '/views/' . $view . '/tmpl/' . $layout . '.xml';
-				}
+				$tplFolders = array(
+						$base . '/views/' . $view . '/tmpl',
+						$base . '/view/' . $view . '/tmpl'
+				);
+				$path = JPath::find($tplFolders, $layout . '.xml');
 
 				if (is_file($path))
 				{
@@ -959,13 +957,18 @@ class MenusModelItem extends JModelAdmin
 			//Now check for a view manifest file
 			if (!$formFile)
 			{
-				if (isset($view) && is_file($path = JPath::clean($base . '/view/' . $view . '/metadata.xml')))
+				if (isset($view))
 				{
-					$formFile = $path;
-				}
-				elseif (isset($view) && is_file($path = JPath::clean($base . '/views/' . $view . '/metadata.xml')))
-				{
-					$formFile = $path;
+					$metadataFolders = array(
+							$base . '/view/' . $view,
+							$base . '/views/' . $view
+					);
+					$metaPath = JPath::find($metadataFiles, 'metadata.xml');
+
+					if (is_file($path = JPath::clean($metaPath)))
+					{
+						$formFile = $path;
+					}
 				}
 				else
 				{
@@ -1053,6 +1056,7 @@ class MenusModelItem extends JModelAdmin
 		// Association menu items
 		$app = JFactory::getApplication();
 		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+
 		if ($assoc)
 		{
 			$languages = JLanguageHelper::getLanguages('lang_code');

@@ -85,14 +85,15 @@ class MenusViewItems extends JViewLegacy
 						$vars	= null;
 
 						parse_str($item->link, $vars);
+
 						if (isset($vars['view']))
 						{
 							// Attempt to load the view xml file.
-							$file = JPATH_SITE . '/components/' . $item->componentname . '/view/' . $vars['view'] . '/metadata.xml';
+							$file = JPATH_SITE . '/components/' . $item->componentname . '/views/' . $vars['view'] . '/metadata.xml';
 
 							if (!is_file($file))
 							{
-								$file = JPATH_SITE . '/components/' . $item->componentname . '/views/' . $vars['view'] . '/metadata.xml';
+								$file = JPATH_SITE . '/components/' . $item->componentname . '/view/' . $vars['view'] . '/metadata.xml';
 							}
 
 							if (is_file($file) && $xml = simplexml_load_file($file))
@@ -110,7 +111,7 @@ class MenusViewItems extends JViewLegacy
 										{
 											// Use template folder for layout file
 											$temp = explode(':', $vars['layout']);
-											$file = JPATH_SITE.'/templates/'.$temp[0].'/html/'.$item->componentname.'/'.$vars['view'].'/'.$temp[1].'.xml';
+											$file = JPATH_SITE . '/templates/' . $temp[0] . '/html/' . $item->componentname . '/' . $vars['view'] . '/' . $temp[1] . '.xml';
 											// Load template language file
 											$lang->load('tpl_'.$temp[0].'.sys', JPATH_SITE, null, false, false)
 											||	$lang->load('tpl_'.$temp[0].'.sys', JPATH_SITE.'/templates/'.$temp[0], null, false, false)
@@ -121,14 +122,15 @@ class MenusViewItems extends JViewLegacy
 										else
 										{
 											// Get XML file from component folder for standard layouts
-											$file = JPATH_SITE.'/components/'.$item->componentname.'/view/'.$vars['view'].'/tmpl/'.$vars['layout'].'.xml';
+											$file = JPATH_SITE . '/components/' . $item->componentname . '/views/' . $vars['view'] . '/tmpl/' . $vars['layout'] . '.xml';
 
-											if (!JFile::exists($file))
+											if (!file_exists($file))
 											{
-												$file = JPATH_SITE.'/components/'.$item->componentname.'/view/'.$vars['view'].'/tmpl/'.$vars['layout'].'.xml';
+												$file = JPATH_SITE . '/components/' . $item->componentname . '/view/' . $vars['view'] . '/tmpl/' . $vars['layout'] . '.xml';
 											}
 
 										}
+
 										if (is_file($file) && $xml = simplexml_load_file($file))
 										{
 											// Look for the first view node off of the root node.

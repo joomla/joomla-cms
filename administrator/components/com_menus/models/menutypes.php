@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.folder');
-
+jimport('joomla.filesystem.path');
 /**
  * Menu Item Types Model for Menus.
  *
@@ -215,11 +215,15 @@ class MenusModelMenutypes extends JModelLegacy
 		$options = array();
 
 		// Get the views for this component.
-		$path = JPATH_SITE . '/components/' . $component . '/view';
-
-		if (!is_dir(JPath::clean($path)))
+		if (is_dir(JPATH_SITE . '/components/' . $component))
 		{
-			$path = JPATH_SITE . '/components/' . $component . '/views';
+			$folders = JFolder::folders(JPATH_SITE . '/components/' . $component, 'view', false, true);
+		}
+		$path = '';
+
+		if (!empty($folders[0]))
+		{
+			$path = $folders[0];
 		}
 
 		if (is_dir($path))
@@ -314,12 +318,17 @@ class MenusModelMenutypes extends JModelLegacy
 		$layouts = array();
 		$layoutNames = array();
 		$lang = JFactory::getLanguage();
+		$path = '';
 
-		// Get the layouts from the view folder.
-		$path = JPATH_SITE . '/components/' . $component . '/view/' . $view . '/tmpl';
-		if (!is_dir(JPath::clean($path)))
+		// Get the views for this component.
+		if (is_dir(JPATH_SITE . '/components/' . $component))
 		{
-			$path = JPATH_SITE . '/components/' . $component . '/views/' . $view . '/tmpl';
+			$folders = JFolder::folders(JPATH_SITE . '/components/' . $component, 'view', false, true);
+		}
+
+		if (!empty($folders[0]))
+		{
+			$path = $folders[0] . '/' . $view . '/tmpl';
 		}
 
 		if (is_dir($path))
@@ -331,7 +340,7 @@ class MenusModelMenutypes extends JModelLegacy
 			return $options;
 		}
 
-		// build list of standard layout names
+		// Build list of standard layout names
 		foreach ($layouts as $layout)
 		{
 			// Ignore private layouts.
@@ -342,11 +351,13 @@ class MenusModelMenutypes extends JModelLegacy
 			}
 		}
 
-		// get the template layouts
+		// Get the template layouts
 		// TODO: This should only search one template -- the current template for this item (default of specified)
 		$folders = JFolder::folders(JPATH_SITE . '/templates', '', false, true);
+
 		// Array to hold association between template file names and templates
 		$templateName = array();
+
 		foreach ($folders as $folder)
 		{
 			if (is_dir($folder . '/html/' . $component . '/' . $view))
