@@ -23,7 +23,7 @@ class MenusModelMenutypes extends JModelLegacy
 	/**
 	 * A reverse lookup of the base link URL to Title
 	 *
-	 * @var	array
+	 * @var  array
 	 */
 	protected $rlu = array();
 
@@ -81,10 +81,10 @@ class MenusModelMenutypes extends JModelLegacy
 
 						if (isset($option->request['option']))
 						{
-								$lang->load($option->request['option'].'.sys', JPATH_ADMINISTRATOR, null, false, false)
-							||	$lang->load($option->request['option'].'.sys', JPATH_ADMINISTRATOR.'/components/'.$option->request['option'], null, false, false)
-							||	$lang->load($option->request['option'].'.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-							||	$lang->load($option->request['option'].'.sys', JPATH_ADMINISTRATOR.'/components/'.$option->request['option'], $lang->getDefault(), false, false);
+								$lang->load($option->request['option'] . '.sys', JPATH_ADMINISTRATOR, null, false, false)
+							||	$lang->load($option->request['option'] . '.sys', JPATH_ADMINISTRATOR. ' /components/'.$option->request['option'], null, false, false)
+							||	$lang->load($option->request['option'] . '.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
+							||	$lang->load($option->request['option'] . '.sys', JPATH_ADMINISTRATOR . '/components/'.$option->request['option'], $lang->getDefault(), false, false);
 						}
 					}
 				}
@@ -115,7 +115,7 @@ class MenusModelMenutypes extends JModelLegacy
 	{
 		$options = array();
 
-		$mainXML = JPATH_SITE.'/components/'.$component.'/metadata.xml';
+		$mainXML = JPATH_SITE . '/components/' . $component . '/metadata.xml';
 
 		if (is_file($mainXML))
 		{
@@ -241,7 +241,7 @@ class MenusModelMenutypes extends JModelLegacy
 			if (strpos($view, '_') !== 0)
 			{
 				// Determine if a metadata file exists for the view.
-				$file = $path.'/'.$view.'/metadata.xml';
+				$file = $path . '/' . $view . '/metadata.xml';
 
 				if (is_file($file))
 				{
@@ -295,15 +295,18 @@ class MenusModelMenutypes extends JModelLegacy
 									}
 								}
 							}
-							else {
+							else
+							{
 								$options = array_merge($options, (array) $this->getTypeOptionsFromLayouts($component, $view));
 							}
 						}
+
 						unset($xml);
 					}
 
 				}
-				else {
+				else
+				{
 					$options = array_merge($options, (array) $this->getTypeOptionsFromLayouts($component, $view));
 				}
 			}
@@ -363,10 +366,10 @@ class MenusModelMenutypes extends JModelLegacy
 			if (is_dir($folder . '/html/' . $component . '/' . $view))
 			{
 				$template = basename($folder);
-				$lang->load('tpl_'.$template.'.sys', JPATH_SITE, null, false, false)
-				||	$lang->load('tpl_'.$template.'.sys', JPATH_SITE.'/templates/'.$template, null, false, false)
-				||	$lang->load('tpl_'.$template.'.sys', JPATH_SITE, $lang->getDefault(), false, false)
-				||	$lang->load('tpl_'.$template.'.sys', JPATH_SITE.'/templates/'.$template, $lang->getDefault(), false, false);
+				$lang->load('tpl_' . $template . '.sys', JPATH_SITE, null, false, false)
+				||	$lang->load('tpl_' . $template . '.sys', JPATH_SITE . '/templates/' . $template, null, false, false)
+				||	$lang->load('tpl_' . $template . '.sys', JPATH_SITE, $lang->getDefault(), false, false)
+				||	$lang->load('tpl_' . $template . '.sys', JPATH_SITE . '/templates/' . $template, $lang->getDefault(), false, false);
 
 				$templateLayouts = JFolder::files($folder . '/html/' . $component . '/' . $view, '.xml$', false, true);
 
@@ -379,6 +382,7 @@ class MenusModelMenutypes extends JModelLegacy
 					if (array_search($templateLayoutName, $layoutNames) === false)
 					{
 						$layouts[] = $layout;
+
 						// Set template name array so we can get the right template for the layout
 						$templateName[$layout] = basename($folder);
 					}
