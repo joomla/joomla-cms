@@ -75,16 +75,8 @@ class JHelperContenthistory
 	 */
 	public function getDataObject(JTable $table)
 	{
-		$fields = $table->getFields();
-		$dataObject = new stdClass;
-
-		foreach ($fields as $field)
-		{
-			$fieldName = $field->Field;
-			$dataObject->$fieldName = $table->get($fieldName);
-		}
-
-		return $dataObject;
+		$contentHelper = new JHelperContent;
+		return $content->dataObject;
 	}
 
 	/**

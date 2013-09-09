@@ -682,16 +682,9 @@ class JHelperTags
 	 */
 	public function getTypeId($typeAlias)
 	{
-		// Initialize some variables.
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('type_id'))
-			->from($db->quoteName('#__content_types'))
-			->where($db->quoteName('type_alias') . ' = ' . $db->quote($typeAlias));
-		$db->setQuery($query);
-		$this->type_id = $db->loadResult();
+		$contentType = new JTableContenttype();
 
-		return $this->type_id;
+		return $contentType->getTypeId();
 	}
 
 	/**

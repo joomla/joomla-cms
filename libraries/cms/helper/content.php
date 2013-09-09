@@ -122,7 +122,7 @@ class JHelperContent
 	 *
 	 * @since   3.1
 	 */
-	public function getRowData($table)
+	public function getRowData(JTable $table)
 	{
 		$fields = $table->getFields();
 		$data = array();
@@ -135,5 +135,28 @@ class JHelperContent
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Method to get an object containing all of the table columns and values.
+	 *
+	 * @param   JTable  $table  JTable object.
+	 *
+	 * @return  object Contains all of the columns and values.
+	 *
+	 * @since   3.2
+	 */
+	public function getDataObject(JTable $table)
+	{
+		$fields = $table->getFields();
+		$dataObject = new stdClass;
+
+		foreach ($fields as $field)
+		{
+			$fieldName = $field->Field;
+			$dataObject->$fieldName = $table->get($fieldName);
+		}
+
+		return $dataObject;
 	}
 }
