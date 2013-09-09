@@ -881,7 +881,7 @@ class UsersModelUser extends JModelAdmin
 
         $db = $this->getDbo();
         $result = $db->updateObject('#__users', $updates, 'id');
-        
+
 		return $result;
 	}
 
@@ -964,5 +964,178 @@ class UsersModelUser extends JModelAdmin
 		$this->setOtpConfig($user_id, $otpConfig);
 
 		return $oteps;
+	}
+
+	/**
+	 * Checks if the provided secret key is a valid two factor authentication
+	 * secret key. If not, it will check it against the list of one time
+	 * emergency passwords (OTEPs). If it's a valid OTEP it will also remove it
+	 * from the user's list of OTEPs.
+	 *
+	 * This method will return true in the following conditions:
+	 * - The two factor authentication is not enabled
+	 * - You have provided a valid secret key for
+	 * - You have provided a valid OTEP
+	 *
+	 * You can define the following options in the $options array:
+	 * otp_config		The OTP (one time password, a.k.a. two factor auth)
+	 *				    configuration object. If not set we'll load it automatically.
+	 * warn_if_not_req	Issue a warning if you are checking a secret key against
+	 *					a user account which doesn't have any two factor
+	 *					authentication method enabled.
+	 * warn_irq_msg		The string to use for the warn_if_not_req warning
+	 *
+	 * @param   integer  $user_id    The user's numeric ID
+	 * @param   string   $secretkey  The secret key you want to check
+	 * @param   array    $options    Options; see above
+	 *
+	 * @return  boolean  True if it's a valid secret key for this user.
+	 */
+	public function isValidSecretKey($user_id, $secretkey, $options = array())
+	{
+		// Load the user's OTP (one time password, a.k.a. two factor auth) configuration
+		if (!array_key_exists('otp_config', $options))
+		{
+			$otpConfig = $this->getOtpConfig($user_id);
+			$options['otp_config'] = $otpConfig;
+		}
+		else
+		{
+			$otpConfig = $options['otp_config'];
+		}
+
+		// Check if the user has enabled two factor authentication
+		if (empty($otpConfig->method) || ($otpConfig->method == 'none'))
+		{
+			$warn = true;
+			$warnMessage = JText::_('PLG_AUTH_JOOMLA_ERR_SECRET_CODE_WITHOUT_TFA');
+
+			if (array_key_exists('warn_if_not_req', $options))
+			{
+				$warn = $options['warn_if_not_req'];
+			}
+
+			if (array_key_exists('warn_irq_msg', $options))
+			{
+				$warnMessage = $options['warn_irq_msg'];
+			}
+
+			// Warn the user if he's using a secret code but he has not
+			// enabed two factor auth in his account.
+			if (!empty($secretkey) && $warn)
+			{
+				try
+				{
+					$app = JFactory::getApplication();
+
+					$this->loadLanguage();
+
+					$app->enqueueMessage($warnMessage, 'warning');
+				}
+				catch (Exception $exc)
+				{
+					// This happens when we are in CLI mode. In this case
+					// no warning is issued
+					return true;
+				}
+			}
+
+			return true;
+		}
+
+		$credentials = array(
+			'secretkey'		=> $secretkey,
+		);
+
+		// Load the Joomla! RAD layer
+		if (!defined('FOF_INCLUDED'))
+		{
+			include_once JPATH_LIBRARIES . '/fof/include.php';
+		}
+
+		// Try to validate the OTP
+		FOFPlatform::getInstance()->importPlugin('twofactorauth');
+
+		$otpAuthReplies = FOFPlatform::getInstance()->runPlugins('onUserTwofactorAuthenticate', array($credentials, $options));
+
+		$check = false;
+
+		// This looks like noob code but DO NOT TOUCH IT and do not convert
+		// to in_array(). During testing in_array() inexplicably returned
+		// null when the OTEP begins with a zero! o_O
+		if (!empty($otpAuthReplies))
+		{
+			foreach ($otpAuthReplies as $authReply)
+			{
+				$check = $check || $authReply;
+			}
+		}
+
+		// Fall back to one time emergency passwords
+		if (!$check)
+		{
+			$check = $this->isValidOtep($user_id, $secretkey, $otpConfig);
+		}
+
+		return $check;
+	}
+
+	/**
+	 * Checks if the supplied string is a valid one time emergency password
+	 * (OTEP) for this user. If it is it will be automatically removed from the
+	 * user's list of OTEPs.
+	 *
+	 * @param   integer  $user_id    The user ID against which you are checking
+	 * @param   string   $otep       The string you want to test for validity
+	 * @param   object   $otpConfig  Optional; the two factor authentication configuration (automatically fetched if not set)
+	 *
+	 * @return  boolean  True if it's a valid OTEP or if two factor auth is not
+	 *                   enabled in this user's account.
+	 */
+	public function isValidOtep($user_id, $otep, $otpConfig = null)
+	{
+		if (is_null($otpConfig))
+		{
+			$otpConfig = $this->getOtpConfig($user_id);
+		}
+
+		// Did the user use an OTEP instead?
+		if (empty($otpConfig->otep))
+		{
+			if (empty($otpConfig->method) || ($otpConfig->method == 'none'))
+			{
+				// Two factor authentication is not enabled on this account.
+				// Any string is assumed to be a valid OTEP.
+				return true;
+			}
+			else
+			{
+				// Two factor authentication enabled and no OTEPs defined. The
+				// user has used them all up. Therefore anything he enters is
+				// an invalid OTEP.
+				return false;
+			}
+		}
+
+		// Clean up the OTEP (remove dashes, spaces and other funny stuff
+		// our beloved users may have unwittingly stuffed in it)
+		$otep = filter_var($otep, FILTER_SANITIZE_NUMBER_INT);
+		$otep = str_replace('-', '', $otep);
+
+		$check = false;
+
+		// Did we find a valid OTEP?
+		if (in_array($otep, $otpConfig->otep))
+		{
+			// Remove the OTEP from the array
+			$otpConfig->otep = array_diff($otpConfig->otep, array($otep));
+
+			$this->setOtpConfig($user_id, $otpConfig);
+
+			// Return true; the OTEP was a valid one
+			$check = true;
+		}
+
+		return $check;
 	}
 }
