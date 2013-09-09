@@ -134,7 +134,8 @@
 
 		<field name="ordering" type="ordering"
 			description="JFIELD_ORDERING_DESC"
-			label="JFIELD_ORDERING_LABEL" />
+			label="JFIELD_ORDERING_LABEL"
+            table="#__contact_details" />
 
 		<field name="metakey" type="textarea"
 			cols="30"

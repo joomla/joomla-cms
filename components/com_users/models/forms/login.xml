@@ -18,6 +18,13 @@
 			filter="raw"
 			label="JGLOBAL_PASSWORD"
 			size="25" />
+		
+		<field name="secretkey" type="text"
+			class=""
+			required="false"
+			filter="int"
+			label="JGLOBAL_SECRETKEY"			
+			size="25" />
 
 	</fieldset>
 	<fieldset>

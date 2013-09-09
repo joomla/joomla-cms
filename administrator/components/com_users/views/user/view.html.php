@@ -38,6 +38,8 @@ class UsersViewUser extends JViewLegacy
 		$this->grouplist	= $this->get('Groups');
 		$this->groups		= $this->get('AssignedGroups');
 		$this->state		= $this->get('State');
+		$this->tfaform		= $this->get('Twofactorform');
+		$this->otpConfig	= $this->get('otpConfig');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

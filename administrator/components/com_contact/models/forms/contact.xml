@@ -208,7 +208,8 @@
 			type="ordering"
 			class="inputbox"
 			label="JFIELD_ORDERING_LABEL"
-			description="JFIELD_ORDERING_DESC" />
+			description="JFIELD_ORDERING_DESC"
+            table="#__contact_details" />
 
 		<field name="publish_up" type="calendar"
 			label="COM_CONTACT_FIELD_PUBLISH_UP_LABEL" description="COM_CONTACT_FIELD_PUBLISH_UP_DESC"

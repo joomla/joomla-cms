@@ -7046,3 +7046,7 @@ div.current dd.tabs {
 #helpsite-refresh {
 	vertical-align: top;
 }
+#pop-print {
+	float: right;
+	margin: 10px;
+}
