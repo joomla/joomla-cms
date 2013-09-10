@@ -37,22 +37,21 @@ class JGooglecloudstorage
 	protected $service;
 
 	/**
-	 * @var    JGooglecloudstorageBucket  Googlecloudstorage API object for Buckets.
+	 * @var    JGooglecloudstorageBuckets  Googlecloudstorage API object for Buckets.
 	 * @since  ??.?
 	 */
-	protected $bucket;
+	protected $buckets;
 
 	/**
-	 * @var    JGooglecloudstorageObject  Googlecloudstorage API object for Objects.
+	 * @var    JGooglecloudstorageObjects  Googlecloudstorage API object for Objects.
 	 * @since  ??.?
 	 */
-	protected $object;
+	protected $objects;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry      $options  Googlecloudstorage options object. Should include
-	 *                                    api.accessKeyId and api.secretAccessKey
+	 * @param   JRegistry                $options  Googlecloudstorage options object.
 	 * @param   JGooglecloudstorageHttp  $client   The HTTP client object.
 	 *
 	 * @since   ??.?
@@ -63,7 +62,7 @@ class JGooglecloudstorage
 		$this->client  = isset($client) ? $client : new JGooglecloudstorageHttp($this->options);
 
 		// Setup the default API url if not already set.
-		$this->options->def('api.url', 's3.amazonaws.com');
+		$this->options->def('api.url', 'storage.googleapis.com');
 	}
 
 	/**
