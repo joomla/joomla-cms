@@ -31,7 +31,9 @@ class InstallerModelInstall extends JModelLegacy
 	/**
 	 * @var string URL for the Joomla Apps
 	 */
-	public $appsBaseUrl = 'https://appscdn.joomla.org/webapps/';
+//	public $appsBaseUrl = 'https://appscdn.joomla.org/webapps/';
+//	public $appsBaseUrl = 'http://appscdn.extensions.joomla.org/staging/';
+	public $appsBaseUrl = 'http://localhost/joomla-cms-apps/';
 
 	/**
 	 * Model context string.

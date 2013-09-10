@@ -47,7 +47,9 @@ $ver = new JVersion;
 						for (var i = 0; i < Joomla.apps.cssfiles.length; i++) {
 							jQuery('<link rel="stylesheet" type="text/css" href="<?php echo htmlspecialchars($this->appsBaseUrl); ?>'+Joomla.apps.cssfiles[i]+'" />').appendTo("head");
 						}
-						jQuery('<link rel="stylesheet" type="text/css" href="'+Joomla.apps.fonturl+'" />').appendTo("head");
+						if (Joomla.apps.fonturl) {
+							jQuery('<link rel="stylesheet" type="text/css" href="'+Joomla.apps.fonturl+'" />').appendTo("head");
+						}
 						for (var i = 0; i < Joomla.apps.jsfiles.length; i++) {
 							jQuery('<script type="text/javascript" src="<?php echo htmlspecialchars($this->appsBaseUrl); ?>'+Joomla.apps.jsfiles[i]+'" />').appendTo("head");
 						}
