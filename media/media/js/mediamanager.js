@@ -46,11 +46,8 @@
         },
 
         submit: function (task, operation) {
-            alert(task);
             form = window.frames['folderframe'].document.id('mediamanager-form');
-            alert('inform');
             form.controller.value = task;
-            alert(task);
             form.renameValue.value = this.renameInput.value;
             form.operation.value = operation;
             if (document.id('username')) {
