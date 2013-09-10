@@ -48,17 +48,17 @@ class MediaControllerEdit extends JControllerBase
 		{
 			case 'edit':
 				// Check if the image is available
-				$info = $model->isCheckedOut();
+				$info = $model->isCheckedOut($input->get('editing', '', 'path'));
 
 				if ($info)
 				{
-					JError::raiseWarning(100, JText::_('COM_MEDIA_IMAGE_IS_CHECKED_OUT. YOU ARE NOT ABLE TO EDIT IT NOW'));
+					JError::raiseWarning(100, JText::_('COM_MEDIA_IMAGE_IS_CHECKED_OUT'));
 					$path = pathinfo($input->get('editing', '', 'path'));
 					$redirect = 'index.php?option=com_media&folder=' . $path['dirname'];
 					$app->redirect($redirect, $message);
 				}
 
-				$model->checkOut($input->get('editing', '', 'STRING'));
+				$model->checkOut($input->get('editing', '', 'path'));
 				$redirect = 'index.php?option=com_media&view=editor&editing=' . $input->get('editing', '', 'STRING');
 				$app->redirect($redirect, $message);
 				break;

@@ -241,4 +241,20 @@ class MediaModelInformation extends JModelDatabase
 		$path = trim($path, "\\");
 		return $path;
 	}
+	/**
+	 * Check if the item is checked out
+	 *
+	 * @since 3.2
+	 */
+	public function isCheckedOut($path)
+	{
+		$path = $this->fixPath($path);
+		$user = JFactory::getUser();
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_media/tables');
+		$row =& JTable::getInstance('media', 'mediaTable');
+		$id = $this->getItem()->content_id;
+		$row->load($id);
+
+		return $row->isCheckedOut($user->id);
+	}
 }

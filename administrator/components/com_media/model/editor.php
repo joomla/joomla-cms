@@ -28,7 +28,6 @@ class MediaModelEditor extends JModelDatabase
 	 *
 	 * @return $row
 	 */
-
 	public function getImageInfo()
 {
 	$input = JFactory::getApplication()->input;
@@ -58,13 +57,14 @@ class MediaModelEditor extends JModelDatabase
 	 *
 	 * @since 3.2
 	 */
-	public function checkIn($path, $id = 0)
+	public function checkIn($path)
 	{
 		$path = $this->fixPath($path);
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_media/tables');
 		$row =& JTable::getInstance('media', 'mediaTable');
+		$id = $this->getImageInfo()->content_id;
 
-		return $row->checkin($path);
+		return $row->checkin($id);
 	}
 
 	/**
@@ -82,7 +82,8 @@ class MediaModelEditor extends JModelDatabase
 		{
 			if ($this->isImage($path))
 			{
-				$this->checkIn($folder . '/' . $path, $id);
+				$input->set('editing', $path);
+				$this->checkIn($folder . '/' . $path);
 			}
 		}
 	}
@@ -110,10 +111,13 @@ class MediaModelEditor extends JModelDatabase
 	{
 		$path = $this->fixPath($path);
 		$user = JFactory::getUser();
+		$input = JFactory::getApplication()->input;
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_media/tables');
 		$row =& JTable::getInstance('media', 'mediaTable');
+		$input->set('editing', $path);
+		$id = $this->getImageInfo()->content_id;
 
-		return $row->checkout($user->id, $path);
+		return $row->checkout($user->id, $id);
 	}
 
 	/**
@@ -131,6 +135,7 @@ class MediaModelEditor extends JModelDatabase
 		{
 			if ($this->isImage($path))
 			{
+				$input->set('editing', $path);
 				$this->checkOut($folder . '/' . $path, $id);
 			}
 		}
@@ -212,12 +217,15 @@ class MediaModelEditor extends JModelDatabase
 	 *
 	 * @since 3.2
 	 */
-	public function isCheckedOut($path = null)
+	public function isCheckedOut($path)
 	{
 		$path = $this->fixPath($path);
+		$user = JFactory::getUser();
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_media/tables');
 		$row =& JTable::getInstance('media', 'mediaTable');
+		$id = $this->getImageInfo()->content_id;
+		$row->load($id);
 
-		return $row->isCheckedOut($path);
+		return $row->isCheckedOut($user->id);
 	}
 }

@@ -251,4 +251,49 @@ class MediaModelSync extends JModelDatabase
 
 		return -($lo + 1);
 	}
+
+	/**
+	 * Check if the item is checked out
+	 *
+	 * @since 3.2
+	 */
+	public function isCheckedOut($path)
+	{
+		$path = $this->fixPath($path);
+		$user = JFactory::getUser();
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_media/tables');
+		$row =& JTable::getInstance('media', 'mediaTable');
+		$id = $this->getImageInfo()->content_id;
+		$row->load($id);
+
+		return $row->isCheckedOut($user->id);
+	}
+
+	/**
+	 * Get Image Information
+	 *@since 3.2
+	 *
+	 * @return $row
+	 */
+	public function getImageInfo()
+	{
+		$input = JFactory::getApplication()->input;
+		$path = $input->get('editing', '', 'STRING');
+		$path = str_replace('/', '\\', $path);
+		$db = $this->db;
+
+		$query = $this->db->getQuery(true);
+		$columns = array('content_id', 'type_alias', 'title', 'alias', 'body', 'checked_out_time', 'params',
+			'metadata', 'created_user_id', 'created_by_alias', 'created_time', 'modified_time',
+			'language', 'publish_up', 'publish_down', 'content_item_id', 'asset_id', 'images', 'urls',
+			'metakey', 'metadesc', 'catid', 'xreference', 'type_id');
+		$query->select($columns)
+			->from("#__ucm_media")
+			->where("urls = " . $db->quote($path));
+		$db->setQuery($query);
+		$result = $db->loadObjectList();
+		$row = empty($result) ? array() : $result[0];
+
+		return $row;
+	}
 }
