@@ -31,7 +31,7 @@ class InstallerModelInstall extends JModelLegacy
 	/**
 	 * @var string URL for the Joomla Apps
 	 */
-	public $appsBaseUrl = 'https://appscdn.joomla.org/webapps/';
+	public $appsBaseUrl = 'https://apps-joomlapoliscom.netdna-ssl.com/webapps/';	// This is a temporary URL while Rochen sets up the final CDN SSL url.
 
 	/**
 	 * Model context string.
