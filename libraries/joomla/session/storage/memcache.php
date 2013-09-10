@@ -38,7 +38,7 @@ class JSessionStorageMemcache extends JSessionStorage
 
 		// This will be an array of loveliness
 		// @todo: multiple servers
-		$this->_servers = array(
+		$this->_memcache = array(
 			'host' => $config->get('memcache_server_host', 'localhost'),
 			'port' => $config->get('memcache_server_port', 11211)
 		);
@@ -55,7 +55,7 @@ class JSessionStorageMemcache extends JSessionStorage
 	 */
 	public function register()
 	{
-		ini_set('session.save_path', $this->_servers['host'] . ':' . $this->_servers['port']);
+		ini_set('session.save_path', $this->_memcache['host'] . ':' . $this->_memcache['port']);
 		ini_set('session.save_handler', 'memcache');
 	}
 
