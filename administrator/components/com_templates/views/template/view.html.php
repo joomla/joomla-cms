@@ -57,6 +57,9 @@ class TemplatesViewTemplate extends JViewLegacy
     // font information
     protected $font;
 
+    // Hathor Template check
+    protected $hathor;
+
 	/**
 	 * Display the view
 	 */
@@ -71,6 +74,7 @@ class TemplatesViewTemplate extends JViewLegacy
 		$this->state	= $this->get('State');
 		$this->template	= $this->get('Template');
 		$this->preview	= $this->get('Preview');
+		$this->hathor	= $this->get('Hathor');
 
         if(in_array($ext, array('css','js','php','xml','ini','less')))
         {
@@ -152,14 +156,17 @@ protected function addToolbar()
 
 		
 		// Add a copy button
-		if ($user->authorise('core.create', 'com_templates'))
-		{
-			$title = JText::_('JLIB_HTML_BATCH_COPY');
-			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn btn-small\">
-			<i class=\"icon-copy\" title=\"$title\"></i>
-			$title</button>";
-			$bar->appendButton('Custom', $dhtml, 'upload');
-		}
+        if ($this->hathor->home == 0)
+        {
+            if ($user->authorise('core.create', 'com_templates'))
+            {
+                $title = JText::_('JLIB_HTML_BATCH_COPY');
+                $dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn btn-small\">
+                <i class=\"icon-copy\" title=\"$title\"></i>
+                $title</button>";
+                $bar->appendButton('Custom', $dhtml, 'upload');
+            }
+        }
 
         //Add a Template preview button
         if ($this->preview->client_id == 0)
@@ -193,13 +200,16 @@ protected function addToolbar()
 		}
 
         //Add a Rename file Button
-        if ($user->authorise('core.create', 'com_templates'))
+        if ($this->hathor->home == 0)
         {
-            $title = JText::_('COM_TEMPLATES_BUTTON_RENAME');
-            $dhtml = "<button data-toggle=\"modal\" data-target=\"#renameModal\" class=\"btn btn-small\">
-			<i class=\"icon-refresh\" title=\"$title\"></i>
-			$title</button>";
-            $bar->appendButton('Custom', $dhtml, 'upload');
+            if ($user->authorise('core.create', 'com_templates'))
+            {
+                $title = JText::_('COM_TEMPLATES_BUTTON_RENAME');
+                $dhtml = "<button data-toggle=\"modal\" data-target=\"#renameModal\" class=\"btn btn-small\">
+                <i class=\"icon-refresh\" title=\"$title\"></i>
+                $title</button>";
+                $bar->appendButton('Custom', $dhtml, 'upload');
+            }
         }
 
         //Add a Delete file Button
