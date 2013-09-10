@@ -33,6 +33,7 @@ $min = JFactory::getConfig()->get('debug') ? '' : '.min';
 				jQuery.ajax({
 					url: "<?php echo addslashes($this->appsBaseUrl . 'jedapps/js/client' . $min . '.js?jversion=' . JVERSION); ?>",
 					dataType: 'script',
+					cache: true,
 					timeout: 20000,
 					success: function(response) {
 						jQuery('<script type="text/javascript">'+response+'</'+'script>').appendTo('head');
