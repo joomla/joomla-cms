@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Sep-2013 Michael Babker
+ # [#31965] Fatal error: Call to undefined method UsersModelUser::loadLanguage().  Thanks Jurian Even
+
 10-Sep-2013 Jean-Marie Simonet
  # [#31961] *Login Modules wrongly display tips (RTL and LTR)
  $ [#31923] Replace non-existent word multilanguage. Thanks Brian Teeman
