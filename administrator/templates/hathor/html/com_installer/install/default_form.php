@@ -22,12 +22,12 @@ $min = JFactory::getConfig()->get('debug') ? '' : '.min';
 	apps_product = '<?php echo base64_encode($ver->PRODUCT); ?>';
 	apps_release = '<?php echo base64_encode($ver->RELEASE); ?>';
 	apps_dev_level = '<?php echo base64_encode($ver->DEV_LEVEL); ?>';
-	jQuery('<link rel="stylesheet" type="text/css" href="<?php echo addslashes($this->appsBaseUrl . 'jedapps/v1/css/client' . $min . '.css?jversion=' . JVERSION); ?>" />').appendTo("head");
 
 	jQuery(document).ready(function() {
 		jQuery('#mywebinstaller').show();
 		var link = jQuery('#mywebinstaller a');
 		jQuery(link).click(function (event){
+			jQuery('<link rel="stylesheet" type="text/css" href="<?php echo addslashes($this->appsBaseUrl . 'jedapps/v1/css/client' . $min . '.css?jversion=' . JVERSION); ?>" />').appendTo("head");
 			if (typeof Joomla.apps == 'undefined') {
 				jQuery('#mywebinstaller').hide();
 				jQuery('#web-loader').show();
