@@ -25,6 +25,7 @@ if ($rule->test($field, $installfrom) && preg_match('/\.xml\s*$/', $installfrom)
 
 $document = JFactory::getDocument();
 $ver = new JVersion;
+$min = JFactory::getConfig()->get('debug') ? '' : '.min';
 ?>
 <script type="text/javascript">
 	apps_base_url = '<?php echo addslashes($this->appsBaseUrl); ?>';
@@ -39,7 +40,7 @@ $ver = new JVersion;
 		jQuery(link).closest('li').click(function (event){
 			if (typeof Joomla.apps == 'undefined') {
 				jQuery.ajax({
-					url: "<?php echo addslashes($this->appsBaseUrl . 'jedapps/js/client.js?jversion=' . JVERSION); ?>",
+					url: "<?php echo addslashes($this->appsBaseUrl . 'jedapps/js/client' . $min . '.js?jversion=' . JVERSION); ?>",
 					dataType: 'script',
 					timeout: 20000,
 					success: function(response) {

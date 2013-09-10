@@ -13,6 +13,7 @@ $app = JFactory::getApplication();
 $installfrom = base64_decode($app->input->get('installfrom', '', 'base64'));
 $document = JFactory::getDocument();
 $ver = new JVersion;
+$min = JFactory::getConfig()->get('debug') ? '' : '.min';
 ?>
 <script type="text/javascript">
 	apps_base_url = '<?php echo addslashes($this->appsBaseUrl); ?>';
@@ -30,7 +31,7 @@ $ver = new JVersion;
 				jQuery('#mywebinstaller').hide();
 				jQuery('#web-loader').show();
 				jQuery.ajax({
-					url: "<?php echo addslashes($this->appsBaseUrl . 'jedapps/js/client.js?jversion=' . JVERSION); ?>",
+					url: "<?php echo addslashes($this->appsBaseUrl . 'jedapps/js/client' . $min . '.js?jversion=' . JVERSION); ?>",
 					dataType: 'script',
 					timeout: 20000,
 					success: function(response) {
