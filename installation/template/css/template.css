@@ -14,7 +14,9 @@
 	width: 128px;
 }
 .container{
+	position: relative;
 	max-width: 900px;
+	z-index: 1060;
 }
 .thumbnail {
 	margin-bottom:9px;
