@@ -81,18 +81,17 @@ else
 
 		<?php endif; ?>
 
-	<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?>">
-	<!-- Show items -->
-	<?php if (!empty($feed))
-	{ ?>
-	<ul>
-		<?php for  ($i = 0; $i < $params->get('rssitems', 5); $i++)
+			<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?>">
+			<!-- Show items -->
+<?php
+		if (!empty($feed))
 		{
-			if( !$feed->offsetExists($i)) {
-				break;
-			}
-			?>
-			<?php
+			for  ($i = 0; $i < $params->get('rssitems', 5); $i++)
+			{
+				if( !$feed->offsetExists($i)) {
+					break;
+				}
+
 				$uri = (!empty($feed[$i]->guid) || !is_null($feed[$i]->guid)) ? $feed[$i]->guid : $feed[$i]->uri;
 
 				$uri = substr($uri, 0, 4) != 'http' ? $params->get('rsslink') : $uri;
@@ -106,7 +105,7 @@ else
 						<?php  echo $feed[$i]->title; ?></a></h5>
 					<?php else : ?>
 						<h5 class="feed-link"><?php  echo $feed[$i]->title; ?></h5>
-					<?php  endif; ?>
+					<?php endif; ?>
 
 					<?php if ($params->get('rssitemdesc') && !empty($text)) : ?>
 						<div class="feed-item-description">
@@ -120,9 +119,12 @@ else
 
 						</div>
 					<?php endif; ?>
-					</li>
-			<?php } ?>
+				</li>
+<?php 	} ?>
 			</ul>
-	<?php }
+<?php } ?>
+		</div>
+<?php
 	}
 }
+?>
