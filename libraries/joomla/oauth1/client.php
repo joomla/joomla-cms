@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  OAuth
+ * @subpackage  OAuth1
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -14,8 +14,7 @@ jimport('joomla.environment.response');
  * Joomla Platform class for interacting with an OAuth 1.0 and 1.0a server.
  *
  * @package     Joomla.Platform
- * @subpackage  OAuth
- *
+ * @subpackage  OAuth1
  * @since       13.1
  */
 abstract class JOAuth1Client
@@ -27,8 +26,8 @@ abstract class JOAuth1Client
 	protected $options;
 
 	/**
-	 * @var array  Contains access token key, secret and verifier.
-	 * @since 13.1
+	 * @var    array  Contains access token key, secret and verifier.
+	 * @since  13.1
 	 */
 	protected $token = array();
 
@@ -45,8 +44,8 @@ abstract class JOAuth1Client
 	protected $input;
 
 	/**
-	 * @var   JApplicationWeb  The application object to send HTTP headers for redirects.
-	 * @since 13.1
+	 * @var    JApplicationWeb  The application object to send HTTP headers for redirects.
+	 * @since  13.1
 	 */
 	protected $application;
 
@@ -65,7 +64,7 @@ abstract class JOAuth1Client
 	 * @param   JApplicationWeb  $application  The application object
 	 * @param   string           $version      Specify the OAuth version. By default we are using 1.0a.
 	 *
-	 * @since 13.1
+	 * @since   13.1
 	 */
 	public function __construct(JRegistry $options = null, JHttp $client = null, JInput $input = null, JApplicationWeb $application = null,
 		$version = null)
@@ -80,11 +79,10 @@ abstract class JOAuth1Client
 	/**
 	 * Method to for the oauth flow.
 	 *
-	 * @return void
+	 * @return  array  Contains access token key, secret and verifier.
 	 *
-	 * @since  13.1
-	 *
-	 * @throws DomainException
+	 * @since   13.1
+	 * @throws  DomainException
 	 */
 	public function authenticate()
 	{
@@ -153,9 +151,9 @@ abstract class JOAuth1Client
 	/**
 	 * Method used to get a request token.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since  13.1
+	 * @since   13.1
 	 * @throws  DomainException
 	 */
 	private function _generateRequestToken()
@@ -194,9 +192,9 @@ abstract class JOAuth1Client
 	/**
 	 * Method used to authorise the application.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since  13.1
+	 * @since   13.1
 	 */
 	private function _authorise()
 	{
@@ -217,9 +215,9 @@ abstract class JOAuth1Client
 	/**
 	 * Method used to get an access token.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since  13.1
+	 * @since   13.1
 	 */
 	private function _generateAccessToken()
 	{
@@ -251,9 +249,9 @@ abstract class JOAuth1Client
 	 * @param   mixed   $data        The POST request data.
 	 * @param   array   $headers     An array of name-value pairs to include in the header of the request
 	 *
-	 * @return  object  The JHttpResponse object.
+	 * @return  JHttpResponse
 	 *
-	 * @since 13.1
+	 * @since   13.1
 	 * @throws  DomainException
 	 */
 	public function oauthRequest($url, $method, $parameters, $data = array(), $headers = array())
@@ -324,8 +322,8 @@ abstract class JOAuth1Client
 	 *
 	 * @return  void
 	 *
-	 * @since  13.1
-	 * @throws DomainException
+	 * @since   13.1
+	 * @throws  DomainException
 	 */
 	abstract public function validateResponse($url, $response);
 
@@ -336,7 +334,7 @@ abstract class JOAuth1Client
 	 *
 	 * @return  string  The header.
 	 *
-	 * @since 13.1
+	 * @since   13.1
 	 */
 	private function _createHeader($parameters)
 	{
@@ -365,7 +363,7 @@ abstract class JOAuth1Client
 	 *
 	 * @return  string  The formed URL.
 	 *
-	 * @since  13.1
+	 * @since   13.1
 	 */
 	public function toUrl($url, $parameters)
 	{
@@ -413,7 +411,7 @@ abstract class JOAuth1Client
 	 * @param   string  $method      The request method.
 	 * @param   array   $parameters  Array containing request parameters.
 	 *
-	 * @return  void
+	 * @return  array
 	 *
 	 * @since   13.1
 	 */
@@ -438,9 +436,9 @@ abstract class JOAuth1Client
 	 * @param   string  $method      The request method.
 	 * @param   array   $parameters  Array containing request parameters.
 	 *
-	 * @return string  The base string.
+	 * @return  string  The base string.
 	 *
-	 * @since 13.1
+	 * @since   13.1
 	 */
 	private function _baseString($url, $method, $parameters)
 	{
@@ -488,7 +486,7 @@ abstract class JOAuth1Client
 	 *
 	 * @return  string  $data encoded in a way compatible with OAuth.
 	 *
-	 * @since 13.1
+	 * @since   13.1
 	 */
 	public function safeEncode($data)
 	{
@@ -515,7 +513,7 @@ abstract class JOAuth1Client
 	 *
 	 * @return  string  The current nonce.
 	 *
-	 * @since 13.1
+	 * @since   13.1
 	 */
 	public static function generateNonce()
 	{
@@ -529,9 +527,9 @@ abstract class JOAuth1Client
 	/**
 	 * Prepares the OAuth signing key.
 	 *
-	 * @return string  The prepared signing key.
+	 * @return  string  The prepared signing key.
 	 *
-	 * @since 13.1
+	 * @since   13.1
 	 */
 	private function _prepareSigningKey()
 	{
