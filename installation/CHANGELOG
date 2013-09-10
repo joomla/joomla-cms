@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#31181] Overflow of text into other column.
  $ [#31944] Standardise on select not check. Thanks Brian Teeman
  # [#31840] Can not set class to calendar input. Thanks Achal Aggarwal
+ # [#31929] mod_footer : year do not convert to other calendar like persian language that use hijri date. Thanks Mohammad Hasani Eghtedar and Carsten Wirtz
 
 08-Sep-2013 Michael Babker
  # [#31955] Two factor authentication is broken in the back-end. Thanks Nicholas Dionysopoulos
