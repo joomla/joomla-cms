@@ -30,7 +30,7 @@ class SiteContentFeaturedPage extends SitePage
 	 * @var    string
 	 * @since  3.2
 	 */
-	protected $waitForXpath =  "//a[@class='btn']";
+	protected $waitForXpath =  "//main[@id='content']/ul/li[2]/span[contains(text(),'Home')]";
 
 	/**
 	 * URL used to uniquely identify this page
