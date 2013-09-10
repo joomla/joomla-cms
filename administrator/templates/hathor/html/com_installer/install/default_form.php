@@ -22,6 +22,7 @@ $min = JFactory::getConfig()->get('debug') ? '' : '.min';
 	apps_product = '<?php echo base64_encode($ver->PRODUCT); ?>';
 	apps_release = '<?php echo base64_encode($ver->RELEASE); ?>';
 	apps_dev_level = '<?php echo base64_encode($ver->DEV_LEVEL); ?>';
+	jQuery('<link rel="stylesheet" type="text/css" href="<?php echo addslashes($this->appsBaseUrl . 'jedapps/v1/css/client' . $min . '.css?jversion=' . JVERSION); ?>" />').appendTo("head");
 
 	jQuery(document).ready(function() {
 		jQuery('#mywebinstaller').show();
@@ -31,9 +32,10 @@ $min = JFactory::getConfig()->get('debug') ? '' : '.min';
 				jQuery('#mywebinstaller').hide();
 				jQuery('#web-loader').show();
 				jQuery.ajax({
-					url: "<?php echo addslashes($this->appsBaseUrl . 'jedapps/js/client' . $min . '.js?jversion=' . JVERSION); ?>",
+					url: "<?php echo addslashes($this->appsBaseUrl . 'jedapps/v1/js/client' . $min . '.js?jversion=' . JVERSION); ?>",
 					dataType: 'script',
 					cache: true,
+					jsonpCallback: "jedapps_jsonpcallback",
 					timeout: 20000,
 					success: function(response) {
 						jQuery('<script type="text/javascript">'+response+'</'+'script>').appendTo('head');
