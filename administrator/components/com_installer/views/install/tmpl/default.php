@@ -39,7 +39,7 @@ $ver = new JVersion;
 		jQuery(link).closest('li').click(function (event){
 			if (typeof Joomla.apps == 'undefined') {
 				jQuery.ajax({
-					url: "<?php echo addslashes($this->appsBaseUrl . 'jedapps/js/client.js?jversion=' . JVERSION); ?>",
+					url: "<?php echo addslashes($this->appsBaseUrl . 'jedapps/js/client.min.js?jversion=' . JVERSION); ?>",
 					dataType: 'script',
 					timeout: 20000,
 					success: function(response) {

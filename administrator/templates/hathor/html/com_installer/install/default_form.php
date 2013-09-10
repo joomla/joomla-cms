@@ -30,7 +30,7 @@ $ver = new JVersion;
 				jQuery('#mywebinstaller').hide();
 				jQuery('#web-loader').show();
 				jQuery.ajax({
-					url: "<?php echo addslashes($this->appsBaseUrl . 'jedapps/js/client.js?jversion=' . JVERSION); ?>",
+					url: "<?php echo addslashes($this->appsBaseUrl . 'jedapps/js/client.min.js?jversion=' . JVERSION); ?>",
 					dataType: 'script',
 					timeout: 20000,
 					success: function(response) {
