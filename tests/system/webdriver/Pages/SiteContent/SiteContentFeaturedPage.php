@@ -56,4 +56,21 @@ class SiteContentFeaturedPage extends SitePage
 		}
 		return $arrayTitles; 
 	}
+	
+	/**
+	 * Function to check if the unpublished tag is present for a article or not
+	 *
+	 * 
+	 * @return  boolean 
+	 */	
+	public function isUnpublishedPresent($articleTitle)
+	{
+		$arrayElement=$this->driver->findElements(By::xPath("//div[@class='system-unpublished']/h2[contains(., '" . $articleTitle . "')]"));
+		if(count($arrayElement>0))
+		{
+			return true;
+		}
+		else
+		return false;
+	}
 }
