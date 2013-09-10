@@ -28,6 +28,7 @@ $ -> Language fix or change
 10-Sep-2013 Jean-Marie Simonet
  # [#31961] *Login Modules wrongly display tips (RTL and LTR)
  $ [#31923] Replace non-existent word multilanguage. Thanks Brian Teeman
+ # [#31181] Overflow of text into other column.
 
 08-Sep-2013 Michael Babker
  # [#31955] Two factor authentication is broken in the back-end. Thanks Nicholas Dionysopoulos
