@@ -211,4 +211,45 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 		$value = $this->articleManagerPage->getCategoryName('Archive Module');
 		$this->assertEquals($value, 'Category: Content Modules','The Article Must have got moved into the Original Category');
 	}
+	
+	/** 
+	 * @test
+	 */ 
+        public function frontEndEditArticle_ChangeArticleText_ArticleTextChanged()
+	{
+		$cfg = new SeleniumConfig();
+		$checkingText = 'Testing Edit';
+		$actualText = '<p>If this is your first Joomla! site or your first web site, you have come to the right place. Joomla will help you get your website up and running quickly and easily.</p><p>Start off using your site by logging in using the administrator account you created when you installed Joomla.</p><hr id="system-readmore"><p>Explore the articles and other resources right here on your site data to learn more about how Joomla works. (When you\'re done reading, you can delete or archive all of this.) You will also probably want to visit the Beginners\' Areas of the <a href="http://docs.joomla.org/Beginners" data-mce-href="http://docs.joomla.org/Beginners">Joomla documentation</a> and <a href="http://forum.joomla.org" data-mce-href="http://forum.joomla.org">support forums</a>.</p><p>You\'ll also want to sign up for the Joomla Security Mailing list and the Announcements mailing list. For inspiration visit the <a href="http://community.joomla.org/showcase/" data-mce-href="http://community.joomla.org/showcase/">Joomla! Site Showcase</a> to see an amazing array of ways people use Joomla to tell their stories on the web.</p><p>The basic Joomla installation will let you get a great site up and running, but when you are ready for more features the power of Joomla is in the creative ways that developers have extended it to do all kinds of things. Visit the <a href="http://extensions.joomla.org/" data-mce-href="http://extensions.joomla.org/">Joomla! Extensions Directory</a> to see thousands of extensions that can do almost anything you could want on a website. Can\'t find what you need? You may want to find a Joomla professional in the <a href="http://resources.joomla.org/" data-mce-href="http://resources.joomla.org/">Joomla! Resource Directory</a>.</p><p>Want to learn more? Consider attending a <a href="http://community.joomla.org/events.html" data-mce-href="http://community.joomla.org/events.html">Joomla! Day</a> or other event or joining a local <a href="http://community.joomla.org/user-groups.html" data-mce-href="http://community.joomla.org/user-groups.html">Joomla! Users Group</a>. Can\'t find one near you? Start one yourself.</p>';
+		$validationText = 'If this is your first Joomla! site or your first web site, you have come to the right place. Joomla will help you get your website up and running quickly and easily.';
+		$this->doAdminLogin();
+		$globalConfigUrl = 'administrator/index.php?option=com_config';
+		$url = $this->cfg->host.$this->cfg->path.$globalConfigUrl;
+		$this->driver->get($url);
+		$gc= $this->getPageObject('GlobalConfigurationPage', true, $url);
+		$gc->changeEditorMode();
+		$this->doSiteLogin();
+		$this->siteHomePage = $this->getPageObject('SiteContentFeaturedPage');
+		$this->assertTrue($this->siteHomePage->isEditPresent(),'Edit Icons Must be Present');
+		
+		//Edit the Article
+		$this->siteHomePage->clickEditArticle('Beginners');
+		$this->articleEditPage = $this->getPageObject('SiteContentEditPage');
+		$this->articleEditPage->editArticle($checkingText);
+		$this->siteHomePage = $this->getPageObject('SiteContentFeaturedPage');
+		$articleTexts = $this->siteHomePage->getArticleText();
+		$this->assertTrue(in_array($checkingText,$articleTexts),'Text Must be Present');
+		
+		//Set Back to Previous Value
+		$this->siteHomePage->clickEditArticle('Beginners');
+		$this->articleEditPage = $this->getPageObject('SiteContentEditPage');
+		$this->articleEditPage->editArticle($actualText);
+		$this->siteHomePage = $this->getPageObject('SiteContentFeaturedPage');
+		$articleTexts = $this->siteHomePage->getArticleText();
+		$this->assertTrue(in_array($validationText,$articleTexts),'Text Must be Present');
+		
+		//Set Back the Editor
+		$cpPage = $this->doAdminLogin();
+		$this->gcPage = $cpPage->clickMenu('Global Configuration', 'GlobalConfigurationPage');
+		$this->gcPage->changeEditorMode('TINY');
+        }
 }
