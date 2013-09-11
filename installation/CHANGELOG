@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 11-Sep-2013 Elin Waring
  # [#31753] PGSQL Missing #__ prefix on CONSTRAINT "uc_ItemnameTagid" in installation/sql/postgresql/joomla.sql. Thanks Alan Hicks
+ # [#31894] Check for context in vote plugin. Thanks George Wilson
 
 11-Sep-2013 Jean-Marie Simonet
  # [#31848] Archive Articles View frontend
