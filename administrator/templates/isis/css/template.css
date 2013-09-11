@@ -6877,6 +6877,7 @@ div.modal.fade.in {
 .icon-thumbs-down:before{
 	content: "\5c";
 }
+.icon-unfeatured:before,
 .icon-asterisk:before,
 .icon-star-empty:before {
 	content: "\40";
