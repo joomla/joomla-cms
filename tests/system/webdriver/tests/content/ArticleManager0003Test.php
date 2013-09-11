@@ -223,12 +223,12 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 		$validationText = 'New Text';
 		$this->doAdminLogin();
 		$globalConfigUrl = 'administrator/index.php?option=com_config';
-		$url = $this->cfg->host.$this->cfg->path . $globalConfigUrl;
+		$url = $this->cfg->host . $this->cfg->path . $globalConfigUrl;
 		$this->driver->get($url);
 		$gc= $this->getPageObject('GlobalConfigurationPage', true, $url);
 		$gc->changeEditorMode();
 		$articleManager='administrator/index.php?option=com_content';
-		$this->driver->get($cfg->host.$cfg->path.$articleManager);
+		$this->driver->get($cfg->host . $cfg->path . $articleManager);
 		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
 		$this->articleManagerPage->addArticle('Testing');
 		$this->articleManagerPage->searchFor('Testing');
