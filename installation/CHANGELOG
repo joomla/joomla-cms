@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Sep-2013 Elin Waring
+ # [#31753] PGSQL Missing #__ prefix on CONSTRAINT "uc_ItemnameTagid" in installation/sql/postgresql/joomla.sql. Thanks Alan Hicks
+
 11-Sep-2013 Jean-Marie Simonet
  # [#31848] Archive Articles View frontend
  + Adding Albanian flag
