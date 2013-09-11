@@ -644,7 +644,7 @@ class InstallationModelLanguages extends JModelBase
 	public function getSefString( $itemLanguage, $siteLanguages)
 	{
 		$langs = explode('-', $itemLanguage->language);
-		$prefix2charsToFind  = $langs[0];
+		$prefix2charsToFind = $langs[0];
 
 		$numberPrefixesFound = 0;
 		foreach ($siteLanguages as $siteLang)
@@ -677,7 +677,7 @@ class InstallationModelLanguages extends JModelBase
 	{
 		$tableLanguage = JTable::getInstance('Language');
 
-		$flag  = strtolower(str_replace('-', '_',  $itemLanguage->language));
+		$flag = strtolower(str_replace('-', '_',  $itemLanguage->language));
 
 		// Load the native language name
 		$installationLocalisedIni = new JLanguage($itemLanguage->language, false);
