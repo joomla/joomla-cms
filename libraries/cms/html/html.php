@@ -964,7 +964,7 @@ abstract class JHtml
 
 		$readonly = isset($attribs['readonly']) && $attribs['readonly'] == 'readonly';
 		$disabled = isset($attribs['disabled']) && $attribs['disabled'] == 'disabled';
-		$attribs['class'] .= ' hasTooltip';
+		$attribs['class'] = isset($attribs['class']) ? $attribs['class'] . ' hasTooltip' : 'hasTooltip';
 
 		if (is_array($attribs))
 		{
