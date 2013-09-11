@@ -922,6 +922,11 @@ class JoomlaInstallerScript
 			'/media/editors/tinymce/jscripts/tiny_mce/utils/form_utils.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/utils/mctabs.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/utils/validate.js',
+			'administrator/components/com_banners/models/fields/ordering.php',
+			'administrator/components/com_contact/models/fields/ordering.php',
+			'administrator/components/com_newsfeeds/models/fields/ordering.php',
+			'administrator/components/com_plugins/models/fields/ordering.php',
+			'administrator/components/com_weblinks/models/fields/ordering.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode

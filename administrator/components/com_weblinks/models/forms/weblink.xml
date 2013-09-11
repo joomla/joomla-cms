@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset addfieldpath="/administrator/components/com_categories/models/fields">
+	<fieldset
+            addfieldpath="/administrator/components/com_categories/models/fields"
+    >
 		<field name="id" type="text" default="0" label="JGLOBAL_FIELD_ID_LABEL"
 			readonly="true" class="readonly"
 			description="JGLOBAL_FIELD_ID_DESC"/>
@@ -59,9 +61,10 @@
 				value="-2">JTRASHED</option>
 		</field>
 
-		<field name="ordering" type="Ordering" class="inputbox"
+		<field name="ordering" type="Weblinkordering" class="inputbox"
 			label="JFIELD_ORDERING_LABEL"
-			description="JFIELD_ORDERING_DESC" />
+			description="JFIELD_ORDERING_DESC"
+        />
 
 		<field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"
 			description="JFIELD_ACCESS_DESC" class="inputbox span12 small" size="1" />
@@ -75,7 +78,7 @@
 			<option value="*">JALL</option>
 		</field>
 
-		<field name="tags" 
+		<field name="tags"
 			type="tag"
 			label="JTAG"
 			description="JTAG_DESC"
@@ -84,11 +87,11 @@
 		>
 		</field>
 
-		<field name="version_note" 
-			type="text" 
+		<field name="version_note"
+			type="text"
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
-			description="JGLOBAL_FIELD_VERSION_NOTE_DESC" 
-			class="inputbox" size="45" 
+			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
+			class="inputbox" size="45"
 			labelclass="control-label"
 		/>
 
