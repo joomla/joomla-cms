@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Sep-2013 Jean-Marie Simonet
+ + Adding Albanian flag
+
 07-Sep-2013 Jean-Marie Simonet
  # [#31914] mod_footer - replacement in language override string doesn`t work correct. Thanks Carsten Wirtz
  # [#31896] Stupid return in contact component table. Thanks George Wilson
