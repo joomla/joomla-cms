@@ -6373,7 +6373,8 @@ div.modal.fade.in {
 .icon-plus-circle:before {
 	content: "\e215";
 }
-.icon-minus:before {
+.icon-minus:before,
+.icon-not-ok:before {
 	content: "\4b";
 }
 .icon-minus-circle:before {
@@ -6849,6 +6850,7 @@ div.modal.fade.in {
 	content: "\41";
 }
 .icon-featured:before,
+.icon-default:before,
 .icon-star:before{
 	content: "\42";
 }

@@ -6213,7 +6213,6 @@ div.modal.fade.in {
 	font-style: normal;
 	speak: none;
 }
-
 .icon-joomla:before {
 	content: "\e200";
 }
@@ -6410,7 +6409,8 @@ div.modal.fade.in {
 .icon-plus-circle:before {
 	content: "\e215";
 }
-.icon-minus:before {
+.icon-minus:before,
+.icon-not-ok:before {
 	content: "\4b";
 }
 .icon-minus-circle:before {
@@ -6886,6 +6886,7 @@ div.modal.fade.in {
 	content: "\41";
 }
 .icon-featured:before,
+.icon-default:before,
 .icon-star:before{
 	content: "\42";
 }
@@ -6920,6 +6921,30 @@ div.modal.fade.in {
 }
 .icon-credit-2:before {
 	content: "\e287";
+}
+.icon-edit:before {
+	color: #2f96b4;
+}
+.icon-publish:before,
+.icon-save:before,
+.icon-ok:before,
+.icon-save-new:before,
+.icon-save-copy:before,
+.btn-toolbar .icon-copy:before  {
+	color: #51a351;
+}
+.icon-unpublish:before,
+.icon-not-ok:before,
+.icon-eye-close:before,
+.icon-ban-circle:before,
+.icon-minus-sign:before,
+.btn-toolbar .icon-cancel:before {
+	color: #bd362f;
+}
+.icon-featured:before,
+.icon-default:before,
+.icon-pending:before {
+	color: #f89406;
 }
 html {
 	height: 100%;
