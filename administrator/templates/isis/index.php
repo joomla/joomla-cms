@@ -130,16 +130,16 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 
 			<div<?php echo ($this->params->get('admin_menus') != '0') ? ' class="nav-collapse"' : ''; ?>>
 				<jdoc:include type="modules" name="menu" style="none" />
-				<ul class="<?php if ($this->direction == 'rtl') : ?>nav<?php else : ?>nav pull-right<?php endif; ?>">
+				<ul class="nav nav-user<?php echo ($this->direction == 'rtl') ? ' pull-left' : ' pull-right'; ?>">
 					<li class="dropdown">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="icon-cog"></span>
 							<b class="caret"></b></a>
 						<ul class="dropdown-menu">
 							<li>
-									<span>
-										<span class="icon-user"></span>
-										<strong><?php echo $user->name; ?></strong>
-									</span>
+								<span>
+									<span class="icon-user"></span>
+									<strong><?php echo $user->name; ?></strong>
+								</span>
 							</li>
 							<li class="divider"></li>
 							<li class="">

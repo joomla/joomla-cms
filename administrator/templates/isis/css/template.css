@@ -3236,13 +3236,35 @@ input[type="submit"].btn.btn-mini {
 	height: auto;
 	overflow: visible;
 }
-.navbar .brand {
+body .navbar,
+body .navbar-fixed-top {
+	margin-bottom: 0;
+}
+.navbar-inner {
+	min-height: 0;
+}
+.navbar-inner .container-fluid {
+	padding-left: 10px;
+	padding-right: 10px;
+	font-size: 15px;
+}
+.navbar .navbar-text {
+	line-height: 30px;
+}
+.navbar .admin-logo {
 	float: left;
+	padding: 7px 12px 0px 15px;
+	font-size: 16px;
+	color: #d9d9d9;
+}
+.navbar .admin-logo:hover {
+	color: #ffffff;
+}
+.navbar .brand {
+	float: right;
 	display: block;
-	padding: 11px 20px 11px;
+	padding: 6px 10px;
 	margin-left: -20px;
-	font-size: 20px;
-	font-weight: 200;
 	color: #555;
 	text-shadow: 0 1px 0 #ffffff;
 }
@@ -3396,6 +3418,10 @@ input[type="submit"].btn.btn-mini {
 	float: left;
 	margin: 0 10px 0 0;
 }
+.navbar .dropdown-menu,
+.navbar .nav-user {
+	font-size: 13px;
+}
 .navbar .nav.pull-right {
 	float: right;
 	margin-right: 0;
@@ -3405,7 +3431,7 @@ input[type="submit"].btn.btn-mini {
 }
 .navbar .nav > li > a {
 	float: none;
-	padding: 11px 15px 11px;
+	padding: 6px 10px;
 	color: #555;
 	text-decoration: none;
 	text-shadow: 0 1px 0 #ffffff;
@@ -6970,37 +6996,6 @@ input.input-large-text {
 .row-even .small a,
 .row-odd .small a {
 	color: #888;
-}
-body .navbar,
-body .navbar-fixed-top {
-	margin-bottom: 0;
-}
-.navbar-inner {
-	min-height: 0;
-}
-.navbar-inner .container-fluid {
-	padding-left: 10px;
-	padding-right: 10px;
-}
-.navbar .navbar-text {
-	line-height: 30px;
-}
-.navbar .admin-logo {
-	float: left;
-	padding: 7px 12px 0px 15px;
-	font-size: 16px;
-	color: #d9d9d9;
-}
-.navbar .admin-logo:hover {
-	color: #ffffff;
-}
-.navbar .brand {
-	float: right;
-	padding: 5px 12px 5px 12px;
-	font-size: 16px;
-}
-.navbar .nav > li > a {
-	padding: 6px 10px;
 }
 .header {
 	background-color: #184a7d;
