@@ -7062,3 +7062,6 @@ div.current dd.tabs {
 code {
 	white-space: pre-wrap;
 }
+#filter-search {
+	vertical-align: top;
+}

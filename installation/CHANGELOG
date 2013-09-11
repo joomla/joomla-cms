@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Sep-2013 Jean-Marie Simonet
+ # [#31848] Archive Articles View frontend
+
 10-Sep-2013 Michael Babker
  # [#31965] Fatal error: Call to undefined method UsersModelUser::loadLanguage().  Thanks Jurian Even
  # [#31948] Beez3: twofactorauth (secretkey field).  Thanks Tobias Zulauf
