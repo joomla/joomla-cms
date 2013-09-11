@@ -53,12 +53,23 @@ abstract class JError
 	 */
 	protected static $levels = array(E_NOTICE => 'Notice', E_WARNING => 'Warning', E_ERROR => 'Error');
 
+	/**
+	 * Array of message handlers
+	 * @var    array
+	 * @since  11.1
+	 */
 	protected static $handlers = array(
 		E_NOTICE => array('mode' => 'ignore'),
 		E_WARNING => array('mode' => 'ignore'),
 		E_ERROR => array('mode' => 'ignore')
 	);
 
+	/**
+	 * Array containing the error stack
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
 	protected static $stack = array();
 
 	/**

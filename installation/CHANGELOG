@@ -25,8 +25,57 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Sep-2013 Jean-Marie Simonet
+ # [#31848] Archive Articles View frontend
+ + Adding Albanian flag
+ + Adding Macedonian tinymce lang file
+
+10-Sep-2013 Michael Babker
+ # [#31965] Fatal error: Call to undefined method UsersModelUser::loadLanguage().  Thanks Jurian Even
+ # [#31948] Beez3: twofactorauth (secretkey field).  Thanks Tobias Zulauf
+ # [#31949] Hathor: twofactorauth (secretkey field).  Thanks Tobias Zulauf
+
+10-Sep-2013 Jean-Marie Simonet
+ # [#31961] *Login Modules wrongly display tips (RTL and LTR)
+ $ [#31923] Replace non-existent word multilanguage. Thanks Brian Teeman
+ # [#31181] Overflow of text into other column.
+ $ [#31944] Standardise on select not check. Thanks Brian Teeman
+ # [#31840] Can not set class to calendar input. Thanks Achal Aggarwal
+ # [#31929] mod_footer : year do not convert to other calendar like persian language that use hijri date. Thanks Mohammad Hasani Eghtedar and Carsten Wirtz
+ # [#31913] Search results in Template Manager contain more than just templates. Thanks Elin Waring
+ # [#31854] The Module "All Modules" is lost at testing sample data (mysql). Thanks Tobias Zulauf
+
+08-Sep-2013 Michael Babker
+ # [#31955] Two factor authentication is broken in the back-end. Thanks Nicholas Dionysopoulos
+ # [#31950] Hathor: twofactorauth (user manager). Thanks Nicholas Dionysopoulos
+
+08-Sep-2013 Elin Waring
+^+ [#31930] Ordering Form Field Changes Thanks George Wilson
+
+08-Sep-2013 Jean-Marie Simonet
+ +$ [#31725] Joomla multilingual site automatic installer. Thanks Carles Serrats and Javier Gómez
+
+07-Sep-2013 Jean-Marie Simonet
+ # [#31707] Regression: [#29933] prevents showing only page header. Thanks George Wilson
+ $ [#31883] Replace all instance of Super Admin with Super User in languages files. Thanks Brian Teeman
+ $ [#31888] Standardising on plugin instead of plug-in. Thanks Brian Teeman
+ $ [#31917] Remove double space. Thanks Brian Teeman
+ # [#31914] mod_footer - replacement in language override string doesn`t work correct. Thanks Carsten Wirtz
+ # [#31876] Contact Icons are missing when selecting new ones. Thanks Carsten Wirtz
+ $ [#31886] Standardise on check-in language strings. Thanks Brian Teeman
+ # [#31896] Stupid return in contact component table. Thanks George Wilson
+ # [#31884] *Smart search Index and Statistics buttons broken if lang debug is on
+ $ [#31846] Small correction to franglais in languages strings. Thanks Brian Teeman
+ # [#31936] Add active class to breadcrumb module for more bootstrap compatibility. Thanks Michael Babker.
+
+06-Sep-2013 Michael Babker
+ +$ [#31704] Two factor authentication for Joomla!. Thanks Nicholas Dionysopoulos
+
 06-Sep-2013 Jean-Marie Simonet
- # [#31885] TinyMCE horizontal Resizing. Thanks George Wilson
+ #$ [#31885] TinyMCE horizontal Resizing. Thanks George Wilson
+ $ [#31934] Change language strings in System - Log Component. Thanks George Wilson
+ # [#31828] Missing error message in single article menu item. Thanks Carsten Wirtz
+ # [#31254] *Print icon and print text in print popup not stylable
 
 05-Sep-2013 Michael Babker
  + [#31844] Rapid Application Framework (Joomla! RAD).  Thanks Nicholas Dionysopoulos
@@ -45,7 +94,7 @@ $ -> Language fix or change
  # Fix code-style issues from [#30944] Content versioning. Thanks George Wilson.
 
 02-Sep-2013 Jean-Marie Simonet
- + [#30944] Content versioning for core and third-party components. Thanks Mark Dexter
+ +$ [#30944] Content versioning for core and third-party components. Thanks Mark Dexter
 
 28-Aug-2013 Michael Babker
  $^ [#31009] Add a switch to turn mail sending on/off.  Thanks Roland Dalmulder

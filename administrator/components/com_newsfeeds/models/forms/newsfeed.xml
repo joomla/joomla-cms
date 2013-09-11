@@ -75,7 +75,7 @@
 			description="JGLOBAL_FIELD_FIELD_CACHETIME_DESC"
 			required="true" />
 
-		<field name="ordering" type="ordering" class="inputbox"
+		<field name="ordering" type="ordering" class="inputbox" table="#__newsfeeds"
 			label="JFIELD_ORDERING_LABEL" description="JFIELD_ORDERING_DESC" />
 
 		<field name="rtl" type="list" class="inputbox"

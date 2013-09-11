@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Libraries
- * @subpackage  Versions
+ * @subpackage  Helper
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * versioning of content.
  *
  * @package     Joomla.Libraries
- * @subpackage  Versions
+ * @subpackage  Helper
  * @since       3.2
  */
 class JHelperContenthistory
@@ -69,7 +69,7 @@ class JHelperContenthistory
 	 *
 	 * @param   JTable  $table  JTable object.
 	 *
-	 * @return  stdClass with all of the columns and values.
+	 * @return  object Contains all of the columns and values.
 	 *
 	 * @since   3.2
 	 */
@@ -93,7 +93,7 @@ class JHelperContenthistory
 	 * @param   integer  $typeId  Type id for this component item.
 	 * @param   mixed    $id      Primary key of row to get history for.
 	 *
-	 * @return  boolean  true on success, otherwise false.
+	 * @return  mixed   The return value or null if the query failed.
 	 *
 	 * @since   3.2
 	 */
@@ -117,7 +117,7 @@ class JHelperContenthistory
 	 *
 	 * @param   JTable  $table  JTable object being tagged
 	 *
-	 * @return  boolean  true on success, otherwise false.
+	 * @return  boolean  True on success, otherwise false.
 	 *
 	 * @since   3.2
 	 */
