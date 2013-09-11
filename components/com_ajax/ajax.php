@@ -19,7 +19,7 @@ $input = $app->input;
 $format = strtolower($input->getWord('format'));
 
 // Initialize default response
-$results = '';
+$results = null;
 
 /*
  * Module support.
@@ -130,12 +130,12 @@ switch ($format)
 			// Echo exception message
 			echo $results->getMessage();
 		}
-		// Echo as a string
+		// Output string/ null
 		elseif (is_scalar($results))
 		{
 			echo (string) $results;
 		}
-		// Eecho array/ object
+		// Output array/ object
 		else
 		{
 			echo implode((array) $results);
