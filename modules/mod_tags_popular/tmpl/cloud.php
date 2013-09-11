@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-$minsize		= $params->get('minsize', 1);
-$maxsize		= $params->get('maxsize', 2);
+$minsize	= $params->get('minsize', 1);
+$maxsize	= $params->get('maxsize', 2);
 
 JLoader::register('TagsHelperRoute', JPATH_BASE . '/components/com_tags/helpers/route.php');
 ?>
@@ -19,17 +19,20 @@ JLoader::register('TagsHelperRoute', JPATH_BASE . '/components/com_tags/helpers/
 if (!count($list)) : ?>
 	<div class="alert alert-no-items"><?php echo JText::_('MOD_TAGS_POPULAR_NO_ITEMS_FOUND'); ?></div>
 <?php else :
-	// find maximum and minimum count
+	// Find maximum and minimum count
 	$mincount = null;
 	$maxcount = null;
-	foreach ($list as $item) :
-		if ($mincount === null or $mincount > $item->count) :
+	foreach ($list as $item)
+	{
+		if ($mincount === null or $mincount > $item->count)
+		{
 			$mincount = $item->count;
-		endif;
-		if ($maxcount === null or $maxcount < $item->count) :
+		}
+		if ($maxcount === null or $maxcount < $item->count)
+		{
 			$maxcount = $item->count;
-		endif;
-	endforeach;
+		}
+	}
 	$countdiff = $maxcount - $mincount;
 
 	foreach ($list as $item) :
