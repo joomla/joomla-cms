@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 11-Sep-2013 Jean-Marie Simonet
  # [#31848] Archive Articles View frontend
+ + Adding Albanian flag
 
 10-Sep-2013 Michael Babker
  # [#31965] Fatal error: Call to undefined method UsersModelUser::loadLanguage().  Thanks Jurian Even
