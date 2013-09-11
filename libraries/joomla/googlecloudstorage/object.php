@@ -85,7 +85,26 @@ abstract class JGooglecloudstorageObject
 	}
 
 	/**
-	 * Creates the Authorization request header (which handles authentication).
+	 * Safe base 64 encode
+	 *
+	 * @param   mixed  $data  The input data
+	 *
+	 * @return mixed  The encoded data
+	 */
+	public  function urlSafeB64Encode($data)
+	{
+		$b64 = base64_encode($data);
+
+		return str_replace(
+			array('+', '/', '\r', '\n', '='),
+			array('-', '_'),
+			$b64
+		);
+	}
+
+	/**
+	 * Creates and sends a request for obtaining the access token required to
+	 * create the Authorization header (which handles authentication).
 	 * Service accounts are used for Google Cloud Storage and the mechanics require
 	 * applications to create and cryptographically sign JSON Web Tokens (JWTs).
 	 * A JWT is composed of three parts: a header, a claim set, and a signature.
@@ -95,14 +114,14 @@ abstract class JGooglecloudstorageObject
 	 * @param   string  $prn    The email address of the user for which the
 	 *                          application is requesting delegated access.
 	 *
-	 * @return string The Authorization request header
+	 * @return string  The authorization request header
 	 *
 	 * @since   ??.?
 	 */
-	public function createAuthorization($scope, $prn = null)
+	public function getAuthorization($scope, $prn = null)
 	{
 		// Standard header for Service Accounts
-		$header = base64_encode(
+		$header = $this->urlSafeB64Encode(
 			utf8_encode(
 				json_encode(
 					array(
@@ -128,15 +147,24 @@ abstract class JGooglecloudstorageObject
 			$claimSetValues["prn"] = $prn;
 		}
 
-		$claimSet = base64_encode(utf8_encode(json_encode($claimSetValues, JSON_UNESCAPED_SLASHES)));
+		// Create the claim set for the JWT
+		$claimSet = $this->urlSafeB64Encode(utf8_encode(json_encode($claimSetValues, JSON_UNESCAPED_SLASHES)));
 
+		// Create the signature
 		// Get the key needed to compute the signature
-		$key = file_get_contents($this->options->get("client.keyFile"));
+		$p12 = file_get_contents($this->options->get("client.keyFile"));
+		$password = $this->options->get('api.oauth.privateKeyPassword');
+		openssl_pkcs12_read($p12, $certs, $password);
+		$privateKey = openssl_pkey_get_private($certs["pkey"]);
 
 		// Sign the UTF-8 representation of the input using SHA256withRSA
-		$signature = base64_encode(hash_hmac("sha256", utf8_encode($header . "." . $claimSet), $key, false));
-		$requestBody = "grant-type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion="
-			. $header . "." . $claimSet . "." . $signature;
+		$signatureInput = utf8_encode($header . "." . $claimSet);
+		openssl_sign($signatureInput, $signature, $privateKey, "sha256");
+		$jws = $this->urlSafeB64Encode($signature);
+		
+		// Create the request body
+		$requestBody = "grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion="
+			. $header . "." . $claimSet . "." . $jws;
 
 		// Send the access token request
 		$response = $this->client->post(
@@ -145,11 +173,13 @@ abstract class JGooglecloudstorageObject
 			array(
 				"Host" => $this->options->get("api.host"),
 				"Content-Type" => "application/x-www-form-urlencoded",
+				"Content-Length" => strlen($requestBody),
 			)
 		);
 
-		// TODO get authorization from response
+		// Return the access token
+		$responseBody = json_decode($response->body);
 
-		return $response;
+		return $responseBody->token_type . " " . $responseBody->access_token;
 	}
 }

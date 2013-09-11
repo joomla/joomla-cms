@@ -38,7 +38,7 @@ class JGooglecloudstorageServiceGet extends JGooglecloudstorageService
 			"x-goog-project-id" => $this->options->get("project.id"),
 		);
 
-		$authorization = $this->createAuthorization(
+		$authorization = $this->getAuthorization(
 			$this->options->get("api.oauth.scope.read-only")
 		);
 		$headers["Authorization"] = $authorization;
