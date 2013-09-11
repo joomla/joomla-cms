@@ -5586,7 +5586,7 @@ a.badge:focus {
 		margin-left: 0;
 	}
 }
-@media (max-width: 738px) {
+@media (max-width: 767px) {
 	body {
 		padding-top: 0;
 	}
@@ -5642,6 +5642,9 @@ a.badge:focus {
 		-moz-border-radius: 3px;
 		border-radius: 3px;
 	}
+	.nav-collapse .dropdown-menu > li > span {
+		padding: 9px 15px;
+	}
 	.nav-collapse .btn {
 		padding: 4px 10px 4px;
 		font-weight: normal;
@@ -5659,7 +5662,8 @@ a.badge:focus {
 		background-color: #f2f2f2;
 	}
 	.navbar-inverse .nav-collapse .nav > li > a,
-	.navbar-inverse .nav-collapse .dropdown-menu a {
+	.navbar-inverse .nav-collapse .dropdown-menu a,
+	.navbar-inverse .nav-collapse .dropdown-menu > li > span {
 		color: #d9d9d9;
 	}
 	.navbar-inverse .nav-collapse .nav > li > a:hover,
@@ -7274,10 +7278,8 @@ h6 {
 	max-width: 100% !important;
 }
 @media (max-width: 979px) {
-	.navbar .brand {
-		font-size: 13px;
-	}
 	.navbar .nav {
+		font-size: 13px;
 		margin: 0 2px 0 0;
 	}
 	.navbar .nav > li > a {
@@ -7292,6 +7294,12 @@ h6 {
 	.row-fluid [class*="span"] {
 		margin-left: 15px;
 	}
+	body {
+		padding-top: 30px;
+	}
+	body.component {
+		padding-top: 0;
+	}
 }
 @media (max-width: 767px) {
 	.navbar-search.pull-right {
@@ -7305,19 +7313,6 @@ h6 {
 	.container-fluid {
 		padding-left: 0;
 		padding-right: 0;
-	}
-}
-@media (min-width: 738px) {
-	body {
-		padding-top: 30px;
-	}
-	body.component {
-		padding-top: 0;
-	}
-}
-@media (max-width: 738px) {
-	.navbar .brand {
-		font-size: 16px;
 	}
 }
 .btn-subhead {
@@ -7400,7 +7395,7 @@ h6 {
 .dropdown-menu a {
 	background-image: none;
 }
-@media (max-width: 738px) {
+@media (max-width: 767px) {
 	.navbar-fixed-top .navbar-inner,
 	.navbar-fixed-top .navbar-inner .container-fluid {
 		padding: 0;
