@@ -15,11 +15,11 @@ $app = JFactory::getApplication();
 // JInput object
 $input = $app->input;
 
-// Initialize default response
-$results = '';
-
 // Requested format passed via URL
 $format = strtolower($input->getWord('format'));
+
+// Initialize default response
+$results = '';
 
 /*
  * Module support.
@@ -63,19 +63,19 @@ if ($input->get('module'))
 			// Method does not exist
 			else
 			{
-				$results = new LogicExeption(JText::sprintf('COM_AJAX_METHOD_DOES_NOT_EXIST', $method . 'Ajax'), 500);
+				$results = new LogicExeption(JText::sprintf('COM_AJAX_METHOD_DOES_NOT_EXIST', $method . 'Ajax'), 404);
 			}
 		}
 		// The helper file does not exist
 		else
 		{
-			$results = new RuntimeException(JText::sprintf('COM_AJAX_HELPER_DOES_NOT_EXIST', 'mod_' . $module . '/helper.php'), 500);
+			$results = new RuntimeException(JText::sprintf('COM_AJAX_HELPER_DOES_NOT_EXIST', 'mod_' . $module . '/helper.php'), 404);
 		}
 	}
 	// Module is not published, you do not have access to it, or it is not assigned to the current menu item
 	else
 	{
-		$results = new LogicException(JText::sprintf('COM_AJAX_MODULE_NOT_PUBLISHED', 'mod_' . $module), 500);
+		$results = new LogicException(JText::sprintf('COM_AJAX_MODULE_NOT_PUBLISHED', 'mod_' . $module), 404);
 	}
 }
 
@@ -108,8 +108,7 @@ switch ($format)
 {
 	// JSONinzed
 	case 'json':
-		header('Content-Type: application/json');
-		echo new JResponseJson($results, null, false, $input->get('ignoreMessages', false, 'bool'));
+		echo new JResponseJson($results, null, false, $input->get('ignoreMessages', true, 'bool'));
 		break;
 
 	// Human-readable format
@@ -117,11 +116,18 @@ switch ($format)
 		echo '<pre>' . print_r($results, true) . '</pre>';
 		break;
 
-	// Expect raw
+	// Handle as raw format
 	default:
-		// Echo exception messsage
+		// Output exception
 		if ($results instanceof Exception)
 		{
+			// Log an error
+			JLog::add($results->getMessage(), JLog::ERROR);
+
+			// Set header
+			JResponse::setHeader('status', $results->getCode(), true);
+
+			// Echo exception message
 			echo $results->getMessage();
 		}
 		// Echo as a string
@@ -129,6 +135,7 @@ switch ($format)
 		{
 			echo (string) $results;
 		}
+		// Eecho array/ object
 		else
 		{
 			echo implode((array) $results);
@@ -136,10 +143,3 @@ switch ($format)
 
 		break;
 }
-
-// Close the application by default
-if ($input->get('close', 1))
-{
-	$app->close();
-}
-
