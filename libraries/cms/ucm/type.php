@@ -90,6 +90,30 @@ class JUcmType implements JUcm
 	}
 
 	/**
+	 * Get the Content Type from the alias
+	 *
+	 * @param   string  $typeAlias  The alias for the type
+	 *
+	 * @return  object  The UCM Type data
+	 *
+	 * @since   3.2
+	 */
+	public function getTypeByAlias($typeAlias = null)
+	{
+
+		$query	= $this->db->getQuery(true);
+		$query->select('ct.*');
+		$query->from($this->db->quoteName('#__content_types', 'ct'));
+
+		$query->where($this->db->quoteName('ct.type_alias') . ' = ' . (int) $typeAlias);
+		$this->db->setQuery($query);
+
+		$type = $this->db->loadObject();
+
+		return $type;
+	}
+
+	/**
 	 * Retrieves the UCM type ID
 	 *
 	 * @param   string  $alias  The string of the type alias
@@ -121,5 +145,46 @@ class JUcmType implements JUcm
 
 		return $id;
 
+	}
+
+	/**
+	 * Method to expand the field mapping
+	 *
+	 * @param   boolean  $assoc  True to return an associative array.
+	 *
+	 * @return  mixed  Array or object with field mappings. Defaults to object.
+	 *
+	 * @since   3.2
+	 */
+	public function fieldmapExpand($assoc = false)
+	{
+
+		if (!empty($this->type->field_mappings))
+		{
+			return $this->fieldmap = json_decode($this->type->field_mappings, $assoc);
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
+	 * Magic method to get the name of the field mapped to a ucm field (core_something).
+	 *
+	 * @param   string  $ucmField  The name of the field in JTableCorecontent
+	 *
+	 * @return  string  The name mapped to the $ucmField for a given content type
+	 *
+	 * @since   3.2
+	 */
+	public function __get($ucmField)
+	{
+		if (!isset($this->fieldmap))
+		{
+			$this->fieldmapExpand(false);
+		}
+
+		return isset($this->fieldmap->common->$ucmField) ? $this->fieldmap->common->$ucmField : null;
 	}
 }

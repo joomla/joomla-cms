@@ -138,20 +138,5 @@ class JTableContenttype extends JTable
 		return $result;
 	}
 
-	/**
-	 * Magic method to get the name of the field mapped to a ucm field (core_something).
-	 *
-	 * @param   string  $ucmField  The name of the field in JTableCorecontent
-	 *
-	 * @return  string  The name mapped to the $ucmField for a given content type
-	 *
-	 * @since   3.2
-	 */
-	public function __get($ucmField, $typeAlias)
-	{
-		$this->fieldmapExpand(false);
-
-		return isset($this->$ucmField) ? isset($this->$ucmField) : null;
-	}
 
 }
