@@ -63,6 +63,11 @@ class JGooglecloudstorage
 
 		// Setup the default API url if not already set.
 		$this->options->def('api.url', 'storage.googleapis.com');
+		$this->options->def('api.host', 'accounts.google.com');
+		$this->options->def('api.oauth.assertionTarget', 'https://accounts.google.com/o/oauth2/token');
+		$this->options->def('api.oauth.scope.read-only', 'https://www.googleapis.com/auth/devstorage.read_only');
+		$this->options->def('api.oauth.scope.read-write', 'https://www.googleapis.com/auth/devstorage.read_write');
+		$this->options->def('api.oauth.scope.full-control', 'https://www.googleapis.com/auth/devstorage.full_control');
 	}
 
 	/**

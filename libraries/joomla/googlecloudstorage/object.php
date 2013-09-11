@@ -86,17 +86,70 @@ abstract class JGooglecloudstorageObject
 
 	/**
 	 * Creates the Authorization request header (which handles authentication).
+	 * Service accounts are used for Google Cloud Storage and the mechanics require
+	 * applications to create and cryptographically sign JSON Web Tokens (JWTs).
+	 * A JWT is composed of three parts: a header, a claim set, and a signature.
 	 *
-	 * @param   string  $httpVerb  The HTTP Verb (GET, PUT, etc)
-	 * @param   string  $url       The target url of the request
-	 * @param   string  $headers   The headers of the request
+	 * @param   string  $scope  A space-delimited list of the permissions the
+	 *                          application requests
+	 * @param   string  $prn    The email address of the user for which the
+	 *                          application is requesting delegated access.
 	 *
 	 * @return string The Authorization request header
 	 *
 	 * @since   ??.?
 	 */
-	public function createAuthorization($httpVerb, $url, $headers)
+	public function createAuthorization($scope, $prn = null)
 	{
-		return "";
+		// Standard header for Service Accounts
+		$header = base64_encode(
+			utf8_encode(
+				json_encode(
+					array(
+						"alg" => "RS256",
+						"typ" => "JWT"
+					),
+					JSON_UNESCAPED_SLASHES
+				)
+			)
+		);
+
+		// The JWT claim set contains information about the JWT
+		$claimSetValues = array(
+			"iss" => $this->options->get("client.email"),
+			"scope" => $scope,
+			"aud" => $this->options->get("api.oauth.assertionTarget"),
+			"exp" => time() + 3600,
+			"iat" => time()
+		);
+
+		if ($prn != null)
+		{
+			$claimSetValues["prn"] = $prn;
+		}
+
+		$claimSet = base64_encode(utf8_encode(json_encode($claimSetValues, JSON_UNESCAPED_SLASHES)));
+
+		// Get the key needed to compute the signature
+		$key = file_get_contents($this->options->get("client.keyFile"));
+
+		// Sign the UTF-8 representation of the input using SHA256withRSA
+		$signature = base64_encode(hash_hmac("sha256", utf8_encode($header . "." . $claimSet), $key, false));
+		$requestBody = "grant-type=urn:ietf:params:oauth:grant-type:jwt-bearer&assertion="
+			. $header . "." . $claimSet . "." . $signature;
+
+		// Send the access token request
+		$response = $this->client->post(
+			$this->options->get('api.oauth.assertionTarget'),
+			$requestBody,
+			array(
+				"Host" => $this->options->get("api.host"),
+				"Content-Type" => "application/x-www-form-urlencoded",
+			)
+		);
+
+		// TODO get authorization from response
+
+		return $response;
 	}
 }
