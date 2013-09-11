@@ -641,7 +641,7 @@ class InstallationModelLanguages extends JModelBase
 	 *
 	 * @since   3.2
 	 */
-	public function getSefString( $itemLanguage, $siteLanguages)
+	public function getSefString($itemLanguage, $siteLanguages)
 	{
 		$langs = explode('-', $itemLanguage->language);
 		$prefix2charsToFind = $langs[0];
