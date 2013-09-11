@@ -98,7 +98,7 @@ class SiteContentFeaturedPage extends SitePage
 	public function isEditPresent()
 	{
 		$arrayElement=$this->driver->findElements(By::xPath("//a[contains(text(), 'Edit')]"));
-		if(count($arrayElement>0))
+		if(count($arrayElement)>0)
 		{
 			return true;
 		}
