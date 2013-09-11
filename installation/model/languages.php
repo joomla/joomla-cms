@@ -658,11 +658,13 @@ class InstallationModelLanguages extends JModelBase
 			}
 		}
 
-		if ($numberPrefixesFound == 1) {
+		if ($numberPrefixesFound == 1)
+		{
 			return $prefix2charsToFind;
 		}
 		return strtolower($itemLanguage->language);
 	}
+
 	/**
 	 * Add a Content Language
 	 *
