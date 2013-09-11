@@ -632,15 +632,48 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
+	 * Gets a unique language SEF string
+	 *
+	 * @param   stdclass    $itemLanguage   Language Object
+	 * @param   stdclass[]  $siteLanguages  All Language Objects
+	 *
+	 * @return  string
+	 *
+	 * @since   3.2
+	 */
+	public function getSefString( $itemLanguage, $siteLanguages)
+	{
+		$langs = explode('-', $itemLanguage->language);
+		$prefix2charsToFind  = $langs[0];
+
+		$numberPrefixesFound = 0;
+		foreach ($siteLanguages as $siteLang)
+		{
+			$langs = explode('-', $siteLang->language);
+			$lang  = $langs[0];
+
+			if ($lang == $prefix2charsToFind)
+			{
+				++$numberPrefixesFound;
+			}
+		}
+
+		if ($numberPrefixesFound == 1) {
+			return $prefix2charsToFind;
+		}
+		return $itemLanguage->language;
+	}
+	/**
 	 * Add a Content Language
 	 *
-	 * @param   stdclass  $itemLanguage  Language Object
+	 * @param   stdclass  $itemLanguage   Language Object
+	 * @param   string    $sefLangString  String to use for SEF so it doesn't conflict
 	 *
 	 * @return  boolean
 	 *
 	 * @since   3.2
 	 */
-	public function addLanguage($itemLanguage)
+	public function addLanguage($itemLanguage, $sefLangString)
 	{
 		$tableLanguage = JTable::getInstance('Language');
 
@@ -662,7 +695,7 @@ class InstallationModelLanguages extends JModelBase
 			'lang_code'    => $itemLanguage->language,
 			'title'        => $itemLanguage->name,
 			'title_native' => $nativeLanguageName,
-			'sef'          => $lang,
+			'sef'          => $sefLangString,
 			'image'        => $lang,
 			'published'    => 1
 		);
