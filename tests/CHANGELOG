@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Sep-2013 Mark Dexter
+ # Fix failing system tests.
+
 04-Sep-2013 Mark Dexter
  + Add some more front-end system tests. Thanks Puneet Kala.
 
