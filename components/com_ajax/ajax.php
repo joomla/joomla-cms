@@ -15,12 +15,11 @@ $app = JFactory::getApplication();
 // JInput object
 $input = $app->input;
 
+// Initialize default response
+$results = '';
+
 // Requested format passed via URL
 $format = strtolower($input->getWord('format'));
-
-// Initialized to prevent notices
-$results = null;
-$error   = null;
 
 /*
  * Module support.
@@ -48,25 +47,35 @@ if ($input->get('module'))
 
 		if (is_file($helperFile))
 		{
-			require_once($helperFile);
+			require_once $helperFile;
 
 			if (method_exists($class, $method . 'Ajax'))
 			{
-				$results = call_user_func($class . '::' . $method . 'Ajax');
+				try
+				{
+					$results = call_user_func($class . '::' . $method . 'Ajax');
+				}
+				catch (Exception $e)
+				{
+					$results = $e;
+				}
 			}
+			// Method does not exist
 			else
 			{
-				$error = JText::sprintf('COM_AJAX_METHOD_DOES_NOT_EXIST', $method . 'Ajax');
+				$results = new LogicExeption(JText::sprintf('COM_AJAX_METHOD_DOES_NOT_EXIST', $method . 'Ajax'), 500);
 			}
 		}
+		// The helper file does not exist
 		else
 		{
-			$error = JText::sprintf('COM_AJAX_HELPER_DOES_NOT_EXIST', 'mod_' . $module . '/helper.php');
+			$results = new RuntimeException(JText::sprintf('COM_AJAX_HELPER_DOES_NOT_EXIST', 'mod_' . $module . '/helper.php'), 500);
 		}
 	}
+	// Module is not published, you do not have access to it, or it is not assigned to the current menu item
 	else
 	{
-		$error = JText::sprintf('COM_AJAX_MODULE_NOT_PUBLISHED', 'mod_' . $module);
+		$results = new LogicException(JText::sprintf('COM_AJAX_MODULE_NOT_PUBLISHED', 'mod_' . $module), 500);
 	}
 }
 
@@ -83,40 +92,54 @@ if ($input->get('plugin'))
 	JPluginHelper::importPlugin('ajax');
 	$plugin     = ucfirst($input->get('plugin'));
 	$dispatcher = JEventDispatcher::getInstance();
-	$response   = $dispatcher->trigger('onAjax' . $plugin);
-	$results    = $response ? $response : ($error = JText::sprintf('COM_AJAX_NO_PLUGIN_RESPONSE', $plugin));
-}
 
-if (!is_null($error))
-{
-	echo $error;
-	$app->close();
+	try
+	{
+		$results = $dispatcher->trigger('onAjax' . $plugin);
+	}
+	catch (Exception $e)
+	{
+		$results = $e;
+	}
 }
 
 // Return the results in the desired format
 switch ($format)
 {
+	// JSONinzed
 	case 'json':
 		header('Content-Type: application/json');
-		echo json_encode($results);
-		$app->close();
+		echo new JResponseJson($results, null, false, $input->get('ignoreMessages', false, 'bool'));
 		break;
+
+	// Human-readable format
 	case 'debug':
 		echo '<pre>' . print_r($results, true) . '</pre>';
-		$app->close();
 		break;
+
+	// Expect raw
 	default:
-		echo is_array($results) ? implode($results) : $results;
-		// Emulates format=raw by closing $app
-		$app->close();
+		// Echo exception messsage
+		if ($results instanceof Exception)
+		{
+			echo $results->getMessage();
+		}
+		// Echo as a string
+		elseif (is_scalar($results))
+		{
+			echo (string) $results;
+		}
+		else
+		{
+			echo implode((array) $results);
+		}
+
 		break;
 }
 
-/*
- * References
- *  Support plugins in your component
- * - http://docs.joomla.org/Supporting_plugins_in_your_component
- *
- * Best way for JSON output
- * - https://groups.google.com/d/msg/joomla-dev-cms/WsC0nA9Fixo/Ur-gPqpqh-EJ
- */
+// Close the application by default
+if ($input->get('close', 1))
+{
+	$app->close();
+}
+
