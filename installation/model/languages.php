@@ -644,7 +644,7 @@ class InstallationModelLanguages extends JModelBase
 	public function getSefString($itemLanguage, $siteLanguages)
 	{
 		$langs = explode('-', $itemLanguage->language);
-		$prefix2charsToFind = $langs[0];
+		$prefixToFind = $langs[0];
 
 		$numberPrefixesFound = 0;
 		foreach ($siteLanguages as $siteLang)
@@ -652,7 +652,7 @@ class InstallationModelLanguages extends JModelBase
 			$langs = explode('-', $siteLang->language);
 			$lang  = $langs[0];
 
-			if ($lang == $prefix2charsToFind)
+			if ($lang == $prefixToFind)
 			{
 				++$numberPrefixesFound;
 			}
@@ -660,7 +660,7 @@ class InstallationModelLanguages extends JModelBase
 
 		if ($numberPrefixesFound == 1)
 		{
-			return $prefix2charsToFind;
+			return $prefixToFind;
 		}
 		return strtolower($itemLanguage->language);
 	}
