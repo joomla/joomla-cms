@@ -3272,6 +3272,16 @@ body .navbar-fixed-top {
 .navbar .brand:focus {
 	text-decoration: none;
 }
+.navbar .brand.brand-mobile {
+	display: none;
+	float: left;
+	margin: 2px 0 ;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	text-align: center;
+}
 .navbar-text {
 	margin-bottom: 0;
 	line-height: 40px;
@@ -5609,9 +5619,10 @@ a.badge:focus {
 		padding: 0;
 	}
 	.navbar .brand {
-		padding-left: 10px;
-		padding-right: 10px;
-		margin: 0 0 0 -5px;
+		display: none;
+	}
+	.navbar .brand.brand-mobile {
+		display: block;
 	}
 	.nav-collapse {
 		clear: both;
