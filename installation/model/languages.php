@@ -661,7 +661,7 @@ class InstallationModelLanguages extends JModelBase
 		if ($numberPrefixesFound == 1) {
 			return $prefix2charsToFind;
 		}
-		return $itemLanguage->language;
+		return strtolower($itemLanguage->language);
 	}
 	/**
 	 * Add a Content Language
@@ -677,8 +677,6 @@ class InstallationModelLanguages extends JModelBase
 	{
 		$tableLanguage = JTable::getInstance('Language');
 
-		$langs = explode('-', $itemLanguage->language);
-		$lang  = $langs[0];
 		$flag  = strtolower(str_replace('-', '_',  $itemLanguage->language));
 
 		// Load the native language name
