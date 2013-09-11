@@ -679,6 +679,7 @@ class InstallationModelLanguages extends JModelBase
 
 		$langs = explode('-', $itemLanguage->language);
 		$lang  = $langs[0];
+		$flag  = strtolower(str_replace('-', '_',  $itemLanguage->language));
 
 		// Load the native language name
 		$installationLocalisedIni = new JLanguage($itemLanguage->language, false);
@@ -696,7 +697,7 @@ class InstallationModelLanguages extends JModelBase
 			'title'        => $itemLanguage->name,
 			'title_native' => $nativeLanguageName,
 			'sef'          => $sefLangString,
-			'image'        => $lang,
+			'image'        => $flag,
 			'published'    => 1
 		);
 
