@@ -103,9 +103,11 @@ class PostinstallModelMessages extends FOFModel
 	protected function onProcessList(&$resultArray)
 	{
 		$unset_keys = array();
+		$language_extensions = array();
 
 		foreach ($resultArray as $key => $item)
 		{
+			// Filter out messages based on dynamically loaded programmatic conditions
 			if (!empty($item->condition_file) && !empty($item->condition_method))
 			{
 				jimport('joomla.filesystem.file');
@@ -122,6 +124,18 @@ class PostinstallModelMessages extends FOFModel
 					{
 						$unset_keys[] = $key;
 					}
+				}
+			}
+
+			// Load the necessary language files
+			if (!empty($item->language_extension))
+			{
+				$hash = $item->language_client_id . '-' . $item->language_extension;
+
+				if (!in_array($hash, $language_extensions))
+				{
+					$language_extensions[] = $hash;
+					JFactory::getLanguage()->load($item->language_extension, $item->language_client_id == 0 ? JPATH_SITE : JPATH_ADMINISTRATOR);
 				}
 			}
 		}
