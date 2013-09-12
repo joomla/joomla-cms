@@ -33,3 +33,6 @@ CREATE TABLE [#__postinstall_messages] (
 	[postinstall_message_id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 );
+
+INSERT INTO #__menu (id, menutype, title, alias, note, path, link, type, published, parent_id, level, component_id, checked_out, checked_out_time, browserNav, access, img, template_style_id, params, lft, rgt, home, language, client_id)
+SELECT 24, 'menu', 'com_postinstall', 'com_postinstall', '', 'Post-installation messages', 'index.php?option=com_postinstall', 'component', 0, 1, 1, 29, 0, '1900-01-01 00:00:00', 0, 0, 'class:postinstall', 0, '', 43, 44, 0, '*', 1;

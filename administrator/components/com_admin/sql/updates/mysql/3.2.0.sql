@@ -48,3 +48,6 @@ CREATE TABLE `#__postinstall_messages` (
   `published` tinyint(3) NOT NULL DEFAULT '1',
   PRIMARY KEY (`postinstall_message_id`)
 ) DEFAULT CHARSET=utf8;
+
+INSERT INTO `#__menu` (`id`, `menutype`, `title`, `alias`, `note`, `path`, `link`, `type`, `published`, `parent_id`, `level`, `component_id`, `checked_out`, `checked_out_time`, `browserNav`, `access`, `img`, `template_style_id`, `params`, `lft`, `rgt`, `home`, `language`, `client_id`) VALUES
+(24, 'main', 'com_postinstall', 'Post-installation messages', '', 'Post-installation messages', 'index.php?option=com_postinstall', 'component', 0, 1, 1, 29, 0, '0000-00-00 00:00:00', 0, 1, 'class:tags', 0, '', 43, 44, 0, '', 1);
