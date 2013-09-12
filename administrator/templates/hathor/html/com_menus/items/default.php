@@ -11,8 +11,9 @@ defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-JHtml::_('behavior.tooltip');
+
 JHtml::_('behavior.multiselect');
+JHtml::_('behavior.modal');
 
 $user		= JFactory::getUser();
 $app		= JFactory::getApplication();

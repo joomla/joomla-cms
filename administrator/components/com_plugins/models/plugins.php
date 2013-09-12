@@ -61,8 +61,6 @@ class PluginsModelPlugins extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = JFactory::getApplication('administrator');
-
 		// Load the filter state.
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
@@ -138,9 +136,8 @@ class PluginsModelPlugins extends JModelList
 				}
 			}
 
-			$lang = JFactory::getLanguage();
 			$direction = ($this->getState('list.direction') == 'desc') ? -1 : 1;
-			JArrayHelper::sortObjects($result, $ordering, $direction, true, $lang->getLocale());
+			JArrayHelper::sortObjects($result, $ordering, $direction, true, true);
 
 			$total = count($result);
 			$this->cache[$this->getStoreId('getTotal')] = $total;
@@ -248,11 +245,14 @@ class PluginsModelPlugins extends JModelList
 			$query->where('a.folder = ' . $db->quote($folder));
 		}
 
-		// Filter by search in id
+		// Filter by search in name or id
 		$search = $this->getState('filter.search');
-		if (!empty($search) && stripos($search, 'id:') === 0)
+		if (!empty($search))
 		{
-			$query->where('a.extension_id = ' . (int) substr($search, 3));
+			if (stripos($search, 'id:') === 0)
+			{
+				$query->where('a.extension_id = ' . (int) substr($search, 3));
+			}
 		}
 
 		return $query;

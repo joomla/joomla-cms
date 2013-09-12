@@ -32,7 +32,7 @@
 					class="btn-group"
 					label="MOD_CUSTOM_FIELD_PREPARE_CONTENT_LABEL"
 					description="MOD_CUSTOM_FIELD_PREPARE_CONTENT_DESC"
-					default="1">
+					default="0">
 					<option
 						value="0">JNO</option>
 					<option
@@ -51,7 +51,7 @@
 
 				<field
 					name="moduleclass_sfx"
-					type="text"
+					type="textarea" rows="3"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 

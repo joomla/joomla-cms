@@ -207,7 +207,6 @@ class JCategories
 	protected function _load($id)
 	{
 		$db = JFactory::getDbo();
-		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
 		$extension = $this->_extension;
 
@@ -217,16 +216,18 @@ class JCategories
 		$query = $db->getQuery(true);
 
 		// Right join with c for category
-		$query->select('c.*');
+		$query->select('c.id, c.asset_id, c.access, c.alias, c.checked_out, c.checked_out_time,
+			c.created_time, c.created_user_id, c.description, c.extension, c.hits, c.language, c.level,
+			c.lft, c.metadata, c.metadesc, c.metakey, c.modified_time, c.note, c.params, c.parent_id,
+			c.path, c.published, c.rgt, c.title, c.modified_user_id, c.version');
 		$case_when = ' CASE WHEN ';
-		$case_when .= $query->charLength('c.alias') . '!=0';
+		$case_when .= $query->charLength('c.alias', '!=', '0');
 		$case_when .= ' THEN ';
 		$c_id = $query->castAsChar('c.id');
 		$case_when .= $query->concatenate(array($c_id, 'c.alias'), ':');
 		$case_when .= ' ELSE ';
 		$case_when .= $c_id . ' END as slug';
 		$query->select($case_when)
-
 			->from('#__categories as c')
 			->where('(c.extension=' . $db->quote($extension) . ' OR c.extension=' . $db->quote('system') . ')');
 
@@ -277,19 +278,10 @@ class JCategories
 		// Group by
 		$query->group(
 			'c.id, c.asset_id, c.access, c.alias, c.checked_out, c.checked_out_time,
-						 c.created_time, c.created_user_id, c.description, c.extension, c.hits, c.language, c.level,
-						 c.lft, c.metadata, c.metadesc, c.metakey, c.modified_time, c.note, c.params, c.parent_id,
-						 c.path, c.published, c.rgt, c.title, c.modified_user_id'
+			 c.created_time, c.created_user_id, c.description, c.extension, c.hits, c.language, c.level,
+			 c.lft, c.metadata, c.metadesc, c.metakey, c.modified_time, c.note, c.params, c.parent_id,
+			 c.path, c.published, c.rgt, c.title, c.modified_user_id, c.version'
 		);
-
-		// Filter by language
-		if (empty($this->_options['allLanguages']) && $app->isSite() && JLanguageMultilang::isEnabled())
-		{
-			$query->where(
-				'(' . ($id != 'root' ? 'c.id=s.id OR ' : '') . 'c.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' .
-					$db->quote('*') . '))'
-			);
-		}
 
 		// Get the results
 		$db->setQuery($query);

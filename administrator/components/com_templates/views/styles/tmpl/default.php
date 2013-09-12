@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
@@ -31,11 +32,11 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 	<div id="filter-bar" class="btn-toolbar">
 		<div class="filter-search btn-group pull-left">
-			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER_LABEL'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_TEMPLATES_STYLES_FILTER_SEARCH_DESC'); ?>" />
+			<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_STYLES_FILTER_SEARCH_DESC'); ?>" />
 		</div>
 		<div class="btn-group pull-left">
-			<button class="btn hasTooltip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-			<button class="btn hasTooltip" type="button" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+			<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
+			<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
 		</div>
 		<div class="btn-group pull-right hidden-phone">
 			<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC');?></label>
@@ -89,12 +90,12 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				</td>
 				<td>
 					<?php if ($this->preview && $item->client_id == '0') : ?>
-						<a target="_blank"href="<?php echo JURI::root().'index.php?tp=1&templateStyle='.(int) $item->id ?>"  class="jgrid" title="<?php echo  htmlspecialchars(JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW')); ?>::<?php echo htmlspecialchars($item->title);?>" >
-						<i class="icon-eye-open tip hasTooltip" data-original-title="<?php echo  htmlspecialchars(JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW')); ?>" ></i></a>
+						<a target="_blank" href="<?php echo JUri::root().'index.php?tp=1&templateStyle='.(int) $item->id ?>" class="jgrid">
+						<i class="icon-eye-open hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW'), $item->title, 0); ?>" ></i></a>
 					<?php elseif ($item->client_id == '1') : ?>
-						<span class="disabled"><i class="icon-eye-close tip hasTooltip" data-original-title="<?php echo  htmlspecialchars(JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN')); ?>" ></i></span>
+						<i class="icon-eye-close disabled hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?>" ></i>
 					<?php else: ?>
-						<span class="disabled"><i class="icon-eye-close tip hasTooltip" data-original-title="<?php echo  htmlspecialchars(JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW')); ?>" ></i></span>
+						<i class="icon-eye-close disabled hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?>" ></i>
 					<?php endif; ?>
 					<?php if ($canEdit) : ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=style.edit&id='.(int) $item->id); ?>">
@@ -116,7 +117,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				</td>
 				<td class="center">
 					<?php if ($item->assigned > 0) : ?>
-						<i class="icon-ok tip hasTooltip" title="<?php echo JText::plural('COM_TEMPLATES_ASSIGNED', $item->assigned)?>"></i>
+						<i class="icon-ok tip hasTooltip" title="<?php echo JHtml::tooltipText(JText::plural('COM_TEMPLATES_ASSIGNED', $item->assigned), '', 0); ?>"></i>
 					<?php else : ?>
 						&#160;
 					<?php endif; ?>

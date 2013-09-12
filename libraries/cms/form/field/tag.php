@@ -112,10 +112,7 @@ class JFormFieldTag extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$options = array();
-
 		$published = $this->element['published']? $this->element['published'] : array(0,1);
-		$name = (string) $this->element['name'];
 
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true)
@@ -124,7 +121,7 @@ class JFormFieldTag extends JFormFieldList
 			->join('LEFT', $db->quoteName('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
 		// Ajax tag only loads assigned values
-		if (!$this->isNested())
+		if (!$this->isNested() && !empty($this->value))
 		{
 			// Only item assigned values
 			$values = (array) $this->value;
@@ -140,8 +137,6 @@ class JFormFieldTag extends JFormFieldList
 
 		$query->where($db->quoteName('a.alias') . ' <> ' . $db->quote('root'));
 
-		// Filter to only load active items
-
 		// Filter on the published state
 		if (is_numeric($published))
 		{
@@ -153,7 +148,7 @@ class JFormFieldTag extends JFormFieldList
 			$query->where('a.published IN (' . implode(',', $published) . ')');
 		}
 
-		$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.parent_id, a.published')
+		$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.parent_id, a.published, a.path')
 			->order('a.lft ASC');
 
 		// Get the options.

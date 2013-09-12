@@ -107,11 +107,14 @@ abstract class JModuleHelper
 	}
 
 	/**
-	 * Checks if a module is enabled
+	 * Checks if a module is enabled. A given module will only be returned
+	 * if it meets the following criteria: it is enabled, it is assigned to
+	 * the current menu item or all items, and the user meets the access level
+	 * requirements.
 	 *
 	 * @param   string  $module  The module name
 	 *
-	 * @return  boolean
+	 * @return  boolean See description for conditions.
 	 *
 	 * @since   11.1
 	 */
@@ -119,7 +122,7 @@ abstract class JModuleHelper
 	{
 		$result = self::getModule($module);
 
-		return !is_null($result);
+		return (!is_null($result) && $result->id !== 0);
 	}
 
 	/**
@@ -136,7 +139,7 @@ abstract class JModuleHelper
 	{
 		static $chrome;
 
-		if (constant('JDEBUG'))
+		if (defined('JDEBUG'))
 		{
 			JProfiler::getInstance('Application')->mark('beforeRenderModule ' . $module->module . ' (' . $module->title . ')');
 		}
@@ -235,7 +238,7 @@ abstract class JModuleHelper
 		// Revert the scope
 		$app->scope = $scope;
 
-		if (constant('JDEBUG'))
+		if (defined('JDEBUG'))
 		{
 			JProfiler::getInstance('Application')->mark('afterRenderModule ' . $module->module . ' (' . $module->title . ')');
 		}

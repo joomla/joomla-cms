@@ -79,7 +79,7 @@ class JFormFieldMedia extends JFormField
 			$script[] = '		var img = document.id(id + "_preview");';
 			$script[] = '		if (img) {';
 			$script[] = '			if (value) {';
-			$script[] = '				img.src = "' . JURI::root() . '" + value;';
+			$script[] = '				img.src = "' . JUri::root() . '" + value;';
 			$script[] = '				document.id(id + "_preview_empty").setStyle("display", "none");';
 			$script[] = '				document.id(id + "_preview_img").setStyle("display", "");';
 			$script[] = '			} else { ';
@@ -110,7 +110,9 @@ class JFormFieldMedia extends JFormField
 		$attr = '';
 
 		// Initialize some field attributes.
-		$attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
+		$attr_class = $this->element['class'] ? ' ' . (string) $this->element['class'] : '';
+
+		$attr .= ' class="input-small' . $attr_class . '"';
 		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
 
 		// Initialize JavaScript field attributes.
@@ -150,7 +152,7 @@ class JFormFieldMedia extends JFormField
 		{
 			if ($this->value && file_exists(JPATH_ROOT . '/' . $this->value))
 			{
-				$src = JURI::root() . $this->value;
+				$src = JUri::root() . $this->value;
 			}
 			else
 			{
@@ -173,9 +175,9 @@ class JFormFieldMedia extends JFormField
 			$previewImgEmpty = '<div id="' . $this->id . '_preview_empty"' . ($src ? ' style="display:none"' : '') . '>'
 				. JText::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY') . '</div>';
 
-			$html[] = '<div class="media-preview add-on">';
 			if ($showAsTooltip)
 			{
+				$html[] = '<div class="media-preview add-on">';
 				$tooltip = $previewImgEmpty . $previewImg;
 				$options = array(
 					'title' => JText::_('JLIB_FORM_MEDIA_PREVIEW_SELECTED_IMAGE'),
@@ -183,16 +185,18 @@ class JFormFieldMedia extends JFormField
 					'class' => 'hasTipPreview'
 				);
 				$html[] = JHtml::tooltip($tooltip, $options);
+				$html[] = '</div>';
 			}
 			else
 			{
+				$html[] = '<div class="media-preview add-on" style="height:auto">';
 				$html[] = ' ' . $previewImgEmpty;
 				$html[] = ' ' . $previewImg;
+				$html[] = '</div>';
 			}
-			$html[] = '</div>';
 		}
 
-		$html[] = '	<input type="text" class="input-small" name="' . $this->name . '" id="' . $this->id . '" value="'
+		$html[] = '	<input type="text" name="' . $this->name . '" id="' . $this->id . '" value="'
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" readonly="readonly"' . $attr . ' />';
 
 		$directory = (string) $this->element['directory'];

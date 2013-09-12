@@ -54,7 +54,6 @@ class WeblinksViewWeblink extends JViewLegacy
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		$user		= JFactory::getUser();
-		$userId		= $user->get('id');
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		// Since we don't track these assets at the item level, use the category id.
@@ -83,6 +82,13 @@ class WeblinksViewWeblink extends JViewLegacy
 		else
 		{
 			JToolbarHelper::cancel('weblink.cancel', 'JTOOLBAR_CLOSE');
+		}
+
+		if ($this->state->params->get('save_history') && $user->authorise('core.edit'))
+		{
+			$itemId = $this->item->id;
+			$typeAlias = 'com_weblinks.weblink';
+			JToolbarHelper::versions($typeAlias, $itemId);
 		}
 
 		JToolbarHelper::divider();

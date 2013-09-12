@@ -51,39 +51,6 @@ class MediaViewMedia extends JViewLegacy
 			JHtml::_('stylesheet', 'media/mootree_rtl.css', array(), true);
 		endif;
 
-		if ($config->get('enable_flash', 1))
-		{
-			$fileTypes = $config->get('upload_extensions', 'bmp,gif,jpg,png,jpeg');
-			$types = explode(',', $fileTypes);
-			$displayTypes = '';		// this is what the user sees
-			$filterTypes = '';		// this is what controls the logic
-			$firstType = true;
-
-			foreach ($types as $type)
-			{
-				if (!$firstType)
-				{
-					$displayTypes .= ', ';
-					$filterTypes .= '; ';
-				} else {
-					$firstType = false;
-				}
-				$displayTypes .= '*.'.$type;
-				$filterTypes .= '*.'.$type;
-			}
-			$typeString = '{ \''.JText::_('COM_MEDIA_FILES', 'true').' ('.$displayTypes.')\': \''.$filterTypes.'\' }';
-
-			JHtml::_('behavior.uploader', 'upload-flash',
-				array(
-					'onBeforeStart' => 'function(){ Uploader.setOptions({url: document.id(\'uploadForm\').action + \'&folder=\' + document.id(\'mediamanager-form\').folder.value}); }',
-					'onComplete' 	=> 'function(){ MediaManager.refreshFrame(); }',
-					'targetURL' 	=> '\\document.id(\'uploadForm\').action',
-					'typeFilter' 	=> $typeString,
-					'fileSizeMax'	=> (int) ($config->get('upload_maxsize', 0) * 1024 * 1024),
-				)
-			);
-		}
-
 		if (DIRECTORY_SEPARATOR == '\\')
 		{
 			$base = str_replace(DIRECTORY_SEPARATOR, "\\\\", COM_MEDIA_BASE);
@@ -149,7 +116,7 @@ class MediaViewMedia extends JViewLegacy
 		// Add a create folder button
 		if ($user->authorise('core.create', 'com_media'))
 		{
-			$title = JText::_('COM_MEDIA_CREATE_FOLDER');
+			$title = JText::_('COM_MEDIA_CREATE_NEW_FOLDER');
 			$dhtml = "<button data-toggle=\"collapse\" data-target=\"#collapseFolder\" class=\"btn btn-small\">
 						<i class=\"icon-folder\" title=\"$title\"></i>
 						$title</button>";
@@ -161,7 +128,7 @@ class MediaViewMedia extends JViewLegacy
 		if ($user->authorise('core.delete', 'com_media'))
 		{
 			$title = JText::_('JTOOLBAR_DELETE');
-			$dhtml = "<button href=\"#\" onclick=\"MediaManager.submit('folder.delete')\" class=\"btn btn-small\">
+			$dhtml = "<button onclick=\"MediaManager.submit('folder.delete')\" class=\"btn btn-small\">
 						<i class=\"icon-remove\" title=\"$title\"></i>
 						$title</button>";
 			$bar->appendButton('Custom', $dhtml, 'delete');

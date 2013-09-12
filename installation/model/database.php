@@ -460,7 +460,7 @@ class InstallationModelDatabase extends JModelBase
 		}
 
 		// Attempt to refresh manifest caches
-		$query = $db->getQuery(true)
+		$query->clear()
 			->select('*')
 			->from('#__extensions');
 		$db->setQuery($query);
@@ -536,7 +536,7 @@ class InstallationModelDatabase extends JModelBase
 			$params = json_encode($params);
 
 			// Update the language settings in the language manager.
-			$query = $db->getQuery(true)
+			$query->clear()
 				->update($db->quoteName('#__extensions'))
 				->set($db->quoteName('params') . ' = ' . $db->quote($params))
 				->where($db->quoteName('element') . ' = ' . $db->quote('com_languages'));
@@ -710,10 +710,10 @@ class InstallationModelDatabase extends JModelBase
 	/**
 	 * Method to create a new database.
 	 *
-	 * @param   JDatabaseDriver  $db          JDatabase object.
-	 * @param   JObject          $options     JObject coming from "initialise" function to pass user
-	 *                                        and database name to database driver.
-	 * @param   boolean          $utf         True if the database supports the UTF-8 character set.
+	 * @param   JDatabaseDriver  $db       JDatabase object.
+	 * @param   JObject          $options  JObject coming from "initialise" function to pass user
+	 *                                     and database name to database driver.
+	 * @param   boolean          $utf      True if the database supports the UTF-8 character set.
 	 *
 	 * @return  boolean  True on success.
 	 *

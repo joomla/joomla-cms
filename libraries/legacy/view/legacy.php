@@ -163,6 +163,10 @@ class JViewLegacy extends JObject
 			// User-defined dirs
 			$this->_setPath('template', $config['template_path']);
 		}
+		elseif (is_dir(JPATH_COMPONENT . '/view'))
+		{
+			$this->_setPath('template', $this->_basePath . '/view/' . $this->getName() . '/tmpl');
+		}
 		else
 		{
 			$this->_setPath('template', $this->_basePath . '/views/' . $this->getName() . '/tmpl');
@@ -189,7 +193,7 @@ class JViewLegacy extends JObject
 			$this->setLayout('default');
 		}
 
-		$this->baseurl = JURI::base(true);
+		$this->baseurl = JUri::base(true);
 	}
 
 	/**
@@ -779,8 +783,6 @@ class JViewLegacy extends JObject
 	 */
 	protected function _createFileName($type, $parts = array())
 	{
-		$filename = '';
-
 		switch ($type)
 		{
 			case 'template':

@@ -41,6 +41,12 @@ class ContactViewContact extends JViewLegacy
 			return false;
 		}
 
+		if ($this->getLayout() == 'modal')
+		{
+			$this->form->setFieldAttribute('language', 'readonly', 'true');
+			$this->form->setFieldAttribute('catid', 'readonly', 'true');
+		}
+
 		$this->addToolbar();
 		parent::display($tpl);
 	}
@@ -102,6 +108,13 @@ class ContactViewContact extends JViewLegacy
 			}
 
 			JToolbarHelper::cancel('contact.cancel', 'JTOOLBAR_CLOSE');
+		}
+
+		if ($this->state->params->get('save_history') && $user->authorise('core.edit'))
+		{
+			$itemId = $this->item->id;
+			$typeAlias = 'com_contact.contact';
+			JToolbarHelper::versions($typeAlias, $itemId);
 		}
 
 		JToolbarHelper::divider();

@@ -96,6 +96,9 @@ class ContactModelCategory extends JModelList
 				$params->loadString($item->params);
 				$item->params = $params;
 			}
+			$this->tags = new JHelperTags;
+			$this->tags->getItemTags('com_contact.contact', $item->id);
+
 		}
 
 		return $items;
@@ -134,7 +137,7 @@ class ContactModelCategory extends JModelList
 		$case_when1 .= ' ELSE ';
 		$case_when1 .= $c_id . ' END as catslug';
 		$query->select($this->getState('list.select', 'a.*') . ',' . $case_when . ',' . $case_when1)
-		// TODO: we actually should be doing it but it's wrong this way	
+		// TODO: we actually should be doing it but it's wrong this way
 		//	. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(\':\', a.id, a.alias) ELSE a.id END as slug, '
 		//	. ' CASE WHEN CHAR_LENGTH(c.alias) THEN CONCAT_WS(\':\', c.id, c.alias) ELSE c.id END AS catslug ');
 			->from($db->quoteName('#__contact_details') . ' AS a')
@@ -212,7 +215,6 @@ class ContactModelCategory extends JModelList
 	{
 		$app = JFactory::getApplication();
 		$params = JComponentHelper::getParams('com_contact');
-		$db = $this->getDbo();
 
 		// List state information
 		$format = $app->input->getWord('format');
@@ -267,7 +269,7 @@ class ContactModelCategory extends JModelList
 			// Filter by start and end dates.
 			$this->setState('filter.publish_date', true);
 		}
-		$this->setState('filter.language', $app->getLanguageFilter());
+		$this->setState('filter.language', JLanguageMultilang::isEnabled());
 
 		// Load the parameters.
 		$this->setState('params', $params);
@@ -316,8 +318,6 @@ class ContactModelCategory extends JModelList
 				$this->_parent = false;
 			}
 		}
-		$this->tags = new JHelperTags;
-		$this->tags->getItemTags('com_contact.category', $this->_item->get('id'));
 
 		return $this->_item;
 	}

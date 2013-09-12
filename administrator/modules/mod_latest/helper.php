@@ -23,11 +23,11 @@ abstract class ModLatestHelper
 	/**
 	 * Get a list of articles.
 	 *
-	 * @param   JRegistry  $params  The module parameters.
+	 * @param   JRegistry  &$params  The module parameters.
 	 *
 	 * @return  mixed  An array of articles, or false on error.
 	 */
-	public static function getList($params)
+	public static function getList(&$params)
 	{
 		$user = JFactory::getuser();
 

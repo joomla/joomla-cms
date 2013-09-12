@@ -127,8 +127,8 @@ class LanguagesModelStrings extends JModelLegacy
 
 			// Create the search query
 			$query = $this->_db->getQuery(true)
-						->select('constant, string, file')
-						->from($this->_db->quoteName('#__overrider'));
+				->select('constant, string, file')
+				->from($this->_db->quoteName('#__overrider'));
 			if ($input->get('searchtype') == 'constant')
 			{
 				$query->where('constant LIKE '.$searchstring);

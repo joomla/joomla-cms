@@ -9,6 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.stream');
 
 /**
@@ -60,6 +61,7 @@ class JArchiveBzip2 implements JArchiveExtractable
 		{
 			// Old style: read the whole file and then parse it
 			$this->_data = file_get_contents($archive);
+
 			if (!$this->_data)
 			{
 				if (class_exists('JError'))
@@ -74,6 +76,7 @@ class JArchiveBzip2 implements JArchiveExtractable
 
 			$buffer = bzdecompress($this->_data);
 			unset($this->_data);
+
 			if (empty($buffer))
 			{
 				if (class_exists('JError'))
@@ -124,6 +127,7 @@ class JArchiveBzip2 implements JArchiveExtractable
 			if (!$output->open($destination, 'w'))
 			{
 				$input->close();
+
 				if (class_exists('JError'))
 				{
 					return JError::raiseWarning(100, 'Unable to write archive (bz2)');
@@ -137,11 +141,13 @@ class JArchiveBzip2 implements JArchiveExtractable
 			do
 			{
 				$this->_data = $input->read($input->get('chunksize', 8196));
+
 				if ($this->_data)
 				{
 					if (!$output->write($this->_data))
 					{
 						$input->close();
+
 						if (class_exists('JError'))
 						{
 							return JError::raiseWarning(100, 'Unable to write archive (bz2)');

@@ -12,8 +12,7 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-// Load the tooltip behavior.
-JHtml::_('behavior.tooltip');
+JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('behavior.modal');
 JHtml::_('formbehavior.chosen', 'select');
@@ -47,11 +46,11 @@ $modMenuId = (int) $this->get('ModMenuId');
 		<div id="filter-bar" class="btn-toolbar">
 			<div class="filter-search btn-group pull-left">
 				<label for="filter_search" class="element-invisible"><?php echo JText::_('COM_MENUS_MENU_SEARCH_FILTER');?></label>
-				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_MENUS_MENU_SEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_MENUS_ITEMS_SEARCH_FILTER'); ?>" />
+				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_MENUS_ITEMS_SEARCH_FILTER'); ?>" />
 			</div>
 			<div class="btn-group pull-left hidden-phone">
-				<button class="btn hasTooltip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-				<button class="btn hasTooltip" type="button" onclick="document.id('filter_search').value='';this.form.submit();" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>"><i class="icon-remove"></i></button>
+				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
+				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
 			</div>
 			<div class="btn-group pull-right hidden-phone">
 				<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC');?></label>
@@ -63,7 +62,7 @@ $modMenuId = (int) $this->get('ModMenuId');
 			<thead>
 				<tr>
 					<th width="1%">
-						<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
+						<?php echo JHtml::_('grid.checkall'); ?>
 					</th>
 					<th>
 						<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>

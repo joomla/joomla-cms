@@ -83,15 +83,18 @@ class NewsfeedsModelCategory extends JModelList
 		$items = parent::getItems();
 
 		// Convert the params field into an object, saving original in _params
-		for ($i = 0, $n = count($items); $i < $n; $i++)
+		foreach ($items as $item)
 		{
-			$item = & $items[$i];
 			if (!isset($this->_params))
 			{
 				$params = new JRegistry;
 				$item->params = $params;
 				$params->loadString($item->params);
 			}
+
+			// Get the tags
+			$item->tags = new JHelperTags;
+			$item->tags->getItemTags('com_newsfeeds.newsfeed', $item->id);
 		}
 
 		return $items;
@@ -212,7 +215,7 @@ class NewsfeedsModelCategory extends JModelList
 			$this->setState('filter.publish_date', true);
 		}
 
-		$this->setState('filter.language', $app->getLanguageFilter());
+		$this->setState('filter.language', JLanguageMultilang::isEnabled());
 
 		// Load the parameters.
 		$this->setState('params', $params);

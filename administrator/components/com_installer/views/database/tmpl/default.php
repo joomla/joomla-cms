@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 ?>
 
 <div id="installer-database">
-	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=warnings');?>" method="post" name="adminForm" id="adminForm">
+	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=database');?>" method="post" name="adminForm" id="adminForm">
 
 	<?php if (!empty( $this->sidebar)) : ?>
 		<div id="j-sidebar-container" class="span2">
@@ -22,32 +22,20 @@ defined('_JEXEC') or die;
 	<?php else : ?>
 		<div id="j-main-container">
 	<?php endif;?>
-
 		<?php if ($this->errorCount === 0) : ?>
 			<div class="alert alert-info">
 				<a class="close" data-dismiss="alert" href="#">&times;</a>
 				<?php echo JText::_('COM_INSTALLER_MSG_DATABASE_OK'); ?>
 			</div>
-
-			<ul class="nav nav-tabs">
-				<li class="active"><a href="#other" data-toggle="tab"><?php echo JText::_('COM_INSTALLER_MSG_DATABASE_INFO');?></a></li>
-			</ul>
-
-			<div class="tab-content">
+			<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'other')); ?>
 		<?php else : ?>
 			<div class="alert alert-error">
 				<a class="close" data-dismiss="alert" href="#">&times;</a>
 				<?php echo JText::_('COM_INSTALLER_MSG_DATABASE_ERRORS'); ?>
 			</div>
-
-			<ul class="nav nav-tabs">
-				<li class="active"><a href="#problems" data-toggle="tab"><?php echo JText::plural('COM_INSTALLER_MSG_N_DATABASE_ERROR_PANEL', $this->errorCount);?> <span class="badge badge-info"><?php echo $this->errorCount;?></span></a></li>
-				<li><a href="#other" data-toggle="tab"><?php echo JText::_('COM_INSTALLER_MSG_DATABASE_INFO');?></a></li>
-			</ul>
-
-			<div class="tab-content">
-				<div class="tab-pane active" id="problems">
-					<fieldset class="panelform">
+			<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'problems')); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'problems', JText::plural('COM_INSTALLER_MSG_N_DATABASE_ERROR_PANEL', $this->errorCount)); ?>
+				<fieldset class="panelform">
 						<ul>
 						<?php if (!$this->filterParams) : ?>
 							<li><?php echo JText::_('COM_INSTALLER_MSG_DATABASE_FILTER_ERROR'); ?>
@@ -73,9 +61,11 @@ defined('_JEXEC') or die;
 						<?php endforeach; ?>
 						</ul>
 					</fieldset>
-				</div>
+
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
-				<div class="tab-pane" id="other">
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'other', JText::_('COM_INSTALLER_MSG_DATABASE_INFO', true)); ?>
+				<div class="control-group" >
 					<fieldset class="panelform">
 						<ul>
 							<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_VERSION', $this->schemaVersion); ?></li>
@@ -86,7 +76,7 @@ defined('_JEXEC') or die;
 						</ul>
 					</fieldset>
 				</div>
-			</div>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 			<input type="hidden" name="task" value="" />
 			<input type="hidden" name="boxchecked" value="0" />

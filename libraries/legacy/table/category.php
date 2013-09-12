@@ -25,7 +25,7 @@ class JTableCategory extends JTableNested
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($db)
+	public function __construct(JDatabaseDriver $db)
 	{
 		parent::__construct('#__categories', 'id', $db);
 
@@ -44,6 +44,7 @@ class JTableCategory extends JTableNested
 	protected function _getAssetName()
 	{
 		$k = $this->_tbl_key;
+
 		return $this->extension . '.category.' . (int) $this->$k;
 	}
 
@@ -69,7 +70,7 @@ class JTableCategory extends JTableNested
 	 *
 	 * @since   11.1
 	 */
-	protected function _getAssetParentId($table = null, $id = null)
+	protected function _getAssetParentId(JTable $table = null, $id = null)
 	{
 		$assetId = null;
 
@@ -84,6 +85,7 @@ class JTableCategory extends JTableNested
 
 			// Get the asset id from the database.
 			$this->_db->setQuery($query);
+
 			if ($result = $this->_db->loadResult())
 			{
 				$assetId = (int) $result;
@@ -100,6 +102,7 @@ class JTableCategory extends JTableNested
 
 			// Get the asset id from the database.
 			$this->_db->setQuery($query);
+
 			if ($result = $this->_db->loadResult())
 			{
 				$assetId = (int) $result;
@@ -131,15 +134,19 @@ class JTableCategory extends JTableNested
 		if (trim($this->title) == '')
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_CATEGORY'));
+
 			return false;
 		}
+
 		$this->alias = trim($this->alias);
+
 		if (empty($this->alias))
 		{
 			$this->alias = $this->title;
 		}
 
 		$this->alias = JApplication::stringURLSafe($this->alias);
+
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
 			$this->alias = JFactory::getDate()->format('Y-m-d-H-i-s');
@@ -212,15 +219,18 @@ class JTableCategory extends JTableNested
 			$this->created_time = $date->toSql();
 			$this->created_user_id = $user->get('id');
 		}
+
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Category', 'JTable', array('dbo' => $this->getDbo()));
+
 		if ($table->load(array('alias' => $this->alias, 'parent_id' => $this->parent_id, 'extension' => $this->extension))
 			&& ($table->id != $this->id || $this->id == 0))
 		{
-
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'));
+
 			return false;
 		}
+
 		return parent::store($updateNulls);
 	}
 }

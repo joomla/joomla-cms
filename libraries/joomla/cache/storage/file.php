@@ -19,6 +19,8 @@ defined('JPATH_PLATFORM') or die;
 class JCacheStorageFile extends JCacheStorage
 {
 	/**
+	 * Root path
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -93,7 +95,6 @@ class JCacheStorageFile extends JCacheStorage
 
 		foreach ($folders as $folder)
 		{
-			$files = array();
 			$files = $this->_filesInFolder($path . '/' . $folder);
 			$item = new JCacheStorageHelper($folder);
 

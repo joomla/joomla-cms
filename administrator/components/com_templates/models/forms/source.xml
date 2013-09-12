@@ -16,6 +16,7 @@
 			buttons="no"
 			label="COM_TEMPLATES_FIELD_SOURCE_LABEL"
 			description="COM_TEMPLATES_FIELD_SOURCE_DESC"
+			height="500px"
 			rows="20"
 			cols="80"
 			filter="raw" />

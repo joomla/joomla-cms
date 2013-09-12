@@ -89,4 +89,51 @@ class JHelperContent
 
 		return $langCode;
 	}
+
+	/**
+	* Gets the associated language ID
+	*
+	* @param   string  $langCode  The language code to look up
+	*
+	* @return  integer  The language ID
+	*
+	* @since   3.1
+	*/
+	public static function getLanguageId($langCode)
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('lang_id')
+			->from('#__languages')
+			->where($db->quoteName('lang_code') . ' = ' . $db->quote($langCode));
+		$db->setQuery($query);
+
+		$id = $db->loadResult();
+
+		return $id;
+	}
+
+	/**
+	 * Gets a row of data from a table
+	 *
+	 * @param   JTable  $table  JTable instance for a row.
+	 *
+	 * @return  array  Associative array of all columns and values for a row in a table.
+	 *
+	 * @since   3.1
+	 */
+	public function getRowData($table)
+	{
+		$fields = $table->getFields();
+		$data = array();
+
+		foreach ($fields as &$field)
+		{
+			$columnName = $field->Field;
+			$value = $table->$columnName;
+			$data[$columnName] = $value;
+		}
+
+		return $data;
+	}
 }

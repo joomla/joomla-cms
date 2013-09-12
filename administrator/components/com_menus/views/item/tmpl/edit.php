@@ -12,15 +12,43 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-// Load the tooltip behavior.
 JHtml::_('behavior.framework');
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.modal');
 JHtml::_('formbehavior.chosen', 'select');
 
+JText::script('ERROR');
+JText::script('JGLOBAL_VALIDATION_FORM_FAILED');
+
 $app = JFactory::getApplication();
 $assoc = isset($app->item_associations) ? $app->item_associations : 0;
+
+//Ajax for parent items
+$script = "jQuery(document).ready(function ($){
+				$('#jform_menutype').change(function(){
+					var menutype = $(this).val();
+					$.ajax({
+						url: 'index.php?option=com_menus&task=item.getParentItem&menutype=' + menutype,
+						dataType: 'json'
+					}).done(function(data) {
+						$('#jform_parent_id option').each(function() {
+							if ($(this).val() != '1') {
+								$(this).remove();
+							}
+						});
+
+						$.each(data, function (i, val) {
+							var option = $('<option>');
+							option.text(val.title).val(val.id);
+							$('#jform_parent_id').append(option);
+						});
+						$('#jform_parent_id').trigger('liszt:updated');
+					});
+				});
+			});";
+
+// Add the script to the document head.
+JFactory::getDocument()->addScriptDeclaration($script);
 
 ?>
 
@@ -50,15 +78,19 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 				var name = idReversed.substr(separatorLocation).split("").reverse().join("")+'name';
 				document.id(name).addClass('invalid');
 			});
+
+			$('system-message').getElement('h4').innerHTML  = Joomla.JText._('ERROR');
+			$('system-message').getElement('div').innerHTML = Joomla.JText._('JGLOBAL_VALIDATION_FORM_FAILED');
 		}
 	}
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate form-horizontal">
-	<fieldset>
-		<?php echo JHtml::_('bootstrap.startPane', 'myTab', array('active' => 'details')); ?>
 
-			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'details', JText::_('COM_MENUS_ITEM_DETAILS', true)); ?>
+	<fieldset>
+		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
+
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_MENUS_ITEM_DETAILS', true)); ?>
 				<div class="row-fluid">
 					<div class="span6">
 						<div class="control-group">
@@ -79,6 +111,20 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 									<?php echo $this->form->getInput('link'); ?>
 								</div>
 							</div>
+						<?php endif; ?>
+
+						<?php if ($this->item->link == 'index.php?Itemid=') : ?>
+							<?php $fieldSets = $this->form->getFieldsets('params'); ?>
+							<?php foreach ($this->form->getFieldset('aliasoptions') as $field) : ?>
+								<div class="control-group">
+									<div class="control-label">
+										<?php echo $field->label; ?>
+									</div>
+									<div class="controls">
+										<?php echo $field->input; ?>
+									</div>
+								</div>
+							<?php endforeach; ?>
 						<?php endif; ?>
 
 						<?php if ($this->item->link == 'index.php?option=com_wrapper&view=wrapper') : ?>
@@ -251,25 +297,25 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 						</div>
 					</div>
 				</div>
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'options', JText::_('COM_MENUS_ADVANCED_FIELDSET_LABEL', true)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'options', JText::_('COM_MENUS_ADVANCED_FIELDSET_LABEL', true)); ?>
 				<?php echo $this->loadTemplate('options'); ?>
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 			<?php if ($assoc) : ?>
-			<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>
 				<?php echo $this->loadTemplate('associations'); ?>
-			<?php echo JHtml::_('bootstrap.endPanel'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
 			<?php endif; ?>
 
 			<?php if (!empty($this->modules)) : ?>
-				<?php echo JHtml::_('bootstrap.addPanel', 'myTab', 'modules', JText::_('COM_MENUS_ITEM_MODULE_ASSIGNMENT', true)); ?>
+				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'modules', JText::_('COM_MENUS_ITEM_MODULE_ASSIGNMENT', true)); ?>
 					<?php echo $this->loadTemplate('modules'); ?>
-				<?php echo JHtml::_('bootstrap.endPanel'); ?>
+				<?php echo JHtml::_('bootstrap.endTab'); ?>
 			<?php endif; ?>
 
-		<?php echo JHtml::_('bootstrap.endPane'); ?>
+		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</fieldset>
 
 	<input type="hidden" name="task" value="" />

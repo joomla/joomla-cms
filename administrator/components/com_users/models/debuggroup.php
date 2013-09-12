@@ -18,7 +18,7 @@ require_once JPATH_COMPONENT . '/helpers/debug.php';
  * @subpackage  com_users
  * @since       1.6
  */
-class UsersModelDebugGroup extends JModelList
+class UsersModelDebuggroup extends JModelList
 {
 	/**
 	 * Get a list of the actions.
@@ -58,10 +58,10 @@ class UsersModelDebugGroup extends JModelList
 					$level = $action[1];
 
 					// Check that we check this action for the level of the asset.
-					if ($action[1] === null || $action[1] >= $asset->level)
+					if ($level === null || $level >= $asset->level)
 					{
 						// We need to test this action.
-						$asset->checks[$name] = JAccess::checkGroup($groupId, $action[0], $asset->name);
+						$asset->checks[$name] = JAccess::checkGroup($groupId, $name, $asset->name);
 					}
 					else
 					{

@@ -32,7 +32,8 @@
 					type="text"
 					size="30"
 					label="MOD_WRAPPER_FIELD_URL_LABEL"
-					description="MOD_WRAPPER_FIELD_URL_DESC" />
+					description="MOD_WRAPPER_FIELD_URL_DESC"
+					required="true" />
 				<field
 					name="add"
 					type="radio"
@@ -112,7 +113,7 @@
 					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
 				<field
 					name="moduleclass_sfx"
-					type="text"
+					type="textarea" rows="3"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 				<field

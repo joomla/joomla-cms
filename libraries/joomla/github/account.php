@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -28,6 +28,7 @@ class JGithubAccount extends JGithubObject
 	 * @return  object
 	 *
 	 * @since   12.3
+	 * @throws  DomainException
 	 */
 	public function createAuthorisation(array $scopes = array(), $note = '', $url = '')
 	{
@@ -60,6 +61,7 @@ class JGithubAccount extends JGithubObject
 	 * @return  object
 	 *
 	 * @since   12.3
+	 * @throws  DomainException
 	 */
 	public function deleteAuthorisation($id)
 	{
@@ -93,6 +95,7 @@ class JGithubAccount extends JGithubObject
 	 * @return  object
 	 *
 	 * @since   12.3
+	 * @throws  DomainException
 	 * @throws  RuntimeException
 	 */
 	public function editAuthorisation($id, array $scopes = array(), array $addScopes = array(), array $removeScopes = array(), $note = '', $url = '')
@@ -159,6 +162,7 @@ class JGithubAccount extends JGithubObject
 	 *
 	 * @since   12.3
 	 * @note    This method will only accept Basic Authentication
+	 * @throws  DomainException
 	 */
 	public function getAuthorisation($id)
 	{
@@ -185,6 +189,7 @@ class JGithubAccount extends JGithubObject
 	 * @return  object
 	 *
 	 * @since   12.3
+	 * @throws  DomainException
 	 * @note    This method will only accept Basic Authentication
 	 */
 	public function getAuthorisations()
@@ -212,6 +217,7 @@ class JGithubAccount extends JGithubObject
 	 * @return  object
 	 *
 	 * @since   12.3
+	 * @throws  DomainException
 	 */
 	public function getRateLimit()
 	{

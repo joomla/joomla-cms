@@ -48,7 +48,7 @@ class Featured0001Test extends SeleniumJoomlaTestCase
 
 		$this->jPrint ("Go to front page and check article order\n");
 		$this->gotoSite();
-		$this->assertEquals("Professionals", $this->getText("//div[@class='leading-0']/h2"), "Professionals article should be intro");
+		$this->assertEquals("Professionals", $this->getText("//div[contains(@class, 'leading-0')]/h2"), "Professionals article should be intro");
 		$this->assertTrue((bool) preg_match("/^[\s\S]*Upgraders[\s\S]*Beginners[\s\S]*Joomla![\s\S]*$/", $this->getText(
 			"//div[contains(@class, 'items-row')]")), "Order in columns should be Upgrader, Beginners, Joomla!");
 
@@ -68,7 +68,7 @@ class Featured0001Test extends SeleniumJoomlaTestCase
 
 		$this->jPrint ("Go to site and check that the articles are in original order.\n");
 		$this->gotoSite();
-		$this->assertEquals("Joomla!", $this->getText("//div[@class='leading-0']/h2"), "Joomla! should be intro article");
+		$this->assertEquals("Joomla!", $this->getText("//div[contains(@class, 'leading-0')]/h2"), "Joomla! should be intro article");
 		$this->assertTrue((bool) preg_match("/^[\s\S]*Beginners[\s\S]*Upgraders[\s\S]*Professionals[\s\S]*$/", $this->getText(
 			"//div[contains(@class, 'items-row')]")), "Articles should be Beginners, Upgraders, Professionals");
 
@@ -88,7 +88,7 @@ class Featured0001Test extends SeleniumJoomlaTestCase
 
 		$this->jPrint ("Goto front page and check alpha article order \n");
 		$this->gotoSite();
-		$this->assertEquals("Beginners", $this->getText("//div[@class='leading-0']/h2"), "Beginners should be intro article");
+		$this->assertEquals("Beginners", $this->getText("//div[contains(@class, 'leading-0')]/h2"), "Beginners should be intro article");
 		$this->assertEquals("Joomla!", $this->getText("//div[contains(@class, 'item column-1')]/h2"), "Joomla! should be col 1");
 		$this->assertEquals("Professionals", $this->getText("//div[contains(@class, 'item column-2')]/h2"), "Professionals should be col 2");
 		$this->assertEquals("Upgraders", $this->getText("//div[contains(@class, 'item column-3')]/h2"), "Upgrades should be col 3");
