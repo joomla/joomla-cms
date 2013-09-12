@@ -105,8 +105,17 @@ class TagsViewTag extends JViewLegacy
 		else {
 			JToolbarHelper::cancel('tag.cancel', 'JTOOLBAR_CLOSE');
 		}
-		JToolbarHelper::help('JHELP_COMPONENTS_TAGS_MANAGER_EDIT');
+
+		if ($this->state->params->get('save_history') && $user->authorise('core.edit'))
+		{
+			$itemId = $this->item->id;
+			$typeAlias = 'com_tags.tag';
+			JToolbarHelper::versions($typeAlias, $itemId);
+		}
+
 		JToolbarHelper::divider();
+
+		JToolbarHelper::help('JHELP_COMPONENTS_TAGS_MANAGER_EDIT');
 
 	}
 }

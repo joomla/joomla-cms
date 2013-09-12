@@ -73,5 +73,6 @@ JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'JTable
 JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'JTableCategory', array('typeAlias' => '{extension}.category'));
 JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'NewsfeedsTableNewsfeed', array('typeAlias' => 'com_newsfeeds.newsfeed'));
 JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'WeblinksTableWeblink', array('typeAlias' => 'com_weblinks.weblink'));
+JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'TagsTableTag', array('typeAlias' => 'com_tags.tag'));
 
 require_once JPATH_LIBRARIES . '/framework/aliases.php';
