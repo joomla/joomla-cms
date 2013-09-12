@@ -25,39 +25,29 @@ Joomla.overrider = {
  */
 Joomla.overrider.refreshCache = function()
 {
-	var req = new Request.JSON({
-		method: 'post',
-		url: 'index.php?option=com_languages&task=strings.refresh&format=json',
-		onRequest: function()
-		{
-			this.states.refreshing = true;
-			document.id('refresh-status').reveal();
-		}.bind(this),
-		onSuccess: function(r)
-		{
-			if (r.error && r.message)
-			{
-				alert(r.message);
-			}
-			if (r.messages)
-			{
-				Joomla.renderMessages(r.messages);
-			}
-			document.id('refresh-status').dissolve();
-			this.states.refreshing = false;
-		}.bind(this),
-		onFailure: function(xhr)
-		{
-			alert(Joomla.JText._('COM_LANGUAGES_VIEW_OVERRIDE_REQUEST_ERROR'));
-			document.id('refresh-status').dissolve();
-		}.bind(this),
-		onError: function(text, error)
-		{
-			alert(error + "\n\n" + text);
-			document.id('refresh-status').dissolve();
-		}.bind(this)
-	});
-	req.post();
+    var $ = jQuery.noConflict(), self = this;
+    this.states.refreshing = true;
+    document.id('refresh-status').reveal();
+            
+    $.ajax({
+        type : "POST",
+        url : 'index.php?option=com_languages&task=strings.refresh&format=json',
+        dataType : 'json'
+    }).done(function(r) {
+       if (r.error && r.message)
+            {
+                alert(r.message);
+            }
+            if (r.messages)
+            {
+                Joomla.renderMessages(r.messages);
+            }
+            document.id('refresh-status').dissolve();
+            self.states.refreshing = false;
+    }).fail(function(xhr) {
+            alert(Joomla.JText._('COM_LANGUAGES_VIEW_OVERRIDE_REQUEST_ERROR'));
+            document.id('refresh-status').dissolve();
+    }); 
 };
 
 /**
@@ -71,6 +61,8 @@ Joomla.overrider.refreshCache = function()
  */
 Joomla.overrider.searchStrings = function(more)
 {
+    var $ = jQuery.noConflict(), self = this;
+    
 	// Prevent searching if the cache is refreshed at the moment
 	if (this.states.refreshing)
 	{
@@ -92,74 +84,55 @@ Joomla.overrider.searchStrings = function(more)
 	if (!this.states.searchstring)
 	{
 		document.id('jform_searchstring').addClass('invalid');
-
 		return;
 	}
 
-	var req = new Request.JSON({
-		method: 'post',
-		url: 'index.php?option=com_languages&task=strings.search&format=json',
-		onRequest: function()
-		{
-			if (more)
-			{
-				// If 'more' is greater than 0 we have already displayed some results for
-				// the current searchstring, so display the spinner at the more link
-				document.id('more-results').addClass('overrider-spinner');
-			}
-			else
-			{
-				// Otherwise it is a new searchstring and we have to remove all previous results first
-				document.id('more-results').set('style', 'display:none;');
-				var children = $$('#results-container div.language-results');
-				children.destroy();
-				document.id('results-container').addClass('overrider-spinner').reveal();
-			}
-		}.bind(this),
-		onSuccess: function(r) {
-			if (r.error && r.message)
-			{
-				alert(r.message);
-			}
-			if (r.messages)
-			{
-				Joomla.renderMessages(r.messages);
-			}
-			if (r.data)
-			{
-				if (r.data.results)
-				{
-					this.insertResults(r.data.results);
-				}
-				if (r.data.more)
-				{
-					// If there are more results than the sent ones
-					// display the more link
-					this.states.more = r.data.more;
-					document.id('more-results').reveal();
-				}
-				else
-				{
-					document.id('more-results').set('style', 'display:none;');
-				}
-			}
-			document.id('results-container').removeClass('overrider-spinner');
-			document.id('more-results').removeClass('overrider-spinner');
-		}.bind(this),
-		onFailure: function(xhr)
-		{
-			alert(Joomla.JText._('COM_LANGUAGES_VIEW_OVERRIDE_REQUEST_ERROR'));
-			document.id('results-container').removeClass('overrider-spinner');
-			document.id('more-results').removeClass('overrider-spinner');
-		}.bind(this),
-		onError: function(text, error)
-		{
-			alert(error + "\n\n" + text);
-			document.id('results-container').removeClass('overrider-spinner');
-			document.id('more-results').removeClass('overrider-spinner');
-		}.bind(this)
-	});
-	req.post('searchstring=' + this.states.searchstring + '&searchtype=' + this.states.searchtype + '&more=' + more);
+
+    if (more) {
+        // If 'more' is greater than 0 we have already displayed some results for
+        // the current searchstring, so display the spinner at the more link
+        document.id('more-results').addClass('overrider-spinner');
+    } else {
+        // Otherwise it is a new searchstring and we have to remove all previous results first
+        document.id('more-results').set('style', 'display:none;');
+        var children = $$('#results-container div.language-results');
+        children.destroy();
+        document.id('results-container').addClass('overrider-spinner').reveal();
+    }
+            
+    $.ajax({
+        type : "POST",
+        url : 'index.php?option=com_languages&task=strings.search&format=json',
+        data : 'searchstring=' + self.states.searchstring + '&searchtype=' + self.states.searchtype + '&more=' + more,
+        dataType : 'json'
+    }).done(function(r) {
+        if (r.error && r.message) {
+            alert(r.message);
+        }
+        if (r.messages) {
+            Joomla.renderMessages(r.messages);
+        }
+        if (r.data) {
+            if (r.data.results) {
+                self.insertResults(r.data.results);
+            }
+            if (r.data.more) {
+                // If there are more results than the sent ones
+                // display the more link
+                self.states.more = r.data.more;
+                document.id('more-results').reveal();
+            } else {
+                document.id('more-results').set('style', 'display:none;');
+            }
+        }
+        document.id('results-container').removeClass('overrider-spinner');
+        document.id('more-results').removeClass('overrider-spinner');
+    }).fail(function(xhr) {
+        alert(Joomla.JText._('COM_LANGUAGES_VIEW_OVERRIDE_REQUEST_ERROR'));
+        document.id('results-container').removeClass('overrider-spinner');
+        document.id('more-results').removeClass('overrider-spinner');
+    });
+
 };
 
 /**
