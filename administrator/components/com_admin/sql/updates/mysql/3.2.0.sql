@@ -31,3 +31,19 @@ UPDATE `#__content_types` SET `content_history_options` = '{"form_file":"adminis
 ALTER TABLE `#__users` ADD COLUMN `otpKey` varchar(1000) NOT NULL DEFAULT '' COMMENT 'Two factor authentication encrypted keys';
 
 ALTER TABLE `#__users` ADD COLUMN `otep` varchar(1000) NOT NULL DEFAULT '' COMMENT 'One time emergency passwords';
+
+CREATE TABLE `#__postinstall_messages` (
+  `postinstall_message_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `extension_id` bigint(20) NOT NULL DEFAULT '700' COMMENT 'FK to #__extensions',
+  `title_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'Lang key for the title',
+  `description_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'Lang key for description',
+  `language_extension` varchar(255) NOT NULL DEFAULT 'com_postinstall' COMMENT 'Extension holding lang keys',
+  `type` varchar(10) NOT NULL DEFAULT 'link' COMMENT 'Message type - message, link, action',
+  `action_file` varchar(255) DEFAULT '' COMMENT 'RAD URI to the PHP file containing action method',
+  `action` varchar(255) DEFAULT '' COMMENT 'Action method name or URL',
+  `condition_file` varchar(255) DEFAULT NULL COMMENT 'RAD URI to file holding display condition method',
+  `condition_method` varchar(255) DEFAULT NULL COMMENT 'Display condition method, must return boolean',
+  `version_introduced` varchar(50) NOT NULL DEFAULT '3.2.0' COMMENT 'Version when this message was introduced',
+  `published` tinyint(3) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`postinstall_message_id`)
+) DEFAULT CHARSET=utf8;

@@ -6,3 +6,18 @@ INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder"
 ALTER TABLE "#__users" ADD COLUMN "otpKey" varchar(1000) DEFAULT '' NOT NULL;
 
 ALTER TABLE "#__users" ADD COLUMN "otep" varchar(1000) DEFAULT '' NOT NULL;
+
+CREATE TABLE "#__postinstall_messages" (
+  "postinstall_message_id" serial NOT NULL,
+  "extension_id" bigint DEFAULT 700 NOT NULL ,
+  "title_key" character varying(255) DEFAULT '' NOT NULL,
+  "description_key" character varying(255) DEFAULT '' NOT NULL,
+  "language_extension" character varying(255) DEFAULT 'com_postinstall' NOT NULL,
+  "type" character varying(10) DEFAULT 'link' NOT NULL,
+  "action_file" character varying(255) DEFAULT '',
+  "action" character varying(255) DEFAULT '',
+  "condition_file" character varying(255) DEFAULT NULL,
+  "condition_method" character varying(255) DEFAULT NULL,
+  "version_introduced" character varying(50) DEFAULT '3.2.0' NOT NULL,
+  "published" smallint NOT NULL DEFAULT '1'
+);

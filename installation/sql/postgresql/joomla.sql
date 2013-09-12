@@ -503,7 +503,8 @@ INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder"
 (27, 'com_finder', 'component', 'com_finder', '', 1, 1, 0, 0, '', '{"show_description":"1","description_length":255,"allow_empty_query":"0","show_url":"1","show_advanced":"1","expand_advanced":"0","show_date_filters":"0","highlight_terms":"1","opensearch_name":"","opensearch_description":"","batch_size":"50","memory_table_limit":30000,"title_multiplier":"1.7","text_multiplier":"0.7","meta_multiplier":"1.2","path_multiplier":"2.0","misc_multiplier":"0.3","stemmer":"snowball"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (28, 'com_joomlaupdate', 'component', 'com_joomlaupdate', '', 1, 1, 0, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (29, 'com_tags', 'component', 'com_tags', '', 1, 1, 1, 1, '', '', '', '', 0, '1970-01-01 00:00:00', 0, 0),
-(31, 'com_ajax', 'component', 'com_ajax', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
+(31, 'com_ajax', 'component', 'com_ajax', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(32, 'com_postinstall', 'component', 'com_postinstall', '', 1, 1, 0, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
 
 -- Libraries
 INSERT INTO "#__extensions" ("extension_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "custom_data", "system_data", "checked_out", "checked_out_time", "ordering", "state") VALUES
@@ -2535,3 +2536,24 @@ BEGIN
   RETURN soundex;
 END;
 $$;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__postinstall_messages`
+--
+
+CREATE TABLE "#__postinstall_messages" (
+  "postinstall_message_id" serial NOT NULL,
+  "extension_id" bigint DEFAULT 700 NOT NULL ,
+  "title_key" character varying(255) DEFAULT '' NOT NULL,
+  "description_key" character varying(255) DEFAULT '' NOT NULL,
+  "language_extension" character varying(255) DEFAULT 'com_postinstall' NOT NULL,
+  "type" character varying(10) DEFAULT 'link' NOT NULL,
+  "action_file" character varying(255) DEFAULT '',
+  "action" character varying(255) DEFAULT '',
+  "condition_file" character varying(255) DEFAULT NULL,
+  "condition_method" character varying(255) DEFAULT NULL,
+  "version_introduced" character varying(50) DEFAULT '3.2.0' NOT NULL,
+  "published" smallint NOT NULL DEFAULT '1'
+);

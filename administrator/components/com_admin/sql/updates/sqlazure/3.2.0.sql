@@ -12,3 +12,22 @@ SET IDENTITY_INSERT #__extensions  OFF;
 ALTER TABLE [#__users] ADD [otpKey] [nvarchar](max) NOT NULL DEFAULT '';
 
 ALTER TABLE [#__users] ADD [otep] [nvarchar](max) NOT NULL DEFAULT '';
+
+CREATE TABLE [#__postinstall_messages] (
+  [postinstall_message_id] [bigint] IDENTITY(1,1) NOT NULL,
+  [extension_id] [bigint] NOT NULL DEFAULT '700',
+  [title_key] [nvarchar](255) NOT NULL DEFAULT '',
+  [description_key] [nvarchar](255) NOT NULL DEFAULT '',
+  [language_extension] [nvarchar](255) NOT NULL DEFAULT 'com_postinstall',
+  [type] [nvarchar](10) NOT NULL DEFAULT 'link',
+  [action_file] [nvarchar](255) DEFAULT '',
+  [action] [nvarchar](255) DEFAULT '',
+  [condition_file] [nvarchar](255) DEFAULT NULL,
+  [condition_method] [nvarchar](255) DEFAULT NULL,
+  [version_introduced] [nvarchar](50) NOT NULL DEFAULT '3.2.0',
+  [published] [int] NOT NULL DEFAULT '1',
+  CONSTRAINT [PK_#__postinstall_message_id] PRIMARY KEY CLUSTERED
+(
+	[postinstall_message_id] ASC
+)WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
+);
