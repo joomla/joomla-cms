@@ -22,7 +22,7 @@ CREATE TABLE "#__postinstall_messages" (
   "condition_file" character varying(255) DEFAULT NULL,
   "condition_method" character varying(255) DEFAULT NULL,
   "version_introduced" character varying(50) DEFAULT '3.2.0' NOT NULL,
-  "published" smallint NOT NULL DEFAULT '1'
+  "enabled" smallint NOT NULL DEFAULT '1'
 );
 
 INSERT INTO "#__menu" ( "id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id") VALUES

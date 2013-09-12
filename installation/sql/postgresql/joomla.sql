@@ -2558,5 +2558,5 @@ CREATE TABLE "#__postinstall_messages" (
   "condition_file" character varying(255) DEFAULT NULL,
   "condition_method" character varying(255) DEFAULT NULL,
   "version_introduced" character varying(50) DEFAULT '3.2.0' NOT NULL,
-  "published" smallint NOT NULL DEFAULT '1'
+  "enabled" smallint NOT NULL DEFAULT '1'
 );

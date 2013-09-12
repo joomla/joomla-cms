@@ -29,7 +29,7 @@ CREATE TABLE [#__postinstall_messages] (
   [condition_file] [nvarchar](255) DEFAULT NULL,
   [condition_method] [nvarchar](255) DEFAULT NULL,
   [version_introduced] [nvarchar](50) NOT NULL DEFAULT '3.2.0',
-  [published] [int] NOT NULL DEFAULT '1',
+  [enabled] [int] NOT NULL DEFAULT '1',
   CONSTRAINT [PK_#__postinstall_message_id] PRIMARY KEY CLUSTERED
 (
 	[postinstall_message_id] ASC
