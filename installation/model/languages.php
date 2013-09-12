@@ -634,8 +634,13 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Gets a unique language SEF string
 	 *
-	 * @param   stdclass    $itemLanguage   Language Object
-	 * @param   stdclass[]  $siteLanguages  All Language Objects
+	 * This function checks other existing language with the same code, if they exist provides a unique SEF name.
+	 * For instance: en-GB, en-US and en-AU will share the same SEF code by default: www.mywebsite.com/en/
+	 * To avoid this conflict, this function creates an specific SEF in case of existing conflict:
+	 * For example: www.mywebsite.com/en-au/
+	 *
+	 * @param   stdClass    $itemLanguage   Language Object
+	 * @param   stdClass[]  $siteLanguages  All Language Objects
 	 *
 	 * @return  string
 	 *
@@ -668,7 +673,7 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Add a Content Language
 	 *
-	 * @param   stdclass  $itemLanguage   Language Object
+	 * @param   stdClass  $itemLanguage   Language Object
 	 * @param   string    $sefLangString  String to use for SEF so it doesn't conflict
 	 *
 	 * @return  boolean
@@ -725,7 +730,7 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Add Menu Group
 	 *
-	 * @param   stdclass  $itemLanguage  Language Object
+	 * @param   stdClass  $itemLanguage  Language Object
 	 *
 	 * @return  boolean
 	 *
@@ -771,7 +776,7 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Add Menu Item.
 	 *
-	 * @param   stdclass  $itemLanguage  Language Object
+	 * @param   stdClass  $itemLanguage  Language Object
 	 *
 	 * @return  boolean
 	 *
@@ -835,7 +840,7 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Add Module Menu
 	 *
-	 * @param   stdclass  $itemLanguage  Language Object
+	 * @param   stdClass  $itemLanguage  Language Object
 	 *
 	 * @return  boolean
 	 *
@@ -947,7 +952,7 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Method create a category for a specific language
 	 *
-	 * @param   stdclass  $itemLanguage  Language Object
+	 * @param   stdClass  $itemLanguage  Language Object
 	 *
 	 * @return  JTable Category Object
 	 *
@@ -995,7 +1000,7 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Create an article in a specific language
 	 *
-	 * @param   stdclass  $itemLanguage  Language Object
+	 * @param   stdClass  $itemLanguage  Language Object
 	 * @param   int       $categoryId    The id of the category where we want to add the article
 	 *
 	 * @return  JTable Category Object
