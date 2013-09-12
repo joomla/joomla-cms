@@ -27,8 +27,9 @@ Joomla.overrider.refreshCache = function()
 {
     var $ = jQuery.noConflict(), self = this;
     this.states.refreshing = true;
-    document.id('refresh-status').reveal();
-            
+
+    $('#refresh-status').slideDown().css('display','block');
+    
     $.ajax({
         type : "POST",
         url : 'index.php?option=com_languages&task=strings.refresh&format=json',
@@ -42,11 +43,11 @@ Joomla.overrider.refreshCache = function()
             {
                 Joomla.renderMessages(r.messages);
             }
-            document.id('refresh-status').dissolve();
+            $('#refresh-status').slideUp().hide();
             self.states.refreshing = false;
     }).fail(function(xhr) {
             alert(Joomla.JText._('COM_LANGUAGES_VIEW_OVERRIDE_REQUEST_ERROR'));
-            document.id('refresh-status').dissolve();
+            $('#refresh-status').slideUp().hide();
     }); 
 };
 
@@ -73,9 +74,9 @@ Joomla.overrider.searchStrings = function(more)
 	// was used to start the search (that will be the case if 'more' is null)
 	if (!more)
 	{
-		this.states.searchstring 	= document.id('jform_searchstring').value;
+		this.states.searchstring 	= $('#jform_searchstring').val();
 		this.states.searchtype		= 'value';
-		if (document.id('jform_searchtype0').checked)
+		if ($('#jform_searchtype0').is(':checked'))
 		{
 			this.states.searchtype 	= 'constant';
 		}
@@ -83,7 +84,7 @@ Joomla.overrider.searchStrings = function(more)
 
 	if (!this.states.searchstring)
 	{
-		document.id('jform_searchstring').addClass('invalid');
+		$('#jform_searchstring').addClass('invalid');
 		return;
 	}
 
@@ -91,13 +92,13 @@ Joomla.overrider.searchStrings = function(more)
     if (more) {
         // If 'more' is greater than 0 we have already displayed some results for
         // the current searchstring, so display the spinner at the more link
-        document.id('more-results').addClass('overrider-spinner');
+        $('#more-results').addClass('overrider-spinner');
     } else {
         // Otherwise it is a new searchstring and we have to remove all previous results first
-        document.id('more-results').set('style', 'display:none;');
-        var children = $$('#results-container div.language-results');
-        children.destroy();
-        document.id('results-container').addClass('overrider-spinner').reveal();
+        $('#more-results').hide();
+        var $children = $('#results-container div.language-results');
+        $children.remove();
+        $('#results-container').addClass('overrider-spinner').slideDown().css('display','block');
     }
             
     $.ajax({
@@ -120,17 +121,17 @@ Joomla.overrider.searchStrings = function(more)
                 // If there are more results than the sent ones
                 // display the more link
                 self.states.more = r.data.more;
-                document.id('more-results').reveal();
+                $('#more-results').slideDown().css('display','block');
             } else {
-                document.id('more-results').set('style', 'display:none;');
+                $('#more-results').hide();
             }
         }
-        document.id('results-container').removeClass('overrider-spinner');
-        document.id('more-results').removeClass('overrider-spinner');
+        $('#results-container').removeClass('overrider-spinner');
+        $('#more-results').removeClass('overrider-spinner');
     }).fail(function(xhr) {
         alert(Joomla.JText._('COM_LANGUAGES_VIEW_OVERRIDE_REQUEST_ERROR'));
-        document.id('results-container').removeClass('overrider-spinner');
-        document.id('more-results').removeClass('overrider-spinner');
+        $('#results-container').removeClass('overrider-spinner');
+        $('#more-results').removeClass('overrider-spinner');
     });
 
 };
@@ -146,50 +147,55 @@ Joomla.overrider.searchStrings = function(more)
  */
 Joomla.overrider.insertResults = function(results)
 {
+    var $ = jQuery.noConflict();
+     
 	// For creating an individual ID for each result we use a counter
 	this.states.counter = this.states.counter + 1;
 
 	// Create a container into which all the results will be inserted
-	var results_div = new Element('div', {
-		id: 'language-results' + this.states.counter,
-		'class': 'language-results',
-		style: 'display:none;'
-	});
+    var $results_div = $('<div>', {
+        id : 'language-results' + this.states.counter,
+        class : 'language-results',
+        style : 'display:none;'
+    });
 
 	// Create some elements for each result and insert it into the container
 	Array.each(results, function (item, index) {
-		var div = new Element('div', {
-			'class':	'result row' + index%2,
-			onclick:	'Joomla.overrider.selectString(' + this.states.counter + index + ');',
-		});
-		var key = new Element('div', {
-			id:				'override_key' + this.states.counter + index,
-			'class':	'result-key',
+        var $div = $('<div>', {
+            class : 'result row' + index % 2,
+            onclick : 'Joomla.overrider.selectString(' + this.states.counter + index + ');',
+        });
+
+		var $key = $('<div>', {
+		    id :  'override_key' + this.states.counter + index,
+		    class: 'result-key',
 			html:			item.constant,
 			title:		item.file
 		});
-		key.inject(div);
-		var string = new Element('div', {
-			id:				'override_string' + this.states.counter + index,
-			'class':	'result-string',
+	
+		var $string = $('<div>',{
+		    id:				'override_string' + this.states.counter + index,
+			class:	'result-string',
 			html:			item.string
 		});
-		string.inject(div);
-		div.inject(results_div);
+		
+		$key.appendTo($div);
+		$string.appendTo($div);
+		$div.appendTo($results_div);
 	}, this);
 
 	// If there aren't any results display an appropriate message
 	if (!results.length)
 	{
-		var noresult = new Element('div', {
-			html: Joomla.JText._('COM_LANGUAGES_VIEW_OVERRIDE_NO_RESULTS')
-		});
-		noresult.inject(results_div);
+	    var $noresult = $('<div>',{
+	        html: Joomla.JText._('COM_LANGUAGES_VIEW_OVERRIDE_NO_RESULTS')
+	    });
+		$noresult.appendTo($results_div);
 	}
 
 	// Finally insert the container afore the more link and reveal it
-	results_div.inject(document.id('more-results'), 'before');
-	document.id('language-results' + this.states.counter).reveal();
+	$('#more-results').before($results_div);
+	$('#language-results' + this.states.counter).slideDown().css('display','block');
 };
 
 /**
@@ -203,7 +209,8 @@ Joomla.overrider.insertResults = function(results)
  */
 Joomla.overrider.selectString = function(id)
 {
-	document.id('jform_key').value = document.id('override_key' + id).get('html');
-	document.id('jform_override').value = document.id('override_string' + id).get('html');
-	new Fx.Scroll(window).toTop();
+    var $ = jQuery.noConflict();
+	$('#jform_key').val($('#override_key' + id).html());
+	$('#jform_override').val($('#override_string' + id).html());
+	$(window).scrollTop(0);
 };
