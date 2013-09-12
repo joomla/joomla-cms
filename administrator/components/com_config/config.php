@@ -8,6 +8,7 @@
  */
 
 defined('_JEXEC') or die;
+JHtml::_('behavior.tabstate');
 
 // Access checks are done internally because of different requirements for the two controllers.
 
