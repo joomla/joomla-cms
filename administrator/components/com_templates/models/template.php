@@ -53,9 +53,16 @@ class TemplatesModelTemplate extends JModelForm
 		{
 			
 			jimport('joomla.filesystem.folder');
-            $app = JFactory::getApplication();
+            $app        = JFactory::getApplication();
 			$client 	= JApplicationHelper::getClientInfo($template->client_id);
 			$path		= JPath::clean($client->path.'/templates/'.$template->element.'/');
+            $lang       = JFactory::getLanguage();
+
+            // Load the core and/or local language file(s).
+            $lang->load('tpl_' . $template->element, $client->path, null, false, false) ||
+            $lang->load('tpl_' . $template->element, $client->path . '/templates/' . $template->element, null, false, false) ||
+            $lang->load('tpl_' . $template->element, $client->path, $lang->getDefault(), false, false) ||
+            $lang->load('tpl_' . $template->element, $client->path . '/templates/' . $template->element, $lang->getDefault(), false, false);
             $this->element = $path;
 
             if(!is_writable($path))
