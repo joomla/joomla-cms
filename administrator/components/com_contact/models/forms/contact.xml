@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset addfieldpath="/administrator/components/com_categories/models/fields">
+    <fieldset addfieldpath="/administrator/components/com_categories/models/fields">
 		<field name="id"
 			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
@@ -231,6 +231,7 @@
 			class="inputbox"
 			label="JFIELD_ORDERING_LABEL"
 			description="JFIELD_ORDERING_DESC"
+            table="#__contact_details"
 		/>
 
 		<field name="publish_up" type="calendar"
