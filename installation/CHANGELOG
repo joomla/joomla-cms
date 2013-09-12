@@ -28,6 +28,7 @@ $ -> Language fix or change
 12-Sep-2013 Jean-Marie Simonet
  + [#31850] The parent item search ajax based on menu location. Thanks Lu Nguyen
  # [#31890] tagged items list has class "list-striped" and "list-condensed" in code. Thanks Elin waring.
+ $ Updating Italian Tinymce lang file
 
 11-Sep-2013 Elin Waring
  # [#31753] PGSQL Missing #__ prefix on CONSTRAINT "uc_ItemnameTagid" in installation/sql/postgresql/joomla.sql. Thanks Alan Hicks
