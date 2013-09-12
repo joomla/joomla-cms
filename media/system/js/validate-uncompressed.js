@@ -13,7 +13,7 @@
  * @since       1.5
  */
 var JFormValidator = function() {
-    var $, handlers, inputEmail, custom,
+    var $, handlers, inputEmail, custom, $formInputFields, $formFields, $labels,
     
     setHandler = function(name, fn, en) {
         en = (en === '') ? true : en;
@@ -27,7 +27,8 @@ var JFormValidator = function() {
         var $label, labelref;
         // Find the label object for the given field if it exists
         if (!$el.get(0).labelref) {
-            $('label').each(function() {
+            $labels = $labels || $('label');
+            $labels.each(function() {
                 $label = $(this);
                 if ($label.attr('for') === $el.attr('id')) {
                     $el.get(0).labelref = this;
@@ -99,7 +100,8 @@ var JFormValidator = function() {
     isValid = function(form) {
         var valid = true, $form = $(form), i, k, message, errors, error, label;
         // Validate form fields
-        $form.find('input, textarea, select, button, fieldset').each(function(index, el) {
+        $formFields = $formFields || $form.find('input, textarea, select, button, fieldset');
+        $formFields.each(function(index, el) {
             if (validate(el) === false) {
                 valid = false;
             }
@@ -130,7 +132,8 @@ var JFormValidator = function() {
     
     attachToForm = function(form) {
         // Iterate through the form object and attach the validate method to all input fields.
-        $(form).find('input,textarea,select,button').each(function() {
+        $formInputFields = $formInputFields || $(form).find('input,textarea,select,button');
+        $formInputFields.each(function() {
             var $el = $(this), tagName = $el.prop("tagName").toLowerCase();
             if ($el.hasClass('required')) {
                 $el.attr('aria-required', 'true').attr('required', 'required');
