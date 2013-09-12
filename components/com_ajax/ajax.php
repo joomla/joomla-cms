@@ -114,6 +114,7 @@ switch ($format)
 	// Human-readable format
 	case 'debug':
 		echo '<pre>' . print_r($results, true) . '</pre>';
+		$app->close();
 		break;
 
 	// Handle as raw format
@@ -128,18 +129,30 @@ switch ($format)
 			JResponse::setHeader('status', $results->getCode(), true);
 
 			// Echo exception message
-			echo $results->getMessage();
+			$out = $results->getMessage();
 		}
 		// Output string/ null
 		elseif (is_scalar($results))
 		{
-			echo (string) $results;
+			$out = (string) $results;
 		}
 		// Output array/ object
 		else
 		{
-			echo implode((array) $results);
+			$out = implode((array) $results);
 		}
+
+		// Check for compatible JDocument formats
+		if (!in_array($format, array('feed', 'image', 'json', 'opensearch', 'raw')))
+		{
+			JResponse::sendHeaders();
+
+			echo $out;
+
+			$app->close();
+		}
+
+		echo $out;
 
 		break;
 }
