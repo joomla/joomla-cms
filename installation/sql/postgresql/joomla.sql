@@ -2560,3 +2560,6 @@ CREATE TABLE "#__postinstall_messages" (
   "version_introduced" character varying(50) DEFAULT '3.2.0' NOT NULL,
   "enabled" smallint NOT NULL DEFAULT '1'
 );
+
+INSERT INTO "#__postinstall_messages" ("postinstall_message_id", "extension_id", "title_key", "description_key", "action_key", "language_extension", "language_client_id", "type", "action_file", "action", "condition_file", "condition_method", "version_introduced", "enabled") VALUES
+(1, 700, 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_TITLE', 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_BODY', 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_ACTION', 'plg_twofactorauth_totp', 1, 'action', 'site://plugins/twofactorauth/totp/postinstall/actions.php', 'twofactorauth_postinstall_action', 'site://plugins/twofactorauth/totp/postinstall/actions.php', 'twofactorauth_postinstall_condition', '3.2.0', 1);

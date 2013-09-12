@@ -36,5 +36,16 @@ CREATE TABLE [#__postinstall_messages] (
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
 );
 
+SET IDENTITY_INSERT #__menu  ON;
+
 INSERT INTO #__menu (id, menutype, title, alias, note, path, link, type, published, parent_id, level, component_id, checked_out, checked_out_time, browserNav, access, img, template_style_id, params, lft, rgt, home, language, client_id)
 SELECT 24, 'menu', 'com_postinstall', 'com_postinstall', '', 'Post-installation messages', 'index.php?option=com_postinstall', 'component', 0, 1, 1, 29, 0, '1900-01-01 00:00:00', 0, 0, 'class:postinstall', 0, '', 43, 44, 0, '*', 1;
+
+SET IDENTITY_INSERT #__menu  OFF;
+
+SET IDENTITY_INSERT #__postinstall_messages  ON;
+
+INSERT INTO #__postinstall_messages ([postinstall_message_id], [extension_id], [title_key], [description_key], [action_key], [language_extension], [language_client_id], [type], [action_file], [action], [condition_file], [condition_method], [version_introduced], [enabled])
+SELECT 1, 700, 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_TITLE', 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_BODY', 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_ACTION', 'plg_twofactorauth_totp', 1, 'action', 'site://plugins/twofactorauth/totp/postinstall/actions.php', 'twofactorauth_postinstall_action', 'site://plugins/twofactorauth/totp/postinstall/actions.php', 'twofactorauth_postinstall_condition', '3.2.0', 1;
+
+SET IDENTITY_INSERT #__postinstall_messages  OFF;
