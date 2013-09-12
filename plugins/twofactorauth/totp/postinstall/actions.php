@@ -51,6 +51,6 @@ function twofactorauth_postinstall_action()
 	$db->execute();
 
 	// Redirect the user to their profile editor page
-	$url = 'index.php?option=com_users&view=user&layout=edit&id=' . JFactory::getUser()->id;
+	$url = 'index.php?option=com_users&task=user.edit&id=' . JFactory::getUser()->id;
 	JFactory::getApplication()->redirect($url);
 }
