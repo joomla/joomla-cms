@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Sep-2013 Jean-Marie Simonet
+ + [#31850] The parent item search ajax based on menu location. Thanks Lu Nguyen
+
 11-Sep-2013 Elin Waring
  # [#31753] PGSQL Missing #__ prefix on CONSTRAINT "uc_ItemnameTagid" in installation/sql/postgresql/joomla.sql. Thanks Alan Hicks
  # [#31894] Check for context in vote plugin. Thanks George Wilson
