@@ -138,7 +138,7 @@ if($this->type == 'image')
 
 </style>
 <?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'editor')); ?>
-	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'editor', JText::_('COM_TEMPLATES_TAB_EDITOR', true)); ?>
+    <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'editor', JText::_('COM_TEMPLATES_TAB_EDITOR', true)); ?>
         <div class="row-fluid">
             <div class="span12">
                 <?php if($this->type == 'file'): ?>
@@ -152,11 +152,11 @@ if($this->type == 'image')
                 <?php endif; ?>
             </div>
         </div>
-		<div class="row-fluid">
-			<div class="span3">
-				<?php echo $this->loadTemplate('tree');?>
-			</div>
-			<div class="span9">
+        <div class="row-fluid">
+            <div class="span3">
+                <?php echo $this->loadTemplate('tree');?>
+            </div>
+            <div class="span9">
                 <?php if($this->type == 'file'): ?>
                     <form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
 
@@ -239,11 +239,11 @@ if($this->type == 'image')
                         </form>
                     </div>
                 <?php endif; ?>
-			</div>
-		</div>
-	<?php echo JHtml::_('bootstrap.endTab'); ?>
-	
-	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'overrides', JText::_('COM_TEMPLATES_TAB_OVERRIDES', true)); ?>
+            </div>
+        </div>
+    <?php echo JHtml::_('bootstrap.endTab'); ?>
+
+    <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'overrides', JText::_('COM_TEMPLATES_TAB_OVERRIDES', true)); ?>
         <div class="row-fluid">
             <div class="span4">
                 <legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_MODULES');?></legend>
@@ -282,7 +282,7 @@ if($this->type == 'image')
                 </ul>
             </div>
         </div>
-	<?php echo JHtml::_('bootstrap.endTab'); ?>
+    <?php echo JHtml::_('bootstrap.endTab'); ?>
     <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('COM_TEMPLATES_TAB_DESCRIPTION', true)); ?>
         <div class="pull-left">
             <?php echo JHtml::_('templates.thumb', $this->template->element, $this->template->client_id); ?>
@@ -296,25 +296,25 @@ if($this->type == 'image')
 
 <form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.copy&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
 			method="post" name="adminForm" id="adminForm">
-	<div  id="collapseModal" class="modal hide fade">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h3><?php echo JText::_('COM_TEMPLATES_TEMPLATE_COPY');?></h3>
-		</div>
-		<div class="modal-body">
-			<div id="template-manager-css" class="form-horizontal">
-				<div class="control-group">
-					<label for="new_name" class="control-label hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_TEMPLATE_NEW_NAME_DESC'); ?>"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_LABEL')?></label>
-					<div class="controls">
-						<input class="input-xlarge" type="text" id="new_name" name="new_name"  />
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="modal-footer">
-			<a href="#" class="btn" data-dismiss="modal">Close</a>
-			<button class="btn btn-primary" type="submit"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_COPY'); ?></button>
-		</div>
+    <div  id="collapseModal" class="modal hide fade">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h3><?php echo JText::_('COM_TEMPLATES_TEMPLATE_COPY');?></h3>
+        </div>
+        <div class="modal-body">
+            <div id="template-manager-css" class="form-horizontal">
+                <div class="control-group">
+                    <label for="new_name" class="control-label hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_TEMPLATE_NEW_NAME_DESC'); ?>"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_LABEL')?></label>
+                    <div class="controls">
+                        <input class="input-xlarge" type="text" id="new_name" name="new_name"  />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal">Close</a>
+            <button class="btn btn-primary" type="submit"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_COPY'); ?></button>
+        </div>
 	</div>
 	<?php echo JHtml::_('form.token'); ?>
 </form>

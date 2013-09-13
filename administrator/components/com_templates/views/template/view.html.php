@@ -1,23 +1,23 @@
-    <?php
-    /**
-    * @package     Joomla.Administrator
-    * @subpackage  com_templates
-    *
-    * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
-    * @license     GNU General Public License version 2 or later; see LICENSE.txt
-    */
+<?php
+/**
+* @package     Joomla.Administrator
+* @subpackage  com_templates
+*
+* @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+* @license     GNU General Public License version 2 or later; see LICENSE.txt
+*/
 
-    defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
-    /**
-    * View to edit a template style.
-    *
-    * @package     Joomla.Administrator
-    * @subpackage  com_templates
-    * @since       1.6
-    */
-    class TemplatesViewTemplate extends JViewLegacy
-    {
+/**
+* View to edit a template style.
+*
+* @package     Joomla.Administrator
+* @subpackage  com_templates
+* @since       1.6
+*/
+class TemplatesViewTemplate extends JViewLegacy
+{
     /**
      * For loading extension state
      */
@@ -146,9 +146,16 @@
         JFactory::getApplication()->input->set('hidemainmenu', true);
         $canDo = TemplatesHelper::getActions();
 
+        if($canDo->get('core.edit') && $canDo->get('core.create') && $canDo->get('core.admin'))
+        {
+            $showButton = true;
+        }
+        else
+        {
+            $showButton = false;
+        }
         // Get the toolbar object instance
         $bar = JToolBar::getInstance('toolbar');
-        $user  = JFactory::getUser();
         $explodeArray = explode('.',$this->fileName);
         $ext = end($explodeArray);
 
@@ -157,7 +164,7 @@
         //Add a Apply and save button
         if($this->type == 'file')
         {
-            if ($canDo->get('core.edit'))
+            if ($showButton)
             {
                 JToolbarHelper::apply('template.apply');
                 JToolbarHelper::save('template.save');
@@ -167,99 +174,63 @@
         //Add a Crop and Resize button
         elseif($this->type == 'image')
         {
-            if ($canDo->get('core.edit'))
-            {
-                $bar->appendButton('Standard', 'archive', 'COM_TEMPLATES_BUTTON_CROP', 'template.cropImage', false);
-            }
 
-            if ($canDo->get('core.edit'))
+            if ($showButton)
             {
-                $title = JText::_('COM_TEMPLATES_BUTTON_RESIZE');
-                $dhtml = "<button data-toggle=\"modal\" data-target=\"#resizeModal\" class=\"btn btn-small\">
-                <i class=\"icon-move\" title=\"$title\"></i>
-                $title</button>";
-                $bar->appendButton('Custom', $dhtml, 'upload');
+                JToolbarHelper::custom('template.cropImage', 'move', 'move', 'COM_TEMPLATES_BUTTON_CROP', false, false);
+
+                JToolbarHelper::modal('resizeModal', 'icon-refresh', 'COM_TEMPLATES_BUTTON_RESIZE');
             }
         }
-
 
         // Add a copy button
         if ($this->hathor->home == 0)
         {
-            if ($user->authorise('core.create', 'com_templates'))
+            if ($showButton)
             {
-                $title = JText::_('JLIB_HTML_BATCH_COPY');
-                $dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn btn-small\">
-                <i class=\"icon-copy\" title=\"$title\"></i>
-                $title</button>";
-                $bar->appendButton('Custom', $dhtml, 'upload');
+                JToolbarHelper::modal('collapseModal', 'icon-copy', 'JLIB_HTML_BATCH_COPY');
             }
         }
 
         //Add a Template preview button
         if ($this->preview->client_id == 0)
         {
-            $title = JText::_('COM_TEMPLATES_BUTTON_PREVIEW');
-            $route = JUri::root() . 'index.php?tp=1&templateStyle=' . $this->preview->id;
-            $dhtml = "<a class=\"btn btn-small \" href=\" $route \" target=\" _blank \">
-            <i class=\"icon-picture icon-white\" title=\"$title\"></i>
-            $title</a>";
-            $bar->appendButton('Custom', $dhtml, 'upload');
+            $bar->appendButton('Link', 'picture', 'COM_TEMPLATES_BUTTON_PREVIEW', JUri::root() . 'index.php?tp=1&templateStyle=' . $this->preview->id);
         }
 
         //Add Manage folders button
-        if ($user->authorise('core.create', 'com_templates'))
+        if ($showButton)
         {
-            $title = JText::_('COM_TEMPLATES_BUTTON_FOLDERS');
-            $dhtml = "<button data-toggle=\"modal\" data-target=\"#folderModal\" class=\"btn btn-small \">
-            <i class=\"icon-folder icon-white\" title=\"$title\"></i>
-            $title</button>";
-            $bar->appendButton('Custom', $dhtml, 'upload');
+            JToolbarHelper::modal('folderModal', 'icon-folder icon white', 'COM_TEMPLATES_BUTTON_FOLDERS');
         }
 
         // Add a new file button
-        if ($user->authorise('core.create', 'com_templates'))
+        if ($showButton)
         {
-            $title = JText::_('COM_TEMPLATES_BUTTON_FILE');
-            $dhtml = "<button data-toggle=\"modal\" data-target=\"#fileModal\" class=\"btn btn-small\">
-            <i class=\"icon-file\" title=\"$title\"></i>
-            $title</button>";
-            $bar->appendButton('Custom', $dhtml, 'upload');
+            JToolbarHelper::modal('fileModal', 'icon-file', 'COM_TEMPLATES_BUTTON_FILE');
         }
 
         //Add a Rename file Button
         if ($this->hathor->home == 0)
         {
-            if ($user->authorise('core.create', 'com_templates'))
+            if ($showButton)
             {
-                $title = JText::_('COM_TEMPLATES_BUTTON_RENAME');
-                $dhtml = "<button data-toggle=\"modal\" data-target=\"#renameModal\" class=\"btn btn-small\">
-                <i class=\"icon-refresh\" title=\"$title\"></i>
-                $title</button>";
-                $bar->appendButton('Custom', $dhtml, 'upload');
+                JToolbarHelper::modal('renameModal', 'icon-refresh', 'COM_TEMPLATES_BUTTON_RENAME');
             }
         }
 
         //Add a Delete file Button
-        if ($user->authorise('core.create', 'com_templates'))
+        if ($showButton)
         {
-            $title = JText::_('COM_TEMPLATES_BUTTON_DELETE');
-            $dhtml = "<button data-toggle=\"modal\" data-target=\"#deleteModal\" class=\"btn btn-small\">
-            <i class=\"icon-remove\" title=\"$title\"></i>
-            $title</button>";
-            $bar->appendButton('Custom', $dhtml, 'upload');
+            JToolbarHelper::modal('deleteModal', 'icon-remove', 'COM_TEMPLATES_BUTTON_DELETE');
         }
 
         //Add a Compile Button
-        if ($user->authorise('core.create', 'com_templates'))
+        if ($showButton)
         {
             if($ext == 'less')
             {
-                $title = JText::_('COM_TEMPLATES_BUTTON_LESS');
-                $dhtml = "<button onclick=\"Joomla.submitbutton('template.less')\" class=\"btn btn-small\">
-                <i class=\"icon-play\" title=\"$title\"></i>
-                $title</button>";
-                $bar->appendButton('Custom', $dhtml, 'upload');
+                JToolbarHelper::custom('template.less', 'play', 'play', 'COM_TEMPLATES_BUTTON_LESS', false, false);
             }
         }
 
@@ -301,4 +272,4 @@
         return $txt;
     }
 
-    }
+}

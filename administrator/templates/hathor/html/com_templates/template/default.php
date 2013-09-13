@@ -162,7 +162,7 @@ if($this->type == 'image')
                     </form>
                 </div>
                 <div class="width-50 fltlft">
-                    <?php $this->listFolderTree($this->files);?>
+                    <?php echo $this->loadTemplate('folders');?>
                 </div>
             </div>
             <div class="modal-footer">
@@ -213,7 +213,7 @@ if($this->type == 'image')
                     </form>
                 </div>
                 <div class="width-50 fltlft">
-                    <?php $this->listFolderTree($this->files);?>
+                    <?php echo $this->loadTemplate('folders');?>
                 </div>
             </div>
             <div class="modal-footer">
@@ -373,7 +373,7 @@ if($this->type == 'image')
     <fieldset class="adminform">
         <legend><?php echo JText::_('COM_TEMPLATES_TEMPLATE_FILES');?></legend>
 
-        <?php $this->listDirectoryTree($this->files);?>
+        <?php echo $this->loadTemplate('tree');?>
     </fieldset>
 
     <?php echo JHtml::_('sliders.start', 'content-sliders', array('useCookie' => 1)); ?>
