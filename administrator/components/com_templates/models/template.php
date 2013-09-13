@@ -1,61 +1,61 @@
-<?php
-/**
- * @package     Joomla.Administrator
- * @subpackage  com_templates
- *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
- */
+    <?php
+    /**
+    * @package     Joomla.Administrator
+    * @subpackage  com_templates
+    *
+    * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+    * @license     GNU General Public License version 2 or later; see LICENSE.txt
+    */
 
-defined('_JEXEC') or die;
+    defined('_JEXEC') or die;
 
-/**
- * @package     Joomla.Administrator
- * @subpackage  com_templates
- * @since       1.6
- */
-class TemplatesModelTemplate extends JModelForm
-{
-	protected $template = null;
-	protected $element = null;
+    /**
+    * @package     Joomla.Administrator
+    * @subpackage  com_templates
+    * @since       1.6
+    */
+    class TemplatesModelTemplate extends JModelForm
+    {
+    protected $template = null;
+    protected $element = null;
 
-	/**
-	 * Internal method to get file properties.
-	 *
-	 * @param   string The base path.
-	 * @param   string The file name.
-	 * @return  object
-	 * @since   1.6
-	 */
-	protected function getFile($path, $name)
-	{
-		$temp = new stdClass;
+    /**
+     * Internal method to get file properties.
+     *
+     * @param   string The base path.
+     * @param   string The file name.
+     * @return  object
+     * @since   1.6
+     */
+    protected function getFile($path, $name)
+    {
+        $temp = new stdClass;
 
-		if ($template = $this->getTemplate())
-		{
-			$temp->name = str_replace('-', '_', $name);
-			$temp->id = urlencode(base64_encode($path . $name));
-			return $temp;
-		}
-	}
+        if ($template = $this->getTemplate())
+        {
+            $temp->name = str_replace('-', '_', $name);
+            $temp->id = urlencode(base64_encode($path . $name));
+            return $temp;
+        }
+    }
 
-	/**
-	 * Method to get a list of all the files to edit in a template.
-	 *
-	 * @return  array  A nested array of relevant files.
-	 * @since   1.6
-	 */
-	public function getFiles()
-	{
-		$result	= array();
+    /**
+     * Method to get a list of all the files to edit in a template.
+     *
+     * @return  array  A nested array of relevant files.
+     * @since   1.6
+     */
+    public function getFiles()
+    {
+        $result	= array();
 
-		if ($template = $this->getTemplate())
-		{
-			
-			jimport('joomla.filesystem.folder');
+        if ($template = $this->getTemplate())
+        {
+
+            jimport('joomla.filesystem.folder');
             $app        = JFactory::getApplication();
-			$client 	= JApplicationHelper::getClientInfo($template->client_id);
-			$path		= JPath::clean($client->path.'/templates/'.$template->element.'/');
+            $client 	= JApplicationHelper::getClientInfo($template->client_id);
+            $path		= JPath::clean($client->path.'/templates/'.$template->element.'/');
             $lang       = JFactory::getLanguage();
 
             // Load the core and/or local language file(s).
@@ -70,17 +70,17 @@ class TemplatesModelTemplate extends JModelForm
                 $app->enqueueMessage(JText::_('COM_TEMPLATES_DIRECTORY_NOT_WRITABLE'),'error');
             }
 
-			if (is_dir($path))
-			{
-				$result = $this->getDirectoryTree($path);
-			} else {
+            if (is_dir($path))
+            {
+                $result = $this->getDirectoryTree($path);
+            } else {
                 $app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_TEMPLATE_FOLDER_NOT_FOUND'),'error');
-				return false;
-			}
-		}
+                return false;
+            }
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
     /**
      * Get the directory tree.
@@ -90,372 +90,372 @@ class TemplatesModelTemplate extends JModelForm
      * @return  array
      * @since   3.2
      */
-	
-	public function getDirectoryTree($dir)
-	{
-		$result = array();
-	
-		$dirFiles = scandir($dir);
-		foreach ($dirFiles as $key => $value) 
-		{ 
-			if (!in_array($value,array(".",".."))) 
-			{ 
-				if (is_dir($dir . $value . '/')) 
-				{
+
+    public function getDirectoryTree($dir)
+    {
+        $result = array();
+
+        $dirFiles = scandir($dir);
+        foreach ($dirFiles as $key => $value)
+        {
+            if (!in_array($value,array(".","..")))
+            {
+                if (is_dir($dir . $value . '/'))
+                {
                     $relativePath = str_replace($this->element,'',$dir . $value);
-					$result['/' . $relativePath] = $this->getDirectoryTree($dir . $value . '/');
-				} 
-				else 
-				{
-					$ext = pathinfo($dir . $value, PATHINFO_EXTENSION);
+                    $result['/' . $relativePath] = $this->getDirectoryTree($dir . $value . '/');
+                }
+                else
+                {
+                    $ext = pathinfo($dir . $value, PATHINFO_EXTENSION);
                     $types = array('css','js','php','xml','ini','less','jpg','jpeg','png','gif','otf','ttf','woff');
-					if(in_array($ext, $types))
-					{
+                    if(in_array($ext, $types))
+                    {
                         $relativePath = str_replace($this->element,'',$dir);
-						$info = $this->getFile('/' . $relativePath,$value);
-						$result[] = $info;
-					}
-				} 
-			} 
-		} 
-	   
-		return $result;
-	}
+                        $info = $this->getFile('/' . $relativePath,$value);
+                        $result[] = $info;
+                    }
+                }
+            }
+        }
 
-	/**
-	 * Method to auto-populate the model state.
-	 *
-	 * Note. Calling getState in this method will result in recursion.
-	 *
-	 * @since   1.6
-	 */
-	protected function populateState()
-	{
-		jimport('joomla.filesystem.file');
-		$app = JFactory::getApplication('administrator');
+        return $result;
+    }
 
-		// Load the User state.
-		$pk = $app->input->getInt('id');
-		$this->setState('extension.id', $pk);
-		
-		// Load the parameters.
-		$params = JComponentHelper::getParams('com_templates');
-		$this->setState('params', $params);
-	}
+    /**
+     * Method to auto-populate the model state.
+     *
+     * Note. Calling getState in this method will result in recursion.
+     *
+     * @since   1.6
+     */
+    protected function populateState()
+    {
+        jimport('joomla.filesystem.file');
+        $app = JFactory::getApplication('administrator');
 
-	/**
-	 * Method to get the template information.
-	 *
-	 * @return  mixed  Object if successful, false if not and internal error is set.
-	 * @since   1.6
-	 */
-	public function &getTemplate()
-	{
-		if (empty($this->template))
-		{
-			$pk		= $this->getState('extension.id');
-			$db		= $this->getDbo();
+        // Load the User state.
+        $pk = $app->input->getInt('id');
+        $this->setState('extension.id', $pk);
+
+        // Load the parameters.
+        $params = JComponentHelper::getParams('com_templates');
+        $this->setState('params', $params);
+    }
+
+    /**
+     * Method to get the template information.
+     *
+     * @return  mixed  Object if successful, false if not and internal error is set.
+     * @since   1.6
+     */
+    public function &getTemplate()
+    {
+        if (empty($this->template))
+        {
+            $pk		= $this->getState('extension.id');
+            $db		= $this->getDbo();
             $app = JFactory::getApplication();
 
-			// Get the template information.
-			$query = $db->getQuery(true)
-				->select('extension_id, client_id, element, name')
-				->from('#__extensions')
-				->where($db->quoteName('extension_id') . ' = ' . (int) $pk)
-				->where($db->quoteName('type') . ' = ' . $db->quote('template'));
-			$db->setQuery($query);
+            // Get the template information.
+            $query = $db->getQuery(true)
+                ->select('extension_id, client_id, element, name')
+                ->from('#__extensions')
+                ->where($db->quoteName('extension_id') . ' = ' . (int) $pk)
+                ->where($db->quoteName('type') . ' = ' . $db->quote('template'));
+            $db->setQuery($query);
 
-			try
-			{
-				$result = $db->loadObject();
-			}
-			catch (RuntimeException $e)
-			{
-				$app->enqueueMessage($e->getMessage(),'warning');
-				$this->template = false;
-				return false;
-			}
+            try
+            {
+                $result = $db->loadObject();
+            }
+            catch (RuntimeException $e)
+            {
+                $app->enqueueMessage($e->getMessage(),'warning');
+                $this->template = false;
+                return false;
+            }
 
-			if (empty($result))
-			{
+            if (empty($result))
+            {
                 $app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_EXTENSION_RECORD_NOT_FOUND'),'error');
-				$this->template = false;
-			} else {
-				$this->template = $result;
-			}
-		}
+                $this->template = false;
+            } else {
+                $this->template = $result;
+            }
+        }
 
-		return $this->template;
-	}
+        return $this->template;
+    }
 
-	/**
-	 * Method to check if new template name already exists
-	 *
-	 * @return  boolean   true if name is not used, false otherwise
-	 * @since	2.5
-	 */
-	public function checkNewName()
-	{
-		$db = $this->getDbo();
-		$query = $db->getQuery(true)
-			->select('COUNT(*)')
-			->from('#__extensions')
-			->where('name = ' . $db->quote($this->getState('new_name')));
-		$db->setQuery($query);
-		return ($db->loadResult() == 0);
-	}
+    /**
+     * Method to check if new template name already exists
+     *
+     * @return  boolean   true if name is not used, false otherwise
+     * @since	2.5
+     */
+    public function checkNewName()
+    {
+        $db = $this->getDbo();
+        $query = $db->getQuery(true)
+            ->select('COUNT(*)')
+            ->from('#__extensions')
+            ->where('name = ' . $db->quote($this->getState('new_name')));
+        $db->setQuery($query);
+        return ($db->loadResult() == 0);
+    }
 
-	/**
-	 * Method to check if new template name already exists
-	 *
-	 * @return  string     name of current template
-	 * @since	2.5
-	 */
-	public function getFromName()
-	{
-		return $this->getTemplate()->element;
-	}
+    /**
+     * Method to check if new template name already exists
+     *
+     * @return  string     name of current template
+     * @since	2.5
+     */
+    public function getFromName()
+    {
+        return $this->getTemplate()->element;
+    }
 
-	/**
-	 * Method to check if new template name already exists
-	 *
-	 * @return  boolean   true if name is not used, false otherwise
-	 * @since	2.5
-	 */
-	public function copy()
-	{
+    /**
+     * Method to check if new template name already exists
+     *
+     * @return  boolean   true if name is not used, false otherwise
+     * @since	2.5
+     */
+    public function copy()
+    {
         $app = JFactory::getApplication();
-		if ($template = $this->getTemplate())
-		{
-			jimport('joomla.filesystem.folder');
-			$client = JApplicationHelper::getClientInfo($template->client_id);
-			$fromPath = JPath::clean($client->path.'/templates/'.$template->element.'/');
+        if ($template = $this->getTemplate())
+        {
+            jimport('joomla.filesystem.folder');
+            $client = JApplicationHelper::getClientInfo($template->client_id);
+            $fromPath = JPath::clean($client->path.'/templates/'.$template->element.'/');
 
-			// Delete new folder if it exists
-			$toPath = $this->getState('to_path');
-			if (JFolder::exists($toPath))
-			{
-				if (!JFolder::delete($toPath))
-				{
+            // Delete new folder if it exists
+            $toPath = $this->getState('to_path');
+            if (JFolder::exists($toPath))
+            {
+                if (!JFolder::delete($toPath))
+                {
                     $app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_COULD_NOT_WRITE'),'error');
-					return false;
-				}
-			}
+                    return false;
+                }
+            }
 
-			// Copy all files from $fromName template to $newName folder
-			if (!JFolder::copy($fromPath, $toPath) || !$this->fixTemplateName())
-			{
-				return false;
-			}
+            // Copy all files from $fromName template to $newName folder
+            if (!JFolder::copy($fromPath, $toPath) || !$this->fixTemplateName())
+            {
+                return false;
+            }
 
-		return true;
-		}
-		else
-		{
+        return true;
+        }
+        else
+        {
             $app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_INVALID_FROM_NAME'),'error');
-			return false;
-		}
-	}
+            return false;
+        }
+    }
 
-	/**
-	 * Method to delete tmp folder
-	 *
-	 * @return  boolean   true if delete successful, false otherwise
-	 * @since	2.5
-	 */
-	public function cleanup()
-	{
-		// Clear installation messages
-		$app = JFactory::getApplication();
-		$app->setUserState('com_installer.message', '');
-		$app->setUserState('com_installer.extension_message', '');
-
-		// Delete temporary directory
-		return JFolder::delete($this->getState('to_path'));
-
-	}
-
-	/**
-	 * Method to rename the template in the XML files and rename the language files
-	 *
-	 * @return  boolean   true if successful, false otherwise
-	 * @since	2.5
-	 */
-	protected function fixTemplateName()
-	{
-		// Rename Language files
-		// Get list of language files
-		$result = true;
-		$files = JFolder::files($this->getState('to_path'), '.ini', true, true);
-		$newName = strtolower($this->getState('new_name'));
-		$oldName = $this->getTemplate()->element;
-
-		jimport('joomla.filesystem.file');
-		foreach ($files as $file)
-		{
-			$newFile = str_replace($oldName, $newName, $file);
-			$result = JFile::move($file, $newFile) && $result;
-		}
-
-		// Edit XML file
-		$xmlFile = $this->getState('to_path') . '/templateDetails.xml';
-		if (JFile::exists($xmlFile))
-		{
-			$contents = file_get_contents($xmlFile);
-			$pattern[] = '#<name>\s*' . $oldName . '\s*</name>#i';
-			$replace[] = '<name>'. $newName . '</name>';
-			$pattern[] = '#<language(.*)' . $oldName . '(.*)</language>#';
-			$replace[] = '<language${1}' . $newName . '${2}</language>';
-			$contents = preg_replace($pattern, $replace, $contents);
-			$result = JFile::write($xmlFile, $contents) && $result;
-		}
-
-		return $result;
-	}
-	
-	/**
-	 * Method to get the record form.
-	 *
-	 * @param   array      $data        Data for the form.
-	 * @param   boolean    $loadData    True if the form is to load its own data (default case), false if not.
-	 * @return  JForm    A JForm object on success, false on failure
-	 * @since   1.6
-	 */
-	public function getForm($data = array(), $loadData = true)
-	{
-		$app = JFactory::getApplication();
-	
-		// Codemirror or Editor None should be enabled
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-		->select('COUNT(*)')
-		->from('#__extensions as a')
-		->where('(a.name =' . $db->quote('plg_editors_codemirror') . ' AND a.enabled = 1) OR (a.name =' . $db->quote('plg_editors_none') . ' AND a.enabled = 1)');
-		$db->setQuery($query);
-		$state = $db->loadResult();
-		if ((int) $state < 1)
-		{
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_EDITOR_DISABLED'), 'warning');
-		}
-	
-		// Get the form.
-		$form = $this->loadForm('com_templates.source', 'source', array('control' => 'jform', 'load_data' => $loadData));
-		if (empty($form))
-		{
-			return false;
-		}
-	
-		return $form;
-	}
-	
-	/**
-	 * Method to get the data that should be injected in the form.
-	 *
-	 * @return  mixed  The data for the form.
-	 * @since   1.6
-	 */
-	protected function loadFormData()
-	{
-		$data = $this->getSource();
-	
-		$this->preprocessData('com_templates.source', $data);
-	
-		return $data;
-	}
-	
-	/**
-	 * Method to get a single record.
-	 *
-	 * @return  mixed  Object on success, false on failure.
-	 * @since   1.6
-	 */
-	public function &getSource()
-	{
+    /**
+     * Method to delete tmp folder
+     *
+     * @return  boolean   true if delete successful, false otherwise
+     * @since	2.5
+     */
+    public function cleanup()
+    {
+        // Clear installation messages
         $app = JFactory::getApplication();
-		$item = new stdClass;
-		if (!$this->template)
-		{
-			$this->getTemplate();
-		}
-	
-		if ($this->template)
-		{
+        $app->setUserState('com_installer.message', '');
+        $app->setUserState('com_installer.extension_message', '');
+
+        // Delete temporary directory
+        return JFolder::delete($this->getState('to_path'));
+
+    }
+
+    /**
+     * Method to rename the template in the XML files and rename the language files
+     *
+     * @return  boolean   true if successful, false otherwise
+     * @since	2.5
+     */
+    protected function fixTemplateName()
+    {
+        // Rename Language files
+        // Get list of language files
+        $result = true;
+        $files = JFolder::files($this->getState('to_path'), '.ini', true, true);
+        $newName = strtolower($this->getState('new_name'));
+        $oldName = $this->getTemplate()->element;
+
+        jimport('joomla.filesystem.file');
+        foreach ($files as $file)
+        {
+            $newFile = str_replace($oldName, $newName, $file);
+            $result = JFile::move($file, $newFile) && $result;
+        }
+
+        // Edit XML file
+        $xmlFile = $this->getState('to_path') . '/templateDetails.xml';
+        if (JFile::exists($xmlFile))
+        {
+            $contents = file_get_contents($xmlFile);
+            $pattern[] = '#<name>\s*' . $oldName . '\s*</name>#i';
+            $replace[] = '<name>'. $newName . '</name>';
+            $pattern[] = '#<language(.*)' . $oldName . '(.*)</language>#';
+            $replace[] = '<language${1}' . $newName . '${2}</language>';
+            $contents = preg_replace($pattern, $replace, $contents);
+            $result = JFile::write($xmlFile, $contents) && $result;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Method to get the record form.
+     *
+     * @param   array      $data        Data for the form.
+     * @param   boolean    $loadData    True if the form is to load its own data (default case), false if not.
+     * @return  JForm    A JForm object on success, false on failure
+     * @since   1.6
+     */
+    public function getForm($data = array(), $loadData = true)
+    {
+        $app = JFactory::getApplication();
+
+        // Codemirror or Editor None should be enabled
+        $db = JFactory::getDbo();
+        $query = $db->getQuery(true)
+        ->select('COUNT(*)')
+        ->from('#__extensions as a')
+        ->where('(a.name =' . $db->quote('plg_editors_codemirror') . ' AND a.enabled = 1) OR (a.name =' . $db->quote('plg_editors_none') . ' AND a.enabled = 1)');
+        $db->setQuery($query);
+        $state = $db->loadResult();
+        if ((int) $state < 1)
+        {
+            $app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_EDITOR_DISABLED'), 'warning');
+        }
+
+        // Get the form.
+        $form = $this->loadForm('com_templates.source', 'source', array('control' => 'jform', 'load_data' => $loadData));
+        if (empty($form))
+        {
+            return false;
+        }
+
+        return $form;
+    }
+
+    /**
+     * Method to get the data that should be injected in the form.
+     *
+     * @return  mixed  The data for the form.
+     * @since   1.6
+     */
+    protected function loadFormData()
+    {
+        $data = $this->getSource();
+
+        $this->preprocessData('com_templates.source', $data);
+
+        return $data;
+    }
+
+    /**
+     * Method to get a single record.
+     *
+     * @return  mixed  Object on success, false on failure.
+     * @since   1.6
+     */
+    public function &getSource()
+    {
+        $app = JFactory::getApplication();
+        $item = new stdClass;
+        if (!$this->template)
+        {
+            $this->getTemplate();
+        }
+
+        if ($this->template)
+        {
             $input = JFactory::getApplication()->input;
-			$fileName = base64_decode($input->get('file'));
-			$client = JApplicationHelper::getClientInfo($this->template->client_id);
-			$filePath = JPath::clean($client->path . '/templates/' . $this->template->element . '/' . $fileName);
-	
-			if (file_exists($filePath))
-			{
-				$item->extension_id = $this->getState('extension.id');
-				$item->filename = $fileName;
-				$item->source = file_get_contents($filePath);
-			}
-			else
-			{
+            $fileName = base64_decode($input->get('file'));
+            $client = JApplicationHelper::getClientInfo($this->template->client_id);
+            $filePath = JPath::clean($client->path . '/templates/' . $this->template->element . '/' . $fileName);
+
+            if (file_exists($filePath))
+            {
+                $item->extension_id = $this->getState('extension.id');
+                $item->filename = $fileName;
+                $item->source = file_get_contents($filePath);
+            }
+            else
+            {
                 $app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'),'error');
-			}
-		}
-	
-		return $item;
-	}
-	
-	/**
-	 * Method to store the source file contents.
-	 *
-	 * @param   array  The source data to save.
-	 *
-	 * @return  boolean  True on success, false otherwise and internal error set.
-	 * @since   1.6
-	 */
-	public function save($data)
-	{
-		jimport('joomla.filesystem.file');
-	
-		// Get the template.
-		$template = $this->getTemplate();
-		if (empty($template))
-		{
-			return false;
-		}
+            }
+        }
+
+        return $item;
+    }
+
+    /**
+     * Method to store the source file contents.
+     *
+     * @param   array  The source data to save.
+     *
+     * @return  boolean  True on success, false otherwise and internal error set.
+     * @since   1.6
+     */
+    public function save($data)
+    {
+        jimport('joomla.filesystem.file');
+
+        // Get the template.
+        $template = $this->getTemplate();
+        if (empty($template))
+        {
+            return false;
+        }
 
         $app = JFactory::getApplication();
         $fileName = base64_decode($app->input->get('file'));
-		$client = JApplicationHelper::getClientInfo($template->client_id);
-		$filePath = JPath::clean($client->path . '/templates/' . $template->element . '/' . $fileName);
-	
-		// Include the extension plugins for the save events.
-		JPluginHelper::importPlugin('extension');
+        $client = JApplicationHelper::getClientInfo($template->client_id);
+        $filePath = JPath::clean($client->path . '/templates/' . $template->element . '/' . $fileName);
+
+        // Include the extension plugins for the save events.
+        JPluginHelper::importPlugin('extension');
 
         $user = get_current_user();
         chown($filePath,$user);
         JPath::setPermissions($filePath,'0644');
 
-		// Try to make the template file writable.
-		if (!is_writable($filePath))
-		{
+        // Try to make the template file writable.
+        if (!is_writable($filePath))
+        {
             $app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_WRITABLE'),'warning');
             $app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_PERMISSIONS' . JPath::getPermissions($filePath)),'warning');
             if(!JPath::isOwner($filePath))
             {
                 $app->enqueueMessage(JText::_('COM_TEMPLATES_CHECK_FILE_OWNERSHIP'),'warning');
             }
-			return false;
-		}
+            return false;
+        }
 
-		$return = JFile::write($filePath, $data['source']);
-	
-		// Try to make the template file unwritable.
-		if (JPath::isOwner($filePath) && !JPath::setPermissions($filePath, '0444'))
-		{
-			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_UNWRITABLE'),'warning');
-			return false;
-		}
-		elseif (!$return)
-		{
+        $return = JFile::write($filePath, $data['source']);
+
+        // Try to make the template file unwritable.
+        if (JPath::isOwner($filePath) && !JPath::setPermissions($filePath, '0444'))
+        {
+            $app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_UNWRITABLE'),'warning');
+            return false;
+        }
+        elseif (!$return)
+        {
             $app->enqueueMessage(JText::sprintf('COM_TEMPLATES_ERROR_FAILED_TO_SAVE_FILENAME', $fileName),'warning');
-			return false;
-		}
+            return false;
+        }
 
         $explodeArray = explode('.',$fileName);
         $ext = end($explodeArray);
@@ -464,9 +464,9 @@ class TemplatesModelTemplate extends JModelForm
         {
             $app->enqueueMessage(JText::sprintf('COM_TEMPLATES_COMPILE_LESS', $fileName));
         }
-	
-		return true;
-	}
+
+        return true;
+    }
 
     /**
      * Get overrides folder.
@@ -844,9 +844,15 @@ class TemplatesModelTemplate extends JModelForm
             $explodeArray = explode('/', $fileName);
             $newName    = str_replace(end($explodeArray), $name . '.' . $type, $fileName);
 
+            if(file_exists($path . $newName))
+            {
+                $app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_EXISTS'), 'error');
+                return false;
+            }
+
             if(!rename($path . $fileName, $path . $newName))
             {
-                $app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_RENAME_ERROR'),'error');
+                $app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_RENAME_ERROR'), 'error');
                 return false;
             }
 
@@ -1088,4 +1094,4 @@ class TemplatesModelTemplate extends JModelForm
 
     }
 
-}
+    }

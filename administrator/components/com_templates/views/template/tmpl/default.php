@@ -154,23 +154,22 @@ if($this->type == 'image')
         </div>
 		<div class="row-fluid">
 			<div class="span3">
-				<?php $this->listDirectoryTree($this->files);?>
+				<?php echo $this->loadTemplate('tree');?>
 			</div>
 			<div class="span9">
                 <?php if($this->type == 'file'): ?>
                     <form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
 
-                            <p class="label"><?php echo JText::_('COM_TEMPLATES_TOGGLE_FULL_SCREEN'); ?></p>
-                            <div class="clr"></div>
-                            <div class="editor-border">
-                                <?php echo $this->form->getInput('source'); ?>
-                            </div>
-                            <input type="hidden" name="task" value="" />
-                            <?php echo JHtml::_('form.token'); ?>
-
-
+                        <p class="label"><?php echo JText::_('COM_TEMPLATES_TOGGLE_FULL_SCREEN'); ?></p>
+                        <div class="clr"></div>
+                        <div class="editor-border">
+                            <?php echo $this->form->getInput('source'); ?>
+                        </div>
+                        <input type="hidden" name="task" value="" />
+                        <?php echo JHtml::_('form.token'); ?>
                         <?php echo $this->form->getInput('extension_id'); ?>
                         <?php echo $this->form->getInput('filename'); ?>
+
                     </form>
                 <?php endif; ?>
                 <?php if($this->type == 'image'): ?>
@@ -394,7 +393,7 @@ if($this->type == 'image')
             </form>
         </div>
         <div class="column">
-            <?php $this->listFolderTree($this->files);?>
+            <?php echo $this->loadTemplate('folders');?>
         </div>
     </div>
     <div class="modal-footer">
@@ -420,7 +419,7 @@ if($this->type == 'image')
             </form>
         </div>
         <div class="column">
-            <?php $this->listFolderTree($this->files);?>
+            <?php echo $this->loadTemplate('folders');?>
         </div>
     </div>
     <div class="modal-footer">
