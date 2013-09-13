@@ -1007,8 +1007,18 @@ class UsersModelUser extends JModelAdmin
 		// Check if the user has enabled two factor authentication
 		if (empty($otpConfig->method) || ($otpConfig->method == 'none'))
 		{
+			// Load language
+			$lang = JFactory::getLanguage();
+			$extension = 'com_users';
+			$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
+
+			$lang->load($extension, JPATH_ADMINISTRATOR, null, false, false)
+				|| $lang->load($extension, $source, null, false, false)
+				|| $lang->load($extension, JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
+				|| $lang->load($extension, $source, $lang->getDefault(), false, false);
+
 			$warn = true;
-			$warnMessage = JText::_('PLG_AUTH_JOOMLA_ERR_SECRET_CODE_WITHOUT_TFA');
+			$warnMessage = JText::_('COM_USERS_ERROR_SECRET_CODE_WITHOUT_TFA');
 
 			if (array_key_exists('warn_if_not_req', $options))
 			{
@@ -1021,15 +1031,12 @@ class UsersModelUser extends JModelAdmin
 			}
 
 			// Warn the user if he's using a secret code but he has not
-			// enabed two factor auth in his account.
+			// enabled two factor auth in his account.
 			if (!empty($secretkey) && $warn)
 			{
 				try
 				{
 					$app = JFactory::getApplication();
-
-					$this->loadLanguage();
-
 					$app->enqueueMessage($warnMessage, 'warning');
 				}
 				catch (Exception $exc)

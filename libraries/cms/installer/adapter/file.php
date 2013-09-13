@@ -21,7 +21,21 @@ jimport('joomla.filesystem.folder');
  */
 class JInstallerAdapterFile extends JAdapterInstance
 {
+	/**
+	 * Install function routing
+	 *
+	 * @var    string
+	 * @since  3.1
+	 */
 	protected $route = 'install';
+
+	/**
+	 * <scriptfile> element of the extension manifest
+	 *
+	 * @var    object
+	 * @since  3.1
+	 */
+	protected $scriptElement = null;
 
 	/**
 	 * Custom loadLanguage method
