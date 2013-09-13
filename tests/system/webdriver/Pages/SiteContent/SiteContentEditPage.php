@@ -51,7 +51,7 @@ class SiteContentEditPage extends SitePage
 	{
 		$d = $this->driver;
 		$d->findElement(By::xPath("//textarea[@id='jform_articletext']"))->clear();
-		$d->findElement(By::xPath("//textarea[@id='jform_articletext']"))->sendKeys('<p>' . $articleText . '</p>');
+		$d->findElement(By::xPath("//textarea[@id='jform_articletext']"))->sendKeys($articleText);
 		$d->findElement(By::xPath("//button[@type='button'][@class='btn btn-primary']"))->click(); 
 	}
 }
