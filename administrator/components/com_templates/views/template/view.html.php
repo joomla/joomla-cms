@@ -18,258 +18,273 @@ defined('_JEXEC') or die;
 */
 class TemplatesViewTemplate extends JViewLegacy
 {
-    /**
-     * For loading extension state
-     */
-    protected $state;
+	/**
+	 * For loading extension state
+	 */
+	protected $state;
 
-    /**
-     * For loading template details
-     */
-    protected $template;
+	/**
+	 * For loading template details
+	 */
+	protected $template;
 
-    /**
-     * For loading the source form
-     */
-    protected $form;
+	/**
+	 * For loading the source form
+	 */
+	protected $form;
 
-    /**
-     * For loading source file contents
-     */
-    protected $source;
+	/**
+	 * For loading source file contents
+	 */
+	protected $source;
 
-    /**
-     * Extension id
-     */
-    protected $id;
+	/**
+	 * Extension id
+	 */
+	protected $id;
 
-    /**
-     * Encrypted file path
-     */
-    protected $file;
+	/**
+	 * Encrypted file path
+	 */
+	protected $file;
 
-    /**
-     * List of available overrides
-     */
-    protected $overridesList;
+	/**
+	 * List of available overrides
+	 */
+	protected $overridesList;
 
-    /**
-     * Name of the present file
-     */
-    protected $fileName;
+	/**
+	 * Name of the present file
+	 */
+	protected $fileName;
 
-    /**
-     * Type of the file - image, source, font
-     */
-    protected $type;
+	/**
+	 * Type of the file - image, source, font
+	 */
+	protected $type;
 
-    /**
-     * For loading image information
-     */
-    protected $image;
+	/**
+	 * For loading image information
+	 */
+	protected $image;
 
-    /**
-     * Template id for showing preview button
-     */
-    protected $preview;
+	/**
+	 * Template id for showing preview button
+	 */
+	protected $preview;
 
-    /**
-     * For loading font information
-     */
-    protected $font;
+	/**
+	 * For loading font information
+	 */
+	protected $font;
 
-    /**
-     * For checking if the template is hathor
-     */
-    protected $hathor;
+	/**
+	 * For checking if the template is hathor
+	 */
+	protected $hathor;
 
-    /**
-     * A nested array containing lst of files and folders
-     */
-    protected $files;
+	/**
+	 * A nested array containing lst of files and folders
+	 */
+	protected $files;
 
-    /**
-     * Display the view
-     */
-    public function display($tpl = null)
-    {
-        $app            = JFactory::getApplication();
-        $this->file     = $app->input->get('file');
-        $this->fileName = base64_decode($this->file);
-        $explodeArray   = explode('.',$this->fileName);
-        $ext            = end($explodeArray);
-        $this->files	= $this->get('Files');
-        $this->state	= $this->get('State');
-        $this->template	= $this->get('Template');
-        $this->preview	= $this->get('Preview');
-        $this->hathor	= $this->get('Hathor');
+	/**
+	 * Display the view
+	 * 
+	 * @param   string  $tpl  The template to view
+	 *
+	 * @return  void, false if errors
+	 */
+	public function display($tpl = null)
+	{
+		$app            = JFactory::getApplication();
+		$this->file     = $app->input->get('file');
+		$this->fileName = base64_decode($this->file);
+		$explodeArray   = explode('.', $this->fileName);
+		$ext            = end($explodeArray);
+		$this->files	= $this->get('Files');
+		$this->state	= $this->get('State');
+		$this->template	= $this->get('Template');
+		$this->preview	= $this->get('Preview');
+		$this->hathor	= $this->get('Hathor');
 
-        if(in_array($ext, array('css','js','php','xml','ini','less')))
-        {
-            $this->form		= $this->get('Form');
-            $this->source	= $this->get('Source');
-            $this->type 	= 'file';
-        }
-        elseif(in_array($ext, array('jpg','jpeg','png','gif')))
-        {
-            $this->image    = $this->get('Image');
-            $this->type 	= 'image';
-        }
-        elseif(in_array($ext, array('woff','otf','ttf')))
-        {
-            $this->font     = $this->get('Font');
-            $this->type 	= 'font';
-        }
-        $this->overridesList	= $this->get('OverridesList');
-        $this->id       = $this->state->get('extension.id');
+		if(in_array($ext, array('css', 'js', 'php', 'xml', 'ini', 'less')))
+		{
+			$this->form		= $this->get('Form');
+			$this->source	= $this->get('Source');
+			$this->type 	= 'file';
+		}
+		elseif(in_array($ext, array('jpg', 'jpeg', 'png', 'gif')))
+		{
+			$this->image    = $this->get('Image');
+			$this->type 	= 'image';
+		}
+		elseif(in_array($ext, array('woff', 'otf', 'ttf')))
+		{
+			$this->font     = $this->get('Font');
+			$this->type 	= 'font';
+		}
 
+		$this->overridesList	= $this->get('OverridesList');
+		$this->id       = $this->state->get('extension.id');
 
+		// Check for errors.
+		if (count($errors = $this->get('Errors')))
+		{
+			$app->enqueueMessage(implode("\n", $errors));
 
-        // Check for errors.
-        if (count($errors = $this->get('Errors')))
-        {
-            $app->enqueueMessage(implode("\n", $errors));
-            return false;
-        }
+			return false;
+		}
 
-        $this->addToolbar();
-        parent::display($tpl);
-    }
+		$this->addToolbar();
+		parent::display($tpl);
+	}
 
-    /**
-     * Add the page title and toolbar.
-     *
-     * @since   1.6
-     */
-    protected function addToolbar()
-    {
-        JFactory::getApplication()->input->set('hidemainmenu', true);
-        $canDo = TemplatesHelper::getActions();
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @since   1.6
+	 *
+	 * @return  void
+	 */
+	protected function addToolbar()
+	{
+		JFactory::getApplication()->input->set('hidemainmenu', true);
+		$canDo = TemplatesHelper::getActions();
 
-        if($canDo->get('core.edit') && $canDo->get('core.create') && $canDo->get('core.admin'))
-        {
-            $showButton = true;
-        }
-        else
-        {
-            $showButton = false;
-        }
-        // Get the toolbar object instance
-        $bar = JToolBar::getInstance('toolbar');
-        $explodeArray = explode('.',$this->fileName);
-        $ext = end($explodeArray);
+		if ($canDo->get('core.edit') && $canDo->get('core.create') && $canDo->get('core.admin'))
+		{
+			$showButton = true;
+		}
+		else
+		{
+			$showButton = false;
+		}
 
-        JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE'), 'thememanager');
+		// Get the toolbar object instance
+		$bar = JToolBar::getInstance('toolbar');
+		$explodeArray = explode('.', $this->fileName);
+		$ext = end($explodeArray);
 
-        //Add a Apply and save button
-        if($this->type == 'file')
-        {
-            if ($showButton)
-            {
-                JToolbarHelper::apply('template.apply');
-                JToolbarHelper::save('template.save');
-            }
-        }
+		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE'), 'thememanager');
 
-        //Add a Crop and Resize button
-        elseif($this->type == 'image')
-        {
+		// Add a Apply and save button
+		if ($this->type == 'file')
+		{
+			if ($showButton)
+			{
+				JToolbarHelper::apply('template.apply');
+				JToolbarHelper::save('template.save');
+			}
+		}
 
-            if ($showButton)
-            {
-                JToolbarHelper::custom('template.cropImage', 'move', 'move', 'COM_TEMPLATES_BUTTON_CROP', false, false);
+		// Add a Crop and Resize button
+		elseif($this->type == 'image')
+		{
+			if ($showButton)
+			{
+				JToolbarHelper::custom('template.cropImage', 'move', 'move', 'COM_TEMPLATES_BUTTON_CROP', false, false);
 
-                JToolbarHelper::modal('resizeModal', 'icon-refresh', 'COM_TEMPLATES_BUTTON_RESIZE');
-            }
-        }
+				JToolbarHelper::modal('resizeModal', 'icon-refresh', 'COM_TEMPLATES_BUTTON_RESIZE');
+			}
+		}
 
-        // Add a copy button
-        if ($this->hathor->home == 0)
-        {
-            if ($showButton)
-            {
-                JToolbarHelper::modal('collapseModal', 'icon-copy', 'JLIB_HTML_BATCH_COPY');
-            }
-        }
+		// Add a copy button
+		if ($this->hathor->home == 0)
+		{
+			if ($showButton)
+			{
+				JToolbarHelper::modal('collapseModal', 'icon-copy', 'JLIB_HTML_BATCH_COPY');
+			}
+		}
 
-        //Add a Template preview button
-        if ($this->preview->client_id == 0)
-        {
-            $bar->appendButton('Link', 'picture', 'COM_TEMPLATES_BUTTON_PREVIEW', JUri::root() . 'index.php?tp=1&templateStyle=' . $this->preview->id);
-        }
+		// Add a Template preview button
+		if ($this->preview->client_id == 0)
+		{
+			$bar->appendButton('Link', 'picture', 'COM_TEMPLATES_BUTTON_PREVIEW', JUri::root() . 'index.php?tp=1&templateStyle=' . $this->preview->id);
+		}
 
-        //Add Manage folders button
-        if ($showButton)
-        {
-            JToolbarHelper::modal('folderModal', 'icon-folder icon white', 'COM_TEMPLATES_BUTTON_FOLDERS');
-        }
+		// Add Manage folders button
+		if ($showButton)
+		{
+			JToolbarHelper::modal('folderModal', 'icon-folder icon white', 'COM_TEMPLATES_BUTTON_FOLDERS');
+		}
 
-        // Add a new file button
-        if ($showButton)
-        {
-            JToolbarHelper::modal('fileModal', 'icon-file', 'COM_TEMPLATES_BUTTON_FILE');
-        }
+		// Add a new file button
+		if ($showButton)
+		{
+			JToolbarHelper::modal('fileModal', 'icon-file', 'COM_TEMPLATES_BUTTON_FILE');
+		}
 
-        //Add a Rename file Button
-        if ($this->hathor->home == 0)
-        {
-            if ($showButton)
-            {
-                JToolbarHelper::modal('renameModal', 'icon-refresh', 'COM_TEMPLATES_BUTTON_RENAME');
-            }
-        }
+		// Add a Rename file Button
+		if ($this->hathor->home == 0)
+		{
+			if ($showButton)
+			{
+				JToolbarHelper::modal('renameModal', 'icon-refresh', 'COM_TEMPLATES_BUTTON_RENAME');
+			}
+		}
 
-        //Add a Delete file Button
-        if ($showButton)
-        {
-            JToolbarHelper::modal('deleteModal', 'icon-remove', 'COM_TEMPLATES_BUTTON_DELETE');
-        }
+		// Add a Delete file Button
+		if ($showButton)
+		{
+			JToolbarHelper::modal('deleteModal', 'icon-remove', 'COM_TEMPLATES_BUTTON_DELETE');
+		}
 
-        //Add a Compile Button
-        if ($showButton)
-        {
-            if($ext == 'less')
-            {
-                JToolbarHelper::custom('template.less', 'play', 'play', 'COM_TEMPLATES_BUTTON_LESS', false, false);
-            }
-        }
+		// Add a Compile Button
+		if ($showButton)
+		{
+			if ($ext == 'less')
+			{
+				JToolbarHelper::custom('template.less', 'play', 'play', 'COM_TEMPLATES_BUTTON_LESS', false, false);
+			}
+		}
 
-        JToolbarHelper::cancel('template.cancel', 'JTOOLBAR_CLOSE');
+		JToolbarHelper::cancel('template.cancel', 'JTOOLBAR_CLOSE');
 
-        JToolbarHelper::divider();
-        JToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_TEMPLATES_EDIT');
-    }
+		JToolbarHelper::divider();
+		JToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_TEMPLATES_EDIT');
+	}
 
-    /**
-     * Method for creating the collapsible tree.
-     *
-     * uses recursion
-     *
-     * @since   3.2
-     */
-    protected function directoryTree($array)
-    {
-        $temp           = $this->files;
-        $this->files    = $array;
-        $txt            = $this->loadTemplate('tree');
-        $this->files    = $temp;
-        return $txt;
-    }
+	/**
+	 * Method for creating the collapsible tree.
+	 *
+	 * uses recursion
+	 *
+	 * @param   array  $array  The value of the present node for recursion
+	 *
+	 * @return  string
+	 *
+	 * @since   3.2
+	 */
+	protected function directoryTree($array)
+	{
+		$temp           = $this->files;
+		$this->files    = $array;
+		$txt            = $this->loadTemplate('tree');
+		$this->files    = $temp;
 
-    /**
-     * Method for listing the folder tree in modals.
-     *
-     * uses recursion
-     *
-     * @since   3.2
-     */
-    protected function folderTree($array)
-    {
-        $temp           = $this->files;
-        $this->files    = $array;
-        $txt            = $this->loadTemplate('folders');
-        $this->files    = $temp;
-        return $txt;
-    }
+		return $txt;
+	}
 
+	/**
+	 * Method for listing the folder tree in modals.
+	 *
+	 * uses recursion
+	 *
+	 * @param   array  $array  The value of the present node for recursion
+	 *
+	 * @return  string
+	 *
+	 * @since   3.2
+	 */
+	protected function folderTree($array)
+	{
+		$temp           = $this->files;
+		$this->files    = $array;
+		$txt            = $this->loadTemplate('folders');
+		$this->files    = $temp;
+
+		return $txt;
+	}
 }
