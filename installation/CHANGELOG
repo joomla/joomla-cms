@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Sep-2013 Elin Waring
+ # [#31998] Smart Search Index Button broken (Regression).
+
 12-Sep-2013 Jean-Marie Simonet
  + [#31850] The parent item search ajax based on menu location. Thanks Lu Nguyen
  # [#31890] tagged items list has class "list-striped" and "list-condensed" in code. Thanks Elin waring.
