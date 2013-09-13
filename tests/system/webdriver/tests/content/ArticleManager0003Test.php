@@ -218,17 +218,16 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
         public function frontEndEditArticle_ChangeArticleText_ArticleTextChanged()
 	{
 		$cfg = new SeleniumConfig();
-		$checkingText = 'Testing Edit';
-		$actualText = '<p>New Text</p>';
-		$validationText = 'New Text';
+		$checkingText = '<p>Testing Edit</p>';
+		$validationText = 'Testing Edit';
 		$this->doAdminLogin();
 		$globalConfigUrl = 'administrator/index.php?option=com_config';
-		$url = $this->cfg->host . $this->cfg->path . $globalConfigUrl;
+		$url = $this->cfg->host.$this->cfg->path . $globalConfigUrl;
 		$this->driver->get($url);
 		$gc= $this->getPageObject('GlobalConfigurationPage', true, $url);
 		$gc->changeEditorMode();
 		$articleManager='administrator/index.php?option=com_content';
-		$this->driver->get($cfg->host . $cfg->path . $articleManager);
+		$this->driver->get($cfg->host.$cfg->path . $articleManager);
 		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
 		$this->articleManagerPage->addArticle('Testing');
 		$this->articleManagerPage->searchFor('Testing');
@@ -244,21 +243,13 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 		$this->articleEditPage->editArticle($checkingText);
 		$this->siteHomePage = $this->getPageObject('SiteContentFeaturedPage');
 		$articleTexts = $this->siteHomePage->getArticleText();
-		$this->assertTrue(in_array($checkingText,$articleTexts), 'Text Must be Present');
+		$this->assertTrue(in_array($validationText, $articleTexts), 'Text Must be Present');
 		
-		//Set Back to Previous Value
-		$this->siteHomePage->clickEditArticle('Testing');
-		$this->articleEditPage = $this->getPageObject('SiteContentEditPage');
-		$this->articleEditPage->editArticle($actualText);
-		$this->siteHomePage = $this->getPageObject('SiteContentFeaturedPage');
-		$articleTexts = $this->siteHomePage->getArticleText();
-		$this->assertTrue(in_array($validationText,$articleTexts), 'Text Must be Present');
-		
-		//Set Back the Editor
+		//Deleting the Article
 		$cpPage = $this->doAdminLogin();
 		$this->gcPage = $cpPage->clickMenu('Global Configuration', 'GlobalConfigurationPage');
 		$this->gcPage->changeEditorMode('TINY');
-		$this->driver->get($cfg->host.$cfg->path.$articleManager);
+		$this->driver->get($cfg->host.$cfg->path . $articleManager);
 		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
 		$this->articleManagerPage->trashAndDelete('Testing');
         }
