@@ -30,7 +30,7 @@ class SiteContentFeaturedPage extends SitePage
 	 * @var    string
 	 * @since  3.2
 	 */
-	protected $waitForXpath =  "//a[@class='btn']";
+	protected $waitForXpath =  "//main[@id='content']/ul/li[2]/span[contains(text(),'Home')]";
 
 	/**
 	 * URL used to uniquely identify this page
@@ -55,5 +55,24 @@ class SiteContentFeaturedPage extends SitePage
 			$arrayTitles[$i]=$arrayElement[$i]->getText();
 		}
 		return $arrayTitles; 
+	}
+	
+	/**
+	 * Function to check if the unpublished tag is present for a article or not
+	 *
+	 * 
+	 * @return  boolean 
+	 */	
+	public function isUnpublishedPresent($articleTitle)
+	{
+		$arrayElement=$this->driver->findElements(By::xPath("//div[@class='system-unpublished']/h2[contains(., '" . $articleTitle . "')]"));
+		if(count($arrayElement>0))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 }
