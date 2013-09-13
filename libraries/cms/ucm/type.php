@@ -12,6 +12,40 @@ defined('JPATH_BASE') or die;
 /**
  * UCM Class for handling content types
  *
+ * @property-read  string $core_content_id
+ * @property-read  string $core_type_alias
+ * @property-read  string $core_title
+ * @property-read  string $core_alias
+ * @property-read  string $core_body
+ * @property-read  string $core_state
+ *
+ * @property-read  string $core_checked_out_time
+ * @property-read  string $core_checked_out_user_id
+ * @property-read  string $core_access
+ * @property-read  string $core_params
+ * @property-read  string $core_featured
+ * @property-read  string $core_metadata
+ * @property-read  string $core_created_user_id
+ * @property-read  string $core_created_by_alias
+ * @property-read  string $core_created_time
+ * @property-read  string $core_modified_user_id
+ * @property-read  string $core_modified_time
+ * @property-read  string $core_language
+ * @property-read  string $core_publish_up
+ * @property-read  string $core_publish_down
+ * @property-read  string $core_content_item_id
+ * @property-read  string $asset_id
+ * @property-read  string $core_images
+ * @property-read  string $core_urls
+ * @property-read  string $core_hits
+ * @property-read  string $core_version
+ * @property-read  string $core_ordering
+ * @property-read  string $core_metakey
+ * @property-read  string $core_metadesc
+ * @property-read  string $core_catid
+ * @property-read  string $core_xreference
+ * @property-read  string $core_typeid
+ *
  * @package     Joomla.Libraries
  * @subpackage  UCM
  * @since       3.1
@@ -100,7 +134,6 @@ class JUcmType implements JUcm
 	 */
 	public function getTypeByAlias($typeAlias = null)
 	{
-
 		$query	= $this->db->getQuery(true);
 		$query->select('ct.*');
 		$query->from($this->db->quoteName('#__content_types', 'ct'));
@@ -144,7 +177,6 @@ class JUcmType implements JUcm
 		}
 
 		return $id;
-
 	}
 
 	/**
