@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 13-Sep-2013 Jean-Marie Simonet
  # [#31987] *Joomla multilingual install: sef and flags issues. Thanks Beat
+ $ [#31942] Two factor authentication - Language file. Thanks Brian Teeman
 
 13-Sep-2013 Elin Waring
  # [#31998] Smart Search Index Button broken (Regression).
