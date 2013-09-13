@@ -565,12 +565,25 @@ class JUser extends JObject
 
 			$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
 
+			$joomlaPluginEnabled = JPluginHelper::isEnabled('user', 'joomla');
+
+			// The Joomla user plugin allows you to use weaker passwords if necessary.
+			if ($joomlaPluginEnabled)
+			{
+				$userPlugin = JPluginHelper::getPlugin('user','joomla');
+				$userPluginParams = new JRegistry($userPlugin->params);
+				$defaultEncryption = PlgUserJoomla::setDefaultEncryption($userPluginParams);
+			}
+			else
+			{
+				$defaultEncryption = 'bcrypt';
+			}
+
 			$salt = JUserHelper::genRandomPassword(32);
-			$crypt = JUserHelper::getCryptedPassword($array['password'], $salt);
+			$crypt = JUserHelper::getCryptedPassword($array['password'], $salt, $defaultEncryption);
 			$array['password'] = $crypt . ':' . $salt;
 
 			// Set the registration timestamp
-
 			$this->set('registerDate', JFactory::getDate()->toSql());
 
 			// Check that username is not greater than 150 characters
@@ -606,7 +619,7 @@ class JUser extends JObject
 				$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
 
 				$salt = JUserHelper::genRandomPassword(32);
-				$crypt = JUserHelper::getCryptedPassword($array['password'], $salt);
+				$crypt = JUserHelper::getCryptedPassword($array['password'], $salt, $defaultEncryption);
 				$array['password'] = $crypt . ':' . $salt;
 			}
 			else

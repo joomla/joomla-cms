@@ -411,7 +411,8 @@ abstract class JUserHelper
 				return ($show_encrypt) ? '{SHA256}' . $encrypted : $encrypted;
 
 			case 'bcrypt':
-				// 'bcrypt' is be the default case starting in CMS 3.2.
+
+				// 'bcrypt' is the default case starting in CMS 3.2.
 				default:
 
 				if (JCrypt::hasStrongPasswordSupport())
@@ -428,7 +429,7 @@ abstract class JUserHelper
 				}
 				else
 				{
-					// BCrypt isn't available, fall back to sha256.
+					// BCrypt isn't available or is not wanted, fall back to sha256.
 					return static::getCryptedPassword($plaintext, '', 'sha256', false);
 
 				}

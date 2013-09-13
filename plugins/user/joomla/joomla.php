@@ -21,21 +21,21 @@ class PlgUserJoomla extends JPlugin
 	/**
 	 * @var    JApplication database
 	 *
-	 * @since  3.1.5
+	 * @since  3.2
 	 */
 	protected $db;
 
 	/**
 	 * @var    JApplication
 	 *
-	 * @since  3.1.5
+	 * @since  3.2
 	 */
 	protected $app;
 
 	/**
 	 * @var  boolean  True to use strong password encryption
 	 *
-	 * @since  3.1.5
+	 * @since  3.2
 	 */
 	protected $useStrongEncryption;
 
@@ -489,11 +489,11 @@ class PlgUserJoomla extends JPlugin
 	/*
 	 * Method to set the default encryption for passwords
 	*
-	* @return  string  A hashed user agent string with version replaced by 'abcd'
+	* @return  string  The default encryption method based on plugin parameters
 	*
-	* @since   3.1.5
+	* @since   3.2
 	*/
-	public static function setDefaultEncryption()
+	public static function setDefaultEncryption($userPluginParams)
 	{
 
 		if ($userPluginParams->get('strong_passwords') == 1)
@@ -502,7 +502,7 @@ class PlgUserJoomla extends JPlugin
 		}
 		else
 		{
-			return 'md5-hex';
+			return 'sha256';
 		}
 	}
 }
