@@ -10,7 +10,7 @@
 /**
  * Test class for JUcmBase.
  */
-class JUcmBaseTest extends PHPUnit_Framework_TestCase
+class JUcmBaseTest extends TestCaseDatabase
 {
 	/**
 	 * @var    JHelperBase
@@ -28,6 +28,9 @@ class JUcmBaseTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+		JFactory::$application = $this->getMockApplication();
+
 		$this->object = new JUcmBase;
 	}
 
