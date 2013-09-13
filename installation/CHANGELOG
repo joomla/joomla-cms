@@ -29,6 +29,7 @@ $ -> Language fix or change
  # [#31987] *Joomla multilingual install: sef and flags issues. Thanks Beat
  $ [#31942] Two factor authentication - Language file. Thanks Brian Teeman
  # [#31985] Remove clear lines at the TinyMCE. Thanks Tobias Zulauf
+ # [#31817] *Helpsites.xml Refresh button not active in front-end profile edit. Thanks Julien Vonthron
 
 13-Sep-2013 Elin Waring
  # [#31998] Smart Search Index Button broken (Regression).
