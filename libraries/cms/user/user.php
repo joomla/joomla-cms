@@ -283,7 +283,12 @@ class JUser extends JObject
 	 */
 	public function getParam($key, $default = null)
 	{
-		return $this->_params->get($key, $default);
+		if (isset($this->_params->$key))
+		{
+			return $this->_params->$key;
+		}
+
+		return $default;
 	}
 
 	/**
@@ -292,28 +297,33 @@ class JUser extends JObject
 	 * @param   string  $key    Parameter key
 	 * @param   mixed   $value  Parameter value
 	 *
-	 * @return  mixed  Set parameter value
+	 * @return  mixed  Preious set parameter value
 	 *
 	 * @since   1.5
 	 */
 	public function setParam($key, $value)
 	{
-		return $this->_params->set($key, $value);
+		$previous = isset($this->_params->$key) ? $this->_params->$key : null;
+		$this->_params->$key = $value;
+
+		return $previous;
 	}
 
 	/**
 	 * Method to set a default parameter if it does not exist
 	 *
-	 * @param   string  $key    Parameter key
-	 * @param   mixed   $value  Parameter value
+	 * @param   string  $key      Parameter key
+	 * @param   mixed   $default  Parameter value
 	 *
 	 * @return  mixed  Set parameter value
 	 *
 	 * @since   1.5
 	 */
-	public function defParam($key, $value)
+	public function defParam($key, $default)
 	{
-		return $this->_params->def($key, $value);
+		$value = $this->getParam($key, $default);
+
+		return $this->setParam($key, $value);
 	}
 
 	/**
