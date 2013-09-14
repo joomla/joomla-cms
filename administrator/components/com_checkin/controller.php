@@ -18,65 +18,32 @@ defined('_JEXEC') or die;
  */
 class CheckinController extends JControllerLegacy
 {
-	public function display($cachable = false, $urlparams = false)
-	{
-		// Load the submenu.
-		$this->addSubmenu($this->input->getWord('option', 'com_checkin'));
-
-		parent::display();
-
-		return $this;
-	}
-
-	public function checkin()
-	{
-		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
-
-		$ids = $this->input->get('cid', array(), 'array');
-
-		if (empty($ids))
-		{
-			JError::raiseWarning(500, JText::_('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));
-		}
-		else
-		{
-			// Get the model.
-			$model = $this->getModel();
-
-			// Checked in the items.
-			$this->setMessage(JText::plural('COM_CHECKIN_N_ITEMS_CHECKED_IN', $model->checkin($ids)));
-		}
-
-		$this->setRedirect('index.php?option=com_checkin');
-	}
+	/**
+	 * @var    string  The default view.
+	 * @since  1.6
+	 * @deprecated  4.0
+	 */
+	protected $default_view = 'checkin';
 
 	/**
-	 * Configure the Linkbar.
+	 * Method to display the view.
 	 *
-	 * @param   string  $vName  The name of the active view.
+	 * @param   boolean      $cachable   If true, the view output will be cached
+	 * @param   array        $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  void
+	 * @return  JController  This object to support chaining.
 	 *
-	 * @since   1.6
+	 * @since   1.5
+	 * @deprecated  4.0
 	 */
-	protected function addSubmenu($vName)
+	public function display($cachable = false, $urlparams = false)
 	{
-		JHtmlSidebar::addEntry(
-			JText::_('JGLOBAL_SUBMENU_CHECKIN'),
-			'index.php?option=com_checkin',
-			$vName == 'com_checkin'
-		);
 
-		JHtmlSidebar::addEntry(
-			JText::_('JGLOBAL_SUBMENU_CLEAR_CACHE'),
-			'index.php?option=com_cache',
-			$vName == 'cache'
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('JGLOBAL_SUBMENU_PURGE_EXPIRED_CACHE'),
-			'index.php?option=com_cache&view=purge',
-			$vName == 'purge'
-		);
+		include_once JPATH_ADMINISTRATOR . '/components/com_checkin/controller/checkin/display.php';
+		$controller = new CheckinControllerCheckinDisplay;
+
+		return $controller->execute();
+
 	}
+
 }
