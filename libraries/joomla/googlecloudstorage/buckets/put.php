@@ -168,4 +168,89 @@ class JGooglecloudstorageBucketsPut extends JGooglecloudstorageBuckets
 		// Process the response
 		return $this->processResponse($response);
 	}
+
+	/**
+	 * Creates the XML which will be sent in a put request with the cors query parameter
+	 *
+	 * @param   string  $corsConfig  An array containing the CORS configuration
+	 *
+	 * @return string The XML
+	 */
+	public function createCorsXml($corsConfig)
+	{
+		$content = "<CorsConfig>\n";
+
+		// foreach Cors
+		foreach ($corsConfig as $cors)
+		{
+			$content .= "<Cors>\n";
+
+			foreach ($cors as $corsKey => $corsValue)
+			{
+				if (strcmp($corsKey, "MaxAgeSec") === 0)
+				{
+					$content .= "<MaxAgeSec>" . $corsValue . "</MaxAgeSec>\n";
+				}
+				else
+				{
+					$content .= "<" . $corsKey . ">\n";
+
+					foreach ($corsValue as $item)
+					{
+						$itemName = substr($corsKey, 0, -1);
+						$content .= "<" . $itemName . ">" . $item . "</" . $itemName . ">\n";
+					}
+
+					$content .= "</" . $corsKey . ">\n";
+				}
+			}
+
+			$content .= "</Cors>\n";
+		}
+
+		$content .= "</CorsConfig>";
+
+		return $content;
+	}
+
+	/**
+	 * Creates the request for setting the CORS configuration on an existing bucket
+	 *
+	 * @param   string  $bucket  The bucket name
+	 * @param   string  $cors    An array containing the CORS configuration
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function putBucketCors($bucket, $cors = null)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?cors";
+		$content = "";
+		$headers = array(
+			"Host" => $bucket . "." . $this->options->get("api.url"),
+			"Date" => date("D, d M Y H:i:s O"),
+			"x-goog-api-version" => 2,
+			"x-goog-project-id" => $this->options->get("project.id"),
+		);
+
+		// Check for CORS rules
+		if (is_array($cors))
+		{
+			$headers["Content-Type"] = "application/x-www-form-urlencoded; charset=utf-8";
+			$content = $this->createCorsXml($cors);
+		}
+
+		$headers["Content-Length"] = strlen($content);
+		$authorization = $this->getAuthorization(
+			$this->options->get("api.oauth.scope.full-control")
+		);
+		$headers["Authorization"] = $authorization;
+
+		// Send the http request
+		$response = $this->client->put($url, $content, $headers);
+
+		// Process the response
+		return $this->processResponse($response);
+	}
 }
