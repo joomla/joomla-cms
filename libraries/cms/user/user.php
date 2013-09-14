@@ -564,7 +564,14 @@ class JUser extends JObject
 			$this->set('registerDate', JFactory::getDate()->toSql());
 
 			// Check that username is not greater than 150 characters
-			$username = $this->get('username');
+			if (isset($this->username))
+			{
+				$username = $this->username;
+			}
+			else
+			{
+				$username = null;
+			}
 
 			if (strlen($username) > 150)
 			{
