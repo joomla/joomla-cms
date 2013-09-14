@@ -20,6 +20,7 @@ $fields = $displayData->get('fields') ?: array(
 	'tags',
 	array('published', 'state', 'enabled'),
 	'featured',
+	'sticky',
 	'access',
 	'language',
 	'note',
