@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  User
- * @since       11.1
+ * @since       1.5
  */
 class JUser extends JObject
 {
@@ -22,7 +22,7 @@ class JUser extends JObject
 	 * A cached switch for if this user has root access rights.
 	 *
 	 * @var    boolean
-	 * @since  11.1
+	 * @since  1.6
 	 */
 	protected $isRoot = null;
 
@@ -30,7 +30,7 @@ class JUser extends JObject
 	 * Unique id
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.5
 	 */
 	public $id = null;
 
@@ -38,7 +38,7 @@ class JUser extends JObject
 	 * The user's real name (or nickname)
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.5
 	 */
 	public $name = null;
 
@@ -46,7 +46,7 @@ class JUser extends JObject
 	 * The login name
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.5
 	 */
 	public $username = null;
 
@@ -54,7 +54,7 @@ class JUser extends JObject
 	 * The email
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.5
 	 */
 	public $email = null;
 
@@ -62,7 +62,7 @@ class JUser extends JObject
 	 * MD5 encrypted password
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.5
 	 */
 	public $password = null;
 
@@ -70,7 +70,7 @@ class JUser extends JObject
 	 * Clear password, only available when a new password is set for a user
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.5
 	 */
 	public $password_clear = '';
 
@@ -78,7 +78,7 @@ class JUser extends JObject
 	 * Block status
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.5
 	 */
 	public $block = null;
 
@@ -86,7 +86,7 @@ class JUser extends JObject
 	 * Should this user receive system email
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.5
 	 */
 	public $sendEmail = null;
 
@@ -94,7 +94,7 @@ class JUser extends JObject
 	 * Date the user was registered
 	 *
 	 * @var    datetime
-	 * @since  11.1
+	 * @since  1.5
 	 */
 	public $registerDate = null;
 
@@ -102,7 +102,7 @@ class JUser extends JObject
 	 * Date of last visit
 	 *
 	 * @var    datetime
-	 * @since  11.1
+	 * @since  1.5
 	 */
 	public $lastvisitDate = null;
 
@@ -110,7 +110,7 @@ class JUser extends JObject
 	 * Activation hash
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.5
 	 */
 	public $activation = null;
 
@@ -118,7 +118,7 @@ class JUser extends JObject
 	 * User parameters
 	 *
 	 * @var    JRegistry
-	 * @since  11.1
+	 * @since  1.5
 	 */
 	public $params = null;
 
@@ -126,7 +126,7 @@ class JUser extends JObject
 	 * Associative array of user names => group ids
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.6
 	 */
 	public $groups = array();
 
@@ -134,7 +134,7 @@ class JUser extends JObject
 	 * Guest status
 	 *
 	 * @var    boolean
-	 * @since  11.1
+	 * @since  1.6
 	 */
 	public $guest = null;
 
@@ -142,7 +142,7 @@ class JUser extends JObject
 	 * Last Reset Time
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  3.0
 	 */
 	public $lastResetTime = null;
 
@@ -150,7 +150,7 @@ class JUser extends JObject
 	 * Count since last Reset Time
 	 *
 	 * @var    int
-	 * @since  12.2
+	 * @since  3.0
 	 */
 	public $resetCount = null;
 
@@ -166,37 +166,37 @@ class JUser extends JObject
 	 * Authorised access groups
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.6
 	 */
-	protected $_authGroups = null;
+	protected $authGroups = null;
 
 	/**
 	 * Authorised access levels
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.5
 	 */
-	protected $_authLevels = null;
+	protected $authLevels = null;
 
 	/**
 	 * Authorised access actions
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.5
 	 */
-	protected $_authActions = null;
+	protected $authActions = null;
 
 	/**
 	 * Error message
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.5
 	 */
 	protected $_errorMsg = null;
 
 	/**
 	 * @var    array  JUser instances container.
-	 * @since  11.3
+	 * @since  2.5
 	 */
 	protected static $instances = array();
 
@@ -205,7 +205,7 @@ class JUser extends JObject
 	 *
 	 * @param   integer  $identifier  The primary key of the user to load (optional).
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function __construct($identifier = 0)
 	{
@@ -235,7 +235,7 @@ class JUser extends JObject
 	 *
 	 * @return  JUser  The User object.
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public static function getInstance($identifier = 0)
 	{
@@ -279,7 +279,7 @@ class JUser extends JObject
 	 *
 	 * @return  mixed  The value or the default if it did not exist
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function getParam($key, $default = null)
 	{
@@ -294,7 +294,7 @@ class JUser extends JObject
 	 *
 	 * @return  mixed  Set parameter value
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function setParam($key, $value)
 	{
@@ -309,7 +309,7 @@ class JUser extends JObject
 	 *
 	 * @return  mixed  Set parameter value
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function defParam($key, $value)
 	{
@@ -325,7 +325,7 @@ class JUser extends JObject
 	 *
 	 * @return  boolean  True if authorised
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function authorise($action, $assetname = null)
 	{
@@ -373,7 +373,7 @@ class JUser extends JObject
 	 *
 	 * @return  array  List of categories that this group can do this action to (empty array if none). Categories must be published.
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public function getAuthorisedCategories($component, $action)
 	{
@@ -406,7 +406,7 @@ class JUser extends JObject
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public function getAuthorisedViewLevels()
 	{
@@ -428,7 +428,7 @@ class JUser extends JObject
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public function getAuthorisedGroups()
 	{
@@ -452,7 +452,7 @@ class JUser extends JObject
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function setLastVisit($timestamp = null)
 	{
@@ -490,7 +490,7 @@ class JUser extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function setParameters($params)
 	{
@@ -509,7 +509,7 @@ class JUser extends JObject
 	 *
 	 * @return  object  The user table object
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public static function getTable($type = null, $prefix = 'JTable')
 	{
@@ -540,7 +540,7 @@ class JUser extends JObject
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function bind(&$array)
 	{
@@ -653,7 +653,7 @@ class JUser extends JObject
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 * @throws  RuntimeException
 	 */
 	public function save($updateOnly = false)
@@ -782,7 +782,7 @@ class JUser extends JObject
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function delete()
 	{
@@ -813,7 +813,7 @@ class JUser extends JObject
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function load($id)
 	{
