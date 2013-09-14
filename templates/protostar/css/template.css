@@ -7050,3 +7050,9 @@ div.current dd.tabs {
 	float: right;
 	margin: 10px;
 }
+code {
+	white-space: pre-wrap;
+}
+#filter-search {
+	vertical-align: top;
+}

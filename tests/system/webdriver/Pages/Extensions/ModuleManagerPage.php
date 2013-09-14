@@ -79,7 +79,7 @@ class ModuleManagerPage extends AdminManagerPage
 			array('client' => 'administrator', 'name' => 'Latest News'),
 			array('client' => 'administrator', 'name' => 'Logged-in Users'),
 			array('client' => 'administrator', 'name' => 'Login Form'),
-			array('client' => 'administrator', 'name' => 'Multilanguage Status'),
+			array('client' => 'administrator', 'name' => 'Multilingual Status'),
 			array('client' => 'administrator', 'name' => 'Popular Articles'),
 			array('client' => 'administrator', 'name' => 'Quick Icons'),
 			array('client' => 'administrator', 'name' => 'Statistics'),

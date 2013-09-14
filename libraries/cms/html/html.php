@@ -1001,6 +1001,7 @@ abstract class JHtml
 				);
 				$done[] = $id;
 			}
+
 			return '<div class="input-append"><input type="text" title="' . (0 !== (int) $value ? static::_('date', $value, null, null) : '')
 				. '" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
 				. '<button type="button" class="btn" id="' . $id . '_img"><i class="icon-calendar"></i></button></div>';
