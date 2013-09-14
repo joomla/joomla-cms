@@ -29,7 +29,7 @@ class JUser extends JObject
 	/**
 	 * Unique id
 	 *
-	 * @var    integer
+	 * @var    integers
 	 * @since  1.5
 	 */
 	public $id = null;
@@ -381,11 +381,11 @@ class JUser extends JObject
 		// @todo Modify the way permissions are stored in the db to allow for faster implementation and better scaling
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('c.id AS id, a.name AS asset_name')
-			->from('#__categories AS c')
-			->join('INNER', '#__assets AS a ON c.asset_id = a.id')
-			->where('c.extension = ' . $db->quote($component))
-			->where('c.published = 1');
+			->select(array($db->quoteName('c.id', 'id'), $db->quoteName('a.name', 'asset_name')))
+			->from($db->quoteName('#__categories', 'c'))
+			->join('INNER', $db->quoteName('#__assets', 'a') . ' ON ' . $db->quoteName('c.asset_id') . ' = ' . $db->quoteName('a.id'))
+			->where($db->quoteName('c.extension') . ' = ' . $db->quote($component))
+			->where($db->quoteName('c.published') . ' = 1');
 		$db->setQuery($query);
 		$allCategories = $db->loadObjectList('id');
 		$allowedCategories = array();
