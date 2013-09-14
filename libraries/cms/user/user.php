@@ -29,7 +29,7 @@ class JUser extends JObject
 	/**
 	 * Unique id
 	 *
-	 * @var    integers
+	 * @var    integer
 	 * @since  1.5
 	 */
 	public $id = null;
