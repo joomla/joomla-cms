@@ -580,7 +580,14 @@ class JUser extends JObject
 			}
 
 			// Check that password is not greater than 100 characters
-			$password = $this->get('password');
+			if (isset($this->password))
+			{
+				$password = $this->password;
+			}
+			else
+			{
+				$password = null;
+			}
 
 			if (strlen($password) > 100)
 			{
