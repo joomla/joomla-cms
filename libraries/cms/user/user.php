@@ -530,6 +530,7 @@ class JUser extends JObject
 	 *
 	 * @return  boolean  True on success
 	 *
+	 * @throws  RuntimeException
 	 * @since   1.5
 	 */
 	public function bind(&$array)
@@ -638,7 +639,7 @@ class JUser extends JObject
 		// Bind the array
 		if (!$this->setProperties($array))
 		{
-			$this->setError(JText::_('JLIB_USER_ERROR_BIND_ARRAY'));
+			throw new RuntimeException(JText::_('JLIB_USER_ERROR_BIND_ARRAY'));
 
 			return false;
 		}
@@ -673,7 +674,7 @@ class JUser extends JObject
 			// Check and store the object.
 			if (!$table->check())
 			{
-				$this->setError($table->getError());
+				throw new RuntimeException($table->getError);
 
 				return false;
 			}
@@ -714,7 +715,7 @@ class JUser extends JObject
 					{
 						if (JAccess::checkGroup($groupId, 'core.admin'))
 						{
-							throw new RuntimeException('User not Super Administrator');
+							throw new RuntimeException(JText::_('JLIB_USER_NOT_SUPERADMINISTRATOR'));
 						}
 					}
 				}
@@ -723,7 +724,7 @@ class JUser extends JObject
 					// I am not a Super Admin, and this one is, so fail.
 					if (JAccess::check($this->id, 'core.admin'))
 					{
-						throw new RuntimeException('User not Super Administrator');
+						throw new RuntimeException(JText::_('JLIB_USER_NOT_SUPERADMINISTRATOR'));
 					}
 
 					if ($this->groups != null)
@@ -733,7 +734,7 @@ class JUser extends JObject
 						{
 							if (JAccess::checkGroup($groupId, 'core.admin'))
 							{
-								throw new RuntimeException('User not Super Administrator');
+								throw new RuntimeException(JText::_('JLIB_USER_NOT_SUPERADMINISTRATOR'));
 							}
 						}
 					}
