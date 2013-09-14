@@ -17,48 +17,64 @@ defined('JPATH_PLATFORM') or die;
 abstract class JFactory
 {
 	/**
+	 * Global application object
+	 *
 	 * @var    JApplication
 	 * @since  11.1
 	 */
 	public static $application = null;
 
 	/**
+	 * Global cache object
+	 *
 	 * @var    JCache
 	 * @since  11.1
 	 */
 	public static $cache = null;
 
 	/**
+	 * Global configuraiton object
+	 *
 	 * @var    JConfig
 	 * @since  11.1
 	 */
 	public static $config = null;
 
 	/**
+	 * Container for JDate instances
+	 *
 	 * @var    array
 	 * @since  11.3
 	 */
 	public static $dates = array();
 
 	/**
+	 * Global session object
+	 *
 	 * @var    JSession
 	 * @since  11.1
 	 */
 	public static $session = null;
 
 	/**
+	 * Global language object
+	 *
 	 * @var    JLanguage
 	 * @since  11.1
 	 */
 	public static $language = null;
 
 	/**
+	 * Global document object
+	 *
 	 * @var    JDocument
 	 * @since  11.1
 	 */
 	public static $document = null;
 
 	/**
+	 * Global ACL object
+	 *
 	 * @var    JAccess
 	 * @since  11.1
 	 * @deprecated  13.3 (Platform) & 4.0 (CMS)
@@ -66,12 +82,16 @@ abstract class JFactory
 	public static $acl = null;
 
 	/**
+	 * Global database object
+	 *
 	 * @var    JDatabaseDriver
 	 * @since  11.1
 	 */
 	public static $database = null;
 
 	/**
+	 * Global mailer object
+	 *
 	 * @var    JMail
 	 * @since  11.1
 	 */
