@@ -44,13 +44,13 @@ class JProfiler
 	protected $marks = null;
 
 	/**
-	 * @var    float
+	 * @var    float  The previous time marker
 	 * @since  12.1
 	 */
 	protected $previousTime = 0.0;
 
 	/**
-	 * @var    float
+	 * @var    float  The previous memory marker
 	 * @since  12.1
 	 */
 	protected $previousMem = 0.0;
@@ -66,7 +66,7 @@ class JProfiler
 	 *
 	 * @param   string  $prefix  Prefix for mark messages
 	 *
-	 * @since  11.1
+	 * @since   11.1
 	 */
 	public function __construct($prefix = '')
 	{
@@ -176,6 +176,8 @@ class JProfiler
 	 * was instantiated.  Marks are objects as per {@link JProfiler::mark()}.
 	 *
 	 * @return  array  Array of profiler marks
+	 *
+	 * @since   11.1
 	 */
 	public function getMarks()
 	{
@@ -189,6 +191,8 @@ class JProfiler
 	 * was instantiated.  Marks are strings as per {@link JProfiler::mark()}.
 	 *
 	 * @return  array  Array of profiler marks
+	 *
+	 * @since   11.1
 	 */
 	public function getBuffer()
 	{

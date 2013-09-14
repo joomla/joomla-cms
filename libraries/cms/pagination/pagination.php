@@ -10,8 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Pagination Class. Provides a common interface for content pagination for the
- * Joomla! CMS.
+ * Pagination Class. Provides a common interface for content pagination for the Joomla! CMS.
  *
  * @package     Joomla.Libraries
  * @subpackage  Pagination
@@ -44,25 +43,25 @@ class JPagination
 	public $prefix = null;
 
 	/**
-	 * @var    integer
+	 * @var    integer  Value pagination object begins at
 	 * @since  3.0
 	 */
 	public $pagesStart;
 
 	/**
-	 * @var    integer
+	 * @var    integer  Value pagination object ends at
 	 * @since  3.0
 	 */
 	public $pagesStop;
 
 	/**
-	 * @var    integer
+	 * @var    integer  Current page
 	 * @since  3.0
 	 */
 	public $pagesCurrent;
 
 	/**
-	 * @var    integer
+	 * @var    integer  Total number of pages
 	 * @since  3.0
 	 */
 	public $pagesTotal;
