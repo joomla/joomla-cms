@@ -30,7 +30,7 @@ class SiteContentFeaturedPage extends SitePage
 	 * @var    string
 	 * @since  3.2
 	 */
-	protected $waitForXpath =  "//a[@class='btn']";
+	protected $waitForXpath =  "//div[@class='blog-featured']";
 
 	/**
 	 * URL used to uniquely identify this page
