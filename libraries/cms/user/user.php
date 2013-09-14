@@ -378,7 +378,7 @@ class JUser extends JObject
 	public function getAuthorisedCategories($component, $action)
 	{
 		// Brute force method: get all published category rows for the component and check each one
-		// TODO: Modify the way permissions are stored in the db to allow for faster implementation and better scaling
+		// @todo Modify the way permissions are stored in the db to allow for faster implementation and better scaling
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('c.id AS id, a.name AS asset_name')
