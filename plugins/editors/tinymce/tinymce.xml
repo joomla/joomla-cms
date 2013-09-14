@@ -2,10 +2,10 @@
 <extension version="3.1" type="plugin" group="editors" method="upgrade">
 	<name>plg_editors_tinymce</name>
 	<version>4.0.5</version>
-	<creationDate>2005-2012</creationDate>
+	<creationDate>2005-2013</creationDate>
 	<author>Moxiecode Systems AB</author>
 	<authorEmail>N/A</authorEmail>
-	<authorUrl>tinymce.moxiecode.com/</authorUrl>
+	<authorUrl>tinymce.moxiecode.com</authorUrl>
 	<copyright>Moxiecode Systems AB</copyright>
 	<license>LGPL</license>
 	<description>PLG_TINY_XML_DESCRIPTION</description>
@@ -37,10 +37,6 @@
 				>
 					<option value="0">PLG_TINY_FIELD_VALUE_DEFAULT</option>
 				</field>
-
-				<field name="spacer0" type="spacer"
-					hr="true"
-				/>
 				
 				<field name="mobile" type="radio"
 					class="btn-group"
@@ -52,10 +48,6 @@
 					<option value="1">JON</option>
 				</field>
 
-				<field name="spacer1" type="spacer"
-					hr="true"
-				/>
-
 				<field name="entity_encoding" type="list"
 					default="raw"
 					description="PLG_TINY_FIELD_ENCODING_DESC"
@@ -65,10 +57,6 @@
 					<option value="numeric">PLG_TINY_FIELD_VALUE_NUMERIC</option>
 					<option value="raw">PLG_TINY_FIELD_VALUE_RAW</option>
 				</field>
-
-				<field name="spacer2" type="spacer"
-					hr="true"
-				/>
 
 				<field name="lang_mode" type="radio"
 					class="btn-group"
@@ -120,10 +108,6 @@
 					size="30"
 					description="PLG_TINY_FIELD_CUSTOM_CSS_DESC"
 					label="PLG_TINY_FIELD_CUSTOM_CSS_LABEL"
-				/>
-
-				<field name="spacer4" type="spacer"
-					hr="true"
 				/>
 
 				<field name="relative_urls" type="list"
@@ -399,10 +383,6 @@
 					<option value="1">JON</option>
 				</field>
 
-				<field name="spacer5" type="spacer"
-					hr="true"
-				/>
-
 				<field name="advlist" type="radio"
 					class="btn-group"
 					default="1"
@@ -440,10 +420,6 @@
 					<option value="0">JOFF</option>
 					<option value="1">JON</option>
 				</field>
-
-				<field name="spacer6" type="spacer"
-					hr="true"
-				/>
 
 				<field name="custom_plugin" type="text"
 					description="PLG_TINY_FIELD_CUSTOMPLUGIN_DESC"

@@ -25,6 +25,15 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Sep-2013 Jean-Marie Simonet
+ # [#31987] *Joomla multilingual install: sef and flags issues. Thanks Beat
+ $ [#31942] Two factor authentication - Language file. Thanks Brian Teeman
+ # [#31985] Remove clear lines at the TinyMCE. Thanks Tobias Zulauf
+ # [#31696] Profile 'Web site' field not working well. Thanks Anthony THERREAU
+
+13-Sep-2013 Elin Waring
+ # [#31998] Smart Search Index Button broken (Regression).
+
 12-Sep-2013 Jean-Marie Simonet
  + [#31850] The parent item search ajax based on menu location. Thanks Lu Nguyen
  # [#31890] tagged items list has class "list-striped" and "list-condensed" in code. Thanks Elin waring.
