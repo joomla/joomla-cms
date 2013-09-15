@@ -445,4 +445,67 @@ class JGooglecloudstorageBucketsPut extends JGooglecloudstorageBuckets
 		// Process the response
 		return $this->processResponse($response);
 	}
+
+	/**
+	 * Creates the XML which will be sent in a put request with the websiteConfig query parameter
+	 *
+	 * @param   string  $mainPageSuffix  An object name suffix to simulate directory index behavior
+	 * @param   string  $notFoundPage    Name of the object to return with 404 responses
+	 *
+	 * @return string The XML
+	 */
+	public function createWebsiteConfigXml($mainPageSuffix, $notFoundPage)
+	{
+		$content = "<WebsiteConfiguration>\n";
+
+		if ($mainPageSuffix != null)
+		{
+			$content .= "<MainPageSuffix>" . $mainPageSuffix . "</MainPageSuffix>";
+		}
+
+		if ($notFoundPage != null)
+		{
+			$content .= "<NotFoundPage>" . $notFoundPage . "</NotFoundPage>";
+		}
+
+		$content .= "</WebsiteConfiguration>\n";
+
+		return $content;
+	}
+
+	/**
+	 * Creates the request for specifying a website configuration for an existing bucket.
+	 *
+	 * @param   string  $bucket          The bucket name
+	 * @param   string  $mainPageSuffix  An object name suffix to simulate directory index behavior
+	 * @param   string  $notFoundPage    Name of the object to return with 404 responses
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function putBucketWebsiteConfig($bucket, $mainPageSuffix = null, $notFoundPage = null)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?websiteConfig";
+		$headers = array(
+			"Host" => $bucket . "." . $this->options->get("api.url"),
+			"Date" => date("D, d M Y H:i:s O"),
+			"x-goog-api-version" => 2,
+			"x-goog-project-id" => $this->options->get("project.id"),
+		);
+
+		$content = $this->createWebsiteConfigXml($mainPageSuffix, $notFoundPage);
+		$headers["Content-Type"] = "application/x-www-form-urlencoded; charset=utf-8";
+		$headers["Content-Length"] = strlen($content);
+		$authorization = $this->getAuthorization(
+			$this->options->get("api.oauth.scope.full-control")
+		);
+		$headers["Authorization"] = $authorization;
+
+		// Send the http request
+		$response = $this->client->put($url, $content, $headers);
+
+		// Process the response
+		return $this->processResponse($response);
+	}
 }
