@@ -158,94 +158,95 @@ function auf(key) {
 
 // ########### Tabfunctions ####################
 
-window.addEvent('domready', function() {
-	var alldivs = document.id(document.body).getElements('div.tabcontent');
-	var outerdivs = document.id(document.body).getElements('div.tabouter');
-	outerdivs = outerdivs.getProperty('id');
+jQuery(function($) {
+	var $alldivs = $('div.tabcontent');
+	var $outerdivs = $('div.tabouter');
+	//outerdivs = outerdivs.getProperty('id');
+    
+    $outerdivs.each(function(){
+        var $alldivs = $(this).find('div.tabcontent');
+        var count = 0;
+        $alldivs.each(function(){
+        var $el = $(this);
+            count++;
+            $el.attr('role', 'tabpanel');
+            $el.attr('aria-hidden', 'false');
+            $el.attr('aria-expanded', 'true');
+            elid = $el.attr('id');
+            elid = elid.split('_');
+            elid = 'link_' + elid[1];
+            $el.attr('aria-labelledby', elid);
 
-	for (var i = 0; i < outerdivs.length; i++) {
-		alldivs = document.id(outerdivs[i]).getElements('div.tabcontent');
-		count = 0;
-		alldivs.each(function(element) {
-			count++;
-			var el = document.id(element);
-			el.setProperty('role', 'tabpanel');
-			el.setProperty('aria-hidden', 'false');
-			el.setProperty('aria-expanded', 'true');
-			elid = el.getProperty('id');
-			elid = elid.split('_');
-			elid = 'link_' + elid[1];
-			el.setProperty('aria-labelledby', elid);
+            if (count !== 1) {
+                $el.addClass('tabclosed').removeClass('tabopen');
+                $el.attr('aria-hidden', 'true');
+                $el.attr('aria-expanded', 'false');
+            }          
+        });
+        
+        $allankers = $(this).find('ul.tabs').first().find('a');
 
-			if (count != 1) {
-				el.addClass('tabclosed').removeClass('tabopen');
-				el.setProperty('aria-hidden', 'true');
-				el.setProperty('aria-expanded', 'false');
-			}
-		});
+        $allankers.each(function() {
+            countankers++;
+            var $el = $(this);
+            $el.attr('aria-selected', 'true');
+            $el.attr('role', 'tab');
+            linkid = $el.attr('id');
+            moduleid = linkid.split('_');
+            moduleid = 'module_' + moduleid[1];
+            $el.setProperty('aria-controls', moduleid);
 
-		countankers = 0;
-		allankers = document.id(outerdivs[i]).getElement('ul.tabs').getElements('a');
-
-		allankers.each(function(element) {
-			countankers++;
-			var el = document.id(element);
-			el.setProperty('aria-selected', 'true');
-			el.setProperty('role', 'tab');
-			linkid = el.getProperty('id');
-			moduleid = linkid.split('_');
-			moduleid = 'module_' + moduleid[1];
-			el.setProperty('aria-controls', moduleid);
-
-			if (countankers != 1) {
-				el.addClass('linkclosed').removeClass('linkopen');
-				el.setProperty('aria-selected', 'false');
-			}
-		});
-	}
+            if (countankers != 1) {
+                $el.addClass('linkclosed').removeClass('linkopen');
+                $el.attr('aria-selected', 'false');
+            }
+        });
+    });
 });
 
 function tabshow(elid) {
-	var el = document.id(elid);
-	var outerdiv = el.getParent();
-	outerdiv = outerdiv.getProperty('id');
+    var $ = jQuery.noConflict();
+	var $el = $('#' + elid);
+	var $outerdiv = $el.parent();
 
-	var alldivs = document.id(outerdiv).getElements('div.tabcontent');
-	var liste = document.id(outerdiv).getElement('ul.tabs');
+	var $alldivs = $outerdiv.find('div.tabcontent');
+	var $liste = $outerdiv.find('ul.tabs').first();
 
-	liste.getElements('a').setProperty('aria-selected', 'false');
+	$liste.find('a').attr('aria-selected', 'false');
 
-	alldivs.each(function(element) {
-		element.addClass('tabclosed').removeClass('tabopen');
-		element.setProperty('aria-hidden', 'true');
-		element.setProperty('aria-expanded', 'false');
+	$alldivs.each(function() {
+	    var $element = $(this);
+		$element.addClass('tabclosed').removeClass('tabopen');
+		$element.attr('aria-hidden', 'true');
+		$element.attr('aria-expanded', 'false');
 	});
 
-	el.addClass('tabopen').removeClass('tabclosed');
-	el.setProperty('aria-hidden', 'false');
-	el.setProperty('aria-expanded', 'true');
-	el.focus();
+	$el.addClass('tabopen').removeClass('tabclosed');
+	$el.attr('aria-hidden', 'false');
+	$el.attr('aria-expanded', 'true');
+	$el.focus();
 	var getid = elid.split('_');
-	var activelink = 'link_' + getid[1];
-	document.id(activelink).setProperty('aria-selected', 'true');
-	liste.getElements('a').addClass('linkclosed').removeClass('linkopen');
-	document.id(activelink).addClass('linkopen').removeClass('linkclosed');
+	var activelink = '#link_' + getid[1];
+	$(activelink).attr('aria-selected', 'true');
+	$liste.find('a').addClass('linkclosed').removeClass('linkopen');
+	$(activelink).addClass('linkopen').removeClass('linkclosed');
 }
 
 function nexttab(el) {
-	var outerdiv = document.id(el).getParent();
-	var liste = outerdiv.getElement('ul.tabs');
+    var $ = jQuery.noConflict();
+	var $outerdiv = $('#' + el).parent();
+	var $liste = $outerdiv.find('ul.tabs').first();
 	var getid = el.split('_');
-	var activelink = 'link_' + getid[1];
-	var aktiverlink = document.id(activelink).getProperty('aria-selected');
-	var tablinks = liste.getElements('a').getProperty('id');
+	var activelink = '#link_' + getid[1];
+	var aktiverlink = $(activelink).attr('aria-selected');
+	var $tablinks = $liste.find('a');
 
-	for ( var i = 0; i < tablinks.length; i++) {
+	for ( var i = 0; i < $tablinks.length; i++) {
 
-		if (tablinks[i] == activelink) {
+		if ($($tablinks[i]).attr('id') === activelink) {
 
-			if (document.id(tablinks[i + 1]) != null) {
-				document.id(tablinks[i + 1]).onclick();
+			if ($($tablinks[i + 1]).length) {
+				$($tablinks[i + 1]).click();
 				break;
 			}
 		}
@@ -349,7 +350,7 @@ var mobileMenu = new Class({
     }
 });
 
-window.addEvent('domready', function () {
+jQuery(function () {
     new mobileMenu();
 });
 
