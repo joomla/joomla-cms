@@ -29,7 +29,14 @@ class JGooglecloudstorageBucketsGet extends JGooglecloudstorageBuckets
 	 */
 	public function getBucket($bucket)
 	{
-		return $this->commonGetOperations($bucket);
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/";
+
+		// The headers may be optionally set in advance
+		$headers = array(
+			"Host" => $bucket . "." . $this->options->get("api.url"),
+		);
+
+		return $this->commonGetOperations($url, $headers);
 	}
 
 	/**
@@ -43,7 +50,14 @@ class JGooglecloudstorageBucketsGet extends JGooglecloudstorageBuckets
 	 */
 	public function getBucketAcl($bucket)
 	{
-		return $this->commonGetOperations($bucket, "acl");
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?acl";
+
+		// The headers may be optionally set in advance
+		$headers = array(
+			"Host" => $bucket . "." . $this->options->get("api.url"),
+		);
+
+		return $this->commonGetOperations($url, $headers);
 	}
 
 	/**
@@ -58,7 +72,14 @@ class JGooglecloudstorageBucketsGet extends JGooglecloudstorageBuckets
 	 */
 	public function getBucketCors($bucket)
 	{
-		return $this->commonGetOperations($bucket, "cors");
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?cors";
+
+		// The headers may be optionally set in advance
+		$headers = array(
+			"Host" => $bucket . "." . $this->options->get("api.url"),
+		);
+
+		return $this->commonGetOperations($url, $headers);
 	}
 
 	/**
@@ -72,7 +93,14 @@ class JGooglecloudstorageBucketsGet extends JGooglecloudstorageBuckets
 	 */
 	public function getBucketLifecycle($bucket)
 	{
-		return $this->commonGetOperations($bucket, "lifecycle");
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?lifecycle";
+
+		// The headers may be optionally set in advance
+		$headers = array(
+			"Host" => $bucket . "." . $this->options->get("api.url"),
+		);
+
+		return $this->commonGetOperations($url, $headers);
 	}
 
 	/**
@@ -86,7 +114,14 @@ class JGooglecloudstorageBucketsGet extends JGooglecloudstorageBuckets
 	 */
 	public function getBucketLogging($bucket)
 	{
-		return $this->commonGetOperations($bucket, "logging");
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?logging";
+
+		// The headers may be optionally set in advance
+		$headers = array(
+			"Host" => $bucket . "." . $this->options->get("api.url"),
+		);
+
+		return $this->commonGetOperations($url, $headers);
 	}
 
 	/**
@@ -100,6 +135,13 @@ class JGooglecloudstorageBucketsGet extends JGooglecloudstorageBuckets
 	 */
 	public function getBucketVersioning($bucket)
 	{
-		return $this->commonGetOperations($bucket, "versioning");
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?versioning";
+
+		// The headers may be optionally set in advance
+		$headers = array(
+			"Host" => $bucket . "." . $this->options->get("api.url"),
+		);
+
+		return $this->commonGetOperations($url, $headers);
 	}
 }

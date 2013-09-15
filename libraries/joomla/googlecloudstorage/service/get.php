@@ -32,23 +32,9 @@ class JGooglecloudstorageServiceGet extends JGooglecloudstorageService
 		// The headers may be optionally set in advance
 		$headers = array(
 			"Host" => $this->options->get("api.url"),
-			"Date" => date("D, d M Y H:i:s O"),
-			"Content-Length" => 0,
-			"x-goog-api-version" => 2,
 			"x-goog-project-id" => $this->options->get("project.id"),
 		);
 
-		$authorization = $this->getAuthorization(
-			$this->options->get("api.oauth.scope.read-only")
-		);
-		$headers["Authorization"] = $authorization;
-
-		// Send the http request
-		$response = $this->client->get($url, $headers);
-
-		// Process the response
-		$response_body = $this->processResponse($response);
-
-		return $response_body;
+		return $this->commonGetOperations($url, $headers);
 	}
 }
