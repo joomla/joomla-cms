@@ -45,6 +45,30 @@ abstract class JGooglecloudstorageObject
 	}
 
 	/**
+	 * Common operations performed by all of the methods that send GET requests
+	 *
+	 * @param   string  $url      The url that is used in the request
+	 * @param   string  $headers  An array of headers
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function commonGetOperations($url, $headers)
+	{
+		$authorization = $this->getAuthorization(
+			$this->options->get("api.oauth.scope.read-only")
+		);
+		$headers["Authorization"] = $authorization;
+
+		// Send the http request
+		$response = $this->client->get($url, $headers);
+
+		// Process the response
+		return $this->processResponse($response);
+	}
+
+	/**
 	 * Process the response and decode it.
 	 *
 	 * @param   JHttpResponse  $response      The response.
