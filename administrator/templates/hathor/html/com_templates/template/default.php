@@ -22,7 +22,6 @@ if($this->type == 'image')
 	$doc = JFactory::getDocument();
 	$doc->addScript(JUri::root() . 'media/system/js/jquery.Jcrop.min.js');
 	$doc->addStyleSheet(JUri::root() . 'media/system/css/jquery.Jcrop.min.css');
-
 }
 ?>
 <script type="text/javascript">
@@ -113,15 +112,16 @@ if($this->type == 'image')
 	}
 
 	#image-crop{
-		max-width: 100%;
+		max-width: 100% !important;
 		width: auto;
 		height: auto;
 	}
 
-	@-moz-document url-prefix() {
-	  #image-crop {
-		width: 100%;
-	  }
+	#image-box{
+		margin: 20px 10px 10px;
+		overflow: hidden;
+		border: 1px solid rgb(199, 200, 178);
+		padding: 5px;
 	}
 
 	<?php if($this->type == 'font'): ?>
@@ -283,17 +283,14 @@ if($this->type == 'image')
 		</form>
 	<?php endif; ?>
 	<?php if($this->type == 'image'): ?>
-		<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
-			<fieldset class="adminform">
-				<legend><?php echo JText::_('COM_TEMPLATES_SOURCE_CODE');?></legend>
-				<img id="image-crop" src="<?php echo $this->image['address'] . '?' . time(); ?>" />
-				<input type ="hidden" id="x" name="x" />
-				<input type ="hidden" id="y" name="y" />
-				<input type ="hidden" id="h" name="h" />
-				<input type ="hidden" id="w" name="w" />
-				<input type="hidden" name="task" value="" />
-				<?php echo JHtml::_('form.token'); ?>
-			</fieldset>
+		<div id="image-box"><img id="image-crop" src="<?php echo $this->image['address'] . '?' . time(); ?>" /></div>
+		<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
+			<input type ="hidden" id="x" name="x" />
+			<input type ="hidden" id="y" name="y" />
+			<input type ="hidden" id="h" name="h" />
+			<input type ="hidden" id="w" name="w" />
+			<input type="hidden" name="task" value="" />
+			<?php echo JHtml::_('form.token'); ?>
 		</form>
 	<?php endif; ?>
 	<?php if($this->type == 'font'): ?>

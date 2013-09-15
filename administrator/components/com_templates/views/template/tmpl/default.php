@@ -122,15 +122,9 @@ if($this->type == 'image')
 	}
 
 	#image-crop{
-		max-width: 100%;
+		max-width: 100% !important;
 		width: auto;
 		height: auto;
-	}
-
-	@-moz-document url-prefix() {
-	  #image-crop {
-		width: 100%;
-	  }
 	}
 
 <?php if($this->type == 'font'): ?>
@@ -185,9 +179,9 @@ if($this->type == 'image')
 					</form>
 				<?php endif; ?>
 				<?php if($this->type == 'image'): ?>
+					<img id="image-crop" src="<?php echo $this->image['address'] . '?' . time(); ?>" />
 					<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
 						<fieldset class="adminform">
-							<img id="image-crop" src="<?php echo $this->image['address'] . '?' . time(); ?>" />
 							<input type ="hidden" id="x" name="x" />
 							<input type ="hidden" id="y" name="y" />
 							<input type ="hidden" id="h" name="h" />
