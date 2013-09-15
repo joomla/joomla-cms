@@ -116,7 +116,7 @@ class InstallationControllerInstallEmail extends JControllerBase
 		$mail->setBody($body);
 
 		$r = new stdClass;
-		$r->view = 'install';
+		$r->view = 'complete';
 
 		try
 		{
@@ -125,7 +125,6 @@ class InstallationControllerInstallEmail extends JControllerBase
 		catch (Exception $e)
 		{
 			$app->enqueueMessage(JText::_('INSTL_EMAIL_NOT_SENT'), 'notice');
-			$r->view = 'complete';
 		}
 
 		$app->sendJsonResponse($r);
