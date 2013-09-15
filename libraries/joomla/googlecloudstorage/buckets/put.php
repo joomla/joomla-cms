@@ -336,4 +336,66 @@ class JGooglecloudstorageBucketsPut extends JGooglecloudstorageBuckets
 		// Process the response
 		return $this->processResponse($response);
 	}
+
+	/**
+	 * Creates the XML which will be sent in a put request with the logging query parameter
+	 *
+	 * @param   string  $logging  An array containing the logging configuration
+	 *
+	 * @return string The XML
+	 */
+	public function createLoggingXml($logging)
+	{
+		$content = "<Logging>\n";
+
+		foreach ($logging as $key => $value)
+		{
+			$content .= "<" . $key . ">" . $value . "</" . $key . ">\n";
+		}
+
+		$content .= "</Logging>";
+
+		return $content;
+	}
+
+	/**
+	 * Creates the request for enabling logging on an existing bucket
+	 *
+	 * @param   string  $bucket   The bucket name
+	 * @param   string  $logging  An array containing the logging configuration
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function putBucketLogging($bucket, $logging = null)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?logging";
+		$content = "";
+		$headers = array(
+			"Host" => $bucket . "." . $this->options->get("api.url"),
+			"Date" => date("D, d M Y H:i:s O"),
+			"x-goog-api-version" => 2,
+			"x-goog-project-id" => $this->options->get("project.id"),
+		);
+
+		// Check for lifecycle configuration
+		if (is_array($logging))
+		{
+			$headers["Content-Type"] = "application/x-www-form-urlencoded; charset=utf-8";
+			$content = $this->createLoggingXml($logging);
+		}
+
+		$headers["Content-Length"] = strlen($content);
+		$authorization = $this->getAuthorization(
+			$this->options->get("api.oauth.scope.full-control")
+		);
+		$headers["Authorization"] = $authorization;
+
+		// Send the http request
+		$response = $this->client->put($url, $content, $headers);
+
+		// Process the response
+		return $this->processResponse($response);
+	}
 }
