@@ -347,14 +347,7 @@ class JUser extends JObject
 			// Check for the configuration file failsafe.
 			$config = JFactory::getConfig();
 
-			if (isset($config->root_user))
-			{
-				$rootUser = $config->root_user;
-			}
-			else
-			{
-				$rootUser = null;
-			}
+			$rootUser = isset($config->root_user) ? $config->root_user : null;
 
 			// The root_user variable can be a numeric user ID or a username.
 			if (is_numeric($rootUser) && $this->id > 0 && $this->id == $rootUser)
@@ -573,14 +566,7 @@ class JUser extends JObject
 			$this->set('registerDate', JFactory::getDate()->toSql());
 
 			// Check that username is not greater than 150 characters
-			if (isset($this->username))
-			{
-				$username = $this->username;
-			}
-			else
-			{
-				$username = null;
-			}
+			$username = isset($this->username) ? $this->username : null;
 
 			if (strlen($username) > 150)
 			{
@@ -589,14 +575,7 @@ class JUser extends JObject
 			}
 
 			// Check that password is not greater than 100 characters
-			if (isset($this->password))
-			{
-				$password = $this->password;
-			}
-			else
-			{
-				$password = null;
-			}
+			$username = isset($this->password) ? $this->password : null;
 
 			if (strlen($password) > 100)
 			{
@@ -774,14 +753,7 @@ class JUser extends JObject
 			// Set the id for the JUser object in case we created a new user.
 			if (empty($this->id))
 			{
-				if (isset($table->id))
-				{
-					$this->id = $table->id;
-				}
-				else
-				{
-					$this->id = null;
-				}
+				$this->id = isset($table->id) ? $table->id : null;
 			}
 
 			if ($my->id == $table->id)
