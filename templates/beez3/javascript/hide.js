@@ -2,196 +2,154 @@
 
 /*global window, localStorage, Cookie, altopen, altclose, big, small, rightopen, rightclose, bildauf, bildzu */
 
-Object.append(Browser.Features, {
-	localstorage: (function() {
-		return ('localStorage' in window) && window.localStorage !== null;
-	})()
-});
-
 function saveIt(name) {
-	var x = document.id(name).style.display;
+    var x = document.getElementById(name).style.display;
 
-	if (!x) {
-		alert('No cookie available');
-	} else {
-		if (Browser.Features.localstorage) {
-			localStorage[name] = x;
-		} else {
-			Cookie.write(name, x, {duration: 7});
-		}
-	}
+    if (!x) {
+        alert('No cookie available');
+    } else if(localStorage){
+            localStorage[name] = x;
+    }
 }
 
 function readIt(name) {
-	if (Browser.Features.localstorage) {
-		return localStorage[name];
-	} else {
-		return Cookie.read(name);
-	}
+    if (localStorage) {
+        return localStorage[name];
+    }
 }
 
 function wrapperwidth(width) {
-	document.id('wrapper').setStyle('width', width);
+	jQuery('#wrapper').css('width', width);
 }
 
 // add Wai-Aria landmark-roles
-window.addEvent('domready', function () {
+jQuery(function($) {
+    $('#nav').attr('role', 'navigation');
+    $('#mod-search-searchword').closest('form').attr('role', 'search');
+    $('#main').attr('role', 'main');
+    $('#right').attr('role', 'contentinfo');
+}); 
 
-	if (document.id('nav')) {
-		document.id('nav').setProperties( {
-			role : 'navigation'
-		});
-	}
-
-	if (document.id('mod-search-searchword')) {
-		document.id(document.id('mod-search-searchword').form).set( {
-			role : 'search'
-		});
-	}
-
-	if (document.id('main')) {
-		document.id('main').setProperties( {
-			role : 'main'
-		});
-	}
-
-	if (document.id('right')) {
-		document.id('right').setProperties( {
-			role : 'contentinfo'
-		});
-	}
-
-});
-
-window.addEvent('domready', function() {
+jQuery(function($) {
 
 		// get ankers
-		var myankers = document.id(document.body).getElements('a.opencloselink');
-		myankers.each(function(element) {
-			element.setProperty('role', 'tab');
-			var myid = element.getProperty('id');
-			myid = myid.split('_');
-			myid = 'module_' + myid[1];
-			document.id(element).setProperty('aria-controls', myid);
+		var $myankers = $('a.opencloselink');
+		$myankers.each(function() {
+		    var $element = $(this);
+			$element.attr('role', 'tab');
+            var myid = $element.attr('id');
+            myid = myid.split('_');
+            myid = 'module_' + myid[1];
+            $element.attr('aria-controls', myid);
 		});
 
-		var list = document.id(document.body).getElements('div.moduletable_js');
-		list.each(function(element) {
+		var $list = $('div.moduletable_js');
+		$list.each(function() {
+            var $element = $(this);
+			if ($element.find('div.module_content').length) {
 
-			if (element.getElement('div.module_content')) {
-
-				var el = element.getElement('div.module_content');
-				el.setProperty('role', 'tabpanel');
-				var myid = el.getProperty('id');
+				var $el = $element.find('div.module_content');
+				$el.attr('role', 'tabpanel');
+				var myid = $el.attr('id');
 				myid = myid.split('_');
 				myid = 'link_' + myid[1];
-				el.setProperty('aria-labelledby', myid);
-				var myclass = el.get('class');
+				$el.attr('aria-labelledby', myid);
+				var myclass = $el.attr('class');
 				var one = myclass.split(' ');
 				// search for active menu-item
-				var listelement = el.getElement('a.active');
-				var unique = el.id;
+				var $listelement = $el.find('a.active').first();
+				var unique = $el.attr('id');
 				var nocookieset = readIt(unique);
-				if ((listelement) ||
+				if (($listelement.length) ||
 						((one[1] == 'open') && (nocookieset == null))) {
-					el.setStyle('display', 'block');
-					var eltern = el.getParent();
-					var elternh = eltern.getElement('h3');
-					var elternbild = eltern.getElement('img');
-					elternbild.setProperties( {
-						alt : altopen,
-						src : bildzu
-					});
-					elternbild.focus();
+					$el.show();
+					var $eltern = $el.parent();
+					var $elternh = $eltern.find('h3').first();
+					var $elternbild = $eltern.find('img').first();
+					$elternbild.attr('alt', altopen).attr('src', bildzu);
+					$elternbild.focus();
 				} else {
-					el.setStyle('display', 'none');
-					el.setProperty('aria-expanded', 'false');
+					$el.hide();
+					$el.attr('aria-expanded', 'false');
 				}
 
-				unique = el.id;
+				unique = $el.attr('id');
 				var cookieset = readIt(unique);
-				if (cookieset == 'block') {
-					el.setStyle('display', 'block');
-					el.setProperty('aria-expanded', 'true');
+				if (cookieset === 'block') {
+					$el.show();
+					$el.attr('aria-expanded', 'true');
 				}
 
 			}
 		});
 	});
 
-window.addEvent('domready', function() {
-	var what = document.id('right');
+jQuery(function($) {
+	var $what = $('#right');
 	// if rightcolumn
-		if (what != null) {
-			var whatid = what.id;
+		if ($what.length) {
+			var whatid = $what.attr('id');
 			var rightcookie = readIt(whatid);
-			if (rightcookie == 'none') {
-				what.setStyle('display', 'none');
-				document.id('nav').addClass('leftbigger');
+			if (rightcookie === 'none') {
+				$what.hide();
+				$('#nav').addClass('leftbigger');
 				wrapperwidth(big);
-				var grafik = document.id('bild');
-				grafik.innerHTML = rightopen;
-				grafik.focus();
+				var $grafik = $('#bild');
+				$grafik.html(rightopen);
+				$grafik.focus();
 			}
 		}
 	});
 
 function auf(key) {
-	var el = document.id(key);
+    var $ = jQuery.noConflict();
+	var $el = $(key);
 
-	if (el.style.display == 'none') {
-		el.setStyle('display', 'block');
-		el.setProperty('aria-expanded', 'true');
+	if (!$el.is(':visible')) {
+		$el.show();
+		$el.attr('aria-expanded', 'true');
 
-		if (key != 'right') {
-			el.slide('hide').slide('in');
-			el.getParent().setProperty('class', 'slide');
-			eltern = el.getParent().getParent();
-			elternh = eltern.getElement('h3');
-			elternh.addClass('high');
-			elternbild = eltern.getElement('img');
-			// elternbild.focus();
-			el.focus();
-			elternbild.setProperties( {
-				alt : altopen,
-				src : bildzu
-			});
+		if (key !== 'right') {
+			$el.hide().toggle('slide');
+			$el.parent().attr('class', 'slide');
+			$eltern = $el.parent().parent();
+			$elternh = $eltern.find('h3').first();
+			$elternh.addClass('high');
+			$elternbild = $eltern.find('img').first();
+			$el.focus();
+			$elternbild.attr('alt', altopen).attr('src', bildzu);
 		}
 
-		if (key == 'right') {
-			document.id('right').setStyle('display', 'block');
+		if (key === 'right') {
+			$('#right').show();
 			wrapperwidth(small);
-			document.id('nav').removeClass('leftbigger');
-			grafik = document.id('bild');
-			document.id('bild').innerHTML = rightclose;
-			grafik.focus();
+			$('#nav').removeClass('leftbigger');
+			$grafik = $('#bild');
+			$('#bild').html(rightclose);
+			$grafik.focus();
 		}
 	} else {
-		el.setStyle('display', 'none');
-		el.setProperty('aria-expanded', 'false');
+		$el.hide();
+		$el.attr('aria-expanded', 'false');
 
-		el.removeClass('open');
+		$el.removeClass('open');
 
-		if (key != 'right') {
-			eltern = el.getParent().getParent();
-			elternh = eltern.getElement('h3');
-			elternh.removeClass('high');
-			elternbild = eltern.getElement('img');
-			// alert(bildauf);
-			elternbild.setProperties( {
-				alt : altclose,
-				src : bildauf
-			});
-			elternbild.focus();
+		if (key !== 'right') {
+			$eltern = $el.parent().parent();
+			$elternh = $eltern.find('h3').first();
+			$elternh.removeClass('high');
+			$elternbild = $eltern.find('img').first();
+			$elternbild.attr('alt', altclose).attr('src', bildauf);
+			$elternbild.focus();
 		}
 
-		if (key == 'right') {
-			document.id('right').setStyle('display', 'none');
+		if (key === 'right') {
+			$('#right').hide();
 			wrapperwidth(big);
-			document.id('nav').addClass('leftbigger');
-			grafik = document.id('bild');
-			grafik.innerHTML = rightopen;
-			grafik.focus();
+			$('#nav').addClass('leftbigger');
+			$grafik = $('#bild');
+			$grafik.html(rightopen);
+			$grafik.focus();
 		}
 	}
 	// write cookie
