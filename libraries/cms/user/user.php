@@ -674,7 +674,14 @@ class JUser extends JObject
 		// Create the user table object
 		$table = $this->getTable();
 		$this->params = (string) $this->_params;
-		$table->bind($this->getProperties());
+
+		// Only retrieve public properties
+		$variables = $this;
+		$properties = function() use ($variables) {
+			return get_object_vars($variables);
+		};
+
+		$table->bind($properties);
 
 		// Allow an exception to be thrown.
 		try
