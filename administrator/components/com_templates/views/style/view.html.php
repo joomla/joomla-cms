@@ -26,17 +26,22 @@ class TemplatesViewStyle extends JViewLegacy
 
 	/**
 	 * Display the view
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
-		$this->item		= $this->get('Item');
-		$this->state	= $this->get('State');
-		$this->form		= $this->get('Form');
+		$this->item  = $this->get('Item');
+		$this->state = $this->get('State');
+		$this->form  = $this->get('Form');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -46,6 +51,8 @@ class TemplatesViewStyle extends JViewLegacy
 
 	/**
 	 * Add the page title and toolbar.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -82,12 +89,13 @@ class TemplatesViewStyle extends JViewLegacy
 		{
 			JToolbarHelper::cancel('style.cancel', 'JTOOLBAR_CLOSE');
 		}
+
 		JToolbarHelper::divider();
+
 		// Get the help information for the template item.
-
 		$lang = JFactory::getLanguage();
-
 		$help = $this->get('Help');
+
 		if ($lang->hasKey($help->url))
 		{
 			$debug = $lang->setDebug(false);
@@ -98,6 +106,7 @@ class TemplatesViewStyle extends JViewLegacy
 		{
 			$url = null;
 		}
+
 		JToolbarHelper::help($help->key, false, $url);
 	}
 }

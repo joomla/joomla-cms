@@ -191,11 +191,11 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$app     = JFactory::getApplication();
-		$data    = $this->input->post->get('jform', array(), 'array');
-		$task    = $this->getTask();
-		$model   = $this->getModel();
-		$fileName = $app->input->get('file');
+		$app          = JFactory::getApplication();
+		$data         = $this->input->post->get('jform', array(), 'array');
+		$task         = $this->getTask();
+		$model        = $this->getModel();
+		$fileName     = $app->input->get('file');
 		$explodeArray = explode(':', base64_decode($fileName));
 
 		// Access check.
@@ -227,7 +227,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		}
 
 		// Validate the posted data.
-		$form	= $model->getForm();
+		$form = $model->getForm();
 
 		if (!$form)
 		{
@@ -251,7 +251,8 @@ class TemplatesControllerTemplate extends JControllerLegacy
 				{
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				}
-				else {
+				else
+				{
 					$app->enqueueMessage($errors[$i], 'warning');
 				}
 			}
@@ -303,11 +304,11 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	 */
 	public function overrides()
 	{
-		$app            = JFactory::getApplication();
-		$model          = $this->getModel();
-		$file           = $app->input->get('file');
-		$override       = base64_decode($app->input->get('folder'));
-		$id             = $app->input->get('id');
+		$app      = JFactory::getApplication();
+		$model    = $this->getModel();
+		$file     = $app->input->get('file');
+		$override = base64_decode($app->input->get('folder'));
+		$id       = $app->input->get('id');
 
 		if ($model->createOverride($override))
 		{
@@ -328,10 +329,10 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	 */
 	public function less()
 	{
-		$app            = JFactory::getApplication();
-		$model          = $this->getModel();
-		$id             = $app->input->get('id');
-		$file           = $app->input->get('file');
+		$app   = JFactory::getApplication();
+		$model = $this->getModel();
+		$id    = $app->input->get('id');
+		$file  = $app->input->get('file');
 
 		if ($model->compileLess($file))
 		{
@@ -355,10 +356,10 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	 */
 	public function delete()
 	{
-		$app            = JFactory::getApplication();
-		$model          = $this->getModel();
-		$id             = $app->input->get('id');
-		$file           = $app->input->get('file');
+		$app   = JFactory::getApplication();
+		$model = $this->getModel();
+		$id    = $app->input->get('id');
+		$file  = $app->input->get('file');
 
 		if (base64_decode(urldecode($file)) == 'index.php')
 		{
@@ -391,13 +392,13 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	 */
 	public function createFile()
 	{
-		$app            = JFactory::getApplication();
-		$model          = $this->getModel();
-		$id             = $app->input->get('id');
-		$file           = $app->input->get('file');
-		$name           = $app->input->get('name');
-		$location       = base64_decode($app->input->get('address'));
-		$type           = $app->input->get('type');
+		$app      = JFactory::getApplication();
+		$model    = $this->getModel();
+		$id       = $app->input->get('id');
+		$file     = $app->input->get('file');
+		$name     = $app->input->get('name');
+		$location = base64_decode($app->input->get('address'));
+		$type     = $app->input->get('type');
 
 		if (!preg_match('/^[a-z0-9-_]+$/', $name))
 		{
@@ -429,12 +430,12 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	 */
 	public function uploadFile()
 	{
-		$app            = JFactory::getApplication();
-		$model          = $this->getModel();
-		$id             = $app->input->get('id');
-		$file           = $app->input->get('file');
-		$upload         = $app->input->files->get('files');
-		$location       = base64_decode($app->input->get('address'));
+		$app      = JFactory::getApplication();
+		$model    = $this->getModel();
+		$id       = $app->input->get('id');
+		$file     = $app->input->get('file');
+		$upload   = $app->input->files->get('files');
+		$location = base64_decode($app->input->get('address'));
 
 		if ($model->uploadFile($upload, $location))
 		{
@@ -459,12 +460,12 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	 */
 	public function createFolder()
 	{
-		$app            = JFactory::getApplication();
-		$model          = $this->getModel();
-		$id             = $app->input->get('id');
-		$file           = $app->input->get('file');
-		$name           = $app->input->get('name');
-		$location       = base64_decode($app->input->get('address'));
+		$app      = JFactory::getApplication();
+		$model    = $this->getModel();
+		$id       = $app->input->get('id');
+		$file     = $app->input->get('file');
+		$name     = $app->input->get('name');
+		$location = base64_decode($app->input->get('address'));
 
 		if (!preg_match('/^[a-z0-9-_]+$/', $name))
 		{
@@ -495,11 +496,11 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	 */
 	public function deleteFolder()
 	{
-		$app            = JFactory::getApplication();
-		$model          = $this->getModel();
-		$id             = $app->input->get('id');
-		$file           = $app->input->get('file');
-		$location       = base64_decode($app->input->get('address'));
+		$app      = JFactory::getApplication();
+		$model    = $this->getModel();
+		$id       = $app->input->get('id');
+		$file     = $app->input->get('file');
+		$location = base64_decode($app->input->get('address'));
 
 		if (empty($location))
 		{
@@ -532,11 +533,11 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	 */
 	public function renameFile()
 	{
-		$app            = JFactory::getApplication();
-		$model          = $this->getModel();
-		$id             = $app->input->get('id');
-		$file           = $app->input->get('file');
-		$newName        = $app->input->get('new_name');
+		$app     = JFactory::getApplication();
+		$model   = $this->getModel();
+		$id      = $app->input->get('id');
+		$file    = $app->input->get('file');
+		$newName = $app->input->get('new_name');
 
 		if (base64_decode(urldecode($file)) == 'index.php')
 		{
@@ -573,14 +574,14 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	 */
 	public function cropImage()
 	{
-		$app            = JFactory::getApplication();
-		$id             = $app->input->get('id');
-		$file           = $app->input->get('file');
-		$x              = $app->input->get('x');
-		$y              = $app->input->get('y');
-		$w              = $app->input->get('w');
-		$h              = $app->input->get('h');
-		$model          = $this->getModel();
+		$app   = JFactory::getApplication();
+		$id    = $app->input->get('id');
+		$file  = $app->input->get('file');
+		$x     = $app->input->get('x');
+		$y     = $app->input->get('y');
+		$w     = $app->input->get('w');
+		$h     = $app->input->get('h');
+		$model = $this->getModel();
 
 		if (empty($w) && empty($h) && empty($x) && empty($y))
 		{
@@ -613,12 +614,12 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	 */
 	public function resizeImage()
 	{
-		$app            = JFactory::getApplication();
-		$id             = $app->input->get('id');
-		$file           = $app->input->get('file');
-		$width          = $app->input->get('width');
-		$height         = $app->input->get('height');
-		$model          = $this->getModel();
+		$app    = JFactory::getApplication();
+		$id     = $app->input->get('id');
+		$file   = $app->input->get('file');
+		$width  = $app->input->get('width');
+		$height = $app->input->get('height');
+		$model  = $this->getModel();
 
 		if ($model->resizeImage($file, $width, $height))
 		{

@@ -36,27 +36,28 @@ class TemplatesViewTemplates extends JViewLegacy
 	 */
 	protected $state;
 
-    /**
+	/**
      * @var		string
      * @since   3.1
      */
-    protected $file;
+	protected $file;
 
 	/**
 	 * Display the view.
 	 *
-	 * @param   string
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
-		$this->preview		= JComponentHelper::getParams('com_templates')->get('template_positions_display');
-        $this->file         = urlencode(base64_encode('index.php'));
+		$this->items      = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state      = $this->get('State');
+		$this->preview    = JComponentHelper::getParams('com_templates')->get('template_positions_display');
+		$this->file       = urlencode(base64_encode('index.php'));
 
 		TemplatesHelper::addSubmenu('templates');
 
@@ -64,6 +65,7 @@ class TemplatesViewTemplates extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -84,18 +86,21 @@ class TemplatesViewTemplates extends JViewLegacy
 	 * Add the page title and toolbar.
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
-		$canDo	= TemplatesHelper::getActions();
+		$canDo = TemplatesHelper::getActions();
 
 		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_TEMPLATES'), 'thememanager');
+
 		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::preferences('com_templates');
 			JToolbarHelper::divider();
 		}
+
 		JToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_TEMPLATES');
 
 		JHtmlSidebar::setAction('index.php?option=com_templates&view=templates');

@@ -90,7 +90,7 @@ class TemplatesViewTemplate extends JViewLegacy
 
 	/**
 	 * Display the view
-	 * 
+	 *
 	 * @param   string  $tpl  The template to view
 	 *
 	 * @return  void, false if errors
@@ -108,25 +108,25 @@ class TemplatesViewTemplate extends JViewLegacy
 		$this->preview	= $this->get('Preview');
 		$this->hathor	= $this->get('Hathor');
 
-		if(in_array($ext, array('css', 'js', 'php', 'xml', 'ini', 'less')))
+		if (in_array($ext, array('css', 'js', 'php', 'xml', 'ini', 'less')))
 		{
-			$this->form		= $this->get('Form');
-			$this->source	= $this->get('Source');
-			$this->type 	= 'file';
+			$this->form   = $this->get('Form');
+			$this->source = $this->get('Source');
+			$this->type   = 'file';
 		}
-		elseif(in_array($ext, array('jpg', 'jpeg', 'png', 'gif')))
+		elseif (in_array($ext, array('jpg', 'jpeg', 'png', 'gif')))
 		{
-			$this->image    = $this->get('Image');
-			$this->type 	= 'image';
+			$this->image = $this->get('Image');
+			$this->type  = 'image';
 		}
-		elseif(in_array($ext, array('woff', 'otf', 'ttf')))
+		elseif (in_array($ext, array('woff', 'otf', 'ttf')))
 		{
-			$this->font     = $this->get('Font');
-			$this->type 	= 'font';
+			$this->font = $this->get('Font');
+			$this->type = 'font';
 		}
 
-		$this->overridesList	= $this->get('OverridesList');
-		$this->id       = $this->state->get('extension.id');
+		$this->overridesList = $this->get('OverridesList');
+		$this->id            = $this->state->get('extension.id');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -177,9 +177,8 @@ class TemplatesViewTemplate extends JViewLegacy
 				JToolbarHelper::save('template.save');
 			}
 		}
-
+		elseif ($this->type == 'image')
 		// Add a Crop and Resize button
-		elseif($this->type == 'image')
 		{
 			if ($showButton)
 			{
@@ -259,10 +258,10 @@ class TemplatesViewTemplate extends JViewLegacy
 	 */
 	protected function directoryTree($array)
 	{
-		$temp           = $this->files;
-		$this->files    = $array;
-		$txt            = $this->loadTemplate('tree');
-		$this->files    = $temp;
+		$temp        = $this->files;
+		$this->files = $array;
+		$txt         = $this->loadTemplate('tree');
+		$this->files = $temp;
 
 		return $txt;
 	}
@@ -280,10 +279,10 @@ class TemplatesViewTemplate extends JViewLegacy
 	 */
 	protected function folderTree($array)
 	{
-		$temp           = $this->files;
-		$this->files    = $array;
-		$txt            = $this->loadTemplate('folders');
-		$this->files    = $temp;
+		$temp        = $this->files;
+		$this->files = $array;
+		$txt         = $this->loadTemplate('folders');
+		$this->files = $temp;
 
 		return $txt;
 	}

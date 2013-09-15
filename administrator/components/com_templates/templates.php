@@ -9,18 +9,19 @@
 
 defined('_JEXEC') or die;
 
-$app    = JFactory::getApplication();
-$user   = JFactory::getUser();
+$app  = JFactory::getApplication();
+$user = JFactory::getUser();
 
 // ACL for hardening the access to the template manager.
 
-if (!$user->authorise('core.manage', 'com_templates') ||
-    !$user->authorise('core.edit', 'com_templates') ||
-    !$user->authorise('core.create', 'com_templates') ||
-    !$user->authorise('core.admin', 'com_templates'))
+if (!$user->authorise('core.manage', 'com_templates')
+	|| !$user->authorise('core.edit', 'com_templates')
+	|| !$user->authorise('core.create', 'com_templates')
+	|| !$user->authorise('core.admin', 'com_templates'))
 {
 	$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
-    return false;
+
+	return false;
 }
 
 JLoader::register('TemplatesHelper', __DIR__ . '/helpers/templates.php');
