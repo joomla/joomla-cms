@@ -9,11 +9,40 @@
 
 defined('_JEXEC') or die;
 
-if (!JFactory::getUser()->authorise('core.manage', 'com_cache'))
+// Load classes
+JLoader::registerPrefix('Cache', JPATH_COMPONENT);
+
+// Tell the browser not to cache this page.
+JResponse::setHeader('Expires', 'Mon, 26 Jul 1997 05:00:00 GMT', true);
+
+// Application
+$app = JFactory::getApplication();
+
+if ($controllerTask = $app->input->get('controller'))
 {
-	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+	// Checking for new MVC controller
+	$tasks = explode('.', $controllerTask);
+}
+else
+{
+	// Checking for old MVC task
+	$task = $app->input->get('task');
+	$tasks = explode('.', $task);
 }
 
-$controller	= JControllerLegacy::getInstance('Cache');
-$controller->execute(JFactory::getApplication()->input->get('task'));
-$controller->redirect();
+if (empty($tasks[1]))
+{
+	$activity = 'display';
+}
+else
+{
+	$activity = $tasks[1];
+}
+// Create the controller
+
+$classname  = 'CacheControllerCache' . ucfirst($activity);
+
+$controller = new $classname;
+
+// Perform the Request task
+$controller->execute();

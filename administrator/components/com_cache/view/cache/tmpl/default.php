@@ -51,7 +51,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   		<tbody>
   			<?php
   			$i = 0;
-  			foreach ($this->data as $folder => $item) : ?>
+  			foreach ($this->items as $folder => $item) : ?>
   				<tr class="row<?php echo $i % 2; ?>">
   					<td>
   						<input type="checkbox" id="cb<?php echo $i;?>" name="cid[]" value="<?php echo $item->group; ?>" onclick="Joomla.isChecked(this.checked);" />

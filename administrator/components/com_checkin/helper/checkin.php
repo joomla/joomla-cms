@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_contact
+ * @subpackage  com_checkin
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -13,10 +13,10 @@ defined('_JEXEC') or die;
  * Contact component helper.
  *
  * @package     Joomla.Administrator
- * @subpackage  com_contact
- * @since       1.6
+ * @subpackage  com_checkin
+ * @since       3.2
  */
-class CheckinHelper extends JHelperContent
+class CheckinHelperCheckin extends JHelperContent
 {
 	/**
 	 * Configure the Linkbar.
@@ -47,5 +47,4 @@ class CheckinHelper extends JHelperContent
 			$vName == 'purge'
 			);
 	}
-
 }

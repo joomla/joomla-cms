@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-require_once dirname(dirname(__DIR__)) . '/helper/checkin.php';
-
 /**
  * View for the global configuration
  *
@@ -53,7 +51,7 @@ class CheckinViewCheckinHtml extends JViewCmslist
 	 */
 	protected function addSubmenu()
 	{
-		CheckinHelper::addSubmenu('checkin');
+		CheckinHelperCheckin::addSubmenu('checkin');
 
 		$this->sidebar = JHtmlSidebar::render();
 	}

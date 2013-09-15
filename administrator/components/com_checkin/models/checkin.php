@@ -15,6 +15,7 @@ defined('_JEXEC') or die;
  * @package     Joomla.Administrator
  * @subpackage  com_checkin
  * @since       1.6
+ * @deprecated  4.0
  */
 JLog::add('models/CheckinModelCheckin is deprecated. Use model/CheckinModelCheckin instead.', JLog::WARNING, 'deprecated');
 include_once JPATH_ADMINISTRATOR . '/components/com_checkin/model/checkin.php';

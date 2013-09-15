@@ -36,7 +36,7 @@ class CheckinModelCheckin extends JModelCmslist
 	protected function populateState($ordering = null, $direction = null)
 	{
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		//$this->setState('filter.search', $search);
+		$this->state->set('filter.search', $search);
 
 		// List state information.
 		parent::populateState('table', 'asc');

@@ -16,12 +16,13 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage  com_checkin
  * @since       3.2
 */
-class CheckinControllerCheckinDisplay extends JControllerBase
+class CacheControllerCacheDisplay extends JControllerBase
 {
 	/**
-	 * Method to checkin.
+	 * @param   boolean   If true, the view output will be cached
+	 * @param   array     An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  bool	True on success, false on failure.
+	 * @return  JController  This object to support chaining.
 	 *
 	 * @since   3.2
 	 */
@@ -33,28 +34,28 @@ class CheckinControllerCheckinDisplay extends JControllerBase
 		// Get the document object.
 		$document     = JFactory::getDocument();
 
-		$viewName     = $this->input->getWord('view', 'checkin');
+		$viewName     = $this->input->getWord('view', 'cache');
 		$viewFormat   = $document->getType();
 		$layoutName   = $this->input->getWord('layout', 'default');
 
 		// Register the layout paths for the view
 		$paths = new SplPriorityQueue;
-		$paths->insert(JPATH_ADMINISTRATOR . '/components/com_checkin/view/' . $viewName . '/tmpl', 'normal');
+		$paths->insert(JPATH_ADMINISTRATOR . '/components/com_cache/view/' . $viewName . '/tmpl', 'normal');
 
-		$viewClass  = 'CheckinView' . ucfirst($viewName) . ucfirst($viewFormat);
-		$modelClass = 'CheckinModel' . ucfirst($viewName);
+		$viewClass  = 'CacheView' . ucfirst($viewName) . ucfirst($viewFormat);
+		$modelClass = 'CacheModel' . ucfirst($viewName);
 
 		if (class_exists($viewClass))
 		{
 
-				$model = new $modelClass;
+			$model = new $modelClass;
 
-				// Access check.
-				if (!JFactory::getUser()->authorise('core.admin', $model->getState('component.option')))
-				{
-					$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			// Access check.
+			if (!JFactory::getUser()->authorise('core.admin', $model->getState('component.option')))
+			{
+				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 
-					return;
+				return;
 
 			}
 
@@ -78,5 +79,4 @@ class CheckinControllerCheckinDisplay extends JControllerBase
 
 		return true;
 	}
-
 }

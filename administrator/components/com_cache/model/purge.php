@@ -14,9 +14,20 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_cache
- * @since       1.6
- * @deprecated  4.0
+ * @since       3.2
  */
-
-JLog::add('models/CacheModelCache is deprecated. Use model/CacheModelCache instead.', JLog::WARNING, 'deprecated');
-include_once JPATH_ADMINISTRATOR . '/components/com_cache/model/cache.php';
+class CacheModelPurge extends CacheModelCache
+{
+	/**
+	 * Garbage collect all cache files found
+	 *
+	 * @param  array  $array  The array of groups to clean
+	 *
+	 * @since  3.2
+	 */
+	public function purge()
+	{
+		$cache = JFactory::getCache('');
+		return $cache->gc();
+	}
+}
