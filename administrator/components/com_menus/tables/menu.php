@@ -32,4 +32,23 @@ class MenusTableMenu extends JTableMenu
 	{
 		return parent::delete($pk, $children);
 	}
+
+	/**
+	 * Overloaded check function
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @see     JTable::check
+	 * @since   11.1
+	 */
+	public function check()
+	{
+		// Set correct component id to ensure proper 404 messages with separator items
+		if ($this->type == "separator")
+		{
+			$this->component_id = 0;
+		}
+
+		return parent::check();
+	}
 }
