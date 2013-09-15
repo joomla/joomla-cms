@@ -421,17 +421,17 @@ class JUser extends JObject
 	 */
 	public function getAuthorisedViewLevels()
 	{
-		if ($this->_authLevels === null)
+		if ($this->authLevels === null)
 		{
-			$this->_authLevels = array();
+			$this->authLevels = array();
 		}
 
-		if (empty($this->_authLevels))
+		if (empty($this->authLevels))
 		{
-			$this->_authLevels = JAccess::getAuthorisedViewLevels($this->id);
+			$this->authLevels = JAccess::getAuthorisedViewLevels($this->id);
 		}
 
-		return $this->_authLevels;
+		return $this->authLevels;
 	}
 
 	/**
@@ -443,17 +443,17 @@ class JUser extends JObject
 	 */
 	public function getAuthorisedGroups()
 	{
-		if ($this->_authGroups === null)
+		if ($this->authGroups === null)
 		{
-			$this->_authGroups = array();
+			$this->authGroups = array();
 		}
 
-		if (empty($this->_authGroups))
+		if (empty($this->authGroups))
 		{
-			$this->_authGroups = JAccess::getGroupsByUser($this->id);
+			$this->authGroups = JAccess::getGroupsByUser($this->id);
 		}
 
-		return $this->_authGroups;
+		return $this->authGroups;
 	}
 
 	/**
