@@ -27,13 +27,10 @@ class CacheControllerCacheCleanlist extends JControllerBase
 	 */
 	public function execute()
 	{
-
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		$cid = $this->input->post->get('cid', array(), 'array');
-
-		$model = $this->getModel('cache');
 
 		if (empty($cid))
 		{
@@ -41,9 +38,11 @@ class CacheControllerCacheCleanlist extends JControllerBase
 		}
 		else
 		{
+			$model = new CacheModelCache;
 			$model->cleanlist($cid);
 		}
 
+		$app = JFactory::getApplication();
 		$app->redirect('index.php?option=com_cache&client=' . $model->getClient()->id);
 	}
 }

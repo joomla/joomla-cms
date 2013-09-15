@@ -27,7 +27,6 @@ class CheckinControllerCheckinCheckin extends JControllerBase
 	 */
 	public function execute()
 	{
-
 		$app = JFactory::getApplication();
 
 		// Check for request forgeries

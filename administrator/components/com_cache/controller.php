@@ -19,7 +19,6 @@ defined('_JEXEC') or die;
  */
 class CacheController extends JControllerLegacy
 {
-
 	public function display()
 	{
 		include_once JPATH_ADMINISTRATOR . '/components/com_cache/cache/controller/display.php';
@@ -30,8 +29,8 @@ class CacheController extends JControllerLegacy
 
 	public function delete()
 	{
-		include_once JPATH_ADMINISTRATOR . '/components/com_cache/cache/controller/delete.php';
-		$controller = new CacheControllerCacheDelete;
+		include_once JPATH_ADMINISTRATOR . '/components/com_cache/cache/controller/cleanlist.php';
+		$controller = new CacheControllerCacheCleanlist;
 
 		return $controller->execute();
 	}

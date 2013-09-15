@@ -30,13 +30,13 @@ else
 	$tasks = explode('.', $task);
 }
 
-if (empty($tasks[1]))
+if (empty($tasks[0]))
 {
 	$activity = 'display';
 }
 else
 {
-	$activity = $tasks[1];
+	$activity = $tasks[0];
 }
 // Create the controller
 
