@@ -11,6 +11,19 @@ defined('_JEXEC') or die;
 JHtml::_('jquery.framework');
 $app = JFactory::getApplication();
 $installfrom = base64_decode($app->input->get('installfrom', '', 'base64'));
+
+$field = new SimpleXMLElement('<field></field>');
+$rule = new JFormRuleUrl;
+if ($rule->test($field, $installfrom) && preg_match('/\.xml\s*$/', $installfrom)) {
+	jimport('joomla.updater.update');
+	$update = new JUpdate;
+	$update->loadFromXML($installfrom);
+	$package_url = trim($update->get('downloadurl', false)->_data);
+	if ($package_url) {
+		$installfrom = $package_url;
+	}
+}
+
 $document = JFactory::getDocument();
 $ver = new JVersion;
 $min = JFactory::getConfig()->get('debug') ? '' : '.min';
@@ -66,7 +79,7 @@ $min = JFactory::getConfig()->get('debug') ? '' : '.min';
 		});
 		
 		if (apps_installfrom_url != '') {
-			jQuery(link).closest('li').trigger('click');
+			jQuery(link).closest('a').trigger('click');
 		}
 	});
 
@@ -171,17 +184,15 @@ $min = JFactory::getConfig()->get('debug') ? '' : '.min';
 		<div class="clr"></div>
 		<fieldset class="uploadform">
 			<legend><?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB'); ?></legend>
-			<div id="myTabContent">
-				<div id="jed-container">
-					<div id="mywebinstaller" style="display:none">
-						<a href="#"><?php echo JText::_('COM_INSTALLER_LOAD_APPS'); ?></a>
-					</div>
-					<div class="well" id="web-loader" style="display:none">
-						<h2><?php echo JText::_('COM_INSTALLER_INSTALL_WEB_LOADING'); ?></h2>
-					</div>
-					<div class="alert alert-error" id="web-loader-error" style="display:none">
-						<a class="close" data-dismiss="alert">×</a><?php echo JText::_('COM_INSTALLER_INSTALL_WEB_LOADING_ERROR'); ?>
-					</div>
+			<div id="jed-container">
+				<div id="mywebinstaller" style="display:none">
+					<a href="#"><?php echo JText::_('COM_INSTALLER_LOAD_APPS'); ?></a>
+				</div>
+				<div class="well" id="web-loader" style="display:none">
+					<h2><?php echo JText::_('COM_INSTALLER_INSTALL_WEB_LOADING'); ?></h2>
+				</div>
+				<div class="alert alert-error" id="web-loader-error" style="display:none">
+					<a class="close" data-dismiss="alert">×</a><?php echo JText::_('COM_INSTALLER_INSTALL_WEB_LOADING_ERROR'); ?>
 				</div>
 			</div>
 			<fieldset class="uploadform" id="uploadform-web" style="display:none">
@@ -192,7 +203,7 @@ $min = JFactory::getConfig()->get('debug') ? '' : '.min';
 				</div>
 				<div class="form-actions">
 					<input type="button" class="btn btn-primary" value="<?php echo JText::_('COM_INSTALLER_INSTALL_BUTTON'); ?>" onclick="Joomla.submitbutton<?php echo $installfrom != '' ? 4 : 5; ?>()" />
-					<input type="button" class="btn btn-secondary" value="<?php echo JText::_('COM_INSTALLER_CANCEL_BUTTON'); ?>" onclick="Joomla.installfromwebcancel()" />
+					<input type="button" class="btn btn-secondary" value="<?php echo JText::_('JCANCEL'); ?>" onclick="Joomla.installfromwebcancel()" />
 				</div>
 			</fieldset>
 		</fieldset>
