@@ -1,3 +1,4 @@
+
 --
 -- Table: #__assets
 --
@@ -421,7 +422,7 @@ CREATE TABLE "#__contentitem_tag_map" (
   "content_item_id" integer NOT NULL,
   "tag_id" integer NOT NULL,
   "tag_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
- CONSTRAINT "uc_ItemnameTagid" UNIQUE ("type_alias", "content_item_id", "tag_id")
+ CONSTRAINT "#__uc_ItemnameTagid" UNIQUE ("type_alias", "content_item_id", "tag_id")
 );
 
 CREATE INDEX "#__contentitem_tag_map_idx_tag_name" ON "#__contentitem_tag_map" ("tag_id", "type_alias");

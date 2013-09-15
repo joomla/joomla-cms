@@ -59,7 +59,7 @@ $n = count($this->items);
 		<p> <?php echo JText::_('COM_TAGS_NO_ITEMS'); ?></p>
 	<?php else : ?>
 
-	<ul class="category list-striped list-condensed">
+	<ul class="category list-striped">
 		<?php foreach ($items as $i => $item) : ?>
 			<?php if ($item->core_state == 0) : ?>
 				<li class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
@@ -83,18 +83,6 @@ $n = count($this->items);
 				</li>
 		<?php endforeach; ?>
 	</ul>
-
-	<?php if ($this->params->get('show_pagination')) : ?>
-	 <div class="pagination">
-		<?php if ($this->params->get('show_pagination_results', 1)) : ?>
-			<p class="counter">
-				<?php echo $this->pagination->getPagesCounter(); ?>
-			</p>
-		<?php endif; ?>
-			<?php echo $this->pagination->getPagesLinks(); ?>
-		</div>
-		<br/>
-	<?php endif; ?>
 </form>
 
 <?php endif; ?>
