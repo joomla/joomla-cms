@@ -38,11 +38,25 @@ else
 {
 	$activity = $tasks[0];
 }
-// Create the controller
 
-$classname  = 'CacheControllerCache' . ucfirst($activity);
+// Create the controller
+if ($activity == 'display')
+{
+	$classname = 'JControllerDisplay';
+}
+else
+{
+	$classname  = 'CacheControllerCache' . ucfirst($activity);
+}
 
 $controller = new $classname;
+
+$controller->prefix = 'Cache';
+
+if (!$app->input->get('view'))
+{
+	$app->input->set('view', 'cache');
+}
 
 // Perform the Request task
 $controller->execute();

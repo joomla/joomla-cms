@@ -32,14 +32,15 @@ class CacheControllerCacheCleanlist extends JControllerBase
 
 		$cid = $this->input->post->get('cid', array(), 'array');
 
+		$model = new CacheModelCache;
+
 		if (empty($cid))
 		{
 			JError::raiseWarning(500, JText::_('JERROR_NO_ITEMS_SELECTED'));
 		}
 		else
 		{
-			$model = new CacheModelCache;
-			$model->cleanlist($cid);
+				$model->cleanlist($cid);
 		}
 
 		$app = JFactory::getApplication();

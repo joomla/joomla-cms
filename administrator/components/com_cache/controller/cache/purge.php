@@ -30,7 +30,7 @@ class CacheControllerCachePurge extends JControllerBase
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		$model = new CacheModelPurge;
+		$model = new CacheModelCache;
 		$ret = $model->purge();
 
 		$msg = JText::_('COM_CACHE_EXPIRED_ITEMS_HAVE_BEEN_PURGED');
@@ -43,6 +43,6 @@ class CacheControllerCachePurge extends JControllerBase
 		}
 
 		$app = JFactory::getApplication();
-		$app->redirect('index.php?option=com_cache&view=purge', $msg, $msgType);
+		$app->redirect('index.php?option=com_cache&view=cache&layout=purge', $msg, $msgType);
 	}
 }

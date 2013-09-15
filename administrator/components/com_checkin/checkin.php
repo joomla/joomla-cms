@@ -47,10 +47,21 @@ else
 	$activity = $tasks[1];
 }
 // Create the controller
-
-$classname  = 'CheckinControllerCheckin' . ucfirst($activity);
-
+if ($activity == 'display')
+{
+	$classname = 'JControllerDisplay';
+}
+else
+{
+	$classname  = 'CheckinControllerCheckin' . ucfirst($activity);
+}
 $controller = new $classname;
+$controller->prefix = 'Checkin';
 
+if (!$app->input->get('view'))
+{
+	$app->input->set('view', 'checkin');
+}
+var_dump($controller);
 // Perform the Request task
 $controller->execute();

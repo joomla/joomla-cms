@@ -30,7 +30,18 @@ class CacheViewCacheHtml extends JViewCmslist
 	protected function addToolbar()
 	{
 		JToolbarHelper::title(JText::_('COM_CACHE_CLEAR_CACHE'), 'clear.png');
-		JToolbarHelper::custom('cleanlist', 'delete.png', 'delete_f2.png', 'JTOOLBAR_DELETE', true);
+		$input = new JInput;
+		$layout = $input->get('layout');
+
+		if ($layout == 'purge')
+		{
+			JToolbarHelper::custom('purge', 'delete.png', 'delete_f2.png', 'COM_CACHE_PURGE_EXPIRED', false);
+		}
+		else
+		{
+			JToolbarHelper::custom('cleanlist', 'delete.png', 'delete_f2.png', 'JTOOLBAR_DELETE', true);
+		}
+
 		JToolbarHelper::divider();
 
 		if (JFactory::getUser()->authorise('core.admin', 'com_cache'))
@@ -43,12 +54,15 @@ class CacheViewCacheHtml extends JViewCmslist
 
 		JHtmlSidebar::setAction('index.php?option=com_cache');
 
-		JHtmlSidebar::addFilter(
-			// @todo We need an actual label here
-			'',
-			'filter_client_id',
-			JHtml::_('select.options', CacheHelperCache::getClientOptions(), 'value', 'text', $this->state->get('clientId'))
-		);
+		if (empty($layout) || $layout == 'default')
+		{
+			JHtmlSidebar::addFilter(
+				// @todo We need an actual label here
+				'',
+				'filter_client_id',
+				JHtml::_('select.options', CacheHelperCache::getClientOptions(), 'value', 'text', $this->state->get('clientId'))
+			);
+		}
 	}
 
 	/**

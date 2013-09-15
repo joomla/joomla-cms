@@ -202,4 +202,18 @@ class CacheModelCache extends JModelCmslist
 			$this->clean($group);
 		}
 	}
+
+	/**
+	 * Garbage collect all cache files found
+	 *
+	 * @param  array  $array  The array of groups to clean
+	 *
+	 * @since  3.2
+	 */
+	public function purge()
+	{
+		$cache = JFactory::getCache('');
+
+		return $cache->gc();
+	}
 }
