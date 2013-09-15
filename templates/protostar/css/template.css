@@ -7055,3 +7055,13 @@ div.current dd.tabs {
 #helpsite-refresh {
 	vertical-align: top;
 }
+#pop-print {
+	float: right;
+	margin: 10px;
+}
+code {
+	white-space: pre-wrap;
+}
+#filter-search {
+	vertical-align: top;
+}

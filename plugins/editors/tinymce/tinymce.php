@@ -177,13 +177,21 @@ class PlgEditorTinymce extends JPlugin
 		$invalid_elements	= $this->params->get('invalid_elements', 'script,applet,iframe');
 		$extended_elements	= $this->params->get('extended_elements', '');
 
-		// theme_advanced_* settings
-		$toolbar			= $this->params->get('toolbar', 'top');
-		$toolbar_align		= $this->params->get('toolbar_align', 'left');
+		// Advanced Options
 		$html_height		= $this->params->get('html_height', '550');
 		$html_width			= $this->params->get('html_width', '750');
-		$resizing			= $this->params->get('resizing', 'true');
-		$resize_horizontal	= $this->params->get('resize_horizontal', 'false');
+
+		// The param is true false, so we turn true to both rather than showing vertical resize only
+		$resizing = $this->params->get('resizing', '1');
+
+		if ($resizing || $resizing == 'true')
+		{
+			$resizing = 'resize: "both",';
+		}
+		else
+		{
+			$resizing = 'resize: false,';
+		}
 
 		$toolbar1_add = array();
 		$toolbar2_add = array();
@@ -430,7 +438,7 @@ class PlgEditorTinymce extends JPlugin
 			{
 				$templates = "templates: [
 					{title: 'Layout', description: 'HTMLLayout', url:'" . JUri::root() . "media/editors/tinymce/templates/layout1.html'},
-					{title: 'Simple snippet', description: 'Simple HTML snippet', url:'" . JUri::root() . "media/editors/tinymce/templates/snippet1.html'} 
+					{title: 'Simple snippet', description: 'Simple HTML snippet', url:'" . JUri::root() . "media/editors/tinymce/templates/snippet1.html'}
 				],";
 			}
 		}
@@ -611,13 +619,11 @@ class PlgEditorTinymce extends JPlugin
 					// Layout
 					$content_css
 					importcss_append: true,
-					// Advanced theme
-					theme_advanced_toolbar_location : \"$toolbar\",
-					theme_advanced_toolbar_align : \"$toolbar_align\",
-					theme_advanced_source_editor_height : \"$html_height\",
-					theme_advanced_source_editor_width : \"$html_width\",
-					theme_advanced_resizing : $resizing,
-					theme_advanced_resize_horizontal : $resize_horizontal,
+					// Advanced Options
+					$resizing
+					height : \"$html_height\",
+					width : \"$html_width\",
+
 				});
 				</script>";
 			break;
@@ -659,13 +665,11 @@ class PlgEditorTinymce extends JPlugin
 					// Layout
 					$content_css
 					importcss_append: true,
-					// Advanced theme
-					theme_advanced_toolbar_location : \"$toolbar\",
-					theme_advanced_toolbar_align : \"$toolbar_align\",
-					theme_advanced_source_editor_height : \"$html_height\",
-					theme_advanced_source_editor_width : \"$html_width\",
-					theme_advanced_resizing : $resizing,
-					theme_advanced_resize_horizontal : $resize_horizontal,
+					// Advanced Options
+					$resizing
+					height : \"$html_height\",
+					width : \"$html_width\",
+
 				});
 				</script>";
 			break;

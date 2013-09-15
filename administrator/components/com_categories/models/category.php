@@ -25,6 +25,29 @@ class CategoriesModelCategory extends JModelAdmin
 	protected $text_prefix = 'COM_CATEGORIES';
 
 	/**
+	 * The type alias for this content type. Used for content version history.
+	 *
+	 * @var      string
+	 * @since    3.2
+	 */
+	public $typeAlias = null;
+
+	/**
+	 * Override parent constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @see     JModelLegacy
+	 * @since   3.2
+	 */
+	public function __construct($config = array())
+	{
+		parent::__construct($config);
+		$extension = JFactory::getApplication()->input->get('extension', 'com_content');
+		$this->typeAlias = $extension . '.category';
+	}
+
+	/**
 	 * Method to test whether a record can be deleted.
 	 *
 	 * @param   object   $record  A record object.

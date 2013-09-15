@@ -26,44 +26,46 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 	 *
 	 * @var    string
 	 * @since  3.1
-	 * */
+	 */
 	protected $route = 'install';
 
 	/**
 	 * The installation manifest XML object
 	 *
-	 * @var
+	 * @var    SimpleXMLElement
 	 * @since  3.1
-	 * */
+	 */
 	protected $manifest = null;
 
 	/**
 	 * A path to the PHP file that the scriptfile declaration in
 	 * the manifest refers to.
 	 *
-	 * @var
+	 * @var    string
 	 * @since  3.1
-	 * */
+	 */
 	protected $manifest_script = null;
 
 	/**
 	 * Name of the extension
 	 *
-	 * @var
+	 * @var    string
 	 * @since  3.1
-	 * */
+	 */
 	protected $name = null;
 
 	/**
+	 * <scriptfile> element of the extension manifest
 	 *
-	 *
-	 * @var
+	 * @var    object
 	 * @since  3.1
-	 * */
+	 */
 	protected $scriptElement = null;
 
 	/**
-	 * @var
+	 * <files> element of the old extension manifest
+	 *
+	 * @var    object
 	 * @since  3.1
 	 */
 	protected $oldFiles = null;
