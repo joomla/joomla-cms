@@ -74,4 +74,18 @@ class JGooglecloudstorageBucketsGet extends JGooglecloudstorageBuckets
 	{
 		return $this->commonGetOperations($bucket, "lifecycle");
 	}
+
+	/**
+	 * Creates the request for getting a bucket's logging and returns the response
+	 *
+	 * @param   string  $bucket  The bucket name
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function getBucketLogging($bucket)
+	{
+		return $this->commonGetOperations($bucket, "logging");
+	}
 }
