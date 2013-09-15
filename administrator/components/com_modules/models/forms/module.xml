@@ -22,8 +22,8 @@
 			label="COM_MODULES_FIELD_NOTE_LABEL"
 			description="COM_MODULES_FIELD_NOTE_DESC"
 			maxlength="100"
-			size="35"
-			class="span12" />
+			size="40"
+			class="inputbox span12" />
 
 		<field name="module"
 			type="hidden"

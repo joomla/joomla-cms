@@ -12,7 +12,7 @@
 		type="text"
 		class="readonly"
 		label="JGLOBAL_FIELD_ID_LABEL"
-		description ="JGLOBAL_FIELD_ID_DESC"
+		description="JGLOBAL_FIELD_ID_DESC"
 		default="0"
 		readonly="true" />
 
@@ -20,13 +20,13 @@
 		type="text"
 		class="readonly"
 		label="JGLOBAL_HITS"
-		description ="COM_TAGS_FIELD_HITS_DESC"
+		description="COM_TAGS_FIELD_HITS_DESC"
 		default="0"
 		readonly="true" />
 
 	<field name="parent_id"
 		type="tag"
-		class="span12 small"
+		class=""
 		label="COM_TAGS_FIELD_PARENT_LABEL"
 		description="COM_TAGS_FIELD_PARENT_DESC"
 		mode="nested"
@@ -58,7 +58,7 @@
 
 	<field name="title"
 		type="text"
-		class="inputbox"
+		class="inputbox input-xxlarge input-large-text"
 		label="JGLOBAL_TITLE"
 		description="JFIELD_TITLE_DESC"
 		size="40"
@@ -66,7 +66,7 @@
 
 	<field name="note"
 		type="text"
-		class="inputbox"
+		class="inputbox span12"
 		label="JFIELD_NOTE_LABEL"
 		description="JFIELD_NOTE_DESC"
 		size="40" />
@@ -82,7 +82,7 @@
 
 	<field name="published"
 		type="list"
-		class="span12 small"
+		class="chzn-color-state"
 		label="JSTATUS"
 		description="JFIELD_PUBLISHED_DESC"
 		default="1"
@@ -105,7 +105,7 @@
 		type="accesslevel"
 		label="JFIELD_ACCESS_LABEL"
 		description="JFIELD_ACCESS_DESC"
-		class="span12 small" />
+		class="" />
 
 	<field name="metadesc"
 		type="textarea"
@@ -164,16 +164,15 @@
 
 	<field name="language"
 		type="contentlanguage"
-		class="span12 small"
+		class=""
 		label="JFIELD_LANGUAGE_LABEL"
 		description="COM_TAGS_FIELD_LANGUAGE_DESC">
 		<option value="*">JALL</option>
 	</field>
 
 	<fields name="params">
-		<fieldset
-			name="basic"
-			label="COM_TAGS_BASIC_FIELDSET_LABEL">
+
+		<fieldset name="basic" label="COM_TAGS_BASIC_FIELDSET_LABEL">
 
 			<field name="tag_layout"
 				type="componentlayout"
@@ -192,6 +191,80 @@
 				description="COM_TAGS_FIELD_TAG_LINK_CLASS_DESC"
 				size="20"
 				default="label label-info" />
+
+		</fieldset>
+
+		<fieldset name="images" label="JGLOBAL_FIELDSET_IMAGE_OPTIONS">
+
+			<field name="image_intro"
+				type="media"
+				label="COM_TAGS_FIELD_INTRO_LABEL"
+				labelclass="control-label"
+				description="COM_TAGS_FIELD_INTRO_DESC" />
+
+			<field name="float_intro"
+				type="list"
+				labelclass="control-label"
+				label="COM_TAGS_FLOAT_LABEL"
+				description="COM_TAGS_FLOAT_DESC">
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="right">COM_TAGS_RIGHT</option>
+				<option value="left">COM_TAGS_LEFT</option>
+				<option value="none">COM_TAGS_NONE</option>
+			</field>
+
+			<field name="image_intro_alt"
+				type="text"
+				class="inputbox"
+				labelclass="control-label"
+				label="COM_TAGS_FIELD_IMAGE_ALT_LABEL"
+				description="COM_TAGS_FIELD_IMAGE_ALT_DESC"
+				size="20" />
+
+			<field name="image_intro_caption"
+				type="text"
+				class="inputbox"
+				labelclass="control-label"
+				label="COM_TAGS_FIELD_IMAGE_CAPTION_LABEL"
+				description="COM_TAGS_FIELD_IMAGE_CAPTION_DESC"
+				size="20" />
+
+			<field name="spacer1"
+				type="spacer"
+				hr="true" />
+
+			<field name="image_fulltext"
+				type="media"
+				label="COM_TAGS_FIELD_FULL_LABEL"
+				labelclass="control-label"
+				description="COM_TAGS_FIELD_FULL_DESC" />
+
+			<field name="float_fulltext"
+				type="list"
+				labelclass="control-label"
+				label="COM_TAGS_FLOAT_LABEL"
+				description="COM_TAGS_FLOAT_DESC">
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="right">COM_TAGS_RIGHT</option>
+				<option value="left">COM_TAGS_LEFT</option>
+				<option value="none">COM_TAGS_NONE</option>
+			</field>
+
+			<field name="image_fulltext_alt"
+				type="text"
+				class="inputbox"
+				labelclass="control-label"
+				label="COM_TAGS_FIELD_IMAGE_ALT_LABEL"
+				description="COM_TAGS_FIELD_IMAGE_ALT_DESC"
+				size="20" />
+
+			<field name="image_fulltext_caption"
+				type="text"
+				class="inputbox"
+				labelclass="control-label"
+				label="COM_TAGS_FIELD_IMAGE_CAPTION_LABEL"
+				description="COM_TAGS_FIELD_IMAGE_CAPTION_DESC"
+				size="20" />
 
 		</fieldset>
 
@@ -219,80 +292,6 @@
 			</field>
 
 		</fieldset>
-
-	</fields>
-
-	<fields name="images">
-
-		<field name="image_intro"
-			type="media"
-			label="COM_TAGS_FIELD_INTRO_LABEL"
-			labelclass="control-label"
-			description="COM_TAGS_FIELD_INTRO_DESC" />
-
-		<field name="float_intro"
-			type="list"
-			labelclass="control-label"
-			label="COM_TAGS_FLOAT_LABEL"
-			description="COM_TAGS_FLOAT_DESC">
-			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="right">COM_TAGS_RIGHT</option>
-			<option value="left">COM_TAGS_LEFT</option>
-			<option value="none">COM_TAGS_NONE</option>
-		</field>
-
-		<field name="image_intro_alt"
-			type="text"
-			class="inputbox"
-			labelclass="control-label"
-			label="COM_TAGS_FIELD_IMAGE_ALT_LABEL"
-			description="COM_TAGS_FIELD_IMAGE_ALT_DESC"
-			size="20" />
-
-		<field name="image_intro_caption"
-			type="text"
-			class="inputbox"
-			labelclass="control-label"
-			label="COM_TAGS_FIELD_IMAGE_CAPTION_LABEL"
-			description="COM_TAGS_FIELD_IMAGE_CAPTION_DESC"
-			size="20" />
-
-		<field name="spacer1"
-			type="spacer"
-			hr="true" />
-
-		<field name="image_fulltext"
-			type="media"
-			label="COM_TAGS_FIELD_FULL_LABEL"
-			labelclass="control-label"
-			description="COM_TAGS_FIELD_FULL_DESC" />
-
-		<field name="float_fulltext"
-			type="list"
-			labelclass="control-label"
-			label="COM_TAGS_FLOAT_LABEL"
-			description="COM_TAGS_FLOAT_DESC">
-			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="right">COM_TAGS_RIGHT</option>
-			<option value="left">COM_TAGS_LEFT</option>
-			<option value="none">COM_TAGS_NONE</option>
-		</field>
-
-		<field name="image_fulltext_alt"
-			type="text"
-			class="inputbox"
-			labelclass="control-label"
-			label="COM_TAGS_FIELD_IMAGE_ALT_LABEL"
-			description="COM_TAGS_FIELD_IMAGE_ALT_DESC"
-			size="20" />
-
-		<field name="image_fulltext_caption"
-			type="text"
-			class="inputbox"
-			labelclass="control-label"
-			label="COM_TAGS_FIELD_IMAGE_CAPTION_LABEL"
-			description="COM_TAGS_FIELD_IMAGE_CAPTION_DESC"
-			size="20" />
 
 	</fields>
 </form>
