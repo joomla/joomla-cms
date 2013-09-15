@@ -26,6 +26,19 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+14-Sep-2013 Mark Dexter
+ + Add system tests for categories and articles in the front end. Thanks Puneet Kala.
+
+11-Sep-2013 Mark Dexter
+ # Fix failing system tests.
+
+04-Sep-2013 Mark Dexter
+ + Add some more front-end system tests. Thanks Puneet Kala.
+
+01-Sep-2013 Mark Dexter
+ # Fix problem with renamed test method.
+ # Fix failing system test due to new option in Global Configuration.
+
 27-Aug-2013 Mark Dexter
  + Add some system tests for front end. Thanks Puneet Kala!
 

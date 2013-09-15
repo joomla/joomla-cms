@@ -560,3 +560,7 @@ body {
 		margin-right: 10px;
 	}
 }
+#pop-print {
+	float: left;
+	margin: 10px;
+}
