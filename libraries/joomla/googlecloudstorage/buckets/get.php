@@ -33,7 +33,7 @@ class JGooglecloudstorageBucketsGet extends JGooglecloudstorageBuckets
 	}
 
 	/**
-	 * Creates the get request and returns the response
+	 * Creates the request for getting a bucket's acl and returns the response
 	 *
 	 * @param   string  $bucket  The bucket name
 	 *
@@ -44,5 +44,20 @@ class JGooglecloudstorageBucketsGet extends JGooglecloudstorageBuckets
 	public function getBucketAcl($bucket)
 	{
 		return $this->commonGetOperations($bucket, "acl");
+	}
+
+	/**
+	 * Creates the request for getting a bucket's cors configuration information set
+	 * and returns the response
+	 *
+	 * @param   string  $bucket  The bucket name
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function getBucketCors($bucket)
+	{
+		return $this->commonGetOperations($bucket, "cors");
 	}
 }
