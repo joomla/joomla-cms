@@ -69,7 +69,7 @@ class JHelperMedia
 
 		jimport('joomla.filesystem.file');
 
-		if ($file['name'] !== JFile::makeSafe($file['name']))
+		if (str_replace(' ', '', $file['name']) != $file['name']  || $file['name'] !== JFile::makeSafe($file['name']))
 		{
 			$app = JFactory::getApplication();
 			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILENAME'), 'notice');
