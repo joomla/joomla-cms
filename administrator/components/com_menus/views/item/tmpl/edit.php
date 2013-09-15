@@ -103,6 +103,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 						</div>
 						<?php if ($this->item->type == 'url') : ?>
 							<?php $this->form->setFieldAttribute('link', 'readonly', 'false');?>
+							<?php $this->form->setFieldAttribute('link', 'required', 'true');?>
 							<div class="control-group">
 								<div class="control-label">
 									<?php echo $this->form->getLabel('link'); ?>
