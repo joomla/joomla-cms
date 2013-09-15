@@ -542,7 +542,7 @@ class JFormTest extends TestCase
 		$this->markTestIncomplete('Need to deal with SERVER_UTC and USER_UTC filters');
 
 		/**
-			include_once JPATH_BASE . '/libraries/joomla/user/user.php';
+			include_once JPATH_BASE . '/libraries/cms/user/user.php';
 
 			$user = new JUser;
 			$mockSession = $this->getMock('JSession', array('_start', 'get'));

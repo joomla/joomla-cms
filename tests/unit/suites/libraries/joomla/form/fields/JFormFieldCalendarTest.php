@@ -292,7 +292,7 @@ class JFormFieldCalendarTest extends TestCase
 		JFactory::$config = $config;
 		$sessionMock = $this->getMock('sessionMock', array('get'));
 
-		require_once JPATH_PLATFORM . '/joomla/user/user.php';
+		require_once JPATH_PLATFORM . '/cms/user/user.php';
 		$userObject = new JUser;
 
 		$sessionMock->expects($this->any())
@@ -351,7 +351,7 @@ class JFormFieldCalendarTest extends TestCase
 		JFactory::$config = $config;
 		$sessionMock = $this->getMock('sessionMock', array('get'));
 
-		require_once JPATH_PLATFORM . '/joomla/user/user.php';
+		require_once JPATH_PLATFORM . '/cms/user/user.php';
 		$userObject = new JUser;
 
 		$sessionMock->expects($this->any())
@@ -438,7 +438,7 @@ class JFormFieldCalendarTest extends TestCase
 		JFactory::$config = $config;
 		$sessionMock = $this->getMock('sessionMock', array('get'));
 
-		require_once JPATH_PLATFORM . '/joomla/user/user.php';
+		require_once JPATH_PLATFORM . '/cms/user/user.php';
 		$userObject = new JUser;
 
 		$sessionMock->expects($this->any())
