@@ -166,6 +166,7 @@ jQuery(function($) {
     $outerdivs.each(function(){
         var $alldivs = $(this).find('div.tabcontent');
         var count = 0;
+        var countankers = 0;
         $alldivs.each(function(){
         var $el = $(this);
             count++;
@@ -194,7 +195,7 @@ jQuery(function($) {
             linkid = $el.attr('id');
             moduleid = linkid.split('_');
             moduleid = 'module_' + moduleid[1];
-            $el.setProperty('aria-controls', moduleid);
+            $el.attr('aria-controls', moduleid);
 
             if (countankers != 1) {
                 $el.addClass('linkclosed').removeClass('linkopen');
@@ -256,99 +257,79 @@ function nexttab(el) {
 
 
 // mobilemenuheader
-var mobileMenu = new Class({
+var mobileMenu = function(){
 
-    displayed:false,
-    initialize:function () {
-        var self = this;
-        // create the elements once
-        self.createElements();
+    var $ = jQuery.noConflict(), displayed = false, $mobile, $menu, $menuWrapper;
 
-        // show the elements if the browser size is smaller
-        if (self.getX() <= 461 && !self.displayed) {
-            self.display();
-        }
+    var getX = function() {
+        return $(document).width();
+    };
 
-        // react on resize events
-        window.addEvent('resize', function () {
-            if (self.getX() >= 461) {
-                if (self.displayed) {
-                    self.mobile.setStyle('display', 'none');
-                    document.id('menuwrapper').setStyle('display', 'block');
-                    self.displayed = false;
-                }
-            }
-            if (self.getX() < 461) {
-                if(!self.displayed) {
-                    self.display();
-                }
-
-            }
-        });
-    },
-
-    getX: function() {
-        return document.body.getSize().x;
-    },
-
-    createElements:function () {
-        var self = this;
+    var createElements = function () {
         var Openmenu=Joomla.JText._('TPL_BEEZ3_OPENMENU');
         var Closemenu=Joomla.JText._('TPL_BEEZ3_CLOSEMENU');
-        this.menu = document.id("header").getElement('ul.menu');
-        this.menuWrapper = new Element('div#menuwrapper', {
-            'role':'menubar'
-        });
+        $menu = $("#header").find('ul.menu').first();
+        $menuWrapper = $('<div>', {id : 'menuwrapper', role: 'menubar'});
 
         // create the menu opener and assign events
-        this.mobile = new Element('div', {
-            'id':'mobile_select',
-            html:'<h2><a href=#" id="menuopener" onclick="return false;"><span>Openmenu</span></a></h2>',
-            styles:{
-                display:'block'
-            },
-            events:{
-                click:function () {
-                    var state = self.menuWrapper.getStyle('display');
-                    self.wrapper.toggle();
+        $mobile = $('<div>', {id: 'mobile_select'}).html('<h2><a href=#" id="menuopener" onclick="return false;"><span>Openmenu</span></a></h2>').show();
+        $mobile.on('click', function(){
+           var state = $menuWrapper.css('display');
+            $menuWrapper.slideToggle();
 
-                    if (state == 'none') {
-                        document.id('menuopener').set('html', Closemenu);
-                        document.id('menuwrapper').setProperties({
-                            'aria-expanded':'true',
-                            'aria-hidden':'false'
-                        });
-                    } else {
-                        document.id('menuopener').set('html',  Openmenu);
-                        document.id('menuwrapper').setProperties({
-                            'aria-expanded':'false',
-                            'aria-hidden':'true'
-                        });
-                    }
-                }
+            if (state === 'none') {
+                $('#menuopener').html(Closemenu);
+                $('#menuwrapper').attr('aria-expanded', 'true').attr('aria-hidden','false');
+            } else {
+                $('#menuopener').html(Openmenu);
+                $('#menuwrapper').attr('aria-expanded', 'false').attr('aria-hidden', 'true');
             }
-
         });
 
         // add the menu to the dom
-        this.menuWrapper.wraps(this.menu);
-        // create the effect
-        this.wrapper = new Fx.Reveal(document.id('menuwrapper'), {
-            duration:'long',
-            transition:'bounce:out',
-            link:'chain'
-        });
-        // add the menuopener to the dom and hide it
-        this.mobile.setStyle('display', 'none')
-            .inject(document.id("header").getElement('#menuwrapper'), 'before');
+        $menu.wrap($menuWrapper);
 
-    },
-    display:function () {
-        this.menuWrapper.setStyle('display', 'none');
-        this.mobile.setStyle('display', 'block');
-        this.displayed = true;
-    }
-});
+        // add the menuopener to the dom and hide it      
+        $('#header').find('#menuwrapper').first().before($mobile.hide());
+        $menuWrapper = $('#menuwrapper');
+        $mobile = $('#mobile_select');
+
+    };
+    var display = function () {
+        $menuWrapper.hide();
+        $mobile.show();
+        displayed = true;
+    };
+    
+    var initialize = function () {
+        // create the elements once
+        createElements();
+
+        // show the elements if the browser size is smaller
+        if (getX() <= 461 && !displayed) {
+            display();
+        }
+
+        // react on resize events
+        $(window).on('resize', function () {
+            if (getX() >= 461) {
+                if (displayed) {
+                    $mobile.hide();
+                    $('#menuwrapper').show();
+                    displayed = false;
+                }
+            }
+            if (getX() < 461) {
+                if(!displayed) {
+                    display();
+                }
+
+            }
+        });
+    };
+    
+    initialize();
+};
 
 jQuery(function () {
     new mobileMenu();
