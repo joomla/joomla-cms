@@ -25,7 +25,8 @@
 			class="inputbox"
 			size="40"
 			label="JFIELD_ALIAS_LABEL"
-			description="COM_BANNERS_FIELD_ALIAS_DESC" />
+			description="COM_BANNERS_FIELD_ALIAS_DESC"
+			placeholder="JFIELD_ALIAS_PLACEHOLDER" />
 
 		<field name="catid"
 			type="categoryedit"

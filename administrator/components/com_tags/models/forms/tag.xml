@@ -126,6 +126,7 @@
 		class="inputbox"
 		label="JFIELD_ALIAS_LABEL"
 		description="JFIELD_ALIAS_DESC"
+		placeholder="JFIELD_ALIAS_PLACEHOLDER"
 		size="40" />
 
 	<field name="created_user_id"

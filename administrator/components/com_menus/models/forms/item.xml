@@ -23,6 +23,7 @@
 			type="alias"
 			label="JFIELD_ALIAS_LABEL"
 			description="JFIELD_ALIAS_DESC"
+			placeholder="JFIELD_ALIAS_PLACEHOLDER"
 			class="inputbox"
 			size="40" />
 
