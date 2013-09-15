@@ -379,13 +379,60 @@ class JGooglecloudstorageBucketsPut extends JGooglecloudstorageBuckets
 			"x-goog-project-id" => $this->options->get("project.id"),
 		);
 
-		// Check for lifecycle configuration
+		// Check for logging configuration
 		if (is_array($logging))
 		{
 			$headers["Content-Type"] = "application/x-www-form-urlencoded; charset=utf-8";
 			$content = $this->createLoggingXml($logging);
 		}
 
+		$headers["Content-Length"] = strlen($content);
+		$authorization = $this->getAuthorization(
+			$this->options->get("api.oauth.scope.full-control")
+		);
+		$headers["Authorization"] = $authorization;
+
+		// Send the http request
+		$response = $this->client->put($url, $content, $headers);
+
+		// Process the response
+		return $this->processResponse($response);
+	}
+
+	/**
+	 * Creates the XML which will be sent in a put request with the versioning query parameter
+	 *
+	 * @param   string  $status  Versioning status of a bucket. Can be Enabled or Suspended
+	 *
+	 * @return string The XML
+	 */
+	public function createVersioningXml($status)
+	{
+		return "<VersioningConfiguration><Status>" . $status . "</Status></VersioningConfiguration>\n";
+	}
+
+	/**
+	 * Creates the request for enabling logging on an existing bucket
+	 *
+	 * @param   string  $bucket  The bucket name
+	 * @param   string  $status  Versioning status of a bucket. Can be Enabled or Suspended
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function putBucketVersioning($bucket, $status)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?versioning ";
+		$headers = array(
+			"Host" => $bucket . "." . $this->options->get("api.url"),
+			"Date" => date("D, d M Y H:i:s O"),
+			"x-goog-api-version" => 2,
+			"x-goog-project-id" => $this->options->get("project.id"),
+		);
+
+		$content = $this->createVersioningXml($status);
+		$headers["Content-Type"] = "application/x-www-form-urlencoded; charset=utf-8";
 		$headers["Content-Length"] = strlen($content);
 		$authorization = $this->getAuthorization(
 			$this->options->get("api.oauth.scope.full-control")
