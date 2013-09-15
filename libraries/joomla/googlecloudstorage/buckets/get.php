@@ -88,4 +88,18 @@ class JGooglecloudstorageBucketsGet extends JGooglecloudstorageBuckets
 	{
 		return $this->commonGetOperations($bucket, "logging");
 	}
+
+	/**
+	 * Creates the request for getting a bucket's versioning state and returns the response
+	 *
+	 * @param   string  $bucket  The bucket name
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function getBucketVersioning($bucket)
+	{
+		return $this->commonGetOperations($bucket, "versioning");
+	}
 }
