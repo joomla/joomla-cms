@@ -39,8 +39,8 @@ $assoc = isset($app->item_associations);
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', empty($this->item->id) ? JText::_('COM_NEWSFEEDS_NEW_NEWSFEED', true) : JText::sprintf('COM_NEWSFEEDS_EDIT_NEWSFEED', $this->item->id, true)); ?>
 		<div class="row-fluid">
 			<div class="span9">
-				<?php echo $this->form->getControlGroup('link'); ?>
 				<div class="form-vertical">
+					<?php echo $this->form->getControlGroup('link'); ?>
 					<?php echo $this->form->getControlGroup('description'); ?>
 				</div>
 			</div>

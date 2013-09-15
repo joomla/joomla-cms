@@ -44,7 +44,6 @@ $params = $params->toArray();
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_TAGS_FIELDSET_DETAILS', true)); ?>
 		<div class="row-fluid">
 			<div class="span9">
-				<?php echo $this->form->getControlGroup('url'); ?>
 				<div class="form-vertical">
 					<?php echo $this->form->getControlGroup('description'); ?>
 				</div>

@@ -35,8 +35,8 @@ JHtml::_('formbehavior.chosen', 'select');
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', empty($this->item->id) ? JText::_('COM_WEBLINKS_NEW_WEBLINK', true) : JText::sprintf('COM_WEBLINKS_EDIT_WEBLINK', $this->item->id, true)); ?>
 		<div class="row-fluid">
 			<div class="span9">
-				<?php echo $this->form->getControlGroup('url'); ?>
 				<div class="form-vertical">
+					<?php echo $this->form->getControlGroup('url'); ?>
 					<?php echo $this->form->getControlGroup('description'); ?>
 				</div>
 			</div>
