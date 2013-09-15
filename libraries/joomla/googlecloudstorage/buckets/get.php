@@ -60,4 +60,18 @@ class JGooglecloudstorageBucketsGet extends JGooglecloudstorageBuckets
 	{
 		return $this->commonGetOperations($bucket, "cors");
 	}
+
+	/**
+	 * Creates the request for getting a bucket's lifecycle and returns the response
+	 *
+	 * @param   string  $bucket  The bucket name
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function getBucketLifecycle($bucket)
+	{
+		return $this->commonGetOperations($bucket, "lifecycle");
+	}
 }
