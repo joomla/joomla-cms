@@ -29,16 +29,20 @@ class JGooglecloudstorageBucketsGet extends JGooglecloudstorageBuckets
 	 */
 	public function getBucket($bucket)
 	{
-		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/";
+		return $this->commonGetOperations($bucket);
+	}
 
-		// The headers may be optionally set in advance
-		$headers = array(
-			"Host" => $bucket . "." . $this->options->get("api.url"),
-			"Date" => date("D, d M Y H:i:s O"),
-			"Content-Length" => 0,
-			"x-goog-api-version" => 2,
-		);
-
-		return $this->commonGetOperations($url, $headers);
+	/**
+	 * Creates the get request and returns the response
+	 *
+	 * @param   string  $bucket  The bucket name
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function getBucketAcl($bucket)
+	{
+		return $this->commonGetOperations($bucket, "acl");
 	}
 }

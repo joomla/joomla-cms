@@ -47,17 +47,27 @@ abstract class JGooglecloudstorageObject
 	/**
 	 * Common operations performed by all of the methods that send GET requests
 	 *
-	 * @param   string  $url      The url that is used in the request
-	 * @param   string  $headers  An array of headers
+	 * @param   string  $bucket     The bucket name
+	 * @param   string  $parameter  The parameter to be used for the get request
 	 *
 	 * @return string  The response body
 	 *
 	 * @since   ??.?
 	 */
-	public function commonGetOperations($url, $headers)
+	public function commonGetOperations($bucket, $parameter = null)
 	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?" . $parameter;
+
+		// The headers may be optionally set in advance
+		$headers = array(
+			"Host" => $bucket . "." . $this->options->get("api.url"),
+			"Date" => date("D, d M Y H:i:s O"),
+			"Content-Length" => 0,
+			"x-goog-api-version" => 2,
+		);
+
 		$authorization = $this->getAuthorization(
-			$this->options->get("api.oauth.scope.read-only")
+			$this->options->get("api.oauth.scope.full-control")
 		);
 		$headers["Authorization"] = $authorization;
 
