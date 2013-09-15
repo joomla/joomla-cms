@@ -66,7 +66,6 @@ class InstallerModel extends JModelList
 		{
 			$db->setQuery($query);
 			$result = $db->loadObjectList();
-			$lang = JFactory::getLanguage();
 			$this->translate($result);
 			if (!empty($search))
 			{

@@ -1,5 +1,8 @@
 <?php
 /**
+ * Bootstrap file for the Joomla Platform [with legacy libraries].  Including this file into your application
+ * will make Joomla Platform libraries [including legacy libraries] available for use.
+ *
  * @package    Joomla.Platform
  *
  * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
@@ -14,6 +17,7 @@ if (!defined('JPATH_PLATFORM'))
 
 // Detect the native operating system type.
 $os = strtoupper(substr(PHP_OS, 0, 3));
+
 if (!defined('IS_WIN'))
 {
 	define('IS_WIN', ($os === 'WIN') ? true : false);
@@ -43,12 +47,15 @@ if (!class_exists('JLoader'))
 	require_once JPATH_PLATFORM . '/loader.php';
 }
 
-class_exists('JLoader') or die;
+// Make sure that the Joomla Platform has been successfully loaded.
+if (!class_exists('JLoader'))
+{
+	throw new RuntimeException('Joomla Platform not loaded.');
+}
 
 // Setup the autoloaders.
 JLoader::setup();
 
-// Register the legacy library base path for deprecated or legacy libraries.
 JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
 
 // Import the Joomla Factory.
@@ -83,3 +90,5 @@ JLoader::register('JRules', JPATH_PLATFORM . '/legacy/access/rules.php');
 JLoader::register('JCli', JPATH_PLATFORM . '/legacy/application/cli.php');
 JLoader::register('JDaemon', JPATH_PLATFORM . '/legacy/application/daemon.php');
 JLoader::register('JApplication', JPATH_LIBRARIES . '/legacy/application/application.php');
+
+require_once JPATH_LIBRARIES . '/framework/aliases.php';

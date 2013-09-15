@@ -32,7 +32,6 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$app = JFactory::getApplication();
 		$this->input->set('installtype', 'folder');
 		$newName    = $this->input->get('new_name');
 		$newNameRaw = $this->input->get('new_name', null, 'string');

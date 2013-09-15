@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 		<p><?php echo JText::_('COM_CONFIG_TEXT_FILTERS_DESC'); ?></p>
 		<?php foreach ($this->form->getFieldset('filters') as $field) : ?>
 			<?php echo $field->label; ?>
-			<div class="clr"> </div>
+			<div class="clr"></div>
 			<?php echo $field->input; ?>
 		<?php endforeach; ?>
 	</fieldset>

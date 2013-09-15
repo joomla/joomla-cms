@@ -268,7 +268,6 @@ class ContactModelContact extends JModelForm
 
 				->where('a.id = ' . (int) $pk);
 			$published = $this->getState('filter.published');
-			$archived = $this->getState('filter.archived');
 			if (is_numeric($published))
 			{
 				$query->where('a.published IN (1,2)')
@@ -339,7 +338,7 @@ class ContactModelContact extends JModelForm
 				// filter per language if plugin published
 				if (JLanguageMultilang::isEnabled())
 				{
-					$query->where(('a.created_by = ' . (int) $result->user_id) AND ('a.language=' . $db->quote(JFactory::getLanguage()->getTag()) . ' OR a.language=' . $db->quote('*')));
+					$query->where(('a.created_by = ' . (int) $result->user_id) . ' AND ' . ('a.language=' . $db->quote(JFactory::getLanguage()->getTag()) . ' OR a.language=' . $db->quote('*')));
 				}
 				if (is_numeric($published))
 				{

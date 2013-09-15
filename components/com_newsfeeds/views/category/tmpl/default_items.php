@@ -62,8 +62,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<?php endif; ?>
 				<br />
 				<?php  if ($this->params->get('show_link')) : ?>
+					<?php $link = JStringPunycode::urlToUTF8($item->link); ?>
 					<span class="list pull-left">
-							<a href="<?php echo $item->link; ?>"><?php echo $item->link; ?></a>
+							<a href="<?php echo $item->link; ?>"><?php echo $link; ?></a>
 					</span>
 					<br/>
 				<?php  endif; ?>

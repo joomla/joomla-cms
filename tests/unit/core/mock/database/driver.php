@@ -166,7 +166,8 @@ class TestMockDatabaseDriver
 	/**
 	 * Mocking the quote method.
 	 *
-	 * @param   string  $value  The value to be quoted.
+	 * @param   string   $value   The value to be quoted.
+	 * @param   boolean  $escape  Optional parameter to provide extra escaping.
 	 *
 	 * @return  string  The value passed wrapped in MySQL quotes.
 	 *

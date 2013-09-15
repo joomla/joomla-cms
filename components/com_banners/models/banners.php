@@ -88,9 +88,6 @@ class BannersModelBanners extends JModelList
 		}
 
 		// Filter by a single or group of categories
-		$categoryId = $this->getState('filter.category_id');
-		$catid = $this->getState('filter.category_id', array());
-
 		if (is_numeric($categoryId))
 		{
 			$type = $this->getState('filter.category_id.include', true) ? '= ' : '<> ';
@@ -153,7 +150,7 @@ class BannersModelBanners extends JModelList
 						$condition2 .= " OR cl.metakey REGEXP '[[:<:]]" . $db->escape($keyword) . "[[:>:]]'";
 					}
 
-					if ($catid)
+					if ($categoryId)
 					{
 						$condition2 .= " OR cat.metakey REGEXP '[[:<:]]" . $db->escape($keyword) . "[[:>:]]'";
 					}

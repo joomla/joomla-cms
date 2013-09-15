@@ -47,15 +47,6 @@ class GroupManagerPage extends AdminManagerPage
 		$this->groupManagerPage = $this->test->getPageObject('GroupManagerPage');
 	}
 
-	public function deleteGroup($name)
-	{
-		$this->searchFor($name);
-		$this->driver->findElement(By::name("checkall-toggle"))->click();
-		$this->clickButton('toolbar-delete');
-		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
-		$this->searchFor();
-	}
-
 	public function editGroup($name, $fields)
 	{
 		$this->clickItem($name);

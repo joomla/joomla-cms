@@ -84,10 +84,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 */
 	public function __destruct()
 	{
-		if (is_resource($this->connection))
-		{
-			pg_close($this->connection);
-		}
+		$this->disconnect();
 	}
 
 	/**
@@ -136,6 +133,11 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		// Close the connection.
 		if (is_resource($this->connection))
 		{
+			foreach ($this->disconnectHandlers as $h)
+			{
+				call_user_func_array($h, array( &$this));
+			}
+
 			pg_close($this->connection);
 		}
 
@@ -244,6 +246,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 		$this->setQuery('SHOW LC_COLLATE');
 		$array = $this->loadAssocList();
+
 		return $array[0]['lc_collate'];
 	}
 
@@ -285,6 +288,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			}
 
 			$this->queryObject = new JDatabaseQueryPostgresql($this);
+
 			return $this->queryObject;
 		}
 		else
@@ -444,12 +448,12 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 		$query = $this->getQuery(true)
 			->select('table_name')
-				->from('information_schema.tables')
-				->where('table_type=' . $this->quote('BASE TABLE'))
-				->where(
-					'table_schema NOT IN (' . $this->quote('pg_catalog') . ', ' . $this->quote('information_schema') . ')'
-				)
-				->order('table_name ASC');
+			->from('information_schema.tables')
+			->where('table_type=' . $this->quote('BASE TABLE'))
+			->where(
+				'table_schema NOT IN (' . $this->quote('pg_catalog') . ', ' . $this->quote('information_schema') . ')'
+			)
+			->order('table_name ASC');
 
 		$this->setQuery($query);
 		$tables = $this->loadColumn();
@@ -490,13 +494,13 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			// Get the details columns information.
 			$query = $this->getQuery(true)
 				->select($this->quoteName($name, $as))
-					->from('pg_class AS s')
-					->join('LEFT', "pg_depend d ON d.objid=s.oid AND d.classid='pg_class'::regclass AND d.refclassid='pg_class'::regclass")
-					->join('LEFT', 'pg_class t ON t.oid=d.refobjid')
-					->join('LEFT', 'pg_namespace n ON n.oid=t.relnamespace')
-					->join('LEFT', 'pg_attribute a ON a.attrelid=t.oid AND a.attnum=d.refobjsubid')
-					->join('LEFT', 'information_schema.sequences AS info ON info.sequence_name=s.relname')
-					->where("s.relkind='S' AND d.deptype='a' AND t.relname=" . $this->quote($table));
+				->from('pg_class AS s')
+				->join('LEFT', "pg_depend d ON d.objid=s.oid AND d.classid='pg_class'::regclass AND d.refclassid='pg_class'::regclass")
+				->join('LEFT', 'pg_class t ON t.oid=d.refobjid')
+				->join('LEFT', 'pg_namespace n ON n.oid=t.relnamespace')
+				->join('LEFT', 'pg_attribute a ON a.attrelid=t.oid AND a.attnum=d.refobjsubid')
+				->join('LEFT', 'information_schema.sequences AS info ON info.sequence_name=s.relname')
+				->where("s.relkind='S' AND d.deptype='a' AND t.relname=" . $this->quote($table));
 			$this->setQuery($query);
 			$seq = $this->loadObjectList();
 
@@ -516,6 +520,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	{
 		$this->connect();
 		$version = pg_version($this->connection);
+
 		return $version['server'];
 	}
 
@@ -528,20 +533,20 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 * INSERT INTO query, or use INSERT INTO with RETURNING clause.
 	 *
 	 * @example with insertid() call:
-	 *		$query = $this->getQuery(true);
-	 *		$query->insert('jos_dbtest')
-	 *				->columns('title,start_date,description')
-	 *				->values("'testTitle2nd','1971-01-01','testDescription2nd'");
+	 *		$query = $this->getQuery(true)
+	 *			->insert('jos_dbtest')
+	 *			->columns('title,start_date,description')
+	 *			->values("'testTitle2nd','1971-01-01','testDescription2nd'");
 	 *		$this->setQuery($query);
 	 *		$this->execute();
 	 *		$id = $this->insertid();
 	 *
 	 * @example with RETURNING clause:
-	 *		$query = $this->getQuery(true);
-	 *		$query->insert('jos_dbtest')
-	 *				->columns('title,start_date,description')
-	 *				->values("'testTitle2nd','1971-01-01','testDescription2nd'")
-	 *				->returning('id');
+	 *		$query = $this->getQuery(true)
+	 *			->insert('jos_dbtest')
+	 *			->columns('title,start_date,description')
+	 *			->values("'testTitle2nd','1971-01-01','testDescription2nd'")
+	 *			->returning('id');
 	 *		$this->setQuery($query);
 	 *		$id = $this->loadResult();
 	 *
@@ -616,6 +621,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 		// Take a local copy so that we don't modify the original query and cause issues later
 		$query = $this->replacePrefix((string) $this->sql);
+
 		if ($this->limit > 0 || $this->offset > 0)
 		{
 			$query .= ' LIMIT ' . $this->limit . ' OFFSET ' . $this->offset;
@@ -624,6 +630,10 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		// Increment the query counter.
 		$this->count++;
 
+		// Reset the error values.
+		$this->errorNum = 0;
+		$this->errorMsg = '';
+
 		// If debugging is enabled then let's log the query.
 		if ($this->debug)
 		{
@@ -631,14 +641,25 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			$this->log[] = $query;
 
 			JLog::add($query, JLog::DEBUG, 'databasequery');
-		}
 
-		// Reset the error values.
-		$this->errorNum = 0;
-		$this->errorMsg = '';
+			$this->timings[] = microtime(true);
+		}
 
 		// Execute the query. Error suppression is used here to prevent warnings/notices that the connection has been lost.
 		$this->cursor = @pg_query($this->connection, $query);
+
+		if ($this->debug)
+		{
+			$this->timings[] = microtime(true);
+			if (defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
+			{
+				$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+			}
+			else
+			{
+				$this->callStacks[] = debug_backtrace();
+			}
+		}
 
 		// If an error occurred handle it.
 		if (!$this->cursor)
@@ -723,6 +744,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			);
 
 			$oldIndexes = $this->loadColumn();
+
 			foreach ($oldIndexes as $oldIndex)
 			{
 				$changedIdxName = str_replace($oldTable, $newTable, $oldIndex);
@@ -745,6 +767,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			);
 
 			$oldSequences = $this->loadColumn();
+
 			foreach ($oldSequences as $oldSequence)
 			{
 				$changedSequenceName = str_replace($oldTable, $newTable, $oldSequence);
@@ -797,12 +820,13 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @since   11.3
 	 */
-	protected function sqlValue($columns, $field_name, $field_value)
+	public function sqlValue($columns, $field_name, $field_value)
 	{
 		switch ($columns[$field_name])
 		{
 			case 'boolean':
 				$val = 'NULL';
+
 				if ($field_value == 't')
 				{
 					$val = 'TRUE';
@@ -812,6 +836,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 					$val = 'FALSE';
 				}
 				break;
+
 			case 'bigint':
 			case 'bigserial':
 			case 'integer':
@@ -823,12 +848,16 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			case 'numeric,':
 				$val = strlen($field_value) == 0 ? 'NULL' : $field_value;
 				break;
+
 			case 'date':
 			case 'timestamp without time zone':
 				if (empty($field_value))
 				{
 					$field_value = $this->getNullDate();
 				}
+				$val = $this->quote($field_value);
+				break;
+
 			default:
 				$val = $this->quote($field_value);
 				break;
@@ -840,56 +869,95 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * Method to commit a transaction.
 	 *
+	 * @param   boolean  $toSavepoint  If true, commit to the last savepoint.
+	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
-	public function transactionCommit()
+	public function transactionCommit($toSavepoint = false)
 	{
 		$this->connect();
 
-		$this->setQuery('COMMIT');
-		$this->execute();
+		if (!$toSavepoint || $this->transactionDepth <= 1)
+		{
+			if ($this->setQuery('COMMIT')->execute())
+			{
+				$this->transactionDepth = 0;
+			}
+
+			return;
+		}
+
+		$this->transactionDepth--;
 	}
 
 	/**
 	 * Method to roll back a transaction.
 	 *
-	 * @param   string  $toSavepoint  If present rollback transaction to this savepoint
+	 * @param   boolean  $toSavepoint  If true, rollback to the last savepoint.
 	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
-	public function transactionRollback($toSavepoint = null)
+	public function transactionRollback($toSavepoint = false)
 	{
 		$this->connect();
 
-		$query = 'ROLLBACK';
-		if (!is_null($toSavepoint))
+		if (!$toSavepoint || $this->transactionDepth <= 1)
 		{
-			$query .= ' TO SAVEPOINT ' . $this->escape($toSavepoint);
+			if ($this->setQuery('ROLLBACK')->execute())
+			{
+				$this->transactionDepth = 0;
+			}
+
+			return;
 		}
 
-		$this->setQuery($query);
-		$this->execute();
+		$savepoint = 'SP_' . ($this->transactionDepth - 1);
+		$this->setQuery('ROLLBACK TO SAVEPOINT ' . $this->quoteName($savepoint));
+
+		if ($this->execute())
+		{
+			$this->transactionDepth--;
+			$this->setQuery('RELEASE SAVEPOINT ' . $this->quoteName($savepoint))->execute();
+		}
 	}
 
 	/**
 	 * Method to initialize a transaction.
 	 *
+	 * @param   boolean  $asSavepoint  If true and a transaction is already active, a savepoint will be created.
+	 *
 	 * @return  void
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
-	public function transactionStart()
+	public function transactionStart($asSavepoint = false)
 	{
 		$this->connect();
-		$this->setQuery('START TRANSACTION');
-		$this->execute();
+
+		if (!$asSavepoint || !$this->transactionDepth)
+		{
+			if ($this->setQuery('START TRANSACTION')->execute())
+			{
+				$this->transactionDepth = 1;
+			}
+
+			return;
+		}
+
+		$savepoint = 'SP_' . $this->transactionDepth;
+		$this->setQuery('SAVEPOINT ' . $this->quoteName($savepoint));
+
+		if ($this->execute())
+		{
+			$this->transactionDepth++;
+		}
 	}
 
 	/**
@@ -991,8 +1059,8 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		// Create the base insert statement.
 		$query = $this->getQuery(true)
 			->insert($this->quoteName($table))
-				->columns($fields)
-				->values(implode(',', $values));
+			->columns($fields)
+			->values(implode(',', $values));
 
 		$retVal = false;
 
@@ -1047,14 +1115,15 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 		$query = $this->getQuery(true)
 			->select('table_name')
-				->from('information_schema.tables')
-				->where('table_type=' . $this->quote('BASE TABLE'))
-				->where(
-					'table_schema NOT IN (' . $this->quote('pg_catalog') . ', ' . $this->quote('information_schema') . ' )'
-				);
+			->from('information_schema.tables')
+			->where('table_type=' . $this->quote('BASE TABLE'))
+			->where(
+				'table_schema NOT IN (' . $this->quote('pg_catalog') . ', ' . $this->quote('information_schema') . ' )'
+			);
 
 		$this->setQuery($query);
 		$tableList = $this->loadColumn();
+
 		return $tableList;
 	}
 
@@ -1093,15 +1162,15 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	}
 
 	/**
-	 * Return the query string to alter the database character set.
+	 * Get the query string to alter the database character set.
 	 *
 	 * @param   string  $dbName  The database name
 	 *
 	 * @return  string  The query that alter the database query string
 	 *
-	 * @since   12.2
+	 * @since   12.1
 	 */
-	protected function getAlterDbCharacterSet($dbName)
+	public function getAlterDbCharacterSet( $dbName )
 	{
 		$query = 'ALTER DATABASE ' . $this->quoteName($dbName) . ' SET CLIENT_ENCODING TO ' . $this->quote('UTF8');
 
@@ -1109,17 +1178,18 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	}
 
 	/**
-	 * Return the query string to create new Database using PostgreSQL's syntax
+	 * Get the query string to create new Database in correct PostgreSQL syntax.
 	 *
-	 * @param   stdClass  $options  Object used to pass user and database name to database driver.
-	 * 									This object must have "db_name" and "db_user" set.
-	 * @param   boolean   $utf      True if the database supports the UTF-8 character set.
+	 * @param   object   $options  object coming from "initialise" function to pass user
+	 * 									and database name to database driver.
+	 * @param   boolean  $utf      True if the database supports the UTF-8 character set,
+	 * 									not used in PostgreSQL "CREATE DATABASE" query.
 	 *
-	 * @return  string  The query that creates database, owned by $options['user']
+	 * @return  string	The query that creates database, owned by $options['user']
 	 *
-	 * @since   12.2
+	 * @since   12.1
 	 */
-	protected function getCreateDatabaseQuery($options, $utf)
+	public function getCreateDbQuery($options, $utf)
 	{
 		$query = 'CREATE DATABASE ' . $this->quoteName($options->db_name) . ' OWNER ' . $this->quoteName($options->db_user);
 
@@ -1145,15 +1215,15 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	public function replacePrefix($query, $prefix = '#__')
 	{
 		$query = trim($query);
-		$replacedQuery = '';
 
-		if ( strpos($query, '\'') )
+		if (strpos($query, '\''))
 		{
 			// Sequence name quoted with ' ' but need to be replaced
-			if ( strpos($query, 'currval') )
+			if (strpos($query, 'currval'))
 			{
 				$query = explode('currval', $query);
-				for ( $nIndex = 1; $nIndex < count($query); $nIndex = $nIndex + 2 )
+
+				for ($nIndex = 1; $nIndex < count($query); $nIndex = $nIndex + 2)
 				{
 					$query[$nIndex] = str_replace($prefix, $this->tablePrefix, $query[$nIndex]);
 				}
@@ -1161,10 +1231,11 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			}
 
 			// Sequence name quoted with ' ' but need to be replaced
-			if ( strpos($query, 'nextval') )
+			if (strpos($query, 'nextval'))
 			{
 				$query = explode('nextval', $query);
-				for ( $nIndex = 1; $nIndex < count($query); $nIndex = $nIndex + 2 )
+
+				for ($nIndex = 1; $nIndex < count($query); $nIndex = $nIndex + 2)
 				{
 					$query[$nIndex] = str_replace($prefix, $this->tablePrefix, $query[$nIndex]);
 				}
@@ -1172,10 +1243,11 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			}
 
 			// Sequence name quoted with ' ' but need to be replaced
-			if ( strpos($query, 'setval') )
+			if (strpos($query, 'setval'))
 			{
 				$query = explode('setval', $query);
-				for ( $nIndex = 1; $nIndex < count($query); $nIndex = $nIndex + 2 )
+
+				for ($nIndex = 1; $nIndex < count($query); $nIndex = $nIndex + 2)
 				{
 					$query[$nIndex] = str_replace($prefix, $this->tablePrefix, $query[$nIndex]);
 				}
@@ -1184,9 +1256,9 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 			$explodedQuery = explode('\'', $query);
 
-			for ( $nIndex = 0; $nIndex < count($explodedQuery); $nIndex = $nIndex + 2 )
+			for ($nIndex = 0; $nIndex < count($explodedQuery); $nIndex = $nIndex + 2)
 			{
-				if ( strpos($explodedQuery[$nIndex], $prefix) )
+				if (strpos($explodedQuery[$nIndex], $prefix))
 				{
 					$explodedQuery[$nIndex] = str_replace($prefix, $this->tablePrefix, $explodedQuery[$nIndex]);
 				}
@@ -1214,7 +1286,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	public function releaseTransactionSavepoint( $savepointName )
 	{
 		$this->connect();
-		$this->setQuery('RELEASE SAVEPOINT ' . $this->escape($savepointName));
+		$this->setQuery('RELEASE SAVEPOINT ' . $this->quoteName($this->escape($savepointName)));
 		$this->execute();
 	}
 
@@ -1230,7 +1302,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	public function transactionSavepoint( $savepointName )
 	{
 		$this->connect();
-		$this->setQuery('SAVEPOINT ' . $this->escape($savepointName));
+		$this->setQuery('SAVEPOINT ' . $this->quoteName($this->escape($savepointName)));
 		$this->execute();
 	}
 

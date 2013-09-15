@@ -64,11 +64,11 @@ class MailtoViewMailto extends JViewLegacy
 		else
 		{
 			$data->sender = $sender;
-			$data->from   = $from;
+			$data->from   = JStringPunycode::emailToPunycode($from);
 		}
 
 		$data->subject = $subject;
-		$data->mailto  = $mailto;
+		$data->mailto  = JStringPunycode::emailToPunycode($mailto);
 
 		return $data;
 	}

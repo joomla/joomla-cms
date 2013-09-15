@@ -30,7 +30,7 @@ JHtml::_('bootstrap.tooltip');
 						<?php endif; ?>
 					</strong>
 
-					<small class="small" class="hasTooltip" title="<?php echo JText::_('MOD_LATEST_CREATED_BY'); ?>">
+					<small class="hasTooltip" title="<?php echo JHtml::tooltipText('MOD_LATEST_CREATED_BY'); ?>">
 						<?php echo $item->author_name;?>
 					</small>
 				</div>

@@ -159,12 +159,13 @@ class JLog
 	 * @param   array    $options     The object configuration array.
 	 * @param   integer  $priorities  Message priority
 	 * @param   array    $categories  Types of entry
+	 * @param   boolean  $exclude     If true, all categories will be logged except those in the $categories array
 	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	public static function addLogger(array $options, $priorities = self::ALL, $categories = array())
+	public static function addLogger(array $options, $priorities = self::ALL, $categories = array(), $exclude = false)
 	{
 		// Automatically instantiate the singleton object if not already done.
 		if (empty(self::$instance))
@@ -179,7 +180,7 @@ class JLog
 		}
 		$options['logger'] = strtolower($options['logger']);
 
-		// Special case - if a Closure object is sent as the callback (in case of JLoggerCallback)
+		// Special case - if a Closure object is sent as the callback (in case of JLogLoggerCallback)
 		// Closure objects are not serializable so swap it out for a unique id first then back again later
 		if (isset($options['callback']) && is_a($options['callback'], 'closure'))
 		{
@@ -204,7 +205,8 @@ class JLog
 
 		self::$instance->lookup[$signature] = (object) array(
 			'priorities' => $priorities,
-			'categories' => array_map('strtolower', (array) $categories));
+			'categories' => array_map('strtolower', (array) $categories),
+			'exclude' => (bool) $exclude);
 	}
 
 	/**
@@ -247,6 +249,7 @@ class JLog
 			{
 
 				$class = 'JLogLogger' . ucfirst($this->configurations[$signature]['logger']);
+
 				if (class_exists($class))
 				{
 					$this->loggers[$signature] = new $class($this->configurations[$signature]);
@@ -286,11 +289,21 @@ class JLog
 			// Check to make sure the priority matches the logger.
 			if ($priority & $rules->priorities)
 			{
-
-				// If either there are no set categories (meaning all) or the specific category is set, add this logger.
-				if (empty($category) || empty($rules->categories) || in_array($category, $rules->categories))
+				if ($rules->exclude)
 				{
-					$loggers[] = $signature;
+					// If either there are no set categories or the category (including the empty case) is not in the list of excluded categories, add this logger.
+					if (empty($rules->categories) || !in_array($category, $rules->categories))
+					{
+						$loggers[] = $signature;
+					}
+				}
+				else
+				{
+					// If either there are no set categories (meaning all) or the specific category is set, add this logger.
+					if (empty($category) || empty($rules->categories) || in_array($category, $rules->categories))
+					{
+						$loggers[] = $signature;
+					}
 				}
 			}
 		}

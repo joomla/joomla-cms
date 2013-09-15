@@ -48,8 +48,8 @@
 	<field
 		name="path"
 		type="text"
-		label="CATEGORIES_PATH_LABEL"
-		description="CATEGORIES_PATH_DESC"
+		label="COM_CATEGORIES_PATH_LABEL"
+		description="COM_CATEGORIES_PATH_DESC"
 		class="readonly"
 		size="40"
 		readonly="true"/>
@@ -74,6 +74,15 @@
 		description="JFIELD_ALIAS_DESC"
 		class="inputbox"
 		size="40"/>
+		
+	<field 
+		name="version_note" 
+		type="text" 
+		label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+		description="JGLOBAL_FIELD_VERSION_NOTE_DESC" 
+		class="inputbox" 
+		size="45" 
+		labelclass="control-label" />
 
 	<field
 		name="note"
@@ -101,18 +110,10 @@
 		size="1"
 		label="JSTATUS"
 		description="JFIELD_PUBLISHED_DESC">
-		<option
-			value="1">
-			JPUBLISHED</option>
-		<option
-			value="0">
-			JUNPUBLISHED</option>
-		<option
-			value="2">
-			JARCHIVED</option>
-		<option
-			value="-2">
-			JTRASHED</option>
+		<option value="1">JPUBLISHED</option>
+		<option value="0">JUNPUBLISHED</option>
+		<option value="2">JARCHIVED</option>
+		<option value="-2">JTRASHED</option>
 	</field>
 	<field
 		name="buttonspacer"
@@ -192,6 +193,15 @@
 		<option value="*">JALL</option>
 	</field>
 
+	<field name="tags"
+		type="tag"
+		label="JTAG"
+		description="JTAG_DESC"
+		class="inputbox span12 small"
+		multiple="true"
+		>
+	</field>
+
 	<field
 		id="rules"
 		name="rules"
@@ -204,7 +214,7 @@
 		component="com_content"
 		section="category"/>
 
-	<fields name="params">
+	<fields name="params" label="COM_CATEGORIES_FIELD_BASIC_LABEL">
 		<fieldset
 			name="basic">
 
@@ -225,7 +235,7 @@
 		</fieldset>
 	</fields>
 
-	<fields name="metadata">
+	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 		<fieldset name="jmetadata"
 			label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 			<field
@@ -234,12 +244,6 @@
 				label="JAUTHOR"
 				description="JFIELD_METADATA_AUTHOR_DESC"
 				size="30"/>
-	
-			<field name="tags" type="tag"
-				label="JTAG" description="JTAG_DESC"
-				class="inputbox" multiple="true"
-			>
-			</field>
 	
 			<field name="robots"
 				type="list"

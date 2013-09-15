@@ -9,17 +9,21 @@
 
 defined('_JEXEC') or die;
 
+JLog::add('ModulesHelperXML is deprecated. Do not use.', JLog::WARNING, 'deprecated');
+
 /**
  * Helper for parse XML module files
  *
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  * @since       1.5
+ * @deprecated  3.2  Do not use.
  */
 class ModulesHelperXML
 {
 	/**
-	 * @since  1.5
+	 * @since       1.5
+	 * @deprecated  3.2  Do not use.
 	 */
 	public function parseXMLModuleFile(&$rows)
 	{

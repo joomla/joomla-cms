@@ -77,26 +77,27 @@ class GlobalConfigurationPage extends AdminEditPage
 			array('label' => 'Force SSL', 'id' => 'jform_force_ssl', 'type' => 'select', 'tab' => 'page-server'),
 			array('label' => 'Server Time Zone', 'id' => 'jform_offset', 'type' => 'select', 'tab' => 'page-server'),
 			array('label' => 'Enable FTP', 'id' => 'jform_ftp_enable', 'type' => 'fieldset', 'tab' => 'page-server'),
-			array('label' => 'FTP Host', 'id' => 'jform_ftp_host', 'type' => 'input', 'tab' => 'page-server'),
-			array('label' => 'FTP Port', 'id' => 'jform_ftp_port', 'type' => 'input', 'tab' => 'page-server'),
-			array('label' => 'FTP Username', 'id' => 'jform_ftp_user', 'type' => 'input', 'tab' => 'page-server'),
-			array('label' => 'FTP Password', 'id' => 'jform_ftp_pass', 'type' => 'input', 'tab' => 'page-server'),
-			array('label' => 'FTP Root', 'id' => 'jform_ftp_root', 'type' => 'input', 'tab' => 'page-server'),
+// 			array('label' => 'FTP Host', 'id' => 'jform_ftp_host', 'type' => 'input', 'tab' => 'page-server'),
+// 			array('label' => 'FTP Port', 'id' => 'jform_ftp_port', 'type' => 'input', 'tab' => 'page-server'),
+// 			array('label' => 'FTP Username', 'id' => 'jform_ftp_user', 'type' => 'input', 'tab' => 'page-server'),
+// 			array('label' => 'FTP Password', 'id' => 'jform_ftp_pass', 'type' => 'input', 'tab' => 'page-server'),
+// 			array('label' => 'FTP Root', 'id' => 'jform_ftp_root', 'type' => 'input', 'tab' => 'page-server'),
 			array('label' => 'Database Type', 'id' => 'jform_dbtype', 'type' => 'select', 'tab' => 'page-server'),
 			array('label' => 'Host', 'id' => 'jform_host', 'type' => 'input', 'tab' => 'page-server'),
 			array('label' => 'Database Username', 'id' => 'jform_user', 'type' => 'input', 'tab' => 'page-server'),
 			array('label' => 'Database Name', 'id' => 'jform_db', 'type' => 'input', 'tab' => 'page-server'),
 			array('label' => 'Database Tables Prefix', 'id' => 'jform_dbprefix', 'type' => 'input', 'tab' => 'page-server'),
+			array('label' => 'Send mail', 'id' => 'jform_mailonline', 'type' => 'fieldset', 'tab' => 'page-server'),
 			array('label' => 'Mailer', 'id' => 'jform_mailer', 'type' => 'select', 'tab' => 'page-server'),
 			array('label' => 'From email', 'id' => 'jform_mailfrom', 'type' => 'input', 'tab' => 'page-server'),
 			array('label' => 'From Name', 'id' => 'jform_fromname', 'type' => 'input', 'tab' => 'page-server'),
-			array('label' => 'Sendmail Path', 'id' => 'jform_sendmail', 'type' => 'input', 'tab' => 'page-server'),
-			array('label' => 'SMTP Authentication', 'id' => 'jform_smtpauth', 'type' => 'fieldset', 'tab' => 'page-server'),
-			array('label' => 'SMTP Security', 'id' => 'jform_smtpsecure', 'type' => 'select', 'tab' => 'page-server'),
-			array('label' => 'SMTP Port', 'id' => 'jform_smtpport', 'type' => 'input', 'tab' => 'page-server'),
-			array('label' => 'SMTP Username', 'id' => 'jform_smtpuser', 'type' => 'input', 'tab' => 'page-server'),
-			array('label' => 'SMTP Password', 'id' => 'jform_smtppass', 'type' => 'input', 'tab' => 'page-server'),
-			array('label' => 'SMTP Host', 'id' => 'jform_smtphost', 'type' => 'input', 'tab' => 'page-server'),
+// 			array('label' => 'Sendmail Path', 'id' => 'jform_sendmail', 'type' => 'input', 'tab' => 'page-server'),
+// 			array('label' => 'SMTP Authentication', 'id' => 'jform_smtpauth', 'type' => 'fieldset', 'tab' => 'page-server'),
+// 			array('label' => 'SMTP Security', 'id' => 'jform_smtpsecure', 'type' => 'select', 'tab' => 'page-server'),
+// 			array('label' => 'SMTP Port', 'id' => 'jform_smtpport', 'type' => 'input', 'tab' => 'page-server'),
+// 			array('label' => 'SMTP Username', 'id' => 'jform_smtpuser', 'type' => 'input', 'tab' => 'page-server'),
+// 			array('label' => 'SMTP Password', 'id' => 'jform_smtppass', 'type' => 'input', 'tab' => 'page-server'),
+// 			array('label' => 'SMTP Host', 'id' => 'jform_smtphost', 'type' => 'input', 'tab' => 'page-server'),
 	);
 
 	public $permissions = array('core.login.site', 'core.login.admin', 'core.login.offline', 'core.admin', 'core.manage', 'core.create', 'core.delete', 'core.edit', 'core.edit.state', 'core.edit.own');
@@ -236,5 +237,33 @@ class GlobalConfigurationPage extends AdminEditPage
 
 		return $helpText;
 	}
+	
+	/**
+	 * Change Editor Mode from the Configuration Page
+	 *
+	 * @param string   $mode	   Editor Mode that the user wants to set
+	 * 
+	 */
+	public function changeEditorMode($mode='No Editor')
+	{
+		
+		switch (strtoupper($mode))
+		{
+			case 'NO EDITOR':
+			case 'NONE':
+				$select = 'Editor - None';
+				break;
 
+			case 'CODEMIRROR':
+				$select = 'Editor - CodeMirror';
+
+			case 'TINYMCE':
+			case 'TINY':
+			default:
+				$select = 'Editor - TinyMCE';
+				break;
+		}
+		$this->setFieldValues(array('Default Editor'=>$select));
+		$this->clickButton('Save & Close');						
+	}
 }

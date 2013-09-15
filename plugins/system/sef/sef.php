@@ -36,7 +36,7 @@ class PlgSystemSef extends JPlugin
 
 		$router = $app->getRouter();
 
-		$uri     = JUri::getInstance();
+		$uri     = clone JUri::getInstance();
 		$domain  = $this->params->get('domain');
 
 		if ($domain === null || $domain === '')
@@ -69,7 +69,7 @@ class PlgSystemSef extends JPlugin
 		}
 
 		// Replace src links
-		$base   = JURI::base(true).'/';
+		$base   = JUri::base(true).'/';
 		$buffer = JResponse::getBody();
 
 		$regex  = '#href="index.php\?([^"]*)#m';

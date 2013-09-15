@@ -19,120 +19,160 @@ defined('JPATH_PLATFORM') or die;
 class JUpdate extends JObject
 {
 	/**
+	 * Update manifest <name> element
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $name;
 
 	/**
+	 * Update manifest <description> element
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $description;
 
 	/**
+	 * Update manifest <element> element
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $element;
 
 	/**
+	 * Update manifest <type> element
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $type;
 
 	/**
+	 * Update manifest <version> element
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $version;
 
 	/**
+	 * Update manifest <infourl> element
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $infourl;
 
 	/**
+	 * Update manifest <client> element
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $client;
 
 	/**
+	 * Update manifest <group> element
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $group;
 
 	/**
+	 * Update manifest <downloads> element
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $downloads;
 
 	/**
+	 * Update manifest <tags> element
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $tags;
 
 	/**
+	 * Update manifest <maintainer> element
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $maintainer;
 
 	/**
+	 * Update manifest <maintainerurl> element
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $maintainerurl;
 
 	/**
+	 * Update manifest <category> element
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $category;
 
 	/**
+	 * Update manifest <relationships> element
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $relationships;
 
 	/**
+	 * Update manifest <targetplatform> element
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $targetplatform;
 
 	/**
-	 * @var    string
+	 * Resource handle for the XML Parser
+	 *
+	 * @var    resource
 	 * @since  12.1
 	 */
 	protected $xmlParser;
 
 	/**
+	 * Element call stack
+	 *
 	 * @var    array
 	 * @since  12.1
 	 */
 	protected $stack = array('base');
 
 	/**
+	 * Unused state array
+	 *
 	 * @var    array
 	 * @since  12.1
 	 */
 	protected $stateStore = array();
 
 	/**
+	 * Object containing the current update data
+	 *
 	 * @var    stdClass
 	 * @since  12.1
 	 */
 	protected $currentUpdate;
 
 	/**
+	 * Object containing the latest update data
+	 *
 	 * @var    stdClass
 	 * @since  12.1
 	 */
@@ -223,8 +263,8 @@ class JUpdate extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @note This is public because it is called externally
-	 * @since  11.1
+	 * @note    This is public because it is called externally
+	 * @since   11.1
 	 */
 	public function _endElement($parser, $name)
 	{

@@ -59,7 +59,6 @@ class ContentViewFeatured extends JViewLegacy
 			$item->title		= $title;
 			$item->link			= $link;
 			$item->date			= $row->publish_up;
-			$item_category		= $categories->get($row->catid);
 			$item->category		= array();
 			$item->category[]	= JText::_('JFEATURED'); // All featured articles are categorized as "Featured"
 			for ($item_category = $categories->get($row->catid); $item_category !== null; $item_category = $item_category->getParent())

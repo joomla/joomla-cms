@@ -78,10 +78,10 @@ class DoInstall extends SeleniumJoomlaTestCase
 		$this->jPrint ("Check for site menu\n");
 		$this->assertEquals($cfg->site_name, $this->getText("link=" . $cfg->site_name));
 
-		$this->jPrint ("Change error level to maximum\n");
+		$this->jPrint ("Change error level to value from config\n");
 		$this->jClick('Global Configuration');
 		$this->click("//a[@href='#page-server']");
-		$this->select("jform_error_reporting", "value=maximum");
+		$this->select("jform_error_reporting", "value=" . $cfg->errorReporting);
 		$this->click("//div[@id='toolbar-save']/button");
 		$this->waitForPageToLoad("30000");
 

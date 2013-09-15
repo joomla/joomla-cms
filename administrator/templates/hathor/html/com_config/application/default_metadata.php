@@ -10,17 +10,15 @@
 defined('_JEXEC') or die;
 ?>
 <div class="width-100">
-<fieldset class="adminform long">
-	<legend><?php echo JText::_('COM_CONFIG_METADATA_SETTINGS'); ?></legend>
+	<fieldset class="adminform long">
+		<legend><?php echo JText::_('COM_CONFIG_METADATA_SETTINGS'); ?></legend>
 		<ul class="adminformlist">
-			<?php
-			foreach ($this->form->getFieldset('metadata') as $field):
-			?>
-					<li><?php echo $field->label; ?>
-					<?php echo $field->input; ?></li>
-			<?php
-			endforeach;
-			?>
-			</ul>
-</fieldset>
+			<?php foreach ($this->form->getFieldset('metadata') as $field): ?>
+				<li>
+					<?php echo $field->label; ?>
+					<?php echo $field->input; ?>
+				</li>
+			<?php endforeach; ?>
+		</ul>
+	</fieldset>
 </div>

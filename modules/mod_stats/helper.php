@@ -44,7 +44,7 @@ class ModStatsHelper
 			$i++;
 
 			$rows[$i] = new stdClass;
-			$rows[$i]->title	= JText::_('MOD_STATS_MYSQL');
+			$rows[$i]->title = JText::_($db->name);
 			$rows[$i]->data	= $db->getVersion();
 			$i++;
 
@@ -124,7 +124,6 @@ class ModStatsHelper
 				$rows[$i] = new stdClass;
 				$rows[$i]->title	= JText::_('MOD_STATS_ARTICLES_VIEW_HITS');
 				$rows[$i]->data	= $hits + $increase;
-				$i++;
 			}
 		}
 

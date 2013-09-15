@@ -32,11 +32,6 @@ class TagsHelper
 		$parts = explode('.', $extension);
 		$component = $parts[0];
 
-		if (count($parts) > 1)
-		{
-			$section = $parts[1];
-		}
-
 		// Try to find the component helper.
 		$file = JPath::clean(JPATH_ADMINISTRATOR . '/components/com_tags/helpers/tags.php');
 

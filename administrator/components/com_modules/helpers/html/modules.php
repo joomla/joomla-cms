@@ -127,11 +127,53 @@ abstract class JHtmlModules
 	 *
 	 * @param   integer  $clientId  The client ID
 	 *
-	 * @return  string  The necessary HTML for the widget.
+	 * @return  string  The necessary positions for the widget.
 	 *
 	 * @since   2.5
 	 */
-	public static function positions($clientId)
+
+	public static function positions($clientId, $state = 1, $selectedPosition = '')
+	{
+		require_once JPATH_ADMINISTRATOR . '/components/com_templates/helpers/templates.php';
+		$templates      = array_keys(ModulesHelper::getTemplates($clientId, $state));
+		$templateGroups = array();
+
+		// Add an empty value to be able to deselect a module position
+		$option = ModulesHelper::createOption();
+		$templateGroups[''] = ModulesHelper::createOptionGroup('', array($option));
+
+		// Add positions from templates
+		$isTemplatePosition = false;
+		foreach ($templates as $template)
+		{
+			$options = array();
+
+			$positions = TemplatesHelper::getPositions($clientId, $template);
+			if (is_array($positions)) foreach ($positions as $position)
+			{
+				$text = ModulesHelper::getTranslatedModulePosition($clientId, $template, $position) . ' [' . $position . ']';
+				$options[] = ModulesHelper::createOption($position, $text);
+
+				if (!$isTemplatePosition && $selectedPosition === $position)
+				{
+					$isTemplatePosition = true;
+				}
+			}
+
+			$templateGroups[$template] = ModulesHelper::createOptionGroup(ucfirst($template), $options);
+		}
+
+		// Add custom position to options
+		$customGroupText = JText::_('COM_MODULES_CUSTOM_POSITION');
+
+		$editPositions = true;
+		$customPositions = ModulesHelper::getPositions($clientId, $editPositions);
+		$templateGroups[$customGroupText] = ModulesHelper::createOptionGroup($customGroupText, $customPositions);
+
+		return $templateGroups;
+	}
+
+	public static function batchOptions()
 	{
 		// Create the copy/move options.
 		$options = array(
@@ -139,24 +181,7 @@ abstract class JHtmlModules
 			JHtml::_('select.option', 'm', JText::_('JLIB_HTML_BATCH_MOVE'))
 		);
 
-		// Create the batch selector to change select the category by which to move or copy.
-		$lines = array(
-			'<label id="batch-choose-action-lbl" for="batch-choose-action">',
-			JText::_('COM_MODULES_BATCH_POSITION_LABEL'),
-			'</label>',
-			'<div id="batch-choose-action" class="control-group">',
-			'<select name="batch[position_id]" class="inputbox" id="batch-position-id">',
-			'<option value="">' . JText::_('JSELECT') . '</option>',
-			'<option value="nochange">' . JText::_('COM_MODULES_BATCH_POSITION_NOCHANGE') . '</option>',
-			'<option value="noposition">' . JText::_('COM_MODULES_BATCH_POSITION_NOPOSITION') . '</option>',
-			JHtml::_('select.options',	self::positionList($clientId)),
-			'</select>',
-			'</div>', '<div id="batch-move-copy" class="control-group radio">',
-			JHtml::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'),
-			'</div>'
-		);
-
-		return implode("\n", $lines);
+		echo JHtml::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm');
 	}
 
 	/**

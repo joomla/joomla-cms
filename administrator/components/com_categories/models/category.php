@@ -25,9 +25,32 @@ class CategoriesModelCategory extends JModelAdmin
 	protected $text_prefix = 'COM_CATEGORIES';
 
 	/**
+	 * The type alias for this content type. Used for content version history.
+	 *
+	 * @var      string
+	 * @since    3.2
+	 */
+	public $typeAlias = null;
+
+	/**
+	 * Override parent constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @see     JModelLegacy
+	 * @since   3.2
+	 */
+	public function __construct($config = array())
+	{
+		parent::__construct($config);
+		$extension = JFactory::getApplication()->input->get('extension', 'com_content');
+		$this->typeAlias = $extension . '.category';
+	}
+
+	/**
 	 * Method to test whether a record can be deleted.
 	 *
-	 * @param   object  $record  A record object.
+	 * @param   object   $record  A record object.
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
 	 *
@@ -50,7 +73,7 @@ class CategoriesModelCategory extends JModelAdmin
 	/**
 	 * Method to test whether a record can have its state changed.
 	 *
-	 * @param   object  $record  A record object.
+	 * @param   object   $record  A record object.
 	 *
 	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
 	 *
@@ -133,7 +156,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 *
 	 * @param   integer  $pk  An optional id of the object to get, otherwise the id from the model state is used.
 	 *
-	 * @return  mixed  Category data object on success, false on failure.
+	 * @return  mixed    Category data object on success, false on failure.
 	 *
 	 * @since   1.6
 	 */
@@ -181,14 +204,11 @@ class CategoriesModelCategory extends JModelAdmin
 
 			if (!empty($result->id))
 			{
-				$db = JFactory::getDbo();
 				$result->tags = new JHelperTags;
 				$result->tags->getTagIds($result->id, $result->extension . '.category');
-				$result->metadata['tags'] = $result->tags;
 			}
 		}
 
-		$app = JFactory::getApplication();
 		$assoc = $this->getAssoc();
 		if ($assoc)
 		{
@@ -212,7 +232,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  mixed  A JForm object on success, false on failure
+	 * @return  mixed    A JForm object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -266,7 +286,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 *
 	 * @param   JCategoryTable  $table  Current table instance
 	 *
-	 * @return  array  An array of conditions to add to add to ordering queries.
+	 * @return  array           An array of conditions to add to add to ordering queries.
 	 *
 	 * @since   1.6
 	 */
@@ -300,9 +320,9 @@ class CategoriesModelCategory extends JModelAdmin
 	/**
 	 * Method to preprocess the form.
 	 *
-	 * @param   JForm   $form    A JForm object.
-	 * @param   mixed   $data    The data expected for the form.
-	 * @param   string  $group   The name of the plugin group to import.
+	 * @param   JForm   $form   A JForm object.
+	 * @param   mixed   $data   The data expected for the form.
+	 * @param   string  $group  The name of the plugin group to import.
 	 *
 	 * @return  void
 	 *
@@ -315,9 +335,9 @@ class CategoriesModelCategory extends JModelAdmin
 		jimport('joomla.filesystem.path');
 
 		$lang = JFactory::getLanguage();
-		$extension = $this->getState('category.extension');
 		$component = $this->getState('category.component');
 		$section = $this->getState('category.section');
+		$extension = JFactory::getApplication()->input->get('extension', null);
 
 		// Get the component form if it exists
 		$name = 'category' . ($section ? ('.' . $section) : '');
@@ -372,7 +392,6 @@ class CategoriesModelCategory extends JModelAdmin
 		$form->setFieldAttribute('rules', 'section', $name);
 
 		// Association category items
-		$app = JFactory::getApplication();
 		$assoc = $this->getAssoc();
 		if ($assoc)
 		{
@@ -395,12 +414,13 @@ class CategoriesModelCategory extends JModelAdmin
 					$add = true;
 					$field = $fieldset->addChild('field');
 					$field->addAttribute('name', $tag);
-					$field->addAttribute('type', 'categoryedit');
+					$field->addAttribute('type', 'modal_category');
 					$field->addAttribute('language', $tag);
 					$field->addAttribute('label', $language->title);
 					$field->addAttribute('translate_label', 'false');
-					$option = $field->addChild('option', 'COM_CATEGORIES_ITEM_FIELD_ASSOCIATION_NO_VALUE');
-					$option->addAttribute('value', '');
+					$field->addAttribute('extension', $extension);
+					$field->addAttribute('edit', 'true');
+					$field->addAttribute('clear', 'true');
 				}
 			}
 			if ($add)
@@ -416,7 +436,7 @@ class CategoriesModelCategory extends JModelAdmin
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param   array  $data  The form data.
+	 * @param   array    $data  The form data.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -429,6 +449,11 @@ class CategoriesModelCategory extends JModelAdmin
 		$input = JFactory::getApplication()->input;
 		$pk = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
 		$isNew = true;
+
+		if ((!empty($data['tags']) && $data['tags'][0] != ''))
+		{
+			$table->newTags = $data['tags'];
+		}
 
 		// Include the content plugins for the on save events.
 		JPluginHelper::importPlugin('content');
@@ -491,7 +516,6 @@ class CategoriesModelCategory extends JModelAdmin
 			return false;
 		}
 
-		$app = JFactory::getApplication();
 		$assoc = $this->getAssoc();
 		if ($assoc)
 		{
@@ -539,7 +563,7 @@ class CategoriesModelCategory extends JModelAdmin
 				$query->clear()
 					->insert('#__associations');
 
-				foreach ($associations as $tag => $id)
+				foreach ($associations as $id)
 				{
 					$query->values($id . ',' . $db->quote('com_categories.item') . ',' . $db->quote($key));
 				}
@@ -583,8 +607,8 @@ class CategoriesModelCategory extends JModelAdmin
 	/**
 	 * Method to change the published state of one or more records.
 	 *
-	 * @param   array    &$pks    A list of the primary keys to change.
-	 * @param   integer  $value   The value of the published state.
+	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   integer  $value  The value of the published state.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -660,6 +684,47 @@ class CategoriesModelCategory extends JModelAdmin
 		return true;
 	}
 
+	protected function batchTag($value, $pks, $contexts)
+	{
+		// Set the variables
+		$user = JFactory::getUser();
+		$table = $this->getTable();
+
+		foreach ($pks as $pk)
+		{
+			if ($user->authorise('core.edit', $contexts[$pk]))
+			{
+				$table->reset();
+				$table->load($pk);
+				$tags = array($value);
+
+				/**
+				 * @var  JTableObserverTags  $tagsObserver
+				 */
+				$tagsObserver = $table->getObserverOfClass('JTableObserverTags');
+				$result = $tagsObserver->setNewTags($tags, false);
+
+				if (!$result)
+				{
+					$this->setError($table->getError());
+
+					return false;
+				}
+			}
+			else
+			{
+				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+
+				return false;
+			}
+		}
+
+		// Clean the cache
+		$this->cleanCache();
+
+		return true;
+	}
+
 	/**
 	 * Batch copy categories to a new category.
 	 *
@@ -667,7 +732,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 * @param   array    $pks       An array of row IDs.
 	 * @param   array    $contexts  An array of item contexts.
 	 *
-	 * @return  mixed  An array of new IDs on success, boolean false on failure.
+	 * @return  mixed    An array of new IDs on success, boolean false on failure.
 	 *
 	 * @since   1.6
 	 */
@@ -1018,7 +1083,7 @@ class CategoriesModelCategory extends JModelAdmin
 	 * @param   string   $alias      The alias.
 	 * @param   string   $title      The title.
 	 *
-	 * @return  array  Contains the modified title and alias.
+	 * @return  array    Contains the modified title and alias.
 	 *
 	 * @since   1.7
 	 */

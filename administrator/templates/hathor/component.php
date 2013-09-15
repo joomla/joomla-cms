@@ -66,7 +66,7 @@ $doc->addScript('templates/'.$this->template.'/js/template.js', 'text/javascript
 // Logo file
 if ($this->params->get('logoFile'))
 {
-	$logo = JURI::root() . $this->params->get('logoFile');
+	$logo = JUri::root() . $this->params->get('logoFile');
 }
 else
 {

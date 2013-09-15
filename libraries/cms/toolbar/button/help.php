@@ -38,17 +38,15 @@ class JToolbarButtonHelp extends JToolbarButton
 	 */
 	public function fetchButton($type = 'Help', $ref = '', $com = false, $override = null, $component = null)
 	{
-		$text = JText::_('JTOOLBAR_HELP');
-		$class = 'question-sign';
-		$doTask = $this->_getCommand($ref, $com, $override, $component);
+		// Store all data to the options array for use with JLayout
+		$options = array();
+		$options['text']   = JText::_('JTOOLBAR_HELP');
+		$options['doTask'] = $this->_getCommand($ref, $com, $override, $component);
 
-		$html = "<button onclick=\"$doTask\" rel=\"help\" class=\"btn btn-small\">\n";
-		$html .= "<i class=\"icon-$class\">\n";
-		$html .= "</i>\n";
-		$html .= "$text\n";
-		$html .= "</button>\n";
+		// Instantiate a new JLayoutFile instance and render the layout
+		$layout = new JLayoutFile('joomla.toolbar.help');
 
-		return $html;
+		return $layout->render($options);
 	}
 
 	/**
@@ -62,7 +60,7 @@ class JToolbarButtonHelp extends JToolbarButton
 	 */
 	public function fetchId()
 	{
-		return $this->_parent->getName() . '-' . "help";
+		return $this->_parent->getName() . '-help';
 	}
 
 	/**

@@ -2,7 +2,7 @@
 <metadata>
 	<layout title="com_tags_tag_view_list_compact_title" option="com_tags_tag_view_list_compact_option">
 		<help
-			key="JHELP_MENUS_MENU_ITEM_TAG"
+			key="JHELP_MENUS_MENU_ITEM_TAGS_ITEMS_COMPACT_LIST"
 		/>
 		<message>
 			<![CDATA[com_tags_tag_view_list_desc]]>
@@ -186,7 +186,7 @@
 				description="JGLOBAL_FILTER_FIELD_DESC"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="hide">JHIDE</option>
+				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 

@@ -46,9 +46,6 @@ class TagsControllerTag extends JControllerForm
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
-		$user = JFactory::getUser();
-		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
-
 		// Since there is no asset tracking and no categories, revert to the component permissions.
 		return parent::allowEdit($data, $key);
 

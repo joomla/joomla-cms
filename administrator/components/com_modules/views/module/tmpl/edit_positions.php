@@ -14,49 +14,21 @@ require_once JPATH_ADMINISTRATOR . '/components/com_templates/helpers/templates.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 $clientId       = $this->item->client_id;
 $state          = 1;
-$templates      = array_keys(ModulesHelper::getTemplates($clientId, $state));
-$templateGroups = array();
+$selectedPosition = $this->item->position;
+$positions = JHtml::_('modules.positions', $clientId, $state, $selectedPosition);
 
-// Add an empty value to be able to deselect a module position
-$option = ModulesHelper::createOption();
-$templateGroups[''] = ModulesHelper::createOptionGroup('', array($option));
-
-// Add positions from templates
-$isTemplatePosition = false;
-foreach ($templates as $template)
-{
-	$options = array();
-
-	$positions = TemplatesHelper::getPositions($clientId, $template);
-	if (is_array($positions)) foreach ($positions as $position)
-	{
-		$text = ModulesHelper::getTranslatedModulePosition($clientId, $template, $position) . ' [' . $position . ']';
-		$options[] = ModulesHelper::createOption($position, $text);
-
-		if (!$isTemplatePosition && $this->item->position === $position)
-		{
-			$isTemplatePosition = true;
-		}
-	}
-
-	$templateGroups[$template] = ModulesHelper::createOptionGroup(ucfirst($template), $options);
-}
 
 // Add custom position to options
 $customGroupText = JText::_('COM_MODULES_CUSTOM_POSITION');
-
-$editPositions = true;
-$customPositions = ModulesHelper::getPositions($clientId, $editPositions);
-$templateGroups[$customGroupText] = ModulesHelper::createOptionGroup($customGroupText, $customPositions);
 
 // Build field
 $attr = array(
 	'id'          => 'jform_position',
 	'list.select' => $this->item->position,
 	'list.attr'   => 'class="chzn-custom-value input-xlarge" '
-		. 'data-custom_group_text="' . $customGroupText . '" '
-		. 'data-no_results_text="' . JText::_('COM_MODULES_ADD_CUSTOM_POSITION') . '" '
-		. 'data-placeholder="' . JText::_('COM_MODULES_TYPE_OR_SELECT_POSITION') . '" '
+	. 'data-custom_group_text="' . $customGroupText . '" '
+	. 'data-no_results_text="' . JText::_('COM_MODULES_ADD_CUSTOM_POSITION') . '" '
+	. 'data-placeholder="' . JText::_('COM_MODULES_TYPE_OR_SELECT_POSITION') . '" '
 );
 
-echo JHtml::_('select.groupedlist', $templateGroups, 'jform[position]', $attr);
+echo JHtml::_('select.groupedlist', $positions, 'jform[position]', $attr);

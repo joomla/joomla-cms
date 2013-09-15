@@ -119,6 +119,7 @@ class LanguagesModelOverride extends JModelAdmin
 	{
 		$app = JFactory::getApplication();
 		require_once JPATH_COMPONENT.'/helpers/languages.php';
+		jimport('joomla.filesystem.file');
 
 		$client		= $app->getUserState('com_languages.overrides.filter.client', 0);
 		$language	= $app->getUserState('com_languages.overrides.filter.language', 'en-GB');
@@ -165,8 +166,9 @@ class LanguagesModelOverride extends JModelAdmin
 		// Write override.ini file with the strings
 		$registry = new JRegistry;
 		$registry->loadObject($strings);
+		$reg = $registry->toString('INI');
 
-		if (!JFile::write($filename, $registry->toString('INI')))
+		if (!JFile::write($filename, $reg))
 		{
 			return false;
 		}

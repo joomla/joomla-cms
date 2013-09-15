@@ -172,11 +172,6 @@ class JUpdater extends JAdapter
 						}
 					}
 				}
-				$update_result = true;
-			}
-			elseif ($retval)
-			{
-				$update_result = true;
 			}
 
 			// Finally, update the last update check timestamp

@@ -54,7 +54,6 @@ class MenusViewMenu extends JViewLegacy
 		$input = JFactory::getApplication()->input;
 		$input->set('hidemainmenu', true);
 
-		$user  = JFactory::getUser();
 		$isNew = ($this->item->id == 0);
 		$canDo = MenusHelper::getActions($this->state->get('filter.parent_id'));
 
