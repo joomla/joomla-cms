@@ -180,7 +180,7 @@ class JGooglecloudstorageBucketsPut extends JGooglecloudstorageBuckets
 	{
 		$content = "<CorsConfig>\n";
 
-		// foreach Cors
+		// Foreach Cors
 		foreach ($corsConfig as $cors)
 		{
 			$content .= "<Cors>\n";
@@ -239,6 +239,89 @@ class JGooglecloudstorageBucketsPut extends JGooglecloudstorageBuckets
 		{
 			$headers["Content-Type"] = "application/x-www-form-urlencoded; charset=utf-8";
 			$content = $this->createCorsXml($cors);
+		}
+
+		$headers["Content-Length"] = strlen($content);
+		$authorization = $this->getAuthorization(
+			$this->options->get("api.oauth.scope.full-control")
+		);
+		$headers["Authorization"] = $authorization;
+
+		// Send the http request
+		$response = $this->client->put($url, $content, $headers);
+
+		// Process the response
+		return $this->processResponse($response);
+	}
+
+	/**
+	 * Creates the XML which will be sent in a put request with the lifecycle query parameter
+	 *
+	 * @param   string  $lifecycle  An array containing the lifecycle configuration
+	 *
+	 * @return string The XML
+	 */
+	public function createLifecycleXml($lifecycle)
+	{
+		$content = "<LifecycleConfiguration>\n";
+
+		foreach ($lifecycle as $rule)
+		{
+			$content .= "<Rule>\n";
+
+			foreach ($rule as $ruleKey => $ruleValue)
+			{
+				if (strcmp($ruleKey, "Action") === 0)
+				{
+					$content .= "<Action><" . $ruleValue . "/></Action>\n";
+				}
+				else
+				{
+					$content .= "<" . $ruleKey . ">\n";
+
+					foreach ($ruleValue as $condition => $conditionValue)
+					{
+						$content .= "<" . $condition . ">" . $conditionValue . "</" . $condition . ">\n";
+					}
+
+					$content .= "</" . $ruleKey . ">\n";
+				}
+			}
+
+			$content .= "</Rule>\n";
+		}
+
+		$content .= "</LifecycleConfiguration>";
+
+		return $content;
+	}
+
+	/**
+	 * Creates the request for setting the lifecycle configuration on an existing bucket
+	 *
+	 * @param   string  $bucket     The bucket name
+	 * @param   string  $lifecycle  An array containing the CORS configuration
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function putBucketLifecycle($bucket, $lifecycle = null)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?lifecycle";
+		$content = "";
+		$headers = array(
+			"Host" => $bucket . "." . $this->options->get("api.url"),
+			"Date" => date("D, d M Y H:i:s O"),
+			"x-goog-api-version" => 2,
+			"x-goog-project-id" => $this->options->get("project.id"),
+		);
+
+		// Check for lifecycle configuration
+		if (is_array($lifecycle))
+		{
+			$headers["Content-Type"] = "application/x-www-form-urlencoded; charset=utf-8";
+			$content = $this->createLifecycleXml($lifecycle);
 		}
 
 		$headers["Content-Length"] = strlen($content);
