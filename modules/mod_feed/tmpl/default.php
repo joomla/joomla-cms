@@ -61,18 +61,16 @@ else
 		if (!is_null($feed->title) && $params->get('rsstitle', 1))
 		{
 			?>
-					<h2 class="<?php echo $direction; ?>">
-						<a href="<?php echo str_replace('&', '&amp', $feed->link); ?>" target="_blank">
-						<?php echo $feed->title; ?></a>
-					</h2>
+			<h2 class="<?php echo $direction; ?>">
+				<a href="<?php echo str_replace('&', '&amp', $feed->link); ?>" target="_blank">
+				<?php echo $feed->title; ?></a>
+			</h2>
 			<?php
 		}
 		// feed description
 		if ($params->get('rssdesc', 1))
 		{
-		?>
-			<?php echo $feed->description; ?>
-			<?php
+			echo $feed->description;
 		}
 		// feed image
 		if ($params->get('rssimage', 1) && $iUrl) :
@@ -81,11 +79,12 @@ else
 
 		<?php endif; ?>
 
+<?php
+		if (!empty($feed))
+		{ ?>
 			<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?>">
 			<!-- Show items -->
 <?php
-		if (!empty($feed))
-		{
 			for  ($i = 0; $i < $params->get('rssitems', 5); $i++)
 			{
 				if( !$feed->offsetExists($i)) {
