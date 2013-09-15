@@ -24,440 +24,452 @@ $input = JFactory::getApplication()->input;
 
 if($this->type == 'image')
 {
-    $doc = JFactory::getDocument();
-    $doc->addScript(JUri::root() . 'media/system/js/jquery.Jcrop.min.js');
-    $doc->addStyleSheet(JUri::root() . 'media/system/css/jquery.Jcrop.min.css');
+	$doc = JFactory::getDocument();
+	$doc->addScript(JUri::root() . 'media/system/js/jquery.Jcrop.min.js');
+	$doc->addStyleSheet(JUri::root() . 'media/system/css/jquery.Jcrop.min.css');
 
 }
 ?>
 <script type="text/javascript">
 	jQuery(document).ready(function($){
 
-        // Hide all the folder when the page loads
+		// Hide all the folder when the page loads
 		$('.folder ul').hide();
 
-        // Show all the lists in the path of an open file
+		// Show all the lists in the path of an open file
 		$('.show > ul').show();
 
-        // Stop the default action of anchor tag on a click event
+		// Stop the default action of anchor tag on a click event
 		$('.folder-url').click(function(event){
 			event.preventDefault();
 		});
 
-        // Prevent the click event from proliferating
-        $('.file').bind('click',function(e){
-            e.stopPropagation();
-        });
-
-        // Toggle the child indented list on a click event
-		$('.folder').bind('click',function(e){
-			$(this).children('ul').toggle();
-            e.stopPropagation();
+		// Prevent the click event from proliferating
+		$('.file').bind('click',function(e){
+			e.stopPropagation();
 		});
 
-        // New file tree
-        $('#fileModal .folder-url').bind('click',function(e){
-            $('.folder-url').removeClass('selected');
-            e.stopPropagation();
-            $('#fileModal input.address').val($(this).attr('data-id'));
-            $(this).addClass('selected');
-        });
+		// Toggle the child indented list on a click event
+		$('.folder').bind('click',function(e){
+			$(this).children('ul').toggle();
+			e.stopPropagation();
+		});
 
-        // Folder manager tree
-        $('#folderModal .folder-url').bind('click',function(e){
-            $('.folder-url').removeClass('selected');
-            e.stopPropagation();
-            $('#folderModal input.address').val($(this).attr('data-id'));
-            $(this).addClass('selected');
-        });
+		// New file tree
+		$('#fileModal .folder-url').bind('click',function(e){
+			$('.folder-url').removeClass('selected');
+			e.stopPropagation();
+			$('#fileModal input.address').val($(this).attr('data-id'));
+			$(this).addClass('selected');
+		});
 
-        <?php if($this->type == 'image'): ?>
-            var jcrop_api;
+		// Folder manager tree
+		$('#folderModal .folder-url').bind('click',function(e){
+			$('.folder-url').removeClass('selected');
+			e.stopPropagation();
+			$('#folderModal input.address').val($(this).attr('data-id'));
+			$(this).addClass('selected');
+		});
 
-            // Configuration for image cropping
-            $('#image-crop').Jcrop({
-                onChange:   showCoords,
-                onSelect:   showCoords,
-                onRelease:  clearCoords,
-                trueSize:   [<?php echo $this->image['width']; ?>,<?php echo $this->image['height']; ?>]
-            },function(){
-                jcrop_api = this;
-            });
+		<?php if($this->type == 'image'): ?>
+			var jcrop_api;
 
-            // Function for calculating the crop coordinates
-            function showCoords(c)
-            {
-                $('#x').val(c.x);
-                $('#y').val(c.y);
-                $('#w').val(c.w);
-                $('#h').val(c.h);
-            };
+			// Configuration for image cropping
+			$('#image-crop').Jcrop({
+				onChange:   showCoords,
+				onSelect:   showCoords,
+				onRelease:  clearCoords,
+				trueSize:   [<?php echo $this->image['width']; ?>,<?php echo $this->image['height']; ?>]
+			},function(){
+				jcrop_api = this;
+			});
 
-            // Function for clearing the coordinates
-            function clearCoords()
-            {
-                $('#adminForm input').val('');
-            };
+			// Function for calculating the crop coordinates
+			function showCoords(c)
+			{
+				$('#x').val(c.x);
+				$('#y').val(c.y);
+				$('#w').val(c.w);
+				$('#h').val(c.h);
+			};
 
-        <?php endif; ?>
+			// Function for clearing the coordinates
+			function clearCoords()
+			{
+				$('#adminForm input').val('');
+			};
 
-    });
+		<?php endif; ?>
+
+	});
 </script>
 <style>
 
-    /* Styles for modals */
-    .selected{
-        background: #08c;
-        color: #fff;
-    }
-    .selected:hover{
-        background: #08c !important;
-        color: #fff;
-    }
-    .modal-body .column {
-        width: 50%; float: left;
-    }
-    #deleteFolder{
-        margin: 0;
-    }
+	/* Styles for modals */
+	.selected{
+		background: #08c;
+		color: #fff;
+	}
+	.selected:hover{
+		background: #08c !important;
+		color: #fff;
+	}
+	.modal-body .column {
+		width: 50%; float: left;
+	}
+	#deleteFolder{
+		margin: 0;
+	}
+
+	#image-crop{
+		max-width: 100%;
+		width: auto;
+		height: auto;
+	}
+
+	@-moz-document url-prefix() {
+	  #image-crop {
+		width: 100%;
+	  }
+	}
 
 <?php if($this->type == 'font'): ?>
 
-    /* Styles for font preview */
-    @font-face
-    {
-        font-family: previewFont;
-        src: url('<?php echo $this->font['address'] ?>')
-    }
+	/* Styles for font preview */
+	@font-face
+	{
+		font-family: previewFont;
+		src: url('<?php echo $this->font['address'] ?>')
+	}
 
-    .font-preview{
-        font-family: previewFont !important;
-    }
+	.font-preview{
+		font-family: previewFont !important;
+	}
 
 <?php endif; ?>
 
 </style>
 <?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'editor')); ?>
-    <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'editor', JText::_('COM_TEMPLATES_TAB_EDITOR', true)); ?>
-        <div class="row-fluid">
-            <div class="span12">
-                <?php if($this->type == 'file'): ?>
-                    <p class="well well-small lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></p>
-                <?php endif; ?>
-                <?php if($this->type == 'image'): ?>
-                    <p class="well well-small lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->image['address'], $this->template->element); ?></p>
-                <?php endif; ?>
-                <?php if($this->type == 'font'): ?>
-                    <p class="well well-small lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->font['address'], $this->template->element); ?></p>
-                <?php endif; ?>
-            </div>
-        </div>
-        <div class="row-fluid">
-            <div class="span3">
-                <?php echo $this->loadTemplate('tree');?>
-            </div>
-            <div class="span9">
-                <?php if($this->type == 'file'): ?>
-                    <form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
+	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'editor', JText::_('COM_TEMPLATES_TAB_EDITOR', true)); ?>
+		<div class="row-fluid">
+			<div class="span12">
+				<?php if($this->type == 'file'): ?>
+					<p class="well well-small lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></p>
+				<?php endif; ?>
+				<?php if($this->type == 'image'): ?>
+					<p class="well well-small lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->image['address'], $this->template->element); ?></p>
+				<?php endif; ?>
+				<?php if($this->type == 'font'): ?>
+					<p class="well well-small lead"><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->font['address'], $this->template->element); ?></p>
+				<?php endif; ?>
+			</div>
+		</div>
+		<div class="row-fluid">
+			<div class="span3">
+				<?php echo $this->loadTemplate('tree');?>
+			</div>
+			<div class="span9">
+				<?php if($this->type == 'file'): ?>
+					<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
 
-                        <p class="label"><?php echo JText::_('COM_TEMPLATES_TOGGLE_FULL_SCREEN'); ?></p>
-                        <div class="clr"></div>
-                        <div class="editor-border">
-                            <?php echo $this->form->getInput('source'); ?>
-                        </div>
-                        <input type="hidden" name="task" value="" />
-                        <?php echo JHtml::_('form.token'); ?>
-                        <?php echo $this->form->getInput('extension_id'); ?>
-                        <?php echo $this->form->getInput('filename'); ?>
+						<p class="label"><?php echo JText::_('COM_TEMPLATES_TOGGLE_FULL_SCREEN'); ?></p>
+						<div class="clr"></div>
+						<div class="editor-border">
+							<?php echo $this->form->getInput('source'); ?>
+						</div>
+						<input type="hidden" name="task" value="" />
+						<?php echo JHtml::_('form.token'); ?>
+						<?php echo $this->form->getInput('extension_id'); ?>
+						<?php echo $this->form->getInput('filename'); ?>
 
-                    </form>
-                <?php endif; ?>
-                <?php if($this->type == 'image'): ?>
-                    <form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
-                        <fieldset class="adminform">
-                            <img id="image-crop" src="<?php echo $this->image['address'] . '?' . time(); ?>" />
-                            <input type ="hidden" id="x" name="x" />
-                            <input type ="hidden" id="y" name="y" />
-                            <input type ="hidden" id="h" name="h" />
-                            <input type ="hidden" id="w" name="w" />
-                            <input type="hidden" name="task" value="" />
-                            <?php echo JHtml::_('form.token'); ?>
-                        </fieldset>
-                    </form>
-                <?php endif; ?>
-                <?php if($this->type == 'font'): ?>
-                    <div class="font-preview">
-                        <form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
-                            <fieldset class="adminform">
-                                <p class="lead">H1</p><h1>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h1>
-                                <p class="lead">H2</p><h2>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h2>
-                                <p class="lead">H3</p><h3>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h3>
-                                <p class="lead">H4</p><h4>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h4>
-                                <p class="lead">H5</p><h5>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h5>
-                                <p class="lead">H6</p> <h6>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h6>
-                                <p class="lead">Bold</p><b>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </b>
-                                <p class="lead">Italics</p><i>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </i>
-                                <p class="lead">Unordered List</p>
-                                <ul>
-                                    <li>Item</li>
-                                    <li>Item</li>
-                                    <li>Item<br />
-                                        <ul>
-                                            <li>Item</li>
-                                            <li>Item</li>
-                                            <li>Item<br />
-                                                <ul>
-                                                    <li>Item</li>
-                                                    <li>Item</li>
-                                                    <li>Item</li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                                <p class="lead">Ordered List</p>
-                                <ol>
-                                    <li>Item</li>
-                                    <li>Item</li>
-                                    <li>Item<br />
-                                        <ul>
-                                            <li>Item</li>
-                                            <li>Item</li>
-                                            <li>Item<br />
-                                                <ul>
-                                                    <li>Item</li>
-                                                    <li>Item</li>
-                                                    <li>Item</li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ol>
-                                <input type="hidden" name="task" value="" />
-                                <?php echo JHtml::_('form.token'); ?>
-                            </fieldset>
-                        </form>
-                    </div>
-                <?php endif; ?>
-            </div>
-        </div>
-    <?php echo JHtml::_('bootstrap.endTab'); ?>
+					</form>
+				<?php endif; ?>
+				<?php if($this->type == 'image'): ?>
+					<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
+						<fieldset class="adminform">
+							<img id="image-crop" src="<?php echo $this->image['address'] . '?' . time(); ?>" />
+							<input type ="hidden" id="x" name="x" />
+							<input type ="hidden" id="y" name="y" />
+							<input type ="hidden" id="h" name="h" />
+							<input type ="hidden" id="w" name="w" />
+							<input type="hidden" name="task" value="" />
+							<?php echo JHtml::_('form.token'); ?>
+						</fieldset>
+					</form>
+				<?php endif; ?>
+				<?php if($this->type == 'font'): ?>
+					<div class="font-preview">
+						<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
+							<fieldset class="adminform">
+								<p class="lead">H1</p><h1>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h1>
+								<p class="lead">H2</p><h2>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h2>
+								<p class="lead">H3</p><h3>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h3>
+								<p class="lead">H4</p><h4>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h4>
+								<p class="lead">H5</p><h5>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h5>
+								<p class="lead">H6</p> <h6>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </h6>
+								<p class="lead">Bold</p><b>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </b>
+								<p class="lead">Italics</p><i>Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML </i>
+								<p class="lead">Unordered List</p>
+								<ul>
+									<li>Item</li>
+									<li>Item</li>
+									<li>Item<br />
+										<ul>
+											<li>Item</li>
+											<li>Item</li>
+											<li>Item<br />
+												<ul>
+													<li>Item</li>
+													<li>Item</li>
+													<li>Item</li>
+												</ul>
+											</li>
+										</ul>
+									</li>
+								</ul>
+								<p class="lead">Ordered List</p>
+								<ol>
+									<li>Item</li>
+									<li>Item</li>
+									<li>Item<br />
+										<ul>
+											<li>Item</li>
+											<li>Item</li>
+											<li>Item<br />
+												<ul>
+													<li>Item</li>
+													<li>Item</li>
+													<li>Item</li>
+												</ul>
+											</li>
+										</ul>
+									</li>
+								</ol>
+								<input type="hidden" name="task" value="" />
+								<?php echo JHtml::_('form.token'); ?>
+							</fieldset>
+						</form>
+					</div>
+				<?php endif; ?>
+			</div>
+		</div>
+	<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-    <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'overrides', JText::_('COM_TEMPLATES_TAB_OVERRIDES', true)); ?>
-        <div class="row-fluid">
-            <div class="span4">
-                <legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_MODULES');?></legend>
-                <ul class="nav nav-list">
-                    <?php foreach($this->overridesList['modules'] as $module): ?>
-                        <li>
-                            <a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $module->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
-                                <i class="icon-copy"></i>&nbsp;<?php echo $module->name; ?>
-                            </a>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
-            <div class="span4">
-                <legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_COMPONENTS');?></legend>
-                <ul class="nav nav-list">
-                    <?php foreach($this->overridesList['components'] as $component): ?>
-                        <li>
-                            <a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $component->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
-                                <i class="icon-copy"></i>&nbsp;<?php echo $component->name; ?>
-                            </a>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
-            <div class="span4">
-                <legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_LAYOUTS');?></legend>
-                <ul class="nav nav-list">
-                    <?php foreach($this->overridesList['layouts'] as $layout): ?>
-                        <li>
-                            <a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $layout->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
-                                <i class="icon-copy"></i>&nbsp;<?php echo $layout->name; ?>
-                            </a>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
-        </div>
-    <?php echo JHtml::_('bootstrap.endTab'); ?>
-    <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('COM_TEMPLATES_TAB_DESCRIPTION', true)); ?>
-        <div class="pull-left">
-            <?php echo JHtml::_('templates.thumb', $this->template->element, $this->template->client_id); ?>
-        </div>
-        <h2><?php echo ucfirst($this->template->element); ?></h2>
-        <?php $client = JApplicationHelper::getClientInfo($this->template->client_id); ?>
-        <p><?php $this->template->xmldata = TemplatesHelper::parseXMLTemplateFile($client->path, $this->template->element);?></p>
-        <p><?php  echo JText::_($this->template->xmldata->description); ?></p>
-    <?php echo JHtml::_('bootstrap.endTab'); ?>
+	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'overrides', JText::_('COM_TEMPLATES_TAB_OVERRIDES', true)); ?>
+		<div class="row-fluid">
+			<div class="span4">
+				<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_MODULES');?></legend>
+				<ul class="nav nav-list">
+					<?php foreach($this->overridesList['modules'] as $module): ?>
+						<li>
+							<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $module->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
+								<i class="icon-copy"></i>&nbsp;<?php echo $module->name; ?>
+							</a>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+			</div>
+			<div class="span4">
+				<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_COMPONENTS');?></legend>
+				<ul class="nav nav-list">
+					<?php foreach($this->overridesList['components'] as $component): ?>
+						<li>
+							<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $component->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
+								<i class="icon-copy"></i>&nbsp;<?php echo $component->name; ?>
+							</a>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+			</div>
+			<div class="span4">
+				<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_LAYOUTS');?></legend>
+				<ul class="nav nav-list">
+					<?php foreach($this->overridesList['layouts'] as $layout): ?>
+						<li>
+							<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $layout->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
+								<i class="icon-copy"></i>&nbsp;<?php echo $layout->name; ?>
+							</a>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+			</div>
+		</div>
+	<?php echo JHtml::_('bootstrap.endTab'); ?>
+	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('COM_TEMPLATES_TAB_DESCRIPTION', true)); ?>
+		<div class="pull-left">
+			<?php echo JHtml::_('templates.thumb', $this->template->element, $this->template->client_id); ?>
+		</div>
+		<h2><?php echo ucfirst($this->template->element); ?></h2>
+		<?php $client = JApplicationHelper::getClientInfo($this->template->client_id); ?>
+		<p><?php $this->template->xmldata = TemplatesHelper::parseXMLTemplateFile($client->path, $this->template->element);?></p>
+		<p><?php  echo JText::_($this->template->xmldata->description); ?></p>
+	<?php echo JHtml::_('bootstrap.endTab'); ?>
 <?php echo JHtml::_('bootstrap.endTabSet'); ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.copy&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
 			method="post" name="adminForm" id="adminForm">
-    <div  id="collapseModal" class="modal hide fade">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h3><?php echo JText::_('COM_TEMPLATES_TEMPLATE_COPY');?></h3>
-        </div>
-        <div class="modal-body">
-            <div id="template-manager-css" class="form-horizontal">
-                <div class="control-group">
-                    <label for="new_name" class="control-label hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_TEMPLATE_NEW_NAME_DESC'); ?>"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_LABEL')?></label>
-                    <div class="controls">
-                        <input class="input-xlarge" type="text" id="new_name" name="new_name"  />
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <a href="#" class="btn" data-dismiss="modal">Close</a>
-            <button class="btn btn-primary" type="submit"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_COPY'); ?></button>
-        </div>
+	<div  id="collapseModal" class="modal hide fade">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3><?php echo JText::_('COM_TEMPLATES_TEMPLATE_COPY');?></h3>
+		</div>
+		<div class="modal-body">
+			<div id="template-manager-css" class="form-horizontal">
+				<div class="control-group">
+					<label for="new_name" class="control-label hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_TEMPLATE_NEW_NAME_DESC'); ?>"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_LABEL')?></label>
+					<div class="controls">
+						<input class="input-xlarge" type="text" id="new_name" name="new_name"  />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn" data-dismiss="modal">Close</a>
+			<button class="btn btn-primary" type="submit"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_COPY'); ?></button>
+		</div>
 	</div>
 	<?php echo JHtml::_('form.token'); ?>
 </form>
 <form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.renameFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
-      method="post" >
-    <div  id="renameModal" class="modal hide fade">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h3><?php echo JText::sprintf('COM_TEMPLATES_RENAME_FILE', $this->fileName); ?></h3>
-        </div>
-        <div class="modal-body">
-            <div id="template-manager-css" class="form-horizontal">
-                <div class="control-group">
-                    <label for="new_name" class="control-label hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_TEMPLATES_NEW_FILE_NAME')); ?>"><?php echo JText::_('COM_TEMPLATES_NEW_FILE_NAME')?></label>
-                    <div class="controls">
-                        <input class="input-xlarge" type="text" name="new_name" required />
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <a href="#" class="btn" data-dismiss="modal">Close</a>
-            <button class="btn btn-primary" type="submit"><?php echo JText::_('COM_TEMPLATES_BUTTON_RENAME'); ?></button>
-        </div>
-    </div>
-    <?php echo JHtml::_('form.token'); ?>
+	  method="post" >
+	<div  id="renameModal" class="modal hide fade">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3><?php echo JText::sprintf('COM_TEMPLATES_RENAME_FILE', $this->fileName); ?></h3>
+		</div>
+		<div class="modal-body">
+			<div id="template-manager-css" class="form-horizontal">
+				<div class="control-group">
+					<label for="new_name" class="control-label hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_TEMPLATES_NEW_FILE_NAME')); ?>"><?php echo JText::_('COM_TEMPLATES_NEW_FILE_NAME')?></label>
+					<div class="controls">
+						<input class="input-xlarge" type="text" name="new_name" required />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn" data-dismiss="modal">Close</a>
+			<button class="btn btn-primary" type="submit"><?php echo JText::_('COM_TEMPLATES_BUTTON_RENAME'); ?></button>
+		</div>
+	</div>
+	<?php echo JHtml::_('form.token'); ?>
 </form>
 <div  id="deleteModal" class="modal hide fade">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3><?php echo JText::_('COM_TEMPLATES_ARE_YOU_SURE');?></h3>
-    </div>
-    <div class="modal-body">
-        <p><?php echo JText::sprintf('COM_TEMPLATES_MODAL_FILE_DELETE', $this->fileName); ?></p>
-    </div>
-    <div class="modal-footer">
-        <a href="#" class="btn" data-dismiss="modal">Close</a>
-        <a href="<?php echo JRoute::_('index.php?option=com_templates&task=template.delete&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" class="btn btn-danger"><?php echo JText::_('COM_TEMPLATES_BUTTON_DELETE');?></a>
-    </div>
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h3><?php echo JText::_('COM_TEMPLATES_ARE_YOU_SURE');?></h3>
+	</div>
+	<div class="modal-body">
+		<p><?php echo JText::sprintf('COM_TEMPLATES_MODAL_FILE_DELETE', $this->fileName); ?></p>
+	</div>
+	<div class="modal-footer">
+		<a href="#" class="btn" data-dismiss="modal">Close</a>
+		<a href="<?php echo JRoute::_('index.php?option=com_templates&task=template.delete&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" class="btn btn-danger"><?php echo JText::_('COM_TEMPLATES_BUTTON_DELETE');?></a>
+	</div>
 </div>
 
 <div  id="fileModal" class="modal hide fade">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3><?php echo JText::_('COM_TEMPLATES_NEW_FILE_HEADER');?></h3>
-    </div>
-    <div class="modal-body">
-        <div class="column">
-            <form method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.createFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
-                class="well" >
-                <fieldset>
-                    <label><?php echo JText::_('COM_TEMPLATES_NEW_FILE_TYPE');?></label>
-                    <select name="type" required >
-                        <option>- <?php echo JText::_('COM_TEMPLATES_NEW_FILE_SELECT');?> -</option>
-                        <option value="css">css</option>
-                        <option value="php">php</option>
-                        <option value="js">js</option>
-                        <option value="xml">xml</option>
-                        <option value="ini">ini</option>
-                        <option value="less">less</option>
-                    </select>
-                    <label><?php echo JText::_('COM_TEMPLATES_FILE_NAME');?></label>
-                    <input type="text" name="name" required />
-                    <input type="hidden" class="address" name="address" />
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h3><?php echo JText::_('COM_TEMPLATES_NEW_FILE_HEADER');?></h3>
+	</div>
+	<div class="modal-body">
+		<div class="column">
+			<form method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.createFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
+				class="well" >
+				<fieldset>
+					<label><?php echo JText::_('COM_TEMPLATES_NEW_FILE_TYPE');?></label>
+					<select name="type" required >
+						<option>- <?php echo JText::_('COM_TEMPLATES_NEW_FILE_SELECT');?> -</option>
+						<option value="css">css</option>
+						<option value="php">php</option>
+						<option value="js">js</option>
+						<option value="xml">xml</option>
+						<option value="ini">ini</option>
+						<option value="less">less</option>
+					</select>
+					<label><?php echo JText::_('COM_TEMPLATES_FILE_NAME');?></label>
+					<input type="text" name="name" required />
+					<input type="hidden" class="address" name="address" />
 
-                    <input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_CREATE');?>" class="btn btn-primary" />
-                </fieldset>
-            </form>
-            <form method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.uploadFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
-                class="well" enctype="multipart/form-data" >
-                <fieldset>
-                    <input type="hidden" class="address" name="address" />
-                    <input type="file" name="files" required />
-                    <input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_UPLOAD');?>" class="btn btn-primary" />
-                </fieldset>
-            </form>
-        </div>
-        <div class="column">
-            <?php echo $this->loadTemplate('folders');?>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <a href="#" class="btn" data-dismiss="modal">Close</a>
-    </div>
+					<input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_CREATE');?>" class="btn btn-primary" />
+				</fieldset>
+			</form>
+			<form method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.uploadFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
+				class="well" enctype="multipart/form-data" >
+				<fieldset>
+					<input type="hidden" class="address" name="address" />
+					<input type="file" name="files" required />
+					<input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_UPLOAD');?>" class="btn btn-primary" />
+				</fieldset>
+			</form>
+		</div>
+		<div class="column">
+			<?php echo $this->loadTemplate('folders');?>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<a href="#" class="btn" data-dismiss="modal">Close</a>
+	</div>
 </div>
 <div  id="folderModal" class="modal hide fade">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3><?php echo JText::_('COM_TEMPLATES_MANAGE_FOLDERS');?></h3>
-    </div>
-    <div class="modal-body">
-        <div class="column">
-            <form method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.createFolder&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
-                  class="well" >
-                <fieldset>
-                    <label><?php echo JText::_('COM_TEMPLATES_FOLDER_NAME');?></label>
-                    <input type="text" name="name" required />
-                    <input type="hidden" class="address" name="address" />
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h3><?php echo JText::_('COM_TEMPLATES_MANAGE_FOLDERS');?></h3>
+	</div>
+	<div class="modal-body">
+		<div class="column">
+			<form method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.createFolder&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
+				  class="well" >
+				<fieldset>
+					<label><?php echo JText::_('COM_TEMPLATES_FOLDER_NAME');?></label>
+					<input type="text" name="name" required />
+					<input type="hidden" class="address" name="address" />
 
-                    <input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_CREATE');?>" class="btn btn-primary" />
-                </fieldset>
-            </form>
-        </div>
-        <div class="column">
-            <?php echo $this->loadTemplate('folders');?>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <form id="deleteFolder" method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.deleteFolder&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
-            <fieldset>
-                <a href="#" class="btn" data-dismiss="modal">Close</a>
-                <input type="hidden" class="address" name="address" />
-                <input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_DELETE');?>" class="btn btn-danger" />
-            </fieldset>
-        </form>
-    </div>
+					<input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_CREATE');?>" class="btn btn-primary" />
+				</fieldset>
+			</form>
+		</div>
+		<div class="column">
+			<?php echo $this->loadTemplate('folders');?>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<form id="deleteFolder" method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.deleteFolder&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
+			<fieldset>
+				<a href="#" class="btn" data-dismiss="modal">Close</a>
+				<input type="hidden" class="address" name="address" />
+				<input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_DELETE');?>" class="btn btn-danger" />
+			</fieldset>
+		</form>
+	</div>
 </div>
 <form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.resizeImage&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
-      method="post" >
-    <div  id="resizeModal" class="modal hide fade">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h3><?php echo JText::_('COM_TEMPLATES_RESIZE_IMAGE'); ?></h3>
-        </div>
-        <div class="modal-body">
-            <div id="template-manager-css" class="form-horizontal">
-                <div class="control-group">
-                    <label for="height" class="control-label hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_IMAGE_HEIGHT'); ?>"><?php echo JText::_('COM_TEMPLATES_IMAGE_HEIGHT')?></label>
-                    <div class="controls">
-                        <input class="input-xlarge" type="number" name="height" placeholder="<?php echo $this->image['height']; ?> px" required />
-                    </div>
-                    <br />
-                    <label for="width" class="control-label hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_IMAGE_WIDTH'); ?>"><?php echo JText::_('COM_TEMPLATES_IMAGE_WIDTH')?></label>
-                    <div class="controls">
-                        <input class="input-xlarge" type="number" name="width" placeholder="<?php echo $this->image['width']; ?> px" required />
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <a href="#" class="btn" data-dismiss="modal">Close</a>
-            <button class="btn btn-primary" type="submit"><?php echo JText::_('COM_TEMPLATES_BUTTON_RESIZE'); ?></button>
-        </div>
-    </div>
-    <?php echo JHtml::_('form.token'); ?>
+	  method="post" >
+	<div  id="resizeModal" class="modal hide fade">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3><?php echo JText::_('COM_TEMPLATES_RESIZE_IMAGE'); ?></h3>
+		</div>
+		<div class="modal-body">
+			<div id="template-manager-css" class="form-horizontal">
+				<div class="control-group">
+					<label for="height" class="control-label hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_IMAGE_HEIGHT'); ?>"><?php echo JText::_('COM_TEMPLATES_IMAGE_HEIGHT')?></label>
+					<div class="controls">
+						<input class="input-xlarge" type="number" name="height" placeholder="<?php echo $this->image['height']; ?> px" required />
+					</div>
+					<br />
+					<label for="width" class="control-label hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_IMAGE_WIDTH'); ?>"><?php echo JText::_('COM_TEMPLATES_IMAGE_WIDTH')?></label>
+					<div class="controls">
+						<input class="input-xlarge" type="number" name="width" placeholder="<?php echo $this->image['width']; ?> px" required />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn" data-dismiss="modal">Close</a>
+			<button class="btn btn-primary" type="submit"><?php echo JText::_('COM_TEMPLATES_BUTTON_RESIZE'); ?></button>
+		</div>
+	</div>
+	<?php echo JHtml::_('form.token'); ?>
 </form>

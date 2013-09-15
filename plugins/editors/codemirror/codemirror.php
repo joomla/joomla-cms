@@ -140,7 +140,7 @@ class PlgEditorCodemirror extends JPlugin
 
 		// Look if we need special syntax coloring.
 		$file = JFactory::getApplication()->input->get('file');
-        $explodeArray = explode('.',base64_decode($file));
+		$explodeArray = explode('.',base64_decode($file));
 		$syntax = end($explodeArray);
 
 		if ($syntax)
@@ -148,69 +148,69 @@ class PlgEditorCodemirror extends JPlugin
 			switch($syntax)
 			{
 				case 'css':
-                    $parserFile = array('css.js', 'closebrackets.js');
-                    $mode = 'text/css';
-                    $autoCloseBrackets = true;
-                    $autoCloseTags     = false;
-                    $fold              = true;
-                    $matchTags         = false;
-                    $matchBrackets     = true;
-                    JHtml::_('script', $this->_basePath . 'js/brace-fold.js', false, false, false, false);
+					$parserFile = array('css.js', 'closebrackets.js');
+					$mode = 'text/css';
+					$autoCloseBrackets = true;
+					$autoCloseTags     = false;
+					$fold              = true;
+					$matchTags         = false;
+					$matchBrackets     = true;
+					JHtml::_('script', $this->_basePath . 'js/brace-fold.js', false, false, false, false);
 					break;
 
-                case 'ini':
-                    $parserFile = array('css.js');
-                    $mode = 'text/css';
-                    $autoCloseBrackets = false;
-                    $autoCloseTags     = false;
-                    $fold              = false;
-                    $matchTags         = false;
-                    $matchBrackets     = false;
-                    break;
+				case 'ini':
+					$parserFile = array('css.js');
+					$mode = 'text/css';
+					$autoCloseBrackets = false;
+					$autoCloseTags     = false;
+					$fold              = false;
+					$matchTags         = false;
+					$matchBrackets     = false;
+					break;
 
-                case 'xml':
-                    $parserFile = array('xml.js', 'closetag.js');
-                    $mode = 'application/xml';
-                    $fold              = true;
-                    $autoCloseBrackets = false;
-                    $autoCloseTags     = true;
-                    $matchTags         = true;
-                    $matchBrackets     = false;
-                    JHtml::_('script', $this->_basePath . 'js/xml-fold.js', false, false, false, false);
-                    break;
+				case 'xml':
+					$parserFile = array('xml.js', 'closetag.js');
+					$mode = 'application/xml';
+					$fold              = true;
+					$autoCloseBrackets = false;
+					$autoCloseTags     = true;
+					$matchTags         = true;
+					$matchBrackets     = false;
+					JHtml::_('script', $this->_basePath . 'js/xml-fold.js', false, false, false, false);
+					break;
 
 				case 'js':
 					$parserFile = array('javascript.js', 'closebrackets.js');
-                    $mode = 'text/javascript';
-                    $autoCloseBrackets = true;
-                    $autoCloseTags     = false;
-                    $fold              = true;
-                    $matchTags         = false;
-                    $matchBrackets     = true;
-                    JHtml::_('script', $this->_basePath . 'js/brace-fold.js', false, false, false, false);
+					$mode = 'text/javascript';
+					$autoCloseBrackets = true;
+					$autoCloseTags     = false;
+					$fold              = true;
+					$matchTags         = false;
+					$matchBrackets     = true;
+					JHtml::_('script', $this->_basePath . 'js/brace-fold.js', false, false, false, false);
 					break;
 
 				case 'less':
-                    $parserFile = array('less.js', 'css.js', 'closebrackets.js');
-                    $mode = 'text/x-less';
-                    $autoCloseBrackets = true;
-                    $autoCloseTags     = false;
-                    $fold              = true;
-                    $matchTags         = false;
-                    $matchBrackets     = true;
-                    JHtml::_('script', $this->_basePath . 'js/brace-fold.js', false, false, false, false);
+					$parserFile = array('less.js', 'css.js', 'closebrackets.js');
+					$mode = 'text/x-less';
+					$autoCloseBrackets = true;
+					$autoCloseTags     = false;
+					$fold              = true;
+					$matchTags         = false;
+					$matchBrackets     = true;
+					JHtml::_('script', $this->_basePath . 'js/brace-fold.js', false, false, false, false);
 					break;
 
 				case 'php':
 					$parserFile = array('xml.js', 'clike.js', 'css.js', 'javascript.js', 'htmlmixed.js', 'php.js', 'closebrackets.js', 'closetag.js');
-                    $mode = 'application/x-httpd-php';
-                    $autoCloseBrackets = true;
-                    $autoCloseTags     = true;
-                    $fold              = true;
-                    $matchTags         = true;
-                    $matchBrackets     = true;
-                    JHtml::_('script', $this->_basePath . 'js/brace-fold.js', false, false, false, false);
-                    JHtml::_('script', $this->_basePath . 'js/xml-fold.js', false, false, false, false);
+					$mode = 'application/x-httpd-php';
+					$autoCloseBrackets = true;
+					$autoCloseTags     = true;
+					$fold              = true;
+					$matchTags         = true;
+					$matchBrackets     = true;
+					JHtml::_('script', $this->_basePath . 'js/brace-fold.js', false, false, false, false);
+					JHtml::_('script', $this->_basePath . 'js/xml-fold.js', false, false, false, false);
 					break;
 
 				default:
@@ -220,65 +220,65 @@ class PlgEditorCodemirror extends JPlugin
 
 		foreach ($parserFile as $file)
 		{
-            JHtml::_('script', $this->_basePath . 'js/' . $file, false, false, false, false);
+			JHtml::_('script', $this->_basePath . 'js/' . $file, false, false, false, false);
 		}
 
 		$options	= new stdClass;
 
-        $options->mode = $mode;
-        $options->smartIndent = true;
+		$options->mode = $mode;
+		$options->smartIndent = true;
 
-        // Enabled the line numbers.
+		// Enabled the line numbers.
 		if ($this->params->get('lineNumbers') == "1")
 		{
 			$options->lineNumbers = true;
-        }
-        if ($this->params->get('autoFocus') == "1")
-        {
-            $options->autofocus	= true;
-        }
+		}
+		if ($this->params->get('autoFocus') == "1")
+		{
+			$options->autofocus	= true;
+		}
 
-        if ($this->params->get('autoCloseBrackets') == "1")
-        {
-            $options->autoCloseBrackets	= $autoCloseBrackets;
-        }
+		if ($this->params->get('autoCloseBrackets') == "1")
+		{
+			$options->autoCloseBrackets	= $autoCloseBrackets;
+		}
 
-        if ($this->params->get('autoCloseTags') == "1")
-        {
-            $options->autoCloseTags	= $autoCloseTags;
-        }
+		if ($this->params->get('autoCloseTags') == "1")
+		{
+			$options->autoCloseTags	= $autoCloseTags;
+		}
 
-        if ($this->params->get('matchTags') == "1")
-        {
-            $options->matchTags = $matchTags;
-            JHtml::_('script', $this->_basePath . 'js/matchtags.js', false, false, false, false);
-        }
+		if ($this->params->get('matchTags') == "1")
+		{
+			$options->matchTags = $matchTags;
+			JHtml::_('script', $this->_basePath . 'js/matchtags.js', false, false, false, false);
+		}
 
-        if ($this->params->get('matchBrackets') == "1")
-        {
-            $options->matchBrackets = $matchBrackets;
-            JHtml::_('script', $this->_basePath . 'js/matchbrackets.js', false, false, false, false);
-        }
+		if ($this->params->get('matchBrackets') == "1")
+		{
+			$options->matchBrackets = $matchBrackets;
+			JHtml::_('script', $this->_basePath . 'js/matchbrackets.js', false, false, false, false);
+		}
 
-        if ($this->params->get('marker-gutter') == "1")
-        {
-            $options->foldGutter = $fold;
-            $options->gutters = array('CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'breakpoints');
-            JHtml::_('script', $this->_basePath . 'js/foldcode.js', false, false, false, false);
-            JHtml::_('script', $this->_basePath . 'js/foldgutter.js', false, false, false, false);
-        }
+		if ($this->params->get('marker-gutter') == "1")
+		{
+			$options->foldGutter = $fold;
+			$options->gutters = array('CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'breakpoints');
+			JHtml::_('script', $this->_basePath . 'js/foldcode.js', false, false, false, false);
+			JHtml::_('script', $this->_basePath . 'js/foldgutter.js', false, false, false, false);
+		}
 
 
-        if($this->params->get('theme', '') == 'ambiance')
-        {
-            $options->theme	= 'ambiance';
-            JHtml::_('stylesheet', $this->_basePath . 'css/ambiance.css');
-        }
+		if($this->params->get('theme', '') == 'ambiance')
+		{
+			$options->theme	= 'ambiance';
+			JHtml::_('stylesheet', $this->_basePath . 'css/ambiance.css');
+		}
 
-        if($this->params->get('lineWrapping') == "1")
-        {
-            $options->lineWrapping = true;
-        }
+		if($this->params->get('lineWrapping') == "1")
+		{
+			$options->lineWrapping = true;
+		}
 
 		if ($this->params->get('tabmode', '') == 'shift')
 		{
@@ -292,26 +292,26 @@ class PlgEditorCodemirror extends JPlugin
 		$html[] = '(function() {';
 		$html[] = 'var editor = CodeMirror.fromTextArea(document.getElementById("'.$id.'"), '.json_encode($options).');';
 		$html[] = 'editor.setOption("extraKeys", {';
-        $html[] = '"F11": function(cm) {';
-        $html[] = 'setFullScreen(cm, !isFullScreen(cm));';
-        $html[] = '},';
-        $html[] = '"Esc": function(cm) {';
-        $html[] = 'if (isFullScreen(cm)) setFullScreen(cm, false);';
-        $html[] = '}';
-        $html[] = '});';
+		$html[] = '"F11": function(cm) {';
+		$html[] = 'setFullScreen(cm, !isFullScreen(cm));';
+		$html[] = '},';
+		$html[] = '"Esc": function(cm) {';
+		$html[] = 'if (isFullScreen(cm)) setFullScreen(cm, false);';
+		$html[] = '}';
+		$html[] = '});';
 		$html[] = 'editor.on("gutterClick", function(cm, n) {';
-        $html[] = 'var info = cm.lineInfo(n)';
-        $html[] = 'cm.setGutterMarker(n, "breakpoints", info.gutterMarkers ? null : makeMarker())';
-        $html[] = '})';
-        $html[] = 'function makeMarker() {';
-        $html[] = 'var marker = document.createElement("div")';
-        $html[] = 'marker.style.color = "#822"';
-        $html[] = 'marker.innerHTML = "●"';
-        $html[] = 'return marker';
-        $html[] = '}';
+		$html[] = 'var info = cm.lineInfo(n)';
+		$html[] = 'cm.setGutterMarker(n, "breakpoints", info.gutterMarkers ? null : makeMarker())';
+		$html[] = '})';
+		$html[] = 'function makeMarker() {';
+		$html[] = 'var marker = document.createElement("div")';
+		$html[] = 'marker.style.color = "#822"';
+		$html[] = 'marker.innerHTML = "●"';
+		$html[] = 'return marker';
+		$html[] = '}';
 		$html[] = 'Joomla.editors.instances[\''.$id.'\'] = editor;';
 		$html[] = '})()';
-        $html[] = '</script>';
+		$html[] = '</script>';
 
 		return implode("\n", $html);
 	}
