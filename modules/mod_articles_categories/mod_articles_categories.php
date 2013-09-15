@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 // Include the helper functions only once
 require_once __DIR__ . '/helper.php';
 
-$cacheid = md5(serialize(array ($idbase, $module->module)));
+$cacheid = md5(serialize($module->module));
 
 $cacheparams = new stdClass;
 $cacheparams->cachemode = 'id';
