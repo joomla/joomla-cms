@@ -225,6 +225,8 @@ class ContactViewContact extends JViewLegacy
 			$this->setLayout($active->query['layout']);
 		}
 
+		$model = $this->getModel();
+		$model->hit();
 		$this->_prepareDocument();
 
 		parent::display($tpl);

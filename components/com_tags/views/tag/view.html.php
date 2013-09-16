@@ -160,6 +160,10 @@ class TagsViewTag extends JViewLegacy
 			}
 		}
 
+		// Increment the hit counter
+		$model = $this->getModel();
+		$model->hit();
+
 		$this->_prepareDocument();
 
 		parent::display($tpl);

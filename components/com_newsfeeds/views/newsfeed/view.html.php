@@ -194,6 +194,10 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		$item->tags = new JHelperTags;
 		$item->tags->getItemTags('com_newsfeeds.newsfeed', $item->id);
 
+		// Increment the hit counter of the newsfeed.
+		$model = $this->getModel();
+		$model->hit();
+
 		$this->_prepareDocument();
 
 		parent::display($tpl);
