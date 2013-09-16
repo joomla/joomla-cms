@@ -477,6 +477,7 @@ class JModelCmslist extends JModelCmsitem
 					// Prune items that you can't change.
 					unset($pks[$i]);
 					JLog::add(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+
 					return false;
 				}
 			}
@@ -486,6 +487,7 @@ class JModelCmslist extends JModelCmsitem
 		if (!$table->publish($pks, $value, $user->get('id')))
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
@@ -497,6 +499,7 @@ class JModelCmslist extends JModelCmsitem
 		if (in_array(false, $result, true))
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 

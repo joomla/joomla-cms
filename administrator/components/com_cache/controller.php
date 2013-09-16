@@ -37,8 +37,8 @@ class CacheController extends JControllerLegacy
 
 	public function purge()
 	{
-		include_once JPATH_ADMINISTRATOR . '/components/com_cache/cache/controller/purge.php';
-		$controller = new CacheControllerCachePurge;
+		include_once JPATH_ADMINISTRATOR . '/components/com_cache/cache/controller/cleanlist.php';
+		$controller = new CacheControllerCacheCleanlist;
 
 		return $controller->execute();
 	}

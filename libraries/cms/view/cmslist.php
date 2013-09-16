@@ -51,6 +51,7 @@ class JViewCmslist extends JViewCms
 	protected function addToolbar()
 	{
 	}
+
 	/**
 	* Add the submenu.
 	*
@@ -60,5 +61,17 @@ class JViewCmslist extends JViewCms
 	*/
 	protected function addSubmenu()
 	{
+	}
+
+	/**
+	 * Returns an array of fields the table can be sorted by
+	 *
+	 * @return  array  Array containing the field name to sort by as the key and display text as value
+	 *
+	 * @since   3.0
+	 */
+	protected function getSortFields()
+	{
+		return array();
 	}
 }
