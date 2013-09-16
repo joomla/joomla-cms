@@ -76,4 +76,51 @@ class JGooglecloudstorageObjectsPut extends JGooglecloudstorageObjects
 		// Process the response
 		return $this->processResponse($response);
 	}
+
+	/**
+	 * This implementation of the PUT operation creates a copy of an object
+	 * that is already stored in Google Cloud Storage.
+	 *
+	 * @param   string  $bucket           The bucket name
+	 * @param   string  $object           The object name
+	 * @param   string  $copySource       The path to the file to be copied (bucket + object)
+	 * @param   string  $optionalHeaders  An array of optional headers to be set
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function putObjectCopy($bucket, $object, $copySource, $optionalHeaders = null)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/" . $object;
+
+		$headers = array(
+			"Host" => $bucket . "." . $this->options->get("api.url"),
+			"Date" => date("D, d M Y H:i:s O"),
+			"x-goog-api-version" => 2,
+			"x-goog-project-id" => $this->options->get("project.id"),
+			"Content-Length" => 0,
+		);
+
+		// Check for request headers
+		if (is_array($optionalHeaders))
+		{
+			foreach ($optionalHeaders as $key => $value)
+			{
+				$headers[$key] = $value;
+			}
+		}
+
+		$headers["x-goog-copy-source"] = $copySource;
+		$authorization = $this->getAuthorization(
+			$this->options->get("api.oauth.scope.full-control")
+		);
+		$headers["Authorization"] = $authorization;
+
+		// Send the http request
+		$response = $this->client->put($url, "", $headers);
+
+		// Process the response
+		return $this->processResponse($response);
+	}
 }
