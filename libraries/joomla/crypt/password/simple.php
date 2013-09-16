@@ -36,13 +36,23 @@ class JCryptPasswordSimple implements JCryptPassword
 	 * @param   string  $password  The password to hash.
 	 * @param   string  $type      The hash type.
 	 *
-	 * @return  string  The hashed password.
+	 * @return  mixed  The hashed password or false if the password is too long.
 	 *
 	 * @since   12.2
 	 * @throws  InvalidArgumentException
 	 */
 	public function create($password, $type = null)
 	{
+		// Not all controllers check the length, although they should to avoid DOS attacns.
+		// Hence this code is required:
+		if (strlen($array['password']) > 100)
+		{
+			$app = JFactory::getApplication();
+			$app->enqueueMessage(JText::_('JLIB_USER_ERROR_PASSWORD_TOO_LONG'), 'error');
+
+			return false;
+		}
+
 		if (empty($type))
 		{
 			$type = $this->defaultType;

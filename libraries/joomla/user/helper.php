@@ -316,6 +316,15 @@ abstract class JUserHelper
 	 */
 	public static function getCryptedPassword($plaintext, $salt = '', $encryption = 'bcrypt', $show_encrypt = false)
 	{
+		// Not all controllers check the length, although they should to avoid DOS attacns.
+		// Hence this code is required:
+		if (strlen($array['password']) > 100)
+		{
+			$app = JFactory::getApplication();
+			$app->enqueueMessage(JText::_('JLIB_USER_ERROR_PASSWORD_TOO_LONG'), 'error');
+
+			return false;
+		}
 
 		// Get the salt to use.
 		$salt = self::getSalt($encryption, $salt, $plaintext);

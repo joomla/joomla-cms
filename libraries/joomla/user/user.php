@@ -558,7 +558,18 @@ class JUser extends JObject
 			// Hence this code is required:
 			if (isset($array['password2']) && $array['password'] != $array['password2'])
 			{
-				$this->setError(JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'));
+				$app = JFactory::getApplication();
+				$app->enqueueMessage(JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'), 'error');
+
+				return false;
+			}
+
+			// Not all controllers check the length, although they should to avoid DOS attacns.
+			// Hence this code is required:
+			if (strlen($array['password']) > 100)
+			{
+				$app = JFactory::getApplication();
+				$app->enqueueMessage(JText::_('JLIB_USER_ERROR_PASSWORD_TOO_LONG'), 'error');
 
 				return false;
 			}
