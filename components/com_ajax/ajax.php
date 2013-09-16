@@ -16,11 +16,16 @@ $app = JFactory::getApplication();
 $input = $app->input;
 
 // Requested format passed via URL
-$format = strtolower($input->getWord('format'));
+$format = strtolower($input->getWord('format', 'html'));
 
 // Initialize default response
 $results = null;
 
+// Check for valid format
+if ($format == 'html')
+{
+	$results = new InvalidArgumentException('Please specify response format other that HTML (json, raw, etc.)', 404);
+}
 /*
  * Module support.
  *
@@ -29,7 +34,7 @@ $results = null;
  * (i.e. index.php?option=com_ajax&module=foo).
  *
  */
-if ($input->get('module'))
+elseif ($input->get('module'))
 {
 	$module       = $input->get('module');
 	$moduleObject = JModuleHelper::getModule('mod_' . $module, null);
@@ -78,7 +83,6 @@ if ($input->get('module'))
 		$results = new LogicException(JText::sprintf('COM_AJAX_MODULE_NOT_PUBLISHED', 'mod_' . $module), 404);
 	}
 }
-
 /*
  * Plugin support is based on the "Ajax" plugin group.
  *
@@ -87,7 +91,7 @@ if ($input->get('module'))
  * (i.e. index.php?option=com_ajax&plugin=foo)
  *
  */
-if ($input->get('plugin'))
+elseif ($input->get('plugin'))
 {
 	JPluginHelper::importPlugin('ajax');
 	$plugin     = ucfirst($input->get('plugin'));
@@ -125,11 +129,11 @@ switch ($format)
 			// Log an error
 			JLog::add($results->getMessage(), JLog::ERROR);
 
-			// Set header
+			// Set status header code
 			JResponse::setHeader('status', $results->getCode(), true);
 
-			// Echo exception message
-			$out = $results->getMessage();
+			// Echo exception type and message
+			$out = get_class($results) . ': ' . $results->getMessage();
 		}
 		// Output string/ null
 		elseif (is_scalar($results))
@@ -140,16 +144,6 @@ switch ($format)
 		else
 		{
 			$out = implode((array) $results);
-		}
-
-		// Check for compatible JDocument formats
-		if (!in_array($format, array('feed', 'image', 'json', 'opensearch', 'raw')))
-		{
-			JResponse::sendHeaders();
-
-			echo $out;
-
-			$app->close();
 		}
 
 		echo $out;
