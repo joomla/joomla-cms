@@ -62,4 +62,26 @@ class JGooglecloudstorageObjectsGet extends JGooglecloudstorageObjects
 
 		return $this->commonGetOperations($url, $headers);
 	}
+
+	/**
+	 * Creates the get request and returns the response
+	 *
+	 * @param   string  $bucket  The bucket name
+	 * @param   string  $object  The object name
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function getObjectAcl($bucket, $object)
+	{
+		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/" . $object . "?acl";
+
+		// The headers may be optionally set in advance
+		$headers = array(
+			"Host" => $bucket . "." . $this->options->get("api.url"),
+		);
+
+		return $this->commonGetOperations($url, $headers);
+	}
 }
