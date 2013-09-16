@@ -116,8 +116,9 @@ abstract class JGooglecloudstorageObject
 					json_encode($response->headers)
 				)
 			);
+
 			return "Response code: " . $response->code . ".\n"
-				. "Response headers: " . $headersArrayAsString. "\n";
+				. "Response headers: " . $headersArrayAsString . "\n";
 		}
 	}
 
