@@ -20,15 +20,15 @@ function twofactorauth_postinstall_condition()
 	$db = JFactory::getDbo();
 
 	$query = $db->getQuery(true)
-		->select($db->qn('enabled'))
+		->select('*')
 		->from($db->qn('#__extensions'))
 		->where($db->qn('type') . ' = ' . $db->q('plugin'))
-		->where($db->qn('element') . ' = ' . $db->q('totp'))
+		->where($db->qn('enabled') . ' = ' . $db->q('1'))
 		->where($db->qn('folder') . ' = ' . $db->q('twofactorauth'));
 	$db->setQuery($query);
-	$enabled = $db->loadResult();
+	$enabled_plugins = $db->loadObjectList();
 
-	return !$enabled;
+	return count($enabled_plugins) == 0;
 }
 
 /**
@@ -45,7 +45,6 @@ function twofactorauth_postinstall_action()
 		->update($db->qn('#__extensions'))
 		->set($db->qn('enabled') . ' = ' . $db->q(1))
 		->where($db->qn('type') . ' = ' . $db->q('plugin'))
-		->where($db->qn('element') . ' = ' . $db->q('totp'))
 		->where($db->qn('folder') . ' = ' . $db->q('twofactorauth'));
 	$db->setQuery($query);
 	$db->execute();
