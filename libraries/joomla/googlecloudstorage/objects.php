@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Googlecloudstorage
  * @since       ??.?
  */
-class JGooglecloudstorageBuckets extends JGooglecloudstorageObject
+class JGooglecloudstorageObjects extends JGooglecloudstorageObject
 {
 	/**
 	 * @var    JGooglecloudstorageObjectsGet  Googlecloudstorage API object for
