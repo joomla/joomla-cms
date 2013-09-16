@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 16-Sep-2013 Jean-Marie Simonet
  # [#32020] "Articles Categories" Module - cache is not working. Thanks Peter Martin
+ + [#31372] Selected tab changes to default after save. Thanks Ashan Fernando
 
 13-Sep-2013 Jean-Marie Simonet
  # [#31987] *Joomla multilingual install: sef and flags issues. Thanks Beat
