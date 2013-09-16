@@ -9,10 +9,11 @@
 
 defined('_JEXEC') or die;
 
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
-var_dump($this);
-$form->fieldsets = $form->getFieldsets('params');
+$this->fieldsets = $this->form->getFieldsets('params');
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
