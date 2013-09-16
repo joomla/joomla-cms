@@ -3236,19 +3236,51 @@ input[type="submit"].btn.btn-mini {
 	height: auto;
 	overflow: visible;
 }
-.navbar .brand {
+body .navbar,
+body .navbar-fixed-top {
+	margin-bottom: 0;
+}
+.navbar-inner {
+	min-height: 0;
+}
+.navbar-inner .container-fluid {
+	padding-left: 10px;
+	padding-right: 10px;
+	font-size: 15px;
+}
+.navbar .navbar-text {
+	line-height: 30px;
+}
+.navbar .admin-logo {
 	float: left;
+	padding: 7px 12px 0px 15px;
+	font-size: 16px;
+	color: #d9d9d9;
+}
+.navbar .admin-logo:hover {
+	color: #ffffff;
+}
+.navbar .brand {
+	float: right;
 	display: block;
-	padding: 11px 20px 11px;
+	padding: 6px 10px;
 	margin-left: -20px;
-	font-size: 20px;
-	font-weight: 200;
 	color: #555;
 	text-shadow: 0 1px 0 #ffffff;
 }
 .navbar .brand:hover,
 .navbar .brand:focus {
 	text-decoration: none;
+}
+.navbar .brand.brand-mobile {
+	display: none;
+	float: left;
+	margin: 2px 0 ;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	text-align: center;
 }
 .navbar-text {
 	margin-bottom: 0;
@@ -3396,6 +3428,10 @@ input[type="submit"].btn.btn-mini {
 	float: left;
 	margin: 0 10px 0 0;
 }
+.navbar .dropdown-menu,
+.navbar .nav-user {
+	font-size: 13px;
+}
 .navbar .nav.pull-right {
 	float: right;
 	margin-right: 0;
@@ -3405,7 +3441,7 @@ input[type="submit"].btn.btn-mini {
 }
 .navbar .nav > li > a {
 	float: none;
-	padding: 11px 15px 11px;
+	padding: 6px 10px;
 	color: #555;
 	text-decoration: none;
 	text-shadow: 0 1px 0 #ffffff;
@@ -5560,7 +5596,7 @@ a.badge:focus {
 		margin-left: 0;
 	}
 }
-@media (max-width: 738px) {
+@media (max-width: 767px) {
 	body {
 		padding-top: 0;
 	}
@@ -5583,9 +5619,10 @@ a.badge:focus {
 		padding: 0;
 	}
 	.navbar .brand {
-		padding-left: 10px;
-		padding-right: 10px;
-		margin: 0 0 0 -5px;
+		display: none;
+	}
+	.navbar .brand.brand-mobile {
+		display: block;
 	}
 	.nav-collapse {
 		clear: both;
@@ -5616,6 +5653,9 @@ a.badge:focus {
 		-moz-border-radius: 3px;
 		border-radius: 3px;
 	}
+	.nav-collapse .dropdown-menu > li > span {
+		padding: 9px 15px;
+	}
 	.nav-collapse .btn {
 		padding: 4px 10px 4px;
 		font-weight: normal;
@@ -5633,7 +5673,8 @@ a.badge:focus {
 		background-color: #f2f2f2;
 	}
 	.navbar-inverse .nav-collapse .nav > li > a,
-	.navbar-inverse .nav-collapse .dropdown-menu a {
+	.navbar-inverse .nav-collapse .dropdown-menu a,
+	.navbar-inverse .nav-collapse .dropdown-menu > li > span {
 		color: #d9d9d9;
 	}
 	.navbar-inverse .nav-collapse .nav > li > a:hover,
@@ -6997,28 +7038,6 @@ input.input-large-text {
 .row-odd .small a {
 	color: #888;
 }
-body .navbar,
-body .navbar-fixed-top {
-	margin-bottom: 0;
-}
-.navbar-inner {
-	min-height: 0;
-}
-.navbar-inner .container-fluid {
-	padding-left: 10px;
-	padding-right: 10px;
-}
-.navbar .navbar-text {
-	line-height: 30px;
-}
-.navbar .brand {
-	padding: 5px 12px 5px 12px;
-	font-size: 16px;
-	margin-left: 0;
-}
-.navbar .nav > li > a {
-	padding: 6px 10px;
-}
 .header {
 	background-color: #184a7d;
 	background-image: -moz-linear-gradient(top,#17568c,#1a3867);
@@ -7048,6 +7067,9 @@ body .navbar-fixed-top {
 		margin-left: -20px;
 		margin-right: -20px;
 	}
+	.navbar .admin-logo {
+		padding: 9px 9px 0 9px;
+	}
 }
 .header .navbar-search {
 	margin-top: 0;
@@ -7064,14 +7086,14 @@ body .navbar-fixed-top {
 .navbar-search .search-query {
 	background: rgba(255,255,255,0.3);
 }
+.container-logo {
+	float: right;
+	text-align: right;
+}
 .logo {
 	width: 100%;
 	max-width: 143px;
 	height: auto;
-}
-.container-logo {
-	float: right;
-	text-align: right;
 }
 .page-title {
 	color: white;
@@ -7090,7 +7112,6 @@ body .navbar-fixed-top {
 		text-align: center;
 	}
 }
-
 .content-title {
 	font-size: 24px;
 	font-weight: normal;
@@ -7268,10 +7289,8 @@ h6 {
 	max-width: 100% !important;
 }
 @media (max-width: 979px) {
-	.navbar .brand {
-		font-size: 13px;
-	}
 	.navbar .nav {
+		font-size: 13px;
 		margin: 0 2px 0 0;
 	}
 	.navbar .nav > li > a {
@@ -7286,6 +7305,12 @@ h6 {
 	.row-fluid [class*="span"] {
 		margin-left: 15px;
 	}
+	body {
+		padding-top: 30px;
+	}
+	body.component {
+		padding-top: 0;
+	}
 }
 @media (max-width: 767px) {
 	.navbar-search.pull-right {
@@ -7299,19 +7324,6 @@ h6 {
 	.container-fluid {
 		padding-left: 0;
 		padding-right: 0;
-	}
-}
-@media (min-width: 738px) {
-	body {
-		padding-top: 30px;
-	}
-	body.component {
-		padding-top: 0;
-	}
-}
-@media (max-width: 738px) {
-	.navbar .brand {
-		font-size: 16px;
 	}
 }
 .btn-subhead {
@@ -7394,7 +7406,7 @@ h6 {
 .dropdown-menu a {
 	background-image: none;
 }
-@media (max-width: 738px) {
+@media (max-width: 767px) {
 	.navbar-fixed-top .navbar-inner,
 	.navbar-fixed-top .navbar-inner .container-fluid {
 		padding: 0;
