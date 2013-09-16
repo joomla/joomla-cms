@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Sep-2013 Jean-Marie Simonet
+ # [#32020] "Articles Categories" Module - cache is not working. Thanks Peter Martin
+
 13-Sep-2013 Jean-Marie Simonet
  # [#31987] *Joomla multilingual install: sef and flags issues. Thanks Beat
  $ [#31942] Two factor authentication - Language file. Thanks Brian Teeman
