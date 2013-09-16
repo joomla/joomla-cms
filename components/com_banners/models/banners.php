@@ -150,7 +150,7 @@ class BannersModelBanners extends JModelList
 						$condition2 .= " OR cl.metakey REGEXP '[[:<:]]" . $db->escape($keyword) . "[[:>:]]'";
 					}
 
-					if ($catid)
+					if ($categoryId)
 					{
 						$condition2 .= " OR cat.metakey REGEXP '[[:<:]]" . $db->escape($keyword) . "[[:>:]]'";
 					}

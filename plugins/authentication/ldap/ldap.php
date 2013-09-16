@@ -146,7 +146,9 @@ class PlgAuthenticationLdap extends JPlugin
 			if (isset($userdetails[0][$ldap_fullname][0]))
 			{
 				$response->fullname = $userdetails[0][$ldap_fullname][0];
-			} else {
+			}
+			else
+			{
 				$response->fullname = $credentials['username'];
 			}
 

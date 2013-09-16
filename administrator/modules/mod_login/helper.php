@@ -26,6 +26,12 @@ abstract class ModLoginHelper
 	public static function getLanguageList()
 	{
 		$languages = JLanguageHelper::createLanguageList(null, JPATH_ADMINISTRATOR, false, true);
+
+		if (count($languages) <= 1)
+		{
+			return '';
+		}
+
 		array_unshift($languages, JHtml::_('select.option', '', JText::_('JDEFAULTLANGUAGE')));
 
 		return JHtml::_('select.genericlist', $languages, 'lang', ' class="inputbox advancedSelect"', 'value', 'text', null);
@@ -49,5 +55,11 @@ abstract class ModLoginHelper
 		{
 			return base64_encode('index.php');
 		}
+	}
+
+	public static function getTwoFactorMethods()
+	{
+		require_once JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php';
+		return UsersHelper::getTwoFactorMethods();
 	}
 }

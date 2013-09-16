@@ -110,6 +110,13 @@ class ContactViewContact extends JViewLegacy
 			JToolbarHelper::cancel('contact.cancel', 'JTOOLBAR_CLOSE');
 		}
 
+		if ($this->state->params->get('save_history') && $user->authorise('core.edit'))
+		{
+			$itemId = $this->item->id;
+			$typeAlias = 'com_contact.contact';
+			JToolbarHelper::versions($typeAlias, $itemId);
+		}
+
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_COMPONENTS_CONTACTS_CONTACTS_EDIT');
 	}

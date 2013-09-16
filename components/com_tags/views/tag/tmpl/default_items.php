@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 
 JHtml::_('behavior.framework');
+JHtml::_('formbehavior.chosen', 'select');
 
 // Get the user object.
 $user = JFactory::getUser();
@@ -27,9 +28,9 @@ $n = count($this->items);
 ?>
 
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
-	<?php if ($this->params->get('show_headings') || $this->params->get('filter_field') != 'hide' || $this->params->get('show_pagination_limit')) :?>
+	<?php if ($this->params->get('show_headings') || $this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>
 	<fieldset class="filters btn-toolbar">
-		<?php if ($this->params->get('filter_field') != 'hide') :?>
+		<?php if ($this->params->get('filter_field')) :?>
 			<div class="btn-group">
 				<label class="filter-search-lbl element-invisible" for="filter-search">
 					<?php echo JText::_('COM_TAGS_TITLE_FILTER_LABEL').'&#160;'; ?>
@@ -58,7 +59,7 @@ $n = count($this->items);
 		<p> <?php echo JText::_('COM_TAGS_NO_ITEMS'); ?></p>
 	<?php else : ?>
 
-	<ul class="category list-striped list-condensed">
+	<ul class="category list-striped">
 		<?php foreach ($items as $i => $item) : ?>
 			<?php if ($item->core_state == 0) : ?>
 				<li class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
@@ -82,18 +83,6 @@ $n = count($this->items);
 				</li>
 		<?php endforeach; ?>
 	</ul>
-
-	<?php if ($this->params->get('show_pagination')) : ?>
-	 <div class="pagination">
-		<?php if ($this->params->get('show_pagination_results', 1)) : ?>
-			<p class="counter">
-				<?php echo $this->pagination->getPagesCounter(); ?>
-			</p>
-		<?php endif; ?>
-			<?php echo $this->pagination->getPagesLinks(); ?>
-		</div>
-		<br/>
-	<?php endif; ?>
 </form>
 
 <?php endif; ?>

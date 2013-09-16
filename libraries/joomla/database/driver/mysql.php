@@ -97,9 +97,9 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		$this->setUTF();
 
 		// Turn MySQL profiling ON in debug mode:
-		if ($this->debug)
+		if ($this->debug && $this->hasProfiling())
 		{
-			mysqli_query($this->connection, "SET profiling = 1;");
+			mysql_query("SET profiling = 1;", $this->connection);
 		}
 	}
 
@@ -257,6 +257,7 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 
 		// Take a local copy so that we don't modify the original query and cause issues later
 		$query = $this->replacePrefix((string) $this->sql);
+
 		if ($this->limit > 0 || $this->offset > 0)
 		{
 			$query .= ' LIMIT ' . $this->offset . ', ' . $this->limit;
@@ -286,7 +287,15 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 		if ($this->debug)
 		{
 			$this->timings[] = microtime(true);
-			$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+
+			if (defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
+			{
+				$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+			}
+			else
+			{
+				$this->callStacks[] = debug_backtrace();
+			}
 		}
 
 		// If an error occurred handle it.
@@ -428,5 +437,27 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	protected function freeResult($cursor = null)
 	{
 		mysql_free_result($cursor ? $cursor : $this->cursor);
+	}
+
+	/**
+	 * Internal function to check if profiling is available
+	 *
+	 * @return  boolean
+	 *
+	 * @since 3.1.3
+	 */
+	private function hasProfiling()
+	{
+		try
+		{
+			$res = mysql_query("SHOW VARIABLES LIKE 'have_profiling'", $this->connection);
+			$row = mysql_fetch_assoc($res);
+
+			return isset($row);
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
 	}
 }

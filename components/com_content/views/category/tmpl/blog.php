@@ -19,6 +19,7 @@ JHtml::_('behavior.caption');
 		<h1> <?php echo $this->escape($this->params->get('page_heading')); ?> </h1>
 	</div>
 	<?php endif; ?>
+
 	<?php if ($this->params->get('show_category_title', 1) or $this->params->get('page_subheading')) : ?>
 	<h2> <?php echo $this->escape($this->params->get('page_subheading')); ?>
 		<?php if ($this->params->get('show_category_title')) : ?>
@@ -42,6 +43,13 @@ JHtml::_('behavior.caption');
 		<?php endif; ?>
 	</div>
 	<?php endif; ?>
+
+	<?php if (empty($this->lead_items) && empty($this->link_items) && empty($this->intro_items)) : ?>
+		<?php if ($this->params->get('show_no_articles', 1)) : ?>
+			<p><?php echo JText::_('COM_CONTENT_NO_ARTICLES'); ?></p>
+		<?php endif; ?>
+	<?php endif; ?>
+
 	<?php $leadingcount = 0; ?>
 	<?php if (!empty($this->lead_items)) : ?>
 	<div class="items-leading clearfix">
@@ -52,16 +60,16 @@ JHtml::_('behavior.caption');
 				echo $this->loadTemplate('item');
 			?>
 		</div>
-		<?php
-			$leadingcount++;
-		?>
+		<?php $leadingcount++; ?>
 		<?php endforeach; ?>
 	</div><!-- end items-leading -->
 	<?php endif; ?>
+
 	<?php
 	$introcount = (count($this->intro_items));
 	$counter = 0;
-?>
+	?>
+
 	<?php if (!empty($this->intro_items)) : ?>
 	<?php foreach ($this->intro_items as $key => &$item) : ?>
 	<?php
@@ -92,6 +100,7 @@ JHtml::_('behavior.caption');
 	<?php echo $this->loadTemplate('links'); ?>
 	</div>
 	<?php endif; ?>
+
 	<?php if (!empty($this->children[$this->category->id])&& $this->maxLevel != 0) : ?>
 	<div class="cat-children">
 	<?php if ($this->params->get('show_category_heading_title_text', 1) == 1) : ?>
