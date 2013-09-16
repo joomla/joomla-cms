@@ -46,6 +46,14 @@ abstract class JViewCms extends JViewHtml
 	 */
 	protected $_layoutExt = 'php';
 
+	/*
+	 * Optional prefix for the view and model classes
+	*
+	* @var  string
+	*/
+	public $prefix;
+
+
 	/**
 	 * Method to instantiate the view.
 	 *
@@ -121,13 +129,13 @@ abstract class JViewCms extends JViewHtml
 
 		// Load the template script
 		jimport('joomla.filesystem.path');
-		$filetofind = $this->_createFileName('template', array('name' => $file));
+		$filetofind = $this->createFileName('template', array('name' => $file));
 		$this->_template = JPath::find($this->_path['template'], $filetofind);
 
 		// If alternate layout can't be found, fall back to default layout
 		if ($this->_template == false)
 		{
-			$filetofind = $this->_createFileName('', array('name' => 'default' . (isset($tpl) ? '_' . $tpl : $tpl)));
+			$filetofind = $this->createFileName('', array('name' => 'default' . (isset($tpl) ? '_' . $tpl : $tpl)));
 			$this->_template = JPath::find($this->_path['template'], $filetofind);
 		}
 
@@ -174,7 +182,7 @@ abstract class JViewCms extends JViewHtml
 	 *
 	 * @since   3.2
 	 */
-	protected function _createFileName($type, $parts = array())
+	protected function createFileName($type, $parts = array())
 	{
 		$filename = '';
 

@@ -34,34 +34,31 @@ else
 	$tasks = explode('.', $task);
 }
 
-if (empty($tasks[1]))
+if (empty($tasks[0]))
 {
 	$activity = 'display';
-}
-elseif ($tasks[1] == 'apply')
-{
-	$activity = 'checkin';
-}
-else
-{
-	$activity = $tasks[1];
-}
-// Create the controller
-if ($activity == 'display')
-{
 	$classname = 'JControllerDisplay';
 }
-else
+elseif (empty($tasks[1]))
 {
-	$classname  = 'CheckinControllerCheckin' . ucfirst($activity);
+	$activity = $tasks[0];
+	$classname = 'JController' . ucfirst($activity);
 }
+elseif (!empty($tasks[1]))
+{
+	$group = $tasks[0];
+	$activity = $tasks[1];
+	$classname = 'CheckinController' . $group . ucfirst($activity);
+}
+
 $controller = new $classname;
+
 $controller->prefix = 'Checkin';
 
 if (!$app->input->get('view'))
 {
 	$app->input->set('view', 'checkin');
 }
-var_dump($controller);
+
 // Perform the Request task
 $controller->execute();

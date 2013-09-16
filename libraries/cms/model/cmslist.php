@@ -117,7 +117,7 @@ class JModelCmslist extends JModelCmsitem
 
 		try
 		{
-			$items = $this->getList($query, $this->getStart(), $this->getState('list.limit'));
+			$items = $this->getList($query, $this->getStart(), $this->state->get('list.limit'));
 		}
 		catch (RuntimeException $e)
 		{
@@ -175,10 +175,10 @@ class JModelCmslist extends JModelCmsitem
 	protected function getStoreId($id = '')
 	{
 		// Add the list state to the store id.
-		$id .= ':' . $this->getState('list.start');
-		$id .= ':' . $this->getState('list.limit');
-		$id .= ':' . $this->getState('list.ordering');
-		$id .= ':' . $this->getState('list.direction');
+		$id .= ':' . $this->state->get('list.start');
+		$id .= ':' . $this->state->get('list.limit');
+		$id .= ':' . $this->state->get('list.ordering');
+		$id .= ':' . $this->state->get('list.direction');
 
 		return md5($this->context . ':' . $id);
 	}
@@ -297,7 +297,8 @@ class JModelCmslist extends JModelCmsitem
 				$value = $direction;
 				$app->setUserState($this->context . '.orderdirn', $value);
 			}
-			// $this->setState('list.direction', $value);
+
+			$this->state->set('list.direction', $value);
 		}
 		else
 		{
@@ -347,4 +348,163 @@ class JModelCmslist extends JModelCmsitem
 
 		return $new_state;
 	}
+	/**
+	 * Gets an array of objects from the results of database query.
+	 *
+	 * @param   string   $query       The query.
+	 * @param   integer  $limitstart  Offset.
+	 * @param   integer  $limit       The number of records.
+	 *
+	 * @return  array  An array of results.
+	 *
+	 * @since   3.2
+	 * @throws  RuntimeException
+	 */
+	protected function getList($query, $limitstart = 0, $limit = 0)
+	{
+		$this->_db->setQuery($query, $limitstart, $limit);
+		$result = $this->_db->loadObjectList();
+
+		return $result;
+	}
+
+	/**
+	 * Returns a record count for the query.
+	 *
+	 * @param   JDatabaseQuery|string  $query  The query.
+	 *
+	 * @return  integer  Number of rows for query.
+	 *
+	 * @since   3.2
+	 */
+	protected function getListCount($query)
+	{
+		// Use fast COUNT(*) on JDatabaseQuery objects if there no GROUP BY or HAVING clause:
+		if ($query instanceof JDatabaseQuery
+				&& $query->type == 'select'
+				&& $query->group === null
+				&& $query->having === null)
+		{
+			$query = clone $query;
+			$query->clear('select')->clear('order')->select('COUNT(*)');
+
+			$this->_db->setQuery($query);
+			return (int) $this->_db->loadResult();
+		}
+
+		// Otherwise fall back to inefficient way of counting all results.
+		$this->_db->setQuery($query);
+		$this->_db->execute();
+
+		return (int) $this->_db->getNumRows();
+	}
+
+	/**
+	 * Method override to check-in a record or an array of record
+	 *
+	 * @param   mixed  $pks  The ID of the primary key or an array of IDs
+	 *
+	 * @return  mixed  Boolean false if there is an error, otherwise the count of records checked in.
+	 *
+	 * @since   12.2
+	 */
+	public function checkin($pks = array())
+	{
+		$pks = (array) $pks;
+		$table = $this->getTable();
+		$count = 0;
+
+		if (empty($pks))
+		{
+			$pks = array((int) $this->getState($this->getName() . '.id'));
+		}
+
+		// Check in all items.
+		foreach ($pks as $pk)
+		{
+			if ($table->load($pk))
+			{
+
+				if ($table->checked_out > 0)
+				{
+					if (!parent::checkin($pk))
+					{
+						return false;
+					}
+					$count++;
+				}
+			}
+			else
+			{
+				$this->setError($table->getError());
+
+				return false;
+			}
+		}
+
+		return $count;
+	}
+
+	/**
+	 * Method to change the published state of one or more records.
+	 *
+	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   integer  $value  The value of the published state.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   12.2
+	 */
+	public function publish(&$pks, $value = 1)
+	{
+		$dispatcher = JEventDispatcher::getInstance();
+		$user = JFactory::getUser();
+		$table = $this->getTable();
+		$pks = (array) $pks;
+
+		// Include the content plugins for the change of state event.
+		JPluginHelper::importPlugin('content');
+
+		// Access checks.
+		foreach ($pks as $i => $pk)
+		{
+			$table->reset();
+
+			if ($table->load($pk))
+			{
+				if (!$this->canEditState($table))
+				{
+					// Prune items that you can't change.
+					unset($pks[$i]);
+					JLog::add(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+					return false;
+				}
+			}
+		}
+
+		// Attempt to change the state of the records.
+		if (!$table->publish($pks, $value, $user->get('id')))
+		{
+			$this->setError($table->getError());
+			return false;
+		}
+
+		$context = $this->option . '.' . $this->name;
+
+		// Trigger the onContentChangeState event.
+		$result = $dispatcher->trigger($this->event_change_state, array($context, $pks, $value));
+
+		if (in_array(false, $result, true))
+		{
+			$this->setError($table->getError());
+			return false;
+		}
+
+		// Clear the component's cache
+		$this->cleanCache();
+
+		return true;
+	}
+
+
 }

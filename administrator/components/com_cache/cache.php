@@ -32,21 +32,19 @@ else
 
 if (empty($tasks[0]))
 {
-	$activity = 'display';
-}
-else
-{
-	$activity = $tasks[0];
-}
-
-// Create the controller
-if ($activity == 'display')
-{
+	$activity = 'Display';
 	$classname = 'JControllerDisplay';
 }
-else
+elseif (empty($tasks[1]))
 {
-	$classname  = 'CacheControllerCache' . ucfirst($activity);
+	$activity = $tasks[0];
+	$classname = 'JController' . ucfirst($activity);
+}
+elseif (!empty($tasks[1]))
+{
+	$location = ucfirst(strtolower($tasks[0]));
+	$activity = ucfirst(strtolower($tasks[1]));
+	$classname = 'CacheController' . $location . $activity;
 }
 
 $controller = new $classname;
@@ -56,6 +54,11 @@ $controller->prefix = 'Cache';
 if (!$app->input->get('view'))
 {
 	$app->input->set('view', 'cache');
+}
+
+if(!empty($tasks[2]))
+{
+	$controller->option = strtolower($tasks[2]);
 }
 
 // Perform the Request task

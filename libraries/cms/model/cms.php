@@ -272,4 +272,5 @@ abstract class JModelCms extends JModelDatabase
 	protected function populateState()
 	{
 	}
+
 }

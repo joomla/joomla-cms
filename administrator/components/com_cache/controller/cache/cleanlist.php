@@ -16,8 +16,15 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage  com_cache
  * @since       3.2
  */
-class CacheControllerCacheCleanlist extends JControllerBase
+class CacheControllerCacheCleanlist extends JControllerCmsbase
 {
+	/*
+	 * Option to send to the model
+	 *
+	 * @var  string
+	 */
+	public $option;
+
 	/**
 	 * Method to delete items.
 	 *
@@ -27,6 +34,9 @@ class CacheControllerCacheCleanlist extends JControllerBase
 	 */
 	public function execute()
 	{
+		// Get the application
+		$app = $this->getApplication();
+
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
 
@@ -34,16 +44,25 @@ class CacheControllerCacheCleanlist extends JControllerBase
 
 		$model = new CacheModelCache;
 
-		if (empty($cid))
+		if (empty($cid) && empty($this->option))
 		{
-			JError::raiseWarning(500, JText::_('JERROR_NO_ITEMS_SELECTED'));
+			$app->enqueueMessage(JText::_('JERROR_NO_ITEMS_SELECTED'));
 		}
 		else
 		{
-				$model->cleanlist($cid);
+			$model->cleanlist($cid, $this->option);
 		}
 
-		$app = JFactory::getApplication();
-		$app->redirect('index.php?option=com_cache&client=' . $model->getClient()->id);
+		if (!empty($this->option) && $this->option == 'purge')
+		{
+			$app->enqueueMessage(JText::_('COM_CACHE_EXPIRED_ITEMS_HAVE_BEEN_PURGED'));
+			$app->redirect('index.php?option=com_cache&view=cache&layout=purge');
+		}
+		else
+		{
+			$app->enqueueMessage(JText::_('COM_CACHE_CACHE_CLEARED'));
+			$app->redirect('index.php?option=com_cache&view=cache');
+		}
+
 	}
 }

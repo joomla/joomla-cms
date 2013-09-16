@@ -18,8 +18,18 @@ defined('_JEXEC') or die;
  */
 class CheckinModelCheckin extends JModelCmslist
 {
+	/*
+	 * Total number of items that are checked out
+	 *
+	 * @var  integer
+	 */
 	protected $total;
 
+	/*
+	 * Array of tables to be checked in
+	 *
+	 * @var  array
+	 */
 	protected $tables;
 
 	/**
@@ -62,12 +72,12 @@ class CheckinModelCheckin extends JModelCmslist
 			return;
 		}
 
-		// This int will hold the checked item count
+		// This integer will hold the checked item count
 		$results = 0;
 
 		foreach ($ids as $tn)
 		{
-			// make sure we get the right tables based on prefix
+			// Make sure we get the right tables based on prefix
 			if (stripos($tn, $app->getCfg('dbprefix')) !== 0)
 			{
 				continue;
@@ -109,11 +119,12 @@ class CheckinModelCheckin extends JModelCmslist
 		{
 			$this->getItems();
 		}
+
 		return $this->total;
 	}
 
 	/**
-	 * Get tables
+	 * Get items
 	 *
 	 * @return  array  Checked in table names as keys and checked in item count as values
 	 *
