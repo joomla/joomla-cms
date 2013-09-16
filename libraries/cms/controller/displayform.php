@@ -33,7 +33,7 @@ class JControllerDisplayform extends JControllerDisplay
 	{
 		// Get the application
 		$app = $this->getApplication();
-		$app->redirect('index.php?option=' . $this->input->get('option', 'com_cpanel') . '&view=' . $this->option .'&layout=edit');
+		$app->redirect('index.php?option=' . $this->input->get('option', 'com_cpanel') . '&view=' . $this->option . '&layout=edit');
 
 		// Get the document object.
 		$document     = JFactory::getDocument();
