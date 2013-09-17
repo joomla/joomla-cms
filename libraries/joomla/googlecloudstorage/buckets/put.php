@@ -68,66 +68,6 @@ class JGooglecloudstorageBucketsPut extends JGooglecloudstorageBuckets
 	}
 
 	/**
-	 * Creates the XML which will be sent in a put request with the acl query parameter
-	 *
-	 * @param   string  $acl  An array containing the ACL permissions
-	 *
-	 * @return string The XML
-	 */
-	public function createAclXml($acl)
-	{
-		$content = "<AccessControlList>\n";
-
-		foreach ($acl as $aclKey => $aclValue)
-		{
-			if (strcmp($aclKey, "Owner") === 0)
-			{
-				$content .= "<Owner>\n<ID>" . $aclValue . "</ID>\n</Owner>\n";
-			}
-			else
-			{
-				$content .= "<Entries>\n";
-
-				foreach ($aclValue as $entry)
-				{
-					$content .= "<Entry>\n";
-
-					foreach ($entry as $entryKey => $entryValue)
-					{
-						if (is_array($entryValue))
-						{
-							$content .= "<Scope type=\"" . $entryValue["type"] . "\">\n";
-
-							foreach ($entryValue as $scopeKey => $scopeValue)
-							{
-								if (strcmp($scopeKey, "type") !== 0)
-								{
-									$content .= "<" . $scopeKey . ">" . $scopeValue . "</" . $scopeKey . ">\n";
-								}
-							}
-
-							$content .= "</Scope>\n";
-						}
-						else
-						{
-							// Permission
-							$content .= "<" . $entryKey . ">" . $entryValue . "</" . $entryKey . ">\n";
-						}
-					}
-
-					$content .= "</Entry>\n";
-				}
-
-				$content .= "</Entries>\n";
-			}
-		}
-
-		$content .= "</AccessControlList>";
-
-		return $content;
-	}
-
-	/**
 	 * Creates the request for setting the permissions on an existing bucket
 	 * using access control lists (ACL)
 	 *
