@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
 class JGooglecloudstorageObjectsPut extends JGooglecloudstorageObjects
 {
 	/**
-	 * Creates the request for creating a bucket and returns the response
+	 * Creates PUT requests
 	 *
 	 * @param   string  $bucket           The bucket name
 	 * @param   string  $object           The object name
