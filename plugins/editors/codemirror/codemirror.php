@@ -103,7 +103,7 @@ class PlgEditorCodemirror extends JPlugin
 	 * Display the editor area.
 	 *
 	 * @param   string	$name		The control name.
-	 * @param   string	$html		The contents of the text area.
+	 * @param   string	$content	The contents of the text area.
 	 * @param   string	$width		The width of the text area (px or %).
 	 * @param   string	$height		The height of the text area (px or %).
 	 * @param   integer  $col		The number of columns for the textarea.
@@ -214,13 +214,23 @@ class PlgEditorCodemirror extends JPlugin
 					break;
 
 				default:
+					$parserFile			= false;
+					$mode 				= 'text/plain';
+					$autoCloseBrackets 	= false;
+					$autoCloseTags     	= false;
+					$fold              	= false;
+					$matchTags         	= false;
+					$matchBrackets     	= false;
 					break;
 			} //switch
 		}
 
-		foreach ($parserFile as $file)
+		if($parserFile)
 		{
-			JHtml::_('script', $this->_basePath . 'js/' . $file, false, false, false, false);
+			foreach ($parserFile as $file)
+			{
+				JHtml::_('script', $this->_basePath . 'js/' . $file, false, false, false, false);
+			}
 		}
 
 		$options	= new stdClass;
@@ -292,7 +302,7 @@ class PlgEditorCodemirror extends JPlugin
 		$html[] = '(function() {';
 		$html[] = 'var editor = CodeMirror.fromTextArea(document.getElementById("'.$id.'"), '.json_encode($options).');';
 		$html[] = 'editor.setOption("extraKeys", {';
-		$html[] = '"F11": function(cm) {';
+		$html[] = '"Ctrl-Q": function(cm) {';
 		$html[] = 'setFullScreen(cm, !isFullScreen(cm));';
 		$html[] = '},';
 		$html[] = '"Esc": function(cm) {';

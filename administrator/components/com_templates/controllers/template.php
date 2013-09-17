@@ -400,7 +400,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		$location = base64_decode($app->input->get('address'));
 		$type     = $app->input->get('type');
 
-		if (!preg_match('/^[a-z0-9-_]+$/', $name))
+		if (!preg_match('/^[a-zA-Z0-9-_]+$/', $name))
 		{
 			$app->enqueueMessage(JText::_('COM_TEMPLATES_INVALID_FILE_NAME'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
@@ -467,7 +467,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		$name     = $app->input->get('name');
 		$location = base64_decode($app->input->get('address'));
 
-		if (!preg_match('/^[a-z0-9-_]+$/', $name))
+		if (!preg_match('/^[a-zA-Z0-9-_.]+$/', $name))
 		{
 			$app->enqueueMessage(JText::_('COM_TEMPLATES_INVALID_FOLDER_NAME'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
@@ -545,7 +545,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 			$this->setRedirect(JRoute::_($url, false));
 		}
-		elseif (!preg_match('/^[a-z0-9-_]+$/', $newName))
+		elseif (!preg_match('/^[a-zA-Z0-9-_]+$/', $newName))
 		{
 			$app->enqueueMessage(JText::_('COM_TEMPLATES_INVALID_FILE_NAME'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
@@ -630,6 +630,41 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		else
 		{
 			$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_RESIZE_ERROR'), 'error');
+			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+			$this->setRedirect(JRoute::_($url, false));
+		}
+	}
+
+	/**
+	 * Method for copying a file.
+	 *
+	 * @since   3.2
+	 *
+	 * @return  void
+	 */
+	public function copyFile()
+	{
+		$app    	= JFactory::getApplication();
+		$id     	= $app->input->get('id');
+		$file   	= $app->input->get('file');
+		$newName	= $app->input->get('new_name');
+		$location	= base64_decode($app->input->get('address'));
+		$model  	= $this->getModel();
+
+		if (!preg_match('/^[a-zA-Z0-9-_]+$/', $newName))
+		{
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_INVALID_FILE_NAME'), 'error');
+			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+			$this->setRedirect(JRoute::_($url, false));
+		}
+		elseif ($model->copyFile($newName, $location, $file))
+		{
+			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+			$this->setRedirect(JRoute::_($url, false));
+		}
+		else
+		{
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_COPY_FAIL'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 			$this->setRedirect(JRoute::_($url, false));
 		}

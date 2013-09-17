@@ -108,7 +108,7 @@ class TemplatesViewTemplate extends JViewLegacy
 		$this->preview	= $this->get('Preview');
 		$this->hathor	= $this->get('Hathor');
 
-		if (in_array($ext, array('css', 'js', 'php', 'xml', 'ini', 'less')))
+		if (in_array($ext, array('css', 'js', 'php', 'xml', 'ini', 'less', 'txt')))
 		{
 			$this->form   = $this->get('Form');
 			$this->source = $this->get('Source');
@@ -188,12 +188,12 @@ class TemplatesViewTemplate extends JViewLegacy
 			}
 		}
 
-		// Add a copy button
+		// Add a copy template button
 		if ($this->hathor->home == 0)
 		{
 			if ($showButton)
 			{
-				JToolbarHelper::modal('collapseModal', 'icon-copy', 'JLIB_HTML_BATCH_COPY');
+				JToolbarHelper::modal('collapseModal', 'icon-copy', 'COM_TEMPLATES_BUTTON_COPY_TEMPLATE');
 			}
 		}
 
@@ -220,14 +220,14 @@ class TemplatesViewTemplate extends JViewLegacy
 		{
 			if ($showButton)
 			{
-				JToolbarHelper::modal('renameModal', 'icon-refresh', 'COM_TEMPLATES_BUTTON_RENAME');
+				JToolbarHelper::modal('renameModal', 'icon-refresh', 'COM_TEMPLATES_BUTTON_RENAME_FILE');
 			}
 		}
 
 		// Add a Delete file Button
 		if ($showButton)
 		{
-			JToolbarHelper::modal('deleteModal', 'icon-remove', 'COM_TEMPLATES_BUTTON_DELETE');
+			JToolbarHelper::modal('deleteModal', 'icon-remove', 'COM_TEMPLATES_BUTTON_DELETE_FILE');
 		}
 
 		// Add a Compile Button

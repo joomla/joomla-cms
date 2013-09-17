@@ -38,7 +38,7 @@ class TemplatesModelTemplate extends JModelForm
 
 		if ($template = $this->getTemplate())
 		{
-			$temp->name = str_replace('-', '_', $name);
+			$temp->name = $name;
 			$temp->id = urlencode(base64_encode($path . $name));
 
 			return $temp;
@@ -118,7 +118,7 @@ class TemplatesModelTemplate extends JModelForm
 				else
 				{
 					$ext = pathinfo($dir . $value, PATHINFO_EXTENSION);
-					$types = array('css', 'js', 'php', 'xml', 'ini', 'less', 'jpg', 'jpeg', 'png', 'gif', 'otf', 'ttf', 'woff');
+					$types = array('css', 'js', 'php', 'xml', 'ini', 'txt', 'less', 'jpg', 'jpeg', 'png', 'gif', 'otf', 'ttf', 'woff');
 
 					if (in_array($ext, $types))
 					{
@@ -1164,5 +1164,48 @@ class TemplatesModelTemplate extends JModelForm
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Resize an image.
+	 *
+	 * @param   string  $newName    The name of the copied file
+	 * @param   string  $location   The final location where the file is to be copied
+	 * @param   string  $file    	The name and location of the file
+	 *
+	 * @return   boolean  true if image resize successful, false otherwise.
+	 *
+	 * @since   3.2
+	 */
+	public function copyFile($newName, $location, $file)
+	{
+		if ($template = $this->getTemplate())
+		{
+			$app     		= JFactory::getApplication();
+			$client  		= JApplicationHelper::getClientInfo($template->client_id);
+			$relPath 		= base64_decode($file);
+			$explodeArray	= explode('.', $relPath);
+			$ext			= end($explodeArray);
+			$path    		= JPath::clean($client->path . '/templates/' . $template->element . '/');
+			$newPath		= JPath::clean($path . '/' . $location . '/' . $newName . '.' . $ext);
+
+			if(file_exists($newPath))
+			{
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_EXISTS'), 'error');
+
+				return false;
+			}
+
+			if(JFile::copy($path . $relPath, $newPath))
+			{
+				$app->enqueueMessage(JText::sprintf('COM_TEMPLATES_FILE_COPY_SUCCESS', $newName . '.' . $ext));
+
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
 	}
 }

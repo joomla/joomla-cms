@@ -25,7 +25,7 @@ ksort($this->files, SORT_STRING);
 				}
 			?>
 			<li class="<?php echo $class; ?>">
-				<a class='folder-url' href=''>
+				<a class='folder-url nowrap' href=''>
 					<i class='icon-folder-close'>&nbsp;<?php $explodeArray = explode('/',$key); echo end($explodeArray); ?></i>
 				</a>
 				<?php echo $this->directoryTree($value); ?>
@@ -33,7 +33,7 @@ ksort($this->files, SORT_STRING);
 		<?php endif; ?>
 		<?php if(is_object($value)): ?>
 			<li>
-				<a class="file" href='<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $this->id . '&file=' . $value->id) ?>'>
+				<a class="file nowrap" href='<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $this->id . '&file=' . $value->id) ?>'>
 					<i class='icon-file'>&nbsp;<?php echo $value->name; ?></i>
 				</a>
 			</li>

@@ -127,6 +127,10 @@ if($this->type == 'image')
 		height: auto;
 	}
 
+	.directory-tree{
+		overflow-x: auto;
+	}
+
 <?php if($this->type == 'font'): ?>
 
 	/* Styles for font preview */
@@ -369,6 +373,9 @@ if($this->type == 'image')
 	</div>
 	<div class="modal-body">
 		<div class="column">
+			<?php echo $this->loadTemplate('folders');?>
+		</div>
+		<div class="column">
 			<form method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.createFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
 				class="well" >
 				<fieldset>
@@ -381,6 +388,7 @@ if($this->type == 'image')
 						<option value="xml">xml</option>
 						<option value="ini">ini</option>
 						<option value="less">less</option>
+						<option value="txt">txt</option>
 					</select>
 					<label><?php echo JText::_('COM_TEMPLATES_FILE_NAME');?></label>
 					<input type="text" name="name" required />
@@ -397,9 +405,19 @@ if($this->type == 'image')
 					<input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_UPLOAD');?>" class="btn btn-primary" />
 				</fieldset>
 			</form>
-		</div>
-		<div class="column">
-			<?php echo $this->loadTemplate('folders');?>
+			<form method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.copyFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
+				  class="well" enctype="multipart/form-data" >
+				<fieldset>
+					<input type="hidden" class="address" name="address" />
+					<div class="control-group">
+						<label for="new_name" class="control-label hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_FILE_NEW_NAME_DESC'); ?>"><?php echo JText::_('COM_TEMPLATES_FILE_NEW_NAME_LABEL')?></label>
+						<div class="controls">
+							<input type="text" id="new_name" name="new_name"  />
+						</div>
+					</div>
+					<input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_COPY_FILE');?>" class="btn btn-primary" />
+				</fieldset>
+			</form>
 		</div>
 	</div>
 	<div class="modal-footer">
@@ -413,6 +431,9 @@ if($this->type == 'image')
 	</div>
 	<div class="modal-body">
 		<div class="column">
+			<?php echo $this->loadTemplate('folders');?>
+		</div>
+		<div class="column">
 			<form method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.createFolder&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
 				  class="well" >
 				<fieldset>
@@ -423,9 +444,6 @@ if($this->type == 'image')
 					<input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_CREATE');?>" class="btn btn-primary" />
 				</fieldset>
 			</form>
-		</div>
-		<div class="column">
-			<?php echo $this->loadTemplate('folders');?>
 		</div>
 	</div>
 	<div class="modal-footer">
