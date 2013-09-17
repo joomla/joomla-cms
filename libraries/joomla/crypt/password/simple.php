@@ -43,9 +43,9 @@ class JCryptPasswordSimple implements JCryptPassword
 	 */
 	public function create($password, $type = null)
 	{
-		// Not all controllers check the length, although they should to avoid DOS attacns.
-		// Hence this code is required:
-		if (strlen($array['password']) > 100)
+		// We set a maximum length to prevent abuse since it is unfiltered and not all controllers check.
+		// 55 is the maximum for bcrypt currently the strongest available method:
+		if (strlen($array['password']) > 55)
 		{
 			$app = JFactory::getApplication();
 			$app->enqueueMessage(JText::_('JLIB_USER_ERROR_PASSWORD_TOO_LONG'), 'error');

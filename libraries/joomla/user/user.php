@@ -563,17 +563,6 @@ class JUser extends JObject
 
 				return false;
 			}
-
-			// Not all controllers check the length, although they should to avoid DOS attacns.
-			// Hence this code is required:
-			if (strlen($array['password']) > 100)
-			{
-				$app = JFactory::getApplication();
-				$app->enqueueMessage(JText::_('JLIB_USER_ERROR_PASSWORD_TOO_LONG'), 'error');
-
-				return false;
-			}
-
 			$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
 
 			$joomlaPluginEnabled = JPluginHelper::isEnabled('user', 'joomla');
@@ -606,13 +595,17 @@ class JUser extends JObject
 				$this->set('username', $username);
 			}
 
-			// Check that password is not greater than 100 characters
+			// Use a limit to prevent abuse since it is unfiltered
+			// The maximum password length for bcrypt is 55 characters.
 			$password = $this->get('password');
 
-			if (strlen($password) > 100)
+			if (strlen($password) > 55)
 			{
-				$password = substr($password, 0, 100);
+				$password = substr($password, 0, 55);
 				$this->set('password', $password);
+				$app = JFactory::getApplication();
+				$app->enqueueMessage(JText::_('JLIB_USER_ERROR_PASSWORD_TRUNCATED'), 'notice');
+
 			}
 		}
 		else

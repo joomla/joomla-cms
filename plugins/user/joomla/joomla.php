@@ -209,6 +209,15 @@ class PlgUserJoomla extends JPlugin
 		if (substr($user['password'], 0, 4) != '$2y$' && $this->useStrongEncryption
 				&& JCrypt::hasStrongPasswordSupport() == true)
 		{
+			if (strlen($user['password']) > 55)
+			{
+				$user['password'] = substr($user['password'], 0, 55);
+
+				$app = JFactory::getApplication();
+				$app->enqueueMessage(JText::_('JLIB_USER_ERROR_PASSWORD_TRUNCATED'), 'notice');
+
+			}
+
 			$instance->password = password_hash($user['password'], PASSWORD_BCRYPT);
 
 			$instance->save();

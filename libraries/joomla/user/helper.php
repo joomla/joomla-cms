@@ -316,9 +316,9 @@ abstract class JUserHelper
 	 */
 	public static function getCryptedPassword($plaintext, $salt = '', $encryption = 'bcrypt', $show_encrypt = false)
 	{
-		// Not all controllers check the length, although they should to avoid DOS attacns.
-		// Hence this code is required:
-		if (strlen($array['password']) > 100)
+		// Not all controllers check the length, although they should to avoid DOS attacks.
+		// The maximum password length for bcrypt is 55:
+		if (strlen($array['password']) > 55)
 		{
 			$app = JFactory::getApplication();
 			$app->enqueueMessage(JText::_('JLIB_USER_ERROR_PASSWORD_TOO_LONG'), 'error');
