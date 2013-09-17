@@ -19,7 +19,16 @@ JHtml::_('behavior.keepalive');
 
 		<label id="mod-login-password-lbl" for="mod-login-password"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
 		<input name="passwd" id="mod-login-password" type="password" class="inputbox" size="15" />
-
+		<?php if (count($twofactormethods) > 1): ?>
+			<div class="control-group">
+				<div class="controls">
+					<label for="mod-login-secretkey">
+						<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>
+					</label>
+					<input name="secretkey" tabindex="3" id="mod-login-secretkey" type="text" class="input-medium" size="15"/>
+				</div>
+			</div>
+		<?php endif; ?>
 		<?php if (!empty ($langs)) : ?>
 			<label id="mod-login-language-lbl" for="lang"><?php echo JText::_('MOD_LOGIN_LANGUAGE'); ?></label>
 			<?php echo $langs; ?>

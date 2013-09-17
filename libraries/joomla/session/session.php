@@ -57,7 +57,7 @@ class JSession implements IteratorAggregate
 	 * - fix_browser
 	 * - fix_adress
 	 *
-	 * @var array
+	 * @var    array
 	 * @since  11.1
 	 */
 	protected $_security = array('fix_browser');
@@ -72,12 +72,16 @@ class JSession implements IteratorAggregate
 	protected $_force_ssl = false;
 
 	/**
-	 * @var    JSession  JSession instances container.
+	 * JSession instances container.
+	 *
+	 * @var    JSession
 	 * @since  11.3
 	 */
 	protected static $instance;
 
 	/**
+	 * The type of storage for the session.
+	 *
 	 * @var    string
 	 * @since  12.2
 	 */

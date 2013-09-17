@@ -25,8 +25,75 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Sep-2013 Jean-Marie Simonet
+ # [#32020] "Articles Categories" Module - cache is not working. Thanks Peter Martin
+ + [#31372] Selected tab changes to default after save. Thanks Ashan Fernando
+
+13-Sep-2013 Jean-Marie Simonet
+ # [#31987] *Joomla multilingual install: sef and flags issues. Thanks Beat
+ $ [#31942] Two factor authentication - Language file. Thanks Brian Teeman
+ # [#31985] Remove clear lines at the TinyMCE. Thanks Tobias Zulauf
+ # [#31696] Profile 'Web site' field not working well. Thanks Anthony THERREAU
+
+13-Sep-2013 Elin Waring
+ # [#31998] Smart Search Index Button broken (Regression).
+
+12-Sep-2013 Jean-Marie Simonet
+ + [#31850] The parent item search ajax based on menu location. Thanks Lu Nguyen
+ # [#31890] tagged items list has class "list-striped" and "list-condensed" in code. Thanks Elin waring.
+ $ Updating Italian Tinymce lang file
+
+11-Sep-2013 Elin Waring
+ # [#31753] PGSQL Missing #__ prefix on CONSTRAINT "uc_ItemnameTagid" in installation/sql/postgresql/joomla.sql. Thanks Alan Hicks
+ # [#31894] Check for context in vote plugin. Thanks George Wilson
+ # [#31749] JModuleHelper::isEnabled always returns true. Thanks Chad Windnagle
+ # [#31983] Fix regression due to [31894].
+
+11-Sep-2013 Jean-Marie Simonet
+ # [#31848] Archive Articles View frontend
+ + Adding Albanian flag
+ + Adding Macedonian tinymce lang file
+
+10-Sep-2013 Michael Babker
+ # [#31965] Fatal error: Call to undefined method UsersModelUser::loadLanguage().  Thanks Jurian Even
+ # [#31948] Beez3: twofactorauth (secretkey field).  Thanks Tobias Zulauf
+ # [#31949] Hathor: twofactorauth (secretkey field).  Thanks Tobias Zulauf
+
+10-Sep-2013 Jean-Marie Simonet
+ # [#31961] *Login Modules wrongly display tips (RTL and LTR)
+ $ [#31923] Replace non-existent word multilanguage. Thanks Brian Teeman
+ # [#31181] Overflow of text into other column.
+ $ [#31944] Standardise on select not check. Thanks Brian Teeman
+ # [#31840] Can not set class to calendar input. Thanks Achal Aggarwal
+ # [#31929] mod_footer : year do not convert to other calendar like persian language that use hijri date. Thanks Mohammad Hasani Eghtedar and Carsten Wirtz
+ # [#31913] Search results in Template Manager contain more than just templates. Thanks Elin Waring
+ # [#31854] The Module "All Modules" is lost at testing sample data (mysql). Thanks Tobias Zulauf
+
+08-Sep-2013 Michael Babker
+ # [#31955] Two factor authentication is broken in the back-end. Thanks Nicholas Dionysopoulos
+ # [#31950] Hathor: twofactorauth (user manager). Thanks Nicholas Dionysopoulos
+
+08-Sep-2013 Elin Waring
+^+ [#31930] Ordering Form Field Changes Thanks George Wilson
+
+08-Sep-2013 Jean-Marie Simonet
+ +$ [#31725] Joomla multilingual site automatic installer. Thanks Carles Serrats and Javier Gómez
+
+07-Sep-2013 Jean-Marie Simonet
+ # [#31707] Regression: [#29933] prevents showing only page header. Thanks George Wilson
+ $ [#31883] Replace all instance of Super Admin with Super User in languages files. Thanks Brian Teeman
+ $ [#31888] Standardising on plugin instead of plug-in. Thanks Brian Teeman
+ $ [#31917] Remove double space. Thanks Brian Teeman
+ # [#31914] mod_footer - replacement in language override string doesn`t work correct. Thanks Carsten Wirtz
+ # [#31876] Contact Icons are missing when selecting new ones. Thanks Carsten Wirtz
+ $ [#31886] Standardise on check-in language strings. Thanks Brian Teeman
+ # [#31896] Stupid return in contact component table. Thanks George Wilson
+ # [#31884] *Smart search Index and Statistics buttons broken if lang debug is on
+ $ [#31846] Small correction to franglais in languages strings. Thanks Brian Teeman
+ # [#31936] Add active class to breadcrumb module for more bootstrap compatibility. Thanks Michael Babker.
+
 06-Sep-2013 Michael Babker
- + [#31704] Two factor authentication for Joomla!.  Thanks Nicholas Dionysopoulos
+ +$ [#31704] Two factor authentication for Joomla!. Thanks Nicholas Dionysopoulos
 
 06-Sep-2013 Jean-Marie Simonet
  #$ [#31885] TinyMCE horizontal Resizing. Thanks George Wilson
