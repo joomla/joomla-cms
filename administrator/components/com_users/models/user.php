@@ -782,15 +782,17 @@ class UsersModelUser extends JModelAdmin
 			'otep'		=> array(),
 		);
 
-		// Get the raw data, without going through JUser (required in order to
-        // be able to modify the user record before logging in the user).
-        $db = $this->getDbo();
-        $query = $db->getQuery(true)
-            ->select('*')
-            ->from($db->qn('#__users'))
-            ->where($db->qn('id') . ' = ' . $db->q($user_id));
+		/**
+		 * Get the raw data, without going through JUser (required in order to
+		 * be able to modify the user record before logging in the user).
+		 */
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__users'))
+			->where($db->qn('id') . ' = ' . $db->q($user_id));
 		$db->setQuery($query);
-        $item = $db->loadObject();
+		$item = $db->loadObject();
 
 		// Make sure this user does have OTP enabled
 		if (empty($item->otpKey))
@@ -861,10 +863,10 @@ class UsersModelUser extends JModelAdmin
 		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');
 
 		$updates = (object)array(
-            'id'        => $user_id,
-            'otpKey'    => '',
-            'otep'      => '',
-        );
+			'id'        => $user_id,
+			'otpKey'    => '',
+			'otep'      => '',
+		);
 
 		// Create an encryptor class
 		$key = $this->getOtpConfigEncryptionKey();
@@ -879,8 +881,8 @@ class UsersModelUser extends JModelAdmin
 			$updates->otep = $aes->encryptString($decryptedOtep);
 		}
 
-        $db = $this->getDbo();
-        $result = $db->updateObject('#__users', $updates, 'id');
+		$db = $this->getDbo();
+		$result = $db->updateObject('#__users', $updates, 'id');
 
 		return $result;
 	}
