@@ -119,6 +119,7 @@ $min = JFactory::getConfig()->get('debug') ? '' : '.min';
 		}
 		else
 		{
+			jQuery('#appsloading').css('display', 'block');
 			form.installtype.value = 'url';
 			form.submit();
 		}
@@ -139,6 +140,7 @@ $min = JFactory::getConfig()->get('debug') ? '' : '.min';
 		}
 		else
 		{
+			jQuery('#appsloading').css('display', 'block');
 			form.installtype.value = 'web';
 			form.submit();
 		}
