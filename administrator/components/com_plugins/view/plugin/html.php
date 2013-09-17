@@ -26,9 +26,10 @@ class PluginViewHtml extends JViewCmsform
 	 */
 	protected function addToolbar()
 	{
-		JFactory::getApplication()->input->set('hidemainmenu', true);
+		$app = JFactory::getApplication();
+		$app->input->set('hidemainmenu', true);
 
-		$canDo = PluginsHelper::getActions();
+		$canDo = JHelperContent::getActions();
 
 		JToolbarHelper::title(JText::sprintf('COM_PLUGINS_MANAGER_PLUGIN', JText::_($this->item->name)), 'plugin');
 
@@ -46,6 +47,7 @@ class PluginViewHtml extends JViewCmsform
 		$lang = JFactory::getLanguage();
 
 		$help = $this->get('Help');
+
 		if ($lang->hasKey($help->url))
 		{
 			$debug = $lang->setDebug(false);

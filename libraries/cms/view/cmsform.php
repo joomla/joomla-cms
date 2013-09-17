@@ -19,6 +19,7 @@ defined('_JEXEC') or die;
 class JViewCmsform extends JViewCms
 {
 	public $state;
+
 	/*
 	 * The form object
 	*
@@ -48,7 +49,7 @@ class JViewCmsform extends JViewCms
 		{
 			$app->enqueueMessage($e->getMessage(), 'error');
 		}
-var_dump($form);die;
+
 		$this->addToolbar();
 		$this->addSubmenu();
 

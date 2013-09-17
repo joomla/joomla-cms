@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-// Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('dropdown.init');
@@ -159,7 +156,7 @@ $sortFields = $this->getSortFields();
 							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'plugins.', $canCheckin); ?>
 						<?php endif; ?>
 						<?php if ($canEdit) : ?>
-							<a href="<?php echo JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id='.(int) $item->extension_id); ?>">
+							<a href="<?php echo JRoute::_('index.php?option=com_plugins&controller=core.displayform.plugin.edit&extension_id='.(int) $item->extension_id); ?>">
 								<?php echo $item->name; ?></a>
 						<?php else : ?>
 								<?php echo $item->name; ?>

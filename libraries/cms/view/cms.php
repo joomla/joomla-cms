@@ -23,28 +23,28 @@ abstract class JViewCms extends JViewHtml
 	 *
 	 * @var string
 	 */
-	protected $_output = null;
+	protected $output = null;
 
 	/**
 	 * The name of the default template source file.
 	 *
 	 * @var string
 	 */
-	protected $_template = null;
+	protected $template = null;
 
 	/**
 	 * The set of search directories for resources (templates)
 	 *
 	 * @var array
 	 */
-	protected $_path = array('template' => array(), 'helper' => array());
+	protected $path = array('template' => array(), 'helper' => array());
 
 	/**
 	 * Layout extension
 	 *
 	 * @var    string
 	 */
-	protected $_layoutExt = 'php';
+	protected $layoutExt = 'php';
 
 	/*
 	 * Optional prefix for the view and model classes
@@ -64,7 +64,6 @@ abstract class JViewCms extends JViewHtml
 	 */
 	public function __construct(JModel $model, SplPriorityQueue $paths = null)
 	{
-
 		$app = JFactory::getApplication();
 		$component = JApplicationHelper::getComponentName();
 		$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $component);
@@ -91,7 +90,7 @@ abstract class JViewCms extends JViewHtml
 	public function loadTemplate($tpl = null)
 	{
 		// Clear prior output
-		$this->_output = null;
+		$this->output = null;
 
 		$template = JFactory::getApplication()->getTemplate();
 		$layout = $this->getLayout();
@@ -117,26 +116,26 @@ abstract class JViewCms extends JViewHtml
 		} */
 
 		// Prevents adding path twise
-		if (empty($this->_path['template']))
+		if (empty($this->path['template']))
 		{
 			// Adding template paths
 			$this->paths->top();
 			$defaultPath =$this->paths->current();
 			$this->paths->next();
 			$templatePath = $this->paths->current();
-			$this->_path['template'] = array($defaultPath, $templatePath);
+			$this->path['template'] = array($defaultPath, $templatePath);
 		}
 
 		// Load the template script
 		jimport('joomla.filesystem.path');
 		$filetofind = $this->createFileName('template', array('name' => $file));
-		$this->_template = JPath::find($this->_path['template'], $filetofind);
+		$this->template = JPath::find($this->path['template'], $filetofind);
 
 		// If alternate layout can't be found, fall back to default layout
-		if ($this->_template == false)
+		if ($this->template == false)
 		{
 			$filetofind = $this->createFileName('', array('name' => 'default' . (isset($tpl) ? '_' . $tpl : $tpl)));
-			$this->_template = JPath::find($this->_path['template'], $filetofind);
+			$this->template = JPath::find($this->path['template'], $filetofind);
 		}
 
 		if ($this->_template != false)
@@ -156,18 +155,17 @@ abstract class JViewCms extends JViewHtml
 
 			// Include the requested template filename in the local scope
 			// (this will execute the view logic).
-			include $this->_template;
+			include $this->template;
 
 			// Done with the requested template; get the buffer and
 			// clear it.
-			$this->_output = ob_get_contents();
+			$this->output = ob_get_contents();
 			ob_end_clean();
 
-			return $this->_output;
+			return $this->output;
 		}
 		else
 		{
-
 			throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_LAYOUTFILE_NOT_FOUND', $file), 500);
 		}
 	}
@@ -189,7 +187,7 @@ abstract class JViewCms extends JViewHtml
 		switch ($type)
 		{
 			case 'template':
-				$filename = strtolower($parts['name']) . '.' . $this->_layoutExt;
+				$filename = strtolower($parts['name']) . '.' . $this->layoutExt;
 				break;
 
 			default:
@@ -212,7 +210,7 @@ abstract class JViewCms extends JViewHtml
 	 */
 	public function getName()
 	{
-		if (empty($this->_name))
+		if (empty($this->name))
 		{
 			$classname = get_class($this);
 			$viewpos = strpos($classname, 'View');
@@ -227,14 +225,14 @@ abstract class JViewCms extends JViewHtml
 
 			if (!empty($pathParts[1]))
 			{
-				$this->_name = strtolower($pathParts[0]);
+				$this->name = strtolower($pathParts[0]);
 			}
 			else
 			{
-				$this->_name = strtolower($lastPart);
+				$this->name = strtolower($lastPart);
 			}
 		}
 
-		return $this->_name;
+		return $this->name;
 	}
 }
