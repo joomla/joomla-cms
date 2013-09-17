@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Sep-2013 Michael Babker
+ # [#31973] Installation loop if sending config yes (3.2 alpha)
+
 16-Sep-2013 Jean-Marie Simonet
  # [#32020] "Articles Categories" Module - cache is not working. Thanks Peter Martin
  + [#31372] Selected tab changes to default after save. Thanks Ashan Fernando
