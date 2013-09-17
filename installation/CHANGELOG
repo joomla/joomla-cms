@@ -29,6 +29,7 @@ $ -> Language fix or change
  # [#31973] Installation loop if sending config yes (3.2 alpha)
  ^ [#31963] Incorrect or inconsistent characters in "close ink" text on alert info popups.  Thanks Marco Richter
  # [#29107] Strict standards and code clean up in com_contact form.  Thanks Piotr Konieczny
+ +$ [#31845] Add JHelperMedia and Deprecate MediaHelper.  Thanks Elin Waring
 
 16-Sep-2013 Jean-Marie Simonet
  # [#32020] "Articles Categories" Module - cache is not working. Thanks Peter Martin
