@@ -54,8 +54,8 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 			<hr />
 			<h5>
 				<?php
-				$joomla = '<a href="http://www.joomla.org">Joomla!<sup>&#174;</sup></a>';
-				$license = '<a data-toggle="modal" href="#licenseModal">' . JText::_('INSTL_GNU_GPL_LICENSE') . '</a>';
+				$joomla = '<a href="http://www.joomla.org">Joomla!</a><sup>&#174;</sup>';
+				$license = '<a href="http://www.gnu.org/licenses/old-licenses/gpl-2.0.html" target="_blank">' . JText::_('INSTL_GNU_GPL_LICENSE') . '</a>';
 				echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla, $license);
 				?>
 			</h5>
@@ -67,15 +67,6 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 				<jdoc:include type="component" />
 			</div>
 			<hr />
-		</div>
-		<div id="licenseModal" class="modal fade">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal">×</button>
-				<h3><?php echo JText::_('INSTL_GNU_GPL_LICENSE'); ?></h3>
-			</div>
-			<div class="modal-body">
-				<iframe src="gpl.html" class="thumbnail span6 license" height="250" marginwidth="25" scrolling="auto"></iframe>
-			</div>
 		</div>
 		<script>
 			function initElements()
