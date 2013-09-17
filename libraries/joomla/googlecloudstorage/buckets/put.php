@@ -138,25 +138,19 @@ class JGooglecloudstorageBucketsPut extends JGooglecloudstorageBuckets
 	 *
 	 * @since   ??.?
 	 */
-	public function putBucketAcl($bucket, $acl = null)
+	public function putBucketAcl($bucket, $acl)
 	{
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?acl";
-		$content = "";
+		$content = $this->createAclXml($acl);
 		$headers = array(
 			"Host" => $bucket . "." . $this->options->get("api.url"),
 			"Date" => date("D, d M Y H:i:s O"),
 			"x-goog-api-version" => 2,
 			"x-goog-project-id" => $this->options->get("project.id"),
+			"Content-Type" => "application/x-www-form-urlencoded; charset=utf-8",
+			"Content-Length" => strlen($content),
 		);
 
-		// Check for ACL permissions
-		if (is_array($acl))
-		{
-			$headers["Content-Type"] = "application/x-www-form-urlencoded; charset=utf-8";
-			$content = $this->createAclXml($acl);
-		}
-
-		$headers["Content-Length"] = strlen($content);
 		$authorization = $this->getAuthorization(
 			$this->options->get("api.oauth.scope.full-control")
 		);
