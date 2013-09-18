@@ -97,7 +97,7 @@ class CacheController extends JControllerLegacy
 
 		if ($ret === false)
 		{
-			$msg = JText::_('Error purging expired items');
+			$msg = JText::_('COM_CACHE_EXPIRED_ITEMS_PURGING_ERROR');
 			$msgType = 'error';
 		}
 

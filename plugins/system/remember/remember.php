@@ -36,7 +36,6 @@ class PlgSystemRemember extends JPlugin
 			if ($str = JRequest::getString($hash, '', 'cookie', JREQUEST_ALLOWRAW | JREQUEST_NOTRIM))
 			{
 				$credentials = array();
-				$goodCookie = true;
 				$filter = JFilterInput::getInstance();
 
 				// Create the encryption key, apply extra hardening using the user agent string.

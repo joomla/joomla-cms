@@ -373,7 +373,6 @@ class JDocument
 	 */
 	public function getMetaData($name, $httpEquiv = false)
 	{
-		$result = '';
 		$name = strtolower($name);
 		if ($name == 'generator')
 		{

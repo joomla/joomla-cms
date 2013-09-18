@@ -193,7 +193,7 @@ class JViewLegacy extends JObject
 			$this->setLayout('default');
 		}
 
-		$this->baseurl = JURI::base(true);
+		$this->baseurl = JUri::base(true);
 	}
 
 	/**
@@ -468,17 +468,7 @@ class JViewLegacy extends JObject
 				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME'), 500);
 			}
 
-			$lastPart = substr($classname, $viewpos + 4);
-			$pathParts = explode(' ', JStringNormalise::fromCamelCase($lastPart));
-
-			if (!empty($pathParts[1]))
-			{
-				$this->_name = strtolower($pathParts[0]);
-			}
-			else
-			{
-				$this->_name = strtolower($lastPart);
-			}
+			$this->_name = strtolower(substr($classname, $viewpos + 4));
 		}
 
 		return $this->_name;
@@ -793,8 +783,6 @@ class JViewLegacy extends JObject
 	 */
 	protected function _createFileName($type, $parts = array())
 	{
-		$filename = '';
-
 		switch ($type)
 		{
 			case 'template':

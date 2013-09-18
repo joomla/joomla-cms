@@ -41,7 +41,7 @@ JError::setErrorHandling(E_NOTICE, 'message');
 JError::setErrorHandling(E_WARNING, 'message');
 JError::setErrorHandling(E_ERROR, 'callback', array('JError', 'customErrorPage'));
 
-// Botstrap the CMS libraries.
+// Bootstrap the CMS libraries.
 require_once JPATH_LIBRARIES.'/cms.php';
 
 // Pre-Load configuration.

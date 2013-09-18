@@ -147,9 +147,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 */
 	protected function getAddColumnSQL($table, SimpleXMLElement $field)
 	{
-		$sql = 'ALTER TABLE ' . $this->db->quoteName($table) . ' ADD COLUMN ' . $this->getColumnSQL($field);
-
-		return $sql;
+		return 'ALTER TABLE ' . $this->db->quoteName($table) . ' ADD COLUMN ' . $this->getColumnSQL($field);
 	}
 
 	/**
@@ -164,9 +162,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 */
 	protected function getAddKeySQL($table, $keys)
 	{
-		$sql = 'ALTER TABLE ' . $this->db->quoteName($table) . ' ADD ' . $this->getKeySQL($keys);
-
-		return $sql;
+		return 'ALTER TABLE ' . $this->db->quoteName($table) . ' ADD ' . $this->getKeySQL($keys);
 	}
 
 	/**
@@ -330,10 +326,8 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 */
 	protected function getChangeColumnSQL($table, SimpleXMLElement $field)
 	{
-		$sql = 'ALTER TABLE ' . $this->db->quoteName($table) . ' CHANGE COLUMN ' . $this->db->quoteName((string) $field['Field']) . ' '
+		return 'ALTER TABLE ' . $this->db->quoteName($table) . ' CHANGE COLUMN ' . $this->db->quoteName((string) $field['Field']) . ' '
 			. $this->getColumnSQL($field);
-
-		return $sql;
 	}
 
 	/**
@@ -356,39 +350,39 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 		$fDefault = isset($field['Default']) ? (string) $field['Default'] : null;
 		$fExtra = (string) $field['Extra'];
 
-		$sql = $this->db->quoteName($fName) . ' ' . $fType;
+		$query = $this->db->quoteName($fName) . ' ' . $fType;
 
 		if ($fNull == 'NO')
 		{
 			if (in_array($fType, $blobs) || $fDefault === null)
 			{
-				$sql .= ' NOT NULL';
+				$query .= ' NOT NULL';
 			}
 			else
 			{
 				// TODO Don't quote numeric values.
-				$sql .= ' NOT NULL DEFAULT ' . $this->db->quote($fDefault);
+				$query .= ' NOT NULL DEFAULT ' . $this->db->quote($fDefault);
 			}
 		}
 		else
 		{
 			if ($fDefault === null)
 			{
-				$sql .= ' DEFAULT NULL';
+				$query .= ' DEFAULT NULL';
 			}
 			else
 			{
 				// TODO Don't quote numeric values.
-				$sql .= ' DEFAULT ' . $this->db->quote($fDefault);
+				$query .= ' DEFAULT ' . $this->db->quote($fDefault);
 			}
 		}
 
 		if ($fExtra)
 		{
-			$sql .= ' ' . strtoupper($fExtra);
+			$query .= ' ' . strtoupper($fExtra);
 		}
 
-		return $sql;
+		return $query;
 	}
 
 	/**
@@ -403,9 +397,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 */
 	protected function getDropColumnSQL($table, $name)
 	{
-		$sql = 'ALTER TABLE ' . $this->db->quoteName($table) . ' DROP COLUMN ' . $this->db->quoteName($name);
-
-		return $sql;
+		return 'ALTER TABLE ' . $this->db->quoteName($table) . ' DROP COLUMN ' . $this->db->quoteName($name);
 	}
 
 	/**
@@ -420,9 +412,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 */
 	protected function getDropKeySQL($table, $name)
 	{
-		$sql = 'ALTER TABLE ' . $this->db->quoteName($table) . ' DROP KEY ' . $this->db->quoteName($name);
-
-		return $sql;
+		return 'ALTER TABLE ' . $this->db->quoteName($table) . ' DROP KEY ' . $this->db->quoteName($name);
 	}
 
 	/**
@@ -436,9 +426,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 */
 	protected function getDropPrimaryKeySQL($table)
 	{
-		$sql = 'ALTER TABLE ' . $this->db->quoteName($table) . ' DROP PRIMARY KEY';
-
-		return $sql;
+		return 'ALTER TABLE ' . $this->db->quoteName($table) . ' DROP PRIMARY KEY';
 	}
 
 	/**
@@ -521,9 +509,9 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 			}
 		}
 
-		$sql = $prefix . 'KEY ' . ($kName != 'PRIMARY' ? $this->db->quoteName($kName) : '') . ' (' . implode(',', $kColumns) . ')';
+		$query = $prefix . 'KEY ' . ($kName != 'PRIMARY' ? $this->db->quoteName($kName) : '') . ' (' . implode(',', $kColumns) . ')';
 
-		return $sql;
+		return $query;
 	}
 
 	/**
@@ -587,7 +575,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 					// Run the queries to upgrade the data structure.
 					foreach ($queries as $query)
 					{
-						$this->db->setQuery((string) $query);
+						$this->db->setQuery($query);
 
 						try
 						{
@@ -606,9 +594,9 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 			else
 			{
 				// This is a new table.
-				$sql = $this->xmlToCreate($table);
+				$query = $this->xmlToCreate($table);
 
-				$this->db->setQuery((string) $sql);
+				$this->db->setQuery($query);
 
 				try
 				{

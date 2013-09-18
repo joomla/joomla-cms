@@ -67,8 +67,6 @@ class InstallationControllerInstallLanguages extends JControllerBase
 			$model->install($lids);
 		}
 
-		$r = new stdClass;
-
 		// Redirect to the page.
 		$r = new stdClass;
 		$r->view = 'defaultlanguage';

@@ -12,9 +12,8 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-// Load the tooltip behavior.
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.multiselect');
+JHtml::_('behavior.modal');
 
 $uri		= JUri::getInstance();
 $return		= base64_encode($uri);

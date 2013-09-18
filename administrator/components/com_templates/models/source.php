@@ -155,7 +155,6 @@ class TemplatesModelSource extends JModelForm
 	{
 		$pk = $this->getState('extension.id');
 		$db = $this->getDbo();
-		$result = false;
 
 		// Get the template information.
 		$db->setQuery(

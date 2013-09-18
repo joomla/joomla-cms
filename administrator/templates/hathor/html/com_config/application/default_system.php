@@ -13,14 +13,12 @@ defined('_JEXEC') or die;
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('COM_CONFIG_SYSTEM_SETTINGS'); ?></legend>
 		<ul class="adminformlist">
-			<?php
-			foreach ($this->form->getFieldset('system') as $field):
-			?>
-				<li><?php echo $field->label; ?>
-				<?php echo $field->input; ?></li>
-			<?php
-			endforeach;
-			?>
-			</ul>
+			<?php foreach ($this->form->getFieldset('system') as $field): ?>
+				<li>
+					<?php echo $field->label; ?>
+					<?php echo $field->input; ?>
+				</li>
+			<?php endforeach; ?>
+		</ul>
 	</fieldset>
 </div>

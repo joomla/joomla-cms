@@ -30,10 +30,8 @@ class ContactViewCategory extends JViewLegacy
 		$app = JFactory::getApplication();
 
 		$doc	= JFactory::getDocument();
-		$params = $app->getParams();
 		$feedEmail = $app->getCfg('feed_email', 'author');
 		$siteEmail = $app->getCfg('mailfrom');
-		$fromName  = $app->getCfg('fromname');
 
 		$app->input->set('limit', $app->getCfg('feed_limit'));
 		// Get some data from the models

@@ -35,10 +35,13 @@ class UsersViewProfile extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Get the view data.
-		$this->data		= $this->get('Data');
-		$this->form		= $this->get('Form');
-		$this->state	= $this->get('State');
-		$this->params	= $this->state->get('params');
+		$this->data		        = $this->get('Data');
+		$this->form		        = $this->get('Form');
+		$this->state	        = $this->get('State');
+		$this->params	        = $this->state->get('params');
+		$this->twofactorform    = $this->get('Twofactorform');
+		$this->twofactormethods = UsersHelper::getTwoFactorMethods();
+		$this->otpConfig        = $this->get('OtpConfig');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -82,7 +85,6 @@ class UsersViewProfile extends JViewLegacy
 		$app		= JFactory::getApplication();
 		$menus		= $app->getMenu();
 		$user		= JFactory::getUser();
-		$login		= $user->get('guest') ? true : false;
 		$title 		= null;
 
 		// Because the application sets a default page title,

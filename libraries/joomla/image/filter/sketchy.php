@@ -26,17 +26,9 @@ class JImageFilterSketchy extends JImageFilter
 	 * @return  void
 	 *
 	 * @since   11.3
-	 * @throws  RuntimeException
 	 */
 	public function execute(array $options = array())
 	{
-		// Verify that image filter support for PHP is available.
-		if (!function_exists('imagefilter'))
-		{
-			JLog::add('The imagefilter function for PHP is not available.', JLog::ERROR);
-			throw new RuntimeException('The imagefilter function for PHP is not available.');
-		}
-
 		// Perform the sketchy filter.
 		imagefilter($this->handle, IMG_FILTER_MEAN_REMOVAL);
 	}

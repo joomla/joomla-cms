@@ -50,7 +50,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 
 		$data = $this->_doc;
 
-		$uri = JURI::getInstance();
+		$uri = JUri::getInstance();
 		$url = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 		$syndicationURL = JRoute::_('&format=feed&type=rss');
 
@@ -243,7 +243,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 	 */
 	public function _relToAbs($text)
 	{
-		$base = JURI::base();
+		$base = JUri::base();
 		$text = preg_replace("/(href|src)=\"(?!http|ftp|https|mailto|data)([^\"]*)\"/", "$1=\"$base\$2\"", $text);
 
 		return $text;

@@ -54,9 +54,10 @@ class CheckinController extends JControllerLegacy
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string	The name of the active view.
+	 * @param   string  $vName  The name of the active view.
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function addSubmenu($vName)

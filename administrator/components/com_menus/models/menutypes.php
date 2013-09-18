@@ -92,7 +92,7 @@ class MenusModelMenutypes extends JModelLegacy
 		}
 
 		// Allow a system plugin to insert dynamic menu types to the list shown in menus:
-		JDispatcher::getInstance()->trigger('onAfterGetMenuTypeOptions', array(&$list, $this));
+		JEventDispatcher::getInstance()->trigger('onAfterGetMenuTypeOptions', array(&$list, $this));
 
 		return $list;
 	}
@@ -308,7 +308,6 @@ class MenusModelMenutypes extends JModelLegacy
 		$options = array();
 		$layouts = array();
 		$layoutNames = array();
-		$templateLayouts = array();
 		$lang = JFactory::getLanguage();
 
 		// Get the layouts from the view folder.
@@ -328,7 +327,6 @@ class MenusModelMenutypes extends JModelLegacy
 			// Ignore private layouts.
 			if (strpos(basename($layout), '_') === false)
 			{
-				$file = $layout;
 				// Get the layout name.
 				$layoutNames[] = basename($layout, '.xml');
 			}
@@ -353,7 +351,6 @@ class MenusModelMenutypes extends JModelLegacy
 
 				foreach ($templateLayouts as $layout)
 				{
-					$file = $layout;
 					// Get the layout name.
 					$templateLayoutName = basename($layout, '.xml');
 

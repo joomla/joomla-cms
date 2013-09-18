@@ -12,15 +12,43 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-// Load the tooltip behavior.
 JHtml::_('behavior.framework');
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.modal');
 JHtml::_('formbehavior.chosen', 'select');
 
+JText::script('ERROR');
+JText::script('JGLOBAL_VALIDATION_FORM_FAILED');
+
 $app = JFactory::getApplication();
 $assoc = isset($app->item_associations) ? $app->item_associations : 0;
+
+//Ajax for parent items
+$script = "jQuery(document).ready(function ($){
+				$('#jform_menutype').change(function(){
+					var menutype = $(this).val();
+					$.ajax({
+						url: 'index.php?option=com_menus&task=item.getParentItem&menutype=' + menutype,
+						dataType: 'json'
+					}).done(function(data) {
+						$('#jform_parent_id option').each(function() {
+							if ($(this).val() != '1') {
+								$(this).remove();
+							}
+						});
+
+						$.each(data, function (i, val) {
+							var option = $('<option>');
+							option.text(val.title).val(val.id);
+							$('#jform_parent_id').append(option);
+						});
+						$('#jform_parent_id').trigger('liszt:updated');
+					});
+				});
+			});";
+
+// Add the script to the document head.
+JFactory::getDocument()->addScriptDeclaration($script);
 
 ?>
 
@@ -50,11 +78,15 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 				var name = idReversed.substr(separatorLocation).split("").reverse().join("")+'name';
 				document.id(name).addClass('invalid');
 			});
+
+			$('system-message').getElement('h4').innerHTML  = Joomla.JText._('ERROR');
+			$('system-message').getElement('div').innerHTML = Joomla.JText._('JGLOBAL_VALIDATION_FORM_FAILED');
 		}
 	}
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate form-horizontal">
+
 	<fieldset>
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 

@@ -25,38 +25,47 @@ class JInstallerAdapterModule extends JAdapterInstance
 	 * Install function routing
 	 *
 	 * @var    string
-	 * @since 3.1
+	 * @since  3.1
 	 */
 	protected $route = 'Install';
 
 	/**
-	 * @var
-	 * @since 3.1
+	 * The installation manifest XML object
+	 *
+	 * @var    SimpleXMLElement
+	 * @since  3.1
 	 */
 	protected $manifest = null;
 
 	/**
-	 * @var
-	 * @since 3.1
+	 * A path to the PHP file that the scriptfile declaration in
+	 * the manifest refers to.
+	 *
+	 * @var    string
+	 * @since  3.1
 	 */
 	protected $manifest_script = null;
 
 	/**
 	 * Extension name
 	 *
-	 * @var
-	 * @since   3.1
+	 * @var    string
+	 * @since  3.1
 	 */
 	protected $name = null;
 
 	/**
-	 * @var
+	 * Extension element
+	 *
+	 * @var    string
 	 * @since  3.1
 	 */
 	protected $element = null;
 
 	/**
-	 * @var    string
+	 * <scriptfile> element of the extension manifest
+	 *
+	 * @var    object
 	 * @since  3.1
 	 */
 	protected $scriptElement = null;
@@ -186,7 +195,6 @@ class JInstallerAdapterModule extends JAdapterInstance
 		else
 		{
 			// No client attribute was found so we assume the site as the client
-			$cname = 'site';
 			$basePath = JPATH_SITE;
 			$clientId = 0;
 		}
@@ -854,7 +862,7 @@ class JInstallerAdapterModule extends JAdapterInstance
 		$this->parent->removeFiles($this->manifest->languages, $row->client_id);
 
 		// Let's delete all the module copies for the type we are uninstalling
-		$query = $db->getQuery(true)
+		$query->clear()
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__modules'))
 			->where($db->quoteName('module') . ' = ' . $db->quote($row->element))

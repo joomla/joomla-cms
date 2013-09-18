@@ -68,12 +68,13 @@ abstract class JLogLogger
 }
 
 /**
- * Deprecated class placeholder.  You should use JAccessRule instead.
+ * Deprecated class placeholder.  You should use JLogLogger instead.
  *
  * @package     Joomla.Platform
- * @subpackage  Access
+ * @subpackage  Log
  * @since       11.1
  * @deprecated  13.3 (Platform) & 4.0 (CMS)
+ * @codeCoverageIgnore
  */
 abstract class JLogger extends JLogLogger
 {
