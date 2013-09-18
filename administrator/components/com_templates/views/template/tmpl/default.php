@@ -432,7 +432,7 @@ if($this->type == 'image')
 					<div class="control-group">
 						<label for="new_name" class="control-label hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_FILE_NEW_NAME_DESC'); ?>"><?php echo JText::_('COM_TEMPLATES_FILE_NEW_NAME_LABEL')?></label>
 						<div class="controls">
-							<input type="text" id="new_name" name="new_name"  />
+							<input type="text" id="new_name" name="new_name" required />
 						</div>
 					</div>
 					<input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_COPY_FILE');?>" class="btn btn-primary" />

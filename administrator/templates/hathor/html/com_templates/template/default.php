@@ -205,6 +205,7 @@ if($this->type == 'image')
 								<option value="xml">xml</option>
 								<option value="ini">ini</option>
 								<option value="less">less</option>
+								<option value="txt">txt</option>
 							</select>
 							<br />
 							<label><?php echo JText::_('COM_TEMPLATES_FILE_NAME');?></label>
@@ -221,6 +222,20 @@ if($this->type == 'image')
 							<input type="hidden" class="address" name="address" />
 							<input type="file" name="files" required />
 							<input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_UPLOAD');?>" class="btn btn-primary" />
+						</fieldset>
+					</form>
+					<br />
+					<form method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.copyFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
+						  enctype="multipart/form-data" >
+						<fieldset>
+							<input type="hidden" class="address" name="address" />
+							<div class="control-group">
+								<label for="new_name" class="control-label hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_FILE_NEW_NAME_DESC'); ?>"><?php echo JText::_('COM_TEMPLATES_FILE_NEW_NAME_LABEL')?></label>
+								<div class="controls">
+									<input type="text" id="new_name" name="new_name" required />
+								</div>
+							</div>
+							<input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_COPY_FILE');?>" class="btn btn-primary" />
 						</fieldset>
 					</form>
 				</div>
@@ -291,6 +306,28 @@ if($this->type == 'image')
 			<input type ="hidden" id="w" name="w" />
 			<input type="hidden" name="task" value="" />
 			<?php echo JHtml::_('form.token'); ?>
+		</form>
+	<?php endif; ?>
+	<?php if($this->type == 'archive'): ?>
+		<legend><?php echo JText::_('COM_TEMPLATES_FILE_CONTENT_PREVIEW'); ?></legend>
+		<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
+			<fieldset>
+				<ul class="nav nav-list">
+					<?php foreach ($this->archive as $file): ?>
+						<li>
+							<?php if (substr($file, -1) === DIRECTORY_SEPARATOR): ?>
+								<i class="icon-folder"></i>&nbsp;<?php echo $file; ?>
+							<?php endif; ?>
+							<?php if (substr($file, -1) != DIRECTORY_SEPARATOR): ?>
+								<i class="icon-file"></i>&nbsp;<?php echo $file; ?>
+							<?php endif; ?>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+			</fieldset>
+			<input type="hidden" name="task" value="" />
+			<?php echo JHtml::_('form.token'); ?>
+
 		</form>
 	<?php endif; ?>
 	<?php if($this->type == 'font'): ?>
