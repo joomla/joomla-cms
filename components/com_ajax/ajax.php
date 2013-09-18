@@ -97,15 +97,27 @@ if (!is_null($error))
 switch ($format)
 {
 	case 'json':
-		header('Content-Type: application/json');
+		if (isset($_SERVER['HTTP_ACCEPT']) AND strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false) 
+		{
+			JResponse::setHeader('Content-Type', 'application/json');
+		} 
+		else 
+		{
+			JResponse::setHeader('Content-Type', 'text/plain'); // Internet Explorer < 10
+		}
+		JResponse::toString();
 		echo json_encode($results);
 		$app->close();
 		break;
+		
 	case 'debug':
+		JResponse::toString();
 		echo '<pre>' . print_r($results, true) . '</pre>';
 		$app->close();
 		break;
+		
 	default:
+		JResponse::toString();
 		echo is_array($results) ? implode($results) : $results;
 		// Emulates format=raw by closing $app
 		$app->close();
