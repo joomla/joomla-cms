@@ -97,7 +97,7 @@ class PlgAuthenticationGMail extends JPlugin
 				else
 				{
 					// The username is black listed
-					$message = 'User is blacklisted';
+					$message = JText::_('JGLOBAL_AUTH_USER_BLACKLISTED');
 				}
 			}
 			else
@@ -107,7 +107,7 @@ class PlgAuthenticationGMail extends JPlugin
 		}
 		else
 		{
-			$message = 'curl isn\'t insalled';
+			$message = JText::_('JGLOBAL_AUTH_CURL_NOT_INSTALLED');
 		}
 
 		$response->type = 'GMail';

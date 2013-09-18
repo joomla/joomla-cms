@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 // Include the syndicate functions only once
 require_once __DIR__ . '/helper.php';
 
-$langs  = ModLoginHelper::getLanguageList();
-$return = ModLoginHelper::getReturnURI();
+$langs            = ModLoginHelper::getLanguageList();
+$twofactormethods = ModLoginHelper::getTwoFactorMethods();
+$return           = ModLoginHelper::getReturnURI();
 require JModuleHelper::getLayoutPath('mod_login', $params->get('layout', 'default'));

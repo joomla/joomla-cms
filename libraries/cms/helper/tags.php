@@ -347,6 +347,9 @@ class JHelperTags
 	{
 		$result = $this->unTagItem($contentItemId, $table);
 
+		/**
+		 * @var JTableCorecontent $ucmContentTable
+		 */
 		$ucmContentTable = JTable::getInstance('Corecontent');
 
 		return $result && $ucmContentTable->deleteByContentId($contentItemId);
@@ -757,17 +760,22 @@ class JHelperTags
 	 * @param   array    $newTags  Array of new tags
 	 * @param   boolean  $replace  Flag indicating if all exising tags should be replaced
 	 *
-	 * @return  null
+	 * @return  boolean
 	 *
 	 * @since   3.1
 	 */
 	public function postStoreProcess($table, $newTags = array(), $replace = true)
 	{
+		if (!empty($table->newTags) && empty($newTags))
+		{
+				$newTags = $table->newTags;
+		}
+
 		// If existing row, check to see if tags have changed.
 		$newTable = clone $table;
 		$newTable->reset();
 		$key = $newTable->getKeyName();
-		$typeAlias = $newTable->get('tagsHelper')->typeAlias;
+		$typeAlias = $this->typeAlias;
 
 		$result = true;
 
@@ -784,6 +792,7 @@ class JHelperTags
 			{
 				// Process the tags
 				$rowdata = new JHelperContent;
+
 				$data = $rowdata->getRowData($table);
 				$ucmContentTable = JTable::getInstance('Corecontent');
 
@@ -825,7 +834,7 @@ class JHelperTags
 		$oldTable = clone $table;
 		$oldTable->reset();
 		$key = $oldTable->getKeyName();
-		$typeAlias = $oldTable->get('tagsHelper')->typeAlias;
+		$typeAlias = $this->typeAlias;
 
 		if ($oldTable->$key && $oldTable->load())
 		{
@@ -962,7 +971,7 @@ class JHelperTags
 	public function tagItem($ucmId, $table, $tags = array(), $replace = true)
 	{
 		$key = $table->get('_tbl_key');
-		$oldTags = $table->get('tagsHelper')->getTagIds((int) $table->$key, $table->get('tagsHelper')->typeAlias);
+		$oldTags = $this->getTagIds((int) $table->$key, $this->typeAlias);
 		$oldTags = explode(',', $oldTags);
 		$result = $this->unTagItem($ucmId, $table);
 

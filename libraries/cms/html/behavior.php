@@ -734,6 +734,7 @@ abstract class JHtmlBehavior
 		);
 
 		// This will become an object in Javascript but define it first in PHP for readability
+		$today = " " . JText::_('JLIB_HTML_BEHAVIOR_TODAY') . " ";
 		$text = array(
 			'INFO'			=> JText::_('JLIB_HTML_BEHAVIOR_ABOUT_THE_CALENDAR'),
 
@@ -759,7 +760,7 @@ abstract class JHtmlBehavior
 			'NEXT_MONTH'	=> JText::_('JLIB_HTML_BEHAVIOR_NEXT_MONTH_HOLD_FOR_MENU'),
 			'SEL_DATE'		=> JText::_('JLIB_HTML_BEHAVIOR_SELECT_DATE'),
 			'DRAG_TO_MOVE'	=> JText::_('JLIB_HTML_BEHAVIOR_DRAG_TO_MOVE'),
-			'PART_TODAY'	=> JText::_('JLIB_HTML_BEHAVIOR_TODAY'),
+			'PART_TODAY'	=> $today,
 			'DAY_FIRST'		=> JText::_('JLIB_HTML_BEHAVIOR_DISPLAY_S_FIRST'),
 			'WEEKEND'		=> "0,6",
 			'CLOSE'			=> JText::_('JLIB_HTML_BEHAVIOR_CLOSE'),
@@ -777,5 +778,30 @@ abstract class JHtmlBehavior
 			. ' Calendar._MN = ' . json_encode($months_long) . ';'
 			. ' Calendar._SMN = ' . json_encode($months_short) . ';'
 			. ' Calendar._TT = ' . json_encode($text) . ';';
+	}
+
+	/**
+	 * Add unobtrusive JavaScript support to keep a tab state.
+	 *
+	 * Note that keeping tab state only works for inner tabs if in accordance with the following example
+	 * parent tab = permissions
+	 * child tab = permission-<identifier>
+	 *
+	 * Each tab header "a" tag also should have a unique href attribute
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public static function tabstate()
+	{
+		if (isset(self::$loaded[__METHOD__]))
+		{
+			return;
+		}
+		// Include jQuery
+		JHtml::_('jquery.framework');
+		JHtml::_('script', 'system/tabs-state.js', true, true);
+		self::$loaded[__METHOD__] = true;
 	}
 }

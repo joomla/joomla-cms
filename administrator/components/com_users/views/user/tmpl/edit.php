@@ -29,6 +29,22 @@ $fieldsets = $this->form->getFieldsets();
 			Joomla.submitform(task, document.getElementById('user-form'));
 		}
 	}
+
+	Joomla.twoFactorMethodChange = function(e)
+	{
+		var selectedPane = 'com_users_twofactor_' + jQuery('#jform_twofactor_method').val();
+
+		jQuery.each(jQuery('#com_users_twofactor_forms_container>div'), function(i, el) {
+			if (el.id != selectedPane)
+			{
+				jQuery('#' + el.id).hide(0);
+			}
+			else
+			{
+				jQuery('#' + el.id).show(0);
+			}
+		});
+	}
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_users&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="user-form" class="form-validate form-horizontal" enctype="multipart/form-data">
@@ -84,6 +100,52 @@ $fieldsets = $this->form->getFieldsets();
 				<?php endforeach; ?>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endforeach; ?>
+
+		<?php if (!empty($this->tfaform) && $this->item->id): ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'twofactorauth', JText::_('COM_USERS_USER_TWO_FACTOR_AUTH', true)); ?>
+		<div class="control-group">
+			<div class="control-label">
+				<label id="jform_twofactor_method-lbl" for="jform_twofactor_method" class="hasTooltip"
+					   title="<strong><?php echo JText::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL') ?></strong><br/><?php echo JText::_('COM_USERS_USER_FIELD_TWOFACTOR_DESC') ?>">
+					<?php echo JText::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL'); ?>
+				</label>
+			</div>
+			<div class="controls">
+				<?php echo JHtml::_('select.genericlist', Usershelper::getTwoFactorMethods(), 'jform[twofactor][method]', array('onchange' => 'Joomla.twoFactorMethodChange()'), 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false) ?>
+			</div>
+		</div>
+		<div id="com_users_twofactor_forms_container">
+			<?php foreach($this->tfaform as $form): ?>
+			<?php $style = $form['method'] == $this->otpConfig->method ? 'display: block' : 'display: none'; ?>
+			<div id="com_users_twofactor_<?php echo $form['method'] ?>" style="<?php echo $style; ?>">
+				<?php echo $form['form'] ?>
+			</div>
+			<?php endforeach; ?>
+		</div>
+
+		<fieldset>
+			<legend>
+				<?php echo JText::_('COM_USERS_USER_OTEPS') ?>
+			</legend>
+			<div class="alert alert-info">
+				<?php echo JText::_('COM_USERS_USER_OTEPS_DESC') ?>
+			</div>
+			<?php if (empty($this->otpConfig->otep)): ?>
+			<div class="alert alert-warning">
+				<?php echo JText::_('COM_USERS_USER_OTEPS_WAIT_DESC') ?>
+			</div>
+			<?php else: ?>
+			<?php foreach ($this->otpConfig->otep as $otep): ?>
+			<span class="span3">
+				<?php echo substr($otep, 0, 4) ?>-<?php echo substr($otep, 4, 4) ?>-<?php echo substr($otep, 8, 4) ?>-<?php echo substr($otep, 12, 4) ?>
+			</span>
+			<?php endforeach; ?>
+			<div class="clearfix"></div>
+			<?php endif; ?>
+		</fieldset>
+
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php endif; ?>
 
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</fieldset>

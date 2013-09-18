@@ -34,7 +34,7 @@ class Redirect0001Test extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 
 		$this->jPrint("Goto plugin manager and enable redirect plugin\n");
-		$this->click("link=Plug-in Manager");
+		$this->click("link=Plugin Manager");
 		$this->waitForPageToLoad("30000");
 
 		$this->type("filter_search", "redirect");
@@ -107,7 +107,7 @@ class Redirect0001Test extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 
 		$this->jPrint("Goto plugin manager and disable redirect plugin\n");
-		$this->click("link=Plug-in Manager");
+		$this->click("link=Plugin Manager");
 		$this->waitForPageToLoad("30000");
 
 		$this->type("filter_search", "redirect");
