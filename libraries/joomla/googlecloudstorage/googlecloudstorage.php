@@ -25,7 +25,7 @@ class JGooglecloudstorage
 	protected $options;
 
 	/**
-	 * @var    JGooglecloudstorageHttp  The HTTP client object to use in sending HTTP requests.
+	 * @var    JHttp  The HTTP client object to use in sending HTTP requests.
 	 * @since  ??.?
 	 */
 	protected $client;
@@ -51,15 +51,15 @@ class JGooglecloudstorage
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry                $options  Googlecloudstorage options object.
-	 * @param   JGooglecloudstorageHttp  $client   The HTTP client object.
+	 * @param   JRegistry  $options  Googlecloudstorage options object.
+	 * @param   JHttp      $client   The HTTP client object.
 	 *
 	 * @since   ??.?
 	 */
-	public function __construct(JRegistry $options = null, JGooglecloudstorageHttp $client = null)
+	public function __construct(JRegistry $options = null, JHttp $client = null)
 	{
 		$this->options = isset($options) ? $options : new JRegistry;
-		$this->client  = isset($client) ? $client : new JGooglecloudstorageHttp($this->options);
+		$this->client  = isset($client) ? $client : new JHttp($this->options);
 
 		// Setup the default API url if not already set.
 		$this->options->def('api.url', 'storage.googleapis.com');
