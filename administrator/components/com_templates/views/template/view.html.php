@@ -89,6 +89,11 @@ class TemplatesViewTemplate extends JViewLegacy
 	protected $files;
 
 	/**
+	 * An array containing a list of compressed files
+	 */
+	protected $archive;
+
+	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The template to view
@@ -108,21 +113,32 @@ class TemplatesViewTemplate extends JViewLegacy
 		$this->preview	= $this->get('Preview');
 		$this->hathor	= $this->get('Hathor');
 
-		if (in_array($ext, array('css', 'js', 'php', 'xml', 'ini', 'less', 'txt')))
+		$params			= JComponentHelper::getParams('com_templates');
+		$imageTypes		= explode(',', $params->get('image_formats'));
+		$sourceTypes	= explode(',', $params->get('source_formats'));
+		$fontTypes		= explode(',', $params->get('font_formats'));
+		$archiveTypes	= explode(',', $params->get('compressed_formats'));
+
+		if (in_array($ext, $sourceTypes))
 		{
 			$this->form   = $this->get('Form');
 			$this->source = $this->get('Source');
 			$this->type   = 'file';
 		}
-		elseif (in_array($ext, array('jpg', 'jpeg', 'png', 'gif')))
+		elseif (in_array($ext, $imageTypes))
 		{
 			$this->image = $this->get('Image');
 			$this->type  = 'image';
 		}
-		elseif (in_array($ext, array('woff', 'otf', 'ttf')))
+		elseif (in_array($ext, $fontTypes))
 		{
 			$this->font = $this->get('Font');
 			$this->type = 'font';
+		}
+		elseif (in_array($ext, $archiveTypes))
+		{
+			$this->archive 	= $this->get('Archive');
+			$this->type 	= 'archive';
 		}
 
 		$this->overridesList = $this->get('OverridesList');
@@ -185,6 +201,14 @@ class TemplatesViewTemplate extends JViewLegacy
 				JToolbarHelper::custom('template.cropImage', 'move', 'move', 'COM_TEMPLATES_BUTTON_CROP', false, false);
 
 				JToolbarHelper::modal('resizeModal', 'icon-refresh', 'COM_TEMPLATES_BUTTON_RESIZE');
+			}
+		}
+		elseif ($this->type == 'archive')
+			// Add an extract button
+		{
+			if ($showButton)
+			{
+				JToolbarHelper::custom('template.extractArchive', 'arrow-down', 'arrow-down', 'COM_TEMPLATES_BUTTON_EXTRACT_ARCHIVE', false, false);
 			}
 		}
 

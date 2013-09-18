@@ -25,20 +25,6 @@ abstract class TemplateHelper
 	 *
 	 * @return  boolean
 	 */
-	public static function isImage($fileName)
-	{
-		static $imageTypes = 'xcf|odg|gif|jpg|png|bmp';
-
-		return preg_match("/\.(?:$imageTypes)$/i", $fileName);
-	}
-
-	/**
-	 * Checks if the file is an image
-	 *
-	 * @param   string  $fileName  The filename
-	 *
-	 * @return  boolean
-	 */
 	public static function getTypeIcon($fileName)
 	{
 		// Get file extension
@@ -55,6 +41,8 @@ abstract class TemplateHelper
 	 */
 	public static function canUpload($file, $err = '')
 	{
+		$params = JComponentHelper::getParams('com_templates');
+
 		if (empty($file['name']))
 		{
 			$app = JFactory::getApplication();
@@ -98,7 +86,12 @@ abstract class TemplateHelper
 
 		$format = strtolower(JFile::getExt($file['name']));
 
-		$allowable = array('jpg', 'jpeg', 'png', 'gif', 'php', 'js', 'less', 'ini', 'css', 'xml', 'eot', 'ttf', 'otf', 'woff');
+		$imageTypes		= explode(',', $params->get('image_formats'));
+		$sourceTypes	= explode(',', $params->get('source_formats'));
+		$fontTypes		= explode(',', $params->get('font_formats'));
+		$archiveTypes	= explode(',', $params->get('compressed_formats'));
+
+		$allowable = array_merge($imageTypes, $sourceTypes, $fontTypes, $archiveTypes);
 
 		if ($format == '' || $format == false || (!in_array($format, $allowable)))
 		{
@@ -108,8 +101,42 @@ abstract class TemplateHelper
 			return false;
 		}
 
+		if (in_array($format, $archiveTypes))
+		{
+			$zip = new ZipArchive;
+
+			if ($zip->open($file['tmp_name']) === true)
+			{
+				for ($i = 0; $i < $zip->numFiles; $i++) {
+					$entry = $zip->getNameIndex($i);
+					$endString = substr($entry, -1);
+
+					if ($endString != DIRECTORY_SEPARATOR)
+					{
+						$explodeArray = explode('.', $entry);
+						$ext = end($explodeArray);
+
+						if (!in_array($ext, $allowable))
+						{
+							$app = JFactory::getApplication();
+							$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_UNSUPPORTED_ARCHIVE'), 'error');
+
+							return false;
+						}
+					}
+				}
+			}
+			else
+			{
+				$app = JFactory::getApplication();
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_ARCHIVE_OPEN_FAIL'), 'error');
+
+				return false;
+			}
+		}
+
 		// Max upload size set to 2 MB for Template Manager
-		$maxSize = (int) (2 * 1024 * 1024);
+		$maxSize = (int) ($params->get('upload_limit') * 1024 * 1024);
 
 		if ($maxSize > 0 && (int) $file['size'] > $maxSize)
 		{

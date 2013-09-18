@@ -669,4 +669,32 @@ class TemplatesControllerTemplate extends JControllerLegacy
 			$this->setRedirect(JRoute::_($url, false));
 		}
 	}
+
+	/**
+	 * Method for extracting an archive file.
+	 *
+	 * @since   3.2
+	 *
+	 * @return  void
+	 */
+	public function extractArchive()
+	{
+		$app    	= JFactory::getApplication();
+		$id     	= $app->input->get('id');
+		$file   	= $app->input->get('file');
+		$model  	= $this->getModel();
+
+		if ($model->extractArchive($file))
+		{
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_ARCHIVE_EXTRACT_SUCCESS'));
+			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+			$this->setRedirect(JRoute::_($url, false));
+		}
+		else
+		{
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_ARCHIVE_EXTRACT_FAIL'), 'error');
+			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+			$this->setRedirect(JRoute::_($url, false));
+		}
+	}
 }

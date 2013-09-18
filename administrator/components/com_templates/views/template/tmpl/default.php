@@ -182,6 +182,26 @@ if($this->type == 'image')
 
 					</form>
 				<?php endif; ?>
+				<?php if($this->type == 'archive'): ?>
+					<legend><?php echo JText::_('COM_TEMPLATES_FILE_CONTENT_PREVIEW'); ?></legend>
+					<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
+						<ul class="nav nav-stacked nav-list well">
+							<?php foreach ($this->archive as $file): ?>
+								<li>
+									<?php if (substr($file, -1) === DIRECTORY_SEPARATOR): ?>
+										<i class="icon-folder"></i>&nbsp;<?php echo $file; ?>
+									<?php endif; ?>
+									<?php if (substr($file, -1) != DIRECTORY_SEPARATOR): ?>
+										<i class="icon-file"></i>&nbsp;<?php echo $file; ?>
+									<?php endif; ?>
+								</li>
+							<?php endforeach; ?>
+						</ul>
+						<input type="hidden" name="task" value="" />
+						<?php echo JHtml::_('form.token'); ?>
+
+					</form>
+				<?php endif; ?>
 				<?php if($this->type == 'image'): ?>
 					<img id="image-crop" src="<?php echo $this->image['address'] . '?' . time(); ?>" />
 					<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">

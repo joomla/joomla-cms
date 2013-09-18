@@ -117,8 +117,14 @@ class TemplatesModelTemplate extends JModelForm
 				}
 				else
 				{
-					$ext = pathinfo($dir . $value, PATHINFO_EXTENSION);
-					$types = array('css', 'js', 'php', 'xml', 'ini', 'txt', 'less', 'jpg', 'jpeg', 'png', 'gif', 'otf', 'ttf', 'woff');
+					$ext			= pathinfo($dir . $value, PATHINFO_EXTENSION);
+					$params			= JComponentHelper::getParams('com_templates');
+					$imageTypes		= explode(',', $params->get('image_formats'));
+					$sourceTypes	= explode(',', $params->get('source_formats'));
+					$fontTypes		= explode(',', $params->get('font_formats'));
+					$archiveTypes	= explode(',', $params->get('compressed_formats'));
+
+					$types = array_merge($imageTypes, $sourceTypes, $fontTypes, $archiveTypes);
 
 					if (in_array($ext, $types))
 					{
@@ -784,19 +790,19 @@ class TemplatesModelTemplate extends JModelForm
 			$path     = JPath::clean($client->path . '/templates/' . $template->element . '/');
 			$fileName = JFile::makeSafe($file['name']);
 
-			if (file_exists(JPath::clean($path . '/' . $location . '/' . $file['name'])))
-			{
-				$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_EXISTS'), 'error');
-
-				return false;
-			}
-
 			$err = null;
 			JLoader::register('TemplateHelper', JPATH_COMPONENT_ADMINISTRATOR . '/helpers/template.php');
 
 			if (!TemplateHelper::canUpload($file, $err))
 			{
 				// Can't upload the file
+
+				return false;
+			}
+
+			if (file_exists(JPath::clean($path . '/' . $location . '/' . $file['name'])))
+			{
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_EXISTS'), 'error');
 
 				return false;
 			}
@@ -1204,6 +1210,110 @@ class TemplatesModelTemplate extends JModelForm
 			}
 			else
 			{
+				return false;
+			}
+		}
+	}
+
+	/**
+	 * Get the compressed files.
+	 *
+	 * @return   array if file exists, false otherwise
+	 *
+	 * @since   3.2
+	 */
+	public function getArchive()
+	{
+		if ($template = $this->getTemplate())
+		{
+			$app          = JFactory::getApplication();
+			$client       = JApplicationHelper::getClientInfo($template->client_id);
+			$relPath      = base64_decode($app->input->get('file'));
+			$path         = JPath::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
+
+			if (file_exists(JPath::clean($path)))
+			{
+				$files = array();
+				$zip = new ZipArchive;
+
+				if ($zip->open($path) === true)
+				{
+					for($i = 0; $i < $zip->numFiles; $i++) {
+						$entry = $zip->getNameIndex($i);
+						$files[] = $entry;
+					}
+				}
+				else
+				{
+					$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_ARCHIVE_OPEN_FAIL'), 'error');
+
+					return false;
+				}
+			}
+			else
+			{
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_FONT_FILE_NOT_FOUND'), 'error');
+
+				return false;
+			}
+
+			return $files;
+		}
+	}
+
+	/**
+	 * Extract an image
+	 *
+	 * @param   string  $file  The name and location of the file
+	 *
+	 * @return   boolean  true if image resize successful, false otherwise.
+	 *
+	 * @since   3.2
+	 */
+	public function extractArchive($file)
+	{
+		if ($template = $this->getTemplate())
+		{
+			$app     		= JFactory::getApplication();
+			$client  		= JApplicationHelper::getClientInfo($template->client_id);
+			$relPath 		= base64_decode($file);
+			$explodeArray 	= explode('/', $relPath);
+			$fileName		= end($explodeArray);
+			$folderPath		= stristr($relPath, $fileName, true);
+			$path    		= JPath::clean($client->path . '/templates/' . $template->element . '/' . $folderPath . '/');
+
+			if (file_exists(JPath::clean($path . '/' . $fileName)))
+			{
+				$zip = new ZipArchive;
+
+				if ($zip->open(JPath::clean($path . '/' . $fileName)) === true)
+				{
+					for($i = 0; $i < $zip->numFiles; $i++) {
+						$entry = $zip->getNameIndex($i);
+
+						if (file_exists(JPath::clean($path . '/' . $entry)))
+						{
+							$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_ARCHIVE_EXISTS'), 'error');
+
+							return false;
+						}
+					}
+
+					$zip->extractTo($path);
+
+					return true;
+				}
+				else
+				{
+					$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_ARCHIVE_OPEN_FAIL'), 'error');
+
+					return false;
+				}
+			}
+			else
+			{
+				$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_ARCHIVE_NOT_FOUND'), 'error');
+
 				return false;
 			}
 		}

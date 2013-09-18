@@ -17,6 +17,46 @@
 			<option
 				value="1">JENABLED</option>
 		</field>
+        <field
+                name="upload_limit" type="text"
+                label="Upload Size (MB)"
+                description="The maximum upload size for files inside Template Manager."
+                default="2"
+                extension="com_templates"
+                />
+        <field
+                name="warning" type="note"
+                label="Supported File Formats"
+                description="Be careful before changing the file types. Read the tool tips before editing."
+                default="zip"
+                extension="com_templates"
+                />
+        <field
+                name="image_formats" type="text"
+                label="Valid Image Formats"
+                description="These file types will be available for cropping and resizing."
+                default="gif,bmp,jpg,jpeg"
+                extension="com_templates"
+                />
+        <field
+                name="source_formats" type="text"
+                label="Valid Source Formats"
+                description="These file types will be available for editing in editor."
+                default="txt,less,ini,xml,js,php,css"
+                extension="com_templates"
+                />
+        <field
+                name="font_formats" type="text"
+                label="Valid Font Formats"
+                description="These file types will be available for font preview."
+                default="woff,ttf,otf"
+                extension="com_templates"
+                />
+        <field
+                name="compressed_formats" type="hidden"
+                default="zip"
+                extension="com_templates"
+                />
 	</fieldset>
 
 	<fieldset
