@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
-$form = $displayData->get('form');
+$form = $displayData->getForm();
 
 $name = $displayData->get('fieldset');
 $fieldSet = $form->getFieldset($name);
@@ -49,12 +49,13 @@ if ($displayData->get('show_options', 1))
 	$count = 0;
 
 	$html = array();
-	$html[] = '<div class="row-fluid">';
+	$html[] = '<div class="row-fluid' . ($split ? ' form-horizontal-desktop' : '') . '">';
 	$html[] = '<div class="span' . ($split ? 6 : 12) . '">';
 
 	foreach ($fieldSet as $field)
 	{
-		if($count == $split && $field->getAttribute('type') == 'spacer' && $field->getAttribute('hr') ) {
+		if ($count == $split && $field->getAttribute('type') == 'spacer' && $field->getAttribute('hr'))
+		{
 			continue;
 		}
 

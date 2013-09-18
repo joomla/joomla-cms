@@ -18,14 +18,15 @@
 		<language tag="en-GB">en-GB.plg_authentication_gmail.sys.ini</language>
 	</languages>
 	<config>
+
 		<fields name="params">
 
 			<fieldset name="basic">
+
 				<field name="applysuffix" type="list"
 					default="0"
 					description="PLG_GMAIL_FIELD_APPLYSUFFIX_DESC"
-					label="PLG_GMAIL_FIELD_APPLYSUFFIX_LABEL"
-				>
+					label="PLG_GMAIL_FIELD_APPLYSUFFIX_LABEL">
 					<option value="0">PLG_GMAIL_FIELD_VALUE_NOAPPLYSUFFIX</option>
 					<option value="1">PLG_GMAIL_FIELD_VALUE_APPLYSUFFIXMISSING</option>
 					<option value="2">PLG_GMAIL_FIELD_VALUE_APPLYSUFFIXALWAYS</option>
@@ -34,15 +35,13 @@
 				<field name="suffix" type="text"
 					description="PLG_GMAIL_FIELD_SUFFIX_DESC"
 					label="PLG_GMAIL_FIELD_SUFFIX_LABEL"
-					size="20"
-				/>
+					size="20" />
 
 				<field name="verifypeer" type="radio"
 					default="1"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					description="PLG_GMAIL_FIELD_VERIFYPEER_DESC"
-					label="PLG_GMAIL_FIELD_VERIFYPEER_LABEL"
-				>
+					label="PLG_GMAIL_FIELD_VERIFYPEER_LABEL">
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
@@ -50,8 +49,8 @@
 				<field name="user_blacklist" type="text"
 					description="PLG_GMAIL_FIELD_USER_BLACKLIST_DESC"
 					label="PLG_GMAIL_FIELD_USER_BLACKLIST_LABEL"
-					size="20"
-				/>
+					size="20" />
+
 			</fieldset>
 
 		</fields>

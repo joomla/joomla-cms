@@ -1300,10 +1300,10 @@ input[type="checkbox"][readonly] {
 	box-shadow: inset 0 1px 1px rgba(0,0,0,0.075), 0 0 6px #7aba7b;
 }
 .control-group.success .input-prepend .add-on,
-.control-group.success .input-append .add-on {
-	color: #468847;
-	background-color: #dff0d8;
-	border-color: #468847;
+	.control-group.success .input-append .add-on {
+		color: #468847;
+		background-color: #dff0d8;
+		border-color: #468847;
 }
 .control-group.info .control-label,
 .control-group.info .help-block,
@@ -2212,7 +2212,6 @@ button.close {
 	background-repeat: repeat-x;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe5e5e5', GradientType=0);
 	border-color: #e6e6e6 #e6e6e6 #bfbfbf;
-	border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
 	*background-color: #e6e6e6;
 	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 	border: 1px solid #bbb;
@@ -2346,7 +2345,6 @@ input[type="button"].btn-block {
 	background-repeat: repeat-x;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff2384d3', endColorstr='#ff15497c', GradientType=0);
 	border-color: #15497c #15497c #0a223b;
-	border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
 	*background-color: #15497c;
 	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
@@ -2376,7 +2374,6 @@ input[type="button"].btn-block {
 	background-repeat: repeat-x;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffab44f', endColorstr='#fff89406', GradientType=0);
 	border-color: #f89406 #f89406 #ad6704;
-	border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
 	*background-color: #f89406;
 	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
@@ -2406,7 +2403,6 @@ input[type="button"].btn-block {
 	background-repeat: repeat-x;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffee5f5b', endColorstr='#ffbd362f', GradientType=0);
 	border-color: #bd362f #bd362f #802420;
-	border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
 	*background-color: #bd362f;
 	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
@@ -2436,7 +2432,6 @@ input[type="button"].btn-block {
 	background-repeat: repeat-x;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff62c462', endColorstr='#ff51a351', GradientType=0);
 	border-color: #51a351 #51a351 #387038;
-	border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
 	*background-color: #51a351;
 	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
@@ -2466,7 +2461,6 @@ input[type="button"].btn-block {
 	background-repeat: repeat-x;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff5bc0de', endColorstr='#ff2f96b4', GradientType=0);
 	border-color: #2f96b4 #2f96b4 #1f6377;
-	border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
 	*background-color: #2f96b4;
 	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
@@ -2496,7 +2490,6 @@ input[type="button"].btn-block {
 	background-repeat: repeat-x;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff444444', endColorstr='#ff222222', GradientType=0);
 	border-color: #222 #222 #000000;
-	border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
 	*background-color: #222;
 	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
@@ -3482,7 +3475,6 @@ body .navbar-fixed-top {
 	background-repeat: repeat-x;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff2f2f2', endColorstr='#ffe5e5e5', GradientType=0);
 	border-color: #e6e6e6 #e6e6e6 #bfbfbf;
-	border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
 	*background-color: #e6e6e6;
 	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 	-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.1), 0 1px 0 rgba(255,255,255,.075);
@@ -3714,7 +3706,6 @@ body .navbar-fixed-top {
 	background-repeat: repeat-x;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0f213e', endColorstr='#ff0a1629', GradientType=0);
 	border-color: #0b172a #0b172a #000000;
-	border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
 	*background-color: #0b172a;
 	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }
@@ -5752,7 +5743,7 @@ a.badge:focus {
 		padding-right: 10px;
 	}
 }
-@media (min-width: 739px) {
+@media (min-width: 768px) {
 	.nav-collapse.collapse {
 		height: auto !important;
 		overflow: visible !important;
@@ -6111,8 +6102,47 @@ fieldset.radio.btn-group {
 	padding-top: 0;
 	text-align: left;
 }
+.form-vertical .control-label > label {
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+}
 .form-vertical .controls {
 	margin-left: 0;
+}
+@media (max-width: 979px) {
+	.form-horizontal-desktop .control-label {
+		float: none;
+		width: auto;
+		padding-right: 0;
+		padding-top: 0;
+		text-align: left;
+	}
+	.form-horizontal-desktop .control-label > label {
+		display: inline-block;
+		*display: inline;
+		*zoom: 1;
+	}
+	.form-horizontal-desktop .controls {
+		margin-left: 0;
+	}
+}
+@media (max-width: 1200px) {
+	.row-fluid .row-fluid .form-horizontal-desktop .control-label {
+		float: none;
+		width: auto;
+		padding-right: 0;
+		padding-top: 0;
+		text-align: left;
+	}
+	.row-fluid .row-fluid .form-horizontal-desktop .control-label > label {
+		display: inline-block;
+		*display: inline;
+		*zoom: 1;
+	}
+	.row-fluid .row-fluid .form-horizontal-desktop .controls {
+		margin-left: 0;
+	}
 }
 .width-auto {
 	width: auto;
@@ -7500,13 +7530,13 @@ h6 {
 	*display: inline;
 	*zoom: 1;
 	width: auto;
-	padding-right: 5px;
+	padding-right: 10px;
 }
 .form-inline-header .controls {
 	display: inline-block;
 	*display: inline;
 	*zoom: 1;
-	padding-right: 10px;
+	padding-right: 20px;
 }
 fieldset.checkboxes input {
 	float: left;
@@ -7612,6 +7642,11 @@ th .tooltip-inner {
 .controls .btn-group > .btn {
 	min-width: 50px;
 }
+.controls .btn-group.btn-group-yesno > .btn {
+	min-width: 84px;
+	padding: 2px 12px;
+}
+
 .img-preview > img {
 	max-height: 100%;
 }
@@ -7626,4 +7661,48 @@ th .tooltip-inner {
 }
 .alert-joomlaupdate button {
 	vertical-align: baseline;
+}
+[class^="chzn-color"].chzn-single,
+[class*=" chzn-color"].chzn-single,
+[class^="chzn-color"].chzn-single .chzn-single-with-drop,
+[class*=" chzn-color"].chzn-single .chzn-single-with-drop {
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+.chzn-color.chzn-single[rel="value_1"],
+.chzn-color-reverse.chzn-single[rel="value_0"],
+.chzn-color-state.chzn-single[rel="value_1"] {
+	color: #fff;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+	background-color: #5bb75b;
+	background-image: -moz-linear-gradient(top,#62c462,#51a351);
+	background-image: -webkit-gradient(linear,0 0,0 100%,from(#62c462),to(#51a351));
+	background-image: -webkit-linear-gradient(top,#62c462,#51a351);
+	background-image: -o-linear-gradient(top,#62c462,#51a351);
+	background-image: linear-gradient(to bottom,#62c462,#51a351);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff62c462', endColorstr='#ff51a351', GradientType=0);
+	border-color: #51a351 #51a351 #387038;
+	*background-color: #51a351;
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+}
+.chzn-color.chzn-single[rel="value_0"],
+.chzn-color-reverse.chzn-single[rel="value_1"],
+.chzn-color-state.chzn-single[rel="value_0"],
+.chzn-color-state.chzn-single[rel="value_-1"],
+.chzn-color-state.chzn-single[rel="value_-2"] {
+	color: #fff;
+	text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+	background-color: #da4f49;
+	background-image: -moz-linear-gradient(top,#ee5f5b,#bd362f);
+	background-image: -webkit-gradient(linear,0 0,0 100%,from(#ee5f5b),to(#bd362f));
+	background-image: -webkit-linear-gradient(top,#ee5f5b,#bd362f);
+	background-image: -o-linear-gradient(top,#ee5f5b,#bd362f);
+	background-image: linear-gradient(to bottom,#ee5f5b,#bd362f);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffee5f5b', endColorstr='#ffbd362f', GradientType=0);
+	border-color: #bd362f #bd362f #802420;
+	*background-color: #bd362f;
+	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 }

@@ -645,10 +645,6 @@ abstract class JFormField
 	/**
 	 * Method to get a control group with label and input.
 	 *
-	 * @param   string  $name     The name of the field for which to get the value.
-	 * @param   string  $group    The optional dot-separated form group path on which to get the value.
-	 * @param   mixed   $default  The optional default value of the field value is empty.
-	 *
 	 * @return  string  A string containing the html for the control goup
 	 *
 	 * @since   3.2

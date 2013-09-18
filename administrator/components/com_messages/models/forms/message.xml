@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset>
-		<field
-			name="user_id_to"
+
+		<field name="user_id_to"
 			type="usermessages"
 			label="COM_MESSAGES_FIELD_USER_ID_TO_LABEL"
 			description="COM_MESSAGES_FIELD_USER_ID_TO_DESC"
 			default="0"
 			required="true" />
 
-		<field
-			name="subject"
+		<field name="subject"
 			type="text"
 			label="COM_MESSAGES_FIELD_SUBJECT_LABEL"
 			description="COM_MESSAGES_FIELD_SUBJECT_DESC"
 			required="true" />
 
-		<field
-			name="message"
+		<field name="message"
 			type="editor"
 			class="inputbox"
 			label="COM_MESSAGES_FIELD_MESSAGE_LABEL"
@@ -26,5 +24,6 @@
 			filter="JComponentHelper::filterText"
 			buttons="true"
 			hide="readmore,pagebreak,image,article" />
+
 	</fieldset>
 </form>

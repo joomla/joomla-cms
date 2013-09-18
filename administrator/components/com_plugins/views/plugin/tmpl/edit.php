@@ -26,17 +26,20 @@ $this->fieldsets = $this->form->getFieldsets('params');
 
 <form action="<?php echo JRoute::_('index.php?option=com_plugins&layout=edit&extension_id=' . (int) $this->item->extension_id); ?>" method="post" name="adminForm" id="style-form" class="form-validate">
 	<div class="form-horizontal">
+
+		<div class="pull-right">
+			<span class="label"><?php echo $this->form->getValue('folder'); ?></span> /
+			<span class="label"><?php echo $this->form->getValue('element'); ?></span>
+		</div>
+
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'general')); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('COM_PLUGINS_PLUGIN', true)); ?>
 
 		<div class="row-fluid">
 			<div class="span9">
-
 				<?php if ($this->item->xml) : ?>
 					<?php if ($this->item->xml->description) : ?>
-						<span class="label"><?php echo $this->form->getValue('folder'); ?></span> /
-						<span class="label"><?php echo $this->form->getValue('element'); ?></span>
 						<h3>
 							<?php
 							if ($this->item->xml)

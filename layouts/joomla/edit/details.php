@@ -14,8 +14,8 @@ defined('_JEXEC') or die;
 $app = JFactory::getApplication();
 
 // JLayout for standard handling of the details sidebar in administrator edit screens.
-$title = $displayData->get('form')->getValue('title');
-$published = $displayData->get('form')->getField('published');
+$title = $displayData->getForm()->getValue('title');
+$published = $displayData->getForm()->getField('published');
 $langs = isset($app->languages_enabled);
 $saveHistory = $displayData->get('state')->get('params')->get('save_history', 0);
 ?>
@@ -26,78 +26,78 @@ $saveHistory = $displayData->get('state')->get('params')->get('save_history', 0)
 		<?php if (empty($title)) : ?>
 			<div class="control-group">
 				<div class="controls">
-					<?php echo $displayData->get('form')->getValue('name'); ?>
+					<?php echo $displayData->getForm()->getValue('name'); ?>
 				</div>
 			</div>
 		<?php else : ?>
 			<div class="control-group">
 				<div class="controls">
-					<?php echo $displayData->get('form')->getValue('title'); ?>
+					<?php echo $displayData->getForm()->getValue('title'); ?>
 				</div>
 			</div>
 		<?php endif; ?>
 		<?php if ($published) : ?>
 			<div class="control-group">
 				<div class="control-label">
-					<?php echo $displayData->get('form')->getLabel('published'); ?>
+					<?php echo $displayData->getForm()->getLabel('published'); ?>
 				</div>
 				<div class="controls">
-					<?php echo $displayData->get('form')->getInput('published'); ?>
+					<?php echo $displayData->getForm()->getInput('published'); ?>
 				</div>
 			</div>
 		<?php else : ?>
 			<div class="control-group">
 				<div class="control-label">
-					<?php echo $displayData->get('form')->getLabel('state'); ?>
+					<?php echo $displayData->getForm()->getLabel('state'); ?>
 				</div>
 				<div class="controls">
-					<?php echo $displayData->get('form')->getInput('state'); ?>
+					<?php echo $displayData->getForm()->getInput('state'); ?>
 				</div>
 			</div>
 		<?php endif; ?>
 		<div class="control-group">
 			<div class="control-label">
-				<?php echo $displayData->get('form')->getLabel('access'); ?>
+				<?php echo $displayData->getForm()->getLabel('access'); ?>
 			</div>
 			<div class="controls">
-				<?php echo $displayData->get('form')->getInput('access'); ?>
+				<?php echo $displayData->getForm()->getInput('access'); ?>
 			</div>
 		</div>
 		<div class="control-group">
 			<div class="control-label">
-				<?php echo $displayData->get('form')->getLabel('featured'); ?>
+				<?php echo $displayData->getForm()->getLabel('featured'); ?>
 			</div>
 			<div class="controls">
-				<?php echo $displayData->get('form')->getInput('featured'); ?>
+				<?php echo $displayData->getForm()->getInput('featured'); ?>
 			</div>
 		</div>
 		<?php if ($langs) : ?>
 			<div class="control-group">
 				<div class="control-label">
-					<?php echo $displayData->get('form')->getLabel('language'); ?>
+					<?php echo $displayData->getForm()->getLabel('language'); ?>
 				</div>
 				<div class="controls">
-					<?php echo $displayData->get('form')->getInput('language'); ?>
+					<?php echo $displayData->getForm()->getInput('language'); ?>
 				</div>
 			</div>
 		<?php else : ?>
-		<input type="hidden" name="language" value="<?php echo $displayData->get('form')->getValue('language'); ?>" />
+		<input type="hidden" name="language" value="<?php echo $displayData->getForm()->getValue('language'); ?>" />
 		<?php endif; ?>
 		<div class="control-group">
 			<div class="control-label">
-				<?php echo $displayData->get('form')->getLabel('tags'); ?>
+				<?php echo $displayData->getForm()->getLabel('tags'); ?>
 			</div>
 			<div class="controls">
-				<?php echo $displayData->get('form')->getInput('tags'); ?>
+				<?php echo $displayData->getForm()->getInput('tags'); ?>
 			</div>
 		</div>
 		<?php if ($saveHistory) : ?>
 			<div class="control-group">
 			<div class="control-label">
-				<?php echo $displayData->get('form')->getLabel('version_note'); ?>
+				<?php echo $displayData->getForm()->getLabel('version_note'); ?>
 			</div>
 			<div class="controls">
-				<?php echo $displayData->get('form')->getInput('version_note'); ?>
+				<?php echo $displayData->getForm()->getInput('version_note'); ?>
 			</div>
 			</div>
 		<?php endif; ?>

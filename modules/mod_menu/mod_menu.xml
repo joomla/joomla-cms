@@ -25,28 +25,28 @@
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_MENU" />
 	<config>
+
 		<fields name="params">
+
 			<fieldset name="basic">
-				<field
-					name="menutype"
+
+				<field name="menutype"
 					type="menu"
 					label="MOD_MENU_FIELD_MENUTYPE_LABEL"
 					description="MOD_MENU_FIELD_MENUTYPE_DESC" />
-				<field
-					name="base"
+
+				<field name="base"
 					type="menuitem"
 					label="MOD_MENU_FIELD_ACTIVE_LABEL"
-					description="MOD_MENU_FIELD_ACTIVE_DESC"
-					>
+					description="MOD_MENU_FIELD_ACTIVE_DESC">
 					<option value="">JCURRENT</option>
 				</field>
-				<field
-					name="startLevel"
+
+				<field name="startLevel"
 					type="list"
 					default="1"
 					label="MOD_MENU_FIELD_STARTLEVEL_LABEL"
-					description="MOD_MENU_FIELD_STARTLEVEL_DESC"
-				>
+					description="MOD_MENU_FIELD_STARTLEVEL_DESC">
 					<option value="1">J1</option>
 					<option value="2">J2</option>
 					<option value="3">J3</option>
@@ -59,13 +59,11 @@
 					<option value="10">J10</option>
 				</field>
 
-				<field
-					name="endLevel"
+				<field name="endLevel"
 					type="list"
 					default="0"
 					label="MOD_MENU_FIELD_ENDLEVEL_LABEL"
-					description="MOD_MENU_FIELD_ENDLEVEL_DESC"
-					>
+					description="MOD_MENU_FIELD_ENDLEVEL_DESC">
 					<option value="0">JALL</option>
 					<option value="1">J1</option>
 					<option value="2">J2</option>
@@ -79,77 +77,69 @@
 					<option value="10">J10</option>
 				</field>
 
-				<field
-					name="showAllChildren"
+				<field name="showAllChildren"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					label="MOD_MENU_FIELD_ALLCHILDREN_LABEL"
 					description="MOD_MENU_FIELD_ALLCHILDREN_DESC">
-					<option
-						value="0">JNO</option>
-					<option
-						value="1">JYES</option>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
+
 			</fieldset>
 
 			<fieldset
 				name="advanced">
-				<field
-					name="tag_id"
+
+				<field name="tag_id"
 					type="text"
 					label="MOD_MENU_FIELD_TAG_ID_LABEL"
 					description="MOD_MENU_FIELD_TAG_ID_DESC" />
 
-				<field
-					name="class_sfx"
+				<field name="class_sfx"
 					type="text"
 					label="MOD_MENU_FIELD_CLASS_LABEL"
 					description="MOD_MENU_FIELD_CLASS_DESC" />
 
-				<field
-					name="window_open"
+				<field name="window_open"
 					type="text"
 					label="MOD_MENU_FIELD_TARGET_LABEL"
 					description="MOD_MENU_FIELD_TARGET_DESC" />
 
-				<field
-					name="layout"
+				<field name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
 
-				<field
-					name="moduleclass_sfx"
+				<field name="moduleclass_sfx"
 					type="textarea" rows="3"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 
-				<field
-					name="cache"
+				<field name="cache"
 					type="list"
 					default="1"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC">
-					<option
-						value="1">JGLOBAL_USE_GLOBAL</option>
-					<option
-						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+					<option value="1">JGLOBAL_USE_GLOBAL</option>
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
-				<field
-					name="cache_time"
+
+				<field name="cache_time"
 					type="text"
 					default="900"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
-				<field
-					name="cachemode"
+
+				<field name="cachemode"
 					type="hidden"
 					default="itemid">
-					<option
-						value="itemid"></option>
+					<option value="itemid"></option>
 				</field>
+
 			</fieldset>
+
 		</fields>
 	</config>
 </extension>

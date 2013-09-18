@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$form = $displayData->get('form');
+$form = $displayData->getForm();
 
 // JLayout for standard handling of metadata fields in the administrator content edit screens.
 $fieldSets = $form->getFieldsets('metadata');

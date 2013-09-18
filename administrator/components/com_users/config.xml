@@ -1,127 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
+
 	<fieldset name="component">
-		<field
-			name="allowUserRegistration"
+
+		<field name="allowUserRegistration"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="COM_USERS_CONFIG_FIELD_ALLOWREGISTRATION_LABEL"
 			description="COM_USERS_CONFIG_FIELD_ALLOWREGISTRATION_DESC">
-			<option
-				value="0">JNO</option>
-			<option
-				value="1">JYES</option>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
-		<field
-			name="new_usertype"
+		<field name="new_usertype"
 			type="usergroup"
 			default="2"
 			label="COM_USERS_CONFIG_FIELD_NEW_USER_TYPE_LABEL"
 			description="COM_USERS_CONFIG_FIELD_NEW_USER_TYPE_DESC">
 		</field>
 
-		<field
-			name="guest_usergroup"
+		<field name="guest_usergroup"
 			type="usergroup"
 			default="1"
 			label="COM_USERS_CONFIG_FIELD_GUEST_USER_GROUP_LABEL"
 			description="COM_USERS_CONFIG_FIELD_GUEST_USER_GROUP_DESC">
 		</field>
 
-		<field
-			name="sendpassword"
+		<field name="sendpassword"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="COM_USERS_CONFIG_FIELD_SENDPASSWORD_LABEL"
 			description="COM_USERS_CONFIG_FIELD_SENDPASSWORD_DESC">
-			<option
-				value="0">JNO</option>
-			<option
-				value="1">JYES</option>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
-		<field
-			name="useractivation"
+		<field name="useractivation"
 			type="list"
 			default="2"
 			label="COM_USERS_CONFIG_FIELD_USERACTIVATION_LABEL"
 			description="COM_USERS_CONFIG_FIELD_USERACTIVATION_DESC">
-			<option
-				value="0">JNONE</option>
-			<option
-				value="1">COM_USERS_CONFIG_FIELD_USERACTIVATION_OPTION_SELFACTIVATION</option>
-			<option
-				value="2">COM_USERS_CONFIG_FIELD_USERACTIVATION_OPTION_ADMINACTIVATION</option>
+			<option value="0">JNONE</option>
+			<option value="1">COM_USERS_CONFIG_FIELD_USERACTIVATION_OPTION_SELFACTIVATION</option>
+			<option value="2">COM_USERS_CONFIG_FIELD_USERACTIVATION_OPTION_ADMINACTIVATION</option>
 		</field>
 
-		<field
-			name="mail_to_admin"
+		<field name="mail_to_admin"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="COM_USERS_CONFIG_FIELD_MAILTOADMIN_LABEL"
 			description="COM_USERS_CONFIG_FIELD_MAILTOADMIN_DESC">
-			<option
-				value="0">JNO</option>
-			<option
-				value="1">JYES</option>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
-		<field
-			name="captcha"
+		<field name="captcha"
 			type="plugins"
 			folder="captcha"
 			default=""
 			label="COM_USERS_CONFIG_FIELD_CAPTCHA_LABEL"
 			description="COM_USERS_CONFIG_FIELD_CAPTCHA_DESC"
 			filter="cmd" >
-			<option
-				value="">JOPTION_USE_DEFAULT</option>
-			<option
-				value="0">JOPTION_DO_NOT_USE</option>
+			<option value="">JOPTION_USE_DEFAULT</option>
+			<option value="0">JOPTION_DO_NOT_USE</option>
 		</field>
 
-		<field
-			name="frontend_userparams"
+		<field name="frontend_userparams"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_USERPARAMS_LABEL"
 			description="COM_USERS_CONFIG_FIELD_FRONTEND_USERPARAMS_DESC">
-			<option
-				value="0">JHIDE</option>
-			<option
-				value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
-		<field
-			name="site_language"
+
+		<field name="site_language"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="0"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_LANG_LABEL"
 			description="COM_USERS_CONFIG_FIELD_FRONTEND_LANG_DESC">
-			<option
-				value="0">JHIDE</option>
-			<option
-				value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
-		<field
-			name="change_login_name"
+
+		<field name="change_login_name"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="0"
 			label="COM_USERS_CONFIG_FIELD_CHANGEUSERNAME_LABEL"
 			description="COM_USERS_CONFIG_FIELD_CHANGEUSERNAME_DESC">
-			<option
-				value="0">JNO</option>
-			<option
-				value="1">JYES</option>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
-		<field
-			name="reset_count"
+
+		<field name="reset_count"
 			type="integer"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_RESET_COUNT_LABEL"
 			description="COM_USERS_CONFIG_FIELD_FRONTEND_RESET_COUNT_DESC"
@@ -130,8 +107,8 @@
 			step="1"
 			default="10">
 			</field>
-		<field
-			name="reset_time"
+
+		<field name="reset_time"
 			type="integer"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_RESET_TIME_LABEL"
 			description="COM_USERS_CONFIG_FIELD_FRONTEND_RESET_TIME_DESC"
@@ -141,8 +118,7 @@
 			default="1">
 			</field>
 
-		<field
-			name="minimum_length"
+		<field name="minimum_length"
 			type="integer"
 			label="COM_USERS_CONFIG_FIELD_MINIMUM_PASSWORD_LENGTH"
 			description="COM_USERS_CONFIG_FIELD_MINIMUM_PASSWORD_LENGTH_DESC"
@@ -152,8 +128,7 @@
 			default="4">
 			</field>
 
-		<field
-			name="minimum_integers"
+		<field name="minimum_integers"
 			type="integer"
 			label="COM_USERS_CONFIG_FIELD_MINIMUM_INTEGERS"
 			description="COM_USERS_CONFIG_FIELD_MINIMUM_INTEGERS_DESC"
@@ -163,8 +138,7 @@
 			default="0">
 			</field>
 
-		<field
-			name="minimum_symbols"
+		<field name="minimum_symbols"
 			type="integer"
 			label="COM_USERS_CONFIG_FIELD_MINIMUM_SYMBOLS"
 			description="COM_USERS_CONFIG_FIELD_MINIMUM_SYMBOLS_DESC"
@@ -173,8 +147,8 @@
 			step="1"
 			default="0">
 			</field>
-		<field
-			name="minimum_uppercase"
+
+		<field name="minimum_uppercase"
 			type="integer"
 			label="COM_USERS_CONFIG_FIELD_MINIMUM_UPPERCASE"
 			description="COM_USERS_CONFIG_FIELD_MINIMUM_UPPERCASE_DESC"
@@ -183,6 +157,7 @@
 			step="1"
 			default="0">
 			</field>
+
 	</fieldset>
 
  	<fieldset
@@ -190,37 +165,32 @@
 		label="COM_USERS_MASS_MAIL"
 		description="COM_USERS_MASS_MAIL_DESC">
 
-		<field
- 			name="mailSubjectPrefix"
+		<field  			name="mailSubjectPrefix"
  			type="text"
 			label="COM_USERS_CONFIG_FIELD_SUBJECT_PREFIX_LABEL"
-			description="COM_USERS_CONFIG_FIELD_SUBJECT_PREFIX_DESC"
-		/>
+			description="COM_USERS_CONFIG_FIELD_SUBJECT_PREFIX_DESC" />
 
- 		<field
- 			name="mailBodySuffix"
+ 		<field  			name="mailBodySuffix"
 			type="textarea"
  			rows="5"
  			cols="30"
 			label="COM_USERS_CONFIG_FIELD_MAILBODY_SUFFIX_LABEL"
-			description="COM_USERS_CONFIG_FIELD_MAILBODY_SUFFIX_DESC"
-		/>
+			description="COM_USERS_CONFIG_FIELD_MAILBODY_SUFFIX_DESC" />
 
 	</fieldset>
 
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
-		description="JCONFIG_PERMISSIONS_DESC"
-		>
+		description="JCONFIG_PERMISSIONS_DESC">
 
-		<field
-			name="rules"
+		<field name="rules"
 			type="rules"
 			label="JCONFIG_PERMISSIONS_LABEL"
 			filter="rules"
 			validate="rules"
 			component="com_users"
 			section="component" />
+
 	</fieldset>
 </config>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset>
+
 		<field name="id"
 			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
@@ -21,8 +22,8 @@
 			label="COM_MODULES_FIELD_NOTE_LABEL"
 			description="COM_MODULES_FIELD_NOTE_DESC"
 			maxlength="100"
-			size="35"
-			class="span12" />
+			size="40"
+			class="inputbox span12" />
 
 		<field name="module"
 			type="hidden"
@@ -33,7 +34,7 @@
 
 		<field name="showtitle"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			description="COM_MODULES_FIELD_SHOWTITLE_DESC"
 			label="COM_MODULES_FIELD_SHOWTITLE_LABEL"
@@ -43,14 +44,14 @@
 		</field>
 
 		<field name="published"
-			type="radio"
-			class="btn-group"
+			type="list"
+			class="chzn-color-state"
 			default="1"
 			description="COM_MODULES_FIELD_PUBLISHED_DESC"
 			label="JSTATUS"
 			size="1">
 			<option value="1">JPUBLISHED</option>
-			<option value="0">JUNPUBLISHED</option>
+			<option value="0"><span class="icon-check"></span> JUNPUBLISHED</option>
 			<option value="-2">JTRASHED</option>
 		</field>
 
@@ -58,7 +59,6 @@
 			type="calendar"
 			description="COM_MODULES_FIELD_PUBLISH_UP_DESC"
 			filter="user_utc"
-			class="input-medium"
 			format="%Y-%m-%d %H:%M:%S"
 			label="COM_MODULES_FIELD_PUBLISH_UP_LABEL"
 			size="22" />
@@ -67,7 +67,6 @@
 			type="calendar"
 			description="COM_MODULES_FIELD_PUBLISH_DOWN_DESC"
 			filter="user_utc"
-			class="input-medium"
 			format="%Y-%m-%d %H:%M:%S"
 			label="COM_MODULES_FIELD_PUBLISH_DOWN_LABEL"
 			size="22" />
@@ -91,14 +90,12 @@
 			type="accesslevel"
 			description="JFIELD_ACCESS_DESC"
 			label="JFIELD_ACCESS_LABEL"
-			size="1"
-			class="span12" />
+			size="1" />
 
 		<field name="ordering"
 			type="moduleorder"
 			description="JFIELD_ORDERING_DESC"
-			label="JFIELD_ORDERING_LABEL"
-			class="span12" />
+			label="JFIELD_ORDERING_LABEL" />
 
 		<field name="content"
 			type="editor"
@@ -112,8 +109,7 @@
 		<field name="language"
 			type="contentlanguage"
 			description="JFIELD_MODULE_LANGUAGE_DESC"
-			label="JFIELD_LANGUAGE_LABEL"
-			class="span12">
+			label="JFIELD_LANGUAGE_LABEL">
 			<option value="*">JALL</option>
 		</field>
 
@@ -122,5 +118,6 @@
 
 		<field name="assigned"
 			type="hidden" />
+
 	</fieldset>
 </form>

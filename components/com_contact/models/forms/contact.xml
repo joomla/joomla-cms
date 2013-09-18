@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form>
+
 	<fieldset name="contact" addrulepath="components/com_contact/models/rules" label="COM_CONTACT_FORM_LABEL">
+
 		<field name="contact_name"
 			type="text"
 			id="contact-name"
@@ -8,8 +10,8 @@
 			description="COM_CONTACT_CONTACT_EMAIL_NAME_DESC"
 			label="COM_CONTACT_CONTACT_EMAIL_NAME_LABEL"
 			filter="string"
-			required="true"
-		/>
+			required="true" />
+
 		<field name="contact_email"
 			type="email"
 			id="contact-email"
@@ -18,8 +20,8 @@
 			label="COM_CONTACT_EMAIL_LABEL"
 			filter="string"
 			validate="contactemail"
-			required="true"
-		/>
+			required="true" />
+
 		<field name="contact_subject"
 			type="text"
 			id="contact-emailmsg"
@@ -28,8 +30,8 @@
 			label="COM_CONTACT_CONTACT_MESSAGE_SUBJECT_LABEL"
 			filter="string"
 			validate="contactemailsubject"
-			required="true"
-		/>
+			required="true" />
+
 		<field name="contact_message"
 			type="textarea"
 			cols="50"
@@ -39,25 +41,25 @@
 			label="COM_CONTACT_CONTACT_ENTER_MESSAGE_LABEL"
 			filter="htmlsafe"
 			validate="contactemailmessage"
-			required="true"
-		/>
+			required="true" />
+
 		<field name="contact_email_copy"
 			type="checkbox"
 			id="contact-email-copy"
 			description="COM_CONTACT_CONTACT_EMAIL_A_COPY_DESC"
 			label="COM_CONTACT_CONTACT_EMAIL_A_COPY_LABEL"
-			default="0"
-		/>
+			default="0" />
 
 	</fieldset>
+
 	<fieldset name="captcha">
-		<field
-			name="captcha"
+
+		<field name="captcha"
 			type="captcha"
 			label="COM_CONTACT_CAPTCHA_LABEL"
 			description="COM_CONTACT_CAPTCHA_DESC"
 			validate="captcha"
-			namespace="contact"
-		/>
+			namespace="contact" />
+
 	</fieldset>
 </form>

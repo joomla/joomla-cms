@@ -41,6 +41,10 @@ JFactory::getDocument()->addScriptDeclaration($script);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_modules&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="module-form" class="form-validate">
 
+	<div class="pull-right">
+		<span class="label"><?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?></span>
+	</div>
+
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 	<div class="form-horizontal">
@@ -52,7 +56,6 @@ JFactory::getDocument()->addScriptDeclaration($script);
 			<div class="span9">
 				<?php if ($this->item->xml) : ?>
 					<?php if ($this->item->xml->description) : ?>
-						<span class="label"><?php echo $this->item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?></span>
 						<h3>
 							<?php
 							if ($this->item->xml)
