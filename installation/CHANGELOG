@@ -25,6 +25,19 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Sep-2013 Michael Babker
+ # [#31973] Installation loop if sending config yes (3.2 alpha)
+ ^ [#31963] Incorrect or inconsistent characters in "close ink" text on alert info popups.  Thanks Marco Richter
+ # [#29107] Strict standards and code clean up in com_contact form.  Thanks Piotr Konieczny
+ +$ [#31845] Add JHelperMedia and Deprecate MediaHelper.  Thanks Elin Waring
+ ^ [#31316] licence (gpl.html) only at the html code?.  Thanks Tobias Zulauf
+ # [#31530] Hathor: No tag filters in table overviews of article, categories, newsfeed, weblinks or contact.  Thanks David Jardin
+ # [#31826] "Size" column in Maintenance > Clear Cache is incorrect.  Thanks Drew Glaser
+
+16-Sep-2013 Jean-Marie Simonet
+ # [#32020] "Articles Categories" Module - cache is not working. Thanks Peter Martin
+ + [#31372] Selected tab changes to default after save. Thanks Ashan Fernando
+
 13-Sep-2013 Jean-Marie Simonet
  # [#31987] *Joomla multilingual install: sef and flags issues. Thanks Beat
  $ [#31942] Two factor authentication - Language file. Thanks Brian Teeman
