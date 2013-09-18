@@ -1262,11 +1262,11 @@ class TemplatesModelTemplate extends JModelForm
 	}
 
 	/**
-	 * Extract an image
+	 * Extract contents of a archive file.
 	 *
 	 * @param   string  $file  The name and location of the file
 	 *
-	 * @return   boolean  true if image resize successful, false otherwise.
+	 * @return   boolean  true if image extraction is successful, false otherwise.
 	 *
 	 * @since   3.2
 	 */
