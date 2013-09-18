@@ -610,7 +610,7 @@ abstract class JToolbarHelper
 			'item_id=' . (int) $itemId . '&amp;type_id=' . $typeId . '&amp;type_alias=' . $typeAlias . '&amp;' .
 			JSession::getFormToken() . '=1" ' .
 			'title=' . $title . ' class="btn btn-small modal_jform_contenthistory">' .
-			'<i class="icon-archive"></i>' . "\n" . $title . "\n" . '</a>';
+			'<span class="icon-archive"></span>' . "\n" . $title . "\n" . '</a>';
 
 	$bar = JToolbar::getInstance('toolbar');
 	$bar->appendButton('Custom', $dhtml, 'versions');

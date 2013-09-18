@@ -48,7 +48,7 @@ class JFormFieldContenthistory extends JFormField
 
 		$html[] = '		<a class="btn modal_' . $this->id . '" title="' . $label . '" href="' . $link . '"'
 			. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
-		$html[] = '<i class="icon-archive"></i>';
+		$html[] = '<span class="icon-archive"></span>';
 		$html[] = $label;
 		$html[] = '</a>';
 		$html[] = '</div>';
