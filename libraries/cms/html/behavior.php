@@ -120,6 +120,9 @@ abstract class JHtmlBehavior
 			return;
 		}
 
+		// Include MooTools framework
+		static::framework();
+		
 		// Include jQuery Framework
 		JHtml::_('jquery.framework');
 
