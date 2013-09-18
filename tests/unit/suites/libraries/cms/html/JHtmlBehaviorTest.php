@@ -633,7 +633,7 @@ class JHtmlBehaviorTest extends TestCase
 
 		JHtmlBehaviorInspector::keepalive();
 		$this->assertEquals(
-			array('JHtmlBehavior::keepalive' => true, 'JHtmlBehavior::framework' => array('core' => true)),
+			array('JHtmlBehavior::keepalive' => true),
 			JHtmlBehaviorInspector::getLoaded()
 		);
 	}
