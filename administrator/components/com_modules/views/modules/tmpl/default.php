@@ -182,24 +182,32 @@ $sortFields = $this->getSortFields();
 						<div class="pull-left">
 							<?php
 								// Create dropdown items
-								JHtml::_('dropdown.edit', $item->id, 'module.');
-								JHtml::_('dropdown.divider');
-								if ($item->published) :
-									JHtml::_('dropdown.unpublish', 'cb' . $i, 'modules.');
-								else :
-									JHtml::_('dropdown.publish', 'cb' . $i, 'modules.');
+								if($canEdit):
+									JHtml::_('dropdown.edit', $item->id, 'module.');
 								endif;
 
-								JHtml::_('dropdown.divider');
-
-								if ($item->checked_out) :
-									JHtml::_('dropdown.checkin', 'cb' . $i, 'modules.');
+								if($canEdit && $canChange):
+									JHtml::_('dropdown.divider');
 								endif;
 
-								if ($trashed) :
-									JHtml::_('dropdown.untrash', 'cb' . $i, 'modules.');
-								else :
-									JHtml::_('dropdown.trash', 'cb' . $i, 'modules.');
+								if($canChange):
+									if ($item->published) :
+										JHtml::_('dropdown.unpublish', 'cb' . $i, 'modules.');
+									else :
+										JHtml::_('dropdown.publish', 'cb' . $i, 'modules.');
+									endif;
+
+									JHtml::_('dropdown.divider');
+
+									if ($item->checked_out) :
+										JHtml::_('dropdown.checkin', 'cb' . $i, 'modules.');
+									endif;
+
+									if ($trashed) :
+										JHtml::_('dropdown.untrash', 'cb' . $i, 'modules.');
+									else :
+										JHtml::_('dropdown.trash', 'cb' . $i, 'modules.');
+									endif;
 								endif;
 
 								// Render dropdown list
