@@ -33,8 +33,8 @@ abstract class JGooglecloudstorageObject
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry                $options  Googlecloudstorage options object.
-	 * @param   JHttp  $client   The HTTP client object.
+	 * @param   JRegistry  $options  Googlecloudstorage options object.
+	 * @param   JHttp      $client   The HTTP client object.
 	 *
 	 * @since   ??.?
 	 */
