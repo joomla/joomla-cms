@@ -94,6 +94,7 @@
 				client="administrator"
 				description="COM_ADMIN_USER_FIELD_BACKEND_TEMPLATE_DESC"
 				label="COM_ADMIN_USER_FIELD_BACKEND_TEMPLATE_LABEL"
+				class="advancedSelect"
 			>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
