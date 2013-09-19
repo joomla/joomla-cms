@@ -230,7 +230,8 @@
 			default="UTC"
 			label="COM_CONFIG_FIELD_SERVER_TIMEZONE_LABEL"
 			description="COM_CONFIG_FIELD_SERVER_TIMEZONE_DESC"
-			required="true">
+			required="true"
+			class="advancedSelect">
 			<option value="UTC">JLIB_FORM_VALUE_TIMEZONE_UTC</option>
 		</field>
 	</fieldset>

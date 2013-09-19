@@ -184,6 +184,7 @@
 			<field name="timezone" type="timezone"
 				label="COM_USERS_USER_FIELD_TIMEZONE_LABEL"
 				description="COM_USERS_USER_FIELD_TIMEZONE_DESC"
+				class="advancedSelect"
 			>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
