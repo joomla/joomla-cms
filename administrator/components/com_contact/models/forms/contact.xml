@@ -27,12 +27,12 @@
 			class="inputbox"
 			size="30"
 		/>
-		
-		<field name="version_note" 
-			type="text" 
+
+		<field name="version_note"
+			type="text"
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
-			description="JGLOBAL_FIELD_VERSION_NOTE_DESC" 
-			class="inputbox" size="45" 
+			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
+			class="inputbox" size="45"
 			labelclass="control-label"
 		/>
 
@@ -47,7 +47,7 @@
 			type="list"
 			label="JSTATUS"
 			description="JFIELD_PUBLISHED_DESC"
-			class="inputbox span12 small"
+			class="inputbox span12 small advancedSelect"
 			size="1"
 			default="1"
 		>
@@ -275,13 +275,13 @@
 			label="JFEATURED"
 			description="COM_CONTACT_FIELD_FEATURED_DESC"
 			default="0"
-			class="span12 small"
+			class="span12 small advancedSelect"
 		>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
 
-		<field name="tags" 
+		<field name="tags"
 			type="tag"
 			label="JTAG"
 			description="JTAG_DESC"
@@ -295,6 +295,7 @@
 			default="0"
 			label="COM_CONTACT_FIELD_ICONS_SETTINGS"
 			description="COM_CONTACT_FIELD_ICONS_SETTINGS_DESC"
+			class="advancedSelect"
 		>
 			<option value="0">COM_CONTACT_FIELD_VALUE_NONE
 			</option>
@@ -350,6 +351,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_LABEL"
 				description="COM_CONTACT_FIELD_SHOW_CATEGORY_DESC"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="hide">JHIDE</option>
@@ -373,6 +375,7 @@
 			<field name="presentation_style" type="list"
 				description="COM_CONTACT_FIELD_PRESENTATION_DESC"
 				label="COM_CONTACT_FIELD_PRESENTATION_LABEL"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="sliders">COM_CONTACT_FIELD_VALUE_SLIDERS</option>
@@ -383,6 +386,7 @@
 			<field name="show_tags" type="list"
 				label="COM_CONTACT_FIELD_SHOW_TAGS_LABEL"
 				description="COM_CONTACT_FIELD_SHOW_TAGS_DESC"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -392,6 +396,7 @@
 			<field name="show_name"
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_NAME_LABEL" description="COM_CONTACT_FIELD_PARAMS_NAME_DESC"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -401,6 +406,7 @@
 			<field name="show_position" type="list"
 				label="COM_CONTACT_FIELD_PARAMS_CONTACT_POSITION_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_CONTACT_POSITION_DESC"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -410,6 +416,7 @@
 			<field name="show_email" type="list"
 				label="JGLOBAL_EMAIL"
 				description="COM_CONTACT_FIELD_PARAMS_CONTACT_E_MAIL_DESC"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -419,6 +426,7 @@
 			<field name="show_street_address" type="list"
 				label="COM_CONTACT_FIELD_PARAMS_STREET_ADDRESS_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_STREET_ADDRESS_DESC"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -428,6 +436,7 @@
 			<field name="show_suburb" type="list"
 				label="COM_CONTACT_FIELD_PARAMS_TOWN-SUBURB_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_TOWN-SUBURB_DESC"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -437,6 +446,7 @@
 			<field name="show_state" type="list"
 				label="COM_CONTACT_FIELD_PARAMS_STATE-COUNTY_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_STATE-COUNTY_DESC"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -447,6 +457,7 @@
 
 				label="COM_CONTACT_FIELD_PARAMS_POST-ZIP_CODE_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_POST-ZIP_CODE_DESC"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -457,6 +468,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_COUNTRY_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_COUNTRY_DESC"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -467,6 +479,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_TELEPHONE_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_TELEPHONE_DESC"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -477,6 +490,7 @@
 				type="list"
 				label="COM_CONTACT_FIELD_PARAMS_MOBILE_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_MOBILE_DESC"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -486,6 +500,7 @@
 			<field name="show_fax" type="list"
 				label="COM_CONTACT_FIELD_PARAMS_FAX_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_FAX_DESC"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -495,6 +510,7 @@
 			<field name="show_webpage" type="list"
 				label="COM_CONTACT_FIELD_PARAMS_WEBPAGE_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_WEBPAGE_DESC"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -504,6 +520,7 @@
 			<field name="show_misc" type="list"
 				label="COM_CONTACT_FIELD_PARAMS_MISC_INFO_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_MISC_INFO_DESC"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -513,6 +530,7 @@
 			<field name="show_image" type="list"
 				label="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_SHOW_IMAGE_DESC"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -522,6 +540,7 @@
 			<field name="allow_vcard" type="list"
 				label="COM_CONTACT_FIELD_PARAMS_VCARD_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_VCARD_DESC"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -530,15 +549,16 @@
 
 			<field name="show_articles" label="COM_CONTACT_FIELD_ARTICLES_SHOW_LABEL"
 				description="COM_CONTACT_FIELD_ARTICLES_SHOW_DESC" type="list"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 			<field name="show_profile" type="list"
-
 				label="COM_CONTACT_FIELD_PROFILE_SHOW_LABEL"
 				description="COM_CONTACT_FIELD_PROFILE_SHOW_DESC"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -546,9 +566,10 @@
 			</field>
 
 			<field name="show_links"
-			label="COM_CONTACT_FIELD_SHOW_LINKS_LABEL"
-			description="COM_CONTACT_FIELD_SHOW_LINKS_DESC"
-			type="list"
+				label="COM_CONTACT_FIELD_SHOW_LINKS_LABEL"
+				description="COM_CONTACT_FIELD_SHOW_LINKS_DESC"
+				type="list"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -646,9 +667,9 @@
 		>
 
 			<field name="show_email_form" type="list"
-
 				label="COM_CONTACT_FIELD_EMAIL_SHOW_FORM_LABEL"
 				description="COM_CONTACT_FIELD_EMAIL_SHOW_FORM_DESC"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -656,9 +677,9 @@
 			</field>
 
 			<field name="show_email_copy" type="list"
-
 				label="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_LABEL"
 				description="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_DESC"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -682,9 +703,9 @@
 				cols="30" description="COM_CONTACT_FIELD_EMAIL_BANNED_TEXT_DESC" />
 
 			<field name="validate_session" type="list"
-
 				label="COM_CONTACT_FIELD_CONFIG_SESSION_CHECK_LABEL"
 				description="COM_CONTACT_FIELD_CONFIG_SESSION_CHECK_DESC"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JNO</option>
@@ -692,9 +713,9 @@
 			</field>
 
 			<field name="custom_reply" type="list"
-
 				label="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_LABEL"
 				description="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_DESC"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JNO</option>
@@ -711,11 +732,12 @@
 	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 		<fieldset name="jmetadata"
 			label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
-	
+
 			<field name="robots"
 				type="list"
 				label="JFIELD_METADATA_ROBOTS_LABEL"
 				description="JFIELD_METADATA_ROBOTS_DESC"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
@@ -723,7 +745,7 @@
 				<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
 				<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
 			</field>
-	
+
 			<field name="rights" type="text"
 				label="JFIELD_METADATA_RIGHTS_LABEL"
 				description="JFIELD_METADATA_RIGHTS_DESC"

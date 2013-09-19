@@ -15,7 +15,7 @@
 
 		<field name="published" type="list"
 			label="JSTATUS" description="JFIELD_PUBLISHED_DESC"
-			class="inputbox span12 small" size="1" default="1"
+			class="inputbox span12 small advancedSelect" size="1" default="1"
 		>
 			<option value="1">
 				JPUBLISHED</option>
@@ -39,7 +39,7 @@
 			<option value="*">JALL</option>
 		</field>
 
-		<field name="tags" 
+		<field name="tags"
 			type="tag"
 			label="JTAG"
 			description="JTAG_DESC"
@@ -47,12 +47,12 @@
 			multiple="true"
 		>
 		</field>
-		
-		<field name="version_note" 
-			type="text" 
+
+		<field name="version_note"
+			type="text"
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
-			description="JGLOBAL_FIELD_VERSION_NOTE_DESC" 
-			class="inputbox" size="45" 
+			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
+			class="inputbox" size="45"
 			labelclass="control-label"
 		/>
 
@@ -78,7 +78,7 @@
 		<field name="ordering" type="ordering" class="inputbox" table="#__newsfeeds"
 			label="JFIELD_ORDERING_LABEL" description="JFIELD_ORDERING_DESC" />
 
-		<field name="rtl" type="list" class="inputbox"
+		<field name="rtl" type="list" class="inputbox advancedSelect"
 			default="0" label="COM_NEWSFEEDS_FIELD_RTL_LABEL"
 			description="COM_NEWSFEEDS_FIELD_RTL_DESC"
 		>
@@ -159,7 +159,8 @@
 				name="float_first"
 				type="list"
 				label="COM_NEWSFEEDS_FLOAT_LABEL"
-				description="COM_NEWSFEEDS_FLOAT_DESC">
+				description="COM_NEWSFEEDS_FLOAT_DESC"
+				class="advancedSelect">
 					<option value="">JGLOBAL_USE_GLOBAL</option>
 					<option value="right">COM_NEWSFEEDS_RIGHT</option>
 					<option value="left">COM_NEWSFEEDS_LEFT</option>
@@ -191,7 +192,8 @@
 				name="float_second"
 				type="list"
 				label="COM_NEWSFEEDS_FLOAT_LABEL"
-				description="COM_NEWSFEEDS_FLOAT_DESC">
+				description="COM_NEWSFEEDS_FLOAT_DESC"
+				class="advancedSelect">
 					<option value="">JGLOBAL_USE_GLOBAL</option>
 					<option value="right">COM_NEWSFEEDS_RIGHT</option>
 					<option value="left">COM_NEWSFEEDS_LEFT</option>
@@ -217,6 +219,7 @@
 			<field name="show_feed_image" type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
 				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -226,6 +229,7 @@
 			<field name="show_feed_description" type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
 				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_DESC"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -235,6 +239,7 @@
 			<field name="show_item_description" type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
 				description="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_DESC"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -257,6 +262,7 @@
 			<field name="feed_display_order" type="list"
 				label="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_LABEL"
 				description="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_DESC"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="des">JGLOBAL_MOST_RECENT_FIRST</option>
@@ -270,9 +276,10 @@
 		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 
 			<field name="robots"
-			type="list"
-			label="JFIELD_METADATA_ROBOTS_LABEL"
-			description="JFIELD_METADATA_ROBOTS_DESC"
+				type="list"
+				label="JFIELD_METADATA_ROBOTS_LABEL"
+				description="JFIELD_METADATA_ROBOTS_DESC"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>

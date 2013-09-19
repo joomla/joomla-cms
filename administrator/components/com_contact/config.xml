@@ -20,6 +20,7 @@
 			default="hide"
 			label="COM_CONTACT_FIELD_CONTACT_SHOW_CATEGORY_LABEL"
 			description="COM_CONTACT_FIELD_CONTACT_SHOW_CATEGORY_DESC"
+			class="advancedSelect"
 		>
 			<option value="hide">JHIDE</option>
 			<option value="show_no_link">COM_CONTACT_FIELD_VALUE_NO_LINK
@@ -27,7 +28,7 @@
 			<option value="show_with_link">COM_CONTACT_FIELD_VALUE_WITH_LINK
 			</option>
 		</field>
-		
+
 		<field
 			name="save_history"
 			type="radio"
@@ -41,7 +42,7 @@
 			<option
 				value="1">JYES</option>
 		</field>
-		
+
 		<field
 			name="history_limit"
 			type="text"
@@ -63,9 +64,10 @@
 		</field>
 
 		<field name="presentation_style"
-		type="list"
+			type="list"
 			description="COM_CONTACT_FIELD_PRESENTATION_DESC"
 			label="COM_CONTACT_FIELD_PRESENTATION_LABEL"
+			class="advancedSelect"
 		>
 			<option value="sliders">COM_CONTACT_FIELD_VALUE_SLIDERS</option>
 			<option value="tabs">COM_CONTACT_FIELD_VALUE_TABS</option>
@@ -331,6 +333,7 @@
 			default="0"
 			label="COM_CONTACT_FIELD_ICONS_SETTINGS_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_SETTINGS_DESC"
+			class="advancedSelect"
 		>
 			<option value="0">COM_CONTACT_FIELD_VALUE_ICONS
 			</option>
@@ -421,6 +424,7 @@
 			default="-1"
 			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
+			class="advancedSelect"
 		>
 			<option value="-1">JALL</option>
 			<option value="0">JNONE</option>
@@ -491,6 +495,7 @@
 			default="-1"
 			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
+			class="advancedSelect"
 		>
 			<option value="-1">JALL</option>
 			<option value="1">J1</option>
@@ -545,6 +550,7 @@
 			default="1"
 			description="JGLOBAL_FILTER_FIELD_DESC"
 			label="JGLOBAL_FILTER_FIELD_LABEL"
+			class="advancedSelect"
 			>
 				<option value="hide">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -669,6 +675,7 @@
 				default="2"
 				description="JGLOBAL_PAGINATION_DESC"
 				label="JGLOBAL_PAGINATION_LABEL"
+				class="advancedSelect"
 			>
 
 				<option value="0">JHIDE</option>
@@ -694,6 +701,7 @@
 				label="COM_CONTACT_FIELD_INITIAL_SORT_LABEL"
 				validate="options"
 				default="ordering"
+				class="advancedSelect"
 			>
 				<option value="name">COM_CONTACT_FIELD_VALUE_NAME</option>
 				<option value="sortname">COM_CONTACT_FIELD_VALUE_SORT_NAME</option>

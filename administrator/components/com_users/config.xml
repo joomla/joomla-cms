@@ -48,7 +48,8 @@
 			type="list"
 			default="2"
 			label="COM_USERS_CONFIG_FIELD_USERACTIVATION_LABEL"
-			description="COM_USERS_CONFIG_FIELD_USERACTIVATION_DESC">
+			description="COM_USERS_CONFIG_FIELD_USERACTIVATION_DESC"
+			class="advancedSelect">
 			<option
 				value="0">JNONE</option>
 			<option

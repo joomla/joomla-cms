@@ -13,7 +13,7 @@
 
 		<field name="alias" type="text" label="JFIELD_ALIAS_LABEL"
 			description="JFIELD_ALIAS_DESC" class="inputbox" size="45" labelclass="control-label" />
-			
+
 		<field name="version_note" type="text" label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 			description="JGLOBAL_FIELD_VERSION_NOTE_DESC" class="inputbox" size="45" labelclass="control-label" />
 
@@ -22,7 +22,7 @@
 			filter="JComponentHelper::filterText" buttons="true" />
 
 		<field name="state" type="list" label="JSTATUS"
-			description="JFIELD_PUBLISHED_DESC" class="span12 small"
+			description="JFIELD_PUBLISHED_DESC" class="span12 small advancedSelect"
 			filter="intval" size="1" default="1"
 		>
 			<option value="1">
@@ -116,13 +116,13 @@
 			label="JFEATURED"
 			description="COM_CONTENT_FIELD_FEATURED_DESC"
 			default="0"
-			class="span12 small"
+			class="span12 small advancedSelect"
 		>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
 
-		<field name="tags" 
+		<field name="tags"
 			type="tag"
 			label="JTAG"
 			description="JTAG_DESC"
@@ -191,7 +191,8 @@
 				type="list"
 				default=""
 				label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
-				description="COM_CONTENT_FIELD_INFOBLOCK_POSITION_DESC">
+				description="COM_CONTENT_FIELD_INFOBLOCK_POSITION_DESC"
+				class="advancedSelect">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 				<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
@@ -645,7 +646,8 @@
 				type="list"
 				label="COM_CONTENT_FLOAT_LABEL"
 				description="COM_CONTENT_FLOAT_DESC"
-				labelclass="control-label">
+				labelclass="control-label"
+				class="advancedSelect">
 					<option value="">JGLOBAL_USE_GLOBAL</option>
 					<option value="right">COM_CONTENT_RIGHT</option>
 					<option value="left">COM_CONTENT_LEFT</option>
@@ -681,7 +683,8 @@
 				type="list"
 				label="COM_CONTENT_FLOAT_LABEL"
 				description="COM_CONTENT_FLOAT_DESC"
-				labelclass="control-label">
+				labelclass="control-label"
+				class="advancedSelect">
 					<option value="">JGLOBAL_USE_GLOBAL</option>
 					<option value="right">COM_CONTENT_RIGHT</option>
 					<option value="left">COM_CONTENT_LEFT</option>
@@ -725,7 +728,7 @@
 				description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
 				default=""
 				filter="options"
-				class="inputbox"
+				class="inputbox advancedSelect"
 				labelclass="control-label">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JBROWSERTARGET_PARENT</option>
@@ -760,7 +763,7 @@
 				description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
 				default=""
 				filter="options"
-				class="inputbox"
+				class="inputbox advancedSelect"
 				labelclass="control-label">
 					<option value="">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">JBROWSERTARGET_PARENT</option>
@@ -796,7 +799,7 @@
 				description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
 				default=""
 				filter="options"
-				class="inputbox"
+				class="inputbox advancedSelect"
 				labelclass="control-label">
 					<option value="">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">JBROWSERTARGET_PARENT</option>
@@ -809,12 +812,13 @@
 	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 		<fieldset name="jmetadata"
 			label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
-	
+
 				<field name="robots"
 					type="list"
 					label="JFIELD_METADATA_ROBOTS_LABEL"
 					description="JFIELD_METADATA_ROBOTS_DESC"
 					labelclass="control-label"
+					class="advancedSelect"
 					>
 					<option value="">JGLOBAL_USE_GLOBAL</option>
 					<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
@@ -822,11 +826,11 @@
 					<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
 					<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
 				</field>
-	
+
 				<field name="author" type="text"
 					label="JAUTHOR" description="JFIELD_METADATA_AUTHOR_DESC"
 					size="20" labelclass="control-label" />
-	
+
 				<field name="rights" type="textarea" label="JFIELD_META_RIGHTS_LABEL"
 					description="JFIELD_META_RIGHTS_DESC" required="false" filter="string"
 					cols="30" rows="2" labelclass="control-label" />

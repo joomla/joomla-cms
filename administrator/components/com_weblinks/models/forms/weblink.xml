@@ -46,7 +46,7 @@
 			type="list"
 			label="JSTATUS"
 			description="COM_WEBLINKS_FIELD_STATE_DESC"
-			class="inputbox span12 small"
+			class="inputbox span12 small advancedSelect"
 			size="1"
 			default="1">
 			<option
@@ -154,6 +154,7 @@
 		<fieldset name="jbasic" label="COM_WEBLINKS_FIELDSET_OPTIONS">
 			<field name="target" type="list" default=""
 				label="COM_WEBLINKS_FIELD_TARGET_LABEL" description="COM_WEBLINKS_FIELD_TARGET_DESC"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JBROWSERTARGET_PARENT</option>
@@ -173,6 +174,7 @@
 			<field name="count_clicks" type="list"
 				label="COM_WEBLINKS_FIELD_COUNTCLICKS_LABEL"
 				description="COM_WEBLINKS_FIELD_COUNTCLICKS_DESC"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JNO</option>
@@ -190,7 +192,8 @@
 				name="float_first"
 				type="list"
 				label="COM_WEBLINKS_FLOAT_LABEL"
-				description="COM_WEBLINKS_FLOAT_DESC">
+				description="COM_WEBLINKS_FLOAT_DESC"
+				class="advancedSelect">
 					<option value="">JGLOBAL_USE_GLOBAL</option>
 					<option value="right">COM_WEBLINKS_RIGHT</option>
 					<option value="left">COM_WEBLINKS_LEFT</option>
@@ -218,7 +221,8 @@
 				name="float_second"
 				type="list"
 				label="COM_WEBLINKS_FLOAT_LABEL"
-				description="COM_WEBLINKS_FLOAT_DESC">
+				description="COM_WEBLINKS_FLOAT_DESC"
+				class="advancedSelect">
 					<option value="">JGLOBAL_USE_GLOBAL</option>
 					<option value="right">COM_WEBLINKS_RIGHT</option>
 					<option value="left">COM_WEBLINKS_LEFT</option>
@@ -244,6 +248,7 @@
 				type="list"
 				label="JFIELD_METADATA_ROBOTS_LABEL"
 				description="JFIELD_METADATA_ROBOTS_DESC"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>

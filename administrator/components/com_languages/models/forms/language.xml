@@ -67,7 +67,7 @@
 		/>
 
 		<field name="published" type="list"
-			class="inputbox"
+			class="inputbox advancedSelect"
 			default="1"
 			description="COM_LANGUAGES_FIELD_PUBLISHED_DESC"
 			label="JSTATUS"
@@ -77,7 +77,7 @@
 			<option value="0">JUNPUBLISHED</option>
 			<option value="-2">JTRASHED</option>
 		</field>
-		
+
 		<field name="access" type="accesslevel"
 		class="inputbox"
 		size="1"

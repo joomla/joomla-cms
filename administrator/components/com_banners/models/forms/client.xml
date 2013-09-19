@@ -25,7 +25,7 @@
 
 		<field name="state" type="list"
 			label="JSTATUS" description="COM_BANNERS_FIELD_CLIENT_STATE_DESC"
-			class="inputbox" size="1" default="1"
+			class="inputbox advancedSelect" size="1" default="1"
 		>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
@@ -35,7 +35,7 @@
 
 		<field name="purchase_type" type="list"
 			label="COM_BANNERS_FIELD_PURCHASETYPE_LABEL" description="COM_BANNERS_FIELD_PURCHASETYPE_DESC"
-			default="0" class="inputbox"
+			default="0" class="inputbox advancedSelect"
 		>
 			<option value="-1">JGLOBAL_USE_GLOBAL
 			</option>
@@ -54,6 +54,7 @@
 		<field name="track_impressions" type="list" default="0"
 			label="COM_BANNERS_FIELD_TRACKIMPRESSION_LABEL"
 			description="COM_BANNERS_FIELD_TRACKIMPRESSION_DESC"
+			class="advancedSelect"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">JNO</option>
@@ -62,6 +63,7 @@
 
 		<field name="track_clicks" type="list" default="0"
 			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL" description="COM_BANNERS_FIELD_TRACKCLICK_DESC"
+			class="advancedSelect"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">JNO</option>

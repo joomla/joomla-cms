@@ -40,7 +40,7 @@
 
 
 		<field name="state" type="list" label="JSTATUS"
-			description="JFIELD_PUBLISHED_DESC" class="inputbox"
+			description="JFIELD_PUBLISHED_DESC" class="inputbox advancedSelect"
 			filter="intval" size="1" default="1" >
 			<option value="1">
 				JPUBLISHED</option>
@@ -61,7 +61,8 @@
 			label="COM_FINDER_FILTER_WHEN_START_DATE_LABEL"
 			description="COM_FINDER_FILTER_WHEN_START_DATE_DESCRIPTION"
 			default=""
-			filter="string">
+			filter="string"
+			class="advancedSelect">
 			<option value="">JNONE</option>
 			<option value="-1">COM_FINDER_FILTER_WHEN_BEFORE</option>
 			<option value="0">COM_FINDER_FILTER_WHEN_EXACTLY</option>
@@ -78,7 +79,8 @@
 			label="COM_FINDER_FILTER_WHEN_END_DATE_LABEL"
 			description="COM_FINDER_FILTER_WHEN_END_DATE_DESCRIPTION"
 			default=""
-			filter="string">
+			filter="string"
+			class="advancedSelect">
 			<option value="">JNONE</option>
 			<option value="-1">COM_FINDER_FILTER_WHEN_BEFORE</option>
 			<option value="0">COM_FINDER_FILTER_WHEN_EXACTLY</option>
