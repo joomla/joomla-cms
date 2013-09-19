@@ -16,13 +16,13 @@ $app = JFactory::getApplication();
 $input = $app->input;
 
 // Requested format passed via URL
-$format = strtolower($input->getWord('format', 'html'));
+$format = strtolower($input->getWord('format'));
 
 // Initialize default response
 $results = null;
 
 // Check for valid format
-if ($format == 'html')
+if (!$format)
 {
 	$results = new InvalidArgumentException('Please specify response format other that HTML (json, raw, etc.)', 404);
 }
