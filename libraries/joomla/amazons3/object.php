@@ -25,7 +25,7 @@ abstract class JAmazons3Object
 	protected $options;
 
 	/**
-	 * @var    JAmazons3Http  The HTTP client object to use in sending HTTP requests.
+	 * @var    JHttp  The HTTP client object to use in sending HTTP requests.
 	 * @since  ??.?
 	 */
 	protected $client;
@@ -33,15 +33,15 @@ abstract class JAmazons3Object
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry      $options  Amazons3 options object.
-	 * @param   JAmazons3Http  $client   The HTTP client object.
+	 * @param   JRegistry  $options  Amazons3 options object.
+	 * @param   JHttp      $client   The HTTP client object.
 	 *
 	 * @since   ??.?
 	 */
-	public function __construct(JRegistry $options = null, JAmazons3Http $client = null)
+	public function __construct(JRegistry $options = null, JHttp $client = null)
 	{
 		$this->options = isset($options) ? $options : new JRegistry;
-		$this->client = isset($client) ? $client : new JAmazons3Http($this->options);
+		$this->client = isset($client) ? $client : new JHttp($this->options);
 	}
 
 	/**
