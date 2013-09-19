@@ -13,6 +13,7 @@
 			menuitems="true"
 			extension="com_contact"
 			view="contact"
+			class="advancedSelect"
 		/>
 
 		<field name="show_contact_category"
@@ -388,6 +389,7 @@
 			menuitems="true"
 			extension="com_contact"
 			view="category"
+			class="advancedSelect"
 		/>
 
 		<field name="show_category_title" type="radio"

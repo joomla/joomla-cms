@@ -659,6 +659,7 @@
 				extension="com_contact"
 				view="contact"
 				useglobal="true"
+				class="advancedSelect"
 				/>
 		</fieldset>
 

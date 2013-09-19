@@ -225,6 +225,7 @@
 				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
 				view="category"
 				useglobal="true"
+				class="advancedSelect"
 				/>
 
 			<field

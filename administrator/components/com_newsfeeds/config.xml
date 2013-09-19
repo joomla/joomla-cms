@@ -13,6 +13,7 @@
 			menuitems="true"
 			extension="com_newsfeeds"
 			view="newsfeed"
+			class="advancedSelect"
 		/>
 
 		<field
@@ -143,6 +144,7 @@
 			menuitems="true"
 			extension="com_newsfeeds"
 			view="category"
+			class="advancedSelect"
 		/>
 
 		<field name="show_category_title" type="radio"

@@ -230,6 +230,7 @@
 				useglobal="true"
 				extension="com_tags"
 				view="tag"
+				class="advancedSelect"
 			/>
 
 			<field

@@ -13,6 +13,7 @@
 			menuitems="true"
 			extension="com_tags"
 			view="tag"
+			class="advancedSelect"
 		/>
 
 		<field
@@ -218,6 +219,7 @@
 			menuitems="true"
 			extension="com_tags"
 			view="tags"
+			class="advancedSelect"
 		/>
 
 		<field

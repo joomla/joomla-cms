@@ -113,6 +113,7 @@
 			menuitems="true"
 			extension="com_weblinks"
 			view="category"
+			class="advancedSelect"
 		/>
 
 		<field name="show_category_title" type="radio"

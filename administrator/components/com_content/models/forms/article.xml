@@ -420,6 +420,7 @@
 				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
 				useglobal="true"
 				extension="com_content" view="article" labelclass="control-label"
+				class="advancedSelect"
 			/>
 		</fieldset>
 

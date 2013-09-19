@@ -12,6 +12,7 @@
 			menuitems="true"
 			extension="com_content"
 			view="article"
+			class="advancedSelect"
 		/>
 
 		<field
@@ -499,6 +500,7 @@
 			menuitems="true"
 			extension="com_content"
 			view="category"
+			class="advancedSelect"
 		/>
 		<field
 			name="show_category_heading_title_text"
