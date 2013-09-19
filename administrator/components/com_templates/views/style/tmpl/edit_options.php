@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-// Load chosen.css
-
 ?>
 <?php
 	echo JHtml::_('bootstrap.startAccordion', 'templatestyleOptions', array('active' => 'collapse0'));
