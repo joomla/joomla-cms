@@ -55,7 +55,7 @@ class JAmazons3ObjectsGetTest extends PHPUnit_Framework_TestCase
 		$this->options->set('max-parts', '2');
 		$this->options->set('part-number-marker', '1');
 
-		$this->client = $this->getMock('JAmazons3Http', array('delete', 'get', 'head', 'put', 'post', 'optionss3'));
+		$this->client = $this->getMock('JHttp', array('delete', 'get', 'head', 'put', 'post', 'optionss3'));
 
 		$this->object = new JAmazons3Objects($this->options, $this->client);
 	}

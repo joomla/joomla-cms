@@ -48,7 +48,7 @@ class JAmazons3ServiceGetTest extends PHPUnit_Framework_TestCase
 		$this->options->set('api.secretAccessKey', 'testSecretAccessKey');
 		$this->options->set('api.url', 's3.amazonaws.com');
 
-		$this->client = $this->getMock('JAmazons3Http', array('get'));
+		$this->client = $this->getMock('JHttp', array('get'));
 
 		$this->object = new JAmazons3Service($this->options, $this->client);
 	}

@@ -54,7 +54,7 @@ class JAmazons3ObjectsDeleteTest extends PHPUnit_Framework_TestCase
 		$this->options->set("tokenCode", "301749");
 		$this->options->set("uploadId", "VXBsb2FkIElEIGZvciBlbHZpbmcncyBteS1tb3ZpZS5tMnRzIHVwbG9hZ");
 
-		$this->client = $this->getMock('JAmazons3Http', array('delete', 'get', 'head', 'put', 'post', 'optionss3'));
+		$this->client = $this->getMock('JHttp', array('delete', 'get', 'head', 'put', 'post', 'optionss3'));
 
 		$this->object = new JAmazons3Objects($this->options, $this->client);
 	}

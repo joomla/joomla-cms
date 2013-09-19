@@ -49,7 +49,7 @@ class JAmazons3BucketsGetTest extends PHPUnit_Framework_TestCase
 		$this->options->set('api.url', 's3.amazonaws.com');
 		$this->options->set('testBucket', 'testBucket');
 
-		$this->client = $this->getMock('JAmazons3Http', array('delete', 'get', 'head', 'put'));
+		$this->client = $this->getMock('JHttp', array('delete', 'get', 'head', 'put'));
 
 		$this->object = new JAmazons3Buckets($this->options, $this->client);
 	}

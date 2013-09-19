@@ -176,7 +176,7 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 			)
 		);
 
-		$this->client = $this->getMock('JAmazons3Http', array('delete', 'get', 'head', 'put'));
+		$this->client = $this->getMock('JHttp', array('delete', 'get', 'head', 'put'));
 
 		$this->object = new JAmazons3Buckets($this->options, $this->client);
 	}
