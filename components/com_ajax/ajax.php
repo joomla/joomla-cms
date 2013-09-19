@@ -68,19 +68,19 @@ elseif ($input->get('module'))
 			// Method does not exist
 			else
 			{
-				$results = new LogicExeption(JText::sprintf('COM_AJAX_METHOD_DOES_NOT_EXIST', $method . 'Ajax'), 404);
+				$results = new LogicException(sprintf('Method %s does not exist', $method . 'Ajax'), 404);
 			}
 		}
 		// The helper file does not exist
 		else
 		{
-			$results = new RuntimeException(JText::sprintf('COM_AJAX_HELPER_DOES_NOT_EXIST', 'mod_' . $module . '/helper.php'), 404);
+			$results = new RuntimeException(sprintf('The file at %s does not exist', 'mod_' . $module . '/helper.php'), 404);
 		}
 	}
 	// Module is not published, you do not have access to it, or it is not assigned to the current menu item
 	else
 	{
-		$results = new LogicException(JText::sprintf('COM_AJAX_MODULE_NOT_PUBLISHED', 'mod_' . $module), 404);
+		$results = new LogicException(sprintf('Module %s is not published, you do not have access to it, or it\'s not assigned to the current menu item', 'mod_' . $module), 404);
 	}
 }
 /*
