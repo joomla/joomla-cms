@@ -78,7 +78,8 @@
 			default=""
 			label="COM_USERS_CONFIG_FIELD_CAPTCHA_LABEL"
 			description="COM_USERS_CONFIG_FIELD_CAPTCHA_DESC"
-			filter="cmd" >
+			filter="cmd"
+			class="advancedSelect">
 			<option
 				value="">JOPTION_USE_DEFAULT</option>
 			<option

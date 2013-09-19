@@ -632,7 +632,8 @@
 			label="COM_CONFIG_FIELD_DEFAULT_EDITOR_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_EDITOR_DESC"
 			required="true"
-			filter="cmd" />
+			filter="cmd"
+			class="advancedSelect"/>
 
 		<field
 			name="captcha"
@@ -642,7 +643,8 @@
 			label="COM_CONFIG_FIELD_DEFAULT_CAPTCHA_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_CAPTCHA_DESC"
 			required="true"
-			filter="cmd">
+			filter="cmd"
+			class="advancedSelect">
 			<option value="0">JOPTION_DO_NOT_USE</option>
 		</field>
 
