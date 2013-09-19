@@ -107,7 +107,7 @@
 			readonly="true" filter="unset" />
 
 		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
-			description="COM_CONTENT_FIELD_LANGUAGE_DESC" class="span12 small"
+			description="COM_CONTENT_FIELD_LANGUAGE_DESC" class="span12 small advancedSelect"
 		>
 			<option value="*">JALL</option>
 		</field>

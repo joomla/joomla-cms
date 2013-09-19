@@ -189,7 +189,7 @@
 		type="contentlanguage"
 		label="JFIELD_LANGUAGE_LABEL"
 		description="COM_CATEGORIES_FIELD_LANGUAGE_DESC"
-		class="span12 small">
+		class="span12 small advancedSelect">
 		<option value="*">JALL</option>
 	</field>
 

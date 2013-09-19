@@ -196,7 +196,8 @@
 			type="contentlanguage"
 			default="all"
 			label="COM_TAGS_FIELD_LANGUAGE_FILTER_LABEL"
-			description="COM_TAGS_FIELD_LANGUAGE_FILTER_DESC">
+			description="COM_TAGS_FIELD_LANGUAGE_FILTER_DESC"
+			class="advancedSelect">
 				<option value="all">JALL</option>
 				<option value="current_language">JCURRENT</option>
 		</field>

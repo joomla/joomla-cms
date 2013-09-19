@@ -74,7 +74,7 @@
 			type="contentlanguage"
 			label="JFIELD_LANGUAGE_LABEL"
 			description="COM_WEBLINKS_FIELD_LANGUAGE_DESC"
-			class="inputbox span12 small">
+			class="inputbox span12 small advancedSelect">
 			<option value="*">JALL</option>
 		</field>
 

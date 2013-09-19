@@ -109,6 +109,7 @@
 		<field name="language" type="contentlanguage"
 			description="JFIELD_MODULE_LANGUAGE_DESC"
 			label="JFIELD_LANGUAGE_LABEL"
+			class="advancedSelect"
 		>
 			<option value="*">JALL</option>
 		</field>

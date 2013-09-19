@@ -208,7 +208,7 @@
 	<field
 		name="language"
 		type="contentlanguage"
-		class="span12 small"
+		class="span12 small advancedSelect"
 		label="JFIELD_LANGUAGE_LABEL"
 		description="COM_TAGS_FIELD_LANGUAGE_DESC"
 	>

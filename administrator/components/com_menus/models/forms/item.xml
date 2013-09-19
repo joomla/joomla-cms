@@ -178,7 +178,7 @@
 			type="contentlanguage"
 			label="JFIELD_LANGUAGE_LABEL"
 			description="COM_MENUS_ITEM_FIELD_LANGUAGE_DESC"
-			class="inputbox">
+			class="inputbox advancedSelect">
 			<option value="*">JALL</option>
 		</field>
 

@@ -34,7 +34,7 @@
 		</field>
 
 		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
-			description="COM_NEWSFEEDS_FIELD_LANGUAGE_DESC" class="inputbox span12 small"
+			description="COM_NEWSFEEDS_FIELD_LANGUAGE_DESC" class="inputbox span12 small advancedSelect"
 		>
 			<option value="*">JALL</option>
 		</field>
