@@ -10,7 +10,7 @@
 require_once JPATH_PLATFORM . '/joomla/googlecloudstorage/service.php';
 
 /**
- * Test class for JGooglecloudstorage.
+ * Test class for JGooglecloudstorageService.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Googlecloudstorage
