@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_services
  * @since       3.2
  */
-class ServicesModelTemplates extends JModelCmsform
+class ServicesModelTemplates extends JModelCmsForm
 {
 
 	/**
@@ -64,7 +64,7 @@ class ServicesModelTemplates extends JModelCmsform
 		}
 		catch (Exception $e)
 		{
-			
+
 			$app = JFactory::getApplication();
 			$app->enqueueMessage($e->getMessage());
 

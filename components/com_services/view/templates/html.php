@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_services
  * @since       3.2
  */
-class ServicesViewTemplatesHtml extends JViewCms
+class ServicesViewTemplatesHtml extends JViewHtmlCms
 {
 
 	public $item;
@@ -25,9 +25,9 @@ class ServicesViewTemplatesHtml extends JViewCms
 
 	/**
 	 * Method to display the view.
-	 * 
+	 *
 	 * @return  void
-	 * 
+	 *
 	 */
 	public function render()
 	{

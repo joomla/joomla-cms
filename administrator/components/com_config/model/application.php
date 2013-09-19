@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  * @package     Joomla.Administrator
  * @subpackage  com_config
  */
-class ConfigModelApplication extends JModelCmsform
+class ConfigModelApplication extends JModelCmsForm
 {
 	/**
 	 * Method to get a form object.
@@ -121,9 +121,9 @@ class ConfigModelApplication extends JModelCmsform
 				if (!$asset->check() || !$asset->store())
 				{
 					$app->enqueueMessage(JText::_('SOME_ERROR_CODE'), 'error');
-					
+
 					return;
-						
+
 				}
 			}
 			else
@@ -153,9 +153,9 @@ class ConfigModelApplication extends JModelCmsform
 				if (!$extension->check() || !$extension->store())
 				{
 					$app->enqueueMessage(JText::_('SOME_ERROR_CODE'), 'error');
-					
+
 					return;
-						
+
 				}
 			}
 			else

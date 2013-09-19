@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_config
  * @since       1.5
  */
-class ConfigModelComponent extends JModelCmsform
+class ConfigModelComponent extends JModelCmsForm
 {
 	/**
 	 * Method to auto-populate the model state.
@@ -24,7 +24,7 @@ class ConfigModelComponent extends JModelCmsform
 	 * Note. Calling getState in this method will result in recursion.
 	 *
 	 * @return	void
-	 * 
+	 *
 	 * @since	1.6
 	 */
 	protected function populateState()
@@ -55,7 +55,7 @@ class ConfigModelComponent extends JModelCmsform
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
-	 * 
+	 *
 	 * @since	1.6
 	 */
 	public function getForm($data = array(), $loadData = true)
@@ -95,7 +95,7 @@ class ConfigModelComponent extends JModelCmsform
 	 * Get the component information.
 	 *
 	 * @return	object
-	 * 
+	 *
 	 * @since	1.6
 	 */
 	function getComponent()
@@ -121,7 +121,7 @@ class ConfigModelComponent extends JModelCmsform
 	 * @param   array  $data  An array containing all global config data.
 	 *
 	 * @return  bool  True on success, false on failure.
-	 * 
+	 *
 	 * @since	1.6
 	 */
 	public function save($data)

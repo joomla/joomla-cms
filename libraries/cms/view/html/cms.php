@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Model
  * @since       3.2
  */
-abstract class JViewCms extends JViewHtml
+abstract class JViewHtmlCms extends JViewHtml
 {
 	/**
 	 * The output of the template script.
@@ -110,7 +110,7 @@ abstract class JViewCms extends JViewHtml
 
 		// Prevents adding path twise
 		if (empty($this->_path['template']))
-		{			
+		{
 			// Adding template paths
 			$this->paths->top();
 			$defaultPath =$this->paths->current();
@@ -177,13 +177,13 @@ abstract class JViewCms extends JViewHtml
 	protected function _createFileName($type, $parts = array())
 	{
 		$filename = '';
-	
+
 		switch ($type)
 		{
 			case 'template':
 				$filename = strtolower($parts['name']) . '.' . $this->_layoutExt;
 				break;
-	
+
 			default:
 				$filename = strtolower($parts['name']) . '.php';
 				break;
@@ -208,15 +208,15 @@ abstract class JViewCms extends JViewHtml
 		{
 			$classname = get_class($this);
 			$viewpos = strpos($classname, 'View');
-	
+
 			if ($viewpos === false)
 			{
 				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME'), 500);
 			}
-	
+
 			$lastPart = substr($classname, $viewpos + 4);
 			$pathParts = explode(' ', JStringNormalise::fromCamelCase($lastPart));
-	
+
 			if (!empty($pathParts[1]))
 			{
 				$this->_name = strtolower($pathParts[0]);
@@ -226,7 +226,7 @@ abstract class JViewCms extends JViewHtml
 				$this->_name = strtolower($lastPart);
 			}
 		}
-	
+
 		return $this->_name;
 	}
 }

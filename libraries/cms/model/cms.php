@@ -41,7 +41,7 @@ abstract class JModelCms extends JModelDatabase
 	 * @since  3.2
 	 */
 	protected $text_prefix = null;
-	
+
 	/**
 	 * Indicates if the internal state has been set
 	 *
@@ -125,7 +125,7 @@ abstract class JModelCms extends JModelDatabase
 			$this->event_clean_cache = 'onContentCleanCache';
 		}
 
-		$state = new JRegistry($config); 
+		$state = new JRegistry($config);
 
 		parent::__construct($state);
 	}
@@ -170,7 +170,7 @@ abstract class JModelCms extends JModelDatabase
 		{
 			// Protected method to auto-populate the model state.
 			$this->populateState();
-		
+
 			// Set the model state set flag to true.
 			$this->__state_set = true;
 		}
@@ -245,14 +245,14 @@ abstract class JModelCms extends JModelDatabase
 	{
 		$conf = JFactory::getConfig();
 		$dispatcher = JEventDispatcher::getInstance();
-	
+
 		$options = array(
 				'defaultgroup' => ($group) ? $group : (isset($this->option) ? $this->option : JFactory::getApplication()->input->get('option')),
 				'cachebase' => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' : $conf->get('cache_path', JPATH_SITE . '/cache'));
-	
+
 		$cache = JCache::getInstance('callback', $options);
 		$cache->clean();
-	
+
 		// Trigger the onContentCleanCache event.
 		$dispatcher->trigger($this->event_clean_cache, $options);
 	}
@@ -272,4 +272,46 @@ abstract class JModelCms extends JModelDatabase
 	protected function populateState()
 	{
 	}
+
+	/**
+	 * Method to test whether a record can be deleted.
+	 *
+	 * @param   object  $record  A record object.
+	 *
+	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
+	 *
+	 * @since   3.2
+	 */
+	protected function canDelete($record)
+	{
+		if (!empty($record->id))
+			{
+				if ($record->published != -2)
+					{
+						return;
+					}
+					$user = JFactory::getUser();
+
+					return $user->authorise('core.delete', $this->option);
+
+				}
+			}
+
+
+
+		/**
+		 * Method to test whether a record can have its state changed.
+		 *
+		 * @param   object  $record  A record object.
+		 *
+		 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
+		 *
+		 * @since   3.2
+		 */
+		protected function canEditState($record)
+		{
+				$user = JFactory::getUser();
+
+				return $user->authorise('core.edit.state', $this->option);
+		}
 }

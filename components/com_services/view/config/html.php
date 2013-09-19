@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_services
  * @since       3.2
  */
-class ServicesViewConfigHtml extends JViewCms
+class ServicesViewConfigHtml extends JViewHtmlCms
 {
 
 	public $form;
@@ -26,7 +26,7 @@ class ServicesViewConfigHtml extends JViewCms
 
 	/**
 	 * Method to display the view.
-	 * 
+	 *
 	 * @return  void
 	 *
 	 */

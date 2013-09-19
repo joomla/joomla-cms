@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-require_once dirname(dirname(__DIR__)) . '/helper/component.php';
-
 /**
  * View for the component configuration
  *
@@ -18,7 +16,7 @@ require_once dirname(dirname(__DIR__)) . '/helper/component.php';
  * @subpackage  com_config
  * @since       3.2
  */
-class ConfigViewApplicationJson extends JViewCms
+class ConfigViewApplicationJson extends JViewHtmlCms
 {
 
 	public $state;

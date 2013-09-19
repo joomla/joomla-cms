@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_config
  * @since       3.2
  */
-class ConfigViewApplicationHtml extends JViewCms
+class ConfigViewApplicationHtml extends JViewHtmlCms
 {
 	public $state;
 
@@ -27,11 +27,11 @@ class ConfigViewApplicationHtml extends JViewCms
 
 	/**
 	 * Method to display the view.
-	 * 
+	 *
 	 * @param   string  $tpl  Layout
-	 * 
+	 *
 	 * @return  void
-	 * 
+	 *
 	 */
 	public function render()
 	{
@@ -83,7 +83,7 @@ class ConfigViewApplicationHtml extends JViewCms
 
 	/**
 	 * Add the page title and toolbar.
-	 * 
+	 *
 	 * @return  void
 	 *
 	 * @since	3.2
