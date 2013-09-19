@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+19-Sep-2013 Michael Babker
+ ^ [#31352] JLayouts improvements for extension developers.  Thanks Roberto Segura
+
 16-Sep-2013 Michael Babker
  # [#31973] Installation loop if sending config yes (3.2 alpha)
  ^ [#31963] Incorrect or inconsistent characters in "close ink" text on alert info popups.  Thanks Marco Richter
