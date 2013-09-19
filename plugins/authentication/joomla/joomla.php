@@ -43,8 +43,8 @@ class PlgAuthenticationJoomla extends JPlugin
 		}
 
 		// Get a database object
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true)
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
 			->select('id, password')
 			->from('#__users')
 			->where('username=' . $db->quote($credentials['username']));
@@ -106,8 +106,8 @@ class PlgAuthenticationJoomla extends JPlugin
 				return;
 			}
 
-            require_once JPATH_ADMINISTRATOR . '/components/com_users/models/user.php';
-            $model = new UsersModelUser;
+			require_once JPATH_ADMINISTRATOR . '/components/com_users/models/user.php';
+			$model = new UsersModelUser;
 
 			$check = $model->isValidSecretKey($result->id, $credentials['secretkey']);
 
