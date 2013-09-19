@@ -10,6 +10,7 @@
 				label="COM_MODULES_FIELD_MODULE_TAG_LABEL"
 				description="COM_MODULES_FIELD_MODULE_TAG_DESC"
 				default="div"
+				class="advancedSelect"
 			/>
 
 			<field
