@@ -192,13 +192,13 @@ class CacheModelCache extends JModelCmslist
 	 * If no param is passed clean all cache groups.
 	 *
 	 * @param  array  $array  The array of groups to clean
-	 * @param  string $option  Option from the controller (optional).
+	 * @param  array  $options  Options from the controller (optional).
 	 *
 	 * @since  3.2
 	 */
 	public function cleanlist($array, $option = null)
 	{
-		if ($option == 'purge')
+		if ($option[0] == 'purge')
 		{
 			return $this->purge();
 		}
@@ -211,7 +211,7 @@ class CacheModelCache extends JModelCmslist
 	}
 
 	/**
-	 * Garbage collect all cache files found
+	 * Garbage collect all expired cache files found
 	 *
 	 * @param  array  $array  The array of groups to clean
 	 *

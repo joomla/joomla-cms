@@ -19,11 +19,11 @@ defined('_JEXEC') or die('Restricted access');
 class CacheControllerCacheCleanlist extends JControllerCmsbase
 {
 	/*
-	 * Option to send to the model
+	 * Option to send to the model. Options[0] = 'purge' indicates the modrl'd gc() method should be used
 	 *
-	 * @var  string
+	 * @var  array
 	 */
-	public $option;
+	public $options;
 
 	/**
 	 * Method to delete items.
@@ -44,16 +44,16 @@ class CacheControllerCacheCleanlist extends JControllerCmsbase
 
 		$model = new CacheModelCache;
 
-		if (empty($cid) && empty($this->option))
+		if (empty($cid) && empty($this->options[0]))
 		{
 			$app->enqueueMessage(JText::_('JERROR_NO_ITEMS_SELECTED'));
 		}
 		else
 		{
-			$model->cleanlist($cid, $this->option);
+			$model->cleanlist($cid, $this->options[3]);
 		}
 
-		if (!empty($this->option) && $this->option == 'purge')
+		if (!empty($this->options) && $this->options[3] == 'purge')
 		{
 			$app->enqueueMessage(JText::_('COM_CACHE_EXPIRED_ITEMS_HAVE_BEEN_PURGED'));
 			$app->redirect('index.php?option=com_cache&view=cache&layout=purge');

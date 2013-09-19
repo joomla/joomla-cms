@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_checkin
  * @since       3.2
  */
-class CheckinViewCheckinHtml extends JViewCmslist
+class CheckinViewCheckinHtml extends JViewHtmlCmslist
 {
 	protected $tables;
 
@@ -33,7 +33,7 @@ class CheckinViewCheckinHtml extends JViewCmslist
 
 		if (JFactory::getUser()->authorise('core.admin', 'com_checkin'))
 		{
-			JToolbarHelper::custom('checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
+			JToolbarHelper::custom('j.checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
 			JToolbarHelper::divider();
 			JToolbarHelper::preferences('com_checkin');
 			JToolbarHelper::divider();
