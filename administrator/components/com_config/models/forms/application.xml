@@ -725,7 +725,8 @@
 			type="helpsite"
 			label="COM_CONFIG_FIELD_HELP_SERVER_LABEL"
 			description="COM_CONFIG_FIELD_HELP_SERVER_DESC"
-			required="true" />
+			required="true"
+			class="advancedSelect"/>
 	</fieldset>
 
 	<fieldset
