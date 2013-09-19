@@ -22,7 +22,8 @@
 			default=""
 			label="COM_CONFIG_FIELD_CACHE_HANDLER_LABEL"
 			description="COM_CONFIG_FIELD_CACHE_HANDLER_DESC"
-			filter="word">
+			filter="word"
+			class="advancedSelect">
 		</field>
 
 		<field
