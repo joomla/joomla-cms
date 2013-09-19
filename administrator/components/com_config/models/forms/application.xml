@@ -568,7 +568,8 @@
 			label="COM_CONFIG_FIELD_SESSION_HANDLER_LABEL"
 			description="COM_CONFIG_FIELD_SESSION_HANDLER_DESC"
 			required="true"
-			filter="word" />
+			filter="word"
+			class="advancedSelect"/>
 	</fieldset>
 
 	<fieldset
