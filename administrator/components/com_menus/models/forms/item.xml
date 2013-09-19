@@ -54,7 +54,7 @@
 			type="menu"
 			label="COM_MENUS_ITEM_FIELD_ASSIGNED_LABEL"
 			description="COM_MENUS_ITEM_FIELD_ASSIGNED_DESC"
-			class="inputbox"
+			class="inputbox advancedSelect"
 			required="true"
 			size="1" />
 
