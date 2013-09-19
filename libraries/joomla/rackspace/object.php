@@ -109,7 +109,7 @@ abstract class JRackspaceObject
 			"\",\"", "\",\n\t\"",
 			str_replace(
 				array("{","}",":"),
-				array("Array(\n\t","\n)","=>"),
+				array("Array(\n\t","\n)"," => "),
 				json_encode($response->headers)
 			)
 		);

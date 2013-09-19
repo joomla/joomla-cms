@@ -71,4 +71,35 @@ class JRackspaceObjectTest extends PHPUnit_Framework_TestCase
 			$this->equalTo($expectedResult)
 		);
 	}
+
+	/**
+	 * Tests the displayResponseCodeAndHeaders method using a sample response.
+	 *
+	 * @return void
+	 */
+	public function testDisplayResponseCodeAndHeaders()
+	{
+		$response = new JHttpResponse;
+		$response->code = 202;
+		$response->headers = array(
+			"Content-Length" => "76",
+			"Content-Type" => "text/html; charset=UTF-8",
+			"X-Trans-Id" => "tx1bf5c7ed8855446b98457-00523af355ord1",
+			"Date" => "Thu, 19 Sep 2013 12=>51=>33 GMT"
+		);
+
+		$expectedResult = 'Response code: 202.
+Response headers: Array(
+	"Content-Length" => "76",
+	"Content-Type" => "text\/html; charset=UTF-8",
+	"X-Trans-Id" => "tx1bf5c7ed8855446b98457-00523af355ord1",
+	"Date" => "Thu, 19 Sep 2013 12=>51=>33 GMT"
+)
+';
+
+		$this->assertThat(
+			$this->object->displayResponseCodeAndHeaders($response),
+			$this->equalTo($expectedResult)
+		);
+	}
 }
