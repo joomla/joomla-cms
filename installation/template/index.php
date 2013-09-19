@@ -41,9 +41,12 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 			<script src="../media/jui/js/html5.js"></script>
 		<![endif]-->
 		<script type="text/javascript">
-			window.addEvent('domready', function()
-			{
-				window.Install = new Installation('container-installation', '<?php echo JUri::current(); ?>');
+			jQuery(function()
+			{	// Delay instantiation after document.formvalidation and other dependencies loaded
+				window.setTimeout(function(){ 
+					window.Install = new Installation('container-installation', '<?php echo JUri::current(); ?>');
+			   	}, 500);
+				
 			});
 		</script>
 	</head>
