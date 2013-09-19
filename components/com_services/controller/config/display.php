@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * @package     Joomla.Site
  * @subpackage  com_services
@@ -16,13 +16,13 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage  com_services
  * @since       3.2
 */
-class ServicesControllerConfigDisplay extends JControllerBase
+class ServicesControllerConfigDisplay extends JControllerDisplay
 {
 	/**
 	 * Method to display global configuration.
 	 *
 	 * @return  bool	True on success, false on failure.
-	 * 
+	 *
 	 * @since   3.2
 	 */
 	public function execute()

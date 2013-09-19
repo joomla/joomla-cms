@@ -39,13 +39,22 @@ class JControllerDisplay extends JControllerBase
 		$document     = JFactory::getDocument();
 
 		$componentFolder = $this->input->getWord('option', 'com_content');
-		$viewName     = $this->input->getWord('view', 'articles');
+		$viewName     = $this->input->getWord('view');
 		$viewFormat   = $document->getType();
 		$layoutName   = $this->input->getWord('layout', 'default');
 
 		// Register the layout paths for the view
 		$paths = new SplPriorityQueue;
-		$paths->insert(JPATH_ADMINISTRATOR . '/components/' . $componentFolder . '/view/' . $viewName . '/tmpl', 'normal');
+
+		if ($app->isAdmin())
+		{
+			$paths->insert(JPATH_ADMINISTRATOR . '/components/' . $componentFolder . '/view/' . $viewName . '/tmpl', 'normal');
+		}
+		else
+		{
+			$paths->insert(JPATH_BASE . '/components/' . $componentFolder . '/view/' . $viewName . '/tmpl', 'normal');
+		}
+
 
 		$viewClass  = $this->prefix . 'View' . ucfirst($viewName) . ucfirst($viewFormat);
 		$modelClass = $this->prefix . 'Model' . ucfirst($viewName);
@@ -57,6 +66,7 @@ class JControllerDisplay extends JControllerBase
 			// Access check.
 			if (!JFactory::getUser()->authorise('core.admin', $model->getState('component.option')))
 			{
+
 				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 
 				return;
