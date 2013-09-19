@@ -8,7 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-JHtml::_('formbehavior.chosen', 'select');
 ?>
 
 <div class="search<?php echo $this->pageclass_sfx; ?>">

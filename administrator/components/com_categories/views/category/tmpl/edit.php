@@ -17,7 +17,6 @@ $input = $app->input;
 
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
-JHtml::_('formbehavior.chosen', 'select');
 $saveHistory = JComponentHelper::getParams($input->getCmd('extension', 'com_content'))->get('save_history', 0);
 
 ?>

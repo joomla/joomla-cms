@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
-JHtml::_('formbehavior.chosen', 'select');
 
 $function  = JFactory::getApplication()->input->getCmd('function', 'jSelectPosition');
 $lang      = JFactory::getLanguage();

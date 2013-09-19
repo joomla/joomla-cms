@@ -17,7 +17,6 @@ $input = $app->input;
 
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
-JHtml::_('formbehavior.chosen', 'select');
 
 // Create shortcut to parameters.
 $params = $this->state->get('params');
