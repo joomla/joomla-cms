@@ -23,7 +23,7 @@
 		<field
 			name="catid"
 			type="category"
-			class="inputbox"
+			class="inputbox advancedSelect"
 			extension="com_users"
 			label="COM_USERS_FIELD_CATEGORY_ID_LABEL"
 			description="JFIELD_CATEGORY_DESC" >
