@@ -100,7 +100,7 @@
 			class="inputbox" rows="3" cols="30" labelclass="control-label" />
 
 		<field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"
-			description="JFIELD_ACCESS_DESC" class="span12 small" size="1" />
+			description="JFIELD_ACCESS_DESC" class="span12 small advancedSelect" size="1" />
 
 		<field name="hits" type="text" label="JGLOBAL_HITS"
 			description="COM_CONTENT_FIELD_HITS_DESC" class="readonly" size="6"

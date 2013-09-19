@@ -67,7 +67,7 @@
         />
 
 		<field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"
-			description="JFIELD_ACCESS_DESC" class="inputbox span12 small" size="1" />
+			description="JFIELD_ACCESS_DESC" class="inputbox span12 small advancedSelect" size="1" />
 
 		<field
 			name="language"

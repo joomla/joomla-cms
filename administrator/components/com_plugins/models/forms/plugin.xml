@@ -53,7 +53,7 @@
                 type="accesslevel"
                 label="JFIELD_ACCESS_LABEL"
                 description="JFIELD_ACCESS_DESC"
-                class="inputbox"
+                class="inputbox advancedSelect"
                 size="1" />
 
         <field

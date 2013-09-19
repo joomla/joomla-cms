@@ -142,7 +142,7 @@
 			name="access"
 			type="accesslevel"
 			id="access"
-			class="inputbox"
+			class="inputbox advancedSelect"
 			label="JFIELD_ACCESS_LABEL"
 			description="JFIELD_ACCESS_DESC"
 			default="1"

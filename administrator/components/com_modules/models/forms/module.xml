@@ -89,6 +89,7 @@
 			description="JFIELD_ACCESS_DESC"
 			label="JFIELD_ACCESS_LABEL"
 			size="1"
+			class="advancedSelect"
 		/>
 
 		<field name="ordering" type="moduleorder"
