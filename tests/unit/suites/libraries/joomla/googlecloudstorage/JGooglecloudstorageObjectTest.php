@@ -45,6 +45,37 @@ class JGooglecloudstorageObjectTest extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		$this->options = new JRegistry;
+		$this->options->set(
+			'testAcl',
+				array(
+				"Owner" => "00b4903a97138b52f86bbff6ae0f21489cf1428e79641bd6e18c9684f034bf13",
+				"Entries" => array(
+					array(
+						"Permission" => "FULL_CONTROL",
+						"Scope" => array(
+							"type" => "GroupById",
+							"ID" => "00b4903a976ccfcd626423a59ea76477f98e19bfdbaf9ecd9da5dc091ea39eff",
+						)
+					),
+					array(
+						"Permission" => "FULL_CONTROL",
+						"Scope" => array(
+							"type" => "UserByEmail",
+							"EmailAddress" => "alex.ukf@gmail.com",
+							"Name" => "Alex Marin",
+						),
+					),
+					array(
+						"Permission" => "FULL_CONTROL",
+						"Scope" => array(
+							"type" => "GroupById",
+							"ID" => "00b4903a971c9d0699ba584e218b6419b0327c60567599c5a3c12d845a371de9",
+						),
+					),
+				)
+			)
+		);
+
 		$this->object = new JGooglecloudstorageObjectMock($this->options);
 	}
 
@@ -55,34 +86,6 @@ class JGooglecloudstorageObjectTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCreateAclXml()
 	{
-		$acl =	array(
-			"Owner" => "00b4903a97138b52f86bbff6ae0f21489cf1428e79641bd6e18c9684f034bf13",
-			"Entries" => array(
-				array(
-					"Permission" => "FULL_CONTROL",
-					"Scope" => array(
-						"type" => "GroupById",
-						"ID" => "00b4903a976ccfcd626423a59ea76477f98e19bfdbaf9ecd9da5dc091ea39eff",
-					)
-				),
-				array(
-					"Permission" => "FULL_CONTROL",
-					"Scope" => array(
-						"type" => "UserByEmail",
-						"EmailAddress" => "alex.ukf@gmail.com",
-						"Name" => "Alex Marin",
-					),
-				),
-				array(
-					"Permission" => "FULL_CONTROL",
-					"Scope" => array(
-						"type" => "GroupById",
-						"ID" => "00b4903a971c9d0699ba584e218b6419b0327c60567599c5a3c12d845a371de9",
-					),
-				),
-			),
-		);
-
 		$expectedResult = '<AccessControlList>
 <Owner>
 <ID>00b4903a97138b52f86bbff6ae0f21489cf1428e79641bd6e18c9684f034bf13</ID>
@@ -111,7 +114,7 @@ class JGooglecloudstorageObjectTest extends PHPUnit_Framework_TestCase
 </AccessControlList>';
 
 		$this->assertThat(
-			$this->object->createAclXml($acl),
+			$this->object->createAclXml($this->options->get("testAcl")),
 			$this->equalTo($expectedResult)
 		);
 	}
