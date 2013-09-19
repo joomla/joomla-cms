@@ -53,16 +53,26 @@ class JRackspaceStorageObject extends JRackspaceStorage
 		// Send the http request
 		$response = $this->client->get($url, $headers);
 
-		if ($response->code == 200)
+		if ($response->code == 404)
 		{
-			return $response->body;
-		}
-		elseif ($response->code == 404)
-		{
-			return "The \"" . $container . "/" . $object . "\" object was not found.\n";
+			throw new DomainException(
+				"The \"" . $container . "/" . $object . "\" object was not found.\n",
+				$response->code
+			);
 		}
 
-		return "The response code was " . $response->code . ".";
+		// Convert the respnse headers to a string
+		$headersArrayAsString = str_replace(
+			"\",\"", "\",\n\t\"",
+			str_replace(
+				array("{","}",":"),
+				array("Array(\n\t","\n)","=>"),
+				json_encode($response->headers)
+			)
+		);
+
+		return "Response code: " . $response->code . ".\n"
+			. "Response headers: " . $headersArrayAsString . "\n";
 	}
 
 	/**
@@ -260,17 +270,26 @@ class JRackspaceStorageObject extends JRackspaceStorage
 		// Send the http request
 		$response = $this->client->post($url, "", $headers);
 
-		if ($response->code == 202)
+		if ($response->code == 404)
 		{
-			return "The \"" . $container . "/" . $object . "\" object's "
-				. "metadata were successfully (un)set.\n";
-		}
-		elseif ($response->code == 404)
-		{
-			return "The \"" . $container . "/" . $object . "\" object was not found.\n";
+			throw new DomainException(
+				"The \"" . $container . "/" . $object . "\" object was not found.\n",
+				$response->code
+			);
 		}
 
-		return "The response code was " . $response->code . ".";
+		// Convert the respnse headers to a string
+		$headersArrayAsString = str_replace(
+			"\",\"", "\",\n\t\"",
+			str_replace(
+				array("{","}",":"),
+				array("Array(\n\t","\n)","=>"),
+				json_encode($response->headers)
+			)
+		);
+
+		return "Response code: " . $response->code . ".\n"
+			. "Response headers: " . $headersArrayAsString . "\n";
 	}
 
 	/**
