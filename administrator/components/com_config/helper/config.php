@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_config
  * @since       3.0
  */
-class ConfigHelperComponent
+class ConfigHelperConfig extends JHelperContent
 {
 	/**
 	 * Get an array of all enabled components.

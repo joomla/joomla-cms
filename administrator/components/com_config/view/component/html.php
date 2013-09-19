@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-require_once dirname(dirname(__DIR__)) . '/helper/component.php';
 
 /**
  * View for the component configuration
@@ -62,8 +61,8 @@ class ConfigViewComponentHtml extends JViewCms
 		$this->form = &$form;
 		$this->component = &$component;
 
-		$this->components = ConfigHelperComponent::getComponentsWithConfig();
-		ConfigHelperComponent::loadLanguageForComponents($this->components);
+		$this->components = ConfigHelperConfig::getComponentsWithConfig();
+		ConfigHelperConfig::loadLanguageForComponents($this->components);
 
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
 		$this->currentComponent = JFactory::getApplication()->input->get('component');

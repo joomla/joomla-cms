@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-require_once dirname(dirname(__DIR__)) . '/helper/component.php';
 
 /**
  * View for the global configuration
@@ -73,8 +72,8 @@ class ConfigViewApplicationHtml extends JViewCms
 		$this->usersParams = &$usersParams;
 		$this->mediaParams = &$mediaParams;
 
-		$this->components = ConfigHelperComponent::getComponentsWithConfig();
-		ConfigHelperComponent::loadLanguageForComponents($this->components);
+		$this->components = ConfigHelperConfig::getComponentsWithConfig();
+		ConfigHelperConfig::loadLanguageForComponents($this->components);
 
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
 
