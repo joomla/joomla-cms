@@ -67,6 +67,27 @@ class JGooglecloudstorageBucketsPutTest extends PHPUnit_Framework_TestCase
 				),
 			)
 		);
+		$this->options->set(
+			'testLifecycle',
+			array(
+				array(
+					"Action" => "Delete",
+					"Condition" => array(
+						"Age" => 30,
+					),
+				),
+			)
+		);
+		$this->options->set(
+			'testLogging',
+			array(
+				"LogBucket" => "logs-bucket",
+				"LogObjectPrefix" => "my-logs-enabled-bucket",
+			)
+		);
+		$this->options->set('testVersioningStatus', 'testStatus');
+		$this->options->set('testWebsiteConfigMainPageSuffix', 'testSuffix');
+		$this->options->set('testWebsiteConfigNotFoundPage', 'testNotFoundPage');
 
 		$this->client = $this->getMock('JHttp', array('delete', 'get', 'put'));
 
@@ -103,6 +124,84 @@ class JGooglecloudstorageBucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$this->assertThat(
 			$this->object->createCorsXml($this->options->get("testCors")),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the createLifecycleXml method
+	 *
+	 * @return void
+	 */
+	public function testCreateLifecycleXml()
+	{
+		$expectedResult = '<LifecycleConfiguration>
+<Rule>
+<Action><Delete/></Action>
+<Condition>
+<Age>30</Age>
+</Condition>
+</Rule>
+</LifecycleConfiguration>';
+
+		$this->assertThat(
+			$this->object->createLifecycleXml($this->options->get("testLifecycle")),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the createLoggingXml method
+	 *
+	 * @return void
+	 */
+	public function testCreateLoggingXml()
+	{
+		$expectedResult = '<Logging>
+<LogBucket>logs-bucket</LogBucket>
+<LogObjectPrefix>my-logs-enabled-bucket</LogObjectPrefix>
+</Logging>';
+
+		$this->assertThat(
+			$this->object->createLoggingXml($this->options->get("testLogging")),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the createVersioningXml method
+	 *
+	 * @return void
+	 */
+	public function testCreateVersioningXml()
+	{
+		$expectedResult = '<VersioningConfiguration><Status>testStatus</Status></VersioningConfiguration>
+';
+
+		$this->assertThat(
+			$this->object->createVersioningXml($this->options->get("testVersioningStatus")),
+			$this->equalTo($expectedResult)
+		);
+	}
+
+	/**
+	 * Tests the createWebsiteConfigXml method
+	 *
+	 * @return void
+	 */
+	public function testCreateWebsiteConfigXml()
+	{
+		$expectedResult = '<WebsiteConfiguration>
+<MainPageSuffix>testSuffix</MainPageSuffix>
+<NotFoundPage>testNotFoundPage</NotFoundPage>
+</WebsiteConfiguration>
+';
+
+		$this->assertThat(
+			$this->object->createWebsiteConfigXml(
+				$this->options->get("testWebsiteConfigMainPageSuffix"),
+				$this->options->get("testWebsiteConfigNotFoundPage")
+			),
 			$this->equalTo($expectedResult)
 		);
 	}

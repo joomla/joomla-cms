@@ -394,12 +394,12 @@ class JGooglecloudstorageBucketsPut extends JGooglecloudstorageBuckets
 
 		if ($mainPageSuffix != null)
 		{
-			$content .= "<MainPageSuffix>" . $mainPageSuffix . "</MainPageSuffix>";
+			$content .= "<MainPageSuffix>" . $mainPageSuffix . "</MainPageSuffix>\n";
 		}
 
 		if ($notFoundPage != null)
 		{
-			$content .= "<NotFoundPage>" . $notFoundPage . "</NotFoundPage>";
+			$content .= "<NotFoundPage>" . $notFoundPage . "</NotFoundPage>\n";
 		}
 
 		$content .= "</WebsiteConfiguration>\n";
