@@ -1173,7 +1173,7 @@ class TemplatesModelTemplate extends JModelForm
 	}
 
 	/**
-	 * Resize an image.
+	 * Copy a file.
 	 *
 	 * @param   string  $newName    The name of the copied file
 	 * @param   string  $location   The final location where the file is to be copied
