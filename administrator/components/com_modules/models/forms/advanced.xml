@@ -20,6 +20,7 @@
 				step="1"
 				label="COM_MODULES_FIELD_BOOTSTRAP_SIZE_LABEL"
 				description="COM_MODULES_FIELD_BOOTSTRAP_SIZE_DESC"
+				class="advancedSelect"
 			/>
 
 			<field

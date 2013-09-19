@@ -129,7 +129,8 @@
 			first="0"
 			last="20"
 			step="1"
-			default="10">
+			default="10"
+			class="advancedSelect">
 			</field>
 		<field
 			name="reset_time"
@@ -139,7 +140,8 @@
 			first="1"
 			last="24"
 			step="1"
-			default="1">
+			default="1"
+			class="advancedSelect">
 			</field>
 
 		<field
@@ -150,7 +152,8 @@
 			first="4"
 			last="99"
 			step="1"
-			default="4">
+			default="4"
+			class="advancedSelect">
 			</field>
 
 		<field
@@ -161,7 +164,8 @@
 			first="0"
 			last="98"
 			step="1"
-			default="0">
+			default="0"
+			class="advancedSelect">
 			</field>
 
 		<field
@@ -172,7 +176,8 @@
 			first="0"
 			last="98"
 			step="1"
-			default="0">
+			default="0"
+			class="advancedSelect">
 			</field>
 		<field
 			name="minimum_uppercase"
@@ -182,7 +187,8 @@
 			first="0"
 			last="98"
 			step="1"
-			default="0">
+			default="0"
+			class="advancedSelect">
 			</field>
 	</fieldset>
 
