@@ -189,7 +189,7 @@ abstract class JGooglecloudstorageObject
 	 *
 	 * @return mixed  The encoded data
 	 */
-	public  function urlSafeB64Encode($data)
+	public function urlSafeB64Encode($data)
 	{
 		$b64 = base64_encode($data);
 
@@ -205,7 +205,7 @@ abstract class JGooglecloudstorageObject
 	 *
 	 * @return string  The header
 	 */
-	public  function getJwtHeader()
+	public function getJwtHeader()
 	{
 		// Standard header for Service Accounts
 		return $this->urlSafeB64Encode(
@@ -231,7 +231,7 @@ abstract class JGooglecloudstorageObject
 	 *
 	 * @return string  The claim set
 	 */
-	public  function getJwtClaimSet($scope, $prn)
+	public function getJwtClaimSet($scope, $prn)
 	{
 		$claimSetValues = array(
 			"iss" => $this->options->get("client.email"),
@@ -265,7 +265,7 @@ abstract class JGooglecloudstorageObject
 	 *
 	 * @return string  The signature for the JWT
 	 */
-	public  function getJws($header, $claimSet)
+	public function getJws($header, $claimSet)
 	{
 		// Get the key needed to compute the signature
 		$p12 = file_get_contents($this->options->get("client.keyFile"));
