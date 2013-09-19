@@ -8,7 +8,8 @@
 		<field name="aliasoptions" type="menuitem"
 			description="COM_MENUS_ITEM_FIELD_ALIAS_MENU_DESC"
 			label="COM_MENUS_ITEM_FIELD_ALIAS_MENU_LABEL"
-			required="true" />
+			required="true"
+			class="advancedSelect"/>
 	</fieldset>
 
 	<fieldset name="menu-options"
