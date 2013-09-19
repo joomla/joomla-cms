@@ -28,6 +28,7 @@
 				default="h3"
 				label="COM_MODULES_FIELD_HEADER_TAG_LABEL"
 				description="COM_MODULES_FIELD_HEADER_TAG_DESC"
+				class="advancedSelect"
 			/>
 
 			<field
