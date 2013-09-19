@@ -150,6 +150,7 @@
 				client="administrator"
 				description="COM_USERS_USER_FIELD_BACKEND_LANGUAGE_DESC"
 				label="COM_USERS_USER_FIELD_BACKEND_LANGUAGE_LABEL"
+				class="advancedSelect"
 			>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
@@ -158,6 +159,7 @@
 				client="site"
 				description="COM_USERS_USER_FIELD_FRONTEND_LANGUAGE_DESC"
 				label="COM_USERS_USER_FIELD_FRONTEND_LANGUAGE_LABEL"
+				class="advancedSelect"
 			>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
