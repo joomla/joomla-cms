@@ -45,48 +45,4 @@ class JControllerCmsbase extends JControllerBase
 		return $this;
 
 	}
-
-	/**
-	 * Method to check whether an ID is in the edit list.
-	 *
-	 * @param   string   $context  The context for the session storage.
-	 * @param   integer  $id       The ID of the record to add to the edit list.
-	 *
-	 * @return  boolean  True if the ID is in the edit list.
-	 *
-	 * @since   12.2
-	 */
-	protected function checkEditId($context, $id)
-	{
-		if ($id)
-		{
-			$app = JFactory::getApplication();
-			$values = (array) $app->getUserState($context . '.id');
-
-			$result = in_array((int) $id, $values);
-
-			if (defined('JDEBUG') && JDEBUG)
-			{
-				JLog::add(
-				sprintf(
-				'Checking edit ID %s.%s: %d %s',
-				$context,
-				$id,
-				(int) $result,
-				str_replace("\n", ' ', print_r($values, 1))
-				),
-				JLog::INFO,
-				'controller'
-						);
-			}
-
-			return $result;
-		}
-		else
-		{
-			// No id for a new item.
-			return true;
-		}
-	}
-
 }
