@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+JFormHelper::loadFieldClass('list');
+
 /**
  * Form Field class for the Joomla Platform.
  * Displays options as a list of check boxes.
@@ -19,7 +21,7 @@ defined('JPATH_PLATFORM') or die;
  * @see         JFormFieldCheckbox
  * @since       11.1
  */
-class JFormFieldCheckboxes extends JFormField
+class JFormFieldCheckboxes extends JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -92,46 +94,5 @@ class JFormFieldCheckboxes extends JFormField
 		$html[] = '</fieldset>';
 
 		return implode($html);
-	}
-
-	/**
-	 * Method to get the field options.
-	 *
-	 * @return  array  The field option objects.
-	 *
-	 * @since   11.1
-	 */
-	protected function getOptions()
-	{
-		$options = array();
-
-		foreach ($this->element->children() as $option)
-		{
-
-			// Only add <option /> elements.
-			if ($option->getName() != 'option')
-			{
-				continue;
-			}
-
-			// Create a new option object based on the <option /> element.
-			$tmp = JHtml::_(
-				'select.option', (string) $option['value'], trim((string) $option), 'value', 'text',
-				((string) $option['disabled'] == 'true')
-			);
-
-			// Set some option attributes.
-			$tmp->class = (string) $option['class'];
-
-			// Set some JavaScript option attributes.
-			$tmp->onclick = (string) $option['onclick'];
-
-			// Add the option object to the result set.
-			$options[] = $tmp;
-		}
-
-		reset($options);
-
-		return $options;
 	}
 }
