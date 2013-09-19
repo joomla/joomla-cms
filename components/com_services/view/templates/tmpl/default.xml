@@ -11,8 +11,8 @@
 	<fields name="request">
 		<fieldset name="request" >
 			<field name="controller" 
-				type="hidden"
-				default="templates"
+				type="hidden" \
+				default="services.display.templates"
 			/>
 		</fieldset>
 	</fields>

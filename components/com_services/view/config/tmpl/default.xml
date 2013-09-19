@@ -12,7 +12,7 @@
 		<fieldset name="request">
 			<field name="controller" 
 				type="hidden"
-				default="config"
+				default="services.display.config"
 			/>
 		</fieldset>
 	</fields>
