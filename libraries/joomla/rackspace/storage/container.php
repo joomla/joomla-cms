@@ -43,17 +43,26 @@ class JRackspaceStorageContainer extends JRackspaceStorage
 		// Send the http request
 		$response = $this->client->head($url, $headers);
 
-		if ($response->code == 204)
+		if ($response->code == 404)
 		{
-			// The headers contain X-Container-Object-Count and X-Container-Meta-TraitX
-			return $response->headers;
-		}
-		elseif ($response->code == 404)
-		{
-			return "The \"" . $container . "\" container was not found.\n";
+			throw new DomainException(
+				"The \"" . $container . "\" container was not found.\n",
+				$response->code
+			);
 		}
 
-		return "The response code was " . $response->code . ".";
+		// Convert the respnse headers to a string
+		$headersArrayAsString = str_replace(
+			"\",\"", "\",\n\t\"",
+			str_replace(
+				array("{","}",":"),
+				array("Array(\n\t","\n)","=>"),
+				json_encode($response->headers)
+			)
+		);		
+
+		return "Response code: " . $response->code . ".\n"
+			. "Response headers: " . $headersArrayAsString . "\n";
 	}
 
 	/**
