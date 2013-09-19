@@ -149,34 +149,6 @@ class ConfigControllerApplication extends JControllerLegacy
 		$this->setRedirect('index.php');
 	}
 
-	public function refreshHelp()
-	{
-		jimport('joomla.filesystem.file');
-
-		// Set FTP credentials, if given
-		JClientHelper::setCredentialsFromRequest('ftp');
-
-		if (($data = file_get_contents('http://help.joomla.org/helpsites.xml')) === false)
-		{
-			$this->setRedirect('index.php?option=com_config', JText::_('COM_CONFIG_ERROR_HELPREFRESH_FETCH'), 'error');
-		}
-		elseif (!JFile::write(JPATH_BASE . '/help/helpsites.xml', $data))
-		{
-			$this->setRedirect('index.php?option=com_config', JText::_('COM_CONFIG_ERROR_HELPREFRESH_ERROR_STORE'), 'error');
-		}
-		else
-		{
-			$this->setRedirect('index.php?option=com_config', JText::_('COM_CONFIG_HELPREFRESH_SUCCESS'));
-		}
-
-		if ($this->input->get('format') == 'json')
-		{
-			$options = JHelp::createSiteList(JPATH_ADMINISTRATOR . '/help/helpsites.xml');
-			echo json_encode($options);
-			JFactory::getApplication()->close();
-		}
-	}
-
 	/**
 	 * Method to remove the root property from the configuration.
 	 *

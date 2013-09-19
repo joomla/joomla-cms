@@ -732,7 +732,7 @@ abstract class JFactory
 	 *
 	 * @return  JStream
 	 *
-	 * @see JStream
+	 * @see     JStream
 	 * @since   11.1
 	 */
 	public static function getStream($use_prefix = true, $use_network = true, $ua = null, $uamask = false)
