@@ -32,9 +32,7 @@ class JAmazons3BucketsDelete extends JAmazons3Buckets
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/";
 
 		// Send the request and process the response
-		$response_body = $this->commonDeleteOperations($url);
-
-		return $response_body;
+		return $this->commonDeleteOperations($url);
 	}
 
 	/**
@@ -51,9 +49,7 @@ class JAmazons3BucketsDelete extends JAmazons3Buckets
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?cors";
 
 		// Send the request and process the response
-		$response_body = $this->commonDeleteOperations($url);
-
-		return $response_body;
+		return $this->commonDeleteOperations($url);
 	}
 
 	/**
@@ -70,9 +66,7 @@ class JAmazons3BucketsDelete extends JAmazons3Buckets
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?lifecycle";
 
 		// Send the request and process the response
-		$response_body = $this->commonDeleteOperations($url);
-
-		return $response_body;
+		return $this->commonDeleteOperations($url);
 	}
 
 	/**
@@ -90,9 +84,7 @@ class JAmazons3BucketsDelete extends JAmazons3Buckets
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?policy";
 
 		// Send the request and process the response
-		$response_body = $this->commonDeleteOperations($url);
-
-		return $response_body;
+		return $this->commonDeleteOperations($url);
 	}
 
 	/**
@@ -110,9 +102,7 @@ class JAmazons3BucketsDelete extends JAmazons3Buckets
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?tagging";
 
 		// Send the request and process the response
-		$response_body = $this->commonDeleteOperations($url);
-
-		return $response_body;
+		return $this->commonDeleteOperations($url);
 	}
 
 	/**
@@ -129,8 +119,6 @@ class JAmazons3BucketsDelete extends JAmazons3Buckets
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?website";
 
 		// Send the request and process the response
-		$response_body = $this->commonDeleteOperations($url);
-
-		return $response_body;
+		return $this->commonDeleteOperations($url);
 	}
 }
