@@ -45,16 +45,7 @@ class JRackspaceCdnContainer extends JRackspaceCdn
 		// Send the http request
 		$response = $this->client->put($url, "", $headers);
 
-		if ($response->code == 201)
-		{
-			return "The container was CDN-enabled as requested.\n";
-		}
-		elseif ($response->code == 202)
-		{
-			return "The container was already CDN-enabled.\n";
-		}
-
-		return "The response code was " . $response->code;
+		return $this->displayResponseCodeAndHeaders($response);
 	}
 
 	/**
@@ -83,10 +74,13 @@ class JRackspaceCdnContainer extends JRackspaceCdn
 
 		if ($response->code == 404)
 		{
-			return "The \"" . $container . "\" container does not exist.\n";
+			throw new DomainException(
+				"The \"" . $container . "\" container was not found.\n",
+				$response->code
+			);
 		}
 
-		return $response->headers;
+		return $this->displayResponseCodeAndHeaders($response);
 	}
 
 	/**
@@ -125,9 +119,12 @@ class JRackspaceCdnContainer extends JRackspaceCdn
 
 		if ($response->code == 404)
 		{
-			return "The \"" . $container . "\" container does not exist.\n";
+			throw new DomainException(
+				"The \"" . $container . "\" container was not found.\n",
+				$response->code
+			);
 		}
 
-		return $response->headers;
+		return $this->displayResponseCodeAndHeaders($response);
 	}
 }

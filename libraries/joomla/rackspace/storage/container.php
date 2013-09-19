@@ -51,18 +51,7 @@ class JRackspaceStorageContainer extends JRackspaceStorage
 			);
 		}
 
-		// Convert the respnse headers to a string
-		$headersArrayAsString = str_replace(
-			"\",\"", "\",\n\t\"",
-			str_replace(
-				array("{","}",":"),
-				array("Array(\n\t","\n)","=>"),
-				json_encode($response->headers)
-			)
-		);		
-
-		return "Response code: " . $response->code . ".\n"
-			. "Response headers: " . $headersArrayAsString . "\n";
+		return $this->displayResponseCodeAndHeaders($response);
 	}
 
 	/**
@@ -88,16 +77,7 @@ class JRackspaceStorageContainer extends JRackspaceStorage
 		// Send the http request
 		$response = $this->client->put($url, "", $headers);
 
-		if ($response->code == 201)
-		{
-			return "The \"" . $container . "\" container was successfully created.\n";
-		}
-		elseif ($response->code == 202)
-		{
-			return "A container with the name \"" . $container . "\" already exists.\n";
-		}
-
-		return "The response code was " . $response->code . ".";
+		return $this->displayResponseCodeAndHeaders($response);
 	}
 
 	/**
@@ -124,20 +104,22 @@ class JRackspaceStorageContainer extends JRackspaceStorage
 		// Send the http request
 		$response = $this->client->delete($url, $headers);
 
-		if ($response->code == 204)
+		if ($response->code == 404)
 		{
-			return "The \"" . $container . "\" container was successfully deleted.\n";
-		}
-		elseif ($response->code == 404)
-		{
-			return "The \"" . $container . "\" container was not found.\n";
+			throw new DomainException(
+				"The \"" . $container . "\" container was not found.\n",
+				$response->code
+			);
 		}
 		elseif ($response->code == 409)
 		{
-			return "The \"" . $container . "\" container is not empty.\n";
+			throw new DomainException(
+				"The \"" . $container . "\" container is not empty.\n",
+				$response->code
+			);
 		}
 
-		return "The response code was " . $response->code . ".";
+		return $this->displayResponseCodeAndHeaders($response);
 	}
 
 	/**
@@ -179,16 +161,15 @@ class JRackspaceStorageContainer extends JRackspaceStorage
 		// Send the http request
 		$response = $this->client->post($url, "", $headers);
 
-		if ($response->code == 204)
+		if ($response->code == 404)
 		{
-			return "The \"" . $container . "\" container metadata were successfully (un)set.\n";
-		}
-		elseif ($response->code == 404)
-		{
-			return "The \"" . $container . "\" container was not found.\n";
+			throw new DomainException(
+				"The \"" . $container . "\" container was not found.\n",
+				$response->code
+			);
 		}
 
-		return "The response code was " . $response->code . ".";
+		return $this->displayResponseCodeAndHeaders($response);
 	}
 
 	/**
@@ -245,19 +226,14 @@ class JRackspaceStorageContainer extends JRackspaceStorage
 		// Send the http request
 		$response = $this->client->get($url, $headers);
 
-		if ($response->code == 200)
+		if ($response->code == 404)
 		{
-			return $this->processResponse($response);
-		}
-		elseif ($response->code == 204)
-		{
-			return "There are no objects in the \"" . $container . "\" container.\n";
-		}
-		elseif ($response->code == 404)
-		{
-			return "The \"" . $container . "\" container was not found.\n";
+			throw new DomainException(
+				"The \"" . $container . "\" container was not found.\n",
+				$response->code
+			);
 		}
 
-		return "The response code was " . $response->code . ".";
+		return $this->displayResponseCodeAndHeaders($response);
 	}
 }

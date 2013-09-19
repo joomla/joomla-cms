@@ -273,23 +273,12 @@ class JRackspaceStorageObject extends JRackspaceStorage
 		if ($response->code == 404)
 		{
 			throw new DomainException(
-				"The \"" . $container . "/" . $object . "\" object was not found.\n",
+				"The \"" . $container . "\" container was not found.\n",
 				$response->code
 			);
 		}
 
-		// Convert the respnse headers to a string
-		$headersArrayAsString = str_replace(
-			"\",\"", "\",\n\t\"",
-			str_replace(
-				array("{","}",":"),
-				array("Array(\n\t","\n)","=>"),
-				json_encode($response->headers)
-			)
-		);
-
-		return "Response code: " . $response->code . ".\n"
-			. "Response headers: " . $headersArrayAsString . "\n";
+		return $this->displayResponseCodeAndHeaders($response);
 	}
 
 	/**

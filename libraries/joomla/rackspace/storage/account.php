@@ -39,13 +39,7 @@ class JRackspaceStorageAccount extends JRackspaceStorage
 		// Send the http request
 		$response = $this->client->head($url, $headers);
 
-		if ($response->code == 204)
-		{
-			// The headers contain X-Account-Object-Count and X-Account-Bytes-Used
-			return $response->headers;
-		}
-
-		return "The response code was " . $response->code . ".";
+		return $this->displayResponseCodeAndHeaders($response);
 	}
 
 	/**
@@ -81,12 +75,6 @@ class JRackspaceStorageAccount extends JRackspaceStorage
 		// Send the http request
 		$response = $this->client->get($url, $headers);
 
-		if ($response->code == 200)
-		{
-			// The headers contain X-Account-Object-Count and X-Account-Bytes-Used
-			return $this->processResponse($response);
-		}
-
-		return "The response code was " . $response->code . ".";
+		return $this->displayResponseCodeAndHeaders($response);
 	}
 }

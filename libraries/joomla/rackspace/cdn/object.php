@@ -49,11 +49,6 @@ class JRackspaceCdnObject extends JRackspaceCdn
 		// Send the http request
 		$response = $this->client->delete($url, $headers);
 
-		if ($response->code == 204)
-		{
-			return "The object has been successfully deleted.\n";
-		}
-
-		return "The response code was " . $response->code . ".";
+		return $this->displayResponseCodeAndHeaders($response);
 	}
 }

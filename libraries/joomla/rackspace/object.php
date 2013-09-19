@@ -92,6 +92,29 @@ abstract class JRackspaceObject
 			return $response->headers;
 		}
 
-		return "The response code was " . $response->code . ".";
+		return $this->displayResponseCodeAndHeaders($response);
+	}
+
+	/**
+	 * Allows customization for displaying the return code and headers of a response
+	 *
+	 * @param   JHttpResponse  $response  The response object
+	 *
+	 * @return string A string containing the response code and headers
+	 */
+	public function displayResponseCodeAndHeaders($response)
+	{
+		// Convert the respnse headers to a string
+		$headersArrayAsString = str_replace(
+			"\",\"", "\",\n\t\"",
+			str_replace(
+				array("{","}",":"),
+				array("Array(\n\t","\n)","=>"),
+				json_encode($response->headers)
+			)
+		);
+
+		return "Response code: " . $response->code . ".\n"
+			. "Response headers: " . $headersArrayAsString . "\n";
 	}
 }

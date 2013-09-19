@@ -56,11 +56,7 @@ class JRackspaceCdnAccount extends JRackspaceCdn
 		{
 			return $this->processResponse($response);
 		}
-		elseif ($response->code == 204)
-		{
-			return "The account has no containers.\n";
-		}
 
-		return "The response code was " . $response->code . ".";
+		return $this->displayResponseCodeAndHeaders($response);
 	}
 }
