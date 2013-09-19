@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_plugins
  * @since       3.2
  */
-class PluginsViewPluginsHtml extends JViewCmslist
+class PluginsViewPluginsHtml extends JViewHtmlCmslist
 {
 	/**
 	 * Add the page title and toolbar.
@@ -33,14 +33,14 @@ class PluginsViewPluginsHtml extends JViewCmslist
 
 		if ($canDo->get('core.edit'))
 		{
-			JToolbarHelper::editList('core.displayform.plugin');
+			JToolbarHelper::editList('j.displayform.plugin');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			JToolbarHelper::publish('core.updatestatelist.published', 'JTOOLBAR_ENABLE', true);
-			JToolbarHelper::unpublish('core.updatestatelist.unpublished', 'JTOOLBAR_DISABLE', true);
-			JToolbarHelper::checkin('core.checkin');
+			JToolbarHelper::publish('j.updatestatelist.published', 'JTOOLBAR_ENABLE', true);
+			JToolbarHelper::unpublish('j.updatestatelist.unpublished', 'JTOOLBAR_DISABLE', true);
+			JToolbarHelper::checkin('j.checkin');
 		}
 
 		if ($canDo->get('core.admin'))

@@ -60,7 +60,6 @@ class JControllerDisplay extends JControllerBase
 				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 
 				return;
-
 			}
 
 			$view = new $viewClass($model, $paths);

@@ -23,57 +23,17 @@ JResponse::setHeader('Expires', 'Mon, 26 Jul 1997 05:00:00 GMT', true);
 // Application
 $app = JFactory::getApplication();
 
-if ($controllerTask = $app->input->get('controller'))
-{
-	// Checking for new MVC controller
-	$tasks = explode('.', $controllerTask);
-}
-else
-{
-	// Checking for old MVC task
-	$task = $app->input->get('task');
-	$tasks = explode('.', $task);
-}
-
-if (empty($tasks[0]))
-{
-	$activity = 'Display';
-	$location = 'Core';
-}
-else
-{
-	$location = ucfirst(strtolower($tasks[0]));
-	$activity = ucfirst(strtolower($tasks[1]));
-}
-
-// Create the controller
-if ($activity == 'Display')
-{
-	$classname = 'JControllerDisplay';
-}
-elseif ($location == 'Core')
-{
-	$classname = 'JController' . $activity;
-}
-else
-{
-	$vName = $app->input->get('view');
-	$classname  = 'PluginsController' . ucfirst($vName) . $activity;
-}
-
-$controller = new $classname;
-
-$controller->prefix = 'Plugins';
-
-if(!empty($tasks[2]))
-{
-	$controller->option = $tasks[2];
-}
-
+// Set a fallback view
 if (!$app->input->get('view'))
 {
 	$app->input->set('view', 'plugins');
 }
+
+// Create the controller
+$controllerHelper = new JControllerHelper();
+$controller = $controllerHelper->parseController($app);
+
+$controller->prefix = 'Plugins';
 
 // Perform the Request task
 $controller->execute();

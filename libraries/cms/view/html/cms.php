@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Model
  * @since       3.2
  */
-abstract class JViewCms extends JViewHtml
+abstract class JViewHtmlCms extends JViewHtml
 {
 	/**
 	 * The output of the template script.
@@ -115,7 +115,7 @@ abstract class JViewCms extends JViewHtml
 			$this->_path['template'] = str_replace($template, $layoutTemplate, $this->_path['template']);
 		} */
 
-		// Prevents adding path twise
+		// Prevents adding path twice
 		if (empty($this->path['template']))
 		{
 			// Adding template paths
@@ -234,5 +234,26 @@ abstract class JViewCms extends JViewHtml
 		}
 
 		return $this->name;
+	}
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @return  void
+	 *
+	 * @since	3.2
+	 */
+	protected function addToolbar()
+	{
+	}
+
+	/**
+	 * Add the submenu.
+	 *
+	 * @return  void
+	 *
+	 * @since	3.2
+	 */
+	protected function addSubmenu()
+	{
 	}
 }

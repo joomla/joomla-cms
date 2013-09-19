@@ -72,11 +72,12 @@ class PluginsModelPlugin extends JModelCmsform
 		}
 
 		// These variables are used to add data from the plugin XML files.
-		$this->setState('item.folder', $folder);
-		$this->setState('item.element', $element);
+		$this->state->set('item.folder', $folder);
+		$this->state->set('item.element', $element);
 
 		// Get the form.
 		$form = $this->loadForm('com_plugins.plugin', 'plugin', array('control' => 'jform', 'load_data' => $loadData));
+
 		if (empty($form))
 		{
 			return false;
@@ -128,7 +129,7 @@ class PluginsModelPlugin extends JModelCmsform
 	 */
 	public function getItem($pk = null)
 	{
-		$pk = (!empty($pk)) ? $pk : (int) $this->getState('plugin.id');
+		$pk = (!empty($pk)) ? $pk : (int) $this->state->get('plugin.id');
 
 		if (!isset($this->cache[$pk]))
 		{
@@ -201,7 +202,7 @@ class PluginsModelPlugin extends JModelCmsform
 
 		// Load the User state.
 		$pk = $app->input->getInt('extension_id');
-		$this->setState('plugin.id', $pk);
+		$this->state->set('plugin.id', $pk);
 	}
 
 	/**
@@ -218,8 +219,8 @@ class PluginsModelPlugin extends JModelCmsform
 	{
 		jimport('joomla.filesystem.path');
 
-		$folder		= $this->getState('item.folder');
-		$element	= $this->getState('item.element');
+		$folder		= $this->state->get('item.folder');
+		$element	= $this->state->get('item.element');
 		$lang		= JFactory::getLanguage();
 
 		// Load the core and/or local language sys file(s) for the ordering field.

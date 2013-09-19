@@ -16,15 +16,15 @@ defined('_JEXEC') or die;
  * @subpackage  view
  * @since       3.2
  */
-class JViewCmsform extends JViewCms
+class JViewHtmlCmsform extends JViewHtmlCms
 {
 	public $state;
 
 	/*
 	 * The form object
-	*
-	* @var JForm
-	*/
+	 *
+	 * @var JForm
+	 */
 	public  $form;
 
 	/**
@@ -43,7 +43,8 @@ class JViewCmsform extends JViewCms
 			$app  = JFactory::getApplication();
 			$lang = JFactory::getLanguage();
 			$this->state = $this->model->getState();
-			$form = $this->model->getForm();
+			$this->form = $this->model->getForm();
+			var_dump($this);die;
 		}
 		catch (Exception $e)
 		{
@@ -57,9 +58,9 @@ class JViewCmsform extends JViewCms
 	}
 
 	/**
-	 * Returns an array of fields the table can be sorted by
+	 * Checks if a user can edit this data
 	 *
-	 * @return  array  Array containing the field name to sort by as the key and display text as value
+	 * @return  boolean  True if edit is allowed
 	 *
 	 * @since   3.0
 	 */

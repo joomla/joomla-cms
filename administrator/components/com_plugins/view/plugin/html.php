@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_plugins
  * @since       3.2
  */
-class PluginViewHtml extends JViewCmsform
+class PluginsViewPluginHtml extends JViewHtmlCmsform
 {
 
 	/**
@@ -31,21 +31,24 @@ class PluginViewHtml extends JViewCmsform
 
 		$canDo = JHelperContent::getActions();
 
-		JToolbarHelper::title(JText::sprintf('COM_PLUGINS_MANAGER_PLUGIN', JText::_($this->item->name)), 'plugin');
+		JToolbarHelper::title(JText::sprintf('COM_PLUGINS_MANAGER_PLUGIN', JText::_($this->name)), 'plugin');
 
 		// If not checked out, can save the item.
 		if ($canDo->get('core.edit'))
 		{
-			JToolbarHelper::apply('plugin.update.apply');
-			JToolbarHelper::save('plugin.update.save');
+			JToolbarHelper::apply('core.update.apply');
+			JToolbarHelper::save('core.update.save');
 		}
 
 		JToolbarHelper::cancel('core.cancel', 'JTOOLBAR_CLOSE');
 		JToolbarHelper::divider();
+
 		// Get the help information for the plugin item.
+		JToolbarHelper::help('JHELP_EXTENSIONS_PLUGIN_MANAGER_EDIT');
 
 		$lang = JFactory::getLanguage();
 
+		/*
 		$help = $this->get('Help');
 
 		if ($lang->hasKey($help->url))
@@ -59,6 +62,7 @@ class PluginViewHtml extends JViewCmsform
 			$url = null;
 		}
 		JToolbarHelper::help($help->key, false, $url);
+		*/
 	}
 
 }

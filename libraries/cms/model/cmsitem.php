@@ -254,45 +254,6 @@ class JModelCmsitem extends JModelCmsform
 		$item = $this->getTable($type, $prefix);
 		return $item->hit($id);
 	}
-	/**
-	 * Method to test whether a record can be deleted.
-	 *
-	 * @param   object  $record  A record object.
-	 *
-	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
-	 *
-	 * @since   3.2
-	 */
-	protected function canDelete($record)
-	{
-		if (!empty($record->id))
-		{
-			if ($record->published != -2)
-			{
-				return;
-			}
-			$user = JFactory::getUser();
-
-			return $user->authorise('core.delete', $this->option);
-
-		}
-	}
-
-	/**
-	 * Method to test whether a record can have its state changed.
-	 *
-	 * @param   object  $record  A record object.
-	 *
-	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
-	 *
-	 * @since   3.2
-	 */
-	protected function canEditState($record)
-	{
-		$user = JFactory::getUser();
-
-		return $user->authorise('core.edit.state', $this->option);
-	}
 
 	/**
 	 * Method to delete one or more records.

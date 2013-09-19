@@ -30,7 +30,7 @@ class JControllerUpdatestatelist extends JControllerCmsbase
 	 *
 	 *  @var  array
 	 */
-	protected  $options = array('published' => 1, 'unpublished' => 0, 'archived' =>2,
+	public  $stateOptions = array('published' => 1, 'unpublished' => 0, 'archived' =>2,
 				'trashed' => -2, 'reported' => -3);
 
 	/**
@@ -59,10 +59,10 @@ class JControllerUpdatestatelist extends JControllerCmsbase
 		{
 			$modelClassName = ucfirst($this->prefix) . 'Model' . ucfirst($viewName);
 			$model = new $modelClassName;
-			$newState = $this->options[$this->option];
+			$newState = $this->stateOptions[$this->options[2]];
 
 			// Check in the items.
-			$app->enqueueMessage(JText::plural('JLIB_CONTROLLER_N_ITEMS_PUBLISHED', $model->publish($ids,$newState)));
+			$app->enqueueMessage(JText::plural('JLIB_CONTROLLER_N_ITEMS_PUBLISHED', $model->publish($ids, $newState)));
 		}
 
 		$app->redirect('index.php?option=' . $this->input->get('option', 'com_cpanel'));

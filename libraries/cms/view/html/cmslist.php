@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  view
  * @since       3.2
  */
-class JViewCmslist extends JViewCms
+class JViewHtmlCmslist extends JViewHtmlCms
 {
 	public $state;
 
@@ -39,28 +39,6 @@ class JViewCmslist extends JViewCms
 		$this->addSubmenu();
 
 		return parent::render();
-	}
-
-	/**
-	 * Add the page title and toolbar.
-	 *
-	 * @return  void
-	 *
-	 * @since	3.2
-	 */
-	protected function addToolbar()
-	{
-	}
-
-	/**
-	* Add the submenu.
-	*
-	* @return  void
-	*
-	* @since	3.2
-	*/
-	protected function addSubmenu()
-	{
 	}
 
 	/**

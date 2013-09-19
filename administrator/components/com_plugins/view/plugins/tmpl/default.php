@@ -156,7 +156,7 @@ $sortFields = $this->getSortFields();
 							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'plugins.', $canCheckin); ?>
 						<?php endif; ?>
 						<?php if ($canEdit) : ?>
-							<a href="<?php echo JRoute::_('index.php?option=com_plugins&controller=core.displayform.plugin.edit&extension_id='.(int) $item->extension_id); ?>">
+							<a href="<?php echo JRoute::_('index.php?option=com_plugins&view=plugin&layout=edit&controller=j.displayform.plugin.edit&extension_id='.(int) $item->extension_id); ?>">
 								<?php echo $item->name; ?></a>
 						<?php else : ?>
 								<?php echo $item->name; ?>

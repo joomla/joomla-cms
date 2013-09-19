@@ -23,7 +23,6 @@ class JControllerDisplayform extends JControllerDisplay
 
 	protected $form;
 
-
 	/**
 	 * @return  mixed  A rendered view or true
 	 *
@@ -33,24 +32,25 @@ class JControllerDisplayform extends JControllerDisplay
 	{
 		// Get the application
 		$app = $this->getApplication();
-		$app->redirect('index.php?option=' . $this->input->get('option', 'com_cpanel') . '&view=' . $this->option . '&layout=edit');
 
 		// Get the document object.
 		$document     = JFactory::getDocument();
 
 		$componentFolder = $this->input->getWord('option', 'com_content');
-		if (empty($this->option))
+
+		if (empty($this->options[2]))
 		{
-			$viewName     = $this->input->getWord('view', 'articles');
+			$viewName     = $this->input->getWord('view', 'article');
 		}
 		else
 		{
-			$viewName = $this->option;
+			$viewName = $this->options[2];
 		}
+
 		$viewFormat   = $document->getType();
 		$layoutName   = $this->input->getWord('layout', 'edit');
 
-		$paths = $this->registerPaths($componentFolder, $this->option);
+		$paths = $this->registerPaths($componentFolder, $viewName);
 
 		$viewClass  = $this->prefix . 'View' . ucfirst($viewName) . ucfirst($viewFormat);
 		$modelClass = $this->prefix . 'Model' . ucfirst($viewName);
@@ -58,6 +58,7 @@ class JControllerDisplayform extends JControllerDisplay
 		if (class_exists($viewClass))
 		{
 			$model = new $modelClass;
+			$idName = $model->getTable()->get('_tbl_key');
 
 			// Access check.
 			if (!JFactory::getUser()->authorise('core.edit', $model->getState('component.option')))
@@ -65,15 +66,14 @@ class JControllerDisplayform extends JControllerDisplay
 				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 
 				return;
-
 			}
 
 			$view = new $viewClass($model, $paths);
 
 			$view->setLayout($layoutName);
 
-			$context = $componentFolder . 'edit' . $viewName;
-			$this->editCheck($app, $context);
+			$context = $componentFolder . '.' . $viewName;
+			$this->editCheck($app, $context, $idName);
 
 			// Push document object into the view.
 			$view->document = $document;
@@ -89,27 +89,31 @@ class JControllerDisplayform extends JControllerDisplay
 			echo $view->render();
 		}
 
+		$app->redirect('index.php?option=' . $this->input->get('option', 'com_cpanel') . '&view=' . $componentFolder . '&layout=edit' . '&' . $idName .  '=' .  $this->input->get($idName));
+
 		return true;
 	}
 
 	/*
 	 * Method to check if the user has permission to edit this item
 	 *
-	 * @param   JApplication  $app  The aplication
+	 * @param   JApplication  $app  The application
 	 *
 	 * @return  boolean
 	 *
 	 * @since 3.2
 	 */
-	protected function editCheck($app, $context)
+	protected function editCheck($app, $context, $idName)
 	{
-		$id     = $this->input->getInt('id', 0);
+		$id = $this->input->getInt($idName, 0);
+
 		// Check for edit form.
+
 		if (!$this->checkEditId($context, $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
 			$app->enqueueMessage((JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id)), 'error');
-			$app->setRedirect(JRoute::_('index.php?option=com_cpanel', false));
+			$app->redirect(JRoute::_('index.php?option=com_cpanel', false));
 
 			return false;
 		}
@@ -132,11 +136,14 @@ class JControllerDisplayform extends JControllerDisplay
 		if ($id)
 		{
 			$app = JFactory::getApplication();
+			// Fix this check which is also a bug
+			/*
 			$values = (array) $app->getUserState($context . '.id');
 
-			$result = in_array((int) $id, $values);
 
-			if (defined('JDEBUG') && JDEBUG)
+			$result = in_array((int) $id, $values);
+			*/
+		/*	if (defined('JDEBUG') && JDEBUG)
 			{
 				JLog::add(
 				sprintf(
@@ -149,9 +156,10 @@ class JControllerDisplayform extends JControllerDisplay
 				JLog::INFO,
 				'controller'
 						);
-			}
+			}*/
 
-			return $result;
+			return true;
+			//return $result;
 		}
 		else
 		{
