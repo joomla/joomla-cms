@@ -19,7 +19,8 @@
 			type="usergroup"
 			default="2"
 			label="COM_USERS_CONFIG_FIELD_NEW_USER_TYPE_LABEL"
-			description="COM_USERS_CONFIG_FIELD_NEW_USER_TYPE_DESC">
+			description="COM_USERS_CONFIG_FIELD_NEW_USER_TYPE_DESC"
+			class="advancedSelect">
 		</field>
 
 		<field
@@ -27,7 +28,8 @@
 			type="usergroup"
 			default="1"
 			label="COM_USERS_CONFIG_FIELD_GUEST_USER_GROUP_LABEL"
-			description="COM_USERS_CONFIG_FIELD_GUEST_USER_GROUP_DESC">
+			description="COM_USERS_CONFIG_FIELD_GUEST_USER_GROUP_DESC"
+			class="advancedSelect">
 		</field>
 
 		<field
