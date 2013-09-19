@@ -46,12 +46,12 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<div class="clearfix"> </div>
 			<?php if ($this->enabled) : ?>
 		<div class="alert alert-info">
-			<a class="close" data-dismiss="alert">√ó</a>
+			<a class="close" data-dismiss="alert">&#215;</a>
 			<?php echo JText::_('COM_REDIRECT_PLUGIN_ENABLED'); ?>
 		</div>
 			<?php else : ?>
 		<div class="alert alert-error">
-			<a class="close" data-dismiss="alert">√ó</a>
+			<a class="close" data-dismiss="alert">&#215;</a>
 			<?php echo JText::_('COM_REDIRECT_PLUGIN_DISABLED'); ?>
 		</div>
 		<?php endif; ?>
