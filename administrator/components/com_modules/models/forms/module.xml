@@ -95,6 +95,7 @@
 		<field name="ordering" type="moduleorder"
 			description="JFIELD_ORDERING_DESC"
 			label="JFIELD_ORDERING_LABEL"
+			class="advancedSelect"
 		/>
 
 		<field name="content" type="editor"
