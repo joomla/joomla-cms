@@ -38,7 +38,7 @@ class JRackspaceHttpTest extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		$this->client = $this->getMock('JRackspaceHttp', array('delete', 'deleteWithBody', 'get', 'head', 'put', 'post'));
-		$this->object = new JAmazons3Http;
+		$this->object = new JRackspaceHttp;
 	}
 
 	/**
