@@ -105,7 +105,6 @@ abstract class JStringPunycode
 			$newuri .= ':' . $parsed['port'];
 		}
 
-
 		if (!empty($parsed['path']))
 		{
 			$newuri .= $parsed['path'];
