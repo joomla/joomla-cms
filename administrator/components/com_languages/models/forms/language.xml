@@ -46,7 +46,7 @@
 		/>
 
 		<field name="image" type="filelist"
-			class="inputbox"
+			class="inputbox advancedSelect"
 			description="COM_LANGUAGES_FIELD_IMAGE_DESC"
 			label="COM_LANGUAGES_FIELD_IMAGE_LABEL"
 			stripext="1"
