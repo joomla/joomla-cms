@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Legacy
+ * @package     Joomla.Libraries
  * @subpackage  Model
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
  * @see         JFormRule
  * @since       3.2
  */
-abstract class JModelCmsform extends JModelCms
+abstract class JModelCmsForm extends JModelCms
 {
 	/**
 	 * Array of form objects.
@@ -53,7 +53,7 @@ abstract class JModelCmsform extends JModelCms
 				return false;
 			}
 
-			// Check if this is the user having previously checked out the row.
+			// Check if this is the user has previously checked out the row.
 			if ($table->checked_out > 0 && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
 			{
 				$this->setError(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
@@ -165,14 +165,12 @@ abstract class JModelCmsform extends JModelCms
 		$paths->insert(JPATH_COMPONENT . '/models/forms', 'normal');
 		$paths->insert(JPATH_COMPONENT . '/models/fields', 'normal');
 		$paths->insert(JPATH_COMPONENT . '/models/rules', 'normal');
-		
-		// test -- prob with previous -- tempory solution
+
+		// Solution until JForm supports splqueue
 		JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
 		JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
 		JForm::addFormPath(JPATH_COMPONENT . '/model/form');
 		JForm::addFieldPath(JPATH_COMPONENT . '/model/field');
-		// test
-		
 
 		try
 		{

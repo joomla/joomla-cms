@@ -69,5 +69,10 @@ else
 
 $controller = new $classname;
 
+// $controllerHelper = new JControllerHelper();
+// $controller = $controllerHelper->parseController($app);
+
+// $controller->prefix = 'Services';
+
 // Perform the Request task
 $controller->execute();

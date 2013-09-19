@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_services
  * @since       3.2
  */
-class ServicesModelConfig extends JModelCmsform
+class ServicesModelConfig extends JModelCmsForm
 {
 	/**
 	 * Method to get a form object.

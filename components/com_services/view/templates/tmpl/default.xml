@@ -12,7 +12,7 @@
 		<fieldset name="request" >
 			<field name="controller" 
 				type="hidden"
-				default="templates"
+				default="services.display.templates"
 			/>
 		</fieldset>
 	</fields>
