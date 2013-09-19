@@ -27,7 +27,7 @@ class JAmazons3ObjectTest extends PHPUnit_Framework_TestCase
 	protected $options;
 
 	/**
-	 * @var    JAmazons3Issues  Object under test.
+	 * @var    JAmazons3Object  Object under test.
 	 * @since  ??.?
 	 */
 	protected $object;

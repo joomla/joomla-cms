@@ -27,7 +27,7 @@ class JRackspaceObjectTest extends PHPUnit_Framework_TestCase
 	protected $options;
 
 	/**
-	 * @var    JRackspaceIssues  Object under test.
+	 * @var    JRackspaceObject Object under test.
 	 * @since  ??.?
 	 */
 	protected $object;
