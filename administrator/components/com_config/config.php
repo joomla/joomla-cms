@@ -23,8 +23,10 @@ JResponse::setHeader('Expires', 'Mon, 26 Jul 1997 05:00:00 GMT', true);
 $app = JFactory::getApplication();
 
 if ($controllerTask = $app->input->get('controller'))
+{
 	// Checking for new MVC controller
 	$tasks = explode('.', $controllerTask);
+}
 else
 {
 	// Checking for old MVC task
@@ -33,10 +35,17 @@ else
 }
 
 if (empty($tasks[1]))
+{
 	$activity = 'display';
+}
 elseif ($tasks[1] == 'apply')
+{
 	$activity = 'save';
-else $activity = $tasks[1];
+}
+else
+{
+	$activity = $tasks[1];
+}
 
 // Create the controller
 
@@ -45,7 +54,8 @@ $classname  = 'ConfigControllerApplication' . ucfirst($activity);// only for app
 
 // Check if component mentioned
 $componentRequired = $app->input->get('component');
-if(!empty($componentRequired))
+
+if (!empty($componentRequired))
 {
 	// For Component
 	$classname  = 'ConfigControllerComponent' . ucfirst($activity);
