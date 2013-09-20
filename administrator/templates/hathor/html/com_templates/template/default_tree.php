@@ -15,7 +15,21 @@ ksort($this->files, SORT_STRING);
 	<?php foreach($this->files as $key => $value): ?>
 		<?php if(is_array($value)): ?>
 			<?php
-				if(stristr($this->fileName,$key) != false)
+			$keyArray	= explode('/', $key);
+			$fileArray	= explode('/', $this->fileName);
+			$count		= 0;
+
+			if (sizeof($fileArray) >= sizeof($keyArray))
+			{
+				for ($i = 0; $i < sizeof($keyArray); $i++)
+				{
+					if ($keyArray[$i] === $fileArray[$i])
+					{
+						$count = $count + 1;
+					}
+				}
+
+				if($count == sizeof($keyArray))
 				{
 					$class = "folder show";
 				}
@@ -23,6 +37,12 @@ ksort($this->files, SORT_STRING);
 				{
 					$class = "folder";
 				}
+			}
+			else
+			{
+				$class = "folder";
+			}
+
 			?>
 			<li class="<?php echo $class; ?>">
 				<a class='folder-url nowrap' href=''>

@@ -28,23 +28,23 @@ if($this->type == 'image')
 	jQuery(document).ready(function($){
 
 		// Hide all the folder when the page loads
-		$('.folder ul').hide();
+		$('.folder ul, .component-folder ul').hide();
 
 		// Show all the lists in the path of an open file
 		$('.show > ul').show();
 
 		// Stop the default action of anchor tag on a click event
-		$('.folder-url').click(function(event){
+		$('.folder-url, .component-folder-url').click(function(event){
 			event.preventDefault();
 		});
 
 		// Prevent the click event from proliferating
-		$('.file').bind('click',function(e){
+		$('.file, .component-file-url').bind('click',function(e){
 			e.stopPropagation();
 		});
 
 		// Toggle the child indented list on a click event
-		$('.folder').bind('click',function(e){
+		$('.folder, .component-folder').bind('click',function(e){
 			$(this).children('ul').toggle();
 			e.stopPropagation();
 		});
@@ -409,10 +409,10 @@ if($this->type == 'image')
 			<p><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></p>
 		<?php endif; ?>
 		<?php if($this->type == 'image'): ?>
-			<p><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->image['address'], $this->template->element); ?></p>
+			<p><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->image['path'], $this->template->element); ?></p>
 		<?php endif; ?>
 		<?php if($this->type == 'font'): ?>
-			<p><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->font['address'], $this->template->element); ?></p>
+			<p><?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->font['rel_path'], $this->template->element); ?></p>
 		<?php endif; ?>
 	</fieldset>
 
@@ -458,11 +458,20 @@ if($this->type == 'image')
 	<?php  echo JHtml::_('sliders.panel', JText::_('COM_TEMPLATES_OVERRIDES_COMPONENTS'), 'override-component'); ?>
 		<fieldset class="panelform">
 			<ul class="adminformlist">
-				<?php foreach($this->overridesList['components'] as $component): ?>
-					<li>
-						<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $component->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
-							<i class="icon-copy"></i>&nbsp;<?php echo $component->name; ?>
+				<?php foreach ($this->overridesList['components'] as $key => $value): ?>
+					<li class="component-folder">
+						<a href="#" class="component-folder-url">
+							<i class="icon-folder"></i>&nbsp;<?php echo $key; ?>
 						</a>
+						<ul class="adminformList">
+							<?php foreach ($value as $view): ?>
+								<li>
+									<a class="component-file-url" href="<?php echo JRoute::_('index.php?option=com_templates&view=template&task=template.overrides&folder=' . $view->path . '&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
+										<i class="icon-copy"></i>&nbsp;<?php echo $view->name; ?>
+									</a>
+								</li>
+							<?php endforeach; ?>
+						</ul>
 					</li>
 				<?php endforeach; ?>
 			</ul>

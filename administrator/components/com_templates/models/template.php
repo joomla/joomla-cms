@@ -558,7 +558,17 @@ class TemplatesModelTemplate extends JModelForm
 
 			foreach ($components as $component)
 			{
-				$result['components'][] = $this->getOverridesFolder($component, $componentPath);
+				$viewPath	= JPath::clean($componentPath . '/' . $component . '/views/');
+
+				if (file_exists($viewPath))
+				{
+					$views	= JFolder::folders($viewPath);
+
+					foreach ($views as $view)
+					{
+						$result['components'][$component][] = $this->getOverridesFolder($view, $viewPath);
+					}
+				}
 			}
 
 			$modules = JFolder::folders($modulePath);
@@ -602,9 +612,18 @@ class TemplatesModelTemplate extends JModelForm
 			$name           = end($explodeArray);
 			$client 	    = JApplicationHelper::getClientInfo($template->client_id);
 
-			if (stristr($name, 'mod_') != false || stristr($name, 'com_') != false)
+			if (stristr($name, 'mod_') != false)
 			{
 				$htmlPath   = JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $name);
+			}
+			elseif (stristr($override, 'com_') != false)
+			{
+				$folderExplode = explode(DIRECTORY_SEPARATOR, $override);
+				$size = sizeof($folderExplode);
+
+				$url = JPath::clean($folderExplode[$size - 3] . '/' . $folderExplode[$size - 1]);
+
+				$htmlPath = JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $url);
 			}
 			else
 			{
@@ -629,21 +648,9 @@ class TemplatesModelTemplate extends JModelForm
 			{
 				$return = JFolder::copy($override . '/tmpl', $htmlPath, '', true);
 			}
-			elseif (stristr($name, 'com_') != false)
+			elseif (stristr($override, 'com_') != false)
 			{
-				$folders = JFolder::folders($override . '/views');
-
-				foreach ($folders as $folder)
-				{
-					if (!JFolder::create($htmlPath . '/' . $folder))
-					{
-						$app->enqueueMessage(JText::_('COM_TEMPLATES_FOLDER_ERROR'), 'error');
-
-						return false;
-					}
-
-					$return = JFolder::copy($override . '/views/' . $folder . '/tmpl', $htmlPath . '/' . $folder, '', true);
-				}
+				$return = JFolder::copy($override . '/tmpl', $htmlPath . '/', '', true);
 			}
 			else
 			{
@@ -967,10 +974,10 @@ class TemplatesModelTemplate extends JModelForm
 			if (file_exists(JPath::clean($path . $fileName)))
 			{
 				$JImage = new JImage(JPath::clean($path . $fileName));
-				$image['address'] = $uri . $fileName;
-
-				$image['height'] = $JImage->getHeight();
-				$image['width']  = $JImage->getWidth();
+				$image['address'] 	= $uri . $fileName;
+				$image['path']		= $fileName;
+				$image['height'] 	= $JImage->getHeight();
+				$image['width']  	= $JImage->getWidth();
 			}
 
 			else
@@ -1127,6 +1134,8 @@ class TemplatesModelTemplate extends JModelForm
 			if (file_exists(JPath::clean($path)))
 			{
 				$font['address'] = $uri . $relPath;
+
+				$font['rel_path'] = $relPath;
 
 				$font['name'] = $fileName;
 			}
