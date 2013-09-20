@@ -44,8 +44,6 @@ class JAmazons3BucketsDeleteTest extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		$this->options = new JRegistry;
-		$this->options->set('api.accessKeyId', 'testAccessKeyId');
-		$this->options->set('api.secretAccessKey', 'testSecretAccessKey');
 		$this->options->set('api.url', 's3.amazonaws.com');
 		$this->options->set('testBucket', 'testBucket');
 
@@ -66,11 +64,6 @@ class JAmazons3BucketsDeleteTest extends PHPUnit_Framework_TestCase
 	protected function commonDeleteTestOperations($subresource)
 	{
 		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url") . "/" . $subresource;
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-		);
-		$authorization = $this->object->createAuthorization("DELETE", $url, $headers);
-		$headers['Authorization'] = $authorization;
 
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
@@ -79,7 +72,7 @@ class JAmazons3BucketsDeleteTest extends PHPUnit_Framework_TestCase
 
 		$this->client->expects($this->once())
 			->method('delete')
-			->with($url, $headers)
+			->with($url)
 			->will($this->returnValue($returnData));
 
 		return $expectedResult;

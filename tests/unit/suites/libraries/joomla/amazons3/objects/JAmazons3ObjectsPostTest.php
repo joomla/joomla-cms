@@ -44,8 +44,6 @@ class JAmazons3ObjectsPostTest extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		$this->options = new JRegistry;
-		$this->options->set('api.accessKeyId', 'testAccessKeyId');
-		$this->options->set('api.secretAccessKey', 'testSecretAccessKey');
 		$this->options->set('api.url', 's3.amazonaws.com');
 		$this->options->set('testBucket', 'testBucket');
 		$this->options->set(
@@ -87,9 +85,6 @@ class JAmazons3ObjectsPostTest extends PHPUnit_Framework_TestCase
 	public function testDeleteMultipleObjects()
 	{
 		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url") . "/?delete";
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-		);
 
 		$content = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 			. "<Delete>\n"
@@ -102,13 +97,6 @@ class JAmazons3ObjectsPostTest extends PHPUnit_Framework_TestCase
 			. "</Object>\n"
 			. "</Delete>";
 
-		$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
-		$headers["Content-Length"] = strlen($content);
-		$headers["Content-MD5"] = base64_encode(md5($content, true));
-		$authorization = $this->object->createAuthorization("POST", $url, $headers);
-		$headers['Authorization'] = $authorization;
-		unset($headers["Content-type"]);
-
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
 		$returnData->body = "<test>response</test>";
@@ -116,7 +104,7 @@ class JAmazons3ObjectsPostTest extends PHPUnit_Framework_TestCase
 
 		$this->client->expects($this->once())
 			->method('post')
-			->with($url, $content, $headers)
+			->with($url, $content)
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
@@ -138,9 +126,6 @@ class JAmazons3ObjectsPostTest extends PHPUnit_Framework_TestCase
 	public function testDeleteMultipleObjectsMfa()
 	{
 		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url") . "/?delete";
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-		);
 
 		$content = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 			. "<Delete>\n"
@@ -154,14 +139,6 @@ class JAmazons3ObjectsPostTest extends PHPUnit_Framework_TestCase
 			. "</Object>\n"
 			. "</Delete>";
 
-		$headers["x-amz-mfa"] = $this->options->get("serialNr") . " " . $this->options->get("tokenCode");
-		$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
-		$headers["Content-Length"] = strlen($content);
-		$headers["Content-MD5"] = base64_encode(md5($content, true));
-		$authorization = $this->object->createAuthorization("POST", $url, $headers);
-		$headers['Authorization'] = $authorization;
-		unset($headers["Content-type"]);
-
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
 		$returnData->body = "<test>response</test>";
@@ -169,7 +146,7 @@ class JAmazons3ObjectsPostTest extends PHPUnit_Framework_TestCase
 
 		$this->client->expects($this->once())
 			->method('post')
-			->with($url, $content, $headers)
+			->with($url, $content)
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
@@ -196,17 +173,8 @@ class JAmazons3ObjectsPostTest extends PHPUnit_Framework_TestCase
 		$testFields = $this->options->get("testFields");
 		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url")
 			. "/" . $testFields["key"];
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-		);
 
 		$content = $testFields["file"];
-
-		$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
-		$headers["Content-Length"] = strlen($content);
-		$authorization = $this->object->createAuthorization("POST", $url, $headers);
-		$headers['Authorization'] = $authorization;
-		unset($headers["Content-type"]);
 
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
@@ -215,7 +183,7 @@ class JAmazons3ObjectsPostTest extends PHPUnit_Framework_TestCase
 
 		$this->client->expects($this->once())
 			->method('post')
-			->with($url, $content, $headers)
+			->with($url, $content)
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
@@ -238,20 +206,10 @@ class JAmazons3ObjectsPostTest extends PHPUnit_Framework_TestCase
 	{
 		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url")
 			. "/" . $this->options->get("testObject") . "?restore";
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-		);
 
 		$content = "<RestoreRequest xmlns=\"http://s3.amazonaws.com/doc/2006-3-01\">\n"
 			. "<Days>" . $this->options->get("testDays") . "</Days>\n"
 			. "</RestoreRequest>\n";
-
-		$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
-		$headers["Content-Length"] = strlen($content);
-		$headers["Content-MD5"] = base64_encode(md5($content, true));
-		$authorization = $this->object->createAuthorization("POST", $url, $headers);
-		$headers['Authorization'] = $authorization;
-		unset($headers["Content-type"]);
 
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
@@ -260,7 +218,7 @@ class JAmazons3ObjectsPostTest extends PHPUnit_Framework_TestCase
 
 		$this->client->expects($this->once())
 			->method('post')
-			->with($url, $content, $headers)
+			->with($url, $content)
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(

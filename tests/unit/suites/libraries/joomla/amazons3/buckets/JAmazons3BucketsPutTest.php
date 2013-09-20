@@ -44,8 +44,6 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		$this->options = new JRegistry;
-		$this->options->set('api.accessKeyId', 'testAccessKeyId');
-		$this->options->set('api.secretAccessKey', 'testSecretAccessKey');
 		$this->options->set('api.url', 's3.amazonaws.com');
 		$this->options->set('testBucket', 'testBucket');
 		$this->options->set('testBucketRegion', 'testBucketRegion');
@@ -192,7 +190,6 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 	public function testPutBucketWithRegion()
 	{
 		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url") . "/";
-		$headers = array();
 		$content = "";
 
 		if ($this->options->get("testBucketRegion") != "")
@@ -200,15 +197,7 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 			$content = "<CreateBucketConfiguration xmlns=\"http://s3.amazonaws.com/doc/2006-03-01/\">"
 				. "<LocationConstraint>" . $this->options->get("testBucketRegion") . "</LocationConstraint>"
 				. "</CreateBucketConfiguration>";
-
-			$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
-			$headers["Content-Length"] = strlen($content);
 		}
-
-		$headers["Date"] = date("D, d M Y H:i:s O");
-		$authorization = $this->object->createAuthorization("PUT", $url, $headers);
-		$headers["Authorization"] = $authorization;
-		unset($headers["Content-type"]);
 
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
@@ -217,7 +206,7 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$this->client->expects($this->once())
 			->method('put')
-			->with($url, $content, $headers)
+			->with($url, $content)
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
@@ -236,13 +225,6 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 	public function testPutBucketWithCannedAcl()
 	{
 		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url") . "/";
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-			"x-amz-acl" => "public-read",
-		);
-		$authorization = $this->object->createAuthorization("PUT", $url, $headers);
-		$headers["Authorization"] = $authorization;
-		unset($headers["Content-type"]);
 
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
@@ -251,7 +233,7 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$this->client->expects($this->once())
 			->method('put')
-			->with($url, "", $headers)
+			->with($url, "")
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
@@ -272,15 +254,6 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 	{
 		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url") . "/";
 
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-			"x-amz-grant-read" => "emailAddress=\"xyz@amazon.com\", emailAddress=\"abc@amazon.com\"",
-			"x-amz-grant-full-control" => "id=\"6e887773574284f7e38cacbac9e1455ecce62f79929260e9b68db3b84720ed96\"",
-			"x-amz-grant-write-acp" => "uri=\"http://acs.amazonaws.com/groups/global/AuthenticatedUsers\"",
-		);
-		$authorization = $this->object->createAuthorization("PUT", $url, $headers);
-		$headers["Authorization"] = $authorization;
-
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
 		$returnData->body = "Response code: " . $returnData->code . ".\n";
@@ -288,7 +261,7 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$this->client->expects($this->once())
 			->method('put')
-			->with($url, "", $headers)
+			->with($url, "")
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
@@ -315,13 +288,6 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 	public function testPutBucketAclCanned()
 	{
 		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url") . "/?acl";
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-			"x-amz-acl" => "public-read",
-		);
-		$authorization = $this->object->createAuthorization("PUT", $url, $headers);
-		$headers["Authorization"] = $authorization;
-		unset($headers["Content-type"]);
 
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
@@ -330,7 +296,7 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$this->client->expects($this->once())
 			->method('put')
-			->with($url, "", $headers)
+			->with($url, "")
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
@@ -350,15 +316,6 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 	{
 		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url") . "/?acl";
 
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-			"x-amz-grant-read" => "emailAddress=\"xyz@amazon.com\", emailAddress=\"abc@amazon.com\"",
-			"x-amz-grant-full-control" => "id=\"6e887773574284f7e38cacbac9e1455ecce62f79929260e9b68db3b84720ed96\"",
-			"x-amz-grant-write-acp" => "uri=\"http://acs.amazonaws.com/groups/global/AuthenticatedUsers\"",
-		);
-		$authorization = $this->object->createAuthorization("PUT", $url, $headers);
-		$headers["Authorization"] = $authorization;
-
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
 		$returnData->body = "Response code: " . $returnData->code . ".\n";
@@ -366,7 +323,7 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$this->client->expects($this->once())
 			->method('put')
-			->with($url, "", $headers)
+			->with($url, "")
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
@@ -392,7 +349,6 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 	public function testPutBucketCors()
 	{
 		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url") . "/?cors";
-		$headers = array();
 
 		$content = "<CORSConfiguration>\n"
 			. "<CORSRule>\n"
@@ -414,15 +370,6 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 			. "</CORSRule>\n"
 			. "</CORSConfiguration>\n";
 
-		$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
-		$headers["Content-Length"] = strlen($content);
-		$headers["Content-MD5"] = base64_encode(md5($content, true));
-
-		$headers["Date"] = date("D, d M Y H:i:s O");
-		$authorization = $this->object->createAuthorization("PUT", $url, $headers);
-		$headers["Authorization"] = $authorization;
-		unset($headers["Content-type"]);
-
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
 		$returnData->body = "Response code: " . $returnData->code . ".\n";
@@ -430,7 +377,7 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$this->client->expects($this->once())
 			->method('put')
-			->with($url, $content, $headers)
+			->with($url, $content)
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
@@ -452,7 +399,6 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 	public function testPutBucketLifecycle()
 	{
 		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url") . "/?lifecycle";
-		$headers = array();
 
 		$content = "<LifecycleConfiguration>\n"
 			. "<Rule>\n"
@@ -469,15 +415,6 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 			. "</Rule>\n"
 			. "</LifecycleConfiguration>\n";
 
-		$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
-		$headers["Content-Length"] = strlen($content);
-		$headers["Content-MD5"] = base64_encode(md5($content, true));
-
-		$headers["Date"] = date("D, d M Y H:i:s O");
-		$authorization = $this->object->createAuthorization("PUT", $url, $headers);
-		$headers["Authorization"] = $authorization;
-		unset($headers["Content-type"]);
-
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
 		$returnData->body = "Response code: " . $returnData->code . ".\n";
@@ -485,7 +422,7 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$this->client->expects($this->once())
 			->method('put')
-			->with($url, $content, $headers)
+			->with($url, $content)
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
@@ -507,21 +444,11 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 	public function testPutBucketPolicy()
 	{
 		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url") . "/?policy";
-		$headers = array();
 
 		$content = '{"Version":"2008-10-17","Id":"aaaa-bbbb-cccc-eeee",'
 			. '"Statement":[{"Effect":"Allow","Sid":"1",'
 			. '"Principal":{"CanonicalUser":"6e887773574284f7e38cacbac9e1455ecce62f79929260e9b68db3b84720ed96"},'
 			. '"Action":"s3:*","Resource":"arn:aws:s3:::gsoc-test-2\/*"}]}';
-
-		$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
-		$headers["Content-Length"] = strlen($content);
-		$headers["Content-MD5"] = base64_encode(md5($content, true));
-
-		$headers["Date"] = date("D, d M Y H:i:s O");
-		$authorization = $this->object->createAuthorization("PUT", $url, $headers);
-		$headers["Authorization"] = $authorization;
-		unset($headers["Content-type"]);
 
 		$returnData = new JHttpResponse;
 		$returnData->code = 204;
@@ -530,7 +457,7 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$this->client->expects($this->once())
 			->method('put')
-			->with($url, $content, $headers)
+			->with($url, $content)
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
@@ -553,7 +480,6 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 	public function testPutBucketLogging()
 	{
 		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url") . "/?logging";
-		$headers = array();
 
 		$content = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
 			. "<BucketLoggingStatus xmlns=\"http://doc.s3.amazonaws.com/2006-03-01\">\n"
@@ -571,15 +497,6 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 			. "</LoggingEnabled>\n"
 			. "</BucketLoggingStatus>\n";
 
-		$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
-		$headers["Content-Length"] = strlen($content);
-		$headers["Content-MD5"] = base64_encode(md5($content, true));
-
-		$headers["Date"] = date("D, d M Y H:i:s O");
-		$authorization = $this->object->createAuthorization("PUT", $url, $headers);
-		$headers["Authorization"] = $authorization;
-		unset($headers["Content-type"]);
-
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
 		$returnData->body = "Response code: " . $returnData->code . ".\n";
@@ -587,7 +504,7 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$this->client->expects($this->once())
 			->method('put')
-			->with($url, $content, $headers)
+			->with($url, $content)
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
@@ -610,7 +527,6 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 	public function testPutBucketNotification()
 	{
 		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url") . "/?notification";
-		$headers = array();
 
 		$content = "<NotificationConfiguration>\n"
 			. "<TopicConfiguration>\n"
@@ -619,15 +535,6 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 			. "</TopicConfiguration>\n"
 			. "</NotificationConfiguration>";
 
-		$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
-		$headers["Content-Length"] = strlen($content);
-		$headers["Content-MD5"] = base64_encode(md5($content, true));
-
-		$headers["Date"] = date("D, d M Y H:i:s O");
-		$authorization = $this->object->createAuthorization("PUT", $url, $headers);
-		$headers["Authorization"] = $authorization;
-		unset($headers["Content-type"]);
-
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
 		$returnData->body = "Response code: " . $returnData->code . ".\n";
@@ -635,7 +542,7 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$this->client->expects($this->once())
 			->method('put')
-			->with($url, $content, $headers)
+			->with($url, $content)
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
@@ -657,7 +564,6 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 	public function testPutBucketTagging()
 	{
 		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url") . "/?tagging";
-		$headers = array();
 
 		$content = "<Tagging>\n"
 			. "<TagSet>\n"
@@ -672,15 +578,6 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 			. "</TagSet>\n"
 			. "</Tagging>";
 
-		$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
-		$headers["Content-Length"] = strlen($content);
-		$headers["Content-MD5"] = base64_encode(md5($content, true));
-
-		$headers["Date"] = date("D, d M Y H:i:s O");
-		$authorization = $this->object->createAuthorization("PUT", $url, $headers);
-		$headers["Authorization"] = $authorization;
-		unset($headers["Content-type"]);
-
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
 		$returnData->body = "Response code: " . $returnData->code . ".\n";
@@ -688,7 +585,7 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$this->client->expects($this->once())
 			->method('put')
-			->with($url, $content, $headers)
+			->with($url, $content)
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
@@ -711,20 +608,10 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 	public function testPutBucketRequestPayment()
 	{
 		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url") . "/?requestPayment";
-		$headers = array();
 
 		$content = "<RequestPaymentConfiguration xmlns=\"http://s3.amazonaws.com/doc/2006-03-01/\">\n"
 			. "<Payer>Requester</Payer>\n"
 			. "</RequestPaymentConfiguration>";
-
-		$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
-		$headers["Content-Length"] = strlen($content);
-		$headers["Content-MD5"] = base64_encode(md5($content, true));
-
-		$headers["Date"] = date("D, d M Y H:i:s O");
-		$authorization = $this->object->createAuthorization("PUT", $url, $headers);
-		$headers["Authorization"] = $authorization;
-		unset($headers["Content-type"]);
 
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
@@ -733,7 +620,7 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$this->client->expects($this->once())
 			->method('put')
-			->with($url, $content, $headers)
+			->with($url, $content)
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
@@ -755,20 +642,10 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 	public function testPutBucketVersioningWithoutMfaDelete()
 	{
 		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url") . "/?versioning";
-		$headers = array();
 
 		$content = "<VersioningConfiguration xmlns=\"http://s3.amazonaws.com/doc/2006-03-01/\">\n"
 			. "<Status>Enabled</Status>\n"
 			. "</VersioningConfiguration>";
-
-		$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
-		$headers["Content-Length"] = strlen($content);
-		$headers["Content-MD5"] = base64_encode(md5($content, true));
-
-		$headers["Date"] = date("D, d M Y H:i:s O");
-		$authorization = $this->object->createAuthorization("PUT", $url, $headers);
-		$headers["Authorization"] = $authorization;
-		unset($headers["Content-type"]);
 
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
@@ -777,7 +654,7 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$this->client->expects($this->once())
 			->method('put')
-			->with($url, $content, $headers)
+			->with($url, $content)
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
@@ -799,22 +676,11 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 	public function testPutBucketVersioningWithMfaDelete()
 	{
 		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url") . "/?versioning";
-		$headers = array();
 
 		$content = "<VersioningConfiguration xmlns=\"http://s3.amazonaws.com/doc/2006-03-01/\">\n"
 			. "<Status>Enabled</Status>\n"
 			. "<MfaDelete>Enabled</MfaDelete>\n"
 			. "</VersioningConfiguration>";
-
-		$headers["x-amz-mfa"] = $this->options->get("serialNr") . " " . $this->options->get("tokenCode");
-		$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
-		$headers["Content-Length"] = strlen($content);
-		$headers["Content-MD5"] = base64_encode(md5($content, true));
-
-		$headers["Date"] = date("D, d M Y H:i:s O");
-		$authorization = $this->object->createAuthorization("PUT", $url, $headers);
-		$headers["Authorization"] = $authorization;
-		unset($headers["Content-type"]);
 
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
@@ -823,7 +689,7 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$this->client->expects($this->once())
 			->method('put')
-			->with($url, $content, $headers)
+			->with($url, $content)
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
@@ -848,7 +714,6 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 	public function testPutBucketWebsite()
 	{
 		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url") . "/?website";
-		$headers = array();
 
 		$content = "<WebsiteConfiguration xmlns=\"http://s3.amazonaws.com/doc/2006-03-01/\">\n"
 			. "<IndexDocument>\n"
@@ -869,15 +734,6 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 			. "</RoutingRules>\n"
 			. "</WebsiteConfiguration>";
 
-		$headers["Content-type"] = "application/x-www-form-urlencoded; charset=utf-8";
-		$headers["Content-Length"] = strlen($content);
-		$headers["Content-MD5"] = base64_encode(md5($content, true));
-
-		$headers["Date"] = date("D, d M Y H:i:s O");
-		$authorization = $this->object->createAuthorization("PUT", $url, $headers);
-		$headers["Authorization"] = $authorization;
-		unset($headers["Content-type"]);
-
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
 		$returnData->body = "Response code: " . $returnData->code . ".\n";
@@ -885,7 +741,7 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$this->client->expects($this->once())
 			->method('put')
-			->with($url, $content, $headers)
+			->with($url, $content)
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(

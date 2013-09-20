@@ -44,8 +44,6 @@ class JAmazons3ObjectsDeleteTest extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		$this->options = new JRegistry;
-		$this->options->set('api.accessKeyId', 'testAccessKeyId');
-		$this->options->set('api.secretAccessKey', 'testSecretAccessKey');
 		$this->options->set('api.url', 's3.amazonaws.com');
 		$this->options->set('testBucket', 'testBucket');
 		$this->options->set('testObject', 'testObject');
@@ -64,19 +62,15 @@ class JAmazons3ObjectsDeleteTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @param   string   $objectName  The name of the object that will be deleted
 	 * @param   boolean  $versioning  Tells whether versioning should be used in the request
-	 * @param   boolean  $mfa         Tells whether the x-amz-mfa should be included
 	 * @param   string   $uploadId    The upload id
 	 *
 	 * @return  void
 	 *
 	 * @since   ??.?
 	 */
-	protected function commonDeleteTestOperations($objectName, $versioning = false, $mfa = false, $uploadId = false)
+	protected function commonDeleteTestOperations($objectName, $versioning = false, $uploadId = false)
 	{
 		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url") . "/" . $objectName;
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-		);
 
 		if ($uploadId)
 		{
@@ -84,21 +78,11 @@ class JAmazons3ObjectsDeleteTest extends PHPUnit_Framework_TestCase
 		}
 		else
 		{
-			$headers["Content-Length"] = "0";
-
 			if ($versioning)
 			{
 				$url .= "?versionId=" . $this->options->get("versionId");
 			}
 		}
-
-		if ($mfa)
-		{
-			$headers["x-amz-mfa"] = $this->options->get("serialNr") . " " . $this->options->get("tokenCode");
-		}
-
-		$authorization = $this->object->createAuthorization("DELETE", $url, $headers);
-		$headers['Authorization'] = $authorization;
 
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
@@ -107,7 +91,7 @@ class JAmazons3ObjectsDeleteTest extends PHPUnit_Framework_TestCase
 
 		$this->client->expects($this->once())
 			->method('delete')
-			->with($url, $headers)
+			->with($url)
 			->will($this->returnValue($returnData));
 
 		return $expectedResult;
@@ -161,7 +145,7 @@ class JAmazons3ObjectsDeleteTest extends PHPUnit_Framework_TestCase
 	public function testDeleteObjectWithVersioningInMFAEnabledBuckets()
 	{
 		$expectedResult = $this->commonDeleteTestOperations(
-			$this->options->get("testObject"), true, true
+			$this->options->get("testObject"), true
 		);
 		$this->assertThat(
 			$this->object->delete->deleteObject(
@@ -186,7 +170,6 @@ class JAmazons3ObjectsDeleteTest extends PHPUnit_Framework_TestCase
 	{
 		$expectedResult = $this->commonDeleteTestOperations(
 			$this->options->get("testObject"),
-			false,
 			false,
 			$this->options->get("uploadId")
 		);

@@ -44,8 +44,6 @@ class JAmazons3ObjectsGetTest extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		$this->options = new JRegistry;
-		$this->options->set('api.accessKeyId', 'testAccessKeyId');
-		$this->options->set('api.secretAccessKey', 'testSecretAccessKey');
 		$this->options->set('api.url', 's3.amazonaws.com');
 		$this->options->set('testBucket', 'testBucket');
 		$this->options->set('testObject', 'testObject');
@@ -65,13 +63,12 @@ class JAmazons3ObjectsGetTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @param   string  $subresource  The subresource to be added to the url
 	 * @param   string  $versionId    The version id
-	 * @param   string  $range        The range of bytes to be returned
 	 *
 	 * @return  void
 	 *
 	 * @since   ??.?
 	 */
-	protected function commonGetTestOperations($subresource = null, $versionId = null, $range = null)
+	protected function commonGetTestOperations($subresource = null, $versionId = null)
 	{
 		$url = "https://" . $this->options->get("testBucket") . "." . $this->options->get("api.url")
 			. "/" . $this->options->get("testObject");
@@ -95,18 +92,6 @@ class JAmazons3ObjectsGetTest extends PHPUnit_Framework_TestCase
 			$url .= $subresource;
 		}
 
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-		);
-
-		if (! is_null($range))
-		{
-			$headers['Range'] = "bytes=" . $range;
-		}
-
-		$authorization = $this->object->createAuthorization("GET", $url, $headers);
-		$headers['Authorization'] = $authorization;
-
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
 		$returnData->body = "<test>response</test>";
@@ -114,7 +99,7 @@ class JAmazons3ObjectsGetTest extends PHPUnit_Framework_TestCase
 
 		$this->client->expects($this->once())
 			->method('get')
-			->with($url, $headers)
+			->with($url)
 			->will($this->returnValue($returnData));
 
 		return $expectedResult;
@@ -168,7 +153,7 @@ class JAmazons3ObjectsGetTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetObjectRange()
 	{
-		$expectedResult = $this->commonGetTestOperations(null, null, $this->options->get("range"));
+		$expectedResult = $this->commonGetTestOperations(null, null);
 		$this->assertThat(
 			$this->object->get->getObject(
 				$this->options->get("testBucket"),
@@ -228,7 +213,7 @@ class JAmazons3ObjectsGetTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetObjectRangeAcl()
 	{
-		$expectedResult = $this->commonGetTestOperations("acl", null, $this->options->get("range"));
+		$expectedResult = $this->commonGetTestOperations("acl", null);
 		$this->assertThat(
 			$this->object->get->getObjectAcl(
 				$this->options->get("testBucket"),
@@ -274,13 +259,6 @@ class JAmazons3ObjectsGetTest extends PHPUnit_Framework_TestCase
 		$url .= "&max-parts=" . $this->options->get("max-parts");
 		$url .= "&part-number-marker=" . $this->options->get("part-number-marker");
 
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-		);
-
-		$authorization = $this->object->createAuthorization("GET", $url, $headers);
-		$headers['Authorization'] = $authorization;
-
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
 		$returnData->body = "<test>response</test>";
@@ -288,7 +266,7 @@ class JAmazons3ObjectsGetTest extends PHPUnit_Framework_TestCase
 
 		$this->client->expects($this->once())
 			->method('get')
-			->with($url, $headers)
+			->with($url)
 			->will($this->returnValue($returnData));
 
 		$this->assertThat(
