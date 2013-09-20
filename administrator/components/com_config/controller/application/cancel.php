@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage  com_config
  * @since       3.2
  */
-class ConfigControllerApplicationCancel extends JControllerCanceladmin
+class ConfigControllerApplicationCancel extends JControllerCancel
 {
 
 	/**
@@ -38,6 +38,8 @@ class ConfigControllerApplicationCancel extends JControllerCanceladmin
 		}
 
 		$this->context = 'com_config.config.global';
+
+		$this->redirect = 'index.php?option=com_cpanel';
 
 		parent::execute();
 

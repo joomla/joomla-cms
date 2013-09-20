@@ -71,7 +71,7 @@ class JControllerCanceladmin extends JControllerCancel
 
 		if (!empty($this->redirect))
 		{
-			$app->redirect(JURI::base());
+			$this->app->redirect(JURI::base());
 		}
 		else
 		{

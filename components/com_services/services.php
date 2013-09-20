@@ -22,57 +22,10 @@ JResponse::setHeader('Expires', 'Mon, 26 Jul 1997 05:00:00 GMT', true);
 // Application
 $app = JFactory::getApplication();
 
-if ($controllerTask = $app->input->get('controller'))
-{
-	// Checking for new MVC controller
-	$tasks = explode('.', $controllerTask);
-}
-else
-{
-	// Checking for old MVC task
-	$task = $app->input->get('task');
-	$tasks = explode('.', $task);
-}
+$controllerHelper = new JControllerHelper();
+$controller = $controllerHelper->parseController($app);
 
-// Get the controller name
-if (empty($tasks[1]))
-{
-	$activity = 'display';
-}
-elseif ($tasks[1] == 'apply')
-{
-	$activity = 'save';
-}
-else
-{
-	$activity = $tasks[1];
-}
-
-// Create the controller
-if ($tasks[0] == 'config')
-{
-	// For Config
-	$classname  = 'ServicesControllerConfig' . ucfirst($activity);
-}
-elseif ($tasks[0] == 'templates')
-{
-	// For Templates
-	$classname  = 'ServicesControllerTemplates' . ucfirst($activity);
-}
-else
-{
-	$app->enqueueMessage(JText::_('COM_SERVICES_ERROR_CONTROLLER_NOT_FOUND'), 'error');
-
-	return;
-
-}
-
-$controller = new $classname;
-
-// $controllerHelper = new JControllerHelper();
-// $controller = $controllerHelper->parseController($app);
-
-// $controller->prefix = 'Services';
+$controller->prefix = 'Services';
 
 // Perform the Request task
 $controller->execute();

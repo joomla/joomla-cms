@@ -85,10 +85,10 @@ class ConfigViewComponentHtml extends JViewHtmlCms
 	protected function addToolbar()
 	{
 		JToolbarHelper::title(JText::_($this->component->option . '_configuration'), 'config.png');
-		JToolbarHelper::apply('component.apply');
-		JToolbarHelper::save('component.save');
+		JToolbarHelper::apply('config.save.component.apply');
+		JToolbarHelper::save('config.save.component');
 		JToolbarHelper::divider();
-		JToolbarHelper::cancel('component.cancel');
+		JToolbarHelper::cancel('config.cancel.component');
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_SITE_GLOBAL_CONFIGURATION');
 	}

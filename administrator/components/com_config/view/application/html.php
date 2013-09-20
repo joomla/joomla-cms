@@ -91,10 +91,10 @@ class ConfigViewApplicationHtml extends JViewHtmlCms
 	protected function addToolbar()
 	{
 		JToolbarHelper::title(JText::_('COM_CONFIG_GLOBAL_CONFIGURATION'), 'config.png');
-		JToolbarHelper::apply('application.apply');
-		JToolbarHelper::save('application.save');
+		JToolbarHelper::apply('config.save.application.apply');
+		JToolbarHelper::save('config.save.application');
 		JToolbarHelper::divider();
-		JToolbarHelper::cancel('application.cancel');
+		JToolbarHelper::cancel('config.cancel.application');
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_SITE_GLOBAL_CONFIGURATION');
 	}
