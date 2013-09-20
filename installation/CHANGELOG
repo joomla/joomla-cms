@@ -29,6 +29,7 @@ $ -> Language fix or change
  # [#32031] [3.x] Overridable layouts for tinyMCE. Thanks Roberto Segura
  # [#32019] Incorrect component_id for separator items. Thanks David Jardin
  # [#31995] Can not disable Images and links. Thanks David Jardin
+ # [#31781] To small tags input field at the FE edit view. Thanks Valentin Despa
 
 19-Sep-2013 Michael Babker
  ^ [#31352] JLayouts improvements for extension developers.  Thanks Roberto Segura
