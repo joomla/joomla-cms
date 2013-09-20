@@ -52,7 +52,7 @@ class ServicesModelTemplates extends JModelCmsForm
 	{
 		// Get the form.
 				$form = $this->loadForm('com_services.templates', 'templates', array('control' => 'jform', 'load_data' => $loadData));
-/*
+
 		try
 		{
 			$form = new JForm('com_services.templates');
@@ -70,7 +70,7 @@ class ServicesModelTemplates extends JModelCmsForm
 
 			return false;
 		}
-*/
+
 
 		if (empty($form))
 		{

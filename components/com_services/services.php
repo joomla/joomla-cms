@@ -29,5 +29,4 @@ $controller->prefix = 'Services';
 
 // Perform the Request task
 $controller->execute();
-// Perform the Request task
-$controller->execute();
+
