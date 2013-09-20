@@ -27,6 +27,7 @@
 				<field name="mode" type="list" default="normal"
 					label="MOD_ARTICLES_CATEGORY_FIELD_MODE_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_MODE_DESC"
+					class="advancedSelect"
 				>
 					<option value="normal">MOD_ARTICLES_CATEGORY_OPTION_NORMAL_VALUE
 					</option>
@@ -55,6 +56,7 @@
 				<field name="show_front" type="list" default="show"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWFEATURED_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWFEATURED_DESC"
+					class="advancedSelect"
 				>
 					<option value="show">JSHOW
 					</option>
@@ -74,6 +76,7 @@
 					default="1"
 					label="MOD_ARTICLES_CATEGORY_FIELD_CATFILTERINGTYPE_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_CATFILTERINGTYPE_DESC"
+					class="advancedSelect"
 				>
 					<option value="1">MOD_ARTICLES_CATEGORY_OPTION_INCLUSIVE_VALUE
 					</option>
@@ -85,6 +88,7 @@
 					multiple="true" size="5"
 					label="JCATEGORY"
 					description="MOD_ARTICLES_CATEGORY_FIELD_CATEGORY_DESC"
+					class="advancedSelect"
 				>
 					<option value="">JOPTION_ALL_CATEGORIES</option>
 				</field>
@@ -93,6 +97,7 @@
 					default="0"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWCHILDCATEGORYARTICLES_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWCHILDCATEGORYARTICLES_DESC"
+					class="advancedSelect"
 				>
 					<option value="1">MOD_ARTICLES_CATEGORY_OPTION_INCLUDE_VALUE
 					</option>
@@ -110,6 +115,7 @@
 					default="1"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHORFILTERING_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_AUTHORFILTERING_DESC"
+					class="advancedSelect"
 				>
 					<option value="1">MOD_ARTICLES_CATEGORY_OPTION_INCLUSIVE_VALUE
 					</option>
@@ -123,6 +129,7 @@
 					description="MOD_ARTICLES_CATEGORY_FIELD_AUTHOR_DESC"
 					query="select id, name, username from #__users where id IN (select distinct(created_by) from #__content) order by name ASC"
 					key_field="id" value_field="name"
+					class="advancedSelect"
 				>
 					<option value="">JOPTION_SELECT_AUTHORS</option>
 				</field>
@@ -133,6 +140,7 @@
 					default="1"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHORALIASFILTERING_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_AUTHORALIASFILTERING_DESC"
+					class="advancedSelect"
 				>
 					<option value="1">MOD_ARTICLES_CATEGORY_OPTION_INCLUSIVE_VALUE
 					</option>
@@ -146,6 +154,7 @@
 					description="MOD_ARTICLES_CATEGORY_FIELD_AUTHORALIAS_DESC"
 					query="select distinct(created_by_alias) from #__content where created_by_alias != '' order by created_by_alias ASC"
 					key_field="created_by_alias" value_field="created_by_alias"
+					class="advancedSelect"
 				>
 					<option value="">JOPTION_SELECT_AUTHOR_ALIASES
 					</option>
@@ -165,6 +174,7 @@
 				<field name="date_filtering" type="list" default="off"
 					label="MOD_ARTICLES_CATEGORY_FIELD_DATEFILTERING_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_DATEFILTERING_DESC"
+					class="advancedSelect"
 				>
 					<option value="off">MOD_ARTICLES_CATEGORY_OPTION_OFF_VALUE
 					</option>
@@ -177,6 +187,7 @@
 				<field name="date_field" type="list" default="a.created"
 					label="MOD_ARTICLES_CATEGORY_FIELD_DATERANGEFIELD_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_DATERANGEFIELD_DESC"
+					class="advancedSelect"
 				>
 					<option value="a.created">MOD_ARTICLES_CATEGORY_OPTION_CREATED_VALUE
 					</option>
@@ -212,6 +223,7 @@
 					default="a.title"
 					label="MOD_ARTICLES_CATEGORY_FIELD_ARTICLEORDERING_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_ARTICLEORDERING_DESC"
+					class="advancedSelect"
 				>
 					<option value="a.ordering">MOD_ARTICLES_CATEGORY_OPTION_ORDERING_VALUE
 					</option>
@@ -239,6 +251,7 @@
 					default="ASC"
 					label="MOD_ARTICLES_CATEGORY_FIELD_ARTICLEORDERINGDIR_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_ARTICLEORDERINGDIR_DESC"
+					class="advancedSelect"
 				>
 					<option value="DESC">MOD_ARTICLES_CATEGORY_OPTION_DESCENDING_VALUE
 					</option>
@@ -254,6 +267,7 @@
 					default="none"
 					label="MOD_ARTICLES_CATEGORY_FIELD_ARTICLEGROUPING_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_ARTICLEGROUPING_DESC"
+					class="advancedSelect"
 				>
 					<option value="none">JNONE
 					</option>
@@ -271,6 +285,7 @@
 					default="ksort"
 					label="MOD_ARTICLES_CATEGORY_FIELD_ARTICLEGROUPINGDIR_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_ARTICLEGROUPINGDIR_DESC"
+					class="advancedSelect"
 				>
 					<option value="krsort">MOD_ARTICLES_CATEGORY_OPTION_DESCENDING_VALUE
 					</option>
@@ -313,6 +328,7 @@
 				<field name="show_date_field" type="list" default="created"
 					label="MOD_ARTICLES_CATEGORY_FIELD_DATEFIELD_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_DATEFIELD_DESC"
+					class="advancedSelect"
 				>
 					<option value="created">MOD_ARTICLES_CATEGORY_OPTION_CREATED_VALUE
 					</option>
@@ -413,14 +429,16 @@
 
 			<fieldset name="advanced">
 				<field name="layout" type="modulelayout"
-					label="JFIELD_ALT_LAYOUT_LABEL" description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+					label="JFIELD_ALT_LAYOUT_LABEL" description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+					class="advancedSelect"/>
 
 				<field name="moduleclass_sfx" type="textarea" rows="3"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 
 				<field name="owncache" type="list" default="1"
-					label="COM_MODULES_FIELD_CACHING_LABEL" description="COM_MODULES_FIELD_CACHING_DESC" >
+					label="COM_MODULES_FIELD_CACHING_LABEL" description="COM_MODULES_FIELD_CACHING_DESC"
+					class="advancedSelect">
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING
 					</option>
