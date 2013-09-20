@@ -36,6 +36,7 @@ $controller->prefix = 'Config';
 
 // Check if component mentioned
 $component = $app->input->get('component');
+
 if (!empty($component))
 {
 	$controller->component = $component;

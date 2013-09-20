@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+
 /**
  * View for the component configuration
  *

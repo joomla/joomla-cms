@@ -111,6 +111,7 @@ class ConfigControllerComponentSave extends JControllerBase
 			return false;
 		}
 
+
 		// Set the redirect based on the task.
 		switch ($this->options[3])
 		{

@@ -285,33 +285,33 @@ abstract class JModelCms extends JModelDatabase
 	protected function canDelete($record)
 	{
 		if (!empty($record->id))
-			{
-				if ($record->published != -2)
-					{
-						return;
-					}
-					$user = JFactory::getUser();
-
-					return $user->authorise('core.delete', $this->option);
-
-				}
-			}
-
-
-
-		/**
-		 * Method to test whether a record can have its state changed.
-		 *
-		 * @param   object  $record  A record object.
-		 *
-		 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
-		 *
-		 * @since   3.2
-		 */
-		protected function canEditState($record)
 		{
-				$user = JFactory::getUser();
+			if ($record->published != -2)
+			{
+				return;
+			}
+			$user = JFactory::getUser();
 
-				return $user->authorise('core.edit.state', $this->option);
+			return $user->authorise('core.delete', $this->option);
+
 		}
+	}
+
+
+
+	/**
+	 * Method to test whether a record can have its state changed.
+	 *
+	 * @param   object  $record  A record object.
+	 *
+	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
+	 *
+	 * @since   3.2
+	 */
+	protected function canEditState($record)
+	{
+		$user = JFactory::getUser();
+
+		return $user->authorise('core.edit.state', $this->option);
+	}
 }

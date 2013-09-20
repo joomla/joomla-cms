@@ -22,7 +22,7 @@ class ServicesControllerTemplatesDisplay extends JControllerBase
 	 * Method to display global configuration.
 	 *
 	 * @return  bool	True on success, false on failure.
-	 * 
+	 *
 	 * @since   3.2
 	 */
 	public function execute()

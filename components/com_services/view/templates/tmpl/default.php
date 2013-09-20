@@ -17,7 +17,7 @@ $user = JFactory::getUser();
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'templates.cancel' || document.formvalidator.isValid(document.id('templates-form')))
+		if (task == 'j.cancel' || document.formvalidator.isValid(document.id('templates-form')))
 		{
 			Joomla.submitform(task, document.getElementById('templates-form'));
 		}
@@ -33,7 +33,7 @@ $user = JFactory::getUser();
 
 			<div class="btn-toolbar">
 				<div class="btn-group">
-					<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('templates.save.templates.apply')">
+					<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('services.save.templates.apply')">
 						<i class="icon-ok"></i> <?php echo JText::_('JSAVE') ?>
 					</button>
 				</div>

@@ -31,9 +31,9 @@ class ConfigControllerComponentCancel extends JControllerCanceladmin
 		$this->context = 'com_config.config.global';
 
 
-			$this->redirect = 'index.php?option=' . $this->component;
-
+		$this->redirect = 'index.php?option=' . $this->component;
 
 		parent::execute();
+
 	}
 }
