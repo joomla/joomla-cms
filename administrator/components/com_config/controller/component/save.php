@@ -111,11 +111,8 @@ class ConfigControllerComponentSave extends JControllerBase
 			return false;
 		}
 
-		$task = $app->input->get('task');
-		$tasks = explode(".", $task);
-
 		// Set the redirect based on the task.
-		switch ($tasks[1])
+		switch ($this->options[3])
 		{
 			case 'apply':
 				$message = JText::_('COM_CONFIG_SAVE_SUCCESS');
@@ -125,7 +122,7 @@ class ConfigControllerComponentSave extends JControllerBase
 
 			case 'save':
 			default:
-				$redirect = 'index.php';
+				$redirect = 'index.php?option=' . $this->component;
 
 				if (!empty($returnUri))
 				{
