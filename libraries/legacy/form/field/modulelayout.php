@@ -177,14 +177,7 @@ class JFormFieldModulelayout extends JFormField
 			}
 			// Compute attributes for the grouped list
 			$attr = $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
-
-			// Check the class, and set default to the class "advancedSelect" if empty
-			$class = (string) $this->element['class'];
-			if(!$class)
-			{
-				$class = 'advancedSelect';
-			}
-			$attr .= ' class="' . $class . '"';
+			$attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
 
 			// Prepare HTML code
 			$html = array();
