@@ -123,7 +123,7 @@ class ConfigControllerComponentSave extends JControllerBase
 
 			case 'save':
 			default:
-				$redirect = 'index.php';
+				$redirect = 'index.php?option=' . $this->component;
 
 				if (!empty($returnUri))
 				{

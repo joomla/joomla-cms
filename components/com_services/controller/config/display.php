@@ -21,7 +21,7 @@ class ServicesControllerConfigDisplay extends JControllerDisplay
 	/**
 	 * Method to display global configuration.
 	 *
-	 * @return  bool	True on success, false on failure.
+	 * @return  boolean	True on success, false on failure.
 	 *
 	 * @since   3.2
 	 */
