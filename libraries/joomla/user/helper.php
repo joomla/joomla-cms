@@ -318,7 +318,7 @@ abstract class JUserHelper
 	{
 		// Not all controllers check the length, although they should to avoid DOS attacks.
 		// The maximum password length for bcrypt is 55:
-		if (strlen($array['password']) > 55)
+		if (strlen($plaintext) > 55)
 		{
 			$app = JFactory::getApplication();
 			$app->enqueueMessage(JText::_('JLIB_USER_ERROR_PASSWORD_TOO_LONG'), 'error');
