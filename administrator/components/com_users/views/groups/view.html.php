@@ -33,8 +33,6 @@ class UsersViewGroups extends JViewLegacy
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
 
-		UsersHelper::addSubmenu('groups');
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
@@ -65,18 +63,15 @@ class UsersViewGroups extends JViewLegacy
 		if ($canDo->get('core.edit'))
 		{
 			JToolbarHelper::editList('group.edit');
-			JToolbarHelper::divider();
 		}
 		if ($canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('', 'groups.delete');
-			JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::preferences('com_users');
-			JToolbarHelper::divider();
 		}
 		JToolbarHelper::help('JHELP_USERS_GROUPS');
 	}

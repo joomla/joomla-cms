@@ -22,10 +22,8 @@ $listDirn  = $this->escape($this->state->get('list.direction')); ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
-	<div id="j-main-container" class="span10">
-<?php else : ?>
-	<div id="j-main-container">
-<?php endif;?>
+<?php endif; ?>
+	<div id="j-main-container"<?php echo !empty($this->sidebar) ? ' class="span10"' : ''; ?>>
 		<div id="filter-bar" class="btn-toolbar clearfix">
 			<div class="filter-search btn-group pull-left">
 				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_LANGUAGES_VIEW_OVERRIDES_FILTER_SEARCH_DESC'); ?>" />
@@ -36,62 +34,66 @@ $listDirn  = $this->escape($this->state->get('list.direction')); ?>
 			</div>
 		</div>
 
-		<table class="table table-striped">
-			<thead>
-				<tr>
-					<th width="1%">
-						<?php echo JHtml::_('grid.checkall'); ?>
-					</th>
-					<th width="30%" class="left">
-						<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_KEY', 'key', $listDirn, $listOrder); ?>
-					</th>
-					<th class="left">
-						<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_TEXT', 'text', $listDirn, $listOrder); ?>
-					</th>
-					<th class="nowrap">
-						<?php echo JText::_('COM_LANGUAGES_FIELD_LANG_TAG_LABEL'); ?>
-					</th>
-					<th>
-						<?php echo JText::_('JCLIENT'); ?>
-					</th>
-				</tr>
-			</thead>
-			<tfoot>
-				<tr>
-					<td colspan="5">
-						<?php echo $this->pagination->getListFooter(); ?>
-					</td>
-				</tr>
-			</tfoot>
-			<tbody>
-			<?php $canEdit = JFactory::getUser()->authorise('core.edit', 'com_languages');
-			$i = 0;
-			foreach ($this->items as $key => $text) : ?>
-				<tr class="row<?php echo $i % 2; ?>" id="overriderrow<?php echo $i; ?>">
-					<td class="center">
-						<?php echo JHtml::_('grid.id', $i, $key); ?>
-					</td>
-					<td>
-						<?php if ($canEdit) : ?>
-							<a id="key[<?php echo $this->escape($key); ?>]" href="<?php echo JRoute::_('index.php?option=com_languages&task=override.edit&id='.$key); ?>"><?php echo $this->escape($key); ?></a>
-						<?php else: ?>
-							<?php echo $this->escape($key); ?>
-						<?php endif; ?>
-					</td>
-					<td>
-						<span id="string[<?php	echo $this->escape($key); ?>]"><?php echo $this->escape($text); ?></span>
-					</td>
-					<td class="center">
-						<?php echo $language; ?>
-					</td>
-					<td class="center">
-						<?php echo $client; ?>
-					</td>
-				</tr>
-			<?php $i++;
-			endforeach; ?>
-			</tbody>
-		</table>
+		<?php if (empty($this->items)): ?>
+			<div class="alert alert-no-items"><?php echo JText::sprintf('JLIB_HTML_NO_ITEMS_FOUND', JText::_('COM_LANGUAGES_SUBMENU_OVERRIDES')); ?></div>
+		<?php else: ?>
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th width="1%">
+							<?php echo JHtml::_('grid.checkall'); ?>
+						</th>
+						<th width="30%" class="left">
+							<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_KEY', 'key', $listDirn, $listOrder); ?>
+						</th>
+						<th class="left">
+							<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_TEXT', 'text', $listDirn, $listOrder); ?>
+						</th>
+						<th class="nowrap">
+							<?php echo JText::_('COM_LANGUAGES_FIELD_LANG_TAG_LABEL'); ?>
+						</th>
+						<th>
+							<?php echo JText::_('JCLIENT'); ?>
+						</th>
+					</tr>
+				</thead>
+				<tfoot>
+					<tr>
+						<td colspan="5">
+							<?php echo $this->pagination->getListFooter(); ?>
+						</td>
+					</tr>
+				</tfoot>
+				<tbody>
+				<?php $canEdit = JFactory::getUser()->authorise('core.edit', 'com_languages');
+				$i = 0;
+				foreach ($this->items as $key => $text) : ?>
+					<tr class="row<?php echo $i % 2; ?>" id="overriderrow<?php echo $i; ?>">
+						<td class="center">
+							<?php echo JHtml::_('grid.id', $i, $key); ?>
+						</td>
+						<td>
+							<?php if ($canEdit) : ?>
+								<a id="key[<?php echo $this->escape($key); ?>]" href="<?php echo JRoute::_('index.php?option=com_languages&task=override.edit&id='.$key); ?>"><?php echo $this->escape($key); ?></a>
+							<?php else: ?>
+								<?php echo $this->escape($key); ?>
+							<?php endif; ?>
+						</td>
+						<td>
+							<span id="string[<?php	echo $this->escape($key); ?>]"><?php echo $this->escape($text); ?></span>
+						</td>
+						<td class="center">
+							<?php echo $language; ?>
+						</td>
+						<td class="center">
+							<?php echo $client; ?>
+						</td>
+					</tr>
+				<?php $i++;
+				endforeach; ?>
+				</tbody>
+			</table>
+		<?php endif; ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

@@ -21,7 +21,8 @@ class TemplatesHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string    The name of the active view.
+	 * @param       string  The name of the active view.
+	 * @deprecated  3.2
 	 */
 	public static function addSubmenu($vName)
 	{

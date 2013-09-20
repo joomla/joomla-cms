@@ -15,6 +15,8 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
 
+$app = JFactory::getApplication();
+$langs = isset($app->languages_enabled);
 ?>
 <script type="text/javascript">
 		window.addEvent('domready', function()
@@ -74,14 +76,18 @@ JHtml::_('formbehavior.chosen', 'select');
 				</div>
 				<?php endif; ?>
 
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('language'); ?>
+				<?php if ($langs) : ?>
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $this->form->getLabel('language'); ?>
+						</div>
+						<div class="controls">
+							<?php echo $this->form->getInput('language'); ?>
+						</div>
 					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('language'); ?>
-					</div>
-				</div>
+				<?php else : ?>
+					<input type="hidden" name="language" value="<?php echo $this->form->getValue('language'); ?>" />
+				<?php endif; ?>
 
 				<div class="control-group">
 					<div class="control-label">

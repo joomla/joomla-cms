@@ -42,7 +42,7 @@ class JToolbarButtonLink extends JToolbarButton
 		$options = array();
 		$options['text'] = JText::_($text);
 		$options['class'] = $this->fetchIconClass($name);
-		$options['doTask'] = $this->_getCommand($url);
+		$options['url'] = $url;
 
 		// Instantiate a new JLayoutFile instance and render the layout
 		$layout = new JLayoutFile('joomla.toolbar.link');
@@ -68,11 +68,12 @@ class JToolbarButtonLink extends JToolbarButton
 	/**
 	 * Get the JavaScript command for the button
 	 *
-	 * @param   object  $url  Button definition
+	 * @param       object  $url  Button definition
 	 *
-	 * @return  string  JavaScript command string
+	 * @return      string  JavaScript command string
 	 *
-	 * @since   3.0
+	 * @since       3.0
+	 * @deprecated  3.2
 	 */
 	protected function _getCommand($url)
 	{

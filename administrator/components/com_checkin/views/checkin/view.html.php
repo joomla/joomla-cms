@@ -49,9 +49,7 @@ class CheckinViewCheckin extends JViewLegacy
 		if (JFactory::getUser()->authorise('core.admin', 'com_checkin'))
 		{
 			JToolbarHelper::custom('checkin', 'checkin.png', 'checkin_f2.png', 'JTOOLBAR_CHECKIN', true);
-			JToolbarHelper::divider();
 			JToolbarHelper::preferences('com_checkin');
-			JToolbarHelper::divider();
 		}
 		JToolbarHelper::help('JHELP_SITE_MAINTENANCE_GLOBAL_CHECK-IN');
 	}

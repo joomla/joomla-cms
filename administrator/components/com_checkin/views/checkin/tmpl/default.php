@@ -32,7 +32,9 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 					<i class="icon-remove"></i></button>
 			</div>
 		</div>
+
 		<div class="clearfix"></div>
+
 		<table id="global-checkin" class="table table-striped">
 			<thead>
 				<tr>

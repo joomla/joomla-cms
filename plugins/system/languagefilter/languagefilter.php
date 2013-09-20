@@ -126,7 +126,9 @@ class PlgSystemLanguageFilter extends JPlugin
 	public function onAfterInitialise()
 	{
 		$app = JFactory::getApplication();
-		$app->item_associations = $this->params->get('item_associations', 0);
+
+		$app->languages_enabled = 1;
+		$app->item_associations = $app->languages_enabled ? $this->params->get('item_associations', 0) : 0;
 
 		if ($app->isSite())
 		{

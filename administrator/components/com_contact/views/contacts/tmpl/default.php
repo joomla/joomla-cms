@@ -13,7 +13,6 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
-JHtml::_('dropdown.init');
 JHtml::_('formbehavior.chosen', 'select');
 
 $app		= JFactory::getApplication();
@@ -31,7 +30,9 @@ if ($saveOrder)
 	JHtml::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 $sortFields = $this->getSortFields();
-$assoc		= isset($app->item_associations) ? $app->item_associations : 0;
+
+$langs = isset($app->languages_enabled);
+$assoc = isset($app->item_associations);
 ?>
 <script type="text/javascript">
 	Joomla.orderTable = function()
@@ -55,10 +56,8 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
-	<div id="j-main-container" class="span10">
-<?php else : ?>
-	<div id="j-main-container">
-<?php endif;?>
+<?php endif; ?>
+	<div id="j-main-container"<?php echo !empty($this->sidebar) ? ' class="span10"' : ''; ?>>
 		<div id="filter-bar" class="btn-toolbar">
 			<div class="filter-search btn-group pull-left">
 				<label for="filter_search" class="element-invisible"><?php echo JText::_('COM_CONTACT_FILTER_SEARCH_DESC');?></label>
@@ -88,183 +87,167 @@ $assoc		= isset($app->item_associations) ? $app->item_associations : 0;
 				</select>
 			</div>
 		</div>
-		<div class="clearfix"> </div>
-		<table class="table table-striped" id="articleList">
-			<thead>
-				<tr>
-					<th width="1%" class="nowrap center hidden-phone">
-						<?php echo JHtml::_('grid.sort', '<i class="icon-menu-2"></i>', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING'); ?>
-					</th>
-					<th width="1%" class="hidden-phone">
-						<?php echo JHtml::_('grid.checkall'); ?>
-					</th>
-					<th width="1%" style="min-width:55px" class="nowrap center">
-						<?php echo JHtml::_('grid.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
-					</th>
-					<th>
-						<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder); ?>
-					</th>
-					<th class="nowrap hidden-phone">
-						<?php echo JHtml::_('grid.sort', 'COM_CONTACT_FIELD_LINKED_USER_LABEL', 'ul.name', $listDirn, $listOrder); ?>
-					</th>
-					<th width="5%" class="nowrap hidden-phone">
-						<?php echo JHtml::_('grid.sort', 'JFEATURED', 'a.featured', $listDirn, $listOrder); ?>
-					</th>
-					<th width="10%" class="nowrap hidden-phone">
-						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
-					</th>
-					<?php if ($assoc) : ?>
-					<th width="5%" class="nowrap hidden-phone">
-						<?php echo JHtml::_('grid.sort', 'COM_CONTACT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
-					</th>
-					<?php endif;?>
-					<th width="5%" class="nowrap hidden-phone">
-						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
-					</th>
-					<th width="1%" class="nowrap center hidden-phone">
-						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-			<?php
-			$n = count($this->items);
-			foreach ($this->items as $i => $item) :
-				$ordering	= $listOrder == 'a.ordering';
-				$canCreate	= $user->authorise('core.create',     'com_contact.category.'.$item->catid);
-				$canEdit	= $user->authorise('core.edit',       'com_contact.category.'.$item->catid);
-				$canCheckin	= $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
-				$canEditOwn	= $user->authorise('core.edit.own',   'com_contact.category.'.$item->catid) && $item->created_by == $userId;
-				$canChange	= $user->authorise('core.edit.state', 'com_contact.category.'.$item->catid) && $canCheckin;
 
-				$item->cat_link = JRoute::_('index.php?option=com_categories&extension=com_contact&task=edit&type=other&id='.$item->catid);
-				?>
-				<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->catid?>">
-					<td class="order nowrap center hidden-phone">
-						<?php
-						$iconClass = '';
-						if (!$canChange)
-						{
-							$iconClass = ' inactive';
-						}
-						elseif (!$saveOrder)
-						{
-							$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::tooltipText('JORDERINGDISABLED');
-						}
-						?>
-						<span class="sortable-handler<?php echo $iconClass ?>">
-							<i class="icon-menu"></i>
-						</span>
-						<?php if ($canChange && $saveOrder) : ?>
-							<input type="text" style="display:none" name="order[]" size="5"
-								value="<?php echo $item->ordering; ?>" class="width-20 text-area-order " />
-						<?php endif; ?>
-					</td>
-					<td class="center hidden-phone">
-						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
-					</td>
-					<td class="center">
-						<?php echo JHtml::_('jgrid.published', $item->published, $i, 'contacts.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-					</td>
-					<td class="nowrap has-context">
-						<div class="pull-left">
-							<?php if ($item->checked_out) : ?>
-								<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'contacts.', $canCheckin); ?>
-							<?php endif; ?>
-							<?php if ($canEdit || $canEditOwn) : ?>
-								<a href="<?php echo JRoute::_('index.php?option=com_contact&task=contact.edit&id='.(int) $item->id); ?>">
-								<?php echo $this->escape($item->name); ?></a>
-							<?php else : ?>
-								<?php echo $this->escape($item->name); ?>
-							<?php endif; ?>
-							<span class="small">
-								<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias));?>
-							</span>
-							<div class="small">
-								<?php echo $item->category_title; ?>
-							</div>
-						</div>
-						<div class="pull-left">
-							<?php
-								// Create dropdown items
-								JHtml::_('dropdown.edit', $item->id, 'contact.');
-								JHtml::_('dropdown.divider');
-								if ($item->published) :
-									JHtml::_('dropdown.unpublish', 'cb' . $i, 'contacts.');
-								else :
-									JHtml::_('dropdown.publish', 'cb' . $i, 'contacts.');
-								endif;
+		<div class="clearfix"></div>
 
-								if ($item->featured) :
-									JHtml::_('dropdown.unfeatured', 'cb' . $i, 'contacts.');
-								else :
-									JHtml::_('dropdown.featured', 'cb' . $i, 'contacts.');
-								endif;
-
-								JHtml::_('dropdown.divider');
-
-								if ($archived) :
-									JHtml::_('dropdown.unarchive', 'cb' . $i, 'contacts.');
-								else :
-									JHtml::_('dropdown.archive', 'cb' . $i, 'contacts.');
-								endif;
-
-								if ($item->checked_out) :
-									JHtml::_('dropdown.checkin', 'cb' . $i, 'contacts.');
-								endif;
-
-								if ($trashed) :
-									JHtml::_('dropdown.untrash', 'cb' . $i, 'contacts.');
-								else :
-									JHtml::_('dropdown.trash', 'cb' . $i, 'contacts.');
-								endif;
-
-								// render dropdown list
-								echo JHtml::_('dropdown.render');
-							?>
-						</div>
-					</td>
-					<td align="small hidden-phone">
-						<?php if (!empty($item->linked_user)) : ?>
-							<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id='.$item->user_id);?>"><?php echo $item->linked_user;?></a>
-						<?php endif; ?>
-					</td>
-					<td class="center hidden-phone">
-						<?php echo JHtml::_('contact.featured', $item->featured, $i, $canChange); ?>
-					</td>
-					<td align="small hidden-phone">
-						<?php echo $item->access_level; ?>
-					</td>
-					<?php if ($assoc) : ?>
-					<td class="hidden-phone">
-						<?php if ($item->association) : ?>
-							<?php echo JHtml::_('contact.association', $item->id); ?>
-						<?php endif; ?>
-					</td>
-					<?php endif;?>
-					<td class="small hidden-phone">
-						<?php if ($item->language == '*'):?>
-							<?php echo JText::alt('JALL', 'language'); ?>
-						<?php else:?>
-							<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
+		<?php if (empty($this->items)): ?>
+			<div class="alert alert-no-items"><?php echo JText::sprintf('JLIB_HTML_NO_ITEMS_FOUND', JText::_('COM_CONTACT_SUBMENU_CONTACTS')); ?></div>
+		<?php else: ?>
+			<table class="table table-striped" id="articleList">
+				<thead>
+					<tr>
+						<th width="1%" class="nowrap center hidden-phone">
+							<?php echo JHtml::_('grid.sort', '<i class="icon-menu-2"></i>', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING'); ?>
+						</th>
+						<th width="1%" class="hidden-phone">
+							<?php echo JHtml::_('grid.checkall'); ?>
+						</th>
+						<th width="1%" style="min-width:55px" class="nowrap center">
+							<?php echo JHtml::_('grid.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
+						</th>
+						<th>
+							<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder); ?>
+						</th>
+						<th class="nowrap hidden-phone">
+							<?php echo JHtml::_('grid.sort', 'COM_CONTACT_FIELD_LINKED_USER_LABEL', 'ul.name', $listDirn, $listOrder); ?>
+						</th>
+						<?php if ($langs) : ?>
+							<th width="10%" class="nowrap hidden-phone">
+								<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
+							</th>
 						<?php endif;?>
-					</td>
-					<td align="center hidden-phone">
-						<?php echo $item->id; ?>
-					</td>
-				</tr>
-				<?php endforeach; ?>
-			</tbody>
-			<tfoot>
-				<tr>
-					<td colspan="10">
-						<?php echo $this->pagination->getListFooter(); ?>
-					</td>
-				</tr>
-			</tfoot>
-		</table>
-		<?php //Load the batch processing form. ?>
-		<?php echo $this->loadTemplate('batch'); ?>
+						<?php if ($assoc) : ?>
+							<th width="10%" class="nowrap hidden-phone center">
+								<?php echo JHtml::_('grid.sort', 'COM_CONTACT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
+							</th>
+						<?php endif;?>
+						<th width="10%" class="nowrap hidden-phone center">
+							<?php echo JHtml::_('grid.sort', 'JFEATURED', 'a.featured', $listDirn, $listOrder); ?>
+						</th>
+						<th width="10%" class="nowrap hidden-phone">
+							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
+						</th>
+						<th width="1%" class="nowrap center hidden-phone center">
+							<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+						</th>
+					</tr>
+				</thead>
+				<tbody>
+				<?php
+				$n = count($this->items);
+				foreach ($this->items as $i => $item) :
+					$ordering	= $listOrder == 'a.ordering';
+					$canCreate	= $user->authorise('core.create',     'com_contact.category.'.$item->catid);
+					$canEdit	= $user->authorise('core.edit',       'com_contact.category.'.$item->catid);
+					$canCheckin	= $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
+					$canEditOwn	= $user->authorise('core.edit.own',   'com_contact.category.'.$item->catid) && $item->created_by == $userId;
+					$canChange	= $user->authorise('core.edit.state', 'com_contact.category.'.$item->catid) && $canCheckin;
+
+					$item->cat_link = JRoute::_('index.php?option=com_categories&extension=com_contact&task=edit&type=other&id='.$item->catid);
+					?>
+					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->catid?>">
+						<td class="order nowrap center hidden-phone">
+							<?php
+							$iconClass = '';
+							if (!$canChange)
+							{
+								$iconClass = ' inactive';
+							}
+							elseif (!$saveOrder)
+							{
+								$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::tooltipText('JORDERINGDISABLED');
+							}
+							?>
+							<span class="sortable-handler<?php echo $iconClass ?>">
+								<i class="icon-menu"></i>
+							</span>
+							<?php if ($canChange && $saveOrder) : ?>
+								<input type="text" style="display:none" name="order[]" size="5"
+									value="<?php echo $item->ordering; ?>" class="width-20 text-area-order " />
+							<?php endif; ?>
+						</td>
+						<td class="center hidden-phone">
+							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+						</td>
+						<td class="center">
+							<div class="btn-group">
+								<?php echo JHtml::_('jgrid.published', $item->published, $i, 'contacts.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
+								<?php
+								// Create dropdown items
+								$action = $archived ? 'unarchive' : 'archive';
+								JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'contacts');
+
+								$action = $trashed ? 'untrash' : 'trash';
+								JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'contacts');
+
+								// Render dropdown list
+								echo JHtml::_('actionsdropdown.render', $this->escape($item->name));
+								?>
+							</div>
+						</td>
+						<td class="nowrap has-context">
+							<div class="pull-left">
+								<?php if ($item->checked_out) : ?>
+									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'contacts.', $canCheckin); ?>
+								<?php endif; ?>
+								<?php if ($canEdit || $canEditOwn) : ?>
+									<a href="<?php echo JRoute::_('index.php?option=com_contact&task=contact.edit&id='.(int) $item->id); ?>">
+									<?php echo $this->escape($item->name); ?></a>
+								<?php else : ?>
+									<?php echo $this->escape($item->name); ?>
+								<?php endif; ?>
+								<span class="small">
+									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias));?>
+								</span>
+								<div class="small">
+									<?php echo $item->category_title; ?>
+								</div>
+							</div>
+						</td>
+						<td align="hidden-phone">
+							<?php if (!empty($item->linked_user)) : ?>
+								<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id='.$item->user_id);?>"><?php echo $item->linked_user;?></a>
+							<?php endif; ?>
+						</td>
+						<?php if ($langs) : ?>
+							<td class="hidden-phone">
+								<?php if ($item->language == '*'):?>
+									<?php echo JText::alt('JALL', 'language'); ?>
+								<?php else:?>
+									<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
+								<?php endif;?>
+							</td>
+						<?php endif;?>
+						<?php if ($assoc) : ?>
+							<td class="hidden-phone center">
+								<?php if ($item->association) : ?>
+									<?php echo JHtml::_('contact.association', $item->id); ?>
+								<?php endif; ?>
+							</td>
+						<?php endif;?>
+						<td class="center hidden-phone">
+							<?php echo JHtml::_('contact.featured', $item->featured, $i, $canChange); ?>
+						</td>
+						<td align="hidden-phone">
+							<?php echo $item->access_level; ?>
+						</td>
+						<td align="center hidden-phone">
+							<?php echo $item->id; ?>
+						</td>
+					</tr>
+					<?php endforeach; ?>
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="10">
+							<?php echo $this->pagination->getListFooter(); ?>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+			<?php //Load the batch processing form. ?>
+			<?php echo $this->loadTemplate('batch'); ?>
+		<?php endif; ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

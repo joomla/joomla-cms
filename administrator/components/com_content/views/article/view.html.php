@@ -122,8 +122,6 @@ class ContentViewArticle extends JViewLegacy
 			$typeAlias = 'com_content.article';
 			JToolbarHelper::versions($typeAlias, $itemId);
 		}
-
-		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_CONTENT_ARTICLE_MANAGER_EDIT');
 	}
 }

@@ -27,8 +27,7 @@ $editoroptions = isset($params['show_publishing_options']);
 
 $app = JFactory::getApplication();
 $input = $app->input;
-
-$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+$assoc = isset($app->item_associations);
 
 if (!$editoroptions)
 {
@@ -81,7 +80,8 @@ if (!empty($this->item->attribs['show_urls_images_backend']))
 	<button class="btn" type="button" onclick="Joomla.submitbutton('article.cancel');"><?php echo JText::_('JCANCEL') ?></button>
 </div>
 
-<div class="clearfix"> </div>
+<div class="clearfix"></div>
+
 <hr class="hr-condensed" />
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&layout=modal&tmpl=component&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
@@ -295,9 +295,11 @@ if (!empty($this->item->attribs['show_urls_images_backend']))
 
 			<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 
-			<div class="hidden">
-				<?php echo $this->loadTemplate('associations'); ?>
-			</div>
+			<?php if ($assoc) : ?>
+				<div class="hidden">
+					<?php echo $this->loadTemplate('associations'); ?>
+				</div>
+			<?php endif; ?>
 
 			<input type="hidden" name="task" value="" />
 			<input type="hidden" name="return" value="<?php echo $input->getCmd('return');?>" />

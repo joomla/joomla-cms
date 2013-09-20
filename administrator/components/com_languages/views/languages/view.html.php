@@ -67,7 +67,6 @@ class LanguagesViewLanguages extends JViewLegacy
 		if ($canDo->get('core.edit'))
 		{
 			JToolbarHelper::editList('language.edit');
-			JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.edit.state'))
@@ -82,11 +81,9 @@ class LanguagesViewLanguages extends JViewLegacy
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('', 'languages.delete', 'JTOOLBAR_EMPTY_TRASH');
-			JToolbarHelper::divider();
 		} elseif ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::trash('languages.trash');
-			JToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin'))
@@ -94,10 +91,8 @@ class LanguagesViewLanguages extends JViewLegacy
 			// Add install languages link to the lang installer component
 			$bar = JToolbar::getInstance('toolbar');
 			$bar->appendButton('Link', 'upload', 'COM_LANGUAGES_INSTALL', 'index.php?option=com_installer&view=languages');
-			JToolbarHelper::divider();
 
 			JToolbarHelper::preferences('com_languages');
-			JToolbarHelper::divider();
 		}
 
 		JToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_CONTENT');

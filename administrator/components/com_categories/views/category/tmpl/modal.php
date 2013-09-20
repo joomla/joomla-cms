@@ -48,7 +48,8 @@ JHtml::_('formbehavior.chosen', 'select');
 	<button class="btn" type="button" onclick="Joomla.submitbutton('category.cancel');"><?php echo JText::_('JCANCEL') ?></button>
 </div>
 
-<div class="clearfix"> </div>
+<div class="clearfix"></div>
+
 <hr class="hr-condensed" />
 
 <form action="<?php echo JRoute::_('index.php?option=com_categories&extension=' . $input->getCmd('extension', 'com_content') . '&layout=modal&tmpl=component&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate form-horizontal">
@@ -204,12 +205,16 @@ JHtml::_('formbehavior.chosen', 'select');
 						<?php echo $this->form->getInput('access'); ?>
 					</div>
 				</div>
-				<div class="control-group">
-					<?php echo $this->form->getLabel('language'); ?>
-					<div class="controls">
-						<?php echo $this->form->getInput('language'); ?>
+				<?php if ($this->langs) : ?>
+					<div class="control-group">
+						<?php echo $this->form->getLabel('language'); ?>
+						<div class="controls">
+							<?php echo $this->form->getInput('language'); ?>
+						</div>
 					</div>
-				</div>
+				<?php else : ?>
+					<input type="hidden" name="language" value="<?php echo $this->form->getValue('language'); ?>" />
+				<?php endif; ?>
 				<div class="control-group">
 					<?php if ($this->checkTags) : ?>
 						<div class="control-group">

@@ -3,16 +3,13 @@
 	<fieldset
 		name="sources"
 		label="COM_JOOMLAUPDATE_CONFIG_SOURCES_LABEL"
-		description="COM_JOOMLAUPDATE_CONFIG_SOURCES_DESC"
-		>
+		description="COM_JOOMLAUPDATE_CONFIG_SOURCES_DESC">
 
-		<field
-			name="updatesource"
+		<field name="updatesource"
 			type="list"
 			default="lts"
 			label="COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_LABEL"
-			description="COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DESC"
-			>
+			description="COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DESC">
 			<option value="lts">COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_LTS</option>
 			<option value="sts">COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_STS</option>
 			<option value="testing">COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_TESTING</option>
@@ -20,29 +17,27 @@
 			<option value="nochange">COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NOCHANGE</option>
 		</field>
 
-		<field
-			name="customurl"
+		<field name="customurl"
 			type="text"
 			default=""
 			length="50"
 			label="COM_JOOMLAUPDATE_CONFIG_CUSTOMURL_LABEL"
-			description="COM_JOOMLAUPDATE_CONFIG_CUSTOMURL_DESC"
-			/>
+			description="COM_JOOMLAUPDATE_CONFIG_CUSTOMURL_DESC" />
+
 	</fieldset>
 
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
-		description="JCONFIG_PERMISSIONS_DESC"
-		>
+		description="JCONFIG_PERMISSIONS_DESC">
 
-		<field
-			name="rules"
+		<field name="rules"
 			type="rules"
 			label="JCONFIG_PERMISSIONS_LABEL"
 			filter="rules"
 			validate="rules"
 			component="com_joomlaupdate"
 			section="component" />
+
 	</fieldset>
 </config>

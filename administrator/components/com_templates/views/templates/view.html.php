@@ -60,15 +60,6 @@ class TemplatesViewTemplates extends JViewLegacy
 			return false;
 		}
 
-		// Check if there are no matching items
-		if (!count($this->items))
-		{
-			JFactory::getApplication()->enqueueMessage(
-				JText::_('COM_TEMPLATES_MSG_MANAGE_NO_TEMPLATES'),
-				'warning'
-			);
-		}
-
 		$this->addToolbar();
 		parent::display($tpl);
 	}
@@ -87,7 +78,6 @@ class TemplatesViewTemplates extends JViewLegacy
 		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::preferences('com_templates');
-			JToolbarHelper::divider();
 		}
 		JToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_TEMPLATES');
 

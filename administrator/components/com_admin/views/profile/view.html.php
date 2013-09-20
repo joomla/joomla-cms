@@ -60,7 +60,6 @@ class AdminViewProfile extends JViewLegacy
 		JToolbarHelper::apply('profile.apply');
 		JToolbarHelper::save('profile.save');
 		JToolbarHelper::cancel('profile.cancel', 'JTOOLBAR_CLOSE');
-		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_ADMIN_USER_PROFILE_EDIT');
 	}
 }

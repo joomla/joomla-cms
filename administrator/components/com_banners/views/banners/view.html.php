@@ -49,8 +49,6 @@ class BannersViewBanners extends JViewLegacy
 			return false;
 		}
 
-		BannersHelper::addSubmenu('banners');
-
 		$this->addToolbar();
 		require_once JPATH_COMPONENT . '/models/fields/bannerclient.php';
 
@@ -162,11 +160,14 @@ class BannersViewBanners extends JViewLegacy
 			JHtml::_('select.options', JHtml::_('category.options', 'com_banners'), 'value', 'text', $this->state->get('filter.category_id'))
 		);
 
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_LANGUAGE'),
-			'filter_language',
-			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
-		);
+		if (isset(JFactory::getApplication()->languages_enabled))
+		{
+			JHtmlSidebar::addFilter(
+				JText::_('JOPTION_SELECT_LANGUAGE'),
+				'filter_language',
+				JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
+			);
+		}
 	}
 
 	/**

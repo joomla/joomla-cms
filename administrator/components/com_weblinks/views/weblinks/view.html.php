@@ -31,11 +31,11 @@ class WeblinksViewWeblinks extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		$app = JFactory::getApplication();
+
 		$this->state		= $this->get('State');
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
-
-		WeblinksHelper::addSubmenu('weblinks');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -127,11 +127,14 @@ class WeblinksViewWeblinks extends JViewLegacy
 			JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
 		);
 
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_LANGUAGE'),
-			'filter_language',
-			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
-		);
+		if (isset(JFactory::getApplication()->languages_enabled))
+		{
+			JHtmlSidebar::addFilter(
+				JText::_('JOPTION_SELECT_LANGUAGE'),
+				'filter_language',
+				JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
+			);
+		}
 
 		JHtmlSidebar::addFilter(
 		JText::_('JOPTION_SELECT_TAG'),

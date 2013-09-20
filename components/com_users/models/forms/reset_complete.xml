@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
+
 	<fieldset name="default" label="COM_USERS_RESET_COMPLETE_LABEL">
 
 		<field name="password1" type="password"
@@ -12,8 +13,8 @@
 			message="COM_USERS_FIELD_RESET_PASSWORD1_MESSAGE"
 			required="true"
 			size="30"
-			validate="equals"
-		/>
+			validate="equals" />
+
 		<field name="password2" type="password"
 			autocomplete="off"
 			class="validate-password"
@@ -21,7 +22,7 @@
 			filter="raw"
 			label="COM_USERS_FIELD_RESET_PASSWORD2_LABEL"
 			required="true"
-			size="30"
-		/>
+			size="30" />
+
 	</fieldset>
 </form>

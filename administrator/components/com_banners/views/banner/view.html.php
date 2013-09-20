@@ -31,7 +31,8 @@ class BannersViewBanner extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		// Initialiase variables.
+		$app = JFactory::getApplication();
+
 		$this->form		= $this->get('Form');
 		$this->item		= $this->get('Item');
 		$this->state	= $this->get('State');
@@ -91,8 +92,6 @@ class BannersViewBanner extends JViewLegacy
 		{
 			JToolbarHelper::cancel('banner.cancel', 'JTOOLBAR_CLOSE');
 		}
-
-		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_BANNERS_EDIT');
 	}
 }

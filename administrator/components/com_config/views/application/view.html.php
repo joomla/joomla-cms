@@ -82,9 +82,7 @@ class ConfigViewApplication extends JViewLegacy
 		JToolbarHelper::title(JText::_('COM_CONFIG_GLOBAL_CONFIGURATION'), 'config.png');
 		JToolbarHelper::apply('application.apply');
 		JToolbarHelper::save('application.save');
-		JToolbarHelper::divider();
 		JToolbarHelper::cancel('application.cancel');
-		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_SITE_GLOBAL_CONFIGURATION');
 	}
 }

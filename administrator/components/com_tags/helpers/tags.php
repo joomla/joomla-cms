@@ -21,11 +21,12 @@ class TagsHelper
 	/**
 	 * Configure the Submenu links.
 	 *
-	 * @param   string  The extension.
+	 * @param       string  The extension.
 	 *
-	 * @return  void
+	 * @return      void
 	 *
-	 * @since   3.1
+	 * @since       3.1
+	 * @deprecated  3.2
 	 */
 	public static function addSubmenu($extension)
 	{

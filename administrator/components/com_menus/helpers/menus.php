@@ -27,6 +27,7 @@ class MenusHelper
 	 * Configure the Linkbar.
 	 *
 	 * @param   string    The name of the active view.
+	 * @deprecated  3.2
 	 */
 	public static function addSubmenu($vName)
 	{

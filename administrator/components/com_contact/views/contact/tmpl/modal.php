@@ -17,8 +17,6 @@ JHtml::_('formbehavior.chosen', 'select');
 
 $app = JFactory::getApplication();
 $input = $app->input;
-
-$assoc = isset($app->item_associations) ? $app->item_associations : 0;
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
@@ -45,7 +43,8 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 	<button class="btn" type="button" onclick="Joomla.submitbutton('contact.cancel');"><?php echo JText::_('JCANCEL') ?></button>
 </div>
 
-<div class="clearfix"> </div>
+<div class="clearfix"></div>
+
 <hr class="hr-condensed" />
 
 <form action="<?php echo JRoute::_('index.php?option=com_contact&layout=modal&tmpl=component&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="contact-form" class="form-validate form-horizontal">
@@ -214,9 +213,11 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 			<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 		</fieldset>
 
+		<?php if ($assoc) : ?>
 		<div class="hidden">
 			<?php echo $this->loadTemplate('associations'); ?>
 		</div>
+		<?php endif; ?>
 		<input type="hidden" name="task" value="" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>

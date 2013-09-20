@@ -15,10 +15,13 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
+$app		= JFactory::getApplication();
 $user		= JFactory::getUser();
 $userId		= $user->get('id');
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
+$archived	= $this->state->get('filter.state') == 2 ? true : false;
+$trashed	= $this->state->get('filter.state') == -2 ? true : false;
 $canOrder	= $user->authorise('core.edit.state', 'com_weblinks.category');
 $saveOrder	= $listOrder == 'a.ordering';
 if ($saveOrder)
@@ -27,6 +30,8 @@ if ($saveOrder)
 	JHtml::_('sortablelist.sortable', 'weblinkList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 $sortFields = $this->getSortFields();
+
+$langs = isset($app->languages_enabled);
 ?>
 <script type="text/javascript">
 	Joomla.orderTable = function()
@@ -50,10 +55,8 @@ $sortFields = $this->getSortFields();
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
-	<div id="j-main-container" class="span10">
-<?php else : ?>
-	<div id="j-main-container">
-<?php endif;?>
+<?php endif; ?>
+	<div id="j-main-container"<?php echo !empty($this->sidebar) ? ' class="span10"' : ''; ?>>
 		<div id="filter-bar" class="btn-toolbar">
 			<div class="filter-search btn-group pull-left">
 				<label for="filter_search" class="element-invisible"><?php echo JText::_('COM_WEBLINKS_SEARCH_IN_TITLE');?></label>
@@ -83,7 +86,9 @@ $sortFields = $this->getSortFields();
 				</select>
 			</div>
 		</div>
-		<div class="clearfix"> </div>
+
+		<div class="clearfix"></div>
+
 		<table class="table table-striped" id="weblinkList">
 			<thead>
 				<tr>
@@ -99,14 +104,16 @@ $sortFields = $this->getSortFields();
 					<th class="title">
 						<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 					</th>
-					<th width="5%" class="nowrap hidden-phone">
-						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
+					<?php if ($langs) : ?>
+					<th width="10%" class="nowrap hidden-phone">
+						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 					</th>
-					<th width="5%" class="nowrap center hidden-phone">
+					<?php endif; ?>
+					<th width="10%" class="nowrap center hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 					</th>
-					<th width="5%" class="nowrap hidden-phone">
-						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
+					<th width="10%" class="nowrap hidden-phone">
+						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 					</th>
 					<th width="1%" class="nowrap center hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
@@ -153,7 +160,20 @@ $sortFields = $this->getSortFields();
 						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 					</td>
 					<td class="center">
-						<?php echo JHtml::_('jgrid.published', $item->state, $i, 'weblinks.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
+						<div class="btn-group">
+							<?php echo JHtml::_('jgrid.published', $item->state, $i, 'weblinks.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
+							<?php
+							// Create dropdown items
+							$action = $archived ? 'unarchive' : 'archive';
+							JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'weblinks');
+
+							$action = $trashed ? 'untrash' : 'trash';
+							JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'weblinks');
+
+							// Render dropdown list
+							echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
+							?>
+						</div>
 					</td>
 					<td class="nowrap has-context">
 						<?php if ($item->checked_out) : ?>
@@ -172,18 +192,20 @@ $sortFields = $this->getSortFields();
 							<?php echo $this->escape($item->category_title); ?>
 						</div>
 					</td>
-					<td class="small hidden-phone">
-						<?php echo $this->escape($item->access_level); ?>
-					</td>
-					<td class="center hidden-phone">
-						<?php echo $item->hits; ?>
-					</td>
-					<td class="small nowrap hidden-phone">
+					<?php if ($langs) : ?>
+					<td class="nowrap hidden-phone">
 						<?php if ($item->language == '*'):?>
 							<?php echo JText::alt('JALL', 'language'); ?>
 						<?php else:?>
 							<?php echo $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
 						<?php endif;?>
+					</td>
+					<?php endif; ?>
+					<td class="center hidden-phone">
+						<?php echo $item->hits; ?>
+					</td>
+					<td class="hidden-phone">
+						<?php echo $this->escape($item->access_level); ?>
 					</td>
 					<td class="center hidden-phone">
 						<?php echo (int) $item->id; ?>

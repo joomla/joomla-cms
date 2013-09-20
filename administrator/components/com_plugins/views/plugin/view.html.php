@@ -64,7 +64,6 @@ class PluginsViewPlugin extends JViewLegacy
 			JToolbarHelper::save('plugin.save');
 		}
 		JToolbarHelper::cancel('plugin.cancel', 'JTOOLBAR_CLOSE');
-		JToolbarHelper::divider();
 		// Get the help information for the plugin item.
 
 		$lang = JFactory::getLanguage();

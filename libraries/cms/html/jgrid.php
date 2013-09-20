@@ -119,18 +119,19 @@ abstract class JHtmlJGrid
 		if (is_array($prefix))
 		{
 			$options = $prefix;
-			$enabled = array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
+			$enabled   = array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
 			$translate = array_key_exists('translate', $options) ? $options['translate'] : $translate;
-			$checkbox = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
-			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
+			$checkbox  = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
+			$prefix    = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
+
 		$state = JArrayHelper::getValue($states, (int) $value, $states[0]);
-		$task = array_key_exists('task', $state) ? $state['task'] : $state[0];
-		$text = array_key_exists('text', $state) ? $state['text'] : (array_key_exists(1, $state) ? $state[1] : '');
-		$active_title = array_key_exists('active_title', $state) ? $state['active_title'] : (array_key_exists(2, $state) ? $state[2] : '');
+		$task           = array_key_exists('task', $state) ? $state['task'] : $state[0];
+		$text           = array_key_exists('text', $state) ? $state['text'] : (array_key_exists(1, $state) ? $state[1] : '');
+		$active_title   = array_key_exists('active_title', $state) ? $state['active_title'] : (array_key_exists(2, $state) ? $state[2] : '');
 		$inactive_title = array_key_exists('inactive_title', $state) ? $state['inactive_title'] : (array_key_exists(3, $state) ? $state[3] : '');
-		$tip = array_key_exists('tip', $state) ? $state['tip'] : (array_key_exists(4, $state) ? $state[4] : false);
-		$active_class = array_key_exists('active_class', $state) ? $state['active_class'] : (array_key_exists(5, $state) ? $state[5] : '');
+		$tip            = array_key_exists('tip', $state) ? $state['tip'] : (array_key_exists(4, $state) ? $state[4] : false);
+		$active_class   = array_key_exists('active_class', $state) ? $state['active_class'] : (array_key_exists(5, $state) ? $state[5] : '');
 		$inactive_class = array_key_exists('inactive_class', $state) ? $state['inactive_class'] : (array_key_exists(6, $state) ? $state[6] : '');
 
 		return static::action(
@@ -165,10 +166,12 @@ abstract class JHtmlJGrid
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
 
-		$states = array(1 => array('unpublish', 'JPUBLISHED', 'JLIB_HTML_UNPUBLISH_ITEM', 'JPUBLISHED', true, 'publish', 'publish'),
+		$states = array(
+			1 => array('unpublish', 'JPUBLISHED', 'JLIB_HTML_UNPUBLISH_ITEM', 'JPUBLISHED', true, 'publish', 'publish'),
 			0 => array('publish', 'JUNPUBLISHED', 'JLIB_HTML_PUBLISH_ITEM', 'JUNPUBLISHED', true, 'unpublish', 'unpublish'),
-			2 => array('unpublish', 'JARCHIVED', 'JLIB_HTML_UNPUBLISH_ITEM', 'JARCHIVED', true, 'archive', 'archive'),
-			-2 => array('publish', 'JTRASHED', 'JLIB_HTML_PUBLISH_ITEM', 'JTRASHED', true, 'trash', 'trash'));
+			2 => array('publish', 'JARCHIVED', 'JLIB_HTML_PUBLISH_ITEM', 'JARCHIVED', true, 'archive', 'archive'),
+			-2 => array('publish', 'JTRASHED', 'JLIB_HTML_PUBLISH_ITEM', 'JTRASHED', true, 'trash', 'trash')
+		);
 
 		// Special state for dates
 		if ($publish_up || $publish_down)
@@ -365,11 +368,12 @@ abstract class JHtmlJGrid
 		if (is_array($prefix))
 		{
 			$options = $prefix;
-			$text = array_key_exists('text', $options) ? $options['text'] : $text;
-			$enabled = array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
+			$text     = array_key_exists('text', $options) ? $options['text'] : $text;
+			$enabled  = array_key_exists('enabled', $options) ? $options['enabled'] : $enabled;
 			$checkbox = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
-			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
+			$prefix   = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
+
 		return static::action($i, $task, $prefix, $text, $text, $text, false, 'uparrow', 'uparrow_disabled', $enabled, true, $checkbox);
 	}
 

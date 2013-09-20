@@ -31,10 +31,8 @@ class ContentViewArticles extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		if ($this->getLayout() !== 'modal')
-		{
-			ContentHelper::addSubmenu('articles');
-		}
+
+		$app = JFactory::getApplication();
 
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
@@ -102,7 +100,7 @@ class ContentViewArticles extends JViewLegacy
 		{
 			JToolbarHelper::publish('articles.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('articles.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			JToolbarHelper::custom('articles.featured', 'featured.png', 'featured_f2.png', 'JFEATURED', true);
+			JToolbarHelper::custom('articles.featured', 'featured.png', 'featured_f2.png', 'JFEATURE', true);
 			JToolbarHelper::archiveList('articles.archive');
 			JToolbarHelper::checkin('articles.checkin');
 		}
@@ -168,11 +166,14 @@ class ContentViewArticles extends JViewLegacy
 			JHtml::_('select.options', $this->authors, 'value', 'text', $this->state->get('filter.author_id'))
 		);
 
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_LANGUAGE'),
-			'filter_language',
-			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
-		);
+		if (isset(JFactory::getApplication()->languages_enabled))
+		{
+			JHtmlSidebar::addFilter(
+				JText::_('JOPTION_SELECT_LANGUAGE'),
+				'filter_language',
+				JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
+			);
+		}
 
 		JHtmlSidebar::addFilter(
 		JText::_('JOPTION_SELECT_TAG'),

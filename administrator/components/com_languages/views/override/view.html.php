@@ -118,7 +118,6 @@ class LanguagesViewOverride extends JViewLegacy
 		{
 			JToolbarHelper::cancel('override.cancel', 'JTOOLBAR_CLOSE');
 		}
-		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_OVERRIDES_EDIT');
 	}
 }

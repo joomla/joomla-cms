@@ -62,12 +62,10 @@ class SearchViewSearches extends JViewLegacy
 		{
 			JToolbarHelper::custom('searches.reset', 'refresh.png', 'refresh_f2.png', 'JSEARCH_RESET', false);
 		}
-		JToolbarHelper::divider();
 		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::preferences('com_search');
 		}
-		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_COMPONENTS_SEARCH');
 	}
 }

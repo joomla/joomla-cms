@@ -77,20 +77,16 @@ class FinderViewMaps extends JViewLegacy
 		{
 			JToolbarHelper::publishList('maps.publish');
 			JToolbarHelper::unpublishList('maps.unpublish');
-			JToolbarHelper::divider();
 		}
 		if ($canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('', 'maps.delete');
-			JToolbarHelper::divider();
 		}
 		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::preferences('com_finder');
 		}
-		JToolbarHelper::divider();
 		$toolbar->appendButton('Popup', 'stats', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
-		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_CONTENT_MAPS');
 
 		JHtmlSidebar::setAction('index.php?option=com_finder&view=maps');

@@ -10,8 +10,11 @@
 defined('_JEXEC') or die;
 
 /**
+ * View class for a list of featured articles.
+ *
  * @package     Joomla.Administrator
  * @subpackage  com_content
+ * @since       1.6
  */
 class ContentViewFeatured extends JViewLegacy
 {
@@ -23,15 +26,18 @@ class ContentViewFeatured extends JViewLegacy
 
 	/**
 	 * Display the view
+	 *
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
-		ContentHelper::addSubmenu('featured');
 
-		$this->items      = $this->get('Items');
-		$this->pagination = $this->get('Pagination');
-		$this->state      = $this->get('State');
-		$this->authors    = $this->get('Authors');
+		$app = JFactory::getApplication();
+
+		$this->items		= $this->get('Items');
+		$this->pagination	= $this->get('Pagination');
+		$this->state		= $this->get('State');
+		$this->authors		= $this->get('Authors');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -67,16 +73,20 @@ class ContentViewFeatured extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$state	= $this->get('State');
-		$canDo	= ContentHelper::getActions($this->state->get('filter.category_id'));
+		$canDo = ContentHelper::getActions($this->state->get('filter.category_id'));
+		$user  = JFactory::getUser();
+
+		// Get the toolbar object instance
+		$bar = JToolBar::getInstance('toolbar');
 
 		JToolbarHelper::title(JText::_('COM_CONTENT_FEATURED_TITLE'), 'featured.png');
 
-		if ($canDo->get('core.create'))
+		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories('com_content', 'core.create'))) > 0 )
 		{
 			JToolbarHelper::addNew('article.add');
 		}
-		if ($canDo->get('core.edit'))
+
+		if (($canDo->get('core.edit')) || ($canDo->get('core.edit.own')))
 		{
 			JToolbarHelper::editList('article.edit');
 		}
@@ -85,15 +95,16 @@ class ContentViewFeatured extends JViewLegacy
 		{
 			JToolbarHelper::publish('articles.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('articles.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			JToolbarHelper::custom('featured.delete', 'remove.png', 'remove_f2.png', 'JTOOLBAR_REMOVE', true);
+			JToolbarHelper::custom('featured.delete', 'unfeatured.png', 'unfeatured_f2.png', 'JUNFEATURE', true);
 			JToolbarHelper::archiveList('articles.archive');
 			JToolbarHelper::checkin('articles.checkin');
 		}
 
-		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
+		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('', 'articles.delete', 'JTOOLBAR_EMPTY_TRASH');
-		} elseif ($canDo->get('core.edit.state'))
+		}
+		elseif ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::trash('articles.trash');
 		}
@@ -102,6 +113,7 @@ class ContentViewFeatured extends JViewLegacy
 		{
 			JToolbarHelper::preferences('com_content');
 		}
+
 		JToolbarHelper::help('JHELP_CONTENT_FEATURED_ARTICLES');
 
 		JHtmlSidebar::setAction('index.php?option=com_content&view=featured');
@@ -136,10 +148,19 @@ class ContentViewFeatured extends JViewLegacy
 			JHtml::_('select.options', $this->authors, 'value', 'text', $this->state->get('filter.author_id'))
 		);
 
+		if (isset(JFactory::getApplication()->languages_enabled))
+		{
+			JHtmlSidebar::addFilter(
+				JText::_('JOPTION_SELECT_LANGUAGE'),
+				'filter_language',
+				JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
+			);
+		}
+
 		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_LANGUAGE'),
-			'filter_language',
-			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
+		JText::_('JOPTION_SELECT_TAG'),
+		'filter_tag',
+		JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag'))
 		);
 	}
 

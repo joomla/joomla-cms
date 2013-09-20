@@ -39,6 +39,9 @@ a.disabled:hover {
 .btn .caret {
 	margin-bottom: 7px;
 }
+.btn.btn-micro .caret {
+	margin: 5px 0;
+}
 .blog-row-rule,
 .blog-item-rule {
 	border: 0;
@@ -458,4 +461,36 @@ th .tooltip-inner {
 /* Align tip text to left (old mootools tip) */
 .tip-text {
 	text-align:left;
+}
+
+
+// Fix for bug when dropdown-backdrop element is created
+.btn-group > .btn + .dropdown-backdrop + .btn {
+	margin-left: -1px;
+}
+.btn-group > .btn + .dropdown-backdrop + .dropdown-toggle {
+	padding-left: 8px;
+	padding-right: 8px;
+	.box-shadow(~"inset 1px 0 0 rgba(255,255,255,.125), inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05)");
+	*padding-top: 5px;
+	*padding-bottom: 5px;
+}
+.btn-group > .btn-mini + .dropdown-backdrop + .dropdown-toggle {
+	padding-left: 5px;
+	padding-right: 5px;
+	*padding-top: 2px;
+	*padding-bottom: 2px;
+}
+.btn-group > .btn-small + .dropdown-backdrop + .dropdown-toggle {
+	*padding-top: 5px;
+	*padding-bottom: 4px;
+}
+.btn-group > .btn-large + .dropdown-backdrop + .dropdown-toggle {
+	padding-left: 12px;
+	padding-right: 12px;
+	*padding-top: 7px;
+	*padding-bottom: 7px;
+}
+.dropdown-menu {
+	text-align: left;
 }

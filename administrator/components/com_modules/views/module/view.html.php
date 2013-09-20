@@ -29,6 +29,8 @@ class ModulesViewModule extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		$app = JFactory::getApplication();
+
 		$this->form		= $this->get('Form');
 		$this->item		= $this->get('Item');
 		$this->state	= $this->get('State');
@@ -58,7 +60,7 @@ class ModulesViewModule extends JViewLegacy
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo		= ModulesHelper::getActions($this->state->get('filter.category_id'), $this->item->id);
 
-		JToolbarHelper::title(JText::sprintf('COM_MODULES_MANAGER_MODULE', JText::_($this->item->module)), 'module.png');
+		JToolbarHelper::title(JText::_('COM_MODULES_MANAGER_MODULE_' . ($isNew ? 'ADD' : 'EDIT')), 'module.png');
 
 		// If not checked out, can save the item.
 		if (!$checkedOut && ($canDo->get('core.edit') || $canDo->get('core.create') ))

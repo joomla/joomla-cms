@@ -22,11 +22,12 @@ class CategoriesHelper
 	/**
 	 * Configure the Submenu links.
 	 *
-	 * @param   string  $extension  The extension being used for the categories.
+	 * @param       string  $extension  The extension being used for the categories.
 	 *
-	 * @return  void
+	 * @return      void
 	 *
-	 * @since   1.6
+	 * @since       1.6
+	 * @deprecated  3.2
 	 */
 	public static function addSubmenu($extension)
 	{

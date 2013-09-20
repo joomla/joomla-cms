@@ -9,11 +9,11 @@
 
 defined('_JEXEC') or die;
 
-$doTask = $displayData['doTask'];
-$text   = $displayData['text'];
+$url = $displayData['url'];
+$text = $displayData['text'];
 
 ?>
-<button onclick="<?php echo $doTask; ?>" rel="help" class="btn btn-small">
+<a href="<?php echo $url; ?>" target="_blank" rel="help" class="btn btn-small">
 	<span class="icon-question-sign"></span>
 	<?php echo $text; ?>
-</button>
+</a>

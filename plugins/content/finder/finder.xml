@@ -19,7 +19,9 @@
 		<language tag="en-GB">en-GB.plg_content_finder.sys.ini</language>
 	</languages>
 	<config>
+
 		<fields name="params">
+
 		</fields>
 	</config>
 </extension>

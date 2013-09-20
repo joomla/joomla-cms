@@ -463,6 +463,8 @@ class JPaginationTest extends TestCase
 				. "\t<option value=\"30\">30</option>\n"
 				. "\t<option value=\"50\">J50</option>\n"
 				. "\t<option value=\"100\">J100</option>\n"
+				. "\t<option value=\"500\">J500</option>\n"
+				. "\t<option value=\"1000\">J1000</option>\n"
 				. "\t<option value=\"0\">JALL</option>\n"
 				. "</select>\n"
 			),

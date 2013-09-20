@@ -77,7 +77,6 @@ class JFormFieldModulePosition extends JFormFieldText
 		$html[] = '<div class="input-append">';
 		$html[] = parent::getInput()
 			. '<a class="btn modal" title="' . JText::_('COM_MODULES_CHANGE_POSITION_TITLE') . '"  href="' . $link . '" rel="{handler: \'iframe\', size: {x: 800, y: 450}}">'
-			. '<i class="icon-screenshot"></i> '
 			. JText::_('COM_MODULES_CHANGE_POSITION_BUTTON') . '</a>';
 		$html[] = '</div>';
 

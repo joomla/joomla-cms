@@ -29,11 +29,13 @@ class TagsViewTag extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		$app = JFactory::getApplication();
+		$input = $app->input;
+
 		$this->form  = $this->get('Form');
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
 		$this->canDo = TagsHelper::getActions($this->state->get('tags.component'));
-		$input = JFactory::getApplication()->input;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors'))) {
@@ -106,7 +108,6 @@ class TagsViewTag extends JViewLegacy
 			JToolbarHelper::cancel('tag.cancel', 'JTOOLBAR_CLOSE');
 		}
 		JToolbarHelper::help('JHELP_COMPONENTS_TAGS_MANAGER_EDIT');
-		JToolbarHelper::divider();
 
 	}
 }

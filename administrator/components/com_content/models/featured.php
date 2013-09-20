@@ -50,6 +50,11 @@ class ContentModelFeatured extends ContentModelArticles
 				'publish_down', 'a.publish_down',
 				'fp.ordering',
 			);
+
+			if (JFactory::getApplication()->item_associations)
+			{
+				$config['filter_fields'][] = 'association';
+			}
 		}
 
 		parent::__construct($config);
@@ -65,13 +70,15 @@ class ContentModelFeatured extends ContentModelArticles
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
+		$user = JFactory::getUser();
 
 		// Select the required fields from the table.
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid, a.state, a.access, a.created, a.hits,' .
-					'a.language, a.created_by_alias, a.publish_up, a.publish_down'
+				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
+					', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.ordering, a.featured, a.language, a.hits' .
+					', a.publish_up, a.publish_down'
 			)
 		);
 		$query->from('#__content AS a');
@@ -100,10 +107,26 @@ class ContentModelFeatured extends ContentModelArticles
 		$query->select('ua.name AS author_name')
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
+		// Join over the associations.
+		if (isset(JFactory::getApplication()->item_associations))
+		{
+			$query->select('COUNT(asso2.id)>1 as association')
+				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_content.item'))
+				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
+				->group('a.id');
+		}
+
 		// Filter by access level.
 		if ($access = $this->getState('filter.access'))
 		{
 			$query->where('a.access = ' . (int) $access);
+		}
+
+		// Implement View Level Access
+		if (!$user->authorise('core.admin'))
+		{
+			$groups = implode(',', $user->getAuthorisedViewLevels());
+			$query->where('a.access IN (' . $groups . ')');
 		}
 
 		// Filter by published state
@@ -143,7 +166,15 @@ class ContentModelFeatured extends ContentModelArticles
 			$query->where('c.level <= ' . ((int) $level + (int) $baselevel - 1));
 		}
 
-		// Filter by search in title
+		// Filter by author
+		$authorId = $this->getState('filter.author_id');
+		if (is_numeric($authorId))
+		{
+			$type = $this->getState('filter.author_id.include', true) ? '= ' : '<>';
+			$query->where('a.created_by ' . $type . (int) $authorId);
+		}
+
+		// Filter by search in title.
 		$search = $this->getState('filter.search');
 		if (!empty($search))
 		{
@@ -151,10 +182,15 @@ class ContentModelFeatured extends ContentModelArticles
 			{
 				$query->where('a.id = ' . (int) substr($search, 3));
 			}
+			elseif (stripos($search, 'author:') === 0)
+			{
+				$search = $db->quote('%' . $db->escape(substr($search, 7), true) . '%');
+				$query->where('(ua.name LIKE ' . $search . ' OR ua.username LIKE ' . $search . ')');
+			}
 			else
 			{
 				$search = $db->quote('%' . $db->escape($search, true) . '%');
-				$query->where('a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search);
+				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ')');
 			}
 		}
 
@@ -164,10 +200,37 @@ class ContentModelFeatured extends ContentModelArticles
 			$query->where('a.language = ' . $db->quote($language));
 		}
 
-		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering', 'a.title')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
+		// Filter by a single tag.
+		$tagId = $this->getState('filter.tag');
+		if (is_numeric($tagId))
+		{
+			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId)
+				->join(
+					'LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
+					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article')
+				);
+		}
 
-		//echo nl2br(str_replace('#__','jos_',(string)$query));
+		// Add the list ordering clause.
+		$orderCol = $this->state->get('list.ordering', 'a.title');
+		$orderDirn = $this->state->get('list.direction', 'asc');
+		if ($orderCol == 'a.ordering' || $orderCol == 'category_title')
+		{
+			$orderCol = 'c.title ' . $orderDirn . ', a.ordering';
+		}
+		//sqlsrv change
+		if ($orderCol == 'language')
+		{
+			$orderCol = 'l.title';
+		}
+		if ($orderCol == 'access_level')
+		{
+			$orderCol = 'ag.title';
+		}
+		$query->order($db->escape($orderCol . ' ' . $orderDirn));
+
+		// echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
 	}
 }

@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
+
 	<fieldset name="default"
-		label="COM_USERS_REGISTRATION_DEFAULT_LABEL"
-	>
+		label="COM_USERS_REGISTRATION_DEFAULT_LABEL">
 
 		<field name="spacer" type="spacer" class="text"
-				label="COM_USERS_REGISTER_REQUIRED"
-			/>
+				label="COM_USERS_REGISTER_REQUIRED" />
 
 		<field name="name" type="text"
 			description="COM_USERS_REGISTER_NAME_DESC"
 			filter="string"
 			label="COM_USERS_REGISTER_NAME_LABEL"
 			required="true"
-			size="30"
-		/>
+			size="30" />
 
 		<field name="username" type="text"
 			class="validate-username"
@@ -24,8 +22,7 @@
 			message="COM_USERS_REGISTER_USERNAME_MESSAGE"
 			required="true"
 			size="30"
-			validate="username"
-		/>
+			validate="username" />
 
 		<field name="password2" type="password"
 			autocomplete="off"
@@ -37,8 +34,7 @@
 			message="COM_USERS_PROFILE_PASSWORD1_MESSAGE"
 			size="30"
 			validate="equals"
-			required="true"
-		/>
+			required="true" />
 
 		<field name="password1" type="password"
 			autocomplete="off"
@@ -48,8 +44,7 @@
 			label="COM_USERS_PROFILE_PASSWORD2_LABEL"
 			size="30"
 			validate="password"
-			required="true"
-		/>
+			required="true" />
 
 		<field name="email1" type="email"
 			description="COM_USERS_REGISTER_EMAIL1_DESC"
@@ -60,8 +55,7 @@
 			required="true"
 			size="30"
 			unique="true"
-			validate="email"
-		/>
+			validate="email" />
 
 		<field name="email2" type="email"
 			description="COM_USERS_REGISTER_EMAIL2_DESC"
@@ -71,15 +65,13 @@
 			message="COM_USERS_REGISTER_EMAIL2_MESSAGE"
 			required="true"
 			size="30"
-			validate="equals"
-		/>
+			validate="equals" />
 
-		<field
-			name="captcha"
+		<field name="captcha"
 			type="captcha"
 			label="COM_USERS_CAPTCHA_LABEL"
 			description="COM_USERS_CAPTCHA_DESC"
-			validate="captcha"
-		/>
+			validate="captcha" />
+
 	</fieldset>
 </form>

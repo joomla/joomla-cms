@@ -36,8 +36,6 @@ class MenusViewMenus extends JViewLegacy
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
 
-		MenusHelper::addSubmenu('menus');
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
@@ -73,17 +71,14 @@ class MenusViewMenus extends JViewLegacy
 		}
 		if ($canDo->get('core.delete'))
 		{
-			JToolbarHelper::divider();
 			JToolbarHelper::deleteList('', 'menus.delete');
 		}
 
 		JToolbarHelper::custom('menus.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
 		if ($canDo->get('core.admin'))
 		{
-			JToolbarHelper::divider();
 			JToolbarHelper::preferences('com_menus');
 		}
-		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_MENUS_MENU_MANAGER');
 	}
 }

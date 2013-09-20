@@ -26,10 +26,8 @@ $version = new JVersion;
 		<div id="j-sidebar-container" class="span2">
 			<?php echo $this->sidebar; ?>
 		</div>
-		<div id="j-main-container" class="span10">
-	<?php else : ?>
-		<div id="j-main-container">
-	<?php endif;?>
+	<?php endif; ?>
+		<div id="j-main-container"<?php echo !empty($this->sidebar) ? ' class="span10"' : ''; ?>>
 
 		<?php if (count($this->items) || $this->escape($this->state->get('filter.search'))) : ?>
 			<?php echo $this->loadTemplate('filter'); ?>
@@ -79,16 +77,16 @@ $version = new JVersion;
 								<div class="small"><?php echo JText::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?></div>
 							<?php endif; ?>
 						</td>
-						<td class="center small">
+						<td class="center">
 							<?php echo $language->version; ?>
 						</td>
-						<td class="center small hidden-phone">
+						<td class="center hidden-phone">
 							<?php echo JText::_('COM_INSTALLER_TYPE_' . strtoupper($language->type)); ?>
 						</td>
-						<td class="small hidden-phone">
+						<td class="hidden-phone">
 							<?php echo $language->detailsurl; ?>
 						</td>
-						<td class="small hidden-phone">
+						<td class="hidden-phone">
 							<?php echo $language->update_id; ?>
 						</td>
 					</tr>

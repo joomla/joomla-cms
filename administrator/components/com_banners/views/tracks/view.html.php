@@ -40,8 +40,6 @@ class BannersViewTracks extends JViewLegacy
 			return false;
 		}
 
-		BannersHelper::addSubmenu('tracks');
-
 		$this->addToolbar();
 		require_once JPATH_COMPONENT .'/models/fields/bannerclient.php';
 		$this->sidebar = JHtmlSidebar::render();
@@ -66,12 +64,10 @@ class BannersViewTracks extends JViewLegacy
 		if ($canDo->get('core.delete'))
 		{
 			$bar->appendButton('Confirm', 'COM_BANNERS_DELETE_MSG', 'delete', 'COM_BANNERS_TRACKS_DELETE', 'tracks.delete', false);
-			JToolbarHelper::divider();
 		}
 		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::preferences('com_banners');
-			JToolbarHelper::divider();
 		}
 		JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_TRACKS');
 

@@ -641,4 +641,25 @@ abstract class JFormField
 
 		return $default;
 	}
+
+	/**
+	 * Method to get a control group with label and input.
+	 *
+	 * @return  string  A string containing the html for the control goup
+	 *
+	 * @since   3.2
+	 */
+	public function getControlGroup()
+	{
+		if ($this->hidden)
+		{
+			return $this->getInput();
+		}
+
+		return
+			'<div class="control-group">'
+			. '<div class="control-label">' . $this->getLabel() . '</div>'
+			. '<div class="controls">' . $this->getInput() . '</div>'
+			. '</div>';
+	}
 }
