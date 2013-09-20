@@ -33,6 +33,6 @@ class ConfigControllerApplicationDisplay extends JControllerDisplay
 	 */
 	public function execute()
 	{
-		parent::execute();
+		return parent::execute();
 	}
 }
