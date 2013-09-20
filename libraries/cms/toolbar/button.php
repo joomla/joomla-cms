@@ -37,6 +37,15 @@ abstract class JToolbarButton
 	protected $_parent = null;
 
 	/**
+	 * True If the button should have pull-right class (default: false)
+	 *
+	 * @var bool
+	 *
+	 * @since 3.2
+	 */
+	protected $rightPosition = false;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   object  $parent  The parent
@@ -85,6 +94,7 @@ abstract class JToolbarButton
 		$options = array();
 		$options['id'] = $id;
 		$options['action'] = $action;
+		$options['rightposition'] = $this->rightPosition;
 
 		$layout = new JLayoutFile('joomla.toolbar.base');
 
