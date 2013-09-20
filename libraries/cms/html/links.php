@@ -37,12 +37,18 @@ abstract class JHtmlLinks
 			foreach ($groupsOfLinks as $title => $links)
 			{
 				$layout = new JLayoutFile('joomla.links.groupopen');
-				$html[] = $layout->render($title);
+				$htmlHeader = $layout->render($title);
 
-				$html[] = JHtml::_('links.links', $links);
+				$htmlLinks  = JHtml::_('links.links', $links);
 
-				$layout = new JLayoutFile('joomla.links.groupclose');
-				$html[] = $layout->render('');
+				if ($htmlLinks != '')
+				{
+					$html[] = $htmlHeader;
+					$html[] = $htmlLinks;
+
+					$layout = new JLayoutFile('joomla.links.groupclose');
+					$html[] = $layout->render('');
+				}
 			}
 			$layout = new JLayoutFile('joomla.links.groupsclose');
 			$html[] = $layout->render('');
