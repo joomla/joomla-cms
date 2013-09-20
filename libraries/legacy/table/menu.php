@@ -90,6 +90,12 @@ class JTableMenu extends JTableNested
 	 */
 	public function check()
 	{
+		// Set correct component id to ensure proper 404 messages with separator items
+		if ($this->type == "separator")
+		{
+			$this->component_id = 0;
+		}
+
 		// If the alias field is empty, set it to the title.
 		$this->alias = trim($this->alias);
 
