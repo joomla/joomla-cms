@@ -68,6 +68,7 @@
 					default="bind"
 					description="PLG_LDAP_FIELD_AUTHMETHOD_DESC"
 					label="PLG_LDAP_FIELD_AUTHMETHOD_LABEL"
+					class="advancedSelect"
 				>
 					<option value="search">PLG_LDAP_FIELD_VALUE_BINDSEARCH</option>
 					<option value="bind">PLG_LDAP_FIELD_VALUE_BINDUSER</option>

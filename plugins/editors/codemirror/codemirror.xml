@@ -34,6 +34,7 @@
 					default="indent"
 					description="PLG_CODEMIRROR_FIELD_TABMODE_DESC"
 					label="PLG_CODEMIRROR_FIELD_TABMODE_LABEL"
+					class="advancedSelect"
 				>
 					<option value="indent">PLG_CODEMIRROR_FIELD_VALUE_TABMODE_INDENT</option>
 					<option value="shift">PLG_CODEMIRROR_FIELD_VALUE_TABMODE_SHIFT</option>

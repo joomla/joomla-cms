@@ -25,6 +25,7 @@
 					default="0"
 					description="PLG_GMAIL_FIELD_APPLYSUFFIX_DESC"
 					label="PLG_GMAIL_FIELD_APPLYSUFFIX_LABEL"
+					class="advancedSelect"
 				>
 					<option value="0">PLG_GMAIL_FIELD_VALUE_NOAPPLYSUFFIX</option>
 					<option value="1">PLG_GMAIL_FIELD_VALUE_APPLYSUFFIXMISSING</option>
