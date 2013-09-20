@@ -17,14 +17,14 @@ class modAdminServicesHelper {
 
 		if ($params->get('config_visible') == 1)
 		{
-			$configUrl = JURI::base() . 'index.php?option=com_services&controller=config';
+			$configUrl = JURI::base() . 'index.php?option=com_services&view=config&controller=services.display.config';
 			$result .= '<li><a href="' . $configUrl . '"> Configurations </a>
 					</li>';
 		}
 
 		if ($params->get('templates_visible') == 1)
 		{
-			$templatesUrl = JURI::base() . 'index.php?option=com_services&controller=templates';
+			$templatesUrl = JURI::base() . 'index.php?option=com_services&view=templates&controller=services.display.templates';
 			$result .= '<li><a href="' . $templatesUrl . '"> Templates </a>
 					</li>';
 		}
