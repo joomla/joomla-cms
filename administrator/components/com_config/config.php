@@ -23,6 +23,7 @@ JResponse::setHeader('Expires', 'Mon, 26 Jul 1997 05:00:00 GMT', true);
 $app = JFactory::getApplication();
 
 $view = $app->input->get('view');
+
 if (empty($view))
 {
 	$app->input->set('view', 'application');
@@ -35,7 +36,10 @@ $controller->prefix = 'Config';
 
 // Check if component mentioned
 $component = $app->input->get('component');
-$controller->component = $component;
+if (!empty($component))
+{
+	$controller->component = $component;
+}
 
 // Perform the Request task
 $controller->execute();

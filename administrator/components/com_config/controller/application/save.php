@@ -117,11 +117,8 @@ class ConfigControllerApplicationSave extends JControllerBase
 		// Set the success message.
 		$message = JText::_('COM_CONFIG_SAVE_SUCCESS');
 
-		$task = $app->input->get('task');
-		$tasks = explode(".", $task);
-
 		// Set the redirect based on the task.
-		switch ($tasks[1])
+		switch ($this->options[3])
 		{
 			case 'apply':
 				$app->redirect(JRoute::_('index.php?option=com_config', false), $message);
