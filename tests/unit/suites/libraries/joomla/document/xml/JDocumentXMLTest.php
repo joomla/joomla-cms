@@ -18,11 +18,10 @@ require_once JPATH_PLATFORM . '/joomla/document/xml/xml.php';
  * @subpackage  Document
  * @since       11.1
  */
-class JDocumentXMLTest extends PHPUnit_Framework_TestCase
+class JDocumentXMLTest extends TestCase
 {
 	/**
-	 * @var    JDocumentXML
-	 * @access protected
+	 * @var  JDocumentXml
 	 */
 	protected $object;
 
@@ -30,28 +29,37 @@ class JDocumentXMLTest extends PHPUnit_Framework_TestCase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @access protected
-	 *
-	 * @return void
+	 * @return  void
 	 */
 	protected function setUp()
 	{
 		parent::setUp();
 
-		$this->object = new JDocumentXML;
+		$this->saveFactoryState();
+
+		JFactory::$application = $this->getMockWeb();
+
+		$this->object = new JDocumentXml;
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return  void
+	 */
+	protected function tearDown()
+	{
+		$this->restoreFactoryState();
 	}
 
 	/**
 	 * Test Render
 	 *
-	 * @todo Implement testRender().
-	 *
-	 * @return void
+	 * @return  void
 	 */
 	public function testRender()
 	{
-		JResponse::clearHeaders();
-
 		$this->object->setBuffer('Unit Test Buffer');
 
 		$this->assertThat(
@@ -60,14 +68,14 @@ class JDocumentXMLTest extends PHPUnit_Framework_TestCase
 			'We did not get the buffer back properly'
 		);
 
-		$headers = JResponse::getHeaders();
+		$headers = JFactory::getApplication()->getHeaders();
 
 		$disposition = false;
 
 		foreach ($headers as $head)
 		{
 			if ($head['name'] == 'Content-disposition')
-			{				
+			{
 				$this->assertThat(
 					$head['value'],
 					$this->stringContains('.xml'),
@@ -87,7 +95,7 @@ class JDocumentXMLTest extends PHPUnit_Framework_TestCase
 	/**
 	 * We test both at once
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	public function testGetAndSetName()
 	{

@@ -79,8 +79,8 @@ class ConfigControllerComponent extends JControllerLegacy
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorise('core.admin', $option))
 		{
-			JFactory::getApplication()->redirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
-			return;
+			$this->setRedirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
+			$this->redirect();
 		}
 
 		$returnUri = $this->input->post->get('return', null, 'base64');

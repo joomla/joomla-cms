@@ -20,8 +20,10 @@ class MediaViewMediaList extends JViewLegacy
 {
 	public function display($tpl = null)
 	{
+		$app = JFactory::getApplication();
+
 		// Do not allow cache
-		JResponse::allowCache(false);
+		$app->allowCache(false);
 
 		JHtml::_('behavior.framework', true);
 

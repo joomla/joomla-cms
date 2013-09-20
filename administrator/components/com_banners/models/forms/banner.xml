@@ -30,9 +30,14 @@
 			<option value="2">JARCHIVED</option>
 			<option value="-2">JTRASHED</option>
 		</field>
-		<field name="ordering" type="ordering" class="inputbox"
-
-			label="JFIELD_ORDERING_LABEL" description="JFIELD_ORDERING_DESC" />
+		<field
+                name="ordering"
+                type="ordering"
+                class="inputbox"
+                label="JFIELD_ORDERING_LABEL"
+                description="JFIELD_ORDERING_DESC"
+                table="#__banners"
+        />
 
 		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
 			description="COM_BANNERS_FIELD_LANGUAGE_DESC" class="inputbox span12 small"

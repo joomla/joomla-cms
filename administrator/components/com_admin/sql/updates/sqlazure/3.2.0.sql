@@ -11,12 +11,6 @@ SELECT 449, 'plg_authentication_cookie', 'plugin', 'cookie', 'authentication', 0
 
 SET IDENTITY_INSERT #__extensions  OFF;
 
-INSERT INTO #__update_sites (name, type, location, enabled, last_check_timestamp) VALUES
-('FOF Updates (official releases)', 'extension', 'http://cdn.akeebabackup.com/updates/fof.xml', 1, 0);
-
-INSERT INTO #__update_sites_extensions (update_site_id, extension_id) VALUES
-(SCOPE_IDENTITY(), 105);
-
 ALTER TABLE [#__users] ADD [otpKey] [nvarchar](max) NOT NULL DEFAULT '';
 
 ALTER TABLE [#__users] ADD [otep] [nvarchar](max) NOT NULL DEFAULT '';
