@@ -74,7 +74,7 @@ class ServicesControllerConfigSave extends JControllerBase
 			$app->setUserState('com_services.config.global.data', $data);
 
 			// Redirect back to the edit screen.
-			$app->redirect(JRoute::_('index.php?option=com_services&controller=config', false));
+			$app->redirect(JRoute::_('index.php?option=com_services&controller=services.display.config', false));
 
 			return false;
 		}
@@ -107,7 +107,7 @@ class ServicesControllerConfigSave extends JControllerBase
 			// Save failed, go back to the screen and display a notice.
 			$message = JText::sprintf('JERROR_SAVE_FAILED', $model->getError());
 
-			$app->redirect(JRoute::_('index.php?option=com_services&controller=config', false), $message, 'error');
+			$app->redirect(JRoute::_('index.php?option=com_services&controller=services.display.config', false), $message, 'error');
 
 			return false;
 		}
@@ -116,7 +116,7 @@ class ServicesControllerConfigSave extends JControllerBase
 		$message = JText::_('COM_SERVICES_SAVE_SUCCESS');
 
 		// Redirect back to com_services display
-		$app->redirect(JRoute::_('index.php?option=com_services&controller=config', false), $message);
+		$app->redirect(JRoute::_('index.php?option=com_services&controller=services.display.config', false), $message);
 
 		return true;
 	}

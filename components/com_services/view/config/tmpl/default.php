@@ -17,7 +17,7 @@ JHtml::_('formbehavior.chosen', 'select');
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'config.cancel' || document.formvalidator.isValid(document.id('application-form'))) {
+		if (task == 'j.cancel' || document.formvalidator.isValid(document.id('application-form'))) {
 			Joomla.submitform(task, document.getElementById('application-form'));
 		}
 	}
@@ -31,12 +31,12 @@ JHtml::_('formbehavior.chosen', 'select');
 		
 			<div class="btn-toolbar">
 				<div class="btn-group">
-					<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('config.apply')">
+					<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('services.save.config.apply')">
 						<i class="icon-ok"></i> <?php echo JText::_('JSAVE') ?>
 					</button>
 				</div>
 				<div class="btn-group">
-					<button type="button" class="btn" onclick="Joomla.submitbutton('config.cancel')">
+					<button type="button" class="btn" onclick="Joomla.submitbutton('j.cancel')">
 						<i class="icon-cancel"></i> <?php echo JText::_('JCANCEL') ?>
 					</button>
 				</div>

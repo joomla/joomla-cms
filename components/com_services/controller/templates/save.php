@@ -73,7 +73,7 @@ class ServicesControllerTemplatesSave extends JControllerBase
 			// Save failed, go back to the screen and display a notice.
 			$message = JText::sprintf('JERROR_SAVE_FAILED');
 
-			$app->redirect(JRoute::_('index.php?option=com_services&controller=templates', false), $message, 'error');
+			$app->redirect(JRoute::_('index.php?option=com_services&controller=services.display.templates', false), $message, 'error');
 
 			return false;
 		}
@@ -82,7 +82,7 @@ class ServicesControllerTemplatesSave extends JControllerBase
 		$message = JText::_('COM_SERVICES_SAVE_SUCCESS');
 
 		// Redirect back to com_services display
-		$app->redirect(JRoute::_('index.php?option=com_services&controller=templates', false), $message);
+		$app->redirect(JRoute::_('index.php?option=com_services&controller=services.display.templates', false), $message);
 
 		return true;
 	}
