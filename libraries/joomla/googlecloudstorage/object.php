@@ -210,12 +210,15 @@ abstract class JGooglecloudstorageObject
 		// Standard header for Service Accounts
 		return $this->urlSafeB64Encode(
 			utf8_encode(
-				json_encode(
-					array(
-						"alg" => "RS256",
-						"typ" => "JWT"
-					),
-					JSON_UNESCAPED_SLASHES
+				str_replace(
+					"\\/",
+					"/",
+					json_encode(
+						array(
+							"alg" => "RS256",
+							"typ" => "JWT"
+						)
+					)
 				)
 			)
 		);
@@ -249,9 +252,10 @@ abstract class JGooglecloudstorageObject
 		// Create and return the claim set for the JWT
 		return $this->urlSafeB64Encode(
 			utf8_encode(
-				json_encode(
-					$claimSetValues,
-					JSON_UNESCAPED_SLASHES
+				str_replace(
+					"\\/",
+					"/",
+					json_encode($claimSetValues)
 				)
 			)
 		);
