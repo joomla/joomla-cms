@@ -70,6 +70,7 @@ class JoomlaInstallerScript
 		$extensions[] = array('component', 'com_mailto', '', 0);
 		$extensions[] = array('component', 'com_wrapper', '', 0);
 		$extensions[] = array('component', 'com_admin', '', 1);
+		$extensions[] = array('component', 'com_ajax', '', 1);
 		$extensions[] = array('component', 'com_banners', '', 1);
 		$extensions[] = array('component', 'com_cache', '', 1);
 		$extensions[] = array('component', 'com_categories', '', 1);
@@ -93,6 +94,7 @@ class JoomlaInstallerScript
 		$extensions[] = array('component', 'com_redirect', '', 1);
 		$extensions[] = array('component', 'com_users', '', 1);
 		$extensions[] = array('component', 'com_tags', '', 1);
+		$extensions[] = array('component', 'com_contenthistory', '', 1);
 
 		// Libraries
 		$extensions[] = array('library', 'phpmailer', '', 0);
@@ -100,6 +102,7 @@ class JoomlaInstallerScript
 		$extensions[] = array('library', 'phputf8', '', 0);
 		$extensions[] = array('library', 'joomla', '', 0);
 		$extensions[] = array('library', 'idna_convert', '', 0);
+		$extensions[] = array('library', 'fof', '', 0);
 
 		// Modules site
 		// Site
@@ -919,6 +922,14 @@ class JoomlaInstallerScript
 			'/media/editors/tinymce/jscripts/tiny_mce/utils/form_utils.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/utils/mctabs.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/utils/validate.js',
+			'administrator/components/com_banners/models/fields/ordering.php',
+			'administrator/components/com_contact/models/fields/ordering.php',
+			'administrator/components/com_newsfeeds/models/fields/ordering.php',
+			'administrator/components/com_plugins/models/fields/ordering.php',
+			'administrator/components/com_weblinks/models/fields/ordering.php',
+			'/administrator/includes/application.php',
+			'/includes/application.php',
+			'/libraries/legacy/application/helper.php',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode

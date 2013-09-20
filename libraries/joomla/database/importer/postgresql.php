@@ -603,10 +603,12 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 			{
 				$kName = $key->Index;
 			}
+
 			if (empty($lookup[$kName]))
 			{
 				$lookup[$kName] = array();
 			}
+
 			$lookup[$kName][] = $key;
 		}
 
@@ -638,10 +640,12 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 			{
 				$sName = $seq->Name;
 			}
+
 			if (empty($lookup[$sName]))
 			{
 				$lookup[$sName] = array();
 			}
+
 			$lookup[$sName][] = $seq;
 		}
 
@@ -720,6 +724,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 							$this->addLog('Fail: ' . $this->db->getQuery());
 							throw $e;
 						}
+
 						$this->addLog('Pass: ' . $this->db->getQuery());
 					}
 
@@ -741,6 +746,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 					$this->addLog('Fail: ' . $this->db->getQuery());
 					throw $e;
 				}
+
 				$this->addLog('Pass: ' . $this->db->getQuery());
 			}
 		}

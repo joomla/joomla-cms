@@ -25,6 +25,122 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Sep-2013 Michael Babker
+ ^ [#31727] Migrate application classes from legacy JApplication to JApplicationWeb
+
+20-Sep-2013 Jean-Marie Simonet
+ # [#32031] [3.x] Overridable layouts for tinyMCE. Thanks Roberto Segura
+ # [#32019] Incorrect component_id for separator items. Thanks David Jardin
+ # [#31995] Can not disable Images and links. Thanks David Jardin
+ # [#31781] To small tags input field at the FE edit view. Thanks Valentin Despa
+
+19-Sep-2013 Michael Babker
+ ^ [#31352] JLayouts improvements for extension developers.  Thanks Roberto Segura
+
+16-Sep-2013 Michael Babker
+ # [#31973] Installation loop if sending config yes (3.2 alpha)
+ ^ [#31963] Incorrect or inconsistent characters in "close ink" text on alert info popups.  Thanks Marco Richter
+ # [#29107] Strict standards and code clean up in com_contact form.  Thanks Piotr Konieczny
+ +$ [#31845] Add JHelperMedia and Deprecate MediaHelper.  Thanks Elin Waring
+ ^ [#31316] licence (gpl.html) only at the html code?.  Thanks Tobias Zulauf
+ # [#31530] Hathor: No tag filters in table overviews of article, categories, newsfeed, weblinks or contact.  Thanks David Jardin
+ # [#31826] "Size" column in Maintenance > Clear Cache is incorrect.  Thanks Drew Glaser
+
+16-Sep-2013 Jean-Marie Simonet
+ # [#32020] "Articles Categories" Module - cache is not working. Thanks Peter Martin
+ + [#31372] Selected tab changes to default after save. Thanks Ashan Fernando
+
+13-Sep-2013 Jean-Marie Simonet
+ # [#31987] *Joomla multilingual install: sef and flags issues. Thanks Beat
+ $ [#31942] Two factor authentication - Language file. Thanks Brian Teeman
+ # [#31985] Remove clear lines at the TinyMCE. Thanks Tobias Zulauf
+ # [#31696] Profile 'Web site' field not working well. Thanks Anthony THERREAU
+
+13-Sep-2013 Elin Waring
+ # [#31998] Smart Search Index Button broken (Regression).
+
+12-Sep-2013 Jean-Marie Simonet
+ + [#31850] The parent item search ajax based on menu location. Thanks Lu Nguyen
+ # [#31890] tagged items list has class "list-striped" and "list-condensed" in code. Thanks Elin waring.
+ $ Updating Italian Tinymce lang file
+
+11-Sep-2013 Elin Waring
+ # [#31753] PGSQL Missing #__ prefix on CONSTRAINT "uc_ItemnameTagid" in installation/sql/postgresql/joomla.sql. Thanks Alan Hicks
+ # [#31894] Check for context in vote plugin. Thanks George Wilson
+ # [#31749] JModuleHelper::isEnabled always returns true. Thanks Chad Windnagle
+ # [#31983] Fix regression due to [31894].
+
+11-Sep-2013 Jean-Marie Simonet
+ # [#31848] Archive Articles View frontend
+ + Adding Albanian flag
+ + Adding Macedonian tinymce lang file
+
+10-Sep-2013 Michael Babker
+ # [#31965] Fatal error: Call to undefined method UsersModelUser::loadLanguage().  Thanks Jurian Even
+ # [#31948] Beez3: twofactorauth (secretkey field).  Thanks Tobias Zulauf
+ # [#31949] Hathor: twofactorauth (secretkey field).  Thanks Tobias Zulauf
+
+10-Sep-2013 Jean-Marie Simonet
+ # [#31961] *Login Modules wrongly display tips (RTL and LTR)
+ $ [#31923] Replace non-existent word multilanguage. Thanks Brian Teeman
+ # [#31181] Overflow of text into other column.
+ $ [#31944] Standardise on select not check. Thanks Brian Teeman
+ # [#31840] Can not set class to calendar input. Thanks Achal Aggarwal
+ # [#31929] mod_footer : year do not convert to other calendar like persian language that use hijri date. Thanks Mohammad Hasani Eghtedar and Carsten Wirtz
+ # [#31913] Search results in Template Manager contain more than just templates. Thanks Elin Waring
+ # [#31854] The Module "All Modules" is lost at testing sample data (mysql). Thanks Tobias Zulauf
+
+08-Sep-2013 Michael Babker
+ # [#31955] Two factor authentication is broken in the back-end. Thanks Nicholas Dionysopoulos
+ # [#31950] Hathor: twofactorauth (user manager). Thanks Nicholas Dionysopoulos
+
+08-Sep-2013 Elin Waring
+^+ [#31930] Ordering Form Field Changes Thanks George Wilson
+
+08-Sep-2013 Jean-Marie Simonet
+ +$ [#31725] Joomla multilingual site automatic installer. Thanks Carles Serrats and Javier Gómez
+
+07-Sep-2013 Jean-Marie Simonet
+ # [#31707] Regression: [#29933] prevents showing only page header. Thanks George Wilson
+ $ [#31883] Replace all instance of Super Admin with Super User in languages files. Thanks Brian Teeman
+ $ [#31888] Standardising on plugin instead of plug-in. Thanks Brian Teeman
+ $ [#31917] Remove double space. Thanks Brian Teeman
+ # [#31914] mod_footer - replacement in language override string doesn`t work correct. Thanks Carsten Wirtz
+ # [#31876] Contact Icons are missing when selecting new ones. Thanks Carsten Wirtz
+ $ [#31886] Standardise on check-in language strings. Thanks Brian Teeman
+ # [#31896] Stupid return in contact component table. Thanks George Wilson
+ # [#31884] *Smart search Index and Statistics buttons broken if lang debug is on
+ $ [#31846] Small correction to franglais in languages strings. Thanks Brian Teeman
+ # [#31936] Add active class to breadcrumb module for more bootstrap compatibility. Thanks Michael Babker.
+
+06-Sep-2013 Michael Babker
+ +$ [#31704] Two factor authentication for Joomla!. Thanks Nicholas Dionysopoulos
+
+06-Sep-2013 Jean-Marie Simonet
+ #$ [#31885] TinyMCE horizontal Resizing. Thanks George Wilson
+ $ [#31934] Change language strings in System - Log Component. Thanks George Wilson
+ # [#31828] Missing error message in single article menu item. Thanks Carsten Wirtz
+ # [#31254] *Print icon and print text in print popup not stylable
+
+05-Sep-2013 Michael Babker
+ + [#31844] Rapid Application Framework (Joomla! RAD).  Thanks Nicholas Dionysopoulos
+ # [#30815] Check updates for extensions causes long list in Apache error.log.  Thanks George Wilson
+ # [#31924] Regression with ContentHistory commit.  Thanks Thomas Hunziker
+ ^ [#31925] Code Optimisation Issue for JHelperContenthistory.  Thanks George Wilson
+
+03-Sep-2013 Michael Babker
+ + [#31800] Add Joomla Ajax Interface to core.  Thanks Matt Thomas
+ # [#31915] *Strict Standards: Only variables should be passed by reference when saving/deleting lang override.  Thanks Jean-Marie Simonet
+
+03-Sep-2013 Jean-Marie Simonet
+ $ Adding Tamil to tinymce lang files
+
+02-Sep-2013 Mark Dexter
+ # Fix code-style issues from [#30944] Content versioning. Thanks George Wilson.
+
+02-Sep-2013 Jean-Marie Simonet
+ +$ [#30944] Content versioning for core and third-party components. Thanks Mark Dexter
+
 28-Aug-2013 Michael Babker
  $^ [#31009] Add a switch to turn mail sending on/off.  Thanks Roland Dalmulder
 
@@ -140,6 +256,7 @@ $ -> Language fix or change
  # [#23638] *Uninstalling 2 different extensions gets only one message. Thanks Thong Tran
  # [#31683] In debug mode with mysqli some extensions have warnings when freeing mysqli cursor themselves. Thanks Beat
  # [#31410] Warnings at the offline screen looks bad. Thanks Lu Nguyen
+ # [#31197] Deprecated: preg_replace(): The /e modifier is deprecated, use preg_replace_callback instead. Thanks Yurii Korotia
  #$ [#31622] *Media Manager doesn't cope with folder names that include spaces. Thanks Richard McDaniel
  # [#31633] Detailed changelog in readme.txt points to SVN which is out of date. Thanks Brian Teeman
 

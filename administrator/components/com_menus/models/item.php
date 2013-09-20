@@ -1176,7 +1176,7 @@ class MenusModelItem extends JModelAdmin
 			$table->load($pk);
 			$isNew = false;
 		}
-		if (!$isNew && $table->menutype == $data['menutype'])
+		if (!$isNew)
 		{
 			if ($table->parent_id == $data['parent_id'])
 			{
@@ -1210,15 +1210,9 @@ class MenusModelItem extends JModelAdmin
 			}
 		}
 		// We have a new item, so it is not a change.
-		elseif ($isNew)
-		{
-			$table->setLocation($data['parent_id'], 'last-child');
-		}
-		// The menu type has changed so we need to just put this at the bottom
-		// of the root level.
 		else
 		{
-			$table->setLocation(1, 'last-child');
+			$table->setLocation($data['parent_id'], 'last-child');
 		}
 
 		// Bind the data.

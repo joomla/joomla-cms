@@ -30,7 +30,7 @@ defined('JPATH_PLATFORM') or die;
  * 4) in the methods that need to be observed, add, e.g. (name of event, params of event):
  * 		$this->_observers->update('onBeforeLoad', array($keys, $reset));
  *
- * @package     Joomla
+ * @package     Joomla.Platform
  * @subpackage  Observer
  * @link        http://docs.joomla.org/JObservableInterface
  * @since       3.1.2
@@ -46,6 +46,8 @@ interface JObservableInterface
 	 * @param   JObserverInterface  $observer  The observer to attach to $this observable subject
 	 *
 	 * @return  void
+	 *
+	 * @since   3.1.2
 	 */
 	public function attachObserver(JObserverInterface $observer);
 }
