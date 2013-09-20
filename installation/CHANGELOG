@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Sep-2013 Michael Babker
+ ^ [#31727] Migrate application classes from legacy JApplication to JApplicationWeb
+
 20-Sep-2013 Jean-Marie Simonet
  # [#32031] [3.x] Overridable layouts for tinyMCE. Thanks Roberto Segura
  # [#32019] Incorrect component_id for separator items. Thanks David Jardin
