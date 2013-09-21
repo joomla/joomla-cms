@@ -86,7 +86,7 @@
 
 					//serialize form then post to callback url
 					var formData = $('#' + formId).serialize();
-					formData = formData.replace('task', '');
+					formData = formData.replace('task=', '=');
 					$.post(saveOrderingUrl, formData);
 
 					//remove cloned checkboxes
