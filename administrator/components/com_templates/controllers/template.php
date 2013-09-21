@@ -40,13 +40,29 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	/**
 	 * Method for closing the template.
 	 *
-	 * @return  string encoded string containing the new file location.
+	 * @return  void.
 	 *
 	 * @since   3.2
 	 */
 	public function cancel()
 	{
 		$this->setRedirect(JRoute::_('index.php?option=com_templates&view=templates', false));
+	}
+
+	/**
+	 * Method for closing a file.
+	 *
+	 * @return  void.
+	 *
+	 * @since   3.2
+	 */
+	public function close()
+	{
+		$app	= JFactory::getApplication();
+		$file	= base64_encode('home');
+		$id		= $app->input->get('id');
+		$url	= 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+		$this->setRedirect(JRoute::_($url, false));
 	}
 
 	/**

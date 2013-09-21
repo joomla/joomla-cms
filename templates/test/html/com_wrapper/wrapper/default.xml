@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_WRAPPER_WRAPPER_VIEW_DEFAULT_TITLE" option="COM_WRAPPER_WRAPPER_VIEW_DEFAULT_OPTION">
+		<help
+			key="JHELP_MENUS_MENU_ITEM_WRAPPER"
+		/>
+		<message>
+			<![CDATA[COM_WRAPPER_WRAPPER_VIEW_DEFAULT_DESC]]>
+		</message>
+	</layout>
+
+	<!-- Add fields to the parameters object for the layout. -->
+		<fields name="params">
+		<fieldset name="request" label="COM_MENUS_BASIC_FIELDSET_LABEL">
+
+			<field name="url" type="text"
+				description="COM_WRAPPER_FIELD_URL_DESC"
+				label="COM_WRAPPER_FIELD_URL_LABEL"
+				size="30"
+				required="true"
+			/>
+		</fieldset>
+
+		<!-- Add fields to the parameters object for the layout. -->
+
+		<!-- Scroll. -->
+		<fieldset name="basic" label="COM_WRAPPER_FIELD_LABEL_SCROLLBARSPARAMS">
+
+			<field name="scrolling" type="list"
+				default="auto"
+				description="COM_WRAPPER_FIELD_SCROLLBARS_DESC"
+				label="COM_WRAPPER_FIELD_SCROLLBARS_LABEL"
+			>
+				<option value="no">JNO</option>
+				<option value="yes">JYES</option>
+				<option value="auto">COM_WRAPPER_FIELD_VALUE_AUTO</option>
+			</field>
+
+			<field name="width" type="text"
+				default="100%"
+				description="COM_WRAPPER_FIELD_WIDTH_DESC"
+				label="JGLOBAL_WIDTH"
+				size="5"
+			/>
+
+			<field name="height" type="text"
+				default="500"
+				description="COM_WRAPPER_FIELD_HEIGHT_DESC"
+				label="COM_WRAPPER_FIELD_HEIGHT_LABEL"
+				size="5"
+			/>
+
+		</fieldset>
+
+		<!-- Advanced options. -->
+		<fieldset name="advanced">
+
+			<field name="height_auto" type="radio"
+				default="0"
+				class="btn-group"
+				description="COM_WRAPPER_FIELD_HEIGHTAUTO_DESC"
+				label="COM_WRAPPER_FIELD_HEIGHTAUTO_LABEL"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="add_scheme"
+				type="radio"
+				class="btn-group"
+				default="1"
+				description="COM_WRAPPER_FIELD_ADD_DESC"
+				label="COM_WRAPPER_FIELD_ADD_LABEL"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+			<field name="frameborder"
+				type="radio"
+				class="btn-group"
+				default="1"
+				label="COM_WRAPPER_FIELD_FRAME_LABEL"
+			>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+
+		</fieldset>
+	</fields>
+</metadata>

@@ -140,6 +140,10 @@ class TemplatesViewTemplate extends JViewLegacy
 			$this->archive 	= $this->get('Archive');
 			$this->type 	= 'archive';
 		}
+		else
+		{
+			$this->type 	= 'home';
+		}
 
 		$this->overridesList = $this->get('OverridesList');
 		$this->id            = $this->state->get('extension.id');
@@ -263,7 +267,14 @@ class TemplatesViewTemplate extends JViewLegacy
 			}
 		}
 
-		JToolbarHelper::cancel('template.cancel', 'JTOOLBAR_CLOSE');
+		if ($this->type == 'home')
+		{
+			JToolbarHelper::cancel('template.cancel', 'JTOOLBAR_CLOSE');
+		}
+		else
+		{
+			JToolbarHelper::cancel('template.close', 'Close File');
+		}
 
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_TEMPLATES_EDIT');

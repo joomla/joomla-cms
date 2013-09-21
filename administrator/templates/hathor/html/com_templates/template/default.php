@@ -117,7 +117,7 @@ if($this->type == 'image')
 		height: auto;
 	}
 
-	#image-box{
+	#image-box, #home-box{
 		margin: 20px 10px 10px;
 		overflow: hidden;
 		border: 1px solid rgb(199, 200, 178);
@@ -279,6 +279,23 @@ if($this->type == 'image')
 		<?php echo JHtml::_('form.token'); ?>
 	</form>
 
+	<?php if($this->type == 'home'): ?>
+		<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
+			<input type="hidden" name="task" value="" />
+			<?php echo JHtml::_('form.token'); ?>
+			<div id="home-box" style="text-align: justify;">
+				<h1>Hello, world!</h1>
+				<p>	You can select from a number of options for customizing the look of your templates.
+					The Template Manager supports Source files, Image files, Font files, Zip archives and
+					most of the operations that can be performed on those files. Just select a file and
+					you are good to go. Check the documentation if you want to know more.
+				</p>
+				<p>
+					<a href="http://docs.joomla.org/J3.2:How_to_use_the_Template_Manager" target="_blank" class="button">Documentation</a>
+				</p>
+			</div>
+		</form>
+	<?php endif; ?>
 	<?php if($this->type == 'file'): ?>
 		<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
 			<fieldset class="adminform">
@@ -389,13 +406,7 @@ if($this->type == 'image')
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('COM_TEMPLATES_TEMPLATE_DESCRIPTION');?></legend>
 
-		<?php echo JHtml::_('templates.thumb', $this->template->element, $this->template->client_id); ?>
-
-
-		<h2><?php echo ucfirst($this->template->element); ?></h2>
-		<?php $client = JApplicationHelper::getClientInfo($this->template->client_id); ?>
-		<p><?php $this->template->xmldata = TemplatesHelper::parseXMLTemplateFile($client->path, $this->template->element);?></p>
-		<p><?php  echo JText::_($this->template->xmldata->description); ?></p>
+		<?php echo $this->loadTemplate('description');?>
 	</fieldset>
 
 	<div class="clr"></div>
@@ -433,16 +444,18 @@ if($this->type == 'image')
 				</fieldset>
 				<?php echo JHtml::_('form.token'); ?>
 			</form>
-		<?php  echo JHtml::_('sliders.panel', JText::_('COM_TEMPLATES_BUTTON_RENAME'), 'file-rename'); ?>
-			<form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.renameFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
-				  method="post" name="adminForm" id="adminForm">
-				<fieldset class="panelform">
-					<label id="new_name" class="hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_TEMPLATES_NEW_FILE_NAME')); ?>"><?php echo JText::_('COM_TEMPLATES_NEW_FILE_NAME')?></label>
-					<input class="inputbox" type="text" name="new_name"  />
-					<button type="submit"><?php echo JText::_('COM_TEMPLATES_BUTTON_RENAME'); ?></button>
-				</fieldset>
-				<?php echo JHtml::_('form.token'); ?>
-			</form>
+		<?php if ($this->type != 'home'): ?>
+			<?php  echo JHtml::_('sliders.panel', JText::_('COM_TEMPLATES_BUTTON_RENAME'), 'file-rename'); ?>
+				<form action="<?php echo JRoute::_('index.php?option=com_templates&task=template.renameFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
+					  method="post" name="adminForm" id="adminForm">
+					<fieldset class="panelform">
+						<label id="new_name" class="hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_TEMPLATES_NEW_FILE_NAME')); ?>"><?php echo JText::_('COM_TEMPLATES_NEW_FILE_NAME')?></label>
+						<input class="inputbox" type="text" name="new_name"  />
+						<button type="submit"><?php echo JText::_('COM_TEMPLATES_BUTTON_RENAME'); ?></button>
+					</fieldset>
+					<?php echo JHtml::_('form.token'); ?>
+				</form>
+		<?php endif; ?>
 	<?php  echo JHtml::_('sliders.panel', JText::_('COM_TEMPLATES_OVERRIDES_MODULES'), 'override-module'); ?>
 		<fieldset class="panelform">
 			<ul class="adminformlist">
