@@ -56,7 +56,7 @@ class ConfigControllerTemplatesSave extends JControllerBase
 
 		// Set back-end required params
 		$document->setType('json');
-		$this->input->set('id', $app->getTemplate()->id);
+		$this->input->set('id', $app->getTemplate('template')->id);
 
 		// Execute back-end controller
 		$return = $controllerClass->save();
