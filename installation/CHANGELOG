@@ -36,6 +36,7 @@ $ -> Language fix or change
  ^ [#31475] Update jQuery UI and sortable to 1.9.2 version. Thanks Florian Dal Fitto
  # [#30155] Vague form data manipulation in sortablelist.js. Thanks Tobias Kuhn
  # [#29430] php_network_getaddresses: getaddrinfo failed: Name or service not known. Thanks David Jardin
+ # [#30698] JDatabaseMySQLi class does not support IPv6 MySQL server. Thanks Mihail Irintchev
 
 20-Sep-2013 Michael Babker
  ^ [#31727] Migrate application classes from legacy JApplication to JApplicationWeb
