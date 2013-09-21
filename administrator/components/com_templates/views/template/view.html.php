@@ -273,7 +273,7 @@ class TemplatesViewTemplate extends JViewLegacy
 		}
 		else
 		{
-			JToolbarHelper::cancel('template.close', 'Close File');
+			JToolbarHelper::cancel('template.close', 'COM_TEMPLATES_BUTTON_CLOSE_FILE');
 		}
 
 		JToolbarHelper::divider();
