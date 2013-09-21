@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 JFormHelper::loadFieldClass('list');
 
 /**
- * Form Field to load a list of states
+ * Field to load a list of posible item count limits
  *
  * @package     Joomla.Libraries
  * @subpackage  Form
@@ -32,7 +32,7 @@ class JFormFieldLimitbox extends JFormFieldList
 	 * Cached array of the category items.
 	 *
 	 * @var    array
-	 * @since  1.2
+	 * @since  3.2
 	 */
 	protected static $options = array();
 
@@ -57,7 +57,7 @@ class JFormFieldLimitbox extends JFormFieldList
 
 		if (!isset(static::$options[$hash]))
 		{
-			static::$options = parent::getOptions();
+			static::$options[$hash] = parent::getOptions();
 
 			$options = array();
 			$limits = $this->defaultLimits;
@@ -101,10 +101,10 @@ class JFormFieldLimitbox extends JFormFieldList
 					);
 				}
 
-				static::$options = array_merge(static::$options, $options);
+				static::$options[$hash] = array_merge(static::$options[$hash], $options);
 			}
 		}
 
-		return static::$options;
+		return static::$options[$hash];
 	}
 }

@@ -26,7 +26,7 @@ class JFormFieldPredefinedList extends JFormFieldList
 	 * @var    string
 	 * @since  3.2
 	 */
-	public $type = 'PredefinedList';
+	protected $type = 'PredefinedList';
 
 	/**
 	 * Cached array of the category items.
@@ -63,10 +63,11 @@ class JFormFieldPredefinedList extends JFormFieldList
 	{
 		// Hash for caching
 		$hash = md5($this->element);
+		$type = strtolower($this->type);
 
-		if (!isset(static::$options[$hash]) && !empty($this->predefinedOptions))
+		if (!isset(static::$options[$type][$hash]) && !empty($this->predefinedOptions))
 		{
-			static::$options[$hash] = parent::getOptions();
+			static::$options[$type][$hash] = parent::getOptions();
 
 			$options = array();
 
@@ -80,9 +81,9 @@ class JFormFieldPredefinedList extends JFormFieldList
 				);
 			}
 
-			static::$options[$hash] = array_merge(static::$options[$hash], $options);
+			static::$options[$type][$hash] = array_merge(static::$options[$type][$hash], $options);
 		}
 
-		return static::$options[$hash];
+		return static::$options[$type][$hash];
 	}
 }

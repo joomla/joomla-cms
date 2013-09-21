@@ -4,29 +4,29 @@
  * @subpackage  Form
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_BASE') or die;
 
 JFormHelper::loadFieldClass('list');
 
 /**
- * Form Field to load a list of content authors
+ * Field to load a list of available users statuses
  *
  * @package     Joomla.Libraries
  * @subpackage  Form
  * @since       3.2
  */
-class JFormFieldAuthor extends JFormFieldList
+class JFormFieldUserGroupList extends JFormFieldList
 {
 	/**
 	 * The form field type.
 	 *
-	 * @var    string
-	 * @since  3.2
+	 * @var		string
+	 * @since   3.2
 	 */
-	public $type = 'Author';
+	protected $type = 'UserGroupList';
 
 	/**
 	 * Cached array of the category items.
@@ -45,7 +45,7 @@ class JFormFieldAuthor extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		// Accepted modifiers
+		// Hash for caching
 		$hash = md5($this->element);
 
 		if (!isset(static::$options[$hash]))
@@ -55,21 +55,23 @@ class JFormFieldAuthor extends JFormFieldList
 			$options = array();
 
 			$db = JFactory::getDbo();
-
-			// Construct the query
 			$query = $db->getQuery(true)
-				->select('u.id AS value, u.name AS text')
-				->from('#__users AS u')
-				->join('INNER', '#__content AS c ON c.created_by = u.id')
-				->group('u.id, u.name')
-				->order('u.name');
-
-			// Setup the query
+				->select('a.id AS value')
+				->select('a.title AS text')
+				->select('COUNT(DISTINCT b.id) AS level')
+				->from('#__usergroups as a')
+				->join('LEFT', '#__usergroups  AS b ON a.lft > b.lft AND a.rgt < b.rgt')
+				->group('a.id, a.title, a.lft, a.rgt')
+				->order('a.lft ASC');
 			$db->setQuery($query);
 
-			// Return the result
 			if ($options = $db->loadObjectList())
 			{
+				foreach ($options as &$option)
+				{
+					$option->text = str_repeat('- ', $option->level) . $option->text;
+				}
+
 				static::$options[$hash] = array_merge(static::$options[$hash], $options);
 			}
 		}

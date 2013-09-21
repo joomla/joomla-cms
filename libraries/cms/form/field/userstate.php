@@ -4,29 +4,29 @@
  * @subpackage  Form
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_PLATFORM') or die;
+defined('JPATH_BASE') or die;
 
 JFormHelper::loadFieldClass('predefinedlist');
 
 /**
- * Form Field to load a list of states
+ * Field to load a list of available users statuses
  *
  * @package     Joomla.Libraries
  * @subpackage  Form
  * @since       3.2
  */
-class JFormFieldStatus extends JFormFieldPredefinedList
+class JFormFieldUserState extends JFormFieldPredefinedList
 {
 	/**
 	 * The form field type.
 	 *
-	 * @var    string
-	 * @since  3.2
+	 * @var		string
+	 * @since   3.2
 	 */
-	public $type = 'Status';
+	protected $type = 'UserState';
 
 	/**
 	 * Available statuses
@@ -35,10 +35,7 @@ class JFormFieldStatus extends JFormFieldPredefinedList
 	 * @since  3.2
 	 */
 	protected $predefinedOptions = array(
-		'-2' =>	'JTRASHED',
-		'0'  => 'JUNPUBLISHED',
-		'1'  => 'JPUBLISHED',
-		'2'  => 'JARCHIVED',
-		'*'  => 'JALL'
+		'0'  => 'JENABLED',
+		'1'  => 'JDISABLED'
 	);
 }
