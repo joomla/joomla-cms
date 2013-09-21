@@ -30,7 +30,7 @@ $ -> Language fix or change
  # [#32023] Hardcoded SQL in com_contact model. Thanks Peter Martin
  # [#32061] Normalise constant in com_ajax. Thanks Tobias Zulauf
  # [#27830] Loss of checked item in user registration back end. Thanks Achal Aggarwal
- 
+ ^ [#31475] Update jQuery UI and sortable to 1.9.2 version. Thanks Florian Dal Fitto
 
 20-Sep-2013 Michael Babker
  ^ [#31727] Migrate application classes from legacy JApplication to JApplicationWeb
