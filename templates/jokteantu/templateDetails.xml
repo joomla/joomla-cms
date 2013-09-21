@@ -158,14 +158,18 @@
 					description="TPL_JOKTEANTU_IZQ_ANCHO_DESC"
 				/>
 				
-				<field name="content"  type="text" default="55"
-					label="TPL_JOKTEANTU_CONT_ANCHO_LABEL"
-					description="TPL_JOKTEANTU_CONT_ANCHO_DESC"
-				/>
-				
+							
 				<field name="right"  type="text" default="20"
 					label="TPL_JOKTEANTU_DER_ANCHO_LABEL"
 					description="TPL_JOKTEANTU_DER_ANCHO_DESC"
+				/>
+				<field name="force" type="radio" default="0" label="TPL_JOKTEANTU_FORCE_ANCHO_CONTENT" description="TPL_JOKTEANTU_FORCE_ANCHO_CONTENT_DESC">
+                    <option value="0">NO forzar</option>
+                    <option value="1">SI forzar</option>
+                    </field>
+	            <field name="content"  type="text" default="55"
+					label="TPL_JOKTEANTU_CONT_ANCHO_LABEL"
+					description="TPL_JOKTEANTU_CONT_ANCHO_DESC"
 				/>
 				
 			</fieldset>

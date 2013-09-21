@@ -62,6 +62,7 @@ $ga			= $params->get('isanalytics');		// Google Analytics
 $gacode		= $params->get('analyticsid');		// Google Analytics
 $typobody 	= $params->get('typobody');			// Tipo de Tipografía de body 
 $typoespecial 	= $params->get('typoespecial');			// Tipo de Tipografía de cabeceras, menus y especiales 
+$force 	= $params->get('force');			// Tipo de Tipografía de cabeceras, menus y especiales 
 
 // Avertencia no eslogan 
 (strlen($siteslogan)>0)? $siteslogan = $siteslogan : $siteslogan = JTEXT::_('TPL_NOSLOGAN_ERROR');
@@ -78,7 +79,13 @@ $totalusert = (int) $userstop[0] + (int) $userstop[1] + (int) $userstop[2];
 (isset($userstop[2])) ?	$user4w = 'width: '.round((($userstop[2] / $totalusert) * 100),2).'%' : $user4w = 'display:none;';
 
 // Left - Content - Right
+//esto es lo nuevo
+if ($force == '0')
+{
+	$contentw   = 100 - ($leftw + $rightw) ;
+	}
 
+	
 if ( !empty($left)  && !empty($right))
 {
 	$leftw	  	= 'width: '.$leftw.'%';
