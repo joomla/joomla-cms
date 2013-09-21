@@ -246,14 +246,14 @@ class TemplatesViewTemplate extends JViewLegacy
 		// Add a Rename file Button
 		if ($this->hathor->home == 0)
 		{
-			if ($showButton)
+			if ($showButton && $this->type != 'home')
 			{
 				JToolbarHelper::modal('renameModal', 'icon-refresh', 'COM_TEMPLATES_BUTTON_RENAME_FILE');
 			}
 		}
 
 		// Add a Delete file Button
-		if ($showButton)
+		if ($showButton && $this->type != 'home')
 		{
 			JToolbarHelper::modal('deleteModal', 'icon-remove', 'COM_TEMPLATES_BUTTON_DELETE_FILE');
 		}

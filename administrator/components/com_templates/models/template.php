@@ -821,7 +821,9 @@ class TemplatesModelTemplate extends JModelForm
 				return false;
 			}
 
-			return true;
+			$url = JPath::clean($location . '/' . $fileName);
+
+			return $url;
 		}
 	}
 

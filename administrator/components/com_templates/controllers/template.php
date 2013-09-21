@@ -387,7 +387,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		elseif ($model->deleteFile($file))
 		{
 			$this->setMessage(JText::_('COM_TEMPLATES_FILE_DELETE_SUCCESS'));
-			$file = base64_encode(urlencode('index.php'));
+			$file = base64_encode('home');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 			$this->setRedirect(JRoute::_($url, false));
 		}
@@ -453,10 +453,11 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		$upload   = $app->input->files->get('files');
 		$location = base64_decode($app->input->get('address'));
 
-		if ($model->uploadFile($upload, $location))
+		if ($return = $model->uploadFile($upload, $location))
 		{
 			$app->enqueueMessage(JText::_('COM_TEMPLATES_FILE_UPLOAD_SUCCESS') . $upload['name']);
-			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+			$redirect = base64_encode($return);
+			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $redirect;
 			$this->setRedirect(JRoute::_($url, false));
 		}
 		else
