@@ -416,7 +416,13 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		$location = base64_decode($app->input->get('address'));
 		$type     = $app->input->get('type');
 
-		if (!preg_match('/^[a-zA-Z0-9-_]+$/', $name))
+		if ($type == 'null')
+		{
+			$app->enqueueMessage(JText::_('COM_TEMPLATES_INVALID_FILE_TYPE'), 'error');
+			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+			$this->setRedirect(JRoute::_($url, false));
+		}
+		elseif (!preg_match('/^[a-zA-Z0-9-_]+$/', $name))
 		{
 			$app->enqueueMessage(JText::_('COM_TEMPLATES_INVALID_FILE_NAME'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
@@ -529,7 +535,12 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		elseif ($model->deleteFolder($location))
 		{
 			$this->setMessage(JText::_('COM_TEMPLATES_FOLDER_DELETE_SUCCESS'));
-			$file = base64_encode('index.php');
+
+			if (stristr(base64_decode($file), $location) != false)
+			{
+				$file = base64_encode('home');
+			}
+
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 			$this->setRedirect(JRoute::_($url, false));
 		}

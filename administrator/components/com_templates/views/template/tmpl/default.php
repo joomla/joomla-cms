@@ -427,7 +427,7 @@ if($this->type == 'image')
 				<fieldset>
 					<label><?php echo JText::_('COM_TEMPLATES_NEW_FILE_TYPE');?></label>
 					<select name="type" required >
-						<option>- <?php echo JText::_('COM_TEMPLATES_NEW_FILE_SELECT');?> -</option>
+						<option value="null">- <?php echo JText::_('COM_TEMPLATES_NEW_FILE_SELECT');?> -</option>
 						<option value="css">css</option>
 						<option value="php">php</option>
 						<option value="js">js</option>
