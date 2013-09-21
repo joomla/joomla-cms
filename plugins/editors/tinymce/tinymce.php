@@ -535,7 +535,7 @@ class PlgEditorTinymce extends JPlugin
 		 * Shrink the buttons if not on a mobile or if mobile view is off.
 		 * If mobile view is on force into simple mode and enlarge the buttons
 		**/
-		if (!JFactory::getApplication()->client->mobile)
+		if (!$this->app->client->mobile)
 		{
 			$smallButtons = 'toolbar_items_size: "small",';
 		}
