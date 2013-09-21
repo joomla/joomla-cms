@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
 class JGooglecloudstorageBucketsGet extends JGooglecloudstorageBuckets
 {
 	/**
-	 * Creates the get request and returns the response
+	 * Lists the objects that are in a bucket
 	 *
 	 * @param   string  $bucket      The bucket name
 	 * @param   string  $parameters  An array of optional parameters that can be set

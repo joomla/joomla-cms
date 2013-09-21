@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
 class JGooglecloudstorageServiceGet extends JGooglecloudstorageService
 {
 	/**
-	 * Creates the get request and returns the response
+	 * Lists all of the buckets in a specified project.
 	 *
 	 * @return string  The response body
 	 *

@@ -78,13 +78,8 @@ class JGooglecloudstorageBucketsPutTest extends PHPUnit_Framework_TestCase
 				),
 			)
 		);
-		$this->options->set(
-			'testLogging',
-			array(
-				"LogBucket" => "logs-bucket",
-				"LogObjectPrefix" => "my-logs-enabled-bucket",
-			)
-		);
+		$this->options->set('logBucket', "logs-bucket");
+		$this->options->set('logObjectPrefix', "my-logs-enabled-bucket");
 		$this->options->set('testVersioningStatus', 'testStatus');
 		$this->options->set('testWebsiteConfigMainPageSuffix', 'testSuffix');
 		$this->options->set('testWebsiteConfigNotFoundPage', 'testNotFoundPage');
@@ -163,7 +158,7 @@ class JGooglecloudstorageBucketsPutTest extends PHPUnit_Framework_TestCase
 </Logging>';
 
 		$this->assertThat(
-			$this->object->createLoggingXml($this->options->get("testLogging")),
+			$this->object->createLoggingXml($this->options->get("logBucket"), $this->options->get("logObjectPrefix")),
 			$this->equalTo($expectedResult)
 		);
 	}

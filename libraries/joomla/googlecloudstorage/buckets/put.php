@@ -234,7 +234,7 @@ class JGooglecloudstorageBucketsPut extends JGooglecloudstorageBuckets
 	 * Creates the request for setting the lifecycle configuration on an existing bucket
 	 *
 	 * @param   string  $bucket     The bucket name
-	 * @param   string  $lifecycle  An array containing the CORS configuration
+	 * @param   string  $lifecycle  An array containing the lifecycle configuration
 	 *
 	 * @return string  The response body
 	 *
@@ -274,17 +274,20 @@ class JGooglecloudstorageBucketsPut extends JGooglecloudstorageBuckets
 	/**
 	 * Creates the XML which will be sent in a put request with the logging query parameter
 	 *
-	 * @param   string  $logging  An array containing the logging configuration
+	 * @param   string  $logBucket        The bucket that will receive log objects
+	 * @param   string  $logObjectPrefix  The object prefix for log objects. It can be at most
+	 *                                    900 characters and must be a valid object name.
 	 *
 	 * @return string The XML
 	 */
-	public function createLoggingXml($logging)
+	public function createLoggingXml($logBucket, $logObjectPrefix)
 	{
 		$content = "<Logging>\n";
+		$content .= "<LogBucket>" . $logBucket . "</LogBucket>\n";
 
-		foreach ($logging as $key => $value)
+		if ($logObjectPrefix != null)
 		{
-			$content .= "<" . $key . ">" . $value . "</" . $key . ">\n";
+			$content .= "<LogObjectPrefix>" . $logObjectPrefix . "</LogObjectPrefix>\n";
 		}
 
 		$content .= "</Logging>";
@@ -295,17 +298,18 @@ class JGooglecloudstorageBucketsPut extends JGooglecloudstorageBuckets
 	/**
 	 * Creates the request for enabling logging on an existing bucket
 	 *
-	 * @param   string  $bucket   The bucket name
-	 * @param   string  $logging  An array containing the logging configuration
+	 * @param   string  $bucket           The bucket name
+	 * @param   string  $logBucket        The bucket that will receive log objects
+	 * @param   string  $logObjectPrefix  The object prefix for log objects. It can be at most
+	 *                                    900 characters and must be a valid object name
 	 *
 	 * @return string  The response body
 	 *
 	 * @since   ??.?
 	 */
-	public function putBucketLogging($bucket, $logging = null)
+	public function putBucketLogging($bucket, $logBucket, $logObjectPrefix = null)
 	{
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?logging";
-		$content = "";
 		$headers = array(
 			"Host" => $bucket . "." . $this->options->get("api.url"),
 			"Date" => date("D, d M Y H:i:s O"),
@@ -314,11 +318,8 @@ class JGooglecloudstorageBucketsPut extends JGooglecloudstorageBuckets
 		);
 
 		// Check for logging configuration
-		if (is_array($logging))
-		{
-			$headers["Content-Type"] = "application/x-www-form-urlencoded; charset=utf-8";
-			$content = $this->createLoggingXml($logging);
-		}
+		$headers["Content-Type"] = "application/x-www-form-urlencoded; charset=utf-8";
+		$content = $this->createLoggingXml($logBucket, $logObjectPrefix);
 
 		$headers["Content-Length"] = strlen($content);
 		$authorization = $this->getAuthorization(
@@ -346,10 +347,10 @@ class JGooglecloudstorageBucketsPut extends JGooglecloudstorageBuckets
 	}
 
 	/**
-	 * Creates the request for enabling logging on an existing bucket
+	 * Creates the request for setting the versioning configuration
 	 *
 	 * @param   string  $bucket  The bucket name
-	 * @param   string  $status  Versioning status of a bucket. Can be Enabled or Suspended
+	 * @param   string  $status  Versioning status of a bucket. Can be `Enabled` or `Suspended`
 	 *
 	 * @return string  The response body
 	 *

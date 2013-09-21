@@ -19,32 +19,24 @@ defined('JPATH_PLATFORM') or die;
 class JGooglecloudstorageObjectsGet extends JGooglecloudstorageObjects
 {
 	/**
-	 * Creates the get request and returns the response
+	 * Creates the get object request and returns the response
 	 *
 	 * @param   string  $bucket           The bucket name
 	 * @param   string  $object           The object name
-	 * @param   string  $parameters       An array of optional parameters that can be set
-	 *                                    to filter the results
-	 * @param   string  $optionalHeaders  An array of optional headers to be set
+	 * @param   string  $generation       Used for fetching a specific object version
+	 * @param   array   $optionalHeaders  An array of optional headers to be set
 	 *
 	 * @return string  The response body
 	 *
 	 * @since   ??.?
 	 */
-	public function getObject($bucket, $object, $parameters = null, $optionalHeaders = null)
+	public function getObject($bucket, $object, $generation = null, $optionalHeaders = null)
 	{
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/" . $object;
-		$paramContent = "";
 
-		if (is_array($parameters))
+		if ($generation != null)
 		{
-			foreach ($parameters as $param => $paramValue)
-			{
-				$paramContent .= "&" . $param . "=" . $paramValue;
-			}
-
-			$paramContent[0] = "?";
-			$url .= $paramContent;
+			$url .= "?generation=" . $generation;
 		}
 
 		// The headers may be optionally set in advance
@@ -64,7 +56,7 @@ class JGooglecloudstorageObjectsGet extends JGooglecloudstorageObjects
 	}
 
 	/**
-	 * Creates the get request and returns the response
+	 * Creates the request for getting an object's acl and returns the response
 	 *
 	 * @param   string  $bucket  The bucket name
 	 * @param   string  $object  The object name
