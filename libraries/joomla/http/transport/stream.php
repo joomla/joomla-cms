@@ -37,13 +37,7 @@ class JHttpTransportStream implements JHttpTransport
 		// Verify that fopen() is available.
 		if (!self::isSupported())
 		{
-			throw new RuntimeException('Cannot use a stream transport when fopen() is not available.');
-		}
-
-		// Verify that URLs can be used with fopen();
-		if (!ini_get('allow_url_fopen'))
-		{
-			throw new RuntimeException('Cannot use a stream transport when "allow_url_fopen" is disabled.');
+			throw new RuntimeException('Cannot use a stream transport when fopen() is not available or "allow_url_fopen" is disabled.');
 		}
 
 		$this->options = $options;
