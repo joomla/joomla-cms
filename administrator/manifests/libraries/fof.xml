@@ -2,7 +2,7 @@
 <extension type="library" version="2.5" method="upgrade">
     <name>FOF</name>
 	<libraryname>fof</libraryname>
-	<description>Framework-on-Framework (FOF) - A rapid component development framework for Joomla!</description>
+	<description>LIB_FOF_XML_DESCRIPTION</description>
 	<creationDate>2013-09-03</creationDate>
 	<author>Nicholas K. Dionysopoulos / Akeeba Ltd</author>
 	<authorEmail>nicholas@akeebabackup.com</authorEmail>
