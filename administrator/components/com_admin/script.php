@@ -930,7 +930,6 @@ class JoomlaInstallerScript
 			'/administrator/includes/application.php',
 			'/includes/application.php',
 			'/libraries/legacy/application/helper.php',
-			'/administrator/manifests/libraries/lib_fof.xml',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
