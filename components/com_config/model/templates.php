@@ -40,7 +40,7 @@ class ConfigModelTemplates extends ConfigModelForm
 
 	/**
 	 * Method to get the record form.
-	 *JModelCmsForm
+	 *
 	 * @param   array    $data      An optional array of data for the form to interogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
