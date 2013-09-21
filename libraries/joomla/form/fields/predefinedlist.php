@@ -18,7 +18,7 @@ JFormHelper::loadFieldClass('list');
  * @subpackage  Form
  * @since       3.2
  */
-class JFormFieldPredefinedList extends JFormFieldList
+abstract class JFormFieldPredefinedList extends JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -71,14 +71,20 @@ class JFormFieldPredefinedList extends JFormFieldList
 
 			$options = array();
 
+			// Allow to only use specific values of the predefined list
+			$filter = isset($this->element['filter']) ? explode(',', $this->element['filter']) : array();
+
 			foreach ($this->predefinedOptions as $value => $text)
 			{
-				$text = $this->translate ? JText::_($text) : $text;
+				if (empty($filter) || in_array($value, $filter))
+				{
+					$text = $this->translate ? JText::_($text) : $text;
 
-				$options[] = (object) array(
-					'value' => $value,
-					'text'  => $text
-				);
+					$options[] = (object) array(
+						'value' => $value,
+						'text'  => $text
+					);
+				}
 			}
 
 			static::$options[$type][$hash] = array_merge(static::$options[$type][$hash], $options);
