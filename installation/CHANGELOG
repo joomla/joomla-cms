@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Sep-2013
+ # [#32056] Add target="_blank" to the joomla.org link at the installation. Thanks Tobias Zulauf  
+
 20-Sep-2013 Michael Babker
  ^ [#31727] Migrate application classes from legacy JApplication to JApplicationWeb
 
