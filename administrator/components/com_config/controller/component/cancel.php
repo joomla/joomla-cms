@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage  com_config
  * @since       3.2
 */
-class ConfigControllerComponentCancel extends JControllerCanceladmin
+class ConfigControllerComponentCancel extends ConfigControllerCanceladmin
 {
 	/**
 	 * Method to cancel global configuration component.

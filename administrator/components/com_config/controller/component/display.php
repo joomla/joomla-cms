@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_config
+ * @subpackage  Joomla.Config
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -9,83 +9,30 @@
 
 defined('_JEXEC') or die('Restricted access');
 
+// Needed for front end view
 /**
- * Display Controller for global configuration components
+ * Base Display Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_config
+ * @package     Joomla.Libraries
+ * @subpackage  controller
  * @since       3.2
- */
-/* class ConfigControllerComponentDisplay extends JControllerBase
-{*/
+*/
+class ConfigControllerComponentDisplay extends ConfigControllerDisplay
+{
+	/*
+	 * Prefix for the view and model classes
+	*
+	* @var  string
+	*/
+	public $prefix = 'Config';
+
 	/**
-	 * Method to display global configuration component.
-	 *
-	 * @return  void
+	 * @return  mixed  A rendered view or true
 	 *
 	 * @since   3.2
 	 */
-/*	public function execute()
+	public function execute()
 	{
-
-		// Get the application
-		$app = $this->getApplication();
-
-		// Get the document object.
-		$document     = JFactory::getDocument();
-
-		$viewName     = $this->input->getWord('view', 'component');
-		$viewFormat   = $document->getType();
-		$layoutName   = $this->input->getWord('layout', 'default');
-
-
-
-		// Register the layout paths for the view
-		$paths = new SplPriorityQueue;
-		$paths->insert(JPATH_ADMINISTRATOR . '/components/com_config/view/' . $viewName . '/tmpl', 'normal');
-
-		$viewClass  = 'ConfigView' . ucfirst($viewName) . ucfirst($viewFormat);
-		$modelClass = 'ConfigModel' . ucfirst($viewName);
-
-		if (class_exists($viewClass))
-		{
-			if ($viewName != 'close')
-			{
-
-				$model = new $modelClass;
-				$state = $model->getState();
-
-				// Access check.
-				if (!JFactory::getUser()->authorise('core.admin', $state->get('component.option')))
-				{
-					$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
-
-					return;
-
-				}
-
-			}
-
-			$view = new $viewClass($model, $paths);
-
-			$view->setLayout($layoutName);
-
-			// Push document object into the view.
-			$view->document = $document;
-
-			// Reply for service requests
-			if ($viewFormat == 'json')
-			{
-
-				return $view->render();
-			}
-
-			// Render view.
-			echo $view->render();
-		}
-
-		return true;
+		return parent::execute();
 	}
-
 }
-*/

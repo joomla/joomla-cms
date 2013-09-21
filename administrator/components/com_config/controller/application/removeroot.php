@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage  com_config
  * @since       3.2
 */
-class ConfigControllerApplicationRemoveroot extends JControllerBase
+class ConfigControllerApplicationRemoveroot extends ConfgControllerBase
 {
 
 	/**

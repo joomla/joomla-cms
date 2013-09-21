@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage  com_config
  * @since       3.2
  */
-class ConfigControllerApplicationCancel extends JControllerCancel
+class ConfigControllerApplicationCancel extends ConfigControllerCancel
 {
 
 	/**

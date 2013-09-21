@@ -1,23 +1,23 @@
 <?php
 /**
- * @package     Joomla.Administrator
+ * @package     Joomla.Site
  * @subpackage  com_config
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
-JHtml::_('behavior.tabstate');
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
-// Access checks are done internally because of different requirements for the two controllers.
-
-// Tell the browser not to cache this page.
-JFactory::getApplication()->setHeader('Expires', 'Mon, 26 Jul 1997 05:00:00 GMT', true);
+// Sessions
+jimport('joomla.session.session');
 
 // Load classes
 JLoader::registerPrefix('Config', JPATH_COMPONENT);
-JLoader::registerPrefix('Config', JPATH_ROOT . '/components/com_config');
+
+// Tell the browser not to cache this page.
+JResponse::setHeader('Expires', 'Mon, 26 Jul 1997 05:00:00 GMT', true);
 
 // Application
 $app = JFactory::getApplication();

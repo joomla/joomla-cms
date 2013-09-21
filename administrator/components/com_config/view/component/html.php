@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_config
  * @since       3.2
  */
-class ConfigViewComponentHtml extends JViewHtmlCms
+class ConfigViewComponentHtml extends ConfigViewHtmlCms
 {
 
 	public $state;

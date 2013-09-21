@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  * @package     Joomla.Administrator
  * @subpackage  com_config
  */
-class ConfigModelApplication extends JModelCmsForm
+class ConfigModelApplication extends ConfigModelForm
 {
 	/**
 	 * Method to get a form object.

@@ -17,7 +17,7 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage  controller
  * @since       3.2
 */
-class ConfigControllerApplicationDisplay extends JControllerDisplay
+class ConfigControllerApplicationDisplay extends ConfigControllerDisplay
 {
 	/*
 	 * Prefix for the view and model classes

@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_config
  * @since       3.2
  */
-class ConfigViewApplicationJson extends JViewJson
+class ConfigViewApplicationJson extends ConfigViewJson
 {
 
 	public $state;

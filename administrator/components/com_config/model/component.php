@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_config
  * @since       1.5
  */
-class ConfigModelComponent extends JModelCmsForm
+class ConfigModelComponent extends ConfigModelForm
 {
 	/**
 	 * Method to auto-populate the model state.
