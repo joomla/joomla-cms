@@ -355,11 +355,9 @@ final class JApplicationSite extends JApplicationCms
 	 *
 	 * @since   3.2
 	 */
-	public function getPathway($name = null, $options = array())
+	public function getPathway($name = 'site', $options = array())
 	{
-		$pathway = parent::getPathway('site', $options);
-
-		return $pathway;
+		return parent::getPathway($name, $options);
 	}
 
 	/**
@@ -743,7 +741,7 @@ final class JApplicationSite extends JApplicationCms
 	 *
 	 * @since	3.2
 	 */
-	public function setDetectBrowser($state=false)
+	public function setDetectBrowser($state = false)
 	{
 		$old = $this->_detect_browser;
 		$this->_detect_browser = $state;
