@@ -320,7 +320,8 @@ class ModulesModelModules extends JModelList
 			$query->where('a.language = ' . $db->quote($language));
 		}
 
-		//echo nl2br(str_replace('#__','jos_',$query));
+		// echo $query->dump();
+
 		return $query;
 	}
 }

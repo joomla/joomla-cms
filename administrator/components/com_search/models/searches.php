@@ -126,7 +126,8 @@ class SearchModelSearches extends JModelList
 		// Add the list ordering clause.
 		$query->order($db->escape($this->getState('list.ordering', 'a.hits')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
-		//echo nl2br(str_replace('#__','jos_',$query));
+		// echo $query->dump();
+
 		return $query;
 	}
 

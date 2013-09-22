@@ -115,7 +115,7 @@ class ContentModelArchive extends ContentModelArticles
 			$query->where('YEAR('. $queryDate . ') = ' . $year);
 		}
 
-		//echo nl2br(str_replace('#__','jos_',$query));
+		// echo $query->dump();
 
 		return $query;
 	}

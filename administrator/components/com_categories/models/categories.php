@@ -269,7 +269,8 @@ class CategoriesModelCategories extends JModelList
 			$query->order($db->escape($listOrdering) . ' ' . $listDirn);
 		}
 
-		//echo nl2br(str_replace('#__','jos_',$query));
+		// echo $query->dump();
+
 		return $query;
 	}
 
