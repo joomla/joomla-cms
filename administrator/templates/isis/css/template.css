@@ -6899,6 +6899,16 @@ h6 {
 .sidebar-nav .nav-list > li.active > a {
 	color: #fff;
 }
+.quick-icons .nav li + .nav-header {
+	margin-top: 12px;
+	margin-bottom: 2px;
+}
+.quick-icons .nav-list > li > a {
+	padding: 5px 15px;
+}
+.quick-icons {
+	font-size: 14px;
+}
 .container-main,
 #system-debug {
 	padding-bottom: 50px;
