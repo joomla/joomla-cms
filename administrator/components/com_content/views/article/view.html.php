@@ -44,7 +44,7 @@ class ContentViewArticle extends JViewLegacy
 		$this->form		= $this->get('Form');
 		$this->item		= $this->get('Item');
 		$this->state	= $this->get('State');
-		$this->canDo	= ContentHelper::getActions($this->state->get('filter.category_id'), $this->item->id, 'com_content');
+		$this->canDo	= JHelperContent::getActions($this->state->get('filter.category_id'), $this->item->id, 'com_content');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

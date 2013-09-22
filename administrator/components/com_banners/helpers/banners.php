@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_banners
  * @since       1.6
  */
-class BannersHelper
+class BannersHelper extends JHelperContent
 {
 	/**
 	 * Configure the Linkbar.
