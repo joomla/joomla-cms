@@ -12,7 +12,6 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Table
- *
  * @since       12.3
  */
 class JTableMenuTypeTest extends TestCase
