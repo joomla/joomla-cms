@@ -32,17 +32,12 @@ class NewsfeedsHelper
 			'index.php?option=com_newsfeeds&view=newsfeeds',
 			$vName == 'newsfeeds'
 		);
+
 		JHtmlSidebar::addEntry(
 			JText::_('COM_NEWSFEEDS_SUBMENU_CATEGORIES'),
 			'index.php?option=com_categories&extension=com_newsfeeds',
 			$vName == 'categories'
 		);
-		if ($vName == 'categories')
-		{
-			JToolbarHelper::title(
-				JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', JText::_('com_newsfeeds')),
-				'newsfeeds-categories');
-		}
 	}
 
 	/**
