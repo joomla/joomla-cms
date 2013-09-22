@@ -173,14 +173,12 @@ if($this->type == 'image')
 						<input type="hidden" name="task" value="" />
 						<?php echo JHtml::_('form.token'); ?>
 						<div class="hero-unit" style="text-align: justify;">
-							<h1>Hello, world!</h1>
-							<p>	You can select from a number of options for customizing the look of your templates.
-								The Template Manager supports Source files, Image files, Font files, Zip archives and
-								most of the operations that can be performed on those files. Just select a file and
-								you are good to go. Check the documentation if you want to know more.
-							</p>
+							<h1><?php echo JText::_('COM_TEMPLATES_HOME_HEADING'); ?></h1>
+							<p><?php echo JText::_('COM_TEMPLATES_HOME_TEXT'); ?></p>
 							<p>
-								<a href="http://docs.joomla.org/J3.2:How_to_use_the_Template_Manager" target="_blank" class="btn btn-primary btn-large">Documentation</a>
+								<a href="http://docs.joomla.org/J3.2:How_to_use_the_Template_Manager" target="_blank" class="btn btn-primary btn-large">
+									<?php echo JText::_('COM_TEMPLATES_HOME_BUTTON'); ?>
+								</a>
 							</p>
 						</div>
 					</form>
