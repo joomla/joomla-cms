@@ -30,6 +30,7 @@ $ -> Language fix or change
 
 21-Sep-2013 Michael Babker
  + [#31989] GSOC 2013: Microdata semantics library.  Thanks Pruteanu Alexandru
+ # [#32058] Wrong alert class for expired session
 
 21-Sep-2013 Elin Waring
  # [#32056] Add target="_blank" to the joomla.org link at the installation. Thanks Tobias Zulauf
