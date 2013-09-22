@@ -9,6 +9,10 @@
 
 /**
  * Test class for JToolbar.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Toolbar
+ * @since       3.0
  */
 class JToolbarTest extends TestCase
 {
@@ -29,6 +33,8 @@ class JToolbarTest extends TestCase
 	protected function setUp()
 	{
 		$this->object = new JToolbar('toolbar');
+
+		parent::setUp();
 
 		$this->saveFactoryState();
 

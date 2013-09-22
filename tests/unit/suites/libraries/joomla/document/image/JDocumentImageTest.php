@@ -21,15 +21,12 @@ class JDocumentImageTest extends TestCase
 {
 	/**
 	 * @var    JDocumentImage
-	 * @access protected
 	 */
 	protected $object;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
-	 *
-	 * @access protected
 	 *
 	 * @return void
 	 */
@@ -41,7 +38,7 @@ class JDocumentImageTest extends TestCase
 
 		require_once JPATH_PLATFORM . '/joomla/factory.php';
 
-		$app = $this->getMockApplication();
+		$app = $this->getMockWeb();
 
 		JFactory::$application = $app;
 
@@ -51,8 +48,6 @@ class JDocumentImageTest extends TestCase
 	/**
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
-	 *
-	 * @access protected
 	 *
 	 * @return void
 	 */
@@ -67,10 +62,8 @@ class JDocumentImageTest extends TestCase
 	 * Tests the JDocumentImage::__construct method.
 	 *
 	 * @return void
-	 *
-	 * @covers JDocumentImage::__construct
 	 */
-	public function test__construct($options = array())
+	public function test__construct()
 	{
 		$documentImage = new JDocumentImage;
 
@@ -96,7 +89,7 @@ class JDocumentImageTest extends TestCase
 	 */
 	public function testRender()
 	{
-		JResponse::clearHeaders();
+		JFactory::getApplication()->clearHeaders();
 
 		$testFiles = array(
 			'jpg' => array(

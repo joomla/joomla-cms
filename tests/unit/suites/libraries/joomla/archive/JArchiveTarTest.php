@@ -19,8 +19,6 @@ require_once __DIR__ . '/JArchiveTestCase.php';
  */
 class JArchiveTarTest extends JArchiveTestCase
 {
-	protected static $outputPath;
-
 	/**
 	 * @var JArchiveTar
 	 */
@@ -36,34 +34,13 @@ class JArchiveTarTest extends JArchiveTestCase
 	{
 		parent::setUp();
 
-		self::$outputPath = __DIR__ . '/output';
-
-		if (!is_dir(self::$outputPath))
-		{
-			mkdir(self::$outputPath, 0777);
-		}
-
 		$this->object = new JArchiveTar;
-	}
-
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @return void
-	 */
-	protected function tearDown()
-	{
 	}
 
 	/**
 	 * Tests the extract Method.
 	 *
-	 * @group   JArchive
 	 * @return  void
-	 *
-	 * @covers  JArchiveTar::extract
-	 * @covers  JArchiveTar::_getTarInfo
 	 */
 	public function testExtract()
 	{
@@ -74,22 +51,19 @@ class JArchiveTarTest extends JArchiveTestCase
 			return;
 		}
 
-		$this->object->extract(__DIR__ . '/logo.tar', self::$outputPath);
-		$this->assertTrue(is_file(self::$outputPath . '/logo-tar.png'));
+		$this->object->extract(__DIR__ . '/logo.tar', static::$outputPath);
+		$this->assertTrue(is_file(static::$outputPath . '/logo-tar.png'));
 
-		if (is_file(self::$outputPath . '/logo-tar.png'))
+		if (is_file(static::$outputPath . '/logo-tar.png'))
 		{
-			unlink(self::$outputPath . '/logo-tar.png');
+			unlink(static::$outputPath . '/logo-tar.png');
 		}
 	}
 
 	/**
 	 * Tests the isSupported Method.
 	 *
-	 * @group   JArchive
 	 * @return  void
-	 *
-	 * @covers  JArchiveTar::isSupported
 	 */
 	public function testIsSupported()
 	{

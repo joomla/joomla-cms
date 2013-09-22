@@ -29,8 +29,6 @@ class JDataTest extends TestCase
 	 * Tests the object constructor.
 	 *
 	 * @return  void
-	 *
-	 * @covers	JData::__construct
 	 */
 	public function test__construct()
 	{
@@ -46,7 +44,6 @@ class JDataTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JData::__get
 	 * @since   12.3
 	 */
 	public function test__get()
@@ -62,7 +59,6 @@ class JDataTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JData::__isset
 	 * @since   12.3
 	 */
 	public function test__isset()
@@ -79,7 +75,6 @@ class JDataTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JData::__set
 	 * @since   12.3
 	 */
 	public function test__set_setter()
@@ -99,7 +94,6 @@ class JDataTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JData::__unset
 	 * @since   12.3
 	 */
 	public function test__unset()
@@ -118,7 +112,6 @@ class JDataTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JData::bind
 	 * @since   12.3
 	 */
 	public function testBind()
@@ -138,7 +131,6 @@ class JDataTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JData::bind
 	 * @since   12.3
 	 */
 	public function testBind_array()
@@ -166,7 +158,6 @@ class JDataTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JData::bind
 	 * @since   12.3
 	 */
 	public function testBind_arrayObject()
@@ -196,7 +187,6 @@ class JDataTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JData::bind
 	 * @since   12.3
 	 */
 	public function testBind_object()
@@ -223,7 +213,6 @@ class JDataTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers             JData::bind
 	 * @expectedException  InvalidArgumentException
 	 * @since              12.3
 	 */
@@ -237,7 +226,6 @@ class JDataTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JData::count
 	 * @since   12.3
 	 */
 	public function testCount()
@@ -260,7 +248,6 @@ class JDataTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JData::dump
 	 * @since   12.3
 	 */
 	public function testDump()
@@ -331,7 +318,6 @@ class JDataTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JData::dumpProperty
 	 * @since   12.3
 	 */
 	public function testDumpProperty()
@@ -350,7 +336,6 @@ class JDataTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers	JData::getIterator
 	 * @since   12.3
 	 */
 	public function testGetIterator()
@@ -363,7 +348,6 @@ class JDataTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JData::getProperty
 	 * @since   12.3
 	 */
 	public function testGetProperty()
@@ -377,7 +361,6 @@ class JDataTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers             JData::getProperty
 	 * @expectedException  InvalidArgumentException
 	 * @since              12.3
 	 */
@@ -386,7 +369,7 @@ class JDataTest extends TestCase
 		$this->_instance->bind(array('get_test' => 'get_test_value'));
 
 		// Get the reflection property. This should throw an exception.
-		$property = TestReflection::getValue($this->_instance, 'get_test');
+		TestReflection::getValue($this->_instance, 'get_test');
 	}
 
 	/**
@@ -396,7 +379,6 @@ class JDataTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JData::jsonSerialize
 	 * @since   12.3
 	 */
 	public function testJsonSerialize()
@@ -412,7 +394,6 @@ class JDataTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JData::setProperty
 	 * @since   12.3
 	 */
 	public function testSetProperty()
@@ -431,14 +412,13 @@ class JDataTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers             JData::setProperty
 	 * @expectedException  InvalidArgumentException
 	 * @since              12.3
 	 */
 	public function testSetProperty_exception()
 	{
 		// Get the reflection property. This should throw an exception.
-		$property = TestReflection::getValue($this->_instance, 'set_test');
+		TestReflection::getValue($this->_instance, 'set_test');
 	}
 
 	/**
@@ -446,7 +426,6 @@ class JDataTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JData::setProperty
 	 * @see     http://us3.php.net/manual/en/language.types.array.php#language.types.array.casting
 	 * @since   12.3
 	 */
@@ -467,7 +446,7 @@ class JDataTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   12.3
 	 */
 	protected function setUp()
 	{

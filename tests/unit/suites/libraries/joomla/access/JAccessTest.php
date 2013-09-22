@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/filesystem/path.php';
+jimport('joomla.filesystem.path');
 
 /**
  * Test class for JAccess.
@@ -30,7 +30,6 @@ class JAccessTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @covers  JAccess::getAuthorisedViewLevels
 	 */
 	public function testGetAuthorisedViewLevels()
 	{
@@ -91,10 +90,7 @@ class JAccessTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @dataProvider casesCheck()
-	 * @covers  JAccess::check
-	 *
-	 * @return void
+	 * @dataProvider  casesCheck()
 	 */
 	public function testCheck($userId, $action, $assetId, $result, $message)
 	{
@@ -149,8 +145,7 @@ class JAccessTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @dataProvider casesCheckGroup()
-	 * @covers  JAccess::checkGroup
+	 * @dataProvider  casesCheckGroup()
 	 */
 	public function testCheckGroup($groupId, $action, $assetId, $result, $message)
 	{
@@ -164,7 +159,6 @@ class JAccessTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @covers  JAccess::getAssetRules
 	 */
 	public function testGetAssetRulesValidTrue()
 	{
@@ -182,9 +176,6 @@ class JAccessTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @covers  JAccess::getAssetRules
-	 *
-	 * @return void
 	 */
 	public function testGetAssetRulesValidFalse()
 	{
@@ -200,9 +191,6 @@ class JAccessTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @covers  JAccess::getAssetRules
-	 *
-	 * @return void
 	 */
 	public function testGetAssetRulesInvalidFalse()
 	{
@@ -219,9 +207,6 @@ class JAccessTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @covers  JAccess::getAssetRules
-	 *
-	 * @return void
 	 */
 	public function testGetAssetRulesTextFalse()
 	{
@@ -238,9 +223,6 @@ class JAccessTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @covers  JAccess::getAssetRules
-	 *
-	 * @return void
 	 */
 	public function testGetAssetRulesTextTrue()
 	{
@@ -257,7 +239,6 @@ class JAccessTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @covers  JAccess::getUsersByGroup
 	 */
 	public function testGetUsersByGroupSimple()
 	{
@@ -272,9 +253,6 @@ class JAccessTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @covers  JAccess::getUsersByGroup
-	 *
-	 * @return void
 	 */
 	public function testGetUsersByGroupTwoUsers()
 	{
@@ -290,9 +268,6 @@ class JAccessTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @covers  JAccess::getUsersByGroup
-	 *
-	 * @return void
 	 */
 	public function testGetUsersByGroupInvalidGroup()
 	{
@@ -308,7 +283,6 @@ class JAccessTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @covers  JAccess::getGroupsByUser
 	 */
 	public function testGetGroupsByUser()
 	{
@@ -402,9 +376,7 @@ class JAccessTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   12.1
-	 *
-	 * @dataProvider casesGetActionsFromData
-	 * @covers  JAccess::getActionsFromData
+	 * @dataProvider  casesGetActionsFromData
 	 */
 	public function testGetActionsFromData($data, $xpath, $expected, $msg)
 	{
@@ -417,7 +389,6 @@ class JAccessTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   12.1
-	 * @covers  JAccess::getActionsFromFile
 	 */
 	public function testGetActionsFromFile()
 	{
@@ -512,7 +483,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since       12.1
+	 * @since   12.1
 	 */
 	protected function tearDown()
 	{

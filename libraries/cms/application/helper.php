@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Legacy
+ * @package     Joomla.Libraries
  * @subpackage  Application
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
@@ -12,9 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Application helper functions
  *
- * @package     Joomla.Legacy
+ * @package     Joomla.Libraries
  * @subpackage  Application
- * @since       11.1
+ * @since       1.5
  */
 class JApplicationHelper
 {
@@ -22,7 +22,7 @@ class JApplicationHelper
 	 * Client information array
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.6
 	 */
 	protected static $_clients = null;
 
@@ -33,7 +33,7 @@ class JApplicationHelper
 	 *
 	 * @return  string  Option (e.g. com_something)
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public static function getComponentName($default = null)
 	{
@@ -57,6 +57,45 @@ class JApplicationHelper
 	}
 
 	/**
+	 * Provides a secure hash based on a seed
+	 *
+	 * @param   string  $seed  Seed string.
+	 *
+	 * @return  string  A secure hash
+	 *
+	 * @since   3.2
+	 */
+	public static function getHash($seed)
+	{
+		return md5(JFactory::getConfig()->get('secret') . $seed);
+	}
+
+	/**
+	 * This method transliterates a string into an URL
+	 * safe string or returns a URL safe UTF-8 string
+	 * based on the global configuration
+	 *
+	 * @param   string  $string  String to process
+	 *
+	 * @return  string  Processed string
+	 *
+	 * @since   3.2
+	 */
+	public static function stringURLSafe($string)
+	{
+		if (JFactory::getConfig()->get('unicodeslugs') == 1)
+		{
+			$output = JFilterOutput::stringURLUnicodeSlug($string);
+		}
+		else
+		{
+			$output = JFilterOutput::stringURLSafe($string);
+		}
+
+		return $output;
+	}
+
+	/**
 	 * Gets information on a specific client id.  This method will be useful in
 	 * future versions when we start mapping applications in the database.
 	 *
@@ -68,7 +107,7 @@ class JApplicationHelper
 	 *
 	 * @return  mixed  Object describing the client or false if not known
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public static function getClientInfo($id = null, $byName = false)
 	{
@@ -131,7 +170,7 @@ class JApplicationHelper
 	 *
 	 * @return  boolean  True if the information is added. False on error
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public static function addClientInfo($client)
 	{
@@ -166,8 +205,8 @@ class JApplicationHelper
 	 *
 	 * @return  array  XML metadata.
 	 *
-	 * @since   11.1
-	 * @deprecated  13.3 Use JInstaller::parseXMLInstallFile instead.
+	 * @since       1.5
+	 * @deprecated  4.0 Use JInstaller::parseXMLInstallFile instead.
 	 */
 	public static function parseXMLInstallFile($path)
 	{
@@ -184,7 +223,8 @@ class JApplicationHelper
 	 *
 	 * @return  array  XML metadata.
 	 *
-	 * @deprecated  13.3 Use JInstaller::parseXMLInstallFile instead.
+	 * @since       1.5
+	 * @deprecated  4.0 Use JInstaller::parseXMLInstallFile instead.
 	 */
 	public static function parseXMLLangMetaFile($path)
 	{

@@ -22,8 +22,6 @@ class JAccessRuleTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @covers  JAccessRule::__construct
-	 * @covers  JAccessRule::__toString
 	 */
 	public function test__construct()
 	{
@@ -71,7 +69,6 @@ class JAccessRuleTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   12.2
-	 * @covers  JAccessRule::getData
 	 */
 	public function testGetData()
 	{
@@ -95,7 +92,6 @@ class JAccessRuleTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @covers  JAccessRule::mergeIdentity
 	 */
 	public function testMergeIdentity()
 	{
@@ -130,7 +126,6 @@ class JAccessRuleTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @covers  JAccessRule::mergeIdentities
 	 */
 	public function testMergeIdentities()
 	{
@@ -193,7 +188,6 @@ class JAccessRuleTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @covers  JAccessRule::allow
 	 */
 	public function testAllow()
 	{

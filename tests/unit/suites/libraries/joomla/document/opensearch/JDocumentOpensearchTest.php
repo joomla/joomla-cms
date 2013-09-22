@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/environment/response.php';
 require_once JPATH_PLATFORM . '/joomla/document/opensearch/opensearch.php';
 
 /**
@@ -22,7 +21,7 @@ class JDocumentOpensearchTest extends TestCase
 {
 
 	/**
-	 * @var JDocumentOpensearch
+	 * @var  JDocumentOpensearch
 	 */
 	protected $object;
 
@@ -30,7 +29,7 @@ class JDocumentOpensearchTest extends TestCase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	protected function setUp()
 	{
@@ -41,7 +40,7 @@ class JDocumentOpensearchTest extends TestCase
 		$_SERVER['HTTP_HOST'] = 'localhost';
 		$_SERVER['SCRIPT_NAME'] = '';
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$config = $this->getMockConfig();
 
 		$this->object = new JDocumentOpensearch;
@@ -51,7 +50,7 @@ class JDocumentOpensearchTest extends TestCase
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	protected function tearDown()
 	{
@@ -61,7 +60,7 @@ class JDocumentOpensearchTest extends TestCase
 	/**
 	 * Test...
 	 *
-	 * @return void
+	 * @return  void
 	 */
 	public function testRender()
 	{
@@ -138,5 +137,4 @@ class JDocumentOpensearchTest extends TestCase
 			'This test has not been implemented yet.'
 		);
 	}
-
 }
