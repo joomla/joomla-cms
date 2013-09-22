@@ -55,7 +55,7 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 	protected function addToolbar()
 	{
 		$state	= $this->get('State');
-		$canDo	= NewsfeedsHelper::getActions($state->get('filter.category_id'), 0, 'com_newsfeeds');
+		$canDo	= JHelperContent::getActions($state->get('filter.category_id'), 0, 'com_newsfeeds');
 		$user	= JFactory::getUser();
 
 		// Get the toolbar object instance
