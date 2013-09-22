@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Sep-2013 Roberto Segura
+ # [#27830] Loss of checked item in user registration back end. Thanks Achal Aggarwal
+
 11-Sep-2013 Jean-Marie Simonet
  + Adding Albanian flag
 
