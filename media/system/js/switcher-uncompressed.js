@@ -64,6 +64,7 @@ var JSwitcher = function(toggler, element, _options) {
         $toggler.addClass('active');
         current = togglerId;
         document.location.hash = current;
+        $(window).scrollTop(0);
     },
     
     hide = function(element) {
