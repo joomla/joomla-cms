@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-$app = JFactory::getApplication();
-$doc = JFactory::getDocument();
+$app  = JFactory::getApplication();
+$doc  = JFactory::getDocument();
 $lang = JFactory::getLanguage();
 
 // Add JavaScript Frameworks
@@ -18,13 +18,14 @@ JHtml::_('bootstrap.framework');
 JHtml::_('bootstrap.tooltip');
 
 // Add Stylesheets
-$doc->addStyleSheet('templates/' .$this->template. '/css/template.css');
+$doc->addStyleSheet('templates/' . $this->template . '/css/template.css');
 
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
 
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
+
 if (is_file($file))
 {
 	$doc->addStyleSheet($file);
@@ -41,6 +42,9 @@ $sitename = $app->getCfg('sitename');
 // Check if debug is on
 $config = JFactory::getConfig();
 $debug  = (boolean) $config->get('debug');
+
+$headerColor   = $this->params->get('headerColor');
+$templateColor = $this->params->get('templateColor');
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>" >
@@ -56,6 +60,15 @@ $debug  = (boolean) $config->get('debug');
 		});
 	</script>
 	<style type="text/css">
+		.view-login {
+			background-color: <?php echo $templateColor; ?>;
+			background-image: -webkit-gradient(radial,center center,0,center center,460,from(<?php echo $headerColor; ?>),to(<?php echo $templateColor; ?>));
+			background-image: -webkit-radial-gradient(circle,<?php echo $headerColor; ?>,<?php echo $templateColor; ?>);
+			background-image: -moz-radial-gradient(circle,<?php echo $headerColor; ?>,<?php echo $templateColor; ?>);
+			background-image: -o-radial-gradient(circle,<?php echo $headerColor; ?>,<?php echo $templateColor; ?>);
+			background-repeat: no-repeat;
+		}
+
 		/* Responsive Styles */
 		@media (max-width: 480px) {
 			.view-login .container {
@@ -66,6 +79,7 @@ $debug  = (boolean) $config->get('debug');
 				padding: 4px 10px 4px;
 			}
 		}
+
 		<?php if ($debug) : ?>
 			.view-login .container {
 				position: static;
@@ -82,14 +96,17 @@ $debug  = (boolean) $config->get('debug');
 		<script src="../media/jui/js/html5.js"></script>
 	<![endif]-->
 </head>
-
-<body class="site <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " itemid-" . $itemid . " ";?>">
+<body class="site <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " itemid-" . $itemid . " "; ?>">
 	<!-- Container -->
 	<div class="container">
 		<div id="content">
 			<!-- Begin Content -->
 			<div id="element-box" class="login well">
-				<img src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template ?>/images/joomla.png" alt="Joomla!" />
+				<?php if ($loginLogoFile = $this->params->get('loginLogoFile')): ?>
+					<img src="<?php echo JUri::root() . $loginLogoFile; ?>" alt="<?php echo $sitename; ?>" />
+				<?php else: ?>
+					<img src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template ?>/images/joomla.png" alt="Joomla!" />
+				<?php endif; ?>
 				<hr />
 				<jdoc:include type="message" />
 				<jdoc:include type="component" />
@@ -101,8 +118,8 @@ $debug  = (boolean) $config->get('debug');
 		</div>
 	</div>
 	<div class="navbar navbar-fixed-bottom hidden-phone">
-		<p class="pull-right">&copy; <?php echo $sitename; ?> <?php echo date('Y');?></p>
-		<a class="login-joomla" href="http://www.joomla.org" class="hasTooltip" title="<?php echo JHtml::tooltipText('TPL_ISIS_ISFREESOFTWARE');?>">Joomla!&#174;</a>
+		<p class="pull-right">&copy; <?php echo $sitename; ?> <?php echo date('Y'); ?></p>
+		<a class="login-joomla" href="http://www.joomla.org" class="hasTooltip" title="<?php echo JHtml::tooltipText('TPL_ISIS_ISFREESOFTWARE'); ?>">Joomla!&#174;</a>
 		<a href="<?php echo JUri::root(); ?>" class="pull-left"><i class="icon-share icon-white"></i> <?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE') ?></a>
 	</div>
 	<jdoc:include type="modules" name="debug" style="none" />
