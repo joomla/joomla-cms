@@ -534,4 +534,4 @@ if($this->type == 'image')
 		</div>
 		<?php echo JHtml::_('form.token'); ?>
 	</form>
-<?php endif ?>
+<?php endif; ?>
