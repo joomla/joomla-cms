@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Legacy
+ * @package     Joomla.Libraries
  * @subpackage  Component
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
@@ -12,9 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Component helper class
  *
- * @package     Joomla.Legacy
+ * @package     Joomla.Libraries
  * @subpackage  Component
- * @since       11.1
+ * @since       1.5
  */
 class JComponentHelper
 {
@@ -22,7 +22,7 @@ class JComponentHelper
 	 * The component list cache
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.6
 	 */
 	protected static $components = array();
 
@@ -34,15 +34,15 @@ class JComponentHelper
 	 *
 	 * @return  object   An object with the information for the component.
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public static function getComponent($option, $strict = false)
 	{
-		if (!isset(self::$components[$option]))
+		if (!isset(static::$components[$option]))
 		{
-			if (self::_load($option))
+			if (static::load($option))
 			{
-				$result = self::$components[$option];
+				$result = static::$components[$option];
 			}
 			else
 			{
@@ -53,7 +53,7 @@ class JComponentHelper
 		}
 		else
 		{
-			$result = self::$components[$option];
+			$result = static::$components[$option];
 		}
 
 		return $result;
@@ -66,11 +66,11 @@ class JComponentHelper
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public static function isEnabled($option)
 	{
-		$result = self::getComponent($option, true);
+		$result = static::getComponent($option, true);
 
 		return $result->enabled;
 	}
@@ -84,11 +84,11 @@ class JComponentHelper
 	 * @return  JRegistry  A JRegistry object.
 	 *
 	 * @see     JRegistry
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public static function getParams($option, $strict = false)
 	{
-		$component = self::getComponent($option, $strict);
+		$component = static::getComponent($option, $strict);
 
 		return $component->params;
 	}
@@ -100,30 +100,30 @@ class JComponentHelper
 	 *
 	 * @return  string  The filtered string
 	 *
-	 * @since   11.4
+	 * @since   2.5
 	 */
 	public static function filterText($text)
 	{
 		// Filter settings
-		$config		= self::getParams('com_config');
-		$user		= JFactory::getUser();
-		$userGroups	= JAccess::getGroupsByUser($user->get('id'));
+		$config     = static::getParams('com_config');
+		$user       = JFactory::getUser();
+		$userGroups = JAccess::getGroupsByUser($user->get('id'));
 
 		$filters = $config->get('filters');
 
-		$blackListTags			= array();
-		$blackListAttributes	= array();
+		$blackListTags       = array();
+		$blackListAttributes = array();
 
-		$customListTags			= array();
-		$customListAttributes	= array();
+		$customListTags       = array();
+		$customListAttributes = array();
 
-		$whiteListTags			= array();
-		$whiteListAttributes	= array();
+		$whiteListTags       = array();
+		$whiteListAttributes = array();
 
-		$whiteList	= false;
-		$blackList	= false;
-		$customList	= false;
-		$unfiltered	= false;
+		$whiteList  = false;
+		$blackList  = false;
+		$customList = false;
+		$unfiltered = false;
 
 		// Cycle through each of the user groups the user is in.
 		// Remember they are included in the Public group as well.
@@ -137,7 +137,7 @@ class JComponentHelper
 
 			// Each group the user is in could have different filtering properties.
 			$filterData = $filters->$groupId;
-			$filterType	= strtoupper($filterData->filter_type);
+			$filterType = strtoupper($filterData->filter_type);
 
 			if ($filterType == 'NH')
 			{
@@ -152,10 +152,10 @@ class JComponentHelper
 			{
 				// Black or white list.
 				// Preprocess the tags and attributes.
-				$tags			= explode(',', $filterData->filter_tags);
-				$attributes		= explode(',', $filterData->filter_attributes);
-				$tempTags		= array();
-				$tempAttributes	= array();
+				$tags           = explode(',', $filterData->filter_tags);
+				$attributes     = explode(',', $filterData->filter_attributes);
+				$tempTags       = array();
+				$tempAttributes = array();
 
 				foreach ($tags as $tag)
 				{
@@ -181,36 +181,36 @@ class JComponentHelper
 				// Each list is cummulative.
 				if ($filterType == 'BL')
 				{
-					$blackList				= true;
-					$blackListTags			= array_merge($blackListTags, $tempTags);
-					$blackListAttributes	= array_merge($blackListAttributes, $tempAttributes);
+					$blackList           = true;
+					$blackListTags       = array_merge($blackListTags, $tempTags);
+					$blackListAttributes = array_merge($blackListAttributes, $tempAttributes);
 				}
 				elseif ($filterType == 'CBL')
 				{
 					// Only set to true if Tags or Attributes were added
 					if ($tempTags || $tempAttributes)
 					{
-						$customList				= true;
-						$customListTags			= array_merge($customListTags, $tempTags);
-						$customListAttributes	= array_merge($customListAttributes, $tempAttributes);
+						$customList           = true;
+						$customListTags       = array_merge($customListTags, $tempTags);
+						$customListAttributes = array_merge($customListAttributes, $tempAttributes);
 					}
 				}
 				elseif ($filterType == 'WL')
 				{
-					$whiteList				= true;
-					$whiteListTags			= array_merge($whiteListTags, $tempTags);
-					$whiteListAttributes	= array_merge($whiteListAttributes, $tempAttributes);
+					$whiteList           = true;
+					$whiteListTags       = array_merge($whiteListTags, $tempTags);
+					$whiteListAttributes = array_merge($whiteListAttributes, $tempAttributes);
 				}
 			}
 		}
 
 		// Remove duplicates before processing (because the black list uses both sets of arrays).
-		$blackListTags			= array_unique($blackListTags);
-		$blackListAttributes	= array_unique($blackListAttributes);
-		$customListTags			= array_unique($customListTags);
-		$customListAttributes	= array_unique($customListAttributes);
-		$whiteListTags			= array_unique($whiteListTags);
-		$whiteListAttributes	= array_unique($whiteListAttributes);
+		$blackListTags        = array_unique($blackListTags);
+		$blackListAttributes  = array_unique($blackListAttributes);
+		$customListTags       = array_unique($customListTags);
+		$customListAttributes = array_unique($customListAttributes);
+		$whiteListTags        = array_unique($whiteListTags);
+		$whiteListAttributes  = array_unique($whiteListAttributes);
 
 		// Unfiltered assumes first priority.
 		if ($unfiltered)
@@ -238,8 +238,8 @@ class JComponentHelper
 			elseif ($blackList)
 			{
 				// Remove the white-listed tags and attributes from the black-list.
-				$blackListTags			= array_diff($blackListTags, $whiteListTags);
-				$blackListAttributes	= array_diff($blackListAttributes, $whiteListAttributes);
+				$blackListTags       = array_diff($blackListTags, $whiteListTags);
+				$blackListAttributes = array_diff($blackListAttributes, $whiteListAttributes);
 
 				$filter = JFilterInput::getInstance($blackListTags, $blackListAttributes, 1, 1);
 
@@ -258,7 +258,7 @@ class JComponentHelper
 			elseif ($whiteList)
 			{
 				// Turn off XSS auto clean
-				$filter	= JFilterInput::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);
+				$filter = JFilterInput::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);
 			}
 			// No HTML takes last place.
 			else
@@ -280,7 +280,7 @@ class JComponentHelper
 	 *
 	 * @return  object
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 * @throws  Exception
 	 */
 	public static function renderComponent($option, $params = array())
@@ -318,7 +318,7 @@ class JComponentHelper
 		$path = JPATH_COMPONENT . '/' . $file . '.php';
 
 		// If component is disabled throw error
-		if (!self::isEnabled($option) || !file_exists($path))
+		if (!static::isEnabled($option) || !file_exists($path))
 		{
 			throw new Exception(JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'), 404);
 		}
@@ -332,7 +332,7 @@ class JComponentHelper
 		$contents = null;
 
 		// Execute the component.
-		$contents = self::executeComponent($path);
+		$contents = static::executeComponent($path);
 
 		// Revert the scope
 		$app->scope = $scope;
@@ -347,14 +347,14 @@ class JComponentHelper
 	 *
 	 * @return  string  The component output
 	 *
-	 * @since   11.3
+	 * @since   1.7
 	 */
 	protected static function executeComponent($path)
 	{
 		ob_start();
 		require_once $path;
-		$contents = ob_get_contents();
-		ob_end_clean();
+		$contents = ob_get_clean();
+
 		return $contents;
 	}
 
@@ -365,9 +365,24 @@ class JComponentHelper
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.5
+	 * @deprecated  4.0  Use JComponentHelper::load() instead
 	 */
 	protected static function _load($option)
+	{
+		return static::load($option);
+	}
+
+	/**
+	 * Load the installed components into the components property.
+	 *
+	 * @param   string  $option  The element value for the extension
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   3.2
+	 */
+	protected static function load($option)
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -381,29 +396,31 @@ class JComponentHelper
 
 		try
 		{
-			self::$components[$option] = $cache->get(array($db, 'loadObject'), null, $option, false);
+			static::$components[$option] = $cache->get(array($db, 'loadObject'), null, $option, false);
 		}
 		catch (RuntimeException $e)
 		{
 			// Fatal error.
 			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $e->getMessage()), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
-		if (empty(self::$components[$option]))
+		if (empty(static::$components[$option]))
 		{
 			// Fatal error.
 			$error = JText::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND');
 			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, $error), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
 		// Convert the params to an object.
-		if (is_string(self::$components[$option]->params))
+		if (is_string(static::$components[$option]->params))
 		{
 			$temp = new JRegistry;
-			$temp->loadString(self::$components[$option]->params);
-			self::$components[$option]->params = $temp;
+			$temp->loadString(static::$components[$option]->params);
+			static::$components[$option]->params = $temp;
 		}
 
 		return true;
