@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Sep-2012 Elin Waring
+ # [#32071] Unclosed div tag in com_content default view. Thanks Achal Aggarwal
+
 22-Sep-2013 Roberto Segura
  # [#31770] Update to jQuery 1.10.2 and add jQuery Migrate 1.2.1. Thanks Michael Babker
 
