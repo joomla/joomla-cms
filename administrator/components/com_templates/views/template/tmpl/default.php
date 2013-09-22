@@ -37,6 +37,9 @@ if($this->type == 'image')
 		// Hide all the folder when the page loads
 		$('.folder ul, .component-folder ul').hide();
 
+		// Display the tree after loading
+		$('.directory-tree').removeClass("directory-tree");
+
 		// Show all the lists in the path of an open file
 		$('.show > ul').show();
 
@@ -129,6 +132,10 @@ if($this->type == 'image')
 	}
 
 	.directory-tree{
+		display: none;
+	}
+
+	.tree-holder{
 		overflow-x: auto;
 	}
 
@@ -164,7 +171,7 @@ if($this->type == 'image')
 			</div>
 		</div>
 		<div class="row-fluid">
-			<div class="span3">
+			<div class="span3 tree-holder">
 				<?php echo $this->loadTemplate('tree');?>
 			</div>
 			<div class="span9">
