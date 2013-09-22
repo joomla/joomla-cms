@@ -465,7 +465,7 @@ if($this->type == 'image')
 						<input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_COPY_FILE');?>" class="btn btn-primary" />
 					</fieldset>
 				</form>
-			<? endif; ?>
+			<?php endif; ?>
 		</div>
 	</div>
 	<div class="modal-footer">

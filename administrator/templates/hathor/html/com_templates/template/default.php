@@ -509,5 +509,4 @@ if($this->type == 'image')
 			</ul>
 		</fieldset>
 	<?php echo JHtml::_('sliders.end'); ?>
-
 </div>
