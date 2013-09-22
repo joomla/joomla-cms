@@ -28,6 +28,9 @@ $ -> Language fix or change
 22-Sep-2013
  # [#31770] Update to jQuery 1.10.2 and add jQuery Migrate 1.2.1. Thanks Michael Babker
 
+21-Sep-2013 Michael Babker
+ + [#31989] GSOC 2013: Microdata semantics library.  Thanks Pruteanu Alexandru
+
 21-Sep-2013
  # [#32056] Add target="_blank" to the joomla.org link at the installation. Thanks Tobias Zulauf
  # [#32023] Hardcoded SQL in com_contact model. Thanks Peter Martin
