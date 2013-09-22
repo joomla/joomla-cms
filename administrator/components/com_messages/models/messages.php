@@ -132,7 +132,8 @@ class MessagesModelMessages extends JModelList
 		// Add the list ordering clause.
 		$query->order($db->escape($this->getState('list.ordering', 'a.date_time')) . ' ' . $db->escape($this->getState('list.direction', 'DESC')));
 
-		//echo nl2br(str_replace('#__','jos_',$query));
+		// echo $query->dump();
+
 		return $query;
 	}
 }

@@ -176,7 +176,8 @@ class BannersModelBanners extends JModelList
 		}
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 
-		//echo nl2br(str_replace('#__','jos_',$query));
+		// echo $query->dump();
+
 		return $query;
 	}
 
