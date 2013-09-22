@@ -189,7 +189,6 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 			TestReflection::getValue($this->object, '_methods'),
 			$this->equalTo(
 				array(
-					'__get' => array(2),
 					'ontestevent' => array(0, 2),
 					'ontestotherevent' => array(1)
 				)
@@ -367,7 +366,6 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 			TestReflection::getValue($this->object, '_methods'),
 			$this->equalTo(
 				array(
-					'__get' => array(1),
 					'ontestevent' => array(0, 1)
 				)
 			)
@@ -420,7 +418,6 @@ class JEventDispatcherTest extends PHPUnit_Framework_TestCase
 			TestReflection::getValue($this->object, '_methods'),
 			$this->equalTo(
 				array(
-					'__get' => array(1),
 					'ontestevent' => array(0, 1)
 				)
 			)
