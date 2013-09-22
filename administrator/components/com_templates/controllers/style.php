@@ -40,7 +40,7 @@ class TemplatesControllerStyle extends JControllerForm
 			$lang  = JFactory::getLanguage();
 			$model = $this->getModel();
 			$table = $model->getTable();
-			$data  = $this->input->post->get('jform', array(), 'array');
+			$data  = $this->input->post->get('params', array(), 'array');
 			$checkin = property_exists($table, 'checked_out');
 			$context = "$this->option.edit.$this->context";
 			$task = $this->getTask();
@@ -48,7 +48,7 @@ class TemplatesControllerStyle extends JControllerForm
 			$item = $model->getItem($app->getTemplate('template')->id);
 
 			// Setting received params
-			$item->set('params', $data['params']);
+			$item->set('params', $data);
 
 			$data = $item->getProperties();
 			unset($data['xml']);
