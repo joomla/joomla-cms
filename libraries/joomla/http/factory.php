@@ -34,6 +34,7 @@ class JHttpFactory
 		{
 			$options = new JRegistry;
 		}
+
 		return new JHttp($options, self::getAvailableDriver($options, $adapters));
 	}
 
@@ -63,6 +64,7 @@ class JHttpFactory
 		{
 			return false;
 		}
+
 		foreach ($availableAdapters as $adapter)
 		{
 			$class = 'JHttpTransport' . ucfirst($adapter);
@@ -72,6 +74,7 @@ class JHttpFactory
 				return new $class($options);
 			}
 		}
+
 		return false;
 	}
 
@@ -86,6 +89,7 @@ class JHttpFactory
 	{
 		$names = array();
 		$iterator = new DirectoryIterator(__DIR__ . '/transport');
+
 		foreach ($iterator as $file)
 		{
 			$fileName = $file->getFilename();
