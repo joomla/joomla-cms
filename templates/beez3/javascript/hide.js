@@ -103,7 +103,7 @@ jQuery(function($) {
 
 function auf(key) {
     var $ = jQuery.noConflict();
-	var $el = $(key);
+	var $el = $('#' + key);
 
 	if (!$el.is(':visible')) {
 		$el.show();
