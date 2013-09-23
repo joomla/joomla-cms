@@ -22,8 +22,8 @@
 	text-align: left;
 }
 
-.js-stools select.active,
-.js-stools .chzn-container.active .chzn-single{
+.filter-select select.active,
+.filter-select .chzn-container.active .chzn-single{
 	border: 2px solid #2384D3;
 }
 
