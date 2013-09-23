@@ -44,7 +44,7 @@ class BannersViewBanner extends JViewLegacy
 		}
 
 		$this->addToolbar();
-		JHtml::_('script', 'media/com_banners/banner.js');
+		JHtml::_('script', 'media/com_banners/banner.js', true);
 		parent::display($tpl);
 	}
 
