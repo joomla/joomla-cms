@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#32071] Unclosed div tag in com_content default view. Thanks Achal Aggarwal
  ^ [#31515] mod_articles_categories: Adding optional number of articles. Thanks Nils Rueckmann
  ^ [#30455] Add current user option to JFormFieldUser. Thanks George Wilson
+ ^ [#31580] GSoC 2013: Removing MooTools dependencies from switcher.js. Thanks Ashan Fernando
 
 22-Sep-2013 Roberto Segura
  # [#31770] Update to jQuery 1.10.2 and add jQuery Migrate 1.2.1. Thanks Michael Babker
