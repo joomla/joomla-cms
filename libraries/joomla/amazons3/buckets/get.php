@@ -21,15 +21,30 @@ class JAmazons3BucketsGet extends JAmazons3Buckets
 	/**
 	 * Creates the request for getting a bucket and returns the response from Amazon
 	 *
-	 * @param   string  $bucket  The bucket name
+	 * @param   string  $bucket      The bucket name
+	 * @param   string  $parameters  An array of optional parameters that can be set
+	 *                               to filter the results
 	 *
 	 * @return string  The response body
 	 *
 	 * @since   ??.?
 	 */
-	public function getBucket($bucket)
+	public function getBucket($bucket, $parameters = null)
 	{
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/";
+		$paramContent = "";
+
+		// Add the optional parameters
+		if ($parameters != null)
+		{
+			foreach ($parameters as $param => $paramValue)
+			{
+				$paramContent .= "&" . $param . "=" . $paramValue;
+			}
+
+			$paramContent[0] = "?";
+			$url .= $paramContent;
+		}
 
 		// Send the request and process the response
 		$response_body = $this->commonGetOperations($url);

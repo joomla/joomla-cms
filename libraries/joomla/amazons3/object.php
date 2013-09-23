@@ -318,7 +318,12 @@ abstract class JAmazons3Object
 				$validQueryParameters = $this->filterValidSubresources($queryParameters);
 				asort($validQueryParameters);
 				$sortedQueryParameters = implode("&", $validQueryParameters);
-				$canonicalizedResource .= "?" . $sortedQueryParameters;
+
+				// Append the sorted query parameters only if they have not been filtered out
+				if ($sortedQueryParameters != null)
+				{
+					$canonicalizedResource .= "?" . $sortedQueryParameters;
+				}
 			}
 		}
 
