@@ -201,7 +201,8 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
-		$returnData->body = "Response code: " . $returnData->code . ".\n";
+		$returnData->body = "Response code: " . $returnData->code . ".\n"
+			. "Response headers: []\n";
 		$expectedResult = $returnData->body;
 
 		$this->client->expects($this->once())
@@ -228,7 +229,8 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
-		$returnData->body = "Response code: " . $returnData->code . ".\n";
+		$returnData->body = "Response code: " . $returnData->code . ".\n"
+			. "Response headers: []\n";
 		$expectedResult = $returnData->body;
 
 		$this->client->expects($this->once())
@@ -256,7 +258,8 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
-		$returnData->body = "Response code: " . $returnData->code . ".\n";
+		$returnData->body = "Response code: " . $returnData->code . ".\n"
+			. "Response headers: []\n";
 		$expectedResult = $returnData->body;
 
 		$this->client->expects($this->once())
@@ -291,7 +294,8 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
-		$returnData->body = "Response code: " . $returnData->code . ".\n";
+		$returnData->body = "Response code: " . $returnData->code . ".\n"
+			. "Response headers: []\n";
 		$expectedResult = $returnData->body;
 
 		$this->client->expects($this->once())
@@ -318,7 +322,8 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
-		$returnData->body = "Response code: " . $returnData->code . ".\n";
+		$returnData->body = "Response code: " . $returnData->code . ".\n"
+			. "Response headers: []\n";
 		$expectedResult = $returnData->body;
 
 		$this->client->expects($this->once())
@@ -372,7 +377,8 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
-		$returnData->body = "Response code: " . $returnData->code . ".\n";
+		$returnData->body = "Response code: " . $returnData->code . ".\n"
+			. "Response headers: []\n";
 		$expectedResult = $returnData->body;
 
 		$this->client->expects($this->once())
@@ -417,7 +423,8 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
-		$returnData->body = "Response code: " . $returnData->code . ".\n";
+		$returnData->body = "Response code: " . $returnData->code . ".\n"
+			. "Response headers: []\n";
 		$expectedResult = $returnData->body;
 
 		$this->client->expects($this->once())
@@ -452,7 +459,8 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$returnData = new JHttpResponse;
 		$returnData->code = 204;
-		$returnData->body = "Response code: 204.\n";
+		$returnData->body = "Response code: 204.\n"
+			. "Response headers: []\n";
 		$expectedResult = $returnData->body;
 
 		$this->client->expects($this->once())
@@ -499,7 +507,8 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
-		$returnData->body = "Response code: " . $returnData->code . ".\n";
+		$returnData->body = "Response code: " . $returnData->code . ".\n"
+			. "Response headers: []\n";
 		$expectedResult = $returnData->body;
 
 		$this->client->expects($this->once())
@@ -537,7 +546,8 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
-		$returnData->body = "Response code: " . $returnData->code . ".\n";
+		$returnData->body = "Response code: " . $returnData->code . ".\n"
+			. "Response headers: []\n";
 		$expectedResult = $returnData->body;
 
 		$this->client->expects($this->once())
@@ -580,7 +590,8 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
-		$returnData->body = "Response code: " . $returnData->code . ".\n";
+		$returnData->body = "Response code: " . $returnData->code . ".\n"
+			. "Response headers: []\n";
 		$expectedResult = $returnData->body;
 
 		$this->client->expects($this->once())
@@ -615,7 +626,8 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
-		$returnData->body = "Response code: " . $returnData->code . ".\n";
+		$returnData->body = "Response code: " . $returnData->code . ".\n"
+			. "Response headers: []\n";
 		$expectedResult = $returnData->body;
 
 		$this->client->expects($this->once())
@@ -649,7 +661,8 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
-		$returnData->body = "Response code: " . $returnData->code . ".\n";
+		$returnData->body = "Response code: " . $returnData->code . ".\n"
+			. "Response headers: []\n";
 		$expectedResult = $returnData->body;
 
 		$this->client->expects($this->once())
@@ -684,7 +697,8 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
-		$returnData->body = "Response code: " . $returnData->code . ".\n";
+		$returnData->body = "Response code: " . $returnData->code . ".\n"
+			. "Response headers: []\n";
 		$expectedResult = $returnData->body;
 
 		$this->client->expects($this->once())
@@ -736,7 +750,8 @@ class JAmazons3BucketsPutTest extends PHPUnit_Framework_TestCase
 
 		$returnData = new JHttpResponse;
 		$returnData->code = 200;
-		$returnData->body = "Response code: " . $returnData->code . ".\n";
+		$returnData->body = "Response code: " . $returnData->code . ".\n"
+			. "Response headers: []\n";
 		$expectedResult = $returnData->body;
 
 		$this->client->expects($this->once())

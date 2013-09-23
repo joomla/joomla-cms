@@ -144,7 +144,18 @@ abstract class JAmazons3Object
 		}
 		else
 		{
-			return "Response code: " . $response->code . ".\n";
+			// Convert the response headers to a string
+			$headersArrayAsString = str_replace(
+				"\",\"", "\",\n\t\"",
+				str_replace(
+					array("{","}",":"),
+					array("Array(\n\t","\n)","=>"),
+					json_encode($response->headers)
+				)
+			);
+
+			return "Response code: " . $response->code . ".\n"
+				. "Response headers: " . $headersArrayAsString . "\n";
 		}
 	}
 
