@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/document/document.php';
 require_once JPATH_PLATFORM . '/joomla/document/image/image.php';
 
 /**
@@ -21,15 +20,12 @@ class JDocumentImageTest extends TestCase
 {
 	/**
 	 * @var    JDocumentImage
-	 * @access protected
 	 */
 	protected $object;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
-	 *
-	 * @access protected
 	 *
 	 * @return void
 	 */
@@ -39,11 +35,7 @@ class JDocumentImageTest extends TestCase
 
 		$this->saveFactoryState();
 
-		require_once JPATH_PLATFORM . '/joomla/factory.php';
-
-		$app = $this->getMockApplication();
-
-		JFactory::$application = $app;
+		JFactory::$application = $this->getMockWeb();
 
 		$this->object = new JDocumentImage;
 	}
@@ -51,8 +43,6 @@ class JDocumentImageTest extends TestCase
 	/**
 	 * Tears down the fixture, for example, closes a network connection.
 	 * This method is called after a test is executed.
-	 *
-	 * @access protected
 	 *
 	 * @return void
 	 */
@@ -67,10 +57,8 @@ class JDocumentImageTest extends TestCase
 	 * Tests the JDocumentImage::__construct method.
 	 *
 	 * @return void
-	 *
-	 * @covers JDocumentImage::__construct
 	 */
-	public function test__construct($options = array())
+	public function test__construct()
 	{
 		$documentImage = new JDocumentImage;
 
@@ -90,13 +78,11 @@ class JDocumentImageTest extends TestCase
 	/**
 	 * Tests the JDocumentImage::render method.
 	 *
-	 * @covers  JDocumentImage::render
-	 *
 	 * @return  void
 	 */
 	public function testRender()
 	{
-		JResponse::clearHeaders();
+		JFactory::getApplication()->clearHeaders();
 
 		$testFiles = array(
 			'jpg' => array(

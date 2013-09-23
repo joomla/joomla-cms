@@ -165,25 +165,33 @@ class PlgEditorTinymce extends JPlugin
 
 		if ($newlines)
 		{
-			// br
+			// Break
 			$forcenewline = "force_br_newlines : true, force_p_newlines : false, forced_root_block : '',";
 		}
 		else
 		{
-			// p
+			// Paragraph
 			$forcenewline = "force_br_newlines : false, force_p_newlines : true, forced_root_block : 'p',";
 		}
 
 		$invalid_elements	= $this->params->get('invalid_elements', 'script,applet,iframe');
 		$extended_elements	= $this->params->get('extended_elements', '');
 
-		// theme_advanced_* settings
-		$toolbar			= $this->params->get('toolbar', 'top');
-		$toolbar_align		= $this->params->get('toolbar_align', 'left');
+		// Advanced Options
 		$html_height		= $this->params->get('html_height', '550');
 		$html_width			= $this->params->get('html_width', '750');
-		$resizing			= $this->params->get('resizing', 'true');
-		$resize_horizontal	= $this->params->get('resize_horizontal', 'false');
+
+		// The param is true false, so we turn true to both rather than showing vertical resize only
+		$resizing = $this->params->get('resizing', '1');
+
+		if ($resizing || $resizing == 'true')
+		{
+			$resizing = 'resize: "both",';
+		}
+		else
+		{
+			$resizing = 'resize: false,';
+		}
 
 		$toolbar1_add = array();
 		$toolbar2_add = array();
@@ -430,7 +438,7 @@ class PlgEditorTinymce extends JPlugin
 			{
 				$templates = "templates: [
 					{title: 'Layout', description: 'HTMLLayout', url:'" . JUri::root() . "media/editors/tinymce/templates/layout1.html'},
-					{title: 'Simple snippet', description: 'Simple HTML snippet', url:'" . JUri::root() . "media/editors/tinymce/templates/snippet1.html'} 
+					{title: 'Simple snippet', description: 'Simple HTML snippet', url:'" . JUri::root() . "media/editors/tinymce/templates/snippet1.html'}
 				],";
 			}
 		}
@@ -611,13 +619,11 @@ class PlgEditorTinymce extends JPlugin
 					// Layout
 					$content_css
 					importcss_append: true,
-					// Advanced theme
-					theme_advanced_toolbar_location : \"$toolbar\",
-					theme_advanced_toolbar_align : \"$toolbar_align\",
-					theme_advanced_source_editor_height : \"$html_height\",
-					theme_advanced_source_editor_width : \"$html_width\",
-					theme_advanced_resizing : $resizing,
-					theme_advanced_resize_horizontal : $resize_horizontal,
+					// Advanced Options
+					$resizing
+					height : \"$html_height\",
+					width : \"$html_width\",
+
 				});
 				</script>";
 			break;
@@ -659,13 +665,11 @@ class PlgEditorTinymce extends JPlugin
 					// Layout
 					$content_css
 					importcss_append: true,
-					// Advanced theme
-					theme_advanced_toolbar_location : \"$toolbar\",
-					theme_advanced_toolbar_align : \"$toolbar_align\",
-					theme_advanced_source_editor_height : \"$html_height\",
-					theme_advanced_source_editor_width : \"$html_width\",
-					theme_advanced_resizing : $resizing,
-					theme_advanced_resize_horizontal : $resize_horizontal,
+					// Advanced Options
+					$resizing
+					height : \"$html_height\",
+					width : \"$html_width\",
+
 				});
 				</script>";
 			break;
@@ -791,9 +795,19 @@ class PlgEditorTinymce extends JPlugin
 			$height .= 'px';
 		}
 
-		$editor  = '<textarea name="' . $name . '" id="' . $id .'" cols="' . $col .'" rows="' . $row . '" style="width: ' . $width . '; height:' . $height . ';" class="mce_editable">' . $content . "</textarea>\n" .
-		$this->_displayButtons($id, $buttons, $asset, $author) .
-		$this->_toogleButton($id);
+		// Data object for the layout
+		$textarea = new stdClass;
+		$textarea->name    = $name;
+		$textarea->id      = $id;
+		$textarea->cols    = $col;
+		$textarea->rows    = $row;
+		$textarea->width   = $width;
+		$textarea->height  = $height;
+		$textarea->content = $content;
+
+		$editor = JLayoutHelper::render('joomla.tinymce.textarea', $textarea);
+		$editor .= $this->_displayButtons($id, $buttons, $asset, $author);
+		$editor .= $this->_toogleButton($id);
 
 		return $editor;
 	}
@@ -810,70 +824,45 @@ class PlgEditorTinymce extends JPlugin
 	 */
 	private function _displayButtons($name, $buttons, $asset, $author)
 	{
-		// Load modal popup behavior
-		JHtml::_('behavior.modal', 'a.modal-button');
-
-		$args['name'] = $name;
-		$args['event'] = 'onGetInsertMethod';
-
 		$return = '';
-		$results[] = $this->update($args);
 
-		foreach ($results as $result)
+		$args = array(
+			'name'  => $name,
+			'event' => 'onGetInsertMethod'
+		);
+
+		$results = (array) $this->update($args);
+
+		if ($results)
 		{
-			if (is_string($result) && trim($result))
+			foreach ($results as $result)
 			{
-				$return .= $result;
+				if (is_string($result) && trim($result))
+				{
+					$return .= $result;
+				}
 			}
 		}
 
 		if (is_array($buttons) || (is_bool($buttons) && $buttons))
 		{
-			$results = $this->_subject->getButtons($name, $buttons, $asset, $author);
+			$buttons = $this->_subject->getButtons($name, $buttons, $asset, $author);
 
-			/*
-			 * This will allow plugins to attach buttons or change the behavior on the fly using AJAX
-			 */
-			$return .= "\n<div id=\"editor-xtd-buttons\" class=\"btn-toolbar pull-left\">\n";
-			$return .= "\n<div class=\"btn-toolbar\">\n";
-
-			foreach ($results as $button)
-			{
-				/*
-				 * Results should be an object
-				 */
-				if ( $button->get('name') )
-				{
-					$class		= ($button->get('class')) ? $button->get('class') : null;
-					$class		.= ($button->get('modal')) ? ' modal-button' : null;
-					$href		= ($button->get('link')) ? ' href="'.JUri::base().$button->get('link').'"' : null;
-					$onclick	= ($button->get('onclick')) ? ' onclick="'.$button->get('onclick').'"' : ' onclick="IeCursorFix(); return false;"';
-					$title      = ($button->get('title')) ? $button->get('title') : $button->get('text');
-					$return .= '<a class="' . $class . '" title="' . $title . '"' . $href . $onclick . ' rel="' . $button->get('options')
-						. '"><i class="icon-' . $button->get('name'). '"></i> ' . $button->get('text') . "</a>\n";
-				}
-			}
-
-			$return .= "</div>\n";
-			$return .= "</div>\n";
+			$return .= JLayoutHelper::render('joomla.tinymce.buttons', $buttons);
 		}
 
 		return $return;
 	}
 
 	/**
+	 * Get the toggle editor button
+	 *
+	 * @param   string  $name  Editor name
 	 *
 	 * @return  string
 	 */
 	private function _toogleButton($name)
 	{
-		$return  = '';
-		$return .= "\n<div class=\"toggle-editor btn-toolbar pull-right\">\n";
-		$return .= "<div class=\"btn-group\"><a class=\"btn\" href=\"#\" onclick=\"tinyMCE.execCommand('mceToggleEditor', false, '" . $name . "');return false;\" title=\"" . JText::_('PLG_TINY_BUTTON_TOGGLE_EDITOR') . '"><i class="icon-eye"></i> '.JText::_('PLG_TINY_BUTTON_TOGGLE_EDITOR')."</a></div>";
-		$return .= "</div>\n";
-
-		$return .= "<div class=\"clearfix\"></div>\n";
-
-		return $return;
+		return JLayoutHelper::render('joomla.tinymce.togglebutton', $name);
 	}
 }

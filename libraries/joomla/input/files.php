@@ -62,7 +62,7 @@ class JInputFiles extends JInput
 	 *
 	 * @return  mixed  The filtered input value.
 	 *
-	 * @see     JFilterInput::clean
+	 * @see     JFilterInput::clean()
 	 * @since   11.1
 	 */
 	public function get($name, $default = null, $filter = 'cmd')

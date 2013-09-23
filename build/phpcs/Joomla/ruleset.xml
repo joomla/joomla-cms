@@ -11,6 +11,7 @@
  <exclude-pattern type="relative">logs/*</exclude-pattern>
 
  <!-- Exclude 3rd party libraries and Framework code. -->
+ <exclude-pattern type="relative">libraries/fof/*</exclude-pattern>
  <exclude-pattern type="relative">libraries/framework/*</exclude-pattern>
  <exclude-pattern type="relative">libraries/idna_convert/*</exclude-pattern>
  <exclude-pattern type="relative">libraries/phputf8/*</exclude-pattern>
@@ -33,7 +34,6 @@
  <rule ref="Generic.Files.LineLength">
 	 <!-- These exceptions are temporary -->
   <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
-  <exclude-pattern type="relative">administrator/includes/application.php</exclude-pattern>
   <exclude-pattern type="relative">components/*</exclude-pattern>
   <exclude-pattern type="relative">plugins/*</exclude-pattern>
   <exclude-pattern type="relative">modules/*</exclude-pattern>
@@ -123,7 +123,6 @@
  <rule ref="Joomla.Classes.MethodScope">
   <!-- We only want this for libraries, language and cli for now -->
   <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
-  <exclude-pattern type="relative">administrator/includes/application.php</exclude-pattern>
   <exclude-pattern type="relative">administrator/includes/framework.php</exclude-pattern>
   <exclude-pattern type="relative">components/*</exclude-pattern>
   <exclude-pattern type="relative">plugins/*</exclude-pattern>
@@ -132,7 +131,6 @@
  <rule ref="Joomla.Commenting.FunctionComment">
   <!-- We only want this for libraries, language and cli for now -->
   <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
-  <exclude-pattern type="relative">administrator/includes/application.php</exclude-pattern>
   <exclude-pattern type="relative">administrator/includes/framework.php</exclude-pattern>
   <exclude-pattern type="relative">components/*</exclude-pattern>
   <exclude-pattern type="relative">plugins/*</exclude-pattern>
@@ -145,7 +143,6 @@
  <rule ref="Joomla.Commenting.SingleComment">
   <!-- We only want this for libraries, language and cli for now -->
   <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
-  <exclude-pattern type="relative">administrator/includes/application.php</exclude-pattern>
   <exclude-pattern type="relative">administrator/includes/framework.php</exclude-pattern>
   <exclude-pattern type="relative">components/*</exclude-pattern>
   <exclude-pattern type="relative">plugins/*</exclude-pattern>
@@ -165,7 +162,6 @@
  <rule ref="Joomla.WhiteSpace.ConcatenationSpacing">
   <!-- We only want this for libraries, language and cli for now -->
   <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
-  <exclude-pattern type="relative">administrator/includes/application.php</exclude-pattern>
   <exclude-pattern type="relative">administrator/includes/framework.php</exclude-pattern>
   <exclude-pattern type="relative">components/*</exclude-pattern>
   <exclude-pattern type="relative">plugins/*</exclude-pattern>
@@ -178,7 +174,6 @@
  <rule ref="Joomla.ControlStructures.ControlSignature">
   <!-- We only want this for libraries, languages and cli for now -->
   <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
-  <exclude-pattern type="relative">administrator/includes/application.php</exclude-pattern>
   <exclude-pattern type="relative">administrator/includes/framework.php</exclude-pattern>
   <exclude-pattern type="relative">components/*</exclude-pattern>
   <exclude-pattern type="relative">plugins/*</exclude-pattern>
@@ -205,7 +200,6 @@
  <rule ref="Joomla.ControlStructures.MultiLineCondition">
   <!-- We only want this for libraries, language and cli for now -->
   <exclude-pattern type="relative">administrator/components/*</exclude-pattern>
-  <exclude-pattern type="relative">administrator/includes/application.php</exclude-pattern>
   <exclude-pattern type="relative">administrator/includes/framework.php</exclude-pattern>
   <exclude-pattern type="relative">components/*</exclude-pattern>
   <exclude-pattern type="relative">plugins/*</exclude-pattern>

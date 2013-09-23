@@ -23,6 +23,12 @@ define('_QQ_', '"');
  */
 class JLanguage
 {
+	/**
+	 * Array of JLanguage objects
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
 	protected static $languages = array();
 
 	/**
@@ -95,7 +101,7 @@ class JLanguage
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $strings = null;
+	protected $strings = array();
 
 	/**
 	 * An array of used text, used during debugging.

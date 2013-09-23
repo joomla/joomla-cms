@@ -1542,15 +1542,13 @@ class JHtmlTest extends TestCase
 
 			// @todo We can't test this yet due to dependency on language strings
 
-			/* $this->assertEquals(
+			$this->assertEquals(
 				$data['friendly_date'],
 				(string) $xml->input['title'],
 				'Line:'.__LINE__.' The calendar input should have `title == "' . $data['friendly_date'] . '"`'
-			); */
+			);
 
-			// @todo No clue why these 2 don't work
-
-			/*$this->assertEquals(
+			$this->assertEquals(
 				$data['name'],
 				(string) $xml->input['name'],
 				'Line:'.__LINE__.' The calendar input should have `name == "' . $data['name'] . '"`'
@@ -1560,7 +1558,7 @@ class JHtmlTest extends TestCase
 				$data['id'],
 				(string) $xml->input['id'],
 				'Line:'.__LINE__.' The calendar input should have `id == "' . $data['id'] . '"`'
-			);*/
+			);
 
 			$this->assertEquals(
 				$data['date'],
@@ -1630,7 +1628,7 @@ class JHtmlTest extends TestCase
 					'Line:' . __LINE__ . ' The calendar image source should point to an existent file'
 				);
 
-				/* $this->assertArrayHasKey(
+				$this->assertArrayHasKey(
 					'/media/system/js/calendar.js',
 					$head_data['scripts'],
 					'Line:'.__LINE__.' JS file "calendar.js" should be loaded'
@@ -1640,7 +1638,7 @@ class JHtmlTest extends TestCase
 					'/media/system/js/calendar-setup.js',
 					$head_data['scripts'],
 					'Line:'.__LINE__.' JS file "calendar-setup.js" should be loaded'
-				);*/
+				);
 
 				$this->assertContains(
 					'DHTML Date\\/Time Selector',

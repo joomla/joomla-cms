@@ -37,17 +37,17 @@ if (!$editoroptions)
 }
 
 // Check if the article uses configuration settings besides global. If so, use them.
-if (!empty($this->item->attribs['show_publishing_options']))
+if ($this->item->attribs['show_publishing_options'] !== '')
 {
 	$params['show_publishing_options'] = $this->item->attribs['show_publishing_options'];
 }
 
-if (!empty($this->item->attribs['show_article_options']))
+if ($this->item->attribs['show_article_options'] !== '')
 {
 	$params['show_article_options'] = $this->item->attribs['show_article_options'];
 }
 
-if (!empty($this->item->attribs['show_urls_images_backend']))
+if ($this->item->attribs['show_urls_images_backend'] !== '')
 {
 	$params['show_urls_images_backend'] = $this->item->attribs['show_urls_images_backend'];
 }

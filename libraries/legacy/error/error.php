@@ -53,12 +53,23 @@ abstract class JError
 	 */
 	protected static $levels = array(E_NOTICE => 'Notice', E_WARNING => 'Warning', E_ERROR => 'Error');
 
+	/**
+	 * Array of message handlers
+	 * @var    array
+	 * @since  11.1
+	 */
 	protected static $handlers = array(
 		E_NOTICE => array('mode' => 'ignore'),
 		E_WARNING => array('mode' => 'ignore'),
 		E_ERROR => array('mode' => 'ignore')
 	);
 
+	/**
+	 * Array containing the error stack
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
 	protected static $stack = array();
 
 	/**
@@ -232,7 +243,7 @@ abstract class JError
 	 * @return  object  $error  The configured JError object
 	 *
 	 * @deprecated   12.1       Use PHP Exception
-	 * @see        raise()
+	 * @see        JError::raise()
 	 * @since   11.1
 	 */
 	public static function raiseError($code, $msg, $info = null)
@@ -255,8 +266,7 @@ abstract class JError
 	 * @return  object  The configured JError object
 	 *
 	 * @deprecated  12.1  Use PHP Exception
-	 * @see        JError
-	 * @see        raise()
+	 * @see        JError::raise()
 	 * @since      11.1
 	 */
 	public static function raiseWarning($code, $msg, $info = null)
@@ -493,7 +503,7 @@ abstract class JError
 	 * @return  object   The exception object
 	 *
 	 * @deprecated  12.1
-	 * @see     raise()
+	 * @see     JError::raise()
 	 * @since   11.1
 	 */
 	public static function handleIgnore(&$error, $options)
@@ -513,7 +523,7 @@ abstract class JError
 	 * @return  object  The exception object
 	 *
 	 * @deprecated  12.1
-	 * @see         raise()
+	 * @see         JError::raise()
 	 * @since       11.1
 	 */
 	public static function handleEcho(&$error, $options)
@@ -586,7 +596,7 @@ abstract class JError
 	 * @return  object  The exception object
 	 *
 	 * @deprecated  12.1
-	 * @see         raise()
+	 * @see         JError::raise()
 	 * @since       11.1
 	 */
 	public static function handleVerbose(&$error, $options)
@@ -632,7 +642,7 @@ abstract class JError
 	 * @return  object  The exception object
 	 *
 	 * @deprecated  12.1
-	 * @see         raise()
+	 * @see         JError::raise()
 	 * @since       11.1
 	 */
 	public static function handleDie(&$error, $options)
@@ -673,7 +683,7 @@ abstract class JError
 	 * @return  object  The exception object
 	 *
 	 * @deprecated  12.1
-	 * @see         raise()
+	 * @see         JError::raise()
 	 * @since       11.1
 	 */
 	public static function handleMessage(&$error, $options)
@@ -697,7 +707,7 @@ abstract class JError
 	 * @return  object  The exception object
 	 *
 	 * @deprecated  12.1
-	 * @see         raise()
+	 * @see         JError::raise()
 	 * @since       11.1
 	 */
 	public static function handleLog(&$error, $options)
@@ -734,7 +744,7 @@ abstract class JError
 	 * @return  object  The exception object
 	 *
 	 * @deprecated  12.1
-	 * @see         raise()
+	 * @see         JError::raise()
 	 * @since       11.1
 	 */
 	public static function handleCallback(&$error, $options)
@@ -788,10 +798,10 @@ abstract class JError
 			else
 			{
 				// Do not allow cache
-				JResponse::allowCache(false);
+				$app->allowCache(false);
 
-				JResponse::setBody($data);
-				echo JResponse::toString();
+				$app->setBody($data);
+				echo $app->toString();
 			}
 		}
 		else

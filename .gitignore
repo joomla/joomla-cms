@@ -17,3 +17,6 @@
 # Test Related Files #
 /phpunit.xml
 /tests/system/webdriver/tests/logs/
+
+# phpDocumentor Logs #
+phpdoc-*

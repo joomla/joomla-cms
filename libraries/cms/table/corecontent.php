@@ -39,7 +39,7 @@ class JTableCorecontent extends JTable
 	 *
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
 	 *
-	 * @see     JTable::bind
+	 * @see     JTable::bind()
 	 * @since   3.1
 	 */
 	public function bind($array, $ignore = '')
@@ -87,7 +87,7 @@ class JTableCorecontent extends JTable
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @see     JTable::check
+	 * @see     JTable::check()
 	 * @since   3.1
 	 */
 	public function check()

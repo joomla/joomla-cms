@@ -1954,7 +1954,7 @@ class JForm
 	 *
 	 * @return  array  The list of paths that have been added.
 	 *
-	 * @see JFormHelper::addRulePath()
+	 * @see     JFormHelper::addRulePath()
 	 * @since   11.1
 	 */
 	public static function addRulePath($new = null)
