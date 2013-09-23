@@ -35,6 +35,7 @@ $ -> Language fix or change
  ^ [#30455] Add current user option to JFormFieldUser. Thanks George Wilson
  ^ [#31580] GSoC 2013: Removing MooTools dependencies from switcher.js. Thanks Ashan Fernando
  ^ [#31578] GSoC 2013: Removing MooTools dependencies from highlighter.js. Thanks Ashan Fernando
+ + [#30280] Add random ordering on module Article latest. Thanks Jefferson Nathon
 
 22-Sep-2013 Roberto Segura
  # [#31770] Update to jQuery 1.10.2 and add jQuery Migrate 1.2.1. Thanks Michael Babker
