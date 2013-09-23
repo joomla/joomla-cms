@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
 class JAmazons3BucketsGet extends JAmazons3Buckets
 {
 	/**
-	 * Creates the request for getting a bucket and returns the response from Amazon
+	 * Creates the request for getting some or all (up to 1000) of the objects in a bucket.
 	 *
 	 * @param   string  $bucket      The bucket name
 	 * @param   string  $parameters  An array of optional parameters that can be set
@@ -154,7 +154,8 @@ class JAmazons3BucketsGet extends JAmazons3Buckets
 	}
 
 	/**
-	 * Creates the request for getting a bucket's notification and returns the response from Amazon
+	 * Creates the request for getting a bucket's notification configuration
+	 * and returns the response from Amazon
 	 *
 	 * @param   string  $bucket  The bucket name
 	 *
