@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Sep-2013 Elin Waring
+ ^ [#31581] GSoC 2013: Removing MooTools dependencies from front-end components. Thanks Ashan Fernando
+
 22-Sep-2013 Michael Babker
  # [#32060] FOF description is show with ?? at language debug and is hardcoded in the xml files. Thanks Tobias Zulauf
  ^ [#32073] Change +1 to 1
