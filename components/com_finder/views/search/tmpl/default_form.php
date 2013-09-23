@@ -11,24 +11,23 @@ defined('_JEXEC') or die;
 ?>
 
 <script type="text/javascript">
-	window.addEvent('domready', function() {
+	jQuery(function($) {
 <?php if ($this->params->get('show_advanced', 1)) : ?>
 		/*
 		 * This segment of code adds the slide effect to the advanced search box.
 		 */
-		if (document.id('advanced-search') != null)
+		var $searchSlider = $('#advanced-search');
+		if ($searchSlider.length)
 		{
-			var searchSlider = new Fx.Slide('advanced-search');
-
 			<?php if (!$this->params->get('expand_advanced', 0)) : ?>
-			searchSlider.hide();
+			$searchSlider.hide();
 			<?php endif; ?>
 
-			document.id('advanced-search-toggle').addEvent('click', function(e)
+			$('#advanced-search-toggle').on('click', function(e)
 			{
-				e = new Event(e);
-				e.stop();
-				searchSlider.toggle();
+				e.stopPropagation();
+				e.preventDefault();
+				$searchSlider.slideToggle();
 			});
 		}
 
@@ -36,25 +35,23 @@ defined('_JEXEC') or die;
 		 * This segment of code disables select boxes that have no value when the
 		 * form is submitted so that the URL doesn't get blown up with null values.
 		 */
-		if (document.id('finder-search') != null)
+		if ($('#finder-search').length)
 		{
-			document.id('finder-search').addEvent('submit', function(e){
-				e = new Event(e);
-				e.stop();
+			$('#finder-search').on('submit', function(e){
+				e.stopPropagation();
 
-				if (document.id('advanced-search') != null)
+				if ($searchSlider.length)
 				{
 					// Disable select boxes with no value selected.
-					document.id('advanced-search').getElements('select').each(function(s){
-						if (!s.getProperty('value'))
-						{
-							s.setProperty('disabled', 'disabled');
-						}
-					});
+					$searchSlider.find('select').each(function(index, el) {
+						var $el = $(el);
+			        	if(!$el.val()){
+			        		$el.attr('disabled', 'disabled');
+			        	}
+        			});
 				}
 
-				document.id('finder-search').submit();
-			});
+			});		
 		}
 <?php endif; ?>
 		/*
@@ -63,7 +60,7 @@ defined('_JEXEC') or die;
 <?php if ($this->params->get('show_autosuggest', 1)) : ?>
 	<?php JHtml::_('script', 'com_finder/autocompleter.js', false, true); ?>
 	var url = '<?php echo JRoute::_('index.php?option=com_finder&task=suggestions.display&format=json&tmpl=component', false); ?>';
-	var completer = new Autocompleter.Request.JSON(document.id('q'), url, {'postVar': 'q'});
+	var completer = new Autocompleter.Request.JSON(document.getElementById("q"), url, {'postVar': 'q'});
 <?php endif; ?>
 	});
 </script>
