@@ -25,6 +25,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Sep-2013
+ # [#32061] Normalise constant in com_ajax. Thanks Tobias Zulauf
 11-Sep-2013 Jean-Marie Simonet
  # [#31848] Archive Articles View frontend
  + Adding Albanian flag
