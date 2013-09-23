@@ -56,7 +56,7 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function getAllInputFields_ScreenDisplayed_EqualExpected()
 	{
@@ -77,7 +77,7 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function constructor_OpenEditScreen_ArticleEditOpened()
 	{
@@ -89,7 +89,7 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function addArticle_WithFieldDefaults_ArticleAdded()
 	{
@@ -106,7 +106,7 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function addArticle_WithGivenFields_ArticleAdded()
 	{
@@ -126,7 +126,7 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @xtest
+	 * @test
 	*/
 	public function editArticle_ChangeFields_FieldsChanged()
 	{
@@ -145,7 +145,7 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function changeTagState_ChangeEnabledUsingToolbar_EnabledChanged()
 	{
@@ -160,7 +160,7 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function changeArticleStatus_TestAtFrontEnd()
 	{
@@ -181,14 +181,14 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 		$this->assertTrue($this->driver->findElement(By::xPath("//h2//a[contains(text(), 'Professionals')]"))->isDisplayed(), 'Professionals Must be Present');
 	}
 
-	/*
+	/**
 	 * @test
 	 */
-	public function testArticleEditPermission_TestAtFrontEnd()
+	public function articleEditPermission_TestAtFrontEnd()
 	{
 		$cfg=new SeleniumConfig();
 		$this->driver->get($cfg->host.$cfg->path);
-		$this->doFrontEndLogin();
+		$this->doSiteLogin();
 		$this->driver->waitForElementUntilIsPresent(By::xPath("//a[contains(text(),'Home')]"),10);
 		$arrayElement=$this->driver->findElements(By::xPath("//a[contains(text(), 'Edit')]"));
 		$this->assertTrue(count($arrayElement)>0,'Edit Icons Must be Present');
@@ -200,7 +200,7 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 		$this->assertTrue(count($arrayElement)>0,'Edit Icons Must be Present');
 		$d->findElement(By::xPath("//a[contains(text(), 'Home')]"))->click();
 		$d->waitForElementUntilIsPresent(By::xPath("//a[contains(text(),'Login')]"),10);
-		$this->doFrontEndLogout();
+		$this->doSiteLogout();
 		$arrayElement=$this->driver->findElements(By::xPath("//a[contains(text(), 'Edit')]"));
 		$this->assertEquals(count($arrayElement),0,'Edit Icons Must Not be Present');
 		$d->findElement(By::xPath("//a[contains(text(),'Sample Sites')]"))->click();

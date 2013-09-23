@@ -20,6 +20,15 @@ JLoader::register('ContactHelper', JPATH_ADMINISTRATOR . '/components/com_contac
  */
 class ContactModelContact extends JModelAdmin
 {
+
+	/**
+	 * The type alias for this content type.
+	 *
+	 * @var      string
+	 * @since    3.2
+	 */
+	public $typeAlias = 'com_contact.contact';
+
 	/**
 	 * Method to perform batch operations on an item or a set of items.
 	 *
@@ -597,7 +606,10 @@ class ContactModelContact extends JModelAdmin
 			if (empty($table->ordering))
 			{
 				$db = JFactory::getDbo();
-				$db->setQuery('SELECT MAX(ordering) FROM #__contact_details');
+				$query = $db->getQuery(true);
+				$query->select('MAX(ordering)');
+				$query->from('#__contact_details');
+				$db->setQuery($query);
 				$max = $db->loadResult();
 
 				$table->ordering = $max + 1;
@@ -699,11 +711,12 @@ class ContactModelContact extends JModelAdmin
 		{
 			$db = $this->getDbo();
 
-			$db->setQuery(
-				'UPDATE #__contact_details' .
-					' SET featured = ' . (int) $value .
-					' WHERE id IN (' . implode(',', $pks) . ')'
-			);
+			$query = $db->getQuery(true);
+			$query->update('#__contact_details');
+			$query->set('featured = ' . (int) $value);
+			$query->where('id IN (' . implode(',', $pks) . ')');
+			$db->setQuery($query);
+
 			$db->execute();
 		}
 		catch (Exception $e)

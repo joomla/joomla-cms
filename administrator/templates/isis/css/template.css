@@ -6707,6 +6707,9 @@ body {
 	width: 238px !important;
 	max-width: 238px !important;
 }
+.login .btn-large {
+	margin-top: 10px;
+}
 .small {
 	font-size: 11px;
 }
@@ -7209,7 +7212,7 @@ ul.manager .height-50 .icon-folder-2 {
 	z-index: 3;
 }
 .admin .chzn-container .chzn-drop {
-	z-index: 100;
+	z-index: 1040;
 }
 ul.treeselect,
 ul.treeselect li {
@@ -7286,4 +7289,13 @@ th .tooltip-inner {
 }
 .container-popup {
 	padding: 15px;
+}
+.controls .btn-group > .btn {
+	min-width: 50px;
+}
+.img-preview > img {
+	max-height: 100%;
+}
+#helpsite-refresh {
+	vertical-align: top;
 }

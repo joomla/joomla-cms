@@ -94,14 +94,26 @@ abstract class JPlugin extends JEvent
 			$this->loadLanguage();
 		}
 
-		if (property_exists($this, 'app') && is_null($this->app))
+		if (property_exists($this, 'app'))
 		{
-			$this->app = JFactory::getApplication();
+			$reflection = new ReflectionClass($this);
+			$appProperty = $reflection->getProperty('app');
+
+			if ($appProperty->isPrivate() === false && is_null($this->app))
+			{
+				$this->app = JFactory::getApplication();
+			}
 		}
 
-		if (property_exists($this, 'db') && is_null($this->db))
+		if (property_exists($this, 'db'))
 		{
-			$this->db = JFactory::getDbo();
+			$reflection = new ReflectionClass($this);
+			$dbProperty = $reflection->getProperty('db');
+
+			if ($dbProperty->isPrivate() === false && is_null($this->db))
+			{
+				$this->db = JFactory::getDbo();
+			}
 		}
 
 		parent::__construct($subject);

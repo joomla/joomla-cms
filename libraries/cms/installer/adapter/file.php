@@ -21,7 +21,21 @@ jimport('joomla.filesystem.folder');
  */
 class JInstallerAdapterFile extends JAdapterInstance
 {
+	/**
+	 * Install function routing
+	 *
+	 * @var    string
+	 * @since  3.1
+	 */
 	protected $route = 'install';
+
+	/**
+	 * <scriptfile> element of the extension manifest
+	 *
+	 * @var    object
+	 * @since  3.1
+	 */
+	protected $scriptElement = null;
 
 	/**
 	 * Custom loadLanguage method
@@ -389,7 +403,7 @@ class JInstallerAdapterFile extends JAdapterInstance
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
 		$uid = $update->find(
-			array('element' => $this->get('element'), 'type' => 'file', 'client_id' => '', 'folder' => '')
+			array('element' => $this->get('element'), 'type' => 'file', 'client_id' => (int) '', 'folder' => '')
 		);
 
 		if ($uid)

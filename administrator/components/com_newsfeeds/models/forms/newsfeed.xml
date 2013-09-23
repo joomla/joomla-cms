@@ -47,6 +47,14 @@
 			multiple="true"
 		>
 		</field>
+		
+		<field name="version_note" 
+			type="text" 
+			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+			description="JGLOBAL_FIELD_VERSION_NOTE_DESC" 
+			class="inputbox" size="45" 
+			labelclass="control-label"
+		/>
 
 		<field name="description" type="editor" buttons="true" hide="pagebreak,readmore"
 			class="inputbox"
@@ -67,7 +75,7 @@
 			description="JGLOBAL_FIELD_FIELD_CACHETIME_DESC"
 			required="true" />
 
-		<field name="ordering" type="ordering" class="inputbox"
+		<field name="ordering" type="ordering" class="inputbox" table="#__newsfeeds"
 			label="JFIELD_ORDERING_LABEL" description="JFIELD_ORDERING_DESC" />
 
 		<field name="rtl" type="list" class="inputbox"
@@ -141,7 +149,7 @@
 			class="inputbox" size="20" />
 
 	</fieldset>
-	<fields name="images">
+	<fields name="images" label="JGLOBAL_FIELDSET_IMAGE_OPTIONS">
 			<field
 				name="image_first"
 				type="media"
@@ -203,7 +211,7 @@
 				size="20" />
 	</fields>
 
-	<fields name="params">
+	<fields name="params" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
 		<fieldset name="jbasic" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
 
 			<field name="show_feed_image" type="list"
@@ -258,7 +266,7 @@
 		</fieldset>
 	</fields>
 
-	<fields name="metadata">
+	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 
 			<field name="robots"
