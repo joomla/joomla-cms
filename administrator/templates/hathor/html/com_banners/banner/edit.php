@@ -45,12 +45,14 @@ JHtml::_('behavior.formvalidation');
 
 				<li><?php echo $this->form->getLabel('type'); ?>
 				<?php echo $this->form->getInput('type'); ?></li>
-
+			</ul>
+			<ul id="image">
 				<?php foreach ($this->form->getFieldset('image') as $field) : ?>
 					<li><?php echo $field->label; ?>
 						<?php echo $field->input; ?></li>
 				<?php endforeach; ?>
-
+			</ul>
+			<ul>
 				<li><div id="custom">
 					<?php echo $this->form->getLabel('custombannercode'); ?>
 					<?php echo $this->form->getInput('custombannercode'); ?>
