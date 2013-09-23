@@ -84,14 +84,14 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include MooTools framework
-		static::framework();
-
-		JHtml::_('script', 'system/caption.js', true, true);
+		// Include jQuery
+		JHtml::_('jquery.framework');
+		
+		JHtml::_('script', 'system/caption-jquery-uncompressed.js', true, true);
 
 		// Attach caption to document
 		JFactory::getDocument()->addScriptDeclaration(
-			"window.addEvent('load', function() {
+			"jQuery(window).on('load',  function() {
 				new JCaption('" . $selector . "');
 			});"
 		);
@@ -808,3 +808,4 @@ abstract class JHtmlBehavior
 		self::$loaded[__METHOD__] = true;
 	}
 }
+
