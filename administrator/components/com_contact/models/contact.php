@@ -606,7 +606,10 @@ class ContactModelContact extends JModelAdmin
 			if (empty($table->ordering))
 			{
 				$db = JFactory::getDbo();
-				$db->setQuery('SELECT MAX(ordering) FROM #__contact_details');
+				$query = $db->getQuery(true);
+				$query->select('MAX(ordering)');
+				$query->from('#__contact_details');
+				$db->setQuery($query);
 				$max = $db->loadResult();
 
 				$table->ordering = $max + 1;
@@ -708,11 +711,12 @@ class ContactModelContact extends JModelAdmin
 		{
 			$db = $this->getDbo();
 
-			$db->setQuery(
-				'UPDATE #__contact_details' .
-					' SET featured = ' . (int) $value .
-					' WHERE id IN (' . implode(',', $pks) . ')'
-			);
+			$query = $db->getQuery(true);
+			$query->update('#__contact_details');
+			$query->set('featured = ' . (int) $value);
+			$query->where('id IN (' . implode(',', $pks) . ')');
+			$db->setQuery($query);
+
 			$db->execute();
 		}
 		catch (Exception $e)

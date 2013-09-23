@@ -165,8 +165,9 @@
 			type="tag"
 			label="JTAG"
 			description="JTAG_DESC"
-			class="inputbox span12 small"
+			class="inputbox"
 			multiple="true"
+			size="45"
 		>
 		</field>
 

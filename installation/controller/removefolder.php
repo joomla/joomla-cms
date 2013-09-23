@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.folder');
-
 /**
  * Controller class to set the FTP data for the Joomla Installer.
  *
@@ -66,8 +64,6 @@ class InstallationControllerRemovefolder extends JControllerBase
 		if ($useFTP == true)
 		{
 			// Connect the FTP client
-			jimport('joomla.filesystem.path');
-
 			$ftp = JClientFtp::getInstance($options->ftp_host, $options->ftp_port);
 			$ftp->login($options->ftp_user, $options->ftp_pass);
 
