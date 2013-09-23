@@ -21,27 +21,6 @@ JHtml::_('formbehavior.chosen', 'select');
 			Joomla.submitform(task, document.getElementById('banner-form'));
 		}
 	}
-
-	var jQuery;
-	(function ($) {
-		$(document).ready(function () {
-			$('#jform_type').on('change', function (a, params) {
-				switch (params.selected) {
-				case '0':
-					// Image
-					$('#image, #url').show();
-					$('#custom').hide();
-					break;
-				case '1':
-					// Custom
-					$('#image, #url').hide();
-					$('#custom').show();
-					break;
-				}
-			});
-		});
-	})(jQuery);
-
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_banners&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="banner-form" class="form-validate form-horizontal">
