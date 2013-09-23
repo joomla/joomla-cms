@@ -21,30 +21,30 @@ JHtml::_('formbehavior.chosen', 'select');
 			Joomla.submitform(task, document.getElementById('banner-form'));
 		}
 	}
-	window.addEvent('domready', function()
-	{
-		document.id('jform_type0').addEvent('click', function(e){
-			document.id('image').setStyle('display', 'block');
-			document.id('url').setStyle('display', 'block');
-			document.id('custom').setStyle('display', 'none');
+
+	var jQuery;
+	(function ($) {
+		$(document).ready(function () {
+			$('#jform_type').on('change', function (a, params) {
+				switch (params.selected) {
+				case '0':
+					// Image
+					$('#image, #url').show();
+					$('#custom').hide();
+					break;
+				case '1':
+					// Custom
+					$('#image, #url').hide();
+					$('#custom').show();
+					break;
+				}
+			});
 		});
-		document.id('jform_type1').addEvent('click', function(e){
-			document.id('image').setStyle('display', 'none');
-			document.id('url').setStyle('display', 'block');
-			document.id('custom').setStyle('display', 'block');
-		});
-		if (document.id('jform_type0').checked==true)
-		{
-			document.id('jform_type0').fireEvent('click');
-		}
-		else
-		{
-			document.id('jform_type1').fireEvent('click');
-		}
-	});
+	})(jQuery);
+
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_banners&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="banner-form" class="form-validate form-horizontal">
+<form action="<?php echo JRoute::_('index.php?option=com_banners&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="banner-form" class="form-validate form-horizontal">
 
 <?php echo JLayoutHelper::render('joomla.edit.item_title', $this); ?>
 
