@@ -63,7 +63,6 @@ class JApplicationBaseTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
-	 * @covers  JApplicationBase::loadDispatcher
 	 */
 	public function testLoadDispatcher()
 	{
@@ -89,8 +88,6 @@ class JApplicationBaseTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.2
-	 * @covers  JApplicationBase::loadIdentity
-	 * @covers  JApplicationBase::getIdentity
 	 */
 	public function testLoadGetIdentityCorrectClass()
 	{
@@ -110,8 +107,6 @@ class JApplicationBaseTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.3
-	 * @covers  JApplicationBase::loadIdentity
-	 * @covers  JApplicationBase::getIdentity
 	 */
 	public function testLoadGetIdentityGetJUser()
 	{
@@ -130,8 +125,6 @@ class JApplicationBaseTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.3
-	 * @covers  JApplicationBase::loadIdentity
-	 * @covers  JApplicationBase::getIdentity
 	 */
 	public function testLoadGetIdentity99()
 	{
@@ -149,7 +142,6 @@ class JApplicationBaseTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
-	 * @covers  JApplicationBase::registerEvent
 	 */
 	public function testRegisterEvent()
 	{
@@ -174,7 +166,6 @@ class JApplicationBaseTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
-	 * @covers  JApplicationBase::triggerEvent
 	 */
 	public function testTriggerEvent()
 	{
