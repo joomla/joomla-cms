@@ -130,7 +130,7 @@ switch ($format)
 			JLog::add($results->getMessage(), JLog::ERROR);
 
 			// Set status header code
-			JResponse::setHeader('status', $results->getCode(), true);
+			$app->setHeader('status', $results->getCode(), true);
 
 			// Echo exception type and message
 			$out = get_class($results) . ': ' . $results->getMessage();
