@@ -145,7 +145,7 @@
                         $(".add").removeClass("btn-success").addClass("disabled");
                     }
 
-                    renameInputs();
+                    renameInputRow(clone, rowcount, true);
 
                     // Reapply values as renaming radio buttons
                     setRadioValues(radiovals);
@@ -201,35 +201,55 @@
          * Ensure checkboxes and radio buttons (and their labels) have unique names & ids.
          */
         renameInputs = function () {
-            var id, label, shortName, i, chx,
-                trs = getTrs();
-            regex = /\[\]/;
+            var id, label, shortName, i, chx, trs = getTrs();
             for (i = 0; i < trs.length; i ++) {
-                chx = $(trs[i]).find('input[type="radio"], input[type="checkbox"]');
-                $.each(chx, function (index, r) {
-                    if (r.name.match(regex) === null) {
-                        r.name += '[' + i + ']';
-                    } else {
-                        r.name = r.name.replace(regex, '[' + i + ']');
-                        r.name += '[]';
-                    }
-                    shortName = r.name.split('][');
-                    shortName = shortName[shortName.length - 3];
-                    id = r.id.split('_')
-                    id[id.length - 1] = shortName + index;
-                    id.push(i);
-                    r.id = id.join('_');
-                    label = $(this).next('label');
-                    label.attr('for', r.id);
-                });
+            	renameInputRow(trs[i], i, false);
             }
+        };
+        
+        /**
+         * Single row manipulation for radio / chx and the labels.
+         */
+        renameInputRow = function (tr, i, cloned) {
+        	var cloneRegex = /\[[0-9]\]/;
+        	var regex = /\[\]/;
+            chx = $(tr).find('input[type="radio"], input[type="checkbox"]');
+            $.each(chx, function (index, r) {
+            	if (cloned) {
+            		r.name = r.name.replace(cloneRegex, '[' + i + ']');
+            	} else {
+	               if (r.name.match(regex) === null) {
+	                    r.name += '[' + i + ']';
+	                    shortName = r.name.split('][');
+	                    shortName = shortName[shortName.length - 2];
+	                } else {
+	                    r.name = r.name.replace(regex, '[' + i + ']');
+	                    r.name += '[]';
+	                    shortName = r.name.split('][');
+	                    shortName = shortName[shortName.length - 3];
+	                }
+            	}
+                id = r.id.split('_');
+                if (id.length === 4 && cloned) {
+                	// Cloning a single row (name already in correct format, just need to update values)
+                	id[id.length - 2] = shortName + index;
+                	id[id.length - 1] = i;
+                } else {
+                	id[id.length - 1] = shortName + index;
+                	id.push(i);
+                }
+                
+                r.id = id.join('_');
+                label = $(this).next('label');
+                label.attr('for', r.id);
+            });
         };
 
         /**
          * Create <tr>'s from the hidden fields JSON and the template HTML
          */
         build = function () {
-            var clone, a, tr, keys, newrow, rowcount, trs, type;
+            var clone, a, tr, keys, newrow, rowcount, trs, type, subValues;
             a = JSON.decode($(field).val());
             if (typeOf(a) === 'null') {
                 a = {};
@@ -251,11 +271,11 @@
             // Populate the cloned fields with the json values
             for (i = 0; i < rowcount; i++) {
                 $.each(keys, function (index, k) {
-                    console.log($(trs[i]).find('*[name*="' + this + '"]'));
                     $(trs[i]).find('*[name*="' + this + '"]').each(function (index, f) {
                         type = $(f).attr('type');
                         if (type === 'radio' || type === 'checkbox') {
-                            if (f.value === a[k][i]) {
+                        	subValues = typeof(a[k][i]) === 'object' ? a[k][i] : [];
+                        	if (subValues.contains(f.value)) {
                                 $(f).attr('checked', 'checked');
                             }
                         } else {
@@ -294,18 +314,23 @@
          * Save the window fields back to the hidden element field (stored as JSON)
          */
         store = function () {
-            var i, n, fields, type, json = {};
+            var i, n, fields, type, json = {},
+            regex = /\[[0-9]\]/;
 
             // Get the current values
             for (i = 0; i < names.length; i++) {
                 n = names[i];
                 fields = el.find('*[name*="' + n + '"]');
                 json[n] = [];
-                $.each(fields, function () {
+                $.each(fields, function (i, field) {
                     type = $(this).attr('type');
                     if (type === 'radio' || type === 'checkbox') {
+                    	var rowIndex = parseInt(field.name.match(regex)[0].replace('[', '').replace(']', ''));
+                    	if (typeof(json[n][rowIndex]) === 'undefined') {
+                    		json[n][rowIndex] = [];
+                    	}
                         if ($(this).attr('checked') === 'checked') {
-                            json[n].push($(this).val());
+                            json[n][rowIndex].push($(this).val());
                         }
                     } else {
                         json[n].push($(this).val());
