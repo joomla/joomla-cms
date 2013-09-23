@@ -108,7 +108,7 @@ class ContactControllerContact extends JControllerForm
 		$sent = false;
 		if (!$params->get('custom_reply'))
 		{
-			$sent = $this->_sendEmail($data, $contact);
+			$sent = $this->_sendEmail($data, $contact, $params->get('show_email_copy'));
 		}
 
 		// Set the success message if it was a success
@@ -137,7 +137,7 @@ class ContactControllerContact extends JControllerForm
 		return true;
 	}
 
-	private function _sendEmail($data, $contact)
+	private function _sendEmail($data, $contact, $copy_email_activated)
 	{
 			$app		= JFactory::getApplication();
 			if ($contact->email_to == '' && $contact->user_id != 0)
@@ -169,7 +169,7 @@ class ContactControllerContact extends JControllerForm
 			//If we are supposed to copy the sender, do so.
 
 			// check whether email copy function activated
-			if ( array_key_exists('contact_email_copy', $data)  )
+			if ( $copy_email_activated == true && !empty($data['contact_email_copy']))
 			{
 				$copytext		= JText::sprintf('COM_CONTACT_COPYTEXT_OF', $contact->name, $sitename);
 				$copytext		.= "\r\n\r\n".$body;
