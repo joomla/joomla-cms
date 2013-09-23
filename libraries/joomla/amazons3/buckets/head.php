@@ -42,8 +42,6 @@ class JAmazons3BucketsHead extends JAmazons3Buckets
 		$response = $this->client->head($url, $headers);
 
 		// Process the response
-		$response_body = $this->processResponse($response);
-
-		return $response_body;
+		return $this->processResponse($response);
 	}
 }

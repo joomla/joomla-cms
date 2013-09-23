@@ -47,9 +47,7 @@ class JAmazons3BucketsGet extends JAmazons3Buckets
 		}
 
 		// Send the request and process the response
-		$response_body = $this->commonGetOperations($url);
-
-		return $response_body;
+		return $this->commonGetOperations($url);
 	}
 
 	/**
@@ -66,9 +64,7 @@ class JAmazons3BucketsGet extends JAmazons3Buckets
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?acl";
 
 		// Send the request and process the response
-		$response_body = $this->commonGetOperations($url);
-
-		return $response_body;
+		return $this->commonGetOperations($url);
 	}
 
 	/**
@@ -86,9 +82,7 @@ class JAmazons3BucketsGet extends JAmazons3Buckets
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?cors";
 
 		// Send the request and process the response
-		$response_body = $this->commonGetOperations($url);
-
-		return $response_body;
+		return $this->commonGetOperations($url);
 	}
 
 	/**
@@ -105,9 +99,7 @@ class JAmazons3BucketsGet extends JAmazons3Buckets
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?lifecycle";
 
 		// Send the request and process the response
-		$response_body = $this->commonGetOperations($url);
-
-		return $response_body;
+		return $this->commonGetOperations($url);
 	}
 
 	/**
@@ -124,9 +116,7 @@ class JAmazons3BucketsGet extends JAmazons3Buckets
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?policy";
 
 		// Send the request and process the response
-		$response_body = $this->commonGetOperations($url);
-
-		return $response_body;
+		return $this->commonGetOperations($url);
 	}
 
 	/**
@@ -143,9 +133,7 @@ class JAmazons3BucketsGet extends JAmazons3Buckets
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?location";
 
 		// Send the request and process the response
-		$response_body = $this->commonGetOperations($url);
-
-		return $response_body;
+		return $this->commonGetOperations($url);
 	}
 
 	/**
@@ -162,9 +150,7 @@ class JAmazons3BucketsGet extends JAmazons3Buckets
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?logging";
 
 		// Send the request and process the response
-		$response_body = $this->commonGetOperations($url);
-
-		return $response_body;
+		return $this->commonGetOperations($url);
 	}
 
 	/**
@@ -181,9 +167,7 @@ class JAmazons3BucketsGet extends JAmazons3Buckets
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?notification";
 
 		// Send the request and process the response
-		$response_body = $this->commonGetOperations($url);
-
-		return $response_body;
+		return $this->commonGetOperations($url);
 	}
 
 	/**
@@ -200,9 +184,7 @@ class JAmazons3BucketsGet extends JAmazons3Buckets
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?tagging";
 
 		// Send the request and process the response
-		$response_body = $this->commonGetOperations($url);
-
-		return $response_body;
+		return $this->commonGetOperations($url);
 	}
 
 	/**
@@ -220,9 +202,7 @@ class JAmazons3BucketsGet extends JAmazons3Buckets
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?versions";
 
 		// Send the request and process the response
-		$response_body = $this->commonGetOperations($url);
-
-		return $response_body;
+		return $this->commonGetOperations($url);
 	}
 
 	/**
@@ -240,9 +220,7 @@ class JAmazons3BucketsGet extends JAmazons3Buckets
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?requestPayment";
 
 		// Send the request and process the response
-		$response_body = $this->commonGetOperations($url);
-
-		return $response_body;
+		return $this->commonGetOperations($url);
 	}
 
 	/**
@@ -259,9 +237,7 @@ class JAmazons3BucketsGet extends JAmazons3Buckets
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?versioning";
 
 		// Send the request and process the response
-		$response_body = $this->commonGetOperations($url);
-
-		return $response_body;
+		return $this->commonGetOperations($url);
 	}
 
 	/**
@@ -278,9 +254,7 @@ class JAmazons3BucketsGet extends JAmazons3Buckets
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?website";
 
 		// Send the request and process the response
-		$response_body = $this->commonGetOperations($url);
-
-		return $response_body;
+		return $this->commonGetOperations($url);
 	}
 
 	/**
@@ -298,8 +272,6 @@ class JAmazons3BucketsGet extends JAmazons3Buckets
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?uploads";
 
 		// Send the request and process the response
-		$response_body = $this->commonGetOperations($url);
-
-		return $response_body;
+		return $this->commonGetOperations($url);
 	}
 }

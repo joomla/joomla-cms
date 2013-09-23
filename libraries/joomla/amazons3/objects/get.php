@@ -50,9 +50,7 @@ class JAmazons3ObjectsGet extends JAmazons3Objects
 		}
 
 		// Send the request and process the response
-		$response_body = $this->commonGetOperations($url, $headers);
-
-		return $response_body;
+		return $this->commonGetOperations($url, $headers);
 	}
 
 	/**
@@ -91,9 +89,7 @@ class JAmazons3ObjectsGet extends JAmazons3Objects
 		}
 
 		// Send the request and process the response
-		$response_body = $this->commonGetOperations($url, $headers);
-
-		return $response_body;
+		return $this->commonGetOperations($url, $headers);
 	}
 
 	/**
@@ -112,9 +108,7 @@ class JAmazons3ObjectsGet extends JAmazons3Objects
 			. "/" . $objectName . "?torrent";
 
 		// Send the request and process the response
-		$response_body = $this->commonGetOperations($url);
-
-		return $response_body;
+		return $this->commonGetOperations($url);
 	}
 
 	/**
@@ -144,8 +138,6 @@ class JAmazons3ObjectsGet extends JAmazons3Objects
 		}
 
 		// Send the request and process the response
-		$response_body = $this->commonGetOperations($url);
-
-		return $response_body;
+		return $this->commonGetOperations($url);
 	}
 }

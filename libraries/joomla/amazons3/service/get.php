@@ -30,8 +30,6 @@ class JAmazons3ServiceGet extends JAmazons3Service
 		$url = "https://" . $this->options->get("api.url") . "/";
 
 		// Send the request and process the response
-		$response_body = $this->commonGetOperations($url);
-
-		return $response_body;
+		return $this->commonGetOperations($url);
 	}
 }

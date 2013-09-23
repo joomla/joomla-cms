@@ -85,9 +85,7 @@ class JAmazons3ObjectsPost extends JAmazons3Objects
 		$response = $this->client->post($url, $content, $headers);
 
 		// Process the response
-		$response_body = $this->processResponse($response);
-
-		return $response_body;
+		return $this->processResponse($response);
 	}
 
 	/**
@@ -125,9 +123,7 @@ class JAmazons3ObjectsPost extends JAmazons3Objects
 		$response = $this->client->post($url, $content, $headers);
 
 		// Process the response
-		$response_body = $this->processResponse($response);
-
-		return $response_body;
+		return $this->processResponse($response);
 	}
 
 	/**
@@ -167,8 +163,6 @@ class JAmazons3ObjectsPost extends JAmazons3Objects
 		$response = $this->client->post($url, $content, $headers);
 
 		// Process the response
-		$response_body = $this->processResponse($response);
-
-		return $response_body;
+		return $this->processResponse($response);
 	}
 }

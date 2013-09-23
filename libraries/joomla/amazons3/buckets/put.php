@@ -74,9 +74,7 @@ class JAmazons3BucketsPut extends JAmazons3Buckets
 		$response = $this->client->put($url, $content, $headers);
 
 		// Process the response
-		$response_body = $this->processResponse($response);
-
-		return $response_body;
+		return $this->processResponse($response);
 	}
 
 	/**
@@ -123,9 +121,7 @@ class JAmazons3BucketsPut extends JAmazons3Buckets
 		$response = $this->client->put($url, "", $headers);
 
 		// Process the response
-		$response_body = $this->processResponse($response);
-
-		return $response_body;
+		return $this->processResponse($response);
 	}
 
 	/**
@@ -196,9 +192,7 @@ class JAmazons3BucketsPut extends JAmazons3Buckets
 		$response = $this->client->put($url, $content, $headers);
 
 		// Process the response
-		$response_body = $this->processResponse($response);
-
-		return $response_body;
+		return $this->processResponse($response);
 	}
 
 	/**
@@ -273,9 +267,7 @@ class JAmazons3BucketsPut extends JAmazons3Buckets
 		$response = $this->client->put($url, $content, $headers);
 
 		// Process the response
-		$response_body = $this->processResponse($response);
-
-		return $response_body;
+		return $this->processResponse($response);
 	}
 
 	/**
@@ -315,9 +307,7 @@ class JAmazons3BucketsPut extends JAmazons3Buckets
 		$response = $this->client->put($url, $content, $headers);
 
 		// Process the response
-		$response_body = $this->processResponse($response);
-
-		return $response_body;
+		return $this->processResponse($response);
 	}
 
 	/**
@@ -428,9 +418,7 @@ class JAmazons3BucketsPut extends JAmazons3Buckets
 		$response = $this->client->put($url, $content, $headers);
 
 		// Process the response
-		$response_body = $this->processResponse($response);
-
-		return $response_body;
+		return $this->processResponse($response);
 	}
 
 	/**
@@ -486,9 +474,7 @@ class JAmazons3BucketsPut extends JAmazons3Buckets
 		$response = $this->client->put($url, $content, $headers);
 
 		// Process the response
-		$response_body = $this->processResponse($response);
-
-		return $response_body;
+		return $this->processResponse($response);
 	}
 
 	/**
@@ -546,9 +532,7 @@ class JAmazons3BucketsPut extends JAmazons3Buckets
 		$response = $this->client->put($url, $content, $headers);
 
 		// Process the response
-		$response_body = $this->processResponse($response);
-
-		return $response_body;
+		return $this->processResponse($response);
 	}
 
 	/**
@@ -584,9 +568,7 @@ class JAmazons3BucketsPut extends JAmazons3Buckets
 		$response = $this->client->put($url, $content, $headers);
 
 		// Process the response
-		$response_body = $this->processResponse($response);
-
-		return $response_body;
+		return $this->processResponse($response);
 	}
 
 	/**
@@ -639,9 +621,7 @@ class JAmazons3BucketsPut extends JAmazons3Buckets
 		$response = $this->client->put($url, $content, $headers);
 
 		// Process the response
-		$response_body = $this->processResponse($response);
-
-		return $response_body;
+		return $this->processResponse($response);
 	}
 
 	/**
@@ -724,8 +704,6 @@ class JAmazons3BucketsPut extends JAmazons3Buckets
 		$response = $this->client->put($url, $content, $headers);
 
 		// Process the response
-		$response_body = $this->processResponse($response);
-
-		return $response_body;
+		return $this->processResponse($response);
 	}
 }

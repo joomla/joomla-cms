@@ -52,9 +52,7 @@ class JAmazons3ObjectsDelete extends JAmazons3Objects
 		}
 
 		// Send the request and process the response
-		$response_body = $this->commonDeleteOperations($url, $headers);
-
-		return $response_body;
+		return $this->commonDeleteOperations($url, $headers);
 	}
 
 	/**
@@ -74,8 +72,6 @@ class JAmazons3ObjectsDelete extends JAmazons3Objects
 			. $object . "?uploadId=" . $uploadId;
 
 		// Send the request and process the response
-		$response_body = $this->commonDeleteOperations($url);
-
-		return $response_body;
+		return $this->commonDeleteOperations($url);
 	}
 }

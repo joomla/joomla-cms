@@ -52,8 +52,6 @@ class JAmazons3ObjectsOptionss3 extends JAmazons3Objects
 		$response = $this->client->options($url, $headers);
 
 		// Process the response
-		$response_body = $this->processResponse($response);
-
-		return $response_body;
+		return $this->processResponse($response);
 	}
 }
