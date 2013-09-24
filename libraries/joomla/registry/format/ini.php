@@ -18,6 +18,12 @@ defined('JPATH_PLATFORM') or die;
  */
 class JRegistryFormatINI extends JRegistryFormat
 {
+	/**
+	 * Cache of processed data
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
 	protected static $cache = array();
 
 	/**

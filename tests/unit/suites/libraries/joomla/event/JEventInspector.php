@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/event/event.php';
-
 /**
  * General inspector class for JEvent.
  *
@@ -18,27 +16,6 @@ require_once JPATH_PLATFORM . '/joomla/event/event.php';
  */
 class JEventInspector extends JEvent
 {
-	/**
-	 * Method for inspecting protected variables.
-	 *
-	 * @param   string  $name  Property name.
-	 *
-	 * @return mixed The value of the class variable.
-	 */
-	public function __get($name)
-	{
-		if (property_exists($this, $name))
-		{
-			return $this->$name;
-		}
-		else
-		{
-			trigger_error('Undefined or private property: ' . __CLASS__ . '::' . $name, E_USER_ERROR);
-
-			return null;
-		}
-	}
-
 	/**
 	 * Mock Event Method
 	 *

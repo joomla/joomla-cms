@@ -17,48 +17,64 @@ defined('JPATH_PLATFORM') or die;
 abstract class JFactory
 {
 	/**
-	 * @var    JApplication
+	 * Global application object
+	 *
+	 * @var    JApplicationCms
 	 * @since  11.1
 	 */
 	public static $application = null;
 
 	/**
+	 * Global cache object
+	 *
 	 * @var    JCache
 	 * @since  11.1
 	 */
 	public static $cache = null;
 
 	/**
+	 * Global configuraiton object
+	 *
 	 * @var    JConfig
 	 * @since  11.1
 	 */
 	public static $config = null;
 
 	/**
+	 * Container for JDate instances
+	 *
 	 * @var    array
 	 * @since  11.3
 	 */
 	public static $dates = array();
 
 	/**
+	 * Global session object
+	 *
 	 * @var    JSession
 	 * @since  11.1
 	 */
 	public static $session = null;
 
 	/**
+	 * Global language object
+	 *
 	 * @var    JLanguage
 	 * @since  11.1
 	 */
 	public static $language = null;
 
 	/**
+	 * Global document object
+	 *
 	 * @var    JDocument
 	 * @since  11.1
 	 */
 	public static $document = null;
 
 	/**
+	 * Global ACL object
+	 *
 	 * @var    JAccess
 	 * @since  11.1
 	 * @deprecated  13.3 (Platform) & 4.0 (CMS)
@@ -66,12 +82,16 @@ abstract class JFactory
 	public static $acl = null;
 
 	/**
+	 * Global database object
+	 *
 	 * @var    JDatabaseDriver
 	 * @since  11.1
 	 */
 	public static $database = null;
 
 	/**
+	 * Global mailer object
+	 *
 	 * @var    JMail
 	 * @since  11.1
 	 */
@@ -80,13 +100,13 @@ abstract class JFactory
 	/**
 	 * Get a application object.
 	 *
-	 * Returns the global {@link JApplication} object, only creating it if it doesn't already exist.
+	 * Returns the global {@link JApplicationCms} object, only creating it if it doesn't already exist.
 	 *
 	 * @param   mixed   $id      A client identifier or name.
 	 * @param   array   $config  An optional associative array of configuration settings.
 	 * @param   string  $prefix  Application prefix
 	 *
-	 * @return  JApplication object
+	 * @return  JApplicationCms object
 	 *
 	 * @see     JApplication
 	 * @since   11.1
@@ -101,7 +121,7 @@ abstract class JFactory
 				throw new Exception('Application Instantiation Error', 500);
 			}
 
-			self::$application = JApplication::getInstance($id, $config, $prefix);
+			self::$application = JApplicationCms::getInstance($id);
 		}
 
 		return self::$application;
@@ -712,7 +732,7 @@ abstract class JFactory
 	 *
 	 * @return  JStream
 	 *
-	 * @see JStream
+	 * @see     JStream
 	 * @since   11.1
 	 */
 	public static function getStream($use_prefix = true, $use_network = true, $ua = null, $uamask = false)

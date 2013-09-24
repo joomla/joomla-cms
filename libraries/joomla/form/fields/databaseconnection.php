@@ -40,7 +40,7 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 	 * @return  array    The field option objects.
 	 *
 	 * @since   11.3
-	 * @see		JDatabaseDriver
+	 * @see     JDatabaseDriver::getConnectors()
 	 */
 	protected function getOptions()
 	{

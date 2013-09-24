@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.updater.update');
-jimport('legacy.application.helper');
 jimport('legacy.component.helper');
 
 /**
@@ -632,20 +631,59 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
+	 * Gets a unique language SEF string
+	 *
+	 * This function checks other existing language with the same code, if they exist provides a unique SEF name.
+	 * For instance: en-GB, en-US and en-AU will share the same SEF code by default: www.mywebsite.com/en/
+	 * To avoid this conflict, this function creates an specific SEF in case of existing conflict:
+	 * For example: www.mywebsite.com/en-au/
+	 *
+	 * @param   stdClass    $itemLanguage   Language Object
+	 * @param   stdClass[]  $siteLanguages  All Language Objects
+	 *
+	 * @return  string
+	 *
+	 * @since   3.2
+	 */
+	public function getSefString($itemLanguage, $siteLanguages)
+	{
+		$langs = explode('-', $itemLanguage->language);
+		$prefixToFind = $langs[0];
+
+		$numberPrefixesFound = 0;
+		foreach ($siteLanguages as $siteLang)
+		{
+			$langs = explode('-', $siteLang->language);
+			$lang  = $langs[0];
+
+			if ($lang == $prefixToFind)
+			{
+				++$numberPrefixesFound;
+			}
+		}
+
+		if ($numberPrefixesFound == 1)
+		{
+			return $prefixToFind;
+		}
+		return strtolower($itemLanguage->language);
+	}
+
+	/**
 	 * Add a Content Language
 	 *
-	 * @param   stdclass  $itemLanguage  Language Object
+	 * @param   stdClass  $itemLanguage   Language Object
+	 * @param   string    $sefLangString  String to use for SEF so it doesn't conflict
 	 *
 	 * @return  boolean
 	 *
 	 * @since   3.2
 	 */
-	public function addLanguage($itemLanguage)
+	public function addLanguage($itemLanguage, $sefLangString)
 	{
 		$tableLanguage = JTable::getInstance('Language');
 
-		$langs = explode('-', $itemLanguage->language);
-		$lang  = $langs[0];
+		$flag = strtolower(str_replace('-', '_',  $itemLanguage->language));
 
 		// Load the native language name
 		$installationLocalisedIni = new JLanguage($itemLanguage->language, false);
@@ -662,8 +700,8 @@ class InstallationModelLanguages extends JModelBase
 			'lang_code'    => $itemLanguage->language,
 			'title'        => $itemLanguage->name,
 			'title_native' => $nativeLanguageName,
-			'sef'          => $lang,
-			'image'        => $lang,
+			'sef'          => $sefLangString,
+			'image'        => $flag,
 			'published'    => 1
 		);
 
@@ -691,7 +729,7 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Add Menu Group
 	 *
-	 * @param   stdclass  $itemLanguage  Language Object
+	 * @param   stdClass  $itemLanguage  Language Object
 	 *
 	 * @return  boolean
 	 *
@@ -737,7 +775,7 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Add Menu Item.
 	 *
-	 * @param   stdclass  $itemLanguage  Language Object
+	 * @param   stdClass  $itemLanguage  Language Object
 	 *
 	 * @return  boolean
 	 *
@@ -801,7 +839,7 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Add Module Menu
 	 *
-	 * @param   stdclass  $itemLanguage  Language Object
+	 * @param   stdClass  $itemLanguage  Language Object
 	 *
 	 * @return  boolean
 	 *
@@ -913,7 +951,7 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Method create a category for a specific language
 	 *
-	 * @param   stdclass  $itemLanguage  Language Object
+	 * @param   stdClass  $itemLanguage  Language Object
 	 *
 	 * @return  JTable Category Object
 	 *
@@ -961,7 +999,7 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Create an article in a specific language
 	 *
-	 * @param   stdclass  $itemLanguage  Language Object
+	 * @param   stdClass  $itemLanguage  Language Object
 	 * @param   int       $categoryId    The id of the category where we want to add the article
 	 *
 	 * @return  JTable Category Object

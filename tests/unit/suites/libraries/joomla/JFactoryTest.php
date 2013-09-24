@@ -55,7 +55,6 @@ class JFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
-	 * @covers  JFactory::getApplication
 	 * @todo    Implement testGetApplication().
 	 */
 	public function testGetApplication()
@@ -72,8 +71,6 @@ class JFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   11.3
-	 * @covers  JFactory::getConfig
-	 * @covers  JFactory::createConfig
 	 */
 	public function testGetConfig()
 	{
@@ -96,21 +93,20 @@ class JFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
-	 * @covers  JFactory::getLangauge
-	 * @covers  JFactory::createLanguage
-	 * @todo    Implement testGetLanguage().
 	 */
 	public function testGetLanguage()
 	{
+		// Temporarily override the language cache in JFactory.
+		$temp = JFactory::$language;
+		JFactory::$language = null;
+
 		$this->assertInstanceOf(
 			'JLanguage',
 			JFactory::getLanguage(),
 			'Line: ' . __LINE__
 		);
 
-		$this->markTestIncomplete(
-			'This test has not been implemented completely yet.'
-		);
+		JFactory::$language = $temp;
 	}
 
 	/**
@@ -119,9 +115,6 @@ class JFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
-	 * @covers  JFactory::getDocument
-	 * @covers  JFactory::createDocument
-	 * @todo    Implement testGetDocument().
 	 */
 	public function testGetDocument()
 	{
@@ -134,10 +127,6 @@ class JFactoryTest extends TestCase
 		);
 
 		JFactory::$application = null;
-
-		$this->markTestIncomplete(
-			'This test has not been implemented completely yet.'
-		);
 	}
 
 	/**
@@ -146,8 +135,6 @@ class JFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
-	 * @covers  JFactory::getCache
-	 * @todo    Implement testGetCache().
 	 */
 	public function testGetCache()
 	{
@@ -168,10 +155,6 @@ class JFactoryTest extends TestCase
 			JFactory::getCache('', 'view', null),
 			'Line: ' . __LINE__
 		);
-
-		$this->markTestIncomplete(
-			'This test has not been implemented completely yet.'
-		);
 	}
 
 	/**
@@ -180,7 +163,6 @@ class JFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
-	 * @covers  JFactory::getACL
 	 */
 	public function testGetACL()
 	{
@@ -197,7 +179,6 @@ class JFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
-	 * @covers  JFactory::getURI
 	 */
 	public function testGetUri()
 	{
@@ -214,7 +195,6 @@ class JFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.2
-	 * @covers  JFactory::getXML
 	 */
 	public function testGetXml()
 	{
@@ -233,7 +213,6 @@ class JFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.3
-	 * @covers  JFactory::getDate
 	 */
 	public function testGetDateUnchanged()
 	{
@@ -254,7 +233,6 @@ class JFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.3
-	 * @covers  JFactory::getDate
 	 */
 	public function testGetDateNow()
 	{
@@ -277,7 +255,6 @@ class JFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.3
-	 * @covers  JFactory::getDate
 	 */
 	public function testGetDateUTC1()
 	{
@@ -299,7 +276,6 @@ class JFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.3
-	 * @covers  JFactory::getDate
 	 */
 	public function testGetDateUTC2()
 	{
@@ -321,7 +297,6 @@ class JFactoryTest extends TestCase
 	 * @return  void
 	 *
 	 * @since   12.3
-	 * @covers  JFactory::getUser
 	 */
 	public function testGetUserInstance()
 	{

@@ -147,7 +147,7 @@ class JRouterSite extends JRouter
 	{
 		$vars = array();
 		$app  = JApplication::getInstance('site');
-		$menu = $app->getMenu(true);
+		$menu = $app->getMenu();
 
 		// Handle an empty URL (special case)
 		if (!$uri->getVar('Itemid') && !$uri->getVar('option'))
@@ -207,7 +207,7 @@ class JRouterSite extends JRouter
 	protected function parseSefRoute(&$uri)
 	{
 		$app   = JApplication::getInstance('site');
-		$menu  = $app->getMenu(true);
+		$menu  = $app->getMenu();
 		$route = $uri->getPath();
 
 		// Remove the suffix

@@ -209,8 +209,9 @@ class JFeed implements ArrayAccess
 	 *
 	 * @return  boolean
 	 *
-	 * @see    ArrayAccess::offsetSet()
-	 * @since  12.3
+	 * @see     ArrayAccess::offsetSet()
+	 * @since   12.3
+	 * @throws  InvalidArgumentException
 	 */
 	public function offsetSet($offset, $value)
 	{

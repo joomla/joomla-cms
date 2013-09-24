@@ -9,6 +9,15 @@
 
 defined('_JEXEC') or die;
 
+/*
+ * References
+ *  Support plugins in your component
+ * - http://docs.joomla.org/Supporting_plugins_in_your_component
+ *
+ * Best way for JSON output
+ * - https://groups.google.com/d/msg/joomla-dev-cms/WsC0nA9Fixo/Ur-gPqpqh-EJ
+ */
+
 // Reference global application object
 $app = JFactory::getApplication();
 
@@ -111,12 +120,3 @@ switch ($format)
 		$app->close();
 		break;
 }
-
-/*
- * References
- *  Support plugins in your component
- * - http://docs.joomla.org/Supporting_plugins_in_your_component
- *
- * Best way for JSON output
- * - https://groups.google.com/d/msg/joomla-dev-cms/WsC0nA9Fixo/Ur-gPqpqh-EJ
- */

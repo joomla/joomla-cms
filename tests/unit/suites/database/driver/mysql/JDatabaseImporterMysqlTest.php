@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once __DIR__ . '/JDatabaseImporterMysqlInspector.php';
-
 /**
  * Tests the JDatabaseImporterMysql class.
  *
@@ -358,7 +356,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAsXml()
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMysql;
 
 		$result = $instance->asXml();
 
@@ -369,7 +367,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 		);
 
 		$this->assertThat(
-			$instance->asFormat,
+			TestReflection::getValue($instance, 'asFormat'),
 			$this->equalTo('xml'),
 			'The asXml method should set the protected asFormat property to "xml".'
 		);
@@ -384,7 +382,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithNoDbo()
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMysql;
 
 		try
 		{
@@ -410,7 +408,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithNoFrom()
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMysql;
 		$instance->setDbo($this->dbo);
 
 		try
@@ -437,7 +435,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckWithGoodInput()
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMysql;
 		$instance->setDbo($this->dbo);
 		$instance->from('foobar');
 
@@ -468,7 +466,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testFromWithGoodInput()
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMysql;
 
 		try
 		{
@@ -481,7 +479,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 			);
 
 			$this->assertThat(
-				$instance->from,
+				TestReflection::getValue($instance, 'from'),
 				$this->equalTo('foobar'),
 				'The from method did not store the value as expected.'
 			);
@@ -505,14 +503,11 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetAddColumnSQL()
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMysql;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
-			$instance->getAddColumnSQL(
-				'jos_test',
-				new SimpleXmlElement($this->sample['xml-title-field'])
-			),
+			TestReflection::invoke($instance, 'getAddColumnSql', 'jos_test', new SimpleXmlElement($this->sample['xml-title-field'])),
 			$this->equalTo(
 				"ALTER TABLE `jos_test` ADD COLUMN `title` varchar(50) NOT NULL DEFAULT ''"
 			),
@@ -531,16 +526,11 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetAddKeySQL()
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMysql;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
-			$instance->getAddKeySQL(
-				'jos_test',
-				array(
-					new SimpleXmlElement($this->sample['xml-primary-key'])
-				)
-			),
+			TestReflection::invoke($instance, 'getAddKeySQL', 'jos_test', array(new SimpleXmlElement($this->sample['xml-primary-key']))),
 			$this->equalTo(
 				"ALTER TABLE `jos_test` ADD PRIMARY KEY  (`id`)"
 			),
@@ -563,11 +553,11 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetAlterTableSQL($structure, $expected, $message)
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMysql;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
-			$instance->getAlterTableSQL($structure),
+			TestReflection::invoke($instance, 'getAlterTableSQL', $structure),
 			$this->equalTo(
 				$expected
 			),
@@ -586,14 +576,11 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetChangeColumnSQL()
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMysql;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
-			$instance->getChangeColumnSQL(
-				'jos_test',
-				new SimpleXmlElement($this->sample['xml-title-field'])
-			),
+			TestReflection::invoke($instance, 'getChangeColumnSQL', 'jos_test', new SimpleXmlElement($this->sample['xml-title-field'])),
 			$this->equalTo(
 				"ALTER TABLE `jos_test` CHANGE COLUMN `title` `title` varchar(50) NOT NULL DEFAULT ''"
 			),
@@ -617,11 +604,11 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetColumnSQL($field, $expected, $message)
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMysql;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
-			strtolower($instance->getColumnSQL($field)),
+			strtolower(TestReflection::invoke($instance, 'getColumnSQL', $field)),
 			$this->equalTo(strtolower($expected)),
 			$message
 		);
@@ -636,14 +623,11 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetDropColumnSQL()
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMysql;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
-			$instance->getDropColumnSQL(
-				'jos_test',
-				'title'
-			),
+			TestReflection::invoke($instance, 'getDropColumnSQL', 'jos_test', 'title'),
 			$this->equalTo(
 				"ALTER TABLE `jos_test` DROP COLUMN `title`"
 			),
@@ -660,14 +644,11 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetDropKeySQL()
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMysql;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
-			$instance->getDropKeySQL(
-				'jos_test',
-				'idx_title'
-			),
+			TestReflection::invoke($instance, 'getDropKeySQL', 'jos_test', 'idx_title'),
 			$this->equalTo(
 				"ALTER TABLE `jos_test` DROP KEY `idx_title`"
 			),
@@ -684,13 +665,11 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetDropPrimaryKeySQL()
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMysql;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
-			$instance->getDropPrimaryKeySQL(
-				'jos_test'
-			),
+			TestReflection::invoke($instance, 'getDropPrimaryKeySQL', 'jos_test'),
 			$this->equalTo(
 				"ALTER TABLE `jos_test` DROP PRIMARY KEY"
 			),
@@ -707,16 +686,14 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetKeyLookup()
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMysql;
 
 		$o1 = (object) array('Key_name' => 'id', 'foo' => 'bar1');
 		$o2 = (object) array('Key_name' => 'id', 'foo' => 'bar2');
 		$o3 = (object) array('Key_name' => 'title', 'foo' => 'bar3');
 
 		$this->assertThat(
-			$instance->getKeyLookup(
-				array($o1, $o2, $o3)
-			),
+			TestReflection::invoke($instance, 'getKeyLookup', array($o1, $o2, $o3)),
 			$this->equalTo(
 				array(
 					'id' => array($o1, $o2),
@@ -731,9 +708,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 		$o3 = new SimpleXmlElement('<key Key_name="title" foo="bar3" />');
 
 		$this->assertThat(
-			$instance->getKeyLookup(
-				array($o1, $o2, $o3)
-			),
+			TestReflection::invoke($instance, 'getKeyLookup', array($o1, $o2, $o3)),
 			$this->equalTo(
 				array(
 					'id' => array($o1, $o2),
@@ -760,11 +735,11 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetKeySQL($field, $expected, $message)
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMysql;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
-			strtolower($instance->getKeySQL($field)),
+			strtolower(TestReflection::invoke($instance, 'getKeySQL', $field)),
 			$this->equalTo(strtolower($expected)),
 			$message
 		);
@@ -779,11 +754,11 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetRealTableName()
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMysql;
 		$instance->setDbo($this->dbo);
 
 		$this->assertThat(
-			$instance->getRealTableName('#__test'),
+			TestReflection::invoke($instance, 'getRealTableName', '#__test'),
 			$this->equalTo('jos_test'),
 			'getRealTableName should return the name of the table with #__ converted to the database prefix.'
 		);
@@ -798,7 +773,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetDboWithBadInput()
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMysql;
 
 		try
 		{
@@ -824,7 +799,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetDboWithGoodInput()
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMysql;
 
 		try
 		{
@@ -855,7 +830,7 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testWithStructure()
 	{
-		$instance = new JDatabaseImporterMysqlInspector;
+		$instance = new JDatabaseImporterMysql;
 
 		$result = $instance->withStructure();
 
@@ -865,22 +840,30 @@ class JDatabaseImporterMysqlTest extends PHPUnit_Framework_TestCase
 			'withStructure must return an object to support chaining.'
 		);
 
+		$options = TestReflection::getValue($instance, 'options');
+
 		$this->assertThat(
-			$instance->options->withStructure,
+			$options->withStructure,
 			$this->isTrue(),
 			'The default use of withStructure should result in true.'
 		);
 
 		$instance->withStructure(true);
+
+		$options = TestReflection::getValue($instance, 'options');
+
 		$this->assertThat(
-			$instance->options->withStructure,
+			$options->withStructure,
 			$this->isTrue(),
 			'The explicit use of withStructure with true should result in true.'
 		);
 
 		$instance->withStructure(false);
+
+		$options = TestReflection::getValue($instance, 'options');
+
 		$this->assertThat(
-			$instance->options->withStructure,
+			$options->withStructure,
 			$this->isFalse(),
 			'The explicit use of withStructure with false should result in false.'
 		);
