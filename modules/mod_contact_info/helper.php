@@ -28,7 +28,6 @@ class ModContactsInfoHelper
 			$query->from('#__contact_details');
 			$query->where($db->quoteName('id') . ' = ' . (int) $id);
 			$db->setQuery($query);
-			$db->query();
 
 			return $db->loadObject();
 		}
