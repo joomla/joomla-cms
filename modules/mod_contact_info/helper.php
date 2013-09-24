@@ -18,15 +18,15 @@ defined('_JEXEC') or die;
  */
 class ModContactsInfoHelper
 {
-	public static function getData($id, $component, $table, $field = 'id', $selector = '*')
+	public static function getContact($id)
 	{
-		if (JComponentHelper::isEnabled($component))
+		if (JComponentHelper::isEnabled('com_contact'))
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
-			$query->select($selector);
-			$query->from($table);
-			$query->where($db->quoteName($field) . ' = ' . $db->quote($id));
+			$query->select('*');
+			$query->from('#__contact_details');
+			$query->where($db->quoteName('id') . ' = ' . (int) $id);
 			$db->setQuery($query);
 			$db->query();
 

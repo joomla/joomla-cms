@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 require_once dirname(__FILE__) . '/helper.php';
 
 $contact = $params->get('contact');
-$dataContact = ModContactsInfoHelper::getData($contact, 'com_contact', '#__contact_details', 'id');
+$dataContact = ModContactsInfoHelper::getContact($contact);
 
 if (empty($dataContact))
 {
