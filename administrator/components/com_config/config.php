@@ -17,7 +17,7 @@ jimport('joomla.session.session');
 JLoader::registerPrefix('Config', JPATH_COMPONENT);
 
 // Tell the browser not to cache this page.
-JResponse::setHeader('Expires', 'Mon, 26 Jul 1997 05:00:00 GMT', true);
+JFactory::getApplication()->setHeader('Expires', 'Mon, 26 Jul 1997 05:00:00 GMT', true);
 
 // Application
 $app = JFactory::getApplication();

@@ -106,7 +106,7 @@ class TemplatesModelTemplates extends JModelList
 			else
 			{
 				$search = $db->quote('%' . $db->escape($search, true) . '%');
-				$query->where('a.element LIKE ' . $search . ' OR a.name LIKE ' . $search);
+				$query->where('(a.element LIKE ' . $search . ' OR a.name LIKE ' . $search . ')');
 			}
 		}
 

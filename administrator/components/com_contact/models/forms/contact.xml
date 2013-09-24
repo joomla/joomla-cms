@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset addfieldpath="/administrator/components/com_categories/models/fields">
+    <fieldset addfieldpath="/administrator/components/com_categories/models/fields">
 		<field name="id"
 			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
@@ -26,6 +26,14 @@
 			description="JFIELD_ALIAS_DESC"
 			class="inputbox"
 			size="30"
+		/>
+		
+		<field name="version_note" 
+			type="text" 
+			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+			description="JGLOBAL_FIELD_VERSION_NOTE_DESC" 
+			class="inputbox" size="45" 
+			labelclass="control-label"
 		/>
 
 		<field name="user_id"
@@ -223,6 +231,7 @@
 			class="inputbox"
 			label="JFIELD_ORDERING_LABEL"
 			description="JFIELD_ORDERING_DESC"
+            table="#__contact_details"
 		/>
 
 		<field name="publish_up" type="calendar"
@@ -333,7 +342,7 @@
 		/>
 	</fieldset>
 
-	<fields name="params">
+	<fields name="params" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
 		<fieldset name="jbasic"
 			label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS"
 			>
@@ -699,7 +708,7 @@
 			description="COM_CONTACT_FIELD_CONFIG_REDIRECT_DESC" />
 		</fieldset>
 	</fields>
-	<fields name="metadata">
+	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 		<fieldset name="jmetadata"
 			label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 	

@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.file');
-
 /**
  * Configuration setup model for the Joomla Core Installer.
  *
@@ -185,8 +183,6 @@ class InstallationModelConfiguration extends JModelBase
 		if ($useFTP == true)
 		{
 			// Connect the FTP client
-			jimport('joomla.filesystem.path');
-
 			$ftp = JClientFtp::getInstance($options->ftp_host, $options->ftp_port);
 			$ftp->login($options->ftp_user, $options->ftp_pass);
 

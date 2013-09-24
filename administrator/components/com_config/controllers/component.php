@@ -67,5 +67,6 @@ class ConfigControllerComponent extends JControllerLegacy
 		$controller = new ConfigControllerComponentSave;
 
 		return $controller->execute();
+
 	}
 }

@@ -50,6 +50,7 @@ class ConfigControllerApplication extends JControllerLegacy
 		
 		JLog::add('ConfigControllerApplication is deprecated. Use ConfigControllerApplicationSave instead.', JLog::WARNING, 'deprecated');
 
+
 		include_once JPATH_ADMINISTRATOR . '/components/com_config/controller/application/save.php';
 		$controller = new ConfigControllerApplicationSave;
 
