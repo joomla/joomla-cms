@@ -7,14 +7,40 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
-JHtml::_('behavior.tabstate');
+// No direct access
+defined('_JEXEC') or die('Restricted access');
 
-// Access checks are done internally because of different requirements for the two controllers.
+// Sessions
+jimport('joomla.session.session');
+
+// Load classes
+JLoader::registerPrefix('Config', JPATH_COMPONENT);
 
 // Tell the browser not to cache this page.
 JFactory::getApplication()->setHeader('Expires', 'Mon, 26 Jul 1997 05:00:00 GMT', true);
 
-$controller = JControllerLegacy::getInstance('Config');
-$controller->execute(JFactory::getApplication()->input->get('task'));
-$controller->redirect();
+// Application
+$app = JFactory::getApplication();
+
+$view = $app->input->get('view');
+
+if (empty($view))
+{
+	$app->input->set('view', 'application');
+}
+
+$controllerHelper = new JControllerHelper();
+$controller = $controllerHelper->parseController($app);
+
+$controller->prefix = 'Config';
+
+// Check if component mentioned
+$component = $app->input->get('component');
+
+if (!empty($component))
+{
+	$controller->component = $component;
+}
+
+// Perform the Request task
+$controller->execute();

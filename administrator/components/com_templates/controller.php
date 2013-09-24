@@ -39,6 +39,28 @@ class TemplatesController extends JControllerLegacy
 		$layout = $this->input->get('layout', 'default');
 		$id     = $this->input->getInt('id');
 
+		$document = JFactory::getDocument();
+
+		// For JSON requests
+		if($document->getType() == 'json')
+		{
+
+			$view = new TemplatesViewStyle;
+
+			// Get/Create the model
+			if ($model = new TemplatesModelStyle())
+			{
+				$model->addTablePath(JPATH_ADMINISTRATOR . '/components/com_templates/tables');
+
+				// Push the model into the view (as default)
+				$view->setModel($model, true);
+			}
+
+			$view->document = $document;
+
+			return $view->display();
+		}
+
 		// Check for edit form.
 		if ($view == 'style' && $layout == 'edit' && !$this->checkEditId('com_templates.edit.style', $id))
 		{
