@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Sep-2013 Elin Waring
+ ^ [#31946] Support new mvc components in com_menus.
+
 23-Sep-2013 Elin Waring
  ^ [#31581] GSoC 2013: Removing MooTools dependencies from front-end components. Thanks Ashan Fernando
  ^ [#31576] GSoC 2013: Removing MooTools dependencies from caption.js. Thanks Ashan Fernando
