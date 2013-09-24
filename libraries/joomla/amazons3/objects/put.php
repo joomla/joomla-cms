@@ -208,18 +208,38 @@ class JAmazons3ObjectsPut extends JAmazons3Objects
 	 * @param   string  $bucket          The name of the bucket to upload to
 	 * @param   string  $object          The name of the uploaded file
 	 * @param   string  $requestHeaders  An array containing request headers
+	 * @param   string  $acl             An array containing the ACL permissions
+	 *                                   (either canned or explicitly specified)
 	 *
 	 * @return string  The response body
 	 *
 	 * @since   ??.?
 	 */
-	public function initiateMultipartUpload($bucket, $object, $requestHeaders = null)
+	public function initiateMultipartUpload($bucket, $object, $requestHeaders = null, $acl = null)
 	{
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/"
 			. $object . "?uploads";
 		$headers = array(
 			"Date" => date("D, d M Y H:i:s O"),
 		);
+
+		// Check for ACL permissions
+		if (is_array($acl))
+		{
+			// Check for canned ACL permission
+			if (array_key_exists("acl", $acl))
+			{
+				$headers["x-amz-acl"] = $acl["acl"];
+			}
+			else
+			{
+				// Access permissions were specified explicitly
+				foreach ($acl as $aclPermission => $aclGrantee)
+				{
+					$headers["x-amz-grant-" . $aclPermission] = $aclGrantee;
+				}
+			}
+		}
 
 		// Check for request headers
 		if (is_array($requestHeaders))
