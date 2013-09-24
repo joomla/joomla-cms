@@ -13,7 +13,7 @@ JHtml::_('behavior.tabstate');
 // Access checks are done internally because of different requirements for the two controllers.
 
 // Tell the browser not to cache this page.
-JResponse::setHeader('Expires', 'Mon, 26 Jul 1997 05:00:00 GMT', true);
+JFactory::getApplication()->setHeader('Expires', 'Mon, 26 Jul 1997 05:00:00 GMT', true);
 
 $controller = JControllerLegacy::getInstance('Config');
 $controller->execute(JFactory::getApplication()->input->get('task'));

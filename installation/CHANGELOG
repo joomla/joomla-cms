@@ -25,6 +25,60 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Sep-2013 Elin Waring
+ ^ [#31946] Support new mvc components in com_menus.
+
+23-Sep-2013 Elin Waring
+ ^ [#31581] GSoC 2013: Removing MooTools dependencies from front-end components. Thanks Ashan Fernando
+ ^ [#31576] GSoC 2013: Removing MooTools dependencies from caption.js. Thanks Ashan Fernando
+ ^ [#31865] [JUX] [08] Added some space above the login button on the admin login. Thanks Peter Peter van Westen
+ ^ [#31860] [JUX] [03] Added Joomla update message button to top of page on control panel.  Thanks Peter Peter van Westen
+ ^ [#32083] Broken front-end article editing layout. Thanks Achal Aggarwal
+ # [#32087] Fix small issue with the name of UsersHelper in com_users. Thanks Bruno Batista
+ ^ [#30417] Extend individual content helpers from JHelperContent and remove duplicate code. Thanks Edgars Piruška  
+
+22-Sep-2013 Michael Babker
+ # [#32060] FOF description is show with ?? at language debug and is hardcoded in the xml files. Thanks Tobias Zulauf
+ ^ [#32073] Change +1 to 1
+
+22-Sep-2013 Elin Waring
+ # [#32071] Unclosed div tag in com_content default view. Thanks Achal Aggarwal
+ ^ [#31515] mod_articles_categories: Adding optional number of articles. Thanks Nils Rueckmann
+ ^ [#30455] Add current user option to JFormFieldUser. Thanks George Wilson
+ ^ [#31580] GSoC 2013: Removing MooTools dependencies from switcher.js. Thanks Ashan Fernando
+ ^ [#31578] GSoC 2013: Removing MooTools dependencies from highlighter.js. Thanks Ashan Fernando
+ + [#30280] Add random ordering on module Article latest. Thanks Jefferson Nathon
+ ^ [#31577] GSoC 2013: Removing MooTools dependencies from progressbar.js. Thanks Ashan Fernando
+
+22-Sep-2013 Roberto Segura
+ # [#31770] Update to jQuery 1.10.2 and add jQuery Migrate 1.2.1. Thanks Michael Babker
+
+21-Sep-2013 Michael Babker
+ + [#31989] GSOC 2013: Microdata semantics library.  Thanks Pruteanu Alexandru
+ # [#32058] Wrong alert class for expired session
+
+21-Sep-2013 Elin Waring
+ # [#32056] Add target="_blank" to the joomla.org link at the installation. Thanks Tobias Zulauf
+ # [#32023] Hardcoded SQL in com_contact model. Thanks Peter Martin
+ # [#32061] Normalise constant in com_ajax. Thanks Tobias Zulauf
+ # [#27830] Loss of checked item in user registration back end. Thanks Achal Aggarwal
+ ^ [#31475] Update jQuery UI and sortable to 1.9.2 version. Thanks Florian Dal Fitto
+ # [#30155] Vague form data manipulation in sortablelist.js. Thanks Tobias Kuhn
+ # [#29430] php_network_getaddresses: getaddrinfo failed: Name or service not known. Thanks David Jardin
+ # [#30698] JDatabaseMySQLi class does not support IPv6 MySQL server. Thanks Mihail Irintchev
+
+20-Sep-2013 Michael Babker
+ ^ [#31727] Migrate application classes from legacy JApplication to JApplicationWeb
+
+20-Sep-2013 Jean-Marie Simonet
+ # [#32031] [3.x] Overridable layouts for tinyMCE. Thanks Roberto Segura
+ # [#32019] Incorrect component_id for separator items. Thanks David Jardin
+ # [#31995] Can not disable Images and links. Thanks David Jardin
+ # [#31781] To small tags input field at the FE edit view. Thanks Valentin Despa
+
+19-Sep-2013 Michael Babker
+ ^ [#31352] JLayouts improvements for extension developers.  Thanks Roberto Segura
+
 16-Sep-2013 Michael Babker
  # [#31973] Installation loop if sending config yes (3.2 alpha)
  ^ [#31963] Incorrect or inconsistent characters in "close ink" text on alert info popups.  Thanks Marco Richter
