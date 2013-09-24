@@ -44,7 +44,7 @@ class JImageFilterBackgroundfill extends JImageFilter
 		$height = imagesY($this->handle);
 
 		// Sanitize color
-		$rgba = static::sanitizeColor($colorCode);
+		$rgba = $this->sanitizeColor($colorCode);
 
 		// Enforce alpha on source image
 		if (imageIsTrueColor($this->handle))
@@ -90,7 +90,7 @@ class JImageFilterBackgroundfill extends JImageFilter
 	 *
 	 * @note    '#FF0000FF' returns an array with alpha of 0 (opaque)
 	 */
-	public static function sanitizeColor($input)
+	protected function sanitizeColor($input)
 	{
 		// Construct default values
 		$colors = array('red' => 0, 'green' => 0, 'blue' => 0, 'alpha' => 0);
