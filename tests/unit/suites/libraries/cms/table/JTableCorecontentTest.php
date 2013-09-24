@@ -8,7 +8,7 @@
  */
 
 /**
- * Test class for JTableMenuType.
+ * Test class for JTableCorecontent.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Table
@@ -39,7 +39,7 @@ class JTableCorecontentTest extends TestCaseDatabase
 
 		JFactory::$session = $this->getMockSession();
 
-		$this->object = new JTableCorecontent(self::$driver);
+		$this->object = new JTableCorecontent(static::$driver);
 	}
 
 	/**

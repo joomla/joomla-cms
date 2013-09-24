@@ -51,7 +51,7 @@ final class JApplicationAdministrator extends JApplicationCms
 	/**
 	 * Dispatch the application
 	 *
-	 * @param	string  $component  The component which is being rendered.
+	 * @param   string  $component  The component which is being rendered.
 	 *
 	 * @return  void
 	 *
@@ -152,16 +152,13 @@ final class JApplicationAdministrator extends JApplicationCms
 	 * @param   string  $name     The name of the application.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return	JRouter
+	 * @return  JRouter
+	 *
 	 * @since	3.2
 	 */
 	public static function getRouter($name = 'administrator', array $options = array())
 	{
-		jimport('joomla.application.router');
-
-		$router = parent::getRouter($name, $options);
-
-		return $router;
+		return parent::getRouter($name, $options);
 	}
 
 	/**
@@ -211,7 +208,7 @@ final class JApplicationAdministrator extends JApplicationCms
 		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
 		{
 			$this->enqueueMessage(JText::_('JERROR_ALERTNOTEMPLATE'), 'error');
-			$template->params = new JRegistry();
+			$template->params = new JRegistry;
 			$template->template = 'isis';
 		}
 
@@ -418,8 +415,7 @@ final class JApplicationAdministrator extends JApplicationCms
 		$rootUser = $config->get('root_user');
 
 		if (property_exists('JConfig', 'root_user')
-			&& (JFactory::getUser()->get('username') == $rootUser || JFactory::getUser()->id === (string) $rootUser)
-		)
+			&& (JFactory::getUser()->get('username') == $rootUser || JFactory::getUser()->id === (string) $rootUser))
 		{
 			$this->enqueueMessage(
 				JText::sprintf(
