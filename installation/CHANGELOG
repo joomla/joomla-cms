@@ -31,6 +31,7 @@ $ -> Language fix or change
  ^ [#31865] [JUX] [08] Added some space above the login button on the admin login. Thanks Peter Peter van Westen
  ^ [#31860] [JUX] [03] Added Joomla update message button to top of page on control panel.  Thanks Peter Peter van Westen
  ^ [#32083] Broken front-end article editing layout. Thanks Achal Aggarwal
+ # [#32087] Fix small issue with the name of UsersHelper in com_users. Thanks Bruno Batista
 
 22-Sep-2013 Michael Babker
  # [#32060] FOF description is show with ?? at language debug and is hardcoded in the xml files. Thanks Tobias Zulauf
