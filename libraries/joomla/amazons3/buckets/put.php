@@ -33,28 +33,8 @@ class JAmazons3BucketsPut extends JAmazons3Buckets
 	public function putBucket($bucket, $bucketRegion = "", $acl = null)
 	{
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/";
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-		);
 		$content = "";
-
-		// Check for ACL permissions
-		if (is_array($acl))
-		{
-			// Check for canned ACL permission
-			if (array_key_exists("acl", $acl))
-			{
-				$headers["x-amz-acl"] = $acl["acl"];
-			}
-			else
-			{
-				// Access permissions were specified explicitly
-				foreach ($acl as $aclPermission => $aclGrantee)
-				{
-					$headers["x-amz-grant-" . $aclPermission] = $aclGrantee;
-				}
-			}
-		}
+		$headers = $this->commonPutOperations($acl, null);
 
 		if ($bucketRegion != "")
 		{
@@ -92,27 +72,7 @@ class JAmazons3BucketsPut extends JAmazons3Buckets
 	public function putBucketAcl($bucket, $acl = null)
 	{
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/?acl";
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-		);
-
-		// Check for ACL permissions
-		if (is_array($acl))
-		{
-			// Check for canned ACL permission
-			if (array_key_exists("acl", $acl))
-			{
-				$headers["x-amz-acl"] = $acl["acl"];
-			}
-			else
-			{
-				// Access permissions were specified explicitly
-				foreach ($acl as $aclPermission => $aclGrantee)
-				{
-					$headers["x-amz-grant-" . $aclPermission] = $aclGrantee;
-				}
-			}
-		}
+		$headers = $this->commonPutOperations($acl, null);
 
 		$authorization = $this->createAuthorization("PUT", $url, $headers);
 		$headers["Authorization"] = $authorization;

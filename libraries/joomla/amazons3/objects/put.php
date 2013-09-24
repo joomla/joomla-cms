@@ -35,35 +35,7 @@ class JAmazons3ObjectsPut extends JAmazons3Objects
 	public function putObject($bucket, $object, $content = "", $requestHeaders = null, $acl = null)
 	{
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/" . $object;
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-		);
-
-		// Check for ACL permissions
-		if (is_array($acl))
-		{
-			// Check for canned ACL permission
-			if (array_key_exists("acl", $acl))
-			{
-				$headers["x-amz-acl"] = $acl["acl"];
-			}
-			else
-			{
-				// Access permissions were specified explicitly
-				foreach ($acl as $aclPermission => $aclGrantee)
-				{
-					$headers["x-amz-grant-" . $aclPermission] = $aclGrantee;
-				}
-			}
-		}
-
-		if (! is_null($requestHeaders))
-		{
-			foreach ($requestHeaders as $key => $value)
-			{
-				$headers[$key] = $value;
-			}
-		}
+		$headers = $this->commonPutOperations($acl, $requestHeaders);
 
 		// Set the content related headers
 		if (! is_null($requestHeaders))
@@ -105,27 +77,7 @@ class JAmazons3ObjectsPut extends JAmazons3Objects
 	{
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/"
 			. $object . "?acl";
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-		);
-
-		// Check for ACL permissions
-		if (is_array($acl))
-		{
-			// Check for canned ACL permission
-			if (array_key_exists("acl", $acl))
-			{
-				$headers["x-amz-acl"] = $acl["acl"];
-			}
-			else
-			{
-				// Access permissions were specified explicitly
-				foreach ($acl as $aclPermission => $aclGrantee)
-				{
-					$headers["x-amz-grant-" . $aclPermission] = $aclGrantee;
-				}
-			}
-		}
+		$headers = $this->commonPutOperations($acl);
 
 		$authorization = $this->createAuthorization("PUT", $url, $headers);
 		$headers["Authorization"] = $authorization;
@@ -155,36 +107,7 @@ class JAmazons3ObjectsPut extends JAmazons3Objects
 	public function putObjectCopy($bucket, $object, $copySource, $requestHeaders = null, $acl = null)
 	{
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/" . $object;
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-		);
-
-		// Check for ACL permissions
-		if (is_array($acl))
-		{
-			// Check for canned ACL permission
-			if (array_key_exists("acl", $acl))
-			{
-				$headers["x-amz-acl"] = $acl["acl"];
-			}
-			else
-			{
-				// Access permissions were specified explicitly
-				foreach ($acl as $aclPermission => $aclGrantee)
-				{
-					$headers["x-amz-grant-" . $aclPermission] = $aclGrantee;
-				}
-			}
-		}
-
-		// Check for request headers
-		if (is_array($requestHeaders))
-		{
-			foreach ($requestHeaders as $key => $value)
-			{
-				$headers[$key] = $value;
-			}
-		}
+		$headers = $this->commonPutOperations($acl, $requestHeaders);
 
 		$headers["x-amz-copy-source"] = $copySource;
 		$authorization = $this->createAuthorization("PUT", $url, $headers);
@@ -219,36 +142,7 @@ class JAmazons3ObjectsPut extends JAmazons3Objects
 	{
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/"
 			. $object . "?uploads";
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-		);
-
-		// Check for ACL permissions
-		if (is_array($acl))
-		{
-			// Check for canned ACL permission
-			if (array_key_exists("acl", $acl))
-			{
-				$headers["x-amz-acl"] = $acl["acl"];
-			}
-			else
-			{
-				// Access permissions were specified explicitly
-				foreach ($acl as $aclPermission => $aclGrantee)
-				{
-					$headers["x-amz-grant-" . $aclPermission] = $aclGrantee;
-				}
-			}
-		}
-
-		// Check for request headers
-		if (is_array($requestHeaders))
-		{
-			foreach ($requestHeaders as $key => $value)
-			{
-				$headers[$key] = $value;
-			}
-		}
+		$headers = $this->commonPutOperations($acl, $requestHeaders);
 
 		$authorization = $this->createAuthorization("PUT", $url, $headers);
 		$headers["Authorization"] = $authorization;
@@ -282,18 +176,7 @@ class JAmazons3ObjectsPut extends JAmazons3Objects
 	{
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/"
 			. $object . "?partNumber=" . $partNumber . "&uploadId=" . $uploadId;
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-		);
-
-		// Check for request headers
-		if (is_array($requestHeaders))
-		{
-			foreach ($requestHeaders as $key => $value)
-			{
-				$headers[$key] = $value;
-			}
-		}
+		$headers = $this->commonPutOperations(null, $requestHeaders);
 
 		$authorization = $this->createAuthorization("PUT", $url, $headers);
 		$headers["Authorization"] = $authorization;
@@ -329,18 +212,7 @@ class JAmazons3ObjectsPut extends JAmazons3Objects
 	{
 		$url = "https://" . $bucket . "." . $this->options->get("api.url") . "/"
 			. $object . "?partNumber=" . $partNumber . "&uploadId=" . $uploadId;
-		$headers = array(
-			"Date" => date("D, d M Y H:i:s O"),
-		);
-
-		// Check for request headers
-		if (is_array($requestHeaders))
-		{
-			foreach ($requestHeaders as $key => $value)
-			{
-				$headers[$key] = $value;
-			}
-		}
+		$headers = $this->commonPutOperations(null, $requestHeaders);
 
 		$authorization = $this->createAuthorization("PUT", $url, $headers);
 		$headers["Authorization"] = $authorization;

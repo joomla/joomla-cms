@@ -109,6 +109,53 @@ abstract class JAmazons3Object
 	}
 
 	/**
+	 * Common operations performed by some of the methods that send PUT requests
+	 *
+	 * @param   string  $acl             An array containing the ACL permissions
+	 *                                   (either canned or explicitly specified)
+	 * @param   array   $requestHeaders  An array of request headers
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function commonPutOperations($acl = null, $requestHeaders = null)
+	{
+		$headers = array(
+			"Date" => date("D, d M Y H:i:s O"),
+		);
+
+		// Check for ACL permissions
+		if (is_array($acl))
+		{
+			// Check for canned ACL permission
+			if (array_key_exists("acl", $acl))
+			{
+				$headers["x-amz-acl"] = $acl["acl"];
+			}
+			else
+			{
+				// Access permissions were specified explicitly
+				foreach ($acl as $aclPermission => $aclGrantee)
+				{
+					$headers["x-amz-grant-" . $aclPermission] = $aclGrantee;
+				}
+			}
+		}
+
+		// Check for request headers
+		if (! is_null($requestHeaders))
+		{
+			foreach ($requestHeaders as $key => $value)
+			{
+				$headers[$key] = $value;
+			}
+		}
+
+		return $headers;
+	}
+
+	/**
 	 * Process the response and decode it.
 	 *
 	 * @param   JHttpResponse  $response      The response.
