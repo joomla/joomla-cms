@@ -46,6 +46,9 @@ class CategoriesViewCategory extends JViewLegacy
 			return false;
 		}
 
+		// Check for tag type
+		$this->checkTags = JHelperTags::getTypes('objectList', array($this->state->get('category.extension') . '.category'), true);
+
 		$input->set('hidemainmenu', true);
 
 		if ($this->getLayout() == 'modal')
@@ -155,6 +158,14 @@ class CategoriesViewCategory extends JViewLegacy
 		else
 		{
 			JToolbarHelper::cancel('category.cancel', 'JTOOLBAR_CLOSE');
+		}
+
+		$saveHistory = JComponentHelper::getParams($input->getCmd('extension', 'com_content'))->get('save_history', 0);
+		if ($saveHistory && $user->authorise('core.edit'))
+		{
+			$itemId = $this->item->id;
+			$typeAlias = $extension . '.category';
+			JToolbarHelper::versions($typeAlias, $itemId);
 		}
 
 		JToolbarHelper::divider();

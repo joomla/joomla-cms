@@ -500,10 +500,10 @@ class JCache
 		{
 			foreach($data['headers'] as $header)
 			{
-				JResponse::setHeader($header['name'], $header['value']);
+				$app->setHeader($header['name'], $header['value']);
 			}
 		}
-		
+
 		// The following code searches for a token in the cached page and replaces it with the
 		// proper token.
 		if (isset($data['body']))
@@ -511,7 +511,7 @@ class JCache
 			$token 			= JSession::getFormToken();
 			$search 		= '#<input type="hidden" name="[0-9a-f]{32}" value="1" />#';
 			$replacement 	= '<input type="hidden" name="' . $token . '" value="1" />';
-			
+
 			$data['body'] = preg_replace($search, $replacement, $data['body']);
 			$body = $data['body'];
 		}
@@ -570,7 +570,7 @@ class JCache
 			{
 				$buffer1 = array();
 			}
-	
+
 			// Make sure the module buffer is an array.
 			if (!isset($buffer1['module']) || !is_array($buffer1['module']))
 			{
@@ -653,13 +653,13 @@ class JCache
 			// Compare the second module buffer against the first buffer.
 			$cached['module'] = array_diff_assoc($buffer2['module'], $buffer1['module']);
 		}
-		
+
 		// Headers data
 		if (isset($options['headers']) && $options['headers'])
 		{
-			$cached['headers'] = JResponse::getHeaders();
+			$cached['headers'] = $app->getHeaders();
 		}
-		
+
 		return $cached;
 	}
 

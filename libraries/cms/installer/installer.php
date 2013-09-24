@@ -27,7 +27,7 @@ class JInstaller extends JAdapter
 	 * Array of paths needed by the installer
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.1
 	 */
 	protected $paths = array();
 
@@ -35,7 +35,7 @@ class JInstaller extends JAdapter
 	 * True if package is an upgrade
 	 *
 	 * @var    boolean
-	 * @since  12.1
+	 * @since  3.1
 	 */
 	protected $upgrade = null;
 
@@ -49,6 +49,7 @@ class JInstaller extends JAdapter
 
 	/**
 	 * True if existing files can be overwritten
+	 *
 	 * @var    boolean
 	 * @since  12.1
 	 */
@@ -59,7 +60,7 @@ class JInstaller extends JAdapter
 	 * - Used for installation rollback
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.1
 	 */
 	protected $stepStack = array();
 
@@ -104,7 +105,9 @@ class JInstaller extends JAdapter
 	protected $redirect_url = null;
 
 	/**
-	 * @var    JInstaller  JInstaller instance container.
+	 * JInstaller instance container.
+	 *
+	 * @var    JInstaller
 	 * @since  3.1
 	 */
 	protected static $instance;
@@ -1101,13 +1104,13 @@ class JInstaller extends JAdapter
 								}
 
 								// Process each query in the $queries array (split out of sql file).
-								foreach ($queries as $query)
+								foreach ($queries as $q)
 								{
-									$query = trim($query);
+									$q = trim($q);
 
-									if ($query != '' && $query{0} != '#')
+									if ($q != '' && $q{0} != '#')
 									{
-										$db->setQuery($query);
+										$db->setQuery($q);
 
 										if (!$db->execute())
 										{
@@ -1826,7 +1829,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  boolean  True on success, False on error
 	 *
-	 * @since 3.1
+	 * @since   3.1
 	 */
 	public function findManifest()
 	{
