@@ -182,6 +182,9 @@ class PlgTwofactorauthYubikey extends JPlugin
 
 		if (!$check)
 		{
+			$app = JFactory::getApplication();
+			$app->enqueueMessage(JText::_('PLG_TWOFACTORAUTH_YUBIKEY_ERR_VALIDATIONFAILED'), 'error');
+
 			// Check failed. Do not change two factor authentication settings.
 			return false;
 		}
@@ -259,9 +262,11 @@ class PlgTwofactorauthYubikey extends JPlugin
 	public function validateYubikeyOTP($otp)
 	{
 		$server_queue = array(
-			'api5.yubico.com', 'api3.yubico.com', 'api4.yubico.com',
-			'api.yubico.com', 'api2.yubico.com',
+			'api.yubico.com', 'api2.yubico.com', 'api3.yubico.com',
+			'api4.yubico.com', 'api5.yubico.com'
 		);
+
+		shuffle($server_queue);
 
 		$gotResponse = false;
 		$check = false;
@@ -276,10 +281,21 @@ class PlgTwofactorauthYubikey extends JPlugin
 
 			$uri = new JUri('https://' . $server . '/wsapi/2.0/verify');
 
+			// I don't see where this ID is used?
 			$uri->setVar('id', 1);
+
+			// The OTP we read from the user
 			$uri->setVar('otp', $otp);
-			$uri->setVar('nonce', $token);
+
+			// This prevents a REPLAYED_OTP status of the token doesn't change
+			// after a user submits an invalid OTP
+			$uri->setVar('nonce', md5($token . uniqid(rand())));
+
+			// Minimum service level required: 50% (at least 50% of the YubiCloud
+			// servers must reply positively for the OTP to validate)
 			$uri->setVar('sl', 50);
+
+			// Timeou waiting for YubiCloud servers to reply: 5 seconds.
 			$uri->setVar('timeout', 5);
 
 			try
