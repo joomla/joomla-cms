@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('BannersHelper', JPATH_COMPONENT.'/helpers/banners.php');
+JLoader::register('BannersHelper', JPATH_COMPONENT . '/helpers/banners.php');
 
 /**
  * View to edit a banner.
@@ -44,7 +44,8 @@ class BannersViewBanner extends JViewLegacy
 		}
 
 		$this->addToolbar();
-		JHtml::_('script', 'media/com_banners/banner.js', true);
+		JHtml::_('jquery.framework');
+		JHtml::_('script', 'media/com_banners/banner.js');
 		parent::display($tpl);
 	}
 
@@ -61,6 +62,7 @@ class BannersViewBanner extends JViewLegacy
 		$userId		= $user->get('id');
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
+
 		// Since we don't track these assets at the item level, use the category id.
 		$canDo		= BannersHelper::getActions($this->item->catid, 0);
 
