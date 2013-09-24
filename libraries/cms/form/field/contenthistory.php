@@ -51,7 +51,7 @@ class JFormFieldContenthistory extends JFormField
 		$html[] = '<i class="icon-archive"></i>';
 		$html[] = $label;
 		$html[] = '</a>';
-		$html[] = '</div>';
+
 		return implode("\n", $html);
 	}
 }
