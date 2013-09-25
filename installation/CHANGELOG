@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 25-Sep-2013 Jean-Marie Simonet
  # [#32069] Backend 'Edit Account' page doesn't change password.   Thanks Dennis Hermatski.
+ # [#32089] *Adding pagination limitbox in overrides manager 
 
 24-Sep-2013 Elin Waring
  ^ [#31946] Support new mvc components in com_menus.
