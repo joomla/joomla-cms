@@ -8,11 +8,10 @@
  */
 
 /**
- * Test class for JTableMenuType.
+ * Test class for JTableCategory.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Table
- *
  * @since       12.3
  */
 class JTableCategoryTest extends TestCase

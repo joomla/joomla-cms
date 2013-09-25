@@ -39,6 +39,8 @@ class JHtmlBehaviorTest extends TestCase
 		// Ensure the loaded states are reset
 		JHtmlBehaviorInspector::resetLoaded();
 
+		parent::setUp();
+
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockApplication();
@@ -63,6 +65,8 @@ class JHtmlBehaviorTest extends TestCase
 		$_SERVER = $this->backupServer;
 
 		$this->restoreFactoryState();
+
+		parent::tearDown();
 	}
 
 	/**
@@ -652,7 +656,7 @@ class JHtmlBehaviorTest extends TestCase
 
 		// We create a stub (not a mock because we don't enforce whether it is called or not)
 		// to return a value from getTemplate
-		$mock = $this->getMock('myMockObject', array('getTemplate'));
+		$mock = $this->getMock('myMockObject', array('getTemplate', 'setHeader'));
 		$mock->expects($this->any())
 			->method('getTemplate')
 			->will($this->returnValue($template));

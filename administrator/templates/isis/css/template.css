@@ -6707,6 +6707,9 @@ body {
 	width: 238px !important;
 	max-width: 238px !important;
 }
+.login .btn-large {
+	margin-top: 10px;
+}
 .small {
 	font-size: 11px;
 }
