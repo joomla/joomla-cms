@@ -58,6 +58,15 @@ class LanguagesModelOverrides extends JModelList
 		$filename = constant('JPATH_' . strtoupper($this->getState('filter.client'))) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
 		$strings = LanguagesHelper::parseFile($filename);
 
+		// Filter the loaded strings according to the search box
+		$search = $this->getState('filter.search');
+		if ($search != '') {
+			$search = preg_quote($search, '~');
+			$matchvals = preg_grep('~' . $search . '~i', $strings);
+			$matchkeys = array_intersect_key($strings, array_flip(preg_grep('~' . $search . '~i',  array_keys($strings))));
+			$strings = array_merge($matchvals, $matchkeys);
+		}
+
 		// Consider the odering
 		if ($this->getState('list.ordering') == 'text')
 		{
@@ -150,6 +159,10 @@ class LanguagesModelOverrides extends JModelList
 			$client		= $app->getUserState('com_languages.overrides.filter.client', 0);
 			$language	= $app->getUserState('com_languages.overrides.filter.language', 'en-GB');
 		}
+
+		// Sets the search filter
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+		$this->setState('filter.search', $search);
 
 		$this->setState('filter.language_client', $language.$client);
 		$this->setState('filter.client', $client ? 'administrator' : 'site');
