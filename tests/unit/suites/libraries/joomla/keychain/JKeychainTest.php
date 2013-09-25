@@ -44,6 +44,7 @@ class JKeychainTest extends PHPUnit_Framework_TestCase
 		// Clean up files
 		@unlink(__DIR__ . '/data/web-keychain.dat');
 		@unlink(__DIR__ . '/data/web-passphrase.dat');
+
 		parent::tearDownAfterClass();
 	}
 
@@ -76,9 +77,7 @@ class JKeychainTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCreatePassphraseFile()
 	{
-		$keychainFile = __DIR__ . '/data/web-keychain.dat';
 		$privateKeyFile = __DIR__ . '/data/private.key';
-		$publicKeyFile = __DIR__ . '/data/publickey.pem';
 		$passphraseFile = __DIR__ . '/data/web-passphrase.dat';
 
 		$keychain = new JKeychain;
