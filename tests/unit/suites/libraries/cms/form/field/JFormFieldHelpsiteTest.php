@@ -7,8 +7,6 @@
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_TESTS . '/stubs/FormInspectors.php';
-
 /**
  * Test class for JFormFieldHelpsite.
  *
@@ -40,7 +38,7 @@ class JFormFieldHelpsiteTest extends TestCase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$document = $this->getMockDocument();
 
 		$this->backupServer = $_SERVER;
@@ -75,7 +73,7 @@ class JFormFieldHelpsiteTest extends TestCase
 	 */
 	public function testGetInput()
 	{
-		$form = new JFormInspector('form1');
+		$form = new JForm('form1');
 
 		$this->assertThat(
 			$form->load('<form><field name="helpsite" type="helpsite" label="Help Site" description="Help Site listing" /></form>'),

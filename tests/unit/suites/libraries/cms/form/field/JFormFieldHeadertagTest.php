@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_TESTS . '/stubs/FormInspectors.php';
-
 /**
  * Test class for JFormFieldHeadertag.
  *
@@ -27,14 +25,13 @@ class JFormFieldHeadertagTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetInput()
 	{
-		$form = new JFormInspector('form1');
+		$form = new JForm('form1');
 
 		$this->assertThat(
 			$form->load('<form><field name="headertag" type="headertag" label="Header Tag" description="Header Tag listing" /></form>'),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
-
 
 		$field = new JFormFieldHeadertag($form);
 
