@@ -29,6 +29,7 @@ $ -> Language fix or change
  + [#31977] Component for Post-Installation Messages.  Thanks Nicholas K. Dionysopoulos
  # [#31107] *HelperRoute classes generate wrong URLs.  Thanks Hannes Papenberg
  ^ [#31489] Duplicate code reduction in category views and hits standardiation.  Thanks Elin Waring
+ ^ [#31517] Reduce duplicate code in category feeds.  Thanks Elin Waring
 
 25-Sep-2013 Jean-Marie Simonet
  # [#32069] Backend 'Edit Account' page doesn't change password.   Thanks Dennis Hermatski.
