@@ -137,4 +137,6 @@ class JTableContenttype extends JTable
 
 		return $result;
 	}
+
+
 }

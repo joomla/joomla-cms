@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 /**
  * Helper for standard content style extensions.
+ * This class mainly simplifies static helper methods often repeated in individual components
  *
  * @package     Joomla.Libraries
  * @subpackage  Helper
@@ -84,6 +85,7 @@ class JHelperContent
 	 * @return  string  The language string
 	 *
 	 * @since   3.1
+	 * @note   JHelper::getCurrentLanguage is the preferred method
 	 */
 	public static function getCurrentLanguage($detectBrowser = true)
 	{
@@ -114,6 +116,7 @@ class JHelperContent
 	* @return  integer  The language ID
 	*
 	* @since   3.1
+	* @note  JHelper::getLanguage() is the preferred method.
 	*/
 	public static function getLanguageId($langCode)
 	{
@@ -128,7 +131,6 @@ class JHelperContent
 
 		return $id;
 	}
-
 	/**
 	 * Gets a row of data from a table
 	 *
@@ -138,18 +140,11 @@ class JHelperContent
 	 *
 	 * @since   3.1
 	 */
-	public function getRowData($table)
+	public function getRowData(JTable $table)
 	{
-		$fields = $table->getFields();
-		$data = array();
+		$data = new JHelper();
 
-		foreach ($fields as &$field)
-		{
-			$columnName = $field->Field;
-			$value = $table->$columnName;
-			$data[$columnName] = $value;
-		}
-
-		return $data;
+		return $data->getRowData($table);
 	}
+
 }

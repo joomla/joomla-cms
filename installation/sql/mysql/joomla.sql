@@ -382,7 +382,7 @@ CREATE TABLE IF NOT EXISTS `#__content_types` (
   `rules` text NOT NULL,
   `field_mappings` text NOT NULL,
   `router` varchar(255) NOT NULL  DEFAULT '',
-  `content_history_options` varchar(5120) NOT NULL COMMENT 'JSON string for com_contenthistory options',
+  `content_history_options` varchar(5120) COMMENT 'JSON string for com_contenthistory options',
   PRIMARY KEY (`type_id`),
   KEY `idx_alias` (`type_alias`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10000;
