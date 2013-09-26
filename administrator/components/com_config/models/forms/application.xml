@@ -81,6 +81,28 @@
 			size="5" />
 	</fieldset>
 
+    <fieldset
+            name="redis"
+            label="COM_CONFIG_REDIS_SETTINGS_LABEL">
+        <field
+                name="redis_server_host"
+                type="text"
+                default="127.0.0.1"
+                label="COM_CONFIG_FIELD_REDIS_HOST_LABEL"
+                description="COM_CONFIG_FIELD_REDIS_HOST_DESC"
+                filter="string"
+                size="25" />
+
+        <field
+                name="redis_server_port"
+                type="text"
+                default=""
+                label="COM_CONFIG_FIELD_REDIS_PORT_LABEL"
+                description="COM_CONFIG_FIELD_REDIS_PORT_DESC"
+                filter="integer"
+                size="5" />
+    </fieldset>
+
 	<fieldset
 		name="database"
 		label="CONFIG_DATABASE_SETTINGS_LABEL">
