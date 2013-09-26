@@ -84,14 +84,14 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include MooTools framework
-		static::framework();
+		// Include jQuery
+		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'system/caption.js', true, true);
+		JHtml::_('script', 'system/caption-jquery-uncompressed.js', true, true);
 
 		// Attach caption to document
 		JFactory::getDocument()->addScriptDeclaration(
-			"window.addEvent('load', function() {
+			"jQuery(window).on('load',  function() {
 				new JCaption('" . $selector . "');
 			});"
 		);
@@ -145,18 +145,18 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include MooTools framework
-		static::framework();
+		// Include jQuery
+		JHtml::_('jquery.framework');
 
 		JHtml::_('script', 'system/switcher.js', true, true);
 
 		$script = "
 			document.switcher = null;
-			window.addEvent('domready', function(){
-				toggler = document.id('submenu');
-				element = document.id('config-document');
+			jQuery(function($){
+				var toggler = document.getElementById('submenu');
+				var element = document.getElementById('config-document');
 				if (element) {
-					document.switcher = new JSwitcher(toggler, element, {cookieName: toggler.getProperty('class')});
+					document.switcher = new JSwitcher(toggler, element);
 				}
 			});";
 
@@ -613,15 +613,18 @@ abstract class JHtmlBehavior
 			return;
 		}
 
+		// Include jQuery
+		JHtml::_('jquery.framework');
+
 		JHtml::_('script', 'system/highlighter.js', true, true);
 
 		$terms = str_replace('"', '\"', $terms);
 
 		$document = JFactory::getDocument();
 		$document->addScriptDeclaration("
-			window.addEvent('domready', function () {
-				var start = document.id('" . $start . "');
-				var end = document.id('" . $end . "');
+			jQuery(function ($) {
+				var start = document.getElementById('" . $start . "');
+				var end = document.getElementById('" . $end . "');
 				if (!start || !end || !Joomla.Highlighter) {
 					return true;
 				}
@@ -632,8 +635,8 @@ abstract class JHtmlBehavior
 					onlyWords: false,
 					tag: '" . $tag . "'
 				}).highlight([\"" . implode('","', $terms) . "\"]);
-				start.dispose();
-				end.dispose();
+				$(start).remove();
+				$(end).remove();
 			});
 		");
 

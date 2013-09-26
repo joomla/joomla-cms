@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.updater.update');
-jimport('legacy.application.helper');
 jimport('legacy.component.helper');
 
 /**

@@ -30,6 +30,15 @@ class TagsViewTag extends JViewLegacy
 
 	protected $params;
 
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 *
+	 * @since   3.1
+	 */
 	public function display($tpl = null)
 	{
 		$app		= JFactory::getApplication();
@@ -159,6 +168,10 @@ class TagsViewTag extends JViewLegacy
 				$this->setLayout($layout);
 			}
 		}
+
+		// Increment the hit counter
+		$model = $this->getModel();
+		$model->hit();
 
 		$this->_prepareDocument();
 

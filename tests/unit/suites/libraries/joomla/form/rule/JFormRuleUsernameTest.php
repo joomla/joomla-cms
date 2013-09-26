@@ -8,16 +8,14 @@
  */
 
 /**
- * Test class for JForm.
+ * Test class for JFormRuleUsername.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- *
  * @since       11.1
  */
 class JFormRuleUsernameTest extends TestCase
 {
-
 	/**
 	 * Test the JFormRuleUsername::test method.
 	 *
