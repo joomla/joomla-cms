@@ -230,7 +230,7 @@ class JHelperRoute
 			return $active->id;
 		}
 
-		// if not found, return language specific home link
+		// If not found, return language specific home link
 		$default = $menus->getDefault($language);
 
 		return !empty($default->id) ? $default->id : null;
@@ -239,9 +239,9 @@ class JHelperRoute
 	/**
 	 * Fetches the category route
 	 *
-	 * @param   mixed    $catid      Category ID or JCategoryNode instance
-	 * @param   mixed    $language   Language code
-	 * @param   string   $extension  Extension to lookup
+	 * @param   mixed   $catid      Category ID or JCategoryNode instance
+	 * @param   mixed   $language   Language code
+	 * @param   string  $extension  Extension to lookup
 	 *
 	 * @return  string
 	 *

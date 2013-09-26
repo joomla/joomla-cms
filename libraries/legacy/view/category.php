@@ -88,7 +88,7 @@ class JViewCategory extends JViewLegacy
 	 * @var    string
 	 * @since  3.2
 	 */
-	protected $defaultPageTitle ;
+	protected $defaultPageTitle;
 
 	/**
 	 * Method with common display elements used in category list displays
