@@ -71,14 +71,17 @@ $n = count($this->items);
 					</a>
 				</h3>
 			<?php endif; ?>
+			<?php echo $item->event->afterDisplayTitle; ?>
 			<?php $images  = json_decode($item->core_images);?>
 			<?php if ($this->params->get('tag_list_show_item_image', 1) == 1 && !empty($images->image_intro)) :?>
 				<img src="<?php echo htmlspecialchars($images->image_intro);?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>">
 			<?php endif; ?>
 			<?php if ($this->params->get('tag_list_show_item_description', 1)) : ?>
+				<?php echo $item->event->beforeDisplayContent; ?>
 				<span class="tag-body">
 					<?php echo JHtml::_('string.truncate', $item->core_body, $this->params->get('tag_list_item_maximum_characters')); ?>
 				</span>
+				<?php echo $item->event->afterDisplayContent; ?>
 			<?php endif; ?>
 				</li>
 		<?php endforeach; ?>

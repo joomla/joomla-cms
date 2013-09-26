@@ -61,7 +61,7 @@ class PostinstallModelMessages extends FOFModel
 		$query = $db->getQuery(true)
 			->select(array('name', 'element', 'client_id'))
 			->from($db->qn('#__extensions'))
-			->where($db->qn('extension_id') . ' = ' . $db->q((int)$eid));
+			->where($db->qn('extension_id') . ' = ' . $db->q((int) $eid));
 
 		$db->setQuery($query, 0, 1);
 
