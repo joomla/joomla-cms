@@ -1102,13 +1102,15 @@ class JLanguageTest extends PHPUnit_Framework_TestCase
 		$localeString = 'en_GB.utf8, en_GB.UTF-8, en_GB, eng_GB, en, english, english-uk, uk, gbr, britain, england, great britain,' .
 			' uk, united kingdom, united-kingdom';
 
+		$weekEnd = '0,6';
+
 		$option1 = array(
 			'name' => 'English (United Kingdom)',
 			'tag' => 'en-GB',
 			'rtl' => '0',
 			'locale' => $localeString,
 			'firstDay' => '0',
-			'weekEnd' => '0,6'
+			'weekEnd' => $weekEnd
 		);
 		$listCompareEqual1 = array(
 			'en-GB' => $option1,
