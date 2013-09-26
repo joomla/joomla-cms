@@ -62,7 +62,7 @@ class PlgAuthenticationJoomla extends JPlugin
 				if (JCrypt::hasStrongPasswordSupport())
 				{
 					$match = password_verify($credentials['password'], $password60);
-				}var_dump($match);
+				}
 			}
 			else
 			{
@@ -70,8 +70,9 @@ class PlgAuthenticationJoomla extends JPlugin
 				$parts	= explode(':', $result->password);
 				$crypt	= $parts[0];
 				$salt	= @$parts[1];
+				$defaultCrypt =
 
-				$testcrypt = JUserHelper::getCryptedPassword($credentials['password'], $salt, 'md5-hex', false);
+				$testcrypt = JUserHelper::getCryptedPassword($credentials['password'], $salt, 'SHA256', false);
 
 				if ($crypt == $testcrypt)
 				{

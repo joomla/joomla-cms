@@ -316,6 +316,20 @@ abstract class JUserHelper
 	 */
 	public static function getCryptedPassword($plaintext, $salt = '', $encryption = 'bcrypt', $show_encrypt = false)
 	{
+		$joomlaPluginEnabled = JPluginHelper::isEnabled('user', 'joomla');
+
+		// The Joomla user plugin allows you to use weaker passwords if necessary.
+		if ($joomlaPluginEnabled)
+		{
+			$userPlugin = JPluginHelper::getPlugin('user','joomla');
+			$userPluginParams = new JRegistry($userPlugin->params);
+			$defaultEncryption = PlgUserJoomla::setDefaultEncryption($userPluginParams);
+		}
+		else
+		{
+			$defaultEncryption = $encryption;
+		}
+
 		// Not all controllers check the length, although they should to avoid DOS attacks.
 		// The maximum password length for bcrypt is 55:
 		if (strlen($plaintext) > 55)

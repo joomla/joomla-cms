@@ -544,6 +544,20 @@ class JUser extends JObject
 	 */
 	public function bind(&$array)
 	{
+		// The Joomla user plugin allows you to use weaker passwords if necessary.
+		$joomlaPluginEnabled = JPluginHelper::isEnabled('user', 'joomla');
+
+		if ($joomlaPluginEnabled)
+		{
+			$userPlugin = JPluginHelper::getPlugin('user','joomla');
+			$userPluginParams = new JRegistry($userPlugin->params);
+			$defaultEncryption = PlgUserJoomla::setDefaultEncryption($userPluginParams);
+		}
+		else
+		{
+			$defaultEncryption = 'bcrypt';
+		}
+
 		// Let's check to see if the user is new or not
 		if (empty($this->id))
 		{
@@ -564,20 +578,6 @@ class JUser extends JObject
 				return false;
 			}
 			$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
-
-			$joomlaPluginEnabled = JPluginHelper::isEnabled('user', 'joomla');
-
-			// The Joomla user plugin allows you to use weaker passwords if necessary.
-			if ($joomlaPluginEnabled)
-			{
-				$userPlugin = JPluginHelper::getPlugin('user','joomla');
-				$userPluginParams = new JRegistry($userPlugin->params);
-				$defaultEncryption = PlgUserJoomla::setDefaultEncryption($userPluginParams);
-			}
-			else
-			{
-				$defaultEncryption = 'bcrypt';
-			}
 
 			$salt = JUserHelper::genRandomPassword(32);
 			$crypt = JUserHelper::getCryptedPassword($array['password'], $salt, $defaultEncryption);
