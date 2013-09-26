@@ -18,8 +18,20 @@ defined('_JEXEC') or die;
  */
 class CpanelViewCpanel extends JViewLegacy
 {
+	/**
+	 * Array of cpanel modules
+	 *
+	 * @var  array
+	 */
 	protected $modules = null;
 
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 */
 	public function display($tpl = null)
 	{
 		// Set toolbar items for the page
@@ -43,9 +55,7 @@ class CpanelViewCpanel extends JViewLegacy
 			require_once JPATH_LIBRARIES . '/fof/include.php';
 		}
 
-		$messages_model = FOFModel::getTmpInstance('Messages', 'PostinstallModel',
-			array('input'=> array('eid'	=> 700,))
-		);
+		$messages_model = FOFModel::getTmpInstance('Messages', 'PostinstallModel', array('input' => array('eid' => 700)));
 		$messages = $messages_model->getItemList();
 
 		$this->postinstall_message_count = count($messages);

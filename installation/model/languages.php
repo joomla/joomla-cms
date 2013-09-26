@@ -812,7 +812,7 @@ class InstallationModelLanguages extends JModelBase
 				. '"article-allow_ratings":"","article-allow_comments":"","show_feed_link":"1","feed_summary":"",'
 				. '"show_title":"","link_titles":"","show_intro":"","show_category":"","link_category":"",'
 				. '"show_parent_category":"","link_parent_category":"","show_author":"","show_create_date":"",'
-				.'"show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_readmore":"",'
+				. '"show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_readmore":"",'
 				. '"show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"","menu-anchor_title":"",'
 				. '"menu-anchor_css":"","menu_image":"","show_page_heading":1,"page_title":"","page_heading":"",'
 				. '"pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',

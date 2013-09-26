@@ -309,10 +309,13 @@ class InstallationModelSetup extends JModelBase
 		$option->notice = null;
 		$options[] = $option;
 
-		// Check for configuration file writeable.
+		// Check for configuration file writable.
+		$writable = (is_writable(JPATH_CONFIGURATION . '/configuration.php')
+			|| (!file_exists(JPATH_CONFIGURATION . '/configuration.php') && is_writable(JPATH_ROOT)));
+
 		$option = new stdClass;
 		$option->label  = JText::sprintf('INSTL_WRITABLE', 'configuration.php');
-		$option->state  = (is_writable(JPATH_CONFIGURATION . '/configuration.php') || (!file_exists(JPATH_CONFIGURATION . '/configuration.php') && is_writable(JPATH_ROOT)));
+		$option->state  = $writable;
 		$option->notice = ($option->state) ? null : JText::_('INSTL_NOTICEYOUCANSTILLINSTALL');
 		$options[] = $option;
 
