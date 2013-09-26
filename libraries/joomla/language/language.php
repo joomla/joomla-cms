@@ -1278,7 +1278,7 @@ class JLanguage
 	 */
 	public function getWeekEnd()
 	{
-		return ($this->metadata['weekEnd'] !== '') ? $this->metadata['weekEnd'] : "0,6";
+		return (isset($this->metadata['weekEnd']) && $this->metadata['weekEnd']) ? $this->metadata['weekEnd'] : '0,6';
 	}
 
 	/**
