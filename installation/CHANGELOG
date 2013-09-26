@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 25-Sep-2013 Michael Babker
  + [#31977] Component for Post-Installation Messages.  Thanks Nicholas K. Dionysopoulos
+ # [#31107] *HelperRoute classes generate wrong URLs.  Thanks Hannes Papenberg
 
 25-Sep-2013 Jean-Marie Simonet
  # [#32069] Backend 'Edit Account' page doesn't change password.   Thanks Dennis Hermatski.
