@@ -30,6 +30,7 @@ class JoomlaInstallerScript
 		$this->deleteUnexistingFiles();
 		$this->updateManifestCaches();
 		$this->updateDatabase();
+		$this->clearRadCache();
 	}
 
 	protected function updateDatabase()
@@ -95,6 +96,7 @@ class JoomlaInstallerScript
 		$extensions[] = array('component', 'com_users', '', 1);
 		$extensions[] = array('component', 'com_tags', '', 1);
 		$extensions[] = array('component', 'com_contenthistory', '', 1);
+		$extensions[] = array('component', 'com_postinstall', '', 1);
 
 		// Libraries
 		$extensions[] = array('library', 'phpmailer', '', 0);
@@ -193,6 +195,7 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'newsfeeds', 'finder', 0);
 		$extensions[] = array('plugin', 'weblinks', 'finder', 0);
 		$extensions[] = array('plugin', 'tags', 'finder', 0);
+		$extensions[] = array('plugin', 'totp', 'twofactorauth', 0);
 
 		// Templates
 		$extensions[] = array('template', 'beez3', '', 0);
@@ -997,6 +1000,24 @@ class JoomlaInstallerScript
 			{
 				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder) . '<br />';
 			}
+		}
+	}
+
+	/**
+	 * Clears the RAD layer's table cache. The cache vastly improves performance
+	 * but needs to be cleared every time you update the database schema.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	protected function clearRadCache()
+	{
+		if (is_file(JPATH_CACHE . '/fof/cache.php'))
+		{
+			jimport('joomla.filesystem.file');
+
+			JFile::delete(JPATH_CACHE . '/fof/cache.php');
 		}
 	}
 }
