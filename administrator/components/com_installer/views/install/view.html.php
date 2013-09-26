@@ -72,10 +72,6 @@ class InstallerViewInstall extends InstallerViewDefault {
      * @since	1.6
      */
     protected function addToolbar() {
-        JToolBarHelper::custom('install.install_remote', 'upload', 'upload', 'JTOOLBAR_INSTALL', true, false);
-        JToolBarHelper::custom('install.find', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_FIND_EXTENSIONS', false, false);
-        JToolBarHelper::custom('install.purge', 'refresh', 'purge', 'JTOOLBAR_PURGE_CACHE', false, false);
-        JToolBarHelper::divider();
         parent::addToolbar();
         JToolBarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_INSTALL');
     }
