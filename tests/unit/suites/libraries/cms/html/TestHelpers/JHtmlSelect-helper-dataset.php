@@ -17,7 +17,7 @@
 class JHtmlSelectTest_DataSet
 {
 	static public $genericTest = array(
-		// @todo remove: array($expected, $data, $name, $attribs = null, $optKey = 'value', $optText = 'text',
+		// Function parameters array($expected, $data, $name, $attribs = null, $optKey = 'value', $optText = 'text',
 		// 						$selected = null, $idtag = false, $translate = false)
 		array(
 			"<select id=\"myName\" name=\"myName\">\n\t<option value=\"1\">Foo</option>\n\t<option value=\"2\">Bar</option>\n</select>\n",
@@ -73,7 +73,7 @@ class JHtmlSelectTest_DataSet
 	);
 
 	static public $radioTest = array(
-		// @todo remove: array($expected, $data, $name, $attribs = null, $optKey = 'value', $optText = 'text', $selected = null, $idtag = false,
+		// Function parameters array($expected, $data, $name, $attribs = null, $optKey = 'value', $optText = 'text', $selected = null, $idtag = false,
 		// 						$translate = false)
 		array(
 			"<div class=\"controls\">
@@ -142,7 +142,7 @@ class JHtmlSelectTest_DataSet
 	);
 
 	static public $optionsTest = array(
-		// @todo remove: array($expected, $arr, $optKey = 'value', $optText = 'text', $selected = null, $translate = false)
+		// Function parameters array($expected, $arr, $optKey = 'value', $optText = 'text', $selected = null, $translate = false)
 		array(
 			"<option value=\"1\">&nbsp;Test</option>\n",
 			array(
@@ -210,7 +210,7 @@ class JHtmlSelectTest_DataSet
 	);
 
 	static public $optionTest = array(
-		// @todo remove: array($expected, $value, $text = '', $optKey = 'value', $optText = 'text', $disable = false)
+		// Function parameters array($expected, $value, $text = '', $optKey = 'value', $optText = 'text', $disable = false)
 		array(
 			array(
 				'value' => 'optionValue',
