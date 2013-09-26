@@ -369,9 +369,9 @@ if ($showhelp == 1)
 	$menu->addChild(
 		new JMenuNode(JText::_('MOD_MENU_HELP_LINKS'), '#', 'class:weblinks'), true
 	);
-	$menu->addChild(
+	/*$menu->addChild(
 		new JMenuNode(JText::_('MOD_MENU_HELP_EXTENSIONS'), 'http://extensiones.juuntos.net', 'class:help-jed', false, '_blank')
-	);
+	);*/
 	$menu->addChild(
 		new JMenuNode(JText::_('MOD_MENU_AYUDA_PACTO'), 'http://juuntos.org/comunidad-juuntos/nuestro-pacto-social.html', 'class:help-jed', false, '_blank')
 	);
