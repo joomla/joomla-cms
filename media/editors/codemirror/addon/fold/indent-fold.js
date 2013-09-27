@@ -1,3 +1,12 @@
-CodeMirror.registerHelper("fold","indent",function(b,h){var g=b.getOption("tabSize"),e=b.getLine(h.line);var d=CodeMirror.countColumn(e,null,g);for(var f=h.line+1,c=b.lineCount();
-f<c;++f){var a=b.getLine(f);if(CodeMirror.countColumn(a,null,g)<d&&CodeMirror.countColumn(b.getLine(f-1),null,g)>d){return{from:CodeMirror.Pos(h.line,e.length),to:CodeMirror.Pos(f,a.length)};
-}}});CodeMirror.indentRangeFinder=CodeMirror.fold.indent;
+CodeMirror.registerHelper("fold", "indent", function(cm, start) {
+  var tabSize = cm.getOption("tabSize"), firstLine = cm.getLine(start.line);
+  var myIndent = CodeMirror.countColumn(firstLine, null, tabSize);
+  for (var i = start.line + 1, end = cm.lineCount(); i < end; ++i) {
+    var curLine = cm.getLine(i);
+    if (CodeMirror.countColumn(curLine, null, tabSize) < myIndent &&
+        CodeMirror.countColumn(cm.getLine(i-1), null, tabSize) > myIndent)
+      return {from: CodeMirror.Pos(start.line, firstLine.length),
+              to: CodeMirror.Pos(i, curLine.length)};
+  }
+});
+CodeMirror.indentRangeFinder = CodeMirror.fold.indent; // deprecated

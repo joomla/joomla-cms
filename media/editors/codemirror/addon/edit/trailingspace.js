@@ -1,2 +1,15 @@
-CodeMirror.defineOption("showTrailingSpace",false,function(a,c,b){if(b==CodeMirror.Init){b=false;}if(b&&!c){a.removeOverlay("trailingspace");}else{if(!b&&c){a.addOverlay({token:function(f){for(var d=f.string.length,e=d;
-e&&/\s/.test(f.string.charAt(e-1));--e){}if(e>f.pos){f.pos=e;return null;}f.pos=d;return"trailingspace";},name:"trailingspace"});}}});
+CodeMirror.defineOption("showTrailingSpace", false, function(cm, val, prev) {
+  if (prev == CodeMirror.Init) prev = false;
+  if (prev && !val)
+    cm.removeOverlay("trailingspace");
+  else if (!prev && val)
+    cm.addOverlay({
+      token: function(stream) {
+        for (var l = stream.string.length, i = l; i && /\s/.test(stream.string.charAt(i - 1)); --i) {}
+        if (i > stream.pos) { stream.pos = i; return null; }
+        stream.pos = l;
+        return "trailingspace";
+      },
+      name: "trailingspace"
+    });
+});

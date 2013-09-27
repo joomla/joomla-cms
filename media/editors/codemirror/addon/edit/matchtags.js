@@ -1,6 +1,56 @@
-(function(){CodeMirror.defineOption("matchTags",false,function(d,f,e){if(e&&e!=CodeMirror.Init){d.off("cursorActivity",b);d.off("viewportChange",c);a(d);
-}if(f){d.on("cursorActivity",b);d.on("viewportChange",c);b(d);}});function a(d){if(d.state.matchedTag){d.state.matchedTag.clear();d.state.matchedTag=null;
-}}function b(d){d.state.failedTagMatch=false;d.operation(function(){a(d);var h=d.getCursor(),f=d.getViewport();f.from=Math.min(f.from,h.line);f.to=Math.max(h.line+1,f.to);
-var g=CodeMirror.findMatchingTag(d,h,f);if(!g){return;}var e=g.at=="close"?g.open:g.close;if(e){d.state.matchedTag=d.markText(e.from,e.to,{className:"CodeMirror-matchingtag"});
-}else{d.state.failedTagMatch=true;}});}function c(d){if(d.state.failedTagMatch){b(d);}}CodeMirror.commands.toMatchingTag=function(e){var f=CodeMirror.findMatchingTag(e,e.getCursor());
-if(f){var d=f.at=="close"?f.open:f.close;if(d){e.setSelection(d.to,d.from);}}};})();
+(function() {
+  "use strict";
+
+  CodeMirror.defineOption("matchTags", false, function(cm, val, old) {
+    if (old && old != CodeMirror.Init) {
+      cm.off("cursorActivity", doMatchTags);
+      cm.off("viewportChange", maybeUpdateMatch);
+      clear(cm);
+    }
+    if (val) {
+      cm.state.matchBothTags = typeof val == "object" && val.bothTags;
+      cm.on("cursorActivity", doMatchTags);
+      cm.on("viewportChange", maybeUpdateMatch);
+      doMatchTags(cm);
+    }
+  });
+
+  function clear(cm) {
+    if (cm.state.tagHit) cm.state.tagHit.clear();
+    if (cm.state.tagOther) cm.state.tagOther.clear();
+    cm.state.tagHit = cm.state.tagOther = null;
+  }
+
+  function doMatchTags(cm) {
+    cm.state.failedTagMatch = false;
+    cm.operation(function() {
+      clear(cm);
+      if (cm.somethingSelected()) return;
+      var cur = cm.getCursor(), range = cm.getViewport();
+      range.from = Math.min(range.from, cur.line); range.to = Math.max(cur.line + 1, range.to);
+      var match = CodeMirror.findMatchingTag(cm, cur, range);
+      if (!match) return;
+      if (cm.state.matchBothTags) {
+        var hit = match.at == "open" ? match.open : match.close;
+        if (hit) cm.state.tagHit = cm.markText(hit.from, hit.to, {className: "CodeMirror-matchingtag"});
+      }
+      var other = match.at == "close" ? match.open : match.close;
+      if (other)
+        cm.state.tagOther = cm.markText(other.from, other.to, {className: "CodeMirror-matchingtag"});
+      else
+        cm.state.failedTagMatch = true;
+    });
+  }
+
+  function maybeUpdateMatch(cm) {
+    if (cm.state.failedTagMatch) doMatchTags(cm);
+  }
+
+  CodeMirror.commands.toMatchingTag = function(cm) {
+    var found = CodeMirror.findMatchingTag(cm, cm.getCursor());
+    if (found) {
+      var other = found.at == "close" ? found.open : found.close;
+      if (other) cm.setSelection(other.to, other.from);
+    }
+  };
+})();

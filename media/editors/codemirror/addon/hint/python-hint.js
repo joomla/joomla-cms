@@ -1,8 +1,95 @@
-(function(){function h(l,n){for(var m=0,o=l.length;m<o;++m){n(l[m]);}}function e(l,n){if(!Array.prototype.indexOf){var m=l.length;while(m--){if(l[m]===n){return true;
-}}return false;}return l.indexOf(n)!=-1;}function i(p,o,s){var r=p.getCursor(),n=s(p,r),l=n;if(!/^[\w$_]*$/.test(n.string)){n=l={start:r.ch,end:r.ch,string:"",state:n.state,className:n.string==":"?"python-type":null};
-}if(!m){var m=[];}m.push(l);var q=j(n,m);q=q.sort();if(q.length==1){q.push(" ");}return{list:q,from:CodeMirror.Pos(r.line,n.start),to:CodeMirror.Pos(r.line,n.end)};
-}function d(l){return i(l,a,function(m,n){return m.getTokenAt(n);});}CodeMirror.pythonHint=d;CodeMirror.registerHelper("hint","python",d);var c="and del from not while as elif global or with assert else if pass yieldbreak except import print class exec in raise continue finally is return def for lambda try";
-var f=c.split(" ");var a=c.toUpperCase().split(" ");var k="abs divmod input open staticmethod all enumerate int ord str any eval isinstance pow sum basestring execfile issubclass print superbin file iter property tuple bool filter len range typebytearray float list raw_input unichr callable format locals reduce unicodechr frozenset long reload vars classmethod getattr map repr xrangecmp globals max reversed zip compile hasattr memoryview round __import__complex hash min set apply delattr help next setattr bufferdict hex object slice coerce dir id oct sorted intern ";
-var g=k.split(" ").join("() ").split(" ");var b=k.toUpperCase().split(" ").join("() ").split(" ");function j(n,m){var p=[],s=n.string;function r(t){if(t.indexOf(s)==0&&!e(p,t)){p.push(t);
-}}function l(t){h(g,r);h(b,r);h(f,r);h(a,r);}if(m){var q=m.pop(),o;if(q.type=="variable"){o=q.string;}else{if(q.type=="variable-3"){o=":"+q.string;}}while(o!=null&&m.length){o=o[m.pop().string];
-}if(o!=null){l(o);}}return p;}})();
+(function () {
+  function forEach(arr, f) {
+    for (var i = 0, e = arr.length; i < e; ++i) f(arr[i]);
+  }
+
+  function arrayContains(arr, item) {
+    if (!Array.prototype.indexOf) {
+      var i = arr.length;
+      while (i--) {
+        if (arr[i] === item) {
+          return true;
+        }
+      }
+      return false;
+    }
+    return arr.indexOf(item) != -1;
+  }
+
+  function scriptHint(editor, _keywords, getToken) {
+    // Find the token at the cursor
+    var cur = editor.getCursor(), token = getToken(editor, cur), tprop = token;
+    // If it's not a 'word-style' token, ignore the token.
+
+    if (!/^[\w$_]*$/.test(token.string)) {
+        token = tprop = {start: cur.ch, end: cur.ch, string: "", state: token.state,
+                         className: token.string == ":" ? "python-type" : null};
+    }
+
+    if (!context) var context = [];
+    context.push(tprop);
+
+    var completionList = getCompletions(token, context);
+    completionList = completionList.sort();
+    //prevent autocomplete for last word, instead show dropdown with one word
+    if(completionList.length == 1) {
+      completionList.push(" ");
+    }
+
+    return {list: completionList,
+            from: CodeMirror.Pos(cur.line, token.start),
+            to: CodeMirror.Pos(cur.line, token.end)};
+  }
+
+  function pythonHint(editor) {
+    return scriptHint(editor, pythonKeywordsU, function (e, cur) {return e.getTokenAt(cur);});
+  }
+  CodeMirror.pythonHint = pythonHint; // deprecated
+  CodeMirror.registerHelper("hint", "python", pythonHint);
+
+  var pythonKeywords = "and del from not while as elif global or with assert else if pass yield"
++ "break except import print class exec in raise continue finally is return def for lambda try";
+  var pythonKeywordsL = pythonKeywords.split(" ");
+  var pythonKeywordsU = pythonKeywords.toUpperCase().split(" ");
+
+  var pythonBuiltins = "abs divmod input open staticmethod all enumerate int ord str "
++ "any eval isinstance pow sum basestring execfile issubclass print super"
++ "bin file iter property tuple bool filter len range type"
++ "bytearray float list raw_input unichr callable format locals reduce unicode"
++ "chr frozenset long reload vars classmethod getattr map repr xrange"
++ "cmp globals max reversed zip compile hasattr memoryview round __import__"
++ "complex hash min set apply delattr help next setattr buffer"
++ "dict hex object slice coerce dir id oct sorted intern ";
+  var pythonBuiltinsL = pythonBuiltins.split(" ").join("() ").split(" ");
+  var pythonBuiltinsU = pythonBuiltins.toUpperCase().split(" ").join("() ").split(" ");
+
+  function getCompletions(token, context) {
+    var found = [], start = token.string;
+    function maybeAdd(str) {
+      if (str.indexOf(start) == 0 && !arrayContains(found, str)) found.push(str);
+    }
+
+    function gatherCompletions(_obj) {
+        forEach(pythonBuiltinsL, maybeAdd);
+        forEach(pythonBuiltinsU, maybeAdd);
+        forEach(pythonKeywordsL, maybeAdd);
+        forEach(pythonKeywordsU, maybeAdd);
+    }
+
+    if (context) {
+      // If this is a property, see if it belongs to some object we can
+      // find in the current environment.
+      var obj = context.pop(), base;
+
+      if (obj.type == "variable")
+          base = obj.string;
+      else if(obj.type == "variable-3")
+          base = ":" + obj.string;
+
+      while (base != null && context.length)
+        base = base[context.pop().string];
+      if (base != null) gatherCompletions(base);
+    }
+    return found;
+  }
+})();

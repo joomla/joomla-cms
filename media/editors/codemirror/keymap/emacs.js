@@ -1,39 +1,387 @@
-(function(){var k=CodeMirror.Pos;function H(L,i){return L.line==i.line&&L.ch==i.ch;}var n=[];function I(i){n.push(i);if(n.length>50){n.shift();}}function A(i){if(!n.length){return I(i);
-}n[n.length-1]+=i;}function e(i){return n[n.length-(i?Math.min(i,1):1)]||"";}function s(){if(n.length>1){n.pop();}return e();}var w=null;function q(i,O,N,M,L){if(L==null){L=i.getRange(O,N);
-}if(M&&w&&w.cm==i&&H(O,w.pos)&&i.isClean(w.gen)){A(L);}else{I(L);}i.replaceRange("",O,N,"+delete");if(M){w={cm:i,pos:O,gen:i.changeGeneration()};}else{w=null;
-}}function c(i,M,L){return i.findPosH(M,L,"char",true);}function d(i,M,L){return i.findPosH(M,L,"word",true);}function v(i,M,L){return i.findPosV(M,L,"line",i.doc.sel.goalColumn);
-}function r(i,M,L){return i.findPosV(M,L,"page",i.doc.sel.goalColumn);}function z(P,O,L){var Q=O.line,S=P.getLine(Q);var R=/\S/.test(L<0?S.slice(0,O.ch):S.slice(O.ch));
-var i=P.firstLine(),M=P.lastLine();for(;;){Q+=L;if(Q<i||Q>M){return P.clipPos(k(Q-L,L<0?0:null));}S=P.getLine(Q);var N=/\S/.test(S);if(N){R=true;}else{if(R){return k(Q,0);
-}}}}function b(i,R,N){var L=R.line,P=R.ch;var Q=i.getLine(R.line),M=false;for(;;){var O=Q.charAt(P+(N<0?-1:0));if(!O){if(L==(N<0?i.firstLine():i.lastLine())){return k(L,P);
-}Q=i.getLine(L+N);if(!/\S/.test(Q)){return k(L,P);}L+=N;P=N<0?Q.length:0;continue;}if(M&&/[!?.]/.test(O)){return k(L,P+(N>0?1:0));}if(!M){M=/\w/.test(O);
-}P+=N;}}function f(i,R,L){var O;if(i.findMatchingBracket&&(O=i.findMatchingBracket(R,true))&&O.match&&(O.forward?1:-1)==L){return L>0?k(O.to.line,O.to.ch+1):O.to;
-}for(var Q=true;;Q=false){var N=i.getTokenAt(R);var P=k(R.line,L<0?N.start:N.end);if(Q&&L>0&&N.end==R.ch||!/\w/.test(N.string)){var M=i.findPosH(P,L,"char");
-if(H(P,M)){return R;}else{R=M;}}else{return P;}}}function j(i,L){var M=i.state.emacsPrefix;if(!M){return L?null:1;}E(i);return M=="-"?-1:Number(M);}function C(L){var i=typeof L=="string"?function(M){M.execCommand(L);
-}:L;return function(M){var O=j(M);i(M);for(var N=1;N<O;++N){i(M);}};}function t(L,Q,M){var R=L.getCursor(),P=j(L);if(P<0){M=-M;P=-P;}for(var O=0;O<P;++O){var N=Q(L,R,M);
-if(H(N,R)){break;}R=N;}return R;}function m(M,i){var L=function(N){N.extendSelection(t(N,M,i));};L.motion=true;return L;}function D(i,M,L){q(i,i.getCursor(),t(i,M,L),true);
-}function x(i,L){if(i.state.emacsPrefix){if(L!="-"){i.state.emacsPrefix+=L;}return;}i.state.emacsPrefix=L;i.on("keyHandled",h);i.on("inputRead",y);}var g={"Alt-G":true,"Ctrl-X":true,"Ctrl-Q":true,"Ctrl-U":true};
-function h(L,i){if(!L.state.emacsPrefixMap&&!g.hasOwnProperty(i)){E(L);}}function E(i){i.state.emacsPrefix=null;i.off("keyHandled",h);i.off("inputRead",y);
-}function y(M,P){var Q=j(M);if(Q>1&&P.origin=="+input"){var O=P.text.join("\n"),L="";for(var N=1;N<Q;++N){L+=O;}M.replaceSelection(L,"end","+input");}}function p(i){i.state.emacsPrefixMap=true;
-i.addKeyMap(l);i.on("keyHandled",o);i.on("inputRead",o);}function o(L,i){if(typeof i=="string"&&(/^\d$/.test(i)||i=="Ctrl-U")){return;}L.removeKeyMap(l);
-L.state.emacsPrefixMap=false;L.off("keyHandled",o);L.off("inputRead",o);}function B(i){i.setCursor(i.getCursor());i.setExtending(true);i.on("change",function(){i.setExtending(false);
-});}function K(i,M,L){if(i.openDialog){i.openDialog(M+': <input type="text" style="width: 10em"/>',L,{bottom:true});}else{L(prompt(M,""));}}function F(i,N){var M=i.getCursor(),L=i.findPosH(M,1,"word");
-i.replaceRange(N(i.getRange(M,L)),M,L);i.setCursor(L);}function a(M){var R=M.getCursor(),N=R.line,P=R.ch;var L=[];while(N>=M.firstLine()){var Q=M.getLine(N);
-for(var O=P==null?Q.length:P;O>0;){var P=Q.charAt(--O);if(P==")"){L.push("(");}else{if(P=="]"){L.push("[");}else{if(P=="}"){L.push("{");}else{if(/[\(\{\[]/.test(P)&&(!L.length||L.pop()!=P)){return M.extendSelection(k(N,O));
-}}}}}--N;P=null;}}var u=CodeMirror.keyMap.emacs={"Ctrl-W":function(i){q(i,i.getCursor("start"),i.getCursor("end"));},"Ctrl-K":C(function(i){var N=i.getCursor(),L=i.clipPos(k(N.line));
-var M=i.getRange(N,L);if(!/\S/.test(M)){M+="\n";L=k(N.line+1,0);}q(i,N,L,true,M);}),"Alt-W":function(i){I(i.getSelection());},"Ctrl-Y":function(i){var L=i.getCursor();
-i.replaceRange(e(j(i)),L,L,"paste");i.setSelection(L,i.getCursor());},"Alt-Y":function(i){i.replaceSelection(s());},"Ctrl-Space":B,"Ctrl-Shift-2":B,"Ctrl-F":m(c,1),"Ctrl-B":m(c,-1),Right:m(c,1),Left:m(c,-1),"Ctrl-D":function(i){D(i,c,1);
-},Delete:function(i){D(i,c,1);},"Ctrl-H":function(i){D(i,c,-1);},Backspace:function(i){D(i,c,-1);},"Alt-F":m(d,1),"Alt-B":m(d,-1),"Alt-D":function(i){D(i,d,1);
-},"Alt-Backspace":function(i){D(i,d,-1);},"Ctrl-N":m(v,1),"Ctrl-P":m(v,-1),Down:m(v,1),Up:m(v,-1),"Ctrl-A":"goLineStart","Ctrl-E":"goLineEnd",End:"goLineEnd",Home:"goLineStart","Alt-V":m(r,-1),"Ctrl-V":m(r,1),PageUp:m(r,-1),PageDown:m(r,1),"Ctrl-Up":m(z,-1),"Ctrl-Down":m(z,1),"Alt-A":m(b,-1),"Alt-E":m(b,1),"Alt-K":function(i){D(i,b,1);
-},"Ctrl-Alt-K":function(i){D(i,f,1);},"Ctrl-Alt-Backspace":function(i){D(i,f,-1);},"Ctrl-Alt-F":m(f,1),"Ctrl-Alt-B":m(f,-1),"Shift-Ctrl-Alt-2":function(i){i.setSelection(t(i,f,1),i.getCursor());
-},"Ctrl-Alt-T":function(i){var L=f(i,i.getCursor(),-1),N=f(i,L,1);var O=f(i,N,1),M=f(i,O,-1);i.replaceRange(i.getRange(M,O)+i.getRange(N,M)+i.getRange(L,N),L,O);
-},"Ctrl-Alt-U":C(a),"Alt-Space":function(i){var O=i.getCursor(),N=O.ch,M=O.ch,L=i.getLine(O.line);while(N&&/\s/.test(L.charAt(N-1))){--N;}while(M<L.length&&/\s/.test(L.charAt(M))){++M;
-}i.replaceRange(" ",k(O.line,N),k(O.line,M));},"Ctrl-O":C(function(i){i.replaceSelection("\n","start");}),"Ctrl-T":C(function(i){var N=i.getCursor();if(N.ch<i.getLine(N.line).length){N=k(N.line,N.ch+1);
-}var M=i.findPosH(N,-2,"char");var L=i.getRange(M,N);if(L.length!=2){return;}i.setSelection(M,N);i.replaceSelection(L.charAt(1)+L.charAt(0),"end");}),"Alt-C":C(function(i){F(i,function(L){var M=L.search(/\w/);
-if(M==-1){return L;}return L.slice(0,M)+L.charAt(M).toUpperCase()+L.slice(M+1).toLowerCase();});}),"Alt-U":C(function(i){F(i,function(L){return L.toUpperCase();
-});}),"Alt-L":C(function(i){F(i,function(L){return L.toLowerCase();});}),"Alt-;":"toggleComment","Ctrl-/":C("undo"),"Shift-Ctrl--":C("undo"),"Ctrl-Z":C("undo"),"Cmd-Z":C("undo"),"Shift-Alt-,":"goDocStart","Shift-Alt-.":"goDocEnd","Ctrl-S":"findNext","Ctrl-R":"findPrev","Ctrl-G":"clearSearch","Shift-Alt-5":"replace","Alt-/":"autocomplete","Ctrl-J":"newlineAndIndent",Enter:false,Tab:"indentAuto","Alt-G":function(i){i.setOption("keyMap","emacs-Alt-G");
-},"Ctrl-X":function(i){i.setOption("keyMap","emacs-Ctrl-X");},"Ctrl-Q":function(i){i.setOption("keyMap","emacs-Ctrl-Q");},"Ctrl-U":p};CodeMirror.keyMap["emacs-Ctrl-X"]={Tab:function(i){i.indentSelection(j(i,true)||i.getOption("indentUnit"));
-},"Ctrl-X":function(i){i.setSelection(i.getCursor("head"),i.getCursor("anchor"));},"Ctrl-S":"save","Ctrl-W":"save",S:"saveAll",F:"open",U:C("undo"),K:"close",Delete:function(i){q(i,i.getCursor(),sentenceEnd(i,1),true);
-},auto:"emacs",nofallthrough:true,disableInput:true};CodeMirror.keyMap["emacs-Alt-G"]={G:function(i){var L=j(i,true);if(L!=null&&L>0){return i.setCursor(L-1);
-}K(i,"Goto line",function(N){var M;if(N&&!isNaN(M=Number(N))&&M==M|0&&M>0){i.setCursor(M-1);}});},auto:"emacs",nofallthrough:true,disableInput:true};CodeMirror.keyMap["emacs-Ctrl-Q"]={Tab:C("insertTab"),auto:"emacs",nofallthrough:true};
-var l={"Ctrl-G":E};function J(i){l[i]=function(L){x(L,i);};u["Ctrl-"+i]=function(L){x(L,i);};g["Ctrl-"+i]=true;}for(var G=0;G<10;++G){J(String(G));}J("-");
+(function() {
+  "use strict";
+
+  var Pos = CodeMirror.Pos;
+  function posEq(a, b) { return a.line == b.line && a.ch == b.ch; }
+
+  // Kill 'ring'
+
+  var killRing = [];
+  function addToRing(str) {
+    killRing.push(str);
+    if (killRing.length > 50) killRing.shift();
+  }
+  function growRingTop(str) {
+    if (!killRing.length) return addToRing(str);
+    killRing[killRing.length - 1] += str;
+  }
+  function getFromRing(n) { return killRing[killRing.length - (n ? Math.min(n, 1) : 1)] || ""; }
+  function popFromRing() { if (killRing.length > 1) killRing.pop(); return getFromRing(); }
+
+  var lastKill = null;
+
+  function kill(cm, from, to, mayGrow, text) {
+    if (text == null) text = cm.getRange(from, to);
+
+    if (mayGrow && lastKill && lastKill.cm == cm && posEq(from, lastKill.pos) && cm.isClean(lastKill.gen))
+      growRingTop(text);
+    else
+      addToRing(text);
+    cm.replaceRange("", from, to, "+delete");
+
+    if (mayGrow) lastKill = {cm: cm, pos: from, gen: cm.changeGeneration()};
+    else lastKill = null;
+  }
+
+  // Boundaries of various units
+
+  function byChar(cm, pos, dir) {
+    return cm.findPosH(pos, dir, "char", true);
+  }
+
+  function byWord(cm, pos, dir) {
+    return cm.findPosH(pos, dir, "word", true);
+  }
+
+  function byLine(cm, pos, dir) {
+    return cm.findPosV(pos, dir, "line", cm.doc.sel.goalColumn);
+  }
+
+  function byPage(cm, pos, dir) {
+    return cm.findPosV(pos, dir, "page", cm.doc.sel.goalColumn);
+  }
+
+  function byParagraph(cm, pos, dir) {
+    var no = pos.line, line = cm.getLine(no);
+    var sawText = /\S/.test(dir < 0 ? line.slice(0, pos.ch) : line.slice(pos.ch));
+    var fst = cm.firstLine(), lst = cm.lastLine();
+    for (;;) {
+      no += dir;
+      if (no < fst || no > lst)
+        return cm.clipPos(Pos(no - dir, dir < 0 ? 0 : null));
+      line = cm.getLine(no);
+      var hasText = /\S/.test(line);
+      if (hasText) sawText = true;
+      else if (sawText) return Pos(no, 0);
+    }
+  }
+
+  function bySentence(cm, pos, dir) {
+    var line = pos.line, ch = pos.ch;
+    var text = cm.getLine(pos.line), sawWord = false;
+    for (;;) {
+      var next = text.charAt(ch + (dir < 0 ? -1 : 0));
+      if (!next) { // End/beginning of line reached
+        if (line == (dir < 0 ? cm.firstLine() : cm.lastLine())) return Pos(line, ch);
+        text = cm.getLine(line + dir);
+        if (!/\S/.test(text)) return Pos(line, ch);
+        line += dir;
+        ch = dir < 0 ? text.length : 0;
+        continue;
+      }
+      if (sawWord && /[!?.]/.test(next)) return Pos(line, ch + (dir > 0 ? 1 : 0));
+      if (!sawWord) sawWord = /\w/.test(next);
+      ch += dir;
+    }
+  }
+
+  function byExpr(cm, pos, dir) {
+    var wrap;
+    if (cm.findMatchingBracket && (wrap = cm.findMatchingBracket(pos, true))
+        && wrap.match && (wrap.forward ? 1 : -1) == dir)
+      return dir > 0 ? Pos(wrap.to.line, wrap.to.ch + 1) : wrap.to;
+
+    for (var first = true;; first = false) {
+      var token = cm.getTokenAt(pos);
+      var after = Pos(pos.line, dir < 0 ? token.start : token.end);
+      if (first && dir > 0 && token.end == pos.ch || !/\w/.test(token.string)) {
+        var newPos = cm.findPosH(after, dir, "char");
+        if (posEq(after, newPos)) return pos;
+        else pos = newPos;
+      } else {
+        return after;
+      }
+    }
+  }
+
+  // Prefixes (only crudely supported)
+
+  function getPrefix(cm, precise) {
+    var digits = cm.state.emacsPrefix;
+    if (!digits) return precise ? null : 1;
+    clearPrefix(cm);
+    return digits == "-" ? -1 : Number(digits);
+  }
+
+  function repeated(cmd) {
+    var f = typeof cmd == "string" ? function(cm) { cm.execCommand(cmd); } : cmd;
+    return function(cm) {
+      var prefix = getPrefix(cm);
+      f(cm);
+      for (var i = 1; i < prefix; ++i) f(cm);
+    };
+  }
+
+  function findEnd(cm, by, dir) {
+    var pos = cm.getCursor(), prefix = getPrefix(cm);
+    if (prefix < 0) { dir = -dir; prefix = -prefix; }
+    for (var i = 0; i < prefix; ++i) {
+      var newPos = by(cm, pos, dir);
+      if (posEq(newPos, pos)) break;
+      pos = newPos;
+    }
+    return pos;
+  }
+
+  function move(by, dir) {
+    var f = function(cm) {
+      cm.extendSelection(findEnd(cm, by, dir));
+    };
+    f.motion = true;
+    return f;
+  }
+
+  function killTo(cm, by, dir) {
+    kill(cm, cm.getCursor(), findEnd(cm, by, dir), true);
+  }
+
+  function addPrefix(cm, digit) {
+    if (cm.state.emacsPrefix) {
+      if (digit != "-") cm.state.emacsPrefix += digit;
+      return;
+    }
+    // Not active yet
+    cm.state.emacsPrefix = digit;
+    cm.on("keyHandled", maybeClearPrefix);
+    cm.on("inputRead", maybeDuplicateInput);
+  }
+
+  var prefixPreservingKeys = {"Alt-G": true, "Ctrl-X": true, "Ctrl-Q": true, "Ctrl-U": true};
+
+  function maybeClearPrefix(cm, arg) {
+    if (!cm.state.emacsPrefixMap && !prefixPreservingKeys.hasOwnProperty(arg))
+      clearPrefix(cm);
+  }
+
+  function clearPrefix(cm) {
+    cm.state.emacsPrefix = null;
+    cm.off("keyHandled", maybeClearPrefix);
+    cm.off("inputRead", maybeDuplicateInput);
+  }
+
+  function maybeDuplicateInput(cm, event) {
+    var dup = getPrefix(cm);
+    if (dup > 1 && event.origin == "+input") {
+      var one = event.text.join("\n"), txt = "";
+      for (var i = 1; i < dup; ++i) txt += one;
+      cm.replaceSelection(txt, "end", "+input");
+    }
+  }
+
+  function addPrefixMap(cm) {
+    cm.state.emacsPrefixMap = true;
+    cm.addKeyMap(prefixMap);
+    cm.on("keyHandled", maybeRemovePrefixMap);
+    cm.on("inputRead", maybeRemovePrefixMap);
+  }
+
+  function maybeRemovePrefixMap(cm, arg) {
+    if (typeof arg == "string" && (/^\d$/.test(arg) || arg == "Ctrl-U")) return;
+    cm.removeKeyMap(prefixMap);
+    cm.state.emacsPrefixMap = false;
+    cm.off("keyHandled", maybeRemovePrefixMap);
+    cm.off("inputRead", maybeRemovePrefixMap);
+  }
+
+  // Utilities
+
+  function setMark(cm) {
+    cm.setCursor(cm.getCursor());
+    cm.setExtending(true);
+    cm.on("change", function() { cm.setExtending(false); });
+  }
+
+  function getInput(cm, msg, f) {
+    if (cm.openDialog)
+      cm.openDialog(msg + ": <input type=\"text\" style=\"width: 10em\"/>", f, {bottom: true});
+    else
+      f(prompt(msg, ""));
+  }
+
+  function operateOnWord(cm, op) {
+    var start = cm.getCursor(), end = cm.findPosH(start, 1, "word");
+    cm.replaceRange(op(cm.getRange(start, end)), start, end);
+    cm.setCursor(end);
+  }
+
+  function toEnclosingExpr(cm) {
+    var pos = cm.getCursor(), line = pos.line, ch = pos.ch;
+    var stack = [];
+    while (line >= cm.firstLine()) {
+      var text = cm.getLine(line);
+      for (var i = ch == null ? text.length : ch; i > 0;) {
+        var ch = text.charAt(--i);
+        if (ch == ")")
+          stack.push("(");
+        else if (ch == "]")
+          stack.push("[");
+        else if (ch == "}")
+          stack.push("{");
+        else if (/[\(\{\[]/.test(ch) && (!stack.length || stack.pop() != ch))
+          return cm.extendSelection(Pos(line, i));
+      }
+      --line; ch = null;
+    }
+  }
+
+  // Actual keymap
+
+  var keyMap = CodeMirror.keyMap.emacs = {
+    "Ctrl-W": function(cm) {kill(cm, cm.getCursor("start"), cm.getCursor("end"));},
+    "Ctrl-K": repeated(function(cm) {
+      var start = cm.getCursor(), end = cm.clipPos(Pos(start.line));
+      var text = cm.getRange(start, end);
+      if (!/\S/.test(text)) {
+        text += "\n";
+        end = Pos(start.line + 1, 0);
+      }
+      kill(cm, start, end, true, text);
+    }),
+    "Alt-W": function(cm) {
+      addToRing(cm.getSelection());
+    },
+    "Ctrl-Y": function(cm) {
+      var start = cm.getCursor();
+      cm.replaceRange(getFromRing(getPrefix(cm)), start, start, "paste");
+      cm.setSelection(start, cm.getCursor());
+    },
+    "Alt-Y": function(cm) {cm.replaceSelection(popFromRing());},
+
+    "Ctrl-Space": setMark, "Ctrl-Shift-2": setMark,
+
+    "Ctrl-F": move(byChar, 1), "Ctrl-B": move(byChar, -1),
+    "Right": move(byChar, 1), "Left": move(byChar, -1),
+    "Ctrl-D": function(cm) { killTo(cm, byChar, 1); },
+    "Delete": function(cm) { killTo(cm, byChar, 1); },
+    "Ctrl-H": function(cm) { killTo(cm, byChar, -1); },
+    "Backspace": function(cm) { killTo(cm, byChar, -1); },
+
+    "Alt-F": move(byWord, 1), "Alt-B": move(byWord, -1),
+    "Alt-D": function(cm) { killTo(cm, byWord, 1); },
+    "Alt-Backspace": function(cm) { killTo(cm, byWord, -1); },
+
+    "Ctrl-N": move(byLine, 1), "Ctrl-P": move(byLine, -1),
+    "Down": move(byLine, 1), "Up": move(byLine, -1),
+    "Ctrl-A": "goLineStart", "Ctrl-E": "goLineEnd",
+    "End": "goLineEnd", "Home": "goLineStart",
+
+    "Alt-V": move(byPage, -1), "Ctrl-V": move(byPage, 1),
+    "PageUp": move(byPage, -1), "PageDown": move(byPage, 1),
+
+    "Ctrl-Up": move(byParagraph, -1), "Ctrl-Down": move(byParagraph, 1),
+
+    "Alt-A": move(bySentence, -1), "Alt-E": move(bySentence, 1),
+    "Alt-K": function(cm) { killTo(cm, bySentence, 1); },
+
+    "Ctrl-Alt-K": function(cm) { killTo(cm, byExpr, 1); },
+    "Ctrl-Alt-Backspace": function(cm) { killTo(cm, byExpr, -1); },
+    "Ctrl-Alt-F": move(byExpr, 1), "Ctrl-Alt-B": move(byExpr, -1),
+
+    "Shift-Ctrl-Alt-2": function(cm) {
+      cm.setSelection(findEnd(cm, byExpr, 1), cm.getCursor());
+    },
+    "Ctrl-Alt-T": function(cm) {
+      var leftStart = byExpr(cm, cm.getCursor(), -1), leftEnd = byExpr(cm, leftStart, 1);
+      var rightEnd = byExpr(cm, leftEnd, 1), rightStart = byExpr(cm, rightEnd, -1);
+      cm.replaceRange(cm.getRange(rightStart, rightEnd) + cm.getRange(leftEnd, rightStart) +
+                      cm.getRange(leftStart, leftEnd), leftStart, rightEnd);
+    },
+    "Ctrl-Alt-U": repeated(toEnclosingExpr),
+
+    "Alt-Space": function(cm) {
+      var pos = cm.getCursor(), from = pos.ch, to = pos.ch, text = cm.getLine(pos.line);
+      while (from && /\s/.test(text.charAt(from - 1))) --from;
+      while (to < text.length && /\s/.test(text.charAt(to))) ++to;
+      cm.replaceRange(" ", Pos(pos.line, from), Pos(pos.line, to));
+    },
+    "Ctrl-O": repeated(function(cm) { cm.replaceSelection("\n", "start"); }),
+    "Ctrl-T": repeated(function(cm) {
+      var pos = cm.getCursor();
+      if (pos.ch < cm.getLine(pos.line).length) pos = Pos(pos.line, pos.ch + 1);
+      var from = cm.findPosH(pos, -2, "char");
+      var range = cm.getRange(from, pos);
+      if (range.length != 2) return;
+      cm.setSelection(from, pos);
+      cm.replaceSelection(range.charAt(1) + range.charAt(0), "end");
+    }),
+
+    "Alt-C": repeated(function(cm) {
+      operateOnWord(cm, function(w) {
+        var letter = w.search(/\w/);
+        if (letter == -1) return w;
+        return w.slice(0, letter) + w.charAt(letter).toUpperCase() + w.slice(letter + 1).toLowerCase();
+      });
+    }),
+    "Alt-U": repeated(function(cm) {
+      operateOnWord(cm, function(w) { return w.toUpperCase(); });
+    }),
+    "Alt-L": repeated(function(cm) {
+      operateOnWord(cm, function(w) { return w.toLowerCase(); });
+    }),
+
+    "Alt-;": "toggleComment",
+
+    "Ctrl-/": repeated("undo"), "Shift-Ctrl--": repeated("undo"),
+    "Ctrl-Z": repeated("undo"), "Cmd-Z": repeated("undo"),
+    "Shift-Alt-,": "goDocStart", "Shift-Alt-.": "goDocEnd",
+    "Ctrl-S": "findNext", "Ctrl-R": "findPrev", "Ctrl-G": "clearSearch", "Shift-Alt-5": "replace",
+    "Alt-/": "autocomplete",
+    "Ctrl-J": "newlineAndIndent", "Enter": false, "Tab": "indentAuto",
+
+    "Alt-G": function(cm) {cm.setOption("keyMap", "emacs-Alt-G");},
+    "Ctrl-X": function(cm) {cm.setOption("keyMap", "emacs-Ctrl-X");},
+    "Ctrl-Q": function(cm) {cm.setOption("keyMap", "emacs-Ctrl-Q");},
+    "Ctrl-U": addPrefixMap
+  };
+
+  CodeMirror.keyMap["emacs-Ctrl-X"] = {
+    "Tab": function(cm) {
+      cm.indentSelection(getPrefix(cm, true) || cm.getOption("indentUnit"));
+    },
+    "Ctrl-X": function(cm) {
+      cm.setSelection(cm.getCursor("head"), cm.getCursor("anchor"));
+    },
+
+    "Ctrl-S": "save", "Ctrl-W": "save", "S": "saveAll", "F": "open", "U": repeated("undo"), "K": "close",
+    "Delete": function(cm) { kill(cm, cm.getCursor(), bySentence(cm, cm.getCursor(), 1), true); },
+    auto: "emacs", nofallthrough: true, disableInput: true
+  };
+
+  CodeMirror.keyMap["emacs-Alt-G"] = {
+    "G": function(cm) {
+      var prefix = getPrefix(cm, true);
+      if (prefix != null && prefix > 0) return cm.setCursor(prefix - 1);
+
+      getInput(cm, "Goto line", function(str) {
+        var num;
+        if (str && !isNaN(num = Number(str)) && num == num|0 && num > 0)
+          cm.setCursor(num - 1);
+      });
+    },
+    auto: "emacs", nofallthrough: true, disableInput: true
+  };
+
+  CodeMirror.keyMap["emacs-Ctrl-Q"] = {
+    "Tab": repeated("insertTab"),
+    auto: "emacs", nofallthrough: true
+  };
+
+  var prefixMap = {"Ctrl-G": clearPrefix};
+  function regPrefix(d) {
+    prefixMap[d] = function(cm) { addPrefix(cm, d); };
+    keyMap["Ctrl-" + d] = function(cm) { addPrefix(cm, d); };
+    prefixPreservingKeys["Ctrl-" + d] = true;
+  }
+  for (var i = 0; i < 10; ++i) regPrefix(String(i));
+  regPrefix("-");
 })();

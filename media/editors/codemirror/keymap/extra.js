@@ -1,5 +1,43 @@
-(function(){var c=CodeMirror.Pos;function b(j,d,e,g){if(!g||d>e){return 0;}var h=j.clipPos(c(d,0)),i=j.clipPos(c(e));var l=j.getRange(h,i);if(d<=j.firstLine()){j.replaceRange("",h,c(i.line+1,0));
-}else{j.replaceRange("",c(h.line-1),i);}var f=h.line+g;if(f<=j.firstLine()){j.replaceRange(l+"\n",c(f,0));return j.firstLine()-h.line;}else{var k=j.clipPos(c(f-1));
-j.replaceRange("\n"+l,k);return k.line+1-h.line;}}function a(d,g){var f=d.getCursor("head"),e=d.getCursor("anchor");d.operation(function(){var h=b(d,Math.min(f.line,e.line),Math.max(f.line,e.line),g);
-d.setSelection(c(e.line+h,e.ch),c(f.line+h,f.ch));});}CodeMirror.commands.moveLinesUp=function(d){a(d,-1);};CodeMirror.commands.moveLinesDown=function(d){a(d,1);
-};CodeMirror.keyMap["default"]["Alt-Up"]="moveLinesUp";CodeMirror.keyMap["default"]["Alt-Down"]="moveLinesDown";})();
+// A number of additional default bindings that are too obscure to
+// include in the core codemirror.js file.
+
+(function() {
+  "use strict";
+
+  var Pos = CodeMirror.Pos;
+
+  function moveLines(cm, start, end, dist) {
+    if (!dist || start > end) return 0;
+
+    var from = cm.clipPos(Pos(start, 0)), to = cm.clipPos(Pos(end));
+    var text = cm.getRange(from, to);
+
+    if (start <= cm.firstLine())
+      cm.replaceRange("", from, Pos(to.line + 1, 0));
+    else
+      cm.replaceRange("", Pos(from.line - 1), to);
+    var target = from.line + dist;
+    if (target <= cm.firstLine()) {
+      cm.replaceRange(text + "\n", Pos(target, 0));
+      return cm.firstLine() - from.line;
+    } else {
+      var targetPos = cm.clipPos(Pos(target - 1));
+      cm.replaceRange("\n" + text, targetPos);
+      return targetPos.line + 1 - from.line;
+    }
+  }
+
+  function moveSelectedLines(cm, dist) {
+    var head = cm.getCursor("head"), anchor = cm.getCursor("anchor");
+    cm.operation(function() {
+      var moved = moveLines(cm, Math.min(head.line, anchor.line), Math.max(head.line, anchor.line), dist);
+      cm.setSelection(Pos(anchor.line + moved, anchor.ch), Pos(head.line + moved, head.ch));
+    });
+  }
+
+  CodeMirror.commands.moveLinesUp = function(cm) { moveSelectedLines(cm, -1); };
+  CodeMirror.commands.moveLinesDown = function(cm) { moveSelectedLines(cm, 1); };
+
+  CodeMirror.keyMap["default"]["Alt-Up"] = "moveLinesUp";
+  CodeMirror.keyMap["default"]["Alt-Down"] = "moveLinesDown";
+})();

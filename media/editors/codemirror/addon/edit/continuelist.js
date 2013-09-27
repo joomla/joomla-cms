@@ -1,3 +1,25 @@
-(function(){var a=/^(\s*)([*+-]|(\d+)\.)(\s*)/,b="*+-";CodeMirror.commands.newlineAndIndentContinueMarkdownList=function(e){var i=e.getCursor(),d=e.getStateAfter(i.line).list,g;
-if(!d||!(g=e.getLine(i.line).match(a))){e.execCommand("newlineAndIndent");return;}var c=g[1],h=g[4];var f=b.indexOf(g[2])>=0?g[2]:(parseInt(g[3],10)+1)+".";
-e.replaceSelection("\n"+c+f+h,"end");};}());
+(function() {
+  'use strict';
+
+  var listRE = /^(\s*)([*+-]|(\d+)\.)(\s*)/,
+      unorderedBullets = '*+-';
+
+  CodeMirror.commands.newlineAndIndentContinueMarkdownList = function(cm) {
+    var pos = cm.getCursor(),
+        inList = cm.getStateAfter(pos.line).list,
+        match;
+
+    if (!inList || !(match = cm.getLine(pos.line).match(listRE))) {
+      cm.execCommand('newlineAndIndent');
+      return;
+    }
+
+    var indent = match[1], after = match[4];
+    var bullet = unorderedBullets.indexOf(match[2]) >= 0
+      ? match[2]
+      : (parseInt(match[3], 10) + 1) + '.';
+
+    cm.replaceSelection('\n' + indent + bullet + after, 'end');
+  };
+
+}());

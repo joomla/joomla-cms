@@ -28,25 +28,9 @@ class plgEditorCodemirror extends JPlugin
 	 *
 	 * @var array
 	 */
-	protected $modeMap = array(
+	protected $modeAlias = array(
 			'html' => 'htmlmixed',
 			'ini'  => 'properties'
-		);
-
-	/**
-	 * Mapping of CodeMirror dependencies.
-	 *
-	 * @var array
-	 */
-	protected $dependency = array(
-			'addon' => array(
-					'edit.matchtags' => array('fold.xml-fold')
-				),
-			'mode'  => array(
-					'htmlmixed'    => array('xml', 'css', 'javascript'),
-					'htmlembedded' => array('htmlmixed'),
-					'php'          => array('clike', 'htmlembedded')
-				)
 		);
 
 	/**
@@ -56,11 +40,81 @@ class plgEditorCodemirror extends JPlugin
 	 */
 	public function onInit()
 	{
+		static $done = false;
+
+		// Do this only once.
+		if ($done)
+		{
+			return true;
+		}
+
+		$done = true;
+
 		JHtml::_('behavior.framework');
 		JHtml::_('script', $this->basePath . 'lib/codemirror.js');
+		JHtml::_('script', $this->basePath . 'lib/addons.js');
 		JHtml::_('stylesheet', $this->basePath . 'lib/codemirror.css');
 
+		JFactory::getDocument()
+			->addScriptDeclaration($this->getInitScript())
+			->addStyleDeclaration($this->getExtraStyles());
+
 		return '';
+	}
+
+	/**
+	 * A script to set up some defaults for CodeMirror.
+	 *
+	 * @return  string
+	 */
+	protected function getInitScript()
+	{
+		$fskeys = $this->params->get('fullscreen_mod', array());
+		$fskeys[] = $this->params->get('fullscreen', 'F10');
+
+		$script = array(
+			';(function (cm) {',
+				'cm.keyMap["default"]["' . implode('-', $fskeys) . '"] = function (cm) {',
+					'cm.setOption("fullScreen", !cm.getOption("fullScreen"));',
+				'};',
+				'cm.keyMap["default"]["Esc"] = function (cm) {',
+					'cm.getOption("fullScreen") && cm.setOption("fullScreen", false);',
+				'};',
+			'}(CodeMirror));'
+		);
+
+		return implode(' ', $script);
+	}
+
+	/**
+	 * Some styles not included in the usual codemirror.css.
+	 *
+	 * @return  string
+	 */
+	protected function getExtraStyles()
+	{
+		$styles = array(
+			'.CodeMirror-fullscreen {',
+				'position: fixed;',
+				'top: 0; left: 0; right: 0; bottom: 0;',
+				'height: auto; z-index: 1040;',
+			'}',
+			'.CodeMirror-foldmarker {',
+				'background: rgba(255, 128, 0, .5);',
+				'box-shadow: inset 0 0 5px rgba(255, 255, 255, .5);',
+				'font-family: serif;',
+				'font-size: 50%;',
+				'cursor: pointer;',
+				'border-radius: 1em;',
+				'padding: 0 1em;',
+			'}',
+			'.CodeMirror-foldgutter { width: .7em; }',
+			'.CodeMirror-foldgutter-open, .CodeMirror-foldgutter-folded { opacity: .5; cursor: pointer; }',
+			'.CodeMirror-foldgutter-open:after { content: "\25BE"; }',
+			'.CodeMirror-foldgutter-folded:after { content: "\25B8"; }'
+		);
+
+		return implode(' ', $styles);
 	}
 
 	/**
@@ -160,25 +214,33 @@ class plgEditorCodemirror extends JPlugin
 		// Until there's a fix for the overflow problem, always wrap lines.
 		$options->lineWrapping = true;
 
-		$options->lineNumbers = (boolean) $this->params->get('linenumbers', 0);
+		// Do we use line numbering?
+		if ($options->lineNumbers = (boolean) $this->params->get('linenumbers', 0))
+		{
+			$options->gutters[] = 'CodeMirror-linenumbers';
+		}
+
+		// Do we use code folding?
+		if ($options->foldGutter = (boolean) $this->params->get('codefolding', 1))
+		{
+			$options->gutters[] = 'CodeMirror-foldgutter';
+		}
 
 		// Load the syntax mode.
 		$syntax = JFactory::getApplication()->getUserState('editor.source.syntax', 'html');
-		$options->mode = isset($this->modeMap[$syntax]) ? $this->modeMap[$syntax] : $syntax;
-		$this->loadFile($options->mode, 'mode');
+		$options->mode = isset($this->modeAlias[$syntax]) ? $this->modeAlias[$syntax] : $syntax;
+		$this->loadMode($options->mode);
 
 		// Load the theme if specified.
-		$theme = $this->params->get('theme');
-		if ($theme)
+		if ($theme = $this->params->get('theme'))
 		{
 			$options->theme = $theme;
-			$this->loadFile($options->theme, 'theme');
+			$this->loadTheme($options->theme);
 		}
 
 		// Add styling to the active line (any mode).
 		if ($this->params->get('activeline'))
 		{
-			$this->loadFile('selection.active-line', 'addon');
 			$options->styleActiveLine = true;
 
 			$color = $this->params->get('activeline_color', '#a4c2eb');
@@ -192,19 +254,14 @@ class plgEditorCodemirror extends JPlugin
 		if (in_array($options->mode, array('xml', 'htmlmixed', 'htmlembedded', 'php')))
 		{
 			// Autogenerate closing tags (html/xml only).
-			if ($this->params->get('autoclose', true))
-			{
-				$this->loadFile('edit.closetag', 'addon');
-				$options->autoCloseTags = true;
-			}
+			$options->autoCloseTags = (boolean) $this->params->get('autoclose', true);
 
-			// Hilight the matching tag when the cursor is in a tag (html/xml only).
-			if ($this->params->get('hilight_match', true))
+			// Highlight the matching tag when the cursor is in a tag (html/xml only).
+			if ($this->params->get('highlight_match', true))
 			{
-				$this->loadFile('edit.matchtags', 'addon');
 				$options->matchTags = true;
 
-				$color = $this->params->get('hilight_match_color', '#fa542f');
+				$color = $this->params->get('highlight_match_color', '#fa542f');
 				$r = hexdec($color{1} . $color{2});
 				$g = hexdec($color{3} . $color{4});
 				$b = hexdec($color{5} . $color{6});
@@ -212,29 +269,20 @@ class plgEditorCodemirror extends JPlugin
 			}
 		}
 
+		// Special options for non-tagged modes.
 		if (!in_array($options->mode, array('xml', 'htmlmixed', 'htmlembedded')))
 		{
 			// Autogenerate closing brackets.
-			if ($this->params->get('autoclose', true))
-			{
-				$this->loadFile('edit.closebrackets', 'addon');
-				$options->autoCloseBrackets = true;
-			}
+			$options->autoCloseBrackets = (boolean) $this->params->get('autoclose', true);
 
-			// Hilight the matching tag when the cursor is in a tag (html/xml only).
-			if ($this->params->get('hilight_match', true))
-			{
-				$this->loadFile('edit.matchbrackets', 'addon');
-				$options->matchBrackets = true;
-			}
+			// Highlight the matching bracket.
+			$options->matchBrackets = (boolean) $this->params->get('highlight_match', true);
 		}
 
-		$keybinding = $this->params->get('keybinding', 0);
-		if ($keybinding)
+		// Vim Keybindings.
+		if ($this->params->get('vim_keybinding', 0))
 		{
-			$this->loadFile($keybinding, 'keymap');
-			$options->keyMap = $keybinding;
-			$options->{$keybinding . 'Mode'} = true;
+			$options->vimMode = true;
 		}
 
 		JFactory::getDocument()->addStyleDeclaration(implode("\n", $extraStyles));
@@ -243,72 +291,67 @@ class plgEditorCodemirror extends JPlugin
 		$html[]	= "<textarea name=\"$name\" id=\"$id\" cols=\"$col\" rows=\"$row\">$content</textarea>";
 		$html[] = $buttons;
 		$html[] = '<script type="text/javascript">';
-		$html[] = '(function(id, options) {';
+		$html[] = '(function (id, options) {';
 		$html[] = '    Joomla.editors.instances[id] = CodeMirror.fromTextArea(document.getElementById(id), options);';
-		$html[] = '})(' . json_encode($id) . ', ' . json_encode($options) . ');';
+		$html[] = '}(' . json_encode($id) . ', ' . json_encode($options) . '));';
 		$html[] = '</script>';
 
 		return implode("\n", $html);
 	}
 
 	/**
-	 * Loads a CodeMirror supplementary file.
+	 * Loads a CodeMirror syntax mode file.
 	 *
-	 * @param  string  $file  The file (witout extension) to be included (In case of addons, it should be folder.file).
-	 * @param  string  $type  The type of item.
+	 * @param  string  $mode  The syntax mode to load (ex. html, css, javascript).
 	 */
-	protected function loadFile($file, $type)
+	protected function loadMode($mode)
 	{
-		static $loaded = array(
-				'addon'  => array(),
-				'keymap' => array(),
-				'mode'   => array(),
-				'theme'  => array()
-			);
+		static $loaded = array();
 
-		// If $type is not a valid type or $file is already loaded, return;
-		if (!in_array($type, array_keys($loaded)) || in_array($file, $loaded[$type]))
+		if (in_array($mode, $loaded))
 		{
 			return;
 		}
 
-		// Add the file to the loaded list.
-		$loaded[$type][] = $file;
+		$loaded[] = $mode;
 
-		$path = $this->getPath($file, $type);
-
-		JHtml::_(($type == 'theme') ? 'stylesheet' : 'script', $path);
-
-		if (isset($this->dependency[$type]) && isset($this->dependency[$type][$file]))
-		{
-			foreach ($this->dependency[$type][$file] as $required)
-			{
-				$this->loadFile($required, $type);
-			}
-		}
-
+		JHtml::_('script', $this->basePath . 'mode/' . $mode . '.js');
 	}
 
 	/**
-	 * Gets the path to any supplementary file used by CodeMirror.
+	 * Loads a CodeMirror theme file.
 	 *
-	 * @param   string  $file  The file to be included.
-	 * @param   string  $type  The type of item.
-	 *
-	 * @return  string
+	 * @param  string  $theme  The theme to load.
 	 */
-	protected function getPath($file, $type)
+	protected function loadTheme($theme)
 	{
-		$paths = array(
-				'addon'  => 'addon/%1$s/%2$s.js',
-				'keymap' => 'keymap/%1$s.js',
-				'mode'   => 'mode/%1$s/%1$s.js',
-				'theme'  => 'theme/%1$s.css'
-			);
+		static $loaded = array();
 
-		$parts = ($type == 'addon') ? explode('.', $file, 2) : (array) $file;
+		if (in_array($theme, $loaded))
+		{
+			return;
+		}
 
-		return $this->basePath . vsprintf($paths[$type], $parts);
+		$loaded[] = $theme;
+
+		JHtml::_('stylesheet', $this->basePath . 'theme/' . $theme . '.css');
+	}
+
+	/**
+	 * Loads the CodeMirror addons file.
+	 */
+	protected function loadAddons()
+	{
+		static $loaded;
+
+		if ($loaded)
+		{
+			return;
+		}
+
+		$loaded = true;
+
+		JHtml::_('script', $this->basePath . 'lib/addons.js');
 	}
 
 	/**
@@ -319,12 +362,12 @@ class plgEditorCodemirror extends JPlugin
 	 *
 	 * @return string HTML
 	 */
-	protected function displayButtons($name, $buttons, $asset, $author)
+	protected function displayButtons($id, $buttons, $asset, $author)
 	{
 		// Load modal popup behavior
 		JHtml::_('behavior.modal', 'a.modal-button');
 
-		$args['name'] = $name;
+		$args['name'] = $id;
 		$args['event'] = 'onGetInsertMethod';
 
 		$html = array();
@@ -340,7 +383,7 @@ class plgEditorCodemirror extends JPlugin
 
 		if (is_array($buttons) || (is_bool($buttons) && $buttons))
 		{
-			$results = $this->_subject->getButtons($name, $buttons, $asset, $author);
+			$results = $this->_subject->getButtons($id, $buttons, $asset, $author);
 
 			// This will allow plugins to attach buttons or change the behavior on the fly using AJAX
 			$html[] = '<div id="editor-xtd-buttons">';
@@ -357,7 +400,8 @@ class plgEditorCodemirror extends JPlugin
 					$onclick	= ($button->get('onclick')) ? 'onclick="'.$button->get('onclick').'"' : null;
 					$title      = ($button->get('title')) ? $button->get('title') : $button->get('text');
 
-					$html[] = sprintf($format,
+					$html[] = sprintf(
+								$format,
 								$modal, $title, $href, $onclick,
 								$button->get('options'),
 								$button->get('name'),
@@ -414,7 +458,7 @@ class plgEditorCodemirror extends JPlugin
 		{
 			JHtml::_('stylesheet', $url);
 		}
-}
+	}
 
 	/**
 	 * Gets style declarations for using the selected font, size, and line-height from params

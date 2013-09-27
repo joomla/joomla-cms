@@ -1,8 +1,73 @@
-(function(){function a(j,i,k){var d=k&&(k.call?k:k.rangeFinder);if(!d){d=j.getHelper(i,"fold");}if(!d){return;}if(typeof i=="number"){i=CodeMirror.Pos(i,0);
-}var e=k&&k.minFoldSize||0;function c(l){var m=d(j,i);if(!m||m.to.line-m.from.line<e){return null;}var o=j.findMarksAt(m.from);for(var n=0;n<o.length;++n){if(o[n].__isFold){if(!l){return null;
-}m.cleared=true;o[n].clear();}}return m;}var g=c(true);if(k&&k.scanUp){while(!g&&i.line>j.firstLine()){i=CodeMirror.Pos(i.line-1,0);g=c(false);}}if(!g||g.cleared){return;
-}var h=b(k);CodeMirror.on(h,"mousedown",function(){f.clear();});var f=j.markText(g.from,g.to,{replacedWith:h,clearOnEnter:true,__isFold:true});f.on("clear",function(m,l){CodeMirror.signal(j,"unfold",j,m,l);
-});CodeMirror.signal(j,"fold",j,g.from,g.to);}function b(c){var d=(c&&c.widget)||"\u2194";if(typeof d=="string"){var e=document.createTextNode(d);d=document.createElement("span");
-d.appendChild(e);d.className="CodeMirror-foldmarker";}return d;}CodeMirror.newFoldFunction=function(d,c){return function(e,f){a(e,f,{rangeFinder:d,widget:c});
-};};CodeMirror.defineExtension("foldCode",function(d,c){a(this,d,c);});CodeMirror.registerHelper("fold","combine",function(){var c=Array.prototype.slice.call(arguments,0);
-return function(d,g){for(var e=0;e<c.length;++e){var f=c[e](d,g);if(f){return f;}}};});})();
+(function() {
+  "use strict";
+
+  function doFold(cm, pos, options) {
+    var finder = options && (options.call ? options : options.rangeFinder);
+    if (!finder) finder = cm.getHelper(pos, "fold");
+    if (!finder) return;
+    if (typeof pos == "number") pos = CodeMirror.Pos(pos, 0);
+    var minSize = options && options.minFoldSize || 0;
+
+    function getRange(allowFolded) {
+      var range = finder(cm, pos);
+      if (!range || range.to.line - range.from.line < minSize) return null;
+      var marks = cm.findMarksAt(range.from);
+      for (var i = 0; i < marks.length; ++i) {
+        if (marks[i].__isFold) {
+          if (!allowFolded) return null;
+          range.cleared = true;
+          marks[i].clear();
+        }
+      }
+      return range;
+    }
+
+    var range = getRange(true);
+    if (options && options.scanUp) while (!range && pos.line > cm.firstLine()) {
+      pos = CodeMirror.Pos(pos.line - 1, 0);
+      range = getRange(false);
+    }
+    if (!range || range.cleared) return;
+
+    var myWidget = makeWidget(options);
+    CodeMirror.on(myWidget, "mousedown", function() { myRange.clear(); });
+    var myRange = cm.markText(range.from, range.to, {
+      replacedWith: myWidget,
+      clearOnEnter: true,
+      __isFold: true
+    });
+    myRange.on("clear", function(from, to) {
+      CodeMirror.signal(cm, "unfold", cm, from, to);
+    });
+    CodeMirror.signal(cm, "fold", cm, range.from, range.to);
+  }
+
+  function makeWidget(options) {
+    var widget = (options && options.widget) || "\u2194";
+    if (typeof widget == "string") {
+      var text = document.createTextNode(widget);
+      widget = document.createElement("span");
+      widget.appendChild(text);
+      widget.className = "CodeMirror-foldmarker";
+    }
+    return widget;
+  }
+
+  // Clumsy backwards-compatible interface
+  CodeMirror.newFoldFunction = function(rangeFinder, widget) {
+    return function(cm, pos) { doFold(cm, pos, {rangeFinder: rangeFinder, widget: widget}); };
+  };
+
+  // New-style interface
+  CodeMirror.defineExtension("foldCode", function(pos, options) { doFold(this, pos, options); });
+
+  CodeMirror.registerHelper("fold", "combine", function() {
+    var funcs = Array.prototype.slice.call(arguments, 0);
+    return function(cm, start) {
+      for (var i = 0; i < funcs.length; ++i) {
+        var found = funcs[i](cm, start);
+        if (found) return found;
+      }
+    };
+  });
+})();

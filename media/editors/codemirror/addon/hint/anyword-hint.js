@@ -1,4 +1,34 @@
-(function(){var b=/[\w$]+/,a=500;CodeMirror.registerHelper("hint","anyword",function(j,n){var e=n&&n.word||b;var i=n&&n.range||a;var l=j.getCursor(),d=j.getLine(l.line);
-var g=l.ch,h=g;while(h<d.length&&e.test(d.charAt(h))){++h;}while(g&&e.test(d.charAt(g-1))){--g;}var f=g!=h&&d.slice(g,h);var k=[],c={};function m(r){var q=l.line,p=Math.min(Math.max(q+r*i,j.firstLine()),j.lastLine())+r;
-for(;q!=p;q+=r){var t=j.getLine(q),o;var s=new RegExp(e.source,"g");while(o=s.exec(t)){if(q==l.line&&o[0]===f){continue;}if((!f||o[0].indexOf(f)==0)&&!c.hasOwnProperty(o[0])){c[o[0]]=true;
-k.push(o[0]);}}}}m(-1);m(1);return{list:k,from:CodeMirror.Pos(l.line,g),to:CodeMirror.Pos(l.line,h)};});})();
+(function() {
+  "use strict";
+
+  var WORD = /[\w$]+/, RANGE = 500;
+
+  CodeMirror.registerHelper("hint", "anyword", function(editor, options) {
+    var word = options && options.word || WORD;
+    var range = options && options.range || RANGE;
+    var cur = editor.getCursor(), curLine = editor.getLine(cur.line);
+    var start = cur.ch, end = start;
+    while (end < curLine.length && word.test(curLine.charAt(end))) ++end;
+    while (start && word.test(curLine.charAt(start - 1))) --start;
+    var curWord = start != end && curLine.slice(start, end);
+
+    var list = [], seen = {};
+    function scan(dir) {
+      var line = cur.line, end = Math.min(Math.max(line + dir * range, editor.firstLine()), editor.lastLine()) + dir;
+      for (; line != end; line += dir) {
+        var text = editor.getLine(line), m;
+        var re = new RegExp(word.source, "g");
+        while (m = re.exec(text)) {
+          if (line == cur.line && m[0] === curWord) continue;
+          if ((!curWord || m[0].indexOf(curWord) == 0) && !seen.hasOwnProperty(m[0])) {
+            seen[m[0]] = true;
+            list.push(m[0]);
+          }
+        }
+      }
+    }
+    scan(-1);
+    scan(1);
+    return {list: list, from: CodeMirror.Pos(cur.line, start), to: CodeMirror.Pos(cur.line, end)};
+  });
+})();

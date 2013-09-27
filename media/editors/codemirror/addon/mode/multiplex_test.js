@@ -1,3 +1,30 @@
-(function(){CodeMirror.defineMode("markdown_with_stex",function(){var c=CodeMirror.getMode({},"stex");var d=CodeMirror.getMode({},"markdown");var e={open:"$",close:"$",mode:c,delimStyle:"delim",innerStyle:"inner"};
-return CodeMirror.multiplexingMode(d,e);});var b=CodeMirror.getMode({},"markdown_with_stex");function a(c){test.mode(c,b,Array.prototype.slice.call(arguments,1),"multiplexing");
-}a("stexInsideMarkdown","[strong **Equation:**] [delim $][inner&tag \\pi][delim $]");})();
+(function() {
+  CodeMirror.defineMode("markdown_with_stex", function(){
+    var inner = CodeMirror.getMode({}, "stex");
+    var outer = CodeMirror.getMode({}, "markdown");
+
+    var innerOptions = {
+      open: '$',
+      close: '$',
+      mode: inner,
+      delimStyle: 'delim',
+      innerStyle: 'inner'
+    };
+
+    return CodeMirror.multiplexingMode(outer, innerOptions);
+  });
+
+  var mode = CodeMirror.getMode({}, "markdown_with_stex");
+
+  function MT(name) {
+    test.mode(
+      name,
+      mode,
+      Array.prototype.slice.call(arguments, 1),
+      'multiplexing');
+  }
+
+  MT(
+    "stexInsideMarkdown",
+    "[strong **Equation:**] [delim $][inner&tag \\pi][delim $]");
+})();

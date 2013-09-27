@@ -1,17 +1,136 @@
-window.CodeMirror={};function splitLines(a){return a.split(/\r?\n|\r/);}function StringStream(a){this.pos=this.start=0;this.string=a;}StringStream.prototype={eol:function(){return this.pos>=this.string.length;
-},sol:function(){return this.pos==0;},peek:function(){return this.string.charAt(this.pos)||null;},next:function(){if(this.pos<this.string.length){return this.string.charAt(this.pos++);
-}},eat:function(a){var c=this.string.charAt(this.pos);if(typeof a=="string"){var b=c==a;}else{var b=c&&(a.test?a.test(c):a(c));}if(b){++this.pos;return c;
-}},eatWhile:function(a){var b=this.pos;while(this.eat(a)){}return this.pos>b;},eatSpace:function(){var a=this.pos;while(/[\s\u00a0]/.test(this.string.charAt(this.pos))){++this.pos;
-}return this.pos>a;},skipToEnd:function(){this.pos=this.string.length;},skipTo:function(a){var b=this.string.indexOf(a,this.pos);if(b>-1){this.pos=b;return true;
-}},backUp:function(a){this.pos-=a;},column:function(){return this.start;},indentation:function(){return 0;},match:function(e,b,a){if(typeof e=="string"){var f=function(g){return a?g.toLowerCase():g;
-};var d=this.string.substr(this.pos,e.length);if(f(d)==f(e)){if(b!==false){this.pos+=e.length;}return true;}}else{var c=this.string.slice(this.pos).match(e);
-if(c&&c.index>0){return null;}if(c&&b!==false){this.pos+=c[0].length;}return c;}},current:function(){return this.string.slice(this.start,this.pos);}};CodeMirror.StringStream=StringStream;
-CodeMirror.startState=function(c,b,a){return c.startState?c.startState(b,a):true;};var modes=CodeMirror.modes={},mimeModes=CodeMirror.mimeModes={};CodeMirror.defineMode=function(a,b){modes[a]=b;
-};CodeMirror.defineMIME=function(b,a){mimeModes[b]=a;};CodeMirror.getMode=function(c,a){if(typeof a=="string"&&mimeModes.hasOwnProperty(a)){a=mimeModes[a];
-}if(typeof a=="string"){var e=a,b={};}else{if(a!=null){var e=a.name,b=a;}}var d=modes[e];if(!d){throw new Error("Unknown mode: "+a);}return d(c,b||{});
-};CodeMirror.runMode=function(j,f,n,p){var h=CodeMirror.getMode({indentUnit:2},f);if(n.nodeType==1){var k=(p&&p.tabSize)||4;var d=n,c=0;d.innerHTML="";
-n=function(v,s){if(v=="\n"){d.appendChild(document.createElement("br"));c=0;return;}var t="";for(var w=0;;){var e=v.indexOf("\t",w);if(e==-1){t+=v.slice(w);
-c+=v.length-w;break;}else{c+=e-w;t+=v.slice(w,e);var r=k-c%k;c+=r;for(var q=0;q<r;++q){t+=" ";}w=e+1;}}if(s){var u=d.appendChild(document.createElement("span"));
-u.className="cm-"+s.replace(/ +/g," cm-");u.appendChild(document.createTextNode(t));}else{d.appendChild(document.createTextNode(t));}};}var o=splitLines(j),b=CodeMirror.startState(h);
-for(var g=0,l=o.length;g<l;++g){if(g){n("\n");}var m=new CodeMirror.StringStream(o[g]);while(!m.eol()){var a=h.token(m,b);n(m.current(),a,g,m.start);m.start=m.pos;
-}}};
+/* Just enough of CodeMirror to run runMode under node.js */
+
+window.CodeMirror = {};
+
+(function() {
+"use strict";
+
+function splitLines(string){ return string.split(/\r?\n|\r/); };
+
+function StringStream(string) {
+  this.pos = this.start = 0;
+  this.string = string;
+}
+StringStream.prototype = {
+  eol: function() {return this.pos >= this.string.length;},
+  sol: function() {return this.pos == 0;},
+  peek: function() {return this.string.charAt(this.pos) || null;},
+  next: function() {
+    if (this.pos < this.string.length)
+      return this.string.charAt(this.pos++);
+  },
+  eat: function(match) {
+    var ch = this.string.charAt(this.pos);
+    if (typeof match == "string") var ok = ch == match;
+    else var ok = ch && (match.test ? match.test(ch) : match(ch));
+    if (ok) {++this.pos; return ch;}
+  },
+  eatWhile: function(match) {
+    var start = this.pos;
+    while (this.eat(match)){}
+    return this.pos > start;
+  },
+  eatSpace: function() {
+    var start = this.pos;
+    while (/[\s\u00a0]/.test(this.string.charAt(this.pos))) ++this.pos;
+    return this.pos > start;
+  },
+  skipToEnd: function() {this.pos = this.string.length;},
+  skipTo: function(ch) {
+    var found = this.string.indexOf(ch, this.pos);
+    if (found > -1) {this.pos = found; return true;}
+  },
+  backUp: function(n) {this.pos -= n;},
+  column: function() {return this.start;},
+  indentation: function() {return 0;},
+  match: function(pattern, consume, caseInsensitive) {
+    if (typeof pattern == "string") {
+      var cased = function(str) {return caseInsensitive ? str.toLowerCase() : str;};
+      var substr = this.string.substr(this.pos, pattern.length);
+      if (cased(substr) == cased(pattern)) {
+        if (consume !== false) this.pos += pattern.length;
+        return true;
+      }
+    } else {
+      var match = this.string.slice(this.pos).match(pattern);
+      if (match && match.index > 0) return null;
+      if (match && consume !== false) this.pos += match[0].length;
+      return match;
+    }
+  },
+  current: function(){return this.string.slice(this.start, this.pos);}
+};
+CodeMirror.StringStream = StringStream;
+
+CodeMirror.startState = function (mode, a1, a2) {
+  return mode.startState ? mode.startState(a1, a2) : true;
+};
+
+var modes = CodeMirror.modes = {}, mimeModes = CodeMirror.mimeModes = {};
+CodeMirror.defineMode = function (name, mode) { modes[name] = mode; };
+CodeMirror.defineMIME = function (mime, spec) { mimeModes[mime] = spec; };
+CodeMirror.getMode = function (options, spec) {
+  if (typeof spec == "string" && mimeModes.hasOwnProperty(spec))
+    spec = mimeModes[spec];
+  if (typeof spec == "string")
+    var mname = spec, config = {};
+  else if (spec != null)
+    var mname = spec.name, config = spec;
+  var mfactory = modes[mname];
+  if (!mfactory) throw new Error("Unknown mode: " + spec);
+  return mfactory(options, config || {});
+};
+
+CodeMirror.runMode = function (string, modespec, callback, options) {
+  var mode = CodeMirror.getMode({ indentUnit: 2 }, modespec);
+
+  if (callback.nodeType == 1) {
+    var tabSize = (options && options.tabSize) || 4;
+    var node = callback, col = 0;
+    node.innerHTML = "";
+    callback = function (text, style) {
+      if (text == "\n") {
+        node.appendChild(document.createElement("br"));
+        col = 0;
+        return;
+      }
+      var content = "";
+      // replace tabs
+      for (var pos = 0; ;) {
+        var idx = text.indexOf("\t", pos);
+        if (idx == -1) {
+          content += text.slice(pos);
+          col += text.length - pos;
+          break;
+        } else {
+          col += idx - pos;
+          content += text.slice(pos, idx);
+          var size = tabSize - col % tabSize;
+          col += size;
+          for (var i = 0; i < size; ++i) content += " ";
+          pos = idx + 1;
+        }
+      }
+
+      if (style) {
+        var sp = node.appendChild(document.createElement("span"));
+        sp.className = "cm-" + style.replace(/ +/g, " cm-");
+        sp.appendChild(document.createTextNode(content));
+      } else {
+        node.appendChild(document.createTextNode(content));
+      }
+    };
+  }
+
+  var lines = splitLines(string), state = CodeMirror.startState(mode);
+  for (var i = 0, e = lines.length; i < e; ++i) {
+    if (i) callback("\n");
+    var stream = new CodeMirror.StringStream(lines[i]);
+    while (!stream.eol()) {
+      var style = mode.token(stream, state);
+      callback(stream.current(), style, i, stream.start, state);
+      stream.start = stream.pos;
+    }
+  }
+};
+})();

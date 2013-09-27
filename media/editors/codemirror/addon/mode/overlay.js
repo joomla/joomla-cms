@@ -1,6 +1,59 @@
-CodeMirror.overlayMode=CodeMirror.overlayParser=function(b,a,c){return{startState:function(){return{base:CodeMirror.startState(b),overlay:CodeMirror.startState(a),basePos:0,baseCur:null,overlayPos:0,overlayCur:null};
-},copyState:function(d){return{base:CodeMirror.copyState(b,d.base),overlay:CodeMirror.copyState(a,d.overlay),basePos:d.basePos,baseCur:null,overlayPos:d.overlayPos,overlayCur:null};
-},token:function(e,d){if(e.start==d.basePos){d.baseCur=b.token(e,d.base);d.basePos=e.pos;}if(e.start==d.overlayPos){e.pos=e.start;d.overlayCur=a.token(e,d.overlay);
-d.overlayPos=e.pos;}e.pos=Math.min(d.basePos,d.overlayPos);if(e.eol()){d.basePos=d.overlayPos=0;}if(d.overlayCur==null){return d.baseCur;}if(d.baseCur!=null&&c){return d.baseCur+" "+d.overlayCur;
-}else{return d.overlayCur;}},indent:b.indent&&function(e,d){return b.indent(e.base,d);},electricChars:b.electricChars,innerMode:function(d){return{state:d.base,mode:b};
-},blankLine:function(d){if(b.blankLine){b.blankLine(d.base);}if(a.blankLine){a.blankLine(d.overlay);}}};};
+// Utility function that allows modes to be combined. The mode given
+// as the base argument takes care of most of the normal mode
+// functionality, but a second (typically simple) mode is used, which
+// can override the style of text. Both modes get to parse all of the
+// text, but when both assign a non-null style to a piece of code, the
+// overlay wins, unless the combine argument was true, in which case
+// the styles are combined.
+
+// overlayParser is the old, deprecated name
+CodeMirror.overlayMode = CodeMirror.overlayParser = function(base, overlay, combine) {
+  return {
+    startState: function() {
+      return {
+        base: CodeMirror.startState(base),
+        overlay: CodeMirror.startState(overlay),
+        basePos: 0, baseCur: null,
+        overlayPos: 0, overlayCur: null
+      };
+    },
+    copyState: function(state) {
+      return {
+        base: CodeMirror.copyState(base, state.base),
+        overlay: CodeMirror.copyState(overlay, state.overlay),
+        basePos: state.basePos, baseCur: null,
+        overlayPos: state.overlayPos, overlayCur: null
+      };
+    },
+
+    token: function(stream, state) {
+      if (stream.start == state.basePos) {
+        state.baseCur = base.token(stream, state.base);
+        state.basePos = stream.pos;
+      }
+      if (stream.start == state.overlayPos) {
+        stream.pos = stream.start;
+        state.overlayCur = overlay.token(stream, state.overlay);
+        state.overlayPos = stream.pos;
+      }
+      stream.pos = Math.min(state.basePos, state.overlayPos);
+      if (stream.eol()) state.basePos = state.overlayPos = 0;
+
+      if (state.overlayCur == null) return state.baseCur;
+      if (state.baseCur != null && combine) return state.baseCur + " " + state.overlayCur;
+      else return state.overlayCur;
+    },
+
+    indent: base.indent && function(state, textAfter) {
+      return base.indent(state.base, textAfter);
+    },
+    electricChars: base.electricChars,
+
+    innerMode: function(state) { return {state: state.base, mode: base}; },
+
+    blankLine: function(state) {
+      if (base.blankLine) base.blankLine(state.base);
+      if (overlay.blankLine) overlay.blankLine(state.overlay);
+    }
+  };
+};

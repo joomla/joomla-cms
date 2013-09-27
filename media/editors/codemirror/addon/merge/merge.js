@@ -1,49 +1,474 @@
-(function(){var q=CodeMirror.Pos;var g="http://www.w3.org/2000/svg";function k(D,E){this.mv=D;this.type=E;this.classes=E=="left"?{chunk:"CodeMirror-merge-l-chunk",start:"CodeMirror-merge-l-chunk-start",end:"CodeMirror-merge-l-chunk-end",insert:"CodeMirror-merge-l-inserted",del:"CodeMirror-merge-l-deleted",connect:"CodeMirror-merge-l-connect"}:{chunk:"CodeMirror-merge-r-chunk",start:"CodeMirror-merge-r-chunk-start",end:"CodeMirror-merge-r-chunk-end",insert:"CodeMirror-merge-r-inserted",del:"CodeMirror-merge-r-deleted",connect:"CodeMirror-merge-r-connect"};
-}k.prototype={constructor:k,init:function(F,E,D){this.edit=this.mv.edit;this.orig=CodeMirror(F,u({value:E,readOnly:true},u(D)));this.diff=b(E,D.value);
-this.diffOutOfDate=false;this.forceUpdate=y(this);A(this,true,false);n(this);}};function y(D){var E={from:0,to:0,marked:[]};var I={from:0,to:0,marked:[]};
-var H;function G(){if(D.diffOutOfDate){D.diff=b(D.orig.getValue(),D.edit.getValue());D.diffOutOfDate=false;}s(D.edit,D.diff,E,DIFF_INSERT,D.classes);s(D.orig,D.diff,I,DIFF_DELETE,D.classes);
-o(D);}function F(J){clearTimeout(H);H=setTimeout(G,J==true?250:100);}D.edit.on("change",function(){if(!D.diffOutOfDate){D.diffOutOfDate=true;E.from=E.to=I.from=I.to=0;
-}F(true);});D.edit.on("viewportChange",F);D.orig.on("viewportChange",F);G();return G;}function n(D){D.edit.on("scroll",function(){z(D,DIFF_INSERT)&&o(D);
-});D.orig.on("scroll",function(){z(D,DIFF_DELETE)&&o(D);});}function z(P,H){if(P.diffOutOfDate){return false;}if(!P.lockScroll){return true;}var I,K,F=+new Date;
-if(H==DIFF_INSERT){I=P.edit;K=P.orig;}else{I=P.orig;K=P.edit;}if(I.state.scrollSetBy==P&&(I.state.scrollSetAt||0)+50>F){return false;}var D=I.getScrollInfo(),E=0.5*D.clientHeight,N=D.top+E;
-var T=I.lineAtHeight(N,"local");var R=C(P.diff,T,H==DIFF_INSERT);var U=p(I,H==DIFF_INSERT?R.edit:R.orig);var M=p(K,H==DIFF_INSERT?R.orig:R.edit);var L=(N-U.top)/(U.bot-U.top);
-var G=(M.top-E)+L*(M.bot-M.top);var J,O;if(G>D.top&&(O=D.top/E)<1){G=G*O+D.top*(1-O);}else{if((J=D.height-D.clientHeight-D.top)<E){var S=K.getScrollInfo();
-var Q=S.height-S.clientHeight-G;if(Q>J&&(O=J/E)<1){G=G*O+(S.height-S.clientHeight-J)*(1-O);}}}K.scrollTo(D.left,G);K.state.scrollSetAt=F;K.state.scrollSetBy=P;
-return true;}function p(D,E){var F=E.after;if(F==null){F=D.lastLine()+1;}return{top:D.heightAtLine(E.before||0,"local"),bot:D.heightAtLine(F,"local")};
-}function A(D,F,E){D.lockScroll=F;if(F&&E!=false){z(D,DIFF_INSERT)&&o(D);}D.lockButton.innerHTML=F?"\u21db\u21da":"\u21db&nbsp;&nbsp;\u21da";}function c(G,D,F){for(var E=0;
-E<D.length;++E){var H=D[E];if(H instanceof CodeMirror.TextMarker){H.clear();}else{G.removeLineClass(H,"background",F.chunk);G.removeLineClass(H,"background",F.start);
-G.removeLineClass(H,"background",F.end);}}D.length=0;}function s(G,I,H,F,E){var D=G.getViewport();G.operation(function(){if(H.from==H.to||D.from-H.to>20||H.from-D.to>20){c(G,H.marked,E);
-m(G,I,F,H.marked,D.from,D.to,E);H.from=D.from;H.to=D.to;}else{if(D.from<H.from){m(G,I,F,H.marked,D.from,H.from,E);H.from=D.from;}if(D.to>H.to){m(G,I,F,H.marked,H.to,D.to,E);
-H.to=D.to;}}});}function m(K,N,J,T,S,F,V){var L=q(0,0);var P=q(S,0),O=K.clipPos(q(F-1));var D=J==DIFF_DELETE?V.del:V.insert;function M(ae,aa){var ad=Math.max(S,ae),ab=Math.min(F,aa);
-for(var ac=ad;ac<ab;++ac){var Z=K.addLineClass(ac,"background",V.chunk);if(ac==ae){K.addLineClass(Z,"background",V.start);}if(ac==aa-1){K.addLineClass(Z,"background",V.end);
-}T.push(Z);}if(ae==aa&&ad==aa&&ab==aa){if(ad){T.push(K.addLineClass(ad-1,"background",V.end));}else{T.push(K.addLineClass(ad,"background",V.start));}}}var Y=0;
-for(var U=0;U<N.length;++U){var R=N[U],E=R[0],Q=R[1];if(E==DIFF_EQUAL){var I=L.line+(d(N,U)?0:1);r(L,Q);var H=L.line+(h(N,U)?1:0);if(H>I){if(U){M(Y,I);
-}Y=H;}}else{if(E==J){var G=r(L,Q,true);var X=l(P,L),W=j(O,G);if(!i(X,W)){T.push(K.markText(X,W,{className:D}));}L=G;}}}if(Y<=L.line){M(Y,L.line+1);}}function o(G){if(G.svg){t(G.svg);
-var E=G.gap.offsetWidth;v(G.svg,"width",E,"height",G.gap.offsetHeight);}t(G.copyButtons);var I=G.type=="left";var J=G.edit.getViewport(),F=G.orig.getViewport();
-var D=G.edit.getScrollInfo().top,H=G.orig.getScrollInfo().top;e(G.diff,function(O,Q,R,N){if(R>J.to||N<J.from||O>F.to||Q<F.from){return;}var K=G.orig.heightAtLine(O,"local")-H,T=K;
-if(G.svg){var M=G.edit.heightAtLine(R,"local")-D;if(I){var P=K;K=M;M=P;}var S=G.orig.heightAtLine(Q,"local")-H;var V=G.edit.heightAtLine(N,"local")-D;if(I){var P=S;
-S=V;V=P;}var W=" C "+E/2+" "+M+" "+E/2+" "+K+" "+(E+2)+" "+K;var U=" C "+E/2+" "+S+" "+E/2+" "+V+" -1 "+V;v(G.svg.appendChild(document.createElementNS(g,"path")),"d","M -1 "+M+W+" L "+(E+2)+" "+S+U+" z","class",G.classes.connect);
-}var L=G.copyButtons.appendChild(f("div",G.type=="left"?"\u21dd":"\u21dc","CodeMirror-merge-copy"));L.title="Revert chunk";L.chunk={topEdit:R,botEdit:N,topOrig:O,botOrig:Q};
-L.style.top=T+"px";});}function B(E,D){if(E.diffOutOfDate){return;}E.edit.replaceRange(E.orig.getRange(q(D.topOrig,0),q(D.botOrig,0)),q(D.topEdit,0),q(D.botEdit,0));
-}var x=CodeMirror.MergeView=function(I,R){if(!(this instanceof x)){return new x(I,R);}var L=R.origLeft,J=R.origRight==null?R.orig:R.origRight;var O=L!=null,S=J!=null;
-var M=1+(O?1:0)+(S?1:0);var F=[],H=this.left=null,P=this.right=null;if(O){H=this.left=new k(this,"left");var E=f("div",null,"CodeMirror-merge-pane");F.push(E);
-F.push(w(H));}var K=f("div",null,"CodeMirror-merge-pane");F.push(K);if(S){P=this.right=new k(this,"right");F.push(w(P));var N=f("div",null,"CodeMirror-merge-pane");
-F.push(N);}(S?N:K).className+=" CodeMirror-merge-pane-rightmost";F.push(f("div",null,null,"height: 0; clear: both;"));var G=this.wrap=I.appendChild(f("div",F,"CodeMirror-merge CodeMirror-merge-"+M+"pane"));
-this.edit=CodeMirror(K,u(R));if(H){H.init(E,L,R);}if(P){P.init(N,J,R);}var D=function(){if(H){o(H);}if(P){o(P);}};CodeMirror.on(window,"resize",D);var Q=setInterval(function(){for(var T=G.parentNode;
-T&&T!=document.body;T=T.parentNode){}if(!T){clearInterval(Q);CodeMirror.off(window,"resize",D);}},5000);};function w(G){var F=G.lockButton=f("div",null,"CodeMirror-merge-scrolllock");
-F.title="Toggle locked scrolling";var H=f("div",[F],"CodeMirror-merge-scrolllock-wrap");CodeMirror.on(F,"click",function(){A(G,!G.lockScroll);});G.copyButtons=f("div",null,"CodeMirror-merge-copybuttons-"+G.type);
-CodeMirror.on(G.copyButtons,"click",function(J){var I=J.target||J.srcElement;if(I.chunk){B(G,I.chunk);}});var E=[G.copyButtons,H];var D=document.createElementNS&&document.createElementNS(g,"svg");
-if(D&&!D.createSVGRect){D=null;}G.svg=D;if(D){E.push(D);}return G.gap=f("div",E,"CodeMirror-merge-gap");}x.prototype={constuctor:x,editor:function(){return this.edit;
-},rightOriginal:function(){return this.right&&this.right.orig;},leftOriginal:function(){return this.left&&this.left.orig;}};var a=new diff_match_patch();
-function b(E,D){var H=a.diff_main(E,D);a.diff_cleanupSemantic(H);for(var G=0;G<H.length;++G){var F=H[G];if(!F[1]){H.splice(G--,1);}else{if(G&&H[G-1][0]==F[0]){H.splice(G--,1);
-H[G][1]+=F[1];}}}return H;}function e(Q,I){var N=0,M=0;var R=q(0,0),P=q(0,0);for(var F=0;F<Q.length;++F){var E=Q[F],O=E[0];if(O==DIFF_EQUAL){var D=d(Q,F)?0:1;
-var H=R.line+D,G=P.line+D;r(R,E[1],null,P);var J=h(Q,F)?1:0;var L=R.line+J,K=P.line+J;if(L>H){if(F){I(M,G,N,H);}N=L;M=K;}}else{r(O==DIFF_INSERT?R:P,E[1]);
-}}if(N<=R.line||M<=P.line){I(M,P.line+1,N,R.line+1);}}function h(F,D){if(D==F.length-1){return true;}var E=F[D+1][1];if(E.length==1||E.charCodeAt(0)!=10){return false;
-}if(D==F.length-2){return true;}E=F[D+2][1];return E.length>1&&E.charCodeAt(0)==10;}function d(F,D){if(D==0){return true;}var E=F[D-1][1];if(E.charCodeAt(E.length-1)!=10){return false;
-}if(D==1){return true;}E=F[D-2][1];return E.charCodeAt(E.length-1)==10;}function C(I,J,F){var E,D,H,G;e(I,function(K,P,N,L){var M=F?N:K;var O=F?L:P;if(D==null){if(M>J){D=N;
-G=K;}else{if(O>J){D=L;G=P;}}}if(O<=J){E=L;H=P;}else{if(M<=J){E=N;H=K;}}});return{edit:{before:E,after:D},orig:{before:H,after:G}};}function f(D,H,G,F){var I=document.createElement(D);
-if(G){I.className=G;}if(F){I.style.cssText=F;}if(typeof H=="string"){I.appendChild(document.createTextNode(H));}else{if(H){for(var E=0;E<H.length;++E){I.appendChild(H[E]);
-}}}return I;}function t(E){for(var D=E.childNodes.length;D>0;--D){E.removeChild(E.firstChild);}}function v(D){for(var E=1;E<arguments.length;E+=2){D.setAttribute(arguments[E],arguments[E+1]);
-}}function u(E,D){if(!D){D={};}for(var F in E){if(E.hasOwnProperty(F)){D[F]=E[F];}}return D;}function r(J,H,I,E){var G=I?q(J.line,J.ch):J,D=0;for(;;){var F=H.indexOf("\n",D);
-if(F==-1){break;}++G.line;if(E){++E.line;}D=F+1;}G.ch=(D?0:G.ch)+(H.length-D);if(E){E.ch=(D?0:E.ch)+(H.length-D);}return G;}function j(E,D){return(E.line-D.line||E.ch-D.ch)<0?E:D;
-}function l(E,D){return(E.line-D.line||E.ch-D.ch)>0?E:D;}function i(E,D){return E.line==D.line&&E.ch==D.ch;}})();
+(function() {
+  "use strict";
+  // declare global: diff_match_patch, DIFF_INSERT, DIFF_DELETE, DIFF_EQUAL
+
+  var Pos = CodeMirror.Pos;
+  var svgNS = "http://www.w3.org/2000/svg";
+
+  function DiffView(mv, type) {
+    this.mv = mv;
+    this.type = type;
+    this.classes = type == "left"
+      ? {chunk: "CodeMirror-merge-l-chunk",
+         start: "CodeMirror-merge-l-chunk-start",
+         end: "CodeMirror-merge-l-chunk-end",
+         insert: "CodeMirror-merge-l-inserted",
+         del: "CodeMirror-merge-l-deleted",
+         connect: "CodeMirror-merge-l-connect"}
+      : {chunk: "CodeMirror-merge-r-chunk",
+         start: "CodeMirror-merge-r-chunk-start",
+         end: "CodeMirror-merge-r-chunk-end",
+         insert: "CodeMirror-merge-r-inserted",
+         del: "CodeMirror-merge-r-deleted",
+         connect: "CodeMirror-merge-r-connect"};
+  }
+
+  DiffView.prototype = {
+    constructor: DiffView,
+    init: function(pane, orig, options) {
+      this.edit = this.mv.edit;
+      this.orig = CodeMirror(pane, copyObj({value: orig, readOnly: true}, copyObj(options)));
+
+      this.diff = getDiff(orig, options.value);
+      this.diffOutOfDate = false;
+
+      this.showDifferences = options.showDifferences !== false;
+      this.forceUpdate = registerUpdate(this);
+      setScrollLock(this, true, false);
+      registerScroll(this);
+    },
+    setShowDifferences: function(val) {
+      val = val !== false;
+      if (val != this.showDifferences) {
+        this.showDifferences = val;
+        this.forceUpdate("full");
+      }
+    }
+  };
+
+  function registerUpdate(dv) {
+    var edit = {from: 0, to: 0, marked: []};
+    var orig = {from: 0, to: 0, marked: []};
+    var debounceChange;
+    function update(mode) {
+      if (mode == "full") {
+        if (dv.svg) clear(dv.svg);
+        clear(dv.copyButtons);
+        clearMarks(dv.edit, edit.marked, dv.classes);
+        clearMarks(dv.orig, orig.marked, dv.classes);
+        edit.from = edit.to = orig.from = orig.to = 0;
+      }
+      if (dv.diffOutOfDate) {
+        dv.diff = getDiff(dv.orig.getValue(), dv.edit.getValue());
+        dv.diffOutOfDate = false;
+        CodeMirror.signal(dv.edit, "updateDiff", dv.diff);
+      }
+      if (dv.showDifferences) {
+        updateMarks(dv.edit, dv.diff, edit, DIFF_INSERT, dv.classes);
+        updateMarks(dv.orig, dv.diff, orig, DIFF_DELETE, dv.classes);
+      }
+      drawConnectors(dv);
+    }
+    function set(slow) {
+      clearTimeout(debounceChange);
+      debounceChange = setTimeout(update, slow == true ? 250 : 100);
+    }
+    function change() {
+      if (!dv.diffOutOfDate) {
+        dv.diffOutOfDate = true;
+        edit.from = edit.to = orig.from = orig.to = 0;
+      }
+      set(true);
+    }
+    dv.edit.on("change", change);
+    dv.orig.on("change", change);
+    dv.edit.on("viewportChange", set);
+    dv.orig.on("viewportChange", set);
+    update();
+    return update;
+  }
+
+  function registerScroll(dv) {
+    dv.edit.on("scroll", function() {
+      syncScroll(dv, DIFF_INSERT) && drawConnectors(dv);
+    });
+    dv.orig.on("scroll", function() {
+      syncScroll(dv, DIFF_DELETE) && drawConnectors(dv);
+    });
+  }
+
+  function syncScroll(dv, type) {
+    // Change handler will do a refresh after a timeout when diff is out of date
+    if (dv.diffOutOfDate) return false;
+    if (!dv.lockScroll) return true;
+    var editor, other, now = +new Date;
+    if (type == DIFF_INSERT) { editor = dv.edit; other = dv.orig; }
+    else { editor = dv.orig; other = dv.edit; }
+    // Don't take action if the position of this editor was recently set
+    // (to prevent feedback loops)
+    if (editor.state.scrollSetBy == dv && (editor.state.scrollSetAt || 0) + 50 > now) return false;
+
+    var sInfo = editor.getScrollInfo(), halfScreen = .5 * sInfo.clientHeight, midY = sInfo.top + halfScreen;
+    var mid = editor.lineAtHeight(midY, "local");
+    var around = chunkBoundariesAround(dv.diff, mid, type == DIFF_INSERT);
+    var off = getOffsets(editor, type == DIFF_INSERT ? around.edit : around.orig);
+    var offOther = getOffsets(other, type == DIFF_INSERT ? around.orig : around.edit);
+    var ratio = (midY - off.top) / (off.bot - off.top);
+    var targetPos = (offOther.top - halfScreen) + ratio * (offOther.bot - offOther.top);
+
+    var botDist, mix;
+    // Some careful tweaking to make sure no space is left out of view
+    // when scrolling to top or bottom.
+    if (targetPos > sInfo.top && (mix = sInfo.top / halfScreen) < 1) {
+      targetPos = targetPos * mix + sInfo.top * (1 - mix);
+    } else if ((botDist = sInfo.height - sInfo.clientHeight - sInfo.top) < halfScreen) {
+      var otherInfo = other.getScrollInfo();
+      var botDistOther = otherInfo.height - otherInfo.clientHeight - targetPos;
+      if (botDistOther > botDist && (mix = botDist / halfScreen) < 1)
+        targetPos = targetPos * mix + (otherInfo.height - otherInfo.clientHeight - botDist) * (1 - mix);
+    }
+
+    other.scrollTo(sInfo.left, targetPos);
+    other.state.scrollSetAt = now;
+    other.state.scrollSetBy = dv;
+    return true;
+  }
+
+  function getOffsets(editor, around) {
+    var bot = around.after;
+    if (bot == null) bot = editor.lastLine() + 1;
+    return {top: editor.heightAtLine(around.before || 0, "local"),
+            bot: editor.heightAtLine(bot, "local")};
+  }
+
+  function setScrollLock(dv, val, action) {
+    dv.lockScroll = val;
+    if (val && action != false) syncScroll(dv, DIFF_INSERT) && drawConnectors(dv);
+    dv.lockButton.innerHTML = val ? "\u21db\u21da" : "\u21db&nbsp;&nbsp;\u21da";
+  }
+
+  // Updating the marks for editor content
+
+  function clearMarks(editor, arr, classes) {
+    for (var i = 0; i < arr.length; ++i) {
+      var mark = arr[i];
+      if (mark instanceof CodeMirror.TextMarker) {
+        mark.clear();
+      } else {
+        editor.removeLineClass(mark, "background", classes.chunk);
+        editor.removeLineClass(mark, "background", classes.start);
+        editor.removeLineClass(mark, "background", classes.end);
+      }
+    }
+    arr.length = 0;
+  }
+
+  // FIXME maybe add a margin around viewport to prevent too many updates
+  function updateMarks(editor, diff, state, type, classes) {
+    var vp = editor.getViewport();
+    editor.operation(function() {
+      if (state.from == state.to || vp.from - state.to > 20 || state.from - vp.to > 20) {
+        clearMarks(editor, state.marked, classes);
+        markChanges(editor, diff, type, state.marked, vp.from, vp.to, classes);
+        state.from = vp.from; state.to = vp.to;
+      } else {
+        if (vp.from < state.from) {
+          markChanges(editor, diff, type, state.marked, vp.from, state.from, classes);
+          state.from = vp.from;
+        }
+        if (vp.to > state.to) {
+          markChanges(editor, diff, type, state.marked, state.to, vp.to, classes);
+          state.to = vp.to;
+        }
+      }
+    });
+  }
+
+  function markChanges(editor, diff, type, marks, from, to, classes) {
+    var pos = Pos(0, 0);
+    var top = Pos(from, 0), bot = editor.clipPos(Pos(to - 1));
+    var cls = type == DIFF_DELETE ? classes.del : classes.insert;
+    function markChunk(start, end) {
+      var bfrom = Math.max(from, start), bto = Math.min(to, end);
+      for (var i = bfrom; i < bto; ++i) {
+        var line = editor.addLineClass(i, "background", classes.chunk);
+        if (i == start) editor.addLineClass(line, "background", classes.start);
+        if (i == end - 1) editor.addLineClass(line, "background", classes.end);
+        marks.push(line);
+      }
+      // When the chunk is empty, make sure a horizontal line shows up
+      if (start == end && bfrom == end && bto == end) {
+        if (bfrom)
+          marks.push(editor.addLineClass(bfrom - 1, "background", classes.end));
+        else
+          marks.push(editor.addLineClass(bfrom, "background", classes.start));
+      }
+    }
+
+    var chunkStart = 0;
+    for (var i = 0; i < diff.length; ++i) {
+      var part = diff[i], tp = part[0], str = part[1];
+      if (tp == DIFF_EQUAL) {
+        var cleanFrom = pos.line + (startOfLineClean(diff, i) ? 0 : 1);
+        moveOver(pos, str);
+        var cleanTo = pos.line + (endOfLineClean(diff, i) ? 1 : 0);
+        if (cleanTo > cleanFrom) {
+          if (i) markChunk(chunkStart, cleanFrom);
+          chunkStart = cleanTo;
+        }
+      } else {
+        if (tp == type) {
+          var end = moveOver(pos, str, true);
+          var a = posMax(top, pos), b = posMin(bot, end);
+          if (!posEq(a, b))
+            marks.push(editor.markText(a, b, {className: cls}));
+          pos = end;
+        }
+      }
+    }
+    if (chunkStart <= pos.line) markChunk(chunkStart, pos.line + 1);
+  }
+
+  // Updating the gap between editor and original
+
+  function drawConnectors(dv) {
+    if (!dv.showDifferences) return;
+
+    if (dv.svg) {
+      clear(dv.svg);
+      var w = dv.gap.offsetWidth;
+      attrs(dv.svg, "width", w, "height", dv.gap.offsetHeight);
+    }
+    clear(dv.copyButtons);
+
+    var flip = dv.type == "left";
+    var vpEdit = dv.edit.getViewport(), vpOrig = dv.orig.getViewport();
+    var sTopEdit = dv.edit.getScrollInfo().top, sTopOrig = dv.orig.getScrollInfo().top;
+    iterateChunks(dv.diff, function(topOrig, botOrig, topEdit, botEdit) {
+      if (topEdit > vpEdit.to || botEdit < vpEdit.from ||
+          topOrig > vpOrig.to || botOrig < vpOrig.from)
+        return;
+      var topLpx = dv.orig.heightAtLine(topOrig, "local") - sTopOrig, top = topLpx;
+      if (dv.svg) {
+        var topRpx = dv.edit.heightAtLine(topEdit, "local") - sTopEdit;
+        if (flip) { var tmp = topLpx; topLpx = topRpx; topRpx = tmp; }
+        var botLpx = dv.orig.heightAtLine(botOrig, "local") - sTopOrig;
+        var botRpx = dv.edit.heightAtLine(botEdit, "local") - sTopEdit;
+        if (flip) { var tmp = botLpx; botLpx = botRpx; botRpx = tmp; }
+        var curveTop = " C " + w/2 + " " + topRpx + " " + w/2 + " " + topLpx + " " + (w + 2) + " " + topLpx;
+        var curveBot = " C " + w/2 + " " + botLpx + " " + w/2 + " " + botRpx + " -1 " + botRpx;
+        attrs(dv.svg.appendChild(document.createElementNS(svgNS, "path")),
+              "d", "M -1 " + topRpx + curveTop + " L " + (w + 2) + " " + botLpx + curveBot + " z",
+              "class", dv.classes.connect);
+      }
+      var copy = dv.copyButtons.appendChild(elt("div", dv.type == "left" ? "\u21dd" : "\u21dc",
+                                                "CodeMirror-merge-copy"));
+      copy.title = "Revert chunk";
+      copy.chunk = {topEdit: topEdit, botEdit: botEdit, topOrig: topOrig, botOrig: botOrig};
+      copy.style.top = top + "px";
+    });
+  }
+
+  function copyChunk(dv, chunk) {
+    if (dv.diffOutOfDate) return;
+    dv.edit.replaceRange(dv.orig.getRange(Pos(chunk.topOrig, 0), Pos(chunk.botOrig, 0)),
+                         Pos(chunk.topEdit, 0), Pos(chunk.botEdit, 0));
+  }
+
+  // Merge view, containing 0, 1, or 2 diff views.
+
+  var MergeView = CodeMirror.MergeView = function(node, options) {
+    if (!(this instanceof MergeView)) return new MergeView(node, options);
+
+    var origLeft = options.origLeft, origRight = options.origRight == null ? options.orig : options.origRight;
+    var hasLeft = origLeft != null, hasRight = origRight != null;
+    var panes = 1 + (hasLeft ? 1 : 0) + (hasRight ? 1 : 0);
+    var wrap = [], left = this.left = null, right = this.right = null;
+
+    if (hasLeft) {
+      left = this.left = new DiffView(this, "left");
+      var leftPane = elt("div", null, "CodeMirror-merge-pane");
+      wrap.push(leftPane);
+      wrap.push(buildGap(left));
+    }
+
+    var editPane = elt("div", null, "CodeMirror-merge-pane");
+    wrap.push(editPane);
+
+    if (hasRight) {
+      right = this.right = new DiffView(this, "right");
+      wrap.push(buildGap(right));
+      var rightPane = elt("div", null, "CodeMirror-merge-pane");
+      wrap.push(rightPane);
+    }
+
+    (hasRight ? rightPane : editPane).className += " CodeMirror-merge-pane-rightmost";
+
+    wrap.push(elt("div", null, null, "height: 0; clear: both;"));
+    var wrapElt = this.wrap = node.appendChild(elt("div", wrap, "CodeMirror-merge CodeMirror-merge-" + panes + "pane"));
+    this.edit = CodeMirror(editPane, copyObj(options));
+
+    if (left) left.init(leftPane, origLeft, options);
+    if (right) right.init(rightPane, origRight, options);
+
+    var onResize = function() {
+      if (left) drawConnectors(left);
+      if (right) drawConnectors(right);
+    };
+    CodeMirror.on(window, "resize", onResize);
+    var resizeInterval = setInterval(function() {
+      for (var p = wrapElt.parentNode; p && p != document.body; p = p.parentNode) {}
+      if (!p) { clearInterval(resizeInterval); CodeMirror.off(window, "resize", onResize); }
+    }, 5000);
+  };
+
+  function buildGap(dv) {
+    var lock = dv.lockButton = elt("div", null, "CodeMirror-merge-scrolllock");
+    lock.title = "Toggle locked scrolling";
+    var lockWrap = elt("div", [lock], "CodeMirror-merge-scrolllock-wrap");
+    CodeMirror.on(lock, "click", function() { setScrollLock(dv, !dv.lockScroll); });
+    dv.copyButtons = elt("div", null, "CodeMirror-merge-copybuttons-" + dv.type);
+    CodeMirror.on(dv.copyButtons, "click", function(e) {
+      var node = e.target || e.srcElement;
+      if (node.chunk) copyChunk(dv, node.chunk);
+    });
+    var gapElts = [dv.copyButtons, lockWrap];
+    var svg = document.createElementNS && document.createElementNS(svgNS, "svg");
+    if (svg && !svg.createSVGRect) svg = null;
+    dv.svg = svg;
+    if (svg) gapElts.push(svg);
+
+    return dv.gap = elt("div", gapElts, "CodeMirror-merge-gap");
+  }
+
+  MergeView.prototype = {
+    constuctor: MergeView,
+    editor: function() { return this.edit; },
+    rightOriginal: function() { return this.right && this.right.orig; },
+    leftOriginal: function() { return this.left && this.left.orig; },
+    setShowDifferences: function(val) {
+      if (this.right) this.right.setShowDifferences(val);
+      if (this.left) this.left.setShowDifferences(val);
+    }
+  };
+
+  // Operations on diffs
+
+  var dmp = new diff_match_patch();
+  function getDiff(a, b) {
+    var diff = dmp.diff_main(a, b);
+    dmp.diff_cleanupSemantic(diff);
+    // The library sometimes leaves in empty parts, which confuse the algorithm
+    for (var i = 0; i < diff.length; ++i) {
+      var part = diff[i];
+      if (!part[1]) {
+        diff.splice(i--, 1);
+      } else if (i && diff[i - 1][0] == part[0]) {
+        diff.splice(i--, 1);
+        diff[i][1] += part[1];
+      }
+    }
+    return diff;
+  }
+
+  function iterateChunks(diff, f) {
+    var startEdit = 0, startOrig = 0;
+    var edit = Pos(0, 0), orig = Pos(0, 0);
+    for (var i = 0; i < diff.length; ++i) {
+      var part = diff[i], tp = part[0];
+      if (tp == DIFF_EQUAL) {
+        var startOff = startOfLineClean(diff, i) ? 0 : 1;
+        var cleanFromEdit = edit.line + startOff, cleanFromOrig = orig.line + startOff;
+        moveOver(edit, part[1], null, orig);
+        var endOff = endOfLineClean(diff, i) ? 1 : 0;
+        var cleanToEdit = edit.line + endOff, cleanToOrig = orig.line + endOff;
+        if (cleanToEdit > cleanFromEdit) {
+          if (i) f(startOrig, cleanFromOrig, startEdit, cleanFromEdit);
+          startEdit = cleanToEdit; startOrig = cleanToOrig;
+        }
+      } else {
+        moveOver(tp == DIFF_INSERT ? edit : orig, part[1]);
+      }
+    }
+    if (startEdit <= edit.line || startOrig <= orig.line)
+      f(startOrig, orig.line + 1, startEdit, edit.line + 1);
+  }
+
+  function endOfLineClean(diff, i) {
+    if (i == diff.length - 1) return true;
+    var next = diff[i + 1][1];
+    if (next.length == 1 || next.charCodeAt(0) != 10) return false;
+    if (i == diff.length - 2) return true;
+    next = diff[i + 2][1];
+    return next.length > 1 && next.charCodeAt(0) == 10;
+  }
+
+  function startOfLineClean(diff, i) {
+    if (i == 0) return true;
+    var last = diff[i - 1][1];
+    if (last.charCodeAt(last.length - 1) != 10) return false;
+    if (i == 1) return true;
+    last = diff[i - 2][1];
+    return last.charCodeAt(last.length - 1) == 10;
+  }
+
+  function chunkBoundariesAround(diff, n, nInEdit) {
+    var beforeE, afterE, beforeO, afterO;
+    iterateChunks(diff, function(fromOrig, toOrig, fromEdit, toEdit) {
+      var fromLocal = nInEdit ? fromEdit : fromOrig;
+      var toLocal = nInEdit ? toEdit : toOrig;
+      if (afterE == null) {
+        if (fromLocal > n) { afterE = fromEdit; afterO = fromOrig; }
+        else if (toLocal > n) { afterE = toEdit; afterO = toOrig; }
+      }
+      if (toLocal <= n) { beforeE = toEdit; beforeO = toOrig; }
+      else if (fromLocal <= n) { beforeE = fromEdit; beforeO = fromOrig; }
+    });
+    return {edit: {before: beforeE, after: afterE}, orig: {before: beforeO, after: afterO}};
+  }
+
+  // General utilities
+
+  function elt(tag, content, className, style) {
+    var e = document.createElement(tag);
+    if (className) e.className = className;
+    if (style) e.style.cssText = style;
+    if (typeof content == "string") e.appendChild(document.createTextNode(content));
+    else if (content) for (var i = 0; i < content.length; ++i) e.appendChild(content[i]);
+    return e;
+  }
+
+  function clear(node) {
+    for (var count = node.childNodes.length; count > 0; --count)
+      node.removeChild(node.firstChild);
+  }
+
+  function attrs(elt) {
+    for (var i = 1; i < arguments.length; i += 2)
+      elt.setAttribute(arguments[i], arguments[i+1]);
+  }
+
+  function copyObj(obj, target) {
+    if (!target) target = {};
+    for (var prop in obj) if (obj.hasOwnProperty(prop)) target[prop] = obj[prop];
+    return target;
+  }
+
+  function moveOver(pos, str, copy, other) {
+    var out = copy ? Pos(pos.line, pos.ch) : pos, at = 0;
+    for (;;) {
+      var nl = str.indexOf("\n", at);
+      if (nl == -1) break;
+      ++out.line;
+      if (other) ++other.line;
+      at = nl + 1;
+    }
+    out.ch = (at ? 0 : out.ch) + (str.length - at);
+    if (other) other.ch = (at ? 0 : other.ch) + (str.length - at);
+    return out;
+  }
+
+  function posMin(a, b) { return (a.line - b.line || a.ch - b.ch) < 0 ? a : b; }
+  function posMax(a, b) { return (a.line - b.line || a.ch - b.ch) > 0 ? a : b; }
+  function posEq(a, b) { return a.line == b.line && a.ch == b.ch; }
+})();

@@ -1,13 +1,86 @@
-(function(){var b=/MSIE \d/.test(navigator.userAgent)&&(document.documentMode==null||document.documentMode<8);var d=CodeMirror.Pos;var g={"(":")>",")":"(<","[":"]>","]":"[<","{":"}>","}":"{<"};
-function c(n,p,z){var j=n.state.matchBrackets;var u=(j&&j.maxScanLineLength)||10000;var h=p||n.getCursor(),q=n.getLineHandle(h.line),k=h.ch-1;var m=(k>=0&&g[q.text.charAt(k)])||g[q.text.charAt(++k)];
-if(!m){return null;}var o=m.charAt(1)==">",y=o?1:-1;if(z&&o!=(k==h.ch)){return null;}var w=n.getTokenTypeAt(d(h.line,k+1));var l=[q.text.charAt(k)],t=/[(){}[\]]/;
-function s(A,F,E){if(!A.text){return;}var D=o?0:A.text.length-1,i=o?A.text.length:-1;if(A.text.length>u){return null;}if(E!=null){D=E+y;}for(;D!=i;D+=y){var C=A.text.charAt(D);
-if(t.test(C)&&n.getTokenTypeAt(d(F,D+1))==w){var B=g[C];if(B.charAt(1)==">"==o){l.push(C);}else{if(l.pop()!=B.charAt(0)){return{pos:D,match:false};}else{if(!l.length){return{pos:D,match:true};
-}}}}}}for(var v=h.line,r,x=o?Math.min(v+100,n.lineCount()):Math.max(-1,v-100);v!=x;v+=y){if(v==h.line){r=s(q,v,k);}else{r=s(n.getLineHandle(v),v);}if(r){break;
-}}return{from:d(h.line,k),to:r&&d(v,r.pos),match:r&&r.match,forward:o};}function a(i,o){var l=i.state.matchBrackets.maxHighlightLineLength||1000;var n=c(i);
-if(!n||i.getLine(n.from.line).length>l||n.to&&i.getLine(n.to.line).length>l){return;}var m=n.match?"CodeMirror-matchingbracket":"CodeMirror-nonmatchingbracket";
-var k=i.markText(n.from,d(n.from.line,n.from.ch+1),{className:m});var j=n.to&&i.markText(n.to,d(n.to.line,n.to.ch+1),{className:m});if(b&&i.state.focused){i.display.input.focus();
-}var h=function(){i.operation(function(){k.clear();j&&j.clear();});};if(o){setTimeout(h,800);}else{return h;}}var e=null;function f(h){h.operation(function(){if(e){e();
-e=null;}if(!h.somethingSelected()){e=a(h,false);}});}CodeMirror.defineOption("matchBrackets",false,function(h,j,i){if(i&&i!=CodeMirror.Init){h.off("cursorActivity",f);
-}if(j){h.state.matchBrackets=typeof j=="object"?j:{};h.on("cursorActivity",f);}});CodeMirror.defineExtension("matchBrackets",function(){a(this,true);});
-CodeMirror.defineExtension("findMatchingBracket",function(i,h){return c(this,i,h);});})();
+(function() {
+  var ie_lt8 = /MSIE \d/.test(navigator.userAgent) &&
+    (document.documentMode == null || document.documentMode < 8);
+
+  var Pos = CodeMirror.Pos;
+
+  var matching = {"(": ")>", ")": "(<", "[": "]>", "]": "[<", "{": "}>", "}": "{<"};
+  function findMatchingBracket(cm, where, strict) {
+    var state = cm.state.matchBrackets;
+    var maxScanLen = (state && state.maxScanLineLength) || 10000;
+
+    var cur = where || cm.getCursor(), line = cm.getLineHandle(cur.line), pos = cur.ch - 1;
+    var match = (pos >= 0 && matching[line.text.charAt(pos)]) || matching[line.text.charAt(++pos)];
+    if (!match) return null;
+    var forward = match.charAt(1) == ">", d = forward ? 1 : -1;
+    if (strict && forward != (pos == cur.ch)) return null;
+    var style = cm.getTokenTypeAt(Pos(cur.line, pos + 1));
+
+    var stack = [line.text.charAt(pos)], re = /[(){}[\]]/;
+    function scan(line, lineNo, start) {
+      if (!line.text) return;
+      var pos = forward ? 0 : line.text.length - 1, end = forward ? line.text.length : -1;
+      if (line.text.length > maxScanLen) return null;
+      if (start != null) pos = start + d;
+      for (; pos != end; pos += d) {
+        var ch = line.text.charAt(pos);
+        if (re.test(ch) && cm.getTokenTypeAt(Pos(lineNo, pos + 1)) == style) {
+          var match = matching[ch];
+          if (match.charAt(1) == ">" == forward) stack.push(ch);
+          else if (stack.pop() != match.charAt(0)) return {pos: pos, match: false};
+          else if (!stack.length) return {pos: pos, match: true};
+        }
+      }
+    }
+    for (var i = cur.line, found, e = forward ? Math.min(i + 100, cm.lineCount()) : Math.max(-1, i - 100); i != e; i+=d) {
+      if (i == cur.line) found = scan(line, i, pos);
+      else found = scan(cm.getLineHandle(i), i);
+      if (found) break;
+    }
+    return {from: Pos(cur.line, pos), to: found && Pos(i, found.pos),
+            match: found && found.match, forward: forward};
+  }
+
+  function matchBrackets(cm, autoclear) {
+    // Disable brace matching in long lines, since it'll cause hugely slow updates
+    var maxHighlightLen = cm.state.matchBrackets.maxHighlightLineLength || 1000;
+    var found = findMatchingBracket(cm);
+    if (!found || cm.getLine(found.from.line).length > maxHighlightLen ||
+       found.to && cm.getLine(found.to.line).length > maxHighlightLen)
+      return;
+
+    var style = found.match ? "CodeMirror-matchingbracket" : "CodeMirror-nonmatchingbracket";
+    var one = cm.markText(found.from, Pos(found.from.line, found.from.ch + 1), {className: style});
+    var two = found.to && cm.markText(found.to, Pos(found.to.line, found.to.ch + 1), {className: style});
+    // Kludge to work around the IE bug from issue #1193, where text
+    // input stops going to the textare whever this fires.
+    if (ie_lt8 && cm.state.focused) cm.display.input.focus();
+    var clear = function() {
+      cm.operation(function() { one.clear(); two && two.clear(); });
+    };
+    if (autoclear) setTimeout(clear, 800);
+    else return clear;
+  }
+
+  var currentlyHighlighted = null;
+  function doMatchBrackets(cm) {
+    cm.operation(function() {
+      if (currentlyHighlighted) {currentlyHighlighted(); currentlyHighlighted = null;}
+      if (!cm.somethingSelected()) currentlyHighlighted = matchBrackets(cm, false);
+    });
+  }
+
+  CodeMirror.defineOption("matchBrackets", false, function(cm, val, old) {
+    if (old && old != CodeMirror.Init)
+      cm.off("cursorActivity", doMatchBrackets);
+    if (val) {
+      cm.state.matchBrackets = typeof val == "object" ? val : {};
+      cm.on("cursorActivity", doMatchBrackets);
+    }
+  });
+
+  CodeMirror.defineExtension("matchBrackets", function() {matchBrackets(this, true);});
+  CodeMirror.defineExtension("findMatchingBracket", function(pos, strict){
+    return findMatchingBracket(this, pos, strict);
+  });
+})();

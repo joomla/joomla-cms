@@ -1,12 +1,122 @@
-(function(){CodeMirror.defineOption("foldGutter",false,function(l,n,m){if(m&&m!=CodeMirror.Init){l.clearGutter(l.state.foldGutter.options.gutter);l.state.foldGutter=null;
-l.off("gutterClick",j);l.off("change",f);l.off("viewportChange",k);l.off("fold",d);l.off("unfold",d);}if(n){l.state.foldGutter=new i(h(n));b(l);l.on("gutterClick",j);
-l.on("change",f);l.on("viewportChange",k);l.on("fold",d);l.on("unfold",d);}});var g=CodeMirror.Pos;function i(l){this.options=l;this.from=this.to=0;}function h(l){if(l===true){l={};
-}if(l.gutter==null){l.gutter="CodeMirror-foldgutter";}if(l.indicatorOpen==null){l.indicatorOpen="CodeMirror-foldgutter-open";}if(l.indicatorFolded==null){l.indicatorFolded="CodeMirror-foldgutter-folded";
-}return l;}function c(l,m){var o=l.findMarksAt(g(m));for(var n=0;n<o.length;++n){if(o[n].__isFold&&o[n].find().from.line==m){return true;}}}function e(l){if(typeof l=="string"){var m=document.createElement("div");
-m.className=l;return m;}else{return l.cloneNode(true);}}function a(l,p,o){var m=l.state.foldGutter.options,n=p;l.eachLine(p,o,function(q){var u=null;if(c(l,n)){u=e(m.indicatorFolded);
-}else{var t=g(n,0),s=m.rangeFinder||l.getHelper(t,"fold");var r=s&&s(l,t);if(r&&r.from.line+1<r.to.line){u=e(m.indicatorOpen);}}l.setGutterMarker(q,m.gutter,u);
-++n;});}function b(l){var m=l.getViewport(),n=l.state.foldGutter;if(!n){return;}l.operation(function(){a(l,m.from,m.to);});n.from=m.from;n.to=m.to;}function j(l,m,o){var n=l.state.foldGutter.options;
-if(o!=n.gutter){return;}l.foldCode(g(m,0),n.rangeFinder);}function f(l){var m=l.state.foldGutter;m.from=m.to=0;clearTimeout(m.changeUpdate);m.changeUpdate=setTimeout(function(){b(l);
-},600);}function k(l){var m=l.state.foldGutter;clearTimeout(m.changeUpdate);m.changeUpdate=setTimeout(function(){var n=l.getViewport();if(m.from==m.to||n.from-m.to>20||m.from-n.to>20){b(l);
-}else{l.operation(function(){if(n.from<m.from){a(l,n.from,m.from);m.from=n.from;}if(n.to>m.to){a(l,m.to,n.to);m.to=n.to;}});}},400);}function d(l,o){var n=l.state.foldGutter,m=o.line;
-if(m>=n.from&&m<n.to){a(l,m,m+1);}}})();
+(function() {
+  "use strict";
+
+  CodeMirror.defineOption("foldGutter", false, function(cm, val, old) {
+    if (old && old != CodeMirror.Init) {
+      cm.clearGutter(cm.state.foldGutter.options.gutter);
+      cm.state.foldGutter = null;
+      cm.off("gutterClick", onGutterClick);
+      cm.off("change", onChange);
+      cm.off("viewportChange", onViewportChange);
+      cm.off("fold", onFold);
+      cm.off("unfold", onFold);
+    }
+    if (val) {
+      cm.state.foldGutter = new State(parseOptions(val));
+      updateInViewport(cm);
+      cm.on("gutterClick", onGutterClick);
+      cm.on("change", onChange);
+      cm.on("viewportChange", onViewportChange);
+      cm.on("fold", onFold);
+      cm.on("unfold", onFold);
+    }
+  });
+
+  var Pos = CodeMirror.Pos;
+
+  function State(options) {
+    this.options = options;
+    this.from = this.to = 0;
+  }
+
+  function parseOptions(opts) {
+    if (opts === true) opts = {};
+    if (opts.gutter == null) opts.gutter = "CodeMirror-foldgutter";
+    if (opts.indicatorOpen == null) opts.indicatorOpen = "CodeMirror-foldgutter-open";
+    if (opts.indicatorFolded == null) opts.indicatorFolded = "CodeMirror-foldgutter-folded";
+    return opts;
+  }
+
+  function isFolded(cm, line) {
+    var marks = cm.findMarksAt(Pos(line));
+    for (var i = 0; i < marks.length; ++i)
+      if (marks[i].__isFold && marks[i].find().from.line == line) return true;
+  }
+
+  function marker(spec) {
+    if (typeof spec == "string") {
+      var elt = document.createElement("div");
+      elt.className = spec;
+      return elt;
+    } else {
+      return spec.cloneNode(true);
+    }
+  }
+
+  function updateFoldInfo(cm, from, to) {
+    var opts = cm.state.foldGutter.options, cur = from;
+    cm.eachLine(from, to, function(line) {
+      var mark = null;
+      if (isFolded(cm, cur)) {
+        mark = marker(opts.indicatorFolded);
+      } else {
+        var pos = Pos(cur, 0), func = opts.rangeFinder || cm.getHelper(pos, "fold");
+        var range = func && func(cm, pos);
+        if (range && range.from.line + 1 < range.to.line)
+          mark = marker(opts.indicatorOpen);
+      }
+      cm.setGutterMarker(line, opts.gutter, mark);
+      ++cur;
+    });
+  }
+
+  function updateInViewport(cm) {
+    var vp = cm.getViewport(), state = cm.state.foldGutter;
+    if (!state) return;
+    cm.operation(function() {
+      updateFoldInfo(cm, vp.from, vp.to);
+    });
+    state.from = vp.from; state.to = vp.to;
+  }
+
+  function onGutterClick(cm, line, gutter) {
+    var opts = cm.state.foldGutter.options;
+    if (gutter != opts.gutter) return;
+    cm.foldCode(Pos(line, 0), opts.rangeFinder);
+  }
+
+  function onChange(cm) {
+    var state = cm.state.foldGutter;
+    state.from = state.to = 0;
+    clearTimeout(state.changeUpdate);
+    state.changeUpdate = setTimeout(function() { updateInViewport(cm); }, 600);
+  }
+
+  function onViewportChange(cm) {
+    var state = cm.state.foldGutter;
+    clearTimeout(state.changeUpdate);
+    state.changeUpdate = setTimeout(function() {
+      var vp = cm.getViewport();
+      if (state.from == state.to || vp.from - state.to > 20 || state.from - vp.to > 20) {
+        updateInViewport(cm);
+      } else {
+        cm.operation(function() {
+          if (vp.from < state.from) {
+            updateFoldInfo(cm, vp.from, state.from);
+            state.from = vp.from;
+          }
+          if (vp.to > state.to) {
+            updateFoldInfo(cm, state.to, vp.to);
+            state.to = vp.to;
+          }
+        });
+      }
+    }, 400);
+  }
+
+  function onFold(cm, from) {
+    var state = cm.state.foldGutter, line = from.line;
+    if (line >= state.from && line < state.to)
+      updateFoldInfo(cm, line, line + 1);
+  }
+})();

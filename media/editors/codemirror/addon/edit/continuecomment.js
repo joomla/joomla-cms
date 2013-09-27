@@ -1,6 +1,44 @@
-(function(){var c=["clike","css","javascript"];for(var a=0;a<c.length;++a){CodeMirror.extendMode(c[a],{blockCommentStart:"/*",blockCommentEnd:"*/",blockCommentContinue:" * "});
-}function b(l){var k=l.getCursor(),e=l.getTokenAt(k);var h=CodeMirror.innerMode(l.getMode(),e.state).mode;var d;if(e.type=="comment"&&h.blockCommentStart){var f=e.string.indexOf(h.blockCommentEnd);
-var j=l.getRange(CodeMirror.Pos(k.line,0),CodeMirror.Pos(k.line,e.end)),m;if(f!=-1&&f==e.string.length-h.blockCommentEnd.length){}else{if(e.string.indexOf(h.blockCommentStart)==0){d=j.slice(0,e.start);
-if(!/^\s*$/.test(d)){d="";for(var g=0;g<e.start;++g){d+=" ";}}}else{if((m=j.indexOf(h.blockCommentContinue))!=-1&&m+h.blockCommentContinue.length>e.start&&/^\s*$/.test(j.slice(0,m))){d=j.slice(0,m);
-}}}}if(d!=null){l.replaceSelection("\n"+d+h.blockCommentContinue,"end");}else{return CodeMirror.Pass;}}CodeMirror.defineOption("continueComments",null,function(d,g,e){if(e&&e!=CodeMirror.Init){d.removeKeyMap("continueComment");
-}var f={name:"continueComment"};f[typeof g=="string"?g:"Enter"]=b;d.addKeyMap(f);});})();
+(function() {
+  var modes = ["clike", "css", "javascript"];
+  for (var i = 0; i < modes.length; ++i)
+    CodeMirror.extendMode(modes[i], {blockCommentStart: "/*",
+                                     blockCommentEnd: "*/",
+                                     blockCommentContinue: " * "});
+
+  function continueComment(cm) {
+    var pos = cm.getCursor(), token = cm.getTokenAt(pos);
+    var mode = CodeMirror.innerMode(cm.getMode(), token.state).mode;
+    var space;
+
+    if (token.type == "comment" && mode.blockCommentStart) {
+      var end = token.string.indexOf(mode.blockCommentEnd);
+      var full = cm.getRange(CodeMirror.Pos(pos.line, 0), CodeMirror.Pos(pos.line, token.end)), found;
+      if (end != -1 && end == token.string.length - mode.blockCommentEnd.length) {
+        // Comment ended, don't continue it
+      } else if (token.string.indexOf(mode.blockCommentStart) == 0) {
+        space = full.slice(0, token.start);
+        if (!/^\s*$/.test(space)) {
+          space = "";
+          for (var i = 0; i < token.start; ++i) space += " ";
+        }
+      } else if ((found = full.indexOf(mode.blockCommentContinue)) != -1 &&
+                 found + mode.blockCommentContinue.length > token.start &&
+                 /^\s*$/.test(full.slice(0, found))) {
+        space = full.slice(0, found);
+      }
+    }
+
+    if (space != null)
+      cm.replaceSelection("\n" + space + mode.blockCommentContinue, "end");
+    else
+      return CodeMirror.Pass;
+  }
+
+  CodeMirror.defineOption("continueComments", null, function(cm, val, prev) {
+    if (prev && prev != CodeMirror.Init)
+      cm.removeKeyMap("continueComment");
+    var map = {name: "continueComment"};
+    map[typeof val == "string" ? val : "Enter"] = continueComment;
+    cm.addKeyMap(map);
+  });
+})();

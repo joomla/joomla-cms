@@ -1,5 +1,41 @@
-var server;this.onmessage=function(b){var a=b.data;switch(a.type){case"init":return startServer(a.defs,a.plugins,a.scripts);case"add":return server.addFile(a.name,a.text);
-case"del":return server.delFile(a.name);case"req":return server.request(a.body,function(e,c){postMessage({id:a.id,body:c,err:e&&String(e)});});case"getFile":var d=pending[a.id];
-delete pending[a.id];return d(a.err,a.text);default:throw new Error("Unknown message type: "+a.type);}};var nextId=0,pending={};function getFile(a,b){postMessage({type:"getFile",name:a,id:++nextId});
-pending[nextId]=b;}function startServer(b,c,a){if(a){importScripts.apply(null,a);}server=new tern.Server({getFile:getFile,async:true,defs:b,plugins:c});
-}var console={log:function(a){postMessage({type:"debug",message:a});}};
+// declare global: tern, server
+
+var server;
+
+this.onmessage = function(e) {
+  var data = e.data;
+  switch (data.type) {
+  case "init": return startServer(data.defs, data.plugins, data.scripts);
+  case "add": return server.addFile(data.name, data.text);
+  case "del": return server.delFile(data.name);
+  case "req": return server.request(data.body, function(err, reqData) {
+    postMessage({id: data.id, body: reqData, err: err && String(err)});
+  });
+  case "getFile":
+    var c = pending[data.id];
+    delete pending[data.id];
+    return c(data.err, data.text);
+  default: throw new Error("Unknown message type: " + data.type);
+  }
+};
+
+var nextId = 0, pending = {};
+function getFile(file, c) {
+  postMessage({type: "getFile", name: file, id: ++nextId});
+  pending[nextId] = c;
+}
+
+function startServer(defs, plugins, scripts) {
+  if (scripts) importScripts.apply(null, scripts);
+
+  server = new tern.Server({
+    getFile: getFile,
+    async: true,
+    defs: defs,
+    plugins: plugins
+  });
+}
+
+var console = {
+  log: function(v) { postMessage({type: "debug", message: v}); }
+};

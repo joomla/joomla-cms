@@ -1,18 +1,167 @@
-(function(){var l=CodeMirror.Pos;function k(q,p){return q.line-p.line||q.ch-p.ch;}var i="A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD";
-var n=i+"-:.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040";var d=new RegExp("<(/?)(["+i+"]["+n+"]*)","g");function a(p,q,s,r){this.line=q;this.ch=s;this.cm=p;
-this.text=p.getLine(q);this.min=r?r.from:p.firstLine();this.max=r?r.to-1:p.lastLine();}function h(p,r){var q=p.cm.getTokenTypeAt(l(p.line,r));return q&&/\btag\b/.test(q);
-}function b(p){if(p.line>=p.max){return;}p.ch=0;p.text=p.cm.getLine(++p.line);return true;}function m(p){if(p.line<=p.min){return;}p.text=p.cm.getLine(--p.line);
-p.ch=p.text.length;return true;}function g(r){for(;;){var q=r.text.indexOf(">",r.ch);if(q==-1){if(b(r)){continue;}else{return;}}if(!h(r,q+1)){r.ch=q+1;
-continue;}var p=r.text.lastIndexOf("/",q);var s=p>-1&&!/\S/.test(r.text.slice(p+1,q));r.ch=q+1;return s?"selfClose":"regular";}}function j(q){for(;;){var p=q.ch?q.text.lastIndexOf("<",q.ch-1):-1;
-if(p==-1){if(m(q)){continue;}else{return;}}if(!h(q,p+1)){q.ch=p;continue;}d.lastIndex=p;q.ch=p;var r=d.exec(q.text);if(r&&r.index==p){return r;}}}function o(p){for(;
-;){d.lastIndex=p.ch;var q=d.exec(p.text);if(!q){if(b(p)){continue;}else{return;}}if(!h(p,q.index+1)){p.ch=q.index+1;continue;}p.ch=q.index+q[0].length;
-return q;}}function e(r){for(;;){var q=r.ch?r.text.lastIndexOf(">",r.ch-1):-1;if(q==-1){if(m(r)){continue;}else{return;}}if(!h(r,q+1)){r.ch=q;continue;
-}var p=r.text.lastIndexOf("/",q);var s=p>-1&&!/\S/.test(r.text.slice(p+1,q));r.ch=q+1;return s?"selfClose":"regular";}}function f(s,q){var p=[];for(;;){var u=o(s),r,w=s.line,v=s.ch-(u?u[0].length:0);
-if(!u||!(r=g(s))){return;}if(r=="selfClose"){continue;}if(u[1]){for(var t=p.length-1;t>=0;--t){if(p[t]==u[2]){p.length=t;break;}}if(t<0&&(!q||q==u[2])){return{tag:u[2],from:l(w,v),to:l(s.line,s.ch)};
-}}else{p.push(u[2]);}}}function c(r,q){var p=[];for(;;){var v=e(r);if(!v){return;}if(v=="selfClose"){j(r);continue;}var u=r.line,t=r.ch;var w=j(r);if(!w){return;
-}if(w[1]){p.push(w[2]);}else{for(var s=p.length-1;s>=0;--s){if(p[s]==w[2]){p.length=s;break;}}if(s<0&&(!q||q==w[2])){return{tag:w[2],from:l(r.line,r.ch),to:l(u,t)};
-}}}}CodeMirror.registerHelper("fold","xml",function(p,u){var r=new a(p,u.line,0);for(;;){var s=o(r),q;if(!s||r.line!=u.line||!(q=g(r))){return;}if(!s[1]&&q!="selfClose"){var u=l(r.line,r.ch);
-var t=f(r,s[2]);return t&&{from:u,to:t.from};}}});CodeMirror.tagRangeFinder=CodeMirror.fold.xml;CodeMirror.findMatchingTag=function(p,w,s){var r=new a(p,w.line,w.ch,s);
-if(r.text.indexOf(">")==-1&&r.text.indexOf("<")==-1){return;}var q=g(r),v=q&&l(r.line,r.ch);var u=q&&j(r);if(!q||q=="selfClose"||!u||k(r,w)>0){return;}var t={from:l(r.line,r.ch),to:v,tag:u[2]};
-if(u[1]){return{open:c(r,u[2]),close:t,at:"close"};}else{r=new a(p,v.line,v.ch,s);return{open:t,close:f(r,u[2]),at:"open"};}};CodeMirror.findEnclosingTag=function(p,v,r){var q=new a(p,v.line,v.ch,r);
-for(;;){var t=c(q);if(!t){break;}var s=new a(p,v.line,v.ch,r);var u=f(s,t.tag);if(u){return{open:t,close:u};}}};})();
+(function() {
+  "use strict";
+
+  var Pos = CodeMirror.Pos;
+  function cmp(a, b) { return a.line - b.line || a.ch - b.ch; }
+
+  var nameStartChar = "A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD";
+  var nameChar = nameStartChar + "\-\:\.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040";
+  var xmlTagStart = new RegExp("<(/?)([" + nameStartChar + "][" + nameChar + "]*)", "g");
+
+  function Iter(cm, line, ch, range) {
+    this.line = line; this.ch = ch;
+    this.cm = cm; this.text = cm.getLine(line);
+    this.min = range ? range.from : cm.firstLine();
+    this.max = range ? range.to - 1 : cm.lastLine();
+  }
+
+  function tagAt(iter, ch) {
+    var type = iter.cm.getTokenTypeAt(Pos(iter.line, ch));
+    return type && /\btag\b/.test(type);
+  }
+
+  function nextLine(iter) {
+    if (iter.line >= iter.max) return;
+    iter.ch = 0;
+    iter.text = iter.cm.getLine(++iter.line);
+    return true;
+  }
+  function prevLine(iter) {
+    if (iter.line <= iter.min) return;
+    iter.text = iter.cm.getLine(--iter.line);
+    iter.ch = iter.text.length;
+    return true;
+  }
+
+  function toTagEnd(iter) {
+    for (;;) {
+      var gt = iter.text.indexOf(">", iter.ch);
+      if (gt == -1) { if (nextLine(iter)) continue; else return; }
+      if (!tagAt(iter, gt + 1)) { iter.ch = gt + 1; continue; }
+      var lastSlash = iter.text.lastIndexOf("/", gt);
+      var selfClose = lastSlash > -1 && !/\S/.test(iter.text.slice(lastSlash + 1, gt));
+      iter.ch = gt + 1;
+      return selfClose ? "selfClose" : "regular";
+    }
+  }
+  function toTagStart(iter) {
+    for (;;) {
+      var lt = iter.ch ? iter.text.lastIndexOf("<", iter.ch - 1) : -1;
+      if (lt == -1) { if (prevLine(iter)) continue; else return; }
+      if (!tagAt(iter, lt + 1)) { iter.ch = lt; continue; }
+      xmlTagStart.lastIndex = lt;
+      iter.ch = lt;
+      var match = xmlTagStart.exec(iter.text);
+      if (match && match.index == lt) return match;
+    }
+  }
+
+  function toNextTag(iter) {
+    for (;;) {
+      xmlTagStart.lastIndex = iter.ch;
+      var found = xmlTagStart.exec(iter.text);
+      if (!found) { if (nextLine(iter)) continue; else return; }
+      if (!tagAt(iter, found.index + 1)) { iter.ch = found.index + 1; continue; }
+      iter.ch = found.index + found[0].length;
+      return found;
+    }
+  }
+  function toPrevTag(iter) {
+    for (;;) {
+      var gt = iter.ch ? iter.text.lastIndexOf(">", iter.ch - 1) : -1;
+      if (gt == -1) { if (prevLine(iter)) continue; else return; }
+      if (!tagAt(iter, gt + 1)) { iter.ch = gt; continue; }
+      var lastSlash = iter.text.lastIndexOf("/", gt);
+      var selfClose = lastSlash > -1 && !/\S/.test(iter.text.slice(lastSlash + 1, gt));
+      iter.ch = gt + 1;
+      return selfClose ? "selfClose" : "regular";
+    }
+  }
+
+  function findMatchingClose(iter, tag) {
+    var stack = [];
+    for (;;) {
+      var next = toNextTag(iter), end, startLine = iter.line, startCh = iter.ch - (next ? next[0].length : 0);
+      if (!next || !(end = toTagEnd(iter))) return;
+      if (end == "selfClose") continue;
+      if (next[1]) { // closing tag
+        for (var i = stack.length - 1; i >= 0; --i) if (stack[i] == next[2]) {
+          stack.length = i;
+          break;
+        }
+        if (i < 0 && (!tag || tag == next[2])) return {
+          tag: next[2],
+          from: Pos(startLine, startCh),
+          to: Pos(iter.line, iter.ch)
+        };
+      } else { // opening tag
+        stack.push(next[2]);
+      }
+    }
+  }
+  function findMatchingOpen(iter, tag) {
+    var stack = [];
+    for (;;) {
+      var prev = toPrevTag(iter);
+      if (!prev) return;
+      if (prev == "selfClose") { toTagStart(iter); continue; }
+      var endLine = iter.line, endCh = iter.ch;
+      var start = toTagStart(iter);
+      if (!start) return;
+      if (start[1]) { // closing tag
+        stack.push(start[2]);
+      } else { // opening tag
+        for (var i = stack.length - 1; i >= 0; --i) if (stack[i] == start[2]) {
+          stack.length = i;
+          break;
+        }
+        if (i < 0 && (!tag || tag == start[2])) return {
+          tag: start[2],
+          from: Pos(iter.line, iter.ch),
+          to: Pos(endLine, endCh)
+        };
+      }
+    }
+  }
+
+  CodeMirror.registerHelper("fold", "xml", function(cm, start) {
+    var iter = new Iter(cm, start.line, 0);
+    for (;;) {
+      var openTag = toNextTag(iter), end;
+      if (!openTag || iter.line != start.line || !(end = toTagEnd(iter))) return;
+      if (!openTag[1] && end != "selfClose") {
+        var start = Pos(iter.line, iter.ch);
+        var close = findMatchingClose(iter, openTag[2]);
+        return close && {from: start, to: close.from};
+      }
+    }
+  });
+  CodeMirror.tagRangeFinder = CodeMirror.fold.xml; // deprecated
+
+  CodeMirror.findMatchingTag = function(cm, pos, range) {
+    var iter = new Iter(cm, pos.line, pos.ch, range);
+    if (iter.text.indexOf(">") == -1 && iter.text.indexOf("<") == -1) return;
+    var end = toTagEnd(iter), to = end && Pos(iter.line, iter.ch);
+    var start = end && toTagStart(iter);
+    if (!end || end == "selfClose" || !start || cmp(iter, pos) > 0) return;
+    var here = {from: Pos(iter.line, iter.ch), to: to, tag: start[2]};
+
+    if (start[1]) { // closing tag
+      return {open: findMatchingOpen(iter, start[2]), close: here, at: "close"};
+    } else { // opening tag
+      iter = new Iter(cm, to.line, to.ch, range);
+      return {open: here, close: findMatchingClose(iter, start[2]), at: "open"};
+    }
+  };
+
+  CodeMirror.findEnclosingTag = function(cm, pos, range) {
+    var iter = new Iter(cm, pos.line, pos.ch, range);
+    for (;;) {
+      var open = findMatchingOpen(iter);
+      if (!open) break;
+      var forward = new Iter(cm, pos.line, pos.ch, range);
+      var close = findMatchingClose(forward, open.tag);
+      if (close) return {open: open, close: close};
+    }
+  };
+})();

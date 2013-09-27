@@ -1,2 +1,0 @@
-(function(){var b=CodeMirror.getMode({indentUnit:2},"javascript");function a(c){test.mode(c,b,Array.prototype.slice.call(arguments,1));}a("locals","[keyword function] [variable foo]([def a], [def b]) { [keyword var] [def c] = [number 10]; [keyword return] [variable-2 a] + [variable-2 c] + [variable d]; }");
-a("comma-and-binop","[keyword function](){ [keyword var] [def x] = [number 1] + [number 2], [def y]; }");})();
