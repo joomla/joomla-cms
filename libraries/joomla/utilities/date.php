@@ -74,7 +74,7 @@ class JDate extends DateTime
 	 * @var    object
 	 * @since  11.1
 	 */
-	protected $_tz;
+	protected $tz;
 
 	/**
 	 * Constructor.
@@ -120,11 +120,11 @@ class JDate extends DateTime
 		// Call the DateTime constructor.
 		parent::__construct($date, $tz);
 
-		// reset the timezone for 3rd party libraries/extension that does not use JDate
+		// Reset the timezone for 3rd party libraries/extension that does not use JDate.
 		date_default_timezone_set(self::$stz->getName());
 
 		// Set the timezone object for access later.
-		$this->_tz = $tz;
+		$this->tz = $tz;
 	}
 
 	/**
@@ -334,7 +334,7 @@ class JDate extends DateTime
 
 		if ($local == false)
 		{
-			parent::setTimezone($this->_tz);
+			parent::setTimezone($this->tz);
 		}
 
 		return $return;
@@ -351,7 +351,7 @@ class JDate extends DateTime
 	 */
 	public function getOffsetFromGMT($hours = false)
 	{
-		return (float) $hours ? ($this->_tz->getOffset($this) / 3600) : $this->_tz->getOffset($this);
+		return (float) $hours ? ($this->tz->getOffset($this) / 3600) : $this->tz->getOffset($this);
 	}
 
 	/**
@@ -414,8 +414,9 @@ class JDate extends DateTime
 		// Only set the timezone if the offset exists.
 		if (isset(self::$offsets[(string) $offset]))
 		{
-			$this->_tz = new DateTimeZone(self::$offsets[(string) $offset]);
-			$this->setTimezone($this->_tz);
+			$this->tz = new DateTimeZone(self::$offsets[(string) $offset]);
+			$this->setTimezone($this->tz);
+
 			return true;
 		}
 
@@ -434,7 +435,8 @@ class JDate extends DateTime
 	 */
 	public function setTimezone($tz)
 	{
-		$this->_tz = $tz;
+		$this->tz = $tz;
+
 		return parent::setTimezone($tz);
 	}
 
@@ -475,14 +477,17 @@ class JDate extends DateTime
 		{
 			$format = str_replace('%a', $this->dayToString(date('w', $time), true), $format);
 		}
+
 		if (strpos($format, '%A') !== false)
 		{
 			$format = str_replace('%A', $this->dayToString(date('w', $time)), $format);
 		}
+
 		if (strpos($format, '%b') !== false)
 		{
 			$format = str_replace('%b', $this->monthToString(date('n', $time), true), $format);
 		}
+
 		if (strpos($format, '%B') !== false)
 		{
 			$format = str_replace('%B', $this->monthToString(date('n', $time)), $format);
@@ -491,7 +496,7 @@ class JDate extends DateTime
 		// Generate the formatted string.
 		$date = strftime($format, $time);
 
-		// reset the timezone for 3rd party libraries/extension that does not use JDate
+		// Reset the timezone for 3rd party libraries/extension that does not use JDate.
 		date_default_timezone_set(self::$stz->getName());
 
 		return $date;
@@ -527,6 +532,7 @@ class JDate extends DateTime
 	public function toMySQL($local = false)
 	{
 		JLog::add('JDate::toMySQL() is deprecated. Use JDate::toSql() instead.', JLog::WARNING, 'deprecated');
+
 		return $this->format('Y-m-d H:i:s', $local, false);
 	}
 
@@ -547,6 +553,7 @@ class JDate extends DateTime
 		{
 			$dbo = JFactory::getDbo();
 		}
+
 		return $this->format($dbo->getDateFormat(), $local, false);
 	}
 
