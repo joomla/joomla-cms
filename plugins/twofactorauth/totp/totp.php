@@ -65,7 +65,7 @@ class PlgTwofactorauthTotp extends JPlugin
 	 */
 	public function onUserTwofactorIdentify()
 	{
-		$section = (int)$this->params->get('section', 3);
+		$section = (int) $this->params->get('section', 3);
 
 		$current_section = 0;
 
@@ -241,7 +241,7 @@ class PlgTwofactorauthTotp extends JPlugin
 		}
 
 		// Check succeedeed; return an OTP configuration object
-		$otpConfig = (object)array(
+		$otpConfig = (object) array(
 			'method'   => 'totp',
 			'config'   => array(
 				'code' => $data['key']

@@ -99,7 +99,7 @@ final class JApplicationSite extends JApplicationCms
 	/**
 	 * Dispatch the application
 	 *
-	 * @param	string  $component  The component which is being rendered.
+	 * @param   string  $component  The component which is being rendered.
 	 *
 	 * @return  void
 	 *
@@ -255,11 +255,11 @@ final class JApplicationSite extends JApplicationCms
 	/**
 	 * Get the application parameters
 	 *
-	 * @param	string	The component option
+	 * @param   string  $option  The component option
 	 *
-	 * @return	object	The parameters object
+	 * @return  object  The parameters object
 	 *
-	 * @since	3.2
+	 * @since   3.2
 	 * @deprecated  4.0  Use getParams() instead
 	 */
 	public function getPageParameters($option = null)
@@ -355,11 +355,9 @@ final class JApplicationSite extends JApplicationCms
 	 *
 	 * @since   3.2
 	 */
-	public function getPathway($name = null, $options = array())
+	public function getPathway($name = 'site', $options = array())
 	{
-		$pathway = parent::getPathway('site', $options);
-
-		return $pathway;
+		return parent::getPathway($name, $options);
 	}
 
 	/**
@@ -374,13 +372,10 @@ final class JApplicationSite extends JApplicationCms
 	 */
 	public static function getRouter($name = 'site', array $options = array())
 	{
-		jimport('joomla.application.router');
-
 		$config = JFactory::getConfig();
 		$options['mode'] = $config->get('sef');
-		$router = parent::getRouter($name, $options);
 
-		return $router;
+		return parent::getRouter($name, $options);
 	}
 
 	/**
@@ -486,7 +481,9 @@ final class JApplicationSite extends JApplicationCms
 
 		// Allows for overriding the active template from the request
 		$template->template = $this->input->getCmd('template', $template->template);
-		$template->template = JFilterInput::getInstance()->clean($template->template, 'cmd'); // need to filter the default value as well
+
+		// Need to filter the default value as well
+		$template->template = JFilterInput::getInstance()->clean($template->template, 'cmd');
 
 		// Fallback template
 		if (!file_exists(JPATH_THEMES . '/' . $template->template . '/index.php'))
@@ -744,7 +741,7 @@ final class JApplicationSite extends JApplicationCms
 	 *
 	 * @since	3.2
 	 */
-	public function setDetectBrowser($state=false)
+	public function setDetectBrowser($state = false)
 	{
 		$old = $this->_detect_browser;
 		$this->_detect_browser = $state;
@@ -780,7 +777,7 @@ final class JApplicationSite extends JApplicationCms
 	 * @since   3.2
 	 */
 	public function setTemplate($template, $styleParams = null)
- 	{
+	{
 		if (is_dir(JPATH_THEMES . '/' . $template))
 		{
 			$this->template = new stdClass;
@@ -795,5 +792,5 @@ final class JApplicationSite extends JApplicationCms
 				$this->template->params = new JRegistry($styleParams);
 			}
 		}
- 	}
+	}
 }

@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/document/document.php';
 require_once JPATH_PLATFORM . '/joomla/document/image/image.php';
 
 /**
@@ -36,11 +35,7 @@ class JDocumentImageTest extends TestCase
 
 		$this->saveFactoryState();
 
-		require_once JPATH_PLATFORM . '/joomla/factory.php';
-
-		$app = $this->getMockWeb();
-
-		JFactory::$application = $app;
+		JFactory::$application = $this->getMockWeb();
 
 		$this->object = new JDocumentImage;
 	}
@@ -82,8 +77,6 @@ class JDocumentImageTest extends TestCase
 
 	/**
 	 * Tests the JDocumentImage::render method.
-	 *
-	 * @covers  JDocumentImage::render
 	 *
 	 * @return  void
 	 */

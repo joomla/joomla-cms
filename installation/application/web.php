@@ -314,8 +314,6 @@ final class InstallationApplicationWeb extends JApplicationCms
 	 */
 	public function getLocaliseAdmin($db = false)
 	{
-		jimport('joomla.filesystem.folder');
-
 		// Read the files in the admin area
 		$path = JLanguage::getLanguagePath(JPATH_ADMINISTRATOR);
 		$langfiles['admin'] = JFolder::folders($path);
