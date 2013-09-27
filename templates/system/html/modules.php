@@ -136,3 +136,69 @@ function modChrome_outline($module, &$params, &$attribs)
 	</div>
 	<?php
 }
+
+/*
+ * html5-Flex
+ * same as html5 but allows title area to have styling separate from title tag styling
+ *  resulting in moduletable, moduleheader, and text background all separetly stylable
+ */
+function modChrome_flex($module, &$params, &$attribs)
+{
+	$moduleTag = $params->get('module_tag');
+	
+	// we use this alot so declare it 
+	$moduleHeader = 'class="moduleheader';	
+	
+	// what tag do they want for wrapper 
+	$headerTag = htmlspecialchars($params->get('header_tag'));	
+	
+	// Get number of boostrap columns 
+	$bootstrapSize = $params->get('bootstrap_size');	
+	
+	// temporarily store header class in variable 
+	$headerClass = $params->get('header_class');	
+	
+	 // Create header class declaration 
+	$headerClass = !empty($headerClass) ? $moduleHeader . htmlspecialchars($headerClass) . '"' : $moduleHeader.'"';
+	 
+	 // Create module class declaration 
+	$moduleClass = !empty($bootstrapSize) ? ' span' . (int) $bootstrapSize . '' : '';
+	
+	// get module suffix 
+	$moduleClassSfx = htmlspecialchars($params->get('moduleclass_sfx')); 
+	
+	// don't create html if no module content 
+	if (!empty ($module->content))	
+	{
+		// Module wrapper 
+		$html  = "<{$moduleTag} class=\"moduletable{$moduleClassSfx}{$moduleClass}\">"; 
+
+		// don't display title if not requested 
+		if ((bool) $module->showtitle) 
+        {
+				// create tag and wrapper 
+				$html .= "<{$headerTag} {$headerClass}>";
+			
+					// Style the bar background for the title 
+					$html .= "<span {$moduleHeader}_txtbg\">";	
+	
+						// Title text 
+						$html .= $module->title;
+
+					// Close Title Background Style 
+					$html .= "</span>";	
+				
+				// Close Wrapper 
+				$html .= "</{$headerTag}>";	
+        }
+
+		// get content 
+		$html .= $module->content; 
+		
+		 // close module wrapper 
+		$html .= "</{$moduleTag}>";
+
+		// Display everything 
+		echo $html;
+	}
+}
