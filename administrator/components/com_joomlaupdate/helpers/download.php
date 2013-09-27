@@ -46,10 +46,12 @@ class AdmintoolsHelperDownload
 
 		// Try to open the output file for writing
 		$fp = @fopen($target, 'wb');
+
 		if ($fp === false)
 		{
 			// The file can not be opened for writing. Let's try a hack.
 			$empty = '';
+
 			if ( JFile::write($target, $empty) )
 			{
 				if ( self::chmod($target, 511) )
@@ -61,11 +63,13 @@ class AdmintoolsHelperDownload
 		}
 
 		$result = false;
+
 		if ($fp !== false)
 		{
 			// First try to download directly to file if $fp !== false
 			$adapters = self::getAdapters();
 			$result = false;
+
 			while (!empty($adapters) && ($result === false))
 			{
 				// Run the current download method
@@ -75,13 +79,13 @@ class AdmintoolsHelperDownload
 				// Check if we have a download
 				if ($result === true)
 				{
-
 					// The download is complete, close the file pointer
 					@fclose($fp);
 
 					// If the filesize is not at least 1 byte, we consider it failed.
 					clearstatcache();
 					$filesize = @filesize($target);
+
 					if ($filesize <= 0)
 					{
 						$result = false;
@@ -99,7 +103,6 @@ class AdmintoolsHelperDownload
 
 		if ($result === false)
 		{
-
 			// Delete the target file if it exists
 			if (file_exists($target))
 			{
@@ -132,7 +135,6 @@ class AdmintoolsHelperDownload
 
 		while (!empty($adapters) && ($result === false))
 		{
-
 			// Run the current download method
 			$method = 'get' . strtoupper(array_shift($adapters));
 			$result = self::$method($url, null);
@@ -180,7 +182,6 @@ class AdmintoolsHelperDownload
 
 		if ( !@curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1) && !$nofollow )
 		{
-
 			// Safe Mode is enabled. We have to fetch the headers and
 			// parse any redirections present in there.
 			curl_setopt($ch, CURLOPT_AUTOREFERER, true);
@@ -200,6 +201,7 @@ class AdmintoolsHelperDownload
 
 			// Parse the headers
 			$lines = explode("\n", $data);
+
 			foreach ($lines as $line)
 			{
 				if (substr($line, 0, 9) == "Location:")
@@ -220,6 +222,7 @@ class AdmintoolsHelperDownload
 		else
 		{
 			@curl_setopt($ch, CURLOPT_MAXREDIRS, 20);
+
 			if (function_exists('set_time_limit'))
 			{
 				set_time_limit(0);
@@ -258,7 +261,6 @@ class AdmintoolsHelperDownload
 
 		if (is_null($result))
 		{
-
 			// If we are not allowed to use ini_get, we assume that URL fopen is
 			// disabled.
 			if (!function_exists('ini_get'))
@@ -304,12 +306,12 @@ class AdmintoolsHelperDownload
 		}
 		else
 		{
-
 			// PHP 4 way (actually, it's just a fallback)
 			if ( function_exists('ini_set') )
 			{
 				ini_set('user_agent', 'Joomla/' . JVERSION);
 			}
+
 			$ih = @fopen($url, 'r');
 		}
 
@@ -326,6 +328,7 @@ class AdmintoolsHelperDownload
 		$bytes = 0;
 		$result = true;
 		$return = '';
+
 		while (!feof($ih) && $result)
 		{
 			// Try to reset the time limit on each iteration so that we don't time out if the download takes too long.
@@ -335,15 +338,18 @@ class AdmintoolsHelperDownload
 			}
 
 			$contents = fread($ih, 4096);
+
 			if ($contents === false)
 			{
 				@fclose($ih);
 				$result = false;
+
 				return $result;
 			}
 			else
 			{
 				$bytes += strlen($contents);
+
 				if (is_resource($fp))
 				{
 					$result = @fwrite($fp, $contents);
@@ -384,14 +390,17 @@ class AdmintoolsHelperDownload
 	{
 		// Detect available adapters
 		$adapters = array();
+
 		if (self::hasCURL())
 		{
 			$adapters[] = 'curl';
 		}
+
 		if (self::hasFOPEN())
 		{
 			$adapters[] = 'fopen';
 		}
+
 		return $adapters;
 	}
 
@@ -410,6 +419,7 @@ class AdmintoolsHelperDownload
 		if (is_string($mode))
 		{
 			$mode = octdec($mode);
+
 			if ( ($mode < 0600) || ($mode > 0777) )
 			{
 				$mode = 0755;
@@ -425,7 +435,6 @@ class AdmintoolsHelperDownload
 
 		if ($ftpOptions['enabled'] == 1)
 		{
-
 			// Connect the FTP client
 			jimport('joomla.client.ftp');
 			$ftp = &JFTP::getInstance(
@@ -440,17 +449,16 @@ class AdmintoolsHelperDownload
 		}
 		elseif ($ftpOptions['enabled'] == 1)
 		{
-
 			// Translate path and delete
 			jimport('joomla.client.ftp');
 			$path = JPath::clean(str_replace(JPATH_ROOT, $ftpOptions['root'], $path), '/');
 
 			// FTP connector throws an error
 			$ret = $ftp->chmod($path, $mode);
-		} else
+		}
+		else
 		{
 			return false;
 		}
 	}
-
 }
