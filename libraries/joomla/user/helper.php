@@ -323,6 +323,7 @@ abstract class JUserHelper
 		{
 			$userPlugin = JPluginHelper::getPlugin('user','joomla');
 			$userPluginParams = new JRegistry($userPlugin->params);
+			$userPlugin = JPluginHelper::importPlugin('user','joomla');
 			$defaultEncryption = PlgUserJoomla::setDefaultEncryption($userPluginParams);
 		}
 		else
