@@ -9,10 +9,6 @@
 
 defined('_JEXEC') or die;
 
-<<<<<<< HEAD
-class PostinstallViewMessages extends FOFViewHtml
-{
-=======
 /**
  * Model class to display postinstall messages
  *
@@ -31,7 +27,6 @@ class PostinstallViewMessages extends FOFViewHtml
 	 *
 	 * @since   3.2
 	 */
->>>>>>> refs/heads/projects-master
 	protected function onBrowse($tpl = null)
 	{
 		$this->eid = $this->input->getInt('eid', '700');
@@ -39,8 +34,5 @@ class PostinstallViewMessages extends FOFViewHtml
 
 		return parent::onBrowse($tpl);
 	}
-<<<<<<< HEAD
+
 }
-=======
-}
->>>>>>> refs/heads/projects-master

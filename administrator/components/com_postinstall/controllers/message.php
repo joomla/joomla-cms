@@ -9,28 +9,14 @@
 
 defined('_JEXEC') or die;
 
-<<<<<<< HEAD
-=======
-/**
- * Controller class to manage postinstall messages
- *
- * @package     Joomla.Administrator
- * @subpackage  com_postinstall
- * @since       3.2
- */
->>>>>>> refs/heads/projects-master
 class PostinstallControllerMessage extends FOFController
 {
 	/**
 	 * Resets all post-installation messages of the specified extension
 	 *
-<<<<<<< HEAD
-	 * @return   void
-=======
 	 * @return  void
 	 *
 	 * @since   3.2
->>>>>>> refs/heads/projects-master
 	 */
 	public function reset()
 	{
@@ -46,13 +32,9 @@ class PostinstallControllerMessage extends FOFController
 	/**
 	 * Executes the action associated with an item
 	 *
-<<<<<<< HEAD
-	 * @return   void
-=======
 	 * @return  void
 	 *
 	 * @since   3.2
->>>>>>> refs/heads/projects-master
 	 */
 	public function action()
 	{
@@ -100,8 +82,4 @@ class PostinstallControllerMessage extends FOFController
 
 		$this->setRedirect('index.php?option=com_postinstall');
 	}
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> refs/heads/projects-master

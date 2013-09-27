@@ -7,12 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-<<<<<<< HEAD
-defined('_JEXEC') or die();
-
-class PostinstallToolbar extends FOFToolbar
-{
-=======
 defined('_JEXEC') or die;
 
 /**
@@ -31,7 +25,6 @@ class PostinstallToolbar extends FOFToolbar
 	 *
 	 * @since   3.2
 	 */
->>>>>>> refs/heads/projects-master
 	public function onMessages()
 	{
 		$extension_name = JText::_('COM_POSTINSTALL_TITLE_JOOMLA');
@@ -46,8 +39,4 @@ class PostinstallToolbar extends FOFToolbar
 
 		JToolBarHelper::title(JText::sprintf('COM_POSTINSTALL_MESSAGES_TITLE', $extension_name));
 	}
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> refs/heads/projects-master

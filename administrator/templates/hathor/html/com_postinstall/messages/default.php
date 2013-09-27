@@ -23,11 +23,7 @@ defined('_JEXEC') or die;
 		echo JHtml::_('sliders.start', 'panel-sliders', array('useCookie' => '1'));
 		echo JHtml::_('sliders.panel', JText::_('COM_POSTINSTALL_LBL_MESSAGES'), 'postinstall-panel-messages');
 	else:
-<<<<<<< HEAD
- ?>
-=======
 ?>
->>>>>>> refs/heads/projects-master
 	<h2><?php echo JText::_('COM_POSTINSTALL_LBL_MESSAGES') ?></h2>
 <?php endif; ?>
 	<?php foreach($this->items as $item): ?>
@@ -60,8 +56,4 @@ defined('_JEXEC') or die;
 	echo JHtml::_('sliders.end');
 	endif;
 ?>
-<<<<<<< HEAD
 <?php endif; ?>
-=======
-<?php endif; ?>
->>>>>>> refs/heads/projects-master

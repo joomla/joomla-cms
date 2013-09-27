@@ -75,11 +75,7 @@ VALUES
 (35, 1, 67, 68, 1, 'com_tags', 'com_tags', '{"core.admin":[],"core.manage":[],"core.manage":[],"core.delete":[],"core.edit.state":[]}'),
 (36, 1, 69, 70, 1, 'com_contenthistory', 'com_contenthistory', '{}'),
 (37, 1, 71, 72, 1, 'com_ajax', 'com_ajax', '{}'),
-<<<<<<< HEAD
-(38, 1, 73, 74, 1, 'com_postinstall', 'com_postinstall', '{}'),
-=======
 (38, 1, 73, 74, 1, 'com_postinstall', 'com_postinstall', '{}');
->>>>>>> refs/heads/projects-master
 
 --
 -- Table: #__associations

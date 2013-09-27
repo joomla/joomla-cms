@@ -55,15 +55,7 @@ class CpanelViewCpanel extends JViewLegacy
 			require_once JPATH_LIBRARIES . '/fof/include.php';
 		}
 
-<<<<<<< HEAD
-		$messages_model = FOFModel::getTmpInstance('Messages', 'PostinstallModel', array(
-			'input'	=> array(
-				'eid'	=> 700,
-			)
-		));
-=======
 		$messages_model = FOFModel::getTmpInstance('Messages', 'PostinstallModel', array('input' => array('eid' => 700)));
->>>>>>> refs/heads/projects-master
 		$messages = $messages_model->getItemList();
 
 		$this->postinstall_message_count = count($messages);
