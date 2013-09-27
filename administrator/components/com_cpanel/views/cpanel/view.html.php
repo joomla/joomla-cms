@@ -60,21 +60,6 @@ class CpanelViewCpanel extends JViewLegacy
 
 		$this->postinstall_message_count = count($messages);
 
-		if ($this->postinstall_message_count)
-		{
-			$js = <<< ENDJS
-jQuery(document).ready(function(){
-	jQuery('#messagesModal').modal({
-		backdrop: true,
-		keyboard: true,
-		show: true
-	});
-});
-ENDJS;
-
-			JFactory::getDocument()->addScriptDeclaration($js);
-		}
-
 		parent::display($tpl);
 	}
 }
