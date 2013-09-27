@@ -4,17 +4,17 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
+// No direct access.
 defined('_JEXEC') or die;
 
 /**
  * CodeMirror Editor Plugin.
  *
- * @package		Joomla.Plugin
- * @subpackage	Editors.codemirror
- * @since		1.6
+ * @package     Joomla.Plugin
+ * @subpackage  Editors.codemirror
+ * @since       1.6
  */
-class plgEditorCodemirror extends JPlugin
+class PlgEditorCodemirror extends JPlugin
 {
 	/**
 	 * Base path for editor files.
@@ -120,9 +120,9 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Copy editor content to form field.
 	 *
-	 * @param	string	$id	The id of the editor field.
+	 * @param   string  $id  The id of the editor field.
 	 *
-	 * @return string Javascript
+	 * @return  string Javascript
 	 */
 	public function onSave($id)
 	{
@@ -132,7 +132,7 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Get the editor content.
 	 *
-	 * @param	string	$id	The id of the editor field.
+	 * @param   string  $id  The id of the editor field.
 	 *
 	 * @return string Javascript
 	 */
@@ -144,10 +144,10 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Set the editor content.
 	 *
-	 * @param	string	$id			The id of the editor field.
-	 * @param	string	$content	The content to set.
+	 * @param   string  $id	      The id of the editor field.
+	 * @param   string  $content  The content to set.
 	 *
-	 * @return string Javascript
+	 * @return  string Javascript
 	 */
 	public function onSetContent($id, $content)
 	{
@@ -180,21 +180,23 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Display the editor area.
 	 *
-	 * @param	string	$name		The control name.
-	 * @param	string	$html		The contents of the text area.
-	 * @param	string	$width		The width of the text area (px or %).
-	 * @param	string	$height		The height of the text area (px or %).
-	 * @param	int		$col		The number of columns for the textarea.
-	 * @param	int		$row		The number of rows for the textarea.
-	 * @param	boolean	$buttons	True and the editor buttons will be displayed.
-	 * @param	string	$id			An optional ID for the textarea (note: since 1.6). If not supplied the name is used.
-	 * @param	string	$asset
-	 * @param	object	$author
-	 * @param	array	$params		Associative array of editor parameters.
+	 * @param   string   $name     The control name.
+	 * @param   string   $content  The contents of the text area.
+	 * @param   string   $width    The width of the text area (px or %).
+	 * @param   string   $height   The height of the text area (px or %).
+	 * @param   int      $col      The number of columns for the textarea.
+	 * @param   int      $row      The number of rows for the textarea.
+	 * @param   boolean  $buttons  True and the editor buttons will be displayed.
+	 * @param   string   $id       An optional ID for the textarea (note: since 1.6). If not supplied the name is used.
+	 * @param   string   $asset    The asset for the object.
+	 * @param   object   $author   The author.
+	 * @param   array    $params   Associative array of editor parameters.
 	 *
 	 * @return string HTML
 	 */
-	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
+	public function onDisplay(
+		$name, $content, $width, $height, $col, $row,
+		$buttons = true, $id = null, $asset = null, $author = null, $params = array())
 	{
 		$id = empty($id) ? $name : $id;
 
@@ -302,7 +304,9 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Loads a CodeMirror syntax mode file.
 	 *
-	 * @param  string  $mode  The syntax mode to load (ex. html, css, javascript).
+	 * @param   string  $mode  The syntax mode to load (ex. html, css, javascript).
+	 *
+	 * @return  void
 	 */
 	protected function loadMode($mode)
 	{
@@ -321,7 +325,9 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Loads a CodeMirror theme file.
 	 *
-	 * @param  string  $theme  The theme to load.
+	 * @param   string  $theme  The theme to load.
+	 *
+	 * @return  void
 	 */
 	protected function loadTheme($theme)
 	{
@@ -339,6 +345,8 @@ class plgEditorCodemirror extends JPlugin
 
 	/**
 	 * Loads the CodeMirror addons file.
+	 *
+	 * @return  void
 	 */
 	protected function loadAddons()
 	{
@@ -357,10 +365,12 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Displays the editor buttons.
 	 *
-	 * @param string $name
-	 * @param mixed $buttons [array with button objects | boolean true to display buttons]
+	 * @param   string  $id       The id of the control.
+	 * @param   mixed   $buttons  [array with button objects | boolean true to display buttons]
+	 * @param   string  $asset    The asset for the object.
+	 * @param   object  $author   The author.
 	 *
-	 * @return string HTML
+	 * @return  string HTML
 	 */
 	protected function displayButtons($id, $buttons, $asset, $author)
 	{
@@ -388,7 +398,7 @@ class plgEditorCodemirror extends JPlugin
 			// This will allow plugins to attach buttons or change the behavior on the fly using AJAX
 			$html[] = '<div id="editor-xtd-buttons">';
 
-			$format =  '<div class="button2-left"><div class="%6$s"><a %1$s title="%2$s" %3$s %4$s rel="%5$s">%6$s</a></div></div>';
+			$format = '<div class="button2-left"><div class="%6$s"><a %1$s title="%2$s" %3$s %4$s rel="%5$s">%6$s</a></div></div>';
 
 			foreach ($results as $button)
 			{
@@ -396,8 +406,8 @@ class plgEditorCodemirror extends JPlugin
 				if ($button->get('name'))
 				{
 					$modal		= ($button->get('modal')) ? ' class="modal-button btn"' : null;
-					$href		= ($button->get('link')) ? ' href="'.JURI::base().$button->get('link').'"' : null;
-					$onclick	= ($button->get('onclick')) ? 'onclick="'.$button->get('onclick').'"' : null;
+					$href		= ($button->get('link')) ? ' href="' . JURI::base() . $button->get('link') . '"' : null;
+					$onclick	= ($button->get('onclick')) ? 'onclick="' . $button->get('onclick') . '"' : null;
 					$title      = ($button->get('title')) ? $button->get('title') : $button->get('text');
 
 					$html[] = sprintf(
@@ -418,6 +428,8 @@ class plgEditorCodemirror extends JPlugin
 
 	/**
 	 * Gets the url of a font stylesheet (from google web fonts) based on param values
+	 *
+	 * @param   string  $font  The font name.
 	 *
 	 * @return	string	$styleSheet a url (or empty string)
 	 */
@@ -493,13 +505,14 @@ class plgEditorCodemirror extends JPlugin
 		);
 
 		$styles = array(
-			'font-family: ' . (isset($fonts[$font]) ? $fonts[$font] : 'monospace') .';',
-			'font-size: '   . $this->params->get('font_size', 10) . 'px;',
+			'font-family: ' . (isset($fonts[$font]) ? $fonts[$font] : 'monospace') . ';',
+			'font-size: ' . $this->params->get('font_size', 10) . 'px;',
 			'line-height: ' . $this->params->get('line_height', 1.2) . 'em;',
-			'border: '      . '1px solid #ccc;'
+			'border: ' . '1px solid #ccc;'
 		);
 
 		$min_height = $this->params->get('min_height', 0);
+
 		if ($min_height && is_numeric($min_height))
 		{
 			$styles[] = 'min-height: ' . $min_height . 'px;';
@@ -507,5 +520,4 @@ class plgEditorCodemirror extends JPlugin
 
 		return $styles;
 	}
-
 }
