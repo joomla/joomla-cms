@@ -954,7 +954,7 @@ class MenusModelItem extends JModelAdmin
 				}
 			}
 
-			//Now check for a view manifest file
+			// Now check for a view manifest file
 			if (!$formFile)
 			{
 				if (isset($view))
@@ -963,7 +963,7 @@ class MenusModelItem extends JModelAdmin
 							$base . '/view/' . $view,
 							$base . '/views/' . $view
 					);
-					$metaPath = JPath::find($metadataFiles, 'metadata.xml');
+					$metaPath = JPath::find($metadataFolders, 'metadata.xml');
 
 					if (is_file($path = JPath::clean($metaPath)))
 					{
@@ -972,7 +972,7 @@ class MenusModelItem extends JModelAdmin
 				}
 				else
 				{
-					//Now check for a component manifest file
+					// Now check for a component manifest file
 					$path = JPath::clean($base . '/metadata.xml');
 					if (is_file($path))
 					{
