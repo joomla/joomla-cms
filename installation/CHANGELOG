@@ -25,9 +25,19 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Sep-2013 Michael Babker
+ ^ [#30556] JDatabaseDriver::replacePrefix: Optimization proposal: 100 lines of PHP can be replaced by 1 line of regexp.  Thanks Beat
+
+25-Sep-2013 Michael Babker
+ + [#31977] Component for Post-Installation Messages.  Thanks Nicholas K. Dionysopoulos
+ # [#31107] *HelperRoute classes generate wrong URLs.  Thanks Hannes Papenberg
+ ^ [#31489] Duplicate code reduction in category views and hits standardiation.  Thanks Elin Waring
+ ^ [#31517] Reduce duplicate code in category feeds.  Thanks Elin Waring
+
 25-Sep-2013 Jean-Marie Simonet
  # [#32069] Backend 'Edit Account' page doesn't change password.   Thanks Dennis Hermatski.
- # [#32089] *Adding pagination limitbox in overrides manager 
+ # [#32089] *Adding pagination limitbox in overrides manager
+ # [#32081] PHP notices when creating a new article. Thanks Achal Aggarwal
 
 24-Sep-2013 Elin Waring
  ^ [#31946] Support new mvc components in com_menus.
@@ -39,7 +49,7 @@ $ -> Language fix or change
  ^ [#31860] [JUX] [03] Added Joomla update message button to top of page on control panel.  Thanks Peter Peter van Westen
  ^ [#32083] Broken front-end article editing layout. Thanks Achal Aggarwal
  # [#32087] Fix small issue with the name of UsersHelper in com_users. Thanks Bruno Batista
- ^ [#30417] Extend individual content helpers from JHelperContent and remove duplicate code. Thanks Edgars Piruška  
+ ^ [#30417] Extend individual content helpers from JHelperContent and remove duplicate code. Thanks Edgars Piruška
 
 22-Sep-2013 Michael Babker
  # [#32060] FOF description is show with ?? at language debug and is hardcoded in the xml files. Thanks Tobias Zulauf

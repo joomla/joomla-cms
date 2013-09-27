@@ -7,10 +7,31 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+<<<<<<< HEAD
 defined('_JEXEC') or die();
 
 class PostinstallToolbar extends FOFToolbar
 {
+=======
+defined('_JEXEC') or die;
+
+/**
+ * The Toolbar class renders the component title area and the toolbar.
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  com_postinstall
+ * @since       3.2
+ */
+class PostinstallToolbar extends FOFToolbar
+{
+	/**
+	 * Setup the toolbar and title
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+>>>>>>> refs/heads/projects-master
 	public function onMessages()
 	{
 		$extension_name = JText::_('COM_POSTINSTALL_TITLE_JOOMLA');
@@ -25,4 +46,8 @@ class PostinstallToolbar extends FOFToolbar
 
 		JToolBarHelper::title(JText::sprintf('COM_POSTINSTALL_MESSAGES_TITLE', $extension_name));
 	}
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> refs/heads/projects-master

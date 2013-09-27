@@ -9,8 +9,29 @@
 
 defined('_JEXEC') or die;
 
+<<<<<<< HEAD
 class PostinstallViewMessages extends FOFViewHtml
 {
+=======
+/**
+ * Model class to display postinstall messages
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  com_postinstall
+ * @since       3.2
+ */
+class PostinstallViewMessages extends FOFViewHtml
+{
+	/**
+	 * Executes before rendering the page for the Browse task.
+	 *
+	 * @param   string  $tpl  Subtemplate to use
+	 *
+	 * @return  boolean  Return true to allow rendering of the page
+	 *
+	 * @since   3.2
+	 */
+>>>>>>> refs/heads/projects-master
 	protected function onBrowse($tpl = null)
 	{
 		$this->eid = $this->input->getInt('eid', '700');
@@ -18,4 +39,8 @@ class PostinstallViewMessages extends FOFViewHtml
 
 		return parent::onBrowse($tpl);
 	}
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> refs/heads/projects-master

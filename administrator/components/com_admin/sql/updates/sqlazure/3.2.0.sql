@@ -22,12 +22,8 @@ SELECT 38,1,73,74,1,'com_postinstall','com_postinstall','{}';
 
 SET IDENTITY_INSERT #__assets OFF;
 
-SET IDENTITY_INSERT #__menu  ON;
-
-INSERT INTO #__menu (id, menutype, title, alias, note, path, link, type, published, parent_id, level, component_id, checked_out, checked_out_time, browserNav, access, img, template_style_id, params, lft, rgt, home, language, client_id)
-SELECT 24, 'menu', 'com_postinstall', 'com_postinstall', '', 'Post-installation messages', 'index.php?option=com_postinstall', 'component', 0, 1, 1, 32, 0, '1900-01-01 00:00:00', 0, 0, 'class:postinstall', 0, '', 45, 46, 0, '*', 1;
-
-SET IDENTITY_INSERT #__menu  OFF;
+INSERT INTO #__menu (menutype, title, alias, note, path, link, type, published, parent_id, level, component_id, checked_out, checked_out_time, browserNav, access, img, template_style_id, params, lft, rgt, home, language, client_id)
+SELECT 'menu', 'com_postinstall', 'com_postinstall', '', 'Post-installation messages', 'index.php?option=com_postinstall', 'component', 0, 1, 1, 32, 0, '1900-01-01 00:00:00', 0, 0, 'class:postinstall', 0, '', 45, 46, 0, '*', 1;
 
 CREATE TABLE [#__postinstall_messages] (
   [postinstall_message_id] [bigint] IDENTITY(1,1) NOT NULL,

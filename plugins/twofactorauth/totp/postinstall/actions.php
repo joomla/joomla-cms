@@ -14,6 +14,13 @@
 /**
  * Checks if the plugin is enabled. If not it returns true, meaning that the
  * message concerning two factor authentication should be displayed.
+<<<<<<< HEAD
+=======
+ *
+ * @return  integer
+ *
+ * @since   3.2
+>>>>>>> refs/heads/projects-master
  */
 function twofactorauth_postinstall_condition()
 {
@@ -35,6 +42,13 @@ function twofactorauth_postinstall_condition()
  * Enables the two factor authentication plugin and redirects the user to their
  * user profile page so that they can enable two factor authentication on their
  * account.
+<<<<<<< HEAD
+=======
+ *
+ * @return  void
+ *
+ * @since   3.2
+>>>>>>> refs/heads/projects-master
  */
 function twofactorauth_postinstall_action()
 {
@@ -52,4 +66,8 @@ function twofactorauth_postinstall_action()
 	// Redirect the user to their profile editor page
 	$url = 'index.php?option=com_users&task=user.edit&id=' . JFactory::getUser()->id;
 	JFactory::getApplication()->redirect($url);
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> refs/heads/projects-master

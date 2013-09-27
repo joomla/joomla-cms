@@ -7,10 +7,26 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
+/**
+ * Model class to manage postinstall messages
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  com_postinstall
+ * @since       3.2
+ */
 class PostinstallModelMessages extends FOFModel
 {
+	/**
+	 * Builds the SELECT query
+	 *
+	 * @param   boolean  $overrideLimits  Are we requested to override the set limits?
+	 *
+	 * @return  JDatabaseQuery
+	 *
+	 * @since   3.2
+	 */
 	public function buildQuery($overrideLimits = false)
 	{
 		$query = parent::buildQuery($overrideLimits);
@@ -29,12 +45,13 @@ class PostinstallModelMessages extends FOFModel
 	}
 
 	/**
-	 * Returns the name of an extension, as registered in the #__extensions
-	 * table
+	 * Returns the name of an extension, as registered in the #__extensions table
 	 *
 	 * @param   integer  $eid  The extension ID
 	 *
 	 * @return  string  The extension name
+	 *
+	 * @since   3.2
 	 */
 	public function getExtensionName($eid)
 	{
@@ -44,7 +61,7 @@ class PostinstallModelMessages extends FOFModel
 		$query = $db->getQuery(true)
 			->select(array('name', 'element', 'client_id'))
 			->from($db->qn('#__extensions'))
-			->where($db->qn('extension_id') . ' = ' . $db->q((int)$eid));
+			->where($db->qn('extension_id') . ' = ' . $db->q((int) $eid));
 
 		$db->setQuery($query, 0, 1);
 
@@ -76,6 +93,8 @@ class PostinstallModelMessages extends FOFModel
 	 * @param   integer  $eid  The extension ID whose messages we'll reset
 	 *
 	 * @return  mixed  False if we fail, a db cursor otherwise
+	 *
+	 * @since   3.2
 	 */
 	public function resetMessages($eid)
 	{
@@ -99,6 +118,10 @@ class PostinstallModelMessages extends FOFModel
 	 * on the list it's being fed. A little touch of modern magic.
 	 *
 	 * @param   array  $resultArray  A list of items to process
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
 	 */
 	protected function onProcessList(&$resultArray)
 	{
