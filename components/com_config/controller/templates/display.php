@@ -76,7 +76,6 @@ class ConfigControllerTemplatesDisplay extends JControllerBase
 					$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 
 					return;
-
 				}
 
 			}

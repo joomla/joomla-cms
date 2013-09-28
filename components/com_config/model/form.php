@@ -196,7 +196,6 @@ abstract class ConfigModelForm extends ConfigModelCms
 		}
 		catch (Exception $e)
 		{
-
 			$app = JFactory::getApplication();
 			$app->enqueueMessage($e->getMessage());
 

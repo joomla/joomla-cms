@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,16 +34,18 @@ class ConfigViewApplicationJson extends ConfigViewJson
 	public function render()
 	{
 
-		$this->data = $this->model->getData();
 
 		try
 		{
+			$this->data = $this->model->getData();
 			$user = JFactory::getUser();
 			$app = JFactory::getApplication();
 		}
 		catch (Exception $e)
 		{
-			$app->enqueueMessage($e->getMessage(), 'error');
+			JErrorPage::render($e);
+
+			return false;
 		}
 
 		$this->userIsSuperAdmin = $user->authorise('core.admin');

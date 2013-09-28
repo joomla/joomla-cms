@@ -29,16 +29,14 @@ class TemplatesViewStyle extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$app = JFactory::getApplication();
 
 		try
 		{
 			$this->item		= $this->get('Item');
-
 		}
 		catch (Exception $e)
 		{
-			$app->enqueueMessage($e->getMessage(), 'error');
+			JErrorPage::render($e);
 
 			return false;
 		}

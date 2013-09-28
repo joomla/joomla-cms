@@ -22,12 +22,12 @@ class ConfigControllerHelper
 	/*
 	 * Method to parse a controller from a url
 	 * Defaults to the base controllers and passes an array of options.
-	 *      $options[0] is the location of the controller which defaults to the core libraries (referenced as 'j'
-	 *      and then the named folder within the component entry point file.
-	 *      $options[1] is the name of the controller file,
-	 *      $options[2] is the name of the folder found in the component controller folder for controllers
-	 *      not prefixed with Config.
-	 *      Additional options maybe added to parameterise the controller.
+	 * $options[0] is the location of the controller which defaults to the core libraries (referenced as 'j'
+	 * and then the named folder within the component entry point file.
+	 * $options[1] is the name of the controller file,
+	 * $options[2] is the name of the folder found in the component controller folder for controllers
+	 * not prefixed with Config.
+	 * Additional options maybe added to parameterise the controller.
 	 *
 	 * @param  JApplication  $app  A JApplication object (could be JApplication or JApplicationWeb)
 	 *
@@ -52,20 +52,19 @@ class ConfigControllerHelper
 			{
 				$tasks = explode('.', $task);
 			}
-
-	}
-	elseif ($controllerTask = $app->input->get('controller'))
-	{
-		// Temporary solution
-		if (strpos($controllerTask, '/') !== false)
-		{
-			$tasks = explode('/', $controllerTask);
 		}
-		else
+		elseif ($controllerTask = $app->input->get('controller'))
 		{
-			$tasks = explode('.', $controllerTask);
+			// Temporary solution
+			if (strpos($controllerTask, '/') !== false)
+			{
+				$tasks = explode('/', $controllerTask);
+			}
+			else
+			{
+				$tasks = explode('.', $controllerTask);
+			}
 		}
-	}
 
 		if (empty($tasks[0]) || $tasks[0] == 'Config')
 		{

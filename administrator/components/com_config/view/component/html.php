@@ -49,7 +49,9 @@ class ConfigViewComponentHtml extends ConfigViewHtmlCms
 		}
 		catch (Exception $e)
 		{
-			$app->enqueueMessage($e->getMessage(), 'error');
+			JErrorPage::render($e);
+
+			return false;
 		}
 
 		// Bind the form to the data.

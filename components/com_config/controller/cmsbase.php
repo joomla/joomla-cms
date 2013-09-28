@@ -32,12 +32,12 @@ class ConfigControllerCmsbase extends JControllerBase
 	 */
 	public function execute()
 	{
+		// Check for request forgeries
+		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
+
 		// Get the application
 		$this->app = $this->getApplication();
 		$this->app->redirect('index.php?option=' . $this->input->get('option'));
-
-		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		$this->componentFolder = $this->input->getWord('option', 'com_content');
 		$this->viewName     = $this->input->getWord('view');

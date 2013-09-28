@@ -39,6 +39,7 @@ class ConfigControllerDisplay extends JControllerBase
 		$document     = JFactory::getDocument();
 
 		$componentFolder = $this->input->getWord('option', 'com_config');
+
 		if ($app->isAdmin())
 		{
 			$viewName     = $this->input->getWord('view', 'application');
@@ -88,7 +89,6 @@ class ConfigControllerDisplay extends JControllerBase
 			// Reply for service requests
 			if ($viewFormat == 'json')
 			{
-
 				return $view->render();
 			}
 
