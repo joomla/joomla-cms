@@ -1,7 +1,7 @@
 <?php
 /**
  * @package	    Joomla.UnitTest
- * @subpackage  Tags
+ * @subpackage  Helper
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
@@ -9,6 +9,10 @@
 
 /**
  * Test class for JHelperTags.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Helper
+ * @since       3.1
  */
 class JHelperTagsTest extends PHPUnit_Framework_TestCase
 {
@@ -28,6 +32,8 @@ class JHelperTagsTest extends PHPUnit_Framework_TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		$this->object = new JHelperTags;
 	}
 
