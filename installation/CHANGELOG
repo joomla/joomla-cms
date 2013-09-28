@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 28-Sep-2013 Michael Babker
  ^ [#32068] Consolidate extension helper classes to CMS tree
+ ^ [#32006] Improvements to JHelper and JUcmType.  Thanks Elin Waring
 
 26-Sep-2013 Michael Babker
  ^ [#30556] JDatabaseDriver::replacePrefix: Optimization proposal: 100 lines of PHP can be replaced by 1 line of regexp.  Thanks Beat
