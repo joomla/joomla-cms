@@ -200,8 +200,11 @@ class JCacheStorageRedis extends JCacheStorage
         if (!self::$redis->set($hashId, $data))
             return false;
 
-        if (!self::$redis->expire($hashId, $this->_lifetime * 60))
-            return false;
+        if($this->_lifetime)
+        {
+            if (!self::$redis->expire($hashId, $this->_lifetime * 60))
+                return false;
+        }
 
         return true;
     }
@@ -220,7 +223,7 @@ class JCacheStorageRedis extends JCacheStorage
     {
         $result = self::$redis->del($this->_getCacheId($id, $group));
 
-        return $result;
+        return (bool) $result;
     }
 
     /**
