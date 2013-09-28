@@ -140,7 +140,7 @@ function modChrome_outline($module, &$params, &$attribs)
 /*
  * Html5-Flex
  * Same as html5 but allows title area to have styling separate from title tag styling
- *  resulting in moduletable, moduleheader, and text background all separately stylable
+ * resulting in moduletable, moduleheader, and text background all separately stylable
  */
 function modChrome_flex($module, &$params, &$attribs)
 {
