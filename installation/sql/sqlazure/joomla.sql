@@ -66,8 +66,6 @@ SELECT 15,1,33,34,1,'com_media','com_media','{"core.admin":{"7":1},"core.manage"
 UNION ALL
 SELECT 16,1,35,36,1,'com_menus','com_menus','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 UNION ALL
-SELECT 17,1,37,38,1,'com_messages','com_messages','{"core.admin":{"7":1},"core.manage":{"7":1}}'
-UNION ALL
 SELECT 18,1,39,40,1,'com_modules','com_modules','{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 UNION ALL
 SELECT 19,1,41,44,1,'com_newsfeeds','com_newsfeeds','{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'
@@ -764,8 +762,6 @@ UNION ALL
 SELECT 13, 'com_media', 'component', 'com_media', '', 1, 1, 0, 1, '', '{"upload_extensions":"bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,swf,txt,xcf,xls,BMP,CSV,DOC,GIF,ICO,JPG,JPEG,ODG,ODP,ODS,ODT,PDF,PNG,PPT,SWF,TXT,XCF,XLS","upload_maxsize":"10","file_path":"images","image_path":"images","restrict_uploads":"1","allowed_media_usergroup":"3","check_mime":"1","image_extensions":"bmp,gif,jpg,png","ignore_extensions":"","upload_mime":"image\\/jpeg,image\\/gif,image\\/png,image\\/bmp,application\\/x-shockwave-flash,application\\/msword,application\\/excel,application\\/pdf,application\\/powerpoint,text\\/plain,application\\/x-zip","upload_mime_illegal":"text\\/html"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 14, 'com_menus', 'component', 'com_menus', '', 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
-UNION ALL
-SELECT 15, 'com_messages', 'component', 'com_messages', '', 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 16, 'com_modules', 'component', 'com_modules', '', 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
@@ -1983,35 +1979,29 @@ SELECT 8, 'menu', 'com_contact', 'Contacts', '', 'Contacts/Contacts', 'index.php
 UNION ALL
 SELECT 9, 'menu', 'com_contact_categories', 'Categories', '', 'Contacts/Categories', 'index.php?option=com_categories&extension=com_contact', 'component', 0, 7, 2, 6, 0, '1900-01-01 00:00:00', 0, 0, 'class:contact-cat', 0, '', 14, 15, 0, '*', 1
 UNION ALL
-SELECT 10, 'menu', 'com_messages', 'Messaging', '', 'Messaging', 'index.php?option=com_messages', 'component', 0, 1, 1, 15, 0, '1900-01-01 00:00:00', 0, 0, 'class:messages', 0, '', 17, 22, 0, '*', 1
+SELECT 10, 'menu', 'com_newsfeeds', 'News Feeds', '', 'News Feeds', 'index.php?option=com_newsfeeds', 'component', 0, 1, 1, 17, 0, '1900-01-01 00:00:00', 0, 0, 'class:newsfeeds', 0, '', 23, 28, 0, '*', 1
 UNION ALL
-SELECT 11, 'menu', 'com_messages_add', 'New Private Message', '', 'Messaging/New Private Message', 'index.php?option=com_messages&task=message.add', 'component', 0, 10, 2, 15, 0, '1900-01-01 00:00:00', 0, 0, 'class:messages-add', 0, '', 18, 19, 0, '*', 1
+SELECT 11, 'menu', 'com_newsfeeds_feeds', 'Feeds', '', 'News Feeds/Feeds', 'index.php?option=com_newsfeeds', 'component', 0, 13, 2, 17, 0, '1900-01-01 00:00:00', 0, 0, 'class:newsfeeds', 0, '', 24, 25, 0, '*', 1
 UNION ALL
-SELECT 12, 'menu', 'com_messages_read', 'Read Private Message', '', 'Messaging/Read Private Message', 'index.php?option=com_messages', 'component', 0, 10, 2, 15, 0, '1900-01-01 00:00:00', 0, 0, 'class:messages-read', 0, '', 20, 21, 0, '*', 1
+SELECT 12, 'menu', 'com_newsfeeds_categories', 'Categories', '', 'News Feeds/Categories', 'index.php?option=com_categories&extension=com_newsfeeds', 'component', 0, 13, 2, 6, 0, '1900-01-01 00:00:00', 0, 0, 'class:newsfeeds-cat', 0, '', 26, 27, 0, '*', 1
 UNION ALL
-SELECT 13, 'menu', 'com_newsfeeds', 'News Feeds', '', 'News Feeds', 'index.php?option=com_newsfeeds', 'component', 0, 1, 1, 17, 0, '1900-01-01 00:00:00', 0, 0, 'class:newsfeeds', 0, '', 23, 28, 0, '*', 1
+SELECT 13, 'menu', 'com_redirect', 'Redirect', '', 'Redirect', 'index.php?option=com_redirect', 'component', 0, 1, 1, 24, 0, '1900-01-01 00:00:00', 0, 0, 'class:redirect', 0, '', 29, 30, 0, '*', 1
 UNION ALL
-SELECT 14, 'menu', 'com_newsfeeds_feeds', 'Feeds', '', 'News Feeds/Feeds', 'index.php?option=com_newsfeeds', 'component', 0, 13, 2, 17, 0, '1900-01-01 00:00:00', 0, 0, 'class:newsfeeds', 0, '', 24, 25, 0, '*', 1
+SELECT 14, 'menu', 'com_search', 'Basic Search', '', 'Search', 'index.php?option=com_search', 'component', 0, 1, 1, 19, 0, '1900-01-01 00:00:00', 0, 0, 'class:search', 0, '', 31, 32, 0, '*', 1
 UNION ALL
-SELECT 15, 'menu', 'com_newsfeeds_categories', 'Categories', '', 'News Feeds/Categories', 'index.php?option=com_categories&extension=com_newsfeeds', 'component', 0, 13, 2, 6, 0, '1900-01-01 00:00:00', 0, 0, 'class:newsfeeds-cat', 0, '', 26, 27, 0, '*', 1
+SELECT 15, 'menu', 'com_weblinks', 'Weblinks', '', 'Weblinks', 'index.php?option=com_weblinks', 'component', 0, 1, 1, 21, 0, '1900-01-01 00:00:00', 0, 0, 'class:weblinks', 0, '', 33, 38, 0, '*', 1
 UNION ALL
-SELECT 16, 'menu', 'com_redirect', 'Redirect', '', 'Redirect', 'index.php?option=com_redirect', 'component', 0, 1, 1, 24, 0, '1900-01-01 00:00:00', 0, 0, 'class:redirect', 0, '', 29, 30, 0, '*', 1
+SELECT 16, 'menu', 'com_weblinks_links', 'Links', '', 'Weblinks/Links', 'index.php?option=com_weblinks', 'component', 0, 18, 2, 21, 0, '1900-01-01 00:00:00', 0, 0, 'class:weblinks', 0, '', 34, 35, 0, '*', 1
 UNION ALL
-SELECT 17, 'menu', 'com_search', 'Basic Search', '', 'Search', 'index.php?option=com_search', 'component', 0, 1, 1, 19, 0, '1900-01-01 00:00:00', 0, 0, 'class:search', 0, '', 31, 32, 0, '*', 1
+SELECT 17, 'menu', 'com_weblinks_categories', 'Categories', '', 'Weblinks/Categories', 'index.php?option=com_categories&extension=com_weblinks', 'component', 0, 18, 2, 6, 0, '1900-01-01 00:00:00', 0, 0, 'class:weblinks-cat', 0, '', 36, 37, 0, '*', 1
 UNION ALL
-SELECT 18, 'menu', 'com_weblinks', 'Weblinks', '', 'Weblinks', 'index.php?option=com_weblinks', 'component', 0, 1, 1, 21, 0, '1900-01-01 00:00:00', 0, 0, 'class:weblinks', 0, '', 33, 38, 0, '*', 1
+SELECT 18, 'menu', 'com_finder', 'Smart Search', '', 'Smart Search', 'index.php?option=com_finder', 'component', 0, 1, 1, 27, 0, '1900-01-01 00:00:00', 0, 0, 'class:finder', 0, '', 39, 40, 0, '*', 1
 UNION ALL
-SELECT 19, 'menu', 'com_weblinks_links', 'Links', '', 'Weblinks/Links', 'index.php?option=com_weblinks', 'component', 0, 18, 2, 21, 0, '1900-01-01 00:00:00', 0, 0, 'class:weblinks', 0, '', 34, 35, 0, '*', 1
+SELECT 19, 'menu', 'com_joomlaupdate', 'Joomla! Update', '', 'Joomla! Update', 'index.php?option=com_joomlaupdate', 'component', 1, 1, 1, 32, 0, '1900-01-01 00:00:00', 0, 0, 'class:joomlaupdate', 0, '', 41, 42, 0, '*', 1
 UNION ALL
-SELECT 20, 'menu', 'com_weblinks_categories', 'Categories', '', 'Weblinks/Categories', 'index.php?option=com_categories&extension=com_weblinks', 'component', 0, 18, 2, 6, 0, '1900-01-01 00:00:00', 0, 0, 'class:weblinks-cat', 0, '', 36, 37, 0, '*', 1
+SELECT 20, 'menu', 'com_tags', 'Tags', '', 'Tags', 'index.php?option=com_tags', 'component', 0, 1, 1, 29, 0, '1900-01-01 00:00:00', 0, 0, 'class:tags', 0, '', 43, 44, 0, '*', 1
 UNION ALL
-SELECT 21, 'menu', 'com_finder', 'Smart Search', '', 'Smart Search', 'index.php?option=com_finder', 'component', 0, 1, 1, 27, 0, '1900-01-01 00:00:00', 0, 0, 'class:finder', 0, '', 39, 40, 0, '*', 1
-UNION ALL
-SELECT 22, 'menu', 'com_joomlaupdate', 'Joomla! Update', '', 'Joomla! Update', 'index.php?option=com_joomlaupdate', 'component', 1, 1, 1, 32, 0, '1900-01-01 00:00:00', 0, 0, 'class:joomlaupdate', 0, '', 41, 42, 0, '*', 1
-UNION ALL
-SELECT 23, 'menu', 'com_tags', 'Tags', '', 'Tags', 'index.php?option=com_tags', 'component', 0, 1, 1, 29, 0, '1900-01-01 00:00:00', 0, 0, 'class:tags', 0, '', 43, 44, 0, '*', 1
-UNION ALL
-SELECT 24, 'menu', 'com_postinstall', 'com_postinstall', '', 'Post-installation messages', 'index.php?option=com_postinstall', 'component', 0, 1, 1, 32, 0, '1900-01-01 00:00:00', 0, 0, 'class:postinstall', 0, '', 45, 46, 0, '*', 1
+SELECT 21, 'menu', 'com_postinstall', 'com_postinstall', '', 'Post-installation messages', 'index.php?option=com_postinstall', 'component', 0, 1, 1, 32, 0, '1900-01-01 00:00:00', 0, 0, 'class:postinstall', 0, '', 45, 46, 0, '*', 1
 UNION ALL
 SELECT 101, 'mainmenu', 'Home', 'home', '', 'home', 'index.php?option=com_content&view=featured', 'component', 1, 1, 1, 22, 0, '1900-01-01 00:00:00', 0, 1, '', 0, '{"featured_categories":[""],"num_leading_articles":"1","num_intro_articles":"3","num_columns":"3","num_links":"0","orderby_pri":"","orderby_sec":"front","order_date":"","multi_column_order":"1","show_pagination":"2","show_pagination_results":"1","show_noauth":"","article-allow_ratings":"","article-allow_comments":"","show_feed_link":"1","feed_summary":"","show_title":"","link_titles":"","show_intro":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_readmore":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","show_page_heading":1,"page_title":"","page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 47, 48, 1, '*', 0;
 
