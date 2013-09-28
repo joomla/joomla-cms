@@ -43,7 +43,7 @@ class ConfigViewApplicationJson extends ConfigViewJson
 		}
 		catch (Exception $e)
 		{
-			JErrorPage::render($e);
+			$app->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}

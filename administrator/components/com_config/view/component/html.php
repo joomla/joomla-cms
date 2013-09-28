@@ -49,7 +49,7 @@ class ConfigViewComponentHtml extends ConfigViewHtmlCms
 		}
 		catch (Exception $e)
 		{
-			JErrorPage::render($e);
+			$app->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}

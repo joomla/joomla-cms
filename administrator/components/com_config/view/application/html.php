@@ -44,11 +44,12 @@ class ConfigViewApplicationHtml extends ConfigViewHtmlCms
 			$form = $this->model->getForm();
 			$data = $this->model->getData();
 			$user = JFactory::getUser();
+			$app = JFactory::getApplication();
 
 		}
 		catch (Exception $e)
 		{
-			JErrorPage::render($e);
+			$app->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
