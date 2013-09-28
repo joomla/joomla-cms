@@ -599,21 +599,21 @@ abstract class JToolbarHelper
 	 *
 	 * @since   3.2
 	 */
-	public static function versions($typeAlias, $itemId, $height = '800', $width = '500', $alt = 'JToolbar_Versions', $path = '')
+	public static function versions($typeAlias, $itemId, $height = '800', $width = '500', $alt = 'JToolbar_Versions')
 	{
-	JHtml::_('behavior.modal', 'a.modal_jform_contenthistory');
-	$contentTypeTable = JTable::getInstance('Contenttype');
-	$typeId = $contentTypeTable->getTypeId($typeAlias);
-	$title = JText::_($alt);
-	$dhtml = '<a rel="{handler: \'iframe\', size: {x:' . $height . ', y: ' . $width . '}}" ' .
-			'href="index.php?option=com_contenthistory&amp;view=history&amp;layout=modal&amp;tmpl=component&amp;' .
-			'item_id=' . (int) $itemId . '&amp;type_id=' . $typeId . '&amp;type_alias=' . $typeAlias . '&amp;' .
-			JSession::getFormToken() . '=1" ' .
-			'title=' . $title . ' class="btn btn-small modal_jform_contenthistory">' .
-			'<i class="icon-archive"></i>' . "\n" . $title . "\n" . '</a>';
+		JHtml::_('behavior.modal', 'a.modal_jform_contenthistory');
+		$contentTypeTable = JTable::getInstance('Contenttype');
+		$typeId = $contentTypeTable->getTypeId($typeAlias);
+		$title = JText::_($alt);
+		$dhtml = '<a rel="{handler: \'iframe\', size: {x:' . $height . ', y: ' . $width . '}}" ' .
+				'href="index.php?option=com_contenthistory&amp;view=history&amp;layout=modal&amp;tmpl=component&amp;' .
+				'item_id=' . (int) $itemId . '&amp;type_id=' . $typeId . '&amp;type_alias=' . $typeAlias . '&amp;' .
+				JSession::getFormToken() . '=1" ' .
+				'title=' . $title . ' class="btn btn-small modal_jform_contenthistory">' .
+				'<i class="icon-archive"></i>' . "\n" . $title . "\n" . '</a>';
 
-	$bar = JToolbar::getInstance('toolbar');
-	$bar->appendButton('Custom', $dhtml, 'versions');
+		$bar = JToolbar::getInstance('toolbar');
+		$bar->appendButton('Custom', $dhtml, 'versions');
 	}
 }
 
