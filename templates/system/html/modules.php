@@ -138,24 +138,24 @@ function modChrome_outline($module, &$params, &$attribs)
 }
 
 /*
- * html5-Flex
- * same as html5 but allows title area to have styling separate from title tag styling
- *  resulting in moduletable, moduleheader, and text background all separetly stylable
+ * Html5-Flex
+ * Same as html5 but allows title area to have styling separate from title tag styling
+ *  resulting in moduletable, moduleheader, and text background all separately stylable
  */
 function modChrome_flex($module, &$params, &$attribs)
 {
 	$moduleTag = htmlspecialchars($params->get('module_tag', 'h3'));
 	
-	// we use this alot so declare it 
+	// We use this alot so declare it 
 	$moduleHeader = 'class="moduleheader';	
 	
-	// what tag do they want for wrapper 
+	// What tag do they want for wrapper 
 	$headerTag = htmlspecialchars($params->get('header_tag'));	
 	
 	// Get number of boostrap columns 
 	$bootstrapSize = $params->get('bootstrap_size');	
 	
-	// temporarily store header class in variable 
+	// Temporarily store header class in variable 
 	$headerClass = $params->get('header_class');	
 	
 	 // Create header class declaration 
@@ -164,19 +164,19 @@ function modChrome_flex($module, &$params, &$attribs)
 	 // Create module class declaration 
 	$moduleClass = !empty($bootstrapSize) ? ' span' . (int) $bootstrapSize . '' : '';
 	
-	// get module suffix 
+	// Get module suffix 
 	$moduleClassSfx = htmlspecialchars($params->get('moduleclass_sfx')); 
 	
-	// don't create html if no module content 
+	// Don't create html if no module content 
 	if (!empty ($module->content))	
 	{
 		// Module wrapper 
 		$html  = "<{$moduleTag} class=\"moduletable{$moduleClassSfx}{$moduleClass}\">"; 
 
-		// don't display title if not requested 
+		// Don't display title if not requested 
 		if ((bool) $module->showtitle) 
-        {
-				// create tag and wrapper 
+			{
+				// Create tag and wrapper 
 				$html .= "<{$headerTag} {$headerClass}>";
 			
 					// Style the bar background for the title 
@@ -190,12 +190,12 @@ function modChrome_flex($module, &$params, &$attribs)
 				
 				// Close Wrapper 
 				$html .= "</{$headerTag}>";	
-        }
+			}
 
-		// get content 
+		// Get content 
 		$html .= $module->content; 
 		
-		 // close module wrapper 
+		 // Close module wrapper 
 		$html .= "</{$moduleTag}>";
 
 		// Display everything 
