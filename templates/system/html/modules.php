@@ -144,7 +144,7 @@ function modChrome_outline($module, &$params, &$attribs)
  */
 function modChrome_flex($module, &$params, &$attribs)
 {
-	$moduleTag = $params->get('module_tag');
+	$moduleTag = $params->get('module_tag', 'h3');
 	
 	// we use this alot so declare it 
 	$moduleHeader = 'class="moduleheader';	
