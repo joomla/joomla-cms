@@ -26,13 +26,5 @@ class ConfigControllerApplicationDisplay extends ConfigControllerDisplay
 	*/
 	public $prefix = 'Config';
 
-	/**
-	 * @return  mixed  A rendered view or true
-	 *
-	 * @since   3.2
-	 */
-	public function execute()
-	{
-		return parent::execute();
-	}
+
 }
