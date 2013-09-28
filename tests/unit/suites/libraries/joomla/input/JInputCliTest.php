@@ -8,15 +8,18 @@
  */
 
 /**
- * Test class for JInput.
+ * Test class for JInputCli.
  *
  * @package     Joomla.UnitTest
- * @subpackage  Media
+ * @subpackage  Input
  * @since       11.1
  */
-class JInputCLITest extends PHPUnit_Framework_TestCase
+class JInputCliTest extends PHPUnit_Framework_TestCase
 {
 	/**
+	 * Test object
+	 *
+	 * @var    JInputCli
 	 */
 	protected $inspector;
 
@@ -29,7 +32,6 @@ class JInputCLITest extends PHPUnit_Framework_TestCase
 	{
 		parent::setUp();
 
-		include_once __DIR__ . '/stubs/JInputCliInspector.php';
 		include_once __DIR__ . '/stubs/JFilterInputMock.php';
 	}
 
@@ -41,15 +43,15 @@ class JInputCLITest extends PHPUnit_Framework_TestCase
 	public function test_parseArguments($inputArgv, $expectedData, $expectedArgs)
 	{
 		$_SERVER['argv'] = $inputArgv;
-		$this->inspector = new JInputCLIInspector(null, array('filter' => new JFilterInputMock));
+		$this->inspector = new JInputCLI(null, array('filter' => new JFilterInputMock));
 
 		$this->assertThat(
-			$this->inspector->data,
+			TestReflection::getValue($this->inspector, 'data'),
 			$this->identicalTo($expectedData)
 		);
 
 		$this->assertThat(
-			$this->inspector->args,
+			TestReflection::getValue($this->inspector, 'args'),
 			$this->identicalTo($expectedArgs)
 		);
 	}
@@ -163,7 +165,7 @@ class JInputCLITest extends PHPUnit_Framework_TestCase
 	public function testGet()
 	{
 		$_SERVER['argv'] = array('/dev/null', '--foo=bar', '-ab', 'blah');
-		$this->inspector = new JInputCLIInspector(null, array('filter' => new JFilterInputMock));
+		$this->inspector = new JInputCli(null, array('filter' => new JFilterInputMock));
 
 		$this->assertThat(
 			$this->inspector->get('foo'),
@@ -198,7 +200,7 @@ class JInputCLITest extends PHPUnit_Framework_TestCase
 	public function testParseLongArguments()
 	{
 		$_SERVER['argv'] = array('/dev/null', '--ab', 'cd', '--ef', '--gh=bam');
-		$this->inspector = new JInputCLIInspector(null, array('filter' => new JFilterInputMock));
+		$this->inspector = new JInputCli(null, array('filter' => new JFilterInputMock));
 
 		$this->assertThat(
 			$this->inspector->get('ab'),
@@ -233,7 +235,7 @@ class JInputCLITest extends PHPUnit_Framework_TestCase
 	public function testParseShortArguments()
 	{
 		$_SERVER['argv'] = array('/dev/null', '-ab', '-c', '-e', 'f', 'foobar', 'ghijk');
-		$this->inspector = new JInputCLIInspector(null, array('filter' => new JFilterInputMock));
+		$this->inspector = new JInputCli(null, array('filter' => new JFilterInputMock));
 
 		$this->assertThat(
 			$this->inspector->get('a'),
@@ -273,7 +275,7 @@ class JInputCLITest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetFromServer()
 	{
-		$this->inspector = new JInputCLIInspector(null, array('filter' => new JFilterInputMock));
+		$this->inspector = new JInputCli(null, array('filter' => new JFilterInputMock));
 
 		// Check the object type.
 		$this->assertThat(

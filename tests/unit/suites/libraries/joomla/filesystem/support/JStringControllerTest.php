@@ -18,7 +18,6 @@ include_once JPATH_PLATFORM . '/joomla/filesystem/support/stringcontroller.php';
  */
 class JStringControllerTest extends PHPUnit_Framework_TestCase
 {
-
 	/**
 	 * @var JStringController
 	 */
@@ -81,5 +80,4 @@ class JStringControllerTest extends PHPUnit_Framework_TestCase
 			'This test has not been implemented yet.'
 		);
 	}
-
 }

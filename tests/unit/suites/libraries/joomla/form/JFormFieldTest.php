@@ -41,7 +41,7 @@ class JFormFieldTest extends TestCase
 
 		$this->saveFactoryState();
 
-		JFactory::$application = $this->getMockApplication();
+		JFactory::$application = $this->getMockCmsApp();
 
 		$this->backupServer = $_SERVER;
 
@@ -68,8 +68,6 @@ class JFormFieldTest extends TestCase
 
 	/**
 	 * Tests the JFormField::__construct method
-	 *
-	 * @covers JFormField::__construct
 	 *
 	 * @return void
 	 */
@@ -126,19 +124,7 @@ class JFormFieldTest extends TestCase
 	}
 
 	/**
-	 * Tests the JFormField::__get method
-	 *
-	 * @return void
-	 */
-	public function testGet()
-	{
-		// Tested in testSetup.
-	}
-
-	/**
 	 * Tests the JFormField::GetId method
-	 *
-	 * @covers JFormField::getId
 	 *
 	 * @return void
 	 */
@@ -174,19 +160,7 @@ class JFormFieldTest extends TestCase
 	}
 
 	/**
-	 * Tests the JFormField::getInput method
-	 *
-	 * @return void
-	 */
-	public function testGetInput()
-	{
-		// Tested in actual field types because this is an abstract method.
-	}
-
-	/**
 	 * Tests the JFormField::getLabel method
-	 *
-	 * @covers JFormField::getLabel
 	 *
 	 * @return void
 	 */
@@ -258,8 +232,6 @@ class JFormFieldTest extends TestCase
 	/**
 	 * Tests the JFormField::getTitle method
 	 *
-	 * @covers JFormField::getTitle
-	 *
 	 * @return void
 	 */
 	public function testGetTitle()
@@ -311,8 +283,6 @@ class JFormFieldTest extends TestCase
 	/**
 	 * Tests the JFormField::setForm method
 	 *
-	 * @covers JFormField::setForm
-	 *
 	 * @return void
 	 */
 	public function testSetForm()
@@ -333,7 +303,6 @@ class JFormFieldTest extends TestCase
 	/**
 	 * Test an invalid argument for the JFormField::setup method
 	 *
-	 * @covers JFormField::setup
 	 * @expectedException PHPUnit_Framework_Error
 	 *
 	 * @return void
@@ -354,9 +323,6 @@ class JFormFieldTest extends TestCase
 
 	/**
 	 * Tests the JFormField::setup method
-	 *
-	 * @covers JFormField::setup
-	 * @covers JFormField::__get
 	 *
 	 * @return void
 	 */
