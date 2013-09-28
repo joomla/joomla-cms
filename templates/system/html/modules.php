@@ -153,16 +153,16 @@ function modChrome_flex($module, &$params, &$attribs)
 	$headerTag = htmlspecialchars($params->get('header_tag'));	
 	
 	// Get number of boostrap columns 
-	$bootstrapSize = $params->get('bootstrap_size');	
+	$bootstrapSize = (int) $params->get('bootstrap_size', '0');	
 	
 	// Temporarily store header class in variable 
-	$headerClass = $params->get('header_class');	
+	$headerClass = htmlspecialchars($params->get('header_class'));	
 	
 	 // Create header class declaration 
-	$headerClass = !empty($headerClass) ? $moduleHeader . htmlspecialchars($headerClass) . '"' : $moduleHeader.'"';
+	$headerClass = !empty($headerClass) ? $moduleHeader . $headerClass . '"' : $moduleHeader.'"';
 	 
 	 // Create module class declaration 
-	$moduleClass = !empty($bootstrapSize) ? ' span' . (int) $bootstrapSize . '' : '';
+	$moduleClass = !empty($bootstrapSize) ? ' span' . $bootstrapSize . '' : '';
 	
 	// Get module suffix 
 	$moduleClassSfx = htmlspecialchars($params->get('moduleclass_sfx')); 
@@ -175,7 +175,7 @@ function modChrome_flex($module, &$params, &$attribs)
 
 		// Don't display title if not requested 
 		if ((bool) $module->showtitle) 
-			{
+		{
 				// Create tag and wrapper 
 				$html .= "<{$headerTag} {$headerClass}>";
 			
@@ -190,7 +190,7 @@ function modChrome_flex($module, &$params, &$attribs)
 				
 				// Close Wrapper 
 				$html .= "</{$headerTag}>";	
-			}
+		}
 
 		// Get content 
 		$html .= $module->content; 
