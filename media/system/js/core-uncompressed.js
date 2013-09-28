@@ -322,7 +322,6 @@ function radioGetCheckedValue(radioObj) {
  * administrator/components/com_massmail/views/massmail/tmpl/default.php
  * administrator/components/com_menus/views/list/tmpl/copy.php
  * administrator/components/com_menus/views/list/tmpl/move.php
- * administrator/components/com_messages/views/message/tmpl/default_form.php
  * administrator/components/com_newsfeeds/views/newsfeed/tmpl/default.php
  * components/com_content/views/article/tmpl/form.php
  * templates/beez/html/com_content/article/form.php

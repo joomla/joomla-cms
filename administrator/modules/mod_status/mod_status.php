@@ -33,16 +33,6 @@ $query->clear()
 $db->setQuery($query);
 $count = '<span class="badge">' . (int) $db->loadResult() . '</span>';
 
-// Set the inbox link.
-if ($input->getBool('hidemainmenu'))
-{
-	$inboxLink = '';
-}
-else
-{
-	$inboxLink = JRoute::_('index.php?option=com_messages');
-}
-
 // Set the inbox class.
 if ($unread)
 {
