@@ -1633,25 +1633,6 @@
 			<value>0</value>
 		</row>
 		<row>
-			<value>62</value>
-			<value>Unread Messages</value>
-			<value>module</value>
-			<value>mod_unread</value>
-			<value></value>
-			<value>1</value>
-			<value>1</value>
-			<value>1</value>
-			<value>0</value>
-			<value></value>
-			<value></value>
-			<value></value>
-			<value></value>
-			<value>0</value>
-			<value>0000-00-00 00:00:00</value>
-			<value>0</value>
-			<value>0</value>
-		</row>
-		<row>
 			<value>63</value>
 			<value>Authentication - GMail</value>
 			<value>plugin</value>
@@ -2919,22 +2900,6 @@
 			<value>Main Menu</value>
 			<value>The main menu for the site</value>
 		</row>
-	</table>
-	<table name="jos_messages">
-		<column>message_id</column>
-		<column>user_id_from</column>
-		<column>user_id_to</column>
-		<column>folder_id</column>
-		<column>date_time</column>
-		<column>state</column>
-		<column>priority</column>
-		<column>subject</column>
-		<column>message</column>
-	</table>
-	<table name="jos_messages_cfg">
-		<column>user_id</column>
-		<column>cfg_name</column>
-		<column>cfg_value</column>
 	</table>
 	<table name="jos_modules">
 		<column>id</column>
