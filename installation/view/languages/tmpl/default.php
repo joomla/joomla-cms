@@ -14,13 +14,13 @@ defined('_JEXEC') or die;
 $version = new JVersion;
 ?>
 <script type="text/javascript">
-	function installLanguages()
-	{
-		document.id(install_languages_desc).hide();
-		document.id(wait_installing).show();
-		document.id(wait_installing_spinner).show();
-		Install.submitform();
-	}
+    function installLanguages() {
+        var $ = jQuery.noConflict();
+        $('#' + install_languages_desc).hide();
+        $('#' + wait_installing).show();
+        $('#' + wait_installing_spinner).show();
+        Install.submitform();
+    }
 </script>
 
 <?php echo JHtml::_('installation.stepbarlanguages'); ?>
