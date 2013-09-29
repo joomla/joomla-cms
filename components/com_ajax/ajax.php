@@ -9,17 +9,19 @@
 
 defined('_JEXEC') or die;
 
-// Use own exception handler
-require_once JPATH_COMPONENT.'/helpers/error.php';
-set_exception_handler(array('AjaxError', 'display'));
+// Init the base path, for allow to call the same controllers from back end
+define('COM_AJAX_PATH_COMPONENT', JPATH_ROOT . '/components/com_ajax');
 
+// Use own exception handler
+require_once COM_AJAX_PATH_COMPONENT . '/helpers/error.php';
+set_exception_handler(array('AjaxError', 'display'));
 
 if(!JFactory::getApplication()->input->get('format'))
 {
 	throw new InvalidArgumentException('No format given. Please specify response format.', 500);
 }
 
-$controller = JControllerLegacy::getInstance('Ajax');
+$controller = JControllerLegacy::getInstance('Ajax', array('base_path' => COM_AJAX_PATH_COMPONENT));
 $controller->execute(JFactory::getApplication()->input->get('task'));
 $controller->redirect();
 
