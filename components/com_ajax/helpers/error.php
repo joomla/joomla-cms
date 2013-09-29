@@ -31,17 +31,18 @@ class AjaxError
 		try
 		{
 			$app   = JFactory::getApplication();
-			$doc   = JFactory::getDocument();
 			$debug = JFactory::getConfig()->get('debug');
 
 			// Display the error message depend from given format
 			$message = '';
 			switch ($app->input->get('format')) {
 				case 'json':
+					$doc 	 = JDocument::getInstance('json');
 					$message = new JResponseJson($error, null, false, $app->input->get('ignoreMessages', true, 'bool'));
 					break;
 
 				default:
+					$doc 	 = JDocument::getInstance('raw');
 					$message = $error->getMessage();
 					// Display backtrace if debug enabled
 					if($debug)
