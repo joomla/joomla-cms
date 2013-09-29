@@ -12,13 +12,14 @@ defined('_JEXEC') or die;
 /**
  * The Plugin Controller for JSON format
  *
- * Plugin support is based on the "Ajax" plugin group.
  * The plugin event triggered is onAjaxFoo, where 'foo' is
  * the value of the 'name' variable passed via the URL
- * (i.e. index.php?option=com_ajax&task=plugin.call&name=foo&format=json)
+ * Example: index.php?option=com_ajax&task=plugin.call&name=foo&format=json
  *
  * @package     Joomla.Site
  * @subpackage  com_ajax
+ *
+ * @since   3.2
  */
 class AjaxControllerPlugin extends JControllerLegacy
 {
@@ -29,19 +30,20 @@ class AjaxControllerPlugin extends JControllerLegacy
 	 */
 	public function call()
 	{
+		// Interaction with "ajax" group
 		JPluginHelper::importPlugin('ajax');
+		// Allow interaction with "content" group
+		JPluginHelper::importPlugin('content');
+		// Allow interaction with "system" group
+		JPluginHelper::importPlugin('system');
+
 		$plugin     = ucfirst($this->input->get('name'));
 		$dispatcher = JEventDispatcher::getInstance();
 
-		try {
-			$results = $dispatcher->trigger ( 'onAjax' . $plugin );
-		}
-		catch ( Exception $e )
-		{
-			$results = $e;
-		}
+		// Call the plugins
+		$results = $dispatcher->trigger('onAjax' . $plugin );
 
-		// Output
+		// Output as JSON
 		echo new JResponseJson($results, null, false, $this->input->get('ignoreMessages', true, 'bool'));
 
 		return true;

@@ -12,12 +12,13 @@ defined('_JEXEC') or die;
 /**
  * The Plugin Controller for RAW format
  *
- * Plugin support is based on the "Ajax" plugin group.
  * The plugin event triggered is onAjaxFoo, where 'foo' is
  * the value of the 'name' variable passed via the URL
- * (i.e. index.php?option=com_ajax&task=plugin.call&name=foo&format=raw)
+ * Example: index.php?option=com_ajax&task=plugin.call&name=foo&format=raw
  *
  * @package     Joomla.Site
  * @subpackage  com_ajax
+ *
+ * @since   3.2
  */
 include_once __DIR__ . '/plugin.php';
