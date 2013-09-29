@@ -144,13 +144,13 @@ function modChrome_outline($module, &$params, &$attribs)
  */
 function modChrome_flex($module, &$params, &$attribs)
 {
-	$moduleTag = htmlspecialchars($params->get('module_tag', 'h3'));
+	$moduleTag = htmlspecialchars($params->get('module_tag', 'div'));
 	
 	// We use this alot so declare it 
 	$moduleHeader = 'class="moduleheader';	
 	
 	// What tag do they want for wrapper 
-	$headerTag = htmlspecialchars($params->get('header_tag'));	
+	$headerTag = htmlspecialchars($params->get('header_tag', 'h3'));	
 	
 	// Get number of boostrap columns 
 	$bootstrapSize = (int) $params->get('bootstrap_size', '0');	
