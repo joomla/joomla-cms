@@ -12,13 +12,14 @@ defined('_JEXEC') or die;
 /**
  * The Module Controller
  *
- * Module support.
  * modFooHelper::getAjax() is called where 'foo' is the value
  * of the 'name' variable passed via the URL
- * (i.e. index.php?option=com_ajax&task=module.call&name=foo)
+ * Example: index.php?option=com_ajax&task=module.call&name=foo
  *
  * @package     Joomla.Site
  * @subpackage  com_ajax
+ *
+ * @since   3.2
  */
 class AjaxControllerModule extends JControllerLegacy
 {
@@ -29,80 +30,25 @@ class AjaxControllerModule extends JControllerLegacy
 	 */
 	public function call()
 	{
+		// Module name
 		$name	= $this->input->get('name');
-		$name 	= strstr($name, 'mod_') ? $name : 'mod_' . $name;
-		$module	= JModuleHelper::getModule($name, null);
-		$result	= '';
 
-		/*
-		 * As JModuleHelper::isEnabled always returns true, we check
-		 * for an id other than 0 to see if it is published.
-		 */
-		if ($module->id)
+		// get module helper
+		require_once JPATH_COMPONENT.'/helpers/module.php';
+
+		if (!$name || !AjaxModuleHelper::isModuleAvailable($name))
 		{
-			$helperFile = JPATH_BASE . '/modules/' . $name . '/helper.php';
-
-			$class  = 'mod' . ucfirst($module->name) . 'Helper';
-			$method = $this->input->get('method', 'get');
-
-			if (is_file($helperFile))
-			{
-				require_once $helperFile;
-
-				if (method_exists($class, $method . 'Ajax'))
-				{
-					try
-					{
-						$results = call_user_func($class . '::' . $method . 'Ajax');
-					}
-					catch (Exception $e)
-					{
-						$results = $e;
-					}
-				}
-				// Method does not exist
-				else
-				{
-					$results = new RuntimeException(JText::sprintf('COM_AJAX_METHOD_DOES_NOT_EXIST', $method . 'Ajax'), 404);
-				}
-			}
-			// The helper file does not exist
-			else
-			{
-				$results = new RuntimeException(JText::sprintf('COM_AJAX_HELPER_DOES_NOT_EXIST', $name . '/helper.php'), 404);
-			}
-		}
-		// Module is not published, you do not have access to it, or it is not assigned to the current menu item
-		else
-		{
-			$results = new RuntimeException(JText::sprintf('COM_AJAX_MODULE_NOT_PUBLISHED', $name), 404);
+			// Module is not published, you do not have access to it, or it is not assigned to the current menu item
+			throw new RuntimeException(JText::sprintf('COM_AJAX_MODULE_NOT_PUBLISHED', $name), 404);
 		}
 
-		// Output exception
-		if ($results instanceof Exception)
-		{
-			// Log an error
-			JLog::add($results->getMessage(), JLog::ERROR);
+		// Call the module
+		$results = AjaxModuleHelper::callModule($name);
 
-			// Set header
-			JResponse::setHeader('status', $results->getCode(), true);
-
-			// Echo exception message
-			$result = $results->getMessage();
-		}
-		// Output string/ null
-		elseif (is_scalar($results))
-		{
-			$result = (string) $results;
-		}
-		// Output array/ object
-		else
-		{
-			$result = implode("\n", (array) $results);
-		}
-
-		echo $result;
+		// Output result
+		echo is_scalar($results) ? (string) $results : implode("\n", (array) $results);
 
 		return true;
 	}
 }
+

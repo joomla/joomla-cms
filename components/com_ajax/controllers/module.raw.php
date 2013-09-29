@@ -12,13 +12,13 @@ defined('_JEXEC') or die;
 /**
  * The Module Controller for RAW format
  *
- * Module support.
  * modFooHelper::getAjax() is called where 'foo' is the value
  * of the 'name' variable passed via the URL
- * (i.e. index.php?option=com_ajax&task=module.call&name=foo&format=raw)
+ * Example: index.php?option=com_ajax&task=module.call&name=foo&format=raw)
  *
  * @package     Joomla.Site
  * @subpackage  com_ajax
+ *
+ * @since   3.2
  */
-
 include_once __DIR__ . '/module.php';
