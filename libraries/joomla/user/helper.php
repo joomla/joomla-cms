@@ -315,17 +315,9 @@ abstract class JUserHelper
 	 *          supported version it will be changed to the PHP PASSWORD_DEFAULT constant.
 	 */
 	public static function getCryptedPassword($plaintext, $salt = '', $encryption = 'bcrypt', $show_encrypt = false)
-	{$log = JLog::addLogger(     // Pass an array of configuration options
-    array(
-            // Set the name of the log file
-            'text_file' => 'test.log.php',
-    		'text_file_path' => 'somewhere/logs'
-
-     ));
-	JLog::add('plaintext ' . $plaintext, JLog::INFO);
-$app = JFactory::getApplication();
-	JLog::add('encryption ' . $encryption, JLog::INFO);
-		if (!$app->getClientId() == 2)
+    $app = JFactory::getApplication();
+	{
+		if ($app->getClientId() != 2)
 		{
 			$joomlaPluginEnabled = JPluginHelper::isEnabled('user', 'joomla');
 			JLog::add('got plugin var ' . $joomlaPluginEnabled, JLog::INFO);
@@ -356,7 +348,7 @@ $app = JFactory::getApplication();
 
 		// Get the salt to use.
 		$salt = self::getSalt($encryption, $salt, $plaintext);
-		JLog::add('encryption again' . $encryption, JLog::INFO);
+
 		// Encrypt the password.
 		switch ($encryption)
 		{
@@ -451,7 +443,6 @@ $app = JFactory::getApplication();
 
 				// 'bcrypt' is the default case starting in CMS 3.2.
 				default:
-					JLog::add('inside bcrypt ' . $encryption, JLog::INFO);
 
 				if (JCrypt::hasStrongPasswordSupport())
 				{
