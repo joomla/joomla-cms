@@ -78,7 +78,7 @@ class AjaxModuleHelper
 		if (!is_file($helper_file))
 		{
 			// The helper file does not exist
-			throw new RuntimeException(JText::sprintf('COM_AJAX_HELPER_DOES_NOT_EXIST', $name . '/helper.php'), 404);
+			throw new RuntimeException(sprintf('The file at %s does not exist', 'mod_' . $name . '/helper.php'), 404);
 		}
 
 		// Get module helper
@@ -87,7 +87,7 @@ class AjaxModuleHelper
 		if (!method_exists($class, $method))
 		{
 			// Method does not exist
-			throw new RuntimeException(JText::sprintf('COM_AJAX_METHOD_DOES_NOT_EXIST', $method), 404);
+			throw new LogicException(sprintf('Method %s does not exist', $method), 404);
 		}
 
 		return call_user_func($class . '::' . $method);

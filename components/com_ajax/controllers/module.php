@@ -39,7 +39,7 @@ class AjaxControllerModule extends JControllerLegacy
 		if (!$name || !AjaxModuleHelper::isModuleAvailable($name))
 		{
 			// Module is not published, you do not have access to it, or it is not assigned to the current menu item
-			throw new RuntimeException(JText::sprintf('COM_AJAX_MODULE_NOT_PUBLISHED', $name), 404);
+			throw new LogicException(sprintf('Module "%s" is not published, you do not have access to it, or it\'s not assigned to the current menu item', $name), 404);
 		}
 
 		// Call the module
