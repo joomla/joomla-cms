@@ -101,7 +101,7 @@ class JLanguage
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $strings = null;
+	protected $strings = array();
 
 	/**
 	 * An array of used text, used during debugging.
@@ -1267,6 +1267,18 @@ class JLanguage
 	public function getFirstDay()
 	{
 		return (int) (isset($this->metadata['firstDay']) ? $this->metadata['firstDay'] : 0);
+	}
+
+	/**
+	 * Get the weekends days for this language.
+	 *
+	 * @return  string  The weekend days of the week separated by a comma according to the language
+	 *
+	 * @since   3.2
+	 */
+	public function getWeekEnd()
+	{
+		return (isset($this->metadata['weekEnd']) && $this->metadata['weekEnd']) ? $this->metadata['weekEnd'] : '0,6';
 	}
 
 	/**

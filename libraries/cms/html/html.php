@@ -668,7 +668,7 @@ abstract class JHtml
 	 *
 	 * @return  mixed  nothing if $path_only is false, null, path or array of path if specific js browser files were detected.
 	 *
-	 * @see     JHtml::stylesheet
+	 * @see     JHtml::stylesheet()
 	 * @since   1.5
 	 */
 	public static function script($file, $framework = false, $relative = false, $path_only = false, $detect_browser = true, $detect_debug = true)
@@ -712,13 +712,13 @@ abstract class JHtml
 	/**
 	 * Set format related options.
 	 *
-	 * Updates the formatOptions array with all valid values in the passed
-	 * array. See {@see JHtml::$formatOptions} for details.
+	 * Updates the formatOptions array with all valid values in the passed array.
 	 *
 	 * @param   array  $options  Option key/value pairs.
 	 *
 	 * @return  void
 	 *
+	 * @see     JHtml::$formatOptions
 	 * @since   1.5
 	 */
 	public static function setFormatOptions($options)

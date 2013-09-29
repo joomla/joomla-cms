@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Helper
  * @since       3.1
  */
-class JHelperTags
+class JHelperTags extends JHelper
 {
 	/**
 	 * Helper object for storing and deleting tag information.
@@ -253,6 +253,7 @@ class JHelperTags
 	 * @return  mixed   If successful, metadata with new tag titles replaced by tag ids. Otherwise false.
 	 *
 	 * @since   3.1
+	 * @deprecated  4.0  This method is no longer used in the CMS and will not be replaced.
 	 */
 	public function createTagsFromMetadata($metadata)
 	{
@@ -398,8 +399,9 @@ class JHelperTags
 		{
 			if ($language == 'current_language')
 			{
-				$language = JHelperContent::getCurrentLanguage();
+				$language = $this->getCurrentLanguage();
 			}
+
 			$query->where($db->quoteName('language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
 		}
 
@@ -558,7 +560,7 @@ class JHelperTags
 		{
 			if ($language == 'current_language')
 			{
-				$language = JHelperContent::getCurrentLanguage();
+				$language = $this->getCurrentLanguage();
 			}
 
 			$query->where($db->quoteName('c.core_language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
@@ -679,19 +681,13 @@ class JHelperTags
 	 * @return  string  Name of the table for a type
 	 *
 	 * @since   3.1
+	 * @deprecated  4.0  Use JUcmType::getTypeId() instead
 	 */
 	public function getTypeId($typeAlias)
 	{
-		// Initialize some variables.
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('type_id'))
-			->from($db->quoteName('#__content_types'))
-			->where($db->quoteName('type_alias') . ' = ' . $db->quote($typeAlias));
-		$db->setQuery($query);
-		$this->type_id = $db->loadResult();
+		$contentType = new JUcmType;
 
-		return $this->type_id;
+		return $contentType->getTypeId();
 	}
 
 	/**
@@ -791,9 +787,7 @@ class JHelperTags
 			else
 			{
 				// Process the tags
-				$rowdata = new JHelperContent;
-
-				$data = $rowdata->getRowData($table);
+				$data = $this->getRowData($table);
 				$ucmContentTable = JTable::getInstance('Corecontent');
 
 				$ucm = new JUcmContent($table, $this->typeAlias);
