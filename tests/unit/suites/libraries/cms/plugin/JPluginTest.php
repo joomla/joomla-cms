@@ -16,7 +16,7 @@ require_once __DIR__ . '/stubs/PlgSystemPrivate.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Plugin
- * @since       11.3
+ * @since       3.2
  */
 class JPluginTest extends TestCase
 {
@@ -26,7 +26,7 @@ class JPluginTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.1
+	 * @since   3.2
 	 */
 	protected function setUp()
 	{
@@ -42,7 +42,7 @@ class JPluginTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.1
+	 * @since   3.2
 	 */
 	protected function tearDown()
 	{
@@ -54,7 +54,7 @@ class JPluginTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.1
+	 * @since   3.2
 	 */
 	public function test__constructWithAppAndDb()
 	{
@@ -84,7 +84,7 @@ class JPluginTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.1
+	 * @since   3.2
 	 */
 	public function test__constructWithoutAppAndDb()
 	{
@@ -114,7 +114,7 @@ class JPluginTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   3.1
+	 * @since   3.2
 	 */
 	public function test__constructPrivateAppAndDb()
 	{

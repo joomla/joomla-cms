@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Plugin
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
@@ -12,9 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Plugin helper class
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Plugin
- * @since       11.1
+ * @since       1.5
  */
 abstract class JPluginHelper
 {
@@ -22,7 +22,7 @@ abstract class JPluginHelper
 	 * A persistent cache of the loaded plugins.
 	 *
 	 * @var    array
-	 * @since  11.3
+	 * @since  1.7
 	 */
 	protected static $plugins = null;
 
@@ -35,7 +35,7 @@ abstract class JPluginHelper
 	 *
 	 * @return  string  Layout path
 	 *
-	 * @since   12.2
+	 * @since   3.0
 	 */
 	public static function getLayoutPath($type, $name, $layout = 'default')
 	{
@@ -80,12 +80,12 @@ abstract class JPluginHelper
 	 *
 	 * @return  mixed  An array of plugin data objects, or a plugin data object.
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public static function getPlugin($type, $plugin = null)
 	{
 		$result = array();
-		$plugins = self::_load();
+		$plugins = static::load();
 
 		// Find the correct plugin(s) to return.
 		if (!$plugin)
@@ -123,11 +123,11 @@ abstract class JPluginHelper
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public static function isEnabled($type, $plugin = null)
 	{
-		$result = self::getPlugin($type, $plugin);
+		$result = static::getPlugin($type, $plugin);
 
 		return (!empty($result));
 	}
@@ -143,7 +143,7 @@ abstract class JPluginHelper
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public static function importPlugin($type, $plugin = null, $autocreate = true, JEventDispatcher $dispatcher = null)
 	{
@@ -162,14 +162,14 @@ abstract class JPluginHelper
 			$results = null;
 
 			// Load the plugins from the database.
-			$plugins = self::_load();
+			$plugins = static::load();
 
 			// Get the specified plugin(s).
 			for ($i = 0, $t = count($plugins); $i < $t; $i++)
 			{
 				if ($plugins[$i]->type == $type && ($plugin === null || $plugins[$i]->name == $plugin))
 				{
-					self::_import($plugins[$i], $autocreate, $dispatcher);
+					static::import($plugins[$i], $autocreate, $dispatcher);
 					$results = true;
 				}
 			}
@@ -179,6 +179,7 @@ abstract class JPluginHelper
 			{
 				return $results;
 			}
+
 			$loaded[$type] = $results;
 		}
 
@@ -194,9 +195,26 @@ abstract class JPluginHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.5
+	 * @deprecated  4.0  Use JPluginHelper::import() instead
 	 */
 	protected static function _import($plugin, $autocreate = true, JEventDispatcher $dispatcher = null)
+	{
+		static::import($plugin, $autocreate, $dispatcher);
+	}
+
+	/**
+	 * Loads the plugin file.
+	 *
+	 * @param   object            $plugin      The plugin.
+	 * @param   boolean           $autocreate  True to autocreate.
+	 * @param   JEventDispatcher  $dispatcher  Optionally allows the plugin to use a different dispatcher.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	protected static function import($plugin, $autocreate = true, JEventDispatcher $dispatcher = null)
 	{
 		static $paths = array();
 
@@ -213,6 +231,7 @@ abstract class JPluginHelper
 				{
 					require_once $path;
 				}
+
 				$paths[$path] = true;
 
 				if ($autocreate)
@@ -223,7 +242,7 @@ abstract class JPluginHelper
 						$dispatcher = JEventDispatcher::getInstance();
 					}
 
-					$className = 'plg' . $plugin->type . $plugin->name;
+					$className = 'Plg' . $plugin->type . $plugin->name;
 
 					if (class_exists($className))
 					{
@@ -231,7 +250,7 @@ abstract class JPluginHelper
 						if (!isset($plugin->params))
 						{
 							// Seems like this could just go bye bye completely
-							$plugin = self::getPlugin($plugin->type, $plugin->name);
+							$plugin = static::getPlugin($plugin->type, $plugin->name);
 						}
 
 						// Instantiate and register the plugin.
@@ -251,13 +270,26 @@ abstract class JPluginHelper
 	 *
 	 * @return  array  An array of published plugins
 	 *
-	 * @since   11.1
+	 * @since   1.5
+	 * @deprecated  4.0  Use JPluginHelper::load() instead
 	 */
 	protected static function _load()
 	{
-		if (self::$plugins !== null)
+		return static::load();
+	}
+
+	/**
+	 * Loads the published plugins.
+	 *
+	 * @return  array  An array of published plugins
+	 *
+	 * @since   3.2
+	 */
+	protected static function load()
+	{
+		if (static::$plugins !== null)
 		{
-			return self::$plugins;
+			return static::$plugins;
 		}
 
 		$user = JFactory::getUser();
@@ -265,7 +297,7 @@ abstract class JPluginHelper
 
 		$levels = implode(',', $user->getAuthorisedViewLevels());
 
-		if (!self::$plugins = $cache->get($levels))
+		if (!static::$plugins = $cache->get($levels))
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
@@ -277,11 +309,11 @@ abstract class JPluginHelper
 				->where('access IN (' . $levels . ')')
 				->order('ordering');
 
-			self::$plugins = $db->setQuery($query)->loadObjectList();
+			static::$plugins = $db->setQuery($query)->loadObjectList();
 
-			$cache->store(self::$plugins, $levels);
+			$cache->store(static::$plugins, $levels);
 		}
 
-		return self::$plugins;
+		return static::$plugins;
 	}
 }

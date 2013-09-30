@@ -25,6 +25,17 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Sep-2013 Jean-Marie Simonet
+ # [#31377] New Button Icon in Module Manager for Hathor Missing. Thanks Michael Babker
+ # [#32122] Orphaned > in banner.xml. Thanks Troy hall
+
+28-Sep-2013 Michael Babker
+ ^ [#32068] Consolidate extension helper classes to CMS tree
+ ^ [#32006] Improvements to JHelper and JUcmType.  Thanks Elin Waring
+ # [#27063] *Missing weekend translation option for calendar component.  Thanks Jean-Marie Simonet
+ ^ [#31579] GSoC 2013: Removing MooTools dependencies from multiselect.js.  Thanks Ashan Fernando
+ ^ [#31591] GSoC 2013: Removing MooTools dependencies from installation section.  Thanks Ashan Fernando
+
 26-Sep-2013 Michael Babker
  ^ [#30556] JDatabaseDriver::replacePrefix: Optimization proposal: 100 lines of PHP can be replaced by 1 line of regexp.  Thanks Beat
 
