@@ -315,12 +315,11 @@ abstract class JUserHelper
 	 *          supported version it will be changed to the PHP PASSWORD_DEFAULT constant.
 	 */
 	public static function getCryptedPassword($plaintext, $salt = '', $encryption = 'bcrypt', $show_encrypt = false)
-    $app = JFactory::getApplication();
 	{
+		$app = JFactory::getApplication();
 		if ($app->getClientId() != 2)
 		{
 			$joomlaPluginEnabled = JPluginHelper::isEnabled('user', 'joomla');
-			JLog::add('got plugin var ' . $joomlaPluginEnabled, JLog::INFO);
 		}
 
 		// The Joomla user plugin allows you to use weaker passwords if necessary.
