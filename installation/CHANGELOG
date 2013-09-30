@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 29-Sep-2013 Jean-Marie Simonet
  # [#31377] New Button Icon in Module Manager for Hathor Missing. Thanks Michael Babker
+ # [#32122] Orphaned > in banner.xml. Thanks Troy hall
 
 28-Sep-2013 Michael Babker
  ^ [#32068] Consolidate extension helper classes to CMS tree
