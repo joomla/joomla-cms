@@ -316,16 +316,23 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	{
 		$this->connect();
 
-		$tables = $this->getTableList();
-
-		$this->setQuery('SHOW FULL COLUMNS FROM ' . $tables[0]);
-		$array = $this->loadAssocList();
-
-		foreach ($array as $field)
+		try
 		{
-			if (!is_null($field['Collation']))
+
+		}
+		catch (Exception $e)
+		{
+			$tables = $this->getTableList();
+
+			$this->setQuery('SHOW FULL COLUMNS FROM ' . $tables[0]);
+			$array = $this->loadAssocList();
+
+			foreach ($array as $field)
 			{
-				return $field['Collation'];
+				if (!is_null($field['Collation']))
+				{
+					return $field['Collation'];
+				}
 			}
 		}
 
