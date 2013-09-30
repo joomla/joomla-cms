@@ -39,7 +39,9 @@
 		<field name="checked_out_time" type="hidden" filter="unset" />
 
 
-		<field name="state" type="list" label="JSTATUS"
+		<field name="state" type="list"
+                       validate="options"
+                       label="JSTATUS"
 			description="JFIELD_PUBLISHED_DESC" class="inputbox"
 			filter="intval" size="1" default="1" >
 			<option value="1">
@@ -58,6 +60,7 @@
 		<field
 			name="w1"
 			type="list"
+                        validate="options"
 			label="COM_FINDER_FILTER_WHEN_START_DATE_LABEL"
 			description="COM_FINDER_FILTER_WHEN_START_DATE_DESCRIPTION"
 			default=""
@@ -75,6 +78,7 @@
 		<field
 			name="w2"
 			type="list"
+                        validate="options"
 			label="COM_FINDER_FILTER_WHEN_END_DATE_LABEL"
 			description="COM_FINDER_FILTER_WHEN_END_DATE_DESCRIPTION"
 			default=""

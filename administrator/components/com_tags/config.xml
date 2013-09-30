@@ -71,6 +71,7 @@
 		<field name="tag_list_orderby"
 			type="list"
 			default="title"
+                        validate="options"
 			label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"
 			description="JGLOBAL_FIELD_FIELD_ORDERING_DESC">
 				<option value="title">JGLOBAL_TITLE</option>
@@ -109,6 +110,7 @@
 			name="tag_list_show_date"
 			type="list"
 			default="0"
+                        validate="options"
 			label="JGLOBAL_SHOW_DATE_LABEL"
 			description="JGLOBAL_SHOW_DATE_DESC"
 		>
@@ -133,6 +135,7 @@
 		<field 
 			name="tag_list_show_item_description" 
 			type="list"
+                        validate="options"
 			label="COM_TAGS_TAG_LIST_SHOW_ITEM_DESCRIPTION_LABEL"
 			description="COM_TAGS_TAG_LIST_SHOW_ITEM_DESCRIPTION_DESC"
 		>
@@ -220,6 +223,7 @@
 			name="all_tags_orderby"
 			type="list"
 			default="title"
+                        validate="options"
 			label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"
 			description="JGLOBAL_FIELD_FIELD_ORDERING_DESC"
 		>
@@ -321,7 +325,8 @@
 			type="list"
 			default="2"
 			description="JGLOBAL_PAGINATION_DESC"
-			label="JGLOBAL_PAGINATION_LABEL"
+			validate="options"
+                        label="JGLOBAL_PAGINATION_LABEL"
 		>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>

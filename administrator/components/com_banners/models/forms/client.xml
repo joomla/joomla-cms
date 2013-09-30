@@ -24,6 +24,7 @@
 			required="true" />
 
 		<field name="state" type="list"
+                        validate="options"
 			label="JSTATUS" description="COM_BANNERS_FIELD_CLIENT_STATE_DESC"
 			class="inputbox" size="1" default="1"
 		>
@@ -34,6 +35,7 @@
 		</field>
 
 		<field name="purchase_type" type="list"
+                        validate="options"
 			label="COM_BANNERS_FIELD_PURCHASETYPE_LABEL" description="COM_BANNERS_FIELD_PURCHASETYPE_DESC"
 			default="0" class="inputbox"
 		>
@@ -52,6 +54,7 @@
 		</field>
 
 		<field name="track_impressions" type="list" default="0"
+                        validate="options"
 			label="COM_BANNERS_FIELD_TRACKIMPRESSION_LABEL"
 			description="COM_BANNERS_FIELD_TRACKIMPRESSION_DESC"
 		>
@@ -61,6 +64,7 @@
 		</field>
 
 		<field name="track_clicks" type="list" default="0"
+                        validate="options"
 			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL" description="COM_BANNERS_FIELD_TRACKCLICK_DESC"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>

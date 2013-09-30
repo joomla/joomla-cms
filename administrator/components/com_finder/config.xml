@@ -222,7 +222,8 @@
 			name="stemmer"
 			type="list"
 			default="snowball"
-			label="COM_FINDER_CONFIG_STEMMER_LABEL"
+			validate="options"
+                        label="COM_FINDER_CONFIG_STEMMER_LABEL"
 			description="COM_FINDER_CONFIG_STEMMER_DESCRIPTION" >
 			<option value="porter_en">COM_FINDER_CONFIG_STEMMER_PORTER_EN</option>
 			<option value="fr">COM_FINDER_CONFIG_STEMMER_FR</option>

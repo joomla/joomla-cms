@@ -72,6 +72,7 @@
 
 			<field name="robots"
 			type="list"
+                        validate="options"
 			label="JFIELD_METADATA_ROBOTS_LABEL"
 			description="JFIELD_METADATA_ROBOTS_DESC"
 		>
@@ -84,6 +85,7 @@
 
 			<field name="secure" type="list"
 				class="btn-group"
+                                validate="options"
 				label="COM_MENUS_ITEM_FIELD_SECURE_LABEL" description="COM_MENUS_ITEM_FIELD_SECURE_DESC"
 				default="0" filter="integer"
 			>

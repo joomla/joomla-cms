@@ -57,6 +57,7 @@
 			name="info_block_position"
 			type="list"
 			default="0"
+                        validate="options"
 			label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
 			description="COM_CONTENT_FIELD_INFOBLOCK_POSITION_DESC">
 			<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
@@ -331,6 +332,7 @@
 			name="urls_position"
 			type="list"
 			default="0"
+                        validate="options"
 			label="COM_CONTENT_FIELD_URLSPOSITION_LABEL"
 			description="COM_CONTENT_FIELD_URLSPOSITION_DESC">
 			<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
@@ -420,6 +422,7 @@
 		<field
 			name="targeta"
 			type="list"
+                        validate="options"
 			label="COM_CONTENT_URL_FIELD_A_BROWSERNAV_LABEL"
 			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
 			default="Parent"
@@ -433,6 +436,7 @@
 		<field
 			name="targetb"
 			type="list"
+                        validate="options"
 			label="COM_CONTENT_URL_FIELD_B_BROWSERNAV_LABEL"
 			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
 			default="Parent"
@@ -446,6 +450,7 @@
 		<field
 			name="targetc"
 			type="list"
+                        validate="options"
 			label="COM_CONTENT_URL_FIELD_C_BROWSERNAV_LABEL"
 			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
 			default="Parent"
@@ -465,6 +470,7 @@
 		<field
 			name="float_intro"
 			type="list"
+                        validate="options"
 			label="COM_CONTENT_FLOAT_INTRO_LABEL"
 			description="COM_CONTENT_FLOAT_DESC">
 				<option value="right">COM_CONTENT_RIGHT</option>
@@ -474,6 +480,7 @@
 		<field
 			name="float_fulltext"
 			type="list"
+                        validate="options"
 			label="COM_CONTENT_FLOAT_FULLTEXT_LABEL"
 			description="COM_CONTENT_FLOAT_DESC">
 				<option value="right">COM_CONTENT_RIGHT</option>
@@ -539,7 +546,8 @@
 
 		<field name="maxLevel" type="list"
 				description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
-				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
+				validate="options"
+                                label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 				default="-1"
 			>
 				<option value="0">JNONE</option>
@@ -626,7 +634,8 @@
 			<field name="maxLevelcat" type="list"
 				default="-1"
 				description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
-				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
+				validate="options"
+                                label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 			>
 				<option value="-1">JALL</option>
 				<option value="1">J1</option>
@@ -707,6 +716,7 @@
 		<field name="multi_column_order"
 			type="list"
 			default="0"
+                        validate="options"
 			label="JGLOBAL_MULTI_COLUMN_ORDER_LABEL"
 			description="JGLOBAL_MULTI_COLUMN_ORDER_DESC">
 			<option
@@ -726,7 +736,8 @@
 		<field name="show_subcategory_content" type="list"
 				default="0"
 				description="JGLOBAL_SHOW_SUBCATEGORY_CONTENT_DESC"
-				label="JGLOBAL_SHOW_SUBCATEGORY_CONTENT_LABEL"
+				validate="options"
+                                label="JGLOBAL_SHOW_SUBCATEGORY_CONTENT_LABEL"
 			>
 				<option value="0">JNONE</option>
 				<option value="-1">JALL</option>
@@ -756,6 +767,7 @@
 		<field name="filter_field"
 			type="list"
 			default="hide"
+                        validate="options"
 			label="JGLOBAL_FILTER_FIELD_LABEL"
 			description="JGLOBAL_FILTER_FIELD_DESC">
 				<option value="hide">JHIDE</option>
@@ -777,6 +789,7 @@
 		<field name="list_show_date"
 			type="list"
 			default="0"
+                        validate="options"
 			label="JGLOBAL_SHOW_DATE_LABEL"
 			description="JGLOBAL_SHOW_DATE_DESC">
 				<option value="0">JHIDE</option>
@@ -820,7 +833,8 @@
 	<field name="orderby_pri"
 			type="list"
 			default="none"
-			label="JGLOBAL_CATEGORY_ORDER_LABEL"
+			validate="options"
+                        label="JGLOBAL_CATEGORY_ORDER_LABEL"
 			description="JGLOBAL_CATEGORY_ORDER_DESC">
 			<option
 				value="none">JGLOBAL_NO_ORDER</option>
@@ -835,6 +849,7 @@
 		<field name="orderby_sec"
 			type="list"
 			default="rdate"
+                        validate="options"
 			label="JGLOBAL_Article_Order_Label"
 			description="JGLOBAL_Article_Order_Desc">
 			<option
@@ -860,6 +875,7 @@
 		<field name="order_date" type="list"
 				default="published"
 				description="JGLOBAL_ORDERING_DATE_DESC"
+                                validate="options"
 				label="JGLOBAL_ORDERING_DATE_LABEL"
 			>
 				<option value="created">JGLOBAL_CREATED</option>
@@ -870,6 +886,7 @@
 		<field name="show_pagination"
 			type="list"
 			default="2"
+                        validate="options"
 			label="JGLOBAL_Pagination_Label"
 			description="JGLOBAL_Pagination_Desc">
 				<option value="0">JHIDE</option>
@@ -908,6 +925,7 @@
 		<field
 			name="feed_summary"
 			type="list"
+                        validate="options"
 			label="JGLOBAL_FEED_SUMMARY_LABEL"
 			description="JGLOBAL_FEED_SUMMARY_DESC"
 			default="0">

@@ -14,6 +14,7 @@
 			size="45" />
 
 		<field name="published" type="list"
+                        validate="options"
 			label="JSTATUS" description="JFIELD_PUBLISHED_DESC"
 			class="inputbox span12 small" size="1" default="1"
 		>
@@ -79,8 +80,10 @@
 			label="JFIELD_ORDERING_LABEL" description="JFIELD_ORDERING_DESC" />
 
 		<field name="rtl" type="list" class="inputbox"
-			default="0" label="COM_NEWSFEEDS_FIELD_RTL_LABEL"
-			description="COM_NEWSFEEDS_FIELD_RTL_DESC"
+                       default="0" 
+                       validate="options"
+                       label="COM_NEWSFEEDS_FIELD_RTL_LABEL"
+                       description="COM_NEWSFEEDS_FIELD_RTL_DESC"
 		>
 			<option value="0">COM_NEWSFEEDS_FIELD_VALUE_SITE
 			</option>
@@ -158,6 +161,7 @@
 			<field
 				name="float_first"
 				type="list"
+                                validate="options"
 				label="COM_NEWSFEEDS_FLOAT_LABEL"
 				description="COM_NEWSFEEDS_FLOAT_DESC">
 					<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -190,6 +194,7 @@
 			<field
 				name="float_second"
 				type="list"
+                                validate="options"
 				label="COM_NEWSFEEDS_FLOAT_LABEL"
 				description="COM_NEWSFEEDS_FLOAT_DESC">
 					<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -215,6 +220,7 @@
 		<fieldset name="jbasic" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
 
 			<field name="show_feed_image" type="list"
+                                validate="options"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
 				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC"
 			>
@@ -224,6 +230,7 @@
 			</field>
 
 			<field name="show_feed_description" type="list"
+                                validate="options"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
 				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_DESC"
 			>
@@ -233,6 +240,7 @@
 			</field>
 
 			<field name="show_item_description" type="list"
+                                validate="options"
 				label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
 				description="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_DESC"
 			>
@@ -255,6 +263,7 @@
 				/>
 
 			<field name="feed_display_order" type="list"
+                                validate="options"
 				label="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_LABEL"
 				description="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_DESC"
 			>
@@ -269,10 +278,10 @@
 	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 
-			<field name="robots"
-			type="list"
-			label="JFIELD_METADATA_ROBOTS_LABEL"
-			description="JFIELD_METADATA_ROBOTS_DESC"
+			<field name="robots" type="list"
+                                validate="options"
+                                label="JFIELD_METADATA_ROBOTS_LABEL"
+                                description="JFIELD_METADATA_ROBOTS_DESC"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>

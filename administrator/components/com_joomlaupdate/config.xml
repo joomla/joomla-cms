@@ -10,6 +10,7 @@
 			name="updatesource"
 			type="list"
 			default="lts"
+                        validate="options"
 			label="COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_LABEL"
 			description="COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DESC"
 			>

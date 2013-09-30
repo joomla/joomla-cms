@@ -88,6 +88,7 @@
 			id="feed_display_order"
 			name="feed_display_order" 
 			type="list"
+                        validate="options"
 			label="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_LABEL"
 			description="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_DESC"
 		>
@@ -98,6 +99,7 @@
 		<field
 			name="float_first"
 			type="list"
+                        validate="options"
 			label="COM_NEWSFEEDS_FLOAT_LABEL"
 			description="COM_NEWSFEEDS_FLOAT_DESC">
 				<option value="right">COM_NEWSFEEDS_RIGHT</option>
@@ -107,6 +109,7 @@
 		<field
 			name="float_second"
 			type="list"
+                        validate="options"
 			label="COM_NEWSFEEDS_FLOAT_LABEL"
 			description="COM_NEWSFEEDS_FLOAT_DESC">
 				<option value="right">COM_NEWSFEEDS_RIGHT</option>
@@ -177,9 +180,10 @@
 	 	</field>
 
 		<field name="maxLevel" type="list"
-			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
-			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
-			default="-1"
+                       description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
+                       validate="options"
+                       label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
+                       default="-1"
 		>
 			<option value="0">JNONE</option>
 			<option value="-1">JALL</option>
@@ -252,7 +256,8 @@
 		<field name="maxLevelcat" type="list"
 			default="-1"
 			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
-			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
+			validate="options"
+                       label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 		>
 			<option value="-1">JALL</option>
 			<option value="1">J1</option>
@@ -304,6 +309,7 @@
 			type="list"
 			default="1"
 			description="JGLOBAL_FILTER_FIELD_DESC"
+                        validate="options"
 			label="JGLOBAL_FILTER_FIELD_LABEL"
 			>
 				<option value="hide">JHIDE</option>
@@ -364,6 +370,7 @@
 		<field name="show_pagination"
 			type="list"
 			default="2"
+                        validate="options"
 			label="JGLOBAL_PAGINATION_LABEL"
 			description="JGLOBAL_PAGINATION_DESC"
 		>

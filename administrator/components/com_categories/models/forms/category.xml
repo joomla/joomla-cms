@@ -108,6 +108,7 @@
 		class="span12 small"
 		default="1"
 		size="1"
+                validate="options"
 		label="JSTATUS"
 		description="JFIELD_PUBLISHED_DESC">
 		<option value="1">JPUBLISHED</option>
@@ -247,6 +248,7 @@
 	
 			<field name="robots"
 				type="list"
+                                validate="options"
 				label="JFIELD_METADATA_ROBOTS_LABEL"
 				description="JFIELD_METADATA_ROBOTS_DESC"
 			>

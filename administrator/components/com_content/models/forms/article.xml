@@ -21,7 +21,9 @@
 			label="COM_CONTENT_FIELD_ARTICLETEXT_LABEL" description="COM_CONTENT_FIELD_ARTICLETEXT_DESC"
 			filter="JComponentHelper::filterText" buttons="true" />
 
-		<field name="state" type="list" label="JSTATUS"
+		<field name="state" type="list" 
+                       validate="options"
+                       label="JSTATUS"
 			description="JFIELD_PUBLISHED_DESC" class="span12 small"
 			filter="intval" size="1" default="1"
 		>
@@ -113,6 +115,7 @@
 		</field>
 
 		<field name="featured" type="list"
+                        validate="options"
 			label="JFEATURED"
 			description="COM_CONTENT_FIELD_FEATURED_DESC"
 			default="0"
@@ -190,6 +193,7 @@
 				name="info_block_position"
 				type="list"
 				default=""
+                                validate="options"
 				label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
 				description="COM_CONTENT_FIELD_INFOBLOCK_POSITION_DESC">
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -643,6 +647,7 @@
 			<field
 				name="float_intro"
 				type="list"
+                                validate="options"
 				label="COM_CONTENT_FLOAT_LABEL"
 				description="COM_CONTENT_FLOAT_DESC"
 				labelclass="control-label">
@@ -679,6 +684,7 @@
 			<field
 				name="float_fulltext"
 				type="list"
+                                validate="options"
 				label="COM_CONTENT_FLOAT_LABEL"
 				description="COM_CONTENT_FLOAT_DESC"
 				labelclass="control-label">
@@ -721,6 +727,7 @@
 			<field
 				name="targeta"
 				type="list"
+                                validate="options"
 				label="COM_CONTENT_URL_FIELD_BROWSERNAV_LABEL"
 				description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
 				default=""
@@ -756,6 +763,7 @@
 			<field
 				name="targetb"
 				type="list"
+                                validate="options"
 				label="COM_CONTENT_URL_FIELD_BROWSERNAV_LABEL"
 				description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
 				default=""
@@ -792,6 +800,7 @@
 			<field
 				name="targetc"
 				type="list"
+                                validate="options"
 				label="COM_CONTENT_URL_FIELD_BROWSERNAV_LABEL"
 				description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
 				default=""
@@ -812,6 +821,7 @@
 	
 				<field name="robots"
 					type="list"
+                                        validate="options"
 					label="JFIELD_METADATA_ROBOTS_LABEL"
 					description="JFIELD_METADATA_ROBOTS_DESC"
 					labelclass="control-label"

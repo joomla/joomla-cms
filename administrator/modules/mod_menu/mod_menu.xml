@@ -42,6 +42,7 @@
 					name="shownew"
 					type="list"
 					default="1"
+                                        validate="options"
 					label="MOD_MENU_FIELD_SHOWNEW"
 					description="MOD_MENU_FIELD_SHOWNEW_DESC">
 					<option value="0">JHIDE</option>
@@ -52,6 +53,7 @@
 					name="showhelp"
 					type="list"
 					default="1"
+                                        validate="options"
 					label="MOD_MENU_FIELD_SHOWHELP"
 					description="MOD_MENU_FIELD_SHOWHELP_DESC">
 					<option value="0">JHIDE</option>
@@ -72,6 +74,7 @@
 					name="cache"
 					type="list"
 					default="0"
+                                        validate="options"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC">
 					<option

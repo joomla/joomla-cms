@@ -47,6 +47,7 @@
 			name="useractivation"
 			type="list"
 			default="2"
+                        validate="options"
 			label="COM_USERS_CONFIG_FIELD_USERACTIVATION_LABEL"
 			description="COM_USERS_CONFIG_FIELD_USERACTIVATION_DESC">
 			<option

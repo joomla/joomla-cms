@@ -21,6 +21,7 @@
 			addfieldpath="/administrator/components/com_categories/models/fields" />
 		
 		<field name="state" type="list"
+                        validate="options"
 			label="JSTATUS" description="COM_BANNERS_FIELD_STATE_DESC"
 			class="inputbox span12 small" size="1" default="1" >
 			<option value="1">JPUBLISHED</option>
@@ -44,6 +45,7 @@
 			description="COM_BANNERS_FIELD_DESCRIPTION_DESC" />
 
 		<field name="type" type="list"
+                        validate="options"
 			label="COM_BANNERS_FIELD_TYPE_LABEL" description="COM_BANNERS_FIELD_TYPE_DESC"
 			default="0" class="inputbox">
 			<option value="0">COM_BANNERS_FIELD_VALUE_IMAGE
@@ -104,6 +106,7 @@
 		label="COM_BANNERS_GROUP_LABEL_BANNER_DETAILS" >
 
 		<field name="sticky" type="list" default="0"
+                        validate="options"
 			label="COM_BANNERS_FIELD_STICKY_LABEL"
 			description="COM_BANNERS_FIELD_STICKY_DESC"
 			class="span12 small" >
@@ -126,6 +129,7 @@
 			label="COM_BANNERS_FIELD_CLIENT_LABEL" description="COM_BANNERS_FIELD_CLIENT_DESC" />
 
 		<field name="purchase_type" type="list"
+                        validate="options"
 			label="COM_BANNERS_FIELD_PURCHASETYPE_LABEL" description="COM_BANNERS_FIELD_PURCHASETYPE_DESC"
 			default="0" class="inputbox" >
 			<option value="-1">COM_BANNERS_FIELD_VALUE_USECLIENTDEFAULT
@@ -143,6 +147,7 @@
 		</field>
 
 		<field name="track_impressions" type="list" default="0"
+                        validate="options"
 			label="COM_BANNERS_FIELD_TRACKIMPRESSION_LABEL"
 			description="COM_BANNERS_FIELD_TRACKIMPRESSION_DESC" >
 			<option value="-1">COM_BANNERS_FIELD_VALUE_USECLIENTDEFAULT
@@ -152,6 +157,7 @@
 		</field>
 
 		<field name="track_clicks" type="list" default="0"
+                        validate="options"
 			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL" description="COM_BANNERS_FIELD_TRACKCLICK_DESC">
 			<option value="-1">COM_BANNERS_FIELD_VALUE_USECLIENTDEFAULT
 			</option>

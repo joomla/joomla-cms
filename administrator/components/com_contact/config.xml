@@ -18,6 +18,7 @@
 		<field name="show_contact_category"
 			type="list"
 			default="hide"
+                        validate="options"
 			label="COM_CONTACT_FIELD_CONTACT_SHOW_CATEGORY_LABEL"
 			description="COM_CONTACT_FIELD_CONTACT_SHOW_CATEGORY_DESC"
 		>
@@ -65,6 +66,7 @@
 		<field name="presentation_style"
 		type="list"
 			description="COM_CONTACT_FIELD_PRESENTATION_DESC"
+                        validate="options"
 			label="COM_CONTACT_FIELD_PRESENTATION_LABEL"
 		>
 			<option value="sliders">COM_CONTACT_FIELD_VALUE_SLIDERS</option>
@@ -329,6 +331,7 @@
 		<field name="contact_icons"
 			type="list"
 			default="0"
+                        validate="options"
 			label="COM_CONTACT_FIELD_ICONS_SETTINGS_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_SETTINGS_DESC"
 		>
@@ -420,6 +423,7 @@
 		<field name="maxLevel" type="list"
 			default="-1"
 			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
+                        validate="options"
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 		>
 			<option value="-1">JALL</option>
@@ -490,6 +494,7 @@
 		<field name="maxLevelcat" type="list"
 			default="-1"
 			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
+                        validate="options"
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 		>
 			<option value="-1">JALL</option>
@@ -544,6 +549,7 @@
 			type="list"
 			default="1"
 			description="JGLOBAL_FILTER_FIELD_DESC"
+                        validate="options"
 			label="JGLOBAL_FILTER_FIELD_LABEL"
 			>
 				<option value="hide">JHIDE</option>
@@ -668,6 +674,7 @@
 			<field name="show_pagination" type="list"
 				default="2"
 				description="JGLOBAL_PAGINATION_DESC"
+                                validate="options"
 				label="JGLOBAL_PAGINATION_LABEL"
 			>
 
@@ -691,6 +698,7 @@
 
 			<field name="initial_sort" type="list"
 				description="COM_CONTACT_FIELD_INITIAL_SORT_DESC"
+                                validate="options"
 				label="COM_CONTACT_FIELD_INITIAL_SORT_LABEL"
 				validate="options"
 				default="ordering"

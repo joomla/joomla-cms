@@ -36,6 +36,7 @@
 					name="name"
 					type="list"
 					default="1"
+                                        validate="options"
 					label="MOD_LOGGED_NAME"
 					description="MOD_LOGGED_FIELD_NAME_DESC" >
 					<option
@@ -61,6 +62,7 @@
 					name="cache"
 					type="list"
 					default="0"
+                                        validate="options"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC">
 					<option

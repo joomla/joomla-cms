@@ -52,7 +52,8 @@
 		<field
 			name="state"
 			type="list"
-			label="JSTATUS"
+			validate="options"
+                        label="JSTATUS"
 			description="COM_USERS_FIELD_STATE_DESC"
 			class="inputbox"
 			size="1"

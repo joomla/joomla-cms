@@ -128,6 +128,7 @@
 		<field
 			name="browserNav"
 			type="list"
+                        validate="options"
 			label="COM_MENUS_ITEM_FIELD_BROWSERNAV_LABEL"
 			description="COM_MENUS_ITEM_FIELD_BROWSERNAV_DESC"
 			default="Parent"

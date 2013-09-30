@@ -44,6 +44,7 @@
 		<field
 			name="state"
 			type="list"
+                        validate="options"
 			label="JSTATUS"
 			description="COM_WEBLINKS_FIELD_STATE_DESC"
 			class="inputbox span12 small"
@@ -153,7 +154,8 @@
 	<fields name="params" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
 		<fieldset name="jbasic" label="COM_WEBLINKS_FIELDSET_OPTIONS">
 			<field name="target" type="list" default=""
-				label="COM_WEBLINKS_FIELD_TARGET_LABEL" description="COM_WEBLINKS_FIELD_TARGET_DESC"
+                            validate="options"
+                            label="COM_WEBLINKS_FIELD_TARGET_LABEL" description="COM_WEBLINKS_FIELD_TARGET_DESC"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JBROWSERTARGET_PARENT</option>
@@ -171,8 +173,9 @@
 				description="COM_WEBLINKS_FIELD_HEIGHT_DESC" />
 
 			<field name="count_clicks" type="list"
-				label="COM_WEBLINKS_FIELD_COUNTCLICKS_LABEL"
-				description="COM_WEBLINKS_FIELD_COUNTCLICKS_DESC"
+                            validate="options"
+                            label="COM_WEBLINKS_FIELD_COUNTCLICKS_LABEL"
+                            description="COM_WEBLINKS_FIELD_COUNTCLICKS_DESC"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JNO</option>
@@ -189,6 +192,7 @@
 			<field
 				name="float_first"
 				type="list"
+                                validate="options"
 				label="COM_WEBLINKS_FLOAT_LABEL"
 				description="COM_WEBLINKS_FLOAT_DESC">
 					<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -217,6 +221,7 @@
 			<field
 				name="float_second"
 				type="list"
+                                validate="options"
 				label="COM_WEBLINKS_FLOAT_LABEL"
 				description="COM_WEBLINKS_FLOAT_DESC">
 					<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -224,12 +229,14 @@
 					<option value="left">COM_WEBLINKS_LEFT</option>
 					<option value="none">COM_WEBLINKS_NONE</option>
 			</field>
-			<field name="image_second_alt"
+			
+                        <field name="image_second_alt"
 				type="text"
 				label="COM_WEBLINKS_FIELD_IMAGE_ALT_LABEL"
 				description="COM_WEBLINKS_FIELD_IMAGE_ALT_DESC"
 				class="inputbox"
 				size="20" />
+                        
 			<field name="image_second_caption"
 				type="text"
 				label="COM_WEBLINKS_FIELD_IMAGE_CAPTION_LABEL"
@@ -242,6 +249,7 @@
 
 			<field name="robots"
 				type="list"
+                                validate="options"
 				label="JFIELD_METADATA_ROBOTS_LABEL"
 				description="JFIELD_METADATA_ROBOTS_DESC"
 			>

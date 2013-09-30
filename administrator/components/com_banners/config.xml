@@ -7,6 +7,7 @@
 			id="purchase_type"
 			name="purchase_type"
 			type="list"
+                        validate="options"
 			label="COM_BANNERS_FIELD_PURCHASETYPE_LABEL"
 			description="COM_BANNERS_FIELD_PURCHASETYPE_DESC"
 			default="0"

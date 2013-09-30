@@ -70,6 +70,7 @@
 			class="inputbox"
 			default="1"
 			description="COM_LANGUAGES_FIELD_PUBLISHED_DESC"
+                        validate="options"
 			label="JSTATUS"
 			size="1"
 		>

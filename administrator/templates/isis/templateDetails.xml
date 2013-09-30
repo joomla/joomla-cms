@@ -92,7 +92,8 @@
 
 				<field name="statusFixed" type="list"
 				default="1"
-				label="TPL_ISIS_STATUS_LABEL"
+				validate="options"
+                                label="TPL_ISIS_STATUS_LABEL"
 				description="TPL_ISIS_STATUS_DESC"
 				filter="integer">
 				<option
