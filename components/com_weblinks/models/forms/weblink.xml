@@ -8,6 +8,13 @@
 			size="10"
 			default="0"
 		/>
+		
+		<field
+			id="contenthistory"
+			name="contenthistory"
+			type="contenthistory"
+			data-typeAlias="com_weblinks.weblink"
+			label="JTOOLBAR_VERSIONS" />
 
 		<field name="title" type="text"
 			description="COM_WEBLINKS_FIELD_TITLE_DESC"
@@ -69,9 +76,16 @@
 			label="JTAG"
 			description="JTAG_DESC"
 			class="inputbox span12 small"
-			multiple="true"
-		>
-		</field>
+			multiple="true" />
+
+		<field 
+			name="version_note" 
+			type="text" 
+			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+			description="JGLOBAL_FIELD_VERSION_NOTE_DESC" 
+			class="inputbox" 
+			size="45" 
+			labelclass="control-label" />
 
 	</fieldset>
 	<fields name="metadata">

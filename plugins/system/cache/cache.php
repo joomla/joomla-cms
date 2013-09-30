@@ -52,7 +52,7 @@ class PlgSystemCache extends JPlugin
 	function onAfterInitialise()
 	{
 		global $_PROFILER;
-		
+
 		$app  = JFactory::getApplication();
 		$user = JFactory::getUser();
 
@@ -76,9 +76,9 @@ class PlgSystemCache extends JPlugin
 		if ($data !== false)
 		{
 			// Set cached body
-			JResponse::setBody($data);
-			
-			echo JResponse::toString($app->getCfg('gzip'));
+			$app->setBody($data);
+
+			echo $app->toString($app->getCfg('gzip'));
 
 			if (JDEBUG)
 			{
@@ -97,7 +97,7 @@ class PlgSystemCache extends JPlugin
 		{
 			return;
 		}
-		
+
 		if (count($app->getMessageQueue()))
 		{
 			return;

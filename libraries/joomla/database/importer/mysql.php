@@ -42,20 +42,4 @@ class JDatabaseImporterMysql extends JDatabaseImporterMysqli
 
 		return $this;
 	}
-
-	/**
-	 * Sets the database connector to use for exporting structure and/or data from MySQL.
-	 *
-	 * @param   JDatabaseDriverMysql  $db  The database connector.
-	 *
-	 * @return  JDatabaseImporterMysql  Method supports chaining.
-	 *
-	 * @since   11.1
-	 */
-	public function setDbo(JDatabaseDriverMysql $db)
-	{
-		$this->db = $db;
-
-		return $this;
-	}
 }

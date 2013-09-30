@@ -43,8 +43,8 @@ class PlgAuthenticationJoomla extends JPlugin
 		}
 
 		// Get a database object
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true)
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
 			->select('id, password')
 			->from('#__users')
 			->where('username=' . $db->quote($credentials['username']));
@@ -54,6 +54,7 @@ class PlgAuthenticationJoomla extends JPlugin
 
 		if ($result)
 		{
+			// Check the password
 			$parts	= explode(':', $result->password);
 			$crypt	= $parts[0];
 			$salt	= @$parts[1];
@@ -80,14 +81,41 @@ class PlgAuthenticationJoomla extends JPlugin
 			}
 			else
 			{
+				// Invalid password
 				$response->status = JAuthentication::STATUS_FAILURE;
 				$response->error_message = JText::_('JGLOBAL_AUTH_INVALID_PASS');
 			}
 		}
 		else
 		{
+			// Invalid user
 			$response->status = JAuthentication::STATUS_FAILURE;
 			$response->error_message = JText::_('JGLOBAL_AUTH_NO_USER');
+		}
+
+		// Check the two factor authentication
+		if ($response->status == JAuthentication::STATUS_SUCCESS)
+		{
+			require_once JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php';
+
+			$methods = UsersHelper::getTwoFactorMethods();
+
+			if (count($methods) <= 1)
+			{
+				// No two factor authentication method is enabled
+				return;
+			}
+
+			require_once JPATH_ADMINISTRATOR . '/components/com_users/models/user.php';
+			$model = new UsersModelUser;
+
+			$check = $model->isValidSecretKey($result->id, $credentials['secretkey']);
+
+			if (!$check)
+			{
+				$response->status = JAuthentication::STATUS_FAILURE;
+				$response->error_message = JText::_('JGLOBAL_AUTH_INVALID_SECRETKEY');
+			}
 		}
 	}
 }

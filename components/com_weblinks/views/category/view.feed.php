@@ -18,6 +18,4 @@ defined('_JEXEC') or die;
  */
 class WeblinksViewCategory extends JViewCategoryfeed
 {
-
-
 }

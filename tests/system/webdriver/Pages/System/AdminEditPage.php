@@ -382,11 +382,19 @@ abstract class AdminEditPage extends AdminPage
 			$type = $container->getAttribute('class');
 			if (strpos($type, 'chzn-container-single-nosearch') > 0)
 			{
-				$this->driver->findElement(By::xPath("//div[@id='" . $values['id'] . "_chzn']/a"))->click();
+				$selectElement = $this->driver->findElement(By::xPath("//div[@id='" . $values['id'] . "_chzn']/a"));
+				if (!$selectElement->isDisplayed())
+				{
+					$selectElement->getLocationOnScreenOnceScrolledIntoView();
+				}
+				$selectElement->click();
 
 				// Click the last element in the list to make sure they are all in view
 				$lastElement = $this->driver->findElement(By::xPath("//div[@id='" . $values['id'] . "_chzn']//ul[@class='chzn-results']/li[last()]"));
-				$lastElement->getLocationOnScreenOnceScrolledIntoView();
+				if (!$lastElement->isDisplayed())
+				{
+					$lastElement->getLocationOnScreenOnceScrolledIntoView();
+				}
 				$this->driver->findElement(By::xPath("//div[@id='" . $values['id'] . "_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $values['value'] . "')]"))->click();
 			}
 			elseif (strpos($type, 'chzn-container-single') > 0)

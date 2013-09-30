@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.file');
-jimport('joomla.filesystem.path');
-
 /**
  * FTP configuration model for the Joomla Core Installer.
  *
