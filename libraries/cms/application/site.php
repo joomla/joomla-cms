@@ -702,7 +702,7 @@ final class JApplicationSite extends JApplicationCms
 				// Ensure themeFile is set by now
 				if ($this->get('themeFile') == '')
 				{
-					$this->set('themeFile', 'index.php');
+					$this->set('themeFile', $file . '.php');
 				}
 
 				break;

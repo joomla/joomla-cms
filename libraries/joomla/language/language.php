@@ -1270,6 +1270,18 @@ class JLanguage
 	}
 
 	/**
+	 * Get the weekends days for this language.
+	 *
+	 * @return  string  The weekend days of the week separated by a comma according to the language
+	 *
+	 * @since   3.2
+	 */
+	public function getWeekEnd()
+	{
+		return (isset($this->metadata['weekEnd']) && $this->metadata['weekEnd']) ? $this->metadata['weekEnd'] : '0,6';
+	}
+
+	/**
 	 * Searches for language directories within a certain base dir.
 	 *
 	 * @param   string  $dir  directory of files.

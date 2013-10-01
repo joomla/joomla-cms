@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Legacy
+ * @package     Joomla.Libraries
  * @subpackage  Module
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
@@ -12,9 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Module helper class
  *
- * @package     Joomla.Legacy
+ * @package     Joomla.Libraries
  * @subpackage  Module
- * @since       11.1
+ * @since       1.5
  */
 abstract class JModuleHelper
 {
@@ -26,12 +26,12 @@ abstract class JModuleHelper
 	 *
 	 * @return  object  The Module object
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public static function &getModule($name, $title = null)
 	{
 		$result = null;
-		$modules =& self::_load();
+		$modules =& static::load();
 		$total = count($modules);
 
 		for ($i = 0; $i < $total; $i++)
@@ -73,7 +73,7 @@ abstract class JModuleHelper
 	 *
 	 * @return  array  An array of module objects
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public static function &getModules($position)
 	{
@@ -81,7 +81,7 @@ abstract class JModuleHelper
 		$result = array();
 		$input  = JFactory::getApplication()->input;
 
-		$modules =& self::_load();
+		$modules =& static::load();
 
 		$total = count($modules);
 		for ($i = 0; $i < $total; $i++)
@@ -96,7 +96,7 @@ abstract class JModuleHelper
 		{
 			if ($input->getBool('tp') && JComponentHelper::getParams('com_templates')->get('template_positions_display'))
 			{
-				$result[0] = self::getModule('mod_' . $position);
+				$result[0] = static::getModule('mod_' . $position);
 				$result[0]->title = $position;
 				$result[0]->content = $position;
 				$result[0]->position = $position;
@@ -116,11 +116,11 @@ abstract class JModuleHelper
 	 *
 	 * @return  boolean See description for conditions.
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public static function isEnabled($module)
 	{
-		$result = self::getModule($module);
+		$result = static::getModule($module);
 
 		return (!is_null($result) && $result->id !== 0);
 	}
@@ -133,7 +133,7 @@ abstract class JModuleHelper
 	 *
 	 * @return  string  The HTML content of the module output.
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public static function renderModule($module, $attribs = array())
 	{
@@ -254,7 +254,7 @@ abstract class JModuleHelper
 	 *
 	 * @return  string  The path to the module layout
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public static function getLayoutPath($module, $layout = 'default')
 	{
@@ -295,9 +295,22 @@ abstract class JModuleHelper
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.5
+	 * @deprecated  4.0  Use JModuleHelper::load() instead
 	 */
 	protected static function &_load()
+	{
+		return static::load();
+	}
+
+	/**
+	 * Load published modules.
+	 *
+	 * @return  array
+	 *
+	 * @since   3.2
+	 */
+	protected static function &load()
 	{
 		static $clean;
 
@@ -415,9 +428,8 @@ abstract class JModuleHelper
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
-	 *
-	 * @link JFilterInput::clean()
+	 * @see     JFilterInput::clean()
+	 * @since   1.6
 	 */
 	public static function moduleCache($module, $moduleparams, $cacheparams)
 	{

@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.Platform
  * @subpackage  Plugin
- * @since       11.1
+ * @since       1.5
  */
 abstract class JPlugin extends JEvent
 {
@@ -22,7 +22,7 @@ abstract class JPlugin extends JEvent
 	 * A JRegistry object holding the parameters for the plugin
 	 *
 	 * @var    JRegistry
-	 * @since  11.1
+	 * @since  1.5
 	 */
 	public $params = null;
 
@@ -30,7 +30,7 @@ abstract class JPlugin extends JEvent
 	 * The name of the plugin
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.5
 	 */
 	protected $_name = null;
 
@@ -38,7 +38,7 @@ abstract class JPlugin extends JEvent
 	 * The plugin type
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.5
 	 */
 	protected $_type = null;
 
@@ -46,7 +46,7 @@ abstract class JPlugin extends JEvent
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
 	 *
 	 * @var    boolean
-	 * @since  12.3
+	 * @since  3.1
 	 */
 	protected $autoloadLanguage = false;
 
@@ -58,7 +58,7 @@ abstract class JPlugin extends JEvent
 	 *                             Recognized key values include 'name', 'group', 'params', 'language'
 	 *                             (this list is not meant to be comprehensive).
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function __construct(&$subject, $config = array())
 	{
@@ -127,7 +127,7 @@ abstract class JPlugin extends JEvent
 	 *
 	 * @return  boolean  True, if the file has successfully loaded.
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public function loadLanguage($extension = '', $basePath = JPATH_ADMINISTRATOR)
 	{

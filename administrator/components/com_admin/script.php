@@ -933,6 +933,13 @@ class JoomlaInstallerScript
 			'/administrator/includes/application.php',
 			'/includes/application.php',
 			'/libraries/legacy/application/helper.php',
+			'/libraries/joomla/plugin/helper.php',
+			'/libraries/joomla/plugin/index.html',
+			'/libraries/joomla/plugin/plugin.php',
+			'/libraries/legacy/component/helper.php',
+			'/libraries/legacy/component/index.html',
+			'/libraries/legacy/module/helper.php',
+			'/libraries/legacy/module/index.html',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -982,6 +989,10 @@ class JoomlaInstallerScript
 			'/libraries/legacy/pathway',
 			'/media/system/swf/',
 			'/media/editors/tinymce/jscripts',
+			// Joomla! 3.2
+			'/libraries/joomla/plugin',
+			'/libraries/legacy/component',
+			'/libraries/legacy/module',
 		);
 
 		jimport('joomla.filesystem.file');
