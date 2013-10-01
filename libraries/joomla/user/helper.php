@@ -446,7 +446,6 @@ abstract class JUserHelper
 				if (JCrypt::hasStrongPasswordSupport())
 				{
 					$encrypted =  password_hash($plaintext, PASSWORD_BCRYPT);
-					JLog::add('encrypted ' . $encrypted, JLog::INFO);
 
 					if (!$encrypted)
 					{
