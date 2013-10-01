@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 ?>
 <script type="text/javascript">
-	Joomla.submitbutton = function(pressbutton)
+	Joomla.submitbutton = function()
 	{
 		var form = document.getElementById('adminForm');
 
@@ -23,9 +23,9 @@ defined('_JEXEC') or die;
 			form.installtype.value = 'upload';
 			form.submit();
 		}
-	}
+	};
 
-	Joomla.submitbutton3 = function(pressbutton)
+	Joomla.submitbutton3 = function()
 	{
 		var form = document.getElementById('adminForm');
 
@@ -38,9 +38,9 @@ defined('_JEXEC') or die;
 			form.installtype.value = 'folder';
 			form.submit();
 		}
-	}
+	};
 
-	Joomla.submitbutton4 = function(pressbutton)
+	Joomla.submitbutton4 = function()
 	{
 		var form = document.getElementById('adminForm');
 
@@ -53,7 +53,16 @@ defined('_JEXEC') or die;
 			form.installtype.value = 'url';
 			form.submit();
 		}
-	}
+	};
+
+	Joomla.submitbuttonInstallWebInstaller = function()
+	{
+		var form = document.getElementById('adminForm');
+
+		form.install_url.value = 'http://appscdn.joomla.org/webapps/jedapps/webinstaller.xml';
+
+		Joomla.submitbutton4();
+	};
 </script>
 
 <div id="installer-install">
@@ -70,15 +79,24 @@ defined('_JEXEC') or die;
 	<!-- Render messages set by extension install scripts here -->
 	<?php if ($this->showMessage) : ?>
 		<?php echo $this->loadTemplate('message'); ?>
+	<?php elseif ($this->showJedAndWebInstaller) : ?>
+		<div class="alert alert-info j-jed-message" style="margin-bottom: 40px; line-height: 2em; color:#333333;">
+			<a href="index.php?option=com_config&view=component&component=com_installer&path=&return=<?php echo urlencode(base64_encode(JUri::getInstance())); ?>" class="close" data-dismiss="alert">&times;</a>
+			<a href="http://extensions.joomla.org" target="_blank">Joomla Extension Directory</a>
+			now available with <a href="http://extensions.joomla.org" target="_blank">Install from Web</a> on this page:&nbsp;&nbsp;
+			<input class="btn" type="button" value="<?php echo JText::_('Add &quot;Install from Web&quot; tab'); ?>" onclick="Joomla.submitbuttonInstallWebInstaller()" />
+		</div>
 	<?php endif; ?>
 
 	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'upload')); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'upload', JText::_('COM_INSTALLER_UPLOAD_PACKAGE_FILE', true)); ?>
+			<?php JEventDispatcher::getInstance()->trigger('onInstallerViewBeforeFirstTab', array('bootstrap')); ?>
+
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'upload', JText::_('COM_INSTALLER_UPLOAD_PACKAGE_FILE', true)); ?>
 			<fieldset class="uploadform">
-				<legend><?php echo JText::_('COM_INSTALLER_UPLOAD_PACKAGE_FILE'); ?></legend>
+				<legend><?php echo JText::_('COM_INSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'); ?></legend>
 				<div class="control-group">
-					<label for="install_package" class="control-label"><?php echo JText::_('COM_INSTALLER_PACKAGE_FILE'); ?></label>
+					<label for="install_package" class="control-label"><?php echo JText::_('COM_INSTALLER_EXTENSION_PACKAGE_FILE'); ?></label>
 					<div class="controls">
 						<input class="input_box" id="install_package" name="install_package" type="file" size="57" />
 					</div>
@@ -117,6 +135,9 @@ defined('_JEXEC') or die;
 					<input type="button" class="btn btn-primary" value="<?php echo JText::_('COM_INSTALLER_INSTALL_BUTTON'); ?>" onclick="Joomla.submitbutton4()" />
 				</div>
 			</fieldset>
+
+		<?php JEventDispatcher::getInstance()->trigger('onInstallerViewAfterLastTab', array('bootstrap')); ?>
+
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php if ($this->ftp) : ?>
