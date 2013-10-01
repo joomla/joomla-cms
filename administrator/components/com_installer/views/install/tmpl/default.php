@@ -20,6 +20,8 @@ defined('_JEXEC') or die;
 		}
 		else
 		{
+			jQuery('#loading').css('display', 'block');
+
 			form.installtype.value = 'upload';
 			form.submit();
 		}
@@ -35,6 +37,8 @@ defined('_JEXEC') or die;
 		}
 		else
 		{
+			jQuery('#loading').css('display', 'block');
+
 			form.installtype.value = 'folder';
 			form.submit();
 		}
@@ -50,6 +54,8 @@ defined('_JEXEC') or die;
 		}
 		else
 		{
+			jQuery('#loading').css('display', 'block');
+
 			form.installtype.value = 'url';
 			form.submit();
 		}
@@ -63,9 +69,28 @@ defined('_JEXEC') or die;
 
 		Joomla.submitbutton4();
 	};
+
+	// Add spindle-wheel for installations:
+	jQuery(document).ready(function($) {
+		var outerDiv = $('#installer-install');
+
+		$('<div id="loading"></div>')
+			.css("background", "rgba(255, 255, 255, .8) url('../media/jui/img/ajax-loader.gif') 50% 15% no-repeat")
+			.css("top", outerDiv.position().top - $(window).scrollTop())
+			.css("left", outerDiv.position().left - $(window).scrollLeft())
+			.css("width", outerDiv.width())
+			.css("height", outerDiv.height())
+			.css("position", "fixed")
+			.css("opacity", "0.80")
+			.css("-ms-filter", "progid:DXImageTransform.Microsoft.Alpha(Opacity = 80)")
+			.css("filter", "alpha(opacity = 80)")
+			.css("display", "none")
+			.appendTo(outerDiv);
+	});
+
 </script>
 
-<div id="installer-install">
+<div id="installer-install" class="clearfix">
 <form enctype="multipart/form-data" action="<?php echo JRoute::_('index.php?option=com_installer&view=install');?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
 	<?php if (!empty( $this->sidebar)) : ?>
 		<div id="j-sidebar-container" class="span2">
