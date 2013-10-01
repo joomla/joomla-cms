@@ -50,13 +50,13 @@ else:
 						        });
 							break;
 						case google.maps.GeocoderStatus.ZERO_RESULTS:
-							alert("The address could not be found");
+							alert("' . JText::_("MOD_MAPS_ZERO_RESULTS") . '");
 							break;
 						case google.maps.GeocoderStatus.OVER_QUERY_LIMIT:
-								alert("You have exceeded your map quota");
+								alert("' . JText::_("MOD_MAPS_OVER_QUERY_LIMIT") . '");
 							break;
 						default:
-							alert("An unknown error occured. Please try reloading the page");
+							alert("' . JText::_("MOD_MAPS_UNKNOWN_ERROR") . '");
 					}
 				});
 				';
