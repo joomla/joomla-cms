@@ -255,6 +255,19 @@ class InstallerModelInstall extends JModelLegacy
 			return false;
 		}
 
+		// Handle updater XML file case:
+		if (preg_match('/\.xml\s*$/', $url))
+		{
+			jimport('joomla.updater.update');
+			$update = new JUpdate;
+			$update->loadFromXML($url);
+			$package_url = trim($update->get('downloadurl', false)->_data);
+			if ($package_url)
+			{
+				$url = $package_url;
+			}
+		}
+
 		// Download the package at the URL given
 		$p_file = JInstallerHelper::downloadPackage($url);
 
