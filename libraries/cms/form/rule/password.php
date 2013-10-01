@@ -18,7 +18,6 @@ defined('JPATH_PLATFORM') or die;
  */
 class JFormRulePassword extends JFormRule
 {
-
 	/**
 	 * Method to test if two values are not equal. To use this rule, the form
 	 * XML needs a validate attribute of equals and a field attribute
@@ -40,8 +39,6 @@ class JFormRulePassword extends JFormRule
 	 */
 	public function test(SimpleXMLElement $element, $value, $group = null, JRegistry $input = null, JForm $form = null)
 	{
-		$field = (string) $element['field'];
-
 		$meter		= isset($this->element['strengthmeter'])  ? ' meter="0"' : '1';
 		$threshold	= isset($this->element['threshold']) ? (int) $this->element['threshold'] : 66;
 		$minimumLength = isset($this->element['minimum_length']) ? (int) $this->element['minimum_length'] : 4;

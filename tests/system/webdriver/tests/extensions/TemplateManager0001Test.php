@@ -31,7 +31,7 @@ class TemplateManager0001Test extends JoomlaWebdriverTestCase
 	 * @since   3.0
 	 */
 	protected $templateManagerPage = null;
-	
+
 	/**
 	 * Login to back end and navigate to menu .
 	 *
@@ -54,8 +54,8 @@ class TemplateManager0001Test extends JoomlaWebdriverTestCase
 		$this->doAdminLogout();
 		parent::tearDown();
 	}
-	
-	
+
+
 	/**
 	 * @test
 	 */
@@ -68,8 +68,8 @@ class TemplateManager0001Test extends JoomlaWebdriverTestCase
 		$templateEditPage->clickButton('cancel');
 		$this->templateManagerPage = $this->getPageObject('TemplateManagerPage');
 	}
-	
-	/** 
+
+	/**
 	 * This function will work only for the current example, it may not work for a different test_template
 	 * @test
 	 */
@@ -78,13 +78,13 @@ class TemplateManager0001Test extends JoomlaWebdriverTestCase
 		$test_template = 'Hathor - Default'; //A test Template which we are going to select to open the edit page
 		$this->templateManagerPage = $this->getPageObject('TemplateManagerPage');
 		$this->templateManagerPage->clickItem($test_template);
-		$templateEditPage = $this->getPageObject('TemplateEditPage');		
+		$templateEditPage = $this->getPageObject('TemplateEditPage');
 		$textArray = $templateEditPage->getTabIds();
 		$this->assertEquals($templateEditPage->tabs, $textArray, 'Tab labels should match expected values.');
 		$templateEditPage->clickButton('toolbar-cancel');
 		$this->templateManagerPage = $this->getPageObject('TemplateManagerPage');
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -95,31 +95,31 @@ class TemplateManager0001Test extends JoomlaWebdriverTestCase
 		$this->templateManagerPage = $this->getPageObject('TemplateManagerPage');
 		$this->templateManagerPage->copyStyle($test_template);
 		$message = $this->templateManagerPage->getAlertMessage();
-		$this->assertTrue(strpos($message, 'Style successfully duplicated') >= 0, 'Style Copy should return success');		
+		$this->assertTrue(strpos($message, 'Style successfully duplicated') >= 0, 'Style Copy should return success');
 		$this->templateManagerPage->deleteStyle($template_name);
 		$message = $this->templateManagerPage->getAlertMessage();
-		$this->assertTrue(strpos($message, 'Template style successfully deleted') >= 0, 'Style Delete should return success');		
-						
+		$this->assertTrue(strpos($message, 'Template style successfully deleted') >= 0, 'Style Delete should return success');
+
 	}
-	
+
 	/**
 	 * @test
 	 */
 	public function editStyle_EditDuplicate()
 	{
 		$template_name = 'Hathor - Default (2)';
-		$template_new_name = 'Tesnting 1234';
+		$template_new_name = 'Testing 1234';
 		$test_template = 'Hathor - Default'; //A test Template which we are going to select to create a duplicate
 		$this->templateManagerPage = $this->getPageObject('TemplateManagerPage');
 		$this->templateManagerPage->copyStyle($test_template);
 		$message = $this->templateManagerPage->getAlertMessage();
-		$this->assertTrue(strpos($message, 'Style successfully duplicated') >= 0, 'Style Copy should return success');				
-		$this->templateManagerPage->editStyle($template_name,array('Style Name'=>$template_new_name));				
+		$this->assertTrue(strpos($message, 'Style successfully duplicated') >= 0, 'Style Copy should return success');
+		$this->templateManagerPage->editStyle($template_name,array('Style Name'=>$template_new_name));
 		$message = $this->templateManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'Template style successfully saved') >= 0, 'Style Delete should return success');
 		$this->templateManagerPage->deleteStyle($template_new_name);
 		$message = $this->templateManagerPage->getAlertMessage();
-		$this->assertTrue(strpos($message, 'Template style successfully deleted') >= 0, 'Style Delete should return success');								
+		$this->assertTrue(strpos($message, 'Template style successfully deleted') >= 0, 'Style Delete should return success');
 	}
-		
+
 }

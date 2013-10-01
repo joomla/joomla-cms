@@ -134,13 +134,18 @@ body {
 		width: 184px;
 	}
 }
-.login .chzn-single {
-	width: 230px !important;
-}
-.login .chzn-container,
-.login .chzn-drop {
-	width: 238px !important;
-	max-width: 238px !important;
+.login {
+	.chzn-single {
+		width: 230px !important;
+	}
+	.chzn-container,
+	.chzn-drop {
+		width: 238px !important;
+		max-width: 238px !important;
+	}
+	.btn-large {
+		margin-top: 10px;
+	}
 }
 /* Typography */
 .small{
@@ -270,9 +275,6 @@ body .navbar-fixed-top{
 .btn-toolbar .btn-wrapper {
 	display: inline-block;
 	margin: 0 0 5px 5px;
-}
-.btn-toolbar .btn-wrapper:first-child {
-	margin-left: 0;
 }
 .subhead-fixed{
 	position: fixed;
@@ -557,6 +559,9 @@ h6 { font-size: 12px; line-height: 14px; }
 	.view-login .navbar-fixed-bottom{
 		display: none;
 	}
+	.btn-toolbar .btn-wrapper .btn {
+	  width: 93% !important;
+	}
 }
 
 // Navbar
@@ -675,7 +680,7 @@ ul.manager .height-50 .icon-folder-2 {
 	z-index: 3;
 }
 .admin .chzn-container .chzn-drop {
-	z-index: 100;
+	z-index: 1040;
 }
 
 /* Tree Select */
@@ -767,4 +772,18 @@ th .tooltip-inner {
 /* Component pop-up */
 .container-popup {
 	padding: 15px;
+}
+
+/* Min-width on buttons */
+.controls .btn-group > .btn {
+	min-width: 50px;
+}
+
+.img-preview > img {
+	max-height: 100%;
+}
+
+/* Help site refresh button*/
+#helpsite-refresh {
+	vertical-align: top;
 }
