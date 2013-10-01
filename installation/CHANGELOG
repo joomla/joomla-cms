@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 01-Oct-2013 Jean-Marie Simonet
  $ Adding Malay ms-MY to installation languages
+ # [#32128] *Multilingual install: storing language filter parameters is missing
 
 29-Sep-2013 Jean-Marie Simonet
  # [#31377] New Button Icon in Module Manager for Hathor Missing. Thanks Michael Babker
