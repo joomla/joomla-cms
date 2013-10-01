@@ -16,79 +16,71 @@ defined('_JEXEC') or die;
  * @subpackage  com_content
  * @since       1.5
  */
-class ContentViewCategory extends JViewLegacy
+class ContentViewCategory extends JViewCategory
 {
-	protected $state;
-
-	protected $items;
-
-	protected $category;
-
-	protected $children;
-
-	protected $pagination;
-
+	/**
+	 * @var    array  Array of leading items for blog display
+	 * @since  3.2
+	 */
 	protected $lead_items = array();
 
+	/**
+	 * @var    array  Array of intro (multicolumn display) items for blog display
+	 * @since  3.2
+	 */
 	protected $intro_items = array();
 
+	/**
+	 * @var    array  Array of links in blog display
+	 * @since  3.2
+	 */
 	protected $link_items = array();
 
+	/**
+	 * @var    integer  Number of columns in a multi column display
+	 * @since  3.2
+	 */
 	protected $columns = 1;
 
+	/**
+	 * @var    string  The name of the extension for the category
+	 * @since  3.2
+	 */
+	protected $extension = 'com_content';
+
+	/**
+	 * @var    string  Default title to use for page title
+	 * @since  3.2
+	 */
+	protected $defaultPageTitle = 'JGLOBAL_ARTICLES';
+
+	/**
+	 * @var    string  The name of the view to link individual items to
+	 * @since  3.2
+	 */
+	protected $viewName = 'article';
+
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 */
 	public function display($tpl = null)
 	{
-		$app	= JFactory::getApplication();
+		parent::commonCategoryDisplay();
 
-		// Get some data from the models
-		$state		= $this->get('State');
-		$params		= $state->params;
-		$items		= $this->get('Items');
-		$category	= $this->get('Category');
-		$children	= $this->get('Children');
-		$parent		= $this->get('Parent');
-		$pagination = $this->get('Pagination');
-
-		// Check for errors.
-		if (count($errors = $this->get('Errors')))
-		{
-			JError::raiseError(500, implode("\n", $errors));
-			return false;
-		}
-
-		if ($category == false)
-		{
-			return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
-		}
-
-		if ($parent == false)
-		{
-			return JError::raiseError(404, JText::_('JGLOBAL_CATEGORY_NOT_FOUND'));
-		}
-
-		// Setup the category parameters.
-		$cparams = $category->getParams();
-		$category->params = clone($params);
-		$category->params->merge($cparams);
-
-		// Check whether category access level allows access.
-		$user	= JFactory::getUser();
-		$groups	= $user->getAuthorisedViewLevels();
-		if (!in_array($category->access, $groups))
-		{
-			return JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
-		}
-
-		// PREPARE THE DATA
+		// Prepare the data
 		// Get the metrics for the structural page layout.
-		$numLeading	= (int) $params->def('num_leading_articles', 1);
-		$numIntro	= (int) $params->def('num_intro_articles', 4);
-		$numLinks	= (int) $params->def('num_links', 4);
+		$params		= $this->params;
+		$numLeading	= $params->def('num_leading_articles', 1);
+		$numIntro	= $params->def('num_intro_articles', 4);
+		$numLinks	= $params->def('num_links', 4);
 
 		// Compute the article slugs and prepare introtext (runs content plugins).
-		for ($i = 0, $n = count($items); $i < $n; $i++)
+		foreach ($this->items as $item)
 		{
-			$item = &$items[$i];
 			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 
 			$item->parent_slug = ($item->parent_alias) ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
@@ -99,8 +91,8 @@ class ContentViewCategory extends JViewLegacy
 				$item->parent_slug = null;
 			}
 
-			$item->catslug		= $item->category_alias ? ($item->catid.':'.$item->category_alias) : $item->catid;
-			$item->event = new stdClass;
+			$item->catslug = $item->category_alias ? ($item->catid.':'.$item->category_alias) : $item->catid;
+			$item->event   = new stdClass;
 
 			$dispatcher = JEventDispatcher::getInstance();
 
@@ -128,11 +120,13 @@ class ContentViewCategory extends JViewLegacy
 
 		// Check for layout override only if this is not the active menu item
 		// If it is the active menu item, then the view and category id will match
+		$app = JFactory::getApplication();
 		$active	= $app->getMenu()->getActive();
-		if ((!$active) || ((strpos($active->link, 'view=category') === false) || (strpos($active->link, '&id=' . (string) $category->id) === false)))
+
+		if ((!$active) || ((strpos($active->link, 'view=category') === false) || (strpos($active->link, '&id=' . (string) $this->category->id) === false)))
 		{
 			// Get the layout from the merged category params
-			if ($layout = $category->params->get('category_layout'))
+			if ($layout = $this->category->params->get('category_layout'))
 			{
 				$this->setLayout($layout);
 			}
@@ -148,90 +142,47 @@ class ContentViewCategory extends JViewLegacy
 		// This makes it much easier for the designer to just interrogate the arrays.
 		if (($params->get('layout_type') == 'blog') || ($this->getLayout() == 'blog'))
 		{
-			$max = count($items);
+			//$max = count($this->items);
 
-			// The first group is the leading articles.
-			$limit = $numLeading;
-			for ($i = 0; $i < $limit && $i < $max; $i++)
+			foreach ($this->items as $i => $item)
 			{
-				$this->lead_items[$i] = &$items[$i];
-			}
+				if ($i < $numLeading)
+				{
+					$this->lead_items[] = $item;
+				}
 
-			// The second group is the intro articles.
-			$limit = $numLeading + $numIntro;
-			// Order articles across, then down (or single column mode)
-			for ($i = $numLeading; $i < $limit && $i < $max; $i++)
-			{
-				$this->intro_items[$i] = &$items[$i];
+				elseif ($i >= $numLeading && $i < $numLeading + $numIntro)
+				{
+					$this->intro_items[] = $item;
+				}
+
+				elseif ($i < $numLeading + $numIntro + $numLinks)
+				{
+					$this->link_items[] = $item;
+				}
+				else
+				{
+					continue;
+				}
 			}
 
 			$this->columns = max(1, $params->def('num_columns', 1));
-			$order = $params->def('multi_column_order', 1);
 
-			if ($order == 0 && $this->columns > 1)
-			{
-				// call order down helper
-				$this->intro_items = ContentHelperQuery::orderDownColumns($this->intro_items, $this->columns);
-			}
-
-			$limit = $numLeading + $numIntro + $numLinks;
-			// The remainder are the links.
-			for ($i = $numLeading + $numIntro; $i < $limit && $i < $max;$i++)
-			{
-					$this->link_items[$i] = &$items[$i];
-			}
+			$params->def('multi_column_order', 1);
 		}
 
-		$children = array($category->id => $children);
-
-		//Escape strings for HTML output
-		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
-
-		$this->maxLevel = $params->get('maxLevel', -1);
-		$this->state      = &$state;
-		$this->items      = &$items;
-		$this->category   = &$category;
-		$this->children   = &$children;
-		$this->params     = &$params;
-		$this->parent     = &$parent;
-		$this->pagination = &$pagination;
-		$this->user       = &$user;
-
-		// Increment the category hit counter
-		$model = $this->getModel();
-		$model->hit();
-
-		$this->category->tags = new JHelperTags;
-		$this->category->tags->getItemTags('com_content.category', $this->category->id);
-
-		$this->_prepareDocument();
-
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 
 	/**
 	 * Prepares the document
+	 *
+	 * @return  void
 	 */
-	protected function _prepareDocument()
+	protected function prepareDocument()
 	{
-		$app		= JFactory::getApplication();
-		$menus		= $app->getMenu();
-		$pathway	= $app->getPathway();
-		$title		= null;
-
-		// Because the application sets a default page title,
-		// we need to get it from the menu item itself
-		$menu = $menus->getActive();
-
-		if ($menu)
-		{
-			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
-		}
-		else
-		{
-			$this->params->def('page_heading', JText::_('JGLOBAL_ARTICLES'));
-		}
-
+		parent::prepareDocument();
+		$menu = $this->menu;
 		$id = (int) @$menu->query['id'];
 
 		if ($menu && ($menu->query['option'] != 'com_content' || $menu->query['view'] == 'article' || $id != $this->category->id))
@@ -249,72 +200,10 @@ class ContentViewCategory extends JViewLegacy
 
 			foreach ($path as $item)
 			{
-				$pathway->addItem($item['title'], $item['link']);
+				$this->pathway->addItem($item['title'], $item['link']);
 			}
 		}
 
-		$title = $this->params->get('page_title', '');
-		if (empty($title))
-		{
-			$title = $app->getCfg('sitename');
-		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 1)
-		{
-			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
-		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
-		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
-		}
-
-		$this->document->setTitle($title);
-
-		if ($this->category->metadesc)
-		{
-			$this->document->setDescription($this->category->metadesc);
-		}
-		elseif (!$this->category->metadesc && $this->params->get('menu-meta_description'))
-		{
-			$this->document->setDescription($this->params->get('menu-meta_description'));
-		}
-
-		if ($this->category->metakey)
-		{
-			$this->document->setMetadata('keywords', $this->category->metakey);
-		}
-		elseif (!$this->category->metakey && $this->params->get('menu-meta_keywords'))
-		{
-			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
-		}
-
-		if ($this->params->get('robots'))
-		{
-			$this->document->setMetadata('robots', $this->params->get('robots'));
-		}
-
-		if ($app->getCfg('MetaAuthor') == '1')
-		{
-			$this->document->setMetaData('author', $this->category->getMetadata()->get('author'));
-		}
-
-		$mdata = $this->category->getMetadata()->toArray();
-
-		foreach ($mdata as $k => $v)
-		{
-			if ($v)
-			{
-				$this->document->setMetadata($k, $v);
-			}
-		}
-
-		// Add feed links
-		if ($this->params->get('show_feed_link', 1))
-		{
-			$link = '&format=feed&limitstart=';
-			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-			$this->document->addHeadLink(JRoute::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
-			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-			$this->document->addHeadLink(JRoute::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
-		}
+		parent::addFeed();
 	}
 }

@@ -8,17 +8,19 @@
  */
 
 /**
- * Test class for JTableMenuType.
+ * Test class for JTableContent.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Table
- *
  * @since       12.3
  */
 class JTableContentTest extends TestCaseDatabase
 {
 	/**
-	 * @var  JTableContent
+	 * Object under test
+	 *
+	 * @var    JTableContent
+	 * @since  11.4
 	 */
 	protected $object;
 
@@ -27,6 +29,8 @@ class JTableContentTest extends TestCaseDatabase
 	 * This method is called before a test is executed.
 	 *
 	 * @return  void
+	 *
+	 * @since   11.4
 	 */
 	protected function setUp()
 	{
@@ -45,6 +49,8 @@ class JTableContentTest extends TestCaseDatabase
 	 * This method is called after a test is executed.
 	 *
 	 * @return  void
+	 *
+	 * @since   11.4
 	 */
 	protected function tearDown()
 	{
@@ -88,9 +94,9 @@ class JTableContentTest extends TestCaseDatabase
 	/**
 	 * Tests JTableContent::check
 	 *
-	 * @since   11.4
-	 *
 	 * @return  void
+	 *
+	 * @since   11.4
 	 */
 	public function testCheck()
 	{
@@ -142,9 +148,9 @@ class JTableContentTest extends TestCaseDatabase
 	/**
 	 * Tests JTableContent::store
 	 *
-	 * @since   11.4
-	 *
 	 * @return  void
+	 *
+	 * @since   11.4
 	 */
 	public function testStore()
 	{
@@ -176,9 +182,9 @@ class JTableContentTest extends TestCaseDatabase
 	/**
 	 * Tests JTableContent::publish
 	 *
-	 * @since   11.4
-	 *
 	 * @return  void
+	 *
+	 * @since   11.4
 	 */
 	public function testPublish()
 	{

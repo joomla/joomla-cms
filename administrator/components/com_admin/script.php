@@ -30,6 +30,7 @@ class JoomlaInstallerScript
 		$this->deleteUnexistingFiles();
 		$this->updateManifestCaches();
 		$this->updateDatabase();
+		$this->clearRadCache();
 	}
 
 	protected function updateDatabase()
@@ -95,6 +96,7 @@ class JoomlaInstallerScript
 		$extensions[] = array('component', 'com_users', '', 1);
 		$extensions[] = array('component', 'com_tags', '', 1);
 		$extensions[] = array('component', 'com_contenthistory', '', 1);
+		$extensions[] = array('component', 'com_postinstall', '', 1);
 
 		// Libraries
 		$extensions[] = array('library', 'phpmailer', '', 0);
@@ -193,6 +195,7 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'newsfeeds', 'finder', 0);
 		$extensions[] = array('plugin', 'weblinks', 'finder', 0);
 		$extensions[] = array('plugin', 'tags', 'finder', 0);
+		$extensions[] = array('plugin', 'totp', 'twofactorauth', 0);
 
 		// Templates
 		$extensions[] = array('template', 'beez3', '', 0);
@@ -927,6 +930,16 @@ class JoomlaInstallerScript
 			'administrator/components/com_newsfeeds/models/fields/ordering.php',
 			'administrator/components/com_plugins/models/fields/ordering.php',
 			'administrator/components/com_weblinks/models/fields/ordering.php',
+			'/administrator/includes/application.php',
+			'/includes/application.php',
+			'/libraries/legacy/application/helper.php',
+			'/libraries/joomla/plugin/helper.php',
+			'/libraries/joomla/plugin/index.html',
+			'/libraries/joomla/plugin/plugin.php',
+			'/libraries/legacy/component/helper.php',
+			'/libraries/legacy/component/index.html',
+			'/libraries/legacy/module/helper.php',
+			'/libraries/legacy/module/index.html',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -976,6 +989,10 @@ class JoomlaInstallerScript
 			'/libraries/legacy/pathway',
 			'/media/system/swf/',
 			'/media/editors/tinymce/jscripts',
+			// Joomla! 3.2
+			'/libraries/joomla/plugin',
+			'/libraries/legacy/component',
+			'/libraries/legacy/module',
 		);
 
 		jimport('joomla.filesystem.file');
@@ -994,6 +1011,24 @@ class JoomlaInstallerScript
 			{
 				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder) . '<br />';
 			}
+		}
+	}
+
+	/**
+	 * Clears the RAD layer's table cache. The cache vastly improves performance
+	 * but needs to be cleared every time you update the database schema.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	protected function clearRadCache()
+	{
+		if (is_file(JPATH_CACHE . '/fof/cache.php'))
+		{
+			jimport('joomla.filesystem.file');
+
+			JFile::delete(JPATH_CACHE . '/fof/cache.php');
 		}
 	}
 }

@@ -27,6 +27,57 @@ $ -> Language fix or change
 
 21-Sep-2013
  # [#32061] Normalise constant in com_ajax. Thanks Tobias Zulauf
+ # [#27830] Loss of checked item in user registration back end. Thanks Achal Aggarwal
+ ^ [#31475] Update jQuery UI and sortable to 1.9.2 version. Thanks Florian Dal Fitto
+ # [#30155] Vague form data manipulation in sortablelist.js. Thanks Tobias Kuhn
+ # [#29430] php_network_getaddresses: getaddrinfo failed: Name or service not known. Thanks David Jardin
+ # [#30698] JDatabaseMySQLi class does not support IPv6 MySQL server. Thanks Mihail Irintchev
+
+20-Sep-2013 Michael Babker
+ ^ [#31727] Migrate application classes from legacy JApplication to JApplicationWeb
+
+20-Sep-2013 Jean-Marie Simonet
+ # [#32031] [3.x] Overridable layouts for tinyMCE. Thanks Roberto Segura
+ # [#32019] Incorrect component_id for separator items. Thanks David Jardin
+ # [#31995] Can not disable Images and links. Thanks David Jardin
+ # [#31781] To small tags input field at the FE edit view. Thanks Valentin Despa
+
+19-Sep-2013 Michael Babker
+ ^ [#31352] JLayouts improvements for extension developers.  Thanks Roberto Segura
+
+16-Sep-2013 Michael Babker
+ # [#31973] Installation loop if sending config yes (3.2 alpha)
+ ^ [#31963] Incorrect or inconsistent characters in "close ink" text on alert info popups.  Thanks Marco Richter
+ # [#29107] Strict standards and code clean up in com_contact form.  Thanks Piotr Konieczny
+ +$ [#31845] Add JHelperMedia and Deprecate MediaHelper.  Thanks Elin Waring
+ ^ [#31316] licence (gpl.html) only at the html code?.  Thanks Tobias Zulauf
+ # [#31530] Hathor: No tag filters in table overviews of article, categories, newsfeed, weblinks or contact.  Thanks David Jardin
+ # [#31826] "Size" column in Maintenance > Clear Cache is incorrect.  Thanks Drew Glaser
+
+16-Sep-2013 Jean-Marie Simonet
+ # [#32020] "Articles Categories" Module - cache is not working. Thanks Peter Martin
+ + [#31372] Selected tab changes to default after save. Thanks Ashan Fernando
+
+13-Sep-2013 Jean-Marie Simonet
+ # [#31987] *Joomla multilingual install: sef and flags issues. Thanks Beat
+ $ [#31942] Two factor authentication - Language file. Thanks Brian Teeman
+ # [#31985] Remove clear lines at the TinyMCE. Thanks Tobias Zulauf
+ # [#31696] Profile 'Web site' field not working well. Thanks Anthony THERREAU
+
+13-Sep-2013 Elin Waring
+ # [#31998] Smart Search Index Button broken (Regression).
+
+12-Sep-2013 Jean-Marie Simonet
+ + [#31850] The parent item search ajax based on menu location. Thanks Lu Nguyen
+ # [#31890] tagged items list has class "list-striped" and "list-condensed" in code. Thanks Elin waring.
+ $ Updating Italian Tinymce lang file
+
+11-Sep-2013 Elin Waring
+ # [#31753] PGSQL Missing #__ prefix on CONSTRAINT "uc_ItemnameTagid" in installation/sql/postgresql/joomla.sql. Thanks Alan Hicks
+ # [#31894] Check for context in vote plugin. Thanks George Wilson
+ # [#31749] JModuleHelper::isEnabled always returns true. Thanks Chad Windnagle
+ # [#31983] Fix regression due to [31894].
+
 11-Sep-2013 Jean-Marie Simonet
  # [#31848] Archive Articles View frontend
  + Adding Albanian flag
