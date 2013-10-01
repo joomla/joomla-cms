@@ -1,21 +1,18 @@
 <?php
 /**
  * @package     Joomla.UnitTest
- * @subpackage  Media
+ * @subpackage  Image
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-
-require_once JPATH_PLATFORM . '/joomla/image/filter.php';
-require_once JPATH_PLATFORM . '/joomla/image/filter/backgroundfill.php';
 
 /**
  * Test class for JImage.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Image
- * @since       11.4
+ * @since       3.2
  */
 class JImageFilterBackgroundfillTest extends TestCase
 {
@@ -24,17 +21,17 @@ class JImageFilterBackgroundfillTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   3.2
 	 */
 	protected function setUp()
 	{
-		parent::setUp();
-
 		// Verify that GD support for PHP is available.
 		if (!extension_loaded('gd'))
 		{
 			$this->markTestSkipped('No GD support so skipping JImage tests.');
 		}
+
+		parent::setUp();
 	}
 
 	/**
@@ -43,7 +40,7 @@ class JImageFilterBackgroundfillTest extends TestCase
 	 * @return  void
 	 *
 	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   11.4
+	 * @since   3.2
 	 */
 	protected function tearDown()
 	{
@@ -53,11 +50,11 @@ class JImageFilterBackgroundfillTest extends TestCase
 	/**
 	 * Tests the JImageFilterBackgroundfill::execute method.
 	 *
-	 * This tests to make sure we can brighten the image.
+	 * This tests to make sure we can fill background of the image.
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   3.2
 	 *
 	 * @note    Because GD2 uses 7bit alpha channel, results differ slightly 
 	 *          compared to 8bit systems like Adobe Photoshop. 
@@ -103,7 +100,7 @@ class JImageFilterBackgroundfillTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   3.2
 	 *
 	 * @expectedException  InvalidArgumentException
 	 */
