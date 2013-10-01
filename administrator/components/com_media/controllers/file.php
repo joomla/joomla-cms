@@ -62,15 +62,21 @@ class MediaControllerFile extends JControllerLegacy
 			return false;
 		}
 
-		if ( $_SERVER['CONTENT_LENGTH'] > ($params->get('upload_maxsize', 0) * 1024 * 1024)
-			|| $_SERVER['CONTENT_LENGTH'] > (int) (ini_get('upload_max_filesize')) * 1024 * 1024
-			|| $_SERVER['CONTENT_LENGTH'] > (int) (ini_get('post_max_size')) * 1024 * 1024
-			|| (($_SERVER['CONTENT_LENGTH'] > (int) (ini_get('memory_limit')) * 1024 * 1024) && ((int) (ini_get('memory_limit')) != -1)))
+		$contentLength = (int) $_SERVER['CONTENT_LENGTH'];
+		$postMaxSize = (int) ini_get('post_max_size');
+		$memoryLimit = (int) ini_get('memory_limit');
+
+		// Check for the total size of post back data.
+		if (($postMaxSize > 0 && $contentLength > $postMaxSize * 1024 * 1024)
+			|| ($memoryLimit != -1 && $contentLength > $memoryLimit * 1024 * 1024))
 		{
 			JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
 
 			return false;
 		}
+
+		$uploadMaxSize = $params->get('upload_maxsize', 0) * 1024 * 1024;
+		$uploadMaxFileSize = (int) ini_get('upload_max_filesize') * 1024 * 1024;
 
 		// Perform basic checks on file info before attempting anything
 		foreach ($files as &$file)
@@ -85,7 +91,8 @@ class MediaControllerFile extends JControllerLegacy
 				return false;
 			}
 
-			if (($params->get('upload_maxsize', 0) * 1024 * 1024) != 0 && $file['size'] > ($params->get('upload_maxsize', 0) * 1024 * 1024))
+			if (($uploadMaxSize != 0 && $file['size'] > $uploadMaxSize)
+				|| ($uploadMaxFileSize != 0 && $file['size'] > $uploadMaxFileSize))
 			{
 				JError::raiseNotice(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
 
