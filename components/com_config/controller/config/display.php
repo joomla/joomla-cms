@@ -70,7 +70,6 @@ class ConfigControllerConfigDisplay extends ConfigControllerDisplay
 				// Access check.
 				if (!JFactory::getUser()->authorise('core.admin', $model->getState('component.option')))
 				{
-					$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 
 					return;
 
