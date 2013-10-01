@@ -40,7 +40,7 @@
 		/>
 
 		<field name="email" type="email"
-			class="inputbox"
+			class="inputbox validate-email"
 			description="COM_ADMIN_USER_FIELD_EMAIL_DESC"
 			label="JGLOBAL_EMAIL"
 			required="true"
