@@ -77,7 +77,7 @@ abstract class ModTagsselectedHelper
 			$orderDirect = 'ASC';
 		}
 
-		$query = $tagsHelper->getTagItemsQuery($tagToMatch, $typesr = null, $includeChildren = false, $orderByOption = $orderByColumn, $orderDir = $orderDirect, $anyOrAll = true, $languageFilter = 'all', $stateFilter = '0,1');
+		$query = $tagsHelper->getTagItemsQuery($tagToMatch, null, false, $orderByColumn, $orderDirect, true, 'all', '0,1');
 		$db->setQuery($query, 0, $maximum);
 		$results = $db->loadObjectList();
 
