@@ -38,7 +38,7 @@
                        type="modal_contact"
                        description="MOD_CONTACT_INFO_FIELD_CONTACT_DESCRIPTION"
                        label="MOD_CONTACT_INFO_FIELD_CONTACT_LABEL"
-                       required="true"
+                       required="false"
                        edit="true"
                        clear="false"
                         />
