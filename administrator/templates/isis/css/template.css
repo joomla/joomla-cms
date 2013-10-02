@@ -7188,6 +7188,9 @@ h6 {
 .quick-icons h2.nav-header {
 	margin: 12px 0 5px;
 }
+.quick-icons h2.nav-header:first-child {
+	margin: 0px 0 5px;
+}
 .well .module-title.nav-header {
 	padding: 0px 15px 7px;
 	margin: 0px;

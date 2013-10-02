@@ -113,8 +113,7 @@ abstract class ModQuickIconHelper
 						'icon' => 'header/icon-48-config.png',
 						'text' => JText::_('MOD_QUICKICON_GLOBAL_CONFIGURATION'),
 						'access' => array('core.manage', 'com_config', 'core.admin', 'com_config'),
-						'group' => 'MOD_QUICKICON_CONFIGURATION',
-						'separategroup' => true
+						'group' => 'MOD_QUICKICON_CONFIGURATION'
 					),
 					array(
 						'link' => JRoute::_('index.php?option=com_templates'),
@@ -139,46 +138,6 @@ abstract class ModQuickIconHelper
 						'text' => JText::_('MOD_QUICKICON_INSTALL_EXTENSIONS'),
 						'access' => array('core.manage', 'com_installer'),
 						'group' => 'MOD_QUICKICON_EXTENSIONS'
-					),
-					array(
-						'link' => JRoute::_('index.php?option=com_installer&view=manage'),
-						'image' => 'puzzle',
-						'icon' => 'header/icon-48-extension.png',
-						'text' => JText::_('MOD_QUICKICON_EXTENSION_MANAGER'),
-						'access' => array('core.manage', 'com_installer'),
-						'group' => 'MOD_QUICKICON_EXTENSIONS'
-					),
-					array(
-						'link' => JRoute::_('index.php?option=com_admin&task=profile.edit&id=' . JFactory::getUser()->id),
-						'image' => 'vcard',
-						'icon' => 'header/icon-48-user-edit.png',
-						'text' => JText::_('MOD_QUICKICON_PROFILE'),
-						'access' => true,
-						'group' => 'MOD_QUICKICON_USERS'
-					),
-					array(
-						'link' => JRoute::_('index.php?option=com_admin&view=sysinfo'),
-						'image' => 'info-2',
-						'icon' => 'header/icon-48-info.png',
-						'text' => JText::_('MOD_QUICKICON_SYSTEM_INFORMATION'),
-						'access' => true,
-						'group' => 'MOD_QUICKICON_MAINTENANCE'
-					),
-					array(
-						'link' => JRoute::_('index.php?option=com_checkin'),
-						'image' => 'checkmark',
-						'icon' => 'header/icon-48-checkin.png',
-						'text' => JText::_('MOD_QUICKICON_GLOBAL_CHECKIN'),
-						'access' => array('core.admin', 'com_checkin'),
-						'group' => 'MOD_QUICKICON_MAINTENANCE'
-					),
-					array(
-						'link' => JRoute::_('index.php?option=com_cache'),
-						'image' => 'refresh',
-						'icon' => 'header/icon-48-clear.png',
-						'text' => JText::_('MOD_QUICKICON_CLEAR_CACHE'),
-						'access' => array('core.manage', 'com_cache'),
-						'group' => 'MOD_QUICKICON_MAINTENANCE'
 					)
 				);
 			}
