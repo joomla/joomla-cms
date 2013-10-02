@@ -24,6 +24,7 @@
 				<field name="mode" type="list"
 					default="1"
 					description="PLG_CONTENT_EMAILCLOAK_MODE_DESC"
+					validate="options"
 					label="PLG_CONTENT_EMAILCLOAK_MODE_LABEL"
 				>
 					<option value="0">PLG_CONTENT_EMAILCLOAK_NONLINKABLE</option>

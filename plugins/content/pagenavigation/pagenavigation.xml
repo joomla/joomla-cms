@@ -24,6 +24,7 @@
 				<field name="position" type="list"
 					default="1"
 					description="PLG_PAGENAVIGATION_FIELD_POSITION_DESC"
+					validate="options"
 					label="PLG_PAGENAVIGATION_FIELD_POSITION_LABEL"
 				>
 					<option value="1">PLG_PAGENAVIGATION_FIELD_VALUE_BELOW</option>
@@ -33,6 +34,7 @@
 			<field name="relative" type="list"
 					default="1"
 					description="PLG_PAGENAVIGATION_FIELD_RELATIVE_DESC"
+					validate="options"
 					label="PLG_PAGENAVIGATION_FIELD_RELATIVE_LABEL"
 			>
 					<option value="1">PLG_PAGENAVIGATION_FIELD_VALUE_ARTICLE</option>

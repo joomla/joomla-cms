@@ -22,6 +22,7 @@
 			<fieldset name="basic">
 				<field name="detect_browser" type="list"
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_DETECT_BROWSER_DESC"
+					validate="options"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_DETECT_BROWSER_LABEL"
 					default="0"
 				>

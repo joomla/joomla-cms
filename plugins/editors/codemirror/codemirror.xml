@@ -33,6 +33,7 @@
 				<field name="tabmode" type="list"
 					default="indent"
 					description="PLG_CODEMIRROR_FIELD_TABMODE_DESC"
+					validate="options"
 					label="PLG_CODEMIRROR_FIELD_TABMODE_LABEL"
 				>
 					<option value="indent">PLG_CODEMIRROR_FIELD_VALUE_TABMODE_INDENT</option>

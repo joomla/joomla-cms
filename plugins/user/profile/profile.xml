@@ -31,6 +31,7 @@
 				<field name="register-require_address1" type="list"
 
 					description="PLG_USER_PROFILE_FIELD_ADDRESS1_DESC"
+					validate="options"
 					label="PLG_USER_PROFILE_FIELD_ADDRESS1_LABEL"
 				>
 					<option value="2">JOPTION_REQUIRED</option>
@@ -39,8 +40,8 @@
 				</field>
 
 				<field name="register-require_address2" type="list"
-
 					description="PLG_USER_PROFILE_FIELD_ADDRESS2_DESC"
+					validate="options"
 					label="PLG_USER_PROFILE_FIELD_ADDRESS2_LABEL"
 				>
 					<option value="2">JOPTION_REQUIRED</option>
@@ -49,8 +50,8 @@
 				</field>
 
 				<field name="register-require_city" type="list"
-
 					description="PLG_USER_PROFILE_FIELD_CITY_DESC"
+					validate="options"
 					label="PLG_USER_PROFILE_FIELD_CITY_LABEL"
 				>
 					<option value="2">JOPTION_REQUIRED</option>
@@ -59,8 +60,8 @@
 				</field>
 
 				<field name="register-require_region" type="list"
-
 					description="PLG_USER_PROFILE_FIELD_REGION_DESC"
+					validate="options"
 					label="PLG_USER_PROFILE_FIELD_REGION_LABEL"
 				>
 					<option value="2">JOPTION_REQUIRED</option>
@@ -69,8 +70,8 @@
 				</field>
 
 				<field name="register-require_country" type="list"
-
 					description="PLG_USER_PROFILE_FIELD_COUNTRY_DESC"
+					validate="options"
 					label="PLG_USER_PROFILE_FIELD_COUNTRY_LABEL"
 				>
 					<option value="2">JOPTION_REQUIRED</option>
@@ -79,8 +80,8 @@
 				</field>
 
 				<field name="register-require_postal_code" type="list"
-
 					description="PLG_USER_PROFILE_FIELD_POSTAL_CODE_DESC"
+					validate="options"
 					label="PLG_USER_PROFILE_FIELD_POSTAL_CODE_LABEL"
 				>
 					<option value="2">JOPTION_REQUIRED</option>
@@ -89,8 +90,8 @@
 				</field>
 
 				<field name="register-require_phone" type="list"
-
 					description="PLG_USER_PROFILE_FIELD_PHONE_DESC"
+					validate="options"
 					label="PLG_USER_PROFILE_FIELD_PHONE_LABEL"
 				>
 					<option value="2">JOPTION_REQUIRED</option>
@@ -99,8 +100,8 @@
 				</field>
 
 				<field name="register-require_website" type="list"
-
 					description="PLG_USER_PROFILE_FIELD_WEB_SITE_DESC"
+					validate="options"
 					label="PLG_USER_PROFILE_FIELD_WEB_SITE_LABEL"
 				>
 					<option value="2">JOPTION_REQUIRED</option>
@@ -109,7 +110,7 @@
 				</field>
 				<field 	name="register-require_favoritebook"
 					type="list"
-
+					validate="options"
 					label="PLG_USER_PROFILE_FIELD_FAVORITE_BOOK_LABEL"
 					description="PLG_USER_PROFILE_FIELD_FAVORITE_BOOK_DESC"
 				>
@@ -121,7 +122,7 @@
 				<field
 					name="register-require_aboutme"
 					type="list"
-
+					validate="options"
 					label="PLG_USER_PROFILE_FIELD_ABOUT_ME_LABEL"
 					description="PLG_USER_PROFILE_FIELD_ABOUT_ME_DESC"
 				>
@@ -133,6 +134,7 @@
 					name="register-require_tos"
 					type="list"
 					default="0"
+					validate="options"
 					label="PLG_USER_PROFILE_FIELD_TOS_LABEL"
 					description="PLG_USER_PROFILE_FIELD_TOS_DESC"
 				>
@@ -149,7 +151,7 @@
 				<field
 					name="register-require_dob"
 					type="list"
-
+					validate="options"
 					label="PLG_USER_PROFILE_FIELD_DOB_LABEL"
 					description="PLG_USER_PROFILE_FIELD_DOB_DESC">
 					<option	value="2">JOPTION_REQUIRED</option>
@@ -164,8 +166,8 @@
 				/>
 
 				<field name="profile-require_address1" type="list"
-
 					description="PLG_USER_PROFILE_FIELD_ADDRESS1_DESC"
+					validate="options"
 					label="PLG_USER_PROFILE_FIELD_ADDRESS1_LABEL"
 				>
 					<option value="2">JOPTION_REQUIRED</option>
@@ -176,6 +178,7 @@
 				<field name="profile-require_address2" type="list"
 
 					description="PLG_USER_PROFILE_FIELD_ADDRESS2_DESC"
+					validate="options"
 					label="PLG_USER_PROFILE_FIELD_ADDRESS2_LABEL"
 				>
 					<option value="2">JOPTION_REQUIRED</option>
@@ -184,8 +187,8 @@
 				</field>
 
 				<field name="profile-require_city" type="list"
-
 					description="PLG_USER_PROFILE_FIELD_CITY_DESC"
+					validate="options"
 					label="PLG_USER_PROFILE_FIELD_CITY_LABEL"
 				>
 					<option value="2">JOPTION_REQUIRED</option>
@@ -194,8 +197,8 @@
 				</field>
 
 				<field name="profile-require_region" type="list"
-
 					description="PLG_USER_PROFILE_FIELD_REGION_DESC"
+					validate="options"
 					label="PLG_USER_PROFILE_FIELD_REGION_LABEL"
 				>
 					<option value="2">JOPTION_REQUIRED</option>
@@ -204,8 +207,8 @@
 				</field>
 
 				<field name="profile-require_country" type="list"
-
 					description="PLG_USER_PROFILE_FIELD_COUNTRY_DESC"
+					validate="options"
 					label="PLG_USER_PROFILE_FIELD_COUNTRY_LABEL"
 				>
 					<option value="2">JOPTION_REQUIRED</option>
@@ -214,8 +217,8 @@
 				</field>
 
 				<field name="profile-require_postal_code" type="list"
-
 					description="PLG_USER_PROFILE_FIELD_POSTAL_CODE_DESC"
+					validate="options"
 					label="PLG_USER_PROFILE_FIELD_POSTAL_CODE_LABEL"
 				>
 					<option value="2">JOPTION_REQUIRED</option>
@@ -225,6 +228,7 @@
 
 				<field name="profile-require_phone" type="list"
 					description="PLG_USER_PROFILE_FIELD_PHONE_DESC"
+					validate="options"
 					label="PLG_USER_PROFILE_FIELD_PHONE_LABEL"
 				>
 					<option value="2">JOPTION_REQUIRED</option>
@@ -233,8 +237,8 @@
 				</field>
 
 				<field name="profile-require_website" type="list"
-
 					description="PLG_USER_PROFILE_FIELD_WEB_SITE_DESC"
+					validate="options"
 					label="PLG_USER_PROFILE_FIELD_WEB_SITE_LABEL"
 				>
 					<option value="2">JOPTION_REQUIRED</option>
@@ -243,6 +247,7 @@
 				</field>
 				<field 	name="profile-require_favoritebook"
 					type="list"
+					validate="options"
 					label="PLG_USER_PROFILE_FIELD_FAVORITE_BOOK_LABEL"
 					description="PLG_USER_PROFILE_FIELD_FAVORITE_BOOK_DESC">
 					<option value="2">JOPTION_REQUIRED</option>
@@ -253,6 +258,7 @@
 				<field
 					name="profile-require_aboutme"
 					type="list"
+					validate="options"
 					label="PLG_USER_PROFILE_FIELD_ABOUT_ME_LABEL"
 					description="PLG_USER_PROFILE_FIELD_ABOUT_ME_DESC">
 					<option	value="2">JOPTION_REQUIRED</option>
@@ -262,6 +268,7 @@
 				<field
 					name="profile-require_dob"
 					type="list"
+					validate="options"
 					label="PLG_USER_PROFILE_FIELD_DOB_LABEL"
 					description="PLG_USER_PROFILE_FIELD_DOB_DESC"
 				 >

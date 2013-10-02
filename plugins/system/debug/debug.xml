@@ -79,6 +79,7 @@
 				</field>
 
 				<field name="log_priorities" type="list" multiple="true" default="all"
+					validate="options"
 					label="PLG_DEBUG_FIELD_LOG_PRIORITIES_LABEL"
 					description="PLG_DEBUG_FIELD_LOG_PRIORITIES_DESC"
 				>

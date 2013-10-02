@@ -23,6 +23,7 @@
 				<field name="mode" type="list"
 					default="2"
 					description="PLG_TINY_FIELD_FUNCTIONALITY_DESC"
+					validate="options"
 					label="PLG_TINY_FIELD_FUNCTIONALITY_LABEL"
 				>
 					<option value="0">PLG_TINY_FIELD_VALUE_SIMPLE</option>
@@ -33,6 +34,7 @@
 				<field name="skin" type="list"
 					default="0"
 					description="PLG_TINY_FIELD_SKIN_DESC"
+					validate="options"
 					label="PLG_TINY_FIELD_SKIN_LABEL"
 				>
 					<option value="0">PLG_TINY_FIELD_VALUE_DEFAULT</option>
@@ -51,6 +53,7 @@
 				<field name="entity_encoding" type="list"
 					default="raw"
 					description="PLG_TINY_FIELD_ENCODING_DESC"
+					validate="options"
 					label="PLG_TINY_FIELD_ENCODING_LABEL"
 				>
 					<option value="named">PLG_TINY_FIELD_VALUE_NAMED</option>
@@ -84,6 +87,7 @@
 				<field name="text_direction" type="list"
 					default="ltr"
 					description="PLG_TINY_FIELD_DIRECTION_DESC"
+					validate="options"
 					label="PLG_TINY_FIELD_DIRECTION_LABEL"
 				>
 					<option value="ltr">PLG_TINY_FIELD_VALUE_LTR</option>
@@ -113,6 +117,7 @@
 				<field name="relative_urls" type="list"
 					default="1"
 					description="PLG_TINY_FIELD_URLS_DESC"
+					validate="options"
 					label="PLG_TINY_FIELD_URLS_LABEL"
 				>
 					<option value="0">PLG_TINY_FIELD_VALUE_ABSOLUTE</option>
@@ -122,6 +127,7 @@
 				<field name="newlines" type="list"
 					default="0"
 					description="PLG_TINY_FIELD_NEWLINES_DESC"
+					validate="options"
 					label="PLG_TINY_FIELD_NEWLINES_LABEL"
 				>
 					<option value="1">PLG_TINY_FIELD_VALUE_BR</option>
