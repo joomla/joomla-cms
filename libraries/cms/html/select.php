@@ -414,6 +414,7 @@ abstract class JHtmlSelect
 			$options['option.text'] = $optText;
 			$options['disable'] = $disable;
 		}
+
 		$obj = new stdClass;
 		$obj->$options['option.key'] = $value;
 		$obj->$options['option.text'] = trim($text) ? $text : $value;
@@ -445,6 +446,7 @@ abstract class JHtmlSelect
 		{
 			$obj->$options['option.disable'] = $options['disable'];
 		}
+
 		return $obj;
 	}
 
@@ -603,8 +605,8 @@ abstract class JHtmlSelect
 			else
 			{
 				// If no string after hyphen - take hyphen out
-				$splitText = explode(' - ', $text, 2);
-				$text = $splitText[0];
+				$splitText = preg_split('/ -[\s]*/', $text, 2, PREG_SPLIT_NO_EMPTY);
+				$text = isset($splitText[0]) ? $splitText[0] : '';
 
 				if (isset($splitText[1]))
 				{
@@ -703,7 +705,7 @@ abstract class JHtmlSelect
 			$id = (isset($obj->id) ? $obj->id : null);
 
 			$extra = '';
-			$extra .= $id ? ' id="' . $obj->id . '"' : '';
+			$id = $id ? $obj->id : $id_text . $k;
 
 			if (is_array($selected))
 			{
@@ -713,21 +715,23 @@ abstract class JHtmlSelect
 
 					if ($k == $k2)
 					{
-						$extra .= ' selected="selected"';
+						$extra .= ' selected="selected" ';
 						break;
 					}
 				}
 			}
 			else
 			{
-				$extra .= ((string) $k == (string) $selected ? ' checked="checked"' : '');
+				$extra .= ((string) $k == (string) $selected ? ' checked="checked" ' : '');
 			}
-			$html .= "\n\t" . '<label for="' . $id_text . $k . '" id="' . $id_text . $k . '-lbl" class="radio">';
-			$html .= "\n\t\n\t" . '<input type="radio" name="' . $name . '" id="' . $id_text . $k . '" value="' . $k . '" ' . $extra . ' '
-				. $attribs . '>' . $t;
+
+			$html .= "\n\t" . '<label for="' . $id . '" id="' . $id . '-lbl" class="radio">';
+			$html .= "\n\t\n\t" . '<input type="radio" name="' . $name . '" id="' . $id . '" value="' . $k . '" ' . $extra
+				. $attribs . ' >' . $t;
 			$html .= "\n\t" . '</label>';
 		}
 
+		$html .= "\n";
 		$html .= '</div>';
 		$html .= "\n";
 

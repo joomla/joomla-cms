@@ -38,6 +38,8 @@ class JHtmlBootstrapTest extends TestCase
 		JHtmlBootstrapInspector::resetLoaded();
 		JHtmlJqueryInspector::resetLoaded();
 
+		parent::setUp();
+
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockApplication();
@@ -62,6 +64,8 @@ class JHtmlBootstrapTest extends TestCase
 		$_SERVER = $this->backupServer;
 
 		$this->restoreFactoryState();
+
+		parent::tearDown();
 	}
 
 	/**

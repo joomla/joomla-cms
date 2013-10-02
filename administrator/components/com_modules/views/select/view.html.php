@@ -57,11 +57,9 @@ class ModulesViewSelect extends JViewLegacy
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 
-		// Cancel
-		$title = JText::_('JTOOLBAR_CANCEL');
-		$dhtml = "<button onClick=\"location.href='index.php?option=com_modules'\" class=\"btn\">
-					<i class=\"icon-remove\" title=\"$title\"></i>
-					$title</button>";
-		$bar->appendButton('Custom', $dhtml, 'new');
+		// Instantiate a new JLayoutFile instance and render the layout
+		$layout = new JLayoutFile('toolbar.cancelselect');
+
+		$bar->appendButton('Custom', $layout->render(array()), 'new');
 	}
 }
