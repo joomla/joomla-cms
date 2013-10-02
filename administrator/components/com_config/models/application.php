@@ -18,4 +18,3 @@ defined('_JEXEC') or die;
  */
 
 JLog::add('models/ConfigModelApplication is deprecated. Use model/ConfigModelApplication instead.', JLog::WARNING, 'deprecated');
-include_once JPATH_ADMINISTRATOR . '/components/com_config/model/application.php';
