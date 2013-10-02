@@ -140,6 +140,14 @@ abstract class ModQuickIconHelper
 						'group' => 'MOD_QUICKICON_CONFIGURATION_AND_EXTENSIONS'
 					),
 					array(
+						'link' => JRoute::_('index.php?option=com_installer'),
+						'image' => 'download',
+						'icon' => 'header/icon-48-extension.png',
+						'text' => JText::_('MOD_QUICKICON_INSTALL_EXTENSIONS'),
+						'access' => array('core.manage', 'com_installer'),
+						'group' => 'MOD_QUICKICON_CONFIGURATION_AND_EXTENSIONS'
+					),
+					array(
 						'link' => JRoute::_('index.php?option=com_admin&task=profile.edit&id=' . JFactory::getUser()->id),
 						'image' => 'vcard',
 						'icon' => 'header/icon-48-user-edit.png',

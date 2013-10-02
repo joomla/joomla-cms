@@ -9,4 +9,4 @@
 
 defined('_JEXEC') or die;
 ?>
-<ul id="submenu" class="nav nav-list">
+<div class="j-links-groups">
