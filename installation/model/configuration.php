@@ -29,17 +29,6 @@ class InstallationModelConfiguration extends JModelBase
 	 */
 	public function setup($options)
 	{
-		JLog::addLogger(
-		// Pass an array of configuration options
-		array(
-		// Set the name of the log file
-		'text_file' => 'test.log.php',
-		// (optional) you can change the directory
-		'text_file_path' => 'somewhere/logs'
-				)
-		);
-
-
 		// Get the options as an object for easier handling.
 		$options = JArrayHelper::toObject($options);
 
@@ -54,7 +43,6 @@ class InstallationModelConfiguration extends JModelBase
 		{
 			return false;
 		}
-		JLog::add('createuser success ', JLog::INFO);
 
 		return true;
 	}
@@ -241,15 +229,6 @@ class InstallationModelConfiguration extends JModelBase
 	 */
 	private function _createRootUser($options)
 	{
-		JLog::addLogger(
-		// Pass an array of configuration options
-		array(
-		// Set the name of the log file
-		'text_file' => 'test.log.php',
-		// (optional) you can change the directory
-		'text_file_path' => 'somewhere/logs'
-				)
-		);
 		// Get the application
 		/* @var InstallationApplicationWeb $app */
 		$app = JFactory::getApplication();
@@ -355,8 +334,6 @@ class InstallationModelConfiguration extends JModelBase
 				->columns(array($db->quoteName('user_id'), $db->quoteName('group_id')))
 				->values($db->quote($userId) . ', 8');
 		}
-		// Log the error
-		JLog::add($query->dump(), JLog::ERROR);
 
 		$db->setQuery($query);
 
