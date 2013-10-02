@@ -99,11 +99,7 @@ abstract class ConfigModelCms extends JModelDatabase
 		// Set the model dbo
 		if (array_key_exists('dbo', $config))
 		{
-			$this->_db = $config['dbo'];
-		}
-		else
-		{
-			$this->_db = $this->db;
+			$this->db = $config['dbo'];
 		}
 
 		// Register the paths for the form
@@ -128,6 +124,21 @@ abstract class ConfigModelCms extends JModelDatabase
 		$state = new JRegistry($config);
 
 		parent::__construct($state);
+	}
+
+	/**
+	 * Method to load and return a model object.
+	 *
+	 * @param   string  $name    The name of the view
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration settings to pass to JTable::getInstance
+	 *
+	 * @return  mixed  Model object or boolean false if failed
+	 *
+	 * @since   3.2
+	 */
+	protected function createTable($name, $prefix = 'Table', $config = array())
+	{
 	}
 
 	/**

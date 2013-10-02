@@ -13,11 +13,12 @@ defined('_JEXEC') or die('Restricted access');
 // Load classes
 JLoader::registerPrefix('Config', JPATH_COMPONENT);
 
-// Tell the browser not to cache this page.
-JFactory::getApplication()->setHeader('Expires', 'Mon, 26 Jul 1997 05:00:00 GMT', true);
-
 // Application
 $app = JFactory::getApplication();
+
+// Tell the browser not to cache this page.
+$app->setHeader('Expires', 'Mon, 26 Jul 1997 05:00:00 GMT', true);
+
 
 $controllerHelper = new ConfigControllerHelper();
 $controller = $controllerHelper->parseController($app);
