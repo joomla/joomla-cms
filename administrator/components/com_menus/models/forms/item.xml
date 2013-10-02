@@ -29,8 +29,8 @@
 			size="40"/>
 
 		<field name="aliastip"
-			type="spacer"
-			label="COM_MENUS_TIP_ALIAS_LABEL"/>
+			   type="spacer"
+			   label="COM_MENUS_TIP_ALIAS_LABEL"/>
 
 		<field
 			name="note"
@@ -128,16 +128,16 @@
 		<field
 			name="browserNav"
 			type="list"
-                        validate="options"
+			validate="options"
 			label="COM_MENUS_ITEM_FIELD_BROWSERNAV_LABEL"
 			description="COM_MENUS_ITEM_FIELD_BROWSERNAV_DESC"
 			default="Parent"
 			filter="int"
 			class="inputbox">
-				<option value="0">COM_MENUS_FIELD_VALUE_PARENT</option>
-				<option value="1">COM_MENUS_FIELD_VALUE_NEW_WITH_NAV</option>
-				<option value="2">COM_MENUS_FIELD_VALUE_NEW_WITHOUT_NAV</option>
-			</field>
+			<option value="0">COM_MENUS_FIELD_VALUE_PARENT</option>
+			<option value="1">COM_MENUS_FIELD_VALUE_NEW_WITH_NAV</option>
+			<option value="2">COM_MENUS_FIELD_VALUE_NEW_WITHOUT_NAV</option>
+		</field>
 
 		<field
 			name="access"

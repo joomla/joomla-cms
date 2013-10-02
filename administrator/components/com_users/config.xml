@@ -47,7 +47,7 @@
 			name="useractivation"
 			type="list"
 			default="2"
-                        validate="options"
+			validate="options"
 			label="COM_USERS_CONFIG_FIELD_USERACTIVATION_LABEL"
 			description="COM_USERS_CONFIG_FIELD_USERACTIVATION_DESC">
 			<option
@@ -130,7 +130,7 @@
 			last="20"
 			step="1"
 			default="10">
-			</field>
+		</field>
 		<field
 			name="reset_time"
 			type="integer"
@@ -140,7 +140,7 @@
 			last="24"
 			step="1"
 			default="1">
-			</field>
+		</field>
 
 		<field
 			name="minimum_length"
@@ -151,7 +151,7 @@
 			last="99"
 			step="1"
 			default="4">
-			</field>
+		</field>
 
 		<field
 			name="minimum_integers"
@@ -162,7 +162,7 @@
 			last="98"
 			step="1"
 			default="0">
-			</field>
+		</field>
 
 		<field
 			name="minimum_symbols"
@@ -173,7 +173,7 @@
 			last="98"
 			step="1"
 			default="0">
-			</field>
+		</field>
 		<field
 			name="minimum_uppercase"
 			type="integer"
@@ -183,26 +183,26 @@
 			last="98"
 			step="1"
 			default="0">
-			</field>
+		</field>
 	</fieldset>
 
- 	<fieldset
+	<fieldset
 		name="massmail"
 		label="COM_USERS_MASS_MAIL"
 		description="COM_USERS_MASS_MAIL_DESC">
 
 		<field
- 			name="mailSubjectPrefix"
- 			type="text"
+			name="mailSubjectPrefix"
+			type="text"
 			label="COM_USERS_CONFIG_FIELD_SUBJECT_PREFIX_LABEL"
 			description="COM_USERS_CONFIG_FIELD_SUBJECT_PREFIX_DESC"
 		/>
 
- 		<field
- 			name="mailBodySuffix"
+		<field
+			name="mailBodySuffix"
 			type="textarea"
- 			rows="5"
- 			cols="30"
+			rows="5"
+			cols="30"
 			label="COM_USERS_CONFIG_FIELD_MAILBODY_SUFFIX_LABEL"
 			description="COM_USERS_CONFIG_FIELD_MAILBODY_SUFFIX_DESC"
 		/>
@@ -213,7 +213,7 @@
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
 		description="JCONFIG_PERMISSIONS_DESC"
-		>
+	>
 
 		<field
 			name="rules"

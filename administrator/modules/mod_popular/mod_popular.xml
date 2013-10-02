@@ -48,7 +48,7 @@
 					name="user_id"
 					type="list"
 					default="0"
-                                        validate="options"
+					validate="options"
 					label="MOD_POPULAR_FIELD_AUTHORS_LABEL"
 					description="MOD_POPULAR_FIELD_AUTHORS_DESC">
 					<option
@@ -77,7 +77,7 @@
 					name="cache"
 					type="list"
 					default="0"
-                                        validate="options"
+					validate="options"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC">
 					<option

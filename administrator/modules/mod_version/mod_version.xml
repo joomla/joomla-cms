@@ -32,7 +32,7 @@
 					type="list"
 					default="short"
 					validate="options"
-                                        label="MOD_VERSION_FORMAT_LABEL"
+					label="MOD_VERSION_FORMAT_LABEL"
 					description="MOD_VERSION_FORMAT_DESC">
 					<option
 						value="short">MOD_VERSION_FORMAT_SHORT</option>
@@ -44,7 +44,7 @@
 					type="list"
 					default="1"
 					validate="options"
-                                        label="MOD_VERSION_PRODUCT_LABEL"
+					label="MOD_VERSION_PRODUCT_LABEL"
 					description="MOD_VERSION_PRODUCT_DESC">
 					<option
 						value="1">JYES</option>
@@ -70,7 +70,7 @@
 					type="list"
 					default="0"
 					validate="options"
-                                        label="COM_MODULES_FIELD_CACHING_LABEL"
+					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC">
 					<option
 						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>

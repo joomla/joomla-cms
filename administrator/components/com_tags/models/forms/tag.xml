@@ -104,7 +104,7 @@
 		type="list"
 		class="span12 small"
 		validate="options"
-                label="JSTATUS"
+		label="JSTATUS"
 		description="JFIELD_PUBLISHED_DESC"
 		default="1"
 		size="1"
@@ -261,7 +261,7 @@
 			<field
 				name="robots"
 				type="list"
-                                validate="options"
+				validate="options"
 				label="JFIELD_METADATA_ROBOTS_LABEL"
 				description="JFIELD_METADATA_ROBOTS_DESC"
 			>
@@ -289,7 +289,7 @@
 			type="list"
 			labelclass="control-label"
 			validate="options"
-                        label="COM_TAGS_FLOAT_LABEL"
+			label="COM_TAGS_FLOAT_LABEL"
 			description="COM_TAGS_FLOAT_DESC"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -337,7 +337,7 @@
 			type="list"
 			labelclass="control-label"
 			validate="options"
-                        label="COM_TAGS_FLOAT_LABEL"
+			label="COM_TAGS_FLOAT_LABEL"
 			description="COM_TAGS_FLOAT_DESC"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>

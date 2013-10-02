@@ -69,16 +69,16 @@
 		</field>
 	
 		<field name="tag_list_orderby"
-			type="list"
-			default="title"
-                        validate="options"
-			label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"
-			description="JGLOBAL_FIELD_FIELD_ORDERING_DESC">
-				<option value="title">JGLOBAL_TITLE</option>
-				<option value="match_count">COM_TAGS_MATCH_COUNT</option>
-				<option value="created_time">JGLOBAL_CREATED_DATE</option>
-				<option value="modified_time">JGLOBAL_MODIFIED_DATE</option>
-				<option value="publish_up">JGLOBAL_PUBLISHED_DATE</option>
+			   type="list"
+			   default="title"
+			   validate="options"
+			   label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"
+			   description="JGLOBAL_FIELD_FIELD_ORDERING_DESC">
+			<option value="title">JGLOBAL_TITLE</option>
+			<option value="match_count">COM_TAGS_MATCH_COUNT</option>
+			<option value="created_time">JGLOBAL_CREATED_DATE</option>
+			<option value="modified_time">JGLOBAL_MODIFIED_DATE</option>
+			<option value="publish_up">JGLOBAL_PUBLISHED_DATE</option>
 		</field>
 
 		<field 
@@ -110,14 +110,14 @@
 			name="tag_list_show_date"
 			type="list"
 			default="0"
-                        validate="options"
+			validate="options"
 			label="JGLOBAL_SHOW_DATE_LABEL"
 			description="JGLOBAL_SHOW_DATE_DESC"
 		>
-				<option value="0">JHIDE</option>
-				<option value="created">JGLOBAL_CREATED</option>
-				<option value="modified">JGLOBAL_MODIFIED</option>
-				<option value="published">JPUBLISHED</option>
+			<option value="0">JHIDE</option>
+			<option value="created">JGLOBAL_CREATED</option>
+			<option value="modified">JGLOBAL_MODIFIED</option>
+			<option value="published">JPUBLISHED</option>
 		</field>
 		
 		<field 
@@ -135,7 +135,7 @@
 		<field 
 			name="tag_list_show_item_description" 
 			type="list"
-                        validate="options"
+			validate="options"
 			label="COM_TAGS_TAG_LIST_SHOW_ITEM_DESCRIPTION_LABEL"
 			description="COM_TAGS_TAG_LIST_SHOW_ITEM_DESCRIPTION_DESC"
 		>
@@ -197,8 +197,8 @@
 			default="all"
 			label="COM_TAGS_FIELD_LANGUAGE_FILTER_LABEL"
 			description="COM_TAGS_FIELD_LANGUAGE_FILTER_DESC">
-				<option value="all">JALL</option>
-				<option value="current_language">JCURRENT</option>
+			<option value="all">JALL</option>
+			<option value="current_language">JCURRENT</option>
 		</field>
 
 		
@@ -223,15 +223,15 @@
 			name="all_tags_orderby"
 			type="list"
 			default="title"
-                        validate="options"
+			validate="options"
 			label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"
 			description="JGLOBAL_FIELD_FIELD_ORDERING_DESC"
 		>
-				<option value="title">JGLOBAL_TITLE</option>
-				<option value="hits">JGLOBAL_HITS</option>
-				<option value="created_time">JGLOBAL_CREATED_DATE</option>
-				<option value="modified_time">JGLOBAL_MODIFIED_DATE</option>
-				<option value="publish_up">JGLOBAL_PUBLISHED_DATE</option>
+			<option value="title">JGLOBAL_TITLE</option>
+			<option value="hits">JGLOBAL_HITS</option>
+			<option value="created_time">JGLOBAL_CREATED_DATE</option>
+			<option value="modified_time">JGLOBAL_MODIFIED_DATE</option>
+			<option value="publish_up">JGLOBAL_PUBLISHED_DATE</option>
 		</field>
 
 		<field 
@@ -291,7 +291,7 @@
 		</field>
 
 	</fieldset>
-		<fieldset
+	<fieldset
 		name="shared"
 		label="COM_TAGS_CONFIG_SHARED_SETTINGS_LABEL"
 		description="COM_TAGS_CONFIG_SHARED_SETTINGS_DESC">
@@ -303,9 +303,9 @@
 			default="1"
 			description="JGLOBAL_FILTER_FIELD_DESC"
 			label="JGLOBAL_FILTER_FIELD_LABEL"
-			>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
+		>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field 
@@ -326,7 +326,7 @@
 			default="2"
 			description="JGLOBAL_PAGINATION_DESC"
 			validate="options"
-                        label="JGLOBAL_PAGINATION_LABEL"
+			label="JGLOBAL_PAGINATION_LABEL"
 		>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -381,8 +381,8 @@
 			default="1"
 			label="JGLOBAL_SHOW_FEED_LINK_LABEL"
 			description="JGLOBAL_SHOW_FEED_LINK_DESC">
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 	</fieldset>
@@ -391,7 +391,7 @@
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
 		description="JCONFIG_PERMISSIONS_DESC"
-		>
+	>
 
 		<field
 			name="rules"

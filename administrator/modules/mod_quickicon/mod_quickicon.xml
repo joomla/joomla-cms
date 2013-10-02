@@ -27,10 +27,10 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field name="context"
-					type="text"
-					default="mod_quickicon"
-					description="MOD_QUICKICON_GROUP_DESC"
-					label="MOD_QUICKICON_GROUP_LABEL"
+					   type="text"
+					   default="mod_quickicon"
+					   description="MOD_QUICKICON_GROUP_DESC"
+					   label="MOD_QUICKICON_GROUP_LABEL"
 				/>
 			</fieldset>
 			<fieldset name="advanced">
@@ -50,7 +50,7 @@
 					name="cache"
 					type="list"
 					default="1"
-                                        validate="options"
+					validate="options"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC">
 					<option

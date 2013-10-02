@@ -23,7 +23,7 @@
 		<folder>img</folder>
 		<folder>js</folder>
 		<folder>language</folder>
-	<folder>less</folder>
+		<folder>less</folder>
 	</files>
 	<positions>
 		<position>menu</position>
@@ -48,70 +48,70 @@
 			<fieldset name="advanced">
 
 				<field name="templateColor" class="" type="color" default="#13294A"
-				validate="color"
-				label="TPL_ISIS_COLOR_LABEL"
-				description="TPL_ISIS_COLOR_DESC" />
+					   validate="color"
+					   label="TPL_ISIS_COLOR_LABEL"
+					   description="TPL_ISIS_COLOR_DESC" />
 				
 				<field name="headerColor" class="" type="color" default="#184A7D"
-				validate="color"
-				label="TPL_ISIS_COLOR_HEADER_LABEL"
-				description="TPL_ISIS_COLOR_HEADER_DESC" />
+					   validate="color"
+					   label="TPL_ISIS_COLOR_HEADER_LABEL"
+					   description="TPL_ISIS_COLOR_HEADER_DESC" />
 
 				<field name="sidebarColor" class="" type="color" default="#0088CC"
-				validate="color"
-				label="TPL_ISIS_COLOR_SIDEBAR_LABEL"
-				description="TPL_ISIS_COLOR_SIDEBAR_DESC" />
+					   validate="color"
+					   label="TPL_ISIS_COLOR_SIDEBAR_LABEL"
+					   description="TPL_ISIS_COLOR_SIDEBAR_DESC" />
 
 				<field name="logoFile" class="" type="media" default=""
-				label="TPL_ISIS_LOGO_LABEL"
-				description="TPL_ISIS_LOGO_DESC" />
+					   label="TPL_ISIS_LOGO_LABEL"
+					   description="TPL_ISIS_LOGO_DESC" />
 
 				<field name="admin_menus" type="radio"
-				class="btn-group"
-				default="1"
-				label="TPL_ISIS_FIELD_ADMIN_MENUS_LABEL"
-				description="TPL_ISIS_FIELD_ADMIN_MENUS_DESC"
-				filter="integer">
-				<option
-					value="1">JYES</option>
-				<option
-					value="0">JNO</option>
+					   class="btn-group"
+					   default="1"
+					   label="TPL_ISIS_FIELD_ADMIN_MENUS_LABEL"
+					   description="TPL_ISIS_FIELD_ADMIN_MENUS_DESC"
+					   filter="integer">
+					<option
+						value="1">JYES</option>
+					<option
+						value="0">JNO</option>
 				</field>
 
 				<field name="displayHeader" type="radio"
-				class="btn-group"
-				default="1"
-				label="TPL_ISIS_HEADER_LABEL"
-				description="TPL_ISIS_HEADER_DESC"
-				filter="integer">
-				<option
-					value="1">JYES</option>
-				<option
-					value="0">JNO</option>
+					   class="btn-group"
+					   default="1"
+					   label="TPL_ISIS_HEADER_LABEL"
+					   description="TPL_ISIS_HEADER_DESC"
+					   filter="integer">
+					<option
+						value="1">JYES</option>
+					<option
+						value="0">JNO</option>
 				</field>
 
 				<field name="statusFixed" type="list"
-				default="1"
-				validate="options"
-                                label="TPL_ISIS_STATUS_LABEL"
-				description="TPL_ISIS_STATUS_DESC"
-				filter="integer">
-				<option
-					value="1">TPL_ISIS_STATUS_BOTTOM</option>
-				<option
-					value="0">TPL_ISIS_STATUS_TOP</option>
+					   default="1"
+					   validate="options"
+					   label="TPL_ISIS_STATUS_LABEL"
+					   description="TPL_ISIS_STATUS_DESC"
+					   filter="integer">
+					<option
+						value="1">TPL_ISIS_STATUS_BOTTOM</option>
+					<option
+						value="0">TPL_ISIS_STATUS_TOP</option>
 				</field>
 
 				<field name="stickyToolbar" type="radio"
-				class="btn-group"
-				default="1"
-				label="TPL_ISIS_STICKY_LABEL"
-				description="TPL_ISIS_STICKY_DESC"
-				filter="integer">
-				<option
-					value="1">JYES</option>
-				<option
-					value="0">JNO</option>
+					   class="btn-group"
+					   default="1"
+					   label="TPL_ISIS_STICKY_LABEL"
+					   description="TPL_ISIS_STICKY_DESC"
+					   filter="integer">
+					<option
+						value="1">JYES</option>
+					<option
+						value="0">JNO</option>
 				</field>
 
 			</fieldset>

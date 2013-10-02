@@ -7,7 +7,7 @@
 			name="caching"
 			type="list"
 			default="2"
-                        validate="options"
+			validate="options"
 			label="COM_CONFIG_FIELD_CACHE_LABEL"
 			description="COM_CONFIG_FIELD_CACHE_DESC"
 			required="true"
@@ -237,24 +237,24 @@
 		name="mail"
 		label="CONFIG_MAIL_SETTINGS_LABEL">
 		<field
-				name="mailonline"
-				type="radio"
-				class="btn-group"
-				default="1"
-				label="COM_CONFIG_FIELD_MAIL_MAILONLINE_LABEL"
-				description="COM_CONFIG_FIELD_MAIL_MAILONLINE_DESC"
-				filter="integer">
+			name="mailonline"
+			type="radio"
+			class="btn-group"
+			default="1"
+			label="COM_CONFIG_FIELD_MAIL_MAILONLINE_LABEL"
+			description="COM_CONFIG_FIELD_MAIL_MAILONLINE_DESC"
+			filter="integer">
 			<option
-					value="1">JYES</option>
+				value="1">JYES</option>
 			<option
-					value="0">JNO</option>
+				value="0">JNO</option>
 		</field>
 
 		<field
 			name="mailer"
 			type="list"
 			default="mail"
-                        validate="options"
+			validate="options"
 			label="COM_CONFIG_FIELD_MAIL_MAILER_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_MAILER_DESC"
 			required="true"
@@ -309,7 +309,7 @@
 			type="list"
 			default="none"
 			showon="mailer:smtp"
-                        validate="options"
+			validate="options"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_SECURE_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_SECURE_DESC"
 			filter="word">
@@ -382,12 +382,12 @@
 			rows="3" />
 
 		<field name="robots"
-			type="list"
-                        validate="options"
-			label="JFIELD_METADATA_ROBOTS_LABEL"
-			description="JFIELD_METADATA_ROBOTS_DESC"
-			default=""
-			>
+			   type="list"
+			   validate="options"
+			   label="JFIELD_METADATA_ROBOTS_LABEL"
+			   description="JFIELD_METADATA_ROBOTS_DESC"
+			   default=""
+		>
 			<option value="">JGLOBAL_INDEX_FOLLOW</option>
 			<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
 			<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
@@ -483,7 +483,7 @@
 			name="sitename_pagetitles"
 			type="list"
 			default="0"
-                        validate="options"
+			validate="options"
 			label="COM_CONFIG_FIELD_SITENAME_PAGETITLES_LABEL"
 			description="COM_CONFIG_FIELD_SITENAME_PAGETITLES_DESC"
 			filter="integer">
@@ -521,7 +521,7 @@
 			name="error_reporting"
 			type="list"
 			default="default"
-                        validate="options"
+			validate="options"
 			label="COM_CONFIG_FIELD_ERROR_REPORTING_LABEL"
 			description="COM_CONFIG_FIELD_ERROR_REPORTING_DESC"
 			filter="cmd">
@@ -536,7 +536,7 @@
 			name="force_ssl"
 			type="list"
 			default="-1"
-                        validate="options"
+			validate="options"
 			label="COM_CONFIG_FIELD_FORCE_SSL_LABEL"
 			description="COM_CONFIG_FIELD_FORCE_SSL_DESC"
 			filter="integer">
@@ -598,7 +598,7 @@
 			name="display_offline_message"
 			type="list"
 			default="1"
-                        validate="options"
+			validate="options"
 			label="COM_CONFIG_FIELD_SITE_DISPLAY_MESSAGE_LABEL"
 			description="COM_CONFIG_FIELD_SITE_DISPLAY_MESSAGE_DESC"
 			filter="integer">
@@ -657,7 +657,7 @@
 			name="list_limit"
 			type="list"
 			default="20"
-                        validate="options"
+			validate="options"
 			label="COM_CONFIG_FIELD_DEFAULT_LIST_LIMIT_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_LIST_LIMIT_DESC"
 			filter="integer">
@@ -675,7 +675,7 @@
 			name="feed_limit"
 			type="list"
 			default="10"
-                        validate="options"
+			validate="options"
 			label="COM_CONFIG_FIELD_DEFAULT_FEED_LIMIT_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_FEED_LIMIT_DESC"
 			filter="integer">
@@ -693,7 +693,7 @@
 			name="feed_email"
 			type="list"
 			default="author"
-                        validate="options"
+			validate="options"
 			label="COM_CONFIG_FIELD_FEED_EMAIL_LABEL"
 			description="COM_CONFIG_FIELD_FEED_EMAIL_DESC"
 			filter="word">
@@ -807,7 +807,7 @@
 		name="filters"
 		label="COM_CONFIG_TEXT_FILTERS"
 		description="COM_CONFIG_TEXT_FILTERS_DESC"
-		>
+	>
 
 		<field
 			name="filters"
