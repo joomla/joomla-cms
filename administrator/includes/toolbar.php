@@ -31,15 +31,8 @@ abstract class JToolbarHelper
 	 */
 	public static function title($title, $icon = 'generic.png')
 	{
-		// Strip the extension.
-		$icons = explode(' ', $icon);
-
-		foreach ($icons as $i => $icon)
-		{
-			$icons[$i] = 'icon-48-' . preg_replace('#\.[^.]*$#', '', $icon);
-		}
-
-		$html = '<div class="pagetitle ' . htmlspecialchars(implode(' ', $icons)) . '"><h2>' . $title . '</h2></div>';
+		$layout = new JLayoutFile('joomla.toolbar.title');
+		$html = $layout->render(array('title' => $title, 'icon' => $icon));
 
 		$app = JFactory::getApplication();
 		$app->JComponentTitle = $html;

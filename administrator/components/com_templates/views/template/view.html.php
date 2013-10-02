@@ -57,7 +57,7 @@ class TemplatesViewTemplate extends JViewLegacy
 		$bar = JToolBar::getInstance('toolbar');
 		$user  = JFactory::getUser();
 
-		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE'), 'thememanager');
+		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE'), 'eye thememanager');
 
 		JToolbarHelper::cancel('template.cancel', 'JTOOLBAR_CLOSE');
 

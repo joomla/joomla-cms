@@ -83,7 +83,7 @@ class TemplatesViewTemplates extends JViewLegacy
 	{
 		$canDo	= TemplatesHelper::getActions();
 
-		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_TEMPLATES'), 'thememanager');
+		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_TEMPLATES'), 'eye thememanager');
 		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::preferences('com_templates');

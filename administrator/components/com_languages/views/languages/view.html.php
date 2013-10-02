@@ -57,7 +57,7 @@ class LanguagesViewLanguages extends JViewLegacy
 		require_once JPATH_COMPONENT.'/helpers/languages.php';
 		$canDo	= LanguagesHelper::getActions();
 
-		JToolbarHelper::title(JText::_('COM_LANGUAGES_VIEW_LANGUAGES_TITLE'), 'langmanager.png');
+		JToolbarHelper::title(JText::_('COM_LANGUAGES_VIEW_LANGUAGES_TITLE'), 'comments-2 langmanager');
 
 		if ($canDo->get('core.create'))
 		{

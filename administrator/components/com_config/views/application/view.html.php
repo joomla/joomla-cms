@@ -79,7 +79,7 @@ class ConfigViewApplication extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JToolbarHelper::title(JText::_('COM_CONFIG_GLOBAL_CONFIGURATION'), 'config.png');
+		JToolbarHelper::title(JText::_('COM_CONFIG_GLOBAL_CONFIGURATION'), 'equalizer config');
 		JToolbarHelper::apply('application.apply');
 		JToolbarHelper::save('application.save');
 		JToolbarHelper::divider();
