@@ -108,7 +108,7 @@
 
     $parent.trigger(e = $.Event('close'))
 
-    if (e.isDefaultPrevented()) return
+    if (e.isDefaultPrevented()) { return }
 
     $parent.removeClass('in')
 
@@ -133,8 +133,8 @@
     return this.each(function () {
       var $this = $(this)
         , data = $this.data('alert')
-      if (!data) $this.data('alert', (data = new Alert(this)))
-      if (typeof option == 'string') data[option].call($this)
+      if (!data) { $this.data('alert', (data = new Alert(this))) }
+      if (typeof option == 'string') { data[option].call($this) }
     })
   }
 
@@ -228,9 +228,9 @@
       var $this = $(this)
         , data = $this.data('button')
         , options = typeof option == 'object' && option
-      if (!data) $this.data('button', (data = new Button(this, options)))
-      if (option == 'toggle') data.toggle()
-      else if (option) data.setState(option)
+      if (!data) { $this.data('button', (data = new Button(this, options))) }
+      if (option == 'toggle') { data.toggle() }
+      else if (option) { data.setState(option) }
     })
   }
 
@@ -255,7 +255,7 @@
 
   $(document).on('click.button.data-api', '[data-toggle^=button]', function (e) {
     var $btn = $(e.target)
-    if (!$btn.hasClass('btn')) $btn = $btn.closest('.btn')
+    if (!$btn.hasClass('btn')) { $btn = $btn.closest('.btn') }
     $btn.button('toggle')
   })
 
@@ -299,8 +299,8 @@
   Carousel.prototype = {
 
     cycle: function (e) {
-      if (!e) this.paused = false
-      if (this.interval) clearInterval(this.interval);
+      if (!e) { this.paused = false }
+      if (this.interval) { clearInterval(this.interval); }
       this.options.interval
         && !this.paused
         && (this.interval = setInterval($.proxy(this.next, this), this.options.interval))
@@ -317,7 +317,7 @@
       var activeIndex = this.getActiveIndex()
         , that = this
 
-      if (pos > (this.$items.length - 1) || pos < 0) return
+      if (pos > (this.$items.length - 1) || pos < 0) { return }
 
       if (this.sliding) {
         return this.$element.one('slid', function () {
@@ -333,7 +333,7 @@
     }
 
   , pause: function (e) {
-      if (!e) this.paused = true
+      if (!e) { this.paused = true }
       if (this.$element.find('.next, .prev').length && $.support.transition.end) {
         this.$element.trigger($.support.transition.end)
         this.cycle(true)
@@ -344,12 +344,12 @@
     }
 
   , next: function () {
-      if (this.sliding) return
+      if (this.sliding) { return }
       return this.slide('next')
     }
 
   , prev: function () {
-      if (this.sliding) return
+      if (this.sliding) { return }
       return this.slide('prev')
     }
 
@@ -373,7 +373,7 @@
       , direction: direction
       })
 
-      if ($next.hasClass('active')) return
+      if ($next.hasClass('active')) { return }
 
       if (this.$indicators.length) {
         this.$indicators.find('.active').removeClass('active')
@@ -385,7 +385,7 @@
 
       if ($.support.transition && this.$element.hasClass('slide')) {
         this.$element.trigger(e)
-        if (e.isDefaultPrevented()) return
+        if (e.isDefaultPrevented()) { return }
         $next.addClass(type)
         $next[0].offsetWidth // force reflow
         $active.addClass(direction)
@@ -398,7 +398,7 @@
         })
       } else {
         this.$element.trigger(e)
-        if (e.isDefaultPrevented()) return
+        if (e.isDefaultPrevented()) { return }
         $active.removeClass('active')
         $next.addClass('active')
         this.sliding = false
@@ -424,10 +424,10 @@
         , data = $this.data('carousel')
         , options = $.extend({}, $.fn.carousel.defaults, typeof option == 'object' && option)
         , action = typeof option == 'string' ? option : options.slide
-      if (!data) $this.data('carousel', (data = new Carousel(this, options)))
-      if (typeof option == 'number') data.to(option)
-      else if (action) data[action]()
-      else if (options.interval) data.pause().cycle()
+      if (!data) { $this.data('carousel', (data = new Carousel(this, options))) }
+      if (typeof option == 'number') { data.to(option) }
+      else if (action) { data[action]() }
+      else if (options.interval) { data.pause().cycle() }
     })
   }
 
@@ -519,7 +519,7 @@
         , actives
         , hasData
 
-      if (this.transitioning || this.$element.hasClass('in')) return
+      if (this.transitioning || this.$element.hasClass('in')) { return }
 
       dimension = this.dimension()
       scroll = $.camelCase(['scroll', dimension].join('-'))
@@ -527,7 +527,7 @@
 
       if (actives && actives.length) {
         hasData = actives.data('collapse')
-        if (hasData && hasData.transitioning) return
+        if (hasData && hasData.transitioning) { return }
         actives.collapse('hide')
         hasData || actives.data('collapse', null)
       }
@@ -539,7 +539,7 @@
 
   , hide: function () {
       var dimension
-      if (this.transitioning || !this.$element.hasClass('in')) return
+      if (this.transitioning || !this.$element.hasClass('in')) { return }
       dimension = this.dimension()
       this.reset(this.$element[dimension]())
 	  /* >>> JUI >>> */
@@ -568,14 +568,14 @@
   , transition: function (method, startEvent, completeEvent) {
       var that = this
         , complete = function () {
-            if (startEvent.type == 'show') that.reset()
+            if (startEvent.type == 'show') { that.reset() }
             that.transitioning = 0
             that.$element.trigger(completeEvent)
           }
 
       this.$element.trigger(startEvent)
 
-      if (startEvent.isDefaultPrevented()) return
+      if (startEvent.isDefaultPrevented()) { return }
 
       this.transitioning = 1
 
@@ -603,8 +603,8 @@
       var $this = $(this)
         , data = $this.data('collapse')
         , options = $.extend({}, $.fn.collapse.defaults, $this.data(), typeof option == 'object' && option)
-      if (!data) $this.data('collapse', (data = new Collapse(this, options)))
-      if (typeof option == 'string') data[option]()
+      if (!data) { $this.data('collapse', (data = new Collapse(this, options))) }
+      if (typeof option == 'string') { data[option]() }
     })
   }
 
@@ -698,14 +698,14 @@
         , isHover
       /* <<< JUI <<< */
 
-      if ($this.is('.disabled, :disabled')) return
+      if ($this.is('.disabled, :disabled')) { return }
 
       $parent = getParent($this)
 
       isActive = $parent.hasClass('open')
       /* >>> JUI >>> */
       isHover = $parent.parent().hasClass('nav-hover')
-      if(!isHover && e.type == 'mouseover') return
+      if(!isHover && e.type == 'mouseover') { return }
       /* <<< JUI <<< */
 
       url = $this.attr('href')
@@ -721,6 +721,9 @@
         if ('ontouchstart' in document.documentElement) {
           // if mobile we we use a backdrop because click events don't delegate
           $('<div class="dropdown-backdrop"/>').insertBefore($(this)).on('click', clearMenus)
+          $this.on('hover', function () {
+            $('.dropdown-backdrop').remove()
+          });
         }
         $parent.parent().toggleClass('nav-hover');
         $parent.toggleClass('open')
@@ -740,33 +743,33 @@
         , isActive
         , index
 
-      if (!/(38|40|27)/.test(e.keyCode)) return
+      if (!/(38|40|27)/.test(e.keyCode)) { return }
 
       $this = $(this)
 
       e.preventDefault()
       e.stopPropagation()
 
-      if ($this.is('.disabled, :disabled')) return
+      if ($this.is('.disabled, :disabled')) { return }
 
       $parent = getParent($this)
 
       isActive = $parent.hasClass('open')
 
       if (!isActive || (isActive && e.keyCode == 27)) {
-        if (e.which == 27) $parent.find(toggle).focus()
+        if (e.which == 27) { $parent.find(toggle).focus() }
         return $this.click()
       }
 
       $items = $('[role=menu] li:not(.divider):visible a', $parent)
 
-      if (!$items.length) return
+      if (!$items.length) { return }
 
       index = $items.index($items.filter(':focus'))
 
-      if (e.keyCode == 38 && index > 0) index--                                        // up
-      if (e.keyCode == 40 && index < $items.length - 1) index++                        // down
-      if (!~index) index = 0
+      if (e.keyCode == 38 && index > 0) { index-- }                                        // up
+      if (e.keyCode == 40 && index < $items.length - 1) { index++ }                        // down
+      if (!~index) { index = 0 }
 
       $items
         .eq(index)
@@ -796,7 +799,7 @@
 
     $parent = selector && $(selector)
 
-    if (!$parent || !$parent.length) $parent = $this.parent()
+    if (!$parent || !$parent.length) { $parent = $this.parent() }
 
     return $parent
   }
@@ -811,8 +814,8 @@
     return this.each(function () {
       var $this = $(this)
         , data = $this.data('dropdown')
-      if (!data) $this.data('dropdown', (data = new Dropdown(this)))
-      if (typeof option == 'string') data[option].call($this)
+      if (!data) { $this.data('dropdown', (data = new Dropdown(this))) }
+      if (typeof option == 'string') { data[option].call($this) }
     })
   }
 
@@ -889,7 +892,7 @@
 
         this.$element.trigger(e)
 
-        if (this.isShown || e.isDefaultPrevented()) return
+        if (this.isShown || e.isDefaultPrevented()) { return }
 
         this.isShown = true
 
@@ -930,7 +933,7 @@
 
         this.$element.trigger(e)
 
-        if (!this.isShown || e.isDefaultPrevented()) return
+        if (!this.isShown || e.isDefaultPrevented()) { return }
 
         this.isShown = false
 
@@ -1010,11 +1013,11 @@
             : $.proxy(this.hide, this)
           )
 
-          if (doAnimate) this.$backdrop[0].offsetWidth // force reflow
+          if (doAnimate) { this.$backdrop[0].offsetWidth } // force reflow
 
           this.$backdrop.addClass('in')
 
-          if (!callback) return
+          if (!callback) { return }
 
           doAnimate ?
             this.$backdrop.one($.support.transition.end, callback) :
@@ -1044,9 +1047,9 @@
       var $this = $(this)
         , data = $this.data('modal')
         , options = $.extend({}, $.fn.modal.defaults, $this.data(), typeof option == 'object' && option)
-      if (!data) $this.data('modal', (data = new Modal(this, options)))
-      if (typeof option == 'string') data[option]()
-      else if (options.show) data.show()
+      if (!data) { $this.data('modal', (data = new Modal(this, options))) }
+      if (typeof option == 'string') { data[option]() }
+      else if (options.show) { data.show() }
     })
   }
 
@@ -1174,29 +1177,29 @@
         , self
 
       this._options && $.each(this._options, function (key, value) {
-        if (defaults[key] != value) options[key] = value
+        if (defaults[key] != value) { options[key] = value }
       }, this)
 
       self = $(e.currentTarget)[this.type](options).data(this.type)
 
-      if (!self.options.delay || !self.options.delay.show) return self.show()
+      if (!self.options.delay || !self.options.delay.show) { return self.show() }
 
       clearTimeout(this.timeout)
       self.hoverState = 'in'
       this.timeout = setTimeout(function() {
-        if (self.hoverState == 'in') self.show()
+        if (self.hoverState == 'in') { self.show() }
       }, self.options.delay.show)
     }
 
   , leave: function (e) {
       var self = $(e.currentTarget)[this.type](this._options).data(this.type)
 
-      if (this.timeout) clearTimeout(this.timeout)
-      if (!self.options.delay || !self.options.delay.hide) return self.hide()
+      if (this.timeout) { clearTimeout(this.timeout) }
+      if (!self.options.delay || !self.options.delay.hide) { return self.hide() }
 
       self.hoverState = 'out'
       this.timeout = setTimeout(function() {
-        if (self.hoverState == 'out') self.hide()
+        if (self.hoverState == 'out') { self.hide() }
       }, self.options.delay.hide)
     }
 
@@ -1211,7 +1214,7 @@
 
       if (this.hasContent() && this.enabled) {
         this.$element.trigger(e)
-        if (e.isDefaultPrevented()) return
+        if (e.isDefaultPrevented()) { return }
         $tip = this.tip()
         this.setContent()
 
@@ -1292,7 +1295,7 @@
         this.replaceArrow(actualHeight - height, actualHeight, 'top')
       }
 
-      if (replace) $tip.offset(offset)
+      if (replace) { $tip.offset(offset) }
     }
 
   , replaceArrow: function(delta, dimension, position){
@@ -1322,7 +1325,7 @@
       /* <<< JUI <<< */
 
       this.$element.trigger(e)
-      if (e.isDefaultPrevented()) return
+      if (e.isDefaultPrevented()) { return }
 
       $tip.removeClass('in')
 
@@ -1426,8 +1429,8 @@
       var $this = $(this)
         , data = $this.data('tooltip')
         , options = typeof option == 'object' && option
-      if (!data) $this.data('tooltip', (data = new Tooltip(this, options)))
-      if (typeof option == 'string') data[option]()
+      if (!data) { $this.data('tooltip', (data = new Tooltip(this, options))) }
+      if (typeof option == 'string') { data[option]() }
     })
   }
 
@@ -1550,8 +1553,8 @@
       var $this = $(this)
         , data = $this.data('popover')
         , options = typeof option == 'object' && option
-      if (!data) $this.data('popover', (data = new Popover(this, options)))
-      if (typeof option == 'string') data[option]()
+      if (!data) { $this.data('popover', (data = new Popover(this, options))) }
+      if (typeof option == 'string') { data[option]() }
     })
   }
 
@@ -1704,8 +1707,8 @@
       var $this = $(this)
         , data = $this.data('scrollspy')
         , options = typeof option == 'object' && option
-      if (!data) $this.data('scrollspy', (data = new ScrollSpy(this, options)))
-      if (typeof option == 'string') data[option]()
+      if (!data) { $this.data('scrollspy', (data = new ScrollSpy(this, options))) }
+      if (typeof option == 'string') { data[option]() }
     })
   }
 
@@ -1784,7 +1787,7 @@
         selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '') //strip for ie7
       }
 
-      if ( $this.parent('li').hasClass('active') ) return
+      if ($this.parent('li').hasClass('active')) { return }
 
       previous = $ul.find('.active:last a')[0]
 
@@ -1794,7 +1797,7 @@
 
       $this.trigger(e)
 
-      if (e.isDefaultPrevented()) return
+      if (e.isDefaultPrevented()) { return }
 
       $target = $(selector)
 
@@ -1853,8 +1856,8 @@
     return this.each(function () {
       var $this = $(this)
         , data = $this.data('tab')
-      if (!data) $this.data('tab', (data = new Tab(this)))
-      if (typeof option == 'string') data[option]()
+      if (!data) { $this.data('tab', (data = new Tab(this))) }
+      if (typeof option == 'string') { data[option]() }
     })
   }
 
@@ -1999,9 +2002,9 @@
         , item
 
       while (item = items.shift()) {
-        if (!item.toLowerCase().indexOf(this.query.toLowerCase())) beginswith.push(item)
-        else if (~item.indexOf(this.query)) caseSensitive.push(item)
-        else caseInsensitive.push(item)
+        if (!item.toLowerCase().indexOf(this.query.toLowerCase())) { beginswith.push(item) }
+        else if (~item.indexOf(this.query)) { caseSensitive.push(item) }
+        else { caseInsensitive.push(item) }
       }
 
       return beginswith.concat(caseSensitive, caseInsensitive)
@@ -2077,7 +2080,7 @@
     }
 
   , move: function (e) {
-      if (!this.shown) return
+      if (!this.shown) { return }
 
       switch(e.keyCode) {
         case 9: // tab
@@ -2106,7 +2109,7 @@
     }
 
   , keypress: function (e) {
-      if (this.suppressKeyPressRepeat) return
+      if (this.suppressKeyPressRepeat) { return }
       this.move(e)
     }
 
@@ -2121,12 +2124,12 @@
 
         case 9: // tab
         case 13: // enter
-          if (!this.shown) return
+          if (!this.shown) { return }
           this.select()
           break
 
         case 27: // escape
-          if (!this.shown) return
+          if (!this.shown) { return }
           this.hide()
           break
 
@@ -2144,7 +2147,7 @@
 
   , blur: function (e) {
       this.focused = false
-      if (!this.mousedover && this.shown) this.hide()
+      if (!this.mousedover && this.shown) { this.hide() }
     }
 
   , click: function (e) {
@@ -2162,7 +2165,7 @@
 
   , mouseleave: function (e) {
       this.mousedover = false
-      if (!this.focused && this.shown) this.hide()
+      if (!this.focused && this.shown) { this.hide() }
     }
 
   }
@@ -2178,8 +2181,8 @@
       var $this = $(this)
         , data = $this.data('typeahead')
         , options = typeof option == 'object' && option
-      if (!data) $this.data('typeahead', (data = new Typeahead(this, options)))
-      if (typeof option == 'string') data[option]()
+      if (!data) { $this.data('typeahead', (data = new Typeahead(this, options))) }
+      if (typeof option == 'string') { data[option]() }
     })
   }
 
@@ -2208,7 +2211,7 @@
 
   $(document).on('focus.typeahead.data-api', '[data-provide="typeahead"]', function (e) {
     var $this = $(this)
-    if ($this.data('typeahead')) return
+    if ($this.data('typeahead')) { return }
     $this.typeahead($this.data())
   })
 
@@ -2251,7 +2254,7 @@
   }
 
   Affix.prototype.checkPosition = function () {
-    if (!this.$element.is(':visible')) return
+    if (!this.$element.is(':visible')) { return }
 
     var scrollHeight = $(document).height()
       , scrollTop = this.$window.scrollTop()
@@ -2262,16 +2265,16 @@
       , reset = 'affix affix-top affix-bottom'
       , affix
 
-    if (typeof offset != 'object') offsetBottom = offsetTop = offset
-    if (typeof offsetTop == 'function') offsetTop = offset.top()
-    if (typeof offsetBottom == 'function') offsetBottom = offset.bottom()
+    if (typeof offset != 'object') { offsetBottom = offsetTop = offset }
+    if (typeof offsetTop == 'function') { offsetTop = offset.top() }
+    if (typeof offsetBottom == 'function') { offsetBottom = offset.bottom() }
 
     affix = this.unpin != null && (scrollTop + this.unpin <= position.top) ?
       false    : offsetBottom != null && (position.top + this.$element.height() >= scrollHeight - offsetBottom) ?
       'bottom' : offsetTop != null && scrollTop <= offsetTop ?
       'top'    : false
 
-    if (this.affixed === affix) return
+    if (this.affixed === affix) { return }
 
     this.affixed = affix
     this.unpin = affix == 'bottom' ? position.top - scrollTop : null
@@ -2290,8 +2293,8 @@
       var $this = $(this)
         , data = $this.data('affix')
         , options = typeof option == 'object' && option
-      if (!data) $this.data('affix', (data = new Affix(this, options)))
-      if (typeof option == 'string') data[option]()
+      if (!data) { $this.data('affix', (data = new Affix(this, options))) }
+      if (typeof option == 'string') { data[option]() }
     })
   }
 
