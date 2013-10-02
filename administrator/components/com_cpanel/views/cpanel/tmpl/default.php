@@ -53,7 +53,7 @@ $user = JFactory::getUser();
 			?>
 		</div>
 	</div>
-	<div class="span7">
+	<div class="span9">
 		<?php
 		foreach ($this->modules as $module)
 		{
