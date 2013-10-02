@@ -32,6 +32,7 @@
 <fieldset name="basic" label="COM_NEWSFEEDS_FIELDSET_MORE_OPTIONS_LABEL">
 			<field name="show_feed_image" type="list"
 				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC"
+				validate="options"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -41,6 +42,7 @@
 
 			<field name="show_feed_description" type="list"
 				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_DESC"
+				validate="options"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -50,6 +52,7 @@
 
 			<field name="show_item_description" type="list"
 				description="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_DESC"
+				validate="options"
 				label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -58,6 +61,7 @@
 			</field>
 
 			<field name="show_tags" type="list"
+				validate="options"
 				label="COM_NEWSFEEDS_FIELD_SHOW_TAGS_LABEL"
 				description="COM_NEWSFEEDS_FIELD_SHOW_TAGS_DESC"
 			>
@@ -75,6 +79,7 @@
 
 			<field name="feed_display_order" type="list"
 				description="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_DESC"
+				validate="options"
 				label="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_LABEL"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>

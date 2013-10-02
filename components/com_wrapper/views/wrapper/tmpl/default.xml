@@ -29,6 +29,7 @@
 			<field name="scrolling" type="list"
 				default="auto"
 				description="COM_WRAPPER_FIELD_SCROLLBARS_DESC"
+				validate="options"
 				label="COM_WRAPPER_FIELD_SCROLLBARS_LABEL"
 			>
 				<option value="no">JNO</option>

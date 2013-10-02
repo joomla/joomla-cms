@@ -52,6 +52,7 @@
 			<field 
 				name="show_tag_title" 
 				type="list"
+				validate="options"
 				label="COM_TAGS_SHOW_TAG_TITLE_LABEL"
 				description="COM_TAGS_SHOW_TAG_TITLE_DESC"
 			>
@@ -63,6 +64,7 @@
 			<field 
 				name="tag_list_show_tag_image" 
 				type="list"
+				validate="options"
 				label="COM_TAGS_SHOW_TAG_IMAGE_LABEL"
 				description="COM_TAGS_SHOW_TAG_IMAGE_DESC"
 			>
@@ -74,6 +76,7 @@
 			<field 
 				name="tag_list_show_tag_description" 
 				type="list"
+				validate="options"
 				label="COM_TAGS_SHOW_TAG_DESCRIPTION_LABEL"
 				description="COM_TAGS_SHOW_TAG_DESCRIPTION_DESC"
 			>
@@ -103,6 +106,7 @@
 			<field 
 				name="show_tag_num_items" 
 				type="list"
+				validate="options"
 				label="COM_TAGS_NUMBER_TAG_ITEMS_LABEL"
 				description="COM_TAGS_NUMBER_TAG_ITEMS_DESC"
 			>
@@ -114,6 +118,7 @@
 			<field 
 				name="tag_list_orderby"
 				type="list"
+				validate="options"
 				label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"
 				description="JGLOBAL_FIELD_FIELD_ORDERING_DESC"
 				default=""
@@ -129,6 +134,7 @@
 			<field 
 				name="tag_list_orderby_direction" 
 				type="list"
+				validate="options"
 				label="JGLOBAL_ORDER_DIRECTION_LABEL"
 				description="JGLOBAL_ORDER_DIRECTION_DESC"
 			>
@@ -151,6 +157,7 @@
 			<field 
 				name="tag_list_show_item_image" 
 				type="list"
+				validate="options"
 				label="COM_TAGS_TAG_LIST_SHOW_ITEM_IMAGE_LABEL"
 				description="COM_TAGS_TAG_LIST_SHOW_ITEM_IMAGE_DESC"
 			>
@@ -162,6 +169,7 @@
 			<field 
 				name="tag_list_show_item_description" 
 				type="list"
+				validate="options"
 				label="COM_TAGS_TAG_LIST_SHOW_ITEM_DESCRIPTION_LABEL"
 				description="COM_TAGS_TAG_LIST_SHOW_ITEM_DESCRIPTION_DESC"
 			>
@@ -182,6 +190,7 @@
 				name="filter_field"
 				type="list"
 				default=""
+				validate="options"
 				label="JGLOBAL_FILTER_FIELD_LABEL"
 				description="JGLOBAL_FILTER_FIELD_DESC"
 			>
@@ -193,6 +202,7 @@
 			<field	
 				name="show_pagination_limit" 
 				type="list"
+				validate="options"
 				label="JGLOBAL_DISPLAY_SELECT_LABEL"
 				description="JGLOBAL_DISPLAY_SELECT_DESC"
 			>
@@ -204,6 +214,7 @@
 			<field 
 				name="show_pagination" 
 				type="list"
+				validate="options"
 				label="JGLOBAL_PAGINATION_LABEL"
 				description="JGLOBAL_PAGINATION_DESC"
 			>
@@ -216,6 +227,7 @@
 			<field 
 				name="show_pagination_results" 
 				type="list"
+				validate="options"
 				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 				description="JGLOBAL_PAGINATION_RESULTS_DESC">
 					<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -226,6 +238,7 @@
 			<field 
 				name="tag_list_show_date" 
 				type="list"
+				validate="options"
 				label="JGLOBAL_SHOW_DATE_LABEL"
 				description="JGLOBAL_SHOW_DATE_DESC"
 			>
@@ -251,6 +264,7 @@
 			<field 
 				name="return_any_or_all" 
 				type="list"
+				validate="options"
 				label="COM_TAGS_SEARCH_TYPE_LABEL"
 				description="COM_TAGS_SEARCH_TYPE_DESC"
 			>
@@ -262,6 +276,7 @@
 			<field 
 				name="include_children" 
 				type="list"
+				validate="options"
 				label="COM_TAGS_INCLUDE_CHILDREN_LABEL"
 				description="COM_TAGS_INCLUDE_CHILDREN_DESC"
 				default=""
@@ -287,6 +302,7 @@
 			<field 
 				name="show_feed_link" 
 				type="list"
+				validate="options"
 				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
 				description="JGLOBAL_SHOW_FEED_LINK_DESC"
 			>

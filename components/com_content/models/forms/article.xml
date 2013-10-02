@@ -57,6 +57,7 @@
 			id="state"
 			name="state"
 			type="list"
+			validate="options"
 			label="JSTATUS"
 			description="JFIELD_PUBLISHED_DESC"
 			class="inputbox"
@@ -80,6 +81,7 @@
 			id="featured"
 			name="featured"
 			type="list"
+			validate="options"
 			label="JGLOBAL_FIELD_FEATURED_LABEL"
 			description="JGLOBAL_FIELD_FEATURED_DESC"
 			class="inputbox"
@@ -223,6 +225,7 @@
 			<field
 				name="float_intro"
 				type="list"
+				validate="options"
 				label="COM_CONTENT_FLOAT_INTRO_LABEL"
 				description="COM_CONTENT_FLOAT_DESC">
 					<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -251,6 +254,7 @@
 			<field
 				name="float_fulltext"
 				type="list"
+				validate="options"
 				label="COM_CONTENT_FLOAT_FULLTEXT_LABEL"
 				description="COM_CONTENT_FLOAT_DESC">
 					<option value="">JGLOBAL_USE_GLOBAL</option>

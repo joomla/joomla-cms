@@ -14,6 +14,7 @@
 				type="radio"
 				class="btn-group"
 				default="0"
+				validate="options"
 				label="COM_CONTENT_CREATE_ARTICLE_CATEGORY_LABEL"
 				description="COM_CONTENT_CREATE_ARTICLE_CATEGORY_DESC">
 					<option value="1">JYES</option>

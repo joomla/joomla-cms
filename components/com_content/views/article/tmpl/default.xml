@@ -15,6 +15,7 @@
 			addfieldpath="/administrator/components/com_content/models/fields">
 
 			<field name="id" type="modal_article"
+				validate="options"
 				label="COM_CONTENT_FIELD_SELECT_ARTICLE_LABEL"
 				required="true"
 				edit="true"

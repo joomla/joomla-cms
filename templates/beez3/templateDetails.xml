@@ -81,6 +81,7 @@
 					filter="string" />
 
 				<field name="navposition" type="list" default="center"
+					validate="options"
 					label="TPL_BEEZ3_FIELD_NAVPOSITION_LABEL"
 					description="TPL_BEEZ3_FIELD_NAVPOSITION_DESC"
 					filter="word"
@@ -96,6 +97,7 @@
 				/>
 				
 				<field name="templatecolor" type="list" default="nature"
+					validate="options"
 					label="TPL_BEEZ3_FIELD_TEMPLATECOLOR_LABEL"
 					description="TPL_BEEZ3_FIELD_TEMPLATECOLOR_DESC"
 					filter="word"
