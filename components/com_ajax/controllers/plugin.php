@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * The Plugin Controller
+ * The AJAX Plugin Controller
  *
  * The plugin event triggered is onAjaxFoo, where 'foo' is
  * the value of the 'name' variable passed via the URL

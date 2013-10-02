@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * The Module Controller for RAW format
+ * The AJAX Module Controller for RAW format
  *
  * modFooHelper::getAjax() is called where 'foo' is the value
  * of the 'name' variable passed via the URL

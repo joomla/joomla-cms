@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * The Module Controller
+ * The AJAX Module Controller
  *
  * modFooHelper::getAjax() is called where 'foo' is the value
  * of the 'name' variable passed via the URL
@@ -38,8 +38,8 @@ class AjaxControllerModule extends JControllerLegacy
 
 		if (!$name || !AjaxModuleHelper::isModuleAvailable($name))
 		{
-			// Module is not published, you do not have access to it, or it is not assigned to the current menu item
-			throw new LogicException(sprintf('Module "%s" is not published, you do not have access to it, or it\'s not assigned to the current menu item', $name), 404);
+			// Module is not published or you do not have access to it
+			throw new LogicException(sprintf('Module "%s" is not published or you do not have access to it', $name), 404);
 		}
 
 		// Call the module
