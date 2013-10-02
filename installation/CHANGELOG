@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-Oct-2013 Jean-Marie Simonet
+ $ Updating installation languages version #
+
 01-Oct-2013 Jean-Marie Simonet
  $ Adding Malay ms-MY to installation languages
  # [#32128] *Multilingual install: storing language filter parameters is missing
