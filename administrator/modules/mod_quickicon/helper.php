@@ -113,16 +113,8 @@ abstract class ModQuickIconHelper
 						'icon' => 'header/icon-48-config.png',
 						'text' => JText::_('MOD_QUICKICON_GLOBAL_CONFIGURATION'),
 						'access' => array('core.manage', 'com_config', 'core.admin', 'com_config'),
-						'group' => 'MOD_QUICKICON_CONFIGURATION_AND_EXTENSIONS',
+						'group' => 'MOD_QUICKICON_CONFIGURATION',
 						'separategroup' => true
-					),
-					array(
-						'link' => JRoute::_('index.php?option=com_installer'),
-						'image' => 'puzzle',
-						'icon' => 'header/icon-48-extension.png',
-						'text' => JText::_('MOD_QUICKICON_EXTENSION_MANAGER'),
-						'access' => array('core.manage', 'com_installer'),
-						'group' => 'MOD_QUICKICON_CONFIGURATION_AND_EXTENSIONS'
 					),
 					array(
 						'link' => JRoute::_('index.php?option=com_templates'),
@@ -130,7 +122,7 @@ abstract class ModQuickIconHelper
 						'icon' => 'header/icon-48-themes.png',
 						'text' => JText::_('MOD_QUICKICON_TEMPLATE_MANAGER'),
 						'access' => array('core.manage', 'com_templates'),
-						'group' => 'MOD_QUICKICON_CONFIGURATION_AND_EXTENSIONS'
+						'group' => 'MOD_QUICKICON_CONFIGURATION'
 					),
 					array(
 						'link' => JRoute::_('index.php?option=com_languages'),
@@ -138,7 +130,7 @@ abstract class ModQuickIconHelper
 						'icon' => 'header/icon-48-language.png',
 						'text' => JText::_('MOD_QUICKICON_LANGUAGE_MANAGER'),
 						'access' => array('core.manage', 'com_languages'),
-						'group' => 'MOD_QUICKICON_CONFIGURATION_AND_EXTENSIONS'
+						'group' => 'MOD_QUICKICON_CONFIGURATION'
 					),
 					array(
 						'link' => JRoute::_('index.php?option=com_installer'),
@@ -146,7 +138,15 @@ abstract class ModQuickIconHelper
 						'icon' => 'header/icon-48-extension.png',
 						'text' => JText::_('MOD_QUICKICON_INSTALL_EXTENSIONS'),
 						'access' => array('core.manage', 'com_installer'),
-						'group' => 'MOD_QUICKICON_CONFIGURATION_AND_EXTENSIONS'
+						'group' => 'MOD_QUICKICON_EXTENSIONS'
+					),
+					array(
+						'link' => JRoute::_('index.php?option=com_installer&view=manage'),
+						'image' => 'puzzle',
+						'icon' => 'header/icon-48-extension.png',
+						'text' => JText::_('MOD_QUICKICON_EXTENSION_MANAGER'),
+						'access' => array('core.manage', 'com_installer'),
+						'group' => 'MOD_QUICKICON_EXTENSIONS'
 					),
 					array(
 						'link' => JRoute::_('index.php?option=com_admin&task=profile.edit&id=' . JFactory::getUser()->id),
@@ -158,7 +158,7 @@ abstract class ModQuickIconHelper
 					),
 					array(
 						'link' => JRoute::_('index.php?option=com_admin&view=sysinfo'),
-						'image' => 'health',
+						'image' => 'info',
 						'icon' => 'header/icon-48-info.png',
 						'text' => JText::_('MOD_QUICKICON_SYSTEM_INFORMATION'),
 						'access' => true,
