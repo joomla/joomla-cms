@@ -16,9 +16,9 @@ $version = new JVersion;
 <script type="text/javascript">
     function installLanguages() {
         var $ = jQuery.noConflict();
-        $('#' + install_languages_desc).hide();
-        $('#' + wait_installing).show();
-        $('#' + wait_installing_spinner).show();
+        $(install_languages_desc).hide();
+        $(wait_installing).show();
+        $(wait_installing_spinner).show();
         Install.submitform();
     }
 </script>
