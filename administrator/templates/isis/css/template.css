@@ -7185,6 +7185,9 @@ h6 {
 .module-title.nav-header {
 	font-size: 13px;
 }
+.module-title.nav-header {
+	padding: 0px 15px 7px;
+}
 .quick-icons [class^="icon-"]:before,
 .quick-icons [class*=" icon-"]:before {
 	font-size: 16px;

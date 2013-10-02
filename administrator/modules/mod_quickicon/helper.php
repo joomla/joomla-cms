@@ -158,7 +158,7 @@ abstract class ModQuickIconHelper
 					),
 					array(
 						'link' => JRoute::_('index.php?option=com_admin&view=sysinfo'),
-						'image' => 'info',
+						'image' => 'info-2',
 						'icon' => 'header/icon-48-info.png',
 						'text' => JText::_('MOD_QUICKICON_SYSTEM_INFORMATION'),
 						'access' => true,
