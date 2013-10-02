@@ -128,8 +128,9 @@ CREATE TABLE `jos_content_types` (
   `table` TEXT NOT NULL DEFAULT '',
   `rules` TEXT NOT NULL DEFAULT '',
   `field_mappings` TEXT NOT NULL DEFAULT '',
-  `router` TEXT NOT NULL DEFAULT ''
-);
+  `router` TEXT NOT NULL DEFAULT '',
+  `content_history_options` varchar(5120)
+  );
 
 CREATE INDEX `idx_content_types_alias` ON `jos_content_types` (`type_alias`);
 

@@ -64,6 +64,19 @@ class PlgAuthenticationJoomla extends JPlugin
 					$match = password_verify($credentials['password'], $password60);
 				}
 			}
+			elseif (substr($result->password,0,6) == 'SHA256')
+			{
+				// Check the password
+				$parts	= explode(':', $result->password);
+				$crypt	= $parts[0];
+				$salt	= @$parts[1];
+				$testcrypt = JUserHelper::getCryptedPassword($credentials['password'], $salt, 'sha256', false);
+
+				if ($crypt == $testcrypt)
+				{
+					$match = true;
+				}
+			}
 			else
 			{
 				// Check the password
@@ -126,6 +139,7 @@ class PlgAuthenticationJoomla extends JPlugin
 			}
 
 			require_once JPATH_ADMINISTRATOR . '/components/com_users/models/user.php';
+
 			$model = new UsersModelUser;
 
 			// Load the user's OTP (one time password, a.k.a. two factor auth) configuration

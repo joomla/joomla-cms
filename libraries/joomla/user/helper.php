@@ -316,10 +316,14 @@ abstract class JUserHelper
 	 */
 	public static function getCryptedPassword($plaintext, $salt = '', $encryption = 'bcrypt', $show_encrypt = false)
 	{
-		$joomlaPluginEnabled = JPluginHelper::isEnabled('user', 'joomla');
+		$app = JFactory::getApplication();
+		if ($app->getClientId() != 2)
+		{
+			$joomlaPluginEnabled = JPluginHelper::isEnabled('user', 'joomla');
+		}
 
 		// The Joomla user plugin allows you to use weaker passwords if necessary.
-		if ($joomlaPluginEnabled)
+		if (!empty($joomlaPluginEnabled))
 		{
 			$userPlugin = JPluginHelper::getPlugin('user','joomla');
 			$userPluginParams = new JRegistry($userPlugin->params);
@@ -432,7 +436,7 @@ abstract class JUserHelper
 			case 'sha256':
 				$encrypted = ($salt) ? hash('sha256', $plaintext . $salt) : hash('sha256', $plaintext) ;
 
-				return ($show_encrypt) ? '{SHA256}' . $encrypted : $encrypted;
+				return ($show_encrypt) ? '{SHA256}' . $encrypted : '{SHA256}' .  $encrypted;
 
 			case 'bcrypt':
 
@@ -453,7 +457,7 @@ abstract class JUserHelper
 				}
 				else
 				{
-					// BCrypt isn't available or is not wanted, fall back to sha256.
+					// BCrypt isn't available but we want strong passwords, fall back to sha256.
 					return static::getCryptedPassword($plaintext, '', 'sha256', false);
 
 				}
