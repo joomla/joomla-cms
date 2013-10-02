@@ -7176,6 +7176,13 @@ h6 {
 .quick-icons {
 	font-size: 14px;
 }
+/* Links */
+.j-links-separator {
+    margin: 20px 0px;
+    width: 100%;
+    height: 0px;
+    border-top: 2px solid #DDDDDD;
+}
 .container-main,
 #system-debug {
 	padding-bottom: 50px;
