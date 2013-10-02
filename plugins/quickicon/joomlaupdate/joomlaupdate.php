@@ -72,7 +72,7 @@ class PlgQuickiconJoomlaupdate extends JPlugin
 		return array(
 			array(
 				'link' => 'index.php?option=com_joomlaupdate',
-				'image' => 'download',
+				'image' => 'joomla',
 				'icon' => 'header/icon-48-download.png',
 				'text' => JText::_('PLG_QUICKICON_JOOMLAUPDATE_CHECKING'),
 				'id' => 'plg_quickicon_joomlaupdate',

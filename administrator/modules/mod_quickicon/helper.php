@@ -53,7 +53,7 @@ abstract class ModQuickIconHelper
 				self::$buttons[$key] = array(
 					array(
 						'link' => JRoute::_('index.php?option=com_content&task=article.add'),
-						'image' => 'file-add',
+						'image' => 'pencil-2',
 						'icon' => 'header/icon-48-article-add.png',
 						'text' => JText::_('MOD_QUICKICON_ADD_NEW_ARTICLE'),
 						'access' => array('core.manage', 'com_content', 'core.create', 'com_content', ),
@@ -61,7 +61,7 @@ abstract class ModQuickIconHelper
 					),
 					array(
 						'link' => JRoute::_('index.php?option=com_content'),
-						'image' => 'pencil-2',
+						'image' => 'stack',
 						'icon' => 'header/icon-48-article.png',
 						'text' => JText::_('MOD_QUICKICON_ARTICLE_MANAGER'),
 						'access' => array('core.manage', 'com_content'),
@@ -93,7 +93,7 @@ abstract class ModQuickIconHelper
 					),
 					array(
 						'link' => JRoute::_('index.php?option=com_users'),
-						'image' => 'address',
+						'image' => 'users',
 						'icon' => 'header/icon-48-user.png',
 						'text' => JText::_('MOD_QUICKICON_USER_MANAGER'),
 						'access' => array('core.manage', 'com_users'),
