@@ -118,16 +118,16 @@ class JLanguageAssociations
 		// Status of language filter parameter.
 		static $enabled = false;
 
-		// Get application object.
-		$app = JFactory::getApplication();
-
-		// If already tested, don't test again.
-		if (!$tested)
+		if (JLanguageMultilang::isEnabled())
 		{
-			$params = new JRegistry(JPluginHelper::getPlugin('system', 'languagefilter')->params);
+			// If already tested, don't test again.
+			if (!$tested)
+			{
+				$params = new JRegistry(JPluginHelper::getPlugin('system', 'languagefilter')->params);
 
-			$enabled  = (boolean) $params->get('item_associations', false);
-			$tested = true;
+				$enabled  = (boolean) $params->get('item_associations', false);
+				$tested = true;
+			}
 		}
 
 		return $enabled;

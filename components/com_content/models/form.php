@@ -177,8 +177,6 @@ class ContentModelForm extends ContentModelArticle
 	 */
 	public function save($data)
 	{
-		$app = JFactory::getApplication();
-
 		// Associations are not edited in frontend ATM so we have to inherit them
 		if (JLanguageAssociations::isEnabled() && !empty($data['id']))
 		{
