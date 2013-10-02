@@ -7205,6 +7205,11 @@ h6 {
 .quick-icons .nav-list [class*=" icon-"] {
 	margin-right: 9px;
 }
+html[dir=rtl] .quick-icons .nav-list [class^="icon-"],
+html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
+	margin-left: 9px;
+	margin-right: 0px;
+}
 .j-links-separator {
 	margin: 20px 0px;
 	width: 100%;
