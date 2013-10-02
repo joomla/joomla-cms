@@ -113,7 +113,8 @@ abstract class ModQuickIconHelper
 						'icon' => 'header/icon-48-config.png',
 						'text' => JText::_('MOD_QUICKICON_GLOBAL_CONFIGURATION'),
 						'access' => array('core.manage', 'com_config', 'core.admin', 'com_config'),
-						'group' => 'MOD_QUICKICON_CONFIGURATION_AND_EXTENSIONS'
+						'group' => 'MOD_QUICKICON_CONFIGURATION_AND_EXTENSIONS',
+						'separategroup' => true
 					),
 					array(
 						'link' => JRoute::_('index.php?option=com_installer'),

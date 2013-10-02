@@ -36,6 +36,11 @@ abstract class JHtmlLinks
 			$html[] = $layout->render('');
 			foreach ($groupsOfLinks as $title => $links)
 			{
+				if (isset($links[0]['separategroup']))
+				{
+					$layout = new JLayoutFile('joomla.links.groupseparator');
+					$html[] = $layout->render($title);
+				}
 				$layout = new JLayoutFile('joomla.links.groupopen');
 				$htmlHeader = $layout->render($title);
 
