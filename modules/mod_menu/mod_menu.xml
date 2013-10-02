@@ -44,6 +44,7 @@
 					name="startLevel"
 					type="list"
 					default="1"
+					validate="options"
 					label="MOD_MENU_FIELD_STARTLEVEL_LABEL"
 					description="MOD_MENU_FIELD_STARTLEVEL_DESC"
 				>
@@ -63,6 +64,7 @@
 					name="endLevel"
 					type="list"
 					default="0"
+					validate="options"
 					label="MOD_MENU_FIELD_ENDLEVEL_LABEL"
 					description="MOD_MENU_FIELD_ENDLEVEL_DESC"
 					>
@@ -129,6 +131,7 @@
 					name="cache"
 					type="list"
 					default="1"
+					validate="options"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC">
 					<option

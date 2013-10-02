@@ -50,6 +50,7 @@
 					name="scrolling"
 					type="list"
 					default="auto"
+					validate="options"
 					label="MOD_WRAPPER_FIELD_SCROLL_LABEL"
 					description="MOD_WRAPPER_FIELD_SCROLL_DESC">
 					<option
@@ -120,6 +121,7 @@
 					name="cache"
 					type="list"
 					default="1"
+					validate="options"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC">
 					<option

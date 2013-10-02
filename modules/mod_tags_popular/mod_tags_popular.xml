@@ -42,6 +42,7 @@
 					name="timeframe"
 					type="list"
 					default="alltime"
+					validate="options"
 					label="MOD_TAGS_POPULAR_FIELD_TIMEFRAME_LABEL"
 					description="MOD_TAGS_POPULAR_FIELD_TIMEFRAME_DESC">
 					<option
@@ -74,6 +75,7 @@
 					name="owncache"
 					type="list"
 					default="1"
+					validate="options"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC">
 					<option

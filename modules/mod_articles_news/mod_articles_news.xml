@@ -69,6 +69,7 @@
 				<field
 					name="link_titles"
 					type="list"
+					validate="options"
 					label="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_DESC">
 					<option
@@ -83,6 +84,7 @@
 					name="item_heading"
 					type="list"
 					default="h4"
+					validate="options"
 					label="MOD_ARTICLES_NEWS_TITLE_HEADING"
 					description="MOD_ARTICLES_NEWS_TITLE_HEADING_DESCRIPTION">
 					<option
@@ -134,6 +136,7 @@
 					name="ordering"
 					type="list"
 					default="a.publish_up"
+					validate="options"
 					label="MOD_ARTICLES_NEWS_FIELD_ORDERING_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_ORDERING_DESC">
 					<option
@@ -167,6 +170,7 @@
 					name="cache"
 					type="list"
 					default="1"
+					validate="options"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC">
 					<option
