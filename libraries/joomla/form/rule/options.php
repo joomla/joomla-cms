@@ -35,15 +35,18 @@ class JFormRuleOptions extends JFormRule
 	 */
 	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, JForm $form = null)
 	{
-		// Check each value and return true if we get a match
+		$options = array();
+
+		// Get all option values and determine if $value is among them.
 		foreach ($element->option as $option)
 		{
-			if ($value == (string) $option->attributes()->value)
-			{
-				return true;
-			}
+			$options = array_merge($options, JFormOption::getOptions($option, $element->fieldname));
 		}
 
-		return false;
+		$mapFn = function ($a) {
+			return $a->value;
+		};
+
+		return in_array($value, array_map($mapFn, $options));
 	}
 }
