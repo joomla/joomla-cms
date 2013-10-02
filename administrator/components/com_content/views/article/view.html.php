@@ -44,7 +44,7 @@ class ContentViewArticle extends JViewLegacy
 		$this->form		= $this->get('Form');
 		$this->item		= $this->get('Item');
 		$this->state	= $this->get('State');
-		$this->canDo	= ContentHelper::getActions($this->state->get('filter.category_id'));
+		$this->canDo	= JHelperContent::getActions($this->state->get('filter.category_id'), 0, 'com_content');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -77,7 +77,7 @@ class ContentViewArticle extends JViewLegacy
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 
 		// Built the actions for new and existing records.
-		$canDo		= ContentHelper::getActions($this->state->get('filter.category_id'), $this->item->id);
+		$canDo		= $this->canDo;
 		JToolbarHelper::title(JText::_('COM_CONTENT_PAGE_' . ($checkedOut ? 'VIEW_ARTICLE' : ($isNew ? 'ADD_ARTICLE' : 'EDIT_ARTICLE'))), 'article-add.png');
 
 		// For new records, check the create permission.

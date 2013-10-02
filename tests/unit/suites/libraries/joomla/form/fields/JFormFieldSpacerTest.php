@@ -7,8 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/form/fields/spacer.php';
-require_once JPATH_TESTS . '/stubs/FormInspectors.php';
+JFormHelper::loadFieldClass('spacer');
 
 /**
  * Test class for JForm.
@@ -73,7 +72,7 @@ class JFormFieldSpacerTest extends TestCase
 	 */
 	public function testGetInput()
 	{
-		$form = new JFormInspector('form1');
+		$form = new JForm('form1');
 
 		$this->assertThat(
 			$form->load('<form><field name="spacer" type="spacer" /></form>'),
@@ -103,7 +102,7 @@ class JFormFieldSpacerTest extends TestCase
 	 */
 	public function testGetLabel()
 	{
-		$form = new JFormInspector('form1');
+		$form = new JForm('form1');
 
 		$this->assertThat(
 			$form->load('<form><field name="spacer" type="spacer" description="spacer" /></form>'),
