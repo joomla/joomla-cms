@@ -6177,6 +6177,10 @@ div.modal.fade.in {
 	font-style: normal;
 	speak: none;
 }
+[class^="icon-"].disabled,
+[class*=" icon-"].disabled {
+	font-weight: normal;
+}
 .icon-joomla:before {
 	content: "\e200";
 }
@@ -6187,7 +6191,7 @@ div.modal.fade.in {
 }
 .icon-chevron-right:before,
 .icon-rightarrow:before,
-.icon-arrow-right:before{
+.icon-arrow-right:before {
 	content: "\e006";
 }
 .icon-chevron-down:before,
@@ -6347,7 +6351,7 @@ div.modal.fade.in {
 	content: "\3b";
 }
 .icon-save-new:before,
-.icon-plus-2:before  {
+.icon-plus-2:before {
 	content: "\5d";
 }
 .icon-ban-circle:before,
@@ -6838,7 +6842,7 @@ div.modal.fade.in {
 .icon-thumbs-up:before {
 	content: "\5b";
 }
-.icon-thumbs-down:before{
+.icon-thumbs-down:before {
 	content: "\5c";
 }
 .icon-unfeatured:before,
@@ -6851,7 +6855,7 @@ div.modal.fade.in {
 }
 .icon-featured:before,
 .icon-default:before,
-.icon-star:before{
+.icon-star:before {
 	content: "\42";
 }
 .icon-smiley:before,
@@ -6894,7 +6898,7 @@ div.modal.fade.in {
 .icon-ok:before,
 .icon-save-new:before,
 .icon-save-copy:before,
-.btn-toolbar .icon-copy:before  {
+.btn-toolbar .icon-copy:before {
 	color: #51a351;
 }
 .icon-unpublish:before,

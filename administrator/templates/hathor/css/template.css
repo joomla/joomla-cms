@@ -73,7 +73,10 @@
 	font-style: normal;
 	speak: none;
 }
-
+[class^="icon-"].disabled,
+[class*=" icon-"].disabled {
+	font-weight: normal;
+}
 .icon-joomla:before {
 	content: "\e200";
 }
@@ -84,7 +87,7 @@
 }
 .icon-chevron-right:before,
 .icon-rightarrow:before,
-.icon-arrow-right:before{
+.icon-arrow-right:before {
 	content: "\e006";
 }
 .icon-chevron-down:before,
@@ -244,7 +247,7 @@
 	content: "\3b";
 }
 .icon-save-new:before,
-.icon-plus-2:before  {
+.icon-plus-2:before {
 	content: "\5d";
 }
 .icon-ban-circle:before,
@@ -735,7 +738,7 @@
 .icon-thumbs-up:before {
 	content: "\5b";
 }
-.icon-thumbs-down:before{
+.icon-thumbs-down:before {
 	content: "\5c";
 }
 .icon-unfeatured:before,
@@ -748,7 +751,7 @@
 }
 .icon-featured:before,
 .icon-default:before,
-.icon-star:before{
+.icon-star:before {
 	content: "\42";
 }
 .icon-smiley:before,
