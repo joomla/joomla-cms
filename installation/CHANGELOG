@@ -28,6 +28,7 @@ $ -> Language fix or change
 02-Oct-2013 Jean-Marie Simonet
  $ Updating installation languages version #
  # Adding Malaysia flag
+ $ [#32147] TFA Links as Language Strings. Thanks Tobias Zulauf
 
 01-Oct-2013 Jean-Marie Simonet
  $ Adding Malay ms-MY to installation languages
