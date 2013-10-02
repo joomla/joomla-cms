@@ -7182,11 +7182,12 @@ h6 {
 	margin-bottom: 20px;
 }
 .quick-icons .nav-header,
-.module-title.nav-header {
+.well .module-title.nav-header {
 	font-size: 13px;
 }
-.module-title.nav-header {
+.well .module-title.nav-header {
 	padding: 0px 15px 7px;
+	margin: 0px;
 }
 .quick-icons [class^="icon-"]:before,
 .quick-icons [class*=" icon-"]:before {

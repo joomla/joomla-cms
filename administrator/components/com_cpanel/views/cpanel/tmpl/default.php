@@ -54,14 +54,29 @@ $user = JFactory::getUser();
 		</div>
 	</div>
 	<div class="span9">
-		<?php
-		foreach ($this->modules as $module)
-		{
-			$output = JModuleHelper::renderModule($module, array('style' => 'well'));
-			$params = new JRegistry;
-			$params->loadString($module->params);
-			echo $output;
-		}
-		?>
+		<div class="row-fluid">
+			<?php
+			$spans = 0;
+
+			foreach ($this->modules as $module)
+			{
+				// Get module parameters
+				$params = new JRegistry;
+				$params->loadString($module->params);
+				$bootstrapSize = $params->get('bootstrap_size');
+				$spans += $bootstrapSize;
+				if ($spans > 12)
+				{
+					echo '</div><div class="row-fluid">';
+					$spans = $bootstrapSize;
+				}
+				$output = JModuleHelper::renderModule($module, array('style' => 'well'));
+				$params = new JRegistry;
+				$params->loadString($module->params);
+				echo $output;
+
+			}
+			?>
+		</div>
 	</div>
 </div>
