@@ -6856,6 +6856,14 @@ body .navbar-fixed-top {
 #toolbar .btn-success {
 	width: 148px;
 }
+#toolbar #toolbar-options,
+#toolbar #toolbar-help {
+	float: right;
+}
+html[dir=rtl] #toolbar #toolbar-options,
+html[dir=rtl] #toolbar #toolbar-help {
+	float: left;
+}
 .well .page-header {
 	margin: -10px 0 18px 0;
 	padding-bottom: 5px;
@@ -7298,4 +7306,12 @@ th .tooltip-inner {
 }
 #helpsite-refresh {
 	vertical-align: top;
+}
+@media (max-width: 767px) {
+	html[dir=rtl] #toolbar #toolbar-options,
+	html[dir=rtl] #toolbar #toolbar-help,
+	#toolbar #toolbar-options,
+	#toolbar #toolbar-help {
+		float: none;
+	}
 }
