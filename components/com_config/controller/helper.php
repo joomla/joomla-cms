@@ -29,7 +29,7 @@ class ConfigControllerHelper
 	 * not prefixed with Config.
 	 * Additional options maybe added to parameterise the controller.
 	 *
-	 * @param  JApplication  $app  A JApplication object (could be JApplication or JApplicationWeb)
+	 * @param  JApplication  $app  A JApplication object (could be JApplication or JApplicationCms)
 	 *
 	 * @return  JController  A JController object
 	 *

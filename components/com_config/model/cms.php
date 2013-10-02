@@ -93,7 +93,7 @@ abstract class ConfigModelCms extends JModelDatabase
 		}
 		else
 		{
-			$this->state = new JObject;
+			$this->state = new JRegistry;
 		}
 
 		// Set the model dbo
@@ -103,7 +103,7 @@ abstract class ConfigModelCms extends JModelDatabase
 		}
 		else
 		{
-			$this->_db = JFactory::getDbo();
+			$this->_db = $this->db;
 		}
 
 		// Register the paths for the form
@@ -197,7 +197,7 @@ abstract class ConfigModelCms extends JModelDatabase
 			$name = $this->getName();
 		}
 
-		if ($table = $this->_createTable($name, $prefix, $options))
+		if ($table = $this->createTable($name, $prefix, $options))
 		{
 			return $table;
 		}
@@ -271,6 +271,7 @@ abstract class ConfigModelCms extends JModelDatabase
 	 */
 	protected function populateState()
 	{
+		$this->loadState();
 	}
 
 	/**
@@ -296,8 +297,6 @@ abstract class ConfigModelCms extends JModelDatabase
 
 		}
 	}
-
-
 
 	/**
 	 * Method to test whether a record can have its state changed.

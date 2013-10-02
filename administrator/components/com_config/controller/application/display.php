@@ -7,15 +7,15 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
-// Needed for front end view
 /**
  * Base Display Controller
  *
  * @package     Joomla.Libraries
  * @subpackage  controller
  * @since       3.2
+ * @note        Needed for front end view
 */
 class ConfigControllerApplicationDisplay extends ConfigControllerDisplay
 {
@@ -25,6 +25,5 @@ class ConfigControllerApplicationDisplay extends ConfigControllerDisplay
 	* @var  string
 	*/
 	public $prefix = 'Config';
-
 
 }

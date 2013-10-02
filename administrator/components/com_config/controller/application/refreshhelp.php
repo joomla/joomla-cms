@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /**
  * Refresh Help Controller for global configuration
@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage  com_config
  * @since       3.2
 */
-class ConfigControllerApplicationRefreshhelp extends ConfigControllerBase
+class ConfigControllerApplicationRefreshhelp extends JControllerBase
 {
 
 	/**

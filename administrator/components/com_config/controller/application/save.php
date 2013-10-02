@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /**
  * Save Controller for global configuration
@@ -29,21 +29,20 @@ class ConfigControllerApplicationSave extends JControllerBase
 		// Check for request forgeries.
 		if(!JSession::checkToken())
 		{
-			JFactory::getApplication()->redirect('index.php', JText::_('JINVALID_TOKEN'));
+			$this->app->redirect('index.php', JText::_('JINVALID_TOKEN'));
 		}
 
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorise('core.admin'))
 		{
-			JFactory::getApplication()->redirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
+			$this->app->redirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
 
-			return;
 		}
 
 		// Set FTP credentials, if given.
 		JClientHelper::setCredentialsFromRequest('ftp');
 
-		$app   = JFactory::getApplication();
+		$app   = $this->getApplication();
 		$model = new ConfigModelApplication;
 		$data  = $this->input->post->get('jform', array(), 'array');
 
@@ -57,9 +56,8 @@ class ConfigControllerApplicationSave extends JControllerBase
 		// Handle service requests
 		if ($saveFormat == 'json')
 		{
-			$return = $model->save($data);
+			return $model->save($data);
 
-			return $return;
 		}
 
 		// Must load after serving service-requests
@@ -111,7 +109,6 @@ class ConfigControllerApplicationSave extends JControllerBase
 
 			$app->redirect(JRoute::_('index.php?option=com_config&controller=application.display', false), $message, 'error');
 
-			return false;
 		}
 
 		// Set the success message.

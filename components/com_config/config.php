@@ -10,9 +10,6 @@
 // No direct access
 defined('_JEXEC') or die('Restricted access');
 
-// Sessions
-jimport('joomla.session.session');
-
 // Load classes
 JLoader::registerPrefix('Config', JPATH_COMPONENT);
 

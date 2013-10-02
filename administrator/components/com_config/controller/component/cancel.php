@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /**
  * Cancel Controller for global configuration components
@@ -29,7 +29,6 @@ class ConfigControllerComponentCancel extends ConfigControllerCanceladmin
 	{
 
 		$this->context = 'com_config.config.global';
-
 
 		$this->redirect = 'index.php?option=' . $this->component;
 

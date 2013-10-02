@@ -29,7 +29,7 @@ $user = JFactory::getUser();
 	<div class="row-fluid">
 
 		<!-- Begin Content -->
-		<div class="span10">
+		<div class="span12">
 
 			<div class="btn-toolbar">
 				<div class="btn-group">

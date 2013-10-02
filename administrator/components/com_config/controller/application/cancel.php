@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /**
  * Cancel Controller for global configuration
@@ -18,7 +18,6 @@ defined('_JEXEC') or die('Restricted access');
  */
 class ConfigControllerApplicationCancel extends ConfigControllerCancel
 {
-
 	/**
 	 * Method to cancel global configuration.
 	 *
@@ -28,7 +27,6 @@ class ConfigControllerApplicationCancel extends ConfigControllerCancel
 	 */
 	public function execute()
 	{
-
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorise('core.admin', 'com_config'))
 		{

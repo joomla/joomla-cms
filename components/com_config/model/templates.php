@@ -51,7 +51,7 @@ class ConfigModelTemplates extends ConfigModelForm
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
-				$form = $this->loadForm('com_config.templates', 'templates', array('control' => 'jform', 'load_data' => $loadData));
+		$form = $this->loadForm('com_config.templates', 'templates', array('control' => 'jform', 'load_data' => $loadData));
 
 		try
 		{
@@ -65,8 +65,7 @@ class ConfigModelTemplates extends ConfigModelForm
 		catch (Exception $e)
 		{
 
-			$app = JFactory::getApplication();
-			$app->enqueueMessage($e->getMessage());
+			JFactory::getApplication()->enqueueMessage($e->getMessage());
 
 			return false;
 		}
@@ -91,9 +90,8 @@ class ConfigModelTemplates extends ConfigModelForm
 	{
 
 		$lang = JFactory::getLanguage();
-		$app = JFactory::getApplication();
 
-		$template = $app->getTemplate();
+		$template = JFactory::getApplication()->getTemplate();
 
 		jimport('joomla.filesystem.path');
 

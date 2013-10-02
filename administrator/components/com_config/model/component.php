@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_config
- * @since       1.5
+ * @since       3.2
  */
 class ConfigModelComponent extends ConfigModelForm
 {
@@ -25,7 +25,7 @@ class ConfigModelComponent extends ConfigModelForm
 	 *
 	 * @return	void
 	 *
-	 * @since	1.6
+	 * @since	3.2
 	 */
 	protected function populateState()
 	{
@@ -98,7 +98,7 @@ class ConfigModelComponent extends ConfigModelForm
 	 *
 	 * @since	1.6
 	 */
-	function getComponent()
+	public function getComponent()
 	{
 		$state = $this->getState();
 		$option = $state->get('component.option');

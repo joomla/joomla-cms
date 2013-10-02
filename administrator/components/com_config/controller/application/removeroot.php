@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /**
  * Remove Root Controller for global configuration
@@ -15,7 +15,7 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage  com_config
  * @since       3.2
 */
-class ConfigControllerApplicationRemoveroot extends ConfgControllerBase
+class ConfigControllerApplicationRemoveroot extends JControllerBase
 {
 
 	/**
@@ -30,15 +30,13 @@ class ConfigControllerApplicationRemoveroot extends ConfgControllerBase
 		// Check for request forgeries.
 		if(!JSession::checkToken('get'))
 		{
-			JFactory::getApplication()->redirect('index.php', JText::_('JINVALID_TOKEN'));
+			$this->app->redirect('index.php', JText::_('JINVALID_TOKEN'));
 		}
 
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorise('core.admin'))
 		{
-			JFactory::getApplication()->redirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
-
-			return;
+			$this->app->redirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
 		}
 
 		// Initialise model.
@@ -51,17 +49,14 @@ class ConfigControllerApplicationRemoveroot extends ConfgControllerBase
 		if ($return === false)
 		{
 			// Save failed, go back to the screen and display a notice.
-			JFactory::getApplication()->redirect(JRoute::_('index.php', false), JText::sprintf('JERROR_SAVE_FAILED', $model->getError()), 'error');
-
-			return false;
+			$this->app->redirect(JRoute::_('index.php', false), JText::sprintf('JERROR_SAVE_FAILED', $model->getError()), 'error');
 		}
 
 		// Set the success message.
 		$message = JText::_('COM_CONFIG_SAVE_SUCCESS');
 
 		// Set the redirect based on the task.
-		JFactory::getApplication()->redirect(JRoute::_('index.php', false), $message);
+		$this->app->redirect(JRoute::_('index.php', false), $message);
 
-		return true;
 	}
 }
