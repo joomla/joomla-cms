@@ -606,7 +606,7 @@ class JUser extends JObject
 			{
 				if ($array['password'] != $array['password2'])
 				{
-					$this->setError(JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'));
+					JFactory::getApplication()->enqueueMessage(JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'), 'error');
 
 					return false;
 				}
@@ -780,7 +780,7 @@ class JUser extends JObject
 		}
 		catch (Exception $e)
 		{
-			$this->setError($e->getMessage());
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
