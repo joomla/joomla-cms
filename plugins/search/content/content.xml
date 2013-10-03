@@ -18,22 +18,22 @@
 		<language tag="en-GB">en-GB.plg_search_content.sys.ini</language>
 	</languages>
 	<config>
-
 		<fields name="params">
 
 			<fieldset name="basic">
-
 				<field name="search_limit" type="text"
 					default="50"
 					description="PLG_SEARCH_CONTENT_FIELD_SEARCHLIMIT_DESC"
 					label="PLG_SEARCH_CONTENT_FIELD_SEARCHLIMIT_LABEL"
-					size="5" />
+					size="5"
+				/>
 
 				<field name="search_content" type="radio"
 					class="btn-group btn-group-yesno"
 					default="0"
 					description="PLG_SEARCH_CONTENT_FIELD_CONTENT_DESC"
-					label="PLG_SEARCH_CONTENT_FIELD_CONTENT_LABEL">
+					label="PLG_SEARCH_CONTENT_FIELD_CONTENT_LABEL"
+				>
 					<option value="0">JOFF</option>
 					<option value="1">JON</option>
 				</field>
@@ -42,11 +42,11 @@
 					class="btn-group btn-group-yesno"
 					default="0"
 					description="PLG_SEARCH_CONTENT_FIELD_ARCHIVED_DESC"
-					label="PLG_SEARCH_CONTENT_FIELD_ARCHIVED_LABEL">
+					label="PLG_SEARCH_CONTENT_FIELD_ARCHIVED_LABEL"
+				>
 					<option value="0">JOFF</option>
 					<option value="1">JON</option>
 				</field>
-
 			</fieldset>
 
 		</fields>

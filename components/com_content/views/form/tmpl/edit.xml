@@ -2,16 +2,14 @@
 <metadata>
 	<layout title="COM_CONTENT_FORM_VIEW_DEFAULT_TITLE" option="COM_CONTENT_FORM_VIEW_DEFAULT_OPTION">
 		<help
-			key = "JHELP_MENUS_MENU_ITEM_ARTICLE_CREATE" />
+			key = "JHELP_MENUS_MENU_ITEM_ARTICLE_CREATE"
+		/>
 		<message>
 			<![CDATA[COM_CONTENT_FORM_VIEW_DEFAULT_DESC]]>
 		</message>
 	</layout>
-
 	<fields name="params">
-
 		<fieldset name="basic">
-
 			<field name="enable_category"
 				type="radio"
 				class="btn-group btn-group-yesno"
@@ -21,14 +19,11 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 			</field>
-
 			<field name="catid"
 				type="category"
 				label="JGLOBAL_CHOOSE_CATEGORY_LABEL"
 				extension="com_content"
 				description="JGLOBAL_CHOOSE_CATEGORY_DESC" />
-
 		</fieldset>
-
 	</fields>
 </metadata>
