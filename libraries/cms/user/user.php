@@ -586,8 +586,10 @@ class JUser extends JObject
 				$this->set('username', $username);
 			}
 
-			// Use a limit to prevent abuse since it is unfiltered
-			// The maximum password length for bcrypt is 55 characters.
+			/**
+			 * Use a limit to prevent abuse since it is unfiltered
+			 * The maximum password length for bcrypt is 55 characters.
+			 */
 			$password = isset($this->password) ? $this->password : null;
 
 			if (strlen($password) > 55)
@@ -641,8 +643,6 @@ class JUser extends JObject
 		if (!$this->setProperties($array))
 		{
 			throw new RuntimeException(JText::_('JLIB_USER_ERROR_BIND_ARRAY'));
-
-			return false;
 		}
 
 		// Make sure its an integer
@@ -683,8 +683,6 @@ class JUser extends JObject
 			if (!$table->check())
 			{
 				throw new RuntimeException($table->getError);
-
-				return false;
 			}
 
 			// If user is made a Super Admin group and user is NOT a Super Admin
