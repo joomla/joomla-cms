@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('behavior.formvalidation');
-$canDo	= BannersHelper::getActions();
+$canDo = JHelperContent::getActions(0, 0, 'com_banners');
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
