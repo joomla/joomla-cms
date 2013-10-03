@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-Oct-2013 Michael Babker
+ +$ [#31561] Add support for BCrypt encryption of passwords and rewrite cookie based authentication to use it.  Thanks Elin Waring
+
 02-Oct-2013 Jean-Marie Simonet
  $ Updating installation languages version #
  # Adding Malaysia flag
