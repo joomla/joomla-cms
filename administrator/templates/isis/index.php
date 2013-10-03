@@ -22,14 +22,7 @@ JHtml::_('bootstrap.framework');
 $doc->addScript('templates/' . $this->template . '/js/template.js');
 
 // Add Stylesheets
-$doc->addStyleSheet('templates/' . $this->template . '/css/template.css');
-
-// Load optional RTL Bootstrap CSS
-JHtml::_('bootstrap.loadCss', false, $this->direction);
-if ($this->direction == 'rtl')
-{
-	$doc->addStyleSheet('templates/' . $this->template . '/css/template-rtl.css');
-}
+$doc->addStyleSheet('templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
 
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
