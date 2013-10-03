@@ -364,6 +364,7 @@ class PlgUserJoomla extends JPlugin
 		$cookieLifetime	= empty($options['lifetime']) ? $this->app->rememberCookieLifetime : $options['lifetime'];
 		$length			= empty($options['length']) ? $this->app->rememberCookieLength : $options['length'];
 		$secure			= empty($options['secure']) ? $this->app->rememberCookieSecure : $options['secure'];
+		$http			= empty($options['http']) ? $this->app->rememberCookieSecure : $options['http'];
 
 		// We need the old data to match against the current database
 		$rememberArray = JUserHelper::getRememberCookieData();
@@ -420,9 +421,8 @@ class PlgUserJoomla extends JPlugin
 		$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->app->get('cookie_path'), $this->app->get('cookie_domain'));
 
 		// And make a new one.
-		$this->app->input->cookie->set(
-			$cookieName, $cookieValue, $cookieLifetime, $this->app->get('cookie_path'), $this->app->get('cookie_domain'), $secure
-		);
+		$this->app->input->cookie->set($cookieName, $cookieValue, $cookieLifetime, $this->app->getCfg('cookie_path'),
+				$this->app->getCfg('cookie_domain'), $secure, $http);
 
 		$query = $this->db->getQuery(true);
 
