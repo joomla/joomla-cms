@@ -1138,13 +1138,17 @@ abstract class JModelAdmin extends JModelForm
 			elseif ($table->ordering != $order[$i])
 			{
 				$table->ordering = $order[$i];
-				$table->set('_saveorder', true);
 
-				if (!$table->store())
-				{
-					$this->setError($table->getError());
-					return false;
-				}
+				// We only want to update the order, nothing else so don't do a store()
+				// which may require other data for observers or events.
+				$this->_db->setQuery($query);
+				// Update the row ordering field.
+				$query->clear()
+				->update($this->_tbl)
+				->set('ordering = ' . ($order{$i}))
+				->where($table->getKeyName() . ' = ' . $pk);
+				$this->_db->setQuery($query);
+				$this->_db->execute();
 
 				// Remember to reorder within position and client_id
 				$condition = $this->getReorderConditions($table);

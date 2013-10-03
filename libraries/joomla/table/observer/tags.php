@@ -36,7 +36,7 @@ class JTableObserverTags extends JTableObserver
 	protected $typeAliasPattern = null;
 
 	/**
-	 * Override for postStoreProcess param newTags, Set by setNewTagsToAdd, used by onAfterStore
+	 * Override for postStoreProcess param newTags, Set by setNewTags, used by onAfterStore
 	 *
 	 * @var    array
 	 * @since  3.1.2
@@ -44,7 +44,7 @@ class JTableObserverTags extends JTableObserver
 	protected $newTags = array();
 
 	/**
-	 * Override for postStoreProcess param replaceTags. Set by setNewTagsToAdd, used by onAfterStore
+	 * Override for postStoreProcess param replaceTags. Set by setNewTags, used by onAfterStore
 	 *
 	 * @var    boolean
 	 * @since  3.1.2
@@ -104,7 +104,7 @@ class JTableObserverTags extends JTableObserver
 
 	/**
 	 * Post-processor for $table->store($updateNulls)
-	 * You can change optional params newTags and replaceTags of tagsHelper with method setNewTagsToAdd
+	 * You can change optional params newTags and replaceTags of tagsHelper with method setNewTags
 	 *
 	 * @param   boolean  &$result  The result of the load
 	 *
@@ -141,7 +141,7 @@ class JTableObserverTags extends JTableObserver
 	}
 
 	/**
-	 * Sets the new tags to be added/replaced to the table row
+	 * Sets the new tags to be added/replaced
 	 *
 	 * @param   array    $newTags      New tags to be added or replaced
 	 * @param   boolean  $replaceTags  Replace tags (true) or add them (false)
