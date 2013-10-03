@@ -316,7 +316,9 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 
 		if (parent::save($data))
 		{
-			if (isset($app->item_associations))
+
+			$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+			if ($assoc)
 			{
 				$id = (int) $this->getState($this->getName() . '.id');
 				$item = $this->getItem($id);
@@ -410,7 +412,10 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 		}
 
 		// Load associated newsfeeds items
-		if (isset(JFactory::getApplication()->item_associations))
+		$app = JFactory::getApplication();
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+
+		if ($assoc)
 		{
 			$item->associations = array();
 
@@ -512,7 +517,9 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
 		// Association newsfeeds items
-		if (isset(JFactory::getApplication()->item_associations))
+		$app = JFactory::getApplication();
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		if ($assoc)
 		{
 			$languages = JLanguageHelper::getLanguages('lang_code');
 

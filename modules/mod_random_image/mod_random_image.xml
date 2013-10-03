@@ -25,61 +25,57 @@
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_RANDOM_IMAGE" />
 	<config>
-
 		<fields name="params">
-
 			<fieldset name="basic">
-
-				<field name="type"
+				<field
+					name="type"
 					type="text"
 					default="jpg"
 					label="MOD_RANDOM_IMAGE_FIELD_TYPE_LABEL"
 					description="MOD_RANDOM_IMAGE_FIELD_TYPE_DESC" />
-
-				<field name="folder"
+				<field
+					name="folder"
 					type="text"
 					label="MOD_RANDOM_IMAGE_FIELD_FOLDER_LABEL"
 					description="MOD_RANDOM_IMAGE_FIELD_FOLDER_DESC" />
-
-				<field name="link"
+				<field
+					name="link"
 					type="text"
 					label="MOD_RANDOM_IMAGE_FIELD_LINK_LABEL"
 					description="MOD_RANDOM_IMAGE_FIELD_LINK_DESC" />
-
-				<field name="width"
+				<field
+					name="width"
 					type="text"
 					label="MOD_RANDOM_IMAGE_FIELD_WIDTH_LABEL"
 					description="MOD_RANDOM_IMAGE_FIELD_WIDTH_DESC" />
-
-				<field name="height"
+				<field
+					name="height"
 					type="text"
 					label="MOD_RANDOM_IMAGE_FIELD_HEIGHT_LABEL"
 					description="MOD_RANDOM_IMAGE_FIELD_HEIGHT_DESC" />
-
 			</fieldset>
 			<fieldset
 				name="advanced">
-
-				<field name="layout"
+				<field
+					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
-
-				<field name="moduleclass_sfx"
+				<field
+					name="moduleclass_sfx"
 					type="textarea" rows="3"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
-
-				<field name="cache"
+				<field
+					name="cache"
 					type="list"
 					default="0"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC">
-					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+					<option
+						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
-
 			</fieldset>
-
 		</fields>
 	</config>
 </extension>

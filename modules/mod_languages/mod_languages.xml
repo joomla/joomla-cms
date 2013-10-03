@@ -27,21 +27,17 @@
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_LANGUAGE_SWITCHER" />
 	<config>
 		<fieldset>
-
 			<field name="language"
 				type="list"
 				description="JFIELD_MODULE_LANGUAGE_DESC"
 				label="JFIELD_LANGUAGE_LABEL">
 				<option value="*">JALL</option>
 			</field>
-
 		</fieldset>
-
 		<fields name="params">
-
 			<fieldset name="basic">
-
-				<field name="header_text"
+				<field
+					name="header_text"
 					type="textarea"
 					filter="safehtml"
 					rows="3"
@@ -49,7 +45,8 @@
 					label="MOD_LANGUAGES_FIELD_HEADER_LABEL"
 					description="MOD_LANGUAGES_FIELD_HEADER_DESC" />
 
-				<field name="footer_text"
+				<field
+					name="footer_text"
 					type="textarea"
 					filter="safehtml"
 					rows="3"
@@ -57,7 +54,8 @@
 					label="MOD_LANGUAGES_FIELD_FOOTER_LABEL"
 					description="MOD_LANGUAGES_FIELD_FOOTER_DESC" />
 
-				<field name="dropdown"
+				<field
+					name="dropdown"
 					type="radio"
 					class="btn-group btn-group-yesno"
 					default="0"
@@ -66,11 +64,11 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-
 				<field name="spacer1" type="spacer" class="text"
-					label="MOD_LANGUAGES_SPACERDROP_LABEL" />
-
-				<field name="image"
+					label="MOD_LANGUAGES_SPACERDROP_LABEL"
+				/>
+				<field
+					name="image"
 					type="radio"
 					class="btn-group btn-group-yesno"
 					default="1"
@@ -79,8 +77,8 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-
-				<field name="inline"
+				<field
+					name="inline"
 					type="radio"
 					class="btn-group btn-group-yesno"
 					default="1"
@@ -89,8 +87,8 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-
-				<field name="show_active"
+				<field
+					name="show_active"
 					type="radio"
 					class="btn-group btn-group-yesno"
 					default="1"
@@ -99,11 +97,11 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-
 				<field name="spacer2" type="spacer" class="text"
-					label="MOD_LANGUAGES_SPACERNAME_LABEL" />
-
-				<field name="full_name"
+					label="MOD_LANGUAGES_SPACERNAME_LABEL"
+				/>
+				<field
+					name="full_name"
 					type="radio"
 					class="btn-group btn-group-yesno"
 					default="1"
@@ -112,44 +110,47 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-
 			</fieldset>
-
 			<fieldset name="advanced">
-
-				<field name="layout"
+				<field
+					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					description="MOD_LANGUAGES_FIELD_MODULE_LAYOUT_DESC" />
 
-				<field name="moduleclass_sfx"
+				<field
+					name="moduleclass_sfx"
 					type="textarea" rows="3"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 
-				<field name="cache"
+				<field
+					name="cache"
 					type="list"
 					default="0"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="MOD_LANGUAGES_FIELD_CACHING_DESC">
-					<option value="1">JGLOBAL_USE_GLOBAL</option>
-					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+					<option
+						value="1">JGLOBAL_USE_GLOBAL</option>
+					<option
+						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
 
-				<field name="cache_time"
+				<field
+					name="cache_time"
 					type="text"
 					default="900"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
 
-				<field name="cachemode"
+				<field
+					name="cachemode"
 					type="hidden"
 					default="itemid">
-					<option value="itemid"></option>
+					<option
+						value="itemid"></option>
 				</field>
-
 			</fieldset>
-
 		</fields>
 	</config>
 </extension>

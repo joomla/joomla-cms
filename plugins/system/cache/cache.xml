@@ -18,7 +18,6 @@
 		<language tag="en-GB">en-GB.plg_system_cache.sys.ini</language>
 	</languages>
 	<config>
-
 	<fields name="params">
 
 			<fieldset name="basic">
@@ -26,11 +25,13 @@
 			class="btn-group btn-group-yesno"
 			default="0"
 			description="PLG_CACHE_FIELD_BROWSERCACHE_DESC"
-			label="PLG_CACHE_FIELD_BROWSERCACHE_LABEL">
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
+			label="PLG_CACHE_FIELD_BROWSERCACHE_LABEL"
+		>
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
 		</field>
-
 		</fieldset>
 
 	</fields>

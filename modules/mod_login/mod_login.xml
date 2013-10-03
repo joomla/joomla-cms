@@ -25,106 +25,114 @@
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_LOGIN" />
 	<config>
-
 		<fields name="params">
-
 			<fieldset name="basic">
-
-				<field name="pretext"
+				<field
+					name="pretext"
 					type="textarea"
 					filter="safehtml"
 					cols="30"
 					rows="5"
 					label="MOD_LOGIN_FIELD_PRE_TEXT_LABEL"
 					description="MOD_LOGIN_FIELD_PRE_TEXT_DESC" />
-
-				<field name="posttext"
+				<field
+					name="posttext"
 					type="textarea"
 					filter="safehtml"
 					cols="30"
 					rows="5"
 					label="MOD_LOGIN_FIELD_POST_TEXT_LABEL"
 					description="MOD_LOGIN_FIELD_POST_TEXT_DESC" />
-
-				<field name="login"
+				<field
+					name="login"
 					type="menuitem"
 					disable="separator"
 					label="MOD_LOGIN_FIELD_LOGIN_REDIRECTURL_LABEL"
 					description="MOD_LOGIN_FIELD_LOGIN_REDIRECTURL_DESC" >
-					<option value="">JDEFAULT</option>
+					<option
+						value="">JDEFAULT</option>
 				</field>
-
-				<field name="logout"
+				<field
+					name="logout"
 					type="menuitem"
 					disable="separator"
 					label="MOD_LOGIN_FIELD_LOGOUT_REDIRECTURL_LABEL"
 					description="MOD_LOGIN_FIELD_LOGOUT_REDIRECTURL_DESC" >
-					<option value="">JDEFAULT</option>
+					<option
+						value="">JDEFAULT</option>
 				</field>
-
-				<field name="greeting"
+				<field
+					name="greeting"
 					type="radio"
 					class="btn-group btn-group-yesno"
 					default="1"
 					label="MOD_LOGIN_FIELD_GREETING_LABEL"
 					description="MOD_LOGIN_FIELD_GREETING_DESC">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option
+						value="0">JNO</option>
+					<option
+						value="1">JYES</option>
 				</field>
-
-				<field name="name"
+				<field
+					name="name"
 					type="list"
 					default="0"
 					label="MOD_LOGIN_FIELD_NAME_LABEL"
 					description="MOD_LOGIN_FIELD_NAME_DESC">
-					<option value="0">MOD_LOGIN_VALUE_NAME</option>
-					<option value="1">MOD_LOGIN_VALUE_USERNAME</option>
+					<option
+						value="0">MOD_LOGIN_VALUE_NAME</option>
+					<option
+						value="1">MOD_LOGIN_VALUE_USERNAME</option>
 				</field>
-
-				<field name="usesecure"
+				<field
+					name="usesecure"
 					type="radio"
 					class="btn-group btn-group-yesno"
 					default="0"
 					label="MOD_LOGIN_FIELD_USESECURE_LABEL"
 					description="MOD_LOGIN_FIELD_USESECURE_DESC">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option
+						value="0">JNO</option>
+					<option
+						value="1">JYES</option>
 				</field>
-
-				<field name="usetext"
+				<field
+					name="usetext"
 					type="list"
 					default="0"
 					label="MOD_LOGIN_FIELD_USETEXT_LABEL"
 					description="MOD_LOGIN_FIELD_USETEXT_DESC">
-					<option value="0">MOD_LOGIN_VALUE_ICONS</option>
-					<option value="1">MOD_LOGIN_VALUE_TEXT</option>
+					<option
+						value="0">MOD_LOGIN_VALUE_ICONS</option>
+					<option
+						value="1">MOD_LOGIN_VALUE_TEXT</option>
 				</field>
 
 			</fieldset>
 
 			<fieldset
 				name="advanced">
-
-				<field name="layout"
+				<field
+					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
-
-				<field name="moduleclass_sfx"
+				<field
+					name="moduleclass_sfx"
 					type="textarea" rows="3"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 
-				<field name="cache"
+				<field
+					name="cache"
 					type="list"
 					default="0"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC">
-					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+					<option
+						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
-
 			</fieldset>
-
 		</fields>
 	</config>
 </extension>

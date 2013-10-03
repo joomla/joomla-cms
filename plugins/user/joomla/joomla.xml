@@ -18,18 +18,17 @@
 		<language tag="en-GB">en-GB.plg_user_joomla.sys.ini</language>
 	</languages>
 	<config>
-
 		<fields name="params">
 
 			<fieldset name="basic">
-
 				<field name="autoregister" type="radio"
 					class="btn-group btn-group-yesno"
 					default="1"
 					description="PLG_USER_JOOMLA_FIELD_AUTOREGISTER_DESC"
-					label="PLG_USER_JOOMLA_FIELD_AUTOREGISTER_LABEL">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					label="PLG_USER_JOOMLA_FIELD_AUTOREGISTER_LABEL"
+				>
+					<option value="0">JNo</option>
+					<option value="1">JYes</option>
 				</field>
 
 				<field name="mail_to_user"
@@ -38,8 +37,10 @@
 					default="1"
 					label="PLG_USER_JOOMLA_FIELD_MAILTOUSER_LABEL"
 					description="PLG_USER_JOOMLA_FIELD_MAILTOUSER_DESC">
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option
+						value="0">JNO</option>
+					<option
+						value="1">JYES</option>
 				</field>
 
 			</fieldset>

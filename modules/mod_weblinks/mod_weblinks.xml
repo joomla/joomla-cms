@@ -26,130 +26,146 @@
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_WEBLINKS" />
 	<config>
-
 		<fields name="params">
-
 			<fieldset name="basic">
-
-				<field name="catid"
+				<field
+					name="catid"
 					type="category"
 					extension="com_weblinks"
 					required="true"
 					label="JCATEGORY"
 					description="MOD_WEBLINKS_FIELD_CATEGORY_DESC" />
-
-				<field name="count"
+				<field
+					name="count"
 					type="text"
 					default="5"
 					label="MOD_WEBLINKS_FIELD_COUNT_LABEL"
 					description="MOD_WEBLINKS_FIELD_COUNT_DESC" />
-
-				<field name="ordering"
+				<field
+					name="ordering"
 					type="list"
 					default="title"
 					label="MOD_WEBLINKS_FIELD_ORDERING_LABEL"
 					description="MOD_WEBLINKS_FIELD_ORDERING_DESC">
-					<option value="title">JGLOBAL_TITLE</option>
-					<option value="order">MOD_WEBLINKS_FIELD_VALUE_ORDER</option>
-					<option value="hits">MOD_WEBLINKS_FIELD_VALUE_HITS</option>
+					<option
+						value="title">JGLOBAL_TITLE</option>
+					<option
+						value="order">MOD_WEBLINKS_FIELD_VALUE_ORDER</option>
+					<option
+						value="hits">MOD_WEBLINKS_FIELD_VALUE_HITS</option>
 				</field>
-
-				<field name="direction"
+				<field
+					name="direction"
 					type="list"
 					default="asc"
 					label="MOD_WEBLINKS_FIELD_ORDERDIRECTION_LABEL"
 					description="MOD_WEBLINKS_FIELD_ORDERDIRECTION_DESC">
-					<option value="asc">MOD_WEBLINKS_FIELD_VALUE_ASCENDING</option>
-					<option value="desc">MOD_WEBLINKS_FIELD_VALUE_DESCENDING</option>
+					<option
+						value="asc">MOD_WEBLINKS_FIELD_VALUE_ASCENDING</option>
+					<option
+						value="desc">MOD_WEBLINKS_FIELD_VALUE_DESCENDING</option>
 				</field>
-
-				<field name="target"
+				<field
+					name="target"
 					type="list"
 					default="3"
 					label="MOD_WEBLINKS_FIELD_TARGET_LABEL"
 					description="MOD_WEBLINKS_FIELD_TARGET_DESC">
-					<option value="1">JBROWSERTARGET_NEW</option>
-					<option value="2">JBROWSERTARGET_POPUP</option>
-					<option value="3">JBROWSERTARGET_PARENT</option>
+					<option
+						value="1">JBROWSERTARGET_NEW</option>
+					<option
+						value="2">JBROWSERTARGET_POPUP</option>
+					<option
+						value="3">JBROWSERTARGET_PARENT</option>
 				</field>
-
-				<field name="follow"
+				<field
+					name="follow"
 					type="list"
 					default="0"
 					label="MOD_WEBLINKS_FIELD_FOLLOW_LABEL"
 					description="MOD_WEBLINKS_FIELD_FOLLOW_DESC">
-					<option value="follow">MOD_WEBLINKS_FIELD_VALUE_FOLLOW</option>
-					<option value="nofollow">MOD_WEBLINKS_FIELD_VALUE_NOFOLLOW</option>
+					<option
+						value="follow">MOD_WEBLINKS_FIELD_VALUE_FOLLOW</option>
+					<option
+						value="nofollow">MOD_WEBLINKS_FIELD_VALUE_NOFOLLOW</option>
 				</field>
-
-				<field name="description"
+				<field
+					name="description"
 					type="radio"
 					class="btn-group btn-group-yesno"
 					default="0"
 					label="MOD_WEBLINKS_FIELD_DESCRIPTION_LABEL"
 					description="MOD_WEBLINKS_FIELD_DESCRIPTION_DESC">
-					<option value="1">JSHOW</option>
-					<option value="0">JHIDE</option>
+					<option
+						value="1">JSHOW</option>
+					<option
+						value="0">JHIDE</option>
 				</field>
-
-				<field name="hits"
+				<field
+					name="hits"
 					type="radio"
 					class="btn-group btn-group-yesno"
 					default="0"
 					label="MOD_WEBLINKS_FIELD_HITS_LABEL"
 					description="MOD_WEBLINKS_FIELD_HITS_DESC">
-					<option value="1">JSHOW</option>
-					<option value="0">JHIDE</option>
+					<option
+						value="1">JSHOW</option>
+					<option
+						value="0">JHIDE</option>
 				</field>
 
-				<field name="count_clicks"
+				<field
+					name="count_clicks"
 					type="list"
 					class="chzn-color"
 					default="0"
 					label="MOD_WEBLINKS_FIELD_COUNTCLICKS_LABEL"
 					description="MOD_WEBLINKS_FIELD_COUNTCLICKS_DESC">
-						<option value="">JGLOBAL_USE_GLOBAL</option>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+						<option
+						value="">JGLOBAL_USE_GLOBAL</option>
+					<option
+						value="0">JNO</option>
+					<option
+						value="1">JYES</option>
 				</field>
-
 			</fieldset>
 			<fieldset
 				name="advanced">
-
-				<field name="layout"
+				<field
+					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
-
-				<field name="moduleclass_sfx"
+				<field
+					name="moduleclass_sfx"
 					type="textarea" rows="3"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
-
-				<field name="cache"
+				<field
+					name="cache"
 					type="list"
 					default="1"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC">
-					<option value="1">JGLOBAL_USE_GLOBAL</option>
-					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+					<option
+						value="1">JGLOBAL_USE_GLOBAL</option>
+					<option
+						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
-
-				<field name="cache_time"
+				<field
+					name="cache_time"
 					type="text"
 					default="900"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
-
-				<field name="cachemode"
+				<field
+					name="cachemode"
 					type="hidden"
 					default="static">
-					<option value="static"></option>
+					<option
+						value="static"></option>
 				</field>
-
 			</fieldset>
-
 		</fields>
 	</config>
 </extension>

@@ -18,19 +18,15 @@
 		<language tag="en-GB">en-GB.plg_quickicon_extensionupdate.sys.ini</language>
 	</languages>
 	<config>
-
 		<fields name="params">
-
 			<fieldset name="basic">
-
 				<field name="context"
 					type="text"
 					default="mod_quickicon"
 					description="PLG_QUICKICON_EXTENSIONUPDATE_GROUP_DESC"
-					label="PLG_QUICKICON_EXTENSIONUPDATE_GROUP_LABEL" />
-
+					label="PLG_QUICKICON_EXTENSIONUPDATE_GROUP_LABEL"
+				/>
 			</fieldset>
-
 		</fields>
 	</config>
 </extension>

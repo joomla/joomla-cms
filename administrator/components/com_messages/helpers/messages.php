@@ -19,11 +19,10 @@ class MessagesHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param       string  The name of the active view.
+	 * @param   string	The name of the active view.
 	 *
-	 * @return      void
-	 * @since       1.6
-	 * @deprecated  3.2
+	 * @return  void
+	 * @since   1.6
 	 */
 	public static function addSubmenu($vName)
 	{

@@ -48,7 +48,9 @@ class NewsfeedsModelNewsfeeds extends JModelList
 				'numarticles',
 			);
 
-			if (isset(JFactory::getApplication()->item_associations))
+			$app = JFactory::getApplication();
+			$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+			if ($assoc)
 			{
 				$config['filter_fields'][] = 'association';
 			}
@@ -142,6 +144,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 		$user = JFactory::getUser();
+		$app = JFactory::getApplication();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -171,7 +174,8 @@ class NewsfeedsModelNewsfeeds extends JModelList
 			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Join over the associations.
-		if (isset(JFactory::getApplication()->item_associations))
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		if ($assoc)
 		{
 			$query->select('COUNT(asso2.id)>1 as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_newsfeeds.item'))
