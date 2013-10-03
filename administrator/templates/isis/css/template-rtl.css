@@ -17,3 +17,21 @@
 	float: left;
 	text-align: left;
 }
+@media (max-width: 767px) {
+	.navbar .admin-logo {
+		padding: 9px 9px 0 9px;
+	}
+	.navbar .btn-navbar {
+		float: left;
+		margin-right: 5px;
+		margin-left: 3px;
+	}
+	.navbar .nav-collapse .nav.pull-left {
+		float: none;
+		margin-left: 0;
+		margin-right: 0;
+	}
+	.nav-collapse .nav > li {
+		float: none;
+	}
+}
