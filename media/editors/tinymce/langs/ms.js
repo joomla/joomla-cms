@@ -1,4 +1,4 @@
-tinymce.addI18n('it',{
+tinymce.addI18n('ms',{
 "Cut": "Potong",
 "Your browser doesn't support direct access to the clipboard. Please use the Ctrl+X\/C\/V keyboard shortcuts instead.": "Pelayar internet anda tidak menyokong akses terus kepada papan klip. Sila gunakan pintasan papan kekunci Ctrl+X\/C\/V.",
 "Paste": "Tampal",
