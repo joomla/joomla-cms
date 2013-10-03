@@ -21,7 +21,7 @@ JText::script('ERROR');
 JText::script('JGLOBAL_VALIDATION_FORM_FAILED');
 
 $app = JFactory::getApplication();
-$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+$assoc = JLanguageAssociations::isEnabled();
 
 //Ajax for parent items
 $script = "jQuery(document).ready(function ($){
