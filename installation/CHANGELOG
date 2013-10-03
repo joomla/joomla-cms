@@ -29,6 +29,7 @@ $ -> Language fix or change
  # [#32143] *Multilingual improvement: Use static method to check if language associations is enabled  Thanks Roberto Segura
  $ Correcting some small errors in installation lang strings. Thanks Mig Manickam
  $ Adding tinyMCE Malay lang file
+ $ Updating installation lang files: ca-ES, da-DK, es-ES, fr=FR, id-ID, lv-LV, mk-MK, ms-MY, ru-RU, sr-RS, sr-YU, ta-IN
 
 02-Oct-2013 Michael Babker
  +$ [#31561] Add support for BCrypt encryption of passwords and rewrite cookie based authentication to use it.  Thanks Elin Waring
