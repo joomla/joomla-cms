@@ -78,7 +78,8 @@ class JFormRulePassword extends JFormRule
 		$valueLength = strlen($value);
 
 		// We set a maximum length to prevent abuse since it is unfiltered.
-		if ($valueLength > 99)
+		// 55 because that is roughly the maximum for bcrypt
+		if ($valueLength > 55)
 		{
 			JFactory::getApplication()->enqueueMessage(
 				JText::_('COM_USERS_MSG_PASSWORD_TOO_LONG'),

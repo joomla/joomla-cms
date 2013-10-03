@@ -42,6 +42,18 @@ class UsersControllerProfile extends UsersController
 			return false;
 		}
 
+		$cookieLogin = $user->get('cookieLogin');
+
+		// Check if the user logged in with a cookie
+		if (!empty($cookieLogin))
+		{
+			// If so, the user must login to edit the password and other data.
+			$app->enqueueMessage(JText::_('JGLOBAL_REMEMBER_MUST_LOGIN'), 'message');
+			$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false));
+
+			return false;
+		}
+
 		// Set the user id for the user to edit in the session.
 		$app->setUserState('com_users.edit.profile.id', $userId);
 
