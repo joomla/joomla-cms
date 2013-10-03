@@ -48,7 +48,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<div class="clearfix"> </div>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-no-items">
-				<?php echo JText::_('JGLOBAL_ITEMS_NOT_FOUND'); ?>
+				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
 			<table class="table table-striped">
