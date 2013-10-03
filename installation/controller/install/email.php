@@ -19,6 +19,21 @@ defined('_JEXEC') or die;
 class InstallationControllerInstallEmail extends JControllerBase
 {
 	/**
+	 * Constructor.
+	 *
+	 * @since   3.2
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+
+		// Overrides application config and set the configuration.php file so the send function will work
+		JFactory::$config = null;
+		JFactory::getConfig(JPATH_SITE . '/configuration.php');
+		JFactory::$session = null;
+	}
+
+	/**
 	 * Execute the controller.
 	 *
 	 * @return  void
@@ -31,8 +46,8 @@ class InstallationControllerInstallEmail extends JControllerBase
 		/* @var InstallationApplicationWeb $app */
 		$app = $this->getApplication();
 
-		// Check for request forgeries.
-		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		// Check for request forgeries. - @TODO - Restore this check
+		// JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the setup model.
 		$model = new InstallationModelSetup;
@@ -116,7 +131,7 @@ class InstallationControllerInstallEmail extends JControllerBase
 		$mail->setBody($body);
 
 		$r = new stdClass;
-		$r->view = 'install';
+		$r->view = 'complete';
 
 		try
 		{
@@ -125,7 +140,6 @@ class InstallationControllerInstallEmail extends JControllerBase
 		catch (Exception $e)
 		{
 			$app->enqueueMessage(JText::_('INSTL_EMAIL_NOT_SENT'), 'notice');
-			$r->view = 'complete';
 		}
 
 		$app->sendJsonResponse($r);

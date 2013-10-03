@@ -39,6 +39,9 @@ class JAuthenticationTest extends TestCase
 	{
 		parent::setUp();
 
+		$_SERVER['HTTP_HOST'] = 'example.com';
+		$_SERVER['SCRIPT_NAME'] = '';
+
 		// Mock the event dispatcher.
 		$dispatcher = $this->getMockDispatcher(false);
 		$this->assignMockCallbacks(

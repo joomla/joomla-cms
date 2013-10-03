@@ -79,8 +79,8 @@ class JApplicationWebTest extends TestCase
 	{
 		return array(
 			// Note: url, base, request, (expected result)
-			array('/foo', 'http://j.org/', 'http://j.org/index.php?v=11.3', 'http://j.org/foo'),
-			array('foo', 'http://j.org/', 'http://j.org/index.php?v=11.3', 'http://j.org/foo'),
+			array('/foo', 'http://mydomain.com/', 'http://mydomain.com/index.php?v=11.3', 'http://mydomain.com/foo'),
+			array('foo', 'http://mydomain.com/', 'http://mydomain.com/index.php?v=11.3', 'http://mydomain.com/foo'),
 		);
 	}
 
@@ -1412,7 +1412,7 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testRedirect()
 	{
-		$base = 'http://j.org/';
+		$base = 'http://mydomain.com/';
 		$url = 'index.php';
 
 		// Inject the client information.
@@ -1453,7 +1453,7 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testRedirectWithHeadersSent()
 	{
-		$base = 'http://j.org/';
+		$base = 'http://mydomain.com/';
 		$url = 'index.php';
 
 		// Emulate headers already sent.
@@ -1486,7 +1486,7 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testRedirectWithJavascriptRedirect()
 	{
-		$url = 'http://j.org/index.php?phi=Φ';
+		$url = 'http://mydomain.com/index.php?phi=Φ';
 
 		// Inject the client information.
 		TestReflection::setValue(
@@ -1523,7 +1523,7 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testRedirectWithMoved()
 	{
-		$url = 'http://j.org/index.php';
+		$url = 'http://mydomain.com/index.php';
 
 		// Inject the client information.
 		TestReflection::setValue(
@@ -1784,11 +1784,11 @@ class JApplicationWebTest extends TestCase
 	}
 
 	/**
-	 * Test...
+	 * Tests the isSSLConnection method
 	 *
-	 * @covers JApplicationWeb::isSSLConnection
+	 * @return  void
 	 *
-	 * @return void
+	 * @since   12.2
 	 */
 	public function testIsSSLConnection()
 	{

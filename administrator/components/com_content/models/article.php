@@ -306,7 +306,7 @@ class ContentModelArticle extends JModelAdmin
 
 		// Load associated content items
 		$app = JFactory::getApplication();
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$assoc = JLanguageAssociations::isEnabled();
 
 		if ($assoc)
 		{
@@ -396,7 +396,7 @@ class ContentModelArticle extends JModelAdmin
 
 		// Prevent messing with article language and category when editing existing article with associations
 		$app = JFactory::getApplication();
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$assoc = JLanguageAssociations::isEnabled();
 
 		if ($app->isSite() && $assoc && $this->getState('article.id'))
 		{
@@ -489,7 +489,7 @@ class ContentModelArticle extends JModelAdmin
 				$this->featured($this->getState($this->getName() . '.id'), $data['featured']);
 			}
 
-			$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+			$assoc = JLanguageAssociations::isEnabled();
 			if ($assoc)
 			{
 				$id = (int) $this->getState($this->getName() . '.id');
@@ -676,7 +676,7 @@ class ContentModelArticle extends JModelAdmin
 	{
 		// Association content items
 		$app = JFactory::getApplication();
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$assoc = JLanguageAssociations::isEnabled();
 		if ($assoc)
 		{
 			$languages = JLanguageHelper::getLanguages('lang_code');

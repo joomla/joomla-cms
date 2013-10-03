@@ -70,7 +70,7 @@ class PlgSystemSef extends JPlugin
 
 		// Replace src links
 		$base   = JUri::base(true).'/';
-		$buffer = JResponse::getBody();
+		$buffer = $app->getBody();
 
 		$regex  = '#href="index.php\?([^"]*)#m';
 		$buffer = preg_replace_callback($regex, array('PlgSystemSef', 'route'), $buffer);
@@ -110,7 +110,7 @@ class PlgSystemSef extends JPlugin
 		$buffer = preg_replace($regex, '$1data="' . $base . '$2"$3', $buffer);
 		$this->checkBuffer($buffer);
 
-		JResponse::setBody($buffer);
+		$app->setBody($buffer);
 		return true;
 	}
 

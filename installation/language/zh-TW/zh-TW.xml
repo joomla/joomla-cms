@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.1"
+	version="3.2"
 	client="installation">
 	<name>Chinese Traditional (Taiwan)</name>
-	<version>3.0</version>
+	<version>3.2.0</version>
 	<creationDate>2010-12-15</creationDate>
 	<author>Joomla! Taiwan</author>
 	<authorEmail>admin@joomla.org</authorEmail>

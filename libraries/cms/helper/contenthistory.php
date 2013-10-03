@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Helper
  * @since       3.2
  */
-class JHelperContenthistory
+class JHelperContenthistory extends JHelper
 {
 	/**
 	 * Alias for storing type in versions table
@@ -62,29 +62,6 @@ class JHelperContenthistory
 		$db->setQuery($query);
 
 		return $db->execute();
-	}
-
-	/**
-	 * Method to get an object containing all of the table columns.
-	 *
-	 * @param   JTable  $table  JTable object.
-	 *
-	 * @return  object Contains all of the columns and values.
-	 *
-	 * @since   3.2
-	 */
-	public function getDataObject(JTable $table)
-	{
-		$fields = $table->getFields();
-		$dataObject = new stdClass;
-
-		foreach ($fields as $field)
-		{
-			$fieldName = $field->Field;
-			$dataObject->$fieldName = $table->get($fieldName);
-		}
-
-		return $dataObject;
 	}
 
 	/**

@@ -7,14 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_TESTS . '/stubs/FormInspectors.php';
-
 /**
  * Test class for JFormFieldModuleLayout.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- *
  * @since       11.1
  */
 class JFormFieldModuleLayoutTest extends TestCaseDatabase
@@ -39,17 +36,17 @@ class JFormFieldModuleLayoutTest extends TestCaseDatabase
 	/**
 	 * Test the getInput method.
 	 *
+	 * @return  void
+	 *
 	 * @since   11.1
 	 * @todo    Should check all the attributes have come in properly.
-	 *
-	 * @return  void
 	 */
 	public function testGetInput()
 	{
-		$form = new JFormInspector('form1');
+		$form = new JForm('form1');
 
 		$this->assertThat(
-			$form->load('<form><field name="modulelayout" type="modulelayout" /></form>'),
+			$form->load('<form><field name="modulelayout" type="modulelayout" module="mod_finder" client_id="0" /></form>'),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
@@ -61,8 +58,6 @@ class JFormFieldModuleLayoutTest extends TestCaseDatabase
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
-
-		$this->markTestIncomplete('Problems encountered in next assertion');
 
 		$this->assertThat(
 			strlen($field->input),

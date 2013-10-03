@@ -2186,7 +2186,6 @@ class JFormTest extends TestCase
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' The rule path from the XML file should be present.'
 		);
-
 	}
 
 	/**
@@ -2250,12 +2249,9 @@ class JFormTest extends TestCase
 	/**
 	 * Test for JForm::validateField method.
 	 *
-	 * return   void
+	 * @return  void
 	 *
-	 * @covers  JForm::validateField
 	 * @since   11.1
-	 *
-	 * @return void
 	 */
 	public function testValidateField()
 	{
@@ -2314,14 +2310,11 @@ class JFormTest extends TestCase
 	/**
 	 * Test for JForm::validateField method for missing rule exception.
 	 *
-	 * return   void
+	 * @return  void
 	 *
-	 * @covers  JForm::validateField
 	 * @since   12.1
 	 *
 	 * @expectedException  UnexpectedValueException
-	 *
-	 * @return void
 	 */
 	public function testValidateField_missingRule()
 	{
@@ -2330,6 +2323,6 @@ class JFormTest extends TestCase
 		$xml = $form->getXML();
 
 		$field = array_pop($xml->xpath('fields/field[@name="missingrule"]'));
-		$result = $form->validateField($field, null, 'value');
+		$form->validateField($field, null, 'value');
 	}
 }
