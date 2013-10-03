@@ -127,21 +127,6 @@ abstract class ConfigModelCms extends JModelDatabase
 	}
 
 	/**
-	 * Method to load and return a model object.
-	 *
-	 * @param   string  $name    The name of the view
-	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration settings to pass to JTable::getInstance
-	 *
-	 * @return  mixed  Model object or boolean false if failed
-	 *
-	 * @since   3.2
-	 */
-	protected function createTable($name, $prefix = 'Table', $config = array())
-	{
-	}
-
-	/**
 	 * Method to get the model name
 	 *
 	 * The model name. By default parsed using the classname or it can be set
@@ -187,33 +172,6 @@ abstract class ConfigModelCms extends JModelDatabase
 		}
 
 		return $this->state;
-	}
-
-	/**
-	 * Method to get a table object, load it if necessary.
-	 *
-	 * @param   string  $name     The table name. Optional.
-	 * @param   string  $prefix   The class prefix. Optional.
-	 * @param   array   $options  Configuration array for model. Optional.
-	 *
-	 * @return  JTable  A JTable object
-	 *
-	 * @since   3.2
-	 * @throws  Exception
-	 */
-	public function getTable($name = '', $prefix = 'Table', $options = array())
-	{
-		if (empty($name))
-		{
-			$name = $this->getName();
-		}
-
-		if ($table = $this->createTable($name, $prefix, $options))
-		{
-			return $table;
-		}
-
-		throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name), 0);
 	}
 
 	/**
