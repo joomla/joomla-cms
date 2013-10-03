@@ -7,29 +7,17 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+JFormHelper::loadFieldClass('text');
+
 /**
- * Test class for JForm.
+ * Test class for JFormFieldText.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- *
  * @since       11.1
  */
 class JFormFieldTextTest extends TestCase
 {
-	/**
-	 * Sets up dependancies for the test.
-	 *
-	 * @return void
-	 */
-	protected function setUp()
-	{
-		parent::setUp();
-
-		require_once JPATH_PLATFORM . '/joomla/form/fields/text.php';
-		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
-	}
-
 	/**
 	 * Test the getInput method.
 	 *
@@ -37,7 +25,7 @@ class JFormFieldTextTest extends TestCase
 	 */
 	public function testGetInput()
 	{
-		$form = new JFormInspector('form1');
+		$form = new JForm('form1');
 
 		$this->assertThat(
 			$form->load('<form><field name="text" type="text" /></form>'),

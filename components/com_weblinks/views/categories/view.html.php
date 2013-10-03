@@ -16,18 +16,34 @@ defined('_JEXEC') or die;
  * @subpackage  com_weblinks
  * @since       1.5
  */
-class WeblinksViewCategories extends JViewLegacy
+class WeblinksViewCategories extends JViewCategory
 {
-	protected $state = null;
-
 	protected $item = null;
 
-	protected $items = null;
+	/**
+	 * @var    string  Default title to use for page title
+	 * @since  3.2
+	 */
+	protected $defaultPageTitle = 'COM_WEBLINKS_DEFAULT_PAGE_TITLE';
 
 	/**
-	 * Display the view
+	 * @var    string  The name of the extension for the category
+	 * @since  3.2
+	 */
+	protected $extension = 'com_weblinks';
+
+	/**
+	 * @var    string  The name of the view to link individual items to
+	 * @since  3.2
+	 */
+	protected $viewName = 'weblink';
+
+	/**
+	 * Execute and display a template script.
 	 *
-	 * @return  mixed  False on error, null otherwise.
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
 	 */
 	public function display($tpl = null)
 	{
@@ -56,7 +72,7 @@ class WeblinksViewCategories extends JViewLegacy
 
 		$items = array($parent->id => $items);
 
-		//Escape strings for HTML output
+		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
 		$this->maxLevelcat = $params->get('maxLevelcat', -1);
@@ -64,59 +80,19 @@ class WeblinksViewCategories extends JViewLegacy
 		$this->parent = &$parent;
 		$this->items  = &$items;
 
-		$this->_prepareDocument();
-
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 
 	/**
-	 * Prepares the document
+	 * Method to prepares the document
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
 	 */
-	protected function _prepareDocument()
+	protected function prepareDocument()
 	{
-		$app	= JFactory::getApplication();
-		$menus	= $app->getMenu();
-		$title	= null;
-
-		// Because the application sets a default page title,
-		// we need to get it from the menu item itself
-		$menu = $menus->getActive();
-		if ($menu)
-		{
-			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
-		}
-		else
-		{
-			$this->params->def('page_heading', JText::_('COM_WEBLINKS_DEFAULT_PAGE_TITLE'));
-		}
-		$title = $this->params->get('page_title', '');
-		if (empty($title))
-		{
-			$title = $app->getCfg('sitename');
-		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 1)
-		{
-			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
-		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
-		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
-		}
-		$this->document->setTitle($title);
-
-		if ($this->params->get('menu-meta_description'))
-		{
-			$this->document->setDescription($this->params->get('menu-meta_description'));
-		}
-
-		if ($this->params->get('menu-meta_keywords'))
-		{
-			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
-		}
-
-		if ($this->params->get('robots'))
-		{
-			$this->document->setMetadata('robots', $this->params->get('robots'));
-		}
+		parent::prepareDocument();
+		parent::addFeed();
 	}
 }

@@ -35,6 +35,8 @@ class JHtmlFormbehaviorTest extends TestCase
 	{
 		$this->saveFactoryState();
 
+		parent::setUp();
+
 		JFactory::$application = $this->getMockApplication();
 		JFactory::$document = $this->getMockDocument();
 
@@ -57,6 +59,8 @@ class JHtmlFormbehaviorTest extends TestCase
 		$_SERVER = $this->backupServer;
 
 		$this->restoreFactoryState();
+
+		parent::tearDown();
 
 		JHtmlJqueryInspector::resetLoaded();
 	}

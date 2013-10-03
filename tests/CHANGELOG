@@ -26,6 +26,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-Oct-2013 Mark Dexter
+ # Fix system tests for code changes.
+
+14-Sep-2013 Mark Dexter
+ + Add system tests for categories and articles in the front end. Thanks Puneet Kala.
+
 11-Sep-2013 Mark Dexter
  # Fix failing system tests.
 
