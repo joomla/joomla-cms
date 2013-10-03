@@ -8,10 +8,10 @@
  */
 
 defined('_JEXEC') or die;
+
+$icon = empty($displayData['icon']) ? 'generic' : preg_replace('#\.[^ .]*$#', '', $displayData['icon']);
 ?>
 <h1 class="page-title">
-	<?php if (!empty($displayData['icon'])) : ?>
-		<span class="icon-<?php echo preg_replace('#\.[^ .]*$#', '', $displayData['icon']); ?>"></span>
-	<?php endif; ?>
+	<span class="icon-<?php echo $icon; ?>"></span>
 	<?php echo $displayData['title']; ?>
 </h1>
