@@ -26,18 +26,16 @@ $doc->addStyleSheet('templates/' . $this->template . '/css/template.css');
 
 // Load optional RTL Bootstrap CSS
 JHtml::_('bootstrap.loadCss', false, $this->direction);
+if ($this->direction == 'rtl')
+{
+	$doc->addStyleSheet('templates/' . $this->template . '/css/template-rtl.css');
+}
 
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
 if (is_file($file))
 {
 	$doc->addStyleSheet($file);
-}
-
-// Load additional CSS styles for rtl sites
-if ($this->direction == 'rtl')
-{
-	$doc->addStyleSheet('templates/' . $this->template . '/css/template-rtl.css');
 }
 
 // Detecting Active Variables
