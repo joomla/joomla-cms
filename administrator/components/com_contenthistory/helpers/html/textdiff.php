@@ -36,7 +36,7 @@ abstract class JHtmlTextdiff
 	public static function textdiff($containerId)
 	{
 		// Only load once
-		if (isset(self::$loaded[__METHOD__]))
+		if (isset(static::$loaded[__METHOD__]))
 		{
 			return;
 		}
@@ -59,7 +59,7 @@ abstract class JHtmlTextdiff
 		);
 
 		// Set static array
-		self::$loaded[__METHOD__] = true;
+		static::$loaded[__METHOD__] = true;
 
 		return;
 	}
