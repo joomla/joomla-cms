@@ -49,7 +49,9 @@ class ContentModelArticles extends JModelList
 				'publish_down', 'a.publish_down',
 			);
 
-			if(isset(JFactory::getApplication()->item_associations))
+			$app = JFactory::getApplication();
+			$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+			if ($assoc)
 			{
 				$config['filter_fields'][] = 'association';
 			}
@@ -153,6 +155,7 @@ class ContentModelArticles extends JModelList
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 		$user = JFactory::getUser();
+		$app = JFactory::getApplication();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -186,7 +189,8 @@ class ContentModelArticles extends JModelList
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
 		// Join over the associations.
-		if (isset(JFactory::getApplication()->item_associations))
+		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		if ($assoc)
 		{
 			$query->select('COUNT(asso2.id)>1 as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_content.item'))
@@ -348,7 +352,8 @@ class ContentModelArticles extends JModelList
 	public function getItems()
 	{
 		$items = parent::getItems();
-		if (JFactory::getApplication()->isSite())
+		$app = JFactory::getApplication();
+		if ($app->isSite())
 		{
 			$user = JFactory::getUser();
 			$groups = $user->getAuthorisedViewLevels();

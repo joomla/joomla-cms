@@ -4,8 +4,8 @@
 		name="search"
 		label="COM_FINDER_FIELDSET_SEARCH_OPTIONS_LABEL"
 		description="COM_FINDER_FIELDSET_SEARCH_OPTIONS_DESCRIPTION" >
-
-		<field name="enabled"
+		<field
+			name="enabled"
 			type="radio"
 			class="btn-group btn-group-yesno"
 			default="0"
@@ -14,8 +14,8 @@
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
-
-		<field name="show_description"
+		<field
+			name="show_description"
 			type="radio"
 			class="btn-group btn-group-yesno"
 			default="1"
@@ -24,15 +24,14 @@
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
-
-		<field name="description_length"
+		<field
+			name="description_length"
 			type="text"
 			size="5"
 			default="255"
 			filter="integer"
 			label="COM_FINDER_CONFIG_DESCRIPTION_LENGTH_LABEL"
 			description="COM_FINDER_CONFIG_DESCRIPTION_LENGTH_DESCRIPTION" />
-
 		<field name="allow_empty_query"
 			type="radio"
 			class="btn-group btn-group-yesno"
@@ -42,8 +41,8 @@
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
-
-		<field name="show_url"
+		<field
+			name="show_url"
 			type="radio"
 			class="btn-group btn-group-yesno"
 			default="1"
@@ -52,8 +51,8 @@
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
-
-		<field name="show_autosuggest"
+		<field
+			name="show_autosuggest"
 			type="radio"
 			class="btn-group btn-group-yesno"
 			default="1"
@@ -62,8 +61,8 @@
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
-
-		<field name="show_advanced"
+		<field
+			name="show_advanced"
 			type="radio"
 			class="btn-group btn-group-yesno"
 			default="1"
@@ -72,7 +71,6 @@
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
-
 		<field name="show_advanced_tips"
 			type="radio"
 			class="btn-group btn-group-yesno"
@@ -82,8 +80,8 @@
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
-
-		<field name="expand_advanced"
+		<field
+			name="expand_advanced"
 			type="radio"
 			class="btn-group btn-group-yesno"
 			default="0"
@@ -92,8 +90,8 @@
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
-
-		<field name="show_date_filters"
+		<field
+			name="show_date_filters"
 			type="radio"
 			class="btn-group btn-group-yesno"
 			default="0"
@@ -102,7 +100,6 @@
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
-
 		<field name="sort_order"
 			type="list"
 			default="relevance"
@@ -113,7 +110,6 @@
 			<option value="date">COM_FINDER_CONFIG_SORT_OPTION_START_DATE</option>
 			<option value="price">COM_FINDER_CONFIG_SORT_OPTION_LIST_PRICE</option>
 		</field>
-
 		<field name="sort_direction"
 			type="list"
 			default="desc"
@@ -123,8 +119,8 @@
 			<option value="desc">COM_FINDER_CONFIG_SORT_OPTION_DESCENDING</option>
 			<option value="asc">COM_FINDER_CONFIG_SORT_OPTION_ASCENDING</option>
 		</field>
-
-		<field name="highlight_terms"
+		<field
+			name="highlight_terms"
 			type="radio"
 			class="btn-group btn-group-yesno"
 			default="1"
@@ -133,25 +129,26 @@
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
-
-		<field name="opensearch_name"
+		<field
+			name="opensearch_name"
 			type="text"
 			label="COM_FINDER_CONFIG_FIELD_OPENSEARCH_NAME_LABEL"
-			description="COM_FINDER_CONFIG_FIELD_OPENSEARCH_NAME_DESCRIPTION" />
-
-		<field name="opensearch_description"
+			description="COM_FINDER_CONFIG_FIELD_OPENSEARCH_NAME_DESCRIPTION"
+		/>
+		<field
+			name="opensearch_description"
 			type="textarea"
 			label="COM_FINDER_CONFIG_FIELD_OPENSEARCH_DESCRIPTON_LABEL"
 			description="COM_FINDER_CONFIG_FIELD_OPENSEARCH_DESCRIPTON_DESCRIPTION"
-			cols="30" rows="2" />
-
+			cols="30" rows="2"
+		/>
 	</fieldset>
 	<fieldset
 		name="index"
 		label="COM_FINDER_FIELDSET_INDEX_OPTIONS_LABEL"
 		description="COM_FINDER_FIELDSET_INDEX_OPTIONS_DESCRIPTION" >
-
-		<field name="batch_size"
+		<field
+			name="batch_size"
 			type="list"
 			default="50"
 			label="COM_FINDER_CONFIG_BATCH_SIZE_LABEL"
@@ -168,51 +165,51 @@
 			<option value="250">J250</option>
 			<option value="300">J300</option>
 		</field>
-
-		<field name="memory_table_limit"
+		<field
+			name="memory_table_limit"
 			type="text"
 			size="10"
 			default="30000"
 			label="COM_FINDER_CONFIG_MEMORY_TABLE_LIMIT_LABEL"
 			description="COM_FINDER_CONFIG_MEMORY_TABLE_LIMIT_DESCRIPTION"
 			filter="integer" />
-
-		<field name="title_multiplier"
+		<field
+			name="title_multiplier"
 			type="text"
 			size="5"
 			default="1.7"
 			label="COM_FINDER_CONFIG_TITLE_MULTIPLIER_LABEL"
 			description="COM_FINDER_CONFIG_TITLE_MULTIPLIER_DESCRIPTION" />
-
-		<field name="text_multiplier"
+		<field
+			name="text_multiplier"
 			type="text"
 			size="5"
 			default="0.7"
 			label="COM_FINDER_CONFIG_TEXT_MULTIPLIER_LABEL"
 			description="COM_FINDER_CONFIG_TEXT_MULTIPLIER_DESCRIPTION" />
-
-		<field name="meta_multiplier"
+		<field
+			name="meta_multiplier"
 			type="text"
 			size="5"
 			default="1.2"
 			label="COM_FINDER_CONFIG_META_MULTIPLIER_LABEL"
 			description="COM_FINDER_CONFIG_META_MULTIPLIER_DESCRIPTION" />
-
-		<field name="path_multiplier"
+		<field
+			name="path_multiplier"
 			type="text"
 			size="5"
 			default="2.0"
 			label="COM_FINDER_CONFIG_PATH_MULTIPLIER_LABEL"
 			description="COM_FINDER_CONFIG_PATH_MULTIPLIER_DESCRIPTION" />
-
-		<field name="misc_multiplier"
+		<field
+			name="misc_multiplier"
 			type="text"
 			size="5"
 			default="0.3"
 			label="COM_FINDER_CONFIG_MISC_MULTIPLIER_LABEL"
 			description="COM_FINDER_CONFIG_MISC_MULTIPLIER_DESCRIPTION" />
-
-		<field name="stem"
+		<field
+			name="stem"
 			type="radio"
 			class="btn-group btn-group-yesno"
 			default="1"
@@ -221,8 +218,8 @@
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
-
-		<field name="stemmer"
+		<field
+			name="stemmer"
 			type="list"
 			default="snowball"
 			label="COM_FINDER_CONFIG_STEMMER_LABEL"
@@ -231,8 +228,8 @@
 			<option value="fr">COM_FINDER_CONFIG_STEMMER_FR</option>
 			<option value="snowball">COM_FINDER_CONFIG_STEMMER_SNOWBALL</option>
 		</field>
-
-		<field name="enable_logging"
+		<field
+			name="enable_logging"
 			type="radio"
 			class="btn-group btn-group-yesno"
 			default="0"
@@ -241,14 +238,13 @@
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
-
 	</fieldset>
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
 		description="JCONFIG_PERMISSIONS_DESC" >
-
-		<field name="rules"
+		<field
+			name="rules"
 			type="rules"
 			label="JCONFIG_PERMISSIONS_LABEL"
 			class="inputbox"
@@ -256,6 +252,5 @@
 			validate="rules"
 			component="com_finder"
 			section="component" />
-
 	</fieldset>
 </config>

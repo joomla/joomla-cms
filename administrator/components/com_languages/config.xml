@@ -3,9 +3,11 @@
 	<fieldset
 		name="permissions"
 		label="JConfig_Permissions_Label"
-		description="JConfig_Permissions_Desc">
+		description="JConfig_Permissions_Desc"
+		>
 
-		<field name="rules"
+		<field
+			name="rules"
 			type="rules"
 			label="JConfig_Permissions_Label"
 			filter="rules"
@@ -13,11 +15,13 @@
 			component="com_languages"
 			section="component" />
 
-		<field type="hidden"
-			name="site" />
-
-		<field type="hidden"
-			name="administrator" />
-
+		<field
+			type="hidden"
+			name="site"
+		/>
+		<field
+			type="hidden"
+			name="administrator"
+		/>
 	</fieldset>
 </config>
