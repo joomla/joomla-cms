@@ -56,9 +56,7 @@ class ContentModelArticles extends JModelList
 				'tag'
 			);
 
-			$app = JFactory::getApplication();
-			$assoc = JLanguageAssociations::isEnabled();
-			if ($assoc)
+			if (JLanguageAssociations::isEnabled())
 			{
 				$config['filter_fields'][] = 'association';
 			}
@@ -175,8 +173,7 @@ class ContentModelArticles extends JModelList
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
 		// Join over the associations.
-		$assoc = JLanguageAssociations::isEnabled();
-		if ($assoc)
+		if (JLanguageAssociations::isEnabled())
 		{
 			$query->select('COUNT(asso2.id)>1 as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_content.item'))
