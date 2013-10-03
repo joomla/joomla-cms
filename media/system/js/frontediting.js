@@ -45,6 +45,63 @@
 
 	$(document).ready(function () {
 
+		// Tooltip maximal dimensions for intelligent placement:
+		var actualWidth = 200;
+		var actualHeight = 100;
+		// Tooltip smart tooltip placement function:
+		var tooltipPlacer = function(tip, element) {
+			var $element, above, below, boundBottom, boundLeft, boundRight, boundTop, elementAbove, elementBelow, elementLeft, elementRight, isWithinBounds, left, pos, right;
+			isWithinBounds = function(elementPosition) {
+				return boundTop < elementPosition.top && boundLeft < elementPosition.left && boundRight > (elementPosition.left + actualWidth) && boundBottom > (elementPosition.top + actualHeight);
+			};
+			$element = $(element);
+			pos = $.extend({}, $element.offset(), {
+				width: element.offsetWidth,
+				height: element.offsetHeight
+			});
+			boundTop = $(document).scrollTop();
+			boundLeft = $(document).scrollLeft();
+			boundRight = boundLeft + $(window).width();
+			boundBottom = boundTop + $(window).height();
+			elementAbove = {
+				top: pos.top - actualHeight,
+				left: pos.left + pos.width / 2 - actualWidth / 2
+			};
+			elementBelow = {
+				top: pos.top + pos.height,
+				left: pos.left + pos.width / 2 - actualWidth / 2
+			};
+			elementLeft = {
+				top: pos.top + pos.height / 2 - actualHeight / 2,
+				left: pos.left - actualWidth
+			};
+			elementRight = {
+				top: pos.top + pos.height / 2 - actualHeight / 2,
+				left: pos.left + pos.width
+			};
+			above = isWithinBounds(elementAbove);
+			below = isWithinBounds(elementBelow);
+			left = isWithinBounds(elementLeft);
+			right = isWithinBounds(elementRight);
+			if (above) {
+				return "top";
+			} else {
+				if (below) {
+					return "bottom";
+				} else {
+					if (left) {
+						return "left";
+					} else {
+						if (right) {
+							return "right";
+						} else {
+							return "right";
+						}
+					}
+				}
+			}
+		};
+
 		// Modules edit icons:
 
 		$('.jmoddiv').on({
@@ -59,9 +116,9 @@
 
 				// Add editing button with tooltip:
 				$(this).addClass('jmodinside')
-					.prepend('<a class="btn jmodedit" href="#" target="_blank"><i class="icon-edit"></i></a>')
+					.prepend('<a class="btn jmodedit" href="#" target="_blank"><span class="icon-edit"></span></a>')
 					.children(":first").attr('href', moduleEditUrl).attr('title', moduleTip)
-					.tooltip({"container": false})
+					.tooltip({"container": false, placement: tooltipPlacer})
 					.jEditMakeAbsolute(true);
 				// This class was needed for positioning the icon before making it absolute at bottom of body: We can now remove it:
 				$(this).removeClass('jmodinside');
@@ -91,7 +148,7 @@
 			}
 		});
 
-/* Uncomment for front-end menu edits:
+/* Uncomment for front-end menu edits: *
 
 		// Menu items edit icons:
 
@@ -114,13 +171,13 @@
 				// Get tooltip for menu items from enclosing module
 				var menuEditTip = enclosingModuleDiv.data('jmenuedittip').replace('%s', itemids[1]);
 
-				var content = $('<div><a class="btn jfedit-menu" href="#" target="_blank"><i class="icon-edit"></i></a></div>');
+				var content = $('<div><a class="btn jfedit-menu" href="#" target="_blank"><span class="icon-edit"></span></a></div>');
 				content.children('a.jfedit-menu').prop('href', menuitemEditUrl).prop('title', menuEditTip);
 
 				if (activePopover) {
 					$(activePopover).popover('hide');
 				}
-				$(this).popover({html:true, content:content.html(), container:'body', trigger:'manual', animation:false}).popover('show');
+				$(this).popover({html:true, content:content.html(), container:'body', trigger:'manual', animation:false, placement: $('html').attr('dir')=='rtl' ? 'left' : 'right'}).popover('show');
 				activePopover = this;
 
 				$('body>div.popover')
@@ -136,14 +193,14 @@
 						}
 					}
 				})
-				.find('a.jfedit-menu').tooltip({"container": false});
+				.find('a.jfedit-menu').tooltip({"container": false, placement: 'bottom'});
 			},
 			mouseleave: function() {
 				$(this).delay(1500).queue(function(next) { $(this).popover('hide'); next() });
 			}
 		});
 
-*/
+/* End of commented Edit menu */
 
 	});
 })(jQuery);
