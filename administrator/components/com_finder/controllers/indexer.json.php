@@ -168,7 +168,6 @@ class FinderControllerIndexer extends JControllerLegacy
 		$admin = clone(JFactory::getApplication());
 
 		// Get the site app.
-		include_once JPATH_SITE . '/includes/application.php';
 		$site = JApplication::getInstance('site');
 
 		// Swap the app.

@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT.'/controller.php';
+require_once JPATH_COMPONENT . '/controller.php';
 
 /**
  * Profile controller class for Users.
@@ -39,6 +39,18 @@ class UsersControllerProfile extends UsersController
 		if ($userId != $loginUserId)
 		{
 			JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
+			return false;
+		}
+
+		$cookieLogin = $user->get('cookieLogin');
+
+		// Check if the user logged in with a cookie
+		if (!empty($cookieLogin))
+		{
+			// If so, the user must login to edit the password and other data.
+			$app->enqueueMessage(JText::_('JGLOBAL_REMEMBER_MUST_LOGIN'), 'message');
+			$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false));
+
 			return false;
 		}
 

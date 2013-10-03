@@ -23,6 +23,8 @@ class JLayoutFileTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockApplication();
@@ -37,6 +39,8 @@ class JLayoutFileTest extends TestCase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
+
+		parent::tearDown();
 	}
 
 	/**
