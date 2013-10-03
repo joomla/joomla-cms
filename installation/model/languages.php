@@ -546,6 +546,25 @@ class InstallationModelLanguages extends JModelBase
 			return false;
 		}
 
+		// Store language filter plugin parameters
+		if ($pluginName == 'plg_system_languagefilter')
+		{
+			$params = '{"detect_browser":"0","automatic_change":"1","item_associations":"1","remove_default_prefix":"0","lang_cookie":"0","alternate_meta":"1"}';
+			$query
+				->clear()
+				->update('#__extensions')
+				->set('params = ' . $db->quote($params))
+				->where('name = ' . $db->quote('plg_system_languagefilter'))
+				->where('type = ' . $db->quote('plugin'));
+
+			$db->setQuery($query);
+
+			if (!$db->execute())
+			{
+				return false;
+			}
+		}
+
 		return true;
 	}
 

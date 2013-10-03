@@ -83,12 +83,12 @@ class MessagesViewMessages extends JViewLegacy
 		//JToolbarHelper::addNew('module.add');
 		JToolbarHelper::divider();
 		$bar = JToolBar::getInstance('toolbar');
-		JHtml::_('bootstrap.modal', 'collapseModal');
-		$title = JText::_('COM_MESSAGES_TOOLBAR_MY_SETTINGS');
-		$dhtml = "<a class=\"btn modal btn-small\" href=\"index.php?option=com_messages&amp;view=config&amp;tmpl=component\"
-					rel=\"{handler:'iframe', size:{x:700,y:300}}\">
-					<i class=\"icon-cog\" title=\"$title\"></i>$title</a>";
-		$bar->appendButton('Custom', $dhtml, 'config');
+
+		// Instantiate a new JLayoutFile instance and render the layout
+		JHtml::_('behavior.modal', 'a.messagesSettings');
+		$layout = new JLayoutFile('toolbar.mysettings');
+
+		$bar->appendButton('Custom', $layout->render(array()), 'upload');
 
 		if ($canDo->get('core.admin'))
 		{

@@ -11,15 +11,8 @@ defined('_JEXEC') or die;
 $doc = JFactory::getDocument();
 
 // Add Stylesheets
-$doc->addStyleSheet('../media/jui/css/bootstrap.css');
-$doc->addStyleSheet('../media/jui/css/bootstrap-extended.css');
-$doc->addStyleSheet('../media/jui/css/bootstrap-responsive.css');
-$doc->addStyleSheet('template/css/template.css');
-
-if ($this->direction === 'rtl')
-{
-	$doc->addStyleSheet('../media/jui/css/bootstrap-rtl.css');
-}
+JHtml::_('bootstrap.loadCss', true, $this->direction);
+JHtml::_('stylesheet', 'installation/template/css/template.css');
 
 // Load the JavaScript behaviors
 JHtml::_('bootstrap.framework');
@@ -27,7 +20,7 @@ JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('behavior.framework', true);
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidation');
-JHtml::_('script', 'installation/template/js/installation.js', true, false, false, false);
+JHtml::_('script', 'installation/template/js/installation.js');
 
 // Load the JavaScript translated messages
 JText::script('INSTL_PROCESS_BUSY');
@@ -41,9 +34,12 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 			<script src="../media/jui/js/html5.js"></script>
 		<![endif]-->
 		<script type="text/javascript">
-			window.addEvent('domready', function()
-			{
-				window.Install = new Installation('container-installation', '<?php echo JUri::current(); ?>');
+			jQuery(function()
+			{	// Delay instantiation after document.formvalidation and other dependencies loaded
+				window.setTimeout(function(){
+					window.Install = new Installation('container-installation', '<?php echo JUri::current(); ?>');
+			   	}, 500);
+
 			});
 		</script>
 	</head>
