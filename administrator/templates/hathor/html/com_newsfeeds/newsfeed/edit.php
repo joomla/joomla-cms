@@ -18,7 +18,7 @@ JHtml::_('behavior.keepalive');
 $app = JFactory::getApplication();
 $input = $app->input;
 
-$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+$assoc = JLanguageAssociations::isEnabled();
 
 ?>
 <script type="text/javascript">

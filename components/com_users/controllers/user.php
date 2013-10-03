@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT.'/controller.php';
+require_once JPATH_COMPONENT . '/controller.php';
 
 /**
  * Registration controller class for Users.
@@ -62,6 +62,11 @@ class UsersControllerUser extends UsersController
 		if (true === $app->login($credentials, $options))
 		{
 			// Success
+			if ($options['remember'] = true)
+			{
+				$app->setUserState('rememberLogin', true);
+			}
+
 			$app->setUserState('users.login.form.data', array());
 			$app->redirect(JRoute::_($app->getUserState('users.login.form.return'), false));
 		}
