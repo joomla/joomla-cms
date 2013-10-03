@@ -37,7 +37,9 @@ class JDocumentRendererModules extends JDocumentRenderer
 		foreach (JModuleHelper::getModules($position) as $mod)
 		{
 			$moduleHtml = trim($renderer->render($mod, $params, $content));
+
 			JLayoutHelper::render('joomla.edit.frontediting_modules', array('moduleHtml' => &$moduleHtml, 'module' => $mod, 'position' => $position));
+
 			$buffer .= $moduleHtml;
 		}
 		return $buffer;

@@ -91,5 +91,59 @@
 			}
 		});
 
+/* Uncomment for front-end menu edits:
+
+		// Menu items edit icons:
+
+		var activePopover = null;
+
+		$('.jmoddiv .nav li,.jmoddiv.nav li,.jmoddiv .nav .nav-child li,.jmoddiv.nav .nav-child li').on({
+			mouseenter: function() {
+
+				// Get menu ItemId from the item-nnn class of the li element of the menu:
+				var itemids = /\bitem-(\d+)\b/.exec($(this).attr('class'));
+				if (typeof itemids[1] == 'string') {
+					// Find module editing URL from enclosing module:
+					var enclosingModuleDiv = $(this).closest('.jmoddiv');
+					var moduleEditUrl = enclosingModuleDiv.data('jmodediturl');
+					// Transform module editing URL into Menu Item editing url:
+					var menuitemEditUrl = moduleEditUrl.replace(/\/index.php\?option=com_modules&view=module([^\d]+)\d+$/, '/index.php?option=com_menus&view=item$1' + itemids[1]);
+
+				}
+
+				// Get tooltip for menu items from enclosing module
+				var menuEditTip = enclosingModuleDiv.data('jmenuedittip').replace('%s', itemids[1]);
+
+				var content = $('<div><a class="btn jfedit-menu" href="#" target="_blank"><i class="icon-edit"></i></a></div>');
+				content.children('a.jfedit-menu').prop('href', menuitemEditUrl).prop('title', menuEditTip);
+
+				if (activePopover) {
+					$(activePopover).popover('hide');
+				}
+				$(this).popover({html:true, content:content.html(), container:'body', trigger:'manual', animation:false}).popover('show');
+				activePopover = this;
+
+				$('body>div.popover')
+					.on({
+					mouseenter: function() {
+						if (activePopover) {
+							$(activePopover).clearQueue();
+						}
+					},
+					mouseleave: function() {
+						if (activePopover) {
+							$(activePopover).popover('hide');
+						}
+					}
+				})
+				.find('a.jfedit-menu').tooltip({"container": false});
+			},
+			mouseleave: function() {
+				$(this).delay(1500).queue(function(next) { $(this).popover('hide'); next() });
+			}
+		});
+
+*/
+
 	});
 })(jQuery);
