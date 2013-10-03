@@ -327,7 +327,7 @@ abstract class JUserHelper
 		if (!empty($joomlaPluginEnabled))
 		{
 			JPluginHelper::importPlugin('user', 'joomla');
-			$userPlugin = JPluginHelper::getPlugin('user','joomla');
+			$userPlugin = JPluginHelper::getPlugin('user', 'joomla');
 			$userPluginParams = new JRegistry($userPlugin->params);
 			PlgUserJoomla::setDefaultEncryption($userPluginParams);
 		}
@@ -430,16 +430,16 @@ abstract class JUserHelper
 				return ($show_encrypt) ? '{MD5}' . $encrypted : $encrypted;
 
 			case 'sha256':
-				$encrypted = ($salt) ? hash('sha256', $plaintext . $salt) : hash('sha256', $plaintext) ;
+				$encrypted = ($salt) ? hash('sha256', $plaintext . $salt) : hash('sha256', $plaintext);
 
-				return ($show_encrypt) ? '{SHA256}' . $encrypted : '{SHA256}' .  $encrypted;
+				return ($show_encrypt) ? '{SHA256}' . $encrypted : '{SHA256}' . $encrypted;
 
 			// 'bcrypt' is the default case starting in CMS 3.2.
 			case 'bcrypt':
 			default:
 				if (JCrypt::hasStrongPasswordSupport())
 				{
-					$encrypted =  password_hash($plaintext, PASSWORD_BCRYPT);
+					$encrypted = password_hash($plaintext, PASSWORD_BCRYPT);
 
 					if (!$encrypted)
 					{
@@ -658,8 +658,8 @@ abstract class JUserHelper
 	/**
 	 * Method to remove a cookie record from the database and the browser
 	 *
-	 * @param   string   $userId      User ID for this user
-	 * @param   string   $cookieName  Series id (cookie name decoded)
+	 * @param   string  $userId      User ID for this user
+	 * @param   string  $cookieName  Series id (cookie name decoded)
 	 *
 	 * @return  boolean  True on success
 	 *
