@@ -762,7 +762,7 @@ class JHelperTags extends JHelper
 	 */
 	public function postStoreProcess($table, $newTags = array(), $replace = true)
 	{
-		if ($table->saveorder)
+		if ($table->_saveorder)
 		{
 			return true;
 		}

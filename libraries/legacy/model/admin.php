@@ -1138,7 +1138,7 @@ abstract class JModelAdmin extends JModelForm
 			elseif ($table->ordering != $order[$i])
 			{
 				$table->ordering = $order[$i];
-				$table->set('saveorder', true);
+				$table->set('_saveorder', true);
 
 				if (!$table->store())
 				{
