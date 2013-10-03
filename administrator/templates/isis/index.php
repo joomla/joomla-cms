@@ -34,6 +34,12 @@ if (is_file($file))
 	$doc->addStyleSheet($file);
 }
 
+// Load additional CSS styles for rtl sites
+if ($this->direction == 'rtl')
+{
+	$doc->addStyleSheet('templates/' . $this->template . '/css/template-rtl.css');
+}
+
 // Detecting Active Variables
 $option = $input->get('option', '');
 $view = $input->get('view', '');
@@ -114,7 +120,7 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 	<![endif]-->
 </head>
 
-<body class="admin <?php echo $option . " view-" . $view . " layout-" . $layout . " task-" . $task . " itemid-" . $itemid . " "; ?>" <?php if ($stickyToolbar) : ?>data-spy="scroll" data-target=".subhead" data-offset="87"<?php endif; ?>>
+<body class="admin <?php echo $option . ' view-' . $view . 'layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>" <?php if ($stickyToolbar) : ?>data-spy="scroll" data-target=".subhead" data-offset="87"<?php endif; ?>>
 <!-- Top Navigation -->
 <nav class="navbar navbar-inverse navbar-fixed-top">
 	<div class="navbar-inner">

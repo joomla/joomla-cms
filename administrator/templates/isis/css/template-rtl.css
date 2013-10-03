@@ -1,0 +1,19 @@
+.navbar .admin-logo {
+	float: right;
+	padding: 7px 15px 0px 12px;
+}
+.navbar .brand {
+	float: left;
+	padding: 6px 10px;
+}
+.navbar .nav {
+	margin: 0 0 0 10px;
+}
+.navbar .nav > li > a {
+	padding: 6px 10px;
+}
+.container-logo {
+	padding-top: 0;
+	float: left;
+	text-align: left;
+}
