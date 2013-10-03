@@ -32,6 +32,7 @@ if ($saveOrder)
 }
 $sortFields = $this->getSortFields();
 $assoc		= JLanguageAssociations::isEnabled();
+?>
 
 <script type="text/javascript">
 	Joomla.orderTable = function()
