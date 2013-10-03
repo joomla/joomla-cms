@@ -104,7 +104,7 @@ class JUser extends JObject
 	 * @var    datetime
 	 * @since  1.5
 	 */
-	public $lastvisitDate = null;
+	public $lastVisitDate = null;
 
 	/**
 	 * Activation hash
