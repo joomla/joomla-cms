@@ -18,9 +18,11 @@
 		<language tag="en-GB">en-GB.plg_content_loadmodule.sys.ini</language>
 	</languages>
 	<config>
+
 		<fields name="params">
 
 			<fieldset name="basic">
+
 				<field name="style" type="list"
 					default="table"
 					description="PLG_LOADMODULE_FIELD_STYLE_DESC"
@@ -31,6 +33,7 @@
 					<option value="rounded">PLG_LOADMODULE_FIELD_VALUE_MULTIPLEDIVS</option>
 					<option value="none">PLG_LOADMODULE_FIELD_VALUE_RAW</option>
 				</field>
+
 			</fieldset>
 
 		</fields>

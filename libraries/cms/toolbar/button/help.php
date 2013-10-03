@@ -40,8 +40,8 @@ class JToolbarButtonHelp extends JToolbarButton
 	{
 		// Store all data to the options array for use with JLayout
 		$options = array();
-		$options['text']   = JText::_('JTOOLBAR_HELP');
-		$options['doTask'] = $this->_getCommand($ref, $com, $override, $component);
+		$options['text'] = JText::_('JTOOLBAR_HELP');
+		$options['url'] = JHelp::createURL($ref, $com, $override, $component);
 
 		// Instantiate a new JLayoutFile instance and render the layout
 		$layout = new JLayoutFile('joomla.toolbar.help');
@@ -66,14 +66,15 @@ class JToolbarButtonHelp extends JToolbarButton
 	/**
 	 * Get the JavaScript command for the button
 	 *
-	 * @param   string   $ref        The name of the help screen (its key reference).
-	 * @param   boolean  $com        Use the help file in the component directory.
-	 * @param   string   $override   Use this URL instead of any other.
-	 * @param   string   $component  Name of component to get Help (null for current component)
+	 * @param       string   $ref        The name of the help screen (its key reference).
+	 * @param       boolean  $com        Use the help file in the component directory.
+	 * @param       string   $override   Use this URL instead of any other.
+	 * @param       string   $component  Name of component to get Help (null for current component)
 	 *
-	 * @return  string   JavaScript command string
+	 * @return      string   JavaScript command string
 	 *
-	 * @since   3.0
+	 * @since       3.0
+	 * @deprecated  3.2
 	 */
 	protected function _getCommand($ref, $com, $override, $component)
 	{

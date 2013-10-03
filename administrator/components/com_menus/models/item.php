@@ -557,7 +557,6 @@ class MenusModelItem extends JModelAdmin
 
 		// Get the form.
 		$form = $this->loadForm('com_menus.item', 'item', array('control' => 'jform', 'load_data' => $loadData), true);
-
 		if (empty($form))
 		{
 			return false;
@@ -696,7 +695,6 @@ class MenusModelItem extends JModelAdmin
 
 					// Determine the component id.
 					$component = JComponentHelper::getComponent($args['option']);
-
 					if (isset($component->id))
 					{
 						$table->component_id = $component->id;
@@ -742,9 +740,7 @@ class MenusModelItem extends JModelAdmin
 		}
 
 		// Load associated menu items
-		$app = JFactory::getApplication();
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
-		if ($assoc)
+		if (isset(JFactory::getApplication()->item_associations))
 		{
 			if ($pk != null)
 			{
@@ -930,18 +926,13 @@ class MenusModelItem extends JModelAdmin
 				$formFile = false;
 
 				// Check for the layout XML file. Use standard xml file if it exists.
-				$tplFolders = array(
-						$base . '/views/' . $view . '/tmpl',
-						$base . '/view/' . $view . '/tmpl'
-				);
-				$path = JPath::find($tplFolders, $layout . '.xml');
-
+				$path = JPath::clean($base . '/views/' . $view . '/tmpl/' . $layout . '.xml');
 				if (is_file($path))
 				{
 					$formFile = $path;
 				}
 
-				// If custom layout, get the xml file from the template folder
+				// if custom layout, get the xml file from the template folder
 				// template folder is first part of file name -- template:folder
 				if (!$formFile && (strpos($layout, ':') > 0))
 				{
@@ -957,18 +948,9 @@ class MenusModelItem extends JModelAdmin
 			//Now check for a view manifest file
 			if (!$formFile)
 			{
-				if (isset($view))
+				if (isset($view) && is_file($path = JPath::clean($base . '/views/' . $view . '/metadata.xml')))
 				{
-					$metadataFolders = array(
-							$base . '/view/' . $view,
-							$base . '/views/' . $view
-					);
-					$metaPath = JPath::find($metadataFiles, 'metadata.xml');
-
-					if (is_file($path = JPath::clean($metaPath)))
-					{
-						$formFile = $path;
-					}
+					$formFile = $path;
 				}
 				else
 				{
@@ -1054,10 +1036,7 @@ class MenusModelItem extends JModelAdmin
 		}
 
 		// Association menu items
-		$app = JFactory::getApplication();
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
-
-		if ($assoc)
+		if (isset(JFactory::getApplication()->item_associations))
 		{
 			$languages = JLanguageHelper::getLanguages('lang_code');
 
@@ -1257,9 +1236,7 @@ class MenusModelItem extends JModelAdmin
 		$this->setState('item.menutype', $table->menutype);
 
 		// Load associated menu items
-		$app = JFactory::getApplication();
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
-		if ($assoc)
+		if (isset(JFactory::getApplication()->item_associations))
 		{
 			// Adding self to the association
 			$associations = $data['associations'];

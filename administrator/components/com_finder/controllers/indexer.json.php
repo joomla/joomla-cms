@@ -168,6 +168,7 @@ class FinderControllerIndexer extends JControllerLegacy
 		$admin = clone(JFactory::getApplication());
 
 		// Get the site app.
+		include_once JPATH_SITE . '/includes/application.php';
 		$site = JApplication::getInstance('site');
 
 		// Swap the app.
@@ -281,10 +282,9 @@ class FinderControllerIndexer extends JControllerLegacy
 		// Send the assigned error code if we are catching an exception.
 		if ($data instanceof Exception)
 		{
-			$app = JFactory::getApplication();
 			JLog::add($data->getMessage(), JLog::ERROR);
-			$app->setHeader('status', $data->getCode());
-			$app->sendHeaders();
+			JResponse::setHeader('status', $data->getCode());
+			JResponse::sendHeaders();
 		}
 
 		// Create the response object.

@@ -91,7 +91,6 @@ class CategoriesController extends JControllerLegacy
 			// Load the submenu.
 			require_once JPATH_COMPONENT . '/helpers/categories.php';
 
-			CategoriesHelper::addSubmenu($model->getState('filter.extension'));
 			$view->display();
 		}
 

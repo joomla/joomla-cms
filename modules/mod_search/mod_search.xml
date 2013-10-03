@@ -25,126 +25,118 @@
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_SEARCH" />
 	<config>
+
 		<fields name="params">
+
 			<fieldset name="basic">
-				<field
-					name="label"
+
+				<field name="label"
 					type="label"
 					label="MOD_SEARCH_FIELD_LABEL_TEXT_LABEL"
 					description="MOD_SEARCH_FIELD_LABEL_TEXT_DESC" />
-				<field
-					name="width"
+
+				<field name="width"
 					type="text"
 					default="20"
 					label="MOD_SEARCH_FIELD_BOXWIDTH_LABEL"
 					description="MOD_SEARCH_FIELD_BOXWIDTH_DESC" />
-				<field
-					name="text"
+
+				<field name="text"
 					type="text"
 					label="MOD_SEARCH_FIELD_TEXT_LABEL"
 					description="MOD_SEARCH_FIELD_TEXT_DESC" />
-				<field
-					name="button"
+
+				<field name="button"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					label="MOD_SEARCH_FIELD_BUTTON_LABEL"
 					description="MOD_SEARCH_FIELD_BUTTON_DESC">
-					<option
-						value="">JNO</option>
-					<option
-						value="1">JYES</option>
+					<option value="">JNO</option>
+					<option value="1">JYES</option>
 				</field>
-				<field
-					name="button_pos"
+
+				<field name="button_pos"
 					type="list"
 					default="right"
 					label="MOD_SEARCH_FIELD_BUTTONPOS_LABEL"
 					description="MOD_SEARCH_FIELD_BUTTONPOS_DESC">
-					<option
-						value="right">MOD_SEARCH_FIELD_VALUE_RIGHT</option>
-					<option
-						value="left">MOD_SEARCH_FIELD_VALUE_LEFT</option>
-					<option
-						value="top">MOD_SEARCH_FIELD_VALUE_TOP</option>
-					<option
-						value="bottom">MOD_SEARCH_FIELD_VALUE_BOTTOM</option>
+					<option value="right">MOD_SEARCH_FIELD_VALUE_RIGHT</option>
+					<option value="left">MOD_SEARCH_FIELD_VALUE_LEFT</option>
+					<option value="top">MOD_SEARCH_FIELD_VALUE_TOP</option>
+					<option value="bottom">MOD_SEARCH_FIELD_VALUE_BOTTOM</option>
 				</field>
-				<field
-					name="imagebutton"
+
+				<field name="imagebutton"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					label="MOD_SEARCH_FIELD_IMAGEBUTTON_LABEL"
 					description="MOD_SEARCH_FIELD_IMAGEBUTTON_DESC">
-					<option
-						value="">JNO</option>
-					<option
-						value="1">JYES</option>
+					<option value="">JNO</option>
+					<option value="1">JYES</option>
 				</field>
-				<field
-					name="button_text"
+
+				<field name="button_text"
 					type="text"
 					label="MOD_SEARCH_FIELD_BUTTONTEXT_LABEL"
 					description="MOD_SEARCH_FIELD_BUTTONTEXT_DESC" />
-				<field
-					name="opensearch"
+
+				<field name="opensearch"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					label="MOD_SEARCH_FIELD_OPENSEARCH_LABEL"
 					description="MOD_SEARCH_FIELD_OPENSEARCH_DESC"
 					default="1">
-					<option
-						value="0">JNO</option>
-					<option
-						value="1">JYES</option>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
-				<field
-					name="opensearch_title"
+
+				<field name="opensearch_title"
 					type="text"
 					label="MOD_SEARCH_FIELD_OPENSEARCH_TEXT_LABEL"
 					description="MOD_SEARCH_FIELD_OPENSEARCH_TEXT_DESC" />
-				<field
-					name="set_itemid"
+
+				<field name="set_itemid"
 					type="text"
 					label="MOD_SEARCH_FIELD_SETITEMID_LABEL"
 					description="MOD_SEARCH_FIELD_SETITEMID_DESC" />
+
 			</fieldset>
 			<fieldset
 				name="advanced">
-				<field
-					name="layout"
+
+				<field name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
-				<field
-					name="moduleclass_sfx"
+
+				<field name="moduleclass_sfx"
 					type="textarea" rows="3"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
-				<field
-					name="cache"
+
+				<field name="cache"
 					type="list"
 					default="1"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC">
-					<option
-						value="1">JGLOBAL_USE_GLOBAL</option>
-					<option
-						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+					<option value="1">JGLOBAL_USE_GLOBAL</option>
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
-				<field
-					name="cache_time"
+
+				<field name="cache_time"
 					type="text"
 					default="900"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
-				<field
-					name="cachemode"
+
+				<field name="cachemode"
 					type="hidden"
 					default="itemid">
-					<option
-						value="itemid"></option>
+					<option value="itemid"></option>
 				</field>
+
 			</fieldset>
+
 		</fields>
 	</config>
 </extension>

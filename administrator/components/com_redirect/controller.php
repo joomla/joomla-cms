@@ -37,9 +37,6 @@ class RedirectController extends JControllerLegacy
 	{
 		require_once JPATH_COMPONENT.'/helpers/redirect.php';
 
-		// Load the submenu.
-		RedirectHelper::addSubmenu($this->input->get('view', 'links'));
-
 		$view   = $this->input->get('view', 'links');
 		$layout = $this->input->get('layout', 'default');
 		$id     = $this->input->getInt('id');

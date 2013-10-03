@@ -93,10 +93,10 @@ class ContenthistoryHelper
 	{
 		$labels = array();
 		$values = array();
-		$expandedObjectArray = static::createObjectArray($object);
-		static::loadLanguageFiles($typesTable->type_alias);
+		$expandedObjectArray = self::createObjectArray($object);
+		self::loadLanguageFiles($typesTable->type_alias);
 
-		if ($formFile = static::getFormFile($typesTable))
+		if ($formFile = self::getFormFile($typesTable))
 		{
 			if ($xml = simplexml_load_file($formFile))
 			{
@@ -141,7 +141,7 @@ class ContenthistoryHelper
 	 *
 	 * @param   JTableContenttype  $typesTable  Table object with content history options.
 	 *
-	 * @return  mixed  JModel object if successful, false if no model found.
+	 * @return  mixed    JModel object if successful, false if no model found.
 	 *
 	 * @since   3.2
 	 */
@@ -180,7 +180,7 @@ class ContenthistoryHelper
 	 * @param   stdClass  $lookup  The std object with the values needed to do the query.
 	 * @param   mixed     $value   The value used to find the matching title or name. Typically the id.
 	 *
-	 * @return  mixed  Value from database (for example, name or title) on success, false on failure.
+	 * @return mixed      Value from database (for example, name or title) on success, false on failure.
 	 *
 	 * @since   3.2
 	 */
@@ -242,7 +242,7 @@ class ContenthistoryHelper
 	 *
 	 * @param   string  $typeAlias  The type alias, for example 'com_content.article'.
 	 *
-	 * @return  void
+	 * @return  null
 	 *
 	 * @since   3.2
 	 */
@@ -254,7 +254,6 @@ class ContenthistoryHelper
 		{
 			$component = ($aliasArray[1] == 'category') ? 'com_categories' : $aliasArray[0];
 			$lang = JFactory::getLanguage();
-
 			/**
 			 * Loading language file from the administrator/language directory then
 			 * loading language file from the administrator/components/extension/language directory
@@ -278,7 +277,7 @@ class ContenthistoryHelper
 	 * @param   stdClass  $object      The std object from the JSON string. Can be nested 1 level deep.
 	 * @param   stdClass  $formValues  Standard class of label and value in an associative array.
 	 *
-	 * @return  stdClass  Object with translated labels where available
+	 * @return stdClass   Object with translated labels where available
 	 *
 	 * @since   3.2
 	 */
@@ -319,19 +318,19 @@ class ContenthistoryHelper
 	 *
 	 * @param   JTableContenthistory  $table  Table object loaded with data.
 	 *
-	 * @return  stdClass  Object ready for the views.
+	 * @return stdClass   Object ready for the views.
 	 *
 	 * @since   3.2
 	 */
 	public static function prepareData(JTableContenthistory $table)
 	{
-		$object = static::decodeFields($table->version_data);
+		$object = self::decodeFields($table->version_data);
 		$typesTable = JTable::getInstance('Contenttype');
 		$typesTable->load(array('type_id' => $table->ucm_type_id));
-		$formValues = static::getFormValues($object, $typesTable);
-		$object = static::mergeLabels($object, $formValues);
-		$object = static::hideFields($object, $typesTable);
-		$object = static::processLookupFields($object, $typesTable);
+		$formValues = self::getFormValues($object, $typesTable);
+		$object = self::mergeLabels($object, $formValues);
+		$object = self::hideFields($object, $typesTable);
+		$object = self::processLookupFields($object, $typesTable);
 
 		return $object;
 	}
@@ -343,7 +342,7 @@ class ContenthistoryHelper
 	 * @param   stdClass           $object      The std object from the JSON string. Can be nested 1 level deep.
 	 * @param   JTableContenttype  $typesTable  Table object loaded with data.
 	 *
-	 * @return  stdClass  Object with lookup values inserted.
+	 * @return stdClass   Object with lookup values inserted.
 	 *
 	 * @since   3.2
 	 */
@@ -358,7 +357,7 @@ class ContenthistoryHelper
 					$sourceColumn = isset($lookup->source_column) ? $lookup->source_column : false;
 					$sourceValue = isset($object->$sourceColumn->value) ? $object->$sourceColumn->value : false;
 
-					if ($sourceColumn && $sourceValue && ($lookupValue = static::getLookupValue($lookup, $sourceValue)))
+					if ($sourceColumn && $sourceValue && ($lookupValue = self::getLookupValue($lookup, $sourceValue)))
 					{
 						$object->$sourceColumn->value = $lookupValue;
 					}

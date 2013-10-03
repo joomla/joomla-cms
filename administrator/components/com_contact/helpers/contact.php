@@ -16,16 +16,16 @@ defined('_JEXEC') or die;
  * @subpackage  com_contact
  * @since       1.6
  */
-class ContactHelper extends JHelperContent
+class ContactHelper
 {
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string  $vName  The name of the active view.
+	 * @param       string  $vName  The name of the active view.
 	 *
-	 * @return  void
-	 *
-	 * @since   1.6
+	 * @return      void
+	 * @since       1.6
+	 * @deprecated  3.2	 
 	 */
 	public static function addSubmenu($vName)
 	{
@@ -48,4 +48,43 @@ class ContactHelper extends JHelperContent
 		}
 	}
 
+	/**
+	 * Gets a list of the actions that can be performed.
+	 *
+	 * @param   integer  The category ID.
+	 * @param   integer  The contact ID.
+	 *
+	 * @return  JObject
+	 * @since   1.6
+	 */
+	public static function getActions($categoryId = 0, $contactId = 0)
+	{
+		$user	= JFactory::getUser();
+		$result	= new JObject;
+
+		if (empty($contactId) && empty($categoryId))
+		{
+			$assetName = 'com_contact';
+			$level = 'component';
+		}
+		elseif (empty($contactId))
+		{
+			$assetName = 'com_contact.category.'.(int) $categoryId;
+			$level = 'category';
+		}
+		else
+		{
+			$assetName = 'com_contact.contact.'.(int) $contactId;
+			$level = 'category';
+		}
+
+		$actions = JAccess::getActions('com_contact', $level);
+
+		foreach ($actions as $action)
+		{
+			$result->set($action->name,	$user->authorise($action->name, $assetName));
+		}
+
+		return $result;
+	}
 }

@@ -20,17 +20,26 @@ class ContenthistoryControllerPreview extends JControllerLegacy
 {
 	/**
 	 * Proxy for getModel.
-	 *
-	 * @param   string  $name    The name of the model
-	 * @param   string  $prefix  The prefix for the model
-	 * @param   array   $config  An additional array of parameters
-	 *
-	 * @return  JModelLegacy  The model
-	 *
-	 * @since   3.2
+	 * @since   1.6
 	 */
 	public function getModel($name = 'Preview', $prefix = 'ContenthistoryModel', $config = array('ignore_request' => true))
 	{
-		return parent::getModel($name, $prefix, $config);
+		$model = parent::getModel($name, $prefix, $config);
+		return $model;
 	}
+
+	/**
+	 * Method to provide child classes the opportunity to process after the delete task.
+	 *
+	 * @param   JModelLegacy   $model   The model for the component
+	 * @param   mixed          $ids     array of ids deleted.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	protected function postDeleteHook(JModelLegacy $model, $ids = null)
+	{
+	}
+
 }

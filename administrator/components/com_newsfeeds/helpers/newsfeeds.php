@@ -16,16 +16,15 @@ defined('_JEXEC') or die;
  * @subpackage  com_newsfeeds
  * @since       1.6
  */
-class NewsfeedsHelper extends JHelperContent
+class NewsfeedsHelper
 {
 	public static $extension = 'com_newsfeeds';
 
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string  $vName  The name of the active view.
-	 *
-	 * @return  void
+	 * @param       string  The name of the active view.
+	 * @deprecated  3.2
 	 */
 	public static function addSubmenu($vName)
 	{
@@ -39,7 +38,6 @@ class NewsfeedsHelper extends JHelperContent
 			'index.php?option=com_categories&extension=com_newsfeeds',
 			$vName == 'categories'
 		);
-
 		if ($vName == 'categories')
 		{
 			JToolbarHelper::title(
@@ -48,4 +46,36 @@ class NewsfeedsHelper extends JHelperContent
 		}
 	}
 
+	/**
+	 * Gets a list of the actions that can be performed.
+	 *
+	 * @param   integer  The category ID.
+	 *
+	 * @return  JObject
+	 */
+	public static function getActions($categoryId = 0, $newsfeedId = 0)
+	{
+		$user	= JFactory::getUser();
+		$result	= new JObject;
+
+		if (empty($categoryId))
+		{
+			$assetName = 'com_newsfeeds';
+			$level = 'component';
+		}
+		else
+		{
+			$assetName = 'com_newsfeeds.category.'.(int) $categoryId;
+			$level = 'category';
+		}
+
+		$actions = JAccess::getActions('com_newsfeeds', $level);
+
+		foreach ($actions as $action)
+		{
+			$result->set($action->name,	$user->authorise($action->name, $assetName));
+		}
+
+		return $result;
+	}
 }

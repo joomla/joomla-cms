@@ -21,10 +21,7 @@ abstract class ModArticlesCategoriesHelper
 {
 	public static function getList(&$params)
 	{
-		$options = array();
-		$options['countItems'] = $params->get('numitems', 0);
-
-		$categories = JCategories::getInstance('Content', $options);
+		$categories = JCategories::getInstance('Content');
 		$category = $categories->get($params->get('parent', 'root'));
 
 		if ($category != null)
