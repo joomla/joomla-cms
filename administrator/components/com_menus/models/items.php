@@ -48,7 +48,7 @@ class MenusModelItems extends JModelList
 			);
 
 			$app = JFactory::getApplication();
-			$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+			$assoc = JLanguageAssociations::isEnabled();
 			if ($assoc)
 			{
 				$config['filter_fields'][] = 'association';
@@ -215,7 +215,7 @@ class MenusModelItems extends JModelList
 			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Join over the associations.
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$assoc = JLanguageAssociations::isEnabled();
 		if ($assoc)
 		{
 			$query->select('COUNT(asso2.id)>1 as association')

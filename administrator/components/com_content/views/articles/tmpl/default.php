@@ -31,7 +31,7 @@ if ($saveOrder)
 }
 
 $sortFields = $this->getSortFields();
-$assoc		= isset($app->item_associations) ? $app->item_associations : 0;
+$assoc		= JLanguageAssociations::isEnabled();
 ?>
 <script type="text/javascript">
 	Joomla.orderTable = function()
