@@ -45,14 +45,15 @@ class JDocumentRendererModules extends JDocumentRenderer
 		{
 			$moduleHtml = trim($renderer->render($mod, $params, $content));
 
-			if ($canEdit && $moduleHtml != '')
-				// Once FR http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemEdit&tracker_item_id=28638&start=200 && PR https://github.com/joomla/joomla-cms/pull/1930/files are merged:
-				//  +    && $user->authorise('core.edit', 'com_modules.module.' . $mod->id)
+			if ($canEdit && $moduleHtml != '' && $user->authorise('core.edit', 'com_modules.module.' . $mod->id))
 			{
-				JLayoutHelper::render('joomla.edit.frontediting_modules', array('moduleHtml' => &$moduleHtml, 'module' => $mod, 'position' => $position, 'menusediting' => $menusEditing));
+				$displayData = array('moduleHtml' => &$moduleHtml, 'module' => $mod, 'position' => $position, 'menusediting' => $menusEditing);
+				JLayoutHelper::render('joomla.edit.frontediting_modules', $displayData);
 			}
+
 			$buffer .= $moduleHtml;
 		}
+
 		return $buffer;
 	}
 }
