@@ -299,9 +299,7 @@ class JRouterSite extends JRouter
 
 			if (!$found)
 			{
-				$found = new stdClass();
-				$found->id = 0;
-				$found->component = '';
+				$found = $menu->getDefault($lang_tag);
 			}
 			else
 			{

@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#28234] Addition of notification in Media Manager regarding folder name for Create Folder. Thanks Achal Aggarwal
  # [#28214] Menu Items Could be Saved without Menu Item Type. Thanks Khai Vu Din 
  # [#28794] Redirect to homepage instead of 404 with SEF and URL rewrite enabled if no com_content on homepage.
+ # Reverting [#28794]
 
 03-Oct-2013 Michael Babker
  + [#31266] GSoC 2013 - Improved Template Manager.  Thanks Ram Tripathi
