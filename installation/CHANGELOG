@@ -29,6 +29,7 @@ $ -> Language fix or change
  # [#31827] Installation doesn't work when installation is in the path. Thanks Nikolai Plath
  $ Updating installation lang file fr-FR
  # [#28234] Addition of notification in Media Manager regarding folder name for Create Folder. Thanks Achal Aggarwal
+ # [#28214] Menu Items Could be Saved without Menu Item Type. Thanks Khai Vu Din 
 
 03-Oct-2013 Michael Babker
  + [#31266] GSoC 2013 - Improved Template Manager.  Thanks Ram Tripathi
