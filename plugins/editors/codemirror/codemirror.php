@@ -47,7 +47,7 @@ class PlgEditorCodemirror extends JPlugin
 	 */
 	public function onSave($id)
 	{
-		return "document.getElementById('$id').value = Joomla.editors.instances['$id'].getCode();\n";
+		return "document.getElementById('$id').value = Joomla.editors.instances['$id'].getValue();\n";
 	}
 
 	/**
@@ -59,7 +59,7 @@ class PlgEditorCodemirror extends JPlugin
 	 */
 	public function onGetContent($id)
 	{
-		return "Joomla.editors.instances['$id'].getCode();\n";
+		return "Joomla.editors.instances['$id'].getValue();\n";
 	}
 
 	/**
@@ -72,7 +72,7 @@ class PlgEditorCodemirror extends JPlugin
 	 */
 	public function onSetContent($id, $content)
 	{
-		return "Joomla.editors.instances['$id'].setCode($content);\n";
+		return "Joomla.editors.instances['$id'].setValue($content);\n";
 	}
 
 	/**
@@ -138,7 +138,7 @@ class PlgEditorCodemirror extends JPlugin
 		$buttons = $this->_displayButtons($id, $buttons, $asset, $author);
 
 		// Look if we need special syntax coloring.
-		$syntax = $this->params->get('syntax', 'html');
+		$syntax = $this->params->get('syntax', 'php');
 
 		if ($syntax)
 		{
