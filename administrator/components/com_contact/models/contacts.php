@@ -50,7 +50,7 @@ class ContactModelContacts extends JModelList
 			);
 
 			$app = JFactory::getApplication();
-			$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+			$assoc = JLanguageAssociations::isEnabled();
 			if ($assoc)
 			{
 				$config['filter_fields'][] = 'association';
@@ -182,7 +182,7 @@ class ContactModelContacts extends JModelList
 			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Join over the associations.
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$assoc = JLanguageAssociations::isEnabled();
 		if ($assoc)
 		{
 			$query->select('COUNT(asso2.id)>1 as association')

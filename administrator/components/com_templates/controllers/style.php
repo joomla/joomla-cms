@@ -153,5 +153,4 @@ class TemplatesControllerStyle extends JControllerForm
 			parent::save($key, $urlVar);
 		}
 	}
-
 }
