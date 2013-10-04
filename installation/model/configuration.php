@@ -221,7 +221,7 @@ class InstallationModelConfiguration extends JModelBase
 	/**
 	 * Method to create the root user for the site
 	 *
-	 * @param   array  $options  The session options
+	 * @param   object  $options  The session options
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -241,13 +241,11 @@ class InstallationModelConfiguration extends JModelBase
 		catch (RuntimeException $e)
 		{
 			$app->enqueueMessage(JText::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'notice');
+
 			return false;
 		}
 
-		// Create random salt/password for the admin user
-		$salt = JUserHelper::genRandomPassword(32);
-		$crypt = JUserHelper::getCryptedPassword($options->admin_password, $salt);
-		$cryptpass = $crypt . ':' . $salt;
+		$cryptpass = JUserHelper::getCryptedPassword($options->admin_password);
 
 		// Take the admin user id
 		$userId = InstallationModelDatabase::getUserId();

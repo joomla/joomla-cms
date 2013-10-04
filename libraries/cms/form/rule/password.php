@@ -77,13 +77,13 @@ class JFormRulePassword extends JFormRule
 
 		$valueLength = strlen($value);
 
-		// We set a maximum length to prevent abuse since it is unfiltered.
-		if ($valueLength > 99)
+		/*
+		 * We set a maximum length to prevent abuse since it is unfiltered.
+		 * 55 is the length we use because that is roughly the maximum for bcrypt
+		 */
+		if ($valueLength > 55)
 		{
-			JFactory::getApplication()->enqueueMessage(
-				JText::_('COM_USERS_MSG_PASSWORD_TOO_LONG'),
-				'warning'
-				);
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_USERS_MSG_PASSWORD_TOO_LONG'), 'warning');
 		}
 
 		// We don't allow white space inside passwords

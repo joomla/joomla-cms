@@ -18,7 +18,7 @@ JHtml::_('formbehavior.chosen', 'select');
 
 $app = JFactory::getApplication();
 $input = $app->input;
-$assoc = isset($app->item_associations);
+$assoc = JLanguageAssociations::isEnabled();
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
