@@ -646,7 +646,14 @@ class JRequest
 	 */
 	protected static function _stripSlashesRecursive($value)
 	{
-		$value = is_array($value) ? array_map(array('JRequest', '_stripSlashesRecursive'), $value) : stripslashes($value);
+		if (is_array($value))
+		{
+			return array_map(array('JRequest', '_stripSlashesRecursive'), $value);
+		}
+		elseif (is_string($value))
+		{
+			return stripslashes($value);
+		}
 		return $value;
 	}
 }
