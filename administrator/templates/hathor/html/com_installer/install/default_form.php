@@ -76,7 +76,7 @@ defined('_JEXEC') or die;
 <?php endif;?>
 
 	<?php if ($this->showJedAndWebInstaller && !$this->showMessage) : ?>
-		<div class="alert j-jed-message" style="margin-bottom: 40px; line-height: 2em; color:#333333;">
+		<div class="alert j-jed-message" style="margin-bottom: 20px; line-height: 2em; color:#333333; clear:both;">
 			<a href="index.php?option=com_config&view=component&component=com_installer&path=&return=<?php echo urlencode(base64_encode(JUri::getInstance())); ?>" class="close" data-dismiss="alert">&times;</a>
 			<a href="http://extensions.joomla.org" target="_blank">Joomla Extension Directory</a>
 			now available with <a href="http://extensions.joomla.org" target="_blank">Install from Web</a> on this page:&nbsp;&nbsp;

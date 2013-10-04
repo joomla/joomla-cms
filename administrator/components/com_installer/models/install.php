@@ -74,26 +74,60 @@ class InstallerModelInstall extends JModelLegacy
 		JClientHelper::setCredentialsFromRequest('ftp');
 		$app = JFactory::getApplication();
 
-		switch ($app->input->getWord('installtype'))
+		// Load installer plugins for assistance if required:
+		JPluginHelper::importPlugin('installer');
+		$dispatcher = JEventDispatcher::getInstance();
+
+		$package = null;
+
+		// This event allows an input pre-treatment, a custom pre-packing or custom installation (e.g. from a JSON description)
+		$results = $dispatcher->trigger('onInstallerBeforeInstallation', array($this, &$package));
+
+		if (in_array(true, $results, true))
 		{
-			case 'folder':
-				// Remember the 'Install from Directory' path.
-				$app->getUserStateFromRequest($this->_context . '.install_directory', 'install_directory');
-				$package = $this->_getPackageFromFolder();
-				break;
+			return true;
+		}
+		elseif (in_array(false, $results, true))
+		{
+			return false;
+		}
 
-			case 'upload':
-				$package = $this->_getPackageFromUpload();
-				break;
+		if ($package === null)
+		{
+			switch ($app->input->getWord('installtype'))
+			{
+				case 'folder':
+					// Remember the 'Install from Directory' path.
+					$app->getUserStateFromRequest($this->_context . '.install_directory', 'install_directory');
+					$package = $this->_getPackageFromFolder();
+					break;
 
-			case 'url':
-				$package = $this->_getPackageFromUrl();
-				break;
+				case 'upload':
+					$package = $this->_getPackageFromUpload();
+					break;
 
-			default:
-				$app->setUserState('com_installer.message', JText::_('COM_INSTALLER_NO_INSTALL_TYPE_FOUND'));
-				return false;
-				break;
+				case 'url':
+					$package = $this->_getPackageFromUrl();
+					break;
+
+				default:
+					$app->setUserState('com_installer.message', JText::_('COM_INSTALLER_NO_INSTALL_TYPE_FOUND'));
+
+					return false;
+					break;
+			}
+		}
+
+		// This event allows a custom installation of the package or a customization of the package:
+		$results = $dispatcher->trigger('onInstallerBeforeInstaller', array($this, &$package));
+
+		if (in_array(true, $results, true))
+		{
+			return true;
+		}
+		elseif (in_array(false, $results, true))
+		{
+			return false;
 		}
 
 		// Was the package unpacked?
@@ -119,6 +153,9 @@ class InstallerModelInstall extends JModelLegacy
 			$msg = JText::sprintf('COM_INSTALLER_INSTALL_SUCCESS', JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
 			$result = true;
 		}
+
+		// This event allows a custom a post-flight:
+		$dispatcher->trigger('onInstallerAfterInstaller', array($this, &$package, $installer, &$result, &$msg));
 
 		// Set some model state values
 		$app	= JFactory::getApplication();
