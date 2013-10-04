@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-Oct-2013 Michael Babker
+ + [#31266] GSoC 2013 - Improved Template Manager.  Thanks Ram Tripathi
+
 03-Oct-2013 Jean-Marie Simonet
  # [#32143] *Multilingual improvement: Use static method to check if language associations is enabled  Thanks Roberto Segura
  $ Correcting some small errors in installation lang strings. Thanks Mig Manickam
