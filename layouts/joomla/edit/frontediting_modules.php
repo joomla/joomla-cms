@@ -50,12 +50,10 @@ $moduleHtml = preg_replace(
 	$count
 );
 
-static $jsOut = false;
-
-if ($count && !$jsOut)
+if ($count)
 {
 	// Load once booststrap tooltip and add stylesheet and javascript to head:
-	$jsOut = true;
+	JHtml::_('bootstrap.loadCss');
 	JHtml::_('bootstrap.tooltip');
 	JHtml::_('bootstrap.popover');
 
