@@ -11,6 +11,7 @@
  <exclude-pattern type="relative">logs/*</exclude-pattern>
 
  <!-- Exclude 3rd party libraries and Framework code. -->
+ <exclude-pattern type="relative">libraries/compat/password/*</exclude-pattern>
  <exclude-pattern type="relative">libraries/fof/*</exclude-pattern>
  <exclude-pattern type="relative">libraries/framework/*</exclude-pattern>
  <exclude-pattern type="relative">libraries/idna_convert/*</exclude-pattern>
@@ -38,7 +39,6 @@
   <exclude-pattern type="relative">plugins/*</exclude-pattern>
   <exclude-pattern type="relative">modules/*</exclude-pattern>
   <exclude-pattern type="relative">libraries/*</exclude-pattern>
-  <exclude-pattern type="relative">includes/*</exclude-pattern>
   <!-- These exceptions are permanent -->
   <exclude-pattern type="relative">*/tmpl/*</exclude-pattern>
   <exclude-pattern type="relative">templates/*</exclude-pattern>

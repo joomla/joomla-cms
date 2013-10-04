@@ -432,7 +432,7 @@ class PlgSystemLanguageFilter extends JPlugin
 		if ($app->isSite() && $this->params->get('automatic_change', 1))
 		{
 			// Load associations
-			$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+			$assoc = JLanguageAssociations::isEnabled();
 
 			if ($assoc)
 			{

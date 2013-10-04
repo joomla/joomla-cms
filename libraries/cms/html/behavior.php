@@ -87,7 +87,7 @@ abstract class JHtmlBehavior
 		// Include jQuery
 		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'system/caption-jquery-uncompressed.js', true, true);
+		JHtml::_('script', 'system/caption.js', true, true);
 
 		// Attach caption to document
 		JFactory::getDocument()->addScriptDeclaration(
@@ -365,8 +365,8 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include MooTools framework
-		static::framework();
+		// Include jQuery
+		JHtml::_('jquery.framework');
 
 		JHtml::_('script', 'system/multiselect.js', true, true);
 
@@ -765,7 +765,7 @@ abstract class JHtmlBehavior
 			'DRAG_TO_MOVE'	=> JText::_('JLIB_HTML_BEHAVIOR_DRAG_TO_MOVE'),
 			'PART_TODAY'	=> $today,
 			'DAY_FIRST'		=> JText::_('JLIB_HTML_BEHAVIOR_DISPLAY_S_FIRST'),
-			'WEEKEND'		=> "0,6",
+			'WEEKEND'		=> JFactory::getLanguage()->getWeekEnd(),
 			'CLOSE'			=> JText::_('JLIB_HTML_BEHAVIOR_CLOSE'),
 			'TODAY'			=> JText::_('JLIB_HTML_BEHAVIOR_TODAY'),
 			'TIME_PART'		=> JText::_('JLIB_HTML_BEHAVIOR_SHIFT_CLICK_OR_DRAG_TO_CHANGE_VALUE'),

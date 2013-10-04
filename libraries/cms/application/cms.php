@@ -86,6 +86,15 @@ class JApplicationCms extends JApplicationWeb
 	protected $template = null;
 
 	/**
+	 * Indicates that strong encryption should be used.
+	 *
+	 * @var    boolean
+	 * @since  3.2
+	 * @note   Default has been changed as of 3.2. If salted md5 is required, it must be explictly set.
+	 */
+	protected $useStrongEncryption = false;
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   mixed  $input   An optional argument to provide dependency injection for the application's
@@ -576,6 +585,20 @@ class JApplicationCms extends JApplicationWeb
 
 		$this->set('editor', $editor);
 
+		/*
+		 * Set the encryption to use. The availability of strong encryption must always be checked separately.
+		 * Use JCrypt::hasStrongPasswordSupport() to check PHP for this support.
+		 */
+		if (JPluginHelper::isEnabled('user', 'joomla'))
+		{
+			$userPlugin = JPluginHelper::getPlugin('user', 'joomla');
+			$userPluginParams = new JRegistry;
+			$userPluginParams->loadString($userPlugin->params);
+			$useStrongEncryption = $userPluginParams->get('strong_passwords', 0);
+
+			$this->config->set('useStrongEncryption', $useStrongEncryption);
+		}
+
 		// Trigger the onAfterInitialise event.
 		JPluginHelper::importPlugin('system');
 		$this->triggerEvent('onAfterInitialise');
@@ -780,7 +803,7 @@ class JApplicationCms extends JApplicationWeb
 			// Import the user plugin group.
 			JPluginHelper::importPlugin('user');
 
-			// OK, the credentials are authenticated and user is authorised.  Lets fire the onLogin event.
+			// OK, the credentials are authenticated and user is authorised.  Let's fire the onLogin event.
 			$results = $this->triggerEvent('onUserLogin', array((array) $response, $options));
 
 			/*
@@ -790,27 +813,30 @@ class JApplicationCms extends JApplicationWeb
 			 * Any errors raised should be done in the plugin as this provides the ability
 			 * to provide much more information about why the routine may have failed.
 			 */
-			if (!in_array(false, $results, true))
+			$user = JFactory::getUser();
+
+			if ($response->type == 'Cookie')
 			{
-				// Set the remember me cookie if enabled.
-				if (isset($options['remember']) && $options['remember'])
+				$user->set('cookieLogin', true);
+			}
+
+			if (in_array(false, $results, true) == false)
+			{
+				$options['user'] = $user;
+				$options['responseType'] = $response->type;
+
+				if (isset($response->length) && isset($response->secure) && isset($response->lifetime))
 				{
-					// Create the encryption key, apply extra hardening using the user agent string.
-					$privateKey = md5($this->get('secret') . @$_SERVER['HTTP_USER_AGENT']);
-
-					$key = new JCryptKey('simple', $privateKey, $privateKey);
-					$crypt = new JCrypt(new JCryptCipherSimple, $key);
-					$rcookie = $crypt->encrypt(serialize($credentials));
-					$lifetime = time() + 365 * 24 * 60 * 60;
-
-					// Use domain and path set in config for cookie if it exists.
-					$cookie_domain = $this->get('cookie_domain', '');
-					$cookie_path = $this->get('cookie_path', '/');
-					setcookie(md5($this->get('secret') . 'JLOGIN_REMEMBER'), $rcookie, $lifetime, $cookie_path, $cookie_domain);
+					$options['length'] = $response->length;
+					$options['secure'] = $response->secure;
+					$options['lifetime'] = $response->lifetime;
 				}
 
-				return true;
+				// The user is successfully logged in. Run the after login events
+				$this->triggerEvent('onUserAfterLogin', array($options));
 			}
+
+			return true;
 		}
 
 		// Trigger onUserLoginFailure Event.
@@ -870,13 +896,10 @@ class JApplicationCms extends JApplicationWeb
 		$results = $this->triggerEvent('onUserLogout', array($parameters, $options));
 
 		// Check if any of the plugins failed. If none did, success.
-
 		if (!in_array(false, $results, true))
 		{
-			// Use domain and path set in config for cookie if it exists.
-			$cookie_domain = $this->getCfg('cookie_domain', '');
-			$cookie_path = $this->getCfg('cookie_path', '/');
-			setcookie(JApplication::getHash('JLOGIN_REMEMBER'), false, time() - 86400, $cookie_path, $cookie_domain);
+			$options['username'] = $user->get('username');
+			$this->triggerEvent('onUserAfterLogout', array($options));
 
 			return true;
 		}

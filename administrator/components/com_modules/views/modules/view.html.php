@@ -72,11 +72,10 @@ class ModulesViewModules extends JViewLegacy
 
 		if ($canDo->get('core.create'))
 		{
-			$title = JText::_('JTOOLBAR_NEW');
-			$dhtml = "<button onClick=\"location.href='index.php?option=com_modules&amp;view=select'\" class=\"btn btn-small btn-success\">
-						<i class=\"icon-plus icon-white\" title=\"$title\"></i>
-						$title</button>";
-			$bar->appendButton('Custom', $dhtml, 'new');
+			// Instantiate a new JLayoutFile instance and render the layout
+			$layout = new JLayoutFile('toolbar.newmodule');
+
+			$bar->appendButton('Custom', $layout->render(array()), 'new');
 		}
 
 		if ($canDo->get('core.edit'))
