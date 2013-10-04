@@ -25,6 +25,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Oct-2013 Jean-Marie Simonet
+ # [#31827] Installation doesn't work when installation is in the path. Thanks Nikolai Plath
+ $ Updating installation lang file fr-FR
+
 03-Oct-2013 Michael Babker
  + [#31266] GSoC 2013 - Improved Template Manager.  Thanks Ram Tripathi
 
