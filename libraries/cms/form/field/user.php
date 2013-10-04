@@ -72,9 +72,14 @@ class JFormFieldUser extends JFormField
 		// Load the current username if available.
 		$table = JTable::getInstance('user');
 
-		if ($this->value)
+		if (is_numeric($this->value))
 		{
 			$table->load($this->value);
+		}
+		// Handle the special case for "current".
+		elseif (strtoupper($this->value) == 'CURRENT')
+		{
+			$table->load(JFactory::getUser()->id);
 		}
 		else
 		{
@@ -84,7 +89,7 @@ class JFormFieldUser extends JFormField
 		// Create a dummy text field with the user name.
 		$html[] = '<div class="input-append">';
 		$html[] = '	<input type="text" id="' . $this->id . '" value="' . htmlspecialchars($table->name, ENT_COMPAT, 'UTF-8') . '"'
-			. 'readonly="readonly"' . $attr . ' />';
+			. ' readonly="readonly"' . $attr . ' />';
 
 		// Create the user select button.
 		if ($this->element['readonly'] != 'true')

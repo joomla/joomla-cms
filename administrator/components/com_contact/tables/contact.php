@@ -185,8 +185,6 @@ class ContactTableContact extends JTable
 			return false;
 		}
 
-		return true;
-
 		// Clean up keywords -- eliminate extra spaces between phrases
 		// and cr (\r) and lf (\n) characters from string
 		if (!empty($this->metakey))

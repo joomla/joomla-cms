@@ -27,7 +27,6 @@ class JFeedParserRssItunesTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParserRssItunes::processElementForFeed
 	 * @since   12.3
 	 */
 	public function testProcessElementForFeed()
@@ -44,7 +43,6 @@ class JFeedParserRssItunesTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParserRssItunes::processElementForFeedEntry
 	 * @since   12.3
 	 */
 	public function testProcessElementForFeedEntry()

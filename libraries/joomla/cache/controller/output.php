@@ -19,17 +19,26 @@ defined('JPATH_PLATFORM') or die;
 class JCacheControllerOutput extends JCacheController
 {
 	/**
-	 * @since   11.1
+	 * Cache data ID
+	 *
+	 * @var    string
+	 * @since  11.1
 	 */
 	protected $_id;
 
 	/**
-	 * @since   11.1
+	 * Cache data group
+	 *
+	 * @var    string
+	 * @since  11.1
 	 */
 	protected $_group;
 
 	/**
-	 * @since   11.1
+	 * Object to test locked state
+	 *
+	 * @var    object
+	 * @since  11.1
 	 */
 	protected $_locktest = null;
 

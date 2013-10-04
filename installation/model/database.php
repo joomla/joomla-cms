@@ -9,10 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.file');
-jimport('joomla.filesystem.folder');
-jimport('legacy.application.helper');
-
 /**
  * Database configuration model for the Joomla Core Installer.
  *
