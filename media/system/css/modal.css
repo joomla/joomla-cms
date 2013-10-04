@@ -84,7 +84,7 @@
 }
 
 /* Hides flash (Firefox problem) and selects (IE) */
-.body-overlayed embed, .body-overlayed object, .body-overlayed select {
+.body-overlayed embed, .body-overlayed object {
 	visibility: hidden;
 }
 
