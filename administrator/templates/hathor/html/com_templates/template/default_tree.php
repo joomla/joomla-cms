@@ -12,16 +12,16 @@ ksort($this->files, SORT_STRING);
 ?>
 
 <ul class='nav nav-list directory-tree'>
-	<?php foreach($this->files as $key => $value): ?>
-		<?php if(is_array($value)): ?>
+	<?php foreach ($this->files as $key => $value): ?>
+		<?php if (is_array($value)): ?>
 			<?php
-			$keyArray	= explode('/', $key);
-			$fileArray	= explode('/', $this->fileName);
-			$count		= 0;
+			$keyArray  = explode('/', $key);
+			$fileArray = explode('/', $this->fileName);
+			$count     = 0;
 
-			if (sizeof($fileArray) >= sizeof($keyArray))
+			if (count($fileArray) >= count($keyArray))
 			{
-				for ($i = 0; $i < sizeof($keyArray); $i++)
+				for ($i = 0; $i < count($keyArray); $i++)
 				{
 					if ($keyArray[$i] === $fileArray[$i])
 					{
@@ -29,7 +29,7 @@ ksort($this->files, SORT_STRING);
 					}
 				}
 
-				if($count == sizeof($keyArray))
+				if ($count == count($keyArray))
 				{
 					$class = "folder show";
 				}
@@ -46,12 +46,12 @@ ksort($this->files, SORT_STRING);
 			?>
 			<li class="<?php echo $class; ?>">
 				<a class='folder-url nowrap' href=''>
-					<i class='icon-folder-close'>&nbsp;<?php $explodeArray = explode('/',$key); echo end($explodeArray); ?></i>
+					<i class='icon-folder-close'>&nbsp;<?php $explodeArray = explode('/', $key); echo end($explodeArray); ?></i>
 				</a>
 				<?php echo $this->directoryTree($value); ?>
 			</li>
 		<?php endif; ?>
-		<?php if(is_object($value)): ?>
+		<?php if (is_object($value)): ?>
 			<li>
 				<a class="file nowrap" href='<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $this->id . '&file=' . $value->id) ?>'>
 					<i class='icon-file'>&nbsp;<?php echo $value->name; ?></i>

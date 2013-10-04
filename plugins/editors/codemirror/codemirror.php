@@ -26,7 +26,7 @@ class PlgEditorCodemirror extends JPlugin
 	/**
 	 * Initialises the Editor.
 	 *
-	 * @return  string	JavaScript Initialization string.
+	 * @return  string  JavaScript Initialization string.
 	 */
 	public function onInit()
 	{
@@ -41,7 +41,7 @@ class PlgEditorCodemirror extends JPlugin
 	/**
 	 * Copy editor content to form field.
 	 *
-	 * @param   string	$id	The id of the editor field.
+	 * @param   string  $id  The id of the editor field.
 	 *
 	 * @return  string Javascript
 	 */
@@ -53,9 +53,9 @@ class PlgEditorCodemirror extends JPlugin
 	/**
 	 * Get the editor content.
 	 *
-	 * @param   string	$id	The id of the editor field.
+	 * @param   string  $id  The id of the editor field.
 	 *
-	 * @return  string Javascript
+	 * @return  string  Javascript
 	 */
 	public function onGetContent($id)
 	{
@@ -65,10 +65,10 @@ class PlgEditorCodemirror extends JPlugin
 	/**
 	 * Set the editor content.
 	 *
-	 * @param   string	$id			The id of the editor field.
-	 * @param   string	$content	The content to set.
+	 * @param   string  $id       The id of the editor field.
+	 * @param   string  $content  The content to set.
 	 *
-	 * @return  string Javascript
+	 * @return  string  Javascript
 	 */
 	public function onSetContent($id, $content)
 	{
@@ -102,19 +102,19 @@ class PlgEditorCodemirror extends JPlugin
 	/**
 	 * Display the editor area.
 	 *
-	 * @param   string	$name		The control name.
-	 * @param   string	$content	The contents of the text area.
-	 * @param   string	$width		The width of the text area (px or %).
-	 * @param   string	$height		The height of the text area (px or %).
-	 * @param   integer  $col		The number of columns for the textarea.
-	 * @param   integer  $row		The number of rows for the textarea.
-	 * @param   boolean	$buttons	True and the editor buttons will be displayed.
-	 * @param   string	$id			An optional ID for the textarea (note: since 1.6). If not supplied the name is used.
-	 * @param   string	$asset
-	 * @param   object	$author
-	 * @param   array  $params		Associative array of editor parameters.
+	 * @param   string   $name     The control name.
+	 * @param   string   $content  The contents of the text area.
+	 * @param   string   $width    The width of the text area (px or %).
+	 * @param   string   $height   The height of the text area (px or %).
+	 * @param   integer  $col      The number of columns for the textarea.
+	 * @param   integer  $row      The number of rows for the textarea.
+	 * @param   boolean  $buttons  True and the editor buttons will be displayed.
+	 * @param   string   $id       An optional ID for the textarea (note: since 1.6). If not supplied the name is used.
+	 * @param   string   $asset    Unused
+	 * @param   object   $author   Unused
+	 * @param   array    $params   Associative array of editor parameters.
 	 *
-	 * @return  string HTML
+	 * @return  string  HTML Output
 	 */
 	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
 	{
@@ -137,19 +137,18 @@ class PlgEditorCodemirror extends JPlugin
 		// Must pass the field id to the buttons in this editor.
 		$buttons = $this->_displayButtons($id, $buttons, $asset, $author);
 
-
 		// Look if we need special syntax coloring.
 		$file = JFactory::getApplication()->input->get('file');
-		$explodeArray = explode('.',base64_decode($file));
+		$explodeArray = explode('.', base64_decode($file));
 		$syntax = end($explodeArray);
 
 		if ($syntax)
 		{
-			switch($syntax)
+			switch ($syntax)
 			{
 				case 'css':
-					$parserFile = array('css.js', 'closebrackets.js');
-					$mode = 'text/css';
+					$parserFile        = array('css.js', 'closebrackets.js');
+					$mode              = 'text/css';
 					$autoCloseBrackets = true;
 					$autoCloseTags     = false;
 					$fold              = true;
@@ -159,8 +158,8 @@ class PlgEditorCodemirror extends JPlugin
 					break;
 
 				case 'ini':
-					$parserFile = array('css.js');
-					$mode = 'text/css';
+					$parserFile        = array('css.js');
+					$mode              = 'text/css';
 					$autoCloseBrackets = false;
 					$autoCloseTags     = false;
 					$fold              = false;
@@ -169,8 +168,8 @@ class PlgEditorCodemirror extends JPlugin
 					break;
 
 				case 'xml':
-					$parserFile = array('xml.js', 'closetag.js');
-					$mode = 'application/xml';
+					$parserFile        = array('xml.js', 'closetag.js');
+					$mode              = 'application/xml';
 					$fold              = true;
 					$autoCloseBrackets = false;
 					$autoCloseTags     = true;
@@ -180,8 +179,8 @@ class PlgEditorCodemirror extends JPlugin
 					break;
 
 				case 'js':
-					$parserFile = array('javascript.js', 'closebrackets.js');
-					$mode = 'text/javascript';
+					$parserFile        = array('javascript.js', 'closebrackets.js');
+					$mode              = 'text/javascript';
 					$autoCloseBrackets = true;
 					$autoCloseTags     = false;
 					$fold              = true;
@@ -191,8 +190,8 @@ class PlgEditorCodemirror extends JPlugin
 					break;
 
 				case 'less':
-					$parserFile = array('less.js', 'css.js', 'closebrackets.js');
-					$mode = 'text/x-less';
+					$parserFile        = array('less.js', 'css.js', 'closebrackets.js');
+					$mode              = 'text/x-less';
 					$autoCloseBrackets = true;
 					$autoCloseTags     = false;
 					$fold              = true;
@@ -202,8 +201,8 @@ class PlgEditorCodemirror extends JPlugin
 					break;
 
 				case 'php':
-					$parserFile = array('xml.js', 'clike.js', 'css.js', 'javascript.js', 'htmlmixed.js', 'php.js', 'closebrackets.js', 'closetag.js');
-					$mode = 'application/x-httpd-php';
+					$parserFile        = array('xml.js', 'clike.js', 'css.js', 'javascript.js', 'htmlmixed.js', 'php.js', 'closebrackets.js', 'closetag.js');
+					$mode              = 'application/x-httpd-php';
 					$autoCloseBrackets = true;
 					$autoCloseTags     = true;
 					$fold              = true;
@@ -214,18 +213,18 @@ class PlgEditorCodemirror extends JPlugin
 					break;
 
 				default:
-					$parserFile			= false;
-					$mode 				= 'text/plain';
-					$autoCloseBrackets 	= false;
-					$autoCloseTags     	= false;
-					$fold              	= false;
-					$matchTags         	= false;
-					$matchBrackets     	= false;
+					$parserFile        = false;
+					$mode              = 'text/plain';
+					$autoCloseBrackets = false;
+					$autoCloseTags     = false;
+					$fold              = false;
+					$matchTags         = false;
+					$matchBrackets     = false;
 					break;
-			} //switch
+			}
 		}
 
-		if($parserFile)
+		if ($parserFile)
 		{
 			foreach ($parserFile as $file)
 			{
@@ -279,13 +278,13 @@ class PlgEditorCodemirror extends JPlugin
 		}
 
 
-		if($this->params->get('theme', '') == 'ambiance')
+		if ($this->params->get('theme', '') == 'ambiance')
 		{
 			$options->theme	= 'ambiance';
 			JHtml::_('stylesheet', $this->_basePath . 'css/ambiance.css');
 		}
 
-		if($this->params->get('lineWrapping') == "1")
+		if ($this->params->get('lineWrapping') == "1")
 		{
 			$options->lineWrapping = true;
 		}
@@ -329,8 +328,10 @@ class PlgEditorCodemirror extends JPlugin
 	/**
 	 * Displays the editor buttons.
 	 *
-	 * @param string $name
-	 * @param mixed $buttons [array with button objects | boolean true to display buttons]
+	 * @param   string  $name
+	 * @param   mixed   $buttons [array with button objects | boolean true to display buttons]
+	 * @param   string  $asset   Unused
+	 * @param   string  $author  Unused
 	 *
 	 * @return  string HTML
 	 */
