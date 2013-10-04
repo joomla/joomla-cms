@@ -39,6 +39,8 @@ class JHtmlBehaviorTest extends TestCase
 		// Ensure the loaded states are reset
 		JHtmlBehaviorInspector::resetLoaded();
 
+		parent::setUp();
+
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockApplication();
@@ -63,6 +65,8 @@ class JHtmlBehaviorTest extends TestCase
 		$_SERVER = $this->backupServer;
 
 		$this->restoreFactoryState();
+
+		parent::tearDown();
 	}
 
 	/**

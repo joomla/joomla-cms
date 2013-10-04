@@ -605,12 +605,12 @@ class ModulesModelModule extends JModelAdmin
 	 */
 	public function getItem($pk = null)
 	{
-		$pk	= (!empty($pk)) ? (int) $pk : (int) $this->getState('module.id');
-		$db	= $this->getDbo();
+		$pk = (!empty($pk)) ? (int) $pk : (int) $this->getState('module.id');
+		$db = $this->getDbo();
 
 		if (!isset($this->_cache[$pk]))
 		{
-			$false	= false;
+			$false = false;
 
 			// Get a row instance.
 			$table = $this->getTable();
@@ -622,6 +622,7 @@ class ModulesModelModule extends JModelAdmin
 			if ($return === false && $error = $table->getError())
 			{
 				$this->setError($error);
+
 				return $false;
 			}
 
@@ -644,12 +645,14 @@ class ModulesModelModule extends JModelAdmin
 					catch (RuntimeException $e)
 					{
 						$this->setError($e->getMessage);
+
 						return false;
 					}
 
 					if (empty($extension))
 					{
 						$this->setError('COM_MODULES_ERROR_CANNOT_FIND_MODULE');
+
 						return false;
 					}
 
@@ -661,12 +664,13 @@ class ModulesModelModule extends JModelAdmin
 				{
 					$app = JFactory::getApplication();
 					$app->redirect(JRoute::_('index.php?option=com_modules&view=modules', false));
+
 					return false;
 				}
 			}
 
 			// Convert to the JObject before adding other data.
-			$properties = $table->getProperties(1);
+			$properties        = $table->getProperties(1);
 			$this->_cache[$pk] = JArrayHelper::toObject($properties, 'JObject');
 
 			// Convert the params field to an array.
@@ -696,7 +700,7 @@ class ModulesModelModule extends JModelAdmin
 			{
 				if ($assigned[0] > 0)
 				{
-					$assignment = +1;
+					$assignment = 1;
 				}
 				elseif ($assigned[0] < 0)
 				{
@@ -708,12 +712,12 @@ class ModulesModelModule extends JModelAdmin
 				}
 			}
 
-			$this->_cache[$pk]->assigned = $assigned;
+			$this->_cache[$pk]->assigned   = $assigned;
 			$this->_cache[$pk]->assignment = $assignment;
 
 			// Get the module XML.
-			$client	= JApplicationHelper::getClientInfo($table->client_id);
-			$path	= JPath::clean($client->path . '/modules/' . $table->module . '/' . $table->module . '.xml');
+			$client = JApplicationHelper::getClientInfo($table->client_id);
+			$path   = JPath::clean($client->path . '/modules/' . $table->module . '/' . $table->module . '.xml');
 
 			if (file_exists($path))
 			{
@@ -750,7 +754,7 @@ class ModulesModelModule extends JModelAdmin
 	 * @return  JTable  A database object
 	 *
 	 * @since   1.6
-	*/
+	 */
 	public function getTable($type = 'Module', $prefix = 'JTable', $config = array())
 	{
 		return JTable::getInstance($type, $prefix, $config);
@@ -866,9 +870,9 @@ class ModulesModelModule extends JModelAdmin
 	{
 		$dispatcher = JEventDispatcher::getInstance();
 		$input      = JFactory::getApplication()->input;
-		$table		= $this->getTable();
-		$pk			= (!empty($data['id'])) ? $data['id'] : (int) $this->getState('module.id');
-		$isNew		= true;
+		$table      = $this->getTable();
+		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('module.id');
+		$isNew      = true;
 
 		// Include the content modules for the onSave events.
 		JPluginHelper::importPlugin('extension');
@@ -898,6 +902,7 @@ class ModulesModelModule extends JModelAdmin
 		if (!$table->bind($data))
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
@@ -908,14 +913,17 @@ class ModulesModelModule extends JModelAdmin
 		if (!$table->check())
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
 		// Trigger the onExtensionBeforeSave event.
 		$result = $dispatcher->trigger('onExtensionBeforeSave', array('com_modules.module', &$table, $isNew));
+
 		if (in_array(false, $result, true))
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
@@ -923,6 +931,7 @@ class ModulesModelModule extends JModelAdmin
 		if (!$table->store())
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
@@ -930,11 +939,6 @@ class ModulesModelModule extends JModelAdmin
 		$assignment = isset($data['assignment']) ? $data['assignment'] : 0;
 
 		// Delete old module to menu item associations
-		// $db->setQuery(
-		//	'DELETE FROM #__modules_menu'.
-		//	' WHERE moduleid = '.(int) $table->id
-		// );
-
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->delete('#__modules_menu')
@@ -948,6 +952,7 @@ class ModulesModelModule extends JModelAdmin
 		catch (RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
+
 			return false;
 		}
 
@@ -968,11 +973,6 @@ class ModulesModelModule extends JModelAdmin
 			if ($assignment === 0)
 			{
 				// Assign new module to `all` menu item associations.
-				// $this->_db->setQuery(
-				//  'INSERT INTO #__modules_menu'.
-				//  ' SET moduleid = ' . (int) $table->id . ', menuid = 0'
-				// )
-
 				$query->clear()
 					->insert('#__modules_menu')
 					->columns(array($db->quoteName('moduleid'), $db->quoteName('menuid')))
@@ -986,16 +986,18 @@ class ModulesModelModule extends JModelAdmin
 				catch (RuntimeException $e)
 				{
 					$this->setError($e->getMessage());
+
 					return false;
 				}
 			}
 			elseif (!empty($data['assigned']))
 			{
 				// Get the sign of the number.
-				$sign = $assignment < 0 ? -1 : +1;
+				$sign = $assignment < 0 ? -1 : 1;
 
 				// Preprocess the assigned array.
 				$tuples = array();
+
 				foreach ($data['assigned'] as &$pk)
 				{
 					$tuples[] = '(' . (int) $table->id . ',' . (int) $pk * $sign . ')';
@@ -1013,6 +1015,7 @@ class ModulesModelModule extends JModelAdmin
 				catch (RuntimeException $e)
 				{
 					$this->setError($e->getMessage());
+
 					return false;
 				}
 			}
@@ -1036,6 +1039,7 @@ class ModulesModelModule extends JModelAdmin
 		catch (RuntimeException $e)
 		{
 			JError::raiseWarning(500, $e->getMessage());
+
 			return false;
 		}
 

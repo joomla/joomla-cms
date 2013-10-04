@@ -38,3 +38,8 @@ require_once JPATH_LIBRARIES . '/import.php';
 
 // Bootstrap the CMS libraries.
 require_once JPATH_LIBRARIES . '/cms.php';
+
+// Import filesystem classes since they aren't autoloaded
+jimport('joomla.filesystem.file');
+jimport('joomla.filesystem.folder');
+jimport('joomla.filesystem.path');

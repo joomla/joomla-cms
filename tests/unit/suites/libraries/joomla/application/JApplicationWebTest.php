@@ -1784,11 +1784,11 @@ class JApplicationWebTest extends TestCase
 	}
 
 	/**
-	 * Test...
+	 * Tests the isSSLConnection method
 	 *
-	 * @covers JApplicationWeb::isSSLConnection
+	 * @return  void
 	 *
-	 * @return void
+	 * @since   12.2
 	 */
 	public function testIsSSLConnection()
 	{

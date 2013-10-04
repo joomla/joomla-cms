@@ -20,8 +20,6 @@ class ContenthistoryViewCompare extends JViewLegacy
 {
 	protected $items;
 
-	protected $pagination;
-
 	protected $state;
 
 	/**
@@ -46,6 +44,6 @@ class ContenthistoryViewCompare extends JViewLegacy
 			return false;
 		}
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 }

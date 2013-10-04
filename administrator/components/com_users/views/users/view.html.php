@@ -133,7 +133,7 @@ class UsersViewUsers extends JViewLegacy
 		JHtmlSidebar::addFilter(
 			JText::_('COM_USERS_OPTION_FILTER_DATE'),
 			'filter_range',
-			JHtml::_('select.options', Usershelper::getRangeOptions(), 'value', 'text', $this->state->get('filter.range'))
+			JHtml::_('select.options', UsersHelper::getRangeOptions(), 'value', 'text', $this->state->get('filter.range'))
 		);
 	}
 
