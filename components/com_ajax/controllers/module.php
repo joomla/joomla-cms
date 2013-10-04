@@ -33,9 +33,6 @@ class AjaxControllerModule extends JControllerLegacy
 		// Module name
 		$name	= $this->input->get('name');
 
-		// get module helper
-		require_once COM_AJAX_PATH_COMPONENT . '/helpers/module.php';
-
 		if (!$name || !AjaxModuleHelper::isModuleAvailable($name))
 		{
 			// Module is not published or you do not have access to it

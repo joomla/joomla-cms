@@ -12,8 +12,11 @@ defined('_JEXEC') or die;
 // Init the base path, for allow to call the same controllers from back end
 define('COM_AJAX_PATH_COMPONENT', JPATH_ROOT . '/components/com_ajax');
 
+// Register classes to the autoload list
+JLoader::register('AjaxError', COM_AJAX_PATH_COMPONENT . '/helpers/error.php');
+JLoader::register('AjaxModuleHelper', COM_AJAX_PATH_COMPONENT . '/helpers/module.php');
+
 // Use own exception handler
-require_once COM_AJAX_PATH_COMPONENT . '/helpers/error.php';
 set_exception_handler(array('AjaxError', 'display'));
 
 if(!JFactory::getApplication()->input->get('format'))
