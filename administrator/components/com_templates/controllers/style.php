@@ -23,5 +23,4 @@ class TemplatesControllerStyle extends JControllerForm
 	 * @since   1.6
 	 */
 	protected $text_prefix = 'COM_TEMPLATES_STYLE';
-
 }

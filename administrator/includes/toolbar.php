@@ -619,6 +619,28 @@ abstract class JToolbarHelper
 		$layout = new JLayoutFile('joomla.toolbar.versions');
 		$bar->appendButton('Custom', $layout->render($options), 'versions');
 	}
+
+	/**
+	 * Displays a modal button
+	 *
+	 * @param   string  $targetModalId  ID of the target modal box
+	 * @param   string  $icon           Icon class to show on modal button
+	 * @param   string  $alt            Title for the modal button
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public static function modal($targetModalId, $icon, $alt)
+	{
+		JHtml::_('behavior.modal');
+		$title = JText::_($alt);
+		$dhtml = "<button data-toggle='modal' data-target='#" . $targetModalId . "' class='btn btn-small'>
+			<i class='" . $icon . "' title='" . $title . "'></i>" . $title . "</button>";
+
+		$bar = JToolbar::getInstance('toolbar');
+		$bar->appendButton('Custom', $dhtml, $alt);
+	}
 }
 
 /**
