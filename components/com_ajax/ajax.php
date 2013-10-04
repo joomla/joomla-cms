@@ -52,7 +52,21 @@ if ($input->get('module'))
 	{
 		$helperFile = JPATH_BASE . '/modules/mod_' . $module . '/helper.php';
 
-		$class  = 'mod' . ucfirst($module) . 'Helper';
+		if (strpos($module, '_'))
+		{
+			$parts = explode('_', $module);
+			$class = 'mod';
+			foreach ($parts as $part)
+			{
+				$class .= ucfirst($part);
+			}
+			$class .= 'Helper';
+		}
+		else
+		{
+			$class = 'mod' . ucfirst($module) . 'Helper';
+		}
+
 		$method = $input->get('method') ? $input->get('method') : 'get';
 
 		if (is_file($helperFile))
