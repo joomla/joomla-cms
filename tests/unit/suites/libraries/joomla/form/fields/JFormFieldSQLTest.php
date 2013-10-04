@@ -7,8 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/form/fields/sql.php';
-require_once JPATH_TESTS . '/stubs/FormInspectors.php';
+JFormHelper::loadFieldClass('sql');
 
 /**
  * Test class for JFormFieldSQL.
@@ -44,7 +43,7 @@ class JFormFieldSQLTest extends TestCaseDatabase
 	 */
 	public function testGetInput()
 	{
-		$form = new JFormInspector('form1');
+		$form = new JForm('form1');
 
 		$expected = '<form><field name="sql" type="sql" value_field="title" key_field="id" query="SELECT * FROM `jos_categories`">' .
 			'<option value="*">None</option></field></form>';
@@ -63,17 +62,10 @@ class JFormFieldSQLTest extends TestCaseDatabase
 			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
 
-		if (!is_null(self::$driver))
-		{
-			$this->assertThat(
-				strlen($field->input),
-				$this->greaterThan(0),
-				'Line:' . __LINE__ . ' The getInput method should return something without error.'
-			);
-		}
-		else
-		{
-			$this->markTestSkipped();
-		}
+		$this->assertThat(
+			strlen($field->input),
+			$this->greaterThan(0),
+			'Line:' . __LINE__ . ' The getInput method should return something without error.'
+		);
 	}
 }

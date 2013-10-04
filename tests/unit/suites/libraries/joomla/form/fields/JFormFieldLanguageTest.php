@@ -7,8 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/form/fields/language.php';
-require_once JPATH_TESTS . '/stubs/FormInspectors.php';
+JFormHelper::loadFieldClass('language');
 
 /**
  * Test class for JFormFieldLanguage.
@@ -44,7 +43,7 @@ class JFormFieldLanguageTest extends TestCaseDatabase
 	 */
 	public function testGetInput()
 	{
-		$form = new JFormInspector('form1');
+		$form = new JForm('form1');
 
 		$this->assertThat(
 			$form->load('<form><field name="language" type="language" /></form>'),

@@ -30,6 +30,7 @@ class JoomlaInstallerScript
 		$this->deleteUnexistingFiles();
 		$this->updateManifestCaches();
 		$this->updateDatabase();
+		$this->clearRadCache();
 	}
 
 	protected function updateDatabase()
@@ -95,6 +96,7 @@ class JoomlaInstallerScript
 		$extensions[] = array('component', 'com_users', '', 1);
 		$extensions[] = array('component', 'com_tags', '', 1);
 		$extensions[] = array('component', 'com_contenthistory', '', 1);
+		$extensions[] = array('component', 'com_postinstall', '', 1);
 
 		// Libraries
 		$extensions[] = array('library', 'phpmailer', '', 0);
@@ -193,6 +195,7 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'newsfeeds', 'finder', 0);
 		$extensions[] = array('plugin', 'weblinks', 'finder', 0);
 		$extensions[] = array('plugin', 'tags', 'finder', 0);
+		$extensions[] = array('plugin', 'totp', 'twofactorauth', 0);
 
 		// Templates
 		$extensions[] = array('template', 'beez3', '', 0);
@@ -930,6 +933,46 @@ class JoomlaInstallerScript
 			'/administrator/includes/application.php',
 			'/includes/application.php',
 			'/libraries/legacy/application/helper.php',
+			'/libraries/joomla/plugin/helper.php',
+			'/libraries/joomla/plugin/index.html',
+			'/libraries/joomla/plugin/plugin.php',
+			'/libraries/legacy/component/helper.php',
+			'/libraries/legacy/component/index.html',
+			'/libraries/legacy/module/helper.php',
+			'/libraries/legacy/module/index.html',
+			'/administrator/components/com_templates/controllers/source.php',
+			'/administrator/components/com_templates/models/source.php',
+			'/administrator/components/com_templates/views/source/index.html',
+			'/administrator/components/com_templates/views/source/tmpl/edit.php',
+			'/administrator/components/com_templates/views/source/tmpl/edit_ftp.php',
+			'/administrator/components/com_templates/views/source/tmpl/index.html',
+			'/administrator/components/com_templates/views/source/view.html.php',
+			'/media/editors/codemirror/css/csscolors.css',
+			'/media/editors/codemirror/css/jscolors.css',
+			'/media/editors/codemirror/css/phpcolors.css',
+			'/media/editors/codemirror/css/sparqlcolors.css',
+			'/media/editors/codemirror/css/xmlcolors.css',
+			'/media/editors/codemirror/js/basefiles-uncompressed.js',
+			'/media/editors/codemirror/js/basefiles.js',
+			'/media/editors/codemirror/js/codemirror-uncompressed.js',
+			'/media/editors/codemirror/js/editor.js',
+			'/media/editors/codemirror/js/highlight.js',
+			'/media/editors/codemirror/js/mirrorframe.js',
+			'/media/editors/codemirror/js/parsecss.js',
+			'/media/editors/codemirror/js/parsedummy.js',
+			'/media/editors/codemirror/js/parsehtmlmixed.js',
+			'/media/editors/codemirror/js/parsejavascript.js',
+			'/media/editors/codemirror/js/parsephp.js',
+			'/media/editors/codemirror/js/parsephphtmlmixed.js',
+			'/media/editors/codemirror/js/parsesparql.js',
+			'/media/editors/codemirror/js/parsexml.js',
+			'/media/editors/codemirror/js/select.js',
+			'/media/editors/codemirror/js/stringstream.js',
+			'/media/editors/codemirror/js/tokenize.js',
+			'/media/editors/codemirror/js/tokenizejavascript.js',
+			'/media/editors/codemirror/js/tokenizephp.js',
+			'/media/editors/codemirror/js/undo.js',
+			'/media/editors/codemirror/js/util.js',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -979,6 +1022,10 @@ class JoomlaInstallerScript
 			'/libraries/legacy/pathway',
 			'/media/system/swf/',
 			'/media/editors/tinymce/jscripts',
+			// Joomla! 3.2
+			'/libraries/joomla/plugin',
+			'/libraries/legacy/component',
+			'/libraries/legacy/module',
 		);
 
 		jimport('joomla.filesystem.file');
@@ -997,6 +1044,24 @@ class JoomlaInstallerScript
 			{
 				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder) . '<br />';
 			}
+		}
+	}
+
+	/**
+	 * Clears the RAD layer's table cache. The cache vastly improves performance
+	 * but needs to be cleared every time you update the database schema.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	protected function clearRadCache()
+	{
+		if (is_file(JPATH_CACHE . '/fof/cache.php'))
+		{
+			jimport('joomla.filesystem.file');
+
+			JFile::delete(JPATH_CACHE . '/fof/cache.php');
 		}
 	}
 }

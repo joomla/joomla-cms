@@ -16,12 +16,15 @@ defined('_JEXEC') or die;
  * @subpackage  com_weblinks
  * @since       1.6
  */
-class WeblinksHelper
+class WeblinksHelper extends JHelperContent
 {
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string	The name of the active view.
+	 * @param   string	$vName  The name of the active view.
+	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public static function addSubmenu($vName = 'weblinks')
@@ -44,36 +47,4 @@ class WeblinksHelper
 		}
 	}
 
-	/**
-	 * Gets a list of the actions that can be performed.
-	 *
-	 * @param   integer  The category ID.
-	 * @return  JObject
-	 * @since   1.6
-	 */
-	public static function getActions($categoryId = 0)
-	{
-		$user	= JFactory::getUser();
-		$result	= new JObject;
-
-		if (empty($categoryId))
-		{
-			$assetName = 'com_weblinks';
-			$level = 'component';
-		}
-		else
-		{
-			$assetName = 'com_weblinks.category.'.(int) $categoryId;
-			$level = 'category';
-		}
-
-		$actions = JAccess::getActions('com_weblinks', $level);
-
-		foreach ($actions as $action)
-		{
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
-		}
-
-		return $result;
-	}
 }

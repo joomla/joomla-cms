@@ -25,11 +25,71 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Oct-2013 Jean-Marie Simonet
+ # [#31827] Installation doesn't work when installation is in the path. Thanks Nikolai Plath
+ $ Updating installation lang file fr-FR
+ # [#28234] Addition of notification in Media Manager regarding folder name for Create Folder. Thanks Achal Aggarwal
+ # [#28214] Menu Items Could be Saved without Menu Item Type. Thanks Khai Vu Din 
+ # [#28794] Redirect to homepage instead of 404 with SEF and URL rewrite enabled if no com_content on homepage.
+ # Reverting [#28794]
+
+03-Oct-2013 Michael Babker
+ + [#31266] GSoC 2013 - Improved Template Manager.  Thanks Ram Tripathi
+
+03-Oct-2013 Jean-Marie Simonet
+ # [#32143] *Multilingual improvement: Use static method to check if language associations is enabled  Thanks Roberto Segura
+ $ Correcting some small errors in installation lang strings. Thanks Mig Manickam
+ $ Adding tinyMCE Malay lang file
+ $ Updating installation lang files: ca-ES, da-DK, es-ES, fr=FR, id-ID, lv-LV, mk-MK, ms-MY, ru-RU, sr-RS, sr-YU, ta-IN
+
+02-Oct-2013 Michael Babker
+ +$ [#31561] Add support for BCrypt encryption of passwords and rewrite cookie based authentication to use it.  Thanks Elin Waring
+
+02-Oct-2013 Jean-Marie Simonet
+ $ Updating installation languages version #
+ # Adding Malaysia flag
+ $ [#32147] TFA Links as Language Strings. Thanks Tobias Zulauf
+
+01-Oct-2013 Jean-Marie Simonet
+ $ Adding Malay ms-MY to installation languages
+ # [#32128] *Multilingual install: storing language filter parameters is missing
+
+29-Sep-2013 Jean-Marie Simonet
+ # [#31377] New Button Icon in Module Manager for Hathor Missing. Thanks Michael Babker
+ # [#32122] Orphaned > in banner.xml. Thanks Troy hall
+
+28-Sep-2013 Michael Babker
+ ^ [#32068] Consolidate extension helper classes to CMS tree
+ ^ [#32006] Improvements to JHelper and JUcmType.  Thanks Elin Waring
+ # [#27063] *Missing weekend translation option for calendar component.  Thanks Jean-Marie Simonet
+ ^ [#31579] GSoC 2013: Removing MooTools dependencies from multiselect.js.  Thanks Ashan Fernando
+ ^ [#31591] GSoC 2013: Removing MooTools dependencies from installation section.  Thanks Ashan Fernando
+
+26-Sep-2013 Michael Babker
+ ^ [#30556] JDatabaseDriver::replacePrefix: Optimization proposal: 100 lines of PHP can be replaced by 1 line of regexp.  Thanks Beat
+
+25-Sep-2013 Michael Babker
+ + [#31977] Component for Post-Installation Messages.  Thanks Nicholas K. Dionysopoulos
+ # [#31107] *HelperRoute classes generate wrong URLs.  Thanks Hannes Papenberg
+ ^ [#31489] Duplicate code reduction in category views and hits standardiation.  Thanks Elin Waring
+ ^ [#31517] Reduce duplicate code in category feeds.  Thanks Elin Waring
+
+25-Sep-2013 Jean-Marie Simonet
+ # [#32069] Backend 'Edit Account' page doesn't change password.   Thanks Dennis Hermatski.
+ # [#32089] *Adding pagination limitbox in overrides manager
+ # [#32081] PHP notices when creating a new article. Thanks Achal Aggarwal
+
+24-Sep-2013 Elin Waring
+ ^ [#31946] Support new mvc components in com_menus.
+
 23-Sep-2013 Elin Waring
  ^ [#31581] GSoC 2013: Removing MooTools dependencies from front-end components. Thanks Ashan Fernando
  ^ [#31576] GSoC 2013: Removing MooTools dependencies from caption.js. Thanks Ashan Fernando
  ^ [#31865] [JUX] [08] Added some space above the login button on the admin login. Thanks Peter Peter van Westen
- ^ [#31860] [JUX] [03] Added Joomla update message button to top of page on control panel.  Thanks Peter Peter van Westen 
+ ^ [#31860] [JUX] [03] Added Joomla update message button to top of page on control panel.  Thanks Peter Peter van Westen
+ ^ [#32083] Broken front-end article editing layout. Thanks Achal Aggarwal
+ # [#32087] Fix small issue with the name of UsersHelper in com_users. Thanks Bruno Batista
+ ^ [#30417] Extend individual content helpers from JHelperContent and remove duplicate code. Thanks Edgars Piruška
 
 22-Sep-2013 Michael Babker
  # [#32060] FOF description is show with ?? at language debug and is hardcoded in the xml files. Thanks Tobias Zulauf
