@@ -25,22 +25,21 @@
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_MENU" />
 	<config>
-
 		<fields name="params">
-
 			<fieldset name="advanced">
-
-				<field name="layout"
+				<field
+					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
 					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
-
-				<field name="moduleclass_sfx"
+				<field
+					name="moduleclass_sfx"
 					type="textarea" rows="3"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 
-				<field name="shownew"
+				<field
+					name="shownew"
 					type="list"
 					default="1"
 					label="MOD_MENU_FIELD_SHOWNEW"
@@ -49,7 +48,8 @@
 					<option value="1">JSHOW</option>
 				</field>
 
-				<field name="showhelp"
+				<field
+					name="showhelp"
 					type="list"
 					default="1"
 					label="MOD_MENU_FIELD_SHOWHELP"
@@ -58,24 +58,26 @@
 					<option value="1">JSHOW</option>
 				</field>
 
-				<field name="forum_url"
+				<field
+					name="forum_url"
 					type="url"
 					class="inputbox"
 					size="30"
 					default=""
 					label="MOD_MENU_FIELD_FORUMURL_LABEL"
-					description="MOD_MENU_FIELD_FORUMURL_DESC" />
+					description="MOD_MENU_FIELD_FORUMURL_DESC"
+				/>
 
-				<field name="cache"
+				<field
+					name="cache"
 					type="list"
 					default="0"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC">
-					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+					<option
+						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
-
 			</fieldset>
-
 		</fields>
 	</config>
 </extension>

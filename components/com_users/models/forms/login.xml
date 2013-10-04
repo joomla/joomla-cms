@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-
 	<fieldset name="credentials"
 		label="COM_USERS_LOGIN_DEFAULT_LABEL"	>
 
@@ -10,26 +9,26 @@
 			label="COM_USERS_LOGIN_USERNAME_LABEL"
 			size="25"
 			required="true"
-			validate="username" />
+			validate="username"
+		/>
 
 		<field name="password" type="password"
 			class="validate-password"
 			required="true"
 			filter="raw"
-			label="JGLOBAL_PASSWORD"
-			size="25" />
+			label="JGLOBAL_PASSWORD"			
+			size="25"
+		/>
 		
 		<field name="secretkey" type="text"
 			class=""
 			required="false"
 			filter="int"
 			label="JGLOBAL_SECRETKEY"			
-			size="25" />
-
+			size="25"
+		/>
 	</fieldset>
 	<fieldset>
-
 		<field name="return" type="hidden" />
-
 	</fieldset>
 </form>

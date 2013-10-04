@@ -1,52 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset>
-
-		<field name="id"
+		<field
+			name="id"
 			type="text"
 			class="readonly"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			description="JGLOBAL_FIELD_ID_DESC"
 			default="0"
 			filter="int"
-			readonly="true" />
+			readonly="true"/>
 
-		<field name="title"
+		<field
+			name="title"
 			type="text"
 			label="COM_MENUS_ITEM_FIELD_TITLE_LABEL"
 			description="COM_MENUS_ITEM_FIELD_TITLE_DESC"
 			class="inputbox input-xxlarge input-large-text"
 			size="40"
-			required="true" />
+			required="true"/>
 
-		<field name="alias"
+		<field
+			name="alias"
 			type="alias"
 			label="JFIELD_ALIAS_LABEL"
 			description="JFIELD_ALIAS_DESC"
 			placeholder="JFIELD_ALIAS_PLACEHOLDER"
 			class="inputbox"
-			size="40" />
+			size="40"/>
 
 		<field name="aliastip"
 			type="spacer"
-			label="COM_MENUS_TIP_ALIAS_LABEL" />
+			label="COM_MENUS_TIP_ALIAS_LABEL"/>
 
-		<field name="note"
+		<field
+			name="note"
 			type="text"
 			label="JFIELD_NOTE_LABEL"
 			description="COM_MENUS_ITEM_FIELD_NOTE_DESC"
 			class="inputbox span12"
-			size="40" />
+			size="40"/>
 
-		<field name="link"
+		<field
+			name="link"
 			type="link"
 			label="COM_MENUS_ITEM_FIELD_LINK_LABEL"
 			description="COM_MENUS_ITEM_FIELD_LINK_DESC"
 			readonly="true"
 			class="inputbox"
-			size="50" />
+			size="50"/>
 
-		<field name="menutype"
+		<field
+			name="menutype"
 			type="menu"
 			label="COM_MENUS_ITEM_FIELD_ASSIGNED_LABEL"
 			description="COM_MENUS_ITEM_FIELD_ASSIGNED_DESC"
@@ -54,7 +59,8 @@
 			required="true"
 			size="1" />
 
-		<field name="type"
+		<field
+			name="type"
 			type="menutype"
 			label="COM_MENUS_ITEM_FIELD_TYPE_LABEL"
 			description="COM_MENUS_ITEM_FIELD_TYPE_DESC"
@@ -62,7 +68,8 @@
 			required="true"
 			size="40" />
 
-		<field name="published"
+		<field
+			name="published"
 			type="list"
 			class="chzn-color-state"
 			id="published"
@@ -71,12 +78,20 @@
 			size="1"
 			default="1"
 			filter="integer">
-			<option value="1">JPUBLISHED</option>
-			<option value="0">JUNPUBLISHED</option>
-			<option value="-2">JTRASHED</option>
+			<option
+				value="1">
+				JPUBLISHED</option>
+			<option
+				value="0">
+				JUNPUBLISHED</option>
+
+			<option
+				value="-2">
+				JTRASHED</option>
 		</field>
 
-		<field name="parent_id"
+		<field
+			name="parent_id"
 			type="menuparent"
 			label="COM_MENUS_ITEM_FIELD_PARENT_LABEL"
 			description="COM_MENUS_ITEM_FIELD_PARENT_DESC"
@@ -84,10 +99,12 @@
 			filter="int"
 			class="inputbox"
 			size="1">
-			<option value="1">COM_MENUS_ITEM_ROOT</option>
+			<option
+				value="1">COM_MENUS_ITEM_ROOT</option>
 		</field>
 
-		<field name="menuordering"
+		<field
+			name="menuordering"		
 			type="menuordering"
 			label="COM_MENUS_ITEM_FIELD_ORDERING_LABEL"
 			description="COM_MENUS_ITEM_FIELD_ORDERING_DESC"
@@ -96,39 +113,45 @@
 			size="1">
 		</field>
 
-		<field name="component_id"
+		<field
+			name="component_id"
 			type="hidden"
 			filter="int" />
 
-		<field name="ordering"
+		<field
+			name="ordering"
 			type="ordering"
 			label="JFIELD_ORDERING_LABEL"
 			description="JFIELD_ORDERING_DESC"
 			filter="int"
-			class="inputbox" />
+			class="inputbox"/>
 
-		<field name="browserNav"
+		<field
+			name="browserNav"
 			type="list"
 			label="COM_MENUS_ITEM_FIELD_BROWSERNAV_LABEL"
 			description="COM_MENUS_ITEM_FIELD_BROWSERNAV_DESC"
 			default="Parent"
 			filter="int"
 			class="inputbox">
-			<option value="0">COM_MENUS_FIELD_VALUE_PARENT</option>
-			<option value="1">COM_MENUS_FIELD_VALUE_NEW_WITH_NAV</option>
-			<option value="2">COM_MENUS_FIELD_VALUE_NEW_WITHOUT_NAV</option>
-		</field>
+				<option value="0">COM_MENUS_FIELD_VALUE_PARENT</option>
+				<option value="1">COM_MENUS_FIELD_VALUE_NEW_WITH_NAV</option>
+				<option value="2">COM_MENUS_FIELD_VALUE_NEW_WITHOUT_NAV</option>
+			</field>
 
-		<field name="access"
+		<field
+			name="access"
 			type="accesslevel"
 			id="access"
 			class="inputbox"
 			label="JFIELD_ACCESS_LABEL"
 			description="JFIELD_ACCESS_DESC"
 			default="1"
-			filter="integer" />
+			filter="integer"/>
 
-		<field name="template_style_id"
+
+		<field
+			name="template_style_id"
 			type="templatestyle"
 			label="COM_MENUS_ITEM_FIELD_TEMPLATE_LABEL"
 			description="COM_MENUS_ITEM_FIELD_TEMPLATE_DESC"
@@ -137,18 +160,22 @@
 			<option value="0">JOPTION_USE_DEFAULT</option>
 		</field>
 
-		<field name="home"
+		<field
+			name="home"
 			type="radio"
-			class="btn-group btn-group-yesno"
 			label="COM_MENUS_ITEM_FIELD_HOME_LABEL"
 			description="COM_MENUS_ITEM_FIELD_HOME_DESC"
 			default="0"
+			class="btn-group btn-group-yesno"
 			filter="integer">
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
 		</field>
 
-		<field name="language"
+		<field
+			name="language"
 			type="contentlanguage"
 			label="JFIELD_LANGUAGE_LABEL"
 			description="COM_MENUS_ITEM_FIELD_LANGUAGE_DESC"
@@ -156,33 +183,37 @@
 			<option value="*">JALL</option>
 		</field>
 
-		<field name="path"
+		<field
+			name="path"
 			type="hidden"
-			filter="unset" />
+			filter="unset"/>
 
-		<field name="level"
+		<field
+			name="level"
 			type="hidden"
-			filter="unset" />
+			filter="unset"/>
 
-		<field name="checked_out"
+		<field
+			name="checked_out"
 			type="hidden"
-			filter="unset" />
+			filter="unset"/>
 
-		<field name="checked_out_time"
+		<field
+			name="checked_out_time"
 			type="hidden"
-			filter="unset" />
+			filter="unset"/>
 
-		<field name="lft"
+		<field
+			name="lft"
 			type="hidden"
-			filter="unset" />
+			filter="unset"/>
 
-		<field name="rgt"
+		<field
+			name="rgt"
 			type="hidden"
-			filter="unset" />
-
+			filter="unset"/>
 	</fieldset>
 
 	<fields name="params">
-
 	</fields>
 </form>

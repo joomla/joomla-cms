@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset>
-
-		<field id="id"
+		<field
+			id="id"
 			name="id"
 			type="text"
 			default="0"
@@ -11,7 +11,8 @@
 			label="JGLOBAL_FIELD_ID_LABEL"
 			description ="JGLOBAL_FIELD_ID_DESC" />
 
-		<field name="old_url"
+		<field
+			name="old_url"
 			type="text"
 			class="inputbox"
 			label="COM_REDIRECT_FIELD_OLD_URL_LABEL"
@@ -19,7 +20,8 @@
 			size="50"
 			required="true" />
 
-		<field name="new_url"
+		<field
+			name="new_url"
 			type="text"
 			class="inputbox"
 			label="COM_REDIRECT_FIELD_NEW_URL_LABEL"
@@ -27,14 +29,16 @@
 			size="50"
 			required="true" />
 
-		<field name="comment"
+		<field
+			name="comment"
 			type="text"
 			class="inputbox"
 			label="COM_REDIRECT_FIELD_COMMENT_LABEL"
 			description="COM_REDIRECT_FIELD_COMMENT_DESC"
 			size="40" />
 
-		<field name="published"
+		<field
+			name="published"
 			type="list"
 			label="JSTATUS"
 			description="JFIELD_PUBLISHED_DESC"
@@ -42,17 +46,22 @@
 			size="1"
 			required="true"
 			default="1">
-			<option value="1">
+			<option
+				value="1">
 				JENABLED</option>
-			<option value="0">
+			<option
+				value="0">
 				JDISABLED</option>
-			<option value="2">
+			<option
+				value="2">
 				JARCHIVED</option>
-			<option value="-2">
+			<option
+				value="-2">
 				JTRASHED</option>
 		</field>
 
-		<field name="referer"
+		<field
+			name="referer"
 			type="text"
 			id="referer"
 			class="inputbox"
@@ -60,7 +69,8 @@
 			size="50"
 			readonly="true" />
 
-		<field name="created_date"
+		<field
+			name="created_date"
 			type="text"
 			id="created_date"
 			class="readonly"
@@ -68,7 +78,8 @@
 			size="20"
 			readonly="true" />
 
-		<field name="modified_date"
+		<field
+			name="modified_date"
 			type="text"
 			id="modified_date"
 			class="readonly"
@@ -76,7 +87,8 @@
 			size="20"
 			readonly="true" />
 
-		<field name="hits"
+		<field
+			name="hits"
 			type="text"
 			id="hits"
 			class="readonly"
@@ -84,6 +96,5 @@
 			size="20"
 			readonly="true"
 			filter="unset" />
-
 	</fieldset>
 </form>

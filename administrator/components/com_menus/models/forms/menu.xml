@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset>
-
-		<field id="id"
+		<field
+			id="id"
 			name="id"
 			type="hidden"
 			default="0"
 			filter="int"
 			readonly="true"/>
 
-		<field id="menutype"
+		<field
+			id="menutype"
 			name="menutype"
 			type="text"
 			label="COM_MENUS_MENU_MENUTYPE_LABEL"
@@ -19,7 +20,8 @@
 			maxlength="24"
 			required="true" />
 
-		<field id="title"
+		<field
+			id="title"
 			name="title"
 			type="text"
 			label="JGLOBAL_TITLE"
@@ -29,7 +31,8 @@
 			maxlength="48"
 			required="true" />
 
-		<field id="menudescription"
+		<field
+			id="menudescription"
 			name="description"
 			type="text"
 			label="JGLOBAL_DESCRIPTION"
