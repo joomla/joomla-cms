@@ -148,8 +148,6 @@
 			}
 		});
 
-/* Uncomment for front-end menu edits: *
-
 		// Menu items edit icons:
 
 		var activePopover = null;
@@ -199,8 +197,5 @@
 				$(this).delay(1500).queue(function(next) { $(this).popover('hide'); next() });
 			}
 		});
-
-/* End of commented Edit menu */
-
 	});
 })(jQuery);

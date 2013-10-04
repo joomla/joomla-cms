@@ -11,45 +11,37 @@ defined('_JEXEC') or die;
 
 // JLayout for standard handling of the edit modules:
 
-$moduleHtml =& $displayData['moduleHtml'];
-$mod = $displayData['module'];
-$position = $displayData['position'];
-
-static $jsNotOut =true;
-
-$app = JFactory::getApplication();
-
-$cannotEditFrontend = $app->isAdmin() || !JFactory::getUser()->authorise('core.manage', 'com_modules');
+$moduleHtml   =& $displayData['moduleHtml'];
+$mod          =  $displayData['module'];
+$position     =  $displayData['position'];
+$menusEditing =  $displayData['menusediting'];
 
 
-if (!$moduleHtml)
+if (preg_match('/<(?:div|span|nav|ul|ol|h\d) [^>]*class="[^"]* jmoddiv"/', $moduleHtml))
 {
-	return;
-}
-
-if ($cannotEditFrontend
-	|| preg_match('/<(?:div|span|nav|ul) [^>]*class="[^"]* jmoddiv"/', $moduleHtml))
-{
-	// Module isn't enclosing in a div with class or handles already module edit button:
+	// Module has already module edit button:
 	return;
 }
 
 // Add css class jmoddiv and data attributes for module-editing URL and for the tooltip:
-$editUrl = JURI::base() . 'administrator/' . 'index.php?option=com_modules&view=module&layout=edit&id=' . (int) $mod->id;
+$editUrl = JURI::base() . 'administrator/index.php?option=com_modules&view=module&layout=edit&id=' . (int) $mod->id;
 
 // Add class, editing URL and tooltip, and if module of type menu, also the tooltip for editing the menu item:
-$moduleHtml = preg_replace('/^(<(?:div|span|nav|ul) [^>]*class="[^"]*)"/',
+$count = 0;
+$moduleHtml = preg_replace('/^(<(?:div|span|nav|ul|ol|h\d) [^>]*class="[^"]*)"/',
 	'\\1 jmoddiv" data-jmodediturl="' . $editUrl. '"'
 	. ' data-jmodtip="'
 	. JHtml::tooltipText(JText::_('JLIB_HTML_EDIT_MODULE'), htmlspecialchars($mod->title) . '<br />' . sprintf(JText::_('JLIB_HTML_EDIT_MODULE_IN_POSITION'), htmlspecialchars($position)), 0)
 	. '"'
-	. ($mod->module == 'mod_menu' ? '" data-jmenuedittip="' . JHtml::tooltipText('JLIB_HTML_EDIT_MENU_ITEM', 'JLIB_HTML_EDIT_MENU_ITEM_ID') . '"' : ''),
-	$moduleHtml);
+	. ($menusEditing && $mod->module == 'mod_menu' ? '" data-jmenuedittip="' . JHtml::tooltipText('JLIB_HTML_EDIT_MENU_ITEM', 'JLIB_HTML_EDIT_MENU_ITEM_ID') . '"' : ''),
+	$moduleHtml, 1, $count);
 
-if ($jsNotOut)
+static $jsOut = false;
+
+if ($count && !$jsOut)
 {
 	// Load once booststrap tooltip and add stylesheet and javascript to head:
-	$jsNotOut = false;
+	$jsOut = true;
 	JHtml::_('bootstrap.tooltip');
 	JHtml::_('bootstrap.popover');
 

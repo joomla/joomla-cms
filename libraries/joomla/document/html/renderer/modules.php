@@ -34,12 +34,23 @@ class JDocumentRendererModules extends JDocumentRenderer
 		$renderer = $this->_doc->loadRenderer('module');
 		$buffer = '';
 
+		$app = JFactory::getApplication();
+		$frontediting = $app->get('frontediting', 1);
+		$user = JFactory::getUser();
+
+		$canEdit = $user->id && $frontediting && !($app->isAdmin() && $frontediting < 2) && $user->authorise('core.edit', 'com_modules');
+		$menusEditing = ($frontediting == 2) && $user->authorise('core.edit', 'com_menus');
+
 		foreach (JModuleHelper::getModules($position) as $mod)
 		{
 			$moduleHtml = trim($renderer->render($mod, $params, $content));
 
-			JLayoutHelper::render('joomla.edit.frontediting_modules', array('moduleHtml' => &$moduleHtml, 'module' => $mod, 'position' => $position));
-
+			if ($canEdit && $moduleHtml != '')
+				// Once FR http://joomlacode.org/gf/project/joomla/tracker/?action=TrackerItemEdit&tracker_item_id=28638&start=200 && PR https://github.com/joomla/joomla-cms/pull/1930/files are merged:
+				//  +    && $user->authorise('core.edit', 'com_modules.module.' . $mod->id)
+			{
+				JLayoutHelper::render('joomla.edit.frontediting_modules', array('moduleHtml' => &$moduleHtml, 'module' => $mod, 'position' => $position, 'menusediting' => $menusEditing));
+			}
 			$buffer .= $moduleHtml;
 		}
 		return $buffer;
