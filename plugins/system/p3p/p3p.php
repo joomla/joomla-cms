@@ -32,6 +32,6 @@ class PlgSystemP3p extends JPlugin
 			return;
 		}
 		// Replace any existing P3P headers in the response
-		JResponse::setHeader('P3P', 'CP="'.$header.'"', true);
+		JFactory::getApplication()->setHeader('P3P', 'CP="'.$header.'"', true);
 	}
 }

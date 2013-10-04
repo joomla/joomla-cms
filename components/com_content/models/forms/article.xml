@@ -12,6 +12,13 @@
 			readonly="true" />
 
 		<field
+			id="contenthistory"
+			name="contenthistory"
+			type="contenthistory"
+			data-typeAlias="com_content.article"
+			label="JTOOLBAR_VERSIONS" />
+
+		<field
 			name="asset_id"
 			type="hidden"
 			filter="unset" />
@@ -114,6 +121,15 @@
 			class="inputbox"
 			size="20" />
 
+		<field 
+			name="version_note" 
+			type="text" 
+			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+			description="JGLOBAL_FIELD_VERSION_NOTE_DESC" 
+			class="inputbox" 
+			size="45" 
+			labelclass="control-label" />
+		
 		<field
 			id="publish_up"
 			name="publish_up"
@@ -149,8 +165,9 @@
 			type="tag"
 			label="JTAG"
 			description="JTAG_DESC"
-			class="inputbox span12 small"
+			class="inputbox"
 			multiple="true"
+			size="45"
 		>
 		</field>
 

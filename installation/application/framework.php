@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
  */
 
 error_reporting(E_ALL);
-ini_set('display_errors', true);
 const JDEBUG = false;
 @ini_set('magic_quotes_runtime', 0);
 
@@ -39,3 +38,8 @@ require_once JPATH_LIBRARIES . '/import.php';
 
 // Bootstrap the CMS libraries.
 require_once JPATH_LIBRARIES . '/cms.php';
+
+// Import filesystem classes since they aren't autoloaded
+jimport('joomla.filesystem.file');
+jimport('joomla.filesystem.folder');
+jimport('joomla.filesystem.path');

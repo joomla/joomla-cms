@@ -18,11 +18,18 @@ defined('_JEXEC') or die;
  */
 class ModWhosonlineHelper
 {
-	// show online count
+	/**
+	 * Show online count
+	 *
+	 * @return  array  The number of Users and Guests online.
+	 *
+	 * @since   1.5.0
+	 **/
 	public static function getOnlineCount()
 	{
 		$db		= JFactory::getDbo();
-		// calculate number of guests and users
+
+		// Calculate number of guests and users
 		$result	= array();
 		$user_array  = 0;
 		$guest_array = 0;
@@ -37,12 +44,13 @@ class ModWhosonlineHelper
 		{
 			foreach ($sessions as $session)
 			{
-				// if guest increase guest count by 1
+				// If guest increase guest count by 1
 				if ($session->guest == 1)
 				{
 					$guest_array ++;
 				}
-				// if member increase member count by 1
+
+				// If member increase member count by 1
 				if ($session->guest == 0)
 				{
 					$user_array ++;
@@ -56,7 +64,15 @@ class ModWhosonlineHelper
 		return $result;
 	}
 
-	// show online member names
+	/**
+	 * Show online member names
+	 *
+	 * @param   mixed  $params  The parameters
+	 *
+	 * @return  array   (array) $db->loadObjectList()  The names of the online users.
+	 *
+	 * @since   1.5.0
+	 **/
 	public static function getOnlineUserNames($params)
 	{
 		$db		= JFactory::getDbo();
@@ -67,19 +83,24 @@ class ModWhosonlineHelper
 			->where($db->quoteName('a.client_id') . ' = 0')
 			->group($db->quoteName(array('a.username', 'a.time', 'a.userid', 'a.client_id')));
 		$user = JFactory::getUser();
+
 		if (!$user->authorise('core.admin') && $params->get('filter_groups', 0) == 1)
 		{
 			$groups = $user->getAuthorisedGroups();
+
 			if (empty($groups))
 			{
 				return array();
 			}
+
 			$query->join('LEFT', '#__user_usergroup_map AS m ON m.user_id = a.userid')
 				->join('LEFT', '#__usergroups AS ug ON ug.id = m.group_id')
 				->where('ug.id in (' . implode(',', $groups) . ')')
 				->where('ug.id <> 1');
 		}
+
 		$db->setQuery($query);
+
 		return (array) $db->loadObjectList();
 	}
 }

@@ -44,7 +44,7 @@ class ContentViewArticle extends JViewLegacy
 		$this->form		= $this->get('Form');
 		$this->item		= $this->get('Item');
 		$this->state	= $this->get('State');
-		$this->canDo	= ContentHelper::getActions($this->state->get('filter.category_id'));
+		$this->canDo	= JHelperContent::getActions($this->state->get('filter.category_id'), 0, 'com_content');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -75,10 +75,10 @@ class ContentViewArticle extends JViewLegacy
 		$userId		= $user->get('id');
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
-		$canDo		= ContentHelper::getActions($this->state->get('filter.category_id'), $this->item->id);
-		JToolbarHelper::title(JText::_('COM_CONTENT_PAGE_'.($checkedOut ? 'VIEW_ARTICLE' : ($isNew ? 'ADD_ARTICLE' : 'EDIT_ARTICLE'))), 'article-add.png');
 
 		// Built the actions for new and existing records.
+		$canDo		= $this->canDo;
+		JToolbarHelper::title(JText::_('COM_CONTENT_PAGE_' . ($checkedOut ? 'VIEW_ARTICLE' : ($isNew ? 'ADD_ARTICLE' : 'EDIT_ARTICLE'))), 'article-add.png');
 
 		// For new records, check the create permission.
 		if ($isNew && (count($user->getAuthorisedCategories('com_content', 'core.create')) > 0))
@@ -114,6 +114,13 @@ class ContentViewArticle extends JViewLegacy
 			}
 
 			JToolbarHelper::cancel('article.cancel', 'JTOOLBAR_CLOSE');
+		}
+
+		if ($this->state->params->get('save_history') && $user->authorise('core.edit'))
+		{
+			$itemId = $this->item->id;
+			$typeAlias = 'com_content.article';
+			JToolbarHelper::versions($typeAlias, $itemId);
 		}
 
 		JToolbarHelper::divider();
