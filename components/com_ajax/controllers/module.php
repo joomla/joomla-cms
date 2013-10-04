@@ -33,12 +33,6 @@ class AjaxControllerModule extends JControllerLegacy
 		// Module name
 		$name	= $this->input->get('name');
 
-		if (!$name || !AjaxModuleHelper::isModuleAvailable($name))
-		{
-			// Module is not published or you do not have access to it
-			throw new LogicException(sprintf('Module "%s" is not published or you do not have access to it', $name), 404);
-		}
-
 		// Call the module
 		$results = AjaxModuleHelper::callModule($name);
 

@@ -68,6 +68,12 @@ class AjaxModuleHelper
 	 */
 	public static function callModule($name)
 	{
+		if (!$name || !AjaxModuleHelper::isModuleAvailable($name))
+		{
+			// Module is not published or you do not have access to it
+			throw new LogicException(sprintf('Module "%s" is not published or you do not have access to it', $name), 404);
+		}
+
 		// Init variables
 		$app         = JFactory::getApplication();
 		$name 	  	 = str_replace('mod_', '', $name);
