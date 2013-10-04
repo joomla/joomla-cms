@@ -7567,3 +7567,6 @@ th .tooltip-inner {
 #helpsite-refresh {
 	vertical-align: top;
 }
+.span2 input#jform_version_note {
+	width: 190px;
+}
