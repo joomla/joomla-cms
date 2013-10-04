@@ -12,16 +12,20 @@
  * @since    3.2
  */
 
-function triggerEmail(id) {
-	(function($)
+(function($)
+{
+	$(document).ready(function()
 	{
-		var pre = '';
-		var post = '';
-		$('#'+id +' span').each(function(e, el) {
-			pre += $(el).attr('data-content-pre');
-			post = $(el).attr('data-content-post') + post;
+		$('a.email_address').each(function(e, el)
+		{
+			var pre = '';
+			var post = '';
+			$(el).find('.cloaked_email span').each(function(e, el)
+			{
+				pre += $(el).attr('data-content-pre');
+				post = $(el).attr('data-content-post') + post;
+			});
+			$(el).attr('href', 'mailto:' + pre + post);
 		});
-		var email = pre + post;
-		window.location.href = 'mailto:' + email;
-	})(jQuery);
-}
+	});
+})(jQuery);
