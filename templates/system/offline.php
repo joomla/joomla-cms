@@ -55,7 +55,7 @@ $twofactormethods = UsersHelper::getTwoFactorMethods();
 			<label for="passwd"><?php echo JText::_('JGLOBAL_PASSWORD') ?></label>
 			<input type="password" name="password" class="inputbox" size="18" alt="<?php echo JText::_('JGLOBAL_PASSWORD') ?>" id="passwd" />
 		</p>
-		<?php if (count($twofactormethods)): ?>
+		<?php if (count($twofactormethods) > 1): ?>
 		<p id="form-login-secretkey">
 			<label for="secretkey"><?php echo JText::_('JGLOBAL_SECRETKEY') ?></label>
 			<input type="text" name="secretkey" class="inputbox" size="18" alt="<?php echo JText::_('JGLOBAL_SECRETKEY') ?>" id="secretkey" />
