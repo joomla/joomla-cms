@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+94-Oct-2013 Mark Dexter
+ # [#32154] Notice in editing banner client. Thanks Elin Waring. 
+
 04-Oct-2013 Jean-Marie Simonet
  # [#31827] Installation doesn't work when installation is in the path. Thanks Nikolai Plath
  $ Updating installation lang file fr-FR
