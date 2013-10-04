@@ -138,9 +138,7 @@ class PlgEditorCodemirror extends JPlugin
 		$buttons = $this->_displayButtons($id, $buttons, $asset, $author);
 
 		// Look if we need special syntax coloring.
-		$file = JFactory::getApplication()->input->get('file');
-		$explodeArray = explode('.', base64_decode($file));
-		$syntax = end($explodeArray);
+		$syntax = $this->params->get('syntax', 'html');
 
 		if ($syntax)
 		{
