@@ -31,6 +31,8 @@ $ -> Language fix or change
  # [#32158] Type ids all saving as 0 in map table.
  ^ [#32142] Add target="_blank" for the links to joomla.org and gnu.org at the login screens. Thanks Tobias Zulauf
  # [#32085] js fix for error editing banner in admin. Thanks Rob Clayburn
+ ^ [#31772] Sync Http package to Platform 13.1. Thanks Michael Babker
+ # [#32103] Can't create a menu item from view metadata.xml. Thanks Thomas Hunziker
 
 05-Oct-2013 Mark Dexter
  # [#32154] Notice in editing banner client. Commit correct patch. Thanks George Wilson.
