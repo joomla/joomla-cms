@@ -122,6 +122,7 @@ class TemplatesViewTemplate extends JViewLegacy
 		if (in_array($ext, $sourceTypes))
 		{
 			$this->form   = $this->get('Form');
+			$this->form->setFieldAttribute('source', 'syntax', $ext);
 			$this->source = $this->get('Source');
 			$this->type   = 'file';
 		}
