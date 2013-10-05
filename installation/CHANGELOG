@@ -34,6 +34,7 @@ $ -> Language fix or change
  # [#32161] TinyMCE 4.0.7 Update. Thanks George Wilson
  # [#32137] No TFA login if site is offline. Thanks Nicholas Dyonisopoulos
  # [#32163] Version control field width. Thanks Roberto Segura
+ $ [#32178] Wrong language string in com_templates. Thanks Ram Tripathi
 
 04-Oct-2013 Mark Dexter
  # [#32154] Notice in editing banner client. Thanks Elin Waring. 
