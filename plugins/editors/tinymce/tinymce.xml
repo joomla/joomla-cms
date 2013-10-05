@@ -39,7 +39,7 @@
 				>
 					<option value="0">PLG_TINY_FIELD_VALUE_DEFAULT</option>
 				</field>
-				
+
 				<field name="mobile" type="radio"
 					class="btn-group"
 					default="0"
@@ -268,7 +268,7 @@
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
-				
+
 				<field name="link" type="radio"
 					class="btn-group"
 					default="1"
@@ -278,7 +278,7 @@
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
-				
+
 				<field name="media" type="radio"
 					class="btn-group"
 					default="1"
@@ -288,7 +288,7 @@
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
-				
+
 				<field name="print" type="radio"
 					class="btn-group"
 					default="1"

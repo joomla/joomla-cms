@@ -110,7 +110,7 @@
 		<fieldset name="advanced">
 			<field name="layout" type="modulelayout"
 				label="JFIELD_ALT_LAYOUT_LABEL" description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
-			
+
 			<field name="item_heading" type="list" default="4"
 				validate="options"
 				label="MOD_ARTICLES_CATEGORIES_TITLE_HEADING_LABEL"
