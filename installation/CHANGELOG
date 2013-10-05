@@ -25,6 +25,26 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Oct-2013 Jean-Marie Simonet
+ # Wrong patch applied for [28214]. Thanks Tristan Bellosa
+ # [#32177] *Notice at login when session expires. Thanks Elin Waring
+ # com_templates and codemirror problem. Thanks Achal Aggarwal
+ # [#32151] No Icon for the component postinstall at hathor. Thanks Tobias Zulauf
+ $ [#32171] Improve language string for content history. Thanks Brian Teeman
+ # [#32161] TinyMCE 4.0.7 Update. Thanks George Wilson
+ # [#32137] No TFA login if site is offline. Thanks Nicholas Dyonisopoulos
+
+04-Oct-2013 Mark Dexter
+ # [#32154] Notice in editing banner client. Thanks Elin Waring. 
+
+04-Oct-2013 Jean-Marie Simonet
+ # [#31827] Installation doesn't work when installation is in the path. Thanks Nikolai Plath
+ $ Updating installation lang file fr-FR
+ # [#28234] Addition of notification in Media Manager regarding folder name for Create Folder. Thanks Achal Aggarwal
+ # [#28214] Menu Items Could be Saved without Menu Item Type. Thanks Khai Vu Din 
+ # [#28794] Redirect to homepage instead of 404 with SEF and URL rewrite enabled if no com_content on homepage.
+ # Reverting [#28794]
+
 03-Oct-2013 Michael Babker
  + [#31266] GSoC 2013 - Improved Template Manager.  Thanks Ram Tripathi
 

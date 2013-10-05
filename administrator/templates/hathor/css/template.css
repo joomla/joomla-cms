@@ -3189,6 +3189,9 @@ ul.helpmenu li {
 .menu-tags {
 	background-image: url(../images/menu/icon-16-tags.png);
 }
+.menu-postinstall {
+	background-image: url(../images/menu/icon-16-generic.png);
+}
 #menu li a:focus+ul {
 	margin-left: 0;
 }
