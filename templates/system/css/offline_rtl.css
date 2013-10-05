@@ -13,6 +13,7 @@
 
 #frame form{ text-align: right; }
 label { float:right; }
+fieldset.input p {clear: right;}
 
 /* -- message styles ----------------------------------- */
 .alert {

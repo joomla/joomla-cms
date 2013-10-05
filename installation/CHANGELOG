@@ -27,11 +27,12 @@ $ -> Language fix or change
 
 05-Oct-2013 Jean-Marie Simonet
  # Wrong patch applied for [28214]. Thanks Tristan Bellosa
- # [#32177] *Notice at login when session expires Thanks Elin Waring
+ # [#32177] *Notice at login when session expires. Thanks Elin Waring
  # com_templates and codemirror problem. Thanks Achal Aggarwal
  # [#32151] No Icon for the component postinstall at hathor. Thanks Tobias Zulauf
- $ [#32171] Improve language string for content history Thanks Brian Teeman
- # [#32161] TinyMCE 4.0.7 Update Thanks George Wilson
+ $ [#32171] Improve language string for content history. Thanks Brian Teeman
+ # [#32161] TinyMCE 4.0.7 Update. Thanks George Wilson
+ # [#32137] No TFA login if site is offline. Thanks Nicholas Dyonisopoulos
 
 04-Oct-2013 Mark Dexter
  # [#32154] Notice in editing banner client. Thanks Elin Waring. 
