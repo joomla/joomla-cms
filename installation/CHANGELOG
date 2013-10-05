@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Oct-2013 Jean-Marie Simonet
+ # [#28214] Menu Items Could be Saved without Menu Item Type. Thanks Tristan Bellosta
+
 04-Oct-2013 Jean-Marie Simonet
  # [#31827] Installation doesn't work when installation is in the path  Thanks Robert Deutz
 
