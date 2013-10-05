@@ -29,7 +29,8 @@ $ -> Language fix or change
  # Wrong patch applied for [28214]. Thanks Tristan Bellosa
  # [#32177] *Notice at login when session expires Thanks Elin Waring
  # com_templates and codemirror problem. Thanks Achal Aggarwal
- 
+ # [#32151] No Icon for the component postinstall at hathor. Thanks Tobias Zulauf
+
 04-Oct-2013 Mark Dexter
  # [#32154] Notice in editing banner client. Thanks Elin Waring. 
 
