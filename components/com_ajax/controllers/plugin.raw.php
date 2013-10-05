@@ -21,4 +21,30 @@ defined('_JEXEC') or die;
  *
  * @since   3.2
  */
-include_once __DIR__ . '/plugin.php';
+class AjaxControllerPlugin extends JControllerLegacy
+{
+
+	/**
+	 * Do job!
+	 *
+	 */
+	public function call()
+	{
+		// Interaction with "ajax" group
+		JPluginHelper::importPlugin('ajax');
+		// Allow interaction with "content" group
+		JPluginHelper::importPlugin('content');
+		// Allow interaction with "system" group
+		JPluginHelper::importPlugin('system');
+
+		$plugin     = ucfirst($this->input->get('name'));
+		$dispatcher = JEventDispatcher::getInstance();
+
+		// Call the plugins
+		$results = $dispatcher->trigger('onAjax' . $plugin );
+
+		echo  implode("\n", $results);
+
+		return true;
+	}
+}

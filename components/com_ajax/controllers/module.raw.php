@@ -21,4 +21,21 @@ defined('_JEXEC') or die;
  *
  * @since   3.2
  */
-include_once __DIR__ . '/module.php';
+class AjaxControllerModule extends JControllerLegacy
+{
+
+	/**
+	 * Do job!
+ 	 *
+	 */
+	public function call()
+	{
+		// Call the module
+		$results = AjaxModuleHelper::callModule($this->input->get('name'));
+
+		// Output result
+		echo is_scalar($results) ? (string) $results : implode("\n", (array) $results);
+
+		return true;
+	}
+}

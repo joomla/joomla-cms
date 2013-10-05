@@ -30,11 +30,8 @@ class AjaxControllerModule extends JControllerLegacy
 	 */
 	public function call()
 	{
-		// Module name
-		$name	= $this->input->get('name');
-
 		// Call the module
-		$results = AjaxModuleHelper::callModule($name);
+		$results = AjaxModuleHelper::callModule($this->input->get('name'));
 
 		// Output as JSON
 		echo new JResponseJson($results, null, false, $this->input->get('ignoreMessages', true, 'bool'));
