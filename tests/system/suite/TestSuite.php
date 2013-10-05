@@ -1,4 +1,4 @@
-// <?php
+<?php
 /**
  * @package		Joomla.SystemTest
  * @copyright	Copyright (C) 2005 - 2009 Open Source Matters, Inc. All rights reserved.
@@ -79,17 +79,16 @@ class TestSuite
 		$suite->addTestSuite('Module0002');
 		$suite->addTestSuite('Redirect0001Test');
 		$suite->addTestSuite('SampleData0001');
-// 		$suite->addTestSuite('Acl0001Test');
-// 		$suite->addTestSuite('Acl0002Test');
-// 		$suite->addTestSuite('DoInstall');
-// 		$suite->addTestSuite('Acl0003Test');
-// 		$suite->addTestSuite('Acl0004Test');
-// 		$suite->addTestSuite('Acl0005Test');
-// 		$suite->addTestSuite('Acl0006Test');
-// 		$suite->addTestSuite('Language0001Test');
-// 		$suite->addTestSuite('Language0002Test');
-// 		$suite->addTestSuite('Cache0001Test');
-// 		$suite->addTestSuite('Security0001Test');
+		$suite->addTestSuite('Acl0001Test');
+		$suite->addTestSuite('Acl0002Test');
+		$suite->addTestSuite('Acl0003Test');
+		$suite->addTestSuite('Acl0004Test');
+		$suite->addTestSuite('Acl0005Test');
+		$suite->addTestSuite('Acl0006Test');
+		$suite->addTestSuite('Language0001Test');
+		$suite->addTestSuite('Language0002Test');
+		$suite->addTestSuite('Cache0001Test');
+		$suite->addTestSuite('Security0001Test');
 		return $suite;
 	}
 }

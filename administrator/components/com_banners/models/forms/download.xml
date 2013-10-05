@@ -2,9 +2,10 @@
 <form>
 	<fieldset name="details">
 
-		<field name="compressed" type="radio"
-			label="COM_BANNERS_FIELD_COMPRESSED_LABEL" description="COM_BANNERS_FIELD_COMPRESSED_DESC"
-			class="inputbox" default="0"
+		<field name="compressed" type="radio" class="btn-group"
+			label="COM_BANNERS_FIELD_COMPRESSED_LABEL"
+			description="COM_BANNERS_FIELD_COMPRESSED_DESC"
+			default="0"
 		>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,7 +43,8 @@ defined('_JEXEC') or die;
 				<?php echo JHtml::_('date', $this->data->lastvisitDate); ?>
 			</dd>
 		<?php }
-		else {?>
+		else
+		{?>
 			<dd>
 				<?php echo JText::_('COM_USERS_PROFILE_NEVER_VISITED'); ?>
 			</dd>

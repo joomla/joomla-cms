@@ -82,7 +82,7 @@
 			<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
 		</field>
 
-			<field name="secure" type="radio"
+			<field name="secure" type="list"
 				class="btn-group"
 				label="COM_MENUS_ITEM_FIELD_SECURE_LABEL" description="COM_MENUS_ITEM_FIELD_SECURE_DESC"
 				default="0" filter="integer"

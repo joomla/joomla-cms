@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension
+	type="module"
+	version="3.1"
+	client="site"
+	method="upgrade">
+	<name>mod_tags_popular</name>
+	<author>Joomla! Project</author>
+	<creationDate>January 2013</creationDate>
+	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.1.0</version>
+	<description>MOD_TAGS_POPULAR_XML_DESCRIPTION</description>
+	<files>
+		<filename module="mod_tags_popular">mod_tags_popular.php</filename>
+		<folder>tmpl</folder>
+		<filename>helper.php</filename>
+		<filename>index.html</filename>
+		<filename>mod_tags_popular.xml</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.mod_tags_popular.ini</language>
+		<language tag="en-GB">en-GB.mod_tags_popular.sys.ini</language>
+	</languages>
+	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_TAGS_POPULAR" />
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="maximum"
+					type="integer"
+					default="5"
+					first="1"
+					last="20"
+					step="1"
+					label="MOD_TAGS_POPULAR_MAX_LABEL"
+					description="MOD_TAGS_POPULAR_MAX_DESC">
+				</field>
+				<field
+					name="timeframe"
+					type="list"
+					default="alltime"
+					label="MOD_TAGS_POPULAR_FIELD_TIMEFRAME_LABEL"
+					description="MOD_TAGS_POPULAR_FIELD_TIMEFRAME_DESC">
+					<option
+						value="alltime">MOD_TAGS_POPULAR_FIELD_ALL_TIME</option>
+					<option
+						value="hour">MOD_TAGS_POPULAR_FIELD_LAST_HOUR</option>
+					<option
+						value="day">MOD_TAGS_POPULAR_FIELD_LAST_DAY</option>
+					<option
+						value="week">MOD_TAGS_POPULAR_FIELD_LAST_WEEK</option>
+					<option
+						value="month">MOD_TAGS_POPULAR_FIELD_LAST_MONTH</option>
+					<option
+						value="year">MOD_TAGS_POPULAR_FIELD_LAST_YEAR</option>
+				</field>
+			</fieldset>
+			<fieldset
+				name="advanced">
+				<field
+					name="layout"
+					type="modulelayout"
+					label="JFIELD_ALT_LAYOUT_LABEL"
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+				<field
+					name="moduleclass_sfx"
+					type="textarea" rows="3"
+					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+				<field
+					name="owncache"
+					type="list"
+					default="1"
+					label="COM_MODULES_FIELD_CACHING_LABEL"
+					description="COM_MODULES_FIELD_CACHING_DESC">
+					<option
+						value="1">JGLOBAL_USE_GLOBAL</option>
+					<option
+						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

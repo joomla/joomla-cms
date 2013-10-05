@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.SystemTest
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * Tests creating and deleting a User Group
  */
@@ -16,7 +16,7 @@ class Group0001Test extends SeleniumJoomlaTestCase
   	$this->doAdminLogin();
     $this->click("link=Groups");
     $this->waitForPageToLoad("30000");
-	echo "Create new group Article Administrator\n";
+	$this->jPrint ("Create new group Article Administrator\n");
     $this->click("//div[@id='toolbar-new']/button");
     $this->waitForPageToLoad("30000");
     $saltGroup = mt_rand();
@@ -29,7 +29,7 @@ class Group0001Test extends SeleniumJoomlaTestCase
     } catch (PHPUnit_Framework_AssertionFailedError $e) {
         array_push($this->verificationErrors, $this->getTraceFiles($e));
     }
-    echo "Delete Article Administrator group.\n";
+    $this->jPrint ("Delete Article Administrator group.\n");
     $this->type("filter_search", "Test Group".$saltGroup);
     $this->click("//button[@type='submit']");
     $this->waitForPageToLoad("30000");

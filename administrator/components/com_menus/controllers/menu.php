@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,11 +21,11 @@ class MenusControllerMenu extends JControllerForm
 	/**
 	 * Dummy method to redirect back to standard controller
 	 *
-	 * @param	boolean			If true, the view output will be cached
-	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean			If true, the view output will be cached
+	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return	JController		This object to support chaining.
-	 * @since	1.5
+	 * @return  JController		This object to support chaining.
+	 * @since   1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
@@ -35,7 +35,7 @@ class MenusControllerMenu extends JControllerForm
 	/**
 	 * Method to save a menu item.
 	 *
-	 * @return	void
+	 * @return  void
 	 */
 	public function save($key = null, $urlVar = null)
 	{
@@ -48,7 +48,8 @@ class MenusControllerMenu extends JControllerForm
 		$task     = $this->getTask();
 		$recordId = $this->input->getInt('id');
 
-		if (!$this->checkEditId($context, $recordId)) {
+		if (!$this->checkEditId($context, $recordId))
+		{
 			// Somehow the person just went to the form and saved it - we don't allow that.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId));
 			$this->setMessage($this->getError(), 'error');
@@ -73,7 +74,8 @@ class MenusControllerMenu extends JControllerForm
 		// Get the model and attempt to validate the posted data.
 		$model	= $this->getModel('Menu');
 		$form	= $model->getForm();
-		if (!$form) {
+		if (!$form)
+		{
 			JError::raiseError(500, $model->getError());
 
 			return false;
@@ -82,14 +84,16 @@ class MenusControllerMenu extends JControllerForm
 		$data	= $model->validate($form, $data);
 
 		// Check for validation errors.
-		if ($data === false) {
+		if ($data === false)
+		{
 			// Get the validation messages.
 			$errors	= $model->getErrors();
 
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
 			{
-				if ($errors[$i] instanceof Exception) {
+				if ($errors[$i] instanceof Exception)
+				{
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				}
 				else {
@@ -106,7 +110,8 @@ class MenusControllerMenu extends JControllerForm
 		}
 
 		// Attempt to save the data.
-		if (!$model->save($data)) {
+		if (!$model->save($data))
+		{
 			// Save the data in the session.
 			$app->setUserState('com_menus.edit.menu.data', $data);
 

@@ -78,6 +78,9 @@
 
 // Extended for JUI
 @import "../../../../media/jui/less/bootstrap-extended.less"; // Has to be last to override when necessary
+// div.modal (instead of .modal)
+@import "../../../../media/jui/less/modals.joomla.less";
+@import "../../../../media/jui/less/responsive-767px-max.joomla.less";
 
 // Icon Font
 @import "icomoon.less";
@@ -131,12 +134,18 @@ body {
 		width: 184px;
 	}
 }
-.login .chzn-single {
-	width: 230px !important;
-}
-.login .chzn-container,
-.login .chzn-drop {
-	width: 238px !important;
+.login {
+	.chzn-single {
+		width: 230px !important;
+	}
+	.chzn-container,
+	.chzn-drop {
+		width: 238px !important;
+		max-width: 238px !important;
+	}
+	.btn-large {
+		margin-top: 10px;
+	}
 }
 /* Typography */
 .small{
@@ -259,6 +268,14 @@ body .navbar-fixed-top{
 	margin-bottom: 10px;
 
 }
+.subhead-collapse.collapse {
+	height: auto;
+	overflow: visible;
+}
+.btn-toolbar .btn-wrapper {
+	display: inline-block;
+	margin: 0 0 5px 5px;
+}
 .subhead-fixed{
 	position: fixed;
 	width: 100%;
@@ -371,15 +388,14 @@ h6 { font-size: 12px; line-height: 14px; }
 
 /* Disabled (generic) */
 .disabled {
-  cursor: default;
-  background-image: none;
-  opacity: 0.65;
-  filter: alpha(opacity=65);
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
+	cursor: default;
+	background-image: none;
+	opacity: 0.65;
+	filter: alpha(opacity=65);
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
 }
-
 /* Nav list filters */
 .nav-filters hr{
 	margin: 5px 0;
@@ -407,11 +423,6 @@ h6 { font-size: 12px; line-height: 14px; }
 .chzn-container,
 .chzn-drop{
 	max-width: 100% !important;
-}
-
-/* Code Mirror */
-.CodeMirror-wrapping {
-	height: auto !important;
 }
 
 @media (max-width: 979px) {
@@ -458,6 +469,9 @@ h6 { font-size: 12px; line-height: 14px; }
 	body {
 	    padding-top: 30px;
 	}
+	body.component {
+			padding-top: 0;
+	}
 }
 @media (max-width: 738px) {
 	.navbar{
@@ -494,13 +508,8 @@ h6 { font-size: 12px; line-height: 14px; }
 	}
 	.btn-group.divider,
 	.header .row-fluid .span3,
-	.header .row-fluid .span7,
-	.subhead-collapse{
+	.header .row-fluid .span7 {
 		display: none;
-	}
-	.btn{
-		font-size: 11px;
-		padding: 1px 4px 2px 4px;
 	}
 	.navbar .btn{
 		margin: 0;
@@ -511,10 +520,31 @@ h6 { font-size: 12px; line-height: 14px; }
 	}
 	.chzn-container,
 	.chzn-container .chzn-results,
-	.chzn-container-single .chzn-drop,
-	.btn-toolbar > .btn-group,
-	.btn-toolbar > .btn-group > .btn{
+	.chzn-container-single .chzn-drop {
 		width: 99% !important;
+	}
+	.subhead-collapse.collapse {
+		height: 0;
+		overflow: hidden;
+	}
+	.btn-toolbar .btn-wrapper {
+		display: block;
+		margin-left: 0;
+		margin-bottom: 5px;
+	}
+	.btn-toolbar .btn-wrapper .btn {
+		width: 95% !important;
+		margin-left: 10px;
+	}
+	.subhead-fixed {
+		box-shadow: 0 0 0 rgba(0, 0, 0, 0.2);
+	}
+	.subhead {
+		background: none repeat scroll 0 0 transparent;
+		border-bottom: 0 solid #D3D3D3;
+	}
+	.btn-group + .btn-group {
+	  margin-left: 10px;
 	}
 	.login .chzn-single {
 	width: 222px !important;
@@ -529,9 +559,16 @@ h6 { font-size: 12px; line-height: 14px; }
 	.view-login .navbar-fixed-bottom{
 		display: none;
 	}
+	.btn-toolbar .btn-wrapper .btn {
+	  width: 93% !important;
+	}
 }
 
 // Navbar
+.nav-collapse .nav li a,
+.dropdown-menu a {
+	background-image: none;
+}
 @media (max-width: @navbarCollapseWidth) {
 	.navbar-fixed-top .navbar-inner,
 	.navbar-fixed-top .navbar-inner .container-fluid {
@@ -609,6 +646,17 @@ h6 { font-size: 12px; line-height: 14px; }
 		padding-right: 5px;
 		text-align: left;
 	}
+	#jform_catid_chzn {
+		vertical-align: middle;
+	}
+}
+
+/* Display checkboxes without bullets in list */
+fieldset.checkboxes input {
+	float: left;
+}
+fieldset.checkboxes li {
+	list-style: none;
 }
 
 /* Media Manager folder icon override */
@@ -632,7 +680,7 @@ ul.manager .height-50 .icon-folder-2 {
 	z-index: 3;
 }
 .admin .chzn-container .chzn-drop {
-	z-index: 1200;
+	z-index: 1040;
 }
 
 /* Tree Select */
@@ -662,7 +710,7 @@ ul.treeselect input {
 	margin: 2px 0 0 8px;
 }
 ul.treeselect .treeselect-menu {
-	margin-right: 0 6px;
+	margin: 0 6px;
 }
 ul.treeselect ul.dropdown-menu {
 	margin: 0;
@@ -670,4 +718,76 @@ ul.treeselect ul.dropdown-menu {
 ul.treeselect ul.dropdown-menu li {
 	padding: 0 5px;
 	border: none;
+}
+
+/* Tables */
+td.has-context {
+	// Fixes difference in height between normal and hover on cell with context
+	height: 23px;
+}
+td.nowrap.has-context{
+  width:  45%;
+}
+
+/* Item associations */
+.item-associations {
+	margin: 0;
+}
+.item-associations li {
+	list-style: none;
+	display: inline-block;
+	margin: 0 0 3px 0;
+}
+.item-associations li a {
+	color: #ffffff;
+}
+
+/* Content Languages flag */
+#flag img {
+	padding-top: 6px;
+	vertical-align: top;
+}
+
+/* Tweaking of tooltips */
+.tooltip {
+	max-width: 400px;
+}
+.tooltip-inner {
+	max-width: none;
+	text-align: left;
+	text-shadow: none;
+}
+th .tooltip-inner {
+	font-weight: normal;
+}
+.tooltip.hasimage {
+	opacity: 1;
+}
+
+/* Permissions dropdown display */
+#permissions-sliders .chzn-container {
+	position: absolute;
+}
+
+/* Component pop-up */
+.container-popup {
+	padding: 15px;
+}
+
+/* Min-width on buttons */
+.controls .btn-group > .btn {
+	min-width: 50px;
+}
+
+.img-preview > img {
+	max-height: 100%;
+}
+
+/* Help site refresh button*/
+#helpsite-refresh {
+	vertical-align: top;
+}
+/* Version control field */
+.span2 input#jform_version_note {
+	width: 190px;
 }

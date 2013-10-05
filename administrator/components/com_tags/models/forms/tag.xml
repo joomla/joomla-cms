@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="urls">
+		<field
+			name="urla"
+			type="hidden"
+		/>
+	</fields>
+
+	<field
+		name="id"
+		type="text"
+		class="readonly"
+		label="JGLOBAL_FIELD_ID_LABEL"
+		description ="JGLOBAL_FIELD_ID_DESC"
+		default="0"
+		readonly="true"
+	/>
+
+	<field
+		name="hits"
+		type="text"
+		class="readonly"
+		label="JGLOBAL_HITS"
+		description ="COM_TAGS_FIELD_HITS_DESC"
+		default="0"
+		readonly="true"
+	/>
+
+	<field
+		name="parent_id"
+		type="tag"
+		class="span12 small"
+		label="COM_TAGS_FIELD_PARENT_LABEL"
+		description="COM_TAGS_FIELD_PARENT_DESC"
+		mode="nested"
+		validate="notequals"
+		field="id"
+		parent="parent"
+	>
+		<option value="1">JNONE</option>
+	</field>
+
+	<field
+		name="lft"
+		type="hidden"
+		filter="unset"
+	/>
+
+	<field
+		name="rgt"
+		type="hidden"
+		filter="unset"
+	/>
+
+	<field
+		name="level"
+		type="hidden"
+		filter="unset"
+	/>
+
+	<field
+		name="path"
+		type="text"
+		class="readonly"
+		label="CATEGORIES_PATH_LABEL"
+		description="CATEGORIES_PATH_DESC"
+		size="40"
+		readonly="true"
+	/>
+
+	<field
+		name="title"
+		type="text"
+		class="inputbox"
+		label="JGLOBAL_TITLE"
+		description="JFIELD_TITLE_DESC"
+		size="40"
+		required="true"
+	/>
+
+	<field
+		name="note"
+		type="text"
+		class="inputbox"
+		label="JFIELD_NOTE_LABEL"
+		description="JFIELD_NOTE_DESC"
+		size="40"
+	/>
+
+	<field
+		name="description"
+		type="editor"
+		class="inputbox"
+		label="JGLOBAL_DESCRIPTION"
+		description="COM_TAGS_DESCRIPTION_DESC"
+		filter="JComponentHelper::filterText"
+		buttons="true"
+		hide="readmore,pagebreak"
+	/>
+
+	<field
+		name="published"
+		type="list"
+		class="span12 small"
+		label="JSTATUS"
+		description="JFIELD_PUBLISHED_DESC"
+		default="1"
+		size="1"
+	>
+		<option value="1">JPUBLISHED</option>
+		<option value="0">JUNPUBLISHED</option>
+		<option value="2">JARCHIVED</option>
+		<option value="-2">JTRASHED</option>
+	</field>
+
+	<field
+		name="checked_out"
+		type="hidden"
+		filter="unset"
+	/>
+
+	<field
+		name="checked_out_time"
+		type="hidden"
+		filter="unset"
+	/>
+
+	<field
+		name="access"
+		type="accesslevel"
+		label="JFIELD_ACCESS_LABEL"
+		description="JFIELD_ACCESS_DESC"
+		class="span12 small"
+	/>
+
+	<field
+		name="metadesc"
+		type="textarea"
+		label="JFIELD_META_DESCRIPTION_LABEL"
+		description="JFIELD_META_DESCRIPTION_DESC"
+		rows="3"
+		cols="40"
+	/>
+
+	<field
+		name="metakey"
+		type="textarea"
+		label="JFIELD_META_KEYWORDS_LABEL"
+		description="JFIELD_META_KEYWORDS_DESC"
+		rows="3"
+		cols="40"
+	/>
+
+	<field
+		name="alias"
+		type="text"
+		class="inputbox"
+		label="JFIELD_ALIAS_LABEL"
+		description="JFIELD_ALIAS_DESC"
+		size="40"
+	/>
+
+	<field
+		name="created_user_id"
+		type="user"
+		label="JGLOBAL_FIELD_CREATED_BY_LABEL"
+		desc="JGLOBAL_FIELD_CREATED_BY_DESC"
+	/>
+	
+	<field
+		name="created_by_alias"
+		type="text"
+		class="inputbox"
+		labelclass="control-label"
+		label="JGLOBAL_FIELD_CREATED_BY_ALIAS_LABEL"
+		description="JGLOBAL_FIELD_CREATED_BY_ALIAS_DESC"
+		size="20"
+	/>
+
+	<field
+		name="created_time"
+		type="calendar"
+		class="readonly"
+		label="JGLOBAL_CREATED_DATE"
+		filter="unset"
+		readonly="true"
+	/>
+
+	<field
+		name="modified_user_id"
+		type="user"
+		class="readonly"
+		label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
+		readonly="true"
+		filter="unset"
+	/>
+
+	<field
+		name="modified_time"
+		type="calendar"
+		class="readonly"
+		label="JGLOBAL_FIELD_MODIFIED_LABEL"
+		filter="unset"
+		readonly="true"
+	/>
+
+	<field
+		name="language"
+		type="contentlanguage"
+		class="span12 small"
+		label="JFIELD_LANGUAGE_LABEL"
+		description="COM_TAGS_FIELD_LANGUAGE_DESC"
+	>
+		<option value="*">JALL</option>
+	</field>
+
+	<fields name="params">
+		<fieldset
+			name="basic" 
+			label="COM_TAGS_BASIC_FIELDSET_LABEL"
+		>
+
+			<field
+				name="tag_layout"
+				type="componentlayout"
+				labelclass="control-label"
+				label="JFIELD_ALT_LAYOUT_LABEL"
+				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
+				useglobal="true"
+				extension="com_tags"
+				view="tag"
+			/>
+
+			<field
+				name="tag_link_class"
+				type="text"
+				class="inputbox"
+				labelclass="control-label"
+				label="COM_TAGS_FIELD_TAG_LINK_CLASS"
+				description="COM_TAGS_FIELD_TAG_LINK_CLASS_DESC"
+				size="20"
+				default="label label-info"
+			/>
+
+		</fieldset>
+	</fields>
+
+	<fields name="metadata">
+		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+
+			<field
+				name="author"
+				type="text"
+				label="JAUTHOR"
+				description="JFIELD_METADATA_AUTHOR_DESC"
+				size="30"
+			/>
+	
+			<field
+				name="robots"
+				type="list"
+				label="JFIELD_METADATA_ROBOTS_LABEL"
+				description="JFIELD_METADATA_ROBOTS_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
+				<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
+				<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
+				<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
+			</field>
+		</fieldset>
+		
+	</fields>
+
+	<fields name="images">
+		<field
+			name="image_intro"
+			type="media"
+			label="COM_TAGS_FIELD_INTRO_LABEL"
+			labelclass="control-label"
+			description="COM_TAGS_FIELD_INTRO_DESC"
+		/>
+
+		<field
+			name="float_intro"
+			type="list"
+			labelclass="control-label"
+			label="COM_TAGS_FLOAT_LABEL"
+			description="COM_TAGS_FLOAT_DESC"
+		>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="right">COM_TAGS_RIGHT</option>
+			<option value="left">COM_TAGS_LEFT</option>
+			<option value="none">COM_TAGS_NONE</option>
+		</field>
+
+		<field
+			name="image_intro_alt"
+			type="text"
+			class="inputbox"
+			labelclass="control-label"
+			label="COM_TAGS_FIELD_IMAGE_ALT_LABEL"
+			description="COM_TAGS_FIELD_IMAGE_ALT_DESC"
+			size="20"
+		/>
+
+		<field
+			name="image_intro_caption"
+			type="text"
+			class="inputbox"
+			labelclass="control-label"
+			label="COM_TAGS_FIELD_IMAGE_CAPTION_LABEL"
+			description="COM_TAGS_FIELD_IMAGE_CAPTION_DESC"
+			size="20"
+		/>
+
+		<field
+			name="spacer1"
+			type="spacer"
+			hr="true"
+		/>
+
+		<field
+			name="image_fulltext"
+			type="media"
+			label="COM_TAGS_FIELD_FULL_LABEL"
+			labelclass="control-label"
+			description="COM_TAGS_FIELD_FULL_DESC"
+		/>
+
+		<field
+			name="float_fulltext"
+			type="list"
+			labelclass="control-label"
+			label="COM_TAGS_FLOAT_LABEL"
+			description="COM_TAGS_FLOAT_DESC"
+		>
+			<option value="">JGLOBAL_USE_GLOBAL</option>
+			<option value="right">COM_TAGS_RIGHT</option>
+			<option value="left">COM_TAGS_LEFT</option>
+			<option value="none">COM_TAGS_NONE</option>
+		</field>
+
+		<field
+			name="image_fulltext_alt"
+			type="text"
+			class="inputbox"
+			labelclass="control-label"
+			label="COM_TAGS_FIELD_IMAGE_ALT_LABEL"
+			description="COM_TAGS_FIELD_IMAGE_ALT_DESC"
+			size="20"
+		/>
+
+		<field
+			name="image_fulltext_caption"
+			type="text"
+			class="inputbox"
+			labelclass="control-label"
+			label="COM_TAGS_FIELD_IMAGE_CAPTION_LABEL"
+			description="COM_TAGS_FIELD_IMAGE_CAPTION_DESC"
+			size="20"
+		/>
+	</fields>
+</form>

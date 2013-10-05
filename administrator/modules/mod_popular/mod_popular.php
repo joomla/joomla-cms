@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_popular
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 require_once __DIR__ . '/helper.php';
 
 // Get module data.
-$list = modPopularHelper::getList($params);
+$list = ModPopularHelper::getList($params);
 
 // Render the module
 require JModuleHelper::getLayoutPath('mod_popular', $params->get('layout', 'default'));

@@ -15,10 +15,12 @@
 			addfieldpath="/administrator/components/com_contact/models/fields"
 		>
 			<field name="id"
-				type="modal_contacts"
+				type="modal_contact"
 				description="COM_CONTACT_SELECT_CONTACT_DESC"
 				label="COM_CONTACT_SELECT_CONTACT_LABEL"
 				required="true"
+				edit="true"
+				clear="false"
 			/>
 		</fieldset>
 	</fields>
@@ -55,6 +57,15 @@
 				type="list"
 				description="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_DESC"
 				label="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="show_tags" type="list"
+				label="COM_CONTACT_FIELD_SHOW_TAGS_LABEL"
+				description="COM_CONTACT_FIELD_SHOW_TAGS_DESC"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>

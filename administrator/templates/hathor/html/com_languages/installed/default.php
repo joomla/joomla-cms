@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,17 +17,21 @@ $client		= $this->state->get('filter.client_id', 0) ? JText::_('JADMINISTRATOR')
 $clientId	= $this->state->get('filter.client_id', 0);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_languages&view=installed&client='.$clientId); ?>" method="post" id="adminForm" name="adminForm">
-
-	<?php if ($this->ftp): ?>
+<?php if (!empty( $this->sidebar)) : ?>
+	<div id="j-sidebar-container" class="span2">
+		<?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
+<?php else : ?>
+	<div id="j-main-container">
+<?php endif;?>
+	<?php if ($this->ftp) : ?>
 		<?php echo $this->loadTemplate('ftp');?>
 	<?php endif; ?>
 
 	<table class="adminlist">
 		<thead>
 			<tr>
-				<th class="row-number-col">
-					<?php echo JText::_('COM_LANGUAGES_HEADING_NUM'); ?>
-				</th>
 				<th class="checkmark-col">
 					&#160;
 				</th>
@@ -65,9 +69,6 @@ $clientId	= $this->state->get('filter.client_id', 0);
 			$canChange = $user->authorise('core.edit.state', 'com_languages');
 		?>
 			<tr class="row<?php echo $i % 2; ?>">
-				<th>
-					<?php echo $this->pagination->getRowOffset($i); ?>
-				</th>
 				<td>
 					<?php echo JHtml::_('languages.id', $i, $row->language);?>
 				</td>
@@ -105,4 +106,5 @@ $clientId	= $this->state->get('filter.client_id', 0);
 	<input type="hidden" name="task" value="" />
 	<input type="hidden" name="boxchecked" value="0" />
 	<?php echo JHtml::_('form.token'); ?>
+	</div>
 </form>

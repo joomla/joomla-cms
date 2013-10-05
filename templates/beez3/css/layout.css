@@ -222,7 +222,6 @@ label,input,button,select,textarea {
 
 label {
 	color: #333333;
-	display: block;
 	margin-bottom: 5px;
 	max-width: 90%
 }
@@ -391,6 +390,7 @@ input[type="checkbox"]:checked+label:before {
 	text-shadow: 0px 10px 6px #fff;
 }
 
+/*
 input[type="radio"]:checked + label:before {
 	content: "\2022";
 	text-indent: 6px;
@@ -402,9 +402,7 @@ input[type="radio"]:checked + label:before {
 	color: #000;
 	zoom:1;
 	border: 1px solid #aaa;
-
-
-}
+}*/
 
 .ordering-box {
 	margin: 10px 0;
@@ -1037,4 +1035,15 @@ div.current {
 
 .img-fulltext-none
 {display:block;
-margin:10px 0}
+	margin:10px 0
+}
+
+/* Correction for user profile date of birth calendar image */
+#jform_profile_dob_img {
+	background: url("../images/system/calendar.png") no-repeat scroll 0 0 transparent;
+	cursor: pointer;
+	height: 18px;
+	margin: 0 3px;
+	vertical-align: middle;
+	width: 18px;
+}

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * lessphp v0.3.8
+ * lessphp v0.3.9
  * http://leafo.net/lessphp
  *
  * LESS css compiler, adapted from http://lesscss.org
@@ -38,7 +38,7 @@
  * handling things like indentation.
  */
 class lessc {
-	static public $VERSION = "v0.3.8";
+	static public $VERSION = "v0.3.9";
 	static protected $TRUE = array("keyword", "true");
 	static protected $FALSE = array("keyword", "false");
 
@@ -327,6 +327,9 @@ class lessc {
 						$parts[] = "($q[1])";
 					}
 					break;
+				case "variable":
+					$parts[] = $this->compileValue($this->reduce($q));
+				break;
 				}
 			}
 
@@ -434,7 +437,7 @@ class lessc {
 		foreach ($selectors as $s) {
 			if (is_array($s)) {
 				list(, $value) = $s;
-				$out[] = $this->compileValue($this->reduce($value));
+				$out[] = trim($this->compileValue($this->reduce($value)));
 			} else {
 				$out[] = $s;
 			}
@@ -814,6 +817,10 @@ class lessc {
 		return $this->toBool($value[0] == "number" && $value[2] == "em");
 	}
 
+	protected function lib_isrem($value) {
+		return $this->toBool($value[0] == "number" && $value[2] == "rem");
+	}
+
 	protected function lib_rgbahex($color) {
 		$color = $this->coerceColor($color);
 		if (is_null($color))
@@ -888,6 +895,16 @@ class lessc {
 	protected function lib_round($arg) {
 		$value = $this->assertNumber($arg);
 		return array("number", round($value), $arg[2]);
+	}
+
+	protected function lib_unit($arg) {
+		if ($arg[0] == "list") {
+			list($number, $newUnit) = $arg[2];
+			return array("number", $this->assertNumber($number),
+				$this->compileValue($this->lib_e($newUnit)));
+		} else {
+			return array("number", $this->assertNumber($arg), "");
+		}
 	}
 
 	/**
@@ -1029,6 +1046,25 @@ class lessc {
 		return $this->fixColor($new);
 	}
 
+	protected function lib_contrast($args) {
+		if ($args[0] != 'list' || count($args[2]) < 3) {
+			return array(array('color', 0, 0, 0), 0);
+		}
+
+		list($inputColor, $darkColor, $lightColor) = $args[2];
+
+		$inputColor = $this->assertColor($inputColor);
+		$darkColor = $this->assertColor($darkColor);
+		$lightColor = $this->assertColor($lightColor);
+		$hsl = $this->toHSL($inputColor);
+
+		if ($hsl[3] > 50) {
+			return $darkColor;
+		}
+
+		return $lightColor;
+	}
+
 	protected function assertColor($value, $error = "expected color value") {
 		$color = $this->coerceColor($value);
 		if (is_null($color)) $this->throwError($error);
@@ -1091,7 +1127,7 @@ class lessc {
 	 * Expects H to be in range of 0 to 360, S and L in 0 to 100
 	 */
 	protected function toRGB($color) {
-		if ($color == 'color') return $color;
+		if ($color[0] == 'color') return $color;
 
 		$H = $color[1] / 360;
 		$S = $color[2] / 100;
@@ -1179,6 +1215,14 @@ class lessc {
 
 	protected function reduce($value, $forExpression = false) {
 		switch ($value[0]) {
+		case "interpolate":
+			$reduced = $this->reduce($value[1]);
+			$var = $this->compileValue($reduced);
+			$res = $this->reduce(array("variable", $this->vPrefix . $var));
+
+			if (empty($value[2])) $res = $this->lib_e($res);
+
+			return $res;
 		case "variable":
 			$key = $value[1];
 			if (is_array($key)) {
@@ -1299,8 +1343,12 @@ class lessc {
 			case 'keyword':
 				$name = $value[1];
 				if (isset(self::$cssColors[$name])) {
-					list($r, $g, $b) = explode(',', self::$cssColors[$name]);
-					return array('color', $r, $g, $b);
+					$rgba = explode(',', self::$cssColors[$name]);
+
+					if(isset($rgba[3]))
+						return array('color', $rgba[0], $rgba[1], $rgba[2], $rgba[3]);
+
+					return array('color', $rgba[0], $rgba[1], $rgba[2]);
 				}
 				return null;
 		}
@@ -1444,6 +1492,34 @@ class lessc {
 		}
 		return $this->fixColor($out);
 	}
+
+	function lib_red($color){
+		$color = $this->coerceColor($color);
+		if (is_null($color)) {
+			$this->throwError('color expected for red()');
+		}
+
+		return $color[1];
+	}
+
+	function lib_green($color){
+		$color = $this->coerceColor($color);
+		if (is_null($color)) {
+			$this->throwError('color expected for green()');
+		}
+
+		return $color[2];
+	}
+
+	function lib_blue($color){
+		$color = $this->coerceColor($color);
+		if (is_null($color)) {
+			$this->throwError('color expected for blue()');
+		}
+
+		return $color[3];
+	}
+
 
 	// operator on two numbers
 	protected function op_number_number($op, $left, $right) {
@@ -1945,6 +2021,7 @@ class lessc {
 		'teal' => '0,128,128',
 		'thistle' => '216,191,216',
 		'tomato' => '255,99,71',
+		'transparent' => '0,0,0,0',
 		'turquoise' => '64,224,208',
 		'violet' => '238,130,238',
 		'wheat' => '245,222,179',
@@ -2519,6 +2596,9 @@ class lessc_parser {
 			$out = array("mediaExp", $feature);
 			if ($value) $out[] = $value;
 			return true;
+		} elseif ($this->variable($variable)) {
+			$out = array('variable', $variable);
+			return true;
 		}
 
 		$this->seek($s);
@@ -2572,11 +2652,10 @@ class lessc_parser {
 				continue;
 			}
 
-			if (in_array($tok, $rejectStrs)) {
-				$count = null;
+			if (!empty($rejectStrs) && in_array($tok, $rejectStrs)) {
+				$ount = null;
 				break;
 			}
-
 
 			$content[] = $tok;
 			$this->count+= strlen($tok);
@@ -2652,10 +2731,10 @@ class lessc_parser {
 
 		$s = $this->seek();
 		if ($this->literal("@{") &&
-			$this->keyword($var) &&
+			$this->openString("}", $interp, null, array("'", '"', ";")) &&
 			$this->literal("}", false))
 		{
-			$out = array("variable", $this->lessc->vPrefix . $var);
+			$out = array("interpolate", $interp);
 			$this->eatWhiteDefault = $oldWhite;
 			if ($this->eatWhiteDefault) $this->whitespace();
 			return true;
@@ -2829,38 +2908,73 @@ class lessc_parser {
 		return false;
 	}
 
-	// a single tag
+	// a space separated list of selectors
 	protected function tag(&$tag, $simple = false) {
 		if ($simple)
-			$chars = '^,:;{}\][>\(\) "\'';
+			$chars = '^@,:;{}\][>\(\) "\'';
 		else
-			$chars = '^,;{}["\'';
+			$chars = '^@,;{}["\'';
+
+		$s = $this->seek();
 
 		if (!$simple && $this->tagExpression($tag)) {
 			return true;
 		}
 
-		$tag = '';
-		while ($this->tagBracket($first)) $tag .= $first;
+		$hasExpression = false;
+		$parts = array();
+		while ($this->tagBracket($first)) $parts[] = $first;
+
+		$oldWhite = $this->eatWhiteDefault;
+		$this->eatWhiteDefault = false;
 
 		while (true) {
 			if ($this->match('(['.$chars.'0-9]['.$chars.']*)', $m)) {
-				$tag .= $m[1];
+				$parts[] = $m[1];
 				if ($simple) break;
 
-				while ($this->tagBracket($brack)) $tag .= $brack;
-				continue;
-			} elseif ($this->unit($unit)) { // for keyframes
-				$tag .= $unit[1] . $unit[2];
+				while ($this->tagBracket($brack)) {
+					$parts[] = $brack;
+				}
 				continue;
 			}
+
+			if (isset($this->buffer[$this->count]) && $this->buffer[$this->count] == "@") {
+				if ($this->interpolation($interp)) {
+					$hasExpression = true;
+					$interp[2] = true; // don't unescape
+					$parts[] = $interp;
+					continue;
+				}
+
+				if ($this->literal("@")) {
+					$parts[] = "@";
+					continue;
+				}
+			}
+
+			if ($this->unit($unit)) { // for keyframes
+				$parts[] = $unit[1];
+				$parts[] = $unit[2];
+				continue;
+			}
+
 			break;
 		}
 
+		$this->eatWhiteDefault = $oldWhite;
+		if (!$parts) {
+			$this->seek($s);
+			return false;
+		}
 
-		$tag = trim($tag);
-		if ($tag == '') return false;
+		if ($hasExpression) {
+			$tag = array("exp", array("string", "", $parts));
+		} else {
+			$tag = trim(implode($parts));
+		}
 
+		$this->whitespace();
 		return true;
 	}
 

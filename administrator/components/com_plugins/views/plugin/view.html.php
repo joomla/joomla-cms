@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,7 +34,8 @@ class PluginsViewPlugin extends JViewLegacy
 		$this->form		= $this->get('Form');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
@@ -46,19 +47,19 @@ class PluginsViewPlugin extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$user  = JFactory::getUser();
 		$canDo = PluginsHelper::getActions();
 
 		JToolbarHelper::title(JText::sprintf('COM_PLUGINS_MANAGER_PLUGIN', JText::_($this->item->name)), 'plugin');
 
 		// If not checked out, can save the item.
-		if ($canDo->get('core.edit')) {
+		if ($canDo->get('core.edit'))
+		{
 			JToolbarHelper::apply('plugin.apply');
 			JToolbarHelper::save('plugin.save');
 		}
@@ -69,12 +70,14 @@ class PluginsViewPlugin extends JViewLegacy
 		$lang = JFactory::getLanguage();
 
 		$help = $this->get('Help');
-		if ($lang->hasKey($help->url)) {
+		if ($lang->hasKey($help->url))
+		{
 			$debug = $lang->setDebug(false);
 			$url = JText::_($help->url);
 			$lang->setDebug($debug);
 		}
-		else {
+		else
+		{
 			$url = null;
 		}
 		JToolbarHelper::help($help->key, false, $url);

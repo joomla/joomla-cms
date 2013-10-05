@@ -3,15 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-
-/* @var $this UsersViewNotes */
-
-JHtml::_('behavior.tooltip');
 
 $user = JFactory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -19,6 +15,14 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 $canEdit = $user->authorise('core.edit', 'com_users');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=notes');?>" method="post" name="adminForm" id="adminForm">
+<?php if (!empty( $this->sidebar)) : ?>
+	<div id="j-sidebar-container" class="span2">
+		<?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
+<?php else : ?>
+	<div id="j-main-container">
+<?php endif;?>
 	<fieldset id="filter-bar">
 	<legend class="element-invisible"><?php echo JText::_('COM_USERS_SEARCH_IN_NOTE_TITLE'); ?></legend>
 		<div class="filter-search">
@@ -29,7 +33,7 @@ $canEdit = $user->authorise('core.edit', 'com_users');
 		</div>
 
 		<div class="filter-select">
-			<span class="faux-label")><?php echo JText::_('COM_USERS_FILTER_LABEL'); ?></span>
+			<span class="faux-label"><?php echo JText::_('COM_USERS_FILTER_LABEL'); ?></span>
 
 			<label class="selectlabel" for="filter_category_id">
 				<?php echo JText::_('JOPTION_SELECT_CATEGORY'); ?>
@@ -144,4 +148,5 @@ $canEdit = $user->authorise('core.edit', 'com_users');
 		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
+</div>
 </form>

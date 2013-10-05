@@ -3,31 +3,68 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-$app   = JFactory::getApplication();
-$doc   = JFactory::getDocument();
-$lang  = JFactory::getLanguage();
-$input = $app->input;
-$user  = JFactory::getUser();
+$app	= JFactory::getApplication();
+$doc	= JFactory::getDocument();
+$lang	= JFactory::getLanguage();
+$input	= $app->input;
+$user	= JFactory::getUser();
 
-// Load optional rtl bootstrap css and bootstrap bugfixes
-JHtmlBootstrap::loadCss($includeMaincss = false, $this->direction);
+// Load optional RTL Bootstrap CSS
+JHtml::_('bootstrap.loadCss', false, $this->direction);
+
+// Load system style CSS
+$doc->addStyleSheet('templates/system/css/system.css');
+
+// Loadtemplate CSS
+$doc->addStyleSheet('templates/'.$this->template.'/css/template.css');
+
+// Load additional CSS styles for colors
+if (!$this->params->get('colourChoice')) :
+$colour = 'standard';
+else :
+$colour = htmlspecialchars($this->params->get('colourChoice'));
+endif;
+$doc->addStyleSheet('templates/'.$this->template.'/css/colour_'.$colour.'.css');
 
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
-if (is_file($file)) :
+if (is_file($file))
+{
 	$doc->addStyleSheet($file);
-endif;
+}
 
+// Load additional CSS styles for rtl sites
+if ($this->direction == 'rtl')
+{
+	$doc->addStyleSheet('templates/'.$this->template.'/css/template_rtl.css');
+	$doc->addStyleSheet('templates/'.$this->template.'/css/colour_'.$colour.'_rtl.css');
+}
+
+// Load specific language related CSS
+$file = 'language/'.$lang->getTag().'/'.$lang->getTag().'.css';
+if (JFile::exists($file))
+{
+	$doc->addStyleSheet($file);
+}
+
+// Load additional CSS styles for bold Text
+if ($this->params->get('boldText'))
+{
+	$doc->addStyleSheet('templates/'.$this->template.'/css/boldtext.css');
+}
+
+// Load template javascript
+$doc->addScript('templates/'.$this->template.'/js/template.js', 'text/javascript');
 // Logo file
 if ($this->params->get('logoFile'))
 {
-	$logo = JURI::root() . $this->params->get('logoFile');
+	$logo = JUri::root() . $this->params->get('logoFile');
 }
 else
 {
@@ -41,27 +78,6 @@ else
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<jdoc:include type="head" />
 
-<!-- Load system style CSS -->
-<link rel="stylesheet" href="templates/system/css/system.css" type="text/css" />
-
-<!-- Load Template CSS -->
-<link href="templates/<?php echo  $this->template ?>/css/template.css" rel="stylesheet" type="text/css" />
-
-<!-- Load additional CSS styles for colors -->
-<?php
-	if (!$this->params->get('colourChoice')) :
-		$colour = 'standard';
-	else :
-		$colour = htmlspecialchars($this->params->get('colourChoice'));
-	endif;
-?>
-<link href="templates/<?php echo $this->template ?>/css/colour_<?php echo $colour; ?>.css" rel="stylesheet" type="text/css" />
-
-<!-- Load additional CSS styles for bold Text -->
-<?php if ($this->params->get('boldText')) : ?>
-	<link href="templates/<?php echo $this->template ?>/css/boldtext.css" rel="stylesheet" type="text/css" />
-<?php  endif; ?>
-
 <!-- Load additional CSS styles for Internet Explorer -->
 <!--[if IE 8]>
 	<link href="templates/<?php echo  $this->template ?>/css/ie8.css" rel="stylesheet" type="text/css" />
@@ -72,8 +88,6 @@ else
 <!--[if lt IE 9]>
 	<script src="../media/jui/js/html5.js"></script>
 <![endif]-->
-<!-- Load Template JavaScript -->
-<script type="text/javascript" src="templates/<?php  echo  $this->template  ?>/js/template.js"></script>
 
 </head>
 
@@ -106,7 +120,8 @@ else
 			<?php
 			//Display an harcoded logout
 			$task = $app->input->get('task');
-			if ($task == 'edit' || $task == 'editA' || $app->input->getInt('hidemainmenu')) {
+			if ($task == 'edit' || $task == 'editA' || $app->input->getInt('hidemainmenu'))
+			{
 				$logoutLink = '';
 			} else {
 				$logoutLink = JRoute::_('index.php?option=com_login&task=logout&'. JSession::getFormToken() .'=1');
@@ -114,7 +129,7 @@ else
 			$hideLinks = $app->input->getBool('hidemainmenu');
 			$output = array();
 			// Print the Preview link to Main site.
-			//$output[] = '<span class="viewsite"><a href="'.JURI::root().'" target="_blank">'.JText::_('JGLOBAL_VIEW_SITE').'</a></span>';
+			//$output[] = '<span class="viewsite"><a href="'.JUri::root().'" target="_blank">'.JText::_('JGLOBAL_VIEW_SITE').'</a></span>';
 			// Print the logout link.
 			//$output[] = '<span class="logout">' .($hideLinks ? '' : '<a href="'.$logoutLink.'">').JText::_('JLOGOUT').($hideLinks ? '' : '</a>').'</span>';
 			// Output the items.
@@ -135,7 +150,7 @@ else
 
 		<!-- Sub Menu Navigation -->
 		<div class="subheader">
-			<?php if (!$app->input->getInt('hidemainmenu')): ?>
+			<?php if (!$app->input->getInt('hidemainmenu')) : ?>
 				<h3 class="element-invisible"><?php echo JText::_('TPL_HATHOR_SUB_MENU'); ?></h3>
 				<jdoc:include type="modules" name="submenu" style="xhtmlid" id="submenu-box" />
 			<?php echo " " ?>
@@ -181,5 +196,17 @@ else
 	</p>
 </div>
 
+<script type="text/javascript">
+	(function($){
+		$(document).ready(function () {
+			// Patches to fix some wrong render of chosen fields
+			$('.chzn-container, .chzn-drop, .chzn-choices .search-field input').each(function (index) {
+				$(this).css({
+					'width': 'auto'
+				});
+			});
+		});
+	})(jQuery);
+</script>
 </body>
 </html>

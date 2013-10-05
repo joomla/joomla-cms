@@ -41,7 +41,7 @@
 		<field
 			name="searchtype"
 			type="radio"
-			class="inputbox"
+			class="btn-group"
 			label="COM_LANGUAGES_OVERRIDE_FIELD_SEARCHTYPE_LABEL"
 			description="COM_LANGUAGES_OVERRIDE_FIELD_SEARCHTYPE_DESC"
 			default="value">

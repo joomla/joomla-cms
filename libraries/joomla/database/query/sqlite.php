@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,20 +19,20 @@ defined('JPATH_PLATFORM') or die;
 class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPreparable, JDatabaseQueryLimitable
 {
 	/**
-	 * @var integer
-	 * @since 12.1
-	 */
-	protected $limit;
-
-	/**
-	 * @var integer
-	 * @since 12.1
+	 * @var    integer  The offset for the result set.
+	 * @since  12.1
 	 */
 	protected $offset;
 
 	/**
-	 * @var mixed
-	 * @since 12.1
+	 * @var    integer  The limit for the result set.
+	 * @since  12.1
+	 */
+	protected $limit;
+
+	/**
+	 * @var    array  Bounded object array
+	 * @since  12.1
 	 */
 	protected $bounded = array();
 
@@ -48,7 +48,7 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 * @param   integer         $length         The length of the variable. Usually required for OUTPUT parameters.
 	 * @param   array           $driverOptions  Optional driver options to be used.
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  JDatabaseQuerySqlite
 	 *
 	 * @since   12.1
 	 */
@@ -58,6 +58,7 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 		if (empty($key))
 		{
 			$this->bounded = array();
+
 			return $this;
 		}
 
@@ -115,7 +116,7 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 *
 	 * @param   string  $clause  Optionally, the name of the clause to clear, or nothing to clear the whole query.
 	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 * @return  JDatabaseQuerySqlite  Returns this object to allow chaining.
 	 *
 	 * @since   12.1
 	 */
@@ -168,7 +169,7 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 * @param   integer  $limit   The limit for the result set
 	 * @param   integer  $offset  The offset for the result set
 	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 * @return  JDatabaseQuerySqlite  Returns this object to allow chaining.
 	 *
 	 * @since   12.1
 	 */
@@ -178,5 +179,39 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 		$this->offset = (int) $offset;
 
 		return $this;
+	}
+
+	/**
+	 * Add to the current date and time.
+	 * Usage:
+	 * $query->select($query->dateAdd());
+	 * Prefixing the interval with a - (negative sign) will cause subtraction to be used.
+	 *
+	 * @param   datetime  $date      The date or datetime to add to
+	 * @param   string    $interval  The string representation of the appropriate number of units
+	 * @param   string    $datePart  The part of the date to perform the addition on
+	 *
+	 * @return  string  The string with the appropriate sql for addition of dates
+	 *
+	 * @since   13.1
+	 * @link    http://www.sqlite.org/lang_datefunc.html
+	 */
+	public function dateAdd($date, $interval, $datePart)
+	{
+		// SQLite does not support microseconds as a separate unit. Convert the interval to seconds
+		if (strcasecmp($datePart, 'microseconds') == 0)
+		{
+			$interval = .001 * $interval;
+			$datePart = 'seconds';
+		}
+
+		if (substr($interval, 0, 1) != '-')
+		{
+			return "datetime('" . $date . "', '+" . $interval . " " . $datePart . "')";
+		}
+		else
+		{
+			return "datetime('" . $date . "', '" . $interval . " " . $datePart . "')";
+		}
 	}
 }

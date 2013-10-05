@@ -14,6 +14,29 @@
 			extension="com_newsfeeds"
 			view="newsfeed"
 		/>
+		
+		<field
+			name="save_history"
+			type="radio"
+			class="btn-group"
+			default="1"
+			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
+			description="JGLOBAL_SAVE_HISTORY_OPTIONS_DESC"
+			>
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+		</field>
+		
+		<field
+			name="history_limit"
+			type="text"
+			filter="integer"
+			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
+			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
+			default="5"
+		/>
 
 		<field
 			id="show_feed_image"
@@ -89,6 +112,18 @@
 				<option value="right">COM_NEWSFEEDS_RIGHT</option>
 				<option value="left">COM_NEWSFEEDS_LEFT</option>
 				<option value="none">COM_NEWSFEEDS_NONE</option>
+		</field>
+
+		<field
+			id="show_tags"
+			name="show_tags"
+			type="radio"
+			class="btn-group"
+			default="1"
+			label="COM_NEWSFEEDS_FIELD_SHOW_TAGS_LABEL"
+			description="COM_NEWSFEEDS_FIELD_SHOW_TAGS_DESC">
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 	</fieldset>
@@ -188,6 +223,16 @@
 			<option value="1">JSHOW</option>
 		</field>
 
+		<field name="show_cat_tags" type="radio"
+			label="COM_NEWSFEEDS_FIELD_SHOW_CAT_TAGS_LABEL"
+			description="COM_NEWSFEEDS_FIELD_SHOW_CAT_TAGS_DESC"
+			class="btn-group"
+			default="1"
+		>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
 	</fieldset>
 
 	<fieldset name="categories"
@@ -253,6 +298,17 @@
 		name="listlayout"
 		label="JGLOBAL_LIST_LAYOUT_OPTIONS"
 		description="COM_NEWSFEEDS_FIELD_CONFIG_LIST_SETTINGS_DESC">
+
+		<field
+			name="filter_field"
+			type="list"
+			default="1"
+			description="JGLOBAL_FILTER_FIELD_DESC"
+			label="JGLOBAL_FILTER_FIELD_LABEL"
+			>
+				<option value="hide">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
 
 		<field
 			name="show_pagination_limit"

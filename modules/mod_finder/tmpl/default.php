@@ -3,15 +3,16 @@
  * @package     Joomla.Site
  * @subpackage  mod_finder
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+JHtml::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
+
 JHtml::_('behavior.framework');
 JHtml::_('bootstrap.tooltip');
-JHtml::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
 
 // Load the smart search component language file.
 $lang = JFactory::getLanguage();
@@ -79,54 +80,59 @@ JHtml::stylesheet('com_finder/finder.css', false, true, false);
 
 <script type="text/javascript">
 //<![CDATA[
-	window.addEvent('domready', function() {
-		var value;
+	jQuery(function($)
+	{
+		var value, $searchword = $('#mod-finder-searchword');
 
 		// Set the input value if not already set.
-		if (!document.id('mod-finder-searchword').getProperty('value')) {
-			document.id('mod-finder-searchword').setProperty('value', '<?php echo JText::_('MOD_FINDER_SEARCH_VALUE', true); ?>');
+		if (!$searchword.val())
+		{
+			$searchword.val('<?php echo JText::_('MOD_FINDER_SEARCH_VALUE', true); ?>');
 		}
 
 		// Get the current value.
-		value = document.id('mod-finder-searchword').getProperty('value');
+		value = $searchword.val();
 
 		// If the current value equals the default value, clear it.
-		document.id('mod-finder-searchword').addEvent('focus', function() {
-			if (this.getProperty('value') == '<?php echo JText::_('MOD_FINDER_SEARCH_VALUE', true); ?>') {
-				this.setProperty('value', '');
+		$searchword.on('focus', function()
+		{	var $el = $(this);
+			if ($el.val() === '<?php echo JText::_('MOD_FINDER_SEARCH_VALUE', true); ?>')
+			{
+				$el.val('');
 			}
 		});
 
 		// If the current value is empty, set the previous value.
-		document.id('mod-finder-searchword').addEvent('blur', function() {
-			if (!this.getProperty('value')) {
-				this.setProperty('value', value);
+		$searchword.on('blur', function()
+		{	var $el = $(this);
+			if (!$el.val())
+			{
+				$el.val(value);
 			}
 		});
 
-		document.id('mod-finder-searchform').addEvent('submit', function(e){
-			e = new Event(e);
-			e.stop();
-
+		$('#mod-finder-searchform').on('submit', function(e){
+			e.stopPropagation();
+			var $advanced = $('#mod-finder-advanced');
 			// Disable select boxes with no value selected.
-			if (document.id('mod-finder-advanced') != null) {
-				document.id('mod-finder-advanced').getElements('select').each(function(s){
-					if (!s.getProperty('value')) {
-						s.setProperty('disabled', 'disabled');
+			if ( $advanced.length)
+			{
+				 $advanced.find('select').each(function(index, el) {
+					var $el = $(el);
+					if(!$el.val()){
+						$el.attr('disabled', 'disabled');
 					}
 				});
 			}
-
-			document.id('mod-finder-searchform').submit();
 		});
 
 		/*
 		 * This segment of code sets up the autocompleter.
 		 */
-		<?php if ($params->get('show_autosuggest', 1)): ?>
-			<?php JHtml::script('com_finder/autocompleter.js', false, true); ?>
+		<?php if ($params->get('show_autosuggest', 1)) : ?>
+			<?php JHtml::_('script', 'com_finder/autocompleter.js', false, true); ?>
 			var url = '<?php echo JRoute::_('index.php?option=com_finder&task=suggestions.display&format=json&tmpl=component', false); ?>';
-			var ModCompleter = new Autocompleter.Request.JSON(document.id('mod-finder-searchword'), url, {'postVar': 'q'});
+			var ModCompleter = new Autocompleter.Request.JSON(document.getElementById('mod-finder-searchword'), url, {'postVar': 'q'});
 		<?php endif; ?>
 	});
 //]]>
@@ -139,16 +145,16 @@ JHtml::stylesheet('com_finder/finder.css', false, true, false);
 		echo $output;
 		?>
 
-		<?php if ($params->get('show_advanced', 1)): ?>
-			<?php if ($params->get('show_advanced', 1) == 2): ?>
+		<?php if ($params->get('show_advanced', 1)) : ?>
+			<?php if ($params->get('show_advanced', 1) == 2) : ?>
 				<br />
 				<a href="<?php echo JRoute::_($route); ?>"><?php echo JText::_('COM_FINDER_ADVANCED_SEARCH'); ?></a>
-			<?php elseif ($params->get('show_advanced', 1) == 1): ?>
+			<?php elseif ($params->get('show_advanced', 1) == 1) : ?>
 				<div id="mod-finder-advanced">
 					<?php echo JHtml::_('filter.select', $query, $params); ?>
 				</div>
 			<?php endif; ?>
 		<?php endif; ?>
-		<?php echo modFinderHelper::getGetFields($route); ?>
+		<?php echo modFinderHelper::getGetFields($route, (int) $params->get('set_itemid')); ?>
 	</div>
 </form>

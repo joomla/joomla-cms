@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -40,7 +40,7 @@ class JFormFieldRules extends JFormField
 	 */
 	protected function getInput()
 	{
-		JHtml::_('behavior.tooltip');
+		JHtml::_('bootstrap.tooltip');
 
 		// Initialise some field attributes.
 		$section = $this->element['section'] ? (string) $this->element['section'] : '';
@@ -65,10 +65,10 @@ class JFormFieldRules extends JFormField
 		{
 			// Need to find the asset id by the name of the component.
 			$db = JFactory::getDbo();
-			$query = $db->getQuery(true);
-			$query->select($db->quoteName('id'));
-			$query->from($db->quoteName('#__assets'));
-			$query->where($db->quoteName('name') . ' = ' . $db->quote($component));
+			$query = $db->getQuery(true)
+				->select($db->quoteName('id'))
+				->from($db->quoteName('#__assets'))
+				->where($db->quoteName('name') . ' = ' . $db->quote($component));
 			$db->setQuery($query);
 			$assetId = (int) $db->loadResult();
 		}
@@ -79,14 +79,6 @@ class JFormFieldRules extends JFormField
 			$assetId = $this->form->getValue($assetField);
 		}
 
-		// Use the compact form for the content rules (deprecated).
-
-		/* @todo remove code:
-		if (!empty($component) && $section != 'component') {
-			return JHtml::_('rules.assetFormWidget', $actions, $assetId, $assetId ? null : $component, $this->name, $this->id);
-		}
-		 */
-
 		// Full width format.
 
 		// Get the rules for just this asset (non-recursive).
@@ -94,9 +86,6 @@ class JFormFieldRules extends JFormField
 
 		// Get the available user groups.
 		$groups = $this->getUserGroups();
-
-		// Build the form control.
-		$curLevel = 0;
 
 		// Prepare output
 		$html = array();
@@ -119,9 +108,9 @@ class JFormFieldRules extends JFormField
 			}
 
 			$html[] = '<li class="' . $active . '">';
-				$html[] = '<a href="#permission-' . $group->value . '" data-toggle="tab">';
-				$html[] = str_repeat('<span class="level">&ndash;</i> ', $curLevel = $group->level) . $group->text;
-				$html[] = '</a>';
+			$html[] = '<a href="#permission-' . $group->value . '" data-toggle="tab">';
+			$html[] = str_repeat('<span class="level">&ndash;</span> ', $curLevel = $group->level) . $group->text;
+			$html[] = '</a>';
 			$html[] = '</li>';
 		}
 		$html[] = '</ul>';
@@ -137,8 +126,6 @@ class JFormFieldRules extends JFormField
 			{
 				$active = " active";
 			}
-
-			$difLevel = $group->level - $curLevel;
 
 			$html[] = '<div class="tab-pane' . $active . '" id="permission-' . $group->value . '">';
 			$html[] = '<table class="table table-striped">';
@@ -170,7 +157,7 @@ class JFormFieldRules extends JFormField
 			{
 				$html[] = '<tr>';
 				$html[] = '<td headers="actions-th' . $group->value . '">';
-				$html[] = '<label class="tip" for="' . $this->id . '_' . $action->name . '_' . $group->value . '" title="'
+				$html[] = '<label for="' . $this->id . '_' . $action->name . '_' . $group->value . '" class="hasTooltip" title="'
 					. htmlspecialchars(JText::_($action->title) . ' ' . JText::_($action->description), ENT_COMPAT, 'UTF-8') . '">';
 				$html[] = JText::_($action->title);
 				$html[] = '</label>';
@@ -216,7 +203,7 @@ class JFormFieldRules extends JFormField
 					// This is where we show the current effective settings considering currrent group, path and cascade.
 					// Check whether this is a component or global. Change the text slightly.
 
-					if (JAccess::checkGroup($group->value, 'core.admin') !== true)
+					if (JAccess::checkGroup($group->value, 'core.admin', $assetId) !== true)
 					{
 						if ($inheritedRule === null)
 						{
@@ -289,21 +276,6 @@ class JFormFieldRules extends JFormField
 		}
 		$html[] = '</div>';
 
-		// Get the JInput object
-		$input = JFactory::getApplication()->input;
-
-		$js = "window.addEvent('domready', function(){ new Fx.Accordion($$('div#permissions-sliders.pane-sliders .panel h3.pane-toggler'),"
-			. "$$('div#permissions-sliders.pane-sliders .panel div.pane-slider'), {onActive: function(toggler, i) {toggler.addClass('pane-toggler-down');"
-			. "toggler.removeClass('pane-toggler');i.addClass('pane-down');i.removeClass('pane-hide');Cookie.write('jpanesliders_permissions-sliders"
-			. $component
-			. "',$$('div#permissions-sliders.pane-sliders .panel h3').indexOf(toggler));},"
-			. "onBackground: function(toggler, i) {toggler.addClass('pane-toggler');toggler.removeClass('pane-toggler-down');i.addClass('pane-hide');"
-			. "i.removeClass('pane-down');}, duration: 300, display: "
-			. $input->cookie->get('jpanesliders_permissions-sliders' . $component, 0, 'integer') . ", show: "
-			. $input->cookie->get('jpanesliders_permissions-sliders' . $component, 0, 'integer') . ", alwaysHide:true, opacity: false}); });";
-
-		JFactory::getDocument()->addScriptDeclaration($js);
-
 		return implode("\n", $html);
 	}
 
@@ -316,11 +288,11 @@ class JFormFieldRules extends JFormField
 	 */
 	protected function getUserGroups()
 	{
-		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
-		$query->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level, a.parent_id')
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level, a.parent_id')
 			->from('#__usergroups AS a')
-			->leftJoin($db->quoteName('#__usergroups') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt')
+			->join('LEFT', $db->quoteName('#__usergroups') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt')
 			->group('a.id, a.title, a.lft, a.rgt, a.parent_id')
 			->order('a.lft ASC');
 		$db->setQuery($query);

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -41,15 +41,14 @@ abstract class JHtmlCategory
 	{
 		$hash = md5($extension . '.' . serialize($config));
 
-		if (!isset(self::$items[$hash]))
+		if (!isset(static::$items[$hash]))
 		{
 			$config = (array) $config;
 			$db = JFactory::getDbo();
-			$query = $db->getQuery(true);
-
-			$query->select('a.id, a.title, a.level');
-			$query->from('#__categories AS a');
-			$query->where('a.parent_id > 0');
+			$query = $db->getQuery(true)
+				->select('a.id, a.title, a.level')
+				->from('#__categories AS a')
+				->where('a.parent_id > 0');
 
 			// Filter on extension.
 			$query->where('extension = ' . $db->quote($extension));
@@ -68,23 +67,40 @@ abstract class JHtmlCategory
 				}
 			}
 
+			// Filter on the language
+			if (isset($config['filter.language']))
+			{
+				if (is_string($config['filter.language']))
+				{
+					$query->where('a.language = ' . $db->quote($config['filter.language']));
+				}
+				elseif (is_array($config['filter.language']))
+				{
+					foreach ($config['filter.language'] as &$language)
+					{
+						$language = $db->quote($language);
+					}
+					$query->where('a.language IN (' . implode(',', $config['filter.language']) . ')');
+				}
+			}
+
 			$query->order('a.lft');
 
 			$db->setQuery($query);
 			$items = $db->loadObjectList();
 
 			// Assemble the list options.
-			self::$items[$hash] = array();
+			static::$items[$hash] = array();
 
 			foreach ($items as &$item)
 			{
 				$repeat = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
 				$item->title = str_repeat('- ', $repeat) . $item->title;
-				self::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
+				static::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
 			}
 		}
 
-		return self::$items[$hash];
+		return static::$items[$hash];
 	}
 
 	/**
@@ -101,15 +117,14 @@ abstract class JHtmlCategory
 	{
 		$hash = md5($extension . '.' . serialize($config));
 
-		if (!isset(self::$items[$hash]))
+		if (!isset(static::$items[$hash]))
 		{
 			$config = (array) $config;
 			$db = JFactory::getDbo();
-			$query = $db->getQuery(true);
-
-			$query->select('a.id, a.title, a.level, a.parent_id');
-			$query->from('#__categories AS a');
-			$query->where('a.parent_id > 0');
+			$query = $db->getQuery(true)
+				->select('a.id, a.title, a.level, a.parent_id')
+				->from('#__categories AS a')
+				->where('a.parent_id > 0');
 
 			// Filter on extension.
 			$query->where('extension = ' . $db->quote($extension));
@@ -134,18 +149,18 @@ abstract class JHtmlCategory
 			$items = $db->loadObjectList();
 
 			// Assemble the list options.
-			self::$items[$hash] = array();
+			static::$items[$hash] = array();
 
 			foreach ($items as &$item)
 			{
 				$repeat = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
 				$item->title = str_repeat('- ', $repeat) . $item->title;
-				self::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
+				static::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
 			}
 			// Special "Add to root" option:
-			self::$items[$hash][] = JHtml::_('select.option', '1', JText::_('JLIB_HTML_ADD_TO_ROOT'));
+			static::$items[$hash][] = JHtml::_('select.option', '1', JText::_('JLIB_HTML_ADD_TO_ROOT'));
 		}
 
-		return self::$items[$hash];
+		return static::$items[$hash];
 	}
 }

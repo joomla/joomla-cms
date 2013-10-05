@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<fieldset
+		name="taglist"
+		label="COM_TAGS_CONFIG_TAG_SETTINGS_LABEL"
+		description="COM_TAGS_CONFIG_TAG_SETTINGS_DESC">
+
+		<field
+			name="tag_layout"
+			type="componentlayout"
+			label="COM_TAGS_CONFIG_TAGGED_ITEMS_FIELD_LAYOUT_LABEL"
+			description="COM_TAGS_CONFIG_TAGGED_ITEMS_FIELD_LAYOUT_DESC"
+			menuitems="true"
+			extension="com_tags"
+			view="tag"
+		/>
+	
+		<field 
+			name="show_tag_title" 
+			type="radio" class="btn-group"
+			label="COM_TAGS_SHOW_TAG_TITLE_LABEL"
+			description="COM_TAGS_SHOW_TAG_TITLE_DESC"
+			default="0"
+		>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
+		<field 
+			name="tag_list_show_tag_image" 
+			type="radio" class="btn-group"
+			description="COM_TAGS_SHOW_TAG_IMAGE_DESC"
+			label="COM_TAGS_SHOW_TAG_IMAGE_LABEL"
+			default="1"
+		>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
+		<field 
+			name="tag_list_show_tag_description" 
+			type="radio" 
+			class="btn-group"
+			description="COM_TAGS_SHOW_TAG_DESCRIPTION_DESC"
+			label="COM_TAGS_SHOW_TAG_DESCRIPTION_LABEL"
+			default="1"
+		>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
+		<field 
+			name="tag_list_image" 
+			type="media"
+			description="COM_TAGS_TAG_LIST_MEDIA_DESC"
+			label="COM_TAGS_TAG_LIST_MEDIA_LABEL"
+		/>
+		
+		<field 
+			name="show_tag_num_items" 
+			type="radio" 
+			class="btn-group"
+			label="COM_TAGS_NUMBER_TAG_ITEMS_LABEL"
+			description="COM_TAGS_NUMBER_TAG_ITEMS_DESC"
+			default="0"
+		>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+	
+		<field name="tag_list_orderby"
+			type="list"
+			default="title"
+			label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"
+			description="JGLOBAL_FIELD_FIELD_ORDERING_DESC">
+				<option value="title">JGLOBAL_TITLE</option>
+				<option value="match_count">COM_TAGS_MATCH_COUNT</option>
+				<option value="created_time">JGLOBAL_CREATED_DATE</option>
+				<option value="modified_time">JGLOBAL_MODIFIED_DATE</option>
+				<option value="publish_up">JGLOBAL_PUBLISHED_DATE</option>
+		</field>
+
+		<field 
+			name="tag_list_orderby_direction" 
+			type="radio" 
+			class="btn-group"
+			description="JGLOBAL_ORDER_DIRECTION_DESC"
+			label="JGLOBAL_ORDER_DIRECTION_LABEL"
+			default="ASC"
+		>
+			<option value="ASC">JGLOBAL_ORDER_ASCENDING</option>
+			<option value="DESC">JGLOBAL_ORDER_DESCENDING</option>
+		</field>
+
+		<field 
+			name="show_headings" 
+			type="radio"
+			class="btn-group"
+			default="1"			
+			description="JGLOBAL_SHOW_HEADINGS_DESC"
+			label="JGLOBAL_SHOW_HEADINGS_LABEL"
+		>
+
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
+		<field 
+			name="tag_list_show_date"
+			type="list"
+			default="0"
+			label="JGLOBAL_SHOW_DATE_LABEL"
+			description="JGLOBAL_SHOW_DATE_DESC"
+		>
+				<option value="0">JHIDE</option>
+				<option value="created">JGLOBAL_CREATED</option>
+				<option value="modified">JGLOBAL_MODIFIED</option>
+				<option value="published">JPUBLISHED</option>
+		</field>
+		
+		<field 
+			name="tag_list_show_item_image" 
+			type="radio" 
+			class="btn-group"
+			description="COM_TAGS_SHOW_ITEM_IMAGE_DESC"
+			label="COM_TAGS_SHOW_ITEM_IMAGE_LABEL"
+			default="1"
+		>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+		
+		<field 
+			name="tag_list_show_item_description" 
+			type="list"
+			label="COM_TAGS_TAG_LIST_SHOW_ITEM_DESCRIPTION_LABEL"
+			description="COM_TAGS_TAG_LIST_SHOW_ITEM_DESCRIPTION_DESC"
+		>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+		
+		<field
+			name="tag_list_item_maximum_characters"
+			type="text"
+			filter="integer"
+			label="COM_TAGS_LIST_MAX_CHARACTERS_LABEL"
+			description="COM_TAGS_LIST_MAX_CHARACTERS_DESC">
+		</field>
+
+	</fieldset>
+	
+	<fieldset
+		name="tagselection"
+		label="COM_TAGS_CONFIG_SELECTION_SETTINGS_LABEL"
+		description="COM_TAGS_CONFIG_SELECTION_SETTINGS_DESC">
+		
+		<field 
+			name="return_any_or_all" 
+			type="radio" 
+			class="btn-group"
+			label="COM_TAGS_SEARCH_TYPE_LABEL"
+			description="COM_TAGS_SEARCH_TYPE_DESC"
+			default="1"
+		>
+			<option value="0">COM_TAGS_ALL</option>
+			<option value="1">COM_TAGS_ANY</option>
+		</field>
+		
+		<field 
+			name="include_children" 
+			type="radio" 
+			class="btn-group"
+			description="COM_TAGS_INCLUDE_CHILDREN_DESC"
+			label="COM_TAGS_INCLUDE_CHILDREN_LABEL"
+			default="0"
+		>
+			<option value="0">COM_TAGS_EXCLUDE</option>
+			<option value="1">COM_TAGS_INCLUDE</option>
+		</field>
+		
+		<field
+			name="maximum"
+			type="text"
+			default="200"
+			filter="integer"
+			label="COM_TAGS_LIST_MAX_LABEL"
+			description="COM_TAGS_LIST_MAX_DESC">
+		</field>
+		
+		<field 
+			name="tag_list_language_filter"
+			type="contentlanguage"
+			default="all"
+			label="COM_TAGS_FIELD_LANGUAGE_FILTER_LABEL"
+			description="COM_TAGS_FIELD_LANGUAGE_FILTER_DESC">
+				<option value="all">JALL</option>
+				<option value="current_language">JCURRENT</option>
+		</field>
+
+		
+	</fieldset>	
+
+	<fieldset
+		name="alltags"
+		label="COM_TAGS_CONFIG_ALL_TAGS_SETTINGS_LABEL"
+		description="COM_TAGS_CONFIG_ALL_TAGS_SETTINGS_DESC">
+
+		<field
+			name="tags_layout" 
+			type="componentlayout"
+			label="COM_TAGS_CONFIG_ALL_TAGS_FIELD_LAYOUT_LABEL"
+			description="COM_TAGS_CONFIG_ALL_TAGS_FIELD_LAYOUT_DESC"
+			menuitems="true"
+			extension="com_tags"
+			view="tags"
+		/>
+
+		<field 
+			name="all_tags_orderby"
+			type="list"
+			default="title"
+			label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"
+			description="JGLOBAL_FIELD_FIELD_ORDERING_DESC"
+		>
+				<option value="title">JGLOBAL_TITLE</option>
+				<option value="hits">JGLOBAL_HITS</option>
+				<option value="created_time">JGLOBAL_CREATED_DATE</option>
+				<option value="modified_time">JGLOBAL_MODIFIED_DATE</option>
+				<option value="publish_up">JGLOBAL_PUBLISHED_DATE</option>
+		</field>
+
+		<field 
+			name="all_tags_orderby_direction" 
+			type="radio" 
+			class="btn-group"
+			description="JGLOBAL_ORDER_DIRECTION_DESC"
+			label="JGLOBAL_ORDER_DIRECTION_LABEL"
+			default="ASC"
+		>
+			<option value="ASC">JGLOBAL_ORDER_ASCENDING</option>
+			<option value="DESC">JGLOBAL_ORDER_DESCENDING</option>
+		</field>
+
+		<field 
+			name="all_tags_show_tag_image" 
+			type="radio" 
+			class="btn-group"
+			description="COM_TAGS_SHOW_ITEM_IMAGE_DESC"
+			label="COM_TAGS_SHOW_ITEM_IMAGE_LABEL"
+			default="1"
+		>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
+		<field 
+			name="all_tags_show_tag_descripion" 
+			type="radio" 
+			class="btn-group"
+			description="COM_TAGS_SHOW_ITEM_DESCRIPTION_DESC"
+			label="COM_TAGS_SHOW_ITEM_DESCRIPTION_LABEL"
+			default="1"
+		>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+		
+		<field
+			name="all_tags_tag_maximum_characters"
+			type="text"
+			filter="integer"
+			label="COM_TAGS_LIST_MAX_CHARACTERS_LABEL"
+			description="COM_TAGS_LIST_MAX_CHARACTERS_DESC"
+		/>
+		
+		<field 
+			name="all_tags_show_tag_hits" 
+			type="radio" 
+			class="btn-group"
+			description="COM_TAGS_FIELD_CONFIG_HITS_DESC"
+			label="JGLOBAL_HITS"
+			default="0"
+		>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
+	</fieldset>
+		<fieldset
+		name="shared"
+		label="COM_TAGS_CONFIG_SHARED_SETTINGS_LABEL"
+		description="COM_TAGS_CONFIG_SHARED_SETTINGS_DESC">
+		
+		<field
+			name="filter_field"
+			type="radio"
+			class="btn-group"
+			default="1"
+			description="JGLOBAL_FILTER_FIELD_DESC"
+			label="JGLOBAL_FILTER_FIELD_LABEL"
+			>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
+
+		<field 
+			name="show_pagination_limit" 
+			type="radio"
+			default="1"
+			class="btn-group"
+			description="JGLOBAL_DISPLAY_SELECT_DESC"
+			label="JGLOBAL_DISPLAY_SELECT_LABEL"
+		>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+		
+		<field 
+			name="show_pagination" 
+			type="list"
+			default="2"
+			description="JGLOBAL_PAGINATION_DESC"
+			label="JGLOBAL_PAGINATION_LABEL"
+		>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+			<option value="2">JGLOBAL_AUTO</option>
+		</field>
+
+		<field
+			name="show_pagination_results"
+			type="radio"
+			class="btn-group"
+			default="1"
+			label="JGLOBAL_PAGINATION_RESULTS_LABEL"
+			description="JGLOBAL_PAGINATION_RESULTS_DESC"
+		>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+		
+	</fieldset>
+	
+	<fieldset
+		name="data_entry"
+		label="COM_TAGS_CONFIG_DATA_ENTRY_SETTINGS_LABEL"
+		description="COM_TAGS_CONFIG_DATA_ENTRY_SETTINGS_DESC">
+		
+		<field 
+			name="tag_field_ajax_mode" 
+			type="radio" 
+			class="btn-group"
+			description="COM_TAGS_TAG_FIELD_MODE_DESC"
+			label="COM_TAGS_TAG_FIELD_MODE_LABEL"
+			default="1"
+		>
+			<option value="1">COM_TAGS_TAG_FIELD_MODE_AJAX</option>
+			<option value="0">COM_TAGS_TAG_FIELD_MODE_NESTED</option>
+		</field>
+		
+	
+		
+	</fieldset>
+	
+	<fieldset 
+		name="integration"
+		label="JGLOBAL_INTEGRATION_LABEL"
+		description="COM_TAGS_CONFIG_INTEGRATION_SETTINGS_DESC"
+	>
+
+		<field
+			name="show_feed_link"
+			type="radio"
+			class="btn-group"
+			default="1"
+			label="JGLOBAL_SHOW_FEED_LINK_LABEL"
+			description="JGLOBAL_SHOW_FEED_LINK_DESC">
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+		</field>
+
+	</fieldset>
+
+	<fieldset
+		name="permissions"
+		label="JCONFIG_PERMISSIONS_LABEL"
+		description="JCONFIG_PERMISSIONS_DESC"
+		>
+
+		<field
+			name="rules"
+			type="rules"
+			label="JCONFIG_PERMISSIONS_LABEL"
+			filter="rules"
+			validate="rules"
+			component="com_tags"
+			section="component" />
+	</fieldset>
+</config>

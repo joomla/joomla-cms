@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,7 +27,7 @@ class ContentViewArticles extends JViewLegacy
 	/**
 	 * Display the view
 	 *
-	 * @return	void
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
@@ -42,7 +42,8 @@ class ContentViewArticles extends JViewLegacy
 		$this->authors		= $this->get('Authors');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
@@ -63,7 +64,8 @@ class ContentViewArticles extends JViewLegacy
 		$this->f_levels = $options;
 
 		// We don't need toolbar in the modal window.
-		if ($this->getLayout() !== 'modal') {
+		if ($this->getLayout() !== 'modal')
+		{
 			$this->addToolbar();
 			$this->sidebar = JHtmlSidebar::render();
 		}
@@ -74,11 +76,11 @@ class ContentViewArticles extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
-		$canDo = ContentHelper::getActions($this->state->get('filter.category_id'));
+		$canDo = JHelperContent::getActions($this->state->get('filter.category_id'), 0, 'com_content');
 		$user  = JFactory::getUser();
 
 		// Get the toolbar object instance
@@ -86,15 +88,18 @@ class ContentViewArticles extends JViewLegacy
 
 		JToolbarHelper::title(JText::_('COM_CONTENT_ARTICLES_TITLE'), 'article.png');
 
-		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories('com_content', 'core.create'))) > 0 ) {
+		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories('com_content', 'core.create'))) > 0 )
+		{
 			JToolbarHelper::addNew('article.add');
 		}
 
-		if (($canDo->get('core.edit')) || ($canDo->get('core.edit.own'))) {
+		if (($canDo->get('core.edit')) || ($canDo->get('core.edit.own')))
+		{
 			JToolbarHelper::editList('article.edit');
 		}
 
-		if ($canDo->get('core.edit.state')) {
+		if ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::publish('articles.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('articles.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 			JToolbarHelper::custom('articles.featured', 'featured.png', 'featured_f2.png', 'JFEATURED', true);
@@ -102,25 +107,30 @@ class ContentViewArticles extends JViewLegacy
 			JToolbarHelper::checkin('articles.checkin');
 		}
 
-		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')) {
+		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
+		{
 			JToolbarHelper::deleteList('', 'articles.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
-		elseif ($canDo->get('core.edit.state')) {
+		elseif ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::trash('articles.trash');
 		}
 
 		// Add a batch button
-		if ($user->authorise('core.edit'))
+		if ($user->authorise('core.create', 'com_content') && $user->authorise('core.edit', 'com_content') && $user->authorise('core.edit.state', 'com_content'))
 		{
 			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
-			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn btn-small\">
-						<i class=\"icon-checkbox-partial\" title=\"$title\"></i>
-						$title</button>";
+
+			// Instantiate a new JLayoutFile instance and render the batch button
+			$layout = new JLayoutFile('joomla.toolbar.batch');
+
+			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
-		if ($canDo->get('core.admin')) {
+		if ($canDo->get('core.admin'))
+		{
 			JToolbarHelper::preferences('com_content');
 		}
 
@@ -163,6 +173,12 @@ class ContentViewArticles extends JViewLegacy
 			'filter_language',
 			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
 		);
+
+		JHtmlSidebar::addFilter(
+		JText::_('JOPTION_SELECT_TAG'),
+		'filter_tag',
+		JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag'))
+		);
 	}
 
 	/**
@@ -183,7 +199,8 @@ class ContentViewArticles extends JViewLegacy
 			'a.created_by' => JText::_('JAUTHOR'),
 			'language' => JText::_('JGRID_HEADING_LANGUAGE'),
 			'a.created' => JText::_('JDATE'),
-			'a.id' => JText::_('JGRID_HEADING_ID')
+			'a.id' => JText::_('JGRID_HEADING_ID'),
+			'a.featured' => JText::_('JFEATURED')
 		);
 	}
 }

@@ -85,7 +85,14 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-
+			<field name="show_category_heading_title"
+					type="list"
+ 					label="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_LABEL"
+					description="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_DESC">
+					<option value="">JGLOBAL_USE_GLOBAL</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+			</field>
 			<field name="show_subcat_desc" type="list"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"

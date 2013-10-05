@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,4 +27,8 @@ JText::script('TPL_BEEZ3_CLOSEMENU');
 	var small = '<?php echo (int) $this->params->get('wrapperSmall'); ?>%';
 	var bildauf = '<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/images/plus.png';
 	var bildzu = '<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/images/minus.png';
+	var rightopen='<?php echo JText::_('TPL_BEEZ3_TEXTRIGHTOPEN', true); ?>';
+	var rightclose='<?php echo JText::_('TPL_BEEZ3_TEXTRIGHTCLOSE', true); ?>';
+	var altopen='<?php echo JText::_('TPL_BEEZ3_ALTOPEN', true); ?>';
+	var altclose='<?php echo JText::_('TPL_BEEZ3_ALTCLOSE', true); ?>';
 </script>

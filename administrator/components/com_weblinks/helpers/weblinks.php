@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,13 +16,16 @@ defined('_JEXEC') or die;
  * @subpackage  com_weblinks
  * @since       1.6
  */
-class WeblinksHelper
+class WeblinksHelper extends JHelperContent
 {
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param	string	The name of the active view.
-	 * @since	1.6
+	 * @param   string	$vName  The name of the active view.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	public static function addSubmenu($vName = 'weblinks')
 	{
@@ -44,32 +47,4 @@ class WeblinksHelper
 		}
 	}
 
-	/**
-	 * Gets a list of the actions that can be performed.
-	 *
-	 * @param	int		The category ID.
-	 * @return	JObject
-	 * @since	1.6
-	 */
-	public static function getActions($categoryId = 0)
-	{
-		$user	= JFactory::getUser();
-		$result	= new JObject;
-
-		if (empty($categoryId)) {
-			$assetName = 'com_weblinks';
-			$level = 'component';
-		} else {
-			$assetName = 'com_weblinks.category.'.(int) $categoryId;
-			$level = 'category';
-		}
-
-		$actions = JAccess::getActions('com_weblinks', $level);
-
-		foreach ($actions as $action) {
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
-		}
-
-		return $result;
-	}
 }

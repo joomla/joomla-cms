@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -45,6 +45,7 @@ class JFormFieldUser extends JFormField
 		// Initialize some field attributes.
 		$attr = $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
 		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
+		$attr .= ($this->element['required'] == 'true') ? ' required="required"' : '';
 
 		// Initialize JavaScript field attributes.
 		$onchange = (string) $this->element['onchange'];
@@ -58,7 +59,8 @@ class JFormFieldUser extends JFormField
 		$script[] = '		var old_id = document.getElementById("' . $this->id . '_id").value;';
 		$script[] = '		if (old_id != id) {';
 		$script[] = '			document.getElementById("' . $this->id . '_id").value = id;';
-		$script[] = '			document.getElementById("' . $this->id . '_name").value = title;';
+		$script[] = '			document.getElementById("' . $this->id . '").value = title;';
+		$script[] = '			document.getElementById("' . $this->id . '").className = document.getElementById("' . $this->id . '").className.replace(" invalid" , "");';
 		$script[] = '			' . $onchange;
 		$script[] = '		}';
 		$script[] = '		SqueezeBox.close();';
@@ -69,9 +71,15 @@ class JFormFieldUser extends JFormField
 
 		// Load the current username if available.
 		$table = JTable::getInstance('user');
-		if ($this->value)
+
+		if (is_numeric($this->value))
 		{
 			$table->load($this->value);
+		}
+		// Handle the special case for "current".
+		elseif (strtoupper($this->value) == 'CURRENT')
+		{
+			$table->load(JFactory::getUser()->id);
 		}
 		else
 		{
@@ -79,21 +87,18 @@ class JFormFieldUser extends JFormField
 		}
 
 		// Create a dummy text field with the user name.
-		$html[] = '<div class="fltlft">';
-		$html[] = '	<input type="text" id="' . $this->id . '_name"' . ' value="' . htmlspecialchars($table->name, ENT_COMPAT, 'UTF-8') . '"'
-			. ' disabled="disabled"' . $attr . ' />';
-		$html[] = '</div>';
+		$html[] = '<div class="input-append">';
+		$html[] = '	<input type="text" id="' . $this->id . '" value="' . htmlspecialchars($table->name, ENT_COMPAT, 'UTF-8') . '"'
+			. ' readonly="readonly"' . $attr . ' />';
 
 		// Create the user select button.
-		$html[] = '<div class="button2-left">';
-		$html[] = '  <div class="blank">';
 		if ($this->element['readonly'] != 'true')
 		{
-			$html[] = '		<a class="modal_' . $this->id . '" title="' . JText::_('JLIB_FORM_CHANGE_USER') . '"' . ' href="' . $link . '"'
+			$html[] = '		<a class="btn btn-primary modal_' . $this->id . '" title="' . JText::_('JLIB_FORM_CHANGE_USER') . '" href="' . $link . '"'
 				. ' rel="{handler: \'iframe\', size: {x: 800, y: 500}}">';
-			$html[] = '			' . JText::_('JLIB_FORM_CHANGE_USER') . '</a>';
+			$html[] = '<i class="icon-user"></i></a>';
 		}
-		$html[] = '  </div>';
+
 		$html[] = '</div>';
 
 		// Create the real field, hidden, that stored the user id.

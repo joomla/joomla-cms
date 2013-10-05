@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,7 +29,8 @@ class ContentViewArticle extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		if ($this->getLayout() == 'pagebreak') {
+		if ($this->getLayout() == 'pagebreak')
+		{
 			// TODO: This is really dogy - should change this one day.
 			$eName    = JRequest::getVar('e_name');
 			$eName    = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
@@ -43,12 +44,19 @@ class ContentViewArticle extends JViewLegacy
 		$this->form		= $this->get('Form');
 		$this->item		= $this->get('Item');
 		$this->state	= $this->get('State');
-		$this->canDo	= ContentHelper::getActions($this->state->get('filter.category_id'));
+		$this->canDo	= JHelperContent::getActions($this->state->get('filter.category_id'), 0, 'com_content');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
+		}
+
+		if ($this->getLayout() == 'modal')
+		{
+			$this->form->setFieldAttribute('language', 'readonly', 'true');
+			$this->form->setFieldAttribute('catid', 'readonly', 'true');
 		}
 
 		$this->addToolbar();
@@ -58,7 +66,7 @@ class ContentViewArticle extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
@@ -67,39 +75,52 @@ class ContentViewArticle extends JViewLegacy
 		$userId		= $user->get('id');
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
-		$canDo		= ContentHelper::getActions($this->state->get('filter.category_id'), $this->item->id);
-		JToolbarHelper::title(JText::_('COM_CONTENT_PAGE_'.($checkedOut ? 'VIEW_ARTICLE' : ($isNew ? 'ADD_ARTICLE' : 'EDIT_ARTICLE'))), 'article-add.png');
 
 		// Built the actions for new and existing records.
+		$canDo		= $this->canDo;
+		JToolbarHelper::title(JText::_('COM_CONTENT_PAGE_' . ($checkedOut ? 'VIEW_ARTICLE' : ($isNew ? 'ADD_ARTICLE' : 'EDIT_ARTICLE'))), 'article-add.png');
 
 		// For new records, check the create permission.
-		if ($isNew && (count($user->getAuthorisedCategories('com_content', 'core.create')) > 0)) {
+		if ($isNew && (count($user->getAuthorisedCategories('com_content', 'core.create')) > 0))
+		{
 			JToolbarHelper::apply('article.apply');
 			JToolbarHelper::save('article.save');
 			JToolbarHelper::save2new('article.save2new');
 			JToolbarHelper::cancel('article.cancel');
 		}
-		else {
+		else
+		{
 			// Can't save the record if it's checked out.
-			if (!$checkedOut) {
+			if (!$checkedOut)
+			{
 				// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
-				if ($canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId)) {
+				if ($canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId))
+				{
 					JToolbarHelper::apply('article.apply');
 					JToolbarHelper::save('article.save');
 
 					// We can save this record, but check the create permission to see if we can return to make a new one.
-					if ($canDo->get('core.create')) {
+					if ($canDo->get('core.create'))
+					{
 						JToolbarHelper::save2new('article.save2new');
 					}
 				}
 			}
 
 			// If checked out, we can still save
-			if ($canDo->get('core.create')) {
+			if ($canDo->get('core.create'))
+			{
 				JToolbarHelper::save2copy('article.save2copy');
 			}
 
 			JToolbarHelper::cancel('article.cancel', 'JTOOLBAR_CLOSE');
+		}
+
+		if ($this->state->params->get('save_history') && $user->authorise('core.edit'))
+		{
+			$itemId = $this->item->id;
+			$typeAlias = 'com_content.article';
+			JToolbarHelper::versions($typeAlias, $itemId);
 		}
 
 		JToolbarHelper::divider();

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -25,7 +25,7 @@ JHtml::stylesheet('com_finder/finder.css', false, true, false);
 </h1>
 <?php endif; ?>
 
-<?php if ($this->params->get('show_search_form', 1)): ?>
+<?php if ($this->params->get('show_search_form', 1)) : ?>
 	<div id="search-form">
 		<?php echo $this->loadTemplate('form'); ?>
 	</div>

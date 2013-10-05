@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,8 @@ defined('_JEXEC') or die;
 <?php
 	$fieldSets = $this->form->getFieldsets('request');
 
-	if (!empty($fieldSets)) {
+	if (!empty($fieldSets))
+	{
 		$fieldSet = array_shift($fieldSets);
 		$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_MENUS_'.$fieldSet->name.'_FIELDSET_LABEL';
 		echo JHtml::_('sliders.panel', JText::_($label), 'request-options');

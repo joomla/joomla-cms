@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.contactcreator
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,62 +18,63 @@ defined('_JEXEC') or die;
  * @subpackage  User.contactcreator
  * @since       1.6
  */
-class plgUserContactCreator extends JPlugin
+class PlgUserContactCreator extends JPlugin
 {
 	/**
-	 * Constructor
+	 * Load the language file on instantiation.
 	 *
-	 * @access      protected
-	 * @param       object  $subject The object to observe
-	 * @param       array   $config  An array that holds the plugin configuration
-	 * @since       1.5
+	 * @var    boolean
+	 * @since  3.1
 	 */
-	public function __construct(& $subject, $config)
-	{
-		parent::__construct($subject, $config);
-		$this->loadLanguage();
-	}
+	protected $autoloadLanguage = true;
 
 	public function onUserAfterSave($user, $isnew, $success, $msg)
 	{
-		if(!$success) {
+		if (!$success)
+		{
 			return false; // if the user wasn't stored we don't resync
 		}
 
-		if(!$isnew) {
+		if (!$isnew)
+		{
 			return false; // if the user isn't new we don't sync
 		}
 
 		// ensure the user id is really an int
 		$user_id = (int) $user['id'];
 
-		if (empty($user_id)) {
+		if (empty($user_id))
+		{
 			die('invalid userid');
 			return false; // if the user id appears invalid then bail out just in case
 		}
 
 		$category = $this->params->get('category', 0);
-		if (empty($category)) {
+		if (empty($category))
+		{
 			JError::raiseWarning(41, JText::_('PLG_CONTACTCREATOR_ERR_NO_CATEGORY'));
 			return false; // bail out if we don't have a category
 		}
 
-		$dbo = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		// grab the contact ID for this user; note $user_id is cleaned above
-		$dbo->setQuery('SELECT id FROM #__contact_details WHERE user_id = '. $user_id);
-		$id = $dbo->loadResult();
+		$db->setQuery('SELECT id FROM #__contact_details WHERE user_id = '. $user_id);
+		$id = $db->loadResult();
 
 		JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_contact/tables');
 		$contact = JTable::getInstance('contact', 'ContactTable');
 
-		if (!$contact) {
+		if (!$contact)
+		{
 			return false;
 		}
 
-		if ($id) {
+		if ($id)
+		{
 			$contact->load($id);
 		}
-		elseif($this->params->get('autopublish', 0)) {
+		elseif ($this->params->get('autopublish', 0))
+		{
 			$contact->published = 1;
 		}
 
@@ -81,10 +82,12 @@ class plgUserContactCreator extends JPlugin
 		$contact->user_id = $user_id;
 		$contact->email_to = $user['email'];
 		$contact->catid = $category;
+		$contact->language = '*';
 
 		$autowebpage = $this->params->get('autowebpage', '');
 
-		if (!empty($autowebpage)) {
+		if (!empty($autowebpage))
+		{
 			// search terms
 			$search_array = array('[name]', '[username]', '[userid]', '[email]');
 			// replacement terms, urlencoded
@@ -93,11 +96,13 @@ class plgUserContactCreator extends JPlugin
 			$contact->webpage = str_replace($search_array, $replace_array, $autowebpage);
 		}
 
-		if ($contact->check()) {
+		if ($contact->check())
+		{
 			$result = $contact->store();
 		}
 
-		if (!(isset($result)) || !$result) {
+		if (!(isset($result)) || !$result)
+		{
 			JError::raiseError(42, JText::sprintf('PLG_CONTACTCREATOR_ERR_FAILED_UPDATE', $contact->getError()));
 		}
 	}

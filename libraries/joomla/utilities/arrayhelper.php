@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Utilities
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -100,9 +100,11 @@ abstract class JArrayHelper
 	public static function toObject(&$array, $class = 'stdClass')
 	{
 		$obj = null;
+
 		if (is_array($array))
 		{
 			$obj = new $class;
+
 			foreach ($array as $k => $v)
 			{
 				if (is_array($v))
@@ -196,6 +198,7 @@ abstract class JArrayHelper
 		if (is_object($item))
 		{
 			$result = array();
+
 			foreach (get_object_vars($item) as $k => $v)
 			{
 				if (!$regex || preg_match($regex, $k))
@@ -214,6 +217,7 @@ abstract class JArrayHelper
 		elseif (is_array($item))
 		{
 			$result = array();
+
 			foreach ($item as $k => $v)
 			{
 				$result[$k] = self::_fromObject($v, $recurse, $regex);
@@ -242,7 +246,7 @@ abstract class JArrayHelper
 
 		if (is_array($array))
 		{
-			foreach ($array as $key => &$item)
+			foreach ($array as &$item)
 			{
 				if (is_array($item) && isset($item[$index]))
 				{
@@ -328,6 +332,56 @@ abstract class JArrayHelper
 				break;
 		}
 		return $result;
+	}
+
+	/**
+	 * Takes an associative array of arrays and inverts the array keys to values using the array values as keys.
+	 *
+	 * Example:
+	 * $input = array(
+	 *     'New' => array('1000', '1500', '1750'),
+	 *     'Used' => array('3000', '4000', '5000', '6000')
+	 * );
+	 * $output = JArrayHelper::invert($input);
+	 *
+	 * Output would be equal to:
+	 * $output = array(
+	 *     '1000' => 'New',
+	 *     '1500' => 'New',
+	 *     '1750' => 'New',
+	 *     '3000' => 'Used',
+	 *     '4000' => 'Used',
+	 *     '5000' => 'Used',
+	 *     '6000' => 'Used'
+	 * );
+	 *
+	 * @param   array  $array  The source array.
+	 *
+	 * @return  array  The inverted array.
+	 *
+	 * @since   12.3
+	 */
+	public static function invert($array)
+	{
+		$return = array();
+
+		foreach ($array as $base => $values)
+		{
+			if (!is_array($values))
+			{
+				continue;
+			}
+
+			foreach ($values as $key)
+			{
+				// If the key isn't scalar then ignore it.
+				if (is_scalar($key))
+				{
+					$return[$key] = $base;
+				}
+			}
+		}
+		return $return;
 	}
 
 	/**

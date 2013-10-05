@@ -3,29 +3,30 @@
  * @package     Joomla.Site
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * @param	array
- * @return	array
+ * @param   array
+ * @return  array
  */
 function SearchBuildRoute(&$query)
 {
 	$segments = array();
 
-	if (isset($query['view'])) {
+	if (isset($query['view']))
+	{
 		unset($query['view']);
 	}
 	return $segments;
 }
 
 /**
- * @param	array
- * @return	array
+ * @param   array
+ * @return  array
  */
 function SearchParseRoute($segments)
 {

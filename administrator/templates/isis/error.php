@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,9 +19,6 @@ $this->language = $doc->language;
 $this->direction = $doc->direction;
 $input = $app->input;
 $user  = JFactory::getUser();
-
-// Add JavaScript Frameworks
-JHtml::_('bootstrap.framework');
 
 // Detecting Active Variables
 $option   = $input->get('option', '');
@@ -48,7 +45,7 @@ foreach ($this->submenumodules as $submenumodule)
 // Logo file
 if ($params->get('logoFile'))
 {
-	$logo = JURI::root() . $params->get('logoFile');
+	$logo = JUri::root() . $params->get('logoFile');
 }
 else
 {
@@ -58,18 +55,22 @@ else
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title><?php echo $this->title; ?> <?php echo $this->error->getMessage();?></title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-	<meta name="language" content="<?php echo $this->language; ?>" />
-	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/template.css" type="text/css" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title><?php echo $this->title; ?> <?php echo htmlspecialchars($this->error->getMessage()); ?></title>
+	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/template.css" type="text/css" />
+	<?php // If debug  mode
+		$debug = JFactory::getConfig()->get('debug_lang');
+		if ((defined('JDEBUG') && JDEBUG) || $debug) : ?>
+		<!-- Load additional CSS styles for debug mode-->
+		<link rel="stylesheet" href="<?php echo JUri::root() ?>/media/cms/css/debug.css" type="text/css" />
+	<?php endif; ?>
 	<?php
 	// If Right-to-Left
 	if ($this->direction == 'rtl')
 	{
 	?>
-		<link rel="stylesheet" href="<?php echo JURI::root() ?>/media/jui/css/bootstrap-rtl.css" type="text/css" />
+		<link rel="stylesheet" href="<?php echo JUri::root() ?>/media/jui/css/bootstrap-rtl.css" type="text/css" />
 	<?php
 	}
 	// Load specific language related CSS
@@ -96,7 +97,7 @@ else
 	{
 	?>
 	<style type="text/css">
-		.header, .navbar-inner, .navbar-inverse .navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle
+		.navbar-inner, .navbar-inverse .navbar-inner, .nav-list > .active > a, .nav-list > .active > a:hover, .dropdown-menu li > a:hover, .dropdown-menu .active > a, .dropdown-menu .active > a:hover, .navbar-inverse .nav li.dropdown.open > .dropdown-toggle, .navbar-inverse .nav li.dropdown.active > .dropdown-toggle, .navbar-inverse .nav li.dropdown.open.active > .dropdown-toggle
 		{
 			background: <?php echo $params->get('templateColor');?>;
 		}
@@ -109,6 +110,24 @@ else
 	<?php
 	}
 	?>
+	<?php
+	// Template header color
+	if ($params->get('headerColor'))
+	{
+	?>
+	<style type="text/css">
+		.header
+		{
+			background: <?php echo $params->get('headerColor');?>;
+		}
+	</style>
+	<?php
+	}
+	?>
+	<script src="../media/jui/js/jquery.js" type="text/javascript"></script>
+	<script src="../media/jui/js/jquery-noconflict.js" type="text/javascript"></script>
+	<script src="../media/jui/js/bootstrap.js" type="text/javascript"></script>
+	<script src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/js/template.js" type="text/javascript"></script>
 	<!--[if lt IE 9]>
 		<script src="../media/jui/js/html5.js"></script>
 	<![endif]-->
@@ -126,7 +145,7 @@ else
 						<span class="icon-bar"></span>
 					</a>
 				<?php endif; ?>
-				<a class="brand" href="<?php echo JURI::root(); ?>" title="<?php echo JText::_('JGLOBAL_PREVIEW');?> <?php echo $sitename; ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false);?> <i class="icon-out-2 small"></i></a>
+				<a class="brand" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ISIS_PREVIEW', $sitename);?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false);?> <i class="icon-out-2 small"></i></a>
 				<?php if ($params->get('admin_menus') != '0') : ?>
 				<div class="nav-collapse">
 				<?php else : ?>
@@ -135,7 +154,8 @@ else
 					<?php
 					// Display menu modules
 					$this->menumodules = JModuleHelper::getModules('menu');
-					foreach ($this->menumodules as $menumodule) {
+					foreach ($this->menumodules as $menumodule)
+					{
 						$output = JModuleHelper::renderModule($menumodule, array('style' => 'none'));
 						$params = new JRegistry;
 						$params->loadString($menumodule->params);
@@ -198,7 +218,8 @@ else
 			<?php
 			// Display status modules
 			$this->statusmodules = JModuleHelper::getModules('status');
-			foreach ($this->statusmodules as $statusmodule) {
+			foreach ($this->statusmodules as $statusmodule)
+			{
 				$output = JModuleHelper::renderModule($statusmodule, array('style' => 'no'));
 				$params = new JRegistry;
 				$params->loadString($statusmodule->params);
@@ -219,50 +240,26 @@ else
 			processScroll()
 
 			// hack sad times - holdover until rewrite for 2.1
-			$nav.on('click', function () {
+			$nav.on('click', function ()
+			{
 				if (!isFixed) setTimeout(function () {  $win.scrollTop($win.scrollTop() - 47) }, 10)
 			})
 
 			$win.on('scroll', processScroll)
 
-			function processScroll() {
+			function processScroll()
+			{
 				var i, scrollTop = $win.scrollTop()
-				if (scrollTop >= navTop && !isFixed) {
+				if (scrollTop >= navTop && !isFixed)
+				{
 					isFixed = 1
 					$nav.addClass('subhead-fixed')
-				} else if (scrollTop <= navTop && isFixed) {
+				} else if (scrollTop <= navTop && isFixed)
+				{
 					isFixed = 0
 					$nav.removeClass('subhead-fixed')
 				}
 			}
-
-			// Turn radios into btn-group
-		    $('.radio.btn-group label').addClass('btn');
-		    $(".btn-group label:not(.active)").click(function() {
-		        var label = $(this);
-		        var input = $('#' + label.attr('for'));
-
-		        if (!input.prop('checked')) {
-		            label.closest('.btn-group').find("label").removeClass('active btn-success btn-danger btn-primary');
-		            if(input.val()== '') {
-		                    label.addClass('active btn-primary');
-		             } else if(input.val()==0) {
-		                    label.addClass('active btn-danger');
-		             } else {
-		            label.addClass('active btn-success');
-		             }
-		            input.prop('checked', true);
-		        }
-		    });
-		    $(".btn-group input[checked=checked]").each(function() {
-				if($(this).val()== '') {
-		           $("label[for=" + $(this).attr('id') + "]").addClass('active btn-primary');
-		        } else if($(this).val()==0) {
-		           $("label[for=" + $(this).attr('id') + "]").addClass('active btn-danger');
-		        } else {
-		            $("label[for=" + $(this).attr('id') + "]").addClass('active btn-success');
-		        }
-		    });
 		})(jQuery);
 	</script>
 </body>
