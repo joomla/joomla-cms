@@ -1,3 +1,4 @@
+ALTER TABLE `#__content` ADD COLUMN `copete` mediumtext NULL AFTER `title_alias`;
 ALTER TABLE `#__content` ADD COLUMN `subtitle` varchar(255) AFTER `title`;
 ALTER TABLE `#__content` ADD COLUMN `attachments` text NULL AFTER `urls`;
 
