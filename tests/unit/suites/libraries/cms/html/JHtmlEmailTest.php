@@ -77,20 +77,20 @@ class JHtmlEmailTest extends TestCase
 	{
 		$this->assertThat(
 			JHtmlEmail::cloak('admin@joomla.org'),
-			$this->StringContains('<span class="cloaked_email"'),
+			$this->StringContains('addCloakedMailto'),
 			'Cloak e-mail with mailto link'
 		);
 
 		$this->assertThat(
 			JHtmlEmail::cloak('admin@joomla.org', false),
-			$this->StringContains('<span class="email_address">'),
+			$this->StringContains('---><span class="cloaked_email"'),
 			'Cloak e-mail with no mailto link'
 		);
 
 		$this->assertThat(
 			JHtmlEmail::cloak('admin@joomla.org', true, 'administrator@joomla.org'),
-			$this->StringContains('</span></span></span></span><span data-content-post="'),
-			'Cloak e-mail with mailto link and separate e-mail address text'
+			$this->StringContains('</span></span></span></span><span class="cloaked_email"'),
+			'Cloak e-mail with mailto link and different e-mail address text'
 		);
 
 		$this->assertThat(
