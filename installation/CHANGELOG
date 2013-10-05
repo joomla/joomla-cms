@@ -28,6 +28,7 @@ $ -> Language fix or change
 05-Oct-2013 Jean-Marie Simonet
  # Wrong patch applied for [28214]. Thanks Tristan Bellosa
  # [#32177] *Notice at login when session expires Thanks Elin Waring
+ # com_templates and codemirror problem. Thanks Achal Aggarwal
  
 04-Oct-2013 Mark Dexter
  # [#32154] Notice in editing banner client. Thanks Elin Waring. 
