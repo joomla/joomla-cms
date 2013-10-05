@@ -25,7 +25,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
-94-Oct-2013 Mark Dexter
+05-Oct-2013 Jean-Marie Simonet
+ # Wrong patch applied for [28214]. Thanks Tristan Bellosa
+ 
+04-Oct-2013 Mark Dexter
  # [#32154] Notice in editing banner client. Thanks Elin Waring. 
 
 04-Oct-2013 Jean-Marie Simonet
