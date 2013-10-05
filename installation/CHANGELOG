@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Oct-2013 Mark Dexter
+ # [#32154] Notice in editing banner client. Commit correct patch. Thanks George Wilson.
+
 05-Oct-2013 Jean-Marie Simonet
  # Wrong patch applied for [28214]. Thanks Tristan Bellosa
  # [#32177] *Notice at login when session expires. Thanks Elin Waring
