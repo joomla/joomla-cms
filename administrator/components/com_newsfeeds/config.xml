@@ -14,7 +14,7 @@
 			extension="com_newsfeeds"
 			view="newsfeed"
 		/>
-		
+
 		<field
 			name="save_history"
 			type="radio"
@@ -28,7 +28,7 @@
 			<option
 				value="1">JYES</option>
 		</field>
-		
+
 		<field
 			name="history_limit"
 			type="text"
@@ -84,9 +84,9 @@
 			label="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_LABEL"
 			description="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_DESC" />
 
-		<field 
+		<field
 			id="feed_display_order"
-			name="feed_display_order" 
+			name="feed_display_order"
 			type="list"
 			validate="options"
 			label="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_LABEL"
@@ -95,7 +95,7 @@
 			<option value="des">JGLOBAL_MOST_RECENT_FIRST</option>
 			<option value="asc">JGLOBAL_OLDEST_FIRST</option>
 		</field>
-		
+
 		<field
 			name="float_first"
 			type="list"

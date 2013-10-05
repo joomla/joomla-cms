@@ -40,7 +40,7 @@
 			<option value="*">JALL</option>
 		</field>
 
-		<field name="tags" 
+		<field name="tags"
 			   type="tag"
 			   label="JTAG"
 			   description="JTAG_DESC"
@@ -48,12 +48,12 @@
 			   multiple="true"
 		>
 		</field>
-		
-		<field name="version_note" 
-			   type="text" 
+
+		<field name="version_note"
+			   type="text"
 			   label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
-			   description="JGLOBAL_FIELD_VERSION_NOTE_DESC" 
-			   class="inputbox" size="45" 
+			   description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
+			   class="inputbox" size="45"
 			   labelclass="control-label"
 		/>
 
@@ -80,7 +80,7 @@
 			   label="JFIELD_ORDERING_LABEL" description="JFIELD_ORDERING_DESC" />
 
 		<field name="rtl" type="list" class="inputbox"
-			   default="0" 
+			   default="0"
 			   validate="options"
 			   label="COM_NEWSFEEDS_FIELD_RTL_LABEL"
 			   description="COM_NEWSFEEDS_FIELD_RTL_DESC"

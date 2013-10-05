@@ -27,12 +27,12 @@
 			   class="inputbox"
 			   size="30"
 		/>
-		
-		<field name="version_note" 
-			   type="text" 
+
+		<field name="version_note"
+			   type="text"
 			   label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
-			   description="JGLOBAL_FIELD_VERSION_NOTE_DESC" 
-			   class="inputbox" size="45" 
+			   description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
+			   class="inputbox" size="45"
 			   labelclass="control-label"
 		/>
 
@@ -283,7 +283,7 @@
 			<option value="1">JYES</option>
 		</field>
 
-		<field name="tags" 
+		<field name="tags"
 			   type="tag"
 			   label="JTAG"
 			   description="JTAG_DESC"
@@ -544,7 +544,7 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field name="show_articles" 
+			<field name="show_articles"
 				   validate="options"
 				   label="COM_CONTACT_FIELD_ARTICLES_SHOW_LABEL"
 				   description="COM_CONTACT_FIELD_ARTICLES_SHOW_DESC" type="list"
@@ -729,7 +729,7 @@
 	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 		<fieldset name="jmetadata"
 				  label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
-	
+
 			<field name="robots"
 				   type="list"
 				   validate="options"
@@ -742,7 +742,7 @@
 				<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
 				<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
 			</field>
-	
+
 			<field name="rights" type="text"
 				   label="JFIELD_METADATA_RIGHTS_LABEL"
 				   description="JFIELD_METADATA_RIGHTS_DESC"

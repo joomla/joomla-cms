@@ -13,7 +13,7 @@
 
 		<field name="alias" type="text" label="JFIELD_ALIAS_LABEL"
 			   description="JFIELD_ALIAS_DESC" class="inputbox" size="45" labelclass="control-label" />
-			
+
 		<field name="version_note" type="text" label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 			   description="JGLOBAL_FIELD_VERSION_NOTE_DESC" class="inputbox" size="45" labelclass="control-label" />
 
@@ -21,7 +21,7 @@
 			   label="COM_CONTENT_FIELD_ARTICLETEXT_LABEL" description="COM_CONTENT_FIELD_ARTICLETEXT_DESC"
 			   filter="JComponentHelper::filterText" buttons="true" />
 
-		<field name="state" type="list" 
+		<field name="state" type="list"
 			   validate="options"
 			   label="JSTATUS"
 			   description="JFIELD_PUBLISHED_DESC" class="span12 small"
@@ -125,7 +125,7 @@
 			<option value="1">JYES</option>
 		</field>
 
-		<field name="tags" 
+		<field name="tags"
 			   type="tag"
 			   label="JTAG"
 			   description="JTAG_DESC"
@@ -818,7 +818,7 @@
 	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 		<fieldset name="jmetadata"
 				  label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
-	
+
 			<field name="robots"
 					   type="list"
 					   validate="options"
@@ -832,11 +832,11 @@
 				<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
 				<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
 			</field>
-	
+
 			<field name="author" type="text"
 					   label="JAUTHOR" description="JFIELD_METADATA_AUTHOR_DESC"
 					   size="20" labelclass="control-label" />
-	
+
 			<field name="rights" type="textarea" label="JFIELD_META_RIGHTS_LABEL"
 					   description="JFIELD_META_RIGHTS_DESC" required="false" filter="string"
 					   cols="30" rows="2" labelclass="control-label" />
