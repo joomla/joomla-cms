@@ -72,7 +72,7 @@ abstract class JHtmlEmail
 		}
 
 		if(!self::$included_js) {
-			$js = '
+			/* Below javascriopt is minified via http://closure-compiler.appspot.com/home
 				var addCloakedMailto = function(id){
 					var el = document.getElementById(id);
 					if(el) {
@@ -86,8 +86,7 @@ abstract class JHtmlEmail
 						el.parentNode.href= "mailto:" + pre + post;
 					}
 				}
-			';
-			// minified via http://closure-compiler.appspot.com/home
+			*/
 			$js = 'var addCloakedMailto=function(a){if(a=document.getElementById(a)){for(var c=a.getElementsByTagName("span"),d="",e="",b=0,f=c.length;b<f;b++)d+=c[b].getAttribute("data-content-pre"),e=c[b].getAttribute("data-content-post")+e;a.parentNode.href="mailto:"+d+e}};';
 
 			JFactory::getDocument()->addScriptDeclaration($js);
