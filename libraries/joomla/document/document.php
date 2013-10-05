@@ -951,11 +951,14 @@ class JDocument
 	 */
 	public function render($cache = false, $params = array())
 	{
+		$app = JFactory::getApplication();
+
 		if ($mdate = $this->getModifiedDate())
 		{
-			JFactory::getApplication()->setHeader('Last-Modified', $mdate /* gmdate('D, d M Y H:i:s', time() + 900) . ' GMT' */);
+			$app->modifiedDate = $mdate;
 		}
 
-		JFactory::getApplication()->setHeader('Content-Type', $this->_mime . ($this->_charset ? '; charset=' . $this->_charset : ''));
+		$app->mimeType = $this->_mime;
+		$app->charSet  = $this->_charset;
 	}
 }
