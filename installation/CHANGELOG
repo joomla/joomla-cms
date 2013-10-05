@@ -35,6 +35,7 @@ $ -> Language fix or change
  # [#32137] No TFA login if site is offline. Thanks Nicholas Dyonisopoulos
  # [#32163] Version control field width. Thanks Roberto Segura
  $ [#32178] Wrong language string in com_templates. Thanks Ram Tripathi
+ $ Updating installation lang files: ar-AA, de-DE, he-IL, it-IT, sw-KE, sy-IQ, th-TH
 
 04-Oct-2013 Mark Dexter
  # [#32154] Notice in editing banner client. Thanks Elin Waring. 
