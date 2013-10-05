@@ -67,8 +67,10 @@ final class InstallationApplicationWeb extends JApplicationCms
 		// Register the client ID
 		$this->_clientId = 2;
 
-		// Set the root in the URI based on the application name
-		JUri::root(null, str_ireplace('/' . $this->getName(), '', JUri::base(true)));
+		// Set the root in the URI one level up.
+		$parts = explode('/', JUri::base(true));
+		array_pop($parts);
+		JUri::root(null, implode('/', $parts));
 	}
 
 	/**

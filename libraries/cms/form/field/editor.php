@@ -78,7 +78,7 @@ class JFormFieldEditor extends JFormField
 			->display(
 			$this->name, htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8'), $width, $height, $cols, $rows,
 			$buttons ? (is_array($buttons) ? array_merge($buttons, $hide) : $hide) : false, $this->id, $asset,
-			$this->form->getValue($authorField)
+			$this->form->getValue($authorField), array('syntax' => (string) $this->element['syntax'])
 		);
 	}
 
