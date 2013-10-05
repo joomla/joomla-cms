@@ -29,6 +29,7 @@ $ -> Language fix or change
  # [#32118] Content-Type header is sent twice
  ^ [#32053] Use the new JApplication class in the tinymce editor.  Thanks George Wilson
  # [#31617] Language Overrides list search not working.  Thanks Tito Alvarez
+ # [#32140] We lost a border at the BE dropdown menu.  Thanks Tobias Zulauf
 
 05-Oct-2013 Elin Waring
  # [#28348] Don't hard code IDs for update SQL menu items. Thanks Brian Teeman and Michael Babker

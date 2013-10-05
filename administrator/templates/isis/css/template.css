@@ -2062,7 +2062,7 @@ table th[class*="span"],
 	margin-left: -1px;
 	-webkit-border-radius: 0 6px 6px 6px;
 	-moz-border-radius: 0 6px 6px 6px;
-	border-radius: 0 6px 6px 6px;
+	border-radius: 6px 6px 6px 6px;
 }
 .dropdown-submenu:hover > .dropdown-menu {
 	display: block;
