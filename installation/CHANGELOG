@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Oct-2013 Michael Babker
+ # [#32118] Content-Type header is sent twice
+
 05-Oct-2013 Elin Waring
  # [#28348] Don't hard code IDs for update SQL menu items. Thanks Brian Teeman and Michael Babker
  - [#31706] Locally hosted help screens are miles out of date. Thanks Tom Hutchison
@@ -50,13 +53,13 @@ $ -> Language fix or change
  $ Updating installation lang files: ar-AA, de-DE, he-IL, it-IT, sw-KE, sy-IQ, th-TH
 
 04-Oct-2013 Mark Dexter
- # [#32154] Notice in editing banner client. Thanks Elin Waring. 
+ # [#32154] Notice in editing banner client. Thanks Elin Waring.
 
 04-Oct-2013 Jean-Marie Simonet
  # [#31827] Installation doesn't work when installation is in the path. Thanks Nikolai Plath
  $ Updating installation lang file fr-FR
  # [#28234] Addition of notification in Media Manager regarding folder name for Create Folder. Thanks Achal Aggarwal
- # [#28214] Menu Items Could be Saved without Menu Item Type. Thanks Khai Vu Din 
+ # [#28214] Menu Items Could be Saved without Menu Item Type. Thanks Khai Vu Din
  # [#28794] Redirect to homepage instead of 404 with SEF and URL rewrite enabled if no com_content on homepage.
  # Reverting [#28794]
 
