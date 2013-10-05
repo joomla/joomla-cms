@@ -25,6 +25,26 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+94-Oct-2013 Mark Dexter
+ # [#32154] Notice in editing banner client. Thanks Elin Waring. 
+
+04-Oct-2013 Jean-Marie Simonet
+ # [#31827] Installation doesn't work when installation is in the path. Thanks Nikolai Plath
+ $ Updating installation lang file fr-FR
+ # [#28234] Addition of notification in Media Manager regarding folder name for Create Folder. Thanks Achal Aggarwal
+ # [#28214] Menu Items Could be Saved without Menu Item Type. Thanks Khai Vu Din 
+ # [#28794] Redirect to homepage instead of 404 with SEF and URL rewrite enabled if no com_content on homepage.
+ # Reverting [#28794]
+
+03-Oct-2013 Michael Babker
+ + [#31266] GSoC 2013 - Improved Template Manager.  Thanks Ram Tripathi
+
+03-Oct-2013 Jean-Marie Simonet
+ # [#32143] *Multilingual improvement: Use static method to check if language associations is enabled  Thanks Roberto Segura
+ $ Correcting some small errors in installation lang strings. Thanks Mig Manickam
+ $ Adding tinyMCE Malay lang file
+ $ Updating installation lang files: ca-ES, da-DK, es-ES, fr=FR, id-ID, lv-LV, mk-MK, ms-MY, ru-RU, sr-RS, sr-YU, ta-IN
+
 02-Oct-2013 Michael Babker
  +$ [#31561] Add support for BCrypt encryption of passwords and rewrite cookie based authentication to use it.  Thanks Elin Waring
 

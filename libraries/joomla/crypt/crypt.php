@@ -263,7 +263,7 @@ class JCrypt
 	 * A timing safe comparison method. This defeats hacking
 	 * attempts that use timing based attack vectors.
 	 *
-	 * @param   string  $known	  A known string to check against.
+	 * @param   string  $known    A known string to check against.
 	 * @param   string  $unknown  An unknown string to check.
 	 *
 	 * @return  boolean  True if the two strings are exactly the same.

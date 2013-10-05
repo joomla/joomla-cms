@@ -74,4 +74,16 @@ class ControlPanelPage extends AdminPage
 		}
 	}
 
+	/**
+	 * Clears post-installation messages by navigating to that screen and back
+	 *
+	 * @return  null
+	 */
+	public function clearInstallMessages()
+	{
+		$installPage = $this->clickMenu('Post-installation Messages', 'PostinstallPage');
+		$installPage->clearInstallMessages();
+		$cpPage = $installPage->clickMenu('Control Panel', 'ControlPanelPage');
+	}
+
 }
