@@ -18,13 +18,16 @@ defined('JPATH_PLATFORM') or die;
  */
 abstract class JHtmlEmail
 {
+	static $included_css = 0;
+	static $included_js = 0;
+
 	/**
 	 * Simple JavaScript email cloaker
 	 *
 	 * By default replaces an email with a mailto link with email cloaked
 	 *
 	 * @param   string   $mail    The -mail address to cloak.
-	 * @param   boolean  $mailto  True if text and mailing address differ
+	 * @param   boolean  $mode    True if address should be displayed as link
 	 * @param   string   $text    Text for the link
 	 * @param   boolean  $email   True if text is an e-mail address
 	 *
@@ -32,56 +35,71 @@ abstract class JHtmlEmail
 	 *
 	 * @since   1.5
 	 */
-	public static function cloak($mail, $mailto = true, $text = '', $email = true, $pre = '', $post = '')
+	public static function cloak($mail, $mode = true, $text = '', $email = true, $pre = '', $post = '')
 	{
-		JHtml::_('jquery.framework');
-		JHtml::script('system/emailcloak.js', false, true);
-		JHtml::stylesheet('system/emailcloak.css', false, true);
+		if(!self::$included_css) {
+			$css = "
+				.cloaked_email span:before {
+					content: attr(data-content-pre);
+				}
+				.cloaked_email span:after {
+					content: attr(data-content-post);
+				}
+			";
+			JFactory::getDocument()->addStyleDeclaration($css);
+			self::$included_css = 1;
+		}
 
-		$id = 'e_' . substr(md5(rand()), 0, 8);
+		$id = 'ce_' . substr(md5(rand()), 0, 8);
 
-		$hide = '';
-		if ($text && $text != $mail)
-		{
-			$hide = ' style="display:none;"';
-			if ($email)
-			{
-				$parts = self::_createParts($text);
-				$text = '<span data-content-post="' . $parts['5'] . '" data-content-pre="' . $parts['0'] . '">'
-					. '<span data-content-post="' . $parts['4'] . '" data-content-pre="' . $parts['1'] . '">'
-					. '<span data-content-post="' . $parts['3'] . '" data-content-pre="' . $parts['2'] . '">'
-					. '</span></span></span>';
+		if(!$text || $text == $mail) {
+			// No link or text is equal to mailto.
+			$text = self::_createSpans($mail, $id);
+		} else {
+			// Text is an email address.
+			if($email) {
+				$text = self::_createSpans($text);
+			}
+			// Text is different to email address.
+			if($mode) {
+				$text .= self::_createSpans($mail, $id, 1);
 			}
 		}
-		elseif (!$mailto)
-		{
-			$parts = self::_createParts($mail);
-			$text = '<span data-content-post="' . $parts['5'] . '" data-content-pre="' . $parts['0'] . '">'
-				. '<span data-content-post="' . $parts['4'] . '" data-content-pre="' . $parts['1'] . '">'
-				. '<span data-content-post="' . $parts['3'] . '" data-content-pre="' . $parts['2'] . '">'
-				. '</span></span></span>';
-		}
-		else
-		{
-			$text = '';
+
+		if(!$mode) {
+			// Output text only link.
+			return '<!--- ' . JText::_('JLIB_HTML_CLOAKING') . ' --->' . $text;
 		}
 
-		if($mailto) {
-			$parts = self::_createParts($mail);
-			$spans = '<span class="cloaked_email" id="' . $id . '"' . $hide . '>'
-				. '<span data-content-post="' . $parts['5'] . '" data-content-pre="' . $parts['0'] . '">'
-				. '<span data-content-post="' . $parts['4'] . '" data-content-pre="' . $parts['1'] . '">'
-				. '<span data-content-post="' . $parts['3'] . '" data-content-pre="' . $parts['2'] . '">'
-				. '</span></span></span></span>'
-				. $text;
+		if(!self::$included_js) {
+			$js = '
+				var addCloakedMailto = function(id){
+					var el = document.getElementById(id);
+					if(el) {
+						var els = el.getElementsByTagName("span");
+						var pre = "";
+						var post = "";
+						for (var i = 0, l = els.length; i < l; i++) {
+							pre += els[i].getAttribute("data-content-pre");
+							post = els[i].getAttribute("data-content-post") + post;
+						}
+						el.parentNode.href= "mailto:" + pre + post;
+					}
+				}
+			';
+			// minified via http://closure-compiler.appspot.com/home
+			$js = 'var addCloakedMailto=function(a){if(a=document.getElementById(a)){for(var c=a.getElementsByTagName("span"),d="",e="",b=0,f=c.length;b<f;b++)d+=c[b].getAttribute("data-content-pre"),e=c[b].getAttribute("data-content-post")+e;a.parentNode.href="mailto:"+d+e}};';
 
-				return '<a ' . $pre . 'class="email_address" href="javascript:// ' . htmlentities(JText::_('JLIB_HTML_CLOAKING'), ENT_COMPAT, 'UTF-8') . '"' . $post . '>'
-				. $spans
-				. '</a>';
-		} else {
-			return '<!--- ' . JText::_('JLIB_HTML_CLOAKING') . ' --->'
-			.'<span class="email_address">'. $text . '</span>';
+			JFactory::getDocument()->addScriptDeclaration($js);
+			self::$included_js = 1;
 		}
+
+		return
+			'<a ' . $pre . 'href="javascript:// ' . htmlentities(JText::_('JLIB_HTML_CLOAKING'), ENT_COMPAT, 'UTF-8') . '"' . $post . '>'
+			. $text
+			. '</a>'
+			. '<script type="text/javascript">addCloakedMailto("' . $id . '");</script>';
+
 	}
 
 	/**
@@ -93,7 +111,7 @@ abstract class JHtmlEmail
 	 *
 	 * @since   3.2
 	 */
-	protected static function _createParts($str)
+	protected static function _createSpans($str, $id = 0, $hide = 0)
 	{
 		$str = mb_convert_encoding($str, 'UTF-32', 'UTF-8');
 		$split = str_split($str, 4);
@@ -106,6 +124,12 @@ abstract class JHtmlEmail
 			$pos = floor($i / $size);
 			$parts[$pos] .= $v;
 		}
-		return $parts;
+
+		return
+			'<span class="cloaked_email"' . ($id ? ' id="' . $id . '"' : '') . '' . ($hide ? ' style="display:none;"' : '') . '>'
+			. '<span data-content-post="' . $parts['5'] . '" data-content-pre="' . $parts['0'] . '">'
+			. '<span data-content-post="' . $parts['4'] . '" data-content-pre="' . $parts['1'] . '">'
+			. '<span data-content-post="' . $parts['3'] . '" data-content-pre="' . $parts['2'] . '">'
+			. '</span></span></span></span>';
 	}
 }

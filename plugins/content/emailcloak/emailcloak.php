@@ -120,7 +120,7 @@ class PlgContentEmailcloak extends JPlugin
 		$searchText = '([\x20-\x7f][^<>]+)';
 
 		// Any Image link
-		$searchImage	=	"(<img[^>]+>)";
+		$searchImage = "(<img[^>]+>)";
 
 		/*
 		 * Search and fix derivatives of link code <a href="http://mce_host/ourdirectory/email@amail.com"
