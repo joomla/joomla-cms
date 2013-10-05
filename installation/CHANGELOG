@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Oct-2013 Elin Waring
+ # [#28348] Don't hard code IDs for update SQL menu items. Thanks Brian Teeman and Michael Babker
+
 05-Oct-2013 Mark Dexter
  # [#32154] Notice in editing banner client. Commit correct patch. Thanks George Wilson.
 
