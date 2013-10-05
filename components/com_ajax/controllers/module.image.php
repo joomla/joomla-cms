@@ -10,32 +10,16 @@
 defined('_JEXEC') or die;
 
 /**
- * The AJAX Module Controller for RAW format
+ * The AJAX Module Controller for Image format
  *
  * modFooHelper::getAjax() is called where 'foo' is the value
  * of the 'name' variable passed via the URL
- * Example: index.php?option=com_ajax&task=module.call&name=foo&format=raw
+ * Example: index.php?option=com_ajax&task=module.call&name=foo&format=image
  *
  * @package     Joomla.Site
  * @subpackage  com_ajax
  *
  * @since   3.2
  */
-class AjaxControllerModule extends JControllerLegacy
-{
 
-	/**
-	 * Do job!
- 	 *
-	 */
-	public function call()
-	{
-		// Call the module
-		$results = AjaxModuleHelper::callModule($this->input->get('name'));
-
-		// Output result
-		echo is_scalar($results) ? (string) $results : implode("\n", (array) $results);
-
-		return true;
-	}
-}
+include_once __DIR__ . '/module.raw.php';

@@ -19,12 +19,15 @@ JLoader::register('AjaxModuleHelper', COM_AJAX_PATH_COMPONENT . '/helpers/module
 // Use own exception handler
 set_exception_handler(array('AjaxError', 'display'));
 
-if(!JFactory::getApplication()->input->get('format'))
+// Get Application
+$app = JFactory::getApplication();
+
+if(!$app->input->get('format'))
 {
 	throw new InvalidArgumentException('No format given. Please specify response format.', 500);
 }
 
 $controller = JControllerLegacy::getInstance('Ajax', array('base_path' => COM_AJAX_PATH_COMPONENT));
-$controller->execute(JFactory::getApplication()->input->get('task'));
+$controller->execute($app->input->get('task'));
 $controller->redirect();
 
