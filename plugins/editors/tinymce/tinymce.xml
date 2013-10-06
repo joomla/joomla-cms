@@ -430,6 +430,30 @@
 					description="PLG_TINY_FIELD_CUSTOMBUTTON_DESC"
 					label="PLG_TINY_FIELD_CUSTOMBUTTON_LABEL"
 				/>
+
+				<field name="list_templates"
+					type="Repeatable"
+					icon="list"
+					description="PLG_TINY_FIELD_TEMPLATE_FIELD_ELEMENTS_DESC"
+					label="PLG_TINY_FIELD_TEMPLATE_FIELD_ELEMENTS_LABEL">
+					<fields name="params">
+						<fieldset modal="true" name="list_templates_modal" repeat="true">
+							<field name="template"
+								label="PLG_TINY_FIELD_TEMPLATE_FIELD_NAME_LABEL"
+								size="30"
+								type="text"/>
+							<field name="location"
+								label="PLG_TINY_FIELD_TEMPLATE_FIELD_LOCATION_LABEL"
+								description="PLG_TINY_FIELD_TEMPLATE_LOCATION_DESC"
+								size="30"
+								type="text"/>
+							<field name="description"
+								label="PLG_TINY_FIELD_TEMPLATE_FIELD_DESCRIPTION_LABEL"
+								size="30"
+								type="textarea"/>
+						</fieldset>
+					</fields>
+				</field>
 			</fieldset>
 
 		</fields>
