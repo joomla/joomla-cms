@@ -170,7 +170,7 @@ $assoc		= JLanguageAssociations::isEnabled();
 							<?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
 						</div>
 					</td>
-					<td class="nowrap has-context">
+					<td class="has-context">
 						<div class="pull-left">
 							<?php if ($item->checked_out) : ?>
 								<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
