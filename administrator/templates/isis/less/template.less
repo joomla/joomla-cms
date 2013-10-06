@@ -304,6 +304,14 @@ body .navbar-fixed-top{
 #toolbar .btn-success{
 	width: 148px;
 }
+#toolbar #toolbar-options,
+#toolbar #toolbar-help {
+	float: right;
+}
+html[dir=rtl] #toolbar #toolbar-options,
+html[dir=rtl] #toolbar #toolbar-help {
+	float: left;
+}
 /* Content */
 .well .page-header{
 	margin: -10px 0 18px 0;
@@ -787,6 +795,16 @@ th .tooltip-inner {
 #helpsite-refresh {
 	vertical-align: top;
 }
+
+@media (max-width: 767px) {
+	html[dir=rtl] #toolbar #toolbar-options,
+	html[dir=rtl] #toolbar #toolbar-help,
+	#toolbar #toolbar-options,
+	#toolbar #toolbar-help {
+		float: none;
+	}
+}
+
 /* Version control field */
 .span2 input#jform_version_note {
 	width: 190px;
