@@ -246,6 +246,12 @@ abstract class JModelAdmin extends JModelForm
 		// Set the variables
 		$user = JFactory::getUser();
 		$table = $this->getTable();
+		$tableClassName = get_class($table);
+		$contentType = new JUcmType();
+		$type = $contentType->getTypeByTable($tableClassName);
+		$type === false?:$typeAlias = $type->type_alias;
+		$tagsObserver = $table->getObserverOfClass('JTableObserverTags');
+
 
 		foreach ($pks as $pk)
 		{
@@ -254,6 +260,12 @@ abstract class JModelAdmin extends JModelForm
 				$table->reset();
 				$table->load($pk);
 				$table->access = (int) $value;
+				if (!empty($tagsObserver) && !empty($type))
+				{
+					$table->tagsHelper = new JHelperTags();
+					$table->tagsHelper->typeAlias = $typeAlias;
+					$table->tagsHelper->tags = explode(',', $table->tagsHelper->getTagIds($pk, $typeAlias));
+				}
 
 				if (!$table->store())
 				{
@@ -292,12 +304,18 @@ abstract class JModelAdmin extends JModelForm
 		$categoryId = (int) $value;
 
 		$table = $this->getTable();
+		$tableClassName = get_class($table);
+		$contentType = new JUcmType();
+		$type = $contentType->getTypeByTable($tableClassName);
+		$type === false?:$typeAlias = $type->type_alias;
+		$tagsObserver = $table->getObserverOfClass('JTableObserverTags');
 		$i = 0;
 
 		// Check that the category exists
 		if ($categoryId)
 		{
 			$categoryTable = JTable::getInstance('Category');
+
 			if (!$categoryTable->load($categoryId))
 			{
 				if ($error = $categoryTable->getError())
@@ -375,6 +393,12 @@ abstract class JModelAdmin extends JModelForm
 				return false;
 			}
 
+			if (!empty($tagsObserver) && !empty($type))
+			{
+				$table->tagsHelper = new JHelperTags();
+				$table->tagsHelper->typeAlias = $typeAlias;
+				$table->tagsHelper->tags = explode(',', $table->tagsHelper->getTagIds($pk, $typeAlias));
+			}
 			// Store the row.
 			if (!$table->store())
 			{
@@ -412,6 +436,11 @@ abstract class JModelAdmin extends JModelForm
 		// Set the variables
 		$user	= JFactory::getUser();
 		$table = $this->getTable();
+		$tableClassName = get_class($table);
+		$contentType = new JUcmType();
+		$type = $contentType->getTypeByTable($tableClassName);
+		$type === false?:$typeAlias = $type->type_alias;
+		$tagsObserver = $table->getObserverOfClass('JTableObserverTags');
 
 		foreach ($pks as $pk)
 		{
@@ -421,10 +450,21 @@ abstract class JModelAdmin extends JModelForm
 				$table->load($pk);
 				$table->language = $value;
 
+				if (!empty($tagsObserver) && !empty($type))
+				{
+					$table->tagsHelper = new JHelperTags();
+					$table->tagsHelper->typeAlias = $typeAlias;
+					$table->tagsHelper->tags = explode(',', $table->tagsHelper->getTagIds($pk, $typeAlias));
+				}
+
 				if (!$table->store())
 				{
 					$this->setError($table->getError());
 					return false;
+				}
+				if (!empty($currentTags))
+				{
+					$table->tagsHelper->tagItems();
 				}
 			}
 			else

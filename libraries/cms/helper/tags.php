@@ -36,7 +36,7 @@ class JHelperTags extends JHelper
 	protected $replaceTags = false;
 
 	/**
-	 * Alias for quering mapping and content type table.
+	 * Alias for querying mapping and content type table.
 	 *
 	 * @var    string
 	 * @since  3.1
@@ -778,7 +778,7 @@ class JHelperTags extends JHelper
 		// Process ucm_content and ucm_base if either tags have changed or we have some tags.
 		if ($this->tagsChanged || $newTags)
 		{
-			if (!$newTags)
+			if (!$newTags && $replace = true)
 			{
 				// Delete all tags data
 				$key = $table->getKeyName();
@@ -839,6 +839,10 @@ class JHelperTags extends JHelper
 		// New items with no tags bypass this step.
 		if ((!empty($newTags) || (isset($newTags[0]) && $newTags[0] != '')) || isset($this->oldTags))
 		{
+			if (is_array($newTags))
+			{
+				$newTags = implode(',', $newTags);
+			}
 			// We need to process tags if the tags have changed or if we have a new row
 			$this->tagsChanged = ($this->oldTags != $newTags) || !$table->$key;
 		}
