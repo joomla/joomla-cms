@@ -34,8 +34,8 @@ class PlgEditorTinymce extends JPlugin
 	/**
 	 * Loads the application object
 	 *
-	 * @var    JApplication
-	 * @since  3.1
+	 * @var    JApplicationCms
+	 * @since  3.2
 	 */
 	protected $app = null;
 
