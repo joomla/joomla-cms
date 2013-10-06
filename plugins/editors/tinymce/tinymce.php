@@ -32,6 +32,14 @@ class PlgEditorTinymce extends JPlugin
 	protected $autoloadLanguage = true;
 
 	/**
+	 * Loads the application object
+	 *
+	 * @var    JApplicationCms
+	 * @since  3.2
+	 */
+	protected $app = null;
+
+	/**
 	 * Initialises the Editor.
 	 *
 	 * @return  string  JavaScript Initialization string
