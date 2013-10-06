@@ -78,9 +78,27 @@ defined('_JEXEC') or die;
 	<?php if ($this->showJedAndWebInstaller && !$this->showMessage) : ?>
 		<div class="alert j-jed-message" style="margin-bottom: 20px; line-height: 2em; color:#333333; clear:both;">
 			<a href="index.php?option=com_config&view=component&component=com_installer&path=&return=<?php echo urlencode(base64_encode(JUri::getInstance())); ?>" class="close" data-dismiss="alert">&times;</a>
-			<a href="http://extensions.joomla.org" target="_blank">Joomla Extension Directory</a>
-			now available with <a href="http://extensions.joomla.org" target="_blank">Install from Web</a> on this page:&nbsp;&nbsp;
-			<input class="btn" type="button" value="<?php echo JText::_('Add &quot;Install from Web&quot; tab'); ?>" onclick="Joomla.submitbuttonInstallWebInstaller()" />
+			<?php
+			// Renders the info header for JED link and the Install from Web optional plugin:
+			// COM_INSTALLER_INSTALL_FROM_WEB_INFORMATION="The <a>Joomla Extension Directory</a> now available with <a>Install from Web</a> on this page: <button>Add \"Install from Web\" tab</button> and enjoy"
+			echo preg_replace(
+				'#([^<]*)<a>([^<]*)</a>([^<]*)<a>([^<]*)</a>([^<]*)<button>([^<]*)</button>([^<]*)#',
+				'\1'
+				. '<a href="http://extensions.joomla.org" target="_blank">' . '\2' . '</a>'
+				. '\3'
+				. '<a href="http://docs.joomla.org/Install_from_Web" target="_blank">' . '\4' . '</a>'
+				. '\5'
+				. '<input class="btn" type="button" value="' . '\6' . '" onclick="Joomla.submitbuttonInstallWebInstaller()" />'
+				. '\7',
+				str_replace('"', '&quot;', JText::_('COM_INSTALLER_INSTALL_FROM_WEB_INFORMATION'))
+			)
+
+			/* results in:
+				<a href="http://extensions.joomla.org" target="_blank">Joomla Extension Directory</a>
+				now available with <a href="http://docs.joomla.org/Install_from_Web" target="_blank">Install from Web</a> on this page:&nbsp;&nbsp;
+				<input class="btn" type="button" value="<?php echo JText::_('Add &quot;Install from Web&quot; tab'); ?>" onclick="Joomla.submitbuttonInstallWebInstaller()" />
+			*/
+			?>
 		</div>
 	<?php endif; ?>
 
