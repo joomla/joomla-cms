@@ -26,11 +26,13 @@ $ -> Language fix or change
 ! -> Note
 
 06-Oct-2013 Elin Waring
-^ [#31957] Use UCM in ordering form field. Thanks George Wilson
-+  [#31187] Tag Cloud Layout for Popular Tags. Thanks Constantin Romankiewicz and Thomas Hunziker
+ ^ [#31957] Use UCM in ordering form field. Thanks George Wilson
+ + [#31187] Tag Cloud Layout for Popular Tags. Thanks Constantin Romankiewicz and Thomas Hunziker
+ # [#32201] SQL ERROR if you install master
+ # [#32190] Username/password not recognised on first install.
 
 06-Oct-2013 Jean-Marie Simonet
-# [#32197] TinyMCE gives PHP notice  Thanks George Wilson
+ # [#32197] TinyMCE gives PHP notice  Thanks George Wilson
 
 05-Oct-2013 Michael Babker
  # [#32118] Content-Type header is sent twice
