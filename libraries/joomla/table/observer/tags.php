@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Table class supporting modified pre-order tree traversal behavior.
  *
- * @package     Joomla
+ * @package     Joomla.Platform
  * @subpackage  Table
  * @link        http://docs.joomla.org/JTableObserver
  * @since       3.1.2
@@ -22,27 +22,32 @@ class JTableObserverTags extends JTableObserver
 	/**
 	 * Helper object for storing and deleting tag information associated with this table observer
 	 *
-	 * @var  JHelperTags
+	 * @var    JHelperTags
+	 * @since  3.1.2
 	 */
 	protected $tagsHelper;
 
 	/**
 	 * The pattern for this tag's TypeAlias
-	 * @var  string
+	 *
+	 * @var    string
+	 * @since  3.1.2
 	 */
 	protected $typeAliasPattern = null;
 
 	/**
 	 * Override for postStoreProcess param newTags, Set by setNewTagsToAdd, used by onAfterStore
 	 *
-	 * @var  array
+	 * @var    array
+	 * @since  3.1.2
 	 */
 	protected $newTags = array();
 
 	/**
 	 * Override for postStoreProcess param replaceTags. Set by setNewTagsToAdd, used by onAfterStore
 	 *
-	 * @var boolean
+	 * @var    boolean
+	 * @since  3.1.2
 	 */
 	protected $replaceTags = true;
 
@@ -50,8 +55,9 @@ class JTableObserverTags extends JTableObserver
 	 * Not public, so marking private and deprecated, but needed internally in parseTypeAlias for
 	 * PHP < 5.4.0 as it's not passing context $this to closure function.
 	 *
-	 * @var JTableObserverTags
-	 * @deprecated Never use this
+	 * @var         JTableObserverTags
+	 * @since       3.1.2
+	 * @deprecated  Never use this
 	 * @private
 	 */
 	public static $_myTableForPregreplaceOnly;
@@ -61,10 +67,12 @@ class JTableObserverTags extends JTableObserver
 	 * Creates the associated tags helper class instance
 	 * $typeAlias can be of the form "{variableName}.type", automatically replacing {variableName} with table-instance variables variableName
 	 *
-	 * @param   JObservableInterface|JTable  $observableObject  The subject object to be observed
-	 * @param   array                        $params            ( 'typeAlias' => $typeAlias )
+	 * @param   JObservableInterface  $observableObject  The subject object to be observed
+	 * @param   array                 $params            ( 'typeAlias' => $typeAlias )
 	 *
-	 * @return  JObserverInterface|JTableObserverTags
+	 * @return  JTableObserverTags
+	 *
+	 * @since   3.1.2
 	 */
 	public static function createObserver(JObservableInterface $observableObject, $params = array())
 	{
@@ -85,6 +93,8 @@ class JTableObserverTags extends JTableObserver
 	 * @param   string   $tableKey     The key of the table
 	 *
 	 * @return  void
+	 *
+	 * @since   3.1.2
 	 */
 	public function onBeforeStore($updateNulls, $tableKey)
 	{
@@ -99,6 +109,8 @@ class JTableObserverTags extends JTableObserver
 	 * @param   boolean  &$result  The result of the load
 	 *
 	 * @return  void
+	 *
+	 * @since   3.1.2
 	 */
 	public function onAfterStore(&$result)
 	{
@@ -119,6 +131,7 @@ class JTableObserverTags extends JTableObserver
 	 *
 	 * @return  void
 	 *
+	 * @since   3.1.2
 	 * @throws  UnexpectedValueException
 	 */
 	public function onBeforeDelete($pk)
@@ -134,6 +147,8 @@ class JTableObserverTags extends JTableObserver
 	 * @param   boolean  $replaceTags  Replace tags (true) or add them (false)
 	 *
 	 * @return  boolean
+	 *
+	 * @since   3.1.2
 	 */
 	public function setNewTags($newTags, $replaceTags)
 	{
@@ -148,6 +163,8 @@ class JTableObserverTags extends JTableObserver
 	 * Storing result into $this->tagsHelper->typeAlias
 	 *
 	 * @return  void
+	 *
+	 * @since   3.1.2
 	 */
 	protected function parseTypeAlias()
 	{

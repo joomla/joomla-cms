@@ -12,7 +12,6 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Facebook
- *
  * @since       13.1
  */
 class JFacebookOauthTest extends TestCase
@@ -45,8 +44,6 @@ class JFacebookOauthTest extends TestCase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @access protected
-	 *
 	 * @return  void
 	 *
 	 * @since   13.1
@@ -63,20 +60,8 @@ class JFacebookOauthTest extends TestCase
 		$this->input = new JInput;
 
 		$this->object = new JFacebookOauth($this->options, $this->client, $this->input);
-	}
 
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @access protected
-	 *
-	 * @return  void
-	 *
-	 * @since   13.1
-	 */
-	protected function tearDown()
-	{
+		parent::setUp();
 	}
 
 	/**

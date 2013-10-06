@@ -339,6 +339,16 @@ class JTableUser extends JTable
 			}
 		}
 
+		// If a user is blocked, delete the cookie login rows
+		if ($this->block == (int) 1)
+		{
+			$query->clear()
+				->delete($this->_db->quoteName('#__user_keys'))
+				->where($this->_db->quoteName('user_id') . ' = ' . $this->_db->quote($this->username));
+			$this->_db->setQuery($query);
+			$this->_db->execute();
+		}
+
 		return true;
 	}
 
@@ -388,6 +398,12 @@ class JTableUser extends JTable
 		$query->clear()
 			->delete($this->_db->quoteName('#__messages'))
 			->where($this->_db->quoteName('user_id_to') . ' = ' . (int) $this->$k);
+		$this->_db->setQuery($query);
+		$this->_db->execute();
+
+		$query->clear()
+			->delete($this->_db->quoteName('#__user_keys'))
+			->where($this->_db->quoteName('user_id') . ' = ' . $this->_db->quote($this->username));
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 

@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+JFormHelper::loadFieldClass('checkbox');
+
 /**
  * Test class for JFormFieldCheckbox.
  *
@@ -16,21 +18,6 @@
  */
 class JFormFieldCheckboxTest extends TestCase
 {
-	/**
-	 * Sets up dependencies for the test.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	protected function setUp()
-	{
-		parent::setUp();
-
-		require_once JPATH_PLATFORM . '/joomla/form/fields/checkbox.php';
-		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
-	}
-
 	/**
 	 * Test the getInput method where there is no value from the element
 	 * and no checked attribute.

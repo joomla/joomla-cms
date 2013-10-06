@@ -54,6 +54,7 @@ class ModuleEditPage extends AdminEditPage
 			array('label' => 'Note', 'id' => 'jform_note', 'type' => 'input', 'tab' => 'details'),
 			array('label' => 'Parent Category', 'id' => 'jform_params_parent', 'type' => 'select', 'tab' => 'options', 'group' => 'Basic Options'),
 			array('label' => 'Category Descriptions', 'id' => 'jform_params_show_description', 'type' => 'fieldset', 'tab' => 'options', 'group' => 'Basic Options'),
+			array('label' => 'Show Number of Articles', 'id' => 'jform_params_numitems', 'type' => 'fieldset', 'tab' => 'options', 'group' => 'Basic Options'),
 			array('label' => 'Show Subcategories', 'id' => 'jform_params_show_children', 'type' => 'fieldset', 'tab' => 'options', 'group' => 'Basic Options'),
 			array('label' => '# First Subcategories', 'id' => 'jform_params_count', 'type' => 'select', 'tab' => 'options', 'group' => 'Basic Options'),
 			array('label' => 'Maximum Level Depth', 'id' => 'jform_params_maxlevel', 'type' => 'select', 'tab' => 'options', 'group' => 'Basic Options'),

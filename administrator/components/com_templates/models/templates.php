@@ -21,8 +21,9 @@ class TemplatesModelTemplates extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
-	 * @see     JController
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @see     JControllerLegacy
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -50,6 +51,8 @@ class TemplatesModelTemplates extends JModelList
 	/**
 	 * Override parent getItems to add extra XML metadata.
 	 *
+	 * @return  array
+	 *
 	 * @since   1.6
 	 */
 	public function getItems()
@@ -61,6 +64,7 @@ class TemplatesModelTemplates extends JModelList
 			$client = JApplicationHelper::getClientInfo($item->client_id);
 			$item->xmldata = TemplatesHelper::parseXMLTemplateFile($client->path, $item->element);
 		}
+
 		return $items;
 	}
 
@@ -68,6 +72,7 @@ class TemplatesModelTemplates extends JModelList
 	 * Build an SQL query to load the list data.
 	 *
 	 * @return  JDatabaseQuery
+	 *
 	 * @since   1.6
 	 */
 	protected function getListQuery()
@@ -90,6 +95,7 @@ class TemplatesModelTemplates extends JModelList
 
 		// Filter by client.
 		$clientId = $this->getState('filter.client_id');
+
 		if (is_numeric($clientId))
 		{
 			$query->where('a.client_id = ' . (int) $clientId);
@@ -97,6 +103,7 @@ class TemplatesModelTemplates extends JModelList
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
+
 		if (!empty($search))
 		{
 			if (stripos($search, 'id:') === 0)
@@ -106,7 +113,7 @@ class TemplatesModelTemplates extends JModelList
 			else
 			{
 				$search = $db->quote('%' . $db->escape($search, true) . '%');
-				$query->where('a.element LIKE ' . $search . ' OR a.name LIKE ' . $search);
+				$query->where('(a.element LIKE ' . $search . ' OR a.name LIKE ' . $search . ')');
 			}
 		}
 
@@ -123,8 +130,10 @@ class TemplatesModelTemplates extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id    A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
+	 *
 	 * @return  string  A store id.
+	 *
 	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
@@ -140,6 +149,11 @@ class TemplatesModelTemplates extends JModelList
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */

@@ -411,3 +411,18 @@ span.optional
 	border-width: 0 5px 5px;
 	border-bottom-color: #000;
 }
+.element-invisible {
+	position: absolute;
+	padding: 0;
+	margin: 0;
+	border: 0;
+	height: 1px;
+	width: 1px;
+	overflow: hidden;
+}
+#filter-search {
+	vertical-align: top;
+}
+.input-mini {
+	width: 60px;
+}

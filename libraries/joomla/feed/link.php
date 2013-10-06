@@ -19,36 +19,48 @@ defined('JPATH_PLATFORM') or die;
 class JFeedLink
 {
 	/**
+	 * The URI to the linked resource.
+	 *
 	 * @var    string
 	 * @since  12.3
 	 */
 	public $uri;
 
 	/**
+	 * The relationship between the feed and the linked resource.
+	 *
 	 * @var    string
 	 * @since  12.3
 	 */
 	public $relation;
 
 	/**
+	 * The resource type.
+	 *
 	 * @var    string
 	 * @since  12.3
 	 */
 	public $type;
 
 	/**
+	 * The language of the resource found at the given URI.
+	 *
 	 * @var    string
 	 * @since  12.3
 	 */
 	public $language;
 
 	/**
+	 * The title of the resource.
+	 *
 	 * @var    string
 	 * @since  12.3
 	 */
 	public $title;
 
 	/**
+	 * The length of the resource in bytes.
+	 *
 	 * @var    integer
 	 * @since  12.3
 	 */
@@ -65,6 +77,7 @@ class JFeedLink
 	 * @param   integer  $length    The length of the resource in bytes.
 	 *
 	 * @since   12.3
+	 * @throws  InvalidArgumentException
 	 */
 	public function __construct($uri = null, $relation = null, $type = null, $language = null, $title = null, $length = null)
 	{

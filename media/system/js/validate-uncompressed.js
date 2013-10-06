@@ -92,7 +92,7 @@ var JFormValidator = new Class({
 		el = document.id(el);
 
 		// Ignore the element if its currently disabled, because are not submitted for the http-request. For those case return always true.
-		if (el.get('disabled')) {
+		if (el.get('disabled') && !el.hasClass('required')) {
 			this.handleResponse(true, el);
 			return true;
 		}
