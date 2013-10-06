@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Oct-2013 Elin Waring
+^ [#31957] Use UCM in ordering form field. Thanks George Wilson
+
 06-Oct-2013 Jean-Marie Simonet
 # [#32197] TinyMCE gives PHP notice  Thanks George Wilson
 
