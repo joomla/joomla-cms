@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Oct-2013 Michael Babker
+ + [#31602] add simple versioning to admin template css and js.  Thanks Roberto Segura
+
 06-Oct-2013 Elin Waring
  ^ [#31957] Use UCM in ordering form field. Thanks George Wilson
  + [#31187] Tag Cloud Layout for Popular Tags. Thanks Constantin Romankiewicz and Thomas Hunziker
@@ -617,7 +620,7 @@ $ -> Language fix or change
  ^ [#30783] Use JDatabase instead of MySQL queries on com_menus.  Thanks Matias Aguirre
  # [#31157] Field mapping for core_urls is wrong for weblinks.  Thanks Elin Waring
  ^ [#30977] loadmodule/loadposition styles.  Thanks Lasindu Charith
- # [#30895] Fix An undefined variable called in JApplication.  Thanks Roberto Seguara
+ # [#30895] Fix An undefined variable called in JApplication.  Thanks Roberto Segura
  ^ [#30871] Remove an unneeded empty().  Thanks Elin Waring
  # [#30946] Platform bug fixes.  Thanks Elin Waring
  # [#31208] No border bottom right radius and border bottom top radius for buttons at com_finder view.  Thanks David Hurley
