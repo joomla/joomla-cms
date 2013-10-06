@@ -717,6 +717,9 @@ ENDDATA;
 			$installer->set('extension_message', $msg);
 		}
 
+		// Refresh versionable assets cache
+		JFactory::getApplication()->flushAssets();
+
 		return true;
 	}
 

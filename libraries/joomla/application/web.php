@@ -933,6 +933,17 @@ class JApplicationWeb extends JApplicationBase
 	}
 
 	/**
+	 * Flush the media version to refresh versionable assets
+	 *
+	 * @return  JApplication  Return itself to allow chainable methods
+	 */
+	public function flushAssets()
+	{
+		$version = new JVersion;
+		$version->refreshMediaVersion();
+	}
+
+	/**
 	 * Method to send a header to the client.  We are wrapping this to isolate the header() function
 	 * from our code base for testing reasons.
 	 *
