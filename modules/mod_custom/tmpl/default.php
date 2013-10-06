@@ -8,10 +8,11 @@
  */
 
 defined('_JEXEC') or die;
+
+$moduleTag      = $params->get('module_tag', 'div');
 ?>
 
 
-<<?php if ($params->get('module_tag')) {echo $params->get('module_tag')." ";} else {echo "div ";}
-?>class="custom<?php echo $moduleclass_sfx ?>" <?php if ($params->get('backgroundimage')) : ?> style="background-image:url(<?php echo $params->get('backgroundimage');?>)"<?php endif;?> >
+<<?php echo $moduleTag; ?> class="custom<?php echo $moduleclass_sfx ?>" <?php if ($params->get('backgroundimage')) : ?> style="background-image:url(<?php echo $params->get('backgroundimage');?>)"<?php endif;?> >
 	<?php echo $module->content;?>
-</<?php if ($params->get('module_tag')) {echo $params->get('module_tag');} else {echo "div";}?>>
+</<?php echo $moduleTag; ?> >
