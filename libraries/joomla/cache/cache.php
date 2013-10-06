@@ -620,7 +620,7 @@ class JCache
                                                      * see also: JDocumentHTML->mergeHeadData() implementation in html.php
                                                      * 
                                                      */
-                                                    if ($now == "script" && is_array($newvalue) && is_array($options['headerbefore'][$now])) {
+                                                    if (is_array($newvalue) && is_array($options['headerbefore'][$now])) {
                                                         foreach ($newvalue as $type => $currentScriptStr) { //a foreach similar to this is found in JDocument->mergeHeadData()
                                                             if (!isset($options['headerbefore'][$now][strtolower($type)])) { //if module added a new script type 
                                                                 //add it all, do nothing
