@@ -28,6 +28,7 @@ $ -> Language fix or change
 06-Oct-2013 Michael Babker
  + [#31602] add simple versioning to admin template css and js.  Thanks Roberto Segura
  ^ [#32054] [JUX2] [17] Move the Help and Options toolbar-buttons to the right where they belong.  Thanks Roberto Segura
+ ^ [#31871] [JUX2] [14] Proposal for an improved Quick-Icons panel.  Thanks Beat
 
 06-Oct-2013 Elin Waring
  ^ [#31957] Use UCM in ordering form field. Thanks George Wilson

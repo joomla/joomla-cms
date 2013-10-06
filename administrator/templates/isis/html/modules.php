@@ -47,9 +47,22 @@ function modChrome_well($module, &$params, &$attribs)
 {
 	if ($module->content)
 	{
-		echo "<div class=\"well well-small\">";
-		echo "<div class=\"module-title nav-header\">".$module->title."</div>";
+		$bootstrapSize  = $params->get('bootstrap_size');
+		$moduleClass    = !empty($bootstrapSize) ? ' span' . (int) $bootstrapSize . '' : '';
+
+		if ( $moduleClass )
+		{
+			echo '<div class="' . $moduleClass . '">';
+		}
+
+		echo '<div class="well well-small">';
+		echo '<h2 class="module-title nav-header">' . $module->title .'</h2>';
 		echo $module->content;
-		echo "</div>";
+		echo '</div>';
+
+		if ( $moduleClass )
+		{
+			echo '</div>';
+		}
 	}
 }
