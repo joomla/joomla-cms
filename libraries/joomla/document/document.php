@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.environment.response');
-
 /**
  * Document class, provides an easy interface to parse and display a document
  *
@@ -953,11 +951,14 @@ class JDocument
 	 */
 	public function render($cache = false, $params = array())
 	{
+		$app = JFactory::getApplication();
+
 		if ($mdate = $this->getModifiedDate())
 		{
-			JResponse::setHeader('Last-Modified', $mdate /* gmdate('D, d M Y H:i:s', time() + 900) . ' GMT' */);
+			$app->modifiedDate = $mdate;
 		}
 
-		JResponse::setHeader('Content-Type', $this->_mime . ($this->_charset ? '; charset=' . $this->_charset : ''));
+		$app->mimeType = $this->_mime;
+		$app->charSet  = $this->_charset;
 	}
 }

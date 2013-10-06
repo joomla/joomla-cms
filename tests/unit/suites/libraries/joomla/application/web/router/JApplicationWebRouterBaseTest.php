@@ -65,7 +65,6 @@ class JApplicationWebRouterBaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JApplicationWebRouterBase::addMap
 	 * @since   12.3
 	 */
 	public function testAddMap()
@@ -90,7 +89,6 @@ class JApplicationWebRouterBaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JApplicationWebRouterBase::addMaps
 	 * @since   12.3
 	 */
 	public function testAddMaps()
@@ -141,7 +139,6 @@ class JApplicationWebRouterBaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers       JApplicationWebRouterBase::parseRoute
 	 * @dataProvider getParseRouteData
 	 * @since        12.3
 	 */

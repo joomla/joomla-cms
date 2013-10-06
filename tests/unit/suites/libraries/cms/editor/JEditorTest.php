@@ -9,29 +9,32 @@
 
 /**
  * Test class for JEditor.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Editor
+ * @since       3.0
  */
 class JEditorTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 * @var JEditor
+	 * Object under test
+	 *
+	 * @var    JEditor
+	 * @since  3.0
 	 */
 	protected $object;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
 	 */
 	protected function setUp()
 	{
 		$this->object = new JEditor;
-	}
-
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 */
-	protected function tearDown()
-	{
 	}
 
 	/**

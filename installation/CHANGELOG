@@ -25,6 +25,208 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Oct-2013 Jean-Marie Simonet
+# [#32197] TinyMCE gives PHP notice  Thanks George Wilson
+
+05-Oct-2013 Michael Babker
+ # [#32118] Content-Type header is sent twice
+ ^ [#32053] Use the new JApplication class in the tinymce editor.  Thanks George Wilson
+ # [#31617] Language Overrides list search not working.  Thanks Tito Alvarez
+ # [#32140] We lost a border at the BE dropdown menu.  Thanks Tobias Zulauf
+ ^ [#31980] com_ajax: Changes response format.  Thanks Piotr Konieczny
+
+05-Oct-2013 Elin Waring
+ # [#28348] Don't hard code IDs for update SQL menu items. Thanks Brian Teeman and Michael Babker
+ - [#31706] Locally hosted help screens are miles out of date. Thanks Tom Hutchison
+ # [#32158] Type ids all saving as 0 in map table.
+ ^ [#32142] Add target="_blank" for the links to joomla.org and gnu.org at the login screens. Thanks Tobias Zulauf
+ # [#32085] js fix for error editing banner in admin. Thanks Rob Clayburn
+ ^ [#31772] Sync Http package to Platform 13.1. Thanks Michael Babker
+ # [#32103] Can't create a menu item from view metadata.xml. Thanks Thomas Hunziker
+
+05-Oct-2013 Mark Dexter
+ # [#32154] Notice in editing banner client. Commit correct patch. Thanks George Wilson.
+
+05-Oct-2013 Jean-Marie Simonet
+ # Wrong patch applied for [28214]. Thanks Tristan Bellosa
+ # [#32177] *Notice at login when session expires. Thanks Elin Waring
+ # com_templates and codemirror problem. Thanks Achal Aggarwal
+ # [#32151] No Icon for the component postinstall at hathor. Thanks Tobias Zulauf
+ $ [#32171] Improve language string for content history. Thanks Brian Teeman
+ # [#32161] TinyMCE 4.0.7 Update. Thanks George Wilson
+ # [#32137] No TFA login if site is offline. Thanks Nicholas Dyonisopoulos
+ # [#32163] Version control field width. Thanks Roberto Segura
+ $ [#32178] Wrong language string in com_templates. Thanks Ram Tripathi
+ $ Updating installation lang files: ar-AA, de-DE, he-IL, it-IT, sw-KE, sy-IQ, th-TH
+
+04-Oct-2013 Mark Dexter
+ # [#32154] Notice in editing banner client. Thanks Elin Waring.
+
+04-Oct-2013 Jean-Marie Simonet
+ # [#31827] Installation doesn't work when installation is in the path. Thanks Nikolai Plath
+ $ Updating installation lang file fr-FR
+ # [#28234] Addition of notification in Media Manager regarding folder name for Create Folder. Thanks Achal Aggarwal
+ # [#28214] Menu Items Could be Saved without Menu Item Type. Thanks Khai Vu Din
+ # [#28794] Redirect to homepage instead of 404 with SEF and URL rewrite enabled if no com_content on homepage.
+ # Reverting [#28794]
+
+03-Oct-2013 Michael Babker
+ + [#31266] GSoC 2013 - Improved Template Manager.  Thanks Ram Tripathi
+
+03-Oct-2013 Jean-Marie Simonet
+ # [#32143] *Multilingual improvement: Use static method to check if language associations is enabled  Thanks Roberto Segura
+ $ Correcting some small errors in installation lang strings. Thanks Mig Manickam
+ $ Adding tinyMCE Malay lang file
+ $ Updating installation lang files: ca-ES, da-DK, es-ES, fr=FR, id-ID, lv-LV, mk-MK, ms-MY, ru-RU, sr-RS, sr-YU, ta-IN
+
+02-Oct-2013 Michael Babker
+ +$ [#31561] Add support for BCrypt encryption of passwords and rewrite cookie based authentication to use it.  Thanks Elin Waring
+
+02-Oct-2013 Jean-Marie Simonet
+ $ Updating installation languages version #
+ # Adding Malaysia flag
+ $ [#32147] TFA Links as Language Strings. Thanks Tobias Zulauf
+
+01-Oct-2013 Jean-Marie Simonet
+ $ Adding Malay ms-MY to installation languages
+ # [#32128] *Multilingual install: storing language filter parameters is missing
+
+29-Sep-2013 Jean-Marie Simonet
+ # [#31377] New Button Icon in Module Manager for Hathor Missing. Thanks Michael Babker
+ # [#32122] Orphaned > in banner.xml. Thanks Troy hall
+
+28-Sep-2013 Michael Babker
+ ^ [#32068] Consolidate extension helper classes to CMS tree
+ ^ [#32006] Improvements to JHelper and JUcmType.  Thanks Elin Waring
+ # [#27063] *Missing weekend translation option for calendar component.  Thanks Jean-Marie Simonet
+ ^ [#31579] GSoC 2013: Removing MooTools dependencies from multiselect.js.  Thanks Ashan Fernando
+ ^ [#31591] GSoC 2013: Removing MooTools dependencies from installation section.  Thanks Ashan Fernando
+
+26-Sep-2013 Michael Babker
+ ^ [#30556] JDatabaseDriver::replacePrefix: Optimization proposal: 100 lines of PHP can be replaced by 1 line of regexp.  Thanks Beat
+
+25-Sep-2013 Michael Babker
+ + [#31977] Component for Post-Installation Messages.  Thanks Nicholas K. Dionysopoulos
+ # [#31107] *HelperRoute classes generate wrong URLs.  Thanks Hannes Papenberg
+ ^ [#31489] Duplicate code reduction in category views and hits standardiation.  Thanks Elin Waring
+ ^ [#31517] Reduce duplicate code in category feeds.  Thanks Elin Waring
+
+25-Sep-2013 Jean-Marie Simonet
+ # [#32069] Backend 'Edit Account' page doesn't change password.   Thanks Dennis Hermatski.
+ # [#32089] *Adding pagination limitbox in overrides manager
+ # [#32081] PHP notices when creating a new article. Thanks Achal Aggarwal
+
+24-Sep-2013 Elin Waring
+ ^ [#31946] Support new mvc components in com_menus.
+
+23-Sep-2013 Elin Waring
+ ^ [#31581] GSoC 2013: Removing MooTools dependencies from front-end components. Thanks Ashan Fernando
+ ^ [#31576] GSoC 2013: Removing MooTools dependencies from caption.js. Thanks Ashan Fernando
+ ^ [#31865] [JUX] [08] Added some space above the login button on the admin login. Thanks Peter Peter van Westen
+ ^ [#31860] [JUX] [03] Added Joomla update message button to top of page on control panel.  Thanks Peter Peter van Westen
+ ^ [#32083] Broken front-end article editing layout. Thanks Achal Aggarwal
+ # [#32087] Fix small issue with the name of UsersHelper in com_users. Thanks Bruno Batista
+ ^ [#30417] Extend individual content helpers from JHelperContent and remove duplicate code. Thanks Edgars Piruška
+
+22-Sep-2013 Michael Babker
+ # [#32060] FOF description is show with ?? at language debug and is hardcoded in the xml files. Thanks Tobias Zulauf
+ ^ [#32073] Change +1 to 1
+
+22-Sep-2013 Elin Waring
+ # [#32071] Unclosed div tag in com_content default view. Thanks Achal Aggarwal
+ ^ [#31515] mod_articles_categories: Adding optional number of articles. Thanks Nils Rueckmann
+ ^ [#30455] Add current user option to JFormFieldUser. Thanks George Wilson
+ ^ [#31580] GSoC 2013: Removing MooTools dependencies from switcher.js. Thanks Ashan Fernando
+ ^ [#31578] GSoC 2013: Removing MooTools dependencies from highlighter.js. Thanks Ashan Fernando
+ + [#30280] Add random ordering on module Article latest. Thanks Jefferson Nathon
+ ^ [#31577] GSoC 2013: Removing MooTools dependencies from progressbar.js. Thanks Ashan Fernando
+
+22-Sep-2013 Roberto Segura
+ # [#31770] Update to jQuery 1.10.2 and add jQuery Migrate 1.2.1. Thanks Michael Babker
+
+21-Sep-2013 Michael Babker
+ + [#31989] GSOC 2013: Microdata semantics library.  Thanks Pruteanu Alexandru
+ # [#32058] Wrong alert class for expired session
+
+21-Sep-2013 Elin Waring
+ # [#32056] Add target="_blank" to the joomla.org link at the installation. Thanks Tobias Zulauf
+ # [#32023] Hardcoded SQL in com_contact model. Thanks Peter Martin
+ # [#32061] Normalise constant in com_ajax. Thanks Tobias Zulauf
+ # [#27830] Loss of checked item in user registration back end. Thanks Achal Aggarwal
+ ^ [#31475] Update jQuery UI and sortable to 1.9.2 version. Thanks Florian Dal Fitto
+ # [#30155] Vague form data manipulation in sortablelist.js. Thanks Tobias Kuhn
+ # [#29430] php_network_getaddresses: getaddrinfo failed: Name or service not known. Thanks David Jardin
+ # [#30698] JDatabaseMySQLi class does not support IPv6 MySQL server. Thanks Mihail Irintchev
+
+20-Sep-2013 Michael Babker
+ ^ [#31727] Migrate application classes from legacy JApplication to JApplicationWeb
+
+20-Sep-2013 Jean-Marie Simonet
+ # [#32031] [3.x] Overridable layouts for tinyMCE. Thanks Roberto Segura
+ # [#32019] Incorrect component_id for separator items. Thanks David Jardin
+ # [#31995] Can not disable Images and links. Thanks David Jardin
+ # [#31781] To small tags input field at the FE edit view. Thanks Valentin Despa
+
+19-Sep-2013 Michael Babker
+ ^ [#31352] JLayouts improvements for extension developers.  Thanks Roberto Segura
+
+16-Sep-2013 Michael Babker
+ # [#31973] Installation loop if sending config yes (3.2 alpha)
+ ^ [#31963] Incorrect or inconsistent characters in "close ink" text on alert info popups.  Thanks Marco Richter
+ # [#29107] Strict standards and code clean up in com_contact form.  Thanks Piotr Konieczny
+ +$ [#31845] Add JHelperMedia and Deprecate MediaHelper.  Thanks Elin Waring
+ ^ [#31316] licence (gpl.html) only at the html code?.  Thanks Tobias Zulauf
+ # [#31530] Hathor: No tag filters in table overviews of article, categories, newsfeed, weblinks or contact.  Thanks David Jardin
+ # [#31826] "Size" column in Maintenance > Clear Cache is incorrect.  Thanks Drew Glaser
+
+16-Sep-2013 Jean-Marie Simonet
+ # [#32020] "Articles Categories" Module - cache is not working. Thanks Peter Martin
+ + [#31372] Selected tab changes to default after save. Thanks Ashan Fernando
+
+13-Sep-2013 Jean-Marie Simonet
+ # [#31987] *Joomla multilingual install: sef and flags issues. Thanks Beat
+ $ [#31942] Two factor authentication - Language file. Thanks Brian Teeman
+ # [#31985] Remove clear lines at the TinyMCE. Thanks Tobias Zulauf
+ # [#31696] Profile 'Web site' field not working well. Thanks Anthony THERREAU
+
+13-Sep-2013 Elin Waring
+ # [#31998] Smart Search Index Button broken (Regression).
+
+12-Sep-2013 Jean-Marie Simonet
+ + [#31850] The parent item search ajax based on menu location. Thanks Lu Nguyen
+ # [#31890] tagged items list has class "list-striped" and "list-condensed" in code. Thanks Elin waring.
+ $ Updating Italian Tinymce lang file
+
+11-Sep-2013 Elin Waring
+ # [#31753] PGSQL Missing #__ prefix on CONSTRAINT "uc_ItemnameTagid" in installation/sql/postgresql/joomla.sql. Thanks Alan Hicks
+ # [#31894] Check for context in vote plugin. Thanks George Wilson
+ # [#31749] JModuleHelper::isEnabled always returns true. Thanks Chad Windnagle
+ # [#31983] Fix regression due to [31894].
+
+11-Sep-2013 Jean-Marie Simonet
+ # [#31848] Archive Articles View frontend
+ + Adding Albanian flag
+ + Adding Macedonian tinymce lang file
+
+10-Sep-2013 Michael Babker
+ # [#31965] Fatal error: Call to undefined method UsersModelUser::loadLanguage().  Thanks Jurian Even
+ # [#31948] Beez3: twofactorauth (secretkey field).  Thanks Tobias Zulauf
+ # [#31949] Hathor: twofactorauth (secretkey field).  Thanks Tobias Zulauf
+
+10-Sep-2013 Jean-Marie Simonet
+ # [#31961] *Login Modules wrongly display tips (RTL and LTR)
+ $ [#31923] Replace non-existent word multilanguage. Thanks Brian Teeman
+ # [#31181] Overflow of text into other column.
+ $ [#31944] Standardise on select not check. Thanks Brian Teeman
+ # [#31840] Can not set class to calendar input. Thanks Achal Aggarwal
+ # [#31929] mod_footer : year do not convert to other calendar like persian language that use hijri date. Thanks Mohammad Hasani Eghtedar and Carsten Wirtz
+ # [#31913] Search results in Template Manager contain more than just templates. Thanks Elin Waring
+ # [#31854] The Module "All Modules" is lost at testing sample data (mysql). Thanks Tobias Zulauf
+
+08-Sep-2013 Michael Babker
+ # [#31955] Two factor authentication is broken in the back-end. Thanks Nicholas Dionysopoulos
+ # [#31950] Hathor: twofactorauth (user manager). Thanks Nicholas Dionysopoulos
+
 08-Sep-2013 Elin Waring
 ^+ [#31930] Ordering Form Field Changes Thanks George Wilson
 

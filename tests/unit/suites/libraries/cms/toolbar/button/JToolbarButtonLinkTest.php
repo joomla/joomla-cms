@@ -9,16 +9,24 @@
 
 /**
  * Test class for JToolbarButtonLink.
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Toolbar
+ * @since       3.0
  */
 class JToolbarButtonLinkTest extends TestCase
 {
 	/**
+	 * Toolbar object
+	 *
 	 * @var    JToolbar
 	 * @since  3.0
 	 */
 	protected $toolbar;
 
 	/**
+	 * Object under test
+	 *
 	 * @var    JToolbarButtonLink
 	 * @since  3.0
 	 */
@@ -34,6 +42,8 @@ class JToolbarButtonLinkTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		parent::setUp();
+
 		$this->toolbar = JToolbar::getInstance();
 		$this->object  = $this->toolbar->loadButtonType('link');
 

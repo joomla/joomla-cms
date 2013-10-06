@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 class AdminControllerProfile extends JControllerForm
 {
 	/**
-	 * Method to check if you can add a new record.
+	 * Method to check if you can edit a record.
 	 *
 	 * Extended classes can override this if necessary.
 	 *
@@ -42,21 +42,7 @@ class AdminControllerProfile extends JControllerForm
 	 */
 	public function save($key = null, $urlVar = null)
 	{
-		$data = $this->input->post->get('jform', array(), 'array');
-
-		// TODO: JForm should really have a validation handler for this.
-		if (isset($data['password']) && isset($data['password2']))
-		{
-			// Check the passwords match.
-			if ($data['password'] != $data['password2'])
-			{
-				$this->setMessage(JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'), 'warning');
-				$this->setRedirect(JRoute::_('index.php?option=com_admin&view=profile&layout=edit&id='.JFactory::getUser()->id, false));
-				return false;
-			}
-
-			unset($data['password2']);
-		}
+		$this->setRedirect(JRoute::_('index.php?option=com_admin&view=profile&layout=edit&id=' . JFactory::getUser()->id, false));
 
 		$return = parent::save();
 

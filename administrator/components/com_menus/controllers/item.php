@@ -171,6 +171,7 @@ class MenusControllerItem extends JControllerForm
 		// Validate the posted data.
 		// This post is made up of two forms, one for the item and one for params.
 		$form = $model->getForm($data);
+
 		if (!$form)
 		{
 			JError::raiseError(500, $model->getError());
@@ -366,5 +367,36 @@ class MenusControllerItem extends JControllerForm
 
 		$this->type = $type;
 		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId), false));
+	}
+
+	/**
+	 * Gets the parent items of the menu location currently.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	function getParentItem()
+	{
+		$app = JFactory::getApplication();
+
+		$menutype = $this->input->get->get('menutype');
+
+		$model = $this->getModel('Items', '', array());
+		$model->setState('filter.menutype', $menutype);
+		$model->setState('list.select', 'a.id, a.title, a.level');
+
+		$results = $model->getItems();
+
+		// Pad the option text with spaces using depth level as a multiplier.
+		for ($i = 0, $n = count($results); $i < $n; $i++)
+		{
+			$results[$i]->title = str_repeat('- ', $results[$i]->level) . $results[$i]->title;
+		}
+
+		// Output a JSON object
+		echo json_encode($results);
+
+		$app->close();
 	}
 }
