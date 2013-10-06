@@ -38,11 +38,18 @@ class AdminModelProfile extends UsersModelUser
 		{
 			return false;
 		}
-		if (!JComponentHelper::getParams('com_users')->get('change_login_name'))
+
+		// Check for username compliance and parameter set
+		if ($this->loadFormData()->username)
 		{
-			$form->setFieldAttribute('username', 'required', 'false');
-			$form->setFieldAttribute('username', 'readonly', 'true');
-			$form->setFieldAttribute('username', 'description', 'COM_ADMIN_USER_FIELD_NOCHANGE_USERNAME_DESC');
+			$username = $this->loadFormData()->username;
+
+			if (!JComponentHelper::getParams('com_users')->get('change_login_name') && !(preg_match('#[<>"\'%;()&\\s\\\\]|\\.\\./#', $username) || strlen(utf8_decode($username)) < 2))
+			{
+				$form->setFieldAttribute('username', 'required', 'false');
+				$form->setFieldAttribute('username', 'readonly', 'true');
+				$form->setFieldAttribute('username', 'description', 'COM_ADMIN_USER_FIELD_NOCHANGE_USERNAME_DESC');
+			}
 		}
 
 		return $form;

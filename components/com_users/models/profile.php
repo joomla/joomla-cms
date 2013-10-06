@@ -171,15 +171,22 @@ class UsersModelProfile extends JModelForm
 		{
 			return false;
 		}
-		if (!JComponentHelper::getParams('com_users')->get('change_login_name'))
+
+		// Check for username compliance and parameter set
+		if ($this->loadFormData()->username)
 		{
-			$form->setFieldAttribute('username', 'class', '');
-			$form->setFieldAttribute('username', 'filter', '');
-			$form->setFieldAttribute('username', 'description', 'COM_USERS_PROFILE_NOCHANGE_USERNAME_DESC');
-			$form->setFieldAttribute('username', 'validate', '');
-			$form->setFieldAttribute('username', 'message', '');
-			$form->setFieldAttribute('username', 'readonly', 'true');
-			$form->setFieldAttribute('username', 'required', 'false');
+			$username = $this->loadFormData()->username;
+
+			if (!JComponentHelper::getParams('com_users')->get('change_login_name') && !(preg_match('#[<>"\'%;()&\\s\\\\]|\\.\\./#', $username) || strlen(utf8_decode($username)) < 2))
+			{
+				$form->setFieldAttribute('username', 'class', '');
+				$form->setFieldAttribute('username', 'filter', '');
+				$form->setFieldAttribute('username', 'description', 'COM_USERS_PROFILE_NOCHANGE_USERNAME_DESC');
+				$form->setFieldAttribute('username', 'validate', '');
+				$form->setFieldAttribute('username', 'message', '');
+				$form->setFieldAttribute('username', 'readonly', 'true');
+				$form->setFieldAttribute('username', 'required', 'false');
+			}
 		}
 
 		return $form;
@@ -262,7 +269,9 @@ class UsersModelProfile extends JModelForm
 		$data['password']	= $data['password1'];
 
 		// Unset the username if it should not be overwritten
-		if (!JComponentHelper::getParams('com_users')->get('change_login_name'))
+		$username = $data['username'];
+
+		if (!JComponentHelper::getParams('com_users')->get('change_login_name') && !(preg_match('#[<>"\'%;()&\\s\\\\]|\\.\\./#', $username) || strlen(utf8_decode($username)) < 2))
 		{
 			unset($data['username']);
 		}
