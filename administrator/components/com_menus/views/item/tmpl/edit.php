@@ -149,7 +149,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 					$this->fields = array_diff($this->fields, array('home'));
 				}
 				?>
-				<?php echo JLayoutHelper::render('joomla.edit.main', $this); ?>
+				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>

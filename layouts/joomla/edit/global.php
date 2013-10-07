@@ -29,7 +29,8 @@ $fields = $displayData->get('fields') ?: array(
 
 $hiddenFields = $displayData->get('hidden_fields') ?: array();
 
-if (!isset($app->languages_enabled))
+// Multilanguage check:
+if (!JLanguageMultilang::isEnabled())
 {
 	$hiddenFields[] = 'language';
 }

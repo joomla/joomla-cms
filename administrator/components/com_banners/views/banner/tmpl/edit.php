@@ -62,7 +62,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 				?>
 			</div>
 			<div class="span3">
-				<?php echo JLayoutHelper::render('joomla.edit.main', $this); ?>
+				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>

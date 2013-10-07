@@ -14,9 +14,6 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
-
-$app = JFactory::getApplication();
-$langs = isset($app->languages_enabled);
 ?>
 <script type="text/javascript">
 		window.addEvent('domready', function()
@@ -76,7 +73,7 @@ $langs = isset($app->languages_enabled);
 				</div>
 				<?php endif; ?>
 
-				<?php if ($langs) : ?>
+				<?php if (JLanguageMultilang::isEnabled()) : ?>
 					<div class="control-group">
 						<div class="control-label">
 							<?php echo $this->form->getLabel('language'); ?>

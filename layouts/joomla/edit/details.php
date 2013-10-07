@@ -16,7 +16,6 @@ $app = JFactory::getApplication();
 // JLayout for standard handling of the details sidebar in administrator edit screens.
 $title = $displayData->getForm()->getValue('title');
 $published = $displayData->getForm()->getField('published');
-$langs = isset($app->languages_enabled);
 $saveHistory = $displayData->get('state')->get('params')->get('save_history', 0);
 ?>
 <div class="span2">
@@ -71,7 +70,7 @@ $saveHistory = $displayData->get('state')->get('params')->get('save_history', 0)
 				<?php echo $displayData->getForm()->getInput('featured'); ?>
 			</div>
 		</div>
-		<?php if ($langs) : ?>
+		<?php if (JLanguageMultilang::isEnabled()) : ?>
 			<div class="control-group">
 				<div class="control-label">
 					<?php echo $displayData->getForm()->getLabel('language'); ?>

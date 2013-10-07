@@ -45,7 +45,7 @@ $assoc = isset($app->item_associations);
 				<?php echo $this->form->getInput('description'); ?>
 			</div>
 			<div class="span3">
-				<?php echo JLayoutHelper::render('joomla.edit.main', $this); ?>
+				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>

@@ -127,7 +127,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 					$this->fields = array_diff($this->fields, array('published', 'publish_up', 'publish_down'));
 				}
 				?>
-				<?php echo JLayoutHelper::render('joomla.edit.main', $this); ?>
+				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>

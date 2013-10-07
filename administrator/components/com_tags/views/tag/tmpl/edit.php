@@ -12,9 +12,6 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-$app = JFactory::getApplication();
-$langs = isset($app->languages_enabled);
-
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
@@ -49,7 +46,7 @@ $params = $params->toArray();
 				</div>
 			</div>
 			<div class="span3">
-				<?php echo JLayoutHelper::render('joomla.edit.main', $this); ?>
+				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>

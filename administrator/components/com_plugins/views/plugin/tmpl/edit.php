@@ -86,7 +86,7 @@ $this->fieldsets = $this->form->getFieldsets('params');
 				<?php endif; ?>
 			</div>
 			<div class="span6">
-				<?php echo JLayoutHelper::render('joomla.edit.main', $this); ?>
+				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
 		</div>
 		<?php
