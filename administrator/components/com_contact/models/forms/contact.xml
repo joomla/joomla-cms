@@ -231,7 +231,7 @@
 			class="inputbox"
 			label="JFIELD_ORDERING_LABEL"
 			description="JFIELD_ORDERING_DESC"
-            table="#__contact_details"
+            content_type="com_contact.contact"
 		/>
 
 		<field name="publish_up" type="calendar"

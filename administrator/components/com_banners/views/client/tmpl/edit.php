@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
-
-$canDo = JHelperContent::getActions(0, 0, 'com_banners');
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
@@ -33,7 +31,7 @@ $canDo = JHelperContent::getActions(0, 0, 'com_banners');
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', empty($this->item->id) ? JText::_('COM_BANNERS_NEW_CLIENT', true) : JText::sprintf('COM_BANNERS_EDIT_CLIENT', $this->item->id, true)); ?>
 			<div class="row-fluid">
 				<div class="span6">
-					<?php if ($canDo->get('core.edit.state')) : ?>
+					<?php if ($this->canDo->get('core.edit.state')) : ?>
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $this->form->getLabel('state'); ?>
