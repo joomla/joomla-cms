@@ -190,8 +190,6 @@ if ($this->type == 'image')
 				<?php if($this->type == 'file'): ?>
 					<form action="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm" class="form-horizontal">
 
-						<p class="label"><?php echo JText::_('COM_TEMPLATES_TOGGLE_FULL_SCREEN'); ?></p>
-						<div class="clr"></div>
 						<div class="editor-border">
 							<?php echo $this->form->getInput('source'); ?>
 						</div>
