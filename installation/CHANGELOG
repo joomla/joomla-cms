@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Oct-2013 Roberto Segura
+ # 06-Oct-2013 Fix broken install after [#31602]. Thanks Michael Babker
+
 06-Oct-2013 Michael Babker
  + [#31602] add simple versioning to admin template css and js.  Thanks Roberto Segura
  ^ [#32054] [JUX2] [17] Move the Help and Options toolbar-buttons to the right where they belong.  Thanks Roberto Segura
