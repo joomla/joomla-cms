@@ -8,6 +8,8 @@
  */
 
 defined('_JEXEC') or die;
+
+JHtml::_('bootstrap.tooltip');
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function()
@@ -106,7 +108,7 @@ defined('_JEXEC') or die;
 		<?php echo $this->loadTemplate('message'); ?>
 	<?php elseif ($this->showJedAndWebInstaller) : ?>
 		<div class="alert alert-info j-jed-message" style="margin-bottom: 40px; line-height: 2em; color:#333333;">
-			<a href="index.php?option=com_config&view=component&component=com_installer&path=&return=<?php echo urlencode(base64_encode(JUri::getInstance())); ?>" class="close" data-dismiss="alert">&times;</a>
+			<a href="index.php?option=com_config&view=component&component=com_installer&path=&return=<?php echo urlencode(base64_encode(JUri::getInstance())); ?>" class="close hasTooltip" data-dismiss="alert" title="<?php echo str_replace('"', '&quot;', JText::_('COM_INSTALLER_SHOW_JED_INFORMATION_TOOLTIP')); ?>">&times;</a>
 			<?php
 			// Renders the info header for JED link and the Install from Web optional plugin:
 			// COM_INSTALLER_INSTALL_FROM_WEB_INFORMATION="The <a>Joomla Extension Directory</a> now available with <a>Install from Web</a> on this page: <button>Add \"Install from Web\" tab</button> and enjoy"
