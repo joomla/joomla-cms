@@ -30,10 +30,10 @@ $fields = $displayData->get('fields') ?: array(
 $hiddenFields = $displayData->get('hidden_fields') ?: array();
 
 // Multilanguage check:
-if (!JLanguageMultilang::isEnabled())
+/*if (!JLanguageMultilang::isEnabled())
 {
 	$hiddenFields[] = 'language';
-}
+}*/
 if (!$saveHistory)
 {
 	$hiddenFields[] = 'version_note';

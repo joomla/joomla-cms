@@ -75,7 +75,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 							$this->fieldset = 'description';
 							$long_description = JLayoutHelper::render('joomla.edit.fieldset', $this);
 							if(!$long_description) {
-								$truncated = JHtmlString::truncate($short_description, 500, true, false);
+								$truncated = JHtmlString::truncate($short_description, 550, true, false);
 								if(strlen($truncated) > 500) {
 									$long_description = $short_description;
 									$short_description = JHtmlString::truncate($truncated, 250);

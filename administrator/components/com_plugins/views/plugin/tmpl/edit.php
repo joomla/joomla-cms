@@ -32,7 +32,7 @@ $this->fieldsets = $this->form->getFieldsets('params');
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('COM_PLUGINS_PLUGIN', true)); ?>
 
 		<div class="row-fluid">
-			<div class="span6">
+			<div class="span12">
 				<?php if ($this->item->xml) : ?>
 					<?php if ($this->item->xml->description) : ?>
 						<h3>
@@ -61,7 +61,7 @@ $this->fieldsets = $this->form->getFieldsets('params');
 							$this->fieldset = 'description';
 							$long_description = JLayoutHelper::render('joomla.edit.fieldset', $this);
 							if(!$long_description) {
-								$truncated = JHtmlString::truncate($short_description, 500, true, false);
+								$truncated = JHtmlString::truncate($short_description, 550, true, false);
 								if(strlen($truncated) > 500) {
 									$long_description = $short_description;
 									$short_description = JHtmlString::truncate($truncated, 250);
@@ -84,16 +84,15 @@ $this->fieldsets = $this->form->getFieldsets('params');
 				<?php else : ?>
 					<div class="alert alert-error"><?php echo JText::_('COM_PLUGINS_XML_ERR'); ?></div>
 				<?php endif; ?>
-			</div>
-			<div class="span6">
+				<hr />
 				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+				<?php
+				$this->fieldset = 'basic';
+				$html = JLayoutHelper::render('joomla.edit.fieldset', $this);
+				echo $html ? '<hr />' . $html : '';
+				?>
 			</div>
 		</div>
-		<?php
-		$this->fieldset = 'basic';
-		$html = JLayoutHelper::render('joomla.edit.fieldset', $this);
-		echo $html ? '<hr />' . $html : '';
-		?>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php if ($long_description) : ?>
