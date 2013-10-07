@@ -7,6 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Installation\Response;
+
+use JFactory;
+use JSession;
+
 defined('_JEXEC') or die;
 
 /**
@@ -16,7 +21,7 @@ defined('_JEXEC') or die;
  * @subpackage  Response
  * @since       3.1
  */
-class InstallationResponseJson
+class JsonResponse
 {
 	/**
 	 * Constructor for the JSON response
@@ -55,7 +60,7 @@ class InstallationResponseJson
 		}
 
 		// Check if we are dealing with an error.
-		if ($data instanceof Exception)
+		if ($data instanceof \Exception)
 		{
 			// Prepare the error response.
 			$this->error   = true;

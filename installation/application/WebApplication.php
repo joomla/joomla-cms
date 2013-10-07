@@ -7,6 +7,22 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Installation\Application;
+
+// Non-namespaced CMS Classes
+use JUri,
+	JText,
+	JFolder,
+	JFactory,
+	JSession,
+	JRegistry,
+	JLanguage,
+	JDocument,
+	JApplicationCms,
+	JLanguageHelper;
+
+use Installation\Response\JsonResponse;
+
 defined('_JEXEC') or die;
 
 /**
@@ -16,7 +32,7 @@ defined('_JEXEC') or die;
  * @subpackage  Application
  * @since       3.1
  */
-final class InstallationApplicationWeb extends JApplicationCms
+final class WebApplication extends JApplicationCms
 {
 	/**
 	 * Class constructor.
@@ -176,13 +192,16 @@ final class InstallationApplicationWeb extends JApplicationCms
 			define('JPATH_COMPONENT_SITE', JPATH_SITE);
 			define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR);
 
+			$contents = null;
+
 			// Execute the task.
 			try
 			{
+				/** @var \JControllerBase $controller */
 				$controller = $this->fetchController($this->input->getCmd('task'));
 				$contents   = $controller->execute();
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
 				echo $e->getMessage();
 				$this->close($e->getCode());
@@ -199,7 +218,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 		}
 
 		// Mop up any uncaught exceptions.
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			echo $e->getMessage();
 			$this->close($e->getCode());
@@ -234,7 +253,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 	 * @return  mixed   Either an array or object to be loaded into the configuration object.
 	 *
 	 * @since   11.3
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	protected function fetchConfigurationData($file = '', $class = 'JConfig')
 	{
@@ -246,10 +265,10 @@ final class InstallationApplicationWeb extends JApplicationCms
 	 *
 	 * @param   string  $task  The task being executed
 	 *
-	 * @return  JController
+	 * @return  \JController
 	 *
 	 * @since   3.1
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	protected function fetchController($task)
 	{
@@ -268,7 +287,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 		}
 
 		// Nothing found. Panic.
-		throw new RuntimeException('Class ' . $class . ' not found');
+		throw new \RuntimeException('Class ' . $class . ' not found');
 	}
 
 	/**
@@ -378,7 +397,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 	{
 		if ($params)
 		{
-			$template = new stdClass;
+			$template = new \stdClass;
 			$template->template = 'template';
 			$template->params = new JRegistry;
 			return $template;
@@ -461,7 +480,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 	 *
 	 * @param   JDocument  $document  An optional document object. If omitted, the factory document is created.
 	 *
-	 * @return  InstallationApplicationWeb This method is chainable.
+	 * @return  WebApplication This method is chainable.
 	 *
 	 * @since   3.2
 	 */
@@ -501,7 +520,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 	 *
 	 * @param   JSession  $session  An optional session object. If omitted, the session is created.
 	 *
-	 * @return  InstallationApplicationWeb  This method is chainable.
+	 * @return  WebApplication  This method is chainable.
 	 *
 	 * @since   3.1
 	 */
@@ -592,7 +611,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 	public function sendJsonResponse($response)
 	{
 		// Check if we need to send an error code.
-		if ($response instanceof Exception)
+		if ($response instanceof \Exception)
 		{
 			// Send the appropriate error code response.
 			$this->setHeader('status', $response->getCode());
@@ -601,7 +620,7 @@ final class InstallationApplicationWeb extends JApplicationCms
 		}
 
 		// Send the JSON response.
-		echo json_encode(new InstallationResponseJson($response));
+		echo json_encode(new JsonResponse($response));
 
 		// Close the application.
 		$this->close();

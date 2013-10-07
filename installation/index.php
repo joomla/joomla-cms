@@ -21,7 +21,7 @@ define('_JEXEC', 1);
 require_once dirname(__FILE__) . '/application/bootstrap.php';
 
 // Get the application
-$app = JApplicationWeb::getInstance('InstallationApplicationWeb');
+$app = JApplicationWeb::getInstance('Installation\\Application\\WebApplication');
 
 // Execute the application
 $app->execute();
