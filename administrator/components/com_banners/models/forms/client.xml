@@ -94,6 +94,14 @@
 	</fieldset>
 
 	<fieldset name="extra" label="Banners_Extra">
+	
+		<field name="version_note"
+			type="text"
+			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
+			class="inputbox" size="45"
+			labelclass="control-label"
+		/>
 
 		<field name="extrainfo" type="textarea" class="inputbox"
 			rows="10" cols="40" label="COM_BANNERS_FIELD_EXTRAINFO_LABEL"
