@@ -114,6 +114,11 @@ class JTableContenthistory extends JTable
 			$object->publish_up = (int) $object->publish_up;
 		}
 
+		if (isset($object->review_time))
+		{
+			$object->review_time = (int) $object->review_time;
+		}
+
 		return sha1(json_encode($object));
 	}
 
