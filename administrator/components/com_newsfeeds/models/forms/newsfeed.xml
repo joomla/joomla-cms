@@ -69,7 +69,17 @@
 			size="60" label="COM_NEWSFEEDS_FIELD_LINK_LABEL"
 			description="COM_NEWSFEEDS_FIELD_LINK_DESC" required="true" />
 
-		<field name="ordering" type="ordering" class="inputbox" table="#__newsfeeds"
+		<field name="numarticles" type="Text" class="inputbox"
+			default="5" size="2" label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_LABEL"
+			description="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_DESC"
+			required="true" />
+
+		<field name="cache_time" type="Text" class="inputbox"
+			default="3600" size="4" label="COM_NEWSFEEDS_FIELD_CACHETIME_LABEL"
+			description="JGLOBAL_FIELD_FIELD_CACHETIME_DESC"
+			required="true" />
+
+		<field name="ordering" type="ordering" class="inputbox" content_type="com_newsfeeds.newsfeed"
 			label="JFIELD_ORDERING_LABEL" description="JFIELD_ORDERING_DESC" />
 
 		<field name="created" type="calendar"

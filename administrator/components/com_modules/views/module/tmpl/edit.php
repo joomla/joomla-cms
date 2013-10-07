@@ -70,12 +70,23 @@ JFactory::getDocument()->addScriptDeclaration($script);
 							</span>
 						</div>
 						<div>
-							<p><?php echo JText::_($this->item->xml->description); ?></p>
 							<?php
+							$short_description = JText::_($this->item->xml->description);
 							$this->fieldset = 'description';
-							$description = JLayoutHelper::render('joomla.edit.fieldset', $this);
+							$long_description = JLayoutHelper::render('joomla.edit.fieldset', $this);
+							if(!$long_description) {
+								$truncated = JHtmlString::truncate($short_description, 500, true, false);
+								if(strlen($truncated) > 500) {
+									$long_description = $short_description;
+									$short_description = JHtmlString::truncate($truncated, 250);
+									if($short_description == $long_description) {
+										$long_description = '';
+									}
+								}
+							}
 							?>
-							<?php if ($description) : ?>
+							<p><?php echo $short_description; ?></p>
+							<?php if ($long_description) : ?>
 								<p class="readmore">
 									<a href="#" onclick="jQuery('.nav-tabs a[href=#description]').tab('show');">
 										<?php echo JText::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
@@ -121,9 +132,9 @@ JFactory::getDocument()->addScriptDeclaration($script);
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php if ($description) : ?>
+		<?php if ($long_description) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('JGLOBAL_FIELDSET_DESCRIPTION', true)); ?>
-			<?php echo $description; ?>
+			<?php echo $long_description; ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 

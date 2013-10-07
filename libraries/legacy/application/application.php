@@ -207,9 +207,11 @@ class JApplication extends JApplicationBase
 		// Set user specific editor.
 		$user = JFactory::getUser();
 		$editor = $user->getParam('editor', $this->getCfg('editor'));
+
 		if (!JPluginHelper::isEnabled('editors', $editor))
 		{
 			$editor = $this->getCfg('editor');
+
 			if (!JPluginHelper::isEnabled('editors', $editor))
 			{
 				$editor = 'none';
@@ -408,6 +410,7 @@ class JApplication extends JApplicationBase
 			$document = JFactory::getDocument();
 
 			jimport('phputf8.utils.ascii');
+
 			if (($this->client->engine == JApplicationWebClient::TRIDENT) && !utf8_is_ascii($url))
 			{
 				// MSIE type browser and/or server cause issues when url contains utf8 character,so use a javascript redirect method
@@ -422,6 +425,7 @@ class JApplication extends JApplicationBase
 				header('Content-Type: text/html; charset=' . $document->getCharset());
 			}
 		}
+
 		$this->close();
 	}
 
@@ -497,6 +501,7 @@ class JApplication extends JApplicationBase
 	public function getCfg($varname, $default = null)
 	{
 		$config = JFactory::getConfig();
+
 		return $config->get('' . $varname, $default);
 	}
 
@@ -518,10 +523,12 @@ class JApplication extends JApplicationBase
 		if (empty($name))
 		{
 			$r = null;
+
 			if (!preg_match('/J(.*)/i', get_class($this), $r))
 			{
 				JLog::add(JText::_('JLIB_APPLICATION_ERROR_APPLICATION_GET_NAME'), JLog::WARNING, 'jerror');
 			}
+
 			$name = strtolower($r[1]);
 		}
 
@@ -708,7 +715,6 @@ class JApplication extends JApplicationBase
 
 				// The user is successfully logged in. Run the after login events
 				$this->triggerEvent('onUserAfterLogin', array($options));
-
 			}
 
 			return true;
@@ -1008,6 +1014,7 @@ class JApplication extends JApplicationBase
 
 		// Remove expired sessions from the database.
 		$time = time();
+
 		if ($time % 2)
 		{
 			// The modulus introduces a little entropy, making the flushing less accurate
@@ -1022,6 +1029,7 @@ class JApplication extends JApplicationBase
 
 		// Check to see the the session already exists.
 		$handler = $this->getCfg('session_handler');
+
 		if (($handler != 'database' && ($time % 2 || $session->isNew()))
 			|| ($handler == 'database' && $session->isNew()))
 		{
@@ -1060,6 +1068,7 @@ class JApplication extends JApplicationBase
 		if (!$exists)
 		{
 			$query->clear();
+
 			if ($session->isNew())
 			{
 				$query->insert($db->quoteName('#__session'))
@@ -1105,6 +1114,7 @@ class JApplication extends JApplicationBase
 	public function afterSessionStart()
 	{
 		$session = JFactory::getSession();
+
 		if ($session->isNew())
 		{
 			$session->set('registry', new JRegistry('session'));

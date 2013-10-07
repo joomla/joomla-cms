@@ -32,7 +32,7 @@ $this->fieldsets = $this->form->getFieldsets('params');
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('COM_PLUGINS_PLUGIN', true)); ?>
 
 		<div class="row-fluid">
-			<div class="span9">
+			<div class="span6">
 				<?php if ($this->item->xml) : ?>
 					<?php if ($this->item->xml->description) : ?>
 						<h3>
@@ -56,12 +56,23 @@ $this->fieldsets = $this->form->getFieldsets('params');
 							</span>
 						</div>
 						<div>
-							<p><?php echo JText::_($this->item->xml->description); ?></p>
 							<?php
+							$short_description = JText::_($this->item->xml->description);
 							$this->fieldset = 'description';
-							$description = JLayoutHelper::render('joomla.edit.fieldset', $this);
+							$long_description = JLayoutHelper::render('joomla.edit.fieldset', $this);
+							if(!$long_description) {
+								$truncated = JHtmlString::truncate($short_description, 500, true, false);
+								if(strlen($truncated) > 500) {
+									$long_description = $short_description;
+									$short_description = JHtmlString::truncate($truncated, 250);
+									if($short_description == $long_description) {
+										$long_description = '';
+									}
+								}
+							}
 							?>
-							<?php if ($description) : ?>
+							<p><?php echo $short_description; ?></p>
+							<?php if ($long_description) : ?>
 								<p class="readmore">
 									<a href="#" onclick="jQuery('.nav-tabs a[href=#description]').tab('show');">
 										<?php echo JText::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
@@ -73,21 +84,21 @@ $this->fieldsets = $this->form->getFieldsets('params');
 				<?php else : ?>
 					<div class="alert alert-error"><?php echo JText::_('COM_PLUGINS_XML_ERR'); ?></div>
 				<?php endif; ?>
-				<?php
-				$this->fieldset = 'basic';
-				$html = JLayoutHelper::render('joomla.edit.fieldset', $this);
-				echo $html ? '<hr />' . $html : '';
-				?>
 			</div>
-			<div class="span3">
+			<div class="span6">
 				<?php echo JLayoutHelper::render('joomla.edit.main', $this); ?>
 			</div>
 		</div>
+		<?php
+		$this->fieldset = 'basic';
+		$html = JLayoutHelper::render('joomla.edit.fieldset', $this);
+		echo $html ? '<hr />' . $html : '';
+		?>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php if ($description) : ?>
+		<?php if ($long_description) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('JGLOBAL_FIELDSET_DESCRIPTION', true)); ?>
-			<?php echo $description; ?>
+			<?php echo $long_description; ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
