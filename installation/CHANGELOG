@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 10-Oct-2013 Roberto Segura
  # [#32166] com_ajax cannot access modules with underscores in their name. Thanks Matt Thomas
+ # [#32203] Improving module loading code in cpanel layout. Thanks Thomas Hunziker
 
 09-Oct-2013 Michael Babker
  # [#32226] *Regression: Editors-xtd not displaying anymore.  Thanks Achal Aggarwal
