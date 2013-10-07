@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Table
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
@@ -10,9 +10,13 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Table class supporting modified pre-order tree traversal behavior.
+ * Abstract class defining methods that can be
+ * implemented by an Observer class of a JTable class (which is an Observable).
+ * Attaches $this Observer to the $table in the constructor.
+ * The classes extending this class should not be instanciated directly, as they
+ * are automatically instanciated by the JObserverMapper
  *
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  Table
  * @link        http://docs.joomla.org/JTableObserver
  * @since       3.1.2

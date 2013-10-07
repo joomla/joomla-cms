@@ -776,7 +776,7 @@ class JHelperTags extends JHelper
 		$result = true;
 
 		// Process ucm_content and ucm_base if either tags have changed or we have some tags.
-		if ($this->tagsChanged || $newTags)
+		if ($this->tagsChanged || $newTags[0] != '')
 		{
 			if (!$newTags && $replace = true)
 			{
@@ -837,14 +837,14 @@ class JHelperTags extends JHelper
 		}
 
 		// New items with no tags bypass this step.
-		if ((!empty($newTags) || (isset($newTags[0]) && $newTags[0] != '')) || isset($this->oldTags))
+		if ((!empty($newTags) && is_string($newTags) || (isset($newTags[0]) && $newTags[0] != '')) || isset($this->oldTags))
 		{
 			if (is_array($newTags))
 			{
 				$newTags = implode(',', $newTags);
 			}
 			// We need to process tags if the tags have changed or if we have a new row
-			$this->tagsChanged = ($this->oldTags != $newTags) || !$table->$key;
+			$this->tagsChanged = (empty($this->oldTags) && !empty($newTags)) ||(!empty($this->oldTags) && $this->oldTags != $newTags) || !$table->$key;
 		}
 	}
 
@@ -995,7 +995,7 @@ class JHelperTags extends JHelper
 			}
 		}
 
-		if (is_array($newTags) && count($newTags) > 0)
+		if (is_array($newTags) && count($newTags) > 0 && $newTags[0] != '')
 		{
 			$result = $result && $this->addTagMapping($ucmId, $table, $newTags);
 		}
