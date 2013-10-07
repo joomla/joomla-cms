@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 
-$html = JHtml::_('icons.buttons', $buttons);
+$html = JHtml::_('links.linksgroups', ModQuickIconHelper::groupButtons($buttons));
 ?>
 <?php if (!empty($html)) : ?>
-	<div class="row-striped">
+	<div class="sidebar-nav quick-icons">
 		<?php echo $html;?>
 	</div>
 <?php endif;?>

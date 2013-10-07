@@ -30,8 +30,7 @@
 		</field>
 
 		<field name="ordering" type="ordering" label="JFIELD_ORDERING_LABEL"
-			class="inputbox"
-			description="JFIELD_ORDERING_DESC"
+			class="inputbox" description="JFIELD_ORDERING_DESC"
 			table="#__banners" />
 
 		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
