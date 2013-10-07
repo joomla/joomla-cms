@@ -18,6 +18,15 @@ defined('_JEXEC') or die;
  */
 class BannersModelClient extends JModelAdmin
 {
+
+	/**
+	 * The type alias for this content type.
+	 *
+	 * @var      string
+	 * @since    3.2
+	 */
+	public $typeAlias = 'com_banners.client';
+
 	/**
 	 * Method to test whether a record can be deleted.
 	 *

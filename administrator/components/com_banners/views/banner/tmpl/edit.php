@@ -201,6 +201,12 @@ JHtml::_('formbehavior.chosen', 'select');
 					<?php echo $this->form->getInput('language'); ?>
 				</div>
 			</div>
+			<div class="control-group">
+				<?php echo $this->form->getLabel('version_note'); ?>
+				<div class="controls">
+					<?php echo $this->form->getInput('version_note'); ?>
+				</div>
+			</div>
 		</fieldset>
 	</div>
 	<!-- End Sidebar -->
