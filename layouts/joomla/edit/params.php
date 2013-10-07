@@ -61,7 +61,7 @@ if ($displayData->get('show_options', 1))
 else
 {
 	$html = array();
-	$html[] = '<div style="display:hidden;">';
+	$html[] = '<div style="display:none;">';
 	foreach ($fieldSets as $name => $fieldSet)
 	{
 		if (in_array($name, $ignoreFieldsets))
