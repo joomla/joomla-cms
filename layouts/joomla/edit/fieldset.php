@@ -75,7 +75,7 @@ if ($displayData->get('show_options', 1))
 else
 {
 	$html = array();
-	$html[] = '<div styl="display:hidden;">';
+	$html[] = '<div style="display:none;">';
 	foreach ($fieldSet as $field)
 	{
 		$html[] = $field->input;
