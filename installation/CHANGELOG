@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 07-Oct-2013 Jean-Marie Simonet
  # [#30586] Usernames that should not be accepted can be actualy registered. Thanks Sergio Manzi
+ # [#32199] *Allow username edit in profile edit when username is not compliant. Thanks Achal Aggarwal
 
 05-Oct-2013 Jean-Marie Simonet
  # [#28214] Menu Items Could be Saved without Menu Item Type. Thanks Tristan Bellosta

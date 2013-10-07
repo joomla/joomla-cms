@@ -151,7 +151,19 @@ class UsersModelProfile extends JModelForm
 		if (empty($form)) {
 			return false;
 		}
-		if (!JComponentHelper::getParams('com_users')->get('change_login_name'))
+
+		// Check for username compliance and parameter set
+		$isUsernameCompliant = true;
+
+		if ($this->loadFormData()->username)
+		{
+			$username = $this->loadFormData()->username;
+			$isUsernameCompliant  = !(preg_match('#[<>"\'%;()&\\s\\\\]|\\.\\./#', $username) || strlen(utf8_decode($username)) < 2);
+		}
+
+		$this->setState('user.username.compliant', $isUsernameCompliant);
+
+		if (!JComponentHelper::getParams('com_users')->get('change_login_name') && $isUsernameCompliant)
 		{
 			$form->setFieldAttribute('username', 'class', '');
 			$form->setFieldAttribute('username', 'filter', '');
@@ -237,7 +249,10 @@ class UsersModelProfile extends JModelForm
 		$data['password']	= $data['password1'];
 
 		// Unset the username if it should not be overwritten
-		if (!JComponentHelper::getParams('com_users')->get('change_login_name'))
+		$username = $data['username'];
+		$isUsernameCompliant = $this->getState('user.username.compliant');
+
+		if (!JComponentHelper::getParams('com_users')->get('change_login_name') && $isUsernameCompliant)
 		{
 			unset($data['username']);
 		}
