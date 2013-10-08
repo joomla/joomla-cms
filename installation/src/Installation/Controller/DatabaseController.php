@@ -7,7 +7,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Installation\Controller;
+
 defined('_JEXEC') or die;
+
+use JText,
+	JSession,
+	JControllerBase;
+use Installation\Model\SetupModel,
+	Installation\Model\DatabaseModel,
+	Installation\Application\WebApplication;
 
 /**
  * Controller class to initialise the database for the Joomla Installer.
@@ -16,7 +25,7 @@ defined('_JEXEC') or die;
  * @subpackage  Controller
  * @since       3.1
  */
-class InstallationControllerDatabase extends JControllerBase
+class DatabaseController extends JControllerBase
 {
 	/**
 	 * Execute the controller.
@@ -28,14 +37,14 @@ class InstallationControllerDatabase extends JControllerBase
 	public function execute()
 	{
 		// Get the application
-		/* @var InstallationApplicationWeb $app */
+		/* @var WebApplication $app */
 		$app = $this->getApplication();
 
 		// Check for request forgeries.
-		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken() or $app->sendJsonResponse(new \Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the setup model.
-		$model = new InstallationModelSetup;
+		$model = new SetupModel;
 
 		// Check the form
 		$vars = $model->checkForm('database');
@@ -44,11 +53,11 @@ class InstallationControllerDatabase extends JControllerBase
 		$path = JPATH_CONFIGURATION . '/configuration.php';
 		$useftp = (file_exists($path)) ? !is_writable($path) : !is_writable(JPATH_CONFIGURATION . '/');
 
-		$r = new stdClass;
+		$r = new \stdClass;
 		$r->view = $useftp ? 'ftp' : 'summary';
 
 		// Get the database model.
-		$db = new InstallationModelDatabase;
+		$db = new DatabaseModel;
 
 		// Attempt to initialise the database.
 		$return = $db->createDatabase($vars);

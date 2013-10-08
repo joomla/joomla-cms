@@ -7,7 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Installation\Model;
+
 defined('_JEXEC') or die;
+
+use JModelBase;
 
 /**
  * Database configuration model for the Joomla Core Installer.
@@ -15,7 +19,7 @@ defined('_JEXEC') or die;
  * @package  Joomla.Installation
  * @since    3.1
  */
-class InstallationModelDatabase extends JModelBase
+class DatabaseModel extends JModelBase
 {
 	/**
 	 * The generated user ID
