@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Installation\Controller\Install;
+namespace Installation\Controller;
 
 defined('_JEXEC') or die;
 
@@ -18,6 +18,6 @@ defined('_JEXEC') or die;
  * @subpackage  Controller
  * @since       3.1
  */
-class DatabaseRemoveController extends DatabaseBackupController
+class InstallDatabase_removeController extends InstallDatabase_backupController
 {
 }

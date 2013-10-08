@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Installation\Controller\Install;
+namespace Installation\Controller;
 
 defined('_JEXEC') or die;
 
@@ -26,7 +26,7 @@ use Installation\Model\LanguagesModel;
  * @subpackage  Controller
  * @since       3.1
  */
-class LanguagesController extends JControllerBase
+class InstallLanguagesController extends JControllerBase
 {
 	/**
 	 * Constructor.

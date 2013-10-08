@@ -21,5 +21,18 @@ JLoader::registerNamespace('Installation\\', JPATH_INSTALLATION . '/src');
 // Register the application's router due to non-standard include
 JLoader::register('JRouterInstallation', __DIR__ . '/router.php');
 
+/**
+ * Register a couple installation controllers that don't exactly follow PSR-0,
+ * at least until all the JS for the task is updated.
+ */
+JLoader::register(
+	'Installation\\Controller\\InstallDatabase_backupController',
+	JPATH_INSTALLATION . '/src/Installation/Controller/InstallDatabase_backupController.php'
+);
+JLoader::register(
+	'Installation\\Controller\\InstallDatabase_removeController',
+	JPATH_INSTALLATION . '/src/Installation/Controller/InstallDatabase_removeController.php'
+);
+
 // Alias so JHtml works right, for now.
 class_alias('Installation\\Helpers\\HtmlHelper', 'JHtmlInstallation');

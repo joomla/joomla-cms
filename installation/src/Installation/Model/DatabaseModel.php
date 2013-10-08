@@ -389,18 +389,20 @@ class DatabaseModel extends JModelBase
 		// Set the character set to UTF-8 for pre-existing databases.
 		$this->setDatabaseCharset($db, $options->db_name);
 
+		$schema = JPATH_INSTALLATION . '/src/';
+
 		// Set the appropriate schema script based on UTF-8 support.
 		if ($type == 'mysqli' || $type == 'mysql')
 		{
-			$schema = 'sql/mysql/joomla.sql';
+			$schema .= 'sql/mysql/joomla.sql';
 		}
 		elseif ($type == 'sqlsrv' || $type == 'sqlazure')
 		{
-			$schema = 'sql/sqlazure/joomla.sql';
+			$schema .= 'sql/sqlazure/joomla.sql';
 		}
 		else
 		{
-			$schema = 'sql/' . $type . '/joomla.sql';
+			$schema .= 'sql/' . $type . '/joomla.sql';
 		}
 
 		// Check if the schema is a valid file

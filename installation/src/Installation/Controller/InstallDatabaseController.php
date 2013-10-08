@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Installation\Controller\Install;
+namespace Installation\Controller;
 
 defined('_JEXEC') or die;
 
@@ -25,7 +25,7 @@ use Installation\Model\SetupModel,
  * @subpackage  Controller
  * @since       3.1
  */
-class DatabaseController extends JControllerBase
+class InstallDatabaseController extends JControllerBase
 {
 	/**
 	 * Execute the controller.
