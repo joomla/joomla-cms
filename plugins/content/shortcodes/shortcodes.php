@@ -25,7 +25,7 @@ class PlgContentShortcodes extends JPlugin
 	 * @since   3.2
 	 * @var     array
 	 */
-	protected $shortcode_tags = array();
+	protected $shortcodeTags = array();
 
 	/**
 	 * Plugin that loads module positions within content.
@@ -65,7 +65,7 @@ class PlgContentShortcodes extends JPlugin
 	{
 		if (is_callable($func))
 		{
-			$this->shortcode_tags[$tag] = $func;
+			$this->shortcodeTags[$tag] = $func;
 
 			return true;
 		}
@@ -106,6 +106,11 @@ class PlgContentShortcodes extends JPlugin
 		return false;
 	}
 
+	protected function shortcodeExists($tag)
+	{
+		return isset($this->shortcodeTags[$tag]);
+	}
+
 	/**
 	 * Search content for shortcodes and filter shortcodes through their hooks.
 	 *
@@ -115,9 +120,9 @@ class PlgContentShortcodes extends JPlugin
 	 *
 	 * @since   3.2
 	 */
-	public function doShortcode($content)
+	protected function doShortcode($content)
 	{
-		if (empty($this->shortcode_tags) || !is_array($this->shortcode_tags))
+		if (empty($this->shortcodeTags) || !is_array($this->shortcodeTags))
 		{
 			return $content;
 		}
@@ -134,10 +139,10 @@ class PlgContentShortcodes extends JPlugin
 	 *
 	 * @since   3.2
 	 */
-	public function getShortcodeRegex()
+	protected function getShortcodeRegex()
 	{
 		// Initialiase variables.
-		$tagnames  = array_keys($this->shortcode_tags);
+		$tagnames  = array_keys($this->shortcodeTags);
 		$tagregexp = join('|', array_map('preg_quote', $tagnames));
 
 		return '\\[(\\[?)' . "($tagregexp)" . '(?![\\w-])([^\\]\\/]*(?:\\/(?!\\])[^\\]\\/]*)*?)(?:(\\/)\\]|\\](?:([^\\[]*+(?:\\[(?!\\/\\2\\])[^\\[]*+)*+)\\[\\/\\2\\])?)(\\]?)';
@@ -152,7 +157,7 @@ class PlgContentShortcodes extends JPlugin
 	 *
 	 * @since   3.2
 	 */
-	public function doShortcodeTag($matches)
+	protected function doShortcodeTag($matches)
 	{
 		// Allow [[foo]] syntax for escaping a tag.
 		if ($matches[1] == '[' && $matches[6] == ']')
@@ -167,12 +172,12 @@ class PlgContentShortcodes extends JPlugin
 		// If using open & closing tags. Ex: [foo]content[/foo]
 		if (isset($matches[5]))
 		{
-			return $matches[1] . call_user_func($this->shortcode_tags[$tag], $matches[5]) . $matches[6];
+			return $matches[1] . call_user_func($this->shortcodeTags[$tag], $matches[5]) . $matches[6];
 		}
 		// Self-closing tag. Ex: [foo bar="baz"]
 		else
 		{
-			return $matches[1] . call_user_func($this->shortcode_tags[$tag], null) . $matches[6];
+			return $matches[1] . call_user_func($this->shortcodeTags[$tag], null) . $matches[6];
 		}
 	}
 
@@ -185,7 +190,7 @@ class PlgContentShortcodes extends JPlugin
 	 *
 	 * @since   3.2
 	 */
-	public function shortcodeParseAtts($text)
+	protected function shortcodeParseAtts($text)
 	{
 		// Initialiase variables.
 		$atts    = array();
@@ -235,9 +240,9 @@ class PlgContentShortcodes extends JPlugin
 	 *
 	 * @since   3.2
 	 */
-	public function shortcodeAtts($pairs, $atts)
+	protected function shortcodeAtts($pairs, $atts)
 	{
-		// Initialiase variables.
+		// Initialise variables.
 		$atts = (array) $atts;
 		$out  = array();
 
