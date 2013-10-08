@@ -31,24 +31,6 @@
         </field>
 
         <field
-                name="folder"
-                type="text"
-                class="readonly"
-                size="20"
-                label="COM_PLUGINS_FIELD_FOLDER_LABEL"
-                description="COM_PLUGINS_FIELD_FOLDER_DESC"
-                readonly="true" />
-
-        <field
-                name="element"
-                type="text"
-                class="readonly"
-                size="20"
-                label="COM_PLUGINS_FIELD_ELEMENT_LABEL"
-                description="COM_PLUGINS_FIELD_ELEMENT_DESC"
-                readonly="true" />
-
-        <field
                 name="access"
                 type="accesslevel"
                 label="JFIELD_ACCESS_LABEL"
@@ -64,4 +46,24 @@
                 description="JFIELD_ORDERING_DESC" />
 
     </fieldset>
+
+	<fieldset name="basic">
+		<field
+				name="folder"
+				type="text"
+				class="readonly"
+				size="20"
+				label="COM_PLUGINS_FIELD_FOLDER_LABEL"
+				description="COM_PLUGINS_FIELD_FOLDER_DESC"
+				readonly="true" />
+
+		<field
+				name="element"
+				type="text"
+				class="readonly"
+				size="20"
+				label="COM_PLUGINS_FIELD_ELEMENT_LABEL"
+				description="COM_PLUGINS_FIELD_ELEMENT_DESC"
+				readonly="true" />
+	</fieldset>
 </form>
