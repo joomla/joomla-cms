@@ -172,7 +172,22 @@ abstract class JModelAdmin extends JModelForm
 		$this->tableClassName = get_class($this->table);
 		$this->contentType = new JUcmType();
 		$this->type = $this->contentType->getTypeByTable($this->tableClassName);
-		$this->type === false?:$typeAlias = $this->type->type_alias;
+		if ($this->type == false)
+		{
+			$type = new JUcmType;
+			$this->type = $type->getTypeByAlias($this->typeAlias);
+
+		}
+		if ($this->type === false)
+		{
+			$type = new JUcmType;
+			$this->type = $type->getTypeByAlias($this->typeAlias);
+			$typeAlias = $this->type->type_alias;
+		}
+		else
+		{
+			$typeAlias = $this->type->type_alias;
+		}
 		$this->tagsObserver = $this->table->getObserverOfClass('JTableObserverTags');
 
 		if (!empty($commands['category_id']))
@@ -301,6 +316,8 @@ abstract class JModelAdmin extends JModelForm
 	{
 		$i = 0;
 
+		$categoryId = $value;
+
 		if (!static::checkCategoryId($categoryId))
 		{
 			return false;
@@ -332,10 +349,7 @@ abstract class JModelAdmin extends JModelForm
 				}
 			}
 
-			// Alter the title & alias
-			$data = $this->generateNewTitle($categoryId, $table->alias, $table->title);
-			$this->table->title = $data['0'];
-			$this->table->alias = $data['1'];
+			static::generateTitle($categoryId, $this->table);
 
 			// Reset the ID because we are making a copy
 			$this->table->id = 0;
@@ -349,7 +363,7 @@ abstract class JModelAdmin extends JModelForm
 			// Check the row.
 			if (!$this->table->check())
 			{
-				$this->setError($table->getError());
+				$this->setError($this->table->getError());
 
 				return false;
 			}
@@ -1220,4 +1234,20 @@ abstract class JModelAdmin extends JModelForm
 
 		return true;
 	}
+
+	/**
+	 * A method to preprocess generating a new title in order to allow tables with alternative names
+	 * for alias and title to use the batch move and copy methods
+	 *
+	 * @param integer  $categoryId   The target category id
+	 * @param JTable   $table        The JTable within whcih move or copy is taking place
+	 */
+	public function generateTitle($categoryId, $table)
+	{
+		// Alter the title & alias
+		$data = $this->generateNewTitle($categoryId, $table->alias, $table->title);
+		$table->title = $data['0'];
+		$table->alias = $data['1'];
+	}
+
 }
