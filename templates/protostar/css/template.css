@@ -1981,6 +1981,7 @@ table th[class*="span"],
 }
 .dropdown-menu > li > a:hover,
 .dropdown-menu > li > a:focus,
+.dropdown-menu > li > a.hover,
 .dropdown-submenu:hover > a,
 .dropdown-submenu:focus > a {
 	text-decoration: none;
@@ -5737,9 +5738,6 @@ a.disabled:hover {
 	font-size: 20px;
 	font-weight: 200;
 	line-height: 27px;
-}
-.btn .caret {
-	margin-bottom: 7px;
 }
 .blog-row-rule,
 .blog-item-rule {

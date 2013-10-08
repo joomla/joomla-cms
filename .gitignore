@@ -20,3 +20,6 @@
 
 # phpDocumentor Logs #
 phpdoc-*
+
+# Adding com_fieldsdemo #
+com_fieldsdemo/
