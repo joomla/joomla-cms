@@ -175,7 +175,7 @@
 				if (activePopover) {
 					$(activePopover).popover('hide');
 				}
-				$(this).popover({html:true, content:content.html(), container:'body', trigger:'manual', animation:false, placement: $('html').attr('dir')=='rtl' ? 'left' : 'right'}).popover('show');
+				$(this).popover({html:true, content:content.html(), container:'body', trigger:'manual', animation:false, placement: 'bottom'}).popover('show');
 				activePopover = this;
 
 				$('body>div.popover')
