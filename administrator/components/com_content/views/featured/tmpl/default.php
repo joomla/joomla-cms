@@ -120,7 +120,7 @@ $saveOrder	= $listOrder == 'fp.ordering';
 							JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'newsfeeds');
 
 							// Render dropdown list
-							echo JHtml::_('actionsdropdown.render', $this->escape($item->name));
+							echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
 							?>
 						</div>
 					</td>
