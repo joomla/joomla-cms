@@ -45,16 +45,9 @@ $script = "jQuery(document).ready(function ($){
 						$('#jform_parent_id').trigger('liszt:updated');
 					});
 				});
+			});";
 
-				$.each(data, function (i, val) {
-					var option = $('<option>');
-					option.text(val.title).val(val.id);
-					$('#jform_parent_id').append(option);
-				});
-				$('#jform_parent_id').trigger('liszt:updated');
-			});
-		});
-	});";
+// Add the script to the document head.
 JFactory::getDocument()->addScriptDeclaration($script);
 
 ?>
@@ -62,18 +55,22 @@ JFactory::getDocument()->addScriptDeclaration($script);
 <script type="text/javascript">
 	Joomla.submitbutton = function(task, type)
 	{
-		if (task == 'item.setType' || task == 'item.setMenuType') {
-			if (task == 'item.setType') {
+		if (task == 'item.setType' || task == 'item.setMenuType')
+		{
+			if (task == 'item.setType')
+			{
 				document.id('item-form').elements['jform[type]'].value = type;
 				document.id('fieldtype').value = 'type';
 			} else {
 				document.id('item-form').elements['jform[menutype]'].value = type;
 			}
 			Joomla.submitform('item.setType', document.id('item-form'));
-		} else if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
+		} else if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form')))
+		{
 			Joomla.submitform(task, document.id('item-form'));
 		}
-		else {
+		else
+		{
 			// special case for modal popups validation response
 			$$('#item-form .modal-value.invalid').each(function(field)
 			{
