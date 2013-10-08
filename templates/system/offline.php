@@ -52,7 +52,10 @@ $app = JFactory::getApplication();
 			<input type="checkbox" name="remember" class="inputbox" value="yes" alt="<?php echo JText::_('JGLOBAL_REMEMBER_ME') ?>" id="remember" />
 		</p>
 		<?php  endif; ?>
-		<input type="submit" name="Submit" class="button login" value="<?php echo JText::_('JLOGIN') ?>" />
+		<p id="submit-buton"> 
+			<label>&nbsp;</label> 
+			<input type="submit" name="Submit" class="button login" value="<?php echo JText::_('JLOGIN') ?>" /> 
+		</p>
 		<input type="hidden" name="option" value="com_users" />
 		<input type="hidden" name="task" value="user.login" />
 		<input type="hidden" name="return" value="<?php echo base64_encode(JURI::base()) ?>" />
