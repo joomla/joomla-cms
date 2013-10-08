@@ -50,7 +50,7 @@ class JFormFieldSample extends JFormFieldRadio
 		}
 
 		// Get a list of files in the search path with the given filter.
-		$files = JFolder::files(JPATH_INSTALLATION . '/sql/' . $type, '^sample.*\.sql$');
+		$files = JFolder::files(JPATH_INSTALLATION . '/src/sql/' . $type, '^sample.*\.sql$');
 
 		// Add option to not install sampledata.
 		$options[] = JHtml::_('select.option', '',

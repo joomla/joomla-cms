@@ -607,7 +607,7 @@ class DatabaseModel extends JModelBase
 			$type = 'sqlazure';
 		}
 
-		$data = JPATH_INSTALLATION . '/sql/' . $type . '/' . $options->sample_file;
+		$data = JPATH_INSTALLATION . '/src/sql/' . $type . '/' . $options->sample_file;
 
 		// Attempt to import the database schema if one is chosen.
 		if ($options->sample_file != '')
