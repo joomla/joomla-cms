@@ -25,6 +25,10 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Oct-2013 Jean-Marie Simonet
+ # [#32199] *Allow username edit in profile edit when username is not compliant. Thanks Achal Aggarwal
+ # [#30586] Usernames that should not be accepted can be actualy registered. Thanks Sergio Manzi
+
 07-Oct-2013 Roberto Segura
  # 06-Oct-2013 Fix broken install after [#31602]. Thanks Michael Babker
 
