@@ -45,12 +45,17 @@ defined('_JEXEC') or die;
 		</div>
 	</fieldset>
 	<?php endforeach; ?>
-<?php if ($this->eid == 700): ?>
+<?php
+if (JFactory::getApplication()->input->getString('option') == 'com_postinstall'): ?>
 	</div>
 	<div class="span4">
 		<h2><?php echo JText::_('COM_POSTINSTALL_LBL_RELEASENEWS') ?></h2>
-		<iframe width="100%" height="1000" src="http://www.joomla.org/announcements/release-news">
-		</iframe>
+		<?php  $news = JModuleHelper::getModules('postinstall');
+		foreach ($news as $new):
+			echo JModuleHelper::renderModule($new);
+		endforeach;
+		?>
+
 	</div>
 </div>
 <?php endif; ?>
