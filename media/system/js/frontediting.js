@@ -152,7 +152,7 @@
 
 		var activePopover = null;
 
-		$('.jmoddiv .nav li,.jmoddiv.nav li,.jmoddiv .nav .nav-child li,.jmoddiv.nav .nav-child li').on({
+		$('.jmoddiv[data-jmenuedittip] .nav li,.jmoddiv[data-jmenuedittip].nav li,.jmoddiv[data-jmenuedittip] .nav .nav-child li,.jmoddiv[data-jmenuedittip].nav .nav-child li').on({
 			mouseenter: function() {
 
 				// Get menu ItemId from the item-nnn class of the li element of the menu:
