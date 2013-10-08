@@ -147,7 +147,7 @@
 				default="5" size="2" label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_LABEL"
 				description="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_DESC"
 				required="true" />
-
+	
 			<field name="cache_time" type="Text" class="inputbox"
 				default="3600" size="4" label="COM_NEWSFEEDS_FIELD_CACHETIME_LABEL"
 				description="JGLOBAL_FIELD_FIELD_CACHETIME_DESC"
