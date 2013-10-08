@@ -7,7 +7,18 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Installation\Controller;
+
 defined('_JEXEC') or die;
+
+use JText,
+	JTable,
+	JLoader,
+	JFactory,
+	JSession,
+	JControllerBase;
+
+use Installation\Model\LanguagesModel;
 
 /**
  * Controller class to set the default application languages for the Joomla Installer.
@@ -16,7 +27,7 @@ defined('_JEXEC') or die;
  * @subpackage  Controller
  * @since       3.1
  */
-class InstallationControllerSetdefaultlanguage extends JControllerBase
+class SetDefaultLanguageController extends JControllerBase
 {
 	/**
 	 * Constructor.
@@ -43,14 +54,14 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 	public function execute()
 	{
 		// Get the application
-		/* @var InstallationApplicationWeb $app */
+		/* @var \Installation\Application\WebApplication $app */
 		$app = $this->getApplication();
 
 		// Check for request forgeries.
-		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken() or $app->sendJsonResponse(new \Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the languages model.
-		$model = new InstallationModelLanguages;
+		$model = new LanguagesModel;
 
 		// Check for request forgeries in the administrator language
 		$admin_lang = $this->input->getString('administratorlang', false);
@@ -200,7 +211,7 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 			}
 		}
 
-		$r = new stdClass;
+		$r = new \stdClass;
 
 		// Redirect to the final page.
 		$r->view = 'remove';

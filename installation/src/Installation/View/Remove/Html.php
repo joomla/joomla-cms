@@ -7,7 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Installation\View\Remove;
+
 defined('_JEXEC') or die;
+
+use JViewHtml;
 
 /**
  * The HTML Joomla Core Install Remove View
@@ -16,6 +20,6 @@ defined('_JEXEC') or die;
  * @subpackage  View
  * @since       3.1
  */
-class InstallationViewRemoveHtml extends JViewHtml
+class Html extends JViewHtml
 {
 }

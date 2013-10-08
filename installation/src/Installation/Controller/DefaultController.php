@@ -7,7 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Installtion\Controller.
+
 defined('_JEXEC') or die;
+
+use JHtml,
+	JControllerBase;
+use Installation\Model\SetupModel,
+	Installation\Model\LanguagesModel;
 
 /**
  * Default controller class for the Joomla Installer.
@@ -16,7 +23,7 @@ defined('_JEXEC') or die;
  * @subpackage  Controller
  * @since       3.1
  */
-class InstallationControllerDefault extends JControllerBase
+class DefaultController extends JControllerBase
 {
 	/**
 	 * Execute the controller.
@@ -28,7 +35,7 @@ class InstallationControllerDefault extends JControllerBase
 	public function execute()
 	{
 		// Get the application
-		/* @var InstallationApplicationWeb $app */
+		/* @var \Installation\Application\WebApplication $app */
 		$app = $this->getApplication();
 
 		// Get the document object.
@@ -57,7 +64,7 @@ class InstallationControllerDefault extends JControllerBase
 		switch ($vName)
 		{
 			case 'preinstall':
-				$model        = new InstallationModelSetup;
+				$model        = new SetupModel;
 				$sufficient   = $model->getPhpOptionsSufficient();
 				$checkOptions = false;
 				$options = $model->getOptions();
@@ -71,13 +78,13 @@ class InstallationControllerDefault extends JControllerBase
 
 			case 'languages':
 			case 'defaultlanguage':
-				$model = new InstallationModelLanguages;
+				$model = new LanguagesModel;
 				$checkOptions = false;
 				$options = array();
 				break;
 
 			default:
-				$model        = new InstallationModelSetup;
+				$model        = new SetupModel;
 				$sufficient   = $model->getPhpOptionsSufficient();
 				$checkOptions = true;
 				$options = $model->getOptions();
@@ -99,17 +106,17 @@ class InstallationControllerDefault extends JControllerBase
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helper/html');
 
 		// Register the layout paths for the view
-		$paths = new SplPriorityQueue;
-		$paths->insert(JPATH_INSTALLATION . '/view/' . $vName . '/tmpl', 'normal');
+		$paths = new \SplPriorityQueue;
+		$paths->insert(JPATH_INSTALLATION . '/src/Installation/View/' . ucfirst($vName) . '/tmpl', 'normal');
 
-		$vClass = 'InstallationView' . ucfirst($vName) . ucfirst($vFormat);
+		$vClass = 'Installation\\View\\' . ucfirst($vName) . '\\' . ucfirst($vFormat);
 
 		if (!class_exists($vClass))
 		{
-			$vClass = 'InstallationViewDefault';
+			$vClass = 'Installation\\View\\DefaultView';
 		}
 
-		/* @var JViewHtml $view */
+		/* @var \JViewHtml $view */
 		$view = new $vClass($model, $paths);
 		$view->setLayout($lName);
 

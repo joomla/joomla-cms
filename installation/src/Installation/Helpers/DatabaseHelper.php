@@ -6,7 +6,11 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Installation\Helpers;
+
 defined('_JEXEC') or die;
+
+use JDatabaseDriver;
 
 /**
  * Joomla Installation Database Helper Class.
@@ -14,7 +18,7 @@ defined('_JEXEC') or die;
  * @package  Joomla.Installation
  * @since    1.6
  */
-abstract class InstallationHelperDatabase
+abstract class DatabaseHelper
 {
 	/**
 	 * Method to get a JDatabaseDriver object.

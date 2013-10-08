@@ -7,7 +7,19 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Installation\Controller;
+
 defined('_JEXEC') or die;
+
+use JPath,
+	JFile,
+	JText,
+	JFolder,
+	JLoader,
+	JFactory,
+	JSession,
+	JClientFtp,
+	JControllerBase;
 
 /**
  * Controller class to set the FTP data for the Joomla Installer.
@@ -16,7 +28,7 @@ defined('_JEXEC') or die;
  * @subpackage  Controller
  * @since       3.1
  */
-class InstallationControllerRemovefolder extends JControllerBase
+class RemoveFolderController extends JControllerBase
 {
 	/**
 	 * Execute the controller.
@@ -28,18 +40,18 @@ class InstallationControllerRemovefolder extends JControllerBase
 	public function execute()
 	{
 		// Get the application
-		/* @var InstallationApplicationWeb $app */
+		/* @var \Installation\Application\WebApplication $app */
 		$app = $this->getApplication();
 
 		// Check for request forgeries.
-		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken() or $app->sendJsonResponse(new \Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		$path = JPATH_INSTALLATION;
 
 		// Check whether the folder still exists
 		if (!file_exists($path))
 		{
-			$app->sendJsonResponse(new Exception(JText::sprintf('INSTL_COMPLETE_ERROR_FOLDER_ALREADY_REMOVED'), 500));
+			$app->sendJsonResponse(new \Exception(JText::sprintf('INSTL_COMPLETE_ERROR_FOLDER_ALREADY_REMOVED'), 500));
 		}
 
 		// Check whether we need to use FTP
@@ -117,11 +129,11 @@ class InstallationControllerRemovefolder extends JControllerBase
 		// If an error was encountered return an error.
 		if (!$return)
 		{
-			$app->sendJsonResponse(new Exception(JText::_('INSTL_COMPLETE_ERROR_FOLDER_DELETE'), 500));
+			$app->sendJsonResponse(new \Exception(JText::_('INSTL_COMPLETE_ERROR_FOLDER_DELETE'), 500));
 		}
 
 		// Create a response body.
-		$r = new stdClass;
+		$r = new \stdClass;
 		$r->text = JText::_('INSTL_COMPLETE_FOLDER_REMOVED');
 
 		/*
@@ -145,7 +157,7 @@ class InstallationControllerRemovefolder extends JControllerBase
 	public function sendJsonResponse($response)
 	{
 		// Check if we need to send an error code.
-		if ($response instanceof Exception)
+		if ($response instanceof \Exception)
 		{
 			// Send the appropriate error code response.
 			$this->setHeader('status', $response->getCode());
@@ -208,7 +220,7 @@ class InstallationResponseJson
 		}
 
 		// Check if we are dealing with an error.
-		if ($data instanceof Exception)
+		if ($data instanceof \Exception)
 		{
 			// Prepare the error response.
 			$this->error   = true;

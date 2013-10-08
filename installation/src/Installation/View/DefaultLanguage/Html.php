@@ -8,7 +8,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Installation\View\DefaultLanguage;
+
 defined('_JEXEC') or die;
+
+use JViewHtml;
 
 /**
  * The Installation Default Language View
@@ -17,7 +21,7 @@ defined('_JEXEC') or die;
  * @subpackage  View
  * @since       3.1
  */
-class InstallationViewDefaultlanguageHtml extends JViewHtml
+class Html extends JViewHtml
 {
 	/**
 	 * Container with all installed languages
@@ -30,7 +34,7 @@ class InstallationViewDefaultlanguageHtml extends JViewHtml
 	/**
 	 * Redefine the model so the correct type hinting is available.
 	 *
-	 * @var     InstallationModelLanguages
+	 * @var     \Installation\Model\LanguagesModel
 	 * @since   3.1
 	 */
 	protected $model;
@@ -44,7 +48,7 @@ class InstallationViewDefaultlanguageHtml extends JViewHtml
 	 */
 	public function render()
 	{
-		$this->items                = new stdClass;
+		$this->items                = new \stdClass;
 		$this->items->administrator = $this->model->getInstalledlangsAdministrator();
 		$this->items->frontend      = $this->model->getInstalledlangsFrontend();
 		$this->form                 = $this->model->getForm();

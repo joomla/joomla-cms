@@ -7,7 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Installation\View\Complete;
+
 defined('_JEXEC') or die;
+
+use JFactory,
+	JViewHtml;
 
 /**
  * The Installation Complete View
@@ -16,12 +21,12 @@ defined('_JEXEC') or die;
  * @subpackage  View
  * @since       3.1
  */
-class InstallationViewCompleteHtml extends JViewHtml
+class Html extends JViewHtml
 {
 	/**
 	 * The JConfiguration data if present
 	 *
-	 * @var    JRegistry
+	 * @var    \JRegistry
 	 * @since  3.1
 	 */
 	protected $config;
@@ -29,7 +34,7 @@ class InstallationViewCompleteHtml extends JViewHtml
 	/**
 	 * Redefine the model so the correct type hinting is available.
 	 *
-	 * @var     InstallationModelSetup
+	 * @var     \Installation\Model\SetupModel
 	 * @since   3.1
 	 */
 	protected $model;

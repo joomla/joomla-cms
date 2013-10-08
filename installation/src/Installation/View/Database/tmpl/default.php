@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-/* @var InstallationViewDefault $this */
+/* @var \Installation\View\DefaultView $this */
 ?>
 <?php echo JHtml::_('installation.stepbar'); ?>
 <form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">

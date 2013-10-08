@@ -7,7 +7,17 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Installation\Controller\Install;
+
 defined('_JEXEC') or die;
+
+use JText,
+	JFactory,
+	JSession,
+	JArrayHelper,
+	JControllerBase;
+
+use Installation\Model\LanguagesModel;
 
 /**
  * Controller class to install additional languages for the Joomla Installer.
@@ -16,7 +26,7 @@ defined('_JEXEC') or die;
  * @subpackage  Controller
  * @since       3.1
  */
-class InstallationControllerInstallLanguages extends JControllerBase
+class LanguagesController extends JControllerBase
 {
 	/**
 	 * Constructor.
@@ -43,18 +53,18 @@ class InstallationControllerInstallLanguages extends JControllerBase
 	public function execute()
 	{
 		// Get the application
-		/* @var InstallationApplicationWeb $app */
+		/* @var \Installation\Application\WebApplication $app */
 		$app = $this->getApplication();
 
 		// Check for request forgeries.
-		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken() or $app->sendJsonResponse(new \Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get array of selected languages
 		$lids = $this->input->get('cid', array(), 'array');
 		JArrayHelper::toInteger($lids, array());
 
 		// Get the languages model.
-		$model = new InstallationModelLanguages;
+		$model = new LanguagesModel;
 
 		if (!$lids)
 		{
@@ -68,7 +78,7 @@ class InstallationControllerInstallLanguages extends JControllerBase
 		}
 
 		// Redirect to the page.
-		$r = new stdClass;
+		$r = new \stdClass;
 		$r->view = 'defaultlanguage';
 		$app->sendJsonResponse($r);
 	}

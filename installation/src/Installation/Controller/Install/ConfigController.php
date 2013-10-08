@@ -7,7 +7,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Installation\Controller\Install;
+
 defined('_JEXEC') or die;
+
+use JText,
+	JSession,
+	JControllerBase;
+
+use Installation\Model\SetupModel,
+	Installation\Model\ConfigurationModel;
 
 /**
  * Controller class to write the config file for the Joomla Installer.
@@ -28,25 +37,25 @@ class InstallationControllerInstallConfig extends JControllerBase
 	public function execute()
 	{
 		// Get the application
-		/* @var InstallationApplicationWeb $app */
+		/* @var \Installation\Application\WebApplication $app */
 		$app = $this->getApplication();
 
 		// Check for request forgeries.
-		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken() or $app->sendJsonResponse(new \Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the setup model.
-		$model = new InstallationModelSetup;
+		$model = new SetupModel;
 
 		// Get the options from the session
 		$options = $model->getOptions();
 
 		// Get the database model.
-		$configuration = new InstallationModelConfiguration;
+		$configuration = new ConfigurationModel;
 
 		// Attempt to setup the configuration.
 		$return = $configuration->setup($options);
 
-		$r = new stdClass;
+		$r = new \stdClass;
 		$r->view = 'complete';
 
 		// Check if the database was initialised

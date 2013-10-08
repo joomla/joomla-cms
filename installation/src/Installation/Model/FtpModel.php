@@ -7,7 +7,15 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Installation\Model;
+
 defined('_JEXEC') or die;
+
+use JText,
+	JFactory,
+	JModelBase,
+	JClientFtp,
+	JArrayHelper;
 
 /**
  * FTP configuration model for the Joomla Core Installer.
@@ -16,7 +24,7 @@ defined('_JEXEC') or die;
  * @subpackage  Model
  * @since       3.1
  */
-class InstallationModelFtp extends JModelBase
+class FtpModel extends JModelBase
 {
 	/**
 	 * Find the ftp filesystem root for a given user/pass pair.
@@ -30,7 +38,7 @@ class InstallationModelFtp extends JModelBase
 	public function detectFtpRoot($options)
 	{
 		// Get the application
-		/* @var InstallationApplicationWeb $app */
+		/* @var \Installation\Application\WebApplication $app */
 		$app = JFactory::getApplication();
 
 		// Get the options as a object for easier handling.
@@ -136,7 +144,7 @@ class InstallationModelFtp extends JModelBase
 	public function verifyFtpSettings($options)
 	{
 		// Get the application
-		/* @var InstallationApplicationWeb $app */
+		/* @var \Installation\Application\WebApplication $app */
 		$app = JFactory::getApplication();
 
 		// Get the options as a object for easier handling.

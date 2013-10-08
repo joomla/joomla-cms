@@ -11,7 +11,16 @@ namespace Installation\Model;
 
 defined('_JEXEC') or die;
 
-use JModelBase;
+use JText,
+	JFile,
+	JFolder,
+	JFactory,
+	JLanguage,
+	JModelBase,
+	JInstaller,
+	JArrayHelper;
+
+use Installation\Helpers\DatabaseHelper;
 
 /**
  * Database configuration model for the Joomla Core Installer.
@@ -87,14 +96,14 @@ class DatabaseModel extends JModelBase
 	 *
 	 * @param   array  $options  The options to use for configuration
 	 *
-	 * @return  boolean  True on success
+	 * @return  boolean|\JDatabaseDriver  True on success
 	 *
 	 * @since   3.1
 	 */
 	public function initialise($options)
 	{
 		// Get the application
-		/* @var InstallationApplicationWeb $app */
+		/* @var \Installation\Application\WebApplication $app */
 		$app = JFactory::getApplication();
 
 		// Get the options as a object for easier handling.
@@ -160,11 +169,11 @@ class DatabaseModel extends JModelBase
 		// Get a database object.
 		try
 		{
-			return InstallationHelperDatabase::getDbo(
+			return DatabaseHelper::getDbo(
 				$options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix, $options->db_select
 			);
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$app->enqueueMessage(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'notice');
 			return false;
@@ -183,7 +192,7 @@ class DatabaseModel extends JModelBase
 	public function createDatabase($options)
 	{
 		// Get the application
-		/* @var InstallationApplicationWeb $app */
+		/* @var \Installation\Application\WebApplication $app */
 		$app = JFactory::getApplication();
 
 		// Disable autoselect database before it's created
@@ -210,7 +219,7 @@ class DatabaseModel extends JModelBase
 		{
 			$db_version = $db->getVersion();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$app->enqueueMessage(JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'notice');
 			return false;
@@ -261,7 +270,7 @@ class DatabaseModel extends JModelBase
 		{
 			$db->select($options->db_name);
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			// If the database could not be selected, attempt to create it and then select it.
 			if ($this->createDB($db, $options, $utfSupport))
@@ -358,7 +367,7 @@ class DatabaseModel extends JModelBase
 	public function createTables($options)
 	{
 		// Get the application
-		/* @var InstallationApplicationWeb $app */
+		/* @var \Installation\Application\WebApplication $app */
 		$app = JFactory::getApplication();
 
 		if (!isset($options['db_created']) || !$options['db_created'])
@@ -453,7 +462,7 @@ class DatabaseModel extends JModelBase
 		{
 			$db->execute();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$app->enqueueMessage($e->getMessage(), 'notice');
 			return false;
@@ -467,11 +476,13 @@ class DatabaseModel extends JModelBase
 
 		$return = true;
 
+		$extensions = array();
+
 		try
 		{
 			$extensions = $db->loadObjectList();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$app->enqueueMessage($e->getMessage(), 'notice');
 			$return = false;
@@ -546,7 +557,7 @@ class DatabaseModel extends JModelBase
 			{
 				$db->execute();
 			}
-			catch (RuntimeException $e)
+			catch (\RuntimeException $e)
 			{
 				$app->enqueueMessage($e->getMessage(), 'notice');
 				$return = false;
@@ -568,7 +579,7 @@ class DatabaseModel extends JModelBase
 	public function installSampleData($options)
 	{
 		// Get the application
-		/* @var InstallationApplicationWeb $app */
+		/* @var \Installation\Application\WebApplication $app */
 		$app = JFactory::getApplication();
 
 		if (!isset($options['db_created']) || !$options['db_created'])
@@ -620,7 +631,7 @@ class DatabaseModel extends JModelBase
 	/**
 	 * Method to update the user id of the sample data content to the new rand user id
 	 *
-	 * @param   JDatabaseDriver  $db  Database connector object $db*
+	 * @param   \JDatabaseDriver  $db  Database connector object $db*
 	 *
 	 * @return  void
 	 *
@@ -654,8 +665,8 @@ class DatabaseModel extends JModelBase
 	/**
 	 * Method to backup all tables in a database with a given prefix.
 	 *
-	 * @param   JDatabaseDriver  $db      JDatabaseDriver object.
-	 * @param   string           $prefix  Database table prefix.
+	 * @param   \JDatabaseDriver  $db      JDatabaseDriver object.
+	 * @param   string            $prefix  Database table prefix.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -684,7 +695,7 @@ class DatabaseModel extends JModelBase
 					{
 						$db->dropTable($backupTable, true);
 					}
-					catch (RuntimeException $e)
+					catch (\RuntimeException $e)
 					{
 						JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_ERROR_BACKINGUP', $e->getMessage()), 'notice');
 						$return = false;
@@ -695,7 +706,7 @@ class DatabaseModel extends JModelBase
 					{
 						$db->renameTable($table, $backupTable, $backup, $prefix);
 					}
-					catch (RuntimeException $e)
+					catch (\RuntimeException $e)
 					{
 						JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_ERROR_BACKINGUP', $e->getMessage()), 'notice');
 						$return = false;
@@ -710,10 +721,10 @@ class DatabaseModel extends JModelBase
 	/**
 	 * Method to create a new database.
 	 *
-	 * @param   JDatabaseDriver  $db       JDatabase object.
-	 * @param   JObject          $options  JObject coming from "initialise" function to pass user
+	 * @param   \JDatabaseDriver  $db       JDatabase object.
+	 * @param   \JObject          $options  JObject coming from "initialise" function to pass user
 	 *                                     and database name to database driver.
-	 * @param   boolean          $utf      True if the database supports the UTF-8 character set.
+	 * @param   boolean           $utf      True if the database supports the UTF-8 character set.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -727,7 +738,7 @@ class DatabaseModel extends JModelBase
 			// Run the create database query.
 			$db->createDatabase($options, $utf);
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			// If an error occurred return false.
 			return false;
@@ -739,8 +750,8 @@ class DatabaseModel extends JModelBase
 	/**
 	 * Method to delete all tables in a database with a given prefix.
 	 *
-	 * @param   JDatabaseDriver  $db      JDatabaseDriver object.
-	 * @param   string           $prefix  Database table prefix.
+	 * @param   \JDatabaseDriver  $db      JDatabaseDriver object.
+	 * @param   string            $prefix  Database table prefix.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -765,7 +776,7 @@ class DatabaseModel extends JModelBase
 					{
 						$db->dropTable($table);
 					}
-					catch (RuntimeException $e)
+					catch (\RuntimeException $e)
 					{
 						JFactory::getApplication()->enqueueMessage(JText::sprintf('INSTL_DATABASE_ERROR_DELETE', $e->getMessage()), 'notice');
 						$return = false;
@@ -780,8 +791,8 @@ class DatabaseModel extends JModelBase
 	/**
 	 * Method to import a database schema from a file.
 	 *
-	 * @param   JDatabaseDriver  $db      JDatabase object.
-	 * @param   string           $schema  Path to the schema file.
+	 * @param   \JDatabaseDriver  $db      JDatabase object.
+	 * @param   string            $schema  Path to the schema file.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -790,7 +801,7 @@ class DatabaseModel extends JModelBase
 	public function populateDatabase($db, $schema)
 	{
 		// Get the application
-		/* @var InstallationApplicationWeb $app */
+		/* @var \Installation\Application\WebApplication $app */
 		$app = JFactory::getApplication();
 
 		$return = true;
@@ -820,7 +831,7 @@ class DatabaseModel extends JModelBase
 				{
 					$db->execute();
 				}
-				catch (RuntimeException $e)
+				catch (\RuntimeException $e)
 				{
 					$app->enqueueMessage($e->getMessage(), 'notice');
 					$return = false;
@@ -834,8 +845,8 @@ class DatabaseModel extends JModelBase
 	/**
 	 * Method to set the database character set to UTF-8.
 	 *
-	 * @param   JDatabaseDriver  $db    JDatabaseDriver object.
-	 * @param   string           $name  Name of the database to process.
+	 * @param   \JDatabaseDriver  $db    JDatabaseDriver object.
+	 * @param   string            $name  Name of the database to process.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -850,7 +861,7 @@ class DatabaseModel extends JModelBase
 		{
 			$db->execute();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			return false;
 		}

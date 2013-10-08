@@ -7,7 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Installation\View;
+
 defined('_JEXEC') or die;
+
+use JViewHtml;
 
 /**
  * Generic Installation View
@@ -16,12 +20,12 @@ defined('_JEXEC') or die;
  * @subpackage  View
  * @since       3.1
  */
-class InstallationViewDefault extends JViewHtml
+class DefaultView extends JViewHtml
 {
 	/**
 	 * The JForm object
 	 *
-	 * @var    JForm
+	 * @var    \JForm
 	 * @since  3.1
 	 */
 	protected $form;
@@ -29,7 +33,7 @@ class InstallationViewDefault extends JViewHtml
 	/**
 	 * Redefine the model so the correct type hinting is available.
 	 *
-	 * @var     InstallationModelSetup
+	 * @var     \Installation\Model\SetupModel
 	 * @since   3.1
 	 */
 	protected $model;

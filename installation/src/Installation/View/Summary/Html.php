@@ -7,7 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Installation\View\Summary;
+
 defined('_JEXEC') or die;
+
+use Installation\View\DefaultView;
 
 /**
  * The Installation Summary View
@@ -16,7 +20,7 @@ defined('_JEXEC') or die;
  * @subpackage  View
  * @since       3.1
  */
-class InstallationViewSummaryHtml extends InstallationViewDefault
+class Html extends DefaultView
 {
 	/**
 	 * The session options

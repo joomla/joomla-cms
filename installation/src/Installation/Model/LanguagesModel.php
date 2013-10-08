@@ -7,7 +7,23 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Installation\Model;
+
 defined('_JEXEC') or die;
+
+use JForm,
+	JText,
+	JTable,
+	JLoader,
+	JUpdate,
+	JFactory,
+	JUpdater,
+	JLanguage,
+	JModelBase,
+	JInstaller,
+	JInstallerHelper,
+	JComponentHelper,
+	JApplicationHelper;
 
 jimport('joomla.updater.update');
 jimport('legacy.component.helper');
@@ -19,7 +35,7 @@ jimport('legacy.component.helper');
  * @subpackage  Model
  * @since       3.1
  */
-class InstallationModelLanguages extends JModelBase
+class LanguagesModel extends JModelBase
 {
 	/**
 	 * @var    object  Client object
@@ -94,7 +110,7 @@ class InstallationModelLanguages extends JModelBase
 		$db->setQuery($query);
 		$list = $db->loadObjectList();
 
-		if (!$list || $list instanceof Exception)
+		if (!$list || $list instanceof \Exception)
 		{
 			$list = array();
 		}
@@ -111,7 +127,7 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	public function install($lids)
 	{
-		/* @var InstallationApplicationWeb $app */
+		/* @var \Installation\Application\WebApplication $app */
 		$app       = JFactory::getApplication();
 		$installer = JInstaller::getInstance();
 
@@ -289,7 +305,7 @@ class InstallationModelLanguages extends JModelBase
 		{
 			$file          = $path . '/' . $lang . '/' . $lang . '.xml';
 			$info          = JInstaller::parseXMLInstallFile($file);
-			$row           = new stdClass;
+			$row           = new \stdClass;
 			$row->language = $lang;
 
 			if (!is_array($info))
@@ -415,7 +431,7 @@ class InstallationModelLanguages extends JModelBase
 	public function setDefault($language, $cms_client = 'administrator')
 	{
 		// Get the application
-		/* @var InstallationApplicationWeb $app */
+		/* @var \Installation\Application\WebApplication $app */
 		$app = JFactory::getApplication();
 
 		$client = $this->getClient($cms_client);
@@ -481,7 +497,7 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	public function getForm($view = null)
 	{
-		/* @var InstallationApplicationWeb $app */
+		/* @var \Installation\Application\WebApplication $app */
 		$app = JFactory::getApplication();
 
 		if (!$view)
@@ -498,7 +514,7 @@ class InstallationModelLanguages extends JModelBase
 		{
 			$form = JForm::getInstance('jform', $view, array('control' => 'jform'));
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			$app->enqueueMessage($e->getMessage(), 'error');
 
@@ -644,7 +660,7 @@ class InstallationModelLanguages extends JModelBase
 		{
 			$db->execute();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			return false;
 		}
@@ -660,8 +676,8 @@ class InstallationModelLanguages extends JModelBase
 	 * To avoid this conflict, this function creates an specific SEF in case of existing conflict:
 	 * For example: www.mywebsite.com/en-au/
 	 *
-	 * @param   stdClass    $itemLanguage   Language Object
-	 * @param   stdClass[]  $siteLanguages  All Language Objects
+	 * @param   \stdClass    $itemLanguage   Language Object
+	 * @param   \stdClass[]  $siteLanguages  All Language Objects
 	 *
 	 * @return  string
 	 *
@@ -694,8 +710,8 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Add a Content Language
 	 *
-	 * @param   stdClass  $itemLanguage   Language Object
-	 * @param   string    $sefLangString  String to use for SEF so it doesn't conflict
+	 * @param   \stdClass  $itemLanguage   Language Object
+	 * @param   string     $sefLangString  String to use for SEF so it doesn't conflict
 	 *
 	 * @return  boolean
 	 *
@@ -751,7 +767,7 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Add Menu Group
 	 *
-	 * @param   stdClass  $itemLanguage  Language Object
+	 * @param   \stdClass  $itemLanguage  Language Object
 	 *
 	 * @return  boolean
 	 *
@@ -797,7 +813,7 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Add Menu Item.
 	 *
-	 * @param   stdClass  $itemLanguage  Language Object
+	 * @param   \stdClass  $itemLanguage  Language Object
 	 *
 	 * @return  boolean
 	 *
@@ -870,7 +886,7 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Add Module Menu
 	 *
-	 * @param   stdClass  $itemLanguage  Language Object
+	 * @param   \stdClass  $itemLanguage  Language Object
 	 *
 	 * @return  boolean
 	 *
@@ -984,7 +1000,7 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Method create a category for a specific language
 	 *
-	 * @param   stdClass  $itemLanguage  Language Object
+	 * @param   \stdClass  $itemLanguage  Language Object
 	 *
 	 * @return  JTable Category Object
 	 *
@@ -1032,7 +1048,7 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Create an article in a specific language
 	 *
-	 * @param   stdClass  $itemLanguage  Language Object
+	 * @param   \stdClass  $itemLanguage  Language Object
 	 * @param   int       $categoryId    The id of the category where we want to add the article
 	 *
 	 * @return  JTable Category Object
@@ -1128,7 +1144,7 @@ class InstallationModelLanguages extends JModelBase
 		$db->setQuery($query);
 		$id = $db->loadResult();
 
-		if (!$id || $id instanceof Exception)
+		if (!$id || $id instanceof \Exception)
 		{
 			return false;
 		}

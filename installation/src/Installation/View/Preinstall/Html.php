@@ -7,7 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Installation\View\Preinstall;
+
 defined('_JEXEC') or die;
+
+use Installation\View\DefaultView;
 
 /**
  * The HTML Joomla Core Pre-Install View
@@ -16,7 +20,7 @@ defined('_JEXEC') or die;
  * @subpackage  View
  * @since       3.1
  */
-class InstallationViewPreinstallHtml extends InstallationViewDefault
+class Html extends DefaultView
 {
 	/**
 	 * Array of PHP config options

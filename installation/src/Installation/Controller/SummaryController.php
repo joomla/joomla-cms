@@ -7,7 +7,15 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Installation\Controller;
+
 defined('_JEXEC') or die;
+
+use JText,
+	JSession,
+	JControllerBase;
+
+use Installation\Model\SetupModel;
 
 /**
  * Controller class to prepare installation for the Joomla Installer.
@@ -16,7 +24,7 @@ defined('_JEXEC') or die;
  * @subpackage  Controller
  * @since       3.1
  */
-class InstallationControllerSummary extends JControllerBase
+class SummaryController extends JControllerBase
 {
 	/**
 	 * Execute the controller.
@@ -28,20 +36,20 @@ class InstallationControllerSummary extends JControllerBase
 	public function execute()
 	{
 		// Get the application
-		/* @var InstallationApplicationWeb $app */
+		/* @var \Installation\Application\WebApplication $app */
 		$app = $this->getApplication();
 
 		// Check for request forgeries.
-		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken() or $app->sendJsonResponse(new \Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the setup model.
-		$model = new InstallationModelSetup;
+		$model = new SetupModel;
 
 		// Check the form
 		$model->checkForm('summary');
 
 		// Redirect to the page.
-		$r = new stdClass;
+		$r = new \stdClass;
 		$r->view = 'install';
 		$app->sendJsonResponse($r);
 	}

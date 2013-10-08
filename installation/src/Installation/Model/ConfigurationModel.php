@@ -7,7 +7,21 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Installation\Model;
+
 defined('_JEXEC') or die;
+
+use JText,
+	JPath,
+	JFactory,
+	JRegistry,
+	JModelBase,
+	JClientFtp,
+	JUserHelper,
+	JArrayHelper;
+
+use Installation\Model\DatabaseModel,
+	Installation\Helpers\DatabaseHelper;
 
 /**
  * Configuration setup model for the Joomla Core Installer.
@@ -16,7 +30,7 @@ defined('_JEXEC') or die;
  * @subpackage  Model
  * @since       3.1
  */
-class InstallationModelConfiguration extends JModelBase
+class ConfigurationModel extends JModelBase
 {
 	/**
 	 * Method to setup the configuration file
@@ -50,7 +64,7 @@ class InstallationModelConfiguration extends JModelBase
 	/**
 	 * Method to create the configuration file
 	 *
-	 * @param   array  $options  The session options
+	 * @param   \stdClass  $options  The session options
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -230,15 +244,15 @@ class InstallationModelConfiguration extends JModelBase
 	private function _createRootUser($options)
 	{
 		// Get the application
-		/* @var InstallationApplicationWeb $app */
+		/* @var \Installation\Application\WebApplication $app */
 		$app = JFactory::getApplication();
 
 		// Get a database object.
 		try
 		{
-			$db = InstallationHelperDatabase::getDBO($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix);
+			$db = DatabaseHelper::getDBO($options->db_type, $options->db_host, $options->db_user, $options->db_pass, $options->db_name, $options->db_prefix);
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$app->enqueueMessage(JText::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'notice');
 
@@ -248,10 +262,10 @@ class InstallationModelConfiguration extends JModelBase
 		$cryptpass = JUserHelper::getCryptedPassword($options->admin_password);
 
 		// Take the admin user id
-		$userId = InstallationModelDatabase::getUserId();
+		$userId = DatabaseModel::getUserId();
 
 		// We don't need the randUserId in the session any longer, let's remove it
-		InstallationModelDatabase::resetRandUserId();
+		DatabaseModel::resetRandUserId();
 
 		// Create the admin user
 		date_default_timezone_set('UTC');
@@ -306,7 +320,7 @@ class InstallationModelConfiguration extends JModelBase
 		{
 			$db->execute();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$app->enqueueMessage($e->getMessage(), 'notice');
 			return false;
@@ -341,7 +355,7 @@ class InstallationModelConfiguration extends JModelBase
 		{
 			$db->execute();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$app->enqueueMessage($e->getMessage(), 'notice');
 			return false;

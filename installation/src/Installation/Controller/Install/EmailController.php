@@ -7,7 +7,15 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Installation\Controller\Install;
+
 defined('_JEXEC') or die;
+
+use JText,
+	JFactory,
+	JControllerBase;
+
+use Installation\Model\SetupModel;
 
 /**
  * Controller class to e-mail the configuration info for the Joomla Installer.
@@ -16,7 +24,7 @@ defined('_JEXEC') or die;
  * @subpackage  Controller
  * @since       3.1
  */
-class InstallationControllerInstallEmail extends JControllerBase
+class EmailController extends JControllerBase
 {
 	/**
 	 * Constructor.
@@ -43,14 +51,14 @@ class InstallationControllerInstallEmail extends JControllerBase
 	public function execute()
 	{
 		// Get the application
-		/* @var InstallationApplicationWeb $app */
+		/* @var \Installation\Application\WebApplication $app */
 		$app = $this->getApplication();
 
 		// Check for request forgeries. - @TODO - Restore this check
 		// JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the setup model.
-		$model = new InstallationModelSetup;
+		$model = new SetupModel;
 
 		// Get the options from the session
 		$options = $model->getOptions();
@@ -130,14 +138,14 @@ class InstallationControllerInstallEmail extends JControllerBase
 		$mail->setSubject($subject);
 		$mail->setBody($body);
 
-		$r = new stdClass;
+		$r = new \stdClass;
 		$r->view = 'complete';
 
 		try
 		{
 			$mail->Send();
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			$app->enqueueMessage(JText::_('INSTL_EMAIL_NOT_SENT'), 'notice');
 		}

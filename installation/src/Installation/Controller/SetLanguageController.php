@@ -7,7 +7,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Installation\Controller;
+
 defined('_JEXEC') or die;
+
+use JText,
+	JFactory,
+	JSession,
+	JControllerBase;
+
+use Installation\Model\SetupModel;
 
 /**
  * Controller class to set the language for the Joomla Installer.
@@ -16,7 +25,7 @@ defined('_JEXEC') or die;
  * @subpackage  Controller
  * @since       3.1
  */
-class InstallationControllerSetlanguage extends JControllerBase
+class SetLanguageController extends JControllerBase
 {
 	/**
 	 * Execute the controller.
@@ -28,11 +37,11 @@ class InstallationControllerSetlanguage extends JControllerBase
 	public function execute()
 	{
 		// Get the application
-		/* @var InstallationApplicationWeb $app */
+		/* @var \Installation\Application\WebApplication $app */
 		$app = $this->getApplication();
 
 		// Check for request forgeries.
-		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken() or $app->sendJsonResponse(new \Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Very crude workaround to give an error message when JSON is disabled
 		if (!function_exists('json_encode') || !function_exists('json_decode'))
@@ -50,17 +59,17 @@ class InstallationControllerSetlanguage extends JControllerBase
 
 		if ($session->isNew())
 		{
-			$this->sendResponse(new Exception(JText::_('INSTL_COOKIES_NOT_ENABLED'), 500));
+			$this->sendResponse(new \Exception(JText::_('INSTL_COOKIES_NOT_ENABLED'), 500));
 		}
 
 		// Get the setup model.
-		$model = new InstallationModelSetup;
+		$model = new SetupModel;
 
 		// Get the posted values from the request and validate them.
 		$data = $this->input->post->get('jform', array(), 'array');
 		$return	= $model->validate($data, 'preinstall');
 
-		$r = new stdClass;
+		$r = new \stdClass;
 
 		// Check for validation errors.
 		if ($return === false)

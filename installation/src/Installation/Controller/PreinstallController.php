@@ -7,7 +7,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Installation\Controller;
+
 defined('_JEXEC') or die;
+
+use JText,
+	JSession,
+	JControllerBase;
 
 /**
  * Controller class to refresh the preinstall view for the Joomla Installer.
@@ -16,7 +22,7 @@ defined('_JEXEC') or die;
  * @subpackage  Controller
  * @since       3.1
  */
-class InstallationControllerPreinstall extends JControllerBase
+class PreinstallController extends JControllerBase
 {
 	/**
 	 * Execute the controller.
@@ -28,14 +34,14 @@ class InstallationControllerPreinstall extends JControllerBase
 	public function execute()
 	{
 		// Get the application
-		/* @var InstallationApplicationWeb $app */
+		/* @var \Installation\Application\WebApplication $app */
 		$app = $this->getApplication();
 
 		// Check for request forgeries.
-		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken() or $app->sendJsonResponse(new \Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Redirect to the page.
-		$r = new stdClass;
+		$r = new \stdClass;
 		$r->view = 'preinstall';
 		$app->sendJsonResponse($r);
 	}

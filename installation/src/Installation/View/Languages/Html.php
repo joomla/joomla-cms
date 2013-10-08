@@ -7,7 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Installation\View\Languages;
+
 defined('_JEXEC') or die;
+
+use JViewHtml;
 
 /**
  * The Installation Languages View
@@ -16,7 +20,7 @@ defined('_JEXEC') or die;
  * @subpackage  View
  * @since       3.1
  */
-class InstallationViewLanguagesHtml extends JViewHtml
+class Html extends JViewHtml
 {
 	/**
 	 * Container with all available languages
@@ -29,7 +33,7 @@ class InstallationViewLanguagesHtml extends JViewHtml
 	/**
 	 * Redefine the model so the correct type hinting is available.
 	 *
-	 * @var     InstallationModelLanguages
+	 * @var     \Installation\Model\LanguagesModel
 	 * @since   3.1
 	 */
 	protected $model;
