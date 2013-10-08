@@ -68,9 +68,9 @@ $twofactormethods = UsersHelper::getTwoFactorMethods();
 		</p>
 		<?php endif; ?>
 		<p id="submit-buton"> 
-               		<label>&nbsp;</label> 
-               		<input type="submit" name="Submit" class="button login" value="<?php echo JText::_('JLOGIN') ?>" /> 
-          	</p>
+			<label>&nbsp;</label> 
+			<input type="submit" name="Submit" class="button login" value="<?php echo JText::_('JLOGIN') ?>" /> 
+		</p>
 		<input type="hidden" name="option" value="com_users" />
 		<input type="hidden" name="task" value="user.login" />
 		<input type="hidden" name="return" value="<?php echo base64_encode(JUri::base()) ?>" />
