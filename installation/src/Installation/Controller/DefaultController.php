@@ -7,11 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Installtion\Controller.
+namespace Installation\Controller;
 
 defined('_JEXEC') or die;
 
 use JHtml,
+	JForm,
 	JControllerBase;
 use Installation\Model\SetupModel,
 	Installation\Model\LanguagesModel;
@@ -101,9 +102,6 @@ class DefaultController extends JControllerBase
 		{
 			$this->setRedirect('index.php');
 		}
-
-		// Include the component HTML helpers.
-		JHtml::addIncludePath(JPATH_COMPONENT . '/helper/html');
 
 		// Register the layout paths for the view
 		$paths = new \SplPriorityQueue;

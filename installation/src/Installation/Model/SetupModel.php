@@ -17,7 +17,6 @@ use JForm,
 	JModelBase,
 	JDatabaseDriver,
 	JLanguageHelper;
-use Installation\Application\WebApplication;
 
 /**
  * Setup model for the Joomla Core Installer.
@@ -82,7 +81,7 @@ class SetupModel extends JModelBase
 	 */
 	public function getForm($view = null)
 	{
-		/* @var WebApplication $app */
+		/* @var \Installation\Application\WebApplication $app */
 		$app = JFactory::getApplication();
 
 		if (!$view)
@@ -91,9 +90,9 @@ class SetupModel extends JModelBase
 		}
 
 		// Get the form.
-		JForm::addFormPath(JPATH_COMPONENT . '/model/forms');
-		JForm::addFieldPath(JPATH_COMPONENT . '/model/fields');
-		JForm::addRulePath(JPATH_COMPONENT . '/model/rules');
+		JForm::addFormPath(JPATH_COMPONENT . '/src/Installation/Model/forms');
+		JForm::addFieldPath(JPATH_COMPONENT . '/src/Installation/Model/fields');
+		JForm::addRulePath(JPATH_COMPONENT . '/src/Installation/Model/rules');
 
 		try
 		{
@@ -129,7 +128,7 @@ class SetupModel extends JModelBase
 	public function checkForm($page = 'site')
 	{
 		// Get the application object.
-		/* @var WebApplication $app */
+		/* @var \Installation\Application\WebApplication $app */
 		$app = JFactory::getApplication();
 
 		// Get the posted values from the request and validate them.
@@ -168,7 +167,7 @@ class SetupModel extends JModelBase
 	 */
 	public function getLanguages()
 	{
-		/* @var WebApplication $app */
+		/* @var \Installation\Application\WebApplication $app */
 		$app = JFactory::getApplication();
 
 		// Detect the native language.
@@ -430,7 +429,7 @@ class SetupModel extends JModelBase
 	 */
 	public function validate($data, $view = null)
 	{
-		/* @var WebApplication $app */
+		/* @var \Installation\Application\WebApplication $app */
 		$app = JFactory::getApplication();
 
 		// Get the form.

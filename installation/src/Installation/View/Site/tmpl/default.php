@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-/* @var InstallationViewDefault $this */
+/* @var \Installation\View\DefaultView $this */
 ?>
 <?php echo JHtml::_('installation.stepbar'); ?>
 <div class="btn-toolbar">

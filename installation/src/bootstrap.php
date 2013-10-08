@@ -20,3 +20,6 @@ JLoader::registerNamespace('Installation\\', JPATH_INSTALLATION . '/src');
 
 // Register the application's router due to non-standard include
 JLoader::register('JRouterInstallation', __DIR__ . '/router.php');
+
+// Alias so JHtml works right, for now.
+class_alias('Installation\\Helpers\\HtmlHelper', 'JHtmlInstallation');

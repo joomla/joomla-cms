@@ -278,7 +278,7 @@ final class WebApplication extends JApplicationCms
 		}
 
 		// Set the controller class name based on the task
-		$class = 'InstallationController' . ucfirst($task);
+		$class = 'Installation\\Controller\\' . ucfirst($task) . 'Controller';
 
 		// If the requested controller exists let's use it.
 		if (class_exists($class))

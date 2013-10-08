@@ -8,6 +8,8 @@
 
 defined('JPATH_BASE') or die;
 
+use Installation\Model\SetupModel;
+
 JFormHelper::loadFieldClass('list');
 
 /**
@@ -54,7 +56,7 @@ class JFormFieldLanguage extends JFormFieldList
 		}
 
 		// If a language is already set in the session, use this instead
-		$model   = new InstallationModelSetup;
+		$model   = new SetupModel;
 		$options = $model->getOptions();
 
 		if (isset($options['language']))
