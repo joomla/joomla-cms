@@ -20,6 +20,15 @@ JLoader::register('ContactHelper', JPATH_ADMINISTRATOR . '/components/com_contac
  */
 class ContactModelContact extends JModelAdmin
 {
+
+	/**
+	 * The type alias for this content type.
+	 *
+	 * @var      string
+	 * @since    3.2
+	 */
+	public $typeAlias = 'com_contact.contact';
+
 	/**
 	 * Method to perform batch operations on an item or a set of items.
 	 *
@@ -407,7 +416,7 @@ class ContactModelContact extends JModelAdmin
 
 		// Load associated contact items
 		$app = JFactory::getApplication();
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$assoc = JLanguageAssociations::isEnabled();
 
 		if ($assoc)
 		{
@@ -429,7 +438,6 @@ class ContactModelContact extends JModelAdmin
 		{
 			$item->tags = new JHelperTags;
 			$item->tags->getTagIds($item->id, 'com_contact.contact');
-			$item->metadata['tags'] = $item->tags;
 		}
 
 		return $item;
@@ -484,10 +492,20 @@ class ContactModelContact extends JModelAdmin
 			$data['published'] = 0;
 		}
 
+		$links = array('linka', 'linkb', 'linkc', 'linkd', 'linke');
+
+		foreach ($links as $link)
+		{
+			if ($data['params'][$link])
+			{
+				$data['params'][$link] = JStringPunycode::urlToPunycode($data['params'][$link]);
+			}
+		}
+
 		if (parent::save($data))
 		{
 
-			$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+			$assoc = JLanguageAssociations::isEnabled();
 			if ($assoc)
 			{
 				$id = (int) $this->getState($this->getName() . '.id');
@@ -536,7 +554,7 @@ class ContactModelContact extends JModelAdmin
 					$query->clear()
 						->insert('#__associations');
 
-					foreach ($associations as $tag => $id)
+					foreach ($associations as $id)
 					{
 						$query->values($id . ',' . $db->quote('com_contact.item') . ',' . $db->quote($key));
 					}
@@ -588,7 +606,10 @@ class ContactModelContact extends JModelAdmin
 			if (empty($table->ordering))
 			{
 				$db = JFactory::getDbo();
-				$db->setQuery('SELECT MAX(ordering) FROM #__contact_details');
+				$query = $db->getQuery(true);
+				$query->select('MAX(ordering)');
+				$query->from('#__contact_details');
+				$db->setQuery($query);
 				$max = $db->loadResult();
 
 				$table->ordering = $max + 1;
@@ -624,7 +645,7 @@ class ContactModelContact extends JModelAdmin
 	{
 		// Association content items
 		$app = JFactory::getApplication();
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$assoc = JLanguageAssociations::isEnabled();
 		if ($assoc)
 		{
 			$languages = JLanguageHelper::getLanguages('lang_code');
@@ -646,10 +667,12 @@ class ContactModelContact extends JModelAdmin
 					$add = true;
 					$field = $fieldset->addChild('field');
 					$field->addAttribute('name', $tag);
-					$field->addAttribute('type', 'modal_contacts');
+					$field->addAttribute('type', 'modal_contact');
 					$field->addAttribute('language', $tag);
 					$field->addAttribute('label', $language->title);
 					$field->addAttribute('translate_label', 'false');
+					$field->addAttribute('edit', 'true');
+					$field->addAttribute('clear', 'true');
 				}
 			}
 			if ($add)
@@ -688,11 +711,12 @@ class ContactModelContact extends JModelAdmin
 		{
 			$db = $this->getDbo();
 
-			$db->setQuery(
-				'UPDATE #__contact_details' .
-					' SET featured = ' . (int) $value .
-					' WHERE id IN (' . implode(',', $pks) . ')'
-			);
+			$query = $db->getQuery(true);
+			$query->update('#__contact_details');
+			$query->set('featured = ' . (int) $value);
+			$query->where('id IN (' . implode(',', $pks) . ')');
+			$db->setQuery($query);
+
 			$db->execute();
 		}
 		catch (Exception $e)

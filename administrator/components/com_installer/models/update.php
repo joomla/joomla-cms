@@ -151,7 +151,7 @@ class InstallerModelUpdate extends JModelList
 		$this->purge();
 
 		$updater = JUpdater::getInstance();
-		$results = $updater->findUpdates($eid, $cache_timeout);
+		$updater->findUpdates($eid, $cache_timeout);
 		return true;
 	}
 
@@ -345,7 +345,6 @@ class InstallerModelUpdate extends JModelList
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
-		$app = JFactory::getApplication();
 		JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
 		JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
 		$form = JForm::getInstance('com_installer.update', 'update', array('load_data' => $loadData));

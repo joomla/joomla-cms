@@ -68,7 +68,7 @@ class JDocumentOpensearch extends JDocument
 		$update = new JOpenSearchUrl;
 		$update->type = 'application/opensearchdescription+xml';
 		$update->rel = 'self';
-		$update->template = JRoute::_(JURI::getInstance());
+		$update->template = JRoute::_(JUri::getInstance());
 		$this->addUrl($update);
 
 		// Add the favicon as the default image
@@ -85,7 +85,7 @@ class JDocumentOpensearch extends JDocument
 				$path = str_replace('\\', '/', $path);
 
 				$favicon = new JOpenSearchImage;
-				$favicon->data = JURI::base() . $path . '/favicon.ico';
+				$favicon->data = JUri::base() . $path . '/favicon.ico';
 				$favicon->height = '16';
 				$favicon->width = '16';
 				$favicon->type = 'image/vnd.microsoft.icon';

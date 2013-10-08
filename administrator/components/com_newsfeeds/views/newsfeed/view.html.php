@@ -40,6 +40,12 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 			return false;
 		}
 
+		if ($this->getLayout() == 'modal')
+		{
+			$this->form->setFieldAttribute('language', 'readonly', 'true');
+			$this->form->setFieldAttribute('catid', 'readonly', 'true');
+		}
+
 		$this->addToolbar();
 		parent::display($tpl);
 	}
@@ -54,11 +60,11 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		$user		= JFactory::getUser();
-		$userId		= $user->get('id');
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
+
 		// Since we don't track these assets at the item level, use the category id.
-		$canDo		= NewsfeedsHelper::getActions($this->item->catid, 0);
+		$canDo		= JHelperContent::getActions($this->item->catid, 0, 'com_newsfeeds');
 
 		JToolbarHelper::title(JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEED'), 'newsfeeds.png');
 
@@ -68,7 +74,8 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 			JToolbarHelper::apply('newsfeed.apply');
 			JToolbarHelper::save('newsfeed.save');
 		}
-		if (!$checkedOut && count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0){
+		if (!$checkedOut && count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)
+		{
 			JToolbarHelper::save2new('newsfeed.save2new');
 		}
 		// If an existing item, can save to a copy.
@@ -84,6 +91,13 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		else
 		{
 			JToolbarHelper::cancel('newsfeed.cancel', 'JTOOLBAR_CLOSE');
+		}
+
+		if ($this->state->params->get('save_history') && $user->authorise('core.edit'))
+		{
+			$itemId = $this->item->id;
+			$typeAlias = 'com_newsfeeds.newsfeed';
+			JToolbarHelper::versions($typeAlias, $itemId);
 		}
 
 		JToolbarHelper::divider();

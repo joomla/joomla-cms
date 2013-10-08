@@ -15,19 +15,17 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 $app = JFactory::getApplication();
 $input = $app->input;
 
-// Load the tooltip behavior.
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
+$saveHistory = JComponentHelper::getParams($input->getCmd('extension', 'com_content'))->get('save_history', 0);
 
 ?>
 
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'category.cancel' || document.formvalidator.isValid(document.id('item-form')))
-		{
+		if (task == 'category.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
 			<?php echo $this->form->getField('description')->save(); ?>
 			Joomla.submitform(task, document.getElementById('item-form'));
 		}
@@ -35,6 +33,9 @@ JHtml::_('formbehavior.chosen', 'select');
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_categories&extension=' . $input->getCmd('extension', 'com_content') . '&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate form-horizontal">
+
+	<?php echo JLayoutHelper::render('joomla.edit.item_title', $this); ?>
+
 	<div class="row-fluid">
 	<!-- Begin Content -->
 		<div class="span10 form-horizontal">
@@ -200,16 +201,23 @@ JHtml::_('formbehavior.chosen', 'select');
 						<?php echo $this->form->getInput('language'); ?>
 					</div>
 				</div>
+				<?php if ($this->checkTags) : ?>
 				<div class="control-group">
-					<?php foreach ($this->form->getFieldset('jmetadata') as $field) : ?>
-						<?php if ($this->typeId && $field->name == 'jform[metadata][tags][]') :?>
-						<div class="control-group">
-							<div class="control-label"><?php echo $field->label; ?></div>
-							<div class="controls"><?php echo $field->input; ?></div>
+						<?php echo $this->form->getLabel('tags'); ?>
+						<div class="controls">
+							<?php echo $this->form->getInput('tags'); ?>
+						</div>
 						</div>
 						<?php endif; ?>
-					<?php endforeach; ?>
-				</div>
+				<?php if ($saveHistory) : ?>
+					<div class="control-group">
+						<?php echo $this->form->getLabel('version_note'); ?>
+						<div class="controls">
+							<?php echo $this->form->getInput('version_note'); ?>
+						</div>
+					</div>
+				<?php endif; ?>
+
 			</fieldset>
 		</div>
 		<!-- End Sidebar -->

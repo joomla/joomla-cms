@@ -107,7 +107,7 @@ class InstallationPage extends AdminPage
 
 	public function setSampleData($option = 'Default')
 	{
-		$this->driver->findElement(By::xPath("//label[contains(text(), '"  . $option . "')]"))->click();
+		$this->driver->findElement(By::xPath("//label[contains(., '"  . $option . "')]"))->click();
 	}
 
 	public function installSampleData()
@@ -148,7 +148,7 @@ class InstallationPage extends AdminPage
 		}
 
 		$this->driver->findElement(By::xPath("//a[@title='Install']"))->click();
-		$this->driver->waitForElementUntilIsPresent(By::xPath("//input[contains(@onclick, 'Install.removeFolder')]"));
+		$this->driver->waitForElementUntilIsPresent(By::xPath("//input[contains(@onclick, 'Install.removeFolder')]"), 60);
 
 	}
 }

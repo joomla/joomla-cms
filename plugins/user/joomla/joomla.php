@@ -19,30 +19,71 @@ defined('_JEXEC') or die;
 class PlgUserJoomla extends JPlugin
 {
 	/**
+	 * Application object
+	 *
+	 * @var    JApplicationCms
+	 * @since  3.2
+	 */
+	protected $app;
+
+	/**
+	 * Database object
+	 *
+	 * @var    JDatabaseDriver
+	 * @since  3.2
+	 */
+	protected $db;
+
+	/**
+	 * True to use strong password encryption
+	 *
+	 * @var    boolean
+	 * @since  3.2
+	 */
+	protected $useStrongEncryption;
+
+	/**
+	 * Constructor. We use it to set the app and db properties.
+	 *
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An optional associative array of configuration settings.
+	 *                             Recognized key values include 'name', 'group', 'params', 'language'
+	 *                             (this list is not meant to be comprehensive).
+	 *
+	 * @since   3.2
+	 */
+	public function __construct(&$subject, $config = array())
+	{
+		parent::__construct($subject, $config);
+
+		// As of CMS 3.2 strong encryption is the default.
+		$this->useStrongEncryption = $this->params->get('strong_passwords', true);
+	}
+
+	/**
 	 * Remove all sessions for the user name
 	 *
 	 * Method is called after user data is deleted from the database
 	 *
-	 * @param   array          $user      Holds the user data
-	 * @param   boolean        $succes    True if user was succesfully stored in the database
-	 * @param   string         $msg       Message
+	 * @param   array    $user     Holds the user data
+	 * @param   boolean  $success  True if user was succesfully stored in the database
+	 * @param   string   $msg      Message
 	 *
 	 * @return  boolean
+	 *
 	 * @since   1.6
 	 */
-	public function onUserAfterDelete($user, $succes, $msg)
+	public function onUserAfterDelete($user, $success, $msg)
 	{
-		if (!$succes)
+		if (!$success)
 		{
 			return false;
 		}
 
-		$db = JFactory::getDbo();
-		$db->setQuery(
-			'DELETE FROM ' . $db->quoteName('#__session') .
-				' WHERE ' . $db->quoteName('userid') . ' = ' . (int) $user['id']
-		);
-		$db->execute();
+		$this->db->getQuery(true)
+			->delete($this->db->quoteName('#__session'))
+			->where($this->db->quoteName('userid') . ' = ' . (int) $user['id'])
+			->execute();
 
 		return true;
 	}
@@ -52,29 +93,26 @@ class PlgUserJoomla extends JPlugin
 	 *
 	 * This method sends a registration email to new users created in the backend.
 	 *
-	 * @param   array          $user         Holds the new user data.
-	 * @param   boolean        $isnew        True if a new user is stored.
-	 * @param   boolean        $success      True if user was succesfully stored in the database.
-	 * @param   string         $msg          Message.
+	 * @param   array    $user     Holds the new user data.
+	 * @param   boolean  $isnew    True if a new user is stored.
+	 * @param   boolean  $success  True if user was succesfully stored in the database.
+	 * @param   string   $msg      Message.
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public function onUserAfterSave($user, $isnew, $success, $msg)
 	{
-		$app = JFactory::getApplication();
-		$config = JFactory::getConfig();
 		$mail_to_user = $this->params->get('mail_to_user', 1);
 
 		if ($isnew)
 		{
 			// TODO: Suck in the frontend registration emails here as well. Job for a rainy day.
-
-			if ($app->isAdmin())
+			if ($this->app->isAdmin())
 			{
 				if ($mail_to_user)
 				{
-
 					// Load user_joomla plugin language (not done automatically).
 					$lang = JFactory::getLanguage();
 					$lang->load('plg_user_joomla', JPATH_ADMINISTRATOR);
@@ -83,14 +121,14 @@ class PlgUserJoomla extends JPlugin
 					$emailSubject = JText::sprintf(
 						'PLG_USER_JOOMLA_NEW_USER_EMAIL_SUBJECT',
 						$user['name'],
-						$config->get('sitename')
+						$config = $this->app->get('sitename')
 					);
 
 					// Compute the mail body.
 					$emailBody = JText::sprintf(
 						'PLG_USER_JOOMLA_NEW_USER_EMAIL_BODY',
 						$user['name'],
-						$config->get('sitename'),
+						$this->app->get('sitename'),
 						JUri::root(),
 						$user['username'],
 						$user['password_clear']
@@ -100,8 +138,8 @@ class PlgUserJoomla extends JPlugin
 					$mail = JFactory::getMailer()
 						->setSender(
 							array(
-								$config->get('mailfrom'),
-								$config->get('fromname')
+								$this->app->get('mailfrom'),
+								$this->app->get('fromname')
 							)
 						)
 						->addRecipient($user['email'])
@@ -110,8 +148,7 @@ class PlgUserJoomla extends JPlugin
 
 					if (!$mail->Send())
 					{
-						// TODO: Probably should raise a plugin error but this event is not error checked.
-						JError::raiseWarning(500, JText::_('ERROR_SENDING_EMAIL'));
+						$this->app->enqueueMessage(JText::_('ERROR_SENDING_EMAIL'), 'warning');
 					}
 				}
 			}
@@ -125,10 +162,11 @@ class PlgUserJoomla extends JPlugin
 	/**
 	 * This method should handle any login logic and report back to the subject
 	 *
-	 * @param   array  $user        Holds the user data
-	 * @param   array  $options     Array holding options (remember, autoregister, group)
+	 * @param   array  $user     Holds the user data
+	 * @param   array  $options  Array holding options (remember, autoregister, group)
 	 *
 	 * @return  boolean  True on success
+	 *
 	 * @since   1.5
 	 */
 	public function onUserLogin($user, $options = array())
@@ -144,7 +182,8 @@ class PlgUserJoomla extends JPlugin
 		// If the user is blocked, redirect with an error
 		if ($instance->get('block') == 1)
 		{
-			JError::raiseWarning('SOME_ERROR_CODE', JText::_('JERROR_NOLOGIN_BLOCKED'));
+			$this->app->enqueueMessage(JText::_('JERROR_NOLOGIN_BLOCKED'), 'warning');
+
 			return false;
 		}
 
@@ -156,35 +195,46 @@ class PlgUserJoomla extends JPlugin
 
 		// Check the user can login.
 		$result = $instance->authorise($options['action']);
+
 		if (!$result)
 		{
+			$this->app->enqueueMessage(JText::_('JERROR_LOGIN_DENIED'), 'warning');
 
-			JError::raiseWarning(401, JText::_('JERROR_LOGIN_DENIED'));
 			return false;
 		}
 
 		// Mark the user as logged in
 		$instance->set('guest', 0);
 
+		// If the user has an outdated hash, update it.
+		if (substr($user['password'], 0, 4) != '$2y$' && $this->useStrongEncryption && JCrypt::hasStrongPasswordSupport() == true)
+		{
+			if (strlen($user['password']) > 55)
+			{
+				$user['password'] = substr($user['password'], 0, 55);
+
+				JFactory::getApplication()->enqueueMessage(JText::_('JLIB_USER_ERROR_PASSWORD_TRUNCATED'), 'notice');
+			}
+
+			$instance->password = password_hash($user['password'], PASSWORD_BCRYPT);
+			$instance->save();
+		}
+
 		// Register the needed session variables
 		$session = JFactory::getSession();
 		$session->set('user', $instance);
 
-		$db = JFactory::getDbo();
-
 		// Check to see the the session already exists.
-		$app = JFactory::getApplication();
-		$app->checkSession();
+		$this->app->checkSession();
 
 		// Update the user related fields for the Joomla sessions table.
-		$query = $db->getQuery(true)
-			->update($db->quoteName('#__session'))
-			->set($db->quoteName('guest') . ' = ' . $db->quote($instance->get('guest')))
-			->set($db->quoteName('username') . ' = ' . $db->quote($instance->get('username')))
-			->set($db->quoteName('userid') . ' = ' . (int) $instance->get('id'))
-			->where($db->quoteName('session_id') . ' = ' . $db->quote($session->getId()));
-		$db->setQuery($query);
-		$db->execute();
+		$query = $this->db->getQuery(true)
+			->update($this->db->quoteName('#__session'))
+			->set($this->db->quoteName('guest') . ' = ' . $this->db->quote($instance->guest))
+			->set($this->db->quoteName('username') . ' = ' . $this->db->quote($instance->username))
+			->set($this->db->quoteName('userid') . ' = ' . (int) $instance->id)
+			->where($this->db->quoteName('session_id') . ' = ' . $this->db->quote($session->getId()));
+		$this->db->setQuery($query)->execute();
 
 		// Hit the user last visit field
 		$instance->setLastVisit();
@@ -195,17 +245,17 @@ class PlgUserJoomla extends JPlugin
 	/**
 	 * This method should handle any logout logic and report back to the subject
 	 *
-	 * @param   array  $user        Holds the user data.
-	 * @param   array  $options     Array holding options (client, ...).
+	 * @param   array  $user     Holds the user data.
+	 * @param   array  $options  Array holding options (client, ...).
 	 *
 	 * @return  object  True on success
+	 *
 	 * @since   1.5
 	 */
 	public function onUserLogout($user, $options = array())
 	{
-		$my = JFactory::getUser();
+		$my      = JFactory::getUser();
 		$session = JFactory::getSession();
-		$app = JFactory::getApplication();
 
 		// Make sure we're a valid user first
 		if ($user['id'] == 0 && !$my->get('tmp_user'))
@@ -214,7 +264,7 @@ class PlgUserJoomla extends JPlugin
 		}
 
 		// Check to see if we're deleting the current session
-		if ($my->get('id') == $user['id'] && $options['clientid'] == $app->getClientId())
+		if ($my->get('id') == $user['id'] && $options['clientid'] == $this->app->getClientId())
 		{
 			// Hit the user last visit field
 			$my->setLastVisit();
@@ -224,13 +274,11 @@ class PlgUserJoomla extends JPlugin
 		}
 
 		// Force logout all users with that userid
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->delete($db->quoteName('#__session'))
-			->where($db->quoteName('userid') . ' = ' . (int) $user['id'])
-			->where($db->quoteName('client_id') . ' = ' . (int) $options['clientid']);
-		$db->setQuery($query);
-		$db->execute();
+		$query = $this->db->getQuery(true)
+			->delete($this->db->quoteName('#__session'))
+			->where($this->db->quoteName('userid') . ' = ' . (int) $user['id'])
+			->where($this->db->quoteName('client_id') . ' = ' . (int) $options['clientid']);
+		$this->db->setQuery($query)->execute();
 
 		return true;
 	}
@@ -240,43 +288,48 @@ class PlgUserJoomla extends JPlugin
 	 *
 	 * If options['autoregister'] is true, if the user doesn't exist yet he will be created
 	 *
-	 * @param   array  $user        Holds the user data.
-	 * @param   array  $options     Array holding options (remember, autoregister, group).
+	 * @param   array  $user     Holds the user data.
+	 * @param   array  $options  Array holding options (remember, autoregister, group).
 	 *
 	 * @return  object  A JUser object
+	 *
 	 * @since   1.5
 	 */
 	protected function _getUser($user, $options = array())
 	{
 		$instance = JUser::getInstance();
 		$id = (int) JUserHelper::getUserId($user['username']);
+
 		if ($id)
 		{
 			$instance->load($id);
+
 			return $instance;
 		}
 
-		//TODO : move this out of the plugin
+		// TODO : move this out of the plugin
 		$config = JComponentHelper::getParams('com_users');
-		// Default to Registered.
+
+		// Hard coded default to match the default value from com_users.
 		$defaultUserGroup = $config->get('new_usertype', 2);
 
 		$instance->set('id', 0);
 		$instance->set('name', $user['fullname']);
 		$instance->set('username', $user['username']);
 		$instance->set('password_clear', $user['password_clear']);
-		// Result should contain an email (check)
+
+		// Result should contain an email (check).
 		$instance->set('email', $user['email']);
 		$instance->set('groups', array($defaultUserGroup));
 
-		//If autoregister is set let's register the user
+		// If autoregister is set let's register the user
 		$autoregister = isset($options['autoregister']) ? $options['autoregister'] : $this->params->get('autoregister', 1);
 
 		if ($autoregister)
 		{
 			if (!$instance->save())
 			{
-				return JError::raiseWarning('SOME_ERROR_CODE', $instance->getError());
+				JLog::add('Error in autoregistration for user ' .  $user['username'] . '.', JLog::WARNING, 'error');
 			}
 		}
 		else
@@ -286,5 +339,176 @@ class PlgUserJoomla extends JPlugin
 		}
 
 		return $instance;
+	}
+
+	/**
+	 * We set the authentication cookie only after login is successfullly finished.
+	 * We set a new cookie either for a user with no cookies or one
+	 * where the user used a cookie to authenticate.
+	 *
+	 * @param   array  options  Array holding options
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   3.2
+	 */
+	public function onUserAfterLogin($options)
+	{
+		// Currently this portion of the method only applies to Cookie based login.
+		if (!isset($options['responseType']) || ($options['responseType'] != 'Cookie' && empty($options['remember'])))
+		{
+			return true;
+		}
+
+		// We get the parameter values differently for cookie and non-cookie logins.
+		$cookieLifetime	= empty($options['lifetime']) ? $this->app->rememberCookieLifetime : $options['lifetime'];
+		$length			= empty($options['length']) ? $this->app->rememberCookieLength : $options['length'];
+		$secure			= empty($options['secure']) ? $this->app->rememberCookieSecure : $options['secure'];
+
+		// We need the old data to match against the current database
+		$rememberArray = JUserHelper::getRememberCookieData();
+
+		$privateKey = JUserHelper::genRandomPassword($length);
+
+		// We are going to concatenate with . so we need to remove it from the strings.
+		$privateKey = str_replace('.', '', $privateKey);
+
+		$cryptedKey = JUserHelper::getCryptedPassword($privateKey, '', 'bcrypt', false);
+
+		$cookieName = JUserHelper::getShortHashedUserAgent();
+
+		// Create an identifier and make sure that it is unique.
+		$unique = false;
+
+		do
+		{
+			// Unique identifier for the device-user
+			$series = JUserHelper::genRandomPassword(20);
+
+			// We are going to concatenate with . so we need to remove it from the strings.
+			$series = str_replace('.', '', $series);
+
+			$query = $this->db->getQuery(true)
+				->select($this->db->quoteName('series'))
+				->from($this->db->quoteName('#__user_keys'))
+				->where($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($series)));
+
+			$results = $this->db->setQuery($query)->loadResult();
+
+			if (is_null($results))
+			{
+				$unique = true;
+			}
+		}
+		while ($unique === false);
+
+		// If a user logs in with non cookie login and remember me checked we will
+		// delete any invalid entries so that he or she can use remember once again.
+		if ($options['responseType'] !== 'Cookie')
+		{
+			$query = $this->db->getQuery(true)
+				->delete('#__user_keys')
+				->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName))
+				->where($this->db->quoteName('user_id') . ' = ' . $this->db->quote($options['user']->username));
+
+			$this->db->setQuery($query)->execute();
+		}
+
+		$cookieValue = $privateKey . '.' . $series . '.' . $cookieName;
+
+		// Destroy the old cookie.
+		$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->app->get('cookie_path'), $this->app->get('cookie_domain'));
+
+		// And make a new one.
+		$this->app->input->cookie->set(
+			$cookieName, $cookieValue, $cookieLifetime, $this->app->get('cookie_path'), $this->app->get('cookie_domain'), $secure
+		);
+
+		$query = $this->db->getQuery(true);
+
+		if (empty($user->cookieLogin) || $options['response'] != 'Coookie')
+		{
+			// For users doing login from Joomla or other systems
+			$query->insert($this->db->quoteName('#__user_keys'));
+		}
+		else
+		{
+			$query
+				->update($this->db->quoteName('#__user_keys'))
+				->where($this->db->quoteName('user_id') . ' = ' . $this->db->quote($options['user']->username))
+				->where($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($rememberArray[1])))
+				->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName));
+		}
+
+		$query
+			->set($this->db->quoteName('user_id') . ' = ' . $this->db->quote($options['user']->username))
+			->set($this->db->quoteName('time') . ' = ' . $cookieLifetime)
+			->set($this->db->quoteName('token') . ' = ' . $this->db->quote($cryptedKey))
+			->set($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($series)))
+			->set($this->db->quoteName('invalid') . ' = 0')
+			->set($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName));
+
+		$this->db->setQuery($query)->execute();
+
+		return true;
+	}
+
+	/**
+	 * This is where we delete any authentication cookie when a user logs out
+	 *
+	 * @param   array  $options  Array holding options (length, timeToExpiration)
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   3.2
+	 */
+	public function onUserAfterLogout($options)
+	{
+		$rememberArray = JUserHelper::getRememberCookieData();
+
+		// There are no cookies to delete.
+		if ($rememberArray === false)
+		{
+			return true;
+		}
+
+		list($privateKey, $series, $cookieName) = $rememberArray;
+
+		// Remove the record from the database
+		$query = $this->db->getQuery(true);
+
+		$query
+			->delete('#__user_keys')
+			->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName))
+			->where($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($series)))
+			->where($this->db->quoteName('user_id') . ' = ' . $this->db->quote($options['username']));
+
+		$this->db->setQuery($query)->execute();
+
+		// Destroy the cookie
+		$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->cookie_path, $this->cookie_domain);
+
+		return true;
+	}
+
+	/**
+	 * Method to set the default encryption for passwords
+	 *
+	 * @param   JRegistry  $userPluginParams  User plugin params
+	 *
+	 * @return  string  The default encryption method based on plugin parameters
+	 *
+	 * @since   3.2
+	 */
+	public static function setDefaultEncryption($userPluginParams)
+	{
+		if ($userPluginParams->get('strong_passwords') == 1)
+		{
+			return 'bcrypt';
+		}
+		else
+		{
+			return 'md5-hex';
+		}
 	}
 }

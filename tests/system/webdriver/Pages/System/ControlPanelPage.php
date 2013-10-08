@@ -33,7 +33,6 @@ class ControlPanelPage extends AdminPage
 			'Global Configuration' => 'administrator/index.php?option=com_config',
 			'Template Manager' => 'administrator/index.php?option=com_templates',
 			'Edit Profile' => 'administrator/index.php?option=com_admin&task=profile.edit&id=',
-			'Joomla! is up-to-date' => 'administrator/index.php?option=com_joomlaupdate',
 			'All extensions are up-to-date' => 'administrator/index.php?option=com_installer&view=update',
 	);
 
@@ -73,6 +72,18 @@ class ControlPanelPage extends AdminPage
 			$object->text = $element->getText();
 
 		}
+	}
+
+	/**
+	 * Clears post-installation messages by navigating to that screen and back
+	 *
+	 * @return  null
+	 */
+	public function clearInstallMessages()
+	{
+		$installPage = $this->clickMenu('Post-installation Messages', 'PostinstallPage');
+		$installPage->clearInstallMessages();
+		$cpPage = $installPage->clickMenu('Control Panel', 'ControlPanelPage');
 	}
 
 }

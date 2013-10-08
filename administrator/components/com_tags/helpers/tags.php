@@ -16,12 +16,12 @@ defined('_JEXEC') or die;
  * @subpackage  com_tags
  * @since       3.1
  */
-class TagsHelper
+class TagsHelper extends JHelperContent
 {
 	/**
 	 * Configure the Submenu links.
 	 *
-	 * @param   string  The extension.
+	 * @param   string  $extension  The extension.
 	 *
 	 * @return  void
 	 *
@@ -31,11 +31,6 @@ class TagsHelper
 	{
 		$parts = explode('.', $extension);
 		$component = $parts[0];
-
-		if (count($parts) > 1)
-		{
-			$section = $parts[1];
-		}
 
 		// Try to find the component helper.
 		$file = JPath::clean(JPATH_ADMINISTRATOR . '/components/com_tags/helpers/tags.php');
@@ -61,29 +56,5 @@ class TagsHelper
 				}
 			}
 		}
-	}
-
-	/**
-	 * Gets a list of the actions that can be performed.
-	 *
-	 * @return  JObject
-	 *
-	 * @since   3.1
-	 */
-	public static function getActions()
-	{
-		$user   = JFactory::getUser();
-		$result = new JObject;
-
-		$assetName = 'com_tags';
-		$level     = 'component';
-		$actions   = JAccess::getActions('com_tags', $level);
-
-		foreach ($actions as $action)
-		{
-			$result->set($action->name, $user->authorise($action->name, $assetName));
-		}
-
-		return $result;
 	}
 }

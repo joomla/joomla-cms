@@ -312,7 +312,7 @@ class MessagesModelMessage extends JModelAdmin
 			$lang = JLanguage::getInstance($toUser->getParam('admin_language', $default_language), $debug);
 			$lang->load('com_messages', JPATH_ADMINISTRATOR);
 
-			$siteURL  = JURI::root() . 'administrator/index.php?option=com_messages&view=message&message_id='.$table->message_id;
+			$siteURL  = JUri::root() . 'administrator/index.php?option=com_messages&view=message&message_id='.$table->message_id;
 			$sitename = JFactory::getApplication()->getCfg('sitename');
 
 			$subject = sprintf($lang->_('COM_MESSAGES_NEW_MESSAGE_ARRIVED'), $sitename);

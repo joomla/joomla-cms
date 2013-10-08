@@ -67,12 +67,7 @@ class UserManager0001Test extends JoomlaWebdriverTestCase
 		$userEditPage = $this->getPageObject('UserEditPage');
 
 		$testElements = $userEditPage->getAllInputFields(array('details', 'settings'));
-		$actualFields = array();
-		foreach ($testElements as $el)
-		{
-			$el->labelText = (substr($el->labelText, -2) == ' *') ? substr($el->labelText, 0, -2) : $el->labelText;
-			$actualFields[] = array('label' => $el->labelText, 'id' => $el->id, 'type' => $el->tag, 'tab' => $el->tab);
-		}
+		$actualFields = $this->getActualFieldsFromElements($testElements);
 		$this->assertEquals($userEditPage->inputFields, $actualFields);
 		$userEditPage->clickButton('toolbar-cancel');
 		$this->userManagerPage = $this->getPageObject('UserManagerPage');
@@ -88,7 +83,7 @@ class UserManager0001Test extends JoomlaWebdriverTestCase
 		$message = $this->userManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'User successfully saved') >= 0, 'User save should return success');
 		$this->assertEquals(2, $this->userManagerPage->getRowNumber('Test User'), 'Test user should be in row 2');
-		$this->userManagerPage->deleteUser('Test User');
+		$this->userManagerPage->delete('Test User');
 		$this->assertFalse($this->userManagerPage->getRowNumber('Test User'), 'Test user should not be present');
 	}
 
@@ -112,7 +107,7 @@ class UserManager0001Test extends JoomlaWebdriverTestCase
 		$this->assertEquals($groups, $actualGroups, 'Specified groups should be set');
 		$values = $this->userManagerPage->getFieldValues('UserEditPage', $userName, array('Login Name', 'Email'));
 		$this->assertEquals(array($login, $email), $values, 'Actual login, email should match expected');
-		$this->userManagerPage->deleteUser($userName);
+		$this->userManagerPage->delete($userName);
 		$this->assertFalse($this->userManagerPage->getRowNumber($userName), 'Test user should not be present');
 	}
 
@@ -139,7 +134,7 @@ class UserManager0001Test extends JoomlaWebdriverTestCase
 		$this->assertEquals($newGroups, $actualGroups, 'New groups should be assigned');
 		$values = $this->userManagerPage->getFieldValues('UserEditPage', $userName, array('Email', 'Time Zone'));
 		$this->assertEquals(array('newemail@test.com', 'Toronto' ), $values, 'Actual values should match expected');
-		$this->userManagerPage->deleteUser($userName);
+		$this->userManagerPage->delete($userName);
 	}
 
 	/**
@@ -153,7 +148,7 @@ class UserManager0001Test extends JoomlaWebdriverTestCase
 		$this->userManagerPage->changeUserState('Test User', 'unpublished');
 		$state = $this->userManagerPage->getState('Test User');
 		$this->assertEquals('unpublished', $state, 'State should be unpublished');
-		$this->userManagerPage->deleteUser('Test User');
+		$this->userManagerPage->delete('Test User');
 	}
 
 }

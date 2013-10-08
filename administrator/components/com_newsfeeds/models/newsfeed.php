@@ -20,6 +20,15 @@ JLoader::register('NewsfeedsHelper', JPATH_ADMINISTRATOR . '/components/com_news
  */
 class NewsfeedsModelNewsfeed extends JModelAdmin
 {
+
+	/**
+	 * The type alias for this content type.
+	 *
+	 * @var      string
+	 * @since    3.2
+	 */
+	public $typeAlias = 'com_newsfeeds.newsfeed';
+
 	/**
 	 * @var        string    The prefix to use with controller messages.
 	 * @since   1.6
@@ -308,7 +317,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 		if (parent::save($data))
 		{
 
-			$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+			$assoc = JLanguageAssociations::isEnabled();
 			if ($assoc)
 			{
 				$id = (int) $this->getState($this->getName() . '.id');
@@ -357,7 +366,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 					$query->clear()
 						->insert('#__associations');
 
-					foreach ($associations as $tag => $id)
+					foreach ($associations as $id)
 					{
 						$query->values($id . ',' . $db->quote('com_newsfeeds.item') . ',' . $db->quote($key));
 					}
@@ -404,7 +413,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 
 		// Load associated newsfeeds items
 		$app = JFactory::getApplication();
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$assoc = JLanguageAssociations::isEnabled();
 
 		if ($assoc)
 		{
@@ -509,7 +518,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	{
 		// Association newsfeeds items
 		$app = JFactory::getApplication();
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$assoc = JLanguageAssociations::isEnabled();
 		if ($assoc)
 		{
 			$languages = JLanguageHelper::getLanguages('lang_code');
@@ -531,10 +540,12 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 					$add = true;
 					$field = $fieldset->addChild('field');
 					$field->addAttribute('name', $tag);
-					$field->addAttribute('type', 'modal_newsfeeds');
+					$field->addAttribute('type', 'modal_newsfeed');
 					$field->addAttribute('language', $tag);
 					$field->addAttribute('label', $language->title);
 					$field->addAttribute('translate_label', 'false');
+					$field->addAttribute('edit', 'true');
+					$field->addAttribute('clear', 'true');
 				}
 			}
 			if ($add)

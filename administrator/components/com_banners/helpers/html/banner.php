@@ -27,15 +27,17 @@ abstract class JHtmlBanner
 	 */
 	public static function clients()
 	{
+		JHtml::_('bootstrap.tooltip');
+
 		// Create the batch selector to change the client on a selection list.
 		$lines = array(
-			'<label id="batch-client-lbl" for="batch-client" class="hasTip" title="'.JText::_('COM_BANNERS_BATCH_CLIENT_LABEL').'::'.JText::_('COM_BANNERS_BATCH_CLIENT_LABEL_DESC').'">',
+			'<label id="batch-client-lbl" for="batch-client" class="hasTooltip" title="' . JHtml::tooltipText('COM_BANNERS_BATCH_CLIENT_LABEL', 'COM_BANNERS_BATCH_CLIENT_LABEL_DESC') . '">',
 			JText::_('COM_BANNERS_BATCH_CLIENT_LABEL'),
 			'</label>',
 			'<select name="batch[client_id]" class="inputbox" id="batch-client-id">',
-			'<option value="">'.JText::_('COM_BANNERS_BATCH_CLIENT_NOCHANGE').'</option>',
-			'<option value="0">'.JText::_('COM_BANNERS_NO_CLIENT').'</option>',
-			JHtml::_('select.options', self::clientlist(), 'value', 'text'),
+			'<option value="">' . JText::_('COM_BANNERS_BATCH_CLIENT_NOCHANGE') . '</option>',
+			'<option value="0">' . JText::_('COM_BANNERS_NO_CLIENT') . '</option>',
+			JHtml::_('select.options', static::clientlist(), 'value', 'text'),
 			'</select>'
 		);
 
@@ -50,8 +52,8 @@ abstract class JHtmlBanner
 	 */
 	public static function clientlist()
 	{
-		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true)
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
 			->select('id As value, name As text')
 			->from('#__banner_clients AS a')
 			->order('a.name');
@@ -87,22 +89,22 @@ abstract class JHtmlBanner
 	 */
 	public static function pinned($value, $i, $enabled = true, $checkbox = 'cb')
 	{
-		$states	= array(
-			1	=> array(
+		$states = array(
+			1 => array(
 				'sticky_unpublish',
 				'COM_BANNERS_BANNERS_PINNED',
 				'COM_BANNERS_BANNERS_HTML_PIN_BANNER',
 				'COM_BANNERS_BANNERS_PINNED',
-				false,
+				true,
 				'publish',
 				'publish'
 			),
-			0	=> array(
+			0 => array(
 				'sticky_publish',
 				'COM_BANNERS_BANNERS_UNPINNED',
 				'COM_BANNERS_BANNERS_HTML_UNPIN_BANNER',
 				'COM_BANNERS_BANNERS_UNPINNED',
-				false,
+				true,
 				'unpublish',
 				'unpublish'
 			),

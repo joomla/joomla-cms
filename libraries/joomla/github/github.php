@@ -140,116 +140,23 @@ class JGithub
 	 * @return  JGithubObject  GitHub API object (gists, issues, pulls, etc).
 	 *
 	 * @since   11.3
+	 * @throws  InvalidArgumentException
 	 */
 	public function __get($name)
 	{
-		if ($name == 'gists')
+		$class = 'JGithub' . ucfirst($name);
+
+		if (class_exists($class))
 		{
-			if ($this->gists == null)
+			if (false == isset($this->$name))
 			{
-				$this->gists = new JGithubGists($this->options, $this->client);
+				$this->$name = new $class($this->options, $this->client);
 			}
-			return $this->gists;
+
+			return $this->$name;
 		}
 
-		if ($name == 'issues')
-		{
-			if ($this->issues == null)
-			{
-				$this->issues = new JGithubIssues($this->options, $this->client);
-			}
-			return $this->issues;
-		}
-
-		if ($name == 'pulls')
-		{
-			if ($this->pulls == null)
-			{
-				$this->pulls = new JGithubPulls($this->options, $this->client);
-			}
-			return $this->pulls;
-		}
-
-		if ($name == 'refs')
-		{
-			if ($this->refs == null)
-			{
-				$this->refs = new JGithubRefs($this->options, $this->client);
-			}
-			return $this->refs;
-		}
-
-		if ($name == 'forks')
-		{
-			if ($this->forks == null)
-			{
-				$this->forks = new JGithubForks($this->options, $this->client);
-			}
-			return $this->forks;
-		}
-
-		if ($name == 'commits')
-		{
-			if ($this->commits == null)
-			{
-				$this->commits = new JGithubCommits($this->options, $this->client);
-			}
-			return $this->commits;
-		}
-
-		if ($name == 'milestones')
-		{
-			if ($this->milestones == null)
-			{
-				$this->milestones = new JGithubMilestones($this->options, $this->client);
-			}
-			return $this->milestones;
-		}
-
-		if ($name == 'statuses')
-		{
-			if ($this->statuses == null)
-			{
-				$this->statuses = new JGithubStatuses($this->options, $this->client);
-			}
-			return $this->statuses;
-		}
-
-		if ($name == 'account')
-		{
-			if ($this->account == null)
-			{
-				$this->account = new JGithubAccount($this->options, $this->client);
-			}
-			return $this->account;
-		}
-
-		if ($name == 'hooks')
-		{
-			if ($this->hooks == null)
-			{
-				$this->hooks = new JGithubHooks($this->options, $this->client);
-			}
-			return $this->hooks;
-		}
-
-		if ($name == 'users')
-		{
-			if ($this->users == null)
-			{
-				$this->users = new JGithubUsers($this->options, $this->client);
-			}
-			return $this->users;
-		}
-
-		if ($name == 'meta')
-		{
-			if ($this->meta == null)
-			{
-				$this->meta = new JGithubMeta($this->options, $this->client);
-			}
-			return $this->meta;
-		}
+		throw new InvalidArgumentException(sprintf('Argument %s produced an invalid class name: %s', $name, $class));
 	}
 
 	/**

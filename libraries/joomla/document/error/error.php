@@ -85,7 +85,7 @@ class JDocumentError extends JDocument
 		}
 
 		// Set the status header
-		JResponse::setHeader('status', $this->_error->getCode() . ' ' . str_replace("\n", ' ', $this->_error->getMessage()));
+		JFactory::getApplication()->setHeader('status', $this->_error->getCode() . ' ' . str_replace("\n", ' ', $this->_error->getMessage()));
 		$file = 'error.php';
 
 		// Check template
@@ -98,7 +98,7 @@ class JDocumentError extends JDocument
 		}
 
 		// Set variables
-		$this->baseurl = JURI::base(true);
+		$this->baseurl = JUri::base(true);
 		$this->template = $template;
 		$this->debug = isset($params['debug']) ? $params['debug'] : false;
 		$this->error = $this->_error;

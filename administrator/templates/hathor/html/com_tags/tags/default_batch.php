@@ -13,7 +13,7 @@ $published = $this->state->get('filter.published');
 ?>
 <div class="modal hide fade" id="collapseModal">
 	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal">x</button>
+		<button type="button" class="close" data-dismiss="modal">&#215;</button>
 		<h3><?php echo JText::_('COM_TAGS_BATCH_OPTIONS');?></h3>
 	</div>
 	<div class="modal-body">
@@ -39,8 +39,6 @@ $published = $this->state->get('filter.published');
 		</button>
 		<button class="btn btn-primary" type="submit" onclick="Joomla.submitbutton('tag.batch');">
 			<?php echo JText::_('JGLOBAL_BATCH_PROCESS'); ?>
-		</button>
-
 		</button>
 	</div>
 </div>

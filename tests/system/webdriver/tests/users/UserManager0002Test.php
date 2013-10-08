@@ -90,7 +90,7 @@ class UserManager0002Test extends JoomlaWebdriverTestCase
 		$this->assertTrue($this->userManagerPage->getRowNumber('Test User3') > 0, 'Test User3 should be present');
 
 		$this->userManagerPage->setFilter('Group', 'Group');
-		$this->userManagerPage->deleteUser('Test User');
+		$this->userManagerPage->delete('Test User');
 		$this->assertFalse($this->userManagerPage->getRowNumber('Test User1') > 0, 'Test User1 should not be present');
 		$this->assertFalse($this->userManagerPage->getRowNumber('Test User2') > 0, 'Test User2 should not be present');
 		$this->assertFalse($this->userManagerPage->getRowNumber('Test User3') > 0, 'Test User3 should not be present');
@@ -117,12 +117,12 @@ class UserManager0002Test extends JoomlaWebdriverTestCase
 
 		$userNames = array($this->cfg->username, 'login2', 'login1', 'login3');
 		$userNamesSorted = $userNames;
-		sort($userNamesSorted, SORT_STRING | SORT_FLAG_CASE);
+		sort($userNamesSorted, SORT_STRING);
 		$userNamesReversed = array_reverse($userNamesSorted);
 
 		$emails = array($this->cfg->admin_email, 'user1@test.com', 'user3@test.com', 'user2@test.com');
 		$emailsSorted = $emails;
-		sort($emailsSorted, SORT_STRING | SORT_FLAG_CASE);
+		sort($emailsSorted, SORT_STRING);
 		$emailsReversed = array_reverse($emailsSorted);
 
 		$expectedRowNumbers = array(
@@ -178,7 +178,7 @@ class UserManager0002Test extends JoomlaWebdriverTestCase
 			}
 		}
 
-		$this->userManagerPage->deleteUser('Test User');
+		$this->userManagerPage->delete('Test User');
 		$this->assertFalse($this->userManagerPage->getRowNumber('Test User1') > 0, 'Test User1 should not be present');
 		$this->assertFalse($this->userManagerPage->getRowNumber('Test User2') > 0, 'Test User2 should not be present');
 		$this->assertFalse($this->userManagerPage->getRowNumber('Test User3') > 0, 'Test User3 should not be present');

@@ -9,10 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.file');
-jimport('joomla.filesystem.folder');
-jimport('legacy.application.helper');
-
 /**
  * Database configuration model for the Joomla Core Installer.
  *
@@ -460,7 +456,7 @@ class InstallationModelDatabase extends JModelBase
 		}
 
 		// Attempt to refresh manifest caches
-		$query = $db->getQuery(true)
+		$query->clear()
 			->select('*')
 			->from('#__extensions');
 		$db->setQuery($query);
@@ -536,7 +532,7 @@ class InstallationModelDatabase extends JModelBase
 			$params = json_encode($params);
 
 			// Update the language settings in the language manager.
-			$query = $db->getQuery(true)
+			$query->clear()
 				->update($db->quoteName('#__extensions'))
 				->set($db->quoteName('params') . ' = ' . $db->quote($params))
 				->where($db->quoteName('element') . ' = ' . $db->quote('com_languages'));

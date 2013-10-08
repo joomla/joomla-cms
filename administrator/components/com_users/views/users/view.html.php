@@ -94,9 +94,11 @@ class UsersViewUsers extends JViewLegacy
 		{
 			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
-			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn btn-small\">
-			<i class=\"icon-checkbox-partial\" title=\"$title\"></i>
-			$title</button>";
+
+			// Instantiate a new JLayoutFile instance and render the batch button
+			$layout = new JLayoutFile('joomla.toolbar.batch');
+
+			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
@@ -131,7 +133,7 @@ class UsersViewUsers extends JViewLegacy
 		JHtmlSidebar::addFilter(
 			JText::_('COM_USERS_OPTION_FILTER_DATE'),
 			'filter_range',
-			JHtml::_('select.options', Usershelper::getRangeOptions(), 'value', 'text', $this->state->get('filter.range'))
+			JHtml::_('select.options', UsersHelper::getRangeOptions(), 'value', 'text', $this->state->get('filter.range'))
 		);
 	}
 

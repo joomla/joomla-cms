@@ -19,6 +19,15 @@ defined('_JEXEC') or die;
 class PlgContentPagenavigation extends JPlugin
 {
 	/**
+	 * If in the article view and the parameter is enabled shows the page navigation
+	 *
+	 * @param   string   $context  The context of the content being passed to the plugin
+	 * @param   object   &$row     The article object
+	 * @param   mixed    &$params  The article params
+	 * @param   integer  $page     The 'page' number
+	 *
+	 * @return  mixed  void or true
+	 *
 	 * @since   1.6
 	 */
 	public function onContentBeforeDisplay($context, &$row, &$params, $page = 0)
@@ -46,10 +55,13 @@ class PlgContentPagenavigation extends JPlugin
 			$option = 'com_content';
 			$canPublish = $user->authorise('core.edit.state', $option . '.article.' . $row->id);
 
-			// The following is needed as different menu items types utilise a different param to control ordering.
-			// For Blogs the `orderby_sec` param is the order controlling param.
-			// For Table and List views it is the `orderby` param.
+			/**
+			 * The following is needed as different menu items types utilise a different param to control ordering.
+			 * For Blogs the `orderby_sec` param is the order controlling param.
+			 * For Table and List views it is the `orderby` param.
+			**/
 			$params_list = $params->toArray();
+
 			if (array_key_exists('orderby_sec', $params_list))
 			{
 				$order_method = $params->get('orderby_sec', '');
@@ -58,6 +70,7 @@ class PlgContentPagenavigation extends JPlugin
 			{
 				$order_method = $params->get('orderby', '');
 			}
+
 			// Additional check for invalid sort ordering.
 			if ($order_method == 'front')
 			{
@@ -133,6 +146,7 @@ class PlgContentPagenavigation extends JPlugin
 						. ($canPublish ? '' : ' AND a.access = ' . (int) $row->access) . $xwhere
 				);
 			$query->order($orderby);
+
 			if ($app->isSite() && $app->getLanguageFilter())
 			{
 				$query->where('a.language in (' . $db->quote($lang->getTag()) . ',' . $db->quote('*') . ')');
@@ -169,7 +183,9 @@ class PlgContentPagenavigation extends JPlugin
 				$row->next = $rows[$location + 1];
 			}
 
+			// $pnSpace is/can be used in the include file
 			$pnSpace = "";
+
 			if (JText::_('JGLOBAL_LT') || JText::_('JGLOBAL_GT'))
 			{
 				$pnSpace = " ";

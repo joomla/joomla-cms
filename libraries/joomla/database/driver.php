@@ -93,6 +93,18 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	protected $log = array();
 
 	/**
+	 * @var    array  The log of executed SQL statements timings (start and stop microtimes) by the database driver.
+	 * @since  CMS 3.1.2
+	 */
+	protected $timings = array();
+
+	/**
+	 * @var    array  The log of executed SQL statements timings (start and stop microtimes) by the database driver.
+	 * @since  CMS 3.1.2
+	 */
+	protected $callStacks = array();
+
+	/**
 	 * @var    string  The character(s) used to quote SQL statement names such as table names or field names,
 	 *                 etc.  The child classes should define this as necessary.  If a single character string the
 	 *                 same character is used for both sides of the quoted name, else the first character will be
@@ -169,6 +181,12 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @since  12.3
 	 */
 	protected $transactionDepth = 0;
+
+	/**
+	 * @var    callable[]  List of callables to call just before disconnecting database
+	 * @since  CMS 3.1.2
+	 */
+	protected $disconnectHandlers = array();
 
 	/**
 	 * Get a list of available database connectors.  The list will only be populated with connectors that both
@@ -465,6 +483,20 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	abstract public function disconnect();
 
 	/**
+	 * Adds a function callable just before disconnecting the database. Parameter of the callable is $this JDatabaseDriver
+	 *
+	 * @param   callable  $callable  Function to call in disconnect() method just before disconnecting from database
+	 *
+	 * @return  void
+	 *
+	 * @since   CMS 3.1.2
+	 */
+	public function addDisconnectHandler($callable)
+	{
+		$this->disconnectHandlers[] = $callable;
+	}
+
+	/**
 	 * Drops a table from the database.
 	 *
 	 * @param   string   $table     The name of the database table to drop.
@@ -554,9 +586,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	protected function getAlterDbCharacterSet($dbName)
 	{
-		$query = 'ALTER DATABASE ' . $this->quoteName($dbName) . ' CHARACTER SET `utf8`';
-
-		return $query;
+		return 'ALTER DATABASE ' . $this->quoteName($dbName) . ' CHARACTER SET `utf8`';
 	}
 
 	/**
@@ -575,14 +605,9 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		if ($utf)
 		{
-			$query = 'CREATE DATABASE ' . $this->quoteName($options->db_name) . ' CHARACTER SET `utf8`';
+			return 'CREATE DATABASE ' . $this->quoteName($options->db_name) . ' CHARACTER SET `utf8`';
 		}
-		else
-		{
-			$query = 'CREATE DATABASE ' . $this->quoteName($options->db_name);
-		}
-
-		return $query;
+		return 'CREATE DATABASE ' . $this->quoteName($options->db_name);
 	}
 
 	/**
@@ -653,6 +678,30 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	public function getLog()
 	{
 		return $this->log;
+	}
+
+	/**
+	 * Get the database driver SQL statement log.
+	 *
+	 * @return  array  SQL statements executed by the database driver.
+	 *
+	 * @since   CMS 3.1.2
+	 */
+	public function getTimings()
+	{
+		return $this->timings;
+	}
+
+	/**
+	 * Get the database driver SQL statement log.
+	 *
+	 * @return  array  SQL statements executed by the database driver.
+	 *
+	 * @since   CMS 3.1.2
+	 */
+	public function getCallStacks()
+	{
+		return $this->callStacks;
 	}
 
 	/**
@@ -1504,94 +1553,26 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 */
 	public function replacePrefix($sql, $prefix = '#__')
 	{
-		$escaped = false;
-		$startPos = 0;
-		$quoteChar = '';
-		$literal = '';
+		/*
+		 * Pattern is: find any non-quoted (which is not including single or double quotes) string being the prefix
+		 * in $sql possibly followed by a double or single quoted one:
+		 *  							(
+		 * not including quotes:
+		 *		positive lookahead:			(?=
+		 *		not including " or ':			[^"\']+
+		 *									)
+		 * including exactly the prefix to replace:		preg_quote( $prefix, '/' )
+		 * 								)(
+		 * Followed by a double-quoted:		"(?:[^\\"]|\\.)*"
+		 * Or:								|
+		 * single-quoted:					\'(?:[^\\\']|\\.)*\'
+		 * 								)
+		 * possibly:						?
+		 * $pattern = '/((?=[^"\']+)' . preg_quote($prefix, '/') . ')("(?:[^\\"]|\\.)*"|\'(?:[^\\\']|\\.)*\')?/';
+		 */
+		$pattern = '/(?<=[^"\'])(' . preg_quote($prefix, '/') . ')("(?:[^\\\\"]|\.)*"|\'(?:[^\\\\\']|\.)*\')?/';
 
-		$sql = trim($sql);
-		$n = strlen($sql);
-
-		while ($startPos < $n)
-		{
-			$ip = strpos($sql, $prefix, $startPos);
-
-			if ($ip === false)
-			{
-				break;
-			}
-
-			$j = strpos($sql, "'", $startPos);
-			$k = strpos($sql, '"', $startPos);
-
-			if (($k !== false) && (($k < $j) || ($j === false)))
-			{
-				$quoteChar = '"';
-				$j = $k;
-			}
-			else
-			{
-				$quoteChar = "'";
-			}
-
-			if ($j === false)
-			{
-				$j = $n;
-			}
-
-			$literal .= str_replace($prefix, $this->tablePrefix, substr($sql, $startPos, $j - $startPos));
-			$startPos = $j;
-
-			$j = $startPos + 1;
-
-			if ($j >= $n)
-			{
-				break;
-			}
-
-			// Quote comes first, find end of quote
-			while (true)
-			{
-				$k = strpos($sql, $quoteChar, $j);
-				$escaped = false;
-
-				if ($k === false)
-				{
-					break;
-				}
-				$l = $k - 1;
-
-				while ($l >= 0 && $sql{$l} == '\\')
-				{
-					$l--;
-					$escaped = !$escaped;
-				}
-
-				if ($escaped)
-				{
-					$j = $k + 1;
-					continue;
-				}
-
-				break;
-			}
-
-			if ($k === false)
-			{
-				// Error in the query - no end quote; ignore it
-				break;
-			}
-
-			$literal .= substr($sql, $startPos, $k - $startPos + 1);
-			$startPos = $k + 1;
-		}
-
-		if ($startPos < $n)
-		{
-			$literal .= substr($sql, $startPos, $n - $startPos);
-		}
-
-		return $literal;
+		return preg_replace($pattern, $this->getPrefix() . '\\2', $sql);
 	}
 
 	/**

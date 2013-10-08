@@ -22,6 +22,7 @@ abstract class ModMenuHelper
 	 * Get a list of the available menus.
 	 *
 	 * @return  array  An array of the available menus (from the menu types table).
+	 *
 	 * @since   1.6
 	 */
 	public static function getMenus()
@@ -37,7 +38,8 @@ abstract class ModMenuHelper
 			->select('l.sef')
 			->select('l.title_native')
 			->where('(b.client_id = 0 OR b.client_id IS NULL)');
-		//sqlsrv change
+
+		// Sqlsrv change
 		$query->group('a.id, a.menutype, a.description, a.title, b.menutype,b.language,l.image,l.sef,l.title_native');
 
 		$db->setQuery($query);
@@ -50,9 +52,10 @@ abstract class ModMenuHelper
 	/**
 	 * Get a list of the authorised, non-special components to display in the components menu.
 	 *
-	 * @param   boolean	$authCheck	An optional switch to turn off the auth check (to support custom layouts 'grey out' behaviour).
+	 * @param   boolean  $authCheck	  An optional switch to turn off the auth check (to support custom layouts 'grey out' behaviour).
 	 *
 	 * @return  array  A nest array of component objects and submenus
+	 *
 	 * @since   1.6
 	 */
 	public static function getComponents($authCheck = true)
@@ -62,7 +65,6 @@ abstract class ModMenuHelper
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
 		$result	= array();
-		$langs	= array();
 
 		// Prepare the query.
 		$query->select('m.id, m.title, m.alias, m.link, m.parent_id, m.img, e.element')
@@ -78,7 +80,8 @@ abstract class ModMenuHelper
 		$query->order('m.lft');
 
 		$db->setQuery($query);
-		// component list
+
+		// Component list
 		$components	= $db->loadObjectList();
 
 		// Parse the list of extensions.
@@ -94,6 +97,7 @@ abstract class ModMenuHelper
 				{
 					// Root level.
 					$result[$component->id] = $component;
+
 					if (!isset($result[$component->id]->submenu))
 					{
 						$result[$component->id]->submenu = array();
@@ -102,21 +106,24 @@ abstract class ModMenuHelper
 					// If the root menu link is empty, add it in.
 					if (empty($component->link))
 					{
-						$component->link = 'index.php?option='.$component->element;
+						$component->link = 'index.php?option=' . $component->element;
 					}
 
 					if (!empty($component->element))
 					{
 						// Load the core file then
 						// Load extension-local file.
-						$lang->load($component->element.'.sys', JPATH_BASE, null, false, false)
-					||	$lang->load($component->element.'.sys', JPATH_ADMINISTRATOR.'/components/'.$component->element, null, false, false)
-					||	$lang->load($component->element.'.sys', JPATH_BASE, $lang->getDefault(), false, false)
-					||	$lang->load($component->element.'.sys', JPATH_ADMINISTRATOR.'/components/'.$component->element, $lang->getDefault(), false, false);
+						$lang->load($component->element . '.sys', JPATH_BASE, null, false, false)
+					||	$lang->load($component->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component->element, null, false, false)
+					||	$lang->load($component->element . '.sys', JPATH_BASE, $lang->getDefault(), false, false)
+					||	$lang->load($component->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component->element, $lang->getDefault(), false, false);
 					}
+
 					$component->text = $lang->hasKey($component->title) ? JText::_($component->title) : $component->alias;
 				}
-			} else {
+			}
+			else
+			{
 				// Sub-menu level.
 				if (isset($result[$component->parent_id]))
 				{

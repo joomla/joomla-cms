@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Libraries
- * @subpackage  CMS
+ * @subpackage  Helper
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * the #__content_types table and rows found in the #__ucm_content table.
  *
  * @package     Joomla.Libraries
- * @subpackage  CMS
+ * @subpackage  Helper
  * @since       3.1
  */
 class JHelperRoute
@@ -28,22 +28,28 @@ class JHelperRoute
 	protected static $lookup;
 
 	/**
+	 * @var    array  Holds the language lookup
+	 * @since  3.2
+	 */
+	protected static $lang_lookup;
+
+	/**
 	 * @var    string  Option for the extension (such as com_content)
 	 * @since  3.1
 	 */
-	protected  $extension;
+	protected $extension;
 
 	/**
 	 * @var    string  Value of the primary key in the content type table
 	 * @since  3.1
 	 */
-	protected  $id;
+	protected $id;
 
 	/**
 	 * @var    string  Name of the view for the url
 	 * @since  3.1
 	 */
-	protected  $view;
+	protected $view;
 
 	/**
 	 * A method to get the route for a specific item
@@ -62,16 +68,26 @@ class JHelperRoute
 	{
 		$typeExploded = explode('.', $typealias);
 
-		$this->view = $typeExploded[1];
-		$this->extension = $typeExploded[0];
+		if (isset($typeExploded[1]))
+		{
+			$this->view = $typeExploded[1];
+			$this->extension = $typeExploded[0];
+		}
+		else
+		{
+			$this->view = JFactory::getApplication()->input->getString('view');
+			$this->extension = JFactory::getApplication()->input->getCmd('option');
+		}
+
 		$name = ucfirst(substr_replace($this->extension, '', 0, 4));
+
+		$needles = array();
 
 		if (isset($this->view))
 		{
-			$needles = array(
-				$this->view  => array((int) $id)
-			);
+			$needles[$this->view] = array((int) $id);
 		}
+
 		if (empty($link))
 		{
 			// Create the link
@@ -81,9 +97,11 @@ class JHelperRoute
 		if ($catid > 1)
 		{
 			$categories = JCategories::getInstance($name);
+
 			if ($categories)
 			{
 				$category = $categories->get((int) $catid);
+
 				if ($category)
 				{
 					$needles['category'] = array_reverse($category->getPath());
@@ -96,32 +114,23 @@ class JHelperRoute
 		// Deal with languages only if needed
 		if (!empty($language) && $language != '*' && JLanguageMultilang::isEnabled())
 		{
-			$db		= JFactory::getDbo();
-			$query	= $db->getQuery(true)
-				->select('a.sef AS sef')
-				->select('a.lang_code AS lang_code')
-				->from('#__languages AS a');
+			static::buildLanguageLookup();
 
-			$db->setQuery($query);
-			$langs = $db->loadObjectList();
-			foreach ($langs as $lang)
+			if (isset(static::$lang_lookup[$language]))
 			{
-				if ($language == $lang->lang_code)
-				{
-					$link .= '&lang=' . $lang->sef;
-					$needles['language'] = $language;
-				}
+				$link .= '&lang=' . static::$lang_lookup[$language];
+				$needles['language'] = $language;
 			}
 		}
 
-			if ($item = self::findItem($needles))
-			{
-				$link .= '&Itemid=' . $item;
-			}
-			elseif ($item = self::findItem())
-			{
-				$link .= '&Itemid=' . $item;
-			}
+		if ($item = $this->findItem($needles))
+		{
+			$link .= '&Itemid=' . $item;
+		}
+		elseif ($item = $this->findItem())
+		{
+			$link .= '&Itemid=' . $item;
+		}
 
 		return $link;
 	}
@@ -137,24 +146,30 @@ class JHelperRoute
 	 */
 	protected function findItem($needles = array())
 	{
-		$app		= JFactory::getApplication();
-		$menus		= $app->getMenu('site');
-		$language	= isset($needles['language']) ? $needles['language'] : '*';
+		$app      = JFactory::getApplication();
+		$menus    = $app->getMenu('site');
+		$language = isset($needles['language']) ? $needles['language'] : '*';
+
+		// $this->extension may not be set if coming from a static method, check it
+		if (is_null($this->extension))
+		{
+			$this->extension = $app->input->getCmd('option');
+		}
 
 		// Prepare the reverse lookup array.
-		if (!isset(self::$lookup[$language]))
+		if (!isset(static::$lookup[$language]))
 		{
-			self::$lookup[$language] = array();
+			static::$lookup[$language] = array();
 
 			$component = JComponentHelper::getComponent($this->extension);
 
 			$attributes = array('component_id');
-			$values = array($component->id);
+			$values     = array($component->id);
 
 			if ($language != '*')
 			{
 				$attributes[] = 'language';
-				$values[] = array($needles['language'], '*');
+				$values[]     = array($needles['language'], '*');
 			}
 
 			$items = $menus->getItems($attributes, $values);
@@ -164,10 +179,12 @@ class JHelperRoute
 				if (isset($item->query) && isset($item->query['view']))
 				{
 					$view = $item->query['view'];
-					if (!isset(self::$lookup[$language][$view]))
+
+					if (!isset(static::$lookup[$language][$view]))
 					{
-						self::$lookup[$language][$view] = array();
+						static::$lookup[$language][$view] = array();
 					}
+
 					if (isset($item->query['id']))
 					{
 						if (is_array($item->query['id']))
@@ -180,9 +197,9 @@ class JHelperRoute
 						 * $language != * can override existing entries
 						 * $language == * cannot override existing entries
 						 */
-						if (!isset(self::$lookup[$language][$view][$item->query['id']]) || $item->language != '*')
+						if (!isset(static::$lookup[$language][$view][$item->query['id']]) || $item->language != '*')
 						{
-							self::$lookup[$language][$view][$item->query['id']] = $item->id;
+							static::$lookup[$language][$view][$item->query['id']] = $item->id;
 						}
 					}
 				}
@@ -193,13 +210,13 @@ class JHelperRoute
 		{
 			foreach ($needles as $view => $ids)
 			{
-				if (isset(self::$lookup[$language][$view]))
+				if (isset(static::$lookup[$language][$view]))
 				{
 					foreach ($ids as $id)
 					{
-						if (isset(self::$lookup[$language][$view][(int) $id]))
+						if (isset(static::$lookup[$language][$view][(int) $id]))
 						{
-							return self::$lookup[$language][$view][(int) $id];
+							return static::$lookup[$language][$view][(int) $id];
 						}
 					}
 				}
@@ -207,6 +224,7 @@ class JHelperRoute
 		}
 
 		$active = $menus->getActive();
+
 		if ($active && $active->component == $this->extension && ($active->language == '*' || !JLanguageMultilang::isEnabled()))
 		{
 			return $active->id;
@@ -216,5 +234,124 @@ class JHelperRoute
 		$default = $menus->getDefault($language);
 
 		return !empty($default->id) ? $default->id : null;
+	}
+
+	/**
+	 * Fetches the category route
+	 *
+	 * @param   mixed   $catid      Category ID or JCategoryNode instance
+	 * @param   mixed   $language   Language code
+	 * @param   string  $extension  Extension to lookup
+	 *
+	 * @return  string
+	 *
+	 * @since   3.2
+	 */
+	public static function getCategoryRoute($catid, $language = 0, $extension)
+	{
+		if ($catid instanceof JCategoryNode)
+		{
+			$id       = $catid->id;
+			$category = $catid;
+		}
+		else
+		{
+			$extensionName = ucfirst(substr($extension, 4));
+			$id            = (int) $catid;
+			$category      = JCategories::getInstance($extensionName)->get($id);
+		}
+
+		if ($id < 1)
+		{
+			$link = '';
+		}
+		else
+		{
+			$link = 'index.php?option=' . $extension . '&view=category&id=' . $id;
+
+			$needles = array(
+				'category' => array($id)
+			);
+
+			if ($language && $language != '*' && JLanguageMultilang::isEnabled())
+			{
+				static::buildLanguageLookup();
+
+				if (isset(static::$lang_lookup[$language]))
+				{
+					$link .= '&lang=' . static::$lang_lookup[$language];
+					$needles['language'] = $language;
+				}
+			}
+
+			if ($item = static::lookupItem($needles))
+			{
+				$link .= '&Itemid=' . $item;
+			}
+			else
+			{
+				// Create the link
+				if ($category)
+				{
+					$catids                = array_reverse($category->getPath());
+					$needles['category']   = $catids;
+					$needles['categories'] = $catids;
+
+					if ($item = static::lookupItem($needles))
+					{
+						$link .= '&Itemid=' . $item;
+					}
+					elseif ($item = static::lookupItem())
+					{
+						$link .= '&Itemid=' . $item;
+					}
+				}
+			}
+		}
+
+		return $link;
+	}
+
+	/**
+	 * Builds the language lookup array
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	protected static function buildLanguageLookup()
+	{
+		if (count(static::$lang_lookup) == 0)
+		{
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('a.sef AS sef')
+				->select('a.lang_code AS lang_code')
+				->from('#__languages AS a');
+
+			$db->setQuery($query);
+			$langs = $db->loadObjectList();
+
+			foreach ($langs as $lang)
+			{
+				static::$lang_lookup[$lang->lang_code] = $lang->sef;
+			}
+		}
+	}
+
+	/**
+	 * Static alias to findItem() used to find the item in the menu structure
+	 *
+	 * @param   array  $needles  Array of lookup values
+	 *
+	 * @return  mixed
+	 *
+	 * @since   3.2
+	 */
+	protected static function lookupItem($needles = array())
+	{
+		$instance = new static;
+
+		return $instance->findItem($needles);
 	}
 }

@@ -125,7 +125,6 @@ class ContentModelCategory extends JModelList
 				// Create a new query object.
 		$db		= $this->getDbo();
 		$query	= $db->getQuery(true);
-		$groups	= implode(',', $user->getAuthorisedViewLevels());
 
 		if ((!$user->authorise('core.edit.state', 'com_content')) &&  (!$user->authorise('core.edit', 'com_content'))){
 			// limit to published for people who can't edit or edit.state.
@@ -210,7 +209,6 @@ class ContentModelCategory extends JModelList
 	 */
 	function getItems()
 	{
-		$params = $this->getState()->get('params');
 		$limit = $this->getState('list.limit');
 
 		if ($this->_articles === null && $category = $this->getCategory())
@@ -331,7 +329,6 @@ class ContentModelCategory extends JModelList
 			if (is_object($this->_item))
 			{
 				$user	= JFactory::getUser();
-				$userId	= $user->get('id');
 				$asset	= 'com_content.category.'.$this->_item->id;
 
 				// Check general create permission.
@@ -449,24 +446,16 @@ class ContentModelCategory extends JModelList
 	 */
 	public function hit($pk = 0)
 	{
-		// Initialise variables.
-		$pk = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
+		$input = JFactory::getApplication()->input;
+		$hitcount = $input->getInt('hitcount', 1);
 
-		$db = $this->getDbo();
-		$query = $db->getQuery(true)
-			->update('#__categories')
-			->set('hits = hits + 1')
-			->where('id = ' . (int) $pk);
-		$db->setQuery($query);
+		if ($hitcount)
+		{
+			$pk = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
 
-		try
-		{
-			$db->execute();
-		}
-		catch (RuntimeException $e)
-		{
-			$this->setError($e->getMessage());
-			return false;
+			$table = JTable::getInstance('Category', 'JTable');
+			$table->load($pk);
+			$table->hit($pk);
 		}
 
 		return true;

@@ -130,6 +130,7 @@ class JApplicationDaemon extends JApplicationCli
 
 		// Set some system limits.
 		@set_time_limit($this->config->get('max_execution_time', 0));
+
 		if ($this->config->get('max_memory_limit') !== null)
 		{
 			ini_set('memory_limit', $this->config->get('max_memory_limit', '256M'));
@@ -335,6 +336,7 @@ class JApplicationDaemon extends JApplicationCli
 
 		// The maximum execution time of the application in seconds.  Zero is infinite.
 		$tmp = $this->config->get('max_execution_time');
+
 		if ($tmp !== null)
 		{
 			$this->config->set('max_execution_time', (int) $tmp);
@@ -342,6 +344,7 @@ class JApplicationDaemon extends JApplicationCli
 
 		// The maximum amount of memory the application can use.
 		$tmp = $this->config->get('max_memory_limit', '256M');
+
 		if ($tmp !== null)
 		{
 			$this->config->set('max_memory_limit', (string) $tmp);
@@ -446,6 +449,7 @@ class JApplicationDaemon extends JApplicationCli
 		if ($uid && (fileowner($file) != $uid) && (!@ chown($file, $uid)))
 		{
 			JLog::add('Unable to change user ownership of the process id file.', JLog::ERROR);
+
 			return false;
 		}
 
@@ -453,6 +457,7 @@ class JApplicationDaemon extends JApplicationCli
 		if ($gid && (filegroup($file) != $gid) && (!@ chgrp($file, $gid)))
 		{
 			JLog::add('Unable to change group ownership of the process id file.', JLog::ERROR);
+
 			return false;
 		}
 
@@ -466,6 +471,7 @@ class JApplicationDaemon extends JApplicationCli
 		if ($uid && (posix_getuid($file) != $uid) && (!@ posix_setuid($uid)))
 		{
 			JLog::add('Unable to change user ownership of the proccess.', JLog::ERROR);
+
 			return false;
 		}
 
@@ -473,6 +479,7 @@ class JApplicationDaemon extends JApplicationCli
 		if ($gid && (posix_getgid($file) != $gid) && (!@ posix_setgid($gid)))
 		{
 			JLog::add('Unable to change group ownership of the proccess.', JLog::ERROR);
+
 			return false;
 		}
 
@@ -499,6 +506,7 @@ class JApplicationDaemon extends JApplicationCli
 		if ($this->isActive())
 		{
 			JLog::add($this->name . ' daemon is still running. Exiting the application.', JLog::EMERGENCY);
+
 			return false;
 		}
 
@@ -530,6 +538,7 @@ class JApplicationDaemon extends JApplicationCli
 		catch (RuntimeException $e)
 		{
 			JLog::add('Unable to fork.', JLog::EMERGENCY);
+
 			return false;
 		}
 
@@ -537,6 +546,7 @@ class JApplicationDaemon extends JApplicationCli
 		if ($this->processId < 1)
 		{
 			JLog::add('The process id is invalid; the fork failed.', JLog::EMERGENCY);
+
 			return false;
 		}
 
@@ -547,6 +557,7 @@ class JApplicationDaemon extends JApplicationCli
 		if (!$this->writeProcessIdFile())
 		{
 			JLog::add('Unable to write the pid file at: ' . $this->config->get('application_pid_file'), JLog::EMERGENCY);
+
 			return false;
 		}
 
@@ -558,6 +569,7 @@ class JApplicationDaemon extends JApplicationCli
 			if ($this->config->get('application_require_identity'))
 			{
 				JLog::add('Unable to change process owner.', JLog::CRITICAL);
+
 				return false;
 			}
 			else
@@ -697,6 +709,7 @@ class JApplicationDaemon extends JApplicationCli
 			if (!$this->pcntlSignal(constant($signal), array('JApplicationDaemon', 'signal')))
 			{
 				JLog::add(sprintf('Unable to reroute signal handler: %s', $signal), JLog::EMERGENCY);
+
 				return false;
 			}
 		}
@@ -772,22 +785,27 @@ class JApplicationDaemon extends JApplicationCli
 		if ($this->processId < 1)
 		{
 			JLog::add('The process id is invalid.', JLog::EMERGENCY);
+
 			return false;
 		}
 
 		// Get the application process id file path.
 		$file = $this->config->get('application_pid_file');
+
 		if (empty($file))
 		{
 			JLog::add('The process id file path is empty.', JLog::ERROR);
+
 			return false;
 		}
 
 		// Make sure that the folder where we are writing the process id file exists.
 		$folder = dirname($file);
+
 		if (!is_dir($folder) && !JFolder::create($folder))
 		{
 			JLog::add('Unable to create directory: ' . $folder, JLog::ERROR);
+
 			return false;
 		}
 
@@ -795,6 +813,7 @@ class JApplicationDaemon extends JApplicationCli
 		if (!file_put_contents($file, $this->processId))
 		{
 			JLog::add('Unable to write proccess id file: ' . $file, JLog::ERROR);
+
 			return false;
 		}
 
@@ -802,6 +821,7 @@ class JApplicationDaemon extends JApplicationCli
 		if (!chmod($file, 0644))
 		{
 			JLog::add('Unable to adjust permissions for the proccess id file: ' . $file, JLog::ERROR);
+
 			return false;
 		}
 
@@ -858,7 +878,7 @@ class JApplicationDaemon extends JApplicationCli
 	 * Method to install a signal handler.
 	 *
 	 * @param   integer   $signal   The signal number.
-	 * @param   callback  $handler  The signal handler which may be the name of a user created function,
+	 * @param   callable  $handler  The signal handler which may be the name of a user created function,
 	 *                              or method, or either of the two global constants SIG_IGN or SIG_DFL.
 	 * @param   boolean   $restart  Specifies whether system call restarting should be used when this
 	 *                              signal arrives.

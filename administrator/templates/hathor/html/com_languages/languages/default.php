@@ -10,7 +10,8 @@
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-JHtml::_('behavior.tooltip');
+
+JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 
 $user		= JFactory::getUser();
@@ -57,9 +58,6 @@ $saveOrder	= $listOrder == 'a.ordering';
 	<table class="adminlist">
 		<thead>
 			<tr>
-				<th class="row-number-col">
-					<?php echo JText::_('JGRID_HEADING_ROW_NUMBER'); ?>
-				</th>
 				<th class="checkmark-col">
 					<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
 				</th>
@@ -106,13 +104,10 @@ $saveOrder	= $listOrder == 'a.ordering';
 		?>
 			<tr class="row<?php echo $i % 2; ?>">
 				<td>
-					<?php echo $this->pagination->getRowOffset($i); ?>
-				</td>
-				<td>
 					<?php echo JHtml::_('grid.id', $i, $item->lang_id); ?>
 				</td>
 				<td>
-					<span class="editlinktip hasTip" title="<?php echo JText::_('JGLOBAL_EDIT_ITEM');?>::<?php echo $this->escape($item->title); ?>">
+					<span class="editlinktip hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('JGLOBAL_EDIT_ITEM'), $item->title, 0); ?>">
 					<?php if ($canEdit) : ?>
 						<a href="<?php echo JRoute::_('index.php?option=com_languages&task=language.edit&lang_id='.(int) $item->lang_id); ?>">
 							<?php echo $this->escape($item->title); ?></a>
@@ -131,7 +126,7 @@ $saveOrder	= $listOrder == 'a.ordering';
 					<?php echo $this->escape($item->sef); ?>
 				</td>
 				<td class="center">
-					<?php echo $this->escape($item->image); ?>
+					<?php echo $this->escape($item->image); ?>&nbsp;<?php echo JHtml::_('image', 'mod_languages/'.$item->image.'.gif', $item->image, array('title' => $item->image), true); ?>
 				</td>
 				<td class="center">
 					<?php echo JHtml::_('jgrid.published', $item->published, $i, 'languages.', $canChange);?>

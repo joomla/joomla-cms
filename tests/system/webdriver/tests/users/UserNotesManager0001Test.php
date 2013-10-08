@@ -53,12 +53,8 @@ class UserNotesManager0001Test extends JoomlaWebdriverTestCase
 		$this->userNotesManagerPage->clickButton('toolbar-new');
 		$userNotesEditPage = $this->getPageObject('UserNotesEditPage');
 		$testElements = $userNotesEditPage->getAllInputFields();
-		$actualFields = array();
-		foreach ($testElements as $el)
-		{
-			$el->labelText = (substr($el->labelText, -2) == ' *') ? substr($el->labelText, 0, -2) : $el->labelText;
-			$actualFields[] = array('label' => $el->labelText, 'id' => $el->id, 'type' => $el->tag, 'tab' => $el->tab);
-		}
+		$actualFields = $this->getActualFieldsFromElements($testElements);
+
 		$this->assertEquals($userNotesEditPage->inputFields, $actualFields);
 		$userNotesEditPage->clickButton('toolbar-cancel');
 		$this->userNotesManagerPage = $this->getPageObject('UserNotesManagerPage');
@@ -75,7 +71,7 @@ class UserNotesManager0001Test extends JoomlaWebdriverTestCase
 		$message = $this->userNotesManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'UserNotes successfully saved') >= 0, 'User Notes save should return success');
 		$this->assertTrue($this->userNotesManagerPage->getRowNumber('Test User Notes') > 0, 'Test User Notes should be in list');
-		$this->userNotesManagerPage->deleteItem('Test User Notes');
+		$this->userNotesManagerPage->trashAndDelete('Test User Notes');
 		$this->assertFalse($this->userNotesManagerPage->getRowNumber('Test User Notes'), 'Test Use Notes should not be present');
 	}
 
@@ -110,7 +106,7 @@ class UserNotesManager0001Test extends JoomlaWebdriverTestCase
 
 		$userEditPage->clickButton('Close');
 		$this->userNotesManagerPage = $this->getPageObject('UserNotesManagerPage');
-		$this->userNotesManagerPage->deleteItem($userNotesName);
+		$this->userNotesManagerPage->trashAndDelete($userNotesName);
 		$this->assertFalse($this->userNotesManagerPage->getRowNumber($userNotesName), 'Test userNotes should not be present');
 	}
 
@@ -161,11 +157,11 @@ class UserNotesManager0001Test extends JoomlaWebdriverTestCase
 
 		$userEditPage->clickButton('Close');
 		$this->userNotesManagerPage = $this->getPageObject('UserNotesManagerPage');
-		$this->userNotesManagerPage->deleteItem($userNotesName);
+		$this->userNotesManagerPage->trashAndDelete($userNotesName);
 		$this->assertFalse($this->userNotesManagerPage->getRowNumber($userNotesName), 'Test userNotes should not be present');
 
 		$userManagerPage = $this->userNotesManagerPage->clickMenu('User Manager', 'UserManagerPage');
-		$userManagerPage->deleteUser($newUserName);
+		$userManagerPage->delete($newUserName);
 	}
 	/**
 	 * @test
@@ -230,8 +226,8 @@ class UserNotesManager0001Test extends JoomlaWebdriverTestCase
 			}
 		}
 
-		$this->userNotesManagerPage->deleteItem('UserNotes');
+		$this->userNotesManagerPage->trashAndDelete('UserNotes');
 		$userManagerPage = $this->userNotesManagerPage->clickMenu('User Manager', 'UserManagerPage');
-		$userManagerPage->deleteUser('Test User');
+		$userManagerPage->delete('Test User');
 	}
 }

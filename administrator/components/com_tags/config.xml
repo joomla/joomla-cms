@@ -300,7 +300,7 @@
 			description="JGLOBAL_FILTER_FIELD_DESC"
 			label="JGLOBAL_FILTER_FIELD_LABEL"
 			>
-				<option value="hide">JHIDE</option>
+				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 		</field>
 
