@@ -21,45 +21,5 @@ defined('_JEXEC') or die;
  *
  * @since   3.2
  */
-class AjaxControllerModule extends JControllerLegacy
-{
 
-	/**
-	 * Do job!
- 	 *
-	 */
-	public function call()
-	{
-
-		// Call the module, the module should return a valid XML string
-		$results = (string) AjaxModuleHelper::callModule($this->input->get('name'));
-
-		// Test whether we have result and it is the valid XML
-		libxml_use_internal_errors(true);
-		if($results
-			&& !simplexml_load_string($results)
-			&& $error = libxml_get_last_error())
-		{
-			// Make the error message
-			$message = '';
-			switch ($error->level) {
-				case LIBXML_ERR_WARNING :
-					$message .= 'Warning ';
-					break;
-				case LIBXML_ERR_ERROR :
-					$message .= 'Error ';
-					break;
-				case LIBXML_ERR_FATAL :
-					$message .= 'Fatal Error ';
-					break;
-			}
-			$message .= $error->code . ': ' . trim($error->message) . '; Line: ' . $error->line . '; Column: ' . $error->column;
-			throw new UnexpectedValueException($message, 500);
-		}
-
-		// Output XML string
-		echo $results;
-
-		return true;
-	}
-}
+include_once __DIR__ . '/module.raw.php';
