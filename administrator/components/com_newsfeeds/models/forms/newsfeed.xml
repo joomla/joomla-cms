@@ -141,29 +141,30 @@
 			class="inputbox" size="20" />
 
 	</fieldset>
-	<fieldset name="jbasic" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
-		<field name="numarticles" type="Text" class="inputbox"
-			default="5" size="2" label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_LABEL"
-			description="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_DESC"
-			required="true" />
+	<fields name="params" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
+		<fieldset name="jbasic" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
+			<field name="numarticles" type="Text" class="inputbox"
+				default="5" size="2" label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_LABEL"
+				description="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_DESC"
+				required="true" />
 
-		<field name="cache_time" type="Text" class="inputbox"
-			default="3600" size="4" label="COM_NEWSFEEDS_FIELD_CACHETIME_LABEL"
-			description="JGLOBAL_FIELD_FIELD_CACHETIME_DESC"
-			required="true" />
+			<field name="cache_time" type="Text" class="inputbox"
+				default="3600" size="4" label="COM_NEWSFEEDS_FIELD_CACHETIME_LABEL"
+				description="JGLOBAL_FIELD_FIELD_CACHETIME_DESC"
+				required="true" />
 
-		<field name="rtl" type="list" class="inputbox"
-			default="0" label="COM_NEWSFEEDS_FIELD_RTL_LABEL"
-			description="COM_NEWSFEEDS_FIELD_RTL_DESC"
-		>
-			<option value="0">COM_NEWSFEEDS_FIELD_VALUE_SITE
-			</option>
-			<option value="1">COM_NEWSFEEDS_FIELD_VALUE_LTR
-			</option>
-			<option value="2">COM_NEWSFEEDS_FIELD_VALUE_RTL
-			</option>
-		</field>
-		<fields name="params" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
+			<field name="rtl" type="list" class="inputbox"
+				default="0" label="COM_NEWSFEEDS_FIELD_RTL_LABEL"
+				description="COM_NEWSFEEDS_FIELD_RTL_DESC"
+			>
+				<option value="0">COM_NEWSFEEDS_FIELD_VALUE_SITE
+				</option>
+				<option value="1">COM_NEWSFEEDS_FIELD_VALUE_LTR
+				</option>
+				<option value="2">COM_NEWSFEEDS_FIELD_VALUE_RTL
+				</option>
+			</field>
+
 			<field name="show_feed_image" type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
 				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC"
@@ -212,10 +213,9 @@
 				<option value="des">JGLOBAL_MOST_RECENT_FIRST</option>
 				<option value="asc">JGLOBAL_OLDEST_FIRST</option>
 			</field>
-		</fields>
-	</fieldset>
 
-	<fields name="images" label="JGLOBAL_FIELDSET_IMAGE_OPTIONS">
+		</fieldset>
+
 		<fieldset name="images" label="JGLOBAL_FIELDSET_IMAGE_OPTIONS">
 			<field
 				name="image_first"
