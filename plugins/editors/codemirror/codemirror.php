@@ -26,7 +26,7 @@ class PlgEditorCodemirror extends JPlugin
 	/**
 	 * Initialises the Editor.
 	 *
-	 * @return  string	JavaScript Initialization string.
+	 * @return  string  JavaScript Initialization string.
 	 */
 	public function onInit()
 	{
@@ -35,44 +35,45 @@ class PlgEditorCodemirror extends JPlugin
 		JHtml::_('script', $this->_basePath . 'js/fullscreen.js', false, false, false, false);
 		JHtml::_('stylesheet', $this->_basePath . 'css/codemirror.css');
 		JHtml::_('stylesheet', $this->_basePath . 'css/configuration.css');
+
 		return '';
 	}
 
 	/**
 	 * Copy editor content to form field.
 	 *
-	 * @param   string	$id	The id of the editor field.
+	 * @param   string  $id  The id of the editor field.
 	 *
 	 * @return  string Javascript
 	 */
 	public function onSave($id)
 	{
-		return "document.getElementById('$id').value = Joomla.editors.instances['$id'].getCode();\n";
+		return "document.getElementById('$id').value = Joomla.editors.instances['$id'].getValue();\n";
 	}
 
 	/**
 	 * Get the editor content.
 	 *
-	 * @param   string	$id	The id of the editor field.
+	 * @param   string  $id  The id of the editor field.
 	 *
-	 * @return  string Javascript
+	 * @return  string  Javascript
 	 */
 	public function onGetContent($id)
 	{
-		return "Joomla.editors.instances['$id'].getCode();\n";
+		return "Joomla.editors.instances['$id'].getValue();\n";
 	}
 
 	/**
 	 * Set the editor content.
 	 *
-	 * @param   string	$id			The id of the editor field.
-	 * @param   string	$content	The content to set.
+	 * @param   string  $id       The id of the editor field.
+	 * @param   string  $content  The content to set.
 	 *
-	 * @return  string Javascript
+	 * @return  string  Javascript
 	 */
 	public function onSetContent($id, $content)
 	{
-		return "Joomla.editors.instances['$id'].setCode($content);\n";
+		return "Joomla.editors.instances['$id'].setValue($content);\n";
 	}
 
 	/**
@@ -102,19 +103,19 @@ class PlgEditorCodemirror extends JPlugin
 	/**
 	 * Display the editor area.
 	 *
-	 * @param   string	$name		The control name.
-	 * @param   string	$content	The contents of the text area.
-	 * @param   string	$width		The width of the text area (px or %).
-	 * @param   string	$height		The height of the text area (px or %).
-	 * @param   integer  $col		The number of columns for the textarea.
-	 * @param   integer  $row		The number of rows for the textarea.
-	 * @param   boolean	$buttons	True and the editor buttons will be displayed.
-	 * @param   string	$id			An optional ID for the textarea (note: since 1.6). If not supplied the name is used.
-	 * @param   string	$asset
-	 * @param   object	$author
-	 * @param   array  $params		Associative array of editor parameters.
+	 * @param   string   $name     The control name.
+	 * @param   string   $content  The contents of the text area.
+	 * @param   string   $width    The width of the text area (px or %).
+	 * @param   string   $height   The height of the text area (px or %).
+	 * @param   integer  $col      The number of columns for the textarea.
+	 * @param   integer  $row      The number of rows for the textarea.
+	 * @param   boolean  $buttons  True and the editor buttons will be displayed.
+	 * @param   string   $id       An optional ID for the textarea (note: since 1.6). If not supplied the name is used.
+	 * @param   string   $asset    Unused
+	 * @param   object   $author   Unused
+	 * @param   array    $params   Associative array of editor parameters.
 	 *
-	 * @return  string HTML
+	 * @return  string  HTML Output
 	 */
 	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
 	{
@@ -137,19 +138,16 @@ class PlgEditorCodemirror extends JPlugin
 		// Must pass the field id to the buttons in this editor.
 		$buttons = $this->_displayButtons($id, $buttons, $asset, $author);
 
-
 		// Look if we need special syntax coloring.
-		$file = JFactory::getApplication()->input->get('file');
-		$explodeArray = explode('.',base64_decode($file));
-		$syntax = end($explodeArray);
+		$syntax = $this->params->get('syntax', 'php');
 
 		if ($syntax)
 		{
-			switch($syntax)
+			switch ($syntax)
 			{
 				case 'css':
-					$parserFile = array('css.js', 'closebrackets.js');
-					$mode = 'text/css';
+					$parserFile        = array('css.js', 'closebrackets.js');
+					$mode              = 'text/css';
 					$autoCloseBrackets = true;
 					$autoCloseTags     = false;
 					$fold              = true;
@@ -159,8 +157,8 @@ class PlgEditorCodemirror extends JPlugin
 					break;
 
 				case 'ini':
-					$parserFile = array('css.js');
-					$mode = 'text/css';
+					$parserFile        = array('css.js');
+					$mode              = 'text/css';
 					$autoCloseBrackets = false;
 					$autoCloseTags     = false;
 					$fold              = false;
@@ -169,8 +167,8 @@ class PlgEditorCodemirror extends JPlugin
 					break;
 
 				case 'xml':
-					$parserFile = array('xml.js', 'closetag.js');
-					$mode = 'application/xml';
+					$parserFile        = array('xml.js', 'closetag.js');
+					$mode              = 'application/xml';
 					$fold              = true;
 					$autoCloseBrackets = false;
 					$autoCloseTags     = true;
@@ -180,8 +178,8 @@ class PlgEditorCodemirror extends JPlugin
 					break;
 
 				case 'js':
-					$parserFile = array('javascript.js', 'closebrackets.js');
-					$mode = 'text/javascript';
+					$parserFile        = array('javascript.js', 'closebrackets.js');
+					$mode              = 'text/javascript';
 					$autoCloseBrackets = true;
 					$autoCloseTags     = false;
 					$fold              = true;
@@ -191,8 +189,8 @@ class PlgEditorCodemirror extends JPlugin
 					break;
 
 				case 'less':
-					$parserFile = array('less.js', 'css.js', 'closebrackets.js');
-					$mode = 'text/x-less';
+					$parserFile        = array('less.js', 'css.js', 'closebrackets.js');
+					$mode              = 'text/x-less';
 					$autoCloseBrackets = true;
 					$autoCloseTags     = false;
 					$fold              = true;
@@ -202,8 +200,8 @@ class PlgEditorCodemirror extends JPlugin
 					break;
 
 				case 'php':
-					$parserFile = array('xml.js', 'clike.js', 'css.js', 'javascript.js', 'htmlmixed.js', 'php.js', 'closebrackets.js', 'closetag.js');
-					$mode = 'application/x-httpd-php';
+					$parserFile        = array('xml.js', 'clike.js', 'css.js', 'javascript.js', 'htmlmixed.js', 'php.js', 'closebrackets.js', 'closetag.js');
+					$mode              = 'application/x-httpd-php';
 					$autoCloseBrackets = true;
 					$autoCloseTags     = true;
 					$fold              = true;
@@ -214,18 +212,18 @@ class PlgEditorCodemirror extends JPlugin
 					break;
 
 				default:
-					$parserFile			= false;
-					$mode 				= 'text/plain';
-					$autoCloseBrackets 	= false;
-					$autoCloseTags     	= false;
-					$fold              	= false;
-					$matchTags         	= false;
-					$matchBrackets     	= false;
+					$parserFile        = false;
+					$mode              = 'text/plain';
+					$autoCloseBrackets = false;
+					$autoCloseTags     = false;
+					$fold              = false;
+					$matchTags         = false;
+					$matchBrackets     = false;
 					break;
-			} //switch
+			}
 		}
 
-		if($parserFile)
+		if ($parserFile)
 		{
 			foreach ($parserFile as $file)
 			{
@@ -243,6 +241,7 @@ class PlgEditorCodemirror extends JPlugin
 		{
 			$options->lineNumbers = true;
 		}
+
 		if ($this->params->get('autoFocus') == "1")
 		{
 			$options->autofocus	= true;
@@ -278,14 +277,13 @@ class PlgEditorCodemirror extends JPlugin
 			JHtml::_('script', $this->_basePath . 'js/foldgutter.js', false, false, false, false);
 		}
 
-
-		if($this->params->get('theme', '') == 'ambiance')
+		if ($this->params->get('theme', '') == 'ambiance')
 		{
 			$options->theme	= 'ambiance';
 			JHtml::_('stylesheet', $this->_basePath . 'css/ambiance.css');
 		}
 
-		if($this->params->get('lineWrapping') == "1")
+		if ($this->params->get('lineWrapping') == "1")
 		{
 			$options->lineWrapping = true;
 		}
@@ -300,26 +298,26 @@ class PlgEditorCodemirror extends JPlugin
 		$html[] = $buttons;
 		$html[] = '<script type="text/javascript">';
 		$html[] = '(function() {';
-		$html[] = 'var editor = CodeMirror.fromTextArea(document.getElementById("'.$id.'"), '.json_encode($options).');';
-		$html[] = 'editor.setOption("extraKeys", {';
-		$html[] = '"Ctrl-Q": function(cm) {';
-		$html[] = 'setFullScreen(cm, !isFullScreen(cm));';
-		$html[] = '},';
-		$html[] = '"Esc": function(cm) {';
-		$html[] = 'if (isFullScreen(cm)) setFullScreen(cm, false);';
-		$html[] = '}';
-		$html[] = '});';
-		$html[] = 'editor.on("gutterClick", function(cm, n) {';
-		$html[] = 'var info = cm.lineInfo(n)';
-		$html[] = 'cm.setGutterMarker(n, "breakpoints", info.gutterMarkers ? null : makeMarker())';
-		$html[] = '})';
-		$html[] = 'function makeMarker() {';
-		$html[] = 'var marker = document.createElement("div")';
-		$html[] = 'marker.style.color = "#822"';
-		$html[] = 'marker.innerHTML = "●"';
-		$html[] = 'return marker';
-		$html[] = '}';
-		$html[] = 'Joomla.editors.instances[\''.$id.'\'] = editor;';
+		$html[] = '		var editor = CodeMirror.fromTextArea(document.getElementById("' . $id . '"), ' . json_encode($options) . ');';
+		$html[] = '		editor.setOption("extraKeys", {';
+		$html[] = '			"Ctrl-Q": function(cm) {';
+		$html[] = '				setFullScreen(cm, !isFullScreen(cm));';
+		$html[] = '			},';
+		$html[] = '			"Esc": function(cm) {';
+		$html[] = '				if (isFullScreen(cm)) setFullScreen(cm, false);';
+		$html[] = '			}';
+		$html[] = '		});';
+		$html[] = '		editor.on("gutterClick", function(cm, n) {';
+		$html[] = '			var info = cm.lineInfo(n)';
+		$html[] = '			cm.setGutterMarker(n, "breakpoints", info.gutterMarkers ? null : makeMarker())';
+		$html[] = '		})';
+		$html[] = '		function makeMarker() {';
+		$html[] = '			var marker = document.createElement("div")';
+		$html[] = '			marker.style.color = "#822"';
+		$html[] = '			marker.innerHTML = "●"';
+		$html[] = '			return marker';
+		$html[] = '		}';
+		$html[] = '		Joomla.editors.instances[\'' . $id . '\'] = editor;';
 		$html[] = '})()';
 		$html[] = '</script>';
 
@@ -329,8 +327,10 @@ class PlgEditorCodemirror extends JPlugin
 	/**
 	 * Displays the editor buttons.
 	 *
-	 * @param string $name
-	 * @param mixed $buttons [array with button objects | boolean true to display buttons]
+	 * @param   string  $name     The editor name
+	 * @param   mixed   $buttons  [array with button objects | boolean true to display buttons]
+	 * @param   string  $asset    The object asset
+	 * @param   object  $author   The author.
 	 *
 	 * @return  string HTML
 	 */
@@ -367,12 +367,12 @@ class PlgEditorCodemirror extends JPlugin
 				if ($button->get('name'))
 				{
 					$modal		= ($button->get('modal')) ? 'class="modal-button btn"' : null;
-					$href		= ($button->get('link')) ? ' class="btn" href="'.JUri::base().$button->get('link').'"' : null;
-					$onclick	= ($button->get('onclick')) ? 'onclick="'.$button->get('onclick').'"' : null;
+					$href		= ($button->get('link')) ? ' class="btn" href="' . JUri::base() . $button->get('link') . '"' : null;
+					$onclick	= ($button->get('onclick')) ? 'onclick="' . $button->get('onclick') . '"' : null;
 					$title      = ($button->get('title')) ? $button->get('title') : $button->get('text');
-					$html[] = '<a '.$modal.' title="'.$title.'" '.$href.' '.$onclick.' rel="'.$button->get('options').'">';
-					$html[] = '<i class="icon-' . $button->get('name'). '"></i> ';
-					$html[] = $button->get('text').'</a>';
+					$html[] = '<a ' . $modal . ' title="' . $title . '" ' . $href . ' ' . $onclick . ' rel="' . $button->get('options') . '">';
+					$html[] = '<i class="icon-' . $button->get('name') . '"></i> ';
+					$html[] = $button->get('text') . '</a>';
 				}
 			}
 

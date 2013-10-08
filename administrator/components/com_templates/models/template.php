@@ -619,7 +619,7 @@ class TemplatesModelTemplate extends JModelForm
 			elseif (stristr($override, 'com_') != false)
 			{
 				$folderExplode = explode(DIRECTORY_SEPARATOR, $override);
-				$size = sizeof($folderExplode);
+				$size = count($folderExplode);
 
 				$url = JPath::clean($folderExplode[$size - 3] . '/' . $folderExplode[$size - 1]);
 
