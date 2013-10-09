@@ -87,7 +87,7 @@ class TagsViewTag extends JViewLegacy
 		$title = JText::_('COM_TAGS_BASE_' . ($isNew?'ADD':'EDIT') . '_TITLE');
 
 		// Prepare the toolbar.
-		JToolbarHelper::title($title, 'tag-' . ($isNew?'add':'edit') . ($isNew?'add':'edit'));
+		JToolbarHelper::title($title, 'tag tag-' . ($isNew?'add':'edit') . ($isNew?'add':'edit'));
 
 		// For new records, check the create permission.
 		if ($isNew)
@@ -124,6 +124,14 @@ class TagsViewTag extends JViewLegacy
 			JToolbarHelper::cancel('tag.cancel', 'JTOOLBAR_CLOSE');
 		}
 
+		if ($this->state->params->get('save_history') && $user->authorise('core.edit'))
+		{
+			$itemId = $this->item->id;
+			$typeAlias = 'com_tags.tag';
+			JToolbarHelper::versions($typeAlias, $itemId);
+		}
+
+		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_COMPONENTS_TAGS_MANAGER_EDIT');
 		JToolbarHelper::divider();
 	}

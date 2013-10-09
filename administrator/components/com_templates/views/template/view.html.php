@@ -188,7 +188,7 @@ class TemplatesViewTemplate extends JViewLegacy
 		$explodeArray = explode('.', $this->fileName);
 		$ext = end($explodeArray);
 
-		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE'), 'thememanager');
+		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE'), 'eye thememanager');
 
 		// Add a Apply and save button
 		if ($this->type == 'file')

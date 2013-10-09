@@ -67,7 +67,7 @@ class ContactViewContact extends JViewLegacy
 		// Since we don't track these assets at the item level, use the category id.
 		$canDo		= JHelperContent::getActions($this->item->catid, 0, 'com_contact');
 
-		JToolbarHelper::title(JText::_('COM_CONTACT_MANAGER_CONTACT'), 'contact.png');
+		JToolbarHelper::title(JText::_('COM_CONTACT_MANAGER_CONTACT'), 'address contact');
 
 		// Build the actions for new and existing records.
 		if ($isNew)
