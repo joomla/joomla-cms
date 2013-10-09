@@ -95,9 +95,14 @@ class JFormFieldFile extends JFormField
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
-		$this->accept = (string) $element['accept'];
+		$return = parent::setup($element, $value, $group);
 
-		return parent::setup($element, $value, $group);
+		if ($return)
+		{
+			$this->accept = (string) $this->element['accept'];
+		}
+
+		return $return;
 	}
 
 	/**

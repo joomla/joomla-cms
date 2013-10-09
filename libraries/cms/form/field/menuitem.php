@@ -137,10 +137,10 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 
 		if ($result == true)
 		{
-			$this->menuType  = (string) $element['menu_type'];
-			$this->published = $element['published'];
-			$this->disable   = $element['disable'];
-			$this->language  = $element['language'];
+			$this->menuType  = (string) $this->element['menu_type'];
+			$this->published = $this->element['published'];
+			$this->disable   = $this->element['disable'];
+			$this->language  = $this->element['language'];
 		}
 
 		return $result;

@@ -128,12 +128,17 @@ class JFormFieldColor extends JFormField
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
-		$this->control  = isset($element['control']) ? (string) $element['control'] : 'hue';
-		$this->position = isset($element['position']) ? (string) $element['position'] : 'right';
-		$this->colors   = (string) $element['colors'];
-		$this->split    = isset($element['split']) ? (int) $this->element['split'] : 3;
+		$return = parent::setup($element, $value, $group);
 
-		return parent::setup($element, $value, $group);
+		if ($return)
+		{
+			$this->control  = isset($this->element['control']) ? (string) $this->element['control'] : 'hue';
+			$this->position = isset($this->element['position']) ? (string) $this->element['position'] : 'right';
+			$this->colors   = (string) $this->element['colors'];
+			$this->split    = isset($this->element['split']) ? (int) $this->element['split'] : 3;
+		}
+
+		return $return;
 	}
 
 	/**

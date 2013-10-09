@@ -100,11 +100,11 @@ class JFormFieldModulePosition extends JFormFieldText
 		if ($result == true)
 		{
 			// Get the client id.
-			$clientId = $element['client_id'];
+			$clientId = $this->element['client_id'];
 
 			if (!isset($clientId))
 			{
-				$clientName = $element['client'];
+				$clientName = $this->element['client'];
 
 				if (isset($clientName))
 				{
