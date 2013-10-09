@@ -31,7 +31,7 @@ class JHtmlIcon
 
 		if ($params->get('show_icons'))
 		{
-			$text = JHtml::_('image', 'system/emailButton.png', JText::_('JGLOBAL_EMAIL'), null, true);
+			$text = JHtml::_('image', 'system/emailButton.png', JText::_('JGLOBAL_EMAIL'), $attribs, true);
 		}
 		else
 		{
@@ -55,7 +55,7 @@ class JHtmlIcon
 		// checks template image directory for image, if non found default are loaded
 		if ($params->get('show_icons'))
 		{
-			$text = JHtml::_('image', 'system/printButton.png', JText::_('JGLOBAL_PRINT'), null, true);
+			$text = JHtml::_('image', 'system/printButton.png', JText::_('JGLOBAL_PRINT'), $attribs, true);
 		}
 		else
 		{
@@ -74,7 +74,7 @@ class JHtmlIcon
 		// checks template image directory for image, if non found default are loaded
 		if ($params->get('show_icons'))
 		{
-			$text = JHtml::_('image', 'system/printButton.png', JText::_('JGLOBAL_PRINT'), null, true);
+			$text = JHtml::_('image', 'system/printButton.png', JText::_('JGLOBAL_PRINT'), $attribs, true);
 		}
 		else
 		{
