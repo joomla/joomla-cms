@@ -52,7 +52,7 @@ class ModulesViewSelect extends JViewLegacy
 	protected function addToolbar()
 	{
 		// Add page title
-		JToolbarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES'), 'module.png');
+		JToolbarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES'), 'cube module');
 
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');

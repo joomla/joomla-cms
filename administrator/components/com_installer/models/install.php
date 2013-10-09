@@ -74,31 +74,77 @@ class InstallerModelInstall extends JModelLegacy
 		JClientHelper::setCredentialsFromRequest('ftp');
 		$app = JFactory::getApplication();
 
-		switch ($app->input->getWord('installtype'))
+		// Load installer plugins for assistance if required:
+		JPluginHelper::importPlugin('installer');
+		$dispatcher = JEventDispatcher::getInstance();
+
+		$package = null;
+
+		// This event allows an input pre-treatment, a custom pre-packing or custom installation (e.g. from a JSON description)
+		$results = $dispatcher->trigger('onInstallerBeforeInstallation', array($this, &$package));
+
+		if (in_array(true, $results, true))
 		{
-			case 'folder':
-				// Remember the 'Install from Directory' path.
-				$app->getUserStateFromRequest($this->_context . '.install_directory', 'install_directory');
-				$package = $this->_getPackageFromFolder();
-				break;
+			return true;
+		}
+		elseif (in_array(false, $results, true))
+		{
+			return false;
+		}
 
-			case 'upload':
-				$package = $this->_getPackageFromUpload();
-				break;
+		$installType = $app->input->getWord('installtype');
 
-			case 'url':
-				$package = $this->_getPackageFromUrl();
-				break;
+		if ($package === null)
+		{
+			switch ($installType)
+			{
+				case 'folder':
+					// Remember the 'Install from Directory' path.
+					$app->getUserStateFromRequest($this->_context . '.install_directory', 'install_directory');
+					$package = $this->_getPackageFromFolder();
+					break;
 
-			default:
-				$app->setUserState('com_installer.message', JText::_('COM_INSTALLER_NO_INSTALL_TYPE_FOUND'));
-				return false;
-				break;
+				case 'upload':
+					$package = $this->_getPackageFromUpload();
+					break;
+
+				case 'url':
+					$package = $this->_getPackageFromUrl();
+					break;
+
+				default:
+					$app->setUserState('com_installer.message', JText::_('COM_INSTALLER_NO_INSTALL_TYPE_FOUND'));
+
+					return false;
+					break;
+			}
+		}
+
+		// This event allows a custom installation of the package or a customization of the package:
+		$results = $dispatcher->trigger('onInstallerBeforeInstaller', array($this, &$package));
+
+		if (in_array(true, $results, true))
+		{
+			return true;
+		}
+		elseif (in_array(false, $results, true))
+		{
+			if (in_array($installType, array('upload', 'url')))
+			{
+				JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
+			}
+
+			return false;
 		}
 
 		// Was the package unpacked?
-		if (!$package)
+		if (!$package || !$package['type'])
 		{
+			if (in_array($installType, array('upload', 'url')))
+			{
+				JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
+			}
+
 			$app->setUserState('com_installer.message', JText::_('COM_INSTALLER_UNABLE_TO_FIND_INSTALL_PACKAGE'));
 			return false;
 		}
@@ -119,6 +165,9 @@ class InstallerModelInstall extends JModelLegacy
 			$msg = JText::sprintf('COM_INSTALLER_INSTALL_SUCCESS', JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
 			$result = true;
 		}
+
+		// This event allows a custom a post-flight:
+		$dispatcher->trigger('onInstallerAfterInstaller', array($this, &$package, $installer, &$result, &$msg));
 
 		// Set some model state values
 		$app	= JFactory::getApplication();
@@ -189,7 +238,7 @@ class InstallerModelInstall extends JModelLegacy
 		JFile::upload($tmp_src, $tmp_dest);
 
 		// Unpack the downloaded package file
-		$package = JInstallerHelper::unpack($tmp_dest);
+		$package = JInstallerHelper::unpack($tmp_dest, true);
 
 		return $package;
 	}
@@ -223,7 +272,6 @@ class InstallerModelInstall extends JModelLegacy
 		if (!$type)
 		{
 			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_PATH_DOES_NOT_HAVE_A_VALID_PACKAGE'));
-			return false;
 		}
 
 		$package['packagefile'] = null;
@@ -255,6 +303,20 @@ class InstallerModelInstall extends JModelLegacy
 			return false;
 		}
 
+		// Handle updater XML file case:
+		if (preg_match('/\.xml\s*$/', $url))
+		{
+			jimport('joomla.updater.update');
+			$update = new JUpdate;
+			$update->loadFromXML($url);
+			$package_url = trim($update->get('downloadurl', false)->_data);
+			if ($package_url)
+			{
+				$url = $package_url;
+			}
+			unset($update);
+		}
+
 		// Download the package at the URL given
 		$p_file = JInstallerHelper::downloadPackage($url);
 
@@ -269,7 +331,7 @@ class InstallerModelInstall extends JModelLegacy
 		$tmp_dest = $config->get('tmp_path');
 
 		// Unpack the downloaded package file
-		$package = JInstallerHelper::unpack($tmp_dest . '/' . $p_file);
+		$package = JInstallerHelper::unpack($tmp_dest . '/' . $p_file, true);
 
 		return $package;
 	}

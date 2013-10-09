@@ -27,6 +27,11 @@ class JoomlaInstallerScript
 	 */
 	public function update($installer)
 	{
+		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+		$options['text_file'] = 'joomla_update.php';
+		JLog::addLogger($options, JLog::INFO, array('Update', 'databasequery', 'jerror'));
+		JLog::add(JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), JLog::INFO, 'Update');
+
 		$this->deleteUnexistingFiles();
 		$this->updateManifestCaches();
 		$this->updateDatabase();
@@ -940,6 +945,40 @@ class JoomlaInstallerScript
 			'/libraries/legacy/component/index.html',
 			'/libraries/legacy/module/helper.php',
 			'/libraries/legacy/module/index.html',
+			'/administrator/components/com_templates/controllers/source.php',
+			'/administrator/components/com_templates/models/source.php',
+			'/administrator/components/com_templates/views/source/index.html',
+			'/administrator/components/com_templates/views/source/tmpl/edit.php',
+			'/administrator/components/com_templates/views/source/tmpl/edit_ftp.php',
+			'/administrator/components/com_templates/views/source/tmpl/index.html',
+			'/administrator/components/com_templates/views/source/view.html.php',
+			'/media/editors/codemirror/css/csscolors.css',
+			'/media/editors/codemirror/css/jscolors.css',
+			'/media/editors/codemirror/css/phpcolors.css',
+			'/media/editors/codemirror/css/sparqlcolors.css',
+			'/media/editors/codemirror/css/xmlcolors.css',
+			'/media/editors/codemirror/js/basefiles-uncompressed.js',
+			'/media/editors/codemirror/js/basefiles.js',
+			'/media/editors/codemirror/js/codemirror-uncompressed.js',
+			'/media/editors/codemirror/js/editor.js',
+			'/media/editors/codemirror/js/highlight.js',
+			'/media/editors/codemirror/js/mirrorframe.js',
+			'/media/editors/codemirror/js/parsecss.js',
+			'/media/editors/codemirror/js/parsedummy.js',
+			'/media/editors/codemirror/js/parsehtmlmixed.js',
+			'/media/editors/codemirror/js/parsejavascript.js',
+			'/media/editors/codemirror/js/parsephp.js',
+			'/media/editors/codemirror/js/parsephphtmlmixed.js',
+			'/media/editors/codemirror/js/parsesparql.js',
+			'/media/editors/codemirror/js/parsexml.js',
+			'/media/editors/codemirror/js/select.js',
+			'/media/editors/codemirror/js/stringstream.js',
+			'/media/editors/codemirror/js/tokenize.js',
+			'/media/editors/codemirror/js/tokenizejavascript.js',
+			'/media/editors/codemirror/js/tokenizephp.js',
+			'/media/editors/codemirror/js/undo.js',
+			'/media/editors/codemirror/js/util.js',
+			'administrator/components/com_weblinks/models/fields/index.html',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -993,6 +1032,7 @@ class JoomlaInstallerScript
 			'/libraries/joomla/plugin',
 			'/libraries/legacy/component',
 			'/libraries/legacy/module',
+			'administrator/components/com_weblinks/models/fields',
 		);
 
 		jimport('joomla.filesystem.file');
