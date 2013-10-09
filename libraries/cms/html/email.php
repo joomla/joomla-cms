@@ -72,8 +72,9 @@ abstract class JHtmlEmail
 		}
 
 		if(!self::$included_js) {
-			/* Below javascriopt is minified via http://closure-compiler.appspot.com/home
-				var addCloakedMailto = function(id){
+			/* Below javascript is minified via http://closure-compiler.appspot.com/home
+				var Joomla = ( Joomla || {} );
+				Joomla.addCloakedMailto = function(id){
 					var el = document.getElementById(id);
 					if(el) {
 						var els = el.getElementsByTagName("span");
@@ -87,7 +88,7 @@ abstract class JHtmlEmail
 					}
 				}
 			*/
-			$js = 'var addCloakedMailto=function(a){if(a=document.getElementById(a)){for(var c=a.getElementsByTagName("span"),d="",e="",b=0,f=c.length;b<f;b++)d+=c[b].getAttribute("data-content-pre"),e=c[b].getAttribute("data-content-post")+e;a.parentNode.href="mailto:"+d+e}};';
+			$js = 'var Joomla=Joomla||{};Joomla.addCloakedMailto=function(a){if(a=document.getElementById(a)){for(var c=a.getElementsByTagName("span"),d="",e="",b=0,f=c.length;b<f;b++)d+=c[b].getAttribute("data-content-pre"),e=c[b].getAttribute("data-content-post")+e;a.parentNode.href="mailto:"+d+e}};';
 
 			JFactory::getDocument()->addScriptDeclaration($js);
 			self::$included_js = 1;
@@ -97,7 +98,7 @@ abstract class JHtmlEmail
 			'<a ' . $pre . 'href="javascript:// ' . htmlentities(JText::_('JLIB_HTML_CLOAKING'), ENT_COMPAT, 'UTF-8') . '"' . $post . '>'
 			. $text
 			. '</a>'
-			. '<script type="text/javascript">addCloakedMailto("' . $id . '");</script>';
+			. '<script type="text/javascript">Joomla.addCloakedMailto("' . $id . '");</script>';
 
 	}
 
