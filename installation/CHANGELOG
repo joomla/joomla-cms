@@ -25,12 +25,15 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Oct-2013 Michael Babker
+ # [#32226] *Regression: Editors-xtd not displaying anymore.  Thanks Achal Aggarwal
+
 09-Oct-2013 David Hurley
  # [#32221] Fix version / cancel button placement Thanks Janich Rasmussen
 
 09-Oct-2013 Jean-Marie Simonet
  # [#32217] Module position modal styling broken  Thanks Peter van Westen
- # [#32224] *regression JUX #32096 commit breaks multilang edit "modals" 
+ # [#32224] *regression JUX #32096 commit breaks multilang edit "modals"
  $ Updating installation lang files: bg-BG, cs-CZ, el-GR, sk-SK, uk-UA
 
 09-Oct-2013 Elin Waring
