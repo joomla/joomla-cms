@@ -355,7 +355,7 @@ class PlgUserJoomla extends JPlugin
 	public function onUserAfterLogin($options)
 	{
 		// Currently this portion of the method only applies to Cookie based login.
-		if (!isset($options['responseType']) || ($options['responseType'] != 'Cookie' && !$options['remember']))
+		if (!isset($options['responseType']) || ($options['responseType'] != 'Cookie' && empty($options['remember'])))
 		{
 			return true;
 		}
