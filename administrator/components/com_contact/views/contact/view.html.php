@@ -107,7 +107,7 @@ class ContactViewContact extends JViewLegacy
 				JToolbarHelper::save2copy('contact.save2copy');
 			}
 
-			if ($this->state->params->get('save_history') && $user->authorise('core.edit'))
+			if ($this->state->params->get('save_history', 1) && $user->authorise('core.edit'))
 			{
 				JToolbarHelper::versions('com_contact.contact', $this->item->id);
 			}
