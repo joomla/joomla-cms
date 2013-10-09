@@ -274,6 +274,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 		$http = JHttpFactory::getHttp();
 
 		$token = JSession::getFormToken();
+		$nonce = md5($token . uniqid(rand()));
 
 		while (!$gotResponse && !empty($server_queue))
 		{
@@ -289,7 +290,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 
 			// This prevents a REPLAYED_OTP status of the token doesn't change
 			// after a user submits an invalid OTP
-			$uri->setVar('nonce', md5($token . uniqid(rand())));
+			$uri->setVar('nonce', $nonce);
 
 			// Minimum service level required: 50% (at least 50% of the YubiCloud
 			// servers must reply positively for the OTP to validate)
@@ -361,7 +362,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 		}
 
 		// Validate the response - The token must match
-		if ($data['nonce'] != $token)
+		if ($data['nonce'] != $nonce)
 		{
 			return false;
 		}
