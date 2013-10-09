@@ -256,25 +256,28 @@ class JFormFieldEditor extends JFormFieldTextarea
 				// Get the database object.
 				$db = JFactory::getDbo();
 
-				// Iterate over teh types looking for an existing editor.
-				foreach ($types as $element)
+				// Iterate over the types looking for an existing editor.
+				if (is_array($types)) 
 				{
-					// Build the query.
-					$query = $db->getQuery(true)
-						->select('element')
-						->from('#__extensions')
-						->where('element = ' . $db->quote($element))
-						->where('folder = ' . $db->quote('editors'))
-						->where('enabled = 1');
-
-					// Check of the editor exists.
-					$db->setQuery($query, 0, 1);
-					$editor = $db->loadResult();
-
-					// If an editor was found stop looking.
-					if ($editor)
+					foreach ($types as $element)
 					{
-						break;
+						// Build the query.
+						$query = $db->getQuery(true)
+							->select('element')
+							->from('#__extensions')
+							->where('element = ' . $db->quote($element))
+							->where('folder = ' . $db->quote('editors'))
+							->where('enabled = 1');
+
+						// Check of the editor exists.
+						$db->setQuery($query, 0, 1);
+						$editor = $db->loadResult();
+
+						// If an editor was found stop looking.
+						if ($editor)
+						{
+							break;
+						}
 					}
 				}
 			}
