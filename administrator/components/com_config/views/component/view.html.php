@@ -101,7 +101,7 @@ class ConfigViewComponent extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JToolbarHelper::title(JText::_($this->component->option . '_configuration'), 'config.png');
+		JToolbarHelper::title(JText::_($this->component->option . '_configuration'), 'equalizer config');
 		JToolbarHelper::apply('component.apply');
 		JToolbarHelper::save('component.save');
 		JToolbarHelper::divider();
