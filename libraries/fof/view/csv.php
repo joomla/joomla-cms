@@ -192,7 +192,12 @@ class FOFViewCsv extends FOFViewHtml
 
 				foreach ($keys as $k)
 				{
-					$csv[] = '"' . str_replace('"', '""', $k) . '"';
+					$k = str_replace('"', '""', $k);
+					$k = str_replace("\r", '\\r', $k);
+					$k = str_replace("\n", '\\n', $k);
+					$k = '"' . $k . '"';
+
+					$csv[] = $k;
 				}
 
 				echo implode(",", $csv) . "\r\n";
@@ -223,7 +228,12 @@ class FOFViewCsv extends FOFViewHtml
 						$v = 'Object';
 					}
 
-					$csv[] = '"' . str_replace('"', '""', $v) . '"';
+					$v = str_replace('"', '""', $v);
+					$v = str_replace("\r", '\\r', $v);
+					$v = str_replace("\n", '\\n', $v);
+					$v = '"' . $v . '"';
+
+					$csv[] = $v;
 				}
 
 				echo implode(",", $csv) . "\r\n";
