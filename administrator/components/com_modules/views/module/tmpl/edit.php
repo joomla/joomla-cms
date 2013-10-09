@@ -110,14 +110,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 			</div>
 			<div class="span3">
 				<fieldset class="form-vertical">
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('showtitle'); ?>
-						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('showtitle'); ?>
-						</div>
-					</div>
+					<?php echo $this->form->getControlGroup('showtitle'); ?>
 					<div class="control-group">
 						<div class="control-label">
 							<?php echo $this->form->getLabel('position'); ?>
