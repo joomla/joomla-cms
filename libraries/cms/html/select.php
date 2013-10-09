@@ -159,7 +159,7 @@ abstract class JHtmlSelect
 		$id = ' id="' . $idtag . '"';
 
 		$baseIndent = str_repeat($options['format.indent'], $options['format.depth']++);
-		$html = $baseIndent . '<datalist'. $id .'>' . $options['format.eol']
+		$html = $baseIndent . '<datalist' . $id . '>' . $options['format.eol']
 			. static::options($data, $options) . $baseIndent . '</datalist>' . $options['format.eol'];
 
 		return $html;
