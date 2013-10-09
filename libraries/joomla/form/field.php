@@ -150,6 +150,14 @@ abstract class JFormField
 	protected $multiple = false;
 
 	/**
+	 * Allows extensions to create repeat elements
+	 *
+	 * @var    mixed
+	 * @since  3.2
+	 */
+	public $repeat = false;
+
+	/**
 	 * The pattern (Reg Ex) of value of the form field.
 	 *
 	 * @var    string
@@ -540,10 +548,28 @@ abstract class JFormField
 			$this->__set($attributeName, $element[$attributeName]);
 		}
 
+		// Allow for repeatable elements
+		$repeat = (string) $element['repeat'];
+		$this->repeat = ($repeat == 'true' || $repeat == 'multiple' || (!empty($this->form->repeat) && $this->form->repeat == 1));
+
 		// Set the visibility.
 		$this->hidden = ($this->hidden || (string) $element['type'] == 'hidden');
 
 		return true;
+	}
+
+	/**
+	 * Simple method to set the value
+	 *
+	 * @param   mixed  $value  Value to set
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public function setValue($value)
+	{
+		$this->value = $value;
 	}
 
 	/**
@@ -592,6 +618,18 @@ abstract class JFormField
 
 		// Clean up any invalid characters.
 		$id = preg_replace('#\W#', '_', $id);
+
+		// If this is a repeatable element, add the repeat count to the ID
+		if ($this->repeat)
+		{
+			$repeatCounter = empty($this->form->repeatCounter) ? 0 : $this->form->repeatCounter;
+			$id .= '-' . $repeatCounter;
+
+			if (strtolower($this->type) == 'radio')
+			{
+				$id .= '-';
+			}
+		}
 
 		return $id;
 	}
@@ -687,6 +725,9 @@ abstract class JFormField
 	 */
 	protected function getName($fieldName)
 	{
+		// To support repeated element, extensions can set this in plugin->onRenderSettings
+		$repeatCounter = empty($this->form->repeatCounter) ? 0 : $this->form->repeatCounter;
+
 		$name = '';
 
 		// If there is a form control set for the attached form add it first.

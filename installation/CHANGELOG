@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 08-Oct-2013 Michael Babker
  ^ [#31347] Introducing HTML5 form fields and attributes - GSOC.  Thanks Achal Aggarwal
+ ^ [#30781] Small changes to jForm and jField to allow for repeatable form elements.  Thanks George Wilson
 
 08-Oct-2013 Jean-Marie Simonet
  $ Updating installation lang files: et-EE, fa-IR, ja-JP, tr-TR, ug-CN, zh-cn, zh-TW
