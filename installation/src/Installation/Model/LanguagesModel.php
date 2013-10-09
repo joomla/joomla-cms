@@ -506,9 +506,9 @@ class LanguagesModel extends JModelBase
 		}
 
 		// Get the form.
-		JForm::addFormPath(JPATH_COMPONENT . '/model/forms');
-		JForm::addFieldPath(JPATH_COMPONENT . '/model/fields');
-		JForm::addRulePath(JPATH_COMPONENT . '/model/rules');
+		JForm::addFormPath(JPATH_INSTALLATION . '/src/Installation/Model/forms');
+		JForm::addFieldPath(JPATH_INSTALLATION . '/src/Installation/Model/fields');
+		JForm::addRulePath(JPATH_INSTALLATION . '/src/Installation/Model/rules');
 
 		try
 		{

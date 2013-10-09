@@ -35,6 +35,17 @@ defined('_JEXEC') or die;
 final class WebApplication extends JApplicationCms
 {
 	/**
+	 * Holds task => controller mapping for tasks
+	 * whose names don't map directly to a controller.
+	 *
+	 * @var array
+	 */
+	private $taskMap = array(
+		'installdatabase_backup' => 'InstallDatabaseBackupController',
+		'installdatabase_remove' => 'InstallDatabaseRemoveController'
+	);
+
+	/**
 	 * Class constructor.
 	 *
 	 * @since   3.1
@@ -283,6 +294,19 @@ final class WebApplication extends JApplicationCms
 		// If the requested controller exists let's use it.
 		if (class_exists($class))
 		{
+			return new $class;
+		}
+
+		/*
+		 * Try again, this time looking in the taskMap.
+		 * We know that classes in the taskMap exist.
+		 */
+		$task = strtolower($task);
+
+		if (isset($this->taskMap[$task]))
+		{
+			$class = 'Installation\\Controller\\' . $this->taskMap[$task];
+
 			return new $class;
 		}
 

@@ -25,7 +25,7 @@ use Installation\Model\SetupModel,
  * @subpackage  Controller
  * @since       3.1
  */
-class InstallDatabase_backupController extends JControllerBase
+class InstallDatabaseBackupController extends JControllerBase
 {
 	/**
 	 * Execute the controller.

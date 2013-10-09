@@ -18,6 +18,6 @@ defined('_JEXEC') or die;
  * @subpackage  Controller
  * @since       3.1
  */
-class InstallDatabase_removeController extends InstallDatabase_backupController
+class InstallDatabaseRemoveController extends InstallDatabaseBackupController
 {
 }
