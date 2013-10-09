@@ -8,7 +8,7 @@
 		description="JGLOBAL_FIELD_ID_DESC"
 		class="readonly"
 		readonly="true"/>
-		
+
 	<field
 		name="hits"
 		type="text"
@@ -71,15 +71,15 @@
 		type="text"
 		label="JFIELD_ALIAS_LABEL"
 		description="JFIELD_ALIAS_DESC"
-		placeholder="JFIELD_ALIAS_PLACEHOLDER"
+		hint="JFIELD_ALIAS_PLACEHOLDER"
 		class="inputbox"
 		size="45"/>
-		
-	<field 
-		name="version_note" 
-		type="text" 
+
+	<field
+		name="version_note"
+		type="text"
 		label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
-		description="JGLOBAL_FIELD_VERSION_NOTE_DESC" 
+		description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
 		class="inputbox span12"
 		size="45" />
 
@@ -243,7 +243,7 @@
 				label="JAUTHOR"
 				description="JFIELD_METADATA_AUTHOR_DESC"
 				size="30"/>
-	
+
 			<field name="robots"
 				type="list"
 				label="JFIELD_METADATA_ROBOTS_LABEL"

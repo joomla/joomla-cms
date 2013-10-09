@@ -26,7 +26,7 @@
 		<field name="alias" type="text"
 			description="COM_WEBLINKS_FIELD_ALIAS_DESC"
 			label="JFIELD_ALIAS_LABEL"
-			placeholder="JFIELD_ALIAS_PLACEHOLDER"
+			hint="JFIELD_ALIAS_PLACEHOLDER"
 			size="45"
 		/>
 

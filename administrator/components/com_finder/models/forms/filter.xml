@@ -13,7 +13,7 @@
 
 		<field name="alias" type="text" label="JFIELD_ALIAS_LABEL"
 			description="JFIELD_ALIAS_DESC"
-			placeholder="JFIELD_ALIAS_PLACEHOLDER" class="inputbox" size="45" />
+			hint="JFIELD_ALIAS_PLACEHOLDER" class="inputbox" size="45" />
 
 		<field name="created" type="calendar" label="JGLOBAL_FIELD_CREATED_LABEL"
 			description="JGLOBAL_FIELD_CREATED_DESC" class="inputbox" size="22"
@@ -75,7 +75,7 @@
 			<field name="d1" type="calendar" class="inputbox"
 				label="COM_FINDER_FILTER_START_DATE_LABEL" description="COM_FINDER_FILTER_START_DATE_DESCRIPTION"
 				size="22" format="%Y-%m-%d" filter="user_utc" />
-	
+
 			<field
 				name="w2"
 				type="list"

@@ -15,7 +15,7 @@
 
 		<field name="alias" type="text" label="JFIELD_ALIAS_LABEL"
 			description="JFIELD_ALIAS_DESC"
-			placeholder="JFIELD_ALIAS_PLACEHOLDER"
+			hint="JFIELD_ALIAS_PLACEHOLDER"
 			class="inputbox" size="40" />
 
 		<field name="version_note" type="text" label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"

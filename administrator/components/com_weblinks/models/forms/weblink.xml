@@ -15,7 +15,7 @@
 		<field name="alias" type="text" class="inputbox"
 			size="40" label="JFIELD_ALIAS_LABEL"
 			description="COM_WEBLINKS_FIELD_ALIAS_DESC"
-			placeholder="JFIELD_ALIAS_PLACEHOLDER" />
+			hint="JFIELD_ALIAS_PLACEHOLDER" />
 
 		<field name="catid" type="categoryedit" extension="com_weblinks"
 			label="JCATEGORY" description="COM_WEBLINKS_FIELD_CATEGORY_DESC"
