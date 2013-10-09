@@ -90,14 +90,12 @@ class BannersViewClient extends JViewLegacy
 		}
 		else
 		{
+			if ($this->state->params->get('save_history', 1) && $user->authorise('core.edit'))
+			{
+				JToolbarHelper::versions('com_banners.client', $this->item->id);
+			}
+			
 			JToolbarHelper::cancel('client.cancel', 'JTOOLBAR_CLOSE');
-		}
-
-		if ($this->state->params->get('save_history') && $user->authorise('core.edit'))
-		{
-			$itemId = $this->item->id;
-			$typeAlias = 'com_banners.client';
-			JToolbarHelper::versions($typeAlias, $itemId);
 		}
 
 		JToolbarHelper::divider();
