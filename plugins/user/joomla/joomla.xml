@@ -32,7 +32,7 @@
 				</field>
 
 				<field name="autoregister" type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					description="PLG_USER_JOOMLA_FIELD_AUTOREGISTER_DESC"
 					label="PLG_USER_JOOMLA_FIELD_AUTOREGISTER_LABEL"
@@ -43,7 +43,7 @@
 
 				<field name="mail_to_user"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					label="PLG_USER_JOOMLA_FIELD_MAILTOUSER_LABEL"
 					description="PLG_USER_JOOMLA_FIELD_MAILTOUSER_DESC">

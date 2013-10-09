@@ -7,22 +7,25 @@
 			readonly="true" class="readonly"
 			label="JGLOBAL_FIELD_ID_LABEL" 	description ="JGLOBAL_FIELD_ID_DESC" />
 
-		<field name="name" type="text" class="inputbox"
+		<field name="name" type="text"
+			class="inputbox input-xxlarge input-large-text"
 			size="40" label="COM_BANNERS_FIELD_NAME_LABEL"
 			description="COM_BANNERS_FIELD_NAME_DESC" required="true" />
 
 		<field name="alias" type="text" class="inputbox"
 			size="40" label="JFIELD_ALIAS_LABEL"
-			description="COM_BANNERS_FIELD_ALIAS_DESC" />
+			description="COM_BANNERS_FIELD_ALIAS_DESC"
+			hint="JFIELD_ALIAS_PLACEHOLDER" />
 
 		<field name="catid" type="categoryedit" extension="com_banners"
 			label="JCATEGORY" description="COM_BANNERS_FIELD_CATEGORY_DESC"
 			class="inputbox" required="true"
 			addfieldpath="/administrator/components/com_categories/models/fields" />
-		
+
 		<field name="state" type="list"
 			label="JSTATUS" description="COM_BANNERS_FIELD_STATE_DESC"
-			class="inputbox span12 small" size="1" default="1" >
+			class="chzn-color-state"
+			size="1" default="1" >
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
 			<option value="2">JARCHIVED</option>
@@ -102,10 +105,10 @@
 	<fieldset name="bannerdetails"
 		label="COM_BANNERS_GROUP_LABEL_BANNER_DETAILS" >
 
-		<field name="sticky" type="list" default="0"
+		<field name="sticky" type="radio" default="0"
 			label="COM_BANNERS_FIELD_STICKY_LABEL"
 			description="COM_BANNERS_FIELD_STICKY_DESC"
-			class="span12 small" >
+			class="btn-group btn-group-yesno">
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
@@ -166,7 +169,8 @@
 			rows="3" cols="30" label="JFIELD_META_KEYWORDS_LABEL"
 			description="COM_BANNERS_FIELD_METAKEYWORDS_DESC" />
 
-		<field name="own_prefix" type="radio" class="btn-group"
+		<field name="own_prefix" type="radio"
+			class="btn-group btn-group-yesno"
 			label="COM_BANNERS_FIELD_BANNEROWNPREFIX_LABEL"
 			description="COM_BANNERS_FIELD_BANNEROWNPREFIX_DESC"
 			default="0">
@@ -187,11 +191,11 @@
 				description="COM_BANNERS_FIELD_IMAGE_DESC" />
 
 			<field name="width" type="text"
-				class="inputbox validate-numeric" label="COM_BANNERS_FIELD_WIDTH_LABEL"
+				class="inputbox input-mini validate-numeric" label="COM_BANNERS_FIELD_WIDTH_LABEL"
 				description="COM_BANNERS_FIELD_WIDTH_DESC" />
 
 			<field name="height" type="text"
-				class="inputbox validate-numeric" label="COM_BANNERS_FIELD_HEIGHT_LABEL"
+				class="inputbox input-mini validate-numeric" label="COM_BANNERS_FIELD_HEIGHT_LABEL"
 				description="COM_BANNERS_FIELD_HEIGHT_DESC" />
 
 			<field name="alt" type="text" class="inputbox"

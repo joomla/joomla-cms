@@ -125,7 +125,7 @@ class JLanguageAssociations
 			{
 				$params = new JRegistry(JPluginHelper::getPlugin('system', 'languagefilter')->params);
 
-				$enabled  = (boolean) $params->get('item_associations', false);
+				$enabled  = (boolean) $params->get('item_associations', true);
 				$tested = true;
 			}
 		}
