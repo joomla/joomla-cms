@@ -92,7 +92,7 @@ class ConfigViewApplicationHtml extends ConfigViewHtmlCms
 	 */
 	protected function addToolbar()
 	{
-		JToolbarHelper::title(JText::_('COM_CONFIG_GLOBAL_CONFIGURATION'), 'config.png');
+		JToolbarHelper::title(JText::_('COM_CONFIG_GLOBAL_CONFIGURATION'), 'equalizer config');
 		JToolbarHelper::apply('config.save.application.apply');
 		JToolbarHelper::save('config.save.application');
 		JToolbarHelper::divider();
