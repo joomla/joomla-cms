@@ -1078,18 +1078,18 @@ class JFormTest extends TestCase
 
 		$this->assertThat(
 			$form->getInput('title', null, 'The Title'),
-			$this->equalTo('<input type="text" name="title" id="title_id" value="The Title" class="inputbox required" required="required" aria-required="true"/>'),
+			$this->equalTo('<input type="text" name="title" id="title_id" value="The Title" class="inputbox" required aria-required="true" />'),
 			'Line:' . __LINE__ . ' The method should return a simple input text field.'
 		);
 
 		$this->assertThat(
 			$form->getInput('show_title', 'params', '0'),
 			$this->equalTo(
-				'<fieldset id="params_show_title" class="radio">' .
-					'<input type="radio" id="params_show_title0" name="params[show_title]" value="1"/>' .
-					'<label for="params_show_title0">' . JText::_('JYes') . '</label>' .
-					'<input type="radio" id="params_show_title1" name="params[show_title]" value="0" checked="checked"/>' .
-					'<label for="params_show_title1">' . JText::_('JNo') . '</label>' .
+				'<fieldset id="params_show_title" class="radio" >' .
+					'<input type="radio" id="params_show_title0" name="params[show_title]" value="1" />' .
+					'<label for="params_show_title0" >' . JText::_('JYes') . '</label>' .
+					'<input type="radio" id="params_show_title1" name="params[show_title]" value="0" checked="checked" />' .
+					'<label for="params_show_title1" >' . JText::_('JNo') . '</label>' .
 					'</fieldset>'
 			),
 			'Line:' . __LINE__ . ' The method should return a radio list.'
@@ -1106,7 +1106,7 @@ class JFormTest extends TestCase
 		$this->assertThat(
 			$form->getInput('colours', 'params', 'blue'),
 			$this->equalTo(
-				'<select id="jform_params_colours" name="jform[params][colours][]" multiple="multiple">' .
+				'<select id="jform_params_colours" name="jform[params][colours][]" multiple>' .
 					"\n" . '	<option value="red">Red</option>' .
 					"\n" . '	<option value="blue" selected="selected">Blue</option>' .
 					"\n" . '	<option value="green">Green</option>' .
@@ -1121,7 +1121,7 @@ class JFormTest extends TestCase
 		$this->assertThat(
 			$form->getInput('translate_default'),
 			$this->equalTo(
-				'<input type="text" name="jform[translate_default]" id="jform_translate_default" value="DEFAULT_KEY"/>'
+				'<input type="text" name="jform[translate_default]" id="jform_translate_default" value="DEFAULT_KEY" />'
 			),
 			'Line:' . __LINE__ .
 			' The method should return a simple input text field whose value is untranslated since the DEFAULT_KEY does not exist in the language.'
@@ -1132,7 +1132,7 @@ class JFormTest extends TestCase
 		$this->assertThat(
 			$form->getInput('translate_default'),
 			$this->equalTo(
-				'<input type="text" name="jform[translate_default]" id="jform_translate_default" value="??DEFAULT_KEY??"/>'
+				'<input type="text" name="jform[translate_default]" id="jform_translate_default" value="??DEFAULT_KEY??" />'
 			),
 			'Line:' . __LINE__ . ' The method should return a simple input text field whose value is marked untranslated.'
 		);
@@ -1141,7 +1141,7 @@ class JFormTest extends TestCase
 		$this->assertThat(
 			$form->getInput('translate_default'),
 			$this->equalTo(
-				'<input type="text" name="jform[translate_default]" id="jform_translate_default" value="My Default"/>'
+				'<input type="text" name="jform[translate_default]" id="jform_translate_default" value="My Default" />'
 			),
 			'Line:' . __LINE__ . ' The method should return a simple input text field whose value is translated.'
 		);
