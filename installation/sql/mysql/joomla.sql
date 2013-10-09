@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `#__assets` (
   UNIQUE KEY `idx_asset_name` (`name`),
   KEY `idx_lft_rgt` (`lft`,`rgt`),
   KEY `idx_parent_id` (`parent_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `#__assets`
@@ -218,7 +218,7 @@ CREATE TABLE IF NOT EXISTS `#__categories` (
   KEY `idx_left_right` (`lft`,`rgt`),
   KEY `idx_alias` (`alias`),
   KEY `idx_language` (`language`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `#__categories`
@@ -385,7 +385,7 @@ CREATE TABLE IF NOT EXISTS `#__content_types` (
   `content_history_options` varchar(5120) COMMENT 'JSON string for com_contenthistory options',
   PRIMARY KEY (`type_id`),
   KEY `idx_alias` (`type_alias`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=10000;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10000;
 
 -- --------------------------------------------------------
 
@@ -404,8 +404,9 @@ INSERT INTO `#__content_types` (`type_id`, `type_title`, `type_alias`, `table`, 
 (8, 'Newsfeeds Category', 'com_newsfeeds.category', '{"special":{"dbtable":"#__categories","key":"id","type":"Category","prefix":"JTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"published","core_alias":"alias","core_created_time":"created_time","core_modified_time":"modified_time","core_body":"description", "core_hits":"hits","core_publish_up":"null","core_publish_down":"null","core_access":"access", "core_params":"params", "core_featured":"null", "core_metadata":"metadata", "core_language":"language", "core_images":"null", "core_urls":"null", "core_version":"version", "core_ordering":"null", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"parent_id", "core_xreference":"null", "asset_id":"asset_id"}, "special":{"parent_id":"parent_id","lft":"lft","rgt":"rgt","level":"level","path":"path","extension":"extension","note":"note"}}', 'NewsfeedsHelperRoute::getCategoryRoute', '{"form_file":"administrator\\/components\\/com_categories\\/models\\/forms\\/category.xml",   "hide_fields":["asset_id","checked_out","checked_out_time","version","lft","rgt","level","path","extension"],   "display_lookup":[   {"source_column":"created_user_id","target_table":"#__users","target_column":"id","display_column":"name"},{"source_column":"access","target_table":"#__viewlevels","target_column":"id","display_column":"title"},{"source_column":"modified_user_id","target_table":"#__users","target_column":"id","display_column":"name"},{"source_column":"parent_id","target_table":"#__categories","target_column":"id","display_column":"title"}  ] }'),
 (9, 'Weblinks Category', 'com_weblinks.category', '{"special":{"dbtable":"#__categories","key":"id","type":"Category","prefix":"JTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"published","core_alias":"alias","core_created_time":"created_time","core_modified_time":"modified_time","core_body":"description", "core_hits":"hits","core_publish_up":"null","core_publish_down":"null","core_access":"access", "core_params":"params", "core_featured":"null", "core_metadata":"metadata", "core_language":"language", "core_images":"null", "core_urls":"null", "core_version":"version", "core_ordering":"null", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"parent_id", "core_xreference":"null", "asset_id":"asset_id"}, "special":{"parent_id":"parent_id","lft":"lft","rgt":"rgt","level":"level","path":"path","extension":"extension","note":"note"}}', 'WeblinksHelperRoute::getCategoryRoute', '{"form_file":"administrator\\/components\\/com_categories\\/models\\/forms\\/category.xml",   "hide_fields":["asset_id","checked_out","checked_out_time","version","lft","rgt","level","path","extension"],   "display_lookup":[   {"source_column":"created_user_id","target_table":"#__users","target_column":"id","display_column":"name"},{"source_column":"access","target_table":"#__viewlevels","target_column":"id","display_column":"title"},{"source_column":"modified_user_id","target_table":"#__users","target_column":"id","display_column":"name"},{"source_column":"parent_id","target_table":"#__categories","target_column":"id","display_column":"title"}  ] }'),
 (10, 'Tag', 'com_tags.tag', '{"special":{"dbtable":"#__tags","key":"tag_id","type":"Tag","prefix":"TagsTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"published","core_alias":"alias","core_created_time":"created_time","core_modified_time":"modified_time","core_body":"description", "core_hits":"hits","core_publish_up":"null","core_publish_down":"null","core_access":"access", "core_params":"params", "core_featured":"featured", "core_metadata":"metadata", "core_language":"language", "core_images":"images", "core_urls":"urls", "core_version":"version", "core_ordering":"null", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"null", "core_xreference":"null", "asset_id":"null"}, "special":{"parent_id":"parent_id","lft":"lft","rgt":"rgt","level":"level","path":"path"}}', 'TagsHelperRoute::getTagRoute', ''),
-(11, 'Banner', 'com_banners.banner', '{"special":{"dbtable":"#__banners","key":"id","type":"Banner","prefix":"BannersTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"name","core_state":"published","core_alias":"alias","core_created_time":"created","core_modified_time":"modified","core_body":"description", "core_hits":"null","core_publish_up":"publish_up","core_publish_down":"publish_down","core_access":"access", "core_params":"params", "core_featured":"null", "core_metadata":"metadata", "core_language":"language", "core_images":"images", "core_urls":"link", "core_version":"version", "core_ordering":"ordering", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"catid", "core_xreference":"null", "asset_id":"null"}, "special":{"imptotal":"imptotal", "impmade":"impmade", "clicks":"clicks", "clickurl":"clickurl", "custombannercode":"custombannercode", "cid":"cid", "purchase_type":"purchase_type", "track_impressions":"track_impressions", "track_clicks":"track_clicks"}}', '', ''),
-(12, 'Banners Category', 'com_banners.category', '{"special":{"dbtable":"#__categories","key":"id","type":"Category","prefix":"JTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"published","core_alias":"alias","core_created_time":"created_time","core_modified_time":"modified_time","core_body":"description", "core_hits":"hits","core_publish_up":"null","core_publish_down":"null","core_access":"access", "core_params":"params", "core_featured":"null", "core_metadata":"metadata", "core_language":"language", "core_images":"null", "core_urls":"null", "core_version":"version", "core_ordering":"null", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"parent_id", "core_xreference":"null", "asset_id":"asset_id"}, "special": {"parent_id":"parent_id","lft":"lft","rgt":"rgt","level":"level","path":"path","extension":"extension","note":"note"}}','', '');
+(11, 'Banner', 'com_banners.banner', '{"special":{"dbtable":"#__banners","key":"id","type":"Banner","prefix":"BannersTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"name","core_state":"published","core_alias":"alias","core_created_time":"created","core_modified_time":"modified","core_body":"description", "core_hits":"null","core_publish_up":"publish_up","core_publish_down":"publish_down","core_access":"access", "core_params":"params", "core_featured":"null", "core_metadata":"metadata", "core_language":"language", "core_images":"images", "core_urls":"link", "core_version":"version", "core_ordering":"ordering", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"catid", "core_xreference":"null", "asset_id":"null"}, "special":{"imptotal":"imptotal", "impmade":"impmade", "clicks":"clicks", "clickurl":"clickurl", "custombannercode":"custombannercode", "cid":"cid", "purchase_type":"purchase_type", "track_impressions":"track_impressions", "track_clicks":"track_clicks"}}', '', '{"form_file":"administrator\\/components\\/com_banners\\/models\\/forms\\/banner.xml", "hide_fields":["checked_out","checked_out_time","version", "reset"],"display_lookup":[{"source_column":"catid","target_table":"#__categories","target_column":"id","display_column":"title"}, {"source_column":"cid","target_table":"#__banner_clients","target_column":"id","display_column":"name"}, {"source_column":"created_by","target_table":"#__users","target_column":"id","display_column":"name"},{"source_column":"modified_by","target_table":"#__users","target_column":"id","display_column":"name"}  ]}'),
+(12, 'Banners Category', 'com_banners.category', '{"special":{"dbtable":"#__categories","key":"id","type":"Category","prefix":"JTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"published","core_alias":"alias","core_created_time":"created_time","core_modified_time":"modified_time","core_body":"description", "core_hits":"hits","core_publish_up":"null","core_publish_down":"null","core_access":"access", "core_params":"params", "core_featured":"null", "core_metadata":"metadata", "core_language":"language", "core_images":"null", "core_urls":"null", "core_version":"version", "core_ordering":"null", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"parent_id", "core_xreference":"null", "asset_id":"asset_id"}, "special": {"parent_id":"parent_id","lft":"lft","rgt":"rgt","level":"level","path":"path","extension":"extension","note":"note"}}', '', '{"form_file":"administrator\\/components\\/com_categories\\/models\\/forms\\/category.xml",   "hide_fields":["asset_id","checked_out","checked_out_time","version","lft","rgt","level","path","extension"],   "display_lookup":[   {"source_column":"created_user_id","target_table":"#__users","target_column":"id","display_column":"name"},{"source_column":"access","target_table":"#__viewlevels","target_column":"id","display_column":"title"},{"source_column":"modified_user_id","target_table":"#__users","target_column":"id","display_column":"name"},{"source_column":"parent_id","target_table":"#__categories","target_column":"id","display_column":"title"}  ] }'),
+(13, 'Banner Client', 'com_banners.client', '{"special":{"dbtable":"#__banner_clients","key":"id","type":"Client","prefix":"BannersTable"}}', '', '', '', '{"form_file":"administrator\\/components\\/com_banners\\/models\\/forms\\/client.xml", "hide_fields":["checked_out","checked_out_time"],"display_lookup":[]}');
 
 -- --------------------------------------------------------
 
@@ -467,7 +468,7 @@ CREATE TABLE IF NOT EXISTS `#__extensions` (
   KEY `element_clientid` (`element`,`client_id`),
   KEY `element_folder_clientid` (`element`,`folder`,`client_id`),
   KEY `extension` (`type`,`element`,`folder`,`client_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=10000;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10000;
 
 --
 -- Dumping data for table `#__extensions`
@@ -477,7 +478,7 @@ INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`
 (1, 'com_mailto', 'component', 'com_mailto', '', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (2, 'com_wrapper', 'component', 'com_wrapper', '', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (3, 'com_admin', 'component', 'com_admin', '', 1, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(4, 'com_banners', 'component', 'com_banners', '', 1, 1, 1, 0, '', '{"purchase_type":"3","track_impressions":"0","track_clicks":"0","metakey_prefix":""}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(4, 'com_banners', 'component', 'com_banners', '', 1, 1, 1, 0, '', '{"purchase_type":"3","track_impressions":"0","track_clicks":"0","metakey_prefix":"","save_history":"1","history_limit":5}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (5, 'com_cache', 'component', 'com_cache', '', 1, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (6, 'com_categories', 'component', 'com_categories', '', 1, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (7, 'com_checkin', 'component', 'com_checkin', '', 1, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
@@ -1186,7 +1187,7 @@ CREATE TABLE IF NOT EXISTS `#__languages` (
   UNIQUE KEY `idx_langcode` (`lang_code`),
   KEY `idx_access` (`access`),
   KEY `idx_ordering` (`ordering`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `#__languages`
@@ -1234,7 +1235,7 @@ CREATE TABLE IF NOT EXISTS `#__menu` (
   KEY `idx_alias` (`alias`),
   KEY `idx_path` (`path`(255)),
   KEY `idx_language` (`language`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=102;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=102;
 
 --
 -- Dumping data for table `#__menu`
@@ -1280,7 +1281,7 @@ CREATE TABLE IF NOT EXISTS `#__menu_types` (
   `description` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_menutype` (`menutype`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `#__menu_types`
@@ -1350,7 +1351,7 @@ CREATE TABLE IF NOT EXISTS `#__modules` (
   KEY `published` (`published`,`access`),
   KEY `newsfeeds` (`module`,`published`),
   KEY `idx_language` (`language`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=87;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=87;
 
 --
 -- Dumping data for table `#__modules`
@@ -1566,7 +1567,7 @@ CREATE TABLE IF NOT EXISTS `#__tags` (
   KEY `idx_left_right` (`lft`,`rgt`),
   KEY `idx_alias` (`alias`),
   KEY `idx_language` (`language`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 --
 -- Dumping data for table `#__tags`
@@ -1726,7 +1727,7 @@ CREATE TABLE IF NOT EXISTS `#__update_sites` (
   `enabled` int(11) DEFAULT 0,
   `last_check_timestamp` bigint(20) DEFAULT 0,
   PRIMARY KEY (`update_site_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Update Sites';
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Update Sites';
 
 --
 -- Dumping data for table `#__update_sites`
@@ -1908,7 +1909,7 @@ CREATE TABLE IF NOT EXISTS `#__viewlevels` (
   `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_assetgroup_title_lookup` (`title`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=6;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6;
 
 --
 -- Dumping data for table `#__viewlevels`
