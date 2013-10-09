@@ -113,14 +113,12 @@ class UsersViewNote extends JViewLegacy
 		}
 		else
 		{
-			JToolbarHelper::cancel('note.cancel', 'JTOOLBAR_CLOSE');
-		}
+			if ($this->state->params->get('save_history') && $user->authorise('core.edit'))
+			{
+				JToolbarHelper::versions('com_users.note', $this->item->id);
+			}
 
-		if ($this->state->params->get('save_history') && $user->authorise('core.edit'))
-		{
-			$itemId = $this->item->id;
-			$typeAlias = 'com_users.note';
-			JToolbarHelper::versions($typeAlias, $itemId);
+			JToolbarHelper::cancel('note.cancel', 'JTOOLBAR_CLOSE');
 		}
 
 		JToolbarHelper::divider();
