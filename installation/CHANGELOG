@@ -30,6 +30,7 @@ $ -> Language fix or change
  ^ [#30781] Small changes to jForm and jField to allow for repeatable form elements.  Thanks George Wilson
  + [#30798] Add logging to Joomla Update.  Thanks Mark Dexter
  ^ [#31490] Duplicate code reduction in categories views.  Thanks Elin Waring
+ # [#32207] installer leftovers in the Joomla tmp folder after unsuccessful installation.  Thanks Beat
 
 08-Oct-2013 Jean-Marie Simonet
  $ Updating installation lang files: et-EE, fa-IR, ja-JP, tr-TR, ug-CN, zh-cn, zh-TW
