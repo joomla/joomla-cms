@@ -2060,9 +2060,9 @@ table th[class*="span"],
 	left: 100%;
 	margin-top: -6px;
 	margin-left: -1px;
-	-webkit-border-radius: 0 6px 6px 6px;
-	-moz-border-radius: 0 6px 6px 6px;
-	border-radius: 0 6px 6px 6px;
+	-webkit-border-radius: 6px 6px 6px 6px;
+	-moz-border-radius: 6px 6px 6px 6px;
+	border-radius: 6px 6px 6px 6px;
 }
 .dropdown-submenu:hover > .dropdown-menu {
 	display: block;
@@ -5997,6 +5997,9 @@ fieldset.radio.btn-group {
 	font-size: 10px;
 	line-height: 8px;
 }
+.btn-group > .btn-micro {
+	font-size: 10px;
+}
 .tip-wrap {
 	max-width: 200px;
 	padding: 3px 8px;
@@ -7117,11 +7120,11 @@ body .navbar-fixed-top {
 }
 #toolbar #toolbar-options,
 #toolbar #toolbar-help {
-  float: right;
+	float: right;
 }
 html[dir=rtl] #toolbar #toolbar-options,
 html[dir=rtl] #toolbar #toolbar-help {
-  float: left;
+	float: left;
 }
 .well .page-header {
 	margin: -10px 0 18px 0;
@@ -7676,12 +7679,12 @@ th .tooltip-inner {
 	vertical-align: top;
 }
 @media (max-width: 767px) {
-  html[dir=rtl] #toolbar #toolbar-options,
-  html[dir=rtl] #toolbar #toolbar-help,
-  #toolbar #toolbar-options,
-  #toolbar #toolbar-help {
-    float: none;
-  }
+	html[dir=rtl] #toolbar #toolbar-options,
+	html[dir=rtl] #toolbar #toolbar-help,
+	#toolbar #toolbar-options,
+	#toolbar #toolbar-help {
+		float: none;
+	}
 }
 input.input-large-text {
 	font-size: 18px;

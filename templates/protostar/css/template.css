@@ -2060,9 +2060,9 @@ table th[class*="span"],
 	left: 100%;
 	margin-top: -6px;
 	margin-left: -1px;
-	-webkit-border-radius: 0 6px 6px 6px;
-	-moz-border-radius: 0 6px 6px 6px;
-	border-radius: 0 6px 6px 6px;
+	-webkit-border-radius: 6px 6px 6px 6px;
+	-moz-border-radius: 6px 6px 6px 6px;
+	border-radius: 6px 6px 6px 6px;
 }
 .dropdown-submenu:hover > .dropdown-menu {
 	display: block;
@@ -5996,6 +5996,9 @@ fieldset.radio.btn-group {
 	padding: 1px 4px;
 	font-size: 10px;
 	line-height: 8px;
+}
+.btn-group > .btn-micro {
+	font-size: 10px;
 }
 .tip-wrap {
 	max-width: 200px;
