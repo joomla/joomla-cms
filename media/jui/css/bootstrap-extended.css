@@ -327,6 +327,9 @@ fieldset.radio.btn-group {
 	font-size: 10px;
 	line-height: 8px;
 }
+.btn-group > .btn-micro {
+	font-size: 10px;
+}
 .tip-wrap {
 	max-width: 200px;
 	padding: 3px 8px;
