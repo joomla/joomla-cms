@@ -92,14 +92,12 @@ class BannersViewBanner extends JViewLegacy
 		}
 		else
 		{
-			JToolbarHelper::cancel('banner.cancel', 'JTOOLBAR_CLOSE');
-		}
+			if ($this->state->params->get('save_history', 1) && $user->authorise('core.edit'))
+			{
+				JToolbarHelper::versions('com_banners.banner', $this->item->id);
+			}
 
-		if ($this->state->params->get('save_history') && $user->authorise('core.edit'))
-		{
-			$itemId = $this->item->id;
-			$typeAlias = 'com_banners.banner';
-			JToolbarHelper::versions($typeAlias, $itemId);
+			JToolbarHelper::cancel('banner.cancel', 'JTOOLBAR_CLOSE');
 		}
 
 		JToolbarHelper::divider();
