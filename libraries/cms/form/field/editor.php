@@ -248,7 +248,7 @@ class JFormFieldEditor extends JFormFieldTextarea
 		{
 			$editor = null;
 
-			if (empty($this->editorType))
+			if ($this->editorType)
 			{
 				// Get the list of editor types.
 				$types = $this->editorType;
