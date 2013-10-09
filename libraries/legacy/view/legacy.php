@@ -795,4 +795,20 @@ class JViewLegacy extends JObject
 		}
 		return $filename;
 	}
+
+	/**
+	 * Returns the form object
+	 *
+	 * @return  mixed  A JForm object on success, false on failure
+	 *
+	 * @since   3.2
+	 */
+	public function getForm()
+	{
+		if (!is_object($this->form))
+		{
+			$this->form = $this->get('Form');
+		}
+		return $this->form;
+	}
 }

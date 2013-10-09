@@ -704,6 +704,70 @@ html[dir=rtl] .quick-icons .nav-list [class^="icon-"],html[dir=rtl] .quick-icons
 		vertical-align: middle;
 	}
 }
+.form-vertical {
+	.control-label {
+		> label {
+			display: inline-block;
+			.ie7-inline-block();
+		}
+	}
+	.controls {
+		margin-left: 0;
+	}
+}
+
+@media (max-width: 979px) {
+	.form-horizontal-desktop {
+		.control-label {
+			float: none;
+			width: auto;
+			padding-right: 0;
+			padding-top: 0;
+			text-align: left;
+			> label {
+				display: inline-block;
+				.ie7-inline-block();
+			}
+		}
+		.controls {
+			margin-left: 0;
+		}
+	}
+}
+@media (max-width: 1200px) {
+	.row-fluid .row-fluid .form-horizontal-desktop {
+		.control-label {
+			float: none;
+			width: auto;
+			padding-right: 0;
+			padding-top: 0;
+			text-align: left;
+			> label {
+				display: inline-block;
+				.ie7-inline-block();
+			}
+		}
+		.controls {
+			margin-left: 0;
+		}
+	}
+}
+.form-inline-header {
+	margin: 5px 0;
+	.control-group,
+	.control-label,
+	.controls {
+		display: inline-block;
+		.ie7-inline-block();
+	}
+	.control-label {
+		width: auto;
+		padding-right: 10px;
+	}
+	.controls {
+		padding-right: 20px;
+	}
+}
 
 /* Display checkboxes without bullets in list */
 fieldset.checkboxes input {
@@ -832,6 +896,10 @@ th .tooltip-inner {
 .controls .btn-group > .btn {
 	min-width: 50px;
 }
+.controls .btn-group.btn-group-yesno > .btn {
+	min-width: 84px;
+	padding: 2px 12px;
+}
 
 .img-preview > img {
 	max-height: 100%;
@@ -851,7 +919,34 @@ th .tooltip-inner {
 	}
 }
 
-/* Version control field */
-.span2 input#jform_version_note {
-	width: 190px;
+/* Title field */
+input.input-large-text {
+	font-size: 18px;
+	height: auto;
+}
+
+/* Extension type labels */
+.info-labels {
+	margin-top: -5px;
+	margin-bottom: 10px;
+}
+
+/* Chosen color styles */
+[class^="chzn-color"].chzn-single,
+[class*=" chzn-color"].chzn-single,
+[class^="chzn-color"].chzn-single .chzn-single-with-drop,
+[class*=" chzn-color"].chzn-single .chzn-single-with-drop {
+	.box-shadow(none);
+}
+.chzn-color.chzn-single[rel="value_1"],
+.chzn-color-reverse.chzn-single[rel="value_0"],
+.chzn-color-state.chzn-single[rel="value_1"] {
+	.buttonBackground(@btnSuccessBackground, @btnSuccessBackgroundHighlight);
+}
+.chzn-color.chzn-single[rel="value_0"],
+.chzn-color-reverse.chzn-single[rel="value_1"],
+.chzn-color-state.chzn-single[rel="value_0"],
+.chzn-color-state.chzn-single[rel="value_-1"],
+.chzn-color-state.chzn-single[rel="value_-2"] {
+	.buttonBackground(@btnDangerBackground, @btnDangerBackgroundHighlight);
 }
