@@ -103,7 +103,7 @@ class MediaViewMedia extends JViewLegacy
 		JHtml::_('bootstrap.framework');
 
 		// Set the titlebar text
-		JToolbarHelper::title(JText::_('COM_MEDIA'), 'mediamanager.png');
+		JToolbarHelper::title(JText::_('COM_MEDIA'), 'images mediamanager');
 
 		// Add a upload button
 		if ($user->authorise('core.create', 'com_media'))

@@ -86,7 +86,7 @@ class ContentViewArticles extends JViewLegacy
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 
-		JToolbarHelper::title(JText::_('COM_CONTENT_ARTICLES_TITLE'), 'article.png');
+		JToolbarHelper::title(JText::_('COM_CONTENT_ARTICLES_TITLE'), 'stack article');
 
 		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories('com_content', 'core.create'))) > 0 )
 		{

@@ -27,6 +27,11 @@ class JoomlaInstallerScript
 	 */
 	public function update($installer)
 	{
+		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+		$options['text_file'] = 'joomla_update.php';
+		JLog::addLogger($options, JLog::INFO, array('Update', 'databasequery', 'jerror'));
+		JLog::add(JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), JLog::INFO, 'Update');
+
 		$this->deleteUnexistingFiles();
 		$this->updateManifestCaches();
 		$this->updateDatabase();
@@ -973,6 +978,7 @@ class JoomlaInstallerScript
 			'/media/editors/codemirror/js/tokenizephp.js',
 			'/media/editors/codemirror/js/undo.js',
 			'/media/editors/codemirror/js/util.js',
+			'administrator/components/com_weblinks/models/fields/index.html',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1026,6 +1032,7 @@ class JoomlaInstallerScript
 			'/libraries/joomla/plugin',
 			'/libraries/legacy/component',
 			'/libraries/legacy/module',
+			'administrator/components/com_weblinks/models/fields',
 		);
 
 		jimport('joomla.filesystem.file');
