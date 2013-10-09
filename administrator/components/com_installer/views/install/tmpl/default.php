@@ -109,7 +109,12 @@ JHtml::_('bootstrap.tooltip');
 	<?php elseif ($this->showJedAndWebInstaller) : ?>
 		<div class="alert alert-info j-jed-message" style="margin-bottom: 40px; line-height: 2em; color:#333333;">
 			<a href="index.php?option=com_config&view=component&component=com_installer&path=&return=<?php echo urlencode(base64_encode(JUri::getInstance())); ?>" class="close hasTooltip" data-dismiss="alert" title="<?php echo JText::_('COM_INSTALLER_SHOW_JED_INFORMATION_TOOLTIP'); ?>">&times;</a>
-			<?php echo JText::_('COM_INSTALLER_INSTALL_FROM_WEB_INFORMATION'); ?>
+			<?php
+			$jedlink	= ' href="http://extensions.joomla.org" target="_blank"';
+			$doclink	= ' href="http://docs.joomla.org/Install_from_Web" target="_blank"';
+			$button		= '<input class="btn" type="button" value="' . JText::_('COM_INSTALLER_INSTALL_FROM_WEB_ADD_TAB') . '" onclick="Joomla.submitbuttonInstallWebInstaller()" />';
+			echo JText::sprintf('COM_INSTALLER_INSTALL_FROM_WEB_INFORMATION', $jedlink, $doclink, $button);
+			?>
 		</div>
 	<?php endif; ?>
 
