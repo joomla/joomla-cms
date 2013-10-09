@@ -72,7 +72,7 @@ class JForm
 	/**
 	 * Alows extensions to implement repeating elements
 	 * @var    mixed
-	 * @since  11.1
+	 * @since  3.2
 	 */
 	public $repeat = false;
 
