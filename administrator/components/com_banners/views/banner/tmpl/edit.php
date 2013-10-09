@@ -123,6 +123,14 @@ JHtml::_('formbehavior.chosen', 'select');
 						</div>
 					</div>
 				<?php endforeach; ?>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('ordering'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('ordering'); ?>
+					</div>
+				</div>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'otherparams', JText::_('COM_BANNERS_GROUP_LABEL_BANNER_DETAILS', true)); ?>

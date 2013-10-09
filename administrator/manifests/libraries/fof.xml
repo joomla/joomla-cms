@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension type="library" version="2.5" method="upgrade">
-    <name>FOF</name>
+	<name>FOF</name>
 	<libraryname>fof</libraryname>
 	<description>LIB_FOF_XML_DESCRIPTION</description>
 	<creationDate>2013-09-03</creationDate>
@@ -38,9 +38,5 @@
 		<file>include.php</file>
 		<file>index.html</file>
 		<file>version.txt</file>
-	</files>
-	
-	<updateservers>
-		<server type="extension" priority="1" name="FOF Updates (official releases)">http://cdn.akeebabackup.com/updates/fof.xml</server>
-	</updateservers>
+	</files>	
 </extension>
