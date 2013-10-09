@@ -565,7 +565,7 @@ abstract class JFormField
 	 *
 	 * @return  void
 	 * 
-	 * @since   CMS 3.1.5
+	 * @since   CMS 3.2
 	 */
 	public function setValue($value)
 	{
