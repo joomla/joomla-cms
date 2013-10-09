@@ -113,14 +113,12 @@ class ContentViewArticle extends JViewLegacy
 				JToolbarHelper::save2copy('article.save2copy');
 			}
 
-			JToolbarHelper::cancel('article.cancel', 'JTOOLBAR_CLOSE');
-		}
+			if ($this->state->params->get('save_history', 1) && $user->authorise('core.edit'))
+			{
+				JToolbarHelper::versions('com_content.article', $this->item->id);
+			}
 
-		if ($this->state->params->get('save_history') && $user->authorise('core.edit'))
-		{
-			$itemId = $this->item->id;
-			$typeAlias = 'com_content.article';
-			JToolbarHelper::versions($typeAlias, $itemId);
+			JToolbarHelper::cancel('article.cancel', 'JTOOLBAR_CLOSE');
 		}
 
 		JToolbarHelper::divider();
