@@ -160,7 +160,7 @@ class CategoriesViewCategory extends JViewLegacy
 			JToolbarHelper::cancel('category.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		$saveHistory = JComponentHelper::getParams($input->getCmd('extension', 'com_content'))->get('save_history', 0);
+		$saveHistory = JComponentHelper::getParams($input->getCmd('extension', 'com_content'))->get('save_history', 1);
 		if ($saveHistory && $user->authorise('core.edit'))
 		{
 			$itemId = $this->item->id;

@@ -16,7 +16,7 @@ $app = JFactory::getApplication();
 // JLayout for standard handling of the details sidebar in administrator edit screens.
 $title = $displayData->getForm()->getValue('title');
 $published = $displayData->getForm()->getField('published');
-$saveHistory = $displayData->get('state')->get('params')->get('save_history', 0);
+$saveHistory = $displayData->get('state')->get('params')->get('save_history', 1);
 ?>
 <div class="span2">
 	<h4><?php echo JText::_('JDETAILS'); ?></h4>

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 $app = JFactory::getApplication();
 $form = $displayData->getForm();
 $input = $app->input;
-$saveHistory = JComponentHelper::getParams($input->getCmd('extension', 'com_content'))->get('save_history', 0);
+$saveHistory = JComponentHelper::getParams($input->getCmd('extension', 'com_content'))->get('save_history', 1);
 
 $fields = $displayData->get('fields') ?: array(
 	array('category', 'catid'),
