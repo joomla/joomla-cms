@@ -9,8 +9,9 @@
 
 
 
-		<field name="name" type="text" class="inputbox"
-			size="40" label="COM_BANNERS_FIELD_CLIENT_NAME_LABEL"
+		<field name="name" type="text"
+			class="inputbox input-xxlarge input-large-text"
+			size="40" label="COM_BANNERS_FIELD_NAME_LABEL"
 			description="COM_BANNERS_FIELD_CLIENT_NAME_DESC"
 			required="true" />
 
@@ -25,7 +26,7 @@
 
 		<field name="state" type="list"
 			label="JSTATUS" description="COM_BANNERS_FIELD_CLIENT_STATE_DESC"
-			class="inputbox" size="1" default="1"
+			class="chzn-color-state" size="1" default="1"
 		>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
@@ -52,6 +53,7 @@
 		</field>
 
 		<field name="track_impressions" type="list" default="0"
+			class="chzn-color"
 			label="COM_BANNERS_FIELD_TRACKIMPRESSION_LABEL"
 			description="COM_BANNERS_FIELD_TRACKIMPRESSION_DESC"
 		>
@@ -61,6 +63,7 @@
 		</field>
 
 		<field name="track_clicks" type="list" default="0"
+			class="chzn-color"
 			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL" description="COM_BANNERS_FIELD_TRACKCLICK_DESC"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -78,7 +81,8 @@
 			rows="3" cols="30" label="JFIELD_META_KEYWORDS_LABEL"
 			description="COM_BANNERS_FIELD_CLIENT_METAKEYWORDS_DESC" />
 
-		<field name="own_prefix" type="radio" class="btn-group"
+		<field name="own_prefix" type="radio"
+			class="btn-group btn-group-yesno"
 			label="COM_BANNERS_FIELD_CLIENTOWNPREFIX_LABEL"
 			description="COM_BANNERS_FIELD_CLIENTOWNPREFIX_DESC"
 			default="0"
@@ -93,10 +97,11 @@
 
 	</fieldset>
 
-	<fieldset name="extra" label="Banners_Extra">
+	<fieldset name="extra" label="COM_BANNERS_EXTRA">
 
-		<field name="extrainfo" type="textarea" class="inputbox"
-			rows="10" cols="40" label="COM_BANNERS_FIELD_EXTRAINFO_LABEL"
+		<field name="extrainfo" type="textarea"
+			class="inputbox span12"
+			rows="5" cols="80" label="COM_BANNERS_FIELD_EXTRAINFO_LABEL"
 			description="COM_BANNERS_FIELD_EXTRAINFO_DESC" />
 
 	</fieldset>

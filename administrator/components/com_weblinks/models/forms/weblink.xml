@@ -7,13 +7,15 @@
 			readonly="true" class="readonly"
 			description="JGLOBAL_FIELD_ID_DESC"/>
 
-		<field name="title" type="text" class="inputbox"
+		<field name="title" type="text"
+			class="inputbox input-xxlarge input-large-text"
 			size="40" label="JGLOBAL_TITLE"
 			description="COM_WEBLINKS_FIELD_TITLE_DESC" required="true" />
 
 		<field name="alias" type="text" class="inputbox"
 			size="40" label="JFIELD_ALIAS_LABEL"
-			description="COM_WEBLINKS_FIELD_ALIAS_DESC" />
+			description="COM_WEBLINKS_FIELD_ALIAS_DESC"
+			hint="JFIELD_ALIAS_PLACEHOLDER" />
 
 		<field name="catid" type="categoryedit" extension="com_weblinks"
 			label="JCATEGORY" description="COM_WEBLINKS_FIELD_CATEGORY_DESC"
@@ -22,7 +24,8 @@
 		</field>
 
 
-		<field name="url" type="url" class="inputbox"
+		<field name="url" type="url"
+			class="inputbox span12"
 			filter="url"
 			size="40" label="COM_WEBLINKS_FIELD_URL_LABEL"
 			description="COM_WEBLINKS_FIELD_URL_DESC" required="true" />
@@ -46,7 +49,7 @@
 			type="list"
 			label="JSTATUS"
 			description="COM_WEBLINKS_FIELD_STATE_DESC"
-			class="inputbox span12 small"
+			class="chzn-color-state"
 			size="1"
 			default="1">
 			<option
@@ -68,14 +71,14 @@
         />
 
 		<field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"
-			description="JFIELD_ACCESS_DESC" class="inputbox span12 small" size="1" />
+			description="JFIELD_ACCESS_DESC" class="inputbox" size="1" />
 
 		<field
 			name="language"
 			type="contentlanguage"
 			label="JFIELD_LANGUAGE_LABEL"
 			description="COM_WEBLINKS_FIELD_LANGUAGE_DESC"
-			class="inputbox span12 small">
+			class="inputbox">
 			<option value="*">JALL</option>
 		</field>
 
@@ -83,7 +86,7 @@
 			type="tag"
 			label="JTAG"
 			description="JTAG_DESC"
-			class="inputbox span12 small"
+			class="inputbox"
 			multiple="true"
 		>
 		</field>
@@ -172,6 +175,7 @@
 				description="COM_WEBLINKS_FIELD_HEIGHT_DESC" />
 
 			<field name="count_clicks" type="list"
+				class="chzn-color"
 				label="COM_WEBLINKS_FIELD_COUNTCLICKS_LABEL"
 				description="COM_WEBLINKS_FIELD_COUNTCLICKS_DESC"
 			>
@@ -180,8 +184,7 @@
 				<option value="1">JYES</option>
 			</field>
 		</fieldset>
-	</fields>
-	<fields name="images" label="JGLOBAL_FIELDSET_IMAGE_OPTIONS">
+		<fieldset name="images" label="JGLOBAL_FIELDSET_IMAGE_OPTIONS">
 			<field
 				name="image_first"
 				type="media"
@@ -210,6 +213,10 @@
 				class="inputbox"
 				size="20" />
 
+			<field name="spacer1"
+				type="spacer"
+				hr="true" />
+
 			<field
 				name="image_second"
 				type="media"
@@ -237,6 +244,7 @@
 				description="COM_WEBLINKS_FIELD_IMAGE_CAPTION_DESC"
 				class="inputbox"
 				size="20" />
+		</fieldset>
 	</fields>
 	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">

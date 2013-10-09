@@ -34,7 +34,7 @@ abstract class ModTagsPopularHelper
 		else
 		{
 			$order_value		= $db->quoteName($order_value);
-			$order_direction	= $params->get('order_direction', 1) ? 'DESC' : 'ASC';  
+			$order_direction	= $params->get('order_direction', 1) ? 'DESC' : 'ASC';
 		}
 
 		$query = $db->getQuery(true)

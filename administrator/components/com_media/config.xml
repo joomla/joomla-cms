@@ -40,7 +40,7 @@
 		<field
 			name="restrict_uploads"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="COM_MEDIA_FIELD_RESTRICT_UPLOADS_LABEL"
 			description="COM_MEDIA_FIELD_RESTRICT_UPLOADS_DESC">
@@ -53,7 +53,7 @@
 		<field
 			name="check_mime"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="COM_MEDIA_FIELD_CHECK_MIME_LABEL"
 			description="COM_MEDIA_FIELD_CHECK_MIME_DESC">

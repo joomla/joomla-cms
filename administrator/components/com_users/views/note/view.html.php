@@ -88,7 +88,7 @@ class UsersViewNote extends JViewLegacy
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo		= UsersHelper::getActions($this->state->get('filter.category_id'), $this->item->id);
 
-		JToolbarHelper::title(JText::_('COM_USERS_NOTES'), 'user');
+		JToolbarHelper::title(JText::_('COM_USERS_NOTES'), 'users user');
 
 		// If not checked out, can save the item.
 		if (!$checkedOut && ($canDo->get('core.edit') || (count($user->getAuthorisedCategories('com_users', 'core.create')))))
@@ -114,6 +114,13 @@ class UsersViewNote extends JViewLegacy
 		else
 		{
 			JToolbarHelper::cancel('note.cancel', 'JTOOLBAR_CLOSE');
+		}
+
+		if ($this->state->params->get('save_history') && $user->authorise('core.edit'))
+		{
+			$itemId = $this->item->id;
+			$typeAlias = 'com_users.note';
+			JToolbarHelper::versions($typeAlias, $itemId);
 		}
 
 		JToolbarHelper::divider();
