@@ -25,10 +25,10 @@ final class JVersion
 	public $RELEASE = '3.2';
 
 	/** @var  string  Maintenance version. */
-	public $DEV_LEVEL = '0.alpha';
+	public $DEV_LEVEL = '0.beta';
 
 	/** @var  string  Development STATUS. */
-	public $DEV_STATUS = 'Alpha';
+	public $DEV_STATUS = 'Beta';
 
 	/** @var  string  Build number. */
 	public $BUILD = '';
@@ -37,7 +37,7 @@ final class JVersion
 	public $CODENAME = 'Ember';
 
 	/** @var  string  Release date. */
-	public $RELDATE = '10-September-2013';
+	public $RELDATE = '09-October-2013';
 
 	/** @var  string  Release time. */
 	public $RELTIME = '14:00';
@@ -100,8 +100,8 @@ final class JVersion
 	public function getLongVersion()
 	{
 		return $this->PRODUCT . ' ' . $this->RELEASE . '.' . $this->DEV_LEVEL . ' '
-				. $this->DEV_STATUS . ' [ ' . $this->CODENAME . ' ] ' . $this->RELDATE . ' '
-				. $this->RELTIME . ' ' . $this->RELTZ;
+			. $this->DEV_STATUS . ' [ ' . $this->CODENAME . ' ] ' . $this->RELDATE . ' '
+			. $this->RELTIME . ' ' . $this->RELTZ;
 	}
 
 	/**

@@ -42,7 +42,7 @@ class JHelperContenthistory extends JHelper
 	/**
 	 * Method to delete the history for an item.
 	 *
-	 * @param   JTable  $table  JTable object being tagged
+	 * @param   JTable  $table  JTable object being versioned
 	 *
 	 * @return  boolean  true on success, otherwise false.
 	 *
@@ -92,7 +92,7 @@ class JHelperContenthistory extends JHelper
 	/**
 	 * Method to save a version snapshot to the content history table.
 	 *
-	 * @param   JTable  $table  JTable object being tagged
+	 * @param   JTable  $table  JTable object being versioned
 	 *
 	 * @return  boolean  True on success, otherwise false.
 	 *

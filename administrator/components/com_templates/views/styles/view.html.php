@@ -74,7 +74,7 @@ class TemplatesViewStyles extends JViewLegacy
 	{
 		$canDo = TemplatesHelper::getActions();
 
-		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_STYLES'), 'thememanager');
+		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_STYLES'), 'eye thememanager');
 
 		if ($canDo->get('core.edit.state'))
 		{
