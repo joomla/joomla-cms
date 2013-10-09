@@ -687,7 +687,7 @@ class JHelperTags extends JHelper
 	{
 		$contentType = new JUcmType;
 
-		return $contentType->getTypeId();
+		return $contentType->getTypeId($typeAlias);
 	}
 
 	/**
@@ -804,6 +804,7 @@ class JHelperTags extends JHelper
 				$result = $result && $this->tagItem($ucmId, $table, $newTags, $replace);
 			}
 		}
+
 		return $result;
 	}
 

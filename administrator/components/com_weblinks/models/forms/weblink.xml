@@ -61,9 +61,10 @@
 				value="-2">JTRASHED</option>
 		</field>
 
-		<field name="ordering" type="Weblinkordering" class="inputbox"
+		<field name="ordering" type="ordering" class="inputbox"
 			label="JFIELD_ORDERING_LABEL"
 			description="JFIELD_ORDERING_DESC"
+			content_type="com_weblinks.weblink"
         />
 
 		<field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"

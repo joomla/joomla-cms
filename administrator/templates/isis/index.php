@@ -19,16 +19,17 @@ $user = JFactory::getUser();
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
-$doc->addScript('templates/' . $this->template . '/js/template.js');
+$doc->addScriptVersion('templates/' . $this->template . '/js/template.js');
 
 // Add Stylesheets
-$doc->addStyleSheet('templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
+$doc->addStyleSheetVersion('templates/' . $this->template . '/css/template' . ($this->direction == 'rtl' ? '-rtl' : '') . '.css');
 
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
+
 if (is_file($file))
 {
-	$doc->addStyleSheet($file);
+	$doc->addStyleSheetVersion($file);
 }
 
 // Detecting Active Variables

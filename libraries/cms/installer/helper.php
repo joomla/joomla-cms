@@ -53,7 +53,7 @@ abstract class JInstallerHelper
 		}
 		elseif (200 != $response->code)
 		{
-			JLog::add(JText::_('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT'), JLog::WARNING, 'jerror');
+			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->code), JLog::WARNING, 'jerror');
 
 			return false;
 		}

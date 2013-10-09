@@ -64,7 +64,7 @@ class PlgAuthenticationJoomla extends JPlugin
 					$match = password_verify($credentials['password'], $password60);
 				}
 			}
-			elseif (substr($result->password, 0, 6) == 'SHA256')
+			elseif (substr($result->password, 0, 8) == '{SHA256}')
 			{
 				// Check the password
 				$parts	= explode(':', $result->password);
