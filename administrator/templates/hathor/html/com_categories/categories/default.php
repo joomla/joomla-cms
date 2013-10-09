@@ -23,7 +23,7 @@ $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 $ordering 	= ($listOrder == 'a.lft');
 $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
-$assoc		= isset($app->item_associations) ? $app->item_associations : 0;
+$assoc		= JLanguageAssociations::isEnabled();
 ?>
 <div class="categories">
 	<form action="<?php echo JRoute::_('index.php?option=com_categories&view=categories'); ?>" method="post" name="adminForm" id="adminForm">

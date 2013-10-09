@@ -428,7 +428,7 @@ class UsersModelUser extends JModelAdmin
 
 						if (in_array(false, $result, true))
 						{
-							// Plugin will have to raise it's own error or throw an exception.
+							// Plugin will have to raise its own error or throw an exception.
 							return false;
 						}
 
