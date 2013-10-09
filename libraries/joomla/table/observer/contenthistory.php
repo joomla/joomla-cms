@@ -86,7 +86,7 @@ class JTableObserverContenthistory extends JTableObserver
 			$this->parseTypeAlias();
 			$aliasParts = explode('.', $this->contenthistoryHelper->typeAlias);
 
-			if (JComponentHelper::getParams($aliasParts[0])->get('save_history', 0))
+			if (JComponentHelper::getParams($aliasParts[0])->get('save_history', 1))
 			{
 				$this->contenthistoryHelper->store($this->table);
 			}
@@ -108,7 +108,7 @@ class JTableObserverContenthistory extends JTableObserver
 		$this->parseTypeAlias();
 		$aliasParts = explode('.', $this->contenthistoryHelper->typeAlias);
 
-		if (JComponentHelper::getParams($aliasParts[0])->get('save_history', 0))
+		if (JComponentHelper::getParams($aliasParts[0])->get('save_history', 1))
 		{
 			$this->parseTypeAlias();
 			$this->contenthistoryHelper->deleteHistory($this->table);
