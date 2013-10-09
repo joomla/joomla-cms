@@ -121,13 +121,18 @@ class JFormFieldPassword extends JFormField
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
-		$this->maxLength = $element['maxlength'] ? (int) $element['maxlength'] : 99;
-		$this->threshold = $element['threshold'] ? (int) $element['threshold'] : 66;
+		$return = parent::setup($element, $value, $group);
 
-		$meter       = (string) $element['strengthmeter'];
-		$this->meter = ($meter == 'true' || $meter == 'on' || $meter == '1');
+		if ($return)
+		{
+			$this->maxLength = $this->element['maxlength'] ? (int) $this->element['maxlength'] : 99;
+			$this->threshold = $this->element['threshold'] ? (int) $this->element['threshold'] : 66;
 
-		return parent::setup($element, $value, $group);
+			$meter       = (string) $this->element['strengthmeter'];
+			$this->meter = ($meter == 'true' || $meter == 'on' || $meter == '1');
+		}
+
+		return $return;
 	}
 
 	/**

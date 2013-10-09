@@ -115,11 +115,16 @@ class JFormFieldNumber extends JFormField
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
-		$this->max  = isset($element['max']) ? (float) $element['max'] : 100;
-		$this->min  = isset($element['min']) ? (float) $element['min'] : 0;
-		$this->step = isset($element['step']) ? (float) $element['step'] : 1;
+		$return = parent::setup($element, $value, $group);
 
-		return parent::setup($element, $value, $group);
+		if ($return)
+		{
+			$this->max  = isset($this->element['max']) ? (float) $this->element['max'] : 100;
+			$this->min  = isset($this->element['min']) ? (float) $this->element['min'] : 0;
+			$this->step = isset($this->element['step']) ? (float) $this->element['step'] : 1;
+		}
+
+		return $return;
 	}
 
 	/**

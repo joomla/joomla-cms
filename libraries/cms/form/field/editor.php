@@ -202,14 +202,14 @@ class JFormFieldEditor extends JFormFieldTextarea
 
 		if ($result == true)
 		{
-			$this->height      = $element['height'] ? (string) $element['height'] : '500';
-			$this->width       = $element['width'] ? (string) $element['width'] : '100%';
-			$this->assetField  = $element['asset_field'] ? (string) $element['asset_field'] : 'asset_id';
-			$this->authorField = $element['created_by_field'] ? (string) $element['created_by_field'] : 'created_by';
-			$this->asset       = $this->form->getValue($this->assetField) ? $this->form->getValue($this->assetField) : (string) $element['asset_id'];
-			$this->buttons     = $element['buttons'];
-			$this->hide        = $element['hide'];
-			$this->editorType  = $element['editor'];
+			$this->height      = $this->element['height'] ? (string) $this->element['height'] : '500';
+			$this->width       = $this->element['width'] ? (string) $this->element['width'] : '100%';
+			$this->assetField  = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
+			$this->authorField = $this->element['created_by_field'] ? (string) $this->element['created_by_field'] : 'created_by';
+			$this->asset       = $this->form->getValue($this->assetField) ? $this->form->getValue($this->assetField) : (string) $this->element['asset_id'];
+			$this->buttons     = $this->element['buttons'];
+			$this->hide        = $this->element['hide'];
+			$this->editorType  = $this->element['editor'];
 		}
 
 		return $result;
