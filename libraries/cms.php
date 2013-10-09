@@ -59,10 +59,4 @@ JLoader::register('JInstallerPlugin',  JPATH_PLATFORM . '/cms/installer/adapter/
 JLoader::register('JInstallerTemplate',  JPATH_PLATFORM . '/cms/installer/adapter/template.php');
 JLoader::register('JExtension',  JPATH_PLATFORM . '/cms/installer/extension.php');
 
-JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'BannersTableBanner', array('typeAlias' => 'com_banners.banner'));
-JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'BannersTableClient', array('typeAlias' => 'com_banners.client'));
-JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'TagsTableTag', array('typeAlias' => 'com_tags.tag'));
-JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'UsersTableNote', array('typeAlias' => 'com_users.note'));
-
->>>>>>> refs/heads/master
 require_once JPATH_LIBRARIES . '/framework/aliases.php';
