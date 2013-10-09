@@ -222,11 +222,11 @@ class JFormFieldEditor extends JFormFieldTextarea
 			}
 			else
 			{
-				$this->buttons = explode(',', $buttons);
+				$this->buttons = !empty($hide) ? explode(',', $buttons) : array();
 			}
 
-			$this->hide        = explode(',', $hide);
-			$this->editorType  = explode('|', trim($editorType));
+			$this->hide = !empty($hide) ? explode(',', (string) $this->element['hide']) : array();
+			$this->editorType  = !empty($editorType) ? explode('|', trim($editorType)) : array();
 		}
 
 		return $result;
