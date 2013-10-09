@@ -103,9 +103,14 @@ class JFormFieldTimezone extends JFormFieldGroupedList
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
-		$this->keyField = (string) $this->element['key_field'];
+		$return = parent::setup($element, $value, $group);
 
-		return parent::setup($element, $value, $group);
+		if ($return)
+		{
+			$this->keyField = (string) $this->element['key_field'];
+		}
+
+		return $return;
 	}
 
 	/**

@@ -105,9 +105,14 @@ class JFormFieldCheckboxes extends JFormField
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
-		$this->checkedOptions = (string) $element['checked'];
+		$return = parent::setup($element, $value, $group);
 
-		return parent::setup($element, $value, $group);
+		if ($return)
+		{
+			$this->checkedOptions = (string) $this->element['checked'];
+		}
+
+		return $return;
 	}
 
 	/**
