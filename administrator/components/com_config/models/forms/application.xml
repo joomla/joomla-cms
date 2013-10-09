@@ -41,7 +41,7 @@
 		<field
 			name="memcache_persist"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_DESC"
@@ -53,7 +53,7 @@
 		<field
 			name="memcache_compress"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="0"
 			label="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_LABEL"
 			description="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_DESC"
@@ -133,7 +133,7 @@
 		<field
 			name="debug"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="0"
 			label="COM_CONFIG_FIELD_DEBUG_SYSTEM_LABEL"
 			description="COM_CONFIG_FIELD_DEBUG_SYSTEM_DESC"
@@ -145,7 +145,7 @@
 		<field
 			name="debug_lang"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="0"
 			label="COM_CONFIG_FIELD_DEBUG_LANG_LABEL"
 			description="COM_CONFIG_FIELD_DEBUG_LANG_DESC"
@@ -161,7 +161,7 @@
 		<field
 			name="ftp_enable"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="0"
 			label="COM_CONFIG_FIELD_FTP_ENABLE_LABEL"
 			description="COM_CONFIG_FIELD_FTP_ENABLE_DESC"
@@ -238,7 +238,7 @@
 		<field
 				name="mailonline"
 				type="radio"
-				class="btn-group"
+				class="btn-group btn-group-yesno"
 				default="1"
 				label="COM_CONFIG_FIELD_MAIL_MAILONLINE_LABEL"
 				description="COM_CONFIG_FIELD_MAIL_MAILONLINE_DESC"
@@ -292,7 +292,7 @@
 		<field
 			name="smtpauth"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="0"
 			showon="mailer:smtp"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_AUTH_LABEL"
@@ -402,7 +402,7 @@
 		<field
 			name="MetaAuthor"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="COM_CONFIG_FIELD_METAAUTHOR_LABEL"
 			description="COM_CONFIG_FIELD_METAAUTHOR_DESC"
@@ -413,7 +413,7 @@
 		<field
 			name="MetaVersion"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="0"
 			label="COM_CONFIG_FIELD_METAVERSION_LABEL"
 			description="COM_CONFIG_FIELD_METAVERSION_DESC"
@@ -430,7 +430,7 @@
 		<field
 			name="sef"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="COM_CONFIG_FIELD_SEF_URL_LABEL"
 			description="COM_CONFIG_FIELD_SEF_URL_DESC"
@@ -442,7 +442,7 @@
 		<field
 			name="sef_rewrite"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="0"
 			label="COM_CONFIG_FIELD_SEF_REWRITE_LABEL"
 			description="COM_CONFIG_FIELD_SEF_REWRITE_DESC"
@@ -454,7 +454,7 @@
 		<field
 			name="sef_suffix"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="0"
 			label="COM_CONFIG_FIELD_SEF_SUFFIX_LABEL"
 			description="COM_CONFIG_FIELD_SEF_SUFFIX_DESC"
@@ -466,7 +466,7 @@
 		<field
 			name="unicodeslugs"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="0"
 			label="COM_CONFIG_FIELD_UNICODESLUGS_LABEL"
 			description="COM_CONFIG_FIELD_UNICODESLUGS_DESC"
@@ -503,7 +503,7 @@
 		<field
 			name="gzip"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="0"
 			label="COM_CONFIG_FIELD_GZIP_COMPRESSION_LABEL"
 			description="COM_CONFIG_FIELD_GZIP_COMPRESSION_DESC"
@@ -578,7 +578,7 @@
 		<field
 			name="offline"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="0"
 			label="COM_CONFIG_FIELD_SITE_OFFLINE_LABEL"
 			description="COM_CONFIG_FIELD_SITE_OFFLINE_DESC"
