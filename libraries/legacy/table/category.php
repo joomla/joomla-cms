@@ -128,7 +128,7 @@ class JTableCategory extends JTableNested
 	 *
 	 * @return  boolean
 	 *
-	 * @see     JTable::check
+	 * @see     JTable::check()
 	 * @since   11.1
 	 */
 	public function check()
@@ -167,7 +167,7 @@ class JTableCategory extends JTableNested
 	 *
 	 * @return  mixed   Null if operation was satisfactory, otherwise returns an error
 	 *
-	 * @see     JTable::bind
+	 * @see     JTable::bind()
 	 * @since   11.1
 	 */
 	public function bind($array, $ignore = '')

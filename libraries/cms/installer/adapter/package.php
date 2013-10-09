@@ -30,6 +30,14 @@ class JInstallerAdapterPackage extends JAdapterInstance
 	protected $route = 'install';
 
 	/**
+	 * <scriptfile> element of the extension manifest
+	 *
+	 * @var    object
+	 * @since  3.1
+	 */
+	protected $scriptElement = null;
+
+	/**
 	 * Load language from a path
 	 *
 	 * @param   string  $path  The path of the language.

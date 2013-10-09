@@ -54,7 +54,7 @@ class JToolbarButtonPopup extends JToolbarButton
 
 		// Store all data to the options array for use with JLayout
 		$options = array();
-		$options['name'] = JText::_($name);
+		$options['name'] = trim(JText::_($name), '*?');
 		$options['text'] = JText::_($text);
 		$options['title'] = JText::_($title);
 		$options['class'] = $this->fetchIconClass($name);
@@ -67,7 +67,7 @@ class JToolbarButtonPopup extends JToolbarButton
 		$html[] = $layout->render($options);
 
 		// Place modal div and scripts in a new div
-		$html[] = '</div><div class="btn-group" style="width: 0; margin: 0">';
+		$html[] = '<div class="btn-group" style="width: 0; margin: 0">';
 
 		// Build the options array for the modal
 		$params = array();
@@ -84,6 +84,8 @@ class JToolbarButtonPopup extends JToolbarButton
 				. 'jQuery(\'#modal-' . $name . '\').on(\'hide\', function () {' . $onClose . ';});'
 				. '</script>';
 		}
+
+		$html[] = '</div>';
 
 		return implode("\n", $html);
 	}

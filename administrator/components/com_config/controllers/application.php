@@ -50,8 +50,8 @@ class ConfigControllerApplication extends JControllerLegacy
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorise('core.admin'))
 		{
-			JFactory::getApplication()->redirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
-			return;
+			$this->setRedirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
+			$this->redirect();
 		}
 
 		// Set FTP credentials, if given.
@@ -135,8 +135,8 @@ class ConfigControllerApplication extends JControllerLegacy
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorise('core.admin', 'com_config'))
 		{
-			JFactory::getApplication()->redirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
-			return;
+			$this->setRedirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
+			$this->redirect();
 		}
 
 		// Set FTP credentials, if given
@@ -147,34 +147,6 @@ class ConfigControllerApplication extends JControllerLegacy
 		$app->setUserState('com_config.config.global.data', null);
 
 		$this->setRedirect('index.php');
-	}
-
-	public function refreshHelp()
-	{
-		jimport('joomla.filesystem.file');
-
-		// Set FTP credentials, if given
-		JClientHelper::setCredentialsFromRequest('ftp');
-
-		if (($data = file_get_contents('http://help.joomla.org/helpsites.xml')) === false)
-		{
-			$this->setRedirect('index.php?option=com_config', JText::_('COM_CONFIG_ERROR_HELPREFRESH_FETCH'), 'error');
-		}
-		elseif (!JFile::write(JPATH_BASE . '/help/helpsites.xml', $data))
-		{
-			$this->setRedirect('index.php?option=com_config', JText::_('COM_CONFIG_ERROR_HELPREFRESH_ERROR_STORE'), 'error');
-		}
-		else
-		{
-			$this->setRedirect('index.php?option=com_config', JText::_('COM_CONFIG_HELPREFRESH_SUCCESS'));
-		}
-
-		if ($this->input->get('format') == 'json')
-		{
-			$options = JHelp::createSiteList(JPATH_ADMINISTRATOR . '/help/helpsites.xml');
-			echo json_encode($options);
-			JFactory::getApplication()->close();
-		}
 	}
 
 	/**
@@ -192,8 +164,8 @@ class ConfigControllerApplication extends JControllerLegacy
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorise('core.admin'))
 		{
-			JFactory::getApplication()->redirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
-			return;
+			$this->setRedirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
+			$this->redirect();
 		}
 
 		// Initialise model.
