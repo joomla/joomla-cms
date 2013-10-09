@@ -118,14 +118,6 @@
 			filter="int" />
 
 		<field
-			name="ordering"
-			type="ordering"
-			label="JFIELD_ORDERING_LABEL"
-			description="JFIELD_ORDERING_DESC"
-			filter="int"
-			class="inputbox"/>
-
-		<field
 			name="browserNav"
 			type="list"
 			label="COM_MENUS_ITEM_FIELD_BROWSERNAV_LABEL"
