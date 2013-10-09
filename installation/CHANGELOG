@@ -25,6 +25,21 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Oct-2013 Michael Babker
+ ^ [#31347] Introducing HTML5 form fields and attributes - GSOC.  Thanks Achal Aggarwal
+ ^ [#30781] Small changes to jForm and jField to allow for repeatable form elements.  Thanks George Wilson
+
+08-Oct-2013 Jean-Marie Simonet
+ $ Updating installation lang files: et-EE, fa-IR, ja-JP, tr-TR, ug-CN, zh-cn, zh-TW
+ $ Adding TinyMCE Swahili language file
+
+07-Oct-2013 Jean-Marie Simonet
+ # [#32199] *Allow username edit in profile edit when username is not compliant. Thanks Achal Aggarwal
+ # [#30586] Usernames that should not be accepted can be actualy registered. Thanks Sergio Manzi
+
+07-Oct-2013 Roberto Segura
+ # 06-Oct-2013 Fix broken install after [#31602]. Thanks Michael Babker
+
 06-Oct-2013 Michael Babker
  + [#31602] add simple versioning to admin template css and js.  Thanks Roberto Segura
  ^ [#32054] [JUX2] [17] Move the Help and Options toolbar-buttons to the right where they belong.  Thanks Roberto Segura

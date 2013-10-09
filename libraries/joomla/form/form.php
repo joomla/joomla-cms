@@ -70,6 +70,13 @@ class JForm
 	protected static $forms = array();
 
 	/**
+	 * Alows extensions to implement repeating elements
+	 * @var    mixed
+	 * @since  3.2
+	 */
+	public $repeat = false;
+
+	/**
 	 * Method to instantiate the form object.
 	 *
 	 * @param   string  $name     The name of the form.
@@ -929,7 +936,7 @@ class JForm
 		}
 
 		// Find the form field element from the definition.
-		$old = &$this->findField((string) $element['name'], $group);
+		$old = $this->findField((string) $element['name'], $group);
 
 		// If an existing field is found and replace flag is false do nothing and return true.
 		if (!$replace && !empty($old))
@@ -1542,9 +1549,10 @@ class JForm
 		/*
 		 * Get an array of <field /> elements that are underneath a <fieldset /> element
 		 * with the appropriate name attribute, and also any <field /> elements with
-		 * the appropriate fieldset attribute.
+		 * the appropriate fieldset attribute. To allow repeatable elements only immediate
+		 * field descendants of the fieldset are selected.
 		 */
-		$fields = $this->xml->xpath('//fieldset[@name="' . $name . '"]//field | //field[@fieldset="' . $name . '"]');
+		$fields = $this->xml->xpath('//fieldset[@name="' . $name . '"]/field | //field[@fieldset="' . $name . '"]');
 
 		return $fields;
 	}
