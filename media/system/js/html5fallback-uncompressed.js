@@ -136,8 +136,11 @@
 		},
 
 		validateField : function(e) {
-			var elem = e.target || e,
-				self = elem.form.H5Form,
+			var elem = e.target || e;
+			if(elem.form === undefined){
+				return null;
+			}
+			var	self = elem.form.H5Form,
 				$elem = $(elem),
 				isMissing = false;
 			elem.isRequired = !!($(elem).attr("required")),
