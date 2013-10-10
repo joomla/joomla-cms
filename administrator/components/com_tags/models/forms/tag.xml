@@ -81,7 +81,7 @@
 	<field
 		name="note"
 		type="text"
-		class="inputbox span12"
+		class="inputbox"
 		label="JFIELD_NOTE_LABEL"
 		description="JFIELD_NOTE_DESC"
 		size="40"
