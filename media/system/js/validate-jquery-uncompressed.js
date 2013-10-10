@@ -56,7 +56,7 @@ var JFormValidator = function($) {
 			return true;
 		}
 		// If the field is required make sure it has a value
-		if ($el.hasClass('required')) {
+		if ($el.attr('required') || $el.hasClass('required')) {
 			var tagName = $el.prop("tagName").toLowerCase(), i = 0, selector;
 			if (tagName === 'fieldset' && ($el.hasClass('radio') || $el.hasClass('checkboxes'))) {
 				while (true) {
