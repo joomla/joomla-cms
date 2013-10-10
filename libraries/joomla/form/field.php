@@ -305,6 +305,13 @@ abstract class JFormField
 	protected static $generated_fieldname = '__field';
 
 	/**
+	 * Layout to render
+	 *
+	 * @var  string
+	 */
+	protected $layout;
+
+	/**
 	 * Method to instantiate the form field object.
 	 *
 	 * @param   JForm  $form  The form to attach to the form field object.
