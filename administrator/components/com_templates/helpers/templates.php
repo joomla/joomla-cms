@@ -21,7 +21,9 @@ class TemplatesHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string    The name of the active view.
+	 * @param   string  $vName  The name of the active view.
+	 *
+	 * @return  void
 	 */
 	public static function addSubmenu($vName)
 	{
@@ -75,6 +77,8 @@ class TemplatesHelper
 	/**
 	 * Get a list of filter options for the templates with styles.
 	 *
+	 * @param   mixed  $clientId  The CMS client id (0:site | 1:administrator) or '*' for all.
+	 *
 	 * @return  array  An array of JHtmlOption elements.
 	 */
 	public static function getTemplateOptions($clientId = '*')
@@ -96,15 +100,25 @@ class TemplatesHelper
 			->order('name');
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
+
 		return $options;
 	}
 
+	/**
+	 * TODO
+	 *
+	 * @param   string  $templateBaseDir  TODO
+	 * @param   string  $templateDir      TODO
+	 *
+	 * @return  boolean|JObject
+	 */
 	public static function parseXMLTemplateFile($templateBaseDir, $templateDir)
 	{
 		$data = new JObject;
 
 		// Check of the xml file exists
 		$filePath = JPath::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
+
 		if (is_file($filePath))
 		{
 			$xml = JInstaller::parseXMLInstallFile($filePath);
@@ -124,6 +138,13 @@ class TemplatesHelper
 	}
 
 	/**
+	 * TODO
+	 *
+	 * @param   integer  $clientId     TODO
+	 * @param   string   $templateDir  TODO
+	 *
+	 * @return  boolean|array
+	 *
 	 * @since   3.0
 	 */
 	public static function getPositions($clientId, $templateDir)
@@ -137,6 +158,7 @@ class TemplatesHelper
 		{
 			// Read the file to see if it's a valid component XML file
 			$xml = simplexml_load_file($filePath);
+
 			if (!$xml)
 			{
 				return false;
@@ -149,6 +171,7 @@ class TemplatesHelper
 			if ($xml->getName() != 'extension' && $xml->getName() != 'metafile')
 			{
 				unset($xml);
+
 				return false;
 			}
 
