@@ -25,8 +25,8 @@ class TagsModelTag extends JModelAdmin
 	protected $text_prefix = 'COM_TAGS';
 
 	/**
-	 * @var      string  The type alias for this content type.
-	 * @since    3.2
+	 * @var    string  The type alias for this content type.
+	 * @since  3.2
 	 */
 	public $typeAlias = 'com_tags.tag';
 

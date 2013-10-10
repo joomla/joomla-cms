@@ -94,7 +94,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 			{
 				JToolbarHelper::versions('com_newsfeeds.newsfeed', $this->item->id);
 			}
-			
+
 			JToolbarHelper::cancel('newsfeed.cancel', 'JTOOLBAR_CLOSE');
 		}
 
