@@ -640,7 +640,8 @@ INSERT INTO "#__modules" ("id", "title", "note", "content", "ordering", "positio
 (78, 'Contribute', '', '', 1, 'position-9', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_banners', 1, 0, '{"target":"1","count":"1","cid":"1","catid":["15"],"tag_search":"0","ordering":"0","header_text":"","footer_text":"Contribute! ","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900"}', 0, '*'),
 (79, 'Multilanguage status', '', '', 1, 'status', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 0, 'mod_multilangstatus', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
 (84, 'Smart Search Module', '', '', 2, '', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_finder', 1, 1, '{"searchfilter":"","show_autosuggest":"1","show_advanced":"0","layout":"_:default","moduleclass_sfx":"","field_size":20,"alt_label":"","show_label":"0","label_pos":"top","show_button":"0","button_pos":"right","opensearch":"1","opensearch_title":""}', 0, '*'),
-(86, 'Joomla Version', '', '', 1, 'footer', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_version', 3, 1, '{"format":"short","product":"1","layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*');
+(86, 'Joomla Version', '', '', 1, 'footer', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_version', 3, 1, '{"format":"short","product":"1","layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
+(91, 'You have post-installation messages', '', '', 1, '', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_postinstall', 1, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*');
 
 SELECT nextval('#__modules_id_seq');
 SELECT setval('#__modules_id_seq', 87, false);
@@ -811,7 +812,8 @@ INSERT  INTO  "#__modules_menu"  ( "moduleid",  "menuid" ) VALUES
 (78, 0),
 (79, 0),
 (85, 0),
-(86, 0);
+(86, 0),
+(91, 0);
 
 --
 -- Dumping data for table  #__newsfeeds

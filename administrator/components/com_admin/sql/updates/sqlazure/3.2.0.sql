@@ -5,6 +5,8 @@ SELECT 31, 'com_ajax', 'component', 'com_ajax', '', 1, 1, 0, 0, '{"name":"com_aj
 UNION ALL
 SELECT 32, 'com_postinstall', 'component', 'com_postinstall', '', 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
+SELECT 318, 'mod_postinstall', 'module', 'mod_postinstall', '', 1, 1, 1, 0, '', '{"cache":"0"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
+UNION ALL
 SELECT 105, 'FOF', 'library', 'fof', '', 0, 1, 1, 1, '{"legacy":false,"name":"FOF","type":"library","creationDate":"2013-09-03","author":"Nicholas K. Dionysopoulos \/ Akeeba Ltd","copyright":"(C)2011-2013 Nicholas K. Dionysopoulos","authorEmail":"nicholas@akeebabackup.com","authorUrl":"https:\/\/www.akeebabackup.com","version":"2.1.rc2","description":"Framework-on-Framework (FOF) - A rapid component development framework for Joomla!","group":""}', '{}', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 448, 'plg_twofactorauth_totp', 'plugin', 'totp', 'twofactorauth', 0, 1, 1, 0, '', '{}', '', '', 0, '1900-01-01 00:00:00', 0, 0
@@ -57,3 +59,16 @@ SELECT 12,'Banners Category','com_banners.category','{"special":{"dbtable":"#__c
 
 SET IDENTITY_INSERT #__content_types  OFF;
 
+SET IDENTITY_INSERT #__modules  ON;
+
+INSERT INTO #__modules (id, title, note, content, ordering, position, checked_out, checked_out_time, publish_up, publish_down, published, module, access, showtitle, params, client_id, language)
+SELECT 91, 'You have post-installation messages', '', '', 1, '', 0, '1900-01-01 00:00:00', '1900-01-01 00:00:00', '1900-01-01 00:00:00', 1, 'mod_postinstall', 1, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*';
+
+SET IDENTITY_INSERT #__modules  OFF;
+
+SET IDENTITY_INSERT #__modules_menu  ON;
+
+INSERT INTO #__modules_menu (moduleid, menuid)
+SELECT 91,0;
+
+SET IDENTITY_INSERT #__modules_menu  OFF;

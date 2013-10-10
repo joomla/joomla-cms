@@ -897,7 +897,9 @@ SELECT 313, 'mod_multilangstatus', 'module', 'mod_multilangstatus', '', 1, 1, 1,
 UNION ALL
 SELECT 314, 'mod_version', 'module', 'mod_version', '', 1, 1, 1, 0, '', '{"format":"short","product":"1","cache":"0"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
-SELECT 315, 'mod_stats_admin', 'module', 'mod_stats_admin', '', 1, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
+SELECT 315, 'mod_stats_admin', 'module', 'mod_stats_admin', '', 1, 1, 1, 0, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
+UNION ALL
+SELECT 318, 'mod_postinstall', 'module', 'mod_postinstall', '', 1, 1, 1, 0, '', '{"cache":"0"}', '', '', 0, '1900-01-01 00:00:00', 0, 0;
 
 INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state)
 SELECT 400, 'plg_authentication_gmail', 'plugin', 'gmail', 'authentication', 0, 0, 1, 0, '', '{"applysuffix":"0","suffix":"","verifypeer":"1","user_blacklist":""}', '', '', 0, '1900-01-01 00:00:00', 1, 0
@@ -2169,7 +2171,9 @@ SELECT 17, 'Breadcrumbs', '', '', 1, 'position-2', 0, '1900-01-01 00:00:00', '19
 UNION ALL
 SELECT 79, 'Multilanguage status', '', '', 1, 'status', 0, '1900-01-01 00:00:00', '1900-01-01 00:00:00', '1900-01-01 00:00:00', 0, 'mod_multilangstatus', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'
 UNION ALL
-SELECT 86, 'Joomla Version', '', '', 1, 'footer', 0, '1900-01-01 00:00:00', '1900-01-01 00:00:00', '1900-01-01 00:00:00', 1, 'mod_version', 3, 1, '{"format":"short","product":"1","layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*';
+SELECT 86, 'Joomla Version', '', '', 1, 'footer', 0, '1900-01-01 00:00:00', '1900-01-01 00:00:00', '1900-01-01 00:00:00', 1, 'mod_version', 3, 1, '{"format":"short","product":"1","layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'
+UNION ALL
+SELECT 91, 'You have post-installation messages', '', '', 1, '', 0, '1900-01-01 00:00:00', '1900-01-01 00:00:00', '1900-01-01 00:00:00', 1, 'mod_postinstall', 1, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*';
 
 SET IDENTITY_INSERT #__modules  OFF;
 
@@ -2221,7 +2225,9 @@ SELECT 17,0
 UNION ALL
 SELECT 79,0
 UNION ALL
-SELECT 86,0;
+SELECT 86,0
+UNION ALL
+SELECT 91,0;
 
 /****** Object:  Table [#__newsfeeds] ******/
 SET QUOTED_IDENTIFIER ON;

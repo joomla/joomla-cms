@@ -141,6 +141,7 @@ INSERT INTO [#__modules] ([id], [title], [note], [content], [ordering], [positio
 INSERT INTO [#__modules] ([id], [title], [note], [content], [ordering], [position], [checked_out], [checked_out_time], [publish_up], [publish_down], [published], [module], [access], [showtitle], [params], [client_id], [language]) VALUES (79, 'Multilanguage status', '', '', 1, 'status', 0, '1900-01-01T00:00:00.000', '1900-01-01T00:00:00.000', '1900-01-01T00:00:00.000', 0, 'mod_multilangstatus', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*');
 INSERT INTO [#__modules] ([id], [title], [note], [content], [ordering], [position], [checked_out], [checked_out_time], [publish_up], [publish_down], [published], [module], [access], [showtitle], [params], [client_id], [language]) VALUES (84, 'Smart Search Module', '', '', 2, '', 0, '1900-01-01T00:00:00.000', '1900-01-01T00:00:00.000', '1900-01-01T00:00:00.000', 1, 'mod_finder', 1, 1, '{"searchfilter":"","show_autosuggest":"1","show_advanced":"0","layout":"_:default","moduleclass_sfx":"","field_size":20,"alt_label":"","show_label":"0","label_pos":"top","show_button":"0","button_pos":"right","opensearch":"1","opensearch_title":""}', 0, '*');
 INSERT INTO [#__modules] ([id], [title], [note], [content], [ordering], [position], [checked_out], [checked_out_time], [publish_up], [publish_down], [published], [module], [access], [showtitle], [params], [client_id], [language]) VALUES (86, 'Joomla Version', '', '', 1, 'footer', 0, '1900-01-01T00:00:00.000', '1900-01-01T00:00:00.000', '1900-01-01T00:00:00.000', 1, 'mod_version', 2, 1, '{"format":"short","product":"1","layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*');
+INSERT INTO [#__modules] ([id], [title], [note], [content], [ordering], [position], [checked_out], [checked_out_time], [publish_up], [publish_down], [published], [module], [access], [showtitle], [params], [client_id], [language]) VALUES(91, 'You have post-installation messages', '', '', 1, '', 0, '1900-01-01T00:00:00.000', '1900-01-01T00:00:00.000', '1900-01-01T00:00:00.000', 1, 'mod_postinstall', 1, 0, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*');
 
 SET IDENTITY_INSERT [#__modules] OFF;
 
@@ -167,3 +168,4 @@ INSERT [#__modules_menu] ([moduleid], [menuid]) VALUES (33, 0);
 INSERT [#__modules_menu] ([moduleid], [menuid]) VALUES (48, 0);
 INSERT [#__modules_menu] ([moduleid], [menuid]) VALUES (79, 0);
 INSERT [#__modules_menu] ([moduleid], [menuid]) VALUES (86, 0);
+INSERT [#__modules_menu] ([moduleid], [menuid]) VALUES (91, 0);
