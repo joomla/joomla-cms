@@ -82,11 +82,9 @@ Joomla.overrider.searchStrings = function(more)
 	if (!more)
 	{
 		this.states.searchstring 	= document.id('jform_searchstring').value;
-		this.states.searchtype		= 'value';
-		if (document.id('jform_searchtype0').checked)
-		{
-			this.states.searchtype 	= 'constant';
-		}
+		this.states.searchtype		= document.id('jform_searchtype') !== null ? 
+										document.id('jform_searchtype').value : 
+										'value';
 	}
 
 	if (!this.states.searchstring)
