@@ -26,9 +26,10 @@ $ -> Language fix or change
 ! -> Note
 
 10-Oct-2013 David Hurley
-[#32220] Update FOF to 2.1rc3. Thanks Nicholas Dionysopoulos
+ [#32220] Update FOF to 2.1rc3. Thanks Nicholas Dionysopoulos
+
 10-Oct-2013 Elin Waring
-[#32239] Sample data bug breaks cpanel. Thanks Brian Teeman
+ [#32239] Sample data bug breaks cpanel. Thanks Brian Teeman
 
 10-Oct-2013 Jean-Marie Simonet
  [#32232] *Normalising plugin edit on the model of module edit 
