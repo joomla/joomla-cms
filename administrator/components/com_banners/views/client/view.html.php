@@ -94,7 +94,7 @@ class BannersViewClient extends JViewLegacy
 			{
 				JToolbarHelper::versions('com_banners.client', $this->item->id);
 			}
-			
+
 			JToolbarHelper::cancel('client.cancel', 'JTOOLBAR_CLOSE');
 		}
 

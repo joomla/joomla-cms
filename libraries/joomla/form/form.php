@@ -662,6 +662,7 @@ class JForm
 		{
 			$html[] = $field->getControlGroup();
 		}
+
 		return implode('', $html);
 	}
 
