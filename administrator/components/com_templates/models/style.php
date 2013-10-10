@@ -347,7 +347,7 @@ class TemplatesModelStyle extends JModelAdmin
 		$lang     = JFactory::getLanguage();
 		$client   = JApplicationHelper::getClientInfo($clientId);
 
-		if (!$form->loadFile('style_'.$client->name, true))
+		if (!$form->loadFile('style_' . $client->name, true))
 		{
 			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 		}
@@ -535,6 +535,7 @@ class TemplatesModelStyle extends JModelAdmin
 		$dispatcher->trigger('onExtensionAfterSave', array('com_templates.style', &$table, $isNew));
 
 		$this->setState('style.id', $table->id);
+		$this->setState('item.template', $table->template);
 
 		return true;
 	}
