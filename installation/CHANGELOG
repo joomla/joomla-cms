@@ -44,6 +44,10 @@ $ -> Language fix or change
 
 09-Oct-2013 David Hurley
  # [#32221] Fix version / cancel button placement Thanks Janich Rasmussen
+ # [#31858] Move actions to status buttons. Thanks Beat
+ # [#32027] Cleaned up top menu bar. Thanks Beat
+ # [#32095] Add view-dependent icons. Thanks Beat
+ + [#31864] Add front-end hover to modules. Thanks Beat
 
 09-Oct-2013 Jean-Marie Simonet
  # [#32217] Module position modal styling broken  Thanks Peter van Westen
