@@ -32,7 +32,7 @@ $this->fieldsets = $this->form->getFieldsets('params');
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('COM_PLUGINS_PLUGIN', true)); ?>
 
 		<div class="row-fluid">
-			<div class="span12">
+			<div class="span9">
 				<?php if ($this->item->xml) : ?>
 					<?php if ($this->item->xml->description) : ?>
 						<h3>
@@ -84,13 +84,15 @@ $this->fieldsets = $this->form->getFieldsets('params');
 				<?php else : ?>
 					<div class="alert alert-error"><?php echo JText::_('COM_PLUGINS_XML_ERR'); ?></div>
 				<?php endif; ?>
-				<hr />
-				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+
 				<?php
 				$this->fieldset = 'basic';
 				$html = JLayoutHelper::render('joomla.edit.fieldset', $this);
 				echo $html ? '<hr />' . $html : '';
 				?>
+			</div>
+			<div class="span3">
+				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
