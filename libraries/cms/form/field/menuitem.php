@@ -138,9 +138,9 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 		if ($result == true)
 		{
 			$this->menuType  = (string) $this->element['menu_type'];
-			$this->published = $this->element['published'];
-			$this->disable   = $this->element['disable'];
-			$this->language  = $this->element['language'];
+			$this->published = $this->element['published'] ? explode(',', (string) $this->element['published']) : array();
+			$this->disable   = $this->element['disable'] ? explode(',', (string) $this->element['disable']) : array();
+			$this->language  = $this->element['language'] ? explode(',', (string) $this->element['language']) : array();
 		}
 
 		return $result;
@@ -157,7 +157,7 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 	{
 		$groups = array();
 
-		$menuType = $this->menu_type;
+		$menuType = $this->menuType;
 
 		// Get the menu items.
 		$items = MenusHelper::getMenuLinks($menuType, 0, 0, $this->published, $this->language);

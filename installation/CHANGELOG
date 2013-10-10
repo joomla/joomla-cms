@@ -25,8 +25,39 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Oct-2013 David Hurley
+ [#32220] Update FOF to 2.1rc3. Thanks Nicholas Dionysopoulos
+
+10-Oct-2013 Elin Waring
+ [#32239] Sample data bug breaks cpanel. Thanks Brian Teeman
+
+10-Oct-2013 Jean-Marie Simonet
+ [#32232] *Normalising plugin edit on the model of module edit 
+ $ Updating installation lang files: ko-KR
+
+10-Oct-2013 Roberto Segura
+ # [#32166] com_ajax cannot access modules with underscores in their name. Thanks Matt Thomas
+ # [#32203] Improving module loading code in cpanel layout. Thanks Thomas Hunziker
+
+09-Oct-2013 Michael Babker
+ # [#32226] *Regression: Editors-xtd not displaying anymore.  Thanks Achal Aggarwal
+
+09-Oct-2013 David Hurley
+ # [#32221] Fix version / cancel button placement Thanks Janich Rasmussen
+ # [#31858] Move actions to status buttons. Thanks Beat
+ # [#32027] Cleaned up top menu bar. Thanks Beat
+ # [#32095] Add view-dependent icons. Thanks Beat
+ + [#31864] Add front-end hover to modules. Thanks Beat
+
+09-Oct-2013 Jean-Marie Simonet
+ # [#32217] Module position modal styling broken  Thanks Peter van Westen
+ # [#32224] *regression JUX #32096 commit breaks multilang edit "modals"
+ $ Updating installation lang files: bg-BG, cs-CZ, el-GR, sk-SK, uk-UA
+
 09-Oct-2013 Elin Waring
  # [#32214] *ACL settings do not display for components. Thanks Michael Babker
+ # [#32215] *Setting frontend editing new Global Configuration setting to Modules & menus breaks back-end display. Thanks Roberto Segura
+ ^ [#32227] Fix checkstyle. Thanks Nikolai Plath.
 
 08-Oct-2013 Michael Babker
  ^ [#31347] Introducing HTML5 form fields and attributes - GSOC.  Thanks Achal Aggarwal
