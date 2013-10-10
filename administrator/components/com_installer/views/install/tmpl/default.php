@@ -103,6 +103,11 @@ JHtml::_('bootstrap.tooltip');
 		<div id="j-main-container">
 	<?php endif;?>
 
+	<!-- Show postinstall messages for com_installer -->
+	<?php 
+		$mod_postinstall = JModuleHelper::getModule('mod_postinstall');
+		echo JModuleHelper::renderModule($mod_postinstall, array('style' => 'well'));
+	?>
 	<!-- Render messages set by extension install scripts here -->
 	<?php if ($this->showMessage) : ?>
 		<?php echo $this->loadTemplate('message'); ?>
