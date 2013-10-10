@@ -30,7 +30,7 @@
 				<option value="0">JDISABLED</option>
 		</field>
 
-        <field
+		<field
 			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
