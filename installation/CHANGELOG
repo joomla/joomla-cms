@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Oct-2013 Elin Waring
+[#32239] Sample data bug breaks cpanel. Thanks Brian Teeman
+
 10-Oct-2013 Jean-Marie Simonet
  [#32232] *Normalising plugin edit on the model of module edit 
  $ Updating installation lang files: ko-KR
