@@ -80,7 +80,7 @@
 		type="text"
 		label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 		description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
-		class="inputbox span12"
+		class="inputbox"
 		size="45" />
 
 	<field
@@ -88,7 +88,7 @@
 		type="text"
 		label="JFIELD_NOTE_LABEL"
 		description="JFIELD_NOTE_DESC"
-		class="inputbox span12"
+		class="inputbox"
 		size="40"/>
 
 	<field
@@ -133,8 +133,7 @@
 		name="access"
 		type="accesslevel"
 		label="JFIELD_ACCESS_LABEL"
-		description="JFIELD_ACCESS_DESC"
-		class="span12"/>
+		description="JFIELD_ACCESS_DESC"/>
 
 	<field
 		name="metadesc"
@@ -187,8 +186,7 @@
 		name="language"
 		type="contentlanguage"
 		label="JFIELD_LANGUAGE_LABEL"
-		description="COM_CATEGORIES_FIELD_LANGUAGE_DESC"
-		class="span12">
+		description="COM_CATEGORIES_FIELD_LANGUAGE_DESC">
 		<option value="*">JALL</option>
 	</field>
 
@@ -196,7 +194,7 @@
 		type="tag"
 		label="JTAG"
 		description="JTAG_DESC"
-		class="inputbox span12"
+		class="inputbox"
 		multiple="true"
 		>
 	</field>
