@@ -54,13 +54,13 @@ class JCacheStorageRedis extends JCacheStorage
                 'schema' => ($host == 'localhost' || $this->isIP($host))? 'tcp' : 'unix',
             );
 
-            if ($this->isPredisAvailable())
-            {
-                self::$redis = $this->initRedisPear($params);
-            }
-            elseif ($this->isExtensionAvailable())
+            if ($this->isExtensionAvailable())
             {
                 self::$redis = $this->initRedisExtension($params);
+            }
+            elseif ($this->isPredisAvailable())
+            {
+                self::$redis = $this->initPredis($params);
             }
         }
     }
@@ -88,7 +88,7 @@ class JCacheStorageRedis extends JCacheStorage
     }
 
     /**
-     * Instantiates the Predis object using Predis Class from PEAR
+     * Instantiates the Predis object using Predis Class
      * Only initializes the engine if it does not already exist.
      * Note this is a protected method
      *
@@ -98,7 +98,7 @@ class JCacheStorageRedis extends JCacheStorage
      * @throws Exception
      * @see https://github.com/nrk/predis
      */
-    protected function initRedisPear($params)
+    protected function initPredis($params)
     {
         $uri = ($params['schema'] == 'tcp')? 'tcp://'. $params['host'] .':'. $params['port'] : $params['host'];
         $connection = null;
@@ -117,9 +117,6 @@ class JCacheStorageRedis extends JCacheStorage
                 $connection['unix'] = 'Predis\Connection\PhpiredisStreamConnection';
             }
         }
-
-        @include_once 'Predis/Autoloader.php';
-        \Predis\Autoloader::register();
 
         $redis = new Predis\Client($uri, $connection);
 
@@ -333,15 +330,13 @@ class JCacheStorageRedis extends JCacheStorage
     }
 
     /**
-     * Check if Predis is available from PEAR
+     * Check if Predis is available
      *
      * @return  boolean  True on success, false otherwise.
      */
     protected static function isPredisAvailable()
     {
-        @include_once 'Predis/Autoloader.php';
-
-        return class_exists('Predis\Autoloader');
+        return (bool) stream_resolve_include_path('Predis\Client.php');
     }
 
     /**
