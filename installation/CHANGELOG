@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Oct-2013 Jean-Marie Simonet
+ [#32232] *Normalising plugin edit on the model of module edit  
+
 10-Oct-2013 Roberto Segura
  # [#32166] com_ajax cannot access modules with underscores in their name. Thanks Matt Thomas
  # [#32203] Improving module loading code in cpanel layout. Thanks Thomas Hunziker
