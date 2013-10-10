@@ -93,6 +93,24 @@ $this->fieldsets = $this->form->getFieldsets('params');
 			</div>
 			<div class="span3">
 				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+				<div class="form-vertical">
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $this->form->getLabel('folder'); ?>
+						</div>
+						<div class="controls">
+							<?php echo $this->form->getInput('folder'); ?>
+						</div>
+					</div>
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $this->form->getLabel('element'); ?>
+						</div>
+						<div class="controls">
+							<?php echo $this->form->getInput('element'); ?>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
