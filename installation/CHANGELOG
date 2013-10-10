@@ -25,6 +25,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Oct-2013 David Hurley
+[#32220] Update FOF to 2.1rc3. Thanks Nicholas Dionysopoulos
 10-Oct-2013 Elin Waring
 [#32239] Sample data bug breaks cpanel. Thanks Brian Teeman
 
