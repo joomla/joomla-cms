@@ -20,7 +20,7 @@
 
 		<field name="version_note" type="text" label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
-			class="inputbox span12"
+			class="inputbox"
 			size="45" />
 
 		<field name="articletext" type="editor" class="inputbox"
