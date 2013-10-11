@@ -136,8 +136,11 @@
 		},
 
 		validateField : function(e) {
-			var elem = e.target || e,
-				self = elem.form.H5Form,
+			var elem = e.target || e;
+			if(elem.form === undefined){
+				return null;
+			}
+			var	self = elem.form.H5Form,
 				$elem = $(elem),
 				isMissing = false;
 			elem.isRequired = !!($(elem).attr("required")),
@@ -357,7 +360,9 @@
 						error.errors[flen] = $label.text().replace("*", "") + self.options.patternMessage;
 				}
 			}
-			Joomla.renderMessages(error);
+			if(error.errors.length > 0){
+				Joomla.renderMessages(error);
+			}
 	    }
 	};
 	$.fn.h5f = function(options){

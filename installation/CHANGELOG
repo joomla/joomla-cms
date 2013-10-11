@@ -25,14 +25,31 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 3.2 Beta 1 Release [11-Oct-2013] ------------------
+
+11-Oct-2013 Roberto Segura
+ # [#32152] Session expired message on login. Thanks Michael Babker
+ # [#32236] Cannot read property H5Form of undefined. Thanks Achal Aggarwal
+
+11-Oct-2013 Jean-Marie Simonet
+ # [#32234] *RTL: URL fields should be align left and LTR. BE patch
+
+10-Oct-2013 Michael Babker
+ # [#32233] Regression - language override broken.  Thanks Achal Aggarwal
+
 10-Oct-2013 David Hurley
- [#32220] Update FOF to 2.1rc3. Thanks Nicholas Dionysopoulos
+ ^ [#32220] Update FOF to 2.1rc3. Thanks Nicholas Dionysopoulos
+ # [#32245] Update message styling. Thanks Michael Babker
 
 10-Oct-2013 Elin Waring
- [#32239] Sample data bug breaks cpanel. Thanks Brian Teeman
+ # [#32239] Sample data bug breaks cpanel. Thanks Brian Teeman
+ # [#32240] Fix broken template style editing (regression). Thanks Roberto Segura
+ # [#32244] Missing Version Note in Banner Client form. Thanks Mark Dexter
+ ^ [#32242] Change post-installation messages notification from a modal to a message area. Thanks Nicholas Dionysopoulos
+ # [#32219] Last selected tab will be loaded even going out to a new section and coming back to the same section. Thanks Ashan Fernando
 
 10-Oct-2013 Jean-Marie Simonet
- [#32232] *Normalising plugin edit on the model of module edit 
+ # [#32232] *Normalising plugin edit on the model of module edit
  $ Updating installation lang files: ko-KR
 
 10-Oct-2013 Roberto Segura
@@ -58,6 +75,11 @@ $ -> Language fix or change
  # [#32214] *ACL settings do not display for components. Thanks Michael Babker
  # [#32215] *Setting frontend editing new Global Configuration setting to Modules & menus breaks back-end display. Thanks Roberto Segura
  ^ [#32227] Fix checkstyle. Thanks Nikolai Plath.
+
+08-Oct-2013 Elin Waring
+ ^ [#31997] Add content history versions to com_tags. Thanks Mark Dexter
+ ^ [#32170] Add content history versions to com_banners. Thanks Mark Dexter
+ ^ [#32204] Add version history for user notes and user notes categories. Thanks Mark Dexter
 
 08-Oct-2013 Michael Babker
  ^ [#31347] Introducing HTML5 form fields and attributes - GSOC.  Thanks Achal Aggarwal
