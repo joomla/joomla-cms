@@ -36,6 +36,8 @@ $ -> Language fix or change
  # [#32240] Fix broken template style editing (regression). Thanks Roberto Segura
  # [#32244] Missing Version Note in Banner Client form. Thanks Mark Dexter
  ^ [#32242] Change post-installation messages notification from a modal to a message area. Thanks Nicholas Dionysopoulos
+ # [#32219] Last selected tab will be loaded even going out to a new section and coming back to the same section. Thanks Ashan Fernando
+
 10-Oct-2013 Jean-Marie Simonet
  # [#32232] *Normalising plugin edit on the model of module edit
  $ Updating installation lang files: ko-KR
