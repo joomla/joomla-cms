@@ -434,7 +434,12 @@
       if (this.options.width != null) {
         return this.options.width;
       } else {
+        /*<JUI>*/
+        /* Original:
+        return "" + this.form_field.offsetWidth + "px";
+        */
         return $(this.form_field).css("width") || "" + this.form_field.offsetWidth + "px";
+        /*</JUI>*/
       }
     };
 
