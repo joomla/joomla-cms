@@ -17,12 +17,7 @@ if (!defined('FOF_INCLUDED'))
 $option		= JFactory::getApplication()->input->get('option', 'com_cpanel', 'CMD');
 
 $eid	= ($option == 'com_cpanel') ? 700 : JComponentHelper::getComponent($option)->id;
-
-$messages_model = FOFModel::getTmpInstance('Messages', 'PostinstallModel', array(
-	'input'	=> array(
-		'eid'	=> $eid,
-	)
-));
+$messages_model = FOFModel::getAnInstance('Messages', 'PostinstallModel', array('input' => array('eid' => $eid)));
 $messages = $messages_model->getItemList();
 
 if (!count($messages))
