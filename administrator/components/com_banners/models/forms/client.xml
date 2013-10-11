@@ -7,8 +7,6 @@
 			readonly="true" class="readonly"
 			label="JGLOBAL_FIELD_ID_LABEL" description ="JGLOBAL_FIELD_ID_DESC"/>
 
-
-
 		<field name="name" type="text"
 			class="inputbox input-xxlarge input-large-text"
 			size="40" label="COM_BANNERS_FIELD_NAME_LABEL"
@@ -33,6 +31,14 @@
 			<option value="2">JARCHIVED</option>
 			<option value="-2">JTRASHED</option>
 		</field>
+
+		<field name="version_note"
+			type="text"
+			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
+			class="inputbox" size="45"
+			labelclass="control-label"
+		/>
 
 		<field name="purchase_type" type="list"
 			label="COM_BANNERS_FIELD_PURCHASETYPE_LABEL" description="COM_BANNERS_FIELD_PURCHASETYPE_DESC"
