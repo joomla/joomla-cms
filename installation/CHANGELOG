@@ -25,14 +25,17 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Oct-2013 Michael Babker
+ # [#32233] Regression - language override broken.  Thanks Achal Aggarwal
+
 10-Oct-2013 David Hurley
- [#32220] Update FOF to 2.1rc3. Thanks Nicholas Dionysopoulos
+ ^ [#32220] Update FOF to 2.1rc3. Thanks Nicholas Dionysopoulos
 
 10-Oct-2013 Elin Waring
- [#32239] Sample data bug breaks cpanel. Thanks Brian Teeman
+ # [#32239] Sample data bug breaks cpanel. Thanks Brian Teeman
 
 10-Oct-2013 Jean-Marie Simonet
- [#32232] *Normalising plugin edit on the model of module edit 
+ # [#32232] *Normalising plugin edit on the model of module edit
  $ Updating installation lang files: ko-KR
 
 10-Oct-2013 Roberto Segura
