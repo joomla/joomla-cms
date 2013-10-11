@@ -20,7 +20,6 @@ const JDEBUG = false;
 /*
  * Check if a configuration file already exists.
  */
-
 if (file_exists(JPATH_CONFIGURATION . '/configuration.php')
 	&& (filesize(JPATH_CONFIGURATION . '/configuration.php') > 10)
 	&& !file_exists(JPATH_INSTALLATION . '/index.php'))
@@ -29,7 +28,7 @@ if (file_exists(JPATH_CONFIGURATION . '/configuration.php')
 	exit();
 }
 
-/*
+/**
  * Joomla system startup.
  */
 
@@ -39,7 +38,7 @@ require_once JPATH_LIBRARIES . '/import.php';
 // Bootstrap the CMS libraries.
 require_once JPATH_LIBRARIES . '/cms.php';
 
-// Import filesystem classes since they aren't autoloaded
-jimport('joomla.filesystem.file');
-jimport('joomla.filesystem.folder');
-jimport('joomla.filesystem.path');
+// Register the filesystem classes since they aren't placed for autoloading. (This is faster than jimport)
+JLoader::register('JFile', JPATH_LIBRARIES . '/joomla/filesystem/file.php');
+JLoader::register('JPath', JPATH_LIBRARIES . '/joomla/filesystem/path.php');
+JLoader::register('JFolder', JPATH_LIBRARIES . '/joomla/filesystem/folder.php');
