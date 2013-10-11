@@ -29,23 +29,21 @@ $user = JFactory::getUser();
 	<div class="span<?php echo ($iconmodules) ? 9 : 12; ?>">
 		<div class="row-fluid">
 			<?php if ($this->postinstall_message_count): ?>
-			<div class="well well-small alert-info">
-				<div class="module-title nav-header">
+			<div class="alert alert-info">
+				<h4>
 					<?php echo JText::_('COM_CPANEL_MESSAGES_TITLE'); ?>
-				</div>
-				<div class="row-striped">
-					<div class="row-fluid">
-						<?php echo JText::_('COM_CPANEL_MESSAGES_BODY_NOCLOSE'); ?>
-					</div>
-					<div class="row-fluid">
-						<?php echo JText::_('COM_CPANEL_MESSAGES_BODYMORE_NOCLOSE'); ?>
-					</div>
-					<div class="row-fluid">
-						<a href="index.php?option=com_postinstall&eid=700" class="btn btn-primary" >
-							<?php echo JText::_('COM_CPANEL_MESSAGES_REVIEW'); ?>
-						</a>
-					</div>
-				</div>
+				</h4>
+				<p>
+					<?php echo JText::_('COM_CPANEL_MESSAGES_BODY_NOCLOSE'); ?>
+				</p>
+				<p>
+					<?php echo JText::_('COM_CPANEL_MESSAGES_BODYMORE_NOCLOSE'); ?>
+				</p>
+				<p>
+					<a href="index.php?option=com_postinstall&eid=700" class="btn btn-primary">
+						<?php echo JText::_('COM_CPANEL_MESSAGES_REVIEW'); ?>
+					</a>
+				</p>
 			</div>
 			<?php endif; ?>
 		</div>
