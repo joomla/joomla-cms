@@ -7,12 +7,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+JFormHelper::loadFieldClass('calendar');
+
 /**
  * Test class for JForm.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- *
  * @since       11.1
  */
 class JFormFieldCalendarTest extends TestCase
@@ -26,9 +27,9 @@ class JFormFieldCalendarTest extends TestCase
 	{
 		parent::setUp();
 
-		require_once JPATH_PLATFORM . '/joomla/form/fields/calendar.php';
-		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
 		$this->saveFactoryState();
+
+		JFactory::$application = $this->getMockCmsApp();
 	}
 
 	/**
@@ -39,6 +40,8 @@ class JFormFieldCalendarTest extends TestCase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
+
+		parent::tearDown();
 	}
 
 	/**
@@ -48,11 +51,10 @@ class JFormFieldCalendarTest extends TestCase
 	 */
 	public function attributeData()
 	{
-
 		return array(
 			/*
-			* Test normal parameters
-			*/
+			 * Test normal parameters
+			 */
 			'normal' => array(
 				'myCalendarElement',
 				'myCalendarId',
@@ -82,8 +84,8 @@ class JFormFieldCalendarTest extends TestCase
 			),
 
 			/*
-			* Non integer size
-			*/
+			 * Non integer size
+			 */
 			'nonintsize' => array(
 				'myCalendarElement',
 				'myCalendarId',
@@ -113,8 +115,8 @@ class JFormFieldCalendarTest extends TestCase
 			),
 
 			/*
-			* No format provided
-			*/
+			 * No format provided
+			 */
 			'noformat' => array(
 				'myCalendarElement',
 				'myCalendarId',
@@ -144,8 +146,8 @@ class JFormFieldCalendarTest extends TestCase
 			),
 
 			/*
-			* With an onchange value
-			*/
+			 * With an onchange value
+			 */
 			'onchange' => array(
 				'myCalendarElement',
 				'myCalendarId',
@@ -176,8 +178,8 @@ class JFormFieldCalendarTest extends TestCase
 			),
 
 			/*
-			* With bad readonly value
-			*/
+			 * With bad readonly value
+			 */
 			'bad_readonly' => array(
 				'myCalendarElement',
 				'myCalendarId',
@@ -207,8 +209,8 @@ class JFormFieldCalendarTest extends TestCase
 			),
 
 			/*
-			* disabled is true, no class
-			*/
+			 * disabled is true, no class
+			 */
 			'disabled_no_class' => array(
 				'myCalendarElement',
 				'myCalendarId',
@@ -238,8 +240,8 @@ class JFormFieldCalendarTest extends TestCase
 			),
 
 			/*
-			* value = 'NOW'
-			*/
+			 * value = 'NOW'
+			 */
 			'value_is_now' => array(
 				'myCalendarElement',
 				'myCalendarId',
@@ -292,7 +294,6 @@ class JFormFieldCalendarTest extends TestCase
 		JFactory::$config = $config;
 		$sessionMock = $this->getMock('sessionMock', array('get'));
 
-		require_once JPATH_PLATFORM . '/joomla/user/user.php';
 		$userObject = new JUser;
 
 		$sessionMock->expects($this->any())
@@ -303,9 +304,8 @@ class JFormFieldCalendarTest extends TestCase
 		// Put the stub in place
 		JFactory::$session = $sessionMock;
 
-		// Include our inspector which will allow us to manipulate and call protected methods and attributes
-		require_once __DIR__ . '/inspectors/JFormFieldCalendar.php';
-		$calendar = new JFormFieldCalendarInspector;
+		// Instantiate the calendar field
+		$calendar = new JFormFieldCalendar;
 
 		if ($expectedParameters[0] == 'strftime(\'%Y-%m-%d\')')
 		{
@@ -314,10 +314,10 @@ class JFormFieldCalendarTest extends TestCase
 		}
 
 		// Setup our values from our data set
-		$calendar->setProtectedProperty('element', $element);
-		$calendar->setProtectedProperty('name', $name);
-		$calendar->setProtectedProperty('id', $id);
-		$calendar->setProtectedProperty('value', $value);
+		TestReflection::setValue($calendar, 'element', $element);
+		TestReflection::setValue($calendar, 'name', $name);
+		TestReflection::setValue($calendar, 'id', $id);
+		TestReflection::setValue($calendar, 'value', $value);
 
 		// Create the mock to implant into JHtml so that we can check our values
 		$mock = $this->getMock('calendarHandler', array('calendar'));
@@ -331,7 +331,7 @@ class JFormFieldCalendarTest extends TestCase
 		JHtml::register('calendar', array($mock, 'calendar'));
 
 		// Invoke our method
-		$calendar->getInput();
+		TestReflection::invoke($calendar, 'getInput');
 
 		// Unregister the mock
 		JHtml::unregister('jhtml..calendar');
@@ -351,7 +351,6 @@ class JFormFieldCalendarTest extends TestCase
 		JFactory::$config = $config;
 		$sessionMock = $this->getMock('sessionMock', array('get'));
 
-		require_once JPATH_PLATFORM . '/joomla/user/user.php';
 		$userObject = new JUser;
 
 		$sessionMock->expects($this->any())
@@ -370,12 +369,11 @@ class JFormFieldCalendarTest extends TestCase
 		// Put the stub in place
 		JFactory::$language = $languageMock;
 
-		// Include our inspector which will allow us to manipulate and call protected methods and attributes
-		require_once __DIR__ . '/inspectors/JFormFieldCalendar.php';
-		$calendar = new JFormFieldCalendarInspector;
+		// Instantiate the calendar field
+		$calendar = new JFormFieldCalendar;
 
 		// Setup our values from our data set
-		$calendar->setProtectedProperty('element',
+		TestReflection::setValue($calendar, 'element',
 			array(
 				'format' => '%m-%Y-%d',
 				'size' => '25',
@@ -387,11 +385,11 @@ class JFormFieldCalendarTest extends TestCase
 				'filter' => 'SERVER_UTC'
 			)
 		);
-		$calendar->setProtectedProperty('name', 'myElementName');
-		$calendar->setProtectedProperty('id', 'myElementId');
+		TestReflection::setValue($calendar, 'name', 'myElementName');
+		TestReflection::setValue($calendar, 'id', 'myElementId');
 
 		// 1269442718
-		$calendar->setProtectedProperty('value', 1269442718);
+		TestReflection::setValue($calendar, 'value', 1269442718);
 
 		// -5
 		$config->set('offset', 'US/Eastern');
@@ -418,7 +416,7 @@ class JFormFieldCalendarTest extends TestCase
 		JHtml::register('calendar', array($mock, 'calendar'));
 
 		// Invoke our method
-		$calendar->getInput();
+		TestReflection::invoke($calendar, 'getInput');
 
 		// Unregister the mock
 		JHtml::unregister('jhtml..calendar');
@@ -438,7 +436,6 @@ class JFormFieldCalendarTest extends TestCase
 		JFactory::$config = $config;
 		$sessionMock = $this->getMock('sessionMock', array('get'));
 
-		require_once JPATH_PLATFORM . '/joomla/user/user.php';
 		$userObject = new JUser;
 
 		$sessionMock->expects($this->any())
@@ -457,12 +454,11 @@ class JFormFieldCalendarTest extends TestCase
 		// Put the stub in place
 		JFactory::$language = $languageMock;
 
-		// Include our inspector which will allow us to manipulate and call protected methods and attributes
-		require_once __DIR__ . '/inspectors/JFormFieldCalendar.php';
-		$calendar = new JFormFieldCalendarInspector;
+		// Instantiate the calendar field
+		$calendar = new JFormFieldCalendar;
 
 		// Setup our values from our data set
-		$calendar->setProtectedProperty('element',
+		TestReflection::setValue($calendar, 'element',
 			array(
 				'format' => '%m-%Y-%d',
 				'size' => '25',
@@ -474,11 +470,11 @@ class JFormFieldCalendarTest extends TestCase
 				'filter' => 'USER_UTC'
 			)
 		);
-		$calendar->setProtectedProperty('name', 'myElementName');
-		$calendar->setProtectedProperty('id', 'myElementId');
+		TestReflection::setValue($calendar, 'name', 'myElementName');
+		TestReflection::setValue($calendar, 'id', 'myElementId');
 
 		// 1269442718
-		$calendar->setProtectedProperty('value', 1269442718);
+		TestReflection::setValue($calendar, 'value', 1269442718);
 
 		// +4
 		$config->set('offset', 'Asia/Muscat');
@@ -504,7 +500,7 @@ class JFormFieldCalendarTest extends TestCase
 		JHtml::register('calendar', array($mock, 'calendar'));
 
 		// Invoke our method
-		$calendar->getInput();
+		TestReflection::invoke($calendar, 'getInput');
 
 		// Unregister the mock
 		JHtml::unregister('jhtml..calendar');
@@ -534,7 +530,7 @@ class JFormFieldCalendarTest extends TestCase
 		JHtml::register('calendar', array($mock2, 'calendar'));
 
 		// Invoke our method
-		$calendar->getInput();
+		TestReflection::invoke($calendar, 'getInput');
 
 		// Unregister the mock
 		JHtml::unregister('jhtml..calendar');
@@ -547,7 +543,7 @@ class JFormFieldCalendarTest extends TestCase
 	 */
 	public function testGetInput()
 	{
-		$form = new JFormInspector('form1');
+		$form = new JForm('form1');
 
 		$this->assertThat(
 			$form->load('<form><field name="calendar" type="calendar" /></form>'),
@@ -562,8 +558,6 @@ class JFormFieldCalendarTest extends TestCase
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
-
-		$this->markTestIncomplete('Problems encountered in next assertion');
 
 		$this->assertThat(
 			strlen($field->input),
