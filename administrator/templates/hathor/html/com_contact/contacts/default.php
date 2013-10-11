@@ -21,7 +21,7 @@ $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 $canOrder	= $user->authorise('core.edit.state', 'com_contact.category');
 $saveOrder	= $listOrder == 'a.ordering';
-$assoc		= isset($app->item_associations) ? $app->item_associations : 0;
+$assoc		= JLanguageAssociations::isEnabled();
 
 ?>
 

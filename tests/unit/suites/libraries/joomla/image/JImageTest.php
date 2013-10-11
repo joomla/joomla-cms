@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.UnitTest
- * @subpackage  Media
+ * @subpackage  Image
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -14,7 +14,7 @@ require_once __DIR__ . '/stubs/JImageFilterInspector.php';
  * Test class for JImage.
  *
  * @package     Joomla.UnitTest
- * @subpackage  Media
+ * @subpackage  Image
  * @since       11.3
  */
 class JImageTest extends TestCase
@@ -28,13 +28,13 @@ class JImageTest extends TestCase
 	 */
 	protected function setUp()
 	{
-		parent::setUp();
-
 		// Verify that GD support for PHP is available.
 		if (!extension_loaded('gd'))
 		{
 			$this->markTestSkipped('No GD support so skipping JImage tests.');
 		}
+
+		parent::setUp();
 
 		$this->testFile = __DIR__ . '/stubs/koala.jpg';
 
@@ -43,19 +43,6 @@ class JImageTest extends TestCase
 		$this->testFilePng = __DIR__ . '/stubs/koala.png';
 
 		$this->testFileBmp = __DIR__ . '/stubs/koala.bmp';
-	}
-
-	/**
-	 * Overrides the parent tearDown method.
-	 *
-	 * @return  void
-	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   11.3
-	 */
-	protected function tearDown()
-	{
-		parent::tearDown();
 	}
 
 	/**
@@ -888,7 +875,7 @@ class JImageTest extends TestCase
 		// Create a new JImageInspector from the image handle.
 		$image = new JImageInspector($imageHandle);
 
-		$dimensions = $image->prepareDimensions(123, 456, 42);
+		$image->prepareDimensions(123, 456, 42);
 	}
 
 	/**

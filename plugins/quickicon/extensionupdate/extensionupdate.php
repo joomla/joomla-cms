@@ -30,12 +30,12 @@ class PlgQuickiconExtensionupdate extends JPlugin
 	 * Returns an icon definition for an icon which looks for extensions updates
 	 * via AJAX and displays a notification when such updates are found.
 	 *
-	 * @param  $context  The calling context
+	 * @param   string  $context  The calling context
 	 *
-	 * @return array A list of icon definition associative arrays, consisting of the
-	 *				 keys link, image, text and access.
+	 * @return  array  A list of icon definition associative arrays, consisting of the
+	 *                 keys link, image, text and access.
 	 *
-	 * @since       2.5
+	 * @since   2.5
 	 */
 	public function onGetIcons($context)
 	{
@@ -56,12 +56,15 @@ class PlgQuickiconExtensionupdate extends JPlugin
 		$document->addScriptDeclaration($script);
 		JHtml::_('script', 'plg_quickicon_extensionupdate/extensionupdatecheck.js', false, true);
 
-		return array(array(
-			'link' => 'index.php?option=com_installer&view=update',
-			'image' => 'asterisk',
-			'icon' => 'header/icon-48-extension.png',
-			'text' => JText::_('PLG_QUICKICON_EXTENSIONUPDATE_CHECKING'),
-			'id' => 'plg_quickicon_extensionupdate'
-		));
+		return array(
+			array(
+				'link' => 'index.php?option=com_installer&view=update',
+				'image' => 'asterisk',
+				'icon' => 'header/icon-48-extension.png',
+				'text' => JText::_('PLG_QUICKICON_EXTENSIONUPDATE_CHECKING'),
+				'id' => 'plg_quickicon_extensionupdate',
+				'group' => 'MOD_QUICKICON_MAINTENANCE'
+			)
+		);
 	}
 }

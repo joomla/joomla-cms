@@ -12,7 +12,6 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Facebook
- *
  * @since       13.1
  */
 class JFacebookUserTest extends TestCase
@@ -42,8 +41,8 @@ class JFacebookUserTest extends TestCase
 	protected $object;
 
 	/**
-	 * @var   JFacebookOauth  Authentication object for the Facebook object.
-	 * @since 13.1
+	 * @var    JFacebookOauth  Authentication object for the Facebook object.
+	 * @since  13.1
 	 */
 	protected $oauth;
 
@@ -68,8 +67,6 @@ class JFacebookUserTest extends TestCase
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
-	 *
-	 * @access  protected
 	 *
 	 * @return  void
 	 *
@@ -102,28 +99,16 @@ class JFacebookUserTest extends TestCase
 		$this->options->set('redirecturi', $my_url);
 		$this->options->set('sendheaders', true);
 		$this->options->set('authmethod', 'get');
-	}
 
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @access protected
-	 *
-	 * @return   void
-	 *
-	 * @since   13.1
-	 */
-	protected function tearDown()
-	{
+		parent::setUp();
 	}
 
 	/**
 	* Provides test data.
 	*
-	* @return array
+	* @return  array
 	*
-	* @since 13.1
+	* @since   13.1
 	*/
 	public function seedOauth()
 	{
@@ -519,8 +504,6 @@ class JFacebookUserTest extends TestCase
 		->method('get')
 		->with('me/friends/2341245353?access_token=' . $token['access_token'])
 		->will($this->returnValue($returnData));
-
-		$token = $this->oauth->getToken();
 
 		$this->assertThat(
 			$this->object->hasFriend('me', 2341245353),

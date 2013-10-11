@@ -7,14 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_TESTS . '/stubs/FormInspectors.php';
-
 /**
  * Test class for JFormFieldCategory.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- *
  * @since       11.1
  */
 class JFormFieldCategoryTest extends TestCaseDatabase
@@ -38,17 +35,17 @@ class JFormFieldCategoryTest extends TestCaseDatabase
 	/**
 	 * Test the getInput method.
 	 *
+	 * @return  void
+	 *
 	 * @since   11.1
 	 * @todo    Should check all the attributes have come in properly.
-	 *
-	 * @return  void
 	 */
 	public function testGetInput()
 	{
-		$form = new JFormInspector('form1');
+		$form = new JForm('form1');
 
 		$this->assertThat(
-			$form->load('<form><field name="category" type="category" /></form>'),
+			$form->load('<form><field name="category" type="category" extension="com_content" /></form>'),
 			$this->isTrue(),
 			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
