@@ -1064,10 +1064,10 @@ class JoomlaInstallerScript
 	 */
 	protected function clearRadCache()
 	{
-		if (is_file(JPATH_CACHE . '/fof/cache.php'))
-		{
-			jimport('joomla.filesystem.file');
+		jimport('joomla.filesystem.file');
 
+		if (JFile::exists(JPATH_CACHE . '/fof/cache.php'))
+		{
 			JFile::delete(JPATH_CACHE . '/fof/cache.php');
 		}
 	}

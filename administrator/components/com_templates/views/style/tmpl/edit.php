@@ -68,7 +68,9 @@ $canDo = TemplatesHelper::getActions();
 				<?php
 				// Set main fields.
 				$this->fields = array(
-					'home'
+					'home',
+					'client_id',
+					'template'
 				);
 				?>
 				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>

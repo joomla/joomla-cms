@@ -134,6 +134,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 				$this->fields = array(
 					'menutype',
 					'parent_id',
+					'menuordering',
 					'published',
 					'home',
 					'access',
