@@ -66,6 +66,11 @@ $ -> Language fix or change
  # [#32215] *Setting frontend editing new Global Configuration setting to Modules & menus breaks back-end display. Thanks Roberto Segura
  ^ [#32227] Fix checkstyle. Thanks Nikolai Plath.
 
+08-Oct-2013 Elin Waring
+ ^ [#31997] Add content history versions to com_tags. Thanks Mark Dexter
+ ^ [#32170] Add content history versions to com_banners. Thanks Mark Dexter
+ ^ [#32204] Add version history for user notes and user notes categories. Thanks Mark Dexter
+
 08-Oct-2013 Michael Babker
  ^ [#31347] Introducing HTML5 form fields and attributes - GSOC.  Thanks Achal Aggarwal
  ^ [#30781] Small changes to jForm and jField to allow for repeatable form elements.  Thanks George Wilson
