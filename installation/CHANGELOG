@@ -33,6 +33,7 @@ $ -> Language fix or change
 
 10-Oct-2013 Elin Waring
  # [#32239] Sample data bug breaks cpanel. Thanks Brian Teeman
+ # [#32240] Fix broken template style editing (regression). Thanks Roberto Segura
 
 10-Oct-2013 Jean-Marie Simonet
  # [#32232] *Normalising plugin edit on the model of module edit
