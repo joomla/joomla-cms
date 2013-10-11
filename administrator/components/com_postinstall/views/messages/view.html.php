@@ -34,5 +34,4 @@ class PostinstallViewMessages extends FOFViewHtml
 
 		return parent::onBrowse($tpl);
 	}
-
 }
