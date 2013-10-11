@@ -199,17 +199,9 @@ class TemplatesModelStyle extends JModelAdmin
 	public function getForm($data = array(), $loadData = true)
 	{
 		// The folder and element vars are passed when saving the form.
-		if (empty($data))
-		{
-			$item		= $this->getItem();
-			$clientId	= $item->client_id;
-			$template	= $item->template;
-		}
-		else
-		{
-			$clientId	= JArrayHelper::getValue($data, 'client_id');
-			$template	= JArrayHelper::getValue($data, 'template');
-		}
+		$item = empty($data) ? $this->getItem() : $this->getItem($data['id']);
+		$clientId	= $item->client_id;
+		$template	= $item->template;
 
 		// These variables are used to add data from the plugin XML files.
 		$this->setState('item.client_id',	$clientId);
