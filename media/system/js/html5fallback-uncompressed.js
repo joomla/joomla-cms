@@ -61,7 +61,9 @@
 				self.placeholder(self, event.target, event.type);
 			});
 
-			$form.on('focusout change', self.validateField);
+			$form.on('focusout change', function(event){
+				self.validateForm();
+			});
 
 			$form.find('fieldset').on('change',function(){
 				self.validateField(this);
@@ -220,9 +222,9 @@
 
 		matchPattern : function(self, elem){
 			var $elem = $(elem),
-				val = !self.browser.isPlaceholderNative && 
-						$elem.attr('placeholder') && 
-						$elem.hasClass(self.options.placeholderClass) ? 
+				val = !self.browser.isPlaceholderNative &&
+						$elem.attr('placeholder') &&
+						$elem.hasClass(self.options.placeholderClass) ?
 							'' : $elem.attr('value'),
 				pattern = $elem.attr('pattern'),
 				type = $elem.attr('type');
