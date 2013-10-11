@@ -138,9 +138,6 @@ class JApplicationCms extends JApplicationWeb
 		if ($this->config->get('session') !== false)
 		{
 			$this->loadSession();
-
-			// Register the session with JFactory
-			JFactory::$session = $this->getSession();
 		}
 	}
 
@@ -651,18 +648,11 @@ class JApplicationCms extends JApplicationWeb
 		}
 
 		// Generate a session name.
-		$name = md5($this->get('secret') . $this->get('session_name', get_class($this)));
-
-		// Calculate the session lifetime.
-		$lifetime = (($this->get('lifetime')) ? $this->get('lifetime') * 60 : 900);
-
-		// Get the session handler from the configuration.
-		$handler = $this->get('session_handler', 'none');
+		$name = JApplicationHelper::getHash($this->get('session_name', get_class($this)));
 
 		// Initialize the options for JSession.
 		$options = array(
-			'name' => $name,
-			'expire' => $lifetime
+			'name' => $name
 		);
 
 		switch ($this->getClientId())
@@ -686,21 +676,13 @@ class JApplicationCms extends JApplicationWeb
 
 		$this->registerEvent('onAfterSessionStart', array($this, 'afterSessionStart'));
 
-		$session = JSession::getInstance($handler, $options);
+		// There's an internal coupling to the session object being present in JFactory, need to deal with this at some point
+		$session = JFactory::getSession($options);
 		$session->initialise($this->input, $this->dispatcher);
-
-		if ($session->getState() == 'expired')
-		{
-			$session->restart();
-		}
-		else
-		{
-			$session->start();
-		}
+		$session->start();
 
 		// TODO: At some point we need to get away from having session data always in the db.
-
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// Remove expired sessions from the database.
 		$time = time();
@@ -716,6 +698,9 @@ class JApplicationCms extends JApplicationWeb
 			$db->setQuery($query);
 			$db->execute();
 		}
+
+		// Get the session handler from the configuration.
+		$handler = $this->get('session_handler', 'none');
 
 		if (($handler != 'database' && ($time % 2 || $session->isNew()))
 			|| ($handler == 'database' && $session->isNew()))
