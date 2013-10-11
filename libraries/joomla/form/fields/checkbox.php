@@ -99,12 +99,17 @@ class JFormFieldCheckbox extends JFormField
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
-		$checked = (string) $element['checked'];
-		$this->checked = ($checked == 'true' || $checked == 'checked' || $checked == '1');
+		$return = parent::setup($element, $value, $group);
 
-		empty($this->value) || $this->checked ? null : $this->checked = true;
+		if ($return)
+		{
+			$checked = (string) $this->element['checked'];
+			$this->checked = ($checked == 'true' || $checked == 'checked' || $checked == '1');
 
-		return parent::setup($element, $value, $group);
+			empty($this->value) || $this->checked ? null : $this->checked = true;
+		}
+
+		return $return;
 	}
 
 	/**

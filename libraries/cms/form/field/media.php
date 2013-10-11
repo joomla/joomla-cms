@@ -171,15 +171,15 @@ class JFormFieldMedia extends JFormField
 
 		if ($result == true)
 		{
-			$assetField = $element['asset_field'] ? (string) $element['asset_field'] : 'asset_id';
+			$assetField = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
 
-			$this->authorField   = $element['created_by_field'] ? (string) $element['created_by_field'] : 'created_by';
-			$this->asset         = $this->form->getValue($assetField) ? $this->form->getValue($assetField) : (string) $element['asset_id'];
-			$this->link          = (string) $element['link'];
-			$this->preview       = (string) $element['preview'];
-			$this->directory     = (string) $element['directory'];
-			$this->previewWidth  = isset($element['preview_width']) ? (int) $element['preview_width'] : 300;
-			$this->previewHeight = isset($element['preview_height']) ? (int) $element['preview_height'] : 200;
+			$this->authorField   = $this->element['created_by_field'] ? (string) $this->element['created_by_field'] : 'created_by';
+			$this->asset         = $this->form->getValue($assetField) ? $this->form->getValue($assetField) : (string) $this->element['asset_id'];
+			$this->link          = (string) $this->element['link'];
+			$this->preview       = (string) $this->element['preview'];
+			$this->directory     = (string) $this->element['directory'];
+			$this->previewWidth  = isset($this->element['preview_width']) ? (int) $this->element['preview_width'] : 300;
+			$this->previewHeight = isset($this->element['preview_height']) ? (int) $this->element['preview_height'] : 200;
 		}
 
 		return $result;

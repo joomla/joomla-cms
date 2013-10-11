@@ -133,9 +133,11 @@ class PostinstallModelMessages extends FOFModel
 			// Filter out messages based on dynamically loaded programmatic conditions
 			if (!empty($item->condition_file) && !empty($item->condition_method))
 			{
+				jimport('joomla.filesystem.file');
+
 				$file = FOFTemplateUtils::parsePath($item->condition_file, true);
 
-				if (is_file($file))
+				if (JFile::exists($file))
 				{
 					require_once $file;
 

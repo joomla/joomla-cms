@@ -24,7 +24,7 @@ if (preg_match('/<(?:div|span|nav|ul|ol|h\d) [^>]*class="[^"]* jmoddiv"/', $modu
 }
 
 // Add css class jmoddiv and data attributes for module-editing URL and for the tooltip:
-$editUrl = JURI::base() . 'administrator/index.php?option=com_modules&view=module&layout=edit&id=' . (int) $mod->id;
+$editUrl = JUri::base() . 'administrator/index.php?option=com_modules&view=module&layout=edit&id=' . (int) $mod->id;
 
 // Add class, editing URL and tooltip, and if module of type menu, also the tooltip for editing the menu item:
 $count = 0;
@@ -57,6 +57,6 @@ if ($count)
 	JHtml::_('bootstrap.tooltip');
 	JHtml::_('bootstrap.popover');
 
-	JFactory::getDocument()->addStyleSheet('media/system/css/frontediting.css')
-		->addScript('media/system/js/frontediting.js');
+	JHtml::_('stylesheet', 'system/frontediting.css', array(), true);
+	JHtml::_('script', 'system/frontediting.js', false, true);
 }

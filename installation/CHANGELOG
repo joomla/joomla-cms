@@ -25,10 +25,58 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Oct-2013 Michael Babker
+ # [#32233] Regression - language override broken.  Thanks Achal Aggarwal
+
+10-Oct-2013 David Hurley
+ ^ [#32220] Update FOF to 2.1rc3. Thanks Nicholas Dionysopoulos
+
+10-Oct-2013 Elin Waring
+ # [#32239] Sample data bug breaks cpanel. Thanks Brian Teeman
+ # [#32240] Fix broken template style editing (regression). Thanks Roberto Segura
+ # [#32244] Missing Version Note in Banner Client form. Thanks Mark Dexter
+ ^ [#32242] Change post-installation messages notification from a modal to a message area. Thanks Nicholas Dionysopoulos
+ # [#32219] Last selected tab will be loaded even going out to a new section and coming back to the same section. Thanks Ashan Fernando
+
+10-Oct-2013 Jean-Marie Simonet
+ # [#32232] *Normalising plugin edit on the model of module edit
+ $ Updating installation lang files: ko-KR
+
+10-Oct-2013 Roberto Segura
+ # [#32166] com_ajax cannot access modules with underscores in their name. Thanks Matt Thomas
+ # [#32203] Improving module loading code in cpanel layout. Thanks Thomas Hunziker
+
+09-Oct-2013 Michael Babker
+ # [#32226] *Regression: Editors-xtd not displaying anymore.  Thanks Achal Aggarwal
+
+09-Oct-2013 David Hurley
+ # [#32221] Fix version / cancel button placement Thanks Janich Rasmussen
+ # [#31858] Move actions to status buttons. Thanks Beat
+ # [#32027] Cleaned up top menu bar. Thanks Beat
+ # [#32095] Add view-dependent icons. Thanks Beat
+ + [#31864] Add front-end hover to modules. Thanks Beat
+
+09-Oct-2013 Jean-Marie Simonet
+ # [#32217] Module position modal styling broken  Thanks Peter van Westen
+ # [#32224] *regression JUX #32096 commit breaks multilang edit "modals"
+ $ Updating installation lang files: bg-BG, cs-CZ, el-GR, sk-SK, uk-UA
+
+09-Oct-2013 Elin Waring
+ # [#32214] *ACL settings do not display for components. Thanks Michael Babker
+ # [#32215] *Setting frontend editing new Global Configuration setting to Modules & menus breaks back-end display. Thanks Roberto Segura
+ ^ [#32227] Fix checkstyle. Thanks Nikolai Plath.
+
+08-Oct-2013 Elin Waring
+ ^ [#31997] Add content history versions to com_tags. Thanks Mark Dexter
+ ^ [#32170] Add content history versions to com_banners. Thanks Mark Dexter
+ ^ [#32204] Add version history for user notes and user notes categories. Thanks Mark Dexter
+
 08-Oct-2013 Michael Babker
  ^ [#31347] Introducing HTML5 form fields and attributes - GSOC.  Thanks Achal Aggarwal
  ^ [#30781] Small changes to jForm and jField to allow for repeatable form elements.  Thanks George Wilson
  + [#30798] Add logging to Joomla Update.  Thanks Mark Dexter
+ ^ [#31490] Duplicate code reduction in categories views.  Thanks Elin Waring
+ # [#32207] installer leftovers in the Joomla tmp folder after unsuccessful installation.  Thanks Beat
 
 08-Oct-2013 Jean-Marie Simonet
  $ Updating installation lang files: et-EE, fa-IR, ja-JP, tr-TR, ug-CN, zh-cn, zh-TW

@@ -109,11 +109,20 @@ JFactory::getDocument()->addScriptDeclaration($script);
 				?>
 			</div>
 			<div class="span3">
+				<fieldset class="form-vertical">
+					<?php echo $this->form->getControlGroup('showtitle'); ?>
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $this->form->getLabel('position'); ?>
+						</div>
+						<div class="controls">
+							<?php echo $this->loadTemplate('positions'); ?>
+						</div>
+					</div>
+				</fieldset>
 				<?php
 				// Set main fields.
 				$this->fields = array(
-					'showtitle',
-					'position',
 					'published',
 					'publish_up',
 					'publish_down',

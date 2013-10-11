@@ -212,8 +212,16 @@
 	>
 		<option value="*">JALL</option>
 	</field>
+	
+	<field name="version_note" 
+		type="text" 
+		label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+		description="JGLOBAL_FIELD_VERSION_NOTE_DESC" 
+		class="inputbox" size="45" 
+		labelclass="control-label"
+	/>
 
-	<fields name="params">
+	<fields name="params" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
 		<fieldset
 			name="basic"
 			label="COM_TAGS_BASIC_FIELDSET_LABEL"
@@ -334,7 +342,7 @@
 		</fieldset>
 	</fields>
 
-	<fields name="metadata">
+	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 
 			<field
@@ -358,6 +366,5 @@
 				<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
 			</field>
 		</fieldset>
-
 	</fields>
 </form>

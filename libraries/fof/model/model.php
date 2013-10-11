@@ -488,7 +488,7 @@ class FOFModel extends JObject
 	 */
 	public static function addTablePath($path)
 	{
-		JTable::addIncludePath($path);
+		FOFTable::addIncludePath($path);
 	}
 
 	/**
@@ -1205,13 +1205,12 @@ class FOFModel extends JObject
 		{
 			// Make sure that $allData has for any field a key
 			$fieldset = $form->getFieldset();
-			$keys = array_keys($fieldset);
 
-			foreach ($keys as $nfield)
+			foreach ($fieldset as $nfield => $fldset)
 			{
 				if (!array_key_exists($nfield, $allData))
 				{
-					$field = $form->getField($nfield);
+					$field = $form->getField($fldset->fieldname, $fldset->group);
 					$type  = strtolower($field->type);
 
 					switch ($type)
@@ -1229,6 +1228,7 @@ class FOFModel extends JObject
 
 			$serverside_validate = strtolower($form->getAttribute('serverside_validate'));
 
+			$validateResult = true;
 			if (in_array($serverside_validate, array('true', 'yes', '1', 'on')))
 			{
 				$validateResult = $this->validateForm($form, $allData);

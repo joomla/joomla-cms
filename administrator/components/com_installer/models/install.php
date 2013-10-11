@@ -92,9 +92,11 @@ class InstallerModelInstall extends JModelLegacy
 			return false;
 		}
 
+		$installType = $app->input->getWord('installtype');
+
 		if ($package === null)
 		{
-			switch ($app->input->getWord('installtype'))
+			switch ($installType)
 			{
 				case 'folder':
 					// Remember the 'Install from Directory' path.
@@ -127,12 +129,22 @@ class InstallerModelInstall extends JModelLegacy
 		}
 		elseif (in_array(false, $results, true))
 		{
+			if (in_array($installType, array('upload', 'url')))
+			{
+				JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
+			}
+
 			return false;
 		}
 
 		// Was the package unpacked?
-		if (!$package)
+		if (!$package || !$package['type'])
 		{
+			if (in_array($installType, array('upload', 'url')))
+			{
+				JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
+			}
+
 			$app->setUserState('com_installer.message', JText::_('COM_INSTALLER_UNABLE_TO_FIND_INSTALL_PACKAGE'));
 			return false;
 		}
@@ -226,7 +238,7 @@ class InstallerModelInstall extends JModelLegacy
 		JFile::upload($tmp_src, $tmp_dest);
 
 		// Unpack the downloaded package file
-		$package = JInstallerHelper::unpack($tmp_dest);
+		$package = JInstallerHelper::unpack($tmp_dest, true);
 
 		return $package;
 	}
@@ -260,7 +272,6 @@ class InstallerModelInstall extends JModelLegacy
 		if (!$type)
 		{
 			JError::raiseWarning('', JText::_('COM_INSTALLER_MSG_INSTALL_PATH_DOES_NOT_HAVE_A_VALID_PACKAGE'));
-			return false;
 		}
 
 		$package['packagefile'] = null;
@@ -303,6 +314,7 @@ class InstallerModelInstall extends JModelLegacy
 			{
 				$url = $package_url;
 			}
+			unset($update);
 		}
 
 		// Download the package at the URL given
@@ -319,7 +331,7 @@ class InstallerModelInstall extends JModelLegacy
 		$tmp_dest = $config->get('tmp_path');
 
 		// Unpack the downloaded package file
-		$package = JInstallerHelper::unpack($tmp_dest . '/' . $p_file);
+		$package = JInstallerHelper::unpack($tmp_dest . '/' . $p_file, true);
 
 		return $package;
 	}

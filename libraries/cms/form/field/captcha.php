@@ -87,8 +87,8 @@ class JFormFieldCaptcha extends JFormField
 	{
 		$result = parent::setup($element, $value, $group);
 
-		$plugin = $element['plugin'] ?
-			(string) $element['plugin'] :
+		$plugin = $this->element['plugin'] ?
+			(string) $this->element['plugin'] :
 			JFactory::getApplication()->getParams()->get('captcha', JFactory::getConfig()->get('captcha'));
 
 		$this->plugin = $plugin;
@@ -109,7 +109,7 @@ class JFormFieldCaptcha extends JFormField
 			}
 		}
 
-		$this->namespace = $element['namespace'] ? (string) $element['namespace'] : $this->form->getName();
+		$this->namespace = $this->element['namespace'] ? (string) $this->element['namespace'] : $this->form->getName();
 
 		return $result;
 	}
