@@ -35,6 +35,24 @@ defined('_JEXEC') or die;
 final class WebApplication extends JApplicationCms
 {
 	/**
+	 * The client identifier.
+	 *
+	 * @var    integer
+	 * @since  3.2
+	 * @deprecated  4.0  Will be renamed $clientId
+	 */
+	protected $_clientId = 2;
+
+	/**
+	 * The name of the application.
+	 *
+	 * @var    array
+	 * @since  3.2
+	 * @deprecated  4.0  Will be renamed $name
+	 */
+	protected $_name = 'installation';
+
+	/**
 	 * Holds task => controller mapping for tasks
 	 * whose names don't map directly to a controller.
 	 *
@@ -55,30 +73,6 @@ final class WebApplication extends JApplicationCms
 		// Run the parent constructor
 		parent::__construct();
 
-		// Load and set the dispatcher
-		$this->loadDispatcher();
-
-		// Enable sessions by default.
-		if (is_null($this->config->get('session')))
-		{
-			$this->config->set('session', true);
-		}
-
-		// Set the session default name.
-		if (is_null($this->config->get('session_name')))
-		{
-			$this->config->set('session_name', 'installation');
-		}
-
-		// Create the session if a session name is passed.
-		if ($this->config->get('session') !== false)
-		{
-			$this->loadSession();
-
-			// Register the session with JFactory
-			JFactory::$session = $this->getSession();
-		}
-
 		// Store the debug value to config based on the JDEBUG flag
 		$this->config->set('debug', JDEBUG);
 
@@ -87,12 +81,6 @@ final class WebApplication extends JApplicationCms
 
 		// Register the application to JFactory
 		JFactory::$application = $this;
-
-		// Register the application name
-		$this->_name = 'installation';
-
-		// Register the client ID
-		$this->_clientId = 2;
 
 		// Set the root in the URI one level up.
 		$parts = explode('/', JUri::base(true));
@@ -181,59 +169,35 @@ final class WebApplication extends JApplicationCms
 	 */
 	public function dispatch()
 	{
-		try
+		// Load the document to the API
+		$this->loadDocument();
+
+		// Set up the params
+		$document = $this->getDocument();
+
+		// Register the document object with JFactory
+		JFactory::$document = $document;
+
+		// Define component path
+		define('JPATH_COMPONENT', JPATH_BASE);
+		define('JPATH_COMPONENT_SITE', JPATH_SITE);
+		define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR);
+
+		$contents = null;
+
+		// Execute the task.
+		// @var \JControllerBase $controller
+		$controller = $this->fetchController($this->input->getCmd('task', 'default'));
+		$contents   = $controller->execute();
+
+		// If debug language is set, append its output to the contents
+		if ($this->config->get('debug_lang'))
 		{
-			// Load the document to the API
-			$this->loadDocument();
-
-			// Set up the params
-			$document = $this->getDocument();
-
-			// Register the document object with JFactory
-			JFactory::$document = $document;
-
-			if ($document->getType() == 'html')
-			{
-				// Set metadata
-				$document->setTitle(JText::_('INSTL_PAGE_TITLE'));
-			}
-
-			// Define component path
-			define('JPATH_COMPONENT', JPATH_BASE);
-			define('JPATH_COMPONENT_SITE', JPATH_SITE);
-			define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR);
-
-			$contents = null;
-
-			// Execute the task.
-			try
-			{
-				/** @var \JControllerBase $controller */
-				$controller = $this->fetchController($this->input->getCmd('task'));
-				$contents   = $controller->execute();
-			}
-			catch (\RuntimeException $e)
-			{
-				echo $e->getMessage();
-				$this->close($e->getCode());
-			}
-
-			// If debug language is set, append its output to the contents
-			if ($this->config->get('debug_lang'))
-			{
-				$contents .= $this->debugLanguage();
-			}
-
-			$document->setBuffer($contents, 'component');
-			$document->setTitle(JText::_('INSTL_PAGE_TITLE'));
+			$contents .= $this->debugLanguage();
 		}
 
-		// Mop up any uncaught exceptions.
-		catch (\Exception $e)
-		{
-			echo $e->getMessage();
-			$this->close($e->getCode());
-		}
+		$document->setBuffer($contents, 'component');
+		$document->setTitle(JText::_('INSTL_PAGE_TITLE'));
 	}
 
 	/**
@@ -248,8 +212,17 @@ final class WebApplication extends JApplicationCms
 		// Initialise the application
 		$this->initialiseApp();
 
-		// Dispatch the application
-		$this->dispatch();
+		try
+		{
+			// Dispatch the application
+			$this->dispatch();
+		}
+		// Mop up any uncaught exceptions.
+		catch (\Exception $e)
+		{
+			echo $e->getMessage();
+			$this->close($e->getCode());
+		}
 	}
 
 	/**
@@ -283,35 +256,30 @@ final class WebApplication extends JApplicationCms
 	 */
 	protected function fetchController($task)
 	{
-		if (is_null($task))
-		{
-			$task = 'default';
-		}
-
 		// Set the controller class name based on the task
-		$class = 'Installation\\Controller\\' . ucfirst($task) . 'Controller';
+		$controller = 'Installation\\Controller\\' . ucfirst($task) . 'Controller';
 
 		// If the requested controller exists let's use it.
-		if (class_exists($class))
+		if (class_exists($controller))
 		{
-			return new $class;
+			return new $controller;
 		}
 
 		/*
-		 * Try again, this time looking in the taskMap.
+		 * If not, we try again, this time looking in the taskMap.
 		 * We know that classes in the taskMap exist.
 		 */
 		$task = strtolower($task);
 
 		if (isset($this->taskMap[$task]))
 		{
-			$class = 'Installation\\Controller\\' . $this->taskMap[$task];
+			$controller = 'Installation\\Controller\\' . $this->taskMap[$task];
 
-			return new $class;
+			return new $controller;
 		}
 
 		// Nothing found. Panic.
-		throw new \RuntimeException('Class ' . $class . ' not found');
+		throw new \RuntimeException(sprintf('Controller for the requested task (%s) not found', $task));
 	}
 
 	/**
