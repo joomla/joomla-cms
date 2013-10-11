@@ -52,14 +52,14 @@ class JFormFieldSpacer extends JFormField
 	protected function getLabel()
 	{
 		$html = array();
-		$class = $this->element['class'] ? (string) $this->element['class'] : '';
-
+		$class = !empty($this->class) ? ' class="' . $this->class . '"' : '';
 		$html[] = '<span class="spacer">';
 		$html[] = '<span class="before"></span>';
-		$html[] = '<span class="' . $class . '">';
+		$html[] = '<span' . $class . '>';
+
 		if ((string) $this->element['hr'] == 'true')
 		{
-			$html[] = '<hr class="' . $class . '" />';
+			$html[] = '<hr' . $class . ' />';
 		}
 		else
 		{
@@ -87,6 +87,7 @@ class JFormFieldSpacer extends JFormField
 			$label .= '>' . $text . '</label>';
 			$html[] = $label;
 		}
+
 		$html[] = '</span>';
 		$html[] = '<span class="after"></span>';
 		$html[] = '</span>';

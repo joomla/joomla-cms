@@ -53,7 +53,7 @@ abstract class JInstallerHelper
 		}
 		elseif (200 != $response->code)
 		{
-			JLog::add(JText::_('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT'), JLog::WARNING, 'jerror');
+			JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->code), JLog::WARNING, 'jerror');
 
 			return false;
 		}
@@ -91,13 +91,14 @@ abstract class JInstallerHelper
 	 * Unpacks a file and verifies it as a Joomla element package
 	 * Supports .gz .tar .tar.gz and .zip
 	 *
-	 * @param   string  $p_filename  The uploaded package filename or install directory
+	 * @param   string   $p_filename         The uploaded package filename or install directory
+	 * @param   boolean  $alwaysReturnArray  If should return false (and leave garbage behind) or return $retval['type']=false
 	 *
 	 * @return  mixed  Array on success or boolean false on failure
 	 *
 	 * @since   3.1
 	 */
-	public static function unpack($p_filename)
+	public static function unpack($p_filename, $alwaysReturnArray = false)
 	{
 		// Path to the archive
 		$archivename = $p_filename;
@@ -116,6 +117,14 @@ abstract class JInstallerHelper
 		}
 		catch (Exception $e)
 		{
+			if ($alwaysReturnArray)
+			{
+				$retval['extractdir'] = null;
+				$retval['packagefile'] = $archivename;
+				$retval['type'] = false;
+				return $retval;
+			}
+
 			return false;
 		}
 
@@ -155,7 +164,7 @@ abstract class JInstallerHelper
 		 */
 		$retval['type'] = self::detectType($extractdir);
 
-		if ($retval['type'])
+		if ($retval['type'] || $alwaysReturnArray)
 		{
 			return $retval;
 		}
@@ -252,7 +261,7 @@ abstract class JInstallerHelper
 		$config = JFactory::getConfig();
 
 		// Does the unpacked extension directory exist?
-		if (is_dir($resultdir))
+		if ($resultdir && is_dir($resultdir))
 		{
 			JFolder::delete($resultdir);
 		}
