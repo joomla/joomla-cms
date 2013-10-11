@@ -25,9 +25,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Oct-2013 Roberto Segura
+ # [#32152] Session expired message on login. Thanks Michael Babker
+
 11-Oct-2013 Jean-Marie Simonet
  # [#32234] *RTL: URL fields should be align left and LTR. BE patch
- # [#32152] Session expired message on login. Thanks Michael Babker
 
 10-Oct-2013 Michael Babker
  # [#32233] Regression - language override broken.  Thanks Achal Aggarwal
