@@ -30,6 +30,7 @@ $ -> Language fix or change
 
 10-Oct-2013 David Hurley
  ^ [#32220] Update FOF to 2.1rc3. Thanks Nicholas Dionysopoulos
+ # [#32245] Update message styling. Thanks Michael Babker
 
 10-Oct-2013 Elin Waring
  # [#32239] Sample data bug breaks cpanel. Thanks Brian Teeman
