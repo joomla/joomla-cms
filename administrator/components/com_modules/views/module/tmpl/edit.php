@@ -127,7 +127,6 @@ JFactory::getDocument()->addScriptDeclaration($script);
 					'publish_up',
 					'publish_down',
 					'access',
-					'ordering',
 					'language',
 					'note'
 				);
