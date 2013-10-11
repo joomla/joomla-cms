@@ -13,7 +13,14 @@ defined('_JEXEC') or die;
 define('JPATH_BASE', dirname(__DIR__));
 require_once __DIR__ . '/defines.php';
 
-// Launch the application
+// Start the ball rolling.
 require_once __DIR__ . '/framework.php';
 
+// Register our app namespace
 JLoader::registerNamespace('Installation\\', JPATH_INSTALLATION . '/src');
+
+// Instantiate the application
+$app = new Installation\Application\WebApplication;
+
+// Execute
+$app->execute();
