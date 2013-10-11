@@ -9,13 +9,19 @@
 
 defined('_JEXEC') or die;
 ?>
-<div class="row-striped">
-	<div class="row-fluid"><?php echo JText::_('MOD_POSTINSTALL_MESSAGES_BODY'); ?></div>
-	<div class="row-fluid"><?php echo JText::_('MOD_POSTINSTALL_MESSAGES_BODYMORE'); ?></div>
-	<div class="row-fluid">
-		<a href="index.php?option=com_postinstall&eid=<?php echo $eid; ?>" class="btn btn-primary btn-large" >
+<div class="alert alert-info">
+	<h4>
+		<?php echo JText::_('MOD_POSTINSTALL_MESSAGES_TITLE'); ?>
+	</h4>
+	<p>
+		<?php echo JText::_('MOD_POSTINSTALL_MESSAGES_BODY'); ?>
+	</p>
+	<p>
+		<?php echo JText::_('MOD_POSTINSTALL_MESSAGES_BODYMORE'); ?>
+	</p>
+	<p>
+		<a href="index.php?option=com_postinstall&eid=<?php echo $eid; ?>" class="btn btn-primary btn-large">
 			<?php echo JText::_('MOD_POSTINSTALL_MESSAGES_REVIEW'); ?>
 		</a>
-	</div>
-</div>
+	</p>
 </div>

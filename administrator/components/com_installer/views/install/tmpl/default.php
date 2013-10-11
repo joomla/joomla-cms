@@ -106,7 +106,7 @@ JHtml::_('bootstrap.tooltip');
 	<!-- Show postinstall messages for com_installer -->
 	<?php 
 		$mod_postinstall = JModuleHelper::getModule('mod_postinstall');
-		echo JModuleHelper::renderModule($mod_postinstall, array('style' => 'well'));
+		echo JModuleHelper::renderModule($mod_postinstall);
 	?>
 	<!-- Render messages set by extension install scripts here -->
 	<?php if ($this->showMessage) : ?>
