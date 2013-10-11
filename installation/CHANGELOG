@@ -25,6 +25,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 3.2 Beta 1 Release [11-Oct-2013] ------------------
+
 11-Oct-2013 Roberto Segura
  # [#32152] Session expired message on login. Thanks Michael Babker
  # [#32236] Cannot read property H5Form of undefined. Thanks Achal Aggarwal
