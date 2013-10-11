@@ -9,13 +9,6 @@
 
 defined('_JEXEC') or die;
 
-/**
- * Controller class to manage postinstall messages
- *
- * @package     Joomla.Administrator
- * @subpackage  com_postinstall
- * @since       3.2
- */
 class PostinstallControllerMessage extends FOFController
 {
 	/**

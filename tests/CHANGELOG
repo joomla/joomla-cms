@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Oct-2013 Mark Dexter
+ # Fix Webdriver page class for markup changes.
+
 03-Oct-2013 Mark Dexter
  # Fix system tests for code changes.
  # Fix another system test.

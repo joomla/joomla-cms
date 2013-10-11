@@ -68,7 +68,7 @@ class ModulesViewModules extends JViewLegacy
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 
-		JToolbarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES'), 'module.png');
+		JToolbarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES'), 'cube module');
 
 		if ($canDo->get('core.create'))
 		{

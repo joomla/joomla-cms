@@ -56,7 +56,7 @@ class SearchViewSearches extends JViewLegacy
 	{
 		$canDo	= SearchHelper::getActions();
 
-		JToolbarHelper::title(JText::_('COM_SEARCH_MANAGER_SEARCHES'), 'search.png');
+		JToolbarHelper::title(JText::_('COM_SEARCH_MANAGER_SEARCHES'), 'search');
 
 		if ($canDo->get('core.edit.state'))
 		{

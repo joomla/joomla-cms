@@ -70,7 +70,7 @@ class ContentViewFeatured extends JViewLegacy
 		$state	= $this->get('State');
 		$canDo	= JHelperContent::getActions($this->state->get('filter.category_id'), 0, 'com_content');
 
-		JToolbarHelper::title(JText::_('COM_CONTENT_FEATURED_TITLE'), 'featured.png');
+		JToolbarHelper::title(JText::_('COM_CONTENT_FEATURED_TITLE'), 'star featured');
 
 		if ($canDo->get('core.create'))
 		{

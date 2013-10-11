@@ -69,6 +69,6 @@ class AdminViewHelp extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JToolbarHelper::title(JText::_('COM_ADMIN_HELP'), 'help_header.png');
+		JToolbarHelper::title(JText::_('COM_ADMIN_HELP'), 'support help_header');
 	}
 }

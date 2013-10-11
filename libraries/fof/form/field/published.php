@@ -93,32 +93,35 @@ class FOFFormFieldPublished extends JFormFieldList implements FOFFormField
 
 		$stack = array();
 
+		// We are no longer using jgrid.publishedOptions as it's returning
+		// untranslated strings, unsuitable for our purposes.
+
 		if ($this->element['show_published'] == 'false')
 		{
-			$config['published'] = 0;
+			$stack[] = JHtml::_('select.option', '1', JText::_('JPUBLISHED'));
 		}
 
 		if ($this->element['show_unpublished'] == 'false')
 		{
-			$config['unpublished'] = 0;
+			$stack[] = JHtml::_('select.option', '0', JText::_('JUNPUBLISHED'));
 		}
 
 		if ($this->element['show_archived'] == 'true')
 		{
-			$config['archived'] = 1;
+			$stack[] = JHtml::_('select.option', '2', JText::_('JARCHIVED'));
 		}
 
 		if ($this->element['show_trash'] == 'true')
 		{
-			$config['trash'] = 1;
+			$stack[] = JHtml::_('select.option', '-2', JText::_('JTRASHED'));
 		}
 
 		if ($this->element['show_all'] == 'true')
 		{
-			$config['all'] = 1;
+			$stack[] = JHtml::_('select.option', '*', JText::_('JALL'));
 		}
 
-		return JHtml::_('jgrid.publishedOptions', $config);
+		return $stack;
 	}
 
 	/**
