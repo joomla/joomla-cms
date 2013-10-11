@@ -34,7 +34,7 @@ CREATE NONCLUSTERED INDEX [idx_parent_id] ON [#__assets]
 SET IDENTITY_INSERT #__assets ON;
 
 INSERT INTO #__assets (id,parent_id,lft,rgt,level,name,title,rules)
-SELECT 1,0,0,103,0,'root.1','Root Asset','{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'
+SELECT 1,0,0,105,0,'root.1','Root Asset','{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'
 UNION ALL
 SELECT 2,1,1,2,1,'com_admin','com_admin','{}'
 UNION ALL
@@ -108,37 +108,37 @@ SELECT 36,1,99,100,1,'com_contenthistory','com_contenthistory','{}'
 UNION ALL
 SELECT 37,1,101,102,1,'com_ajax','com_ajax','{}'
 UNION ALL
-SELECT 38,1,73,74,1,'com_postinstall','com_postinstall','{}';
+SELECT 38,1,103,104,1,'com_postinstall','com_postinstall','{}';
 UNION ALL
-SELECT 55,18,40,41,2,'com_modules.module.1','Main Menu','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 39,18,40,41,2,'com_modules.module.1','Main Menu','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 UNION ALL
-SELECT 56,18,42,43,2,'com_modules.module.2','Login','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 40,18,42,43,2,'com_modules.module.2','Login','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 UNION ALL
-SELECT 57,18,44,45,2,'com_modules.module.3','Popular Articles','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 41,18,44,45,2,'com_modules.module.3','Popular Articles','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 UNION ALL
-SELECT 58,18,46,47,2,'com_modules.module.4','Recently Added Articles','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 42,18,46,47,2,'com_modules.module.4','Recently Added Articles','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 UNION ALL
-SELECT 59,18,48,49,2,'com_modules.module.8','Toolbar','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 43,18,48,49,2,'com_modules.module.8','Toolbar','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 UNION ALL
-SELECT 60,18,50,51,2,'com_modules.module.9','Quick Icons','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 44,18,50,51,2,'com_modules.module.9','Quick Icons','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 UNION ALL
-SELECT 61,18,52,53,2,'com_modules.module.10','Logged-in Users','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 45,18,52,53,2,'com_modules.module.10','Logged-in Users','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 UNION ALL
-SELECT 62,18,54,55,2,'com_modules.module.12','Admin Menu','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 46,18,54,55,2,'com_modules.module.12','Admin Menu','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 UNION ALL
-SELECT 63,18,56,57,2,'com_modules.module.13','Admin Submenu','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 47,18,56,57,2,'com_modules.module.13','Admin Submenu','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 UNION ALL
-SELECT 64,18,58,59,2,'com_modules.module.14','User Status','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 48,18,58,59,2,'com_modules.module.14','User Status','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 UNION ALL
-SELECT 65,18,60,61,2,'com_modules.module.15','Title','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 49,18,60,61,2,'com_modules.module.15','Title','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 UNION ALL
-SELECT 66,18,62,63,2,'com_modules.module.16','Login Form','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 50,18,62,63,2,'com_modules.module.16','Login Form','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 UNION ALL
-SELECT 67,18,64,65,2,'com_modules.module.17','Breadcrumbs','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 51,18,64,65,2,'com_modules.module.17','Breadcrumbs','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 UNION ALL
-SELECT 68,18,66,67,2,'com_modules.module.79','Multilanguage status','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
+SELECT 52,18,66,67,2,'com_modules.module.79','Multilanguage status','{"core.delete":[],"core.edit":[],"core.edit.state":[]}'
 UNION ALL
-SELECT 69,18,68,69,2,'com_modules.module.86','Joomla Version','{"core.delete":[],"core.edit":[],"core.edit.state":[]}';
+SELECT 53,18,68,69,2,'com_modules.module.86','Joomla Version','{"core.delete":[],"core.edit":[],"core.edit.state":[]}';
 
 SET IDENTITY_INSERT #__assets OFF;
 
