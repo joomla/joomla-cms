@@ -7,11 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Installation\Helpers\HtmlHelper;
+
 defined('_JEXEC') or die;
 
-/* @var \Installation\View\DefaultView $this */
-?>
-<?php echo JHtml::_('installation.stepbar'); ?>
+echo HtmlHelper::stepbar(); ?>
 <div class="btn-toolbar">
 	<div class="btn-group pull-right">
 		<a href="#" class="btn btn-primary" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNext'); ?>"><i class="icon-arrow-right icon-white"></i> <?php echo JText::_('JNext'); ?></a>

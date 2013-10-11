@@ -6,9 +6,9 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+use Installation\Helpers\HtmlHelper;
 
-/* @var InstallationViewLanguagesHtml $this */
+defined('_JEXEC') or die;
 
 // Get version of Joomla! to compare it with the version of the language package
 $version = new JVersion;
@@ -23,7 +23,7 @@ $version = new JVersion;
     }
 </script>
 
-<?php echo JHtml::_('installation.stepbarlanguages'); ?>
+<?php echo HtmlHelper::stepbarlanguages(); ?>
 <form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">
 	<div class="btn-toolbar">
 		<div class="btn-group pull-right">

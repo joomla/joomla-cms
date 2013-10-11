@@ -7,11 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Installation\Helpers\HtmlHelper;
+
 defined('_JEXEC') or die;
 
-/* @var \Installation\View\DefaultView $this */
-?>
-<?php echo JHtml::_('installation.stepbar'); ?>
+echo HtmlHelper::stepbar(); ?>
 <form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">
 	<div class="btn-toolbar">
 		<div class="btn-group pull-right">

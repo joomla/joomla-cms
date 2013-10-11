@@ -11,9 +11,9 @@ namespace Installation\Controller;
 
 defined('_JEXEC') or die;
 
-use JHtml,
-	JForm,
+use JForm,
 	JControllerBase;
+
 use Installation\Model\SetupModel,
 	Installation\Model\LanguagesModel;
 

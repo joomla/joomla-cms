@@ -9,8 +9,9 @@
 
 namespace Installation\Response;
 
-use JFactory;
-use JSession;
+use JText,
+	JFactory,
+	JSession;
 
 defined('_JEXEC') or die;
 

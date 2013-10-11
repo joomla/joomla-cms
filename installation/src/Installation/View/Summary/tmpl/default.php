@@ -7,16 +7,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+use Installation\Helpers\HtmlHelper;
 
-/* @var InstallationViewSummaryHtml $this */
+defined('_JEXEC') or die;
 
 // Determine if the configuration file path is writable.
 $path = JPATH_CONFIGURATION . '/configuration.php';
 $useftp = (file_exists($path)) ? !is_writable($path) : !is_writable(JPATH_CONFIGURATION . '/');
 $prev = $useftp ? 'ftp' : 'database';
-?>
-<?php echo JHtml::_('installation.stepbar'); ?>
+
+echo HtmlHelper::stepbar(); ?>
 <form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">
 	<div class="btn-toolbar">
 		<div class="btn-group pull-right">
