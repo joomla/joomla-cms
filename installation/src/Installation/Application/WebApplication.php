@@ -18,10 +18,9 @@ use JUri,
 	JRegistry,
 	JLanguage,
 	JDocument,
+	JResponseJson,
 	JApplicationCms,
 	JLanguageHelper;
-
-use Installation\Response\JsonResponse;
 
 defined('_JEXEC') or die;
 
@@ -602,9 +601,17 @@ final class WebApplication extends JApplicationCms
 	 */
 	public function sendJsonResponse($response)
 	{
+		// Build the JSON response.
+		$resp = new JResponseJson($response);
+		$resp->token = JSession::getFormToken(true);
+		$resp->lang = JFactory::getLanguage()->getTag();
+		$resp->error = !$resp->success;
+
 		// Check if we need to send an error code.
 		if ($response instanceof \Exception)
 		{
+			$resp->header = JText::_('INSTL_HEADER_ERROR');
+
 			// Send the appropriate error code response.
 			$this->setHeader('status', $response->getCode());
 			$this->setHeader('Content-Type', 'application/json; charset=utf-8');
@@ -612,7 +619,7 @@ final class WebApplication extends JApplicationCms
 		}
 
 		// Send the JSON response.
-		echo json_encode(new JsonResponse($response));
+		echo $resp;
 
 		// Close the application.
 		$this->close();
