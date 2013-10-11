@@ -139,7 +139,7 @@ class PlgEditorCodemirror extends JPlugin
 		$buttons = $this->_displayButtons($id, $buttons, $asset, $author);
 
 		// Look if we need special syntax coloring.
-		$syntax = $this->params->get('syntax', 'php');
+		$syntax = $this->params->get('syntax', 'html');
 
 		if ($syntax)
 		{
@@ -167,6 +167,7 @@ class PlgEditorCodemirror extends JPlugin
 					break;
 
 				case 'xml':
+				case 'html':
 					$parserFile        = array('xml.js', 'closetag.js');
 					$mode              = 'application/xml';
 					$fold              = true;
