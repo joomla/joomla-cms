@@ -56,7 +56,15 @@ $user = JFactory::getUser();
 				// Get module parameters
 				$params = new JRegistry;
 				$params->loadString($module->params);
-				$bootstrapSize = $params->get('bootstrap_size');
+				$bootstrapSize = (int) $params->get('bootstrap_size');
+
+				// Fix for bug of default 1 instead of 0 in default data set:
+				// https://github.com/joomla/joomla-cms/pull/2206/files#diff-8fb2f5a83bfb0c557be664644876f1adL102
+				if ($bootstrapSize < 2)
+				{
+					$bootstrapSize = 0;
+				}
+
 				$spans += $bootstrapSize;
 				if ($spans > 12)
 				{
