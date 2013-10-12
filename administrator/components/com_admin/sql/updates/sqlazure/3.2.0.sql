@@ -66,3 +66,4 @@ SELECT 12,'Banners Category','com_banners.category','{"special":{"dbtable":"#__c
 
 SET IDENTITY_INSERT #__content_types  OFF;
 
+UPDATE [#__modules] SET [params] = REPLACE([params], '"bootstrap_size":"1"', '"bootstrap_size":"0"') WHERE [id] IN (3,4);
