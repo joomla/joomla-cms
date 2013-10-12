@@ -21,12 +21,17 @@ class JoomlaInstallerScript
 	/**
 	 * Method to update Joomla!
 	 *
-	 * @param   JInstallerFile    $installer    The class calling this method
+	 * @param   JInstallerFile  $installer  The class calling this method
 	 *
 	 * @return void
 	 */
 	public function update($installer)
 	{
+		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+		$options['text_file'] = 'joomla_update.php';
+		JLog::addLogger($options, JLog::INFO, array('Update', 'databasequery', 'jerror'));
+		JLog::add(JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), JLog::INFO, 'Update');
+
 		$this->deleteUnexistingFiles();
 		$this->updateManifestCaches();
 		$this->updateDatabase();
@@ -34,41 +39,58 @@ class JoomlaInstallerScript
 		$this->updateAssets();
 	}
 
+	/**
+	 * Medtho to update Database
+	 * 
+	 * @return void
+	 */
 	protected function updateDatabase()
 	{
 		$db = JFactory::getDbo();
+
 		if (substr($db->name, 0, 5) == 'mysql')
 		{
 			$db->setQuery('SHOW ENGINES');
 			$results = $db->loadObjectList();
+
 			if ($db->getErrorNum())
 			{
 				echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()) . '<br />';
+
 				return;
 			}
+
 			foreach ($results as $result)
 			{
 				if ($result->Support == 'DEFAULT')
 				{
 					$db->setQuery('ALTER TABLE #__update_sites_extensions ENGINE = ' . $result->Engine);
 					$db->execute();
+
 					if ($db->getErrorNum())
 					{
 						echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()) . '<br />';
+
 						return;
 					}
+
 					break;
 				}
 			}
 		}
 	}
 
+	/**
+	 * Update the manifest caches
+	 * 
+	 * @return void
+	 */
 	protected function updateManifestCaches()
 	{
 		$extensions = array();
-		// Components
 
-		//`type`, `element`, `folder`, `client_id`
+		// Components
+		// `type`, `element`, `folder`, `client_id`
 		$extensions[] = array('component', 'com_mailto', '', 0);
 		$extensions[] = array('component', 'com_wrapper', '', 0);
 		$extensions[] = array('component', 'com_admin', '', 1);
@@ -219,19 +241,27 @@ class JoomlaInstallerScript
 		$query = $db->getQuery(true)
 			->select('*')
 			->from('#__extensions');
+
 		foreach ($extensions as $extension)
 		{
-			$query->where('type=' . $db->quote($extension[0]) . ' AND element=' . $db->quote($extension[1]) . ' AND folder=' . $db->quote($extension[2]) . ' AND client_id=' . $extension[3], 'OR');
+			$query->where('type=' . $db->quote($extension[0])
+				. ' AND element=' . $db->quote($extension[1])
+				. ' AND folder=' . $db->quote($extension[2])
+				. ' AND client_id=' . $extension[3], 'OR');
 		}
+
 		$db->setQuery($query);
 		$extensions = $db->loadObjectList();
 		$installer = new JInstaller;
+
 		// Check for a database error.
 		if ($db->getErrorNum())
 		{
 			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()) . '<br />';
+
 			return;
 		}
+
 		foreach ($extensions as $extension)
 		{
 			if (!$installer->refreshManifestCache($extension->extension_id))
@@ -241,6 +271,11 @@ class JoomlaInstallerScript
 		}
 	}
 
+	/**
+	 * Delete files that should not exist
+	 * 
+	 * @return void
+	 */
 	public function deleteUnexistingFiles()
 	{
 		$files = array(
@@ -934,6 +969,47 @@ class JoomlaInstallerScript
 			'/administrator/includes/application.php',
 			'/includes/application.php',
 			'/libraries/legacy/application/helper.php',
+			'/libraries/joomla/plugin/helper.php',
+			'/libraries/joomla/plugin/index.html',
+			'/libraries/joomla/plugin/plugin.php',
+			'/libraries/legacy/component/helper.php',
+			'/libraries/legacy/component/index.html',
+			'/libraries/legacy/module/helper.php',
+			'/libraries/legacy/module/index.html',
+			'/administrator/components/com_templates/controllers/source.php',
+			'/administrator/components/com_templates/models/source.php',
+			'/administrator/components/com_templates/views/source/index.html',
+			'/administrator/components/com_templates/views/source/tmpl/edit.php',
+			'/administrator/components/com_templates/views/source/tmpl/edit_ftp.php',
+			'/administrator/components/com_templates/views/source/tmpl/index.html',
+			'/administrator/components/com_templates/views/source/view.html.php',
+			'/media/editors/codemirror/css/csscolors.css',
+			'/media/editors/codemirror/css/jscolors.css',
+			'/media/editors/codemirror/css/phpcolors.css',
+			'/media/editors/codemirror/css/sparqlcolors.css',
+			'/media/editors/codemirror/css/xmlcolors.css',
+			'/media/editors/codemirror/js/basefiles-uncompressed.js',
+			'/media/editors/codemirror/js/basefiles.js',
+			'/media/editors/codemirror/js/codemirror-uncompressed.js',
+			'/media/editors/codemirror/js/editor.js',
+			'/media/editors/codemirror/js/highlight.js',
+			'/media/editors/codemirror/js/mirrorframe.js',
+			'/media/editors/codemirror/js/parsecss.js',
+			'/media/editors/codemirror/js/parsedummy.js',
+			'/media/editors/codemirror/js/parsehtmlmixed.js',
+			'/media/editors/codemirror/js/parsejavascript.js',
+			'/media/editors/codemirror/js/parsephp.js',
+			'/media/editors/codemirror/js/parsephphtmlmixed.js',
+			'/media/editors/codemirror/js/parsesparql.js',
+			'/media/editors/codemirror/js/parsexml.js',
+			'/media/editors/codemirror/js/select.js',
+			'/media/editors/codemirror/js/stringstream.js',
+			'/media/editors/codemirror/js/tokenize.js',
+			'/media/editors/codemirror/js/tokenizejavascript.js',
+			'/media/editors/codemirror/js/tokenizephp.js',
+			'/media/editors/codemirror/js/undo.js',
+			'/media/editors/codemirror/js/util.js',
+			'administrator/components/com_weblinks/models/fields/index.html',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -983,9 +1059,15 @@ class JoomlaInstallerScript
 			'/libraries/legacy/pathway',
 			'/media/system/swf/',
 			'/media/editors/tinymce/jscripts',
+			// Joomla! 3.2
+			'/libraries/joomla/plugin',
+			'/libraries/legacy/component',
+			'/libraries/legacy/module',
+			'administrator/components/com_weblinks/models/fields',
 		);
 
 		jimport('joomla.filesystem.file');
+
 		foreach ($files as $file)
 		{
 			if (JFile::exists(JPATH_ROOT . $file) && !JFile::delete(JPATH_ROOT . $file))
@@ -995,6 +1077,7 @@ class JoomlaInstallerScript
 		}
 
 		jimport('joomla.filesystem.folder');
+
 		foreach ($folders as $folder)
 		{
 			if (JFolder::exists(JPATH_ROOT . $folder) && !JFolder::delete(JPATH_ROOT . $folder))
@@ -1014,19 +1097,20 @@ class JoomlaInstallerScript
 	 */
 	protected function clearRadCache()
 	{
-		if (is_file(JPATH_CACHE . '/fof/cache.php'))
-		{
-			jimport('joomla.filesystem.file');
+		jimport('joomla.filesystem.file');
 
+		if (JFile::exists(JPATH_CACHE . '/fof/cache.php'))
+		{
 			JFile::delete(JPATH_CACHE . '/fof/cache.php');
 		}
 	}
+
 	/**
 	 * Method to create assets for newly installed components
 	 *
 	 * @return  void
 	 *
-	 * @since 3.2
+	 * @since   3.2
 	 */
 	public function updateAssets()
 	{
@@ -1040,9 +1124,8 @@ class JoomlaInstallerScript
 				'com_postinstall'
 		);
 
-		foreach($newComponents as $component)
+		foreach ($newComponents as $component)
 		{
-
 			$asset = JTable::getInstance('Asset');
 
 			if (!$asset->loadByName($component))
