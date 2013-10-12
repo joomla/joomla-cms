@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.modal');
@@ -23,12 +23,10 @@ JHtml::_('behavior.tabstate');
 $canDo = TemplatesHelper::getActions();
 $input = JFactory::getApplication()->input;
 
-if($this->type == 'image')
+if ($this->type == 'image')
 {
-	$doc = JFactory::getDocument();
-	$doc->addScript(JUri::root() . 'media/system/js/jquery.Jcrop.min.js');
-	$doc->addStyleSheet(JUri::root() . 'media/system/css/jquery.Jcrop.min.css');
-
+	JHtml::_('script', 'system/jquery.Jcrop.min.js', false, true);
+	JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
 }
 ?>
 <script type="text/javascript">

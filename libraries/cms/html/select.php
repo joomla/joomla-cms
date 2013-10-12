@@ -130,6 +130,42 @@ abstract class JHtmlSelect
 	}
 
 	/**
+	 * Method to build a list with suggestions
+	 *
+	 * @param   array    $data       An array of objects, arrays, or values.
+	 * @param   string   $optKey     The name of the object variable for the option value. If
+	 *                               set to null, the index of the value array is used.
+	 * @param   string   $optText    The name of the object variable for the option text.
+	 * @param   mixed    $idtag      Value of the field id or null by default
+	 * @param   boolean  $translate  True to translate
+	 *
+	 * @return  string  HTML for the select list
+	 *
+	 * @since   3.2
+	 */
+	public static function suggestionlist($data, $optKey = 'value', $optText = 'text', $idtag, $translate = false)
+	{
+		// Set default options
+		$options = array_merge(JHtml::$formatOptions, array('format.depth' => 0, 'id' => false));
+
+		// Get options from the parameters
+		$options['id'] = $idtag;
+		$options['list.attr'] = null;
+		$options['list.translate'] = $translate;
+		$options['option.key'] = $optKey;
+		$options['option.text'] = $optText;
+		$options['list.select'] = null;
+
+		$id = ' id="' . $idtag . '"';
+
+		$baseIndent = str_repeat($options['format.indent'], $options['format.depth']++);
+		$html = $baseIndent . '<datalist' . $id . '>' . $options['format.eol']
+			. static::options($data, $options) . $baseIndent . '</datalist>' . $options['format.eol'];
+
+		return $html;
+	}
+
+	/**
 	 * Generates a grouped HTML selection list from nested arrays.
 	 *
 	 * @param   array   $data     An array of groups, each of which is an array of options.
@@ -608,7 +644,7 @@ abstract class JHtmlSelect
 				$splitText = preg_split('/ -[\s]*/', $text, 2, PREG_SPLIT_NO_EMPTY);
 				$text = isset($splitText[0]) ? $splitText[0] : '';
 
-				if (isset($splitText[1]))
+				if (!empty($splitText[1]))
 				{
 					$text .= ' - ' . $splitText[1];
 				}

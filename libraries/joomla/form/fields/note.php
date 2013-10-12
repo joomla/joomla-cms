@@ -24,7 +24,6 @@ class JFormFieldNote extends JFormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 *
 	 * @since  11.1
 	 */
 	protected $type = 'Note';
@@ -46,15 +45,17 @@ class JFormFieldNote extends JFormField
 		$title = $this->element['label'] ? (string) $this->element['label'] : ($this->element['title'] ? (string) $this->element['title'] : '');
 		$heading = $this->element['heading'] ? (string) $this->element['heading'] : 'h4';
 		$description = (string) $this->element['description'];
-		$class = $this->element['class'] ? ' class="' . trim((string) $this->element['class']) . '"' : '';
+		$class = !empty($this->class) ? ' class="' . $this->class . '"' : '';
 		$close = (string) $this->element['close'];
 
 		$html = array();
+
 		if ($close)
 		{
 			$close = $close == 'true' ? 'alert' : $close;
 			$html[] = '<button type="button" class="close" data-dismiss="' . $close . '">&times;</button>';
 		}
+
 		$html[] = !empty($title) ? '<' . $heading . '>' . JText::_($title) . '</' . $heading . '>' : '';
 		$html[] = !empty($description) ? JText::_($description) : '';
 
