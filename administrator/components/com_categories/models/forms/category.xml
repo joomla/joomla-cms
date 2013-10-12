@@ -80,7 +80,7 @@
 		type="text"
 		label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 		description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
-		class="inputbox"
+		class="inputbox span12"
 		size="45" />
 
 	<field
@@ -88,7 +88,7 @@
 		type="text"
 		label="JFIELD_NOTE_LABEL"
 		description="JFIELD_NOTE_DESC"
-		class="inputbox"
+		class="inputbox span12"
 		size="40"/>
 
 	<field
@@ -194,7 +194,7 @@
 		type="tag"
 		label="JTAG"
 		description="JTAG_DESC"
-		class="inputbox"
+		class="inputbox span12"
 		multiple="true"
 		>
 	</field>
