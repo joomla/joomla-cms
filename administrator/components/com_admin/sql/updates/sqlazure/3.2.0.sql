@@ -66,3 +66,4 @@ SELECT 12,'Banners Category','com_banners.category','{"special":{"dbtable":"#__c
 
 SET IDENTITY_INSERT #__content_types  OFF;
 
+ALTER TABLE [#__modules] ADD [asset_id] [int](10) NOT NULL DEFAULT 0 AFTER [id];
