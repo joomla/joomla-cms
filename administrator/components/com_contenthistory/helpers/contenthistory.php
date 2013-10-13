@@ -154,9 +154,9 @@ class ContenthistoryHelper
 		// First, see if we have a file name in the $typesTable
 		$options = json_decode($typesTable->content_history_options);
 
-		if (is_object($options) && isset($options->form_file) && JFile::exists(JPATH_ROOT . '/' . $options->form_file))
+		if (is_object($options) && isset($options->formFile) && JFile::exists(JPATH_ROOT . '/' . $options->formFile))
 		{
-			$result = JPATH_ROOT . '/' . $options->form_file;
+			$result = JPATH_ROOT . '/' . $options->formFile;
 		}
 		else
 		{
@@ -188,13 +188,13 @@ class ContenthistoryHelper
 	{
 		$result = false;
 
-		if (isset($lookup->source_column) && isset($lookup->target_table) && isset($lookup->target_column)&& isset($lookup->display_column))
+		if (isset($lookup->sourceColumn) && isset($lookup->targetTable) && isset($lookup->targetColumn)&& isset($lookup->displayColumn))
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
-			$query->select($db->quoteName($lookup->display_column))
-				->from($db->quoteName($lookup->target_table))
-				->where($db->quoteName($lookup->target_column) . ' = ' . $db->quote($value));
+			$query->select($db->quoteName($lookup->displayColumn))
+				->from($db->quoteName($lookup->targetTable))
+				->where($db->quoteName($lookup->targetColumn) . ' = ' . $db->quote($value));
 			$db->setQuery($query);
 
 			try
@@ -225,9 +225,9 @@ class ContenthistoryHelper
 	{
 		if ($options = json_decode($typeTable->content_history_options))
 		{
-			if (isset($options->hide_fields) && is_array($options->hide_fields))
+			if (isset($options->hideFields) && is_array($options->hideFields))
 			{
-				foreach ($options->hide_fields as $field)
+				foreach ($options->hideFields as $field)
 				{
 					unset($object->$field);
 				}
@@ -351,11 +351,11 @@ class ContenthistoryHelper
 	{
 		if ($options = json_decode($typesTable->content_history_options))
 		{
-			if (isset($options->display_lookup) && is_array($options->display_lookup))
+			if (isset($options->displayLookup) && is_array($options->displayLookup))
 			{
-				foreach ($options->display_lookup as $lookup)
+				foreach ($options->displayLookup as $lookup)
 				{
-					$sourceColumn = isset($lookup->source_column) ? $lookup->source_column : false;
+					$sourceColumn = isset($lookup->sourceColumn) ? $lookup->sourceColumn : false;
 					$sourceValue = isset($object->$sourceColumn->value) ? $object->$sourceColumn->value : false;
 
 					if ($sourceColumn && $sourceValue && ($lookupValue = static::getLookupValue($lookup, $sourceValue)))
