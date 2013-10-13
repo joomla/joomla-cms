@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Observer mapping pattern implementation for Joomla
  *
- * @package     Joomla
+ * @package     Joomla.Platform
  * @subpackage  Observer
  * @link        http://docs.joomla.org/JObserverMapper
  * @since       3.1.2
@@ -22,7 +22,8 @@ class JObserverMapper
 	/**
 	 * Array: array( JObservableInterface_classname => array( JObserverInterface_classname => array( paramname => param, .... ) ) )
 	 *
-	 * @var array[]
+	 * @var    array
+	 * @since  3.1.2
 	 */
 	protected static $observations = array();
 
@@ -35,6 +36,8 @@ class JObserverMapper
 	 * @param   array|boolean  $params           The params to give to the JObserverInterface::createObserver() function, or false to remove mapping
 	 *
 	 * @return  void
+	 *
+	 * @since   3.1.2
 	 */
 	public static function addObserverClassToClass($observerClass, $observableClass, $params = array())
 	{
@@ -54,6 +57,8 @@ class JObserverMapper
 	 * @param   JObservableInterface  $observableObject  The observable subject object
 	 *
 	 * @return  void
+	 *
+	 * @since   3.1.2
 	 */
 	public static function attachAllObservers(JObservableInterface $observableObject)
 	{

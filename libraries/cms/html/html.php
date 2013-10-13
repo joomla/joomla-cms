@@ -668,7 +668,7 @@ abstract class JHtml
 	 *
 	 * @return  mixed  nothing if $path_only is false, null, path or array of path if specific js browser files were detected.
 	 *
-	 * @see     JHtml::stylesheet
+	 * @see     JHtml::stylesheet()
 	 * @since   1.5
 	 */
 	public static function script($file, $framework = false, $relative = false, $path_only = false, $detect_browser = true, $detect_debug = true)
@@ -712,13 +712,13 @@ abstract class JHtml
 	/**
 	 * Set format related options.
 	 *
-	 * Updates the formatOptions array with all valid values in the passed
-	 * array. See {@see JHtml::$formatOptions} for details.
+	 * Updates the formatOptions array with all valid values in the passed array.
 	 *
 	 * @param   array  $options  Option key/value pairs.
 	 *
 	 * @return  void
 	 *
+	 * @see     JHtml::$formatOptions
 	 * @since   1.5
 	 */
 	public static function setFormatOptions($options)
@@ -962,6 +962,9 @@ abstract class JHtml
 			$done = array();
 		}
 
+		$attribs['class'] = isset($attribs['class']) ? $attribs['class'] : 'input-medium';
+		$attribs['class'] = trim($attribs['class'] . ' hasTooltip');
+
 		$readonly = isset($attribs['readonly']) && $attribs['readonly'] == 'readonly';
 		$disabled = isset($attribs['disabled']) && $attribs['disabled'] == 'disabled';
 
@@ -998,13 +1001,14 @@ abstract class JHtml
 				);
 				$done[] = $id;
 			}
-			return '<div class="input-append"><input type="text" class="hasTooltip" title="' . (0 !== (int) $value ? static::_('date', $value, null, null) : '')
+
+			return '<div class="input-append"><input type="text" title="' . (0 !== (int) $value ? static::_('date', $value, null, null) : '')
 				. '" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
 				. '<button type="button" class="btn" id="' . $id . '_img"><i class="icon-calendar"></i></button></div>';
 		}
 		else
 		{
-			return '<input type="text" class="hasTooltip" title="' . (0 !== (int) $value ? static::_('date', $value, null, null) : '')
+			return '<input type="text" title="' . (0 !== (int) $value ? static::_('date', $value, null, null) : '')
 				. '" value="' . (0 !== (int) $value ? static::_('date', $value, 'Y-m-d H:i:s', null) : '') . '" ' . $attribs
 				. ' /><input type="hidden" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" />';
 		}

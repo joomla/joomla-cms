@@ -8,37 +8,14 @@
  */
 
 /**
- * Test class for JForm.
+ * Test class for JFormRuleRules.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- *
  * @since       11.1
  */
 class JFormRuleRulesTest extends TestCase
 {
-	/**
-	 * set up for testing
-	 *
-	 * @return void
-	 */
-	public function setUp()
-	{
-		parent::setUp();
-
-		$this->saveFactoryState();
-	}
-
-	/**
-	 * Tear down test
-	 *
-	 * @return void
-	 */
-	protected function tearDown()
-	{
-		$this->restoreFactoryState();
-	}
-
 	/**
 	 * Test the JFormRuleRules::test method.
 	 *
