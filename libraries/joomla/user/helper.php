@@ -443,8 +443,9 @@ abstract class JUserHelper
 
 					if (!$encrypted)
 					{
-						// Something went wrong.
-						return false;
+						// Something went wrong fall back to sha256.
+						return static::getCryptedPassword($plaintext, '', 'sha256', false);
+
 					}
 
 					return ($show_encrypt) ? '{BCRYPT}' . $encrypted : $encrypted;
