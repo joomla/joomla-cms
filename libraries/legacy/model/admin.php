@@ -1139,9 +1139,23 @@ abstract class JModelAdmin extends JModelForm
 			{
 				$table->ordering = $order[$i];
 
-				if (!$table->store())
+				try
 				{
-					$this->setError($table->getError());
+					// We only want to update the order, nothing else so don't do a store()
+					// which may require other data for observers or events.
+					$query = $this->_db->getQuery(true);
+					$query->clear()
+					->update($this->_tbl)
+					->set('ordering = ' . ($order{$i}))
+					->where($table->getKeyName() . ' = ' . $pk);
+					$this->_db->setQuery($query);
+					$this->_db->execute();
+				}
+				catch (RuntimeException $e)
+				{
+					$app = JFactory::getApplication();
+					$app->enqueueMessage($e->getMessage(), 'error');
+
 					return false;
 				}
 
