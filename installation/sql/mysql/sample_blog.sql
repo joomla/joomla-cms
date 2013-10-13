@@ -12,6 +12,7 @@ TRUNCATE `#__menu_types`;
 TRUNCATE `#__modules`;
 TRUNCATE `#__modules_menu`;
 TRUNCATE `#__template_styles`;
+TRUNCATE `#__viewlevels`;
 
 INSERT IGNORE INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`) VALUES
 (1, 0, 0, 93, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
@@ -179,6 +180,13 @@ INSERT IGNORE INTO `#__template_styles` (`id`, `template`, `client_id`, `home`, 
 (5, 'hathor', 1, '0', 'Hathor - Default', '{"showSiteName":"0","colourChoice":"","boldText":"0"}'),
 (7, 'protostar', 0, '1', 'My Default Style (Protostar)', '{"templateColor":"#08C","templateBackgroundColor":"#F4F6F7","logoFile":"","sitetitle":"","sitedescription":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}'),
 (8, 'isis', 1, '1', 'isis - Default', '{"templateColor":"","logoFile":""}');
+
+INSERT INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
+(1, 'Public', 0, '[1]'),
+(2, 'Registered', 1, '[6,2,8]'),
+(3, 'Special', 2, '[6,3,8]'),
+(5, 'Guest', 0, '[9]'),
+(6, 'Super Users', 0, '[8]');
 
 INSERT IGNORE INTO `#__weblinks` (`id`, `catid`, `title`, `alias`, `url`, `description`, `hits`, `state`, `checked_out`, `checked_out_time`, `ordering`, `access`, `params`, `language`, `created`, `created_by`, `created_by_alias`, `modified`, `modified_by`, `metakey`, `metadesc`, `metadata`, `featured`, `xreference`, `publish_up`, `publish_down`, `version`, `images`) VALUES
 (1, 8, 'Joomla! Community', 'joomla-community', 'http://community.joomla.org/blogs/community.html', '', 0, 1, 0, '0000-00-00 00:00:00', 1, 1, '{"target":"","width":"","height":"","count_clicks":""}', '*', '2011-01-01 00:00:01', 42, 'Joomla', '0000-00-00 00:00:00', 0, '', '', '', 0, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, ''),

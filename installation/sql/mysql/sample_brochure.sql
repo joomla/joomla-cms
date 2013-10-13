@@ -13,6 +13,7 @@ TRUNCATE `#__menu_types`;
 TRUNCATE `#__modules`;
 TRUNCATE `#__modules_menu`;
 TRUNCATE `#__template_styles`;
+TRUNCATE `#__viewlevels`;
 
 INSERT IGNORE INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`) VALUES
 (1, 0, 0, 83, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
@@ -163,5 +164,12 @@ INSERT IGNORE INTO `#__template_styles` (`id`, `template`, `client_id`, `home`, 
 (5, 'hathor', 1, '0', 'Hathor - Default', '{"showSiteName":"0","colourChoice":"","boldText":"0"}'),
 (7, 'protostar', 0, '1', 'My Default Style (Protostar)', '{"templateColor":"#696969","templateBackgroundColor":"#E3E3E3","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}'),
 (8, 'isis', 1, '1', 'isis - Default', '{"templateColor":"#000000","logoFile":"","admin_menus":1,"displayHeader":1,"statusFixed":1,"stickyToolbar":1}');
+
+INSERT INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
+(1, 'Public', 0, '[1]'),
+(2, 'Registered', 1, '[6,2,8]'),
+(3, 'Special', 2, '[6,3,8]'),
+(5, 'Guest', 0, '[9]'),
+(6, 'Super Users', 0, '[8]');
 
 SET FOREIGN_KEY_CHECKS=1;
