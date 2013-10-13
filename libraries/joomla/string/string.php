@@ -279,7 +279,7 @@ abstract class JString
 	 * @param   string   $search   String to search
 	 * @param   string   $replace  Existing string to replace
 	 * @param   string   $str      New string to replace with
-	 * @param   integer  $count    Optional count value to be passed by referene
+	 * @param   integer  $count    Optional count value to be passed by reference
 	 *
 	 * @return  string  UTF-8 String
 	 *
