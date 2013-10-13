@@ -22,6 +22,13 @@ JHtml::_('behavior.caption');
 $useDefList = ($params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_create_date')
 	|| $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category') || $params->get('show_author'));
 
+$document 	= JFactory::getDocument();
+$url		= JURI::root();
+$sch 		= parse_url($url, PHP_URL_SCHEME);
+$server 	= parse_url($url, PHP_URL_HOST);
+$canonical 	= $this->escape($this->item->readmore_link);
+$document->addCustomTag('<link rel="canonical" href="'.$sch.'://'.$server.$canonical.'"/>');
+
 ?>
 <div class="item-page<?php echo $this->pageclass_sfx?>">
 	<?php if ($this->params->get('show_page_heading', 1)) : ?>
