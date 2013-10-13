@@ -34,6 +34,7 @@ class ContactTableContact extends JTable
 	 * @param   mixed  $ignore  An optional array or space separated list of properties to ignore while binding.
 	 *
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
+	 *
 	 * @since   1.6
 	 */
 	public function bind($array, $ignore = '')
@@ -58,7 +59,7 @@ class ContactTableContact extends JTable
 	/**
 	 * Stores a contact
 	 *
-	 * @param   boolean  True to update fields even if they are null.
+	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
@@ -91,6 +92,7 @@ class ContactTableContact extends JTable
 			{
 				$this->created = $date->toSql();
 			}
+
 			if (empty($this->created_by))
 			{
 				$this->created_by = $user->get('id');
@@ -123,6 +125,7 @@ class ContactTableContact extends JTable
 
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Contact', 'ContactTable');
+
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{
 			$this->setError(JText::_('COM_CONTACT_ERROR_UNIQUE_ALIAS'));
@@ -164,11 +167,14 @@ class ContactTableContact extends JTable
 		{
 			$this->alias = $this->name;
 		}
+
 		$this->alias = JApplication::stringURLSafe($this->alias);
+
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
 			$this->alias = JFactory::getDate()->format("Y-m-d-H-i-s");
 		}
+
 		/** check for valid category */
 		if (trim($this->catid) == '')
 		{
@@ -195,13 +201,16 @@ class ContactTableContact extends JTable
 			$keys = explode(',', $after_clean); // create array using commas as delimiter
 			$clean_keys = array();
 
-			foreach($keys as $key)
+			foreach ($keys as $key)
 			{
-				if (trim($key)) {  // ignore blank keywords
+				if (trim($key)) // Ignore blank keywords
+				{
 					$clean_keys[] = trim($key);
 				}
 			}
-			$this->metakey = implode(", ", $clean_keys); // put array back together delimited by ", "
+
+			// Put array back together delimited by ", "
+			$this->metakey = implode(", ", $clean_keys);
 		}
 
 		// Clean up description -- eliminate quotes and <> brackets
