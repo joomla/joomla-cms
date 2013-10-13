@@ -13,7 +13,7 @@
  * @since       1.5
  */
 var JFormValidator = function() {
-    var $, handlers, inputEmail, custom, $formInputFields, $formFields, $labels,
+    var $, handlers, inputEmail, custom, $formFields, labels,
     
     setHandler = function(name, fn, en) {
         en = (en === '') ? true : en;
@@ -23,29 +23,31 @@ var JFormValidator = function() {
         };
     },
     
-    handleResponse = function(state, $el) {
-        var $label, labelref;
-        // Find the label object for the given field if it exists
-        if (!$el.get(0).labelref) {
-            $labels = $labels || $('label');
-            $labels.each(function() {
-                $label = $(this);
-                if ($label.attr('for') === $el.attr('id')) {
-                    $el.get(0).labelref = this;
-                }
-            });
+    findInputLabel = function($el){
+        var id = $el.attr('id'), label;
+        if(!id){
+            return false;
+        }else if(labels[id]){
+            label = labels[id];
+        }else{
+            label = $('label[for="'+ id +'"]');
+            labels[id] = label;
         }
-        labelref = $el.get(0).labelref;
+        return label;
+    },
+    
+    handleResponse = function(state, $el) {
+        var $label = findInputLabel($el);
         // Set the element and its label (if exists) invalid state
         if (state === false) {
             $el.addClass('invalid').attr('aria-invalid', 'true');
-            if (labelref) {
-                $(labelref).addClass('invalid').attr('aria-invalid', 'true');
+            if($label){
+                $label.addClass('invalid').attr('aria-invalid', 'true');
             }
         } else {
             $el.removeClass('invalid').attr('aria-invalid', 'false');
-            if (labelref) {
-                $(labelref).removeClass('invalid').attr('aria-invalid', 'false');
+            if($label){
+                $label.removeClass('invalid').attr('aria-invalid', 'false');
             }
         }
     },
@@ -132,7 +134,7 @@ var JFormValidator = function() {
     
     attachToForm = function(form) {
         // Iterate through the form object and attach the validate method to all input fields.
-        $formInputFields = $formInputFields || $(form).find('input,textarea,select,button');
+        var $formInputFields = $(form).find('input,textarea,select,button');
         $formInputFields.each(function() {
             var $el = $(this), tagName = $el.prop("tagName").toLowerCase();
             if ($el.hasClass('required')) {
@@ -159,6 +161,7 @@ var JFormValidator = function() {
         $ = jQuery.noConflict();
         handlers = {};
         custom = custom || {};
+        labels = [];
 
         inputEmail = (function() {
             var input = document.createElement("input");
