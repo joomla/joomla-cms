@@ -40,9 +40,9 @@ class JFormFieldTest extends TestCase
 	{
 		parent::setUp();
 
-		require_once JPATH_PLATFORM . '/joomla/form/fields/text.php';
-		require_once JPATH_PLATFORM . '/joomla/form/fields/hidden.php';
-		require_once JPATH_PLATFORM . '/joomla/form/fields/checkboxes.php';
+		require_once JPATH_PLATFORM . '/joomla/form/field/text.php';
+		require_once JPATH_PLATFORM . '/joomla/form/field/hidden.php';
+		require_once JPATH_PLATFORM . '/joomla/form/field/checkboxes.php';
 
 		$this->saveFactoryState();
 

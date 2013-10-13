@@ -38,7 +38,7 @@ class JFormFieldNumberTest extends TestCase
 	{
 		parent::setUp();
 
-		require_once JPATH_PLATFORM . '/joomla/form/fields/number.php';
+		require_once JPATH_PLATFORM . '/joomla/form/field/number.php';
 
 		$this->saveFactoryState();
 
