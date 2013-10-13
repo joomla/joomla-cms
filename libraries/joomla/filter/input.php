@@ -212,7 +212,7 @@ class JFilterInput
 			case 'FLOAT':
 			case 'DOUBLE':
 				// Only use the first floating point value
-				preg_match('/-?[0-9]+(\.[0-9]+)?/', (string) $source, $matches);
+				preg_match('/(?=\d|\.\d)\d*(\.\d*)?/', (string) $source, $matches);
 				$result = @ (float) $matches[0];
 				break;
 
