@@ -28,6 +28,13 @@ class JFormFieldList extends JFormField
 	protected $type = 'List';
 
 	/**
+	 * Layout to render
+	 *
+	 * @var  string
+	 */
+	protected $layout = 'joomla.form.field.list';
+
+	/**
 	 * Method to get the field input markup for a generic list.
 	 * Use the multiple attribute to enable multiselect.
 	 *
@@ -37,41 +44,24 @@ class JFormFieldList extends JFormField
 	 */
 	protected function getInput()
 	{
-		$html = array();
-		$attr = '';
+		$layout = !empty($this->element['layout']) ? $this->element['layout'] : $this->layout;
 
-		// Initialize some field attributes.
-		$attr .= !empty($this->class) ? ' class="' . $this->class . '"' : '';
-		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
-		$attr .= $this->multiple ? ' multiple' : '';
-		$attr .= $this->required ? ' required aria-required="true"' : '';
-		$attr .= $this->autofocus ? ' autofocus' : '';
-
-		// To avoid user's confusion, readonly="true" should imply disabled="true".
-		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true' || (string) $this->disabled == '1'|| (string) $this->disabled == 'true')
-		{
-			$attr .= ' disabled="disabled"';
-		}
-
-		// Initialize JavaScript field attributes.
-		$attr .= $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
-
-		// Get the field options.
-		$options = (array) $this->getOptions();
-
-		// Create a read-only list (no name) with a hidden input to store the value.
-		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true')
-		{
-			$html[] = JHtml::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $this->value, $this->id);
-			$html[] = '<input type="hidden" name="' . $this->name . '" value="' . $this->value . '"/>';
-		}
-		// Create a regular list.
-		else
-		{
-			$html[] = JHtml::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
-		}
-
-		return implode($html);
+		return JLayoutHelper::render(
+			$layout,
+			array(
+				'id'        => $this->id,
+				'element'   => $this->element,
+				'field'     => (array) $this,
+				'multiple'  => $this->multiple,
+				'name'      => $this->name,
+				'options'   => (array) $this->getOptions(),
+				'required'  => $this->required,
+				'value'     => $this->value,
+				'autofocus' => $this->autofocus,
+				'class'     => $this->class,
+				'size'      => $this->size
+			)
+		);
 	}
 
 	/**
