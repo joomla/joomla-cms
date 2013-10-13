@@ -1,23 +1,24 @@
 <?php
 /**
  * @package     Joomla.UnitTest
- * @subpackage  OAuth
+ * @subpackage  Client
  *
  * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once __DIR__ . '/stubs/JOAuth1ClientInspector.php';
+include_once __DIR__ . '/stubs/JClientOAuth1Inspector.php';
 include_once __DIR__ . '/../application/stubs/JApplicationWebInspector.php';
 
 /**
- * Test class for JOAuth1Client.
+ * Test class for JClientOAuth1.
  *
  * @package     Joomla.UnitTest
- * @subpackage  OAuth
+ * @subpackage  Client
  * @since       13.1
+ * @note This tests backward compatibility.
  */
-class JOAuth1ClientTest extends TestCase
+class JClientOauth1Test extends TestCase
 {
 	/**
 	 * @var    JInput  input for the OAuth object.

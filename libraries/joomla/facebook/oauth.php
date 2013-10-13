@@ -18,7 +18,7 @@ defined('JPATH_PLATFORM') or die();
  *
  * @since       13.1
  */
-class JFacebookOAuth extends JOAuth2Client
+class JFacebookOAuth extends JClientOAuth2
 {
 	/**
 	 * @var JRegistry Options for the JFacebookOAuth object.

@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die();
  *
  * @since       12.3
  */
-class JTwitterOAuth extends JOAuth1Client
+class JTwitterOAuth extends JClientOAuth1
 {
 	/**
 	* @var JRegistry Options for the JTwitterOauth object.
@@ -44,7 +44,7 @@ class JTwitterOAuth extends JOAuth1Client
 		$this->options->def('authoriseURL', 'https://api.twitter.com/oauth/authorize');
 		$this->options->def('requestTokenURL', 'https://api.twitter.com/oauth/request_token');
 
-		// Call the JOAuth1Client constructor to setup the object.
+		// Call the JClientOAuth1 constructor to setup the object.
 		parent::__construct($this->options, $client, $input, $application);
 	}
 
