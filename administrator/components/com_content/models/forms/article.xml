@@ -388,12 +388,6 @@
 				<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
 			</field>
 
-			<field
-				name="spacer2"
-				type="spacer"
-				hr="true"
-			/>
-
 			<field name="alternative_readmore" type="inputbox"
 				label="JFIELD_READMORE_LABEL"
 				description="JFIELD_READMORE_DESC"
@@ -415,11 +409,13 @@
 		class="inputbox" size="20" />
 
 	<fields name="images" label="COM_CONTENT_FIELD_IMAGE_OPTIONS">
+		
 		<field
 			name="image_intro"
 			type="media"
 			label="COM_CONTENT_FIELD_INTRO_LABEL"
 			description="COM_CONTENT_FIELD_INTRO_DESC" />
+		
 		<field
 			name="float_intro"
 			type="list"
@@ -430,28 +426,27 @@
 				<option value="left">COM_CONTENT_LEFT</option>
 				<option value="none">COM_CONTENT_NONE</option>
 		</field>
+		
 		<field name="image_intro_alt"
 			type="text"
 			label="COM_CONTENT_FIELD_IMAGE_ALT_LABEL"
 			description="COM_CONTENT_FIELD_IMAGE_ALT_DESC"
 			class="inputbox"
 			size="20"/>
+		
 		<field name="image_intro_caption"
 			type="text"
 			label="COM_CONTENT_FIELD_IMAGE_CAPTION_LABEL"
 			description="COM_CONTENT_FIELD_IMAGE_CAPTION_DESC"
 			class="inputbox"
 			size="20"/>
-		<field
-			name="spacer1"
-			type="spacer"
-			hr="true"
-			/>
+		
 		<field
 			name="image_fulltext"
 			type="media"
 			label="COM_CONTENT_FIELD_FULL_LABEL"
 			description="COM_CONTENT_FIELD_FULL_DESC"/>
+		
 		<field
 			name="float_fulltext"
 			type="list"
@@ -462,12 +457,14 @@
 				<option value="left">COM_CONTENT_LEFT</option>
 				<option value="none">COM_CONTENT_NONE</option>
 		</field>
+		
 		<field name="image_fulltext_alt"
 			type="text"
 			label="COM_CONTENT_FIELD_IMAGE_ALT_LABEL"
 			description="COM_CONTENT_FIELD_IMAGE_ALT_DESC"
 			class="inputbox"
 			size="20"/>
+		
 		<field name="image_fulltext_caption"
 			type="text"
 			label="COM_CONTENT_FIELD_IMAGE_CAPTION_LABEL"
@@ -475,7 +472,9 @@
 			class="inputbox"
 			size="20"/>
 	</fields>
+	
 	<fields name="urls" label="COM_CONTENT_FIELD_URLS_OPTIONS">
+		
 		<field
 			name="urla"
 			type="url"
@@ -483,12 +482,14 @@
 			filter="url"
 			label="COM_CONTENT_FIELD_URLA_LABEL"
 			description="COM_CONTENT_FIELD_URL_DESC" />
+	
 		<field name="urlatext"
 			type="text"
 			label="COM_CONTENT_FIELD_URLA_LINK_TEXT_LABEL"
 			description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
 			class="inputbox"
 			size="20"/>
+		
 		<field
 			name="targeta"
 			type="list"
@@ -503,11 +504,7 @@
 			<option value="2">JBROWSERTARGET_POPUP</option>
 			<option value="3">JBROWSERTARGET_MODAL</option>
 		</field>
-		<field
-			name="spacer3"
-			type="spacer"
-			hr="true"
-			/>
+		
 		<field
 			name="urlb"
 			type="url"
@@ -515,12 +512,14 @@
 			filter="url"
 			label="COM_CONTENT_FIELD_URLB_LABEL"
 			description="COM_CONTENT_FIELD_URL_DESC"/>
+		
 		<field name="urlbtext"
 			type="text"
 			label="COM_CONTENT_FIELD_URLB_LINK_TEXT_LABEL"
 			description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
 			class="inputbox"
 			size="20"/>
+		
 		<field
 			name="targetb"
 			type="list"
@@ -535,11 +534,7 @@
 				<option value="2">JBROWSERTARGET_POPUP</option>
 				<option value="3">JBROWSERTARGET_MODAL</option>
 		</field>
-		<field
-			name="spacer4"
-			type="spacer"
-			hr="true"
-			/>
+		
 		<field
 			name="urlc"
 			type="url"
@@ -547,6 +542,7 @@
 			filter="url"
 			label="COM_CONTENT_FIELD_URLC_LABEL"
 			description="COM_CONTENT_FIELD_URL_DESC"/>
+		
 		<field
 			name="urlctext"
 			type="text"
@@ -554,6 +550,7 @@
 			description="COM_CONTENT_FIELD_URL_LINK_TEXT_DESC"
 			class="inputbox"
 			size="20"/>
+		
 		<field
 			name="targetc"
 			type="list"
@@ -567,6 +564,7 @@
 				<option value="1">JBROWSERTARGET_NEW</option>
 				<option value="2">JBROWSERTARGET_POPUP</option>
 				<option value="3">JBROWSERTARGET_MODAL</option>
+		
 		</field>
 
 	</fields>
