@@ -31,7 +31,6 @@ class JApplicationWebRouterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JApplicationWebRouter::__construct
 	 * @since   12.3
 	 */
 	public function test__construct()
@@ -45,7 +44,6 @@ class JApplicationWebRouterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JApplicationWebRouter::setControllerPrefix
 	 * @since   12.3
 	 */
 	public function testSetControllerPrefix()
@@ -59,7 +57,6 @@ class JApplicationWebRouterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JApplicationWebRouter::setDefaultController
 	 * @since   12.3
 	 */
 	public function testSetDefaultController()
@@ -73,13 +70,12 @@ class JApplicationWebRouterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JApplicationWebRouter::fetchController
 	 * @since   12.3
 	 */
 	public function testFetchControllerWithMissingClass()
 	{
 		$this->setExpectedException('RuntimeException');
-		$controller = TestReflection::invoke($this->_instance, 'fetchController', 'goober');
+		TestReflection::invoke($this->_instance, 'fetchController', 'goober');
 	}
 
 	/**
@@ -87,13 +83,12 @@ class JApplicationWebRouterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JApplicationWebRouter::fetchController
 	 * @since   12.3
 	 */
 	public function testFetchControllerWithNonController()
 	{
 		$this->setExpectedException('RuntimeException');
-		$controller = TestReflection::invoke($this->_instance, 'fetchController', 'MyTestControllerBaz');
+		TestReflection::invoke($this->_instance, 'fetchController', 'MyTestControllerBaz');
 	}
 
 	/**
@@ -101,13 +96,12 @@ class JApplicationWebRouterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JApplicationWebRouter::fetchController
 	 * @since   12.3
 	 */
 	public function testFetchControllerWithPrefixSet()
 	{
 		TestReflection::setValue($this->_instance, 'controllerPrefix', 'MyTestController');
-		$controller = TestReflection::invoke($this->_instance, 'fetchController', 'foo');
+		TestReflection::invoke($this->_instance, 'fetchController', 'foo');
 	}
 
 	/**
@@ -115,13 +109,12 @@ class JApplicationWebRouterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JApplicationWebRouter::fetchController
 	 * @since   12.3
 	 */
 	public function testFetchControllerWithoutPrefixSetThoughNecessary()
 	{
 		$this->setExpectedException('RuntimeException');
-		$controller = TestReflection::invoke($this->_instance, 'fetchController', 'foo');
+		TestReflection::invoke($this->_instance, 'fetchController', 'foo');
 	}
 
 	/**
@@ -129,12 +122,11 @@ class JApplicationWebRouterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JApplicationWebRouter::fetchController
 	 * @since   12.3
 	 */
 	public function testFetchControllerWithoutPrefixSet()
 	{
-		$controller = TestReflection::invoke($this->_instance, 'fetchController', 'TControllerBar');
+		TestReflection::invoke($this->_instance, 'fetchController', 'TControllerBar');
 	}
 
 	/**

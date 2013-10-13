@@ -293,7 +293,7 @@ class CategoriesModelCategories extends JModelList
 		$app = JFactory::getApplication();
 		$extension = $this->getState('filter.extension');
 
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$assoc = JLanguageAssociations::isEnabled();
 		$extension = explode('.', $extension);
 		$component = array_shift($extension);
 		$cname = str_replace('com_', '', $component);

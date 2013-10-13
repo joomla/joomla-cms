@@ -8,16 +8,14 @@
  */
 
 /**
- * Test class for JForm.
+ * Test class for JFormRuleBoolean.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- *
  * @since       11.1
  */
 class JFormRuleBooleanTest extends TestCase
 {
-
 	/**
 	 * Test the JFormRuleBoolean::test method.
 	 *

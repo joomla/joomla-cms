@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package     Joomla.Installation
  * @subpackage  View
@@ -24,7 +25,7 @@ class InstallationViewDefaultlanguageHtml extends JViewHtml
 	 * @var    array
 	 * @since  3.1
 	 */
-	protected $items;
+	public $items;
 
 	/**
 	 * Redefine the model so the correct type hinting is available.
@@ -43,9 +44,10 @@ class InstallationViewDefaultlanguageHtml extends JViewHtml
 	 */
 	public function render()
 	{
-		$this->items = new stdClass;
+		$this->items                = new stdClass;
 		$this->items->administrator = $this->model->getInstalledlangsAdministrator();
 		$this->items->frontend      = $this->model->getInstalledlangsFrontend();
+		$this->form                 = $this->model->getForm();
 
 		return parent::render();
 	}

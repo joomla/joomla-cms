@@ -34,7 +34,7 @@ class JTableContenttypeTest extends TestCaseDatabase
 	{
 		parent::setUp();
 
-		$this->object = new JTableContenttype(self::$driver);
+		$this->object = new JTableContenttype(static::$driver);
 	}
 
 	/**
