@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Oct-2013 Michael Babker
+ + [#31264] GSOC 2013 Project: com_config or front end website administration.  Thanks Buddhima Wijeweera
+
 -------------------- 3.2 Beta 1 Release [11-Oct-2013] ------------------
 
 11-Oct-2013 Roberto Segura
