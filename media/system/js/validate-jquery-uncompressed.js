@@ -56,7 +56,7 @@ var JFormValidator = function($) {
 			return true;
 		}
 		// If the field is required make sure it has a value
-		if ($el.hasClass('required')) {
+		if ($el.attr('required') || $el.hasClass('required')) {
 			var tagName = $el.prop("tagName").toLowerCase(), i = 0, selector;
 			if (tagName === 'fieldset' && ($el.hasClass('radio') || $el.hasClass('checkboxes'))) {
 				while (true) {
@@ -176,6 +176,15 @@ var JFormValidator = function($) {
 			regex = /^[a-zA-Z0-9.!#$%&‚Äô*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 			return regex.test(value);
 		});
+
+		// Precompute label-field associations.
+		$('label').each(function() {
+			var $el = $('#' + this.htmlFor);
+			if ($el.length > 0) {
+				$el.get(0).labelref = this;
+			}
+		});
+
 		// Attach to forms with class 'form-validate'
 		$('form.form-validate').each(function() {
 			attachToForm(this);
