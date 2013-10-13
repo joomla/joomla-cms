@@ -58,10 +58,13 @@ abstract class JHtmlFormbehavior
 			$debug  = (boolean) $config->get('debug');
 		}
 
+		$chznrtl = JFactory::getLanguage()->isRTL() ? "jQuery('" . $selector . "').addClass('chzn-rtl');" : '';
+
 		JHtml::_('script', 'jui/chosen.jquery.min.js', false, true, false, false, $debug);
 		JHtml::_('stylesheet', 'jui/chosen.css', false, true);
 		JFactory::getDocument()->addScriptDeclaration("
 				jQuery(document).ready(function (){
+					" . $chznrtl . "
 					jQuery('" . $selector . "').chosen({
 						disable_search_threshold : 10,
 						allow_single_deselect : true
