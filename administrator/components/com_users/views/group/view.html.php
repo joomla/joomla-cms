@@ -56,7 +56,7 @@ class UsersViewGroup extends JViewLegacy
 		$isNew = ($this->item->id == 0);
 		$canDo = UsersHelper::getActions();
 
-		JToolbarHelper::title(JText::_($isNew ? 'COM_USERS_VIEW_NEW_GROUP_TITLE' : 'COM_USERS_VIEW_EDIT_GROUP_TITLE'), 'groups-add');
+		JToolbarHelper::title(JText::_($isNew ? 'COM_USERS_VIEW_NEW_GROUP_TITLE' : 'COM_USERS_VIEW_EDIT_GROUP_TITLE'), 'users groups-add');
 
 		if ($canDo->get('core.edit') || $canDo->get('core.create'))
 		{

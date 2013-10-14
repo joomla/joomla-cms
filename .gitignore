@@ -16,9 +16,10 @@
 
 # Test Related Files #
 /phpunit.xml
+/tests/system/webdriver/tests/logs/
 
-# Never ignore
-!.gitignore
+# phpDocumentor Logs #
+phpdoc-*
 
 # OSX
 ._*
@@ -28,3 +29,6 @@
 # Windows
 Thumbs.db
 Desktop.ini
+
+# Never ignore
+!.gitignore

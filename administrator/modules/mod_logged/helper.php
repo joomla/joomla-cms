@@ -21,9 +21,11 @@ abstract class ModLoggedHelper
 	/**
 	 * Get a list of logged users.
 	 *
-	 * @param   JRegistry  $params  The module parameters.
+	 * @param   JRegistry  &$params  The module parameters.
 	 *
 	 * @return  mixed  An array of users, or false on error.
+	 *
+	 * @throws  RuntimeException
 	 */
 	public static function getList(&$params)
 	{
@@ -42,9 +44,7 @@ abstract class ModLoggedHelper
 		}
 		catch (RuntimeException $e)
 		{
-			throw new RuntimeException($e->getMessage());
-
-			return false;
+			throw $e;
 		}
 
 		foreach ($results as $k => $result)

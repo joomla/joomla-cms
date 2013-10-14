@@ -25,6 +25,29 @@ class CategoriesModelCategory extends JModelAdmin
 	protected $text_prefix = 'COM_CATEGORIES';
 
 	/**
+	 * The type alias for this content type. Used for content version history.
+	 *
+	 * @var      string
+	 * @since    3.2
+	 */
+	public $typeAlias = null;
+
+	/**
+	 * Override parent constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @see     JModelLegacy
+	 * @since   3.2
+	 */
+	public function __construct($config = array())
+	{
+		parent::__construct($config);
+		$extension = JFactory::getApplication()->input->get('extension', 'com_content');
+		$this->typeAlias = $extension . '.category';
+	}
+
+	/**
 	 * Method to test whether a record can be deleted.
 	 *
 	 * @param   object   $record  A record object.
@@ -674,14 +697,14 @@ class CategoriesModelCategory extends JModelAdmin
 				$table->reset();
 				$table->load($pk);
 				$tags = array($value);
-				//$typeAlias = $table->get('tagsHelper')->typeAlias;
-				$typeAlias = $table->extension . '.category';
-				$table->get('tagsHelper')->typeAlias = $typeAlias;
 
-				$oldTags = $table->get('tagsHelper')->getTagIds($pk, $typeAlias);
-				$table->get('tagsHelper')->oldTags = $oldTags;
+				/**
+				 * @var  JTableObserverTags  $tagsObserver
+				 */
+				$tagsObserver = $table->getObserverOfClass('JTableObserverTags');
+				$result = $tagsObserver->setNewTags($tags, false);
 
-				if (!$table->get('tagsHelper')->postStoreProcess($table, $tags, false))
+				if (!$result)
 				{
 					$this->setError($table->getError());
 
@@ -1089,7 +1112,7 @@ class CategoriesModelCategory extends JModelAdmin
 		$app = JFactory::getApplication();
 		$extension = $this->getState('category.extension');
 
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$assoc = JLanguageAssociations::isEnabled();
 		$extension = explode('.', $extension);
 		$component = array_shift($extension);
 		$cname = str_replace('com_', '', $component);

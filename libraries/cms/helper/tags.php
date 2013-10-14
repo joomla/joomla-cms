@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Helper
  * @since       3.1
  */
-class JHelperTags
+class JHelperTags extends JHelper
 {
 	/**
 	 * Helper object for storing and deleting tag information.
@@ -253,6 +253,7 @@ class JHelperTags
 	 * @return  mixed   If successful, metadata with new tag titles replaced by tag ids. Otherwise false.
 	 *
 	 * @since   3.1
+	 * @deprecated  4.0  This method is no longer used in the CMS and will not be replaced.
 	 */
 	public function createTagsFromMetadata($metadata)
 	{
@@ -347,6 +348,9 @@ class JHelperTags
 	{
 		$result = $this->unTagItem($contentItemId, $table);
 
+		/**
+		 * @var JTableCorecontent $ucmContentTable
+		 */
 		$ucmContentTable = JTable::getInstance('Corecontent');
 
 		return $result && $ucmContentTable->deleteByContentId($contentItemId);
@@ -395,8 +399,9 @@ class JHelperTags
 		{
 			if ($language == 'current_language')
 			{
-				$language = JHelperContent::getCurrentLanguage();
+				$language = $this->getCurrentLanguage();
 			}
+
 			$query->where($db->quoteName('language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
 		}
 
@@ -555,7 +560,7 @@ class JHelperTags
 		{
 			if ($language == 'current_language')
 			{
-				$language = JHelperContent::getCurrentLanguage();
+				$language = $this->getCurrentLanguage();
 			}
 
 			$query->where($db->quoteName('c.core_language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
@@ -676,19 +681,13 @@ class JHelperTags
 	 * @return  string  Name of the table for a type
 	 *
 	 * @since   3.1
+	 * @deprecated  4.0  Use JUcmType::getTypeId() instead
 	 */
 	public function getTypeId($typeAlias)
 	{
-		// Initialize some variables.
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('type_id'))
-			->from($db->quoteName('#__content_types'))
-			->where($db->quoteName('type_alias') . ' = ' . $db->quote($typeAlias));
-		$db->setQuery($query);
-		$this->type_id = $db->loadResult();
+		$contentType = new JUcmType;
 
-		return $this->type_id;
+		return $contentType->getTypeId($typeAlias);
 	}
 
 	/**
@@ -757,17 +756,22 @@ class JHelperTags
 	 * @param   array    $newTags  Array of new tags
 	 * @param   boolean  $replace  Flag indicating if all exising tags should be replaced
 	 *
-	 * @return  null
+	 * @return  boolean
 	 *
 	 * @since   3.1
 	 */
 	public function postStoreProcess($table, $newTags = array(), $replace = true)
 	{
+		if (!empty($table->newTags) && empty($newTags))
+		{
+				$newTags = $table->newTags;
+		}
+
 		// If existing row, check to see if tags have changed.
 		$newTable = clone $table;
 		$newTable->reset();
 		$key = $newTable->getKeyName();
-		$typeAlias = $newTable->get('tagsHelper')->typeAlias;
+		$typeAlias = $this->typeAlias;
 
 		$result = true;
 
@@ -783,8 +787,7 @@ class JHelperTags
 			else
 			{
 				// Process the tags
-				$rowdata = new JHelperContent;
-				$data = $rowdata->getRowData($table);
+				$data = $this->getRowData($table);
 				$ucmContentTable = JTable::getInstance('Corecontent');
 
 				$ucm = new JUcmContent($table, $this->typeAlias);
@@ -801,6 +804,7 @@ class JHelperTags
 				$result = $result && $this->tagItem($ucmId, $table, $newTags, $replace);
 			}
 		}
+
 		return $result;
 	}
 
@@ -825,7 +829,7 @@ class JHelperTags
 		$oldTable = clone $table;
 		$oldTable->reset();
 		$key = $oldTable->getKeyName();
-		$typeAlias = $oldTable->get('tagsHelper')->typeAlias;
+		$typeAlias = $this->typeAlias;
 
 		if ($oldTable->$key && $oldTable->load())
 		{
@@ -962,7 +966,7 @@ class JHelperTags
 	public function tagItem($ucmId, $table, $tags = array(), $replace = true)
 	{
 		$key = $table->get('_tbl_key');
-		$oldTags = $table->get('tagsHelper')->getTagIds((int) $table->$key, $table->get('tagsHelper')->typeAlias);
+		$oldTags = $this->getTagIds((int) $table->$key, $this->typeAlias);
 		$oldTags = explode(',', $oldTags);
 		$result = $this->unTagItem($ucmId, $table);
 

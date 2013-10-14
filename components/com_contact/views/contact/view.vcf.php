@@ -67,7 +67,7 @@ class ContactViewContact extends JViewLegacy
 
 		$rev = date('c', strtotime($item->modified));
 
-		JResponse::setHeader('Content-disposition', 'attachment; filename="'.$card_name.'.vcf"', true);
+		$app->setHeader('Content-disposition', 'attachment; filename="'.$card_name.'.vcf"', true);
 
 		$vcard = array();
 		$vcard[] .= 'BEGIN:VCARD';

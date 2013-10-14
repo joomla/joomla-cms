@@ -9,7 +9,9 @@
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
+jimport('joomla.filesystem.path');
 
 /**
  * Tar format adapter for the JArchive class
