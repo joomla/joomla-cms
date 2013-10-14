@@ -27,6 +27,7 @@ $user = JFactory::getUser();
 		</div>
 	<?php endif; ?>
 	<div class="span<?php echo ($iconmodules) ? 9 : 12; ?>">
+		<?php if ($user->authorise('core.manage', 'com_postinstall')) : ?>
 		<div class="row-fluid">
 			<?php if ($this->postinstall_message_count): ?>
 			<div class="alert alert-info">
@@ -47,6 +48,7 @@ $user = JFactory::getUser();
 			</div>
 			<?php endif; ?>
 		</div>
+		<?php endif; ?>
 		<div class="row-fluid">
 			<?php
 			$spans = 0;
