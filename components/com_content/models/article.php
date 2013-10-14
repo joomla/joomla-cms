@@ -79,7 +79,6 @@ class ContentModelArticle extends JModelItem
 
 		if (!isset($this->_item[$pk]))
 		{
-
 			try
 			{
 				$db = $this->getDbo();
@@ -114,11 +113,13 @@ class ContentModelArticle extends JModelItem
 					->from('#__contact_details AS contact')
 					->where('contact.published = 1')
 					->where('contact.user_id = a.created_by');
+
 					// Filter by language
 					if ($this->getState('filter.language'))
 					{
 						$subQuery->where('(contact.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ') OR contact.language IS NULL)');
 					}
+
 				$query->select('(' . $subQuery . ') as contactid');
 
 				// Filter by language
@@ -295,7 +296,7 @@ class ContentModelArticle extends JModelItem
 		{
 			$userIP = $_SERVER['REMOTE_ADDR'];
 
-			// Initialiase variables.
+			// Initialize variables.
 			$db    = JFactory::getDbo();
 			$query = $db->getQuery(true);
 
