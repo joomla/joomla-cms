@@ -30,6 +30,8 @@ class ConfigControllerComponentCancel extends ConfigControllerCanceladmin
 
 		$this->context = 'com_config.config.global';
 
+		$this->component = $this->input->getWord('component');
+
 		$this->redirect = 'index.php?option=' . $this->component;
 
 		parent::execute();

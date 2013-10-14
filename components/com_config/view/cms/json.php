@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Model
  * @since       3.2
  */
-abstract class ConfigViewJson extends ConfigViewHtmlCms
+abstract class ConfigViewCmsJson extends ConfigViewCmsHtml
 {
 	public $state;
 
