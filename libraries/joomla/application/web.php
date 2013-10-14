@@ -200,10 +200,10 @@ class JApplicationWeb extends JApplicationBase
 	 * @return  JApplicationWeb  Instance of $this to allow chaining.
 	 *
 	 * @deprecated  13.1 (Platform) & 4.0 (CMS)
-	 * @see     loadSession()
-	 * @see     loadDocument()
-	 * @see     loadLanguage()
-	 * @see     loadDispatcher()
+	 * @see     JApplicationWeb::loadSession()
+	 * @see     JApplicationWeb::loadDocument()
+	 * @see     JApplicationWeb::loadLanguage()
+	 * @see     JApplicationBase::loadDispatcher()
 	 * @since   11.3
 	 */
 	public function initialise($session = null, $document = null, $language = null, $dispatcher = null)
@@ -471,7 +471,8 @@ class JApplicationWeb extends JApplicationBase
 		// Check for relative internal links.
 		if (preg_match('#^index\.php#', $url))
 		{
-			$url = $this->get('uri.base.full') . $url;
+			// We changed this from "$this->get('uri.base.full') . $url" due to the inability to run the system tests with the original code
+			$url = JUri::base() . $url;
 		}
 
 		// Perform a basic sanity check to make sure we don't have any CRLF garbage.
@@ -509,7 +510,7 @@ class JApplicationWeb extends JApplicationBase
 		// If the headers have already been sent we need to send the redirect statement via JavaScript.
 		if ($this->checkHeadersSent())
 		{
-			echo "<script>document.location.href='$url';</script>\n";
+			echo "<script>document.location.href='" . str_replace("'", "&apos;", $url) . "';</script>\n";
 		}
 		else
 		{
@@ -518,7 +519,7 @@ class JApplicationWeb extends JApplicationBase
 			{
 				$html = '<html><head>';
 				$html .= '<meta http-equiv="content-type" content="text/html; charset=' . $this->charSet . '" />';
-				$html .= '<script>document.location.href=\'' . $url . '\';</script>';
+				$html .= '<script>document.location.href=\'' . str_replace("'", "&apos;", $url) . '\';</script>';
 				$html .= '</head><body></body></html>';
 
 				echo $html;
@@ -902,9 +903,9 @@ class JApplicationWeb extends JApplicationBase
 		// Instantiate variables.
 		$config = array();
 
-		if (empty($file) && defined('JPATH_BASE'))
+		if (empty($file) && defined('JPATH_ROOT'))
 		{
-			$file = JPATH_BASE . '/configuration.php';
+			$file = JPATH_ROOT . '/configuration.php';
 
 			// Applications can choose not to have any configuration data
 			// by not implementing this method and not having a config file.
@@ -929,6 +930,19 @@ class JApplicationWeb extends JApplicationBase
 		}
 
 		return $config;
+	}
+
+	/**
+	 * Flush the media version to refresh versionable assets
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public function flushAssets()
+	{
+		$version = new JVersion;
+		$version->refreshMediaVersion();
 	}
 
 	/**

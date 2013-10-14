@@ -125,7 +125,7 @@ class CategoriesViewCategories extends JViewLegacy
 		JHtml::_('stylesheet', $component . '/administrator/categories.css', array(), true);
 
 		// Prepare the toolbar.
-		JToolbarHelper::title($title, 'categories ' . substr($component, 4) . ($section ? "-$section" : '') . '-categories');
+		JToolbarHelper::title($title, 'folder categories ' . substr($component, 4) . ($section ? "-$section" : '') . '-categories');
 
 		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories($component, 'core.create'))) > 0)
 		{
@@ -225,11 +225,15 @@ class CategoriesViewCategories extends JViewLegacy
 			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
 		);
 
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_TAG'),
-			'filter_tag',
-			JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag'))
-		);
+		if (JHelperTags::getTypes('objectList', array($extension . '.category'), true))
+		{
+			JHtmlSidebar::addFilter(
+				JText::_('JOPTION_SELECT_TAG'),
+				'filter_tag',
+				JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag'))
+			);
+		}
+
 	}
 
 	/**

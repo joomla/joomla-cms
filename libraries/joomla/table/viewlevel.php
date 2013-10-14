@@ -25,7 +25,7 @@ class JTableViewlevel extends JTable
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($db)
+	public function __construct(JDatabaseDriver $db)
 	{
 		parent::__construct('#__viewlevels', 'id', $db);
 	}
@@ -67,6 +67,7 @@ class JTableViewlevel extends JTable
 		if ((trim($this->title)) == '')
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_VIEWLEVEL'));
+
 			return false;
 		}
 
