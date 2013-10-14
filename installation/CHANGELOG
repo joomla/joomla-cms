@@ -26,6 +26,26 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Oct-2013 Jean-Marie Simonet
+ # [#30586] Usernames that should not be accepted can be actualy registered. Thanks Sergio Manzi
+ # [#32199] *Allow username edit in profile edit when username is not compliant. Thanks Achal Aggarwal
+
+05-Oct-2013 Jean-Marie Simonet
+ # [#28214] Menu Items Could be Saved without Menu Item Type. Thanks Tristan Bellosta
+
+04-Oct-2013 Jean-Marie Simonet
+ # [#31827] Installation doesn't work when installation is in the path  Thanks Robert Deutz
+
+22-Sep-2013 Roberto Segura
+ # [#27830] Loss of checked item in user registration back end. Thanks Achal Aggarwal
+
+11-Sep-2013 Jean-Marie Simonet
+ + Adding Albanian flag
+
+07-Sep-2013 Jean-Marie Simonet
+ # [#31914] mod_footer - replacement in language override string doesn`t work correct. Thanks Carsten Wirtz
+ # [#31896] Stupid return in contact component table. Thanks George Wilson
+
 22-Aug-2013 Jean-Marie Simonet
  # [#28349] Incorrect ordering in Newsflash module. Thanks Gregory Wyman and Brian Teeman
  # Updating Russian flag. Thanks Peter Farrer
@@ -44,6 +64,9 @@ $ -> Language fix or change
 
 12-Aug-2013 Jean-Marie Simonet
  # [#31681] Module manager allows positions with trailing spaces. Thanks Richard McDaniel
+
+08-Aug-2013 Elin Waring 
+ # [#31786] get_html_translation_table requires encoding value for PHP 5.4 Thanks Robert Deutz and Tobias Zulauf
 
 07-Aug-2013 Jean-Marie Simonet
  #$ [#31622] Media Manager doesn't cope with folder names that include spaces. Thanks Richard McDaniel

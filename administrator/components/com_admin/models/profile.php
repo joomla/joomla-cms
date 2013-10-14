@@ -36,7 +36,19 @@ class AdminModelProfile extends UsersModelUser
 		if (empty($form)) {
 			return false;
 		}
-		if (!JComponentHelper::getParams('com_users')->get('change_login_name'))
+
+		// Check for username compliance and parameter set
+		$usernameCompliant = true;
+
+		if ($this->loadFormData()->username)
+		{
+			$username = $this->loadFormData()->username;
+			$isUsernameCompliant  = !(preg_match('#[<>"\'%;()&\\s\\\\]|\\.\\./#', $username) || strlen(utf8_decode($username)) < 2);
+		}
+
+		$this->setState('user.username.compliant', $isUsernameCompliant);
+
+		if (!JComponentHelper::getParams('com_users')->get('change_login_name') && $isUsernameCompliant)
 		{
 			$form->setFieldAttribute('username', 'required', 'false');
 			$form->setFieldAttribute('username', 'readonly', 'true');
@@ -107,6 +119,15 @@ class AdminModelProfile extends UsersModelUser
 		unset($data['groups']);
 		unset($data['sendEmail']);
 		unset($data['block']);
+
+		// Unset the username if it should not be overwritten
+		$username = $data['username'];
+		$isUsernameCompliant = $this->getState('user.username.compliant');
+
+		if (!JComponentHelper::getParams('com_users')->get('change_login_name') && $isUsernameCompliant)
+		{
+			unset($data['username']);
+		}
 
 		// Bind the data.
 		if (!$user->bind($data)) {
