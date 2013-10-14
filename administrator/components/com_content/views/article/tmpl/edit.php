@@ -16,11 +16,43 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
 
+$this->hiddenFieldsets = array();
+$this->hiddenFieldsets[0] = 'basic-limited';
+$this->configFieldsets = array();
+$this->configFieldsets[0] = 'editorConfig';
+
 // Create shortcut to parameters.
 $params = $this->state->get('params');
 
 $app = JFactory::getApplication();
 $input = $app->input;
+
+// This checks if the config options have ever been saved. If they haven't they will fall back to the original settings.
+$editoroptions = isset($params->show_publishing_options);
+
+if (!$editoroptions)
+{
+	$params->show_publishing_options = '1';
+	$params->show_article_options = '1';
+	$params->show_urls_images_backend = '0';
+	$params->show_urls_images_frontend = '0';
+}
+
+// Check if the article uses configuration settings besides global. If so, use them.
+if ($this->item->attribs['show_publishing_options'] != '')
+{
+	$params->show_publishing_options = $this->item->attribs['show_publishing_options'];
+}
+
+if ($this->item->attribs['show_article_options'] != '')
+{
+	$params->show_article_options = $this->item->attribs['show_article_options'];
+}
+
+if ($this->item->attribs['show_urls_images_backend'] != '')
+{
+	$params->show_urls_images_backend = $this->item->attribs['show_urls_images_backend'];
+}
 
 ?>
 
@@ -56,12 +88,12 @@ $input = $app->input;
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php // Do not show the publishing options if the edit form is configured not to. ?>
-		<?php if ($params->get('show_publishing_options')) : ?>
+		<?php if ($params->show_publishing_options == 1) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('COM_CONTENT_FIELDSET_PUBLISHING', true)); ?>
 			<div class="row-fluid form-horizontal-desktop">
 				<div class="span6">
 					<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
-				</div>
+			 	</div>
 				<div class="span6">
 					<?php echo JLayoutHelper::render('joomla.edit.metadata', $this); ?>
 				</div>
@@ -70,7 +102,7 @@ $input = $app->input;
 		<?php endif; ?>
 
 		<?php // Do not show the images and links options if the edit form is configured not to. ?>
-		<?php if ($params->get('show_urls_images_backend')) : ?>
+		<?php if ($params->show_urls_images_backend == 1) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'images', JText::_('COM_CONTENT_FIELDSET_URLS_AND_IMAGES', true)); ?>
 			<div class="row-fluid form-horizontal-desktop">
 				<div class="span6">
@@ -100,8 +132,13 @@ $input = $app->input;
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
-		<?php $this->show_options = $params->get('show_article_options'); ?>
+		<?php $this->show_options = $params->show_article_options; ?>
 		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
+
+		<?php if ($this->canDo->get('core.admin')) : ?>
+				<?php echo JLayoutHelper::render('joomla.edit.editconfig', $this); ?>
+		<?php endif; ?>
+
 
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 

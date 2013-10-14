@@ -27,11 +27,17 @@ $ignoreFieldsets = $displayData->get('ignore_fieldsets') ?: array();
 $ignoreFields = $displayData->get('ignore_fields') ?: array();
 $extraFields = $displayData->get('extra_fields') ?: array();
 
+// These are required to preserve data on save when fields are not displayed.
+$hiddenFieldsets = $displayData->hiddenFieldsets ?: array();
+
+// These are required to configure showing and hiding fields in the editor.
+$configFieldsets = $displayData->configFieldsets ?: array();
+
 if ($displayData->get('show_options', 1))
 {
 	foreach ($fieldSets as $name => $fieldSet)
 	{
-		if (in_array($name, $ignoreFieldsets))
+		if (in_array($name, $ignoreFieldsets) || in_array($name, $configFieldsets) || in_array($name, $hiddenFieldsets))
 		{
 			continue;
 		}
@@ -69,9 +75,12 @@ else
 			continue;
 		}
 
-		foreach ($form->getFieldset($name) as $field)
+		if (in_array($name, $hiddenFieldsets))
 		{
-			$html[] = $field->input;
+			foreach ($form->getFieldset($name) as $field)
+			{
+				echo $field->input;
+			}
 		}
 	}
 	$html[] = '</div>';
