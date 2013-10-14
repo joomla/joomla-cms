@@ -479,7 +479,7 @@ abstract class JFormField
 				}
 				else
 				{
-					JLog::add($name . ' does\'t exists in ' . __CLASS__);
+					$this->$name;
 				}
 		}
 	}
