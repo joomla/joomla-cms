@@ -53,15 +53,10 @@ if (!class_exists('JLoader'))
 	throw new RuntimeException('Joomla Platform not loaded.');
 }
 
-/*
- * Register the legacy library base path for deprecated or legacy libraries.
- * Due to LIFO ordering, the legacy folder must be loaded before setup(), which
- * loads JPATH_PLATFORM . '/joomla'
- */
-JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
-
 // Setup the autoloaders.
 JLoader::setup();
+
+JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
 
 // Import the Joomla Factory.
 JLoader::import('joomla.factory');
@@ -95,3 +90,5 @@ JLoader::register('JRules', JPATH_PLATFORM . '/legacy/access/rules.php');
 JLoader::register('JCli', JPATH_PLATFORM . '/legacy/application/cli.php');
 JLoader::register('JDaemon', JPATH_PLATFORM . '/legacy/application/daemon.php');
 JLoader::register('JApplication', JPATH_LIBRARIES . '/legacy/application/application.php');
+
+require_once JPATH_LIBRARIES . '/framework/aliases.php';

@@ -29,12 +29,12 @@ class JFormFieldAccessLevel extends JFormFieldList
 	 * @var    string
 	 * @since  11.1
 	 */
-	public $type = 'AccessLevel';
+	protected $type = 'AccessLevel';
 
 	/**
 	 * Method to get the field input markup.
 	 *
-	 * @return  string   The field input markup.
+	 * @return  string  The field input markup.
 	 *
 	 * @since   11.1
 	 */
@@ -43,14 +43,15 @@ class JFormFieldAccessLevel extends JFormFieldList
 		$attr = '';
 
 		// Initialize some field attributes.
-		$attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
-		$attr .= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
-		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
-		$attr .= $this->multiple ? ' multiple="multiple"' : '';
-		$attr .= $this->required ? ' required="required" aria-required="true"' : '';
+		$attr .= !empty($this->class) ? ' class="' . $this->class . '"' : '';
+		$attr .= $this->disabled ? ' disabled' : '';
+		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
+		$attr .= $this->multiple ? ' multiple' : '';
+		$attr .= $this->required ? ' required aria-required="true"' : '';
+		$attr .= $this->autofocus ? ' autofocus' : '';
 
 		// Initialize JavaScript field attributes.
-		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
+		$attr .= $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
 
 		// Get the field options.
 		$options = $this->getOptions();

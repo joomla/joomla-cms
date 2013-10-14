@@ -37,6 +37,7 @@
 			message="COM_USERS_PROFILE_PASSWORD1_MESSAGE"
 			size="30"
 			validate="equals"
+			required="true"
 		/>
 
 		<field name="password1" type="password"
@@ -47,6 +48,7 @@
 			label="COM_USERS_PROFILE_PASSWORD2_LABEL"
 			size="30"
 			validate="password"
+			required="true"
 		/>
 
 		<field name="email1" type="email"

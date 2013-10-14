@@ -915,7 +915,12 @@ class JControllerLegacy extends JObject
 		if ($this->redirect)
 		{
 			$app = JFactory::getApplication();
-			$app->redirect($this->redirect, $this->message, $this->messageType);
+
+			// Enqueue the redirect message
+			$app->enqueueMessage($this->message, $this->messageType);
+
+			// Execute the redirect
+			$app->redirect($this->redirect);
 		}
 
 		return false;

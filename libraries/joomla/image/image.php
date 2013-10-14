@@ -49,6 +49,12 @@ class JImage
 	const CROP_RESIZE = 5;
 
 	/**
+	 * @const  integer
+	 * @since  3.2
+	 */
+	const SCALE_FIT = 6;
+
+	/**
 	 * @var    resource  The image resource handle.
 	 * @since  11.3
 	 */
@@ -160,12 +166,11 @@ class JImage
 	 * @param   mixed    $thumbSizes      String or array of strings. Example: $thumbSizes = array('150x75','250x150');
 	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create croppping | 5 resize then crop
 	 *
-	 * @return array
+	 * @return  array
 	 *
+	 * @since   12.2
 	 * @throws  LogicException
 	 * @throws  InvalidArgumentException
-	 *
-	 * @since 12.2
 	 */
 	public function generateThumbs($thumbSizes, $creationMethod = self::SCALE_INSIDE)
 	{
@@ -195,8 +200,9 @@ class JImage
 				{
 					throw new InvalidArgumentException('Invalid thumb size received: ' . $thumbSize);
 				}
-				$thumbWidth 	= $size[0];
-				$thumbHeight	= $size[1];
+
+				$thumbWidth  = $size[0];
+				$thumbHeight = $size[1];
 
 				switch ($creationMethod)
 				{
@@ -231,12 +237,11 @@ class JImage
 	 * @param   integer  $creationMethod  1-3 resize $scaleMethod | 4 create croppping
 	 * @param   string   $thumbsFolder    destination thumbs folder. null generates a thumbs folder in the image folder
 	 *
-	 * @return array
+	 * @return  array
 	 *
+	 * @since   12.2
 	 * @throws  LogicException
 	 * @throws  InvalidArgumentException
-	 *
-	 * @since 12.2
 	 */
 	public function createThumbs($thumbSizes, $creationMethod = self::SCALE_INSIDE, $thumbsFolder = null)
 	{
@@ -269,13 +274,13 @@ class JImage
 			foreach ($thumbs as $thumb)
 			{
 				// Get thumb properties
-				$thumbWidth 	= $thumb->getWidth();
-				$thumbHeight 	= $thumb->getHeight();
+				$thumbWidth     = $thumb->getWidth();
+				$thumbHeight    = $thumb->getHeight();
 
 				// Generate thumb name
-				$filename 		= pathinfo($this->getPath(), PATHINFO_FILENAME);
-				$fileExtension 	= pathinfo($this->getPath(), PATHINFO_EXTENSION);
-				$thumbFileName 	= $filename . '_' . $thumbWidth . 'x' . $thumbHeight . '.' . $fileExtension;
+				$filename       = pathinfo($this->getPath(), PATHINFO_FILENAME);
+				$fileExtension  = pathinfo($this->getPath(), PATHINFO_EXTENSION);
+				$thumbFileName  = $filename . '_' . $thumbWidth . 'x' . $thumbHeight . '.' . $fileExtension;
 
 				// Save thumb file to disk
 				$thumbFileName = $thumbsFolder . '/' . $thumbFileName;
@@ -288,6 +293,7 @@ class JImage
 				}
 			}
 		}
+
 		return $thumbsCreated;
 	}
 
@@ -298,7 +304,7 @@ class JImage
 	 * @param   mixed    $height     The height of the image section to crop in pixels or a percentage.
 	 * @param   integer  $left       The number of pixels from the left to start cropping.
 	 * @param   integer  $top        The number of pixels from the top to start cropping.
-	 * @param   bool     $createNew  If true the current image will be cloned, cropped and returned; else
+	 * @param   boolean  $createNew  If true the current image will be cloned, cropped and returned; else
 	 *                               the current image will be cropped and returned.
 	 *
 	 * @return  JImage
@@ -325,6 +331,7 @@ class JImage
 		{
 			$left = round(($this->getWidth() - $width) / 2);
 		}
+
 		if (is_null($top))
 		{
 			$top = round(($this->getHeight() - $height) / 2);
@@ -393,7 +400,6 @@ class JImage
 	 * @since   11.3
 	 * @see     JImageFilter
 	 * @throws  LogicException
-	 * @throws  RuntimeException
 	 */
 	public function filter($type, array $options = array())
 	{
@@ -465,7 +471,7 @@ class JImage
 	/**
 	 * Method to determine whether or not an image has been loaded into the object.
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   11.3
 	 */
@@ -548,6 +554,7 @@ class JImage
 
 					// @codeCoverageIgnoreEnd
 				}
+
 				$this->handle = $handle;
 				break;
 
@@ -572,6 +579,7 @@ class JImage
 
 					// @codeCoverageIgnoreEnd
 				}
+
 				$this->handle = $handle;
 				break;
 
@@ -596,7 +604,18 @@ class JImage
 
 					// @codeCoverageIgnoreEnd
 				}
+
 				$this->handle = $handle;
+
+				// Set transparency for non-transparent PNGs.
+				if (!$this->isTransparent())
+				{
+					// Assign to black which is default for transparent PNGs
+					$transparency = imagecolorallocatealpha($handle, 0, 0, 0, 127);
+
+					imagecolortransparent($handle, $transparency);
+				}
+
 				break;
 
 			default:
@@ -614,7 +633,7 @@ class JImage
 	 *
 	 * @param   mixed    $width        The width of the resized image in pixels or a percentage.
 	 * @param   mixed    $height       The height of the resized image in pixels or a percentage.
-	 * @param   bool     $createNew    If true the current image will be cloned, resized and returned; else
+	 * @param   boolean  $createNew    If true the current image will be cloned, resized and returned; else
 	 *                                 the current image will be resized and returned.
 	 * @param   integer  $scaleMethod  Which method to use for scaling
 	 *
@@ -640,8 +659,30 @@ class JImage
 		// Prepare the dimensions for the resize operation.
 		$dimensions = $this->prepareDimensions($width, $height, $scaleMethod);
 
-		// Create the new truecolor image handle.
-		$handle = imagecreatetruecolor($dimensions->width, $dimensions->height);
+		// Instantiate offset.
+		$offset = new stdClass;
+		$offset->x = $offset->y = 0;
+
+		// Center image if needed and create the new truecolor image handle.
+		if ($scaleMethod == self::SCALE_FIT)
+		{
+			// Get the offsets
+			$offset->x	= round(($width - $dimensions->width) / 2);
+			$offset->y	= round(($height - $dimensions->height) / 2);
+
+			$handle = imagecreatetruecolor($width, $height);
+
+			// Make image transparent, otherwise cavas outside initial image would default to black
+			if (!$this->isTransparent())
+			{
+				$transparency = imagecolorAllocateAlpha($this->handle, 0, 0, 0, 127);
+				imagecolorTransparent($this->handle, $transparency);
+			}
+		}
+		else
+		{
+			$handle = imagecreatetruecolor($dimensions->width, $dimensions->height);
+		}
 
 		// Allow transparency for the new image handle.
 		imagealphablending($handle, false);
@@ -651,17 +692,17 @@ class JImage
 		{
 			// Get the transparent color values for the current image.
 			$rgba = imageColorsForIndex($this->handle, imagecolortransparent($this->handle));
-			$color = imageColorAllocate($this->handle, $rgba['red'], $rgba['green'], $rgba['blue']);
+			$color = imageColorAllocateAlpha($this->handle, $rgba['red'], $rgba['green'], $rgba['blue'], $rgba['alpha']);
 
 			// Set the transparent color values for the new image.
 			imagecolortransparent($handle, $color);
 			imagefill($handle, 0, 0, $color);
 
-			imagecopyresized($handle, $this->handle, 0, 0, 0, 0, $dimensions->width, $dimensions->height, $this->getWidth(), $this->getHeight());
+			imagecopyresized($handle, $this->handle, $offset->x, $offset->y, 0, 0, $dimensions->width, $dimensions->height, $this->getWidth(), $this->getHeight());
 		}
 		else
 		{
-			imagecopyresampled($handle, $this->handle, 0, 0, 0, 0, $dimensions->width, $dimensions->height, $this->getWidth(), $this->getHeight());
+			imagecopyresampled($handle, $this->handle, $offset->x, $offset->y, 0, 0, $dimensions->width, $dimensions->height, $this->getWidth(), $this->getHeight());
 		}
 
 		// If we are resizing to a new image, create a new JImage object.
@@ -720,7 +761,7 @@ class JImage
 	 *
 	 * @param   mixed    $angle       The angle of rotation for the image
 	 * @param   integer  $background  The background color to use when areas are added due to rotation
-	 * @param   bool     $createNew   If true the current image will be cloned, rotated and returned; else
+	 * @param   boolean  $createNew   If true the current image will be cloned, rotated and returned; else
 	 *                                the current image will be rotated and returned.
 	 *
 	 * @return  JImage
@@ -877,16 +918,17 @@ class JImage
 
 			case self::SCALE_INSIDE:
 			case self::SCALE_OUTSIDE:
+			case self::SCALE_FIT:
 				$rx = ($width > 0) ? ($this->getWidth() / $width) : 0;
 				$ry = ($height > 0) ? ($this->getHeight() / $height) : 0;
 
-				if ($scaleMethod == self::SCALE_INSIDE)
+				if ($scaleMethod != self::SCALE_OUTSIDE)
 				{
-					$ratio = ($rx > $ry) ? $rx : $ry;
+					$ratio = max($rx, $ry);
 				}
 				else
 				{
-					$ratio = ($rx < $ry) ? $rx : $ry;
+					$ratio = min($rx, $ry);
 				}
 
 				$dimensions->width = (int) round($this->getWidth() / $ratio);
@@ -979,7 +1021,7 @@ class JImage
 	 *
 	 * @return  boolean  True on success, false on failure or if no image is loaded
 	 *
-	 * @since 12.3
+	 * @since   12.3
 	 */
 	public function destroy()
 	{
@@ -996,6 +1038,7 @@ class JImage
 	 * to free any memory when the object is unset
 	 *
 	 * @see     JImage::destroy()
+	 * @since   12.3
 	 */
 	public function __destruct()
 	{

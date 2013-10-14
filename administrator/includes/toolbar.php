@@ -31,14 +31,8 @@ abstract class JToolbarHelper
 	 */
 	public static function title($title, $icon = 'generic.png')
 	{
-		// Strip the extension.
-		$icons = explode(' ', $icon);
-		foreach ($icons as $i => $icon)
-		{
-			$icons[$i] = 'icon-48-' . preg_replace('#\.[^.]*$#', '', $icon);
-		}
-
-		$html = '<div class="pagetitle ' . htmlspecialchars(implode(' ', $icons)) . '"><h2>' . $title . '</h2></div>';
+		$layout = new JLayoutFile('joomla.toolbar.title');
+		$html = $layout->render(array('title' => $title, 'icon' => $icon));
 
 		$app = JFactory::getApplication();
 		$app->JComponentTitle = $html;
@@ -105,7 +99,7 @@ abstract class JToolbarHelper
 	 * Writes a preview button for a given option (opens a popup window).
 	 *
 	 * @param   string  $url            The name of the popup file (excluding the file extension)
-	 * @param   bool    $updateEditors
+	 * @param   bool    $updateEditors  Unused
 	 *
 	 * @return  void
 	 *
@@ -116,7 +110,7 @@ abstract class JToolbarHelper
 		$bar = JToolbar::getInstance('toolbar');
 
 		// Add a preview button.
-		$bar->appendButton('Popup', 'preview', 'Preview', $url.'&task=preview');
+		$bar->appendButton('Popup', 'preview', 'Preview', $url . '&task=preview');
 	}
 
 	/**
@@ -422,11 +416,11 @@ abstract class JToolbarHelper
 	}
 
 	/**
-	 * Write a trash button that will move items to Trash Manager.
+	 * Writes a common 'trash' button for a list of records.
 	 *
 	 * @param   string  $task   An override for the task.
 	 * @param   string  $alt    An override for the alt text.
-	 * @param   bool    $check
+	 * @param   bool    $check  True to allow lists.
 	 *
 	 * @return  void
 	 *
@@ -557,11 +551,11 @@ abstract class JToolbarHelper
 	/**
 	 * Writes a configuration button and invokes a cancel operation (eg a checkin).
 	 *
-	 * @param   string  $component  The name of the component, eg, com_content.
-	 * @param   int     $height     The height of the popup. [UNUSED]
-	 * @param   int     $width      The width of the popup. [UNUSED]
-	 * @param   string  $alt        The name of the button.
-	 * @param   string  $path       An alternative path for the configuation xml relative to JPATH_SITE.
+	 * @param   string   $component  The name of the component, eg, com_content.
+	 * @param   integer  $height     The height of the popup. [UNUSED]
+	 * @param   integer  $width      The width of the popup. [UNUSED]
+	 * @param   string   $alt        The name of the button.
+	 * @param   string   $path       An alternative path for the configuation xml relative to JPATH_SITE.
 	 *
 	 * @return  void
 	 *
@@ -577,7 +571,68 @@ abstract class JToolbarHelper
 		$return = urlencode(base64_encode($uri));
 
 		// Add a button linking to config for component.
-		$bar->appendButton('Link', 'options', $alt, 'index.php?option=com_config&amp;view=component&amp;component=' . $component . '&amp;path=' . $path . '&amp;return=' . $return);
+		$bar->appendButton(
+			'Link',
+			'options',
+			$alt,
+			'index.php?option=com_config&amp;view=component&amp;component=' . $component . '&amp;path=' . $path . '&amp;return=' . $return
+		);
+	}
+
+	/**
+	 * Writes a version history
+	 *
+	 * @param   string   $typeAlias  The component and type, for example 'com_content.article'
+	 * @param   integer  $itemId     The id of the item, for example the article id.
+	 * @param   integer  $height     The height of the popup.
+	 * @param   integer  $width      The width of the popup.
+	 * @param   string   $alt        The name of the button.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public static function versions($typeAlias, $itemId, $height = 800, $width = 500, $alt = 'JTOOLBAR_VERSIONS')
+	{
+		JHtml::_('behavior.modal', 'a.modal_jform_contenthistory');
+
+		$contentTypeTable = JTable::getInstance('Contenttype');
+		$typeId           = $contentTypeTable->getTypeId($typeAlias);
+
+		// Options array for JLayout
+		$options              = array();
+		$options['title']     = JText::_($alt);
+		$options['height']    = $height;
+		$options['width']     = $width;
+		$options['itemId']    = $itemId;
+		$options['typeId']    = $typeId;
+		$options['typeAlias'] = $typeAlias;
+
+		$bar    = JToolbar::getInstance('toolbar');
+		$layout = new JLayoutFile('joomla.toolbar.versions');
+		$bar->appendButton('Custom', $layout->render($options), 'versions');
+	}
+
+	/**
+	 * Displays a modal button
+	 *
+	 * @param   string  $targetModalId  ID of the target modal box
+	 * @param   string  $icon           Icon class to show on modal button
+	 * @param   string  $alt            Title for the modal button
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public static function modal($targetModalId, $icon, $alt)
+	{
+		JHtml::_('behavior.modal');
+		$title = JText::_($alt);
+		$dhtml = "<button data-toggle='modal' data-target='#" . $targetModalId . "' class='btn btn-small'>
+			<i class='" . $icon . "' title='" . $title . "'></i>" . $title . "</button>";
+
+		$bar = JToolbar::getInstance('toolbar');
+		$bar->appendButton('Custom', $dhtml, $alt);
 	}
 }
 
@@ -620,9 +675,9 @@ abstract class JSubMenuHelper
 	/**
 	 * Method to add a menu item to submenu.
 	 *
-	 * @param   string	$name	 Name of the menu item.
-	 * @param   string	$link	 URL of the menu item.
-	 * @param   bool	$active  True if the item is active, false otherwise.
+	 * @param   string   $name    Name of the menu item.
+	 * @param   string   $link    URL of the menu item.
+	 * @param   boolean  $active  True if the item is active, false otherwise.
 	 *
 	 * @return  void
 	 *
@@ -652,10 +707,10 @@ abstract class JSubMenuHelper
 	/**
 	 * Method to add a filter to the submenu
 	 *
-	 * @param   string	$label      Label for the menu item.
-	 * @param   string	$name       name for the filter. Also used as id.
-	 * @param   string	$options    options for the select field.
-	 * @param   bool	$noDefault  Don't the label as the empty option
+	 * @param   string   $label      Label for the menu item.
+	 * @param   string   $name       name for the filter. Also used as id.
+	 * @param   string   $options    options for the select field.
+	 * @param   boolean  $noDefault  Don't the label as the empty option
 	 *
 	 * @return  void
 	 *
