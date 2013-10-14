@@ -46,7 +46,7 @@
 				<field
 					name="button"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					label="MOD_SEARCH_FIELD_BUTTON_LABEL"
 					description="MOD_SEARCH_FIELD_BUTTON_DESC">
 					<option
@@ -72,7 +72,7 @@
 				<field
 					name="imagebutton"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					label="MOD_SEARCH_FIELD_IMAGEBUTTON_LABEL"
 					description="MOD_SEARCH_FIELD_IMAGEBUTTON_DESC">
 					<option
@@ -88,7 +88,7 @@
 				<field
 					name="opensearch"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					label="MOD_SEARCH_FIELD_OPENSEARCH_LABEL"
 					description="MOD_SEARCH_FIELD_OPENSEARCH_DESC"
 					default="1">

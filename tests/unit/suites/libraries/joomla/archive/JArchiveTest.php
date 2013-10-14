@@ -26,7 +26,7 @@ class JArchiveTest extends JArchiveTestCase
 	 */
 	public function testExtractZip()
 	{
-		if (!is_dir(self::$outputPath))
+		if (!is_dir(static::$outputPath))
 		{
 			$this->markTestSkipped("Couldn't create folder.");
 
@@ -40,12 +40,12 @@ class JArchiveTest extends JArchiveTestCase
 			return;
 		}
 
-		JArchive::extract(__DIR__ . '/logo.zip', self::$outputPath);
-		$this->assertTrue(is_file(self::$outputPath . '/logo-zip.png'));
+		JArchive::extract(__DIR__ . '/logo.zip', static::$outputPath);
+		$this->assertTrue(is_file(static::$outputPath . '/logo-zip.png'));
 
-		if (is_file(self::$outputPath . '/logo-zip.png'))
+		if (is_file(static::$outputPath . '/logo-zip.png'))
 		{
-			unlink(self::$outputPath . '/logo-zip.png');
+			unlink(static::$outputPath . '/logo-zip.png');
 		}
 	}
 
@@ -56,7 +56,7 @@ class JArchiveTest extends JArchiveTestCase
 	 */
 	public function testExtractTar()
 	{
-		if (!is_dir(self::$outputPath))
+		if (!is_dir(static::$outputPath))
 		{
 			$this->markTestSkipped("Couldn't create folder.");
 
@@ -70,12 +70,12 @@ class JArchiveTest extends JArchiveTestCase
 			return;
 		}
 
-		JArchive::extract(__DIR__ . '/logo.tar', self::$outputPath);
-		$this->assertTrue(is_file(self::$outputPath . '/logo-tar.png'));
+		JArchive::extract(__DIR__ . '/logo.tar', static::$outputPath);
+		$this->assertTrue(is_file(static::$outputPath . '/logo-tar.png'));
 
-		if (is_file(self::$outputPath . '/logo-tar.png'))
+		if (is_file(static::$outputPath . '/logo-tar.png'))
 		{
-			unlink(self::$outputPath . '/logo-tar.png');
+			unlink(static::$outputPath . '/logo-tar.png');
 		}
 	}
 
@@ -86,14 +86,14 @@ class JArchiveTest extends JArchiveTestCase
 	 */
 	public function testExtractGzip()
 	{
-		if (!is_dir(self::$outputPath))
+		if (!is_dir(static::$outputPath))
 		{
 			$this->markTestSkipped("Couldn't create folder.");
 
 			return;
 		}
 
-		if (!is_writable(self::$outputPath) || !is_writable(JFactory::getConfig()->get('tmp_path')))
+		if (!is_writable(static::$outputPath) || !is_writable(JFactory::getConfig()->get('tmp_path')))
 		{
 			$this->markTestSkipped("Folder not writable.");
 
@@ -107,12 +107,12 @@ class JArchiveTest extends JArchiveTestCase
 			return;
 		}
 
-		JArchive::extract(__DIR__ . '/logo.gz', self::$outputPath . '/logo-gz.png');
-		$this->assertTrue(is_file(self::$outputPath . '/logo-gz.png'));
+		JArchive::extract(__DIR__ . '/logo.gz', static::$outputPath . '/logo-gz.png');
+		$this->assertTrue(is_file(static::$outputPath . '/logo-gz.png'));
 
-		if (is_file(self::$outputPath . '/logo-gz.png'))
+		if (is_file(static::$outputPath . '/logo-gz.png'))
 		{
-			unlink(self::$outputPath . '/logo-gz.png');
+			unlink(static::$outputPath . '/logo-gz.png');
 		}
 	}
 
@@ -123,14 +123,14 @@ class JArchiveTest extends JArchiveTestCase
 	 */
 	public function testExtractBzip2()
 	{
-		if (!is_dir(self::$outputPath))
+		if (!is_dir(static::$outputPath))
 		{
 			$this->markTestSkipped("Couldn't create folder.");
 
 			return;
 		}
 
-		if (!is_writable(self::$outputPath) || !is_writable(JFactory::getConfig()->get('tmp_path')))
+		if (!is_writable(static::$outputPath) || !is_writable(JFactory::getConfig()->get('tmp_path')))
 		{
 			$this->markTestSkipped("Folder not writable.");
 
@@ -144,12 +144,12 @@ class JArchiveTest extends JArchiveTestCase
 			return;
 		}
 
-		JArchive::extract(__DIR__ . '/logo.bz2', self::$outputPath . '/logo-bz2.png');
-		$this->assertTrue(is_file(self::$outputPath . '/logo-bz2.png'));
+		JArchive::extract(__DIR__ . '/logo.bz2', static::$outputPath . '/logo-bz2.png');
+		$this->assertTrue(is_file(static::$outputPath . '/logo-bz2.png'));
 
-		if (is_file(self::$outputPath . '/logo-bz2.png'))
+		if (is_file(static::$outputPath . '/logo-bz2.png'))
 		{
-			unlink(self::$outputPath . '/logo-bz2.png');
+			unlink(static::$outputPath . '/logo-bz2.png');
 		}
 	}
 

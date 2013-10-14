@@ -16,7 +16,6 @@
  */
 class JFilterInputMock
 {
-
 	/**
 	 * Test...
 	 *

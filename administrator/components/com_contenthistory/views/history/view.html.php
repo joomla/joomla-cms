@@ -47,6 +47,6 @@ class ContenthistoryViewHistory extends JViewLegacy
 			return false;
 		}
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 }

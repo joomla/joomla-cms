@@ -57,9 +57,9 @@ class BannersViewTracks extends JViewLegacy
 	{
 		require_once JPATH_COMPONENT.'/helpers/banners.php';
 
-		$canDo	= BannersHelper::getActions($this->state->get('filter.category_id'));
+		$canDo	= JHelperContent::getActions($this->state->get('filter.category_id'), 0, 'com_banners');
 
-		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_TRACKS'), 'banners-tracks.png');
+		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_TRACKS'), 'bookmark banners-tracks');
 
 		$bar = JToolBar::getInstance('toolbar');
 		$bar->appendButton('Slider', 'export', 'JTOOLBAR_EXPORT', 'index.php?option=com_banners&amp;view=download&amp;tmpl=component', 600, 300);
