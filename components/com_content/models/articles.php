@@ -58,10 +58,18 @@ class ContentModelArticles extends JModelList
 	/**
 	 * Method to auto-populate the model state.
 	 *
+	 * This method should only be called once per instantiation and is designed
+	 * to be called on the first call to the getState() method unless the model
+	 * configuration flag to ignore the request is set.
+	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
 	 * @return  void
-	 * @since   1.6
+	 *
+	 * @since   12.2
 	 */
 	protected function populateState($ordering = 'ordering', $direction = 'ASC')
 	{
@@ -170,7 +178,7 @@ class ContentModelArticles extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.introtext, ' .
+				'a.id, a.title, a.alias, a.introtext, a.fulltext, ' .
 					'a.checked_out, a.checked_out_time, ' .
 					'a.catid, a.created, a.created_by, a.created_by_alias, ' .
 					// Use created if modified is 0
@@ -225,11 +233,13 @@ class ContentModelArticles extends JModelList
 			->from('#__contact_details AS contact')
 			->where('contact.published = 1')
 			->where('contact.user_id = a.created_by');
+
 			// Filter by language
 			if ($this->getState('filter.language'))
 			{
 				$subQuery->where('(contact.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ') OR contact.language IS NULL)');
 			}
+
 		$query->select('(' . $subQuery . ') as contactid');
 
 		// Join over the categories to get parent category titles
@@ -665,6 +675,13 @@ class ContentModelArticles extends JModelList
 		return $items;
 	}
 
+	/**
+	 * Method to get the starting number of items for the data set.
+	 *
+	 * @return  integer  The starting number of items available in the data set.
+	 *
+	 * @since   12.2
+	 */
 	public function getStart()
 	{
 		return $this->getState('list.start');
