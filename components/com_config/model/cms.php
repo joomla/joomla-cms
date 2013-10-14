@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Model
  * @since       3.2
  */
-abstract class ConfigModelCms extends JModelBase
+abstract class ConfigModelCms extends JModelDatabase
 {
 	/**
 	 * The model (base) name
@@ -53,7 +53,7 @@ abstract class ConfigModelCms extends JModelBase
 	/**
 	 * Constructor
 	 *
-	 * @param   array  $config  An array of configuration options (name, state, table_path, ignore_request).
+	 * @param   array  $config  An array of configuration options (name, state, dbo, table_path, ignore_request).
 	 *
 	 * @since   3.2
 	 * @throws  Exception
@@ -94,6 +94,12 @@ abstract class ConfigModelCms extends JModelBase
 		else
 		{
 			$this->state = new JRegistry;
+		}
+
+		// Set the model dbo
+		if (array_key_exists('dbo', $config))
+		{
+			$this->db = $config['dbo'];
 		}
 
 		// Register the paths for the form
