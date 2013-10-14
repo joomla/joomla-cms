@@ -74,16 +74,16 @@ class PlgUserJoomla extends JPlugin
 	 * Method is called after user data is deleted from the database
 	 *
 	 * @param   array    $user     Holds the user data
-	 * @param   boolean  $success  True if user was succesfully stored in the database
+	 * @param   boolean  $success  True if user was successfully stored in the database
 	 * @param   string   $msg      Message
 	 *
 	 * @return  boolean
 	 *
 	 * @since   1.6
 	 */
-	public function onUserAfterDelete($user, $succes, $msg)
+	public function onUserAfterDelete($user, $success, $msg)
 	{
-		if (!$succes)
+		if (!$success)
 		{
 			return false;
 		}
@@ -99,11 +99,11 @@ class PlgUserJoomla extends JPlugin
 	/**
 	 * Utility method to act on a user after it has been saved.
 	 *
-	 * This method sends a registration email to new users created in the backend.
+	 * This method sends a registration email to new users created in the back-end.
 	 *
 	 * @param   array    $user     Holds the new user data.
 	 * @param   boolean  $isnew    True if a new user is stored.
-	 * @param   boolean  $success  True if user was succesfully stored in the database.
+	 * @param   boolean  $success  True if user was successfully stored in the database.
 	 * @param   string   $msg      Message.
 	 *
 	 * @return  void
@@ -195,7 +195,7 @@ class PlgUserJoomla extends JPlugin
 			return false;
 		}
 
-		// Authorise the user based on the group information
+		// Authorize the user based on the group information
 		if (!isset($options['group']))
 		{
 			$options['group'] = 'USERS';
@@ -337,7 +337,7 @@ class PlgUserJoomla extends JPlugin
 		{
 			if (!$instance->save())
 			{
-				JLog::add('Error in autoregistration for user ' .  $user['username'] . '.', JLog::WARNING, 'error');
+				JLog::add('Error in autoregistration for user ' . $user['username'] . '.', JLog::WARNING, 'error');
 			}
 		}
 		else
@@ -354,7 +354,7 @@ class PlgUserJoomla extends JPlugin
 	 * We set a new cookie either for a user with no cookies or one
 	 * where the user used a cookie to authenticate.
 	 *
-	 * @param   array  options  Array holding options
+	 * @param   array  $options  Array holding options
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -408,6 +408,7 @@ class PlgUserJoomla extends JPlugin
 				$unique = true;
 			}
 		}
+
 		while ($unique === false);
 
 		// If a user logs in with non cookie login and remember me checked we will
