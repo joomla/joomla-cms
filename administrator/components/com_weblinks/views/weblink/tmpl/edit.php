@@ -14,7 +14,6 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
 
-$assoc = JLanguageAssociations::isEnabled();
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
