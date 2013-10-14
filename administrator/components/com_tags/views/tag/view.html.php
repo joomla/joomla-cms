@@ -24,17 +24,23 @@ class TagsViewTag extends JViewLegacy
 
 	protected $state;
 
+	protected $assoc;
+
 	/**
 	 * Display the view
 	 *
-	 * @return void
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
 	 */
 	public function display($tpl = null)
 	{
 		$this->form  = $this->get('Form');
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
-		$this->canDo = TagsHelper::getActions($this->state->get('tags.component'));
+		$this->canDo = JHelperContent::getActions(0, 0, 'com_tags');
+		$this->assoc = $this->get('Assoc');
+
 		$input = JFactory::getApplication()->input;
 
 		// Check for errors.
@@ -76,12 +82,12 @@ class TagsViewTag extends JViewLegacy
 		require_once JPATH_COMPONENT . '/helpers/tags.php';
 
 		// Get the results for each action.
-		$canDo = TagsHelper::getActions('com_tags', $this->item->id);
+		$canDo = $this->canDo;
 
-		$title = JText::_('COM_TAGS_BASE_' . ($isNew ? 'ADD':'EDIT') . '_TITLE');
+		$title = JText::_('COM_TAGS_BASE_' . ($isNew?'ADD':'EDIT') . '_TITLE');
 
 		// Prepare the toolbar.
-		JToolbarHelper::title($title, 'tags.png');
+		JToolbarHelper::title($title, 'tag tag-' . ($isNew?'add':'edit') . ($isNew?'add':'edit'));
 
 		// For new records, check the create permission.
 		if ($isNew)
@@ -90,10 +96,10 @@ class TagsViewTag extends JViewLegacy
 			JToolbarHelper::save('tag.save');
 			JToolbarHelper::save2new('tag.save2new');
 		}
+
+		// If not checked out, can save the item.
 		elseif (!$checkedOut && ($canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_user_id == $userId)))
 		{
-			// If not checked out, can save the item.
-
 			JToolbarHelper::apply('tag.apply');
 			JToolbarHelper::save('tag.save');
 
@@ -115,9 +121,15 @@ class TagsViewTag extends JViewLegacy
 		}
 		else
 		{
+			if ($this->state->params->get('save_history', 1) && $user->authorise('core.edit'))
+			{
+				JToolbarHelper::versions('com_tags.tag', $this->item->id);
+			}
+
 			JToolbarHelper::cancel('tag.cancel', 'JTOOLBAR_CLOSE');
 		}
 
+		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_COMPONENTS_TAGS_MANAGER_EDIT');
 		JToolbarHelper::divider();
 	}

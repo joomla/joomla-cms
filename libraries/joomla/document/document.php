@@ -9,8 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-jimport('joomla.environment.response');
-
 /**
  * Document class, provides an easy interface to parse and display a document
  *
@@ -196,10 +194,20 @@ class JDocument
 	public static $_buffer = null;
 
 	/**
-	 * @var    array  JDocument instances container.
+	 * JDocument instances container.
+	 *
+	 * @var    array
 	 * @since  11.3
 	 */
 	protected static $instances = array();
+
+	/**
+	 * Media version added to assets
+	 *
+	 * @var    string
+	 * @since  3.2
+	 */
+	protected $mediaVersion = null;
 
 	/**
 	 * Class constructor.
@@ -244,6 +252,11 @@ class JDocument
 		{
 			$this->setBase($options['base']);
 		}
+
+		if (array_key_exists('mediaversion', $options))
+		{
+			$this->setMediaVersion($options['mediaversion']);
+		}
 	}
 
 	/**
@@ -278,9 +291,11 @@ class JDocument
 
 			// Determine the path and class
 			$class = 'JDocument' . $type;
+
 			if (!class_exists($class))
 			{
 				$path = __DIR__ . '/' . $type . '/' . $type . '.php';
+
 				if (file_exists($path))
 				{
 					require_once $path;
@@ -374,6 +389,7 @@ class JDocument
 	public function getMetaData($name, $httpEquiv = false)
 	{
 		$name = strtolower($name);
+
 		if ($name == 'generator')
 		{
 			$result = $this->getGenerator();
@@ -457,6 +473,36 @@ class JDocument
 	}
 
 	/**
+	 * Adds a linked script to the page with a version to allow to flush it. Ex: myscript.js54771616b5bceae9df03c6173babf11d
+	 * If not specified Joomla! automatically handles versioning
+	 *
+	 * @param   string   $url      URL to the linked script
+	 * @param   string   $version  Version of the script
+	 * @param   string   $type     Type of script. Defaults to 'text/javascript'
+	 * @param   boolean  $defer    Adds the defer attribute.
+	 * @param   boolean  $async    [description]
+	 *
+	 * @return  JDocument instance of $this to allow chaining
+	 *
+	 * @since   3.2
+	 */
+	public function addScriptVersion($url, $version = null, $type = "text/javascript", $defer = false, $async = false)
+	{
+		// Automatic version
+		if ($version === null)
+		{
+			$version = $this->getMediaVersion();
+		}
+
+		if (!empty($version) && strpos($url, '?') === false)
+		{
+			$url .= '?' . $version;
+		}
+
+		return $this->addScript($url, $type, $defer, $async);
+	}
+
+	/**
 	 * Adds a script to the page
 	 *
 	 * @param   string  $content  Script
@@ -499,6 +545,36 @@ class JDocument
 		$this->_styleSheets[$url]['attribs'] = $attribs;
 
 		return $this;
+	}
+
+	/**
+	 * Adds a linked stylesheet version to the page. Ex: template.css?54771616b5bceae9df03c6173babf11d
+	 * If not specified Joomla! automatically handles versioning
+	 *
+	 * @param   string  $url      URL to the linked style sheet
+	 * @param   string  $version  Version of the stylesheet
+	 * @param   string  $type     Mime encoding type
+	 * @param   string  $media    Media type that this stylesheet applies to
+	 * @param   array   $attribs  Array of attributes
+	 *
+	 * @return  JDocument instance of $this to allow chaining
+	 *
+	 * @since   3.2
+	 */
+	public function addStyleSheetVersion($url, $version = null, $type = "text/css", $media = null, $attribs = array())
+	{
+		// Automatic version
+		if ($version === null)
+		{
+			$version = $this->getMediaVersion();
+		}
+
+		if (!empty($version) && strpos($url, '?') === false)
+		{
+			$url .= '?' . $version;
+		}
+
+		return $this->addStyleSheet($url, $type, $media, $attribs);
 	}
 
 	/**
@@ -635,6 +711,34 @@ class JDocument
 	public function getTitle()
 	{
 		return $this->title;
+	}
+
+	/**
+	 * Set the assets version
+	 *
+	 * @param   string  $mediaVersion  Media version to use
+	 *
+	 * @return  JDocument instance of $this to allow chaining
+	 *
+	 * @since   3.2
+	 */
+	public function setMediaVersion($mediaVersion)
+	{
+		$this->mediaVersion = strtolower($mediaVersion);
+
+		return $this;
+	}
+
+	/**
+	 * Return the media version
+	 *
+	 * @return  string
+	 *
+	 * @since   3.2
+	 */
+	public function getMediaVersion()
+	{
+		return $this->mediaVersion;
 	}
 
 	/**
@@ -953,11 +1057,14 @@ class JDocument
 	 */
 	public function render($cache = false, $params = array())
 	{
+		$app = JFactory::getApplication();
+
 		if ($mdate = $this->getModifiedDate())
 		{
-			JResponse::setHeader('Last-Modified', $mdate /* gmdate('D, d M Y H:i:s', time() + 900) . ' GMT' */);
+			$app->modifiedDate = $mdate;
 		}
 
-		JResponse::setHeader('Content-Type', $this->_mime . ($this->_charset ? '; charset=' . $this->_charset : ''));
+		$app->mimeType = $this->_mime;
+		$app->charSet  = $this->_charset;
 	}
 }

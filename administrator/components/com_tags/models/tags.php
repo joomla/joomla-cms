@@ -226,8 +226,6 @@ class TagsModelTags extends JModelList
 			$query->order($db->escape($listOrdering) . ' ' . $listDirn);
 		}
 
-		/*echo nl2br(str_replace('#__','jos_',$query));*/
-
 		return $query;
 	}
 
@@ -256,6 +254,7 @@ class TagsModelTags extends JModelList
 		{
 			if ($table->load($pk))
 			{
+
 				if ($table->checked_out > 0)
 				{
 					// Only attempt to check the row in if it exists.

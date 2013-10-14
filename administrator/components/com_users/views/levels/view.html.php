@@ -56,7 +56,7 @@ class UsersViewLevels extends JViewLegacy
 	{
 		$canDo	= UsersHelper::getActions();
 
-		JToolbarHelper::title(JText::_('COM_USERS_VIEW_LEVELS_TITLE'), 'levels');
+		JToolbarHelper::title(JText::_('COM_USERS_VIEW_LEVELS_TITLE'), 'users levels');
 
 		if ($canDo->get('core.create'))
 		{
