@@ -466,9 +466,14 @@ class JModelList extends JModelLegacy
 		{
 			$app = JFactory::getApplication();
 
-			// Pre-fill the limit
-			$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'uint');
+			// Pre-fill the limits
+			$value = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'uint');
+			$limit = $value;
 			$this->setState('list.limit', $limit);
+
+			$value = $app->getUserStateFromRequest($this->context . '.limitstart', 'limitstart', 0);
+			$limitstart = ($limit != 0 ? (floor($value / $limit) * $limit) : 0);
+			$this->setState('list.start', $limitstart);
 
 			// Receive & set filters
 			if ($filters = $this->getUserStateFromRequest($this->context . '.filter', 'filter'))
@@ -545,9 +550,29 @@ class JModelList extends JModelLegacy
 				}
 			}
 			else
+			// Keep B/C for components previous to jform forms for filters
 			{
-				$this->setState('list.ordering', $ordering);
-				$this->setState('list.direction', $direction);
+				// Check if the ordering field is in the white list, otherwise use the incoming value.
+				$value = $app->getUserStateFromRequest($this->context . '.ordercol', 'filter_order', $ordering);
+
+				if (!in_array($value, $this->filter_fields))
+				{
+					$value = $ordering;
+					$app->setUserState($this->context . '.ordercol', $value);
+				}
+
+				$this->setState('list.ordering', $value);
+
+				// Check if the ordering direction is valid, otherwise use the incoming value.
+				$value = $app->getUserStateFromRequest($this->context . '.orderdirn', 'filter_order_Dir', $direction);
+
+				if (!in_array(strtoupper($value), array('ASC', 'DESC', '')))
+				{
+					$value = $direction;
+					$app->setUserState($this->context . '.orderdirn', $value);
+				}
+
+				$this->setState('list.direction', $value);
 			}
 		}
 		else
