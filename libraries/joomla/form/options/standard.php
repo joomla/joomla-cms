@@ -42,7 +42,6 @@ abstract class JFormOptionStandard
 
 		$disabled = (string) $option['disabled'];
 		$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
-		$disabled = $disabled || ($this->readonly && $value != $this->value);
 
 		$checked = (string) $option['checked'];
 		$checked = ($checked == 'true' || $checked == 'checked' || $checked == '1');
