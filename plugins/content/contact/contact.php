@@ -30,72 +30,72 @@ class PlgContentContact extends JPlugin
 	 */
 	public function onContentPrepare($context, &$row, $params, $page = 0)
 	{
-        if ($context != 'com_content.category' && $context != 'com_content.article')
-        {
-            return true;
-        }
+		if ($context != 'com_content.category' && $context != 'com_content.article')
+		{
+			return true;
+		}
 
-        if ($params === null || $params === '')
-        {
-            return true;
-        }
+		if ($params === null || $params === '')
+		{
+			return true;
+		}
 
-        if ((int) $params->get('link_author') == 0)
-        {
-            return true;
-        }
+		if ((int) $params->get('link_author') == 0)
+		{
+			return true;
+		}
 
-        if (! isset($row->id) || (int) $row->id == 0)
-        {
-            return true;
-        }
+		if (! isset($row->id) || (int) $row->id == 0)
+		{
+			return true;
+		}
 
-        $row->contactid = $this->getContactID($row->created_by);
+		$row->contactid = $this->getContactID($row->created_by);
 
-        if (!empty($row->contactid))
-        {
-            $needle = 'index.php?option=com_contact&view=contact&id=' . $row->contactid;
-            $menu = JFactory::getApplication()->getMenu();
-            $item = $menu->getItems('link', $needle, true);
-            $link = !empty($item) ? $needle . '&Itemid=' . $row->id : $needle;
-            $row->contact_link = JRoute::_($link);
-        }
-        else
-        {
-            $row->contact_link = '';
-        }
+		if (!empty($row->contactid))
+		{
+			$needle = 'index.php?option=com_contact&view=contact&id=' . $row->contactid;
+			$menu = JFactory::getApplication()->getMenu();
+			$item = $menu->getItems('link', $needle, true);
+			$link = !empty($item) ? $needle . '&Itemid=' . $row->id : $needle;
+			$row->contact_link = JRoute::_($link);
+		}
+		else
+		{
+			$row->contact_link = '';
+		}
 
 		return true;
 	}
 
-    /**
-     * Retrieve Contact
-     *
-     * @param   int    $created_by
-     * @param   int    $filter_language
-     *
-     * @return  mixed|null|integer
-     */
-    protected function getContactID($created_by)
-    {
-        $db = JFactory::getDbo();
-        $query = $db->getQuery(true);
-        $query->clear();
+	/**
+	 * Retrieve Contact
+	 *
+	 * @param   int    $created_by
+	 * @param   int    $filter_language
+	 *
+	 * @return  mixed|null|integer
+	 */
+	protected function getContactID($created_by)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$query->clear();
 
-        $query->select('MAX(contact.id) AS contactid');
-        $query->from('#__contact_details AS contact');
-        $query->where('contact.published = 1');
-        $query->where('contact.user_id = ' . (int) $created_by);
+		$query->select('MAX(contact.id) AS contactid');
+		$query->from('#__contact_details AS contact');
+		$query->where('contact.published = 1');
+		$query->where('contact.user_id = ' . (int) $created_by);
 
-        if (JLanguageMultilang::isEnabled() == 1)
-        {
-            $query->where('(contact.language in '
-                . '(' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ') '
-                . ' OR contact.language IS NULL)');
-        }
+		if (JLanguageMultilang::isEnabled() == 1)
+		{
+			$query->where('(contact.language in '
+				. '(' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ') '
+				. ' OR contact.language IS NULL)');
+		}
 
-        $db->setQuery($query->__toString());
+		$db->setQuery($query->__toString());
 
-        return $db->loadResult();
-    }
+		return $db->loadResult();
+	}
 }

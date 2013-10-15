@@ -106,10 +106,10 @@ class ContentModelArticle extends JModelItem
 					->join('LEFT', '#__users AS u on u.id = a.created_by');
 
 				// Filter by language
-                if ($this->getState('filter.language'))
-                {
-                    $query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
-                }
+				if ($this->getState('filter.language'))
+				{
+					$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+				}
 
 				// Join over the categories to get parent category titles
 				$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias')

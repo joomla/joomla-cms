@@ -91,7 +91,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 				<dd class="createdby">
 					<?php $author = $this->item->created_by_alias ? $this->item->created_by_alias : $this->item->author; ?>
 					<?php if (!empty($this->item->contact_link) && $params->get('link_author') == true) : ?>
-                        <?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $this->item->contact_link, $author)); ?>
+						<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $this->item->contact_link, $author)); ?>
 					<?php else: ?>
 						<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
 					<?php endif; ?>
@@ -189,10 +189,10 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 				<?php if ($params->get('show_author') && !empty($this->item->author )) : ?>
 					<dd class="createdby">
 						<?php $author = $this->item->created_by_alias ? $this->item->created_by_alias : $this->item->author; ?>
-                        <?php if (!empty($this->item->contact_link) && $params->get('link_author') == true) : ?>
-                            <?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $this->item->contact_link, $author)); ?>
+						<?php if (!empty($this->item->contact_link) && $params->get('link_author') == true) : ?>
+							<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $this->item->contact_link, $author)); ?>
 						<?php else: ?>
-						    <?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
+							<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
 						<?php endif; ?>
 					</dd>
 				<?php endif; ?>
