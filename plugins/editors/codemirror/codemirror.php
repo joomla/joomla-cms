@@ -167,7 +167,6 @@ class PlgEditorCodemirror extends JPlugin
 					break;
 
 				case 'xml':
-				case 'html':
 					$parserFile        = array('xml.js', 'closetag.js');
 					$mode              = 'application/xml';
 					$fold              = true;
@@ -203,6 +202,18 @@ class PlgEditorCodemirror extends JPlugin
 				case 'php':
 					$parserFile        = array('xml.js', 'clike.js', 'css.js', 'javascript.js', 'htmlmixed.js', 'php.js', 'closebrackets.js', 'closetag.js');
 					$mode              = 'application/x-httpd-php';
+					$autoCloseBrackets = true;
+					$autoCloseTags     = true;
+					$fold              = true;
+					$matchTags         = true;
+					$matchBrackets     = true;
+					JHtml::_('script', $this->_basePath . 'js/brace-fold.js', false, false, false, false);
+					JHtml::_('script', $this->_basePath . 'js/xml-fold.js', false, false, false, false);
+					break;
+
+				case 'html':
+					$parserFile        = array('xml.js', 'css.js', 'javascript.js', 'htmlmixed.js', 'closebrackets.js', 'closetag.js');
+					$mode              = 'text/html';
 					$autoCloseBrackets = true;
 					$autoCloseTags     = true;
 					$fold              = true;
