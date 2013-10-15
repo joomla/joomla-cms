@@ -36,13 +36,22 @@ class JCryptPasswordSimple implements JCryptPassword
 	 * @param   string  $password  The password to hash.
 	 * @param   string  $type      The hash type.
 	 *
-	 * @return  string  The hashed password.
+	 * @return  mixed  The hashed password or false if the password is too long.
 	 *
 	 * @since   12.2
 	 * @throws  InvalidArgumentException
 	 */
 	public function create($password, $type = null)
 	{
+		// We set a maximum length to prevent abuse since it is unfiltered and not all controllers check.
+		// 55 is the maximum for bcrypt currently the strongest available method:
+		if (strlen($password) > 55)
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_USER_ERROR_PASSWORD_TOO_LONG'), 'error');
+
+			return false;
+		}
+
 		if (empty($type))
 		{
 			$type = $this->defaultType;
@@ -52,7 +61,7 @@ class JCryptPasswordSimple implements JCryptPassword
 		{
 			case '$2a$':
 			case JCryptPassword::BLOWFISH:
-				if (version_compare(PHP_VERSION, '5.3.7') >= 0)
+				if (JCrypt::hasStrongPasswordSupport())
 				{
 					$type = '$2y$';
 				}
@@ -130,7 +139,7 @@ class JCryptPasswordSimple implements JCryptPassword
 		// Check if the hash is a blowfish hash.
 		if (substr($hash, 0, 4) == '$2a$' || substr($hash, 0, 4) == '$2y$')
 		{
-			if (version_compare(PHP_VERSION, '5.3.7') >= 0)
+			if (JCrypt::hasStrongPasswordSupport())
 			{
 				$type = '$2y$';
 			}

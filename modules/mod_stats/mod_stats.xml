@@ -30,7 +30,7 @@
 				<field
 					name="serverinfo"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="0"
 					label="MOD_STATS_FIELD_SERVERINFO_LABEL"
 					description="MOD_STATS_FIELD_SERVERINFO_DESC">
@@ -42,7 +42,7 @@
 				<field
 					name="siteinfo"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="0"
 					label="MOD_STATS_FIELD_SITEINFO_LABEL"
 					description="MOD_STATS_FIELD_SITEINFO_DESC">
@@ -54,7 +54,7 @@
 				<field
 					name="counter"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="0"
 					label="MOD_STATS_FIELD_COUNTER_LABEL"
 					description="MOD_STATS_FIELD_COUNTER_DESC">

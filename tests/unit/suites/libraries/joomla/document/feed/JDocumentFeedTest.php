@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/joomla/document/document.php';
 require_once JPATH_PLATFORM . '/joomla/document/feed/feed.php';
 
 /**
@@ -22,7 +21,6 @@ class JDocumentFeedTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var    JDocumentFeed
-	 * @access protected
 	 */
 	protected $object;
 
@@ -30,27 +28,12 @@ class JDocumentFeedTest extends PHPUnit_Framework_TestCase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @access protected
-	 *
 	 * @return void
 	 */
 	protected function setUp()
 	{
 		$this->object = new JDocumentFeed;
 	}
-
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @access protected
-	 *
-	 * @return void
-	 */
-	protected function tearDown()
-	{
-	}
-
 	/**
 	 * Test...
 	 *

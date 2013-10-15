@@ -1112,7 +1112,7 @@ class CategoriesModelCategory extends JModelAdmin
 		$app = JFactory::getApplication();
 		$extension = $this->getState('category.extension');
 
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$assoc = JLanguageAssociations::isEnabled();
 		$extension = explode('.', $extension);
 		$component = array_shift($extension);
 		$cname = str_replace('com_', '', $component);

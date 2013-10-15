@@ -88,7 +88,7 @@ class MenusViewMenutypes extends JViewLegacy
 	protected function addToolbar()
 	{
 		// Add page title
-		JToolbarHelper::title(JText::_('COM_MENUS'), 'menumgr.png');
+		JToolbarHelper::title(JText::_('COM_MENUS'), 'list menumgr');
 
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');

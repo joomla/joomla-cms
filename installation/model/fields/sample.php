@@ -8,8 +8,6 @@
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.filesystem.folder');
-jimport('joomla.filesystem.file');
 JFormHelper::loadFieldClass('radio');
 
 /**

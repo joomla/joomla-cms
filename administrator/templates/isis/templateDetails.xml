@@ -67,7 +67,7 @@
 				description="TPL_ISIS_LOGO_DESC" />
 
 				<field name="admin_menus" type="radio"
-				class="btn-group"
+				class="btn-group btn-group-yesno"
 				default="1"
 				label="TPL_ISIS_FIELD_ADMIN_MENUS_LABEL"
 				description="TPL_ISIS_FIELD_ADMIN_MENUS_DESC"
@@ -79,7 +79,7 @@
 				</field>
 
 				<field name="displayHeader" type="radio"
-				class="btn-group"
+				class="btn-group btn-group-yesno"
 				default="1"
 				label="TPL_ISIS_HEADER_LABEL"
 				description="TPL_ISIS_HEADER_DESC"
@@ -102,7 +102,7 @@
 				</field>
 
 				<field name="stickyToolbar" type="radio"
-				class="btn-group"
+				class="btn-group btn-group-yesno"
 				default="1"
 				label="TPL_ISIS_STICKY_LABEL"
 				description="TPL_ISIS_STICKY_DESC"

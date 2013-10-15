@@ -17,6 +17,9 @@
  * limitations under the License.
  * ========================================================== */
 
+ /**
+  * Custom version for Joomla!
+  */
 
 !function ($) {
 
@@ -721,6 +724,9 @@
         if ('ontouchstart' in document.documentElement) {
           // if mobile we we use a backdrop because click events don't delegate
           $('<div class="dropdown-backdrop"/>').insertBefore($(this)).on('click', clearMenus)
+          $this.on('hover', function () {
+            $('.dropdown-backdrop').remove()
+          });
         }
         $parent.parent().toggleClass('nav-hover');
         $parent.toggleClass('open')

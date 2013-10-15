@@ -317,7 +317,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 		if (parent::save($data))
 		{
 
-			$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+			$assoc = JLanguageAssociations::isEnabled();
 			if ($assoc)
 			{
 				$id = (int) $this->getState($this->getName() . '.id');
@@ -413,7 +413,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 
 		// Load associated newsfeeds items
 		$app = JFactory::getApplication();
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$assoc = JLanguageAssociations::isEnabled();
 
 		if ($assoc)
 		{
@@ -518,7 +518,7 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	{
 		// Association newsfeeds items
 		$app = JFactory::getApplication();
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$assoc = JLanguageAssociations::isEnabled();
 		if ($assoc)
 		{
 			$languages = JLanguageHelper::getLanguages('lang_code');

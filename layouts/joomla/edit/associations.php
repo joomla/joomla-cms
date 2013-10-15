@@ -10,18 +10,4 @@
 defined('_JEXEC') or die;
 
 // JLayout for standard handling of associations fields in the administrator items edit screens.
-$fields = $displayData->get('form')->getFieldset('item_associations');
-?>
-
-<fieldset>
-	<?php foreach ($fields as $field) : ?>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $field->label; ?>
-			</div>
-			<div class="controls">
-				<?php echo $field->input; ?>
-			</div>
-		</div>
-	<?php endforeach; ?>
-</fieldset>
+echo $displayData->getForm()->getControlGroups('item_associations');

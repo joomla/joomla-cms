@@ -20,7 +20,7 @@
 		<field
 			name="save_history"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
 			description="JGLOBAL_SAVE_HISTORY_OPTIONS_DESC"
@@ -41,7 +41,7 @@
 		/>
 
 		<field	name="count_clicks" type="radio"
-				class="btn-group"
+				class="btn-group btn-group-yesno"
 				default="1"
 				label="COM_WEBLINKS_FIELD_COUNTCLICKS_LABEL"
 				description="COM_WEBLINKS_FIELD_COUNTCLICKS_DESC">
@@ -91,7 +91,7 @@
 			id="show_tags"
 			name="show_tags"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="COM_WEBLINKS_FIELD_SHOW_TAGS_LABEL"
 			description="COM_WEBLINKS_FIELD_SHOW_TAGS_DESC">
@@ -117,7 +117,7 @@
 		/>
 
 		<field name="show_category_title" type="radio"
-				class="btn-group"
+				class="btn-group btn-group-yesno"
 				label="JGLOBAL_SHOW_CATEGORY_TITLE"
 				description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
 				default="1"
@@ -128,7 +128,7 @@
 
 		<field name="show_description"
 	 		type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 	 		default="1"
 	 		label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
 	 		description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC">
@@ -138,7 +138,7 @@
 
 		<field name="show_description_image"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
 			description="JGLOBAL_SHOW_CATEGORY_IMAGE_DESC">
@@ -162,7 +162,7 @@
 		</field>
 
 		<field name="show_empty_categories" type="radio"
-				class="btn-group"
+				class="btn-group btn-group-yesno"
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 				description="COM_WEBLINKS_SHOW_EMPTY_CATEGORIES_DESC"
 				default="0"
@@ -172,7 +172,7 @@
 			</field>
 
 		<field name="show_subcat_desc" type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
@@ -182,7 +182,7 @@
 		</field>
 
 		<field name="show_cat_num_links" type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			description="COM_WEBLINKS_FIELD_CONFIG_CAT_SHOWNUMBERS_DESC"
 			label="COM_WEBLINKS_FIELD_CONFIG_CAT_SHOWNUMBERS_LABEL"
@@ -194,7 +194,7 @@
 		<field name="show_cat_tags" type="radio"
 			label="COM_WEBLINKS_FIELD_SHOW_CAT_TAGS_LABEL"
 			description="COM_WEBLINKS_FIELD_SHOW_CAT_TAGS_DESC"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 		>
 			<option value="0">JHIDE</option>
@@ -208,7 +208,7 @@
 		description="COM_WEBLINKS_CATEGORIES_DESC"
 	>
 			<field name="show_base_description" type="radio"
-				class="btn-group"
+				class="btn-group btn-group-yesno"
 				default="1"
 				label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
 				description="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_DESC"
@@ -232,7 +232,7 @@
 
 			</field>
 			<field name="show_empty_categories_cat" type="radio"
-				class="btn-group"
+				class="btn-group btn-group-yesno"
 				default="0"
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 				description="COM_WEBLINKS_SHOW_EMPTY_CATEGORIES_DESC"
@@ -242,7 +242,7 @@
 			</field>
 
 			<field name="show_subcat_desc_cat" type="radio"
-				class="btn-group"
+				class="btn-group btn-group-yesno"
 				default="1"
 				description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
 				label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
@@ -252,7 +252,7 @@
 			</field>
 
 			<field name="show_cat_num_links_cat" type="radio"
-				class="btn-group"
+				class="btn-group btn-group-yesno"
 				default="1"
 				description="COM_WEBLINKS_FIELD_CONFIG_CAT_SHOWNUMBERS_DESC"
 				label="COM_WEBLINKS_FIELD_CONFIG_CAT_SHOWNUMBERS_LABEL"
@@ -285,7 +285,7 @@
 		<field
 			name="show_pagination_limit"
 			type="radio" default="1"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			label="JGLOBAL_DISPLAY_SELECT_LABEL"
 			description="JGLOBAL_DISPLAY_SELECT_DESC">
 				<option value="0">JHIDE</option>
@@ -294,7 +294,7 @@
 
 		<field name="show_headings" type="radio"
 			default="1"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			description="JGLOBAL_SHOW_HEADINGS_DESC"
 			label="JGLOBAL_SHOW_HEADINGS_LABEL"
 		>
@@ -304,7 +304,7 @@
 
 		<field name="show_link_description" type="radio"
 			default="1"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			description="COM_WEBLINKS_FIELD_CONFIG_LINKDESCRIPTION_DESC"
 			label="COM_WEBLINKS_FIELD_CONFIG_LINKDESCRIPTION_LABEL"
 		>
@@ -313,7 +313,7 @@
 		</field>
 
 		<field name="show_link_hits" type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			description="COM_WEBLINKS_FIELD_CONFIG_HITS_DESC"
 			label="JGLOBAL_HITS"
@@ -335,7 +335,7 @@
 
 		<field name="show_pagination_results"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 			description="JGLOBAL_PAGINATION_RESULTS_DESC">
@@ -354,7 +354,7 @@
 		<field
 			name="show_feed_link"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="JGLOBAL_SHOW_FEED_LINK_LABEL"
 			description="JGLOBAL_SHOW_FEED_LINK_DESC">
