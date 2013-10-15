@@ -63,7 +63,7 @@ abstract class ConfigViewHtmlCms extends JViewHtml
 
 		if(isset($paths))
 		{
-			$paths->insert(JPATH_THEMES . '/' . $app->getTemplate() . '/html/' . $component . '/' . $this->getName(), 'normal');
+			$paths->insert(JPATH_THEMES . '/' . $app->getTemplate() . '/html/' . $component . '/' . $this->getName(), 2);
 		}
 
 		parent::__construct($model, $paths);
