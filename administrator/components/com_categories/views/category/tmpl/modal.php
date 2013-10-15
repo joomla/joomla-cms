@@ -19,7 +19,7 @@ JHtml::_('formbehavior.chosen', 'select');
 $app = JFactory::getApplication();
 $input = $app->input;
 
-$assoc = isset($app->item_associations);
+$assoc = JLanguageAssociations::isEnabled();
 
 ?>
 
@@ -79,7 +79,7 @@ $assoc = isset($app->item_associations);
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php if (isset($assoc)) : ?>
+		<?php if ($assoc) : ?>
 			<div class="hidden"><?php echo $this->loadTemplate('associations'); ?></div>
 		<?php endif; ?>
 
