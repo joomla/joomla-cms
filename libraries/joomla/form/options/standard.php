@@ -35,6 +35,9 @@ abstract class JFormOptionStandard
 		$disabled = (string) $option['disabled'];
 		$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
 
+		$checked = (string) $option['checked'];
+		$checked = ($checked == 'true' || $checked == 'checked' || $checked == '1');
+
 		// Create a new option object based on the <option /> element.
 		$tmp = JHtml::_(
 			'select.option',
@@ -47,6 +50,7 @@ abstract class JFormOptionStandard
 
 		// Set some option attributes.
 		$tmp->class = (string) $option['class'];
+		$tmp->checked = $checked;
 
 		// Set some JavaScript option attributes.
 		$tmp->onclick = (string) $option['onclick'];
