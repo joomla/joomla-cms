@@ -28,6 +28,7 @@ $ -> Language fix or change
 15-Oct-2013 Jean-Marie Simonet
  # [#32296] *Regression JUX #32096 weblink association + normalising use of static commands for $assoc
  # [#32284] Adding missing index.html files. Thanks Achal Aggarwal
+ # [#32306] Add and fix ACL for com_postinstall and the postinstall message at the Control Panel. Thanks Tobias Zulauf
 
 13-Oct-2013 Elin Waring
  + [#31786] get_html_translation_table requires encoding value for PHP 5.4. Thanks Robert Deutz
