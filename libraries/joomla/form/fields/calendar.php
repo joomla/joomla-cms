@@ -87,8 +87,6 @@ class JFormFieldCalendar extends JFormField
 	 */
 	public function __set($name, $value)
 	{
-		$value = (string) $value;
-
 		switch ($name)
 		{
 			case 'maxlength':
@@ -96,7 +94,7 @@ class JFormFieldCalendar extends JFormField
 
 			case 'format':
 			case 'filter':
-				$this->$name = $value;
+				$this->$name = (string) $value;
 				break;
 
 			default:

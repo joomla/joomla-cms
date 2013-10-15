@@ -87,8 +87,6 @@ class JFormFieldText extends JFormField
 	 */
 	public function __set($name, $value)
 	{
-		$value = (string) $value;
-
 		switch ($name)
 		{
 			case 'maxLength':
@@ -96,10 +94,11 @@ class JFormFieldText extends JFormField
 				break;
 
 			case 'dirname':
+				$value = (string) $value;
 				$value = ($value == $name || $value == 'true' || $value == '1');
 
 			case 'inputmode':
-				$this->name = $value;
+				$this->name = (string) $value;
 				break;
 
 			default:
