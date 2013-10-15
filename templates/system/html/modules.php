@@ -27,7 +27,7 @@ function modChrome_html5($module, &$params, &$attribs)
 	$bootstrapSize  = (int) $params->get('bootstrap_size', 0);
 	$moduleClass    = $bootstrapSize != 0 ? ' span' . $bootstrapSize : '';
 	
-	/* temporarily store header class in variable */
+	// Temporarily store header class in variable
 	$headerClass	= $params->get('header_class');
 	$headerClass	= !empty($headerClass) ? ' class="' . htmlspecialchars($headerClass) . '"' : '';
 
