@@ -38,6 +38,8 @@ class UsersViewUser extends JViewLegacy
 		$this->grouplist	= $this->get('Groups');
 		$this->groups		= $this->get('AssignedGroups');
 		$this->state		= $this->get('State');
+		$this->tfaform		= $this->get('Twofactorform');
+		$this->otpConfig	= $this->get('otpConfig');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -67,7 +69,7 @@ class UsersViewUser extends JViewLegacy
 		$isNew	= ($this->item->id == 0);
 		$isProfile = $this->item->id == $user->id;
 
-		JToolbarHelper::title(JText::_($isNew ? 'COM_USERS_VIEW_NEW_USER_TITLE' : ($isProfile ? 'COM_USERS_VIEW_EDIT_PROFILE_TITLE' : 'COM_USERS_VIEW_EDIT_USER_TITLE')), $isNew ? 'user-add' : ($isProfile ? 'user-profile' : 'user-edit'));
+		JToolbarHelper::title(JText::_($isNew ? 'COM_USERS_VIEW_NEW_USER_TITLE' : ($isProfile ? 'COM_USERS_VIEW_EDIT_PROFILE_TITLE' : 'COM_USERS_VIEW_EDIT_USER_TITLE')), 'user ' . ($isNew ? 'user-add' : ($isProfile ? 'user-profile' : 'user-edit')));
 		if ($canDo->get('core.edit')||$canDo->get('core.create'))
 		{
 			JToolbarHelper::apply('user.apply');

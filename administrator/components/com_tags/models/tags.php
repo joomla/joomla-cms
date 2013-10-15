@@ -21,9 +21,10 @@ class TagsModelTags extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param    array    An optional associative array of configuration settings.
-	 * @see        JController
-	 * @since      3.0.3
+	 * @param    array  $config  An optional associative array of configuration settings.
+	 *
+	 * @see    JController
+	 * @since  3.0.3
 	 */
 	public function __construct($config = array())
 	{

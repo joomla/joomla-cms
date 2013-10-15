@@ -57,7 +57,7 @@ class RedirectViewLink extends JViewLegacy
 
 		$canDo		= RedirectHelper::getActions();
 
-		JToolbarHelper::title(JText::_('COM_REDIRECT_MANAGER_LINK'), 'redirect');
+		JToolbarHelper::title(JText::_('COM_REDIRECT_MANAGER_LINK'), 'refresh redirect');
 
 		// If not checked out, can save the item.
 		if ($canDo->get('core.edit'))

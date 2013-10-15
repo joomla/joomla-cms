@@ -7,29 +7,17 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+JFormHelper::loadFieldClass('hidden');
+
 /**
- * Test class for JForm.
+ * Test class for JFormFieldHidden.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- *
  * @since       11.1
  */
 class JFormFieldHiddenTest extends TestCase
 {
-	/**
-	 * Sets up dependancies for the test.
-	 *
-	 * @return void
-	 */
-	protected function setUp()
-	{
-		parent::setUp();
-
-		require_once JPATH_PLATFORM . '/joomla/form/fields/hidden.php';
-		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
-	}
-
 	/**
 	 * Test the getInput method.
 	 *
@@ -37,7 +25,7 @@ class JFormFieldHiddenTest extends TestCase
 	 */
 	public function testGetInput()
 	{
-		$form = new JFormInspector('form1');
+		$form = new JForm('form1');
 
 		// Test a traditional hidden field type.
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Libraries
- * @subpackage  Versions
+ * @subpackage  Helper
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -14,10 +14,10 @@ defined('JPATH_PLATFORM') or die;
  * versioning of content.
  *
  * @package     Joomla.Libraries
- * @subpackage  Versions
+ * @subpackage  Helper
  * @since       3.2
  */
-class JHelperContenthistory
+class JHelperContenthistory extends JHelper
 {
 	/**
 	 * Alias for storing type in versions table
@@ -42,7 +42,7 @@ class JHelperContenthistory
 	/**
 	 * Method to delete the history for an item.
 	 *
-	 * @param   JTable  $table  JTable object being tagged
+	 * @param   JTable  $table  JTable object being versioned
 	 *
 	 * @return  boolean  true on success, otherwise false.
 	 *
@@ -65,35 +65,12 @@ class JHelperContenthistory
 	}
 
 	/**
-	 * Method to get an object containing all of the table columns.
-	 *
-	 * @param   JTable  $table  JTable object.
-	 *
-	 * @return  stdClass with all of the columns and values.
-	 *
-	 * @since   3.2
-	 */
-	public function getDataObject(JTable $table)
-	{
-		$fields = $table->getFields();
-		$dataObject = new stdClass;
-
-		foreach ($fields as $field)
-		{
-			$fieldName = $field->Field;
-			$dataObject->$fieldName = $table->get($fieldName);
-		}
-
-		return $dataObject;
-	}
-
-	/**
 	 * Method to get a list of available versions of this item.
 	 *
 	 * @param   integer  $typeId  Type id for this component item.
 	 * @param   mixed    $id      Primary key of row to get history for.
 	 *
-	 * @return  boolean  true on success, otherwise false.
+	 * @return  mixed   The return value or null if the query failed.
 	 *
 	 * @since   3.2
 	 */
@@ -115,9 +92,9 @@ class JHelperContenthistory
 	/**
 	 * Method to save a version snapshot to the content history table.
 	 *
-	 * @param   JTable  $table  JTable object being tagged
+	 * @param   JTable  $table  JTable object being versioned
 	 *
-	 * @return  boolean  true on success, otherwise false.
+	 * @return  boolean  True on success, otherwise false.
 	 *
 	 * @since   3.2
 	 */

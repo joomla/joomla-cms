@@ -56,7 +56,7 @@ class UsersViewGroups extends JViewLegacy
 	{
 		$canDo	= UsersHelper::getActions();
 
-		JToolbarHelper::title(JText::_('COM_USERS_VIEW_GROUPS_TITLE'), 'groups');
+		JToolbarHelper::title(JText::_('COM_USERS_VIEW_GROUPS_TITLE'), 'users groups');
 
 		if ($canDo->get('core.create'))
 		{

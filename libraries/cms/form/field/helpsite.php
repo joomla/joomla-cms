@@ -17,7 +17,7 @@ JFormHelper::loadFieldClass('list');
  *
  * @package     Joomla.Libraries
  * @subpackage  Form
- * @since       1.6.0
+ * @since       1.6
  */
 class JFormFieldHelpsite extends JFormFieldList
 {
@@ -25,7 +25,7 @@ class JFormFieldHelpsite extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  1.6.0
+	 * @since  1.6
 	 */
 	public $type = 'Helpsite';
 
@@ -34,7 +34,7 @@ class JFormFieldHelpsite extends JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   1.6.0
+	 * @since   1.6
 	 */
 	protected function getOptions()
 	{
@@ -49,11 +49,14 @@ class JFormFieldHelpsite extends JFormFieldList
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   3.2
 	 */
 	protected function getInput()
 	{
 		JHtml::script('system/helpsite.js', false, true);
+		JFactory::getDocument()->addScriptDeclaration(
+			'var helpsite_base = "' . addslashes(JUri::root()) . '";'
+		);
 
 		$html = parent::getInput();
 		$button = '<button type="button" class="btn btn-small" id="helpsite-refresh" rel="' . $this->id . '"><span>' . JText::_('JGLOBAL_HELPREFRESH_BUTTON') . '</span></button>';

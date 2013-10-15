@@ -1,4 +1,4 @@
--- 
+--
 -- Created on Thu Oct 20 15:59:49 2011
 --
 
@@ -13,10 +13,10 @@ TRUNCATE "#__viewlevels" RESTART IDENTITY;
 
 
 --
--- Dumping data for table  #__assets 
+-- Dumping data for table  #__assets
 --
-INSERT INTO  "#__assets"  ("id", "parent_id", "lft",  "rgt",  "level",  "name",  "title",  "rules" ) VALUES 
-(1, 0, 1, 425, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
+INSERT INTO  "#__assets"  ("id", "parent_id", "lft",  "rgt",  "level",  "name",  "title",  "rules" ) VALUES
+(1, 0, 1, 428, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
 (2, 1, 2, 3, 1, 'com_admin', 'com_admin', '{}'),
 (3, 1, 4, 11, 1, 'com_banners', 'com_banners', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 (4, 1, 12, 13, 1, 'com_cache', 'com_cache', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
@@ -181,14 +181,15 @@ INSERT INTO  "#__assets"  ("id", "parent_id", "lft",  "rgt",  "level",  "name", 
 (171, 50, 221, 222, 6, 'com_content.article.69', 'Quick Icons', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 (172, 96, 178, 179, 7, 'com_content.article.70', 'Smart Search', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 (173, 1, 422, 423, 1, 'com_joomlaupdate', 'com_joomlaupdate', '{"core.admin":[],"core.manage":[],"core.delete":[],"core.edit.state":[]}'),
-(174, 1, 424, 425, 1, 'com_ajax', 'com_ajax', '{}');
+(174, 1, 424, 425, 1, 'com_ajax', 'com_ajax', '{}'),
+(175, 1, 426, 427, 1, 'com_postinstall', 'com_postinstall', '{}');
 
 
 SELECT nextval('#__assets_id_seq');
-SELECT setval('#__assets_id_seq', 174, false);
+SELECT setval('#__assets_id_seq', 176, false);
 
 --
--- Dumping data for table  #__banners 
+-- Dumping data for table  #__banners
 --
 INSERT INTO  "#__banners"  ("id", "cid", "type", "name", "alias", "imptotal", "impmade", "clicks", "clickurl", "state", "catid", "description", "custombannercode", "sticky", "ordering", "metakey", "params", "own_prefix", "metakey_prefix", "purchase_type", "track_clicks", "track_impressions", "checked_out", "checked_out_time", "publish_up", "publish_down", "reset", "created", "language", "created_by", "created_by_alias", "modified", "modified_by", "version") VALUES
 (2, 3, 0, 'Shop 1', 'shop-1', 0, 0, 0, 'http://shop.joomla.org/amazoncom-bookstores.html', 1, 15, 'Get books about Joomla! at the Joomla! book shop.', '', 0, 1, '', '{"imageurl":"images\\/banners\\/white.png","width":"","height":"","alt":"Joomla! Books"}', 0, '', -1, 0, 0, 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', '2011-01-01 00:00:01', 'en-GB', 42, 'Joomla', '1970-01-01 00:00:00', 0, 1),
@@ -199,7 +200,7 @@ SELECT nextval('#__banners_id_seq');
 SELECT setval('#__banners_id_seq', 5, false);
 
 --
--- Dumping data for table  #__banner_clients 
+-- Dumping data for table  #__banner_clients
 --
 INSERT INTO  "#__banner_clients" ("id", "name", "contact", "email", "extrainfo", "state", "checked_out", "checked_out_time", "metakey", "own_prefix", "metakey_prefix", "purchase_type", "track_clicks", "track_impressions") VALUES
 (1, 'Joomla!', 'Administrator', 'email@email.com', '', 1, 0, '1970-01-01 00:00:00', '', 0, '', -1, -1, -1),
@@ -292,7 +293,7 @@ SELECT setval('#__categories_id_seq', 78, false);
 -- UPDATE  "#__categories"  SET rgt = (SELECT MAX(rgt)+1 AS rgtM FROM "#__categories" WHERE  "id" <> 1) WHERE "id" = 1;
 
 --
--- Dumping data for table  #__contact_details 
+-- Dumping data for table  #__contact_details
 --
 INSERT INTO  "#__contact_details"  ( "id", "name", "alias", "con_position", "address", "suburb", "state", "country", "postcode", "telephone", "fax" , "misc", "image", "email_to", "default_con", "published", "checked_out", "checked_out_time", "ordering", "params", "user_id", "catid", "access", "mobile", "webpage", "sortname1",  "sortname2", "sortname3", "language", "created", "created_by", "created_by_alias", "modified", "modified_by", "metakey", "metadesc", "metadata", "featured", "xreference", "publish_up", "publish_down", "version", "hits" ) VALUES
 (1, 'Contact Name Here', 'name', 'Position', 'Street Address', 'Suburb', 'State', 'Country', 'Zip Code', 'Telephone', 'Fax', '<p>Information about or by the contact.</p>', 'images/powered_by.png', 'email@example.com', 1, 1, 0, '1970-01-01 00:00:00', 1, '{"show_contact_category":"","show_contact_list":"","presentation_style":"","show_name":"","show_position":"","show_email":"","show_street_address":"","show_suburb":"","show_state":"","show_postcode":"","show_country":"","show_telephone":"","show_mobile":"","show_fax":"","show_webpage":"","show_misc":"","show_image":"","allow_vcard":"","show_articles":"","show_profile":"","show_links":"1","linka_name":"Twitter","linka":"http:\\/\\/twitter.com\\/joomla","linkb_name":"YouTube","linkb":"http:\\/\\/www.youtube.com\\/user\\/joomla","linkc_name":"Facebook","linkc":"http:\\/\\/www.facebook.com\\/joomla","linkd_name":"FriendFeed","linkd":"http:\\/\\/friendfeed.com\\/joomla","linke_name":"Scribed","linke":"http:\\/\\/www.scribd.com\\/people\\/view\\/504592-joomla","contact_layout":"","show_email_form":"","show_email_copy":"","banned_email":"","banned_subject":"","banned_text":"","validate_session":"","custom_reply":"","redirect":""}', 0, 16, 1, '', '', 'last', 'first', 'middle', 'en-GB', '2011-01-01 00:00:01', 42, 'Joomla', '1970-01-01 00:00:00', 0, '', '', '{"robots":"","rights":""}', 1, '', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 0),
@@ -309,7 +310,7 @@ SELECT nextval('#__contact_details_id_seq');
 SELECT setval('#__contact_details_id_seq', 9, false);
 
 --
--- Dumping data for table  #__content 
+-- Dumping data for table  #__content
 --
 INSERT INTO  "#__content"  ("id", "asset_id", "title", "alias", "introtext", "fulltext", "state", "catid", "created", "created_by", "created_by_alias", "modified", "modified_by", "checked_out", "checked_out_time", "publish_up", "publish_down", "images", "urls", "attribs", "version", "ordering", "metakey", "metadesc", "access", "hits", "metadata", "featured", "language", "xreference") VALUES
 (1, 89, 'Administrator Components', 'administrator-components', '<p>All components are also used in the administrator area of your website. In addition to the ones listed here, there are components in the administrator that do not have direct front end displays, but do help shape your site. The most important ones for most users are</p>\r\n<ul>\r\n<li>Media Manager</li>\r\n<li>Extensions Manager</li>\r\n<li>Menu Manager</li>\r\n<li>Global Configuration</li>\r\n<li>Banners</li>\r\n<li>Redirect</li>\r\n</ul>\r\n<hr title="Media Manager" alt="Media Manager" class="system-pagebreak" style="color: gray; border: 1px dashed gray;" />\r\n<p> </p>\r\n<h3>Media Manager</h3>\r\n<p>The media manager component lets you upload and insert images into content throughout your site. Optionally, you can enable the flash uploader which will allow you to to upload multiple images. <a href="http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help16:Content_Media_Manager">Help</a></p>\r\n<hr title="Extensions Manager" alt="Extensions Manager" class="system-pagebreak" style="color: gray; border: 1px dashed gray;" />\r\n<h3>Extensions Manager</h3>\r\n<p>The extensions manager lets you install, update, uninstall and manage all of your extensions. The extensions manager has been extensively redesigned, although the core install and uninstall functionality remains the same as in Joomla! 1.5. <a href="http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help16:Extensions_Extension_Manager_Install">Help</a></p>\r\n<hr title="Menu Manager" alt="Menu Manager" class="system-pagebreak" style="color: gray; border: 1px dashed gray;" />\r\n<h3>Menu Manager</h3>\r\n<p>The menu manager lets you create the menus you see displayed on your site. It also allows you to assign modules and template styles to specific menu links. <a href="http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help16:Menus_Menu_Manager">Help</a></p>\r\n<hr title="Global Configuration" alt="Global Configuration" class="system-pagebreak" style="color: gray; border: 1px dashed gray;" />\r\n<h3>Global Configuration</h3>\r\n<p>The global configuration is where the site administrator configures things such as whether search engine friendly urls are enabled, the site meta data (descriptive text used by search engines and indexers) and other functions. For many beginning users simply leaving the settings on default is a good way to begin, although when your site is ready for the public you will want to change the meta data to match its content. <a href="http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help16:Site_Global_Configuration">Help</a></p>\r\n<hr title="Banners" alt="Banners" class="system-pagebreak" style="color: gray; border: 1px dashed gray;" />\r\n<h3>Banners</h3>\r\n<p>The banners component provides a simple way to display a rotating image in a module and, if you wish to have advertising, a way to track the number of times an image is viewed and clicked. <a href="http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help16:Components_Banners_Banners_Edit">Help</a></p>\r\n<hr title="Redirect" class="system-pagebreak" />\r\n<h3><br />Redirect</h3>\r\n<p>The redirect component is used to manage broken links that produce Page Not Found (404) errors. If enabled it will allow you to redirect broken links to specific pages. It can also be used to manage migration related URL changes. <a href="http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help16:Components_Redirect_Manager">Help</a></p>', '', 1, 21, '2011-01-01 00:00:01', 42, 'Joomla', '1970-01-01 00:00:00', 0, 0, '1970-01-01 00:00:00', '2011-01-01 00:00:01', '1970-01-01 00:00:00', '{"image_intro":"","float_intro":"","image_intro_alt":"","image_intro_caption":"","image_fulltext":"","float_fulltext":"","image_fulltext_alt":"","image_fulltext_caption":""}', '{"urla":"","urlatext":"","targeta":"","urlb":"","urlbtext":"","targetb":"","urlc":"","urlctext":"","targetc":""}', '{"show_title":"","link_titles":"","show_intro":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_vote":"","show_hits":"","show_noauth":"","alternative_readmore":"","article_layout":"","show_publishing_options":"","show_article_options":"","show_urls_images_backend":"","show_urls_images_frontend":""}', 1, 7, '', '', 1, 0, '{"robots":"","author":"","rights":"","xreference":""}', 0, '*', ''),
@@ -390,7 +391,7 @@ SELECT nextval('#__content_id_seq');
 SELECT setval('#__content_id_seq', 71, false);
 
 --
--- Dumping data for table  #__content_frontpage 
+-- Dumping data for table  #__content_frontpage
 --
 INSERT INTO  "#__content_frontpage"   ( "content_id", "ordering" ) VALUES
 (8, 2),
@@ -426,6 +427,8 @@ INSERT INTO  "#__menu"  ("id", "menutype", "title", "alias", "note", "path", "li
 (20, 'menu', 'com_weblinks_categories', 'Categories', '', 'Weblinks/Categories', 'index.php?option=com_categories&extension=com_weblinks', 'component', 0, 18, 2, 6, 0, '1970-01-01 00:00:00', 0, 0, 'class:weblinks-cat', 0, '', 50, 51, 0, '*', 1),
 (21, 'menu', 'com_finder', 'Smart Search', '', 'Smart Search', 'index.php?option=com_finder', 'component', 0, 1, 1, 27, 0, '1970-01-01 00:00:00', 0, 0, 'class:finder', 0, '', 41, 42, 0, '*', 1),
 (22, 'menu', 'com_joomlaupdate', 'Joomla! Update', '', 'Joomla! Update', 'index.php?option=com_joomlaupdate', 'component', 0, 1, 1, 28, 0, '1970-01-01 00:00:00', 0, 0, 'class:joomlaupdate', 0, '', 41, 42, 0, '*', 1),
+(23, 'main', 'com_tags', 'Tags', '', 'Tags', 'index.php?option=com_tags', 'component', 0, 1, 1, 29, 0, '1970-01-01 00:00:00', 0, 1, 'class:tags', 0, '', 43, 44, 0, '', 1),
+(24, 'main', 'com_postinstall', 'com_postinstall', '', 'Post-installation messages', 'index.php?option=com_postinstall', 'component', 0, 1, 1, 32, 0, '1970-01-01 00:00:00', 0, 1, 'class:postinstall', 0, '', 45, 46, 0, '*', 1),
 (201, 'usermenu', 'Your Profile', 'your-profile', '', 'your-profile', 'index.php?option=com_users&view=profile', 'component', 1, 1, 1, 25, 0, '1970-01-01 00:00:00', 0, 2, '', 0, '{"menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":0,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 237, 238, 0, '*', 0),
 (207, 'top', 'Joomla.org', 'joomlaorg', '', 'joomlaorg', 'http://joomla.org', 'url', 1, 1, 1, 0, 0, '1970-01-01 00:00:00', 0, 1, '', 0, '{"menu-anchor_title":"","menu-anchor_css":"","menu_image":""}', 235, 236, 0, '*', 0),
 (227, 'aboutjoomla', 'Weblinks Categories', 'weblinks-categories', '', 'using-joomla/extensions/components/weblinks-component/weblinks-categories', 'index.php?option=com_weblinks&view=categories&id=18', 'component', 1, 265, 5, 21, 0, '1970-01-01 00:00:00', 0, 1, '', 0, '{"show_base_description":"","categories_description":"","maxLevelcat":"-1","show_empty_categories_cat":"","show_subcat_desc_cat":"","show_cat_num_links_cat":"","show_category_title":"","show_description":"","show_description_image":"","maxLevel":"-1","show_empty_categories":"","show_subcat_desc":"","show_cat_num_links":"","show_pagination_limit":"","show_headings":"","show_link_description":"","show_link_hits":"","show_pagination":"","show_pagination_results":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","page_title":"","show_page_heading":0,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 89, 90, 0, '*', 0),
@@ -556,7 +559,7 @@ SELECT nextval('#__menu_id_seq');
 SELECT setval('#__menu_id_seq', 468, false);
 
 --
--- Dumping data for table  #__menu_types 
+-- Dumping data for table  #__menu_types
 --
 TRUNCATE  "#__menu_types" RESTART IDENTITY;
 INSERT INTO  "#__menu_types"  VALUES
@@ -572,7 +575,7 @@ SELECT setval('#__menu_types_id_seq', 8, false);
 
 
 --
--- Dumping data for table  #__modules 
+-- Dumping data for table  #__modules
 --
 INSERT INTO "#__modules" ("id", "title", "note", "content", "ordering", "position", "checked_out", "checked_out_time", "publish_up", "publish_down", "published", "module", "access", "showtitle", "params", "client_id", "language") VALUES
 (1, 'Main Menu', '', '', 1, 'position-7', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_menu', 1, 1, '{"menutype":"mainmenu","startLevel":"0","endLevel":"0","showAllChildren":"0","tag_id":"","class_sfx":"","window_open":"","layout":"","moduleclass_sfx":"_menu","cache":"1","cache_time":"900","cachemode":"itemid"}', 0, '*'),
@@ -643,7 +646,7 @@ SELECT nextval('#__modules_id_seq');
 SELECT setval('#__modules_id_seq', 87, false);
 
 --
--- Dumping data for table  #__modules_menu 
+-- Dumping data for table  #__modules_menu
 --
 TRUNCATE  "#__modules_menu" RESTART IDENTITY;
 
@@ -811,7 +814,7 @@ INSERT  INTO  "#__modules_menu"  ( "moduleid",  "menuid" ) VALUES
 (86, 0);
 
 --
--- Dumping data for table  #__newsfeeds 
+-- Dumping data for table  #__newsfeeds
 --
 INSERT INTO "#__newsfeeds" ("catid", "id", "name", "alias", "link", "published", "numarticles", "cache_time", "checked_out", "checked_out_time", "ordering", "rtl", "access", "language", "params", "created", "created_by", "created_by_alias", "modified", "modified_by", "metakey", "metadesc", "metadata", "xreference", "publish_up", "publish_down", "description", "version", "hits", "images") VALUES
 (17, 1, 'Joomla! Announcements', 'joomla-announcements', 'http://feeds.joomla.org/JoomlaAnnouncements', 1, 5, 3600, 0, '1970-01-01 00:00:00', 1, 1, 1, 'en-GB', '{"show_feed_image":"","show_feed_description":"","show_item_description":"","feed_character_count":"0","newsfeed_layout":"","feed_display_order":""}', '2011-01-01 00:00:01', 42, 'Joomla', '1970-01-01 00:00:00', 0, '', '', '{"robots":"","rights":""}', '', '1970-01-01 00:00:00', '1970-01-01 00:00:00', '', 1, 0, ''),
@@ -835,7 +838,7 @@ SELECT setval('#__template_styles_id_seq', 115, false);
 
 DELETE FROM  "#__usergroups" ;
 --
--- Dumping data for table  #__usergroups 
+-- Dumping data for table  #__usergroups
 --
 INSERT INTO "#__usergroups" ("id", "parent_id", "lft", "rgt", "title") VALUES
 (1, 0, 1, 22, 'Public'),
@@ -854,7 +857,7 @@ SELECT nextval('#__usergroups_id_seq');
 SELECT setval('#__usergroups_id_seq', 14, false);
 
 --
--- Dumping data for table  #__viewlevels 
+-- Dumping data for table  #__viewlevels
 --
 
 INSERT INTO "#__viewlevels" ("id", "title", "ordering", "rules") VALUES
@@ -868,7 +871,7 @@ SELECT nextval('#__viewlevels_id_seq');
 SELECT setval('#__viewlevels_id_seq', 6, false);
 
 --
--- Dumping data for table  #__weblinks 
+-- Dumping data for table  #__weblinks
 --
 INSERT INTO "#__weblinks" ("id", "catid", "title", "alias", "url", "description", "hits", "state", "checked_out", "checked_out_time", "ordering", "access", "params", "language", "created", "created_by", "created_by_alias", "modified", "modified_by", "metakey", "metadesc", "metadata", "featured", "xreference", "publish_up", "publish_down", "version", "images") VALUES
 (1, 32, 'Joomla!', 'joomla', 'http://www.joomla.org', '<p>Home of Joomla!</p>', 0, 1, 0, '1970-01-01 00:00:00', 1, 1, '{"target":"0","count_clicks":""}', 'en-GB', '2011-01-01 00:00:01', 42, 'Joomla', '1970-01-01 00:00:00', 0, '', '', '{"robots":"","author":"","rights":""}', 0, '', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, ''),

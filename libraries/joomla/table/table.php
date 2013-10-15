@@ -242,7 +242,7 @@ abstract class JTable extends JObject implements JObservableInterface
 	/**
 	 * Static method to get an instance of a JTable class if it can be found in
 	 * the table include paths.  To add include paths for searching for JTable
-	 * classes @see JTable::addIncludePath().
+	 * classes see JTable::addIncludePath().
 	 *
 	 * @param   string  $type    The type (name) of the JTable class to get an instance of.
 	 * @param   string  $prefix  An optional prefix for the table class name.

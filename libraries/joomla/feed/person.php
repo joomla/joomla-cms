@@ -19,24 +19,32 @@ defined('JPATH_PLATFORM') or die;
 class JFeedPerson
 {
 	/**
+	 * The email address of the person.
+	 *
 	 * @var    string
 	 * @since  12.3
 	 */
 	public $email;
 
 	/**
+	 * The full name of the person.
+	 *
 	 * @var    string
 	 * @since  12.3
 	 */
 	public $name;
 
 	/**
+	 * The type of person.
+	 *
 	 * @var    string
 	 * @since  12.3
 	 */
 	public $type;
 
 	/**
+	 * The URI for the person.
+	 *
 	 * @var    string
 	 * @since  12.3
 	 */
