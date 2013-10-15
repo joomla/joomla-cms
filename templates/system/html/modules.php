@@ -29,14 +29,13 @@ function modChrome_html5($module, &$params, &$attribs)
 	
 	/* temporarily store header class in variable */
 	$headerClass	= $params->get('header_class');
-	 /* Create header class declaration */
 	$headerClass	= !empty($headerClass) ? ' class="' . htmlspecialchars($headerClass) . '"' : '';
 
 	if (!empty ($module->content)) : ?>
-		<<?php echo $moduleTag; ?> class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx')); ?><?php echo $moduleClass; ?>">
+		<<?php echo $moduleTag; ?> class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx')) . $moduleClass; ?>">
 
 		<?php if ((bool) $module->showtitle) :?>
-			<<?php echo $headerTag . $headerClass . '>'?><?php echo $module->title; ?></<?php echo $headerTag; ?>>
+			<<?php echo $headerTag . $headerClass . '>' . $module->title; ?></<?php echo $headerTag; ?>>
 		<?php endif; ?>
 
 			<?php echo $module->content; ?>
