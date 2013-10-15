@@ -171,6 +171,7 @@ INSERT INTO [#__modules] ([id], [title], [note], [content], [ordering], [positio
 INSERT INTO [#__modules] ([id], [title], [note], [content], [ordering], [position], [checked_out], [checked_out_time], [publish_up], [publish_down], [published], [module], [access], [showtitle], [params], [client_id], [language]) VALUES(86, 'Bottom Menu', '', '', 8, 'position-7', 0, '1900-01-01T00:00:00.000', '1900-01-01T00:00:00.000', '1900-01-01T00:00:00.000', 1, 'mod_menu', 1, 0, '{"menutype":"bottommenu","startLevel":"1","endLevel":"0","showAllChildren":"0","tag_id":"","class_sfx":"","window_open":"","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"itemid"}', 0, '*');
 INSERT INTO [#__modules] ([id], [title], [note], [content], [ordering], [position], [checked_out], [checked_out_time], [publish_up], [publish_down], [published], [module], [access], [showtitle], [params], [client_id], [language]) VALUES(87, 'Search', '', '', 1, 'position-0', 0, '1900-01-01T00:00:00.000', '1900-01-01T00:00:00.000', '1900-01-01T00:00:00.000', 1, 'mod_search', 1, 1, '{"label":"","width":"20","text":"","button":"","button_pos":"right","imagebutton":"","button_text":"","opensearch":"1","opensearch_title":"","set_itemid":"","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"itemid"}', 0, '*');
 INSERT INTO [#__modules] ([id], [title], [note], [content], [ordering], [position], [checked_out], [checked_out_time], [publish_up], [publish_down], [published], [module], [access], [showtitle], [params], [client_id], [language]) VALUES(88, 'Header', '', '', 1, 'position-1', 0, '1900-01-01T00:00:00.000', '1900-01-01T00:00:00.000', '1900-01-01T00:00:00.000', 1, 'mod_custom', 1, 0, '{"prepare_content":"1","backgroundimage":"","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"static"}', 0, '*');
+INSERT INTO [#__modules] ([id], [title], [note], [content], [ordering], [position], [checked_out], [checked_out_time], [publish_up], [publish_down], [published], [module], [access], [showtitle], [params], [client_id], [language]) VALUES(91, 'You have post-installation messages', '', '', 1, '', 0, '1900-01-01T00:00:00.000', '1900-01-01T00:00:00.000', '1900-01-01T00:00:00.000', 1, 'mod_postinstall', 1, 0, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*');
 
 SET IDENTITY_INSERT [#__modules] OFF;
 
@@ -200,6 +201,7 @@ INSERT INTO[#__modules_menu] ([moduleid], [menuid]) VALUES (85, 0);
 INSERT INTO[#__modules_menu] ([moduleid], [menuid]) VALUES (86, 0);
 INSERT INTO[#__modules_menu] ([moduleid], [menuid]) VALUES (87, 0);
 INSERT INTO[#__modules_menu] ([moduleid], [menuid]) VALUES (88, 0);
+INSERT INTO[#__modules_menu] ([moduleid], [menuid]) VALUES (91, 0);
 
 
 

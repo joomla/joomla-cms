@@ -5,6 +5,8 @@ SELECT 31, 'com_ajax', 'component', 'com_ajax', '', 1, 1, 0, 0, '{"name":"com_aj
 UNION ALL
 SELECT 32, 'com_postinstall', 'component', 'com_postinstall', '', 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
+SELECT 318, 'mod_postinstall', 'module', 'mod_postinstall', '', 1, 1, 1, 0, '', '{"cache":"0"}', '', '', 0, '1900-01-01 00:00:00', 0, 0
+UNION ALL
 SELECT 105, 'FOF', 'library', 'fof', '', 0, 1, 1, 1, '{"legacy":false,"name":"FOF","type":"library","creationDate":"2013-10-03","author":"Nicholas K. Dionysopoulos \/ Akeeba Ltd","copyright":"(C)2011-2013 Nicholas K. Dionysopoulos","authorEmail":"nicholas@akeebabackup.com","authorUrl":"https:\/\/www.akeebabackup.com","version":"2.1.rc3","description":"Framework-on-Framework (FOF) - A rapid component development framework for Joomla!","group":""}', '{}', '', '', 0, '1900-01-01 00:00:00', 0, 0
 UNION ALL
 SELECT 448, 'plg_twofactorauth_totp', 'plugin', 'totp', 'twofactorauth', 0, 1, 1, 0, '', '{}', '', '', 0, '1900-01-01 00:00:00', 0, 0
@@ -53,7 +55,9 @@ SET IDENTITY_INSERT #__postinstall_messages  ON;
 INSERT INTO #__postinstall_messages ([postinstall_message_id], [extension_id], [title_key], [description_key], [action_key], [language_extension], [language_client_id], [type], [action_file], [action], [condition_file], [condition_method], [version_introduced], [enabled])
 SELECT 1, 700, 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_TITLE', 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_BODY', 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_ACTION', 'plg_twofactorauth_totp', 1, 'action', 'site://plugins/twofactorauth/totp/postinstall/actions.php', 'twofactorauth_postinstall_action', 'site://plugins/twofactorauth/totp/postinstall/actions.php', 'twofactorauth_postinstall_condition', '3.2.0', 1
 UNION ALL
-SELECT 2, 700, 'COM_CPANEL_MSG_EACCELERATOR_TITLE', 'COM_CPANEL_MSG_EACCELERATOR_BODY', 'COM_CPANEL_MSG_EACCELERATOR_BUTTON', 'com_cpanel', 1, 'action', 'admin://components/com_admin/postinstall/eaccelerator.php', 'admin_postinstall_eaccelerator_action', 'admin://components/com_admin/postinstall/eaccelerator.php', 'admin_postinstall_eaccelerator_condition', '3.2.0', 1;
+SELECT 2, 700, 'COM_CPANEL_MSG_EACCELERATOR_TITLE', 'COM_CPANEL_MSG_EACCELERATOR_BODY', 'COM_CPANEL_MSG_EACCELERATOR_BUTTON', 'com_cpanel', 1, 'action', 'admin://components/com_admin/postinstall/eaccelerator.php', 'admin_postinstall_eaccelerator_action', 'admin://components/com_admin/postinstall/eaccelerator.php', 'admin_postinstall_eaccelerator_condition', '3.2.0', 1
+UNION ALL
+SELECT 3, 10, 'COM_INSTALLER_INSTALL_FROM_WEB', 'COM_INSTALLER_POSTINSTALL_INSTALL_FROM_WEB_BODY', 'COM_INSTALLER_POSTINSTALL_INSTALL_FROM_WEB_BUTTON', 'com_installer', 1, 'action', 'admin://components/com_admin/postinstall/installfromweb.php', 'admin_postinstall_installfromweb_action', 'admin://components/com_admin/postinstall/installfromweb.php', 'admin_postinstall_installfromweb_condition', '3.2.0', 1;
 
 SET IDENTITY_INSERT #__postinstall_messages  OFF;
 
@@ -66,3 +70,16 @@ SELECT 12,'Banners Category','com_banners.category','{"special":{"dbtable":"#__c
 
 SET IDENTITY_INSERT #__content_types  OFF;
 
+SET IDENTITY_INSERT #__modules  ON;
+
+INSERT INTO #__modules (id, title, note, content, ordering, position, checked_out, checked_out_time, publish_up, publish_down, published, module, access, showtitle, params, client_id, language)
+SELECT 91, 'You have post-installation messages', '', '', 1, '', 0, '1900-01-01 00:00:00', '1900-01-01 00:00:00', '1900-01-01 00:00:00', 1, 'mod_postinstall', 1, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*';
+
+SET IDENTITY_INSERT #__modules  OFF;
+
+SET IDENTITY_INSERT #__modules_menu  ON;
+
+INSERT INTO #__modules_menu (moduleid, menuid)
+SELECT 91,0;
+
+SET IDENTITY_INSERT #__modules_menu  OFF;

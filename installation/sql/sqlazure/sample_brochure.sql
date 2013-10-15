@@ -153,9 +153,9 @@ INSERT INTO [#__modules] ( [id], [title], [note], [content], [ordering], [positi
 INSERT INTO [#__modules] ( [id], [title], [note], [content], [ordering], [position], [checked_out], [checked_out_time], [publish_up], [publish_down], [published], [module], [access], [showtitle], [params], [client_id], [language]) VALUES ('81', 'Header Image', '', '<div style="margin-left: 10px;">\r\n<p>This is the Header module. You can edit in the the Module Manager in your Administrator.</p>\r\n<p>Put a large image here. if you make an image that is about 1050 px wide  by  180 px high it will fit nicely. You could put text or a mix of images and text if you prefer.</p>\r\n</div>', '1', 'position-15', '42', '2012-01-17 15:07:56', '1900-01-01T00:00:00.000', '1900-01-01T00:00:00.000', '1', 'mod_custom', '1', '1', '{"prepare_content":"1","backgroundimage":"","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"static"}', '0', '*');
 INSERT INTO [#__modules] ( [id], [title], [note], [content], [ordering], [position], [checked_out], [checked_out_time], [publish_up], [publish_down], [published], [module], [access], [showtitle], [params], [client_id], [language]) VALUES ('82', 'Other News', '', '', '0', 'position-7', '0', '1900-01-01T00:00:00.000', '1900-01-01T00:00:00.000', '1900-01-01T00:00:00.000', '1', 'mod_articles_news', '1', '1', '{"catid":["8"],"image":"0","item_title":"1","link_titles":"1","item_heading":"h4","showLastSeparator":"0","readmore":"0","count":"5","ordering":"a.publish_up","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"itemid"}', '0', '*');
 INSERT INTO [#__modules] ( [id], [title], [note], [content], [ordering], [position], [checked_out], [checked_out_time], [publish_up], [publish_down], [published], [module], [access], [showtitle], [params], [client_id], [language]) VALUES ('83', 'Side Module', '', '<p>This is a module where you might want to add some more information or an image,  a link to your social media presence, or whatever makes sense for your site.  </p>\r\n<p>You can edit this module in the module manager. Look for the Side Module.</p>', '1', 'position-7', '0', '1900-01-01T00:00:00.000', '1900-01-01T00:00:00.000', '1900-01-01T00:00:00.000', '1', 'mod_custom', '1', '1', '{"prepare_content":"1","backgroundimage":"","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"static"}', '0', '*');
+INSERT INTO [#__modules] ([id], [title], [note], [content], [ordering], [position], [checked_out], [checked_out_time], [publish_up], [publish_down], [published], [module], [access], [showtitle], [params], [client_id], [language]) VALUES(91, 'You have post-installation messages', '', '', 1, '', 0, '1900-01-01T00:00:00.000', '1900-01-01T00:00:00.000', '1900-01-01T00:00:00.000', 1, 'mod_postinstall', 1, 0, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*');
+
 SET IDENTITY_INSERT [#__modules] OFF;
-
-
 
 TRUNCATE TABLE [#__modules_menu];
 INSERT INTO [#__modules_menu] ([moduleid], [menuid]) VALUES (1, 0);
@@ -179,6 +179,7 @@ INSERT INTO [#__modules_menu] ([moduleid], [menuid]) VALUES (81, 0);
 INSERT INTO [#__modules_menu] ([moduleid], [menuid]) VALUES (82, 103);
 INSERT INTO [#__modules_menu] ([moduleid], [menuid]) VALUES (83, 0);
 INSERT INTO [#__modules_menu] ([moduleid], [menuid]) VALUES (85, 0);
+INSERT INTO [#__modules_menu] ([moduleid], [menuid]) VALUES (91, 0);
 
 
 TRUNCATE TABLE [#__template_styles];
