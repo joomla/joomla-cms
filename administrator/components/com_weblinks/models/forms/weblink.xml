@@ -19,7 +19,7 @@
 
 		<field name="catid" type="categoryedit" extension="com_weblinks"
 			label="JCATEGORY" description="COM_WEBLINKS_FIELD_CATEGORY_DESC"
-			class="inputbox"
+			class="inputbox advancedSelect"
 		>
 		</field>
 

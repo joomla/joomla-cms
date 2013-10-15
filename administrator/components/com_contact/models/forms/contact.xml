@@ -68,7 +68,7 @@
 			extension="com_contact"
 			label="JCATEGORY"
 			description="JFIELD_CATEGORY_DESC"
-			class="inputbox"
+			class="inputbox advancedSelect"
 			required="true"
 		/>
 
@@ -166,7 +166,7 @@
 
 		<field name="featured"
 			type="radio"
-			class="btn-group btn-group-yesno advancedSelect"
+			class="btn-group btn-group-yesno"
 			label="JFEATURED"
 			description="COM_CONTACT_FIELD_FEATURED_DESC"
 			default="0"
@@ -373,14 +373,14 @@
 
 			<field name="show_contact_list"
 				type="list"
-				class="chzn-color"
-			label="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_LABEL"
-			description="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_DESC"
-		>
-			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
+				class="chzn-color advancedSelect"
+				label="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_LABEL"
+				description="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
 
 			<field name="presentation_style" type="list"
 				description="COM_CONTACT_FIELD_PRESENTATION_DESC"

@@ -32,7 +32,7 @@
 
 		<field name="catid" type="categoryedit" extension="com_newsfeeds"
 			label="JCATEGORY" description="COM_NEWSFEEDS_FIELD_CATEGORY_DESC"
-			class="inputbox" required="true"
+			class="inputbox advancedSelect" required="true"
 		>
 		</field>
 
@@ -152,7 +152,7 @@
 			description="JGLOBAL_FIELD_FIELD_CACHETIME_DESC"
 			required="true" />
 
-		<field name="rtl" type="list" class="inputbox"
+		<field name="rtl" type="list" class="inputbox advancedSelect"
 			default="0" label="COM_NEWSFEEDS_FIELD_RTL_LABEL"
 			description="COM_NEWSFEEDS_FIELD_RTL_DESC"
 		>
