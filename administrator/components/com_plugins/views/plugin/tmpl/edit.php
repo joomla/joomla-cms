@@ -129,11 +129,7 @@ $this->fieldsets = $this->form->getFieldsets('params');
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
-		<?php
-		$this->fieldsets = array();
-		$this->ignore_fieldsets = array('basic');
-		echo JLayoutHelper::render('joomla.edit.params', $this);
-		?>
+		<?php echo $this->loadTemplate('options'); ?>
 
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</div>
