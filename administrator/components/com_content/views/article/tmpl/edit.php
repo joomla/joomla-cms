@@ -126,12 +126,6 @@ if ($this->item->attribs['show_urls_images_backend'] != '')
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
-		<?php if ($this->canDo->get('core.admin')) : ?>
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'permissions', JText::_('COM_CONTENT_FIELDSET_RULES', true)); ?>
-				<?php echo $this->form->getInput('rules'); ?>
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
-		<?php endif; ?>
-
 		<?php $this->show_options = $params->show_article_options; ?>
 		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 
@@ -139,11 +133,18 @@ if ($this->item->attribs['show_urls_images_backend'] != '')
 				<?php echo JLayoutHelper::render('joomla.edit.editconfig', $this); ?>
 		<?php endif; ?>
 
+		<?php if ($this->canDo->get('core.admin')) : ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'permissions', JText::_('COM_CONTENT_FIELDSET_RULES', true)); ?>
+				<?php echo $this->form->getInput('rules'); ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php endif; ?>
 
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="return" value="<?php echo $input->getCmd('return'); ?>" />
 		<?php echo JHtml::_('form.token'); ?>
-	</div>
+
+
+		</div>
 </form>
