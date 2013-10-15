@@ -110,6 +110,15 @@ class JFormFieldList extends JFormField
 
 		reset($options);
 
+		// If the field is readonly, disable the options unless they have the field's default value.
+		if ($this->readonly)
+		{
+			foreach ($options as $option)
+			{
+				$option->disabled = $value != $this->value;
+			}
+		}
+
 		return $options;
 	}
 }
