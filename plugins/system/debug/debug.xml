@@ -98,7 +98,7 @@
 					description="PLG_DEBUG_FIELD_LOG_CATEGORIES_DESC"
 				/>
 
-				<field name="log_category_mode" type="hidden" default="0"
+				<field name="log_category_mode" type="radio" default="0" class="btn-group"
 					label="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_LABEL"
 					description="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_DESC"
 				>
