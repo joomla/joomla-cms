@@ -426,7 +426,6 @@ class PlgUserJoomla extends JPlugin
 		);
 
 		$query = $this->db->getQuery(true);
-		$user = JFactory::getUser();
 
 		if (empty($user->cookieLogin) || $options['response'] != 'Coookie')
 		{
