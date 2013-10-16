@@ -40,10 +40,6 @@ class JFormFieldTest extends TestCase
 	{
 		parent::setUp();
 
-		require_once JPATH_PLATFORM . '/joomla/form/field/text.php';
-		require_once JPATH_PLATFORM . '/joomla/form/field/hidden.php';
-		require_once JPATH_PLATFORM . '/joomla/form/field/checkboxes.php';
-
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockCmsApp();
