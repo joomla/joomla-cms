@@ -5,7 +5,7 @@
 			name="search"
 			type="text"
 			label="COM_USERS_FILTER_SEARCH_DESC"
-			placeholder="JSEARCH_FILTER"
+			hint="JSEARCH_FILTER"
 			class="js-stools-search-string"
 		/>
 		<field
