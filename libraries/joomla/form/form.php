@@ -251,6 +251,18 @@ class JForm
 	}
 
 	/**
+	 * Return a public representation of the data bound to JForm.
+	 *
+	 * @return  object  The object information as a result of the getItem() method call.
+	 *
+	 * @since   11.1
+	 */
+	public function getData()
+	{
+		return $this->data->toObject();
+	}
+
+	/**
 	 * Return all errors, if any.
 	 *
 	 * @return  array  Array of error messages or RuntimeException objects.
