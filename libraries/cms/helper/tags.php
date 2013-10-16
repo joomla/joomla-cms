@@ -776,7 +776,7 @@ class JHelperTags extends JHelper
 		$result = true;
 
 		// Process ucm_content and ucm_base if either tags have changed or we have some tags.
-		if ($this->tagsChanged || $newTags[0] != '')
+		if ($this->tagsChanged || (isset($newTags) && $newTags[0] != ''))
 		{
 			if (!$newTags && $replace = true)
 			{
