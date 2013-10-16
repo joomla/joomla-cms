@@ -16,6 +16,7 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
 
 $app = JFactory::getApplication();
+$assoc = JLanguageAssociations::isEnabled();
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
@@ -63,7 +64,7 @@ $app = JFactory::getApplication();
 
 		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 
-		<?php if (isset($app->item_associations)) : ?>
+		<?php if ($assoc) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>
 			<?php echo $this->loadTemplate('associations'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>

@@ -27,26 +27,28 @@ $user = JFactory::getUser();
 		</div>
 	<?php endif; ?>
 	<div class="span<?php echo ($iconmodules) ? 9 : 12; ?>">
-		<div class="row-fluid">
-			<?php if ($this->postinstall_message_count): ?>
-			<div class="alert alert-info">
-				<h4>
-					<?php echo JText::_('COM_CPANEL_MESSAGES_TITLE'); ?>
-				</h4>
-				<p>
-					<?php echo JText::_('COM_CPANEL_MESSAGES_BODY_NOCLOSE'); ?>
-				</p>
-				<p>
-					<?php echo JText::_('COM_CPANEL_MESSAGES_BODYMORE_NOCLOSE'); ?>
-				</p>
-				<p>
-					<a href="index.php?option=com_postinstall&eid=700" class="btn btn-primary">
+		<?php if ($user->authorise('core.manage', 'com_postinstall')) : ?>
+			<div class="row-fluid">
+				<?php if ($this->postinstall_message_count): ?>
+					<div class="alert alert-info">
+					<h4>
+						<?php echo JText::_('COM_CPANEL_MESSAGES_TITLE'); ?>
+					</h4>
+					<p>
+						<?php echo JText::_('COM_CPANEL_MESSAGES_BODY_NOCLOSE'); ?>
+					</p>
+					<p>
+						<?php echo JText::_('COM_CPANEL_MESSAGES_BODYMORE_NOCLOSE'); ?>
+					</p>
+					<p>
+						<a href="index.php?option=com_postinstall&eid=700" class="btn btn-primary">
 						<?php echo JText::_('COM_CPANEL_MESSAGES_REVIEW'); ?>
-					</a>
-				</p>
+						</a>
+					</p>
+					</div>
+				<?php endif; ?>
 			</div>
-			<?php endif; ?>
-		</div>
+		<?php endif; ?>
 		<div class="row-fluid">
 			<?php
 			$spans = 0;
