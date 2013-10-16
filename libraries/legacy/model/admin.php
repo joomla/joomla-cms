@@ -172,6 +172,8 @@ abstract class JModelAdmin extends JModelForm
 		$this->tableClassName = get_class($this->table);
 		$this->contentType = new JUcmType();
 		$this->type = $this->contentType->getTypeByTable($this->tableClassName);
+		$this->batchSet = true;
+
 		if ($this->type == false)
 		{
 			$type = new JUcmType;
@@ -270,6 +272,16 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function batchAccess($value, $pks, $contexts)
 	{
+		if (!$this->batchSet)
+		{
+			// Set some needed variables.
+			$this->user = JFactory::getUser();
+			$this->table = $this->getTable();
+			$this->tableClassName = get_class($this->table);
+			$this->contentType = new JUcmType();
+			$this->type = $this->contentType->getTypeByTable($this->tableClassName);
+		}
+
 		foreach ($pks as $pk)
 		{
 			if ($this->user->authorise('core.edit', $contexts[$pk]))
@@ -314,6 +326,16 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function batchCopy($value, $pks, $contexts)
 	{
+		if (!$this->batchSet)
+		{
+			// Set some needed variables.
+			$this->user = JFactory::getUser();
+			$this->table = $this->getTable();
+			$this->tableClassName = get_class($this->table);
+			$this->contentType = new JUcmType();
+			$this->type = $this->contentType->getTypeByTable($this->tableClassName);
+		}
+
 		$i = 0;
 
 		$categoryId = $value;
@@ -405,6 +427,15 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function batchLanguage($value, $pks, $contexts)
 	{
+		if (!$this->batchSet)
+		{
+			// Set some needed variables.
+			$this->user = JFactory::getUser();
+			$this->table = $this->getTable();
+			$this->tableClassName = get_class($this->table);
+			$this->contentType = new JUcmType();
+			$this->type = $this->contentType->getTypeByTable($this->tableClassName);
+		}
 
 		foreach ($pks as $pk)
 		{
@@ -450,6 +481,16 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function batchMove($value, $pks, $contexts)
 	{
+		if (!$this->batchSet)
+		{
+			// Set some needed variables.
+			$this->user = JFactory::getUser();
+			$this->table = $this->getTable();
+			$this->tableClassName = get_class($this->table);
+			$this->contentType = new JUcmType();
+			$this->type = $this->contentType->getTypeByTable($this->tableClassName);
+		}
+
 		$categoryId = (int) $value;
 
 		if (!static::checkCategoryId($categoryId))
@@ -491,7 +532,7 @@ abstract class JModelAdmin extends JModelForm
 			// Check the row.
 			if (!$this->table->check())
 			{
-				$this->setError($table->getError());
+				$this->setError($this->table->getError());
 
 				return false;
 			}
@@ -501,7 +542,7 @@ abstract class JModelAdmin extends JModelForm
 			// Store the row.
 			if (!$this->table->store())
 			{
-				$this->setError($table->getError());
+				$this->setError($this->table->getError());
 
 				return false;
 			}

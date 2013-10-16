@@ -66,8 +66,20 @@ class ContactModelContact extends JModelAdmin
 		$this->tableClassName = get_class($this->table);
 		$this->contentType = new JUcmType();
 		$this->type = $this->contentType->getTypeByTable($this->tableClassName);
-		$this->type === false?:$typeAlias = $this->type->type_alias;
+		$this->batchSet = true;
+
+		if ($this->type === false)
+		{
+			$type = new JUcmType;
+			$this->type = $type->getTypeByAlias($this->typeAlias);
+			$typeAlias = $this->type->type_alias;
+		}
+		else
+		{
+			$typeAlias = $this->type->type_alias;
+		}
 		$this->tagsObserver = $this->table->getObserverOfClass('JTableObserverTags');
+
 
 		if (!empty($commands['category_id']))
 		{
@@ -253,15 +265,18 @@ class ContactModelContact extends JModelAdmin
 
 		foreach ($pks as $pk)
 		{
-			if ($user->authorise('core.edit', $contexts[$pk]))
+			if ($this->user->authorise('core.edit', $contexts[$pk]))
 			{
-				$table->reset();
-				$table->load($pk);
-				$table->user_id = (int) $value;
+				$this->table->reset();
+				$this->table->load($pk);
+				$this->table->user_id = (int) $value;
 
-				if (!$table->store())
+				static::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+
+				if (!$this->table->store())
 				{
-					$this->setError($table->getError());
+					$this->this->setError($table->getError());
+
 					return false;
 				}
 			}
