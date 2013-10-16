@@ -25,6 +25,91 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Oct-2013 Jean-Marie Simonet
+ # [#32296] *Regression JUX #32096 weblink association + normalising use of static commands for $assoc
+ # [#32284] Adding missing index.html files. Thanks Achal Aggarwal
+ # [#32306] Add and fix ACL for com_postinstall and the postinstall message at the Control Panel. Thanks Tobias Zulauf
+
+13-Oct-2013 Elin Waring
+ + [#31786] get_html_translation_table requires encoding value for PHP 5.4. Thanks Robert Deutz
+
+12-Oct-2013 Michael Babker
+ + [#31264] GSOC 2013 Project: com_config or front end website administration.  Thanks Buddhima Wijeweera
+
+-------------------- 3.2 Beta 1 Release [11-Oct-2013] ------------------
+
+11-Oct-2013 Roberto Segura
+ # [#32152] Session expired message on login. Thanks Michael Babker
+ # [#32236] Cannot read property H5Form of undefined. Thanks Achal Aggarwal
+
+11-Oct-2013 Jean-Marie Simonet
+ # [#32234] *RTL: URL fields should be align left and LTR. BE patch
+
+10-Oct-2013 Michael Babker
+ # [#32233] Regression - language override broken.  Thanks Achal Aggarwal
+
+10-Oct-2013 David Hurley
+ ^ [#32220] Update FOF to 2.1rc3. Thanks Nicholas Dionysopoulos
+ # [#32245] Update message styling. Thanks Michael Babker
+
+10-Oct-2013 Elin Waring
+ # [#32239] Sample data bug breaks cpanel. Thanks Brian Teeman
+ # [#32240] Fix broken template style editing (regression). Thanks Roberto Segura
+ # [#32244] Missing Version Note in Banner Client form. Thanks Mark Dexter
+ ^ [#32242] Change post-installation messages notification from a modal to a message area. Thanks Nicholas Dionysopoulos
+ # [#32219] Last selected tab will be loaded even going out to a new section and coming back to the same section. Thanks Ashan Fernando
+
+10-Oct-2013 Jean-Marie Simonet
+ # [#32232] *Normalising plugin edit on the model of module edit
+ $ Updating installation lang files: ko-KR
+
+10-Oct-2013 Roberto Segura
+ # [#32166] com_ajax cannot access modules with underscores in their name. Thanks Matt Thomas
+ # [#32203] Improving module loading code in cpanel layout. Thanks Thomas Hunziker
+
+09-Oct-2013 Michael Babker
+ # [#32226] *Regression: Editors-xtd not displaying anymore.  Thanks Achal Aggarwal
+
+09-Oct-2013 David Hurley
+ # [#32221] Fix version / cancel button placement Thanks Janich Rasmussen
+ # [#31858] Move actions to status buttons. Thanks Beat
+ # [#32027] Cleaned up top menu bar. Thanks Beat
+ # [#32095] Add view-dependent icons. Thanks Beat
+ + [#31864] Add front-end hover to modules. Thanks Beat
+
+09-Oct-2013 Jean-Marie Simonet
+ # [#32217] Module position modal styling broken  Thanks Peter van Westen
+ # [#32224] *regression JUX #32096 commit breaks multilang edit "modals"
+ $ Updating installation lang files: bg-BG, cs-CZ, el-GR, sk-SK, uk-UA
+
+09-Oct-2013 Elin Waring
+ # [#32214] *ACL settings do not display for components. Thanks Michael Babker
+ # [#32215] *Setting frontend editing new Global Configuration setting to Modules & menus breaks back-end display. Thanks Roberto Segura
+ ^ [#32227] Fix checkstyle. Thanks Nikolai Plath.
+
+08-Oct-2013 Elin Waring
+ ^ [#31997] Add content history versions to com_tags. Thanks Mark Dexter
+ ^ [#32170] Add content history versions to com_banners. Thanks Mark Dexter
+ ^ [#32204] Add version history for user notes and user notes categories. Thanks Mark Dexter
+
+08-Oct-2013 Michael Babker
+ ^ [#31347] Introducing HTML5 form fields and attributes - GSOC.  Thanks Achal Aggarwal
+ ^ [#30781] Small changes to jForm and jField to allow for repeatable form elements.  Thanks George Wilson
+ + [#30798] Add logging to Joomla Update.  Thanks Mark Dexter
+ ^ [#31490] Duplicate code reduction in categories views.  Thanks Elin Waring
+ # [#32207] installer leftovers in the Joomla tmp folder after unsuccessful installation.  Thanks Beat
+
+08-Oct-2013 Jean-Marie Simonet
+ $ Updating installation lang files: et-EE, fa-IR, ja-JP, tr-TR, ug-CN, zh-cn, zh-TW
+ $ Adding TinyMCE Swahili language file
+
+07-Oct-2013 Jean-Marie Simonet
+ # [#32199] *Allow username edit in profile edit when username is not compliant. Thanks Achal Aggarwal
+ # [#30586] Usernames that should not be accepted can be actualy registered. Thanks Sergio Manzi
+
+07-Oct-2013 Roberto Segura
+ # 06-Oct-2013 Fix broken install after [#31602]. Thanks Michael Babker
+
 06-Oct-2013 Michael Babker
  + [#31602] add simple versioning to admin template css and js.  Thanks Roberto Segura
  ^ [#32054] [JUX2] [17] Move the Help and Options toolbar-buttons to the right where they belong.  Thanks Roberto Segura

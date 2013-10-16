@@ -13,7 +13,7 @@ use SeleniumClient\WebElement;
  */
 class PostinstallPage extends AdminPage
 {
-	protected $waitForXpath =  "//h1[contains(text(), 'Post-installation Messages')]";
+	protected $waitForXpath =  "//h1[contains(., 'Post-installation Messages')]";
 
 	/**
 	 * Clears post-installation messages by navigating to that screen and back

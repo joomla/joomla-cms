@@ -1130,6 +1130,12 @@ class JInstaller extends JAdapter
 
 											return false;
 										}
+										else
+										{
+											$queryString = (string) $query;
+											$queryString = str_replace(array("\r", "\n"), array('', ' '), substr($queryString, 0, 80));
+											JLog::add(JText::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), JLog::INFO, 'Update');
+										}
 
 										$update_count++;
 									}
@@ -1139,7 +1145,7 @@ class JInstaller extends JAdapter
 					}
 
 					// Update the database
-					$query->clear()
+					$query = $db->getQuery(true)
 						->delete('#__schemas')
 						->where('extension_id = ' . $eid);
 					$db->setQuery($query);
