@@ -38,5 +38,6 @@ class PostinstallToolbar extends FOFToolbar
 		}
 
 		JToolBarHelper::title(JText::sprintf('COM_POSTINSTALL_MESSAGES_TITLE', $extension_name));
+		JToolBarHelper::preferences($this->config['option'], 550, 875);
 	}
 }
