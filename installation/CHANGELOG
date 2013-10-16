@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+15-Oct-2013 Michael Babker
+ # [#32322] com_config is broken at hathor
+
 15-Oct-2013 Jean-Marie Simonet
  # [#32296] *Regression JUX #32096 weblink association + normalising use of static commands for $assoc
  # [#32284] Adding missing index.html files. Thanks Achal Aggarwal
