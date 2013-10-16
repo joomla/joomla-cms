@@ -507,7 +507,7 @@ abstract class JUserHelper
 					}
 					else
 					{
-						return ;
+						return static::genRandomPassword(16);
 					}
 					break;
 

@@ -248,6 +248,11 @@ class InstallationModelConfiguration extends JModelBase
 		$salt = JUserHelper::genRandomPassword(32);
 		$cryptpass = JUserHelper::getCryptedPassword($options->admin_password, $salt);
 
+		if (substr($cryptpass, 0, 8) == '{SHA256}')
+		{
+			$cryptpass = $cryptpass . ':' . $salt;
+		}
+
 		// Take the admin user id
 		$userId = InstallationModelDatabase::getUserId();
 
