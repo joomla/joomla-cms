@@ -444,7 +444,9 @@ abstract class JUserHelper
 					if (!$encrypted)
 					{
 						// Something went wrong fall back to sha256.
-						return static::getCryptedPassword($plaintext, '', 'sha256', false);
+						$salt = JUserHelper::genRandomPassword(32);
+
+						return static::getCryptedPassword($plaintext, $salt, 'sha256', false);
 
 					}
 
@@ -453,7 +455,9 @@ abstract class JUserHelper
 				else
 				{
 					// BCrypt isn't available but we want strong passwords, fall back to sha256.
-					return static::getCryptedPassword($plaintext, '', 'sha256', false);
+					$salt = JUserHelper::genRandomPassword(32);
+
+					return static::getCryptedPassword($plaintext, $salt, 'sha256', false);
 				}
 		}
 	}
@@ -496,7 +500,18 @@ abstract class JUserHelper
 				}
 				break;
 
-			case 'crypt-md5':
+				case 'sha256':
+					if ($seed)
+					{
+						return substr(preg_replace('|^{crypt}|i', '', $seed), 0, 12);
+					}
+					else
+					{
+						return ;
+					}
+					break;
+
+				case 'crypt-md5':
 				if ($seed)
 				{
 					return substr(preg_replace('|^{crypt}|i', '', $seed), 0, 12);
@@ -555,6 +570,7 @@ abstract class JUserHelper
 					{
 						$salt .= $APRMD5{rand(0, 63)};
 					}
+
 					return $salt;
 				}
 				break;
@@ -569,6 +585,7 @@ abstract class JUserHelper
 				{
 					$salt = $seed;
 				}
+
 				return $salt;
 				break;
 		}
