@@ -477,7 +477,7 @@ abstract class JFormField
 			default:
 				if (property_exists(__CLASS__, $name))
 				{
-					JLog::add('Cannot access protected / private property');
+					JLog::add("Cannot access protected / private property $name of " . __CLASS__);
 				}
 				else
 				{
