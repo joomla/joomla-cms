@@ -103,7 +103,6 @@ abstract class JHtmlList
 
 		for ($i = 0, $n = count($items); $i < $n; $i++)
 		{
-			$items[$i]->text = JText::_($items[$i]->text);
 
 			if (JString::strlen($items[$i]->text) > $chop)
 			{
