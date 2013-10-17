@@ -32,7 +32,7 @@ class MenusViewItem extends JViewLegacy
 	public function display($tpl = null)
 	{
 		$this->form		= $this->get('Form');
-		$this->item		= $this->get('Item');
+		$this->item		= $this->form->getData();
 		$this->modules	= $this->get('Modules');
 		$this->state	= $this->get('State');
 
