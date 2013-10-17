@@ -30,7 +30,7 @@ class UsersViewLevel extends JViewLegacy
 	public function display($tpl = null)
 	{
 		$this->form		= $this->get('Form');
-		$this->item		= $this->get('Item');
+		$this->item		= $this->form->getData();
 		$this->state	= $this->get('State');
 
 		// Check for errors.
