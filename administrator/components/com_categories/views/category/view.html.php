@@ -32,7 +32,7 @@ class CategoriesViewCategory extends JViewLegacy
 	public function display($tpl = null)
 	{
 		$this->form = $this->get('Form');
-		$this->item = $this->get('Item');
+		$this->item = $this->form->getData();
 		$this->state = $this->get('State');
 		$this->canDo = CategoriesHelper::getActions($this->state->get('category.component'));
 		$this->assoc = $this->get('Assoc');
