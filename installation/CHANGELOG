@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Oct-2013 David Hurley
+^ [#32287] Update to sample data defaults. Thanks Elin Waring
+
 17-Oct-2013 Jean-Marie Simonet
  $ Updating installation lang files: af-ZA, vi-VN, sr-YU, sr-RS
  $ Updating installation lang files: sr-YU, sr-RS
