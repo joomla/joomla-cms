@@ -31,7 +31,7 @@ class ContactViewContact extends JViewLegacy
 	{
 		// Initialise variables.
 		$this->form		= $this->get('Form');
-		$this->item		= $this->get('Item');
+		$this->item		= $this->form->getData();
 		$this->state	= $this->get('State');
 
 		// Check for errors.
