@@ -35,6 +35,7 @@ $ -> Language fix or change
  # [#30535] The tag shows itself as a parent tag choice, when it shouldn't.  Thanks Eliot Bendinelli
  # [#32080] mod_articles_archive ordering is broken.  Thanks David Jardin
  ^ [#31806] New context should be based on default context.  Thanks Elijah Madden
+ ^ [#32070] Removed unused JToolbarHelper::title() in component helper.  Thanks Bruno Batista
 
 15-Oct-2013 Michael Babker
  # [#32322] com_config is broken at hathor
