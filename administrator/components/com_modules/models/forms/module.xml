@@ -11,7 +11,7 @@
 		<field name="title" type="text"
 			description="COM_MODULES_FIELD_TITLE_DESC"
 			label="JGLOBAL_TITLE"
-			class="inputbox input-xxlarge input-large-text"
+			class="inputbox input-xlarge input-large-text"
 			size="40"
 			maxlength="100"
 			required="true"
