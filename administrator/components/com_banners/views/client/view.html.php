@@ -37,7 +37,7 @@ class BannersViewClient extends JViewLegacy
 	public function display($tpl = null)
 	{
 		$this->form	= $this->get('Form');
-		$this->item	= $this->get('Item');
+		$this->item	= $this->form->getData();
 		$this->state	= $this->get('State');
 		$this->canDo = JHelperContent::getActions(0, 0, 'com_banners');
 
