@@ -32,6 +32,7 @@ $ -> Language fix or change
  ^ [#32309] Code CS Issue in com_modules helper.  Thanks Chad Windnagle
  ^ [#32194] Banner model has hardcoded SQL.  Thanks Peter Martin
  # [#31654] Browser Page Title Not Showing for Tagged Item Menu.  Thanks Achal Aggarwal
+ # [#30535] The tag shows itself as a parent tag choice, when it shouldn't.  Thanks Eliot Bendinelli
 
 15-Oct-2013 Michael Babker
  # [#32322] com_config is broken at hathor
