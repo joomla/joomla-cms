@@ -30,6 +30,7 @@ $ -> Language fix or change
  ^ [#32317] *Postinstall component missing a toolbar Options button.  Thanks Nicholas Dionysopoulos
  ^ [#32325] Category edit is missing label for Description field.  Thanks Mark Dexter
  ^ [#32309] Code CS Issue in com_modules helper.  Thanks Chad Windnagle
+ ^ [#32194] Banner model has hardcoded SQL.  Thanks Peter Martin
 
 15-Oct-2013 Michael Babker
  # [#32322] com_config is broken at hathor
