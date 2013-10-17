@@ -86,7 +86,7 @@ abstract class JHtmlList
 	 *
 	 * @since   1.5
 	 */
-	public static function genericordering($query, $chop = 30)
+	public static function genericordering($query, $chop = 30, $selectOrder = 0)
 	{
 		$db = JFactory::getDbo();
 		$options = array();
@@ -101,7 +101,7 @@ abstract class JHtmlList
 			return $options;
 		}
 
-		$options[] = JHtml::_('select.option', 0, '0 ' . JText::_('JOPTION_ORDER_FIRST'));
+		$options[] = JHtml::_('select.option', 0, JText::_('JOPTION_ORDER_FIRST'));
 
 		for ($i = 0, $n = count($items); $i < $n; $i++)
 		{
@@ -115,10 +115,10 @@ abstract class JHtmlList
 				$text = $items[$i]->text;
 			}
 
-			$options[] = JHtml::_('select.option', $items[$i]->value, $items[$i]->value . '. ' . $text);
+			$options[] = JHtml::_('select.option', ($items[$i]->value == $selectOrder ? $selectOrder : $items[$i]->value + 1), ($items[$i]->value + 1) / 2 . '. ' . $text);
 		}
 
-		$options[] = JHtml::_('select.option', $items[$i - 1]->value + 1, ($items[$i - 1]->value + 1) . ' ' . JText::_('JOPTION_ORDER_LAST'));
+		$options[] = JHtml::_('select.option', $items[$i - 1]->value + 1, JText::_('JOPTION_ORDER_LAST'));
 
 		return $options;
 	}
@@ -145,7 +145,7 @@ abstract class JHtmlList
 
 		if (empty($neworder))
 		{
-			$orders = JHtml::_('list.genericordering', $query);
+			$orders = JHtml::_('list.genericordering', $query, 30, (int) $selected);
 			$html = JHtml::_('select.genericlist', $orders, $name, array('list.attr' => $attribs, 'list.select' => (int) $selected));
 		}
 		else
