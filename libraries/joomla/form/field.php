@@ -481,7 +481,7 @@ abstract class JFormField
 				}
 				else
 				{
-					$this->$name;
+					$this->$name = $value;
 				}
 		}
 	}
