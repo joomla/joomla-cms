@@ -30,10 +30,11 @@ class FinderViewFilter extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Load the view data.
-		$this->filter = $this->get('Filter');
-		$this->item = $this->get('Item');
 		$this->form = $this->get('Form');
+		$this->item = $this->form->getData();
 		$this->state = $this->get('State');
+
+		$this->filter = $this->get('Filter');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
