@@ -71,14 +71,12 @@ class ConfigControllerCanceladmin extends ConfigControllerCancel
 
 		if (!empty($this->redirect))
 		{
-			$this->app->redirect(JURI::base());
+			$this->app->redirect($this->redirect);
 		}
 		else
 		{
 			parent::execute();
 		}
-
-		return true;
 
 	}
 }

@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Model
  * @since       3.2
  */
-abstract class ConfigViewHtmlCms extends JViewHtml
+abstract class ConfigViewCmsHtml extends JViewHtml
 {
 	/**
 	 * The output of the template script.
@@ -63,7 +63,7 @@ abstract class ConfigViewHtmlCms extends JViewHtml
 
 		if(isset($paths))
 		{
-			$paths->insert(JPATH_THEMES . '/' . $app->getTemplate() . '/html/' . $component . '/' . $this->getName(), 2);
+			$paths->insert(JPATH_THEMES . '/' . $app->getTemplate() . '/html/' . $component . '/' . $this->getName(), 'normal');
 		}
 
 		parent::__construct($model, $paths);
