@@ -22,6 +22,7 @@ $fields = $displayData->get('fields') ?: array(
 	'featured',
 	'sticky',
 	'access',
+	'ordering',
 	'language',
 	'note',
 	'version_note'
