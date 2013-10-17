@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Oct-2013 Michael Babker
+ + [#31861] [JUX2] [04] New Search tools on top of lists.  Thanks Roberto Segura
+
 17-Oct-2013 David Hurley
  ^ [#32287] Update to sample data defaults. Thanks Elin Waring
 
