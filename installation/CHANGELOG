@@ -26,8 +26,9 @@ $ -> Language fix or change
 ! -> Note
 
 17-Oct-2013 Jean-Marie Simonet
- $ Updating installation lang files: af-ZA, vi-VN
- 
+ $ Updating installation lang files: af-ZA, vi-VN, sr-YU, sr-RS
+ $ Updating installation lang files: sr-YU, sr-RS
+
 16-Oct-2013 Michael Babker
  # [#32247] Jgrid bug producing double quotes.  Thanks Brian Teeman
  ^ [#32317] *Postinstall component missing a toolbar Options button.  Thanks Nicholas Dionysopoulos
