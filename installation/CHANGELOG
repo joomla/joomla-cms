@@ -28,6 +28,7 @@ $ -> Language fix or change
 16-Oct-2013 Michael Babker
  # [#32247] Jgrid bug producing double quotes.  Thanks Brian Teeman
  ^ [#32317] *Postinstall component missing a toolbar Options button.  Thanks Nicholas Dionysopoulos
+ ^ [#32325] Category edit is missing label for Description field.  Thanks Mark Dexter
 
 15-Oct-2013 Michael Babker
  # [#32322] com_config is broken at hathor
