@@ -34,7 +34,7 @@ class UsersViewUser extends JViewLegacy
 	public function display($tpl = null)
 	{
 		$this->form			= $this->get('Form');
-		$this->item			= $this->get('Item');
+		$this->item			= $this->form->getData();
 		$this->grouplist	= $this->get('Groups');
 		$this->groups		= $this->get('AssignedGroups');
 		$this->state		= $this->get('State');
