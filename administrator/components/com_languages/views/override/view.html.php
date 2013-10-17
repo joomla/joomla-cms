@@ -58,7 +58,7 @@ class LanguagesViewOverride extends JViewLegacy
 		JHtml::_('script', 'overrider/overrider.js', false, true);
 
 		$this->form  = $this->get('Form');
-		$this->item  = $this->get('Item');
+		$this->item  = $this->form->getData();
 		$this->state = $this->get('State');
 
 		// Check for errors
