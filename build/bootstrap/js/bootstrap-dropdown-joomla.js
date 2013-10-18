@@ -39,7 +39,7 @@
     constructor: Dropdown
 
   , toggle: function (e) {
-      /* >>> JUI >>> */
+      // JOOMLA JUI >>>
       /* ORIGINAL	  
       var $this = $(this)
         , $parent
@@ -56,7 +56,7 @@
          window.location = url
          return
       }
-      /* <<< JUI <<< */
+      // JOOMLA JUI <<<
       
       if ($this.is('.disabled, :disabled')) return
 

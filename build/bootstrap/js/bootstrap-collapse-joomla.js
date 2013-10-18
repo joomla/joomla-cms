@@ -75,12 +75,12 @@
       if (this.transitioning || !this.$element.hasClass('in')) return
       dimension = this.dimension()
       this.reset(this.$element[dimension]())
-	  /* >>> JUI >>> */
+	  // JOOMLA JUI >>>
 	  /* ORIGINAL:       
       this.transition('removeClass', $.Event('hide'), 'hidden')
       */
       this.transition('removeClass', $.Event('hideme'), 'hidden')
-      /* <<< JUI <<< */
+      // JOOMLA JUI <<<
             
       this.$element[dimension](0)
     }
