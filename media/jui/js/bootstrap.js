@@ -550,7 +550,7 @@
       this.transition('removeClass', $.Event('hide'), 'hidden')
       */
       this.transition('removeClass', $.Event('hideme'), 'hidden')
-      // JOOMLA JUI <<<
+      // < Joomla JUI
 
       this.$element[dimension](0)
     }
@@ -674,11 +674,11 @@
         var $el = $(element).on('click.dropdown.data-api', this.toggle)
         // JOOMLA JUI >>>
           .on('mouseover.dropdown.data-api', this.toggle)
-        // JOOMLA JUI <<<
+        // < Joomla JUI
         $('html').on('click.dropdown.data-api', function () {
           // JOOMLA JUI >>>
           $el.parent().parent().removeClass('nav-hover')
-          // JOOMLA JUI <<<
+          // < Joomla JUI
           $el.parent().removeClass('open')
         })
       }
@@ -699,7 +699,7 @@
         , isActive
         , url
         , isHover
-      // JOOMLA JUI <<<
+      // < Joomla JUI
 
       if ($this.is('.disabled, :disabled')) return
 
@@ -709,7 +709,7 @@
       // JOOMLA JUI >>>
       isHover = $parent.parent().hasClass('nav-hover')
       if(!isHover && e.type == 'mouseover') return
-      // JOOMLA JUI <<<
+      // < Joomla JUI
 
       url = $this.attr('href')
       if (e.type == 'click' && (url) && (url !== '#')) {
@@ -731,7 +731,7 @@
         $parent.parent().toggleClass('nav-hover');
         $parent.toggleClass('open')
       }
-      // JOOMLA JUI <<<
+      // < Joomla JUI
 
       $this.focus()
 
@@ -784,7 +784,7 @@
   function clearMenus() {
     // JOOMLA JUI >>>
     $(toggle).parent().parent().removeClass('nav-hover')
-    // JOOMLA JUI <<<
+    // < Joomla JUI
     $('.dropdown-backdrop').remove()
     $(toggle).each(function () {
       getParent($(this)).removeClass('open')
@@ -844,7 +844,7 @@
     .on('keydown.dropdown.data-api', toggle + ', [role=menu]' , Dropdown.prototype.keydown)
     // JOOMLA JUI >>>
     .on('mouseover.dropdown.data-api', toggle, Dropdown.prototype.toggle)
-    // JOOMLA JUI <<<
+    // < Joomla JUI
 }(window.jQuery);
 /* =========================================================
  * bootstrap-modal.js v2.3.2
@@ -1325,7 +1325,7 @@
       var that = this
         , $tip = this.tip()
         , e = $.Event('hideme')
-      // JOOMLA JUI <<<
+      // < Joomla JUI
 
       this.$element.trigger(e)
       if (e.isDefaultPrevented()) return
@@ -1452,7 +1452,7 @@
   , html: false
   */
   , html: true
-  // JOOMLA JUI <<<
+  // < Joomla JUI
   , container: false
   }
 
