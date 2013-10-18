@@ -34,16 +34,10 @@ class JHttpTransportStream implements JHttpTransport
 	 */
 	public function __construct(JRegistry $options)
 	{
-		// Verify that fopen() is available.
+		// Verify that fopen() is available & allow_url_fopen is set
 		if (!self::isSupported())
 		{
 			throw new RuntimeException('Cannot use a stream transport when fopen() is not available.');
-		}
-
-		// Verify that URLs can be used with fopen();
-		if (!ini_get('allow_url_fopen'))
-		{
-			throw new RuntimeException('Cannot use a stream transport when "allow_url_fopen" is disabled.');
 		}
 
 		$this->options = $options;
@@ -231,6 +225,6 @@ class JHttpTransportStream implements JHttpTransport
 	 */
 	public static function isSupported()
 	{
-		return function_exists('fopen') && is_callable('fopen');
+		return function_exists('fopen') && is_callable('fopen') && ini_get('allow_url_fopen');
 	}
 }
