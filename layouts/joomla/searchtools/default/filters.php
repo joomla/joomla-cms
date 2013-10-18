@@ -11,16 +11,16 @@ defined('JPATH_BASE') or die;
 
 $data = $displayData;
 
-// Is multilanguage enabled?
-$langs = isset(JFactory::getApplication()->languages_enabled);
-
-$filters = $data->filterForm->getGroup('filter');
+// Load the form filters
+$filters = $data['view']->filterForm->getGroup('filter');
 ?>
 <?php if ($filters) : ?>
 	<div class="filter-select hidden-phone">
 		<?php foreach ($filters as $fieldName => $field) : ?>
 			<?php if ($fieldName != 'filter_search') : ?>
-				<?php echo $field->input; ?>
+				<div class="stools-filter-field">
+					<?php echo $field->input; ?>
+				</div>
 			<?php endif; ?>
 		<?php endforeach; ?>
 	</div>

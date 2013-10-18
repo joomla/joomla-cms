@@ -11,45 +11,24 @@ defined('JPATH_BASE') or die;
 
 $data = $displayData;
 
-$options = array(
-	'filtersApplied' => !empty($data->activeFilters)
-);
+// Receive overridable options
+$data['options'] = !empty($data['options']) ? $data['options'] : array();
 
-// Receive
-$options = new JRegistry($options);
-
-// Add the default config limit
-$options->set('defaultLimit', JFactory::getApplication()->getCfg('list_limit', 20));
-
-$formSelector = $options->get('formSelector', '#adminForm');
-$searchString = $options->get('searchString', null);
-
-// Load the jQuery plugin && CSS
-JHtml::_('script', 'jui/jquery.searchtools.js', false, true, false, false);
-JHtml::_('stylesheet', 'jui/jquery.searchtools.css', false, true);
-
-$doc = JFactory::getDocument();
-$script = "
-	(function($){
-		$(document).ready(function() {
-			$('" . $formSelector . "').searchtools(
-				" . $options->toString() . "
-			);
-		});
-	})(jQuery);
-";
-$doc->addScriptDeclaration($script);
+if (is_array($data['options']))
+{
+	$data['options'] = new JRegistry($data['options']);
+}
 
 // Options
-$showFilterButton = $options->get('filterButton', true);
-$showOrderButton  = $options->get('orderButton', true);
+$filterButton = $data['options']->get('filterButton', true);
+$searchButton = $data['options']->get('searchButton', true);
 
-$filters = $data->filterForm->getGroup('filter');
+$filters = $data['view']->filterForm->getGroup('filter');
 ?>
 
-<?php if (isset($filters['filter_search'])) : ?>
+<?php if (!empty($filters['filter_search'])) : ?>
 	<div class="stools-buttons">
-		<?php if ($options->get('searchButton', true)) : ?>
+		<?php if ($searchButton) : ?>
 			<label for="filter_search" class="element-invisible">
 				<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>
 			</label>
@@ -59,8 +38,8 @@ $filters = $data->filterForm->getGroup('filter');
 					<i class="icon-search"></i>
 				</button>
 			</div>
-			<?php if ($showFilterButton) : ?>
-				<div class="btn-wrapper">
+			<?php if ($filterButton) : ?>
+				<div class="btn-wrapper hidden-phone">
 					<button type="button" class="btn hasTooltip js-stools-btn-filter" title="<?php echo JHtml::tooltipText('JSEARCH_TOOLS_DESC'); ?>">
 						<?php echo JText::_('JSEARCH_TOOLS');?> <i class="caret"></i>
 					</button>

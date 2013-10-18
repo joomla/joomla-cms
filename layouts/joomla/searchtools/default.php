@@ -10,20 +10,50 @@
 defined('JPATH_BASE') or die;
 
 $data = $displayData;
+
+// Receive overridable options
+$data['options'] = !empty($data['options']) ? $data['options'] : array();
+
+if (is_array($data['options']))
+{
+	$data['options'] = new JRegistry($data['options']);
+}
+
+// Set some basic options
+$data['options']->set('filtersApplied', !empty($data['view']->activeFilters));
+$data['options']->set('defaultLimit', JFactory::getApplication()->getCfg('list_limit', 20));
+$data['options']->set('formSelector', $data['options']->get('formSelector', '#adminForm'));
+
+// Load the jQuery plugin && CSS
+JHtml::_('script', 'jui/jquery.searchtools.js', false, true, false, false);
+JHtml::_('stylesheet', 'jui/jquery.searchtools.css', false, true);
+
+$doc = JFactory::getDocument();
+$script = "
+	(function($){
+		$(document).ready(function() {
+			$('" . $data['options']->get('formSelector', '#adminForm') . "').searchtools(
+				" . $data['options']->toString() . "
+			);
+		});
+	})(jQuery);
+";
+$doc->addScriptDeclaration($script);
+
 ?>
 <div class="stools js-stools clearfix">
-	<div id="filter-bar" class="hidden-phone row-fluid clearfix">
-		<div class="span6">
-			<?php echo JLayoutHelper::render('joomla.searchtools.default.bar', $data); ?>
+	<div id="filter-bar" class="clearfix">
+		<div class="stools-bar">
+			<?php echo $this->sublayout('bar', $data); ?>
 		</div>
-		<div class="span6 hidden-phone stools-list js-stools-container-order">
-			<?php echo JLayoutHelper::render('joomla.searchtools.default.list', $data); ?>
+		<div class="hidden-phone hidden-tablet stools-list js-stools-container-order">
+			<?php echo $this->sublayout('list', $data); ?>
 		</div>
 	</div>
 	<!-- Filters div -->
-	<div class="js-stools-container">
+	<div class="js-stools-container clearfix">
 		<div class="js-stools-container-filter stools-filters hidden-phone">
-			<?php echo JLayoutHelper::render('joomla.searchtools.default.filters', $data); ?>
+			<?php echo $this->sublayout('filters', $data); ?>
 		</div>
 	</div>
 </div>
