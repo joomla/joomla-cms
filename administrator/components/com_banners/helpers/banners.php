@@ -39,12 +39,6 @@ class BannersHelper extends JHelperContent
 			'index.php?option=com_categories&extension=com_banners',
 			$vName == 'categories'
 		);
-		if ($vName == 'categories')
-		{
-			JToolbarHelper::title(
-				JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', JText::_('com_banners')),
-				'banners-categories');
-		}
 
 		JHtmlSidebar::addEntry(
 			JText::_('COM_BANNERS_SUBMENU_CLIENTS'),

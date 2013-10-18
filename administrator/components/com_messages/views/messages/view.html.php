@@ -56,7 +56,7 @@ class MessagesViewMessages extends JViewLegacy
 		$state	= $this->get('State');
 		$canDo	= MessagesHelper::getActions();
 
-		JToolbarHelper::title(JText::_('COM_MESSAGES_MANAGER_MESSAGES'), 'inbox.png');
+		JToolbarHelper::title(JText::_('COM_MESSAGES_MANAGER_MESSAGES'), 'envelope inbox');
 
 		if ($canDo->get('core.create'))
 		{

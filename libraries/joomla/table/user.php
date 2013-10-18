@@ -186,7 +186,7 @@ class JTableUser extends JTable
 			return false;
 		}
 
-		if (preg_match("#[<>\"'%;()&]#i", $this->username) || strlen(utf8_decode($this->username)) < 2)
+		if (preg_match('#[<>"\'%;()&\\s\\\\]|\\.\\./#', $this->username) || strlen(utf8_decode($this->username)) < 2)
 		{
 			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_VALID_AZ09', 2));
 
@@ -344,7 +344,7 @@ class JTableUser extends JTable
 		{
 			$query->clear()
 				->delete($this->_db->quoteName('#__user_keys'))
-				->where($this->_db->quoteName('user_id') . ' = ' .  $this->_db->quote($this->username));
+				->where($this->_db->quoteName('user_id') . ' = ' . $this->_db->quote($this->username));
 			$this->_db->setQuery($query);
 			$this->_db->execute();
 		}
@@ -403,7 +403,7 @@ class JTableUser extends JTable
 
 		$query->clear()
 			->delete($this->_db->quoteName('#__user_keys'))
-			->where($this->_db->quoteName('user_id') . ' = ' .  $this->_db->quote($this->username));
+			->where($this->_db->quoteName('user_id') . ' = ' . $this->_db->quote($this->username));
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 

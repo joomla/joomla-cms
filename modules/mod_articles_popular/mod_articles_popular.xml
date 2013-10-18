@@ -51,7 +51,7 @@
 					<field
 					name="show_front"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					label="MOD_POPULAR_FIELD_FEATURED_LABEL"
 					description="MOD_POPULAR_FIELD_FEATURED_DESC">

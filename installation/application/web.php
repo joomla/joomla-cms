@@ -67,8 +67,10 @@ final class InstallationApplicationWeb extends JApplicationCms
 		// Register the client ID
 		$this->_clientId = 2;
 
-		// Set the root in the URI based on the application name
-		JUri::root(null, str_ireplace('/' . $this->getName(), '', JUri::base(true)));
+		// Set the root in the URI one level up.
+		$parts = explode('/', JUri::base(true));
+		array_pop($parts);
+		JUri::root(null, implode('/', $parts));
 	}
 
 	/**
@@ -448,6 +450,46 @@ final class InstallationApplicationWeb extends JApplicationCms
 		$this->config->set('language', $options['language']);
 		$this->config->set('debug_lang', $forced['debug']);
 		$this->config->set('sampledata', $forced['sampledata']);
+	}
+
+	/**
+	 * Allows the application to load a custom or default document.
+	 *
+	 * The logic and options for creating this object are adequately generic for default cases
+	 * but for many applications it will make sense to override this method and create a document,
+	 * if required, based on more specific needs.
+	 *
+	 * @param   JDocument  $document  An optional document object. If omitted, the factory document is created.
+	 *
+	 * @return  InstallationApplicationWeb This method is chainable.
+	 *
+	 * @since   3.2
+	 */
+	public function loadDocument(JDocument $document = null)
+	{
+		if ($document === null)
+		{
+			$lang = JFactory::getLanguage();
+
+			$type = $this->input->get('format', 'html', 'word');
+
+			$attributes = array(
+				'charset' => 'utf-8',
+				'lineend' => 'unix',
+				'tab' => '  ',
+				'language' => $lang->getTag(),
+				'direction' => $lang->isRTL() ? 'rtl' : 'ltr'
+			);
+
+			$document = JDocument::getInstance($type, $attributes);
+
+			// Register the instance to JFactory
+			JFactory::$document = $document;
+		}
+
+		$this->document = $document;
+
+		return $this;
 	}
 
 	/**
