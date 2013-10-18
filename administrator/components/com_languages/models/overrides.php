@@ -54,8 +54,10 @@ class LanguagesModelOverrides extends JModelList
 			return $this->cache[$store];
 		}
 
-		// Parse the override.ini file in oder to get the keys and strings
-		$filename = constant('JPATH_' . strtoupper($this->getState('filter.client'))) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
+		$client = in_array($this->state->get('filter.client'), array(0, 'site')) ? strtoupper('site') : strtoupper('administrator');
+
+		// Parse the override.ini file in order to get the keys and strings
+		$filename = constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
 		$strings = LanguagesHelper::parseFile($filename);
 
 		// Filter the loaded strings according to the search box

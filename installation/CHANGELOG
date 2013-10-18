@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Oct-2013 Jean-Marie Simonet
+# [#32344] *Overrides bug: Warning: constant() [function.constant]: Couldn't find constant JPATH_0
+
 17-Oct-2013 Michael Babker
  + [#31861] [JUX2] [04] New Search tools on top of lists.  Thanks Roberto Segura
 
@@ -32,7 +35,6 @@ $ -> Language fix or change
  ^ [#32287] Update to sample data defaults. Thanks Elin Waring
  # [#32277] Fix problem with form field ordering. Thanks Achal Aggarwal
 
- 
 17-Oct-2013 Jean-Marie Simonet
  $ Updating installation lang files: af-ZA, vi-VN, sr-YU, sr-RS
  $ Updating installation lang files: sr-YU, sr-RS
