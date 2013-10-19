@@ -59,10 +59,10 @@ class PlgContentJoomla extends JPlugin
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_messages/tables');
 
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('id'));
-		$query->from($db->quoteName('#__users'));
-		$query->where($db->quoteName('sendEmail') . " = " . 1); 
+		$query = $db->getQuery(true)
+		->select($db->quoteName('id'))
+		->from($db->quoteName('#__users'))
+		->where($db->quoteName('sendEmail') . ' = 1'); 
 		$db->setQuery($query);
 		$users = (array) $db->loadColumn();
 
