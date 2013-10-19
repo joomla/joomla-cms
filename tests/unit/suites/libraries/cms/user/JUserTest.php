@@ -309,6 +309,7 @@ class JUserTest extends TestCaseDatabase
 	{
 		if ($user)
 		{
+			var_dump($user);
 			$user = new JUser($user);
 		}
 		else
