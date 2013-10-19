@@ -58,6 +58,8 @@ JLoader::register('JInstallerPackage',  JPATH_PLATFORM . '/cms/installer/adapter
 JLoader::register('JInstallerPlugin',  JPATH_PLATFORM . '/cms/installer/adapter/plugin.php');
 JLoader::register('JInstallerTemplate',  JPATH_PLATFORM . '/cms/installer/adapter/template.php');
 JLoader::register('JExtension',  JPATH_PLATFORM . '/cms/installer/extension.php');
+JLoader::registerAlias('JAdministrator',  'JApplicationAdministrator');
+JLoader::registerAlias('JSite',  'JApplicationSite');
 
 // Register Observers:
 // Add Tags to Content, Contact, NewsFeeds, WebLinks and Categories: (this is the only link between them here!):
@@ -78,4 +80,5 @@ JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'Banner
 JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'TagsTableTag', array('typeAlias' => 'com_tags.tag'));
 JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'UsersTableNote', array('typeAlias' => 'com_users.note'));
 
+// Register class name aliases to Framework classes
 require_once JPATH_LIBRARIES . '/framework/aliases.php';
