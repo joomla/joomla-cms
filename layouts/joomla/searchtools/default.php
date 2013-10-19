@@ -14,45 +14,34 @@ $data = $displayData;
 // Receive overridable options
 $data['options'] = !empty($data['options']) ? $data['options'] : array();
 
-if (is_array($data['options']))
-{
-	$data['options'] = new JRegistry($data['options']);
-}
-
 // Set some basic options
-$data['options']->set('filtersApplied', !empty($data['view']->activeFilters));
-$data['options']->set('defaultLimit', JFactory::getApplication()->getCfg('list_limit', 20));
-$data['options']->set('formSelector', $data['options']->get('formSelector', '#adminForm'));
+$customOptions = array(
+	'filtersHidden'       => empty($data['view']->activeFilters),
+	'defaultLimit'        => JFactory::getApplication()->getCfg('list_limit', 20),
+	'searchFieldSelector' => '#filter_search',
+	'orderFieldSelector'  => '#list_fullordering'
+);
 
-// Load the jQuery plugin && CSS
-JHtml::_('script', 'jui/jquery.searchtools.js', false, true, false, false);
-JHtml::_('stylesheet', 'jui/jquery.searchtools.css', false, true);
+$data['options'] = array_unique(array_merge($customOptions, $data['options']));
 
-$doc = JFactory::getDocument();
-$script = "
-	(function($){
-		$(document).ready(function() {
-			$('" . $data['options']->get('formSelector', '#adminForm') . "').searchtools(
-				" . $data['options']->toString() . "
-			);
-		});
-	})(jQuery);
-";
-$doc->addScriptDeclaration($script);
+$formSelector = !empty($data['options']['formSelector']) ? $data['options']['formSelector'] : '#adminForm';
+
+// Load search tools
+JHtml::_('searchtools.form', $formSelector, $data['options']);
 
 ?>
 <div class="stools js-stools clearfix">
 	<div id="filter-bar" class="clearfix">
-		<div class="stools-bar">
+		<div class="stools-bar js-stools-bar">
 			<?php echo $this->sublayout('bar', $data); ?>
 		</div>
-		<div class="hidden-phone hidden-tablet stools-list js-stools-container-order">
+		<div class="hidden-phone hidden-tablet stools-list js-stools-container-list">
 			<?php echo $this->sublayout('list', $data); ?>
 		</div>
 	</div>
 	<!-- Filters div -->
-	<div class="js-stools-container clearfix">
-		<div class="js-stools-container-filter stools-filters hidden-phone">
+	<div class="stools-container js-stools-container clearfix">
+		<div class="stools-filters js-stools-container-filters hidden-phone">
 			<?php echo $this->sublayout('filters', $data); ?>
 		</div>
 	</div>

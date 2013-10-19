@@ -4,21 +4,41 @@
 	var pluginName = "searchtools";
 
 	var defaults = {
-		mainContainerSelector   : '.js-stools',
+		// Form options
+		formSelector            : '.js-stools-form',
+
+		// Search
+		searchFieldSelector     : '.js-stools-field-search',
 		clearBtnSelector        : '.js-stools-btn-clear',
+
+		// Global container
+		mainContainerSelector   : '.js-stools',
+
+		// Filter fields
 		searchBtnSelector       : '.js-stools-btn-search',
 		filterBtnSelector       : '.js-stools-btn-filter',
-		containerSelector       : '.js-stools-container',
-		filterContainerSelector : '.stools-filters',
+		filterContainerSelector : '.js-stools-container-filters',
+		filtersHidden           : true,
+
+		// List fields
+		listBtnSelector         : '.js-stools-btn-list',
+		listContainerSelector   : '.js-stools-container-list',
+		listHidden              : false,
+
+		// Ordering specific
+		orderColumnSelector     : '.js-stools-column-order',
 		orderBtnSelector        : '.js-stools-btn-order',
-		orderContainerSelector  : '.stools-list',
-		searchInputSelector     : '.js-stools-search-string',
-		filtersApplied          : false,
-		searchString            : null,
-		orderColSelector        : '.js-order-col',
-		orderingFieldSelector   : '#list_fullordering',
-		orderingFieldName       : 'list[fullordering]',
-		defaultLimit            : 20
+		orderFieldSelector      : '.js-stools-field-order',
+		orderFieldName          : 'list[fullordering]',
+		limitFieldSelector      : '.js-stools-field-limit',
+		defaultLimit            : 20,
+
+		activeOrder             : null,
+		activeDirection         : 'ASC',
+
+		// Extra
+		chosenSupport           : true,
+		clearListOptions        : false
 	};
 
 	// The actual plugin constructor
@@ -28,36 +48,43 @@
 		this._defaults = defaults;
 
 		// Initialise selectors
-		this.theForm        = this.element;
+		this.theForm        = $(this.options.formSelector);
 
 		// Filters
 		this.filterButton    = $(this.options.filterBtnSelector);
 		this.filterContainer = $(this.options.filterContainerSelector);
+		this.filtersHidden   = this.options.filtersHidden;
 
-		// Orders
-		this.orderButton     = $(this.options.orderBtnSelector);
-		this.orderContainer  = $(this.options.orderContainerSelector);
+		// List fields
+		this.listButton    = $(this.options.listBtnSelector);
+		this.listContainer = $(this.options.listContainerSelector);
+		this.listHidden    = this.options.listHidden;
 
 		// Main container
 		this.mainContainer = $(this.options.mainContainerSelector);
-		this.container     = $(this.options.containerSelector);
 
 		// Search
-		this.searchButton    = $(this.options.searchBtnSelector);
-		this.searchInput     = $(this.options.searchInputSelector);
-
-		this.searchString = $(this.options.searchString);
-
-		this.clearButton     = $(this.options.clearBtnSelector);
+		this.searchButton = $(this.options.searchBtnSelector);
+		this.searchField  = $(this.options.searchFieldSelector);
+		this.searchString = null;
+		this.clearButton  = $(this.options.clearBtnSelector);
 
 		// Ordering
-		this.orderCols     = $(this.options.orderColSelector);
-		this.orderingField = $(this.options.orderingFieldSelector);
+		this.orderCols  = $(this.options.orderColumnSelector);
+		this.orderField = $(this.options.orderFieldSelector);
+
+		// Limit
+		this.limitField = $(this.options.limitFieldSelector);
 
 		// Init trackers
-		this.activeCol       = null;
-		this.activeDirection = 'ASC';
-		this.activeOrdering  = null;
+		this.activeColumn    = null;
+		this.activeDirection = this.options.activeDirection;
+		this.activeOrder     = this.options.activeOrder;
+		this.activeLimit     = null;
+
+		// Extra options
+		this.chosenSupport    = this.options.chosenSupport;
+		this.clearListOptions = this.options.clearListOptions;
 
 		// Selector values
 		this._name = pluginName;
@@ -69,20 +96,35 @@
 		init: function () {
 			var self = this;
 
+			// Get values
+			this.searchString = this.searchField.val();
+
+			if (this.filtersHidden) {
+				this.hideFilters();
+			} else {
+				this.showFilters();
+			}
+
+			if (this.listHidden) {
+				this.hideList();
+			} else {
+				this.showList();
+			}
+
 			self.filterButton.click(function(e) {
 				self.toggleFilters();
 				e.stopPropagation();
 				e.preventDefault();
 			});
 
-			self.orderButton.click(function(e) {
-				self.toggleOrder();
+			self.listButton.click(function(e) {
+				self.toggleList();
 				e.stopPropagation();
 				e.preventDefault();
 			});
 
 			// Do we need to add to mark filter as enabled?
-			self.getFilters().each(function(i, element) {
+			self.getFilterFields().each(function(i, element) {
 				self.checkFilter(element);
 				$(element).change(function () {
 					self.checkFilter(element);
@@ -93,12 +135,8 @@
 				self.clear();
 			});
 
-			if (this.options.filtersApplied) {
-				self.toggleFilters();
-			}
-
 			// Check/create ordering field
-			this.createOrderingField();
+			this.createOrderField();
 
 			this.orderCols.click(function() {
 
@@ -110,15 +148,15 @@
 				// The data-order attrib is required
 				if (newOrderCol.length)
 				{
-					self.activeCol = newOrderCol;
+					self.activeColumn = newOrderCol;
 
-					if (newOrdering !== self.activeOrdering)
+					if (newOrdering !== self.activeOrder)
 					{
 						self.activeDirection = newDirection;
-						self.activeOrdering  = newOrdering;
+						self.activeOrder  = newOrdering;
 
 						// Update the order field
-						self.updateFieldValue(self.orderingField, newOrdering);
+						self.updateFieldValue(self.orderField, newOrdering);
 					}
 					else
 					{
@@ -143,16 +181,33 @@
 		clear: function () {
 			var self = this;
 
-			self.getFilters().each(function(i, element) {
+			self.getFilterFields().each(function(i, element) {
 				$(element).val('');
 				self.checkFilter(element);
-				$(element).trigger('liszt:updated');
+
+				if (self.chosenSupport) {
+					$(element).trigger('liszt:updated');
+				}
 			});
 
-			// Special case to limit box to the default config limit
-			$('#list_limit').val(self.options.defaultLimit).trigger('liszt:updated');
+			if (self.clearListOptions) {
+				self.getListFields().each(function(i, element) {
+					$(element).val('');
+					self.checkFilter(element);
 
-			self.searchInput.val('');
+					if (self.chosenSupport) {
+						$(element).trigger('liszt:updated');
+					}
+				});
+
+				// Special case to limit box to the default config limit
+				$('#list_limit').val(self.options.defaultLimit);
+				if (self.chosenSupport) {
+					$('#list_limit').trigger('liszt:updated');
+				}
+			}
+
+			self.searchField.val('');
 			self.theForm.submit();
 		},
 		activeFilter: function (element) {
@@ -169,67 +224,62 @@
 			var chosenId = '#' + $(element).attr('id') + '_chzn';
 			$(chosenId).removeClass('active');
 		},
-		getFilters: function () {
-			var self = this;
-
-			return self.mainContainer.find('select');
+		getFilterFields: function () {
+			return this.filterContainer.find('select');
 		},
-		hideContainer: function () {
-			var self = this;
-
-			self.container.hide('fast');
-			self.container.removeClass('shown');
+		getListFields: function () {
+			return this.listContainer.find('select');
 		},
-		showContainer: function () {
-			var self = this;
-
-			self.container.show('fast');
-			self.container.addClass('shown');
+		// Common container functions
+		hideContainer: function (container) {
+			$(container).hide('fast');
+			$(container).removeClass('shown');
 		},
-		hideFilters: function () {
-			var self = this;
-
-			self.filterContainer.hide('fast');
-			self.filterContainer.removeClass('shown');
+		showContainer: function (container) {
+			$(container).show('fast');
+			$(container).addClass('shown');
 		},
-		showFilters: function () {
-			var self = this;
-
-			self.filterContainer.show('fast');
-			self.filterContainer.addClass('shown');
-		},
-		toggleFilters: function () {
-			var self = this;
-
-			if (self.container.hasClass('shown')) {
-				self.hideContainer();
-				self.filterButton.removeClass('btn-primary');
+		toggleContainer: function (container) {
+			if ($(container).hasClass('shown')) {
+				this.hideContainer(container);
 			} else {
-				self.showContainer();
-				self.filterButton.addClass('btn-primary');
+				this.showContainer(container);
 			}
 		},
-		hideOrder: function () {
-			var self = this;
-
-			self.orderContainer.hide('fast');
-			self.orderContainer.removeClass('shown');
+		// List container management
+		hideList: function () {
+			this.hideContainer(this.listContainer);
+			this.listButton.removeClass('btn-primary');
 		},
-		showOrder: function () {
-			var self = this;
-
-			self.orderContainer.show('fast');
-			self.orderContainer.addClass('shown');
+		showList: function () {
+			this.showContainer(this.listContainer);
+			this.listButton.addClass('btn-primary');
 		},
-		toggleOrder: function () {
-			var self = this;
+		toggleList: function () {
+			this.toggleContainer(this.listContainer);
 
-			if (self.container.hasClass('shown')) {
-				self.hideOrder();
-				self.orderButton.removeClass('btn-inverse');
+			if (this.listContainer.hasClass('shown')) {
+				this.listButton.addClass('btn-primary');
 			} else {
-				self.showOrder();
-				self.orderButton.addClass('btn-inverse');
+				this.listButton.removeClass('btn-primary');
+			}
+		},
+		// Filters container management
+		hideFilters: function () {
+			this.hideContainer(this.filterContainer);
+			this.filterButton.removeClass('btn-primary');
+		},
+		showFilters: function () {
+			this.showContainer(this.filterContainer);
+			this.filterButton.addClass('btn-primary');
+		},
+		toggleFilters: function () {
+			this.toggleContainer(this.filterContainer);
+
+			if (this.filterContainer.hasClass('shown')) {
+				this.filterButton.addClass('btn-primary');
+			} else {
+				this.filterButton.removeClass('btn-primary');
 			}
 		},
 		toggleDirection: function () {
@@ -243,28 +293,29 @@
 			}
 
 			self.activeDirection = newDirection;
-			self.activeOrdering  = self.activeCol + ' ' + newDirection;
+			self.activeOrder  = self.activeColumn + ' ' + newDirection;
 
-			self.updateFieldValue(self.orderingField, self.activeOrdering);
+			self.updateFieldValue(self.orderField, self.activeOrder);
 		},
-		createOrderingField: function () {
+		createOrderField: function () {
 
 			var self = this;
 
-			if (!this.orderingField.length)
+			if (!this.orderField.length)
 			{
-				this.orderingField = $('<input>').attr({
+				this.orderField = $('<input>').attr({
 				    type: 'hidden',
-				    id: 'js-ordering-field',
-				    class: 'js-ordering-field',
-				    name: self.options.orderingFieldName
+				    id: 'js-stools-field-order',
+				    class: 'js-stools-field-order',
+				    name: self.options.orderFieldName,
+				    value: self.activeOrder + ' ' + this.activeDirection
 				});
 
-				this.orderingField.appendTo(this.theForm);
+				this.orderField.appendTo(this.theForm);
 			}
 
 			// Add missing columns to the order select
-			if (this.orderingField.is('select'))
+			if (this.orderField.is('select'))
 			{
 				this.orderCols.each(function(){
 					var value     = $(this).attr('data-order');
@@ -275,7 +326,7 @@
 					{
 						value = value + ' ' + direction;
 
-						var option = self.findOption(self.orderingField, value);
+						var option = self.findOption(self.orderField, value);
 
 						if (!option.length)
 						{
@@ -289,19 +340,19 @@
 							}
 
 							// Append the option an repopulate the chosen field
-							self.orderingField.append(option);
+							self.orderField.append(option);
 						}
 					}
 
 				});
 
-				this.orderingField.trigger('liszt:updated');
+				this.orderField.trigger('liszt:updated');
 			}
 
-			this.activeOrdering  = this.orderingField.val();
+			this.activeOrder  = this.orderField.val();
 		},
 		updateFieldValue: function (field, newValue) {
-
+			var self = this;
 			var type = field.attr('type');
 
 			if (type === 'hidden' || type === 'text')
@@ -327,9 +378,11 @@
 					// Append the option an repopulate the chosen field
 					field.append(option);
 				}
-				// Trigger the chosen update
-				field.trigger('liszt:updated');
 
+				// Trigger the chosen update
+				if (self.chosenSupport) {
+					field.trigger('liszt:updated');
+				}
 			}
 		},
 		findOption: function(select, value) {

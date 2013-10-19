@@ -27,84 +27,96 @@ abstract class JHtmlSearchtools
 	/**
 	 * Load the main Searchtools libraries
 	 *
-	 * @param   mixed  $debug  Is debugging mode on? [optional]
-	 *
 	 * @return  void
 	 *
 	 * @since   3.2
 	 */
-	public static function main($debug = null)
+	public static function main()
 	{
 		// Only load once
-		if (!empty(static::$loaded[__METHOD__]))
+		if (empty(static::$loaded[__METHOD__]))
 		{
-			return;
+			// Requires jQuery but allows to skip its loading
+			if ($loadJquery = (!isset($options['loadJquery']) || $options['loadJquery'] != 0))
+			{
+				JHtml::_('jquery.framework');
+			}
+
+			// Load the jQuery plugin && CSS
+			JHtml::_('script', 'jui/jquery.searchtools.min.js', false, true);
+			JHtml::_('stylesheet', 'jui/jquery.searchtools.css', false, true);
+
+			static::$loaded[__METHOD__] = true;
 		}
-
-		// If no debugging value is set, use the configuration setting
-		if ($debug === null)
-		{
-			$config = JFactory::getConfig();
-			$debug = (boolean) $config->get('debug');
-		}
-
-		// Load the jQuery plugin && CSS
-		JHtml::_('script', 'jui/jquery.searchtools.js', false, true, false, false, $debug);
-		JHtml::_('stylesheet', 'jui/jquery.searchtools.css', false, true);
-
-		static::$loaded[__METHOD__] = true;
 
 		return;
 	}
 
 	/**
-	 * Add javascript support for Bootstrap alerts
+	 * Load searchtools for a specific form
 	 *
-	 * @param   array  $options  Optional settings array
+	 * @param   mixed  $selector  Is debugging mode on? [optional]
+	 * @param   array  $options   Optional array of parameters for search tools
 	 *
 	 * @return  void
 	 *
 	 * @since   3.2
 	 */
-	public static function grid($options = array())
+	public static function form($selector = '.js-stools-form', $options = array())
 	{
-		// Default form name
-		if (!isset($options['formName']))
-		{
-			$options['formName'] = 'adminForm';
-		}
+		$sig = md5(serialize(array($selector, $options)));
 
 		// Only load once
-		if (isset(static::$loaded[__METHOD__][$options['formName']]))
+		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
-			return;
+			// Include Bootstrap framework
+			static::main();
+
+			// Add the form selector to the search tools options
+			$options['formSelector'] = $selector;
+
+			// Generate options with default values
+			$options = static::options2Jregistry($options);
+
+			$doc = JFactory::getDocument();
+			$script = "
+				(function($){
+					$(document).ready(function() {
+						$('" . $selector . "').searchtools(
+							" . $options->toString() . "
+						);
+					});
+				})(jQuery);
+			";
+			$doc->addScriptDeclaration($script);
+
+			static::$loaded[__METHOD__][$sig] = true;
 		}
-
-		// If no debugging value is set, use the configuration setting
-		if (!isset($options['debug']))
-		{
-			$config = JFactory::getConfig();
-			$options['debug'] = (boolean) $config->get('debug');
-		}
-
-		// Include main searchtools framework
-		static::main($options['debug']);
-
-		JHtml::_('script', 'jui/jquery.searchtools-grid.js', false, true, false, false, $options['debug']);
-
-		// Attach the popover to the document
-		JFactory::getDocument()->addScriptDeclaration(
-			"(function($){
-				$(document).ready(function() {
-					$('#" . $options['formName'] . "').stoolsGrid(" . json_encode($options) . ");
-				});
-			})(jQuery);
-			"
-		);
-
-		static::$loaded[__METHOD__][$options['formName']] = true;
 
 		return;
+	}
+
+	/**
+	 * Function to receive & pre-process javascript options
+	 *
+	 * @param   mixed  $options  Associative array/JRegistry object with options
+	 *
+	 * @return  JRegistry        Options converted to JRegistry object
+	 */
+	private static function options2Jregistry($options)
+	{
+		// Support options array
+		if (is_array($options))
+		{
+			$options = new JRegistry($options);
+		}
+
+		if (!($options instanceof Jregistry))
+		{
+			$options = new JRegistry;
+		}
+
+		return $options;
 	}
 
 	/**
