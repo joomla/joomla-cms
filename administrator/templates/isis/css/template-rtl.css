@@ -7774,6 +7774,9 @@ th .tooltip-inner {
 #helpsite-refresh {
 	vertical-align: top;
 }
+.alert-no-items {
+	margin-top: 20px;
+}
 @media (max-width: 767px) {
 	html[dir=rtl] #toolbar #toolbar-options,
 	html[dir=rtl] #toolbar #toolbar-help,
