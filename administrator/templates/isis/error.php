@@ -63,7 +63,6 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title><?php echo $this->title; ?> <?php echo htmlspecialchars($this->error->getMessage()); ?></title>
-	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/template.css" type="text/css" />
 	<?php // If debug  mode
 		$debug = JFactory::getConfig()->get('debug_lang');
 		if ((defined('JDEBUG') && JDEBUG) || $debug) : ?>
@@ -87,7 +86,7 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 	<?php
 	}
 	?>
-
+	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/template<?php echo ($this->direction == 'rtl' ? '-rtl' : ''); ?>.css" type="text/css" />
 	<link href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
 	<?php
 	// Template color
