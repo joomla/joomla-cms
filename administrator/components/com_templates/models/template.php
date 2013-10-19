@@ -110,7 +110,7 @@ class TemplatesModelTemplate extends JModelForm
 		{
 			if (!in_array($value, array(".", "..")))
 			{
-				if (is_dir($dir . $value . '/'))
+				if (is_dir($dir . $value))
 				{
 					$relativePath = str_replace($this->element, '', $dir . $value);
 					$result['/' . $relativePath] = $this->getDirectoryTree($dir . $value . '/');
