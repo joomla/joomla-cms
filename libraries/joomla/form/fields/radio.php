@@ -40,7 +40,7 @@ class JFormFieldRadio extends JFormField
 		$html = array();
 
 		// Initialize some field attributes.
-		$class     = !empty($this->class) ? ' class="radio ' . $this->class . '"' : ' class="radio"';
+		$class     = !empty($this->class) ? ' class="radiogroup ' . $this->class . '"' : ' class="radiogroup"';
 		$required  = $this->required ? ' required aria-required="true"' : '';
 		$autofocus = $this->autofocus ? ' autofocus' : '';
 		$disabled  = $this->disabled ? ' disabled' : '';
@@ -57,6 +57,7 @@ class JFormFieldRadio extends JFormField
 		{
 			// Initialize some option attributes.
 			$checked = ((string) $option->value == (string) $this->value) ? ' checked="checked"' : '';
+			$labelclass = !empty($option->labelclass) ? ' class="radio ' . $option->labelclass . '"' : 'class="radio"';
 			$class = !empty($option->class) ? ' class="' . $option->class . '"' : '';
 
 			$disabled = !empty($option->disable) || ($readonly && !$checked);
@@ -67,12 +68,13 @@ class JFormFieldRadio extends JFormField
 			$onclick = !empty($option->onclick) ? ' onclick="' . $option->onclick . '"' : '';
 			$onchange = !empty($option->onchange) ? ' onchange="' . $option->onchange . '"' : '';
 
+			$html[] = '<label for="' . $this->id . $i . '"' . $labelclass . ' >';
+
 			$html[] = '<input type="radio" id="' . $this->id . $i . '" name="' . $this->name . '" value="'
 				. htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8') . '"' . $checked . $class . $required . $onclick
 				. $onchange . $disabled . ' />';
 
-			$html[] = '<label for="' . $this->id . $i . '"' . $class . ' >'
-				. JText::alt($option->text, preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)) . '</label>';
+			$html[] = JText::alt($option->text, preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)) . '</label>';
 
 			$required = '';
 		}
@@ -112,6 +114,7 @@ class JFormFieldRadio extends JFormField
 			);
 
 			// Set some option attributes.
+			$tmp->labelclass = (string) $option['labelclass'];
 			$tmp->class = (string) $option['class'];
 
 			// Set some JavaScript option attributes.
