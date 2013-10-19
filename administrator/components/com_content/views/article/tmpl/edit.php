@@ -29,6 +29,7 @@ $input = $app->input;
 $assoc = JLanguageAssociations::isEnabled();
 
 // This checks if the config options have ever been saved. If they haven't they will fall back to the original settings.
+$params = json_decode($params);
 $editoroptions = isset($params->show_publishing_options);
 
 if (!$editoroptions)
@@ -44,7 +45,7 @@ if ($this->item->attribs['show_publishing_options'] != '')
 {
 	$params->show_publishing_options = $this->item->attribs['show_publishing_options'];
 }
-
+var_dump($params->show_publishing_options);
 if ($this->item->attribs['show_article_options'] != '')
 {
 	$params->show_article_options = $this->item->attribs['show_article_options'];
