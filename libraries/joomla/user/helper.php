@@ -444,10 +444,7 @@ abstract class JUserHelper
 					if (!$encrypted)
 					{
 						// Something went wrong fall back to sha256.
-						$salt = JUserHelper::genRandomPassword(32);
-
-						return static::getCryptedPassword($plaintext, $salt, 'sha256', false);
-
+						return static::getCryptedPassword($plaintext, '', 'sha256', false);
 					}
 
 					return ($show_encrypt) ? '{BCRYPT}' . $encrypted : $encrypted;
@@ -455,9 +452,7 @@ abstract class JUserHelper
 				else
 				{
 					// BCrypt isn't available but we want strong passwords, fall back to sha256.
-					$salt = JUserHelper::genRandomPassword(32);
-
-					return static::getCryptedPassword($plaintext, $salt, 'sha256', false);
+					return static::getCryptedPassword($plaintext, '', 'sha256', false);
 				}
 		}
 	}

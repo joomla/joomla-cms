@@ -160,7 +160,7 @@ class PlgSystemRemember extends JPlugin
 				// We have a user with one cookie with a valid series and a corresponding record in the database.
 				if ($countResults === 1)
 				{
-					if (substr($results[0]->token, 0, 4) === '$2y$')
+					if (substr($results[0]->token, 0, 4) === '$2y$' ||  substr($results[0]->token, 0, 4) == '$2a$')
 					{
 						if (JCrypt::hasStrongPasswordSupport())
 						{

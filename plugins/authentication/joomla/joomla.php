@@ -54,7 +54,7 @@ class PlgAuthenticationJoomla extends JPlugin
 
 		if ($result)
 		{
-			if (substr($result->password, 0, 4) == '$2y$')
+			if (substr($result->password, 0, 4) == '$2y$' || substr($result->password, 0, 4) == '$2a$')
 			{
 				// BCrypt passwords are always 60 characters, but it is possible that salt is appended although non standard.
 				$password60 = substr($result->password, 0, 60);
