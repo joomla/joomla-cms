@@ -29,6 +29,7 @@ $ -> Language fix or change
 # [#32346] Coding error in plugins/system/remember/remember.php. Thanks Mike Smith
 # [#32290] Login screen showing secret key field when it shouldn't, not showing remember me. Thanks Elin Waring
 # [#32338] Missing string. Thanks Roger Perren
+# [#32353] Fatal Error: Class 'PlgUserJoomla' not found. Thanks George Wilson
 
 18-Oct-2013 Jean-Marie Simonet
 # [#32344] *Overrides bug: Warning: constant() [function.constant]: Couldn't find constant JPATH_0
