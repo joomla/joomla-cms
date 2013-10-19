@@ -26,6 +26,7 @@ $params = $this->state->get('params');
 
 $app = JFactory::getApplication();
 $input = $app->input;
+$assoc = JLanguageAssociations::isEnabled();
 
 // This checks if the config options have ever been saved. If they haven't they will fall back to the original settings.
 $editoroptions = isset($params->show_publishing_options);
@@ -120,7 +121,7 @@ if ($this->item->attribs['show_urls_images_backend'] != '')
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
-		<?php if (isset($app->item_associations) && JLanguageAssociations::isEnabled()) : ?>
+		<?php if ($assoc) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>
 				<?php echo $this->loadTemplate('associations'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>

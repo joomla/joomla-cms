@@ -2920,8 +2920,9 @@ SELECT 1, 'Public', 0, '[1]'
 UNION ALL
 SELECT 2, 'Registered', 1, '[6,2,8]'
 UNION ALL
-SELECT 3, 'Special', 2, '[6,3,8]';
-
+SELECT 3, 'Special', 2, '[6,3,8]'
+UNION ALL
+SELECT 6, 'Super Users', 0, '[8]';
 SET IDENTITY_INSERT #__viewlevels  OFF;
 
 /****** Object:  Table [#__weblinks] ******/

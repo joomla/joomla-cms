@@ -86,14 +86,12 @@ class JFormFieldRules extends JFormField
 	 */
 	public function __set($name, $value)
 	{
-		$value = (string) $value;
-
 		switch ($name)
 		{
 			case 'section':
 			case 'component':
 			case 'assetField':
-				$this->$name = $value;
+				$this->$name = (string) $value;
 				break;
 
 			default:

@@ -1,0 +1,44 @@
+.stools {
+	width: 100%;
+}
+.js-stools-container {
+	display: none;
+	margin: 20px 0 10px 0;
+}
+.stools-buttons .input-append {
+	margin-bottom: 0;
+}
+.stools-buttons .btn-wrapper,
+.js-stools-container .btn-wrapper {
+	display: inline-block;
+	margin: 0 5px 0 0;
+}
+
+.stools .stools-list {
+	text-align: right;
+}
+
+.stools .stools-list .chzn-container {
+	text-align: left;
+}
+
+.filter-select select.active,
+.filter-select .chzn-container.active .chzn-single{
+	border: 2px solid #2384D3;
+}
+
+.js-stools .chzn-container-single .chzn-single span {
+	overflow: visible;
+}
+
+@media (max-width: 480px) {
+	.js-stools-container {
+		display: block;
+	}
+	.js-stools-container .btn-group {
+		display: block;
+	}
+	.js-stools-container .btn-wrapper {
+		width: 100%
+	}
+}

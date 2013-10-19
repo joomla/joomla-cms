@@ -98,8 +98,6 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 	 */
 	public function __set($name, $value)
 	{
-		$value = (string) $value;
-
 		switch ($name)
 		{
 			case 'menuType':
@@ -109,6 +107,7 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 			case 'language':
 			case 'published':
 			case 'disable':
+				$value = (string) $value;
 				$this->$name = $value ? explode(',', $value) : array();
 				break;
 
