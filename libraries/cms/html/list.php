@@ -79,22 +79,24 @@ abstract class JHtmlList
 	/**
 	 * Returns an array of options
 	 *
-	 * @param   string   $query  SQL with 'ordering' AS value and 'name field' AS text
-	 * @param   integer  $chop   The length of the truncated headline
+	 * @param   string   $query         SQL with 'ordering' AS value and 'name field' AS text
+	 * @param   integer  $chop          The length of the truncated headline
+	 * @param   integer  $currentOrder  Order of the item
 	 *
 	 * @return  array  An array of objects formatted for JHtml list processing
 	 *
 	 * @since   1.5
 	 */
-	public static function genericordering($query, $chop = 30, $selectOrder = 0)
+	public static function genericordering($query, $chop = 30, $currentOrder = 0)
 	{
 		$db = JFactory::getDbo();
 		$options = array();
 		$db->setQuery($query);
 
 		$items = $db->loadObjectList();
+		$totalItems = count($items);
 
-		if (empty($items))
+		if ($totalItems == 0)
 		{
 			$options[] = JHtml::_('select.option', 1, JText::_('JOPTION_ORDER_FIRST'));
 
@@ -102,10 +104,10 @@ abstract class JHtmlList
 		}
 
 		$options[] = JHtml::_('select.option', 0, JText::_('JOPTION_ORDER_FIRST'));
+		$options[] = JHtml::_('select.option', $items[$totalItems - 1]->value + 1, JText::_('JOPTION_ORDER_LAST'));
 
-		for ($i = 0, $n = count($items); $i < $n; $i++)
+		for ($i = 0; $i < $totalItems; ++$i)
 		{
-
 			if (JString::strlen($items[$i]->text) > $chop)
 			{
 				$text = JString::substr($items[$i]->text, 0, $chop) . "...";
@@ -115,10 +117,8 @@ abstract class JHtmlList
 				$text = $items[$i]->text;
 			}
 
-			$options[] = JHtml::_('select.option', ($items[$i]->value == $selectOrder ? $selectOrder : $items[$i]->value + 1), ($items[$i]->value + 1) / 2 . '. ' . $text);
+			$options[] = JHtml::_('select.option', $items[$i]->value + ($items[$i]->value < $currentOrder ? -1 : ($items[$i]->value > $currentOrder ? 1 : 0)), ($items[$i]->value + 1) / 2 . '. ' . $text);
 		}
-
-		$options[] = JHtml::_('select.option', $items[$i - 1]->value + 1, JText::_('JOPTION_ORDER_LAST'));
 
 		return $options;
 	}
