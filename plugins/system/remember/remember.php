@@ -177,7 +177,7 @@ class PlgSystemRemember extends JPlugin
 
 					if (empty($match))
 					{
-						JUserHelper:invalidateCookie($results[0]->user_id, $uastring);
+						JUserHelper::invalidateCookie($results[0]->user_id, $uastring);
 						JLog::add(JText::sprintf('PLG_SYSTEM_REMEMBER_ERROR_LOG_LOGIN_FAILED', $user->username), JLog::WARNING, 'security');
 
 						return false;
