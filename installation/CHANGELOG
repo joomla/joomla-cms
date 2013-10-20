@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Oct-2013 Roberto Segura
+# [#31716] Offline template: "remember me" checkbox not removed when plugin disabled. Thanks Tobias Zulauf
+
 07-Oct-2013 Jean-Marie Simonet
  # [#30586] Usernames that should not be accepted can be actualy registered. Thanks Sergio Manzi
  # [#32199] *Allow username edit in profile edit when username is not compliant. Thanks Achal Aggarwal
@@ -65,7 +68,7 @@ $ -> Language fix or change
 12-Aug-2013 Jean-Marie Simonet
  # [#31681] Module manager allows positions with trailing spaces. Thanks Richard McDaniel
 
-08-Aug-2013 Elin Waring 
+08-Aug-2013 Elin Waring
  # [#31786] get_html_translation_table requires encoding value for PHP 5.4 Thanks Robert Deutz and Tobias Zulauf
 
 07-Aug-2013 Jean-Marie Simonet

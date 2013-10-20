@@ -80,3 +80,7 @@ input.button:hover { border-color:  #FC902E; }
 #system-message dd {
 	margin: 0px;
 }
+
+.login {
+	margin-top: 5px;
+}
