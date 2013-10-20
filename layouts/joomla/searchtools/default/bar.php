@@ -27,29 +27,27 @@ $filters = $data['view']->filterForm->getGroup('filter');
 ?>
 
 <?php if (!empty($filters['filter_search'])) : ?>
-	<div class="stools-buttons">
-		<?php if ($searchButton) : ?>
-			<label for="filter_search" class="element-invisible">
-				<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>
-			</label>
-			<div class="btn-wrapper input-append">
-				<?php echo $filters['filter_search']->input; ?>
-				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>">
-					<i class="icon-search"></i>
-				</button>
-			</div>
-			<?php if ($filterButton) : ?>
-				<div class="btn-wrapper hidden-phone">
-					<button type="button" class="btn hasTooltip js-stools-btn-filter" title="<?php echo JHtml::tooltipText('JSEARCH_TOOLS_DESC'); ?>">
-						<?php echo JText::_('JSEARCH_TOOLS');?> <i class="caret"></i>
-					</button>
-				</div>
-			<?php endif; ?>
-			<div class="btn-wrapper">
-				<button type="button" class="btn hasTooltip js-stools-btn-clear" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>">
-					<?php echo JText::_('JSEARCH_FILTER_CLEAR');?>
+	<?php if ($searchButton) : ?>
+		<label for="filter_search" class="element-invisible">
+			<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>
+		</label>
+		<div class="btn-wrapper input-append">
+			<?php echo $filters['filter_search']->input; ?>
+			<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>">
+				<i class="icon-search"></i>
+			</button>
+		</div>
+		<?php if ($filterButton) : ?>
+			<div class="btn-wrapper hidden-phone">
+				<button type="button" class="btn hasTooltip js-stools-btn-filter" title="<?php echo JHtml::tooltipText('JSEARCH_TOOLS_DESC'); ?>">
+					<?php echo JText::_('JSEARCH_TOOLS');?> <i class="caret"></i>
 				</button>
 			</div>
 		<?php endif; ?>
-	</div>
+		<div class="btn-wrapper">
+			<button type="button" class="btn hasTooltip js-stools-btn-clear" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>">
+				<?php echo JText::_('JSEARCH_FILTER_CLEAR');?>
+			</button>
+		</div>
+	<?php endif; ?>
 <?php endif;

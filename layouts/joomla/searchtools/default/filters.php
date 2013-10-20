@@ -15,13 +15,11 @@ $data = $displayData;
 $filters = $data['view']->filterForm->getGroup('filter');
 ?>
 <?php if ($filters) : ?>
-	<div class="filter-select hidden-phone">
-		<?php foreach ($filters as $fieldName => $field) : ?>
-			<?php if ($fieldName != 'filter_search') : ?>
-				<div class="stools-filter-field">
-					<?php echo $field->input; ?>
-				</div>
-			<?php endif; ?>
-		<?php endforeach; ?>
-	</div>
+	<?php foreach ($filters as $fieldName => $field) : ?>
+		<?php if ($fieldName != 'filter_search') : ?>
+			<div class="js-stools-field-filter">
+				<?php echo $field->input; ?>
+			</div>
+		<?php endif; ?>
+	<?php endforeach; ?>
 <?php endif; ?>

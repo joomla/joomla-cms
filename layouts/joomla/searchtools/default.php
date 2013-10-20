@@ -16,8 +16,8 @@ $data['options'] = !empty($data['options']) ? $data['options'] : array();
 
 // Set some basic options
 $customOptions = array(
-	'filtersHidden'       => empty($data['view']->activeFilters),
-	'defaultLimit'        => JFactory::getApplication()->getCfg('list_limit', 20),
+	'filtersHidden'       => isset($data['options']['filtersHidden']) ? $data['options']['filtersHidden'] : empty($data['view']->activeFilters),
+	'defaultLimit'        => isset($data['options']['defaultLimit']) ? $data['options']['defaultLimit'] : JFactory::getApplication()->getCfg('list_limit', 20),
 	'searchFieldSelector' => '#filter_search',
 	'orderFieldSelector'  => '#list_fullordering'
 );
@@ -30,19 +30,17 @@ $formSelector = !empty($data['options']['formSelector']) ? $data['options']['for
 JHtml::_('searchtools.form', $formSelector, $data['options']);
 
 ?>
-<div class="stools js-stools clearfix">
-	<div id="filter-bar" class="clearfix">
-		<div class="stools-bar js-stools-bar">
-			<?php echo $this->sublayout('bar', $data); ?>
+<div class="js-stools clearfix">
+	<div class="clearfix">
+		<div class="js-stools-container-bar">
+			<?php echo JLayoutHelper::render('joomla.searchtools.default.bar', $data); ?>
 		</div>
-		<div class="hidden-phone hidden-tablet stools-list js-stools-container-list">
-			<?php echo $this->sublayout('list', $data); ?>
+		<div class="js-stools-container-list hidden-phone hidden-tablet">
+			<?php echo JLayoutHelper::render('joomla.searchtools.default.list', $data); ?>
 		</div>
 	</div>
 	<!-- Filters div -->
-	<div class="stools-container js-stools-container clearfix">
-		<div class="stools-filters js-stools-container-filters hidden-phone">
-			<?php echo $this->sublayout('filters', $data); ?>
-		</div>
+	<div class="js-stools-container-filters hidden-phone clearfix">
+		<?php echo JLayoutHelper::render('joomla.searchtools.default.filters', $data); ?>
 	</div>
 </div>

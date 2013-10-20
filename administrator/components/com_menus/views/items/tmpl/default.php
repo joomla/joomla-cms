@@ -64,7 +64,7 @@ $assoc		= JLanguageAssociations::isEnabled();
 <?php endif;?>
 		<?php
 		// Search tools bar
-		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this), null, array('debug' => false));
 		?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-no-items">
