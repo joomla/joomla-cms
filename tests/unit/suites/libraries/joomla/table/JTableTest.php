@@ -531,7 +531,6 @@ class JTableTest extends TestCaseDatabase
 		$object2->load(array('id1' => 25, 'id2' => 50));
 
 		$this->AssertEquals('5', $object2->checked_out);
-
 	}
 
 	/**
@@ -713,7 +712,8 @@ class JTableTest extends TestCaseDatabase
 
 		$object2->load(array('id1' => 25, 'id2' => 51));
 
-		$this->assertEquals(2, $object2->ordering, 'Elements did not get reordered');
+		// Now order is stored in the sequence 1,3,5,7,9...
+		$this->assertEquals(3, $object2->ordering, 'Elements did not get reordered');
 	}
 
 	/**
