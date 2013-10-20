@@ -27,11 +27,12 @@ $ -> Language fix or change
 
 20-Oct-2013 Jean-Marie Simonet
  # [#32278] Error Page is not in the new JUX design. Thanks Michael Babker
+ $ Updating Installation languages: fi-FI, nl-NL
 
 20-Oct-2013 Roberto Segura
 # [#32346] Coding error in plugins/system/remember/remember.php. Thanks Mike Smith
 # [#32290] Login screen showing secret key field when it shouldn't, not showing remember me. Thanks Elin Waring
-# [#32338] Missing string. Thanks Roger Perren
+$ [#32338] Missing string. Thanks Roger Perren
 # [#32353] Fatal Error: Class 'PlgUserJoomla' not found. Thanks George Wilson
 # [#32352] Add class aliases for legacy application classes. Thanks Michael Babker
 # [#32326] Control Panel Icon Needs to Change. Thanks Nick Savov
