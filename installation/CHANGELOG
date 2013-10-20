@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Oct-2013 Elin Waring
+ # [#32327] Installation halts at 1st step on PHP 5.3.3.
+
 20-Oct-2013 Jean-Marie Simonet
  # [#32278] Error Page is not in the new JUX design. Thanks Michael Babker
  $ Updating Installation languages: fi-FI, nl-NL
