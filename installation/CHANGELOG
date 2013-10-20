@@ -32,6 +32,7 @@ $ -> Language fix or change
 # [#32353] Fatal Error: Class 'PlgUserJoomla' not found. Thanks George Wilson
 # [#32352] Add class aliases for legacy application classes. Thanks Michael Babker
 # [#32326] Control Panel Icon Needs to Change. Thanks Nick Savov
+# [#32315] *regression: Notices or fatal errors for categories menu item display. Thanks Achal Aggarwal
 
 18-Oct-2013 Jean-Marie Simonet
 # [#32344] *Overrides bug: Warning: constant() [function.constant]: Couldn't find constant JPATH_0
