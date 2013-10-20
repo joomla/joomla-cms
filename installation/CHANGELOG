@@ -29,6 +29,7 @@ $ -> Language fix or change
  # [#32278] Error Page is not in the new JUX design. Thanks Michael Babker
  $ Updating Installation languages: fi-FI, nl-NL
  $ Updating TinyMCE nl lang file.
+ #$ [#32342] Fix wrong pluralization Thanks Nikolai Plath
 
 20-Oct-2013 Roberto Segura
 # [#32346] Coding error in plugins/system/remember/remember.php. Thanks Mike Smith

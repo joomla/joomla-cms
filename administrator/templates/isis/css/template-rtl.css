@@ -8510,3 +8510,6 @@ input[type="url"] {
 		margin-left: 10px;
 	}
 }
+#status .badge {
+	margin-left: 0;
+}
