@@ -113,7 +113,7 @@ class ConfigControllerComponentSave extends JControllerBase
 
 
 		// Set the redirect based on the task.
-		switch ($this->options[3])
+		switch ($this->options[2])
 		{
 			case 'apply':
 				$message = JText::_('COM_CONFIG_SAVE_SUCCESS');
