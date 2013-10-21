@@ -35,10 +35,5 @@ $doc->addStyleDeclaration("
 // Menutype filter doesn't have to activate the filter bar
 unset($data['view']->activeFilters['menutype']);
 
-// We will get the menutype filter & remove it from the form filters
-$filters = $data['view']->filterForm->getGroup('filter');
-$data['menutype'] = $filters['filter_menutype'];
-$data['view']->filterForm->removeField('menutype', 'filter');
-
 // Display the main joomla layout
 echo JLayoutHelper::render('joomla.searchtools.default', $data, null, array('component' => 'none'));

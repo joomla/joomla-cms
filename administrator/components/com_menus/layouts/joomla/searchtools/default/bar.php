@@ -10,9 +10,12 @@
 defined('JPATH_BASE') or die;
 
 $data = $displayData;
+
+// We will get the menutype filter & remove it from the form filters
+$menuTypeField = $data['view']->filterForm->getField('menutype');
 ?>
 <div class="js-stools-field-filter js-stools-menutype hidden-phone hidden-tablet">
-	<?php echo $data['menutype']->input; ?>
+	<?php echo $menuTypeField->input; ?>
 </div>
 <?php
 // Display the main joomla layout
