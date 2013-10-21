@@ -1136,7 +1136,7 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	public function saveorder($pks = null, $order = null)
 	{
-
+		$table = $this->getTable();
 		$conditions = array();
 
 		if (empty($pks))
@@ -1160,7 +1160,7 @@ abstract class JModelAdmin extends JModelForm
 			{
 				$table->ordering = $order[$i];
 
-				createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $table);
+				$this->createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $table);
 
 				if (!$table->store())
 				{
