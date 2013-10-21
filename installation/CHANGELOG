@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 21-Oct-2013 Roberto Segura
  # [#32366] Login module doesn't show "forgot" links if user registration is disabled. Thanks Thomas Hunziker
+ + [#32174] Not translated "Close" in new template file edit screen. Thanks Tobias Zulauf
 
 20-Oct-2013 Elin Waring
  # [#32327] Installation halts at 1st step on PHP 5.3.3.

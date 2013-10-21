@@ -367,7 +367,7 @@ if ($this->type == 'image')
 			</div>
 		</div>
 		<div class="modal-footer">
-			<a href="#" class="btn" data-dismiss="modal">Close</a>
+			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
 			<button class="btn btn-primary" type="submit"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_COPY'); ?></button>
 		</div>
 	</div>
@@ -392,7 +392,7 @@ if ($this->type == 'image')
 				</div>
 			</div>
 			<div class="modal-footer">
-				<a href="#" class="btn" data-dismiss="modal">Close</a>
+				<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
 				<button class="btn btn-primary" type="submit"><?php echo JText::_('COM_TEMPLATES_BUTTON_RENAME'); ?></button>
 			</div>
 		</div>
@@ -409,7 +409,7 @@ if ($this->type == 'image')
 			<p><?php echo JText::sprintf('COM_TEMPLATES_MODAL_FILE_DELETE', $this->fileName); ?></p>
 		</div>
 		<div class="modal-footer">
-			<a href="#" class="btn" data-dismiss="modal">Close</a>
+			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
 			<a href="<?php echo JRoute::_('index.php?option=com_templates&task=template.delete&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" class="btn btn-danger"><?php echo JText::_('COM_TEMPLATES_BUTTON_DELETE');?></a>
 		</div>
 	</div>
@@ -472,7 +472,7 @@ if ($this->type == 'image')
 		</div>
 	</div>
 	<div class="modal-footer">
-		<a href="#" class="btn" data-dismiss="modal">Close</a>
+		<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
 	</div>
 </div>
 <div  id="folderModal" class="modal hide fade">
@@ -500,7 +500,7 @@ if ($this->type == 'image')
 	<div class="modal-footer">
 		<form id="deleteFolder" method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.deleteFolder&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
 			<fieldset>
-				<a href="#" class="btn" data-dismiss="modal">Close</a>
+				<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
 				<input type="hidden" class="address" name="address" />
 				<input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_DELETE');?>" class="btn btn-danger" />
 			</fieldset>
@@ -531,7 +531,7 @@ if ($this->type == 'image')
 				</div>
 			</div>
 			<div class="modal-footer">
-				<a href="#" class="btn" data-dismiss="modal">Close</a>
+				<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
 				<button class="btn btn-primary" type="submit"><?php echo JText::_('COM_TEMPLATES_BUTTON_RESIZE'); ?></button>
 			</div>
 		</div>
