@@ -21,18 +21,11 @@ defined('_JEXEC') or die;
 			echo $this->loadTemplate('folder');
 		endfor; ?>
 
-        <?php if($this->state->fileType == 'document'): ?>
-            <?php for ($i=0, $n=count($this->documents); $i<$n; $i++) :
-                $this->setDocument($i);
-                echo $this->loadTemplate('document');
-            endfor; ?>
-        <?php elseif($this->state->fileType == 'image'): ?> 
-            <?php for ($i=0, $n=count($this->images); $i<$n; $i++) :
+        <?php for ($i=0, $n=count($this->images); $i<$n; $i++) :
                 $this->setImage($i);
                 echo $this->loadTemplate('image');
-            endfor; ?>
-        <?php endif; ?>
-
+        endfor; ?>
+     
 </div>
 <?php } else { ?>
 	<div id="media-noimages">
