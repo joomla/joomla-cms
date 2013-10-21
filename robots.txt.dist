@@ -19,6 +19,7 @@ Disallow: /components/
 Disallow: /images/
 Disallow: /includes/
 Disallow: /installation/
+Disallow: /layouts/
 Disallow: /language/
 Disallow: /libraries/
 Disallow: /logs/
