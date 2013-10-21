@@ -22,6 +22,11 @@ $doc->addStyleDeclaration("
 		float: left;
 		margin-right: 10px;
 	}
+	html[dir=rtl] .js-stools .js-stools-menutype {
+		float: right;
+		margin-left: 10px
+		margin-right: 0;
+	}
 	.js-stools .js-stools-container-bar .js-stools-field-filter .chzn-container {
 		padding: 3px 0;
 	}
