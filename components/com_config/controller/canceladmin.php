@@ -44,7 +44,6 @@ class ConfigControllerCanceladmin extends ConfigControllerCancel
 	 */
 	protected $redirect;
 
-
 	/**
 	 * Method to handle admin cancel
 	 *
@@ -63,7 +62,7 @@ class ConfigControllerCanceladmin extends ConfigControllerCancel
 
 		if (empty($this->context))
 		{
-			$this->context = $this->option.edit . $this->context ;
+			$this->context = $this->option . '.edit' . $this->context;
 		}
 
 		// Redirect.

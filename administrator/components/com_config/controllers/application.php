@@ -47,7 +47,7 @@ class ConfigControllerApplication extends JControllerLegacy
 	 */
 	public function save()
 	{
-		
+
 		JLog::add('ConfigControllerApplication is deprecated. Use ConfigControllerApplicationSave instead.', JLog::WARNING, 'deprecated');
 
 		$controller = new ConfigControllerApplicationSave;
@@ -72,7 +72,7 @@ class ConfigControllerApplication extends JControllerLegacy
 
 	public function refreshHelp()
 	{
-		
+
 		JLog::add('ConfigControllerApplication is deprecated. Use ConfigControllerApplicationRefreshhelp instead.', JLog::WARNING, 'deprecated');
 
 		$controller = new ConfigControllerApplicationRefreshhelp;

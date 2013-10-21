@@ -49,7 +49,7 @@ class TemplatesController extends JControllerLegacy
 			$view = new TemplatesViewStyle;
 
 			// Get/Create the model
-			if ($model = new TemplatesModelStyle())
+			if ($model = new TemplatesModelStyle)
 			{
 				$model->addTablePath(JPATH_ADMINISTRATOR . '/components/com_templates/tables');
 

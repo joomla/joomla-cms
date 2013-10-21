@@ -70,7 +70,6 @@ class ConfigModelTemplates extends ConfigModelForm
 			return false;
 		}
 
-
 		if (empty($form))
 		{
 			return false;
