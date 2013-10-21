@@ -36,7 +36,7 @@ $saveOrder	= $listOrder == 'fp.ordering';
 	<?php endif;?>
 		<?php
 		// Search tools bar
-		echo JLayoutHelper::render('joomla.searchtools.default', $this);
+		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 		?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-no-items">

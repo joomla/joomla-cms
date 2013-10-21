@@ -467,13 +467,8 @@ class JModelList extends JModelLegacy
 			$app = JFactory::getApplication();
 
 			// Pre-fill the limits
-			$value = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'uint');
-			$limit = $value;
+			$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'uint');
 			$this->setState('list.limit', $limit);
-
-			$value = $app->getUserStateFromRequest($this->context . '.limitstart', 'limitstart', 0);
-			$limitstart = ($limit != 0 ? (floor($value / $limit) * $limit) : 0);
-			$this->setState('list.start', $limitstart);
 
 			// Receive & set filters
 			if ($filters = $this->getUserStateFromRequest($this->context . '.filter', 'filter'))
@@ -536,8 +531,8 @@ class JModelList extends JModelLegacy
 							}
 							break;
 
-						case 'start':
-							$value = ($limit != 0 ? (floor($value / $limit) * $limit) : 0);
+						case 'limit':
+							$limit = $value;
 							break;
 
 						// Just to keep the default case
@@ -574,6 +569,10 @@ class JModelList extends JModelLegacy
 
 				$this->setState('list.direction', $value);
 			}
+
+			$value = $app->getUserStateFromRequest($this->context . '.limitstart', 'limitstart', 0);
+			$limitstart = ($limit != 0 ? (floor($value / $limit) * $limit) : 0);
+			$this->setState('list.start', $limitstart);
 		}
 		else
 		{

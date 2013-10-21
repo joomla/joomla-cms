@@ -46,6 +46,7 @@ class MenusModelItems extends JModelList
 				'path', 'a.path',
 				'client_id', 'a.client_id',
 				'home', 'a.home',
+				'a.ordering'
 			);
 
 			$app = JFactory::getApplication();
@@ -79,15 +80,15 @@ class MenusModelItems extends JModelList
 
 		if ($menuType)
 		{
-			if ($menuType != $app->getUserState($this->context . '.filter.menutype'))
+			if ($menuType != $app->getUserState($this->context . '.menutype'))
 			{
-				$app->setUserState($this->context . '.filter.menutype', $menuType);
+				$app->setUserState($this->context . '.menutype', $menuType);
 				$app->input->set('limitstart', 0);
 			}
 		}
 		else
 		{
-			$menuType = $app->getUserState($this->context . '.filter.menutype');
+			$menuType = $app->getUserState($this->context . '.menutype');
 
 			if (!$menuType)
 			{

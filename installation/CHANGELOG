@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+21-Oct-2013 Michael Babker
+ # [#32361] [3.x] Search tools fixes.  Thanks Roberto Segura
+
 21-Oct-2013 Roberto Segura
  # [#32366] Login module doesn't show "forgot" links if user registration is disabled. Thanks Thomas Hunziker
  + [#32174] Not translated "Close" in new template file edit screen. Thanks Tobias Zulauf
