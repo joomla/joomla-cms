@@ -28,9 +28,6 @@ class MediaModelManager extends JModelLegacy
 			$folder = JRequest::getVar('folder', '', '', 'path');
 			$this->setState('folder', $folder);
 
-            $fileType = JRequest::getVar('fileType', '', 'path');
-            $this->setState('fileType', $fileType);
-
 			$fieldid = JRequest::getCmd('fieldid', '');
 			$this->setState('field.id', $fieldid);
 
