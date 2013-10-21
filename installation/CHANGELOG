@@ -32,6 +32,7 @@ $ -> Language fix or change
  # [#32364] Regression: Contact data saving incorrectly, fix edit screen. Thanks Elin Waring
  ^ [#32308] FE Site Settings wthout class="btn-group". Thanks Tobias Zulauf
  ^ [#32304] Nowrap not needed in Title attributes. Thanks Cyril Rezé
+ # Missing row-fluid in markup after recent contact edit changes
 
 20-Oct-2013 Elin Waring
  # [#32327] Installation halts at 1st step on PHP 5.3.3.
