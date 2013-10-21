@@ -164,7 +164,7 @@ class BannersModelClients extends JModelList
 		{
 			if ($defaultPurchase == $purchaseType)
 			{
-				$query->where('a.purchase_type = ' . (int) $purchaseType . ' OR a.purchase_type = -1');
+				$query->where('(a.purchase_type = ' . (int) $purchaseType . ' OR a.purchase_type = -1)');
 			}
 			else
 			{

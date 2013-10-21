@@ -11,21 +11,15 @@ defined('JPATH_BASE') or die;
 
 $data = $displayData;
 
-// Is multilanguage enabled?
-$langs = isset(JFactory::getApplication()->languages_enabled);
-
-$pagination = $data->get('pagination');
-
-$list = $data->filterForm->getGroup('list');
+// Load the form list fields
+$list = $data['view']->filterForm->getGroup('list');
 ?>
 <?php if ($list) : ?>
 	<div class="ordering-select hidden-phone">
 		<?php foreach ($list as $fieldName => $field) : ?>
+			<div class="js-stools-field-list">
 				<?php echo $field->input; ?>
+			</div>
 		<?php endforeach; ?>
-		<?php  /* ?>
-		<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?></label>
-		<?php echo $pagination->getLimitBox(); ?>
-		<?php */ ?>
 	</div>
 <?php endif; ?>

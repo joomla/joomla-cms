@@ -6,7 +6,6 @@
 			type="text"
 			label="COM_CONTENT_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
-			class="js-stools-search-string"
 		/>
 		<field
 			name="published"
@@ -60,7 +59,7 @@
 		</field>
 		<field
 			name="language"
-			type="language"
+			type="contentlanguage"
 			label="JOPTION_FILTER_LANGUAGE"
 			description="JOPTION_FILTER_LANGUAGE_DESC"
 			onchange="this.form.submit();"
@@ -96,8 +95,8 @@
 			<option value="a.title DESC">JGLOBAL_TITLE_DESC</option>
 			<option value="category_title ASC">JCATEGORY_ASC</option>
 			<option value="category_title DESC">JCATEGORY_DESC</option>
-			<option value="association ASC">JASSOCIATIONS_ASC</option>
-			<option value="association DESC">JASSOCIATIONS_DESC</option>
+			<option value="association ASC" requires="associations">JASSOCIATIONS_ASC</option>
+			<option value="association DESC" requires="associations">JASSOCIATIONS_DESC</option>
 			<option value="a.access ASC">JGRID_HEADING_ACCESS_ASC</option>
 			<option value="a.access DESC">JGRID_HEADING_ACCESS_DESC</option>
 			<option value="a.created_by ASC">JAUTHOR_ASC</option>

@@ -61,7 +61,7 @@
 		</field>
 		<field
 			name="language"
-			type="language"
+			type="contentlanguage"
 			label="JOPTION_FILTER_LANGUAGE"
 			description="JOPTION_FILTER_LANGUAGE_DESC"
 			onchange="this.form.submit();"
