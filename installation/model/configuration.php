@@ -245,7 +245,7 @@ class InstallationModelConfiguration extends JModelBase
 			return false;
 		}
 
-		$salt = JUserHelper::genRandomPassword(32);
+		$salt = JUserHelper::genRandomPassword(16);
 		$cryptpass = JUserHelper::getCryptedPassword($options->admin_password, $salt);
 
 		if (substr($cryptpass, 0, 8) == '{SHA256}')

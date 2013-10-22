@@ -498,7 +498,7 @@ abstract class JUserHelper
 				case 'sha256':
 					if ($seed)
 					{
-						return substr(preg_replace('|^{crypt}|i', '', $seed), 0, 12);
+						return preg_replace('|^{sha256}|i', '', $seed);
 					}
 					else
 					{
