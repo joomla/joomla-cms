@@ -2423,7 +2423,8 @@ INSERT INTO "#__viewlevels" ("id", "title", "ordering", "rules") VALUES
 (1, 'Public', 0, '[1]'),
 (2, 'Registered', 1, '[6,2,8]'),
 (3, 'Special', 2, '[6,3,8]'),
-(5, 'Guest', 0, '[9]');
+(5, 'Guest', 0, '[9]'),
+(6, 'Super Users', 0, '[8]');
 
 SELECT nextval('#__viewlevels_id_seq');
 SELECT setval('#__viewlevels_id_seq', 6, false);

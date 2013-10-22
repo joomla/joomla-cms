@@ -21,6 +21,7 @@ $params = $this->state->get('params');
 
 $app = JFactory::getApplication();
 $input = $app->input;
+$assoc = JLanguageAssociations::isEnabled();
 
 ?>
 
@@ -88,7 +89,7 @@ $input = $app->input;
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
-		<?php if (isset($app->item_associations) && JLanguageAssociations::isEnabled()) : ?>
+		<?php if ($assoc) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>
 				<?php echo $this->loadTemplate('associations'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
