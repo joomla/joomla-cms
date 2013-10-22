@@ -159,4 +159,29 @@ class JDropboxFilesGet extends JDropboxFiles
 		// Process the response
 		return $this->processResponse($response);
 	}
+
+	/**
+	 * Creates and returns a copy_ref to a file. This reference string can be used to copy that file
+	 * to another user's Dropbox by passing it in as the from_copy_ref parameter on fileopsCopy.
+	 *
+	 * @param   string  $root  The root relative to which path is specified. Valid values are sandbox and dropbox.
+	 * @param   string  $path  The path to the file you want to retrieve.
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function getCopyRef($root, $path)
+	{
+		$url = "https://" . $this->options->get("api.url") . "/1/copy_ref/" . $root . "/" . $path;
+
+		// Creates an array with the default Host and Authorization headers
+		$headers = $this->getDefaultHeaders();
+
+		// Send the http request
+		$response = $this->client->get($url, $headers);
+
+		// Process the response
+		return $this->processResponse($response);
+	}
 }
