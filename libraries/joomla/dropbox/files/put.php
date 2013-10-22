@@ -26,7 +26,9 @@ class JDropboxFilesPut extends JDropboxFiles
 	 * @param   string  $data    The file contents to be uploaded.
 	 * @param   array   $params  The parameters to be used in the request.
 	 *
-	 * @return string  The response body
+	 * @throws DomainException
+	 *
+	 * @return mixed
 	 *
 	 * @since   ??.?
 	 */
@@ -35,14 +37,8 @@ class JDropboxFilesPut extends JDropboxFiles
 		$url = "https://" . $this->options->get("api.content") . "/1/files/" . $root . "/" . $path;
 		$url .= $this->createParamsString($params);
 
-		// Creates an array with the default Host and Authorization headers
-		$headers = $this->getDefaultHeaders();
-
-		// Send the http request
-		$response = $this->client->put($url, $data, $headers);
-
-		// Process the response
-		return $this->processResponse($response);
+		// Create the request, send it and process the response
+		return $this->commonPutOperations($url, $data);
 	}
 
 	/**
@@ -64,7 +60,9 @@ class JDropboxFilesPut extends JDropboxFiles
 	 *                           that equals the offset.
 	 * @param   array   $params  The parameters to be used in the request.
 	 *
-	 * @return string  The response body
+	 * @throws DomainException
+	 *
+	 * @return mixed
 	 *
 	 * @since   ??.?
 	 */
@@ -73,13 +71,7 @@ class JDropboxFilesPut extends JDropboxFiles
 		$url = "https://" . $this->options->get("api.content") . "/1/chunked_upload";
 		$url .= $this->createParamsString($params);
 
-		// Creates an array with the default Host and Authorization headers
-		$headers = $this->getDefaultHeaders();
-
-		// Send the http request
-		$response = $this->client->put($url, $body, $headers);
-
-		// Process the response
-		return $this->processResponse($response);
+		// Create the request, send it and process the response
+		return $this->commonPutOperations($url, $body);
 	}
 }
