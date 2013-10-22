@@ -141,9 +141,48 @@ class JDropboxFilesPost extends JDropboxFiles
 	 *
 	 * @since   ??.?
 	 */
-	public function postShares($root, $path, $params)
+	public function postShares($root, $path, $params = array())
 	{
 		$url = "https://" . $this->options->get("api.url") . "/1/shares/" . $root . "/" . $path;
+		$paramsString = "";
+
+		foreach ($params as $key => $param)
+		{
+			$paramsString .= "&" . $key . "=" . $param;
+		}
+
+		if (! empty($params))
+		{
+			$paramsString[0] = "?";
+			$url .= $paramsString;
+		}
+
+		// Creates an array with the default Host and Authorization headers
+		$headers = $this->getDefaultHeaders();
+
+		// Send the http request
+		$response = $this->client->post($url, "", $headers);
+
+		// Process the response
+		return $this->processResponse($response);
+	}
+
+	/**
+	 * Returns a link directly to a file.
+	 * Similar to postShares. The difference is that this bypasses the Dropbox webserver, used to
+	 * provide a preview of the file, so that you can effectively stream the contents of your media.
+	 *
+	 * @param   string  $root    The root relative to which path is specified. Valid values are sandbox and dropbox.
+	 * @param   string  $path    The path to the file you want to retrieve.
+	 * @param   array   $params  The parameters to be used in the request. "rev" (revision) is a required parameter.
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function postMedia($root, $path, $params = array())
+	{
+		$url = "https://" . $this->options->get("api.url") . "/1/media/" . $root . "/" . $path;
 		$paramsString = "";
 
 		foreach ($params as $key => $param)
