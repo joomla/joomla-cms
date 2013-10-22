@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Oct-2013 Jean-Marie Simonet
+# [#32368] *Regression: Cancelling Component Options edit wrong redirect Thanks Achal Aggarwal
+
 21-Oct-2013 Michael Babker
  # [#32361] [3.x] Search tools fixes.  Thanks Roberto Segura
 

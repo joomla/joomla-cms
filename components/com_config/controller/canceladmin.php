@@ -71,7 +71,7 @@ class ConfigControllerCanceladmin extends ConfigControllerCancel
 
 		if (!empty($this->redirect))
 		{
-			$this->app->redirect(JURI::base());
+			$this->app->redirect(JRoute::_($this->redirect, false));
 		}
 		else
 		{
