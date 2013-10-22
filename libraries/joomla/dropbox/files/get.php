@@ -61,7 +61,7 @@ class JDropboxFilesGet extends JDropboxFiles
 	 */
 	public function getMetadata($root, $path, $params = array())
 	{
-		$url = "https://" . $this->options->get("api.url") . "/1/files/" . $root . "/" . $path;
+		$url = "https://" . $this->options->get("api.url") . "/1/metadata/" . $root . "/" . $path;
 		$paramsString = "";
 
 		foreach ($params as $key => $param)

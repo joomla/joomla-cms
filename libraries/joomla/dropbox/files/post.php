@@ -55,4 +55,41 @@ class JDropboxFilesPost extends JDropboxFiles
 		// Process the response
 		return $this->processResponse($response);
 	}
+
+	/**
+	 * A way of letting you keep up with changes to files and folders in a user's Dropbox.
+	 * You can periodically call postDelta to get a list of "delta entries", which are
+	 * instructions on how to update your local state to match the server's state.
+	 *
+	 * @param   array  $params  The parameters to be used in the request.
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function postDelta($params = array())
+	{
+		$url = "https://" . $this->options->get("api.url") . "/1/delta";
+		$paramsString = "";
+
+		foreach ($params as $key => $param)
+		{
+			$paramsString .= "&" . $key . "=" . $param;
+		}
+
+		if (! empty($params))
+		{
+			$paramsString[0] = "?";
+			$url .= $paramsString;
+		}
+
+		// Creates an array with the default Host and Authorization headers
+		$headers = $this->getDefaultHeaders();
+
+		// Send the http request
+		$response = $this->client->post($url, "", $headers);
+
+		// Process the response
+		return $this->processResponse($response);
+	}
 }
