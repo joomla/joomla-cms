@@ -47,4 +47,41 @@ class JDropboxFilesGet extends JDropboxFiles
 		// Process the response
 		return $this->processResponse($response);
 	}
+
+	/**
+	 * Retrieves file and folder metadata.
+	 *
+	 * @param   string  $root    The root relative to which path is specified. Valid values are sandbox and dropbox.
+	 * @param   string  $path    The path to the file you want to retrieve.
+	 * @param   array   $params  The parameters to be used in the request.
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function getMetadata($root, $path, $params = array())
+	{
+		$url = "https://" . $this->options->get("api.url") . "/1/files/" . $root . "/" . $path;
+		$paramsString = "";
+
+		foreach ($params as $key => $param)
+		{
+			$paramsString .= "&" . $key . "=" . $param;
+		}
+
+		if (! empty($params))
+		{
+			$paramsString[0] = "?";
+			$url .= $paramsString;
+		}
+
+		// Creates an array with the default Host and Authorization headers
+		$headers = $this->getDefaultHeaders();
+
+		// Send the http request
+		$response = $this->client->get($url, $headers);
+
+		// Process the response
+		return $this->processResponse($response);
+	}
 }
