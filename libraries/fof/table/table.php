@@ -1989,7 +1989,6 @@ class FOFTable extends JObject implements JTableInterface
 		}
 
 		// Make sure the cached table fields cache is loaded
-
 		if (empty(self::$tableFieldCache))
 		{
 			if ($useCache)
@@ -2039,7 +2038,10 @@ class FOFTable extends JObject implements JTableInterface
 			$tableName = $this->_tbl;
 		}
 
-		if (!array_key_exists($tableName, self::$tableFieldCache))
+		// Try to load again column specifications if the table is not loaded OR if it's loaded and
+		// the previous call returned an error
+		if (!array_key_exists($tableName, self::$tableFieldCache) ||
+			(isset(self::$tableFieldCache[$tableName]) && !self::$tableFieldCache[$tableName]))
 		{
 			// Lookup the fields for this table only once.
 			$name = $tableName;
