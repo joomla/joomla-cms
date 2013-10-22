@@ -19,10 +19,10 @@ defined('JPATH_PLATFORM') or die;
 class JDropboxFileops extends JDropboxObject
 {
 	/**
-	 * @var   JDropboxFileopsCopy  Dropbox API object for copy files operations
+	 * @var   JDropboxFileopsPost  Dropbox API object for POST file operations
 	 * @since  ??.?
 	 */
-	protected $copy;
+	protected $post;
 
 	/**
 	 * Magic method to lazily create API objects

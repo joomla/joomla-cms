@@ -22,7 +22,7 @@ class JDropboxAccounts extends JDropboxObject
 	 * @var   JDropboxAccountsGet  Dropbox API object for GET operations on accounts
 	 * @since  ??.?
 	 */
-	protected $info;
+	protected $get;
 
 	/**
 	 * Magic method to lazily create API objects

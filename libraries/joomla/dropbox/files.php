@@ -25,6 +25,18 @@ class JDropboxFiles extends JDropboxObject
 	protected $get;
 
 	/**
+	 * @var   JDropboxFilesPost  Dropbox API object for POST operations on Files
+	 * @since  ??.?
+	 */
+	protected $post;
+
+	/**
+	 * @var   JDropboxFilesPut  Dropbox API object for PUT operations on Files
+	 * @since  ??.?
+	 */
+	protected $put;
+
+	/**
 	 * Magic method to lazily create API objects
 	 *
 	 * @param   string  $name  Name of property to retrieve.
