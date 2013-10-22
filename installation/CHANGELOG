@@ -28,6 +28,8 @@ $ -> Language fix or change
 22-Oct-2013 Jean-Marie Simonet
  # [#32368] *Regression: Cancelling Component Options edit wrong redirect Thanks Achal Aggarwal
  $ Missing lang string. Normalising both lib_joomla.ini
+ ^ [#32372] Update TinyMCE to 4.0.8. Thanks Zitrone
+ # Updating TinyMce RTL lang files to 4.0.8
 
 21-Oct-2013 Michael Babker
  # [#32361] [3.x] Search tools fixes.  Thanks Roberto Segura
