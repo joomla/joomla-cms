@@ -138,7 +138,7 @@ if (!empty($this->item->attribs['show_urls_images_backend']))
 
 		<?php if ($this->canDo->get('core.admin')) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'editor', JText::_('COM_CONTENT_SLIDER_EDITOR_CONFIG', true)); ?>
-				<?php foreach ($displayData->get('form')->getFieldset('editorConfig') as $field) : ?>
+				<?php foreach ($this->form->getFieldset('editorConfig') as $field) : ?>
 				<div class="control-group">
 						<?php echo $field->label; ?>
 					<div class="controls">
