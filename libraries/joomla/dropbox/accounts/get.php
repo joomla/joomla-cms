@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Defines the GET operation on accounts
+ * Defines the GET operations on accounts
  *
  * @package     Joomla.Platform
  * @subpackage  Dropbox
