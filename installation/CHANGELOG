@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Oct-2013 Jean-Marie Simonet
+ $ Missing lang string.
+
 20-Oct-2013 Roberto Segura
 # [#31716] Offline template: "remember me" checkbox not removed when plugin disabled. Thanks Tobias Zulauf
 
