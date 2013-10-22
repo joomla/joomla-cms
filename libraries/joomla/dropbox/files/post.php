@@ -205,4 +205,42 @@ class JDropboxFilesPost extends JDropboxFiles
 		// Process the response
 		return $this->processResponse($response);
 	}
+
+	/**
+	 * Completes an upload initiated by the putChunkedUpload method.
+	 * Saves a file uploaded via putChunkedUpload to a user's Dropbox.
+	 *
+	 * @param   string  $root    The root relative to which path is specified. Valid values are sandbox and dropbox.
+	 * @param   string  $path    The path to the file you want to retrieve.
+	 * @param   array   $params  The parameters to be used in the request. "rev" (revision) is a required parameter.
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function postCommitChunkedUpload($root, $path, $params = array())
+	{
+		$url = "https://" . $this->options->get("api.content") . "/1/commit_chunked_upload/" . $root . "/" . $path;
+		$paramsString = "";
+
+		foreach ($params as $key => $param)
+		{
+			$paramsString .= "&" . $key . "=" . $param;
+		}
+
+		if (! empty($params))
+		{
+			$paramsString[0] = "?";
+			$url .= $paramsString;
+		}
+
+		// Creates an array with the default Host and Authorization headers
+		$headers = $this->getDefaultHeaders();
+
+		// Send the http request
+		$response = $this->client->post($url, "", $headers);
+
+		// Process the response
+		return $this->processResponse($response);
+	}
 }
