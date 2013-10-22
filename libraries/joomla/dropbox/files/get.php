@@ -62,18 +62,7 @@ class JDropboxFilesGet extends JDropboxFiles
 	public function getMetadata($root, $path, $params = array())
 	{
 		$url = "https://" . $this->options->get("api.url") . "/1/metadata/" . $root . "/" . $path;
-		$paramsString = "";
-
-		foreach ($params as $key => $param)
-		{
-			$paramsString .= "&" . $key . "=" . $param;
-		}
-
-		if (! empty($params))
-		{
-			$paramsString[0] = "?";
-			$url .= $paramsString;
-		}
+		$url .= $this->createParamsString($params);
 
 		// Creates an array with the default Host and Authorization headers
 		$headers = $this->getDefaultHeaders();
@@ -99,18 +88,7 @@ class JDropboxFilesGet extends JDropboxFiles
 	public function getRevisions($root, $path, $params = array())
 	{
 		$url = "https://" . $this->options->get("api.url") . "/1/revisions/" . $root . "/" . $path;
-		$paramsString = "";
-
-		foreach ($params as $key => $param)
-		{
-			$paramsString .= "&" . $key . "=" . $param;
-		}
-
-		if (! empty($params))
-		{
-			$paramsString[0] = "?";
-			$url .= $paramsString;
-		}
+		$url .= $this->createParamsString($params);
 
 		// Creates an array with the default Host and Authorization headers
 		$headers = $this->getDefaultHeaders();
@@ -137,18 +115,7 @@ class JDropboxFilesGet extends JDropboxFiles
 	public function getSearch($root, $path, $params = array())
 	{
 		$url = "https://" . $this->options->get("api.url") . "/1/search/" . $root . "/" . $path;
-		$paramsString = "";
-
-		foreach ($params as $key => $param)
-		{
-			$paramsString .= "&" . $key . "=" . $param;
-		}
-
-		if (! empty($params))
-		{
-			$paramsString[0] = "?";
-			$url .= $paramsString;
-		}
+		$url .= $this->createParamsString($params);
 
 		// Creates an array with the default Host and Authorization headers
 		$headers = $this->getDefaultHeaders();
@@ -199,18 +166,7 @@ class JDropboxFilesGet extends JDropboxFiles
 	public function getThumbnails($root, $path, $params = array())
 	{
 		$url = "https://" . $this->options->get("api.content") . "/1/thumbnails/" . $root . "/" . $path;
-		$paramsString = "";
-
-		foreach ($params as $key => $param)
-		{
-			$paramsString .= "&" . $key . "=" . $param;
-		}
-
-		if (! empty($params))
-		{
-			$paramsString[0] = "?";
-			$url .= $paramsString;
-		}
+		$url .= $this->createParamsString($params);
 
 		// Creates an array with the default Host and Authorization headers
 		$headers = $this->getDefaultHeaders();

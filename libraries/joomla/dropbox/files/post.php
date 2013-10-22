@@ -33,18 +33,7 @@ class JDropboxFilesPost extends JDropboxFiles
 	public function postFiles($root, $path, $data, $params = array())
 	{
 		$url = "https://" . $this->options->get("api.content") . "/1/files/" . $root . "/" . $path;
-		$paramsString = "";
-
-		foreach ($params as $key => $param)
-		{
-			$paramsString .= "&" . $key . "=" . $param;
-		}
-
-		if (! empty($params))
-		{
-			$paramsString[0] = "?";
-			$url .= $paramsString;
-		}
+		$url .= $this->createParamsString($params);
 
 		// Creates an array with the default Host and Authorization headers
 		$headers = $this->getDefaultHeaders();
@@ -70,18 +59,7 @@ class JDropboxFilesPost extends JDropboxFiles
 	public function postDelta($params = array())
 	{
 		$url = "https://" . $this->options->get("api.url") . "/1/delta";
-		$paramsString = "";
-
-		foreach ($params as $key => $param)
-		{
-			$paramsString .= "&" . $key . "=" . $param;
-		}
-
-		if (! empty($params))
-		{
-			$paramsString[0] = "?";
-			$url .= $paramsString;
-		}
+		$url .= $this->createParamsString($params);
 
 		// Creates an array with the default Host and Authorization headers
 		$headers = $this->getDefaultHeaders();
@@ -107,18 +85,7 @@ class JDropboxFilesPost extends JDropboxFiles
 	public function postRestore($root, $path, $params)
 	{
 		$url = "https://" . $this->options->get("api.url") . "/1/restore/" . $root . "/" . $path;
-		$paramsString = "";
-
-		foreach ($params as $key => $param)
-		{
-			$paramsString .= "&" . $key . "=" . $param;
-		}
-
-		if (! empty($params))
-		{
-			$paramsString[0] = "?";
-			$url .= $paramsString;
-		}
+		$url .= $this->createParamsString($params);
 
 		// Creates an array with the default Host and Authorization headers
 		$headers = $this->getDefaultHeaders();
@@ -144,18 +111,7 @@ class JDropboxFilesPost extends JDropboxFiles
 	public function postShares($root, $path, $params = array())
 	{
 		$url = "https://" . $this->options->get("api.url") . "/1/shares/" . $root . "/" . $path;
-		$paramsString = "";
-
-		foreach ($params as $key => $param)
-		{
-			$paramsString .= "&" . $key . "=" . $param;
-		}
-
-		if (! empty($params))
-		{
-			$paramsString[0] = "?";
-			$url .= $paramsString;
-		}
+		$url .= $this->createParamsString($params);
 
 		// Creates an array with the default Host and Authorization headers
 		$headers = $this->getDefaultHeaders();
@@ -183,18 +139,7 @@ class JDropboxFilesPost extends JDropboxFiles
 	public function postMedia($root, $path, $params = array())
 	{
 		$url = "https://" . $this->options->get("api.url") . "/1/media/" . $root . "/" . $path;
-		$paramsString = "";
-
-		foreach ($params as $key => $param)
-		{
-			$paramsString .= "&" . $key . "=" . $param;
-		}
-
-		if (! empty($params))
-		{
-			$paramsString[0] = "?";
-			$url .= $paramsString;
-		}
+		$url .= $this->createParamsString($params);
 
 		// Creates an array with the default Host and Authorization headers
 		$headers = $this->getDefaultHeaders();
@@ -221,18 +166,7 @@ class JDropboxFilesPost extends JDropboxFiles
 	public function postCommitChunkedUpload($root, $path, $params = array())
 	{
 		$url = "https://" . $this->options->get("api.content") . "/1/commit_chunked_upload/" . $root . "/" . $path;
-		$paramsString = "";
-
-		foreach ($params as $key => $param)
-		{
-			$paramsString .= "&" . $key . "=" . $param;
-		}
-
-		if (! empty($params))
-		{
-			$paramsString[0] = "?";
-			$url .= $paramsString;
-		}
+		$url .= $this->createParamsString($params);
 
 		// Creates an array with the default Host and Authorization headers
 		$headers = $this->getDefaultHeaders();

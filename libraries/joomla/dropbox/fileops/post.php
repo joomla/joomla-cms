@@ -31,18 +31,7 @@ class JDropboxFileopsPost extends JDropboxFiles
 	public function postCopy($params)
 	{
 		$url = "https://" . $this->options->get("api.url") . "/1/fileops/copy";
-		$paramsString = "";
-
-		foreach ($params as $key => $param)
-		{
-			$paramsString .= "&" . $key . "=" . $param;
-		}
-
-		if (! empty($params))
-		{
-			$paramsString[0] = "?";
-			$url .= $paramsString;
-		}
+		$url .= $this->createParamsString($params);
 
 		// Creates an array with the default Host and Authorization headers
 		$headers = $this->getDefaultHeaders();
@@ -67,18 +56,7 @@ class JDropboxFileopsPost extends JDropboxFiles
 	public function postCreateFolder($params)
 	{
 		$url = "https://" . $this->options->get("api.url") . "/1/fileops/create_folder";
-		$paramsString = "";
-
-		foreach ($params as $key => $param)
-		{
-			$paramsString .= "&" . $key . "=" . $param;
-		}
-
-		if (! empty($params))
-		{
-			$paramsString[0] = "?";
-			$url .= $paramsString;
-		}
+		$url .= $this->createParamsString($params);
 
 		// Creates an array with the default Host and Authorization headers
 		$headers = $this->getDefaultHeaders();
@@ -103,18 +81,7 @@ class JDropboxFileopsPost extends JDropboxFiles
 	public function postDelete($params)
 	{
 		$url = "https://" . $this->options->get("api.url") . "/1/fileops/delete";
-		$paramsString = "";
-
-		foreach ($params as $key => $param)
-		{
-			$paramsString .= "&" . $key . "=" . $param;
-		}
-
-		if (! empty($params))
-		{
-			$paramsString[0] = "?";
-			$url .= $paramsString;
-		}
+		$url .= $this->createParamsString($params);
 
 		// Creates an array with the default Host and Authorization headers
 		$headers = $this->getDefaultHeaders();
@@ -139,18 +106,7 @@ class JDropboxFileopsPost extends JDropboxFiles
 	public function postMove($params)
 	{
 		$url = "https://" . $this->options->get("api.url") . "/1/fileops/move";
-		$paramsString = "";
-
-		foreach ($params as $key => $param)
-		{
-			$paramsString .= "&" . $key . "=" . $param;
-		}
-
-		if (! empty($params))
-		{
-			$paramsString[0] = "?";
-			$url .= $paramsString;
-		}
+		$url .= $this->createParamsString($params);
 
 		// Creates an array with the default Host and Authorization headers
 		$headers = $this->getDefaultHeaders();

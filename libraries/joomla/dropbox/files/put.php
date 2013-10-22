@@ -33,18 +33,7 @@ class JDropboxFilesPut extends JDropboxFiles
 	public function putFiles($root, $path, $data, $params = array())
 	{
 		$url = "https://" . $this->options->get("api.content") . "/1/files/" . $root . "/" . $path;
-		$paramsString = "";
-
-		foreach ($params as $key => $param)
-		{
-			$paramsString .= "&" . $key . "=" . $param;
-		}
-
-		if (! empty($params))
-		{
-			$paramsString[0] = "?";
-			$url .= $paramsString;
-		}
+		$url .= $this->createParamsString($params);
 
 		// Creates an array with the default Host and Authorization headers
 		$headers = $this->getDefaultHeaders();
@@ -82,18 +71,7 @@ class JDropboxFilesPut extends JDropboxFiles
 	public function putChunkedUpload($body, $params = array())
 	{
 		$url = "https://" . $this->options->get("api.content") . "/1/chunked_upload";
-		$paramsString = "";
-
-		foreach ($params as $key => $param)
-		{
-			$paramsString .= "&" . $key . "=" . $param;
-		}
-
-		if (! empty($params))
-		{
-			$paramsString[0] = "?";
-			$url .= $paramsString;
-		}
+		$url .= $this->createParamsString($params);
 
 		// Creates an array with the default Host and Authorization headers
 		$headers = $this->getDefaultHeaders();

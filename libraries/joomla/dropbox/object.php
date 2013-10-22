@@ -45,6 +45,31 @@ abstract class JDropboxObject
 	}
 
 	/**
+	 * Creates a string containing the given parameters which will be appended
+	 * to an URI in order to send API requests.
+	 *
+	 * @param   array  $params  An array containing the request parameters
+	 *
+	 * @return string  The string containing the concatenated parameters
+	 */
+	public function createParamsString($params = array())
+	{
+		$paramsString = "";
+
+		foreach ($params as $key => $param)
+		{
+			$paramsString .= "&" . $key . "=" . $param;
+		}
+
+		if (! empty($params))
+		{
+			$paramsString[0] = "?";
+		}
+
+		return $paramsString;
+	}
+
+	/**
 	 * Process the response and decode it.
 	 *
 	 * @param   JHttpResponse  $response      The response.
