@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 22-Oct-2013 Jean-Marie Simonet
  $ Missing lang string.
+ # [#31193] Errors when using "localise.sql" files - J2.5. Thanks Michael Babker and George Wilson
 
 20-Oct-2013 Elin Waring
  # [#32327] Installation halts at 1st step on PHP 5.3.3.
