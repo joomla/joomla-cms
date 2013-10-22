@@ -24,7 +24,9 @@ class JDropboxFileopsPost extends JDropboxFiles
 	 * @param   array  $params  The parameters to be used in the request.
 	 *                          "root" and "to_path" are required parameters.
 	 *
-	 * @return string  The response body
+	 * @throws DomainException
+	 *
+	 * @return mixed
 	 *
 	 * @since   ??.?
 	 */
@@ -33,14 +35,8 @@ class JDropboxFileopsPost extends JDropboxFiles
 		$url = "https://" . $this->options->get("api.url") . "/1/fileops/copy";
 		$url .= $this->createParamsString($params);
 
-		// Creates an array with the default Host and Authorization headers
-		$headers = $this->getDefaultHeaders();
-
-		// Send the http request
-		$response = $this->client->post($url, "", $headers);
-
-		// Process the response
-		return $this->processResponse($response);
+		// Create the request, send it and process the response
+		return $this->commonPostOperations($url, "");
 	}
 
 	/**
@@ -49,7 +45,9 @@ class JDropboxFileopsPost extends JDropboxFiles
 	 * @param   array  $params  The parameters to be used in the request.
 	 *                          "root" and "path" are required parameters.
 	 *
-	 * @return string  The response body
+	 * @throws DomainException
+	 *
+	 * @return mixed
 	 *
 	 * @since   ??.?
 	 */
@@ -58,14 +56,8 @@ class JDropboxFileopsPost extends JDropboxFiles
 		$url = "https://" . $this->options->get("api.url") . "/1/fileops/create_folder";
 		$url .= $this->createParamsString($params);
 
-		// Creates an array with the default Host and Authorization headers
-		$headers = $this->getDefaultHeaders();
-
-		// Send the http request
-		$response = $this->client->post($url, "", $headers);
-
-		// Process the response
-		return $this->processResponse($response);
+		// Create the request, send it and process the response
+		return $this->commonPostOperations($url, "");
 	}
 
 	/**
@@ -74,7 +66,9 @@ class JDropboxFileopsPost extends JDropboxFiles
 	 * @param   array  $params  The parameters to be used in the request.
 	 *                          "root" and "path" are required parameters.
 	 *
-	 * @return string  The response body
+	 * @throws DomainException
+	 *
+	 * @return mixed
 	 *
 	 * @since   ??.?
 	 */
@@ -83,14 +77,8 @@ class JDropboxFileopsPost extends JDropboxFiles
 		$url = "https://" . $this->options->get("api.url") . "/1/fileops/delete";
 		$url .= $this->createParamsString($params);
 
-		// Creates an array with the default Host and Authorization headers
-		$headers = $this->getDefaultHeaders();
-
-		// Send the http request
-		$response = $this->client->post($url, "", $headers);
-
-		// Process the response
-		return $this->processResponse($response);
+		// Create the request, send it and process the response
+		return $this->commonPostOperations($url, "");
 	}
 
 	/**
@@ -99,7 +87,9 @@ class JDropboxFileopsPost extends JDropboxFiles
 	 * @param   array  $params  The parameters to be used in the request.
 	 *                          "root", "from_path" and "to_path" are required parameters.
 	 *
-	 * @return string  The response body
+	 * @throws DomainException
+	 *
+	 * @return mixed
 	 *
 	 * @since   ??.?
 	 */
@@ -108,13 +98,7 @@ class JDropboxFileopsPost extends JDropboxFiles
 		$url = "https://" . $this->options->get("api.url") . "/1/fileops/move";
 		$url .= $this->createParamsString($params);
 
-		// Creates an array with the default Host and Authorization headers
-		$headers = $this->getDefaultHeaders();
-
-		// Send the http request
-		$response = $this->client->post($url, "", $headers);
-
-		// Process the response
-		return $this->processResponse($response);
+		// Create the request, send it and process the response
+		return $this->commonPostOperations($url, "");
 	}
 }

@@ -26,7 +26,9 @@ class JDropboxFilesPost extends JDropboxFiles
 	 * @param   string  $data    The file contents to be uploaded.
 	 * @param   array   $params  The parameters to be used in the request.
 	 *
-	 * @return string  The response body
+	 * @throws DomainException
+	 *
+	 * @return mixed
 	 *
 	 * @since   ??.?
 	 */
@@ -35,14 +37,8 @@ class JDropboxFilesPost extends JDropboxFiles
 		$url = "https://" . $this->options->get("api.content") . "/1/files/" . $root . "/" . $path;
 		$url .= $this->createParamsString($params);
 
-		// Creates an array with the default Host and Authorization headers
-		$headers = $this->getDefaultHeaders();
-
-		// Send the http request
-		$response = $this->client->post($url, $data, $headers);
-
-		// Process the response
-		return $this->processResponse($response);
+		// Create the request, send it and process the response
+		return $this->commonPostOperations($url, $data);
 	}
 
 	/**
@@ -52,7 +48,9 @@ class JDropboxFilesPost extends JDropboxFiles
 	 *
 	 * @param   array  $params  The parameters to be used in the request.
 	 *
-	 * @return string  The response body
+	 * @throws DomainException
+	 *
+	 * @return mixed
 	 *
 	 * @since   ??.?
 	 */
@@ -61,14 +59,8 @@ class JDropboxFilesPost extends JDropboxFiles
 		$url = "https://" . $this->options->get("api.url") . "/1/delta";
 		$url .= $this->createParamsString($params);
 
-		// Creates an array with the default Host and Authorization headers
-		$headers = $this->getDefaultHeaders();
-
-		// Send the http request
-		$response = $this->client->post($url, "", $headers);
-
-		// Process the response
-		return $this->processResponse($response);
+		// Create the request, send it and process the response
+		return $this->commonPostOperations($url, "");
 	}
 
 	/**
@@ -78,7 +70,9 @@ class JDropboxFilesPost extends JDropboxFiles
 	 * @param   string  $path    The path to the file you want to retrieve.
 	 * @param   array   $params  The parameters to be used in the request. "rev" (revision) is a required parameter.
 	 *
-	 * @return string  The response body
+	 * @throws DomainException
+	 *
+	 * @return mixed
 	 *
 	 * @since   ??.?
 	 */
@@ -87,14 +81,8 @@ class JDropboxFilesPost extends JDropboxFiles
 		$url = "https://" . $this->options->get("api.url") . "/1/restore/" . $root . "/" . $path;
 		$url .= $this->createParamsString($params);
 
-		// Creates an array with the default Host and Authorization headers
-		$headers = $this->getDefaultHeaders();
-
-		// Send the http request
-		$response = $this->client->post($url, "", $headers);
-
-		// Process the response
-		return $this->processResponse($response);
+		// Create the request, send it and process the response
+		return $this->commonPostOperations($url, "");
 	}
 
 	/**
@@ -104,7 +92,9 @@ class JDropboxFilesPost extends JDropboxFiles
 	 * @param   string  $path    The path to the file you want to retrieve.
 	 * @param   array   $params  The parameters to be used in the request. "rev" (revision) is a required parameter.
 	 *
-	 * @return string  The response body
+	 * @throws DomainException
+	 *
+	 * @return mixed
 	 *
 	 * @since   ??.?
 	 */
@@ -113,14 +103,8 @@ class JDropboxFilesPost extends JDropboxFiles
 		$url = "https://" . $this->options->get("api.url") . "/1/shares/" . $root . "/" . $path;
 		$url .= $this->createParamsString($params);
 
-		// Creates an array with the default Host and Authorization headers
-		$headers = $this->getDefaultHeaders();
-
-		// Send the http request
-		$response = $this->client->post($url, "", $headers);
-
-		// Process the response
-		return $this->processResponse($response);
+		// Create the request, send it and process the response
+		return $this->commonPostOperations($url, "");
 	}
 
 	/**
@@ -132,7 +116,9 @@ class JDropboxFilesPost extends JDropboxFiles
 	 * @param   string  $path    The path to the file you want to retrieve.
 	 * @param   array   $params  The parameters to be used in the request. "rev" (revision) is a required parameter.
 	 *
-	 * @return string  The response body
+	 * @throws DomainException
+	 *
+	 * @return mixed
 	 *
 	 * @since   ??.?
 	 */
@@ -141,14 +127,8 @@ class JDropboxFilesPost extends JDropboxFiles
 		$url = "https://" . $this->options->get("api.url") . "/1/media/" . $root . "/" . $path;
 		$url .= $this->createParamsString($params);
 
-		// Creates an array with the default Host and Authorization headers
-		$headers = $this->getDefaultHeaders();
-
-		// Send the http request
-		$response = $this->client->post($url, "", $headers);
-
-		// Process the response
-		return $this->processResponse($response);
+		// Create the request, send it and process the response
+		return $this->commonPostOperations($url, "");
 	}
 
 	/**
@@ -159,7 +139,9 @@ class JDropboxFilesPost extends JDropboxFiles
 	 * @param   string  $path    The path to the file you want to retrieve.
 	 * @param   array   $params  The parameters to be used in the request. "rev" (revision) is a required parameter.
 	 *
-	 * @return string  The response body
+	 * @throws DomainException
+	 *
+	 * @return mixed
 	 *
 	 * @since   ??.?
 	 */
@@ -168,13 +150,7 @@ class JDropboxFilesPost extends JDropboxFiles
 		$url = "https://" . $this->options->get("api.content") . "/1/commit_chunked_upload/" . $root . "/" . $path;
 		$url .= $this->createParamsString($params);
 
-		// Creates an array with the default Host and Authorization headers
-		$headers = $this->getDefaultHeaders();
-
-		// Send the http request
-		$response = $this->client->post($url, "", $headers);
-
-		// Process the response
-		return $this->processResponse($response);
+		// Create the request, send it and process the response
+		return $this->commonPostOperations($url, "");
 	}
 }

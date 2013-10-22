@@ -66,6 +66,28 @@ abstract class JDropboxObject
 	}
 
 	/**
+	 * Performs common actions for POST operations
+	 *
+	 * @param   string  $url   The URI used in the request
+	 * @param   string  $data  The data used in the request
+	 *
+	 * @throws DomainException
+	 *
+	 * @return mixed
+	 */
+	public function commonPostOperations($url, $data)
+	{
+		// Creates an array with the default Host and Authorization headers
+		$headers = $this->getDefaultHeaders();
+
+		// Send the http request
+		$response = $this->client->post($url, $data, $headers);
+
+		// Process the response
+		return $this->processResponse($response);
+	}
+
+	/**
 	 * Performs common actions for PUT operations
 	 *
 	 * @param   string  $url   The URI used in the request
