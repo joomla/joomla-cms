@@ -45,6 +45,27 @@ abstract class JDropboxObject
 	}
 
 	/**
+	 * Performs common actions for GET operations
+	 *
+	 * @param   string  $url  The URI used in the request
+	 *
+	 * @throws DomainException
+	 *
+	 * @return mixed
+	 */
+	public function commonGetOperations($url)
+	{
+		// Creates an array with the default Host and Authorization headers
+		$headers = $this->getDefaultHeaders();
+
+		// Send the http request
+		$response = $this->client->get($url, $headers);
+
+		// Process the response
+		return $this->processResponse($response);
+	}
+
+	/**
 	 * Creates a string containing the given parameters which will be appended
 	 * to an URI in order to send API requests.
 	 *
