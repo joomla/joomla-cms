@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Oct-2013 Michael Babker
+ + [#28638] Advanced ACL for com_modules, permissions per module.  Thanks Sander Potjer
+
 22-Oct-2013 Jean-Marie Simonet
  # [#32368] *Regression: Cancelling Component Options edit wrong redirect Thanks Achal Aggarwal
  $ Missing lang string. Normalising both lib_joomla.ini
