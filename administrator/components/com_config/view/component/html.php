@@ -88,7 +88,7 @@ class ConfigViewComponentHtml extends ConfigViewHtmlCms
 	{
 		JToolbarHelper::title(JText::_($this->component->option . '_configuration'), 'equalizer config');
 		JToolbarHelper::apply('config.save.component.apply');
-		JToolbarHelper::save('config.save.component');
+		JToolbarHelper::save('config.save.component.save');
 		JToolbarHelper::divider();
 		JToolbarHelper::cancel('config.cancel.component');
 		JToolbarHelper::divider();
