@@ -63,8 +63,9 @@ class JDropbox
 
 		// Setup the default API url if not already set.
 		$this->options->def('api.url', 'api.dropbox.com');
-		$this->options->def('api.oauth.authorize', 'https://www.dropbox.com/1/oauth2/authorize');
-		$this->options->def('api.oauth.token', 'https://api.dropbox.com/1/oauth2/token');
+		$this->options->def('api.oauth1.request_token', 'https://api.dropbox.com/1/oauth/request_token');
+		$this->options->def('api.oauth2.authorize', 'https://www.dropbox.com/1/oauth2/authorize');
+		$this->options->def('api.oauth2.access_token', 'https://api.dropbox.com/1/oauth2/token');
 	}
 
 	/**
