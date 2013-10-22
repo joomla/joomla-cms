@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 22-Oct-2013 Michael Babker
  + [#28638] Advanced ACL for com_modules, permissions per module.  Thanks Sander Potjer
+ # [#32289] Sometimes passwords are blank and you can't login.  Thanks Elin Waring
 
 22-Oct-2013 Jean-Marie Simonet
  # [#32368] *Regression: Cancelling Component Options edit wrong redirect Thanks Achal Aggarwal
