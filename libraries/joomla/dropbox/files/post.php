@@ -129,4 +129,41 @@ class JDropboxFilesPost extends JDropboxFiles
 		// Process the response
 		return $this->processResponse($response);
 	}
+
+	/**
+	 * Creates and returns a Dropbox link to files or folders users can use to view a preview of the file in a web browser.
+	 *
+	 * @param   string  $root    The root relative to which path is specified. Valid values are sandbox and dropbox.
+	 * @param   string  $path    The path to the file you want to retrieve.
+	 * @param   array   $params  The parameters to be used in the request. "rev" (revision) is a required parameter.
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function postShares($root, $path, $params)
+	{
+		$url = "https://" . $this->options->get("api.url") . "/1/shares/" . $root . "/" . $path;
+		$paramsString = "";
+
+		foreach ($params as $key => $param)
+		{
+			$paramsString .= "&" . $key . "=" . $param;
+		}
+
+		if (! empty($params))
+		{
+			$paramsString[0] = "?";
+			$url .= $paramsString;
+		}
+
+		// Creates an array with the default Host and Authorization headers
+		$headers = $this->getDefaultHeaders();
+
+		// Send the http request
+		$response = $this->client->post($url, "", $headers);
+
+		// Process the response
+		return $this->processResponse($response);
+	}
 }
