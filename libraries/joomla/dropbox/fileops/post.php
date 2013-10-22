@@ -89,4 +89,40 @@ class JDropboxFileopsPost extends JDropboxFiles
 		// Process the response
 		return $this->processResponse($response);
 	}
+
+	/**
+	 * Deletes a file or folder.
+	 *
+	 * @param   array  $params  The parameters to be used in the request.
+	 *                          "root" and "path" are required parameters.
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function postDelete($params)
+	{
+		$url = "https://" . $this->options->get("api.url") . "/1/fileops/delete";
+		$paramsString = "";
+
+		foreach ($params as $key => $param)
+		{
+			$paramsString .= "&" . $key . "=" . $param;
+		}
+
+		if (! empty($params))
+		{
+			$paramsString[0] = "?";
+			$url .= $paramsString;
+		}
+
+		// Creates an array with the default Host and Authorization headers
+		$headers = $this->getDefaultHeaders();
+
+		// Send the http request
+		$response = $this->client->post($url, "", $headers);
+
+		// Process the response
+		return $this->processResponse($response);
+	}
 }
