@@ -121,4 +121,42 @@ class JDropboxFilesGet extends JDropboxFiles
 		// Process the response
 		return $this->processResponse($response);
 	}
+
+	/**
+	 * Returns metadata for all files and folders whose filename contains the given search string as a substring.
+	 * Searches are limited to the folder path and its sub-folder hierarchy provided in the call.
+	 *
+	 * @param   string  $root    The root relative to which path is specified. Valid values are sandbox and dropbox.
+	 * @param   string  $path    The path to the file you want to retrieve.
+	 * @param   array   $params  The parameters to be used in the request.
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function getSearch($root, $path, $params = array())
+	{
+		$url = "https://" . $this->options->get("api.url") . "/1/search/" . $root . "/" . $path;
+		$paramsString = "";
+
+		foreach ($params as $key => $param)
+		{
+			$paramsString .= "&" . $key . "=" . $param;
+		}
+
+		if (! empty($params))
+		{
+			$paramsString[0] = "?";
+			$url .= $paramsString;
+		}
+
+		// Creates an array with the default Host and Authorization headers
+		$headers = $this->getDefaultHeaders();
+
+		// Send the http request
+		$response = $this->client->get($url, $headers);
+
+		// Process the response
+		return $this->processResponse($response);
+	}
 }
