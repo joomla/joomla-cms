@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
 class JDropboxFilesPut extends JDropboxFiles
 {
 	/**
-	 * Uploads a file using PUT semantics
+	 * Uploads a file using PUT semantics.
 	 *
 	 * @param   string  $root    The root relative to which path is specified. Valid values are sandbox and dropbox.
 	 * @param   string  $path    The path to the file you want to retrieve.
@@ -51,6 +51,55 @@ class JDropboxFilesPut extends JDropboxFiles
 
 		// Send the http request
 		$response = $this->client->put($url, $data, $headers);
+
+		// Process the response
+		return $this->processResponse($response);
+	}
+
+	/**
+	 * Uploads large files to Dropbox in multiple chunks
+	 * Also has the ability to resume if the upload is interrupted.
+	 * This allows for uploads larger than the /files and /files_put maximum of 150 MB.
+	 *
+	 * Typical usage:
+	 * 1. Send a PUT request to /chunked_upload with the first chunk of the file without
+	 *  setting upload_id, and receive an upload_id in return.
+	 * 2. Repeatedly PUT subsequent chunks using the upload_id to identify the upload
+	 *  in progress and an offset representing the number of bytes transferred so far.
+	 * 3. After each chunk has been uploaded, the server returns a new offset representing
+	 *  the total amount transferred.
+	 * 4. After the last chunk, POST to /commit_chunked_upload to complete the upload.
+	 *
+	 * @param   string  $body    A chunk of data from the file being uploaded. If resuming,
+	 *                           the chunk should begin at the number of bytes into the file
+	 *                           that equals the offset.
+	 * @param   array   $params  The parameters to be used in the request.
+	 *
+	 * @return string  The response body
+	 *
+	 * @since   ??.?
+	 */
+	public function putChunkedUpload($body, $params = array())
+	{
+		$url = "https://" . $this->options->get("api.content") . "/1/chunked_upload";
+		$paramsString = "";
+
+		foreach ($params as $key => $param)
+		{
+			$paramsString .= "&" . $key . "=" . $param;
+		}
+
+		if (! empty($params))
+		{
+			$paramsString[0] = "?";
+			$url .= $paramsString;
+		}
+
+		// Creates an array with the default Host and Authorization headers
+		$headers = $this->getDefaultHeaders();
+
+		// Send the http request
+		$response = $this->client->put($url, $body, $headers);
 
 		// Process the response
 		return $this->processResponse($response);
