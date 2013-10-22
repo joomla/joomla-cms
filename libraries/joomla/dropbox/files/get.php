@@ -10,24 +10,33 @@
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Defines the GET operation on accounts
+ * Defines the GET operation on files
  *
  * @package     Joomla.Platform
  * @subpackage  Dropbox
  * @since       ??.?
  */
-class JDropboxAccountsGet extends JDropboxAccounts
+class JDropboxFilesGet extends JDropboxFiles
 {
 	/**
-	 * Retrieves information about the user's account.
+	 * Retrieves information about the user's file.
+	 *
+	 * @param   string  $root  The root relative to which path is specified. Valid values are sandbox and dropbox.
+	 * @param   string  $path  The path to the file you want to retrieve.
+	 * @param   string  $rev   The revision of the file to retrieve. This defaults to the most recent revision.
 	 *
 	 * @return string  The response body
 	 *
 	 * @since   ??.?
 	 */
-	public function getInfo()
+	public function getFiles($root, $path, $rev = null)
 	{
-		$url = "https://" . $this->options->get("api.url") . "/1/account/info";
+		$url = "https://" . $this->options->get("api.content") . "/1/files/" . $path;
+
+		if (isset($rev))
+		{
+			$url .= "?rev=" . $rev;
+		}
 
 		// Creates an array with the default Host and Authorization headers
 		$headers = $this->getDefaultHeaders();
