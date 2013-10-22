@@ -79,6 +79,3 @@ JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'Banner
 JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'BannersTableClient', array('typeAlias' => 'com_banners.client'));
 JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'TagsTableTag', array('typeAlias' => 'com_tags.tag'));
 JObserverMapper::addObserverClassToClass('JTableObserverContenthistory', 'UsersTableNote', array('typeAlias' => 'com_users.note'));
-
-// Register class name aliases to Framework classes
-require_once JPATH_LIBRARIES . '/framework/aliases.php';
