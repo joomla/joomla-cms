@@ -508,7 +508,11 @@ class BannersModelBanner extends JModelAdmin
 			if (empty($table->ordering))
 			{
 				$db = JFactory::getDbo();
-				$db->setQuery('SELECT MAX(ordering) FROM #__banners');
+				$query = $db->getQuery(true)
+					->select('MAX(ordering)')
+					->from('#__banners');
+
+				$db->setQuery($query);
 				$max = $db->loadResult();
 
 				$table->ordering = $max + 1;

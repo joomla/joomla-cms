@@ -42,6 +42,7 @@ $assoc = JLanguageAssociations::isEnabled();
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('JCATEGORY', true)); ?>
 		<div class="row-fluid">
 			<div class="span9">
+				<?php echo $this->form->getLabel('description'); ?>
 				<?php echo $this->form->getInput('description'); ?>
 			</div>
 			<div class="span3">

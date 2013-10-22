@@ -95,8 +95,6 @@ class JFormFieldColor extends JFormField
 	 */
 	public function __set($name, $value)
 	{
-		$value = (string) $value;
-
 		switch ($name)
 		{
 			case 'split':
@@ -104,7 +102,7 @@ class JFormFieldColor extends JFormField
 			case 'control':
 			case 'exclude':
 			case 'colors':
-				$this->$name = $value;
+				$this->$name = (string) $value;
 				break;
 
 			default:

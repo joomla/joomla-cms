@@ -197,6 +197,39 @@ class JLayoutFile extends JLayoutBase
 	}
 
 	/**
+	 * Remove one path from the layout search
+	 *
+	 * @param   string  $path  The path to remove from the layout search
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public function removeIncludePath($path)
+	{
+		$this->removeIncludePaths($path);
+	}
+
+	/**
+	 * Remove one or more paths to exclude in layout search
+	 *
+	 * @param   string  $paths  The path or array of paths to remove for the layout search
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public function removeIncludePaths($paths)
+	{
+		if (!empty($paths))
+		{
+			$paths = (array) $paths;
+
+			$this->includePaths = array_diff($this->includePaths, $paths);
+		}
+	}
+
+	/**
 	 * Validate that the active component is valid
 	 *
 	 * @param   string  $option  URL Option of the component. Example: com_content

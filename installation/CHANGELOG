@@ -25,6 +25,72 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Oct-2013 Jean-Marie Simonet
+ # [#32368] *Regression: Cancelling Component Options edit wrong redirect Thanks Achal Aggarwal
+ $ Missing lang string. Normalising both lib_joomla.ini
+ ^ [#32372] Update TinyMCE to 4.0.8. Thanks Zitrone
+ # Updating TinyMce RTL lang files to 4.0.8
+
+21-Oct-2013 Michael Babker
+ # [#32361] [3.x] Search tools fixes.  Thanks Roberto Segura
+
+21-Oct-2013 Roberto Segura
+ # [#32366] Login module doesn't show "forgot" links if user registration is disabled. Thanks Thomas Hunziker
+ + [#32174] Not translated "Close" in new template file edit screen. Thanks Tobias Zulauf
+ ^ [#32354] Hard Coded SQL Queries at the Joomla content Plugin. Thanks Tobias Zulauf
+ # [#32364] Regression: Contact data saving incorrectly, fix edit screen. Thanks Elin Waring
+ ^ [#32308] FE Site Settings wthout class="btn-group". Thanks Tobias Zulauf
+ ^ [#32304] Nowrap not needed in Title attributes. Thanks Cyril Rezé
+ # Missing row-fluid in markup after recent contact edit changes
+
+20-Oct-2013 Elin Waring
+ # [#32327] Installation halts at 1st step on PHP 5.3.3.
+ + [#32333] Adding template.js for Beez3 template. Thanks Buddhima Wijeweera
+
+20-Oct-2013 Jean-Marie Simonet
+ # [#32278] Error Page is not in the new JUX design. Thanks Michael Babker
+ $ Updating Installation languages: fi-FI, nl-NL
+ $ Updating TinyMCE nl lang file.
+ #$ [#32342] Fix wrong pluralization Thanks Nikolai Plath
+
+20-Oct-2013 Roberto Segura
+ # [#32346] Coding error in plugins/system/remember/remember.php. Thanks Mike Smith
+ # [#32290] Login screen showing secret key field when it shouldn't, not showing remember me. Thanks Elin Waring
+ $ [#32338] Missing string. Thanks Roger Perren
+ # [#32353] Fatal Error: Class 'PlgUserJoomla' not found. Thanks George Wilson
+ # [#32352] Add class aliases for legacy application classes. Thanks Michael Babker
+ # [#32326] Control Panel Icon Needs to Change. Thanks Nick Savov
+ # [#32315] *regression: Notices or fatal errors for categories menu item display. Thanks Achal Aggarwal
+ # [#31139] Two functions in com_content article model need to use JDatabase. Thanks Gunjan Patel
+ # [#31716] Offline template: "remember me" checkbox not removed when plugin disabled. Thanks Tobias Zulauf
+
+18-Oct-2013 Jean-Marie Simonet
+ # [#32344] *Overrides bug: Warning: constant() [function.constant]: Couldn't find constant JPATH_0
+
+17-Oct-2013 Michael Babker
+ + [#31861] [JUX2] [04] New Search tools on top of lists.  Thanks Roberto Segura
+
+17-Oct-2013 David Hurley
+ ^ [#32287] Update to sample data defaults. Thanks Elin Waring
+ # [#32277] Fix problem with form field ordering. Thanks Achal Aggarwal
+
+17-Oct-2013 Jean-Marie Simonet
+ $ Updating installation lang files: af-ZA, vi-VN, sr-YU, sr-RS
+ $ Updating installation lang files: sr-YU, sr-RS
+
+16-Oct-2013 Michael Babker
+ # [#32247] Jgrid bug producing double quotes.  Thanks Brian Teeman
+ ^ [#32317] *Postinstall component missing a toolbar Options button.  Thanks Nicholas Dionysopoulos
+ ^ [#32325] Category edit is missing label for Description field.  Thanks Mark Dexter
+ ^ [#32309] Code CS Issue in com_modules helper.  Thanks Chad Windnagle
+ ^ [#32194] Banner model has hardcoded SQL.  Thanks Peter Martin
+ # [#31654] Browser Page Title Not Showing for Tagged Item Menu.  Thanks Achal Aggarwal
+ # [#30535] The tag shows itself as a parent tag choice, when it shouldn't.  Thanks Eliot Bendinelli
+ # [#32080] mod_articles_archive ordering is broken.  Thanks David Jardin
+ ^ [#31806] New context should be based on default context.  Thanks Elijah Madden
+ ^ [#32070] Removed unused JToolbarHelper::title() in component helper.  Thanks Bruno Batista
+ # [#32134] Send mail button in Mass Mail has no icon in hathor.  Thanks Tobias Zulauf
+
 15-Oct-2013 Michael Babker
  # [#32322] com_config is broken at hathor
 
