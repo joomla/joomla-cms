@@ -72,6 +72,10 @@ switch ($this->params->get('selectPlugin', 'chosen'))
 		JHtml::_('formbehavior.chosen', 'select');
 		break;
 
+	case 'select2':
+		JHtml::_('formbehavior.select2', 'select');
+		break;
+
 	default:
 		break;
 }

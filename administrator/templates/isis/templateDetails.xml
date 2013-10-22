@@ -121,6 +121,8 @@
 					<option
 						value="chosen">Chosen</option>
 					<option
+						value="default">Select2</option>
+					<option
 						value="default">Browser Default</option>
 				</field>
 
