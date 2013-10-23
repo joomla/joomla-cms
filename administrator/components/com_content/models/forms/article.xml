@@ -410,11 +410,11 @@
 		<fieldset name="editorConfig" label="COM_CONTENT_EDITORCONFIG_FIELDSET_LABEL">
 			<field
 				name="show_publishing_options"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				default=""
 				label="COM_CONTENT_SHOW_PUBLISHING_OPTIONS_LABEL"
-				description="COM_CONTENT_SHOW_PUBLISHING_OPTIONS_DESC" labelclass="control-label"
+				description="COM_CONTENT_SHOW_PUBLISHING_OPTIONS_DESC"
 				>
 						<option value="">JGLOBAL_USE_GLOBAL</option>
 						<option value="0">JNO</option>
@@ -423,12 +423,11 @@
 			</field>
 			<field
 				name="show_article_options"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				default=""
 				label="COM_CONTENT_SHOW_ARTICLE_OPTIONS_LABEL"
 				description="COM_CONTENT_SHOW_ARTICLE_OPTIONS_DESC"
-				labelclass="control-label"
 				>
 						<option value="">JGLOBAL_USE_GLOBAL</option>
 						<option value="0">JNO</option>
@@ -437,12 +436,11 @@
 			</field>
 			<field
 				name="show_urls_images_backend"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				default=""
 				label="COM_CONTENT_SHOW_IMAGES_URLS_BACK_LABEL"
 				description="COM_CONTENT_SHOW_IMAGES_URLS_BACK_DESC"
-				labelclass="control-label"
 				>
 						<option value="">JGLOBAL_USE_GLOBAL</option>
 						<option value="0">JNO</option>
@@ -451,12 +449,11 @@
 			</field>
 			<field
 				name="show_urls_images_frontend"
-				type="radio"
-				class="btn-group"
+				type="list"
+				class="chzn-color"
 				default=""
 				label="COM_CONTENT_SHOW_IMAGES_URLS_FRONT_LABEL"
 				description="COM_CONTENT_SHOW_IMAGES_URLS_FRONT_DESC"
-				labelclass="control-label"
 				>
 						<option value="">JGLOBAL_USE_GLOBAL</option>
 						<option value="0">JNO</option>
