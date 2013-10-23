@@ -685,7 +685,6 @@ class TemplatesModelTemplate extends JModelForm
 	{
 		if ($template = $this->getTemplate())
 		{
-			JLoader::registerPrefix('J', JPATH_ROOT . '/build/libraries');
 			$app          = JFactory::getApplication();
 			$client       = JApplicationHelper::getClientInfo($template->client_id);
 			$path         = JPath::clean($client->path . '/templates/' . $template->element . '/');
@@ -693,7 +692,15 @@ class TemplatesModelTemplate extends JModelForm
 			$explodeArray = explode('/', $inFile);
 			$fileName     = end($explodeArray);
 			$outFile      = reset(explode('.', $fileName));
-			$less         = new JLess;
+
+			// Load the RAD layer to use its LESS compiler
+			if (!defined('FOF_INCLUDED'))
+			{
+				require_once JPATH_LIBRARIES . '/fof/include.php';
+			}
+
+			$less = new FOFLess;
+			$less->setFormatter(new FOFLessFormatterJoomla);
 
 			try
 			{
