@@ -25,8 +25,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+23-Oct-2013 Michael Babker
+ # [#32401] *Custom module Options hard to find.  Thanks Jean-Marie Simonet
+
 23-Oct-2013 Jean-Marie Simonet
- # [#32310] Regression: Restore lost editor configuration tab. 
+ # [#32310] Regression: Restore lost editor configuration tab.
  # [#32393] /layouts not included in robots.txt  Thanks Matt Thomas
  # [#32378] Installation error: JLIB_DATABASE_QUERY_FAILED. Thanks Marcel van Beelen
  # [#32394] Replace JLess uses with FOFLess. Thanks Michael Babker
@@ -40,7 +43,7 @@ $ -> Language fix or change
 
 22-Oct-2013 David Hurley
  ^ Update to previously new submitted Framework code. Thanks Andrew Eddie
- 
+
 22-Oct-2013 Jean-Marie Simonet
  # [#32368] *Regression: Cancelling Component Options edit wrong redirect Thanks Achal Aggarwal
  $ Missing lang string. Normalising both lib_joomla.ini
