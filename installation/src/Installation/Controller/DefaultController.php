@@ -38,13 +38,13 @@ class DefaultController extends JControllerBase
 		// Get the application
 		/* @var \Installation\Application\WebApplication $app */
 		$app = $this->getApplication();
+		$configPath = $app->get('configurationPath');
 
 		// Get the document object.
 		$document = $app->getDocument();
 
 		// Set the default view name and format from the request.
-		if (file_exists(JPATH_CONFIGURATION . '/configuration.php') && (filesize(JPATH_CONFIGURATION . '/configuration.php') > 10)
-			&& file_exists(JPATH_INSTALLATION . '/index.php'))
+		if (file_exists($configPath) && (filesize($configPath) > 10))
 		{
 			$default_view = 'remove';
 		}
@@ -62,10 +62,13 @@ class DefaultController extends JControllerBase
 			$this->input->set('view', $default_view);
 		}
 
+		$state = new \JRegistry;
+		$state->set('configurationPath', $configPath);
+
 		switch ($vName)
 		{
 			case 'preinstall':
-				$model        = new SetupModel;
+				$model        = new SetupModel($state);
 				$sufficient   = $model->getPhpOptionsSufficient();
 				$checkOptions = false;
 				$options = $model->getOptions();
@@ -79,13 +82,13 @@ class DefaultController extends JControllerBase
 
 			case 'languages':
 			case 'defaultlanguage':
-				$model = new LanguagesModel;
+				$model = new LanguagesModel($state);
 				$checkOptions = false;
 				$options = array();
 				break;
 
 			default:
-				$model        = new SetupModel;
+				$model        = new SetupModel($state);
 				$sufficient   = $model->getPhpOptionsSufficient();
 				$checkOptions = true;
 				$options = $model->getOptions();
@@ -117,6 +120,9 @@ class DefaultController extends JControllerBase
 		/* @var \JViewHtml $view */
 		$view = new $vClass($model, $paths);
 		$view->setLayout($lName);
+
+		// TODO - Temporary dodginess; move to a model?
+		$view->useftp = (file_exists($configPath)) ? !is_writable($configPath) : !is_writable(dirname($configPath));
 
 		// Render our view and return it to the application.
 		return $view->render();

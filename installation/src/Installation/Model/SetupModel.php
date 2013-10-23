@@ -319,8 +319,9 @@ class SetupModel extends JModelBase
 		$options[] = $option;
 
 		// Check for configuration file writable.
-		$writable = (is_writable(JPATH_CONFIGURATION . '/configuration.php')
-			|| (!file_exists(JPATH_CONFIGURATION . '/configuration.php') && is_writable(JPATH_ROOT)));
+		$configPath = $this->state->get('configurationPath');
+		$writable = (is_writable($configPath)
+			|| (!file_exists($configPath) && is_writable(JPATH_ROOT)));
 
 		$option = new \stdClass;
 		$option->label  = JText::sprintf('INSTL_WRITABLE', 'configuration.php');
