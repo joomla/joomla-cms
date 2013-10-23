@@ -25,4 +25,10 @@ class ContactViewCategories extends JViewCategories
 	 * @since  3.2
 	 */
 	protected $pageHeading = 'COM_CONTACT_DEFAULT_PAGE_TITLE';
+
+	/**
+	 * @var    string  The name of the extension for the category
+	 * @since  3.2
+	 */
+	protected $extension = 'com_contact';
 }

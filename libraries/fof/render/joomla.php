@@ -107,6 +107,8 @@ class FOFRenderJoomla extends FOFRenderAbstract
 	 */
 	protected function renderFormBrowse(FOFForm &$form, FOFModel $model, FOFInput $input)
 	{
+		JHtml::_('behavior.multiselect');
+
 		// Getting all header row elements
 		$headerFields = $form->getHeaderset();
 

@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_config
  * @since       3.2
  */
-class ConfigViewComponentHtml extends ConfigViewHtmlCms
+class ConfigViewComponentHtml extends ConfigViewCmsHtml
 {
 
 	public $state;
@@ -88,7 +88,7 @@ class ConfigViewComponentHtml extends ConfigViewHtmlCms
 	{
 		JToolbarHelper::title(JText::_($this->component->option . '_configuration'), 'equalizer config');
 		JToolbarHelper::apply('config.save.component.apply');
-		JToolbarHelper::save('config.save.component');
+		JToolbarHelper::save('config.save.component.save');
 		JToolbarHelper::divider();
 		JToolbarHelper::cancel('config.cancel.component');
 		JToolbarHelper::divider();

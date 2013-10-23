@@ -208,9 +208,15 @@ abstract class AdminManagerPage extends AdminPage
 
 	public function setOrder($value)
 	{
-		$container = $this->driver->findElement(By::xPath("//div[@id='sortTable_chzn']"));
-		$this->driver->findElement(By::xPath("//div[@id='sortTable_chzn']/a"))->click();
-		$this->driver->findElement(By::xPath("//div[@id='sortTable_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $value . "')]"))->click();
+		$container = $this->driver->findElement(By::xPath("//div[@id='sortTable_chzn']/a"));
+		$container->click();
+		$el = $this->driver->findElement(By::xPath("//div[@id='sortTable_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $value . "')]"));
+		// Make sure the container is opened. Not sure why we need this, but sometimes the $el is not displayed after the first click. This seems to fix it.
+		while (!$el->isDisplayed())
+		{
+			$container->click();
+		}
+		$el->click();
 		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 
 		return $this->test->getPageObject(get_class($this));

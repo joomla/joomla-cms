@@ -62,6 +62,11 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 	{
 		$this->tagManagerPage->clickButton('toolbar-new');
 		$tagEditPage = $this->getPageObject('TagEditPage');
+
+		// Option to print actual element array
+		/* @var $tagEditPage TagEditPage */
+// 	 	$tagEditPage->printFieldArray($tagEditPage->getAllInputFields($tagEditPage->tabs));
+
 		$testElements = $tagEditPage->getAllInputFields($tagEditPage->tabs);
 		$actualFields = $this->getActualFieldsFromElements($testElements);
 		$this->assertEquals($tagEditPage->inputFields, $actualFields);
