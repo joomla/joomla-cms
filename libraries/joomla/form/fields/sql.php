@@ -95,15 +95,13 @@ class JFormFieldSQL extends JFormFieldList
 	 */
 	public function __set($name, $value)
 	{
-		$value = (string) $value;
-
 		switch ($name)
 		{
 			case 'keyField':
 			case 'valueField':
 			case 'translate':
 			case 'query':
-				$this->$name = $value;
+				$this->$name = (string) $value;
 				break;
 
 			default:

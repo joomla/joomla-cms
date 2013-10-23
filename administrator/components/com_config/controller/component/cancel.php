@@ -27,7 +27,6 @@ class ConfigControllerComponentCancel extends ConfigControllerCanceladmin
 	 */
 	public function execute()
 	{
-
 		$this->context = 'com_config.config.global';
 
 		$this->component = $this->input->getWord('component');
@@ -35,6 +34,5 @@ class ConfigControllerComponentCancel extends ConfigControllerCanceladmin
 		$this->redirect = 'index.php?option=' . $this->component;
 
 		parent::execute();
-
 	}
 }

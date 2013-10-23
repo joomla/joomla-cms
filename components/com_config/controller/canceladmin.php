@@ -70,7 +70,9 @@ class ConfigControllerCanceladmin extends ConfigControllerCancel
 
 		if (!empty($this->redirect))
 		{
+
 			$this->app->redirect($this->redirect);
+
 		}
 		else
 		{
