@@ -57,15 +57,19 @@ class MediaControllerFile extends JControllerLegacy
 		{
 			return false;
 		}
-		if (
-			$_SERVER['CONTENT_LENGTH'] > ($params->get('upload_maxsize', 0) * 1024 * 1024) ||
-			$_SERVER['CONTENT_LENGTH'] > (int) (ini_get('upload_max_filesize')) * 1024 * 1024 ||
-			$_SERVER['CONTENT_LENGTH'] > (int) (ini_get('post_max_size')) * 1024 * 1024 ||
-			(($_SERVER['CONTENT_LENGTH'] > (int) (ini_get('memory_limit')) * 1024 * 1024) && ((int) (ini_get('memory_limit')) != -1))
-		)
+
+		if (($params->get('upload_maxsize', 0) * 1024 * 1024) != 0)
 		{
-			JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
-			return false;
+			if (
+				$_SERVER['CONTENT_LENGTH'] > ($params->get('upload_maxsize', 0) * 1024 * 1024)
+				|| $_SERVER['CONTENT_LENGTH'] > (int) (ini_get('upload_max_filesize')) * 1024 * 1024
+				|| $_SERVER['CONTENT_LENGTH'] > (int) (ini_get('post_max_size')) * 1024 * 1024
+				|| (($_SERVER['CONTENT_LENGTH'] > (int) (ini_get('memory_limit')) * 1024 * 1024) && ((int) (ini_get('memory_limit')) != -1))
+			)
+			{
+				JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
+				return false;
+			}
 		}
 
 		// Perform basic checks on file info before attempting anything
@@ -80,7 +84,7 @@ class MediaControllerFile extends JControllerLegacy
 				return false;
 			}
 
-			if ($file['size'] > ($params->get('upload_maxsize', 0) * 1024 * 1024))
+			if (($params->get('upload_maxsize', 0) * 1024 * 1024) != 0 && $file['size'] > ($params->get('upload_maxsize', 0) * 1024 * 1024))
 			{
 				JError::raiseNotice(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
 				return false;
@@ -113,8 +117,8 @@ class MediaControllerFile extends JControllerLegacy
 
 			if (!MediaHelper::canUpload($file, $err))
 			{
-				// The file can't be upload
-				JError::raiseNotice(100, JText::_($err));
+				// The file can't be uploaded
+
 				return false;
 			}
 

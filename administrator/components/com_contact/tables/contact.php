@@ -58,7 +58,7 @@ class ContactTableContact extends JTable
 	/**
 	 * Stores a contact
 	 *
-	 * @param   boolean	True to update fields even if they are null.
+	 * @param   boolean  True to update fields even if they are null.
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
@@ -184,8 +184,6 @@ class ContactTableContact extends JTable
 
 			return false;
 		}
-
-		return true;
 
 		// Clean up keywords -- eliminate extra spaces between phrases
 		// and cr (\r) and lf (\n) characters from string
