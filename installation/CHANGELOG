@@ -28,7 +28,8 @@ $ -> Language fix or change
 23-Oct-2013 Michael Babker
  # [#32401] *Custom module Options hard to find.  Thanks Jean-Marie Simonet
  # [#32398] Some older php admin users can't login.  Thanks Elin Waring
- # [#32150] tag added to an article gets removed if ordering changed or in batch processing.  Thanks Elin Waringa
+ # [#32150] tag added to an article gets removed if ordering changed or in batch processing.  Thanks Elin Waring
+ ^ [#32216] New post install/post update messages.  Thanks Nicholas Dionysopoulos
 
 23-Oct-2013 Jean-Marie Simonet
  # [#32310] Regression: Restore lost editor configuration tab.
