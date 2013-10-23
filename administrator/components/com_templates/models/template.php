@@ -685,7 +685,6 @@ class TemplatesModelTemplate extends JModelForm
 	{
 		if ($template = $this->getTemplate())
 		{
-			JLoader::registerPrefix('J', JPATH_ROOT . '/build/libraries');
 			$app          = JFactory::getApplication();
 			$client       = JApplicationHelper::getClientInfo($template->client_id);
 			$path         = JPath::clean($client->path . '/templates/' . $template->element . '/');
