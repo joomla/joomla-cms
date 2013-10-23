@@ -65,15 +65,17 @@ else
 }
 
 // Select the jQuery plugin to render select list.
+$selector = $this->params->get('selectPluginClass', '');
+$selector = !empty($selector) ? '.' . $selector : 'select';
 
 switch ($this->params->get('selectPlugin', 'chosen'))
 {
 	case 'chosen':
-		JHtml::_('formbehavior.chosen', 'select');
+		JHtml::_('formbehavior.chosen', $selector);
 		break;
 
 	case 'select2':
-		JHtml::_('formbehavior.select2', 'select');
+		JHtml::_('formbehavior.select2', $selector);
 		break;
 
 	default:
