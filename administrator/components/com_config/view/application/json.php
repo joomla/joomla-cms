@@ -34,7 +34,6 @@ class ConfigViewApplicationJson extends ConfigViewJson
 	public function render()
 	{
 
-
 		try
 		{
 			$this->data = $this->model->getData();
@@ -61,13 +60,13 @@ class ConfigViewApplicationJson extends ConfigViewJson
 				"sef" => null,
 				"sitename_pagetitles" => null,
 				"debug" => null,
-				"debug_lang" =>null,
+				"debug_lang" => null,
 				"error_reporting" => null,
 				"mailfrom" => null,
 				"fromname" => null
 		);
 
-		$this->data = array_intersect_key($this->data,$requiredData);
+		$this->data = array_intersect_key($this->data, $requiredData);
 
 		return json_encode($this->data);
 	}

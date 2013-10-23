@@ -22,11 +22,10 @@ JLoader::registerPrefix('Config', JPATH_ROOT . '/components/com_config');
 // Application
 $app = JFactory::getApplication();
 
-$controllerHelper = new ConfigControllerHelper();
+$controllerHelper = new ConfigControllerHelper;
 $controller = $controllerHelper->parseController($app);
 
 $controller->prefix = 'Config';
 
 // Perform the Request task
 $controller->execute();
-

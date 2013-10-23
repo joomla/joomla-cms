@@ -26,5 +26,4 @@ class ConfigControllerComponentDisplay extends ConfigControllerDisplay
 	*/
 	public $prefix = 'Config';
 
-
 }
