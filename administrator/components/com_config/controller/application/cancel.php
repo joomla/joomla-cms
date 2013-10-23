@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_config
  * @since       3.2
  */
-class ConfigControllerApplicationCancel extends ConfigControllerCancel
+class ConfigControllerApplicationCancel extends ConfigControllerCanceladmin
 {
 	/**
 	 * Method to cancel global configuration.

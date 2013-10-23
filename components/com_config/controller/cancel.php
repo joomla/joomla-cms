@@ -32,6 +32,5 @@ class ConfigControllerCancel extends JControllerBase
 		// Redirect back to home(base) page
 		$this->app->redirect(JURI::base());
 
-		return true;
 	}
 }

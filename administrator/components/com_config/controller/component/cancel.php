@@ -28,15 +28,10 @@ class ConfigControllerComponentCancel extends ConfigControllerCanceladmin
 	public function execute()
 	{
 		$this->context = 'com_config.config.global';
-		$returnUri = $this->input->post->get('return', null, 'base64');
-		$redirect = 'index.php?option=' . $this->component;
 
-		if (!empty($returnUri))
-		{
-			$redirect = base64_decode($returnUri);
-		}
+		$this->component = $this->input->getWord('component');
 
-		$this->redirect = $redirect;
+		$this->redirect = 'index.php?option=' . $this->component;
 
 		parent::execute();
 	}
