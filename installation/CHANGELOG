@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 23-Oct-2013 Jean-Marie Simonet
  # [#32310] Regression: Restore lost editor configuration tab. 
+ # [#32393] /layouts not included in robots.txt  Thanks Matt Thomas
 
 22-Oct-2013 Michael Babker
  + [#28638] Advanced ACL for com_modules, permissions per module.  Thanks Sander Potjer
