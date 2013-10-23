@@ -47,14 +47,29 @@ class JFormFieldList extends JFormField
 		$attr .= $this->required ? ' required aria-required="true"' : '';
 		$attr .= $this->autofocus ? ' autofocus' : '';
 
+		// To avoid user's confusion, readonly="true" should imply disabled="true".
+		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true' || (string) $this->disabled == '1'|| (string) $this->disabled == 'true')
+		{
+			$attr .= ' disabled="disabled"';
+		}
+
 		// Initialize JavaScript field attributes.
 		$attr .= $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
 
 		// Get the field options.
 		$options = (array) $this->getOptions();
 
+		// Create a read-only list (no name) with a hidden input to store the value.
+		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true')
+		{
+			$html[] = JHtml::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $this->value, $this->id);
+			$html[] = '<input type="hidden" name="' . $this->name . '" value="' . $this->value . '"/>';
+		}
+		else
 		// Create a regular list.
-		$html[] = JHtml::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
+		{
+			$html[] = JHtml::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
+		}
 
 		return implode($html);
 	}
@@ -76,6 +91,22 @@ class JFormFieldList extends JFormField
 			if ($option->getName() != 'option')
 			{
 				continue;
+			}
+
+			// Filter requirements
+			if ($requires = explode(',', (string) $option['requires']))
+			{
+				// Requires multilanguage
+				if (in_array('multilanguage', $requires) && !JLanguageMultilang::isEnabled())
+				{
+					continue;
+				}
+
+				// Requires associations
+				if (in_array('associations', $requires) && !JLanguageAssociations::isEnabled())
+				{
+					continue;
+				}
 			}
 
 			$value = (string) $option['value'];

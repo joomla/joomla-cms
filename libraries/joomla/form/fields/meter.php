@@ -97,20 +97,20 @@ class JFormFieldMeter extends JFormFieldNumber
 	 */
 	public function __set($name, $value)
 	{
-		$value = (string) $value;
-
 		switch ($name)
 		{
 			case 'width':
 			case 'color':
-				$this->$name = $value;
+				$this->$name = (string) $value;
 				break;
 
 			case 'active':
+				$value = (string) $value;
 				$this->$name = ($value === 'true' || $value === $name || $value === '1');
 				break;
 
 			case 'animated':
+				$value = (string) $value;
 				$this->$name = !($value === 'false' || $value === 'off' || $value === '0');
 				break;
 
@@ -135,16 +135,21 @@ class JFormFieldMeter extends JFormFieldNumber
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
-		$this->width = isset($element['width']) ? (string) $element['width'] : '';
-		$this->color = isset($element['color']) ? (string) $element['color'] : '';
+		$return = parent::setup($element, $value, $group);
 
-		$active       = (string) $element['active'];
-		$this->active = ($active == 'true' || $active == 'on' || $active == '1');
+		if ($return)
+		{
+			$this->width = isset($this->element['width']) ? (string) $this->element['width'] : '';
+			$this->color = isset($this->element['color']) ? (string) $this->element['color'] : '';
 
-		$animated       = (string) $element['animated'];
-		$this->animated = !($animated == 'false' || $animated == 'off' || $animated == '0');
+			$active       = (string) $this->element['active'];
+			$this->active = ($active == 'true' || $active == 'on' || $active == '1');
 
-		return parent::setup($element, $value, $group);
+			$animated       = (string) $this->element['animated'];
+			$this->animated = !($animated == 'false' || $animated == 'off' || $animated == '0');
+		}
+
+		return $return;
 	}
 
 	/**

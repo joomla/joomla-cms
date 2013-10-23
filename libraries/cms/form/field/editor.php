@@ -141,8 +141,6 @@ class JFormFieldEditor extends JFormFieldTextarea
 	 */
 	public function __set($name, $value)
 	{
-		$value = (string) $value;
-
 		switch ($name)
 		{
 			case 'height':
@@ -150,10 +148,12 @@ class JFormFieldEditor extends JFormFieldTextarea
 			case 'assetField':
 			case 'authorField':
 			case 'asset':
-				$this->$name = $value;
+				$this->$name = (string) $value;
 				break;
 
 			case 'buttons':
+				$value = (string) $value;
+
 				if ($value == 'true' || $value == 'yes' || $value == '1')
 				{
 					$this->buttons = true;
@@ -169,12 +169,13 @@ class JFormFieldEditor extends JFormFieldTextarea
 				break;
 
 			case 'hide':
+				$value = (string) $value;
 				$this->hide = $value ? explode(',', $value) : array();
 				break;
 
 			case 'editorType':
 				// Can be in the form of: editor="desired|alternative".
-				$this->editorType  = explode('|', trim($value));
+				$this->editorType  = explode('|', trim((string) $value));
 				break;
 
 			default:
@@ -193,7 +194,7 @@ class JFormFieldEditor extends JFormFieldTextarea
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @see 	JFormField::setup()
+	 * @see     JFormField::setup()
 	 * @since   3.2
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
@@ -202,14 +203,31 @@ class JFormFieldEditor extends JFormFieldTextarea
 
 		if ($result == true)
 		{
-			$this->height      = $element['height'] ? (string) $element['height'] : '250';
-			$this->width       = $element['width'] ? (string) $element['width'] : '100%';
-			$this->assetField  = $element['asset_field'] ? (string) $element['asset_field'] : 'asset_id';
-			$this->authorField = $element['created_by_field'] ? (string) $element['created_by_field'] : 'created_by';
-			$this->asset       = $this->form->getValue($this->assetField) ? $this->form->getValue($this->assetField) : (string) $element['asset_id'];
-			$this->buttons     = $element['buttons'];
-			$this->hide        = $element['hide'];
-			$this->editorType  = $element['editor'];
+			$this->height      = $this->element['height'] ? (string) $this->element['height'] : '500';
+			$this->width       = $this->element['width'] ? (string) $this->element['width'] : '100%';
+			$this->assetField  = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
+			$this->authorField = $this->element['created_by_field'] ? (string) $this->element['created_by_field'] : 'created_by';
+			$this->asset       = $this->form->getValue($this->assetField) ? $this->form->getValue($this->assetField) : (string) $this->element['asset_id'];
+
+			$buttons    = (string) $this->element['buttons'];
+			$hide       = (string) $this->element['hide'];
+			$editorType = (string) $this->element['editor'];
+
+			if ($buttons == 'true' || $buttons == 'yes' || $buttons == '1')
+			{
+				$this->buttons = true;
+			}
+			elseif ($buttons == 'false' || $buttons == 'no' || $buttons == '0')
+			{
+				$this->buttons = false;
+			}
+			else
+			{
+				$this->buttons = !empty($hide) ? explode(',', $buttons) : array();
+			}
+
+			$this->hide        = !empty($hide) ? explode(',', (string) $this->element['hide']) : array();
+			$this->editorType  = !empty($editorType) ? explode('|', trim($editorType)) : array();
 		}
 
 		return $result;
@@ -248,7 +266,7 @@ class JFormFieldEditor extends JFormFieldTextarea
 		{
 			$editor = null;
 
-			if (empty($this->editorType))
+			if ($this->editorType)
 			{
 				// Get the list of editor types.
 				$types = $this->editorType;

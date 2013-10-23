@@ -63,7 +63,12 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
 		$this->articleManagerPage->clickButton('toolbar-new');
 		$articleEditPage = $this->getPageObject('ArticleEditPage');
-		$testElements = $articleEditPage->getAllInputFields(array('general', 'publishing', 'attrib-basic','editor', 'metadata', 'permissions'));
+
+		// Option to print actual element array
+		/* @var $articleEditPage ArticleEditPage */
+// 	 	$articleEditPage->printFieldArray($articleEditPage->getAllInputFields($articleEditPage->tabs));
+
+		$testElements = $articleEditPage->getAllInputFields($articleEditPage->tabs);
 		$actualFields = array();
 		foreach ($testElements as $el)
 		{
@@ -147,7 +152,7 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 	/**
 	 * @test
 	 */
-	public function changeTagState_ChangeEnabledUsingToolbar_EnabledChanged()
+	public function changeArticleState_ChangePublishedUsingToolbar_PublishedChanged()
 	{
 		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
 		$this->articleManagerPage->addArticle('ABC_Test');

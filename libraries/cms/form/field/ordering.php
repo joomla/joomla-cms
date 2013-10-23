@@ -69,6 +69,8 @@ class JFormFieldOrdering extends JFormField
 	 * Builds the query for the ordering list.
 	 *
 	 * @return  JDatabaseQuery  The query for the ordering form field
+	 *
+	 * @since   3.2
 	 */
 	protected function getQuery()
 	{
@@ -92,6 +94,8 @@ class JFormFieldOrdering extends JFormField
 	 * Retrieves the current Item's Id.
 	 *
 	 * @return  integer  The current item ID
+	 *
+	 * @since   3.2
 	 */
 	protected function getItemId()
 	{

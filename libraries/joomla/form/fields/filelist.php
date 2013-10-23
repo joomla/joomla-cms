@@ -115,19 +115,18 @@ class JFormFieldFileList extends JFormFieldList
 	 */
 	public function __set($name, $value)
 	{
-		$value = (string) $value;
-
 		switch ($name)
 		{
 			case 'filter':
 			case 'directory':
 			case 'exclude':
-				$this->$name = $value;
+				$this->$name = (string) $value;
 				break;
 
 			case 'hideNone':
 			case 'hideDefault':
 			case 'stripExt':
+				$value = (string) $value;
 				$this->$name = ($value === 'true' || $value === $name || $value === '1');
 				break;
 
@@ -152,22 +151,27 @@ class JFormFieldFileList extends JFormFieldList
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
-		$this->filter  = (string) $element['filter'];
-		$this->exclude = (string) $element['exclude'];
+		$return = parent::setup($element, $value, $group);
 
-		$hideNone       = (string) $element['hide_none'];
-		$this->hideNone = ($hideNone == 'true' || $hideNone == 'hideNone' || $hideNone == '1');
+		if ($return)
+		{
+			$this->filter  = (string) $this->element['filter'];
+			$this->exclude = (string) $this->element['exclude'];
 
-		$hideDefault       = (string) $element['hide_default'];
-		$this->hideDefault = ($hideDefault == 'true' || $hideDefault == 'hideDefault' || $hideDefault == '1');
+			$hideNone       = (string) $this->element['hide_none'];
+			$this->hideNone = ($hideNone == 'true' || $hideNone == 'hideNone' || $hideNone == '1');
 
-		$stripExt       = (string) $element['stripext'];
-		$this->stripExt = ($stripExt == 'true' || $stripExt == 'stripExt' || $stripExt == '1');
+			$hideDefault       = (string) $this->element['hide_default'];
+			$this->hideDefault = ($hideDefault == 'true' || $hideDefault == 'hideDefault' || $hideDefault == '1');
 
-		// Get the path in which to search for file options.
-		$this->directory = (string) $element['directory'];
+			$stripExt       = (string) $this->element['stripext'];
+			$this->stripExt = ($stripExt == 'true' || $stripExt == 'stripExt' || $stripExt == '1');
 
-		return parent::setup($element, $value, $group);
+			// Get the path in which to search for file options.
+			$this->directory = (string) $this->element['directory'];
+		}
+
+		return $return;
 	}
 
 	/**

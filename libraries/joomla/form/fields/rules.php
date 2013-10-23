@@ -86,14 +86,12 @@ class JFormFieldRules extends JFormField
 	 */
 	public function __set($name, $value)
 	{
-		$value = (string) $value;
-
 		switch ($name)
 		{
 			case 'section':
 			case 'component':
 			case 'assetField':
-				$this->$name = $value;
+				$this->$name = (string) $value;
 				break;
 
 			default:
@@ -117,11 +115,16 @@ class JFormFieldRules extends JFormField
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
-		$this->section    = $this->element['section'] ? (string) $this->element['section'] : '';
-		$this->component  = $this->element['component'] ? (string) $this->element['component'] : '';
-		$this->assetField = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
+		$return = parent::setup($element, $value, $group);
 
-		return parent::setup($element, $value, $group);
+		if ($return)
+		{
+			$this->section    = $this->element['section'] ? (string) $this->element['section'] : '';
+			$this->component  = $this->element['component'] ? (string) $this->element['component'] : '';
+			$this->assetField = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
+		}
+
+		return $return;
 	}
 
 	/**

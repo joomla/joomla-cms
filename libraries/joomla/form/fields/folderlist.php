@@ -105,18 +105,17 @@ class JFormFieldFolderList extends JFormFieldList
 	 */
 	public function __set($name, $value)
 	{
-		$value = (string) $value;
-
 		switch ($name)
 		{
 			case 'filter':
 			case 'directory':
 			case 'exclude':
-				$this->$name = $value;
+				$this->$name = (string) $value;
 				break;
 
 			case 'hideNone':
 			case 'hideDefault':
+				$value = (string) $value;
 				$this->$name = ($value === 'true' || $value === $name || $value === '1');
 				break;
 
@@ -141,19 +140,24 @@ class JFormFieldFolderList extends JFormFieldList
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
-		$this->filter  = (string) $element['filter'];
-		$this->exclude = (string) $element['exclude'];
+		$return = parent::setup($element, $value, $group);
 
-		$hideNone       = (string) $element['hide_none'];
-		$this->hideNone = ($hideNone == 'true' || $hideNone == 'hideNone' || $hideNone == '1');
+		if ($return)
+		{
+			$this->filter  = (string) $this->element['filter'];
+			$this->exclude = (string) $this->element['exclude'];
 
-		$hideDefault       = (string) $element['hide_default'];
-		$this->hideDefault = ($hideDefault == 'true' || $hideDefault == 'hideDefault' || $hideDefault == '1');
+			$hideNone       = (string) $this->element['hide_none'];
+			$this->hideNone = ($hideNone == 'true' || $hideNone == 'hideNone' || $hideNone == '1');
 
-		// Get the path in which to search for file options.
-		$this->directory = (string) $element['directory'];
+			$hideDefault       = (string) $this->element['hide_default'];
+			$this->hideDefault = ($hideDefault == 'true' || $hideDefault == 'hideDefault' || $hideDefault == '1');
 
-		return parent::setup($element, $value, $group);
+			// Get the path in which to search for file options.
+			$this->directory = (string) $this->element['directory'];
+		}
+
+		return $return;
 	}
 
 	/**

@@ -101,7 +101,7 @@ class UsersViewNotes extends JViewLegacy
 	{
 		$canDo = UsersHelper::getActions();
 
-		JToolbarHelper::title(JText::_('COM_USERS_VIEW_NOTES_TITLE'), 'user');
+		JToolbarHelper::title(JText::_('COM_USERS_VIEW_NOTES_TITLE'), 'users user');
 
 		if ($canDo->get('core.create'))
 		{

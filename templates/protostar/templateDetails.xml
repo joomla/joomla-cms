@@ -75,7 +75,7 @@
 
 				<field name="googleFont"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					label="TPL_PROTOSTAR_FONT_LABEL"
 					description="TPL_PROTOSTAR_FONT_DESC"
@@ -90,7 +90,7 @@
 
 				<field name="fluidContainer"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="0"
 					label="TPL_PROTOSTAR_FLUID_LABEL"
 					description="TPL_PROTOSTAR_FLUID_DESC"

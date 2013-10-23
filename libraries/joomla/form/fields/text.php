@@ -87,8 +87,6 @@ class JFormFieldText extends JFormField
 	 */
 	public function __set($name, $value)
 	{
-		$value = (string) $value;
-
 		switch ($name)
 		{
 			case 'maxLength':
@@ -96,10 +94,11 @@ class JFormFieldText extends JFormField
 				break;
 
 			case 'dirname':
+				$value = (string) $value;
 				$value = ($value == $name || $value == 'true' || $value == '1');
 
 			case 'inputmode':
-				$this->name = $value;
+				$this->name = (string) $value;
 				break;
 
 			default:
@@ -127,8 +126,8 @@ class JFormFieldText extends JFormField
 
 		if ($result == true)
 		{
-			$inputmode = (string) $element['inputmode'];
-			$dirname = (string) $element['dirname'];
+			$inputmode = (string) $this->element['inputmode'];
+			$dirname = (string) $this->element['dirname'];
 
 			$this->inputmode = '';
 			$inputmode = preg_replace('/\s+/', ' ', trim($inputmode));
@@ -150,7 +149,7 @@ class JFormFieldText extends JFormField
 			$dirname = ((string) $dirname == 'dirname' || $dirname == 'true' || $dirname == '1');
 			$this->dirname = $dirname ? $this->getName($this->fieldname . '_dir') : false;
 
-			$this->maxLength = (int) $element['maxlength'];
+			$this->maxLength = (int) $this->element['maxlength'];
 		}
 
 		return $result;

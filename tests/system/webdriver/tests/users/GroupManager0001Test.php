@@ -53,6 +53,11 @@ class GroupManager0001Test extends JoomlaWebdriverTestCase
 		$this->groupManagerPage->clickButton('toolbar-new');
 		$groupEditPage = $this->getPageObject('GroupEditPage');
 
+		// Option to print actual element array
+		/* @var $groupEditPage GroupEditPage */
+		// 	 	$groupEditPage->printFieldArray($groupEditPage->getAllInputFields($groupEditPage->tabs));
+
+
 		$testElements = $groupEditPage->getAllInputFields();
 		$actualFields = $this->getActualFieldsFromElements($testElements);
 		$this->assertEquals($groupEditPage->inputFields, $actualFields);

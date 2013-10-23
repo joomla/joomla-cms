@@ -87,8 +87,6 @@ class JFormFieldCalendar extends JFormField
 	 */
 	public function __set($name, $value)
 	{
-		$value = (string) $value;
-
 		switch ($name)
 		{
 			case 'maxlength':
@@ -96,7 +94,7 @@ class JFormFieldCalendar extends JFormField
 
 			case 'format':
 			case 'filter':
-				$this->$name = $value;
+				$this->$name = (string) $value;
 				break;
 
 			default:
@@ -120,11 +118,16 @@ class JFormFieldCalendar extends JFormField
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
-		$this->maxlength = (int) $element['maxlength'] ? (int) $element['maxlength'] : 45;
-		$this->format    = (string) $element['format'] ? (string) $element['format'] : '%Y-%m-%d';
-		$this->filter    = (string) $element['filter'] ? (string) $element['filter'] : 'USER_UTC';
+		$return = parent::setup($element, $value, $group);
 
-		return parent::setup($element, $value, $group);
+		if ($return)
+		{
+			$this->maxlength = (int) $this->element['maxlength'] ? (int) $this->element['maxlength'] : 45;
+			$this->format    = (string) $this->element['format'] ? (string) $this->element['format'] : '%Y-%m-%d';
+			$this->filter    = (string) $this->element['filter'] ? (string) $this->element['filter'] : 'USER_UTC';
+		}
+
+		return $return;
 	}
 
 	/**
