@@ -109,6 +109,9 @@ class JDocumentHTML extends JDocument
 
 		// Set default mime type and document metadata (meta data syncs with mime type by default)
 		$this->setMimeEncoding('text/html');
+
+		// Set default X-UA-Compatible to make sure IE uses the latest rendering mode
+		$this->setMetaData('X-UA-Compatible', 'IE=edge', true);
 	}
 
 	/**
