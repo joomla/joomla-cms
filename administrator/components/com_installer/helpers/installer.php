@@ -34,34 +34,32 @@ class InstallerHelper
 			'index.php?option=com_installer',
 			$vName == 'install'
 		);
+		
 		JSubMenuHelper::addEntry(
 			JText::_('COM_INSTALLER_SUBMENU_UPDATE'),
 			'index.php?option=com_installer&view=update',
 			$vName == 'update'
 		);
+		
 		JSubMenuHelper::addEntry(
 			JText::_('COM_INSTALLER_SUBMENU_MANAGE'),
 			'index.php?option=com_installer&view=manage',
 			$vName == 'manage'
 		);
+		
 		JSubMenuHelper::addEntry(
 			JText::_('COM_INSTALLER_SUBMENU_DISCOVER'),
 			'index.php?option=com_installer&view=discover',
 			$vName == 'discover'
 		);
-        JSubMenuHelper::addEntry(
-			JText::_('COM_INSTALLER_SUBMENU_SITES'),
-			'index.php?option=com_installer&view=sites',
-			$vName == 'sites'
-		);
 		
-        JSubMenuHelper::addEntry(
+                JSubMenuHelper::addEntry(
 			JText::_('COM_INSTALLER_SUBMENU_DATABASE'),
 			'index.php?option=com_installer&view=database',
 			$vName == 'database'
 		);
         
-        JSubMenuHelper::addEntry(
+                JSubMenuHelper::addEntry(
 			JText::_('COM_INSTALLER_SUBMENU_ONE_CLICK_INSTALL'),
 			'index.php?option=com_installer&view=oneclick',
 			$vName == 'oneclick'
@@ -73,16 +71,16 @@ class InstallerHelper
 			$vName == 'languages'
 		);
 		
-        JSubMenuHelper::addEntry(
+                JSubMenuHelper::addEntry(
 			JText::_('COM_INSTALLER_SUBMENU_JOKTE_REGISTER'),
 			'index.php?option=com_installer&view=regjokte',
 			$vName == 'regjokte'
 		);
         
 		JSubMenuHelper::addEntry(
-		JText::_('COM_INSTALLER_SUBMENU_WARNINGS'),
+			JText::_('COM_INSTALLER_SUBMENU_WARNINGS'),
 					'index.php?option=com_installer&view=warnings',
-		$vName == 'warnings'
+			$vName == 'warnings'
 		);
 		
 	}
