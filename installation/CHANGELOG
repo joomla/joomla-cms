@@ -30,6 +30,7 @@ $ -> Language fix or change
  # [#32393] /layouts not included in robots.txt  Thanks Matt Thomas
  # [#32378] Installation error: JLIB_DATABASE_QUERY_FAILED. Thanks Marcel van Beelen
  # [#32394] Replace JLess uses with FOFLess. Thanks Michael Babker
+ $ [#31954] Another batch of en-GB grammar corrections  Thanks Brian Teeman
 
 22-Oct-2013 Michael Babker
  + [#28638] Advanced ACL for com_modules, permissions per module.  Thanks Sander Potjer
