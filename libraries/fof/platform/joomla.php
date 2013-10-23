@@ -593,25 +593,44 @@ class FOFPlatformJoomla extends FOFPlatform implements FOFPlatformInterface
 			JLoader::import('joomla.registry.registry');
 			$this->_cache = new JRegistry;
 
-			// Find the path to the file
-			$cachePath = JPATH_CACHE . '/fof';
-			$filename  = $cachePath . '/cache.php';
+			// Try to get data from Joomla!'s cache
+			$cache = JFactory::getCache('fof', '');
+			$data = $cache->get('cache', 'fof');
 
-			JLoader::import('joomla.filesystem.file');
-
-			// Load the cache file if it exists. JRegistryFormatPHP fails
-			// miserably, so I have to work around it.
-			if (JFile::exists($filename))
+			// If data is not found, fall back to the legacy (FOF 2.1.rc3 and earlier) method
+			if ($data === false)
 			{
-				@include_once $filename;
+				// Find the path to the file
+				$cachePath = JPATH_CACHE . '/fof';
+				$filename  = $cachePath . '/cache.php';
 
-				$className = 'FOFCacheStorage';
+				JLoader::import('joomla.filesystem.file');
 
-				if (class_exists($className))
+				// Load the cache file if it exists. JRegistryFormatPHP fails
+				// miserably, so I have to work around it.
+				if (JFile::exists($filename))
 				{
-					$object = new $className;
-					$this->_cache->loadObject($object);
+					@include_once $filename;
+
+					JFile::delete($filename);
+
+					$className = 'FOFCacheStorage';
+
+					if (class_exists($className))
+					{
+						$object = new $className;
+						$this->_cache->loadObject($object);
+
+						$options = array(
+							'class' => 'FOFCacheStorage'
+						);
+						$cache->store($this->_cache, 'cache', 'fof');
+					}
 				}
+			}
+			else
+			{
+				$this->_cache = $data;
 			}
 		}
 
@@ -628,29 +647,8 @@ class FOFPlatformJoomla extends FOFPlatform implements FOFPlatformInterface
 		// Get the JRegistry object of our cached data
 		$registry = $this->getCacheObject();
 
-		// Import core libraries
-		JLoader::import('joomla.filesystem.file');
-		JLoader::import('joomla.filesystem.folder');
-
-		// Find the path to the file
-		$cachePath = JPATH_CACHE . '/fof';
-		$filename  = $cachePath . '/cache.php';
-
-		// Does the path exist?
-		if (!JFolder::exists($cachePath))
-		{
-			// No? Create it.
-			JFolder::create($cachePath);
-		}
-
-		// Get the data
-		$options = array(
-			'class' => 'FOFCacheStorage'
-		);
-		$data	 = $registry->toString('PHP', $options);
-
-		// And save it to the file
-		return JFile::write($filename, $data);
+		$cache = JFactory::getCache('fof', '');
+		return $cache->store($registry, 'cache', 'fof');
 	}
 
 	/**
@@ -664,30 +662,9 @@ class FOFPlatformJoomla extends FOFPlatform implements FOFPlatformInterface
 	 */
 	public function clearCache()
 	{
-		// Import core libraries
-		JLoader::import('joomla.filesystem.file');
-		JLoader::import('joomla.filesystem.folder');
-
-		// Find the path to the file
-		$cachePath = JPATH_CACHE . '/fof';
-		$filename  = $cachePath . '/cache.php';
-
-		if (JFile::exists($filename))
-		{
-			/*
-			 This prevents stupid Joomla! error messages when the file is owned
-			 by the web server user and the FTP layer is enabled (yeah, I know,
-			 right?)
-			*/
-			if (!@unlink($filename))
-			{
-				return JFile::delete($filename);
-			}
-			else
-			{
-				return true;
-			}
-		}
+		$false = false;
+		$cache = JFactory::getCache('fof', '');
+		$cache->store($false, 'cache', 'fof');
 	}
 
 	/**

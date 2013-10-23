@@ -44,7 +44,6 @@ class ConfigControllerCanceladmin extends ConfigControllerCancel
 	 */
 	protected $redirect;
 
-
 	/**
 	 * Method to handle admin cancel
 	 *
@@ -56,14 +55,14 @@ class ConfigControllerCanceladmin extends ConfigControllerCancel
 	{
 
 		// Check for request forgeries.
-		if(!JSession::checkToken())
+		if (!JSession::checkToken())
 		{
 			$this->app->redirect('index.php', JText::_('JINVALID_TOKEN'));
 		}
 
 		if (empty($this->context))
 		{
-			$this->context = $this->option.edit . $this->context ;
+			$this->context = $this->option . '.edit' . $this->context;
 		}
 
 		// Redirect.
@@ -71,14 +70,14 @@ class ConfigControllerCanceladmin extends ConfigControllerCancel
 
 		if (!empty($this->redirect))
 		{
-			$this->app->redirect(JRoute::_($this->redirect, false));
+
+			$this->app->redirect($this->redirect);
+
 		}
 		else
 		{
 			parent::execute();
 		}
-
-		return true;
 
 	}
 }

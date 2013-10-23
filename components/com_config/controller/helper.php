@@ -108,7 +108,7 @@ class ConfigControllerHelper
 			}
 		}
 
-		$controllerName = $location .  'Controller' . $view . $activity;
+		$controllerName = $location . 'Controller' . $view . $activity;
 
 		if (!class_exists($controllerName))
 		{

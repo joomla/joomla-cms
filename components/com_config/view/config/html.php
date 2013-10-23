@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_config
  * @since       3.2
  */
-class ConfigViewConfigHtml extends ConfigViewHtmlCms
+class ConfigViewConfigHtml extends ConfigViewCmsHtml
 {
 
 	public $form;
