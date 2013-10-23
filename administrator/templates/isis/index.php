@@ -64,6 +64,24 @@ else
 	$logo = $this->baseurl . '/templates/' . $this->template . '/images/logo.png';
 }
 
+// Select the jQuery plugin to render select list.
+$selector = $this->params->get('selectPluginClass', '');
+$selector = !empty($selector) ? '.' . $selector : 'select';
+
+switch ($this->params->get('selectPlugin', 'chosen'))
+{
+	case 'chosen':
+		JHtml::_('formbehavior.chosen', $selector);
+		break;
+
+	case 'select2':
+		JHtml::_('formbehavior.select2', $selector);
+		break;
+
+	default:
+		break;
+}
+
 // Template Parameters
 $displayHeader = $this->params->get('displayHeader', '1');
 $statusFixed = $this->params->get('statusFixed', '1');

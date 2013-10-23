@@ -113,6 +113,24 @@
 					value="0">JNO</option>
 				</field>
 
+				<field name="selectPlugin" type="list"
+					default="chosen"
+					label="TPL_ISIS_SELECTPLUGIN_LABEL"
+					description="TPL_ISIS_SELECTPLUGIN_DESC"
+					value="chosen">
+					<option
+						value="chosen">Chosen</option>
+					<option
+						value="default">Select2</option>
+					<option
+						value="default">Browser Default</option>
+				</field>
+
+				<field name="selectPluginClass" type="text"
+					label="TPL_ISIS_SELECTPLUGIN_CLASS_LABEL"
+					description="TPL_ISIS_SELECTPLUGIN_CLASS_DESC"
+					hint="Blank means apply to all select list." />
+
 			</fieldset>
 		</fields>
 	</config>
