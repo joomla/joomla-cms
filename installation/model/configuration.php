@@ -245,12 +245,16 @@ class InstallationModelConfiguration extends JModelBase
 			return false;
 		}
 
-		$salt = JUserHelper::genRandomPassword(16);
-		$cryptpass = JUserHelper::getCryptedPassword($options->admin_password, $salt);
+		$useStrongPasswords = JCrypt::hasStrongPasswordSupport();
 
-		if (substr($cryptpass, 0, 8) == '{SHA256}')
+		if ($useStrongPasswords)
 		{
-			$cryptpass = $cryptpass . ':' . $salt;
+			$cryptpass = JUserHelper::getCryptedPassword($options->admin_password);
+		}
+		else
+		{
+			$salt = JUserHelper::genRandomPassword(16);
+			$cryptpass = JUserHelper::getCryptedPassword($options->admin_password, $salt, 'sha256') . ':' . $salt;
 		}
 
 		// Take the admin user id
