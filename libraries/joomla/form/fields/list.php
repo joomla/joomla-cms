@@ -41,32 +41,32 @@ class JFormFieldList extends JFormField
 		$attr = '';
 
 		// Initialize some field attributes.
-		$attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
+		$attr .= !empty($this->class) ? ' class="' . $this->class . '"' : '';
+		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
+		$attr .= $this->multiple ? ' multiple' : '';
+		$attr .= $this->required ? ' required aria-required="true"' : '';
+		$attr .= $this->autofocus ? ' autofocus' : '';
 
 		// To avoid user's confusion, readonly="true" should imply disabled="true".
-		if ((string) $this->element['readonly'] == 'true' || (string) $this->element['disabled'] == 'true')
+		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true' || (string) $this->disabled == '1'|| (string) $this->disabled == 'true')
 		{
 			$attr .= ' disabled="disabled"';
 		}
 
-		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
-		$attr .= $this->multiple ? ' multiple="multiple"' : '';
-		$attr .= $this->required ? ' required="required" aria-required="true"' : '';
-
 		// Initialize JavaScript field attributes.
-		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
+		$attr .= $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
 
 		// Get the field options.
 		$options = (array) $this->getOptions();
 
 		// Create a read-only list (no name) with a hidden input to store the value.
-		if ((string) $this->element['readonly'] == 'true')
+		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true')
 		{
 			$html[] = JHtml::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $this->value, $this->id);
 			$html[] = '<input type="hidden" name="' . $this->name . '" value="' . $this->value . '"/>';
 		}
-		// Create a regular list.
 		else
+		// Create a regular list.
 		{
 			$html[] = JHtml::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
 		}
@@ -87,18 +87,40 @@ class JFormFieldList extends JFormField
 
 		foreach ($this->element->children() as $option)
 		{
-
 			// Only add <option /> elements.
 			if ($option->getName() != 'option')
 			{
 				continue;
 			}
 
+			// Filter requirements
+			if ($requires = explode(',', (string) $option['requires']))
+			{
+				// Requires multilanguage
+				if (in_array('multilanguage', $requires) && !JLanguageMultilang::isEnabled())
+				{
+					continue;
+				}
+
+				// Requires associations
+				if (in_array('associations', $requires) && !JLanguageAssociations::isEnabled())
+				{
+					continue;
+				}
+			}
+
+			$value = (string) $option['value'];
+
+			$disabled = (string) $option['disabled'];
+			$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
+
+			$disabled = $disabled || ($this->readonly && $value != $this->value);
+
 			// Create a new option object based on the <option /> element.
 			$tmp = JHtml::_(
-				'select.option', (string) $option['value'],
+				'select.option', $value,
 				JText::alt(trim((string) $option), preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)), 'value', 'text',
-				((string) $option['disabled'] == 'true')
+				$disabled
 			);
 
 			// Set some option attributes.

@@ -28,11 +28,11 @@ class ControlPanelPage extends AdminPage
 			'Menu Manager' => 'administrator/index.php?option=com_menus',
 			'User Manager' => 'administrator/index.php?option=com_users',
 			'Module Manager' => 'administrator/index.php?option=com_modules',
-			'Extension Manager' => 'administrator/index.php?option=com_installer',
-			'Language Manager' => 'administrator/index.php?option=com_languages',
+			'User Manager' => 'administrator/index.php?option=com_users',
 			'Global Configuration' => 'administrator/index.php?option=com_config',
 			'Template Manager' => 'administrator/index.php?option=com_templates',
-			'Edit Profile' => 'administrator/index.php?option=com_admin&task=profile.edit&id=',
+			'Language Manager' => 'administrator/index.php?option=com_languages',
+			'Install Extensions' => 'administrator/index.php?option=com_installer',
 			'All extensions are up-to-date' => 'administrator/index.php?option=com_installer&view=update',
 	);
 
@@ -43,7 +43,7 @@ class ControlPanelPage extends AdminPage
 	 */
 	public function getControlPanelIcons()
 	{
-		$container = $this->driver->findElement(By::xPath("//div[contains(., 'Quick Icons')]/../div[@class='row-striped']"));
+		$container = $this->driver->findElement(By::xPath("//div[contains(@class, 'quick-icons')]"));
 		$elements = $container->findElements(By::tagName('a'));
 		$return = array();
 		foreach ($elements as $element)
@@ -72,6 +72,18 @@ class ControlPanelPage extends AdminPage
 			$object->text = $element->getText();
 
 		}
+	}
+
+	/**
+	 * Clears post-installation messages by navigating to that screen and back
+	 *
+	 * @return  null
+	 */
+	public function clearInstallMessages()
+	{
+		$installPage = $this->clickMenu('Post-installation Messages', 'PostinstallPage');
+		$installPage->clearInstallMessages();
+		$cpPage = $installPage->clickMenu('Control Panel', 'ControlPanelPage');
 	}
 
 }

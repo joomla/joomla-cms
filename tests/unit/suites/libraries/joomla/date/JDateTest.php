@@ -2,11 +2,10 @@
 /**
  * @package     Joomla.UnitTest
  * @subpackage  Date
+ *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-require_once JPATH_PLATFORM . '/joomla/date/date.php';
 
 /**
  * Tests for JDate class.
@@ -17,6 +16,12 @@ require_once JPATH_PLATFORM . '/joomla/date/date.php';
  */
 class JDateTest extends TestCaseDatabase
 {
+	/**
+	 * Object under test
+	 *
+	 * @var    JDate
+	 * @since  11.3
+	 */
 	protected $object;
 
 	/**
@@ -157,8 +162,6 @@ class JDateTest extends TestCaseDatabase
 				false,
 				'122007 164456',
 			),
-			/*
-			@TODO  Need to fix up language string/file dependancies before we can do these properly.
  			'Long' => array(
  				'D F j, Y H:i:s',
 				true,
@@ -189,7 +192,6 @@ class JDateTest extends TestCaseDatabase
  				false,
  				'Thu, 20 Dec 2007 16:44:56 +0000',
  			),
- 			*/
 		);
 	}
 
@@ -317,7 +319,7 @@ class JDateTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Test Cases for toMySQL
+	 * Test Cases for toSQL
 	 *
 	 * @return  array
 	 *
@@ -482,19 +484,6 @@ class JDateTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tears down the fixture.
-	 *
-	 * This method is called after a test is executed.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function tearDown()
-	{
-	}
-
-	/**
 	 * Testing the Constructor
 	 *
 	 * @param   string  $date          What time should be set?
@@ -516,13 +505,10 @@ class JDateTest extends TestCaseDatabase
 			$this->equalTo($expectedTime)
 		);
 
-		/*
-		@TODO - Decouple the language system better.
  		$this->assertThat(
  			$jdate->format('D m/d/Y H:i', true),
  			$this->equalTo($expectedTime)
  		);
-		*/
 	}
 
 	/**

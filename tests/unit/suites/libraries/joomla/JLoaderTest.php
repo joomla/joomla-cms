@@ -116,7 +116,6 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.3
-	 * @covers  JLoader::discover
 	 */
 	public function testDiscover()
 	{
@@ -192,7 +191,6 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.3
-	 * @covers  JLoader::getClassList
 	 */
 	public function testGetClassList()
 	{
@@ -205,7 +203,6 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.3
-	 * @covers  JLoader::load
 	 */
 	public function testLoad()
 	{
@@ -236,7 +233,6 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider casesImport
 	 * @since   11.1
-	 * @covers  JLoader::import
 	 */
 	public function testImport($filePath, $base, $libraries, $expect, $message, $useDefaults)
 	{
@@ -275,7 +271,6 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   11.1
-	 * @covers  JLoader::register
 	 */
 	public function testRegister()
 	{
@@ -302,7 +297,6 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   12.3
-	 * @covers  JLoader::registerNamespace
 	 */
 	public function testRegisterNamespace()
 	{
@@ -329,7 +323,6 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   12.3
-	 * @covers  JLoader::registerNamespace
 	 */
 	public function testRegisterNamespaceResetPath()
 	{
@@ -352,7 +345,6 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   12.3
-	 * @covers  JLoader::registerNamespace
 	 * @expectedException  RuntimeException
 	 */
 	public function testRegisterNamespaceException()
@@ -366,7 +358,6 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
-	 * @covers  JLoader::registerPrefix
 	 */
 	public function testRegisterPrefix()
 	{
@@ -405,7 +396,6 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   3.2
-	 * @covers  JLoader::registerAlias
 	 */
 	public function testRegisterAlias()
 	{
@@ -422,6 +412,12 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 			'bar',
 			'Assert the alias is set in the classAlias array.'
 		);
+
+		$this->assertEquals(
+			JLoader::registerAlias('foo', 'bar'),
+			false,
+			'Assert adding an existing alias will return false.'
+		);
 	}
 
 	/**
@@ -430,7 +426,6 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   12.1
-	 * @covers  JLoader::registerPrefix
 	 * @expectedException RuntimeException
 	 */
 	public function testRegisterPrefixException()
@@ -445,7 +440,6 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   12.3
-	 * @covers  JLoader::setup
 	 */
 	public function testSetupDefaultParameters()
 	{
@@ -516,7 +510,6 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   12.3
-	 * @covers  JLoader::setup
 	 */
 	public function testSetupWithoutClasses()
 	{
@@ -553,7 +546,6 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   12.3
-	 * @covers  JLoader::setup
 	 */
 	public function testSetupWithoutPrefixes()
 	{
@@ -598,7 +590,6 @@ class JLoaderTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @since   12.3
-	 * @covers  JLoader::setup
 	 */
 	public function testSetupPsr0()
 	{

@@ -20,7 +20,7 @@ $userId		= $user->get('id');
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 $saveOrder	= $listOrder == 'a.ordering';
-$assoc		= isset($app->item_associations) ? $app->item_associations : 0;
+$assoc		= JLanguageAssociations::isEnabled();
 $n			= count($this->items);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=articles'); ?>" method="post" name="adminForm" id="adminForm">
@@ -76,6 +76,12 @@ $n			= count($this->items);
 			<select name="filter_language" class="inputbox" id="filter_language">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE'); ?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language')); ?>
+			</select>
+
+			<label class="selectlabel" for="filter_tag"><?php echo JText::_('JOPTION_SELECT_TAG'); ?></label>
+			<select name="filter_tag" class="inputbox" id="filter_tag">
+				<option value=""><?php echo JText::_('JOPTION_SELECT_TAG'); ?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag')); ?>
 			</select>
 
 			<button type="submit" id="filter-go">

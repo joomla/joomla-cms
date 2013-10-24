@@ -21,53 +21,37 @@ class ConfigController extends JControllerLegacy
 	/**
 	 * @var    string  The default view.
 	 * @since  1.6
+	 * @deprecated  4.0
 	 */
 	protected $default_view = 'application';
 
 	/**
 	 * Method to display the view.
 	 *
-	 * @param   boolean      $cachable   If true, the view output will be cached
-	 * @param   array        $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  JController  This object to support chaining.
+	 * @return  ConfigController  This object to support chaining.
 	 *
 	 * @since   1.5
+	 * @deprecated  4.0
 	 */
-	public function display($cachable = false, $urlparams = false)
+	public function display($cachable = false, $urlparams = array())
 	{
-		// Get the document object.
-		$document = JFactory::getDocument();
-
 		// Set the default view name and format from the Request.
 		$vName = $this->input->get('view', 'application');
-		$vFormat = $document->getType();
-		$lName = $this->input->get('layout', 'default');
 
-		// Get and render the view.
-		if ($view = $this->getView($vName, $vFormat))
+		JLog::add('ConfigController is deprecated. Use ConfigControllerApplicationDisplay or ConfigControllerComponentDisplay instead.', JLog::WARNING, 'deprecated');
+
+		if (ucfirst($vName) == 'Application')
 		{
-			if ($vName != 'close')
-			{
-				// Get the model for the view.
-				$model = $this->getModel($vName);
-
-				// Access check.
-				if (!JFactory::getUser()->authorise('core.admin', $model->getState('component.option')))
-				{
-					return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
-				}
-
-				// Push the model into the view (as default).
-				$view->setModel($model, true);
-			}
-
-			$view->setLayout($lName);
-
-			// Push document object into the view.
-			$view->document = $document;
-
-			$view->display();
+			$controller = new ConfigControllerApplicationDisplay;
 		}
+		elseif (ucfirst($vName) == 'Component')
+		{
+			$controller = new ConfigControllerComponentDisplay;
+		}
+
+		return $controller->execute();
 	}
 }

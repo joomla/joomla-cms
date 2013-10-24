@@ -11,6 +11,25 @@
 defined('_JEXEC') or die;
 
 echo JHtml::_('sliders.start', 'panel-sliders', array('useCookie' => '1'));
+if (JFactory::getUser()->authorise('core.manage', 'com_postinstall')) :
+	if ($this->postinstall_message_count):
+		echo JHtml::_('sliders.panel', JText::_('COM_CPANEL_MESSAGES_TITLE'), 'cpanel-panel-com-postinstall');
+	?>
+		<div class="modal-body">
+			<p>
+				<?php echo JText::_('COM_CPANEL_MESSAGES_BODY_NOCLOSE'); ?>
+			</p>
+			<p>
+				<?php echo JText::_('COM_CPANEL_MESSAGES_BODYMORE_NOCLOSE'); ?>
+			</p>
+		</div>
+		<div class="modal-footer">
+			<button onclick="window.location='index.php?option=com_postinstall&eid=700'; return false" class="btn btn-primary btn-large" >
+				<?php echo JText::_('COM_CPANEL_MESSAGES_REVIEW'); ?>
+			</button>
+		</div>
+	<?php endif; ?>
+<?php endif;
 
 foreach ($this->modules as $module)
 {

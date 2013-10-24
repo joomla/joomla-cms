@@ -65,7 +65,7 @@ class ControlPanel0001 extends SeleniumJoomlaTestCase
 		$this->jPrint ("Check that Extensions menu options are visible\n");
 		$this->assertTrue($this->isElementPresent("link=Extension Manager"));
 		$this->assertTrue($this->isElementPresent("link=Module Manager"));
-		$this->assertTrue($this->isElementPresent("link=Plug-in Manager"));
+		$this->assertTrue($this->isElementPresent("link=Plugin Manager"));
 		$this->assertTrue($this->isElementPresent("link=Template Manager"));
 		$this->assertTrue($this->isElementPresent("link=Language Manager"));
 		$this->jPrint ("Check that Help menu options are visible\n");

@@ -17,38 +17,6 @@
 class JHtmlDateTest extends TestCase
 {
 	/**
-	 * Setup for testing.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	public function setUp()
-	{
-		parent::setUp();
-
-		// We are only coupled to Document and Language in JFactory.
-		$this->saveFactoryState();
-
-		JFactory::$language = $this->getMockLanguage();
-	}
-
-	/**
-	 * Overrides the parent tearDown method.
-	 *
-	 * @return  void
-	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   3.1
-	 */
-	protected function tearDown()
-	{
-		$this->restoreFactoryState();
-
-		parent::tearDown();
-	}
-
-	/**
 	 * Test data for the testRelative method
 	 *
 	 * @return  array

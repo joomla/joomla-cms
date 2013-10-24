@@ -51,11 +51,33 @@ JHtml::_('behavior.keepalive');
 					</div>
 				<?php endif; ?>
 			<?php endforeach; ?>
-			<div class="control-group">
-				<div class="controls">
-					<button type="submit" class="btn btn-primary"><?php echo JText::_('JLOGIN'); ?></button>
+
+			<?php $tfa = JPluginHelper::getPlugin('twofactorauth'); ?>
+
+			<?php if (!is_null($tfa) && $tfa != array()): ?>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getField('secretkey')->label; ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getField('secretkey')->input; ?>
+					</div>
 				</div>
+			<?php endif; ?>
+
+			<?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>
+			<div  class="control-group">
+				<div class="control-label"><label><?php echo JText::_('COM_USERS_LOGIN_REMEMBER_ME') ?></label></div>
+				<div class="controls"><input id="remember" type="checkbox" name="remember" class="inputbox" value="yes"/></div>
 			</div>
+			<?php endif; ?>
+
+			<div class="controls">
+				<button type="submit" class="btn btn-primary">
+					<?php echo JText::_('JLOGIN'); ?>
+				</button>
+			</div>
+
 			<input type="hidden" name="return" value="<?php echo base64_encode($this->params->get('login_redirect_url', $this->form->getValue('return'))); ?>" />
 			<?php echo JHtml::_('form.token'); ?>
 		</fieldset>

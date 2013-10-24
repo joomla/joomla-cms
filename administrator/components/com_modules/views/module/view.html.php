@@ -32,6 +32,7 @@ class ModulesViewModule extends JViewLegacy
 		$this->form		= $this->get('Form');
 		$this->item		= $this->get('Item');
 		$this->state	= $this->get('State');
+		$this->canDo	= ModulesHelper::getActions($this->item->id);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -56,31 +57,43 @@ class ModulesViewModule extends JViewLegacy
 		$user		= JFactory::getUser();
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
-		$canDo		= ModulesHelper::getActions($this->state->get('filter.category_id'), $this->item->id);
+		$canDo		= ModulesHelper::getActions($this->item->id);
 
-		JToolbarHelper::title(JText::sprintf('COM_MODULES_MANAGER_MODULE', JText::_($this->item->module)), 'module.png');
+		JToolbarHelper::title(JText::sprintf('COM_MODULES_MANAGER_MODULE', JText::_($this->item->module)), 'cube module');
 
-		// If not checked out, can save the item.
-		if (!$checkedOut && ($canDo->get('core.edit') || $canDo->get('core.create') ))
+		// For new records, check the create permission.
+		if ($isNew && $canDo->get('core.create'))
 		{
 			JToolbarHelper::apply('module.apply');
 			JToolbarHelper::save('module.save');
-		}
-		if (!$checkedOut && $canDo->get('core.create'))
-		{
 			JToolbarHelper::save2new('module.save2new');
-		}
-			// If an existing item, can save to a copy.
-		if (!$isNew && $canDo->get('core.create'))
-		{
-			JToolbarHelper::save2copy('module.save2copy');
-		}
-		if (empty($this->item->id))
-		{
 			JToolbarHelper::cancel('module.cancel');
 		}
 		else
 		{
+			// Can't save the record if it's checked out.
+			if (!$checkedOut)
+			{
+				// Since it's an existing record, check the edit permission.
+				if ($canDo->get('core.edit'))
+				{
+					JToolbarHelper::apply('module.apply');
+					JToolbarHelper::save('module.save');
+
+					// We can save this record, but check the create permission to see if we can return to make a new one.
+					if ($canDo->get('core.create'))
+					{
+						JToolbarHelper::save2new('module.save2new');
+					}
+				}
+			}
+
+			// If checked out, we can still save
+			if ($canDo->get('core.create'))
+			{
+				JToolbarHelper::save2copy('module.save2copy');
+			}
+
 			JToolbarHelper::cancel('module.cancel', 'JTOOLBAR_CLOSE');
 		}
 
