@@ -47,6 +47,13 @@ $assoc = JLanguageAssociations::isEnabled();
 			<div class="span3">
 				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
+				<div class="span6">
+					<?php echo $this->form->getControlGroup('images'); ?>
+					<?php foreach ($this->form->getGroup('images') as $field) : ?>
+						<?php echo $field->getControlGroup(); ?>
+					<?php endforeach; ?>
+				</div>
+
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
