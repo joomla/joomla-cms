@@ -75,7 +75,6 @@ $cparams = JComponentHelper::getParams('com_media');
 
 		<?php if ($rowcount == 1) : ?>
 			<?php $row = $counter / $this->columns; ?>
-
 	<div class="items-row cols-<?php echo (int) $this->columns;?> <?php echo 'row-'.$row; ?>">
 	<?php endif; ?>
 	<article class="item column-<?php echo $rowcount;?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>">
