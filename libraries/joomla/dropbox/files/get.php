@@ -46,24 +46,7 @@ class JDropboxFilesGet extends JDropboxFiles
 		// Process the response
 		$fileBody = $this->commonGetOperations($url, true);
 
-		if (empty($localFileHandler))
-		{
-			return $fileBody;
-		}
-
-		// Write output to file
-		if (fwrite($localFileHandler, $fileBody))
-		{
-			$message = "The file was successfully downloaded.";
-		}
-		else
-		{
-			$message = "The file could not be written.";
-		}
-
-		fclose($localFileHandler);
-
-		return $message;
+		return $this->commonWriteToFileOperations($fileBody, $localFileHandler);
 	}
 
 	/**
@@ -183,6 +166,21 @@ class JDropboxFilesGet extends JDropboxFiles
 		// Process the response
 		$fileBody = $this->commonGetOperations($url, true);
 
+		return $this->commonWriteToFileOperations($fileBody, $localFileHandler);
+	}
+
+	/**
+	 * Common operations performed by the methods which write output to a file.
+	 *
+	 * @param   string  $fileBody          The content to be written.
+	 * @param   string  $localFileHandler  A handler for the file you want to write to.
+	 *
+	 * @return string
+	 *
+	 * @since   ??.?
+	 */
+	protected function commonWriteToFileOperations($fileBody, $localFileHandler)
+	{
 		if (empty($localFileHandler))
 		{
 			return $fileBody;
@@ -191,11 +189,11 @@ class JDropboxFilesGet extends JDropboxFiles
 		// Write output to file
 		if (fwrite($localFileHandler, $fileBody))
 		{
-			$message = "The thumbnail was successfully downloaded.";
+			$message = "The file was successfully downloaded.";
 		}
 		else
 		{
-			$message = "The thumbnail could not be written.";
+			$message = "The file could not be written.";
 		}
 
 		fclose($localFileHandler);
