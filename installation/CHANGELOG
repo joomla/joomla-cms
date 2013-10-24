@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 24-Oct-2013 Jean-Marie Simonet
  # RTL Isis menus should be aligned right. Thanks Ofer Cohen
+ # RTL Isis dropdown toggle icon should be aligned with other icons.
 
 23-Oct-2013 Michael Babker
  # [#32401] *Custom module Options hard to find.  Thanks Jean-Marie Simonet
