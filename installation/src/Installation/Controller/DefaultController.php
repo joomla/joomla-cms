@@ -36,7 +36,7 @@ class DefaultController extends JControllerBase
 	public function execute()
 	{
 		// Get the application
-		/* @var \Installation\Application\WebApplication $app */
+		/* @var $app \Installation\Application\WebApplication */
 		$app = $this->getApplication();
 		$configPath = $app->get('configurationPath');
 
@@ -64,6 +64,7 @@ class DefaultController extends JControllerBase
 
 		$state = new \JRegistry;
 		$state->set('configurationPath', $configPath);
+		$state->set('administratorPath', $app->get('administratorPath'));
 
 		switch ($vName)
 		{
@@ -108,7 +109,7 @@ class DefaultController extends JControllerBase
 
 		// Register the layout paths for the view
 		$paths = new \SplPriorityQueue;
-		$paths->insert(JPATH_INSTALLATION . '/src/Installation/View/' . ucfirst($vName) . '/tmpl', 'normal');
+		$paths->insert($app->get('installationPath') . '/src/Installation/View/' . ucfirst($vName) . '/tmpl', 'normal');
 
 		$vClass = 'Installation\\View\\' . ucfirst($vName) . '\\' . ucfirst($vFormat);
 
@@ -117,7 +118,7 @@ class DefaultController extends JControllerBase
 			$vClass = 'Installation\\View\\DefaultView';
 		}
 
-		/* @var \JViewHtml $view */
+		/* @var $view \JViewHtml */
 		$view = new $vClass($model, $paths);
 		$view->setLayout($lName);
 

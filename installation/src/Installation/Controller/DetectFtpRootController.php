@@ -37,14 +37,17 @@ class DetectFtpRootController extends JControllerBase
 	public function execute()
 	{
 		// Get the application
-		/* @var \Installation\Application\WebApplication $app */
+		/* @var $app \Installation\Application\WebApplication */
 		$app = $this->getApplication();
 
 		// Check for request forgeries.
 		JSession::checkToken() or $app->sendJsonResponse(new \Exception(JText::_('JINVALID_TOKEN'), 403));
 
+		$state = new \JRegistry;
+		$state->set('sitePath', $app->get('sitePath'));
+
 		// Get the setup model.
-		$model = new SetupModel;
+		$model = new SetupModel($state);
 
 		// Get the data
 		$data = $app->input->post->get('jform', array(), 'array');
@@ -53,7 +56,7 @@ class DetectFtpRootController extends JControllerBase
 		$vars = $model->storeOptions($data);
 
 		// Get the database model.
-		$ftp = new FtpModel;
+		$ftp = new FtpModel($state);
 
 		// Attempt to detect the Joomla root from the ftp account.
 		$return = $ftp->detectFtpRoot($vars);

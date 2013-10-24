@@ -148,8 +148,8 @@ class ConfigurationModel extends JModelBase
 
 		/* Feed Settings */
 		$registry->set('feed_limit', 10);
-		$registry->set('log_path', JPATH_ROOT . '/logs');
-		$registry->set('tmp_path', JPATH_ROOT . '/tmp');
+		$registry->set('log_path', $this->state->get('sitePath') . '/logs');
+		$registry->set('tmp_path', $this->state->get('sitePath') . '/tmp');
 
 		/* Session Setting */
 		$registry->set('lifetime', 15);
@@ -159,7 +159,7 @@ class ConfigurationModel extends JModelBase
 		$buffer = $registry->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
 
 		// Build the configuration file path.
-		$path = JPATH_CONFIGURATION . '/configuration.php';
+		$path = $this->state->get('configurationPath');
 
 		// Determine if the configuration file path is writable.
 		if (file_exists($path))
@@ -168,7 +168,7 @@ class ConfigurationModel extends JModelBase
 		}
 		else
 		{
-			$canWrite = is_writable(JPATH_CONFIGURATION . '/');
+			$canWrite = is_writable(dirname($path));
 		}
 
 		/*
@@ -201,7 +201,7 @@ class ConfigurationModel extends JModelBase
 			$ftp->login($options->ftp_user, $options->ftp_pass);
 
 			// Translate path for the FTP account
-			$file = JPath::clean(str_replace(JPATH_CONFIGURATION, $options->ftp_root, $path), '/');
+			$file = JPath::clean(str_replace(dirname($path), $options->ftp_root, $path), '/');
 
 			// Use FTP write buffer to file
 			if (!$ftp->write($file, $buffer))
@@ -244,7 +244,7 @@ class ConfigurationModel extends JModelBase
 	private function _createRootUser($options)
 	{
 		// Get the application
-		/* @var \Installation\Application\WebApplication $app */
+		/* @var $app \Installation\Application\WebApplication */
 		$app = JFactory::getApplication();
 
 		// Get a database object.

@@ -40,7 +40,7 @@ class SetDefaultLanguageController extends JControllerBase
 
 		// Overrides application config and set the configuration.php file so tokens and database works
 		JFactory::$config = null;
-		JFactory::getConfig(JPATH_SITE . '/configuration.php');
+		JFactory::getConfig($this->getApplication()->get('configurationPath'));
 		JFactory::$session = null;
 	}
 
@@ -54,14 +54,19 @@ class SetDefaultLanguageController extends JControllerBase
 	public function execute()
 	{
 		// Get the application
-		/* @var \Installation\Application\WebApplication $app */
+		/* @var $app \Installation\Application\WebApplication */
 		$app = $this->getApplication();
+		$administratorPath = $app->get('administratorPath');
 
 		// Check for request forgeries.
 		JSession::checkToken() or $app->sendJsonResponse(new \Exception(JText::_('JINVALID_TOKEN'), 403));
 
+		$state = new \JRegistry;
+		$state->set('configurationPath', $app->get('configurationPath'));
+		$state->set('administratorPath', $app->get('administratorPath'));
+
 		// Get the languages model.
-		$model = new LanguagesModel;
+		$model = new LanguagesModel($state);
 
 		// Check for request forgeries in the administrator language
 		$admin_lang = $this->input->getString('administratorlang', false);
@@ -134,7 +139,7 @@ class SetDefaultLanguageController extends JControllerBase
 
 			// Add menus
 			JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
-			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/tables/');
+			JTable::addIncludePath($administratorPath . '/components/com_menus/tables/');
 
 			$siteLanguages = $model->getInstalledlangsFrontend();
 

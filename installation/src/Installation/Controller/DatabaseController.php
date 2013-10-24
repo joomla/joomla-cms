@@ -39,25 +39,29 @@ class DatabaseController extends JControllerBase
 		// Get the application
 		/* @var WebApplication $app */
 		$app = $this->getApplication();
+		$configPath = $app->get('configurationPath');
 
 		// Check for request forgeries.
 		JSession::checkToken() or $app->sendJsonResponse(new \Exception(JText::_('JINVALID_TOKEN'), 403));
 
+		$state = new \JRegistry;
+		$state->set('administratorPath', $app->get('administratorPath'));
+		$state->set('installationPath', $app->get('installationPath'));
+
 		// Get the setup model.
-		$model = new SetupModel;
+		$model = new SetupModel($state);
 
 		// Check the form
 		$vars = $model->checkForm('database');
 
 		// Determine if the configuration file path is writable.
-		$path = JPATH_CONFIGURATION . '/configuration.php';
-		$useftp = (file_exists($path)) ? !is_writable($path) : !is_writable(JPATH_CONFIGURATION . '/');
+		$useftp = (file_exists($configPath)) ? !is_writable($configPath) : !is_writable(dirname($configPath));
 
 		$r = new \stdClass;
 		$r->view = $useftp ? 'ftp' : 'summary';
 
 		// Get the database model.
-		$db = new DatabaseModel;
+		$db = new DatabaseModel($state);
 
 		// Attempt to initialise the database.
 		$return = $db->createDatabase($vars);

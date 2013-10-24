@@ -37,20 +37,24 @@ class InstallConfigController extends JControllerBase
 	public function execute()
 	{
 		// Get the application
-		/* @var \Installation\Application\WebApplication $app */
+		/* @var $app \Installation\Application\WebApplication */
 		$app = $this->getApplication();
 
 		// Check for request forgeries.
 		JSession::checkToken() or $app->sendJsonResponse(new \Exception(JText::_('JINVALID_TOKEN'), 403));
 
+		$state = new \JRegistry;
+		$state->set('configurationPath', $app->get('configurationPath'));
+		$state->set('sitePath', $app->get('sitePath'));
+
 		// Get the setup model.
-		$model = new SetupModel;
+		$model = new SetupModel($state);
 
 		// Get the options from the session
 		$options = $model->getOptions();
 
 		// Get the database model.
-		$configuration = new ConfigurationModel;
+		$configuration = new ConfigurationModel($state);
 
 		// Attempt to setup the configuration.
 		$return = $configuration->setup($options);

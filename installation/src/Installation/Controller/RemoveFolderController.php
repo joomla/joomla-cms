@@ -40,13 +40,15 @@ class RemoveFolderController extends JControllerBase
 	public function execute()
 	{
 		// Get the application
-		/* @var \Installation\Application\WebApplication $app */
+		/* @var $app \Installation\Application\WebApplication */
 		$app = $this->getApplication();
+		$configPath = $app->get('configurationPath');
+		$sitePath = $app->get('sitePath');
 
 		// Check for request forgeries.
 		JSession::checkToken() or $app->sendJsonResponse(new \Exception(JText::_('JINVALID_TOKEN'), 403));
 
-		$path = JPATH_INSTALLATION;
+		$path = $app->get('installationPath');
 
 		// Check whether the folder still exists
 		if (!file_exists($path))
@@ -80,7 +82,7 @@ class RemoveFolderController extends JControllerBase
 			$ftp->login($options->ftp_user, $options->ftp_pass);
 
 			// Translate path for the FTP account
-			$file = JPath::clean(str_replace(JPATH_CONFIGURATION, $options->ftp_root, $path), '/');
+			$file = JPath::clean(str_replace(dirname($configPath), $options->ftp_root, $path), '/');
 			$return = $ftp->delete($file);
 
 			// Delete the extra XML file while we're at it
@@ -115,12 +117,12 @@ class RemoveFolderController extends JControllerBase
 			 * doesn't land in our JSON output.
 			 */
 			ob_start();
-			$return = JFolder::delete($path) && (!file_exists(JPATH_ROOT . '/joomla.xml') || JFile::delete(JPATH_ROOT . '/joomla.xml'));
+			$return = JFolder::delete($path) && (!file_exists($sitePath . '/joomla.xml') || JFile::delete($sitePath . '/joomla.xml'));
 
 			// Rename the robots.txt.dist file if robots.txt doesn't exist
-			if ($return && !file_exists(JPATH_ROOT . '/robots.txt') && file_exists(JPATH_ROOT . '/robots.txt.dist'))
+			if ($return && !file_exists($sitePath . '/robots.txt') && file_exists($sitePath . '/robots.txt.dist'))
 			{
-				$return = JFile::move(JPATH_ROOT . '/robots.txt.dist', JPATH_ROOT . '/robots.txt');
+				$return = JFile::move($sitePath . '/robots.txt.dist', $sitePath . '/robots.txt');
 			}
 
 			ob_end_clean();

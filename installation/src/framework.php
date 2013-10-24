@@ -9,4 +9,4 @@
 
 defined('_JEXEC') or die;
 
-// Moved to index.php
+// Moved to bootstrap.php

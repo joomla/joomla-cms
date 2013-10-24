@@ -12,9 +12,7 @@ use Installation\Helpers\HtmlHelper;
 defined('_JEXEC') or die;
 
 // Determine if the configuration file path is writable.
-$path = JPATH_CONFIGURATION . '/configuration.php';
-$useftp = (file_exists($path)) ? !is_writable($path) : !is_writable(JPATH_CONFIGURATION . '/');
-$prev = $useftp ? 'ftp' : 'database';
+$prev = $this->useftp ? 'ftp' : 'database';
 
 echo HtmlHelper::stepbar(); ?>
 <form action="index.php" method="post" id="adminForm" class="form-validate form-horizontal">

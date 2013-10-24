@@ -93,7 +93,7 @@ class FtpModel extends JModelBase
 		}
 
 		// Search through the segments of JPATH_SITE looking for root possibilities.
-		$parts = explode(DIRECTORY_SEPARATOR, JPATH_SITE);
+		$parts = explode(DIRECTORY_SEPARATOR, $this->state->get('sitePath'));
 		$tmp = '';
 		for ($i = count($parts) - 1; $i >= 0; $i--)
 		{
@@ -229,7 +229,7 @@ class FtpModel extends JModelBase
 		}
 
 		// Verify valid root path, part two
-		$checkValue = file_get_contents(JPATH_ROOT . '/libraries/cms/version/version.php');
+		$checkValue = file_get_contents($this->state->get('sitePath') . '/libraries/cms/version/version.php');
 		if ($buffer !== $checkValue)
 		{
 			$ftp->quit();
