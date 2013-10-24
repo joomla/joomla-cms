@@ -29,6 +29,7 @@ $ -> Language fix or change
  # RTL Isis menus should be aligned right. Thanks Ofer Cohen
  # RTL Isis dropdown toggle icon should be aligned with other icons.
  $ [#31959] Alpha sort en-GB.com_installer.ini  Thanks Brian Teeman
+ ^ [#32345] Corrected JUI comment tags in less/css/js files. Thanks Peter Van Westen
 
 23-Oct-2013 Michael Babker
  # [#32401] *Custom module Options hard to find.  Thanks Jean-Marie Simonet
