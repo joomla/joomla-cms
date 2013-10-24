@@ -62,8 +62,7 @@ class MenuItemsManager0001Test extends JoomlaWebdriverTestCase
 		$this->menuItemsManagerPage->clickButton('toolbar-new');
 		$menuItemEditPage = $this->getPageObject('MenuItemEditPage');
 		$tabIds = $menuItemEditPage->getTabIds();
-		// Keep the following line commented to make it easy to generate values for arrays as fields change.
-// 		$menuItemEditPage->printFieldArray($menuItemEditPage->getAllInputFields($tabIds));
+
 		$menuItemEditPage->clickButton('toolbar-cancel');
 		$this->menuItemsManagerPage = $this->getPageObject('MenuItemsManagerPage');
 	}
@@ -75,6 +74,10 @@ class MenuItemsManager0001Test extends JoomlaWebdriverTestCase
 	{
 		$this->menuItemsManagerPage->clickButton('toolbar-new');
 		$menuItemEditPage = $this->getPageObject('MenuItemEditPage');
+
+		// Keep the following line commented to make it easy to generate values for arrays as fields change.
+		/* @var $menuItemEditPage MenuItemEditPage */
+// 		$menuItemEditPage->printFieldArray($menuItemEditPage->getAllInputFields($menuItemEditPage->tabs));
 
 		$testElements = $menuItemEditPage->getAllInputFields($menuItemEditPage->getTabIds());
 		$actualFields = $this->getActualFieldsFromElements($testElements);

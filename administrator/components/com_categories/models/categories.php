@@ -45,6 +45,7 @@ class CategoriesModelCategories extends JModelList
 				'rgt', 'a.rgt',
 				'level', 'a.level',
 				'path', 'a.path',
+				'tag'
 			);
 		}
 
@@ -79,31 +80,14 @@ class CategoriesModelCategories extends JModelList
 		// Extract the optional section name
 		$this->setState('filter.section', (count($parts) > 1) ? $parts[1] : null);
 
-		$search = $this->getUserStateFromRequest($context . '.search', 'filter_search');
-		$this->setState('filter.search', $search);
-
-		$level = $this->getUserStateFromRequest($context . '.filter.level', 'filter_level', 0, 'int');
-		$this->setState('filter.level', $level);
-
-		$access = $this->getUserStateFromRequest($context . '.filter.access', 'filter_access', 0, 'int');
-		$this->setState('filter.access', $access);
-
-		$published = $this->getUserStateFromRequest($context . '.filter.published', 'filter_published', '');
-		$this->setState('filter.published', $published);
-
-		$language = $this->getUserStateFromRequest($context . '.filter.language', 'filter_language', '');
-		$this->setState('filter.language', $language);
-
 		// Force a language
 		$forcedLanguage = $app->input->get('forcedLanguage');
+
 		if (!empty($forcedLanguage))
 		{
 			$this->setState('filter.language', $forcedLanguage);
 			$this->setState('filter.forcedLanguage', $forcedLanguage);
 		}
-
-		$tag = $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
-		$this->setState('filter.tag', $tag);
 
 		// List state information.
 		parent::populateState('a.lft', 'asc');
@@ -293,7 +277,7 @@ class CategoriesModelCategories extends JModelList
 		$app = JFactory::getApplication();
 		$extension = $this->getState('filter.extension');
 
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$assoc = JLanguageAssociations::isEnabled();
 		$extension = explode('.', $extension);
 		$component = array_shift($extension);
 		$cname = str_replace('com_', '', $component);

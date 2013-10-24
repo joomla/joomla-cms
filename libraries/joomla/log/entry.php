@@ -46,7 +46,7 @@ class JLogEntry
 	 * The priority of the message to be logged.
 	 * @var    string
 	 * @since  11.1
-	 * @see    $priorities
+	 * @see    JLogEntry::$priorities
 	 */
 	public $priority = JLog::INFO;
 

@@ -21,12 +21,16 @@ jimport('joomla.base.adapterinstance');
 class JUpdateAdapter extends JAdapterInstance
 {
 	/**
+	 * Resource handle for the XML Parser
+	 *
 	 * @var    resource
 	 * @since  12.1
 	 */
 	protected $xmlParser;
 
 	/**
+	 * Element call stack
+	 *
 	 * @var    array
 	 * @since  12.1
 	 */

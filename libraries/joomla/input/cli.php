@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Input
  * @since       11.1
  */
-class JInputCLI extends JInput
+class JInputCli extends JInput
 {
 	/**
 	 * The executable that was called to run the CLI script.

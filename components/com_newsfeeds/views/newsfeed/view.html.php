@@ -37,6 +37,12 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 	protected $print;
 
 	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 *
 	 * @since   1.6
 	 */
 	public function display($tpl = null)
@@ -194,9 +200,13 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		$item->tags = new JHelperTags;
 		$item->tags->getItemTags('com_newsfeeds.newsfeed', $item->id);
 
+		// Increment the hit counter of the newsfeed.
+		$model = $this->getModel();
+		$model->hit();
+
 		$this->_prepareDocument();
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 
 	/**

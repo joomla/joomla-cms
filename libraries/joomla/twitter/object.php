@@ -31,8 +31,8 @@ abstract class JTwitterObject
 	protected $client;
 
 	/**
-	 * @var JTwitterOAuth The OAuth client.
-	 * @since 12.3
+	 * @var    JTwitterOAuth The OAuth client.
+	 * @since  12.3
 	 */
 	protected $oauth;
 
@@ -40,7 +40,7 @@ abstract class JTwitterObject
 	 * Constructor.
 	 *
 	 * @param   JRegistry      &$options  Twitter options object.
-	 * @param   JTwitterHttp   $client    The HTTP client object.
+	 * @param   JHttp          $client    The HTTP client object.
 	 * @param   JTwitterOAuth  $oauth     The OAuth client.
 	 *
 	 * @since   12.3
@@ -79,7 +79,7 @@ abstract class JTwitterObject
 		{
 			// The IP has exceeded the Twitter API rate limit
 			throw new RuntimeException('This server has exceed the Twitter API rate limit for the given period.  The limit will reset at '
-						. $rate_limit->resources->$resource->$property->reset
+				. $rate_limit->resources->$resource->$property->reset
 			);
 		}
 	}
@@ -159,6 +159,7 @@ abstract class JTwitterObject
 	 * @return  array  The decoded JSON response
 	 *
 	 * @since   12.3
+	 * @throws  RuntimeException
 	 */
 	public function sendRequest($path, $method = 'GET', $data = array(), $headers = array())
 	{
@@ -180,7 +181,7 @@ abstract class JTwitterObject
 			{
 				// The IP has exceeded the Twitter API media rate limit
 				throw new RuntimeException('This server has exceed the Twitter API media rate limit for the given period.  The limit will reset in '
-						. $response_headers['x-mediaratelimit-reset'] . 'seconds.'
+					. $response_headers['x-mediaratelimit-reset'] . 'seconds.'
 				);
 			}
 		}

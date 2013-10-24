@@ -26,17 +26,24 @@ class BannersViewClients extends JViewLegacy
 
 	/**
 	 * Display the view
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -50,23 +57,28 @@ class BannersViewClients extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
-		require_once JPATH_COMPONENT.'/helpers/banners.php';
+		require_once JPATH_COMPONENT . '/helpers/banners.php';
 
-		$canDo	= BannersHelper::getActions();
+		$canDo	= JHelperContent::getActions(0, 0, 'com_banners');
 
 		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_CLIENTS'), 'banners-clients.png');
+
 		if ($canDo->get('core.create'))
 		{
 			JToolbarHelper::addNew('client.add');
 		}
+
 		if ($canDo->get('core.edit'))
 		{
 			JToolbarHelper::editList('client.edit');
 		}
+
 		if ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::publish('clients.publish', 'JTOOLBAR_PUBLISH', true);
@@ -74,10 +86,12 @@ class BannersViewClients extends JViewLegacy
 			JToolbarHelper::archiveList('clients.archive');
 			JToolbarHelper::checkin('clients.checkin');
 		}
+
 		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('', 'clients.delete', 'JTOOLBAR_EMPTY_TRASH');
-		} elseif ($canDo->get('core.edit.state'))
+		}
+		elseif ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::trash('clients.trash');
 		}
@@ -88,15 +102,8 @@ class BannersViewClients extends JViewLegacy
 		}
 
 		JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_CLIENTS');
-
-		JHtmlSidebar::setAction('index.php?option=com_banners&view=clients');
-
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_PUBLISHED'),
-			'filter_state',
-			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.state'), true)
-		);
 	}
+
 	/**
 	 * Returns an array of fields the table can be sorted by
 	 *

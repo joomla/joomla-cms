@@ -21,7 +21,8 @@ class BannersModelClients extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
 	 * @see     JController
 	 * @since   1.6
 	 */
@@ -37,6 +38,7 @@ class BannersModelClients extends JModelList
 				'checked_out', 'a.checked_out',
 				'checked_out_time', 'a.checked_out_time',
 				'nbanners',
+				'purchase_type'
 			);
 		}
 
@@ -48,17 +50,15 @@ class BannersModelClients extends JModelList
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
-
-		$state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string');
-		$this->setState('filter.state', $state);
-
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_banners');
 		$this->setState('params', $params);
@@ -74,7 +74,7 @@ class BannersModelClients extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id    A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
 	 *
 	 * @return  string  A store id.
 	 */
@@ -98,6 +98,9 @@ class BannersModelClients extends JModelList
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
+
+		$params = JComponentHelper::getParams('com_banners');
+		$defaultPurchase = $params->get('purchase_type', 3);
 
 		// Select the required fields from the table.
 		$query->select(
@@ -126,6 +129,7 @@ class BannersModelClients extends JModelList
 
 		// Filter by published state
 		$published = $this->getState('filter.state');
+
 		if (is_numeric($published))
 		{
 			$query->where('a.state = ' . (int) $published);
@@ -139,6 +143,7 @@ class BannersModelClients extends JModelList
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
+
 		if (!empty($search))
 		{
 			if (stripos($search, 'id:') === 0)
@@ -151,15 +156,32 @@ class BannersModelClients extends JModelList
 				$query->where('a.name LIKE ' . $search);
 			}
 		}
-		$ordering_o = $this->getState('list.ordering', 'ordering');
-		if ($ordering_o == 'nbanners')
-		{
-			$ordering_o = 'COUNT(b.id)';
-		}
-		// Add the list ordering clause.
-		$query->order($db->escape($ordering_o) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
-		//echo nl2br(str_replace('#__','jos_',$query));
+		// Filter by purchase type
+		$purchaseType = $this->getState('filter.purchase_type');
+
+		if (!empty($purchaseType))
+		{
+			if ($defaultPurchase == $purchaseType)
+			{
+				$query->where('(a.purchase_type = ' . (int) $purchaseType . ' OR a.purchase_type = -1)');
+			}
+			else
+			{
+				$query->where('a.purchase_type = ' . (int) $purchaseType);
+			}
+		}
+
+		$ordering = $this->getState('list.ordering', 'ordering');
+
+		if ($ordering == 'nbanners')
+		{
+			$ordering = 'COUNT(b.id)';
+		}
+
+		// Add the list ordering clause.
+		$query->order($db->escape($ordering) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
+
 		return $query;
 	}
 }
