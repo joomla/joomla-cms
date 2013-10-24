@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_weblinks
  * @since       1.5
  */
-class WeblinksViewCategories extends JViewCategory
+class WeblinksViewCategories extends JViewCategories
 {
 	protected $item = null;
 
@@ -81,18 +81,5 @@ class WeblinksViewCategories extends JViewCategory
 		$this->items  = &$items;
 
 		return parent::display($tpl);
-	}
-
-	/**
-	 * Method to prepares the document
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	protected function prepareDocument()
-	{
-		parent::prepareDocument();
-		parent::addFeed();
 	}
 }

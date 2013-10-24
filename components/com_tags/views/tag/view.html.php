@@ -202,15 +202,7 @@ class TagsViewTag extends JViewLegacy
 			$this->params->set('page_subheading', $menu->title);
 		}
 
-		// If this is not a single tag menu item, set the page title to the menu item title
-		if (count($this->item) == 1)
-		{
-			$title = $this->item[0]->title;
-		}
-		else
-		{
-			$title = $this->state->params->get('page_title');
-		}
+		$title = $this->state->params->get('page_title');
 
 		if (empty($title))
 		{
