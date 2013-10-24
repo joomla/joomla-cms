@@ -209,6 +209,49 @@ class ArticleManager0003Test extends JoomlaWebdriverTestCase
 		$this->articleManagerPage->doBatchAction('Archive Module', 'content', $originalCategory, 'move');
 		$this->articleManagerPage->changeCategoryFilter($originalCategory, 'content');
 		$value = $this->articleManagerPage->getCategoryName('Archive Module');
-		$this->assertEquals($value, 'Category: Content Modules','The Article Must have got moved into the Original Category');
+		$this->assertEquals($value, 'Category: Content Modules', 'The Article Must have got moved into the Original Category');
 	}
+	
+	/** 
+	 * @test
+	 */ 
+        public function frontEndEditArticle_ChangeArticleText_ArticleTextChanged()
+	{
+		$cfg = new SeleniumConfig();
+		$checkingText = '<p>Testing Edit</p>';
+		$validationText = 'Testing Edit';
+		$this->doAdminLogin();
+		$globalConfigUrl = 'administrator/index.php?option=com_config';
+		$url = $this->cfg->host.$this->cfg->path . $globalConfigUrl;
+		$this->driver->get($url);
+		$gc= $this->getPageObject('GlobalConfigurationPage', true, $url);
+		$gc->changeEditorMode();
+		$articleManager='administrator/index.php?option=com_content';
+		$this->driver->get($cfg->host.$cfg->path . $articleManager);
+		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
+		$this->articleManagerPage->addArticle('Testing');
+		$this->articleManagerPage->searchFor('Testing');
+		$this->articleManagerPage->checkAll();
+		$this->articleManagerPage->clickButton('toolbar-featured');
+		$this->doSiteLogin();
+		$this->siteHomePage = $this->getPageObject('SiteContentFeaturedPage');
+		$this->assertTrue($this->siteHomePage->isEditPresent(), 'Edit Icons Must be Present');
+		
+		//Edit the Article
+		$this->siteHomePage->clickEditArticle('Testing');
+		$this->articleEditPage = $this->getPageObject('SiteContentEditPage');
+		$this->articleEditPage->editArticle($checkingText);
+		$this->siteHomePage = $this->getPageObject('SiteContentFeaturedPage');
+		$articleTexts = $this->siteHomePage->getArticleText();
+		$this->assertTrue(in_array($validationText, $articleTexts), 'Text Must be Present');
+		
+		//Deleting the Article
+		$cpPage = $this->doAdminLogin();
+		$this->gcPage = $cpPage->clickMenu('Global Configuration', 'GlobalConfigurationPage');
+		$this->gcPage->changeEditorMode('TINY');
+		$this->driver->get($cfg->host.$cfg->path . $articleManager);
+		$this->articleManagerPage = $this->getPageObject('ArticleManagerPage');
+		$this->articleManagerPage->trashAndDelete('Testing');
+        }
 }
+

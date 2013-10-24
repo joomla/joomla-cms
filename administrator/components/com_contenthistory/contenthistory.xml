@@ -17,7 +17,6 @@
 
 	<administration>
 		<files folder="admin">
-			<filename>config.xml</filename>
 			<filename>controller.php</filename>
 			<filename>index.html</filename>
 			<filename>contenthistory.php</filename>

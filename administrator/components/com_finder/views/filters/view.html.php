@@ -63,7 +63,7 @@ class FinderViewFilters extends JViewLegacy
 	{
 		$canDo = FinderHelper::getActions();
 
-		JToolbarHelper::title(JText::_('COM_FINDER_FILTERS_TOOLBAR_TITLE'), 'finder');
+		JToolbarHelper::title(JText::_('COM_FINDER_FILTERS_TOOLBAR_TITLE'), 'zoom-in finder');
 		$toolbar = JToolbar::getInstance('toolbar');
 
 		if ($canDo->get('core.create'))
@@ -88,7 +88,7 @@ class FinderViewFilters extends JViewLegacy
 			JToolbarHelper::preferences('com_finder');
 		}
 		JToolbarHelper::divider();
-		$toolbar->appendButton('Popup', '', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
+		$toolbar->appendButton('Popup', 'stats', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_SEARCH_FILTERS');
 

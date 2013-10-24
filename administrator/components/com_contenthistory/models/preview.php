@@ -16,7 +16,7 @@ JLoader::register('ContenthistoryHelper', JPATH_ADMINISTRATOR . '/components/com
  *
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
- * @since       1.6
+ * @since       3.2
  */
 class ContenthistoryModelPreview extends JModelItem
 {

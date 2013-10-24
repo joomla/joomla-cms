@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_banners
  * @since       1.6
  */
-class BannersHelper
+class BannersHelper extends JHelperContent
 {
 	/**
 	 * Configure the Linkbar.
@@ -39,12 +39,6 @@ class BannersHelper
 			'index.php?option=com_categories&extension=com_banners',
 			$vName == 'categories'
 		);
-		if ($vName == 'categories')
-		{
-			JToolbarHelper::title(
-				JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', JText::_('com_banners')),
-				'banners-categories');
-		}
 
 		JHtmlSidebar::addEntry(
 			JText::_('COM_BANNERS_SUBMENU_CLIENTS'),
@@ -57,40 +51,6 @@ class BannersHelper
 			'index.php?option=com_banners&view=tracks',
 			$vName == 'tracks'
 		);
-	}
-
-	/**
-	 * Gets a list of the actions that can be performed.
-	 *
-	 * @param   integer  The category ID.
-	 *
-	 * @return  JObject
-	 * @since   1.6
-	 */
-	public static function getActions($categoryId = 0)
-	{
-		$user	= JFactory::getUser();
-		$result	= new JObject;
-
-		if (empty($categoryId))
-		{
-			$assetName = 'com_banners';
-			$level = 'component';
-		}
-		else
-		{
-			$assetName = 'com_banners.category.'.(int) $categoryId;
-			$level = 'category';
-		}
-
-		$actions = JAccess::getActions('com_banners', $level);
-
-		foreach ($actions as $action)
-		{
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
-		}
-
-		return $result;
 	}
 
 	/**

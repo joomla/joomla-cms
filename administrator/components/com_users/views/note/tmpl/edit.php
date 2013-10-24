@@ -63,6 +63,14 @@ Joomla.submitbutton = function(task)
 					<?php echo $this->form->getInput('review_time'); ?>
 				</div>
 			</div>
+			<div class="control-group">
+				<div class="control-label">
+					<?php echo $this->form->getLabel('version_note'); ?>
+				</div>
+				<div class="controls">
+					<?php echo $this->form->getInput('version_note'); ?>
+				</div>
+			</div>
 
 			<div class="control-group">
 				<div class="control-label">

@@ -83,6 +83,11 @@ class ModuleManager0001Test extends JoomlaWebdriverTestCase
 		$this->moduleManagerPage->clickButton('toolbar-new');
 		$this->driver->waitForElementUntilIsPresent(By::xPath("//a[contains(., 'Articles Categories')]"))->click();
 		$moduleEditPage = $this->getPageObject('ModuleEditPage');
+
+		// Option to print actual element array
+		/* @var $moduleEditPage ModuleEditPage */
+// 	 	$moduleEditPage->printFieldArray($moduleEditPage->getAllInputFields($moduleEditPage->tabs));
+
 		$testElements = $moduleEditPage->getAllInputFields($moduleEditPage->tabs);
 		$actualFields = $this->getActualFieldsFromElements($testElements);
 		$this->assertEquals($moduleEditPage->inputFields, $actualFields);

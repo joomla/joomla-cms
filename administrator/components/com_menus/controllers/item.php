@@ -138,16 +138,6 @@ class MenusControllerItem extends JControllerForm
 		$context  = 'com_menus.edit.item';
 		$recordId = $this->input->getInt('id');
 
-		if (!$this->checkEditId($context, $recordId))
-		{
-			// Somehow the person just went to the form and saved it - we don't allow that.
-			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId));
-			$this->setMessage($this->getError(), 'error');
-			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=items' . $this->getRedirectToListAppend(), false));
-
-			return false;
-		}
-
 		// Populate the row id from the session.
 		$data['id'] = $recordId;
 
@@ -171,6 +161,7 @@ class MenusControllerItem extends JControllerForm
 		// Validate the posted data.
 		// This post is made up of two forms, one for the item and one for params.
 		$form = $model->getForm($data);
+
 		if (!$form)
 		{
 			JError::raiseError(500, $model->getError());

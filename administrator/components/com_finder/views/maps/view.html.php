@@ -70,7 +70,7 @@ class FinderViewMaps extends JViewLegacy
 		include_once JPATH_COMPONENT . '/helpers/finder.php';
 		$canDo	= FinderHelper::getActions();
 
-		JToolbarHelper::title(JText::_('COM_FINDER_MAPS_TOOLBAR_TITLE'), 'finder');
+		JToolbarHelper::title(JText::_('COM_FINDER_MAPS_TOOLBAR_TITLE'), 'zoom-in finder');
 		$toolbar = JToolbar::getInstance('toolbar');
 
 		if ($canDo->get('core.edit.state'))
@@ -89,7 +89,7 @@ class FinderViewMaps extends JViewLegacy
 			JToolbarHelper::preferences('com_finder');
 		}
 		JToolbarHelper::divider();
-		$toolbar->appendButton('Popup', '', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
+		$toolbar->appendButton('Popup', 'stats', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_CONTENT_MAPS');
 

@@ -7,58 +7,60 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+JFormHelper::loadFieldClass('radio');
+require_once __DIR__ . '/TestHelpers/JHtmlFieldRadio-helper-dataset.php';
+
 /**
- * Test class for JForm.
+ * Test class for JFormFieldRadio.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- *
  * @since       11.1
  */
 class JFormFieldRadioTest extends TestCase
 {
 	/**
-	 * Sets up dependancies for the test.
+	 * Test...
 	 *
-	 * @return void
+	 * @return  array
+	 *
+	 * @since   3.1
 	 */
-	protected function setUp()
+	public function getInputData()
 	{
-		parent::setUp();
-		require_once JPATH_PLATFORM . '/joomla/form/fields/radio.php';
-		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
+		return JHtmlFieldRadioTest_DataSet::$getInputTest;
 	}
 
 	/**
-	 * Test the getInput method.
+	 * Test the getInput method where there is no value from the element
+	 * and no checked attribute.
 	 *
-	 * @return void
+	 * @param   string  $element   @todo
+	 * @param   array   $data  	   @todo
+	 * @param   string  $expected  @todo
+	 *
+	 * @return  void
+	 *
+	 * @since   12.2
+	 *
+	 * @dataProvider  getInputData
 	 */
-	public function testGetInput()
+	public function testGetInput($element, $data, $expected)
 	{
-		$form = new JFormInspector('form1');
+		$formField = new JFormFieldRadio;
 
-		$this->assertThat(
-			$form->load('<form><field name="radio" type="radio" /></form>'),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' XML string should load successfully.'
+		TestReflection::setValue($formField, 'element', simplexml_load_string($element));
+
+		foreach ($data as $attr => $value)
+		{
+			TestReflection::setValue($formField, $attr, $value);
+		}
+
+		$this->assertEquals(
+			$expected,
+			TestReflection::invoke($formField, 'getInput'),
+			'Line:' . __LINE__ . ' The field with no value and no checked attribute did not produce the right html'
 		);
-
-		$field = new JFormFieldRadio($form);
-
-		$this->assertThat(
-			$field->setup($form->getXml()->field, 'value'),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' The setup method should return true.'
-		);
-
-		$this->assertThat(
-			strlen($field->input),
-			$this->greaterThan(0),
-			'Line:' . __LINE__ . ' The getInput method should return something without error.'
-		);
-
-		// TODO: Should check all the attributes have come in properly.
 	}
 
 	/**
@@ -70,7 +72,7 @@ class JFormFieldRadioTest extends TestCase
 	 */
 	public function testGetOptions()
 	{
-		$form = new JFormInspector('form1');
+		$form = new JForm('form1');
 
 		$this->assertThat(
 			$form->load('<form><field name="radio" type="radio"><option value="0">No</option><item value="1">Yes</item></field></form>'),

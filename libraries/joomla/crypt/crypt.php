@@ -56,10 +56,18 @@ class JCrypt
 	 * @return  string  The decrypted data string.
 	 *
 	 * @since   12.1
+	 * @throws  InvalidArgumentException
 	 */
 	public function decrypt($data)
 	{
-		return $this->_cipher->decrypt($data, $this->_key);
+		try
+		{
+			return $this->_cipher->decrypt($data, $this->_key);
+		}
+		catch (InvalidArgumentException $e)
+		{
+			return false;
+		}
 	}
 
 	/**
@@ -117,10 +125,11 @@ class JCrypt
 	 */
 	public static function genRandomBytes($length = 16)
 	{
+		$length = (int) $length;
 		$sslStr = '';
 
 		/*
-		 * if a secure randomness generator exists and we don't
+		 * If a secure randomness generator exists and we don't
 		 * have a buggy PHP version use it.
 		 */
 		if (function_exists('openssl_random_pseudo_bytes')
@@ -248,5 +257,87 @@ class JCrypt
 		}
 
 		return substr($randomStr, 0, $length);
+	}
+
+	/**
+	 * A timing safe comparison method. This defeats hacking
+	 * attempts that use timing based attack vectors.
+	 *
+	 * @param   string  $known    A known string to check against.
+	 * @param   string  $unknown  An unknown string to check.
+	 *
+	 * @return  boolean  True if the two strings are exactly the same.
+	 *
+	 * @since   3.2
+	 */
+	public static function timingSafeCompare($known, $unknown)
+	{
+		// Prevent issues if string length is 0
+		$known .= chr(0);
+		$unknown .= chr(0);
+
+		$knownLength = strlen($known);
+		$unknownLength = strlen($unknown);
+
+		// Set the result to the difference between the lengths
+		$result = $knownLength - $unknownLength;
+
+		// Note that we ALWAYS iterate over the user-supplied length to prevent leaking length info.
+		for ($i = 0; $i < $unknownLength; $i++)
+		{
+			// Using % here is a trick to prevent notices. It's safe, since if the lengths are different, $result is already non-0
+			$result |= (ord($known[$i % $knownLength]) ^ ord($unknown[$i]));
+		}
+
+		// They are only identical strings if $result is exactly 0...
+		return $result === 0;
+	}
+
+	/**
+	 * Tests for the availability of updated crypt().
+	 * Based on a method by Anthony Ferrera
+	 *
+	 * @return  boolean  True if updated crypt() is available.
+	 *
+	 * @note    To be removed when PHP 5.3.7 or higher is the minimum supported version.
+	 * @see     https://github.com/ircmaxell/password_compat/blob/master/version-test.php
+	 * @since   3.2
+	 */
+	public static function hasStrongPasswordSupport()
+	{
+		static $pass = null;
+
+		if (is_null($pass))
+		{
+			// Check to see whether crypt() is supported.
+			if (version_compare(PHP_VERSION, '5.3.6', '>'))
+			{
+				// We have safe PHP version.
+				$pass = true;
+			}
+			else
+			{
+				// We need to test if we have patched PHP version.
+				$hash = '$2y$04$usesomesillystringfore7hnbRJHxXVLeakoG8K30oukPsA.ztMG';
+				$test = crypt("password", $hash);
+				$pass = ($test == $hash);
+
+				// Test to allow for for Debian backport of bcrypt the 5.3.7 fix.
+				// See https://github.com/ircmaxell/password_compat/pull/34#issuecomment-26648055
+				if(crypt('éàèç', '$2a$05$0123456789012345678901$') === crypt('éàèç', '$2x$05$0123456789012345678901$'))
+				{
+					// $2a$ is insecure.
+					$pass = false;
+				}
+			}
+
+			if ($pass && !defined('PASSWORD_DEFAULT'))
+			{
+				// Always make sure that the password hashing API has been defined.
+				include_once JPATH_ROOT . '/libraries/compat/password/lib/password.php';
+			}
+		}
+
+		return $pass;
 	}
 }

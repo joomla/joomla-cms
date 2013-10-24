@@ -56,15 +56,16 @@ class WeblinksViewWeblinks extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		require_once JPATH_COMPONENT.'/helpers/weblinks.php';
+		require_once JPATH_COMPONENT . '/helpers/weblinks.php';
 
 		$state	= $this->get('State');
-		$canDo	= WeblinksHelper::getActions($state->get('filter.category_id'));
+		$canDo	= JHelperContent::getActions($state->get('filter.category_id'), 0, 'com_weblinks');
 		$user	= JFactory::getUser();
+
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 
-		JToolbarHelper::title(JText::_('COM_WEBLINKS_MANAGER_WEBLINKS'), 'weblinks.png');
+		JToolbarHelper::title(JText::_('COM_WEBLINKS_MANAGER_WEBLINKS'), 'link weblinks');
 		if (count($user->getAuthorisedCategories('com_weblinks', 'core.create')) > 0)
 		{
 			JToolbarHelper::addNew('weblink.add');
