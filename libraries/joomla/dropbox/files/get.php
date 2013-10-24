@@ -21,9 +21,12 @@ class JDropboxFilesGet extends JDropboxFiles
 	/**
 	 * Retrieves information about the user's file.
 	 *
-	 * @param   string  $root  The root relative to which path is specified. Valid values are sandbox and dropbox.
-	 * @param   string  $path  The path to the file you want to retrieve.
-	 * @param   string  $rev   The revision of the file to retrieve. This defaults to the most recent revision.
+	 * @param   string  $root              The root relative to which path is specified.
+	 *                                     Valid values are sandbox and dropbox.
+	 * @param   string  $path              The path to the file you want to retrieve.
+	 * @param   string  $localFileHandler  The path to the file you want to retrieve.
+	 * @param   string  $rev               The revision of the file to retrieve.
+	 *                                     This defaults to the most recent revision.
 	 *
 	 * @throws DomainException
 	 *
@@ -31,7 +34,7 @@ class JDropboxFilesGet extends JDropboxFiles
 	 *
 	 * @since   ??.?
 	 */
-	public function getFiles($root, $path, $rev = null)
+	public function getFile($root, $path, $localFileHandler = null, $rev = null)
 	{
 		$url = "https://" . $this->options->get("api.content") . "/1/files/" . $root . "/" . $path;
 
@@ -40,8 +43,32 @@ class JDropboxFilesGet extends JDropboxFiles
 			$url .= "?rev=" . $rev;
 		}
 
-		// Create the request, send it and process the response
-		return $this->commonGetOperations($url);
+		// Creates an array with the default Host and Authorization headers
+		$headers = $this->getDefaultHeaders();
+
+		// Send the http request
+		$response = $this->client->get($url, $headers);
+
+		// Process the response
+		$fileBody = $this->processResponse($response, true);
+
+		if (empty($localFileHandler))
+		{
+			return $fileBody;
+		}
+
+		// Write output to file
+		if (fwrite($localFileHandler, $fileBody))
+		{
+			$message = "The file was successfully downloaded.";
+		}
+		else
+		{
+			$message = "The file could not be written.";
+		}
+
+		fclose($localFileHandler);
+		return $message;
 	}
 
 	/**

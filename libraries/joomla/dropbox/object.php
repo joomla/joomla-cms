@@ -47,13 +47,15 @@ abstract class JDropboxObject
 	/**
 	 * Performs common actions for GET operations
 	 *
-	 * @param   string  $url  The URI used in the request
+	 * @param   string   $url           The URI used in the request
+	 * @param   boolean  $noDecodeBody  Tells the method not to use json_decode
+	 *                                  when returning the response body.
 	 *
 	 * @throws DomainException
 	 *
 	 * @return mixed
 	 */
-	public function commonGetOperations($url)
+	public function commonGetOperations($url, $noDecodeBody = false)
 	{
 		// Creates an array with the default Host and Authorization headers
 		$headers = $this->getDefaultHeaders();
@@ -62,7 +64,7 @@ abstract class JDropboxObject
 		$response = $this->client->get($url, $headers);
 
 		// Process the response
-		return $this->processResponse($response);
+		return $this->processResponse($response, $noDecodeBody);
 	}
 
 	/**
@@ -138,13 +140,16 @@ abstract class JDropboxObject
 	 * Process the response and decode it.
 	 *
 	 * @param   JHttpResponse  $response      The response.
+	 * @param   boolean        $noDecodeBody  Tells the method not to use json_decode
+	 *                                        when returning the response body.
 	 * @param   integer        $expectedCode  The expected "good" code.
 	 *
 	 * @throws DomainException
 	 *
 	 * @return mixed
 	 */
-	protected function processResponse(JHttpResponse $response, $expectedCode = 200)
+	protected function processResponse(
+		JHttpResponse $response, $noDecodeBody = false, $expectedCode = 200)
 	{
 		// Validate the response code.
 		if ($response->code != $expectedCode)
@@ -152,6 +157,11 @@ abstract class JDropboxObject
 			// Decode the error response and throw an exception.
 			$error = json_decode($response->body);
 			throw new DomainException($error->error, $response->code);
+		}
+
+		if ($noDecodeBody)
+		{
+			return $response->body;
 		}
 
 		return json_decode($response->body);
