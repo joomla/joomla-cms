@@ -53,29 +53,22 @@ var JFormValidator = function() {
     },
     
     validate = function(el) {
-        var $el = $(el), tagName, handler, selector, i = 0;
+        var $el = $(el), tagName, handler;
         // Ignore the element if its currently disabled, because are not submitted for the http-request. For those case return always true.
         if ($el.attr('disabled')) {
             handleResponse(true, $el);
             return true;
         }
         // If the field is required make sure it has a value
-        if ($el.hasClass('required')) {
+        if ($el.attr('required') || $el.hasClass('required')) {
             tagName = $el.prop("tagName").toLowerCase();
             if (tagName === 'fieldset' && ($el.hasClass('radio') || $el.hasClass('checkboxes'))) {
-                while (true) {
-                    selector = "#" + $el.attr('id') + i;
-                    if ($(selector).get(0)) {
-                        if ($(selector).is(':checked')) {
-                            break;
-                        }
-                    } else {
-                        handleResponse(false, $el);
-                        return false;
-                    }
-                    i++;
+                if (!$el.find('input:checked').length){
+                    handleResponse(false, $el);
+                    return false;
                 }
-            } else if (!$el.val()) {
+            //If element has class placeholder that means it is empty.
+            } else if (!$el.val() || $el.hasClass('placeholder') || ($el.attr('type') === 'checkbox' && !$el.is(':checked'))) {
                 handleResponse(false, $el);
                 return false;
             }
@@ -100,7 +93,7 @@ var JFormValidator = function() {
     },
     
     isValid = function(form) {
-        var valid = true, $form = $(form), i, k, message, errors, error, label;
+        var valid = true, $form = $(form), i, message, errors, error, label;
         // Validate form fields
         $formFields = $formFields || $form.find('input, textarea, select, button, fieldset');
         $formFields.each(function(index, el) {
@@ -109,13 +102,11 @@ var JFormValidator = function() {
             }
         });
         // Run custom form validators if present
-        for (k in custom) {
-            if (custom.hasOwnProperty(k)) {
-                if (custom[k].exec() !== true) {
-                    valid = false;
+        $.each(custom, function(key, validator) {
+                if (validator.exec() !== true) {
+                        valid = false;
                 }
-            }
-        }
+        });
         if (!valid) {
             message = Joomla.JText._('JLIB_FORM_FIELD_INVALID');
             errors = $("label.invalid");
