@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_ajax
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,8 +27,9 @@ $input = $app->input;
 // Requested format passed via URL
 $format = strtolower($input->getWord('format'));
 
-// Initialize default response
+// Initialize default response and module name
 $results = null;
+$parts = null;
 
 // Check for valid format
 if (!$format)
@@ -59,6 +60,14 @@ elseif ($input->get('module'))
 		if (strpos($module, '_'))
 		{
 			$parts = explode('_', $module);
+		}
+		elseif (strpos($module, '-'))
+		{
+			$parts = explode('-', $module);
+		}
+
+		if ($parts)
+		{
 			$class = 'mod';
 			foreach ($parts as $part)
 			{

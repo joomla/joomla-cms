@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -65,8 +65,8 @@ class JFormFieldList extends JFormField
 			$html[] = JHtml::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $this->value, $this->id);
 			$html[] = '<input type="hidden" name="' . $this->name . '" value="' . $this->value . '"/>';
 		}
-		// Create a regular list.
 		else
+		// Create a regular list.
 		{
 			$html[] = JHtml::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
 		}
@@ -91,6 +91,22 @@ class JFormFieldList extends JFormField
 			if ($option->getName() != 'option')
 			{
 				continue;
+			}
+
+			// Filter requirements
+			if ($requires = explode(',', (string) $option['requires']))
+			{
+				// Requires multilanguage
+				if (in_array('multilanguage', $requires) && !JLanguageMultilang::isEnabled())
+				{
+					continue;
+				}
+
+				// Requires associations
+				if (in_array('associations', $requires) && !JLanguageAssociations::isEnabled())
+				{
+					continue;
+				}
 			}
 
 			$value = (string) $option['value'];

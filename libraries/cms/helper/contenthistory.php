@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -103,7 +103,8 @@ class JHelperContenthistory extends JHelper
 		$dataObject = $this->getDataObject($table);
 		$historyTable = JTable::getInstance('Contenthistory', 'JTable');
 		$typeTable = JTable::getInstance('Contenttype', 'JTable');
-		$historyTable->set('ucm_type_id', $typeTable->getTypeId($this->typeAlias));
+		$typeTable->load(array('type_alias' => $this->typeAlias));
+		$historyTable->set('ucm_type_id', $typeTable->type_id);
 
 		$key = $table->getKeyName();
 		$historyTable->set('ucm_item_id', $table->$key);
@@ -117,6 +118,7 @@ class JHelperContenthistory extends JHelper
 		$historyTable->set('version_data', json_encode($dataObject));
 		$input = JFactory::getApplication()->input;
 		$data = $input->get('jform', array(), 'array');
+		$versionName = false;
 
 		if (isset($data['version_note']))
 		{
@@ -125,7 +127,7 @@ class JHelperContenthistory extends JHelper
 		}
 
 		// Don't save if hash already exists and same version note
-		$historyTable->set('sha1_hash', $historyTable->getSha1($dataObject));
+		$historyTable->set('sha1_hash', $historyTable->getSha1($dataObject, $typeTable));
 
 		if ($historyRow = $historyTable->getHashMatch())
 		{

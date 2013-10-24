@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -87,6 +87,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 		{
 			$this->parent->setPath('source', JPATH_PLUGINS . '/' . $this->parent->extension->folder . '/' . $this->parent->extension->element);
 		}
+
 		$this->manifest = $this->parent->getManifest();
 		$element = $this->manifest->files;
 
@@ -106,6 +107,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 					}
 				}
 			}
+
 			if ($name)
 			{
 				$extension = "plg_${group}_${name}";
@@ -117,10 +119,9 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 				{
 					$source = "$path/$folder";
 				}
-				$lang->load($extension . '.sys', $source, null, false, false)
-					|| $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, false)
-					|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
-					|| $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false);
+
+				$lang->load($extension . '.sys', $source, null, false, true)
+					|| $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true);
 			}
 		}
 	}
@@ -183,6 +184,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 				}
 			}
 		}
+
 		$group = (string) $xml->attributes()->group;
 
 		if (!empty($element) && !empty($group))
@@ -418,6 +420,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 
 				return false;
 			}
+
 			$row->load($id);
 			$row->name = $this->get('name');
 			$row->manifest_cache = $this->parent->generateManifestCache();
@@ -783,6 +786,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 				$extension->set('params', '{}');
 				$results[] = $extension;
 			}
+
 			$folder_list = JFolder::folders(JPATH_SITE . '/plugins/' . $folder);
 
 			foreach ($folder_list as $plugin_folder)
@@ -815,6 +819,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 				}
 			}
 		}
+
 		return $results;
 	}
 
@@ -843,6 +848,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 		{
 			$manifestPath = $client->path . '/plugins/' . $this->parent->extension->folder . '/' . $this->parent->extension->element . '.xml';
 		}
+
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$description = (string) $this->parent->manifest->description;
 
@@ -854,6 +860,7 @@ class JInstallerAdapterPlugin extends JAdapterInstance
 		{
 			$this->parent->set('message', '');
 		}
+
 		$this->parent->setPath('manifest', $manifestPath);
 		$manifest_details = JInstaller::parseXMLInstallFile($manifestPath);
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);

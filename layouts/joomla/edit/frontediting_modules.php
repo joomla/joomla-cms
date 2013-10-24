@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -53,7 +53,6 @@ $moduleHtml = preg_replace(
 if ($count)
 {
 	// Load once booststrap tooltip and add stylesheet and javascript to head:
-	JHtml::_('bootstrap.loadCss', true, JFactory::getDocument()->getDirection());
 	JHtml::_('bootstrap.tooltip');
 	JHtml::_('bootstrap.popover');
 

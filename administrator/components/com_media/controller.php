@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,14 +34,14 @@ class MediaController extends JControllerLegacy
 		switch ($vName)
 		{
 			case 'images':
-				$vLayout = $this->input->get('layout', 'default');
+				$vLayout = $this->input->get('layout', 'default', 'string');
 				$mName = 'manager';
 
 				break;
 
 			case 'imagesList':
 				$mName = 'list';
-				$vLayout = $this->input->get('layout', 'default');
+				$vLayout = $this->input->get('layout', 'default', 'string');
 
 				break;
 
@@ -55,7 +55,7 @@ class MediaController extends JControllerLegacy
 			case 'media':
 			default:
 				$vName = 'media';
-				$vLayout = $this->input->get('layout', 'default');
+				$vLayout = $this->input->get('layout', 'default', 'string');
 				$mName = 'manager';
 				break;
 		}

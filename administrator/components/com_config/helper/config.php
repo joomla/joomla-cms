@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,7 +42,7 @@ class ConfigHelperConfig extends JHelperContent
 	/**
 	 * Returns true if the component has configuration options.
 	 *
-	 * @param   string  $components
+	 * @param   string  $component  Component name
 	 *
 	 * @return  boolean
 	 *
@@ -102,10 +102,8 @@ class ConfigHelperConfig extends JHelperContent
 			{
 				// Load the core file then
 				// Load extension-local file.
-				$lang->load($component . '.sys', JPATH_BASE, null, false, false)
-				|| $lang->load($component . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component, null, false, false)
-				|| $lang->load($component . '.sys', JPATH_BASE, $lang->getDefault(), false, false)
-				|| $lang->load($component . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component, $lang->getDefault(), false, false);
+				$lang->load($component . '.sys', JPATH_BASE, null, false, true)
+				|| $lang->load($component . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component, null, false, true);
 			}
 		}
 	}

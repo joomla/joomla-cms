@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,8 +23,6 @@ class ConfigControllerComponent extends JControllerLegacy
 	 * Class Constructor
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
-	 *
-	 * @return  void
 	 *
 	 * @since   1.5
 	 * @deprecated  4.0
@@ -47,7 +45,6 @@ class ConfigControllerComponent extends JControllerLegacy
 	 */
 	function cancel()
 	{
-
 		JLog::add('ConfigControllerComponent is deprecated. Use ConfigControllerComponentCancel instead.', JLog::WARNING, 'deprecated');
 
 		$controller = new ConfigControllerComponentCancel;
@@ -61,7 +58,6 @@ class ConfigControllerComponent extends JControllerLegacy
 	 */
 	public function save()
 	{
-
 		JLog::add('ConfigControllerComponent is deprecated. Use ConfigControllerComponentSave instead.', JLog::WARNING, 'deprecated');
 
 		$controller = new ConfigControllerComponentSave;

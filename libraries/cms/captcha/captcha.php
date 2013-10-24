@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Captcha
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -104,6 +104,7 @@ class JCaptcha extends JObject
 			catch (RuntimeException $e)
 			{
 				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
 				return null;
 			}
 		}
@@ -132,6 +133,7 @@ class JCaptcha extends JObject
 		catch (Exception $e)
 		{
 			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
 			return false;
 		}
 
@@ -220,10 +222,12 @@ class JCaptcha extends JObject
 
 		// Get the plugin
 		$plugin = JPluginHelper::getPlugin('captcha', $this->_name);
+
 		if (!$plugin)
 		{
 			throw new RuntimeException(JText::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
 		}
+
 		$params = new JRegistry($plugin->params);
 		$plugin->params = $params;
 

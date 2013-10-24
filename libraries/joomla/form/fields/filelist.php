@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -115,19 +115,18 @@ class JFormFieldFileList extends JFormFieldList
 	 */
 	public function __set($name, $value)
 	{
-		$value = (string) $value;
-
 		switch ($name)
 		{
 			case 'filter':
 			case 'directory':
 			case 'exclude':
-				$this->$name = $value;
+				$this->$name = (string) $value;
 				break;
 
 			case 'hideNone':
 			case 'hideDefault':
 			case 'stripExt':
+				$value = (string) $value;
 				$this->$name = ($value === 'true' || $value === $name || $value === '1');
 				break;
 

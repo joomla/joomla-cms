@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -98,8 +98,6 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 	 */
 	public function __set($name, $value)
 	{
-		$value = (string) $value;
-
 		switch ($name)
 		{
 			case 'menuType':
@@ -109,6 +107,7 @@ class JFormFieldMenuitem extends JFormFieldGroupedList
 			case 'language':
 			case 'published':
 			case 'disable':
+				$value = (string) $value;
 				$this->$name = $value ? explode(',', $value) : array();
 				break;
 

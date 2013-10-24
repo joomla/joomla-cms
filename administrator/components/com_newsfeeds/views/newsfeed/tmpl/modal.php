@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -66,6 +66,17 @@ $assoc = JLanguageAssociations::isEnabled();
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'images', JText::_('JGLOBAL_FIELDSET_IMAGE_OPTIONS', true)); ?>
+		<div class="row-fluid">
+			<div class="span6">
+					<?php echo $this->form->getControlGroup('images'); ?>
+					<?php foreach ($this->form->getGroup('images') as $field) : ?>
+						<?php echo $field->getControlGroup(); ?>
+					<?php endforeach; ?>
+				</div>
+			</div>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
+
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
 		<div class="row-fluid form-horizontal-desktop">
 			<div class="span6">
@@ -77,14 +88,12 @@ $assoc = JLanguageAssociations::isEnabled();
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'attrib-jbasic', JText::_('JGLOBAL_FIELDSET_DISPLAY_OPTIONS', true)); ?>
 		<?php echo $this->loadTemplate('display'); ?>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php $this->set('ignore_fieldsets', array('jbasic')); ?>
 		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
-
 
 		<?php if ($assoc) : ?>
 			<div class="hidden"><?php echo $this->loadTemplate('associations'); ?></div>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,13 +43,12 @@ class TemplatesController extends JControllerLegacy
 		$document = JFactory::getDocument();
 
 		// For JSON requests
-		if($document->getType() == 'json')
+		if ($document->getType() == 'json')
 		{
-
 			$view = new TemplatesViewStyle;
 
 			// Get/Create the model
-			if ($model = new TemplatesModelStyle())
+			if ($model = new TemplatesModelStyle)
 			{
 				$model->addTablePath(JPATH_ADMINISTRATOR . '/components/com_templates/tables');
 

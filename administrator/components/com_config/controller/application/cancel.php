@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,12 +16,12 @@ defined('_JEXEC') or die;
  * @subpackage  com_config
  * @since       3.2
  */
-class ConfigControllerApplicationCancel extends ConfigControllerCancel
+class ConfigControllerApplicationCancel extends ConfigControllerCanceladmin
 {
 	/**
 	 * Method to cancel global configuration.
 	 *
-	 * @return  bool	True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   3.2
 	 */
@@ -30,9 +30,8 @@ class ConfigControllerApplicationCancel extends ConfigControllerCancel
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorise('core.admin', 'com_config'))
 		{
-			JFactory::getApplication()->redirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
-
-			return;
+			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'));
+			$this->app->redirect('index.php');
 		}
 
 		$this->context = 'com_config.config.global';
@@ -40,6 +39,5 @@ class ConfigControllerApplicationCancel extends ConfigControllerCancel
 		$this->redirect = 'index.php?option=com_cpanel';
 
 		parent::execute();
-
 	}
 }

@@ -1,8 +1,9 @@
 <?php
 /**
- * @package    FrameworkOnFramework
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     FrameworkOnFramework
+ * @subpackage  table
+ * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
 defined('_JEXEC') or die;
@@ -16,14 +17,13 @@ defined('_JEXEC') or die;
 class FOFTableBehaviorAssets extends FOFTableBehavior
 {
 	/**
-	 * The event which runs before storing (saving) data to the database
+	 * The event which runs after storing (saving) data to the database
 	 *
 	 * @param   FOFTable  &$table       The table which calls this event
-	 * @param   boolean   $updateNulls  Should nulls be saved as nulls (true) or just skipped over (false)?
 	 *
 	 * @return  boolean  True to allow saving
 	 */
-	public function onBeforeStore(&$table, $updateNulls)
+	public function onAfterStore(&$table)
 	{
 		$result = true;
 
@@ -52,16 +52,23 @@ class FOFTableBehaviorAssets extends FOFTableBehavior
 			unset($fields[$asset_id_field]);
 		}
 
-		/*
-		 * Asset Tracking
-		 */
+		// Asset Tracking
 		if (in_array($asset_id_field, $table->getKnownFields()) && $table->isAssetsTracked())
 		{
 			$parentId = $table->getAssetParentId();
-			$name     = $table->getAssetName();
+
+            try{
+                $name     = $table->getAssetName();
+            }
+            catch(Exception $e)
+            {
+                $table->setError($e->getMessage());
+                return false;
+            }
+
 			$title    = $table->getAssetTitle();
 
-			$asset = JTable::getInstance('Asset', 'JTable', array('dbo' => $table->getDbo()));
+			$asset = JTable::getInstance('Asset');
 			$asset->loadByName($name);
 
 			// Re-inject the asset id.
@@ -70,14 +77,18 @@ class FOFTableBehaviorAssets extends FOFTableBehavior
 			// Check for an error.
 			$error = $asset->getError();
 
+            // Since we are using JTable, there is no way to mock it and test for failures :(
+            // @codeCoverageIgnoreStart
 			if ($error)
 			{
 				$table->setError($error);
 
 				return false;
 			}
+            // @codeCoverageIgnoreEnd
 
 			// Specify how a new or moved node asset is inserted into the tree.
+            // Since we're unsetting the table field before, this statement is always true...
 			if (empty($table->$asset_id_field) || $asset->parent_id != $parentId)
 			{
 				$asset->setLocation($parentId, 'last-child');
@@ -93,12 +104,15 @@ class FOFTableBehaviorAssets extends FOFTableBehavior
 				$asset->rules = (string) $table->getRules();
 			}
 
-			if (!$asset->check() || !$asset->store($updateNulls))
+            // Since we are using JTable, there is no way to mock it and test for failures :(
+            // @codeCoverageIgnoreStart
+			if (!$asset->check() || !$asset->store())
 			{
 				$table->setError($asset->getError());
 
 				return false;
 			}
+            // @codeCoverageIgnoreEnd
 
 			// Create an asset_id or heal one that is corrupted.
 			if (empty($table->$asset_id_field) || (($currentAssetId != $table->$asset_id_field) && !empty($table->$asset_id_field)))
@@ -108,13 +122,14 @@ class FOFTableBehaviorAssets extends FOFTableBehavior
 
 				$k = $table->getKeyName();
 
-				$query = $table->getDbo()->getQuery(true);
-				$query->update($table->getDbo()->qn($table->getTableName()));
-				$query->set('asset_id = ' . (int) $table->$asset_id_field);
-				$query->where($table->getDbo()->qn($k) . ' = ' . (int) $table->$k);
-				$table->getDbo()->setQuery($query);
+                $db = $table->getDbo();
 
-				$table->getDbo()->execute();
+				$query = $db->getQuery(true)
+				            ->update($db->qn($table->getTableName()))
+				            ->set($db->qn($asset_id_field).' = ' . (int) $table->$asset_id_field)
+				            ->where($db->qn($k) . ' = ' . (int) $table->$k);
+
+				$db->setQuery($query)->execute();
 			}
 
 			$result = true;
@@ -139,7 +154,26 @@ class FOFTableBehaviorAssets extends FOFTableBehavior
 			// Bind the rules.
 			if (isset($src['rules']) && is_array($src['rules']))
 			{
-				$table->setRules($src['rules']);
+                // We have to manually remove any empty value, since they will be converted to int,
+                // and "Inherited" values will become "Denied". Joomla is doing this manually, too.
+                // @todo Should we move this logic inside the setRules method?
+                $rules = array();
+
+                foreach ($src['rules'] as $action => $ids)
+                {
+                    // Build the rules array.
+                    $rules[$action] = array();
+
+                    foreach ($ids as $id => $p)
+                    {
+                        if ($p !== '')
+                        {
+                            $rules[$action][$id] = ($p == '1' || $p == 'true') ? true : false;
+                        }
+                    }
+                }
+
+				$table->setRules($rules);
 			}
 		}
 
@@ -159,27 +193,45 @@ class FOFTableBehaviorAssets extends FOFTableBehavior
 		// If tracking assets, remove the asset first.
 		if ($table->isAssetsTracked())
 		{
-			// Get and the asset name.
-			$table->$k 	= $pk;
-			$name    	= $table->getAssetName();
+            $k = $table->getKeyName();
+
+            // If the table is not loaded, let's try to load it with the id
+            if(!$table->$k)
+            {
+                $table->load($oid);
+            }
+
+            // If I have an invalid assetName I have to stop
+            try
+            {
+                $name = $table->getAssetName();
+            }
+            catch(Exception $e)
+            {
+                $table->setError($e->getMessage());
+                return false;
+            }
 
 			// Do NOT touch JTable here -- we are loading the core asset table which is a JTable, not a FOFTable
-			$asset    = JTable::getInstance('Asset');
+			$asset = JTable::getInstance('Asset');
 
 			if ($asset->loadByName($name))
 			{
+                // Since we are using JTable, there is no way to mock it and test for failures :(
+                // @codeCoverageIgnoreStart
 				if (!$asset->delete())
 				{
 					$table->setError($asset->getError());
 
 					return false;
 				}
+                // @codeCoverageIgnoreEnd
 			}
 			else
 			{
-				$table->setError($asset->getError());
-
-				return false;
+                // I'll simply return true even if I couldn't load the asset. In this way I can still
+                // delete a broken record
+				return true;
 			}
 		}
 

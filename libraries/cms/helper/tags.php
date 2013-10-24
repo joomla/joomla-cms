@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -36,7 +36,7 @@ class JHelperTags extends JHelper
 	protected $replaceTags = false;
 
 	/**
-	 * Alias for quering mapping and content type table.
+	 * Alias for querying mapping and content type table.
 	 *
 	 * @var    string
 	 * @since  3.1
@@ -234,7 +234,6 @@ class JHelperTags extends JHelper
 						}
 					}
 				}
-
 			}
 
 			// At this point $tags is an array of all tag ids
@@ -323,7 +322,6 @@ class JHelperTags extends JHelper
 						}
 					}
 				}
-
 			}
 
 			// At this point $tags is an array of all tag ids
@@ -776,9 +774,9 @@ class JHelperTags extends JHelper
 		$result = true;
 
 		// Process ucm_content and ucm_base if either tags have changed or we have some tags.
-		if ($this->tagsChanged || $newTags)
+		if ($this->tagsChanged || (!empty($newTags) && $newTags[0] != ''))
 		{
-			if (!$newTags)
+			if (!$newTags && $replace = true)
 			{
 				// Delete all tags data
 				$key = $table->getKeyName();
@@ -837,10 +835,14 @@ class JHelperTags extends JHelper
 		}
 
 		// New items with no tags bypass this step.
-		if ((!empty($newTags) || (isset($newTags[0]) && $newTags[0] != '')) || isset($this->oldTags))
+		if ((!empty($newTags) && is_string($newTags) || (isset($newTags[0]) && $newTags[0] != '')) || isset($this->oldTags))
 		{
+			if (is_array($newTags))
+			{
+				$newTags = implode(',', $newTags);
+			}
 			// We need to process tags if the tags have changed or if we have a new row
-			$this->tagsChanged = ($this->oldTags != $newTags) || !$table->$key;
+			$this->tagsChanged = (empty($this->oldTags) && !empty($newTags)) ||(!empty($this->oldTags) && $this->oldTags != $newTags) || !$table->$key;
 		}
 	}
 
@@ -991,7 +993,7 @@ class JHelperTags extends JHelper
 			}
 		}
 
-		if (is_array($newTags) && count($newTags) > 0)
+		if (is_array($newTags) && count($newTags) > 0 && $newTags[0] != '')
 		{
 			$result = $result && $this->addTagMapping($ucmId, $table, $newTags);
 		}

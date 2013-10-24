@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Registry
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -57,9 +57,9 @@ class JRegistryFormatXMLTest extends PHPUnit_Framework_TestCase
 			"</registry>\n";
 
 		// Test basic object to string.
-		$this->assertThat(
+		$this->assertXmlStringEqualsXmlString(
 			$class->objectToString($object, $options),
-			$this->equalTo($string)
+			$string
 		);
 	}
 

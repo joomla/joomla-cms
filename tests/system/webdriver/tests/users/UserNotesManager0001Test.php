@@ -55,6 +55,11 @@ class UserNotesManager0001Test extends JoomlaWebdriverTestCase
 		$testElements = $userNotesEditPage->getAllInputFields();
 		$actualFields = $this->getActualFieldsFromElements($testElements);
 
+		// Option to print actual element array
+		/* @var $userNotesEditPage UserNotesEditPage */
+		// 	 	$userNotesEditPage->printFieldArray($userNotesEditPage->getAllInputFields($$userNotesEditPage->tabs));
+
+
 		$this->assertEquals($userNotesEditPage->inputFields, $actualFields);
 		$userNotesEditPage->clickButton('toolbar-cancel');
 		$this->userNotesManagerPage = $this->getPageObject('UserNotesManagerPage');

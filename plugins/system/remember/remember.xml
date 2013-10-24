@@ -3,7 +3,7 @@
 	<name>plg_system_remember</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2007</creationDate>
-	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -23,7 +23,6 @@
 				<field name="cookie_lifetime" type="text"
 					description="PLG_SYSTEM_REMEMBER_FIELD_COOKIE_LIFETIME_DESC"
 					label="PLG_SYSTEM_REMEMBER_FIELD_COOKIE_LIFETIME_LABEL"
-					class="btn-group"
 					default="60"
 					filter="integer"
 					required="required"
@@ -32,7 +31,6 @@
 				<field name="key_length" type="list"
 					description="PLG_SYSTEM_REMEMBER_FIELD_KEY_LENGTH_DESC"
 					label="PLG_SYSTEM_REMEMBER_FIELD_KEY_LENGTH_LABEL"
-					class="btn-group"
 					default="16"
 					filter="integer"
 					required="required">

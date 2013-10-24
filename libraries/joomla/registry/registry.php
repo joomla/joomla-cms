@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Registry
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -358,7 +358,7 @@ class JRegistry implements JsonSerializable
 					$node->$nodes[$i] = new stdClass;
 				}
 
-				$node = $node->$nodes[$i];
+				$node = (object) $node->$nodes[$i];
 			}
 
 			// Get the old value if exists so we can return it

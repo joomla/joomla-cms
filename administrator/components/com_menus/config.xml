@@ -20,8 +20,8 @@
 			default="0"
 			filter="integer"
 			>
-			<option value="0" class="no">JNO</option>
-			<option value="1" class="yes">JYES</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 		<field
 			name="page_heading"

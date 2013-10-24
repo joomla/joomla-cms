@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.protostar
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,14 +41,18 @@ JHtml::_('bootstrap.framework');
 $user = JFactory::getUser();
 
 
-// Logo file
+// Logo file or site title param
 if ($params->get('logoFile'))
 {
-	$logo = JUri::root() . $params->get('logoFile');
+	$logo = '<img src="'. JUri::root() . $params->get('logoFile') .'" alt="'. $sitename .'" />';
+}
+elseif ($params->get('sitetitle'))
+{
+	$logo = '<span class="site-title" title="'. $sitename .'">'. htmlspecialchars($params->get('sitetitle')) .'</span>';
 }
 else
 {
-	$logo = $this->baseurl . "/templates/" . $this->template . "/images/logo.png";
+	$logo = '<span class="site-title" title="'. $sitename .'">'. $sitename .'</span>';
 }
 ?>
 <!DOCTYPE html>
@@ -57,6 +61,20 @@ else
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title><?php echo $this->title; ?> <?php echo htmlspecialchars($this->error->getMessage()); ?></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<?php
+		// Use of Google Font
+		if ($params->get('googleFont'))
+		{
+	?>
+		<link href='//fonts.googleapis.com/css?family=<?php echo $params->get('googleFontName');?>' rel='stylesheet' type='text/css' />
+		<style type="text/css">
+			h1,h2,h3,h4,h5,h6,.site-title{
+				font-family: '<?php echo str_replace('+', ' ', $params->get('googleFontName'));?>', sans-serif;
+			}
+		</style>
+	<?php
+		}
+	?>
 	<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/template.css" type="text/css" />
 
 	<?php
@@ -74,13 +92,6 @@ else
 	{
 	?>
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/media/jui/css/bootstrap-rtl.css" type="text/css" />
-	<?php
-	}
-	// Use of Google Font
-	if ($params->get('googleFont'))
-	{
-	?>
-		<link href='//fonts.googleapis.com/css?family=<?php echo $params->get('googleFontName');?>' rel='stylesheet' type='text/css'>
 	<?php
 	}
 	?>
@@ -134,7 +145,7 @@ else
 			<div class="header">
 				<div class="header-inner clearfix">
 					<a class="brand pull-left" href="<?php echo $this->baseurl; ?>">
-						<img src="<?php echo $logo;?>" alt="<?php echo $sitename; ?>" />
+						<?php echo $logo;?>
 					</a>
 					<div class="header-search pull-right">
 						<?php

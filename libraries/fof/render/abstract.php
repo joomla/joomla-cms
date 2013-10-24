@@ -1,8 +1,9 @@
 <?php
 /**
- * @package    FrameworkOnFramework
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     FrameworkOnFramework
+ * @subpackage  render
+ * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
 
@@ -134,7 +135,7 @@ abstract class FOFRenderAbstract
 	 *				JError::raiseError('500', 'FOF is not installed');
 	 *			}
 	 *
-	 *			if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'ge'))
+	 *			if (version_compare(JVERSION, '3.0', 'ge'))
 	 *			{
 	 *				$strapper = new FOFRenderJoomla3;
 	 *			}

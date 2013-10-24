@@ -3,7 +3,7 @@
 	<name>plg_authentication_gmail</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -43,8 +43,8 @@
 					description="PLG_GMAIL_FIELD_VERIFYPEER_DESC"
 					label="PLG_GMAIL_FIELD_VERIFYPEER_LABEL"
 				>
-					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field name="user_blacklist" type="text"

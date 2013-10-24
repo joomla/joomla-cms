@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,13 +16,16 @@ require_once __DIR__ . '/articles.php';
  *
  * @package     Joomla.Administrator
  * @subpackage  com_content
+ *
+ * @since       1.6
  */
 class ContentModelFeatured extends ContentModelArticles
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
 	 * @see     JController
 	 * @since   1.6
 	 */
@@ -49,6 +52,11 @@ class ContentModelFeatured extends ContentModelArticles
 				'publish_up', 'a.publish_up',
 				'publish_down', 'a.publish_down',
 				'fp.ordering',
+				'published', 'a.published',
+				'author_id',
+				'category_id',
+				'level',
+				'tag'
 			);
 		}
 
@@ -56,9 +64,13 @@ class ContentModelFeatured extends ContentModelArticles
 	}
 
 	/**
-	 * @param   boolean    True to join selected foreign information
+	 * Build an SQL query to load the list data.
+	 *
+	 * @param   boolean  $resolveFKs  True to join selected foreign information
 	 *
 	 * @return  string
+	 *
+	 * @since   1.6
 	 */
 	protected function getListQuery($resolveFKs = true)
 	{
@@ -108,6 +120,7 @@ class ContentModelFeatured extends ContentModelArticles
 
 		// Filter by published state
 		$published = $this->getState('filter.published');
+
 		if (is_numeric($published))
 		{
 			$query->where('a.state = ' . (int) $published);
@@ -120,6 +133,7 @@ class ContentModelFeatured extends ContentModelArticles
 		// Filter by a single or group of categories.
 		$baselevel = 1;
 		$categoryId = $this->getState('filter.category_id');
+
 		if (is_numeric($categoryId))
 		{
 			$cat_tbl = JTable::getInstance('Category', 'JTable');
@@ -143,8 +157,17 @@ class ContentModelFeatured extends ContentModelArticles
 			$query->where('c.level <= ' . ((int) $level + (int) $baselevel - 1));
 		}
 
-		// Filter by search in title
+		// Filter by author
+		$authorId = $this->getState('filter.author_id');
+		if (is_numeric($authorId))
+		{
+			$type = $this->getState('filter.author_id.include', true) ? '= ' : '<>';
+			$query->where('a.created_by ' . $type . (int) $authorId);
+		}
+
+		// Filter by search in title.
 		$search = $this->getState('filter.search');
+
 		if (!empty($search))
 		{
 			if (stripos($search, 'id:') === 0)
@@ -164,10 +187,22 @@ class ContentModelFeatured extends ContentModelArticles
 			$query->where('a.language = ' . $db->quote($language));
 		}
 
+		// Filter by a single tag.
+		$tagId = $this->getState('filter.tag');
+
+		if (is_numeric($tagId))
+		{
+			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId)
+				->join(
+					'LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
+					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article')
+				);
+		}
+
 		// Add the list ordering clause.
 		$query->order($db->escape($this->getState('list.ordering', 'a.title')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
-		//echo nl2br(str_replace('#__','jos_',(string)$query));
 		return $query;
 	}
 }

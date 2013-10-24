@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -153,7 +153,7 @@ if($this->type == 'image')
 					<p><?php echo JText::sprintf('COM_TEMPLATES_MODAL_FILE_DELETE', $this->fileName); ?></p>
 				</div>
 				<div class="modal-footer">
-					<a href="#" data-dismiss="modal">Close</a>
+					<a href="#" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
 					<a href="<?php echo JRoute::_('index.php?option=com_templates&task=template.delete&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"><?php echo JText::_('COM_TEMPLATES_BUTTON_DELETE');?></a>
 				</div>
 			</fieldset>
@@ -181,7 +181,7 @@ if($this->type == 'image')
 			<div class="modal-footer">
 				<form id="deleteFolder" method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.deleteFolder&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
 					<fieldset>
-						<a href="#" class="btn" data-dismiss="modal">Close</a>
+						<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
 						<input type="hidden" class="address" name="address" />
 						<input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_DELETE');?>" class="btn btn-danger" />
 					</fieldset>
@@ -247,7 +247,7 @@ if($this->type == 'image')
 				</div>
 			</div>
 			<div class="modal-footer">
-				<a href="#" class="btn" data-dismiss="modal">Close</a>
+				<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
 			</div>
 		</fieldset>
 	</div>
@@ -276,7 +276,7 @@ if($this->type == 'image')
 					</div>
 				</div>
 				<div class="modal-footer">
-					<a href="#" class="btn" data-dismiss="modal">Close</a>
+					<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
 					<button class="btn btn-primary" type="submit"><?php echo JText::_('COM_TEMPLATES_BUTTON_RESIZE'); ?></button>
 				</div>
 			</div>

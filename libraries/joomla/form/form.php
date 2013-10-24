@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -1284,8 +1284,12 @@ class JForm
 					return false;
 				}
 
+				// This cleans some of the more dangerous characters but leaves special characters that are valid.
 				$value = JFilterInput::getInstance()->clean($value, 'html');
 				$value = trim($value);
+
+				// <>" are never valid in a uri see http://www.ietf.org/rfc/rfc1738.txt.
+				$value = str_replace(array('<', '>', '"'), '', $value);
 
 				// Check for a protocol
 				$protocol = parse_url($value, PHP_URL_SCHEME);

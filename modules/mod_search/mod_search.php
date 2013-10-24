@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_search
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,8 +25,8 @@ if ($params->get('opensearch', 1))
 
 $upper_limit = $lang->getUpperLimitSearchWord();
 
-$button			= $params->get('button', '');
-$imagebutton	= $params->get('imagebutton', '');
+$button			= $params->get('button', 0);
+$imagebutton	= $params->get('imagebutton', 0);
 $button_pos		= $params->get('button_pos', 'left');
 $button_text	= htmlspecialchars($params->get('button_text', JText::_('MOD_SEARCH_SEARCHBUTTON_TEXT')));
 $width			= (int) $params->get('width', 20);

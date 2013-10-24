@@ -18,6 +18,7 @@
  <exclude-pattern type="relative">libraries/phputf8/*</exclude-pattern>
  <exclude-pattern type="relative">libraries/simplepie/*</exclude-pattern>
  <exclude-pattern type="relative">libraries/phpmailer/*</exclude-pattern>
+ <exclude-pattern type="relative">libraries/phpass/*</exclude-pattern>
 
  <exclude-pattern type="relative">administrator/components/com_joomlaupdate/restore.php</exclude-pattern>
  <exclude-pattern type="relative">configuration.php</exclude-pattern>

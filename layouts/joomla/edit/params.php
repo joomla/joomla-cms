@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,11 +27,24 @@ $ignoreFieldsets = $displayData->get('ignore_fieldsets') ?: array();
 $ignoreFields = $displayData->get('ignore_fields') ?: array();
 $extraFields = $displayData->get('extra_fields') ?: array();
 
+if (!empty($displayData->hiddenFieldsets))
+{
+	// These are required to preserve data on save when fields are not displayed.
+	$hiddenFieldsets = $displayData->hiddenFieldsets ?: array();
+}
+
+if (!empty($displayData->configFieldsets))
+{
+	// These are required to configure showing and hiding fields in the editor.
+	$configFieldsets = $displayData->configFieldsets ?: array();
+}
+
 if ($displayData->get('show_options', 1))
 {
 	foreach ($fieldSets as $name => $fieldSet)
 	{
-		if (in_array($name, $ignoreFieldsets))
+		if (in_array($name, $ignoreFieldsets) || (!empty($configFieldsets) && in_array($name, $configFieldsets))
+				|| !empty($hiddenFieldsets) && in_array($name, $hiddenFieldsets))
 		{
 			continue;
 		}
@@ -69,9 +82,12 @@ else
 			continue;
 		}
 
-		foreach ($form->getFieldset($name) as $field)
+		if (in_array($name, $hiddenFieldsets))
 		{
-			$html[] = $field->input;
+			foreach ($form->getFieldset($name) as $field)
+			{
+				echo $field->input;
+			}
 		}
 	}
 	$html[] = '</div>';
