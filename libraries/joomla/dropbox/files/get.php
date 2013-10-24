@@ -24,7 +24,7 @@ class JDropboxFilesGet extends JDropboxFiles
 	 * @param   string  $root              The root relative to which path is specified.
 	 *                                     Valid values are sandbox and dropbox.
 	 * @param   string  $path              The path to the file you want to retrieve.
-	 * @param   string  $localFileHandler  The path to the file you want to retrieve.
+	 * @param   string  $localFileHandler  A handler for the file you want to write to.
 	 * @param   string  $rev               The revision of the file to retrieve.
 	 *                                     This defaults to the most recent revision.
 	 *
@@ -43,14 +43,8 @@ class JDropboxFilesGet extends JDropboxFiles
 			$url .= "?rev=" . $rev;
 		}
 
-		// Creates an array with the default Host and Authorization headers
-		$headers = $this->getDefaultHeaders();
-
-		// Send the http request
-		$response = $this->client->get($url, $headers);
-
 		// Process the response
-		$fileBody = $this->processResponse($response, true);
+		$fileBody = $this->commonGetOperations($url, true);
 
 		if (empty($localFileHandler))
 		{
@@ -68,13 +62,15 @@ class JDropboxFilesGet extends JDropboxFiles
 		}
 
 		fclose($localFileHandler);
+
 		return $message;
 	}
 
 	/**
 	 * Retrieves file and folder metadata.
 	 *
-	 * @param   string  $root    The root relative to which path is specified. Valid values are sandbox and dropbox.
+	 * @param   string  $root    The root relative to which path is specified.
+	 *                           Valid values are sandbox and dropbox.
 	 * @param   string  $path    The path to the file you want to retrieve.
 	 * @param   array   $params  The parameters to be used in the request.
 	 *
@@ -96,7 +92,8 @@ class JDropboxFilesGet extends JDropboxFiles
 	/**
 	 * Obtains metadata for the previous revisions of a file.
 	 *
-	 * @param   string  $root    The root relative to which path is specified. Valid values are sandbox and dropbox.
+	 * @param   string  $root    The root relative to which path is specified.
+	 *                           Valid values are sandbox and dropbox.
 	 * @param   string  $path    The path to the file you want to retrieve.
 	 * @param   array   $params  The parameters to be used in the request.
 	 *
@@ -116,11 +113,14 @@ class JDropboxFilesGet extends JDropboxFiles
 	}
 
 	/**
-	 * Returns metadata for all files and folders whose filename contains the given search string as a substring.
-	 * Searches are limited to the folder path and its sub-folder hierarchy provided in the call.
+	 * Returns metadata for all files and folders whose filename contains the
+	 * given search string as a substring.
+	 * Searches are limited to the folder path and its sub-folder hierarchy
+	 * provided in the call.
 	 *
-	 * @param   string  $root    The root relative to which path is specified. Valid values are sandbox and dropbox.
-	 * @param   string  $path    The path to the file you want to retrieve.
+	 * @param   string  $root    The root relative to which path is specified.
+	 *                           Valid values are sandbox and dropbox.
+	 * @param   string  $path    The path to the folder you want to search from.
 	 * @param   array   $params  The parameters to be used in the request.
 	 *
 	 * @throws DomainException
@@ -142,8 +142,9 @@ class JDropboxFilesGet extends JDropboxFiles
 	 * Creates and returns a copy_ref to a file. This reference string can be used to copy that file
 	 * to another user's Dropbox by passing it in as the from_copy_ref parameter on fileopsCopy.
 	 *
-	 * @param   string  $root  The root relative to which path is specified. Valid values are sandbox and dropbox.
-	 * @param   string  $path  The path to the file you want to retrieve.
+	 * @param   string  $root  The root relative to which path is specified.
+	 *                         Valid values are sandbox and dropbox.
+	 * @param   string  $path  The path to the file you want a copy_ref to refer to.
 	 *
 	 * @throws DomainException
 	 *
@@ -162,9 +163,11 @@ class JDropboxFilesGet extends JDropboxFiles
 	/**
 	 * Gets a thumbnail for an image.
 	 *
-	 * @param   string  $root    The root relative to which path is specified. Valid values are sandbox and dropbox.
-	 * @param   string  $path    The path to the file you want to retrieve.
-	 * @param   array   $params  The parameters to be used in the request.
+	 * @param   string  $root              The root relative to which path is specified.
+	 *                                     Valid values are sandbox and dropbox.
+	 * @param   string  $path              The path to the file you want to thumbnail.
+	 * @param   array   $params            The parameters to be used in the request.
+	 * @param   string  $localFileHandler  A handler for the file you want to write to.
 	 *
 	 * @throws DomainException
 	 *
@@ -172,12 +175,31 @@ class JDropboxFilesGet extends JDropboxFiles
 	 *
 	 * @since   ??.?
 	 */
-	public function getThumbnails($root, $path, $params = array())
+	public function getThumbnail($root, $path, $params = array(), $localFileHandler = null)
 	{
 		$url = "https://" . $this->options->get("api.content") . "/1/thumbnails/" . $root . "/" . $path;
 		$url .= $this->createParamsString($params);
 
-		// Create the request, send it and process the response
-		return $this->commonGetOperations($url);
+		// Process the response
+		$fileBody = $this->commonGetOperations($url, true);
+
+		if (empty($localFileHandler))
+		{
+			return $fileBody;
+		}
+
+		// Write output to file
+		if (fwrite($localFileHandler, $fileBody))
+		{
+			$message = "The thumbnail was successfully downloaded.";
+		}
+		else
+		{
+			$message = "The thumbnail could not be written.";
+		}
+
+		fclose($localFileHandler);
+
+		return $message;
 	}
 }
