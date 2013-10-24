@@ -793,7 +793,8 @@ INSERT IGNORE INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
 (2, 'Registered', 1, '[6,2,8]'),
 (3, 'Special', 2, '[6,3,8]'),
 (4, 'Customer Access Level (Example)', 3, '[6,3,12]'),
-(5, 'Guest', 0, '[13]');
+(5, 'Guest', 0, '[13]'),
+(6, 'Super Users', 0, '[8]');
 
 INSERT IGNORE INTO `#__weblinks` (`id`, `catid`, `title`, `alias`, `url`, `description`, `hits`, `state`, `checked_out`, `checked_out_time`, `ordering`, `access`, `params`, `language`, `created`, `created_by`, `created_by_alias`, `modified`, `modified_by`, `metakey`, `metadesc`, `metadata`, `featured`, `xreference`, `publish_up`, `publish_down`, `version`, `images`) VALUES
 (1, 32, 'Joomla!', 'joomla', 'http://www.joomla.org', '<p>Home of Joomla!</p>', 0, 1, 0, '0000-00-00 00:00:00', 1, 1, '{"target":"0","count_clicks":""}', 'en-GB', '2011-01-01 00:00:01', 42, 'Joomla', '0000-00-00 00:00:00', 0, '', '', '{"robots":"","author":"","rights":""}', 0, '', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, ''),

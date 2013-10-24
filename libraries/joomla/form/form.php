@@ -647,7 +647,7 @@ class JForm
 	/**
 	 * Method to get all control groups with label and input of a fieldset.
 	 *
-	 * @param   string  $name     The name of the fieldset for which to get the values.
+	 * @param   string  $name  The name of the fieldset for which to get the values.
 	 *
 	 * @return  string  A string containing the html for the control goups
 	 *
@@ -662,6 +662,7 @@ class JForm
 		{
 			$html[] = $field->getControlGroup();
 		}
+
 		return implode('', $html);
 	}
 

@@ -87,7 +87,7 @@ class WeblinksViewWeblink extends JViewLegacy
 			{
 				JToolbarHelper::versions('com_weblinks.weblink', $this->item->id);
 			}
-			
+
 			JToolbarHelper::cancel('weblink.cancel', 'JTOOLBAR_CLOSE');
 		}
 

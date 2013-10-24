@@ -27,6 +27,8 @@ abstract class JHtmlActionsDropdown
 	/**
 	 * Method to render current dropdown menu
 	 *
+	 * @param   string  $item  An item to render.
+	 *
 	 * @return  string  HTML markup for the dropdown list
 	 *
 	 * @since   3.2
@@ -59,6 +61,8 @@ abstract class JHtmlActionsDropdown
 	 * @param   string  $id      ID of corresponding checkbox of the record
 	 * @param   string  $prefix  The task prefix
 	 *
+	 * @return  void
+	 *
 	 * @since   3.2
 	 */
 	public static function publish($id, $prefix = '')
@@ -72,6 +76,8 @@ abstract class JHtmlActionsDropdown
 	 *
 	 * @param   string  $id      ID of corresponding checkbox of the record
 	 * @param   string  $prefix  The task prefix
+	 *
+	 * @return  void
 	 *
 	 * @since   3.2
 	 */
@@ -87,6 +93,8 @@ abstract class JHtmlActionsDropdown
 	 * @param   string  $id      ID of corresponding checkbox of the record
 	 * @param   string  $prefix  The task prefix
 	 *
+	 * @return  void
+	 *
 	 * @since   3.2
 	 */
 	public static function feature($id, $prefix = '')
@@ -100,6 +108,8 @@ abstract class JHtmlActionsDropdown
 	 *
 	 * @param   string  $id      ID of corresponding checkbox of the record
 	 * @param   string  $prefix  The task prefix
+	 *
+	 * @return  void
 	 *
 	 * @since   3.2
 	 */
@@ -115,6 +125,8 @@ abstract class JHtmlActionsDropdown
 	 * @param   string  $id      ID of corresponding checkbox of the record
 	 * @param   string  $prefix  The task prefix
 	 *
+	 * @return  void
+	 *
 	 * @since   3.2
 	 */
 	public static function archive($id, $prefix = '')
@@ -128,6 +140,8 @@ abstract class JHtmlActionsDropdown
 	 *
 	 * @param   string  $id      ID of corresponding checkbox of the record
 	 * @param   string  $prefix  The task prefix
+	 *
+	 * @return  void
 	 *
 	 * @since   3.2
 	 */
@@ -143,6 +157,8 @@ abstract class JHtmlActionsDropdown
 	 * @param   string  $id      ID of corresponding checkbox of the record
 	 * @param   string  $prefix  The task prefix
 	 *
+	 * @return  void
+	 *
 	 * @since   3.2
 	 */
 	public static function duplicate($id, $prefix = '')
@@ -156,6 +172,8 @@ abstract class JHtmlActionsDropdown
 	 *
 	 * @param   string  $id      ID of corresponding checkbox of the record
 	 * @param   string  $prefix  The task prefix
+	 *
+	 * @return  void
 	 *
 	 * @since   3.2
 	 */
@@ -171,6 +189,8 @@ abstract class JHtmlActionsDropdown
 	 * @param   string  $id      ID of corresponding checkbox of the record
 	 * @param   string  $prefix  The task prefix
 	 *
+	 * @return  void
+	 *
 	 * @since   3.2
 	 */
 	public static function untrash($id, $prefix = '')
@@ -181,6 +201,8 @@ abstract class JHtmlActionsDropdown
 	/**
 	 * Writes a divider between dropdown items
 	 *
+	 * @return  void
+	 *
 	 * @since   3.0
 	 */
 	public static function divider()
@@ -189,12 +211,14 @@ abstract class JHtmlActionsDropdown
 	}
 
 	/**
-	 * Append a custom item to current dropdown menu
+	 * Append a custom item to current dropdown menu.
 	 *
-	 * @param   string   $label           The label of item
-	 * @param   string   $icon            The icon classname
-	 * @param   string   $link            The link of item
-	 * @param   string   $linkAttributes  Custom link attributes
+	 * @param   string  $label  The label of the item.
+	 * @param   string  $icon   The icon classname.
+	 * @param   string  $id     The item id.
+	 * @param   string  $task   The task.
+	 *
+	 * @return  void
 	 *
 	 * @since   3.2
 	 */

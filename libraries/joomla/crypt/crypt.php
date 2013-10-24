@@ -129,7 +129,7 @@ class JCrypt
 		$sslStr = '';
 
 		/*
-		 * if a secure randomness generator exists and we don't
+		 * If a secure randomness generator exists and we don't
 		 * have a buggy PHP version use it.
 		 */
 		if (function_exists('openssl_random_pseudo_bytes')
@@ -321,6 +321,14 @@ class JCrypt
 				$hash = '$2y$04$usesomesillystringfore7hnbRJHxXVLeakoG8K30oukPsA.ztMG';
 				$test = crypt("password", $hash);
 				$pass = ($test == $hash);
+
+				// Test to allow for for Debian backport of bcrypt the 5.3.7 fix.
+				// See https://github.com/ircmaxell/password_compat/pull/34#issuecomment-26648055
+				if(crypt('éàèç', '$2a$05$0123456789012345678901$') === crypt('éàèç', '$2x$05$0123456789012345678901$'))
+				{
+					// $2a$ is insecure.
+					$pass = false;
+				}
 			}
 
 			if ($pass && !defined('PASSWORD_DEFAULT'))

@@ -129,8 +129,6 @@ class JFormFieldMedia extends JFormField
 	 */
 	public function __set($name, $value)
 	{
-		$value = (string) $value;
-
 		switch ($name)
 		{
 			case 'authorField':

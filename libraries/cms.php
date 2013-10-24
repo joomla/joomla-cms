@@ -58,5 +58,6 @@ JLoader::register('JInstallerPackage',  JPATH_PLATFORM . '/cms/installer/adapter
 JLoader::register('JInstallerPlugin',  JPATH_PLATFORM . '/cms/installer/adapter/plugin.php');
 JLoader::register('JInstallerTemplate',  JPATH_PLATFORM . '/cms/installer/adapter/template.php');
 JLoader::register('JExtension',  JPATH_PLATFORM . '/cms/installer/extension.php');
+JLoader::registerAlias('JAdministrator',  'JApplicationAdministrator');
+JLoader::registerAlias('JSite',  'JApplicationSite');
 
-require_once JPATH_LIBRARIES . '/framework/aliases.php';
