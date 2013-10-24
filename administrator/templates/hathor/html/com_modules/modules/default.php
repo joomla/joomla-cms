@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('behavior.multiselect');
+JHtml::_('behavior.modal');
 
 $client 	= $this->state->get('filter.client_id') ? 'administrator' : 'site';
 $user 		= JFactory::getUser();

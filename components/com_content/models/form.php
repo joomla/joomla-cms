@@ -22,9 +22,18 @@ require_once JPATH_ADMINISTRATOR.'/components/com_content/models/article.php';
 class ContentModelForm extends ContentModelArticle
 {
 	/**
+	 * Model typeAlias string. Used for version history.
+	 *
+	 * @var        string
+	 */
+	public $typeAlias = 'com_content.article';
+
+	/**
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -51,13 +60,12 @@ class ContentModelForm extends ContentModelArticle
 	/**
 	 * Method to get article data.
 	 *
-	 * @param   integer	The id of the article.
+	 * @param   integer  $itemId  The id of the article.
 	 *
 	 * @return  mixed  Content item data object on success, false on failure.
 	 */
 	public function getItem($itemId = null)
 	{
-
 		$itemId = (int) (!empty($itemId)) ? $itemId : $this->getState('article.id');
 
 		// Get a row instance.
@@ -70,6 +78,7 @@ class ContentModelForm extends ContentModelArticle
 		if ($return === false && $table->getError())
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
@@ -83,13 +92,14 @@ class ContentModelForm extends ContentModelArticle
 		// Compute selected asset permissions.
 		$user	= JFactory::getUser();
 		$userId	= $user->get('id');
-		$asset	= 'com_content.article.'. $value->id;
+		$asset	= 'com_content.article.' . $value->id;
 
 		// Check general edit permission first.
 		if ($user->authorise('core.edit', $asset))
 		{
 			$value->params->set('access-edit', true);
 		}
+
 		// Now check if edit.own is available.
 		elseif (!empty($userId) && $user->authorise('core.edit.own', $asset))
 		{
@@ -113,7 +123,7 @@ class ContentModelForm extends ContentModelArticle
 
 			if ($catId)
 			{
-				$value->params->set('access-change', $user->authorise('core.edit.state', 'com_content.category.'.$catId));
+				$value->params->set('access-change', $user->authorise('core.edit.state', 'com_content.category.' . $catId));
 				$value->catid = $catId;
 			}
 			else
@@ -123,9 +133,10 @@ class ContentModelForm extends ContentModelArticle
 		}
 
 		$value->articletext = $value->introtext;
+
 		if (!empty($value->fulltext))
 		{
-			$value->articletext .= '<hr id="system-readmore" />'.$value->fulltext;
+			$value->articletext .= '<hr id="system-readmore" />' . $value->fulltext;
 		}
 
 		// Convert the metadata field to an array.
@@ -147,6 +158,7 @@ class ContentModelForm extends ContentModelArticle
 	 * Get the return URL.
 	 *
 	 * @return  string	The return URL.
+	 *
 	 * @since   1.6
 	 */
 	public function getReturnPage()
@@ -165,13 +177,20 @@ class ContentModelForm extends ContentModelArticle
 	 */
 	public function save($data)
 	{
-		// Prevent deleting multilang associations
-		$app = JFactory::getApplication();
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
-		$app->item_associations = 0;
-		$result = parent::save($data);
-		$app->item_associations = $assoc;
+		// Associations are not edited in frontend ATM so we have to inherit them
+		if (JLanguageAssociations::isEnabled() && !empty($data['id']))
+		{
+			if ($associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $data['id']))
+			{
+				foreach ($associations as $tag => $associated)
+				{
+					$associations[$tag] = (int) $associated->id;
+				}
 
-		return $result;
+				$data['associations'] = $associations;
+			}
+		}
+
+		return parent::save($data);
 	}
 }

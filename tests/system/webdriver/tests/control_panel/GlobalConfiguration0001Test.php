@@ -46,6 +46,9 @@ class GlobalConfiguration0001Test extends JoomlaWebdriverTestCase
 	public function getAllInputFields_ScreenLoaded_InputFieldsShouldMatchExpected()
 	{
 		$gc = $this->gcPage;
+
+// 	 	$gc->printFieldArray($gc->getAllInputFields($gc->tabs));
+
 		$testElements = $gc->getAllInputFields(array('page-site', 'page-system', 'page-server', 'page-permissions'));
 		$actualFields = $this->getActualFieldsFromElements($testElements);
 		$this->assertEquals($actualFields, $gc->inputFields);

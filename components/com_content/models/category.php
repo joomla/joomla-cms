@@ -446,24 +446,16 @@ class ContentModelCategory extends JModelList
 	 */
 	public function hit($pk = 0)
 	{
-		// Initialise variables.
-		$pk = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
+		$input = JFactory::getApplication()->input;
+		$hitcount = $input->getInt('hitcount', 1);
 
-		$db = $this->getDbo();
-		$query = $db->getQuery(true)
-			->update('#__categories')
-			->set('hits = hits + 1')
-			->where('id = ' . (int) $pk);
-		$db->setQuery($query);
+		if ($hitcount)
+		{
+			$pk = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
 
-		try
-		{
-			$db->execute();
-		}
-		catch (RuntimeException $e)
-		{
-			$this->setError($e->getMessage());
-			return false;
+			$table = JTable::getInstance('Category', 'JTable');
+			$table->load($pk);
+			$table->hit($pk);
 		}
 
 		return true;

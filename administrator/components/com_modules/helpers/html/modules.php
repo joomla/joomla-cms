@@ -19,8 +19,8 @@ abstract class JHtmlModules
 	/**
 	 * Builds an array of template options
 	 *
-	 * @param   integer  $clientId  The client id
-	 * @param   string   $state     The state of the template
+	 * @param   integer  $clientId  The client id.
+	 * @param   string   $state     The state of the template.
 	 *
 	 * @return  array
 	 */
@@ -125,9 +125,11 @@ abstract class JHtmlModules
 	/**
 	 * Display a batch widget for the module position selector.
 	 *
-	 * @param   integer  $clientId  The client ID
+	 * @param   integer  $clientId          The client ID.
+	 * @param   integer  $state             The state of the module (enabled, unenabled, trashed).
+	 * @param   string   $selectedPosition  The currently selected position for the module.
 	 *
-	 * @return  string  The necessary positions for the widget.
+	 * @return  string   The necessary positions for the widget.
 	 *
 	 * @since   2.5
 	 */

@@ -27,7 +27,7 @@ abstract class TestCaseDatabasePostgresql extends TestCaseDatabase
 	private static $_options = array('driver' => 'postgresql');
 
 	/**
-	 * @var    JDatabaseDriver  The saved database driver to be restored after these tests.
+	 * @var    JDatabaseDriverPostgresql  The saved database driver to be restored after these tests.
 	 * @since  12.1
 	 */
 	private static $_stash;

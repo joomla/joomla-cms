@@ -314,6 +314,12 @@ abstract class JModelForm extends JModelLegacy
 			return false;
 		}
 
+		// Tags B/C break at 3.1.2
+		if (isset($data['metadata']['tags']) && !isset($data['tags']))
+		{
+			$data['tags'] = $data['metadata']['tags'];
+		}
+
 		return $data;
 	}
 }

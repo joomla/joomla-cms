@@ -203,7 +203,7 @@ class JViewLegacy extends JObject
 	 *
 	 * @return  mixed  A string if successful, otherwise a Error object.
 	 *
-	 * @see     fetch()
+	 * @see     JViewLegacy::loadTemplate()
 	 * @since   12.2
 	 */
 	public function display($tpl = null)
@@ -468,17 +468,7 @@ class JViewLegacy extends JObject
 				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME'), 500);
 			}
 
-			$lastPart = substr($classname, $viewpos + 4);
-			$pathParts = explode(' ', JStringNormalise::fromCamelCase($lastPart));
-
-			if (!empty($pathParts[1]))
-			{
-				$this->_name = strtolower($pathParts[0]);
-			}
-			else
-			{
-				$this->_name = strtolower($lastPart);
-			}
+			$this->_name = strtolower(substr($classname, $viewpos + 4));
 		}
 
 		return $this->_name;
@@ -804,5 +794,21 @@ class JViewLegacy extends JObject
 				break;
 		}
 		return $filename;
+	}
+
+	/**
+	 * Returns the form object
+	 *
+	 * @return  mixed  A JForm object on success, false on failure
+	 *
+	 * @since   3.2
+	 */
+	public function getForm()
+	{
+		if (!is_object($this->form))
+		{
+			$this->form = $this->get('Form');
+		}
+		return $this->form;
 	}
 }
