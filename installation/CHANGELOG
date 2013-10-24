@@ -25,6 +25,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 3.2 Beta 1 Release [24-Oct-2013] ------------------
+
 24-Oct-2013 Jean-Marie Simonet
  # RTL Isis menus should be aligned right. Thanks Ofer Cohen
  # RTL Isis dropdown toggle icon should be aligned with other icons.
