@@ -38,8 +38,6 @@ class JFormFieldNumberTest extends TestCase
 	{
 		parent::setUp();
 
-		require_once JPATH_PLATFORM . '/joomla/form/fields/number.php';
-
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockApplication();
