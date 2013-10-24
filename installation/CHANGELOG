@@ -30,6 +30,7 @@ $ -> Language fix or change
  # RTL Isis dropdown toggle icon should be aligned with other icons.
  $ [#31959] Alpha sort en-GB.com_installer.ini  Thanks Brian Teeman
  ^ [#32345] Corrected JUI comment tags in less/css/js files. Thanks Peter Van Westen
+ $ [#32408] Add warning text to post install strong password language string. Thanks Nicolas Antimisiaris
 
 23-Oct-2013 Michael Babker
  # [#32401] *Custom module Options hard to find.  Thanks Jean-Marie Simonet
