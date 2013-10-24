@@ -430,9 +430,15 @@ abstract class JUserHelper
 				return ($show_encrypt) ? '{MD5}' . $encrypted : $encrypted;
 
 			case 'sha256':
-				$encrypted = ($salt) ? hash('sha256', $plaintext . $salt) : hash('sha256', $plaintext);
 
-				return ($show_encrypt) ? '{SHA256}' . $encrypted : '{SHA256}' . $encrypted;
+				if (empty($salt))
+				{
+					$salt = JUserHelper::genRandomPassword(16);
+				}
+
+				$encrypted = ($salt) ? hash('sha256', $salt . $plaintext) : hash('sha256', $plaintext);
+
+				return ($show_encrypt) ? '{SHA256}' . $encrypted : '{SHA256}' . $encrypted ;
 
 			// 'bcrypt' is the default case starting in CMS 3.2.
 			case 'bcrypt':
