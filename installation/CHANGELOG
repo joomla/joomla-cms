@@ -31,6 +31,7 @@ $ -> Language fix or change
  $ [#31959] Alpha sort en-GB.com_installer.ini  Thanks Brian Teeman
  ^ [#32345] Corrected JUI comment tags in less/css/js files. Thanks Peter Van Westen
  $ [#32408] Add warning text to post install strong password language string. Thanks Nicolas Antimisiaris
+ $ Adding lang strings for new position postinstall in Isis and Hathor
 
 23-Oct-2013 Michael Babker
  # [#32401] *Custom module Options hard to find.  Thanks Jean-Marie Simonet
