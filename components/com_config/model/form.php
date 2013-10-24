@@ -47,6 +47,7 @@ abstract class ConfigModelForm extends ConfigModelCms
 
 			// Get an instance of the row to checkin.
 			$table = $this->getTable();
+
 			if (!$table->load($pk))
 			{
 				$this->setError($table->getError());

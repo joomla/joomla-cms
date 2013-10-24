@@ -21,7 +21,7 @@ class ConfigControllerApplicationCancel extends ConfigControllerCanceladmin
 	/**
 	 * Method to cancel global configuration.
 	 *
-	 * @return  bool	True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   3.2
 	 */
@@ -40,6 +40,5 @@ class ConfigControllerApplicationCancel extends ConfigControllerCanceladmin
 		$this->redirect = 'index.php?option=com_cpanel';
 
 		parent::execute();
-
 	}
 }

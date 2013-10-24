@@ -18,11 +18,10 @@ defined('_JEXEC') or die;
 */
 class ConfigControllerApplicationRefreshhelp extends JControllerBase
 {
-
 	/**
 	 * Method to refresh help in global configuration.
 	 *
-	 * @return  bool	True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   3.2
 	 */

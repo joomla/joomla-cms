@@ -18,8 +18,7 @@ defined('_JEXEC') or die('Restricted access');
 */
 class ConfigControllerHelper
 {
-
-	/*
+	/**
 	 * Method to parse a controller from a url
 	 * Defaults to the base controllers and passes an array of options.
 	 * $options[0] is the location of the controller which defaults to the core libraries (referenced as 'j'
@@ -29,13 +28,12 @@ class ConfigControllerHelper
 	 * not prefixed with Config.
 	 * Additional options maybe added to parameterise the controller.
 	 *
-	 * @param  JApplication  $app  A JApplication object (could be JApplication or JApplicationCms)
+	 * @param   JApplicationBase  $app  An application object
 	 *
 	 * @return  JController  A JController object
 	 *
-	 * @since  3.2
+	 * @since   3.2
 	 */
-
 	public function parseController($app)
 	{
 		$tasks = array();

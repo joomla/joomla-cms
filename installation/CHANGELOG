@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#32150] tag added to an article gets removed if ordering changed or in batch processing.  Thanks Elin Waring
  ^ [#32216] New post install/post update messages.  Thanks Nicholas Dionysopoulos
  ^ [#32330] Removing `postinstall_message_id` from postinstall INSERT queries.  Thanks Thomas Hunziker
+ ^ [#32395] CS errors found in CMS build (mostly com_config related).  Thanks Buddhima Wijeweera
 
 23-Oct-2013 Jean-Marie Simonet
  # [#32310] Regression: Restore lost editor configuration tab.
