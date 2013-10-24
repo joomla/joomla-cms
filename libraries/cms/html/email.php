@@ -18,13 +18,16 @@ defined('JPATH_PLATFORM') or die;
  */
 abstract class JHtmlEmail
 {
+	static $included_css = 0;
+	static $included_js = 0;
+
 	/**
 	 * Simple JavaScript email cloaker
 	 *
 	 * By default replaces an email with a mailto link with email cloaked
 	 *
 	 * @param   string   $mail    The -mail address to cloak.
-	 * @param   boolean  $mailto  True if text and mailing address differ
+	 * @param   boolean  $mode    True if address should be displayed as link
 	 * @param   string   $text    Text for the link
 	 * @param   boolean  $email   True if text is an e-mail address
 	 *
@@ -32,98 +35,101 @@ abstract class JHtmlEmail
 	 *
 	 * @since   1.5
 	 */
-	public static function cloak($mail, $mailto = true, $text = '', $email = true)
+	public static function cloak($mail, $mode = true, $text = '', $email = true, $pre = '', $post = '')
 	{
-		// Convert text
-		$mail = static::convertEncoding($mail);
-
-		// Split email by @ symbol
-		$mail = explode('@', $mail);
-		$mail_parts = explode('.', $mail[1]);
-
-		// Random number
-		$rand = rand(1, 100000);
-
-		$replacement = "<script type='text/javascript'>";
-		$replacement .= "\n <!--";
-		$replacement .= "\n var prefix = '&#109;a' + 'i&#108;' + '&#116;o';";
-		$replacement .= "\n var path = 'hr' + 'ef' + '=';";
-		$replacement .= "\n var addy" . $rand . " = '" . @$mail[0] . "' + '&#64;';";
-		$replacement .= "\n addy" . $rand . " = addy" . $rand . " + '" . implode("' + '&#46;' + '", $mail_parts) . "';";
-
-		if ($mailto)
-		{
-			// Special handling when mail text is different from mail address
-			if ($text)
-			{
-				if ($email)
-				{
-					// Convert text
-					$text = static::convertEncoding($text);
-
-					// Split email by @ symbol
-					$text = explode('@', $text);
-					$text_parts = explode('.', $text[1]);
-					$replacement .= "\n var addy_text" . $rand . " = '" . @$text[0] . "' + '&#64;' + '" . implode("' + '&#46;' + '", @$text_parts)
-						. "';";
+		if(!self::$included_css) {
+			$css = "
+				.cloaked_email span:before {
+					content: attr(data-content-pre);
 				}
-				else
-				{
-					$replacement .= "\n var addy_text" . $rand . " = '" . $text . "';";
+				.cloaked_email span:after {
+					content: attr(data-content-post);
 				}
-				$replacement .= "\n document.write('<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>');";
-				$replacement .= "\n document.write(addy_text" . $rand . ");";
-				$replacement .= "\n document.write('<\/a>');";
+			";
+			JFactory::getDocument()->addStyleDeclaration($css);
+			self::$included_css = 1;
+		}
+
+		$id = 'ce_' . substr(md5(rand()), 0, 8);
+
+		if(!$text || $text == $mail) {
+			// No link or text is equal to mailto.
+			$text = self::_createSpans($mail, $id);
+		} else {
+			// Text is an email address.
+			if($email) {
+				$text = self::_createSpans($text);
 			}
-			else
-			{
-				$replacement .= "\n document.write('<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>');";
-				$replacement .= "\n document.write(addy" . $rand . ");";
-				$replacement .= "\n document.write('<\/a>');";
+			// Text is different to email address.
+			if($mode) {
+				$text .= self::_createSpans($mail, $id, 1);
 			}
 		}
-		else
-		{
-			$replacement .= "\n document.write(addy" . $rand . ");";
+
+		if(!$mode) {
+			// Output text only link.
+			return '<!--- ' . JText::_('JLIB_HTML_CLOAKING') . ' --->' . $text;
 		}
-		$replacement .= "\n //-->";
-		$replacement .= '\n </script>';
 
-		// XHTML compliance no Javascript text handling
-		$replacement .= "<script type='text/javascript'>";
-		$replacement .= "\n <!--";
-		$replacement .= "\n document.write('<span style=\'display: none;\'>');";
-		$replacement .= "\n //-->";
-		$replacement .= "\n </script>";
-		$replacement .= JText::_('JLIB_HTML_CLOAKING');
-		$replacement .= "\n <script type='text/javascript'>";
-		$replacement .= "\n <!--";
-		$replacement .= "\n document.write('</');";
-		$replacement .= "\n document.write('span>');";
-		$replacement .= "\n //-->";
-		$replacement .= "\n </script>";
+		if(!self::$included_js) {
+			/* Below javascript is minified via http://closure-compiler.appspot.com/home
+				var Joomla = ( Joomla || {} );
+				Joomla.addCloakedMailto = function(id){
+					var el = document.getElementById(id);
+					if(el) {
+						var els = el.getElementsByTagName("span");
+						var pre = "";
+						var post = "";
+						for (var i = 0, l = els.length; i < l; i++) {
+							pre += els[i].getAttribute("data-content-pre");
+							post = els[i].getAttribute("data-content-post") + post;
+						}
+						el.parentNode.href= "mailto:" + pre + post;
+					}
+				}
+			*/
+			$js = 'var Joomla=Joomla||{};Joomla.addCloakedMailto=function(a){if(a=document.getElementById(a)){for(var c=a.getElementsByTagName("span"),d="",e="",b=0,f=c.length;b<f;b++)d+=c[b].getAttribute("data-content-pre"),e=c[b].getAttribute("data-content-post")+e;a.parentNode.href="mailto:"+d+e}};';
 
-		return $replacement;
+			JFactory::getDocument()->addScriptDeclaration($js);
+			self::$included_js = 1;
+		}
+
+		return
+			'<a ' . $pre . 'href="javascript:// ' . htmlentities(JText::_('JLIB_HTML_CLOAKING'), ENT_COMPAT, 'UTF-8') . '"' . $post . '>'
+			. $text
+			. '</a>'
+			. '<script type="text/javascript">Joomla.addCloakedMailto("' . $id . '");</script>';
+
 	}
 
 	/**
-	 * Convert encoded text
+	 * Convert text to 6 encoded parts in an array.
 	 *
-	 * @param   string  $text  Text to convert
+	 * @param   string  $text  Text to convert.
 	 *
-	 * @return  string  The converted text.
+	 * @return  array   The encoded parts.
 	 *
-	 * @since   1.5
+	 * @since   3.2
 	 */
-	protected static function convertEncoding($text)
+	protected static function _createSpans($str, $id = 0, $hide = 0)
 	{
-		// Replace vowels with character encoding
-		$text = str_replace('a', '&#97;', $text);
-		$text = str_replace('e', '&#101;', $text);
-		$text = str_replace('i', '&#105;', $text);
-		$text = str_replace('o', '&#111;', $text);
-		$text = str_replace('u', '&#117;', $text);
+		$str = mb_convert_encoding($str, 'UTF-32', 'UTF-8');
+		$split = str_split($str, 4);
+		$size = ceil(count($split) / 6);
+		$parts = array('', '', '', '', '', '');
+		foreach ($split as $i => $c)
+		{
+			$c = trim($c);
+			$v = ($c == '@' || (strlen($c) === 1 && rand(0, 2))) ? '&#' . ord($c) . ';' : $c;
+			$pos = floor($i / $size);
+			$parts[$pos] .= $v;
+		}
 
-		return $text;
+		return
+			'<span class="cloaked_email"' . ($id ? ' id="' . $id . '"' : '') . '' . ($hide ? ' style="display:none;"' : '') . '>'
+			. '<span data-content-post="' . $parts['5'] . '" data-content-pre="' . $parts['0'] . '">'
+			. '<span data-content-post="' . $parts['4'] . '" data-content-pre="' . $parts['1'] . '">'
+			. '<span data-content-post="' . $parts['3'] . '" data-content-pre="' . $parts['2'] . '">'
+			. '</span></span></span></span>';
 	}
 }

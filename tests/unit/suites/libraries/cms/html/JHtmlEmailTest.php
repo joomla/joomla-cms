@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+require_once __DIR__ . '/stubs/JHtmlJqueryInspector.php';
+
 /**
  * Test class for JHtmlEmail.
  *
@@ -14,8 +16,56 @@
  * @subpackage  Html
  * @since       3.1
  */
-class JHtmlEmailTest extends PHPUnit_Framework_TestCase
+class JHtmlEmailTest extends TestCase
 {
+	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var    array
+	 * @since  3.1
+	 */
+	protected $backupServer;
+
+	/**
+	 * Sets up the fixture, for example, opens a network connection.
+	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	protected function setUp()
+	{
+		parent::setUp();
+
+		$this->saveFactoryState();
+
+		JFactory::$application = $this->getMockApplication();
+
+		$this->backupServer = $_SERVER;
+
+		$_SERVER['HTTP_HOST'] = 'example.com';
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	protected function tearDown()
+	{
+		$_SERVER = $this->backupServer;
+
+		$this->restoreFactoryState();
+
+		JHtmlJqueryInspector::resetLoaded();
+
+		parent::tearDown();
+	}
+
 	/**
 	 * Tests the JHtmlEmail::cloak method.
 	 *
@@ -27,25 +77,25 @@ class JHtmlEmailTest extends PHPUnit_Framework_TestCase
 	{
 		$this->assertThat(
 			JHtmlEmail::cloak('admin@joomla.org'),
-			$this->StringContains("document.write('<a ' + path + '\'' + prefix + ':' + addy"),
+			$this->StringContains('addCloakedMailto'),
 			'Cloak e-mail with mailto link'
 		);
 
 		$this->assertThat(
 			JHtmlEmail::cloak('admin@joomla.org', false),
-			$this->StringContains("var path = 'hr' + 'ef' + '=';"),
+			$this->StringContains('---><span class="cloaked_email"'),
 			'Cloak e-mail with no mailto link'
 		);
 
 		$this->assertThat(
 			JHtmlEmail::cloak('admin@joomla.org', true, 'administrator@joomla.org'),
-			$this->StringContains("var addy_text"),
-			'Cloak e-mail with mailto link and separate e-mail address text'
+			$this->StringContains('</span></span></span></span><span class="cloaked_email"'),
+			'Cloak e-mail with mailto link and different e-mail address text'
 		);
 
 		$this->assertThat(
 			JHtmlEmail::cloak('admin@joomla.org', true, 'Joomla! Administrator', false),
-			$this->StringContains("var addy_text"),
+			$this->StringContains('style="display:none;"'),
 			'Cloak e-mail with mailto link and separate non-e-mail address text'
 		);
 	}
