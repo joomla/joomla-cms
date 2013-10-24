@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,6 +19,8 @@ $canEdit = $params->get('access-edit');
 $user    = JFactory::getUser();
 $info    = $params->get('info_block_position', 0);
 JHtml::_('behavior.caption');
+$useDefList = ($params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_create_date')
+	|| $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category') || $params->get('show_author'));
 
 ?>
 <div class="item-page<?php echo $this->pageclass_sfx?>">
@@ -32,10 +34,16 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 	echo $this->item->pagination;
 }
 ?>
+	<?php if (!$useDefList && $this->print) : ?>
+		<div id="pop-print" class="btn">
+			<?php echo JHtml::_('icon.print_screen', $this->item, $params); ?>
+		</div>
+		<div class="clearfix"> </div>
+	<?php endif; ?>
 	<?php if ($params->get('show_title') || $params->get('show_author')) : ?>
 	<div class="page-header">
 		<h2>
-			<?php if ($this->item->state == 0): ?>
+			<?php if ($this->item->state == 0) : ?>
 				<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 			<?php endif; ?>
 			<?php if ($params->get('show_title')) : ?>
@@ -66,13 +74,14 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 			</ul>
 		</div>
 		<?php endif; ?>
-		<?php else : ?>
-		<div class="pull-right">
-		<?php echo JHtml::_('icon.print_screen', $this->item, $params); ?>
-		</div>
+	<?php else : ?>
+		<?php if ($useDefList) : ?>
+			<div id="pop-print" class="btn">
+				<?php echo JHtml::_('icon.print_screen', $this->item, $params); ?>
+			</div>
+		<?php endif; ?>
 	<?php endif; ?>
-<?php $useDefList = ($params->get('show_modify_date') || $params->get('show_publish_date')
-	|| $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category') || $params->get('show_author')); ?>
+
 	<?php if ($useDefList && ($info == 0 || $info == 2)) : ?>
 		<div class="article-info muted">
 			<dl class="article-info">
@@ -123,7 +132,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 				</dd>
 			<?php endif; ?>
 
-			<?php if ($info == 0): ?>
+			<?php if ($info == 0) : ?>
 				<?php if ($params->get('show_modify_date')) : ?>
 					<dd class="modified">
 						<span class="icon-calendar"></span> <?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC3'))); ?>
@@ -143,6 +152,12 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 			<?php endif; ?>
 			</dl>
 		</div>
+	<?php endif; ?>
+
+	<?php if ($params->get('show_tags', 1) && !empty($this->item->tags)) : ?>
+		<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+
+		<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
 	<?php endif; ?>
 
 	<?php if (!$params->get('show_intro')) : echo $this->item->event->afterDisplayTitle; endif; ?>
@@ -176,7 +191,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 			<dl class="article-info">
 			<dt class="article-info-term"><?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
 
-			<?php if ($info == 1): ?>
+			<?php if ($info == 1) : ?>
 				<?php if ($params->get('show_author') && !empty($this->item->author )) : ?>
 					<dd class="createdby">
 						<?php $author = $this->item->created_by_alias ? $this->item->created_by_alias : $this->item->author; ?>
@@ -226,7 +241,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 			<?php if ($params->get('show_create_date')) : ?>
 				<dd class="create">
 					<span class="icon-calendar"></span>
-					<?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', JHtml::_('date', $this->item->modified, JText::_('DATE_FORMAT_LC3'))); ?>
+					<?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', JHtml::_('date', $this->item->created, JText::_('DATE_FORMAT_LC3'))); ?>
 				</dd>
 			<?php endif; ?>
 			<?php if ($params->get('show_modify_date')) : ?>
@@ -249,16 +264,16 @@ if (!empty($this->item->pagination) && $this->item->pagination && $this->item->p
 	echo $this->item->pagination;
 ?>
 	<?php endif; ?>
-	<?php if (isset($urls) && ((!empty($urls->urls_position) && ($urls->urls_position == '1')) || ($params->get('urls_position') == '1'))): ?>
+	<?php if (isset($urls) && ((!empty($urls->urls_position) && ($urls->urls_position == '1')) || ($params->get('urls_position') == '1'))) : ?>
 	<?php echo $this->loadTemplate('links'); ?>
 	<?php endif; ?>
-	<?php //optional teaser intro text for guests ?>
+	<?php // Optional teaser intro text for guests ?>
 	<?php elseif ($params->get('show_noauth') == true && $user->get('guest')) : ?>
 	<?php echo $this->item->introtext; ?>
 	<?php //Optional link to let them register to see the whole article. ?>
 	<?php if ($params->get('show_readmore') && $this->item->fulltext != null) :
 		$link1 = JRoute::_('index.php?option=com_users&view=login');
-		$link = new JURI($link1);?>
+		$link = new JUri($link1);?>
 	<p class="readmore">
 		<a href="<?php echo $link; ?>">
 		<?php $attribs = json_decode($this->item->attribs); ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -21,11 +21,16 @@ JText::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
 ?>
 
 <script type="text/javascript">
-Joomla.submitbutton = function(pressbutton) {
-	if (pressbutton == 'filters.delete') {
-		if (confirm(Joomla.JText._('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT'))) {
+Joomla.submitbutton = function(pressbutton)
+{
+	if (pressbutton == 'filters.delete')
+	{
+		if (confirm(Joomla.JText._('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT')))
+		{
 			Joomla.submitform(pressbutton);
-		} else {
+		}
+		else
+		{
 			return false;
 		}
 	}
@@ -33,7 +38,7 @@ Joomla.submitbutton = function(pressbutton) {
 }
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=filters');?>" method="post" name="adminForm" id="adminForm">
-<?php if(!empty( $this->sidebar)): ?>
+<?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
@@ -43,11 +48,11 @@ Joomla.submitbutton = function(pressbutton) {
 <?php endif;?>
 		<div id="filter-bar" class="btn-toolbar">
 			<div class="filter-search btn-group pull-left">
-				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_FINDER_FILTER_SEARCH_DESCRIPTION'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_FINDER_FILTER_SEARCH_DESCRIPTION'); ?>" />
+				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_FINDER_FILTER_SEARCH_DESCRIPTION'); ?>" />
 			</div>
 			<div class="btn-group pull-left">
-				<button class="btn hasTooltip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-				<button class="btn hasTooltip" type="button" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
+				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
 			</div>
 		</div>
 		<div class="clearfix"> </div>
@@ -55,7 +60,7 @@ Joomla.submitbutton = function(pressbutton) {
 			<thead>
 				<tr>
 					<th width="1%">
-						<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
+						<?php echo JHtml::_('grid.checkall'); ?>
 					</th>
 					<th class="nowrap">
 						<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
@@ -78,7 +83,7 @@ Joomla.submitbutton = function(pressbutton) {
 				</tr>
 			</thead>
 			<tbody>
-				<?php if (count($this->items) == 0): ?>
+				<?php if (count($this->items) == 0) : ?>
 				<tr class="row0">
 					<td class="center" colspan="7">
 						<?php
@@ -109,7 +114,8 @@ Joomla.submitbutton = function(pressbutton) {
 						<?php echo JHtml::_('grid.id', $i, $item->filter_id); ?>
 					</td>
 					<td>
-						<?php if ($item->checked_out) {
+						<?php if ($item->checked_out)
+						{
 							echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'filters.', $canCheckin);
 						} ?>
 						<?php if ($canEdit) { ?>

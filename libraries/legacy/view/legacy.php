@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -163,6 +163,10 @@ class JViewLegacy extends JObject
 			// User-defined dirs
 			$this->_setPath('template', $config['template_path']);
 		}
+		elseif (is_dir(JPATH_COMPONENT . '/view'))
+		{
+			$this->_setPath('template', $this->_basePath . '/view/' . $this->getName() . '/tmpl');
+		}
 		else
 		{
 			$this->_setPath('template', $this->_basePath . '/views/' . $this->getName() . '/tmpl');
@@ -189,7 +193,7 @@ class JViewLegacy extends JObject
 			$this->setLayout('default');
 		}
 
-		$this->baseurl = JURI::base(true);
+		$this->baseurl = JUri::base(true);
 	}
 
 	/**
@@ -199,7 +203,7 @@ class JViewLegacy extends JObject
 	 *
 	 * @return  mixed  A string if successful, otherwise a Error object.
 	 *
-	 * @see     fetch()
+	 * @see     JViewLegacy::loadTemplate()
 	 * @since   12.2
 	 */
 	public function display($tpl = null)
@@ -779,8 +783,6 @@ class JViewLegacy extends JObject
 	 */
 	protected function _createFileName($type, $parts = array())
 	{
-		$filename = '';
-
 		switch ($type)
 		{
 			case 'template':
@@ -792,5 +794,21 @@ class JViewLegacy extends JObject
 				break;
 		}
 		return $filename;
+	}
+
+	/**
+	 * Returns the form object
+	 *
+	 * @return  mixed  A JForm object on success, false on failure
+	 *
+	 * @since   3.2
+	 */
+	public function getForm()
+	{
+		if (!is_object($this->form))
+		{
+			$this->form = $this->get('Form');
+		}
+		return $this->form;
 	}
 }

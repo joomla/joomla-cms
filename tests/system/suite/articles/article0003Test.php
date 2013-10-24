@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.SystemTest
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * checks that all menu choices are shown in back end
  */
@@ -468,6 +468,7 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->open($link);
 		$this->waitForPageToLoad("30000");
 		$this->assertStringEndsWith("Beginners", $this->getText("//tbody/tr[1]/td/a"));
+
 		$this->assertStringEndsWith("Getting Help", $this->getText("//tbody/tr[2]/td/a"));
 		$this->assertTrue($this->isElementPresent("//div[@class='category-list']//a[contains(text(), 'Getting Help')]/../span[contains(text(), 'Unpublished')]"));
 
@@ -483,6 +484,7 @@ class Article0003 extends SeleniumJoomlaTestCase
 		$this->open($link);
 		$this->waitForPageToLoad("30000");
 		$this->assertStringEndsWith("Beginners", $this->getText("//tbody/tr[1]/td/a"));
+
 		$this->assertStringEndsWith("Getting Help", $this->getText("//tbody/tr[2]/td/a"));
 
 		$this->jPrint ("Log out of Front End\n");

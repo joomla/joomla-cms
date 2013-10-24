@@ -3,13 +3,14 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.updater.updateadapter');
+
 /**
  * Extension class for updater
  *
@@ -44,11 +45,11 @@ class JUpdaterExtension extends JUpdateAdapter
 		switch ($name)
 		{
 			case 'UPDATE':
-				$this->current_update = JTable::getInstance('update');
-				$this->current_update->update_site_id = $this->updateSiteId;
-				$this->current_update->detailsurl = $this->_url;
-				$this->current_update->folder = "";
-				$this->current_update->client_id = 1;
+				$this->currentUpdate = JTable::getInstance('update');
+				$this->currentUpdate->update_site_id = $this->updateSiteId;
+				$this->currentUpdate->detailsurl = $this->_url;
+				$this->currentUpdate->folder = "";
+				$this->currentUpdate->client_id = 1;
 				break;
 
 			// Don't do anything
@@ -58,11 +59,11 @@ class JUpdaterExtension extends JUpdateAdapter
 				if (in_array($name, $this->updatecols))
 				{
 					$name = strtolower($name);
-					$this->current_update->$name = '';
+					$this->currentUpdate->$name = '';
 				}
 				if ($name == 'TARGETPLATFORM')
 				{
-					$this->current_update->targetplatform = $attrs;
+					$this->currentUpdate->targetplatform = $attrs;
 				}
 				break;
 		}
@@ -93,23 +94,23 @@ class JUpdaterExtension extends JUpdateAdapter
 
 				// Check that the product matches and that the version matches (optionally a regexp)
 				// Check for optional min_dev_level and max_dev_level attributes to further specify targetplatform (e.g., 3.0.1)
-				if ($product == $this->current_update->targetplatform['NAME']
-					&& preg_match('/' . $this->currentUpdate->targetplatform->version . '/', $ver->RELEASE)
+				if ($product == $this->currentUpdate->targetplatform['NAME']
+					&& preg_match('/' . $this->currentUpdate->targetplatform['VERSION'] . '/', $ver->RELEASE)
 					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) || $ver->DEV_LEVEL >= $this->currentUpdate->targetplatform->min_dev_level)
 					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || $ver->DEV_LEVEL <= $this->currentUpdate->targetplatform->max_dev_level))
 				{
 					// Target platform isn't a valid field in the update table so unset it to prevent J! from trying to store it
-					unset($this->current_update->targetplatform);
+					unset($this->currentUpdate ->targetplatform);
 					if (isset($this->latest))
 					{
-						if (version_compare($this->current_update->version, $this->latest->version, '>') == 1)
+						if (version_compare($this->currentUpdate ->version, $this->latest->version, '>') == 1)
 						{
-							$this->latest = $this->current_update;
+							$this->latest = $this->currentUpdate;
 						}
 					}
 					else
 					{
-						$this->latest = $this->current_update;
+						$this->latest = $this->currentUpdate;
 					}
 				}
 				break;
@@ -141,7 +142,7 @@ class JUpdaterExtension extends JUpdateAdapter
 		if (in_array($tag, $this->updatecols))
 		{
 			$tag = strtolower($tag);
-			$this->current_update->$tag .= $data;
+			$this->currentUpdate->$tag .= $data;
 		}
 	}
 
@@ -168,18 +169,28 @@ class JUpdaterExtension extends JUpdateAdapter
 			$url .= 'extension.xml';
 		}
 
-		$dbo = $this->parent->getDBO();
+		$db = $this->parent->getDBO();
 
 		$http = JHttpFactory::getHttp();
-		$response = $http->get($url);
-		if (!empty($response->code) && 200 != $response->code)
+
+		// JHttp transport throws an exception when there's no reponse.
+		try
 		{
-			$query = $dbo->getQuery(true);
-			$query->update('#__update_sites');
-			$query->set('enabled = 0');
-			$query->where('update_site_id = ' . $this->updateSiteId);
-			$dbo->setQuery($query);
-			$dbo->execute();
+			$response = $http->get($url);
+		}
+		catch (Exception $e)
+		{
+			$response = null;
+		}
+
+		if (!isset($response) || (!empty($response->code) && 200 != $response->code))
+		{
+			$query = $db->getQuery(true)
+				->update('#__update_sites')
+				->set('enabled = 0')
+				->where('update_site_id = ' . $this->updateSiteId);
+			$db->setQuery($query);
+			$db->execute();
 
 			JLog::add("Error opening url: " . $url, JLog::WARNING, 'updater');
 			$app = JFactory::getApplication();

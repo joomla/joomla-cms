@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,8 +12,7 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
-// Load the tooltip behavior.
-JHtml::_('behavior.tooltip');
+JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('behavior.modal');
 
@@ -24,7 +23,7 @@ $loggeduser = JFactory::getUser();
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=users');?>" method="post" name="adminForm" id="adminForm">
-<?php if(!empty( $this->sidebar)): ?>
+<?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
@@ -42,7 +41,7 @@ $loggeduser = JFactory::getUser();
 		</div>
 
 		<div class="filter-select">
-			<span class="faux-label")><?php echo JText::_('COM_USERS_FILTER_LABEL'); ?></span>
+			<span class="faux-label"><?php echo JText::_('COM_USERS_FILTER_LABEL'); ?></span>
 
 			<label class="selectlabel" for="filter_state">
 				<?php echo JText::_('COM_USERS_FILTER_LABEL'); ?>
@@ -123,7 +122,8 @@ $loggeduser = JFactory::getUser();
 			$canEdit	= $canDo->get('core.edit');
 			$canChange	= $loggeduser->authorise('core.edit.state',	'com_users');
 			// If this group is super admin and this user is not super admin, $canEdit is false
-			if ((!$loggeduser->authorise('core.admin')) && JAccess::check($item->id, 'core.admin')) {
+			if ((!$loggeduser->authorise('core.admin')) && JAccess::check($item->id, 'core.admin'))
+			{
 				$canEdit	= false;
 				$canChange	= false;
 			}
@@ -170,7 +170,7 @@ $loggeduser = JFactory::getUser();
 				</td>
 				<td class="center">
 					<?php if (substr_count($item->group_names, "\n") > 1) : ?>
-						<span class="hasTip" title="<?php echo JText::_('COM_USERS_HEADING_GROUPS').'::'.nl2br($item->group_names); ?>"><?php echo JText::_('COM_USERS_USERS_MULTIPLE_GROUPS'); ?></span>
+						<span class="hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_USERS_HEADING_GROUPS'), nl2br($item->group_names), 0); ?>"><?php echo JText::_('COM_USERS_USERS_MULTIPLE_GROUPS'); ?></span>
 					<?php else : ?>
 						<?php echo nl2br($item->group_names); ?>
 					<?php endif; ?>
@@ -179,7 +179,7 @@ $loggeduser = JFactory::getUser();
 					<?php echo $this->escape($item->email); ?>
 				</td>
 				<td class="center">
-					<?php if ($item->lastvisitDate != '0000-00-00 00:00:00'): ?>
+					<?php if ($item->lastvisitDate != '0000-00-00 00:00:00') : ?>
 						<?php echo JHtml::_('date', $item->lastvisitDate, 'Y-m-d H:i:s'); ?>
 					<?php else:?>
 						<?php echo JText::_('JNEVER'); ?>

@@ -3,14 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 ?>
 <div class="remind <?php echo $this->pageclass_sfx?>">
@@ -24,11 +23,11 @@ JHtml::_('behavior.formvalidation');
 
 	<form id="user-registration" action="<?php echo JRoute::_('index.php?option=com_users&task=remind.remind'); ?>" method="post" class="form-validate form-horizontal">
 
-		<?php foreach ($this->form->getFieldsets() as $fieldset): ?>
+		<?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
 		<p><?php echo JText::_($fieldset->label); ?></p>
 
 		<fieldset>
-			<?php foreach ($this->form->getFieldset($fieldset->name) as $name => $field): ?>
+			<?php foreach ($this->form->getFieldset($fieldset->name) as $name => $field) : ?>
 				<div class="control-group">
 					<div class="control-label">
 						<?php echo $field->label; ?>

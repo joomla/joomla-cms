@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,6 +27,12 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 */
 	public function download()
 	{
+		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+		$options['text_file'] = 'joomla_update.php';
+		JLog::addLogger($options, JLog::INFO, array('Update', 'databasequery', 'jerror'));
+		$user = JFactory::getUser();
+		JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_START', $user->id, $user->name, JVERSION), JLog::INFO, 'Update');
+
 		$this->_applyCredentials();
 
 		$model = $this->getModel('Default');
@@ -39,6 +45,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		{
 			JFactory::getApplication()->setUserState('com_joomlaupdate.file', $file);
 			$url = 'index.php?option=com_joomlaupdate&task=update.install';
+			JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $file), JLog::INFO, 'Update');
 		}
 		else
 		{
@@ -59,6 +66,11 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 */
 	public function install()
 	{
+		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+		$options['text_file'] = 'joomla_update.php';
+		JLog::addLogger($options, JLog::INFO, array('Update', 'databasequery', 'jerror'));
+		JLog::add(JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_INSTALL'), JLog::INFO, 'Update');
+
 		$this->_applyCredentials();
 
 		$model = $this->getModel('Default');
@@ -78,6 +90,10 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 */
 	public function finalise()
 	{
+		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+		$options['text_file'] = 'joomla_update.php';
+		JLog::addLogger($options, JLog::INFO, array('Update', 'databasequery', 'jerror'));
+		JLog::add(JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_FINALISE'), JLog::INFO, 'Update');
 		$this->_applyCredentials();
 
 		$model = $this->getModel('Default');
@@ -97,6 +113,10 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	 */
 	public function cleanup()
 	{
+		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+		$options['text_file'] = 'joomla_update.php';
+		JLog::addLogger($options, JLog::INFO, array('Update', 'databasequery', 'jerror'));
+		JLog::add(JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_CLEANUP'), JLog::INFO, 'Update');
 		$this->_applyCredentials();
 
 		$model = $this->getModel('Default');
@@ -105,6 +125,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 
 		$url = 'index.php?option=com_joomlaupdate&layout=complete';
 		$this->setRedirect($url);
+		JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_COMPLETE', JVERSION), JLog::INFO, 'Update');
 	}
 
 	/**
@@ -129,10 +150,10 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	/**
 	 * Method to display a view.
 	 *
-	 * @param	boolean  $cachable   If true, the view output will be cached
-	 * @param	array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return	JoomlaupdateControllerUpdate  This object to support chaining.
+	 * @return  JoomlaupdateControllerUpdate  This object to support chaining.
 	 *
 	 * @since	2.5.4
 	 */
@@ -147,7 +168,8 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		$lName   = $this->input->get('layout', 'default');
 
 		// Get and render the view.
-		if ($view = $this->getView($vName, $vFormat)) {
+		if ($view = $this->getView($vName, $vFormat))
+		{
 			// Get the model for the view.
 			$model = $this->getModel('Default');
 
@@ -180,13 +202,9 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 			if ($user != '' && $pass != '')
 			{
 				// Add credentials to the session
-				if (JClientHelper::setCredentials('ftp', $user, $pass))
+				if (!JClientHelper::setCredentials('ftp', $user, $pass))
 				{
-					$return = false;
-				}
-				else
-				{
-					$return = JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_CLIENT_ERROR_HELPER_SETCREDENTIALSFROMREQUEST_FAILED'));
+					JError::raiseWarning('SOME_ERROR_CODE', JText::_('JLIB_CLIENT_ERROR_HELPER_SETCREDENTIALSFROMREQUEST_FAILED'));
 				}
 			}
 		}

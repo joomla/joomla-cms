@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,8 +17,8 @@ $lang	= JFactory::getLanguage();
 $input	= $app->input;
 $user	= JFactory::getUser();
 
-// Load optional rtl bootstrap css and bootstrap bugfixes
-JHtmlBootstrap::loadCss($includeMaincss = false, $this->direction);
+// Load optional RTL Bootstrap CSS
+JHtml::_('bootstrap.loadCss', false, $this->direction);
 
 // Load system style CSS
 $doc->addStyleSheet('templates/system/css/system.css');
@@ -66,7 +66,7 @@ $doc->addScript('templates/'.$this->template.'/js/template.js', 'text/javascript
 // Logo file
 if ($this->params->get('logoFile'))
 {
-	$logo = JURI::root() . $this->params->get('logoFile');
+	$logo = JUri::root() . $this->params->get('logoFile');
 }
 else
 {
@@ -120,7 +120,8 @@ else
 			<?php
 			//Display an harcoded logout
 			$task = $app->input->get('task');
-			if ($task == 'edit' || $task == 'editA' || $app->input->getInt('hidemainmenu')) {
+			if ($task == 'edit' || $task == 'editA' || $app->input->getInt('hidemainmenu'))
+			{
 				$logoutLink = '';
 			} else {
 				$logoutLink = JRoute::_('index.php?option=com_login&task=logout&'. JSession::getFormToken() .'=1');
@@ -128,7 +129,7 @@ else
 			$hideLinks = $app->input->getBool('hidemainmenu');
 			$output = array();
 			// Print the Preview link to Main site.
-			//$output[] = '<span class="viewsite"><a href="'.JURI::root().'" target="_blank">'.JText::_('JGLOBAL_VIEW_SITE').'</a></span>';
+			//$output[] = '<span class="viewsite"><a href="'.JUri::root().'" target="_blank">'.JText::_('JGLOBAL_VIEW_SITE').'</a></span>';
 			// Print the logout link.
 			//$output[] = '<span class="logout">' .($hideLinks ? '' : '<a href="'.$logoutLink.'">').JText::_('JLOGOUT').($hideLinks ? '' : '</a>').'</span>';
 			// Output the items.
@@ -157,7 +158,7 @@ else
 				<div class="adminform">
 
 					<!-- Display the Quick Icon Shortcuts -->
-					<div class="cpanel-icons well">
+					<div class="cpanel-icons">
 						<?php if ($this->countModules('icon') > 1):?>
 							<?php echo JHtml::_('sliders.start', 'position-icon', array('useCookie' => 1));?>
 							<jdoc:include type="modules" name="icon" />

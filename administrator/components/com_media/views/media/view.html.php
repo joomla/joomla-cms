@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,8 @@ class MediaViewMedia extends JViewLegacy
 		*/
 		JHtml::_('behavior.modal');
 		$document->addScriptDeclaration("
-		window.addEvent('domready', function() {
+		window.addEvent('domready', function()
+		{
 			document.preview = SqueezeBox;
 		});");
 
@@ -50,39 +51,12 @@ class MediaViewMedia extends JViewLegacy
 			JHtml::_('stylesheet', 'media/mootree_rtl.css', array(), true);
 		endif;
 
-		if ($config->get('enable_flash', 1)) {
-			$fileTypes = $config->get('upload_extensions', 'bmp,gif,jpg,png,jpeg');
-			$types = explode(',', $fileTypes);
-			$displayTypes = '';		// this is what the user sees
-			$filterTypes = '';		// this is what controls the logic
-			$firstType = true;
-			foreach($types as $type) {
-				if(!$firstType) {
-					$displayTypes .= ', ';
-					$filterTypes .= '; ';
-				} else {
-					$firstType = false;
-				}
-				$displayTypes .= '*.'.$type;
-				$filterTypes .= '*.'.$type;
-			}
-			$typeString = '{ \''.JText::_('COM_MEDIA_FILES', 'true').' ('.$displayTypes.')\': \''.$filterTypes.'\' }';
-
-			JHtml::_('behavior.uploader', 'upload-flash',
-				array(
-					'onBeforeStart' => 'function(){ Uploader.setOptions({url: document.id(\'uploadForm\').action + \'&folder=\' + document.id(\'mediamanager-form\').folder.value}); }',
-					'onComplete' 	=> 'function(){ MediaManager.refreshFrame(); }',
-					'targetURL' 	=> '\\document.id(\'uploadForm\').action',
-					'typeFilter' 	=> $typeString,
-					'fileSizeMax'	=> (int) ($config->get('upload_maxsize', 0) * 1024 * 1024),
-				)
-			);
-		}
-
 		if (DIRECTORY_SEPARATOR == '\\')
 		{
 			$base = str_replace(DIRECTORY_SEPARATOR, "\\\\", COM_MEDIA_BASE);
-		} else {
+		}
+		else
+		{
 			$base = COM_MEDIA_BASE;
 		}
 
@@ -117,7 +91,7 @@ class MediaViewMedia extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
@@ -125,47 +99,49 @@ class MediaViewMedia extends JViewLegacy
 		$bar = JToolBar::getInstance('toolbar');
 		$user = JFactory::getUser();
 
+		// The toolbar functions depend on Bootstrap JS
+		JHtml::_('bootstrap.framework');
+
 		// Set the titlebar text
-		JToolbarHelper::title(JText::_('COM_MEDIA'), 'mediamanager.png');
+		JToolbarHelper::title(JText::_('COM_MEDIA'), 'images mediamanager');
 
 		// Add a upload button
 		if ($user->authorise('core.create', 'com_media'))
 		{
-			$title = JText::_('JTOOLBAR_UPLOAD');
-			$dhtml = "<button data-toggle=\"collapse\" data-target=\"#collapseUpload\" class=\"btn btn-small btn-success\">
-						<i class=\"icon-plus icon-white\" title=\"$title\"></i>
-						$title</button>";
-			$bar->appendButton('Custom', $dhtml, 'upload');
+			// Instantiate a new JLayoutFile instance and render the layout
+			$layout = new JLayoutFile('toolbar.uploadmedia');
+
+			$bar->appendButton('Custom', $layout->render(array()), 'upload');
 			JToolbarHelper::divider();
 		}
 
 		// Add a create folder button
 		if ($user->authorise('core.create', 'com_media'))
 		{
-			$title = JText::_('COM_MEDIA_CREATE_FOLDER');
-			$dhtml = "<button data-toggle=\"collapse\" data-target=\"#collapseFolder\" class=\"btn btn-small\">
-						<i class=\"icon-folder\" title=\"$title\"></i>
-						$title</button>";
-			$bar->appendButton('Custom', $dhtml, 'folder');
+			// Instantiate a new JLayoutFile instance and render the layout
+			$layout = new JLayoutFile('toolbar.newfolder');
+
+			$bar->appendButton('Custom', $layout->render(array()), 'upload');
 			JToolbarHelper::divider();
 		}
 
 		// Add a delete button
 		if ($user->authorise('core.delete', 'com_media'))
 		{
-			$title = JText::_('JTOOLBAR_DELETE');
-			$dhtml = "<button href=\"#\" onclick=\"MediaManager.submit('folder.delete')\" class=\"btn btn-small\">
-						<i class=\"icon-remove\" title=\"$title\"></i>
-						$title</button>";
-			$bar->appendButton('Custom', $dhtml, 'delete');
+			// Instantiate a new JLayoutFile instance and render the layout
+			$layout = new JLayoutFile('toolbar.deletemedia');
+
+			$bar->appendButton('Custom', $layout->render(array()), 'upload');
 			JToolbarHelper::divider();
 		}
-		// Add a delete button
+
+		// Add a preferences button
 		if ($user->authorise('core.admin', 'com_media'))
 		{
 			JToolbarHelper::preferences('com_media');
 			JToolbarHelper::divider();
 		}
+
 		JToolbarHelper::help('JHELP_CONTENT_MEDIA_MANAGER');
 	}
 
@@ -173,7 +149,8 @@ class MediaViewMedia extends JViewLegacy
 	{
 		$this->folders_id = null;
 		$txt = null;
-		if (isset($folder['children']) && count($folder['children'])) {
+		if (isset($folder['children']) && count($folder['children']))
+		{
 			$tmp = $this->folders;
 			$this->folders = $folder;
 			$txt = $this->loadTemplate('folders');

@@ -25,24 +25,14 @@
  * #ffcfcf	Background‚ permissions debug
  */
 
-@textColor:          #2c2c2c;
-@linkColor:          #054993;
-@toolbarColor:       @linkColor;
-@bodyBackground:     #ffffff;
+// Import the variables file first to get common variables loaded
+@import "hathor_variables.less";
+
+// Define variables unique to this colour scheme, as well as override variables already defined in the common file
 @altBackground:      #f9fade;
 @gradientTop:        #f9fade;
 @gradientBottom:     #f9fade;
-@inputBackground:    #e5f0fa;
-@hoverBackground:    #e5d9c3;
 @mainBorder:         #c7c8b2;
-@NWBorder:           #868778;
-@SEBorder:           #f6f7db;
-@errorText:          #a20000;
-@fadedText:          #cccccc;
-@successText:        #005800;
-@disabledBackground: #eeeeee;
-@permissionDefault:  #ffffcf;
-@permissionAllowed:  #cfffda;
-@permissionDenied:   #ffcfcf;
 
+// Import the baseline to compile the CSS
 @import "colour_baseline.less";

@@ -3,14 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-JHtml::_('behavior.tooltip');
+
 JHtml::_('behavior.framework');
 
 // Create some shortcuts.
@@ -21,9 +21,12 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 // check for at least one editable article
 $isEditable = false;
-if (!empty($this->items)) {
-	foreach ($this->items as $article) {
-		if ($article->params->get('access-edit')) {
+if (!empty($this->items))
+{
+	foreach ($this->items as $article)
+	{
+		if ($article->params->get('access-edit'))
+		{
 			$isEditable = true;
 			break;
 		}
@@ -41,13 +44,13 @@ if (!empty($this->items)) {
 
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
 	<?php if ($this->params->get('show_headings') || $this->params->get('filter_field') != 'hide' || $this->params->get('show_pagination_limit')) :?>
-	<fieldset class="filters btn-toolbar">
+	<fieldset class="filters btn-toolbar clearfix">
 		<?php if ($this->params->get('filter_field') != 'hide') :?>
 			<div class="btn-group">
 				<label class="filter-search-lbl element-invisible" for="filter-search">
 					<?php echo JText::_('COM_CONTENT_'.$this->params->get('filter_field').'_FILTER_LABEL').'&#160;'; ?>
 				</label>
-				<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" />
+				<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_CONTENT_'.$this->params->get('filter_field').'_FILTER_LABEL'); ?>" />
 			</div>
 		<?php endif; ?>
 		<?php if ($this->params->get('show_pagination_limit')) : ?>
@@ -63,12 +66,11 @@ if (!empty($this->items)) {
 		<input type="hidden" name="filter_order_Dir" value="" />
 		<input type="hidden" name="limitstart" value="" />
 		<input type="hidden" name="task" value="" />
-		<div class="clearfix"></div>
 	</fieldset>
 	<?php endif; ?>
 
 	<table class="category table table-striped table-bordered table-hover">
-		<?php if($this->params->get('show_headings')): ?>
+		<?php if ($this->params->get('show_headings')) : ?>
 		<thead>
 			<tr>
 				<th id="categorylist_header_title">
@@ -95,7 +97,7 @@ if (!empty($this->items)) {
 						<?php echo JHtml::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 					</th>
 				<?php endif; ?>
-				<?php if ($isEditable): ?>
+				<?php if ($isEditable) : ?>
 					<th id="categorylist_header_edit"><?php echo JText::_('COM_CONTENT_EDIT_ITEM'); ?></th>
 				<?php endif; ?>
 			</tr>
@@ -121,14 +123,14 @@ if (!empty($this->items)) {
 							$itemId		= $active->id;
 							$link = JRoute::_('index.php?option=com_users&view=login&Itemid='.$itemId);
 							$returnURL = JRoute::_(ContentHelperRoute::getArticleRoute($article->slug));
-							$fullURL = new JURI($link);
+							$fullURL = new JUri($link);
 							$fullURL->setVar('return', base64_encode($returnURL));
 							?>
 							<a href="<?php echo $fullURL; ?>" class="register">
 								<?php echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?>
 							</a>
 						<?php endif; ?>
-						<?php if($article->state == 0): ?>
+						<?php if ($article->state == 0) : ?>
 							<span class="list-published label label-warning">
 								<?php echo JText::_('JUNPUBLISHED'); ?>
 							</span>
@@ -145,7 +147,7 @@ if (!empty($this->items)) {
 					<?php endif; ?>
 					<?php if ($this->params->get('list_show_author', 1)) : ?>
 						<td headers="categorylist_header_author" class="list-author">
-							<?php if(!empty($article->author) || !empty($article->created_by_alias)) : ?>
+							<?php if (!empty($article->author) || !empty($article->created_by_alias)) : ?>
 								<?php $author = $article->author ?>
 								<?php $author = ($article->created_by_alias ? $article->created_by_alias : $author);?>
 
@@ -169,7 +171,7 @@ if (!empty($this->items)) {
 							</span>
 						</td>
 					<?php endif; ?>
-					<?php if ($isEditable): ?>
+					<?php if ($isEditable) : ?>
 						<td headers="categorylist_header_edit" class="list-edit">
 							<?php if ($article->params->get('access-edit')) : ?>
 								<?php echo JHtml::_('icon.edit', $article, $params); ?>

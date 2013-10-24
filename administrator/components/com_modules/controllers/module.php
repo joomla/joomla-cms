@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -86,14 +86,44 @@ class ModulesControllerModule extends JControllerForm
 	protected function allowSave($data, $key = 'id')
 	{
 		// use custom position if selected
-		if (empty($data['position']))
+		if (isset($data['custom_position']))
 		{
-			$data['position'] = $data['custom_position'];
+			if (empty($data['position']))
+			{
+				$data['position'] = $data['custom_position'];
+			}
+
+			unset($data['custom_position']);
 		}
 
-		unset($data['custom_position']);
-
 		return parent::allowSave($data, $key);
+	}
+
+	/**
+	 * Method override to check if you can edit an existing record.
+	 *
+	 * @param   array   $data  An array of input data.
+	 * @param   string  $key   The name of the key for the primary key.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.2
+	 */
+	protected function allowEdit($data = array(), $key = 'id')
+	{
+		// Initialise variables.
+		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
+		$user = JFactory::getUser();
+		$userId = $user->get('id');
+
+		// Check general edit permission first.
+		if ($user->authorise('core.edit', 'com_modules.module.' . $recordId))
+		{
+			return true;
+		}
+
+		// Since there is no asset tracking, revert to the component permissions.
+		return parent::allowEdit($data, $key);
 	}
 
 	/**
@@ -101,9 +131,9 @@ class ModulesControllerModule extends JControllerForm
 	 *
 	 * @param   string  $model  The model
 	 *
-	 * @return	boolean  True on success.
+	 * @return  boolean  True on success.
 	 *
-	 * @since	1.7
+	 * @since   1.7
 	 */
 	public function batch($model = null)
 	{

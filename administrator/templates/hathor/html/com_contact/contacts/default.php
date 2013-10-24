@@ -3,26 +3,30 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-JHtml::_('behavior.tooltip');
-JHtml::_('behavior.multiselect');
 
+JHtml::_('behavior.multiselect');
+JHtml::_('behavior.modal');
+
+$app		= JFactory::getApplication();
 $user		= JFactory::getUser();
 $userId		= $user->get('id');
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 $canOrder	= $user->authorise('core.edit.state', 'com_contact.category');
 $saveOrder	= $listOrder == 'a.ordering';
+$assoc		= JLanguageAssociations::isEnabled();
+
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_contact'); ?>" method="post" name="adminForm" id="adminForm">
-<?php if(!empty( $this->sidebar)): ?>
+<?php if (!empty( $this->sidebar)) : ?>
 	<div id="j-sidebar-container" class="span2">
 		<?php echo $this->sidebar; ?>
 	</div>
@@ -55,7 +59,7 @@ $saveOrder	= $listOrder == 'a.ordering';
 				<?php echo JHtml::_('select.options', JHtml::_('category.options', 'com_contact'), 'value', 'text', $this->state->get('filter.category_id'));?>
 			</select>
 
-            <label class="selectlabel" for="filter_access">
+			<label class="selectlabel" for="filter_access">
 				<?php echo JText::_('JOPTION_SELECT_ACCESS'); ?>
 			</label>
 			<select name="filter_access" class="inputbox" id="filter_access">
@@ -69,6 +73,14 @@ $saveOrder	= $listOrder == 'a.ordering';
 			<select name="filter_language" class="inputbox" id="filter_language">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_LANGUAGE');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'));?>
+			</select>
+
+			<label class="selectlabel" for="filter_tag">
+				<?php echo JText::_('JOPTION_SELECT_TAG'); ?>
+			</label>
+			<select name="filter_tag" class="inputbox" id="filter_tag">
+				<option value=""><?php echo JText::_('JOPTION_SELECT_TAG');?></option>
+				<?php echo JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag'));?>
 			</select>
 
 			<button type="submit" id="filter-go">
@@ -107,6 +119,11 @@ $saveOrder	= $listOrder == 'a.ordering';
 				<th class="title access-col">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 				</th>
+				<?php if ($assoc) : ?>
+					<th width="5%">
+						<?php echo JHtml::_('grid.sort', 'COM_CONTACT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
+					</th>
+				<?php endif;?>
 				<th class="language-col">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 				</th>
@@ -180,6 +197,13 @@ $saveOrder	= $listOrder == 'a.ordering';
 				<td class="center">
 					<?php echo $item->access_level; ?>
 				</td>
+				<?php if ($assoc) : ?>
+					<td class="center">
+						<?php if ($item->association) : ?>
+							<?php echo JHtml::_('contact.association', $item->id); ?>
+						<?php endif; ?>
+					</td>
+				<?php endif;?>
 				<td class="center">
 					<?php if ($item->language == '*'):?>
 						<?php echo JText::alt('JALL', 'language'); ?>

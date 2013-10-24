@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,7 +49,8 @@ class AdminViewSysinfo extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Access check.
-		if (!JFactory::getUser()->authorise('core.admin')) {
+		if (!JFactory::getUser()->authorise('core.admin'))
+		{
 			return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
 		}
 
@@ -88,11 +89,11 @@ class AdminViewSysinfo extends JViewLegacy
 	/**
 	 * Setup the Toolbar
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
-		JToolbarHelper::title(JText::_('COM_ADMIN_SYSTEM_INFORMATION'), 'systeminfo.png');
+		JToolbarHelper::title(JText::_('COM_ADMIN_SYSTEM_INFORMATION'), 'info systeminfo');
 		JToolbarHelper::help('JHELP_SITE_SYSTEM_INFORMATION');
 	}
 }

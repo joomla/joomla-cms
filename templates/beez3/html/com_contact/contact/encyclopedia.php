@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,7 +29,8 @@ $cparams = JComponentHelper::getParams('com_media');
 			<div class="contact-image">
 			<?php // We are going to use the contact address field for the main image caption.
 				// If we have a caption load the caption behavior. ?>
-			<?php if ($this->contact->address) {
+			<?php if ($this->contact->address)
+			{
 				JHtml::_('behavior.caption');
 			}?>
 				<?php echo JHtml::_('image', $this->contact->image, JText::_('COM_CONTACT_IMAGE_DETAILS'), array('align' => 'middle', 'class' => 'caption', 'title' => $this->contact->address)); ?>

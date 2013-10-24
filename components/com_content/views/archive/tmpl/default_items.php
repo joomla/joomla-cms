@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,7 +26,7 @@ $params = $this->params;
 					<?php endif; ?>
 				</h2>
 				<?php if ($params->get('show_author') && !empty($item->author )) : ?>
-					<small class="createdby">
+					<div class="createdby">
 					<?php $author = $item->author; ?>
 					<?php $author = ($item->created_by_alias ? $item->created_by_alias : $author); ?>
 						<?php if (!empty($item->contactid ) && $params->get('link_author') == true) : ?>
@@ -37,10 +37,10 @@ $params = $this->params;
 						<?php else :?>
 							<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
 						<?php endif; ?>
-					</small>
+					</div>
 				<?php endif; ?>
 			</div>
-		<?php $useDefList = ($params->get('show_modify_date') || $params->get('show_publish_date')
+		<?php $useDefList = ($params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_create_date')
 			|| $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category')); ?>
 		<?php if ($useDefList && ($info == 0 || $info == 2)) : ?>
 			<div class="article-info muted">
@@ -84,7 +84,7 @@ $params = $this->params;
 					</dd>
 				<?php endif; ?>
 
-				<?php if ($info == 0): ?>
+				<?php if ($info == 0) : ?>
 					<?php if ($params->get('show_modify_date')) : ?>
 						<dd>
 							<div class="modified">
@@ -113,7 +113,7 @@ $params = $this->params;
 		<?php endif; ?>
 
 		<?php if ($params->get('show_intro')) :?>
-			<div class="intro"> <?php echo JHtml::_('string.truncate', $item->introtext, $params->get('introtext_limit')); ?> </div>
+			<div class="intro"> <?php echo JHtml::_('string.truncateComplex', $item->introtext, $params->get('introtext_limit')); ?> </div>
 		<?php endif; ?>
 
 		<?php if ($useDefList && ($info == 1 || $info == 2)) : ?>
@@ -121,7 +121,7 @@ $params = $this->params;
 				<dl class="article-info">
 				<dt class="article-info-term"><?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?></dt>
 
-				<?php if ($info == 1): ?>
+				<?php if ($info == 1) : ?>
 					<?php if ($params->get('show_parent_category') && !empty($item->parent_slug)) : ?>
 						<dd>
 							<div class="parent-category-name">

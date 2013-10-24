@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ class ContentControllerArticle extends JControllerForm
 	 *
 	 * @param   array  $config  A named array of configuration variables.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{
@@ -125,7 +125,7 @@ class ContentControllerArticle extends JControllerForm
 	 *
 	 * @param   object  $model  The model.
 	 *
-	 * @return  boolean	 True if successful, false otherwise and internal error is set.
+	 * @return  boolean   True if successful, false otherwise and internal error is set.
 	 *
 	 * @since   1.6
 	 */
@@ -140,5 +140,21 @@ class ContentControllerArticle extends JControllerForm
 		$this->setRedirect(JRoute::_('index.php?option=com_content&view=articles' . $this->getRedirectToListAppend(), false));
 
 		return parent::batch($model);
+	}
+
+	/**
+	 * Function that allows child controller access to model data after the data has been saved.
+	 *
+	 * @param   JModelLegacy  $model  The data model object.
+	 * @param   array         $validData   The validated data.
+	 *
+	 * @return	void
+	 *
+	 * @since	3.1
+	 */
+	protected function postSaveHook(JModelLegacy $model, $validData = array())
+	{
+
+		return;
 	}
 }

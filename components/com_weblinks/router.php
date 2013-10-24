@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,46 +12,52 @@ defined('_JEXEC') or die;
 /**
  * Build the route for the com_weblinks component
  *
- * @param	array	An array of URL arguments
+ * @return  array  An array of URL arguments
  *
- * @return	array	The URL arguments to use to assemble the subsequent URL.
+ * @return  array  The URL arguments to use to assemble the subsequent URL.
  */
 function WeblinksBuildRoute(&$query)
 {
 	$segments = array();
 
 	// get a menu item based on Itemid or currently active
-	$app		= JFactory::getApplication();
-	$menu		= $app->getMenu();
-	$params		= JComponentHelper::getParams('com_weblinks');
-	$advanced	= $params->get('sef_advanced_link', 0);
+	$app = JFactory::getApplication();
+	$menu = $app->getMenu();
+	$params = JComponentHelper::getParams('com_weblinks');
+	$advanced = $params->get('sef_advanced_link', 0);
 
 	// we need a menu item.  Either the one specified in the query, or the current active one if none specified
-	if (empty($query['Itemid'])) {
+	if (empty($query['Itemid']))
+	{
 		$menuItem = $menu->getActive();
 	}
-	else {
+	else
+	{
 		$menuItem = $menu->getItem($query['Itemid']);
 	}
 
 	$mView = (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
-	$mId   = (empty($menuItem->query['id'])) ? null : $menuItem->query['id'];
+	$mId = (empty($menuItem->query['id'])) ? null : $menuItem->query['id'];
 
-	if (isset($query['view'])) {
+	if (isset($query['view']))
+	{
 		$view = $query['view'];
 
-		if (empty($query['Itemid'])) {
+		if (empty($query['Itemid']) || empty($menuItem) || $menuItem->component != 'com_weblinks')
+		{
 			$segments[] = $query['view'];
 		}
 
 		// We need to keep the view for forms since they never have their own menu item
-		if ($view != 'form') {
+		if ($view != 'form')
+		{
 			unset($query['view']);
 		}
 	}
 
 	// are we dealing with an weblink that is attached to a menu item?
-	if (isset($query['view']) && ($mView == $query['view']) and (isset($query['id'])) and ($mId == (int) $query['id'])) {
+	if (isset($query['view']) && ($mView == $query['view']) and (isset($query['id'])) and ($mId == (int) $query['id']))
+	{
 		unset($query['view']);
 		unset($query['catid']);
 		unset($query['id']);
@@ -59,12 +65,16 @@ function WeblinksBuildRoute(&$query)
 		return $segments;
 	}
 
-	if (isset($view) and ($view == 'category' or $view == 'weblink' )) {
-		if ($mId != (int) $query['id'] || $mView != $view) {
-			if ($view == 'weblink' && isset($query['catid'])) {
+	if (isset($view) and ($view == 'category' or $view == 'weblink'))
+	{
+		if ($mId != (int) $query['id'] || $mView != $view)
+		{
+			if ($view == 'weblink' && isset($query['catid']))
+			{
 				$catid = $query['catid'];
 			}
-			elseif (isset($query['id'])) {
+			elseif (isset($query['id']))
+			{
 				$catid = $query['id'];
 			}
 
@@ -72,19 +82,22 @@ function WeblinksBuildRoute(&$query)
 			$categories = JCategories::getInstance('Weblinks');
 			$category = $categories->get($catid);
 
-			if ($category) {
+			if ($category)
+			{
 				//TODO Throw error that the category either not exists or is unpublished
 				$path = $category->getPath();
 				$path = array_reverse($path);
 
 				$array = array();
-				foreach($path as $id)
+				foreach ($path as $id)
 				{
-					if ((int) $id == (int) $menuCatid) {
+					if ((int) $id == (int) $menuCatid)
+					{
 						break;
 					}
 
-					if ($advanced) {
+					if ($advanced)
+					{
 						list($tmp, $id) = explode(':', $id, 2);
 					}
 
@@ -93,11 +106,14 @@ function WeblinksBuildRoute(&$query)
 				$segments = array_merge($segments, array_reverse($array));
 			}
 
-			if ($view == 'weblink') {
-				if ($advanced) {
+			if ($view == 'weblink')
+			{
+				if ($advanced)
+				{
 					list($tmp, $id) = explode(':', $query['id'], 2);
 				}
-				else {
+				else
+				{
 					$id = $query['id'];
 				}
 
@@ -109,36 +125,42 @@ function WeblinksBuildRoute(&$query)
 		unset($query['catid']);
 	}
 
-	if (isset($query['layout'])) {
-		if (!empty($query['Itemid']) && isset($menuItem->query['layout'])) {
-			if ($query['layout'] == $menuItem->query['layout']) {
+	if (isset($query['layout']))
+	{
+		if (!empty($query['Itemid']) && isset($menuItem->query['layout']))
+		{
+			if ($query['layout'] == $menuItem->query['layout'])
+			{
 				unset($query['layout']);
 			}
 		}
-		else {
-			if ($query['layout'] == 'default') {
+		else
+		{
+			if ($query['layout'] == 'default')
+			{
 				unset($query['layout']);
 			}
 		}
-	};
+	}
 
 	return $segments;
 }
+
 /**
  * Parse the segments of a URL.
  *
- * @param	array	The segments of the URL to parse.
+ * @return  array  The segments of the URL to parse.
  *
- * @return	array	The URL attributes to be used by the application.
+ * @return  array  The URL attributes to be used by the application.
  */
 function WeblinksParseRoute($segments)
 {
 	$vars = array();
 
 	//Get the active menu item.
-	$app	= JFactory::getApplication();
-	$menu	= $app->getMenu();
-	$item	= $menu->getActive();
+	$app = JFactory::getApplication();
+	$menu = $app->getMenu();
+	$item = $menu->getActive();
 	$params = JComponentHelper::getParams('com_weblinks');
 	$advanced = $params->get('sef_advanced_link', 0);
 
@@ -146,9 +168,10 @@ function WeblinksParseRoute($segments)
 	$count = count($segments);
 
 	// Standard routing for weblinks.
-	if (!isset($item)) {
-		$vars['view']	= $segments[0];
-		$vars['id']		= $segments[$count - 1];
+	if (!isset($item))
+	{
+		$vars['view'] = $segments[0];
+		$vars['id'] = $segments[$count - 1];
 		return $vars;
 	}
 
@@ -160,11 +183,12 @@ function WeblinksParseRoute($segments)
 	$categories = $category->getChildren();
 	$found = 0;
 
-	foreach($segments as $segment)
+	foreach ($segments as $segment)
 	{
-		foreach($categories as $category)
+		foreach ($categories as $category)
 		{
-			if (($category->slug == $segment) || ($advanced && $category->alias == str_replace(':', '-', $segment))) {
+			if (($category->slug == $segment) || ($advanced && $category->alias == str_replace(':', '-', $segment)))
+			{
 				$vars['id'] = $category->id;
 				$vars['view'] = 'category';
 				$categories = $category->getChildren();
@@ -174,14 +198,21 @@ function WeblinksParseRoute($segments)
 			}
 		}
 
-		if ($found == 0) {
-			if ($advanced) {
-				$db = JFactory::getDBO();
-				$query = 'SELECT id FROM #__weblinks WHERE catid = '.$vars['id'].' AND alias = '.$db->Quote(str_replace(':', '-', $segment));
+		if ($found == 0)
+		{
+			if ($advanced)
+			{
+				$db = JFactory::getDbo();
+				$query = $db->getQuery(true)
+					->select($db->quoteName('id'))
+					->from('#__weblinks')
+					->where($db->quoteName('catid') . ' = ' . (int) $vars['catid'])
+					->where($db->quoteName('alias') . ' = ' . $db->quote($db->quote(str_replace(':', '-', $segment))));
 				$db->setQuery($query);
 				$id = $db->loadResult();
 			}
-			else {
+			else
+			{
 				$id = $segment;
 			}
 

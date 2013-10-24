@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +23,7 @@ class InstallerViewDefault extends JViewLegacy
 	 *
 	 * @param   array  $config  Configuration array
 	 *
-	 * @since	1.5
+	 * @since   1.5
 	 */
 	public function __construct($config = null)
 	{
@@ -40,7 +40,7 @@ class InstallerViewDefault extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since	1.5
+	 * @since   1.5
 	 */
 	public function display($tpl = null)
 	{
@@ -59,7 +59,6 @@ class InstallerViewDefault extends JViewLegacy
 		$this->showMessage = $showMessage;
 		$this->state = &$state;
 
-		JHtml::_('behavior.tooltip');
 		$this->addToolbar();
 		parent::display($tpl);
 	}
@@ -69,12 +68,12 @@ class InstallerViewDefault extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
 		$canDo	= InstallerHelper::getActions();
-		JToolbarHelper::title(JText::_('COM_INSTALLER_HEADER_' . $this->getName()), 'install.png');
+		JToolbarHelper::title(JText::_('COM_INSTALLER_HEADER_' . $this->getName()), 'puzzle install');
 
 		if ($canDo->get('core.admin'))
 		{

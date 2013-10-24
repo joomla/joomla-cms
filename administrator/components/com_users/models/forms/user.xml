@@ -22,6 +22,7 @@
 			class="inputbox validate-password"
 			description="COM_USERS_USER_FIELD_PASSWORD_DESC"
 			filter="raw"
+			validate="password"
 			label="JGLOBAL_PASSWORD"
 			size="30"
 		/>
@@ -34,7 +35,7 @@
 			label="COM_USERS_USER_FIELD_PASSWORD2_LABEL"
 			size="30"
 			validate="equals"
-			field="password2"
+			field="password"
 		/>
 
 		<field name="email" type="email"
@@ -96,7 +97,7 @@
 				name="sendEmail"
 				type="radio"
 				default="0"
-				class="btn-group"
+				class="btn-group btn-group-yesno"
 				label="COM_USERS_USER_FIELD_SENDEMAIL_LABEL"
 				description="COM_USERS_USER_FIELD_SENDEMAIL_DESC">
 				<option
@@ -108,7 +109,7 @@
 		<field
 				name="block"
 				type="radio"
-				class="btn-group"
+				class="btn-group btn-group-yesno"
 				default="0"
 				label="COM_USERS_USER_FIELD_BLOCK_LABEL"
 				description="COM_USERS_USER_FIELD_BLOCK_DESC">
@@ -130,6 +131,7 @@
 
 	</fieldset>
 	<field name="groups" type="hidden" />
+	<field name="twofactor" type="hidden" />
 
 	<fields name="params">
 
@@ -180,6 +182,8 @@
 			>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
+
 		</fieldset>
+
 	</fields>
 </form>

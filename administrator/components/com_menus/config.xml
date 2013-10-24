@@ -14,7 +14,7 @@
 		<field
 			name="show_page_heading"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			label="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_LABEL"
 			description="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_DESC"
 			default="0"

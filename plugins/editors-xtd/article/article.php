@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors-xtd.article
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,24 +16,20 @@ defined('_JEXEC') or die;
  * @subpackage  Editors-xtd.article
  * @since       1.5
  */
-class plgButtonArticle extends JPlugin
+class PlgButtonArticle extends JPlugin
 {
 	/**
-	 * Constructor
+	 * Load the language file on instantiation.
 	 *
-	 * @access      protected
-	 * @param       object  $subject The object to observe
-	 * @param       array   $config  An array that holds the plugin configuration
-	 * @since       1.5
+	 * @var    boolean
+	 * @since  3.1
 	 */
-	public function __construct(& $subject, $config)
-	{
-		parent::__construct($subject, $config);
-		$this->loadLanguage();
-	}
+	protected $autoloadLanguage = true;
 
 	/**
 	 * Display the button
+	 *
+	 * @param   string  $name  The name of the button to add
 	 *
 	 * @return array A four element array of (article_id, article_title, category_id, object)
 	 */
@@ -46,13 +42,15 @@ class plgButtonArticle extends JPlugin
 		 * and closes the select frame.
 		 */
 		$js = "
-		function jSelectArticle(id, title, catid, object, link, lang) {
+		function jSelectArticle(id, title, catid, object, link, lang)
+		{
 			var hreflang = '';
-			if (lang !== '') {
+			if (lang !== '')
+			{
 				var hreflang = ' hreflang = \"' + lang + '\"';
 			}
 			var tag = '<a' + hreflang + ' href=\"' + link + '\">' + title + '</a>';
-			jInsertEditorText(tag, '".$name."');
+			jInsertEditorText(tag, '" . $name . "');
 			SqueezeBox.close();
 		}";
 
@@ -65,10 +63,11 @@ class plgButtonArticle extends JPlugin
 		 * Use the built-in element view to select the article.
 		 * Currently uses blank class.
 		 */
-		$link = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;'.JSession::getFormToken().'=1';
+		$link = 'index.php?option=com_content&amp;view=articles&amp;layout=modal&amp;tmpl=component&amp;' . JSession::getFormToken() . '=1';
 
 		$button = new JObject;
 		$button->modal = true;
+		$button->class = 'btn';
 		$button->link = $link;
 		$button->text = JText::_('PLG_ARTICLE_BUTTON_ARTICLE');
 		$button->name = 'file-add';

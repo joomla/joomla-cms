@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -50,7 +50,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 
 		$data = $this->_doc;
 
-		$uri = JURI::getInstance();
+		$uri = JUri::getInstance();
 		$url = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 		$syndicationURL = JRoute::_('&format=feed&type=rss');
 
@@ -72,7 +72,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		$feed = "<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n";
 		$feed .= "	<channel>\n";
 		$feed .= "		<title>" . $feed_title . "</title>\n";
-		$feed .= "		<description>" . $data->description . "</description>\n";
+		$feed .= "		<description><![CDATA[" . $data->description . "]]></description>\n";
 		$feed .= "		<link>" . str_replace(' ', '%20', $url . $data->link) . "</link>\n";
 		$feed .= "		<lastBuildDate>" . htmlspecialchars($now->toRFC822(true), ENT_COMPAT, 'UTF-8') . "</lastBuildDate>\n";
 		$feed .= "		<generator>" . $data->getGenerator() . "</generator>\n";
@@ -243,7 +243,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 	 */
 	public function _relToAbs($text)
 	{
-		$base = JURI::base();
+		$base = JUri::base();
 		$text = preg_replace("/(href|src)=\"(?!http|ftp|https|mailto|data)([^\"]*)\"/", "$1=\"$base\$2\"", $text);
 
 		return $text;

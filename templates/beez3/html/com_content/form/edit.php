@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.calendar');
 JHtml::_('behavior.formvalidation');
 
@@ -28,8 +27,10 @@ endif;
 ?>
 
 <script type="text/javascript">
-	Joomla.submitbutton = function(task) {
-		if (task == 'article.cancel' || document.formvalidator.isValid(document.id('adminForm'))) {
+	Joomla.submitbutton = function(task)
+	{
+		if (task == 'article.cancel' || document.formvalidator.isValid(document.id('adminForm')))
+		{
 			<?php echo $this->form->getField('articletext')->save(); ?>
 			Joomla.submitform(task);
 		}
@@ -217,6 +218,14 @@ endif;
 				</div>
 				<div class="controls">
 					<?php echo $this->form->getInput('catid'); ?>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="control-label">
+					<?php echo $this->form->getLabel('tags'); ?>
+				</div>
+				<div class="controls">
+					<?php echo $this->form->getInput('tags'); ?>
 				</div>
 			</div>
 			<div class="control-group">

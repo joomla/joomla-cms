@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,15 +11,21 @@ defined('_JEXEC') or die;
 
 // Include the HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-JHtml::_('behavior.tooltip');
+
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
+
+$app = JFactory::getApplication();
+$input = $app->input;
+
+$assoc = JLanguageAssociations::isEnabled();
 
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'newsfeed.cancel' || document.formvalidator.isValid(document.id('newsfeed-form'))) {
+		if (task == 'newsfeed.cancel' || document.formvalidator.isValid(document.id('newsfeed-form')))
+		{
 			Joomla.submitform(task, document.getElementById('newsfeed-form'));
 		}
 	}
@@ -53,6 +59,13 @@ JHtml::_('behavior.keepalive');
 
 			<li><?php echo $this->form->getLabel('language'); ?>
 			<?php echo $this->form->getInput('language'); ?></li>
+
+			<!-- Tag field -->
+			<li><?php echo $this->form->getLabel('tags'); ?>
+				<div class="is-tagbox">
+					<?php echo $this->form->getInput('tags'); ?>
+				</div>
+			</li>
 
 			<li><?php echo $this->form->getLabel('id'); ?>
 			<?php echo $this->form->getInput('id'); ?></li>
@@ -99,15 +112,20 @@ JHtml::_('behavior.keepalive');
 
 				<li><?php echo $this->form->getLabel('rtl'); ?>
 				<?php echo $this->form->getInput('rtl'); ?></li>
-
-				<li><?php //echo $this->form->getLabel('xreference'); // Missing from schema! ?>
-				<?php //echo $this->form->getInput('xreference'); ?></li>
 			</ul>
 			</fieldset>
 
 			<?php echo $this->loadTemplate('params'); ?>
 
-			<?php echo $this->loadTemplate('metadata'); ?>
+			<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'meta-options'); ?>
+			<fieldset class="panelform">
+			<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
+				<?php echo $this->loadTemplate('metadata'); ?>
+			</fieldset>
+
+			<?php if ($assoc) : ?>
+				<?php echo $this->loadTemplate('associations'); ?>
+			<?php endif; ?>
 
 		<?php echo JHtml::_('sliders.end'); ?>
 		<input type="hidden" name="task" value="" />

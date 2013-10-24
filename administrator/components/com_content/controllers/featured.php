@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,15 +39,18 @@ class ContentControllerFeatured extends ContentControllerArticles
 			}
 		}
 
-		if (empty($ids)) {
+		if (empty($ids))
+		{
 			JError::raiseWarning(500, JText::_('JERROR_NO_ITEMS_SELECTED'));
 		}
-		else {
+		else
+		{
 			// Get the model.
 			$model = $this->getModel();
 
 			// Remove the items.
-			if (!$model->featured($ids, 0)) {
+			if (!$model->featured($ids, 0))
+			{
 				JError::raiseWarning(500, $model->getError());
 			}
 		}
@@ -58,8 +61,8 @@ class ContentControllerFeatured extends ContentControllerArticles
 	/**
 	 * Method to publish a list of articles.
 	 *
-	 * @return	void
-	 * @since	1.0
+	 * @return  void
+	 * @since   1.0
 	 */
 	public function publish()
 	{
@@ -83,36 +86,5 @@ class ContentControllerFeatured extends ContentControllerArticles
 	{
 		$model = parent::getModel($name, $prefix, $config);
 		return $model;
-	}
-
-	/**
-	 * Method to save the submitted ordering values for records via AJAX.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 */
-	public function saveOrderAjax()
-	{
-		$pks = $this->input->post->get('cid', array(), 'array');
-		$order = $this->input->post->get('order', array(), 'array');
-
-		// Sanitize the input
-		JArrayHelper::toInteger($pks);
-		JArrayHelper::toInteger($order);
-
-		// Get the model
-		$model = $this->getModel();
-
-		// Save the ordering
-		$return = $model->saveorder($pks, $order);
-
-		if ($return)
-		{
-			echo "1";
-		}
-
-		// Close the application
-		JFactory::getApplication()->close();
 	}
 }

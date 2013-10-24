@@ -3,22 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-/* @var $this UsersViewNote */
-
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
 ?>
 <script language="javascript" type="text/javascript">
 Joomla.submitbutton = function(task)
 {
-	if (task == 'note.cancel' || document.formvalidator.isValid(document.id('note-form'))) {
+	if (task == 'note.cancel' || document.formvalidator.isValid(document.id('note-form')))
+	{
 		Joomla.submitform(task, document.getElementById('note-form'));
 	}
 }
@@ -63,6 +61,14 @@ Joomla.submitbutton = function(task)
 				</div>
 				<div class="controls">
 					<?php echo $this->form->getInput('review_time'); ?>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="control-label">
+					<?php echo $this->form->getLabel('version_note'); ?>
+				</div>
+				<div class="controls">
+					<?php echo $this->form->getInput('version_note'); ?>
 				</div>
 			</div>
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,10 +23,8 @@ $doc->addScript('templates/' .$this->template. '/js/template.js');
 // Add Stylesheets
 $doc->addStyleSheet('templates/' .$this->template. '/css/template.css');
 
-// If Right-to-Left
-if ($this->direction == 'rtl') :
-	$doc->addStyleSheet('../media/jui/css/bootstrap-rtl.css');
-endif;
+// Load optional RTL Bootstrap CSS
+JHtml::_('bootstrap.loadCss', false, $this->direction);
 
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';

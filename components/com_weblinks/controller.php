@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,11 +21,11 @@ class WeblinksController extends JControllerLegacy
 	/**
 	 * Method to display a view.
 	 *
-	 * @param	boolean			If true, the view output will be cached
-	 * @param	array			An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean			If true, the view output will be cached
+	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return	JController		This object to support chaining.
-	 * @since	1.5
+	 * @return  JController		This object to support chaining.
+	 * @since   1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
@@ -39,7 +39,8 @@ class WeblinksController extends JControllerLegacy
 		$vName = $this->input->get('view', 'categories');
 		$this->input->set('view', $vName);
 
-		if ($user->get('id') ||($this->input->getMethod() == 'POST' && $vName = 'categories')) {
+		if ($user->get('id') ||($this->input->getMethod() == 'POST' && $vName = 'categories'))
+		{
 			$cachable = false;
 		}
 
@@ -53,7 +54,8 @@ class WeblinksController extends JControllerLegacy
 		);
 
 		// Check for edit form.
-		if ($vName == 'form' && !$this->checkEditId('com_weblinks.edit.weblink', $id)) {
+		if ($vName == 'form' && !$this->checkEditId('com_weblinks.edit.weblink', $id))
+		{
 			// Somehow the person just went to the form - we don't allow that.
 			return JError::raiseError(403, JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
 		}

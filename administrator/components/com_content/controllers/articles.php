@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,11 +21,11 @@ class ContentControllerArticles extends JControllerAdmin
 	/**
 	 * Constructor.
 	 *
-	 * @param	array	$config	An optional associative array of configuration settings.
+	 * @param   array  $config	An optional associative array of configuration settings.
 
-	 * @return	ContentControllerArticles
-	 * @see		JController
-	 * @since	1.6
+	 * @return  ContentControllerArticles
+	 * @see     JController
+	 * @since   1.6
 	 */
 	public function __construct($config = array())
 	{
@@ -44,8 +44,8 @@ class ContentControllerArticles extends JControllerAdmin
 	/**
 	 * Method to toggle the featured setting of a list of articles.
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	public function featured()
 	{
@@ -61,22 +61,26 @@ class ContentControllerArticles extends JControllerAdmin
 		// Access checks.
 		foreach ($ids as $i => $id)
 		{
-			if (!$user->authorise('core.edit.state', 'com_content.article.'.(int) $id)) {
+			if (!$user->authorise('core.edit.state', 'com_content.article.'.(int) $id))
+			{
 				// Prune items that you can't change.
 				unset($ids[$i]);
 				JError::raiseNotice(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 			}
 		}
 
-		if (empty($ids)) {
+		if (empty($ids))
+		{
 			JError::raiseWarning(500, JText::_('JERROR_NO_ITEMS_SELECTED'));
 		}
-		else {
+		else
+		{
 			// Get the model.
 			$model = $this->getModel();
 
 			// Publish the items.
-			if (!$model->featured($ids, $value)) {
+			if (!$model->featured($ids, $value))
+			{
 				JError::raiseWarning(500, $model->getError());
 			}
 		}
@@ -87,11 +91,11 @@ class ContentControllerArticles extends JControllerAdmin
 	/**
 	 * Proxy for getModel.
 	 *
-	 * @param	string	$name	The name of the model.
-	 * @param	string	$prefix	The prefix for the PHP class name.
+	 * @param   string	$name	The name of the model.
+	 * @param   string	$prefix	The prefix for the PHP class name.
 	 *
-	 * @return	JModel
-	 * @since	1.6
+	 * @return  JModel
+	 * @since   1.6
 	 */
 	public function getModel($name = 'Article', $prefix = 'ContentModel', $config = array('ignore_request' => true))
 	{
@@ -101,33 +105,18 @@ class ContentControllerArticles extends JControllerAdmin
 	}
 
 	/**
-	 * Method to save the submitted ordering values for records via AJAX.
+	 * Function that allows child controller access to model data
+	 * after the item has been deleted.
 	 *
-	 * @return	void
+	 * @param   JModelLegacy  $model  The data model object.
+	 * @param   integer       $ids    The array of ids for items being deleted.
 	 *
-	 * @since   3.0
+	 * @return  void
+	 *
+	 * @since   12.2
 	 */
-	public function saveOrderAjax()
+	protected function postDeleteHook(JModelLegacy $model, $ids = null)
 	{
-		$pks = $this->input->post->get('cid', array(), 'array');
-		$order = $this->input->post->get('order', array(), 'array');
-
-		// Sanitize the input
-		JArrayHelper::toInteger($pks);
-		JArrayHelper::toInteger($order);
-
-		// Get the model
-		$model = $this->getModel();
-
-		// Save the ordering
-		$return = $model->saveorder($pks, $order);
-
-		if ($return)
-		{
-			echo "1";
-		}
-
-		// Close the application
-		JFactory::getApplication()->close();
 	}
+
 }

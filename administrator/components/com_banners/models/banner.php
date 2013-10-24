@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,13 +25,21 @@ class BannersModelBanner extends JModelAdmin
 	protected $text_prefix = 'COM_BANNERS_BANNER';
 
 	/**
+	 * The type alias for this content type.
+	 *
+	 * @var      string
+	 * @since    3.2
+	 */
+	public $typeAlias = 'com_banners.banner';
+
+	/**
 	 * Method to perform batch operations on an item or a set of items.
 	 *
 	 * @param   array   $commands   An array of commands to perform.
 	 * @param   array   $pks        An array of item ids.
 	 * @param   array   $contexts   An array of item contexts.
 	 *
-	 * @return	boolean	 Returns true on success, false on failure.
+	 * @return  boolean   Returns true on success, false on failure.
 	 *
 	 * @since	2.5
 	 */
@@ -421,6 +429,8 @@ class BannersModelBanner extends JModelAdmin
 			}
 		}
 
+		$this->preprocessData('com_banners.banner', $data);
+
 		return $data;
 	}
 
@@ -489,20 +499,27 @@ class BannersModelBanner extends JModelAdmin
 		$date = JFactory::getDate();
 		$user = JFactory::getUser();
 
-		if (empty($table->id)) {
+		if (empty($table->id))
+		{
 			// Set the values
 			$table->created	= $date->toSql();
 
 			// Set ordering to the last item if not set
-			if (empty($table->ordering)) {
+			if (empty($table->ordering))
+			{
 				$db = JFactory::getDbo();
-				$db->setQuery('SELECT MAX(ordering) FROM #__banners');
+				$query = $db->getQuery(true)
+					->select('MAX(ordering)')
+					->from('#__banners');
+
+				$db->setQuery($query);
 				$max = $db->loadResult();
 
 				$table->ordering = $max + 1;
 			}
 		}
-		else {
+		else
+		{
 			// Set the values
 			$table->modified	= $date->toSql();
 			$table->modified_by	= $user->get('id');
@@ -510,4 +527,35 @@ class BannersModelBanner extends JModelAdmin
 		// Increment the content version number.
 		$table->version++;
 	}
+
+	/**
+	 * Method to save the form data.
+	 *
+	 * @param   array  The form data.
+	 *
+	 * @return  boolean  True on success.
+	 * @since   1.6
+	 */
+
+	public function save($data)
+	{
+		$app = JFactory::getApplication();
+
+		// Alter the name for save as copy
+		if ($app->input->get('task') == 'save2copy')
+		{
+			list($name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
+			$data['name']	= $name;
+			$data['alias']	= $alias;
+			$data['state']	= 0;
+		}
+
+		if (parent::save($data))
+		{
+			return true;
+		}
+
+		return false;
+	}
+
 }

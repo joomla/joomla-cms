@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +23,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function update()
 	{
@@ -61,7 +61,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function find()
 	{
@@ -76,10 +76,8 @@ class InstallerControllerUpdate extends JControllerLegacy
 
 		// Find updates
 		$model	= $this->getModel('update');
-		$result = $model->findUpdates(0, $cache_timeout);
+		$model->findUpdates(0, $cache_timeout);
 		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=update', false));
-
-		// $view->display();
 	}
 
 	/**
@@ -87,7 +85,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function purge()
 	{
@@ -128,7 +126,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 		}
 
 		$model = $this->getModel('update');
-		$result = $model->findUpdates($eid, $cache_timeout);
+		$model->findUpdates($eid, $cache_timeout);
 
 		$model->setState('list.start', 0);
 		$model->setState('list.limit', 0);

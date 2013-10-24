@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,7 +35,7 @@ class InstallerViewManage extends InstallerViewDefault
 	 *
 	 * @return  mixed|void
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
@@ -72,7 +72,7 @@ class InstallerViewManage extends InstallerViewDefault
 	 *
 	 * @return  void
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
@@ -104,7 +104,7 @@ class InstallerViewManage extends InstallerViewDefault
 		JHtmlSidebar::addFilter(
 			JText::_('COM_INSTALLER_VALUE_STATE_SELECT'),
 			'filter_status',
-			JHtml::_('select.options', array('0' => 'JDISABLED', '1' => 'JENABLED', '2' => 'JPROTECTED'), 'value', 'text', $this->state->get('filter.status'), true)
+			JHtml::_('select.options', array('0' => 'JDISABLED', '1' => 'JENABLED', '2' => 'JPROTECTED', '3' => 'JUNPROTECTED'), 'value', 'text', $this->state->get('filter.status'), true)
 		);
 
 		JHtmlSidebar::addFilter(

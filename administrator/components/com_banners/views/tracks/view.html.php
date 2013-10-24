@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,7 +34,8 @@ class BannersViewTracks extends JViewLegacy
 		$this->state		= $this->get('State');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
@@ -50,25 +51,25 @@ class BannersViewTracks extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
 		require_once JPATH_COMPONENT.'/helpers/banners.php';
 
-		$canDo	= BannersHelper::getActions($this->state->get('filter.category_id'));
+		$canDo	= JHelperContent::getActions($this->state->get('filter.category_id'), 0, 'com_banners');
 
-		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_TRACKS'), 'banners-tracks.png');
+		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_TRACKS'), 'bookmark banners-tracks');
 
 		$bar = JToolBar::getInstance('toolbar');
-			$bar->appendButton('Slider', 'export', 'JTOOLBAR_EXPORT', 'index.php?option=com_banners&amp;view=download&amp;tmpl=component', 600, 300);
-		$document = JFactory::getDocument();
-		$app = JFactory::getApplication();
-		if ($canDo->get('core.delete')) {
+		$bar->appendButton('Slider', 'export', 'JTOOLBAR_EXPORT', 'index.php?option=com_banners&amp;view=download&amp;tmpl=component', 600, 300);
+		if ($canDo->get('core.delete'))
+		{
 			$bar->appendButton('Confirm', 'COM_BANNERS_DELETE_MSG', 'delete', 'COM_BANNERS_TRACKS_DELETE', 'tracks.delete', false);
 			JToolbarHelper::divider();
 		}
-		if ($canDo->get('core.admin')) {
+		if ($canDo->get('core.admin'))
+		{
 			JToolbarHelper::preferences('com_banners');
 			JToolbarHelper::divider();
 		}

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
-// Load the tooltip behavior.
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
 $canDo = UsersHelper::getActions();
@@ -22,7 +20,8 @@ $canDo = UsersHelper::getActions();
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'group.cancel' || document.formvalidator.isValid(document.id('group-form'))) {
+		if (task == 'group.cancel' || document.formvalidator.isValid(document.id('group-form')))
+		{
 			Joomla.submitform(task, document.getElementById('group-form'));
 		}
 	}
@@ -41,7 +40,7 @@ $canDo = UsersHelper::getActions();
 		</div>
 		<div class="control-group">
 			<?php $parent_id = $this->form->getField('parent_id');?>
-			<?php if (!$parent_id->hidden): ?>
+			<?php if (!$parent_id->hidden) : ?>
 				<div class="control-label">
 					<?php echo $parent_id->label; ?>
 				</div>
