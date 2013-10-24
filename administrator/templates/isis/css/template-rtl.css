@@ -7358,9 +7358,6 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 .nav-filters hr {
 	margin: 5px 0;
 }
-.view-module .tab-content {
-	overflow: visible;
-}
 #assignment.tab-pane {
 	min-height: 500px;
 }
@@ -8512,4 +8509,7 @@ input[type="url"] {
 }
 #status .badge {
 	margin-left: 0;
+}
+.dropdown-menu > li > a {
+	text-align: right;
 }

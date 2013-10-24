@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Oct-2013 Jean-Marie Simonet
+ # RTL Isis menus should be aligned right. Thanks Ofer Cohen
+
 23-Oct-2013 Michael Babker
  # [#32401] *Custom module Options hard to find.  Thanks Jean-Marie Simonet
  # [#32398] Some older php admin users can't login.  Thanks Elin Waring
