@@ -126,7 +126,7 @@ class ContactManagerPage extends AdminManagerPage
 	{
 		$result = false;
 		$row = $this->getRowNumber($name);
-		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[3]/a"))->getAttribute(@onclick);
+		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[3]//a"))->getAttribute(@onclick);
 		if (strpos($text, 'contacts.unpublish') > 0)
 		{
 			$result = 'published';

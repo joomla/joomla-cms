@@ -92,7 +92,7 @@
 				<field
 					name="description"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="0"
 					label="MOD_WEBLINKS_FIELD_DESCRIPTION_LABEL"
 					description="MOD_WEBLINKS_FIELD_DESCRIPTION_DESC">
@@ -104,7 +104,7 @@
 				<field
 					name="hits"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="0"
 					label="MOD_WEBLINKS_FIELD_HITS_LABEL"
 					description="MOD_WEBLINKS_FIELD_HITS_DESC">
@@ -116,8 +116,8 @@
 
 				<field
 					name="count_clicks"
-					type="radio"
-					class="btn-group"
+					type="list"
+					class="chzn-color"
 					default="0"
 					label="MOD_WEBLINKS_FIELD_COUNTCLICKS_LABEL"
 					description="MOD_WEBLINKS_FIELD_COUNTCLICKS_DESC">

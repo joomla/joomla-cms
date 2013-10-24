@@ -62,7 +62,11 @@ class WeblinkManager0001Test extends JoomlaWebdriverTestCase
 	{
 		$this->weblinkManagerPage->clickButton('toolbar-new');
 		$weblinkEditPage = $this->getPageObject('WeblinkEditPage');
-		$testElements = $weblinkEditPage->getAllInputFields(array('details', 'publishing', 'params-jbasic', 'metadata-jmetadata'));
+		// Option to print actual element array
+		/* @var $weblinkEditPage WeblinkEditPage */
+// 	 	$weblinkEditPage->printFieldArray($weblinkEditPage->getAllInputFields($weblinkEditPage->tabs));
+
+		$testElements = $weblinkEditPage->getAllInputFields($weblinkEditPage->tabs);
 		$actualFields = $this->getActualFieldsFromElements($testElements);
 		$this->assertEquals($weblinkEditPage->inputFields, $actualFields);
 		$weblinkEditPage->clickButton('toolbar-cancel');
