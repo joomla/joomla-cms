@@ -23,8 +23,6 @@ if (!defined('_JDEFINES'))
 
 require_once JPATH_LIBRARIES . '/import.php';
 
-JLoader::registerPrefix('J', __DIR__ . '/libraries');
-
 require_once JPATH_LIBRARIES . '/cms.php';
 
 /**
@@ -56,7 +54,15 @@ class GenerateCss extends JApplicationCli
 			__DIR__ . '/less/bootstrap-extended.less' => JPATH_SITE . '/media/jui/css/bootstrap-extended.css',
 			__DIR__ . '/less/bootstrap-rtl.less' => JPATH_SITE . '/media/jui/css/bootstrap-rtl.css'
 		);
-		$less = new JLess;
+
+		// Load the RAD layer
+		if (!defined('FOF_INCLUDED'))
+		{
+			require_once JPATH_LIBRARIES . '/fof/include.php';
+		}
+
+		$less = new FOFLess;
+		$less->setFormatter(new FOFLessFormatterJoomla);
 
 		foreach ($templates as $source => $output)
 		{

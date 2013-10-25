@@ -86,7 +86,7 @@ $assoc = JLanguageAssociations::isEnabled();
 		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 
 
-		<?php if (isset($assoc)) : ?>
+		<?php if ($assoc) : ?>
 			<div class="hidden"><?php echo $this->loadTemplate('associations'); ?></div>
 		<?php endif; ?>
 

@@ -57,28 +57,33 @@ $canDo		= SearchHelper::getActions();
 		<?php echo JText::_('COM_SEARCH_LOGGING_DISABLED'); ?>
 	</div>
 	<?php endif; ?>
-	<table class="table table-striped">
-		<thead>
-			<tr>
-				<th class="title">
-					<?php echo JHtml::_('grid.sort', 'COM_SEARCH_HEADING_PHRASE', 'a.search_term', $listDirn, $listOrder); ?>
-				</th>
-				<th width="15%" class="center">
-					<?php echo JHtml::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
-				</th>
-				<th width="15%" class="center">
-					<?php echo JText::_('COM_SEARCH_HEADING_RESULTS'); ?>
-				</th>
-			</tr>
-		</thead>
-		<tfoot>
-			<tr>
-				<td colspan="3">
-					<?php echo $this->pagination->getListFooter(); ?>
-				</td>
-			</tr>
-		</tfoot>
-		<tbody>
+	<?php if (empty($this->items)) : ?>
+		<div class="alert alert-no-items">
+			<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+		</div>
+	<?php else : ?>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th class="title">
+						<?php echo JHtml::_('grid.sort', 'COM_SEARCH_HEADING_PHRASE', 'a.search_term', $listDirn, $listOrder); ?>
+					</th>
+					<th width="15%" class="center">
+						<?php echo JHtml::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
+					</th>
+					<th width="15%" class="center">
+						<?php echo JText::_('COM_SEARCH_HEADING_RESULTS'); ?>
+					</th>
+				</tr>
+			</thead>
+			<tfoot>
+				<tr>
+					<td colspan="3">
+						<?php echo $this->pagination->getListFooter(); ?>
+					</td>
+				</tr>
+			</tfoot>
+			<tbody>
 		<?php foreach ($this->items as $i => $item) : ?>
 			<tr class="row<?php echo $i % 2; ?>">
 					<td>
@@ -98,6 +103,7 @@ $canDo		= SearchHelper::getActions();
 			<?php endforeach; ?>
 			</tbody>
 		</table>
+	<?php endif; ?>
 	<div>
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
