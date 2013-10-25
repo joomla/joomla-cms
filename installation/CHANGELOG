@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 25-Oct-2013 Jean-Marie Simonet
  #$ Updating both en-GB.xml
+ # RTL Isis menus colour should be white, not blue.
 
 24-Oct-2013 Elin Waring
  # [#32419] Installation 3.2.b2 fails on MSSQL. Thanks Marcel van Beelen
