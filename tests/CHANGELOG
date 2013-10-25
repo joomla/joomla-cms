@@ -26,6 +26,16 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Oct-2013 Mark Dexter
+ # Fix Webdriver tests for 3.2 changes.
+
+09-Oct-2013 Mark Dexter
+ # Fix Webdriver page class for markup changes.
+
+03-Oct-2013 Mark Dexter
+ # Fix system tests for code changes.
+ # Fix another system test.
+
 14-Sep-2013 Mark Dexter
  + Add system tests for categories and articles in the front end. Thanks Puneet Kala.
 

@@ -22,7 +22,7 @@
 
 			<fieldset name="basic">
 		<field	name="browsercache" type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="0"
 			description="PLG_CACHE_FIELD_BROWSERCACHE_DESC"
 			label="PLG_CACHE_FIELD_BROWSERCACHE_LABEL"
