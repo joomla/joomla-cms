@@ -37,7 +37,7 @@ class InstallEmailController extends JControllerBase
 
 		// Overrides application config and set the configuration.php file so the send function will work
 		JFactory::$config = null;
-		JFactory::getConfig(JPATH_SITE . '/configuration.php');
+		JFactory::getConfig($this->getApplication()->get('configurationPath'));
 		JFactory::$session = null;
 	}
 
@@ -51,7 +51,7 @@ class InstallEmailController extends JControllerBase
 	public function execute()
 	{
 		// Get the application
-		/* @var \Installation\Application\WebApplication $app */
+		/* @var $app \Installation\Application\WebApplication */
 		$app = $this->getApplication();
 
 		// Check for request forgeries. - @TODO - Restore this check

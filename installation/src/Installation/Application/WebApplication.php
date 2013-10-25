@@ -177,15 +177,10 @@ final class WebApplication extends JApplicationCms
 		// Register the document object with JFactory
 		JFactory::$document = $document;
 
-		// Define component path
-		define('JPATH_COMPONENT', JPATH_BASE);
-		define('JPATH_COMPONENT_SITE', JPATH_SITE);
-		define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR);
-
 		$contents = null;
 
 		// Execute the task.
-		// @var \JControllerBase $controller
+		/* @var $controller \JControllerBase */
 		$controller = $this->fetchController($this->input->getCmd('task', 'default'));
 		$contents   = $controller->execute();
 
@@ -291,7 +286,7 @@ final class WebApplication extends JApplicationCms
 	 */
 	public function getLocalise()
 	{
-		$xml = simplexml_load_file(JPATH_INSTALLATION . '/localise.xml');
+		$xml = simplexml_load_file($this->get('installationPath') . '/localise.xml');
 
 		if (!$xml)
 		{
@@ -327,11 +322,11 @@ final class WebApplication extends JApplicationCms
 	public function getLocaliseAdmin($db = false)
 	{
 		// Read the files in the admin area
-		$path = JLanguage::getLanguagePath(JPATH_ADMINISTRATOR);
+		$path = JLanguage::getLanguagePath($this->get('administratorPath'));
 		$langfiles['admin'] = JFolder::folders($path);
 
 		// Read the files in the site area
-		$path = JLanguage::getLanguagePath(JPATH_SITE);
+		$path = JLanguage::getLanguagePath($this->get('sitePath'));
 		$langfiles['site'] = JFolder::folders($path);
 
 		if ($db)
@@ -574,7 +569,7 @@ final class WebApplication extends JApplicationCms
 		$options = array(
 			'template' => 'template',
 			'file' => $file . '.php',
-			'directory' => JPATH_THEMES,
+			'directory' => $this->get('themesPath'),
 			'params' => '{}'
 		);
 

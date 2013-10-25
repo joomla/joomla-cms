@@ -76,7 +76,7 @@ class LanguagesModel extends JModelBase
 	{
 		// Overrides application config and set the configuration.php file so tokens and database works
 		JFactory::$config = null;
-		JFactory::getConfig(JPATH_SITE . '/configuration.php');
+		JFactory::getConfig($this->state->get('configurationPath'));
 		JFactory::$session = null;
 
 		parent::__construct();
@@ -506,9 +506,9 @@ class LanguagesModel extends JModelBase
 		}
 
 		// Get the form.
-		JForm::addFormPath(JPATH_INSTALLATION . '/src/Installation/Model/forms');
-		JForm::addFieldPath(JPATH_INSTALLATION . '/src/Installation/Model/fields');
-		JForm::addRulePath(JPATH_INSTALLATION . '/src/Installation/Model/rules');
+		JForm::addFormPath(__DIR__ . '/forms');
+		JForm::addFieldPath(__DIR__ . '/fields');
+		JForm::addRulePath(__DIR__ . '/rules');
 
 		try
 		{
@@ -777,7 +777,7 @@ class LanguagesModel extends JModelBase
 	{
 		// Add menus
 		JLoader::registerPrefix('J', JPATH_PLATFORM . '/legacy');
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/tables/');
+		JTable::addIncludePath($this->state->get('administratorPath') . '/components/com_menus/tables/');
 
 		// Add Menu Group
 		$tableMenu = JTable::getInstance('Type', 'JTableMenu');
@@ -825,7 +825,7 @@ class LanguagesModel extends JModelBase
 		$tableItem = JTable::getInstance('Menu', 'MenusTable');
 
 		$newlanguage = new JLanguage($itemLanguage->language, false);
-		$newlanguage->load('com_languages', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
+		$newlanguage->load('com_languages', $this->state->get('administratorPath'), $itemLanguage->language, true);
 		$title = $newlanguage->_('COM_LANGUAGES_HOMEPAGE');
 		$alias = 'home_' . $itemLanguage->language;
 
@@ -1009,7 +1009,7 @@ class LanguagesModel extends JModelBase
 	public function addCategory($itemLanguage)
 	{
 		$newlanguage = new JLanguage($itemLanguage->language, false);
-		$newlanguage->load('joomla', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
+		$newlanguage->load('joomla', $this->state->get('administratorPath'), $itemLanguage->language, true);
 		$title = $newlanguage->_('JCATEGORY');
 
 		// Initialize a new category
@@ -1060,7 +1060,7 @@ class LanguagesModel extends JModelBase
 		$db = JFactory::getDbo();
 
 		$newlanguage = new JLanguage($itemLanguage->language, false);
-		$newlanguage->load('plg_editors-xtd_article', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
+		$newlanguage->load('plg_editors-xtd_article', $this->state->get('administratorPath'), $itemLanguage->language, true);
 		$title = $newlanguage->_('PLG_ARTICLE_BUTTON_ARTICLE');
 
 		$article                   = JTable::getInstance('Content');

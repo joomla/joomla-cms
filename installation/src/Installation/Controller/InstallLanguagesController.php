@@ -39,7 +39,7 @@ class InstallLanguagesController extends JControllerBase
 
 		// Overrides application config and set the configuration.php file so tokens and database works
 		JFactory::$config = null;
-		JFactory::getConfig(JPATH_SITE . '/configuration.php');
+		JFactory::getConfig($this->getApplication()->get('configurationPath'));
 		JFactory::$session = null;
 	}
 
@@ -53,7 +53,7 @@ class InstallLanguagesController extends JControllerBase
 	public function execute()
 	{
 		// Get the application
-		/* @var \Installation\Application\WebApplication $app */
+		/* @var $app \Installation\Application\WebApplication */
 		$app = $this->getApplication();
 
 		// Check for request forgeries.
@@ -63,8 +63,12 @@ class InstallLanguagesController extends JControllerBase
 		$lids = $this->input->get('cid', array(), 'array');
 		JArrayHelper::toInteger($lids, array());
 
+		$state = new \JRegistry;
+		$state->set('configurationPath', $app->get('configurationPath'));
+		$state->set('administratorPath', $app->get('administratorPath'));
+
 		// Get the languages model.
-		$model = new LanguagesModel;
+		$model = new LanguagesModel($state);
 
 		if (!$lids)
 		{

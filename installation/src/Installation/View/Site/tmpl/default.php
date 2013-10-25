@@ -11,7 +11,7 @@ use Installation\Helpers\HtmlHelper;
 
 defined('_JEXEC') or die;
 
-echo HtmlHelper::stepbar(); ?>
+echo HtmlHelper::stepbar($this->useftp); ?>
 <div class="btn-toolbar">
 	<div class="btn-group pull-right">
 		<a href="#" class="btn btn-primary" onclick="Install.submitform();" rel="next" title="<?php echo JText::_('JNext'); ?>"><i class="icon-arrow-right icon-white"></i> <?php echo JText::_('JNext'); ?></a>

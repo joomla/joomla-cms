@@ -37,20 +37,24 @@ class InstallSampleController extends JControllerBase
 	public function execute()
 	{
 		// Get the application
-		/* @var \Installation\Application\WebApplication $app */
+		/* @var $app \Installation\Application\WebApplication */
 		$app = $this->getApplication();
 
 		// Check for request forgeries.
 		JSession::checkToken() or $app->sendJsonResponse(new \Exception(JText::_('JINVALID_TOKEN'), 403));
 
+		$state = new \JRegistry;
+		$state->set('administratorPath', $app->get('administratorPath'));
+		$state->set('installationPath', $app->get('installationPath'));
+
 		// Get the setup model.
-		$model = new SetupModel;
+		$model = new SetupModel($state);
 
 		// Get the options from the session
 		$options = $model->getOptions();
 
 		// Get the database model.
-		$db = new DatabaseModel;
+		$db = new DatabaseModel($state);
 
 		// Attempt to create the database tables.
 		$return = $db->installSampleData($options);

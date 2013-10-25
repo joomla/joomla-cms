@@ -24,17 +24,14 @@ class HtmlHelper
 	/**
 	 * Method to generate the side bar
 	 *
+	 * @param   boolean  $useftp  Use FTP.
+	 *
 	 * @return  string  Markup for the side bar
 	 *
 	 * @since   1.6
 	 */
-	public static function stepbar()
+	public static function stepbar($useftp = false)
 	{
-
-		// Determine if the configuration file path is writable.
-		$path = JPATH_CONFIGURATION . '/configuration.php';
-		$useftp = (file_exists($path)) ? !is_writable($path) : !is_writable(JPATH_CONFIGURATION . '/');
-
 		$tabs = array();
 		$tabs[] = 'site';
 		$tabs[] = 'database';
@@ -63,7 +60,6 @@ class HtmlHelper
 	 */
 	public static function stepbarlanguages()
 	{
-
 		$tabs = array();
 		$tabs[] = 'languages';
 		$tabs[] = 'defaultlanguage';

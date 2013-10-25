@@ -103,8 +103,9 @@ class DatabaseModel extends JModelBase
 	public function initialise($options)
 	{
 		// Get the application
-		/* @var \Installation\Application\WebApplication $app */
+		/* @var $app \Installation\Application\WebApplication */
 		$app = JFactory::getApplication();
+		$administratorPath = $this->state->get('administratorPath');
 
 		// Get the options as a object for easier handling.
 		$options = JArrayHelper::toObject($options);
@@ -114,14 +115,14 @@ class DatabaseModel extends JModelBase
 		$currentLang = $lang->getTag();
 
 		// Load the selected language
-		if (JLanguage::exists($currentLang, JPATH_ADMINISTRATOR))
+		if (JLanguage::exists($currentLang, $administratorPath))
 		{
-			$lang->load('joomla', JPATH_ADMINISTRATOR, $currentLang, true);
+			$lang->load('joomla', $administratorPath, $currentLang, true);
 		}
 		// Pre-load en-GB in case the chosen language files do not exist
 		else
 		{
-			$lang->load('joomla', JPATH_ADMINISTRATOR, 'en-GB', true);
+			$lang->load('joomla', $administratorPath, 'en-GB', true);
 		}
 
 		// Ensure a database type was selected.
@@ -369,6 +370,7 @@ class DatabaseModel extends JModelBase
 		// Get the application
 		/* @var \Installation\Application\WebApplication $app */
 		$app = JFactory::getApplication();
+		$administratorPath = $this->state->get('administratorPath');
 
 		if (!isset($options['db_created']) || !$options['db_created'])
 		{
@@ -389,7 +391,7 @@ class DatabaseModel extends JModelBase
 		// Set the character set to UTF-8 for pre-existing databases.
 		$this->setDatabaseCharset($db, $options->db_name);
 
-		$schema = JPATH_INSTALLATION . '/src/';
+		$schema = $this->state->get('installationPath') . '/src/';
 
 		// Set the appropriate schema script based on UTF-8 support.
 		if ($type == 'mysqli' || $type == 'mysql')
@@ -419,7 +421,7 @@ class DatabaseModel extends JModelBase
 		}
 
 		// Attempt to update the table #__schema.
-		$pathPart = JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/';
+		$pathPart = $administratorPath . '/components/com_admin/sql/updates/';
 
 		if ($type == 'mysqli' || $type == 'mysql')
 		{
@@ -609,7 +611,7 @@ class DatabaseModel extends JModelBase
 			$type = 'sqlazure';
 		}
 
-		$data = JPATH_INSTALLATION . '/src/sql/' . $type . '/' . $options->sample_file;
+		$data = $this->state->get('installationPath') . '/src/sql/' . $type . '/' . $options->sample_file;
 
 		// Attempt to import the database schema if one is chosen.
 		if ($options->sample_file != '')

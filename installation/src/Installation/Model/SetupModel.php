@@ -90,9 +90,9 @@ class SetupModel extends JModelBase
 		}
 
 		// Get the form.
-		JForm::addFormPath(JPATH_COMPONENT . '/src/Installation/Model/forms');
-		JForm::addFieldPath(JPATH_COMPONENT . '/src/Installation/Model/fields');
-		JForm::addRulePath(JPATH_COMPONENT . '/src/Installation/Model/rules');
+		JForm::addFormPath(__DIR__ . '/forms');
+		JForm::addFieldPath(__DIR__ . '/fields');
+		JForm::addRulePath(__DIR__ . '/rules');
 
 		try
 		{
@@ -319,8 +319,9 @@ class SetupModel extends JModelBase
 		$options[] = $option;
 
 		// Check for configuration file writable.
-		$writable = (is_writable(JPATH_CONFIGURATION . '/configuration.php')
-			|| (!file_exists(JPATH_CONFIGURATION . '/configuration.php') && is_writable(JPATH_ROOT)));
+		$configPath = $this->state->get('configurationPath');
+		$writable = (is_writable($configPath)
+			|| (!file_exists($configPath) && is_writable(dirname($configPath))));
 
 		$option = new \stdClass;
 		$option->label  = JText::sprintf('INSTL_WRITABLE', 'configuration.php');
