@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Oct-2013 Jean-Marie Simonet
+ #$ Updating both en-GB.xml
+
 24-Oct-2013 Elin Waring
  # [#32419] Installation 3.2.b2 fails on MSSQL. Thanks Marcel van Beelen
  # [#32417] Small bug in menutypes.php. Thanks Bruno Batista

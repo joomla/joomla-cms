@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metafile version="3.1" client="site">
+<metafile version="3.2" client="site">
 	<name>English (United Kingdom)</name>
-	<version>3.1.4</version>
+	<version>3.2.0</version>
 	<creationDate>2013-03-07</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -10,6 +10,8 @@
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>en-GB site language</description>
 	<files>
+		<filename>en-GB.com_ajax.ini</filename>
+		<filename>en-GB.com_config.ini</filename>
 		<filename>en-GB.com_contact.ini</filename>
 		<filename>en-GB.com_content.ini</filename>
 		<filename>en-GB.com_finder.ini</filename>
@@ -25,6 +27,7 @@
 		<filename>en-GB.files_joomla.sys.ini</filename>
 		<filename>en-GB.finder_cli.ini</filename>
 		<filename>en-GB.ini</filename>
+		<filename>en-GB.lib_fof.sys.ini</filename>
 		<filename>en-GB.lib_idna_convert.sys.ini</filename>
 		<filename>en-GB.lib_joomla.ini</filename>
 		<filename>en-GB.lib_joomla.sys.ini</filename>

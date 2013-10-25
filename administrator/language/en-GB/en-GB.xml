@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metafile version="3.1" client="administrator">
+<metafile version="3.2" client="administrator">
 	<name>English (United Kingdom)</name>
-	<version>3.1.4</version>
+	<version>3.2.0</version>
 	<creationDate>2013-03-07</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
@@ -14,6 +14,8 @@
 		<filename>en-GB.com_admin.sys.ini</filename>
 		<filename>en-GB.com_banners.ini</filename>
 		<filename>en-GB.com_banners.sys.ini</filename>
+		<filename>en-GB.com_ajax.ini</filename>
+		<filename>en-GB.com_ajax.sys.ini</filename>
 		<filename>en-GB.com_cache.ini</filename>
 		<filename>en-GB.com_cache.sys.ini</filename>
 		<filename>en-GB.com_categories.ini</filename>
@@ -26,6 +28,8 @@
 		<filename>en-GB.com_contact.sys.ini</filename>
 		<filename>en-GB.com_content.ini</filename>
 		<filename>en-GB.com_content.sys.ini</filename>
+		<filename>en-GB.com_contenthistory.ini</filename>
+		<filename>en-GB.com_contenthistory.sys.ini</filename>
 		<filename>en-GB.com_cpanel.ini</filename>
 		<filename>en-GB.com_cpanel.sys.ini</filename>
 		<filename>en-GB.com_finder.ini</filename>
@@ -51,10 +55,14 @@
 		<filename>en-GB.com_newsfeeds.sys.ini</filename>
 		<filename>en-GB.com_plugins.ini</filename>
 		<filename>en-GB.com_plugins.sys.ini</filename>
+		<filename>en-GB.com_postinstall.ini</filename>
+		<filename>en-GB.com_postinstall.sys.ini</filename>
 		<filename>en-GB.com_redirect.ini</filename>
 		<filename>en-GB.com_redirect.sys.ini</filename>
 		<filename>en-GB.com_search.ini</filename>
 		<filename>en-GB.com_search.sys.ini</filename>
+		<filename>en-GB.com_services.ini</filename>
+		<filename>en-GB.com_services.sys.ini</filename>
 		<filename>en-GB.com_tags.ini</filename>
 		<filename>en-GB.com_tags.sys.ini</filename>
 		<filename>en-GB.com_templates.ini</filename>
@@ -98,6 +106,8 @@
 		<filename>en-GB.mod_toolbar.sys.ini</filename>
 		<filename>en-GB.mod_version.ini</filename>
 		<filename>en-GB.mod_version.sys.ini</filename>
+		<filename>en-GB.com_authentication_cookie.ini</filename>
+		<filename>en-GB.com_authentication_cookie.sys.ini</filename>
 		<filename>en-GB.plg_authentication_gmail.ini</filename>
 		<filename>en-GB.plg_authentication_gmail.sys.ini</filename>
 		<filename>en-GB.plg_authentication_joomla.ini</filename>
@@ -148,6 +158,8 @@
 		<filename>en-GB.plg_finder_tags.sys.ini</filename>
 		<filename>en-GB.plg_finder_weblinks.ini</filename>
 		<filename>en-GB.plg_finder_weblinks.sys.ini</filename>
+		<filename>en-GB.plg_installer_webinstaller.ini</filename>
+		<filename>en-GB.plg_installer_webinstaller.sys.ini</filename>
 		<filename>en-GB.plg_quickicon_extensionupdate.ini</filename>
 		<filename>en-GB.plg_quickicon_extensionupdate.sys.ini</filename>
 		<filename>en-GB.plg_quickicon_joomlaupdate.ini</filename>
@@ -184,6 +196,8 @@
 		<filename>en-GB.plg_system_remember.sys.ini</filename>
 		<filename>en-GB.plg_system_sef.ini</filename>
 		<filename>en-GB.plg_system_sef.sys.ini</filename>
+		<filename>en-GB.plg_twofactorauth_totp.ini</filename>
+		<filename>en-GB.plg_twofactorauth_totp.sys.ini</filename>
 		<filename>en-GB.plg_user_contactcreator.ini</filename>
 		<filename>en-GB.plg_user_contactcreator.sys.ini</filename>
 		<filename>en-GB.plg_user_joomla.ini</filename>
