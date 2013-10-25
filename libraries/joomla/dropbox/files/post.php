@@ -21,8 +21,10 @@ class JDropboxFilesPost extends JDropboxFiles
 	/**
 	 * Uploads a file using POST semantics
 	 *
-	 * @param   string  $root    The root relative to which path is specified. Valid values are sandbox and dropbox.
-	 * @param   string  $path    The path to the file you want to retrieve.
+	 * @param   string  $root    The root relative to which path is specified.
+	 *                           Valid values are sandbox and dropbox.
+	 * @param   string  $path    The path to the folder the file should be uploaded to.
+	 *                           This parameter should not point to a file.
 	 * @param   string  $data    The file contents to be uploaded.
 	 * @param   array   $params  The parameters to be used in the request.
 	 *
@@ -32,7 +34,7 @@ class JDropboxFilesPost extends JDropboxFiles
 	 *
 	 * @since   ??.?
 	 */
-	public function postFiles($root, $path, $data, $params = array())
+	public function postFile($root, $path, $data, $params = array())
 	{
 		$url = "https://" . $this->options->get("api.content") . "/1/files/" . $root . "/" . $path;
 		$url .= $this->createParamsString($params);
@@ -66,9 +68,11 @@ class JDropboxFilesPost extends JDropboxFiles
 	/**
 	 * Restores a file path to a previous revision.
 	 *
-	 * @param   string  $root    The root relative to which path is specified. Valid values are sandbox and dropbox.
-	 * @param   string  $path    The path to the file you want to retrieve.
-	 * @param   array   $params  The parameters to be used in the request. "rev" (revision) is a required parameter.
+	 * @param   string  $root    The root relative to which path is specified.
+	 *                           Valid values are sandbox and dropbox.
+	 * @param   string  $path    The path to the file.
+	 * @param   array   $params  The parameters to be used in the request.
+	 *                           "rev" (revision) is a required parameter.
 	 *
 	 * @throws DomainException
 	 *
@@ -86,11 +90,13 @@ class JDropboxFilesPost extends JDropboxFiles
 	}
 
 	/**
-	 * Creates and returns a Dropbox link to files or folders users can use to view a preview of the file in a web browser.
+	 * Creates and returns a Dropbox link to files or folders users can use to
+	 * view a preview of the file in a web browser.
 	 *
-	 * @param   string  $root    The root relative to which path is specified. Valid values are sandbox and dropbox.
-	 * @param   string  $path    The path to the file you want to retrieve.
-	 * @param   array   $params  The parameters to be used in the request. "rev" (revision) is a required parameter.
+	 * @param   string  $root    The root relative to which path is specified.
+	 *                           Valid values are sandbox and dropbox.
+	 * @param   string  $path    The path to the file or folder you want to link to.
+	 * @param   array   $params  The parameters to be used in the request.
 	 *
 	 * @throws DomainException
 	 *
@@ -108,13 +114,15 @@ class JDropboxFilesPost extends JDropboxFiles
 	}
 
 	/**
-	 * Returns a link directly to a file.
-	 * Similar to postShares. The difference is that this bypasses the Dropbox webserver, used to
-	 * provide a preview of the file, so that you can effectively stream the contents of your media.
+	 * Returns a link directly to a file. Similar to postShares.
+	 * The difference is that this bypasses the Dropbox webserver, used to
+	 * provide a preview of the file, so that you can effectively stream the
+	 * contents of your media.
 	 *
-	 * @param   string  $root    The root relative to which path is specified. Valid values are sandbox and dropbox.
-	 * @param   string  $path    The path to the file you want to retrieve.
-	 * @param   array   $params  The parameters to be used in the request. "rev" (revision) is a required parameter.
+	 * @param   string  $root    The root relative to which path is specified.
+	 *                           Valid values are sandbox and dropbox.
+	 * @param   string  $path    The path to the media file you want a direct link to.
+	 * @param   array   $params  The parameters to be used in the request.
 	 *
 	 * @throws DomainException
 	 *
@@ -135,9 +143,11 @@ class JDropboxFilesPost extends JDropboxFiles
 	 * Completes an upload initiated by the putChunkedUpload method.
 	 * Saves a file uploaded via putChunkedUpload to a user's Dropbox.
 	 *
-	 * @param   string  $root    The root relative to which path is specified. Valid values are sandbox and dropbox.
-	 * @param   string  $path    The path to the file you want to retrieve.
-	 * @param   array   $params  The parameters to be used in the request. "rev" (revision) is a required parameter.
+	 * @param   string  $root    The root relative to which path is specified.
+	 *                           Valid values are sandbox and dropbox.
+	 * @param   string  $path    The full path to the file you want to write to.
+	 *                           This parameter should not point to a folder.
+	 * @param   array   $params  The parameters to be used in the request.
 	 *
 	 * @throws DomainException
 	 *

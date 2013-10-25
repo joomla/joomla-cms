@@ -21,8 +21,10 @@ class JDropboxFilesPut extends JDropboxFiles
 	/**
 	 * Uploads a file using PUT semantics.
 	 *
-	 * @param   string  $root    The root relative to which path is specified. Valid values are sandbox and dropbox.
-	 * @param   string  $path    The path to the file you want to retrieve.
+	 * @param   string  $root    The root relative to which path is specified.
+	 *                           Valid values are sandbox and dropbox.
+	 * @param   string  $path    The full path to the file you want to write to.
+	 *                           This parameter should not point to a folder.
 	 * @param   string  $data    The file contents to be uploaded.
 	 * @param   array   $params  The parameters to be used in the request.
 	 *
@@ -32,9 +34,9 @@ class JDropboxFilesPut extends JDropboxFiles
 	 *
 	 * @since   ??.?
 	 */
-	public function putFiles($root, $path, $data, $params = array())
+	public function putFile($root, $path, $data, $params = array())
 	{
-		$url = "https://" . $this->options->get("api.content") . "/1/files/" . $root . "/" . $path;
+		$url = "https://" . $this->options->get("api.content") . "/1/files_put/" . $root . "/" . $path;
 		$url .= $this->createParamsString($params);
 
 		// Create the request, send it and process the response
@@ -53,7 +55,7 @@ class JDropboxFilesPut extends JDropboxFiles
 	 *  in progress and an offset representing the number of bytes transferred so far.
 	 * 3. After each chunk has been uploaded, the server returns a new offset representing
 	 *  the total amount transferred.
-	 * 4. After the last chunk, POST to /commit_chunked_upload to complete the upload.
+	 * 4. After the last chunk, use postCommitChunkedUpload to complete the upload.
 	 *
 	 * @param   string  $body    A chunk of data from the file being uploaded. If resuming,
 	 *                           the chunk should begin at the number of bytes into the file
