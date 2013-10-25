@@ -75,12 +75,12 @@ class ConfigModelComponent extends ConfigModelForm
 
 		// Get the form.
 		$form = $this->loadForm(
-				'com_config.component',
-				'config',
-				array('control' => 'jform', 'load_data' => $loadData),
-				false,
-				'/config'
-			);
+			'com_config.component',
+			'config',
+			array('control' => 'jform', 'load_data' => $loadData),
+			false,
+			'/config'
+		);
 
 		if (empty($form))
 		{
@@ -142,6 +142,7 @@ class ConfigModelComponent extends ConfigModelForm
 				$asset->title = $data['option'];
 				$asset->setLocation($root->id, 'last-child');
 			}
+
 			$asset->rules = (string) $rules;
 
 			if (!$asset->check() || !$asset->store())

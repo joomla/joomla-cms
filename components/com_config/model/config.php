@@ -40,5 +40,4 @@ class ConfigModelConfig extends ConfigModelForm
 
 		return $form;
 	}
-
 }

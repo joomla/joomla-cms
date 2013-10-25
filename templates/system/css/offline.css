@@ -96,3 +96,6 @@ fieldset.input p {clear: left;}
 	top: -2px;
 	cursor: pointer;
 }
+.login {
+	margin-top: 5px;
+}

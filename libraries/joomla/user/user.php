@@ -551,6 +551,7 @@ class JUser extends JObject
 		{
 			$userPlugin = JPluginHelper::getPlugin('user', 'joomla');
 			$userPluginParams = new JRegistry($userPlugin->params);
+			JPluginHelper::importPlugin('user', 'joomla');
 			$defaultEncryption = PlgUserJoomla::setDefaultEncryption($userPluginParams);
 		}
 		else

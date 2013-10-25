@@ -24,8 +24,6 @@ class ConfigControllerApplication extends JControllerLegacy
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @return  void
-	 *
 	 * @since   1.5
 	 * @deprecated  4.0
 	 */
@@ -47,13 +45,11 @@ class ConfigControllerApplication extends JControllerLegacy
 	 */
 	public function save()
 	{
-		
 		JLog::add('ConfigControllerApplication is deprecated. Use ConfigControllerApplicationSave instead.', JLog::WARNING, 'deprecated');
 
 		$controller = new ConfigControllerApplicationSave;
 
 		return $controller->execute();
-
 	}
 
 	/**
@@ -62,7 +58,6 @@ class ConfigControllerApplication extends JControllerLegacy
 	 */
 	public function cancel()
 	{
-
 		JLog::add('ConfigControllerApplication is deprecated. Use ConfigControllerApplicationCancel instead.', JLog::WARNING, 'deprecated');
 
 		$controller = new ConfigControllerApplicationCancel;
@@ -72,13 +67,11 @@ class ConfigControllerApplication extends JControllerLegacy
 
 	public function refreshHelp()
 	{
-		
 		JLog::add('ConfigControllerApplication is deprecated. Use ConfigControllerApplicationRefreshhelp instead.', JLog::WARNING, 'deprecated');
 
 		$controller = new ConfigControllerApplicationRefreshhelp;
 
 		$controller->execute();
-
 	}
 
 	/**
@@ -91,7 +84,6 @@ class ConfigControllerApplication extends JControllerLegacy
 	 */
 	public function removeroot()
 	{
-
 		JLog::add('ConfigControllerApplication is deprecated. Use ConfigControllerApplicationRemoveroot instead.', JLog::WARNING, 'deprecated');
 
 		$controller = new ConfigControllerApplicationRemoveroot;

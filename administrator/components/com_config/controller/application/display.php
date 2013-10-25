@@ -16,14 +16,14 @@ defined('_JEXEC') or die;
  * @subpackage  controller
  * @since       3.2
  * @note        Needed for front end view
-*/
+ */
 class ConfigControllerApplicationDisplay extends ConfigControllerDisplay
 {
-	/*
+	/**
 	 * Prefix for the view and model classes
-	*
-	* @var  string
-	*/
+	 *
+	 * @var    string
+	 * @since  3.2
+	 */
 	public $prefix = 'Config';
-
 }

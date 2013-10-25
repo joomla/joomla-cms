@@ -18,14 +18,17 @@ defined('_JEXEC') or die('Restricted access');
 */
 class ConfigControllerDisplay extends JControllerBase
 {
-	/*
+	/**
 	 * Prefix for the view and model classes
 	 *
-	 * @var  string
+	 * @var    string
+	 * @since  3.2
 	 */
 	public $prefix = 'Config';
 
 	/**
+	 * Execute the controller.
+	 *
 	 * @return  mixed  A rendered view or true
 	 *
 	 * @since   3.2
@@ -48,6 +51,7 @@ class ConfigControllerDisplay extends JControllerBase
 		{
 			$viewName     = $this->input->getWord('view', 'config');
 		}
+
 		$viewFormat   = $document->getType();
 		$layoutName   = $this->input->getWord('layout', 'default');
 
@@ -73,7 +77,6 @@ class ConfigControllerDisplay extends JControllerBase
 			// Access check.
 			if (!JFactory::getUser()->authorise('core.admin', $model->getState('component.option')))
 			{
-
 				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 
 				return;

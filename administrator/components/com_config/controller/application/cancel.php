@@ -16,12 +16,12 @@ defined('_JEXEC') or die;
  * @subpackage  com_config
  * @since       3.2
  */
-class ConfigControllerApplicationCancel extends ConfigControllerCancel
+class ConfigControllerApplicationCancel extends ConfigControllerCanceladmin
 {
 	/**
 	 * Method to cancel global configuration.
 	 *
-	 * @return  bool	True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   3.2
 	 */
@@ -40,6 +40,5 @@ class ConfigControllerApplicationCancel extends ConfigControllerCancel
 		$this->redirect = 'index.php?option=com_cpanel';
 
 		parent::execute();
-
 	}
 }

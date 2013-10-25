@@ -186,6 +186,11 @@ class FOFViewJson extends FOFViewHtml
 		try
 		{
 			$result = $this->loadTemplate($tpl, true);
+
+            if ($result instanceof Exception)
+            {
+                $hasFailed = true;
+            }
 		}
 		catch (Exception $e)
 		{

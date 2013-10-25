@@ -18,20 +18,16 @@ defined('JPATH_PLATFORM') or die;
  */
 class ConfigControllerCancel extends JControllerBase
 {
-
 	/**
 	 * Method to handle cancel
 	 *
-	 * @return  bool	True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   3.2
 	 */
 	public function execute()
 	{
-
 		// Redirect back to home(base) page
-		$this->app->redirect(JURI::base());
-
-		return true;
+		$this->app->redirect(JUri::base());
 	}
 }
