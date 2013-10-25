@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_config
+ * @since       3.2
  */
 class ConfigModelApplication extends ConfigModelForm
 {
@@ -23,7 +24,7 @@ class ConfigModelApplication extends ConfigModelForm
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  mixed	A JForm object on success, false on failure
+	 * @return  mixed  A JForm object on success, false on failure
 	 *
 	 * @since	1.6
 	 */
@@ -47,7 +48,7 @@ class ConfigModelApplication extends ConfigModelForm
 	 * JConfig. If configuration data has been saved in the session, that
 	 * data will be merged into the original data, overwriting it.
 	 *
-	 * @return	array		An array containg all global config data.
+	 * @return	array  An array containg all global config data.
 	 *
 	 * @since	1.6
 	 */
@@ -123,7 +124,6 @@ class ConfigModelApplication extends ConfigModelForm
 					$app->enqueueMessage(JText::_('SOME_ERROR_CODE'), 'error');
 
 					return;
-
 				}
 			}
 			else
@@ -132,6 +132,7 @@ class ConfigModelApplication extends ConfigModelForm
 
 				return false;
 			}
+
 			unset($data['rules']);
 		}
 
@@ -155,7 +156,6 @@ class ConfigModelApplication extends ConfigModelForm
 					$app->enqueueMessage(JText::_('SOME_ERROR_CODE'), 'error');
 
 					return;
-
 				}
 			}
 			else
@@ -164,6 +164,7 @@ class ConfigModelApplication extends ConfigModelForm
 
 				return false;
 			}
+
 			unset($data['filters']);
 		}
 
@@ -177,6 +178,7 @@ class ConfigModelApplication extends ConfigModelForm
 		/*
 		 * Perform miscellaneous options based on configuration settings/changes.
 		 */
+
 		// Escape the offline message if present.
 		if (isset($data['offline_message']))
 		{
@@ -250,7 +252,7 @@ class ConfigModelApplication extends ConfigModelForm
 	 *
 	 * @param   JRegistry  $config  A JRegistry object containing all global config data.
 	 *
-	 * @return	bool	   True on success, false on failure.
+	 * @return	boolean  True on success, false on failure.
 	 *
 	 * @since	2.5.4
 	 */
@@ -271,7 +273,6 @@ class ConfigModelApplication extends ConfigModelForm
 		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0644'))
 		{
 			$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
-
 		}
 
 		// Attempt to write the configuration file as a PHP class named JConfig.

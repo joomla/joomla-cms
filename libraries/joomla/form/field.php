@@ -411,13 +411,11 @@ abstract class JFormField
 	 */
 	public function __set($name, $value)
 	{
-		$value = (string) $value;
-
 		switch ($name)
 		{
 			case 'class':
 				// Removes spaces from left & right and extra spaces from middle
-				$value = preg_replace('/\s+/', ' ', trim($value));
+				$value = preg_replace('/\s+/', ' ', trim((string) $value));
 
 			case 'description':
 			case 'hint':
@@ -428,24 +426,25 @@ abstract class JFormField
 			case 'validate':
 			case 'pattern':
 			case 'default':
-				$this->$name = $value;
+				$this->$name = (string) $value;
 				break;
 
 			case 'id':
-				$this->id = $this->getId($value, $this->fieldname);
+				$this->id = $this->getId((string) $value, $this->fieldname);
 				break;
 
 			case 'fieldname':
-				$this->fieldname = $this->getFieldName($value);
+				$this->fieldname = $this->getFieldName((string) $value);
 				break;
 
 			case 'name':
-				$this->fieldname = $this->getFieldName($value);
+				$this->fieldname = $this->getFieldName((string) $value);
 				$this->name = $this->getName($this->fieldname);
 				break;
 
 			case 'multiple':
 				// Allow for field classes to force the multiple values option.
+				$value = (string) $value;
 				$value = $value === '' && isset($this->forceMultiple) ? (string) $this->forceMultiple : $value;
 
 			case 'required':
@@ -453,10 +452,12 @@ abstract class JFormField
 			case 'readonly':
 			case 'autofocus':
 			case 'hidden':
+				$value = (string) $value;
 				$this->$name = ($value === 'true' || $value === $name || $value === '1');
 				break;
 
 			case 'autocomplete':
+				$value = (string) $value;
 				$value = ($value == 'on' || $value == '') ? 'on' : $value;
 				$this->$name = ($value === 'false' || $value === 'off' || $value === '0') ? false : $value;
 				break;
@@ -465,6 +466,7 @@ abstract class JFormField
 			case 'translateLabel':
 			case 'translateDescription':
 			case 'translateHint':
+				$value = (string) $value;
 				$this->$name = !($value === 'false' || $value === 'off' || $value === '0');
 				break;
 
@@ -475,11 +477,11 @@ abstract class JFormField
 			default:
 				if (property_exists(__CLASS__, $name))
 				{
-					JLog::add('Cannot access protected / private property');
+					JLog::add("Cannot access protected / private property $name of " . __CLASS__);
 				}
 				else
 				{
-					JLog::add($name . ' does\'t exists in ' . __CLASS__);
+					$this->$name = $value;
 				}
 		}
 	}

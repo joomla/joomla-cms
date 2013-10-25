@@ -21,14 +21,14 @@ class ConfigControllerComponentSave extends JControllerBase
 	/**
 	 * Method to save global configuration.
 	 *
-	 * @return  bool	True on success, false on failure.
+	 * @return  boolean  True on success, false on failure.
 	 *
 	 * @since   3.2
 	 */
 	public function execute()
 	{
 		// Check for request forgeries.
-		if(!JSession::checkToken())
+		if (!JSession::checkToken())
 		{
 			JFactory::getApplication()->redirect('index.php', JText::_('JINVALID_TOKEN'));
 		}
@@ -90,10 +90,10 @@ class ConfigControllerComponentSave extends JControllerBase
 		}
 
 		// Attempt to save the configuration.
-		$data	= array(
-				'params'	=> $return,
-				'id'		=> $id,
-				'option'	=> $option
+		$data = array(
+			'params' => $return,
+			'id'     => $id,
+			'option' => $option
 		);
 		$return = $model->save($data);
 
@@ -111,7 +111,6 @@ class ConfigControllerComponentSave extends JControllerBase
 			return false;
 		}
 
-
 		// Set the redirect based on the task.
 		switch ($this->options[3])
 		{
@@ -123,7 +122,7 @@ class ConfigControllerComponentSave extends JControllerBase
 
 			case 'save':
 			default:
-				$redirect = 'index.php?option=' . $this->component;
+				$redirect = 'index.php?option=' . $option;
 
 				if (!empty($returnUri))
 				{

@@ -20,14 +20,14 @@ class ConfigControllerApplicationSave extends JControllerBase
 	/**
 	 * Method to save global configuration.
 	 *
-	 * @return  bool	True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   3.2
 	 */
 	public function execute()
 	{
 		// Check for request forgeries.
-		if(!JSession::checkToken())
+		if (!JSession::checkToken())
 		{
 			$this->app->redirect('index.php', JText::_('JINVALID_TOKEN'));
 		}
@@ -51,7 +51,7 @@ class ConfigControllerApplicationSave extends JControllerBase
 		$data = array_replace($oldData, $data);
 
 		// Get request type
-		$saveFormat   = JFactory::getDocument()->getType();
+		$saveFormat = JFactory::getDocument()->getType();
 
 		// Handle service requests
 		if ($saveFormat == 'json')
@@ -108,7 +108,6 @@ class ConfigControllerApplicationSave extends JControllerBase
 			$message = JText::sprintf('JERROR_SAVE_FAILED', $model->getError());
 
 			$app->redirect(JRoute::_('index.php?option=com_config&controller=application.display', false), $message, 'error');
-
 		}
 
 		// Set the success message.

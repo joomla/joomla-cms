@@ -17,18 +17,17 @@ defined('_JEXEC') or die;
 */
 class ConfigControllerApplicationRemoveroot extends JControllerBase
 {
-
 	/**
 	 * Method to remove root in global configuration.
 	 *
-	 * @return  bool	True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   3.2
 	 */
 	public function execute()
 	{
 		// Check for request forgeries.
-		if(!JSession::checkToken('get'))
+		if (!JSession::checkToken('get'))
 		{
 			$this->app->redirect('index.php', JText::_('JINVALID_TOKEN'));
 		}
@@ -57,6 +56,5 @@ class ConfigControllerApplicationRemoveroot extends JControllerBase
 
 		// Set the redirect based on the task.
 		$this->app->redirect(JRoute::_('index.php', false), $message);
-
 	}
 }

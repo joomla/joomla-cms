@@ -18,14 +18,17 @@ defined('_JEXEC') or die('Restricted access');
 */
 class ConfigControllerCmsbase extends JControllerBase
 {
-	/*
+	/**
 	 * Prefix for the view and model classes
 	 *
-	 * @var  string
+	 * @var    string
+	 * @since  3.2
 	 */
 	public $prefix;
 
 	/**
+	 * Execute the controller.
+	 *
 	 * @return  mixed  A rendered view or true
 	 *
 	 * @since   3.2
@@ -40,9 +43,8 @@ class ConfigControllerCmsbase extends JControllerBase
 		$this->app->redirect('index.php?option=' . $this->input->get('option'));
 
 		$this->componentFolder = $this->input->getWord('option', 'com_content');
-		$this->viewName     = $this->input->getWord('view');
+		$this->viewName        = $this->input->getWord('view');
 
 		return $this;
-
 	}
 }

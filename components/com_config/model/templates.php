@@ -18,7 +18,6 @@ defined('_JEXEC') or die;
  */
 class ConfigModelTemplates extends ConfigModelForm
 {
-
 	/**
 	 * Method to auto-populate the model state.
 	 *
@@ -28,7 +27,6 @@ class ConfigModelTemplates extends ConfigModelForm
 	 */
 	protected function populateState()
 	{
-
 		$state = $this->loadState();
 
 		// Load the parameters.
@@ -64,12 +62,10 @@ class ConfigModelTemplates extends ConfigModelForm
 		}
 		catch (Exception $e)
 		{
-
 			JFactory::getApplication()->enqueueMessage($e->getMessage());
 
 			return false;
 		}
-
 
 		if (empty($form))
 		{
@@ -80,15 +76,19 @@ class ConfigModelTemplates extends ConfigModelForm
 	}
 
 	/**
-	 * @param   object  $form  A form object.
-	 * @param   mixed   $data  The data expected for the form.
+	 * Method to preprocess the form
 	 *
-	 * @throws	Exception if there is an error in the form event.
+	 * @param   JForm   $form   A form object.
+	 * @param   mixed   $data   The data expected for the form.
+	 * @param   string  $group  Plugin group to load
+	 *
+	 * @return  void
+	 *
 	 * @since   3.2
+	 * @throws	Exception if there is an error in the form event.
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
-
 		$lang = JFactory::getLanguage();
 
 		$template = JFactory::getApplication()->getTemplate();
@@ -128,5 +128,4 @@ class ConfigModelTemplates extends ConfigModelForm
 		// Trigger the default form events.
 		parent::preprocessForm($form, $data, $group);
 	}
-
 }

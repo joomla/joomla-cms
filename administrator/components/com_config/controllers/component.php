@@ -24,8 +24,6 @@ class ConfigControllerComponent extends JControllerLegacy
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @return  void
-	 *
 	 * @since   1.5
 	 * @deprecated  4.0
 	 */
@@ -47,7 +45,6 @@ class ConfigControllerComponent extends JControllerLegacy
 	 */
 	function cancel()
 	{
-
 		JLog::add('ConfigControllerComponent is deprecated. Use ConfigControllerComponentCancel instead.', JLog::WARNING, 'deprecated');
 
 		$controller = new ConfigControllerComponentCancel;
@@ -61,7 +58,6 @@ class ConfigControllerComponent extends JControllerLegacy
 	 */
 	public function save()
 	{
-
 		JLog::add('ConfigControllerComponent is deprecated. Use ConfigControllerComponentSave instead.', JLog::WARNING, 'deprecated');
 
 		$controller = new ConfigControllerComponentSave;
