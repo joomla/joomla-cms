@@ -25,8 +25,36 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Oct-2013 Jean-Marie Simonet
+ #$ Updating both en-GB.xml
+ # RTL Isis menus colour should be white, not blue.
+
+24-Oct-2013 Elin Waring
+ # [#32419] Installation 3.2.b2 fails on MSSQL. Thanks Marcel van Beelen
+ # [#32417] Small bug in menutypes.php. Thanks Bruno Batista
+
+-------------------- 3.2 Beta 1 Release [24-Oct-2013] ------------------
+
+24-Oct-2013 Jean-Marie Simonet
+ # RTL Isis menus should be aligned right. Thanks Ofer Cohen
+ # RTL Isis dropdown toggle icon should be aligned with other icons.
+ $ [#31959] Alpha sort en-GB.com_installer.ini  Thanks Brian Teeman
+ ^ [#32345] Corrected JUI comment tags in less/css/js files. Thanks Peter Van Westen
+ $ [#32408] Add warning text to post install strong password language string. Thanks Nicolas Antimisiaris
+ $ Adding lang strings for new position postinstall in Isis and Hathor
+ $ New installation lang file: Montenegrin srp-ME
+
+23-Oct-2013 Michael Babker
+ # [#32401] *Custom module Options hard to find.  Thanks Jean-Marie Simonet
+ # [#32398] Some older php admin users can't login.  Thanks Elin Waring
+ # [#32150] tag added to an article gets removed if ordering changed or in batch processing.  Thanks Elin Waring
+ ^ [#32216] New post install/post update messages.  Thanks Nicholas Dionysopoulos
+ ^ [#32330] Removing `postinstall_message_id` from postinstall INSERT queries.  Thanks Thomas Hunziker
+ ^ [#32395] CS errors found in CMS build (mostly com_config related).  Thanks Buddhima Wijeweera
+ # [#32343] Regression in Module and Plugin views.  Thanks David Hurley
+
 23-Oct-2013 Jean-Marie Simonet
- # [#32310] Regression: Restore lost editor configuration tab. 
+ # [#32310] Regression: Restore lost editor configuration tab.
  # [#32393] /layouts not included in robots.txt  Thanks Matt Thomas
  # [#32378] Installation error: JLIB_DATABASE_QUERY_FAILED. Thanks Marcel van Beelen
  # [#32394] Replace JLess uses with FOFLess. Thanks Michael Babker
@@ -40,7 +68,7 @@ $ -> Language fix or change
 
 22-Oct-2013 David Hurley
  ^ Update to previously new submitted Framework code. Thanks Andrew Eddie
- 
+
 22-Oct-2013 Jean-Marie Simonet
  # [#32368] *Regression: Cancelling Component Options edit wrong redirect Thanks Achal Aggarwal
  $ Missing lang string. Normalising both lib_joomla.ini

@@ -18,7 +18,6 @@ defined('JPATH_PLATFORM') or die;
  */
 class ConfigControllerCanceladmin extends ConfigControllerCancel
 {
-
 	/**
 	 * The context for storing internal data, e.g. record.
 	 *
@@ -47,13 +46,12 @@ class ConfigControllerCanceladmin extends ConfigControllerCancel
 	/**
 	 * Method to handle admin cancel
 	 *
-	 * @return  bool	True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   3.2
 	 */
 	public function execute()
 	{
-
 		// Check for request forgeries.
 		if (!JSession::checkToken())
 		{
@@ -70,7 +68,6 @@ class ConfigControllerCanceladmin extends ConfigControllerCancel
 
 		if (!empty($this->redirect))
 		{
-
 			$this->app->redirect($this->redirect);
 
 		}
@@ -78,6 +75,5 @@ class ConfigControllerCanceladmin extends ConfigControllerCancel
 		{
 			parent::execute();
 		}
-
 	}
 }

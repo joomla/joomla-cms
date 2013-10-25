@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 /**
  * View for the component configuration
  *
@@ -19,7 +18,6 @@ defined('_JEXEC') or die;
  */
 class ConfigViewComponentHtml extends ConfigViewCmsHtml
 {
-
 	public $state;
 
 	public $form;
@@ -29,14 +27,13 @@ class ConfigViewComponentHtml extends ConfigViewCmsHtml
 	/**
 	 * Display the view
 	 *
-	 * @param   string  $tpl  Layout
+	 * @return  string  The rendered view.
 	 *
-	 * @return  boolean
+	 * @since   3.2
 	 *
 	 */
 	public function render()
 	{
-
 		$form = null;
 		$component = null;
 
@@ -45,11 +42,10 @@ class ConfigViewComponentHtml extends ConfigViewCmsHtml
 			$form = $this->model->getForm();
 			$component	= $this->model->getComponent();
 			$user = JFactory::getUser();
-			$app  = JFactory::getApplication();
 		}
 		catch (Exception $e)
 		{
-			$app->enqueueMessage($e->getMessage(), 'error');
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -68,13 +64,12 @@ class ConfigViewComponentHtml extends ConfigViewCmsHtml
 
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
 		$this->currentComponent = JFactory::getApplication()->input->get('component');
-		$this->return = $app->input->get('return', '', 'base64');
+		$this->return = JFactory::getApplication()->input->get('return', '', 'base64');
 
 		$this->addToolbar();
-		$app->input->set('hidemainmenu', true);
+		JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		return parent::render();
-
 	}
 
 	/**

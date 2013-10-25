@@ -29,7 +29,7 @@ function admin_postinstall_eaccelerator_condition()
 	$app = JFactory::getApplication();
 	$cacheHandler = $app->getCfg('cacheHandler', '');
 
-	 return (ucfirst($cacheHandler) == 'Eaccelerator');
+	return (ucfirst($cacheHandler) == 'Eaccelerator');
 }
 
 /**

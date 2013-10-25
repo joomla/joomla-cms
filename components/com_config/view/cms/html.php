@@ -21,21 +21,24 @@ abstract class ConfigViewCmsHtml extends JViewHtml
 	/**
 	 * The output of the template script.
 	 *
-	 * @var string
+	 * @var    string
+	 * @since  3.2
 	 */
 	protected $_output = null;
 
 	/**
 	 * The name of the default template source file.
 	 *
-	 * @var string
+	 * @var    string
+	 * @since  3.2
 	 */
 	protected $_template = null;
 
 	/**
 	 * The set of search directories for resources (templates)
 	 *
-	 * @var array
+	 * @var    array
+	 * @since  3.2
 	 */
 	protected $_path = array('template' => array(), 'helper' => array());
 
@@ -43,6 +46,7 @@ abstract class ConfigViewCmsHtml extends JViewHtml
 	 * Layout extension
 	 *
 	 * @var    string
+	 * @since  3.2
 	 */
 	protected $_layoutExt = 'php';
 
@@ -52,22 +56,20 @@ abstract class ConfigViewCmsHtml extends JViewHtml
 	 * @param   JModel            $model  The model object.
 	 * @param   SplPriorityQueue  $paths  The paths queue.
 	 *
-	 * @since   12.1
+	 * @since   3.2
 	 */
 	public function __construct(JModel $model, SplPriorityQueue $paths = null)
 	{
-
 		$app = JFactory::getApplication();
 		$component = JApplicationHelper::getComponentName();
 		$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $component);
 
-		if(isset($paths))
+		if (isset($paths))
 		{
 			$paths->insert(JPATH_THEMES . '/' . $app->getTemplate() . '/html/' . $component . '/' . $this->getName(), 2);
 		}
 
 		parent::__construct($model, $paths);
-
 	}
 
 	/**
@@ -159,7 +161,6 @@ abstract class ConfigViewCmsHtml extends JViewHtml
 		}
 		else
 		{
-
 			throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_LAYOUTFILE_NOT_FOUND', $file), 500);
 		}
 	}
@@ -188,6 +189,7 @@ abstract class ConfigViewCmsHtml extends JViewHtml
 				$filename = strtolower($parts['name']) . '.php';
 				break;
 		}
+
 		return $filename;
 	}
 

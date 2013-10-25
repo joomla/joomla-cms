@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 /**
  * View for the global configuration
  *
@@ -28,10 +27,9 @@ class ConfigViewApplicationHtml extends ConfigViewCmsHtml
 	/**
 	 * Method to display the view.
 	 *
-	 * @param   string  $tpl  Layout
+	 * @return  string  The rendered view.
 	 *
-	 * @return  void
-	 *
+	 * @since   3.2
 	 */
 	public function render()
 	{
@@ -44,12 +42,10 @@ class ConfigViewApplicationHtml extends ConfigViewCmsHtml
 			$form = $this->model->getForm();
 			$data = $this->model->getData();
 			$user = JFactory::getUser();
-			$app = JFactory::getApplication();
-
 		}
 		catch (Exception $e)
 		{
-			$app->enqueueMessage($e->getMessage(), 'error');
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -80,6 +76,7 @@ class ConfigViewApplicationHtml extends ConfigViewCmsHtml
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
 
 		$this->addToolbar();
+
 		return parent::render();
 	}
 
