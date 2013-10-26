@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+26-Oct-2013 David Hurley
+ + [#32026] Yubi key feature addition. Thanks Nicholas Dionysopoulos
+
 25-Oct-2013 Jean-Marie Simonet
  #$ Updating both en-GB.xml
  # RTL Isis menus colour should be white, not blue.
