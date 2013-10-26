@@ -25,6 +25,7 @@
 		<field name="state" type="list"
 			label="JSTATUS" description="COM_BANNERS_FIELD_CLIENT_STATE_DESC"
 			class="chzn-color-state" size="1" default="1"
+			vadlidate="options"
 		>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
@@ -63,6 +64,7 @@
 			class="chzn-color"
 			label="COM_BANNERS_FIELD_TRACKIMPRESSION_LABEL"
 			description="COM_BANNERS_FIELD_TRACKIMPRESSION_DESC"
+			vadlidate="options"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">JNO</option>
@@ -72,6 +74,7 @@
 		<field name="track_clicks" type="list" default="0"
 			class="chzn-color"
 			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL" description="COM_BANNERS_FIELD_TRACKCLICK_DESC"
+			vadlidate="options"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">JNO</option>

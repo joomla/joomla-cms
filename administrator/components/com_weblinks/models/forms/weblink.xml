@@ -8,14 +8,14 @@
 			   description="JGLOBAL_FIELD_ID_DESC"/>
 
 		<field name="title" type="text"
-			class="inputbox input-xxlarge input-large-text"
-			size="40" label="JGLOBAL_TITLE"
-			description="COM_WEBLINKS_FIELD_TITLE_DESC" required="true" />
+			   class="inputbox input-xxlarge input-large-text"
+			   size="40" label="JGLOBAL_TITLE"
+			   description="COM_WEBLINKS_FIELD_TITLE_DESC" required="true" />
 
 		<field name="alias" type="text" class="inputbox"
-			size="40" label="JFIELD_ALIAS_LABEL"
-			description="COM_WEBLINKS_FIELD_ALIAS_DESC"
-			hint="JFIELD_ALIAS_PLACEHOLDER" />
+			   size="40" label="JFIELD_ALIAS_LABEL"
+			   description="COM_WEBLINKS_FIELD_ALIAS_DESC"
+			   hint="JFIELD_ALIAS_PLACEHOLDER" />
 
 		<field name="catid" type="categoryedit" extension="com_weblinks"
 			   label="JCATEGORY" description="COM_WEBLINKS_FIELD_CATEGORY_DESC"
@@ -25,10 +25,10 @@
 
 
 		<field name="url" type="url"
-			class="inputbox span12"
-			filter="url"
-			size="40" label="COM_WEBLINKS_FIELD_URL_LABEL"
-			description="COM_WEBLINKS_FIELD_URL_DESC" required="true" />
+			   class="inputbox span12"
+			   filter="url"
+			   size="40" label="COM_WEBLINKS_FIELD_URL_LABEL"
+			   description="COM_WEBLINKS_FIELD_URL_DESC" required="true" />
 
 		<field name="description" type="editor" buttons="true" hide="pagebreak,readmore"
 			   class="inputbox"
@@ -66,13 +66,13 @@
 		</field>
 
 		<field name="ordering" type="ordering" class="inputbox"
-			label="JFIELD_ORDERING_LABEL"
-			description="JFIELD_ORDERING_DESC"
-			content_type="com_weblinks.weblink"
-        />
+			   label="JFIELD_ORDERING_LABEL"
+			   description="JFIELD_ORDERING_DESC"
+			   content_type="com_weblinks.weblink"
+		/>
 
 		<field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"
-			description="JFIELD_ACCESS_DESC" class="inputbox" size="1" />
+			   description="JFIELD_ACCESS_DESC" class="inputbox" size="1" />
 
 		<field
 			name="language"
@@ -84,11 +84,11 @@
 		</field>
 
 		<field name="tags"
-			type="tag"
-			label="JTAG"
-			description="JTAG_DESC"
-			class="inputbox"
-			multiple="true"
+			   type="tag"
+			   label="JTAG"
+			   description="JTAG_DESC"
+			   class="inputbox"
+			   multiple="true"
 		>
 		</field>
 
@@ -177,9 +177,10 @@
 				   description="COM_WEBLINKS_FIELD_HEIGHT_DESC" />
 
 			<field name="count_clicks" type="list"
-				class="chzn-color"
-				label="COM_WEBLINKS_FIELD_COUNTCLICKS_LABEL"
-				description="COM_WEBLINKS_FIELD_COUNTCLICKS_DESC"
+				   class="chzn-color"
+				   label="COM_WEBLINKS_FIELD_COUNTCLICKS_LABEL"
+				   description="COM_WEBLINKS_FIELD_COUNTCLICKS_DESC"
+				   validate="options"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JNO</option>
@@ -196,28 +197,30 @@
 				name="float_first"
 				type="list"
 				label="COM_WEBLINKS_FLOAT_LABEL"
-				description="COM_WEBLINKS_FLOAT_DESC">
-					<option value="">JGLOBAL_USE_GLOBAL</option>
-					<option value="right">COM_WEBLINKS_RIGHT</option>
-					<option value="left">COM_WEBLINKS_LEFT</option>
-					<option value="none">COM_WEBLINKS_NONE</option>
+				description="COM_WEBLINKS_FLOAT_DESC"
+				validate="options"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="right">COM_WEBLINKS_RIGHT</option>
+				<option value="left">COM_WEBLINKS_LEFT</option>
+				<option value="none">COM_WEBLINKS_NONE</option>
 			</field>
 			<field name="image_first_alt"
-				type="text"
-				label="COM_WEBLINKS_FIELD_IMAGE_ALT_LABEL"
-				description="COM_WEBLINKS_FIELD_IMAGE_ALT_DESC"
-				class="inputbox"
-				size="20" />
+				   type="text"
+				   label="COM_WEBLINKS_FIELD_IMAGE_ALT_LABEL"
+				   description="COM_WEBLINKS_FIELD_IMAGE_ALT_DESC"
+				   class="inputbox"
+				   size="20" />
 			<field name="image_first_caption"
-				type="text"
-				label="COM_WEBLINKS_FIELD_IMAGE_CAPTION_LABEL"
-				description="COM_WEBLINKS_FIELD_IMAGE_CAPTION_DESC"
-				class="inputbox"
-				size="20" />
+				   type="text"
+				   label="COM_WEBLINKS_FIELD_IMAGE_CAPTION_LABEL"
+				   description="COM_WEBLINKS_FIELD_IMAGE_CAPTION_DESC"
+				   class="inputbox"
+				   size="20" />
 
 			<field name="spacer1"
-				type="spacer"
-				hr="true" />
+				   type="spacer"
+				   hr="true" />
 
 			<field
 				name="image_second"
@@ -228,24 +231,26 @@
 				name="float_second"
 				type="list"
 				label="COM_WEBLINKS_FLOAT_LABEL"
-				description="COM_WEBLINKS_FLOAT_DESC">
-					<option value="">JGLOBAL_USE_GLOBAL</option>
-					<option value="right">COM_WEBLINKS_RIGHT</option>
-					<option value="left">COM_WEBLINKS_LEFT</option>
-					<option value="none">COM_WEBLINKS_NONE</option>
+				description="COM_WEBLINKS_FLOAT_DESC"
+				validate="options"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="right">COM_WEBLINKS_RIGHT</option>
+				<option value="left">COM_WEBLINKS_LEFT</option>
+				<option value="none">COM_WEBLINKS_NONE</option>
 			</field>
 			<field name="image_second_alt"
-				type="text"
-				label="COM_WEBLINKS_FIELD_IMAGE_ALT_LABEL"
-				description="COM_WEBLINKS_FIELD_IMAGE_ALT_DESC"
-				class="inputbox"
-				size="20" />
+				   type="text"
+				   label="COM_WEBLINKS_FIELD_IMAGE_ALT_LABEL"
+				   description="COM_WEBLINKS_FIELD_IMAGE_ALT_DESC"
+				   class="inputbox"
+				   size="20" />
 			<field name="image_second_caption"
-				type="text"
-				label="COM_WEBLINKS_FIELD_IMAGE_CAPTION_LABEL"
-				description="COM_WEBLINKS_FIELD_IMAGE_CAPTION_DESC"
-				class="inputbox"
-				size="20" />
+				   type="text"
+				   label="COM_WEBLINKS_FIELD_IMAGE_CAPTION_LABEL"
+				   description="COM_WEBLINKS_FIELD_IMAGE_CAPTION_DESC"
+				   class="inputbox"
+				   size="20" />
 		</fieldset>
 	</fields>
 	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">

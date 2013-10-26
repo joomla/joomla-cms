@@ -71,7 +71,9 @@
 					type="list"
 					class="chzn-color"
 					label="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_LABEL"
-					description="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_DESC">
+					description="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_DESC"
+					validate="options"
+				>
 					<option
 						value="">JGLOBAL_USE_GLOBAL</option>
 					<option
@@ -191,7 +193,8 @@
 					type="hidden"
 					default="itemid">
 					<option
-						value="itemid"></option>
+						value="itemid">
+					</option>
 				</field>
 
 			</fieldset>
