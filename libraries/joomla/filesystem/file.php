@@ -154,6 +154,54 @@ class JFile
 	}
 
 	/**
+	 * Makes a symlink for a file
+	 *
+	 * @param   string   $src          The path to the source file
+	 * @param   string   $dest         The path to the destination symlink
+	 * @param   string   $path         An optional base path to prefix to the file names
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   11.1
+	 */
+	public static function symlink($src, $dest, $path = null)
+	{
+		// Prepend a base path if it exists
+		if ($path)
+		{
+			$src = JPath::clean($path . '/' . $src);
+			$dest = JPath::clean($path . '/' . $dest);
+		}
+
+		// Check src path
+		if (!is_readable($src))
+		{
+			JLog::add(JText::sprintf('JLIB_FILESYSTEM_ERROR_JFILE_FIND_COPY', $src), JLog::WARNING, 'jerror');
+
+			return false;
+		}
+
+		if ($FTPOptions['enabled'] == 1)
+		{
+			// Not supported yet
+			JLog::add(JText::_('JLIB_FILESYSTEM_ERROR_SYMLINK_FAILED'), JLog::WARNING, 'jerror');
+
+			return false;
+		}
+		else
+		{
+			if (!@ symlink($src, $dest))
+			{
+				JLog::add(JText::_('JLIB_FILESYSTEM_ERROR_SYMLINK_FAILED'), JLog::WARNING, 'jerror');
+
+				return false;
+			}
+
+			return true;
+		}
+	}
+
+	/**
 	 * Delete a file or array of files
 	 *
 	 * @param   mixed  $file  The file name or an array of file names
