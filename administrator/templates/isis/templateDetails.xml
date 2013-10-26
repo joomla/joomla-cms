@@ -67,27 +67,27 @@
 					   description="TPL_ISIS_LOGO_DESC" />
 
 				<field name="admin_menus" type="radio"
-					   class="btn-group"
-					   default="1"
-					   label="TPL_ISIS_FIELD_ADMIN_MENUS_LABEL"
-					   description="TPL_ISIS_FIELD_ADMIN_MENUS_DESC"
-					   filter="integer">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
+				class="btn-group btn-group-yesno"
+				default="1"
+				label="TPL_ISIS_FIELD_ADMIN_MENUS_LABEL"
+				description="TPL_ISIS_FIELD_ADMIN_MENUS_DESC"
+				filter="integer">
+				<option
+					value="1">JYES</option>
+				<option
+					value="0">JNO</option>
 				</field>
 
 				<field name="displayHeader" type="radio"
-					   class="btn-group"
-					   default="1"
-					   label="TPL_ISIS_HEADER_LABEL"
-					   description="TPL_ISIS_HEADER_DESC"
-					   filter="integer">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
+				class="btn-group btn-group-yesno"
+				default="1"
+				label="TPL_ISIS_HEADER_LABEL"
+				description="TPL_ISIS_HEADER_DESC"
+				filter="integer">
+				<option
+					value="1">JYES</option>
+				<option
+					value="0">JNO</option>
 				</field>
 
 				<field name="statusFixed" type="list"
@@ -103,15 +103,15 @@
 				</field>
 
 				<field name="stickyToolbar" type="radio"
-					   class="btn-group"
-					   default="1"
-					   label="TPL_ISIS_STICKY_LABEL"
-					   description="TPL_ISIS_STICKY_DESC"
-					   filter="integer">
-					<option
-						value="1">JYES</option>
-					<option
-						value="0">JNO</option>
+				class="btn-group btn-group-yesno"
+				default="1"
+				label="TPL_ISIS_STICKY_LABEL"
+				description="TPL_ISIS_STICKY_DESC"
+				filter="integer">
+				<option
+					value="1">JYES</option>
+				<option
+					value="0">JNO</option>
 				</field>
 
 			</fieldset>

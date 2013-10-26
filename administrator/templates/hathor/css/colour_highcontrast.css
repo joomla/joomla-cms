@@ -1276,7 +1276,15 @@ a img.calendar {
 }
 
 .icon-32-print {
-    background-image: url(../images/toolbar/icon-32-print.png);
+    	background-image: url(../images/toolbar/icon-32-print.png);
+}
+
+.icon-32-batch {
+	background-image: url(../images/toolbar/icon-32-batch.png);
+}
+
+.icon-32-envelope {
+	background-image: url(../images/toolbar/icon-32-messaging.png);
 }
 
 /**

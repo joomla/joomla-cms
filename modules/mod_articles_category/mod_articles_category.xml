@@ -40,7 +40,7 @@
 				label="MOD_ARTICLES_CATEGORY_FIELD_GROUP_DYNAMIC_LABEL"
 			>
 				<field name="show_on_article_page" type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWONARTICLEPAGE_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWONARTICLEPAGE_DESC"
@@ -301,7 +301,7 @@
 			>
 
 				<field name="link_titles" type="radio" default="1"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					label="MOD_ARTICLES_CATEGORY_FIELD_LINKTITLES_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_LINKTITLES_DESC"
 				>
@@ -312,7 +312,7 @@
 				</field>
 
 				<field name="show_date" type="radio" default="0"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					label="JDATE"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWDATE_DESC"
 				>
@@ -341,7 +341,7 @@
 					description="MOD_ARTICLES_CATEGORY_FIELD_DATEFIELDFORMAT_DESC" />
 
 				<field name="show_category" type="radio" default="0"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					label="JCATEGORY"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWCATEGORY_DESC"
 				>
@@ -352,7 +352,7 @@
 				</field>
 
 				<field name="show_hits" type="radio" default="0"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWHITS_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWHITS_DESC"
 				>
@@ -363,7 +363,7 @@
 				</field>
 
 				<field name="show_author" type="radio" default="0"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					label="JAUTHOR"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWAUTHOR_DESC"
 				>
@@ -374,7 +374,7 @@
 				</field>
 
 				<field name="show_introtext" type="radio" default="0"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWINTROTEXT_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWINTROTEXT_DESC"
 				>
@@ -394,7 +394,7 @@
 					description="JGLOBAL_SHOW_READMORE_DESC"
 					type="radio"
 					default="0"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 				>
 					<option value="1">JSHOW
 					</option>
@@ -408,7 +408,7 @@
 					description="JGLOBAL_SHOW_READMORE_TITLE_DESC"
 					type="radio"
 					default="1"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 				>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>

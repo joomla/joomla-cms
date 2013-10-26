@@ -493,7 +493,7 @@ class FOFDispatcher extends JObject
 
 		if ($this->fofAuth_LogoutOnReturn && $this->_fofAuth_isLoggedIn)
 		{
-			return FOFPlatform::getInstance()->logoutUser();
+			FOFPlatform::getInstance()->logoutUser();
 		}
 
 		return true;

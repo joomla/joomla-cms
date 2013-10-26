@@ -18,6 +18,15 @@ defined('_JEXEC') or die;
  */
 class BannersModelClient extends JModelAdmin
 {
+
+	/**
+	 * The type alias for this content type.
+	 *
+	 * @var      string
+	 * @since    3.2
+	 */
+	public $typeAlias = 'com_banners.client';
+
 	/**
 	 * Method to test whether a record can be deleted.
 	 *
@@ -48,8 +57,10 @@ class BannersModelClient extends JModelAdmin
 	/**
 	 * Method to test whether a record can be deleted.
 	 *
-	 * @param   object	A record object.
-	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
+	 * @param   object   A record object.
+	 * @return  boolean  True if allowed to change the state of the record.
+	 *                   Defaults to the permission set in the component.
+	 *
 	 * @since   1.6
 	 */
 	protected function canEditState($record)
@@ -83,9 +94,10 @@ class BannersModelClient extends JModelAdmin
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array  $data		Data for the form.
-	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
-	 * @return  mixed  A JForm object on success, false on failure
+	 * @param   array    $data      Data for the form.
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	 *
+	 * @return  mixed    A JForm object on success, false on failure
 	 * @since   1.6
 	 */
 	public function getForm($data = array(), $loadData = true)

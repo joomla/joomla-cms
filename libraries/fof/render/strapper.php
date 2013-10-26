@@ -454,12 +454,12 @@ ENDJAVASCRIPT;
 	{
 		$html = '';
 
-		// Joomla! 3.0+ support
+		JHtml::_('behavior.multiselect');
 
+		// Joomla! 3.0+ support
 		if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'ge'))
 		{
 			JHtml::_('bootstrap.tooltip');
-			JHtml::_('behavior.multiselect');
 			JHtml::_('dropdown.init');
 			JHtml::_('formbehavior.chosen', 'select');
 			$view	 = $form->getView();
@@ -622,7 +622,9 @@ ENDJS;
 
 						if (!empty($buttons))
 						{
-							$filter_html .= "\t\t\t\t\t\t<nobr>$buttons</nobr>" . PHP_EOL;
+							$filter_html .= '<div class="btn-group pull-left hidden-phone">' . PHP_EOL;
+							$filter_html .= "\t\t\t\t\t\t$buttons" . PHP_EOL;
+							$filter_html .= '</div>' . PHP_EOL;
 						}
 					}
 					elseif (!empty($options))
