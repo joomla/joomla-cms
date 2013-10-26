@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<fieldset name="component"
+		label="COM_REMOTERWDTESTER_COMPONENT_LABEL"
+		description="COM_REMOTERWDTESTER_COMPONENT_DESC"
+	>
+
+        <field name="test"
+             type="radio"
+             default="1"
+             label="COM_REMOTERWDTESTER_TEST_LABEL"
+             description="COM_REMOTERWDTESTER_TEST_DESC">
+                 <option value="0">JHIDE</option>
+                 <option value="1">JSHOW</option>
+         </field>
+
+	</fieldset>
+
+	<fieldset name="permissions"
+		description="JCONFIG_PERMISSIONS_DESC"
+		label="JCONFIG_PERMISSIONS_LABEL"
+	>
+
+		<field 
+            name="rules" 
+            type="rules"
+			component="com_remoterwdtester"
+            class="inputbox"
+			filter="rules"
+			validate="rules"
+			label="JCONFIG_PERMISSIONS_LABEL"
+			section="component" />
+	</fieldset>
+
+</config>
+<!--
+########################################################################################
+The following are a list of all the different types of fields you can add to this file
+They are here for copy pasting - neat eh?
+########################################################################################
+
+http://docs.joomla.org/Calendar_parameter_type
+<field name="mycalendar" type="calendar" default="5-10-2008" label="Select a date" description="" format="%d-%m-%Y" />
+
+http://docs.joomla.org/Category_parameter_type
+<field name="mycategory" type="category" label="Select a category" description="" section="3" />
+
+http://docs.joomla.org/Editors_parameter_type
+<field name="myeditor" type="editors" default="none" label="Select an editor" />
+
+http://docs.joomla.org/Filelist_parameter_type
+<field name="myfile" type="filelist" default="" label="Select a file" description="" directory="administrator" filter="" exclude="" stripext="" />
+
+http://docs.joomla.org/Folderlist_parameter_type
+<field name="myfolder" type="folderlist" default="" label="Select a folder" directory="administrator" filter="" exclude="" stripext="" />
+
+http://docs.joomla.org/Helpsites_parameter_type
+<field name="myhelpsite" type="helpsites" default="" label="Select a help site" description="" />
+
+http://docs.joomla.org/Hidden_parameter_type
+<field name="mysecretvariable" type="hidden" default="" />
+
+http://docs.joomla.org/Imagelist_parameter_type
+<field name="myimage" type="imagelist" default="" label="Select an image" description="" directory="" exclude="" stripext="" />
+
+http://docs.joomla.org/Languages_parameter_type
+<field name="mylanguage" type="languages" client="site" default="en-GB" label="Select a language" description="" />
+
+http://docs.joomla.org/List_parameter_type
+<field name="mylistvalue" type="list" default="" label="Select an option" description="">
+  <option value="0">Option 1</option>
+  <option value="1">Option 2</option>
+</field>
+
+http://docs.joomla.org/Menu_parameter_type
+<field name="mymenu" type="menu" default="mainmenu" label="Select a menu" description="Select a menu" />
+
+http://docs.joomla.org/Menuitem_parameter_type
+<field name="mymenuitem" type="menuitem" default="45" label="Select a menu item" description="Select a menu item" />
+
+http://docs.joomla.org/Password_parameter_type
+<field name="mypassword" type="password" default="secret" label="Enter a password" description="" size="5" />
+
+http://docs.joomla.org/Radio_parameter_type
+<field name="myradiovalue" type="radio" default="0" label="Select an option" description="">
+  <option value="0">1</option>
+  <option value="1">2</option>
+</field>
+
+http://docs.joomla.org/Spacer_parameter_type
+<field type="spacer" default="&lt;b&gt;Advanced parameters&lt;/b&gt;" />
+
+http://docs.joomla.org/Sql_parameter_type
+<field name="myfield" type="sql" default="10" label="Select an article" query="SELECT id, title FROM #__content" key_field=”id” value_field=”title” />
+
+http://docs.joomla.org/Text_parameter_type
+<field name="mytextvalue" type="text" default="Some text" label="Enter some text" description="" size="10" />
+
+http://docs.joomla.org/Textarea_parameter_type
+<field name="mytextarea" type="textarea" default="default" label="Enter some text" description="" rows="10" cols="5" />
+
+http://docs.joomla.org/Timezones_parameter_type
+<field name="mytimezone" type="timezones" default="-10" label="Select a timezone" description="" />
+
+http://docs.joomla.org/Usergroup_parameter_type
+<field name="myusergroups" type="usergroup" default="" label="Select a user group" description="" />
+
+
+ -->

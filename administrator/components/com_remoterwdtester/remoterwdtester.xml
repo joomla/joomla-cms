@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="3.0" method="upgrade">
+    <name>com_remoterwdtester</name>
+    <creationDate>2013-09-14</creationDate>
+    <copyright>Copyright (C) Joostrap 2013. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <author>Philip Locke</author>
+    <authorEmail>fastnetwebdesign@gmail.com</authorEmail>
+    <authorUrl>http://www.joostrap.com</authorUrl>
+    <version>1.0.0</version>
+    <description>Remote RWD Tester allows you to test the same web page on multiple devices via a control panel.</description>
+
+    <files folder="site">
+        <filename>index.html</filename>
+        <filename>remoterwdtester.php</filename>
+        <filename>controller.php</filename>
+        <filename>router.php</filename>
+        <folder>views</folder>
+        <folder>models</folder>
+        <folder>controllers</folder>
+        <folder>helpers</folder>
+    </files>
+    
+    <media destination="rwdtester">
+        <folder>remote</folder>
+    </media>
+    
+    <languages folder="site">
+        
+			<language tag="en-GB">language/en-GB.com_remoterwdtester.ini</language>
+    </languages>
+    <administration>
+        <menu img="components/com_remoterwdtester/assets/images/s_com_remoterwdtester.png" >COM_REMOTERWDTESTER</menu>
+        <submenu>
+            
+			<menu link="option=com_remoterwdtester&amp;view=controlpanels" view="controlpanels" img="components/com_remoterwdtester/assets/images/s_controlpanels.png" alt="Remoterwdtester/Controlpanels">COM_REMOTERWDTESTER_TITLE_CONTROLPANELS</menu>
+
+        </submenu>
+        <files folder="administrator">
+            <filename>access.xml</filename>
+            <filename>config.xml</filename>
+            <filename>controller.php</filename>
+            <filename>index.html</filename>
+            <filename>remoterwdtester.php</filename>
+            <folder>controllers</folder>
+            <folder>assets</folder>
+            <folder>helpers</folder>
+            <folder>models</folder>
+            <folder>views</folder>
+        </files>
+        <languages folder="administrator">
+            
+			<language tag="en-GB">language/en-GB.com_remoterwdtester.ini</language>
+			<language tag="en-GB">language/en-GB.com_remoterwdtester.sys.ini</language>
+        </languages>
+    </administration>
+</extension>

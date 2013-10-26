@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Remote Preview Controller</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+    <div class="header">
+      <div class="wrapper">
+        <img src="../apple-touch-icon-precomposed.png" width="46" height="46">
+        <h1>Remote RWD Tester</h1>
+      </div>
+    </div>
+    <div class="wrapper content">
+    <h2>&nbsp;</h2>
+    <h2>Please follow the steps below:</h2>
+    
+      <form action="./update.php" method="post" id="url-form">
+        <label for="preview-url">1) Point all of your test devices to:</label>
+        <input type="text" id="preview-url" class="select-copy" spellcheck="false">
+        <div class="clear"></div>
+        <label for="url">2) Enter the URL that you want to test - including <span class="blue">http://</span></label>
+        <input type="text" name="url" id="url" placeholder="http://example.com">
+	      <button type="submit">Preview in Devices</button>
+        <div class="form-feedback"></div>
+      </form>
+    </div>
+    <script src="../jquery.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>
