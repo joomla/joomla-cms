@@ -66,3 +66,28 @@ function modChrome_well($module, &$params, &$attribs)
 		}
 	}
 }
+
+function modChrome_well_cpanel($module, &$params, &$attribs)
+{
+	if ($module->content)
+	{
+		$bootstrapSize  = $params->get('bootstrap_size');
+		$bootstrapSize != 1 ?:$bootstrapSize = 12;
+		$moduleClass    = !empty($bootstrapSize) ? ' span' . (int) $bootstrapSize . '' : '';
+
+		if ( $moduleClass )
+		{
+			echo '<div class="' . $moduleClass . '">';
+		}
+
+		echo '<div class="well well-small">';
+		echo '<h2 class="module-title nav-header">' . $module->title .'</h2>';
+		echo $module->content;
+		echo '</div>';
+
+		if ( $moduleClass )
+		{
+			echo '</div>';
+		}
+	}
+}
