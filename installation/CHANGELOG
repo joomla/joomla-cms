@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 26-Oct-2013 David Hurley
  + [#32026] Yubi key feature addition. Thanks Nicholas Dionysopoulos
+ # [#32431] Fix login module status button. Thanks Ofer Cohen
 
 25-Oct-2013 Jean-Marie Simonet
  #$ Updating both en-GB.xml
