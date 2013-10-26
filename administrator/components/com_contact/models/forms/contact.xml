@@ -51,7 +51,7 @@
 			class="chzn-color-state"
 			size="1"
 			default="1"
-			vadlidate="options"
+			validate="options"
 		>
 			<option value="1">
 				JPUBLISHED</option>
@@ -374,7 +374,7 @@
 				class="chzn-color"
 			label="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_LABEL"
 			description="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_DESC"
-			vadlidate="options"
+			validate="options"
 		>
 			<option value="">JGLOBAL_USE_GLOBAL</option>
 			<option value="0">JHIDE</option>
@@ -396,7 +396,7 @@
 				class="chzn-color"
 				label="COM_CONTACT_FIELD_SHOW_TAGS_LABEL"
 				description="COM_CONTACT_FIELD_SHOW_TAGS_DESC"
-				vadlidate="options"
+				validate="options"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -407,7 +407,7 @@
 				type="list"
 				class="chzn-color"
 				label="COM_CONTACT_FIELD_PARAMS_NAME_LABEL" description="COM_CONTACT_FIELD_PARAMS_NAME_DESC"
-				vadlidate="options"
+				validate="options"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -418,7 +418,7 @@
 				class="chzn-color"
 				label="COM_CONTACT_FIELD_PARAMS_CONTACT_POSITION_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_CONTACT_POSITION_DESC"
-				vadlidate="options"
+				validate="options"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -429,7 +429,7 @@
 				class="chzn-color"
 				label="JGLOBAL_EMAIL"
 				description="COM_CONTACT_FIELD_PARAMS_CONTACT_E_MAIL_DESC"
-				vadlidate="options"
+				validate="options"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -440,7 +440,7 @@
 				class="chzn-color"
 				label="COM_CONTACT_FIELD_PARAMS_STREET_ADDRESS_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_STREET_ADDRESS_DESC"
-				vadlidate="options"
+				validate="options"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -451,7 +451,7 @@
 				class="chzn-color"
 				label="COM_CONTACT_FIELD_PARAMS_TOWN-SUBURB_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_TOWN-SUBURB_DESC"
-				vadlidate="options"
+				validate="options"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -462,7 +462,7 @@
 				class="chzn-color"
 				label="COM_CONTACT_FIELD_PARAMS_STATE-COUNTY_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_STATE-COUNTY_DESC"
-				vadlidate="options"
+				validate="options"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -473,7 +473,7 @@
 				class="chzn-color"
 				   label="COM_CONTACT_FIELD_PARAMS_POST-ZIP_CODE_LABEL"
 				   description="COM_CONTACT_FIELD_PARAMS_POST-ZIP_CODE_DESC"
-				vadlidate="options"
+				validate="options"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
