@@ -30,6 +30,7 @@
 			<field name="language"
 				type="list"
 				description="JFIELD_MODULE_LANGUAGE_DESC"
+				validate="options"
 				label="JFIELD_LANGUAGE_LABEL">
 				<option value="*">JALL</option>
 			</field>
@@ -128,6 +129,7 @@
 					name="cache"
 					type="list"
 					default="0"
+					validate="options"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="MOD_LANGUAGES_FIELD_CACHING_DESC">
 					<option

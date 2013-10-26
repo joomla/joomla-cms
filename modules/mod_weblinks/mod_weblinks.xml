@@ -45,6 +45,7 @@
 					name="ordering"
 					type="list"
 					default="title"
+					validate="options"
 					label="MOD_WEBLINKS_FIELD_ORDERING_LABEL"
 					description="MOD_WEBLINKS_FIELD_ORDERING_DESC">
 					<option
@@ -58,6 +59,7 @@
 					name="direction"
 					type="list"
 					default="asc"
+					validate="options"
 					label="MOD_WEBLINKS_FIELD_ORDERDIRECTION_LABEL"
 					description="MOD_WEBLINKS_FIELD_ORDERDIRECTION_DESC">
 					<option
@@ -69,6 +71,7 @@
 					name="target"
 					type="list"
 					default="3"
+					validate="options"
 					label="MOD_WEBLINKS_FIELD_TARGET_LABEL"
 					description="MOD_WEBLINKS_FIELD_TARGET_DESC">
 					<option
@@ -82,6 +85,7 @@
 					name="follow"
 					type="list"
 					default="0"
+					validate="options"
 					label="MOD_WEBLINKS_FIELD_FOLLOW_LABEL"
 					description="MOD_WEBLINKS_FIELD_FOLLOW_DESC">
 					<option
@@ -145,6 +149,7 @@
 					name="cache"
 					type="list"
 					default="1"
+					validate="options"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC">
 					<option

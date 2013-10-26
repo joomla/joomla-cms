@@ -65,6 +65,7 @@
 				<field name="style" type="list"
 					default="pages"
 					description="PLG_CONTENT_PAGEBREAK_STYLE_DESC"
+					validate="options"
 					label="PLG_CONTENT_PAGEBREAK_STYLE_LABEL"
 				>
 					<option value="pages">PLG_CONTENT_PAGEBREAK_PAGES</option>

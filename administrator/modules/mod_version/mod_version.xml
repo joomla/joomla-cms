@@ -31,6 +31,7 @@
 					name="format"
 					type="list"
 					default="short"
+					validate="options"
 					label="MOD_VERSION_FORMAT_LABEL"
 					description="MOD_VERSION_FORMAT_DESC">
 					<option
@@ -42,6 +43,7 @@
 					name="product"
 					type="list"
 					default="1"
+					validate="options"
 					label="MOD_VERSION_PRODUCT_LABEL"
 					description="MOD_VERSION_PRODUCT_DESC">
 					<option
@@ -67,6 +69,7 @@
 					name="cache"
 					type="list"
 					default="0"
+					validate="options"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC">
 					<option

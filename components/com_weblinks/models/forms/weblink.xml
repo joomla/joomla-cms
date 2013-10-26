@@ -42,6 +42,7 @@
 		<field name="state" type="list"
 			default="1"
 			description="JFIELD_PUBLISHED_DESC"
+			validate="options"
 			label="JSTATUS"
 			size="1"
 		>

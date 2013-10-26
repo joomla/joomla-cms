@@ -24,6 +24,7 @@
 				<field name="style" type="list"
 					default="table"
 					description="PLG_LOADMODULE_FIELD_STYLE_DESC"
+					validate="options"
 					label="PLG_LOADMODULE_FIELD_STYLE_LABEL">
 					<option value="table">PLG_LOADMODULE_FIELD_VALUE_TABLE</option>
 					<option value="horz">PLG_LOADMODULE_FIELD_VALUE_HORIZONTAL</option>

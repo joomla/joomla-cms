@@ -107,6 +107,7 @@
 		class="chzn-color-state"
 		default="1"
 		size="1"
+		validate="options"
 		label="JSTATUS"
 		description="JFIELD_PUBLISHED_DESC">
 		<option value="1">JPUBLISHED</option>
@@ -157,7 +158,7 @@
 		type="user"
 		label="JGLOBAL_FIELD_CREATED_BY_LABEL"
 		desc="JGLOBAL_FIELD_CREATED_BY_DESC"
-		/>
+	/>
 
 	<field
 		name="created_time"
@@ -224,7 +225,7 @@
 				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
 				view="category"
 				useglobal="true"
-				/>
+			/>
 
 			<field
 				name="image"
@@ -236,7 +237,7 @@
 
 	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 		<fieldset name="jmetadata"
-			label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
+				  label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 			<field
 				name="author"
 				type="text"
@@ -245,9 +246,10 @@
 				size="30"/>
 
 			<field name="robots"
-				type="list"
-				label="JFIELD_METADATA_ROBOTS_LABEL"
-				description="JFIELD_METADATA_ROBOTS_DESC"
+				   type="list"
+				   validate="options"
+				   label="JFIELD_METADATA_ROBOTS_LABEL"
+				   description="JFIELD_METADATA_ROBOTS_DESC"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>

@@ -87,6 +87,7 @@
 					name="cache"
 					type="list"
 					default="1"
+					validate="options"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC">
 					<option
@@ -105,7 +106,8 @@
 					type="hidden"
 					default="static">
 					<option
-						value="static"></option>
+						value="static">
+					</option>
 				</field>
 			</fieldset>
 		</fields>

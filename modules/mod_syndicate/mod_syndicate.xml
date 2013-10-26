@@ -49,6 +49,7 @@
 					name="format"
 					type="list"
 					default="rss"
+					validate="options"
 					label="MOD_SYNDICATE_FIELD_FORMAT_LABEL"
 					description="MOD_SYNDICATE_FIELD_FORMAT_DESC">
 					<option
@@ -73,6 +74,7 @@
 					name="cache"
 					type="list"
 					default="0"
+					validate="options"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC">
 					<option

@@ -24,6 +24,7 @@
 				<field name="applysuffix" type="list"
 					default="0"
 					description="PLG_GMAIL_FIELD_APPLYSUFFIX_DESC"
+					validate="options"
 					label="PLG_GMAIL_FIELD_APPLYSUFFIX_LABEL"
 				>
 					<option value="0">PLG_GMAIL_FIELD_VALUE_NOAPPLYSUFFIX</option>

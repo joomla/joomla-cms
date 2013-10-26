@@ -33,6 +33,7 @@
 					name="target"
 					type="list"
 					default="1"
+					validate="options"
 					label="MOD_BANNERS_FIELD_TARGET_LABEL"
 					description="MOD_BANNERS_FIELD_TARGET_DESC">
 					<option
@@ -85,6 +86,7 @@
 					name="ordering"
 					type="list"
 					default="0"
+					validate="options"
 					label="MOD_BANNERS_FIELD_RANDOMISE_LABEL"
 					description="MOD_BANNERS_FIELD_RANDOMISE_DESC">
 					<option
@@ -129,6 +131,7 @@
 					name="cache"
 					type="list"
 					default="1"
+					validate="options"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC">
 					<option

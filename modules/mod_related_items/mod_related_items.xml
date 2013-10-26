@@ -61,6 +61,7 @@
 					name="owncache"
 					type="list"
 					default="1"
+					validate="options"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC">
 					<option

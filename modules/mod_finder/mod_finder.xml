@@ -34,6 +34,7 @@
 					name="show_autosuggest"
 					type="list"
 					default="1"
+					validate="options"
 					label="MOD_FINDER_FIELDSET_BASIC_AUTOSUGGEST_LABEL"
 					description="MOD_FINDER_FIELDSET_BASIC_AUTOSUGGEST_DESCRIPTION">
 					<option
@@ -45,6 +46,7 @@
 					name="show_advanced"
 					type="list"
 					default="0"
+					validate="options"
 					label="MOD_FINDER_FIELDSET_BASIC_SHOW_ADVANCED_LABEL"
 					description="MOD_FINDER_FIELDSET_BASIC_SHOW_ADVANCED_DESCRIPTION">
 					<option
@@ -95,6 +97,7 @@
 					name="label_pos"
 					type="list"
 					default="top"
+					validate="options"
 					label="MOD_FINDER_FIELDSET_ADVANCED_LABEL_POS_LABEL"
 					description="MOD_FINDER_FIELDSET_ADVANCED_LABEL_POS_DESCRIPTION">
 					<option
@@ -122,6 +125,7 @@
 					name="button_pos"
 					type="list"
 					default="right"
+					validate="options"
 					label="MOD_FINDER_FIELDSET_ADVANCED_BUTTON_POS_LABEL"
 					description="MOD_FINDER_FIELDSET_ADVANCED_BUTTON_POS_DESCRIPTION">
 					<option

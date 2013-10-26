@@ -67,6 +67,7 @@
 				<field name="auth_method" type="list"
 					default="bind"
 					description="PLG_LDAP_FIELD_AUTHMETHOD_DESC"
+					validate="options"
 					label="PLG_LDAP_FIELD_AUTHMETHOD_LABEL"
 				>
 					<option value="search">PLG_LDAP_FIELD_VALUE_BINDSEARCH</option>

@@ -33,6 +33,7 @@
 			/>
 
 		<field name="show_category_title" type="list"
+				validate="options"
 				label="JGLOBAL_SHOW_CATEGORY_TITLE"
 				description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
 				>
@@ -43,6 +44,7 @@
 
 			<field name="show_description" type="list"
 				description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC"
+				validate="options"
 				label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -52,6 +54,7 @@
 
 			<field name="show_description_image" type="list"
 				description="JGLOBAL_SHOW_CATEGORY_IMAGE_DESC"
+				validate="options"
 				label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -61,6 +64,7 @@
 
 			<field name="maxLevel" type="list"
 				description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
+				validate="options"
 				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -74,6 +78,7 @@
 			</field>
 
 			<field name="show_empty_categories" type="list"
+				validate="options"
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 				description="COM_NEWSFEEDS_SHOW_EMPTY_CATEGORIES_DESC"
 			>
@@ -83,6 +88,7 @@
 			</field>
 
 			<field name="show_subcat_desc" type="list"
+				validate="options"
 				label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 				description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
 			>
@@ -94,6 +100,7 @@
 			<field id="show_cat_items"
 				name="show_cat_items"
 				type="list"
+				validate="options"
 				label="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_LABEL"
 				description="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_DESC"
 			>
@@ -112,6 +119,7 @@
 				type="list"
 				default=""
 				description="JGLOBAL_FILTER_FIELD_DESC"
+				validate="options"
 				label="JGLOBAL_FILTER_FIELD_LABEL"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -121,6 +129,7 @@
 
 			<field name="show_pagination_limit"
 				type="list"
+				validate="options"
 				label="JGLOBAL_DISPLAY_SELECT_LABEL"
 				description="JGLOBAL_DISPLAY_SELECT_DESC"
 			>
@@ -133,6 +142,7 @@
 				id="show_headings"
 				name="show_headings"
 				type="list"
+				validate="options"
 				label="JGLOBAL_SHOW_HEADINGS_LABEL"
 				description="JGLOBAL_SHOW_HEADINGS_DESC">
 
@@ -145,6 +155,7 @@
 				id="show_articles"
 				name="show_articles"
 				type="list"
+				validate="options"
 				label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_LABEL"
 				description="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_DESC">
 
@@ -157,6 +168,7 @@
 				id="show_link"
 				name="show_link"
 				type="list"
+				validate="options"
 				label="COM_NEWSFEEDS_FIELD_SHOW_LINKS_LABEL"
 				description="COM_NEWSFEEDS_FIELD_SHOW_LINKS_DESC">
 
@@ -167,6 +179,7 @@
 
 			<field name="show_pagination"
 				type="list"
+				validate="options"
 				label="JGLOBAL_PAGINATION_LABEL"
 				description="JGLOBAL_PAGINATION_DESC">
 
@@ -179,6 +192,7 @@
 			<field
 				name="show_pagination_results"
 				type="list"
+				validate="options"
 				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 				description="JGLOBAL_PAGINATION_RESULTS_DESC">
 
@@ -194,6 +208,7 @@
 
 			<field name="show_feed_image" type="list"
 				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC"
+				validate="options"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -203,6 +218,7 @@
 
 			<field name="show_feed_description" type="list"
 				description="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_DESC"
+				validate="options"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -212,6 +228,7 @@
 
 			<field name="show_item_description" type="list"
 				description="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_DESC"
+				validate="options"
 				label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
@@ -225,9 +242,10 @@
 				label="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_LABEL"
 				size="6"
 			/>
-			
+
 			<field name="feed_display_order" type="list"
 				description="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_DESC"
+				validate="options"
 				label="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_LABEL"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>

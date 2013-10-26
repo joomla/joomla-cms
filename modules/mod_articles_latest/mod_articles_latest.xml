@@ -50,6 +50,7 @@
 					name="show_featured"
 					type="list"
 					default=""
+					validate="options"
 					label="MOD_LATEST_NEWS_FIELD_FEATURED_LABEL"
 					description="MOD_LATEST_NEWS_FIELD_FEATURED_DESC">
 					<option
@@ -64,6 +65,7 @@
 					name="ordering"
 					type="list"
 					default="published"
+					validate="options"
 					label="MOD_LATEST_NEWS_FIELD_ORDERING_LABEL"
 					description="MOD_LATEST_NEWS_FIELD_ORDERING_DESC">
 					<option
@@ -82,6 +84,7 @@
 					name="user_id"
 					type="list"
 					default="0"
+					validate="options"
 					label="MOD_LATEST_NEWS_FIELD_USER_LABEL"
 					description="MOD_LATEST_NEWS_FIELD_USER_DESC">
 					<option
@@ -113,6 +116,7 @@
 					name="cache"
 					type="list"
 					default="1"
+					validate="options"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC">
 					<option

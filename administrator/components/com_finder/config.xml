@@ -33,11 +33,11 @@
 			label="COM_FINDER_CONFIG_DESCRIPTION_LENGTH_LABEL"
 			description="COM_FINDER_CONFIG_DESCRIPTION_LENGTH_DESCRIPTION" />
 		<field name="allow_empty_query"
-			type="radio"
-			class="btn-group btn-group-yesno"
-			default="0"
-			label="COM_FINDER_CONFIG_ALLOW_EMPTY_QUERY_LABEL"
-			description="COM_FINDER_CONFIG_ALLOW_EMPTY_QUERY_DESCRIPTION">
+			   type="radio"
+			   class="btn-group btn-group-yesno"
+			   default="0"
+			   label="COM_FINDER_CONFIG_ALLOW_EMPTY_QUERY_LABEL"
+			   description="COM_FINDER_CONFIG_ALLOW_EMPTY_QUERY_DESCRIPTION">
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
@@ -72,11 +72,11 @@
 			<option value="0">JHIDE</option>
 		</field>
 		<field name="show_advanced_tips"
-			type="radio"
-			class="btn-group btn-group-yesno"
-			default="1"
-			label="COM_FINDER_CONFIG_SHOW_ADVANCED_TIPS_LABEL"
-			description="COM_FINDER_CONFIG_SHOW_ADVANCED_TIPS_DESCRIPTION">
+			   type="radio"
+			   class="btn-group btn-group-yesno"
+			   default="1"
+			   label="COM_FINDER_CONFIG_SHOW_ADVANCED_TIPS_LABEL"
+			   description="COM_FINDER_CONFIG_SHOW_ADVANCED_TIPS_DESCRIPTION">
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
 		</field>
@@ -101,21 +101,21 @@
 			<option value="0">JHIDE</option>
 		</field>
 		<field name="sort_order"
-			type="list"
-			default="relevance"
-			validate="options"
-			label="COM_FINDER_CONFIG_SORT_ORDER_LABEL"
-			description="COM_FINDER_CONFIG_SORT_ORDER_DESC">
+			   type="list"
+			   default="relevance"
+			   validate="options"
+			   label="COM_FINDER_CONFIG_SORT_ORDER_LABEL"
+			   description="COM_FINDER_CONFIG_SORT_ORDER_DESC">
 			<option value="relevance">COM_FINDER_CONFIG_SORT_OPTION_RELEVANCE</option>
 			<option value="date">COM_FINDER_CONFIG_SORT_OPTION_START_DATE</option>
 			<option value="price">COM_FINDER_CONFIG_SORT_OPTION_LIST_PRICE</option>
 		</field>
 		<field name="sort_direction"
-			type="list"
-			default="desc"
-			validate="options"
-			label="COM_FINDER_CONFIG_SORT_DIRECTION_LABEL"
-			description="COM_FINDER_CONFIG_SORT_DIRECTION_DESC">
+			   type="list"
+			   default="desc"
+			   validate="options"
+			   label="COM_FINDER_CONFIG_SORT_DIRECTION_LABEL"
+			   description="COM_FINDER_CONFIG_SORT_DIRECTION_DESC">
 			<option value="desc">COM_FINDER_CONFIG_SORT_OPTION_DESCENDING</option>
 			<option value="asc">COM_FINDER_CONFIG_SORT_OPTION_ASCENDING</option>
 		</field>
@@ -222,6 +222,7 @@
 			name="stemmer"
 			type="list"
 			default="snowball"
+			validate="options"
 			label="COM_FINDER_CONFIG_STEMMER_LABEL"
 			description="COM_FINDER_CONFIG_STEMMER_DESCRIPTION" >
 			<option value="porter_en">COM_FINDER_CONFIG_STEMMER_PORTER_EN</option>

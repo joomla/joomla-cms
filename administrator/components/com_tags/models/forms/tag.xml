@@ -106,6 +106,7 @@
 		description="JFIELD_PUBLISHED_DESC"
 		default="1"
 		size="1"
+		validate="options"
 	>
 		<option value="1">JPUBLISHED</option>
 		<option value="0">JUNPUBLISHED</option>
@@ -212,13 +213,13 @@
 	>
 		<option value="*">JALL</option>
 	</field>
-	
-	<field name="version_note" 
-		type="text" 
-		label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
-		description="JGLOBAL_FIELD_VERSION_NOTE_DESC" 
-		class="inputbox" size="45" 
-		labelclass="control-label"
+
+	<field name="version_note"
+		   type="text"
+		   label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+		   description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
+		   class="inputbox" size="45"
+		   labelclass="control-label"
 	/>
 
 	<fields name="params" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
@@ -266,6 +267,7 @@
 				labelclass="control-label"
 				label="COM_TAGS_FLOAT_LABEL"
 				description="COM_TAGS_FLOAT_DESC"
+				validate="options"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="right">COM_TAGS_RIGHT</option>
@@ -313,6 +315,7 @@
 				labelclass="control-label"
 				label="COM_TAGS_FLOAT_LABEL"
 				description="COM_TAGS_FLOAT_DESC"
+				validate="options"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="right">COM_TAGS_RIGHT</option>
@@ -358,6 +361,7 @@
 				type="list"
 				label="JFIELD_METADATA_ROBOTS_LABEL"
 				description="JFIELD_METADATA_ROBOTS_DESC"
+				validate="options"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>
