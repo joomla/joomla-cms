@@ -13,7 +13,7 @@
  * @since       1.5
  */
 var JFormValidator = function() {
-    var $, handlers, inputEmail, custom, $formFields, labels,
+    var $, handlers, inputEmail, custom, forms, formIndex, formsFields,
     
     setHandler = function(name, fn, en) {
         en = (en === '') ? true : en;
@@ -24,16 +24,12 @@ var JFormValidator = function() {
     },
     
     findInputLabel = function($el){
-        var id = $el.attr('id'), label;
+        var id = $el.attr('id');
         if(!id){
             return false;
-        }else if(labels[id]){
-            label = labels[id];
         }else{
-            label = $('label[for="'+ id +'"]');
-            labels[id] = label;
+            return $el.data('label');
         }
-        return label;
     },
     
     handleResponse = function(state, $el) {
@@ -93,19 +89,18 @@ var JFormValidator = function() {
     },
     
     isValid = function(form) {
-        var valid = true, $form = $(form), i, message, errors, error, label;
+        var valid = true, i, message, errors, error, label, formName = getFormName(form);
         // Validate form fields
-        $formFields = $formFields || $form.find('input, textarea, select, button, fieldset');
-        $formFields.each(function(index, el) {
+        $.each(formsFields[formName], function(index, el) {
             if (validate(el) === false) {
                 valid = false;
             }
         });
         // Run custom form validators if present
         $.each(custom, function(key, validator) {
-                if (validator.exec() !== true) {
-                        valid = false;
-                }
+            if (validator.exec() !== true) {
+                valid = false;
+            }
         });
         if (!valid) {
             message = Joomla.JText._('JLIB_FORM_FIELD_INVALID');
@@ -124,10 +119,12 @@ var JFormValidator = function() {
     },
     
     attachToForm = function(form) {
+        // Cache form fields
+        var formName = getFormName(form);
+        formsFields[formName] = []; 
         // Iterate through the form object and attach the validate method to all input fields.
-        var $formInputFields = $(form).find('input,textarea,select,button');
-        $formInputFields.each(function() {
-            var $el = $(this), tagName = $el.prop("tagName").toLowerCase();
+        $(form).find('input, textarea, select, button').each(function() {
+            var $el = $(this), id = $el.attr('id'), tagName = $el.prop("tagName").toLowerCase();
             if ($el.hasClass('required')) {
                 $el.attr('aria-required', 'true').attr('required', 'required');
             }
@@ -138,21 +135,37 @@ var JFormValidator = function() {
                     });
                 }
             } else {
-                $el.on('blur', function() {
-                    return validate(this);
-                });
-                if ($el.hasClass('validate-email') && inputEmail) {
-                    $el.get(0).type = 'email';
+                if (tagName !== 'fieldset') {
+                    $el.on('blur', function() {
+                        return validate(this);
+                    });
+                    if ($el.hasClass('validate-email') && inputEmail) {
+                        $el.get(0).type = 'email';
+                    }
                 }
+                $el.data('label', $(forms[formName]).find('label[for="'+ id +'"]'));
+                formsFields[formName].push($el);
             }
         });
+    },
+    
+    getFormName = function(form){
+        var name = $(form).attr('name');
+        if (!name) {
+            name = 'jform-validate-' + formIndex;
+            $(form).attr('name', name);
+            formIndex ++;
+        }
+        return name;
     },
     
     initialize = function() {
         $ = jQuery.noConflict();
         handlers = {};
         custom = custom || {};
-        labels = [];
+        forms = {};
+        formsFields = {};
+        formIndex = 0;
 
         inputEmail = (function() {
             var input = document.createElement("input");
@@ -177,8 +190,11 @@ var JFormValidator = function() {
             return regex.test(value);
         });
         // Attach to forms with class 'form-validate'
-        $('form.form-validate').each(function() {
-            attachToForm(this);
+        $('form.form-validate').each(function() {  
+            var formName = getFormName(this);
+            //Cache form name
+            forms[formName] = $(this);
+            attachToForm(this); 
         }, this);
     };
 
