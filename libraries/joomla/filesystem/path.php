@@ -61,10 +61,22 @@ class JPath
 	 *
 	 * @since   11.1
 	 */
-	public static function setPermissions($path, $filemode = '0644', $foldermode = '0755')
+	public static function setPermissions($path, $filemode = 'default', $foldermode = 'default')
 	{
 		// Initialise return value
 		$ret = true;
+
+		$config = JFactory::getConfig();
+
+		if ($filemode == 'default')
+		{
+			$filemode = $config->get('filemode');
+		}
+
+		if ($foldermode == 'default')
+		{
+			$foldermode = $config->get('dirmode');
+		}
 
 		if (is_dir($path))
 		{

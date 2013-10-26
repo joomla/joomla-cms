@@ -391,7 +391,8 @@ class AdmintoolsHelperDownload
 			$mode = octdec($mode);
 			if ( ($mode < 0600) || ($mode > 0777) )
 			{
-				$mode = 0755;
+				$config = JFactory::getConfig();
+				$mode = octdec($config->get('dirmode'));
 			}
 		}
 

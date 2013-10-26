@@ -269,8 +269,11 @@ class ConfigModelApplication extends ConfigModelForm
 
 		$app = JFactory::getApplication();
 
+		$config = JFactory::getConfig();
+		$filemode = $config->get('filemode');
+
 		// Attempt to make the file writeable if using FTP.
-		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0644'))
+		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, $filemode))
 		{
 			$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
 		}

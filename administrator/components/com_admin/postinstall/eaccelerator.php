@@ -61,8 +61,11 @@ function admin_postinstall_eaccelerator_action()
 	// Get the new FTP credentials.
 	$ftp = JClientHelper::getCredentials('ftp', true);
 
+	$config = JFactory::getConfig();
+	$filemode = $config->get('filemode');
+
 	// Attempt to make the file writeable if using FTP.
-	if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0644'))
+	if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, $filemode))
 	{
 		JError::raiseNotice('SOME_ERROR_CODE', JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'));
 	}
