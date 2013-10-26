@@ -19,7 +19,7 @@ JHtml::_('behavior.keepalive');
 $app = JFactory::getApplication();
 $input = $app->input;
 
-$assoc = isset($app->item_associations);
+$assoc = JLanguageAssociations::isEnabled();
 ?>
 
 <script type="text/javascript">
@@ -42,6 +42,7 @@ $assoc = isset($app->item_associations);
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('JCATEGORY', true)); ?>
 		<div class="row-fluid">
 			<div class="span9">
+				<?php echo $this->form->getLabel('description'); ?>
 				<?php echo $this->form->getInput('description'); ?>
 			</div>
 			<div class="span3">

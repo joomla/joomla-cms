@@ -70,11 +70,10 @@ class JFormFieldCheckbox extends JFormField
 	 */
 	public function __set($name, $value)
 	{
-		$value = (string) $value;
-
 		switch ($name)
 		{
 			case 'checked':
+				$value = (string) $value;
 				$this->$name = ($value == 'true' || $value == $name || $value == '1');
 				break;
 

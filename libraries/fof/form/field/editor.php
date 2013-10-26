@@ -27,6 +27,12 @@ class FOFFormFieldEditor extends JFormFieldEditor implements FOFFormField
 	protected $static;
 
 	protected $repeatable;
+	
+	/** @var   FOFTable  The item being rendered in a repeatable form field */
+	public $item;
+	
+	/** @var int A monotonically increasing number, denoting the row number in a repeatable view */
+	public $rowid;
 
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.

@@ -43,13 +43,12 @@ class TemplatesController extends JControllerLegacy
 		$document = JFactory::getDocument();
 
 		// For JSON requests
-		if($document->getType() == 'json')
+		if ($document->getType() == 'json')
 		{
-
 			$view = new TemplatesViewStyle;
 
 			// Get/Create the model
-			if ($model = new TemplatesModelStyle())
+			if ($model = new TemplatesModelStyle)
 			{
 				$model->addTablePath(JPATH_ADMINISTRATOR . '/components/com_templates/tables');
 

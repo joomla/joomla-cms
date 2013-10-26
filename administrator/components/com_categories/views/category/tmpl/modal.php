@@ -18,7 +18,7 @@ JHtml::_('behavior.keepalive');
 $app = JFactory::getApplication();
 $input = $app->input;
 
-$assoc = isset($app->item_associations);
+$assoc = JLanguageAssociations::isEnabled();
 
 ?>
 
@@ -59,6 +59,7 @@ $assoc = isset($app->item_associations);
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('JCATEGORY', true)); ?>
 		<div class="row-fluid">
 			<div class="span9">
+				<?php echo $this->form->getLabel('description'); ?>
 				<?php echo $this->form->getInput('description'); ?>
 			</div>
 			<div class="span3">
@@ -78,7 +79,7 @@ $assoc = isset($app->item_associations);
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php if (isset($assoc)) : ?>
+		<?php if ($assoc) : ?>
 			<div class="hidden"><?php echo $this->loadTemplate('associations'); ?></div>
 		<?php endif; ?>
 

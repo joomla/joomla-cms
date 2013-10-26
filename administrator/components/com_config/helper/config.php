@@ -42,7 +42,7 @@ class ConfigHelperConfig extends JHelperContent
 	/**
 	 * Returns true if the component has configuration options.
 	 *
-	 * @param   string  $components
+	 * @param   string  $component  Component name
 	 *
 	 * @return  boolean
 	 *

@@ -59,7 +59,11 @@ class PlgContentJoomla extends JPlugin
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_messages/tables');
 
 		$db = JFactory::getDbo();
-		$db->setQuery('SELECT id FROM #__users WHERE sendEmail = 1');
+		$query = $db->getQuery(true)
+		->select($db->quoteName('id'))
+		->from($db->quoteName('#__users'))
+		->where($db->quoteName('sendEmail') . ' = 1');
+		$db->setQuery($query);
 		$users = (array) $db->loadColumn();
 
 		$default_language = JComponentHelper::getParams('com_languages')->get('administrator');

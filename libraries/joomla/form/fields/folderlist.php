@@ -105,18 +105,17 @@ class JFormFieldFolderList extends JFormFieldList
 	 */
 	public function __set($name, $value)
 	{
-		$value = (string) $value;
-
 		switch ($name)
 		{
 			case 'filter':
 			case 'directory':
 			case 'exclude':
-				$this->$name = $value;
+				$this->$name = (string) $value;
 				break;
 
 			case 'hideNone':
 			case 'hideDefault':
+				$value = (string) $value;
 				$this->$name = ($value === 'true' || $value === $name || $value === '1');
 				break;
 
