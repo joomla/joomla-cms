@@ -632,6 +632,7 @@
 			default="1"
 			label="COM_CONFIG_FRONTEDITING_LABEL"
 			description="COM_CONFIG_FRONTEDITING_DESC"
+			class="advancedSelect"
 			filter="integer">
 			<!-- <option value="3">COM_CONFIG_FRONTEDITING_MENUSANDMODULES_ADMIN_TOO</option> -->
 			<option value="2">COM_CONFIG_FRONTEDITING_MENUSANDMODULES</option>
