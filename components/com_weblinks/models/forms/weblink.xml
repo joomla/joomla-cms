@@ -56,7 +56,7 @@
 			required="true"
 		/>
 
-		<field name="url" type="url"
+		<field name="url" type="url" filter="url"
 			description="COM_WEBLINKS_FIELD_URL_DESC"
 			label="COM_WEBLINKS_FIELD_URL_LABEL"
 			required="true"
