@@ -559,6 +559,17 @@ class JUser extends JObject
 			$defaultEncryption = 'bcrypt';
 		}
 
+		if ($defaultEncryption == 'bcrypt')
+		{
+			$hasStrongPasswordSupport = JCrypt::hasStrongPasswordSupport();
+
+			if (!$hasStrongPasswordSupport)
+			{
+				$defaultEncryption = 'sha256';
+			}
+		}
+
+
 		// Let's check to see if the user is new or not
 		if (empty($this->id))
 		{
@@ -579,9 +590,17 @@ class JUser extends JObject
 			}
 			$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
 
-			$salt = JUserHelper::genRandomPassword(32);
-			$crypt = JUserHelper::getCryptedPassword($array['password'], $salt, $defaultEncryption);
-			$array['password'] = $crypt . ':' . $salt;
+
+		if ($defaultEncryption == 'bcrypt')
+		{
+			$array['password'] = JUserHelper::getCryptedPassword($array['password']);
+		}
+		else
+		{
+			$salt = JUserHelper::genRandomPassword(16);
+			$array['password'] = JUserHelper::getCryptedPassword($array['password'], $salt, 'sha256') . ':' . $salt;
+
+		}
 
 			// Set the registration timestamp
 			$this->set('registerDate', JFactory::getDate()->toSql());
@@ -620,9 +639,18 @@ class JUser extends JObject
 
 				$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
 
-				$salt = JUserHelper::genRandomPassword(32);
+				$salt = JUserHelper::genRandomPassword(16);
 				$crypt = JUserHelper::getCryptedPassword($array['password'], $salt, $defaultEncryption);
-				$array['password'] = $crypt . ':' . $salt;
+
+				if (substr($crypt, 0, 8) != '{sha256}')
+				{
+					$array['password'] = $crypt . ':' . $salt;
+				}
+				else
+				{
+					// Bcrypt comes with its own salt
+					$array['password'] = $crypt;
+				}
 			}
 			else
 			{
