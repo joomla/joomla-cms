@@ -179,7 +179,7 @@ var JFormValidator = function() {
             return regex.test(value);
         });
         setHandler('email', function(value) {
-            regex = /^[^(\.)][a-zA-Z0-9.!#$%&‚Äô*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+            regex = /^[a-zA-Z0-9.!#$%&‚Äô*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
             return regex.test(value);
         });
         // Attach to forms with class 'form-validate'
