@@ -25,15 +25,26 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Oct-2013 Michael Babker
+ ^ [#32334] Move com_contenthistory media to media folder
+
+27-Oct-2013 Jean-Marie Simonet
+ # Correcting Contenthistory messages to accept single quotes
+
+26-Oct-2013 David Hurley
+ + [#32026] Yubi key feature addition. Thanks Nicholas Dionysopoulos
+ # [#32431] Fix login module status button. Thanks Ofer Cohen
+
 25-Oct-2013 Jean-Marie Simonet
  #$ Updating both en-GB.xml
  # RTL Isis menus colour should be white, not blue.
+ $ Updating installation lang file: sv-SE
 
 24-Oct-2013 Elin Waring
  # [#32419] Installation 3.2.b2 fails on MSSQL. Thanks Marcel van Beelen
  # [#32417] Small bug in menutypes.php. Thanks Bruno Batista
 
--------------------- 3.2 Beta 1 Release [24-Oct-2013] ------------------
+-------------------- 3.2 Beta 2 Release [24-Oct-2013] ------------------
 
 24-Oct-2013 Jean-Marie Simonet
  # RTL Isis menus should be aligned right. Thanks Ofer Cohen
