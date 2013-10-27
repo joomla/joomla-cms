@@ -13,7 +13,7 @@
  * @since       1.5
  */
 var JFormValidator = function() {
-    var $, handlers, inputEmail, custom, forms, formIndex, formsFields,
+    var $, handlers, inputEmail, custom,
     
     setHandler = function(name, fn, en) {
         en = (en === '') ? true : en;
@@ -23,17 +23,17 @@ var JFormValidator = function() {
         };
     },
     
-    findInputLabel = function($el){
-        var id = $el.attr('id');
-        if(!id){
-            return false;
-        }else{
-            return $el.data('label');
+    findLabel = function(id, form){
+        var $label = $(form).find('#' + id + '-lbl');
+        if ($label.length) {
+            return $label;
+        } else {
+            return $(form).find('label[for="' + id + '"]');
         }
     },
     
     handleResponse = function(state, $el) {
-        var $label = findInputLabel($el);
+        var $label = $el.data('label');
         // Set the element and its label (if exists) invalid state
         if (state === false) {
             $el.addClass('invalid').attr('aria-invalid', 'true');
@@ -89,9 +89,9 @@ var JFormValidator = function() {
     },
     
     isValid = function(form) {
-        var valid = true, i, message, errors, error, label, formName = getFormName(form);
+        var valid = true, i, message, errors, error, label;
         // Validate form fields
-        $.each(formsFields[formName], function(index, el) {
+        $.each($(form).data('inputfields'), function(index, el) {
             if (validate(el) === false) {
                 valid = false;
             }
@@ -119,9 +119,7 @@ var JFormValidator = function() {
     },
     
     attachToForm = function(form) {
-        // Cache form fields
-        var formName = getFormName(form);
-        formsFields[formName] = []; 
+        var inputFields = [];
         // Iterate through the form object and attach the validate method to all input fields.
         $(form).find('input, textarea, select, button').each(function() {
             var $el = $(this), id = $el.attr('id'), tagName = $el.prop("tagName").toLowerCase();
@@ -143,29 +141,17 @@ var JFormValidator = function() {
                         $el.get(0).type = 'email';
                     }
                 }
-                $el.data('label', $(forms[formName]).find('label[for="'+ id +'"]'));
-                formsFields[formName].push($el);
+                $el.data('label', findLabel(id, form));
+                inputFields.push($el);
             }
-        });
-    },
-    
-    getFormName = function(form){
-        var name = $(form).attr('name');
-        if (!name) {
-            name = 'jform-validate-' + formIndex;
-            $(form).attr('name', name);
-            formIndex ++;
-        }
-        return name;
+        });    
+        $(form).data('inputfields', inputFields);
     },
     
     initialize = function() {
         $ = jQuery.noConflict();
         handlers = {};
         custom = custom || {};
-        forms = {};
-        formsFields = {};
-        formIndex = 0;
 
         inputEmail = (function() {
             var input = document.createElement("input");
@@ -191,9 +177,6 @@ var JFormValidator = function() {
         });
         // Attach to forms with class 'form-validate'
         $('form.form-validate').each(function() {  
-            var formName = getFormName(this);
-            //Cache form name
-            forms[formName] = $(this);
             attachToForm(this); 
         }, this);
     };
