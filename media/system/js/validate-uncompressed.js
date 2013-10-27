@@ -24,12 +24,19 @@ var JFormValidator = function() {
     },
     
     findLabel = function(id, form){
-        var $label = $(form).find('#' + id + '-lbl');
+        var $label, $form = $(form);
+        if (!id) {
+            return false;
+        }
+        $label = $form.find('#' + id + '-lbl');
         if ($label.length) {
             return $label;
-        } else {
-            return $(form).find('label[for="' + id + '"]');
         }
+        $label = $form.find('label[for="' + id + '"]');
+        if ($label.length) {
+            return $label;
+        }
+        return false;
     },
     
     handleResponse = function(state, $el) {
