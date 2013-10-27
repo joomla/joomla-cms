@@ -128,7 +128,7 @@ var JFormValidator = function() {
     attachToForm = function(form) {
         var inputFields = [];
         // Iterate through the form object and attach the validate method to all input fields.
-        $(form).find('input, textarea, select, button').each(function() {
+        $(form).find('input, textarea, select, fieldset, button').each(function() {
             var $el = $(this), id = $el.attr('id'), tagName = $el.prop("tagName").toLowerCase();
             if ($el.hasClass('required')) {
                 $el.attr('aria-required', 'true').attr('required', 'required');
