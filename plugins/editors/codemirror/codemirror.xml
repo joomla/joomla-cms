@@ -31,7 +31,7 @@
 				</field>
 
 				<field name="lineWrapping" type="radio"
-					   class="btn-group"
+					   class="btn-group btn-group-yesno"
 					   default="1"
 					   description="PLG_CODEMIRROR_FIELD_LINEWRAPPING_DESC"
 					   label="PLG_CODEMIRROR_FIELD_LINEWRAPPING_LABEL"
@@ -41,7 +41,7 @@
 				</field>
 
 				<field name="matchTags" type="radio"
-					   class="btn-group"
+					   class="btn-group btn-group-yesno"
 					   default="1"
 					   description="PLG_CODEMIRROR_FIELD_MATCHTAGS_DESC"
 					   label="PLG_CODEMIRROR_FIELD_MATCHTAGS_LABEL"
@@ -51,7 +51,7 @@
 				</field>
 
 				<field name="matchBrackets" type="radio"
-					   class="btn-group"
+					   class="btn-group btn-group-yesno"
 					   default="1"
 					   description="PLG_CODEMIRROR_FIELD_MATCHBRACKETS_DESC"
 					   label="PLG_CODEMIRROR_FIELD_MATCHBRACKETS_LABEL"
@@ -61,7 +61,7 @@
 				</field>
 
 				<field name="marker-gutter" type="radio"
-					   class="btn-group"
+					   class="btn-group btn-group-yesno"
 					   default="1"
 					   description="PLG_CODEMIRROR_FIELD_MARKERGUTTER_DESC"
 					   label="PLG_CODEMIRROR_FIELD_MARKERGUTTER_LABEL"
@@ -71,7 +71,7 @@
 				</field>
 
 				<field name="autoCloseTags" type="radio"
-					   class="btn-group"
+					   class="btn-group btn-group-yesno"
 					   default="1"
 					   description="PLG_CODEMIRROR_FIELD_AUTOCLOSETAGS_DESC"
 					   label="PLG_CODEMIRROR_FIELD_AUTOCLOSETAGS_LABEL"
@@ -81,7 +81,7 @@
 				</field>
 
 				<field name="autoCloseBrackets" type="radio"
-					   class="btn-group"
+					   class="btn-group btn-group-yesno"
 					   default="1"
 					   description="PLG_CODEMIRROR_FIELD_AUTOCLOSEBRACKET_DESC"
 					   label="PLG_CODEMIRROR_FIELD_AUTOCLOSEBRACKET_LABEL"
@@ -91,7 +91,7 @@
 				</field>
 
 				<field name="autoFocus" type="radio"
-					   class="btn-group"
+					   class="btn-group btn-group-yesno"
 					   default="1"
 					   description="PLG_CODEMIRROR_FIELD_AUTOFOCUS_DESC"
 					   label="PLG_CODEMIRROR_FIELD_AUTOFOCUS_LABEL"
