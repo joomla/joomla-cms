@@ -101,6 +101,7 @@ class MenuItemsManagerPage extends AdminManagerPage
 	public function addMenuItem($title='Test Menu Item', $menuItemType='List All Categories', $menuLocation = 'Main Menu', array $otherFields = array())
 	{
 		/* @var $menuItemEditPage MenuItemEditPage */
+		$this->setFilter('Menu', $menuLocation);
 		$this->clickButton('toolbar-new');
 		$menuItemEditPage = $this->test->getPageObject('MenuItemEditPage');
 		$menuItemEditPage->setMenuItemType($menuItemType);
@@ -135,6 +136,29 @@ class MenuItemsManagerPage extends AdminManagerPage
 		$menuItemEditPage->clickButton('toolbar-save');
 		$this->test->getPageObject('MenuItemsManagerPage');
 		$this->searchFor();
+	}
+
+	public function getCurrentMenu()
+	{
+		$el = $this->driver->findElement(By::xPath("//div[@id='menutype_chzn']/a/span"));
+		return $el->getText();
+	}
+
+	public function trashAndDelete($name)
+	{
+		$currentMenu = $this->getCurrentMenu();
+		$this->searchFor($name);
+		$this->checkAll();
+		$this->driver->findElement(By::id('filter_search'))->click();
+		$this->clickButton('toolbar-trash');
+		$this->test->getPageObject('MenuItemsManagerPage');
+		$this->setFilter('Status', 'Trashed');
+		$this->checkAll();
+		$this->driver->findElement(By::id('filter_search'))->click();
+		$this->clickButton('toolbar-delete');
+		$this->test->getPageObject('MenuItemsManagerPage');
+		$this->setFilter('Status', 'Select Status');
+		$this->test->getPageObject('MenuItemsManagerPage');
 	}
 
 }
