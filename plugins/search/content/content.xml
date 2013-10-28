@@ -34,8 +34,8 @@
 					description="PLG_SEARCH_CONTENT_FIELD_CONTENT_DESC"
 					label="PLG_SEARCH_CONTENT_FIELD_CONTENT_LABEL"
 				>
-					<option value="0">JOFF</option>
 					<option value="1">JON</option>
+					<option value="0">JOFF</option>
 				</field>
 
 				<field name="search_archived" type="radio"
@@ -44,8 +44,8 @@
 					description="PLG_SEARCH_CONTENT_FIELD_ARCHIVED_DESC"
 					label="PLG_SEARCH_CONTENT_FIELD_ARCHIVED_LABEL"
 				>
-					<option value="0">JOFF</option>
 					<option value="1">JON</option>
+					<option value="0">JOFF</option>
 				</field>
 			</fieldset>
 

@@ -117,8 +117,8 @@
 			label="COM_BANNERS_FIELD_STICKY_LABEL"
 			description="COM_BANNERS_FIELD_STICKY_DESC"
 			class="btn-group btn-group-yesno">
-			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 	</fieldset>
 
@@ -182,8 +182,8 @@
 			label="COM_BANNERS_FIELD_BANNEROWNPREFIX_LABEL"
 			description="COM_BANNERS_FIELD_BANNEROWNPREFIX_DESC"
 			default="0">
-			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field name="metakey_prefix" type="text"

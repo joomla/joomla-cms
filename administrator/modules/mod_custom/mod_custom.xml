@@ -32,10 +32,8 @@
 					class="btn-group btn-group-yesno"
 					description="MOD_CUSTOM_FIELD_PREPARE_CONTENT_DESC"
 					default="1">
-					<option
-						value="0">JNO</option>
-					<option
-						value="1">JYES</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 			</fieldset>
 			<fieldset
