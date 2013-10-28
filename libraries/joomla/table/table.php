@@ -774,7 +774,7 @@ abstract class JTable extends JObject implements JObservableInterface
 		// If a primary key exists update the object, otherwise insert it.
 		if ($this->hasPrimaryKey())
 		{
-			$result = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_keys, $updateNulls);
+			$result = $this->_db->updateObject($this->_tbl, $this, $this->_tbl_keys[0], $updateNulls);
 		}
 		else
 		{
