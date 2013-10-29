@@ -66,8 +66,6 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 					$options[$support] = JText::_(ucfirst($support));
 				}
 			}
-
-			$options[$connector] = ucfirst($connector);
 		}
 		else
 		{
