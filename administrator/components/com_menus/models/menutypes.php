@@ -82,7 +82,7 @@ class MenusModelMenutypes extends JModelLegacy
 						if (isset($option->request['option']))
 						{
 								$lang->load($option->request['option'] . '.sys', JPATH_ADMINISTRATOR, null, false, false)
-							||	$lang->load($option->request['option'] . '.sys', JPATH_ADMINISTRATOR. ' /components/'.$option->request['option'], null, false, false)
+							||	$lang->load($option->request['option'] . '.sys', JPATH_ADMINISTRATOR. '/components/'.$option->request['option'], null, false, false)
 							||	$lang->load($option->request['option'] . '.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
 							||	$lang->load($option->request['option'] . '.sys', JPATH_ADMINISTRATOR . '/components/'.$option->request['option'], $lang->getDefault(), false, false);
 						}

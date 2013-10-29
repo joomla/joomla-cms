@@ -25,9 +25,45 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Oct-2013 Roberto Segura
+ # [#32453] Super user password doesn't update hash and some other issues.  Thanks Elin Waring
+ ^ [#32434] Various code styling fixes. Thanks Gunjan Patel
+ ^ [#32457] Yes/No Button at mod_breadcrumbs. Thanks Tobias Zulauf
+ # [#32450] Issue #1866 Loosing port in URL of a Weblink. Thanks Marcel van Beelen
+
+28-Oct-2013 Michael Babker
+ # [#32375] Regression 3 column blog layout - prototsar.  Thanks Thomas Hunziker
+ # [#32379] Regression: Preformatted images and urls broken in back weblinks and newsfeeds.  Thanks Elin Waring
+
+27-Oct-2013 Michael Babker
+ ^ [#32334] Move com_contenthistory media to media folder
+
+27-Oct-2013 Jean-Marie Simonet
+ # Correcting Contenthistory messages to accept single quotes
+
+26-Oct-2013 David Hurley
+ + [#32026] Yubi key feature addition. Thanks Nicholas Dionysopoulos
+ # [#32431] Fix login module status button. Thanks Ofer Cohen
+
+25-Oct-2013 Jean-Marie Simonet
+ #$ Updating both en-GB.xml
+ # RTL Isis menus colour should be white, not blue.
+ $ Updating installation lang file: sv-SE
+
+24-Oct-2013 Elin Waring
+ # [#32419] Installation 3.2.b2 fails on MSSQL. Thanks Marcel van Beelen
+ # [#32417] Small bug in menutypes.php. Thanks Bruno Batista
+
+-------------------- 3.2 Beta 2 Release [24-Oct-2013] ------------------
+
 24-Oct-2013 Jean-Marie Simonet
  # RTL Isis menus should be aligned right. Thanks Ofer Cohen
  # RTL Isis dropdown toggle icon should be aligned with other icons.
+ $ [#31959] Alpha sort en-GB.com_installer.ini  Thanks Brian Teeman
+ ^ [#32345] Corrected JUI comment tags in less/css/js files. Thanks Peter Van Westen
+ $ [#32408] Add warning text to post install strong password language string. Thanks Nicolas Antimisiaris
+ $ Adding lang strings for new position postinstall in Isis and Hathor
+ $ New installation lang file: Montenegrin srp-ME
 
 23-Oct-2013 Michael Babker
  # [#32401] *Custom module Options hard to find.  Thanks Jean-Marie Simonet
