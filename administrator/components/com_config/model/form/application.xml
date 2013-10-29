@@ -545,7 +545,7 @@
 			label="COM_CONFIG_FIELD_FILEMODE_LABEL"
 			description="COM_CONFIG_FIELD_FILEMODE_DESC"
 			filter="string"
-			size="4" />
+			size="5" />
 
 		<field
 			name="dirmode"
@@ -554,7 +554,7 @@
 			label="COM_CONFIG_FIELD_DIRMODE_LABEL"
 			description="COM_CONFIG_FIELD_DIRMODE_DESC"
 			filter="integer"
-			size="4" />
+			size="5" />
 	</fieldset>
 
 	<fieldset
