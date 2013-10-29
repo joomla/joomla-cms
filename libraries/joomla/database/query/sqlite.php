@@ -75,7 +75,7 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 
 		$obj = new stdClass;
 
-		$obj->value = &$value;
+		$obj->value = & $value;
 		$obj->dataType = $dataType;
 		$obj->length = $length;
 		$obj->driverOptions = $driverOptions;
@@ -213,5 +213,58 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 		{
 			return "datetime('" . $date . "', '" . $interval . " " . $datePart . "')";
 		}
+	}
+
+	/**
+	 * Gets the number of characters in a string.
+	 *
+	 * Note, use 'length' to find the number of bytes in a string.
+	 *
+	 * Usage:
+	 * $query->select($query->charLength('a'));
+	 *
+	 * @param   string  $field      A value.
+	 * @param   string  $operator   Comparison operator between charLength integer value and $condition
+	 * @param   string  $condition  Integer value to compare charLength with.
+	 *
+	 * @return  string  The required char length call.
+	 *
+	 * @since 11.1
+	 */
+	public function charLength($field, $operator = null, $condition = null)
+	{
+		return 'LENGTH(' . $field . ')' . (isset($operator) && isset($condition) ? ' ' . $operator . ' ' . $condition : '');
+	}
+
+	/**
+	 * Concatenates an array of column names or values.
+	 *
+	 * Usage:
+	 * $query->select($query->concatenate(array('a', 'b')));
+	 *
+	 * @param   array   $values     An array of values to concatenate.
+	 * @param   string  $separator  As separator to place between each value.
+	 *
+	 * @return  string  The concatenated values.
+	 *
+	 * @since   11.1
+	 */
+	public function concatenate($values, $separator = null)
+	{
+		return '(' . implode(' || ', $values) . ')';
+	}
+
+	/**
+	 * Generate a "TRUNCATE TABLE" statement
+	 *
+	 * @param   string  $table  The table name
+	 *
+	 * @return  string
+	 *
+	 * @since   13.1
+	 */
+	public function truncate($table)
+	{
+		return 'DELETE FROM ' . $table;
 	}
 }
