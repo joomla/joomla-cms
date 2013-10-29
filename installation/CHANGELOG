@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Oct-2013 Jean-Marie Simonet
+ $ Updating installation language: be-BY, hr-HR, hu-HU
+
 29-Oct-2013 Roberto Segura
  # [#32453] Super user password doesn't update hash and some other issues.  Thanks Elin Waring
  ^ [#32434] Various code styling fixes. Thanks Gunjan Patel
