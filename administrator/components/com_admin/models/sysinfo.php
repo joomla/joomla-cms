@@ -141,7 +141,6 @@ class AdminModelSysInfo extends JModelLegacy
 			$this->info['dbversion']	= $db->getVersion();
 			$this->info['dbcollation']	= $db->getCollation();
 			$this->info['phpversion']	= phpversion();
-			$this->info['dbintegrity']  = $db->integrityCheck();
 			$this->info['server']		= $sf;
 			$this->info['sapi_name']	= php_sapi_name();
 			$this->info['version']		= $version->getLongVersion();

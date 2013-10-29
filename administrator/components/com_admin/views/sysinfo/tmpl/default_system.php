@@ -62,14 +62,6 @@ defined('_JEXEC') or die;
 			</tr>
 			<tr>
 				<td>
-					<strong><?php echo JText::_('COM_ADMIN_DATABASE_INTEGRITY'); ?></strong>
-				</td>
-				<td>
-					<?php echo $this->info['dbintegrity'];?>
-				</td>
-			</tr>
-			<tr>
-				<td>
 					<strong><?php echo JText::_('COM_ADMIN_PHP_VERSION'); ?></strong>
 				</td>
 				<td>
