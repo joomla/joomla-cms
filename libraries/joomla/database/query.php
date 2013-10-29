@@ -1130,6 +1130,7 @@ abstract class JDatabaseQuery
 		{
 			$this->join = array();
 		}
+
 		$this->join[] = new JDatabaseQueryElement(strtoupper($type) . ' JOIN', $conditions);
 
 		return $this;
@@ -1556,7 +1557,6 @@ abstract class JDatabaseQuery
 		{
 			$glue = ')' . PHP_EOL . 'UNION (';
 			$name = 'UNION ()';
-
 		}
 
 		// Get the JDatabaseQueryElement if it does not exist
@@ -1837,5 +1837,19 @@ abstract class JDatabaseQuery
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Generate a "TRUNCATE TABLE" statement
+	 *
+	 * @param   string  $table  The table name
+	 *
+	 * @return string
+	 *
+	 * @since   13.1
+	 */
+	public function truncate($table)
+	{
+		return 'TRUNCATE TABLE ' . $table;
 	}
 }
