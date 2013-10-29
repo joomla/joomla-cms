@@ -48,9 +48,9 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 		$available = JDatabaseDriver::getConnectors();
 
 		/**
-		 * This gets the list of database types unsupported by the application.
+		 * This gets the list of database types supported by the application.
 		 * This should be entered in the form definition as a comma separated list.
-		 * If no unsupported databases are listed, it is assumed all available databases
+		 * If no supported databases are listed, it is assumed all available databases
 		 * are supported.
 		 */
 		$supported = $this->element['supported'];
