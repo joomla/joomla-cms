@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Filter
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -70,6 +70,7 @@ class JFilterOutput
 	public static function linkXHTMLSafe($input)
 	{
 		$regex = 'href="([^"]*(&(amp;){0})[^"]*)*?"';
+
 		return preg_replace_callback("#$regex#i", array('JFilterOutput', '_ampReplaceCallback'), $input);
 	}
 
@@ -212,5 +213,19 @@ class JFilterOutput
 	public static function stripImages($string)
 	{
 		return preg_replace('#(<[/]?img.*>)#U', '', $string);
+	}
+
+	/**
+	 * Strip iframe-tags from string
+	 *
+	 * @param   string  $string  Sting to be cleaned.
+	 *
+	 * @return  string  Cleaned string
+	 *
+	 * @since   12.2
+	 */
+	public static function stripIframes($string)
+	{
+		return preg_replace('#(<[/]?iframe.*>)#U', '', $string);
 	}
 }

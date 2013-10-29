@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,21 +19,33 @@ defined('_JEXEC') or die;
 class UsersViewUsers extends JViewLegacy
 {
 	protected $items;
+
 	protected $pagination;
+
 	protected $state;
 
 	/**
 	 * Display the view
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
+
+		UsersHelper::addSubmenu('users');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -41,45 +53,92 @@ class UsersViewUsers extends JViewLegacy
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		$this->addToolbar();
+		$this->sidebar = JHtmlSidebar::render();
 		parent::display($tpl);
 	}
 
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
 		$canDo	= UsersHelper::getActions();
+		$user 	= JFactory::getUser();
 
-		JToolBarHelper::title(JText::_('COM_USERS_VIEW_USERS_TITLE'), 'user');
+		// Get the toolbar object instance
+		$bar = JToolBar::getInstance('toolbar');
 
-		if ($canDo->get('core.create')) {
-			JToolBarHelper::addNew('user.add');
-		}
-		if ($canDo->get('core.edit')) {
-			JToolBarHelper::editList('user.edit');
-		}
+		JToolbarHelper::title(JText::_('COM_USERS_VIEW_USERS_TITLE'), 'users user');
 
-		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::divider();
-			JToolBarHelper::publish('users.activate', 'COM_USERS_TOOLBAR_ACTIVATE', true);
-			JToolBarHelper::unpublish('users.block', 'COM_USERS_TOOLBAR_BLOCK', true);
-			JToolBarHelper::custom('users.unblock', 'unblock.png', 'unblock_f2.png', 'COM_USERS_TOOLBAR_UNBLOCK', true);
-			JToolBarHelper::divider();
+		if ($canDo->get('core.create'))
+		{
+			JToolbarHelper::addNew('user.add');
 		}
 
-		if ($canDo->get('core.delete')) {
-			JToolBarHelper::deleteList('', 'users.delete');
-			JToolBarHelper::divider();
+		if ($canDo->get('core.edit'))
+		{
+			JToolbarHelper::editList('user.edit');
 		}
 
-		if ($canDo->get('core.admin')) {
-			JToolBarHelper::preferences('com_users');
-			JToolBarHelper::divider();
+		if ($canDo->get('core.edit.state'))
+		{
+			JToolbarHelper::divider();
+			JToolbarHelper::publish('users.activate', 'COM_USERS_TOOLBAR_ACTIVATE', true);
+			JToolbarHelper::unpublish('users.block', 'COM_USERS_TOOLBAR_BLOCK', true);
+			JToolbarHelper::custom('users.unblock', 'unblock.png', 'unblock_f2.png', 'COM_USERS_TOOLBAR_UNBLOCK', true);
+			JToolbarHelper::divider();
 		}
 
-		JToolBarHelper::help('JHELP_USERS_USER_MANAGER');
+		if ($canDo->get('core.delete'))
+		{
+			JToolbarHelper::deleteList('', 'users.delete');
+			JToolbarHelper::divider();
+		}
+
+		// Add a batch button
+		if ($user->authorise('core.create', 'com_users') && $user->authorise('core.edit', 'com_users') && $user->authorise('core.edit.state', 'com_users'))
+		{
+			JHtml::_('bootstrap.modal', 'collapseModal');
+			$title = JText::_('JTOOLBAR_BATCH');
+
+			// Instantiate a new JLayoutFile instance and render the batch button
+			$layout = new JLayoutFile('joomla.toolbar.batch');
+
+			$dhtml = $layout->render(array('title' => $title));
+			$bar->appendButton('Custom', $dhtml, 'batch');
+		}
+
+		if ($canDo->get('core.admin'))
+		{
+			JToolbarHelper::preferences('com_users');
+			JToolbarHelper::divider();
+		}
+
+		JToolbarHelper::help('JHELP_USERS_USER_MANAGER');
+	}
+
+	/**
+	 * Returns an array of fields the table can be sorted by
+	 *
+	 * @return  array  Array containing the field name to sort by as the key and display text as value
+	 *
+	 * @since   3.0
+	 */
+	protected function getSortFields()
+	{
+		return array(
+				'a.name' => JText::_('COM_USERS_HEADING_NAME'),
+				'a.username' => JText::_('JGLOBAL_USERNAME'),
+				'a.block' => JText::_('COM_USERS_HEADING_ENABLED'),
+				'a.activation' => JText::_('COM_USERS_HEADING_ACTIVATED'),
+				'a.email' => JText::_('JGLOBAL_EMAIL'),
+				'a.lastvisitDate' => JText::_('COM_USERS_HEADING_LAST_VISIT_DATE'),
+				'a.registerDate' => JText::_('COM_USERS_HEADING_REGISTRATION_DATE'),
+				'a.id' => JText::_('JGRID_HEADING_ID')
+		);
 	}
 }

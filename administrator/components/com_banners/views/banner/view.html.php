@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JLoader::register('BannersHelper', JPATH_COMPONENT.'/helpers/banners.php');
+JLoader::register('BannersHelper', JPATH_COMPONENT . '/helpers/banners.php');
 
 /**
  * View to edit a banner.
@@ -21,7 +21,9 @@ JLoader::register('BannersHelper', JPATH_COMPONENT.'/helpers/banners.php');
 class BannersViewBanner extends JViewLegacy
 {
 	protected $form;
+
 	protected $item;
+
 	protected $state;
 
 	/**
@@ -35,56 +37,70 @@ class BannersViewBanner extends JViewLegacy
 		$this->state	= $this->get('State');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
 
 		$this->addToolbar();
+		JHtml::_('jquery.framework');
+		JHtml::_('script', 'media/com_banners/banner.js');
 		parent::display($tpl);
 	}
 
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
-		JRequest::setVar('hidemainmenu', true);
+		JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		$user		= JFactory::getUser();
 		$userId		= $user->get('id');
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
-		// Since we don't track these assets at the item level, use the category id.
-		$canDo		= BannersHelper::getActions($this->item->catid,0);
 
-		JToolBarHelper::title($isNew ? JText::_('COM_BANNERS_MANAGER_BANNER_NEW') : JText::_('COM_BANNERS_MANAGER_BANNER_EDIT'), 'banners.png');
+		// Since we don't track these assets at the item level, use the category id.
+		$canDo		= JHelperContent::getActions($this->item->catid, 0, 'com_banners');
+
+		JToolbarHelper::title($isNew ? JText::_('COM_BANNERS_MANAGER_BANNER_NEW') : JText::_('COM_BANNERS_MANAGER_BANNER_EDIT'), 'bookmark banners');
 
 		// If not checked out, can save the item.
-		if (!$checkedOut && ($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_banners', 'core.create')) > 0)) {
-			JToolBarHelper::apply('banner.apply');
-			JToolBarHelper::save('banner.save');
+		if (!$checkedOut && ($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_banners', 'core.create')) > 0))
+		{
+			JToolbarHelper::apply('banner.apply');
+			JToolbarHelper::save('banner.save');
 
-			if ($canDo->get('core.create')) {
-				JToolBarHelper::save2new('banner.save2new');
+			if ($canDo->get('core.create'))
+			{
+				JToolbarHelper::save2new('banner.save2new');
 			}
 		}
 
 		// If an existing item, can save to a copy.
-		if (!$isNew && $canDo->get('core.create')) {
-			JToolBarHelper::save2copy('banner.save2copy');
+		if (!$isNew && $canDo->get('core.create'))
+		{
+			JToolbarHelper::save2copy('banner.save2copy');
 		}
 
-		if (empty($this->item->id))  {
-			JToolBarHelper::cancel('banner.cancel');
+		if (empty($this->item->id))
+		{
+			JToolbarHelper::cancel('banner.cancel');
 		}
-		else {
-			JToolBarHelper::cancel('banner.cancel', 'JTOOLBAR_CLOSE');
+		else
+		{
+			if ($this->state->params->get('save_history', 1) && $user->authorise('core.edit'))
+			{
+				JToolbarHelper::versions('com_banners.banner', $this->item->id);
+			}
+
+			JToolbarHelper::cancel('banner.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_COMPONENTS_BANNERS_BANNERS_EDIT');
+		JToolbarHelper::divider();
+		JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_BANNERS_EDIT');
 	}
 }

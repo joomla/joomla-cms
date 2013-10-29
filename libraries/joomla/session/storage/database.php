@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -32,16 +32,12 @@ class JSessionStorageDatabase extends JSessionStorage
 	{
 		// Get the database connection object and verify its connected.
 		$db = JFactory::getDbo();
-		if (!$db->connected())
-		{
-			return false;
-		}
 
 		//try
 		//{
 			// Get the session data from the database table.
-			$query = $db->getQuery(true);
-			$query->select($db->quoteName('data'))
+			$query = $db->getQuery(true)
+				->select($db->quoteName('data'))
 			->from($db->quoteName('#__session'))
 			->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
 
@@ -68,20 +64,16 @@ class JSessionStorageDatabase extends JSessionStorage
 	{
 		// Get the database connection object and verify its connected.
 		$db = JFactory::getDbo();
-		if (!$db->connected())
-		{
-			return false;
-		}
 
-		$data = str_replace(chr(0).'*'.chr(0), '\0\0\0', $data);
+		$data = str_replace(chr(0) . '*' . chr(0), '\0\0\0', $data);
 
 		try
 		{
-			$query = $db->getQuery(true);
-			$query->update($db->quoteName('#__session'))
-			->set($db->quoteName('data') . ' = ' . $db->quote($data))
-			->set($db->quoteName('time') . ' = ' . $db->quote((int) time()))
-			->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
+			$query = $db->getQuery(true)
+				->update($db->quoteName('#__session'))
+				->set($db->quoteName('data') . ' = ' . $db->quote($data))
+				->set($db->quoteName('time') . ' = ' . $db->quote((int) time()))
+				->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
 
 			// Try to update the session data in the database table.
 			$db->setQuery($query);
@@ -114,16 +106,12 @@ class JSessionStorageDatabase extends JSessionStorage
 	{
 		// Get the database connection object and verify its connected.
 		$db = JFactory::getDbo();
-		if (!$db->connected())
-		{
-			return false;
-		}
 
 		try
 		{
-			$query = $db->getQuery(true);
-			$query->delete($db->quoteName('#__session'))
-			->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__session'))
+				->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
 
 			// Remove a session from the database.
 			$db->setQuery($query);
@@ -149,19 +137,15 @@ class JSessionStorageDatabase extends JSessionStorage
 	{
 		// Get the database connection object and verify its connected.
 		$db = JFactory::getDbo();
-		if (!$db->connected())
-		{
-			return false;
-		}
 
 		// Determine the timestamp threshold with which to purge old sessions.
 		$past = time() - $lifetime;
 
 		try
 		{
-			$query = $db->getQuery(true);
-			$query->delete($db->quoteName('#__session'))
-			->where($db->quoteName('time') . ' < ' . $db->quote((int) $past));
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__session'))
+				->where($db->quoteName('time') . ' < ' . $db->quote((int) $past));
 
 			// Remove expired sessions from the database.
 			$db->setQuery($query);

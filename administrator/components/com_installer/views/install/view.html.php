@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-include_once dirname(__FILE__).'/../default/view.php';
+include_once __DIR__ . '/../default/view.php';
 
 /**
  * Extension Manager Install View
@@ -21,16 +21,29 @@ include_once dirname(__FILE__).'/../default/view.php';
 class InstallerViewInstall extends InstallerViewDefault
 {
 	/**
-	 * @since	1.5
+	 * Display the view
+	 *
+	 * @param   string  $tpl  Template
+	 *
+	 * @return  void
+	 *
+	 * @since   1.5
 	 */
-	function display($tpl=null)
+	public function display($tpl = null)
 	{
 		$paths = new stdClass;
 		$paths->first = '';
 		$state = $this->get('state');
 
-		$this->assignRef('paths', $paths);
-		$this->assignRef('state', $state);
+		$this->paths = &$paths;
+		$this->state = &$state;
+
+		$this->showJedAndWebInstaller = JComponentHelper::getParams('com_installer')->get('show_jed_info', 1);
+
+		JPluginHelper::importPlugin('installer');
+
+		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher->trigger('onInstallerBeforeDisplay', array(&$this->showJedAndWebInstaller, $this));
 
 		parent::display($tpl);
 	}
@@ -38,11 +51,13 @@ class InstallerViewInstall extends InstallerViewDefault
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
 		parent::addToolbar();
-		JToolBarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_INSTALL');
+		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_INSTALL');
 	}
 }

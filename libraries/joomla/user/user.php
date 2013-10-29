@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -35,7 +35,8 @@ class JUser extends JObject
 	public $id = null;
 
 	/**
-	 * The users real name (or nickname)
+	 * The user's real name (or nickname)
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
@@ -72,18 +73,6 @@ class JUser extends JObject
 	 * @since  11.1
 	 */
 	public $password_clear = '';
-
-	/**
-	 * User type
-	 * Used in Joomla 1.0 and 1.5 for access control.
-	 *
-	 * @var    string
-	 * @deprecated    12.1
-	 * @see    $_authGroups
-	 * @see    JAccess
-	 * @since  11.1
-	 */
-	public $usertype = null;
 
 	/**
 	 * Block status
@@ -128,13 +117,13 @@ class JUser extends JObject
 	/**
 	 * User parameters
 	 *
-	 * @var    string
+	 * @var    JRegistry
 	 * @since  11.1
 	 */
 	public $params = null;
 
 	/**
-	 * Array of ids of groups that user belongs to
+	 * Associative array of user names => group ids
 	 *
 	 * @var    array
 	 * @since  11.1
@@ -153,7 +142,7 @@ class JUser extends JObject
 	 * Last Reset Time
 	 *
 	 * @var    string
-	 * @since  Joomla 2.5.6
+	 * @since  12.2
 	 */
 	public $lastResetTime = null;
 
@@ -161,13 +150,14 @@ class JUser extends JObject
 	 * Count since last Reset Time
 	 *
 	 * @var    int
-	 * @since  Joomla 2.5.6
+	 * @since  12.2
 	 */
 	public $resetCount = null;
 
 	/**
 	 * User parameters
-	 * @var    object
+	 *
+	 * @var    JRegistry
 	 * @since  11.1
 	 */
 	protected $_params = null;
@@ -254,9 +244,9 @@ class JUser extends JObject
 		{
 			if (!$id = JUserHelper::getUserId($identifier))
 			{
-				JError::raiseWarning('SOME_ERROR_CODE', JText::sprintf('JLIB_USER_ERROR_ID_NOT_EXISTS', $identifier));
-				$retval = false;
-				return $retval;
+				JLog::add(JText::sprintf('JLIB_USER_ERROR_ID_NOT_EXISTS', $identifier), JLog::WARNING, 'jerror');
+
+				return false;
 			}
 		}
 		else
@@ -264,6 +254,14 @@ class JUser extends JObject
 			$id = $identifier;
 		}
 
+		// If the $id is zero, just return an empty JUser.
+		// Note: don't cache this user because it'll have a new ID on save!
+		if ($id === 0)
+		{
+			return new JUser;
+		}
+
+		// Check if the user ID is already cached.
 		if (empty(self::$instances[$id]))
 		{
 			$user = new JUser($id);
@@ -319,26 +317,6 @@ class JUser extends JObject
 	}
 
 	/**
-	 * Proxy to authorise
-	 *
-	 * @param   string  $action     The name of the action to check for permission.
-	 * @param   string  $assetname  The name of the asset on which to perform the action.
-	 *
-	 * @return  boolean  True if authorised
-	 *
-	 * @deprecated    12.1
-	 * @note    Use the authorise method instead.
-	 * @since   11.1
-	 */
-	public function authorize($action, $assetname = null)
-	{
-		// Deprecation warning.
-		JLog::add('JUser::authorize() is deprecated.', JLog::WARNING, 'deprecated');
-
-		return $this->authorise($action, $assetname);
-	}
-
-	/**
 	 * Method to check JUser object authorisation against an access control
 	 * object and optionally an access extension object
 	 *
@@ -378,29 +356,13 @@ class JUser extends JObject
 				if (JAccess::getAssetRules(1)->allow('core.admin', $identities))
 				{
 					$this->isRoot = true;
+
 					return true;
 				}
 			}
 		}
 
 		return $this->isRoot ? true : JAccess::check($this->id, $action, $assetname);
-	}
-
-	/**
-	 * Gets an array of the authorised access levels for the user
-	 *
-	 * @return  array
-	 *
-	 * @deprecated  12.1
-	 * @note    Use the getAuthorisedViewLevels method instead.
-	 * @since   11.1
-	 */
-	public function authorisedLevels()
-	{
-		// Deprecation warning.
-		JLog::add('JUser::authorisedLevels() is deprecated.', JLog::WARNING, 'deprecated');
-
-		return $this->getAuthorisedViewLevels();
 	}
 
 	/**
@@ -418,11 +380,16 @@ class JUser extends JObject
 		// Brute force method: get all published category rows for the component and check each one
 		// TODO: Modify the way permissions are stored in the db to allow for faster implementation and better scaling
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)->select('c.id AS id, a.name AS asset_name')->from('#__categories AS c')
-			->innerJoin('#__assets AS a ON c.asset_id = a.id')->where('c.extension = ' . $db->quote($component))->where('c.published = 1');
+		$query = $db->getQuery(true)
+			->select('c.id AS id, a.name AS asset_name')
+			->from('#__categories AS c')
+			->join('INNER', '#__assets AS a ON c.asset_id = a.id')
+			->where('c.extension = ' . $db->quote($component))
+			->where('c.published = 1');
 		$db->setQuery($query);
 		$allCategories = $db->loadObjectList('id');
 		$allowedCategories = array();
+
 		foreach ($allCategories as $category)
 		{
 			if ($this->authorise($action, $category->asset_name))
@@ -430,6 +397,7 @@ class JUser extends JObject
 				$allowedCategories[] = (int) $category->id;
 			}
 		}
+
 		return $allowedCategories;
 	}
 
@@ -454,6 +422,7 @@ class JUser extends JObject
 
 		return $this->_authLevels;
 	}
+
 	/**
 	 * Gets an array of the authorised user groups
 	 *
@@ -475,6 +444,7 @@ class JUser extends JObject
 
 		return $this->_authGroups;
 	}
+
 	/**
 	 * Pass through method to the table for setting the last visit date
 	 *
@@ -496,47 +466,21 @@ class JUser extends JObject
 	/**
 	 * Method to get the user parameters
 	 *
-	 * This function tries to load an XML file based on the user's usertype. The filename of the xml
-	 * file is the same as the usertype. The functionals has a static variable to store the parameters
-	 * setup file base path. You can call this function statically to set the base path if needed.
-	 *
-	 * @param   boolean  $loadsetupfile  If true, loads the parameters setup file. Default is false.
-	 * @param   path     $path           Set the parameters setup file base path to be used to load the user parameters.
+	 * This method used to load the user parameters from a file.
 	 *
 	 * @return  object   The user parameters object.
 	 *
 	 * @since   11.1
+	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Instead use JUser::getParam()
 	 */
-	public function getParameters($loadsetupfile = false, $path = null)
+	public function getParameters()
 	{
-		static $parampath;
-
-		// Set a custom parampath if defined
-		if (isset($path))
-		{
-			$parampath = $path;
-		}
-
-		// Set the default parampath if not set already
-		if (!isset($parampath))
-		{
-			$parampath = JPATH_ADMINISTRATOR . 'components/com_users/models';
-		}
-
-		if ($loadsetupfile)
-		{
-			$type = str_replace(' ', '_', strtolower($this->usertype));
-
-			$file = $parampath . '/' . $type . '.xml';
-			if (!file_exists($file))
-			{
-				$file = $parampath . '/' . 'user.xml';
-			}
-
-			$this->_params->loadSetupFile($file);
-		}
+		// @codeCoverageIgnoreStart
+		JLog::add('JUser::getParameters() is deprecated. JUser::getParam().', JLog::WARNING, 'deprecated');
 
 		return $this->_params;
+
+		// @codeCoverageIgnoreEnd
 	}
 
 	/**
@@ -600,6 +544,21 @@ class JUser extends JObject
 	 */
 	public function bind(&$array)
 	{
+		// The Joomla user plugin allows you to use weaker passwords if necessary.
+		$joomlaPluginEnabled = JPluginHelper::isEnabled('user', 'joomla');
+
+		if ($joomlaPluginEnabled)
+		{
+			$userPlugin = JPluginHelper::getPlugin('user', 'joomla');
+			$userPluginParams = new JRegistry($userPlugin->params);
+			JPluginHelper::importPlugin('user', 'joomla');
+			$defaultEncryption = PlgUserJoomla::setDefaultEncryption($userPluginParams);
+		}
+		else
+		{
+			$defaultEncryption = 'bcrypt';
+		}
+
 		// Let's check to see if the user is new or not
 		if (empty($this->id))
 		{
@@ -610,38 +569,41 @@ class JUser extends JObject
 				$array['password2'] = $array['password'];
 			}
 
-			// TODO: Backend controller checks the password, frontend doesn't but should.
+			// Not all controllers check the password, although they should.
 			// Hence this code is required:
 			if (isset($array['password2']) && $array['password'] != $array['password2'])
 			{
-				$this->setError(JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'));
+				JFactory::getApplication()->enqueueMessage(JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'), 'error');
+
 				return false;
 			}
-
 			$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
 
 			$salt = JUserHelper::genRandomPassword(32);
-			$crypt = JUserHelper::getCryptedPassword($array['password'], $salt);
+			$crypt = JUserHelper::getCryptedPassword($array['password'], $salt, $defaultEncryption);
 			$array['password'] = $crypt . ':' . $salt;
 
 			// Set the registration timestamp
-
 			$this->set('registerDate', JFactory::getDate()->toSql());
 
 			// Check that username is not greater than 150 characters
 			$username = $this->get('username');
+
 			if (strlen($username) > 150)
 			{
 				$username = substr($username, 0, 150);
 				$this->set('username', $username);
 			}
 
-			// Check that password is not greater than 100 characters
+			// Use a limit to prevent abuse since it is unfiltered
+			// The maximum password length for bcrypt is 55 characters.
 			$password = $this->get('password');
-			if (strlen($password) > 100)
+
+			if (strlen($password) > 55)
 			{
-				$password = substr($password, 0, 100);
+				$password = substr($password, 0, 55);
 				$this->set('password', $password);
+				JFactory::getApplication()->enqueueMessage(JText::_('JLIB_USER_ERROR_PASSWORD_TRUNCATED'), 'notice');
 			}
 		}
 		else
@@ -652,13 +614,14 @@ class JUser extends JObject
 				if ($array['password'] != $array['password2'])
 				{
 					$this->setError(JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'));
+
 					return false;
 				}
 
 				$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
 
 				$salt = JUserHelper::genRandomPassword(32);
-				$crypt = JUserHelper::getCryptedPassword($array['password'], $salt);
+				$crypt = JUserHelper::getCryptedPassword($array['password'], $salt, $defaultEncryption);
 				$array['password'] = $crypt . ':' . $salt;
 			}
 			else
@@ -667,13 +630,8 @@ class JUser extends JObject
 			}
 		}
 
-		// TODO: this will be deprecated as of the ACL implementation
-		//		$db = JFactory::getDbo();
-
 		if (array_key_exists('params', $array))
 		{
-			$params = '';
-
 			$this->_params->loadArray($array['params']);
 
 			if (is_array($array['params']))
@@ -692,6 +650,7 @@ class JUser extends JObject
 		if (!$this->setProperties($array))
 		{
 			$this->setError(JText::_('JLIB_USER_ERROR_BIND_ARRAY'));
+
 			return false;
 		}
 
@@ -710,7 +669,7 @@ class JUser extends JObject
 	 * @return  boolean  True on success
 	 *
 	 * @since   11.1
-	 * @throws  exception
+	 * @throws  RuntimeException
 	 */
 	public function save($updateOnly = false)
 	{
@@ -726,16 +685,17 @@ class JUser extends JObject
 			if (!$table->check())
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 
 			// If user is made a Super Admin group and user is NOT a Super Admin
-			//
+
 			// @todo ACL - this needs to be acl checked
-			//
+
 			$my = JFactory::getUser();
 
-			//are we creating a new user
+			// Are we creating a new user
 			$isNew = empty($this->id);
 
 			// If we aren't allowed to create new users return
@@ -747,9 +707,7 @@ class JUser extends JObject
 			// Get the old user
 			$oldUser = new JUser($this->id);
 
-			//
 			// Access Checks
-			//
 
 			// The only mandatory check is that only Super Admins can operate on other Super Admin accounts.
 			// To add additional business rules, use a user plugin and throw an Exception with onUserBeforeSave.
@@ -767,7 +725,7 @@ class JUser extends JObject
 					{
 						if (JAccess::checkGroup($groupId, 'core.admin'))
 						{
-							throw new Exception(JText::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
+							throw new RuntimeException('User not Super Administrator');
 						}
 					}
 				}
@@ -776,7 +734,7 @@ class JUser extends JObject
 					// I am not a Super Admin, and this one is, so fail.
 					if (JAccess::check($this->id, 'core.admin'))
 					{
-						throw new Exception(JText::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
+						throw new RuntimeException('User not Super Administrator');
 					}
 
 					if ($this->groups != null)
@@ -786,7 +744,7 @@ class JUser extends JObject
 						{
 							if (JAccess::checkGroup($groupId, 'core.admin'))
 							{
-								throw new Exception(JText::_('JLIB_USER_ERROR_NOT_SUPERADMIN'));
+								throw new RuntimeException('User not Super Administrator');
 							}
 						}
 					}
@@ -795,9 +753,10 @@ class JUser extends JObject
 
 			// Fire the onUserBeforeSave event.
 			JPluginHelper::importPlugin('user');
-			$dispatcher = JDispatcher::getInstance();
+			$dispatcher = JEventDispatcher::getInstance();
 
 			$result = $dispatcher->trigger('onUserBeforeSave', array($oldUser->getProperties(), $isNew, $this->getProperties()));
+
 			if (in_array(false, $result, true))
 			{
 				// Plugin will have to raise its own error or throw an exception.
@@ -805,10 +764,7 @@ class JUser extends JObject
 			}
 
 			// Store the user data in the database
-			if (!($result = $table->store()))
-			{
-				throw new Exception($table->getError());
-			}
+			$result = $table->store();
 
 			// Set the id for the JUser object in case we created a new user.
 			if (empty($this->id))
@@ -848,13 +804,12 @@ class JUser extends JObject
 		JPluginHelper::importPlugin('user');
 
 		// Trigger the onUserBeforeDelete event
-		$dispatcher = JDispatcher::getInstance();
+		$dispatcher = JEventDispatcher::getInstance();
 		$dispatcher->trigger('onUserBeforeDelete', array($this->getProperties()));
 
 		// Create the user table object
 		$table = $this->getTable();
 
-		$result = false;
 		if (!$result = $table->delete($this->id))
 		{
 			$this->setError($table->getError());
@@ -883,18 +838,34 @@ class JUser extends JObject
 		// Load the JUserModel object based on the user id or throw a warning.
 		if (!$table->load($id))
 		{
-			JError::raiseWarning('SOME_ERROR_CODE', JText::sprintf('JLIB_USER_ERROR_UNABLE_TO_LOAD_USER', $id));
+			// Reset to guest user
+			$this->guest = 1;
+
+			JLog::add(JText::sprintf('JLIB_USER_ERROR_UNABLE_TO_LOAD_USER', $id), JLog::WARNING, 'jerror');
+
 			return false;
 		}
 
-		// Set the user parameters using the default XML file.  We might want to
-		// extend this in the future to allow for the ability to have custom
-		// user parameters, but for right now we'll leave it how it is.
+		/*
+		 * Set the user parameters using the default XML file.  We might want to
+		 * extend this in the future to allow for the ability to have custom
+		 * user parameters, but for right now we'll leave it how it is.
+		 */
 
 		$this->_params->loadString($table->params);
 
-		// Assuming all is well at this point lets bind the data
+		// Assuming all is well at this point let's bind the data
 		$this->setProperties($table->getProperties());
+
+		// The user is no longer a guest
+		if ($this->id != 0)
+		{
+			$this->guest = 0;
+		}
+		else
+		{
+			$this->guest = 1;
+		}
 
 		return true;
 	}

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,9 @@ defined('_JEXEC') or die;
 class ModulesViewModule extends JViewLegacy
 {
 	protected $form;
+
 	protected $item;
+
 	protected $state;
 
 	/**
@@ -30,9 +32,11 @@ class ModulesViewModule extends JViewLegacy
 		$this->form		= $this->get('Form');
 		$this->item		= $this->get('Item');
 		$this->state	= $this->get('State');
+		$this->canDo	= ModulesHelper::getActions($this->item->id);
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
@@ -44,50 +48,69 @@ class ModulesViewModule extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
-		JRequest::setVar('hidemainmenu', true);
+		JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		$user		= JFactory::getUser();
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
-		$canDo		= ModulesHelper::getActions($this->state->get('filter.category_id'), $this->item->id);
-		$item		= $this->get('Item');
+		$canDo		= ModulesHelper::getActions($this->item->id);
 
-		JToolBarHelper::title( JText::sprintf('COM_MODULES_MANAGER_MODULE', JText::_($this->item->module)), 'module.png');
+		JToolbarHelper::title(JText::sprintf('COM_MODULES_MANAGER_MODULE', JText::_($this->item->module)), 'cube module');
 
-		// If not checked out, can save the item.
-		if (!$checkedOut && ($canDo->get('core.edit') || $canDo->get('core.create') )) {
-			JToolBarHelper::apply('module.apply');
-			JToolBarHelper::save('module.save');
+		// For new records, check the create permission.
+		if ($isNew && $canDo->get('core.create'))
+		{
+			JToolbarHelper::apply('module.apply');
+			JToolbarHelper::save('module.save');
+			JToolbarHelper::save2new('module.save2new');
+			JToolbarHelper::cancel('module.cancel');
 		}
-		if (!$checkedOut && $canDo->get('core.create')) {
-			JToolBarHelper::save2new('module.save2new');
-		}
-			// If an existing item, can save to a copy.
-		if (!$isNew && $canDo->get('core.create')) {
-			JToolBarHelper::save2copy('module.save2copy');
-		}
-		if (empty($this->item->id))  {
-			JToolBarHelper::cancel('module.cancel');
-		} else {
-			JToolBarHelper::cancel('module.cancel', 'JTOOLBAR_CLOSE');
+		else
+		{
+			// Can't save the record if it's checked out.
+			if (!$checkedOut)
+			{
+				// Since it's an existing record, check the edit permission.
+				if ($canDo->get('core.edit'))
+				{
+					JToolbarHelper::apply('module.apply');
+					JToolbarHelper::save('module.save');
+
+					// We can save this record, but check the create permission to see if we can return to make a new one.
+					if ($canDo->get('core.create'))
+					{
+						JToolbarHelper::save2new('module.save2new');
+					}
+				}
+			}
+
+			// If checked out, we can still save
+			if ($canDo->get('core.create'))
+			{
+				JToolbarHelper::save2copy('module.save2copy');
+			}
+
+			JToolbarHelper::cancel('module.cancel', 'JTOOLBAR_CLOSE');
 		}
 
 		// Get the help information for the menu item.
 		$lang = JFactory::getLanguage();
 
 		$help = $this->get('Help');
-		if ($lang->hasKey($help->url)) {
+		if ($lang->hasKey($help->url))
+		{
 			$debug = $lang->setDebug(false);
 			$url = JText::_($help->url);
 			$lang->setDebug($debug);
 		}
-		else {
+		else
+		{
 			$url = null;
 		}
-		JToolBarHelper::help($help->key, false, $url);
+		JToolbarHelper::help($help->key, false, $url);
 	}
 }

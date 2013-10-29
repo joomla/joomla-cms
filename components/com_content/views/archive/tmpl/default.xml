@@ -58,15 +58,16 @@
 				<option value="0">JALL</option>
 			</field>
 
-			<field name="filter_field" type="list"
-				default="hide"
+			<field
+				name="filter_field"
+				type="list"
+				default=""
 				description="JGLOBAL_FILTER_FIELD_DESC"
 				label="JGLOBAL_FILTER_FIELD_LABEL"
 			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="hide">JHIDE</option>
-				<option value="title">JGLOBAL_TITLE</option>
-				<option value="author">JAUTHOR</option>
-				<option value="hits">JGLOBAL_HITS</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="introtext_limit" type="text" default="100"
@@ -79,6 +80,28 @@
 		<fieldset name="articles"
 			label="COM_CONTENT_ATTRIBS_ARTICLE_SETTINGS_LABEL"
 		>
+
+			<field name="show_intro" type="list"
+				description="JGLOBAL_SHOW_INTRO_DESC"
+				label="JGLOBAL_SHOW_INTRO_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field
+				name="info_block_position"
+				type="list"
+				default=""
+				label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
+				description="COM_CONTENT_FIELD_INFOBLOCK_POSITION_DESC">
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
+				<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
+				<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
+				<option value="2">COM_CONTENT_FIELD_OPTION_SPLIT</option>
+			</field>
 
 			<field name="show_category" type="list"
 				description="JGLOBAL_SHOW_CATEGORY_DESC"
@@ -98,25 +121,25 @@
 				<option value="1">JYes</option>
 			</field>
 
-		<field
-			name="show_parent_category"
-			type="list"
-			label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL"
-			description="JGLOBAL_SHOW_PARENT_CATEGORY_DESC">
-			<option	value="">JGLOBAL_USE_GLOBAL</option>
-			<option	value="0">JHIDE</option>
-			<option	value="1">JSHOW</option>
-		</field>
+			<field
+				name="show_parent_category"
+				type="list"
+				label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL"
+				description="JGLOBAL_SHOW_PARENT_CATEGORY_DESC">
+				<option	value="">JGLOBAL_USE_GLOBAL</option>
+				<option	value="0">JHIDE</option>
+				<option	value="1">JSHOW</option>
+			</field>
 
-		<field
-			name="link_parent_category"
-			type="list"
-			label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL"
-			description="JGLOBAL_LINK_PARENT_CATEGORY_DESC">
-			<option value="">JGLOBAL_USE_GLOBAL</option>
-			<option	value="0">JNO</option>
-			<option	value="1">JYES</option>
-		</field>
+			<field
+				name="link_parent_category"
+				type="list"
+				label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL"
+				description="JGLOBAL_LINK_PARENT_CATEGORY_DESC">
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option	value="0">JNO</option>
+				<option	value="1">JYES</option>
+			</field>
 
 			<field name="link_titles" type="list"
 				description="JGLOBAL_LINKED_TITLES_DESC"
@@ -125,15 +148,6 @@
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
-			</field>
-
-			<field name="show_intro" type="list"
-				description="JGLOBAL_SHOW_INTRO_DESC"
-				label="JGLOBAL_SHOW_INTRO_LABEL"
-			>
-				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
 			</field>
 
 			<field name="show_author" type="list"

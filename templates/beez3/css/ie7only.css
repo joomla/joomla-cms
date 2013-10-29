@@ -1,0 +1,40 @@
+/**
+ * @author  ( Angie Radtke  )
+ * @package Joomla
+ * @subpackage Accessible-Template-Beez
+ * @copyright Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.
+ * @license GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant to the
+ * GNU General Public License, and as distributed it includes or is derivative
+ * of works licensed under the GNU General Public License or other free or open
+ * source software licenses. See COPYRIGHT.php for copyright notices and
+ * details.
+ */
+
+
+
+div.current , fieldset {zoom:1}
+dl.tabs ,.tabs dt,.tabs dd ,
+{display:inline}
+.contact-links , .js_heading{zoom:1}
+
+legend {margin-left:-7px}
+
+#users-profile-core legend,
+#users-profile-custom legend,
+.profile-edit legend,
+.registration legend
+{margin-bottom:15px}
+
+.login-fields input
+{width:14em}
+
+#close a
+{
+	cursor:pointer
+}
+
+#close a span
+{
+	line-height:normal
+}

@@ -3,15 +3,32 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-JHtml::_('behavior.tooltip');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.formvalidation');
+JHtml::_('formbehavior.chosen', 'select');
+
+$app = JFactory::getApplication();
+
+$script = "
+	jQuery(document).ready(function ($){
+		$('#jform_type').change(function(){
+			if($(this).val() == 1) {
+				$('#image').css('display', 'none');
+				$('#custom').css('display', 'block');
+			} else {
+				$('#image').css('display', 'block');
+				$('#custom').css('display', 'none');
+			}
+		}).trigger('change');
+	});";
+// Add the script to the document head.
+JFactory::getDocument()->addScriptDeclaration($script);
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
@@ -20,110 +37,54 @@ JHtml::_('behavior.formvalidation');
 			Joomla.submitform(task, document.getElementById('banner-form'));
 		}
 	}
-	window.addEvent('domready', function() {
-		document.id('jform_type0').addEvent('click', function(e){
-			document.id('image').setStyle('display', 'block');
-			document.id('url').setStyle('display', 'block');
-			document.id('custom').setStyle('display', 'none');
-		});
-		document.id('jform_type1').addEvent('click', function(e){
-			document.id('image').setStyle('display', 'none');
-			document.id('url').setStyle('display', 'block');
-			document.id('custom').setStyle('display', 'block');
-		});
-		if(document.id('jform_type0').checked==true) {
-			document.id('jform_type0').fireEvent('click');
-		} else {
-			document.id('jform_type1').fireEvent('click');
-		}
-	});
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_banners&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="banner-form" class="form-validate">
-	<div class="width-60 fltlft">
-		<fieldset class="adminform">
-			<legend><?php echo empty($this->item->id) ? JText::_('COM_BANNERS_NEW_BANNER') : JText::sprintf('COM_BANNERS_BANNER_DETAILS', $this->item->id); ?></legend>
-			<ul class="adminformlist">
-				<li><?php echo $this->form->getLabel('name'); ?>
-				<?php echo $this->form->getInput('name'); ?></li>
+<form action="<?php echo JRoute::_('index.php?option=com_banners&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="banner-form" class="form-validate">
 
-				<li><?php echo $this->form->getLabel('alias'); ?>
-				<?php echo $this->form->getInput('alias'); ?></li>
+	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-				<li><?php echo $this->form->getLabel('access'); ?>
-				<?php echo $this->form->getInput('access'); ?></li>
+	<div class="form-horizontal">
+		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-				<li><?php echo $this->form->getLabel('catid'); ?>
-				<?php echo $this->form->getInput('catid'); ?></li>
-
-				<li><?php echo $this->form->getLabel('state'); ?>
-				<?php echo $this->form->getInput('state'); ?></li>
-
-				<li><?php echo $this->form->getLabel('type'); ?>
-				<?php echo $this->form->getInput('type'); ?></li>
-
-				<li>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_BANNERS_BANNER_DETAILS', true)); ?>
+		<div class="row-fluid">
+			<div class="span9">
+				<?php echo $this->form->getControlGroup('type'); ?>
 				<div id="image">
-					<?php foreach($this->form->getFieldset('image') as $field): ?>
-						<?php echo $field->label; ?>
-						<?php echo $field->input; ?>
-					<?php endforeach; ?>
+					<?php echo $this->form->getControlGroups('image'); ?>
 				</div>
-				</li>
-
-				<li><div id="custom">
-					<?php echo $this->form->getLabel('custombannercode'); ?>
-					<?php echo $this->form->getInput('custombannercode'); ?>
+				<div id="custom">
+					<?php echo $this->form->getControlGroup('custombannercode'); ?>
 				</div>
-				</li>
+				<?php
+				echo $this->form->getControlGroup('clickurl');
+				echo $this->form->getControlGroup('description');
+				?>
+			</div>
+			<div class="span3">
+				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+			</div>
+		</div>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-				<li><div id="url">
-				<?php echo $this->form->getLabel('clickurl'); ?>
-				<?php echo $this->form->getInput('clickurl'); ?>
-				</div>
-				</li>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'otherparams', JText::_('COM_BANNERS_GROUP_LABEL_BANNER_DETAILS', true)); ?>
+		<?php echo $this->form->getControlGroups('otherparams'); ?>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-				<li><?php echo $this->form->getLabel('description'); ?>
-				<?php echo $this->form->getInput('description'); ?></li>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
+		<div class="row-fluid form-horizontal-desktop">
+			<div class="span6">
+				<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+			</div>
+			<div class="span6">
+				<?php echo $this->form->getControlGroups('metadata'); ?>
+			</div>
+		</div>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-				<li><?php echo $this->form->getLabel('language'); ?>
-				<?php echo $this->form->getInput('language'); ?></li>
-
-				<li><?php echo $this->form->getLabel('id'); ?>
-				<?php echo $this->form->getInput('id'); ?></li>
-			</ul>
-			<div class="clr"> </div>
-
-		</fieldset>
+		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</div>
 
-<div class="width-40 fltrt">
-	<?php echo JHtml::_('sliders.start', 'banner-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
-
-	<?php echo JHtml::_('sliders.panel', JText::_('COM_BANNERS_GROUP_LABEL_PUBLISHING_DETAILS'), 'publishing-details'); ?>
-		<fieldset class="panelform">
-		<ul class="adminformlist">
-			<?php foreach($this->form->getFieldset('publish') as $field): ?>
-				<li><?php echo $field->label; ?>
-					<?php echo $field->input; ?></li>
-			<?php endforeach; ?>
-			</ul>
-		</fieldset>
-
-	<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'metadata'); ?>
-		<fieldset class="panelform">
-			<ul class="adminformlist">
-				<?php foreach($this->form->getFieldset('metadata') as $field): ?>
-					<li><?php echo $field->label; ?>
-						<?php echo $field->input; ?></li>
-				<?php endforeach; ?>
-			</ul>
-		</fieldset>
-
-	<?php echo JHtml::_('sliders.end'); ?>
 	<input type="hidden" name="task" value="" />
 	<?php echo JHtml::_('form.token'); ?>
-</div>
-
-<div class="clr"></div>
 </form>

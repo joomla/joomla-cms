@@ -3,15 +3,17 @@
  * @package     Joomla.Administrator
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-JHtml::_('behavior.tooltip');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+
 JHtml::_('behavior.formvalidation');
+JHtml::_('formbehavior.chosen', 'select');
+
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
@@ -20,99 +22,47 @@ JHtml::_('behavior.formvalidation');
 			<?php echo $this->form->getField('description')->save(); ?>
 			Joomla.submitform(task, document.getElementById('weblink-form'));
 		}
-		else {
-			alert('<?php echo $this->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));?>');
-		}
 	}
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_weblinks&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="weblink-form" class="form-validate">
-	<div class="width-60 fltlft">
-		<fieldset class="adminform">
-			<legend><?php echo empty($this->item->id) ? JText::_('COM_WEBLINKS_NEW_WEBLINK') : JText::sprintf('COM_WEBLINKS_EDIT_WEBLINK', $this->item->id); ?></legend>
-			<ul class="adminformlist">
-				<li><?php echo $this->form->getLabel('title'); ?>
-				<?php echo $this->form->getInput('title'); ?></li>
+<form action="<?php echo JRoute::_('index.php?option=com_weblinks&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="weblink-form" class="form-validate">
 
-				<li><?php echo $this->form->getLabel('alias'); ?>
-				<?php echo $this->form->getInput('alias'); ?></li>
+	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-				<li><?php echo $this->form->getLabel('url'); ?>
-				<?php echo $this->form->getInput('url'); ?></li>
+	<div class="form-horizontal">
+		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-				<li><?php echo $this->form->getLabel('catid'); ?>
-				<?php echo $this->form->getInput('catid'); ?></li>
-
-				<li><?php echo $this->form->getLabel('state'); ?>
-				<?php echo $this->form->getInput('state'); ?></li>
-
-				<li><?php echo $this->form->getLabel('access'); ?>
-				<?php echo $this->form->getInput('access'); ?></li>
-
-				<li><?php echo $this->form->getLabel('ordering'); ?>
-				<?php echo $this->form->getInput('ordering'); ?></li>
-
-				<li><?php echo $this->form->getLabel('language'); ?>
-				<?php echo $this->form->getInput('language'); ?></li>
-
-				<li><?php echo $this->form->getLabel('id'); ?>
-				<?php echo $this->form->getInput('id'); ?></li>
-			</ul>
-
-			<div>
-				<?php echo $this->form->getLabel('description'); ?>
-				<div class="clr"></div>
-				<?php echo $this->form->getInput('description'); ?>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', empty($this->item->id) ? JText::_('COM_WEBLINKS_NEW_WEBLINK', true) : JText::sprintf('COM_WEBLINKS_EDIT_WEBLINK', $this->item->id, true)); ?>
+		<div class="row-fluid">
+			<div class="span9">
+				<div class="form-vertical">
+					<?php echo $this->form->getControlGroup('url'); ?>
+					<?php echo $this->form->getControlGroup('description'); ?>
+				</div>
 			</div>
-		</fieldset>
+			<div class="span3">
+				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+			</div>
+		</div>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
+		<div class="row-fluid form-horizontal-desktop">
+			<div class="span6">
+				<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+			</div>
+			<div class="span6">
+				<?php echo JLayoutHelper::render('joomla.edit.metadata', $this); ?>
+			</div>
+		</div>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
+
+		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+
 	</div>
 
-	<div class="width-40 fltrt">
-		<?php echo JHtml::_('sliders.start', 'weblink-sliders-'.$this->item->id, array('useCookie'=>1)); ?>
-
-		<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
-
-		<fieldset class="panelform">
-			<ul class="adminformlist">
-				<li><?php echo $this->form->getLabel('created_by'); ?>
-				<?php echo $this->form->getInput('created_by'); ?></li>
-
-				<li><?php echo $this->form->getLabel('created_by_alias'); ?>
-				<?php echo $this->form->getInput('created_by_alias'); ?></li>
-
-				<li><?php echo $this->form->getLabel('created'); ?>
-				<?php echo $this->form->getInput('created'); ?></li>
-
-				<li><?php echo $this->form->getLabel('publish_up'); ?>
-				<?php echo $this->form->getInput('publish_up'); ?></li>
-
-				<li><?php echo $this->form->getLabel('publish_down'); ?>
-				<?php echo $this->form->getInput('publish_down'); ?></li>
-
-				<?php if ($this->item->modified_by) : ?>
-					<li><?php echo $this->form->getLabel('modified_by'); ?>
-					<?php echo $this->form->getInput('modified_by'); ?></li>
-
-					<li><?php echo $this->form->getLabel('modified'); ?>
-					<?php echo $this->form->getInput('modified'); ?></li>
-				<?php endif; ?>
-
-				<?php if ($this->item->hits) : ?>
-					<li><?php echo $this->form->getLabel('hits'); ?>
-					<?php echo $this->form->getInput('hits'); ?></li>
-				<?php endif; ?>
-
-			</ul>
-		</fieldset>
-
-		<?php echo $this->loadTemplate('params'); ?>
-
-		<?php echo $this->loadTemplate('metadata'); ?>
-
-		<?php echo JHtml::_('sliders.end'); ?>
-
-		<input type="hidden" name="task" value="" />
-		<?php echo JHtml::_('form.token'); ?>
-	</div>
-	<div class="clr"></div>
+	<input type="hidden" name="task" value="" />
+	<?php echo JHtml::_('form.token'); ?>
 </form>

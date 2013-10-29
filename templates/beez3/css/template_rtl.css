@@ -1,0 +1,535 @@
+/**
+ * @author Design & Accessible Team ( Angie Radtke  )
+ * @package Joomla
+ * @subpackage Accessible-Template-Beez
+ * @copyright Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.
+ * @license GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant to the
+ * GNU General Public License, and as distributed it includes or is derivative
+ * of works licensed under the GNU General Public License or other free or open
+ * source software licenses. See COPYRIGHT.php for copyright notices and
+ * details.
+ */
+
+
+ #all
+{
+	text-align: right;
+}
+
+#wrapper
+{
+	float:right;
+}
+
+
+#logo span
+{
+	padding-right:15px;}
+
+
+h1#logo{
+	font-family: 'Titillium Maps',  Arial;
+	padding:0.9em 20px 20px 10px;
+	/*text-transform:uppercase;*/
+	text-align:right;
+}
+
+#logo
+{
+	margin-top:0.6em;
+	margin-left:10px;
+	/* position:absolute;*/
+	display:block;
+	padding:20px 20px 20px 10px;
+	width:425px;
+	padding-top:0.6em;
+	font-weight:normal;
+	line-height:1em;
+	font-size:3em;
+}
+
+.logoheader
+{
+	text-align:right;
+}
+
+/* ##########################  header  ########################### */
+
+#header
+{
+	font-size:1em;
+	position:relative
+}
+
+#header ul.menu {
+	text-align: right;
+}
+
+/* ++++++++++++++  search box+font options ++++++++++++++ */
+#line {
+	left: 20px;
+	margin-right: -10px;
+	right: auto;
+	text-align: left;
+}
+
+/* ++++++++++++++  breadcrumbs   ++++++++++++++ */
+
+#breadcrumbs {
+	/*display: block;*/
+	background: none;
+	float: right;
+	text-align: right;
+	width: 100%;
+}
+
+#breadcrumbs *
+{
+	text-align:right;
+	float: right;
+
+}
+/* for IE7 and less */
+*:first-child+html .breadcrumbs, * html .breadcrumbs {
+	width: 100%;
+}
+#breadcrumbs
+{
+	margin:15px 5px 15px 0px;
+}
+#breadcrumbs img
+{
+	padding: 4px 5px 0px 5px;
+}
+
+#breadcrumbs .showHere {
+	margin-left: 4px;
+}
+ul.menu li a:link,ul.menu li a:visited {
+	background: url(../images/nature/karo.gif) no-repeat scroll right 14px;
+	padding-right: 10px;
+}
+
+ul.menu li {
+	text-align: right;
+}
+
+ul.menu li.active ul li a:link,
+ul.menu li.active ul li a:visited
+{
+	padding-right: 20px;
+}
+
+ul.menu li.active ul li.active a:link,
+ul.menu li.active ul li.active a:visited
+{
+	padding-right: 20px;
+}
+
+ul.menu li.active ul li.active ul li a:link,
+ul.menu li.active ul li.active ul li a:visited
+{
+	padding-right: 33px;
+}
+
+ul.menu li.active  ul li.active  ul li.active  ul li  a:link,
+ul.menu li.active  ul li.active  ul li.active  ul li a:visited
+{
+	padding: 3px 47px 3px 2px;
+	background:#fff url(../images/nature/arrow_small_rtl.png) no-repeat scroll right 8px;
+}
+
+ul.menu li.active  ul li.active  ul li.active  ul li.active	ul li  a:link,
+ul.menu li.active  ul li.active  ul li.active  ul li.active	ul li a:visited
+{
+	padding-right:30px;
+}
+
+h3 {
+	text-align: right
+}
+
+h3.js_heading a {
+	position: absolute;
+	right: auto;
+	left: 5px
+}
+
+.box {
+	text-align: right
+}
+
+ul.newsfeed {
+	text-align: right
+}
+
+a.readmore:link,a.readmore:visited,.readmore a:link,.readmore a:visited
+	{
+	background: url(../images/nature/arrow1_rtl.gif) repeat-x scroll right top;
+	padding-right: 10px !important
+}
+
+.readmore a:hover, .readmore a:active, .readmore a:focus,
+a.readmore a:hover, a.readmore a:active, a.readmore a:focus
+{
+	background: url(../images/nature/arrow2_rtl.gif) no-repeat right 6px #555 !important;
+}
+
+.mailto-close {
+	left: 5px !important;
+	right: auto !important;
+}
+
+* html .mailto-close {
+	left: 0;
+	position: absolute;
+	right: 340px !important
+}
+
+/* personal.css overrides */
+
+.panel h3.pane-toggler a
+{
+	background:#f5f5f5 url(../images/slider_plus_rtl.png) left top no-repeat;
+}
+.panel h3.pane-toggler-down a
+{
+	background:#f5f5f5  url(../images/slider_minus_rtl.png) left top no-repeat;
+	border-bottom:solid 1px #ddd;
+}
+
+.form-required
+{
+	background-position: right;
+}
+
+input.button,
+button.button
+{
+	background:#FFFFFF url(../images/nature/arrow1_rtl.gif) no-repeat right top;
+}
+
+/* layout.css overrides */
+
+#main ul
+{
+	padding:0 15px 0 0;
+	margin:10px 0 10px 0px;
+}
+
+#main ol
+{
+	padding:0 20px 0 0;
+	margin:10px 0 10px 0px;
+}
+
+.contact-email label
+{
+	width:17em;
+	float:right;
+}
+
+#contact-email-copy
+{
+	float:right;
+	margin-left:10px;
+}
+
+table.weblinks th, table.category th {
+	text-align: right;
+}
+
+table th, table td {
+	text-align: right;
+}
+
+dl.tabs {
+	float: right;
+	margin: 50px 0 0 0;
+	z-index: 50;
+	clear:both;
+}
+
+dl.tabs dt {
+	float: right;
+	padding: 4px 10px;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	border-top: 1px solid #ccc;
+	margin-left: 3px;
+	margin-right: 0px;
+}
+
+form fieldset dt
+{
+	clear:right ;
+	float:right;
+	width:12em;
+	padding:3px 0
+}
+
+form fieldset dd
+{
+	float:right;
+	padding:3px 0
+}
+
+#users-profile-core dt,
+#users-profile-custom dt
+{
+	float:right;
+	width:12em;
+	padding:3px 0;
+
+
+}
+
+.profile-edit form#member-profile fieldset dt,
+.registration form#member-registration fieldset dt
+{padding:5px 0px 5px 5px; width:13em}
+
+
+.login-fields label
+{float:right}
+
+/* ++++++++++++++  pagination  ++++++++++++++ */
+
+#main .pagination
+{
+	float:right;
+	text-align:right;
+	padding:10px 10px 0px 0px;
+	width: 100%;
+	clear:both;
+}
+
+#main .pagination ul
+{
+	float:right;
+	text-align:right;
+
+}
+
+#main .pagination li
+{
+	float:right;
+	text-align:right;
+}
+
+#main .pagination li.pagination-start span,
+#main .pagination li.pagination-start a
+{
+padding:4px 0;
+}
+
+.left1 {
+	float: right;
+	margin: 10px 10px 3% 10px ;
+}
+
+
+/* ++++++++++++++  login  ++++++++++++++ */
+
+
+
+#login-form label
+{
+	margin-right:0px;
+}
+
+#form-login-remember label
+{
+	float:none;
+	width:auto;
+	display:inline
+}
+
+input.button,
+button.button,
+button.validate
+{
+	padding:3px 7px 5px 7px;
+}
+
+#modlgn-username,
+#modlgn-passwd
+{
+	margin-right: 0;
+}
+
+.module_content #form-login-username label,
+.module_content #form-login-password label
+{
+	float:right;
+
+}
+
+.login-fields
+{
+	margin:10px 0
+}
+
+.login-fields label
+{
+	float:right;
+}
+
+.login-description img,
+.logout-description img
+{
+	float:right;
+	margin-right:0px
+}
+
+.login-description,
+.logout-description
+{
+	padding-right:5px;
+	margin:20px 10 0 0;
+}
+
+/* ++++++++++++++  columns alignment left to right  ++++++++++++++ */
+ul.tabs li {
+	float: right;
+	border-left: 1px solid #DDDDDD;
+	border-right: 0px solid #DDDDDD;
+}
+
+
+ul.pagenav li.pagenav-next {
+	float: left;
+}
+ul.pagenav li.pagenav-prev {
+	float: right;
+}
+#close span {
+	width: auto;
+	left: 20px;
+	right: auto;
+}
+#header ul.menu li a:link,
+#header ul.menu li a:visited
+{
+	border-right:solid 0px #237D85;
+	border-left:solid 1px #237D85;
+}
+
+#header ul li.active a:link,
+#header ul li.active a:visited
+{
+	border-right:solid 0px #237D85;
+	border-left:solid 1px #237D85;
+}
+#fontsize {
+	margin: 0 1px 0 20px;
+	text-align: right;
+}
+#fontsize p a:link, #fontsize p a:visited {
+	border-left: 1px solid #CCCCCC;
+	border-right: none;
+}
+#header form .inputbox {
+	margin: 2px 2px 2px 13px;
+}
+#header form .inputbox:focus { margin: 1px 1px 0 11px; }
+#header ul.menu li {
+	float: right;
+}
+
+/* ############## Blog/featured columns ######## */
+
+.blog-featured .item, .blog .item {
+	float:right;
+}
+.items-row .column-1 {
+	margin-right: 0;
+	margin-left: 4%;
+}
+
+#main ul.actions {
+	text-align: left;
+}
+
+.content_rating {
+	text-align: right;
+
+}
+
+ul.menu li ul li ul li ul li ul {
+	padding-right: 7px;
+}
+
+#system-message dd.notice ul,
+#system-message dd.error ul,
+#system-message dd.message  ul {
+        background-position: 100% 0!important;
+        padding: 10px 40px 10px 10px!important;
+}
+#system-message dd.message  ul {
+        background-image:url(../images/system/notice-info_rtl.png)!important;
+}
+#system-message dd.notice ul {
+        background-image:url("../images/system/notice-note_rtl.png")!important;
+}
+#system-message dd.error ul {
+        background-image:url(../images/system/notice-alert_rtl.png)!important;
+}
+
+/* ++++++++++++++  image float style ++++++++++++++ */
+.img-fulltext-left {
+	float: right;
+	margin-left: 20px;
+	margin-bottom: 20px;
+}
+
+.img-intro-left {
+	float: right;
+	margin-left: 10px;
+	margin-bottom: 10px;
+}
+
+.img-fulltext-right {
+	float:left;
+	margin-right: 20px;
+	margin-bottom: 20px;
+}
+
+.img-intro-right {
+	float: left;
+	margin-right: 10px;
+	margin-bottom: 10px;
+}
+
+/* ++++++ Bootstrap markup ++++++++++++++ */
+.pull-left {
+	float: right;
+}
+
+/* ++++++ tooltip  +++++++ */
+.tooltip.right {
+	margin-left: -3px;
+}
+.tooltip.left {
+	margin-left: 3px;
+}
+.tooltip-inner {
+	text-align: right;
+}
+.tooltip.top .tooltip-arrow {
+	bottom: 0;
+	right: 50%;
+	margin-right: -5px;
+}
+.tooltip.right .tooltip-arrow {
+	left: 0;
+	border-width: 5px 0 5px 5px;
+}
+.tooltip.left .tooltip-arrow {
+	right: 0;
+	border-width: 5px 5px 5px 0;
+}
+.tooltip.bottom .tooltip-arrow {
+	right: 50%;
+	margin-right: -5px;
+}

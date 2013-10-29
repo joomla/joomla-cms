@@ -26,7 +26,7 @@ function dummy_error_handler(error)
 function doAjax(data, successCallback, errorCallback)
 {
 	var json = JSON.stringify(data);
-	if( joomlaupdate_password.length > 0 )
+	if ( joomlaupdate_password.length > 0 )
 	{
 		json = AesCtr.encrypt( json, joomlaupdate_password, 128 );
 	}
@@ -43,10 +43,10 @@ function doAjax(data, successCallback, errorCallback)
 
 			// Get rid of junk before the data
 			var valid_pos = msg.indexOf('###');
-			if( valid_pos == -1 ) {
+			if ( valid_pos == -1 ) {
 				// Valid data not found in the response
 				msg = 'Invalid AJAX data:\n' + msg;
-				if(joomlaupdate_error_callback != null)
+				if (joomlaupdate_error_callback != null)
 				{
 					joomlaupdate_error_callback(msg);
 				}
@@ -66,7 +66,7 @@ function doAjax(data, successCallback, errorCallback)
 			var valid_pos = message.lastIndexOf('###');
 			message = message.substr(0, valid_pos); // Remove triple hash in the end
 			// Decrypt if required
-			if( joomlaupdate_password.length > 0 )
+			if ( joomlaupdate_password.length > 0 )
 			{
 				try {
 					var data = JSON.parse(message);
@@ -79,7 +79,7 @@ function doAjax(data, successCallback, errorCallback)
 				var data = JSON.parse(message);
 			} catch(err) {
 				var msg = err.message + "\n<br/>\n<pre>\n" + message + "\n</pre>";
-				if(joomlaupdate_error_callback != null)
+				if (joomlaupdate_error_callback != null)
 				{
 					joomlaupdate_error_callback(msg);
 				}
@@ -91,7 +91,7 @@ function doAjax(data, successCallback, errorCallback)
 		},
 		onFailure: function(req) {
 			var message = 'AJAX Loading Error: '+req.statusText;
-			if(joomlaupdate_error_callback != null)
+			if (joomlaupdate_error_callback != null)
 			{
 				joomlaupdate_error_callback(msg);
 			}
@@ -146,16 +146,16 @@ function startUpdate()
  */
 function processUpdateStep(data)
 {
-	if(data.status == false)
+	if (data.status == false)
 	{
-		if(joomlaupdate_error_callback != null)
+		if (joomlaupdate_error_callback != null)
 		{
 			joomlaupdate_error_callback(data.message);
 		}
 	}
 	else
 	{
-		if(data.done)
+		if (data.done)
 		{
 			joomlaupdate_factory = data.factory;
 			window.location = joomlaupdate_return_url;

@@ -3,11 +3,12 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+JHtml::_('behavior.modal');
 
 /**
  * View class for a list of messages.
@@ -19,7 +20,9 @@ defined('_JEXEC') or die;
 class MessagesViewMessages extends JViewLegacy
 {
 	protected $items;
+
 	protected $pagination;
+
 	protected $state;
 
 	/**
@@ -32,55 +35,67 @@ class MessagesViewMessages extends JViewLegacy
 		$this->state		= $this->get('State');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
 
-		parent::display($tpl);
 		$this->addToolbar();
+		$this->sidebar = JHtmlSidebar::render();
+		parent::display($tpl);
 	}
 
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
 		$state	= $this->get('State');
 		$canDo	= MessagesHelper::getActions();
 
-		JToolBarHelper::title(JText::_('COM_MESSAGES_MANAGER_MESSAGES'), 'inbox.png');
+		JToolbarHelper::title(JText::_('COM_MESSAGES_MANAGER_MESSAGES'), 'envelope inbox');
 
-		if ($canDo->get('core.create')) {
-			JToolBarHelper::addNew('message.add');
+		if ($canDo->get('core.create'))
+		{
+			JToolbarHelper::addNew('message.add');
 		}
 
-		if ($canDo->get('core.edit.state')) {
-			JToolBarHelper::divider();
-			JToolBarHelper::publish('messages.publish', 'COM_MESSAGES_TOOLBAR_MARK_AS_READ');
-			JToolBarHelper::unpublish('messages.unpublish', 'COM_MESSAGES_TOOLBAR_MARK_AS_UNREAD');
+		if ($canDo->get('core.edit.state'))
+		{
+			JToolbarHelper::divider();
+			JToolbarHelper::publish('messages.publish', 'COM_MESSAGES_TOOLBAR_MARK_AS_READ');
+			JToolbarHelper::unpublish('messages.unpublish', 'COM_MESSAGES_TOOLBAR_MARK_AS_UNREAD');
 		}
 
-		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
-			JToolBarHelper::divider();
-			JToolBarHelper::deleteList('', 'messages.delete', 'JTOOLBAR_EMPTY_TRASH');
-		} elseif ($canDo->get('core.edit.state')) {
-			JToolBarHelper::divider();
-			JToolBarHelper::trash('messages.trash');
+		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		{
+			JToolbarHelper::divider();
+			JToolbarHelper::deleteList('', 'messages.delete', 'JTOOLBAR_EMPTY_TRASH');
+		} elseif ($canDo->get('core.edit.state'))
+		{
+			JToolbarHelper::divider();
+			JToolbarHelper::trash('messages.trash');
 		}
 
-		//JToolBarHelper::addNew('module.add');
-		JToolBarHelper::divider();
+		//JToolbarHelper::addNew('module.add');
+		JToolbarHelper::divider();
 		$bar = JToolBar::getInstance('toolbar');
-		$bar->appendButton('Popup', 'options', 'COM_MESSAGES_TOOLBAR_MY_SETTINGS', 'index.php?option=com_messages&amp;view=config&amp;tmpl=component', 850, 400);
 
-		if ($canDo->get('core.admin')) {
-			JToolBarHelper::preferences('com_messages');
+		// Instantiate a new JLayoutFile instance and render the layout
+		JHtml::_('behavior.modal', 'a.messagesSettings');
+		$layout = new JLayoutFile('toolbar.mysettings');
+
+		$bar->appendButton('Custom', $layout->render(array()), 'upload');
+
+		if ($canDo->get('core.admin'))
+		{
+			JToolbarHelper::preferences('com_messages');
 		}
 
-		JToolBarHelper::divider();
-		JToolBarHelper::help('JHELP_COMPONENTS_MESSAGING_INBOX');
+		JToolbarHelper::divider();
+		JToolbarHelper::help('JHELP_COMPONENTS_MESSAGING_INBOX');
 	}
 }

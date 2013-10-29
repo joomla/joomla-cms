@@ -3,14 +3,15 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
 // Activate the highlighter if enabled.
-if (!empty($this->query->highlight) && $this->params->get('highlight_terms', 1)) {
+if (!empty($this->query->highlight) && $this->params->get('highlight_terms', 1))
+{
 	JHtml::_('behavior.highlighter', $this->query->highlight);
 }
 
@@ -37,7 +38,8 @@ if (($this->suggested && $this->params->get('show_suggested_query', 1)) || ($thi
 			echo JText::sprintf('COM_FINDER_SEARCH_SIMILAR', $link);
 		}
 		// Display the explained search query.
-		elseif ($this->explained && $this->params->get('show_explained_query', 1)) {
+		elseif ($this->explained && $this->params->get('show_explained_query', 1))
+		{
 			echo $this->explained;
 		}
 		?>
@@ -58,14 +60,14 @@ if ($this->total == 0):
 <?php
 else:
 	// Prepare the pagination string.  Results X - Y of Z
-	$start	= (int) $this->pagination->get('limitstart')+1;
+	$start	= (int) $this->pagination->get('limitstart') + 1;
 	$total	= (int) $this->pagination->get('total');
-	$limit	= (int) $this->pagination->get('limit') * $this->pagination->get('pages.current');
+	$limit	= (int) $this->pagination->get('limit') * $this->pagination->pagesTotal;
 	$limit	= (int) ($limit > $total ? $total : $limit);
 	$pages	= JText::sprintf('COM_FINDER_SEARCH_RESULTS_OF', $start, $limit, $total);
 ?>
 	<br id="highlighter-start" />
-	<dl class="search-results<?php echo $this->pageclass_sfx; ?>">
+	<ul class="search-results<?php echo $this->pageclass_sfx; ?> list-striped">
 		<?php
 		for ($i = 0, $n = count($this->results); $i < $n; $i++):
 			$this->result	= &$this->results[$i];
@@ -75,7 +77,7 @@ else:
 		<?php
 		endfor;
 		?>
-	</dl>
+	</ul>
 	<br id="highlighter-end" />
 
 	<div class="search-pagination">

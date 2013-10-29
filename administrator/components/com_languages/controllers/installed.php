@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,11 +21,12 @@ class LanguagesControllerInstalled extends JControllerLegacy
 	/**
 	 * task to set the default language
 	 */
-	function setDefault()
+	public function setDefault()
 	{
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
-		$cid = JRequest::getCmd('cid', '');
+
+		$cid = $this->input->get('cid', '');
 		$model = $this->getModel('installed');
 		if ($model->publish($cid))
 		{
@@ -37,7 +38,7 @@ class LanguagesControllerInstalled extends JControllerLegacy
 			$msg = $this->getError();
 			$type = 'error';
 		}
-		$client = $model->getClient();
+
 		$clientId = $model->getState('filter.client_id');
 		$this->setredirect('index.php?option=com_languages&view=installed&client='.$clientId, $msg, $type);
 	}

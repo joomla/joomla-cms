@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -18,7 +18,7 @@ JFormHelper::loadFieldClass('list');
  *
  * @package     Joomla.Platform
  * @subpackage  Form
- * @see         JDatabase
+ * @see         JDatabaseDriver
  * @since       11.3
  */
 class JFormFieldDatabaseConnection extends JFormFieldList
@@ -29,39 +29,52 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 	 * @var    string
 	 * @since  11.3
 	 */
-	public $type = 'DatabaseConnection';
+	protected $type = 'DatabaseConnection';
 
 	/**
 	 * Method to get the list of database options.
 	 *
 	 * This method produces a drop down list of available databases supported
-	 * by JDatabase drivers that are also supported by the application.
+	 * by JDatabaseDriver classes that are also supported by the application.
 	 *
-	 * @return  array    The field option objects.
+	 * @return  array  The field option objects.
 	 *
 	 * @since   11.3
-	 * @see     JDatabase
+	 * @see     JDatabaseDriver::getConnectors()
 	 */
 	protected function getOptions()
 	{
+		// This gets the connectors available in the platform and supported by the server.
+		$available = JDatabaseDriver::getConnectors();
+
 		/**
 		 * This gets the list of database types unsupported by the application.
 		 * This should be entered in the form definition as a comma separated list.
 		 * If no unsupported databases are listed, it is assumed all available databases
 		 * are supported.
 		 */
-		$unsupported = explode(',', $this->element['unsupported']);
+		$supported = $this->element['supported'];
 
-		// This gets the connectors available in the platform and supported by the server and the application.
-		foreach (JDatabase::getConnectors() as $connector)
+		if (!empty($supported))
 		{
-			if (in_array($connector, $unsupported))
+			$supported = explode(',', $supported);
+
+			foreach ($supported as $support)
 			{
-				// The connector is not supported by the application
-				continue;
+				if (in_array($support, $available))
+				{
+					$options[$support] = JText::_(ucfirst($support));
+				}
 			}
 
 			$options[$connector] = ucfirst($connector);
+		}
+		else
+		{
+			foreach ($available as $support)
+			{
+				$options[$support] = JText::_(ucfirst($support));
+			}
 		}
 
 		// This will come into play if an application is installed that requires

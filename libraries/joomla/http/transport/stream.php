@@ -3,11 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  HTTP
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die();
+defined('JPATH_PLATFORM') or die;
 
 /**
  * HTTP transport class for using PHP streams.
@@ -27,15 +27,15 @@ class JHttpTransportStream implements JHttpTransport
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry  &$options  Client options object.
+	 * @param   JRegistry  $options  Client options object.
 	 *
 	 * @since   11.3
 	 * @throws  RuntimeException
 	 */
-	public function __construct(JRegistry &$options)
+	public function __construct(JRegistry $options)
 	{
 		// Verify that fopen() is available.
-		if (!function_exists('fopen') || !is_callable('fopen'))
+		if (!self::isSupported())
 		{
 			throw new RuntimeException('Cannot use a stream transport when fopen() is not available.');
 		}
@@ -62,13 +62,14 @@ class JHttpTransportStream implements JHttpTransport
 	 * @return  JHttpResponse
 	 *
 	 * @since   11.3
+	 * @throws  RuntimeException
 	 */
 	public function request($method, JUri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
 	{
 		// Create the stream context options array with the required method offset.
 		$options = array('method' => strtoupper($method));
 
-		// If data exists let's encode it and make sure our Content-type header is set.
+		// If data exists let's encode it and make sure our Content-Type header is set.
 		if (isset($data))
 		{
 			// If the data is a scalar value simply add it to the stream context options.
@@ -82,16 +83,18 @@ class JHttpTransportStream implements JHttpTransport
 				$options['content'] = http_build_query($data);
 			}
 
-			if (!isset($headers['Content-type']))
+			if (!isset($headers['Content-Type']))
 			{
-				$headers['Content-type'] = 'application/x-www-form-urlencoded';
+				$headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=utf-8';
 			}
 
-			$headers['Content-length'] = strlen($options['content']);
+			// Add the relevant headers.
+			$headers['Content-Length'] = strlen($options['content']);
 		}
 
 		// Build the headers string for the request.
 		$headerString = null;
+
 		if (isset($headers))
 		{
 			foreach ($headers as $key => $value)
@@ -118,11 +121,36 @@ class JHttpTransportStream implements JHttpTransport
 		// Ignore HTTP errors so that we can capture them.
 		$options['ignore_errors'] = 1;
 
+		// Follow redirects.
+		$options['follow_location'] = (int) $this->options->get('follow_location', 1);
+
 		// Create the stream context for the request.
 		$context = stream_context_create(array('http' => $options));
 
+		// Capture PHP errors
+		$php_errormsg = '';
+		$track_errors = ini_get('track_errors');
+		ini_set('track_errors', true);
+
 		// Open the stream for reading.
-		$stream = fopen((string) $uri, 'r', false, $context);
+		$stream = @fopen((string) $uri, 'r', false, $context);
+
+		if (!$stream)
+		{
+			if (!$php_errormsg)
+			{
+				// Error but nothing from php? Create our own
+				$php_errormsg = sprintf('Could not connect to resource: %s', $uri, $err, $errno);
+			}
+
+			// Restore error tracking to give control to the exception handler
+			ini_set('track_errors', $track_errors);
+
+			throw new RuntimeException($php_errormsg);
+		}
+
+		// Restore error tracking to what it was before.
+		ini_set('track_errors', $track_errors);
 
 		// Get the metadata for the stream, including response headers.
 		$metadata = stream_get_meta_data($stream);
@@ -133,7 +161,21 @@ class JHttpTransportStream implements JHttpTransport
 		// Close the stream.
 		fclose($stream);
 
-		return $this->getResponse($metadata['wrapper_data'], $content);
+		if (isset($metadata['wrapper_data']['headers']))
+		{
+			$headers = $metadata['wrapper_data']['headers'];
+		}
+		elseif (isset($metadata['wrapper_data']))
+		{
+			$headers = $metadata['wrapper_data'];
+		}
+		else
+		{
+			$headers = array();
+		}
+
+		return $this->getResponse($headers, $content);
+
 	}
 
 	/**
@@ -158,10 +200,12 @@ class JHttpTransportStream implements JHttpTransport
 		// Get the response code from the first offset of the response headers.
 		preg_match('/[0-9]{3}/', array_shift($headers), $matches);
 		$code = $matches[0];
+
 		if (is_numeric($code))
 		{
 			$return->code = (int) $code;
 		}
+
 		// No valid response code was detected.
 		else
 		{
@@ -176,5 +220,17 @@ class JHttpTransportStream implements JHttpTransport
 		}
 
 		return $return;
+	}
+
+	/**
+	 * Method to check if http transport stream available for use
+	 *
+	 * @return bool true if available else false
+	 *
+	 * @since   12.1
+	 */
+	public static function isSupported()
+	{
+		return function_exists('fopen') && is_callable('fopen');
 	}
 }

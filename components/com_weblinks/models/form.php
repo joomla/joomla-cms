@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,10 +21,17 @@ require_once JPATH_COMPONENT_ADMINISTRATOR.'/models/weblink.php';
 class WeblinksModelForm extends WeblinksModelWeblink
 {
 	/**
+	 * Model typeAlias string. Used for version history.
+	 *
+	 * @var        string
+	 */
+	public $typeAlias = 'com_weblinks.weblink';
+
+	/**
 	 * Get the return URL.
 	 *
-	 * @return	string	The return URL.
-	 * @since	1.6
+	 * @return  string	The return URL.
+	 * @since   1.6
 	 */
 	public function getReturnPage()
 	{
@@ -36,24 +43,25 @@ class WeblinksModelForm extends WeblinksModelWeblink
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function populateState()
 	{
 		$app = JFactory::getApplication();
 
 		// Load state from the request.
-		$pk = JRequest::getInt('w_id');
+		$pk = $app->input->getInt('w_id');
 		$this->setState('weblink.id', $pk);
 		// Add compatibility variable for default naming conventions.
 		$this->setState('form.id', $pk);
 
-		$categoryId	= JRequest::getInt('catid');
+		$categoryId	= $app->input->getInt('catid');
 		$this->setState('weblink.catid', $categoryId);
 
-		$return = JRequest::getVar('return', null, 'default', 'base64');
+		$return = $app->input->get('return', null, 'base64');
 
-		if (!JUri::isInternal(base64_decode($return))) {
+		if (!JUri::isInternal(base64_decode($return)))
+		{
 			$return = null;
 		}
 
@@ -63,6 +71,6 @@ class WeblinksModelForm extends WeblinksModelWeblink
 		$params	= $app->getParams();
 		$this->setState('params', $params);
 
-		$this->setState('layout', JRequest::getCmd('layout'));
+		$this->setState('layout', $app->input->get('layout'));
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,17 +14,20 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_config
+ * @since       1.5
+ * @deprecated  4.0
  */
 class ConfigControllerComponent extends JControllerLegacy
 {
 	/**
 	 * Class Constructor
 	 *
-	 * @param	array	$config		An optional associative array of configuration settings.
-	 * @return	void
-	 * @since	1.5
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @since   1.5
+	 * @deprecated  4.0
 	 */
-	function __construct($config = array())
+	public function __construct($config = array())
 	{
 		parent::__construct($config);
 
@@ -33,90 +36,32 @@ class ConfigControllerComponent extends JControllerLegacy
 	}
 
 	/**
-	 * Save the configuration
+	 * Cancel operation
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 * @deprecated  4.0  Use ConfigControllerComponentCancel instead.
 	 */
-	function save()
+	function cancel()
 	{
-		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		JLog::add('ConfigControllerComponent is deprecated. Use ConfigControllerComponentCancel instead.', JLog::WARNING, 'deprecated');
 
-		// Set FTP credentials, if given.
-		JClientHelper::setCredentialsFromRequest('ftp');
+		$controller = new ConfigControllerComponentCancel;
 
-		// Initialise variables.
-		$app	= JFactory::getApplication();
-		$model	= $this->getModel('Component');
-		$form	= $model->getForm();
-		$data	= JRequest::getVar('jform', array(), 'post', 'array');
-		$id		= JRequest::getInt('id');
-		$option	= JRequest::getCmd('component');
+		$controller->execute();
+	}
 
-		// Check if the user is authorized to do this.
-		if (!JFactory::getUser()->authorise('core.admin', $option))
-		{
-			JFactory::getApplication()->redirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
-			return;
-		}
+	/**
+	 * Save the configuration
+	 * @deprecated  4.0  Use ConfigControllerComponentSave instead.
+	 */
+	public function save()
+	{
+		JLog::add('ConfigControllerComponent is deprecated. Use ConfigControllerComponentSave instead.', JLog::WARNING, 'deprecated');
 
-		// Validate the posted data.
-		$return = $model->validate($form, $data);
+		$controller = new ConfigControllerComponentSave;
 
-		// Check for validation errors.
-		if ($return === false) {
-			// Get the validation messages.
-			$errors	= $model->getErrors();
-
-			// Push up to three validation messages out to the user.
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++) {
-				if ($errors[$i] instanceof Exception) {
-					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
-				} else {
-					$app->enqueueMessage($errors[$i], 'warning');
-				}
-			}
-
-			// Save the data in the session.
-			$app->setUserState('com_config.config.global.data', $data);
-
-			// Redirect back to the edit screen.
-			$this->setRedirect(JRoute::_('index.php?option=com_config&view=component&component='.$option.'&tmpl=component', false));
-			return false;
-		}
-
-		// Attempt to save the configuration.
-		$data	= array(
-					'params'	=> $return,
-					'id'		=> $id,
-					'option'	=> $option
-					);
-		$return = $model->save($data);
-
-		// Check the return value.
-		if ($return === false)
-		{
-			// Save the data in the session.
-			$app->setUserState('com_config.config.global.data', $data);
-
-			// Save failed, go back to the screen and display a notice.
-			$message = JText::sprintf('JERROR_SAVE_FAILED', $model->getError());
-			$this->setRedirect('index.php?option=com_config&view=component&component='.$option.'&tmpl=component', $message, 'error');
-			return false;
-		}
-
-		// Set the redirect based on the task.
-		switch ($this->getTask())
-		{
-			case 'apply':
-				$message = JText::_('COM_CONFIG_SAVE_SUCCESS');
-				$this->setRedirect('index.php?option=com_config&view=component&component='.$option.'&tmpl=component&refresh=1', $message);
-				break;
-
-			case 'save':
-			default:
-				$this->setRedirect('index.php?option=com_config&view=close&tmpl=component');
-				break;
-		}
-
-		return true;
+		return $controller->execute();
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,10 +30,7 @@ class AdmintoolsHelperDownload
 	 */
 	public static function download($url, $target)
 	{
-		// Import Joomla! libraries
 		jimport('joomla.filesystem.file');
-
-		$hackPermissions = false;
 
 		// Make sure the target does not exist
 		if (JFile::exists($target))
@@ -55,7 +52,6 @@ class AdmintoolsHelperDownload
 				if ( self::chmod($target, 511) )
 				{
 					$fp = @fopen($target, 'wb');
-					$hackPermissions = true;
 				}
 			}
 		}
@@ -174,8 +170,6 @@ class AdmintoolsHelperDownload
 	 */
 	private static function &getCURL($url, $fp = null, $nofollow = false)
 	{
-		$result = false;
-
 		$ch = curl_init($url);
 
 		if ( !@curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1) && !$nofollow )
@@ -248,7 +242,7 @@ class AdmintoolsHelperDownload
 	/**
 	 * Does the server support URL fopen() wrappers?
 	 *
-	 * @return bool
+	 * @return  bool
 	 *
 	 * @since   2.5.4
 	 */
@@ -288,17 +282,12 @@ class AdmintoolsHelperDownload
 	{
 		$result = false;
 
-		// Track errors
-		if ( function_exists('ini_set') )
-		{
-			$track_errors = ini_set('track_errors', true);
-		}
-
 		// Open the URL for reading
 		if (function_exists('stream_context_create'))
 		{
-			$httpopts = array('user_agent' => 'Joomla/' . JVERSION);
-			$context = stream_context_create(array( 'http' => $httpopts ));
+			$opts = stream_context_get_options(stream_context_get_default());
+			$opts['http']['user_agent'] = 'Joomla/' . JVERSION;
+			$context = stream_context_create($opts);
 			$ih = @fopen($url, 'r', false, $context);
 		}
 		else
@@ -406,8 +395,6 @@ class AdmintoolsHelperDownload
 			}
 		}
 
-		// Initialize variables
-		jimport('joomla.client.helper');
 		$ftpOptions = JClientHelper::getCredentials('ftp');
 
 		// Check to make sure the path valid and clean
@@ -417,8 +404,7 @@ class AdmintoolsHelperDownload
 		{
 
 			// Connect the FTP client
-			jimport('joomla.client.ftp');
-			$ftp = &JFTP::getInstance(
+			$ftp = JClientFtp::getInstance(
 				$ftpOptions['host'], $ftpOptions['port'], null,
 				$ftpOptions['user'], $ftpOptions['pass']
 			);
@@ -430,9 +416,7 @@ class AdmintoolsHelperDownload
 		}
 		elseif ($ftpOptions['enabled'] == 1)
 		{
-
 			// Translate path and delete
-			jimport('joomla.client.ftp');
 			$path = JPath::clean(str_replace(JPATH_ROOT, $ftpOptions['root'], $path), '/');
 
 			// FTP connector throws an error
@@ -441,6 +425,7 @@ class AdmintoolsHelperDownload
 		{
 			return false;
 		}
+		return $ret;
 	}
 
 }

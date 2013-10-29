@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -18,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
  * @todo        When dropping compatibility with PHP 5.3 use the SessionHandlerInterface and the SessionHandler class
  * @since       11.1
  */
-abstract class JSessionStorage extends JObject
+abstract class JSessionStorage
 {
 	/**
 	 * @var    array  JSessionStorage instances container.
@@ -58,7 +58,7 @@ abstract class JSessionStorage extends JObject
 
 			if (!class_exists($class))
 			{
-				$path = dirname(__FILE__) . '/storage/' . $name . '.php';
+				$path = __DIR__ . '/storage/' . $name . '.php';
 
 				if (file_exists($path))
 				{
@@ -184,10 +184,25 @@ abstract class JSessionStorage extends JObject
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
+	 * @since   12.1
+	 */
+	public static function isSupported()
+	{
+		return true;
+	}
+
+	/**
+	 * Test to see if the SessionHandler is available.
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
 	 * @since   11.1
+	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use JSessionStorage::isSupported() instead.
 	 */
 	public static function test()
 	{
-		return true;
+		JLog::add('JSessionStorage::test() is deprecated. Use JSessionStorage::isSupported() instead.', JLog::WARNING, 'deprecated');
+
+		return static::isSupported();
 	}
 }

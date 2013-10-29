@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,25 +21,30 @@ jimport('joomla.filesystem.folder');
  */
 class MediaControllerFile extends JControllerLegacy
 {
-	/*
+	/**
 	 * The folder we are uploading into
+	 *
+	 * @var   string
 	 */
 	protected $folder = '';
 
 	/**
 	 * Upload one or more files
 	 *
-	 * @since 1.5
+	 * @return  boolean
+	 *
+	 * @since   1.5
 	 */
 	public function upload()
 	{
 		// Check for request forgeries
 		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 		$params = JComponentHelper::getParams('com_media');
+
 		// Get some data from the request
-		$files			= JRequest::getVar('Filedata', '', 'files', 'array');
-		$return			= JRequest::getVar('return-url', null, 'post', 'base64');
-		$this->folder	= JRequest::getVar('folder', '', '', 'path');
+		$files        = $this->input->files->get('Filedata', '', 'array');
+		$return       = $this->input->post->get('return-url', null, 'base64');
+		$this->folder = $this->input->get('folder', '', 'path');
 
 		// Set the redirect
 		if ($return)
@@ -52,32 +57,34 @@ class MediaControllerFile extends JControllerLegacy
 		{
 			return false;
 		}
-		if (
-			$_SERVER['CONTENT_LENGTH']>($params->get('upload_maxsize', 0) * 1024 * 1024) ||
-			$_SERVER['CONTENT_LENGTH']>(int)(ini_get('upload_max_filesize'))* 1024 * 1024 ||
-			$_SERVER['CONTENT_LENGTH']>(int)(ini_get('post_max_size'))* 1024 * 1024 ||
-			$_SERVER['CONTENT_LENGTH']>(int)(ini_get('memory_limit'))* 1024 * 1024
-		)
-		{
-			JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
-			return false;
-		}
-		// Input is in the form of an associative array containing numerically indexed arrays
-		// We want a numerically indexed array containing associative arrays
-		// Cast each item as array in case the Filedata parameter was not sent as such
-		$files = array_map( array($this, 'reformatFilesArray'),
-			(array) $files['name'], (array) $files['type'], (array) $files['tmp_name'], (array) $files['error'], (array) $files['size']
-		);
 
-		// Perform basic checks on file info before attempting anything
-		foreach ($files as &$file)
+		if (($params->get('upload_maxsize', 0) * 1024 * 1024) != 0)
 		{
-			if ($file['error']==1)
+			if (
+				$_SERVER['CONTENT_LENGTH'] > ($params->get('upload_maxsize', 0) * 1024 * 1024)
+				|| $_SERVER['CONTENT_LENGTH'] > (int) (ini_get('upload_max_filesize')) * 1024 * 1024
+				|| $_SERVER['CONTENT_LENGTH'] > (int) (ini_get('post_max_size')) * 1024 * 1024
+				|| (($_SERVER['CONTENT_LENGTH'] > (int) (ini_get('memory_limit')) * 1024 * 1024) && ((int) (ini_get('memory_limit')) != -1))
+			)
 			{
 				JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
 				return false;
 			}
-			if ($file['size']>($params->get('upload_maxsize', 0) * 1024 * 1024))
+		}
+
+		// Perform basic checks on file info before attempting anything
+		foreach ($files as &$file)
+		{
+			$file['name']     = JFile::makeSafe($file['name']);
+			$file['filepath'] = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $this->folder, $file['name'])));
+
+			if ($file['error'] == 1)
+			{
+				JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
+				return false;
+			}
+
+			if (($params->get('upload_maxsize', 0) * 1024 * 1024) != 0 && $file['size'] > ($params->get('upload_maxsize', 0) * 1024 * 1024))
 			{
 				JError::raiseNotice(100, JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'));
 				return false;
@@ -101,22 +108,24 @@ class MediaControllerFile extends JControllerLegacy
 		// Set FTP credentials, if given
 		JClientHelper::setCredentialsFromRequest('ftp');
 		JPluginHelper::importPlugin('content');
-		$dispatcher	= JDispatcher::getInstance();
+		$dispatcher	= JEventDispatcher::getInstance();
 
 		foreach ($files as &$file)
 		{
 			// The request is valid
 			$err = null;
+
 			if (!MediaHelper::canUpload($file, $err))
 			{
-				// The file can't be upload
-				JError::raiseNotice(100, JText::_($err));
+				// The file can't be uploaded
+
 				return false;
 			}
 
 			// Trigger the onContentBeforeSave event.
 			$object_file = new JObject($file);
-			$result = $dispatcher->trigger('onContentBeforeSave', array('com_media.file', &$object_file));
+			$result = $dispatcher->trigger('onContentBeforeSave', array('com_media.file', &$object_file, true));
+
 			if (in_array(false, $result, true))
 			{
 				// There are some errors in the plugins
@@ -124,7 +133,7 @@ class MediaControllerFile extends JControllerLegacy
 				return false;
 			}
 
-			if (!JFile::upload($file['tmp_name'], $file['filepath']))
+			if (!JFile::upload($object_file->tmp_name, $object_file->filepath))
 			{
 				// Error in upload
 				JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_UNABLE_TO_UPLOAD_FILE'));
@@ -134,37 +143,11 @@ class MediaControllerFile extends JControllerLegacy
 			{
 				// Trigger the onContentAfterSave event.
 				$dispatcher->trigger('onContentAfterSave', array('com_media.file', &$object_file, true));
-				$this->setMessage(JText::sprintf('COM_MEDIA_UPLOAD_COMPLETE', substr($file['filepath'], strlen(COM_MEDIA_BASE))));
+				$this->setMessage(JText::sprintf('COM_MEDIA_UPLOAD_COMPLETE', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
 			}
 		}
 
 		return true;
-	}
-
-	/**
-	 * Used as a callback for array_map, turns the multi-file input array into a sensible array of files
-	 * Also, removes illegal characters from the 'name' and sets a 'filepath' as the final destination of the file
-	 *
-	 * @param	string	- file name			($files['name'])
-	 * @param	string	- file type			($files['type'])
-	 * @param	string	- temporary name	($files['tmp_name'])
-	 * @param	string	- error info		($files['error'])
-	 * @param	string	- file size			($files['size'])
-	 *
-	 * @return	array
-	 * @access	protected
-	 */
-	protected function reformatFilesArray($name, $type, $tmp_name, $error, $size)
-	{
-		$name = JFile::makeSafe($name);
-		return array(
-			'name'		=> $name,
-			'type'		=> $type,
-			'tmp_name'	=> $tmp_name,
-			'error'		=> $error,
-			'size'		=> $size,
-			'filepath'	=> JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $this->folder, $name)))
-		);
 	}
 
 	/**
@@ -173,7 +156,8 @@ class MediaControllerFile extends JControllerLegacy
 	 * @param   string   $action - the action to be peformed (create or delete)
 	 *
 	 * @return  boolean
-	 * @access  protected
+	 *
+	 * @since   1.6
 	 */
 	protected function authoriseUser($action)
 	{
@@ -190,23 +174,27 @@ class MediaControllerFile extends JControllerLegacy
 	/**
 	 * Deletes paths from the current path
 	 *
-	 * @since 1.5
+	 * @return  boolean
+	 *
+	 * @since   1.5
 	 */
 	public function delete()
 	{
 		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get some data from the request
-		$tmpl	= JRequest::getCmd('tmpl');
-		$paths	= JRequest::getVar('rm', array(), '', 'array');
-		$folder = JRequest::getVar('folder', '', '', 'path');
+		$tmpl	= $this->input->get('tmpl');
+		$paths	= $this->input->get('rm', array(), 'array');
+		$folder = $this->input->get('folder', '', 'path');
 
 		$redirect = 'index.php?option=com_media&folder=' . $folder;
+
 		if ($tmpl == 'component')
 		{
 			// We are inside the iframe
 			$redirect .= '&view=mediaList&tmpl=component';
 		}
+
 		$this->setRedirect($redirect);
 
 		// Nothing to delete
@@ -225,10 +213,10 @@ class MediaControllerFile extends JControllerLegacy
 		JClientHelper::setCredentialsFromRequest('ftp');
 
 		JPluginHelper::importPlugin('content');
-		$dispatcher	= JDispatcher::getInstance();
+		$dispatcher	= JEventDispatcher::getInstance();
 
-		// Initialise variables.
 		$ret = true;
+
 		foreach ($paths as $path)
 		{
 			if ($path !== JFile::makeSafe($path))
@@ -241,7 +229,8 @@ class MediaControllerFile extends JControllerLegacy
 
 			$fullPath = JPath::clean(implode(DIRECTORY_SEPARATOR, array(COM_MEDIA_BASE, $folder, $path)));
 			$object_file = new JObject(array('filepath' => $fullPath));
-			if (is_file($fullPath))
+
+			if (is_file($object_file->filepath))
 			{
 				// Trigger the onContentBeforeDelete event.
 				$result = $dispatcher->trigger('onContentBeforeDelete', array('com_media.file', &$object_file));
@@ -252,19 +241,21 @@ class MediaControllerFile extends JControllerLegacy
 					continue;
 				}
 
-				$ret &= JFile::delete($fullPath);
+				$ret &= JFile::delete($object_file->filepath);
 
 				// Trigger the onContentAfterDelete event.
 				$dispatcher->trigger('onContentAfterDelete', array('com_media.file', &$object_file));
-				$this->setMessage(JText::sprintf('COM_MEDIA_DELETE_COMPLETE', substr($fullPath, strlen(COM_MEDIA_BASE))));
+				$this->setMessage(JText::sprintf('COM_MEDIA_DELETE_COMPLETE', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
 			}
-			elseif (is_dir($fullPath))
+			elseif (is_dir($object_file->filepath))
 			{
-				$contents = JFolder::files($fullPath, '.', true, false, array('.svn', 'CVS', '.DS_Store', '__MACOSX', 'index.html'));
+				$contents = JFolder::files($object_file->filepath, '.', true, false, array('.svn', 'CVS', '.DS_Store', '__MACOSX', 'index.html'));
+
 				if (empty($contents))
 				{
 					// Trigger the onContentBeforeDelete event.
 					$result = $dispatcher->trigger('onContentBeforeDelete', array('com_media.folder', &$object_file));
+
 					if (in_array(false, $result, true))
 					{
 						// There are some errors in the plugins
@@ -272,16 +263,16 @@ class MediaControllerFile extends JControllerLegacy
 						continue;
 					}
 
-					$ret &= JFolder::delete($fullPath);
+					$ret &= JFolder::delete($object_file->filepath);
 
 					// Trigger the onContentAfterDelete event.
 					$dispatcher->trigger('onContentAfterDelete', array('com_media.folder', &$object_file));
-					$this->setMessage(JText::sprintf('COM_MEDIA_DELETE_COMPLETE', substr($fullPath, strlen(COM_MEDIA_BASE))));
+					$this->setMessage(JText::sprintf('COM_MEDIA_DELETE_COMPLETE', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
 				}
 				else
 				{
 					// This makes no sense...
-					JError::raiseWarning(100, JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FOLDER_NOT_EMPTY', substr($fullPath, strlen(COM_MEDIA_BASE))));
+					JError::raiseWarning(100, JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_DELETE_FOLDER_NOT_EMPTY', substr($object_file->filepath, strlen(COM_MEDIA_BASE))));
 				}
 			}
 		}

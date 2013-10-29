@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<fieldset name="basic">
+			<field name="db_type" type="databaseconnection"
+				id="db_type" class="inputbox"
+				label="INSTL_DATABASE_TYPE_LABEL"
+				supported="mysql,mysqli,postgresql,sqlsrv,sqlazure"
+				required="true"
+				default="mysqli"
+				filter="string"
+			/>
+
+			<field name="db_host" type="text" id="db_host" class="inputbox"
+				label="INSTL_DATABASE_HOST_LABEL"
+				default="localhost"
+				required="true"
+			/>
+			<field name="db_user" type="text" id="db_user" class="inputbox"
+				label="INSTL_DATABASE_USER_LABEL"
+				required="true"
+			/>
+			<field name="db_pass" type="password" id="db_pass" class="inputbox"
+				label="INSTL_DATABASE_PASSWORD_LABEL"
+				filter="raw"
+			/>
+			<field name="db_name" type="text" id="db_name" class="inputbox"
+				label="INSTL_DATABASE_NAME_LABEL"
+				required="true"
+			/>
+		</fieldset>
+
+		<!-- Advanced Settings -->
+		<fieldset name="advanced">
+			<field name="db_old" type="radio" id="db_old" class="btn-group"
+				label="INSTL_DATABASE_OLD_PROCESS_LABEL"
+				default="backup"
+				required="true"
+			>
+				<option value="backup">INSTL_DATABASE_FIELD_VALUE_BACKUP</option>
+				<option value="remove">INSTL_DATABASE_FIELD_VALUE_REMOVE</option>
+			</field>
+			<field name="db_prefix" type="prefix" id="db_prefix" class="inputbox"
+				label="INSTL_DATABASE_PREFIX_LABEL"
+				required="true"
+				validate="prefix"
+				message="INSTL_DATABASE_PREFIX_MSG"
+			/>
+		</fieldset>
+	</fieldset>
+</form>

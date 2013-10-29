@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,12 +19,46 @@ defined('JPATH_PLATFORM') or die;
 abstract class JFormField
 {
 	/**
-	 * The description text for the form field.  Usually used in tooltips.
+	 * The description text for the form field. Usually used in tooltips.
 	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $description;
+
+	/**
+	 * The hint text for the form field used to display hint inside the field.
+	 *
+	 * @var    string
+	 * @since  3.2
+	 */
+	protected $hint;
+
+	/**
+	 * The autocomplete state for the form field.  If 'off' element will not be automatically
+	 * completed by browser.
+	 *
+	 * @var    mixed
+	 * @since  3.2
+	 */
+	protected $autocomplete = 'on';
+
+	/**
+	 * The spellcheck state for the form field.
+	 *
+	 * @var    boolean
+	 * @since  3.2
+	 */
+	protected $spellcheck = true;
+
+	/**
+	 * The autofocus request for the form field.  If true element will be automatically
+	 * focused on document load.
+	 *
+	 * @var    boolean
+	 * @since  3.2
+	 */
+	protected $autofocus = false;
 
 	/**
 	 * The SimpleXMLElement object of the <field /> XML element that describes the form field.
@@ -75,6 +109,14 @@ abstract class JFormField
 	protected $translateDescription = true;
 
 	/**
+	 * True to translate the field hint string.
+	 *
+	 * @var    boolean
+	 * @since  3.2
+	 */
+	protected $translateHint = true;
+
+	/**
 	 * The document id for the form field.
 	 *
 	 * @var    string
@@ -106,6 +148,22 @@ abstract class JFormField
 	 * @since  11.1
 	 */
 	protected $multiple = false;
+
+	/**
+	 * Allows extensions to create repeat elements
+	 *
+	 * @var    mixed
+	 * @since  3.2
+	 */
+	public $repeat = false;
+
+	/**
+	 * The pattern (Reg Ex) of value of the form field.
+	 *
+	 * @var    string
+	 * @since  11.1
+	 */
+	protected $pattern;
 
 	/**
 	 * The name of the form field.
@@ -141,6 +199,23 @@ abstract class JFormField
 	protected $required = false;
 
 	/**
+	 * The disabled state for the form field.  If true then the field will be disabled and user can't
+	 * interact with the field.
+	 *
+	 * @var    boolean
+	 * @since  3.2
+	 */
+	protected $disabled = false;
+
+	/**
+	 * The readonly state for the form field.  If true then the field will be readonly.
+	 *
+	 * @var    boolean
+	 * @since  3.2
+	 */
+	protected $readonly = false;
+
+	/**
 	 * The form field type.
 	 *
 	 * @var    string
@@ -166,12 +241,52 @@ abstract class JFormField
 	protected $value;
 
 	/**
+	 * The default value of the form field.
+	 *
+	 * @var    mixed
+	 * @since  11.1
+	 */
+	protected $default;
+
+	/**
+	 * The size of the form field.
+	 *
+	 * @var    integer
+	 * @since  3.2
+	 */
+	protected $size;
+
+	/**
+	 * The class of the form field
+	 *
+	 * @var    mixed
+	 * @since  3.2
+	 */
+	protected $class;
+
+	/**
 	 * The label's CSS class of the form field
 	 *
 	 * @var    mixed
 	 * @since  11.1
 	 */
 	protected $labelClass;
+
+	/**
+	* The javascript onchange of the form field.
+	*
+	* @var    string
+	* @since  3.2
+	*/
+	protected $onchange;
+
+	/**
+	* The javascript onclick of the form field.
+	*
+	* @var    string
+	* @since  3.2
+	*/
+	protected $onclick;
 
 	/**
 	 * The count value for generated name field
@@ -184,7 +299,7 @@ abstract class JFormField
 	/**
 	 * The string used for generated fields names
 	 *
-	 * @var    integer
+	 * @var    string
 	 * @since  11.1
 	 */
 	protected static $generated_fieldname = '__field';
@@ -192,7 +307,7 @@ abstract class JFormField
 	/**
 	 * Method to instantiate the form field object.
 	 *
-	 * @param   object  $form  The form to attach to the form field object.
+	 * @param   JForm  $form  The form to attach to the form field object.
 	 *
 	 * @since   11.1
 	 */
@@ -208,7 +323,8 @@ abstract class JFormField
 		// Detect the field type if not set
 		if (!isset($this->type))
 		{
-			$parts = JString::splitCamelCase(get_class($this));
+			$parts = JStringNormalise::fromCamelCase(get_called_class(), true);
+
 			if ($parts[0] == 'J')
 			{
 				$this->type = JString::ucfirst($parts[count($parts) - 1], '_');
@@ -233,8 +349,8 @@ abstract class JFormField
 	{
 		switch ($name)
 		{
-			case 'class':
 			case 'description':
+			case 'hint':
 			case 'formControl':
 			case 'hidden':
 			case 'id':
@@ -244,11 +360,19 @@ abstract class JFormField
 			case 'type':
 			case 'validate':
 			case 'value':
+			case 'class':
 			case 'labelClass':
+			case 'size':
+			case 'onchange':
+			case 'onclick':
 			case 'fieldname':
 			case 'group':
+			case 'disabled':
+			case 'readonly':
+			case 'autofocus':
+			case 'autocomplete':
+			case 'spellcheck':
 				return $this->$name;
-				break;
 
 			case 'input':
 				// If the input hasn't yet been generated, generate it.
@@ -258,7 +382,6 @@ abstract class JFormField
 				}
 
 				return $this->input;
-				break;
 
 			case 'label':
 				// If the label hasn't yet been generated, generate it.
@@ -268,13 +391,99 @@ abstract class JFormField
 				}
 
 				return $this->label;
-				break;
+
 			case 'title':
 				return $this->getTitle();
-				break;
 		}
 
 		return null;
+	}
+
+	/**
+	 * Method to set certain otherwise inaccessible properties of the form field object.
+	 *
+	 * @param   string  $name   The property name for which to the the value.
+	 * @param   mixed   $value  The value of the property.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public function __set($name, $value)
+	{
+		switch ($name)
+		{
+			case 'class':
+				// Removes spaces from left & right and extra spaces from middle
+				$value = preg_replace('/\s+/', ' ', trim((string) $value));
+
+			case 'description':
+			case 'hint':
+			case 'value':
+			case 'labelClass':
+			case 'onchange':
+			case 'onclick':
+			case 'validate':
+			case 'pattern':
+			case 'default':
+				$this->$name = (string) $value;
+				break;
+
+			case 'id':
+				$this->id = $this->getId((string) $value, $this->fieldname);
+				break;
+
+			case 'fieldname':
+				$this->fieldname = $this->getFieldName((string) $value);
+				break;
+
+			case 'name':
+				$this->fieldname = $this->getFieldName((string) $value);
+				$this->name = $this->getName($this->fieldname);
+				break;
+
+			case 'multiple':
+				// Allow for field classes to force the multiple values option.
+				$value = (string) $value;
+				$value = $value === '' && isset($this->forceMultiple) ? (string) $this->forceMultiple : $value;
+
+			case 'required':
+			case 'disabled':
+			case 'readonly':
+			case 'autofocus':
+			case 'hidden':
+				$value = (string) $value;
+				$this->$name = ($value === 'true' || $value === $name || $value === '1');
+				break;
+
+			case 'autocomplete':
+				$value = (string) $value;
+				$value = ($value == 'on' || $value == '') ? 'on' : $value;
+				$this->$name = ($value === 'false' || $value === 'off' || $value === '0') ? false : $value;
+				break;
+
+			case 'spellcheck':
+			case 'translateLabel':
+			case 'translateDescription':
+			case 'translateHint':
+				$value = (string) $value;
+				$this->$name = !($value === 'false' || $value === 'off' || $value === '0');
+				break;
+
+			case 'size':
+				$this->$name = (int) $value;
+				break;
+
+			default:
+				if (property_exists(__CLASS__, $name))
+				{
+					JLog::add("Cannot access protected / private property $name of " . __CLASS__);
+				}
+				else
+				{
+					$this->$name = $value;
+				}
+		}
 	}
 
 	/**
@@ -282,7 +491,7 @@ abstract class JFormField
 	 *
 	 * @param   JForm  $form  The JForm object to attach to the form field.
 	 *
-	 * @return  object  The form field object so that the method can be used in a chain.
+	 * @return  JFormField  The form field object so that the method can be used in a chain.
 	 *
 	 * @since   11.1
 	 */
@@ -297,20 +506,20 @@ abstract class JFormField
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   object  &$element  The SimpleXMLElement object representing the <field /> tag for the form field object.
-	 * @param   mixed   $value     The form field value to validate.
-	 * @param   string  $group     The field name group control value. This acts as as an array container for the field.
-	 *                             For example if the field has name="foo" and the group value is set to "bar" then the
-	 *                             full field name would end up being "bar[foo]".
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   mixed             $value    The form field value to validate.
+	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                      full field name would end up being "bar[foo]".
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 */
-	public function setup(&$element, $value, $group = null)
+	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
 		// Make sure there is a valid JFormField XML element.
-		if (!($element instanceof SimpleXMLElement) || (string) $element->getName() != 'field')
+		if ((string) $element->getName() != 'field')
 		{
 			return false;
 		}
@@ -322,68 +531,47 @@ abstract class JFormField
 		// Set the XML element object.
 		$this->element = $element;
 
-		// Get some important attributes from the form field element.
-		$class = (string) $element['class'];
-		$id = (string) $element['id'];
-		$multiple = (string) $element['multiple'];
-		$name = (string) $element['name'];
-		$required = (string) $element['required'];
-
-		// Set the required and validation options.
-		$this->required = ($required == 'true' || $required == 'required' || $required == '1');
-		$this->validate = (string) $element['validate'];
-
-		// Add the required class if the field is required.
-		if ($this->required)
-		{
-			if ($class)
-			{
-				if (strpos($class, 'required') === false)
-				{
-					$this->element['class'] = $class . ' required';
-				}
-			}
-			else
-			{
-				$this->element->addAttribute('class', 'required');
-			}
-		}
-
-		// Set the multiple values option.
-		$this->multiple = ($multiple == 'true' || $multiple == 'multiple');
-
-		// Allow for field classes to force the multiple values option.
-		if (isset($this->forceMultiple))
-		{
-			$this->multiple = (bool) $this->forceMultiple;
-		}
-
-		// Set the field description text.
-		$this->description = (string) $element['description'];
-
-		// Set the visibility.
-		$this->hidden = ((string) $element['type'] == 'hidden' || (string) $element['hidden'] == 'true');
-
-		// Determine whether to translate the field label and/or description.
-		$this->translateLabel = !((string) $this->element['translate_label'] == 'false' || (string) $this->element['translate_label'] == '0');
-		$this->translateDescription = !((string) $this->element['translate_description'] == 'false'
-			|| (string) $this->element['translate_description'] == '0');
-
 		// Set the group of the field.
 		$this->group = $group;
 
-		// Set the field name and id.
-		$this->fieldname = $this->getFieldName($name);
-		$this->name = $this->getName($this->fieldname);
-		$this->id = $this->getId($id, $this->fieldname);
+		$attributes = array(
+			'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelClass', 'onchange',
+			'onclick', 'validate', 'pattern', 'default', 'required',
+			'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck',
+			'translateHint', 'translateLabel', 'translateDescription', 'size');
+
+		$this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
 		// Set the field default value.
 		$this->value = $value;
 
-		// Set the CSS class of field label
-		$this->labelClass = (string) $element['labelclass'];
+		foreach ($attributes as $attributeName)
+		{
+			$this->__set($attributeName, $element[$attributeName]);
+		}
+
+		// Allow for repeatable elements
+		$repeat = (string) $element['repeat'];
+		$this->repeat = ($repeat == 'true' || $repeat == 'multiple' || (!empty($this->form->repeat) && $this->form->repeat == 1));
+
+		// Set the visibility.
+		$this->hidden = ($this->hidden || (string) $element['type'] == 'hidden');
 
 		return true;
+	}
+
+	/**
+	 * Simple method to set the value
+	 *
+	 * @param   mixed  $value  Value to set
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public function setValue($value)
+	{
+		$this->value = $value;
 	}
 
 	/**
@@ -398,7 +586,6 @@ abstract class JFormField
 	 */
 	protected function getId($fieldId, $fieldName)
 	{
-		// Initialise variables.
 		$id = '';
 
 		// If there is a form control set for the attached form add it first.
@@ -434,6 +621,18 @@ abstract class JFormField
 		// Clean up any invalid characters.
 		$id = preg_replace('#\W#', '_', $id);
 
+		// If this is a repeatable element, add the repeat count to the ID
+		if ($this->repeat)
+		{
+			$repeatCounter = empty($this->form->repeatCounter) ? 0 : $this->form->repeatCounter;
+			$id .= '-' . $repeatCounter;
+
+			if (strtolower($this->type) == 'radio')
+			{
+				$id .= '-';
+			}
+		}
+
 		return $id;
 	}
 
@@ -455,12 +654,10 @@ abstract class JFormField
 	 */
 	protected function getTitle()
 	{
-		// Initialise variables.
 		$title = '';
 
 		if ($this->hidden)
 		{
-
 			return $title;
 		}
 
@@ -480,7 +677,6 @@ abstract class JFormField
 	 */
 	protected function getLabel()
 	{
-		// Initialise variables.
 		$label = '';
 
 		if ($this->hidden)
@@ -493,7 +689,7 @@ abstract class JFormField
 		$text = $this->translateLabel ? JText::_($text) : $text;
 
 		// Build the class for the label.
-		$class = !empty($this->description) ? 'hasTip' : '';
+		$class = !empty($this->description) ? 'hasTooltip' : '';
 		$class = $this->required == true ? $class . ' required' : $class;
 		$class = !empty($this->labelClass) ? $class . ' ' . $this->labelClass : $class;
 
@@ -503,11 +699,8 @@ abstract class JFormField
 		// If a description is specified, use it to build a tooltip.
 		if (!empty($this->description))
 		{
-			$label .= ' title="'
-				. htmlspecialchars(
-				trim($text, ':') . '::' . ($this->translateDescription ? JText::_($this->description) : $this->description),
-				ENT_COMPAT, 'UTF-8'
-			) . '"';
+			JHtml::_('bootstrap.tooltip');
+			$label .= ' title="' . JHtml::tooltipText(trim($text, ':'), JText::_($this->description), 0) . '"';
 		}
 
 		// Add the label text and closing tag.
@@ -534,7 +727,9 @@ abstract class JFormField
 	 */
 	protected function getName($fieldName)
 	{
-		// Initialise variables.
+		// To support repeated element, extensions can set this in plugin->onRenderSettings
+		$repeatCounter = empty($this->form->repeatCounter) ? 0 : $this->form->repeatCounter;
+
 		$name = '';
 
 		// If there is a form control set for the attached form add it first.
@@ -548,6 +743,7 @@ abstract class JFormField
 		{
 			// If we already have a name segment add the group control as another level.
 			$groups = explode('.', $this->group);
+
 			if ($name)
 			{
 				foreach ($groups as $group)
@@ -558,6 +754,7 @@ abstract class JFormField
 			else
 			{
 				$name .= array_shift($groups);
+
 				foreach ($groups as $group)
 				{
 					$name .= '[' . $group . ']';
@@ -578,7 +775,20 @@ abstract class JFormField
 		// If the field should support multiple values add the final array segment.
 		if ($this->multiple)
 		{
-			$name .= '[]';
+			switch (strtolower((string) $this->element['type']))
+			{
+				case 'text':
+				case 'textarea':
+				case 'email':
+				case 'password':
+				case 'radio':
+				case 'calendar':
+				case 'editor':
+				case 'hidden':
+					break;
+				default:
+					$name .= '[]';
+			}
 		}
 
 		return $name;
@@ -602,7 +812,60 @@ abstract class JFormField
 		else
 		{
 			self::$count = self::$count + 1;
+
 			return self::$generated_fieldname . self::$count;
 		}
+	}
+
+	/**
+	 * Method to get an attribute of the field
+	 *
+	 * @param   string  $name     Name of the attribute to get
+	 * @param   mixed   $default  Optional value to return if attribute not found
+	 *
+	 * @return  mixed             Value of the attribute / default
+	 *
+	 * @since   3.2
+	 */
+	public function getAttribute($name, $default = null)
+	{
+		if ($this->element instanceof SimpleXMLElement)
+		{
+			$attributes = $this->element->attributes();
+
+			// Ensure that the attribute exists
+			if (property_exists($attributes, $name))
+			{
+				$value = $attributes->$name;
+
+				if ($value !== null)
+				{
+					return (string) $value;
+				}
+			}
+		}
+
+		return $default;
+	}
+
+	/**
+	 * Method to get a control group with label and input.
+	 *
+	 * @return  string  A string containing the html for the control goup
+	 *
+	 * @since   3.2
+	 */
+	public function getControlGroup()
+	{
+		if ($this->hidden)
+		{
+			return $this->getInput();
+		}
+
+		return
+			'<div class="control-group">'
+			. '<div class="control-label">' . $this->getLabel() . '</div>'
+			. '<div class="controls">' . $this->getInput() . '</div>'
+			. '</div>';
 	}
 }

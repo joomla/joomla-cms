@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -22,14 +22,12 @@ class JSessionStorageNone extends JSessionStorage
 	/**
 	 * Register the functions of this class with PHP's session handler
 	 *
-	 * @param   array  $options  Optional parameters.
-	 *
 	 * @return  void
 	 *
 	 * @since   11.1
 	 */
-	public function register($options = array())
+	public function register()
 	{
-		//let php handle the session storage
+		ini_set('session.save_handler', 'files');
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Registry
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -18,6 +18,12 @@ defined('JPATH_PLATFORM') or die;
  */
 class JRegistryFormatINI extends JRegistryFormat
 {
+	/**
+	 * Cache of processed data
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
 	protected static $cache = array();
 
 	/**
@@ -35,7 +41,6 @@ class JRegistryFormatINI extends JRegistryFormat
 	 */
 	public function objectToString($object, $options = array())
 	{
-		// Initialize variables.
 		$local = array();
 		$global = array();
 
@@ -75,22 +80,13 @@ class JRegistryFormatINI extends JRegistryFormat
 	 *
 	 * @since   11.1
 	 */
-	public function stringToObject($data, $options = array())
+	public function stringToObject($data, array $options = array())
 	{
-		// Initialise options.
-		if (is_array($options))
-		{
-			$sections = (isset($options['processSections'])) ? $options['processSections'] : false;
-		}
-		else
-		{
-			// Backward compatibility for 1.5 usage.
-			//@deprecated
-			$sections = (boolean) $options;
-		}
+		$sections = (isset($options['processSections'])) ? $options['processSections'] : false;
 
 		// Check the memory cache for already processed strings.
 		$hash = md5($data . ':' . (int) $sections);
+
 		if (isset(self::$cache[$hash]))
 		{
 			return self::$cache[$hash];
@@ -102,7 +98,6 @@ class JRegistryFormatINI extends JRegistryFormat
 			return new stdClass;
 		}
 
-		// Initialize variables.
 		$obj = new stdClass;
 		$section = false;
 		$lines = explode("\n", $data);
@@ -155,6 +150,7 @@ class JRegistryFormatINI extends JRegistryFormat
 
 			// If the value is quoted then we assume it is a string.
 			$length = strlen($value);
+
 			if ($length && ($value[0] == '"') && ($value[$length - 1] == '"'))
 			{
 				// Strip the quotes and Convert the new line characters.
@@ -218,7 +214,6 @@ class JRegistryFormatINI extends JRegistryFormat
 	 */
 	protected function getValueAsINI($value)
 	{
-		// Initialize variables.
 		$string = '';
 
 		switch (gettype($value))

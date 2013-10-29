@@ -3,22 +3,27 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
+ * Discover Installation Controller
+ *
  * @package     Joomla.Administrator
  * @subpackage  com_installer
+ * @since       1.6
  */
 class InstallerControllerDiscover extends JControllerLegacy
 {
 	/**
 	 * Refreshes the cache of discovered extensions.
 	 *
-	 * @since	1.6
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	public function refresh()
 	{
@@ -30,9 +35,11 @@ class InstallerControllerDiscover extends JControllerLegacy
 	/**
 	 * Install a discovered extension.
 	 *
-	 * @since	1.6
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
-	function install()
+	public function install()
 	{
 		$model = $this->getModel('discover');
 		$model->discover_install();
@@ -42,9 +49,11 @@ class InstallerControllerDiscover extends JControllerLegacy
 	/**
 	 * Clean out the discovered extension cache.
 	 *
-	 * @since	1.6
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
-	function purge()
+	public function purge()
 	{
 		$model = $this->getModel('discover');
 		$model->purge();

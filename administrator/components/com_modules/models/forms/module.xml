@@ -11,16 +11,18 @@
 		<field name="title" type="text"
 			description="COM_MODULES_FIELD_TITLE_DESC"
 			label="JGLOBAL_TITLE"
+			class="inputbox input-xxlarge input-large-text"
+			size="40"
 			maxlength="100"
 			required="true"
-			size="35"
 		/>
 
 		<field name="note" type="text"
 			description="COM_MODULES_FIELD_NOTE_DESC"
 			label="COM_MODULES_FIELD_NOTE_LABEL"
 			maxlength="100"
-			size="35"
+			size="40"
+			class="inputbox span12"
 		/>
 
 		<field name="module" type="hidden"
@@ -31,6 +33,7 @@
 		/>
 
 		<field name="showtitle" type="radio"
+			class="btn-group btn-group-yesno"
 			default="1"
 			description="COM_MODULES_FIELD_SHOWTITLE_DESC"
 			label="COM_MODULES_FIELD_SHOWTITLE_LABEL"
@@ -41,6 +44,7 @@
 		</field>
 
 		<field name="published" type="list"
+			class="chzn-color-state"
 			default="1"
 			description="COM_MODULES_FIELD_PUBLISHED_DESC"
 			label="JSTATUS"
@@ -111,5 +115,19 @@
 		<field name="assignment" type="hidden" />
 
 		<field name="assigned" type="hidden" />
+
+		<field name="asset_id" type="hidden"
+			filter="unset"
+		/>
+
+		<field name="rules" type="rules"
+			label="JFIELD_RULES_LABEL"
+			translate_label="false"
+			class="inputbox"
+			filter="rules"
+			component="com_modules"
+			section="module"
+			validate="rules"
+		/>
 	</fieldset>
 </form>
