@@ -251,7 +251,29 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 */
 	public function concatenate($values, $separator = null)
 	{
-		return '(' . implode(' || ', $values) . ')';
+		if ($separator)
+		{
+			return '(' . implode(' || ' . $this->quote($separator) . ' || ', $values) . ')';
+		}
+		else
+		{
+			return '(' . implode(' || ', $values) . ')';
+		}
+	}
+
+	/**
+	 * Gets the current date and time.
+	 *
+	 * Usage:
+	 * $query->where('published_up < '.$query->currentTimestamp());
+	 *
+	 * @return string
+	 *
+	 * @since 11.1
+	 */
+	public function currentTimestamp()
+	{
+		return 'CURRENT_TIMESTAMP';
 	}
 
 	/**
