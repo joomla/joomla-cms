@@ -59,13 +59,14 @@ $user = JFactory::getUser();
 				$params = new JRegistry;
 				$params->loadString($module->params);
 				$bootstrapSize = $params->get('bootstrap_size');
+				$bootstrapSize != 1 ?: $bootstrapSize = 12 ;
 				$spans += $bootstrapSize;
 				if ($spans > 12)
 				{
 					echo '</div><div class="row-fluid">';
 					$spans = $bootstrapSize;
 				}
-				echo JModuleHelper::renderModule($module, array('style' => 'well'));
+				echo JModuleHelper::renderModule($module, array('style' => 'well_cpanel'));
 			}
 			?>
 		</div>
