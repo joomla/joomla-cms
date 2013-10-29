@@ -20,10 +20,3 @@
 
 # phpDocumentor Logs #
 phpdoc-*
-
-# elkuku
-/cache/*
-/administrator/cache/*
-/db/*
-/logs/*
-.htaccess
