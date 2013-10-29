@@ -88,6 +88,9 @@ switch ($config->error_reporting)
 
 define('JDEBUG', $config->debug);
 
+// Set the default umask based on dirmode and filemode
+@umask(0777 &~ (octdec($config->dirmode) | octdec($config->filemode)));
+
 unset($config);
 
 // System profiler
