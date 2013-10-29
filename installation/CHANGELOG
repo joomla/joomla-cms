@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Oct-2013 Michael Babker
+ # [#32421] Installation 3.2.b2 fails on PostgreSQL
+
 30-Oct-2013 Jean-Marie Simonet
  # [#32237] Different Display at the edit views  Thanks Tobias Zulauf
  # [#32416] Color field gives php errors when using control="simple"  Thanks Peter van Wetsen
