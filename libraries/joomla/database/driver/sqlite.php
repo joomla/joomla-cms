@@ -117,7 +117,9 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	 */
 	public function getCollation()
 	{
-		return $this->charset;
+		$this->connect();
+
+		return $this->setQuery('PRAGMA encoding;')->loadResult();
 	}
 
 	/**
