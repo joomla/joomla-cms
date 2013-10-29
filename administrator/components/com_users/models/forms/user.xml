@@ -125,7 +125,7 @@
 			class="readonly"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			description ="JGLOBAL_FIELD_ID_DESC"
-			default="null"
+			default="0"
 			readonly="true"
 			/>
 
