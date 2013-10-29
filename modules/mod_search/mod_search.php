@@ -26,7 +26,9 @@ if ($params->get('opensearch', 1))
 $upper_limit = $lang->getUpperLimitSearchWord();
 
 $button			= $params->get('button', '');
+if($button == 0) { $button = '';}
 $imagebutton	= $params->get('imagebutton', '');
+if($imagebutton == 0) { $imagebutton = '';}
 $button_pos		= $params->get('button_pos', 'left');
 $button_text	= htmlspecialchars($params->get('button_text', JText::_('MOD_SEARCH_SEARCHBUTTON_TEXT')));
 $width			= (int) $params->get('width', 20);
