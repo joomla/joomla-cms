@@ -45,8 +45,9 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 		</thead>
 		<tbody>
 		<?php foreach ($this->modules as $i => &$module) : ?>
+			<?php var_dump($module) ?>
  			<?php if (is_null($module->menuid)) : ?>
-				<?php if(!$module->exceptid || $module->menuid < 0) : ?>
+				<?php if(!$module->except || $module->menuid < 0) : ?>
 					<tr class="no row<?php echo $i % 2;?>">
 				<?php else : ?>
 			<tr class="row<?php echo $i % 2;?>">
@@ -59,7 +60,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 				</td>
 				<td class="center">
 					<?php if (is_null($module->menuid)) : ?>
-						<?php if ($module->exceptid):?>
+						<?php if ($module->except):?>
 							<span class="label label-success">
 								<?php echo JText::_('JYES'); ?>
 							</span>
