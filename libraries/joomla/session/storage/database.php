@@ -33,8 +33,8 @@ class JSessionStorageDatabase extends JSessionStorage
 		// Get the database connection object and verify its connected.
 		$db = JFactory::getDbo();
 
-		//try
-		//{
+		try
+		{
 			// Get the session data from the database table.
 			$query = $db->getQuery(true)
 				->select($db->quoteName('data'))
@@ -43,11 +43,16 @@ class JSessionStorageDatabase extends JSessionStorage
 
 			$db->setQuery($query);
 
-		$result = (string) $db->loadResult();
+			$result = (string) $db->loadResult();
 
-		$result = str_replace('\0\0\0', chr(0).'*'.chr(0), $result);
+			$result = str_replace('\0\0\0', chr(0).'*'.chr(0), $result);
 
-		return $result;
+			return $result;
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
 	}
 
 	/**
