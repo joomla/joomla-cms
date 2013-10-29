@@ -168,7 +168,7 @@ class InstallerModelUpdate extends JModelList
 
 		// Note: TRUNCATE is a DDL operation
 		// This may or may not mean depending on your database
-        $db->setQuery($db->getQuery(true)->truncate('#__updates'));
+		$db->setQuery($db->getQuery(true)->truncate('#__updates'));
 
 		if ($db->execute())
 		{
