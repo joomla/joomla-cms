@@ -29,6 +29,7 @@ $ -> Language fix or change
  # [#32453] Super user password doesn't update hash and some other issues.  Thanks Elin Waring
  ^ [#32434] Various code styling fixes. Thanks Gunjan Patel
  ^ [#32457] Yes/No Button at mod_breadcrumbs. Thanks Tobias Zulauf
+ # [#32450] Issue #1866 Loosing port in URL of a Weblink. Thanks Marcel van Beelen
 
 28-Oct-2013 Michael Babker
  # [#32375] Regression 3 column blog layout - prototsar.  Thanks Thomas Hunziker
