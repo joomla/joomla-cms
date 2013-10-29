@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Oct-2013 Roberto Segura
+ # [#32453] Super user password doesn't update hash and some other issues.  Thanks Elin Waring
+
 28-Oct-2013 Michael Babker
  # [#32375] Regression 3 column blog layout - prototsar.  Thanks Thomas Hunziker
  # [#32379] Regression: Preformatted images and urls broken in back weblinks and newsfeeds.  Thanks Elin Waring
