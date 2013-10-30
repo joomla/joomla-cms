@@ -27,7 +27,7 @@ $ -> Language fix or change
 
 30-Oct-2013 Jean-Marie Simonet
  # [#32237] Different Display at the edit views  Thanks Tobias Zulauf
- # [#31097] module chrome for html5 contains incomplete class declaration.  Thanks Troy Hall
+ # [#32416] Color field gives php errors when using control="simple"  Thanks Peter van Wetsen
 
 29-Oct-2013 Jean-Marie Simonet
  $ Updating installation language: be-BY, hr-HR, hu-HU
