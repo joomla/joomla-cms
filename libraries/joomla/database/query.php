@@ -1838,18 +1838,4 @@ abstract class JDatabaseQuery
 
 		return $this;
 	}
-
-	/**
-	 * Generate a "TRUNCATE TABLE" statement
-	 *
-	 * @param   string  $table  The table name
-	 *
-	 * @return string
-	 *
-	 * @since   13.1
-	 */
-	public function truncate($table)
-	{
-		return 'TRUNCATE TABLE ' . $table;
-	}
 }

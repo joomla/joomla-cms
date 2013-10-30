@@ -275,18 +275,4 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	{
 		return 'CURRENT_TIMESTAMP';
 	}
-
-	/**
-	 * Generate a "TRUNCATE TABLE" statement
-	 *
-	 * @param   string  $table  The table name
-	 *
-	 * @return  string
-	 *
-	 * @since   13.1
-	 */
-	public function truncate($table)
-	{
-		return 'DELETE FROM ' . $table;
-	}
 }
