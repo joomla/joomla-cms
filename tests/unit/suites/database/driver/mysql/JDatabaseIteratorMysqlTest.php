@@ -128,8 +128,9 @@ class JDatabaseIteratorMysqlTest extends TestCaseDatabaseMysql
 		{
 			$this->setExpectedException($exception);
 		}
-		self::$driver->setQuery(self::$driver->getQuery(true)->select($select)->from($from)->setLimit($limit, $offset));
-		$iterator = new JDatabaseIteratorMysql(self::$driver->execute(), $column, $class);
+
+		self::$driver->setQuery(self::$driver->getQuery(true)->select($select)->from($from), $offset, $limit);
+		$iterator = self::$driver->getIterator($column, $class);
 
 		// Run the Iterator pattern
 		$this->assertThat(
@@ -150,21 +151,21 @@ class JDatabaseIteratorMysqlTest extends TestCaseDatabaseMysql
 	{
 		self::$driver->setQuery(self::$driver->getQuery(true)->select('title')->from('#__dbtest'));
 		$this->assertThat(
-			count(new JDatabaseIteratorMysql(self::$driver->execute())),
+			count(self::$driver->getIterator()),
 			$this->equalTo(4),
 			__LINE__
 		);
 
-		self::$driver->setQuery(self::$driver->getQuery(true)->select('title')->from('#__dbtest')->setLimit(2));
+		self::$driver->setQuery(self::$driver->getQuery(true)->select('title')->from('#__dbtest'), 0, 2);
 		$this->assertThat(
-			count(new JDatabaseIteratorMysql(self::$driver->execute())),
+			count(self::$driver->getIterator()),
 			$this->equalTo(2),
 			__LINE__
 		);
 
-		self::$driver->setQuery(self::$driver->getQuery(true)->select('title')->from('#__dbtest')->setLimit(2, 3));
+		self::$driver->setQuery(self::$driver->getQuery(true)->select('title')->from('#__dbtest'), 3, 2);
 		$this->assertThat(
-			count(new JDatabaseIteratorMysql(self::$driver->execute())),
+			count(self::$driver->getIterator()),
 			$this->equalTo(1),
 			__LINE__
 		);
