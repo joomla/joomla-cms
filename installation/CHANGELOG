@@ -25,6 +25,29 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Oct-2013 Jean-Marie Simonet
+ # [#32237] Different Display at the edit views  Thanks Tobias Zulauf
+ # [#32416] Color field gives php errors when using control="simple"  Thanks Peter van Wetsen
+ # [#32291] Position field in Hathor module manager "select position" is in wrong place Thanks Ashan Fernando
+ # [#32448] Missing 'btn-group-yesno' class for yes/no buttons in plg : editors / codemirror  Thanks Marc-Antoine Thevenet
+ # [#32445] Wrong class for ‘yes/no’ button in plg : User - Joomla!  Thanks Marc-Antoine Thevenet
+
+29-Oct-2013 Jean-Marie Simonet
+ $ Updating installation language: be-BY, hr-HR, hu-HU
+ # [#32436] The navigation of the plugins and modules does not work!  Thanks Roberto Segura
+ # [#32455] Restoring an article from version history in front end has incorrect redirect  Thanks Mark Dexter
+ $ Updating installation files : hr-HR, pl-PL
+
+29-Oct-2013 Roberto Segura
+ # [#32453] Super user password doesn't update hash and some other issues.  Thanks Elin Waring
+ ^ [#32434] Various code styling fixes. Thanks Gunjan Patel
+ ^ [#32457] Yes/No Button at mod_breadcrumbs. Thanks Tobias Zulauf
+ # [#32450] Issue #1866 Loosing port in URL of a Weblink. Thanks Marcel van Beelen
+
+28-Oct-2013 Michael Babker
+ # [#32375] Regression 3 column blog layout - prototsar.  Thanks Thomas Hunziker
+ # [#32379] Regression: Preformatted images and urls broken in back weblinks and newsfeeds.  Thanks Elin Waring
+
 27-Oct-2013 Michael Babker
  ^ [#32334] Move com_contenthistory media to media folder
 

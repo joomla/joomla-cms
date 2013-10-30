@@ -69,6 +69,7 @@ function admin_postinstall_eaccelerator_action()
 
 	// Attempt to write the configuration file as a PHP class named JConfig.
 	$configuration = $config->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
+
 	if (!JFile::write($file, $configuration))
 	{
 		JFactory::getApplication()->enqueueMessage(JText::_('COM_CONFIG_ERROR_WRITE_FAILED'), 'error');
