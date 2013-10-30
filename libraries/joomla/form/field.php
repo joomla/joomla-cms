@@ -425,6 +425,7 @@ abstract class JFormField
 			case 'onclick':
 			case 'validate':
 			case 'pattern':
+			case 'group':
 			case 'default':
 				$this->$name = (string) $value;
 				break;
