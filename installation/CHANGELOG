@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#32291] Position field in Hathor module manager "select position" is in wrong place Thanks Ashan Fernando
  # [#32448] Missing 'btn-group-yesno' class for yes/no buttons in plg : editors / codemirror  Thanks Marc-Antoine Thevenet
  # [#32445] Wrong class for ‘yes/no’ button in plg : User - Joomla!  Thanks Marc-Antoine Thevenet
+ $ [#32470] Incomplete value of a key in en-GB.com_templates.ini admin language file  Thanks Jozsef Tamas Herczeg
 
 29-Oct-2013 Jean-Marie Simonet
  $ Updating installation language: be-BY, hr-HR, hu-HU
