@@ -205,7 +205,7 @@ echo HtmlHelper::stepbar(); ?>
 			</table>
 		</div>
 	</div>
-	<?php if ($useftp) : ?>
+	<?php if ($this->useftp) : ?>
 	<div class="row-fluid">
 		<div class="span6">
 			<h3><?php echo JText::_('INSTL_FTP'); ?></h3>
