@@ -28,6 +28,7 @@ $ -> Language fix or change
 30-Oct-2013 Jean-Marie Simonet
  # [#32237] Different Display at the edit views  Thanks Tobias Zulauf
  # [#32416] Color field gives php errors when using control="simple"  Thanks Peter van Wetsen
+ # [#32291] Position field in Hathor module manager "select position" is in wrong place Thanks Ashan Fernando
 
 29-Oct-2013 Jean-Marie Simonet
  $ Updating installation language: be-BY, hr-HR, hu-HU
