@@ -28,10 +28,9 @@ $parts = explode(DIRECTORY_SEPARATOR, JPATH_BASE);
 array_pop($parts);
 
 // Defines
-define('JPATH_ROOT',           implode(DIRECTORY_SEPARATOR, $parts));
-define('JPATH_LIBRARIES',      JPATH_ROOT . '/libraries');
-define('JPATH_INSTALLATION',   JPATH_ROOT . '/installation');
-define('JPATH_THEMES',         JPATH_BASE);
+define('JPATH_ROOT', implode(DIRECTORY_SEPARATOR, $parts));
+define('JPATH_LIBRARIES', JPATH_ROOT . '/libraries');
+define('JPATH_THEMES', JPATH_BASE);
 
 /*
  * Notes:
@@ -39,9 +38,6 @@ define('JPATH_THEMES',         JPATH_BASE);
  * JPATH_THEMES is hard coupled to (and probably others)
  * /libraries/joomla/document/html/renderer/message.php
  * /libraries/cms/html/html.php
- *
- * JPATH_INSTALLATION is needed in the sample form field. This is hard to remove as the form field needs to have
- * that configuration injected somehow.
  */
 
 // Import the Joomla Platform.
