@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 // Always make sure that the password hashing API has been defined.
-//include_once JPATH_ROOT . '/libraries/compat/password/lib/password.php';
+// include_once JPATH_ROOT . '/libraries/compat/password/lib/password.php';
 
 /**
  * Authorisation helper class, provides static methods to perform various tasks relevant

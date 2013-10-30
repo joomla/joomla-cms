@@ -40,7 +40,8 @@ abstract class ModulesHelper
 		$user	= JFactory::getUser();
 		$result	= new JObject;
 
-		if (empty($moduleId)) {
+		if (empty($moduleId))
+		{
 			$assetName = 'com_modules';
 		}
 		else
@@ -49,7 +50,7 @@ abstract class ModulesHelper
 		}
 
 		$actions = JAccess::getActionsFromFile(
-			JPATH_ADMINISTRATOR . '/components/com_modules/access.xml',"/access/section[@name='component']/"
+			JPATH_ADMINISTRATOR . '/components/com_modules/access.xml', "/access/section[@name='component']/"
 		);
 
 		foreach ($actions as $action)
