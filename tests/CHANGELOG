@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+30-Oct-2013 Mark Dexter
+ # Fix weblink and newsfeed edit for markup changes.
+
 29-Oct-2013 Mark Dexter
  # More webdriver fixes for 3.2.
 
