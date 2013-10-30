@@ -423,7 +423,7 @@ ordering INTEGER DEFAULT '0'
 -- Table structure for table #__finder_taxonomy_map
 
 CREATE TABLE IF NOT EXISTS #__finder_taxonomy_map (
-link_id INTEGER PRIMARY KEY,
+link_id INTEGER,
 node_id INTEGER
 );
 -- Table structure for table #__finder_terms
