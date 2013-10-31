@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 31-Oct-2013 Michael Babker
  # [#32478] ConfigModelComponent class was moved without deprecation period, result in fatal error
+ # [#32446] cpanel span calculation doesn't threat bootstrapSize 0 properly.  Thanks Thomas Hunziker
 
 31-Oct-2013 Jean-Marie Simonet
  # [#32460] Installation beta2 hangs on PHP5.3.3-7  Thanks Tobias Zulauf
