@@ -656,9 +656,10 @@ class JFilterInput extends JObject
 		}
 		$source = strtr($source, $ttr);
 		// Convert decimal
-		$source = preg_replace_callback('/&#(\d+);/m', function($m){return utf8_encode(chr($m[1]));}, $source); // decimal notation
+		$source = preg_replace_callback('/&#(\d+);/m', "callbackJFilterInputConvertDecimal", $source); // decimal notation
 		// Convert hex
-		$source = preg_replace_callback('/&#x([a-f0-9]+);/mi', function($m){return utf8_encode(chr('0x'.$m[1]));}, $source); // hex notation
+		$source = preg_replace_callback('/&#x([a-f0-9]+);/mi', "callbackJFilterInputConvertHex", $source); // hex notation
+
 		return $source;
 	}
 
@@ -745,5 +746,35 @@ class JFilterInput extends JObject
 			}
 		}
 		return $return;
+	}
+}
+
+if (! function_exists('callbackJFilterInputConvertDecimal'))
+{
+	/**
+	 * Decimal decode callback for JFilterInput::_decode.
+	 *
+	 * @param   $matches
+	 *
+	 * @return  string
+	 */
+	function callbackJFilterInputConvertDecimal($matches)
+	{
+		return utf8_encode(chr($matches[1]));
+	}
+}
+
+if (! function_exists('callbackJFilterInputConvertHex'))
+{
+	/**
+	 * Hex decode callback for JFilterInput::_decode.
+	 *
+	 * @param   $matches
+	 *
+	 * @return  string
+	 */
+	function callbackJFilterInputConvertHex($matches)
+	{
+		return utf8_encode(chr('0x' . $matches[1]));
 	}
 }
