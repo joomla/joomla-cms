@@ -25,6 +25,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 3.2 Release Candidate [01-Nov-2013] ------------------
+
 01-Nov-2013 Jean-Marie Simonet
  $ Correcting installation sv-SE
  $ [#32473] (en-GB ONLY: ) Values of 6 keys in en-GB.com_templates.ini admin language file are grammatically incorrect. Thanks Thomas Jackson
