@@ -85,3 +85,5 @@ CREATE TABLE IF NOT EXISTS `#__user_keys` (
   UNIQUE KEY `series_3` (`series`),
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+UPDATE `#__modules` SET `params` = REPLACE(`params`, '"bootstrap_size":"1"', '"bootstrap_size":"0"') WHERE `id` IN (3,4);
