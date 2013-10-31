@@ -687,7 +687,7 @@ class JFilterInput
 		if (!is_array($ttr))
 		{
 			// Entity decode
-			if (version_compare(PHP_VERSION, '5.3.4', '>'))
+			if (version_compare(PHP_VERSION, '5.3.4', '>='))
 			{
 				$trans_tbl = get_html_translation_table(HTML_ENTITIES, ENT_COMPAT, 'ISO-8859-1');
 			}
