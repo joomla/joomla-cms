@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+31-Oct-2013 Jean-Marie Simonet
+ # [#32460] Installation beta2 hangs on PHP5.3.3-7  Thanks Tobias Zulauf
+ 
 22-Oct-2013 Jean-Marie Simonet
  $ Missing lang string.
  # [#31193] Errors when using "localise.sql" files - J2.5. Thanks Michael Babker and George Wilson
