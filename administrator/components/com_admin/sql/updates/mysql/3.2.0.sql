@@ -1,3 +1,5 @@
+/* Core 3.2 schema updates */
+
 ALTER TABLE `#__content_types` ADD COLUMN `content_history_options` VARCHAR(5120) NOT NULL COMMENT 'JSON string for com_contenthistory options';
 
 UPDATE `#__content_types` SET `content_history_options` = '{"form_file":"administrator\\/components\\/com_content\\/models\\/forms\\/article.xml", "hide_fields":["asset_id","checked_out","checked_out_time","version"], "display_lookup":[{"source_column":"catid","target_table":"#__categories","target_column":"id","display_column":"title"}, {"source_column":"created_by","target_table":"#__users","target_column":"id","display_column":"name"}, {"source_column":"access","target_table":"#__viewlevels","target_column":"id","display_column":"title"}, {"source_column":"modified_by","target_table":"#__users","target_column":"id","display_column":"name"}]}' WHERE `type_alias` = 'com_content.article';
@@ -85,3 +87,7 @@ CREATE TABLE IF NOT EXISTS `#__user_keys` (
   UNIQUE KEY `series_3` (`series`),
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/* Update bad params for two cpanel modules */
+
+UPDATE `#__modules` SET `params` = REPLACE(`params`, '"bootstrap_size":"1"', '"bootstrap_size":"0"') WHERE `id` IN (3,4);

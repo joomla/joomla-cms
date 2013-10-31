@@ -157,3 +157,7 @@ ALTER TABLE [#__ucm_content] ALTER COLUMN [core_metadata] [nvarchar](2048) NOT N
 
 ALTER TABLE [#__updates] DROP COLUMN [categoryid];
 ALTER TABLE [#__updates] ALTER COLUMN [infourl] [nvarchar](max) NOT NULL;
+
+/* Update bad params for two cpanel modules */
+
+UPDATE [#__modules] SET [params] = REPLACE([params], '"bootstrap_size":"1"', '"bootstrap_size":"0"') WHERE [id] IN (3,4);
