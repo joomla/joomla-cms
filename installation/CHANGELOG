@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+31-Oct-2013 Michael Babker
+ # [#32478] ConfigModelComponent class was moved without deprecation period, result in fatal error
+
 31-Oct-2013 Jean-Marie Simonet
  # [#32460] Installation beta2 hangs on PHP5.3.3-7  Thanks Tobias Zulauf
 
