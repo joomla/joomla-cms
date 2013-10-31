@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+31-Oct-2013
+ # Fix problem with category filter in article manager.
+
 30-Oct-2013 Mark Dexter
  # Fix weblink and newsfeed edit for markup changes.
 
