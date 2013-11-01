@@ -35,15 +35,9 @@ class JHttpTransportStream implements JHttpTransport
 	public function __construct(JRegistry &$options)
 	{
 		// Verify that fopen() is available.
-		if (!function_exists('fopen') || !is_callable('fopen'))
+		if (!self::isSupported())
 		{
-			throw new RuntimeException('Cannot use a stream transport when fopen() is not available.');
-		}
-
-		// Verify that URLs can be used with fopen();
-		if (!ini_get('allow_url_fopen'))
-		{
-			throw new RuntimeException('Cannot use a stream transport when "allow_url_fopen" is disabled.');
+			throw new RuntimeException('Cannot use a stream transport when fopen() is not available or "allow_url_fopen" is disabled.');
 		}
 
 		$this->options = $options;
@@ -92,6 +86,7 @@ class JHttpTransportStream implements JHttpTransport
 
 		// Build the headers string for the request.
 		$headerString = null;
+
 		if (isset($headers))
 		{
 			foreach ($headers as $key => $value)
@@ -158,6 +153,7 @@ class JHttpTransportStream implements JHttpTransport
 		// Get the response code from the first offset of the response headers.
 		preg_match('/[0-9]{3}/', array_shift($headers), $matches);
 		$code = $matches[0];
+
 		if (is_numeric($code))
 		{
 			$return->code = (int) $code;
@@ -187,6 +183,6 @@ class JHttpTransportStream implements JHttpTransport
 	 */
 	static public function isSupported()
 	{
-		return function_exists('fopen') && is_callable('fopen');
+		return function_exists('fopen') && is_callable('fopen') && ini_get('allow_url_fopen');
 	}
 }
