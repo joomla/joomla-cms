@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Nov-2013 Jean-Marie Simonet
+ $ Correcting installation sv-SE
+
 31-Oct-2013 Michael Babker
  # [#32478] ConfigModelComponent class was moved without deprecation period, result in fatal error
  # [#32446] cpanel span calculation doesn't threat bootstrapSize 0 properly.  Thanks Thomas Hunziker
