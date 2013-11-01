@@ -1224,7 +1224,7 @@ abstract class JModelAdmin extends JModelForm
 	{
 		if (!empty($tagsObserver) && !empty($type))
 		{
-			$table->tagsHelper = new JHelperTags();
+			$table->tagsHelper = new JHelperTags;
 			$table->tagsHelper->typeAlias = $typeAlias;
 			$table->tagsHelper->tags = explode(',', $table->tagsHelper->getTagIds($pk, $typeAlias));
 		}
