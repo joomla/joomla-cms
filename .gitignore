@@ -13,6 +13,7 @@
 /configuration.php
 /.htaccess
 /web.config
+/composer.lock
 
 # Test Related Files #
 /phpunit.xml

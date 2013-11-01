@@ -1,0 +1,6 @@
+{
+	"require" : {
+		"joomla/di" : "1.0-beta3"
+	},
+	"minimum-stability" : "beta"
+}

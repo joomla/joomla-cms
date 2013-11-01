@@ -1,0 +1,17 @@
+{
+    "name": "joomla/di",
+    "type": "joomla-package",
+    "description": "Joomla DI Package",
+    "keywords": ["joomla", "framework", "dependency injection", "di", "ioc", "container"],
+    "homepage": "https://github.com/joomla/joomla-framework-di",
+    "license": "GPL-2.0+",
+    "require": {
+        "php": ">=5.3.10"
+    },
+    "target-dir": "Joomla/DI",
+    "autoload": {
+    	"psr-0": {
+    		"Joomla\\DI": ""
+    	}
+    }
+}
