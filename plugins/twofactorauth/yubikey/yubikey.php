@@ -211,7 +211,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 		$yubikey = substr($data['securitycode'], 0, -32);
 
 		// Check succeedeed; return an OTP configuration object
-		$otpConfig = (object)array(
+		$otpConfig = (object) array(
 			'method'	=> $this->methodName,
 			'config'	=> array(
 				'yubikey'	=> $yubikey
