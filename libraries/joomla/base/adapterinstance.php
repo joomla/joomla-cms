@@ -39,12 +39,21 @@ class JAdapterInstance extends JObject
 	 *
 	 * @param   JAdapter         $parent   Parent object
 	 * @param   JDatabaseDriver  $db       Database object
-	 * @param   array            $options  Configuration Options
+	 * @param   array            $options  Configuration Options (manifestsPath).
 	 *
 	 * @since   11.1
 	 */
 	public function __construct(JAdapter $parent, JDatabaseDriver $db, array $options = array())
 	{
+		if (!isset($options['manifestPath']))
+		{
+			$this->set(
+				'manifestsPath',
+				defined('JPATH_MANIFESTS') ? JPATH_MANIFESTS
+					: JFactory::getApplication()->get('administratorPath') . '/manifests'
+			);
+		}
+
 		// Set the properties from the options array that is passed in
 		$this->setProperties($options);
 

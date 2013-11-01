@@ -122,7 +122,7 @@ class JInstallerAdapterFile extends JAdapterInstance
 		}
 		else
 		{
-			$this->parent->setPath('extension_root', JPATH_MANIFESTS . '/files/' . $this->get('element'));
+			$this->parent->setPath('extension_root', $this->manifestsPath . '/files/' . $this->get('element'));
 		}
 
 		/**
@@ -367,7 +367,7 @@ class JInstallerAdapterFile extends JAdapterInstance
 		// Lastly, we will copy the manifest file to its appropriate place.
 		$manifest = array();
 		$manifest['src'] = $this->parent->getPath('manifest');
-		$manifest['dest'] = JPATH_MANIFESTS . '/files/' . basename($this->parent->getPath('manifest'));
+		$manifest['dest'] = $this->manifestsPath . '/files/' . basename($this->parent->getPath('manifest'));
 
 		if (!$this->parent->copyFiles(array($manifest), true))
 		{
@@ -478,13 +478,13 @@ class JInstallerAdapterFile extends JAdapterInstance
 		}
 
 		$retval = true;
-		$manifestFile = JPATH_MANIFESTS . '/files/' . $row->element . '.xml';
+		$manifestFile = $this->manifestsPath . '/files/' . $row->element . '.xml';
 
 		// Because files may not have their own folders we cannot use the standard method of finding an installation manifest
 		if (file_exists($manifestFile))
 		{
 			// Set the files root path
-			$this->parent->setPath('extension_root', JPATH_MANIFESTS . '/files/' . $row->element);
+			$this->parent->setPath('extension_root', $this->manifestsPath . '/files/' . $row->element);
 
 			$xml = simplexml_load_file($manifestFile);
 
@@ -793,7 +793,7 @@ class JInstallerAdapterFile extends JAdapterInstance
 	public function refreshManifestCache()
 	{
 		// Need to find to find where the XML file is since we don't store this normally
-		$manifestPath = JPATH_MANIFESTS . '/files/' . $this->parent->extension->element . '.xml';
+		$manifestPath = $this->manifestsPath . '/files/' . $this->parent->extension->element . '.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 
