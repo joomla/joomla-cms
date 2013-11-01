@@ -34,7 +34,7 @@ class JHttpFactory
 	{
 		if (empty($options))
 		{
-		$options = new JRegistry;
+			$options = new JRegistry;
 		}
 
 		if (!$driver = self::getAvailableDriver($options, $adapters))
