@@ -72,7 +72,7 @@ class PlgAuthenticationJoomla extends JPlugin
 				$salt	= @$parts[1];
 				$testcrypt = JUserHelper::getCryptedPassword($credentials['password'], $salt, 'sha256', false);
 
-				if ($crypt == $testcrypt)
+				if ($result->password == $testcrypt)
 				{
 					$match = true;
 				}

@@ -42,11 +42,10 @@ abstract class JHtmlTextdiff
 		}
 
 		// Depends on jQuery UI
-		$document = JFactory::getDocument();
 		JHtml::_('bootstrap.framework');
-		$document->addScript(JUri::root(true) . '/administrator/components/com_contenthistory/media/js/diff_match_patch.js', 'text/javascript', true);
-		$document->addScript(JUri::root(true) . '/administrator/components/com_contenthistory/media/js/jquery.pretty-text-diff.min.js', 'text/javascript', true);
-		$document->addStyleSheet(JUri::root(true) . '/administrator/components/com_contenthistory/media/css/jquery.pretty-text-diff.css');
+		JHtml::_('script', 'com_contenthistory/diff_match_patch.js', false, true);
+		JHtml::_('script', 'com_contenthistory/jquery.pretty-text-diff.min.js', false, true);
+		JHtml::_('stylesheet', 'com_contenthistory/jquery.pretty-text-diff.css', false, true, false);
 
 		// Attach diff to document
 		JFactory::getDocument()->addScriptDeclaration("

@@ -22,19 +22,20 @@ class UserNotesEditPage extends AdminEditPage
 	 * @var unknown_type
 	 */
 	public $inputFields = array (
-			array('label' => 'Subject', 'id' => 'jform_subject', 'type' => 'input', 'tab' => 'none'),
-			array('label' => 'ID', 'id' => 'jform_user_id', 'type' => 'input', 'tab' => 'none'),
-			array('label' => 'Category', 'id' => 'jform_catid', 'type' => 'select', 'tab' => 'none'),
-			array('label' => 'Status', 'id' => 'jform_state', 'type' => 'select', 'tab' => 'none'),
-			array('label' => 'Review time', 'id' => 'jform_review_time', 'type' => 'input', 'tab' => 'none'),
-			array('label' => 'Note', 'id' => 'jform_body', 'type' => 'textarea', 'tab' => 'none'),
+			array('label' => 'Subject', 'id' => 'jform_subject', 'type' => 'input', 'tab' => 'header'),
+			array('label' => 'User ID', 'id' => 'jform_user_id', 'type' => 'input', 'tab' => 'header'),
+			array('label' => 'Category', 'id' => 'jform_catid', 'type' => 'select', 'tab' => 'header'),
+			array('label' => 'Status', 'id' => 'jform_state', 'type' => 'select', 'tab' => 'header'),
+			array('label' => 'Review time', 'id' => 'jform_review_time', 'type' => 'input', 'tab' => 'header'),
+			array('label' => 'Version Note', 'id' => 'jform_version_note', 'type' => 'input', 'tab' => 'header'),
+			array('label' => 'Note', 'id' => 'jform_body', 'type' => 'textarea', 'tab' => 'header'),
 	);
 
 	public function getAllInputFields($tabIds = array())
 	{
 		$return = array();
 		$labels = $this->driver->findElements(By::xPath("//fieldset/div[@class='control-group']/div/label"));
-		$tabId = 'none';
+		$tabId = 'header';
 		foreach ($labels as $label)
 		{
 			$labelText = $label->getText();
@@ -74,6 +75,7 @@ class UserNotesEditPage extends AdminEditPage
 		$this->driver->findElement(By::xPath("//a[contains(@onclick, '" . $userName . "')]"))->click();
 		$this->driver->waitForElementUntilIsNotPresent(By::xPath($frameXpath));
 		$this->driver->switchTo()->getDefaultFrame();
+		$this->driver->executeScript("window.scrollTo(0,0)");
 	}
 
 	public function setFieldValues(array $fields)

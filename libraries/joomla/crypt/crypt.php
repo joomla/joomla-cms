@@ -129,7 +129,7 @@ class JCrypt
 		$sslStr = '';
 
 		/*
-		 * if a secure randomness generator exists and we don't
+		 * If a secure randomness generator exists and we don't
 		 * have a buggy PHP version use it.
 		 */
 		if (function_exists('openssl_random_pseudo_bytes')
@@ -310,7 +310,7 @@ class JCrypt
 		if (is_null($pass))
 		{
 			// Check to see whether crypt() is supported.
-			if (version_compare(PHP_VERSION, '5.3.6', '>'))
+			if (version_compare(PHP_VERSION, '5.3.7', '>=') === true)
 			{
 				// We have safe PHP version.
 				$pass = true;
@@ -318,9 +318,9 @@ class JCrypt
 			else
 			{
 				// We need to test if we have patched PHP version.
-				$hash = '$2y$04$usesomesillystringfore7hnbRJHxXVLeakoG8K30oukPsA.ztMG';
-				$test = crypt("password", $hash);
-				$pass = ($test == $hash);
+				jimport('compat.password.lib.version_test');
+				$test = new version_test;
+				$pass = $test->version_test();
 			}
 
 			if ($pass && !defined('PASSWORD_DEFAULT'))
