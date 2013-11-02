@@ -15,8 +15,7 @@ use JText,
 	JSession,
 	JControllerBase;
 use Installation\Model\SetupModel,
-	Installation\Model\DatabaseModel,
-	Installation\Application\WebApplication;
+	Installation\Model\DatabaseModel;
 
 /**
  * Controller class to initialise the database for the Joomla Installer.
