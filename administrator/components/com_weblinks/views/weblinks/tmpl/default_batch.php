@@ -16,7 +16,7 @@ $published = $this->state->get('filter.state');
 		<button type="button" role="presentation" class="close" data-dismiss="modal">&#215;</button>
 		<h3><?php echo JText::_('COM_WEBLINKS_BATCH_OPTIONS');?></h3>
 	</div>
-	<div class="modal-body">
+	<div class="modal-body overflow-visible">
 		<p><?php echo JText::_('COM_WEBLINKS_BATCH_TIP'); ?></p>
 		<div class="control-group">
 			<div class="controls">
