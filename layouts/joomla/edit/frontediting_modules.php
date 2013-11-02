@@ -53,7 +53,6 @@ $moduleHtml = preg_replace(
 if ($count)
 {
 	// Load once booststrap tooltip and add stylesheet and javascript to head:
-	JHtml::_('bootstrap.loadCss', true, JFactory::getDocument()->getDirection());
 	JHtml::_('bootstrap.tooltip');
 	JHtml::_('bootstrap.popover');
 
