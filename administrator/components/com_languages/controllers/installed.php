@@ -28,10 +28,14 @@ class LanguagesControllerInstalled extends JControllerLegacy
 
 		$cid = $this->input->get('cid', '');
 		$model = $this->getModel('installed');
+
 		if ($model->publish($cid))
 		{
 			$msg = JText::_('COM_LANGUAGES_MSG_DEFAULT_LANGUAGE_SAVED');
 			$type = 'message';
+
+			// Reset the application language
+			JFactory::getApplication()->setUserState('application.lang', $cid);
 		}
 		else
 		{
