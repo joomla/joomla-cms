@@ -55,7 +55,8 @@ class ConfigControllerCanceladmin extends ConfigControllerCancel
 		// Check for request forgeries.
 		if (!JSession::checkToken())
 		{
-			$this->app->redirect('index.php', JText::_('JINVALID_TOKEN'));
+			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN'));
+			$this->app->redirect('index.php');
 		}
 
 		if (empty($this->context))
@@ -69,7 +70,6 @@ class ConfigControllerCanceladmin extends ConfigControllerCancel
 		if (!empty($this->redirect))
 		{
 			$this->app->redirect($this->redirect);
-
 		}
 		else
 		{

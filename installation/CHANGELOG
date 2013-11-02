@@ -28,6 +28,7 @@ $ -> Language fix or change
 03-Nov-2013 Michael Babker
  # [#32498] 3.2RC - Bootstrap CSS styles loaded from (media/JUI/) for logged in users on front-end.  Thanks Thomas Hunziker
  ^ [#32508] Widen the permissions dropdown.  Thanks George Wilson
+ # [#32480] ConfigModelForm and ConfigModelApplication use non existing setError() methods
 
 03-Nov-2013 Jean-Marie Simonet
  # [#32496] *Implements Loading always en-GB before another language to cope for missing strings Thanks Nicholas Dyonisopoulos and George Wilson
