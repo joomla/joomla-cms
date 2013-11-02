@@ -158,7 +158,7 @@ class CategoriesViewCategory extends JViewLegacy
 		}
 		else
 		{
-			if ($componentParams->get('save_history', 1) && $user->authorise('core.edit'))
+			if ($componentParams->get('save_history', 0) && $user->authorise('core.edit'))
 			{
 				$typeAlias = $extension . '.category';
 				JToolbarHelper::versions($typeAlias, $this->item->id);
