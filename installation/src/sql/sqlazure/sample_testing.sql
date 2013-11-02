@@ -167,7 +167,7 @@ INSERT INTO [#__assets] ( [id], [parent_id], [lft], [rgt], [level], [name], [tit
 INSERT INTO [#__assets] ( [id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES('171', '50', '221', '222', '6', 'com_content.article.69', 'Quick Icons', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}');
 INSERT INTO [#__assets] ( [id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES('172', '96', '178', '179',' 7', 'com_content.article.70', 'Smart Search', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}');
 INSERT INTO [#__assets] ( [id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES('173', '1', '422', '423',' 1', 'com_joomlaupdate', 'com_joomlaupdate', '{"core.admin":[],"core.manage":[],"core.delete":[],"core.edit.state":[]}');
-INSERT INTO[#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES ('174', '1', '424', '425', '1', 'com_ajax', 'com_ajax', '{}'
+INSERT INTO[#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES ('174', '1', '424', '425', '1', 'com_ajax', 'com_ajax', '{}');
 INSERT INTO[#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (176, 1, 426, 427, 1, 'com_postinstall', 'com_postinstall','{}');
 
  SET IDENTITY_INSERT [#__assets] OFF;
@@ -513,7 +513,6 @@ INSERT INTO [#__menu_types] ( [id], [menutype], [title], [description]) VALUES('
 SET IDENTITY_INSERT #__menu_types  OFF;
 
 
-TRUNCATE TABLE [#__modules];
 
 SET IDENTITY_INSERT [#__modules] ON;
 
@@ -746,7 +745,6 @@ SET IDENTITY_INSERT [#__newsfeeds] ON;
 
 
 
-TRUNCATE TABLE  [#__template_styles] ;
 SET IDENTITY_INSERT #__template_styles ON;
 
 INSERT INTO #__template_styles (id, template, client_id, home, title, params) VALUES (4, 'beez3', 0, 0, 'Beez3 - Default', '{"wrapperSmall":"53","wrapperLarge":"72","logo":"images\\/joomla_black.gif","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","templatecolor":"personal","html5":"0"}');

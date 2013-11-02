@@ -60,16 +60,15 @@ class CategoryManager0003Test extends JoomlaWebdriverTestCase
 	 */
 	public function getAllInputFields_ScreenDisplayed_EqualExpected()
 	{
-		$this->categoryManagerPage = $this->getPageObject('CategoryManagerPage');
 		$this->categoryManagerPage->clickButton('toolbar-new');
 		$categoryEditPage = $this->getPageObject('CategoryEditPage');
-		$testElements = $categoryEditPage->getAllInputFields(array('general', 'publishing', 'options', 'metadata','rules'));
-		$actualFields = array();
-		foreach ($testElements as $el)
-		{
-			$el->labelText = (substr($el->labelText, -2) == ' *') ? substr($el->labelText, 0, -2) : $el->labelText;
-			$actualFields[] = array('label' => $el->labelText, 'id' => $el->id, 'type' => $el->tag, 'tab' => $el->tab);
-		}
+
+		// Option to print actual element array
+		/* @var $categoryEditPage CategoryEditPage */
+// 	 	$categoryEditPage->printFieldArray($categoryEditPage->getAllInputFields($categoryEditPage->tabs));
+
+		$testElements = $categoryEditPage->getAllInputFields($categoryEditPage->tabs);
+		$actualFields = $this->getActualFieldsFromElements($testElements);
 		$this->assertEquals($categoryEditPage->inputFields, $actualFields);
 		$categoryEditPage->clickButton('toolbar-cancel');
 		$this->categoryManagerPage = $this->getPageObject('CategoryManagerPage');

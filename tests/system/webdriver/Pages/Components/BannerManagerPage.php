@@ -43,15 +43,17 @@ class BannerManagerPage extends AdminManagerPage
 	/**
 	 * Array of filter id values for this page
 	 *
-	 * @var    array
-	 * @since  3.2
+	 * @var array
+	 * @since 3.2
 	 */
 	public $filters = array(
-			'Select Status' => 'filter_state',
-			'Select Client' => 'filter_client_id',
-			'Select Category' => 'filter_category_id',
-			'Select Language' => 'filter_language',
-			);
+		'Sort Table By:' => 'list_fullordering',
+		'20' => 'list_limit',
+		'Select Status' => 'filter_state',
+		'Select Client' => 'filter_client_id',
+		'Select Category' => 'filter_category_id',
+		'Select Language' => 'filter_language'
+	);
 
 	/**
 	 * Array of toolbar id values for this page
@@ -122,7 +124,7 @@ class BannerManagerPage extends AdminManagerPage
 	{
 		$result = false;
 		$row = $this->getRowNumber($name);
-		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[3]/a"))->getAttribute(@onclick);
+		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[3]//a"))->getAttribute(@onclick);
 		if (strpos($text, 'banners.unpublish') > 0)
 		{
 			$result = 'published';

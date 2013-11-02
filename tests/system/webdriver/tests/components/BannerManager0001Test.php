@@ -62,8 +62,13 @@ class BannerManager0001Test extends JoomlaWebdriverTestCase
 	{
 		$this->bannerManagerPage->clickButton('toolbar-new');
 		$bannerEditPage = $this->getPageObject('BannerEditPage');
-		$testElements = $bannerEditPage->getAllInputFields(array('details', 'publishing', 'otherparams', 'metadata'));
-		$actualFields = $actualFields = $this->getActualFieldsFromElements($testElements);
+
+		// Option to print actual element array
+		/* @var $bannerEditPage BannerEditPage */
+// 	 	$bannerEditPage->printFieldArray($bannerEditPage->getAllInputFields($bannerEditPage->tabs));
+
+		$testElements = $bannerEditPage->getAllInputFields($bannerEditPage->tabs);
+		$actualFields = $this->getActualFieldsFromElements($testElements);
 		$this->assertEquals($bannerEditPage->inputFields, $actualFields);
 		$bannerEditPage->clickButton('toolbar-cancel');
 		$this->bannerManagerPage = $this->getPageObject('BannerManagerPage');

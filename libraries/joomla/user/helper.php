@@ -9,6 +9,9 @@
 
 defined('JPATH_PLATFORM') or die;
 
+// Always make sure that the password hashing API has been defined.
+// include_once JPATH_ROOT . '/libraries/compat/password/lib/password.php';
+
 /**
  * Authorisation helper class, provides static methods to perform various tasks relevant
  * to the Joomla user and authorisation classes
@@ -342,7 +345,10 @@ abstract class JUserHelper
 		}
 
 		// Get the salt to use.
-		$salt = self::getSalt($encryption, $salt, $plaintext);
+		if (empty($salt))
+		{
+			$salt = self::getSalt($encryption, $salt, $plaintext);
+		}
 
 		// Encrypt the password.
 		switch ($encryption)
@@ -430,21 +436,23 @@ abstract class JUserHelper
 				return ($show_encrypt) ? '{MD5}' . $encrypted : $encrypted;
 
 			case 'sha256':
-				$encrypted = ($salt) ? hash('sha256', $plaintext . $salt) : hash('sha256', $plaintext);
+				$encrypted = ($salt) ? hash('sha256', $plaintext . $salt) . ':' . $salt : hash('sha256', $plaintext);
 
 				return ($show_encrypt) ? '{SHA256}' . $encrypted : '{SHA256}' . $encrypted;
 
 			// 'bcrypt' is the default case starting in CMS 3.2.
 			case 'bcrypt':
 			default:
-				if (JCrypt::hasStrongPasswordSupport())
+				$useStrongEncryption = JCrypt::hasStrongPasswordSupport();
+
+				if ($useStrongEncryption === true)
 				{
 					$encrypted = password_hash($plaintext, PASSWORD_BCRYPT);
 
 					if (!$encrypted)
 					{
-						// Something went wrong.
-						return false;
+						// Something went wrong fall back to sha256.
+							return static::getCryptedPassword($plaintext, '', 'sha256', false);
 					}
 
 					return ($show_encrypt) ? '{BCRYPT}' . $encrypted : $encrypted;
@@ -495,7 +503,18 @@ abstract class JUserHelper
 				}
 				break;
 
-			case 'crypt-md5':
+				case 'sha256':
+					if ($seed)
+					{
+						return preg_replace('|^{sha256}|i', '', $seed);
+					}
+					else
+					{
+						return static::genRandomPassword(16);
+					}
+					break;
+
+				case 'crypt-md5':
 				if ($seed)
 				{
 					return substr(preg_replace('|^{crypt}|i', '', $seed), 0, 12);
@@ -554,6 +573,7 @@ abstract class JUserHelper
 					{
 						$salt .= $APRMD5{rand(0, 63)};
 					}
+
 					return $salt;
 				}
 				break;
@@ -568,6 +588,7 @@ abstract class JUserHelper
 				{
 					$salt = $seed;
 				}
+
 				return $salt;
 				break;
 		}
