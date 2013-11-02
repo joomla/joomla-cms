@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-Nov-2013 Jean-Marie Simonet
+ $ Deleting non-updated installation lang files: bs-BA, ckb-IQ, cs-CZ, eo-XX, pt-PT, pr-BR, ro-RO, sq-Al
+
 -------------------- 3.2 Release Candidate [01-Nov-2013] ------------------
 
 01-Nov-2013 Mark Dexter
