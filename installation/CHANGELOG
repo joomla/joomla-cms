@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-Nov-2013 Michael Babker
+ ^ [#32347] Versioning not working in update package.  Thanks Thomas Hunziker
+
 02-Nov-2013 Jean-Marie Simonet
  $ Deleting non-updated installation lang files: bs-BA, ckb-IQ, cs-CZ, eo-XX, pt-PT, pr-BR, ro-RO, sq-Al
 
