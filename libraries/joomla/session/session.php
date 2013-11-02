@@ -324,7 +324,7 @@ class JSession implements IteratorAggregate
 			if ($session->isNew())
 			{
 				// Redirect to login screen.
-				$app->enqueueMessage(JText::_('JLIB_ENVIRONMENT_SESSION_EXPIRED'));
+				$app->enqueueMessage(JText::_('JLIB_ENVIRONMENT_SESSION_EXPIRED'), 'warning');
 				$app->redirect(JRoute::_('index.php'));
 			}
 			else

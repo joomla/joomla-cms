@@ -47,7 +47,7 @@ class InstallationControllerInstallConfig extends JControllerBase
 		$return = $configuration->setup($options);
 
 		$r = new stdClass;
-		$r->view = 'install';
+		$r->view = 'complete';
 
 		// Check if the database was initialised
 		if (!$return)

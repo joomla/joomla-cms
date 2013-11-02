@@ -36,5 +36,4 @@ class JFilterInputMockTracker
 
 		return $arguments[0];
 	}
-
 }

@@ -16,8 +16,7 @@ require_once JPATH_PLATFORM . '/joomla/filesystem/path.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  FileSystem
- *
- * @since       12.1
+ * @since   12.1
  */
 class JFilesystemPatcherTest extends TestCase
 {
@@ -27,7 +26,7 @@ class JFilesystemPatcherTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since       12.1
+	 * @since   12.1
 	 */
 	protected function setUp()
 	{
@@ -45,11 +44,13 @@ class JFilesystemPatcherTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since       12.1
+	 * @since   12.1
 	 */
 	protected function tearDown()
 	{
 		$this->_cleanupTestFiles();
+
+		parent::tearDown();
 	}
 
 	/**
@@ -96,7 +97,7 @@ class JFilesystemPatcherTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since       12.1
+	 * @since   12.1
 	 */
 	public function addData()
 	{
@@ -186,8 +187,7 @@ class JFilesystemPatcherTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since       12.1
-	 *
+	 * @since        12.1
 	 * @dataProvider JFilesystemPatcherTest::addData
 	 */
 	public function testAdd($udiff, $root, $strip, $expected)
@@ -207,7 +207,7 @@ class JFilesystemPatcherTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since       12.1
+	 * @since   12.1
 	 */
 	public function testAddFile()
 	{
@@ -320,7 +320,7 @@ class JFilesystemPatcherTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since       12.1
+	 * @since   12.1
 	 */
 	public function applyData()
 	{
@@ -917,9 +917,8 @@ But after they are produced,
 	 *
 	 * @return  void
 	 *
-	 * @since       12.1
-	 *
-	 * @dataProvider JFilesystemPatcherTest::applyData
+	 * @dataProvider  JFilesystemPatcherTest::applyData
+	 * @since         12.1
 	 */
 	public function testApply($udiff, $root, $strip, $sources, $destinations, $result, $throw)
 	{

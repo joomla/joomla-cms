@@ -69,16 +69,21 @@ class JFormFieldOrdering extends JFormField
 	 * Builds the query for the ordering list.
 	 *
 	 * @return  JDatabaseQuery  The query for the ordering form field
+	 *
+	 * @since   3.2
 	 */
 	protected function getQuery()
 	{
 		$categoryId	= (int) $this->form->getValue('catid');
-		$table = (string) $this->element['table'];
+		$contentType = (string) $this->element['content_type'];
+
+		$ucmType = new JUcmType;
+		$ucmRow = $ucmType->getType($ucmType->getTypeId($contentType));
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
-		$query->select(array($db->quoteName('ordering', 'value'), $db->quoteName('name', 'text')))
-			->from($db->quoteName($table))
+		$query->select(array($db->quoteName(json_decode($ucmRow->field_mappings)->common->core_ordering, 'value'), $db->quoteName(json_decode($ucmRow->field_mappings)->common->core_title, 'text')))
+			->from($db->quoteName(json_decode($ucmRow->table)->special->dbtable))
 			->where($db->quoteName('catid') . ' = ' . (int) $categoryId)
 			->order('ordering');
 
@@ -89,6 +94,8 @@ class JFormFieldOrdering extends JFormField
 	 * Retrieves the current Item's Id.
 	 *
 	 * @return  integer  The current item ID
+	 *
+	 * @since   3.2
 	 */
 	protected function getItemId()
 	{

@@ -8,8 +8,6 @@
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.filesystem.folder');
-jimport('joomla.filesystem.file');
 JFormHelper::loadFieldClass('radio');
 
 /**
@@ -49,6 +47,12 @@ class JFormFieldSample extends JFormFieldRadio
 		elseif ($type == 'sqlsrv')
 		{
 			$type = 'sqlazure';
+		}
+
+		// Temporarily disable sample data for non-MySQL as the data sets are not yet updated
+		if ($type != 'mysql')
+		{
+			return $options;
 		}
 
 		// Get a list of files in the search path with the given filter.

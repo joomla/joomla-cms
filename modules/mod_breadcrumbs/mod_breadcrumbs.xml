@@ -31,7 +31,7 @@
 				<field
 					name="showHere"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					label="MOD_BREADCRUMBS_FIELD_SHOWHERE_LABEL"
 					description="MOD_BREADCRUMBS_FIELD_SHOWHERE_DESC">
@@ -43,7 +43,7 @@
 				<field
 					name="showHome"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					label="MOD_BREADCRUMBS_FIELD_SHOWHOME_LABEL"
 					description="MOD_BREADCRUMBS_FIELD_SHOWHOME_DESC">
@@ -61,6 +61,7 @@
 					name="showLast"
 					type="radio"
 					default="1"
+					class="btn-group btn-group-yesno"
 					label="MOD_BREADCRUMBS_FIELD_SHOWLAST_LABEL"
 					description="MOD_BREADCRUMBS_FIELD_SHOWLAST_DESC">
 					<option
