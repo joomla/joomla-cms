@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.modal');
@@ -23,7 +23,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_templates&view=templates'); ?>" method="post" name="adminForm" id="adminForm">
-  <?php if (!empty( $this->sidebar)) : ?>
+  <?php if (!empty($this->sidebar)) : ?>
     <div id="j-sidebar-container" class="span2">
       <?php echo $this->sidebar; ?>
     </div>
@@ -79,15 +79,15 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   					<?php echo JHtml::_('templates.thumb', $item->element, $item->client_id); ?>
   				</td>
   				<td class="template-name">
-  					<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&id='.(int) $item->extension_id . '&file=' . $this->file); ?>">
+  					<a href="<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . (int) $item->extension_id . '&file=' . $this->file); ?>">
   						<?php echo JText::sprintf('COM_TEMPLATES_TEMPLATE_DETAILS', ucfirst($item->name)); ?></a>
   					<p>
   					<?php if ($this->preview && $item->client_id == '0') : ?>
-  						<a href="<?php echo JUri::root().'index.php?tp=1&template='.$item->element; ?>" target="_blank">
+  						<a href="<?php echo JUri::root() . 'index.php?tp=1&template=' . $item->element; ?>" target="_blank">
   							<?php echo JText::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?></a>
   					<?php elseif ($item->client_id == '1') : ?>
   						<?php echo JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_ADMIN'); ?>
-  					<?php else: ?>
+  					<?php else : ?>
   						<span class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_TEMPLATE_NO_PREVIEW_DESC'); ?>">
   							<?php echo JText::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></span>
   					<?php endif; ?>
