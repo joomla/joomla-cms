@@ -73,10 +73,8 @@ class TagsViewTag extends JViewLegacy
 
 		// Need to load the menu language file as mod_menu hasn't been loaded yet.
 		$lang = JFactory::getLanguage();
-			$lang->load('com_tags', JPATH_BASE, null, false, false)
-		||	$lang->load('com_tags', JPATH_ADMINISTRATOR . '/components/com_tags', null, false, false)
-		||	$lang->load('com_tags', JPATH_BASE, $lang->getDefault(), false, false)
-		||	$lang->load('com_tags', JPATH_ADMINISTRATOR . '/components/com_tags', $lang->getDefault(), false, false);
+			$lang->load('com_tags', JPATH_BASE, null, false, true)
+		||	$lang->load('com_tags', JPATH_ADMINISTRATOR . '/components/com_tags', null, false, true);
 
 		// Load the tags helper.
 		require_once JPATH_COMPONENT . '/helpers/tags.php';
