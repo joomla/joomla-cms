@@ -25,11 +25,14 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+03-Nov-2013 Michael Babker
+ # [#32498] 3.2RC - Bootstrap CSS styles loaded from (media/JUI/) for logged in users on front-end.  Thanks Thomas Hunziker
+
 03-Nov-2013 Jean-Marie Simonet
- # [#32496] *Implements Loading always en-GB before another language to cope for missing strings Thanks Nicholas Dyonisopoulos and George Wilson 
+ # [#32496] *Implements Loading always en-GB before another language to cope for missing strings Thanks Nicholas Dyonisopoulos and George Wilson
  # [#32497] Update to TinyMCE 4.0.10  Thanks George Wilson
  + Adding Flemish nl-be Belgium flag in mod_languages
- # [#32499] *Regression JUX #32096: edit override field is unrelated to multilang  
+ # [#32499] *Regression JUX #32096: edit override field is unrelated to multilang
  # [#32502] Double lang ID in the language view  Thanks Tobias Zulauf
  # [#32501] *Multilingual Hathor: correcting Associations sliders display for article, category, contact, newsfeed, menu
 
