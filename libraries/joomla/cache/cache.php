@@ -609,31 +609,21 @@ class JCache
 						$newvalue = array_diff_assoc($nowvalue, $beforevalue);
 						$newvalue = array_map('unserialize', $newvalue);
 						
-						if ($now == "script" || $now == "style") {
-                                                    /*
-                                                     * "script" and "style" array item needs separate treatment as it is an exception: 
-                                                     * every addScriptDeclaration call appends a string to the same array item
-                                                     * of the current scriptType e.g. text/javascript appends 
-                                                     * a string to the SAME text/javascript item  
-                                                     * so here we have to save only the string level diff
-                                                     * 
-                                                     * see also: JDocumentHTML->mergeHeadData() implementation in html.php
-                                                     * 
-                                                     */
-                                                    if (is_array($newvalue) && is_array($options['headerbefore'][$now])) {
-                                                        foreach ($newvalue as $type => $currentScriptStr) { //a foreach similar to this is found in JDocument->mergeHeadData()
-                                                            if (!isset($options['headerbefore'][$now][strtolower($type)])) { //if module added a new script type 
-                                                                //add it all, do nothing
-                                                            } else { //else if it appended a script string to an existing type
-                                                                $OldScriptStr = $options['headerbefore'][$now][strtolower($type)];
-                                                                if (!stristr($OldScriptStr, $currentScriptStr)) {
+						if ($now == "script" || $now == "style" && (is_array($newvalue) && is_array($options['headerbefore'][$now])) ) //see: https://github.com/joomla/joomla-platform/issues/673
+						{ 
+                                                        foreach ($newvalue as $type => $currentsnippet) //a foreach similar to this is found in JDocument->mergeHeadData()
+                                                        { 
+                                                            if (isset($options['headerbefore'][$now][strtolower($type)])) 
+                                                            { //if module NOT added a new script type to the document header
+                                                                $oldinlinebuffer = $options['headerbefore'][$now][strtolower($type)];
+                                                                if (!stristr($oldinlinebuffer, $currentsnippet)) 
+                                                                {
                                                                     //save only the appended string in the cache entry for this module
-                                                                    $diffString = str_replace($OldScriptStr, "", $currentScriptStr);
+                                                                    $diffString = str_replace($oldinlinebuffer, "", $currentsnippet);
                                                                     $newvalue[strtolower($type)] = $diffString;
                                                                 }
                                                             }
                                                         }
-                                                    }
                                                 }
 					}
 					else
