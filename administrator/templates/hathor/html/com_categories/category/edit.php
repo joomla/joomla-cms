@@ -14,6 +14,8 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 $input = JFactory::getApplication()->input;
 
+$saveHistory = $this->state->get('params')->get('save_history', 0);
+
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 
@@ -82,6 +84,10 @@ $assoc = JLanguageAssociations::isEnabled();
 							</div>
 						<?php endif; ?>
 					</li>
+					<?php if ($saveHistory) : ?>
+						<li><?php echo $this->form->getLabel('version_note'); ?>
+						<?php echo $this->form->getInput('version_note'); ?></li>
+					<?php endif; ?>
 					<li>
 						<?php echo $this->form->getLabel('id'); ?>
 						<?php echo $this->form->getInput('id'); ?>
