@@ -28,6 +28,7 @@ $ -> Language fix or change
 03-Nov-2013 Jean-Marie Simonet
  # [#32496] *Implements Loading always en-GB before another language to cope for missing strings Thanks Nicholas Dyonisopoulos and George Wilson 
  # [#32497] Update to TinyMCE 4.0.10  Thanks George Wilson
+ + Adding Flemish nl-be Belgium flag in mod_languages
 
 02-Nov-2013 Michael Babker
  ^ [#32347] Versioning not working in update package.  Thanks Thomas Hunziker
