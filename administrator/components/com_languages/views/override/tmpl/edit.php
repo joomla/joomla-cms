@@ -73,7 +73,6 @@ JHtml::_('formbehavior.chosen', 'select');
 				</div>
 				<?php endif; ?>
 
-				<?php if (JLanguageMultilang::isEnabled()) : ?>
 					<div class="control-group">
 						<div class="control-label">
 							<?php echo $this->form->getLabel('language'); ?>
@@ -82,9 +81,6 @@ JHtml::_('formbehavior.chosen', 'select');
 							<?php echo $this->form->getInput('language'); ?>
 						</div>
 					</div>
-				<?php else : ?>
-					<input type="hidden" name="language" value="<?php echo $this->form->getValue('language'); ?>" />
-				<?php endif; ?>
 
 				<div class="control-group">
 					<div class="control-label">
