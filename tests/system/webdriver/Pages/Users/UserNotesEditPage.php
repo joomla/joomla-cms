@@ -75,6 +75,7 @@ class UserNotesEditPage extends AdminEditPage
 		$this->driver->findElement(By::xPath("//a[contains(@onclick, '" . $userName . "')]"))->click();
 		$this->driver->waitForElementUntilIsNotPresent(By::xPath($frameXpath));
 		$this->driver->switchTo()->getDefaultFrame();
+		$this->driver->executeScript("window.scrollTo(0,0)");
 	}
 
 	public function setFieldValues(array $fields)

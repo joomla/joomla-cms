@@ -224,10 +224,8 @@ class PluginsModelPlugin extends JModelAdmin
 
 		foreach ($elements as $elementa)
 		{
-				$lang->load('plg_'.$folder.'_'.$elementa.'.sys', JPATH_ADMINISTRATOR, null, false, false)
-			||	$lang->load('plg_'.$folder.'_'.$elementa.'.sys', JPATH_PLUGINS.'/'.$folder.'/'.$elementa, null, false, false)
-			||	$lang->load('plg_'.$folder.'_'.$elementa.'.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-			||	$lang->load('plg_'.$folder.'_'.$elementa.'.sys', JPATH_PLUGINS.'/'.$folder.'/'.$elementa, $lang->getDefault(), false, false);
+				$lang->load('plg_'.$folder.'_'.$elementa.'.sys', JPATH_ADMINISTRATOR, null, false, true)
+			||	$lang->load('plg_'.$folder.'_'.$elementa.'.sys', JPATH_PLUGINS.'/'.$folder.'/'.$elementa, null, false, true);
 		}
 
 		if (empty($folder) || empty($element))

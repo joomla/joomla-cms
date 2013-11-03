@@ -35,16 +35,6 @@ $canDo = LanguagesHelper::getActions();
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('JDETAILS', true)); ?>
 			<div class="control-group">
-				<div class="controls">
-					<?php if ($this->item->lang_id) : ?>
-						<?php echo JText::sprintf('JGLOBAL_RECORD_NUMBER', $this->item->lang_id); ?>
-					<?php else : ?>
-						<?php echo JText::_('COM_LANGUAGES_VIEW_LANGUAGE_EDIT_NEW_TITLE'); ?>
-					<?php endif; ?>
-				</div>
-			</div>
-
-			<div class="control-group">
 					<div class="control-label">
 						<?php echo $this->form->getLabel('title'); ?>
 					</div>

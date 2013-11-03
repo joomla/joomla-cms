@@ -23,7 +23,7 @@
 
 			<fieldset name="basic">
 				<field name="strong_passwords" type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					description="PLG_USER_JOOMLA_FIELD_STRONG_PASSWORDS_DESC"
 					label="PLG_USER_JOOMLA_FIELD_STRONG_PASSWORDS_LABEL"
@@ -47,7 +47,8 @@
 					class="btn-group btn-group-yesno"
 					default="1"
 					label="PLG_USER_JOOMLA_FIELD_MAILTOUSER_LABEL"
-					description="PLG_USER_JOOMLA_FIELD_MAILTOUSER_DESC">
+					description="PLG_USER_JOOMLA_FIELD_MAILTOUSER_DESC"
+				>
 					<option
 						value="0">JNO</option>
 					<option

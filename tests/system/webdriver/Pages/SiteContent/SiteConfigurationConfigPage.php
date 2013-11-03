@@ -55,7 +55,7 @@ class SiteConfigurationConfigPage extends SitePage
 		$d->findElement(By::xPath("//input[@id='jform_sitename']"))->clear();
 		$d->findElement(By::xPath("//input[@id='jform_sitename']"))->sendKeys($siteName);
 		$d->findElement(By::xPath("//button[@type='button'][@class='btn btn-primary']"))->click();
-
+		$this->test->getPageObject('SiteConfigurationConfigPage');
 	}
 
 	/**
