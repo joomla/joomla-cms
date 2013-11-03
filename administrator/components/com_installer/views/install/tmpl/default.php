@@ -160,6 +160,10 @@ JHtml::_('bootstrap.tooltip');
 					<div class="controls">
 						<input type="text" id="install_directory" name="install_directory" class="span5 input_box" size="70" value="<?php echo $this->state->get('install.directory'); ?>" />
 					</div>
+					<label for="install_symlink" class="control-label"><?php echo JText::_('COM_INSTALLER_INSTALL_SYMLINK'); ?></label>
+					<div class="controls">
+						<input type="checkbox" id="install_symlink" name="install_symlink" />
+					</div>
 				</div>
 				<div class="form-actions">
 					<input type="button" class="btn btn-primary" value="<?php echo JText::_('COM_INSTALLER_INSTALL_BUTTON'); ?>" onclick="Joomla.submitbutton3()" />

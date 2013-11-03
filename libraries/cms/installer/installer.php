@@ -113,6 +113,14 @@ class JInstaller extends JAdapter
 	protected static $instance;
 
 	/**
+	 * Should make a symlink rather than copy
+	 *
+	 * @var    boolean
+	 * @since  3.2
+	 */
+	public $symlink = false;
+
+	/**
 	 * Constructor
 	 *
 	 * @since   3.1
@@ -1613,22 +1621,44 @@ class JInstaller extends JAdapter
 					// Copy the folder or file to the new location.
 					if ($filetype == 'folder')
 					{
-						if (!(JFolder::copy($filesource, $filedest, null, $overwrite)))
-						{
-							JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FOLDER', $filesource, $filedest), JLog::WARNING, 'jerror');
+						if ($this->symlink) {
+							if (!(JFolder::symlink($filesource, $filedest, null, $overwrite)))
+							{
+								JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FOLDER', $filesource, $filedest), JLog::WARNING, 'jerror');
 
-							return false;
+								return false;
+							}
+						}
+						else
+						{
+							if (!(JFolder::copy($filesource, $filedest, null, $overwrite)))
+							{
+								JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FOLDER', $filesource, $filedest), JLog::WARNING, 'jerror');
+
+								return false;
+							}
 						}
 
 						$step = array('type' => 'folder', 'path' => $filedest);
 					}
 					else
 					{
-						if (!(JFile::copy($filesource, $filedest, null)))
-						{
-							JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FILE', $filesource, $filedest), JLog::WARNING, 'jerror');
+						if ($this->symlink) {
+							if (!(JFile::symlink($filesource, $filedest, null)))
+							{
+								JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FILE', $filesource, $filedest), JLog::WARNING, 'jerror');
 
-							return false;
+								return false;
+							}
+						}
+						else
+						{
+							if (!(JFile::copy($filesource, $filedest, null)))
+							{
+								JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FILE', $filesource, $filedest), JLog::WARNING, 'jerror');
+
+								return false;
+							}
 						}
 
 						$step = array('type' => 'file', 'path' => $filedest);

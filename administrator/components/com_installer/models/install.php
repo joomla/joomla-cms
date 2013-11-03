@@ -93,6 +93,7 @@ class InstallerModelInstall extends JModelLegacy
 		}
 
 		$installType = $app->input->getWord('installtype');
+		$symlink = false;
 
 		if ($package === null)
 		{
@@ -101,6 +102,7 @@ class InstallerModelInstall extends JModelLegacy
 				case 'folder':
 					// Remember the 'Install from Directory' path.
 					$app->getUserStateFromRequest($this->_context . '.install_directory', 'install_directory');
+					$symlink = $app->input->getBool('install_symlink');
 					$package = $this->_getPackageFromFolder();
 					break;
 
@@ -151,6 +153,7 @@ class InstallerModelInstall extends JModelLegacy
 
 		// Get an installer instance
 		$installer = JInstaller::getInstance();
+		$installer->symlink = $symlink;
 
 		// Install the package
 		if (!$installer->install($package['dir']))
@@ -186,6 +189,9 @@ class InstallerModelInstall extends JModelLegacy
 		}
 
 		JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
+
+		// Reset to default value
+		$installer->symlink = false;
 
 		return $result;
 	}
