@@ -532,11 +532,29 @@
 			default="-1"
 			label="COM_CONFIG_FIELD_FORCE_SSL_LABEL"
 			description="COM_CONFIG_FIELD_FORCE_SSL_DESC"
-			filter="integer">
+			filter="string">
 			<option value="0">COM_CONFIG_FIELD_VALUE_NONE</option>
 			<option value="1">COM_CONFIG_FIELD_VALUE_ADMINISTRATOR_ONLY</option>
 			<option value="2">COM_CONFIG_FIELD_VALUE_ENTIRE_SITE</option>
 		</field>
+
+		<field
+			name="filemode"
+			type="text"
+			default="0644"
+			label="COM_CONFIG_FIELD_FILEMODE_LABEL"
+			description="COM_CONFIG_FIELD_FILEMODE_DESC"
+			filter="string"
+			size="5" />
+
+		<field
+			name="dirmode"
+			type="text"
+			default="0755"
+			label="COM_CONFIG_FIELD_DIRMODE_LABEL"
+			description="COM_CONFIG_FIELD_DIRMODE_DESC"
+			filter="integer"
+			size="5" />
 	</fieldset>
 
 	<fieldset

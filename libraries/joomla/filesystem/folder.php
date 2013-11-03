@@ -167,8 +167,14 @@ abstract class JFolder
 	 *
 	 * @since   11.1
 	 */
-	public static function create($path = '', $mode = 0755)
+	public static function create($path = '', $mode = null)
 	{
+		$config = JFactory::getConfig();
+		if (!isset($mode))
+		{
+			$mode = octdec($config->get('dirmode'));
+		}
+
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 		static $nested = 0;
 

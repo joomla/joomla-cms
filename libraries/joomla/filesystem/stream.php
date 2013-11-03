@@ -149,6 +149,9 @@ class JStream extends JObject
 		$this->readprefix = $readprefix;
 		$this->contextOptions = $context;
 		$this->_buildContext();
+		$config = JFactory::getConfig();
+		$this->filemode = octdec($config->get('filemode'));
+		$this->dirmode = octdec($config->get('dirmode'));
 	}
 
 	/**

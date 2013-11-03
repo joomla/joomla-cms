@@ -473,9 +473,12 @@ class TemplatesModelTemplate extends JModelForm
 		// Include the extension plugins for the save events.
 		JPluginHelper::importPlugin('extension');
 
+		$config = JFactory::getConfig();
+		$filemode = $config->get('filemode');
+
 		$user = get_current_user();
 		chown($filePath, $user);
-		JPath::setPermissions($filePath, '0644');
+		JPath::setPermissions($filePath, $filemode);
 
 		// Try to make the template file writable.
 		if (!is_writable($filePath))

@@ -1581,6 +1581,9 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 	{
 		static $rootDir = null;
 		
+		$config = JFactory::getConfig();
+		$filemode = octdec($config->get('filemode'));
+
 		if(is_null($rootDir)) {
 			$rootDir = rtrim(AKFactory::get('kickstart.setup.destdir',''),'/\\');
 		}
@@ -1592,7 +1595,7 @@ abstract class AKAbstractUnarchiver extends AKAbstractPart
 				$this->postProcEngine->chmod( $directory, 0755 );
 			}
 		}
-		$this->postProcEngine->chmod( $path, 0644 );
+		$this->postProcEngine->chmod( $path, $filemode );
 	}
 
 	/**
@@ -2009,6 +2012,10 @@ class AKPostprocDirect extends AKAbstractPostproc
 {
 	public function process()
 	{
+		$config = JFactory::getConfig();
+		$filemode = octdec($config->get('filemode'));
+		$dirmode = octdec($config->get('dirmode'));
+
 		$restorePerms = AKFactory::get('kickstart.setup.restoreperms', false);
 		if($restorePerms)
 		{
@@ -2018,11 +2025,11 @@ class AKPostprocDirect extends AKAbstractPostproc
 		{
 			if(@is_file($this->filename))
 			{
-				@chmod($this->filename, 0644);
+				@chmod($this->filename, $filemode);
 			}
 			else
 			{
-				@chmod($this->filename, 0755);
+				@chmod($this->filename, $dirmode);
 			}
 		}
 		if($this->timestamp > 0)
@@ -2032,18 +2039,22 @@ class AKPostprocDirect extends AKAbstractPostproc
 		return true;
 	}
 
-	public function processFilename($filename, $perms = 0755)
+	public function processFilename($filename, $perms = null)
 	{
-		$this->perms = $perms;
+		$config = JFactory::getConfig();
+		$dirmode = octdec($config->get('dirmode'));
+		$this->perms = isset($perms) ? $perms : $dirmode;
 		$this->filename = $filename;
 		return $filename;
 	}
 
 	public function createDirRecursive( $dirName, $perms )
 	{
+		$config = JFactory::getConfig();
+		$dirmode = octdec($config->get('dirmode'));
 		if( AKFactory::get('kickstart.setup.dryrun','0') ) return true;
-		if (@mkdir($dirName, 0755, true)) {
-			@chmod($dirName, 0755);
+		if (@mkdir($dirName, $dirmode, true)) {
+			@chmod($dirName, $dirmode);
 			return true;
 		}
 
@@ -2288,6 +2299,10 @@ class AKPostprocFTP extends AKAbstractPostproc
 			return true;
 		}
 
+		$config = JFactory::getConfig();
+		$filemode = octdec($config->get('filemode'));
+		$dirmode = octdec($config->get('dirmode'));
+
 		$remotePath = dirname($this->filename);
 		$removePath = AKFactory::get('kickstart.setup.destdir','');
 		if(!empty($removePath))
@@ -2311,7 +2326,7 @@ class AKPostprocFTP extends AKAbstractPostproc
 		$ret = @ftp_chdir($this->handle, $absoluteFTPPath);
 		if($ret === false)
 		{
-			$ret = $this->createDirRecursive( $absoluteFSPath, 0755);
+			$ret = $this->createDirRecursive( $absoluteFSPath, $dirmode);
 			if($ret === false) {
 				$this->setError(AKText::sprintf('FTP_COULDNT_UPLOAD', $this->filename));
 				return false;
@@ -2355,18 +2370,21 @@ class AKPostprocFTP extends AKAbstractPostproc
 		}
 		else
 		{
-			@ftp_chmod($this->_handle, 0644, $remoteName);
+			@ftp_chmod($this->_handle, $filemode, $remoteName);
 		}
 		return true;
 	}
 
-	public function processFilename($filename, $perms = 0755)
+	public function processFilename($filename, $perms = null)
 	{
 		// Catch some error conditions...
 		if($this->getError())
 		{
 			return false;
 		}
+
+		$config = JFactory::getConfig();
+		$perms = isset($perms) ? $perms : octdec($config->get('dirmode'));
 
 		// If a null filename is passed, it means that we shouldn't do any post processing, i.e.
 		// the entity was a directory or symlink
@@ -2693,6 +2711,9 @@ class AKUnarchiverJPA extends AKAbstractUnarchiver
 			$this->nextFile();
 		}
 
+		$config = JFactory::getConfig();
+		$dirmode = octdec($config->get('dirmode'));
+
 		// Get and decode Entity Description Block
 		$signature = fread($this->fp, 3);
 
@@ -2897,7 +2918,7 @@ class AKUnarchiverJPA extends AKAbstractUnarchiver
 			}
 			else
 			{
-				$this->postProcEngine->createDirRecursive( $this->fileHeader->file, 0755 );
+				$this->postProcEngine->createDirRecursive( $this->fileHeader->file, $dirmode );
 			}
 			$this->postProcEngine->processFilename(null);
 		}
@@ -3175,11 +3196,14 @@ class AKUnarchiverJPA extends AKAbstractUnarchiver
 	{
 		if( AKFactory::get('kickstart.setup.dryrun','0') ) return true;
 
+		$config = JFactory::getConfig();
+		$dirmode = octdec($config->get('dirmode'));
+
 		// Do we need to create a directory?
 		if(empty($this->fileHeader->realFile)) $this->fileHeader->realFile = $this->fileHeader->file;
 		$lastSlash = strrpos($this->fileHeader->realFile, '/');
 		$dirName = substr( $this->fileHeader->realFile, 0, $lastSlash);
-		$perms = $this->flagRestorePermissions ? $retArray['permissions'] : 0755;
+		$perms = $this->flagRestorePermissions ? $retArray['permissions'] : $dirmode;
 		$ignore = AKFactory::get('kickstart.setup.ignoreerrors', false);
 		if( ($this->postProcEngine->createDirRecursive($dirName, $perms) == false) && (!$ignore) ) {
 			$this->setError( AKText::sprintf('COULDNT_CREATE_DIR', $dirName) );
@@ -3250,6 +3274,9 @@ class AKUnarchiverZIP extends AKUnarchiverJPA
 		if( $this->isEOF(true) ) {
 			$this->nextFile();
 		}
+
+		$config = JFactory::getConfig();
+		$dirmode = octdec($config->get('dirmode'));
 
 		if($this->expectDataDescriptor)
 		{
@@ -3451,7 +3478,7 @@ class AKUnarchiverZIP extends AKUnarchiverJPA
 
 			$dir = $this->fileHeader->file;
 
-			$this->postProcEngine->createDirRecursive( $this->fileHeader->file, 0755 );
+			$this->postProcEngine->createDirRecursive( $this->fileHeader->file, $dirmode );
 			$this->postProcEngine->processFilename(null);
 		}
 		else
@@ -3719,6 +3746,9 @@ class AKUnarchiverJPS extends AKUnarchiverJPA
 			$this->nextFile();
 		}
 
+		$config = JFactory::getConfig();
+		$dirmode = octdec($config->get('dirmode'));
+
 		// Get and decode Entity Description Block
 		$signature = fread($this->fp, 3);
 
@@ -3912,7 +3942,7 @@ class AKUnarchiverJPS extends AKUnarchiverJPA
 			}
 			else
 			{
-				$this->postProcEngine->createDirRecursive( $this->fileHeader->file, 0755 );
+				$this->postProcEngine->createDirRecursive( $this->fileHeader->file, $dirmode );
 			}
 			$this->postProcEngine->processFilename(null);
 		}
@@ -4271,10 +4301,13 @@ class AKUnarchiverJPS extends AKUnarchiverJPA
 	{
 		if( AKFactory::get('kickstart.setup.dryrun','0') ) return true;
 
+		$config = JFactory::getConfig();
+		$dirmode = octdec($config->get('dirmode'));
+
 		// Do we need to create a directory?
 		$lastSlash = strrpos($this->fileHeader->realFile, '/');
 		$dirName = substr( $this->fileHeader->realFile, 0, $lastSlash);
-		$perms = $this->flagRestorePermissions ? $retArray['permissions'] : 0755;
+		$perms = $this->flagRestorePermissions ? $retArray['permissions'] : $dirmode;
 		$ignore = AKFactory::get('kickstart.setup.ignoreerrors', false);
 		if( ($this->postProcEngine->createDirRecursive($dirName, $perms) == false) && (!$ignore) ) {
 			$this->setError( AKText::sprintf('COULDNT_CREATE_DIR', $dirName) );
