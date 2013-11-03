@@ -51,13 +51,13 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   				<th>
   					<?php echo JHtml::_('grid.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.element', $listDirn, $listOrder); ?>
   				</th>
-  				<th width="10%">
+  				<th width="10%" class="center">
   					<?php echo JHtml::_('grid.sort', 'JCLIENT', 'a.client_id', $listDirn, $listOrder); ?>
   				</th>
-  				<th width="10%">
+  				<th width="10%" class="center">
   					<?php echo JText::_('JVERSION'); ?>
   				</th>
-  				<th width="15%">
+  				<th width="15%" class="center">
   					<?php echo JText::_('JDATE'); ?>
   				</th>
   				<th width="25%" >
@@ -93,13 +93,13 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   					<?php endif; ?>
   					</p>
   				</td>
-  				<td class="small">
+  				<td class="small center">
   					<?php echo $item->client_id == 0 ? JText::_('JSITE') : JText::_('JADMINISTRATOR'); ?>
   				</td>
-  				<td class="small">
+  				<td class="small center">
   					<?php echo $this->escape($item->xmldata->get('version')); ?>
   				</td>
-  				<td class="small">
+  				<td class="small center">
   					<?php echo $this->escape($item->xmldata->get('creationDate')); ?>
   				</td>
   				<td>
