@@ -3547,6 +3547,10 @@ table {
 table.adminlist .item-associations li a {
 	color: #ffffff;
 }
+.hidden {
+	display: none;
+	visibility: hidden;
+}
 .tooltip {
 	position: absolute;
 	z-index: 1030;
