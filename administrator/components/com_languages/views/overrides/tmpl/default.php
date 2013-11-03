@@ -52,10 +52,10 @@ $listDirn  = $this->escape($this->state->get('list.direction')); ?>
 					<th class="left">
 						<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_TEXT', 'text', $listDirn, $listOrder); ?>
 					</th>
-					<th class="nowrap">
+					<th class="nowrap center">
 						<?php echo JText::_('COM_LANGUAGES_FIELD_LANG_TAG_LABEL'); ?>
 					</th>
-					<th>
+					<th class="center">
 						<?php echo JText::_('JCLIENT'); ?>
 					</th>
 				</tr>
