@@ -221,7 +221,7 @@
     }
 
   , hide: function () {
-	  // > Joomla JUI
+	  /* >>> JUI >>> */
 	  /* ORIGINAL: 
       var that = this
         , $tip = this.tip()
@@ -230,7 +230,7 @@
       var that = this
         , $tip = this.tip()
         , e = $.Event('hideme')
-      // < Joomla JUI
+      /* <<< JUI <<< */
         
       this.$element.trigger(e)
       if (e.isDefaultPrevented()) return

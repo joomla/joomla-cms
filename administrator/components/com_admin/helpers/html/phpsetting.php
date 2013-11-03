@@ -21,7 +21,7 @@ abstract class JHtmlPhpSetting
 	/**
 	 * Method to generate a boolean message for a value
 	 *
-	 * @param   boolean  $val  is the value set?
+	 * @param boolean $val is the value set?
 	 *
 	 * @return  string html code
 	 */
@@ -40,7 +40,7 @@ abstract class JHtmlPhpSetting
 	/**
 	 * Method to generate a boolean message for a value
 	 *
-	 * @param   boolean  $val  is the value set?
+	 * @param boolean $val is the value set?
 	 *
 	 * @return  string html code
 	 */
@@ -59,7 +59,7 @@ abstract class JHtmlPhpSetting
 	/**
 	 * Method to generate a string message for a value
 	 *
-	 * @param   string  $val  a php ini value
+	 * @param string $val a php ini value
 	 *
 	 * @return  string html code
 	 */
@@ -78,7 +78,7 @@ abstract class JHtmlPhpSetting
 	/**
 	 * Method to generate an integer from a value
 	 *
-	 * @param   string  $val  a php ini value
+	 * @param string $val a php ini value
 	 *
 	 * @return  string html code
 	 *
@@ -86,12 +86,7 @@ abstract class JHtmlPhpSetting
 	 */
 	public static function integer($val)
 	{
-		JLog::add(
-			'JHtmlPhpSetting::integer() is deprecated. Use intval() or casting instead.',
-			JLog::WARNING,
-			'deprecated'
-		);
-
+		JLog::add('JHtmlPhpSetting::integer() is deprecated. Use intval() or casting instead.', JLog::WARNING, 'deprecated');
 		return (int) $val;
 	}
 }

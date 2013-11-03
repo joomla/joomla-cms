@@ -103,8 +103,7 @@ class JHelperContenthistory extends JHelper
 		$dataObject = $this->getDataObject($table);
 		$historyTable = JTable::getInstance('Contenthistory', 'JTable');
 		$typeTable = JTable::getInstance('Contenttype', 'JTable');
-		$typeTable->load(array('type_alias' => $this->typeAlias));
-		$historyTable->set('ucm_type_id', $typeTable->type_id);
+		$historyTable->set('ucm_type_id', $typeTable->getTypeId($this->typeAlias));
 
 		$key = $table->getKeyName();
 		$historyTable->set('ucm_item_id', $table->$key);
@@ -126,7 +125,7 @@ class JHelperContenthistory extends JHelper
 		}
 
 		// Don't save if hash already exists and same version note
-		$historyTable->set('sha1_hash', $historyTable->getSha1($dataObject, $typeTable));
+		$historyTable->set('sha1_hash', $historyTable->getSha1($dataObject));
 
 		if ($historyRow = $historyTable->getHashMatch())
 		{

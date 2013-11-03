@@ -19,7 +19,7 @@
 			name="save_history"
 			type="radio"
 			class="btn-group btn-group-yesno"
-			default="0"
+			default="1"
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
 			description="JGLOBAL_SAVE_HISTORY_OPTIONS_DESC"
 			>

@@ -40,8 +40,7 @@ abstract class ModulesHelper
 		$user	= JFactory::getUser();
 		$result	= new JObject;
 
-		if (empty($moduleId))
-		{
+		if (empty($moduleId)) {
 			$assetName = 'com_modules';
 		}
 		else
@@ -50,7 +49,7 @@ abstract class ModulesHelper
 		}
 
 		$actions = JAccess::getActionsFromFile(
-			JPATH_ADMINISTRATOR . '/components/com_modules/access.xml', "/access/section[@name='component']/"
+			JPATH_ADMINISTRATOR . '/components/com_modules/access.xml',"/access/section[@name='component']/"
 		);
 
 		foreach ($actions as $action)
@@ -201,8 +200,10 @@ abstract class ModulesHelper
 			$extension = $module->value;
 			$path = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
 			$source = $path . "/modules/$extension";
-				$lang->load("$extension.sys", $path, null, false, true)
-			||	$lang->load("$extension.sys", $source, null, false, true);
+				$lang->load("$extension.sys", $path, null, false, false)
+			||	$lang->load("$extension.sys", $source, null, false, false)
+			||	$lang->load("$extension.sys", $path, $lang->getDefault(), false, false)
+			||	$lang->load("$extension.sys", $source, $lang->getDefault(), false, false);
 			$modules[$i]->text = JText::_($module->text);
 		}
 		JArrayHelper::sortObjects($modules, 'text', 1, true, true);

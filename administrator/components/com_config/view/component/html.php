@@ -64,10 +64,10 @@ class ConfigViewComponentHtml extends ConfigViewCmsHtml
 
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
 		$this->currentComponent = JFactory::getApplication()->input->get('component');
-		$this->return = JFactory::getApplication()->input->get('return', '', 'base64');
+		$this->return = $app->input->get('return', '', 'base64');
 
 		$this->addToolbar();
-		JFactory::getApplication()->input->set('hidemainmenu', true);
+		$app->input->set('hidemainmenu', true);
 
 		return parent::render();
 	}
