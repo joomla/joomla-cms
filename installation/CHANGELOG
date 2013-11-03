@@ -28,6 +28,7 @@ $ -> Language fix or change
 04-Nov-2013 Michael Babker
  # [#32511] *B/C: Hathor edit contact or newsfeed broken on legacy sites.  Thanks Elin Waring
  # [#32514] New menu item > Articles > Single Article: search article doesn't work.  Thanks Roberto Segura
+ # [#31992] Hathor: Content Versioning missing Version Notes
 
 04-Nov-2013 Jean-Marie Simonet
  $ Adding updated installation language file ckb-IQ
