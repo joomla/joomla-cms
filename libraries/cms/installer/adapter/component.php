@@ -145,7 +145,9 @@ class JInstallerAdapterComponent extends JAdapterInstance
 				$source = $path . '/' . $folder;
 			}
 		}
-		$lang->load($extension . '.sys', $source, null, false, true) || $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true);
+		$lang->load($extension . '.sys', $source, null, false, false) || $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, false)
+			|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
+			|| $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false);
 	}
 
 	/**

@@ -9,10 +9,12 @@
 
 defined('_JEXEC') or die;
 
-JLog::add(
-	'ConfigModelApplication has moved from ' . __DIR__ . '/application.php to ' . dirname(__DIR__) . '/model/application.',
-	JLog::WARNING,
-	'deprecated'
-);
+/**
+ * Model for the global configuration
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  com_config
+ * @deprecated  4.0
+ */
 
-include_once JPATH_ADMINISTRATOR . '/components/com_config/model/application.php';
+JLog::add('models/ConfigModelApplication is deprecated. Use model/ConfigModelApplication instead.', JLog::WARNING, 'deprecated');

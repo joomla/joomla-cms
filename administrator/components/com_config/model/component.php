@@ -105,8 +105,10 @@ class ConfigModelComponent extends ConfigModelForm
 
 		// Load common and local language files.
 		$lang = JFactory::getLanguage();
-			$lang->load($option, JPATH_BASE, null, false, true)
-		||	$lang->load($option, JPATH_BASE . "/components/$option", null, false, true);
+			$lang->load($option, JPATH_BASE, null, false, false)
+		||	$lang->load($option, JPATH_BASE . "/components/$option", null, false, false)
+		||	$lang->load($option, JPATH_BASE, $lang->getDefault(), false, false)
+		||	$lang->load($option, JPATH_BASE . "/components/$option", $lang->getDefault(), false, false);
 
 		$result = JComponentHelper::getComponent($option);
 

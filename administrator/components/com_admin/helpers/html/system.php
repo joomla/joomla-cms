@@ -21,7 +21,7 @@ abstract class JHtmlSystem
 	/**
 	 * Method to generate a string message for a value
 	 *
-	 * @param   string  $val  a php ini value
+	 * @param string $val a php ini value
 	 *
 	 * @return  string html code
 	 */

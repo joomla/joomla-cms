@@ -138,8 +138,10 @@ class ModulesModelPositions extends JModelList
 					$xml = simplexml_load_file($path);
 					if (isset($xml->positions[0]))
 					{
-						$lang->load('tpl_'.$template->element.'.sys', $client->path, null, false, true)
-					||	$lang->load('tpl_'.$template->element.'.sys', $client->path.'/templates/'.$template->element, null, false, true);
+						$lang->load('tpl_'.$template->element.'.sys', $client->path, null, false, false)
+					||	$lang->load('tpl_'.$template->element.'.sys', $client->path.'/templates/'.$template->element, null, false, false)
+					||	$lang->load('tpl_'.$template->element.'.sys', $client->path, $lang->getDefault(), false, false)
+					||	$lang->load('tpl_'.$template->element.'.sys', $client->path.'/templates/'.$template->element, $lang->getDefault(), false, false);
 						foreach ($xml->positions[0] as $position)
 						{
 							$value = (string) $position['value'];

@@ -9,10 +9,13 @@
 
 defined('_JEXEC') or die;
 
-JLog::add(
-	'ConfigModelApplication has moved from ' . __DIR__ . '/component.php to ' . dirname(__DIR__) . '/model/component.php.',
-	JLog::WARNING,
-	'deprecated'
-);
+/**
+ * Model for component configuration
+ *
+ * @package     Joomla.Administrator
+ * @subpackage  com_config
+ * @since       1.5
+ * @deprecated  4.0
+ */
 
-include_once JPATH_ADMINISTRATOR . '/components/com_config/model/component.php';
+JLog::add('models/ConfigModelComponent is deprecated. Use model/ConfigModelComponent instead.', JLog::WARNING, 'deprecated');

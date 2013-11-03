@@ -81,8 +81,10 @@ class MenusModelMenutypes extends JModelLegacy
 
 						if (isset($option->request['option']))
 						{
-								$lang->load($option->request['option'] . '.sys', JPATH_ADMINISTRATOR, null, false, true)
-							||	$lang->load($option->request['option'] . '.sys', JPATH_ADMINISTRATOR. '/components/'.$option->request['option'], null, false, true);
+								$lang->load($option->request['option'] . '.sys', JPATH_ADMINISTRATOR, null, false, false)
+							||	$lang->load($option->request['option'] . '.sys', JPATH_ADMINISTRATOR. ' /components/'.$option->request['option'], null, false, false)
+							||	$lang->load($option->request['option'] . '.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
+							||	$lang->load($option->request['option'] . '.sys', JPATH_ADMINISTRATOR . '/components/'.$option->request['option'], $lang->getDefault(), false, false);
 						}
 					}
 				}
@@ -364,8 +366,10 @@ class MenusModelMenutypes extends JModelLegacy
 			if (is_dir($folder . '/html/' . $component . '/' . $view))
 			{
 				$template = basename($folder);
-				$lang->load('tpl_' . $template . '.sys', JPATH_SITE, null, false, true)
-				||	$lang->load('tpl_' . $template . '.sys', JPATH_SITE . '/templates/' . $template, null, false, true);
+				$lang->load('tpl_' . $template . '.sys', JPATH_SITE, null, false, false)
+				||	$lang->load('tpl_' . $template . '.sys', JPATH_SITE . '/templates/' . $template, null, false, false)
+				||	$lang->load('tpl_' . $template . '.sys', JPATH_SITE, $lang->getDefault(), false, false)
+				||	$lang->load('tpl_' . $template . '.sys', JPATH_SITE . '/templates/' . $template, $lang->getDefault(), false, false);
 
 				$templateLayouts = JFolder::files($folder . '/html/' . $component . '/' . $view, '.xml$', false, true);
 

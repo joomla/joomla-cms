@@ -59,10 +59,6 @@ $user = JFactory::getUser();
 				$params = new JRegistry;
 				$params->loadString($module->params);
 				$bootstrapSize = $params->get('bootstrap_size');
-				if (!$bootstrapSize)
-				{
-					$bootstrapSize = 12;
-				}
 				$spans += $bootstrapSize;
 				if ($spans > 12)
 				{

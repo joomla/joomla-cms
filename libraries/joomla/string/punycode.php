@@ -100,11 +100,6 @@ abstract class JStringPunycode
 			$newuri .= $newhost;
 		}
 
-		if (!empty($parsed['port']))
-		{
-			$newuri .= ':' . $parsed['port'];
-		}
-
 		if (!empty($parsed['path']))
 		{
 			$newuri .= $parsed['path'];
@@ -164,11 +159,6 @@ abstract class JStringPunycode
 		if (!empty($newhost))
 		{
 			$newuri .= $newhost;
-		}
-
-		if (!empty($parsed['port']))
-		{
-			$newuri .= ':' . $parsed['port'];
 		}
 
 		if (!empty($parsed['path']))

@@ -81,8 +81,10 @@ class JFormFieldComponentlayout extends JFormField
 
 			// Load language file
 			$lang = JFactory::getLanguage();
-			$lang->load($extn . '.sys', JPATH_ADMINISTRATOR, null, false, true)
-				|| $lang->load($extn . '.sys', JPATH_ADMINISTRATOR . '/components/' . $extn, null, false, true);
+			$lang->load($extn . '.sys', JPATH_ADMINISTRATOR, null, false, false)
+				|| $lang->load($extn . '.sys', JPATH_ADMINISTRATOR . '/components/' . $extn, null, false, false)
+				|| $lang->load($extn . '.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
+				|| $lang->load($extn . '.sys', JPATH_ADMINISTRATOR . '/components/' . $extn, $lang->getDefault(), false, false);
 
 			// Get the database object and a new query object.
 			$db = JFactory::getDbo();
@@ -168,8 +170,12 @@ class JFormFieldComponentlayout extends JFormField
 				foreach ($templates as $template)
 				{
 					// Load language file
-					$lang->load('tpl_' . $template->element . '.sys', $client->path, null, false, true)
-						|| $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, null, false, true);
+					$lang->load('tpl_' . $template->element . '.sys', $client->path, null, false, false)
+						|| $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, null, false, false)
+						|| $lang->load('tpl_' . $template->element . '.sys', $client->path, $lang->getDefault(), false, false)
+						|| $lang->load(
+						'tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, $lang->getDefault(), false, false
+					);
 
 					$template_path = JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $extn . '/' . $view);
 

@@ -27,19 +27,15 @@ function modChrome_html5($module, &$params, &$attribs)
 	$bootstrapSize  = (int) $params->get('bootstrap_size', 0);
 	$moduleClass    = $bootstrapSize != 0 ? ' span' . $bootstrapSize : '';
 
-	// Temporarily store header class in variable
-	$headerClass	= $params->get('header_class');
-	$headerClass	= !empty($headerClass) ? ' class="' . htmlspecialchars($headerClass) . '"' : '';
-
 	if (!empty ($module->content)) : ?>
-		<<?php echo $moduleTag; ?> class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx')) . $moduleClass; ?>">
+		<<?php echo $moduleTag; ?> class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx')); ?><?php echo $moduleClass; ?>">
 
 		<?php if ((bool) $module->showtitle) :?>
-			<<?php echo $headerTag . $headerClass . '>' . $module->title; ?></<?php echo $headerTag; ?>>
+			<<?php echo $headerTag; ?> class="<?php echo $params->get('header_class'); ?>"><?php echo $module->title; ?></<?php echo $headerTag; ?>>
 		<?php endif; ?>
 
 			<?php echo $module->content; ?>
-
+		
 		</<?php echo $moduleTag; ?>>
 
 	<?php endif;

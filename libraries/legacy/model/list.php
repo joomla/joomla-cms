@@ -430,17 +430,14 @@ class JModelList extends JModelLegacy
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState($this->context, new stdClass);
+		$data = JFactory::getApplication()->getUserState($this->context, array());
 
 		// Pre-fill the list options
-		if (!property_exists($data, 'list'))
+		if (empty($data))
 		{
-			$data->list = array(
-				'direction' => $this->state->{'list.direction'},
-				'limit'     => $this->state->{'list.limit'},
-				'ordering'  => $this->state->{'list.ordering'},
-				'start'     => $this->state->{'list.start'}
-			);
+			$data['list']['limit']     = $this->state->{'list.limit'};
+			$data['list']['ordering']  = $this->state->{'list.ordering'};
+			$data['list']['direction'] = $this->state->{'list.direction'};
 		}
 
 		return $data;
@@ -469,8 +466,12 @@ class JModelList extends JModelLegacy
 		{
 			$app = JFactory::getApplication();
 
+			// Pre-fill the limits
+			$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'uint');
+			$this->setState('list.limit', $limit);
+
 			// Receive & set filters
-			if ($filters = $app->getUserStateFromRequest($this->context . '.filter', 'filter', array(), 'array'))
+			if ($filters = $this->getUserStateFromRequest($this->context . '.filter', 'filter'))
 			{
 				foreach ($filters as $name => $value)
 				{
@@ -478,10 +479,8 @@ class JModelList extends JModelLegacy
 				}
 			}
 
-			$limit = 0;
-
 			// Receive & set list options
-			if ($list = $app->getUserStateFromRequest($this->context . '.list', 'list', array(), 'array'))
+			if ($list = $this->getUserStateFromRequest($this->context . '.list', 'list'))
 			{
 				foreach ($list as $name => $value)
 				{
@@ -548,10 +547,6 @@ class JModelList extends JModelLegacy
 			else
 			// Keep B/C for components previous to jform forms for filters
 			{
-				// Pre-fill the limits
-				$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'uint');
-				$this->setState('list.limit', $limit);
-
 				// Check if the ordering field is in the white list, otherwise use the incoming value.
 				$value = $app->getUserStateFromRequest($this->context . '.ordercol', 'filter_order', $ordering);
 

@@ -35,7 +35,7 @@ class LevelManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @test
+	 * @xtest
 	 */
 	public function constructor_OpenEditScreen_LevelEditOpened()
 	{
@@ -46,7 +46,7 @@ class LevelManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @test
+	 * @xtest
 	 */
 	public function getAllInputFields_ScreenDisplayed_EqualExpected()
 	{
@@ -61,7 +61,7 @@ class LevelManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @test
+	 * @xtest
 	 */
 	public function add_WithFieldDefaults_Added()
 	{
@@ -75,7 +75,7 @@ class LevelManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @test
+	 * @xtest
 	 */
 	public function addLevel_WithGivenFields_LevelAdded()
 	{
@@ -96,7 +96,7 @@ class LevelManager0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @test
+	 * @xtest
 	 */
 	public function editLevel_ChangeFields_FieldsChanged()
 	{

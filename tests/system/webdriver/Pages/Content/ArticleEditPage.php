@@ -125,24 +125,5 @@ class ArticleEditPage extends AdminEditPage
 
 			);
 
-	public function addArticleText($text)
-	{
-		$values = array('id' => 'jform_articletext', 'value' => $text);
-		$this->setTextAreaValues($values);
-	}
-
-	public function setFieldValues($array)
-	{
-		if(isset($array['text']))
-		{
-			$this->addArticleText($array['text']);
-			unset($array['text']);
-		}
-		if (count($array) > 0)
-		{
-			parent::setFieldValues($array);
-		}
-	}
-
 
 }
