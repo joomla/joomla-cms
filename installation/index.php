@@ -6,22 +6,18 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+
 if (version_compare(PHP_VERSION, '5.3.1', '<'))
 {
 	die('Your host needs to use PHP 5.3.1 or higher to run this version of Joomla!');
 }
 
-/**
- * Constant that is checked in included files to prevent direct access.
- * define() is used in the installation folder rather than "const" to not error for PHP 5.2 and lower
- */
+// This is a valid Joomla! entry point.
 define('_JEXEC', 1);
+define('JAPPLICATION_CONFIG', dirname(__DIR__) . '/configuration.php');
 
-// Bootstrap the application
-require_once dirname(__FILE__) . '/application/bootstrap.php';
+// TODO - Try and live without JPATH_BASE
+define('JPATH_BASE', __DIR__);
 
-// Get the application
-$app = JApplicationWeb::getInstance('InstallationApplicationWeb');
-
-// Execute the application
-$app->execute();
+// This file must retain PHP 5.2 compatible syntax, so hide any namespacing, etc, in the bootstrap.php file.
+require __DIR__ . '/src/bootstrap.php';

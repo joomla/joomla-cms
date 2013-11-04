@@ -298,7 +298,7 @@ var Installation = function(_container, _base) {
 
         $.ajax({
             type : "POST",
-            url : baseUrl + '?task=removefolder',
+            url : baseUrl + '?task=removeFolder',
             data : data,
             dataType : 'json'
         }).done(function(r) {

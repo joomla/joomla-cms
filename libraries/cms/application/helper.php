@@ -114,24 +114,25 @@ class JApplicationHelper
 		// Only create the array if it does not exist
 		if (self::$_clients === null)
 		{
+			$app = JFactory::getApplication();
 			$obj = new stdClass;
 
 			// Site Client
 			$obj->id = 0;
 			$obj->name = 'site';
-			$obj->path = JPATH_SITE;
+			$obj->path = defined('JPATH_SITE') ? JPATH_SITE : $app->get('sitePath');
 			self::$_clients[0] = clone $obj;
 
 			// Administrator Client
 			$obj->id = 1;
 			$obj->name = 'administrator';
-			$obj->path = JPATH_ADMINISTRATOR;
+			$obj->path = defined('JPATH_ADMINISTRATOR') ? JPATH_ADMINISTRATOR : $app->get('administratorPath');
 			self::$_clients[1] = clone $obj;
 
 			// Installation Client
 			$obj->id = 2;
 			$obj->name = 'installation';
-			$obj->path = JPATH_INSTALLATION;
+			$obj->path = defined('JPATH_INSTALLATION') ? JPATH_INSTALLATION : $app->get('installationPath');
 			self::$_clients[2] = clone $obj;
 		}
 

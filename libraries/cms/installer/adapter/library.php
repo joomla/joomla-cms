@@ -203,7 +203,7 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 		// Lastly, we will copy the manifest file to its appropriate place.
 		$manifest = array();
 		$manifest['src'] = $this->parent->getPath('manifest');
-		$manifest['dest'] = JPATH_MANIFESTS . '/libraries/' . basename($this->parent->getPath('manifest'));
+		$manifest['dest'] = $this->manifestsPath . '/libraries/' . basename($this->parent->getPath('manifest'));
 
 		if (!$this->parent->copyFiles(array($manifest), true))
 		{
@@ -294,7 +294,7 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 			return false;
 		}
 
-		$manifestFile = JPATH_MANIFESTS . '/libraries/' . $row->element . '.xml';
+		$manifestFile = $this->manifestsPath . '/libraries/' . $row->element . '.xml';
 
 		// Because libraries may not have their own folders we cannot use the standard method of finding an installation manifest
 		if (file_exists($manifestFile))
@@ -370,11 +370,11 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 	public function discover()
 	{
 		$results = array();
-		$file_list = JFolder::files(JPATH_MANIFESTS . '/libraries', '\.xml$');
+		$file_list = JFolder::files($this->manifestsPath . '/libraries', '\.xml$');
 
 		foreach ($file_list as $file)
 		{
-			$manifest_details = JInstaller::parseXMLInstallFile(JPATH_MANIFESTS . '/libraries/' . $file);
+			$manifest_details = JInstaller::parseXMLInstallFile($this->manifestsPath . '/libraries/' . $file);
 			$file = JFile::stripExt($file);
 			$extension = JTable::getInstance('extension');
 			$extension->set('type', 'library');
@@ -401,7 +401,7 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 	{
 		/* Libraries are a strange beast; they are actually references to files
 		 * There are two parts to a library which are disjunct in their locations
-		 * 1) The manifest file (stored in /JPATH_MANIFESTS/libraries)
+		 * 1) The manifest file (stored in /$this->manifestsPath/libraries)
 		 * 2) The actual files (stored in /JPATH_PLATFORM/libraryname)
 		 * Thus installation of a library is the process of dumping files
 		 * in two different places. As such it is impossible to perform
@@ -410,7 +410,7 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 		 * time they can be adequately removed.
 		 */
 
-		$manifestPath = JPATH_MANIFESTS . '/libraries/' . $this->parent->extension->element . '.xml';
+		$manifestPath = $this->manifestsPath . '/libraries/' . $this->parent->extension->element . '.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 		$manifest_details = JInstaller::parseXMLInstallFile($this->parent->getPath('manifest'));
@@ -442,7 +442,7 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 	public function refreshManifestCache()
 	{
 		// Need to find to find where the XML file is since we don't store this normally
-		$manifestPath = JPATH_MANIFESTS . '/libraries/' . $this->parent->extension->element . '.xml';
+		$manifestPath = $this->manifestsPath . '/libraries/' . $this->parent->extension->element . '.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 
