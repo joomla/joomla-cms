@@ -32,6 +32,9 @@ define('JPATH_ROOT', implode(DIRECTORY_SEPARATOR, $parts));
 define('JPATH_LIBRARIES', JPATH_ROOT . '/libraries');
 define('JPATH_THEMES', JPATH_BASE);
 
+// Load the Composer autoloader.
+require_once JPATH_ROOT . '/vendor/autoload.php';
+
 /*
  * Notes:
  *
@@ -57,7 +60,7 @@ JLoader::registerNamespace('Installation\\', __DIR__);
 // Instantiate the application
 $app = new Installation\Application\WebApplication;
 
-// NOTE The following is trying to replace the defines.php file with configuration injection.
+// Set system paths.
 $app->set('configurationPath', JAPPLICATION_CONFIG);
 $app->set('administratorPath', JPATH_ROOT . '/administrator');
 $app->set('installationPath', JPATH_ROOT . '/installation');

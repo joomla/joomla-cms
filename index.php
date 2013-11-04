@@ -28,6 +28,7 @@ if (!defined('_JDEFINES'))
 	require_once JPATH_BASE . '/includes/defines.php';
 }
 
+require_once JPATH_BASE . '/vendor/autoload.php';
 require_once JPATH_BASE . '/includes/framework.php';
 
 // Mark afterLoad in the profiler.

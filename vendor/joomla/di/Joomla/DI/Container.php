@@ -10,22 +10,8 @@ namespace Joomla\DI;
 
 use Joomla\DI\Exception\DependencyResolutionException;
 
-/**
- * The Container class.
- *
- * @since  1.0
- */
 class Container
 {
-	/**
-	 * Holds the key aliases.
-	 *
-	 * @var    array  $aliases
-	 *
-	 * @since  1.0
-	 */
-	protected $aliases = array();
-
 	/**
 	 * Holds the shared instances.
 	 *
@@ -33,7 +19,7 @@ class Container
 	 *
 	 * @since  1.0
 	 */
-	protected $instances = array();
+	private $instances = array();
 
 	/**
 	 * Holds the keys, their callbacks, and whether or not
@@ -43,7 +29,7 @@ class Container
 	 *
 	 * @since  1.0
 	 */
-	protected $dataStore = array();
+	private $dataStore = array();
 
 	/**
 	 * Parent for hierarchical containers.
@@ -52,7 +38,7 @@ class Container
 	 *
 	 * @since  1.0
 	 */
-	protected $parent;
+	private $parent;
 
 	/**
 	 * Constructor for the DI Container
@@ -64,40 +50,6 @@ class Container
 	public function __construct(Container $parent = null)
 	{
 		$this->parent = $parent;
-	}
-
-	/**
-	 * Create an alias for a given key for easy access.
-	 *
-	 * @param   string  $alias  The alias name
-	 * @param   string  $key    The key to alias
-	 *
-	 * @return  Container
-	 */
-	public function alias($alias, $key)
-	{
-		$this->aliases[$alias] = $key;
-
-		return $this;
-	}
-
-	/**
-	 * Search the aliases property for a matching alias key.
-	 *
-	 * @param   string  $key  The key to search for.
-	 *
-	 * @return  string
-	 *
-	 * @since   1.0
-	 */
-	protected function resolveAlias($key)
-	{
-		if (isset($this->aliases[$key]))
-		{
-			return $this->aliases[$key];
-		}
-
-		return $key;
 	}
 
 	/**
@@ -127,9 +79,7 @@ class Container
 		// If there are no parameters, just return a new object.
 		if (is_null($constructor))
 		{
-			$callback = function () use ($key) {
-				return new $key;
-			};
+			$callback = function () use ($key) { return new $key; };
 		}
 		else
 		{
@@ -258,14 +208,15 @@ class Container
 	/**
 	 * Method to set the key and callback to the dataStore array.
 	 *
-	 * @param   string   $key        Name of dataStore key to set.
-	 * @param   mixed    $value      Callable function to run or string to retrive when requesting the specified $key.
-	 * @param   boolean  $shared     True to create and store a shared instance.
-	 * @param   boolean  $protected  True to protect this item from being overwritten. Useful for services.
+	 * @param   string    $key        Name of dataStore key to set.
+	 * @param   callable  $callback   Callable function to run when requesting the specified $key.
+	 * @param   boolean   $shared     True to create and store a shared instance.
+	 * @param   boolean   $protected  True to protect this item from being overwritten. Useful for services.
 	 *
 	 * @return  \Joomla\DI\Container  This instance to support chaining.
 	 *
 	 * @throws  \OutOfBoundsException      Thrown if the provided key is already set and is protected.
+	 * @throws  \UnexpectedValueException  Thrown if the provided callback is not valid.
 	 *
 	 * @since   1.0
 	 */
@@ -367,8 +318,6 @@ class Container
 	 */
 	protected function getRaw($key)
 	{
-		$key = $this->resolveAlias($key);
-
 		if (isset($this->dataStore[$key]))
 		{
 			return $this->dataStore[$key];
@@ -399,7 +348,7 @@ class Container
 	/**
 	 * Register a service provider to the container.
 	 *
-	 * @param   ServiceProviderInterface  $provider  The service provider to register.w
+	 * @param   ServiceProviderInterface $provider
 	 *
 	 * @return  Container  This object for chaining.
 	 *

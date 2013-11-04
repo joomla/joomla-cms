@@ -18,7 +18,8 @@ use JText,
 	JModelBase,
 	JClientFtp,
 	JUserHelper,
-	JArrayHelper;
+	JArrayHelper,
+	JCrypt;
 
 use Installation\Model\DatabaseModel,
 	Installation\Helpers\DatabaseHelper;

@@ -1,0 +1,44 @@
+[
+    {
+        "name": "joomla/di",
+        "version": "1.0-beta3",
+        "version_normalized": "1.0.0.0-beta3",
+        "target-dir": "Joomla/DI",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/joomla/joomla-framework-di.git",
+            "reference": "3b6a9aefb1665f7561822a03089ee5aaa31da68a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/joomla/joomla-framework-di/zipball/3b6a9aefb1665f7561822a03089ee5aaa31da68a",
+            "reference": "3b6a9aefb1665f7561822a03089ee5aaa31da68a",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.10"
+        },
+        "time": "2013-09-04 20:34:04",
+        "type": "joomla-package",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Joomla\\DI": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-2.0+"
+        ],
+        "description": "Joomla DI Package",
+        "homepage": "https://github.com/joomla/joomla-framework-di",
+        "keywords": [
+            "container",
+            "dependency injection",
+            "di",
+            "framework",
+            "ioc",
+            "joomla"
+        ]
+    }
+]

@@ -1,0 +1,5 @@
+{
+	"require" : {
+		"joomla/di" : "~1.0@dev"
+	}
+}
