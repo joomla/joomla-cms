@@ -29,7 +29,7 @@ JHtml::_('formbehavior.chosen', 'select');
 </script>
 
 <form
-	action="<?php echo JRoute::_('index.php?option=com_config&id='.$this->moduleId); ?>"
+	action="<?php echo JRoute::_('index.php?option=com_config&id=' . $this->moduleId); ?>"
 	method="post" name="adminForm" id="modules-form"
 	class="form-validate">
 

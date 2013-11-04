@@ -34,11 +34,9 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 		// Get the document object.
 		$document     = JFactory::getDocument();
 
-		$viewName     = $this->input->getWord('view', 'module');
+		$viewName     = $this->input->getWord('view', 'modules');
 		$viewFormat   = $document->getType();
 		$layoutName   = $this->input->getWord('layout', 'default');
-
-		$this->input->set('view', $viewName);
 
 		// Access back-end com_module
 		JLoader::register('ModulesController', JPATH_ADMINISTRATOR . '/components/com_modules/controller.php');
@@ -67,22 +65,18 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 		if (class_exists($viewClass))
 		{
 
-			if ($viewName != 'close')
+			$model = new $modelClass;
+
+			// Access check.
+			if (!JFactory::getUser()->authorise('core.admin', $model->getState('component.option')))
 			{
-				$model = new $modelClass; 
+				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 
-				// Access check.
-				if (!JFactory::getUser()->authorise('core.admin', $model->getState('component.option')))
-				{
-					$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
-
-					return;
-
-				}
+				return;
 
 			}
 
-			// Need to add module name to the state of model 
+			// Need to add module name to the state of model
 			$model->getState()->set('module.name', $serviceData['module']);
 
 			$view = new $viewClass($model, $paths);
@@ -94,6 +88,7 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 
 			// Load form and bind data
 			$form = $model->getForm();
+
 			if ($form)
 			{
 				$form->bind($serviceData);

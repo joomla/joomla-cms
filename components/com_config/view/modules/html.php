@@ -22,8 +22,6 @@ class ConfigViewModulesHtml extends ConfigViewCmsHtml
 
 	public $form;
 
-	public $state;
-	
 	public $moduleId;
 
 	/**
@@ -34,6 +32,7 @@ class ConfigViewModulesHtml extends ConfigViewCmsHtml
 
 		$user = JFactory::getUser();
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
+
 		$this->moduleId = JFactory::getApplication()->input->get('id');
 
 		return parent::render();

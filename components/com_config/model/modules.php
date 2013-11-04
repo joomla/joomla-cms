@@ -31,17 +31,17 @@ class ConfigModelModules extends ConfigModelForm
 	protected function populateState()
 	{
 		$app = JFactory::getApplication('administrator');
-		
+
 		// Load the User state.
 		$pk = $app->input->getInt('id');
-		
+
 		$state = $this->loadState();
-		
+
 		// Load the parameters.
 // 		$params	= JComponentHelper::getParams('com_modules');
 // 		$state->set('params', $params);
 		$state->set('module.id', $pk);
-		
+
 		$this->setState($state);
 	}
 

@@ -67,15 +67,18 @@ class ConfigControllerModulesSave extends JControllerBase
 		// Check the return value.
 		if ($return === false)
 		{
+			// Save the data in the session.
+			$app->setUserState('com_config.modules.global.data', $data);
+
 			// Save failed, go back to the screen and display a notice.
 			$message = JText::sprintf('JERROR_SAVE_FAILED');
-			$this->app->redirect(JRoute::_('index.php?option=com_config&view=modules&controller=config.display.modules&id='.$moduleId, false), $message, 'error');
+			$this->app->redirect(JRoute::_('index.php?option=com_config&controller=config.display.modules&id=' . $moduleId, false), $message, 'error');
 		}
 
 		// Set the success message.
 		$message = JText::_('COM_MODULES_SAVE_SUCCESS');
 
 		// Redirect back to com_config display
-		$this->app->redirect(JRoute::_('index.php?option=com_config&view=modules&controller=config.display.modules&id='.$moduleId, false), $message);
+		$this->app->redirect(JRoute::_('index.php?option=com_config&controller=config.display.modules&id=' . $moduleId, false), $message);
 	}
 }
