@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Nov-2013 Michael Babker
+ # [#32511] *B/C: Hathor edit contact or newsfeed broken on legacy sites.  Thanks Elin Waring
+
 04-Nov-2013 Jean-Marie Simonet
  $ Adding updated installation language file ckb-IQ
 
