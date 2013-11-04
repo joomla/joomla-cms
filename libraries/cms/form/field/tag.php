@@ -121,12 +121,21 @@ class JFormFieldTag extends JFormFieldList
 			->join('LEFT', $db->quoteName('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
 		// Ajax tag only loads assigned values
-		if (!$this->isNested())
+		if (!$this->isNested() && !empty($this->value))
 		{
 			// Only item assigned values
 			$values = (array) $this->value;
 			JArrayHelper::toInteger($values);
 			$query->where('a.id IN (' . implode(',', $values) . ')');
+		}
+
+		// Block the possibility to set a tag as it own parent
+		$id   = (int) $this->form->getValue('id', 0);
+		$name = (int) $this->form->getValue('name', '');
+
+		if ($name == 'com_tags.tag')
+		{
+			$query->where('a.id != ' . $db->quote($id));
 		}
 
 		// Filter language

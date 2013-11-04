@@ -14,12 +14,35 @@
 			extension="com_newsfeeds"
 			view="newsfeed"
 		/>
+		
+		<field
+			name="save_history"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="0"
+			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
+			description="JGLOBAL_SAVE_HISTORY_OPTIONS_DESC"
+			>
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
+		</field>
+		
+		<field
+			name="history_limit"
+			type="text"
+			filter="integer"
+			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
+			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
+			default="5"
+		/>
 
 		<field
 			id="show_feed_image"
 			name="show_feed_image"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
 			description="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_DESC">
@@ -31,7 +54,7 @@
 			id="show_feed_description"
 			name="show_feed_description"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
 			description="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_DESC">
@@ -43,7 +66,7 @@
 			id="show_item_description"
 			name="show_item_description"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
 			description="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_DESC">
@@ -95,7 +118,7 @@
 			id="show_tags"
 			name="show_tags"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="COM_NEWSFEEDS_FIELD_SHOW_TAGS_LABEL"
 			description="COM_NEWSFEEDS_FIELD_SHOW_TAGS_DESC">
@@ -120,7 +143,7 @@
 		/>
 
 		<field name="show_category_title" type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			label="JGLOBAL_SHOW_CATEGORY_TITLE"
 			description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
 			default="1"
@@ -133,7 +156,7 @@
 			id="show_description"
 			name="show_description"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
 			description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC">
@@ -144,7 +167,7 @@
 		<field
 			name="show_description_image"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
 			description="JGLOBAL_SHOW_CATEGORY_IMAGE_DESC"
@@ -168,7 +191,7 @@
 		</field>
 
 		<field name="show_empty_categories" type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 			description="COM_NEWSFEEDS_SHOW_EMPTY_CATEGORIES_DESC"
 			default="0"
@@ -178,7 +201,7 @@
 		</field>
 
 		<field name="show_subcat_desc" type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
@@ -191,7 +214,7 @@
 			id="show_cat_items"
 			name="show_cat_items"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_LABEL"
 			description="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_DESC"
@@ -203,7 +226,7 @@
 		<field name="show_cat_tags" type="radio"
 			label="COM_NEWSFEEDS_FIELD_SHOW_CAT_TAGS_LABEL"
 			description="COM_NEWSFEEDS_FIELD_SHOW_CAT_TAGS_DESC"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 		>
 			<option value="0">JHIDE</option>
@@ -218,7 +241,7 @@
 
 		<field name="show_base_description" type="radio"
 			default="1"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
 			description="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_DESC"
 		>
@@ -240,7 +263,7 @@
 
 		</field>
 		<field name="show_empty_categories_cat" type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="0"
 			label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 			description="COM_NEWSFEEDS_SHOW_EMPTY_CATEGORIES_DESC"
@@ -250,7 +273,7 @@
 		</field>
 
 		<field name="show_subcat_desc_cat" type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
@@ -260,7 +283,7 @@
 		</field>
 
 		<field name="show_cat_items_cat" type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			description="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_DESC"
 			label="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_LABEL"
@@ -290,7 +313,7 @@
 		<field
 			name="show_pagination_limit"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="JGLOBAL_DISPLAY_SELECT_LABEL"
 			description="JGLOBAL_DISPLAY_SELECT_DESC"
@@ -303,7 +326,7 @@
 			id="show_headings"
 			name="show_headings"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="JGLOBAL_SHOW_HEADINGS_LABEL"
 			description="JGLOBAL_SHOW_HEADINGS_DESC"
@@ -316,7 +339,7 @@
 			id="show_articles"
 			name="show_articles"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_LABEL"
 			description="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_DESC"
@@ -329,7 +352,7 @@
 			id="show_link"
 			name="show_link"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="COM_NEWSFEEDS_FIELD_SHOW_LINKS_LABEL"
 			description="COM_NEWSFEEDS_FIELD_SHOW_LINKS_DESC"
@@ -352,7 +375,7 @@
 		<field
 			name="show_pagination_results"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 			description="JGLOBAL_PAGINATION_RESULTS_DESC"

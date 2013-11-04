@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.file');
-
 /**
  * Configuration setup model for the Joomla Core Installer.
  *
@@ -103,6 +101,7 @@ class InstallationModelConfiguration extends JModelBase
 		$registry->set('offset', 'UTC');
 
 		/* Mail Settings */
+		$registry->set('mailonline', 1);
 		$registry->set('mailer', 'mail');
 		$registry->set('mailfrom', $options->admin_email);
 		$registry->set('fromname', $options->site_name);
@@ -184,8 +183,6 @@ class InstallationModelConfiguration extends JModelBase
 		if ($useFTP == true)
 		{
 			// Connect the FTP client
-			jimport('joomla.filesystem.path');
-
 			$ftp = JClientFtp::getInstance($options->ftp_host, $options->ftp_port);
 			$ftp->login($options->ftp_user, $options->ftp_pass);
 
@@ -224,7 +221,7 @@ class InstallationModelConfiguration extends JModelBase
 	/**
 	 * Method to create the root user for the site
 	 *
-	 * @param   array  $options  The session options
+	 * @param   object  $options  The session options
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -244,13 +241,23 @@ class InstallationModelConfiguration extends JModelBase
 		catch (RuntimeException $e)
 		{
 			$app->enqueueMessage(JText::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'notice');
+
 			return false;
 		}
 
-		// Create random salt/password for the admin user
-		$salt = JUserHelper::genRandomPassword(32);
-		$crypt = JUserHelper::getCryptedPassword($options->admin_password, $salt);
-		$cryptpass = $crypt . ':' . $salt;
+		$useStrongPasswords = JCrypt::hasStrongPasswordSupport();
+
+		if ($useStrongPasswords)
+		{
+			$cryptpass = JUserHelper::getCryptedPassword($options->admin_password);
+		}
+		else
+		{
+			$salt = JUserHelper::genRandomPassword(16);
+			//$cryptpass = JUserHelper::getCryptedPassword($options->admin_password, $salt, 'sha256') . ':' . $salt;
+			$cryptpass = JUserHelper::getCryptedPassword($options->admin_password, $salt, 'sha256');
+
+		}
 
 		// Take the admin user id
 		$userId = InstallationModelDatabase::getUserId();

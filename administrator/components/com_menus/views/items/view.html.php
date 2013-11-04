@@ -28,6 +28,10 @@ class MenusViewItems extends JViewLegacy
 
 	/**
 	 * Display the view
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
@@ -35,6 +39,8 @@ class MenusViewItems extends JViewLegacy
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
 		MenusHelper::addSubmenu('items');
 
@@ -42,6 +48,7 @@ class MenusViewItems extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -52,7 +59,7 @@ class MenusViewItems extends JViewLegacy
 		{
 			$this->ordering[$item->parent_id][] = $item->id;
 
-			// item type text
+			// Item type text
 			switch ($item->type)
 			{
 				case 'url':
@@ -73,11 +80,9 @@ class MenusViewItems extends JViewLegacy
 
 				case 'component':
 				default:
-					// load language
-						$lang->load($item->componentname.'.sys', JPATH_ADMINISTRATOR, null, false, false)
-					||	$lang->load($item->componentname.'.sys', JPATH_ADMINISTRATOR.'/components/'.$item->componentname, null, false, false)
-					||	$lang->load($item->componentname.'.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-					||	$lang->load($item->componentname.'.sys', JPATH_ADMINISTRATOR.'/components/'.$item->componentname, $lang->getDefault(), false, false);
+					// Load language
+						$lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR, null, false, true)
+					||	$lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->componentname, null, false, true);
 
 					if (!empty($item->componentname))
 					{
@@ -85,10 +90,17 @@ class MenusViewItems extends JViewLegacy
 						$vars	= null;
 
 						parse_str($item->link, $vars);
+
 						if (isset($vars['view']))
 						{
 							// Attempt to load the view xml file.
-							$file = JPATH_SITE.'/components/'.$item->componentname.'/views/'.$vars['view'].'/metadata.xml';
+							$file = JPATH_SITE . '/components/' . $item->componentname . '/views/' . $vars['view'] . '/metadata.xml';
+
+							if (!is_file($file))
+							{
+								$file = JPATH_SITE . '/components/' . $item->componentname . '/view/' . $vars['view'] . '/metadata.xml';
+							}
+
 							if (is_file($file) && $xml = simplexml_load_file($file))
 							{
 								// Look for the first view node off of the root node.
@@ -104,19 +116,24 @@ class MenusViewItems extends JViewLegacy
 										{
 											// Use template folder for layout file
 											$temp = explode(':', $vars['layout']);
-											$file = JPATH_SITE.'/templates/'.$temp[0].'/html/'.$item->componentname.'/'.$vars['view'].'/'.$temp[1].'.xml';
-											// Load template language file
-											$lang->load('tpl_'.$temp[0].'.sys', JPATH_SITE, null, false, false)
-											||	$lang->load('tpl_'.$temp[0].'.sys', JPATH_SITE.'/templates/'.$temp[0], null, false, false)
-											||	$lang->load('tpl_'.$temp[0].'.sys', JPATH_SITE, $lang->getDefault(), false, false)
-											||	$lang->load('tpl_'.$temp[0].'.sys', JPATH_SITE.'/templates/'.$temp[0], $lang->getDefault(), false, false);
+											$file = JPATH_SITE . '/templates/' . $temp[0] . '/html/' . $item->componentname . '/' . $vars['view'] . '/' . $temp[1] . '.xml';
 
+											// Load template language file
+											$lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE, null, false, true)
+											||	$lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE . '/templates/' . $temp[0], null, false, true);
 										}
 										else
 										{
 											// Get XML file from component folder for standard layouts
-											$file = JPATH_SITE.'/components/'.$item->componentname.'/views/'.$vars['view'].'/tmpl/'.$vars['layout'].'.xml';
+											$file = JPATH_SITE . '/components/' . $item->componentname . '/views/' . $vars['view'] . '/tmpl/' . $vars['layout'] . '.xml';
+
+											if (!file_exists($file))
+											{
+												$file = JPATH_SITE . '/components/' . $item->componentname . '/view/' . $vars['view'] . '/tmpl/' . $vars['layout'] . '.xml';
+											}
+
 										}
+
 										if (is_file($file) && $xml = simplexml_load_file($file))
 										{
 											// Look for the first view node off of the root node.
@@ -127,6 +144,7 @@ class MenusViewItems extends JViewLegacy
 													$value .= ' » ' . JText::_(trim((string) $layout[0]['title']));
 												}
 											}
+
 											if (!empty($layout[0]->message[0]))
 											{
 												$item->item_type_desc = JText::_(trim((string) $layout[0]->message[0]));
@@ -134,6 +152,7 @@ class MenusViewItems extends JViewLegacy
 										}
 									}
 								}
+
 								unset($xml);
 							}
 							else
@@ -149,12 +168,14 @@ class MenusViewItems extends JViewLegacy
 						{
 							$value = JText::sprintf('COM_MENUS_TYPE_UNEXISTING', $result[1]);
 						}
-						else {
+						else
+						{
 							$value = JText::_('COM_MENUS_TYPE_UNKNOWN');
 						}
 					}
 					break;
 			}
+
 			$item->item_type = $value;
 		}
 
@@ -177,7 +198,7 @@ class MenusViewItems extends JViewLegacy
 		$this->sidebar = JHtmlSidebar::render();
 
 		// Allow a system plugin to insert dynamic menu types to the list shown in menus:
-		JDispatcher::getInstance()->trigger('onBeforeRenderMenuItems', array($this));
+		JEventDispatcher::getInstance()->trigger('onBeforeRenderMenuItems', array($this));
 
 		parent::display($tpl);
 	}
@@ -185,11 +206,13 @@ class MenusViewItems extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
-		require_once JPATH_COMPONENT.'/helpers/menus.php';
+		require_once JPATH_COMPONENT . '/helpers/menus.php';
 
 		$canDo	= MenusHelper::getActions($this->state->get('filter.parent_id'));
 		$user  = JFactory::getUser();
@@ -197,7 +220,7 @@ class MenusViewItems extends JViewLegacy
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 
-		JToolbarHelper::title(JText::_('COM_MENUS_VIEW_ITEMS_TITLE'), 'menumgr.png');
+		JToolbarHelper::title(JText::_('COM_MENUS_VIEW_ITEMS_TITLE'), 'list menumgr');
 
 		if ($canDo->get('core.create'))
 		{
@@ -208,11 +231,13 @@ class MenusViewItems extends JViewLegacy
 		{
 			JToolbarHelper::editList('item.edit');
 		}
+
 		if ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::publish('items.publish', 'JTOOLBAR_PUBLISH', true);
 			JToolbarHelper::unpublish('items.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 		}
+
 		if (JFactory::getUser()->authorise('core.admin'))
 		{
 			JToolbarHelper::checkin('items.checkin', 'JTOOLBAR_CHECKIN', true);
@@ -231,6 +256,7 @@ class MenusViewItems extends JViewLegacy
 		{
 			JToolbarHelper::makeDefault('items.setDefault', 'COM_MENUS_TOOLBAR_SET_HOME');
 		}
+
 		if (JFactory::getUser()->authorise('core.admin'))
 		{
 			JToolbarHelper::custom('items.rebuild', 'refresh.png', 'refresh_f2.png', 'JToolbar_Rebuild', false);
@@ -250,40 +276,6 @@ class MenusViewItems extends JViewLegacy
 		}
 
 		JToolbarHelper::help('JHELP_MENUS_MENU_ITEM_MANAGER');
-
-		JHtmlSidebar::setAction('index.php?option=com_menus&view=items');
-
-		JHtmlSidebar::addFilter(
-			// @todo we need a label here
-			'',
-			'menutype',
-			JHtml::_('select.options', JHtml::_('menu.menus'), 'value', 'text', $this->state->get('filter.menutype')),
-			false
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('COM_MENUS_OPTION_SELECT_LEVEL'),
-			'filter_level',
-			JHtml::_('select.options', $this->f_levels, 'value', 'text', $this->state->get('filter.level'))
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_PUBLISHED'),
-			'filter_published',
-			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions', array('archived' => false)), 'value', 'text', $this->state->get('filter.published'), true)
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_ACCESS'),
-			'filter_access',
-			JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_LANGUAGE'),
-			'filter_language',
-			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
-		);
 	}
 
 	/**

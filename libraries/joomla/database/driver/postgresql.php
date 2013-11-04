@@ -21,26 +21,31 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * The database driver name
 	 *
-	 * @var string
+	 * @var    string
+	 * @since  12.1
 	 */
 	public $name = 'postgresql';
 
 	/**
 	 * Quote for named objects
 	 *
-	 * @var string
+	 * @var    string
+	 * @since  12.1
 	 */
 	protected $nameQuote = '"';
 
 	/**
-	 *  The null/zero date string
+	 * The null/zero date string
 	 *
-	 * @var string
+	 * @var    string
+	 * @since  12.1
 	 */
 	protected $nullDate = '1970-01-01 00:00:00';
 
 	/**
-	 * @var    string  The minimum supported database version.
+	 * The minimum supported database version.
+	 *
+	 * @var    string
 	 * @since  12.1
 	 */
 	protected static $dbMinimum = '8.3.18';
@@ -48,14 +53,16 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * Operator used for concatenation
 	 *
-	 * @var string
+	 * @var    string
+	 * @since  12.1
 	 */
 	protected $concat_operator = '||';
 
 	/**
 	 * JDatabaseDriverPostgresqlQuery object returned by getQuery
 	 *
-	 * @var JDatabaseDriverPostgresqlQuery
+	 * @var    JDatabaseDriverPostgresqlQuery
+	 * @since  12.1
 	 */
 	protected $queryObject = null;
 
@@ -80,7 +87,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * Database object destructor
 	 *
-	 * @since 12.1
+	 * @since   12.1
 	 */
 	public function __destruct()
 	{
@@ -171,7 +178,9 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * Test to see if the PostgreSQL connector is available
 	 *
-	 * @return boolean  True on success, false otherwise.
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   12.1
 	 */
 	public static function test()
 	{
@@ -203,7 +212,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 * @param   string   $tableName  The name of the database table to drop.
 	 * @param   boolean  $ifExists   Optionally specify that the table must exist before it is dropped.
 	 *
-	 * @return  boolean	true
+	 * @return  boolean
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
@@ -221,9 +230,9 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * Get the number of affected rows for the previous executed SQL statement.
 	 *
-	 * @return int The number of affected rows in the previous operation
+	 * @return  integer  The number of affected rows in the previous operation
 	 *
-	 * @since 12.1
+	 * @since   12.1
 	 */
 	public function getAffectedRows()
 	{
@@ -259,7 +268,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @since   12.1
 	 */
-	public function getNumRows( $cur = null )
+	public function getNumRows($cur = null)
 	{
 		$this->connect();
 
@@ -311,10 +320,9 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @param   mixed  $tables  A table name or a list of table names.
 	 *
-	 * @return  char  An empty char because this function is not supported by PostgreSQL.
+	 * @return  string  An empty char because this function is not supported by PostgreSQL.
 	 *
 	 * @since   12.1
-	 * @throws  RuntimeException
 	 */
 	public function getTableCreate($tables)
 	{
@@ -341,29 +349,29 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		$tableSub = $this->replacePrefix($table);
 
 		$this->setQuery('
-				SELECT a.attname AS "column_name",
-					pg_catalog.format_type(a.atttypid, a.atttypmod) as "type",
-					CASE WHEN a.attnotnull IS TRUE
-						THEN \'NO\'
-						ELSE \'YES\'
-					END AS "null",
-					CASE WHEN pg_catalog.pg_get_expr(adef.adbin, adef.adrelid, true) IS NOT NULL
-						THEN pg_catalog.pg_get_expr(adef.adbin, adef.adrelid, true)
-					END as "Default",
-					CASE WHEN pg_catalog.col_description(a.attrelid, a.attnum) IS NULL
-					THEN \'\'
-					ELSE pg_catalog.col_description(a.attrelid, a.attnum)
-					END  AS "comments"
-				FROM pg_catalog.pg_attribute a
-				LEFT JOIN pg_catalog.pg_attrdef adef ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum
-				LEFT JOIN pg_catalog.pg_type t ON a.atttypid=t.oid
-				WHERE a.attrelid =
-					(SELECT oid FROM pg_catalog.pg_class WHERE relname=' . $this->quote($tableSub) . '
-						AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE
-						nspname = \'public\')
-					)
-				AND a.attnum > 0 AND NOT a.attisdropped
-				ORDER BY a.attnum'
+			SELECT a.attname AS "column_name",
+				pg_catalog.format_type(a.atttypid, a.atttypmod) as "type",
+				CASE WHEN a.attnotnull IS TRUE
+					THEN \'NO\'
+					ELSE \'YES\'
+				END AS "null",
+				CASE WHEN pg_catalog.pg_get_expr(adef.adbin, adef.adrelid, true) IS NOT NULL
+					THEN pg_catalog.pg_get_expr(adef.adbin, adef.adrelid, true)
+				END as "Default",
+				CASE WHEN pg_catalog.col_description(a.attrelid, a.attnum) IS NULL
+				THEN \'\'
+				ELSE pg_catalog.col_description(a.attrelid, a.attnum)
+				END  AS "comments"
+			FROM pg_catalog.pg_attribute a
+			LEFT JOIN pg_catalog.pg_attrdef adef ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum
+			LEFT JOIN pg_catalog.pg_type t ON a.atttypid=t.oid
+			WHERE a.attrelid =
+				(SELECT oid FROM pg_catalog.pg_class WHERE relname=' . $this->quote($tableSub) . '
+					AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE
+					nspname = \'public\')
+				)
+			AND a.attnum > 0 AND NOT a.attisdropped
+			ORDER BY a.attnum'
 		);
 
 		$fields = $this->loadObjectList();
@@ -412,25 +420,27 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		// To check if table exists and prevent SQL injection
 		$tableList = $this->getTableList();
 
-		if ( in_array($table, $tableList) )
+		if (in_array($table, $tableList))
 		{
 			// Get the details columns information.
 			$this->setQuery('
-					SELECT indexname AS "idxName", indisprimary AS "isPrimary", indisunique  AS "isUnique",
-						CASE WHEN indisprimary = true THEN
-							( SELECT \'ALTER TABLE \' || tablename || \' ADD \' || pg_catalog.pg_get_constraintdef(const.oid, true)
-								FROM pg_constraint AS const WHERE const.conname= pgClassFirst.relname )
-						ELSE pg_catalog.pg_get_indexdef(indexrelid, 0, true)
-						END AS "Query"
-					FROM pg_indexes
-					LEFT JOIN pg_class AS pgClassFirst ON indexname=pgClassFirst.relname
-					LEFT JOIN pg_index AS pgIndex ON pgClassFirst.oid=pgIndex.indexrelid
-					WHERE tablename=' . $this->quote($table) . ' ORDER BY indkey'
+				SELECT indexname AS "idxName", indisprimary AS "isPrimary", indisunique  AS "isUnique",
+					CASE WHEN indisprimary = true THEN
+						( SELECT \'ALTER TABLE \' || tablename || \' ADD \' || pg_catalog.pg_get_constraintdef(const.oid, true)
+							FROM pg_constraint AS const WHERE const.conname= pgClassFirst.relname )
+					ELSE pg_catalog.pg_get_indexdef(indexrelid, 0, true)
+					END AS "Query"
+				FROM pg_indexes
+				LEFT JOIN pg_class AS pgClassFirst ON indexname=pgClassFirst.relname
+				LEFT JOIN pg_index AS pgIndex ON pgClassFirst.oid=pgIndex.indexrelid
+				WHERE tablename=' . $this->quote($table) . ' ORDER BY indkey'
 			);
+
 			$keys = $this->loadObjectList();
 
 			return $keys;
 		}
+
 		return false;
 	}
 
@@ -450,9 +460,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			->select('table_name')
 			->from('information_schema.tables')
 			->where('table_type=' . $this->quote('BASE TABLE'))
-			->where(
-				'table_schema NOT IN (' . $this->quote('pg_catalog') . ', ' . $this->quote('information_schema') . ')'
-			)
+			->where('table_schema NOT IN (' . $this->quote('pg_catalog') . ', ' . $this->quote('information_schema') . ')')
 			->order('table_name ASC');
 
 		$this->setQuery($query);
@@ -478,12 +486,13 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		// To check if table exists and prevent SQL injection
 		$tableList = $this->getTableList();
 
-		if ( in_array($table, $tableList) )
+		if (in_array($table, $tableList))
 		{
-			$name = array('s.relname', 'n.nspname', 't.relname', 'a.attname', 'info.data_type',
-							'info.minimum_value', 'info.maximum_value', 'info.increment', 'info.cycle_option');
-			$as = array('sequence', 'schema', 'table', 'column', 'data_type',
-							'minimum_value', 'maximum_value', 'increment', 'cycle_option');
+			$name = array(
+				's.relname', 'n.nspname', 't.relname', 'a.attname', 'info.data_type', 'info.minimum_value', 'info.maximum_value',
+				'info.increment', 'info.cycle_option'
+			);
+			$as = array('sequence', 'schema', 'table', 'column', 'data_type', 'minimum_value', 'maximum_value', 'increment', 'cycle_option');
 
 			if (version_compare($this->getVersion(), '9.1.0') >= 0)
 			{
@@ -506,6 +515,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 			return $seq;
 		}
+
 		return false;
 	}
 
@@ -563,13 +573,9 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		/* find sequence column name */
 		$colNameQuery = $this->getQuery(true);
 		$colNameQuery->select('column_default')
-						->from('information_schema.columns')
-						->where(
-								"table_name=" . $this->quote(
-									$this->replacePrefix(str_replace('"', '', $table[0]))
-								), 'AND'
-						)
-						->where("column_default LIKE '%nextval%'");
+			->from('information_schema.columns')
+			->where("table_name=" . $this->quote($this->replacePrefix(str_replace('"', '', $table[0]))), 'AND')
+			->where("column_default LIKE '%nextval%'");
 
 		$this->setQuery($colNameQuery);
 		$colName = $this->loadRow();
@@ -590,7 +596,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  JDatabaseDriverPostgresql  Returns this object to support chaining.
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
 	public function lockTable($tableName)
@@ -622,7 +628,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		// Take a local copy so that we don't modify the original query and cause issues later
 		$query = $this->replacePrefix((string) $this->sql);
 
-		if ($this->limit > 0 || $this->offset > 0)
+		if (!($this->sql instanceof JDatabaseQuery) && ($this->limit > 0 || $this->offset > 0))
 		{
 			$query .= ' LIMIT ' . $this->limit . ' OFFSET ' . $this->offset;
 		}
@@ -651,6 +657,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		if ($this->debug)
 		{
 			$this->timings[] = microtime(true);
+
 			if (defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
 			{
 				$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
@@ -714,7 +721,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  JDatabaseDriverPostgresql  Returns this object to support chaining.
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
 	public function renameTable($oldTable, $newTable, $backup = null, $prefix = null)
@@ -725,7 +732,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		$tableList = $this->getTableList();
 
 		// Origin Table does not exist
-		if ( !in_array($oldTable, $tableList) )
+		if (!in_array($oldTable, $tableList))
 		{
 			// Origin Table not found
 			throw new RuntimeException('Table not found in Postgresql database.');
@@ -734,13 +741,13 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		{
 			/* Rename indexes */
 			$this->setQuery(
-							'SELECT relname
-								FROM pg_class
-								WHERE oid IN (
-									SELECT indexrelid
-									FROM pg_index, pg_class
-									WHERE pg_class.relname=' . $this->quote($oldTable, true) . '
-									AND pg_class.oid=pg_index.indrelid );'
+				'SELECT relname
+					FROM pg_class
+					WHERE oid IN (
+						SELECT indexrelid
+						FROM pg_index, pg_class
+						WHERE pg_class.relname=' . $this->quote($oldTable, true) . '
+						AND pg_class.oid=pg_index.indrelid );'
 			);
 
 			$oldIndexes = $this->loadColumn();
@@ -754,16 +761,16 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 			/* Rename sequence */
 			$this->setQuery(
-							'SELECT relname
-								FROM pg_class
-								WHERE relkind = \'S\'
-								AND relnamespace IN (
-									SELECT oid
-									FROM pg_namespace
-									WHERE nspname NOT LIKE \'pg_%\'
-									AND nspname != \'information_schema\'
-								)
-								AND relname LIKE \'%' . $oldTable . '%\' ;'
+				'SELECT relname
+					FROM pg_class
+					WHERE relkind = \'S\'
+					AND relnamespace IN (
+						SELECT oid
+						FROM pg_namespace
+						WHERE nspname NOT LIKE \'pg_%\'
+						AND nspname != \'information_schema\'
+					)
+					AND relname LIKE \'%' . $oldTable . '%\' ;'
 			);
 
 			$oldSequences = $this->loadColumn();
@@ -789,6 +796,8 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 * @param   string  $database  Database name to select.
 	 *
 	 * @return  boolean  Always true
+	 *
+	 * @since   12.1
 	 */
 	public function select($database)
 	{
@@ -798,7 +807,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * Custom settings for UTF support
 	 *
-	 * @return  int  Zero on success, -1 on failure
+	 * @return  integer  Zero on success, -1 on failure
 	 *
 	 * @since   12.1
 	 */
@@ -818,7 +827,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  string  The quoted string.
 	 *
-	 * @since   11.3
+	 * @since   12.1
 	 */
 	public function sqlValue($columns, $field_name, $field_value)
 	{
@@ -835,6 +844,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				{
 					$val = 'FALSE';
 				}
+
 				break;
 
 			case 'bigint':
@@ -855,6 +865,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				{
 					$field_value = $this->getNullDate();
 				}
+
 				$val = $this->quote($field_value);
 				break;
 
@@ -1026,7 +1037,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  boolean    True on success.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
 	public function insertObject($table, &$object, $key = null)
@@ -1072,6 +1083,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			$this->setQuery($query);
 
 			$id = $this->loadResult();
+
 			if ($id)
 			{
 				$object->$key = $id;
@@ -1107,7 +1119,9 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * Returns an array containing database's table list.
 	 *
-	 * @return	array	The database's table list.
+	 * @return  array  The database's table list.
+	 *
+	 * @since   12.1
 	 */
 	public function showTables()
 	{
@@ -1116,10 +1130,8 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		$query = $this->getQuery(true)
 			->select('table_name')
 			->from('information_schema.tables')
-			->where('table_type=' . $this->quote('BASE TABLE'))
-			->where(
-				'table_schema NOT IN (' . $this->quote('pg_catalog') . ', ' . $this->quote('information_schema') . ' )'
-			);
+			->where('table_type = ' . $this->quote('BASE TABLE'))
+			->where('table_schema NOT IN (' . $this->quote('pg_catalog') . ', ' . $this->quote('information_schema') . ' )');
 
 		$this->setQuery($query);
 		$tableList = $this->loadColumn();
@@ -1133,7 +1145,9 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 * @param   string  $substring  The string being sought
 	 * @param   string  $string     The string/column being searched
 	 *
-	 * @return int   The position of $substring in $string
+	 * @return  integer  The position of $substring in $string
+	 *
+	 * @since   12.1
 	 */
 	public function getStringPositionSQL( $substring, $string )
 	{
@@ -1149,7 +1163,9 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * Generate a random value
 	 *
-	 * @return float The random generated number
+	 * @return  float  The random generated number
+	 *
+	 * @since   12.1
 	 */
 	public function getRandom()
 	{
@@ -1180,10 +1196,8 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * Get the query string to create new Database in correct PostgreSQL syntax.
 	 *
-	 * @param   object   $options  object coming from "initialise" function to pass user
-	 * 									and database name to database driver.
-	 * @param   boolean  $utf      True if the database supports the UTF-8 character set,
-	 * 									not used in PostgreSQL "CREATE DATABASE" query.
+	 * @param   object   $options  object coming from "initialise" function to pass user and database name to database driver.
+	 * @param   boolean  $utf      True if the database supports the UTF-8 character set, not used in PostgreSQL "CREATE DATABASE" query.
 	 *
 	 * @return  string	The query that creates database, owned by $options['user']
 	 *
@@ -1227,6 +1241,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				{
 					$query[$nIndex] = str_replace($prefix, $this->tablePrefix, $query[$nIndex]);
 				}
+
 				$query = implode('currval', $query);
 			}
 
@@ -1239,6 +1254,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				{
 					$query[$nIndex] = str_replace($prefix, $this->tablePrefix, $query[$nIndex]);
 				}
+
 				$query = implode('nextval', $query);
 			}
 
@@ -1251,6 +1267,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				{
 					$query[$nIndex] = str_replace($prefix, $this->tablePrefix, $query[$nIndex]);
 				}
+
 				$query = implode('setval', $query);
 			}
 
@@ -1312,12 +1329,13 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  JDatabaseDriverPostgresql  Returns this object to support chaining.
 	 *
-	 * @since   11.4
+	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
 	public function unlockTables()
 	{
 		$this->transactionCommit();
+
 		return $this;
 	}
 
@@ -1326,24 +1344,32 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @param   string   $table    The name of the database table to update.
 	 * @param   object   &$object  A reference to an object whose public properties match the table fields.
-	 * @param   string   $key      The name of the primary key.
+	 * @param   array    $key      The name of the primary key.
 	 * @param   boolean  $nulls    True to update null fields or false to ignore them.
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
 	public function updateObject($table, &$object, $key, $nulls = false)
 	{
 		$columns = $this->getTableColumns($table);
-		$fields = array();
-		$where = '';
+		$fields  = array();
+		$where   = array();
+
+		if (is_string($key))
+		{
+			$key = array($key);
+		}
+
+		if (is_object($key))
+		{
+			$key = (array) $key;
+		}
 
 		// Create the base update statement.
-		$query = $this->getQuery(true)
-			->update($table);
-		$stmt = '%s WHERE %s';
+		$statement = 'UPDATE ' . $this->quoteName($table) . ' SET %s WHERE %s';
 
 		// Iterate over the object variables to build the query fields/value pairs.
 		foreach (get_object_vars($object) as $k => $v)
@@ -1355,10 +1381,10 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			}
 
 			// Set the primary key to the WHERE clause instead of a field to update.
-			if ($k == $key)
+			if (in_array($k, $key))
 			{
 				$key_val = $this->sqlValue($columns, $k, $v);
-				$where = $this->quoteName($k) . '=' . $key_val;
+				$where[] = $this->quoteName($k) . '=' . $key_val;
 				continue;
 			}
 
@@ -1393,8 +1419,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		}
 
 		// Set the query and execute the update.
-		$query->set(sprintf($stmt, implode(",", $fields), $where));
-		$this->setQuery($query);
+		$this->setQuery(sprintf($statement, implode(",", $fields), implode(' AND ', $where)));
 
 		return $this->execute();
 	}

@@ -8,8 +8,6 @@
 
 defined('JPATH_BASE') or die;
 
-jimport('joomla.filesystem.folder');
-jimport('joomla.filesystem.file');
 JFormHelper::loadFieldClass('radio');
 
 /**
@@ -51,10 +49,16 @@ class JFormFieldSample extends JFormFieldRadio
 			$type = 'sqlazure';
 		}
 
+		// Temporarily disable sample data for PostgreSQL as the data sets are not yet updated
+		if ($type == 'postgresql')
+		{
+			return $options;
+		}
+
 		// Get a list of files in the search path with the given filter.
 		$files = JFolder::files(JPATH_INSTALLATION . '/sql/' . $type, '^sample.*\.sql$');
 
-		// Add option to not install sampledata.
+		// Add option to not install sample data.
 		$options[] = JHtml::_('select.option', '',
 			JHtml::_('tooltip', JText::_('INSTL_SITE_INSTALL_SAMPLE_NONE_DESC'), '', '', JText::_('INSTL_SITE_INSTALL_SAMPLE_NONE'))
 		);

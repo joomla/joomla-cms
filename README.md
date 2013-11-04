@@ -1,12 +1,17 @@
-Joomla! CMS [![Build Status](https://travis-ci.org/joomla/joomla-cms.png)](https://travis-ci.org/joomla/joomla-cms)
+Joomla! CMS
 ====================
+
+Build Status
+---------------------
+Travis-CI: [![Build Status](https://travis-ci.org/joomla/joomla-cms.png)](https://travis-ci.org/joomla/joomla-cms)
+Jenkins: [![Build Status](http://build.joomla.org/job/cms/badge/icon)](http://build.joomla.org/job/cms/)
 
 What is this?
 ---------------------
 * This is a Joomla! installation/upgrade package to version 3.x
 * Joomla! [Official site](http://www.joomla.org)
 * Joomla! 3.1 [version history](http://docs.joomla.org/Joomla_3.1_version_history)
-* Detailed changes in the [Changelog](http://joomlacode.org/gf/project/joomla/scmsvn/?action=browse&path=/development/trunk/administrator/&view=log)
+* Detailed changes in the [Changelog](https://github.com/joomla/joomla-cms/commits/master)
 
 What is Joomla?
 ---------------------

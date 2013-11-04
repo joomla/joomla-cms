@@ -17,7 +17,7 @@ JHtml::_('behavior.formvalidation');
 $app = JFactory::getApplication();
 $input = $app->input;
 
-$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+$assoc = JLanguageAssociations::isEnabled();
 
 ?>
 <script type="text/javascript">
@@ -175,6 +175,7 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 			</fieldset>
 
 			<?php if ($assoc) : ?>
+				<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTACT_ITEM_ASSOCIATIONS_FIELDSET_LABEL'), '-options');?>
 				<?php echo $this->loadTemplate('associations'); ?>
 			<?php endif; ?>
 

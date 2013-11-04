@@ -873,6 +873,8 @@ class PlgSystemDebug extends JPlugin
 					$htmlTiming .= ' ' . JText::sprintf('PLG_DEBUG_QUERY_AFTER_LAST', sprintf('<span class="label">%.2f&nbsp;ms</span>', $timing[$id]['1']));
 				}
 
+				$htmlTiming .= '</span>';
+
 				if (isset($callStacks[$id][0]['memory']))
 				{
 					$memoryUsed = $callStacks[$id][0]['memory'][1] - $callStacks[$id][0]['memory'][0];

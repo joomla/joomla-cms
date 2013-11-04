@@ -27,23 +27,44 @@ class UsersViewProfile extends JViewLegacy
 	protected $state;
 
 	/**
-	 * Method to display the view.
+	 * Execute and display a template script.
 	 *
-	 * @param   string	$tpl	The template file to include
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 *
 	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
 		// Get the view data.
-		$this->data		= $this->get('Data');
-		$this->form		= $this->get('Form');
-		$this->state	= $this->get('State');
-		$this->params	= $this->state->get('params');
+		$this->data	            = $this->get('Data');
+		$this->form	            = $this->get('Form');
+		$this->state            = $this->get('State');
+		$this->params           = $this->state->get('params');
+		$this->twofactorform    = $this->get('Twofactorform');
+		$this->twofactormethods = UsersHelper::getTwoFactorMethods();
+		$this->otpConfig        = $this->get('OtpConfig');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode('<br />', $errors));
+			return false;
+		}
+
+		// View also takes responsibility for checking if the user logged in with remember me.
+		$user = JFactory::getUser();
+		$cookieLogin = $user->get('cookieLogin');
+
+		if (!empty($cookieLogin))
+		{
+			// If so, the user must login to edit the password and other data.
+			// What should happen here? Should we force a logout which detroys the cookies?
+			$app = JFactory::getApplication();
+			$app->enqueueMessage(JText::_('JGLOBAL_REMEMBER_MUST_LOGIN'), 'message');
+			$app->redirect(JUri::base() . 'index.php?option=com_users&view=login', '', 302);
+
 			return false;
 		}
 
@@ -59,6 +80,7 @@ class UsersViewProfile extends JViewLegacy
 
 		// Check for layout override
 		$active = JFactory::getApplication()->getMenu()->getActive();
+
 		if (isset($active->query['layout']))
 		{
 			$this->setLayout($active->query['layout']);
@@ -69,7 +91,7 @@ class UsersViewProfile extends JViewLegacy
 
 		$this->prepareDocument();
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 
 	/**
@@ -87,6 +109,7 @@ class UsersViewProfile extends JViewLegacy
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
+
 		if ($menu)
 		{
 			$this->params->def('page_heading', $this->params->get('page_title', $user->name));
@@ -97,6 +120,7 @@ class UsersViewProfile extends JViewLegacy
 		}
 
 		$title = $this->params->get('page_title', '');
+
 		if (empty($title))
 		{
 			$title = $app->getCfg('sitename');
@@ -109,6 +133,7 @@ class UsersViewProfile extends JViewLegacy
 		{
 			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
 		}
+
 		$this->document->setTitle($title);
 
 		if ($this->params->get('menu-meta_description'))

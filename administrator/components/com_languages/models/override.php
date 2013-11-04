@@ -166,8 +166,9 @@ class LanguagesModelOverride extends JModelAdmin
 		// Write override.ini file with the strings
 		$registry = new JRegistry;
 		$registry->loadObject($strings);
+		$reg = $registry->toString('INI');
 
-		if (!JFile::write($filename, $registry->toString('INI')))
+		if (!JFile::write($filename, $reg))
 		{
 			return false;
 		}
