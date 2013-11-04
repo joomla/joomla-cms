@@ -50,8 +50,8 @@ class JFormFieldSample extends JFormFieldRadio
 			$type = 'sqlazure';
 		}
 
-		// Temporarily disable sample data for non-MySQL as the data sets are not yet updated
-		if ($type != 'mysql')
+		// Temporarily disable sample data for PostgreSQL as the data sets are not yet updated
+		if ($type == 'postgresql')
 		{
 			return $options;
 		}
@@ -59,7 +59,7 @@ class JFormFieldSample extends JFormFieldRadio
 		// Get a list of files in the search path with the given filter.
 		$files = JFolder::files($app->get('installationPath') . '/src/sql/' . $type, '^sample.*\.sql$');
 
-		// Add option to not install sampledata.
+		// Add option to not install sample data.
 		$options[] = JHtml::_('select.option', '',
 			JHtml::_('tooltip', JText::_('INSTL_SITE_INSTALL_SAMPLE_NONE_DESC'), '', '', JText::_('INSTL_SITE_INSTALL_SAMPLE_NONE'))
 		);

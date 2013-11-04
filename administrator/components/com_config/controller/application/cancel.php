@@ -30,9 +30,8 @@ class ConfigControllerApplicationCancel extends ConfigControllerCanceladmin
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorise('core.admin', 'com_config'))
 		{
-			JFactory::getApplication()->redirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
-
-			return;
+			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'));
+			$this->app->redirect('index.php');
 		}
 
 		$this->context = 'com_config.config.global';
