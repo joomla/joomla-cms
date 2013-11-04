@@ -30,6 +30,7 @@ $ -> Language fix or change
  # [#32514] New menu item > Articles > Single Article: search article doesn't work.  Thanks Roberto Segura
  # [#31992] Hathor: Content Versioning missing Version Notes
  # [#32459] [com_finder] Fix to taxonomy.php.  Thanks Jan Schönherr
+ ^ [#32515] *Displaying message when installing pre 3.2.0 language packs containing older TinyMCE lang installation.  Thanks Jean-Marie Simonet
 
 04-Nov-2013 Jean-Marie Simonet
  $ Adding updated installation language file ckb-IQ
