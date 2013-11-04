@@ -241,10 +241,8 @@ class PluginsModelPlugin extends JModelAdmin
 		}
 
 		// Load the core and/or local language file(s).
-			$lang->load('plg_'.$folder.'_'.$element, JPATH_ADMINISTRATOR, null, false, false)
-		||	$lang->load('plg_'.$folder.'_'.$element, JPATH_PLUGINS.'/'.$folder.'/'.$element, null, false, false)
-		||	$lang->load('plg_'.$folder.'_'.$element, JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-		||	$lang->load('plg_'.$folder.'_'.$element, JPATH_PLUGINS.'/'.$folder.'/'.$element, $lang->getDefault(), false, false);
+			$lang->load('plg_'.$folder.'_'.$element, JPATH_ADMINISTRATOR, null, false, true)
+		||	$lang->load('plg_'.$folder.'_'.$element, JPATH_PLUGINS.'/'.$folder.'/'.$element, null, false, true);
 
 		if (file_exists($formFile))
 		{
