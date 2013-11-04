@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Nov-2013 Jean-Marie Simonet
+ $ Adding updated installation language file cbk-IQ
+
 03-Nov-2013 Michael Babker
  # [#32498] 3.2RC - Bootstrap CSS styles loaded from (media/JUI/) for logged in users on front-end.  Thanks Thomas Hunziker
  ^ [#32508] Widen the permissions dropdown.  Thanks George Wilson
