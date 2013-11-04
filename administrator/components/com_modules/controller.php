@@ -30,14 +30,35 @@ class ModulesController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		require_once JPATH_COMPONENT.'/helpers/modules.php';
-
-		// Load the submenu.
-		ModulesHelper::addSubmenu($this->input->get('view', 'modules'));
 
 		$view   = $this->input->get('view', 'modules');
 		$layout = $this->input->get('layout', 'default');
 		$id     = $this->input->getInt('id');
+
+		$document = JFactory::getDocument();
+
+		// For JSON requests
+		if($document->getType() == 'json')
+		{
+
+			$view = new ModulesViewModule;
+
+			// Get/Create the model
+			if ($model = new ModulesModelModule())
+			{
+				// Push the model into the view (as default)
+				$view->setModel($model, true);
+			}
+
+			$view->document = $document;
+
+			return $view->display();
+		}
+
+		require_once JPATH_COMPONENT.'/helpers/modules.php';
+
+		// Load the submenu.
+		ModulesHelper::addSubmenu($this->input->get('view', 'modules'));
 
 		return parent::display();
 	}
