@@ -88,8 +88,8 @@ class JFormFieldOrdering extends JFormField
 		}
 		elseif (is_array($ucmMapCommon))
 		{
-			$ordering = $ucmMapCommon['core_ordering'];
-			$title = $ucmMapCommon['core_title'];
+			$ordering = $ucmMapCommon[0]->core_ordering;
+			$title = $ucmMapCommon[0]->core_title;
 		}
 
 		$db = JFactory::getDbo();
