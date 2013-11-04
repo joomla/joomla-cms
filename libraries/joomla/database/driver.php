@@ -1554,25 +1554,79 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	public function replacePrefix($sql, $prefix = '#__')
 	{
 		/*
-		 * Pattern is: find any non-quoted (which is not including single or double quotes) string being the prefix
-		 * in $sql possibly followed by a double or single quoted one:
-		 *  							(
-		 * not including quotes:
-		 *		positive lookahead:			(?=
-		 *		not including " or ':			[^"\']+
-		 *									)
-		 * including exactly the prefix to replace:		preg_quote( $prefix, '/' )
-		 * 								)(
-		 * Followed by a double-quoted:		"(?:[^\\"]|\\.)*"
-		 * Or:								|
-		 * single-quoted:					\'(?:[^\\\']|\\.)*\'
-		 * 								)
-		 * possibly:						?
-		 * $pattern = '/((?=[^"\']+)' . preg_quote($prefix, '/') . ')("(?:[^\\"]|\\.)*"|\'(?:[^\\\']|\\.)*\')?/';
+		 * Pattern is:
+		 *                   /((?:"(?:[^\\"]|\\.)*"|\'(?:[^\\\']|\\.)*\'|(?:(?!#__)[^"\']))*)(#__)?/
+		 *
+		 * Means:
+		 * - Match first if available any number (0-n) of:
+		 *   - any double-quoted
+		 *   - or single-quoted string (which both can include escaped quotes and other escapes)
+		 *   - or any string which doesn't include quote characters and is not the prefix
+		 * - Then match if available the prefix
+		 * Replacer replaces the prefix part if it got matched, otherwise keeps the matched string as is.
+		 *
+		 * In details:
+		 * Begin regexp:     /
+		 * FIRST GROUP:       (
+		 * (not captured):     (?:
+		 * - any double-quoted:
+		 *   A double-quote:      "
+		 *   Followed by:          (?:
+		 *   A char not a " or \:     [^\\"]
+		 *   Or                             |
+		 *   Any escaped char \x:            \\.
+		 *   Any number of times:               )*
+		 *   Ending double-quote                  "
+		 *   Or                                    |
+		 * - any single-quoted:
+		 *   A single-quote string                  \'
+		 *   Followed by:                             (?:
+		 *   A char not a " or \:                        [^\\\']
+		 *   Or                                                 |
+		 *   Any escaped char \x:                                \\.
+		 *   Any number of times:                                   )*
+		 *   Ending sinle-quote                                       \'
+		 *   Or                                                         |
+		 * - any string without quote char or prefix:
+		 *   (not captured no2):                                         (?:
+		 *   Negative Look-ahead to avoid prefix:                           (?!
+		 *   Prefix                                                            #__
+		 *   End of negative look ahead:                                          )
+		 *   A char not a " or ':                                                  [^"\']
+		 *   (end of not-captured group no2)                                             )
+		 * (end of not-captured group)                                                    )
+		 * Repeat the above quoted and non-prefix-non-quoted 0-n times:                    *
+		 * END OF FIRST captured group:                                                     )
+		 * Capture SECOND GROUP:                                                             (
+		 * Prefix                                                                             #__
+		 * End of SECOND GROUP:                                                                  )
+		 * If it exists one time at a time:                                                       ?
+		 * End regexp:                                                                             /
+		 *
+		 * Explanatory graph can be visualized with following link:
+		 * http://www.regexper.com/#%28%28%3F%3A%22%28%3F%3A[^\\%22]|\\.%29*%22|\%27%28%3F%3A[^\\\%27]|\\.%29*\%27|%28%3F%3A%28%3F!%23__%29[^%22]%29%29*%29%28%23__%29%3F
+		 *
+		 * This handles correctly e.g. following string replaced by line below for #__ to JO_ replacement:
+		 * #__toto by #__toto but not "#__toto" or "#__titi" but #__aasd and this " #__ eer " and #__toto " \" #__ "
+		 * JO_toto by JO_toto but not "#__toto" or "#__titi" but JO_aasd and this " #__ eer " and JO_toto " \" #__ "
 		 */
-		$pattern = '/(?<=[^"\'])(' . preg_quote($prefix, '/') . ')("(?:[^\\\\"]|\.)*"|\'(?:[^\\\\\']|\.)*\')?/';
 
-		return preg_replace($pattern, $this->getPrefix() . '\\2', $sql);
+		$pregPrefix = preg_quote($prefix, '/');
+		$pattern    = '/((?:"(?:[^\\\\"]|\\\\.)*"|\'(?:[^\\\\\']|\\\\.)*\'|(?:(?!' . $pregPrefix . ')[^"\']))*)(' . $pregPrefix . ')?/';
+
+		return preg_replace_callback( $pattern,
+			function ($matches) use ($prefix)
+			{
+				if (isset($matches[2]))
+				{
+					return $matches[1] . $this->getPrefix();
+				}
+				else
+				{
+					return $matches[0];
+				}
+			},
+			$sql);
 	}
 
 	/**
