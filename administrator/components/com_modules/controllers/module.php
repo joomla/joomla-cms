@@ -248,61 +248,61 @@ class ModulesControllerModule extends JControllerForm
 				// Push up to three validation messages out to the user.
 				for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
 				{
-				if ($errors[$i] instanceof Exception)
+					if ($errors[$i] instanceof Exception)
 					{
 						$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
-				}
-				else
-				{
-				$app->enqueueMessage($errors[$i], 'warning');
-						}
-						}
-	
-							// Save the data in the session.
-							$app->setUserState($context . '.data', $data);
-	
-							return false;
+					}
+					else
+					{
+					$app->enqueueMessage($errors[$i], 'warning');
+					}
 				}
 
-				if (!isset($validData['tags']))
-				{
-				$validData['tags'] = null;
-				}
-
-					// Attempt to save the data.
-						if (!$model->save($validData))
-						{
-						// Save the data in the session.
-						$app->setUserState($context . '.data', $validData);
-
-						$app->enqueueMessage(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
-
-						return false;
-			}
-	
-			// Save succeeded, so check-in the record.
-			if ($checkin && $model->checkin($validData[$key]) === false)
-			{
-			// Save the data in the session.
-			$app->setUserState($context . '.data', $validData);
-
-			// Check-in failed, so go back to the record and display a notice.
-			$app->enqueueMessage(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
+				// Save the data in the session.
+				$app->setUserState($context . '.data', $data);
 
 				return false;
 			}
 
-				// Redirect the user and adjust session state
-				// Set the record data in the session.
-				$recordId = $model->getState($this->context . '.id');
-				$this->holdEditId($context, $recordId);
-				$app->setUserState($context . '.data', null);
-				$model->checkout($recordId);
+			if (!isset($validData['tags']))
+			{
+				$validData['tags'] = null;
+			}
 
-				// Invoke the postSave method to allow for the child class to access the model.
-				$this->postSaveHook($model, $validData);
+			// Attempt to save the data.
+			if (!$model->save($validData))
+			{
+				// Save the data in the session.
+				$app->setUserState($context . '.data', $validData);
 
-				return true;
+				$app->enqueueMessage(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
+
+				return false;
+			}
+
+			// Save succeeded, so check-in the record.
+			if ($checkin && $model->checkin($validData[$key]) === false)
+			{
+				// Save the data in the session.
+				$app->setUserState($context . '.data', $validData);
+
+				// Check-in failed, so go back to the record and display a notice.
+				$app->enqueueMessage(JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
+
+				return false;
+			}
+
+			// Redirect the user and adjust session state
+			// Set the record data in the session.
+			$recordId = $model->getState($this->context . '.id');
+			$this->holdEditId($context, $recordId);
+			$app->setUserState($context . '.data', null);
+			$model->checkout($recordId);
+
+			// Invoke the postSave method to allow for the child class to access the model.
+			$this->postSaveHook($model, $validData);
+
+			return true;
 		}
 		else
 		{
