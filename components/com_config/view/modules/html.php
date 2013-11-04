@@ -18,7 +18,6 @@ defined('_JEXEC') or die;
  */
 class ConfigViewModulesHtml extends ConfigViewCmsHtml
 {
-	public $item;
 
 	public $form;
 

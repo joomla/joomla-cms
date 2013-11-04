@@ -16,6 +16,8 @@ JHtml::_('behavior.framework', true);
 // JHtml::_('behavior.combobox');
 JHtml::_('formbehavior.chosen', 'select');
 
+$moduleType = $this->model->getState()->get('module.name');
+$hasContent = empty($moduleType) || $moduleType == 'custom' || $moduleType == 'mod_custom';
 ?>
 
 <script type="text/javascript">
@@ -130,6 +132,11 @@ JHtml::_('formbehavior.chosen', 'select');
 							<?php echo $this->loadTemplate('options'); ?>
 						</div>
 
+						<?php if ($hasContent) : ?>
+							<div class="tab-pane" id="custom">
+								<?php echo $this->form->getInput('content'); ?>
+							</div>
+						<?php endif; ?>
 					</fieldset>
 				</div>
 
