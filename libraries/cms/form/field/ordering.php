@@ -79,10 +79,22 @@ class JFormFieldOrdering extends JFormField
 
 		$ucmType = new JUcmType;
 		$ucmRow = $ucmType->getType($ucmType->getTypeId($contentType));
+		$ucmMapCommon = json_decode($ucmRow->field_mappings)->common;
+
+		if (is_object($ucmMapCommon))
+		{
+			$ordering = $ucmMapCommon->core_ordering;
+			$title = $ucmMapCommon->core_title;
+		}
+		elseif (is_array($ucmMapCommon))
+		{
+			$ordering = $ucmMapCommon[0]->core_ordering;
+			$title = $ucmMapCommon[0]->core_title;
+		}
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
-		$query->select(array($db->quoteName(json_decode($ucmRow->field_mappings)->common->core_ordering, 'value'), $db->quoteName(json_decode($ucmRow->field_mappings)->common->core_title, 'text')))
+		$query->select(array($db->quoteName($ordering, 'value'), $db->quoteName($title, 'text')))
 			->from($db->quoteName(json_decode($ucmRow->table)->special->dbtable))
 			->where($db->quoteName('catid') . ' = ' . (int) $categoryId)
 			->order('ordering');
