@@ -18,6 +18,7 @@ JHtml::_('behavior.keepalive');
 // Create shortcut to parameters.
 $params = $this->state->get('params');
 $params = $params->toArray();
+$saveHistory = $this->state->get('params')->get('save_history', 0);
 
 // This checks if the config options have ever been saved. If they haven't they will fall back to the original settings.
 $editoroptions = isset($params['show_publishing_options']);
@@ -99,6 +100,11 @@ $assoc = JLanguageAssociations::isEnabled();
 						<?php echo $this->form->getInput('tags'); ?>
 					</div>
 				</li>
+
+				<?php if ($saveHistory) : ?>
+					<li><?php echo $this->form->getLabel('version_note'); ?>
+					<?php echo $this->form->getInput('version_note'); ?></li>
+				<?php endif; ?>
 
 				<li><?php echo $this->form->getLabel('id'); ?>
 				<?php echo $this->form->getInput('id'); ?></li>
