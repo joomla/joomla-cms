@@ -581,7 +581,19 @@ class JCache extends JObject
 				// Only store what this module has added
 				foreach ($headnow as $now => $value)
 				{
-					$newvalue = array_diff_assoc($headnow[$now], isset($options['headerbefore'][$now]) ? $options['headerbefore'][$now] : array());
+					if (isset($options['headerbefore'][$now]))
+					{
+						// We have to serialize the content of the arrays because the may contain other arrays which is a notice in PHP 5.4 and newer
+						$nowvalue = array_map('serialize', $headnow[$now]);
+						$beforevalue = array_map('serialize', $options['headerbefore'][$now]);
+						$newvalue = array_diff_assoc($nowvalue, $beforevalue);
+						$newvalue = array_map('unserialize', $newvalue);
+					}
+					else
+					{
+						$newvalue = $headnow[$now];
+					}
+
 					if (!empty($newvalue))
 					{
 						$cached['head'][$now] = $newvalue;
@@ -635,10 +647,13 @@ class JCache extends JObject
 	public static function makeId()
 	{
 		$app = JFactory::getApplication();
-		// Get url parameters set by plugins
-		$registeredurlparams = $app->registeredurlparams;
 
-		if (empty($registeredurlparams))
+		// Get url parameters set by plugins
+		if (!empty($app->registeredurlparams))
+		{
+			$registeredurlparams = $app->registeredurlparams;
+		}
+		else
 		{
 			/*
 			$registeredurlparams = new stdClass;

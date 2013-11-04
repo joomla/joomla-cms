@@ -187,6 +187,12 @@ class JURI extends JObject
 						$theURI .= '?' . $_SERVER['QUERY_STRING'];
 					}
 				}
+
+				// Check for quotes in the URL to prevent injections through the Host header
+				if ($theURI !== str_replace(array("'", '"', '<', '>'), '', $theURI))
+				{
+					throw new InvalidArgumentException('Invalid URI detected.');
+				}
 			}
 			else
 			{

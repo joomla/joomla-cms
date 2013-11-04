@@ -635,11 +635,13 @@ class JInstaller extends JAdapter
 		else
 		{
 			$this->abort(JText::_('JLIB_INSTALLER_ABORT_NOUPDATEPATH'));
+			return false;
 		}
 
 		if (!$this->setupInstall())
 		{
-			return $this->abort(JText::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'));
+			$this->abort(JText::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'));
+			return false;
 		}
 
 		$type = (string) $this->manifest->attributes()->type;
@@ -1856,8 +1858,15 @@ class JInstaller extends JAdapter
 	 */
 	public function findManifest()
 	{
-		// Get an array of all the XML files from the installation directory
-		$xmlfiles = JFolder::files($this->getPath('source'), '.xml$', 1, true);
+		// Main folder manifests (higher priority)
+		$parentXmlfiles = JFolder::files($this->getPath('source'), '.xml$', false, true);
+
+		// Search for children manifests (lower priority)
+		$allXmlFiles = JFolder::files($this->getPath('source'), '.xml$', 1, true);
+
+		// Create an unique array of files
+		$xmlfiles = array_unique(array_merge($parentXmlfiles, $allXmlFiles));
+
 		// If at least one XML file exists
 		if (!empty($xmlfiles))
 		{

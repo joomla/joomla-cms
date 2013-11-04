@@ -173,7 +173,9 @@ $saveOrder	= $listOrder == 'a.ordering';
 	</table>
 
 	<?php //Load the batch processing form. ?>
-	<?php echo $this->loadTemplate('batch'); ?>
+	<?php if ($user->authorize('core.create', 'com_newsfeeds') && $user->authorize('core.edit', 'com_newsfeeds') && $user->authorize('core.edit.state', 'com_newsfeeds')) : ?>
+		<?php echo $this->loadTemplate('batch'); ?>
+	<?php endif;?>
 
 	<div>
 		<input type="hidden" name="task" value="" />

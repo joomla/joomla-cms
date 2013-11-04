@@ -177,4 +177,16 @@ class JHttpTransportStream implements JHttpTransport
 
 		return $return;
 	}
+
+	/**
+	 * method to check if http transport stream available for using
+	 *
+	 * @return bool true if available else false
+	 *
+	 * @since   12.1
+	 */
+	static public function isSupported()
+	{
+		return function_exists('fopen') && is_callable('fopen');
+	}
 }

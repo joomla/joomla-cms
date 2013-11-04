@@ -36,7 +36,12 @@ class JoomlaupdateViewUpdate extends JViewLegacy
 		JToolBarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'install');
 
 		// Add toolbar buttons
-		JToolBarHelper::preferences('com_joomlaupdate');
+		if (JFactory::getUser()->authorise('core.admin', 'com_joomlaupdate'))
+		{
+			JToolbarHelper::preferences('com_joomlaupdate');
+		}
+		JToolBarHelper::divider();
+		JToolBarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
 
 		// Load mooTools
 		JHtml::_('behavior.framework', true);

@@ -104,20 +104,25 @@ class ContentModelArticle extends JModelItem
 				$query->select('u.name AS author');
 				$query->join('LEFT', '#__users AS u on u.id = a.created_by');
 
-				// Join on contact table
+				// Get contact id
 				$subQuery = $db->getQuery(true);
-				$subQuery->select('contact.user_id, MAX(contact.id) AS id, contact.language');
+				$subQuery->select('MAX(contact.id) AS id');
 				$subQuery->from('#__contact_details AS contact');
 				$subQuery->where('contact.published = 1');
-				$subQuery->group('contact.user_id, contact.language');
-				$query->select('contact.id as contactid' );
-				$query->join('LEFT', '(' . $subQuery . ') AS contact ON contact.user_id = a.created_by');
+				$subQuery->where('contact.user_id = a.created_by');
 
 				// Filter by language
 				if ($this->getState('filter.language'))
 				{
-					$query->where('a.language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').')');
-					$query->where('(contact.language in ('.$db->quote(JFactory::getLanguage()->getTag()).','.$db->quote('*').') OR contact.language IS NULL)');
+					$subQuery->where('(contact.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ') OR contact.language IS NULL)');
+				}
+
+				$query->select('(' . $subQuery . ') as contactid');
+
+				// Filter by language
+				if ($this->getState('filter.language'))
+				{
+					$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 				}
 
 				// Join over the categories to get parent category titles
