@@ -1627,6 +1627,10 @@ class JInstaller extends JAdapter
 						if (!(JFile::copy($filesource, $filedest, null)))
 						{
 							JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FILE', $filesource, $filedest), JLog::WARNING, 'jerror');
+							if (strpos($filedest,'media/editors/tinymce/jscripts/tiny_mce/langs'))
+							{
+								JLog::add(JText::_('JLIB_INSTALLER_NOT_ERROR'), JLog::WARNING, 'jerror');
+							}
 
 							return false;
 						}
