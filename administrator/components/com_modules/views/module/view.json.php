@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_templates
- * @since       1.6
+ * @since       3.2
  */
 class ModulesViewModule extends JViewLegacy
 {
@@ -33,8 +33,7 @@ class ModulesViewModule extends JViewLegacy
 
 		try
 		{
-			$this->item                = $this->get('Item');
-
+			$this->item = $this->get('Item');
 		}
 		catch (Exception $e)
 		{
@@ -44,7 +43,7 @@ class ModulesViewModule extends JViewLegacy
 		}
 
 		$paramsList = $this->item->getProperties();
-		 
+
 		unset($paramsList['xml']);
 
 		$paramsList = json_encode($paramsList);

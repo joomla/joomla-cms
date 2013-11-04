@@ -202,13 +202,15 @@ class ModulesControllerModule extends JControllerForm
 			$checkin = property_exists($table, 'checked_out');
 			$context = "$this->option.edit.$this->context";
 			$task = $this->getTask();
-
 			$item = $model->getItem($this->input->get('id'));
 
-			// Set available properties to existing properties
-			$item->setProperties($data);
+			$properties = $item->getProperties();
 
-			$data = $item->getProperties();
+			// Merge 'params' array seperately
+			$data['params'] = array_merge($properties['params'], $data['params']);
+
+			// Merge other properties
+			$data = array_merge($properties, $data);
 
 			$key = $table->getKeyName();
 			$urlVar = $key;
