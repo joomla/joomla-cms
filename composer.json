@@ -1,5 +1,13 @@
 {
 	"require" : {
 		"joomla/di" : "~1.0@dev"
+	},
+	"scripts" : {
+		"post-update-cmd" : [
+			"php -f vendor/cleanup.php"
+		],
+		"post-install-cmd" : [
+			"php -f vendor/cleanup.php"
+		]
 	}
 }

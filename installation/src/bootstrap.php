@@ -14,13 +14,6 @@ error_reporting(E_ALL);
 const JDEBUG = false;
 @ini_set('magic_quotes_runtime', 0);
 
-// Check if a configuration file already exists.
-if (file_exists(JAPPLICATION_CONFIG) && (filesize(JAPPLICATION_CONFIG) > 10))
-{
-	header('Location: ../index.php');
-	exit();
-}
-
 // Define the base path and require the other defines
 
 // Global definitions
