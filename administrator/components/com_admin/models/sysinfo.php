@@ -105,6 +105,7 @@ class AdminModelSysInfo extends JModelLegacy
 			$registry = new JRegistry(new JConfig);
 			$this->config = $registry->toArray();
 			$hidden = array('host', 'user', 'password', 'ftp_user', 'ftp_pass', 'smtpuser', 'smtppass');
+
 			foreach ($hidden as $key)
 			{
 				$this->config[$key] = 'xxxxxx';
@@ -129,13 +130,16 @@ class AdminModelSysInfo extends JModelLegacy
 			$version = new JVersion;
 			$platform = new JPlatform;
 			$db = JFactory::getDbo();
+
 			if (isset($_SERVER['SERVER_SOFTWARE']))
 			{
 				$sf = $_SERVER['SERVER_SOFTWARE'];
 			}
-			else {
+			else
+			{
 				$sf = getenv('SERVER_SOFTWARE');
 			}
+
 			$this->info['php']			= php_uname();
 			$this->info['dbversion']	= $db->getVersion();
 			$this->info['dbcollation']	= $db->getCollation();
@@ -146,6 +150,7 @@ class AdminModelSysInfo extends JModelLegacy
 			$this->info['platform']		= $platform->getLongVersion();
 			$this->info['useragent']	= $_SERVER['HTTP_USER_AGENT'];
 		}
+
 		return $this->info;
 	}
 
@@ -163,9 +168,9 @@ class AdminModelSysInfo extends JModelLegacy
 			ob_start();
 			date_default_timezone_set('UTC');
 			phpinfo(INFO_GENERAL | INFO_CONFIGURATION | INFO_MODULES);
-			$phpinfo = ob_get_contents();
+			$phpInfo = ob_get_contents();
 			ob_end_clean();
-			preg_match_all('#<body[^>]*>(.*)</body>#siU', $phpinfo, $output);
+			preg_match_all('#<body[^>]*>(.*)</body>#siU', $phpInfo, $output);
 			$output = preg_replace('#<table[^>]*>#', '<table class="table table-striped adminlist">', $output[1][0]);
 			$output = preg_replace('#(\w),(\w)#', '\1, \2', $output);
 			$output = preg_replace('#<hr />#', '', $output);
@@ -200,6 +205,7 @@ class AdminModelSysInfo extends JModelLegacy
 
 			// List all admin languages
 			$admin_langs = new DirectoryIterator(JPATH_ADMINISTRATOR . '/language');
+
 			foreach ($admin_langs as $folder)
 			{
 				if (!$folder->isDir() || $folder->isDot())
@@ -212,6 +218,7 @@ class AdminModelSysInfo extends JModelLegacy
 
 			// List all manifests folders
 			$manifests = new DirectoryIterator(JPATH_ADMINISTRATOR . '/manifests');
+
 			foreach ($manifests as $folder)
 			{
 				if (!$folder->isDir() || $folder->isDot())
@@ -231,6 +238,7 @@ class AdminModelSysInfo extends JModelLegacy
 
 			// List all images folders
 			$image_folders = new DirectoryIterator(JPATH_SITE . '/' . $cparams->get('image_path'));
+
 			foreach ($image_folders as $folder)
 			{
 				if (!$folder->isDir() || $folder->isDot())
@@ -245,6 +253,7 @@ class AdminModelSysInfo extends JModelLegacy
 
 			// List all site languages
 			$site_langs = new DirectoryIterator(JPATH_SITE . '/language');
+
 			foreach ($site_langs as $folder)
 			{
 				if (!$folder->isDir() || $folder->isDot())
@@ -262,6 +271,7 @@ class AdminModelSysInfo extends JModelLegacy
 			$this->_addDirectory('plugins', JPATH_PLUGINS);
 
 			$plugin_groups = new DirectoryIterator(JPATH_SITE . '/plugins');
+
 			foreach ($plugin_groups as $folder)
 			{
 				if (!$folder->isDir() || $folder->isDot())
@@ -280,6 +290,7 @@ class AdminModelSysInfo extends JModelLegacy
 			$this->_addDirectory($registry->get('log_path', JPATH_ROOT . '/log'), $registry->get('log_path', JPATH_ROOT . '/log'), 'COM_ADMIN_LOG_DIRECTORY');
 			$this->_addDirectory($registry->get('tmp_path', JPATH_ROOT . '/tmp'), $registry->get('tmp_path', JPATH_ROOT . '/tmp'), 'COM_ADMIN_TEMP_DIRECTORY');
 		}
+
 		return $this->directories;
 	}
 
@@ -288,6 +299,15 @@ class AdminModelSysInfo extends JModelLegacy
 	 *
 	 * @return void
 	 * @since  1.6
+	 */
+	/**
+	 * Method to add a directory
+	 *
+	 * @param   string  $name     Directory Name
+	 * @param   string  $path     Directory path
+	 * @param   string  $message  Message
+	 *
+	 * @return   void
 	 */
 	private function _addDirectory($name, $path, $message = '')
 	{
@@ -310,6 +330,7 @@ class AdminModelSysInfo extends JModelLegacy
 			$config = JFactory::getConfig();
 			$this->editor = $config->get('editor');
 		}
+
 		return $this->editor;
 	}
 }
