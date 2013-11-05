@@ -19,9 +19,9 @@ defined('_JEXEC') or die;
 class ConfigViewModulesHtml extends ConfigViewCmsHtml
 {
 
-	public $form;
+	public $item;
 
-	public $moduleId;
+	public $form;
 
 	/**
 	 * Display the view
@@ -31,8 +31,6 @@ class ConfigViewModulesHtml extends ConfigViewCmsHtml
 
 		$user = JFactory::getUser();
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
-
-		$this->moduleId = JFactory::getApplication()->input->get('id');
 
 		return parent::render();
 	}

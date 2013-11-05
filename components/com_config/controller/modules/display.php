@@ -96,6 +96,7 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 
 			// Set form and data to the view
 			$view->form = &$form;
+			$view->item = &$serviceData;
 
 			// Render view.
 			echo $view->render();

@@ -16,8 +16,7 @@ JHtml::_('behavior.framework', true);
 // JHtml::_('behavior.combobox');
 JHtml::_('formbehavior.chosen', 'select');
 
-$moduleType = $this->model->getState()->get('module.name');
-$hasContent = empty($moduleType) || $moduleType == 'custom' || $moduleType == 'mod_custom';
+$hasContent = empty($this->item['module']) || $this->item['module'] == 'custom' || $this->item['module'] == 'mod_custom';
 ?>
 
 <script type="text/javascript">
@@ -31,7 +30,7 @@ $hasContent = empty($moduleType) || $moduleType == 'custom' || $moduleType == 'm
 </script>
 
 <form
-	action="<?php echo JRoute::_('index.php?option=com_config&id=' . $this->moduleId); ?>"
+	action="<?php echo JRoute::_('index.php?option=com_config&id=' . $this->item['id']); ?>"
 	method="post" name="adminForm" id="modules-form"
 	class="form-validate">
 
