@@ -83,11 +83,15 @@ class ContentViewForm extends JViewLegacy
 		$this->params = $params;
 		$this->user   = $user;
 
+		// If this menu item is restricted to a single category, set select box to read only
 		if ($params->get('enable_category') == 1)
 		{
-			$this->form->setFieldAttribute('catid', 'default', $params->get('catid', 1));
 			$this->form->setFieldAttribute('catid', 'readonly', 'true');
 		}
+
+		// If this menu item has a default category, set the default category id
+		$this->form->setFieldAttribute('catid', 'default', $params->get('catid', 0));
+
 		$this->_prepareDocument();
 		parent::display($tpl);
 	}
