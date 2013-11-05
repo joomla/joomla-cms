@@ -35,15 +35,15 @@ class AdminControllerProfile extends JControllerForm
 		return isset($data['id']) && $data['id'] == JFactory::getUser()->id;
 	}
 
-    /**
+	/**
      * Overrides parent save method to check the submitted passwords match.
      *
      * @param   string  $key     The name of the primary key of the URL variable.
      * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
      *
-     * @return  boolean          True if successful, false otherwise.
+     * @return  boolean  True if successful, false otherwise.
      *
-     * @since   12.2
+     * @since   3.2
      */
 	public function save($key = null, $urlVar = null)
 	{

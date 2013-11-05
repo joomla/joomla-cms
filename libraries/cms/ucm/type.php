@@ -161,7 +161,7 @@ class JUcmType implements JUcm
 		$query->select('ct.*');
 		$query->from($this->db->quoteName('#__content_types', 'ct'));
 
-		//$query->where($this->db->quoteName('ct.type_alias') . ' = ' . (int) $typeAlias);
+		// $query->where($this->db->quoteName('ct.type_alias') . ' = ' . (int) $typeAlias);
 		$this->db->setQuery($query);
 
 		$types = $this->db->loadObjectList();
@@ -180,7 +180,6 @@ class JUcmType implements JUcm
 		return false;
 
 	}
-
 
 	/**
 	 * Retrieves the UCM type ID

@@ -12,9 +12,9 @@ TRUNCATE `#__menu`;
 TRUNCATE `#__menu_types`;
 TRUNCATE `#__modules`;
 TRUNCATE `#__modules_menu`;
+TRUNCATE `#__template_styles`;
 TRUNCATE `#__usergroups`;
 TRUNCATE `#__viewlevels`;
-TRUNCATE `#__template_styles`;
 --
 -- Dumping data for table `#__assets`
 --
@@ -502,7 +502,7 @@ INSERT IGNORE INTO `#__menu_types` (`id`, `menutype`, `title`, `description`) VA
 (2, 'usermenu', 'User Menu', 'A Menu for logged-in Users'),
 (3, 'top', 'Top', 'Links for major types of users'),
 (4, 'aboutjoomla', 'About Joomla', 'All about Joomla!'),
-(5, 'parks', 'Australian Parks', 'Main menu for a site about Australian  parks'),
+(5, 'parks', 'Australian Parks', 'Main menu for a site about Australian parks'),
 (6, 'mainmenu', 'Main Menu', 'Simple Home Menu'),
 (7, 'fruitshop', 'Fruit Shop', 'Menu for the sample shop site.');
 

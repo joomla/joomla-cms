@@ -19,6 +19,14 @@ defined('JPATH_PLATFORM') or die;
 class ConfigControllerCancel extends JControllerBase
 {
 	/**
+	 * Application object - Redeclared for proper typehinting
+	 *
+	 * @var    JApplicationCms
+	 * @since  3.2
+	 */
+	protected $app;
+
+	/**
 	 * Method to handle cancel
 	 *
 	 * @return  boolean  True on success.

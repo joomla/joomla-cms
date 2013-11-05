@@ -89,12 +89,14 @@ class ConfigModelApplication extends ConfigModelForm
 	 *
 	 * @param   array  $data  An array containing all global config data.
 	 *
-	 * @return	bool	True on success, false on failure.
+	 * @return	boolean  True on success, false on failure.
 	 *
 	 * @since	1.6
 	 */
 	public function save($data)
 	{
+		$app = JFactory::getApplication();
+
 		// Save the rules
 		if (isset($data['rules']))
 		{
@@ -108,7 +110,7 @@ class ConfigModelApplication extends ConfigModelForm
 
 			if (!$hasSuperAdmin)
 			{
-				$this->setError(JText::_('COM_CONFIG_ERROR_REMOVING_SUPER_ADMIN'));
+				$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_REMOVING_SUPER_ADMIN'), 'error');
 
 				return false;
 			}
@@ -128,7 +130,7 @@ class ConfigModelApplication extends ConfigModelForm
 			}
 			else
 			{
-				$this->setError(JText::_('COM_CONFIG_ERROR_ROOT_ASSET_NOT_FOUND'));
+				$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_ROOT_ASSET_NOT_FOUND'), 'error');
 
 				return false;
 			}
@@ -160,7 +162,7 @@ class ConfigModelApplication extends ConfigModelForm
 			}
 			else
 			{
-				$this->setError(JText::_('COM_CONFIG_ERROR_CONFIG_EXTENSION_NOT_FOUND'));
+				$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_CONFIG_EXTENSION_NOT_FOUND'), 'error');
 
 				return false;
 			}
@@ -230,6 +232,8 @@ class ConfigModelApplication extends ConfigModelForm
 	 * This method will load the global configuration data straight from
 	 * JConfig and remove the root_user value for security, then save the configuration.
 	 *
+	 * @return	boolean  True on success, false on failure.
+	 *
 	 * @since	1.6
 	 */
 	public function removeroot()
@@ -255,6 +259,7 @@ class ConfigModelApplication extends ConfigModelForm
 	 * @return	boolean  True on success, false on failure.
 	 *
 	 * @since	2.5.4
+	 * @throws  RuntimeException
 	 */
 	private function writeConfigFile(JRegistry $config)
 	{
@@ -280,9 +285,7 @@ class ConfigModelApplication extends ConfigModelForm
 
 		if (!JFile::write($file, $configuration))
 		{
-			$app->enqueueMessage(JText::_('COM_CONFIG_ERROR_WRITE_FAILED'), 'error');
-
-			return false;
+			throw new RuntimeException(JText::_('COM_CONFIG_ERROR_WRITE_FAILED'));
 		}
 
 		// Attempt to make the file unwriteable if using FTP.

@@ -47,23 +47,23 @@ class ConfigViewApplicationJson extends ConfigViewCmsJson
 
 		// Required data
 		$requiredData = array(
-			"sitename" => null,
-			"offline" => null,
-			"access" => null,
-			"list_limit" => null,
-			"MetaDesc" => null,
-			"MetaKeys" => null,
-			"MetaRights" => null,
-			"sef" => null,
+			"sitename"            => null,
+			"offline"             => null,
+			"access"              => null,
+			"list_limit"          => null,
+			"MetaDesc"            => null,
+			"MetaKeys"            => null,
+			"MetaRights"          => null,
+			"sef"                 => null,
 			"sitename_pagetitles" => null,
-			"debug" => null,
-			"debug_lang" =>null,
-			"error_reporting" => null,
-			"mailfrom" => null,
-			"fromname" => null
+			"debug"               => null,
+			"debug_lang"          => null,
+			"error_reporting"     => null,
+			"mailfrom"            => null,
+			"fromname"            => null
 		);
 
-		$this->data = array_intersect_key($this->data,$requiredData);
+		$this->data = array_intersect_key($this->data, $requiredData);
 
 		return json_encode($this->data);
 	}

@@ -14,8 +14,13 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 $input = JFactory::getApplication()->input;
 
+$saveHistory = $this->state->get('params')->get('save_history', 0);
+
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
+
+$assoc = JLanguageAssociations::isEnabled();
+
 ?>
 
 <script type="text/javascript">
@@ -79,6 +84,10 @@ JHtml::_('behavior.keepalive');
 							</div>
 						<?php endif; ?>
 					</li>
+					<?php if ($saveHistory) : ?>
+						<li><?php echo $this->form->getLabel('version_note'); ?>
+						<?php echo $this->form->getInput('version_note'); ?></li>
+					<?php endif; ?>
 					<li>
 						<?php echo $this->form->getLabel('id'); ?>
 						<?php echo $this->form->getInput('id'); ?>
@@ -134,28 +143,10 @@ JHtml::_('behavior.keepalive');
 				<?php endif; ?>
 			<?php endforeach; ?>
 
-			<?php $fieldSets = $this->form->getFieldsets('associations'); ?>
-			<?php foreach ($fieldSets as $name => $fieldSet) : ?>
-				<?php
-				$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_CATEGORIES_' . $name . '_FIELDSET_LABEL';
-				echo JHtml::_('sliders.panel', JText::_($label), $name . '-options');
-				if (isset($fieldSet->description) && trim($fieldSet->description))
-				{
-					echo '<p class="tip">' . $this->escape(JText::_($fieldSet->description)) . '</p>';
-				}
-				?>
-				<div class="clr"></div>
-				<fieldset class="panelform">
-					<ul class="adminformlist">
-						<?php foreach ($this->form->getFieldset($name) as $field) : ?>
-							<li>
-								<?php echo $field->label; ?>
-								<?php echo $field->input; ?>
-							</li>
-						<?php endforeach; ?>
-					</ul>
-				</fieldset>
-			<?php endforeach;?>
+			<?php if ($assoc) : ?>
+				<?php echo JHtml::_('sliders.panel', JText::_('COM_CATEGORIES_ITEM_ASSOCIATIONS_FIELDSET_LABEL'), '-options');?>
+				<?php echo $this->loadTemplate('associations'); ?>
+			<?php endif; ?>
 
 			<?php echo JHtml::_('sliders.end'); ?>
 		</div>

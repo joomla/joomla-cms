@@ -26,7 +26,7 @@ function modChrome_html5($module, &$params, &$attribs)
 	$headerTag      = htmlspecialchars($params->get('header_tag', 'h3'));
 	$bootstrapSize  = (int) $params->get('bootstrap_size', 0);
 	$moduleClass    = $bootstrapSize != 0 ? ' span' . $bootstrapSize : '';
-	
+
 	// Temporarily store header class in variable
 	$headerClass	= $params->get('header_class');
 	$headerClass	= !empty($headerClass) ? ' class="' . htmlspecialchars($headerClass) . '"' : '';
@@ -39,7 +39,7 @@ function modChrome_html5($module, &$params, &$attribs)
 		<?php endif; ?>
 
 			<?php echo $module->content; ?>
-		
+
 		</<?php echo $moduleTag; ?>>
 
 	<?php endif;

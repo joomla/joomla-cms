@@ -7910,6 +7910,9 @@ input.input-large-text {
 .chzn-color-state.chzn-single[rel="value_-2"].active {
 	background-color: #942a25 \9;
 }
+#permissions-sliders .input-small {
+	width: 120px;
+}
 .pull-right {
 	float: left;
 }
