@@ -25,8 +25,11 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Nov-2013 Michael Babker
+ ^ Revert [#30556] JDatabaseDriver::replacePrefix: Optimization.  Thanks Elin Waring
+
 05-Nov-2013 David Hurley
- # [32522] Handle an invalid remember cookie. Thanks Elin Waring
+ # [#32522] Handle an invalid remember cookie. Thanks Elin Waring
 
 05-Nov-2013 Jean-Marie Simonet
  # [#32513] *Regression: No filtering work in Hathor (managers as well as choosing article via modal) Thanks Roberto Segura
