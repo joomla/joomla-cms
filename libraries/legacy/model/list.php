@@ -575,6 +575,22 @@ class JModelList extends JModelLegacy
 				$this->setState('list.direction', $value);
 			}
 
+			// Support old ordering field
+			$oldOrdering = $app->input->get('filter_order');
+
+			if (!empty($oldOrdering) && in_array($value, $this->filter_fields))
+			{
+				$this->setState('list.ordering', $oldOrdering);
+			}
+
+			// Support old direction field
+			$oldDirection = $app->input->get('filter_order_Dir');
+
+			if (!empty($oldDirection) && in_array(strtoupper($oldDirection), array('ASC', 'DESC', '')))
+			{
+				$this->setState('list.direction', $oldDirection);
+			}
+
 			$value = $app->getUserStateFromRequest($this->context . '.limitstart', 'limitstart', 0);
 			$limitstart = ($limit != 0 ? (floor($value / $limit) * $limit) : 0);
 			$this->setState('list.start', $limitstart);

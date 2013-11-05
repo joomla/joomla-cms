@@ -108,6 +108,12 @@ class ContentModelArticles extends JModelList
 		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
 
+		$tag = $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
+		$this->setState('filter.tag', $tag);
+
+		// List state information.
+		parent::populateState('a.title', 'asc');
+
 		// Force a language
 		$forcedLanguage = $app->input->get('forcedLanguage');
 
@@ -116,12 +122,6 @@ class ContentModelArticles extends JModelList
 			$this->setState('filter.language', $forcedLanguage);
 			$this->setState('filter.forcedLanguage', $forcedLanguage);
 		}
-
-		$tag = $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
-		$this->setState('filter.tag', $tag);
-
-		// List state information.
-		parent::populateState('a.title', 'asc');
 	}
 
 	/**
