@@ -206,11 +206,8 @@ class ModulesControllerModule extends JControllerForm
 
 			$properties = $item->getProperties();
 
-			// Merge 'params' array seperately
-			$data['params'] = array_merge($properties['params'], $data['params']);
-
-			// Merge other properties
-			$data = array_merge($properties, $data);
+			// Replace changed properties
+			$data = array_replace_recursive($properties, $data);
 
 			$key = $table->getKeyName();
 			$urlVar = $key;
