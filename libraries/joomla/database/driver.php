@@ -1612,8 +1612,8 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 		 */
 
 		$pregPrefix = preg_quote($prefix, '/');
-		$realPrefix = $this->getPrefix();
 		$pattern    = '/((?:"(?:[^\\\\"]|\\\\.)*"|\'(?:[^\\\\\']|\\\\.)*\'|(?:(?!' . $pregPrefix . ')[^"\']))*)(' . $pregPrefix . ')?/';
+		$realPrefix = $this->getPrefix();
 
 		return preg_replace_callback( $pattern,
 			function ($matches) use ($realPrefix)
