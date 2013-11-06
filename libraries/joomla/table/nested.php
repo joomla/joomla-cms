@@ -716,7 +716,11 @@ class JTableNested extends JTable
 		$k = $this->_tbl_key;
 
 		// Implement JObservableInterface: Pre-processing by observers
-		$this->_observers->update('onBeforeStore', array($updateNulls, $k));
+		// 2.5 upgrade issue - check if property_exists before executing
+		if (property_exists($this, '_observers'))
+		{
+			$this->_observers->update('onBeforeStore', array($updateNulls, $k));
+		}
 
 		// @codeCoverageIgnoreStart
 		if ($this->_debug)
@@ -843,12 +847,21 @@ class JTableNested extends JTable
 
 		// Implement JObservableInterface: We do not want parent::store to update observers,
 		// since tables are locked and we are updating it from this level of store():
-		$oldCallObservers = $this->_observers->doCallObservers(false);
+
+		// 2.5 upgrade issue - check if property_exists before executing
+		if (property_exists($this, '_observers'))
+		{
+			$oldCallObservers = $this->_observers->doCallObservers(false);
+		}
 
 		$result = parent::store($updateNulls);
 
 		// Implement JObservableInterface: Restore previous callable observers state:
-		$this->_observers->doCallObservers($oldCallObservers);
+		// 2.5 upgrade issue - check if property_exists before executing
+		if (property_exists($this, '_observers'))
+		{
+			$this->_observers->doCallObservers($oldCallObservers);
+		}
 
 		if ($result)
 		{
@@ -864,7 +877,11 @@ class JTableNested extends JTable
 		$this->_unlock();
 
 		// Implement JObservableInterface: Post-processing by observers
-		$this->_observers->update('onAfterStore', array(&$result));
+		// 2.5 upgrade issue - check if property_exists before executing
+		if (property_exists($this, '_observers'))
+		{
+			$this->_observers->update('onAfterStore', array(&$result));
+		}
 
 		return $result;
 	}
