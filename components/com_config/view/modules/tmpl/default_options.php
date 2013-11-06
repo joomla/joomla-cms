@@ -12,9 +12,12 @@ defined('_JEXEC') or die;
 <?php
 
 	$fieldSets = $this->form->getFieldsets('params');
-	
+
+	echo JHtml::_('bootstrap.startAccordion', 'collapseTypes', array('active' => 'slide1'));
+	$i = 0;
 	
 	foreach ($fieldSets as $name => $fieldSet) :
+	
 	$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_MODULES_'.$name.'_FIELDSET_LABEL';
 	$class = isset($fieldSet->class) && !empty($fieldSet->class) ? $fieldSet->class : '';
 	
@@ -25,12 +28,17 @@ defined('_JEXEC') or die;
 ?>
 <?php 
 
+echo JHtml::_('bootstrap.addSlide', 'collapseTypes', ucfirst($name), 'collapse' . $i++);
+?>
 
-	
+<ul class="nav nav-tabs nav-stacked">
+<?php 	
 	foreach ($this->form->getFieldset($name) as $field) :
 
-
 ?>
+	
+	<li>
+	
 	<div class="control-group">
 		<div class="control-label">
 			<?php echo $field->label; ?>
@@ -39,9 +47,17 @@ defined('_JEXEC') or die;
 			<?php echo $field->input; ?>
 		</div>
 	</div>
+	
+	</li>
+	
 <?php endforeach; ?>
 
-<hr class="hr-condensed" />
+</ul>
+
+<?php echo JHtml::_('bootstrap.endSlide'); ?>
 
 <?php
+
 endforeach;
+
+echo JHtml::_('bootstrap.endAccordion');
