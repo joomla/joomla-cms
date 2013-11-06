@@ -58,7 +58,7 @@ $hasContent = empty($this->item['module']) || $this->item['module'] == 'custom' 
 
 			<hr class="hr-condensed" />
 			
-			<legend><?php echo JText::_('COM_MODULES_SETTINGS_TITLE'); ?></legend>
+			<legend><?php echo JText::_('COM_CONFIG_MODULES_SETTINGS_TITLE'); ?></legend>
 
 			<div class="row-fluid">
 				<div class="span6">
@@ -90,6 +90,17 @@ $hasContent = empty($this->item['module']) || $this->item['module'] == 'custom' 
 	
 						<hr />
 	
+						<?php if ($this->item['module'] != 'mod_login'): ?>
+							<div class="control-group">
+								<div class="control-label">
+									<?php echo $this->form->getLabel('published'); ?>
+								</div>
+								<div class="controls">
+									<?php echo $this->form->getInput('published'); ?>
+								</div>
+							</div>
+						<?php endif; ?>
+
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $this->form->getLabel('access'); ?>
@@ -138,8 +149,6 @@ $hasContent = empty($this->item['module']) || $this->item['module'] == 'custom' 
 						<?php endif; ?>
 					</fieldset>
 				</div>
-
-
 
 				<input type="hidden" name="task" value="" />
 				<?php echo JHtml::_('form.token'); ?>
