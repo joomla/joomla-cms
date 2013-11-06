@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 06-Nov-2013 Michael Babker
  # unexpected T_PAAMAYIM_NEKUDOTAYIM in /libraries/joomla/http/factory.php
+ # MySQL(i) drivers are not handling limits correctly.  Thanks George Wilson
 
 -------------------- 2.5.15 Stable Release 06-November-2013] ------------------
 
