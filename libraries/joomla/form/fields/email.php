@@ -45,6 +45,9 @@ class JFormFieldEMail extends JFormField
 		$readonly = ((string) $this->element['readonly'] == 'true') ? ' readonly="readonly"' : '';
 		$disabled = ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
 
+		// " and \ are always forbidden in email unless escaped.
+		$this->value = str_replace(array('"','\\'), '', $this->value);
+
 		// Initialize JavaScript field attributes.
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
