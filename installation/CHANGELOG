@@ -25,6 +25,8 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+-------------------- 3.2.0 Stable Release [06-Nov-2013] ------------------
+
 06-Nov-2013 Michael Babker
  # [#32545] BC issue: JApplication::redirect($url, $message) broken: Message not displayed after redirect: Affecting many extensions.  Thanks Beat
 

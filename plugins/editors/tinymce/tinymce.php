@@ -421,7 +421,7 @@ class PlgEditorTinymce extends JPlugin
 			$toolbar4_add[] = 'template';
 
 			// Note this check for the template_list.js file will be removed in Joomla 4.0
-			if (JFile::exists(JPATH_ROOT . "/media/editors/tinymce/templates/template_list.js"))
+			if (is_file(JPATH_ROOT . "/media/editors/tinymce/templates/template_list.js"))
 			{
 				// If using the legacy file we need to include and input the files the new way
 				$str = file_get_contents(JPATH_ROOT . "/media/editors/tinymce/templates/template_list.js");
