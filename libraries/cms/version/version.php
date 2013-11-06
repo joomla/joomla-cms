@@ -38,7 +38,7 @@ final class JVersion
 	public $RELDATE = '06-November-2013';
 
 	/** @var  string  Release time. */
-	public $RELTIME = '14:00';
+	public $RELTIME = '22:30';
 
 	/** @var  string  Release timezone. */
 	public $RELTZ = 'GMT';
