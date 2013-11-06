@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Nov-2013 Michael Babker
+ # [#32555] MS SQL Database configuration fails with multiple errors during a fresh Joomla! 3.2 installation
+
 -------------------- 3.2.0 Stable Release [06-Nov-2013] ------------------
 
 06-Nov-2013 Michael Babker
