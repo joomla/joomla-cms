@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+06-Nov-2013 Michael Babker
+ # [#32545] BC issue: JApplication::redirect($url, $message) broken: Message not displayed after redirect: Affecting many extensions.  Thanks Beat
+
 06-Nov-2013 Jean-Marie Simonet
  # [#32528] tinymce.php; template_list.js inclusion with file_get_contents over http  Thanks marco maria leoni
 
