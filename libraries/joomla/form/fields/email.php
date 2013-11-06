@@ -49,6 +49,10 @@ class JFormFieldEMail extends JFormField
 		// Initialize JavaScript field attributes.
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
+		// " and \ are always forbidden in email unless escaped.
+		$this->value = str_replace(array('"','\\'), '', $this->value);
+
+
 		return '<input type="text" name="' . $this->name . '" class="' . $class . '" id="' . $this->id . '" value="'
 			. JStringPunycode::emailToUTF8($this->value, ENT_COMPAT, 'UTF-8') . '"' . $size . $disabled . $readonly . $onchange . $maxLength . $required . '/>';
 	}

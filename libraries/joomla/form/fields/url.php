@@ -51,6 +51,9 @@ class JFormFieldUrl extends JFormFieldText
 		// Initialize JavaScript field attributes.
 		$onchange = $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
+		// Uris should never include <>" see see http://www.ietf.org/rfc/rfc1738.txt.
+		$this->value = str_replace(array('<', '>', '"'), '', $this->value);
+
 		return '<input type="url" name="' . $this->name . '"' . $class . ' id="' . $this->id . '" value="'
 			. JStringPunycode::urlToUTF8($this->value, ENT_COMPAT, 'UTF-8') . '"' . $size . $disabled . $readonly . $onchange . $maxLength . $required . '/>';
 	}
