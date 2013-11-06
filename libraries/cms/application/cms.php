@@ -960,6 +960,13 @@ class JApplicationCms extends JApplicationWeb
 				// Enqueue the message
 				$this->enqueueMessage($message, $type);
 
+				// Persist messages if they exist.
+				if (count($this->_messageQueue))
+				{
+					$session = JFactory::getSession();
+					$session->set('application.queue', $this->_messageQueue);
+				}
+
 				// Reset the $moved variable
 				$moved = isset($args[3]) ? (boolean) $args[3] : false;
 			}
