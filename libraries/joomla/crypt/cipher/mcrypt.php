@@ -129,7 +129,7 @@ abstract class JCryptCipherMcrypt implements JCryptCipher
 		}
 
 		// Generate the derived key.
-		$key->private = $this->pbkdf2($password, $salt, mcrypt_get_key_size($this->type, $this->mode));
+		$key->private = $this->pbkdf2($options['password'], $salt, mcrypt_get_key_size($this->type, $this->mode));
 
 		return $key;
 	}
