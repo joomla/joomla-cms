@@ -59,7 +59,7 @@ abstract class JInstallerHelper
 
 		if (is_null($response))
 		{
-			JError::raiseWarning(42, JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $error));
+			JError::raiseWarning(42, JText::_('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT'));
 
 			return false;
 		}
@@ -70,7 +70,12 @@ abstract class JInstallerHelper
 		}
 		elseif (200 != $response->code)
 		{
-			JError::raiseWarning(42, JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $error));
+			if ($response->body === '')
+			{
+				$response->body = $php_errormsg;
+			}
+
+			JError::raiseWarning(42, JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->body));
 
 			return false;
 		}
