@@ -1,6 +1,3 @@
-/**
- * markdown.js
- */
 CodeMirror.defineMode("markdown", function(cmCfg, modeCfg) {
 
   var htmlFound = CodeMirror.modes.hasOwnProperty("xml");
@@ -552,9 +549,7 @@ CodeMirror.defineMode("markdown", function(cmCfg, modeCfg) {
 }, "xml");
 
 CodeMirror.defineMIME("text/x-markdown", "markdown");
-/**
- * xml.js
- */
+
 CodeMirror.defineMode("xml", function(config, parserConfig) {
   var indentUnit = config.indentUnit;
   var multilineTagIndentFactor = parserConfig.multilineTagIndentFactor || 1;
@@ -633,7 +628,7 @@ CodeMirror.defineMode("xml", function(config, parserConfig) {
         tagName = "";
         var c;
         while ((c = stream.eat(/[^\s\u00a0=<>\"\'\/?]/))) tagName += c;
-        if (!tagName) return "error";
+        if (!tagName) return "tag error";
         type = isClose ? "closeTag" : "openTag";
         state.tokenize = inTag;
         return "tag";
@@ -666,7 +661,9 @@ CodeMirror.defineMode("xml", function(config, parserConfig) {
       type = "equals";
       return null;
     } else if (ch == "<") {
-      return "error";
+      state.tokenize = inText;
+      var next = state.tokenize(stream, state);
+      return next ? next + " error" : "error";
     } else if (/[\'\"]/.test(ch)) {
       state.tokenize = inAttribute(ch);
       state.stringStartCol = stream.column();
@@ -855,7 +852,9 @@ CodeMirror.defineMode("xml", function(config, parserConfig) {
         }
       }
       state.startOfLine = false;
-      return setStyle || style;
+      if (setStyle)
+        style = setStyle == "error" ? style + " error" : setStyle;
+      return style;
     },
 
     indent: function(state, textAfter, fullLine) {

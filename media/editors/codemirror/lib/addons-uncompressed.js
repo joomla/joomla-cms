@@ -1,6 +1,3 @@
-/**
- *    active-line.js
- **/
 // Because sometimes you need to style the cursor's line.
 //
 // Adds an option 'styleActiveLine' which, when enabled, gives the
@@ -40,9 +37,6 @@
     cm.state.activeLine = line;
   }
 })();
-/**
- *    brace-fold.js
- **/
 CodeMirror.registerHelper("fold", "brace", function(cm, start) {
   var line = start.line, lineText = cm.getLine(line);
   var startCh, tokenType;
@@ -136,9 +130,6 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
           to: cm.clipPos(CodeMirror.Pos(end))};
 });
 CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
-/**
- *    closebrackets.js
- **/
 (function() {
   var DEFAULT_BRACKETS = "()[]{}''\"\"";
   var DEFAULT_EXPLODE_ON_ENTER = "[]{}";
@@ -222,9 +213,6 @@ CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
   }
 })();
 /**
- *    closetag.js
- **/
-/**
  * Tag-closer extension for CodeMirror.
  *
  * This extension adds an "autoCloseTags" option that can be set to
@@ -298,7 +286,7 @@ CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
   function autoCloseSlash(cm) {
     var pos = cm.getCursor(), tok = cm.getTokenAt(pos);
     var inner = CodeMirror.innerMode(cm.getMode(), tok.state), state = inner.state;
-    if (tok.string.charAt(0) != "<" || inner.mode.name != "xml") return CodeMirror.Pass;
+    if (tok.string.charAt(0) != "<" || tok.start != pos.ch - 1 || inner.mode.name != "xml") return CodeMirror.Pass;
 
     var tagName = state.context && state.context.tagName;
     if (tagName) cm.replaceSelection("/" + tagName + ">", "end");
@@ -311,9 +299,6 @@ CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
     return -1;
   }
 })();
-/**
- *    comment-fold.js
- **/
 CodeMirror.registerHelper("fold", "comment", function(cm, start) {
   var mode = cm.getModeAt(start), startToken = mode.blockCommentStart, endToken = mode.blockCommentEnd;
   if (!startToken || !endToken) return;
@@ -354,13 +339,10 @@ CodeMirror.registerHelper("fold", "comment", function(cm, start) {
   return {from: CodeMirror.Pos(line, startCh),
           to: CodeMirror.Pos(end, endCh)};
 });
-/**
- *    foldcode.js
- **/
 (function() {
   "use strict";
 
-  function doFold(cm, pos, options) {
+  function doFold(cm, pos, options, force) {
     var finder = options && (options.call ? options : options.rangeFinder);
     if (!finder) finder = cm.getHelper(pos, "fold");
     if (!finder) return;
@@ -372,7 +354,7 @@ CodeMirror.registerHelper("fold", "comment", function(cm, start) {
       if (!range || range.to.line - range.from.line < minSize) return null;
       var marks = cm.findMarksAt(range.from);
       for (var i = 0; i < marks.length; ++i) {
-        if (marks[i].__isFold) {
+        if (marks[i].__isFold && force !== "fold") {
           if (!allowFolded) return null;
           range.cleared = true;
           marks[i].clear();
@@ -386,7 +368,7 @@ CodeMirror.registerHelper("fold", "comment", function(cm, start) {
       pos = CodeMirror.Pos(pos.line - 1, 0);
       range = getRange(false);
     }
-    if (!range || range.cleared) return;
+    if (!range || range.cleared || force === "unfold") return;
 
     var myWidget = makeWidget(options);
     CodeMirror.on(myWidget, "mousedown", function() { myRange.clear(); });
@@ -418,7 +400,9 @@ CodeMirror.registerHelper("fold", "comment", function(cm, start) {
   };
 
   // New-style interface
-  CodeMirror.defineExtension("foldCode", function(pos, options) { doFold(this, pos, options); });
+  CodeMirror.defineExtension("foldCode", function(pos, options, force) {
+    doFold(this, pos, options, force);
+  });
 
   CodeMirror.registerHelper("fold", "combine", function() {
     var funcs = Array.prototype.slice.call(arguments, 0);
@@ -430,9 +414,6 @@ CodeMirror.registerHelper("fold", "comment", function(cm, start) {
     };
   });
 })();
-/**
- *    foldgutter.js
- **/
 (function() {
   "use strict";
 
@@ -445,6 +426,7 @@ CodeMirror.registerHelper("fold", "comment", function(cm, start) {
       cm.off("viewportChange", onViewportChange);
       cm.off("fold", onFold);
       cm.off("unfold", onFold);
+      cm.off("swapDoc", updateInViewport);
     }
     if (val) {
       cm.state.foldGutter = new State(parseOptions(val));
@@ -454,6 +436,7 @@ CodeMirror.registerHelper("fold", "comment", function(cm, start) {
       cm.on("viewportChange", onViewportChange);
       cm.on("fold", onFold);
       cm.on("unfold", onFold);
+      cm.on("swapDoc", updateInViewport);
     }
   });
 
@@ -555,9 +538,6 @@ CodeMirror.registerHelper("fold", "comment", function(cm, start) {
       updateFoldInfo(cm, line, line + 1);
   }
 })();
-/**
- *    fullscreen.js
- **/
 (function() {
   "use strict";
 
@@ -588,9 +568,6 @@ CodeMirror.registerHelper("fold", "comment", function(cm, start) {
     cm.refresh();
   }
 })();
-/**
- *    matchbrackets.js
- **/
 (function() {
   var ie_lt8 = /MSIE \d/.test(navigator.userAgent) &&
     (document.documentMode == null || document.documentMode < 8);
@@ -677,9 +654,6 @@ CodeMirror.registerHelper("fold", "comment", function(cm, start) {
     return findMatchingBracket(this, pos, strict);
   });
 })();
-/**
- *    matchtags.js
- **/
 (function() {
   "use strict";
 
@@ -736,9 +710,6 @@ CodeMirror.registerHelper("fold", "comment", function(cm, start) {
     }
   };
 })();
-/**
- *    xml-fold.js
- **/
 (function() {
   "use strict";
 
@@ -907,9 +878,6 @@ CodeMirror.registerHelper("fold", "comment", function(cm, start) {
   };
 })();
 /**
- *    vim.js
- **/
-/**
  * Supported keybindings:
  *
  *   Motion:
@@ -987,8 +955,10 @@ CodeMirror.registerHelper("fold", "comment", function(cm, start) {
     { keys: ['<C-p>'], type: 'keyToKey', toKeys: ['k'] },
     { keys: ['C-['], type: 'keyToKey', toKeys: ['<Esc>'] },
     { keys: ['<C-c>'], type: 'keyToKey', toKeys: ['<Esc>'] },
-    { keys: ['s'], type: 'keyToKey', toKeys: ['c', 'l'] },
-    { keys: ['S'], type: 'keyToKey', toKeys: ['c', 'c'] },
+    { keys: ['s'], type: 'keyToKey', toKeys: ['c', 'l'], context: 'normal' },
+    { keys: ['s'], type: 'keyToKey', toKeys: ['x', 'i'], context: 'visual'},
+    { keys: ['S'], type: 'keyToKey', toKeys: ['c', 'c'], context: 'normal' },
+    { keys: ['S'], type: 'keyToKey', toKeys: ['d', 'c', 'c'], context: 'visual' },
     { keys: ['<Home>'], type: 'keyToKey', toKeys: ['0'] },
     { keys: ['<End>'], type: 'keyToKey', toKeys: ['$'] },
     { keys: ['<PageUp>'], type: 'keyToKey', toKeys: ['<C-b>'] },
@@ -1520,6 +1490,9 @@ CodeMirror.registerHelper("fold", "comment", function(cm, start) {
           }
           commandDispatcher.processCommand(cm, vim, command);
         }
+      },
+      handleEx: function(cm, input) {
+        exCommandDispatcher.processCommand(cm, input);
       }
     };
 
@@ -1606,6 +1579,9 @@ CodeMirror.registerHelper("fold", "comment", function(cm, start) {
         if (linewise && text.charAt(0) == '\n') {
           text = text.slice(1) + '\n';
         }
+        if(linewise && text.charAt(text.length - 1) !== '\n'){
+          text += '\n';
+        }
         // Lowercase and uppercase registers refer to the same register.
         // Uppercase just means append.
         var register = this.isValidRegister(registerName) ?
@@ -1677,44 +1653,74 @@ CodeMirror.registerHelper("fold", "comment", function(cm, start) {
       matchCommand: function(key, keyMap, vim) {
         var inputState = vim.inputState;
         var keys = inputState.keyBuffer.concat(key);
+        var matchedCommands = [];
+        var selectedCharacter;
         for (var i = 0; i < keyMap.length; i++) {
           var command = keyMap[i];
           if (matchKeysPartial(keys, command.keys)) {
-            if (keys.length < command.keys.length) {
-              // Matches part of a multi-key command. Buffer and wait for next
-              // stroke.
-              inputState.keyBuffer.push(key);
-              return null;
-            }
             if (inputState.operator && command.type == 'action') {
               // Ignore matched action commands after an operator. Operators
               // only operate on motions. This check is really for text
               // objects since aW, a[ etcs conflicts with a.
               continue;
             }
-            // Matches whole comand. Return the command.
+            // Match commands that take <character> as an argument.
             if (command.keys[keys.length - 1] == 'character') {
-              inputState.selectedCharacter = keys[keys.length - 1];
-              if(inputState.selectedCharacter.length>1){
-                switch(inputState.selectedCharacter){
+              selectedCharacter = keys[keys.length - 1];
+              if(selectedCharacter.length>1){
+                switch(selectedCharacter){
                   case '<CR>':
-                    inputState.selectedCharacter='\n';
+                    selectedCharacter='\n';
                     break;
                   case '<Space>':
-                    inputState.selectedCharacter=' ';
+                    selectedCharacter=' ';
                     break;
                   default:
                     continue;
                 }
               }
             }
+            // Add the command to the list of matched commands. Choose the best
+            // command later.
+            matchedCommands.push(command);
+          }
+        }
+
+        // Returns the command if it is a full match, or null if not.
+        function getFullyMatchedCommandOrNull(command) {
+          if (keys.length < command.keys.length) {
+            // Matches part of a multi-key command. Buffer and wait for next
+            // stroke.
+            inputState.keyBuffer.push(key);
+            return null;
+          } else {
+            if (command.keys[keys.length - 1] == 'character') {
+              inputState.selectedCharacter = selectedCharacter;
+            }
+            // Clear the buffer since a full match was found.
             inputState.keyBuffer = [];
             return command;
           }
         }
-        // Clear the buffer since there are no partial matches.
-        inputState.keyBuffer = [];
-        return null;
+
+        if (!matchedCommands.length) {
+          // Clear the buffer since there were no matches.
+          inputState.keyBuffer = [];
+          return null;
+        } else if (matchedCommands.length == 1) {
+          return getFullyMatchedCommandOrNull(matchedCommands[0]);
+        } else {
+          // Find the best match in the list of matchedCommands.
+          var context = vim.visualMode ? 'visual' : 'normal';
+          var bestMatch = matchedCommands[0]; // Default to first in the list.
+          for (var i = 0; i < matchedCommands.length; i++) {
+            if (matchedCommands[i].context == context) {
+              bestMatch = matchedCommands[i];
+              break;
+            }
+          }
+          return getFullyMatchedCommandOrNull(bestMatch);
+        }
       },
       processCommand: function(cm, vim, command) {
         vim.inputState.repeatOverride = command.repeatOverride;
