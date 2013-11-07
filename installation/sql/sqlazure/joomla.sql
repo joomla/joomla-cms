@@ -2740,7 +2740,7 @@ CREATE TABLE [#__update_sites](
 
 SET IDENTITY_INSERT [#__update_sites] ON;
 
-INSERT INTO [__update_sites] ([update_site_id], [name], [type], [location], [enabled], [last_check_timestamp])
+INSERT INTO [#__update_sites] ([update_site_id], [name], [type], [location], [enabled], [last_check_timestamp])
 SELECT 1, 'Joomla Core', 'collection', 'http://update.joomla.org/core/list.xml', 1, 0
 UNION ALL
 SELECT 2, 'Joomla Extension Directory', 'collection', 'http://update.joomla.org/jed/list.xml', 1, 0
@@ -3001,7 +3001,7 @@ CREATE TABLE [#__viewlevels](
 	[id] [bigint] IDENTITY(1,1) NOT NULL,
 	[title] [nvarchar](100) NOT NULL DEFAULT '',
 	[ordering] [int] NOT NULL DEFAULT 0,
-	[rules] [nvarchar](5120) NOT NULL,
+	[rules] [nvarchar](max) NOT NULL,
  CONSTRAINT [PK_#__viewlevels_id] PRIMARY KEY CLUSTERED
 (
 	[id] ASC
