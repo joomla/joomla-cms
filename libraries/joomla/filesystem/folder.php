@@ -21,6 +21,32 @@ jimport('joomla.filesystem.path');
 abstract class JFolder
 {
 	/**
+	 * Default Directory Mode
+	 *
+	 * @var    integer
+	 */
+	protected static $dirmode = 0755;
+
+	/**
+	 * Get or set the default mode value.
+	 *
+	 * @param   integer  $mode  The new default mode value.
+	 *
+	 * @return  integer  The old default mode value.
+	 */
+	public static function mode($mode = null)
+	{
+		$old = self::$dirmode;
+
+		if (isset($mode))
+		{
+			self::$dirmode = (int) $mode;
+		}
+
+		return $old;
+	}
+
+	/**
 	 * Copy a folder.
 	 *
 	 * @param   string   $src          The path to the source folder.
@@ -162,11 +188,17 @@ abstract class JFolder
 	 *
 	 * @since   11.1
 	 */
-	public static function create($path = '', $mode = 0755)
+	public static function create($path = '', $mode = null)
 	{
 		// Initialise variables.
 		$FTPOptions = JClientHelper::getCredentials('ftp');
 		static $nested = 0;
+
+		// Use the default mode if none specified.
+		if (!isset($mode))
+		{
+			$mode = self::$dirmode;
+		}
 
 		// Check to make sure the path valid and clean
 		$path = JPath::clean($path);
