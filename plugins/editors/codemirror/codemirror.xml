@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.2" type="plugin" group="editors">
 	<name>plg_editors_codemirror</name>
-	<version>3.18</version>
+	<version>3.19</version>
 	<creationDate>28 March 2011</creationDate>
 	<author>Marijn Haverbeke</author>
 	<authorEmail>N/A</authorEmail>
