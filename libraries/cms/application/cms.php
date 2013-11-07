@@ -315,6 +315,23 @@ class JApplicationCms extends JApplicationWeb
 	}
 
 	/**
+	 * Provides a secure hash based on a seed
+	 *
+	 * @param   string  $seed  Seed string.
+	 *
+	 * @return  string  A secure hash
+	 *
+	 * @since   3.2
+	 * @deprecated  4.0  Use JApplicationHelper::getHash instead
+	 */
+	public static function getHash($seed)
+	{
+		JLog::add('JApplicationCms::getHash() is deprecated. Use JApplicationHelper::getHash instead.', JLog::WARNING, 'deprecated');
+
+		return JApplicationHelper::getHash($seed);
+	}
+
+	/**
 	 * Returns a reference to the global JApplicationCms object, only creating it if it doesn't already exist.
 	 *
 	 * This method must be invoked as: $web = JApplicationCms::getInstance();
@@ -623,6 +640,21 @@ class JApplicationCms extends JApplicationWeb
 	public function isSite()
 	{
 		return ($this->getClientId() === 0);
+	}
+
+	/**
+	 * Method to determine if the host OS is  Windows
+	 *
+	 * @return  boolean  True if Windows OS
+	 *
+	 * @since   3.2
+	 * @deprecated  4.0  Use the IS_WIN constant instead.
+	 */
+	public static function isWinOS()
+	{
+		JLog::add('JApplicationCms::isWinOS() is deprecated. Use the IS_WIN constant instead.', JLog::WARNING, 'deprecated');
+
+		return IS_WIN;
 	}
 
 	/**
@@ -1089,6 +1121,8 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	public static function stringURLSafe($string)
 	{
+		JLog::add('JApplicationCms::stringURLSafe() is deprecated. Use JApplicationHelper::stringURLSafe instead.', JLog::WARNING, 'deprecated');
+
 		return JApplicationHelper::stringURLSafe($string);
 	}
 
