@@ -1076,6 +1076,23 @@ class JApplicationCms extends JApplicationWeb
 	}
 
 	/**
+	 * This method transliterates a string into an URL
+	 * safe string or returns a URL safe UTF-8 string
+	 * based on the global configuration
+	 *
+	 * @param   string  $string  String to process
+	 *
+	 * @return  string  Processed string
+	 *
+	 * @since   3.2
+	 * @deprecated  4.0  Use JApplicationHelper::stringURLSafe instead
+	 */
+	public static function stringURLSafe($string)
+	{
+		return JApplicationHelper::stringURLSafe($string);
+	}
+
+	/**
 	 * Sends all headers prior to returning the string
 	 *
 	 * @param   boolean  $compress  If true, compress the data
