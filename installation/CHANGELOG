@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+07-Nov-2013 Michael Babker
+ # [#32582] Upgrade to 3.2.0 errors as Postgres null date is '1970-01-01 00:00:00' instead of '0000-00-00 00:00:00'.  Thanks Alan Hicks
+
 06-Nov-2013 Michael Babker
  # [#32555] MS SQL Database configuration fails with multiple errors during a fresh Joomla! 3.2 installation
 
