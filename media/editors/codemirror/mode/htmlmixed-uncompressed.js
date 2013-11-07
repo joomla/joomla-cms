@@ -1,12 +1,9 @@
-/**
- * css.js
- */
 CodeMirror.defineMode("css", function(config, parserConfig) {
   "use strict";
 
   if (!parserConfig.propertyKeywords) parserConfig = CodeMirror.resolveMode("text/css");
 
-  var indentUnit = config.indentUnit,
+  var indentUnit = config.indentUnit || config.tabSize || 2,
       hooks = parserConfig.hooks || {},
       atMediaTypes = parserConfig.atMediaTypes || {},
       atMediaFeatures = parserConfig.atMediaFeatures || {},
@@ -262,8 +259,13 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
       }
       else if (type == "}") {
         if (context == "interpolation") style = "operator";
-        state.stack.pop();
-        if (context == "propertyValue") state.stack.pop();
+        // Pop off end of array until { is reached
+        while(state.stack.length){
+          var removed = state.stack.pop();
+          if(removed.indexOf("{") > -1){
+            break;
+          }
+        }
       }
       else if (type == "interpolation") state.stack.push("interpolation");
       else if (type == "@media") state.stack.push("@media");
@@ -281,11 +283,13 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
         else state.stack.push("(");
       }
       else if (type == ")") {
-        if (context == "propertyValue") {
-          // In @mediaType( without closing ; after propertyValue
-          state.stack.pop();
+        // Pop off end of array until ( is reached
+        while(state.stack.length){
+          var removed = state.stack.pop();
+          if(removed.indexOf("(") > -1){
+            break;
+          }
         }
-        state.stack.pop();
       }
       else if (type == ":" && state.lastToken == "property") state.stack.push("propertyValue");
       else if (context == "propertyValue" && type == ";") state.stack.pop();
@@ -605,6 +609,11 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
         }
         return ["variable", "variable"];
       },
+      ",": function(_stream, state) {
+        if (state.stack[state.stack.length - 1] == "propertyValue") {
+          return ["operator", ";"];
+        }
+      },
       "/": function(stream, state) {
         if (stream.eat("/")) {
           stream.skipToEnd();
@@ -628,9 +637,7 @@ CodeMirror.defineMode("css", function(config, parserConfig) {
     name: "css"
   });
 })();
-/*
- * htmlmixed.js
- */
+
 CodeMirror.defineMode("htmlmixed", function(config, parserConfig) {
   var htmlMode = CodeMirror.getMode(config, {name: "xml", htmlMode: true});
   var cssMode = CodeMirror.getMode(config, "css");
@@ -735,9 +742,7 @@ CodeMirror.defineMode("htmlmixed", function(config, parserConfig) {
 }, "xml", "javascript", "css");
 
 CodeMirror.defineMIME("text/html", "htmlmixed");
-/*
- * javascript.js
- */
+
 // TODO actually recognize syntax of TypeScript constructs
 
 CodeMirror.defineMode("javascript", function(config, parserConfig) {
@@ -1218,9 +1223,7 @@ CodeMirror.defineMIME("application/json", {name: "javascript", json: true});
 CodeMirror.defineMIME("application/x-json", {name: "javascript", json: true});
 CodeMirror.defineMIME("text/typescript", { name: "javascript", typescript: true });
 CodeMirror.defineMIME("application/typescript", { name: "javascript", typescript: true });
-/*
- * xml.js
- */
+
 CodeMirror.defineMode("xml", function(config, parserConfig) {
   var indentUnit = config.indentUnit;
   var multilineTagIndentFactor = parserConfig.multilineTagIndentFactor || 1;
@@ -1299,7 +1302,7 @@ CodeMirror.defineMode("xml", function(config, parserConfig) {
         tagName = "";
         var c;
         while ((c = stream.eat(/[^\s\u00a0=<>\"\'\/?]/))) tagName += c;
-        if (!tagName) return "error";
+        if (!tagName) return "tag error";
         type = isClose ? "closeTag" : "openTag";
         state.tokenize = inTag;
         return "tag";
@@ -1332,7 +1335,9 @@ CodeMirror.defineMode("xml", function(config, parserConfig) {
       type = "equals";
       return null;
     } else if (ch == "<") {
-      return "error";
+      state.tokenize = inText;
+      var next = state.tokenize(stream, state);
+      return next ? next + " error" : "error";
     } else if (/[\'\"]/.test(ch)) {
       state.tokenize = inAttribute(ch);
       state.stringStartCol = stream.column();
@@ -1521,7 +1526,9 @@ CodeMirror.defineMode("xml", function(config, parserConfig) {
         }
       }
       state.startOfLine = false;
-      return setStyle || style;
+      if (setStyle)
+        style = setStyle == "error" ? style + " error" : setStyle;
+      return style;
     },
 
     indent: function(state, textAfter, fullLine) {
