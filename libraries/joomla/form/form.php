@@ -224,22 +224,22 @@ class JForm
 			$groups = array_map('strval', $attrs ? $attrs : array());
 			$group = implode('.', $groups);
 
-			// Get the field value from the data input.
-			if ($group)
+			$key = $group ? $group . '.' . $name : $name;
+
+			// Filter the value if it exists.
+			if ($input->exists($key))
 			{
-				// Filter the value if it exists.
-				if ($input->exists($group . '.' . $name))
-				{
-					$output->set($group . '.' . $name, $this->filterField($field, $input->get($group . '.' . $name, (string) $field['default'])));
-				}
+				$output->set($key, $this->filterField($field, $input->get($key, (string) $field['default'])));
 			}
-			else
+
+			// Get the JFormField object for this field, only it knows if it is supposed to be multiple.
+			$jfield = $this->getField($name, $group);
+
+			// Fields supporting multiple values must be stored as empty arrays when no values are selected.
+			// If not, they will appear to be unset and then revert to their default value.
+			if ($jfield && $jfield->multiple && !$output->exists($key))
 			{
-				// Filter the value if it exists.
-				if ($input->exists($name))
-				{
-					$output->set($name, $this->filterField($field, $input->get($name, (string) $field['default'])));
-				}
+				$output->set($key, array());
 			}
 		}
 
