@@ -27,8 +27,8 @@
 					default="1"
 					description="PLG_CONTENT_JOOMLA_FIELD_CHECK_CATEGORIES_DESC"
 					label="PLG_CONTENT_JOOMLA_FIELD_CHECK_CATEGORIES_LABEL">
-					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field name="email_new_fe"
@@ -37,8 +37,8 @@
 					default="1"
 					description="PLG_CONTENT_JOOMLA_FIELD_EMAIL_NEW_FE_DESC"
 					label="PLG_CONTENT_JOOMLA_FIELD_EMAIL_NEW_FE_LABEL">
-					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 			</fieldset>
 		</fields>
