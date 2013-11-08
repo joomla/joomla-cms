@@ -2878,8 +2878,8 @@ UNION ALL
 SELECT 601, 'English (United Kingdom)', 'language', 'en-GB', '', 1, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0;
 
 
-INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id, enabled, access, protected, params, custom_data, system_data, checked_out, checked_out_time, ordering, state)
-VALUES (700, 'Joomla! CMS', 'file', 'joomla', '', 0, 1, 1, 1,  '', '', '', 0, '1900-01-01 00:00:00', 0, 0);
+INSERT INTO #__extensions (extension_id, name, type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state)
+VALUES (700, 'Joomla! CMS', 'file', 'joomla', '', 0, 1, 1, 1,  '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0);
 
 INSERT INTO #__extensions (extension_id, name,type, element, folder, client_id, enabled, access, protected, manifest_cache, params, custom_data, system_data, checked_out, checked_out_time, ordering, state) VALUES
 (800, 'joomla', 'package', 'pkg_joomla', '', 0, 1, 1, 1, '', '', '', '', 0, '1900-01-01 00:00:00', 0, 0);
