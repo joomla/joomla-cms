@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 08-Nov-2013 Jean-Marie Simonet
  + Adding French help server. Thanks Rafael Logvinski (AFUJ)
+ # [#32477] *Multilanguage: Issue with submenu set to ALL  Thanks Dennis Hermatski
 
 07-Nov-2013 Michael Babker
  # [#32582] Upgrade to 3.2.0 errors as Postgres null date is '1970-01-01 00:00:00' instead of '0000-00-00 00:00:00'.  Thanks Alan Hicks
