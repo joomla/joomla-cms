@@ -118,10 +118,8 @@
 					default="0"
 					label="MOD_ARTICLES_NEWS_FIELD_READMORE_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_READMORE_DESC">
-					<option
-						value="0">JHIDE</option>
-					<option
-						value="1">JSHOW</option>
+					<option value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
 				</field>
 
 				<field
