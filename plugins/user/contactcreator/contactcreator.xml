@@ -38,8 +38,8 @@
 					description="PLG_CONTACTCREATOR_FIELD_AUTOPUBLISH_DESC"
 					label="PLG_CONTACTCREATOR_FIELD_AUTOPUBLISH_LABEL"
 				>
-					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 			</fieldset>
 
