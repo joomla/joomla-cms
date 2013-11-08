@@ -608,7 +608,10 @@ class JCache
 						$beforevalue = array_map('serialize', $options['headerbefore'][$now]);
 						$newvalue = array_diff_assoc($nowvalue, $beforevalue);
 						$newvalue = array_map('unserialize', $newvalue);
-						
+					
+
+
+
 						if ($now == "script" || $now == "style" && (is_array($newvalue) && is_array($options['headerbefore'][$now])) ) //see: https://github.com/joomla/joomla-platform/issues/673
 						{ 
                                                         foreach ($newvalue as $type => $currentsnippet) //a foreach similar to this is found in JDocument->mergeHeadData()
@@ -616,11 +619,12 @@ class JCache
                                                             if (isset($options['headerbefore'][$now][strtolower($type)])) 
                                                             { //if module NOT added a new script type to the document header
                                                                 $oldinlinebuffer = $options['headerbefore'][$now][strtolower($type)];
-                                                                if (!stristr($oldinlinebuffer, $currentsnippet)) 
+                                                                if (JString::strpos($oldinlinebuffer, $currentsnippet) !== false) 
                                                                 {
-                                                                    //save only the appended string in the cache entry for this module
-                                                                    $diffString = str_replace($oldinlinebuffer, "", $currentsnippet);
-                                                                    $newvalue[strtolower($type)] = $diffString;
+                                                                    //in this cache entry we have to save only the script string the module has added, so we remove old inline string "buffer":
+                                                                    $newvalue[strtolower($type)] = strtr($currentsnippet, array(
+														          $oldinlinebuffer => ''  
+														          ));
                                                                 }
                                                             }
                                                         }
