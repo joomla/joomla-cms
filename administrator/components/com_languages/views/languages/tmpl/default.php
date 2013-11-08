@@ -162,7 +162,7 @@ $sortFields = $this->getSortFields();
 					<td>
 						<?php echo JHtml::_('grid.id', $i, $item->lang_id); ?>
 					</td>
-					<td>
+					<td class="center">
 						<?php echo JHtml::_('jgrid.published', $item->published, $i, 'languages.', $canChange); ?>
 					</td>
 					<td>
@@ -178,19 +178,19 @@ $sortFields = $this->getSortFields();
 					<td>
 						<?php echo $this->escape($item->title_native); ?>
 					</td>
-					<td>
+					<td class="center">
 						<?php echo $this->escape($item->lang_code); ?>
 					</td>
-					<td>
+					<td class="center">
 						<?php echo $this->escape($item->sef); ?>
 					</td>
-					<td>
+					<td class="center">
 						<?php echo $this->escape($item->image); ?>&nbsp;<?php echo JHtml::_('image', 'mod_languages/'.$item->image.'.gif', $item->image, array('title' => $item->image), true); ?>
 					</td>
 					<td class="center">
 						<?php echo $this->escape($item->access_level); ?>
 					</td>
-					<td>
+					<td class="center">
 						<?php if ($item->home == '1') : ?>
 							<?php echo JText::_('JYES');?>
 						<?php else:?>
