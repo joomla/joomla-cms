@@ -609,27 +609,18 @@ class JCache
 						$newvalue = array_diff_assoc($nowvalue, $beforevalue);
 						$newvalue = array_map('unserialize', $newvalue);
 					
-						if ($now == "script" || $now == "style" && (is_array($newvalue) && is_array($options['headerbefore'][$now])) ) //see: https://github.com/joomla/joomla-platform/issues/673
-						{ 
+					        if ($now == "script" || $now == "style" && (is_array($newvalue) && is_array($options['headerbefore'][$now]))) //see: https://github.com/joomla/joomla-platform/issues/673
+                                                { 
                                                         foreach ($newvalue as $type => $currentsnippet) //a foreach similar to this is found in JDocument->mergeHeadData()
                                                         { 
                                                             if (isset($options['headerbefore'][$now][strtolower($type)])) 
                                                             { //if module NOT added a new script type to the document header
                                                                 $oldinlinebuffer = $options['headerbefore'][$now][strtolower($type)];
-                                                               
-                                                                if (JString::strpos($oldinlinebuffer,$currentsnippet ) === false) 
-                                                                {  /* why this if strpos==false? because if currentsnippet is contained in the oldinbufffer we don't have to destroy the buffer e.g. "function(){alert(b)}" 
-                                                                    is oldinlinebuffer and "alert(b)" is currentsnippet, we don't want to store "alert(b)" (see following strtr)
-                                                                    but we have an atomic piece yet (no need to diff it and override) instead if we are here we have clean it from the oldbuffer to ensure it is atomic
-                                                                    TODO: this is not yet perfect, maybe Joomla needs a better handling of addcriptDeclatration and addStyleDeclaration, and not to use a string buffer for scripts and styles
-                                                                    but an array like for styles and scripts to avoid the need for this exception */ 
-                                                                  
-                                                                    //in this cache entry we have to save only the script string the module has added, so we remove old inline string "buffer":
-                                                                    $newvalue[strtolower($type)] = strtr($currentsnippet, array(
-														          $oldinlinebuffer => ''  //TODO: we should replace only first occurence to avoid some issues? I need deep testing on this... 
-													));	          
-                                                                    
+                                                                if ($currentsnippet!=$oldinlinebuffer) //JString::strpos($currentsnippet,$oldinlinebuffer)!==false is a safer check but less performant check, and it's equivalent as is always verified when ($currentsnippet!=$oldinlinebuffer) is true
+                                                                {  
+                                                                    $newvalue[strtolower($type)] = JString::substr($currentsnippet, JString::strlen($oldinlinebuffer));
                                                                 }
+                                                                             
                                                             }
                                                         }
                                                 }
