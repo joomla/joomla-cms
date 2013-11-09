@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 09-Nov-2013 Jean-Marie Simonet
  # [#32585] Password reset does not work  Thanks Elin Waring and David Jardin
+ $ [#32516] Term "article" is used in descriptions of other content items. Thanks Jozsef Tamas Herczeg
 
 08-Nov-2013 David Hurley
  # [#32576] Wrong Recaptcha URLs causing broken captcha. Thanks David Jardin
