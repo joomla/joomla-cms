@@ -62,7 +62,11 @@ class ContactManager0001Test extends JoomlaWebdriverTestCase
 	{
 		$this->contactManagerPage->clickButton('toolbar-new');
 		$contactEditPage = $this->getPageObject('ContactEditPage');
-		$testElements = $contactEditPage->getAllInputFields(array('details', 'publishing', 'basic', 'params-jbasic', 'params-email', 'metadata'));
+		// Option to print actual element array
+		/* @var $contactEditPage ContactEditPage */
+// 	 	$contactEditPage->printFieldArray($contactEditPage->getAllInputFields($contactEditPage->tabs));
+
+		$testElements = $contactEditPage->getAllInputFields($contactEditPage->tabs);
 		$actualFields = $this->getActualFieldsFromElements($testElements);
 		$this->assertEquals($contactEditPage->inputFields, $actualFields);
 		$contactEditPage->clickButton('toolbar-cancel');

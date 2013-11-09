@@ -21,55 +21,80 @@ class JoomlaInstallerScript
 	/**
 	 * Method to update Joomla!
 	 *
-	 * @param   JInstallerFile    $installer    The class calling this method
+	 * @param   JInstallerFile  $installer  The class calling this method
 	 *
 	 * @return void
 	 */
 	public function update($installer)
 	{
+		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
+		$options['text_file'] = 'joomla_update.php';
+		JLog::addLogger($options, JLog::INFO, array('Update', 'databasequery', 'jerror'));
+		JLog::add(JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), JLog::INFO, 'Update');
+
 		$this->deleteUnexistingFiles();
 		$this->updateManifestCaches();
 		$this->updateDatabase();
+		$this->clearRadCache();
+		$this->updateAssets();
 	}
 
+	/**
+	 * Medtho to update Database
+	 * 
+	 * @return void
+	 */
 	protected function updateDatabase()
 	{
 		$db = JFactory::getDbo();
+
 		if (substr($db->name, 0, 5) == 'mysql')
 		{
 			$db->setQuery('SHOW ENGINES');
 			$results = $db->loadObjectList();
+
 			if ($db->getErrorNum())
 			{
 				echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()) . '<br />';
+
 				return;
 			}
+
 			foreach ($results as $result)
 			{
 				if ($result->Support == 'DEFAULT')
 				{
 					$db->setQuery('ALTER TABLE #__update_sites_extensions ENGINE = ' . $result->Engine);
 					$db->execute();
+
 					if ($db->getErrorNum())
 					{
 						echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()) . '<br />';
+
 						return;
 					}
+
 					break;
 				}
 			}
 		}
 	}
 
+	/**
+	 * Update the manifest caches
+	 * 
+	 * @return void
+	 */
 	protected function updateManifestCaches()
 	{
 		$extensions = array();
-		// Components
 
-		//`type`, `element`, `folder`, `client_id`
+		// Components
+		// `type`, `element`, `folder`, `client_id`
 		$extensions[] = array('component', 'com_mailto', '', 0);
 		$extensions[] = array('component', 'com_wrapper', '', 0);
 		$extensions[] = array('component', 'com_admin', '', 1);
+		$extensions[] = array('component', 'com_ajax', '', 1);
 		$extensions[] = array('component', 'com_banners', '', 1);
 		$extensions[] = array('component', 'com_cache', '', 1);
 		$extensions[] = array('component', 'com_categories', '', 1);
@@ -93,6 +118,8 @@ class JoomlaInstallerScript
 		$extensions[] = array('component', 'com_redirect', '', 1);
 		$extensions[] = array('component', 'com_users', '', 1);
 		$extensions[] = array('component', 'com_tags', '', 1);
+		$extensions[] = array('component', 'com_contenthistory', '', 1);
+		$extensions[] = array('component', 'com_postinstall', '', 1);
 
 		// Libraries
 		$extensions[] = array('library', 'phpmailer', '', 0);
@@ -100,6 +127,7 @@ class JoomlaInstallerScript
 		$extensions[] = array('library', 'phputf8', '', 0);
 		$extensions[] = array('library', 'joomla', '', 0);
 		$extensions[] = array('library', 'idna_convert', '', 0);
+		$extensions[] = array('library', 'fof', '', 0);
 
 		// Modules site
 		// Site
@@ -190,6 +218,7 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'newsfeeds', 'finder', 0);
 		$extensions[] = array('plugin', 'weblinks', 'finder', 0);
 		$extensions[] = array('plugin', 'tags', 'finder', 0);
+		$extensions[] = array('plugin', 'totp', 'twofactorauth', 0);
 
 		// Templates
 		$extensions[] = array('template', 'beez3', '', 0);
@@ -212,19 +241,27 @@ class JoomlaInstallerScript
 		$query = $db->getQuery(true)
 			->select('*')
 			->from('#__extensions');
+
 		foreach ($extensions as $extension)
 		{
-			$query->where('type=' . $db->quote($extension[0]) . ' AND element=' . $db->quote($extension[1]) . ' AND folder=' . $db->quote($extension[2]) . ' AND client_id=' . $extension[3], 'OR');
+			$query->where('type=' . $db->quote($extension[0])
+				. ' AND element=' . $db->quote($extension[1])
+				. ' AND folder=' . $db->quote($extension[2])
+				. ' AND client_id=' . $extension[3], 'OR');
 		}
+
 		$db->setQuery($query);
 		$extensions = $db->loadObjectList();
 		$installer = new JInstaller;
+
 		// Check for a database error.
 		if ($db->getErrorNum())
 		{
 			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $db->getErrorNum(), $db->getErrorMsg()) . '<br />';
+
 			return;
 		}
+
 		foreach ($extensions as $extension)
 		{
 			if (!$installer->refreshManifestCache($extension->extension_id))
@@ -234,6 +271,11 @@ class JoomlaInstallerScript
 		}
 	}
 
+	/**
+	 * Delete files that should not exist
+	 * 
+	 * @return void
+	 */
 	public function deleteUnexistingFiles()
 	{
 		$files = array(
@@ -540,6 +582,7 @@ class JoomlaInstallerScript
 			'/media/plg_quickicon_extensionupdate/extensionupdatecheck.js',
 			'/media/plg_quickicon_joomlaupdate/jupdatecheck.js',
 			// Joomla! 3.1
+			'/libraries/joomla/application/router.php',
 			'/libraries/joomla/form/rules/boolean.php',
 			'/libraries/joomla/form/rules/color.php',
 			'/libraries/joomla/form/rules/email.php',
@@ -592,6 +635,10 @@ class JoomlaInstallerScript
 			'/libraries/legacy/html/contentlanguage.php',
 			'/libraries/legacy/html/index.html',
 			'/libraries/legacy/html/menu.php',
+			'/libraries/legacy/menu/index.html',
+			'/libraries/legacy/menu/menu.php',
+			'/libraries/legacy/pathway/index.html',
+			'/libraries/legacy/pathway/pathway.php',
 			'/media/system/css/mooRainbow.css',
 			'/media/system/js/mooRainbow-uncompressed.js',
 			'/media/system/js/mooRainbow.js',
@@ -605,6 +652,364 @@ class JoomlaInstallerScript
 			'/administrator/components/com_contact/models/fields/modal/contacts.php',
 			'/administrator/components/com_newsfeeds/models/fields/modal/newsfeeds.php',
 			'/libraries/idna_convert/example.php',
+			'/media/editors/tinymce/jscripts/tiny_mce/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/license.txt',
+			'/media/editors/tinymce/jscripts/tiny_mce/tiny_mce.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/tiny_mce_popup.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/langs/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/langs/en.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advhr/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advhr/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advhr/rule.htm',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advhr/css/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advhr/css/advhr.css',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advhr/js/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advhr/js/rule.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advhr/langs/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advhr/langs/en_dlg.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advimage/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advimage/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advimage/image.htm',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advimage/css/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advimage/css/advimage.css',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advimage/img/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advimage/img/sample.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advimage/js/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advimage/js/image.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advimage/langs/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advimage/langs/en_dlg.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advlink/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advlink/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advlink/link.htm',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advlink/css/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advlink/css/advlink.css',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advlink/js/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advlink/js/advlink.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advlink/langs/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advlink/langs/en_dlg.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advlist/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/advlist/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/autolink/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/autolink/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/autoresize/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/autoresize/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/autosave/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/autosave/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/autosave/langs/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/autosave/langs/en.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/bbcode/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/bbcode/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/contextmenu/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/contextmenu/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/directionality/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/directionality/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/emotions/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/emotions/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/emotions/emotions.htm',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/emotions/img/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/emotions/img/smiley-cool.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/emotions/img/smiley-cry.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/emotions/img/smiley-embarassed.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/emotions/img/smiley-foot-in-mouth.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/emotions/img/smiley-frown.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/emotions/img/smiley-innocent.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/emotions/img/smiley-kiss.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/emotions/img/smiley-laughing.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/emotions/img/smiley-money-mouth.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/emotions/img/smiley-sealed.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/emotions/img/smiley-smile.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/emotions/img/smiley-surprised.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/emotions/img/smiley-tongue-out.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/emotions/img/smiley-undecided.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/emotions/img/smiley-wink.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/emotions/img/smiley-yell.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/emotions/js/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/emotions/js/emotions.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/emotions/langs/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/emotions/langs/en_dlg.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/fullpage/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/fullpage/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/fullpage/fullpage.htm',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/fullpage/css/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/fullpage/css/fullpage.css',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/fullpage/js/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/fullpage/js/fullpage.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/fullpage/langs/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/fullpage/langs/en_dlg.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/fullscreen/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/fullscreen/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/fullscreen/fullscreen.htm',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/iespell/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/iespell/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/inlinepopups/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/inlinepopups/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/inlinepopups/template.htm',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/inlinepopups/skins/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/inlinepopups/skins/clearlooks2/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/inlinepopups/skins/clearlooks2/window.css',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/inlinepopups/skins/clearlooks2/img/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/inlinepopups/skins/clearlooks2/img/alert.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/inlinepopups/skins/clearlooks2/img/button.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/inlinepopups/skins/clearlooks2/img/buttons.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/inlinepopups/skins/clearlooks2/img/confirm.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/inlinepopups/skins/clearlooks2/img/corners.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/inlinepopups/skins/clearlooks2/img/horizontal.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/inlinepopups/skins/clearlooks2/img/vertical.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/insertdatetime/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/insertdatetime/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/layer/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/layer/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/lists/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/lists/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/media/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/media/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/media/media.htm',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/media/moxieplayer.swf',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/media/css/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/media/css/media.css',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/media/js/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/media/js/embed.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/media/js/media.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/media/langs/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/media/langs/en_dlg.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/nonbreaking/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/nonbreaking/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/noneditable/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/noneditable/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/pagebreak/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/pagebreak/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/paste/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/paste/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/paste/pastetext.htm',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/paste/pastetext.htm',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/paste/js/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/paste/js/pastetext.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/paste/js/pasteword.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/paste/langs/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/paste/langs/en_dlg.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/preview/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/preview/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/preview/example.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/preview/preview.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/preview/jscripts/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/preview/jscripts/embed.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/print/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/print/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/save/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/save/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/searchreplace/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/searchreplace/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/searchreplace/searchreplace.htm',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/searchreplace/css/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/searchreplace/css/searchreplace.css',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/searchreplace/js/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/searchreplace/js/searchreplace.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/searchreplace/langs/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/searchreplace/langs/en_dlg.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/spellchecker/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/spellchecker/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/spellchecker/css/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/spellchecker/css/content.css',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/spellchecker/img/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/spellchecker/img/wline.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/style/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/style/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/style/props.htm',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/style/readme.txt',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/style/css/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/style/css/props.css',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/style/js/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/style/js/props.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/style/langs/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/style/langs/en_dlg.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/tabfocus/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/tabfocus/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/table/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/table/cell.htm',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/table/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/table/merge_cells.htm',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/table/row.htm',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/table/table.htm',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/table/css/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/table/css/cell.css',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/table/css/row.css',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/table/css/table.css',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/table/js/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/table/js/cell.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/table/js/merge_cells.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/table/js/row.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/table/js/table.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/table/langs/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/table/langs/en_dlg.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/template/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/template/blank.htm',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/template/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/template/template.htm',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/template/css/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/template/css/template.css',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/template/js/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/template/js/template.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/template/langs/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/template/langs/en_dlg.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/visualblocks/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/visualblocks/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/visualblocks/css/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/visualblocks/css/visualblocks.css',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/visualchars/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/visualchars/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/wordcount/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/wordcount/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/xhtmlxtras/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/xhtmlxtras/abbr.htm',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/xhtmlxtras/acronym.htm',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/xhtmlxtras/attributes.htm',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/xhtmlxtras/cite.htm',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/xhtmlxtras/del.htm',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/xhtmlxtras/editor_plugin.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/xhtmlxtras/ins.htm',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/xhtmlxtras/css/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/xhtmlxtras/css/attributes.css',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/xhtmlxtras/css/popup.css',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/xhtmlxtras/js/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/xhtmlxtras/js/abbr.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/xhtmlxtras/js/acronym.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/xhtmlxtras/js/attributes.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/xhtmlxtras/js/cite.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/xhtmlxtras/js/del.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/xhtmlxtras/js/element_common.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/xhtmlxtras/js/ins.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/xhtmlxtras/langs/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/plugins/xhtmlxtras/langs/en_dlg.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/about.htm',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/anchor.htm',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/charmap.htm',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/color_picker.htm',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/editor_template.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/image.htm',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/link.htm',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/shortcuts.htm',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/source_editor.htm',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/img/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/img/colorpicker.jpg',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/img/flash.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/img/icons.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/img/iframe.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/img/pagebreak.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/img/quicktime.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/img/realmedia.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/img/shockwave.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/img/trans.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/img/video.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/img/windowsmedia.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/js/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/js/about.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/js/anchor.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/js/charmap.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/js/color_picker.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/js/image.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/js/link.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/js/source_editor.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/langs/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/langs/en.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/langs/en_dlg.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/skins/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/skins/default/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/skins/default/content.css',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/skins/default/dialog.css',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/skins/default/ui.css',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/skins/default/img/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/skins/default/img/buttons.png',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/skins/default/img/items.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/skins/default/img/menu_arrow.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/skins/default/img/menu_check.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/skins/default/img/progress.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/skins/default/img/tabs.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/skins/highcontrast/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/skins/highcontrast/content.css',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/skins/highcontrast/dialog.css',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/skins/highcontrast/ui.css',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/skins/o2k7/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/skins/o2k7/content.css',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/skins/o2k7/dialog.css',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/skins/o2k7/ui.css',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/skins/o2k7/ui_black.css',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/skins/o2k7/ui_silver.css',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/skins/o2k7/img/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/skins/o2k7/img/button_bg.png',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/skins/o2k7/img/button_bg_black.png',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/advanced/skins/o2k7/img/button_bg_silver.png',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/simple/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/simple/editor_template.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/simple/img/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/simple/img/icons.gif',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/simple/langs/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/simple/langs/en.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/simple/skins/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/simple/skins/default/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/simple/skins/default/content.css',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/simple/skins/default/ui.css',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/simple/skins/o2k7/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/simple/skins/o2k7/content.css',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/simple/skins/o2k7/ui.css',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/simple/skins/o2k7/img/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/themes/simple/skins/o2k7/img/button_bg.png',
+			'/media/editors/tinymce/jscripts/tiny_mce/utils/index.html',
+			'/media/editors/tinymce/jscripts/tiny_mce/utils/editable_selects.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/utils/form_utils.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/utils/mctabs.js',
+			'/media/editors/tinymce/jscripts/tiny_mce/utils/validate.js',
+			'administrator/components/com_banners/models/fields/ordering.php',
+			'administrator/components/com_contact/models/fields/ordering.php',
+			'administrator/components/com_newsfeeds/models/fields/ordering.php',
+			'administrator/components/com_plugins/models/fields/ordering.php',
+			'administrator/components/com_weblinks/models/fields/ordering.php',
+			'/administrator/includes/application.php',
+			'/includes/application.php',
+			'/libraries/legacy/application/helper.php',
+			'/libraries/joomla/plugin/helper.php',
+			'/libraries/joomla/plugin/index.html',
+			'/libraries/joomla/plugin/plugin.php',
+			'/libraries/legacy/component/helper.php',
+			'/libraries/legacy/component/index.html',
+			'/libraries/legacy/module/helper.php',
+			'/libraries/legacy/module/index.html',
+			'/administrator/components/com_templates/controllers/source.php',
+			'/administrator/components/com_templates/models/source.php',
+			'/administrator/components/com_templates/views/source/index.html',
+			'/administrator/components/com_templates/views/source/tmpl/edit.php',
+			'/administrator/components/com_templates/views/source/tmpl/edit_ftp.php',
+			'/administrator/components/com_templates/views/source/tmpl/index.html',
+			'/administrator/components/com_templates/views/source/view.html.php',
+			'/media/editors/codemirror/css/csscolors.css',
+			'/media/editors/codemirror/css/jscolors.css',
+			'/media/editors/codemirror/css/phpcolors.css',
+			'/media/editors/codemirror/css/sparqlcolors.css',
+			'/media/editors/codemirror/css/xmlcolors.css',
+			'/media/editors/codemirror/js/basefiles-uncompressed.js',
+			'/media/editors/codemirror/js/basefiles.js',
+			'/media/editors/codemirror/js/codemirror-uncompressed.js',
+			'/media/editors/codemirror/js/editor.js',
+			'/media/editors/codemirror/js/highlight.js',
+			'/media/editors/codemirror/js/mirrorframe.js',
+			'/media/editors/codemirror/js/parsecss.js',
+			'/media/editors/codemirror/js/parsedummy.js',
+			'/media/editors/codemirror/js/parsehtmlmixed.js',
+			'/media/editors/codemirror/js/parsejavascript.js',
+			'/media/editors/codemirror/js/parsephp.js',
+			'/media/editors/codemirror/js/parsephphtmlmixed.js',
+			'/media/editors/codemirror/js/parsesparql.js',
+			'/media/editors/codemirror/js/parsexml.js',
+			'/media/editors/codemirror/js/select.js',
+			'/media/editors/codemirror/js/stringstream.js',
+			'/media/editors/codemirror/js/tokenize.js',
+			'/media/editors/codemirror/js/tokenizejavascript.js',
+			'/media/editors/codemirror/js/tokenizephp.js',
+			'/media/editors/codemirror/js/undo.js',
+			'/media/editors/codemirror/js/util.js',
+			'administrator/components/com_weblinks/models/fields/index.html',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -650,10 +1055,19 @@ class JoomlaInstallerScript
 			'/libraries/joomla/installer',
 			'/libraries/joomla/pagination',
 			'/libraries/legacy/html',
+			'/libraries/legacy/menu',
+			'/libraries/legacy/pathway',
 			'/media/system/swf/',
+			'/media/editors/tinymce/jscripts',
+			// Joomla! 3.2
+			'/libraries/joomla/plugin',
+			'/libraries/legacy/component',
+			'/libraries/legacy/module',
+			'administrator/components/com_weblinks/models/fields',
 		);
 
 		jimport('joomla.filesystem.file');
+
 		foreach ($files as $file)
 		{
 			if (JFile::exists(JPATH_ROOT . $file) && !JFile::delete(JPATH_ROOT . $file))
@@ -663,6 +1077,7 @@ class JoomlaInstallerScript
 		}
 
 		jimport('joomla.filesystem.folder');
+
 		foreach ($folders as $folder)
 		{
 			if (JFolder::exists(JPATH_ROOT . $folder) && !JFolder::delete(JPATH_ROOT . $folder))
@@ -670,5 +1085,67 @@ class JoomlaInstallerScript
 				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder) . '<br />';
 			}
 		}
+	}
+
+	/**
+	 * Clears the RAD layer's table cache. The cache vastly improves performance
+	 * but needs to be cleared every time you update the database schema.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	protected function clearRadCache()
+	{
+		jimport('joomla.filesystem.file');
+
+		if (JFile::exists(JPATH_CACHE . '/fof/cache.php'))
+		{
+			JFile::delete(JPATH_CACHE . '/fof/cache.php');
+		}
+	}
+
+	/**
+	 * Method to create assets for newly installed components
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public function updateAssets()
+	{
+		// List all components added since 1.6
+		$newComponents = array(
+				'com_finder',
+				'com_joomlaupdate',
+				'com_tags',
+				'com_contenthistory',
+				'com_ajax',
+				'com_postinstall'
+		);
+
+		foreach ($newComponents as $component)
+		{
+			$asset = JTable::getInstance('Asset');
+
+			if (!$asset->loadByName($component))
+			{
+				$asset->name = $component;
+				$asset->parent_id = 1;
+				$asset->rules = '{}';
+				$asset->title = $component;
+				$asset->setLocation(1, 'last-child');
+
+				if (!$asset->store())
+				{
+					// Install failed, roll back changes
+					$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $db->stderr(true)));
+
+					return false;
+				}
+			}
+		}
+
+		return true;
 	}
 }

@@ -25,6 +25,14 @@ class BannersModelBanner extends JModelAdmin
 	protected $text_prefix = 'COM_BANNERS_BANNER';
 
 	/**
+	 * The type alias for this content type.
+	 *
+	 * @var      string
+	 * @since    3.2
+	 */
+	public $typeAlias = 'com_banners.banner';
+
+	/**
 	 * Method to perform batch operations on an item or a set of items.
 	 *
 	 * @param   array   $commands   An array of commands to perform.
@@ -500,7 +508,11 @@ class BannersModelBanner extends JModelAdmin
 			if (empty($table->ordering))
 			{
 				$db = JFactory::getDbo();
-				$db->setQuery('SELECT MAX(ordering) FROM #__banners');
+				$query = $db->getQuery(true)
+					->select('MAX(ordering)')
+					->from('#__banners');
+
+				$db->setQuery($query);
 				$max = $db->loadResult();
 
 				$table->ordering = $max + 1;

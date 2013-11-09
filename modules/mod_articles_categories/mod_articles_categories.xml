@@ -35,26 +35,32 @@
 			<field
 				name="show_description"
 				type="radio"
-				class="btn-group"
+				class="btn-group btn-group-yesno"
 				default="0"
 				label="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_DESCRIPTION_LABEL"
 				description="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_DESCRIPTION_DESC">
-				<option
-					value="0">JNO</option>
-				<option
-					 value="1">JYES</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="numitems"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				label="MOD_ARTICLES_CATEGORIES_FIELD_NUMITEMS_LABEL"
+				description="MOD_ARTICLES_CATEGORIES_FIELD_NUMITEMS_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
 			<field
 				name="show_children"
 				type="radio"
-				class="btn-group"
+				class="btn-group btn-group-yesno"
 				default="0"
 				label="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_CHILDREN_LABEL"
 				description="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_CHILDREN_DESC">
-				<option
-					value="0">JNO</option>
-				<option
-					 value="1">JYES</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
 			<field name="count" type="list"
 				label="MOD_ARTICLES_CATEGORIES_FIELD_COUNT_LABEL"

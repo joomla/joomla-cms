@@ -62,7 +62,7 @@ class PluginsViewPlugins extends JViewLegacy
 	{
 		$canDo = PluginsHelper::getActions();
 
-		JToolbarHelper::title(JText::_('COM_PLUGINS_MANAGER_PLUGINS'), 'plugin');
+		JToolbarHelper::title(JText::_('COM_PLUGINS_MANAGER_PLUGINS'), 'power-cord plugin');
 
 		if ($canDo->get('core.edit'))
 		{

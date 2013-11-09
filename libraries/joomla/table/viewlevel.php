@@ -67,6 +67,7 @@ class JTableViewlevel extends JTable
 		if ((trim($this->title)) == '')
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_VIEWLEVEL'));
+
 			return false;
 		}
 

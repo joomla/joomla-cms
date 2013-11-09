@@ -219,7 +219,7 @@ class FinderIndexerTaxonomy
 
 		if ($id)
 		{
-			$db->updateObject('#__finder_taxonomy_map', $map);
+			$db->updateObject('#__finder_taxonomy_map', $map, array('link_id', 'node_id'));
 		}
 		else
 		{

@@ -16,9 +16,7 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
 
 $app = JFactory::getApplication();
-$input = $app->input;
-
-$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+$assoc = JLanguageAssociations::isEnabled();
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
@@ -31,185 +29,121 @@ $assoc = isset($app->item_associations) ? $app->item_associations : 0;
 	}
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_contact&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="contact-form" class="form-validate form-horizontal">
+<form action="<?php echo JRoute::_('index.php?option=com_contact&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="contact-form" class="form-validate">
 
-	<?php echo JLayoutHelper::render('joomla.edit.item_title', $this); ?>
+	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-	<div class="row-fluid">
-		<!-- Begin contact -->
-		<div class="span10 form-horizontal">
-		<fieldset>
-			<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
+	<div class="form-horizontal">
+		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', empty($this->item->id) ? JText::_('COM_CONTACT_NEW_CONTACT', true) : JText::sprintf('COM_CONTACT_EDIT_CONTACT', $this->item->id, true)); ?>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('name'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('name'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('alias'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('alias'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('user_id'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('user_id'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('catid'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('catid'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('ordering'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('ordering'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('id'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('id'); ?></div>
-				</div>
-				<div class="control-group form-inline">
-					<?php echo $this->form->getLabel('misc'); ?>
-				</div>
-					<?php echo $this->form->getInput('misc'); ?>
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
-
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('created_by'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('created_by'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('created_by_alias'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('created_by_alias'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('created'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('created'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('publish_up'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('publish_up'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('publish_down'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('publish_down'); ?></div>
-				</div>
-					<?php if ($this->item->modified_by) : ?>
-						<div class="control-group">
-							<div class="control-label"><?php echo $this->form->getLabel('modified_by'); ?></div>
-							<div class="controls"><?php echo $this->form->getInput('modified_by'); ?></div>
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', empty($this->item->id) ? JText::_('COM_CONTACT_NEW_CONTACT', true) : JText::sprintf('COM_CONTACT_EDIT_CONTACT', $this->item->id, true)); ?>
+		<div class="row-fluid">
+			<div class="span9">
+				<div class="row-fluid form-horizontal-desktop">
+					<div class="span6">
+						<div >
+							<?php echo $this->form->getControlGroup('user_id'); ?>
 						</div>
 						<div class="control-group">
-							<div class="control-label"><?php echo $this->form->getLabel('modified'); ?></div>
-							<div class="controls"><?php echo $this->form->getInput('modified'); ?></div>
+							<div class="control-label"><?php echo $this->form->getLabel('image'); ?></div>
+							<div class="controls"><?php echo $this->form->getInput('image'); ?></div>
 						</div>
-					<?php endif; ?>
-				<?php if ($this->item->version) : ?>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('version'); ?>
+						<div class="control-group">
+							<div class="control-label"><?php echo $this->form->getLabel('con_position'); ?></div>
+							<div class="controls"><?php echo $this->form->getInput('con_position'); ?></div>
 						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('version'); ?>
+						<div class="control-group">
+							<div class="control-label"><?php echo $this->form->getLabel('email_to'); ?></div>
+							<div class="controls"><?php echo $this->form->getInput('email_to'); ?></div>
+						</div>
+						<div class="control-group">
+							<div class="control-label"><?php echo $this->form->getLabel('address'); ?></div>
+							<div class="controls"><?php echo $this->form->getInput('address'); ?></div>
+						</div>
+						<div class="control-group">
+							<div class="control-label"><?php echo $this->form->getLabel('suburb'); ?></div>
+							<div class="controls"><?php echo $this->form->getInput('suburb'); ?></div>
+						</div>
+						<div class="control-group">
+							<div class="control-label"><?php echo $this->form->getLabel('state'); ?></div>
+							<div class="controls"><?php echo $this->form->getInput('state'); ?></div>
+						</div>
+						<div class="control-group">
+							<div class="control-label"><?php echo $this->form->getLabel('postcode'); ?></div>
+							<div class="controls"><?php echo $this->form->getInput('postcode'); ?></div>
+						</div>
+						<div class="control-group">
+							<div class="control-label"><?php echo $this->form->getLabel('country'); ?></div>
+							<div class="controls"><?php echo $this->form->getInput('country'); ?></div>
 						</div>
 					</div>
-				<?php endif; ?>
-				<?php if ($this->item->hits) : ?>
-					<div class="control-group">
-						<div class="control-label">
-							<?php echo $this->form->getLabel('hits'); ?>
+					<div class="span6">
+						<div class="control-group">
+							<div class="control-label"><?php echo $this->form->getLabel('telephone'); ?></div>
+							<div class="controls"><?php echo $this->form->getInput('telephone'); ?></div>
 						</div>
-						<div class="controls">
-							<?php echo $this->form->getInput('hits'); ?>
+						<div class="control-group">
+							<div class="control-label"><?php echo $this->form->getLabel('mobile'); ?></div>
+							<div class="controls"><?php echo $this->form->getInput('mobile'); ?></div>
+						</div>
+						<div class="control-group">
+							<div class="control-label"><?php echo $this->form->getLabel('fax'); ?></div>
+							<div class="controls"><?php echo $this->form->getInput('fax'); ?></div>
+						</div>
+						<div class="control-group">
+							<div class="control-label"><?php echo $this->form->getLabel('webpage'); ?></div>
+							<div class="controls"><?php echo $this->form->getInput('webpage'); ?></div>
+						</div>
+						<div class="control-group">
+							<div class="control-label"><?php echo $this->form->getLabel('sortname1'); ?></div>
+							<div class="controls"><?php echo $this->form->getInput('sortname1'); ?></div>
+						</div>
+						<div class="control-group">
+							<div class="control-label"><?php echo $this->form->getLabel('sortname2'); ?></div>
+							<div class="controls"><?php echo $this->form->getInput('sortname2'); ?></div>
+						</div>
+						<div class="control-group">
+							<div class="control-label"><?php echo $this->form->getLabel('sortname3'); ?></div>
+							<div class="controls"><?php echo $this->form->getInput('sortname3'); ?></div>
 						</div>
 					</div>
-				<?php endif; ?>
+				</div>
+			</div>
+			<div class="span3">
+				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+			</div>
+		</div>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'misc', JText::_('JGLOBAL_FIELDSET_MISCELLANEOUS', true)); ?>
+		<div class="row-fluid form-horizontal-desktop">
+				<div class="form-vertical">
+					<?php echo $this->form->getControlGroup('misc'); ?>
+				</div>
+		</div>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
+		<div class="row-fluid form-horizontal-desktop">
+			<div class="span6">
+				<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+			</div>
+			<div class="span6">
+				<?php echo JLayoutHelper::render('joomla.edit.metadata', $this); ?>
+			</div>
+		</div>
+		<?php echo JHtml::_('bootstrap.endTab'); ?>
+
+		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
+
+		<?php if ($assoc) : ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>
+			<?php echo $this->loadTemplate('associations'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php endif; ?>
 
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'basic', JText::_('COM_CONTACT_CONTACT_DETAILS', true)); ?>
-
-				<p><?php echo empty($this->item->id) ? JText::_('COM_CONTACT_DETAILS', true) : JText::sprintf('COM_CONTACT_EDIT_DETAILS', $this->item->id, true); ?></p>
-
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('image'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('image'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('con_position'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('con_position'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('email_to'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('email_to'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('address'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('address'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('suburb'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('suburb'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('state'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('state'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('postcode'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('postcode'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('country'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('country'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('telephone'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('telephone'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('mobile'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('mobile'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('fax'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('fax'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('webpage'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('webpage'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('sortname1'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('sortname1'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('sortname2'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('sortname2'); ?></div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('sortname3'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('sortname3'); ?></div>
-				</div>
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
-
-			<?php echo $this->loadTemplate('params'); ?>
-
-			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS', true)); ?>
-					<?php echo $this->loadTemplate('metadata'); ?>
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
-
-			<?php if ($assoc) : ?>
-				<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>
-					<?php echo $this->loadTemplate('associations'); ?>
-				<?php echo JHtml::_('bootstrap.endTab'); ?>
-			<?php endif; ?>
-
-			<?php echo JHtml::_('bootstrap.endTabSet'); ?>
-		</fieldset>
-		<input type="hidden" name="task" value="" />
-		<?php echo JHtml::_('form.token'); ?>
+		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</div>
-	<!-- End content -->
-	<!-- Begin Sidebar -->
-		<?php echo JLayoutHelper::render('joomla.edit.details', $this); ?>
-	<!-- End Sidebar -->
+	<input type="hidden" name="task" value="" />
+	<?php echo JHtml::_('form.token'); ?>
 </form>

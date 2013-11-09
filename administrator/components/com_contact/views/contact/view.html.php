@@ -65,9 +65,9 @@ class ContactViewContact extends JViewLegacy
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 		// Since we don't track these assets at the item level, use the category id.
-		$canDo		= ContactHelper::getActions($this->item->catid, 0);
+		$canDo		= JHelperContent::getActions($this->item->catid, 0, 'com_contact');
 
-		JToolbarHelper::title(JText::_('COM_CONTACT_MANAGER_CONTACT'), 'contact.png');
+		JToolbarHelper::title(JText::_('COM_CONTACT_MANAGER_CONTACT'), 'address contact');
 
 		// Build the actions for new and existing records.
 		if ($isNew)
@@ -105,6 +105,11 @@ class ContactViewContact extends JViewLegacy
 			if ($canDo->get('core.create'))
 			{
 				JToolbarHelper::save2copy('contact.save2copy');
+			}
+
+			if ($this->state->params->get('save_history', 0) && $user->authorise('core.edit'))
+			{
+				JToolbarHelper::versions('com_contact.contact', $this->item->id);
 			}
 
 			JToolbarHelper::cancel('contact.cancel', 'JTOOLBAR_CLOSE');

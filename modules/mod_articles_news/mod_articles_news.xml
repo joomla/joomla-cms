@@ -43,7 +43,7 @@
 				<field
 					name="image"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="0"
 					label="MOD_ARTICLES_NEWS_FIELD_IMAGES_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_IMAGES_DESC">
@@ -55,7 +55,7 @@
 
 				<field
 					name="item_title"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					type="radio"
 					default="0"
 					label="MOD_ARTICLES_NEWS_FIELD_TITLE_LABEL"
@@ -69,6 +69,7 @@
 				<field
 					name="link_titles"
 					type="list"
+					class="chzn-color"
 					label="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_DESC">
 					<option
@@ -100,7 +101,7 @@
 				<field
 					name="showLastSeparator"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					label="MOD_ARTICLES_NEWS_FIELD_SEPARATOR_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_SEPARATOR_DESC">
@@ -113,14 +114,12 @@
 				<field
 					name="readmore"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="0"
 					label="MOD_ARTICLES_NEWS_FIELD_READMORE_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_READMORE_DESC">
-					<option
-						value="0">JHIDE</option>
-					<option
-						value="1">JSHOW</option>
+					<option value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
 				</field>
 
 				<field

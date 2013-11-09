@@ -25,6 +25,29 @@ class CategoriesModelCategory extends JModelAdmin
 	protected $text_prefix = 'COM_CATEGORIES';
 
 	/**
+	 * The type alias for this content type. Used for content version history.
+	 *
+	 * @var      string
+	 * @since    3.2
+	 */
+	public $typeAlias = null;
+
+	/**
+	 * Override parent constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @see     JModelLegacy
+	 * @since   3.2
+	 */
+	public function __construct($config = array())
+	{
+		parent::__construct($config);
+		$extension = JFactory::getApplication()->input->get('extension', 'com_content');
+		$this->typeAlias = $extension . '.category';
+	}
+
+	/**
 	 * Method to test whether a record can be deleted.
 	 *
 	 * @param   object   $record  A record object.
@@ -330,10 +353,8 @@ class CategoriesModelCategory extends JModelAdmin
 
 		if (file_exists($path))
 		{
-			$lang->load($component, JPATH_BASE, null, false, false);
-			$lang->load($component, JPATH_BASE, $lang->getDefault(), false, false);
-			$lang->load($component, JPATH_BASE . '/components/' . $component, null, false, false);
-			$lang->load($component, JPATH_BASE . '/components/' . $component, $lang->getDefault(), false, false);
+			$lang->load($component, JPATH_BASE, null, false, true);
+			$lang->load($component, JPATH_BASE . '/components/' . $component, null, false, true);
 
 			if (!$form->loadFile($path, false))
 			{
@@ -715,22 +736,23 @@ class CategoriesModelCategory extends JModelAdmin
 	 */
 	protected function batchCopy($value, $pks, $contexts)
 	{
+		$type = new JUcmType;
+		$this->type = $type->getTypeByAlias($this->typeAlias);
+
 		// $value comes as {parent_id}.{extension}
 		$parts = explode('.', $value);
 		$parentId = (int) JArrayHelper::getValue($parts, 0, 1);
 
-		$table = $this->getTable();
 		$db = $this->getDbo();
-		$user = JFactory::getUser();
 		$extension = JFactory::getApplication()->input->get('extension', '', 'word');
 		$i = 0;
 
 		// Check that the parent exists
 		if ($parentId)
 		{
-			if (!$table->load($parentId))
+			if (!$this->table->load($parentId))
 			{
-				if ($error = $table->getError())
+				if ($error = $this->table->getError())
 				{
 					// Fatal error
 					$this->setError($error);
@@ -744,11 +766,13 @@ class CategoriesModelCategory extends JModelAdmin
 				}
 			}
 			// Check that user has create permission for parent category
-			$canCreate = ($parentId == $table->getRootId()) ? $user->authorise('core.create', $extension) : $user->authorise('core.create', $extension . '.category.' . $parentId);
+			$canCreate = ($parentId == $this->table->getRootId()) ? $this->user->authorise('core.create', $extension) : $this->user->authorise('core.create', $extension . '.category.' . $parentId);
+
 			if (!$canCreate)
 			{
 				// Error since user cannot create in parent category
 				$this->setError(JText::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
+
 				return false;
 			}
 		}
@@ -756,13 +780,13 @@ class CategoriesModelCategory extends JModelAdmin
 		// If the parent is 0, set it to the ID of the root item in the tree
 		if (empty($parentId))
 		{
-			if (!$parentId = $table->getRootId())
+			if (!$parentId = $this->table->getRootId())
 			{
 				$this->setError($db->getErrorMsg());
 				return false;
 			}
 			// Make sure we can create in root
-			elseif (!$user->authorise('core.create', $extension))
+			elseif (!$this->user->authorise('core.create', $extension))
 			{
 				$this->setError(JText::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
 				return false;
@@ -785,21 +809,22 @@ class CategoriesModelCategory extends JModelAdmin
 		catch (RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
+
 			return false;
 		}
 
-		// Parent exists so we let's proceed
+		// Parent exists so let's proceed
 		while (!empty($pks) && $count > 0)
 		{
 			// Pop the first id off the stack
 			$pk = array_shift($pks);
 
-			$table->reset();
+			$this->table->reset();
 
 			// Check that the row actually exists
-			if (!$table->load($pk))
+			if (!$this->table->load($pk))
 			{
-				if ($error = $table->getError())
+				if ($error = $this->table->getError())
 				{
 					// Fatal error
 					$this->setError($error);
@@ -817,8 +842,8 @@ class CategoriesModelCategory extends JModelAdmin
 			$query->clear()
 				->select('id')
 				->from($db->quoteName('#__categories'))
-				->where('lft > ' . (int) $table->lft)
-				->where('rgt < ' . (int) $table->rgt);
+				->where('lft > ' . (int) $this->table->lft)
+				->where('rgt < ' . (int) $this->table->rgt);
 			$db->setQuery($query);
 			$childIds = $db->loadColumn();
 
@@ -832,61 +857,63 @@ class CategoriesModelCategory extends JModelAdmin
 			}
 
 			// Make a copy of the old ID and Parent ID
-			$oldId = $table->id;
-			$oldParentId = $table->parent_id;
+			$oldId = $this->table->id;
+			$oldParentId = $this->table->parent_id;
 
 			// Reset the id because we are making a copy.
-			$table->id = 0;
+			$this->table->id = 0;
 
 			// If we a copying children, the Old ID will turn up in the parents list
 			// otherwise it's a new top level item
-			$table->parent_id = isset($parents[$oldParentId]) ? $parents[$oldParentId] : $parentId;
+			$this->table->parent_id = isset($parents[$oldParentId]) ? $parents[$oldParentId] : $parentId;
 
 			// Set the new location in the tree for the node.
-			$table->setLocation($table->parent_id, 'last-child');
+			$this->table->setLocation($this->table->parent_id, 'last-child');
 
 			// TODO: Deal with ordering?
-			// $table->ordering	= 1;
-			$table->level = null;
-			$table->asset_id = null;
-			$table->lft = null;
-			$table->rgt = null;
+			// $this->table->ordering	= 1;
+			$this->table->level = null;
+			$this->table->asset_id = null;
+			$this->table->lft = null;
+			$this->table->rgt = null;
 
 			// Alter the title & alias
-			list($title, $alias) = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
-			$table->title = $title;
-			$table->alias = $alias;
+			list($title, $alias) = $this->generateNewTitle($this->table->parent_id, $this->table->alias, $this->table->title);
+			$this->table->title = $title;
+			$this->table->alias = $alias;
+
+			parent::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
 
 			// Store the row.
-			if (!$table->store())
+			if (!$this->table->store())
 			{
-				$this->setError($table->getError());
+				$this->setError($this->table->getError());
 				return false;
 			}
 
 			// Get the new item ID
-			$newId = $table->get('id');
+			$newId = $this->table->get('id');
 
 			// Add the new ID to the array
 			$newIds[$i] = $newId;
 			$i++;
 
 			// Now we log the old 'parent' to the new 'parent'
-			$parents[$oldId] = $table->id;
+			$parents[$oldId] = $this->table->id;
 			$count--;
 		}
 
 		// Rebuild the hierarchy.
-		if (!$table->rebuild())
+		if (!$this->table->rebuild())
 		{
-			$this->setError($table->getError());
+			$this->setError($this->table->getError());
 			return false;
 		}
 
 		// Rebuild the tree path.
-		if (!$table->rebuildPath($table->id))
+		if (!$this->table->rebuildPath($this->table->id))
 		{
-			$this->setError($table->getError());
+			$this->setError($this->table->getError());
 			return false;
 		}
 
@@ -907,19 +934,19 @@ class CategoriesModelCategory extends JModelAdmin
 	protected function batchMove($value, $pks, $contexts)
 	{
 		$parentId = (int) $value;
+		$type = new JUcmType;
+		$this->type = $type->getTypeByAlias($this->typeAlias);
 
-		$table = $this->getTable();
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user = JFactory::getUser();
 		$extension = JFactory::getApplication()->input->get('extension', '', 'word');
 
 		// Check that the parent exists.
 		if ($parentId)
 		{
-			if (!$table->load($parentId))
+			if (!$this->table->load($parentId))
 			{
-				if ($error = $table->getError())
+				if ($error = $this->table->getError())
 				{
 					// Fatal error
 					$this->setError($error);
@@ -933,8 +960,10 @@ class CategoriesModelCategory extends JModelAdmin
 					$parentId = 0;
 				}
 			}
+
 			// Check that user has create permission for parent category
-			$canCreate = ($parentId == $table->getRootId()) ? $user->authorise('core.create', $extension) : $user->authorise('core.create', $extension . '.category.' . $parentId);
+			$canCreate = ($parentId == $this->table->getRootId()) ? $this->user->authorise('core.create', $extension) : $this->user->authorise('core.create', $extension . '.category.' . $parentId);
+
 			if (!$canCreate)
 			{
 				// Error since user cannot create in parent category
@@ -946,7 +975,7 @@ class CategoriesModelCategory extends JModelAdmin
 			// Note that the entire batch operation fails if any category lacks edit permission
 			foreach ($pks as $pk)
 			{
-				if (!$user->authorise('core.edit', $extension . '.category.' . $pk))
+				if (!$this->user->authorise('core.edit', $extension . '.category.' . $pk))
 				{
 					// Error since user cannot edit this category
 					$this->setError(JText::_('COM_CATEGORIES_BATCH_CANNOT_EDIT'));
@@ -958,13 +987,13 @@ class CategoriesModelCategory extends JModelAdmin
 		// We are going to store all the children and just move the category
 		$children = array();
 
-		// Parent exists so we let's proceed
+		// Parent exists so let's proceed
 		foreach ($pks as $pk)
 		{
 			// Check that the row actually exists
-			if (!$table->load($pk))
+			if (!$this->table->load($pk))
 			{
-				if ($error = $table->getError())
+				if ($error = $this->table->getError())
 				{
 					// Fatal error
 					$this->setError($error);
@@ -979,16 +1008,16 @@ class CategoriesModelCategory extends JModelAdmin
 			}
 
 			// Set the new location in the tree for the node.
-			$table->setLocation($parentId, 'last-child');
+			$this->table->setLocation($parentId, 'last-child');
 
 			// Check if we are moving to a different parent
-			if ($parentId != $table->parent_id)
+			if ($parentId != $this->table->parent_id)
 			{
 				// Add the child node ids to the children array.
 				$query->clear()
 					->select('id')
 					->from($db->quoteName('#__categories'))
-					->where($db->quoteName('lft') . ' BETWEEN ' . (int) $table->lft . ' AND ' . (int) $table->rgt);
+					->where($db->quoteName('lft') . ' BETWEEN ' . (int) $this->table->lft . ' AND ' . (int) $this->table->rgt);
 				$db->setQuery($query);
 
 				try
@@ -1002,17 +1031,19 @@ class CategoriesModelCategory extends JModelAdmin
 				}
 			}
 
+			parent::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+
 			// Store the row.
-			if (!$table->store())
+			if (!$this->table->store())
 			{
-				$this->setError($table->getError());
+				$this->setError($this->table->getError());
 				return false;
 			}
 
 			// Rebuild the tree path.
-			if (!$table->rebuildPath())
+			if (!$this->table->rebuildPath())
 			{
-				$this->setError($table->getError());
+				$this->setError($this->table->getError());
 				return false;
 			}
 		}
@@ -1089,7 +1120,7 @@ class CategoriesModelCategory extends JModelAdmin
 		$app = JFactory::getApplication();
 		$extension = $this->getState('category.extension');
 
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$assoc = JLanguageAssociations::isEnabled();
 		$extension = explode('.', $extension);
 		$component = array_shift($extension);
 		$cname = str_replace('com_', '', $component);

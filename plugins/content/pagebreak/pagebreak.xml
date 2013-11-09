@@ -22,45 +22,45 @@
 
 			<fieldset name="basic">
 				<field name="title" type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					description="PLG_CONTENT_PAGEBREAK_SITE_TITLE_DESC"
 					label="PLG_CONTENT_PAGEBREAK_SITE_TITLE_LABEL"
 				>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
 				</field>
 				<field name="article_index" type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					description="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEX_DESC"
 					label="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEX_LABEL"
 				>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
 				</field>
 				<field name="article_index_text"  type="text" default=""
 					label="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEXTEXT"
 					description="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEXTEXT_DESC" />
 
 				<field name="multipage_toc" type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					description="PLG_CONTENT_PAGEBREAK_TOC_DESC"
 					label="PLG_CONTENT_PAGEBREAK_TOC_LABEL"
 				>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
 				</field>
 
 				<field name="showall" type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					description="PLG_CONTENT_PAGEBREAK_SHOW_ALL_DESC"
 					label="PLG_CONTENT_PAGEBREAK_SHOW_ALL_LABEL"
 				>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
 				</field>
 				<field name="style" type="list"
 					default="pages"

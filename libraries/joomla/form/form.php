@@ -70,6 +70,13 @@ class JForm
 	protected static $forms = array();
 
 	/**
+	 * Alows extensions to implement repeating elements
+	 * @var    mixed
+	 * @since  3.2
+	 */
+	public $repeat = false;
+
+	/**
 	 * Method to instantiate the form object.
 	 *
 	 * @param   string  $name     The name of the form.
@@ -316,6 +323,7 @@ class JForm
 		{
 			return (string) $element[$attribute];
 		}
+
 		// Otherwise return the given default value.
 		else
 		{
@@ -342,6 +350,7 @@ class JForm
 		{
 			$elements = $this->findFieldsByFieldset($set);
 		}
+
 		// Get all fields.
 		else
 		{
@@ -439,6 +448,7 @@ class JForm
 					$fieldsets[$fieldset->name] = $fieldset;
 				}
 			}
+
 			// Must be dealing with a fieldset attribute.
 			else
 			{
@@ -453,6 +463,7 @@ class JForm
 					{
 						$fieldset = (object) array('name' => (string) $set, 'label' => '', 'description' => '');
 					}
+
 					// Build the fieldset object from the element.
 					else
 					{
@@ -613,6 +624,49 @@ class JForm
 	}
 
 	/**
+	 * Method to get a control group with label and input.
+	 *
+	 * @param   string  $name     The name of the field for which to get the value.
+	 * @param   string  $group    The optional dot-separated form group path on which to get the value.
+	 * @param   mixed   $default  The optional default value of the field value is empty.
+	 *
+	 * @return  string  A string containing the html for the control goup
+	 *
+	 * @since   3.2
+	 */
+	public function getControlGroup($name, $group = null, $default = null)
+	{
+		$field = $this->getField($name, $group, $default);
+		if ($field)
+		{
+			return $field->getControlGroup();
+		}
+		return '';
+	}
+
+	/**
+	 * Method to get all control groups with label and input of a fieldset.
+	 *
+	 * @param   string  $name  The name of the fieldset for which to get the values.
+	 *
+	 * @return  string  A string containing the html for the control goups
+	 *
+	 * @since   3.2
+	 */
+	public function getControlGroups($name)
+	{
+		$fields = $this->getFieldset($name);
+
+		$html = array();
+		foreach ($fields as $field)
+		{
+			$html[] = $field->getControlGroup();
+		}
+
+		return implode('', $html);
+	}
+
+	/**
 	 * Method to load the form description from an XML string or object.
 	 *
 	 * The replace option works per field.  If a field being loaded already exists in the current
@@ -670,6 +724,7 @@ class JForm
 
 				return true;
 			}
+
 			// Create a root element for the form.
 			else
 			{
@@ -882,7 +937,7 @@ class JForm
 		}
 
 		// Find the form field element from the definition.
-		$old = &$this->findField((string) $element['name'], $group);
+		$old = $this->findField((string) $element['name'], $group);
 
 		// If an existing field is found and replace flag is false do nothing and return true.
 		if (!$replace && !empty($old))
@@ -950,6 +1005,7 @@ class JForm
 		{
 			return false;
 		}
+
 		// Otherwise set the attribute and return true.
 		else
 		{
@@ -1228,8 +1284,12 @@ class JForm
 					return false;
 				}
 
+				// This cleans some of the more dangerous characters but leaves special characters that are valid.
 				$value = JFilterInput::getInstance()->clean($value, 'html');
 				$value = trim($value);
+
+				// <>" are never valid in a uri see http://www.ietf.org/rfc/rfc1738.txt.
+				$value = str_replace(array('<', '>', '"'), '', $value);
 
 				// Check for a protocol
 				$protocol = parse_url($value, PHP_URL_SCHEME);
@@ -1262,6 +1322,7 @@ class JForm
 					{
 						$value = 'http://' . $value;
 					}
+
 					// Otherwise prepend the root.
 					else
 					{
@@ -1269,6 +1330,7 @@ class JForm
 					}
 				}
 
+				$value = JStringPunycode::urlToPunycode($value);
 				$return = $value;
 				break;
 
@@ -1292,6 +1354,7 @@ class JForm
 
 					$result = '1.' . $number;
 				}
+
 				// If not, does it match ITU-T?
 				elseif (preg_match('/^\+(?:[0-9] ?){6,14}[0-9]$/', $value) == 1)
 				{
@@ -1301,6 +1364,7 @@ class JForm
 					$number = (string) preg_replace('/[^\d]/', '', $number);
 					$result = $countrycode . '.' . $number;
 				}
+
 				// If not, does it match EPP?
 				elseif (preg_match('/^\+[0-9]{1,3}\.[0-9]{4,14}(?:x.+)?$/', $value) == 1)
 				{
@@ -1312,11 +1376,13 @@ class JForm
 
 					$result = str_replace('+', '', $value);
 				}
+
 				// Maybe it is already ccc.nnnnnnn?
 				elseif (preg_match('/[0-9]{1,3}\.[0-9]{4,14}$/', $value) == 1)
 				{
 					$result = $value;
 				}
+
 				// If not, can we make it a string of digits?
 				else
 				{
@@ -1338,6 +1404,7 @@ class JForm
 							$result = substr($value, 0, $cclen) . '.' . substr($value, $cclen);
 						}
 					}
+
 					// If not let's not save anything.
 					else
 					{
@@ -1354,11 +1421,13 @@ class JForm
 				{
 					$return = call_user_func(explode('::', $filter), $value);
 				}
+
 				// Filter using a callback function if specified.
 				elseif (function_exists($filter))
 				{
 					$return = call_user_func($filter, $value);
 				}
+
 				// Filter using JFilterInput. All HTML code is filtered by default.
 				else
 				{
@@ -1449,6 +1518,7 @@ class JForm
 				{
 					continue;
 				}
+
 				// Found it!
 				else
 				{
@@ -1484,9 +1554,10 @@ class JForm
 		/*
 		 * Get an array of <field /> elements that are underneath a <fieldset /> element
 		 * with the appropriate name attribute, and also any <field /> elements with
-		 * the appropriate fieldset attribute.
+		 * the appropriate fieldset attribute. To allow repeatable elements only immediate
+		 * field descendants of the fieldset are selected.
 		 */
-		$fields = $this->xml->xpath('//fieldset[@name="' . $name . '"]//field | //field[@fieldset="' . $name . '"]');
+		$fields = $this->xml->xpath('//fieldset[@name="' . $name . '"]/field | //field[@fieldset="' . $name . '"]');
 
 		return $fields;
 	}
@@ -1532,6 +1603,7 @@ class JForm
 					{
 						$fields = array_merge($fields, $tmp);
 					}
+
 					// If we want to exclude nested groups then we need to check each field.
 					else
 					{
@@ -1929,7 +2001,7 @@ class JForm
 	 *
 	 * @return  array  The list of paths that have been added.
 	 *
-	 * @see JFormHelper::addRulePath()
+	 * @see     JFormHelper::addRulePath()
 	 * @since   11.1
 	 */
 	public static function addRulePath($new = null)

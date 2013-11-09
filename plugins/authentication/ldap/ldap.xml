@@ -36,32 +36,32 @@
 
 				<field name="use_ldapV3" type="radio"
 					default="0"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					description="PLG_LDAP_FIELD_V3_DESC"
 					label="PLG_LDAP_FIELD_V3_LABEL"
 				>
-					<option value="0">JNo</option>
-					<option value="1">JYes</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field name="negotiate_tls" type="radio"
 					default="0"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					description="PLG_LDAP_FIELD_NEGOCIATE_DESC"
 					label="PLG_LDAP_FIELD_NEGOCIATE_LABEL"
 				>
-					<option value="0">JNo</option>
-					<option value="1">JYes</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field name="no_referrals" type="radio"
 					default="0"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					description="PLG_LDAP_FIELD_REFERRALS_DESC"
 					label="PLG_LDAP_FIELD_REFERRALS_LABEL"
 				>
-					<option value="0">JNo</option>
-					<option value="1">JYes</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field name="auth_method" type="list"

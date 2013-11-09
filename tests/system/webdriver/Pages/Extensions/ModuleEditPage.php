@@ -20,9 +20,7 @@ class ModuleEditPage extends AdminEditPage
 	 * Array of
 	 * @var array expected id values for tab div elements
 	 */
-	public $tabs = array('details', 'options', 'assignment');
-
-	public $tabLabels = array('Details', 'Options', 'Menu Assignment');
+	public $tabs = array('general', 'assignment', 'permissions', 'attrib-advanced');
 
 	/**
 	 * Array of groups for this page. A group is a collapsable slider inside a tab.
@@ -42,32 +40,33 @@ class ModuleEditPage extends AdminEditPage
 	 * @var unknown_type
 	 */
 	public $inputFields = array (
-			array('label' => 'Title', 'id' => 'jform_title', 'type' => 'input', 'tab' => 'details'),
-			array('label' => 'Show Title', 'id' => 'jform_showtitle', 'type' => 'fieldset', 'tab' => 'details'),
-			array('label' => 'Position', 'id' => 'jform_position', 'type' => 'select', 'tab' => 'details'),
-			array('label' => 'Status', 'id' => 'jform_published', 'type' => 'fieldset', 'tab' => 'details'),
-			array('label' => 'Access', 'id' => 'jform_access', 'type' => 'select', 'tab' => 'details'),
-			array('label' => 'Ordering', 'id' => 'jform_ordering', 'type' => 'select', 'tab' => 'details'),
-			array('label' => 'Start Publishing', 'id' => 'jform_publish_up', 'type' => 'input', 'tab' => 'details'),
-			array('label' => 'Finish Publishing', 'id' => 'jform_publish_down', 'type' => 'input', 'tab' => 'details'),
-			array('label' => 'Language', 'id' => 'jform_language', 'type' => 'select', 'tab' => 'details'),
-			array('label' => 'Note', 'id' => 'jform_note', 'type' => 'input', 'tab' => 'details'),
-			array('label' => 'Parent Category', 'id' => 'jform_params_parent', 'type' => 'select', 'tab' => 'options', 'group' => 'Basic Options'),
-			array('label' => 'Category Descriptions', 'id' => 'jform_params_show_description', 'type' => 'fieldset', 'tab' => 'options', 'group' => 'Basic Options'),
-			array('label' => 'Show Subcategories', 'id' => 'jform_params_show_children', 'type' => 'fieldset', 'tab' => 'options', 'group' => 'Basic Options'),
-			array('label' => '# First Subcategories', 'id' => 'jform_params_count', 'type' => 'select', 'tab' => 'options', 'group' => 'Basic Options'),
-			array('label' => 'Maximum Level Depth', 'id' => 'jform_params_maxlevel', 'type' => 'select', 'tab' => 'options', 'group' => 'Basic Options'),
-			array('label' => 'Alternative Layout', 'id' => 'jform_params_layout', 'type' => 'select', 'tab' => 'options', 'group' => 'Advanced Options'),
-			array('label' => 'Heading style', 'id' => 'jform_params_item_heading', 'type' => 'select', 'tab' => 'options', 'group' => 'Advanced Options'),
-			array('label' => 'Module Class Suffix', 'id' => 'jform_params_moduleclass_sfx', 'type' => 'textarea', 'tab' => 'options', 'group' => 'Advanced Options'),
-			array('label' => 'Caching', 'id' => 'jform_params_owncache', 'type' => 'select', 'tab' => 'options', 'group' => 'Advanced Options'),
-			array('label' => 'Cache Time', 'id' => 'jform_params_cache_time', 'type' => 'input', 'tab' => 'options', 'group' => 'Advanced Options'),
-			array('label' => 'Module Tag', 'id' => 'jform_params_module_tag', 'type' => 'select', 'tab' => 'options', 'group' => 'Advanced Options'),
-			array('label' => 'Bootstrap Size', 'id' => 'jform_params_bootstrap_size', 'type' => 'select', 'tab' => 'options', 'group' => 'Advanced Options'),
-			array('label' => 'Header Tag', 'id' => 'jform_params_header_tag', 'type' => 'select', 'tab' => 'options', 'group' => 'Advanced Options'),
-			array('label' => 'Header Class', 'id' => 'jform_params_header_class', 'type' => 'input', 'tab' => 'options', 'group' => 'Advanced Options'),
-			array('label' => 'Module Style', 'id' => 'jform_params_style', 'type' => 'select', 'tab' => 'options', 'group' => 'Advanced Options'),
+			array('label' => 'Title', 'id' => 'jform_title', 'type' => 'input', 'tab' => 'header'),
+			array('label' => 'Parent Category', 'id' => 'jform_params_parent', 'type' => 'select', 'tab' => 'general'),
+			array('label' => 'Category Descriptions', 'id' => 'jform_params_show_description', 'type' => 'fieldset', 'tab' => 'general'),
+			array('label' => 'Show Number of Articles', 'id' => 'jform_params_numitems', 'type' => 'fieldset', 'tab' => 'general'),
+			array('label' => 'Show Subcategories', 'id' => 'jform_params_show_children', 'type' => 'fieldset', 'tab' => 'general'),
+			array('label' => '# First Subcategories', 'id' => 'jform_params_count', 'type' => 'select', 'tab' => 'general'),
+			array('label' => 'Maximum Level Depth', 'id' => 'jform_params_maxlevel', 'type' => 'select', 'tab' => 'general'),
+			array('label' => 'Show Title', 'id' => 'jform_showtitle', 'type' => 'fieldset', 'tab' => 'general'),
+			array('label' => 'Position', 'id' => 'jform_position', 'type' => 'select', 'tab' => 'general'),
+			array('label' => 'Status', 'id' => 'jform_published', 'type' => 'select', 'tab' => 'general'),
+			array('label' => 'Start Publishing', 'id' => 'jform_publish_up', 'type' => 'input', 'tab' => 'general'),
+			array('label' => 'Finish Publishing', 'id' => 'jform_publish_down', 'type' => 'input', 'tab' => 'general'),
+			array('label' => 'Access', 'id' => 'jform_access', 'type' => 'select', 'tab' => 'general'),
+			array('label' => 'Ordering', 'id' => 'jform_ordering', 'type' => 'select', 'tab' => 'general'),
+			array('label' => 'Language', 'id' => 'jform_language', 'type' => 'select', 'tab' => 'general'),
+			array('label' => 'Note', 'id' => 'jform_note', 'type' => 'input', 'tab' => 'general'),
 			array('label' => 'Module Assignment', 'id' => 'jform_menus', 'type' => 'div', 'tab' => 'assignment'),
+			array('label' => 'Alternative Layout', 'id' => 'jform_params_layout', 'type' => 'select', 'tab' => 'attrib-advanced'),
+			array('label' => 'Heading style', 'id' => 'jform_params_item_heading', 'type' => 'select', 'tab' => 'attrib-advanced'),
+			array('label' => 'Module Class Suffix', 'id' => 'jform_params_moduleclass_sfx', 'type' => 'textarea', 'tab' => 'attrib-advanced'),
+			array('label' => 'Caching', 'id' => 'jform_params_owncache', 'type' => 'select', 'tab' => 'attrib-advanced'),
+			array('label' => 'Cache Time', 'id' => 'jform_params_cache_time', 'type' => 'input', 'tab' => 'attrib-advanced'),
+			array('label' => 'Module Tag', 'id' => 'jform_params_module_tag', 'type' => 'select', 'tab' => 'attrib-advanced'),
+			array('label' => 'Bootstrap Size', 'id' => 'jform_params_bootstrap_size', 'type' => 'select', 'tab' => 'attrib-advanced'),
+			array('label' => 'Header Tag', 'id' => 'jform_params_header_tag', 'type' => 'select', 'tab' => 'attrib-advanced'),
+			array('label' => 'Header Class', 'id' => 'jform_params_header_class', 'type' => 'input', 'tab' => 'attrib-advanced'),
+			array('label' => 'Module Style', 'id' => 'jform_params_style', 'type' => 'select', 'tab' => 'attrib-advanced'),
 			);
 
 	/**
@@ -99,6 +98,17 @@ class ModuleEditPage extends AdminEditPage
 		{
 			return false;
 		}
+	}
+
+	public function getTabIds()
+	{
+		$tabs = $this->driver->findElements(By::xPath("//div[@class='tab-content'][@id='myTabContent']/div"));
+		$return = array();
+		foreach ($tabs as $tab)
+		{
+			$return[] = $tab->getAttribute('id');
+		}
+		return $return;
 	}
 
 }
