@@ -76,7 +76,7 @@ class JHttpFactory
 		{
 			$class = 'JHttpTransport' . ucfirst($adapter);
 
-			if ($class::isSupported())
+			if (call_user_func(array($class, 'isSupported')))
 			{
 				return new $class($options);
 			}
