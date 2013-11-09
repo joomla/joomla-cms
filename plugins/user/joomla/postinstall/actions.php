@@ -24,7 +24,7 @@ function plguserjoomla_postinstall_condition()
 	$data = JPluginHelper::getPlugin('user', 'joomla');
 	$params = new JRegistry($data->params);
 
-	$strong_passwords = $params->get('strong_passwords', 0);
+	$strong_passwords = $params->get('strong_passwords', 1);
 
 	return $strong_passwords == 0;
 }

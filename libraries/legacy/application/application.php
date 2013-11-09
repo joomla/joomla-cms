@@ -227,7 +227,7 @@ class JApplication extends JApplicationBase
 			$userPlugin = JPluginHelper::getPlugin('user', 'joomla');
 			$userPluginParams = new JRegistry;
 			$userPluginParams->loadString($userPlugin->params);
-			$useStrongEncryption = $userPluginParams->get('strong_passwords', 0);
+			$useStrongEncryption = $userPluginParams->get('strong_passwords', 1);
 
 			$config->set('useStrongEncryption', $useStrongEncryption);
 		}
