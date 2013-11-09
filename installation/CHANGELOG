@@ -28,6 +28,7 @@ $ -> Language fix or change
 09-Nov-2013 Jean-Marie Simonet
  # [#32585] Password reset does not work  Thanks Elin Waring and David Jardin
  $ [#32516] Term "article" is used in descriptions of other content items. Thanks Jozsef Tamas Herczeg
+ # [#32476] The form in view tag of com_tags is not properly closed when there is no associated items with the tag  Thanks Phương Lê
 
 08-Nov-2013 David Hurley
  # [#32576] Wrong Recaptcha URLs causing broken captcha. Thanks David Jardin
