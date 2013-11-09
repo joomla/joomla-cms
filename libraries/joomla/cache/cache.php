@@ -609,9 +609,6 @@ class JCache
 						$newvalue = array_diff_assoc($nowvalue, $beforevalue);
 						$newvalue = array_map('unserialize', $newvalue);
 					
-
-
-
 						if ($now == "script" || $now == "style" && (is_array($newvalue) && is_array($options['headerbefore'][$now])) ) //see: https://github.com/joomla/joomla-platform/issues/673
 						{ 
                                                         foreach ($newvalue as $type => $currentsnippet) //a foreach similar to this is found in JDocument->mergeHeadData()
