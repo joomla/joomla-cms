@@ -415,7 +415,7 @@ class UsersModelRegistration extends JModelForm
 					'COM_USERS_EMAIL_REGISTERED_WITH_ACTIVATION_BODY_NOPW',
 					$data['name'],
 					$data['sitename'],
-					$data['siteurl'].'index.php?option=com_users&task=registration.activate&token='.$data['activation'],
+					$data['activate'],
 					$data['siteurl'],
 					$data['username']
 				);
