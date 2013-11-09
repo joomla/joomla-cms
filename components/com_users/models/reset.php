@@ -266,7 +266,7 @@ class UsersModelReset extends JModelForm
 			return false;
 		}
 		$salt = $parts[1];
-		$testcrypt = JUserHelper::getCryptedPassword($data['token'], $salt);
+		$testcrypt = JUserHelper::getCryptedPassword($data['token'], $salt, 'md5-hex');
 
 		// Verify the token
 		if (!($crypt == $testcrypt))
