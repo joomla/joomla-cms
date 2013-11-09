@@ -619,7 +619,7 @@ class JCache
                                                             if (isset($options['headerbefore'][$now][strtolower($type)])) 
                                                             { //if module NOT added a new script type to the document header
                                                                 $oldinlinebuffer = $options['headerbefore'][$now][strtolower($type)];
-                                                                if (JString::strpos($oldinlinebuffer, $currentsnippet) !== false) 
+                                                                if (JString::strpos($currentsnippet,$oldinlinebuffer) !== false) 
                                                                 {
                                                                     //in this cache entry we have to save only the script string the module has added, so we remove old inline string "buffer":
                                                                     $newvalue[strtolower($type)] = strtr($currentsnippet, array(
