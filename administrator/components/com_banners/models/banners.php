@@ -228,6 +228,22 @@ class BannersModelBanners extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
+		// Load the filter state.
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+		$this->setState('filter.search', $search);
+
+		$state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string');
+		$this->setState('filter.state', $state);
+
+		$categoryId = $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id', '');
+		$this->setState('filter.category_id', $categoryId);
+
+		$clientId = $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', '');
+		$this->setState('filter.client_id', $clientId);
+
+		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
+		$this->setState('filter.language', $language);
+
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_banners');
 		$this->setState('params', $params);

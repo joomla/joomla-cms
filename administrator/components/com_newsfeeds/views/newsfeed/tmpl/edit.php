@@ -47,9 +47,9 @@ $assoc = JLanguageAssociations::isEnabled();
 			<div class="span3">
 				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
-
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
+
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'images', JText::_('JGLOBAL_FIELDSET_IMAGE_OPTIONS', true)); ?>
 		<div class="row-fluid">
 			<div class="span6">
@@ -59,7 +59,6 @@ $assoc = JLanguageAssociations::isEnabled();
 					<?php endforeach; ?>
 				</div>
 			</div>
-
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>

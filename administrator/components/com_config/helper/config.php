@@ -102,10 +102,8 @@ class ConfigHelperConfig extends JHelperContent
 			{
 				// Load the core file then
 				// Load extension-local file.
-				$lang->load($component . '.sys', JPATH_BASE, null, false, false)
-				|| $lang->load($component . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component, null, false, false)
-				|| $lang->load($component . '.sys', JPATH_BASE, $lang->getDefault(), false, false)
-				|| $lang->load($component . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component, $lang->getDefault(), false, false);
+				$lang->load($component . '.sys', JPATH_BASE, null, false, true)
+				|| $lang->load($component . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component, null, false, true);
 			}
 		}
 	}

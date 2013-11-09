@@ -310,7 +310,7 @@ class JCrypt
 		if (is_null($pass))
 		{
 			// Check to see whether crypt() is supported.
-			if (version_compare(PHP_VERSION, '5.3.7', '>=')  === true)
+			if (version_compare(PHP_VERSION, '5.3.7', '>=') === true)
 			{
 				// We have safe PHP version.
 				$pass = true;

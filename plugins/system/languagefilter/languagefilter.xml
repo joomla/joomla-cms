@@ -34,8 +34,8 @@
 					default="1"
 					class="btn-group btn-group-yesno"
 				>
-					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 				<field name="item_associations" type="radio"
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_ITEM_ASSOCIATIONS_DESC"
@@ -43,8 +43,8 @@
 					default="1"
 					class="btn-group btn-group-yesno"
 				>
-					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 				<field name="remove_default_prefix" type="radio"
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_REMOVE_DEFAULT_PREFIX_DESC"
@@ -52,17 +52,17 @@
 					default="0"
 					class="btn-group btn-group-yesno"
 				>
-					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 				<field name="lang_cookie" type="radio"
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_COOKIE_DESC"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_COOKIE_LABEL"
 					default="0"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 				>
-					<option value="0">PLG_SYSTEM_LANGUAGEFILTER_OPTION_SESSION</option>
 					<option value="1">PLG_SYSTEM_LANGUAGEFILTER_OPTION_YEAR</option>
+					<option value="0">PLG_SYSTEM_LANGUAGEFILTER_OPTION_SESSION</option>
 				</field>
 				<field name="alternate_meta" type="radio"
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_ALTERNATE_META_DESC"
@@ -70,8 +70,8 @@
 					default="1"
 					class="btn-group btn-group-yesno"
 				>
-					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 			</fieldset>
 		</fields>

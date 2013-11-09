@@ -10,7 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 // Always make sure that the password hashing API has been defined.
-//include_once JPATH_ROOT . '/libraries/compat/password/lib/password.php';
+// include_once JPATH_ROOT . '/libraries/compat/password/lib/password.php';
 
 /**
  * Authorisation helper class, provides static methods to perform various tasks relevant
@@ -521,7 +521,7 @@ abstract class JUserHelper
 				}
 				else
 				{
-					return '$1$' . substr(md5(mt_rand()), 0, 8) . '$';
+					return '$1$' . substr(md5(JCrypt::genRandomBytes()), 0, 8) . '$';
 				}
 				break;
 
@@ -532,7 +532,7 @@ abstract class JUserHelper
 				}
 				else
 				{
-					return '$2$' . substr(md5(mt_rand()), 0, 12) . '$';
+					return '$2$' . substr(md5(JCrypt::genRandomBytes()), 0, 12) . '$';
 				}
 				break;
 
@@ -543,7 +543,7 @@ abstract class JUserHelper
 				}
 				else
 				{
-					return mhash_keygen_s2k(MHASH_SHA1, $plaintext, substr(pack('h*', md5(mt_rand())), 0, 8), 4);
+					return mhash_keygen_s2k(MHASH_SHA1, $plaintext, substr(pack('h*', md5(JCrypt::genRandomBytes())), 0, 8), 4);
 				}
 				break;
 
@@ -554,7 +554,7 @@ abstract class JUserHelper
 				}
 				else
 				{
-					return mhash_keygen_s2k(MHASH_MD5, $plaintext, substr(pack('h*', md5(mt_rand())), 0, 8), 4);
+					return mhash_keygen_s2k(MHASH_MD5, $plaintext, substr(pack('h*', md5(JCrypt::genRandomBytes())), 0, 8), 4);
 				}
 				break;
 
