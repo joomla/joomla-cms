@@ -20,8 +20,15 @@ class MediaViewMediaList extends JViewLegacy
 {
 	public function display($tpl = null)
 	{
+		$app = JFactory::getApplication();
+
+		if (!$app->isAdmin())
+		{
+			return $app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
+		}
+
 		// Do not allow cache
-		JResponse::allowCache(false);
+		$app->allowCache(false);
 
 		JHtml::_('behavior.framework', true);
 

@@ -76,7 +76,7 @@ abstract class JHtmlJGrid
 		}
 		else
 		{
-			$html[] = '<a class="btn btn-micro disabled jgrid ' . ($tip ? 'hasTooltip"' : '') . '"';
+			$html[] = '<a class="btn btn-micro disabled jgrid ' . ($tip ? 'hasTooltip' : '') . '"';
 			$html[] = $tip ? ' title="' . $title . '"' : '';
 			$html[] = '>';
 
@@ -152,7 +152,7 @@ abstract class JHtmlJGrid
 	 *
 	 * @return  string  The HTML markup
 	 *
-	 * @see     JHtmlJGrid::state
+	 * @see     JHtmlJGrid::state()
 	 * @since   1.6
 	 */
 	public static function published($value, $i, $prefix = '', $enabled = true, $checkbox = 'cb', $publish_up = null, $publish_down = null)
@@ -244,7 +244,7 @@ abstract class JHtmlJGrid
 	 *
 	 * @return  string  The HTML markup
 	 *
-	 * @see     JHtmlJGrid::state
+	 * @see     JHtmlJGrid::state()
 	 * @since   1.6
 	 */
 	public static function isdefault($value, $i, $prefix = '', $enabled = true, $checkbox = 'cb')

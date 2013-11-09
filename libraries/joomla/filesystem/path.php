@@ -118,7 +118,7 @@ class JPath
 	}
 
 	/**
-	 * Get the permissions of the file/folder at a give path.
+	 * Get the permissions of the file/folder at a given path.
 	 *
 	 * @param   string  $path  The path of a file/folder.
 	 *
@@ -232,7 +232,7 @@ class JPath
 	{
 		jimport('joomla.filesystem.file');
 
-		$tmp = md5(mt_rand());
+		$tmp = md5(JCrypt::genRandomBytes());
 		$ssp = ini_get('session.save_path');
 		$jtp = JPATH_SITE . '/tmp';
 

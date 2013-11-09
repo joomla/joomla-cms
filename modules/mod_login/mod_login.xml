@@ -64,14 +64,12 @@
 				<field
 					name="greeting"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					label="MOD_LOGIN_FIELD_GREETING_LABEL"
 					description="MOD_LOGIN_FIELD_GREETING_DESC">
-					<option
-						value="0">JNO</option>
-					<option
-						value="1">JYES</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 				<field
 					name="name"
@@ -87,14 +85,12 @@
 				<field
 					name="usesecure"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="0"
 					label="MOD_LOGIN_FIELD_USESECURE_LABEL"
 					description="MOD_LOGIN_FIELD_USESECURE_DESC">
-					<option
-						value="0">JNO</option>
-					<option
-						value="1">JYES</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 				<field
 					name="usetext"

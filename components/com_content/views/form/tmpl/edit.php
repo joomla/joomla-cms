@@ -13,6 +13,7 @@ JHtml::_('behavior.keepalive');
 JHtml::_('behavior.calendar');
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('behavior.modal', 'a.modal_jform_contenthistory');
 
 // Create shortcut to parameters.
 $params = $this->state->get('params');
@@ -30,7 +31,7 @@ if (!$editoroptions)
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'article.cancel' || document.formvalidator.isValid(document.id('adminForm')))
+		if (task == 'article.cancel' || document.formvalidator.isValid(document.getElementById('adminForm')))
 		{
 			<?php echo $this->form->getField('articletext')->save(); ?>
 			Joomla.submitform(task);
@@ -58,6 +59,11 @@ if (!$editoroptions)
 					<span class="icon-cancel"></span>&#160;<?php echo JText::_('JCANCEL') ?>
 				</button>
 			</div>
+			<?php if ($params->get('save_history', 0)) : ?>
+			<div class="btn-group">
+				<?php echo $this->form->getInput('contenthistory'); ?>
+			</div>
+			<?php endif; ?>
 		</div>
 		<fieldset>
 			<ul class="nav nav-tabs">
@@ -240,7 +246,16 @@ if (!$editoroptions)
 							<?php echo $this->form->getInput('tags'); ?>
 						</div>
 					</div>
-
+					<?php if ($params->get('save_history', 0)) : ?>
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $this->form->getLabel('version_note'); ?>
+						</div>
+						<div class="controls">
+							<?php echo $this->form->getInput('version_note'); ?>
+						</div>
+					</div>
+					<?php endif; ?>
 					<div class="control-group">
 						<div class="control-label">
 							<?php echo $this->form->getLabel('created_by_alias'); ?>

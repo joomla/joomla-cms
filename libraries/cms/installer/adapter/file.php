@@ -21,7 +21,21 @@ jimport('joomla.filesystem.folder');
  */
 class JInstallerAdapterFile extends JAdapterInstance
 {
+	/**
+	 * Install function routing
+	 *
+	 * @var    string
+	 * @since  3.1
+	 */
 	protected $route = 'install';
+
+	/**
+	 * <scriptfile> element of the extension manifest
+	 *
+	 * @var    object
+	 * @since  3.1
+	 */
+	protected $scriptElement = null;
 
 	/**
 	 * Custom loadLanguage method
@@ -38,10 +52,8 @@ class JInstallerAdapterFile extends JAdapterInstance
 		$extension = 'files_' . str_replace('files_', '', strtolower(JFilterInput::getInstance()->clean((string) $this->manifest->name, 'cmd')));
 		$lang = JFactory::getLanguage();
 		$source = $path;
-		$lang->load($extension . '.sys', $source, null, false, false)
-			|| $lang->load($extension . '.sys', JPATH_SITE, null, false, false)
-			|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
-			|| $lang->load($extension . '.sys', JPATH_SITE, $lang->getDefault(), false, false);
+		$lang->load($extension . '.sys', $source, null, false, true)
+			|| $lang->load($extension . '.sys', JPATH_SITE, null, false, true);
 	}
 
 	/**

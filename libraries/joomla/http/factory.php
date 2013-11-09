@@ -26,6 +26,8 @@ class JHttpFactory
 	 *
 	 * @return  JHttp      Joomla Http class
 	 *
+	 * @throws  RuntimeException
+	 *
 	 * @since   12.1
 	 */
 	public static function getHttp(JRegistry $options = null, $adapters = null)
@@ -34,7 +36,13 @@ class JHttpFactory
 		{
 			$options = new JRegistry;
 		}
-		return new JHttp($options, self::getAvailableDriver($options, $adapters));
+
+		if (!$driver = self::getAvailableDriver($options, $adapters))
+		{
+			throw new RuntimeException('No transport driver available.');
+		}
+
+		return new JHttp($options, $driver);
 	}
 
 	/**
@@ -58,11 +66,13 @@ class JHttpFactory
 			settype($default, 'array');
 			$availableAdapters = $default;
 		}
-		// Check if there is available http transport adapters
+
+		// Check if there is at least one available http transport adapter
 		if (!count($availableAdapters))
 		{
 			return false;
 		}
+
 		foreach ($availableAdapters as $adapter)
 		{
 			$class = 'JHttpTransport' . ucfirst($adapter);
@@ -72,6 +82,7 @@ class JHttpFactory
 				return new $class($options);
 			}
 		}
+
 		return false;
 	}
 
@@ -86,6 +97,7 @@ class JHttpFactory
 	{
 		$names = array();
 		$iterator = new DirectoryIterator(__DIR__ . '/transport');
+
 		foreach ($iterator as $file)
 		{
 			$fileName = $file->getFilename();

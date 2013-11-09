@@ -23,6 +23,12 @@ define('_QQ_', '"');
  */
 class JLanguage
 {
+	/**
+	 * Array of JLanguage objects
+	 *
+	 * @var    array
+	 * @since  11.1
+	 */
 	protected static $languages = array();
 
 	/**
@@ -95,7 +101,7 @@ class JLanguage
 	 * @var    array
 	 * @since  11.1
 	 */
-	protected $strings = null;
+	protected $strings = array();
 
 	/**
 	 * An array of used text, used during debugging.
@@ -717,6 +723,13 @@ class JLanguage
 	 */
 	public function load($extension = 'joomla', $basePath = JPATH_BASE, $lang = null, $reload = false, $default = true)
 	{
+		// Load the default language first if we're not debugging and a non-default language is requested to be loaded
+		// with $default set to true
+		if (!$this->debug && ($lang != $this->default) && $default)
+		{
+			$this->load($extension, $basePath, $this->default, false, true);
+		}
+
 		if (!$lang)
 		{
 			$lang = $this->lang;
@@ -1261,6 +1274,18 @@ class JLanguage
 	public function getFirstDay()
 	{
 		return (int) (isset($this->metadata['firstDay']) ? $this->metadata['firstDay'] : 0);
+	}
+
+	/**
+	 * Get the weekends days for this language.
+	 *
+	 * @return  string  The weekend days of the week separated by a comma according to the language
+	 *
+	 * @since   3.2
+	 */
+	public function getWeekEnd()
+	{
+		return (isset($this->metadata['weekEnd']) && $this->metadata['weekEnd']) ? $this->metadata['weekEnd'] : '0,6';
 	}
 
 	/**

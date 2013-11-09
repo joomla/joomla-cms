@@ -46,13 +46,11 @@
 				<field
 					name="button"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					label="MOD_SEARCH_FIELD_BUTTON_LABEL"
 					description="MOD_SEARCH_FIELD_BUTTON_DESC">
-					<option
-						value="">JNO</option>
-					<option
-						value="1">JYES</option>
+					<option value="1">JYES</option>
+					<option value="">JNO</option>
 				</field>
 				<field
 					name="button_pos"
@@ -72,13 +70,11 @@
 				<field
 					name="imagebutton"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					label="MOD_SEARCH_FIELD_IMAGEBUTTON_LABEL"
 					description="MOD_SEARCH_FIELD_IMAGEBUTTON_DESC">
-					<option
-						value="">JNO</option>
-					<option
-						value="1">JYES</option>
+					<option value="1">JYES</option>
+					<option value="">JNO</option>
 				</field>
 				<field
 					name="button_text"
@@ -88,14 +84,12 @@
 				<field
 					name="opensearch"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					label="MOD_SEARCH_FIELD_OPENSEARCH_LABEL"
 					description="MOD_SEARCH_FIELD_OPENSEARCH_DESC"
 					default="1">
-					<option
-						value="0">JNO</option>
-					<option
-						value="1">JYES</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 				<field
 					name="opensearch_title"

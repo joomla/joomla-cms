@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once __DIR__ . '/JDatabaseQueryPostgresqlInspector.php';
-
 /**
  * Test class for JDatabaseQueryPostgresql.
  *
@@ -128,7 +126,7 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 
 		$this->dbo = TestMockDatabaseDriver::create($this, '1970-01-01 00:00:00', 'Y-m-d H:i:s');
 
-		$this->_instance = new JDatabaseQueryPostgresqlInspector($this->dbo);
+		$this->_instance = new JDatabaseQueryPostgresql($this->dbo);
 
 		// Mock the escape method to ensure the API is calling the DBO's escape method.
 		$this->assignMockCallbacks(
@@ -213,8 +211,8 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 		$q->select($q->year($q->quoteName('col')))->from('table');
 
 		$this->assertThat(
-					(string) $q,
-					$this->equalTo(PHP_EOL . "SELECT EXTRACT (YEAR FROM \"col\")" . PHP_EOL . "FROM table")
+			(string) $q,
+			$this->equalTo(PHP_EOL . "SELECT EXTRACT (YEAR FROM \"col\")" . PHP_EOL . "FROM table")
 		);
 	}
 
@@ -232,8 +230,8 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 		$q->select($q->month($q->quoteName('col')))->from('table');
 
 		$this->assertThat(
-					(string) $q,
-					$this->equalTo(PHP_EOL . "SELECT EXTRACT (MONTH FROM \"col\")" . PHP_EOL . "FROM table")
+			(string) $q,
+			$this->equalTo(PHP_EOL . "SELECT EXTRACT (MONTH FROM \"col\")" . PHP_EOL . "FROM table")
 		);
 	}
 
@@ -251,8 +249,8 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 		$q->select($q->day($q->quoteName('col')))->from('table');
 
 		$this->assertThat(
-					(string) $q,
-					$this->equalTo(PHP_EOL . "SELECT EXTRACT (DAY FROM \"col\")" . PHP_EOL . "FROM table")
+			(string) $q,
+			$this->equalTo(PHP_EOL . "SELECT EXTRACT (DAY FROM \"col\")" . PHP_EOL . "FROM table")
 		);
 	}
 
@@ -270,8 +268,8 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 		$q->select($q->hour($q->quoteName('col')))->from('table');
 
 		$this->assertThat(
-					(string) $q,
-					$this->equalTo(PHP_EOL . "SELECT EXTRACT (HOUR FROM \"col\")" . PHP_EOL . "FROM table")
+			(string) $q,
+			$this->equalTo(PHP_EOL . "SELECT EXTRACT (HOUR FROM \"col\")" . PHP_EOL . "FROM table")
 		);
 	}
 
@@ -289,8 +287,8 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 		$q->select($q->minute($q->quoteName('col')))->from('table');
 
 		$this->assertThat(
-					(string) $q,
-					$this->equalTo(PHP_EOL . "SELECT EXTRACT (MINUTE FROM \"col\")" . PHP_EOL . "FROM table")
+			(string) $q,
+			$this->equalTo(PHP_EOL . "SELECT EXTRACT (MINUTE FROM \"col\")" . PHP_EOL . "FROM table")
 		);
 	}
 
@@ -308,8 +306,8 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 		$q->select($q->second($q->quoteName('col')))->from('table');
 
 		$this->assertThat(
-					(string) $q,
-					$this->equalTo(PHP_EOL . "SELECT EXTRACT (SECOND FROM \"col\")" . PHP_EOL . "FROM table")
+			(string) $q,
+			$this->equalTo(PHP_EOL . "SELECT EXTRACT (SECOND FROM \"col\")" . PHP_EOL . "FROM table")
 		);
 	}
 
@@ -329,15 +327,15 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 		$q->insert('table')->columns('col')->values($subq);
 
 		$this->assertThat(
-					(string) $q,
-					$this->equalTo(PHP_EOL . "INSERT INTO table" . PHP_EOL . "(col)" . PHP_EOL . "(" . PHP_EOL . "SELECT col2" . PHP_EOL . "WHERE a=1)")
+			(string) $q,
+			$this->equalTo(PHP_EOL . "INSERT INTO table" . PHP_EOL . "(col)" . PHP_EOL . "(" . PHP_EOL . "SELECT col2" . PHP_EOL . "WHERE a=1)")
 		);
 
 		$q->clear();
 		$q->insert('table')->columns('col')->values('3');
 		$this->assertThat(
-					(string) $q,
-					$this->equalTo(PHP_EOL . "INSERT INTO table" . PHP_EOL . "(col) VALUES " . PHP_EOL . "(3)")
+			(string) $q,
+			$this->equalTo(PHP_EOL . "INSERT INTO table" . PHP_EOL . "(col) VALUES " . PHP_EOL . "(3)")
 		);
 	}
 
@@ -1268,10 +1266,10 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	public function seedDateAdd()
 	{
 		return array(
-				// date, interval, datepart, expected
-				'Add date'		=> array('2008-12-31', '1', 'day', "timestamp '2008-12-31' + interval '1 day'"),
-				'Subtract date'	=> array('2008-12-31', '-1', 'day', "timestamp '2008-12-31' - interval '1 day'"),
-				'Add datetime'	=> array('2008-12-31 23:59:59', '1', 'day', "timestamp '2008-12-31 23:59:59' + interval '1 day'"),
+			// date, interval, datepart, expected
+			'Add date'		=> array('2008-12-31', '1', 'day', "timestamp '2008-12-31' + interval '1 day'"),
+			'Subtract date'	=> array('2008-12-31', '-1', 'day', "timestamp '2008-12-31' - interval '1 day'"),
+			'Add datetime'	=> array('2008-12-31 23:59:59', '1', 'day', "timestamp '2008-12-31 23:59:59' + interval '1 day'"),
 		);
 	}
 
@@ -1291,8 +1289,8 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	public function testDateAdd($date, $interval, $datePart, $expected)
 	{
 		$this->assertThat(
-				$this->_instance->dateAdd($date, $interval, $datePart),
-				$this->equalTo($expected)
+			$this->_instance->dateAdd($date, $interval, $datePart),
+			$this->equalTo($expected)
 		);
 	}
 }
