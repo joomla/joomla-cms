@@ -47,6 +47,8 @@ class CategoryManagerPage extends AdminManagerPage
 	 * @since  3.0
 	 */
 	public $filters = array(
+			'Sort Table By:' => 'list_fullordering',
+			'20' => 'list_limit',
 			'Select Max Levels' => 'filter_level',
 			'Select Status' => 'filter_published',
 			'Select Access' => 'filter_access',

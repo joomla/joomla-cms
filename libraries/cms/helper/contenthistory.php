@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Helper
  * @since       3.2
  */
-class JHelperContenthistory
+class JHelperContenthistory extends JHelper
 {
 	/**
 	 * Alias for storing type in versions table
@@ -42,7 +42,7 @@ class JHelperContenthistory
 	/**
 	 * Method to delete the history for an item.
 	 *
-	 * @param   JTable  $table  JTable object being tagged
+	 * @param   JTable  $table  JTable object being versioned
 	 *
 	 * @return  boolean  true on success, otherwise false.
 	 *
@@ -62,29 +62,6 @@ class JHelperContenthistory
 		$db->setQuery($query);
 
 		return $db->execute();
-	}
-
-	/**
-	 * Method to get an object containing all of the table columns.
-	 *
-	 * @param   JTable  $table  JTable object.
-	 *
-	 * @return  object Contains all of the columns and values.
-	 *
-	 * @since   3.2
-	 */
-	public function getDataObject(JTable $table)
-	{
-		$fields = $table->getFields();
-		$dataObject = new stdClass;
-
-		foreach ($fields as $field)
-		{
-			$fieldName = $field->Field;
-			$dataObject->$fieldName = $table->get($fieldName);
-		}
-
-		return $dataObject;
 	}
 
 	/**
@@ -115,7 +92,7 @@ class JHelperContenthistory
 	/**
 	 * Method to save a version snapshot to the content history table.
 	 *
-	 * @param   JTable  $table  JTable object being tagged
+	 * @param   JTable  $table  JTable object being versioned
 	 *
 	 * @return  boolean  True on success, otherwise false.
 	 *
@@ -126,7 +103,8 @@ class JHelperContenthistory
 		$dataObject = $this->getDataObject($table);
 		$historyTable = JTable::getInstance('Contenthistory', 'JTable');
 		$typeTable = JTable::getInstance('Contenttype', 'JTable');
-		$historyTable->set('ucm_type_id', $typeTable->getTypeId($this->typeAlias));
+		$typeTable->load(array('type_alias' => $this->typeAlias));
+		$historyTable->set('ucm_type_id', $typeTable->type_id);
 
 		$key = $table->getKeyName();
 		$historyTable->set('ucm_item_id', $table->$key);
@@ -148,7 +126,7 @@ class JHelperContenthistory
 		}
 
 		// Don't save if hash already exists and same version note
-		$historyTable->set('sha1_hash', $historyTable->getSha1($dataObject));
+		$historyTable->set('sha1_hash', $historyTable->getSha1($dataObject, $typeTable));
 
 		if ($historyRow = $historyTable->getHashMatch())
 		{

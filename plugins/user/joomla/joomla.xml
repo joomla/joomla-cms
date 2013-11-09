@@ -12,6 +12,7 @@
 	<files>
 		<filename plugin="joomla">joomla.php</filename>
 		<filename>index.html</filename>
+		<folder>postinstall</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_user_joomla.ini</language>
@@ -21,26 +22,35 @@
 		<fields name="params">
 
 			<fieldset name="basic">
+				<field name="strong_passwords" type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					description="PLG_USER_JOOMLA_FIELD_STRONG_PASSWORDS_DESC"
+					label="PLG_USER_JOOMLA_FIELD_STRONG_PASSWORDS_LABEL"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
 				<field name="autoregister" type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					description="PLG_USER_JOOMLA_FIELD_AUTOREGISTER_DESC"
 					label="PLG_USER_JOOMLA_FIELD_AUTOREGISTER_LABEL"
 				>
-					<option value="0">JNo</option>
-					<option value="1">JYes</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field name="mail_to_user"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					label="PLG_USER_JOOMLA_FIELD_MAILTOUSER_LABEL"
-					description="PLG_USER_JOOMLA_FIELD_MAILTOUSER_DESC">
-					<option
-						value="0">JNO</option>
-					<option
-						value="1">JYES</option>
+					description="PLG_USER_JOOMLA_FIELD_MAILTOUSER_DESC"
+				>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 			</fieldset>

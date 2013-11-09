@@ -42,7 +42,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		$this->assign('methodSelect', JoomlaupdateHelperSelect::getMethods($ftp['enabled']));
 
 		// Set the toolbar information
-		JToolbarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'install');
+		JToolbarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'arrow-up-2 install');
 		JToolbarHelper::custom('update.purge', 'purge', 'purge', 'JTOOLBAR_PURGE_CACHE', false, false);
 
 		// Add toolbar buttons

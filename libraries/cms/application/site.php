@@ -630,10 +630,8 @@ final class JApplicationSite extends JApplicationCms
 		 * Try the lib_joomla file in the current language (without allowing the loading of the file in the default language)
 		 * Fallback to the default language if necessary
 		 */
-		$lang->load('lib_joomla', JPATH_SITE, null, false, false)
-			|| $lang->load('lib_joomla', JPATH_ADMINISTRATOR, null, false, false)
-			|| $lang->load('lib_joomla', JPATH_SITE, null, true)
-			|| $lang->load('lib_joomla', JPATH_ADMINISTRATOR, null, true);
+		$lang->load('lib_joomla', JPATH_SITE, null, false, true)
+			|| $lang->load('lib_joomla', JPATH_ADMINISTRATOR, null, false, true);
 	}
 
 	/**
@@ -702,7 +700,7 @@ final class JApplicationSite extends JApplicationCms
 				// Ensure themeFile is set by now
 				if ($this->get('themeFile') == '')
 				{
-					$this->set('themeFile', 'index.php');
+					$this->set('themeFile', $file . '.php');
 				}
 
 				break;

@@ -9,7 +9,7 @@
  */
 
 jQuery(function() {
-    
+
     var loadTab = function() {
         var $ = jQuery.noConflict();
 
@@ -22,18 +22,17 @@ jQuery(function() {
             var $el = $('a[data-toggle="tab"]a[href*=' + href + ']');
             $el.tab('show');
         };
-        
+
         var hasTab = function(href){
             return $('a[data-toggle="tab"]a[href*=' + href + ']').length;
         };
-        
+
         if (localStorage.getItem('tab-href')) {
             // When moving from tab area to a different view
             if(!hasTab(localStorage.getItem('tab-href'))){
                 localStorage.removeItem('tab-href');
                 return true;
             }
-
             // Clean default tabs
             $('a[data-toggle="tab"]').parent().removeClass('active');
             var tabhref = localStorage.getItem('tab-href');

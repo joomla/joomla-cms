@@ -27,7 +27,6 @@ class JFeedParserRssMediaTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParserRssMedia::processElementForFeed
 	 * @since   12.3
 	 */
 	public function testProcessElementForFeed()
@@ -44,7 +43,6 @@ class JFeedParserRssMediaTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParserRssMedia::processElementForFeedEntry
 	 * @since   12.3
 	 */
 	public function testProcessElementForFeedEntry()

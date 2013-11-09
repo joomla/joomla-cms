@@ -26,6 +26,12 @@ class FOFFormFieldComponents extends JFormFieldList implements FOFFormField
 	protected $repeatable;
 
 	public $client_ids = null;
+	
+	/** @var   FOFTable  The item being rendered in a repeatable form field */
+	public $item;
+	
+	/** @var int A monotonically increasing number, denoting the row number in a repeatable view */
+	public $rowid;
 
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
@@ -217,8 +223,8 @@ class FOFFormFieldComponents extends JFormFieldList implements FOFFormField
 		{
 			case 'component':
 				$source = JPATH_ADMINISTRATOR . '/components/' . $item->element;
-				$lang->load("$item->element.sys", JPATH_ADMINISTRATOR, null, false, false)
-					||	$lang->load("$item->element.sys", $source, null, false, false)
+				$lang->load("$item->element.sys", JPATH_ADMINISTRATOR, null, false, true)
+					||	$lang->load("$item->element.sys", $source, null, false, true)
 					||	$lang->load("$item->element.sys", JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
 					||	$lang->load("$item->element.sys", $source, $lang->getDefault(), false, false);
 				break;

@@ -129,6 +129,15 @@ class JFormFieldTag extends JFormFieldList
 			$query->where('a.id IN (' . implode(',', $values) . ')');
 		}
 
+		// Block the possibility to set a tag as it own parent
+		$id   = (int) $this->form->getValue('id', 0);
+		$name = (int) $this->form->getValue('name', '');
+
+		if ($name == 'com_tags.tag')
+		{
+			$query->where('a.id != ' . $db->quote($id));
+		}
+
 		// Filter language
 		if (!empty($this->element['language']))
 		{

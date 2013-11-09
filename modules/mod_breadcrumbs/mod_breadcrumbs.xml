@@ -31,26 +31,22 @@
 				<field
 					name="showHere"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					label="MOD_BREADCRUMBS_FIELD_SHOWHERE_LABEL"
 					description="MOD_BREADCRUMBS_FIELD_SHOWHERE_DESC">
-					<option
-						value="0">JNO</option>
-					<option
-						value="1">JYES</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 				<field
 					name="showHome"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					label="MOD_BREADCRUMBS_FIELD_SHOWHOME_LABEL"
 					description="MOD_BREADCRUMBS_FIELD_SHOWHOME_DESC">
-					<option
-						value="0">JNO</option>
-					<option
-						value="1">JYES</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 				<field
 					name="homeText"
@@ -61,12 +57,11 @@
 					name="showLast"
 					type="radio"
 					default="1"
+					class="btn-group btn-group-yesno"
 					label="MOD_BREADCRUMBS_FIELD_SHOWLAST_LABEL"
 					description="MOD_BREADCRUMBS_FIELD_SHOWLAST_DESC">
-					<option
-						value="0">JNO</option>
-					<option
-						value="1">JYES</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 				<field
 					name="separator"

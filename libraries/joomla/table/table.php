@@ -115,7 +115,7 @@ abstract class JTable extends JObject implements JObservableInterface
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($table, $key, JDatabaseDriver $db)
+	public function __construct($table, $key, $db)
 	{
 		// Set internal variables.
 		$this->_tbl = $table;
@@ -504,7 +504,7 @@ abstract class JTable extends JObject implements JObservableInterface
 	 * @link    http://docs.joomla.org/JTable/setDBO
 	 * @since   11.1
 	 */
-	public function setDBO(JDatabaseDriver $db)
+	public function setDBO($db)
 	{
 		$this->_db = $db;
 

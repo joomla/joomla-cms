@@ -32,6 +32,14 @@ class PlgEditorTinymce extends JPlugin
 	protected $autoloadLanguage = true;
 
 	/**
+	 * Loads the application object
+	 *
+	 * @var    JApplicationCms
+	 * @since  3.2
+	 */
+	protected $app = null;
+
+	/**
 	 * Initialises the Editor.
 	 *
 	 * @return  string  JavaScript Initialization string
@@ -413,10 +421,10 @@ class PlgEditorTinymce extends JPlugin
 			$toolbar4_add[] = 'template';
 
 			// Note this check for the template_list.js file will be removed in Joomla 4.0
-			if (JFile::exists(JPATH_ROOT . "/media/editors/tinymce/templates/template_list.js"))
+			if (is_file(JPATH_ROOT . "/media/editors/tinymce/templates/template_list.js"))
 			{
 				// If using the legacy file we need to include and input the files the new way
-				$str = file_get_contents(JUri::root() . "media/editors/tinymce/templates/template_list.js");
+				$str = file_get_contents(JPATH_ROOT . "/media/editors/tinymce/templates/template_list.js");
 
 				// Find from one [ to the last ]
 				preg_match_all('/\[.*\]/', $str, $matches);
@@ -531,13 +539,11 @@ class PlgEditorTinymce extends JPlugin
 				JUri::root() . $this->_basePath .
 				"/tinymce.min.js\"></script>\n";
 
-		$client = new JApplicationWebClient;
-
 		/**
 		 * Shrink the buttons if not on a mobile or if mobile view is off.
 		 * If mobile view is on force into simple mode and enlarge the buttons
 		**/
-		if (!$client->mobile)
+		if (!$this->app->client->mobile)
 		{
 			$smallButtons = 'toolbar_items_size: "small",';
 		}
