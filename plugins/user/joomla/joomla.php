@@ -502,7 +502,7 @@ class PlgUserJoomla extends JPlugin
 	 */
 	public static function setDefaultEncryption($userPluginParams)
 	{
-		if ($userPluginParams->get('strong_passwords') == 1)
+		if ($userPluginParams->get('strong_passwords', 1) == 1)
 		{
 			return 'bcrypt';
 		}
