@@ -104,7 +104,7 @@
 					default="0"
 					label="MOD_SEARCH_FIELD_SETITEMID_LABEL"
 					description="MOD_SEARCH_FIELD_SETITEMID_DESC">
-					<option value="">MOD_SEARCH_SELECT_MENU_ITEMID</option>
+					<option value="0">MOD_SEARCH_SELECT_MENU_ITEMID</option>
 				</field>
 			</fieldset>
 			<fieldset
