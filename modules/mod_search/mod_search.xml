@@ -101,8 +101,11 @@
 				<field
 					name="set_itemid"
 					type="menuitem"
+					default="0"
 					label="MOD_SEARCH_FIELD_SETITEMID_LABEL"
-					description="MOD_SEARCH_FIELD_SETITEMID_DESC" />
+					description="MOD_SEARCH_FIELD_SETITEMID_DESC">
+					<option value="">MOD_SEARCH_SELECT_MENU_ITEMID</option>
+				</field>
 			</fieldset>
 			<fieldset
 				name="advanced">
