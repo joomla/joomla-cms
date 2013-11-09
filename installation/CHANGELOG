@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Nov-2013 David Hurley
+ # [#32576] Wrong Recaptcha URLs causing broken captcha. Thanks David Jardin
+
 08-Nov-2013 Jean-Marie Simonet
  + Adding French help server. Thanks Rafael Logvinski (AFUJ)
  # [#32477] *Multilanguage: Issue with submenu set to ALL  Thanks Dennis Hermatski
