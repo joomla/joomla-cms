@@ -311,6 +311,7 @@ class ArticleManagerPage extends AdminManagerPage
 			if (isset($elements[0]))
 			{
 				$elements[0]->click();
+				sleep(3);
 			}
 		}
 		$filterElement->click();

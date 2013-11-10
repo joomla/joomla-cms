@@ -11,7 +11,6 @@ if (!defined('PASSWORD_DEFAULT')) {
 
     define('PASSWORD_BCRYPT', 1);
     define('PASSWORD_DEFAULT', PASSWORD_BCRYPT);
-    define('BCRYPT_HASH_PREFIX', (version_compare(PHP_VERSION, '5.3.7', '<') ? '$2a$' : '$2y$'));
 
     /**
      * Hash the password using the specified algorithm
@@ -50,7 +49,7 @@ if (!defined('PASSWORD_DEFAULT')) {
                 $raw_salt_len = 16;
                 // The length required in the final serialization
                 $required_salt_len = 22;
-                $hash_format = sprintf(BCRYPT_HASH_PREFIX . "%02d$", $cost);
+                $hash_format = sprintf("$2y$%02d$", $cost);
                 break;
             default:
                 trigger_error(sprintf("password_hash(): Unknown password hashing algorithm: %s", $algo), E_USER_WARNING);
@@ -158,10 +157,10 @@ if (!defined('PASSWORD_DEFAULT')) {
             'algoName' => 'unknown',
             'options' => array(),
         );
-        if (substr($hash, 0, 4) == BCRYPT_HASH_PREFIX && strlen($hash) == 60) {
+        if (substr($hash, 0, 4) == "$2y$%d$" && strlen($hash) == 60) {
             $return['algo'] = PASSWORD_BCRYPT;
             $return['algoName'] = 'bcrypt';
-            list($cost) = sscanf($hash, BCRYPT_HASH_PREFIX . "%d$");
+            list($cost) = sscanf($hash, "$2y$%d$");
             $return['options']['cost'] = $cost;
         }
         return $return;
