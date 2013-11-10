@@ -7379,3 +7379,7 @@ code {
 	overflow: hidden;
 	position: relative;
 }
+.editor {
+	overflow: hidden;
+	position: relative;
+}
