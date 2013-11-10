@@ -19,26 +19,21 @@ $hasContent = empty($this->item->module) || $this->item->module == 'custom' || $
 
 // Get Params Fieldsets
 $this->fieldsets = $this->form->getFieldsets('params');
-
-
-$script = "Joomla.submitbutton = function(task)
-	{
-			if (task == 'module.cancel' || document.formvalidator.isValid(document.id('module-form'))) {";
-if ($hasContent)
-{
-	$script .= $this->form->getField('content')->save();
-}
-$script .= "	Joomla.submitform(task, document.getElementById('module-form'));
-				if (self != top)
-				{
-					window.top.setTimeout('window.parent.SqueezeBox.close()', 1000);
-				}
-			}
-	}";
-
-JFactory::getDocument()->addScriptDeclaration($script);
-
 ?>
+<script type="text/javascript">
+	Joomla.submitbutton = function(task)
+	{
+		if (task == 'module.cancel' || document.formvalidator.isValid(document.id('module-form'))) {
+			<?php echo $hasContent ? $this->form->getField('content')->save() : ''; ?>
+			Joomla.submitform(task, document.getElementById('module-form'));
+			if (self != top)
+			{
+				window.top.setTimeout('window.parent.SqueezeBox.close()', 1000);
+			}
+		}
+	}
+</script>
+
 <form action="<?php echo JRoute::_('index.php?option=com_modules&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="module-form" class="form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
