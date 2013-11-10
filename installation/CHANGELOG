@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#31055] Smart Search does not remove search phrases from index when saving an article.  Thanks Chris Davenport
  # [#32620] Sorting columns in feature contacts does gives js error.  Thanks Ashan Fernando
  # [#32597] Tags field is to big at the weblink submit form.  Thanks Tobias Zulauf
+ # [#32600] Article Manager: Options is gone when filtering an category.  Thanks Jelle Kok
 
 09-Nov-2013 Jean-Marie Simonet
  # [#32585] Password reset does not work  Thanks Elin Waring and David Jardin
