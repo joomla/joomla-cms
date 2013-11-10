@@ -14,6 +14,7 @@ if (version_compare(PHP_VERSION, '5.3.1', '<'))
 /**
  * Constant that is checked in included files to prevent direct access.
  * define() is used in the installation folder rather than "const" to not error for PHP 5.2 and lower
+ add this text to change for test github
  */
 define('_JEXEC', 1);
 
