@@ -70,10 +70,8 @@
 					default="0"
 					label="MOD_WHOSONLINE_FIELD_FILTER_GROUPS_LABEL"
 					description="MOD_WHOSONLINE_FIELD_FILTER_GROUPS_DESC">
-					<option
-						value="0">JNO</option>
-					<option
-						value="1">JYES</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 			</fieldset>
 		</fields>

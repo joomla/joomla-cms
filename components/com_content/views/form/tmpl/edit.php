@@ -59,7 +59,7 @@ if (!$editoroptions)
 					<span class="icon-cancel"></span>&#160;<?php echo JText::_('JCANCEL') ?>
 				</button>
 			</div>
-			<?php if ($params->get('save_history')) : ?>
+			<?php if ($params->get('save_history', 0)) : ?>
 			<div class="btn-group">
 				<?php echo $this->form->getInput('contenthistory'); ?>
 			</div>
@@ -246,7 +246,7 @@ if (!$editoroptions)
 							<?php echo $this->form->getInput('tags'); ?>
 						</div>
 					</div>
-					<?php if ($params->get('save_history')) : ?>
+					<?php if ($params->get('save_history', 0)) : ?>
 					<div class="control-group">
 						<div class="control-label">
 							<?php echo $this->form->getLabel('version_note'); ?>

@@ -1072,10 +1072,8 @@ class UsersModelUser extends JModelAdmin
 			$extension = 'com_users';
 			$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
 
-			$lang->load($extension, JPATH_ADMINISTRATOR, null, false, false)
-				|| $lang->load($extension, $source, null, false, false)
-				|| $lang->load($extension, JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-				|| $lang->load($extension, $source, $lang->getDefault(), false, false);
+			$lang->load($extension, JPATH_ADMINISTRATOR, null, false, true)
+				|| $lang->load($extension, $source, null, false, true);
 
 			$warn = true;
 			$warnMessage = JText::_('COM_USERS_ERROR_SECRET_CODE_WITHOUT_TFA');

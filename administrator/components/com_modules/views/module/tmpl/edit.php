@@ -138,7 +138,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php if (isset($long_description) && $long_description !='') : ?>
+		<?php if (isset($long_description) && $long_description != '') : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('JGLOBAL_FIELDSET_DESCRIPTION', true)); ?>
 			<?php echo $long_description; ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>

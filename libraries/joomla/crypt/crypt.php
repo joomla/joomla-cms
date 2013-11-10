@@ -310,7 +310,7 @@ class JCrypt
 		if (is_null($pass))
 		{
 			// Check to see whether crypt() is supported.
-			if (version_compare(PHP_VERSION, '5.3.6', '>'))
+			if (version_compare(PHP_VERSION, '5.3.7', '>=') === true)
 			{
 				// We have safe PHP version.
 				$pass = true;
@@ -318,17 +318,9 @@ class JCrypt
 			else
 			{
 				// We need to test if we have patched PHP version.
-				$hash = '$2y$04$usesomesillystringfore7hnbRJHxXVLeakoG8K30oukPsA.ztMG';
-				$test = crypt("password", $hash);
-				$pass = ($test == $hash);
-
-				// Test to allow for for Debian backport of bcrypt the 5.3.7 fix.
-				// See https://github.com/ircmaxell/password_compat/pull/34#issuecomment-26648055
-				if(crypt('éàèç', '$2a$05$0123456789012345678901$') === crypt('éàèç', '$2x$05$0123456789012345678901$'))
-				{
-					// $2a$ is insecure.
-					$pass = false;
-				}
+				jimport('compat.password.lib.version_test');
+				$test = new version_test;
+				$pass = $test->version_test();
 			}
 
 			if ($pass && !defined('PASSWORD_DEFAULT'))

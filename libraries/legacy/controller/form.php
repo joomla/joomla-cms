@@ -560,7 +560,7 @@ class JControllerForm extends JControllerLegacy
 		$recordId = $table->$key;
 
 		// To avoid data collisions the urlVar may be different from the primary key.
-		$urlVar = empty($this->urlVar) ? $key : $this->url;
+		$urlVar = empty($this->urlVar) ? $key : $this->urlVar;
 
 		// Access check.
 		if (!$this->allowEdit(array($key => $recordId), $key))

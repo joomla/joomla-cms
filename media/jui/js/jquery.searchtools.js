@@ -51,30 +51,30 @@
 		this.theForm        = $(this.options.formSelector);
 
 		// Filters
-		this.filterButton    = $(this.options.filterBtnSelector);
-		this.filterContainer = $(this.options.filterContainerSelector);
+		this.filterButton    = $(this.options.formSelector + ' ' + this.options.filterBtnSelector);
+		this.filterContainer = $(this.options.formSelector + ' ' + this.options.filterContainerSelector);
 		this.filtersHidden   = this.options.filtersHidden;
 
 		// List fields
-		this.listButton    = $(this.options.listBtnSelector);
-		this.listContainer = $(this.options.listContainerSelector);
+		this.listButton    = $(this.options.formSelector + ' ' + this.options.listBtnSelector);
+		this.listContainer = $(this.options.formSelector + ' ' + this.options.listContainerSelector);
 		this.listHidden    = this.options.listHidden;
 
 		// Main container
 		this.mainContainer = $(this.options.mainContainerSelector);
 
 		// Search
-		this.searchButton = $(this.options.searchBtnSelector);
-		this.searchField  = $(this.options.searchFieldSelector);
+		this.searchButton = $(this.options.formSelector + ' ' + this.options.searchBtnSelector);
+		this.searchField  = $(this.options.formSelector + ' ' + this.options.searchFieldSelector);
 		this.searchString = null;
 		this.clearButton  = $(this.options.clearBtnSelector);
 
 		// Ordering
-		this.orderCols  = $(this.options.orderColumnSelector);
-		this.orderField = $(this.options.orderFieldSelector);
+		this.orderCols  = $(this.options.formSelector + ' ' + this.options.orderColumnSelector);
+		this.orderField = $(this.options.formSelector + ' ' + this.options.orderFieldSelector);
 
 		// Limit
-		this.limitField = $(this.options.limitFieldSelector);
+		this.limitField = $(this.options.formSelector + ' ' + this.options.limitFieldSelector);
 
 		// Init trackers
 		this.activeColumn    = null;
