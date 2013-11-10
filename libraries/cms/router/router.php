@@ -80,6 +80,14 @@ class JRouter
 		'build' => array(),
 		'parse' => array()
 	);
+	
+	/**
+	 * Caching of processed URIs
+	 *
+	 * @var    array
+	 * @since  3.5
+	 */
+	protected $cache = array();
 
 	/**
 	 * JRouter instances container.
@@ -190,7 +198,7 @@ class JRouter
 	/**
 	 * Function to convert an internal URI to a route
 	 *
-	 * @param   string  $url  The internal URL
+	 * @param   string  $url  The internal URL or an associative array
 	 *
 	 * @return  string  The absolute search engine friendly URL
 	 *
@@ -198,8 +206,42 @@ class JRouter
 	 */
 	public function build($url)
 	{
-		// Create the URI object
-		$uri = $this->_createURI($url);
+		if (!is_array($url))
+		{
+			// Read the URL into an array
+			$temp = array();
+
+			if (strpos($url, '&amp;') !== false)
+			{
+				$url = str_replace('&amp;', '&', $url);
+			}
+
+			if (substr($url, 0, 10) == 'index.php?')
+			{
+				$url = substr($url, 10);
+			}
+
+			parse_str($url, $temp);
+
+			foreach ($temp as $key => $var)
+			{
+				if ($var == "")
+				{
+					unset($temp[$key]);
+				}
+			}
+			$url = $temp;
+		}
+
+		$key = md5(serialize($url));
+
+		if (isset($this->cache[$key]))
+		{
+			return $this->cache[$key];
+		}
+
+		$uri = new JURI;
+		$uri->setQuery($url);
 
 		// Process the uri information based on custom defined rules
 		$this->_processBuildRules($uri);
@@ -215,6 +257,8 @@ class JRouter
 		{
 			$this->_buildSefRoute($uri);
 		}
+		
+		$this->cache[$key] = $uri;
 
 		return $uri;
 	}
@@ -547,41 +591,53 @@ class JRouter
 	/**
 	 * Create a uri based on a full or partial url string
 	 *
-	 * @param   string  $url  The URI
+	 * @param   string  $url  The URI or an associative array
 	 *
 	 * @return  JUri
 	 *
 	 * @since   3.2
+	 * @deprecated  4.0  Use createURI() instead
 	 */
 	protected function createURI($url)
 	{
-		// Create full URL if we are only appending variables to it
-		if (substr($url, 0, 1) == '&')
+		if (!is_array($url))
 		{
-			$vars = array();
+			// Read the URL into an array
+			$temp = array();
 
 			if (strpos($url, '&amp;') !== false)
 			{
 				$url = str_replace('&amp;', '&', $url);
 			}
 
-			parse_str($url, $vars);
+			if (substr($url, 0, 10) == 'index.php?')
+			{
+				$url = substr($url, 10);
+			}
 
-			$vars = array_merge($this->getVars(), $vars);
+			parse_str($url, $temp);
 
-			foreach ($vars as $key => $var)
+			foreach ($temp as $key => $var)
 			{
 				if ($var == "")
 				{
-					unset($vars[$key]);
+					unset($temp[$key]);
 				}
 			}
-
-			$url = 'index.php?' . JUri::buildQuery($vars);
+			$url = $temp;
 		}
 
-		// Decompose link into url component parts
-		return new JUri($url);
+		$key = md5(serialize($url));
+
+		if (isset($this->cache[$key]))
+		{
+			return $this->cache[$key];
+		}
+
+		$uri = new JURI;
+		$uri->setQuery($url);
+
+		return $uri;
 	}
 
 	/**
