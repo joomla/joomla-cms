@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+10-Nov-2013 Jean-Marie Simonet
+ + Adding Montenegrin srp-ME flag in mod_languages
+
 09-Nov-2013 Michael Babker #JWC13 Bug Squash
  #$ [#32456] "No" Fields at mod_search are blue.  Thanks Thomas Hunziker
  #$ [#32609] Debugger show a missing language string at some places.  Thanks Tobias Zulauf
