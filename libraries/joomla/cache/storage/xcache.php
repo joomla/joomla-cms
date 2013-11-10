@@ -32,6 +32,12 @@ class JCacheStorageXcache extends JCacheStorage
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
+		// Make sure XCache is configured properly
+		if (self::isSupported() == false)
+		{
+			return false;
+		}
+
 		$cache_id = $this->_getCacheId($id, $group);
 		$cache_content = xcache_get($cache_id);
 
@@ -56,9 +62,17 @@ class JCacheStorageXcache extends JCacheStorage
 	{
 		parent::getAll();
 
-		$allinfo = xcache_list(XC_TYPE_VAR, 0);
-		$keys = $allinfo['cache_list'];
-		$secret = $this->_hash;
+		// Make sure XCache is configured properly
+		if (self::isSupported())
+		{
+			$allinfo = xcache_list(XC_TYPE_VAR, 0);
+			$keys = $allinfo['cache_list'];
+			$secret = $this->_hash;
+		}
+		else
+		{
+			$keys = array();
+		}
 
 		$data = array();
 
@@ -102,6 +116,12 @@ class JCacheStorageXcache extends JCacheStorage
 	 */
 	public function store($id, $group, $data)
 	{
+		// Make sure XCache is configured properly
+		if (self::isSupported() == false)
+		{
+			return false;
+		}
+
 		$cache_id = $this->_getCacheId($id, $group);
 		$store = xcache_set($cache_id, $data, $this->_lifetime);
 		return $store;
@@ -119,6 +139,12 @@ class JCacheStorageXcache extends JCacheStorage
 	 */
 	public function remove($id, $group)
 	{
+		// Make sure XCache is configured properly
+		if (self::isSupported() == false)
+		{
+			return false;
+		}
+
 		$cache_id = $this->_getCacheId($id, $group);
 
 		if (!xcache_isset($cache_id))
@@ -145,10 +171,18 @@ class JCacheStorageXcache extends JCacheStorage
 	 */
 	public function clean($group, $mode = null)
 	{
-		$allinfo = xcache_list(XC_TYPE_VAR, 0);
-		$keys = $allinfo['cache_list'];
+		// Make sure XCache is configured properly
+		if (self::isSupported())
+		{
+			$allinfo = xcache_list(XC_TYPE_VAR, 0);
+			$keys = $allinfo['cache_list'];
+			$secret = $this->_hash;
+		}
+		else
+		{
+			$keys = array();
+		}
 
-		$secret = $this->_hash;
 		foreach ($keys as $key)
 		{
 			if (strpos($key['name'], $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
@@ -204,6 +238,24 @@ class JCacheStorageXcache extends JCacheStorage
 	 */
 	public static function isSupported()
 	{
-		return (extension_loaded('xcache'));
+		if (extension_loaded('xcache'))
+		{
+			// XCache Admin must be disabled for Joomla to use XCache
+			$xcache_admin_enable_auth  = ini_get('xcache.admin.enable_auth');
+			// Some extensions ini variables are reported as strings
+			if ($xcache_admin_enable_auth == 'Off')
+			{
+				return true;
+			}
+
+			// We require an  string with contents 0, not a null value because it is not set since that then defaults to On/True
+			if (($xcache_admin_enable_auth === '0'))
+			{
+				return true;
+			}
+		}
+
+		// If the settings are not correct, give up
+		return false;
 	}
 }
