@@ -206,6 +206,13 @@ class JRouter
 	 */
 	public function build($url)
 	{
+		$key = md5(serialize($url));
+
+		if (isset($this->cache[$key]))
+		{
+			return $this->cache[$key];
+		}
+		
 		// Create the URI object
 		$uri = $this->createURI($url);
 
@@ -590,13 +597,6 @@ class JRouter
 				}
 			}
 			$url = $temp;
-		}
-
-		$key = md5(serialize($url));
-
-		if (isset($this->cache[$key]))
-		{
-			return $this->cache[$key];
 		}
 
 		$uri = new JURI;
