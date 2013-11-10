@@ -29,6 +29,7 @@ $ -> Language fix or change
  #$ [#32456] "No" Fields at mod_search are blue.  Thanks Thomas Hunziker
  #$ [#32609] Debugger show a missing language string at some places.  Thanks Tobias Zulauf
  # [#31055] Smart Search does not remove search phrases from index when saving an article.  Thanks Chris Davenport
+ # [#32620] Sorting columns in feature contacts does gives js error.  Thanks Ashan Fernando
 
 09-Nov-2013 Jean-Marie Simonet
  # [#32585] Password reset does not work  Thanks Elin Waring and David Jardin
