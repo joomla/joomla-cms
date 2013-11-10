@@ -533,7 +533,7 @@ class PlgEditorTinymce extends JPlugin
 		$toolbar4 = implode(' ', $toolbar4_add);
 
 		// See if mobileVersion is activated
-		$mobileVersion = $this->params->get('mobile', 1);
+		$mobileVersion = $this->params->get('mobile', 0);
 
 		$load = "\t<script type=\"text/javascript\" src=\"" .
 				JUri::root() . $this->_basePath .
