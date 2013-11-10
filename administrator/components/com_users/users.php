@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 JHtml::_('behavior.tabstate');
-// Load the modal behavior script.
-JHtml::_('behavior.modal', 'a.modal');
 
 if (!JFactory::getUser()->authorise('core.manage', 'com_users'))
 {
