@@ -128,7 +128,7 @@ $params = $this->state->get('params');
 			<div class="control-label">
 				<?php echo $this->form->getLabel('description'); ?>
 			</div>
-			<div class="controls" style="overflow: hidden;position: relative;">
+			<div class="controls">
 				<?php echo $this->form->getInput('description'); ?>
 			</div>
 		</div>
