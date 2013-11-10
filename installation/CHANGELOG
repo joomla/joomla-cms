@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+09-Nov-2013 Michael Babker #JWC13 Bug Squash
+ # [#32456] "No" Fields at mod_search are blue.  Thanks Thomas Hunziker
+
 09-Nov-2013 Jean-Marie Simonet
  # [#32585] Password reset does not work  Thanks Elin Waring and David Jardin
  $ [#32516] Term "article" is used in descriptions of other content items. Thanks Jozsef Tamas Herczeg
