@@ -206,42 +206,8 @@ class JRouter
 	 */
 	public function build($url)
 	{
-		if (!is_array($url))
-		{
-			// Read the URL into an array
-			$temp = array();
-
-			if (strpos($url, '&amp;') !== false)
-			{
-				$url = str_replace('&amp;', '&', $url);
-			}
-
-			if (substr($url, 0, 10) == 'index.php?')
-			{
-				$url = substr($url, 10);
-			}
-
-			parse_str($url, $temp);
-
-			foreach ($temp as $key => $var)
-			{
-				if ($var == "")
-				{
-					unset($temp[$key]);
-				}
-			}
-			$url = $temp;
-		}
-
-		$key = md5(serialize($url));
-
-		if (isset($this->cache[$key]))
-		{
-			return $this->cache[$key];
-		}
-
-		$uri = new JURI;
-		$uri->setQuery($url);
+		// Create the URI object
+		$uri = $this->createURI($url);
 
 		// Process the uri information based on custom defined rules
 		$this->_processBuildRules($uri);
@@ -596,7 +562,6 @@ class JRouter
 	 * @return  JUri
 	 *
 	 * @since   3.2
-	 * @deprecated  4.0  Use createURI() instead
 	 */
 	protected function createURI($url)
 	{
