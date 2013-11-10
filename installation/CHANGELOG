@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+08-Nov-2013 Jean-Marie Simonet
+# [#32599] Register Email multilingual Problem in Joomla! 2.5.16  Thanks Panagiotis Chatzikamaris
+
 08-Nov-2013 David Hurley
  # [#32576] Wrong Recaptcha URLs causing broken captcha. Thanks David Jardin
 
