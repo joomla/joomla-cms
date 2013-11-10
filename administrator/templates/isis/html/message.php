@@ -21,7 +21,7 @@ function renderMessage($msgList)
 		$buffer .= '<button type="button" class="close" data-dismiss="alert">&times;</button>';
 		foreach ($msgList as $type => $msgs)
 		{
-			$buffer .= '<div class="alert ' . $alert[$type]. '">';
+			$buffer .= '<div class="alert ' . (isset($alert[$type]) ? $alert[$type] : '') . '">';
 			$buffer .= "\n<h4 class=\"alert-heading\">" . JText::_($type) . "</h4>";
 			if (count($msgs))
 			{
