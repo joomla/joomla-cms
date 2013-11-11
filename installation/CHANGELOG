@@ -31,6 +31,7 @@ $ -> Language fix or change
  # [#32337] Fix jform labelclass property  Thanks Viet Vu
  # [#32124] phpwarnings if directory in unwritable.  Thanks Achal Aggarwal
  # [#32623] Mod_login need to pick up com_users settings on links  Thanks Daniele Rosario
+ # [#32607] Remove two whitespaces and alphasort the content history string  Thanks Tobias Zulauf
 
 10-Nov-2013 Jean-Marie Simonet
  + Adding Montenegrin srp-ME flag in mod_languages
