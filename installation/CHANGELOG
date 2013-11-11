@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+11-Nov-2013 Jean-Marie Simonet
+ # [#31055] Smart Search does not remove search phrases from index when saving an article.  Thanks Chris Davenport
+
 08-Nov-2013 Jean-Marie Simonet
 # [#32599] Register Email multilingual Problem in Joomla! 2.5.16  Thanks Panagiotis Chatzikamaris
 
