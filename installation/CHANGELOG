@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 11-Nov-2013 Jean-Marie Simonet
  # [#32622] CSS Layout Issue with Protostar and Weblinks Front End Submit Thansk George Wilson
+ # [#31678] [Regression] Modal behavior missing for user notes view  Thanks Ashan Fernando
 
 10-Nov-2013 Jean-Marie Simonet
  + Adding Montenegrin srp-ME flag in mod_languages
