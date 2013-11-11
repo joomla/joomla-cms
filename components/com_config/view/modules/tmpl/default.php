@@ -17,6 +17,7 @@ JHtml::_('behavior.framework', true);
 JHtml::_('formbehavior.chosen', 'select');
 
 $hasContent = empty($this->item['module']) || $this->item['module'] == 'custom' || $this->item['module'] == 'mod_custom';
+
 ?>
 
 <script type="text/javascript">
@@ -84,9 +85,9 @@ $hasContent = empty($this->item['module']) || $this->item['module'] == 'custom' 
 								<?php //echo $this->form->getLabel('position'); ?>
 							</div>
 							<div class="controls">
-								<?php //echo $this->loadTemplate('positions'); ?>
+								<?php //echo $this->form->getInput('positions'); ?>
 							</div>
-						</div -->
+						</div-->
 	
 						<hr />
 	

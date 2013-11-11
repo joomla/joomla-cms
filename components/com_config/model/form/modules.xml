@@ -9,7 +9,7 @@
 		/>
 
 		<field name="title" type="text"
-			description="COM_MODULES_FIELD_TITLE_DESC"
+			description="COM_CONFIG_MODULES_FIELD_TITLE_DESC"
 			label="JGLOBAL_TITLE"
 			maxlength="100"
 			required="true"
@@ -17,15 +17,15 @@
 		/>
 
 		<field name="note" type="text"
-			description="COM_MODULES_FIELD_NOTE_DESC"
-			label="COM_MODULES_FIELD_NOTE_LABEL"
+			description="COM_CONFIG_MODULES_FIELD_NOTE_DESC"
+			label="COM_CONFIG_MODULES_FIELD_NOTE_LABEL"
 			maxlength="100"
 			size="35"
 		/>
 
 		<field name="module" type="hidden"
-			description="COM_MODULES_FIELD_MODULE_DESC"
-			label="COM_MODULES_FIELD_MODULE_LABEL"
+			description="COM_CONFIG_MODULES_FIELD_MODULE_DESC"
+			label="COM_CONFIG_MODULES_FIELD_MODULE_LABEL"
 			readonly="readonly"
 			size="20"
 		/>
@@ -33,8 +33,8 @@
 		<field name="showtitle" type="radio"
 			class="btn-group"
 			default="1"
-			description="COM_MODULES_FIELD_SHOWTITLE_DESC"
-			label="COM_MODULES_FIELD_SHOWTITLE_LABEL"
+			description="COM_CONFIG_MODULES_FIELD_SHOWTITLE_DESC"
+			label="COM_CONFIG_MODULES_FIELD_SHOWTITLE_LABEL"
 			size="1"
 		>
 			<option value="1">JSHOW</option>
@@ -44,7 +44,7 @@
 		<field name="published" type="radio"
 			class="btn-group"
 			default="1"
-			description="COM_MODULES_FIELD_PUBLISHED_DESC"
+			description="COM_CONFIG_MODULES_FIELD_PUBLISHED_DESC"
 			label="JSTATUS"
 			size="1"
 		>
@@ -54,34 +54,34 @@
 		</field>
 
 		<field name="publish_up" type="calendar"
-			description="COM_MODULES_FIELD_PUBLISH_UP_DESC"
+			description="COM_CONFIG_MODULES_FIELD_PUBLISH_UP_DESC"
 			filter="user_utc"
 			class="input-medium"
 			format="%Y-%m-%d %H:%M:%S"
-			label="COM_MODULES_FIELD_PUBLISH_UP_LABEL"
+			label="COM_CONFIG_MODULES_FIELD_PUBLISH_UP_LABEL"
 			size="22"
 		/>
 
 		<field name="publish_down" type="calendar"
-			description="COM_MODULES_FIELD_PUBLISH_DOWN_DESC"
+			description="COM_CONFIG_MODULES_FIELD_PUBLISH_DOWN_DESC"
 			filter="user_utc"
 			class="input-medium"
 			format="%Y-%m-%d %H:%M:%S"
-			label="COM_MODULES_FIELD_PUBLISH_DOWN_LABEL"
+			label="COM_CONFIG_MODULES_FIELD_PUBLISH_DOWN_LABEL"
 			size="22"
 		/>
 
 		<field name="client_id" type="hidden"
-			description="COM_MODULES_FIELD_CLIENT_ID_DESC"
-			label="COM_MODULES_FIELD_CLIENT_ID_LABEL"
+			description="COM_CONFIG_MODULES_FIELD_CLIENT_ID_DESC"
+			label="COM_CONFIG_MODULES_FIELD_CLIENT_ID_LABEL"
 			readonly="true"
 			size="1"
 		/>
 
 		<field name="position" type="moduleposition"
 			default=""
-			description="COM_MODULES_FIELD_POSITION_DESC"
-			label="COM_MODULES_FIELD_POSITION_LABEL"
+			description="COM_CONFIG_MODULES_FIELD_POSITION_DESC"
+			label="COM_CONFIG_MODULES_FIELD_POSITION_LABEL"
 			maxlength="50"
 		/>
 
@@ -99,9 +99,9 @@
 		<field name="content" type="editor"
 			buttons="true"
 			class="inputbox"
-			description="COM_MODULES_FIELD_CONTENT_DESC"
+			description="COM_CONFIG_MODULES_FIELD_CONTENT_DESC"
 			filter="JComponentHelper::filterText"
-			label="COM_MODULES_FIELD_CONTENT_LABEL"
+			label="COM_CONFIG_MODULES_FIELD_CONTENT_LABEL"
 			hide="readmore,pagebreak"
 		/>
 

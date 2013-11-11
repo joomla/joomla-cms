@@ -114,11 +114,8 @@ class ConfigModelModules extends ConfigModelForm
 			}
 		}
 
-		// Load the default advanced params
-		JForm::addFormPath(JPATH_BASE . '/components/com_config/model/form');
-// 		$form->loadFile('advanced', false);
-
 		// Trigger the default form events.
 		parent::preprocessForm($form, $data, $group);
 	}
+
 }
