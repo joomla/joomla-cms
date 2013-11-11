@@ -622,7 +622,7 @@ class JUser extends JObject
 
 				$salt = JUserHelper::genRandomPassword(32);
 				$crypt = JUserHelper::getCryptedPassword($array['password'], $salt, $defaultEncryption);
-				$array['password'] = $crypt . ':' . $salt;
+				$array['password'] = $crypt;
 			}
 			else
 			{

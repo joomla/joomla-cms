@@ -57,7 +57,7 @@ class PlgUserJoomla extends JPlugin
 		parent::__construct($subject, $config);
 
 		// As of CMS 3.2 strong encryption is the default.
-		$this->useStrongEncryption = $this->params->get('strong_passwords', true);
+		$this->useStrongEncryption = $this->params->get('strong_passwords', 0);
 	}
 
 	/**
@@ -502,7 +502,7 @@ class PlgUserJoomla extends JPlugin
 	 */
 	public static function setDefaultEncryption($userPluginParams)
 	{
-		if ($userPluginParams->get('strong_passwords', 1) == 1)
+		if ($userPluginParams->get('strong_passwords', 0) == 1)
 		{
 			return 'bcrypt';
 		}

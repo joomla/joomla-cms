@@ -591,7 +591,7 @@ class JApplicationCms extends JApplicationWeb
 			$userPlugin = JPluginHelper::getPlugin('user', 'joomla');
 			$userPluginParams = new JRegistry;
 			$userPluginParams->loadString($userPlugin->params);
-			$useStrongEncryption = $userPluginParams->get('strong_passwords', 1);
+			$useStrongEncryption = $userPluginParams->get('strong_passwords', 0);
 
 			$this->config->set('useStrongEncryption', $useStrongEncryption);
 		}
