@@ -71,8 +71,7 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 			if (!JFactory::getUser()->authorise('core.admin', $model->getState('component.option')))
 			{
 				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
-
-				return;
+				$app->redirect(JUri::base());
 
 			}
 
