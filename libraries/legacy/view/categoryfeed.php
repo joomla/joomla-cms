@@ -60,7 +60,7 @@ class JViewCategoryfeed extends JViewLegacy
 
 			// URL link to article
 			$router = new JHelperRoute;
-			$link   = JRoute::_($router->getRoute($item->id, $item->catid));
+			$link   = JRoute::_($router->getRoute($item->id, $extension . '.' . $this->viewName, null, null, $item->catid));
 
 			// Strip HTML from feed item description text.
 			$description = $item->description;
