@@ -69,7 +69,7 @@ class JToolbarButtonConfirm extends JToolbarButton
 	 *
 	 * @since   3.0
 	 */
-	public function fetchId($type = 'Confirm', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
+	public function fetchId($type = 'Confirm', $msg = '', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
 	{
 		return $this->_parent->getName() . '-' . $name;
 	}
