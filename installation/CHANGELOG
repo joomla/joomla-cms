@@ -30,6 +30,7 @@ $ -> Language fix or change
  # [#32588] Joomla 3.2 JavaScript errors (Uncaught TypeError: undefined is not a function )  Thanks Jurian Even
  # [#32523] Update some wrong docblock packages  Thanks Simon Asika
  # [#32630] $config variable missing in comment  Thanks Demis Palma
+ # [#32617] Email subsystem blocked after upgrade to Joomla 3.2  Thanks Demis Palma
 
 11-Nov-2013 Jean-Marie Simonet
  # [#32622] CSS Layout Issue with Protostar and Weblinks Front End Submit Thansk George Wilson

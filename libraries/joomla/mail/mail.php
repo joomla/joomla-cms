@@ -76,7 +76,7 @@ class JMail extends PHPMailer
 	 */
 	public function Send()
 	{
-		if (JFactory::getConfig()->get('mailonline'))
+		if (JFactory::getConfig()->get('mailonline', 1))
 		{
 			if (($this->Mailer == 'mail') && !function_exists('mail'))
 			{
