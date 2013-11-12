@@ -675,6 +675,8 @@ class PlgEditorTinymce extends JPlugin
 					$resizing
 					height : \"$html_height\",
 					width : \"$html_width\",
+					// Image advanced options
+					image_advtab : true,
 
 				});
 				</script>";
