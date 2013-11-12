@@ -141,9 +141,9 @@
 					description="MOD_FINDER_FIELD_OPENSEARCH_DESCRIPTION"
 					default="1">
 					<option
-						value="0">JNO</option>
-					<option
 						value="1">JYES</option>
+					<option
+						value="0">JNO</option>
 				</field>
 				<field
 					name="opensearch_title"

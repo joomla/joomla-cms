@@ -54,9 +54,9 @@ $lang->load('finder_cli', JPATH_SITE, null, false, false)
 /**
  * A command line cron job to run the Finder indexer.
  *
- * @package     Joomla.CLI
- * @subpackage  com_finder
- * @since       2.5
+ * @package  Joomla.Cli
+ *
+ * @since    2.5
  */
 class FinderCli extends JApplicationCli
 {

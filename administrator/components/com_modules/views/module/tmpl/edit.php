@@ -34,7 +34,7 @@ $script .= "	Joomla.submitform(task, document.getElementById('module-form'));
 					window.top.setTimeout('window.parent.SqueezeBox.close()', 1000);
 				}
 			}
-	}";
+	};";
 
 JFactory::getDocument()->addScriptDeclaration($script);
 

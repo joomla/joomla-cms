@@ -40,7 +40,7 @@ class JFormRuleColor extends JFormRule
 		if (empty($value))
 		{
 			// A color field can't be empty
-			return true;
+			return false;
 		}
 
 		if ($value[0] != '#')

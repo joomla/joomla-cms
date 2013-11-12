@@ -42,7 +42,7 @@ $lang->load('files_joomla.sys', JPATH_SITE, null, false, false)
 /**
  * A command line cron job to attempt to remove files that should have been deleted at update.
  *
- * @package  Joomla.CLI
+ * @package  Joomla.Cli
  * @since    3.0
  */
 class DeletefilesCli extends JApplicationCli

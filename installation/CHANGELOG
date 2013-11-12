@@ -25,6 +25,79 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+12-Nov-2013 Jean-Marie Simonet
+ # [#32629] The media formfield is missing a space before the class attribute Thanks Thomas Hunziker
+ # [#32588] Joomla 3.2 JavaScript errors (Uncaught TypeError: undefined is not a function )  Thanks Jurian Even
+ # [#32523] Update some wrong docblock packages  Thanks Simon Asika
+ # [#32630] $config variable missing in comment  Thanks Demis Palma
+ # [#32617] Email subsystem blocked after upgrade to Joomla 3.2  Thanks Demis Palma
+ # [#30648] Incorrect ID for trash toolbar button when message is added  Thanks Jurian Even
+ # [#32627] Back end configuration does not work if cache is enabled  Thanks Dennis Hermatski
+ # [#31425] Invalid debug database queries count  Thanks Vitalij L.
+
+11-Nov-2013 Jean-Marie Simonet
+ # [#32622] CSS Layout Issue with Protostar and Weblinks Front End Submit Thansk George Wilson
+ # [#31678] [Regression] Modal behavior missing for user notes view  Thanks Ashan Fernando
+ # [#32337] Fix jform labelclass property  Thanks Viet Vu
+ # [#32124] phpwarnings if directory in unwritable.  Thanks Achal Aggarwal
+ # [#32623] Mod_login need to pick up com_users settings on links  Thanks Daniele Rosario
+ $ [#32607] Remove two whitespaces and alphasort the content history string  Thanks Tobias Zulauf
+ # [#32506] Very small center correction in the overrides table view  Thanks Tobias Zulauf
+
+10-Nov-2013 Jean-Marie Simonet
+ + Adding Montenegrin srp-ME flag in mod_languages
+ $ Missing language string
+
+09-Nov-2013 Michael Babker #JWC13 Bug Squash
+ #$ [#32456] "No" Fields at mod_search are blue.  Thanks Thomas Hunziker
+ #$ [#32609] Debugger show a missing language string at some places.  Thanks Tobias Zulauf
+ # [#31055] Smart Search does not remove search phrases from index when saving an article.  Thanks Chris Davenport
+ # [#32620] Sorting columns in feature contacts does gives js error.  Thanks Ashan Fernando
+ # [#32597] Tags field is to big at the weblink submit form.  Thanks Tobias Zulauf
+ # [#32600] Article Manager: Options is gone when filtering an category.  Thanks Jelle Kok
+ # [#32444] default option 'mobile' for Tinimce differ from tynimce.php and tinymce.xml.  Thanks George Wilson
+
+09-Nov-2013 Jean-Marie Simonet
+ # [#32585] Password reset does not work  Thanks Elin Waring and David Jardin
+ $ [#32516] Term "article" is used in descriptions of other content items. Thanks Jozsef Tamas Herczeg
+ # [#32476] The form in view tag of com_tags is not properly closed when there is no associated items with the tag  Thanks Phương Lê
+
+08-Nov-2013 David Hurley
+ # [#32576] Wrong Recaptcha URLs causing broken captcha. Thanks David Jardin
+
+08-Nov-2013 Jean-Marie Simonet
+ + Adding French help server. Thanks Rafael Logvinski (AFUJ)
+ # [#32477] *Multilanguage: Issue with submenu set to ALL  Thanks Dennis Hermatski
+ # [#32452] Inconsistency for Yes/No radio type buttons in various configurations  Thanks Thomas Hunziker
+ # [#32584] Vote plugin not work  Thanks SmokerМan Nikola
+ $ [#32581] Untranslated String in the FE profiel (if you use a admin user) Thanks Tobias Zulauf
+ # [#32504] Add class="center" to the content language view  Thanks Tobias Zulauf
+ # [#31610] Problems in jhttp classes break updater  Thanks David Jardin
+ # [#32507] Correction of center in the template manager  Thanks Tobias Zulauf
+
+07-Nov-2013 Michael Babker
+ # [#32582] Upgrade to 3.2.0 errors as Postgres null date is '1970-01-01 00:00:00' instead of '0000-00-00 00:00:00'.  Thanks Alan Hicks
+
+06-Nov-2013 Michael Babker
+ # [#32555] MS SQL Database configuration fails with multiple errors during a fresh Joomla! 3.2 installation
+
+-------------------- 3.2.0 Stable Release [06-Nov-2013] ------------------
+
+06-Nov-2013 Michael Babker
+ # [#32545] BC issue: JApplication::redirect($url, $message) broken: Message not displayed after redirect: Affecting many extensions.  Thanks Beat
+
+06-Nov-2013 Jean-Marie Simonet
+ # [#32528] tinymce.php; template_list.js inclusion with file_get_contents over http  Thanks marco maria leoni
+
+05-Nov-2013 Michael Babker
+ ^ Revert [#30556] JDatabaseDriver::replacePrefix: Optimization.  Thanks Elin Waring
+
+05-Nov-2013 David Hurley
+ # [#32522] Handle an invalid remember cookie. Thanks Elin Waring
+
+05-Nov-2013 Jean-Marie Simonet
+ # [#32513] *Regression: No filtering work in Hathor (managers as well as choosing article via modal) Thanks Roberto Segura
+
 04-Nov-2013 Michael Babker
  # [#32511] *B/C: Hathor edit contact or newsfeed broken on legacy sites.  Thanks Elin Waring
  # [#32514] New menu item > Articles > Single Article: search article doesn't work.  Thanks Roberto Segura
