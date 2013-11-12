@@ -666,6 +666,21 @@ class PlgEditorTinymce extends JPlugin
 					relative_urls : $relative_urls,
 					remove_script_host : false,
 					document_base_url : \"" . JUri::root() . "\",
+					rel_list : [
+						{title: 'Alternate', value: 'alternate'},
+						{title: 'Author', value: 'author'},
+						{title: 'Bookmark', value: 'bookmark'},
+						{title: 'Help', value: 'help'},
+						{title: 'License', value: 'license'},
+						{title: 'Lightbox', value: 'lightbox'},
+						{title: 'Next', value: 'next'},
+						{title: 'No Follow', value: 'nofollow'},
+						{title: 'No Referrer', value: 'noreferrer'},
+						{title: 'Prefetch', value: 'prefetch'},
+						{title: 'Prev', value: 'prev'},
+						{title: 'Search', value: 'search'},
+						{title: 'Tag', value: 'tag'}
+					],
 					//Templates
 					" . $templates . "
 					// Layout
