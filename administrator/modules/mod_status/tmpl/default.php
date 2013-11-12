@@ -27,7 +27,7 @@ if ($params->get('show_viewsite', 1))
 // Print the frontend logged in  users.
 if ($params->get('show_loggedin_users', 1))
 {
-	$output[] = '<div class="btn-group">'
+	$output[] = '<div class="btn-group loggedin-users">'
 		. '<span class="badge">' . $online_num . '</span> '
 		. JText::plural('MOD_STATUS_USERS', $online_num)
 		. '</div>';
@@ -36,7 +36,7 @@ if ($params->get('show_loggedin_users', 1))
 // Print the back-end logged in users.
 if ($params->get('show_loggedin_users_admin', 1))
 {
-	$output[] = '<div class="btn-group">'
+	$output[] = '<div class="btn-group backloggedin-users">'
 		. '<span class="badge">' . $count . '</span> '
 		. JText::plural('MOD_STATUS_BACKEND_USERS', $count)
 		. '</div>';
