@@ -28,6 +28,7 @@ $ -> Language fix or change
 
 12-Nov-2013 Jean-Marie Simonet
  # [#30648] Incorrect ID for trash toolbar button when message is added  Thanks Jurian Even
+ # [#29596] Inefficient code  Thanks Ben tasker
 
 11-Nov-2013 Jean-Marie Simonet
  # [#31055] Smart Search does not remove search phrases from index when saving an article.  Thanks Chris Davenport

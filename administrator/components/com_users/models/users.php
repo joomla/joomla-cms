@@ -332,7 +332,7 @@ class UsersModelUsers extends JModelList
 		$range = $this->getState('filter.range');
 
 		// Apply the range filter.
-		if ($range = $this->getState('filter.range'))
+		if ($range)
 		{
 			jimport('joomla.utilities.date');
 
