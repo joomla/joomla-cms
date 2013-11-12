@@ -23,7 +23,7 @@ final class JVjokte
 	public $LIBERACION = '1.3';
 
 	/** @var  string  Maintenance version. */
-	public $DESARROLLO = '0';
+	public $DESARROLLO = '1';
 
 	/** @var  string  Development STATUS. */
 	public $ESTADO = 'Estable';
@@ -35,10 +35,10 @@ final class JVjokte
 	public $NOMBRECODIGO = 'Jeyuu';
 
 	/** @var  string  Release date. */
-	public $LIBDIA = '31-Mar-2013';
+	public $LIBDIA = '07-Nov-2013';
 
 	/** @var  string  Release time. */
-	public $LIBHORA = '11:00';
+	public $LIBHORA = '12:00';
 
 	/** @var  string  Release timezone. */
 	public $LIBTZ = 'GMT';
