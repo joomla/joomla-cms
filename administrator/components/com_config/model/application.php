@@ -220,7 +220,8 @@ class ConfigModelApplication extends ConfigModelForm
 		$temp->set('ftp_root', $data['ftp_root']);
 
 		// Clear cache of com_config component.
-		$this->cleanCache('_system');
+		$this->cleanCache('_system', 0);
+		$this->cleanCache('_system', 1);
 
 		// Write the configuration file.
 		return $this->writeConfigFile($config);
