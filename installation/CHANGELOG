@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#32617] Email subsystem blocked after upgrade to Joomla 3.2  Thanks Demis Palma
  # [#30648] Incorrect ID for trash toolbar button when message is added  Thanks Jurian Even
  # [#32627] Back end configuration does not work if cache is enabled  Thanks Dennis Hermatski
+ # [#31425] Invalid debug database queries count  Thanks Vitalij L.
 
 11-Nov-2013 Jean-Marie Simonet
  # [#32622] CSS Layout Issue with Protostar and Weblinks Front End Submit Thansk George Wilson
