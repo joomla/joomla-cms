@@ -33,6 +33,7 @@ $ -> Language fix or change
  # [#32672] Fixed problem with featured view Thanks Bruno Batista
  $ [#32546] Language strings missing for com_tags  Thanks George Wilson
  $ [#32680] Missing string Thanks David Jardin
+ # [#32509] group is missing from settable JFormField properties  Thanks Klas 10
 
 12-Nov-2013 Jean-Marie Simonet
  # [#32629] The media formfield is missing a space before the class attribute Thanks Thomas Hunziker
