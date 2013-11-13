@@ -378,6 +378,16 @@
 					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
+				
+				<field name="image_advtab" type="radio"
+					class="btn-group btn-group-yesno"
+					default="1"
+					description="PLG_TINY_FIELD_ADVIMAGE_DESC"
+					label="PLG_TINY_FIELD_ADVIMAGE_LABEL"
+				>
+					<option value="1">JON</option>
+					<option value="0">JOFF</option>
+				</field>
 
 				<field name="advlist" type="radio"
 					class="btn-group btn-group-yesno"
