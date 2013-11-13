@@ -81,6 +81,8 @@ class ContentModelArticle extends JModelItem
 		{
 			try
 			{
+				$params = JFactory::getApplication()->getParams();
+				
 				$db = $this->getDbo();
 				$query = $db->getQuery(true)
 					->select(
@@ -140,12 +142,26 @@ class ContentModelArticle extends JModelItem
 
 				// Filter by start and end dates.
 				$nullDate = $db->quote($db->getNullDate());
-				$date = JFactory::getDate();
+				if ($params->get('timerresolution', 2) == 2)
+				{
+					$date = JFactory::getDate();
+					$nowDate = $db->quote($date->toSql());
 
-				$nowDate = $db->quote($date->toSql());
+					$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
+						->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+				}
+				elseif ($params->get('timerresolution', 2) == 1)
+				{
+					$ts = time() - (time()/60%5*60 + time()%60);
+					$date = JFactory::getDate($ts);
+					$nowDate = $db->quote($date->toSql());
+					$ts = $ts + 60*5;
+					$date = JFactory::getDate($ts);
+					$nowDate2 = $db->quote($date->toSql());
 
-				$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
-					->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+					$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
+						->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate2 . ')');
+				}
 
 				// Join to check for category published state in parent categories up the tree
 				// If all categories are published, badcats.id will be null, and we just use the article state
@@ -267,6 +283,13 @@ class ContentModelArticle extends JModelItem
 	 */
 	public function hit($pk = 0)
 	{
+		$params = JFactory::getApplication()->getParams();
+		
+		if(!$params->get('hitcounter', 1))
+		{
+			return true;
+		}
+		
 		$input = JFactory::getApplication()->input;
 		$hitcount = $input->getInt('hitcount', 1);
 
