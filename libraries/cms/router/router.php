@@ -599,7 +599,7 @@ class JRouter
 			$url = $temp;
 		}
 
-		$uri = new JURI;
+		$uri = new JURI('index.php');
 		$uri->setQuery($url);
 
 		return $uri;
