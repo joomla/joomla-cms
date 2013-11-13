@@ -141,10 +141,10 @@ $saveOrder	= $listOrder == 'fp.ordering';
 						<td class="order">
 							<?php if ($canChange && $saveOrder) : ?>
 								<div class="input-prepend">
-									<?php if ($listDirn == 'asc') : ?>
+									<?php if ($listDirn == 'ASC') : ?>
 										<span class="add-on"><?php echo $this->pagination->orderUpIcon($i, true, 'featured.orderup', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
 										<span class="add-on"><?php echo $this->pagination->orderDownIcon($i, $count, true, 'featured.orderdown', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
-									<?php elseif ($listDirn == 'desc') : ?>
+									<?php elseif ($listDirn == 'DESC') : ?>
 										<span class="add-on"><?php echo $this->pagination->orderUpIcon($i, true, 'featured.orderdown', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
 										<span class="add-on"><?php echo $this->pagination->orderDownIcon($i, $count, true, 'featured.orderup', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
 									<?php endif; ?>
