@@ -431,7 +431,7 @@ abstract class JUserHelper
 				return '$apr1$' . $salt . '$' . implode('', $p) . self::_toAPRMD5(ord($binary[11]), 3);
 
 			case 'md5-hex':
-				$encrypted = ($salt) ? md5($plaintext . $salt) : md5($plaintext);
+				$encrypted = ($salt) ? md5($plaintext . $salt) . ":" . $salt : md5($plaintext);
 
 				return ($show_encrypt) ? '{MD5}' . $encrypted : $encrypted;
 

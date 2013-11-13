@@ -68,7 +68,6 @@ class PlgAuthenticationJoomla extends JPlugin
 			{
 				// Check the password
 				$parts	= explode(':', $result->password);
-				$crypt	= $parts[0];
 				$salt	= @$parts[1];
 				$testcrypt = JUserHelper::getCryptedPassword($credentials['password'], $salt, 'sha256', false);
 
@@ -81,12 +80,11 @@ class PlgAuthenticationJoomla extends JPlugin
 			{
 				// Check the password
 				$parts	= explode(':', $result->password);
-				$crypt	= $parts[0];
 				$salt	= @$parts[1];
 
 				$testcrypt = JUserHelper::getCryptedPassword($credentials['password'], $salt, 'md5-hex', false);
 
-				if ($crypt == $testcrypt)
+				if ($result->password == $testcrypt)
 				{
 					$match = true;
 				}
