@@ -28,6 +28,7 @@ $ -> Language fix or change
 13-Nov-2013 Jean-Marie Simonet
  # [#32412] protostar error page logo  Thanks David Beuving
  + [#32660] TinyMCE editor lacks link relation option  Thanks Artur Stępień
+ # [#32626] *Banners Manager: Options is gone when filtering by a category 
 
 12-Nov-2013 Jean-Marie Simonet
  # [#32629] The media formfield is missing a space before the class attribute Thanks Thomas Hunziker
