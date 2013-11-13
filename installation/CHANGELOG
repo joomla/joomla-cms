@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Nov-2013 Jean-Marie Simonet
+ # [#32608] After update 2.5.14=>2.5.16 the com_update produces errors  Thanks David Jardin
+
 12-Nov-2013 Jean-Marie Simonet
  # [#30648] Incorrect ID for trash toolbar button when message is added  Thanks Jurian Even
  # [#29596] Inefficient code  Thanks Ben tasker
