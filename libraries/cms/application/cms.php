@@ -566,6 +566,12 @@ class JApplicationCms extends JApplicationWeb
 			$this->set('language', $options['language']);
 		}
 
+		// Ensure that the language object has been loaded
+		if (!$this->getLanguage())
+		{
+			$this->loadLanguage();
+		}
+
 		// Set user specific editor.
 		$user = JFactory::getUser();
 		$editor = $user->getParam('editor', $this->get('editor'));

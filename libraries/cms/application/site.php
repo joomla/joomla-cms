@@ -433,12 +433,6 @@ final class JApplicationSite extends JApplicationCms
 
 		if ($this->_language_filter)
 		{
-			// ensure that the language object has been loaded
-			if (!$this->getLanguage())
-			{
-				$this->loadLanguage();
-			}
-
 			$tag = $this->getLanguage()->getTag();
 		}
 		else
