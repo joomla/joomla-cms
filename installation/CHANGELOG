@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+13-Nov-2013 Jean-Marie Simonet
+# [#32412] protostar error page logo  Thanks David Beuving
+
 12-Nov-2013 Jean-Marie Simonet
  # [#32629] The media formfield is missing a space before the class attribute Thanks Thomas Hunziker
  # [#32588] Joomla 3.2 JavaScript errors (Uncaught TypeError: undefined is not a function )  Thanks Jurian Even
