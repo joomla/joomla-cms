@@ -143,8 +143,6 @@ class JFormFieldCheckboxes extends JFormField
 		$options = $this->getOptions();
 
 		// Build the checkbox field output.
-		$html[] = '<ul>';
-
 		foreach ($options as $i => $option)
 		{
 			// Initialize some option attributes.
@@ -160,22 +158,19 @@ class JFormFieldCheckboxes extends JFormField
 
 			$checked = empty($checked) && $option->checked ? ' checked' : $checked;
 
-			$class = !empty($option->class) ? ' class="' . $option->class . '"' : '';
+			$class = !empty($option->class) ? ' class="checkbox ' . $option->class . '"' : ' class="checkbox" ';
 			$disabled = !empty($option->disable) || $this->disabled ? ' disabled' : '';
 
 			// Initialize some JavaScript option attributes.
 			$onclick = !empty($option->onclick) ? ' onclick="' . $option->onclick . '"' : '';
 			$onchange = !empty($option->onchange) ? ' onchange="' . $option->onchange . '"' : '';
 
-			$html[] = '<li>';
-			$html[] = '<input type="checkbox" id="' . $this->id . $i . '" name="' . $this->name . '" value="'
-				. htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8') . '"' . $checked . $class . $onclick . $onchange . $disabled . '/>';
+			$html[] = '<label ' . $class . '>';
+			$html[] = '<input type="checkbox" name="' . $this->name . '" value="'
+				. htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8') . '"' . $checked . $onclick . $onchange . $disabled . '/>';
+			$html[] = JText::_($option->text) . '</label>';
 
-			$html[] = '<label for="' . $this->id . $i . '"' . $class . '>' . JText::_($option->text) . '</label>';
-			$html[] = '</li>';
 		}
-
-		$html[] = '</ul>';
 
 		// End the checkbox field output.
 		$html[] = '</fieldset>';
