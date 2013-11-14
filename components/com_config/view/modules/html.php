@@ -32,6 +32,10 @@ class ConfigViewModulesHtml extends ConfigViewCmsHtml
 		$user = JFactory::getUser();
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
 
+		$lang = JFactory::getApplication()->getLanguage();
+		$lang->load('', JPATH_ADMINISTRATOR, $lang->getTag());
+		$lang->load('com_modules', JPATH_ADMINISTRATOR, $lang->getTag());
+
 		return parent::render();
 	}
 }

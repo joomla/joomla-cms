@@ -44,7 +44,7 @@ $hasContent = empty($this->item['module']) || $this->item['module'] == 'custom' 
 					<button type="button" class="btn btn-primary"
 						onclick="Joomla.submitbutton('config.save.modules.apply')">
 						<i class="icon-ok"></i>
-						<?php echo JText::_('JSAVE') ?>
+						<?php echo JText::_('JAPPLY') ?>
 					</button>
 				</div>
 				<div class="btn-group">
