@@ -608,6 +608,22 @@ class JCache
 						$beforevalue = array_map('serialize', $options['headerbefore'][$now]);
 						$newvalue = array_diff_assoc($nowvalue, $beforevalue);
 						$newvalue = array_map('unserialize', $newvalue);
+					
+					        if ($now == "script" || $now == "style" && (is_array($newvalue) && is_array($options['headerbefore'][$now]))) //see: https://github.com/joomla/joomla-platform/issues/673
+                                                { 
+                                                        foreach ($newvalue as $type => $currentsnippet) //a foreach similar to this is found in JDocument->mergeHeadData()
+                                                        { 
+                                                            if (isset($options['headerbefore'][$now][strtolower($type)])) 
+                                                            { //if module NOT added a new script type to the document header
+                                                                $oldinlinebuffer = $options['headerbefore'][$now][strtolower($type)];
+                                                                if ($currentsnippet!=$oldinlinebuffer) //JString::strpos($currentsnippet,$oldinlinebuffer)!==false is a safer check but less performant check, and it's equivalent as is always verified when ($currentsnippet!=$oldinlinebuffer) is true
+                                                                {  
+                                                                    $newvalue[strtolower($type)] = JString::substr($currentsnippet, JString::strlen($oldinlinebuffer));
+                                                                }
+                                                                             
+                                                            }
+                                                        }
+                                                }
 					}
 					else
 					{
