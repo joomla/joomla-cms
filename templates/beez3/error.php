@@ -133,11 +133,9 @@ endif; ?>
 					<div id="errorboxbody">
 						<h2>
 							<?php echo JText::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?>
+							<br />
+							<?php echo JText::_('JERROR_LAYOUT_PAGE_NOT_FOUND'); ?>
 						</h2>
-						<br />
-						<h3>
-						<?php echo JText::_('JERROR_LAYOUT_PAGE_NOT_FOUND'); ?>
-						</h3>
 						<?php if (JModuleHelper::getModule('search')) : ?>
 							<div id="searchbox">
 								<h3 class="unseen">
