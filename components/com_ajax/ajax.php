@@ -56,19 +56,28 @@ elseif ($input->get('module'))
 	{
 		$helperFile = JPATH_BASE . '/modules/mod_' . $module . '/helper.php';
 
-		if (strpos($module, '_'))
-		{
-			$parts = explode('_', $module);
-			$class = 'mod';
-			foreach ($parts as $part)
-			{
-				$class .= ucfirst($part);
-			}
-			$class .= 'Helper';
-		}
-		else
-		{
-			$class = 'mod' . ucfirst($module) . 'Helper';
+		switch (TRUE) {
+			case (strpos($module, '_')):
+				$parts = explode('_', $module);
+				$class = 'mod';
+				foreach ($parts as $part) {
+					$class .= ucfirst($part);
+				}
+				$class .= 'Helper';
+				break;
+
+			case (strpos($module, '-')):
+				$parts = explode('-', $module);
+				$class = 'mod';
+				foreach ($parts as $part) {
+					$class .= ucfirst($part);
+				}
+				$class .= 'Helper';
+				break;
+
+			default:
+				$class = 'mod' . ucfirst($module) . 'Helper';
+				break;
 		}
 
 		$method = $input->get('method') ? $input->get('method') : 'get';
