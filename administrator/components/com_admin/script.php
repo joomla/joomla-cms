@@ -1163,6 +1163,7 @@ class JoomlaInstallerScript
 				if (!$asset->store())
 				{
 					// Install failed, roll back changes
+					$db = JFactory::getDbo();
 					$this->parent->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $db->stderr(true)));
 
 					return false;
