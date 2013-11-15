@@ -114,4 +114,44 @@ class ConfigModelModules extends ConfigModelForm
 		// Trigger the default form events.
 		parent::preprocessForm($form, $data, $group);
 	}
+
+	/**
+	 * Method to get list of module positions in current template
+	 *
+	 * @return array
+	 *
+	 * @since 3.2
+	 */
+	public function getPositions()
+	{
+		$lang            = JFactory::getLanguage();
+		$templateName = JFactory::getApplication()->getTemplate();
+
+		// Load templateDetails.xml file
+		$path = JPath::clean(JPATH_BASE . '/templates/' . $templateName . '/templateDetails.xml');
+		$currentPositions = array();
+
+		if (file_exists($path))
+		{
+			$xml = simplexml_load_file($path);
+
+			if (isset($xml->positions[0]))
+			{
+				foreach ($xml->positions[0] as $position)
+				{
+					// Load language files
+					$lang->load('tpl_' . $templateName . '.sys', JPATH_BASE, null, false, true)
+					||	$lang->load('tpl_' . $templateName . '.sys', JPATH_BASE . '/templates/' . $templateName, null, false, true);
+
+					$key = (string) $position;
+					$value = preg_replace('/[^a-zA-Z0-9_\-]/', '_', 'TPL_' . strtoupper($templateName) . '_POSITION_' . strtoupper($key));
+
+					// Construct list of positions
+					$currentPositions[$key] = JText::_($value) . ' [' . $key . ']';
+				}
+			}
+		}
+
+		return $currentPositions;
+	}
 }

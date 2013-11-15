@@ -79,6 +79,14 @@ $hasContent = empty($this->item['module']) || $this->item['module'] == 'custom' 
 								<?php echo $this->form->getInput('showtitle'); ?>
 							</div>
 						</div>
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('position'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->loadTemplate('positions'); ?>
+							</div>
+						</div>
 
 						<hr />
 
