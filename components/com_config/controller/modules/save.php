@@ -76,7 +76,19 @@ class ConfigControllerModulesSave extends JControllerBase
 		}
 
 		// Redirect back to com_config display
-		$this->app->enqueueMessage(JText::_('COM_CONFIG_SAVE_SUCCESS'));
-		$this->app->redirect(JRoute::_('index.php?option=com_config&controller=config.display.modules&id=' . $moduleId, false));
+		$this->app->enqueueMessage(JText::_('COM_CONFIG_MODULES_SAVE_SUCCESS'));
+
+		// Set the redirect based on the task.
+		switch ($this->options[3])
+		{
+			case 'apply':
+				$this->app->redirect(JRoute::_('index.php?option=com_config&controller=config.display.modules&id=' . $moduleId, false));
+				break;
+
+			case 'save':
+			default:
+				$this->app->redirect(JUri::base());
+				break;
+		}
 	}
 }

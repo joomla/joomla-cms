@@ -41,14 +41,21 @@ $hasContent = empty($this->item['module']) || $this->item['module'] == 'custom' 
 
 			<div class="btn-toolbar">
 				<div class="btn-group">
-					<button type="button" class="btn btn-primary"
+					<button type="button" class="btn btn-default btn-primary"
 						onclick="Joomla.submitbutton('config.save.modules.apply')">
-						<i class="icon-ok"></i>
+						<i class="icon-apply"></i>
 						<?php echo JText::_('JAPPLY') ?>
 					</button>
 				</div>
 				<div class="btn-group">
-					<button type="button" class="btn"
+					<button type="button" class="btn btn-default"
+						onclick="Joomla.submitbutton('config.save.modules.save')">
+						<i class="icon-save"></i>
+						<?php echo JText::_('JSAVE') ?>
+					</button>
+				</div>
+				<div class="btn-group">
+					<button type="button" class="btn btn-default"
 						onclick="Joomla.submitbutton('config.cancel')">
 						<i class="icon-cancel"></i>
 						<?php echo JText::_('JCANCEL') ?>
@@ -59,6 +66,15 @@ $hasContent = empty($this->item['module']) || $this->item['module'] == 'custom' 
 			<hr class="hr-condensed" />
 
 			<legend><?php echo JText::_('COM_CONFIG_MODULES_SETTINGS_TITLE'); ?></legend>
+
+			<div>
+				<?php echo JText::_('COM_CONFIG_MODULES_MODULE_NAME') ?>
+				<span class="label label-default"><?php echo $this->item['title'] ?></span>
+				&nbsp;&nbsp;
+				<?php echo JText::_('COM_CONFIG_MODULES_MODULE_TYPE') ?>
+				<span class="label label-default"><?php echo $this->item['module'] ?></span>
+			</div>
+			<hr />
 
 			<div class="row-fluid">
 				<div class="span6">
