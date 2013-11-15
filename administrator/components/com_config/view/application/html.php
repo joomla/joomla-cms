@@ -91,7 +91,7 @@ class ConfigViewApplicationHtml extends ConfigViewCmsHtml
 	{
 		JToolbarHelper::title(JText::_('COM_CONFIG_GLOBAL_CONFIGURATION'), 'equalizer config');
 		JToolbarHelper::apply('config.save.application.apply');
-		JToolbarHelper::save('config.save.application');
+		JToolbarHelper::save('config.save.application.save');
 		JToolbarHelper::divider();
 		JToolbarHelper::cancel('config.cancel.application');
 		JToolbarHelper::divider();
