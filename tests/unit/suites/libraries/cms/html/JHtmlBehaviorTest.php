@@ -233,6 +233,12 @@ class JHtmlBehaviorTest extends TestCase
 
 		JFactory::$application = $mock;
 
+		$this->assertArrayHasKey(
+			'/media/jui/js/jquery.min.js',
+			$document->_scripts,
+			'Verify that jQuery is loaded before testing keepalive behaviour'
+		);
+
 		JHtmlBehaviorInspector::switcher();
 		$this->assertEquals(
 			array('JHtmlBehavior::framework' => array('core' => true), 'JHtmlBehavior::switcher' => true),
