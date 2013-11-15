@@ -156,7 +156,7 @@ class PlgEditorTinymce extends JPlugin
 			}
 		}
 
-		$relative_urls		= $this->params->get('relative_urls', '1');
+		$relative_urls = $this->params->get('relative_urls', '1');
 
 		if ($relative_urls)
 		{
@@ -169,7 +169,7 @@ class PlgEditorTinymce extends JPlugin
 			$relative_urls = "false";
 		}
 
-		$newlines			= $this->params->get('newlines', 0);
+		$newlines = $this->params->get('newlines', 0);
 
 		if ($newlines)
 		{
@@ -188,6 +188,18 @@ class PlgEditorTinymce extends JPlugin
 		// Advanced Options
 		$html_height		= $this->params->get('html_height', '550');
 		$html_width			= $this->params->get('html_width', '750');
+
+		// Image advanced options
+		$image_advtab = $this->params->get('image_advtab', 1);
+
+		if ($image_advtab)
+		{
+			$image_advtab = "true";
+		}
+		else
+		{
+			$image_advtab = "false";
+		}
 
 		// The param is true false, so we turn true to both rather than showing vertical resize only
 		$resizing = $this->params->get('resizing', '1');
@@ -666,6 +678,21 @@ class PlgEditorTinymce extends JPlugin
 					relative_urls : $relative_urls,
 					remove_script_host : false,
 					document_base_url : \"" . JUri::root() . "\",
+					rel_list : [
+						{title: 'Alternate', value: 'alternate'},
+						{title: 'Author', value: 'author'},
+						{title: 'Bookmark', value: 'bookmark'},
+						{title: 'Help', value: 'help'},
+						{title: 'License', value: 'license'},
+						{title: 'Lightbox', value: 'lightbox'},
+						{title: 'Next', value: 'next'},
+						{title: 'No Follow', value: 'nofollow'},
+						{title: 'No Referrer', value: 'noreferrer'},
+						{title: 'Prefetch', value: 'prefetch'},
+						{title: 'Prev', value: 'prev'},
+						{title: 'Search', value: 'search'},
+						{title: 'Tag', value: 'tag'}
+					],
 					//Templates
 					" . $templates . "
 					// Layout
@@ -673,6 +700,7 @@ class PlgEditorTinymce extends JPlugin
 					importcss_append: true,
 					// Advanced Options
 					$resizing
+					image_advtab: $image_advtab,
 					height : \"$html_height\",
 					width : \"$html_width\",
 

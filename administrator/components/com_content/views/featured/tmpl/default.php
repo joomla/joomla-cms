@@ -139,20 +139,17 @@ $saveOrder	= $listOrder == 'fp.ordering';
 							</div>
 						</td>
 						<td class="order">
-							<?php if ($canChange) : ?>
+							<?php if ($canChange && $saveOrder) : ?>
 								<div class="input-prepend">
-								<?php if ($saveOrder) :?>
-									<?php if ($listDirn == 'asc') : ?>
+									<?php if ($listDirn == 'ASC') : ?>
 										<span class="add-on"><?php echo $this->pagination->orderUpIcon($i, true, 'featured.orderup', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
 										<span class="add-on"><?php echo $this->pagination->orderDownIcon($i, $count, true, 'featured.orderdown', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
-									<?php elseif ($listDirn == 'desc') : ?>
+									<?php elseif ($listDirn == 'DESC') : ?>
 										<span class="add-on"><?php echo $this->pagination->orderUpIcon($i, true, 'featured.orderdown', 'JLIB_HTML_MOVE_UP', $ordering); ?></span>
 										<span class="add-on"><?php echo $this->pagination->orderDownIcon($i, $count, true, 'featured.orderup', 'JLIB_HTML_MOVE_DOWN', $ordering); ?></span>
 									<?php endif; ?>
-								<?php endif; ?>
-								<?php $disabled = $saveOrder ? '' : 'disabled="disabled"'; ?>
-							 	<input type="text" name="order[]" size="5" value="<?php echo $item->ordering;?>" <?php echo $disabled ?> class="width-20 text-area-order" />
-							 </div>
+									<input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order" />
+								</div>
 							<?php else : ?>
 								<?php echo $item->ordering; ?>
 							<?php endif; ?>
@@ -190,8 +187,6 @@ $saveOrder	= $listOrder == 'fp.ordering';
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="featured" value="1" />
 		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
-		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>
