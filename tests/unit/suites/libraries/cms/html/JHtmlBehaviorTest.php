@@ -233,10 +233,13 @@ class JHtmlBehaviorTest extends TestCase
 
 		JFactory::$application = $mock;
 
+		// Get the document instance so we can test for jQuery
+		$document = JFactory::getDocument();
+
 		$this->assertArrayHasKey(
 			'/media/jui/js/jquery.min.js',
 			$document->_scripts,
-			'Verify that jQuery is loaded before testing keepalive behaviour'
+			'Verify that jQuery is loaded before testing Switcher behaviour'
 		);
 
 		JHtmlBehaviorInspector::switcher();
@@ -641,7 +644,17 @@ class JHtmlBehaviorTest extends TestCase
 
 		JFactory::$application = $mock;
 
+		// Get the document instance so we can test for jQuery
+		$document = JFactory::getDocument();
+
+		$this->assertArrayHasKey(
+			'/media/jui/js/jquery.min.js',
+			$document->_scripts,
+			'Verify that jQuery is loaded before testing keepalive behaviour'
+		);
+
 		JHtmlBehaviorInspector::keepalive();
+
 		$this->assertEquals(
 			array('JHtmlBehavior::keepalive' => true),
 			JHtmlBehaviorInspector::getLoaded()
