@@ -13,7 +13,7 @@ JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.framework', true);
-// JHtml::_('behavior.combobox');
+JHtml::_('behavior.combobox');
 JHtml::_('formbehavior.chosen', 'select');
 
 $hasContent = empty($this->item['module']) || $this->item['module'] == 'custom' || $this->item['module'] == 'mod_custom';
@@ -57,7 +57,7 @@ $hasContent = empty($this->item['module']) || $this->item['module'] == 'custom' 
 			</div>
 
 			<hr class="hr-condensed" />
-			
+
 			<legend><?php echo JText::_('COM_CONFIG_MODULES_SETTINGS_TITLE'); ?></legend>
 
 			<div class="row-fluid">
@@ -79,17 +79,9 @@ $hasContent = empty($this->item['module']) || $this->item['module'] == 'custom' 
 								<?php echo $this->form->getInput('showtitle'); ?>
 							</div>
 						</div>
-						<!-- div class="control-group">
-							<div class="control-label">
-								<?php //echo $this->form->getLabel('position'); ?>
-							</div>
-							<div class="controls">
-								<?php //echo $this->loadTemplate('positions'); ?>
-							</div>
-						</div -->
-	
+
 						<hr />
-	
+
 						<?php if ($this->item['module'] != 'mod_login'): ?>
 							<div class="control-group">
 								<div class="control-label">
@@ -118,7 +110,6 @@ $hasContent = empty($this->item['module']) || $this->item['module'] == 'custom' 
 							</div>
 						</div>
 	
-	
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $this->form->getLabel('language'); ?>
@@ -135,9 +126,9 @@ $hasContent = empty($this->item['module']) || $this->item['module'] == 'custom' 
 								<?php echo $this->form->getInput('note'); ?>
 							</div>
 						</div>
-	
+
 						<hr />
-	
+
 						<div id="options">
 							<?php echo $this->loadTemplate('options'); ?>
 						</div>
@@ -152,7 +143,6 @@ $hasContent = empty($this->item['module']) || $this->item['module'] == 'custom' 
 
 				<input type="hidden" name="task" value="" />
 				<?php echo JHtml::_('form.token'); ?>
-
 
 			</div>
 

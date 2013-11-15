@@ -37,9 +37,6 @@ class ConfigModelModules extends ConfigModelForm
 
 		$state = $this->loadState();
 
-		// Load the parameters.
-// 		$params	= JComponentHelper::getParams('com_modules');
-// 		$state->set('params', $params);
 		$state->set('module.id', $pk);
 
 		$this->setState($state);
@@ -113,10 +110,6 @@ class ConfigModelModules extends ConfigModelForm
 				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 			}
 		}
-
-		// Load the default advanced params
-		JForm::addFormPath(JPATH_BASE . '/components/com_config/model/form');
-// 		$form->loadFile('advanced', false);
 
 		// Trigger the default form events.
 		parent::preprocessForm($form, $data, $group);
