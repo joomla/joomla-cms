@@ -575,14 +575,14 @@ abstract class JHtmlBehavior
 		}
 
 		// Attach keep alive to document
-		JFactory::getDocument()->addScriptDeclaration(
-			'function keepAlive() {
-					var myAjax = new jQuery.ajax({type: "GET"});
-			}
-			jQuery(document).ready(function() {
-				setInterval(keepAlive,' . $refreshTime . '); }
-			);'
-		);
+		JFactory::getDocument()->addScriptDeclaration('
+		    jQuery(document).ready(function() {
+		        window.setInterval(
+		            function(){ new jQuery.ajax({ type: "GET" }); },
+		            ' . $refreshTime . '
+		        );
+		    });
+		');
 
 		static::$loaded[__METHOD__] = true;
 
