@@ -51,6 +51,11 @@ abstract class AdminPage
 	protected $url = null;
 
 	/**
+	 * @var string  This is the version used in naming the help screenshot files.
+	 */
+	protected $version = '3x';
+
+	/**
 	 *
 	 * @var  array of top menu text that is initially visible in all admin menus
 	 */
@@ -245,7 +250,14 @@ abstract class AdminPage
 
 	public function clickMenuByUrl($linkURL, $pageType = 'GenericAdminPage')
 	{
-		$this->driver->get($this->cfg->host . $this->cfg->path . 'administrator/index.php?option=' . $linkURL, 'GlobalConfigPage');
+		if (substr($linkURL, 0, 23) == 'administrator/index.php')
+		{
+			$this->driver->get($this->cfg->host . $this->cfg->path . $linkURL, 'GlobalConfigPage');
+		}
+		else
+		{
+			$this->driver->get($this->cfg->host . $this->cfg->path . 'administrator/index.php?option=' . $linkURL, 'GlobalConfigPage');
+		}
 		return $this->test->getPageObject($pageType);
 	}
 
@@ -292,6 +304,21 @@ abstract class AdminPage
 	public function getErrorMessage()
 	{
 		return $this->driver->findElement(By::xPath("//dd[@class='error message']"))->getText();
+	}
+
+	public function getHelpScreenshotName($tabLabel = null, $prefix = null)
+	{
+		$screenName = $this->driver->findElement(By::className('page-title'))->getText();
+		if ($prefix)
+		{
+			$screenName = $prefix . '-' . $screenName;
+		}
+		if ($tabLabel)
+		{
+			$screenName .= '-' . $tabLabel;
+		}
+		$name = 'help-' . $this->version . '-' . $screenName . '.png';
+		return strtolower(str_replace(array(' ', ':'), array('-', ''), $name));
 	}
 
 	public function getSystemMessage()

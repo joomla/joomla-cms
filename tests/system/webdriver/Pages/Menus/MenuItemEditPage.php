@@ -30,7 +30,7 @@ class MenuItemEditPage extends AdminEditPage
 	 * @var    array
 	 * @since  3.2
 	 */
-	public $tabLabels = array('Details', 'Advanced Options', 'Module Assignment');
+	public $tabLabels = array('Details', 'Link Type', 'Page Display', 'Metadata', 'Module Assignment');
 
 	/**
 	 * Array of groups for this page. A group is a collapsable slider inside a tab.
@@ -142,10 +142,30 @@ class MenuItemEditPage extends AdminEditPage
 	{
 		foreach ($this->menuItemTypes as $array)
 		{
-			if (strpos($array['type'], $value) !== false)
+			if (stripos($array['type'], $value) !== false)
 				return $array['group'];
 		}
 		return false;
+	}
+
+	public function getHelpScreenshotName($tabId = null, $prefix = null)
+	{
+		$screenName = $this->driver->findElement(By::className('page-title'))->getText();
+		$type = $this->driver->findElement(By::id('jform_type'))->getAttribute(@value);
+		$group = $this->getGroupName($type);
+		if ($prefix)
+		{
+			$screenName = $prefix . '-' . $screenName;
+		}
+		if ($tabId && ($label = $this->getTabLabel($tabId)))
+		{
+			$name = 'help-' . $this->version . '-' . $screenName . '-' . $group . '-' . $type . '-' . $label . '.png';
+		}
+		else
+		{
+			$name = 'help-' . $this->version . '-' . $screenName . '-' . $group . '-' . $type . '.png';
+		}
+		return strtolower(str_replace(array(' / ', ' ', '/', ':'), array('-', '-', '', ''), $name));
 	}
 
 	public function getMenuItemType()
@@ -177,6 +197,7 @@ class MenuItemEditPage extends AdminEditPage
 			}
 
 		}
+
 		return $result;
 	}
 

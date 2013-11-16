@@ -20,7 +20,7 @@ abstract class AdminEditPage extends AdminPage
 	 * @var    array
 	 * @since  3.2
 	 */
-	public $tabs = array();
+	public $tabs = null;
 
 	/**
 	 * Array of tab labels for this page
@@ -28,7 +28,7 @@ abstract class AdminEditPage extends AdminPage
 	 * @var    array
 	 * @since  3.2
 	 */
-	public $tabLabels = array();
+	public $tabLabels = null;
 
 	/**
 	 * Array of groups for this page. A group is a collapsable slider inside a tab.
@@ -39,7 +39,7 @@ abstract class AdminEditPage extends AdminPage
 	 * @var    array
 	 * @since  3.2
 	 */
-	public $groups = array();
+	public $groups = null;
 
 	/**
 	 * Array of expected id values for toolbar div elements
@@ -53,7 +53,16 @@ abstract class AdminEditPage extends AdminPage
 			'Help' => 'toolbar-help',
 	);
 
-	public $inputFields = array();
+	/**
+	 * Array of associative arrays of input fields for this screen
+	 * 	label => label for the field (string)
+	 * 	id => id of the input field
+	 * 	type => type of field (select, input, textarea, fieldset)
+	 * 	tab => the id of the tab field (or 'heading' if no tab).
+	 *
+	 * @var array
+	 */
+	public $inputFields = null;
 
 	public function __construct(Webdriver $driver, $test, $url = null)
 	{
@@ -72,6 +81,13 @@ abstract class AdminEditPage extends AdminPage
 		}
 	}
 
+	/**
+	 *
+	 * @param array $tabIds
+	 *        	array of tab ids
+	 *
+	 * @return array of std objects for each field
+	 */
 	public function getAllInputFields($tabIds = array())
 	{
 		$return = array();
@@ -81,7 +97,6 @@ abstract class AdminEditPage extends AdminPage
 			$return = $this->getInputFieldsForHeader();
 			foreach ($tabIds as $tabId)
 			{
-
 				$tabLink = $this->driver->findElement(By::xPath("//ul[@class='nav nav-tabs']//a[contains(@href, '" . $tabId . "')]"));
 				$tabLink->click();
 
@@ -98,7 +113,6 @@ abstract class AdminEditPage extends AdminPage
 				{
 					$return = array_merge($return, $this->getInputFieldsForTab($tabId));
 				}
-
 			}
 		}
 		else
@@ -166,6 +180,17 @@ abstract class AdminEditPage extends AdminPage
 
 	}
 
+	/**
+	 *
+	 * @param string  $tabId id of tab that contains the field
+	 * @param string  	$label label of the field
+	 * @return mixed    false if no field found, otherwise std object with these fields:
+	 *                       tag = element tag name
+	 *                       id = element id attribute
+	 *                       labelId = id attribute of label for this field
+	 *                       type = type attribute of element
+	 *                       element = WebElement object for the element
+	 */
 	protected function getInputField($tabId, $label)
 	{
 		$object = new stdClass();
@@ -203,6 +228,24 @@ abstract class AdminEditPage extends AdminPage
 		{
 			return false;
 		}
+	}
+
+	public function getHelpScreenshotName($tabId = null, $prefix = null)
+	{
+		$screenName = $this->driver->findElement(By::className('page-title'))->getText();
+		if ($prefix)
+		{
+			$screenName = $prefix . '-' . $screenName;
+		}
+		if ($tabId && ($label = $this->getTabLabel($tabId)))
+		{
+			$name = 'help-' . $this->version . '-' . $screenName . '-' . $label . '.png';
+		}
+		else
+		{
+			$name = 'help-' . $this->version . '-' . $screenName . '.png';
+		}
+		return strtolower(str_replace(array('\'', ' / ', ' - ', ' ', '/', ':'), array('', '-', '-','-', '', ''), $name));
 	}
 
 	public function getFieldValue($label)
@@ -281,13 +324,50 @@ abstract class AdminEditPage extends AdminPage
 
 	public function getTabIds()
 	{
-		$tabs = $this->driver->findElements(By::xPath("//div[@class='tab-content']/div"));
-		$return = array();
-		foreach ($tabs as $tab)
+		if (!isset($this->tabs))
 		{
-			$return[] = $tab->getAttribute('id');
+			$tabs = $this->driver->findElements(By::xPath("//div[contains(@class,'tab-content')]/div[contains(@class,'tab-pane')][not(contains(@id,'permission-'))]"));
+			$return = array();
+			foreach ($tabs as $tab)
+			{
+				$return[] = $tab->getAttribute('id');
+			}
+			$this->tabs = $return;
 		}
-		return $return;
+		return $this->tabs;
+	}
+
+	public function getTabLabels()
+	{
+		if (!isset($this->tabLabels))
+		{
+			$tabs = $this->driver->findElements(By::xPath("//ul[contains(@class, 'nav-tabs')]/li/a[not(contains(@href,'#permission-'))]"));
+			$return = array();
+			foreach ($tabs as $tab)
+			{
+				if ($text = $tab->getText())
+				{
+					$return[] = $tab->getText('');
+				}
+			}
+			$this->tabLabels = $return;
+		}
+		return $this->tabLabels;
+	}
+
+	public function getTabLabel($tabId)
+	{
+		$tabIds = $this->getTabIds();
+		$index = count($tabIds);
+		$tabLabels = $this->getTabLabels();
+		for ($i = 0; $i < $index; $i++)
+		{
+			if ($tabIds[$i] == $tabId)
+			{
+				return $tabLabels[$i];
+			}
+		}
+		return false;
 	}
 
 	protected function getTextValues(array $values)
@@ -305,10 +385,10 @@ abstract class AdminEditPage extends AdminPage
 	{
 		$this->selectTab($tabText);
 		$el = $this->driver->findElement(By::id($id));
-		$test = $this->driver->executeScript("document.getElementById(arguments[0]).fireEvent('mouseenter');", array($id));
-		sleep(1);
-		$tip = $el->findElement(By::xPath("//div[@class='tip-text']"));
-		$tipText = $tip->getText();
+// 		$test = $this->driver->executeScript("document.getElementById(arguments[0]).fireEvent('mouseenter');", array($id));
+// 		sleep(1);
+// 		$tip = $el->findElement(By::xPath("//label[contains(@class, 'hasToolTip')]"));
+		$tipText = $el->getAttribute('data-original-title');
 		return str_replace("\n", " ", $tipText);
 	}
 
@@ -329,7 +409,7 @@ abstract class AdminEditPage extends AdminPage
 			return;
 		}
 		$this->driver->executeScript("window.scrollTo(0,0)");
-		$el = $this->driver->findElement(By::xPath("//ul[@class='nav nav-tabs']//a[contains(@href, '" . strtolower($label) . "')]"));
+		$el = $this->driver->findElement(By::xPath("//ul[@class='nav nav-tabs']//a[contains(translate(@href, '" . strtoupper($label) . "', '" . strtolower($label) . "'), '" . strtolower($label) . "')]"));
 		$el->click();
 		sleep(1);
 		$el->click();
