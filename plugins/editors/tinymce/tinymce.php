@@ -580,6 +580,7 @@ class PlgEditorTinymce extends JPlugin
 						selector: \"textarea.mce_editable\",
 						language : \"$langPrefix\",
 						mode : \"specific_textareas\",
+						autosave_restore_when_empty: false,
 						$skin
 						theme : \"$theme\",
 						schema: \"html5\",
@@ -612,6 +613,7 @@ class PlgEditorTinymce extends JPlugin
 					directionality: \"$text_direction\",
 					language : \"$langPrefix\",
 					mode : \"specific_textareas\",
+					autosave_restore_when_empty: false,
 					$skin
 					theme : \"$theme\",
 					schema: \"html5\",
@@ -654,6 +656,7 @@ class PlgEditorTinymce extends JPlugin
 					directionality: \"$text_direction\",
 					language : \"$langPrefix\",
 					mode : \"specific_textareas\",
+					autosave_restore_when_empty: false,
 					$skin
 					theme : \"$theme\",
 					schema: \"html5\",
