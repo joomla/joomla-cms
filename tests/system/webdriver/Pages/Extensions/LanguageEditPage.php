@@ -29,9 +29,9 @@ class LanguageEditPage extends AdminEditPage
 	 *
 	 * @var    string
 	 * @since  3.0
-	 */  
+	 */
 	protected $waitForXpath =  "//form[@id='language-form']";
-	
+
 	/**
 	 * URL used to uniquely identify this page
 	 *
@@ -39,7 +39,7 @@ class LanguageEditPage extends AdminEditPage
 	 * @since  3.0
 	 */
 	protected $url = 'administrator/index.php?option=com_languages&view=language&layout=edit';
-	
+
 	/**
 	 * Array of tabs present on this page
 	 *
@@ -47,19 +47,19 @@ class LanguageEditPage extends AdminEditPage
 	 * @since  3.0
 	 */
 	public $tabs = array('details', 'metadata', 'site_name');
-	
+
 	/**
 	 * Array of tab labels for this page
 	 *
 	 * @var    array
 	 * @since  3.0
 	 */
-	public $tabLabels = array('Details','Metadata Options', 'Site Name');
-	
+	public $tabLabels = array('Details','Metadata', 'Site Name');
+
 	/**
 	 * Array of all the field Details of the Edit page, along with the ID and tab value they are present on
 	 *
-	 * @var array		 
+	 * @var array
 	 * @since 3.0
 	 */
 	public $inputFields = array (
@@ -73,9 +73,9 @@ class LanguageEditPage extends AdminEditPage
 			array('label' => 'Description', 'id' => 'jform_description', 'type' => 'textarea', 'tab' => 'details'),
 			array('label' => 'ID', 'id' => 'jform_lang_id', 'type' => 'input', 'tab' => 'details'),
 			array('label' => 'Meta Keywords', 'id' => 'jform_metakey', 'type'=>'textarea', 'tab'=>'metadata'),
-			array('label' => 'Meta Description', 'id' => 'jform_metadesc', 'type'=>'textarea', 'tab'=>'metadata'),			
-			array('label' => 'Custom Site Name', 'id' => 'jform_sitename', 'type' => 'input', 'tab' => 'site_name'),	
+			array('label' => 'Meta Description', 'id' => 'jform_metadesc', 'type'=>'textarea', 'tab'=>'metadata'),
+			array('label' => 'Custom Site Name', 'id' => 'jform_sitename', 'type' => 'input', 'tab' => 'site_name'),
 		);
-	
-	
+
+
 }

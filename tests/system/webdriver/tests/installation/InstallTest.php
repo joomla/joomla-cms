@@ -24,10 +24,24 @@ class InstallTest extends JoomlaWebdriverTestCase
 		}
 
 		$cpPage = $this->doAdminLogin();
-		$cpPage->clearInstallMessages();
+		if (isset($this->cfg->clearPostInstall) && $this->cfg->clearPostInstall)
+		{
+			$cpPage->clearInstallMessages();
+		}
+
 		$gcPage = $cpPage->clickMenu('Global Configuration', 'GlobalConfigurationPage');
-		$gcPage->setFieldValue('Cache', 'OFF');
-		$gcPage->setFieldValue('Error Reporting', 'Development');
+		if (isset($this->cfg->cache))
+		{
+			$gcPage->setFieldValue('Cache', $this->cfg->cache);
+		}
+		if (isset($this->cfg->errorReporting))
+		{
+			$gcPage->setFieldValue('Error Reporting', $this->cfg->errorReporting);
+		}
+		if (isset($this->cfg->listLimit))
+		{
+			$gcPage->setFieldValue('Default List Limit', $this->cfg->listLimit);
+		}
 		$gcPage->saveAndClose('ControlPanelPage');
 		$this->doAdminLogout();
 	}

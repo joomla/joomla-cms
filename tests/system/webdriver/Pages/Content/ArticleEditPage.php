@@ -46,7 +46,15 @@ class ArticleEditPage extends AdminEditPage
 	 * @var    array
 	 * @since  3.0
 	 */
-	public $tabs = array('general', 'publishing', 'images', 'permissions', 'attrib-basic');
+	public $tabs = array('general', 'publishing', 'images', 'attrib-basic', 'editor', 'permissions', );
+
+	/**
+	 * Array of tab labels present on this page
+	 *
+	 * @var    array
+	 * @since  3.0
+	 */
+	public $tabLabels = array('Content', 'Publishing', 'Images and links', 'Options', 'Configure Edit Screen', 'Permissions');
 
 	/**
 	 * Array of all the field Details of the Edit page, along with the ID and tab value they are present on
