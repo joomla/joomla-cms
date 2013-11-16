@@ -233,17 +233,6 @@ class JHtmlBehaviorTest extends TestCase
 
 		JFactory::$application = $mock;
 
-		// Initialise the Bootstrap JS framework
-		JHtmlBehavior::framework();
-		// Get the document instance so we can test for jQuery
-		$document = JFactory::getDocument();
-
-		$this->assertArrayHasKey(
-			'/media/jui/js/jquery.min.js',
-			$document->_scripts,
-			'Verify that jQuery is loaded before testing Switcher behaviour'
-		);
-
 		JHtmlBehaviorInspector::switcher();
 		$this->assertEquals(
 			array('JHtmlBehavior::framework' => array('core' => true), 'JHtmlBehavior::switcher' => true),
@@ -645,17 +634,6 @@ class JHtmlBehaviorTest extends TestCase
 		$mock->input = new JInput;
 
 		JFactory::$application = $mock;
-
-		// Initialise the Bootstrap JS framework
-		JHtmlBehavior::framework();
-		// Get the document instance so we can test for jQuery
-		$document = JFactory::getDocument();
-
-		$this->assertArrayHasKey(
-			'/media/jui/js/jquery.min.js',
-			$document->_scripts,
-			'Verify that jQuery is loaded before testing keepalive behaviour'
-		);
 
 		JHtmlBehaviorInspector::keepalive();
 
