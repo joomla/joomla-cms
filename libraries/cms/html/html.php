@@ -975,6 +975,9 @@ abstract class JHtml
 
 		static::_('bootstrap.tooltip');
 
+		// format value
+		$value = strftime($format, strtotime($value));
+
 		if (!$readonly && !$disabled)
 		{
 			// Load the calendar behavior
