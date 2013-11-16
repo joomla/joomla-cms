@@ -218,7 +218,6 @@ class JUpdaterCollection extends JUpdateAdapter
 		$url = $options['location'];
 		$this->updateSiteId = $options['update_site_id'];
 
-
 		$appendExtension = false;
 
 		if (array_key_exists('append_extension', $options))
