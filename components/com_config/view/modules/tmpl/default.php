@@ -77,7 +77,7 @@ $hasContent = empty($this->item['module']) || $this->item['module'] == 'custom' 
 			<hr />
 
 			<div class="row-fluid">
-				<div class="span6">
+				<div class="span12">
 					<fieldset class="form-horizontal">
 						<div class="control-group">
 							<div class="control-label">
