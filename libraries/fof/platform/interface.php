@@ -1,8 +1,9 @@
 <?php
 /**
- * @package    FrameworkOnFramework
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     FrameworkOnFramework
+ * @subpackage  platform
+ * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
 defined('_JEXEC') or die;
@@ -320,4 +321,13 @@ interface FOFPlatformInterface
 	 */
 	public function logoutUser();
 
+	/**
+	 * Logs a deprecated practice. In Joomla! this results in the $message being output in the
+	 * deprecated log file, found in your site's log directory.
+	 *
+	 * @param   $message  The deprecated practice log message
+	 *
+	 * @return  void
+	 */
+	public function logDeprecated($message);
 }
