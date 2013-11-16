@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Nov-2013 Michael Babker
+ # [#32578] [2.5] Argument 1 passed to JHttpTransportStream::getResponse() must be an array
+
 13-Nov-2013 Jean-Marie Simonet
  # [#32608] After update 2.5.14=>2.5.16 the com_update produces errors  Thanks David Jardin
 
