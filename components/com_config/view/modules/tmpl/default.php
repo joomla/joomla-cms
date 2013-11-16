@@ -17,6 +17,12 @@ JHtml::_('behavior.combobox');
 JHtml::_('formbehavior.chosen', 'select');
 
 $hasContent = empty($this->item['module']) || $this->item['module'] == 'custom' || $this->item['module'] == 'mod_custom';
+
+// If multi-language site, make language read-only
+if(JLanguageMultilang::isEnabled())
+{
+	$this->form->setFieldAttribute('language', 'readonly', 'true');
+}
 ?>
 
 <script type="text/javascript">
