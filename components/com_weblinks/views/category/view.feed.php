@@ -18,4 +18,9 @@ defined('_JEXEC') or die;
  */
 class WeblinksViewCategory extends JViewCategoryfeed
 {
+	/**
+	 * @var    string  The name of the view to link individual items to
+	 * @since  3.2
+	 */
+	protected $viewName = 'weblink';
 }

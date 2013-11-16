@@ -25,11 +25,14 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Nov-2013 Michael Babker
+ # [#32662] Feed information missing in RSS type Syndication Feed.  Thanks George Wilson
+
 13-Nov-2013 Jean-Marie Simonet
  # [#32412] protostar error page logo  Thanks David Beuving
  + [#32660] TinyMCE editor lacks link relation option  Thanks Artur Stępień
- # [#32626] *Banners Manager: Options is gone when filtering by a category 
- +$ [#32678] TinyMCE 4 in Joomla 3.2 has no image advanced options 
+ # [#32626] *Banners Manager: Options is gone when filtering by a category
+ +$ [#32678] TinyMCE 4 in Joomla 3.2 has no image advanced options
  # [#32672] Fixed problem with featured view Thanks Bruno Batista
  $ [#32546] Language strings missing for com_tags  Thanks George Wilson
  $ [#32680] Missing string Thanks David Jardin
