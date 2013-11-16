@@ -233,6 +233,8 @@ class JHtmlBehaviorTest extends TestCase
 
 		JFactory::$application = $mock;
 
+		// Initialise the Bootstrap JS framework
+		JHtmlBehavior::framework();
 		// Get the document instance so we can test for jQuery
 		$document = JFactory::getDocument();
 
@@ -644,6 +646,8 @@ class JHtmlBehaviorTest extends TestCase
 
 		JFactory::$application = $mock;
 
+		// Initialise the Bootstrap JS framework
+		JHtmlBehavior::framework();
 		// Get the document instance so we can test for jQuery
 		$document = JFactory::getDocument();
 
