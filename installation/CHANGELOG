@@ -29,6 +29,7 @@ $ -> Language fix or change
  # [#32662] Feed information missing in RSS type Syndication Feed.  Thanks George Wilson
  # [#32699] Joomla! extension updates can't use update XML sources with URLs not ending in .xml.  Thanks Nicholas Dionysopoulos
  # [#32074] Fixed PHP Notice: Undefined variable: versionName in contenthistory.php on line 155.  Thanks George Wilson
+ # [#32716] *Regression: TinyMCE non empty textarea on New or Save & New.  Thanks Jean-Marie Simonet
 
 13-Nov-2013 Jean-Marie Simonet
  # [#32412] protostar error page logo  Thanks David Beuving
