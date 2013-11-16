@@ -91,10 +91,8 @@ class ConfigModelModules extends ConfigModelForm
 		$formFile = JPath::clean($basePath . '/modules/' . $module . '/' . $module . '.xml');
 
 		// Load the core and/or local language file(s).
-		$lang->load($module, $basePath, null, false, false)
-			||	$lang->load($module, $basePath . '/modules/' . $module, null, false, false)
-			||	$lang->load($module, $basePath, $lang->getDefault(), false, false)
-			||	$lang->load($module, $basePath . '/modules/' . $module, $lang->getDefault(), false, false);
+		$lang->load($module, $basePath, null, false, true)
+			||	 $lang->load($module, $basePath . '/modules/' . $module, null, false, true);
 
 		if (file_exists($formFile))
 		{
