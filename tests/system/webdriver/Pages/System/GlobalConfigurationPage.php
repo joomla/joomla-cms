@@ -108,7 +108,7 @@ class GlobalConfigurationPage extends AdminEditPage
 			$input = $this->driver->findElement(By::id($id));
 			$this->driver->executeScript($this->moveToElementByAttribute, array('for', $id));
 			sleep(1);
-			$tip = $label->findElement(By::xPath("//label[@class='tip'][@for='" . $id . "']"));
+			$tip = $label->findElement(By::xPath("//label[@class='hasTooltip'][@for='" . $id . "']"));
 			$tipText = $tip->getAttribute('title');
 			$object = new stdClass();
 			$object->tab = $this->driver->findElement(By::xPath("//a[@href='#page-permissions']"))->getText();
@@ -140,24 +140,26 @@ class GlobalConfigurationPage extends AdminEditPage
 	 */
 	public function toWikiHelp()
 	{
-		$inputFields = $this->getAllInputFields($this->getTabIds());
-		$tabs = $this->tabs;
+		$tabs = $this->getTabIds();
+		$inputFields = $this->getAllInputFields($tabs);
+
 		$helpText = array();
 		foreach ($inputFields as $el)
 		{
 			$this->selectTab($el->tab);
+			$el->tabLabel = $this->getTabLabel($el->tab);
 			$el->labelText = (substr($el->labelText, -2) == ' *') ? substr($el->labelText, 0, -2) : $el->labelText;
 			if ($el->tag == 'fieldset')
 			{
-				$helpText[$el->tab][] = $this->toWikiHelpRadio($el);
+				$helpText[$el->tabLabel][] = $this->toWikiHelpRadio($el);
 			}
 			elseif ($el->tag == 'select')
 			{
-				$helpText[$el->tab][] = $this->toWikiHelpSelect($el);
+				$helpText[$el->tabLabel][] = $this->toWikiHelpSelect($el);
 			}
 			else
 			{
-				$helpText[$el->tab][] = "*'''" . $el->labelText . ":''' " . $this->getToolTip($el->tab, $el->id . '-lbl') . "\n";
+				$helpText[$el->tabLabel][] = "*'''" . $el->labelText . ":''' " . $this->getToolTip($el->tab, $el->id . '-lbl') . "\n";
 			}
 		}
 
@@ -214,7 +216,7 @@ class GlobalConfigurationPage extends AdminEditPage
 		$heading = $this->driver->findElement(By::xPath("//div[@id='page-filters']//legend"))->getText();
 		$subText = $this->driver->findElement(By::xPath("//div[@id='page-filters']//p"))->getText();
 		$id = "jform_filters" . $groupId . "_filter_type";
-		$toolTip = $this->getToolTip($tabText, $id);
+		$toolTip = $this->getToolTip('#page-filters', $id);
 
 		$subHeading = $this->driver->findElement(By::xPath("//table[@id='filter-config']//th[2]"))->getText();
 		$filterOptions = $this->getOptionText($this->driver->findElement(By::id($id)));
