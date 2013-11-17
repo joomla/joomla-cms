@@ -66,7 +66,7 @@ class JToolbarButtonConfirmTest extends PHPUnit_Framework_TestCase
 	public function testFetchId()
 	{
 		$this->assertThat(
-			$this->object->fetchId('confirm', 'test'),
+			$this->object->fetchId('confirm', 'Message to render', 'test'),
 			$this->equalTo('toolbar-test')
 		);
 	}

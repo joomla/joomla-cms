@@ -25,6 +25,55 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+16-Nov-2013 Michael Babker
+ # [#32662] Feed information missing in RSS type Syndication Feed.  Thanks George Wilson
+ # [#32699] Joomla! extension updates can't use update XML sources with URLs not ending in .xml.  Thanks Nicholas Dionysopoulos
+ # [#32074] Fixed PHP Notice: Undefined variable: versionName in contenthistory.php on line 155.  Thanks George Wilson
+ # [#32716] *Regression: TinyMCE non empty textarea on New or Save & New.  Thanks Jean-Marie Simonet
+ ^ [#30373] Installer 404 should be 403 for authorization.  Thanks Naouak
+
+13-Nov-2013 Jean-Marie Simonet
+ # [#32412] protostar error page logo  Thanks David Beuving
+ + [#32660] TinyMCE editor lacks link relation option  Thanks Artur Stępień
+ # [#32626] *Banners Manager: Options is gone when filtering by a category
+ +$ [#32678] TinyMCE 4 in Joomla 3.2 has no image advanced options
+ # [#32672] Fixed problem with featured view Thanks Bruno Batista
+ $ [#32546] Language strings missing for com_tags  Thanks George Wilson
+ $ [#32680] Missing string Thanks David Jardin
+ # [#32509] group is missing from settable JFormField properties  Thanks Klas 10
+
+12-Nov-2013 Jean-Marie Simonet
+ # [#32629] The media formfield is missing a space before the class attribute Thanks Thomas Hunziker
+ # [#32588] Joomla 3.2 JavaScript errors (Uncaught TypeError: undefined is not a function )  Thanks Jurian Even
+ # [#32523] Update some wrong docblock packages  Thanks Simon Asika
+ # [#32630] $config variable missing in comment  Thanks Demis Palma
+ # [#32617] Email subsystem blocked after upgrade to Joomla 3.2  Thanks Demis Palma
+ # [#30648] Incorrect ID for trash toolbar button when message is added  Thanks Jurian Even
+ # [#32627] Back end configuration does not work if cache is enabled  Thanks Dennis Hermatski
+ # [#31425] Invalid debug database queries count  Thanks Vitalij L.
+
+11-Nov-2013 Jean-Marie Simonet
+ # [#32622] CSS Layout Issue with Protostar and Weblinks Front End Submit Thansk George Wilson
+ # [#31678] [Regression] Modal behavior missing for user notes view  Thanks Ashan Fernando
+ # [#32337] Fix jform labelclass property  Thanks Viet Vu
+ # [#32124] phpwarnings if directory in unwritable.  Thanks Achal Aggarwal
+ # [#32623] Mod_login need to pick up com_users settings on links  Thanks Daniele Rosario
+ $ [#32607] Remove two whitespaces and alphasort the content history string  Thanks Tobias Zulauf
+ # [#32506] Very small center correction in the overrides table view  Thanks Tobias Zulauf
+
+10-Nov-2013 Jean-Marie Simonet
+ + Adding Montenegrin srp-ME flag in mod_languages
+ $ Missing language string
+
+09-Nov-2013 Michael Babker #JWC13 Bug Squash
+ #$ [#32456] "No" Fields at mod_search are blue.  Thanks Thomas Hunziker
+ #$ [#32609] Debugger show a missing language string at some places.  Thanks Tobias Zulauf
+ # [#31055] Smart Search does not remove search phrases from index when saving an article.  Thanks Chris Davenport
+ # [#32620] Sorting columns in feature contacts does gives js error.  Thanks Ashan Fernando
+ # [#32597] Tags field is to big at the weblink submit form.  Thanks Tobias Zulauf
+ # [#32600] Article Manager: Options is gone when filtering an category.  Thanks Jelle Kok
+ # [#32444] default option 'mobile' for Tinimce differ from tynimce.php and tinymce.xml.  Thanks George Wilson
+
 09-Nov-2013 Jean-Marie Simonet
  # [#32585] Password reset does not work  Thanks Elin Waring and David Jardin
  $ [#32516] Term "article" is used in descriptions of other content items. Thanks Jozsef Tamas Herczeg

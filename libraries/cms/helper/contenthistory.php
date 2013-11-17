@@ -118,6 +118,7 @@ class JHelperContenthistory extends JHelper
 		$historyTable->set('version_data', json_encode($dataObject));
 		$input = JFactory::getApplication()->input;
 		$data = $input->get('jform', array(), 'array');
+		$versionName = false;
 
 		if (isset($data['version_note']))
 		{
