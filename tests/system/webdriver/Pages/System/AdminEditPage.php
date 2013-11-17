@@ -281,7 +281,7 @@ abstract class AdminEditPage extends AdminPage
 		$i = 0;
 		foreach ($options as $option)
 		{
-			$optionText[] = $option->getText();
+			$optionText[] = "''" . $option->getText() . "''";
 			if ($i++ > 5)			{
 				$optionText[] = '...';
 				break;
@@ -383,11 +383,7 @@ abstract class AdminEditPage extends AdminPage
 
 	public function getToolTip($tabText, $id)
 	{
-		$this->selectTab($tabText);
 		$el = $this->driver->findElement(By::id($id));
-// 		$test = $this->driver->executeScript("document.getElementById(arguments[0]).fireEvent('mouseenter');", array($id));
-// 		sleep(1);
-// 		$tip = $el->findElement(By::xPath("//label[contains(@class, 'hasToolTip')]"));
 		$tipText = $el->getAttribute('data-original-title');
 		return str_replace("\n", " ", $tipText);
 	}
@@ -400,6 +396,11 @@ abstract class AdminEditPage extends AdminPage
 			echo "array('label' => '" . $field->labelText . "', 'id' => '" . $field->id . "', 'type' => '" . $field->tag . "', 'tab' => '"
 			. $field->tab . "'),\n";
 		}
+	}
+
+	protected function removeLabel($label, $string)
+	{
+		return str_ireplace(array('<strong>' . $label . '</strong>', '<br />'), array('',''), $string);
 	}
 
 	public function selectTab($label, $group = null)
@@ -549,8 +550,9 @@ abstract class AdminEditPage extends AdminPage
 	 */
 	public function toWikiHelp()
 	{
-		$inputFields = $this->getAllInputFields($this->getTabIds());
-		$tabs = $this->tabs;
+		$tabs = $this->getTabIds();
+		$inputFields = $this->getAllInputFields($tabs);
+
 		$helpText = array();
 		foreach ($inputFields as $el)
 		{
@@ -558,15 +560,15 @@ abstract class AdminEditPage extends AdminPage
 			$el->labelText = (substr($el->labelText, -2) == ' *') ? substr($el->labelText, 0, -2) : $el->labelText;
 			if ($el->tag == 'fieldset')
 			{
-				$helpText[$el->tab][] = $this->toWikiHelpRadio($el);
+				$helpText[$el->tabLabel][] = $this->toWikiHelpRadio($el);
 			}
 			elseif ($el->tag == 'select')
 			{
-				$helpText[$el->tab][] = $this->toWikiHelpSelect($el);
+				$helpText[$el->tabLabel][] = $this->toWikiHelpSelect($el);
 			}
 			else
 			{
-				$helpText[$el->tab][] = "*'''" . $el->labelText . ":''' " . $this->getToolTip($el->tab, $el->id . '-lbl') . "\n";
+				$helpText[$el->tabLabel][] = $this->toWikiHelpInput($el);
 			}
 		}
 
@@ -584,18 +586,30 @@ abstract class AdminEditPage extends AdminPage
 	}
 
 	/**
+	 * Prepare wiki text for an input element
+	 * Format is: *'''<label>:''' <tooltip text>
+	 */
+	public function toWikiHelpInput(stdClass $el)
+	{
+		$toolTip = $this->removeLabel($el->labelText, $this->getToolTip($el->tab, $el->id . '-lbl'));
+		return "*'''" . $el->labelText . ":''' " . $toolTip . "\n";
+	}
+
+
+	/**
 	 * Prepare wiki text for a radio button group
 	 * Format is: *'''<label>:''' (<option1>/<option2/..) <tooltip text>
 	 */
 	public function toWikiHelpRadio(stdClass $object)
 	{
+		$toolTip = $this->removeLabel($object->labelText, $this->getToolTip($object->tab, $object->id . '-lbl'));
 		$optionText = array();
 		$options = $object->element->findElements(By::tagName('label'));
 		foreach ($options as $option)
 		{
-			$optionText[] = $option->getText();
+			$optionText[] = "''" . $option->getText() . "''";
 		}
-		return "*'''" . $object->labelText . ":''' (" . implode('/', $optionText) . "). " . $this->getToolTip($object->tab, $object->id . '-lbl'). "\n";
+		return "*'''" . $object->labelText . ":''' (" . implode('/', $optionText) . "). " . $toolTip . "\n";
 	}
 
 	/**
@@ -604,10 +618,11 @@ abstract class AdminEditPage extends AdminPage
 	 */
 	public function toWikiHelpSelect(stdClass $object)
 	{
+		$toolTip = $this->removeLabel($object->labelText, $this->getToolTip($object->tab, $object->labelId));
 		$optionContainer = $this->driver->findElement(By::xPath("//div[@id='" . $object->id . "_chzn']"));
 		$optionContainer->click();
 		$optionList = $optionContainer->findElement(By::tagName('ul'));
 		$optionText = $this->getOptionText($optionList);
-		return "*'''" . $object->labelText . ":''' (" . implode('/', $optionText) . "). " . $this->getToolTip($object->tab, $object->id). "\n";
+		return "*'''" . $object->labelText . ":''' (" . implode('/', $optionText) . "). " . $toolTip . "\n";
 	}
 }

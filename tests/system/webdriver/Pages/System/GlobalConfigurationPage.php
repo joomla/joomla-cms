@@ -159,7 +159,7 @@ class GlobalConfigurationPage extends AdminEditPage
 			}
 			else
 			{
-				$helpText[$el->tabLabel][] = "*'''" . $el->labelText . ":''' " . $this->getToolTip($el->tab, $el->id . '-lbl') . "\n";
+				$helpText[$el->tabLabel][] = $this->toWikiHelpInput($el);
 			}
 		}
 
@@ -180,8 +180,6 @@ class GlobalConfigurationPage extends AdminEditPage
 		return implode("", $result);
 
 	}
-
-
 
 	/**
 	 * Prepare wiki text for permissions tab
