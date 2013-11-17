@@ -588,6 +588,7 @@ class JRouter
 			}
 
 			parse_str($url, $temp);
+			$temp = array_merge($this->getVars(), $temp);
 
 			foreach ($temp as $key => $var)
 			{
