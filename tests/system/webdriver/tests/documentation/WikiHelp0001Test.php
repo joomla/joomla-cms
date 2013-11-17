@@ -22,9 +22,8 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 	 */
 
 	public  $allMenuLinks = array(
-		'Control Panel' 		=> array('ControlPanelPage', 'administrator/index.php', 'system'),
+// 		'Control Panel' 		=> array('ControlPanelPage', 'administrator/index.php', 'system'),
 		'Global Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config', 'configuration'),
-
 		'Banners Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_banners', 'configuration'),
 		'Cache Manager Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_cache', 'configuration'),
 		'Check-in Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_checkin', 'configuration'),
@@ -124,19 +123,20 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function toWikiText_ScreenLoaded_HelpTextShouldPrint()
 	{
-// 		echo $this->gcPage->toWikiHelp();
-// 		echo implode("", $this->gcPage->toWikiHelpFilters('1'));
-		$this->driver->setScreenShotsDirectory($this->cfg->baseURI . "/tests/system/tmp");
-		foreach ($this->gcPage->tabs as $tab)
-		{
-			$this->gcPage->selectTab($tab);
-			$name = $this->gcPage->getHelpScreenshotName($tab);
-			$this->helpScreenshot($name, $this->cfg->baseURI . "/tests/system/tmp");
-		}
+		$gcPage = $this->testPage->clickMenu('Global Configuration', 'GlobalConfigurationPage');
+		echo $gcPage->toWikiHelp();
+		echo implode("", $gcPage->toWikiHelpFilters('1'));
+// 		$this->driver->setScreenShotsDirectory($this->cfg->baseURI . "/tests/system/tmp");
+// 		foreach ($this->gcPage->tabs as $tab)
+// 		{
+// 			$gcPage->selectTab($tab);
+// 			$name = $gcPage->getHelpScreenshotName($tab);
+// 			$this->helpScreenshot($name, $this->cfg->baseURI . "/tests/system/tmp");
+// 		}
 
 	}
 
@@ -233,7 +233,7 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @test
+	 * @xtest
 	 */
 	public function takeScreenShotsForModuleTypes()
 	{
