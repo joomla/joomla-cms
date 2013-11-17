@@ -1295,3 +1295,12 @@ div.btn-toolbar {
 .tooltip-inner {
 	text-align: right;
 }
+div.toggle-editor {
+	float: left;
+}
+#editor-xtd-buttons .btn {
+	float: right;
+}
+div.toggle-editor {
+	margin-top: 14px;
+}

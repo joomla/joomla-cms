@@ -71,7 +71,7 @@ class ContactViewContacts extends JViewLegacy
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 
-		JToolbarHelper::title(JText::_('COM_CONTACT_MANAGER_CONTACTS'), 'contact.png');
+		JToolbarHelper::title(JText::_('COM_CONTACT_MANAGER_CONTACTS'), 'address contact');
 
 		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories('com_contact', 'core.create'))) > 0)
 		{
@@ -113,7 +113,7 @@ class ContactViewContacts extends JViewLegacy
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
-		if ($canDo->get('core.admin'))
+		if ($user->authorise('core.admin', 'com_contact'))
 		{
 			JToolbarHelper::preferences('com_contact');
 		}

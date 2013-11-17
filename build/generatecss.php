@@ -23,8 +23,6 @@ if (!defined('_JDEFINES'))
 
 require_once JPATH_LIBRARIES . '/import.php';
 
-JLoader::registerPrefix('J', __DIR__ . '/libraries');
-
 require_once JPATH_LIBRARIES . '/cms.php';
 
 /**
@@ -46,6 +44,7 @@ class GenerateCss extends JApplicationCli
 	{
 		$templates = array(
 			JPATH_ADMINISTRATOR . '/templates/isis/less/template.less' => JPATH_ADMINISTRATOR . '/templates/isis/css/template.css',
+			JPATH_ADMINISTRATOR . '/templates/isis/less/template-rtl.less' => JPATH_ADMINISTRATOR . '/templates/isis/css/template-rtl.css',
 			JPATH_ADMINISTRATOR . '/templates/hathor/less/template.less' => JPATH_ADMINISTRATOR . '/templates/hathor/css/template.css',
 			JPATH_ADMINISTRATOR . '/templates/hathor/less/colour_blue.less' => JPATH_ADMINISTRATOR . '/templates/hathor/css/colour_blue.css',
 			JPATH_ADMINISTRATOR . '/templates/hathor/less/colour_brown.less' => JPATH_ADMINISTRATOR . '/templates/hathor/css/colour_brown.css',
@@ -55,7 +54,15 @@ class GenerateCss extends JApplicationCli
 			__DIR__ . '/less/bootstrap-extended.less' => JPATH_SITE . '/media/jui/css/bootstrap-extended.css',
 			__DIR__ . '/less/bootstrap-rtl.less' => JPATH_SITE . '/media/jui/css/bootstrap-rtl.css'
 		);
-		$less = new JLess;
+
+		// Load the RAD layer
+		if (!defined('FOF_INCLUDED'))
+		{
+			require_once JPATH_LIBRARIES . '/fof/include.php';
+		}
+
+		$less = new FOFLess;
+		$less->setFormatter(new FOFLessFormatterJoomla);
 
 		foreach ($templates as $source => $output)
 		{

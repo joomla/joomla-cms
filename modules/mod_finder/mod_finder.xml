@@ -82,7 +82,7 @@
 				<field
 					name="show_label"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					label="MOD_FINDER_FIELDSET_ADVANCED_SHOW_LABEL_LABEL"
 					description="MOD_FINDER_FIELDSET_ADVANCED_SHOW_LABEL_DESCRIPTION">
@@ -109,7 +109,7 @@
 				<field
 					name="show_button"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="0"
 					label="MOD_FINDER_FIELDSET_ADVANCED_SHOW_BUTTON_LABEL"
 					description="MOD_FINDER_FIELDSET_ADVANCED_SHOW_BUTTON_DESCRIPTION">
@@ -136,14 +136,12 @@
 				<field
 					name="opensearch"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					label="MOD_FINDER_FIELD_OPENSEARCH_LABEL"
 					description="MOD_FINDER_FIELD_OPENSEARCH_DESCRIPTION"
 					default="1">
-					<option
-						value="0">JNO</option>
-					<option
-						value="1">JYES</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 				<field
 					name="opensearch_title"

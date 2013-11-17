@@ -544,6 +544,21 @@ class JUser extends JObject
 	 */
 	public function bind(&$array)
 	{
+		// The Joomla user plugin allows you to use weaker passwords if necessary.
+		$joomlaPluginEnabled = JPluginHelper::isEnabled('user', 'joomla');
+
+		if ($joomlaPluginEnabled)
+		{
+			$userPlugin = JPluginHelper::getPlugin('user', 'joomla');
+			$userPluginParams = new JRegistry($userPlugin->params);
+			JPluginHelper::importPlugin('user', 'joomla');
+			$defaultEncryption = PlgUserJoomla::setDefaultEncryption($userPluginParams);
+		}
+		else
+		{
+			$defaultEncryption = 'bcrypt';
+		}
+
 		// Let's check to see if the user is new or not
 		if (empty($this->id))
 		{
@@ -558,19 +573,17 @@ class JUser extends JObject
 			// Hence this code is required:
 			if (isset($array['password2']) && $array['password'] != $array['password2'])
 			{
-				$this->setError(JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'));
+				JFactory::getApplication()->enqueueMessage(JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'), 'error');
 
 				return false;
 			}
-
 			$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
 
 			$salt = JUserHelper::genRandomPassword(32);
-			$crypt = JUserHelper::getCryptedPassword($array['password'], $salt);
-			$array['password'] = $crypt . ':' . $salt;
+			$crypt = JUserHelper::getCryptedPassword($array['password'], $salt, $defaultEncryption);
+			$array['password'] = $crypt;
 
 			// Set the registration timestamp
-
 			$this->set('registerDate', JFactory::getDate()->toSql());
 
 			// Check that username is not greater than 150 characters
@@ -582,13 +595,15 @@ class JUser extends JObject
 				$this->set('username', $username);
 			}
 
-			// Check that password is not greater than 100 characters
+			// Use a limit to prevent abuse since it is unfiltered
+			// The maximum password length for bcrypt is 55 characters.
 			$password = $this->get('password');
 
-			if (strlen($password) > 100)
+			if (strlen($password) > 55)
 			{
-				$password = substr($password, 0, 100);
+				$password = substr($password, 0, 55);
 				$this->set('password', $password);
+				JFactory::getApplication()->enqueueMessage(JText::_('JLIB_USER_ERROR_PASSWORD_TRUNCATED'), 'notice');
 			}
 		}
 		else
@@ -606,7 +621,7 @@ class JUser extends JObject
 				$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
 
 				$salt = JUserHelper::genRandomPassword(32);
-				$crypt = JUserHelper::getCryptedPassword($array['password'], $salt);
+				$crypt = JUserHelper::getCryptedPassword($array['password'], $salt, $defaultEncryption);
 				$array['password'] = $crypt . ':' . $salt;
 			}
 			else
@@ -700,8 +715,14 @@ class JUser extends JObject
 			// Check if I am a Super Admin
 			$iAmSuperAdmin = $my->authorise('core.admin');
 
+			$iAmRehashingSuperadmin = false;
+			if (($my->id == 0 && !$isNew) && $this->id == $oldUser->id && $oldUser->authorise('core.admin') && substr($oldUser->password, 0, 4) != '$2y$')
+			{
+				$iAmRehashingSuperadmin = true;
+			}
+
 			// We are only worried about edits to this account if I am not a Super Admin.
-			if ($iAmSuperAdmin != true)
+			if ($iAmSuperAdmin != true && $iAmRehashingSuperadmin != true)
 			{
 				if ($isNew)
 				{

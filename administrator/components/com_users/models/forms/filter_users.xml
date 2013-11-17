@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="filter">
+		<field
+			name="search"
+			type="text"
+			label="COM_USERS_FILTER_SEARCH_DESC"
+			hint="JSEARCH_FILTER"
+			class="js-stools-search-string"
+		/>
+		<field
+			name="state"
+			type="userstate"
+			label="COM_USERS_FILTER_STATE"
+			description="COM_USERS_FILTER_STATE_DESC"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_USERS_FILTER_STATE</option>
+		</field>
+		<field
+			name="active"
+			type="useractive"
+			label="COM_USERS_FILTER_ACTIVE"
+			description="COM_USERS_FILTER_ACTIVE_DESC"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_USERS_FILTER_ACTIVE</option>
+		</field>
+		<field
+			name="group_id"
+			type="usergrouplist"
+			label="COM_USERS_FILTER_GROUP"
+			description="COM_USERS_FILTER_GROUP_DESC"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_USERS_FILTER_USERGROUP</option>
+		</field>
+		<field
+			name="range"
+			type="registrationdaterange"
+			label="COM_USERS_OPTION_FILTER_DATE"
+			description="COM_USERS_OPTION_FILTER_DATE"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_USERS_OPTION_FILTER_DATE</option>
+		</field>
+	</fields>
+	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			label="COM_CONTENT_LIST_FULL_ORDERING"
+			description="COM_CONTENT_LIST_FULL_ORDERING_DESC"
+			onchange="this.form.submit();"
+			default="a.title ASC"
+			>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="a.name ASC">COM_USERS_HEADING_NAME_ASC</option>
+			<option value="a.name DESC">COM_USERS_HEADING_NAME_DESC</option>
+			<option value="a.username ASC">COM_USERS_HEADING_USERNAME_ASC</option>
+			<option value="a.username DESC">COM_USERS_HEADING_USERNAME_DESC</option>
+			<option value="a.block ASC">COM_USERS_HEADING_ENABLED_ASC</option>
+			<option value="a.block DESC">COM_USERS_HEADING_ENABLED_DESC</option>
+			<option value="a.activation ASC">COM_USERS_HEADING_ACTIVATED_ASC</option>
+			<option value="a.activation DESC">COM_USERS_HEADING_ACTIVATED_DESC</option>
+			<option value="a.email ASC">COM_USERS_HEADING_EMAIL_ASC</option>
+			<option value="a.email DESC">COM_USERS_HEADING_EMAIL_DESC</option>
+			<option value="a.lastvisitDate ASC">COM_USERS_HEADING_LAST_VISIT_DATE_ASC</option>
+			<option value="a.lastvisitDate DESC">COM_USERS_HEADING_LAST_VISIT_DATE_DESC</option>
+			<option value="a.registerDate ASC">COM_USERS_HEADING_REGISTRATION_DATE_ASC</option>
+			<option value="a.registerDate DESC">COM_USERS_HEADING_REGISTRATION_DATE_DESC</option>
+			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
+		</field>
+		<field
+			name="limit"
+			type="limitbox"
+			class="inputbox input-mini"
+			default="25"
+			label="COM_CONTENT_LIST_LIMIT"
+			description="COM_CONTENT_LIST_LIMIT_DESC"
+			onchange="this.form.submit();"
+		/>
+	</fields>
+</form>

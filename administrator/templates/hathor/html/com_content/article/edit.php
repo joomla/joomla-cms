@@ -18,6 +18,7 @@ JHtml::_('behavior.keepalive');
 // Create shortcut to parameters.
 $params = $this->state->get('params');
 $params = $params->toArray();
+$saveHistory = $this->state->get('params')->get('save_history', 0);
 
 // This checks if the config options have ever been saved. If they haven't they will fall back to the original settings.
 $editoroptions = isset($params['show_publishing_options']);
@@ -41,6 +42,8 @@ endif;
 if (!empty($this->item->attribs['show_urls_images_backend'])):
 		$params['show_urls_images_backend'] = $this->item->attribs['show_urls_images_backend'];
 endif;
+
+$assoc = JLanguageAssociations::isEnabled();
 
 ?>
 
@@ -97,6 +100,11 @@ endif;
 						<?php echo $this->form->getInput('tags'); ?>
 					</div>
 				</li>
+
+				<?php if ($saveHistory) : ?>
+					<li><?php echo $this->form->getLabel('version_note'); ?>
+					<?php echo $this->form->getInput('version_note'); ?></li>
+				<?php endif; ?>
 
 				<li><?php echo $this->form->getLabel('id'); ?>
 				<?php echo $this->form->getInput('id'); ?></li>
@@ -237,27 +245,12 @@ endif;
 			<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
 				<?php echo $this->loadTemplate('metadata'); ?>
 			</fieldset>
-		<?php
 
-			$fieldSets = $this->form->getFieldsets('associations');
+		<?php if ($assoc) : ?>
+			<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTENT_ITEM_ASSOCIATIONS_FIELDSET_LABEL'), '-options');?>
+			<?php echo $this->loadTemplate('associations'); ?>
+		<?php endif; ?>
 
-			foreach ($fieldSets as $name => $fieldSet) :
-				$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_CONTENT_'.$name.'_FIELDSET_LABEL';
-				echo JHtml::_('sliders.panel', JText::_($label), $name.'-options');
-					if (isset($fieldSet->description) && trim($fieldSet->description)) :
-						echo '<p class="tip">'.$this->escape(JText::_($fieldSet->description)).'</p>';
-					endif;
-					?>
-				<div class="clr"></div>
-				<fieldset class="panelform">
-					<ul class="adminformlist">
-						<?php foreach ($this->form->getFieldset($name) as $field) : ?>
-							<li><?php echo $field->label; ?>
-							<?php echo $field->input; ?></li>
-						<?php endforeach; ?>
-					</ul>
-				</fieldset>
-			<?php endforeach;?>
 		<?php echo JHtml::_('sliders.end'); ?>
 	</div>
 
