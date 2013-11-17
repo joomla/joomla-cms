@@ -63,6 +63,7 @@ class JConfig {
 	/* Mail Settings */
 	public $mailer = 'mail';
 	public $mailfrom = '';
+	public $usesendmailoptions = '1';
 	public $fromname = '';
 	public $sendmail = '/usr/sbin/sendmail';
 	public $smtpauth = '0';

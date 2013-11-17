@@ -39,6 +39,8 @@ class JMail extends PHPMailer
 	{
 		// PHPMailer has an issue using the relative path for its language files
 		$this->SetLanguage('joomla', JPATH_PLATFORM . '/phpmailer/language/');
+
+		$this->setSendmailOptions();
 	}
 
 	/**
@@ -503,5 +505,30 @@ class JMail extends PHPMailer
 		$this->setBody($message);
 
 		return $this->Send();
+	}
+
+	/**
+	 * Define if it's needed to use sendmail options or not
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   13.1
+	 */
+	private function setSendmailOptions()
+	{
+		if (($this->Mailer == 'mail'))
+		{
+			$config = JFactory::getConfig();
+			$sendmailoptions = $config->get('usesendmailoptions');
+
+			if ( $sendmailoptions )
+			{
+				$this->UseSendmailOptions = true;
+			}
+			else
+			{
+				$this->UseSendmailOptions = false;
+			}
+		}
 	}
 }
