@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Nov-2013 Jean-Marie Simonet
+ # [#32721] Fix small error in application view  Thanks Bruno Batista
+
 16-Nov-2013 Michael Babker
  # [#32662] Feed information missing in RSS type Syndication Feed.  Thanks George Wilson
  # [#32699] Joomla! extension updates can't use update XML sources with URLs not ending in .xml.  Thanks Nicholas Dionysopoulos
