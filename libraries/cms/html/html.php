@@ -975,9 +975,9 @@ abstract class JHtml
 
 		static::_('bootstrap.tooltip');
 
-		// format value
-		$value = strftime($format, strtotime($value));
-
+		// Format value only when not '0000-00-00 00:00:00', otherwise blank it as it would result in 1970-01-01.
+		$inputvalue = (int)$value ? strftime($format, strtotime($value)) : '';
+ 
 		if (!$readonly && !$disabled)
 		{
 			// Load the calendar behavior
@@ -1006,14 +1006,14 @@ abstract class JHtml
 			}
 
 			return '<div class="input-append"><input type="text" title="' . (0 !== (int) $value ? static::_('date', $value, null, null) : '')
-				. '" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
+				. '" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
 				. '<button type="button" class="btn" id="' . $id . '_img"><i class="icon-calendar"></i></button></div>';
 		}
 		else
 		{
 			return '<input type="text" title="' . (0 !== (int) $value ? static::_('date', $value, null, null) : '')
 				. '" value="' . (0 !== (int) $value ? static::_('date', $value, 'Y-m-d H:i:s', null) : '') . '" ' . $attribs
-				. ' /><input type="hidden" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" />';
+				. ' /><input type="hidden" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8') . '" />';
 		}
 	}
 
