@@ -18,6 +18,14 @@ defined('_JEXEC') or die;
 class ConfigControllerApplicationRemoveroot extends JControllerBase
 {
 	/**
+	 * Application object - Redeclared for proper typehinting
+	 *
+	 * @var    JApplicationCms
+	 * @since  3.2
+	 */
+	protected $app;
+
+	/**
 	 * Method to remove root in global configuration.
 	 *
 	 * @return  boolean  True on success.
@@ -29,32 +37,34 @@ class ConfigControllerApplicationRemoveroot extends JControllerBase
 		// Check for request forgeries.
 		if (!JSession::checkToken('get'))
 		{
-			$this->app->redirect('index.php', JText::_('JINVALID_TOKEN'));
+			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN'));
+			$this->app->redirect('index.php');
 		}
 
 		// Check if the user is authorized to do this.
 		if (!JFactory::getUser()->authorise('core.admin'))
 		{
-			$this->app->redirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
+			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'));
+			$this->app->redirect('index.php');
 		}
 
 		// Initialise model.
-		$model = new ConfigModelsApplication;
+		$model = new ConfigModelApplication;
 
 		// Attempt to save the configuration and remove root.
-		$return = $model->removeroot();
-
-		// Check the return value.
-		if ($return === false)
+		try
+		{
+			$model->removeroot();
+		}
+		catch (RuntimeException $e)
 		{
 			// Save failed, go back to the screen and display a notice.
-			$this->app->redirect(JRoute::_('index.php', false), JText::sprintf('JERROR_SAVE_FAILED', $model->getError()), 'error');
+			$this->app->enqueueMessage(JText::sprintf('JERROR_SAVE_FAILED', $e->getMessage()), 'error');
+			$this->app->redirect(JRoute::_('index.php', false));
 		}
 
-		// Set the success message.
-		$message = JText::_('COM_CONFIG_SAVE_SUCCESS');
-
 		// Set the redirect based on the task.
-		$this->app->redirect(JRoute::_('index.php', false), $message);
+		$this->app->enqueueMessage(JText::_('COM_CONFIG_SAVE_SUCCESS'));
+		$this->app->redirect(JRoute::_('index.php', false));
 	}
 }

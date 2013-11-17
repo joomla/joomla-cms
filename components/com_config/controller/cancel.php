@@ -13,11 +13,19 @@ defined('JPATH_PLATFORM') or die;
  * Cancel Controller
  *
  * @package     Joomla.Libraries
- * @subpackage  Controller
+ * @subpackage  com_config
  * @since       3.2
  */
 class ConfigControllerCancel extends JControllerBase
 {
+	/**
+	 * Application object - Redeclared for proper typehinting
+	 *
+	 * @var    JApplicationCms
+	 * @since  3.2
+	 */
+	protected $app;
+
 	/**
 	 * Method to handle cancel
 	 *

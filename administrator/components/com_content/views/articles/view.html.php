@@ -136,7 +136,7 @@ class ContentViewArticles extends JViewLegacy
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
-		if ($canDo->get('core.admin'))
+		if ($user->authorise('core.admin', 'com_content'))
 		{
 			JToolbarHelper::preferences('com_content');
 		}

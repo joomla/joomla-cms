@@ -223,8 +223,8 @@ class FOFFormFieldComponents extends JFormFieldList implements FOFFormField
 		{
 			case 'component':
 				$source = JPATH_ADMINISTRATOR . '/components/' . $item->element;
-				$lang->load("$item->element.sys", JPATH_ADMINISTRATOR, null, false, false)
-					||	$lang->load("$item->element.sys", $source, null, false, false)
+				$lang->load("$item->element.sys", JPATH_ADMINISTRATOR, null, false, true)
+					||	$lang->load("$item->element.sys", $source, null, false, true)
 					||	$lang->load("$item->element.sys", JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
 					||	$lang->load("$item->element.sys", $source, $lang->getDefault(), false, false);
 				break;

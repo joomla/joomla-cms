@@ -20,14 +20,12 @@
 			name="save_history"
 			type="radio"
 			class="btn-group btn-group-yesno"
-			default="1"
+			default="0"
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
 			description="JGLOBAL_SAVE_HISTORY_OPTIONS_DESC"
 			>
-			<option
-				value="0">JNO</option>
-			<option
-				value="1">JYES</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 		
 		<field
@@ -44,9 +42,8 @@
 				default="1"
 				label="COM_WEBLINKS_FIELD_COUNTCLICKS_LABEL"
 				description="COM_WEBLINKS_FIELD_COUNTCLICKS_DESC">
-
-				<option value="0">JNO</option>
 				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 		</field>
 
 		<field	name="icons" type="list"
@@ -91,8 +88,8 @@
 			default="1"
 			label="COM_WEBLINKS_FIELD_SHOW_TAGS_LABEL"
 			description="COM_WEBLINKS_FIELD_SHOW_TAGS_DESC">
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 	</fieldset>
@@ -117,19 +114,19 @@
 				description="JGLOBAL_SHOW_CATEGORY_TITLE_DESC"
 				default="1"
 			>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
 		</field>
 
 		<field name="show_description"
-	 		type="radio"
+			type="radio"
 			class="btn-group btn-group-yesno"
-	 		default="1"
-	 		label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
-	 		description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC">
-	 			<option value="0">JHIDE</option>
-	 			<option value="1">JSHOW</option>
-	 	</field>
+			default="1"
+			label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
+			description="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_DESC">
+				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
+		</field>
 
 		<field name="show_description_image"
 			type="radio"
@@ -137,9 +134,9 @@
 			default="1"
 			label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
 			description="JGLOBAL_SHOW_CATEGORY_IMAGE_DESC">
-	 			<option value="0">JHIDE</option>
-	 			<option value="1">JSHOW</option>
-	 	</field>
+				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
+		</field>
 
 		<field name="maxLevel" type="list"
 				description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
@@ -161,8 +158,8 @@
 				description="COM_WEBLINKS_SHOW_EMPTY_CATEGORIES_DESC"
 				default="0"
 			>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
 			</field>
 
 		<field name="show_subcat_desc" type="radio"
@@ -171,8 +168,8 @@
 			description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="show_cat_num_links" type="radio"
@@ -181,8 +178,8 @@
 			description="COM_WEBLINKS_FIELD_CONFIG_CAT_SHOWNUMBERS_DESC"
 			label="COM_WEBLINKS_FIELD_CONFIG_CAT_SHOWNUMBERS_LABEL"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="show_cat_tags" type="radio"
@@ -191,8 +188,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 	</fieldset>
@@ -207,8 +204,8 @@
 				label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
 				description="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_DESC"
 			>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
 		</field>
 
 		<field name="maxLevelcat" type="list"
@@ -230,8 +227,8 @@
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 				description="COM_WEBLINKS_SHOW_EMPTY_CATEGORIES_DESC"
 			>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
 			</field>
 
 			<field name="show_subcat_desc_cat" type="radio"
@@ -240,8 +237,8 @@
 				description="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_DESC"
 				label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 			>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
 			</field>
 
 			<field name="show_cat_num_links_cat" type="radio"
@@ -251,8 +248,8 @@
 				label="COM_WEBLINKS_FIELD_CONFIG_CAT_SHOWNUMBERS_LABEL"
 			>
 
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
 			</field>
 
 	</fieldset>
@@ -270,8 +267,8 @@
 			description="JGLOBAL_FILTER_FIELD_DESC"
 			label="JGLOBAL_FILTER_FIELD_LABEL"
 			>
-				<option value="hide">JHIDE</option>
 				<option value="1">JSHOW</option>
+				<option value="hide">JHIDE</option>
 		</field>
 
 		<field
@@ -280,8 +277,8 @@
 			class="btn-group btn-group-yesno"
 			label="JGLOBAL_DISPLAY_SELECT_LABEL"
 			description="JGLOBAL_DISPLAY_SELECT_DESC">
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
 		</field>
 
 		<field name="show_headings" type="radio"
@@ -290,8 +287,8 @@
 			description="JGLOBAL_SHOW_HEADINGS_DESC"
 			label="JGLOBAL_SHOW_HEADINGS_LABEL"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="show_link_description" type="radio"
@@ -300,8 +297,8 @@
 			description="COM_WEBLINKS_FIELD_CONFIG_LINKDESCRIPTION_DESC"
 			label="COM_WEBLINKS_FIELD_CONFIG_LINKDESCRIPTION_LABEL"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="show_link_hits" type="radio"
@@ -310,8 +307,8 @@
 			description="COM_WEBLINKS_FIELD_CONFIG_HITS_DESC"
 			label="JGLOBAL_HITS"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field name="show_pagination"
@@ -319,8 +316,8 @@
 			default="2"
 			label="JGLOBAL_PAGINATION_LABEL"
 			description="JGLOBAL_PAGINATION_DESC">
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
 				<option value="2">JGLOBAL_AUTO</option>
 		</field>
 
@@ -330,8 +327,8 @@
 			default="1"
 			label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 			description="JGLOBAL_PAGINATION_RESULTS_DESC">
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
 		</field>
 
 	</fieldset>
@@ -349,8 +346,8 @@
 			default="1"
 			label="JGLOBAL_SHOW_FEED_LINK_LABEL"
 			description="JGLOBAL_SHOW_FEED_LINK_DESC">
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
 		</field>
 
 	</fieldset>

@@ -26,86 +26,86 @@
 						description="PLG_CODEMIRROR_FIELD_LINENUMBERS_DESC"
 						label="PLG_CODEMIRROR_FIELD_LINENUMBERS_LABEL"
 					>
-					<option value="0">JOFF</option>
 					<option value="1">JON</option>
+					<option value="0">JOFF</option>
 				</field>
 
 				<field name="lineWrapping" type="radio"
-						class="btn-group btn-group-yesno"
-						default="1"
-						description="PLG_CODEMIRROR_FIELD_LINEWRAPPING_DESC"
-						label="PLG_CODEMIRROR_FIELD_LINEWRAPPING_LABEL"
-					>
-					<option value="0">JOFF</option>
+					   class="btn-group btn-group-yesno"
+					   default="1"
+					   description="PLG_CODEMIRROR_FIELD_LINEWRAPPING_DESC"
+					   label="PLG_CODEMIRROR_FIELD_LINEWRAPPING_LABEL"
+						>
 					<option value="1">JON</option>
+					<option value="0">JOFF</option>
 				</field>
 
 				<field name="matchTags" type="radio"
-						class="btn-group btn-group-yesno"
-						default="1"
-						description="PLG_CODEMIRROR_FIELD_MATCHTAGS_DESC"
-						label="PLG_CODEMIRROR_FIELD_MATCHTAGS_LABEL"
-					>
-					<option value="0">JOFF</option>
+					   class="btn-group btn-group-yesno"
+					   default="1"
+					   description="PLG_CODEMIRROR_FIELD_MATCHTAGS_DESC"
+					   label="PLG_CODEMIRROR_FIELD_MATCHTAGS_LABEL"
+						>
 					<option value="1">JON</option>
+					<option value="0">JOFF</option>
 				</field>
 
 				<field name="matchBrackets" type="radio"
-						class="btn-group btn-group-yesno"
-						default="1"
-						description="PLG_CODEMIRROR_FIELD_MATCHBRACKETS_DESC"
-						label="PLG_CODEMIRROR_FIELD_MATCHBRACKETS_LABEL"
-					>
-					<option value="0">JOFF</option>
+					   class="btn-group btn-group-yesno"
+					   default="1"
+					   description="PLG_CODEMIRROR_FIELD_MATCHBRACKETS_DESC"
+					   label="PLG_CODEMIRROR_FIELD_MATCHBRACKETS_LABEL"
+						>
 					<option value="1">JON</option>
+					<option value="0">JOFF</option>
 				</field>
 
 				<field name="marker-gutter" type="radio"
-						class="btn-group btn-group-yesno"
-						default="1"
-						description="PLG_CODEMIRROR_FIELD_MARKERGUTTER_DESC"
-						label="PLG_CODEMIRROR_FIELD_MARKERGUTTER_LABEL"
-					>
-					<option value="0">JOFF</option>
+					   class="btn-group btn-group-yesno"
+					   default="1"
+					   description="PLG_CODEMIRROR_FIELD_MARKERGUTTER_DESC"
+					   label="PLG_CODEMIRROR_FIELD_MARKERGUTTER_LABEL"
+						>
 					<option value="1">JON</option>
+					<option value="0">JOFF</option>
 				</field>
 
 				<field name="autoCloseTags" type="radio"
-						class="btn-group btn-group-yesno"
-						default="1"
-						description="PLG_CODEMIRROR_FIELD_AUTOCLOSETAGS_DESC"
-						label="PLG_CODEMIRROR_FIELD_AUTOCLOSETAGS_LABEL"
-					>
-					<option value="0">JOFF</option>
+					   class="btn-group btn-group-yesno"
+					   default="1"
+					   description="PLG_CODEMIRROR_FIELD_AUTOCLOSETAGS_DESC"
+					   label="PLG_CODEMIRROR_FIELD_AUTOCLOSETAGS_LABEL"
+						>
 					<option value="1">JON</option>
+					<option value="0">JOFF</option>
 				</field>
 
 				<field name="autoCloseBrackets" type="radio"
-						class="btn-group btn-group-yesno"
-						default="1"
-						description="PLG_CODEMIRROR_FIELD_AUTOCLOSEBRACKET_DESC"
-						label="PLG_CODEMIRROR_FIELD_AUTOCLOSEBRACKET_LABEL"
-					>
-					<option value="0">JOFF</option>
+					   class="btn-group btn-group-yesno"
+					   default="1"
+					   description="PLG_CODEMIRROR_FIELD_AUTOCLOSEBRACKET_DESC"
+					   label="PLG_CODEMIRROR_FIELD_AUTOCLOSEBRACKET_LABEL"
+						>
 					<option value="1">JON</option>
+					<option value="0">JOFF</option>
 				</field>
 
 				<field name="autoFocus" type="radio"
-						class="btn-group btn-group-yesno"
-						default="1"
-						description="PLG_CODEMIRROR_FIELD_AUTOFOCUS_DESC"
-						label="PLG_CODEMIRROR_FIELD_AUTOFOCUS_LABEL"
-					>
-					<option value="0">JOFF</option>
+					   class="btn-group btn-group-yesno"
+					   default="1"
+					   description="PLG_CODEMIRROR_FIELD_AUTOFOCUS_DESC"
+					   label="PLG_CODEMIRROR_FIELD_AUTOFOCUS_LABEL"
+						>
 					<option value="1">JON</option>
+					<option value="0">JOFF</option>
 				</field>
 
 				<field name="theme" type="list"
-						class="btn-group"
-						default="default"
-						description="PLG_CODEMIRROR_FIELD_THEME_DESC"
-						label="PLG_CODEMIRROR_FIELD_THEME_LABEL"
-					>
+					   class="btn-group btn-group-yesno"
+					   default="default"
+					   description="PLG_CODEMIRROR_FIELD_THEME_DESC"
+					   label="PLG_CODEMIRROR_FIELD_THEME_LABEL"
+						>
 					<option value="default">PLG_CODEMIRROR_FIELD_VALUE_THEME_LIGHT</option>
 					<option value="ambiance">PLG_CODEMIRROR_FIELD_VALUE_THEME_DARK</option>
 				</field>

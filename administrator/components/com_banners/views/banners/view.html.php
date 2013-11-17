@@ -141,7 +141,7 @@ class BannersViewBanners extends JViewLegacy
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
-		if ($canDo->get('core.admin'))
+		if ($user->authorise('core.admin', 'com_banners'))
 		{
 			JToolbarHelper::preferences('com_banners');
 		}

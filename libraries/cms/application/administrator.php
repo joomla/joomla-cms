@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  Application
  * @since       3.2
  */
-final class JApplicationAdministrator extends JApplicationCms
+class JApplicationAdministrator extends JApplicationCms
 {
 	/**
 	 * Class constructor.

@@ -270,7 +270,7 @@ abstract class JFormField
 	 * @var    mixed
 	 * @since  11.1
 	 */
-	protected $labelClass;
+	protected $labelclass;
 
 	/**
 	* The javascript onchange of the form field.
@@ -361,7 +361,7 @@ abstract class JFormField
 			case 'validate':
 			case 'value':
 			case 'class':
-			case 'labelClass':
+			case 'labelclass':
 			case 'size':
 			case 'onchange':
 			case 'onclick':
@@ -420,11 +420,12 @@ abstract class JFormField
 			case 'description':
 			case 'hint':
 			case 'value':
-			case 'labelClass':
+			case 'labelclass':
 			case 'onchange':
 			case 'onclick':
 			case 'validate':
 			case 'pattern':
+			case 'group':
 			case 'default':
 				$this->$name = (string) $value;
 				break;
@@ -535,7 +536,7 @@ abstract class JFormField
 		$this->group = $group;
 
 		$attributes = array(
-			'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelClass', 'onchange',
+			'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange',
 			'onclick', 'validate', 'pattern', 'default', 'required',
 			'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck',
 			'translateHint', 'translateLabel', 'translateDescription', 'size');
@@ -691,7 +692,7 @@ abstract class JFormField
 		// Build the class for the label.
 		$class = !empty($this->description) ? 'hasTooltip' : '';
 		$class = $this->required == true ? $class . ' required' : $class;
-		$class = !empty($this->labelClass) ? $class . ' ' . $this->labelClass : $class;
+		$class = !empty($this->labelclass) ? $class . ' ' . $this->labelclass : $class;
 
 		// Add the opening label tag and main attributes attributes.
 		$label .= '<label id="' . $this->id . '-lbl" for="' . $this->id . '" class="' . $class . '"';

@@ -122,8 +122,7 @@ class PlgTwofactorauthYubikey extends JPlugin
 			$yubikey = '';
 		}
 
-		// Is this a new TOTP setup? If so, we'll have to show the code
-		// validation field.
+		// Is this a new TOTP setup? If so, we'll have to show the code validation field.
 		$new_totp = $otpConfig->method != $this->methodName;
 
 		// Start output buffering

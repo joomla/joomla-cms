@@ -232,7 +232,7 @@ class JPath
 	{
 		jimport('joomla.filesystem.file');
 
-		$tmp = md5(mt_rand());
+		$tmp = md5(JCrypt::genRandomBytes());
 		$ssp = ini_get('session.save_path');
 		$jtp = JPATH_SITE . '/tmp';
 
