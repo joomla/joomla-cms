@@ -25,11 +25,24 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+17-Nov-2013 Jean-Marie Simonet
+ # [#32721] Fix small error in application view  Thanks Bruno Batista
+ # [#32165] False helper include in article model file  Thanks Panayiotis Halouvas
+ # [#32726] PHP notice in com_config  Thanks David Jardin
+ # [#32734] *Regression: Insert article in Frontend edit is broken: 500 JForm::getInstance could not load file  Thanks Michael Babker
+
+16-Nov-2013 Michael Babker
+ # [#32662] Feed information missing in RSS type Syndication Feed.  Thanks George Wilson
+ # [#32699] Joomla! extension updates can't use update XML sources with URLs not ending in .xml.  Thanks Nicholas Dionysopoulos
+ # [#32074] Fixed PHP Notice: Undefined variable: versionName in contenthistory.php on line 155.  Thanks George Wilson
+ # [#32716] *Regression: TinyMCE non empty textarea on New or Save & New.  Thanks Jean-Marie Simonet
+ ^ [#30373] Installer 404 should be 403 for authorization.  Thanks Naouak
+
 13-Nov-2013 Jean-Marie Simonet
  # [#32412] protostar error page logo  Thanks David Beuving
  + [#32660] TinyMCE editor lacks link relation option  Thanks Artur Stępień
- # [#32626] *Banners Manager: Options is gone when filtering by a category 
- +$ [#32678] TinyMCE 4 in Joomla 3.2 has no image advanced options 
+ # [#32626] *Banners Manager: Options is gone when filtering by a category
+ +$ [#32678] TinyMCE 4 in Joomla 3.2 has no image advanced options
  # [#32672] Fixed problem with featured view Thanks Bruno Batista
  $ [#32546] Language strings missing for com_tags  Thanks George Wilson
  $ [#32680] Missing string Thanks David Jardin

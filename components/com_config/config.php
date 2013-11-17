@@ -26,4 +26,3 @@ $controller->prefix = 'Config';
 
 // Perform the Request task
 $controller->execute();
-

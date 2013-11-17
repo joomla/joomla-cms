@@ -33,6 +33,25 @@ class JViewCategoryfeed extends JViewLegacy
 		$document = JFactory::getDocument();
 
 		$extension      = $app->input->getString('option');
+		$contentType = $extension . '.' . $this->viewName;
+
+		$ucmType = new JUcmType;
+		$ucmRow = $ucmType->getTypeByAlias($contentType);
+		$ucmMapCommon = json_decode($ucmRow->field_mappings)->common;
+		$createdField = null;
+		$titleField = null;
+
+		if (is_object($ucmMapCommon))
+		{
+			$createdField = $ucmMapCommon->core_created_time;
+			$titleField = $ucmMapCommon->core_title;
+		}
+		elseif (is_array($ucmMapCommon))
+		{
+			$createdField = $ucmMapCommon[0]->core_created_time;
+			$titleField = $ucmMapCommon[0]->core_title;
+		}
+
 		$document->link = JRoute::_(JHelperRoute::getCategoryRoute($app->input->getInt('id'), $language = 0, $extension));
 
 		$app->input->set('limit', $app->get('feed_limit'));
@@ -55,17 +74,32 @@ class JViewCategoryfeed extends JViewLegacy
 			$this->reconcileNames($item);
 
 			// Strip html from feed item title
-			$title = $this->escape($item->title);
-			$title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
+			if ($titleField)
+			{
+				$title = $this->escape($item->$titleField);
+				$title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
+			}
+			else
+			{
+				$title = '';
+			}
 
 			// URL link to article
 			$router = new JHelperRoute;
-			$link   = JRoute::_($router->getRoute($item->id, $item->catid));
+			$link   = JRoute::_($router->getRoute($item->id, $contentType, null, null, $item->catid));
 
 			// Strip HTML from feed item description text.
 			$description = $item->description;
 			$author      = $item->created_by_alias ? $item->created_by_alias : $item->author;
-			$date        = isset($item->date) ? date('r', strtotime($item->date)) : '';
+
+			if ($createdField)
+			{
+				$date = isset($item->$createdField) ? date('r', strtotime($item->$createdField)) : '';
+			}
+			else
+			{
+				$date = '';
+			}
 
 			// Load individual item creator class.
 			$feeditem              = new JFeedItem;
