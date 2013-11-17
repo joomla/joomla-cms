@@ -109,7 +109,7 @@ class GlobalConfigurationPage extends AdminEditPage
 			$this->driver->executeScript($this->moveToElementByAttribute, array('for', $id));
 			sleep(1);
 			$tip = $label->findElement(By::xPath("//label[@class='hasTooltip'][@for='" . $id . "']"));
-			$tipText = $tip->getAttribute('title');
+			$tipText = $tip->getAttribute('data-original-title');
 			$object = new stdClass();
 			$object->tab = $this->driver->findElement(By::xPath("//a[@href='#page-permissions']"))->getText();
 			$object->labelText = $label->getText();
