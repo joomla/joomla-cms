@@ -28,6 +28,7 @@ $ -> Language fix or change
 17-Nov-2013 Jean-Marie Simonet
  # [#32721] Fix small error in application view  Thanks Bruno Batista
  # [#32165] False helper include in article model file  Thanks Panayiotis Halouvas
+ # [#32726] PHP notice in com_config  Thanks David Jardin
 
 16-Nov-2013 Michael Babker
  # [#32662] Feed information missing in RSS type Syndication Feed.  Thanks George Wilson
