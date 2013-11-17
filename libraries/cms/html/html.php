@@ -975,8 +975,18 @@ abstract class JHtml
 
 		static::_('bootstrap.tooltip');
 
-		// Format value only when not '0000-00-00 00:00:00', otherwise blank it as it would result in 1970-01-01.
-		$inputvalue = (int)$value ? strftime($format, strtotime($value)) : '';
+		// Format value when not '0000-00-00 00:00:00', otherwise blank it as it would result in 1970-01-01.
+		if ((int)$value)
+		{
+			$tz = date_default_timezone_get();
+			date_default_timezone_set('UTC');
+			$inputvalue = strftime($format, strtotime($value));
+			date_default_timezone_set($tz);
+		}
+		else
+		{
+			$inputvalue = '';
+		}
  
 		if (!$readonly && !$disabled)
 		{
