@@ -169,7 +169,6 @@ class JFormFieldCheckboxes extends JFormField
 			$html[] = '<input type="checkbox" name="' . $this->name . '" value="'
 				. htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8') . '"' . $checked . $onclick . $onchange . $disabled . '/>';
 			$html[] = JText::_($option->text) . '</label>';
-
 		}
 
 		// End the checkbox field output.
