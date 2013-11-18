@@ -500,6 +500,28 @@ class JPagination
 	 */
 	public function getListFooter()
 	{
+		// Keep B/C for overrides done with chromes
+		$chromePath = JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html/pagination.php';
+
+		if (file_exists($chromePath))
+		{
+			$list = array();
+			$list['prefix'] = $this->prefix;
+			$list['limit'] = $this->limit;
+			$list['limitstart'] = $this->limitstart;
+			$list['total'] = $this->total;
+			$list['limitfield'] = $this->getLimitBox();
+			$list['pagescounter'] = $this->getPagesCounter();
+			$list['pageslinks'] = $this->getPagesLinks();
+
+			include_once $chromePath;
+
+			if (function_exists('pagination_list_footer'))
+			{
+				return pagination_list_footer($list);
+			}
+		}
+
 		return $this->getPaginationLinks();
 	}
 
