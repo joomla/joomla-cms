@@ -28,10 +28,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<?php endif; ?>
 
 	<?php if ($this->showMessage) : ?>
-		<div class="alert alert-info">
-			<a class="close" data-dismiss="alert" href="#">&times;</a>
-			<?php echo $this->loadTemplate('message'); ?>
-		</div>
+		<?php echo $this->loadTemplate('message'); ?>
 	<?php endif; ?>
 
 	<?php if ($this->ftp) : ?>
