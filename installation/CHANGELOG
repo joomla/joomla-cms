@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+18-Nov-2013 Jean-Marie Simonet
+# [#32615] Regression: Module can't be deleted  Thanks Hannes Papenberg
+
 17-Nov-2013 Jean-Marie Simonet
  # [#32721] Fix small error in application view  Thanks Bruno Batista
  # [#32165] False helper include in article model file  Thanks Panayiotis Halouvas
