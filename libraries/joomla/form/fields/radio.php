@@ -57,7 +57,7 @@ class JFormFieldRadio extends JFormField
 		{
 			// Initialize some option attributes.
 			$checked = ((string) $option->value == (string) $this->value) ? ' checked="checked"' : '';
-			$class = !empty($option->class) ? ' class="' . $option->class . '"' : '';
+			$class = !empty($option->class) ? ' class="radio ' . $option->class . '"' : ' class="radio"';
 
 			$disabled = !empty($option->disable) || ($readonly && !$checked);
 
@@ -67,12 +67,11 @@ class JFormFieldRadio extends JFormField
 			$onclick = !empty($option->onclick) ? ' onclick="' . $option->onclick . '"' : '';
 			$onchange = !empty($option->onchange) ? ' onchange="' . $option->onchange . '"' : '';
 
-			$html[] = '<input type="radio" id="' . $this->id . $i . '" name="' . $this->name . '" value="'
-				. htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8') . '"' . $checked . $class . $required . $onclick
+			$html[] = '<label' . $class . '>';
+			$html[] = '<input type="radio" name="' . $this->name . '" value="'
+				. htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8') . '"' . $checked . $required . $onclick
 				. $onchange . $disabled . ' />';
-
-			$html[] = '<label for="' . $this->id . $i . '"' . $class . ' >'
-				. JText::alt($option->text, preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)) . '</label>';
+			$html[] = JText::alt($option->text, preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)) . '</label>';
 
 			$required = '';
 		}
