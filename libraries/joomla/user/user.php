@@ -571,9 +571,15 @@ class JUser extends JObject
 			}
 			$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
 
-			$salt = JUserHelper::genRandomPassword(32);
-			$crypt = JUserHelper::getCryptedPassword($array['password'], $salt, $encryption);
-			$array['password'] = $crypt;
+			$salt = '';
+			$password = JUserHelper::getCryptedPassword($array['password'], JUserHelper::getSalt($encryption, $salt, $array['password']), $encryption, true);
+			if ($encryption == 'md5-hex')
+			{
+				$salt = JUserHelper::genRandomPassword(32);
+				$password = JUserHelper::getCryptedPassword($array['password'], JUserHelper::getSalt($encryption, $salt, $array['password']), $encryption, true).':'.$salt;
+			}
+			
+			$array['password'] = $password;
 
 			// Set the registration timestamp
 			$this->set('registerDate', JFactory::getDate()->toSql());
@@ -585,17 +591,6 @@ class JUser extends JObject
 			{
 				$username = substr($username, 0, 150);
 				$this->set('username', $username);
-			}
-
-			// Use a limit to prevent abuse since it is unfiltered
-			// The maximum password length for bcrypt is 55 characters.
-			$password = $this->get('password');
-
-			if (strlen($password) > 55)
-			{
-				$password = substr($password, 0, 55);
-				$this->set('password', $password);
-				JFactory::getApplication()->enqueueMessage(JText::_('JLIB_USER_ERROR_PASSWORD_TRUNCATED'), 'notice');
 			}
 		}
 		else

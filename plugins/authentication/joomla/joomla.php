@@ -56,7 +56,12 @@ class PlgAuthenticationJoomla extends JPlugin
 		{
 			if (JCrypt::hasStrongPasswordSupport() && ((substr($result->password, 0, 8) == '{BCRYPT}') || substr($result->password, 0, 4) == '$2y$'))
 			{
-				$match = password_verify($credentials['password'], substr($result->password, 8));
+				$password = $result->password;
+				if (strpos($password, '{BCRYPT') !== false)
+				{
+					$password = substr($password, 8);
+				}
+				$match = password_verify($credentials['password'], $password);
 			}
 			elseif (substr($result->password, 0, 8) == '{SHA256}')
 			{
