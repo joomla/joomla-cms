@@ -417,6 +417,7 @@
 					<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 					<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
 			</field>
+
 			
 			<field
 				name="spacer2"
@@ -927,6 +928,12 @@
 			fileType="document"
 			label="COM_CONTENT_FIELD_ATTACHMENTC_LABEL"
 			description="COM_CONTENT_FIELD_ATTACHMENTC_DESC" />
+
+			<field
+				name="adjuntos"
+				type="adjuntos"
+				label="adjuntos"
+                description="Adjuntos" />
 	</fields> 
 	
 	<fields name="metadata">
