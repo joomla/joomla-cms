@@ -687,7 +687,14 @@ class JFilterInput
 		if (!is_array($ttr))
 		{
 			// Entity decode
-			$trans_tbl = get_html_translation_table(HTML_ENTITIES);
+			if (version_compare(PHP_VERSION, '5.3.4', '>='))
+			{
+				$trans_tbl = get_html_translation_table(HTML_ENTITIES, ENT_COMPAT, 'ISO-8859-1');
+			}
+			else
+			{
+				$trans_tbl = get_html_translation_table(HTML_ENTITIES, ENT_COMPAT);
+			}
 
 			foreach ($trans_tbl as $k => $v)
 			{

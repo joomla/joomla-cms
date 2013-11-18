@@ -37,13 +37,7 @@ class JHttpTransportStream implements JHttpTransport
 		// Verify that fopen() is available.
 		if (!self::isSupported())
 		{
-			throw new RuntimeException('Cannot use a stream transport when fopen() is not available.');
-		}
-
-		// Verify that URLs can be used with fopen();
-		if (!ini_get('allow_url_fopen'))
-		{
-			throw new RuntimeException('Cannot use a stream transport when "allow_url_fopen" is disabled.');
+			throw new RuntimeException('Cannot use a stream transport when fopen() is not available or "allow_url_fopen" is disabled.');
 		}
 
 		$this->options = $options;
@@ -62,6 +56,7 @@ class JHttpTransportStream implements JHttpTransport
 	 * @return  JHttpResponse
 	 *
 	 * @since   11.3
+	 * @throws  RuntimeException
 	 */
 	public function request($method, JUri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
 	{
@@ -93,6 +88,7 @@ class JHttpTransportStream implements JHttpTransport
 
 		// Build the headers string for the request.
 		$headerString = null;
+
 		if (isset($headers))
 		{
 			foreach ($headers as $key => $value)
@@ -125,14 +121,30 @@ class JHttpTransportStream implements JHttpTransport
 		// Create the stream context for the request.
 		$context = stream_context_create(array('http' => $options));
 
+		// Capture PHP errors
+		$php_errormsg = '';
+		$track_errors = ini_get('track_errors');
+		ini_set('track_errors', true);
+
 		// Open the stream for reading.
 		$stream = @fopen((string) $uri, 'r', false, $context);
 
-		// Check if the stream is open.
 		if (!$stream)
 		{
-			throw new RuntimeException(sprintf('Could not connect to resource: %s', $uri));
+			if (!$php_errormsg)
+			{
+				// Error but nothing from php? Create our own
+				$php_errormsg = sprintf('Could not connect to resource: %s', $uri, $err, $errno);
+			}
+
+			// Restore error tracking to give control to the exception handler
+			ini_set('track_errors', $track_errors);
+
+			throw new RuntimeException($php_errormsg);
 		}
+
+		// Restore error tracking to what it was before.
+		ini_set('track_errors', $track_errors);
 
 		// Get the metadata for the stream, including response headers.
 		$metadata = stream_get_meta_data($stream);
@@ -182,10 +194,12 @@ class JHttpTransportStream implements JHttpTransport
 		// Get the response code from the first offset of the response headers.
 		preg_match('/[0-9]{3}/', array_shift($headers), $matches);
 		$code = $matches[0];
+
 		if (is_numeric($code))
 		{
 			$return->code = (int) $code;
 		}
+
 		// No valid response code was detected.
 		else
 		{
@@ -203,14 +217,14 @@ class JHttpTransportStream implements JHttpTransport
 	}
 
 	/**
-	 * method to check if http transport stream available for using
+	 * Method to check if http transport stream available for use
 	 *
 	 * @return bool true if available else false
 	 *
 	 * @since   12.1
 	 */
-	static public function isSupported()
+	public static function isSupported()
 	{
-		return function_exists('fopen') && is_callable('fopen');
+		return function_exists('fopen') && is_callable('fopen') && ini_get('allow_url_fopen');
 	}
 }

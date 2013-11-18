@@ -8,7 +8,6 @@
  */
 
 defined('JPATH_PLATFORM') or die();
-jimport('joomla.environment.response');
 
 /**
  * Joomla Platform class for interacting with an OAuth 1.0 and 1.0a server.
@@ -518,7 +517,7 @@ abstract class JOAuth1Client
 	public static function generateNonce()
 	{
 		$mt = microtime();
-		$rand = mt_rand();
+		$rand = JCrypt::genRandomBytes();
 
 		// The md5s look nicer than numbers.
 		return md5($mt . $rand);

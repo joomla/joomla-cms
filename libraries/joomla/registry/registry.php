@@ -358,7 +358,7 @@ class JRegistry implements JsonSerializable
 					$node->$nodes[$i] = new stdClass;
 				}
 
-				$node = $node->$nodes[$i];
+				$node = (object) $node->$nodes[$i];
 			}
 
 			// Get the old value if exists so we can return it

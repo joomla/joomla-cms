@@ -22,7 +22,7 @@ class GroupEditPage extends AdminEditPage
 	 * @var unknown_type
 	 */
 	public $inputFields = array (
-			array('label' => 'Group Title', 'id' => 'jform_title', 'type' => 'input', 'tab' => 'none'),
-			array('label' => 'Group Parent', 'id' => 'jform_parent_id', 'type' => 'select', 'tab' => 'none'),
+			array('label' => 'Group Title', 'id' => 'jform_title', 'type' => 'input', 'tab' => 'header'),
+			array('label' => 'Group Parent', 'id' => 'jform_parent_id', 'type' => 'select', 'tab' => 'header'),
 	);
 }

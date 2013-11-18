@@ -5,16 +5,16 @@
 		type="text"
 		default="0"
 		label="JGLOBAL_FIELD_ID_LABEL"
-		description ="JGLOBAL_FIELD_ID_DESC"
+		description="JGLOBAL_FIELD_ID_DESC"
 		class="readonly"
 		readonly="true"/>
-		
+
 	<field
 		name="hits"
 		type="text"
 		default="0"
 		label="JGLOBAL_HITS"
-		description ="COM_CATEGORIES_FIELD_HITS_DESC"
+		description="COM_CATEGORIES_FIELD_HITS_DESC"
 		class="readonly"
 		readonly="true"/>
 
@@ -27,8 +27,7 @@
 		name="parent_id"
 		type="categoryedit"
 		label="COM_CATEGORIES_FIELD_PARENT_LABEL"
-		description="COM_CATEGORIES_FIELD_PARENT_DESC"
-		class="span12 small"/>
+		description="COM_CATEGORIES_FIELD_PARENT_DESC"/>
 
 	<field
 		name="lft"
@@ -63,7 +62,7 @@
 		type="text"
 		label="JGLOBAL_TITLE"
 		description="JFIELD_TITLE_DESC"
-		class="inputbox"
+		class="inputbox input-xxlarge input-large-text"
 		size="40"
 		required="true"/>
 
@@ -72,24 +71,24 @@
 		type="text"
 		label="JFIELD_ALIAS_LABEL"
 		description="JFIELD_ALIAS_DESC"
+		hint="JFIELD_ALIAS_PLACEHOLDER"
 		class="inputbox"
-		size="40"/>
-		
-	<field 
-		name="version_note" 
-		type="text" 
+		size="45"/>
+
+	<field
+		name="version_note"
+		type="text"
 		label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
-		description="JGLOBAL_FIELD_VERSION_NOTE_DESC" 
-		class="inputbox" 
-		size="45" 
-		labelclass="control-label" />
+		description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
+		class="inputbox span12"
+		size="45" />
 
 	<field
 		name="note"
 		type="text"
 		label="JFIELD_NOTE_LABEL"
 		description="JFIELD_NOTE_DESC"
-		class="inputbox"
+		class="inputbox span12"
 		size="40"/>
 
 	<field
@@ -105,7 +104,7 @@
 	<field
 		name="published"
 		type="list"
-		class="span12 small"
+		class="chzn-color-state"
 		default="1"
 		size="1"
 		label="JSTATUS"
@@ -134,8 +133,7 @@
 		name="access"
 		type="accesslevel"
 		label="JFIELD_ACCESS_LABEL"
-		description="JFIELD_ACCESS_DESC"
-		class="span12 small"/>
+		description="JFIELD_ACCESS_DESC"/>
 
 	<field
 		name="metadesc"
@@ -188,8 +186,7 @@
 		name="language"
 		type="contentlanguage"
 		label="JFIELD_LANGUAGE_LABEL"
-		description="COM_CATEGORIES_FIELD_LANGUAGE_DESC"
-		class="span12 small">
+		description="COM_CATEGORIES_FIELD_LANGUAGE_DESC">
 		<option value="*">JALL</option>
 	</field>
 
@@ -197,7 +194,7 @@
 		type="tag"
 		label="JTAG"
 		description="JTAG_DESC"
-		class="inputbox span12 small"
+		class="inputbox span12"
 		multiple="true"
 		>
 	</field>
@@ -244,7 +241,7 @@
 				label="JAUTHOR"
 				description="JFIELD_METADATA_AUTHOR_DESC"
 				size="30"/>
-	
+
 			<field name="robots"
 				type="list"
 				label="JFIELD_METADATA_ROBOTS_LABEL"

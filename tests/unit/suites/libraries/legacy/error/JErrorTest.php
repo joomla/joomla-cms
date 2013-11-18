@@ -7,8 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_PLATFORM . '/legacy/error/error.php';
-require_once JPATH_PLATFORM . '/legacy/exception/exception.php';
 require_once __DIR__ . '/JErrorInspector.php';
 
 /**
@@ -16,7 +14,6 @@ require_once __DIR__ . '/JErrorInspector.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Error
- *
  * @since       12.3
  */
 class JErrorTest extends TestCase

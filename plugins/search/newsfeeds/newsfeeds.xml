@@ -30,23 +30,23 @@
 				/>
 
 				<field name="search_content" type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="0"
 					description="JFIELD_PLG_SEARCH_ALL_DESC"
 					label="JFIELD_PLG_SEARCH_ALL_LABEL"
 				>
-					<option value="0">JOFF</option>
 					<option value="1">JON</option>
+					<option value="0">JOFF</option>
 				</field>
 
 				<field name="search_archived" type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="0"
 					description="JFIELD_PLG_SEARCH_ARCHIVED_DESC"
 					label="JFIELD_PLG_SEARCH_ARCHIVED_LABEL"
 				>
-					<option value="0">JOFF</option>
 					<option value="1">JON</option>
+					<option value="0">JOFF</option>
 				</field>
 			</fieldset>
 

@@ -33,7 +33,7 @@ class JoomlaupdateViewUpdate extends JViewLegacy
 		$returnUrl = 'index.php?option=com_joomlaupdate&task=update.finalise';
 
 		// Set the toolbar information
-		JToolbarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'install');
+		JToolbarHelper::title(JText::_('COM_JOOMLAUPDATE_OVERVIEW'), 'arrow-up-2 install');
 		JToolBarHelper::divider();
 		JToolBarHelper::help('JHELP_COMPONENTS_JOOMLA_UPDATE');
 
@@ -59,6 +59,7 @@ ENDSCRIPT;
 		$document->addScript('../media/com_joomlaupdate/json2.js');
 		$document->addScript('../media/com_joomlaupdate/encryption.js');
 		$document->addScript('../media/com_joomlaupdate/update.js');
+		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/progressbar.js', true, true);
 		JHtml::_('stylesheet', 'media/mediamanager.css', array(), true);
 		$document->addScriptDeclaration($updateScript);

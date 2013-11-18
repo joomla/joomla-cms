@@ -7,27 +7,17 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+JFormHelper::loadFieldClass('combo');
+
 /**
- * Test class for JForm.
+ * Test class for JFormFieldCombo.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- *
  * @since       11.1
  */
 class JFormFieldComboTest extends TestCase
 {
-	/**
-	 * Sets up dependancies for the test.
-	 *
-	 * @return void
-	 */
-	protected function setUp()
-	{
-		require_once JPATH_PLATFORM . '/joomla/form/fields/combo.php';
-		require_once JPATH_TESTS . '/stubs/FormInspectors.php';
-	}
-
 	/**
 	 * Test the getInput method.
 	 *
@@ -35,7 +25,7 @@ class JFormFieldComboTest extends TestCase
 	 */
 	public function testGetInput()
 	{
-		$form = new JFormInspector('form1');
+		$form = new JForm('form1');
 
 		$this->assertThat(
 			$form->load('<form><field name="combo" type="combo" /></form>'),

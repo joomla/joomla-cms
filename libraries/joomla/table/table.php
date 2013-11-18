@@ -115,7 +115,7 @@ abstract class JTable extends JObject implements JObservableInterface
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($table, $key, JDatabaseDriver $db)
+	public function __construct($table, $key, $db)
 	{
 		// Set internal variables.
 		$this->_tbl = $table;
@@ -242,7 +242,7 @@ abstract class JTable extends JObject implements JObservableInterface
 	/**
 	 * Static method to get an instance of a JTable class if it can be found in
 	 * the table include paths.  To add include paths for searching for JTable
-	 * classes @see JTable::addIncludePath().
+	 * classes see JTable::addIncludePath().
 	 *
 	 * @param   string  $type    The type (name) of the JTable class to get an instance of.
 	 * @param   string  $prefix  An optional prefix for the table class name.
@@ -504,7 +504,7 @@ abstract class JTable extends JObject implements JObservableInterface
 	 * @link    http://docs.joomla.org/JTable/setDBO
 	 * @since   11.1
 	 */
-	public function setDBO(JDatabaseDriver $db)
+	public function setDBO($db)
 	{
 		$this->_db = $db;
 
@@ -972,12 +972,6 @@ abstract class JTable extends JObject implements JObservableInterface
 
 					return false;
 				}
-			}
-			else
-			{
-				$this->setError($asset->getError());
-
-				return false;
 			}
 		}
 

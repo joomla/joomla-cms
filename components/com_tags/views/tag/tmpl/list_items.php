@@ -118,5 +118,5 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<?php echo $this->pagination->getPagesLinks(); ?>
 	</div>
 	<?php endif; ?>
-</form>
 <?php endif; ?>
+</form>

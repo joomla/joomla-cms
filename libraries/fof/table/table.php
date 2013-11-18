@@ -1205,6 +1205,7 @@ class FOFTable extends JObject implements JTableInterface
 
 		if ($result !== true)
 		{
+			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
 
@@ -1440,15 +1441,7 @@ class FOFTable extends JObject implements JTableInterface
         }
 
 		$date = JFactory::getDate();
-
-		if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'ge'))
-		{
-			$time = $date->toSql();
-		}
-		else
-		{
-			$time = $date->toMysql();
-		}
+		$time = $date->toSql();
 
 		$query = $this->_db->getQuery(true)
 			->update($this->_db->qn($this->_tbl))
@@ -1996,7 +1989,6 @@ class FOFTable extends JObject implements JTableInterface
 		}
 
 		// Make sure the cached table fields cache is loaded
-
 		if (empty(self::$tableFieldCache))
 		{
 			if ($useCache)
@@ -2046,7 +2038,10 @@ class FOFTable extends JObject implements JTableInterface
 			$tableName = $this->_tbl;
 		}
 
-		if (!array_key_exists($tableName, self::$tableFieldCache))
+		// Try to load again column specifications if the table is not loaded OR if it's loaded and
+		// the previous call returned an error
+		if (!array_key_exists($tableName, self::$tableFieldCache) ||
+			(isset(self::$tableFieldCache[$tableName]) && !self::$tableFieldCache[$tableName]))
 		{
 			// Lookup the fields for this table only once.
 			$name = $tableName;
@@ -2510,14 +2505,7 @@ class FOFTable extends JObject implements JTableInterface
 				JLoader::import('joomla.utilities.date');
 				$date = new JDate();
 
-				if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'ge'))
-				{
-					$this->$created_on = $date->toSql();
-				}
-				else
-				{
-					$this->$created_on = $date->toMysql();
-				}
+				$this->$created_on = $date->toSql();
 			}
 			elseif ($hasModifiedOn && $hasModifiedBy)
 			{
@@ -2530,14 +2518,7 @@ class FOFTable extends JObject implements JTableInterface
 				JLoader::import('joomla.utilities.date');
 				$date = new JDate();
 
-				if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'ge'))
-				{
-					$this->$modified_on = $date->toSql();
-				}
-				else
-				{
-					$this->$modified_on = $date->toMysql();
-				}
+				$this->$modified_on = $date->toSql();
 			}
 		}
 

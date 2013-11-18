@@ -31,6 +31,8 @@ class ContentModelArticle extends JModelItem
 	 * Note. Calling getState in this method will result in recursion.
 	 *
 	 * @since   1.6
+	 *
+	 * @return void
 	 */
 	protected function populateState()
 	{
@@ -49,6 +51,7 @@ class ContentModelArticle extends JModelItem
 
 		// TODO: Tune these values based on other permissions.
 		$user = JFactory::getUser();
+
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 		{
 			$this->setState('filter.published', 1);
@@ -61,7 +64,7 @@ class ContentModelArticle extends JModelItem
 	/**
 	 * Method to get article data.
 	 *
-	 * @param   integer    The id of the article.
+	 * @param   integer  $pk  The id of the article.
 	 *
 	 * @return  mixed  Menu item data object on success, false on failure.
 	 */
@@ -76,7 +79,6 @@ class ContentModelArticle extends JModelItem
 
 		if (!isset($this->_item[$pk]))
 		{
-
 			try
 			{
 				$db = $this->getDbo();
@@ -88,7 +90,7 @@ class ContentModelArticle extends JModelItem
 							// In this case, the state is set to 0 to indicate Unpublished (even if the article state is Published)
 							'CASE WHEN badcats.id is null THEN a.state ELSE 0 END AS state, ' .
 							'a.catid, a.created, a.created_by, a.created_by_alias, ' .
-							// use created if modified is 0
+							// Use created if modified is 0
 							'CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END as modified, ' .
 							'a.modified_by, a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, ' .
 							'a.images, a.urls, a.attribs, a.version, a.ordering, ' .
@@ -111,11 +113,13 @@ class ContentModelArticle extends JModelItem
 					->from('#__contact_details AS contact')
 					->where('contact.published = 1')
 					->where('contact.user_id = a.created_by');
+
 					// Filter by language
 					if ($this->getState('filter.language'))
 					{
 						$subQuery->where('(contact.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ') OR contact.language IS NULL)');
 					}
+
 				$query->select('(' . $subQuery . ') as contactid');
 
 				// Filter by language
@@ -200,6 +204,7 @@ class ContentModelArticle extends JModelItem
 					{
 						$data->params->set('access-edit', true);
 					}
+
 					// Now check if edit.own is available.
 					elseif (!empty($userId) && $user->authorise('core.edit.own', $asset))
 					{
@@ -256,7 +261,7 @@ class ContentModelArticle extends JModelItem
 	/**
 	 * Increment the hit counter for the article.
 	 *
-	 * @param   integer  Optional primary key of the article to increment.
+	 * @param   integer  $pk  Optional primary key of the article to increment.
 	 *
 	 * @return  boolean  True if successful; false otherwise and internal error set.
 	 */
@@ -268,50 +273,62 @@ class ContentModelArticle extends JModelItem
 		if ($hitcount)
 		{
 			$pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
-			$db = $this->getDbo();
 
-			$db->setQuery(
-
-				'UPDATE #__content' .
-					' SET hits = hits + 1' .
-					' WHERE id = ' . (int) $pk
-			);
-
-			try
-			{
-				$db->execute();
-			}
-			catch (RuntimeException $e)
-			{
-				$this->setError($e->getMessage());
-				return false;
-			}
+			$table = JTable::getInstance('Content', 'JTable');
+			$table->load($pk);
+			$table->hit($pk);
 		}
+
 		return true;
 	}
 
+	/**
+	 * Save user vote on article
+	 *
+	 * @param   integer  $pk    Joomla Article Id
+	 * @param   integer  $rate  Voting rate
+	 *
+	 * @return  boolean          Return true on success
+	 */
 	public function storeVote($pk = 0, $rate = 0)
 	{
 		if ($rate >= 1 && $rate <= 5 && $pk > 0)
 		{
 			$userIP = $_SERVER['REMOTE_ADDR'];
-			$db = $this->getDbo();
 
-			$db->setQuery(
-				'SELECT *' .
-					' FROM #__content_rating' .
-					' WHERE content_id = ' . (int) $pk
-			);
+			// Initialize variables.
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true);
 
+			// Create the base select statement.
+			$query->select('*')
+				->from($db->quoteName('#__content_rating'))
+				->where($db->quoteName('content_id') . ' = ' . (int) $pk);
+
+			// Set the query and load the result.
+			$db->setQuery($query);
 			$rating = $db->loadObject();
 
+			// Check for a database error.
+			if ($db->getErrorNum())
+			{
+				JError::raiseWarning(500, $db->getErrorMsg());
+
+				return false;
+			}
+
+			// There are no ratings yet, so lets insert our rating
 			if (!$rating)
 			{
-				// There are no ratings yet, so lets insert our rating
-				$db->setQuery(
-					'INSERT INTO #__content_rating ( content_id, lastip, rating_sum, rating_count )' .
-						' VALUES ( ' . (int) $pk . ', ' . $db->quote($userIP) . ', ' . (int) $rate . ', 1 )'
-				);
+				$query = $db->getQuery(true);
+
+				// Create the base insert statement.
+				$query->insert($db->quoteName('#__content_rating'))
+					->columns(array($db->quoteName('content_id'), $db->quoteName('lastip'), $db->quoteName('rating_sum'), $db->quoteName('rating_count')))
+					->values((int) $pk . ', ' . $db->quote($userIP) . ',' . (int) $rate . ', 1');
+
+				// Set the query and execute the insert.
+				$db->setQuery($query);
 
 				try
 				{
@@ -319,7 +336,8 @@ class ContentModelArticle extends JModelItem
 				}
 				catch (RuntimeException $e)
 				{
-					$this->setError($e->getMessage);
+					JError::raiseWarning(500, $e->getMessage());
+
 					return false;
 				}
 			}
@@ -327,11 +345,17 @@ class ContentModelArticle extends JModelItem
 			{
 				if ($userIP != ($rating->lastip))
 				{
-					$db->setQuery(
-						'UPDATE #__content_rating' .
-							' SET rating_count = rating_count + 1, rating_sum = rating_sum + ' . (int) $rate . ', lastip = ' . $db->quote($userIP) .
-							' WHERE content_id = ' . (int) $pk
-					);
+					$query = $db->getQuery(true);
+
+					// Create the base update statement.
+					$query->update($db->quoteName('#__content_rating'))
+						->set($db->quoteName('rating_count') . ' = rating_count + 1')
+						->set($db->quoteName('rating_sum') . ' = rating_sum + ' . (int) $rate)
+						->set($db->quoteName('lastip') . ' = ' . $db->quote($userIP))
+						->where($db->quoteName('content_id') . ' = ' . (int) $pk);
+
+					// Set the query and execute the update.
+					$db->setQuery($query);
 
 					try
 					{
@@ -339,7 +363,8 @@ class ContentModelArticle extends JModelItem
 					}
 					catch (RuntimeException $e)
 					{
-						$this->setError($e->getMessage);
+						JError::raiseWarning(500, $e->getMessage());
+
 						return false;
 					}
 				}
@@ -348,9 +373,12 @@ class ContentModelArticle extends JModelItem
 					return false;
 				}
 			}
+
 			return true;
 		}
+
 		JError::raiseWarning('SOME_ERROR_CODE', JText::sprintf('COM_CONTENT_INVALID_RATING', $rate), "JModelArticle::storeVote($rate)");
+
 		return false;
 	}
 }

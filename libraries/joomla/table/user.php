@@ -33,7 +33,7 @@ class JTableUser extends JTable
 	 *
 	 * @since  11.1
 	 */
-	public function __construct(JDatabaseDriver $db)
+	public function __construct($db)
 	{
 		parent::__construct('#__users', 'id', $db);
 
@@ -186,7 +186,7 @@ class JTableUser extends JTable
 			return false;
 		}
 
-		if (preg_match("#[<>\"'%;()&]#i", $this->username) || strlen(utf8_decode($this->username)) < 2)
+		if (preg_match('#[<>"\'%;()&\\s\\\\]|\\.\\./#', $this->username) || strlen(utf8_decode($this->username)) < 2)
 		{
 			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_VALID_AZ09', 2));
 
@@ -339,6 +339,16 @@ class JTableUser extends JTable
 			}
 		}
 
+		// If a user is blocked, delete the cookie login rows
+		if ($this->block == (int) 1)
+		{
+			$query->clear()
+				->delete($this->_db->quoteName('#__user_keys'))
+				->where($this->_db->quoteName('user_id') . ' = ' . $this->_db->quote($this->username));
+			$this->_db->setQuery($query);
+			$this->_db->execute();
+		}
+
 		return true;
 	}
 
@@ -388,6 +398,12 @@ class JTableUser extends JTable
 		$query->clear()
 			->delete($this->_db->quoteName('#__messages'))
 			->where($this->_db->quoteName('user_id_to') . ' = ' . (int) $this->$k);
+		$this->_db->setQuery($query);
+		$this->_db->execute();
+
+		$query->clear()
+			->delete($this->_db->quoteName('#__user_keys'))
+			->where($this->_db->quoteName('user_id') . ' = ' . $this->_db->quote($this->username));
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 

@@ -55,11 +55,13 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 	protected function addToolbar()
 	{
 		$state	= $this->get('State');
-		$canDo	= NewsfeedsHelper::getActions($state->get('filter.category_id'));
+		$canDo	= JHelperContent::getActions($state->get('filter.category_id'), 0, 'com_newsfeeds');
 		$user	= JFactory::getUser();
+
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
-		JToolbarHelper::title(JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEEDS'), 'newsfeeds.png');
+		JToolbarHelper::title(JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEEDS'), 'feed newsfeeds');
+
 		if (count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)
 		{
 			JToolbarHelper::addNew('newsfeed.add');
@@ -97,7 +99,7 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
-		if ($canDo->get('core.admin'))
+		if ($user->authorise('core.admin', 'com_newsfeeds'))
 		{
 			JToolbarHelper::preferences('com_newsfeeds');
 		}

@@ -12,6 +12,40 @@ defined('JPATH_BASE') or die;
 /**
  * UCM Class for handling content types
  *
+ * @property-read  string  $core_content_id
+ * @property-read  string  $core_type_alias
+ * @property-read  string  $core_title
+ * @property-read  string  $core_alias
+ * @property-read  string  $core_body
+ * @property-read  string  $core_state
+ *
+ * @property-read  string  $core_checked_out_time
+ * @property-read  string  $core_checked_out_user_id
+ * @property-read  string  $core_access
+ * @property-read  string  $core_params
+ * @property-read  string  $core_featured
+ * @property-read  string  $core_metadata
+ * @property-read  string  $core_created_user_id
+ * @property-read  string  $core_created_by_alias
+ * @property-read  string  $core_created_time
+ * @property-read  string  $core_modified_user_id
+ * @property-read  string  $core_modified_time
+ * @property-read  string  $core_language
+ * @property-read  string  $core_publish_up
+ * @property-read  string  $core_publish_down
+ * @property-read  string  $core_content_item_id
+ * @property-read  string  $asset_id
+ * @property-read  string  $core_images
+ * @property-read  string  $core_urls
+ * @property-read  string  $core_hits
+ * @property-read  string  $core_version
+ * @property-read  string  $core_ordering
+ * @property-read  string  $core_metakey
+ * @property-read  string  $core_metadesc
+ * @property-read  string  $core_catid
+ * @property-read  string  $core_xreference
+ * @property-read  string  $core_typeid
+ *
  * @package     Joomla.Libraries
  * @subpackage  UCM
  * @since       3.1
@@ -90,6 +124,64 @@ class JUcmType implements JUcm
 	}
 
 	/**
+	 * Get the Content Type from the alias
+	 *
+	 * @param   string  $typeAlias  The alias for the type
+	 *
+	 * @return  object  The UCM Type data
+	 *
+	 * @since   3.2
+	 */
+	public function getTypeByAlias($typeAlias = null)
+	{
+		$query	= $this->db->getQuery(true);
+		$query->select('ct.*');
+		$query->from($this->db->quoteName('#__content_types', 'ct'));
+
+		$query->where($this->db->quoteName('ct.type_alias') . ' = ' . (int) $typeAlias);
+		$this->db->setQuery($query);
+
+		$type = $this->db->loadObject();
+
+		return $type;
+	}
+
+	/**
+	 * Get the Content Type from the table class name
+	 *
+	 * @param   string  $tableName  The table for the type
+	 *
+	 * @return  mixed  The UCM Type data if found, false if no match is found
+	 *
+	 * @since   3.2
+	 */
+	public function getTypeByTable($tableName)
+	{
+		$query	= $this->db->getQuery(true);
+		$query->select('ct.*');
+		$query->from($this->db->quoteName('#__content_types', 'ct'));
+
+		// $query->where($this->db->quoteName('ct.type_alias') . ' = ' . (int) $typeAlias);
+		$this->db->setQuery($query);
+
+		$types = $this->db->loadObjectList();
+
+		foreach ($types as $type)
+		{
+			$tableFromType = json_decode($type->table);
+			$tableNameFromType = $tableFromType->special->prefix . $tableFromType->special->type;
+
+			if ($tableNameFromType == $tableName)
+			{
+				return $type;
+			}
+		}
+
+		return false;
+
+	}
+
+	/**
 	 * Retrieves the UCM type ID
 	 *
 	 * @param   string  $alias  The string of the type alias
@@ -120,6 +212,45 @@ class JUcmType implements JUcm
 		}
 
 		return $id;
+	}
 
+	/**
+	 * Method to expand the field mapping
+	 *
+	 * @param   boolean  $assoc  True to return an associative array.
+	 *
+	 * @return  mixed  Array or object with field mappings. Defaults to object.
+	 *
+	 * @since   3.2
+	 */
+	public function fieldmapExpand($assoc = false)
+	{
+		if (!empty($this->type->field_mappings))
+		{
+			return $this->fieldmap = json_decode($this->type->field_mappings, $assoc);
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
+	 * Magic method to get the name of the field mapped to a ucm field (core_something).
+	 *
+	 * @param   string  $ucmField  The name of the field in JTableCorecontent
+	 *
+	 * @return  string  The name mapped to the $ucmField for a given content type
+	 *
+	 * @since   3.2
+	 */
+	public function __get($ucmField)
+	{
+		if (!isset($this->fieldmap))
+		{
+			$this->fieldmapExpand(false);
+		}
+
+		return isset($this->fieldmap->common->$ucmField) ? $this->fieldmap->common->$ucmField : null;
 	}
 }

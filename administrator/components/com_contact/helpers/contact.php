@@ -16,14 +16,15 @@ defined('_JEXEC') or die;
  * @subpackage  com_contact
  * @since       1.6
  */
-class ContactHelper
+class ContactHelper extends JHelperContent
 {
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string	$vName	The name of the active view.
+	 * @param   string  $vName  The name of the active view.
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public static function addSubmenu($vName)
@@ -33,57 +34,12 @@ class ContactHelper
 			'index.php?option=com_contact&view=contacts',
 			$vName == 'contacts'
 		);
+
 		JHtmlSidebar::addEntry(
 			JText::_('COM_CONTACT_SUBMENU_CATEGORIES'),
 			'index.php?option=com_categories&extension=com_contact',
 			$vName == 'categories'
 		);
-
-		if ($vName == 'categories')
-		{
-			JToolbarHelper::title(
-				JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', JText::_('com_contact')),
-				'contact-categories');
-		}
 	}
 
-	/**
-	 * Gets a list of the actions that can be performed.
-	 *
-	 * @param   integer  The category ID.
-	 * @param   integer  The contact ID.
-	 *
-	 * @return  JObject
-	 * @since   1.6
-	 */
-	public static function getActions($categoryId = 0, $contactId = 0)
-	{
-		$user	= JFactory::getUser();
-		$result	= new JObject;
-
-		if (empty($contactId) && empty($categoryId))
-		{
-			$assetName = 'com_contact';
-			$level = 'component';
-		}
-		elseif (empty($contactId))
-		{
-			$assetName = 'com_contact.category.'.(int) $categoryId;
-			$level = 'category';
-		}
-		else
-		{
-			$assetName = 'com_contact.contact.'.(int) $contactId;
-			$level = 'category';
-		}
-
-		$actions = JAccess::getActions('com_contact', $level);
-
-		foreach ($actions as $action)
-		{
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
-		}
-
-		return $result;
-	}
 }

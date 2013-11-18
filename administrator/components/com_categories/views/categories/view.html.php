@@ -28,18 +28,25 @@ class CategoriesViewCategories extends JViewLegacy
 
 	/**
 	 * Display the view
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
-		$this->state		= $this->get('State');
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->assoc		= $this->get('Assoc');
+		$this->state         = $this->get('State');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->assoc         = $this->get('Assoc');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -72,6 +79,8 @@ class CategoriesViewCategories extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function addToolbar()
@@ -94,10 +103,8 @@ class CategoriesViewCategories extends JViewLegacy
 
 		// Need to load the menu language file as mod_menu hasn't been loaded yet.
 		$lang = JFactory::getLanguage();
-		$lang->load($component, JPATH_BASE, null, false, false)
-		|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, null, false, false)
-		|| $lang->load($component, JPATH_BASE, $lang->getDefault(), false, false)
-		|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, $lang->getDefault(), false, false);
+		$lang->load($component, JPATH_BASE, null, false, true)
+		|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, null, false, true);
 
 		// Load the category helper.
 		require_once JPATH_COMPONENT . '/helpers/categories.php';
@@ -110,13 +117,13 @@ class CategoriesViewCategories extends JViewLegacy
 		{
 			$title = JText::_($component_title_key);
 		}
-		// Else if the component section string exits, let's use it
 		elseif ($lang->hasKey($component_section_key = strtoupper($component . ($section ? "_$section" : ''))))
+		// Else if the component section string exits, let's use it
 		{
 			$title = JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', $this->escape(JText::_($component_section_key)));
 		}
-		// Else use the base title
 		else
+		// Else use the base title
 		{
 			$title = JText::_('COM_CATEGORIES_CATEGORIES_BASE_TITLE');
 		}
@@ -125,7 +132,7 @@ class CategoriesViewCategories extends JViewLegacy
 		JHtml::_('stylesheet', $component . '/administrator/categories.css', array(), true);
 
 		// Prepare the toolbar.
-		JToolbarHelper::title($title, 'categories ' . substr($component, 4) . ($section ? "-$section" : '') . '-categories');
+		JToolbarHelper::title($title, 'folder categories ' . substr($component, 4) . ($section ? "-$section" : '') . '-categories');
 
 		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories($component, 'core.create'))) > 0)
 		{
@@ -183,10 +190,12 @@ class CategoriesViewCategories extends JViewLegacy
 			$ref_key = 'JHELP_COMPONENTS_' . strtoupper(substr($component, 4) . ($section ? "_$section" : '')) . '_CATEGORIES';
 		}
 
-		// Get help for the categories view for the component by
-		// -remotely searching in a language defined dedicated URL: *component*_HELP_URL
-		// -locally  searching in a component help file if helpURL param exists in the component and is set to ''
-		// -remotely searching in a component URL if helpURL param exists in the component and is NOT set to ''
+		/*
+		 * Get help for the categories view for the component by
+		 * -remotely searching in a language defined dedicated URL: *component*_HELP_URL
+		 * -locally  searching in a component help file if helpURL param exists in the component and is set to ''
+		 * -remotely searching in a component URL if helpURL param exists in the component and is NOT set to ''
+		 */
 		if ($lang->hasKey($lang_help_url = strtoupper($component) . '_HELP_URL'))
 		{
 			$debug = $lang->setDebug(false);
@@ -197,43 +206,8 @@ class CategoriesViewCategories extends JViewLegacy
 		{
 			$url = null;
 		}
+
 		JToolbarHelper::help($ref_key, JComponentHelper::getParams($component)->exists('helpURL'), $url);
-
-		JHtmlSidebar::setAction('index.php?option=com_categories&view=categories');
-
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_MAX_LEVELS'),
-			'filter_level',
-			JHtml::_('select.options', $this->f_levels, 'value', 'text', $this->state->get('filter.level'))
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_PUBLISHED'),
-			'filter_published',
-			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true)
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_ACCESS'),
-			'filter_access',
-			JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_LANGUAGE'),
-			'filter_language',
-			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
-		);
-
-		if (JHelperTags::getTypes('objectList', array($extension . '.category'), true))
-		{
-			JHtmlSidebar::addFilter(
-				JText::_('JOPTION_SELECT_TAG'),
-				'filter_tag',
-				JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag'))
-			);
-		}
-
 	}
 
 	/**

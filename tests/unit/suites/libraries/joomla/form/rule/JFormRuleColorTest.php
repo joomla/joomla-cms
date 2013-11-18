@@ -8,37 +8,14 @@
  */
 
 /**
- * Test class for JForm.
+ * Test class for JFormRuleColor.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- *
  * @since       11.1
  */
 class JFormRuleColorTest extends TestCase
 {
-	/**
-	 * set up for testing
-	 *
-	 * @return void
-	 */
-	public function setUp()
-	{
-		parent::setUp();
-
-		$this->saveFactoryState();
-	}
-
-	/**
-	 * Tear down test
-	 *
-	 * @return void
-	 */
-	protected function tearDown()
-	{
-		$this->restoreFactoryState();
-	}
-
 	/**
 	 * Test the JFormRuleColor::test method.
 	 *
@@ -81,7 +58,7 @@ class JFormRuleColorTest extends TestCase
 			array('#GGGGGG', false),
 			array('FFFFFF', false),
 			array('#GGG', false),
-			array('', true)
+			array('', false)
 		);
 	}
 
