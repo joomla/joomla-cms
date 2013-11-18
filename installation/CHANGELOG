@@ -28,6 +28,7 @@ $ -> Language fix or change
 18-Nov-2013 Jean-Marie Simonet
  # [#32615] Regression: Module can't be deleted  Thanks Hannes Papenberg
  $ [#32738] Component options help button always links to Global Configuration help screen  Thanks Mark Dexter
+ $ [#32731] Added new language strings for front end com_config  Thanks Buddhima Wijeweera
 
 17-Nov-2013 Jean-Marie Simonet
  # [#32721] Fix small error in application view  Thanks Bruno Batista
