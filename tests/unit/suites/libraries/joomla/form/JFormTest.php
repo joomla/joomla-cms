@@ -1092,10 +1092,10 @@ class JFormTest extends TestCase
 			$form->getInput('show_title', 'params', '0'),
 			$this->equalTo(
 				'<fieldset id="params_show_title" class="radio" >' .
-					'<input type="radio" id="params_show_title0" name="params[show_title]" value="1" />' .
-					'<label for="params_show_title0" >' . JText::_('JYes') . '</label>' .
-					'<input type="radio" id="params_show_title1" name="params[show_title]" value="0" checked="checked" />' .
-					'<label for="params_show_title1" >' . JText::_('JNo') . '</label>' .
+					'<label class="radio"><input type="radio" name="params[show_title]" value="1" />' .
+					JText::_('JYes') . '</label>' .
+					'<label class="radio"><input type="radio" name="params[show_title]" value="0" checked="checked" />' .
+					JText::_('JNo') . '</label>' .
 					'</fieldset>'
 			),
 			'Line:' . __LINE__ . ' The method should return a radio list.'
