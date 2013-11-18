@@ -91,11 +91,6 @@ class GlobalConfigurationPage extends AdminEditPage
 
 	public $permissions = array('core.login.site', 'core.login.admin', 'core.login.offline', 'core.admin', 'core.manage', 'core.create', 'core.delete', 'core.edit', 'core.edit.state', 'core.edit.own');
 
-
-
-
-
-
 	public function getPermissionInputFields($groupId)
 	{
 		$this->selectTab('page-permissions');

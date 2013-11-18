@@ -64,6 +64,13 @@ abstract class AdminEditPage extends AdminPage
 	 */
 	public $inputFields = null;
 
+	/**
+	 * Array of permissions for this component options screen.
+	 *
+	 * @var array
+	 */
+	public $permissions = null;
+
 	public function __construct(Webdriver $driver, $test, $url = null)
 	{
 		$this->driver = $driver;
@@ -288,6 +295,50 @@ abstract class AdminEditPage extends AdminPage
 			}
 		}
 		return $optionText;
+	}
+
+	public function getPermissions($groupId, $permissionsId)
+	{
+		if (!isset($this->permissions))
+		{
+			$result = array();
+			$this->selectTab($permissionsId);
+			$this->driver->findElement(By::xPath("//a[@href='#permission-" . $groupId . "']"))->click();
+			$elements = $this->driver->findElements(By::xPath("//div[@id='permission-" . $groupId . "']//label[@class='hasTooltip']"));
+			foreach ($elements as $element)
+			{
+				$labelId = $element->getAttribute('for');
+				$permission = str_ireplace(array('jform_rules_', '_' . $groupId), '', $labelId);
+				$result[] = $permission;
+			}
+			$this->permissions = $result;
+		}
+		return $this->permissions;
+	}
+
+	public function getPermissionInputFields($groupId, $permissionsId)
+	{
+		$permissions = $this->getPermissions($groupId, $permissionsId);
+		$this->driver->findElement(By::xPath("//a[@href='#permission-" . $groupId . "']"))->click();
+		foreach ($this->permissions as $permission)
+		{
+			$id = 'jform_rules_' . $permission . '_' . $groupId;
+			$label = $this->driver->findElement(By::xPath("//label[@for='" . $id . "']"));
+			$input = $this->driver->findElement(By::id($id));
+			$tip = $label->findElement(By::xPath("//label[@class='hasTooltip'][@for='" . $id . "']"));
+			$tipText = $tip->getAttribute('data-original-title');
+			$object = new stdClass();
+			$object->tab = $this->driver->findElement(By::id($permissionsId))->getText();
+			$object->labelText = $label->getText();
+			$object->tipText = $tipText;
+			$object->tag = $input->getTagName();
+			$object->id = $id;
+			$object->type = $input->getAttribute('type');
+
+			$object->element = $input;
+			$result[] = $object;
+		}
+		return $result;
 	}
 
 	protected function getRadioValues(array $values)
@@ -557,6 +608,7 @@ abstract class AdminEditPage extends AdminPage
 		foreach ($inputFields as $el)
 		{
 			$this->selectTab($el->tab);
+			$el->tabLabel = $this->getTabLabel($el->tab);
 			$el->labelText = (substr($el->labelText, -2) == ' *') ? substr($el->labelText, 0, -2) : $el->labelText;
 			if ($el->tag == 'fieldset')
 			{
@@ -571,6 +623,9 @@ abstract class AdminEditPage extends AdminPage
 				$helpText[$el->tabLabel][] = $this->toWikiHelpInput($el);
 			}
 		}
+
+		$permissionsTextArray = $this->toWikiHelpPermissions();
+		$helpText[$permissionsTextArray[1]] = $permissionsTextArray[0];
 
 		foreach ($tabs as $tab)
 		{
@@ -593,6 +648,31 @@ abstract class AdminEditPage extends AdminPage
 	{
 		$toolTip = $this->removeLabel($el->labelText, $this->getToolTip($el->tab, $el->id . '-lbl'));
 		return "*'''" . $el->labelText . ":''' " . $toolTip . "\n";
+	}
+
+	/**
+	 * Prepare wiki text for permissions tab
+	 *
+	 */
+	public function toWikiHelpPermissions()
+	{
+		$el = $this->driver->findElement(By::xPath("//ul[@id='configTabs']//a[@href='#page-permissions' or @href='#permissions']"));
+		$el->click();
+		$permissionsText = $el->getText();
+		$permissionsId = $this->driver->findElement(By::xPath("//div[@class = 'tab-pane active']"))->getAttribute('id');
+		$objects = $this->getPermissionInputFields('1', $permissionsId);
+		foreach ($objects as $object)
+		{
+			$listElement = str_replace('.', '_', $object->id);
+			$optionContainer = $this->driver->findElement(By::xPath("//div[@id='" . $listElement . "_chzn']"));
+			$optionContainer->findElement(By::tagName('a'))->click();
+			$optionList = $optionContainer->findElement(By::tagName('ul'));
+			$optionText = $this->getOptionText($optionList);
+			$toolTip = $object->element->getAttribute('title') . ". " . $object->tipText;
+			$helpText[] = "*'''" . $object->labelText . ":''' (" . implode('/', $optionText) . "). " . $toolTip . "\n";
+			$optionContainer->findElement(By::tagName('a'))->click();
+		}
+		return array($helpText, $permissionsText);
 	}
 
 
