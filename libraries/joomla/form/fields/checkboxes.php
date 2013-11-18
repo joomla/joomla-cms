@@ -158,14 +158,14 @@ class JFormFieldCheckboxes extends JFormField
 
 			$checked = empty($checked) && $option->checked ? ' checked' : $checked;
 
-			$class = !empty($option->class) ? ' class="checkbox ' . $option->class . '"' : ' class="checkbox" ';
+			$class = !empty($option->class) ? ' class="checkbox ' . $option->class . '"' : ' class="checkbox"';
 			$disabled = !empty($option->disable) || $this->disabled ? ' disabled' : '';
 
 			// Initialize some JavaScript option attributes.
 			$onclick = !empty($option->onclick) ? ' onclick="' . $option->onclick . '"' : '';
 			$onchange = !empty($option->onchange) ? ' onchange="' . $option->onchange . '"' : '';
 
-			$html[] = '<label ' . $class . '>';
+			$html[] = '<label' . $class . '>';
 			$html[] = '<input type="checkbox" name="' . $this->name . '" value="'
 				. htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8') . '"' . $checked . $onclick . $onchange . $disabled . '/>';
 			$html[] = JText::_($option->text) . '</label>';

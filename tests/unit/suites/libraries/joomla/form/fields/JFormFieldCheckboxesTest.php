@@ -92,10 +92,10 @@ class JFormFieldCheckboxesTest extends TestCase
 		TestReflection::setValue($formFieldCheckboxes, 'id', 'myTestId');
 		TestReflection::setValue($formFieldCheckboxes, 'name', 'myTestName');
 
-		$expected = '<fieldset id="myTestId" class="checkboxes"><ul>' .
-			'<li><input type="checkbox" id="myTestId0" name="myTestName" value="red"/><label for="myTestId0">red</label></li>' .
-			'<li><input type="checkbox" id="myTestId1" name="myTestName" value="blue"/>' .
-			'<label for="myTestId1">blue</label></li></ul></fieldset>';
+		$expected = '<fieldset id="myTestId" class="checkboxes">' .
+			'<label class="checkbox"><input type="checkbox" name="myTestName" value="red"/>red</label>' .
+			'<label class="checkbox"><input type="checkbox" name="myTestName" value="blue"/>blue</label>' .
+			'</fieldset>';
 
 		$this->assertEquals(
 			$expected,
@@ -141,11 +141,10 @@ class JFormFieldCheckboxesTest extends TestCase
 		TestReflection::setValue($formFieldCheckboxes, 'value', 'red');
 		TestReflection::setValue($formFieldCheckboxes, 'name', 'myTestName');
 
-		$expected = '<fieldset id="myTestId" class="checkboxes"><ul>' .
-			'<li><input type="checkbox" id="myTestId0" name="myTestName" value="red" checked/>' .
-			'<label for="myTestId0">red</label></li>' .
-			'<li><input type="checkbox" id="myTestId1" name="myTestName" value="blue"/><label for="myTestId1">blue</label>' .
-			'</li></ul></fieldset>';
+		$expected = '<fieldset id="myTestId" class="checkboxes">' .
+			'<label class="checkbox"><input type="checkbox" name="myTestName" value="red" checked/>red</label>' .
+			'<label class="checkbox"><input type="checkbox" name="myTestName" value="blue"/>blue</label>' .
+			'</fieldset>';
 
 		$this->assertEquals(
 			$expected,
@@ -192,9 +191,10 @@ class JFormFieldCheckboxesTest extends TestCase
 		TestReflection::setValue($formFieldCheckboxes, 'value', $valuearray);
 		TestReflection::setValue($formFieldCheckboxes, 'name', 'myTestName');
 
-		$fieldsetString = '<fieldset id="myTestId" class="checkboxes"><ul>' .
-			'<li><input type="checkbox" id="myTestId0" name="myTestName" value="red" checked/><label for="myTestId0">red</label></li>' .
-			'<li><input type="checkbox" id="myTestId1" name="myTestName" value="blue"/><label for="myTestId1">blue</label></li></ul></fieldset>';
+		$fieldsetString = '<fieldset id="myTestId" class="checkboxes">' .
+			'<label class="checkbox"><input type="checkbox" name="myTestName" value="red" checked/>red</label>' .
+			'<label class="checkbox"><input type="checkbox" name="myTestName" value="blue"/>blue</label>' .
+			'</fieldset>';
 
 		$this->assertEquals(
 			$fieldsetString,
@@ -233,10 +233,10 @@ class JFormFieldCheckboxesTest extends TestCase
 		TestReflection::setValue($formFieldCheckboxes, 'name', 'myTestName');
 		TestReflection::setValue($formFieldCheckboxes, 'checkedOptions', 'blue');
 
-		$expected = '<fieldset id="myTestId" class="checkboxes"><ul>' .
-			'<li><input type="checkbox" id="myTestId0" name="myTestName" value="red"/><label for="myTestId0">red</label></li>' .
-			'<li><input type="checkbox" id="myTestId1" name="myTestName" value="blue" checked/>' .
-			'<label for="myTestId1">blue</label></li></ul></fieldset>';
+		$expected = '<fieldset id="myTestId" class="checkboxes">' .
+			'<label class="checkbox"><input type="checkbox" name="myTestName" value="red"/>red</label>' .
+			'<label class="checkbox"><input type="checkbox" name="myTestName" value="blue" checked/>blue</label>' .
+			'</fieldset>';
 
 		$this->assertEquals(
 			$expected,
@@ -277,10 +277,10 @@ class JFormFieldCheckboxesTest extends TestCase
 		TestReflection::setValue($formFieldCheckboxes, 'value', '""');
 		TestReflection::setValue($formFieldCheckboxes, 'checkedOptions', 'red,blue');
 
-		$expected = '<fieldset id="myTestId" class="checkboxes"><ul>' .
-			'<li><input type="checkbox" id="myTestId0" name="myTestName" value="red"/><label for="myTestId0">red</label></li>' .
-			'<li><input type="checkbox" id="myTestId1" name="myTestName" value="blue"/><label for="myTestId1">blue</label>' .
-			'</li></ul></fieldset>';
+		$expected = '<fieldset id="myTestId" class="checkboxes">' .
+			'<label class="checkbox"><input type="checkbox" name="myTestName" value="red"/>red</label>' .
+			'<label class="checkbox"><input type="checkbox" name="myTestName" value="blue"/>blue</label>' .
+			'</fieldset>';
 
 		$this->assertEquals(
 			$expected,
@@ -321,10 +321,10 @@ class JFormFieldCheckboxesTest extends TestCase
 		TestReflection::setValue($formFieldCheckboxes, 'name', 'myTestName');
 		TestReflection::setValue($formFieldCheckboxes, 'checkedOptions', 'blue');
 
-		$expected = '<fieldset id="myTestId" class="checkboxes"><ul><li>' .
-			'<input type="checkbox" id="myTestId0" name="myTestName" value="red" checked/>' .
-			'<label for="myTestId0">red</label></li><li><input type="checkbox" id="myTestId1" name="myTestName" value="blue"/>' .
-			'<label for="myTestId1">blue</label></li></ul></fieldset>';
+		$expected = '<fieldset id="myTestId" class="checkboxes">' .
+			'<label class="checkbox"><input type="checkbox" name="myTestName" value="red" checked/>red</label>' .
+			'<label class="checkbox"><input type="checkbox" name="myTestName" value="blue"/>blue</label>' .
+			'</fieldset>';
 
 		$this->assertEquals(
 			$expected,
@@ -364,9 +364,10 @@ class JFormFieldCheckboxesTest extends TestCase
 		TestReflection::setValue($formFieldCheckboxes, 'value', 'yellow,green');
 		TestReflection::setValue($formFieldCheckboxes, 'name', 'myTestName');
 
-		$expected = '<fieldset id="myTestId" class="checkboxes"><ul><li>' .
-			'<input type="checkbox" id="myTestId0" name="myTestName" value="red"/><label for="myTestId0">red</label></li><li>' .
-			'<input type="checkbox" id="myTestId1" name="myTestName" value="blue"/><label for="myTestId1">blue</label></li></ul></fieldset>';
+		$expected = '<fieldset id="myTestId" class="checkboxes">' .
+			'<label class="checkbox"><input type="checkbox" name="myTestName" value="red"/>red</label>' .
+			'<label class="checkbox"><input type="checkbox" name="myTestName" value="blue"/>blue</label>' .
+			'</fieldset>';
 
 		$this->assertEquals(
 			$expected,
