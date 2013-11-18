@@ -187,6 +187,11 @@ abstract class AdminEditPage extends AdminPage
 
 	}
 
+	public function formatImageElement($imageName)
+	{
+		return "[[Image:$imageName|670px|none]]\n";
+	}
+
 	/**
 	 *
 	 * @param string  $tabId id of tab that contains the field
@@ -328,7 +333,7 @@ abstract class AdminEditPage extends AdminPage
 			$tip = $label->findElement(By::xPath("//label[@class='hasTooltip'][@for='" . $id . "']"));
 			$tipText = $tip->getAttribute('data-original-title');
 			$object = new stdClass();
-			$object->tab = $this->driver->findElement(By::id($permissionsId))->getText();
+// 			$object->tab = $this->driver->findElement(By::id($permissionsId))->getText();
 			$object->labelText = $label->getText();
 			$object->tipText = $tipText;
 			$object->tag = $input->getTagName();
@@ -599,7 +604,7 @@ abstract class AdminEditPage extends AdminPage
 	/**
 	 * Output help screen for the page.
 	 */
-	public function toWikiHelp()
+	public function toWikiHelp($linkArray)
 	{
 		$tabs = $this->getTabIds();
 		$inputFields = $this->getAllInputFields($tabs);
@@ -627,15 +632,38 @@ abstract class AdminEditPage extends AdminPage
 		$permissionsTextArray = $this->toWikiHelpPermissions();
 		$helpText[$permissionsTextArray[1]] = $permissionsTextArray[0];
 
-		foreach ($tabs as $tab)
+		$tabCount = count($tabs);
+		for ($i = 0; $i < $tabCount; $i++)
 		{
+			$tab = $tabs[$i];
 			$tabText = $this->driver->findElement(By::xPath("//a[@href='#" . $tab . "']"))->getText();
 			$result[] = '===' . $tabText . "===\n";
+
+			// Don't do screenshot for first tab, since this is in the main screenshot
+			if ($i > 0)
+			{
+				$result[] = $this->formatImageElement($this->getHelpScreenshotName($tab, $linkArray[2]));
+			}
+
+			// Get any description for tab
+			$this->selectTab($tab);
+			$tabDescription = $this->driver->findElement(By::xPath("//div[contains(@class,'tab-pane active')]/p"))->getText();
+			if ($tabDescription)
+			{
+				$result[] = $tabDescription . "\n";
+			}
+
 			if (isset($helpText[$tabText]))
 			{
 				$result = array_merge($result, $helpText[$tabText]);
 			}
 		}
+
+		$screenshot = array("===Screenshot===\n");
+		$screenshotName = $this->getHelpScreenshotName(null, $linkArray[2]);
+		$screenshot[] = $this->formatImageElement($screenshotName);
+		$result = array_merge($screenshot, $result);
+
 		return implode("", $result);
 
 	}
@@ -661,6 +689,7 @@ abstract class AdminEditPage extends AdminPage
 		$permissionsText = $el->getText();
 		$permissionsId = $this->driver->findElement(By::xPath("//div[@class = 'tab-pane active']"))->getAttribute('id');
 		$objects = $this->getPermissionInputFields('1', $permissionsId);
+		$helpText = array();
 		foreach ($objects as $object)
 		{
 			$listElement = str_replace('.', '_', $object->id);

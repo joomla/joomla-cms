@@ -134,7 +134,7 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 				$testPage = $this->testPage->clickMenuByUrl($linkArray[1], $linkArray[0]);
 
 				$name = $testPage->getHelpScreenshotName(null, $linkArray[2]);
-				$text = $testPage->toWikiHelp();
+				$text = $testPage->toWikiHelp($linkArray);
 				echo $text;
 			}
 		}
