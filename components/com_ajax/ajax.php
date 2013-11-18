@@ -56,28 +56,27 @@ elseif ($input->get('module'))
 	{
 		$helperFile = JPATH_BASE . '/modules/mod_' . $module . '/helper.php';
 
-		switch (TRUE) {
-			case (strpos($module, '_')):
-				$parts = explode('_', $module);
-				$class = 'mod';
-				foreach ($parts as $part) {
-					$class .= ucfirst($part);
-				}
-				$class .= 'Helper';
-				break;
+		if (strpos($module, '_'))
+		{
+			$parts = explode('_', $module);
+		}
+		elseif (strpos($module, '-'))
+		{
+			$parts = explode('-', $module);
+		}
 
-			case (strpos($module, '-')):
-				$parts = explode('-', $module);
-				$class = 'mod';
-				foreach ($parts as $part) {
-					$class .= ucfirst($part);
-				}
-				$class .= 'Helper';
-				break;
-
-			default:
-				$class = 'mod' . ucfirst($module) . 'Helper';
-				break;
+		if ($parts)
+		{
+			$class = 'mod';
+			foreach ($parts as $part)
+			{
+				$class .= ucfirst($part);
+			}
+			$class .= 'Helper';
+		}
+		else
+		{
+			$class = 'mod' . ucfirst($module) . 'Helper';
 		}
 
 		$method = $input->get('method') ? $input->get('method') : 'get';
@@ -91,8 +90,7 @@ elseif ($input->get('module'))
 				try
 				{
 					$results = call_user_func($class . '::' . $method . 'Ajax');
-				}
-				catch (Exception $e)
+				} catch (Exception $e)
 				{
 					$results = $e;
 				}
@@ -132,8 +130,7 @@ elseif ($input->get('plugin'))
 	try
 	{
 		$results = $dispatcher->trigger('onAjax' . $plugin);
-	}
-	catch (Exception $e)
+	} catch (Exception $e)
 	{
 		$results = $e;
 	}
