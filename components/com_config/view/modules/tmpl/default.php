@@ -123,6 +123,14 @@ if(JLanguageMultilang::isEnabled())
 							</div>
 							<div class="control-group">
 								<div class="control-label">
+									<?php echo $this->form->getLabel('publish_up'); ?>
+								</div>
+								<div class="controls">
+									<?php echo $this->form->getInput('publish_up'); ?>
+								</div>
+							</div>
+							<div class="control-group">
+								<div class="control-label">
 									<?php echo $this->form->getLabel('publish_down'); ?>
 								</div>
 								<div class="controls">
