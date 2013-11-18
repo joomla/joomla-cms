@@ -581,7 +581,7 @@ class JUser extends JObject
 
 			$salt = JUserHelper::genRandomPassword(32);
 			$crypt = JUserHelper::getCryptedPassword($array['password'], $salt, $defaultEncryption);
-			$array['password'] = $crypt;
+			$array['password'] = (strpos($crypt, ':') > 0) ? $crypt : $crypt . ':' .$salt;
 
 			// Set the registration timestamp
 			$this->set('registerDate', JFactory::getDate()->toSql());
@@ -622,7 +622,7 @@ class JUser extends JObject
 
 				$salt = JUserHelper::genRandomPassword(32);
 				$crypt = JUserHelper::getCryptedPassword($array['password'], $salt, $defaultEncryption);
-				$array['password'] = $crypt . ':' . $salt;
+				$array['password'] = (strpos($crypt, ':') > 0) ? $crypt : $crypt . ':' .$salt; 
 			}
 			else
 			{
