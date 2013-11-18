@@ -544,19 +544,11 @@ class JUser extends JObject
 	 */
 	public function bind(&$array)
 	{
-		// The Joomla user plugin allows you to use weaker passwords if necessary.
-		$joomlaPluginEnabled = JPluginHelper::isEnabled('user', 'joomla');
-
-		if ($joomlaPluginEnabled)
+		//Set encryption for passwords. Default: bcrypt
+		$encryption = 'bcrypt';
+		if (defined('JPASSWORD_ENCRYPTION'))
 		{
-			$userPlugin = JPluginHelper::getPlugin('user', 'joomla');
-			$userPluginParams = new JRegistry($userPlugin->params);
-			JPluginHelper::importPlugin('user', 'joomla');
-			$defaultEncryption = PlgUserJoomla::setDefaultEncryption($userPluginParams);
-		}
-		else
-		{
-			$defaultEncryption = 'bcrypt';
+			$encryption = JPASSWORD_ENCRYPTION;
 		}
 
 		// Let's check to see if the user is new or not
@@ -580,7 +572,7 @@ class JUser extends JObject
 			$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
 
 			$salt = JUserHelper::genRandomPassword(32);
-			$crypt = JUserHelper::getCryptedPassword($array['password'], $salt, $defaultEncryption);
+			$crypt = JUserHelper::getCryptedPassword($array['password'], $salt, $encryption);
 			$array['password'] = $crypt;
 
 			// Set the registration timestamp
@@ -620,9 +612,15 @@ class JUser extends JObject
 
 				$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
 
-				$salt = JUserHelper::genRandomPassword(32);
-				$crypt = JUserHelper::getCryptedPassword($array['password'], $salt, $defaultEncryption);
-				$array['password'] = $crypt . ':' . $salt;
+				$salt = '';
+				$password = JUserHelper::getCryptedPassword($array['password'], JUserHelper::getSalt($encryption, $salt, $array['password']), $encryption, true);
+				if ($encryption == 'md5-hex')
+				{
+					$salt = JUserHelper::genRandomPassword(32);
+					$password = JUserHelper::getCryptedPassword($array['password'], JUserHelper::getSalt($encryption, $salt, $array['password']), $encryption, true).':'.$salt;
+				}
+				
+				$array['password'] = $password;
 			}
 			else
 			{
@@ -689,12 +687,6 @@ class JUser extends JObject
 				return false;
 			}
 
-			// If user is made a Super Admin group and user is NOT a Super Admin
-
-			// @todo ACL - this needs to be acl checked
-
-			$my = JFactory::getUser();
-
 			// Are we creating a new user
 			$isNew = empty($this->id);
 
@@ -704,19 +696,25 @@ class JUser extends JObject
 				return true;
 			}
 
-			// Get the old user
-			$oldUser = new JUser($this->id);
-
 			// Access Checks
-
 			// The only mandatory check is that only Super Admins can operate on other Super Admin accounts.
+			// @todo ACL - this needs to be acl checked
 			// To add additional business rules, use a user plugin and throw an Exception with onUserBeforeSave.
+			$my = JFactory::getUser();
 
 			// Check if I am a Super Admin
 			$iAmSuperAdmin = $my->authorise('core.admin');
 
+			// Get the old user
+			$oldUser = new JUser($this->id);
+
 			$iAmRehashingSuperadmin = false;
-			if (($my->id == 0 && !$isNew) && $this->id == $oldUser->id && $oldUser->authorise('core.admin') && substr($oldUser->password, 0, 4) != '$2y$')
+			$encryption = 'bcrypt';
+			if (defined('JPASSWORD_ENCRYPTION'))
+			{
+				$encryption = JPASSWORD_ENCRYPTION;
+			}
+			if (($my->id == 0 && !$isNew) && $this->id == $oldUser->id && $oldUser->authorise('core.admin') && strpos($oldUser->password, '{'.strtoupper($encryption).'}') === false)
 			{
 				$iAmRehashingSuperadmin = true;
 			}
@@ -724,34 +722,20 @@ class JUser extends JObject
 			// We are only worried about edits to this account if I am not a Super Admin.
 			if ($iAmSuperAdmin != true && $iAmRehashingSuperadmin != true)
 			{
-				if ($isNew)
+				// I am not a Super Admin, and this one is, so fail.
+				if (!$isNew && JAccess::check($this->id, 'core.admin'))
 				{
-					// Check if the new user is being put into a Super Admin group.
+					throw new RuntimeException('User not Super Administrator');
+				}
+
+				if ($this->groups != null)
+				{
+					// I am not a Super Admin and I'm trying to make one.
 					foreach ($this->groups as $groupId)
 					{
 						if (JAccess::checkGroup($groupId, 'core.admin'))
 						{
 							throw new RuntimeException('User not Super Administrator');
-						}
-					}
-				}
-				else
-				{
-					// I am not a Super Admin, and this one is, so fail.
-					if (JAccess::check($this->id, 'core.admin'))
-					{
-						throw new RuntimeException('User not Super Administrator');
-					}
-
-					if ($this->groups != null)
-					{
-						// I am not a Super Admin and I'm trying to make one.
-						foreach ($this->groups as $groupId)
-						{
-							if (JAccess::checkGroup($groupId, 'core.admin'))
-							{
-								throw new RuntimeException('User not Super Administrator');
-							}
 						}
 					}
 				}

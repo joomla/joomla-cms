@@ -58,6 +58,18 @@ class PlgUserJoomla extends JPlugin
 
 		// As of CMS 3.2 strong encryption is the default.
 		$this->useStrongEncryption = $this->params->get('strong_passwords', true);
+		
+		if (!defined('JPASSWORD_ENCRYPTION'))
+		{
+			if ($this->useStrongEncryption)
+			{
+				define('JPASSWORD_ENCRYPTION', 'bcrypt');
+			}
+			else
+			{
+				define('JPASSWORD_ENCRYPTION', 'md5-hex');
+			}
+		}
 	}
 
 	/**
@@ -206,18 +218,25 @@ class PlgUserJoomla extends JPlugin
 		// Mark the user as logged in
 		$instance->set('guest', 0);
 
-		// If the user has an outdated hash, update it.
-		if (substr($user['password'], 0, 4) != '$2y$' && $this->useStrongEncryption && JCrypt::hasStrongPasswordSupport() == true)
+		$encryption = 'bcrypt';
+		if (defined('JPASSWORD_ENCRYPTION'))
 		{
-			if (strlen($user['password']) > 55)
-			{
-				$user['password'] = substr($user['password'], 0, 55);
+			$encryption = JPASSWORD_ENCRYPTION;
+		}
 
-				JFactory::getApplication()->enqueueMessage(JText::_('JLIB_USER_ERROR_PASSWORD_TRUNCATED'), 'notice');
+		// If the user has an outdated hash, update it.
+		if (strpos($user['password'], '{'.strtoupper($encryption).'}') === false)
+		{
+			$salt = '';
+			$password = JUserHelper::getCryptedPassword($user['password'], JUserHelper::getSalt($encryption, $salt, $user['password']), $encryption, true);
+			if ($encryption == 'md5-hex')
+			{
+				$salt = JUserHelper::genRandomPassword(32);
+				$password = JUserHelper::getCryptedPassword($user['password'], JUserHelper::getSalt($encryption, $salt, $user['password']), $encryption, true).':'.$salt;
 			}
 
-			$instance->password = password_hash($user['password'], PASSWORD_BCRYPT);
-			$instance->save();
+			$instance->password = $password;
+			$return = $instance->save();
 		}
 
 		// Register the needed session variables
@@ -489,26 +508,5 @@ class PlgUserJoomla extends JPlugin
 		$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->cookie_path, $this->cookie_domain);
 
 		return true;
-	}
-
-	/**
-	 * Method to set the default encryption for passwords
-	 *
-	 * @param   JRegistry  $userPluginParams  User plugin params
-	 *
-	 * @return  string  The default encryption method based on plugin parameters
-	 *
-	 * @since   3.2
-	 */
-	public static function setDefaultEncryption($userPluginParams)
-	{
-		if ($userPluginParams->get('strong_passwords') == 1)
-		{
-			return 'bcrypt';
-		}
-		else
-		{
-			return 'md5-hex';
-		}
 	}
 }

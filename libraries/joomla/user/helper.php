@@ -316,31 +316,6 @@ abstract class JUserHelper
 	 */
 	public static function getCryptedPassword($plaintext, $salt = '', $encryption = 'bcrypt', $show_encrypt = false)
 	{
-		$app = JFactory::getApplication();
-
-		if ($app->getClientId() != 2)
-		{
-			$joomlaPluginEnabled = JPluginHelper::isEnabled('user', 'joomla');
-		}
-
-		// The Joomla user plugin allows you to use weaker passwords if necessary.
-		if (!empty($joomlaPluginEnabled))
-		{
-			JPluginHelper::importPlugin('user', 'joomla');
-			$userPlugin = JPluginHelper::getPlugin('user', 'joomla');
-			$userPluginParams = new JRegistry($userPlugin->params);
-			PlgUserJoomla::setDefaultEncryption($userPluginParams);
-		}
-
-		// Not all controllers check the length, although they should to avoid DOS attacks.
-		// The maximum password length for bcrypt is 55:
-		if (strlen($plaintext) > 55)
-		{
-			$app->enqueueMessage(JText::_('JLIB_USER_ERROR_PASSWORD_TOO_LONG'), 'error');
-
-			return false;
-		}
-
 		// Get the salt to use.
 		if (empty($salt))
 		{
@@ -440,16 +415,16 @@ abstract class JUserHelper
 			// 'bcrypt' is the default case starting in CMS 3.2.
 			case 'bcrypt':
 			default:
-				$useStrongEncryption = JCrypt::hasStrongPasswordSupport();
-
-				if ($useStrongEncryption === true)
+				if (JCrypt::hasStrongPasswordSupport() === true)
 				{
+					// The maximum password length for bcrypt is 55 bytes
+					// PHP's password_hash() handles this for us.
 					$encrypted = password_hash($plaintext, PASSWORD_BCRYPT);
 
 					if (!$encrypted)
 					{
 						// Something went wrong fall back to sha256.
-							return static::getCryptedPassword($plaintext, '', 'sha256', false);
+						return static::getCryptedPassword($plaintext, '', 'sha256', $show_encrypt);
 					}
 
 					return ($show_encrypt) ? '{BCRYPT}' . $encrypted : $encrypted;
@@ -457,7 +432,7 @@ abstract class JUserHelper
 				else
 				{
 					// BCrypt isn't available but we want strong passwords, fall back to sha256.
-					return static::getCryptedPassword($plaintext, '', 'sha256', false);
+					return static::getCryptedPassword($plaintext, '', 'sha256', $show_encrypt);
 				}
 		}
 	}
@@ -500,18 +475,18 @@ abstract class JUserHelper
 				}
 				break;
 
-				case 'sha256':
-					if ($seed)
-					{
-						return preg_replace('|^{sha256}|i', '', $seed);
-					}
-					else
-					{
-						return static::genRandomPassword(16);
-					}
-					break;
+			case 'sha256':
+				if ($seed)
+				{
+					return preg_replace('|^{sha256}|i', '', $seed);
+				}
+				else
+				{
+					return static::genRandomPassword(16);
+				}
+				break;
 
-				case 'crypt-md5':
+			case 'crypt-md5':
 				if ($seed)
 				{
 					return substr(preg_replace('|^{crypt}|i', '', $seed), 0, 12);
