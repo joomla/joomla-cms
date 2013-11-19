@@ -54,7 +54,7 @@ class CategoryEditPage extends AdminEditPage
 	 * @var    array
 	 * @since  3.0
 	 */
-	public $tabLabels = array('Category Details','Publishing Options', 'Options', 'Metadata Options', 'Category Permissions');
+	public $tabLabels = array('Category', 'Publishing', 'Permissions', 'Options');
 
 	/**
 	 * Array of all the field Details of the Edit page, along with the ID and tab value they are present on
