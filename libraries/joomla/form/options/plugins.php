@@ -32,37 +32,41 @@ abstract class JFormOptionPlugins
 	 */
 	public static function getOptions(SimpleXMLElement $option, $fieldname = '')
 	{
-		$folder	= $option['folder'];
+		$folder	= (string) $option['folder'];
+
+		// Get list of plugins
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('element AS value, name AS text, folder')
+			->from('#__extensions')
+			->where('enabled = 1')
+			->order('folder, ordering, name');
 
 		if (!empty($folder))
 		{
-			// Get list of plugins
-			$db     = JFactory::getDbo();
-			$query  = $db->getQuery(true)
-				->select('element AS value, name AS text')
-				->from('#__extensions')
-				->where('folder = ' . $db->quote($folder))
-				->where('enabled = 1')
-				->order('ordering, name');
-
-			$options = $db->setQuery($query)->loadObjectList();
-
-			$lang = JFactory::getLanguage();
-
-			foreach ($options as $i => $item)
-			{
-				$source = JPATH_PLUGINS . '/' . $folder . '/' . $item->value;
-				$extension = 'plg_' . $folder . '_' . $item->value;
-					$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, false)
-				||	$lang->load($extension . '.sys', $source, null, false, false)
-				||	$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-				||	$lang->load($extension . '.sys', $source, $lang->getDefault(), false, false);
-				$options[$i]->text = JText::_($item->text);
-			}
+			$query->where('folder = ' . $db->q($folder));
 		}
-		else
+
+		$options = $db->setQuery($query)->loadObjectList();
+
+		$lang = JFactory::getLanguage();
+
+		foreach ($options as $i => $item)
 		{
-			JLog::add(JText::_('JFRAMEWORK_FORM_FIELDS_PLUGINS_ERROR_FOLDER_EMPTY'), JLog::WARNING, 'jerror');
+			$source = JPATH_PLUGINS . '/' . $folder . '/' . $item->value;
+			$extension = 'plg_' . $folder . '_' . $item->value;
+
+			$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, false)
+				|| $lang->load($extension . '.sys', $source, null, false, false)
+				|| $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
+				|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false);
+
+			$options[$i]->text = JText::_($item->text);
+
+			if (empty($folder))
+			{
+				$options[$i]->text .= ' (' . $item->folder . ')';
+			}
 		}
 
 		return $options;
