@@ -26,6 +26,14 @@ class JControllerUpdatestatelist extends JControllerCmsbase
 	public $prefix;
 
 	/*
+	 * Permission needed for the action
+	*
+	* @var  string
+	*/
+	public $permission = 'core.edit.state';
+
+
+	/*
 	 * Optional values needed for the model
 	 *
 	 *  @var  array
@@ -60,6 +68,14 @@ class JControllerUpdatestatelist extends JControllerCmsbase
 			$modelClassName = ucfirst($this->prefix) . 'Model' . ucfirst($viewName);
 			$model = new $modelClassName;
 			$newState = $this->stateOptions[$this->options[2]];
+
+			// Access check.
+			if (!JFactory::getUser()->authorise($this->permission, $model->getState('component.option')))
+			{
+				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+
+				return;
+			}
 
 			// Check in the items.
 			$app->enqueueMessage(JText::plural('JLIB_CONTROLLER_N_ITEMS_PUBLISHED', $model->publish($ids, $newState)));

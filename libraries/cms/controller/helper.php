@@ -19,6 +19,10 @@ defined('_JEXEC') or die('Restricted access');
 class JControllerHelper
 {
 
+	const CONTROLLER_PREFIX = 0;
+	const CONTROLLER_ACTIVITY = 1;
+	const CONTROLLER_VIEW_FOLDER = 2;
+
 	/*
 	 * Method to parse a controller from a url
 	 * Defaults to the base controllers and passes an array of options.
@@ -67,33 +71,33 @@ class JControllerHelper
 			}
 		}
 
-		if (empty($tasks[0]) || $tasks[0] == 'j')
+		if (empty($tasks[self::CONTROLLER_PREFIX]) || $tasks[self::CONTROLLER_PREFIX] == 'j')
 		{
 			$location = 'J';
 		}
 		else
 		{
-			$location = ucfirst(strtolower($tasks[0]));
+			$location = ucfirst(strtolower($tasks[self::CONTROLLER_PREFIX]));
 		}
 
-		if (empty($tasks[1]))
+		if (empty($tasks[self::CONTROLLER_ACTIVITY]))
 		{
 			$activity = 'Display';
 		}
 		else
 		{
-			$activity = ucfirst(strtolower($tasks[1]));
+			$activity = ucfirst(strtolower($tasks[self::CONTROLLER_ACTIVITY]));
 		}
 
 		$view = '';
 
-		if (empty($tasks[2]) && $location != 'J')
+		if (empty($tasks[self::CONTROLLER_VIEW_FOLDER]) && $location != 'J')
 		{
 			$view = ucfirst(strtolower($app->input->get('view')));
 		}
 		elseif ($location != 'J')
 		{
-			$view = ucfirst(strtolower($tasks[2]));
+			$view = ucfirst(strtolower($tasks[self::CONTROLLER_VIEW_FOLDER]));
 		}
 
 		$controllerName = $location .  'Controller' . $view . $activity;

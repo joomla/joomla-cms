@@ -52,6 +52,14 @@ class JControllerCheckin extends JControllerBase
 			$modelClassName = ucfirst($this->prefix) . 'Model' . ucfirst($viewName);
 			$model = new $modelClassName;
 
+			// Access check.
+			if (!JFactory::getUser()->authorise($this->permission, $model->getState('component.option')))
+			{
+				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+
+				return;
+			}
+
 			// Check in the items.
 			$app->enqueueMessage(JText::plural('JLIB_CONTROLLER_N_ITEMS_CHECKED_IN', $model->checkin($ids)));
 		}

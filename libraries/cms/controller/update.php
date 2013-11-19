@@ -16,7 +16,7 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage  controller
  * @since       3.2
 */
-class JControllerDisplay extends JControllerBase
+class JControllerUpdate extends JControllerBase
 {
 	/*
 	 * Prefix for the view and model classes
@@ -24,6 +24,13 @@ class JControllerDisplay extends JControllerBase
 	 * @var  string
 	 */
 	public $prefix = 'Content';
+
+	/*
+	 * Permission needed for the action. Defaults to most restrictive
+	*
+	* @var  string
+	*/
+	public $permission = 'core.edit';
 
 	/**
 	 * @return  mixed  A rendered view or true
@@ -53,6 +60,15 @@ class JControllerDisplay extends JControllerBase
 		$layoutName   = $this->input->getWord('layout', 'edit');
 
 		$model = new $this->prefix . 'Model' . $viewName ;
+
+		// Access check.
+		if (!JFactory::getUser()->authorise($this->permission, $model->getState('component.option')))
+		{
+			$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+
+			return;
+		}
+
 		$data  = $this->input->post->get('jform', array(), 'array');
 
 		// Complete data array if needed

@@ -25,6 +25,13 @@ class JControllerCmsbase extends JControllerBase
 	 */
 	public $prefix;
 
+	/*
+	 * Permission needed for the action. Defaults to most restrictive
+	*
+	* @var  string
+	*/
+	public $permission = 'core.admin';
+
 	/**
 	 * @return  mixed  A rendered view or true
 	 *

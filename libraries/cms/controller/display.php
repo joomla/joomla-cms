@@ -35,6 +35,8 @@ class JControllerDisplay extends JControllerBase
 		// Get the application
 		$app = $this->getApplication();
 
+		!$app->isAdmin() ? : $this->permission = 'core.manage';
+
 		// Get the document object.
 		$document     = JFactory::getDocument();
 
@@ -55,7 +57,7 @@ class JControllerDisplay extends JControllerBase
 			$model = new $modelClass;
 
 			// Access check.
-			if (!JFactory::getUser()->authorise('core.admin', $model->getState('component.option')))
+			if (!empty($this->permission) && !JFactory::getUser()->authorise($this->permission, $model->getState('component.option')))
 			{
 				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 

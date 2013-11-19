@@ -23,6 +23,13 @@ class JControllerDisplayform extends JControllerDisplay
 
 	protected $form;
 
+	/*
+	 * Permission needed for the action
+	*
+	* @var  string
+	*/
+	public $permission = 'core.edit';
+
 	/**
 	 * @return  mixed  A rendered view or true
 	 *
@@ -61,7 +68,7 @@ class JControllerDisplayform extends JControllerDisplay
 			$idName = $model->getTable()->get('_tbl_key');
 
 			// Access check.
-			if (!JFactory::getUser()->authorise('core.edit', $model->getState('component.option')))
+			if (!JFactory::getUser()->authorise($this->permission, $model->getState('component.option')))
 			{
 				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 

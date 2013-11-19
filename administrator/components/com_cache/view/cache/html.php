@@ -33,14 +33,8 @@ class CacheViewCacheHtml extends JViewHtmlCmslist
 		$input = new JInput;
 		$layout = $input->get('layout');
 
-		if ($layout == 'purge')
-		{
-			JToolbarHelper::custom('cache.cleanlist.cache.purge', 'delete.png', 'delete_f2.png', 'COM_CACHE_PURGE_EXPIRED', false);
-		}
-		else
-		{
-			JToolbarHelper::custom('cache.cleanlist.cache.clean', 'delete.png', 'delete_f2.png', 'JTOOLBAR_DELETE', true);
-		}
+		JToolbarHelper::custom('cache.cleanlist.cache.clean', 'delete.png', 'delete_f2.png', 'JTOOLBAR_DELETE', true);
+		JToolbarHelper::custom('cache.cleanlist.cache.purge', 'delete.png', 'delete_f2.png', 'COM_CACHE_PURGE_EXPIRED', false);
 
 		JToolbarHelper::divider();
 
