@@ -766,7 +766,7 @@
 		type="text"
 		class="readonly"
 		size="6" label="JGLOBAL_HITS"
-		description="COM_CONTACT_HITS_DESC"
+		description="COM_CONTACT_FIELD_HITS_DESC"
 		readonly="true"
 		filter="unset" />
 
