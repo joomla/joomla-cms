@@ -29,6 +29,7 @@ $ -> Language fix or change
  # [#32615] Regression: Module can't be deleted  Thanks Hannes Papenberg
  $ [#32738] Component options help button always links to Global Configuration help screen  Thanks Mark Dexter
  $ [#32731] Added new language strings for front end com_config  Thanks Buddhima Wijeweera
+ # [#32640] viewsite class has been removed from mod_status (J3.2) Thanks Jurian Even
  $ Complete TinyMCE fr.js lang file
 
 17-Nov-2013 Jean-Marie Simonet
