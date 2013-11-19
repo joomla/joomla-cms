@@ -55,21 +55,6 @@ class PlgUserJoomla extends JPlugin
 	public function __construct(&$subject, $config = array())
 	{
 		parent::__construct($subject, $config);
-
-		// As of CMS 3.2 strong encryption is the default.
-		$this->useStrongEncryption = $this->params->get('strong_passwords', true);
-		
-		if (!defined('JPASSWORD_ENCRYPTION'))
-		{
-			if ($this->useStrongEncryption)
-			{
-				define('JPASSWORD_ENCRYPTION', 'bcrypt');
-			}
-			else
-			{
-				define('JPASSWORD_ENCRYPTION', 'md5-hex');
-			}
-		}
 	}
 
 	/**
@@ -217,32 +202,16 @@ class PlgUserJoomla extends JPlugin
 
 		// Mark the user as logged in
 		$instance->set('guest', 0);
-
-		$encryption = 'bcrypt';
-		if (defined('JPASSWORD_ENCRYPTION'))
-		{
-			$encryption = JPASSWORD_ENCRYPTION;
-		}
-
-		$prefix = '{'.strtoupper($encryption).'}';
-		if ($encryption == 'md5-hex')
-		{
-			$prefix = '{MD5}';
-		}
 		
 		// If the user has an outdated hash, update it.
-		if (strpos($instance->password, $prefix) === false)
+		//JCrypt::hasStrongPasswordSupport() includes a fallback for us in the worst case
+		JCrypt::hasStrongPasswordSupport();
+		if (strpos($oldUser->password, '$2y$') === false || password_needs_rehash($oldUser->password, PASSWORD_DEFAULT))
 		{
-			$salt = '';
-			$password = JUserHelper::getCryptedPassword($user['password'], JUserHelper::getSalt($encryption, $salt, $user['password']), $encryption, true);
-			if ($encryption == 'md5-hex')
-			{
-				$salt = JUserHelper::genRandomPassword(32);
-				$password = JUserHelper::getCryptedPassword($user['password'], JUserHelper::getSalt($encryption, $salt, $user['password']), $encryption, true).':'.$salt;
-			}
+			$hash = password_hash($user['password'], PASSWORD_DEFAULT);
 
-			$instance->password = $password;
-			$return = $instance->save();
+			$instance->password = $hash;
+			$instance->save();
 		}
 
 		// Register the needed session variables

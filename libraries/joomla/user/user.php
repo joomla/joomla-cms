@@ -544,13 +544,6 @@ class JUser extends JObject
 	 */
 	public function bind(&$array)
 	{
-		//Set encryption for passwords. Default: bcrypt
-		$encryption = 'bcrypt';
-		if (defined('JPASSWORD_ENCRYPTION'))
-		{
-			$encryption = JPASSWORD_ENCRYPTION;
-		}
-
 		// Let's check to see if the user is new or not
 		if (empty($this->id))
 		{
@@ -571,15 +564,12 @@ class JUser extends JObject
 			}
 			$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
 
-			$salt = '';
-			$password = JUserHelper::getCryptedPassword($array['password'], JUserHelper::getSalt($encryption, $salt, $array['password']), $encryption, true);
-			if ($encryption == 'md5-hex')
-			{
-				$salt = JUserHelper::genRandomPassword(32);
-				$password = JUserHelper::getCryptedPassword($array['password'], JUserHelper::getSalt($encryption, $salt, $array['password']), $encryption, true).':'.$salt;
-			}
+			// Generate the password hash
+			//JCrypt::hasStrongPasswordSupport() includes a fallback for us in the worst case
+			JCrypt::hasStrongPasswordSupport();
+			$hash = password_hash($array['password'], PASSWORD_DEFAULT);
 			
-			$array['password'] = $password;
+			$array['password'] = $hash;
 
 			// Set the registration timestamp
 			$this->set('registerDate', JFactory::getDate()->toSql());
@@ -607,15 +597,12 @@ class JUser extends JObject
 
 				$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
 
-				$salt = '';
-				$password = JUserHelper::getCryptedPassword($array['password'], JUserHelper::getSalt($encryption, $salt, $array['password']), $encryption, true);
-				if ($encryption == 'md5-hex')
-				{
-					$salt = JUserHelper::genRandomPassword(32);
-					$password = JUserHelper::getCryptedPassword($array['password'], JUserHelper::getSalt($encryption, $salt, $array['password']), $encryption, true).':'.$salt;
-				}
+				// Generate the new password hash
+				//JCrypt::hasStrongPasswordSupport() includes a fallback for us in the worst case
+				JCrypt::hasStrongPasswordSupport();
+				$hash = password_hash($array['password'], PASSWORD_DEFAULT);
 				
-				$array['password'] = $password;
+				$array['password'] = $hash;
 			}
 			else
 			{
@@ -704,12 +691,9 @@ class JUser extends JObject
 			$oldUser = new JUser($this->id);
 
 			$iAmRehashingSuperadmin = false;
-			$encryption = 'bcrypt';
-			if (defined('JPASSWORD_ENCRYPTION'))
-			{
-				$encryption = JPASSWORD_ENCRYPTION;
-			}
-			if (($my->id == 0 && !$isNew) && $this->id == $oldUser->id && $oldUser->authorise('core.admin') && strpos($oldUser->password, '{'.strtoupper($encryption).'}') === false)
+			//JCrypt::hasStrongPasswordSupport() includes a fallback for us in the worst case
+			JCrypt::hasStrongPasswordSupport();
+			if (($my->id == 0 && !$isNew) && $this->id == $oldUser->id && $oldUser->authorise('core.admin') && (strpos($oldUser->password, '$2y$') === false || password_needs_rehash($oldUser->password, PASSWORD_DEFAULT)))
 			{
 				$iAmRehashingSuperadmin = true;
 			}
