@@ -31,6 +31,14 @@ abstract class AdminEditPage extends AdminPage
 	public $tabLabels = null;
 
 	/**
+	 * Name for header fields
+	 *
+	 * @var    string
+	 * @since  3.2
+	 */
+	public $headingLabel = 'Heading';
+
+	/**
 	 * Array of groups for this page. A group is a collapsable slider inside a tab.
 	 * The format of this array is <tab id> => <array of group labels>.
 	 * Note that each menu item type has its own options and its own groups.
@@ -434,6 +442,11 @@ abstract class AdminEditPage extends AdminPage
 
 	public function getTabLabel($tabId)
 	{
+		$result = false;
+		if ($tabId == 'header')
+		{
+			$result = $this->headingLabel;
+		}
 		$tabIds = $this->getTabIds();
 		$index = count($tabIds);
 		$tabLabels = $this->getTabLabels();
@@ -441,10 +454,10 @@ abstract class AdminEditPage extends AdminPage
 		{
 			if ($tabIds[$i] == $tabId)
 			{
-				return $tabLabels[$i];
+				$result = $tabLabels[$i];
 			}
 		}
-		return false;
+		return $result;
 	}
 
 	protected function getTextValues(array $values)
@@ -699,6 +712,11 @@ abstract class AdminEditPage extends AdminPage
 		$screenshotName = $this->getHelpScreenshotName(null, $linkArray[2]);
 		$screenshot[] = $this->formatImageElement($screenshotName);
 		$screenshot[] = "==Details==\n";
+
+		if (isset($helpText[$this->headingLabel]))
+		{
+			$screenshot = array_merge($screenshot, $helpText[$this->headingLabel]);
+		}
 		$result = array_merge($screenshot, $result);
 
 		return implode("", $result);
@@ -782,6 +800,7 @@ abstract class AdminEditPage extends AdminPage
 		$optionContainer->click();
 		$optionList = $optionContainer->findElement(By::tagName('ul'));
 		$optionText = $this->getOptionText($optionList);
+		$optionContainer->click();
 		return "*'''" . $object->labelText . ":''' (" . implode('/', $optionText) . "). " . $toolTip . "\n";
 	}
 }
