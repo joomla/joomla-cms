@@ -307,7 +307,11 @@ abstract class AdminEditPage extends AdminPage
 		$i = 0;
 		foreach ($options as $option)
 		{
-			$optionText[] = "''" . $option->getText() . "''";
+			if ($text = $option->getText())
+			{
+				$optionText[] = "''" . $option->getText() . "''";
+			}
+
 			if ($i++ > 5)			{
 				$optionText[] = '...';
 				break;
@@ -744,7 +748,7 @@ abstract class AdminEditPage extends AdminPage
 	public function toWikiHelpPermissions()
 	{
 		$result = false;
-		$elArray = $this->driver->findElements(By::xPath("//ul//a[@href='#page-permissions' or @href='#permissions']"));
+		$elArray = $this->driver->findElements(By::xPath("//ul//a[@href='#page-permissions' or @href='#permissions' or @href='#rules']"));
 		if (count($elArray) == 1)
 		{
 			$el = $elArray[0];
@@ -801,6 +805,14 @@ abstract class AdminEditPage extends AdminPage
 		$optionList = $optionContainer->findElement(By::tagName('ul'));
 		$optionText = $this->getOptionText($optionList);
 		$optionContainer->click();
-		return "*'''" . $object->labelText . ":''' (" . implode('/', $optionText) . "). " . $toolTip . "\n";
+		if (count($optionText) > 0)
+		{
+			$result = "*'''" . $object->labelText . ":''' (" . implode('/', $optionText) . "). " . $toolTip . "\n";
+		}
+		else
+		{
+			$result = "*'''" . $object->labelText . ":''' " . $toolTip . "\n";
+		}
+		return $result;
 	}
 }
