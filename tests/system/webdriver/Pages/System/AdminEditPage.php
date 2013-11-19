@@ -502,7 +502,7 @@ abstract class AdminEditPage extends AdminPage
 
 	protected function removeLabel($label, $string)
 	{
-		return str_ireplace(array('<strong>' . $label . '</strong>', '<br />'), array('',''), $string);
+		return str_ireplace(array('<strong>' . $label . '</strong>', '<strong> ' . $label . '</strong>','<br />'), array('','',''), $string);
 	}
 
 	public function selectTab($label, $group = null)
