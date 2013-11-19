@@ -242,6 +242,12 @@ abstract class AdminEditPage extends AdminPage
 		}
 	}
 
+	public function getHelpFileName($componentName)
+	{
+		$name = 'help-' . $this->version . '-' . $componentName . '.txt';
+		return strtolower(str_replace(array('\'', ' / ', ' - ', ' ', '/', ':'), array('', '-', '-','-', '', ''), $name));
+	}
+
 	public function getHelpScreenshotName($tabId = null, $prefix = null)
 	{
 		$screenName = $this->driver->findElement(By::className('page-title'))->getText();
@@ -375,6 +381,21 @@ abstract class AdminEditPage extends AdminPage
 		else
 		{
 			return $this->driver->findElement(By::xPath("//select[@id='jform_parent_id']/option[@selected='selected']"))->getText();
+		}
+	}
+
+	public function getTabDescription($tabId)
+	{
+		$this->selectTab($tabId);
+		$tabTextElementArray = $this->driver->findElements(By::xPath("//div[contains(@class,'tab-pane active')]//p"));
+
+		if (count($tabTextElementArray) > 0 && ($tabDescription = $tabTextElementArray[0]->getText()))
+		{
+			return $tabDescription;
+		}
+		else
+		{
+			return false;
 		}
 	}
 
@@ -646,9 +667,7 @@ abstract class AdminEditPage extends AdminPage
 			}
 
 			// Get any description for tab
-			$this->selectTab($tab);
-			$tabDescription = $this->driver->findElement(By::xPath("//div[contains(@class,'tab-pane active')]/p"))->getText();
-			if ($tabDescription)
+			if ($tabDescription = $this->getTabDescription($tab))
 			{
 				$result[] = $tabDescription . "\n";
 			}
@@ -684,7 +703,7 @@ abstract class AdminEditPage extends AdminPage
 	 */
 	public function toWikiHelpPermissions()
 	{
-		$el = $this->driver->findElement(By::xPath("//ul[@id='configTabs']//a[@href='#page-permissions' or @href='#permissions']"));
+		$el = $this->driver->findElement(By::xPath("//ul//a[@href='#page-permissions' or @href='#permissions']"));
 		$el->click();
 		$permissionsText = $el->getText();
 		$permissionsId = $this->driver->findElement(By::xPath("//div[@class = 'tab-pane active']"))->getAttribute('id');
