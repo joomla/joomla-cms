@@ -22,30 +22,30 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 	 */
 
 	public  $allMenuLinks = array(
-// 		'Control Panel' 		=> array('ControlPanelPage', 'administrator/index.php', 'system'),
-// 		'Global Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config', 'configuration'),
+		'Control Panel' 		=> array('ControlPanelPage', 'administrator/index.php', 'system'),
+		'Global Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config', 'configuration'),
 		'Banners Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_banners', 'configuration'),
-// 		'Cache Manager Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_cache', 'configuration'),
-// 		'Check-in Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_checkin', 'configuration'),
-// 		'Contacts Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_contact', 'configuration'),
-// 		'Articles Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_content', 'configuration'),
-// 		'Smart Search Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_finder', 'configuration'),
-// 		'Installation Manager Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_installer', 'configuration'),
-// 		'Joomla! Update Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_joomlaupdate', 'configuration'),
-// 		'Language Manager Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_languages', 'configuration'),
-// 		'Media Manager Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_media', 'configuration'),
-// 		'Menus Manager Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_menus', 'configuration'),
-// 		'Messaging Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_messages', 'configuration'),
-// 		'Module Manager Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_modules', 'configuration'),
-// 		'Newsfeeds Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_newsfeeds', 'configuration'),
-// 		'Plugin Manager Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_plugins', 'configuration'),
-// 		'Post-installation Messages Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_postinstall', 'configuration'),
-// 		'Redirect Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_redirect', 'configuration'),
-// 		'Search Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_search', 'configuration'),
-// 		'Tags Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_tags', 'configuration'),
-// 		'Template Manager Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_templates', 'configuration'),
-// 		'Users Manager Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_users', 'configuration'),
-// 		'Weblinks Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_weblinks', 'configuration'),
+		'Cache Manager Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_cache', 'configuration'),
+		'Check-in Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_checkin', 'configuration'),
+		'Contacts Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_contact', 'configuration'),
+		'Articles Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_content', 'configuration'),
+		'Smart Search Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_finder', 'configuration'),
+		'Installation Manager Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_installer', 'configuration'),
+		'Joomla! Update Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_joomlaupdate', 'configuration'),
+		'Language Manager Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_languages', 'configuration'),
+		'Media Manager Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_media', 'configuration'),
+		'Menus Manager Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_menus', 'configuration'),
+		'Messaging Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_messages', 'configuration'),
+		'Module Manager Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_modules', 'configuration'),
+		'Newsfeeds Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_newsfeeds', 'configuration'),
+		'Plugin Manager Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_plugins', 'configuration'),
+		'Post-installation Messages Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_postinstall', 'configuration'),
+		'Redirect Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_redirect', 'configuration'),
+		'Search Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_search', 'configuration'),
+		'Tags Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_tags', 'configuration'),
+		'Template Manager Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_templates', 'configuration'),
+		'Users Manager Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_users', 'configuration'),
+		'Weblinks Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_weblinks', 'configuration'),
 
 // 		'Global Checkin' 		=> array('GenericAdminPage', 'administrator/index.php?option=com_checkin', 'system'),
 // 		'Clear Cache' 			=> array('GenericAdminPage', 'administrator/index.php?option=com_cache', 'system'),
@@ -127,15 +127,25 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 	 */
 	public function writeWikiFiles()
 	{
+		$folder = 'tests/system/tmp/wiki-files';
+		$basePath = dirname(dirname(dirname(dirname(dirname(__DIR__)))));
+		$fullPath = $basePath . '/' . $folder;
+		if (!file_exists($fullPath))
+		{
+			mkdir($fullPath);
+		}
+
 		foreach ($this->allMenuLinks as $menuText => $linkArray)
 		{
 			if (strpos($linkArray[1], 'http') !== 0)
 			{
 				$testPage = $this->testPage->clickMenuByUrl($linkArray[1], $linkArray[0]);
-
-				$name = $testPage->getHelpScreenshotName(null, $linkArray[2]);
-				$text = $testPage->toWikiHelp($linkArray);
-				echo $text;
+				if (method_exists($testPage, 'toWikiHelp'))
+				{
+					$text = $testPage->toWikiHelp($linkArray);
+					$fileName = $testPage->getHelpFileName($menuText);
+					file_put_contents($fullPath . '/' . $fileName, $text);
+				}
 			}
 		}
 
