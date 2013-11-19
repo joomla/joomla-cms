@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.filesystem.folder');
+
 /**
  * Folders Option class for the Joomla Platform.
  *

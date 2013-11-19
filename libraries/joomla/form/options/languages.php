@@ -44,10 +44,13 @@ abstract class JFormOptionLanguages
 		$language = JLanguageHelper::detectLanguage();
 		$path = constant('JPATH_' . strtoupper($client));
 
+		// A list of language options.
+		$options = array();
+
 		// For some reason we get a list of associative arrays, we need objects.
-		foreach (JLanguageHelper::createLanguageList($language, $path, true, true) as $option)
+		foreach (JLanguageHelper::createLanguageList($language, $path, true, true) as $lang)
 		{
-			$options[] = (object) $option;
+			$options[] = (object) $lang;
 		}
 
 		return $options;
