@@ -112,32 +112,30 @@ if(JLanguageMultilang::isEnabled())
 
 						<hr />
 
-						<?php if ($this->item['module'] != 'mod_login'): ?>
-							<div class="control-group">
-								<div class="control-label">
-									<?php echo $this->form->getLabel('published'); ?>
-								</div>
-								<div class="controls">
-									<?php echo $this->form->getInput('published'); ?>
-								</div>
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('published'); ?>
 							</div>
-							<div class="control-group">
-								<div class="control-label">
-									<?php echo $this->form->getLabel('publish_up'); ?>
-								</div>
-								<div class="controls">
-									<?php echo $this->form->getInput('publish_up'); ?>
-								</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('published'); ?>
 							</div>
-							<div class="control-group">
-								<div class="control-label">
-									<?php echo $this->form->getLabel('publish_down'); ?>
-								</div>
-								<div class="controls">
-									<?php echo $this->form->getInput('publish_down'); ?>
-								</div>
+						</div>
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('publish_up'); ?>
 							</div>
-						<?php endif; ?>
+							<div class="controls">
+								<?php echo $this->form->getInput('publish_up'); ?>
+							</div>
+						</div>
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $this->form->getLabel('publish_down'); ?>
+							</div>
+							<div class="controls">
+								<?php echo $this->form->getInput('publish_down'); ?>
+							</div>
+						</div>
 
 						<div class="control-group">
 							<div class="control-label">
