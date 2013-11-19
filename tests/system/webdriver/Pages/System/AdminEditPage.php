@@ -460,9 +460,17 @@ abstract class AdminEditPage extends AdminPage
 
 	public function getToolTip($tabText, $id)
 	{
-		$el = $this->driver->findElement(By::id($id));
-		$tipText = $el->getAttribute('data-original-title');
-		return str_replace("\n", " ", $tipText);
+		$result = false;
+		$elmentArray = $this->driver->findElements(By::id($id));
+		if (count($elmentArray) == 1)
+		{
+			$tipText = $elmentArray[0]->getAttribute('data-original-title');
+			if ($tipText)
+			{
+				$result = str_replace("\n", " ", $tipText);
+			}
+		}
+		return $result;
 	}
 
 	public function printFieldArray($actualFields)
@@ -638,22 +646,31 @@ abstract class AdminEditPage extends AdminPage
 			$el->labelText = (substr($el->labelText, -2) == ' *') ? substr($el->labelText, 0, -2) : $el->labelText;
 			if ($el->tag == 'fieldset')
 			{
-				$helpText[$el->tabLabel][] = $this->toWikiHelpRadio($el);
+				 $elHelpText = $this->toWikiHelpRadio($el);
 			}
 			elseif ($el->tag == 'select')
 			{
-				$helpText[$el->tabLabel][] = $this->toWikiHelpSelect($el);
+				$elHelpText = $this->toWikiHelpSelect($el);
 			}
 			else
 			{
-				$helpText[$el->tabLabel][] = $this->toWikiHelpInput($el);
+				$elHelpText = $this->toWikiHelpInput($el);
+			}
+
+			if ($elHelpText)
+			{
+				$helpText[$el->tabLabel][] = $elHelpText;
 			}
 		}
 
 		$permissionsTextArray = $this->toWikiHelpPermissions();
-		$helpText[$permissionsTextArray[1]] = $permissionsTextArray[0];
+		if (is_array($permissionsTextArray))
+		{
+			$helpText[$permissionsTextArray[1]] = $permissionsTextArray[0];
+		}
 
 		$tabCount = count($tabs);
+		$result = array();
 		for ($i = 0; $i < $tabCount; $i++)
 		{
 			$tab = $tabs[$i];
@@ -678,9 +695,10 @@ abstract class AdminEditPage extends AdminPage
 			}
 		}
 
-		$screenshot = array("===Screenshot===\n");
+		$screenshot = array("==Screenshot==\n");
 		$screenshotName = $this->getHelpScreenshotName(null, $linkArray[2]);
 		$screenshot[] = $this->formatImageElement($screenshotName);
+		$screenshot[] = "==Details==\n";
 		$result = array_merge($screenshot, $result);
 
 		return implode("", $result);
@@ -693,34 +711,47 @@ abstract class AdminEditPage extends AdminPage
 	 */
 	public function toWikiHelpInput(stdClass $el)
 	{
-		$toolTip = $this->removeLabel($el->labelText, $this->getToolTip($el->tab, $el->id . '-lbl'));
-		return "*'''" . $el->labelText . ":''' " . $toolTip . "\n";
+		$result = false;
+		if ($toolTipRaw = $this->getToolTip($el->tab, $el->id . '-lbl'))
+		{
+			$toolTip = $this->removeLabel($el->labelText, $toolTipRaw);
+			$result = "*'''" . $el->labelText . ":''' " . $toolTip . "\n";
+		}
+		return $result;
 	}
 
 	/**
 	 * Prepare wiki text for permissions tab
-	 *
 	 */
 	public function toWikiHelpPermissions()
 	{
-		$el = $this->driver->findElement(By::xPath("//ul//a[@href='#page-permissions' or @href='#permissions']"));
-		$el->click();
-		$permissionsText = $el->getText();
-		$permissionsId = $this->driver->findElement(By::xPath("//div[@class = 'tab-pane active']"))->getAttribute('id');
-		$objects = $this->getPermissionInputFields('1', $permissionsId);
-		$helpText = array();
-		foreach ($objects as $object)
+		$result = false;
+		$elArray = $this->driver->findElements(By::xPath("//ul//a[@href='#page-permissions' or @href='#permissions']"));
+		if (count($elArray) == 1)
 		{
-			$listElement = str_replace('.', '_', $object->id);
-			$optionContainer = $this->driver->findElement(By::xPath("//div[@id='" . $listElement . "_chzn']"));
-			$optionContainer->findElement(By::tagName('a'))->click();
-			$optionList = $optionContainer->findElement(By::tagName('ul'));
-			$optionText = $this->getOptionText($optionList);
-			$toolTip = $object->element->getAttribute('title') . ". " . $object->tipText;
-			$helpText[] = "*'''" . $object->labelText . ":''' (" . implode('/', $optionText) . "). " . $toolTip . "\n";
-			$optionContainer->findElement(By::tagName('a'))->click();
+			$el = $elArray[0];
+			$el->click();
+			$permissionsText = $el->getText();
+			$permissionsId = $this->driver->findElement(By::xPath("//div[@class = 'tab-pane active']"))->getAttribute('id');
+			$objects = $this->getPermissionInputFields('1', $permissionsId);
+			$helpText = array();
+			foreach ($objects as $object)
+			{
+				$listElement = str_replace('.', '_', $object->id);
+				$optionContainer = $this->driver->findElement(By::xPath("//div[@id='" . $listElement . "_chzn']"));
+				$optionContainer->findElement(By::tagName('a'))->click();
+				$optionList = $optionContainer->findElement(By::tagName('ul'));
+				$optionText = $this->getOptionText($optionList);
+				$toolTip = $object->element->getAttribute('title') . ". " . $object->tipText;
+				$helpText[] = "*'''" . $object->labelText . ":''' (" . implode('/', $optionText) . "). " . $toolTip . "\n";
+				$optionContainer->findElement(By::tagName('a'))->click();
+			}
+			$result = array(
+				$helpText,
+				$permissionsText
+			);
 		}
-		return array($helpText, $permissionsText);
+		return $result;
 	}
 
 
