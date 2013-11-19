@@ -225,7 +225,7 @@ class PlgUserJoomla extends JPlugin
 		}
 
 		// If the user has an outdated hash, update it.
-		if (strpos($user['password'], '{'.strtoupper($encryption).'}') === false)
+		if (strpos($instance->password, '{'.strtoupper($encryption).'}') === false)
 		{
 			$salt = '';
 			$password = JUserHelper::getCryptedPassword($user['password'], JUserHelper::getSalt($encryption, $salt, $user['password']), $encryption, true);
