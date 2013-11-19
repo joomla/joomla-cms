@@ -224,8 +224,14 @@ class PlgUserJoomla extends JPlugin
 			$encryption = JPASSWORD_ENCRYPTION;
 		}
 
+		$prefix = '{'.strtoupper($encryption).'}';
+		if ($encryption == 'md5-hex')
+		{
+			$prefix = '{MD5}';
+		}
+		
 		// If the user has an outdated hash, update it.
-		if (strpos($instance->password, '{'.strtoupper($encryption).'}') === false)
+		if (strpos($instance->password, $prefix) === false)
 		{
 			$salt = '';
 			$password = JUserHelper::getCryptedPassword($user['password'], JUserHelper::getSalt($encryption, $salt, $user['password']), $encryption, true);
