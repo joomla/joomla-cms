@@ -307,9 +307,10 @@ abstract class AdminEditPage extends AdminPage
 		$i = 0;
 		foreach ($options as $option)
 		{
-			if ($text = $option->getText())
+			$class = $option->getAttribute('class');
+			if ($text = $option->getText() && strpos($class, 'active-result') !== false)
 			{
-				$optionText[] = "''" . $option->getText() . "''";
+				$optionText[] = "''" . trim($option->getText(), ' -') . "''";
 			}
 
 			if ($i++ > 5)			{
