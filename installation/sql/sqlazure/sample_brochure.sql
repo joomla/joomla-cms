@@ -180,7 +180,7 @@ INSERT INTO [#__modules_menu] ([moduleid], [menuid]) VALUES (83, 0);
 INSERT INTO [#__modules_menu] ([moduleid], [menuid]) VALUES (85, 0);
 
 
-TRUNCATE TABLE [#__template_styles];
+DELETE FROM [#__template_styles] WHERE [id] IN ( 2, 3, 4, 5, 6 );
 SET IDENTITY_INSERT [#__template_styles] ON
 INSERT INTO [#__template_styles] ([id], [template], [client_id], [home], [title], [params]) VALUES (2, N'bluestork', 1, N'1      ', N'Bluestork - Default', N'{"useRoundedCorners":"1","showSiteName":"0"}');
 INSERT INTO [#__template_styles] ([id], [template], [client_id], [home], [title], [params]) VALUES (3, N'atomic', 0, N'0      ', N'Atomic - Default', N'{}');
