@@ -4,7 +4,6 @@ TRUNCATE TABLE [#__menu];
 TRUNCATE TABLE [#__menu_types];
 TRUNCATE TABLE [#__modules];
 TRUNCATE TABLE [#__modules_menu];
-TRUNCATE TABLE [#__template_styles];
 TRUNCATE TABLE [#__usergroups];
 TRUNCATE TABLE [#__viewlevels];
 
@@ -1067,11 +1066,10 @@ INSERT [#__newsfeeds] ([catid], [id], [name], [alias], [link], [published], [num
 SET IDENTITY_INSERT [#__newsfeeds] OFF;
 
 SET IDENTITY_INSERT [#__template_styles] ON;
+DELETE FROM [#__template_styles] WHERE [id] IN ( 4, 8 );
 
 INSERT [#__template_styles] ([id], [template], [client_id], [home], [title], [params]) VALUES (4, 'beez3', 0, '0      ', 'Beez3 - Fruit Shop', '{"wrapperSmall":53,"wrapperLarge":72,"logo":"","sitetitle":"Fruit Shop","sitedescription":"The freshest fruit for you","navposition":"left","bootstrap":"","templatecolor":"red","headerImage":"","backgroundcolor":"#eee"}');
 INSERT [#__template_styles] ([id], [template], [client_id], [home], [title], [params]) VALUES (5, 'hathor', 1, '0      ', 'Hathor - Default', '{"showSiteName":"0","colourChoice":"","boldText":"0"}');
-INSERT [#__template_styles] ([id], [template], [client_id], [home], [title], [params]) VALUES (7, 'protostar', 0, '1      ', 'protostar - Default', '{"templateColor":"","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}');
-INSERT [#__template_styles] ([id], [template], [client_id], [home], [title], [params]) VALUES (8, 'isis', 1, '1      ', 'isis - Default', '{"templateColor":"","logoFile":""}');
 INSERT [#__template_styles] ([id], [template], [client_id], [home], [title], [params]) VALUES (9, 'beez3', 0, '0      ', 'Beez3 - Default', '{"wrapperSmall":53,"wrapperLarge":72,"logo":"","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","bootstrap":"","templatecolor":"personal","headerImage":"","backgroundcolor":"#eee"}');
 
 SET IDENTITY_INSERT [#__template_styles] OFF;
