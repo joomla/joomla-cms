@@ -802,4 +802,10 @@ INSERT IGNORE INTO `#__weblinks` (`id`, `catid`, `title`, `alias`, `url`, `descr
 
 UPDATE `#__extensions` SET `params`='{"allowUserRegistration":"1","new_usertype":"2","guest_usergroup":"13","sendpassword":"1","useractivation":"1","mail_to_admin":"0","captcha":"","frontend_userparams":"1","site_language":"0","change_login_name":"0","reset_count":"10","reset_time":"1","mailSubjectPrefix":"","mailBodySuffix":"","save_history":"1","history_limit":5}' WHERE extension_id=25;
 
+DELETE FROM `#__template_styles` WHERE id IN ( 4, 8 );
+INSERT IGNORE INTO `#__template_styles` (`id`, `template`, `client_id`, `home`, `title`, `params`) VALUES
+(4, 'beez3', 0, '0', 'Beez3 - Fruit Shop', '{"wrapperSmall":53,"wrapperLarge":72,"logo":"","sitetitle":"Fruit Shop","sitedescription":"The freshest fruit for you","navposition":"left","bootstrap":"","templatecolor":"red","headerImage":"","backgroundcolor":"#eee"}'),
+(8, 'isis', 1, '1', 'isis - Default', '{"templateColor":"","logoFile":""}'),
+(9, 'beez3', 0, '0', 'Beez3 - Default', '{"wrapperSmall":53,"wrapperLarge":72,"logo":"","sitetitle":"Joomla!","sitedescription":"Open Source Content Management","navposition":"left","bootstrap":"","templatecolor":"personal","headerImage":"","backgroundcolor":"#eee"}');
+
 SET FOREIGN_KEY_CHECKS=1;
