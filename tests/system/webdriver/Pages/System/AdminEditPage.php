@@ -662,7 +662,7 @@ abstract class AdminEditPage extends AdminPage
 		$helpText = array();
 		foreach ($inputFields as $el)
 		{
-			if (! in_array($el->tab, $excludeTabs))
+			if (isset($el->tab) && !in_array($el->tab, $excludeTabs))
 			{
 				$this->selectTab($el->tab);
 				$el->tabLabel = $this->getTabLabel($el->tab);
@@ -718,28 +718,32 @@ abstract class AdminEditPage extends AdminPage
 				$result = array_merge($result, $helpText[$tabText]);
 			}
 		}
-
-		$screenshot = array(
-			"==Screenshot==\n"
-		);
-		if ($excludedCount == 0)
+		if ($tabCount > 0)
 		{
-			$screenshotName = $this->getHelpScreenshotName(null, $prefix);
+			$screenshot = array("==Screenshot==\n");
+			if ($excludedCount == 0)
+			{
+				$screenshotName = $this->getHelpScreenshotName(null, $prefix);
+			}
+			else
+			{
+				$screenshotName = $this->getHelpScreenshotName($tabs[0], $prefix);
+			}
+			$screenshot[] = $this->formatImageElement($screenshotName);
+			$screenshot[] = "==Details==\n";
+
+			if (isset($helpText[$this->headingLabel]))
+			{
+				$screenshot = array_merge($screenshot, $helpText[$this->headingLabel]);
+			}
+			$result = array_merge($screenshot, $result);
+
+			return implode("", $result);
 		}
 		else
 		{
-			$screenshotName = $this->getHelpScreenshotName($tabs[0], $prefix);
+			return false;
 		}
-		$screenshot[] = $this->formatImageElement($screenshotName);
-		$screenshot[] = "==Details==\n";
-
-		if (isset($helpText[$this->headingLabel]))
-		{
-			$screenshot = array_merge($screenshot, $helpText[$this->headingLabel]);
-		}
-		$result = array_merge($screenshot, $result);
-
-		return implode("", $result);
 	}
 
 	/**
