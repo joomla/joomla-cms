@@ -47,7 +47,7 @@ JHtml::_('behavior.keepalive');
 		<label for="modlgn-passwd"><?php echo JText::_('JGLOBAL_PASSWORD') ?></label>
 		<input id="modlgn-passwd" type="password" name="password" class="inputbox" size="18"  />
 	</p>
-		<?php if (count($twofactormethods) > 1): ?>
+	<?php if (count($twofactormethods) > 1): ?>
 		<div id="form-login-secretkey" class="control-group">
 			<div class="controls">
 				<?php if (!$params->get('usetext')) : ?>
@@ -61,7 +61,7 @@ JHtml::_('behavior.keepalive');
 				<?php endif; ?>
 			</div>
 		</div>
-		<?php endif; ?>
+	<?php endif; ?>
 	<?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>
 		<p id="form-login-remember">
 			<label for="modlgn-remember"><?php echo JText::_('MOD_LOGIN_REMEMBER_ME') ?></label>
