@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Nov-2013 Jean-Marie Simonet
+ [#32740] Making Finder plugins language aware Thanks Hannes Papenberg
+
 18-Nov-2013 Jean-Marie Simonet
  # [#32615] Regression: Module can't be deleted  Thanks Hannes Papenberg
  $ [#32738] Component options help button always links to Global Configuration help screen  Thanks Mark Dexter
