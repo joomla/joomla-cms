@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+20-Nov-2013 Jean-Marie Simonet
+ # [#26551] Multiple instances of script and css declarations with enabled caching  Thanks Dennis Hermatski
+
 16-Nov-2013 Michael Babker
  # [#32578] [2.5] Argument 1 passed to JHttpTransportStream::getResponse() must be an array
 
