@@ -54,7 +54,7 @@ class ContactEditPage extends AdminEditPage
 	 * @var    array
 	 * @since  3.2
 	 */
-	public $tabLabels = array('New Contact', 'Miscellaneious Information', 'Publishing', 'Display', 'Form');
+	public $tabLabels = array('New Contact', 'Miscellaneous Information', 'Publishing', 'Display', 'Form');
 
 	/**
 	 * Array of all the field Details of the Edit page, along with the ID and tab value they are present on

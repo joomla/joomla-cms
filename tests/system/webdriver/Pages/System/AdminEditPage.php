@@ -651,33 +651,39 @@ abstract class AdminEditPage extends AdminPage
 	/**
 	 * Output help screen for the page.
 	 */
-	public function toWikiHelp($linkArray)
+	public function toWikiHelp($prefix, $excludeTabs = array())
 	{
 		$tabs = $this->getTabIds();
+		$tabs = array_values(array_diff($tabs, $excludeTabs));
+		$excludedCount = count($excludeTabs);
+
 		$inputFields = $this->getAllInputFields($tabs);
 
 		$helpText = array();
 		foreach ($inputFields as $el)
 		{
-			$this->selectTab($el->tab);
-			$el->tabLabel = $this->getTabLabel($el->tab);
-			$el->labelText = (substr($el->labelText, -2) == ' *') ? substr($el->labelText, 0, -2) : $el->labelText;
-			if ($el->tag == 'fieldset')
+			if (! in_array($el->tab, $excludeTabs))
 			{
-				 $elHelpText = $this->toWikiHelpRadio($el);
-			}
-			elseif ($el->tag == 'select')
-			{
-				$elHelpText = $this->toWikiHelpSelect($el);
-			}
-			else
-			{
-				$elHelpText = $this->toWikiHelpInput($el);
-			}
+				$this->selectTab($el->tab);
+				$el->tabLabel = $this->getTabLabel($el->tab);
+				$el->labelText = (substr($el->labelText, - 2) == ' *') ? substr($el->labelText, 0, - 2) : $el->labelText;
+				if ($el->tag == 'fieldset')
+				{
+					$elHelpText = $this->toWikiHelpRadio($el);
+				}
+				elseif ($el->tag == 'select')
+				{
+					$elHelpText = $this->toWikiHelpSelect($el);
+				}
+				else
+				{
+					$elHelpText = $this->toWikiHelpInput($el);
+				}
 
-			if ($elHelpText)
-			{
-				$helpText[$el->tabLabel][] = $elHelpText;
+				if ($elHelpText)
+				{
+					$helpText[$el->tabLabel][] = $elHelpText;
+				}
 			}
 		}
 
@@ -689,7 +695,7 @@ abstract class AdminEditPage extends AdminPage
 
 		$tabCount = count($tabs);
 		$result = array();
-		for ($i = 0; $i < $tabCount; $i++)
+		for ($i = 0; $i < $tabCount; $i ++)
 		{
 			$tab = $tabs[$i];
 			$tabText = $this->driver->findElement(By::xPath("//a[@href='#" . $tab . "']"))->getText();
@@ -698,7 +704,7 @@ abstract class AdminEditPage extends AdminPage
 			// Don't do screenshot for first tab, since this is in the main screenshot
 			if ($i > 0)
 			{
-				$result[] = $this->formatImageElement($this->getHelpScreenshotName($tab, $linkArray[2]));
+				$result[] = $this->formatImageElement($this->getHelpScreenshotName($tab, $prefix));
 			}
 
 			// Get any description for tab
@@ -713,8 +719,17 @@ abstract class AdminEditPage extends AdminPage
 			}
 		}
 
-		$screenshot = array("==Screenshot==\n");
-		$screenshotName = $this->getHelpScreenshotName(null, $linkArray[2]);
+		$screenshot = array(
+			"==Screenshot==\n"
+		);
+		if ($excludedCount == 0)
+		{
+			$screenshotName = $this->getHelpScreenshotName(null, $prefix);
+		}
+		else
+		{
+			$screenshotName = $this->getHelpScreenshotName($tabs[0], $prefix);
+		}
 		$screenshot[] = $this->formatImageElement($screenshotName);
 		$screenshot[] = "==Details==\n";
 
@@ -725,7 +740,6 @@ abstract class AdminEditPage extends AdminPage
 		$result = array_merge($screenshot, $result);
 
 		return implode("", $result);
-
 	}
 
 	/**
