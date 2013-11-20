@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 20-Nov-2013 Jean-Marie Simonet
  [#32740] Making Finder plugins language aware Thanks Hannes Papenberg
+ $ Adding ro-RO installation lang file and updating th-TH
 
 18-Nov-2013 Jean-Marie Simonet
  # [#32615] Regression: Module can't be deleted  Thanks Hannes Papenberg
