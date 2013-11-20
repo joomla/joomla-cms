@@ -281,9 +281,6 @@ class JApplicationAdministrator extends JApplicationCms
 			}
 		}
 
-		// Execute the parent initialiseApp method.
-		parent::initialiseApp($options);
-
 		// Load the language to the API
 		$this->loadLanguage();
 
@@ -295,6 +292,9 @@ class JApplicationAdministrator extends JApplicationCms
 
 		// Load Library language
 		$lang->load('lib_joomla', JPATH_ADMINISTRATOR);
+
+		// Finish initialisation
+		parent::initialiseApp($options);
 	}
 
 	/**
