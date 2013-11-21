@@ -486,7 +486,7 @@ class PlgUserJoomla extends JPlugin
 		$this->db->setQuery($query)->execute();
 
 		// Destroy the cookie
-		$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->cookie_path, $this->cookie_domain);
+		$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->app->get('cookie_path'), $this->app->get('cookie_domain'));
 
 		return true;
 	}
