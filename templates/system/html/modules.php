@@ -90,7 +90,7 @@ function modChrome_xhtml($module, &$params, &$attribs)
 	if (!empty ($module->content)) : ?>
 		<div class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx')); ?>">
 		<?php if ((bool) $module->showtitle) : ?>
-			<h3><?php echo $module->title; ?></h3>
+			<<?php echo htmlspecialchars($params->get('header_tag', 'h3')) . $params->get('header_class', 'h3'); ?>><?php echo $module->title; ?></<?php echo htmlspecialchars($params->get('header_tag', 'h3')); ?>>
 		<?php endif; ?>
 			<?php echo $module->content; ?>
 		</div>
@@ -107,7 +107,7 @@ function modChrome_rounded($module, &$params, &$attribs)
 				<div>
 					<div>
 						<?php if ((bool) $module->showtitle) : ?>
-							<h3><?php echo $module->title; ?></h3>
+							<<?php echo htmlspecialchars($params->get('header_tag', 'h3')) . $params->get('header_class', 'h3'); ?>><?php echo $module->title; ?></<?php echo htmlspecialchars($params->get('header_tag', 'h3')); ?>>
 						<?php endif; ?>
 					<?php echo $module->content; ?>
 					</div>
