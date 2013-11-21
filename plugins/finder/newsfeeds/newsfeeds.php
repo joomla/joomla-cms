@@ -267,7 +267,7 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 
 		// Build the necessary route and path information.
 		$item->url = $this->getURL($item->id, $this->extension, $this->layout);
-		$item->route = NewsfeedsHelperRoute::getNewsfeedRoute($item->slug, $item->catslug);
+		$item->route = NewsfeedsHelperRoute::getNewsfeedRoute($item->slug, $item->catslug, $item->language);
 		$item->path = FinderIndexerHelper::getContentPath($item->route);
 
 		/*

@@ -614,9 +614,6 @@ final class JApplicationSite extends JApplicationCms
 			}
 		}
 
-		// Execute the parent initialiseApp method.
-		parent::initialiseApp($options);
-
 		// Load the language to the API
 		$this->loadLanguage();
 
@@ -632,6 +629,9 @@ final class JApplicationSite extends JApplicationCms
 		 */
 		$lang->load('lib_joomla', JPATH_SITE, null, false, true)
 			|| $lang->load('lib_joomla', JPATH_ADMINISTRATOR, null, false, true);
+
+		// Finish initialisation
+		parent::initialiseApp($options);
 	}
 
 	/**
