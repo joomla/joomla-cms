@@ -124,7 +124,7 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function takeScreenShotsAllMenuLinks()
 	{
@@ -165,7 +165,7 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function takeScreenShotsMenuItemTypes()
 	{
@@ -268,7 +268,7 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function writeWikiFilesForBasicScreens()
 	{
@@ -297,7 +297,7 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function writeWikiFilesForMenuItemTypes()
 	{
@@ -335,7 +335,7 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function writeWikiFilesForModuleTypes()
 	{
@@ -369,7 +369,9 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 			$moduleEditPage->setFieldValues(array('Title' => $type['name']));
 			$moduleEditPage->tabs = null;
 			$moduleEditPage->tabLabels = null;
-			$text = $moduleEditPage->toWikiHelp('modules-' . $type['client'], array('general','assignment','permissions'));
+			$excludedTabs = array('assignment','permissions','attrib-advanced');
+			$excludedFields = array('Show Title', 'Position', 'Status', 'Start Publishing', 'Finish Publishing', 'Access', 'Ordering', 'Language', 'Note');
+			$text = $moduleEditPage->toWikiHelp('modules-' . $type['client'], $excludedTabs, $excludedFields);
 			if ($text)
 			{
 				$fileName = $moduleEditPage->getHelpFileName(trim('module-' . $type['client'] . '-' . $type['name']));

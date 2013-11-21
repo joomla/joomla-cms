@@ -651,10 +651,10 @@ abstract class AdminEditPage extends AdminPage
 	/**
 	 * Output help screen for the page.
 	 */
-	public function toWikiHelp($prefix, $excludeTabs = array())
+	public function toWikiHelp($prefix, $excludeTabs = array(), $excludeFields = array())
 	{
-		$tabs = $this->getTabIds();
-		$tabs = array_values(array_diff($tabs, $excludeTabs));
+		$allTabs = $this->getTabIds();
+		$tabs = array_values(array_diff($allTabs, $excludeTabs));
 		$excludedCount = count($excludeTabs);
 
 		$inputFields = $this->getAllInputFields($tabs);
@@ -662,7 +662,7 @@ abstract class AdminEditPage extends AdminPage
 		$helpText = array();
 		foreach ($inputFields as $el)
 		{
-			if (isset($el->tab) && !in_array($el->tab, $excludeTabs))
+			if (isset($el->tab) && !in_array($el->tab, $excludeTabs) && !in_array($el->labelText, $excludeFields))
 			{
 				$this->selectTab($el->tab);
 				$el->tabLabel = $this->getTabLabel($el->tab);
@@ -687,10 +687,13 @@ abstract class AdminEditPage extends AdminPage
 			}
 		}
 
-		$permissionsTextArray = $this->toWikiHelpPermissions();
-		if (is_array($permissionsTextArray))
+		if (!in_array('permissions', $excludeTabs))
 		{
-			$helpText[$permissionsTextArray[1]] = $permissionsTextArray[0];
+			$permissionsTextArray = $this->toWikiHelpPermissions();
+			if (is_array($permissionsTextArray))
+			{
+				$helpText[$permissionsTextArray[1]] = $permissionsTextArray[0];
+			}
 		}
 
 		$tabCount = count($tabs);
@@ -721,7 +724,8 @@ abstract class AdminEditPage extends AdminPage
 		if ($tabCount > 0)
 		{
 			$screenshot = array("==Screenshot==\n");
-			if ($excludedCount == 0)
+			// If we are processing the first tab, don't include tab name in screenshot name
+			if (!in_array($allTabs[0], $excludeTabs))
 			{
 				$screenshotName = $this->getHelpScreenshotName(null, $prefix);
 			}
