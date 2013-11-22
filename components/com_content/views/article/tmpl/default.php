@@ -17,6 +17,7 @@ $images = json_decode($this->item->images);
 $urls = json_decode($this->item->urls);
 $canEdit	= $this->item->params->get('access-edit');
 $user		= JFactory::getUser();
+$attribs    = json_decode($this->item->attribs);
 
 ?>
 <div class="item-page<?php echo $this->pageclass_sfx?>">
@@ -32,7 +33,8 @@ if (!empty($this->item->pagination) AND $this->item->pagination && !$this->item-
 }
  ?>
 
-<?php if ($params->get('show_title')) : ?>
+<?php $show_title_for_article = $attribs->{'show_title'}; ?>
+<?php if (('' != $show_title_for_article && $show_title_for_article) || ('' == $show_title_for_article && $params->get('show_title'))) : ?>
 	<h2>
 	<?php if ($params->get('link_titles') && !empty($this->item->readmore_link)) : ?>
 		<a href="<?php echo $this->item->readmore_link; ?>">
@@ -192,7 +194,6 @@ if (!empty($this->item->pagination) AND $this->item->pagination AND $this->item-
 		$link = new JURI($link1);?>
 		<p class="readmore">
 		<a href="<?php echo $link; ?>">
-		<?php $attribs = json_decode($this->item->attribs);  ?>
 		<?php
 		if ($attribs->alternative_readmore == null) :
 			echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE');
