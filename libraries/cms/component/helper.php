@@ -251,7 +251,7 @@ class JComponentHelper
 				// Remove white listed attributes from filter's default blacklist
 				if ($whiteListAttributes)
 				{
-					$filter->attrBlacklist = array_diff($filter->attrBlacklist);
+					$filter->attrBlacklist = array_diff($filter->attrBlacklist, $blackListAttributes);
 				}
 			}
 			// White lists take third precedence.
