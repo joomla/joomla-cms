@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+22-Nov-2013 Jean-Marie Simonet
+ # [#32727] Updating Joomla! RAD Layer to FOF 2.1.0 stable  Thanks Nicholas Dyonisopoulos
+
 21-Nov-2013 Jean-Marie Simonet
  # Reverting #32675] as it prevents setting default language
 

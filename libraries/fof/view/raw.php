@@ -1,8 +1,9 @@
 <?php
 /**
- * @package    FrameworkOnFramework
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     FrameworkOnFramework
+ * @subpackage  view
+ * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
 defined('_JEXEC') or die;
@@ -58,6 +59,16 @@ class FOFViewRaw extends FOFView
 		else
 		{
 			$this->input = new FOFInput;
+		}
+
+		if (!array_key_exists('option', $this->config))
+		{
+			$this->config['option'] = $this->input->getCmd('option', 'com_foobar');
+		}
+
+		if (!array_key_exists('view', $this->config))
+		{
+			$this->config['view'] = $this->input->getCmd('view', 'cpanel');
 		}
 
 		$this->lists = new JObject;
@@ -271,7 +282,7 @@ class FOFViewRaw extends FOFView
 		$orderingColumn = $table->getColumnAlias('ordering');
 		$fields = $table->getTableFields();
 
-		if (!array_key_exists($orderingColumn, $fields))
+		if (!is_array($fields) || !array_key_exists($orderingColumn, $fields))
 		{
 			return false;
 		}
