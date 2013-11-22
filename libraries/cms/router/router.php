@@ -575,7 +575,7 @@ class JRouter
 		if (!is_array($url))
 		{
 			// Read the URL into an array
-			$temp = array();
+			$vars = array();
 
 			if (strpos($url, '&amp;') !== false)
 			{
@@ -587,17 +587,17 @@ class JRouter
 				$url = substr($url, 10);
 			}
 
-			parse_str($url, $temp);
-			$temp = array_merge($this->getVars(), $temp);
+			parse_str($url, $vars);
+			$vars = array_merge($this->getVars(), $vars);
 
-			foreach ($temp as $key => $var)
+			foreach ($vars as $key => $var)
 			{
 				if ($var == "")
 				{
-					unset($temp[$key]);
+					unset($vars[$key]);
 				}
 			}
-			$url = $temp;
+			$url = $vars;
 		}
 
 		$uri = new JURI('index.php');
