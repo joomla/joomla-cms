@@ -31,7 +31,15 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		$options['text_file'] = 'joomla_update.php';
 		JLog::addLogger($options, JLog::INFO, array('Update', 'databasequery', 'jerror'));
 		$user = JFactory::getUser();
-		JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_START', $user->id, $user->name, JVERSION), JLog::INFO, 'Update');
+		try
+		{
+			JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_START', $user->id, $user->name, JVERSION), JLog::INFO, 'Update');
+		}
+		catch (Exception $e)
+		{
+			// Do nothing; the logs directory is probably not writeable (usually Plesk-based hosts)
+		}
+
 
 		$this->_applyCredentials();
 
@@ -45,7 +53,14 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		{
 			JFactory::getApplication()->setUserState('com_joomlaupdate.file', $file);
 			$url = 'index.php?option=com_joomlaupdate&task=update.install';
-			JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $file), JLog::INFO, 'Update');
+			try
+			{
+				JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_FILE', $file), JLog::INFO, 'Update');
+			}
+			catch (Exception $e)
+			{
+				// Do nothing; the logs directory is probably not writeable (usually Plesk-based hosts)
+			}
 		}
 		else
 		{
@@ -69,7 +84,14 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
 		JLog::addLogger($options, JLog::INFO, array('Update', 'databasequery', 'jerror'));
-		JLog::add(JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_INSTALL'), JLog::INFO, 'Update');
+		try
+		{
+			JLog::add(JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_INSTALL'), JLog::INFO, 'Update');
+		}
+		catch (Exception $e)
+		{
+			// Do nothing; the logs directory is probably not writeable (usually Plesk-based hosts)
+		}
 
 		$this->_applyCredentials();
 
@@ -93,7 +115,14 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
 		JLog::addLogger($options, JLog::INFO, array('Update', 'databasequery', 'jerror'));
-		JLog::add(JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_FINALISE'), JLog::INFO, 'Update');
+		try
+		{
+			JLog::add(JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_FINALISE'), JLog::INFO, 'Update');
+		}
+		catch (Exception $e)
+		{
+			// Do nothing; the logs directory is probably not writeable (usually Plesk-based hosts)
+		}
 		$this->_applyCredentials();
 
 		$model = $this->getModel('Default');
@@ -116,7 +145,14 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
 		JLog::addLogger($options, JLog::INFO, array('Update', 'databasequery', 'jerror'));
-		JLog::add(JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_CLEANUP'), JLog::INFO, 'Update');
+		try
+		{
+			JLog::add(JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_CLEANUP'), JLog::INFO, 'Update');
+		}
+		catch (Exception $e)
+		{
+			// Do nothing; the logs directory is probably not writeable (usually Plesk-based hosts)
+		}
 		$this->_applyCredentials();
 
 		$model = $this->getModel('Default');
@@ -125,7 +161,14 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 
 		$url = 'index.php?option=com_joomlaupdate&layout=complete';
 		$this->setRedirect($url);
-		JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_COMPLETE', JVERSION), JLog::INFO, 'Update');
+		try
+		{
+			JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_COMPLETE', JVERSION), JLog::INFO, 'Update');
+		}
+		catch (Exception $e)
+		{
+			// Do nothing; the logs directory is probably not writeable (usually Plesk-based hosts)
+		}
 	}
 
 	/**
