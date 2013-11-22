@@ -34,7 +34,7 @@ if (!empty($this->item->pagination) AND $this->item->pagination && !$this->item-
  ?>
 
 <?php $show_title_for_article = $attribs->{'show_title'}; ?>
-<?php if (('' != $show_title_for_article && $show_title_for_article) || ('' == $show_title_for_article && $params->get('show_title'))) : ?>
+<?php if ('1' == $show_title_for_article || ('' == $show_title_for_article && $params->get('show_title'))) : ?>
 	<h2>
 	<?php if ($params->get('link_titles') && !empty($this->item->readmore_link)) : ?>
 		<a href="<?php echo $this->item->readmore_link; ?>">
