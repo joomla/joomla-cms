@@ -112,6 +112,12 @@ class UsersModelUser extends JModelAdmin
 			$form->setFieldAttribute('password2', 'required', 'true');
 		}
 
+		// The user should not be able to set the requireReset value on their own account
+		if ($userId === JFactory::getUser()->id)
+		{
+			$form->removeField('requireReset');
+		}
+
 		return $form;
 	}
 
@@ -603,6 +609,16 @@ class UsersModelUser extends JModelAdmin
 			$done = true;
 		}
 
+		if (!empty($commands['reset_id']))
+		{
+			if (!$this->batchReset($pks, $commands['reset_id']))
+			{
+				return false;
+			}
+
+			$done = true;
+		}
+
 		if (!$done)
 		{
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
@@ -612,6 +628,56 @@ class UsersModelUser extends JModelAdmin
 
 		// Clear the cache
 		$this->cleanCache();
+
+		return true;
+	}
+
+	/**
+	 * Batch flag users as being required to reset their passwords
+	 *
+	 * @param   array   $user_ids  An array of user IDs on which to operate
+	 * @param   string  $action    The action to perform
+	 *
+	 * @return  boolean  True on success, false on failure
+	 *
+	 * @since   3.2
+	 */
+	public function batchReset($user_ids, $action)
+	{
+		// Set the action to perform
+		if ($action === 'yes')
+		{
+			$value = 1;
+		}
+		else
+		{
+			$value = 0;
+		}
+
+		// Get the DB object
+		$db = $this->getDbo();
+
+		JArrayHelper::toInteger($user_ids);
+
+		$query = $db->getQuery(true);
+
+		// Update the reset flag
+		$query->update($db->quoteName('#__users'))
+			->set($db->quoteName('requireReset') . ' = ' . $value)
+			->where($db->quoteName('id') . ' IN (' . implode(',', $user_ids) . ')');
+
+		$db->setQuery($query);
+
+		try
+		{
+			$db->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
 
 		return true;
 	}

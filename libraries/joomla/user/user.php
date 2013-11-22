@@ -155,6 +155,14 @@ class JUser extends JObject
 	public $resetCount = null;
 
 	/**
+	 * Flag to require the user's password be reset
+	 *
+	 * @var    int
+	 * @since  3.2
+	 */
+	public $requireReset = null;
+
+	/**
 	 * User parameters
 	 *
 	 * @var    JRegistry
@@ -623,6 +631,9 @@ class JUser extends JObject
 				$salt = JUserHelper::genRandomPassword(32);
 				$crypt = JUserHelper::getCryptedPassword($array['password'], $salt, $defaultEncryption);
 				$array['password'] = $crypt . ':' . $salt;
+
+				// Reset the change password flag
+				$array['requireReset'] = 0;
 			}
 			else
 			{
@@ -793,6 +804,12 @@ class JUser extends JObject
 			$this->setError($e->getMessage());
 
 			return false;
+		}
+
+		// Reset the user object in the session on a successful save
+		if ($result === true && JFactory::getUser()->id === $this->id)
+		{
+			JFactory::getSession()->set('user', $this);
 		}
 
 		return $result;

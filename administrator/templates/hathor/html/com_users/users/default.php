@@ -139,6 +139,9 @@ $loggeduser = JFactory::getUser();
 						<?php echo JHtml::_('users.filterNotes', $item->note_count, $item->id); ?>
 						<?php echo JHtml::_('users.notes', $item->note_count, $item->id); ?>
 						<?php echo JHtml::_('users.addNote', $item->id); ?>
+						<?php if ($item->requireReset == '1') : ?>
+						<span class="label label-warning"><?php echo JText::_('COM_USERS_PASSWORD_RESET_REQUIRED'); ?></span>
+						<?php endif; ?>
 					</div>
 					<?php if ($canEdit) : ?>
 					<a href="<?php echo JRoute::_('index.php?option=com_users&task=user.edit&id='.(int) $item->id); ?>" title="<?php echo JText::sprintf('COM_USERS_EDIT_USER', $this->escape($item->name)); ?>">

@@ -1,1 +1,1 @@
-# Placeholder file for database changes for version 3.2.1
+ALTER TABLE [#__users] ADD [requireReset] [smallint] NULL DEFAULT 0;
