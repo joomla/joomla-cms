@@ -280,12 +280,22 @@ class PlgTwofactorauthYubikey extends JPlugin
 	 */
 	public function validateYubikeyOTP($otp)
 	{
-		$server_queue = array(
-			'api.yubico.com', 'api2.yubico.com', 'api3.yubico.com',
-			'api4.yubico.com', 'api5.yubico.com'
-		);
+		$customURL = $this->params->get('customserver', '');
+		$customURL = trim($customURL);
 
-		shuffle($server_queue);
+		if (!empty($customURL))
+		{
+			$server_queue = array($customURL);
+		}
+		else
+		{
+			$server_queue = array(
+				'api.yubico.com', 'api2.yubico.com', 'api3.yubico.com',
+				'api4.yubico.com', 'api5.yubico.com'
+			);
+
+			shuffle($server_queue);
+		}
 
 		$gotResponse = false;
 		$check = false;
@@ -299,7 +309,14 @@ class PlgTwofactorauthYubikey extends JPlugin
 		{
 			$server = array_shift($server_queue);
 
-			$uri = new JUri('https://' . $server . '/wsapi/2.0/verify');
+			if (!empty($customURL))
+			{
+				$uri = new JUri($server);
+			}
+			else
+			{
+				$uri = new JUri('https://' . $server . '/wsapi/2.0/verify');
+			}
 
 			// I don't see where this ID is used?
 			$uri->setVar('id', 1);
