@@ -31,7 +31,7 @@ class AdminLoginPage extends AdminPage
 		$webElement->clear();
 		$webElement->sendKeys($this->cfg->password);
 		//access button
-		$this->driver->findElement(By::xPath("//button[contains(., 'Log in')]"))->click();
+		$this->driver->findElement(By::xPath("//button/i[contains(@class, 'icon-lock')]"))->click();
 	}
 
 }
