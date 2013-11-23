@@ -13,7 +13,7 @@ use SeleniumClient\WebElement;
  */
 class ControlPanelPage extends AdminPage
 {
-	protected $waitForXpath = "//h1[contains(., 'Control Panel')]";
+	protected $waitForXpath = "//h2[contains(., 'Logged-in Users')]";
 	protected $url = 'administrator/index.php';
 
 	/**

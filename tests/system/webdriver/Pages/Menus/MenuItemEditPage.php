@@ -165,7 +165,8 @@ class MenuItemEditPage extends AdminEditPage
 		{
 			$name = 'help-' . $this->version . '-' . $screenName . '-' . $group . '-' . $type . '.png';
 		}
-		return strtolower(str_replace(array(' / ', ' ', '/', ':'), array('-', '-', '', ''), $name));
+		$name = str_replace(array(' / ', ' ', '/', ':'), array('-', '-', '', ''), $name);
+		return $name;
 	}
 
 	public function getMenuItemType()
@@ -235,9 +236,9 @@ class MenuItemEditPage extends AdminEditPage
 		$d->findElement(By::xPath("//a[contains(@onclick, 'option=com_menus&view=menutypes')]"))->click();
 		$el = $d->waitForElementUntilIsPresent(By::xPath("//iframe[contains(@src, 'option=com_menus&view=menutypes')]"));
 		$el = $d->switchTo()->getFrameByWebElement($el);
-		$el->findElement(By::xPath("//a[contains(@class, 'accordion-toggle')][contains(., '" . $group . "')]"))->click();
+		$el->findElement(By::xPath("//a[contains(@class, 'accordion-toggle')][contains(., \"" . $group . "\")]"))->click();
 		$d->waitForElementUntilIsPresent(By::xPath("//div[contains(@class, 'accordion-body in')]/div/ul/li/a"));
-		$el->findElement(By::xPath("//div[contains(@class, 'accordion-body in')]//a[contains(text(), '" . $value . "')]"))->click();
+		$el->findElement(By::xPath("//div[contains(@class, 'accordion-body in')]//a[contains(text(), \"" . $value . "\")]"))->click();
 		$d->waitForElementUntilIsNotPresent(By::xPath("//iframe[contains(@src, 'option=com_menus&view=menutypes')]"));
 		$d->waitForElementUntilIsPresent(By::id('jform_title'));
 		$d->switchTo()->getDefaultFrame();
