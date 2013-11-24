@@ -19,6 +19,22 @@ defined('_JEXEC') or die;
 class PlgUserJoomla extends JPlugin
 {
 	/**
+	 * Application object
+	 *
+	 * @var    JApplicationCms
+	 * @since  3.2
+	 */
+	protected $app;
+
+	/**
+	 * Database object
+	 *
+	 * @var    JDatabaseDriver
+	 * @since  3.2
+	 */
+	protected $db;
+
+	/**
 	 * Remove all sessions for the user name
 	 *
 	 * Method is called after user data is deleted from the database
@@ -38,11 +54,11 @@ class PlgUserJoomla extends JPlugin
 			return false;
 		}
 
-		$db = JFactory::getDbo();
-		$db->getQuery(true)
-			->delete($db->quoteName('#__session'))
-			->where($db->quoteName('userid') . ' = ' . (int) $user['id'])
-			->execute();
+		$query = $this->db->getQuery(true)
+			->delete($this->db->quoteName('#__session'))
+			->where($this->db->quoteName('userid') . ' = ' . (int) $user['id']);
+
+		$this->db->setQuery($query)->execute();
 
 		return true;
 	}
@@ -64,12 +80,11 @@ class PlgUserJoomla extends JPlugin
 	public function onUserAfterSave($user, $isnew, $success, $msg)
 	{
 		$mail_to_user = $this->params->get('mail_to_user', 1);
-		$app = JFactory::getApplication();
 
 		if ($isnew)
 		{
 			// TODO: Suck in the frontend registration emails here as well. Job for a rainy day.
-			if ($app->isAdmin())
+			if ($this->app->isAdmin())
 			{
 				if ($mail_to_user)
 				{
@@ -81,14 +96,14 @@ class PlgUserJoomla extends JPlugin
 					$emailSubject = JText::sprintf(
 						'PLG_USER_JOOMLA_NEW_USER_EMAIL_SUBJECT',
 						$user['name'],
-						$config = $app->get('sitename')
+						$config = $this->app->get('sitename')
 					);
 
 					// Compute the mail body.
 					$emailBody = JText::sprintf(
 						'PLG_USER_JOOMLA_NEW_USER_EMAIL_BODY',
 						$user['name'],
-						$app->get('sitename'),
+						$this->app->get('sitename'),
 						JUri::root(),
 						$user['username'],
 						$user['password_clear']
@@ -98,8 +113,8 @@ class PlgUserJoomla extends JPlugin
 					$mail = JFactory::getMailer()
 						->setSender(
 							array(
-								$app->get('mailfrom'),
-								$app->get('fromname')
+								$this->app->get('mailfrom'),
+								$this->app->get('fromname')
 							)
 						)
 						->addRecipient($user['email'])
@@ -108,7 +123,7 @@ class PlgUserJoomla extends JPlugin
 
 					if (!$mail->Send())
 					{
-						$app->enqueueMessage(JText::_('ERROR_SENDING_EMAIL'), 'warning');
+						$this->app->enqueueMessage(JText::_('ERROR_SENDING_EMAIL'), 'warning');
 					}
 				}
 			}
@@ -132,7 +147,6 @@ class PlgUserJoomla extends JPlugin
 	public function onUserLogin($user, $options = array())
 	{
 		$instance = $this->_getUser($user, $options);
-		$app = JFactory::getApplication();
 
 		// If _getUser returned an error, then pass it back.
 		if ($instance instanceof Exception)
@@ -143,7 +157,7 @@ class PlgUserJoomla extends JPlugin
 		// If the user is blocked, redirect with an error
 		if ($instance->get('block') == 1)
 		{
-			$app->enqueueMessage(JText::_('JERROR_NOLOGIN_BLOCKED'), 'warning');
+			$this->app->enqueueMessage(JText::_('JERROR_NOLOGIN_BLOCKED'), 'warning');
 
 			return false;
 		}
@@ -159,7 +173,7 @@ class PlgUserJoomla extends JPlugin
 
 		if (!$result)
 		{
-			$app->enqueueMessage(JText::_('JERROR_LOGIN_DENIED'), 'warning');
+			$this->app->enqueueMessage(JText::_('JERROR_LOGIN_DENIED'), 'warning');
 
 			return false;
 		}
@@ -186,17 +200,16 @@ class PlgUserJoomla extends JPlugin
 		$session->set('user', $instance);
 
 		// Check to see the the session already exists.
-		$app->checkSession();
+		$this->app->checkSession();
 
 		// Update the user related fields for the Joomla sessions table.
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->update($db->quoteName('#__session'))
-			->set($db->quoteName('guest') . ' = ' . $db->quote($instance->guest))
-			->set($db->quoteName('username') . ' = ' . $db->quote($instance->username))
-			->set($db->quoteName('userid') . ' = ' . (int) $instance->id)
-			->where($db->quoteName('session_id') . ' = ' . $db->quote($session->getId()));
-		$db->setQuery($query)->execute();
+		$query = $this->db->getQuery(true)
+			->update($this->db->quoteName('#__session'))
+			->set($this->db->quoteName('guest') . ' = ' . $this->db->quote($instance->guest))
+			->set($this->db->quoteName('username') . ' = ' . $this->db->quote($instance->username))
+			->set($this->db->quoteName('userid') . ' = ' . (int) $instance->id)
+			->where($this->db->quoteName('session_id') . ' = ' . $this->db->quote($session->getId()));
+		$this->db->setQuery($query)->execute();
 
 		// Hit the user last visit field
 		$instance->setLastVisit();
@@ -218,7 +231,6 @@ class PlgUserJoomla extends JPlugin
 	{
 		$my      = JFactory::getUser();
 		$session = JFactory::getSession();
-		$app	 = JFactory::getApplication();
 
 		// Make sure we're a valid user first
 		if ($user['id'] == 0 && !$my->get('tmp_user'))
@@ -227,7 +239,7 @@ class PlgUserJoomla extends JPlugin
 		}
 
 		// Check to see if we're deleting the current session
-		if ($my->get('id') == $user['id'] && $options['clientid'] == $app->getClientId())
+		if ($my->get('id') == $user['id'] && $options['clientid'] == $this->app->getClientId())
 		{
 			// Hit the user last visit field
 			$my->setLastVisit();
@@ -237,12 +249,11 @@ class PlgUserJoomla extends JPlugin
 		}
 
 		// Force logout all users with that userid
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->delete($db->quoteName('#__session'))
-			->where($db->quoteName('userid') . ' = ' . (int) $user['id'])
-			->where($db->quoteName('client_id') . ' = ' . (int) $options['clientid']);
-		$db->setQuery($query)->execute();
+		$query = $this->db->getQuery(true)
+			->delete($this->db->quoteName('#__session'))
+			->where($this->db->quoteName('userid') . ' = ' . (int) $user['id'])
+			->where($this->db->quoteName('client_id') . ' = ' . (int) $options['clientid']);
+		$this->db->setQuery($query)->execute();
 
 		return true;
 	}
@@ -318,9 +329,6 @@ class PlgUserJoomla extends JPlugin
 	 */
 	public function onUserAfterLogin($options)
 	{
-		$db = JFactory::getDbo();
-		$app = JFactory::getApplication();
-
 		// Currently this portion of the method only applies to Cookie based login.
 		if (!isset($options['responseType']) || ($options['responseType'] != 'Cookie' && empty($options['remember'])))
 		{
@@ -328,9 +336,9 @@ class PlgUserJoomla extends JPlugin
 		}
 
 		// We get the parameter values differently for cookie and non-cookie logins.
-		$cookieLifetime	= empty($options['lifetime']) ? $app->rememberCookieLifetime : $options['lifetime'];
-		$length			= empty($options['length']) ? $app->rememberCookieLength : $options['length'];
-		$secure			= empty($options['secure']) ? $app->rememberCookieSecure : $options['secure'];
+		$cookieLifetime	= empty($options['lifetime']) ? $this->app->rememberCookieLifetime : $options['lifetime'];
+		$length			= empty($options['length']) ? $this->app->rememberCookieLength : $options['length'];
+		$secure			= empty($options['secure']) ? $this->app->rememberCookieSecure : $options['secure'];
 
 		// We need the old data to match against the current database
 		$rememberArray = JUserHelper::getRememberCookieData();
@@ -355,12 +363,12 @@ class PlgUserJoomla extends JPlugin
 			// We are going to concatenate with . so we need to remove it from the strings.
 			$series = str_replace('.', '', $series);
 
-			$query = $db->getQuery(true)
-				->select($db->quoteName('series'))
-				->from($db->quoteName('#__user_keys'))
-				->where($db->quoteName('series') . ' = ' . $db->quote(base64_encode($series)));
+			$query = $this->db->getQuery(true)
+				->select($this->db->quoteName('series'))
+				->from($this->db->quoteName('#__user_keys'))
+				->where($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($series)));
 
-			$results = $db->setQuery($query)->loadResult();
+			$results = $this->db->setQuery($query)->loadResult();
 
 			if (is_null($results))
 			{
@@ -373,49 +381,49 @@ class PlgUserJoomla extends JPlugin
 		// delete any invalid entries so that he or she can use remember once again.
 		if ($options['responseType'] !== 'Cookie')
 		{
-			$query = $db->getQuery(true)
+			$query = $this->db->getQuery(true)
 				->delete('#__user_keys')
-				->where($db->quoteName('uastring') . ' = ' . $db->quote($cookieName))
-				->where($db->quoteName('user_id') . ' = ' . $db->quote($options['user']->username));
+				->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName))
+				->where($this->db->quoteName('user_id') . ' = ' . $this->db->quote($options['user']->username));
 
-			$db->setQuery($query)->execute();
+			$this->db->setQuery($query)->execute();
 		}
 
 		$cookieValue = $privateKey . '.' . $series . '.' . $cookieName;
 
 		// Destroy the old cookie.
-		$app->input->cookie->set($cookieName, false, time() - 42000, $app->get('cookie_path'), $app->get('cookie_domain'));
+		$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->app->get('cookie_path'), $this->app->get('cookie_domain'));
 
 		// And make a new one.
-		$app->input->cookie->set(
-			$cookieName, $cookieValue, $cookieLifetime, $app->get('cookie_path'), $app->get('cookie_domain'), $secure
+		$this->app->input->cookie->set(
+			$cookieName, $cookieValue, $cookieLifetime, $this->app->get('cookie_path'), $this->app->get('cookie_domain'), $secure
 		);
 
-		$query = $db->getQuery(true);
+		$query = $this->db->getQuery(true);
 
 		if (empty($user->cookieLogin) || $options['response'] != 'Coookie')
 		{
 			// For users doing login from Joomla or other systems
-			$query->insert($db->quoteName('#__user_keys'));
+			$query->insert($this->db->quoteName('#__user_keys'));
 		}
 		else
 		{
 			$query
-				->update($db->quoteName('#__user_keys'))
-				->where($db->quoteName('user_id') . ' = ' . $db->quote($options['user']->username))
-				->where($db->quoteName('series') . ' = ' . $db->quote(base64_encode($rememberArray[1])))
-				->where($db->quoteName('uastring') . ' = ' . $db->quote($cookieName));
+				->update($this->db->quoteName('#__user_keys'))
+				->where($this->db->quoteName('user_id') . ' = ' . $this->db->quote($options['user']->username))
+				->where($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($rememberArray[1])))
+				->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName));
 		}
 
 		$query
-			->set($db->quoteName('user_id') . ' = ' . $db->quote($options['user']->username))
-			->set($db->quoteName('time') . ' = ' . $cookieLifetime)
-			->set($db->quoteName('token') . ' = ' . $db->quote($cryptedKey))
-			->set($db->quoteName('series') . ' = ' . $db->quote(base64_encode($series)))
-			->set($db->quoteName('invalid') . ' = 0')
-			->set($db->quoteName('uastring') . ' = ' . $db->quote($cookieName));
+			->set($this->db->quoteName('user_id') . ' = ' . $this->db->quote($options['user']->username))
+			->set($this->db->quoteName('time') . ' = ' . $cookieLifetime)
+			->set($this->db->quoteName('token') . ' = ' . $this->db->quote($cryptedKey))
+			->set($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($series)))
+			->set($this->db->quoteName('invalid') . ' = 0')
+			->set($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName));
 
-		$db->setQuery($query)->execute();
+		$this->db->setQuery($query)->execute();
 
 		return true;
 	}
@@ -442,19 +450,18 @@ class PlgUserJoomla extends JPlugin
 		list($privateKey, $series, $cookieName) = $rememberArray;
 
 		// Remove the record from the database
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
+		$query = $this->db->getQuery(true);
 
 		$query
 			->delete('#__user_keys')
-			->where($db->quoteName('uastring') . ' = ' . $db->quote($cookieName))
-			->where($db->quoteName('series') . ' = ' . $db->quote(base64_encode($series)))
-			->where($db->quoteName('user_id') . ' = ' . $db->quote($options['username']));
+			->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName))
+			->where($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($series)))
+			->where($this->db->quoteName('user_id') . ' = ' . $this->db->quote($options['username']));
 
-		$db->setQuery($query)->execute();
+		$this->db->setQuery($query)->execute();
 
 		// Destroy the cookie
-		$app->input->cookie->set($cookieName, false, time() - 42000, $this->cookie_path, $this->cookie_domain);
+		$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->cookie_path, $this->cookie_domain);
 
 		return true;
 	}
