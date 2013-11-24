@@ -124,9 +124,9 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 
 
 	/**
-	 * @xtest
+	 * @test
 	 */
-	public function takeScreenShotsAllMenuLinks()
+	public function takeScreenShotsAllMenuLinksAllLanguages()
 	{
 		$testPage = $this->testPage;
 		$gcPage = $testPage->clickMenu('Global Configuration', 'GlobalConfigurationPage');
@@ -138,7 +138,7 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 			if (strpos($linkArray[1], 'http') !== 0)
 			{
 				$testPage = $testPage->clickMenuByUrl($linkArray[1], $linkArray[0]);
-				$name = $testPage->getHelpScreenshotName(null, $linkArray[2]);
+				$name = $testPage->getHelpScreenshotNameAllLanguages(null, $linkArray[2] . '-' . $menuText);
 
 				// process additional tabs if available
 				if (method_exists($testPage, 'getTabIds'))
@@ -150,7 +150,7 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 						$testPage->selectTab($tabs[$i]);
 						if ($i > 0)
 						{
-							$name = $testPage->getHelpScreenshotName($tabs[$i], $linkArray[2]);
+							$name = $testPage->getHelpScreenshotNameAllLanguages($tabs[$i], $linkArray[2] . '-' . $menuText);
 						}
 						$this->helpScreenshot($name, $this->cfg->baseURI . "/tests/system/tmp/basic-screens");
 					}
@@ -165,7 +165,7 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @test
+	 * @xtest
 	 */
 	public function takeScreenShotsMenuItemTypesAllLanguages()
 	{
