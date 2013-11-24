@@ -294,11 +294,11 @@ abstract class JUserHelper
 
 		return $db->loadResult();
 	}
-	
+
 	/**
 	 * Hashes a password using the current encryption.
 	 *
-	 * @param   string   $password      The plaintext password to encrypt.
+	 * @param   string  $password  The plaintext password to encrypt.
 	 *
 	 * @return  string  The encrypted password.
 	 *
@@ -307,19 +307,18 @@ abstract class JUserHelper
 	public static function hashPassword($password)
 	{
 		$salt = JUserHelper::genRandomPassword(32);
-		$crypted = md5($password.$salt);
+		$crypted = md5($password . $salt);
 		return $crypted . ':' . $salt;
 	}
-	
+
 	/**
-	 * Formats a password using the current encryption. If the user ID is given 
+	 * Formats a password using the current encryption. If the user ID is given
 	 * and the hash does not fit the current hashing algorithm, it automatically
 	 * updates the hash.
 	 *
-	 * @param   string	  $password      The plaintext password to check.
-	 * @param   string	  $hash          The hash to verify against.
-	 * @param   integer   $user_id       ID of the user if the password hash 
-	 *                                   should be updated
+	 * @param   string   $password  The plaintext password to check.
+	 * @param   string   $hash      The hash to verify against.
+	 * @param   integer  $user_id   ID of the user if the password hash should be updated
 	 *
 	 * @return  boolean  True if the password and hash match, false otherwise
 	 *
@@ -329,56 +328,59 @@ abstract class JUserHelper
 	{
 		$rehash = false;
 		$match = false;
+
 		if ($password[0] == '$')
 		{
-			//JCrypt::hasStrongPasswordSupport() includes a fallback for us in the worst case
+			// JCrypt::hasStrongPasswordSupport() includes a fallback for us in the worst case
 			JCrypt::hasStrongPasswordSupport();
 			$match = password_verify($password, $hash);
-			
-			//Uncomment this line if we actually move to bcrypt.
-			//$rehash = password_needs_rehash($hash, PASSWORD_DEFAULT);
+
+			// Uncomment this line if we actually move to bcrypt.
+			// $rehash = password_needs_rehash($hash, PASSWORD_DEFAULT);
 			$rehash = true;
-		} 
+		}
 		elseif (substr($password,0,8) == '{SHA256}')
 		{
 			// Check the password
-			$parts	= explode(':', $hash);
-			$crypt	= $parts[0];
-			$salt	= @$parts[1];
+			$parts     = explode(':', $hash);
+			$crypt     = $parts[0];
+			$salt      = @$parts[1];
 			$testcrypt = JUserHelper::getCryptedPassword($password, $salt, 'sha256', false);
 
 			if ($password == $testcrypt)
 			{
 				$match = true;
 			}
+
 			$rehash = true;
 		}
 		else
 		{
 			// Check the password
-			$parts	= explode(':', $hash);
-			$crypt	= $parts[0];
-			$salt	= @$parts[1];
+			$parts = explode(':', $hash);
+			$crypt = $parts[0];
+			$salt  = @$parts[1];
+
 			if (!$salt)
 			{
 				$rehash = true;
 			}
 
-			$testcrypt = md5($password.$salt).($salt ? ':'.$salt : '');
+			$testcrypt = md5($password . $salt) . ($salt ? ':' . $salt : '');
 
 			if ($hash == $testcrypt)
 			{
 				$match = true;
 			}
 		}
-		
+
 		if ((int) $user_id > 0 && $match && $rehash)
 		{
 			$user = new JUser($user_id);
 			$user->password = static::hashPassword($password);
 			$user->save();
 		}
-		
+
 		return $match;
 	}
 
@@ -403,7 +405,7 @@ abstract class JUserHelper
 	public static function getCryptedPassword($plaintext, $salt = '', $encryption = 'md5-hex', $show_encrypt = false)
 	{
 		// Get the salt to use.
-		$salt = self::getSalt($encryption, $salt, $plaintext);
+		$salt = static::getSalt($encryption, $salt, $plaintext);
 
 		// Encrypt the password.
 		switch ($encryption)
@@ -440,7 +442,7 @@ abstract class JUserHelper
 			case 'aprmd5':
 				$length = strlen($plaintext);
 				$context = $plaintext . '$apr1$' . $salt;
-				$binary = self::_bin(md5($plaintext . $salt . $plaintext));
+				$binary = static::_bin(md5($plaintext . $salt . $plaintext));
 
 				for ($i = $length; $i > 0; $i -= 16)
 				{
@@ -451,7 +453,7 @@ abstract class JUserHelper
 					$context .= ($i & 1) ? chr(0) : $plaintext[0];
 				}
 
-				$binary = self::_bin(md5($context));
+				$binary = static::_bin(md5($context));
 
 				for ($i = 0; $i < 1000; $i++)
 				{
@@ -466,7 +468,7 @@ abstract class JUserHelper
 						$new .= $plaintext;
 					}
 					$new .= ($i & 1) ? substr($binary, 0, 16) : $plaintext;
-					$binary = self::_bin(md5($new));
+					$binary = static::_bin(md5($new));
 				}
 
 				$p = array();
@@ -480,16 +482,16 @@ abstract class JUserHelper
 					{
 						$j = 5;
 					}
-					$p[] = self::_toAPRMD5((ord($binary[$i]) << 16) | (ord($binary[$k]) << 8) | (ord($binary[$j])), 5);
+					$p[] = static::_toAPRMD5((ord($binary[$i]) << 16) | (ord($binary[$k]) << 8) | (ord($binary[$j])), 5);
 				}
 
-				return '$apr1$' . $salt . '$' . implode('', $p) . self::_toAPRMD5(ord($binary[11]), 3);
+				return '$apr1$' . $salt . '$' . implode('', $p) . static::_toAPRMD5(ord($binary[11]), 3);
 
 			case 'sha256':
 				$encrypted = ($salt) ? hash('sha256', $plaintext . $salt) . ':' . $salt : hash('sha256', $plaintext);
 
 				return ($show_encrypt) ? '{SHA256}' . $encrypted : '{SHA256}' . $encrypted;
-				
+
 			case 'md5-hex':
 			default:
 				$encrypted = ($salt) ? md5($plaintext . $salt) : md5($plaintext);
