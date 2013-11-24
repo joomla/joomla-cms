@@ -19,6 +19,14 @@ defined('JPATH_BASE') or die;
 class JRouterSite extends JRouter
 {
 	/**
+	 * Component-router objects
+	 * 
+	 * @var    array
+	 * @since  3.2
+	 */
+	protected $componentRouters = array();
+	
+	/**
 	 * Function to convert a route to an internal URI
 	 *
 	 * @param   JUri  &$uri  The uri.
@@ -355,10 +363,7 @@ class JRouterSite extends JRouter
 			// Handle component	route
 			$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $this->_vars['option']);
 
-			// Use the component routing handler if it exists
-			$path = JPATH_SITE . '/components/' . $component . '/router.php';
-
-			if (file_exists($path) && count($segments))
+			if (count($segments))
 			{
 				// Cheap fix on searches
 				if ($component != 'com_search')
@@ -378,10 +383,8 @@ class JRouterSite extends JRouter
 					}
 				}
 
-				require_once $path;
-				$function = substr($component, 4) . 'ParseRoute';
-				$function = str_replace(array("-", "."), "", $function);
-				$vars = $function($segments);
+				$crouter = $this->getComponentRouter($component);
+				$vars = $crouter->parse($segments);
 
 				$this->setVars($vars);
 			}
@@ -442,39 +445,31 @@ class JRouterSite extends JRouter
 		$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $query['option']);
 		$tmp       = '';
 		$itemID    = !empty($query['Itemid']) ? $query['Itemid'] : null;
+		
+		$crouter = $this->getComponentRouter($component);
+		
+		$parts = $crouter->build($query);
 
-		// Use the component routing handler if it exists
-		$path = JPATH_SITE . '/components/' . $component . '/router.php';
-
-		// Use the custom routing handler if it exists
-		if (file_exists($path) && !empty($query))
+		// Encode the route segments
+		if ($component != 'com_search')
 		{
-			require_once $path;
-			$function = substr($component, 4) . 'BuildRoute';
-			$function = str_replace(array("-", "."), "", $function);
-			$parts    = $function($query);
-
-			// Encode the route segments
-			if ($component != 'com_search')
-			{
-				// Cheep fix on searches
-				$parts = $this->encodeSegments($parts);
-			}
-			else
-			{
-				// Fix up search for URL
-				$total = count($parts);
-
-				for ($i = 0; $i < $total; $i++)
-				{
-					// Urlencode twice because it is decoded once after redirect
-					$parts[$i] = urlencode(urlencode(stripcslashes($parts[$i])));
-				}
-			}
-
-			$result = implode('/', $parts);
-			$tmp    = ($result != "") ? $result : '';
+			// Cheep fix on searches
+			$parts = $this->encodeSegments($parts);
 		}
+		else
+		{
+			// Fix up search for URL
+			$total = count($parts);
+
+			for ($i = 0; $i < $total; $i++)
+			{
+				// Urlencode twice because it is decoded once after redirect
+				$parts[$i] = urlencode(urlencode(stripcslashes($parts[$i])));
+			}
+		}
+
+		$result = implode('/', $parts);
+		$tmp    = ($result != "") ? $result : '';
 
 		// Build the application route
 		$built = false;
@@ -657,5 +652,63 @@ class JRouterSite extends JRouter
 		}
 
 		return $uri;
+	}
+	
+	/**
+	 * Get component router
+	 * 
+	 * @param   string $component Name of the component including com_ prefix
+	 * 
+	 * @return  object The router of the component
+	 * 
+	 * @since   3.2
+	 */
+	public function getComponentRouter($component)
+	{
+		if(!isset($this->componentRouters[$component])) {
+			$compname = ucfirst(substr($component, 4));
+			if(!class_exists($compname.'Router')) {
+				// Use the component routing handler if it exists
+				$path = JPATH_SITE.'/components/'.$component.'/router.php';
+
+				// Use the custom routing handler if it exists
+				if (file_exists($path)) {
+					require_once $path;
+				}
+			}
+			$name = $compname.'Router';
+			if(class_exists($name)) {
+				$reflection = new ReflectionClass($name);
+				if(in_array('JComponentRouter', $reflection->getInterfaceNames())) {
+					$this->componentRouters[$component] = new $name();
+				}
+			}
+			if(!isset($this->componentRouters[$component])) {
+				$this->componentRouters[$component] = new JComponentRouterLegacy($compname);
+			}
+		}
+
+		return $this->componentRouters[$component];
+	}
+
+	/**
+	 * Set a router for a component
+	 * 
+	 * @param   string $component Componentname with com_ prefix
+	 * @param   object $router Componentrouter
+	 * 
+	 * @return  boolean True if the router was accepted, false if not
+	 * 
+	 * @since   3.2
+	 */
+	public function setComponentRouter($component, $router)
+	{
+		$reflection = new ReflectionClass($router);
+		if(in_array('JComponentRouter', $reflection->getInterfaceNames())) {
+			$this->componentRouters[$component] = $router;
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
