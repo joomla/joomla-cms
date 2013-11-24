@@ -807,7 +807,7 @@ class JUser extends JObject
 		}
 
 		// Reset the user object in the session on a successful save
-		if ($result === true && JFactory::getUser()->id === $this->id)
+		if ($result === true && JFactory::getUser()->id == $this->id)
 		{
 			JFactory::getSession()->set('user', $this);
 		}
