@@ -27,7 +27,8 @@ $ -> Language fix or change
 
 24-Nov-2013 Jean-Marie Simonet
  # [#32779] Tags formfield doesn't show tag when editing an item with the same id  Thanks Thomas Hunziker
- # [#32765] *com_redirect :do not translate cyrillic characters in url  
+ # [#32765] *com_redirect :do not translate cyrillic characters in url 
+ # [#30263] grid.boolean does not work properly in Isis  Thanks Peter Bui
 
 22-Nov-2013 Jean-Marie Simonet
  # [#32727] Updating Joomla! RAD Layer to FOF 2.1.0 stable  Thanks Nicholas Dyonisopoulos
