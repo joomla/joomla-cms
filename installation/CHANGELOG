@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+24-Nov-2013 Jean-Marie Simonet
+ # [#32779] Tags formfield doesn't show tag when editing an item with the same id  Thanks Thomas Hunziker
+
 22-Nov-2013 Jean-Marie Simonet
  # [#32727] Updating Joomla! RAD Layer to FOF 2.1.0 stable  Thanks Nicholas Dyonisopoulos
  # [#32693] com_ajax cannot access modules with dashes in their name  Thanks Matt Thomas
