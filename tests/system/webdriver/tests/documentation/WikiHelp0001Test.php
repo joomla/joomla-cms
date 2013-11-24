@@ -131,14 +131,16 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 		$testPage = $this->testPage;
 		$gcPage = $testPage->clickMenu('Global Configuration', 'GlobalConfigurationPage');
 		$gcPage->setFieldValue('Default List Limit', '5');
-		$gcPage->saveAndClose('ControlPanelPage');
+		$testPage = $gcPage->saveAndClose('ControlPanelPage');
+		$languageManagerPage = $testPage->clickMenu('Language Manager', 'LanguageManagerPage');
+		$defaultLanguage = $languageManagerPage->getDefaultLanguage('admin');
 
 		foreach ($this->allMenuLinks as $menuText => $linkArray)
 		{
 			if (strpos($linkArray[1], 'http') !== 0)
 			{
 				$testPage = $testPage->clickMenuByUrl($linkArray[1], $linkArray[0]);
-				$name = $testPage->getHelpScreenshotNameAllLanguages(null, $linkArray[2] . '-' . $menuText);
+				$name = $testPage->getHelpScreenshotNameAllLanguages($defaultLanguage, $linkArray[2] . '-' . $menuText);
 
 				// process additional tabs if available
 				if (method_exists($testPage, 'getTabIds'))
@@ -150,7 +152,7 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 						$testPage->selectTab($tabs[$i]);
 						if ($i > 0)
 						{
-							$name = $testPage->getHelpScreenshotNameAllLanguages($tabs[$i], $linkArray[2] . '-' . $menuText);
+							$name = $testPage->getHelpScreenshotNameAllLanguages($tabs[$i] . '-' . $defaultLanguage, $linkArray[2] . '-' . $menuText);
 						}
 						$this->helpScreenshot($name, $this->cfg->baseURI . "/tests/system/tmp/basic-screens");
 					}
