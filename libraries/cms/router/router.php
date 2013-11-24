@@ -210,7 +210,7 @@ class JRouter
 
 		if (isset($this->cache[$key]))
 		{
-			return $this->cache[$key];
+			return clone($this->cache[$key]);
 		}
 		
 		// Create the URI object
@@ -231,7 +231,7 @@ class JRouter
 			$this->_buildSefRoute($uri);
 		}
 		
-		$this->cache[$key] = $uri;
+		$this->cache[$key] = clone($uri);
 
 		return $uri;
 	}
@@ -572,9 +572,15 @@ class JRouter
 	 */
 	protected function createURI($url)
 	{
-		if (!is_array($url))
+		if (is_array($url))
 		{
-			// Read the URL into an array
+			$uri = new JUri('index.php');
+			$uri->setQuery($url);
+			return $uri;
+		}
+		// Create full URL if we are only appending variables to it
+		elseif (substr($url, 0, 1) == '&')
+		{
 			$vars = array();
 
 			if (strpos($url, '&amp;') !== false)
@@ -582,12 +588,8 @@ class JRouter
 				$url = str_replace('&amp;', '&', $url);
 			}
 
-			if (substr($url, 0, 10) == 'index.php?')
-			{
-				$url = substr($url, 10);
-			}
-
 			parse_str($url, $vars);
+
 			$vars = array_merge($this->getVars(), $vars);
 
 			foreach ($vars as $key => $var)
@@ -597,13 +599,12 @@ class JRouter
 					unset($vars[$key]);
 				}
 			}
-			$url = $vars;
+
+			$url = 'index.php?' . JUri::buildQuery($vars);
 		}
 
-		$uri = new JURI('index.php');
-		$uri->setQuery($url);
-
-		return $uri;
+		// Decompose link into url component parts
+		return new JUri($url);
 	}
 
 	/**
