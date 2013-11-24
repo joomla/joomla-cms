@@ -133,14 +133,15 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 		$gcPage->setFieldValue('Default List Limit', '5');
 		$testPage = $gcPage->saveAndClose('ControlPanelPage');
 		$languageManagerPage = $testPage->clickMenu('Language Manager', 'LanguageManagerPage');
-		$defaultLanguage = $languageManagerPage->getDefaultLanguage('admin');
+		$defaultLanguage = strtolower($languageManagerPage->getDefaultLanguage('admin'));
+		$folder = $this->cfg->baseURI . "/tests/system/tmp/basic-screens/" . $defaultLanguage;
 
 		foreach ($this->allMenuLinks as $menuText => $linkArray)
 		{
 			if (strpos($linkArray[1], 'http') !== 0)
 			{
 				$testPage = $testPage->clickMenuByUrl($linkArray[1], $linkArray[0]);
-				$name = $testPage->getHelpScreenshotNameAllLanguages($defaultLanguage, $linkArray[2] . '-' . $menuText);
+				$name = $testPage->getHelpScreenshotNameAllLanguages($defaultLanguage,  $linkArray[2] . '-' . $menuText);
 
 				// process additional tabs if available
 				if (method_exists($testPage, 'getTabIds'))
@@ -154,12 +155,12 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 						{
 							$name = $testPage->getHelpScreenshotNameAllLanguages($tabs[$i] . '-' . $defaultLanguage, $linkArray[2] . '-' . $menuText);
 						}
-						$this->helpScreenshot($name, $this->cfg->baseURI . "/tests/system/tmp/basic-screens");
+						$this->helpScreenshot($name, $folder);
 					}
 				}
 				else
 				{
-					$this->helpScreenshot($name, $this->cfg->baseURI . "/tests/system/tmp/basic-screens");
+					$this->helpScreenshot($name, $folder);
 				}
 			}
 		}
