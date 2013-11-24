@@ -54,7 +54,7 @@ class PlgAuthenticationJoomla extends JPlugin
 
 		if ($result)
 		{
-			$match = JUserHelper::verifyPassword($credentials['password'], $result->password);
+			$match = JUserHelper::verifyPassword($credentials['password'], $result->password, $result->id);
 
 			if ($match === true)
 			{
