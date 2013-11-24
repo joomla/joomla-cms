@@ -321,6 +321,16 @@ abstract class AdminPage
 		return strtolower(str_replace(array(' ', ':'), array('-', ''), $name));
 	}
 
+	public function getHelpScreenshotNameAllLanguages($tabLabel = null, $prefix = null)
+	{
+		if ($tabLabel)
+		{
+			$prefix .= '-' . $tabLabel;
+		}
+		$name = 'help-' . $this->version . '-' . $prefix . '.png';
+		return strtolower(str_replace(array(' ', ':'), array('-', ''), $name));
+	}
+
 	public function getSystemMessage()
 	{
 		return $this->driver->findElement(By::id("system-message"))->getText();
