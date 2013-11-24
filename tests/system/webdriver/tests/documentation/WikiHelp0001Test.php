@@ -167,7 +167,7 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 	/**
 	 * @test
 	 */
-	public function takeScreenShotsMenuItemTypes()
+	public function takeScreenShotsMenuItemTypesAllLanguages()
 	{
 		/* @var $menuItemEditPage MenuItemEditPage */
 
@@ -199,11 +199,11 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 				$menuItemEditPage->selectTab($tabs[$i]);
 				if ($i > 0)
 				{
-					$name = $menuItemEditPage->getHelpScreenshotName($tabs[$i], 'menus');
+					$name = $menuItemEditPage->getHelpScreenshotNameAllLanguages($tabs[$i], 'menus-menu-manager-new-menu-item');
 				}
 				else
 				{
-					$name = $menuItemEditPage->getHelpScreenshotName(null, 'menus');
+					$name = $menuItemEditPage->getHelpScreenshotNameAllLanguages(null, 'menus-menu-manager-new-menu-item');
 				}
 				$this->helpScreenshot($name, $this->cfg->baseURI . "/tests/system/tmp/menu-item-screens");
 			}
