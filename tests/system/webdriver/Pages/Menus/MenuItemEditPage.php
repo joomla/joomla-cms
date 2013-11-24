@@ -142,7 +142,7 @@ class MenuItemEditPage extends AdminEditPage
 	{
 		foreach ($this->menuItemTypes as $array)
 		{
-			if (stripos($array['type'], $value) !== false)
+			if ($array['type'] == $value)
 				return $array['group'];
 		}
 		return false;
@@ -167,6 +167,32 @@ class MenuItemEditPage extends AdminEditPage
 		}
 		$name = str_replace(array(' / ', ' ', '/', ':'), array('-', '-', '', ''), $name);
 		return $name;
+	}
+
+	public function getHelpScreenshotNameAllLanguages($tabId = null, $prefix = null)
+	{
+		$componentUrl = $this->driver->findElement(By::id('jform_link'))->getAttribute('value');
+		$componentName = $this->getMenuItemComponent($componentUrl);
+		if ($tabId)
+		{
+			$name = 'help-' . $this->version . '-' . $prefix . '-' . $componentName . '-' . $tabId . '.png';
+		}
+		else
+		{
+			$name = 'help-' . $this->version . '-' . $prefix . '-' . $componentName . '.png';
+		}
+		$name = str_replace(array(' / ', ' ', '/', ':', '&', '='), array('-', '-', '', '', '-', '-'), $name);
+		return $name;
+	}
+
+	public function getMenuItemComponent($componentName)
+	{
+		$start = strpos($componentName, '?option=');
+		$end = strpos($componentName, '&');
+		$component = substr($componentName, $start + 8, $end - ($start + 8));
+		$start = strpos($componentName, '&view=');
+		$view = substr($componentName, $start + 6);
+		return $component . '-' . $view;
 	}
 
 	public function getMenuItemType()
