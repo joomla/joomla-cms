@@ -15,14 +15,14 @@ $input = $app->input;
 $saveHistory = JComponentHelper::getParams($input->getCmd('extension', 'com_content'))->get('save_history', 0);
 
 $fields = $displayData->get('fields') ?: array(
-	array('category', 'catid'),
 	array('parent', 'parent_id'),
-	'tags',
 	array('published', 'state', 'enabled'),
+	array('category', 'catid'),
 	'featured',
 	'sticky',
 	'access',
 	'language',
+	'tags',
 	'note',
 	'version_note'
 );
