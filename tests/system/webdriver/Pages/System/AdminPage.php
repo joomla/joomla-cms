@@ -306,29 +306,45 @@ abstract class AdminPage
 		return $this->driver->findElement(By::xPath("//dd[@class='error message']"))->getText();
 	}
 
-	public function getHelpScreenshotName($tabLabel = null, $prefix = null)
+	/**
+	 * Gets the file name for the help screenshot.
+	 *
+	 * @param string $tabId   Name of tab id to include in the file name
+	 * @param string $prefix  Prefix for the file name
+	 * @param string $method  'text' = use screen text for name (for English names).
+	 *                        'code' = use id and URL for name (for non-English screenshots).
+	 *
+	 * @return string file name.
+	 */
+	public function getHelpScreenshotName($tabId = null, $prefix = null, $method = 'text')
 	{
-		$screenName = $this->driver->findElement(By::className('page-title'))->getText();
-		if ($prefix)
+		if (strtolower($method) == 'code')
 		{
-			$screenName = $prefix . '-' . $screenName;
+			if ($tabId)
+			{
+				$prefix .= '-' . $tabId;
+			}
+			$name = 'help-' . $this->version . '-' . $prefix . '.png';
+			$return = strtolower(str_replace(array(' ', ':'), array('-', ''), $name));
 		}
-		if ($tabLabel)
+		else
 		{
-			$screenName .= '-' . $tabLabel;
+			$screenName = $this->driver->findElement(By::className('page-title'))->getText();
+			if ($prefix)
+			{
+				$screenName = $prefix . '-' . $screenName;
+			}
+			if ($tabId && ($label = $this->getTabLabel($tabId)))
+			{
+				$name = 'help-' . $this->version . '-' . $screenName . '-' . $label . '.png';
+			}
+			else
+			{
+				$name = 'help-' . $this->version . '-' . $screenName . '.png';
+			}
+			$return = strtolower(str_replace(array('\'', ' / ', ' - ', ' ', '/', ':'), array('', '-', '-','-', '', ''), $name));
 		}
-		$name = 'help-' . $this->version . '-' . $screenName . '.png';
-		return strtolower(str_replace(array(' ', ':'), array('-', ''), $name));
-	}
-
-	public function getHelpScreenshotNameAllLanguages($tabLabel = null, $prefix = null)
-	{
-		if ($tabLabel)
-		{
-			$prefix .= '-' . $tabLabel;
-		}
-		$name = 'help-' . $this->version . '-' . $prefix . '.png';
-		return strtolower(str_replace(array(' ', ':'), array('-', ''), $name));
+		return $return;
 	}
 
 	public function getSystemMessage()

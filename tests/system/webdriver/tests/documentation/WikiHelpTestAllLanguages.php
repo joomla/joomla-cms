@@ -8,7 +8,7 @@ use SeleniumClient\WebDriver;
 use SeleniumClient\WebDriverWait;
 use SeleniumClient\DesiredCapabilities;
 
-class WikihelpTest extends JoomlaWebdriverTestCase
+class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 {
 	/**
 	 *
@@ -22,9 +22,9 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 	 */
 
 	public  $allMenuLinks = array(
-		'Control Panel' 		=> array('ControlPanelPage', 'administrator/index.php', 'system'),
-		'Global Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config', 'configuration'),
-// 		'Banners Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_banners', 'configuration'),
+// 		'Control Panel' 		=> array('ControlPanelPage', 'administrator/index.php', 'system'),
+// 		'Global Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config', 'configuration'),
+		'Banners Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_banners', 'configuration'),
 // 		'Cache Manager Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_cache', 'configuration'),
 // 		'Check-in Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_checkin', 'configuration'),
 // 		'Contacts Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_contact', 'configuration'),
@@ -112,6 +112,9 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 
 	public function setUp()
 	{
+		iconv_set_encoding("internal_encoding", "UTF-8");
+		iconv_set_encoding("output_encoding", "UTF-8");
+		iconv_set_encoding("input_encoding", "UTF-8");
 		parent::setUp();
 		$this->testPage = $this->doAdminLogin();
 	}
@@ -126,7 +129,7 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 	/**
 	 * @xtest
 	 */
-	public function takeScreenShotsAllMenuLinksAllLanguages()
+	public function takeScreenShotsAllMenuLinks()
 	{
 		$testPage = $this->testPage;
 		$gcPage = $testPage->clickMenu('Global Configuration', 'GlobalConfigurationPage');
@@ -141,7 +144,7 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 			if (strpos($linkArray[1], 'http') !== 0)
 			{
 				$testPage = $testPage->clickMenuByUrl($linkArray[1], $linkArray[0]);
-				$name = $testPage->getHelpScreenshotNameAllLanguages($defaultLanguage,  $linkArray[2] . '-' . $menuText);
+				$name = $testPage->getHelpScreenshotName($defaultLanguage,  $linkArray[2] . '-' . $menuText, 'code');
 
 				// process additional tabs if available
 				if (method_exists($testPage, 'getTabIds'))
@@ -153,7 +156,7 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 						$testPage->selectTab($tabs[$i]);
 						if ($i > 0)
 						{
-							$name = $testPage->getHelpScreenshotNameAllLanguages($tabs[$i] . '-' . $defaultLanguage, $linkArray[2] . '-' . $menuText);
+							$name = $testPage->getHelpScreenshotName($tabs[$i] . '-' . $defaultLanguage, $linkArray[2] . '-' . $menuText, 'code');
 						}
 						$this->helpScreenshot($name, $folder);
 					}
@@ -168,9 +171,9 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @test
+	 * @xtest
 	 */
-	public function takeScreenShotsMenuItemTypesAllLanguages()
+	public function takeScreenShotsMenuItemTypes()
 	{
 		$testPage = $this->testPage;
 		$languageManagerPage = $testPage->clickMenu('Language Manager', 'LanguageManagerPage');
@@ -207,11 +210,11 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 				$menuItemEditPage->selectTab($tabs[$i]);
 				if ($i > 0)
 				{
-					$name = $menuItemEditPage->getHelpScreenshotNameAllLanguages($tabs[$i] . '-' . $defaultLanguage, 'menus-menu-manager-new-menu-item');
+					$name = $menuItemEditPage->getHelpScreenshotName($tabs[$i] . '-' . $defaultLanguage, 'menus-menu-manager-new-menu-item', 'code');
 				}
 				else
 				{
-					$name = $menuItemEditPage->getHelpScreenshotNameAllLanguages($defaultLanguage, 'menus-menu-manager-new-menu-item');
+					$name = $menuItemEditPage->getHelpScreenshotName($defaultLanguage, 'menus-menu-manager-new-menu-item', 'code');
 				}
 				$this->helpScreenshot($name, $folder);
 			}
@@ -278,16 +281,22 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function writeWikiFilesForBasicScreens()
 	{
-		$folder = 'tests/system/tmp/wiki-basic-files';
-		$basePath = dirname(dirname(dirname(dirname(dirname(__DIR__)))));
-		$fullPath = $basePath . '/' . $folder;
-		if (!file_exists($fullPath))
+		$testPage = $this->testPage;
+		$languageManagerPage = $testPage->clickMenu('Language Manager', 'LanguageManagerPage');
+		$defaultLanguage = strtolower($languageManagerPage->getDefaultLanguage('admin'));
+		$baseFolder = $this->cfg->baseURI . "/tests/system/tmp/wiki-basic-files/";
+		$folder = $baseFolder . $defaultLanguage;
+		if (!file_exists($baseFolder))
 		{
-			mkdir($fullPath);
+			mkdir($baseFolder);
+		}
+		if (!file_exists($folder))
+		{
+			mkdir($folder);
 		}
 
 		foreach ($this->allMenuLinks as $menuText => $linkArray)
@@ -297,13 +306,12 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 				$testPage = $this->testPage->clickMenuByUrl($linkArray[1], $linkArray[0]);
 				if (method_exists($testPage, 'toWikiHelp'))
 				{
-					$text = $testPage->toWikiHelp($linkArray[2]);
-					$fileName = $testPage->getHelpFileName($menuText);
-					file_put_contents($fullPath . '/' . $fileName, $text);
+					$text = $testPage->toWikiHelp($linkArray[2], array(), array(), 'code');
+					$fileName = $testPage->getHelpFileName($menuText . '-' . $defaultLanguage);
+					file_put_contents($folder . '/' . $fileName, $text);
 				}
 			}
 		}
-
 	}
 
 	/**
