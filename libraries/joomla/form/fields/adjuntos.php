@@ -36,6 +36,12 @@ class JFormFieldAdjuntos extends JFormField
         // Path subida de archivos
         $path       = $this->element['path'];       
 
+        $style = array();
+        $style[] = '#adjuntos {';
+        $style[] = '    float: right;';
+        $style[] = '    width: 55%;';
+        $style[] = '}';
+
         $script = array();
         $script[] = 'window.addEvent("domready", function(){';
         $script[] = 'var btnAgregarAdjunto = new Element("button", {';
@@ -86,6 +92,7 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = '}';
         $script[] = '});';
 
+        JFactory::getDocument()->addStyleDeclaration(implode("\n", $style));
         JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 
         // Salida HTML
