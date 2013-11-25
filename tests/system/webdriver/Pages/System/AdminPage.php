@@ -309,23 +309,26 @@ abstract class AdminPage
 	/**
 	 * Gets the file name for the help screenshot.
 	 *
-	 * @param string $tabId   Name of tab id to include in the file name
-	 * @param string $prefix  Prefix for the file name
-	 * @param string $method  'text' = use screen text for name (for English names).
-	 *                        'code' = use id and URL for name (for non-English screenshots).
+	 * @param  array  $options  Associative array as follows:
+	 *                             'prefix' => prefix for the file name
+	 *                             'language' => optional language code for non-English (use component and tabid in name)
+	 *                             'tab' => tab id to append to the file name
+	 *                             'component' => name of the component (for use in non-English file name)
 	 *
 	 * @return string file name.
 	 */
-	public function getHelpScreenshotName($tabId = null, $prefix = null, $method = 'text')
+	public function getHelpScreenshotName($options = array())
 	{
-		if (strtolower($method) == 'code')
+		$prefix = (isset($options['prefix'])) ? $options['prefix'] : '';
+		$tabId = (isset($options['tab'])) ? $options['tab'] : '';
+		$language = (isset($options['language'])) ? $options['language'] : '';
+		$component = (isset($options['component'])) ? $options['component'] : '';
+
+		if ($language)
 		{
-			if ($tabId)
-			{
-				$prefix .= '-' . $tabId;
-			}
-			$name = 'help-' . $this->version . '-' . $prefix . '.png';
-			$return = strtolower(str_replace(array(' ', ':'), array('-', ''), $name));
+			$prefix = ($tabId) ? $prefix . '-' . $tabId : $prefix;
+			$prefix = ($component) ? $prefix . '-' . $component : $prefix;
+			$name = 'help-' . $this->version . '-' . $prefix . '-' . $language . '.png';
 		}
 		else
 		{
@@ -342,9 +345,8 @@ abstract class AdminPage
 			{
 				$name = 'help-' . $this->version . '-' . $screenName . '.png';
 			}
-			$return = strtolower(str_replace(array('\'', ' / ', ' - ', ' ', '/', ':'), array('', '-', '-','-', '', ''), $name));
 		}
-		return $return;
+		return strtolower(str_replace(array('\'', ' / ', ' - ', ' ', '/', ':'), array('', '-', '-','-', '', ''), $name));
 	}
 
 	public function getSystemMessage()
