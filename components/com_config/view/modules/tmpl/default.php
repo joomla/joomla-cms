@@ -28,7 +28,7 @@ if(JLanguageMultilang::isEnabled())
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'config.cancel' || document.formvalidator.isValid(document.id('modules-form')))
+		if (task == 'config.cancel.modules' || document.formvalidator.isValid(document.id('modules-form')))
 		{
 			Joomla.submitform(task, document.getElementById('modules-form'));
 		}
@@ -62,7 +62,7 @@ if(JLanguageMultilang::isEnabled())
 				</div>
 				<div class="btn-group">
 					<button type="button" class="btn btn-default"
-						onclick="Joomla.submitbutton('config.cancel')">
+						onclick="Joomla.submitbutton('config.cancel.modules')">
 						<i class="icon-cancel"></i>
 						<?php echo JText::_('JCANCEL') ?>
 					</button>
