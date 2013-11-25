@@ -47,6 +47,17 @@ class ConfigControllerModulesCancel extends ConfigControllerCanceladmin
 			$this->redirect = JUri::base();
 		}
 
+		$id = $this->input->getInt('id');
+
+		// Access back-end com_module
+		JLoader::register('ModulesControllerModule', JPATH_ADMINISTRATOR . '/components/com_modules/controllers/module.php');
+		JLoader::register('ModulesViewModule', JPATH_ADMINISTRATOR . '/components/com_modules/views/module/view.json.php');
+		JLoader::register('ModulesModelModule', JPATH_ADMINISTRATOR . '/components/com_modules/models/module.php');
+
+		$cancelClass = new ModulesControllerModule;
+
+		$cancelClass->cancel($id);
+
 		parent::execute();
 	}
 }
