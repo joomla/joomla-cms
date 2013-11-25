@@ -44,7 +44,16 @@ class ConfigControllerModulesSave extends JControllerBase
 		JClientHelper::setCredentialsFromRequest('ftp');
 
 		// Get sumitted module id
-		$moduleId = $this->input->get('id');
+		$moduleId = '&id=' . $this->input->get('id');
+
+		// Get returnUri
+		$returnUri = $this->input->post->get('return', null, 'base64');
+		$redirect = '';
+
+		if (!empty($returnUri))
+		{
+			$redirect = '&return=' . $returnUri;
+		}
 
 		// Access back-end com_modules to be done
 		JLoader::register('ModulesControllerModule', JPATH_ADMINISTRATOR . '/components/com_modules/controllers/module.php');
@@ -72,7 +81,7 @@ class ConfigControllerModulesSave extends JControllerBase
 
 			// Save failed, go back to the screen and display a notice.
 			$this->app->enqueueMessage(JText::_('JERROR_SAVE_FAILED'));
-			$this->app->redirect(JRoute::_('index.php?option=com_config&controller=config.display.modules&id=' . $moduleId, false));
+			$this->app->redirect(JRoute::_('index.php?option=com_config&controller=config.display.modules' . $moduleId . $redirect, false));
 		}
 
 		// Redirect back to com_config display
@@ -82,12 +91,21 @@ class ConfigControllerModulesSave extends JControllerBase
 		switch ($this->options[3])
 		{
 			case 'apply':
-				$this->app->redirect(JRoute::_('index.php?option=com_config&controller=config.display.modules&id=' . $moduleId, false));
+				$this->app->redirect(JRoute::_('index.php?option=com_config&controller=config.display.modules' . $moduleId . $redirect, false));
 				break;
 
 			case 'save':
 			default:
-				$this->app->redirect(JUri::base());
+
+				if (!empty($returnUri))
+				{
+					$redirect = base64_decode(urldecode($returnUri));
+				}
+				else
+				{
+					$redirect = JUri::base();
+				}
+				$this->app->redirect($redirect);
 				break;
 		}
 	}

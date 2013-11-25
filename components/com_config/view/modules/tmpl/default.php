@@ -36,7 +36,7 @@ if(JLanguageMultilang::isEnabled())
 </script>
 
 <form
-	action="<?php echo JRoute::_('index.php?option=com_config&id=' . $this->item['id']); ?>"
+	action="<?php echo JRoute::_('index.php?option=com_config'); ?>"
 	method="post" name="adminForm" id="modules-form"
 	class="form-validate">
 
@@ -185,6 +185,8 @@ if(JLanguageMultilang::isEnabled())
 					</fieldset>
 				</div>
 
+				<input type="hidden" name="id" value="<?php echo $this->item['id'];?>" />
+				<input type="hidden" name="return" value="<?php echo JFactory::getApplication()->input->get('return', null, 'base64');?>" />
 				<input type="hidden" name="task" value="" />
 				<?php echo JHtml::_('form.token'); ?>
 
