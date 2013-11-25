@@ -148,6 +148,35 @@ class MenuItemEditPage extends AdminEditPage
 		return false;
 	}
 
+	public function getHelpScreenshotName($options)
+	{
+		$prefix = (isset($options['prefix'])) ? $options['prefix'] : '';
+		$tabId = (isset($options['tab'])) ? $options['tab'] : '';
+		$language = (isset($options['language'])) ? $options['language'] : '';
+		$component = (isset($options['component'])) ? $options['component'] : '';
+		if ($language)
+		{
+			$componentUrl = $this->driver->findElement(By::id('jform_link'))->getAttribute('value');
+			$options['component'] = $this->getMenuItemComponent($componentUrl);
+		}
+		else
+		{
+			$screenName = $this->driver->findElement(By::className('page-title'))->getText();
+			$type = $this->driver->findElement(By::id('jform_type'))->getAttribute(@value);
+			$group = $this->getGroupName($type);
+			if (isset($options['prefix']))
+			{
+				$options['prefix'] = $options['prefix'] . '-' . $screenName . '-' . $group . '-' . $type . '-' . $label;
+
+			}
+			else
+			{
+				$options['prefix'] = $screenName . '-' . $group . '-' . $type . '-' . $label;
+			}
+		}
+		return parent::getHelpScreenshotName($options);
+	}
+
 	public function getMenuItemComponent($componentName)
 	{
 		$start = strpos($componentName, '?option=');
