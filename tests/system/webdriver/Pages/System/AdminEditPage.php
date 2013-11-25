@@ -256,24 +256,6 @@ abstract class AdminEditPage extends AdminPage
 		return strtolower(str_replace(array('\'', ' / ', ' - ', ' ', '/', ':'), array('', '-', '-','-', '', ''), $name));
 	}
 
-	public function getHelpScreenshotName($tabId = null, $prefix = null)
-	{
-		$screenName = $this->driver->findElement(By::className('page-title'))->getText();
-		if ($prefix)
-		{
-			$screenName = $prefix . '-' . $screenName;
-		}
-		if ($tabId && ($label = $this->getTabLabel($tabId)))
-		{
-			$name = 'help-' . $this->version . '-' . $screenName . '-' . $label . '.png';
-		}
-		else
-		{
-			$name = 'help-' . $this->version . '-' . $screenName . '.png';
-		}
-		return strtolower(str_replace(array('\'', ' / ', ' - ', ' ', '/', ':'), array('', '-', '-','-', '', ''), $name));
-	}
-
 	public function getFieldValue($label)
 	{
 		if (($i = $this->getRowNumber($label)) !== false)
@@ -649,9 +631,17 @@ abstract class AdminEditPage extends AdminPage
 	}
 
 	/**
-	 * Output help screen for the page.
+	 * Create Wiki text for this edit screen.
+	 * Includes text from tooltips and options.
+	 *
+	 * @param  string  $prefix              Prefix for the screenshot file name
+	 * @param  array   $excludeTabs         Array of tab ids to exclude from the help file (to exclude common tabs).
+	 * @param array $excludeFields        	Array of field ids to exclude from the help file (to exclude common fields in modules)
+	 * @param string $screenshotNameType    "text" = use field text for screenshot (for English file name). "code" = use id and URL to generate file name (for non-English).
+	 *
+	 * @return string boolean
 	 */
-	public function toWikiHelp($prefix, $excludeTabs = array(), $excludeFields = array())
+	public function toWikiHelp($prefix, $excludeTabs = array(), $excludeFields = array(), $screenshotNameType = 'text')
 	{
 		$allTabs = $this->getTabIds();
 		$tabs = array_values(array_diff($allTabs, $excludeTabs));
@@ -662,7 +652,7 @@ abstract class AdminEditPage extends AdminPage
 		$helpText = array();
 		foreach ($inputFields as $el)
 		{
-			if (isset($el->tab) && !in_array($el->tab, $excludeTabs) && !in_array($el->labelText, $excludeFields))
+			if (isset($el->tab) && ! in_array($el->tab, $excludeTabs) && ! in_array($el->labelText, $excludeFields))
 			{
 				$this->selectTab($el->tab);
 				$el->tabLabel = $this->getTabLabel($el->tab);
@@ -687,7 +677,7 @@ abstract class AdminEditPage extends AdminPage
 			}
 		}
 
-		if (!in_array('permissions', $excludeTabs))
+		if (! in_array('permissions', $excludeTabs))
 		{
 			$permissionsTextArray = $this->toWikiHelpPermissions();
 			if (is_array($permissionsTextArray))
@@ -707,7 +697,7 @@ abstract class AdminEditPage extends AdminPage
 			// Don't do screenshot for first tab, since this is in the main screenshot
 			if ($i > 0)
 			{
-				$result[] = $this->formatImageElement($this->getHelpScreenshotName($tab, $prefix));
+				$result[] = $this->formatImageElement($this->getHelpScreenshotName($tab, $prefix, $screenshotNameType));
 			}
 
 			// Get any description for tab
@@ -723,15 +713,16 @@ abstract class AdminEditPage extends AdminPage
 		}
 		if ($tabCount > 0)
 		{
-			$screenshot = array("==Screenshot==\n");
+			$screenshot = array("==Screenshot==\n"
+			);
 			// If we are processing the first tab, don't include tab name in screenshot name
-			if (!in_array($allTabs[0], $excludeTabs))
+			if (! in_array($allTabs[0], $excludeTabs))
 			{
-				$screenshotName = $this->getHelpScreenshotName(null, $prefix);
+				$screenshotName = $this->getHelpScreenshotName(null, $prefix, $screenshotNameType);
 			}
 			else
 			{
-				$screenshotName = $this->getHelpScreenshotName($tabs[0], $prefix);
+				$screenshotName = $this->getHelpScreenshotName($tabs[0], $prefix, $screenshotNameType);
 			}
 			$screenshot[] = $this->formatImageElement($screenshotName);
 			$screenshot[] = "==Details==\n";

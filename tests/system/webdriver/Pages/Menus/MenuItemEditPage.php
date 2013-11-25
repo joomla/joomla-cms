@@ -148,38 +148,38 @@ class MenuItemEditPage extends AdminEditPage
 		return false;
 	}
 
-	public function getHelpScreenshotName($tabId = null, $prefix = null)
+	public function getHelpScreenshotName($tabId = null, $prefix = null, $method = 'text')
 	{
-		$screenName = $this->driver->findElement(By::className('page-title'))->getText();
-		$type = $this->driver->findElement(By::id('jform_type'))->getAttribute(@value);
-		$group = $this->getGroupName($type);
-		if ($prefix)
+		if (strtolower($method) == 'code')
 		{
-			$screenName = $prefix . '-' . $screenName;
-		}
-		if ($tabId && ($label = $this->getTabLabel($tabId)))
-		{
-			$name = 'help-' . $this->version . '-' . $screenName . '-' . $group . '-' . $type . '-' . $label . '.png';
+			$componentUrl = $this->driver->findElement(By::id('jform_link'))->getAttribute('value');
+			$componentName = $this->getMenuItemComponent($componentUrl);
+			if ($tabId)
+			{
+				$name = 'help-' . $this->version . '-' . $prefix . '-' . $componentName . '-' . $tabId . '.png';
+			}
+			else
+			{
+				$name = 'help-' . $this->version . '-' . $prefix . '-' . $componentName . '.png';
+			}
 		}
 		else
 		{
-			$name = 'help-' . $this->version . '-' . $screenName . '-' . $group . '-' . $type . '.png';
-		}
-		$name = str_replace(array(' / ', ' ', '/', ':'), array('-', '-', '', ''), $name);
-		return $name;
-	}
-
-	public function getHelpScreenshotNameAllLanguages($tabId = null, $prefix = null)
-	{
-		$componentUrl = $this->driver->findElement(By::id('jform_link'))->getAttribute('value');
-		$componentName = $this->getMenuItemComponent($componentUrl);
-		if ($tabId)
-		{
-			$name = 'help-' . $this->version . '-' . $prefix . '-' . $componentName . '-' . $tabId . '.png';
-		}
-		else
-		{
-			$name = 'help-' . $this->version . '-' . $prefix . '-' . $componentName . '.png';
+			$screenName = $this->driver->findElement(By::className('page-title'))->getText();
+			$type = $this->driver->findElement(By::id('jform_type'))->getAttribute(@value);
+			$group = $this->getGroupName($type);
+			if ($prefix)
+			{
+				$screenName = $prefix . '-' . $screenName;
+			}
+			if ($tabId && ($label = $this->getTabLabel($tabId)))
+			{
+				$name = 'help-' . $this->version . '-' . $screenName . '-' . $group . '-' . $type . '-' . $label . '.png';
+			}
+			else
+			{
+				$name = 'help-' . $this->version . '-' . $screenName . '-' . $group . '-' . $type . '.png';
+			}
 		}
 		$name = str_replace(array(' / ', ' ', '/', ':', '&', '='), array('-', '-', '', '', '-', '-'), $name);
 		return $name;
