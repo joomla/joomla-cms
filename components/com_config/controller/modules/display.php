@@ -36,6 +36,19 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 		$viewName     = $this->input->getWord('view', 'modules');
 		$viewFormat   = $document->getType();
 		$layoutName   = $this->input->getWord('layout', 'default');
+		$returnUri    = $this->input->post->get('return', null, 'base64');
+
+		// Construct redirect URI
+		$redirect = '';
+
+		if (!empty($returnUri))
+		{
+			$redirect = base64_decode(urldecode($returnUri));
+		}
+		else
+		{
+			$redirect = JUri::base();
+		}
 
 		// Access back-end com_module
 		JLoader::register('ModulesController', JPATH_ADMINISTRATOR . '/components/com_modules/controller.php');
@@ -48,7 +61,10 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 		$document->setType('json');
 
 		// Execute back-end controller
-		$serviceData = json_decode($displayClass->display(), true);
+		if(!($serviceData = json_decode($displayClass->display(), true)))
+		{
+			$app->redirect($redirect);
+		}
 
 		// Reset params back after requesting from service
 		$document->setType('html');
@@ -70,7 +86,7 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 			if (!JFactory::getUser()->authorise('core.admin', $model->getState('component.option')))
 			{
 				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
-				$app->redirect(JUri::base());
+				$app->redirect($redirect);
 
 			}
 

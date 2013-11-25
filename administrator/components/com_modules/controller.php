@@ -47,6 +47,13 @@ class ModulesController extends JControllerLegacy
 			// Get/Create the model
 			if ($model = new ModulesModelModule)
 			{
+				// Checkin table entry
+				if(!$model->checkout($id))
+				{
+					JFactory::getApplication()->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'), 'error');
+					return false;
+				}
+
 				// Push the model into the view (as default)
 				$view->setModel($model, true);
 			}
