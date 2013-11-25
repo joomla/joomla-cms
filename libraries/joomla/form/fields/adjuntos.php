@@ -36,8 +36,60 @@ class JFormFieldAdjuntos extends JFormField
         // Path subida de archivos
         $path       = $this->element['path'];       
 
+        $script = array();
+        $script[] = 'window.addEvent("domready", function(){';
+        $script[] = 'var btnAgregarAdjunto = new Element("button", {';
+        $script[] = '   id: "btn-agregar-adjunto",';
+        $script[] = '       events: {';
+        $script[] = '           click: function() { agregarAdjunto() } ';
+        $script[] = '       }';
+        $script[] = '}).set("text", "+");';
+
+        $script[] = '$("controles-adjuntos").grab(btnAgregarAdjunto);';
+
+        $script[] = 'var adjuntoCount = 0;';     
+
+        $script[] = 'function agregarAdjunto() {';
+
+        $script[] = '   adjuntoCount++;';
+        $script[] = '   var campoAdjunto =  new Element("div", {';
+        $script[] = '       id: "adjunto-" + adjuntoCount,';
+        $script[] = '       class: "campo-adjunto"';
+        $script[] = '   })';
+        $script[] = '   var fldArchivo = new Element("input", {';
+        $script[] = '       type:"file",';
+        $script[] = '       events: {';
+        $script[] = '           change: function() { subirArchivo() }';
+        $script[] = '       }';    
+        $script[] = '   });';
+
+        $script[] = '   var btnEliminarAdjunto = new Element("button", {';
+        $script[] = '       id: "btn-eliminar-adjunto",';
+        $script[] = '       events: {';
+        $script[] = '           click: function() { eliminarAdjunto(this) }';
+        $script[] = '       }';
+        $script[] = '   }).set({"text": "-", "data-id": campoAdjunto.id})';
+
+        $script[] = '   fldArchivo.inject(campoAdjunto);';
+        $script[] = '   btnEliminarAdjunto.inject(campoAdjunto);';
+
+        $script[] = '   $("adjuntos").grab(campoAdjunto);';
+
+        $script[] = '}';
+
+        $script[] = 'function eliminarAdjunto(el) {';
+        $script[] = '   $(el.get("data-id")).dispose();';
+        $script[] = '}';
+
+        $script[] = 'function subirArchivo() {';
+        $script[] = '   console.log("subiendo")';
+        $script[] = '}';
+        $script[] = '});';
+
+        JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
+
         // Salida HTML
-        $html = '<input type="file" name="'.$this->name.'" accept="video/*" />';
+        $html = '<div id="controles-adjuntos"></div><div id="adjuntos"></div>';
         
         return $html;
     }
