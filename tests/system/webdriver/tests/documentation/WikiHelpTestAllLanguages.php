@@ -127,7 +127,7 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 
 
 	/**
-	 * @test
+	 * @xtest
 	 */
 	public function takeScreenShotsAllMenuLinks()
 	{
@@ -173,7 +173,7 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function takeScreenShotsMenuItemTypes()
 	{
@@ -212,10 +212,12 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 				$menuItemEditPage->selectTab($tabs[$i]);
 				if ($i > 0)
 				{
-					$name = $menuItemEditPage->getHelpScreenshotName($tabs[$i] . '-' . $defaultLanguage, 'menus-menu-manager-new-menu-item', 'code');
+					$options = array('tab' => $tabs[$i], 'language' => $defaultLanguage, 'prefix' => 'menus-menu-manager-new-menu-item');
+					$name = $menuItemEditPage->getHelpScreenshotName($options);
 				}
 				else
 				{
+					$options = array('language' => $defaultLanguage, 'prefix' => 'menus-menu-manager-new-menu-item');
 					$name = $menuItemEditPage->getHelpScreenshotName($defaultLanguage, 'menus-menu-manager-new-menu-item', 'code');
 				}
 				$this->helpScreenshot($name, $folder);

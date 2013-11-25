@@ -326,8 +326,8 @@ abstract class AdminPage
 
 		if ($language)
 		{
-			$prefix = ($tabId) ? $prefix . '-' . $tabId : $prefix;
 			$prefix = ($component) ? $prefix . '-' . $component : $prefix;
+			$prefix = ($tabId) ? $prefix . '-' . $tabId : $prefix;
 			$name = 'help-' . $this->version . '-' . $prefix . '-' . $language . '.png';
 		}
 		else
@@ -346,7 +346,7 @@ abstract class AdminPage
 				$name = 'help-' . $this->version . '-' . $screenName . '.png';
 			}
 		}
-		return strtolower(str_replace(array('\'', ' / ', ' - ', ' ', '/', ':'), array('', '-', '-','-', '', ''), $name));
+		return strtolower(str_replace(array('\'', ' / ', ' - ', ' ', '/', ':', '&', '='), array('', '-', '-','-', '', '', '-', '-'), $name));
 	}
 
 	public function getSystemMessage()
