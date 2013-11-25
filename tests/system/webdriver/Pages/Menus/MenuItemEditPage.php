@@ -148,43 +148,6 @@ class MenuItemEditPage extends AdminEditPage
 		return false;
 	}
 
-	public function getHelpScreenshotName($tabId = null, $prefix = null, $method = 'text')
-	{
-		if (strtolower($method) == 'code')
-		{
-			$componentUrl = $this->driver->findElement(By::id('jform_link'))->getAttribute('value');
-			$componentName = $this->getMenuItemComponent($componentUrl);
-			if ($tabId)
-			{
-				$name = 'help-' . $this->version . '-' . $prefix . '-' . $componentName . '-' . $tabId . '.png';
-			}
-			else
-			{
-				$name = 'help-' . $this->version . '-' . $prefix . '-' . $componentName . '.png';
-			}
-		}
-		else
-		{
-			$screenName = $this->driver->findElement(By::className('page-title'))->getText();
-			$type = $this->driver->findElement(By::id('jform_type'))->getAttribute(@value);
-			$group = $this->getGroupName($type);
-			if ($prefix)
-			{
-				$screenName = $prefix . '-' . $screenName;
-			}
-			if ($tabId && ($label = $this->getTabLabel($tabId)))
-			{
-				$name = 'help-' . $this->version . '-' . $screenName . '-' . $group . '-' . $type . '-' . $label . '.png';
-			}
-			else
-			{
-				$name = 'help-' . $this->version . '-' . $screenName . '-' . $group . '-' . $type . '.png';
-			}
-		}
-		$name = str_replace(array(' / ', ' ', '/', ':', '&', '='), array('-', '-', '', '', '-', '-'), $name);
-		return $name;
-	}
-
 	public function getMenuItemComponent($componentName)
 	{
 		$start = strpos($componentName, '?option=');

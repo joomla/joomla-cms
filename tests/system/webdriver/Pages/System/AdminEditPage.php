@@ -641,7 +641,7 @@ abstract class AdminEditPage extends AdminPage
 	 *
 	 * @return string boolean
 	 */
-	public function toWikiHelp($prefix, $excludeTabs = array(), $excludeFields = array(), $screenshotNameType = 'text')
+	public function toWikiHelp($excludeTabs = array(), $excludeFields = array(), $screenshotNameOptions = array())
 	{
 		$allTabs = $this->getTabIds();
 		$tabs = array_values(array_diff($allTabs, $excludeTabs));
@@ -697,7 +697,7 @@ abstract class AdminEditPage extends AdminPage
 			// Don't do screenshot for first tab, since this is in the main screenshot
 			if ($i > 0)
 			{
-				$result[] = $this->formatImageElement($this->getHelpScreenshotName($tab, $prefix, $screenshotNameType));
+				$result[] = $this->formatImageElement($this->getHelpScreenshotName($screenshotNameOptions));
 			}
 
 			// Get any description for tab
@@ -718,11 +718,11 @@ abstract class AdminEditPage extends AdminPage
 			// If we are processing the first tab, don't include tab name in screenshot name
 			if (! in_array($allTabs[0], $excludeTabs))
 			{
-				$screenshotName = $this->getHelpScreenshotName(null, $prefix, $screenshotNameType);
+				$screenshotName = $this->getHelpScreenshotName($screenshotNameOptions);
 			}
 			else
 			{
-				$screenshotName = $this->getHelpScreenshotName($tabs[0], $prefix, $screenshotNameType);
+				$screenshotName = $this->getHelpScreenshotName($screenshotNameOptions);
 			}
 			$screenshot[] = $this->formatImageElement($screenshotName);
 			$screenshot[] = "==Details==\n";

@@ -22,9 +22,9 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 	 */
 
 	public  $allMenuLinks = array(
-// 		'Control Panel' 		=> array('ControlPanelPage', 'administrator/index.php', 'system'),
-// 		'Global Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config', 'configuration'),
-		'Banners Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_banners', 'configuration'),
+		'Control Panel' 		=> array('ControlPanelPage', 'administrator/index.php', 'system'),
+		'Global Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config', 'configuration'),
+// 		'Banners Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_banners', 'configuration'),
 // 		'Cache Manager Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_cache', 'configuration'),
 // 		'Check-in Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_checkin', 'configuration'),
 // 		'Contacts Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_contact', 'configuration'),
@@ -127,7 +127,7 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function takeScreenShotsAllMenuLinks()
 	{
@@ -144,7 +144,8 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 			if (strpos($linkArray[1], 'http') !== 0)
 			{
 				$testPage = $testPage->clickMenuByUrl($linkArray[1], $linkArray[0]);
-				$name = $testPage->getHelpScreenshotName($defaultLanguage,  $linkArray[2] . '-' . $menuText, 'code');
+				$options = array('language' => $defaultLanguage, 'prefix' => $linkArray[2] . '-' . $menuText);
+				$name = $testPage->getHelpScreenshotName($options);
 
 				// process additional tabs if available
 				if (method_exists($testPage, 'getTabIds'))
@@ -156,7 +157,8 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 						$testPage->selectTab($tabs[$i]);
 						if ($i > 0)
 						{
-							$name = $testPage->getHelpScreenshotName($tabs[$i] . '-' . $defaultLanguage, $linkArray[2] . '-' . $menuText, 'code');
+							$options = array('language' => $defaultLanguage, 'prefix' => $linkArray[2] . '-' . $menuText, 'tab' => $tabs[$i]);
+							$name = $testPage->getHelpScreenshotName($options);
 						}
 						$this->helpScreenshot($name, $folder);
 					}
@@ -281,7 +283,7 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @test
+	 * @xtest
 	 */
 	public function writeWikiFilesForBasicScreens()
 	{
@@ -306,7 +308,8 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 				$testPage = $this->testPage->clickMenuByUrl($linkArray[1], $linkArray[0]);
 				if (method_exists($testPage, 'toWikiHelp'))
 				{
-					$text = $testPage->toWikiHelp($linkArray[2], array(), array(), 'code');
+					$screenshotOptions = array('prefix' => $linkArray[2], 'method' => 'code');
+					$text = $testPage->toWikiHelp(array(), array(), $screenshotOptions);
 					$fileName = $testPage->getHelpFileName($menuText . '-' . $defaultLanguage);
 					file_put_contents($folder . '/' . $fileName, $text);
 				}
