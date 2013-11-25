@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+25-Nov-2013 Jean-Marie Simonet
+ # [#32605] Heading TOO BIG in the screen "Template Manager: Customise Template" 
+
 24-Nov-2013 Jean-Marie Simonet
  # [#32779] Tags formfield doesn't show tag when editing an item with the same id  Thanks Thomas Hunziker
  # [#32765] *com_redirect :do not translate cyrillic characters in url 
