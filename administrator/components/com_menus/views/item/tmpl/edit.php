@@ -102,7 +102,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_MENUS_ITEM_DETAILS', true)); ?>
 		<div class="row-fluid">
-			<div class="span9">
+			<div class="span6">
 				<?php
 				if ($this->item->type == 'alias')
 				{
