@@ -124,7 +124,7 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 
 
 	/**
-	 * @test
+	 * @xtest
 	 */
 	public function takeScreenShotsAllMenuLinksAllLanguages()
 	{
@@ -168,10 +168,15 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function takeScreenShotsMenuItemTypesAllLanguages()
 	{
+		$testPage = $this->testPage;
+		$languageManagerPage = $testPage->clickMenu('Language Manager', 'LanguageManagerPage');
+		$defaultLanguage = strtolower($languageManagerPage->getDefaultLanguage('admin'));
+		$folder = $this->cfg->baseURI . "/tests/system/tmp/menu-item-screens/" . $defaultLanguage;
+
 		/* @var $menuItemEditPage MenuItemEditPage */
 
 		// First get a list of all menu item types (array like group => 'Articles', type => 'Archived Articles')
@@ -202,13 +207,13 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 				$menuItemEditPage->selectTab($tabs[$i]);
 				if ($i > 0)
 				{
-					$name = $menuItemEditPage->getHelpScreenshotNameAllLanguages($tabs[$i], 'menus-menu-manager-new-menu-item');
+					$name = $menuItemEditPage->getHelpScreenshotNameAllLanguages($tabs[$i] . '-' . $defaultLanguage, 'menus-menu-manager-new-menu-item');
 				}
 				else
 				{
-					$name = $menuItemEditPage->getHelpScreenshotNameAllLanguages(null, 'menus-menu-manager-new-menu-item');
+					$name = $menuItemEditPage->getHelpScreenshotNameAllLanguages($defaultLanguage, 'menus-menu-manager-new-menu-item');
 				}
-				$this->helpScreenshot($name, $this->cfg->baseURI . "/tests/system/tmp/menu-item-screens");
+				$this->helpScreenshot($name, $folder);
 			}
 			$menuItemEditPage->clickButton('Cancel');
 			$menuItemsManagerPage = $this->getPageObject('MenuItemsManagerPage');
