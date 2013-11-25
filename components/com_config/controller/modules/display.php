@@ -36,7 +36,7 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 		$viewName     = $this->input->getWord('view', 'modules');
 		$viewFormat   = $document->getType();
 		$layoutName   = $this->input->getWord('layout', 'default');
-		$returnUri    = $this->input->post->get('return', null, 'base64');
+		$returnUri    = $this->input->get->get('return', null, 'base64');
 
 		// Construct redirect URI
 		$redirect = '';
