@@ -17,13 +17,18 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 	protected $testPage = null; // Page under test
 
 	/**
+	 * @var defaultLanguage
+	 */
+	public static $defaultLanguage = '';
+
+	/**
 	 *
 	 * @var array of all menu links and corresponding page class names.
 	 */
 
 	public  $allMenuLinks = array(
 		'Control Panel' 		=> array('ControlPanelPage', 'administrator/index.php', 'system'),
-		'Global Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config', 'configuration'),
+// 		'Global Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config', 'configuration'),
 // 		'Banners Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_banners', 'configuration'),
 // 		'Cache Manager Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_cache', 'configuration'),
 // 		'Check-in Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_checkin', 'configuration'),
@@ -117,6 +122,12 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 		iconv_set_encoding("input_encoding", "UTF-8");
 		parent::setUp();
 		$this->testPage = $this->doAdminLogin();
+		$testPage = $this->testPage;
+		if (!self::$defaultLanguage)
+		{
+			$languageManagerPage = $testPage->clickMenu('Language Manager', 'LanguageManagerPage');
+			self::$defaultLanguage = strtolower($languageManagerPage->getDefaultLanguage('admin'));
+		}
 	}
 
 	public function tearDown()
@@ -127,7 +138,7 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function takeScreenShotsAllMenuLinks()
 	{
@@ -135,8 +146,8 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 		$gcPage = $testPage->clickMenu('Global Configuration', 'GlobalConfigurationPage');
 		$gcPage->setFieldValue('Default List Limit', '5');
 		$testPage = $gcPage->saveAndClose('ControlPanelPage');
-		$languageManagerPage = $testPage->clickMenu('Language Manager', 'LanguageManagerPage');
-		$defaultLanguage = strtolower($languageManagerPage->getDefaultLanguage('admin'));
+
+		$defaultLanguage = self::$defaultLanguage;
 		$folder = $this->cfg->baseURI . "/tests/system/tmp/basic-screens/" . $defaultLanguage;
 
 		foreach ($this->allMenuLinks as $menuText => $linkArray)
@@ -178,8 +189,8 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 	public function takeScreenShotsMenuItemTypes()
 	{
 		$testPage = $this->testPage;
-		$languageManagerPage = $testPage->clickMenu('Language Manager', 'LanguageManagerPage');
-		$defaultLanguage = strtolower($languageManagerPage->getDefaultLanguage('admin'));
+
+		$defaultLanguage = self::$defaultLanguage;
 		$folder = $this->cfg->baseURI . "/tests/system/tmp/menu-item-screens/" . $defaultLanguage;
 
 		/* @var $menuItemEditPage MenuItemEditPage */
@@ -229,7 +240,7 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function takeScreenShotsForModuleTypes()
 	{
