@@ -735,13 +735,17 @@ abstract class AdminEditPage extends AdminPage
 				$screenshot = array_merge($screenshot, $helpText[$this->headingLabel]);
 			}
 			$result = array_merge($screenshot, $result);
-
-			return implode("", $result);
 		}
 		else
 		{
-			return false;
+			$screenshot = array("==Screenshot==\n");
+			unset($screenshotNameOptions['tab']);
+			$screenshotName = $this->getHelpScreenshotName($screenshotNameOptions);
+			$screenshot[] = $this->formatImageElement($screenshotName);
+			$screenshot[] = "==Details==\n";
+			$result = array_merge($screenshot, $helpText['Heading']);
 		}
+		return implode("", $result);
 	}
 
 	/**
