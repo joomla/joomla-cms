@@ -147,19 +147,22 @@ class ModuleManagerPage extends AdminManagerPage
 	public function getModuleTypes()
 	{
 		$result = array();
-		$clients = array('Site', 'Administrator');
+		$clients = array('site', 'administrator');
 		foreach ($clients as $client)
 		{
-			$this->setFilter('filter_client_id', $client);
+			if ($client != 'site')
+			{
+				$this->setClient($client);
+			}
 			$this->clickButton('toolbar-new');
-			$this->driver->waitForElementUntilIsPresent(By::xPath("//h2[contains(., 'Select a Module Type')]"));
+			$this->driver->waitForElementUntilIsPresent(By::xPath("//body[contains(@class, 'com_modules view-selectlayout')]"));
 			$el = $this->driver->findElement(By::id('new-modules-list'));
 			$moduleElements = $el->findElements(By::xPath("//a/strong"));
 			foreach ($moduleElements as $element)
 			{
 				$result[] = array('client' => strtolower($client), 'name' => $element->getText());
 			}
-			$this->driver->findElement(By::xPath("//button[contains(., 'Cancel')]"))->click();
+			$this->driver->findElement(By::xPath("//button/span[@class='icon-remove']"))->click();
 			$moduleManagerPage = $this->test->getPageObject('ModuleManagerPage');
 		}
 
@@ -181,5 +184,13 @@ class ModuleManagerPage extends AdminManagerPage
 		}
 		$this->searchFor();
 		return $result;
+	}
+
+	public function setClient($client = 'site')
+	{
+		$client = ($client == 'site') ? '0' : '1';
+		$this->driver->findElement(By::xPath("//li/a[contains(@href,'?option=com_modules&filter_client_id=" . $client . "')]"))->click();
+		$this->test->getPageObject('ModuleManagerPage');
+
 	}
 }
