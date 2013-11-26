@@ -138,17 +138,26 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 
 
 	/**
-	 * @test
+	 * @xtest
 	 */
 	public function takeScreenShotsAllMenuLinks()
 	{
+		$defaultLanguage = self::$defaultLanguage;
+		$baseFolder = $this->cfg->baseURI . "/tests/system/tmp/basic-screens/";
+		$folder = $baseFolder . $defaultLanguage;
+		if (!file_exists($baseFolder))
+		{
+			mkdir($baseFolder);
+		}
+		if (!file_exists($folder))
+		{
+			mkdir($folder);
+		}
+
 		$testPage = $this->testPage;
 		$gcPage = $testPage->clickMenu('Global Configuration', 'GlobalConfigurationPage');
 		$gcPage->setFieldValue('Default List Limit', '5');
 		$testPage = $gcPage->saveAndClose('ControlPanelPage');
-
-		$defaultLanguage = self::$defaultLanguage;
-		$folder = $this->cfg->baseURI . "/tests/system/tmp/basic-screens/" . $defaultLanguage;
 
 		foreach ($this->allMenuLinks as $menuText => $linkArray)
 		{
@@ -184,14 +193,23 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @test
+	 * @xtest
 	 */
 	public function takeScreenShotsMenuItemTypes()
 	{
-		$testPage = $this->testPage;
-
 		$defaultLanguage = self::$defaultLanguage;
-		$folder = $this->cfg->baseURI . "/tests/system/tmp/menu-item-screens/" . $defaultLanguage;
+		$baseFolder = $this->cfg->baseURI . "/tests/system/tmp/menu-item-screens/";
+		$folder = $baseFolder . $defaultLanguage;
+		if (!file_exists($baseFolder))
+		{
+			mkdir($baseFolder);
+		}
+		if (!file_exists($folder))
+		{
+			mkdir($folder);
+		}
+
+		$testPage = $this->testPage;
 
 		/* @var $menuItemEditPage MenuItemEditPage */
 
@@ -244,17 +262,27 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 	 */
 	public function takeScreenShotsForModuleTypes()
 	{
+		$defaultLanguage = self::$defaultLanguage;
+		$baseFolder = $this->cfg->baseURI . "/tests/system/tmp/module-screens/";
+		$folder = $baseFolder . $defaultLanguage;
+		if (!file_exists($baseFolder))
+		{
+			mkdir($baseFolder);
+		}
+		if (!file_exists($folder))
+		{
+			mkdir($folder);
+		}
+
 		/* @var $moduleEditPage ModuleEditPage */
 		/* @var $moduleManagerPage ModuleManagerPage */
 
 		// First get a list of all menu item types (array like group => 'Articles', type => 'Archived Articles')
 		$moduleManagerPage = $this->testPage->clickMenu('Module Manager', 'ModuleManagerPage');
+		$moduleManagerPage->moduleTypes = $moduleManagerPage->getModuleTypes();
 		foreach ($moduleManagerPage->moduleTypes as $type)
 		{
-			if ($type['client'] != 'site')
-			{
-				$moduleManagerPage->setFilter('filter_client_id', ucfirst($type['client']));
-			}
+			$moduleManagerPage->setClient($type['client']);
 			$moduleManagerPage->clickButton('toolbar-new');
 			$el = $this->driver->waitForElementUntilIsPresent(By::xPath('//ul[@id=\'new-modules-list\']//a[contains(., "' . $type["name"] . '")]'));
 			$coordinates = $el->getCoordinates();
@@ -278,15 +306,18 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 					continue;
 				}
 				$moduleEditPage->selectTab($tabs[$i]);
+				$moduleName = $moduleEditPage->getModuleName();
 				if ($i > 0)
 				{
-					$name = $moduleEditPage->getHelpScreenshotName($tabs[$i], 'modules ' . $type['client']);
+					$options = array('tab' => $tabs[$i], 'prefix' => 'modules ' . $type['client'] . '-' . $moduleName, 'language' => self::$defaultLanguage);
+					$name = $moduleEditPage->getHelpScreenshotName($options);
 				}
 				else
 				{
-					$name = $moduleEditPage->getHelpScreenshotName(null, 'modules ' . $type['client']);
+					$options = array('prefix' => 'modules ' . $type['client'] . '-' . $moduleName, 'language' => self::$defaultLanguage);
+					$name = $moduleEditPage->getHelpScreenshotName($options);
 				}
-				$this->helpScreenshot($name, $this->cfg->baseURI . "/tests/system/tmp/module-screens");
+				$this->helpScreenshot($name, $folder);
 			}
 
 			$moduleEditPage->clickButton('toolbar-cancel');
