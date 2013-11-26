@@ -697,6 +697,7 @@ abstract class AdminEditPage extends AdminPage
 			// Don't do screenshot for first tab, since this is in the main screenshot
 			if ($i > 0)
 			{
+				$screenshotNameOptions['tab'] = $tab;
 				$result[] = $this->formatImageElement($this->getHelpScreenshotName($screenshotNameOptions));
 			}
 
@@ -718,10 +719,12 @@ abstract class AdminEditPage extends AdminPage
 			// If we are processing the first tab, don't include tab name in screenshot name
 			if (! in_array($allTabs[0], $excludeTabs))
 			{
+				unset($screenshotNameOptions['tab']);
 				$screenshotName = $this->getHelpScreenshotName($screenshotNameOptions);
 			}
 			else
 			{
+				$screenshotNameOptions['tab'] = $tab;
 				$screenshotName = $this->getHelpScreenshotName($screenshotNameOptions);
 			}
 			$screenshot[] = $this->formatImageElement($screenshotName);
