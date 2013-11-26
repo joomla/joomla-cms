@@ -29,7 +29,7 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 	public  $allMenuLinks = array(
 // 		'Control Panel' 		=> array('ControlPanelPage', 'administrator/index.php', 'system'),
 // 		'Global Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config', 'configuration'),
-		'Banners Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_banners', 'configuration'),
+// 		'Banners Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_banners', 'configuration'),
 // 		'Cache Manager Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_cache', 'configuration'),
 // 		'Check-in Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_checkin', 'configuration'),
 // 		'Contacts Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_contact', 'configuration'),
@@ -61,7 +61,7 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 // 		'Groups'				=> array('GroupManagerPage', 'administrator/index.php?option=com_users&view=groups', 'users'),
 // 		'Add New Group'			=> array('GroupEditPage', 'administrator/index.php?option=com_users&task=group.add', 'users'),
 // 		'Access Levels'			=> array('LevelManagerPage', 'administrator/index.php?option=com_users&view=levels', 'users'),
-// 		'Add New Access Level'	=> array('LevelEditPage', 'administrator/index.php?option=com_users&task=level.add', 'users'),
+		'Add New Access Level'	=> array('LevelEditPage', 'administrator/index.php?option=com_users&task=level.add', 'users'),
 // 		'User Notes'			=> array('UserNotesManagerPage', 'administrator/index.php?option=com_users&view=notes', 'users'),
 // 		'Add User Note'			=> array('UserNotesEditPage', 'administrator/index.php?option=com_users&task=note.add', 'users'),
 // 		'User Notes Categories'	=> array('CategoryManagerPage', 'administrator/index.php?option=com_categories&view=categories&extension=com_users', 'users'),
@@ -90,7 +90,7 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 // 		'Read Private Messages'	=> array('GenericAdminPage', 'administrator/index.php?option=com_messages', 'components'),
 // 		'Newsfeeds'				=> array('NewsFeedManagerPage', 'administrator/index.php?option=com_newsfeeds', 'components'),
 // 		'Add New Newsfeed'		=> array('NewsFeedEditPage', 'administrator/index.php?option=com_newsfeeds&task=newsfeed.add', 'components'),
-// 		'Post-installation Messages'	=> array('PostinstallPage', 'administrator/index.php?option=com_postinstall', 'components'),
+		'Post-installation Messages'	=> array('PostinstallPage', 'administrator/index.php?option=com_postinstall', 'components'),
 // 		'Redirect'				=> array('RedirectManagerPage', 'administrator/index.php?option=com_redirect', 'components'),
 // 		'Add New Redirect'		=> array('RedirectEditPage', 'administrator/index.php?option=com_redirect&view=link&layout=edit', 'components'),
 // 		'Search'				=> array('GenericAdminPage', 'administrator/index.php?option=com_search', 'components'),
@@ -354,7 +354,7 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 				{
 					$screenshotOptions = array('prefix' => $linkArray[2] . '-' . $menuText, 'language' => $defaultLanguage);
 					$text = $testPage->toWikiHelp(array(), array(), $screenshotOptions);
-					$fileName = $testPage->getHelpFileName($menuText . '-' . $defaultLanguage);
+					$fileName = $testPage->getHelpFileName($linkArray[2] . '-' . $menuText . '-' . $defaultLanguage);
 					file_put_contents($folder . '/' . $fileName, $text);
 				}
 			}
