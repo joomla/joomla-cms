@@ -27,9 +27,9 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 	 */
 
 	public  $allMenuLinks = array(
-// 		'Control Panel' 		=> array('ControlPanelPage', 'administrator/index.php', 'system'),
+		'Control Panel' 		=> array('ControlPanelPage', 'administrator/index.php', 'system'),
 // 		'Global Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config', 'configuration'),
-// 		'Banners Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_banners', 'configuration'),
+		'Banners Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_banners', 'configuration'),
 // 		'Cache Manager Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_cache', 'configuration'),
 // 		'Check-in Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_checkin', 'configuration'),
 // 		'Contacts Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_contact', 'configuration'),
@@ -63,7 +63,7 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 // 		'Access Levels'			=> array('LevelManagerPage', 'administrator/index.php?option=com_users&view=levels', 'users'),
 		'Add New Access Level'	=> array('LevelEditPage', 'administrator/index.php?option=com_users&task=level.add', 'users'),
 // 		'User Notes'			=> array('UserNotesManagerPage', 'administrator/index.php?option=com_users&view=notes', 'users'),
-// 		'Add User Note'			=> array('UserNotesEditPage', 'administrator/index.php?option=com_users&task=note.add', 'users'),
+		'Add User Note'			=> array('UserNotesEditPage', 'administrator/index.php?option=com_users&task=note.add', 'users'),
 // 		'User Notes Categories'	=> array('CategoryManagerPage', 'administrator/index.php?option=com_categories&view=categories&extension=com_users', 'users'),
 // 		'Add User Note Category'	=> array('CategoryEditPage', 'administrator/index.php?option=com_categories&task=category.add&extension=com_users', 'users'),
 // 		'Mass Mail Users'		=> array('GenericAdminPage', 'administrator/index.php?option=com_users&view=mail', 'users'),
@@ -332,8 +332,6 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 	public function writeWikiFilesForBasicScreens()
 	{
 		$testPage = $this->testPage;
-		$languageManagerPage = $testPage->clickMenu('Language Manager', 'LanguageManagerPage');
-		$defaultLanguage = strtolower($languageManagerPage->getDefaultLanguage('admin'));
 		$baseFolder = $this->cfg->baseURI . "/tests/system/tmp/wiki-basic-files/";
 		$folder = $baseFolder . $defaultLanguage;
 		if (!file_exists($baseFolder))
