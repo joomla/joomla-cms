@@ -27,9 +27,9 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 	 */
 
 	public  $allMenuLinks = array(
-		'Control Panel' 		=> array('ControlPanelPage', 'administrator/index.php', 'system'),
+// 		'Control Panel' 		=> array('ControlPanelPage', 'administrator/index.php', 'system'),
 // 		'Global Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config', 'configuration'),
-// 		'Banners Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_banners', 'configuration'),
+		'Banners Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_banners', 'configuration'),
 // 		'Cache Manager Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_cache', 'configuration'),
 // 		'Check-in Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_checkin', 'configuration'),
 // 		'Contacts Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_contact', 'configuration'),
@@ -258,7 +258,7 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @test
+	 * @xtest
 	 */
 	public function takeScreenShotsForModuleTypes()
 	{
@@ -327,7 +327,7 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function writeWikiFilesForBasicScreens()
 	{
@@ -352,7 +352,7 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 				$testPage = $this->testPage->clickMenuByUrl($linkArray[1], $linkArray[0]);
 				if (method_exists($testPage, 'toWikiHelp'))
 				{
-					$screenshotOptions = array('prefix' => $linkArray[2], 'method' => 'code');
+					$screenshotOptions = array('prefix' => $linkArray[2] . '-' . $menuText, 'language' => $defaultLanguage);
 					$text = $testPage->toWikiHelp(array(), array(), $screenshotOptions);
 					$fileName = $testPage->getHelpFileName($menuText . '-' . $defaultLanguage);
 					file_put_contents($folder . '/' . $fileName, $text);
