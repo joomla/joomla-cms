@@ -35,11 +35,12 @@ class JControllerUpdatestatelist extends JControllerCmsbase
 
 	/*
 	 * Optional values needed for the model
+	 * Note that we need to support some values twice for legacy reasons.
 	 *
 	 *  @var  array
 	 */
-	public  $stateOptions = array('published' => 1, 'unpublished' => 0, 'archived' =>2,
-				'trashed' => -2, 'reported' => -3);
+	public  $stateOptions = array('published' => 1, 'unpublished' => 0, 'archived' => 2,
+				'trashed' => -2, 'reported' => -3, 'publish' => 1, 'unpublish' => 0);
 
 	/**
 	 * @return  mixed  A rendered view or true
@@ -56,6 +57,7 @@ class JControllerUpdatestatelist extends JControllerCmsbase
 
 		$componentFolder = $this->input->getWord('option', 'com_content');
 		$viewName     = $this->input->getWord('view', 'articles');
+		//parent::execute();
 
 		$ids = $this->input->get('cid', array(), 'array');
 
@@ -67,7 +69,7 @@ class JControllerUpdatestatelist extends JControllerCmsbase
 		{
 			$modelClassName = ucfirst($this->prefix) . 'Model' . ucfirst($viewName);
 			$model = new $modelClassName;
-			$newState = $this->stateOptions[$this->options[2]];
+			$newState = $this->stateOptions[$this->options[parent::CONTROLLER_OPTION]];
 
 			// Access check.
 			if (!JFactory::getUser()->authorise($this->permission, $model->getState('component.option')))

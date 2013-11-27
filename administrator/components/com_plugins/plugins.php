@@ -16,7 +16,7 @@ if (!JFactory::getUser()->authorise('core.manage', 'com_plugins'))
 }
 
 // Load classes
-JLoader::registerPrefix('Plugins', JPATH_COMPONENT);
+JLoader::registerPrefix('Plugins', JPATH_COMPONENT_ADMINISTRATOR);
 
 // Tell the browser not to cache this page.
 JResponse::setHeader('Expires', 'Mon, 26 Jul 1997 05:00:00 GMT', true);

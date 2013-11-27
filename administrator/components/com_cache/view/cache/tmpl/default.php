@@ -24,9 +24,9 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 	<?php else : ?>
 		<div id="j-main-container">
 	<?php endif;?>
-  	<div class="alert">
-  		<p><?php echo JText::_('COM_CACHE_RESOURCE_INTENSIVE_WARNING'); ?></p>
-  	</div>
+	<div class="alert">
+		<p><?php echo JText::_('COM_CACHE_RESOURCE_INTENSIVE_WARNING'); ?></p>
+	</div>
 
 	<table class="table table-striped">
 		<thead>

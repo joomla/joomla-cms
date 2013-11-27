@@ -24,6 +24,13 @@ class JControllerDisplayform extends JControllerDisplay
 	protected $form;
 
 	/*
+	 * Option to send to the model.
+	*
+	* @var  array
+	*/
+	public $options;
+
+	/*
 	 * Permission needed for the action
 	*
 	* @var  string
@@ -41,17 +48,17 @@ class JControllerDisplayform extends JControllerDisplay
 		$app = $this->getApplication();
 
 		// Get the document object.
-		$document     = JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		$componentFolder = $this->input->getWord('option', 'com_content');
 
-		if (empty($this->options[2]))
+		if (empty($this->options[parent::CONTROLLER_VIEW_FOLDER]))
 		{
 			$viewName     = $this->input->getWord('view', 'article');
 		}
 		else
 		{
-			$viewName = $this->options[2];
+			$viewName = $this->options[parent::CONTROLLER_VIEW_FOLDER];
 		}
 
 		$viewFormat   = $document->getType();
@@ -66,6 +73,15 @@ class JControllerDisplayform extends JControllerDisplay
 		{
 			$model = new $modelClass;
 			$idName = $model->getTable()->get('_tbl_key');
+			$id = $this->input->get($idName);
+
+			if (empty($id))
+			{
+				$ids = $this->input->get('cid', array(), 'array');
+
+				// This base  controller always displays a single form.
+				$id = $ids[0];
+			}
 
 			// Access check.
 			if (!JFactory::getUser()->authorise($this->permission, $model->getState('component.option')))
@@ -92,11 +108,9 @@ class JControllerDisplayform extends JControllerDisplay
 				return $view->render();
 			}
 
-			// Render view.
-			echo $view->render();
 		}
 
-		$app->redirect('index.php?option=' . $this->input->get('option', 'com_cpanel') . '&view=' . $componentFolder . '&layout=edit' . '&' . $idName .  '=' .  $this->input->get($idName));
+		$app->redirect('index.php?option=' . $componentFolder . '&view=' . $viewName . '&layout=edit' . '&' . $idName .  '=' .  $id);
 
 		return true;
 	}

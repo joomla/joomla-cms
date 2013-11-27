@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_plugins
  * @since       3.2
  */
-class PluginsModelPlugin extends JModelCmsform
+class PluginsModelPlugin extends JModelCmsitem
 {
 	/**
 	 * @var     string  The help screen key for the edit screen.
@@ -58,7 +58,7 @@ class PluginsModelPlugin extends JModelCmsform
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		// The folder and element vars are passed when saving the form.
+		// The folder and element variabless are passed when saving the form.
 		if (empty($data))
 		{
 			$item		= $this->getItem();
@@ -261,7 +261,7 @@ class PluginsModelPlugin extends JModelCmsform
 		if (file_exists($formFile))
 		{
 			// Get the plugin form.
-			if (!$form->loadFile($formFile, false, '//config'))
+			if (!$form->loadFile($formFile, false, '//plugin'))
 			{
 				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 			}

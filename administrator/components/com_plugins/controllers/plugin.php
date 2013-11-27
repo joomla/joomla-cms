@@ -16,6 +16,23 @@ defined('_JEXEC') or die;
  * @subpackage  com_plugins
  * @since       1.6
  */
-class PluginsControllerPlugin extends JControllerForm
+class PluginsControllerPlugin extends JControllerDisplayform
 {
+	/**
+	 * Method to get a model object, loading it if required.
+	 *
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  object  The model.
+	 *
+	 * @since   1.6
+	 */
+	public function getModel($name = 'Plugin', $prefix = 'PluginModel', $config = array('ignore_request' => true))
+	{
+		$model = parent::getModel($name, $prefix, $config);
+
+		return $model;
+	}
 }

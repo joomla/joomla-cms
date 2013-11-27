@@ -11,20 +11,19 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
-var_dump($form);
-//$form->fieldsets = $form->getFieldsets('params');
-?>
-<script type="text/javascript">
-	Joomla.submitbutton = function(task)
-	{
-		if (task == 'plugin.cancel' || document.formvalidator.isValid(document.id('style-form')))
-		{
-			Joomla.submitform(task, document.getElementById('style-form'));
-		}
-	}
-</script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_plugins&layout=edit&extension_id='.(int) $this->item->extension_id); ?>" method="post" name="adminForm" id="style-form" class="form-validate form-horizontal">
+$form->fieldsets = $form->getFieldsets('params');die;
+?>
+$script = "Joomla.submitbutton = function(task)
+        {
+                        if (task == 'plugin.cancel' || document.formvalidator.isValid(document.id('plugin-form'))) {";
+
+$script .= "        Joomla.submitform(task, document.getElementById('plugin-form'));
+        };";
+
+JFactory::getDocument()->addScriptDeclaration($script);
+
+<form action="<?php echo JRoute::_('index.php?option=com_plugins&layout=edit&extension_id=' . (int) $this->item->extension_id); ?>" method="post" name="adminForm" id="style-form" class="form-validate form-horizontal">
 	<fieldset>
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 

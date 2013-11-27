@@ -13,29 +13,28 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
 $this->form->fieldsets = $this->form->getFieldsets('params');
 
-?>
-<script type="text/javascript">
-	Joomla.submitbutton = function(task)
-	{
-		if (task == 'j.cancel' || document.formvalidator.isValid(document.id('style-form')))
-		{
-			Joomla.submitform(task, document.getElementById('style-form'));
-		}
-	}
-</script>
+$script = "Joomla.submitbutton = function(task)
+        {
+                        if (task == 'plugins.cancel.plugin' || document.formvalidator.isValid(document.id('plugin-form'))) {";
 
-<form action="<?php echo JRoute::_('index.php?option=com_plugins&layout=edit&extension_id='.(int) $this->item->extension_id); ?>" method="post" name="adminForm" id="style-form" class="form-validate form-horizontal">
-	<fieldset>
+$script .= "        Joomla.submitform(task, document.getElementById('plugin-form'));
+                        }
+        };";
+
+JFactory::getDocument()->addScriptDeclaration($script);
+?>
+<form action="<?php echo JRoute::_('index.php?option=com_plugins&layout=edit&extension_id='.(int)  $this->form->getValue('extension_id')); ?>" method="post" name="adminForm" id="plugin-form" class="form-validate form-horizontal">
+
+<fieldset>
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
-<?php echo 'hio'; ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('JDETAILS', true)); ?>
 				<div class="control-group">
 					<div class="control-label"><?php  echo $this->form->getInput('access'); ?>
-						<?php // echo $this->form->getLabel('name'); ?><?php echo 'hi2';  ?>
+						<?php echo $this->form->getLabel('name'); ?>
 					</div>
 					<div class="controls">
 						<?php // echo $this->form->getInput('name'); ?>
-						<span class="readonly plg-name"><?php  //echo JText::_($this->item->name);?></span>
+
 					</div>
 				</div>
 				<div class="control-group">
@@ -88,7 +87,7 @@ $this->form->fieldsets = $this->form->getFieldsets('params');
 						</div>
 					</div>
 				<?php endif; ?>
-				<!-- Plugin metadata --><?php var_dump($this->state->get('xml'));?>
+				<!-- Plugin metadata -->
 				<?php if ($this->state->get('xml')) : ?>
 					<?php if ($text = trim($this->form->xml->description)) : ?>
 						<div class="control-group">

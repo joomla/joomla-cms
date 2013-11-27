@@ -18,6 +18,12 @@ defined('_JEXEC') or die('Restricted access');
 */
 class JControllerCmsbase extends JControllerBase
 {
+	// Standard values for the exploded controller input
+	const CONTROLLER_PREFIX = 0;
+	const CONTROLLER_ACTIVITY = 1;
+	const CONTROLLER_VIEW_FOLDER = 2;
+	const CONTROLLER_OPTION = 3;
+
 	/*
 	 * Prefix for the view and model classes
 	 *

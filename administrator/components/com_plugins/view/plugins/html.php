@@ -27,13 +27,13 @@ class PluginsViewPluginsHtml extends JViewHtmlCmslist
 	 */
 	protected function addToolbar()
 	{
-		$canDo = PluginsHelperPlugins::getActions();
+		$canDo = PluginsHelperPlugins::getActions(0, 0, 'com_plugins');
 
 		JToolbarHelper::title(JText::_('COM_PLUGINS_MANAGER_PLUGINS'), 'plugin');
 
 		if ($canDo->get('core.edit'))
 		{
-			JToolbarHelper::editList('j.displayform.plugin');
+			JToolbarHelper::editList('j.displayform.plugin.edit','JTOOLBAR_EDIT',true);
 		}
 
 		if ($canDo->get('core.edit.state'))

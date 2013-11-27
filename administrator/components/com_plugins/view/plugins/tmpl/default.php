@@ -21,7 +21,7 @@ $canOrder	= $user->authorise('core.edit.state',	'com_plugins');
 $saveOrder	= $listOrder == 'ordering';
 if ($saveOrder)
 {
-	$saveOrderingUrl = 'index.php?option=com_plugins&task=plugins.saveOrderAjax&tmpl=component';
+	$saveOrderingUrl = 'index.php?option=com_plugins&task=j.saveorderajax.plugins&tmpl=component';
 	JHtml::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
 }
 $sortFields = $this->getSortFields();
@@ -149,14 +149,14 @@ $sortFields = $this->getSortFields();
 						<?php echo JHtml::_('grid.id', $i, $item->extension_id); ?>
 					</td>
 					<td class="center">
-						<?php echo JHtml::_('jgrid.published', $item->enabled, $i, 'plugins.', $canChange); ?>
+						<?php echo JHtml::_('jgrid.published', $item->enabled, $i, 'j.updatestatelist.', $canChange); ?>
 					</td>
 					<td>
 						<?php if ($item->checked_out) : ?>
 							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'plugins.', $canCheckin); ?>
 						<?php endif; ?>
 						<?php if ($canEdit) : ?>
-							<a href="<?php echo JRoute::_('index.php?option=com_plugins&view=plugin&layout=edit&controller=j.displayform.plugin.edit&extension_id='.(int) $item->extension_id); ?>">
+							<a href="<?php echo JRoute::_('index.php?option=com_plugins&view=plugin&controller=j.displayform.plugin.edit&extension_id='.(int) $item->extension_id); ?>">
 								<?php echo $item->name; ?></a>
 						<?php else : ?>
 								<?php echo $item->name; ?>

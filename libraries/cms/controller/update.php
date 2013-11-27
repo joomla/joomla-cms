@@ -16,8 +16,17 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage  controller
  * @since       3.2
 */
-class JControllerUpdate extends JControllerBase
+
+class JControllerUpdate extends JControllerCmsbase
 {
+	/**
+	 * Application object - Redeclared for proper typehinting
+	 *
+	 * @var    JApplicationCms
+	 * @since  3.2
+	 */
+	protected $app;
+
 	/*
 	 * Prefix for the view and model classes
 	 *
@@ -49,47 +58,43 @@ class JControllerUpdate extends JControllerBase
 		}
 
 		// Check if the user is authorized to do this.
-		if (!JFactory::getUser()->authorise('core.admin'))
+		if ($app->isAdmin() && !JFactory::getUser()->authorise('core.manage'))
 		{
 			JFactory::getApplication()->redirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
 
 			return;
 		}
-		$viewName     = $this->input->getWord('view', 'article');
-		$viewFormat   = $document->getType();
+
+		$tasks = explode('.', $this->input->get('task'));
+		$viewName     = ucfirst($tasks[parent::CONTROLLER_VIEW_FOLDER]);
+		$saveFormat   = JFactory::getDocument()->getType();
 		$layoutName   = $this->input->getWord('layout', 'edit');
 
-		$model = new $this->prefix . 'Model' . $viewName ;
+		$modelClass = $this->prefix . 'Model' . $viewName ;
+		$this->model = new $modelClass ;
 
 		// Access check.
-		if (!JFactory::getUser()->authorise($this->permission, $model->getState('component.option')))
+		if (!JFactory::getUser()->authorise($this->permission, $this->model->getState('component.option')))
 		{
 			$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 
 			return;
 		}
 
-		$data  = $this->input->post->get('jform', array(), 'array');
-
-		// Complete data array if needed
-		$oldData = $model->getData();
-		$data = array_replace($oldData, $data);
-
-		// Get request type
-		$saveFormat   = JFactory::getDocument()->getType();
+		$this->data  = $this->input->post->get('jform', array(), 'array');
 
 		// Handle service requests
 		if ($saveFormat == 'json')
 		{
-			$return = $model->save($data);
+			$return = $this->model->save($data);
 
 			return $return;
 		}
 
 		// Must load after serving service-requests
-		$form  = $model->getForm();
+	//	$form  = $model->getForm();
 
 		// Validate the posted data.
-		$return = $model->validate($form, $data);
+	//	$return = $model->validate($form, $data);
 	}
 }

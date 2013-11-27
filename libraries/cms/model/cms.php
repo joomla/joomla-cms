@@ -271,6 +271,7 @@ abstract class JModelCms extends JModelDatabase
 	 */
 	protected function populateState()
 	{
+		$this->loadState();
 	}
 	/**
 	 * Method to test whether a record can be deleted.
