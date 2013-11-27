@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+27-Nov-2013 Jean-Marie Simonet
+ # [#32815] Issues with the cache permissions  Thanks Tobias Zulauf
+
 26-Nov-2013 Jean-Marie Simonet
  # [#32812] *Wrong JText causes double string use
 
