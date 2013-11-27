@@ -670,8 +670,24 @@ abstract class JHtmlSelect
 
 				$extra = ($id ? ' id="' . $id . '"' : '') . ($label ? ' label="' . $label . '"' : '') . ($attr ? ' ' . $attr : '') . $extra;
 
-				if (is_array($options['list.select']))
+				// Select multiple values comma separated
+				$comma_flag = false;
+
+				if (is_string($options['list.select']))
 				{
+					$comma_separated = explode(",", $options['list.select']);
+					$comma_flag = (count($comma_separated) > 1) ? true : false;
+				}
+
+				if (is_array($options['list.select']) || $comma_flag === true )
+				{
+
+					// Declare array if selected items are comma-separated
+					if ($comma_flag === true)
+					{
+						$options['list.select'] = explode(",", $options['list.select']);
+					}
+
 					foreach ($options['list.select'] as $val)
 					{
 						$key2 = is_object($val) ? $val->$options['option.key'] : $val;
