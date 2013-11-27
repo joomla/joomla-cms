@@ -33,7 +33,7 @@ $results = null;
 // Check for valid format
 if (!$format)
 {
-	$results = new InvalidArgumentException('Please specify response format other that HTML (json, raw, etc.)', 404);
+	$results = new InvalidArgumentException(JText::_('COM_AJAX_SPECIFY_FORMAT'), 404);
 }
 /*
  * Module support.
