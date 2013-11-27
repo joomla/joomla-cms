@@ -30,6 +30,7 @@ $ -> Language fix or change
  # [#32810] *mod_feed does not render hyperlinks in RSS 2.0 feeds containing GUIDs + others  Thanks Lewis Rosenthal
  # [#32772] A Header is missing for the beez3 login form.  Thanks Tobias Zulauf
  # [#32700] Cleanup beez3 error.php  
+ # [#32675] Missing check in JApplicationSite causes a fatal error  Thanks Michael Babker
 
 26-Nov-2013 Jean-Marie Simonet
  # [#32812] *Wrong JText causes double string use
