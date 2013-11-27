@@ -38,18 +38,18 @@ class JControllerCancel extends JControllerCmsbase
 		}
 
 		$optionName     = $this->input->getWord('option', 'com_content');
-		$viewName     = $this->input->getWord('view', 'article');
+		$this->viewName     = $this->input->getWord('view');
 
-		$layoutName   = $this->input->getWord('layout', 'edit');
+		$this->context = $optionName . ' . ' . $this->viewName;
 
-		$modelName = $this->prefix . 'Model' . ucfirst($viewName);
+		$modelName = $this->prefix . 'Model' . ucfirst($this->viewName);
 		$model = new $modelName ;
 
 
-		$this->context = $optionName . $viewName;
+		$this->context = $optionName . $this->viewName;
 
-		$this->redirect = 'index.php?option=' . $optionName;
+		// By default cancel goes to the default component view.
+		$this->app->redirect(JRoute::_('index.php?option=' . $optionName, false));
 
-		parent::execute();
 	}
 }

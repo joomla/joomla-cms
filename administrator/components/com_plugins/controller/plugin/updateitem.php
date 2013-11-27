@@ -88,7 +88,7 @@ class PluginsControllerPluginUpdateitem extends JControllerUpdate
 		switch ($options[parent::CONTROLLER_OPTION])
 		{
 			case 'apply':
-				$this->app->redirect(JRoute::_('index.php?option=com_plugins&view=plugin&layout=edit&extension_id=&extension_id='. $this->data['extension_id'], false));
+				$this->app->redirect(JRoute::_('index.php?option=com_plugins&view=plugin&layout=edit&extension_id='. $this->data['extension_id'], false));
 				break;
 
 			case 'save':

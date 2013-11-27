@@ -54,20 +54,20 @@ class JControllerDisplayform extends JControllerDisplay
 
 		if (empty($this->options[parent::CONTROLLER_VIEW_FOLDER]))
 		{
-			$viewName     = $this->input->getWord('view', 'article');
+			$this->viewName     = $this->input->getWord('view', 'article');
 		}
 		else
 		{
-			$viewName = $this->options[parent::CONTROLLER_VIEW_FOLDER];
+			$this->viewName = $this->options[parent::CONTROLLER_VIEW_FOLDER];
 		}
 
 		$viewFormat   = $document->getType();
 		$layoutName   = $this->input->getWord('layout', 'edit');
 
-		$paths = $this->registerPaths($componentFolder, $viewName);
+		$paths = $this->registerPaths($componentFolder, $this->viewName);
 
-		$viewClass  = $this->prefix . 'View' . ucfirst($viewName) . ucfirst($viewFormat);
-		$modelClass = $this->prefix . 'Model' . ucfirst($viewName);
+		$viewClass  = $this->prefix . 'View' . ucfirst($this->viewName) . ucfirst($viewFormat);
+		$modelClass = $this->prefix . 'Model' . ucfirst($this->viewName);
 
 		if (class_exists($viewClass))
 		{
@@ -95,7 +95,7 @@ class JControllerDisplayform extends JControllerDisplay
 
 			$view->setLayout($layoutName);
 
-			$context = $componentFolder . '.' . $viewName;
+			$context = $componentFolder . '.' . $this->viewName;
 			$this->editCheck($app, $context, $idName);
 
 			// Push document object into the view.
@@ -110,7 +110,7 @@ class JControllerDisplayform extends JControllerDisplay
 
 		}
 
-		$app->redirect('index.php?option=' . $componentFolder . '&view=' . $viewName . '&layout=edit' . '&' . $idName .  '=' .  $id);
+		$app->redirect('index.php?option=' . $componentFolder . '&view=' . $this->viewName . '&layout=edit' . '&' . $idName .  '=' .  $id);
 
 		return true;
 	}
@@ -193,7 +193,7 @@ class JControllerDisplayform extends JControllerDisplay
 	 * Method to register paths for the layouts
 	 *
 	 * @param   string  $componentFolder  Folder name for the paths, defauts to the request option.
-	 * @param   string  $viewName         Folder containing the view.
+	 * @param   string  $this->viewName         Folder containing the view.
 	 *
 	 * @return  SplPriorityQueue  Priority queue of paths to search for layouts
 	 *

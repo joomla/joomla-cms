@@ -525,8 +525,11 @@ class JModelCmslist extends JModelCmsitem
 		$tableClassName = get_class($table);
 		$contentType = new JUcmType;
 		$type = $contentType->getTypeByTable($tableClassName);
-		$typeAlias = $type->type_alias;
-		$tagsObserver = $table->getObserverOfClass('JTableObserverTags');
+		if ($type)
+		{
+			$typeAlias = $type->type_alias;
+			$tagsObserver = $table->getObserverOfClass('JTableObserverTags');
+		}
 		$conditions = array();
 
 		if (empty($pks))
@@ -550,7 +553,10 @@ class JModelCmslist extends JModelCmsitem
 			{
 				$table->ordering = $order[$i];
 
-				$this->createTagsHelper($tagsObserver, $type, $pk, $typeAlias, $table);
+				if ($type  && !empty($typeAlias))
+				{
+					$this->createTagsHelper($tagsObserver, $type, $pk, $typeAlias, $table);
+				}
 
 				if (!$table->store())
 				{
@@ -591,4 +597,19 @@ class JModelCmslist extends JModelCmsitem
 
 		return true;
 	}
+
+	/**
+	 * A protected method to get a set of ordering conditions.
+	 *
+	 * @param   JTable  $table  A JTable object.
+	 *
+	 * @return  array  An array of conditions to add to ordering queries.
+	 *
+	 * @since   12.2
+	 */
+	protected function getReorderConditions($table)
+	{
+		return array();
+	}
+
 }

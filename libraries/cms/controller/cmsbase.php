@@ -23,6 +23,7 @@ class JControllerCmsbase extends JControllerBase
 	const CONTROLLER_ACTIVITY = 1;
 	const CONTROLLER_VIEW_FOLDER = 2;
 	const CONTROLLER_OPTION = 3;
+	const CONTROLLER_CORE_OPTION = 2;
 
 	/*
 	 * Prefix for the view and model classes
@@ -47,7 +48,6 @@ class JControllerCmsbase extends JControllerBase
 	{
 		// Get the application
 		$this->app = $this->getApplication();
-		$this->app->redirect('index.php?option=' . $this->input->get('option', 'com_cpanel'));
 
 		// Check for request forgeries
 		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));

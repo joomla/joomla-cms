@@ -49,15 +49,7 @@ class JControllerUpdatestatelist extends JControllerCmsbase
 	 */
 	public function execute()
 	{
-		// Get the application
-		$app = $this->getApplication();
-
-		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
-
-		$componentFolder = $this->input->getWord('option', 'com_content');
-		$viewName     = $this->input->getWord('view', 'articles');
-		//parent::execute();
+		parent::execute();
 
 		$ids = $this->input->get('cid', array(), 'array');
 
@@ -67,9 +59,9 @@ class JControllerUpdatestatelist extends JControllerCmsbase
 		}
 		else
 		{
-			$modelClassName = ucfirst($this->prefix) . 'Model' . ucfirst($viewName);
+			$modelClassName = ucfirst($this->prefix) . 'Model' . ucfirst($this->viewName);
 			$model = new $modelClassName;
-			$newState = $this->stateOptions[$this->options[parent::CONTROLLER_OPTION]];
+			$newState = $this->stateOptions[$this->options[parent::CONTROLLER_CORE_OPTION]];
 
 			// Access check.
 			if (!JFactory::getUser()->authorise($this->permission, $model->getState('component.option')))
@@ -80,10 +72,10 @@ class JControllerUpdatestatelist extends JControllerCmsbase
 			}
 
 			// Check in the items.
-			$app->enqueueMessage(JText::plural('JLIB_CONTROLLER_N_ITEMS_PUBLISHED', $model->publish($ids, $newState)));
+			$this->app->enqueueMessage(JText::plural('JLIB_CONTROLLER_N_ITEMS_PUBLISHED', $model->publish($ids, $newState)));
 		}
 
-		$app->redirect('index.php?option=' . $this->input->get('option', 'com_cpanel'));
+		$this->app->redirect('index.php?option=' . $this->input->get('option', 'com_cpanel'));
 
 	}
 }

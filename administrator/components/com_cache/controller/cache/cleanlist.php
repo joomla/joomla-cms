@@ -56,7 +56,7 @@ class CacheControllerCacheCleanlist extends JControllerCmsbase
 		if (!empty($this->options) && $this->options[3] == 'purge')
 		{
 			$app->enqueueMessage(JText::_('COM_CACHE_EXPIRED_ITEMS_HAVE_BEEN_PURGED'));
-			$app->redirect('index.php?option=com_cache&view=cache&layout=purge');
+			$app->redirect('index.php?option=com_cache&view=cache');
 		}
 		else
 		{

@@ -48,17 +48,10 @@ class JControllerUpdate extends JControllerCmsbase
 	 */
 	public function execute()
 	{
-		// Get the application
-		$app = $this->getApplication();
-
-		// Check for request forgeries.
-		if(!JSession::checkToken())
-		{
-			JFactory::getApplication()->redirect('index.php', JText::_('JINVALID_TOKEN'));
-		}
+		parent::execute();
 
 		// Check if the user is authorized to do this.
-		if ($app->isAdmin() && !JFactory::getUser()->authorise('core.manage'))
+		if ($this->app->isAdmin() && !JFactory::getUser()->authorise('core.manage'))
 		{
 			JFactory::getApplication()->redirect('index.php', JText::_('JERROR_ALERTNOAUTHOR'));
 
@@ -66,11 +59,11 @@ class JControllerUpdate extends JControllerCmsbase
 		}
 
 		$tasks = explode('.', $this->input->get('task'));
-		$viewName     = ucfirst($tasks[parent::CONTROLLER_VIEW_FOLDER]);
+		$this->viewName     = ucfirst($tasks[parent::CONTROLLER_VIEW_FOLDER]);
 		$saveFormat   = JFactory::getDocument()->getType();
 		$layoutName   = $this->input->getWord('layout', 'edit');
 
-		$modelClass = $this->prefix . 'Model' . $viewName ;
+		$modelClass = $this->prefix . 'Model' . ucfirst($this->viewName);
 		$this->model = new $modelClass ;
 
 		// Access check.
@@ -86,15 +79,13 @@ class JControllerUpdate extends JControllerCmsbase
 		// Handle service requests
 		if ($saveFormat == 'json')
 		{
-			$return = $this->model->save($data);
-
-			return $return;
+			return $this->model->save($data);;
 		}
 
 		// Must load after serving service-requests
-	//	$form  = $model->getForm();
+		$form  = $this->model->getForm();
 
 		// Validate the posted data.
-	//	$return = $model->validate($form, $data);
+		return  $this->model->validate($form, $this->data);
 	}
 }

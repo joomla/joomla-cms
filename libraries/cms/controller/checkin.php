@@ -39,7 +39,7 @@ class JControllerCheckin extends JControllerBase
 		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
 
 		$componentFolder = $this->input->getWord('option', 'com_content');
-		$viewName     = $this->input->getWord('view', 'articles');
+		$this->viewName     = $this->input->getWord('view', 'articles');
 
 		$ids = $this->input->get('cid', array(), 'array');
 
@@ -49,7 +49,7 @@ class JControllerCheckin extends JControllerBase
 		}
 		else
 		{
-			$modelClassName = ucfirst($this->prefix) . 'Model' . ucfirst($viewName);
+			$modelClassName = ucfirst($this->prefix) . 'Model' . ucfirst($this->viewName);
 			$model = new $modelClassName;
 
 			// Access check.

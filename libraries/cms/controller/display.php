@@ -41,16 +41,16 @@ class JControllerDisplay extends JControllerCmsbase
 		$document     = JFactory::getDocument();
 
 		$componentFolder = $this->input->getWord('option', 'com_content');
-		$viewName     = $this->input->getWord('view', 'articles');
+		$this->viewName     = $this->input->getWord('view', 'articles');
 		$viewFormat   = $document->getType();
 		$layoutName   = $this->input->getWord('layout', 'default');
 
 		// Register the layout paths for the view
 		$paths = new SplPriorityQueue;
-		$paths->insert(JPATH_ADMINISTRATOR . '/components/' . $componentFolder . '/view/' . $viewName . '/tmpl', 'normal');
+		$paths->insert(JPATH_ADMINISTRATOR . '/components/' . $componentFolder . '/view/' . $this->viewName . '/tmpl', 'normal');
 
-		$viewClass  = $this->prefix . 'View' . ucfirst($viewName) . ucfirst($viewFormat);
-		$modelClass = $this->prefix . 'Model' . ucfirst($viewName);
+		$viewClass  = $this->prefix . 'View' . ucfirst($this->viewName) . ucfirst($viewFormat);
+		$modelClass = $this->prefix . 'Model' . ucfirst($this->viewName);
 
 		if (class_exists($viewClass))
 		{

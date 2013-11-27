@@ -208,7 +208,7 @@ class PluginsModelPlugin extends JModelCmsitem
 	/**
 	 * @param   object  $form  A form object.
 	 * @param   mixed   $data  The data expected for the form.
-	 * @param   group   $roup  The plugin group
+	 * @param   group   $group  The plugin group
 	 *
 	 * @return  mixed   True if successful.
 	 *

@@ -40,7 +40,7 @@ class PluginsViewPluginHtml extends JViewHtmlCmsform
 			JToolbarHelper::save('plugins.updateitem.plugin.save');
 		}
 
-		JToolbarHelper::cancel('plugins.cancel.plugin', 'JTOOLBAR_CLOSE');
+		JToolbarHelper::cancel('j.cancel', 'JTOOLBAR_CLOSE');
 		JToolbarHelper::divider();
 
 		// Get the help information for the plugin item.
