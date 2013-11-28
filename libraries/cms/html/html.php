@@ -1022,7 +1022,7 @@ abstract class JHtml
 		else
 		{
 			return '<input type="text" title="' . (0 !== (int) $value ? static::_('date', $value, null, null) : '')
-				. '" value="' . (0 !== (int) $value ? static::_('date', $value, 'Y-m-d H:i:s', null) : '') . '" ' . $attribs
+				. '" value="' . htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8') . '" ' . $attribs
 				. ' /><input type="hidden" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8') . '" />';
 		}
 	}
