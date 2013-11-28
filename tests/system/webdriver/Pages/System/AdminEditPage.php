@@ -652,7 +652,7 @@ abstract class AdminEditPage extends AdminPage
 		$helpText = array();
 		foreach ($inputFields as $el)
 		{
-			if (isset($el->tab) && ! in_array($el->tab, $excludeTabs) && ! in_array($el->labelText, $excludeFields))
+			if (isset($el->tab) && ! in_array($el->tab, $excludeTabs) && ! in_array($el->id, $excludeFields))
 			{
 				$this->selectTab($el->tab);
 				$el->tabLabel = $this->getTabLabel($el->tab);
