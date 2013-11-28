@@ -66,18 +66,13 @@ class FinderModelStatistics extends JModelLegacy
 		$db->setQuery($query);
 		$data->type_list = $db->loadObjectList();
 		
-		$lang       = JFactory::getLanguage();
-		// Load the core and/or local language sys file(s) for finder plugins.
-		$db = JFactory::getDbo();
-		$query = 'SELECT element' .
-			' FROM #__extensions' .
-			' WHERE (type =' .$db->quote('plugin'). 'AND folder= ' .$db->quote('finder').')';
-		$db->setQuery($query);
-		$elements = $db->loadColumn();
-		foreach ($elements as $elementa)
+		$lang  = JFactory::getLanguage();
+		$plugins = JPluginHelper::getPlugin('finder');
+		
+		foreach ($plugins as $plugin)
 		{
-			$lang->load('plg_finder_'.$elementa.'.sys', JPATH_ADMINISTRATOR, null, false, true)
-			||  $lang->load('plg_finder_'.$elementa.'.sys', JPATH_PLUGINS.'/finder/'.$elementa, null, false, true);
+			$lang->load('plg_finder_'.$plugin->name.'.sys', JPATH_ADMINISTRATOR, null, false, true)
+			|| $lang->load('plg_finder_'.$plugin->name.'.sys', JPATH_PLUGINS.'/finder/'.$elementa, null, false, true);
 		}
 
 		return $data;
