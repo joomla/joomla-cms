@@ -69,8 +69,8 @@ class PlgEditorCodemirror extends JPlugin
 	 */
 	protected function getInitScript()
 	{
-		$fskeys = $this->params->get('fullscreen_mod', array());
-		$fskeys[] = $this->params->get('fullscreen', 'F10');
+		$fskeys = $this->params->get('fullScreenMod', array());
+		$fskeys[] = $this->params->get('fullScreen', 'F10');
 
 		$script = array(
 			';(function (cm) {',
@@ -217,13 +217,13 @@ class PlgEditorCodemirror extends JPlugin
 		$options->lineWrapping = true;
 
 		// Do we use line numbering?
-		if ($options->lineNumbers = (boolean) $this->params->get('linenumbers', 0))
+		if ($options->lineNumbers = (boolean) $this->params->get('lineNumbers', $this->params->get('lineNumbers', 0)))
 		{
 			$options->gutters[] = 'CodeMirror-linenumbers';
 		}
 
 		// Do we use code folding?
-		if ($options->foldGutter = (boolean) $this->params->get('codefolding', 1))
+		if ($options->foldGutter = (boolean) $this->params->get('codeFolding', 1))
 		{
 			$options->gutters[] = 'CodeMirror-foldgutter';
 		}
@@ -241,11 +241,11 @@ class PlgEditorCodemirror extends JPlugin
 		}
 
 		// Add styling to the active line (any mode).
-		if ($this->params->get('activeline'))
+		if ($this->params->get('activeLine'))
 		{
 			$options->styleActiveLine = true;
 
-			$color = $this->params->get('activeline_color', '#a4c2eb');
+			$color = $this->params->get('activeLineColor', '#a4c2eb');
 			$r = hexdec($color{1} . $color{2});
 			$g = hexdec($color{3} . $color{4});
 			$b = hexdec($color{5} . $color{6});
@@ -256,14 +256,14 @@ class PlgEditorCodemirror extends JPlugin
 		if (in_array($options->mode, array('xml', 'htmlmixed', 'htmlembedded', 'php')))
 		{
 			// Autogenerate closing tags (html/xml only).
-			$options->autoCloseTags = (boolean) $this->params->get('autoclose', true);
+			$options->autoCloseTags = (boolean) $this->params->get('autoClose', true);
 
 			// Highlight the matching tag when the cursor is in a tag (html/xml only).
-			if ($this->params->get('highlight_match', true))
+			if ($this->params->get('highlightMatch', true))
 			{
 				$options->matchTags = true;
 
-				$color = $this->params->get('highlight_match_color', '#fa542f');
+				$color = $this->params->get('highlightMatchColor', '#fa542f');
 				$r = hexdec($color{1} . $color{2});
 				$g = hexdec($color{3} . $color{4});
 				$b = hexdec($color{5} . $color{6});
@@ -275,14 +275,14 @@ class PlgEditorCodemirror extends JPlugin
 		if (!in_array($options->mode, array('xml', 'htmlmixed', 'htmlembedded')))
 		{
 			// Autogenerate closing brackets.
-			$options->autoCloseBrackets = (boolean) $this->params->get('autoclose', true);
+			$options->autoCloseBrackets = (boolean) $this->params->get('autoClose', true);
 
 			// Highlight the matching bracket.
-			$options->matchBrackets = (boolean) $this->params->get('highlight_match', true);
+			$options->matchBrackets = (boolean) $this->params->get('highlightMatch', true);
 		}
 
 		// Vim Keybindings.
-		if ($this->params->get('vim_keybinding', 0))
+		if ($this->params->get('vimKeyBinding', 0))
 		{
 			$options->vimMode = true;
 		}
@@ -480,7 +480,7 @@ class PlgEditorCodemirror extends JPlugin
 	 */
 	protected function getEditorStyles()
 	{
-		$font = $this->params->get('font_family', 0);
+		$font = $this->params->get('fontFamily', 0);
 
 		if ($font)
 		{
@@ -506,12 +506,12 @@ class PlgEditorCodemirror extends JPlugin
 
 		$styles = array(
 			'font-family: ' . (isset($fonts[$font]) ? $fonts[$font] : 'monospace') . ';',
-			'font-size: ' . $this->params->get('font_size', 10) . 'px;',
-			'line-height: ' . $this->params->get('line_height', 1.2) . 'em;',
+			'font-size: ' . $this->params->get('fontSize', 10) . 'px;',
+			'line-height: ' . $this->params->get('lineHeight', 1.2) . 'em;',
 			'border: ' . '1px solid #ccc;'
 		);
 
-		$min_height = $this->params->get('min_height', 0);
+		$min_height = $this->params->get('minHeight', 0);
 
 		if ($min_height && is_numeric($min_height))
 		{
