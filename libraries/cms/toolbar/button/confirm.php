@@ -59,6 +59,7 @@ class JToolbarButtonConfirm extends JToolbarButton
 	 * Get the button CSS Id
 	 *
 	 * @param   string   $type      Button type
+	 * @param   string   $msg       Message to display
 	 * @param   string   $name      Name to be used as apart of the id
 	 * @param   string   $text      Button text
 	 * @param   string   $task      The task associated with the button

@@ -113,7 +113,7 @@ abstract class ConfigViewCmsHtml extends JViewHtml
 		{
 			// Adding template paths
 			$this->paths->top();
-			$defaultPath =$this->paths->current();
+			$defaultPath = $this->paths->current();
 			$this->paths->next();
 			$templatePath = $this->paths->current();
 			$this->_path['template'] = array($defaultPath, $templatePath);

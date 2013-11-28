@@ -178,7 +178,7 @@ if ($this->type == 'image')
 						<input type="hidden" name="task" value="" />
 						<?php echo JHtml::_('form.token'); ?>
 						<div class="hero-unit" style="text-align: justify;">
-							<h1><?php echo JText::_('COM_TEMPLATES_HOME_HEADING'); ?></h1>
+							<h2><?php echo JText::_('COM_TEMPLATES_HOME_HEADING'); ?></h2>
 							<p><?php echo JText::_('COM_TEMPLATES_HOME_TEXT'); ?></p>
 							<p>
 								<a href="http://docs.joomla.org/J3.2:How_to_use_the_Template_Manager" target="_blank" class="btn btn-primary btn-large">
