@@ -36,6 +36,13 @@
 				label="COM_MODULES_FIELD_HEADER_CLASS_LABEL"
 				description="COM_MODULES_FIELD_HEADER_CLASS_DESC"
 			/>
+
+			<field
+				name="style"
+				type="chromestyle"
+				label="COM_MODULES_FIELD_MODULE_STYLE_LABEL"
+				description="COM_MODULES_FIELD_MODULE_STYLE_DESC"
+			/>
 		</fieldset>
 	</fields>
 </form>
