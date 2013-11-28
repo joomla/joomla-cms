@@ -75,7 +75,7 @@ SELECT 700, 'COM_CPANEL_MSG_EACCELERATOR_TITLE', 'COM_CPANEL_MSG_EACCELERATOR_BO
 UNION ALL
 SELECT 700, 'PLG_USER_JOOMLA_POSTINSTALL_STRONGPW_TITLE', 'PLG_USER_JOOMLA_POSTINSTALL_STRONGPW_TEXT', 'PLG_USER_JOOMLA_POSTINSTALL_STRONGPW_BTN', 'plg_user_joomla', 1, 'action', 'site://plugins/user/joomla/postinstall/actions.php', 'plguserjoomla_postinstall_action', 'site://plugins/user/joomla/postinstall/actions.php', 'plguserjoomla_postinstall_condition', '3.2.0', 1;
 
-CREATE TABLE [#__ucm_history](
+CREATE TABLE [#__ucm_history] (
   [version_id] [bigint] IDENTITY(1,1) NOT NULL,
   [ucm_item_id] [bigint] NOT NULL,
   [ucm_type_id] [bigint] NOT NULL,
@@ -107,7 +107,7 @@ ALTER TABLE [#__users] ADD [otpKey] [nvarchar](1000) NOT NULL DEFAULT '';
 
 ALTER TABLE [#__users] ADD [otep] [nvarchar](1000) NOT NULL DEFAULT '';
 
-CREATE TABLE [#__user_keys](
+CREATE TABLE [#__user_keys] (
   [id] [bigint] IDENTITY(1,1) NOT NULL,
   [user_id] [nvarchar](255) NOT NULL,
   [token] [nvarchar](255) NOT NULL,
