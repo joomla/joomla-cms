@@ -27,6 +27,7 @@ $ -> Language fix or change
 
 28-Nov-2013 Jean-Marie Simonet
  # [#32766] Formfield `ChromeStyle` produces fatal error if used outside of com_modules.  Thanks Thomas Hunziker
+ # [#32786] Stop canonical message in home page using featured view of com_content  Thanks Bruno Batista
 
 27-Nov-2013 Jean-Marie Simonet
  # [#32815] Issues with the cache permissions  Thanks Tobias Zulauf
