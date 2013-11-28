@@ -1,8 +1,9 @@
 <?php
 /**
- * @package    FrameworkOnFramework
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     FrameworkOnFramework
+ * @subpackage  view
+ * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
 defined('_JEXEC') or die;
@@ -73,33 +74,6 @@ class FOFViewHtml extends FOFViewRaw
 	}
 
 	/**
-	 * Renders the link bar (submenu) using Joomla!'s default
-	 * JSubMenuHelper::addEntry method
-	 *
-	 * @return void
-	 */
-	protected function renderLinkbar()
-	{
-		// Do not render a submenu unless we are in the the admin area
-
-		if (!FOFPlatform::getInstance()->isBackend() || FOFPlatform::getInstance()->isCli())
-		{
-			return;
-		}
-
-		$toolbar = FOFToolbar::getAnInstance($this->input->getCmd('option', 'com_foobar'), $this->config);
-		$links = $toolbar->getLinks();
-
-		if (!empty($links))
-		{
-			foreach ($links as $link)
-			{
-				JSubMenuHelper::addEntry($link['name'], $link['link'], $link['active']);
-			}
-		}
-	}
-
-	/**
 	 * Runs before rendering the view template, echoing HTML to put before the
 	 * view template's generated HTML
 	 *
@@ -120,15 +94,7 @@ class FOFViewHtml extends FOFViewRaw
 		}
 
 		$renderer = $this->getRenderer();
-
-		if (!($renderer instanceof FOFRenderAbstract))
-		{
-			$this->renderLinkbar();
-		}
-		else
-		{
-			$renderer->preRender($view, $task, $this->input, $this->config);
-		}
+		$renderer->preRender($view, $task, $this->input, $this->config);
 	}
 
 	/**

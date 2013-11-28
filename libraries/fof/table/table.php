@@ -1,8 +1,9 @@
 <?php
 /**
- * @package    FrameworkOnFramework
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     FrameworkOnFramework
+ * @subpackage  table
+ * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
 defined('_JEXEC') or die;
@@ -303,6 +304,9 @@ class FOFTable extends JObject implements JTableInterface
 		$type       = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
 		$tableClass = $prefix . ucfirst($type);
 
+		$config['_table_type'] = $type;
+		$config['_table_class'] = $tableClass;
+
 		$configProvider = new FOFConfigProvider;
 		$configProviderKey = $option . '.views.' . FOFInflector::singularize($type) . '.config.';
 
@@ -593,6 +597,8 @@ class FOFTable extends JObject implements JTableInterface
 		{
 			$this->$access_field = (int) JFactory::getConfig()->get('access');
 		}
+
+		$this->config = $config;
 	}
 
 	/**
@@ -673,6 +679,32 @@ class FOFTable extends JObject implements JTableInterface
 	 */
 	public function addBehavior($name, $config = array())
 	{
+		// First look for ComponentnameTableViewnameBehaviorName (e.g. FoobarTableItemsBehaviorTags)
+		if (isset($this->config['option']))
+		{
+			$option_name = str_replace('com_', '', $this->config['option']);
+			$behaviorClass = $this->config['_table_class'] . 'Behavior' . ucfirst(strtolower($name));
+
+			if (class_exists($behaviorClass))
+			{
+				$behavior = new $behaviorClass($this->tableDispatcher, $config);
+
+				return true;
+			}
+
+			// Then look for ComponentnameTableBehaviorName (e.g. FoobarTableBehaviorTags)
+			$option_name = str_replace('com_', '', $this->config['option']);
+			$behaviorClass = ucfirst($option_name) . 'TableBehavior' . ucfirst(strtolower($name));
+
+			if (class_exists($behaviorClass))
+			{
+				$behavior = new $behaviorClass($this->tableDispatcher, $config);
+
+				return true;
+			}
+		}
+
+		// Nothing found? Return false.
 
 		$behaviorClass = 'FOFTableBehavior' . ucfirst(strtolower($name));
 
@@ -989,7 +1021,7 @@ class FOFTable extends JObject implements JTableInterface
 	}
 
 	/**
-	 * Generic check for whether dependancies exist for this object in the db schema
+	 * Generic check for whether dependencies exist for this object in the db schema
 	 *
 	 * @param   integer  $oid    The primary key of the record to delete
 	 * @param   array    $joins  Any joins to foreign table, used to determine if dependent records exist
@@ -2366,14 +2398,7 @@ class FOFTable extends JObject implements JTableInterface
 	 */
 	protected function isQuoted(&$column)
 	{
-		// Under Joomla 3.2 I can safely quote the column again, then return true
-		if(FOFPlatform::getInstance()->checkVersion(JVERSION, '3.2', 'ge'))
-		{
-			$column = JFactory::getDbo()->qn($column);
-			return true;
-		}
-
-		// On previous version I need some "magic". If the first char is not a letter, a number
+		// I need some "magic". If the first char is not a letter, a number
 		// an underscore or # (needed for table), then most likely the field is quoted
 		preg_match_all('/^[a-z0-9_#]/i', $column, $matches);
 
