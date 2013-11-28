@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+28-Nov-2013 Jean-Marie Simonet
+ # [#32766] Formfield `ChromeStyle` produces fatal error if used outside of com_modules.  Thanks Thomas Hunziker
+
 27-Nov-2013 Jean-Marie Simonet
  # [#32815] Issues with the cache permissions  Thanks Tobias Zulauf
  # [#32810] *mod_feed does not render hyperlinks in RSS 2.0 feeds containing GUIDs + others  Thanks Lewis Rosenthal
