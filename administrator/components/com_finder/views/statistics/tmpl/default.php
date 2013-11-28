@@ -31,7 +31,7 @@ defined('_JEXEC') or die;
 				<?php foreach ($this->data->type_list as $type) :?>
 				<tr>
 					<td>
-						<?php echo $type->type_title;?>
+						<?php echo JText::_('COM_FINDER_STATISTICS_'. $type->type_title);?>
 					</td>
 					<td>
 						<span class="badge badge-info"><?php echo number_format($type->link_count);?></span>
