@@ -65,6 +65,20 @@ class FinderModelStatistics extends JModelLegacy
 			->order($db->quoteName('type_title'), 'ASC');
 		$db->setQuery($query);
 		$data->type_list = $db->loadObjectList();
+		
+		$lang       = JFactory::getLanguage();
+		// Load the core and/or local language sys file(s) for finder plugins.
+		$db = JFactory::getDbo();
+		$query = 'SELECT element' .
+			' FROM #__extensions' .
+			' WHERE (type =' .$db->quote('plugin'). 'AND folder= ' .$db->quote('finder').')';
+		$db->setQuery($query);
+		$elements = $db->loadColumn();
+		foreach ($elements as $elementa)
+		{
+			$lang->load('plg_finder_'.$elementa.'.sys', JPATH_ADMINISTRATOR, null, false, true)
+			||  $lang->load('plg_finder_'.$elementa.'.sys', JPATH_PLUGINS.'/finder/'.$elementa, null, false, true);
+		}
 
 		return $data;
 	}
