@@ -91,6 +91,8 @@ class plgEditorCodemirror extends JPlugin
 		$fskeys[] = $this->params->get('fullScreen', 'F10');
 		$this->fullScreenCombo = implode('-', $fskeys);
 
+		$modeURL = JURI::root(true) . '/media/editors/codemirror/mode/%N/%N.js';
+
 		$script = array(
 			';(function (cm) {',
 				'cm.keyMap["default"]["' . $this->fullScreenCombo . '"] = function (cm) {',
@@ -99,6 +101,7 @@ class plgEditorCodemirror extends JPlugin
 				'cm.keyMap["default"]["Esc"] = function (cm) {',
 					'cm.getOption("fullScreen") && cm.setOption("fullScreen", false);',
 				'};',
+				'cm.modeURL = ' . json_encode($modeURL) . ';',
 			'}(CodeMirror));'
 		);
 
@@ -278,7 +281,6 @@ class plgEditorCodemirror extends JPlugin
 		// Load the syntax mode.
 		$syntax = $this->params->get('syntax', 'html');
 		$options->mode = isset($this->modeAlias[$syntax]) ? $this->modeAlias[$syntax] : $syntax;
-		$this->loadMode($options->mode);
 
 		// Load the theme if specified.
 		if ($theme = $this->params->get('theme'))
@@ -317,6 +319,7 @@ class plgEditorCodemirror extends JPlugin
 		$html[] = '<script type="text/javascript">';
 		$html[] = '(function (id, options) {';
 		$html[] = '    Joomla.editors.instances[id] = CodeMirror.fromTextArea(document.getElementById(id), options);';
+		$html[] = '    CodeMirror.autoLoadMode(Joomla.editors.instances[id], options.mode);';
 		$html[] = '    Joomla.editors.instances[id].on("gutterClick", function (cm, n, gutter) {';
 		$html[] = '        if (gutter != "CodeMirror-markergutter") { return; }';
 		$html[] = '        var info = cm.lineInfo(n);';
@@ -332,25 +335,6 @@ class plgEditorCodemirror extends JPlugin
 		$html[] = '</script>';
 
 		return implode("\n", $html);
-	}
-
-	/**
-	 * Loads a CodeMirror syntax mode file.
-	 *
-	 * @param  string  $mode  The syntax mode to load (ex. html, css, javascript).
-	 */
-	protected function loadMode($mode)
-	{
-		static $loaded = array();
-
-		if (in_array($mode, $loaded))
-		{
-			return;
-		}
-
-		$loaded[] = $mode;
-
-		JHtml::_('script', $this->basePath . 'mode/' . $mode . '.js');
 	}
 
 	/**
@@ -413,83 +397,23 @@ class plgEditorCodemirror extends JPlugin
 	}
 
 	/**
-	 * Gets the url of a font stylesheet (from google web fonts) based on param values
-	 *
-	 * @return	string	$styleSheet a url (or empty string)
-	 */
-	protected function loadFontStyleSheet($font)
-	{
-		$loaded = array();
-
-		// Load only once.
-		if (in_array($font, $loaded))
-		{
-			return;
-		}
-
-		$loaded[] = $font;
-
-		$google = '//fonts.googleapis.com/css?';
-
-		$styleSheets = array(
-			'anonymous_pro'   => 'family=Anonymous+Pro',
-			'cousine'         => 'family=Cousine',
-			'cutive_mono'     => 'family=Cutive+Mono',
-			'droid_sans_mono' => 'family=Droid+Sans+Mono',
-			'inconsolata'     => 'family=Inconsolata',
-			'lekton'          => 'family=Lekton',
-			'nova_mono'       => 'family=Nova+Mono',
-			'oxygen_mono'     => 'family=Oxygen+Mono',
-			'press_start_2p'  => 'family=Press+Start+2P',
-			'pt_mono'         => 'family=PT+Mono',
-			'share_tech_mono' => 'family=Share+Tech+Mono',
-			'source_code_pro' => 'family=Source+Code+Pro',
-			'ubuntu_mono'     => 'family=Ubuntu+Mono',
-			'vt323'           => 'family=VT323'
-		);
-
-		$url = isset($styleSheets[$font]) ? $google . $styleSheets[$font] : '';
-
-		if ($url)
-		{
-			JHtml::_('stylesheet', $url);
-		}
-}
-
-	/**
 	 * Gets style declarations for using the selected font, size, and line-height from params
 	 * returning as array for json encoding
 	 *
-	 * @return	array
+	 * @return  array
 	 */
 	protected function getEditorStyles()
 	{
 		$font = $this->params->get('fontFamily', 0);
+		$info = $this->getFontInfo($font);
 
-		if ($font)
+		if (isset($info) && isset($info->url))
 		{
-			$this->loadFontStyleSheet($font);
+			JFactory::getDocument()->addStylesheet($info->url);
 		}
 
-		$fonts = array(
-			'anonymous_pro'   => '\'Anonymous Pro\', monospace',
-			'cousine'         => 'Cousine, monospace',
-			'cutive_mono'     => '\'Cutive Mono\', monospace',
-			'droid_sans_mono' => '\'Droid Sans Mono\', monospace',
-			'inconsolata'     => 'Inconsolata, monospace',
-			'lekton'          => 'Tekton, monospace',
-			'nova_mono'       => '\'Nova Mono\', monospace',
-			'oxygen_mono'     => '\'Oxygen Mono\', monospace',
-			'press_start_2p'  => '\'Press Start 2P\', monospace',
-			'pt_mono'         => '\'PT Mono\', monospace',
-			'share_tech_mono' => '\'Share Tech Mono\', monospace',
-			'source_code_pro' => '\'Source Code Pro\', monospace',
-			'ubuntu_mono'     => '\'Ubuntu Mono\', monospace',
-			'vt323'           => 'VT323, monospace'
-		);
-
 		$styles = array(
-			'font-family: ' . (isset($fonts[$font]) ? $fonts[$font] : 'monospace') .';',
+			'font-family: ' . ((isset($info) && isset($info->css)) ? $info->css . '!important' : 'monospace') . ';',
 			'font-size: '   . $this->params->get('fontSize', 10) . 'px;',
 			'line-height: ' . $this->params->get('lineHeight', 1.2) . 'em;',
 			'border: '      . '1px solid #ccc;'
@@ -498,4 +422,20 @@ class plgEditorCodemirror extends JPlugin
 		return $styles;
 	}
 
+	/**
+	 * Gets font info from the json data file
+	 *
+	 * @return  object
+	 */
+	protected function getFontInfo($font)
+	{
+		static $fonts;
+
+		if (!$fonts)
+		{
+			$fonts = json_decode(JFile::read(__DIR__ . '/fonts.json'), true);
+		}
+
+		return isset($fonts[$font]) ? (object) $fonts[$font] : null;
+	}
 }
