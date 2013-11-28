@@ -156,8 +156,7 @@ class MenuItemEditPage extends AdminEditPage
 		$component = (isset($options['component'])) ? $options['component'] : '';
 		if ($language)
 		{
-			$componentUrl = $this->driver->findElement(By::id('jform_link'))->getAttribute('value');
-			$options['component'] = $this->getMenuItemComponent($componentUrl);
+			$options['component'] = $this->getMenuItemComponent();
 		}
 		else
 		{
@@ -177,8 +176,9 @@ class MenuItemEditPage extends AdminEditPage
 		return parent::getHelpScreenshotName($options);
 	}
 
-	public function getMenuItemComponent($componentName)
+	public function getMenuItemComponent()
 	{
+		$componentName = $this->driver->findElement(By::id('jform_link'))->getAttribute('value');
 		$start = strpos($componentName, '?option=');
 		$end = strpos($componentName, '&');
 		$component = substr($componentName, $start + 8, $end - ($start + 8));

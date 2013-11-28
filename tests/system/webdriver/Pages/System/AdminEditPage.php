@@ -253,7 +253,7 @@ abstract class AdminEditPage extends AdminPage
 	public function getHelpFileName($componentName)
 	{
 		$name = 'help-' . $this->version . '-' . $componentName . '.txt';
-		return strtolower(str_replace(array('\'', ' / ', ' - ', ' ', '/', ':'), array('', '-', '-','-', '', ''), $name));
+		return strtolower(str_replace(array('\'', ' / ', ' - ', ' ', '/', ':', '&', '='), array('', '-', '-','-', '', '', '-', '-'), $name));
 	}
 
 	public function getFieldValue($label)
@@ -714,8 +714,8 @@ abstract class AdminEditPage extends AdminPage
 		}
 		if ($tabCount > 0)
 		{
-			$screenshot = array("==Screenshot==\n"
-			);
+			$screenshot = array("==Screenshot==\n");
+
 			// If we are processing the first tab, don't include tab name in screenshot name
 			if (! in_array($allTabs[0], $excludeTabs))
 			{
@@ -724,7 +724,7 @@ abstract class AdminEditPage extends AdminPage
 			}
 			else
 			{
-				$screenshotNameOptions['tab'] = $tab;
+				$screenshotNameOptions['tab'] = $tabs[0];
 				$screenshotName = $this->getHelpScreenshotName($screenshotNameOptions);
 			}
 			$screenshot[] = $this->formatImageElement($screenshotName);
@@ -736,7 +736,7 @@ abstract class AdminEditPage extends AdminPage
 			}
 			$result = array_merge($screenshot, $result);
 		}
-		else
+		elseif (!in_array('header', $excludeTabs))
 		{
 			$screenshot = array("==Screenshot==\n");
 			unset($screenshotNameOptions['tab']);
