@@ -43,7 +43,7 @@ class JRegistryFormatXMLTest extends PHPUnit_Framework_TestCase
 			"<node name=\"foo\" type=\"string\">bar</node>" .
 			"<node name=\"quoted\" type=\"string\">\"stringwithquotes\"</node>" .
 			"<node name=\"booleantrue\" type=\"boolean\">1</node>" .
-			"<node name=\"booleanfalse\" type=\"boolean\"></node>" .
+			"<node name=\"booleanfalse\" type=\"boolean\"/>" .
 			"<node name=\"numericint\" type=\"integer\">42</node>" .
 			"<node name=\"numericfloat\" type=\"double\">3.1415</node>" .
 			"<node name=\"section\" type=\"object\">" .
