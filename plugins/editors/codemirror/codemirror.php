@@ -7,17 +7,17 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die;
 
 /**
  * CodeMirror Editor Plugin.
  *
- * @package		Joomla.Plugin
- * @subpackage	Editors.codemirror
- * @since		1.6
+ * @package     Joomla.Plugin
+ * @subpackage  Editors.codemirror
+ * @since       1.6
  */
-class plgEditorCodemirror extends JPlugin
+class PlgEditorCodemirror extends JPlugin
 {
 	/**
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
@@ -162,9 +162,9 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Copy editor content to form field.
 	 *
-	 * @param	string	$id	The id of the editor field.
+	 * @param   string  $id  The id of the editor field.
 	 *
-	 * @return string Javascript
+	 * @return  string  Javascript
 	 */
 	public function onSave($id)
 	{
@@ -174,9 +174,9 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Get the editor content.
 	 *
-	 * @param	string	$id	The id of the editor field.
+	 * @param   string  $id  The id of the editor field.
 	 *
-	 * @return string Javascript
+	 * @return  string  Javascript
 	 */
 	public function onGetContent($id)
 	{
@@ -186,10 +186,10 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Set the editor content.
 	 *
-	 * @param	string	$id			The id of the editor field.
-	 * @param	string	$content	The content to set.
+	 * @param   string  $id       The id of the editor field.
+	 * @param   string  $content  The content to set.
 	 *
-	 * @return string Javascript
+	 * @return  string  Javascript
 	 */
 	public function onSetContent($id, $content)
 	{
@@ -199,7 +199,7 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Adds the editor specific insert method.
 	 *
-	 * @return boolean
+	 * @return  boolean
 	 */
 	public function onGetInsertMethod()
 	{
@@ -222,22 +222,22 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Display the editor area.
 	 *
-	 * @param	string	$name		The control name.
-	 * @param	string	$html		The contents of the text area.
-	 * @param	string	$width		The width of the text area (px or %).
-	 * @param	string	$height		The height of the text area (px or %).
-	 * @param	int		$col		The number of columns for the textarea.
-	 * @param	int		$row		The number of rows for the textarea.
-	 * @param	boolean	$buttons	True and the editor buttons will be displayed.
-	 * @param	string	$id			An optional ID for the textarea (note: since 1.6). If not supplied the name is used.
-	 * @param	string	$asset
-	 * @param	object	$author
-	 * @param	array	$params		Associative array of editor parameters.
+	 * @param   string   $name     The control name.
+	 * @param   string   $content  The contents of the text area.
+	 * @param   string   $width    The width of the text area (px or %).
+	 * @param   string   $height   The height of the text area (px or %).
+	 * @param   int      $col      The number of columns for the textarea.
+	 * @param   int      $row      The number of rows for the textarea.
+	 * @param   boolean  $buttons  True and the editor buttons will be displayed.
+	 * @param   string   $id       An optional ID for the textarea (note: since 1.6). If not supplied the name is used.
+	 * @param   string   $asset    Not used.
+	 * @param   object   $author   Not used.
+	 * @param   array    $params   Associative array of editor parameters.
 	 *
-	 * @return string HTML
+	 * @return  string  HTML
 	 */
-	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true,
-		$id = null, $asset = null, $author = null, $params = array())
+	public function onDisplay(
+		$name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
 	{
 		$id = empty($id) ? $name : $id;
 
@@ -313,7 +313,7 @@ class plgEditorCodemirror extends JPlugin
 		$options->vimMode = (boolean) $this->params->get('vimKeyBinding', 0);
 
 		$html = array();
-		$html[]	= '<p class="label">' .  JText::sprintf('PLG_CODEMIRROR_TOGGLE_FULL_SCREEN', $this->fullScreenCombo) . '</p>';
+		$html[]	= '<p class="label">' . JText::sprintf('PLG_CODEMIRROR_TOGGLE_FULL_SCREEN', $this->fullScreenCombo) . '</p>';
 		$html[]	= "<textarea name=\"$name\" id=\"$id\" cols=\"$col\" rows=\"$row\">$content</textarea>";
 		$html[] = $buttons;
 		$html[] = '<script type="text/javascript">';
@@ -340,7 +340,9 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Loads a CodeMirror theme file.
 	 *
-	 * @param  string  $theme  The theme to load.
+	 * @param   string  $theme  The theme to load.
+	 *
+	 * @return  void
 	 */
 	protected function loadTheme($theme)
 	{
@@ -359,10 +361,12 @@ class plgEditorCodemirror extends JPlugin
 	/**
 	 * Displays the editor buttons.
 	 *
-	 * @param string $name
-	 * @param mixed $buttons [array with button objects | boolean true to display buttons]
+	 * @param   string  $name     Button name.
+	 * @param   mixed   $buttons  [array with button objects | boolean true to display buttons]
+	 * @param   mixed   $asset    Unused.
+	 * @param   mixed   $author   Unused.
 	 *
-	 * @return string HTML
+	 * @return  string  HTML
 	 */
 	protected function displayButtons($name, $buttons, $asset, $author)
 	{
@@ -414,9 +418,9 @@ class plgEditorCodemirror extends JPlugin
 
 		$styles = array(
 			'font-family: ' . ((isset($info) && isset($info->css)) ? $info->css . '!important' : 'monospace') . ';',
-			'font-size: '   . $this->params->get('fontSize', 10) . 'px;',
+			'font-size: ' . $this->params->get('fontSize', 10) . 'px;',
 			'line-height: ' . $this->params->get('lineHeight', 1.2) . 'em;',
-			'border: '      . '1px solid #ccc;'
+			'border: ' . '1px solid #ccc;'
 		);
 
 		return $styles;
@@ -424,6 +428,8 @@ class plgEditorCodemirror extends JPlugin
 
 	/**
 	 * Gets font info from the json data file
+	 *
+	 * @param   string  $font  A key from the $fonts array.
 	 *
 	 * @return  object
 	 */

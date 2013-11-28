@@ -1,10 +1,10 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// no direct access
+// No direct access
 defined('_JEXEC') or die;
 
 JFormHelper::loadFieldClass('list');
@@ -12,9 +12,9 @@ JFormHelper::loadFieldClass('list');
 /**
  * Supports an HTML select list of fonts
  *
- * @package		Joomla.Plugin
- * @subpackage	Editors.codemirror
- * @since		3.3
+ * @package     Joomla.Plugin
+ * @subpackage  Editors.codemirror
+ * @since       3.3
  */
 class JFormFieldFonts extends JFormFieldList
 {
