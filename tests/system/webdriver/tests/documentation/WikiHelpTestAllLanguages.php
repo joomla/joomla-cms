@@ -61,7 +61,7 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 // 		'Groups'				=> array('GroupManagerPage', 'administrator/index.php?option=com_users&view=groups', 'users'),
 // 		'Add New Group'			=> array('GroupEditPage', 'administrator/index.php?option=com_users&task=group.add', 'users'),
 // 		'Access Levels'			=> array('LevelManagerPage', 'administrator/index.php?option=com_users&view=levels', 'users'),
-// 		'Add New Access Level'	=> array('LevelEditPage', 'administrator/index.php?option=com_users&task=level.add', 'users'),
+		'Add New Access Level'	=> array('LevelEditPage', 'administrator/index.php?option=com_users&task=level.add', 'users'),
 // 		'User Notes'			=> array('UserNotesManagerPage', 'administrator/index.php?option=com_users&view=notes', 'users'),
 // 		'Add User Note'			=> array('UserNotesEditPage', 'administrator/index.php?option=com_users&task=note.add', 'users'),
 // 		'User Notes Categories'	=> array('CategoryManagerPage', 'administrator/index.php?option=com_categories&view=categories&extension=com_users', 'users'),
@@ -78,7 +78,7 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 // 		'Featured Articles'		=> array('GenericAdminPage', 'administrator/index.php?option=com_content&view=featured', 'content'),
 // 		'Media Manager'			=> array('GenericAdminPage', 'administrator/index.php?option=com_media', 'content'),
 // 		'Banners'				=> array('BannerManagerPage', 'administrator/index.php?option=com_banners', 'components'),
-		'Add New Banner'		=> array('BannerEditPage', 'administrator/index.php?option=com_banners&view=banner&layout=edit', 'components'),
+// 		'Add New Banner'		=> array('BannerEditPage', 'administrator/index.php?option=com_banners&view=banner&layout=edit', 'components'),
 // 		'Banners Clients'		=> array('GenericAdminPage', 'administrator/index.php?option=com_banners&view=clients', 'components'),
 // 		'Add New Banner Client'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_banners&view=client&layout=edit', 'components'),
 // 		'Banners Tracks'		=> array('GenericAdminPage', 'administrator/index.php?option=com_banners&view=tracks', 'components'),
@@ -90,7 +90,7 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 // 		'Read Private Messages'	=> array('GenericAdminPage', 'administrator/index.php?option=com_messages', 'components'),
 // 		'Newsfeeds'				=> array('NewsFeedManagerPage', 'administrator/index.php?option=com_newsfeeds', 'components'),
 // 		'Add New Newsfeed'		=> array('NewsFeedEditPage', 'administrator/index.php?option=com_newsfeeds&task=newsfeed.add', 'components'),
-		'Post-installation Messages'	=> array('PostinstallPage', 'administrator/index.php?option=com_postinstall', 'components'),
+// 		'Post-installation Messages'	=> array('PostinstallPage', 'administrator/index.php?option=com_postinstall', 'components'),
 // 		'Redirect'				=> array('RedirectManagerPage', 'administrator/index.php?option=com_redirect', 'components'),
 // 		'Add New Redirect'		=> array('RedirectEditPage', 'administrator/index.php?option=com_redirect&view=link&layout=edit', 'components'),
 // 		'Search'				=> array('GenericAdminPage', 'administrator/index.php?option=com_search', 'components'),
@@ -222,6 +222,7 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 		$menuItemsManagerPage = $this->testPage->clickMenu('Main Menu', 'MenuItemsManagerPage');
 		foreach ($menuItemTypes as $type)
 		{
+			if ($type['group'] != 'Enlaces del sistema') continue;
 			$menuItemsManagerPage->clickButton('toolbar-new');
 			$menuItemEditPage = $this->getPageObject('MenuItemEditPage');
 			$menuItemEditPage->menuItemTypes = $menuItemTypes;
@@ -327,7 +328,7 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @test
+	 * @xtest
 	 */
 	public function writeWikiFilesForBasicScreens()
 	{
@@ -362,16 +363,19 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function writeWikiFilesForMenuItemTypes()
 	{
-		$folder = 'tests/system/tmp/wiki-menu-item-files';
-		$basePath = dirname(dirname(dirname(dirname(dirname(__DIR__)))));
-		$fullPath = $basePath . '/' . $folder;
-		if (! file_exists($fullPath))
+		$baseFolder = $baseFolder = $this->cfg->baseURI . 'tests/system/tmp/wiki-menu-item-files/';
+		$folder = $baseFolder . self::$defaultLanguage;
+		if (!file_exists($baseFolder))
 		{
-			mkdir($fullPath);
+			mkdir($baseFolder);
+		}
+		if (!file_exists($folder))
+		{
+			mkdir($folder);
 		}
 
 		/* @var $menuItemEditPage MenuItemEditPage */
@@ -379,20 +383,21 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 		$menuItemsManagerPage = $this->testPage->clickMenu('Main Menu', 'MenuItemsManagerPage');
 		$menuItemsManagerPage->clickButton('toolbar-new');
 		$menuItemEditPage = $this->getPageObject('MenuItemEditPage');
-		$menuItemTypes = $menuItemEditPage->menuItemTypes;
+		$menuItemEditPage->menuItemTypes = $menuItemEditPage->getMenuItemTypes();
 		$menuItemsManagerPage = $this->testPage->clickMenu('Main Menu', 'MenuItemsManagerPage');
-		foreach ($menuItemTypes as $type)
+		foreach ($menuItemEditPage->menuItemTypes as $type)
 		{
 			$menuItemsManagerPage->clickButton('toolbar-new');
-			$menuItemEditPage = $this->getPageObject('MenuItemEditPage');
+			$this->getPageObject('MenuItemEditPage');
 			$menuItemEditPage->setMenuItemType($type['type']);
 			$menuItemEditPage->tabs = null;
 			$menuItemEditPage->tabLabels = null;
-			$text = $menuItemEditPage->toWikiHelp('menus', array('header', 'details', 'attrib-menu-options', 'attrib-page-options', 'attrib-metadata', 'modules'));
+			$screenshotNameOptions = array('prefix' => 'menus-menu-manager-new-menu-item', 'language' => self::$defaultLanguage);
+			$text = $menuItemEditPage->toWikiHelp(array('header', 'details', 'attrib-menu-options', 'attrib-page-options', 'attrib-metadata', 'modules'), array(), $screenshotNameOptions);
 			if ($text)
 			{
-				$fileName = $menuItemEditPage->getHelpFileName(trim('menu-item-type-' . $type['group'] . ' ' . $type['type']));
-				file_put_contents($fullPath . '/' . $fileName, $text);
+				$fileName = $menuItemEditPage->getHelpFileName(trim('menu-item-type-' . $menuItemEditPage->getMenuItemComponent()));
+				file_put_contents($folder . '/' . $fileName, $text);
 			}
 			$menuItemEditPage->clickButton('Cancel');
 			$menuItemsManagerPage = $this->getPageObject('MenuItemsManagerPage');
