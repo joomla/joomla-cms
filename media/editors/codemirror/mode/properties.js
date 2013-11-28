@@ -1,4 +1,0 @@
-/**
- *    properties.js
- **/
-CodeMirror.defineMode("properties",function(){return{token:function(a,b){var c=a.sol()||b.afterSection,d=a.eol();if(b.afterSection=!1,c&&(b.nextMultiline?(b.inMultiline=!0,b.nextMultiline=!1):b.position="def"),d&&!b.nextMultiline&&(b.inMultiline=!1,b.position="def"),c)for(;a.eatSpace(););var e=a.next();return!c||"#"!==e&&"!"!==e&&";"!==e?c&&"["===e?(b.afterSection=!0,a.skipTo("]"),a.eat("]"),"header"):"="===e||":"===e?(b.position="quote",null):("\\"===e&&"quote"===b.position&&"u"!==a.next()&&(b.nextMultiline=!0),b.position):(b.position="comment",a.skipToEnd(),"comment")},startState:function(){return{position:"def",nextMultiline:!1,inMultiline:!1,afterSection:!1}}}}),CodeMirror.defineMIME("text/x-properties","properties"),CodeMirror.defineMIME("text/x-ini","properties");

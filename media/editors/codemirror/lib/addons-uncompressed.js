@@ -1,135 +1,48 @@
-// Because sometimes you need to style the cursor's line.
-//
-// Adds an option 'styleActiveLine' which, when enabled, gives the
-// active line's wrapping <div> the CSS class "CodeMirror-activeline",
-// and gives its background <div> the class "CodeMirror-activeline-background".
-
+/**
+ *  addon/display/fullscreen.js
+ *  addon/edit/closebrackets.js
+ *  addon/edit/closetag.js
+ *  addon/edit/matchbrackets.js
+ *  addon/edit/matchtags.js
+ *  addon/fold/brace-fold.js
+ *  addon/fold/foldcode.js
+ *  addon/fold/foldgutter.js
+ *  addon/fold/xml-fold.js
+ *  addon/mode/loadmode.js
+ *  addon/selection/active-line.js
+ *  keymap/vim.js
+**/
 (function() {
   "use strict";
-  var WRAP_CLASS = "CodeMirror-activeline";
-  var BACK_CLASS = "CodeMirror-activeline-background";
 
-  CodeMirror.defineOption("styleActiveLine", false, function(cm, val, old) {
-    var prev = old && old != CodeMirror.Init;
-    if (val && !prev) {
-      updateActiveLine(cm);
-      cm.on("cursorActivity", updateActiveLine);
-    } else if (!val && prev) {
-      cm.off("cursorActivity", updateActiveLine);
-      clearActiveLine(cm);
-      delete cm.state.activeLine;
-    }
+  CodeMirror.defineOption("fullScreen", false, function(cm, val, old) {
+    if (old == CodeMirror.Init) old = false;
+    if (!old == !val) return;
+    if (val) setFullscreen(cm);
+    else setNormal(cm);
   });
 
-  function clearActiveLine(cm) {
-    if ("activeLine" in cm.state) {
-      cm.removeLineClass(cm.state.activeLine, "wrap", WRAP_CLASS);
-      cm.removeLineClass(cm.state.activeLine, "background", BACK_CLASS);
-    }
+  function setFullscreen(cm) {
+    var wrap = cm.getWrapperElement();
+    cm.state.fullScreenRestore = {scrollTop: window.pageYOffset, scrollLeft: window.pageXOffset,
+                                  width: wrap.style.width, height: wrap.style.height};
+    wrap.style.width = "";
+    wrap.style.height = "auto";
+    wrap.className += " CodeMirror-fullscreen";
+    document.documentElement.style.overflow = "hidden";
+    cm.refresh();
   }
 
-  function updateActiveLine(cm) {
-    var line = cm.getLineHandleVisualStart(cm.getCursor().line);
-    if (cm.state.activeLine == line) return;
-    clearActiveLine(cm);
-    cm.addLineClass(line, "wrap", WRAP_CLASS);
-    cm.addLineClass(line, "background", BACK_CLASS);
-    cm.state.activeLine = line;
+  function setNormal(cm) {
+    var wrap = cm.getWrapperElement();
+    wrap.className = wrap.className.replace(/\s*CodeMirror-fullscreen\b/, "");
+    document.documentElement.style.overflow = "";
+    var info = cm.state.fullScreenRestore;
+    wrap.style.width = info.width; wrap.style.height = info.height;
+    window.scrollTo(info.scrollLeft, info.scrollTop);
+    cm.refresh();
   }
 })();
-CodeMirror.registerHelper("fold", "brace", function(cm, start) {
-  var line = start.line, lineText = cm.getLine(line);
-  var startCh, tokenType;
-
-  function findOpening(openCh) {
-    for (var at = start.ch, pass = 0;;) {
-      var found = at <= 0 ? -1 : lineText.lastIndexOf(openCh, at - 1);
-      if (found == -1) {
-        if (pass == 1) break;
-        pass = 1;
-        at = lineText.length;
-        continue;
-      }
-      if (pass == 1 && found < start.ch) break;
-      tokenType = cm.getTokenTypeAt(CodeMirror.Pos(line, found + 1));
-      if (!/^(comment|string)/.test(tokenType)) return found + 1;
-      at = found - 1;
-    }
-  }
-
-  var startToken = "{", endToken = "}", startCh = findOpening("{");
-  if (startCh == null) {
-    startToken = "[", endToken = "]";
-    startCh = findOpening("[");
-  }
-
-  if (startCh == null) return;
-  var count = 1, lastLine = cm.lastLine(), end, endCh;
-  outer: for (var i = line; i <= lastLine; ++i) {
-    var text = cm.getLine(i), pos = i == line ? startCh : 0;
-    for (;;) {
-      var nextOpen = text.indexOf(startToken, pos), nextClose = text.indexOf(endToken, pos);
-      if (nextOpen < 0) nextOpen = text.length;
-      if (nextClose < 0) nextClose = text.length;
-      pos = Math.min(nextOpen, nextClose);
-      if (pos == text.length) break;
-      if (cm.getTokenTypeAt(CodeMirror.Pos(i, pos + 1)) == tokenType) {
-        if (pos == nextOpen) ++count;
-        else if (!--count) { end = i; endCh = pos; break outer; }
-      }
-      ++pos;
-    }
-  }
-  if (end == null || line == end && endCh == startCh) return;
-  return {from: CodeMirror.Pos(line, startCh),
-          to: CodeMirror.Pos(end, endCh)};
-});
-CodeMirror.braceRangeFinder = CodeMirror.fold.brace; // deprecated
-
-CodeMirror.registerHelper("fold", "import", function(cm, start) {
-  function hasImport(line) {
-    if (line < cm.firstLine() || line > cm.lastLine()) return null;
-    var start = cm.getTokenAt(CodeMirror.Pos(line, 1));
-    if (!/\S/.test(start.string)) start = cm.getTokenAt(CodeMirror.Pos(line, start.end + 1));
-    if (start.type != "keyword" || start.string != "import") return null;
-    // Now find closing semicolon, return its position
-    for (var i = line, e = Math.min(cm.lastLine(), line + 10); i <= e; ++i) {
-      var text = cm.getLine(i), semi = text.indexOf(";");
-      if (semi != -1) return {startCh: start.end, end: CodeMirror.Pos(i, semi)};
-    }
-  }
-
-  var start = start.line, has = hasImport(start), prev;
-  if (!has || hasImport(start - 1) || ((prev = hasImport(start - 2)) && prev.end.line == start - 1))
-    return null;
-  for (var end = has.end;;) {
-    var next = hasImport(end.line + 1);
-    if (next == null) break;
-    end = next.end;
-  }
-  return {from: cm.clipPos(CodeMirror.Pos(start, has.startCh + 1)), to: end};
-});
-CodeMirror.importRangeFinder = CodeMirror.fold["import"]; // deprecated
-
-CodeMirror.registerHelper("fold", "include", function(cm, start) {
-  function hasInclude(line) {
-    if (line < cm.firstLine() || line > cm.lastLine()) return null;
-    var start = cm.getTokenAt(CodeMirror.Pos(line, 1));
-    if (!/\S/.test(start.string)) start = cm.getTokenAt(CodeMirror.Pos(line, start.end + 1));
-    if (start.type == "meta" && start.string.slice(0, 8) == "#include") return start.start + 8;
-  }
-
-  var start = start.line, has = hasInclude(start);
-  if (has == null || hasInclude(start - 1) != null) return null;
-  for (var end = start;;) {
-    var next = hasInclude(end + 1);
-    if (next == null) break;
-    ++end;
-  }
-  return {from: CodeMirror.Pos(start, has + 1),
-          to: cm.clipPos(CodeMirror.Pos(end))};
-});
-CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
 (function() {
   var DEFAULT_BRACKETS = "()[]{}''\"\"";
   var DEFAULT_EXPLODE_ON_ENTER = "[]{}";
@@ -238,16 +151,15 @@ CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
 
 (function() {
   CodeMirror.defineOption("autoCloseTags", false, function(cm, val, old) {
-    if (val && (old == CodeMirror.Init || !old)) {
-      var map = {name: "autoCloseTags"};
-      if (typeof val != "object" || val.whenClosing)
-        map["'/'"] = function(cm) { return autoCloseSlash(cm); };
-      if (typeof val != "object" || val.whenOpening)
-        map["'>'"] = function(cm) { return autoCloseGT(cm); };
-      cm.addKeyMap(map);
-    } else if (!val && (old != CodeMirror.Init && old)) {
+    if (old != CodeMirror.Init && old)
       cm.removeKeyMap("autoCloseTags");
-    }
+    if (!val) return;
+    var map = {name: "autoCloseTags"};
+    if (typeof val != "object" || val.whenClosing)
+      map["'/'"] = function(cm) { return autoCloseSlash(cm); };
+    if (typeof val != "object" || val.whenOpening)
+      map["'>'"] = function(cm) { return autoCloseGT(cm); };
+    cm.addKeyMap(map);
   });
 
   var htmlDontClose = ["area", "base", "br", "col", "command", "embed", "hr", "img", "input", "keygen", "link", "meta", "param",
@@ -268,7 +180,8 @@ CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
     if (tok.end > pos.ch) tagName = tagName.slice(0, tagName.length - tok.end + pos.ch);
     var lowerTagName = tagName.toLowerCase();
     // Don't process the '>' at the end of an end-tag or self-closing tag
-    if (tok.type == "tag" && state.type == "closeTag" ||
+    if (tok.type == "string" && (tok.end != pos.ch || !/[\"\']/.test(tok.string.charAt(tok.string.length - 1)) || tok.string.length == 1) ||
+        tok.type == "tag" && state.type == "closeTag" ||
         tok.string.indexOf("/") == (tok.string.length - 1) || // match something like <someTagName />
         dontCloseTags && indexOf(dontCloseTags, lowerTagName) > -1)
       return CodeMirror.Pass;
@@ -286,7 +199,9 @@ CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
   function autoCloseSlash(cm) {
     var pos = cm.getCursor(), tok = cm.getTokenAt(pos);
     var inner = CodeMirror.innerMode(cm.getMode(), tok.state), state = inner.state;
-    if (tok.string.charAt(0) != "<" || tok.start != pos.ch - 1 || inner.mode.name != "xml") return CodeMirror.Pass;
+    if (tok.type == "string" || tok.string.charAt(0) != "<" ||
+        tok.start != pos.ch - 1 || inner.mode.name != "xml")
+      return CodeMirror.Pass;
 
     var tagName = state.context && state.context.tagName;
     if (tagName) cm.replaceSelection("/" + tagName + ">", "end");
@@ -299,29 +214,177 @@ CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
     return -1;
   }
 })();
-CodeMirror.registerHelper("fold", "comment", function(cm, start) {
-  var mode = cm.getModeAt(start), startToken = mode.blockCommentStart, endToken = mode.blockCommentEnd;
-  if (!startToken || !endToken) return;
-  var line = start.line, lineText = cm.getLine(line);
+(function() {
+  var ie_lt8 = /MSIE \d/.test(navigator.userAgent) &&
+    (document.documentMode == null || document.documentMode < 8);
 
-  var startCh;
-  for (var at = start.ch, pass = 0;;) {
-    var found = at <= 0 ? -1 : lineText.lastIndexOf(startToken, at - 1);
-    if (found == -1) {
-      if (pass == 1) return;
-      pass = 1;
-      at = lineText.length;
-      continue;
+  var Pos = CodeMirror.Pos;
+
+  var matching = {"(": ")>", ")": "(<", "[": "]>", "]": "[<", "{": "}>", "}": "{<"};
+  function findMatchingBracket(cm, where, strict) {
+    var state = cm.state.matchBrackets;
+    var maxScanLen = (state && state.maxScanLineLength) || 10000;
+    var maxScanLines = (state && state.maxScanLines) || 100;
+
+    var cur = where || cm.getCursor(), line = cm.getLineHandle(cur.line), pos = cur.ch - 1;
+    var match = (pos >= 0 && matching[line.text.charAt(pos)]) || matching[line.text.charAt(++pos)];
+    if (!match) return null;
+    var forward = match.charAt(1) == ">", d = forward ? 1 : -1;
+    if (strict && forward != (pos == cur.ch)) return null;
+    var style = cm.getTokenTypeAt(Pos(cur.line, pos + 1));
+
+    var stack = [line.text.charAt(pos)], re = /[(){}[\]]/;
+    function scan(line, lineNo, start) {
+      if (!line.text) return;
+      var pos = forward ? 0 : line.text.length - 1, end = forward ? line.text.length : -1;
+      if (line.text.length > maxScanLen) return null;
+      if (start != null) pos = start + d;
+      for (; pos != end; pos += d) {
+        var ch = line.text.charAt(pos);
+        if (re.test(ch) && cm.getTokenTypeAt(Pos(lineNo, pos + 1)) == style) {
+          var match = matching[ch];
+          if (match.charAt(1) == ">" == forward) stack.push(ch);
+          else if (stack.pop() != match.charAt(0)) return {pos: pos, match: false};
+          else if (!stack.length) return {pos: pos, match: true};
+        }
+      }
     }
-    if (pass == 1 && found < start.ch) return;
-    if (/comment/.test(cm.getTokenTypeAt(CodeMirror.Pos(line, found + 1)))) {
-      startCh = found + startToken.length;
-      break;
+    for (var i = cur.line, found, e = forward ? Math.min(i + maxScanLines, cm.lineCount()) : Math.max(-1, i - maxScanLines); i != e; i+=d) {
+      if (i == cur.line) found = scan(line, i, pos);
+      else found = scan(cm.getLineHandle(i), i);
+      if (found) break;
     }
-    at = found - 1;
+    return {from: Pos(cur.line, pos), to: found && Pos(i, found.pos),
+            match: found && found.match, forward: forward};
   }
 
-  var depth = 1, lastLine = cm.lastLine(), end, endCh;
+  function matchBrackets(cm, autoclear) {
+    // Disable brace matching in long lines, since it'll cause hugely slow updates
+    var maxHighlightLen = cm.state.matchBrackets.maxHighlightLineLength || 1000;
+    var found = findMatchingBracket(cm);
+    if (!found || cm.getLine(found.from.line).length > maxHighlightLen ||
+       found.to && cm.getLine(found.to.line).length > maxHighlightLen)
+      return;
+
+    var style = found.match ? "CodeMirror-matchingbracket" : "CodeMirror-nonmatchingbracket";
+    var one = cm.markText(found.from, Pos(found.from.line, found.from.ch + 1), {className: style});
+    var two = found.to && cm.markText(found.to, Pos(found.to.line, found.to.ch + 1), {className: style});
+    // Kludge to work around the IE bug from issue #1193, where text
+    // input stops going to the textare whever this fires.
+    if (ie_lt8 && cm.state.focused) cm.display.input.focus();
+    var clear = function() {
+      cm.operation(function() { one.clear(); two && two.clear(); });
+    };
+    if (autoclear) setTimeout(clear, 800);
+    else return clear;
+  }
+
+  var currentlyHighlighted = null;
+  function doMatchBrackets(cm) {
+    cm.operation(function() {
+      if (currentlyHighlighted) {currentlyHighlighted(); currentlyHighlighted = null;}
+      if (!cm.somethingSelected()) currentlyHighlighted = matchBrackets(cm, false);
+    });
+  }
+
+  CodeMirror.defineOption("matchBrackets", false, function(cm, val, old) {
+    if (old && old != CodeMirror.Init)
+      cm.off("cursorActivity", doMatchBrackets);
+    if (val) {
+      cm.state.matchBrackets = typeof val == "object" ? val : {};
+      cm.on("cursorActivity", doMatchBrackets);
+    }
+  });
+
+  CodeMirror.defineExtension("matchBrackets", function() {matchBrackets(this, true);});
+  CodeMirror.defineExtension("findMatchingBracket", function(pos, strict){
+    return findMatchingBracket(this, pos, strict);
+  });
+})();
+(function() {
+  "use strict";
+
+  CodeMirror.defineOption("matchTags", false, function(cm, val, old) {
+    if (old && old != CodeMirror.Init) {
+      cm.off("cursorActivity", doMatchTags);
+      cm.off("viewportChange", maybeUpdateMatch);
+      clear(cm);
+    }
+    if (val) {
+      cm.state.matchBothTags = typeof val == "object" && val.bothTags;
+      cm.on("cursorActivity", doMatchTags);
+      cm.on("viewportChange", maybeUpdateMatch);
+      doMatchTags(cm);
+    }
+  });
+
+  function clear(cm) {
+    if (cm.state.tagHit) cm.state.tagHit.clear();
+    if (cm.state.tagOther) cm.state.tagOther.clear();
+    cm.state.tagHit = cm.state.tagOther = null;
+  }
+
+  function doMatchTags(cm) {
+    cm.state.failedTagMatch = false;
+    cm.operation(function() {
+      clear(cm);
+      if (cm.somethingSelected()) return;
+      var cur = cm.getCursor(), range = cm.getViewport();
+      range.from = Math.min(range.from, cur.line); range.to = Math.max(cur.line + 1, range.to);
+      var match = CodeMirror.findMatchingTag(cm, cur, range);
+      if (!match) return;
+      if (cm.state.matchBothTags) {
+        var hit = match.at == "open" ? match.open : match.close;
+        if (hit) cm.state.tagHit = cm.markText(hit.from, hit.to, {className: "CodeMirror-matchingtag"});
+      }
+      var other = match.at == "close" ? match.open : match.close;
+      if (other)
+        cm.state.tagOther = cm.markText(other.from, other.to, {className: "CodeMirror-matchingtag"});
+      else
+        cm.state.failedTagMatch = true;
+    });
+  }
+
+  function maybeUpdateMatch(cm) {
+    if (cm.state.failedTagMatch) doMatchTags(cm);
+  }
+
+  CodeMirror.commands.toMatchingTag = function(cm) {
+    var found = CodeMirror.findMatchingTag(cm, cm.getCursor());
+    if (found) {
+      var other = found.at == "close" ? found.open : found.close;
+      if (other) cm.setSelection(other.to, other.from);
+    }
+  };
+})();
+CodeMirror.registerHelper("fold", "brace", function(cm, start) {
+  var line = start.line, lineText = cm.getLine(line);
+  var startCh, tokenType;
+
+  function findOpening(openCh) {
+    for (var at = start.ch, pass = 0;;) {
+      var found = at <= 0 ? -1 : lineText.lastIndexOf(openCh, at - 1);
+      if (found == -1) {
+        if (pass == 1) break;
+        pass = 1;
+        at = lineText.length;
+        continue;
+      }
+      if (pass == 1 && found < start.ch) break;
+      tokenType = cm.getTokenTypeAt(CodeMirror.Pos(line, found + 1));
+      if (!/^(comment|string)/.test(tokenType)) return found + 1;
+      at = found - 1;
+    }
+  }
+
+  var startToken = "{", endToken = "}", startCh = findOpening("{");
+  if (startCh == null) {
+    startToken = "[", endToken = "]";
+    startCh = findOpening("[");
+  }
+
+  if (startCh == null) return;
+  var count = 1, lastLine = cm.lastLine(), end, endCh;
   outer: for (var i = line; i <= lastLine; ++i) {
     var text = cm.getLine(i), pos = i == line ? startCh : 0;
     for (;;) {
@@ -330,8 +393,10 @@ CodeMirror.registerHelper("fold", "comment", function(cm, start) {
       if (nextClose < 0) nextClose = text.length;
       pos = Math.min(nextOpen, nextClose);
       if (pos == text.length) break;
-      if (pos == nextOpen) ++depth;
-      else if (!--depth) { end = i; endCh = pos; break outer; }
+      if (cm.getTokenTypeAt(CodeMirror.Pos(i, pos + 1)) == tokenType) {
+        if (pos == nextOpen) ++count;
+        else if (!--count) { end = i; endCh = pos; break outer; }
+      }
       ++pos;
     }
   }
@@ -339,6 +404,52 @@ CodeMirror.registerHelper("fold", "comment", function(cm, start) {
   return {from: CodeMirror.Pos(line, startCh),
           to: CodeMirror.Pos(end, endCh)};
 });
+CodeMirror.braceRangeFinder = CodeMirror.fold.brace; // deprecated
+
+CodeMirror.registerHelper("fold", "import", function(cm, start) {
+  function hasImport(line) {
+    if (line < cm.firstLine() || line > cm.lastLine()) return null;
+    var start = cm.getTokenAt(CodeMirror.Pos(line, 1));
+    if (!/\S/.test(start.string)) start = cm.getTokenAt(CodeMirror.Pos(line, start.end + 1));
+    if (start.type != "keyword" || start.string != "import") return null;
+    // Now find closing semicolon, return its position
+    for (var i = line, e = Math.min(cm.lastLine(), line + 10); i <= e; ++i) {
+      var text = cm.getLine(i), semi = text.indexOf(";");
+      if (semi != -1) return {startCh: start.end, end: CodeMirror.Pos(i, semi)};
+    }
+  }
+
+  var start = start.line, has = hasImport(start), prev;
+  if (!has || hasImport(start - 1) || ((prev = hasImport(start - 2)) && prev.end.line == start - 1))
+    return null;
+  for (var end = has.end;;) {
+    var next = hasImport(end.line + 1);
+    if (next == null) break;
+    end = next.end;
+  }
+  return {from: cm.clipPos(CodeMirror.Pos(start, has.startCh + 1)), to: end};
+});
+CodeMirror.importRangeFinder = CodeMirror.fold["import"]; // deprecated
+
+CodeMirror.registerHelper("fold", "include", function(cm, start) {
+  function hasInclude(line) {
+    if (line < cm.firstLine() || line > cm.lastLine()) return null;
+    var start = cm.getTokenAt(CodeMirror.Pos(line, 1));
+    if (!/\S/.test(start.string)) start = cm.getTokenAt(CodeMirror.Pos(line, start.end + 1));
+    if (start.type == "meta" && start.string.slice(0, 8) == "#include") return start.start + 8;
+  }
+
+  var start = start.line, has = hasInclude(start);
+  if (has == null || hasInclude(start - 1) != null) return null;
+  for (var end = start;;) {
+    var next = hasInclude(end + 1);
+    if (next == null) break;
+    ++end;
+  }
+  return {from: CodeMirror.Pos(start, has + 1),
+          to: cm.clipPos(CodeMirror.Pos(end))};
+});
+CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
 (function() {
   "use strict";
 
@@ -504,14 +615,14 @@ CodeMirror.registerHelper("fold", "comment", function(cm, start) {
   }
 
   function onChange(cm) {
-    var state = cm.state.foldGutter;
+    var state = cm.state.foldGutter, opts = cm.state.foldGutter.options;
     state.from = state.to = 0;
     clearTimeout(state.changeUpdate);
-    state.changeUpdate = setTimeout(function() { updateInViewport(cm); }, 600);
+    state.changeUpdate = setTimeout(function() { updateInViewport(cm); }, opts.foldOnChangeTimeSpan || 600);
   }
 
   function onViewportChange(cm) {
-    var state = cm.state.foldGutter;
+    var state = cm.state.foldGutter, opts = cm.state.foldGutter.options;
     clearTimeout(state.changeUpdate);
     state.changeUpdate = setTimeout(function() {
       var vp = cm.getViewport();
@@ -529,7 +640,7 @@ CodeMirror.registerHelper("fold", "comment", function(cm, start) {
           }
         });
       }
-    }, 400);
+    }, opts.updateViewportTimeSpan || 400);
   }
 
   function onFold(cm, from) {
@@ -537,178 +648,6 @@ CodeMirror.registerHelper("fold", "comment", function(cm, start) {
     if (line >= state.from && line < state.to)
       updateFoldInfo(cm, line, line + 1);
   }
-})();
-(function() {
-  "use strict";
-
-  CodeMirror.defineOption("fullScreen", false, function(cm, val, old) {
-    if (old == CodeMirror.Init) old = false;
-    if (!old == !val) return;
-    if (val) setFullscreen(cm);
-    else setNormal(cm);
-  });
-
-  function setFullscreen(cm) {
-    var wrap = cm.getWrapperElement();
-    cm.state.fullScreenRestore = {scrollTop: window.pageYOffset, scrollLeft: window.pageXOffset,
-                                  width: wrap.style.width, height: wrap.style.height};
-    wrap.style.width = wrap.style.height = "";
-    wrap.className += " CodeMirror-fullscreen";
-    document.documentElement.style.overflow = "hidden";
-    cm.refresh();
-  }
-
-  function setNormal(cm) {
-    var wrap = cm.getWrapperElement();
-    wrap.className = wrap.className.replace(/\s*CodeMirror-fullscreen\b/, "");
-    document.documentElement.style.overflow = "";
-    var info = cm.state.fullScreenRestore;
-    wrap.style.width = info.width; wrap.style.height = info.height;
-    window.scrollTo(info.scrollLeft, info.scrollTop);
-    cm.refresh();
-  }
-})();
-(function() {
-  var ie_lt8 = /MSIE \d/.test(navigator.userAgent) &&
-    (document.documentMode == null || document.documentMode < 8);
-
-  var Pos = CodeMirror.Pos;
-
-  var matching = {"(": ")>", ")": "(<", "[": "]>", "]": "[<", "{": "}>", "}": "{<"};
-  function findMatchingBracket(cm, where, strict) {
-    var state = cm.state.matchBrackets;
-    var maxScanLen = (state && state.maxScanLineLength) || 10000;
-
-    var cur = where || cm.getCursor(), line = cm.getLineHandle(cur.line), pos = cur.ch - 1;
-    var match = (pos >= 0 && matching[line.text.charAt(pos)]) || matching[line.text.charAt(++pos)];
-    if (!match) return null;
-    var forward = match.charAt(1) == ">", d = forward ? 1 : -1;
-    if (strict && forward != (pos == cur.ch)) return null;
-    var style = cm.getTokenTypeAt(Pos(cur.line, pos + 1));
-
-    var stack = [line.text.charAt(pos)], re = /[(){}[\]]/;
-    function scan(line, lineNo, start) {
-      if (!line.text) return;
-      var pos = forward ? 0 : line.text.length - 1, end = forward ? line.text.length : -1;
-      if (line.text.length > maxScanLen) return null;
-      if (start != null) pos = start + d;
-      for (; pos != end; pos += d) {
-        var ch = line.text.charAt(pos);
-        if (re.test(ch) && cm.getTokenTypeAt(Pos(lineNo, pos + 1)) == style) {
-          var match = matching[ch];
-          if (match.charAt(1) == ">" == forward) stack.push(ch);
-          else if (stack.pop() != match.charAt(0)) return {pos: pos, match: false};
-          else if (!stack.length) return {pos: pos, match: true};
-        }
-      }
-    }
-    for (var i = cur.line, found, e = forward ? Math.min(i + 100, cm.lineCount()) : Math.max(-1, i - 100); i != e; i+=d) {
-      if (i == cur.line) found = scan(line, i, pos);
-      else found = scan(cm.getLineHandle(i), i);
-      if (found) break;
-    }
-    return {from: Pos(cur.line, pos), to: found && Pos(i, found.pos),
-            match: found && found.match, forward: forward};
-  }
-
-  function matchBrackets(cm, autoclear) {
-    // Disable brace matching in long lines, since it'll cause hugely slow updates
-    var maxHighlightLen = cm.state.matchBrackets.maxHighlightLineLength || 1000;
-    var found = findMatchingBracket(cm);
-    if (!found || cm.getLine(found.from.line).length > maxHighlightLen ||
-       found.to && cm.getLine(found.to.line).length > maxHighlightLen)
-      return;
-
-    var style = found.match ? "CodeMirror-matchingbracket" : "CodeMirror-nonmatchingbracket";
-    var one = cm.markText(found.from, Pos(found.from.line, found.from.ch + 1), {className: style});
-    var two = found.to && cm.markText(found.to, Pos(found.to.line, found.to.ch + 1), {className: style});
-    // Kludge to work around the IE bug from issue #1193, where text
-    // input stops going to the textare whever this fires.
-    if (ie_lt8 && cm.state.focused) cm.display.input.focus();
-    var clear = function() {
-      cm.operation(function() { one.clear(); two && two.clear(); });
-    };
-    if (autoclear) setTimeout(clear, 800);
-    else return clear;
-  }
-
-  var currentlyHighlighted = null;
-  function doMatchBrackets(cm) {
-    cm.operation(function() {
-      if (currentlyHighlighted) {currentlyHighlighted(); currentlyHighlighted = null;}
-      if (!cm.somethingSelected()) currentlyHighlighted = matchBrackets(cm, false);
-    });
-  }
-
-  CodeMirror.defineOption("matchBrackets", false, function(cm, val, old) {
-    if (old && old != CodeMirror.Init)
-      cm.off("cursorActivity", doMatchBrackets);
-    if (val) {
-      cm.state.matchBrackets = typeof val == "object" ? val : {};
-      cm.on("cursorActivity", doMatchBrackets);
-    }
-  });
-
-  CodeMirror.defineExtension("matchBrackets", function() {matchBrackets(this, true);});
-  CodeMirror.defineExtension("findMatchingBracket", function(pos, strict){
-    return findMatchingBracket(this, pos, strict);
-  });
-})();
-(function() {
-  "use strict";
-
-  CodeMirror.defineOption("matchTags", false, function(cm, val, old) {
-    if (old && old != CodeMirror.Init) {
-      cm.off("cursorActivity", doMatchTags);
-      cm.off("viewportChange", maybeUpdateMatch);
-      clear(cm);
-    }
-    if (val) {
-      cm.state.matchBothTags = typeof val == "object" && val.bothTags;
-      cm.on("cursorActivity", doMatchTags);
-      cm.on("viewportChange", maybeUpdateMatch);
-      doMatchTags(cm);
-    }
-  });
-
-  function clear(cm) {
-    if (cm.state.tagHit) cm.state.tagHit.clear();
-    if (cm.state.tagOther) cm.state.tagOther.clear();
-    cm.state.tagHit = cm.state.tagOther = null;
-  }
-
-  function doMatchTags(cm) {
-    cm.state.failedTagMatch = false;
-    cm.operation(function() {
-      clear(cm);
-      if (cm.somethingSelected()) return;
-      var cur = cm.getCursor(), range = cm.getViewport();
-      range.from = Math.min(range.from, cur.line); range.to = Math.max(cur.line + 1, range.to);
-      var match = CodeMirror.findMatchingTag(cm, cur, range);
-      if (!match) return;
-      if (cm.state.matchBothTags) {
-        var hit = match.at == "open" ? match.open : match.close;
-        if (hit) cm.state.tagHit = cm.markText(hit.from, hit.to, {className: "CodeMirror-matchingtag"});
-      }
-      var other = match.at == "close" ? match.open : match.close;
-      if (other)
-        cm.state.tagOther = cm.markText(other.from, other.to, {className: "CodeMirror-matchingtag"});
-      else
-        cm.state.failedTagMatch = true;
-    });
-  }
-
-  function maybeUpdateMatch(cm) {
-    if (cm.state.failedTagMatch) doMatchTags(cm);
-  }
-
-  CodeMirror.commands.toMatchingTag = function(cm) {
-    var found = CodeMirror.findMatchingTag(cm, cm.getCursor());
-    if (found) {
-      var other = found.at == "close" ? found.open : found.close;
-      if (other) cm.setSelection(other.to, other.from);
-    }
-  };
 })();
 (function() {
   "use strict";
@@ -876,6 +815,96 @@ CodeMirror.registerHelper("fold", "comment", function(cm, start) {
       if (close) return {open: open, close: close};
     }
   };
+})();
+(function() {
+  if (!CodeMirror.modeURL) CodeMirror.modeURL = "../mode/%N/%N.js";
+
+  var loading = {};
+  function splitCallback(cont, n) {
+    var countDown = n;
+    return function() { if (--countDown == 0) cont(); };
+  }
+  function ensureDeps(mode, cont) {
+    var deps = CodeMirror.modes[mode].dependencies;
+    if (!deps) return cont();
+    var missing = [];
+    for (var i = 0; i < deps.length; ++i) {
+      if (!CodeMirror.modes.hasOwnProperty(deps[i]))
+        missing.push(deps[i]);
+    }
+    if (!missing.length) return cont();
+    var split = splitCallback(cont, missing.length);
+    for (var i = 0; i < missing.length; ++i)
+      CodeMirror.requireMode(missing[i], split);
+  }
+
+  CodeMirror.requireMode = function(mode, cont) {
+    if (typeof mode != "string") mode = mode.name;
+    if (CodeMirror.modes.hasOwnProperty(mode)) return ensureDeps(mode, cont);
+    if (loading.hasOwnProperty(mode)) return loading[mode].push(cont);
+
+    var script = document.createElement("script");
+    script.src = CodeMirror.modeURL.replace(/%N/g, mode);
+    var others = document.getElementsByTagName("script")[0];
+    others.parentNode.insertBefore(script, others);
+    var list = loading[mode] = [cont];
+    var count = 0, poll = setInterval(function() {
+      if (++count > 100) return clearInterval(poll);
+      if (CodeMirror.modes.hasOwnProperty(mode)) {
+        clearInterval(poll);
+        loading[mode] = null;
+        ensureDeps(mode, function() {
+          for (var i = 0; i < list.length; ++i) list[i]();
+        });
+      }
+    }, 200);
+  };
+
+  CodeMirror.autoLoadMode = function(instance, mode) {
+    if (!CodeMirror.modes.hasOwnProperty(mode))
+      CodeMirror.requireMode(mode, function() {
+        instance.setOption("mode", instance.getOption("mode"));
+      });
+  };
+}());
+// Because sometimes you need to style the cursor's line.
+//
+// Adds an option 'styleActiveLine' which, when enabled, gives the
+// active line's wrapping <div> the CSS class "CodeMirror-activeline",
+// and gives its background <div> the class "CodeMirror-activeline-background".
+
+(function() {
+  "use strict";
+  var WRAP_CLASS = "CodeMirror-activeline";
+  var BACK_CLASS = "CodeMirror-activeline-background";
+
+  CodeMirror.defineOption("styleActiveLine", false, function(cm, val, old) {
+    var prev = old && old != CodeMirror.Init;
+    if (val && !prev) {
+      updateActiveLine(cm);
+      cm.on("cursorActivity", updateActiveLine);
+    } else if (!val && prev) {
+      cm.off("cursorActivity", updateActiveLine);
+      clearActiveLine(cm);
+      delete cm.state.activeLine;
+    }
+  });
+
+  function clearActiveLine(cm) {
+    if ("activeLine" in cm.state) {
+      cm.removeLineClass(cm.state.activeLine, "wrap", WRAP_CLASS);
+      cm.removeLineClass(cm.state.activeLine, "background", BACK_CLASS);
+    }
+  }
+
+  function updateActiveLine(cm) {
+    var line = cm.getLineHandleVisualStart(cm.getCursor().line);
+    if (cm.state.activeLine == line) return;
+    clearActiveLine(cm);
+    cm.addLineClass(line, "wrap", WRAP_CLASS);
+    cm.addLineClass(line, "background", BACK_CLASS);
+    cm.state.activeLine = line;
+  }
 })();
 /**
  * Supported keybindings:
@@ -3605,10 +3634,9 @@ CodeMirror.registerHelper("fold", "comment", function(cm, start) {
       return regexp;
     }
     function showConfirm(cm, text) {
-      if (cm.openConfirm) {
-        cm.openConfirm('<span style="color: red">' + text +
-            '</span> <button type="button">OK</button>', function() {},
-            {bottom: true});
+      if (cm.openNotification) {
+        cm.openNotification('<span style="color: red">' + text + '</span>',
+                            {bottom: true, duration: 5000});
       } else {
         alert(text);
       }

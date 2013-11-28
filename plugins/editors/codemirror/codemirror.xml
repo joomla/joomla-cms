@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.2" type="plugin" group="editors">
 	<name>plg_editors_codemirror</name>
-	<version>3.19</version>
+	<version>3.20</version>
 	<creationDate>28 March 2011</creationDate>
 	<author>Marijn Haverbeke</author>
 	<authorEmail>N/A</authorEmail>
@@ -24,24 +24,24 @@
 
 			<fieldset name="basic">
 				<field name="lineNumbers" type="radio"
-						class="btn-group btn-group-yesno"
-						default="0"
-						description="PLG_CODEMIRROR_FIELD_LINENUMBERS_DESC"
-						label="PLG_CODEMIRROR_FIELD_LINENUMBERS_LABEL"
+					   class="btn-group btn-group-yesno"
+					   default="0"
+					   description="PLG_CODEMIRROR_FIELD_LINENUMBERS_DESC"
+					   label="PLG_CODEMIRROR_FIELD_LINENUMBERS_LABEL"
 					>
 					<option value="1">JON</option>
 					<option value="0">JOFF</option>
 				</field>
 
 				<field name="codeFolding" type="radio"
-					   class="btn-group"
+					   class="btn-group btn-group-yesno"
 					   default="0"
 					   filter="options"
 					   description="PLG_CODEMIRROR_FIELD_CODEFOLDING_DESC"
 					   label="PLG_CODEMIRROR_FIELD_CODEFOLDING_LABEL"
 					    >
-					<option value="0">JOFF</option>
 					<option value="1">JON</option>
+					<option value="0">JOFF</option>
 				</field>
 
 				<field name="markerGutter" type="radio"
@@ -51,8 +51,8 @@
 					   description="PLG_CODEMIRROR_FIELD_MARKERGUTTER_DESC"
 					   label="PLG_CODEMIRROR_FIELD_MARKERGUTTER_LABEL"
 						>
-					<option value="0">JOFF</option>
 					<option value="1">JON</option>
+					<option value="0">JOFF</option>
 				</field>
 
 				<field name="lineWrapping" type="hidden"
@@ -62,19 +62,19 @@
 					   description="PLG_CODEMIRROR_FIELD_LINEWRAPPING_DESC"
 					   label="PLG_CODEMIRROR_FIELD_LINEWRAPPING_LABEL"
 						>
-					<option value="0">JOFF</option>
 					<option value="1">JON</option>
+					<option value="0">JOFF</option>
 				</field>
 
 				<field name="activeLine" type="radio"
-					   class="btn-group"
+					   class="btn-group btn-group-yesno"
 					   default="0"
 					   filter="options"
 					   description="PLG_CODEMIRROR_FIELD_ACTIVELINE_DESC"
 					   label="PLG_CODEMIRROR_FIELD_ACTIVELINE_LABEL"
 				        >
-					<option value="0">JOFF</option>
 					<option value="1">JON</option>
+					<option value="0">JOFF</option>
 				</field>
 
 				<field name="matchTags" type="radio"
@@ -127,12 +127,15 @@
 					<option value="0">JOFF</option>
 				</field>
 
-				<field name="vimKeyBinding" type="radio" class="btn-group" default="0" filter="options"
+				<field name="vimKeyBinding" type="radio"
+					   class="btn-group btn-group-yesno"
+					   default="0"
+					   filter="options"
 					   description="PLG_CODEMIRROR_FIELD_VIM_KEYBINDING_DESC"
 					   label="PLG_CODEMIRROR_FIELD_VIM_KEYBINDING_LABEL"
 					    >
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="1">JON</option>
+					<option value="0">JOFF</option>
 				</field>
 
 				<field name="fullScreen" type="list"
@@ -170,7 +173,9 @@
 			</fieldset>
 
 
-			<fieldset name="appearance" label="PLG_CODEMIRROR_FIELDSET_APPEARANCE_OPTIONS_LABEL">
+			<fieldset name="appearance"
+				   label="PLG_CODEMIRROR_FIELDSET_APPEARANCE_OPTIONS_LABEL"
+				   addfieldpath="plugins/editors/codemirror" >
 
 				<field name="theme" type="filelist"
 					   default=""
@@ -193,27 +198,13 @@
 					   description="PLG_CODEMIRROR_FIELD_HIGHLIGHT_MATCH_COLOR_DESC"
 					   label="PLG_CODEMIRROR_FIELD_HIGHLIGHT_MATCH_COLOR_LABEL" />
 
-				<field name="fontFamily" type="list"
+				<field name="fontFamily" type="fonts"
 					   default="0"
 					   filter="options"
 					   description="PLG_CODEMIRROR_FIELD_FONT_FAMILY_DESC"
 					   label="PLG_CODEMIRROR_FIELD_FONT_FAMILY_LABEL"
 					    >
 					<option value="0">PLG_CODEMIRROR_FIELD_VALUE_FONT_FAMILY_DEFAULT</option>
-					<option value="anonymous_pro">Anonymous Pro</option>
-					<option value="cousine">Cousine</option>
-					<option value="cutive_mono">Cutive Mono</option>
-					<option value="droid_sans_mono">Droid Sans Mono</option>
-					<option value="inconsolata">Inconsolata</option>
-					<option value="lekton">Lekton</option>
-					<option value="nova_mono">Nova Mono</option>
-					<option value="oxygen_mono">Oxygen Mono</option>
-					<option value="press_start_2p">Press Start 2P</option>
-					<option value="pt_mono">PT Mono</option>
-					<option value="share_tech_mono">Share Tech Mono</option>
-					<option value="source_code_pro">Source Code Pro</option>
-					<option value="ubuntu_mono">Ubuntu Mono</option>
-					<option value="vt323">VT323</option>
 				</field>
 
 				<field name="fontSize" type="integer"
