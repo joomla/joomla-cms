@@ -329,7 +329,7 @@ abstract class JUserHelper
 		$rehash = false;
 		$match = false;
 
-		if ($password[0] == '$')
+		if ($hash[0] == '$')
 		{
 			// JCrypt::hasStrongPasswordSupport() includes a fallback for us in the worst case
 			JCrypt::hasStrongPasswordSupport();
@@ -339,15 +339,15 @@ abstract class JUserHelper
 			// $rehash = password_needs_rehash($hash, PASSWORD_DEFAULT);
 			$rehash = true;
 		}
-		elseif (substr($password,0,8) == '{SHA256}')
+		elseif (substr($hash,0,8) == '{SHA256}')
 		{
 			// Check the password
 			$parts     = explode(':', $hash);
 			$crypt     = $parts[0];
 			$salt      = @$parts[1];
-			$testcrypt = JUserHelper::getCryptedPassword($password, $salt, 'sha256', false);
+			$testcrypt = JUserHelper::getCryptedPassword($password, $salt, 'sha256', true);
 
-			if ($password == $testcrypt)
+			if ($hash == $testcrypt)
 			{
 				$match = true;
 			}

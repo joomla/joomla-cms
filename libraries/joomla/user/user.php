@@ -685,8 +685,15 @@ class JUser extends JObject
 			// Check if I am a Super Admin
 			$iAmSuperAdmin = $my->authorise('core.admin');
 
+			$iAmRehashingSuperadmin = false;
+
+			if (($my->id == 0 && !$isNew) && $this->id == $oldUser->id && $oldUser->authorise('core.admin') && $oldUser->password != $this->password)
+			{
+				$iAmRehashingSuperadmin = true;
+			}
+
 			// We are only worried about edits to this account if I am not a Super Admin.
-			if ($iAmSuperAdmin != true)
+			if ($iAmSuperAdmin != true && $iAmRehashingSuperadmin != true)
 			{
 				// I am not a Super Admin, and this one is, so fail.
 				if (!$isNew && JAccess::check($this->id, 'core.admin'))
