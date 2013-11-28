@@ -270,7 +270,7 @@ class plgEditorCodemirror extends JPlugin
 		}
 
 		// Do we use a marker gutter?
-		if ($options->foldGutter = (boolean) $this->params->get('markerGutter', 0))
+		if ($options->foldGutter = (boolean) $this->params->get('markerGutter', $this->params->get('marker-gutter', 0)))
 		{
 			$options->gutters[] = 'CodeMirror-markergutter';
 		}
@@ -464,7 +464,7 @@ class plgEditorCodemirror extends JPlugin
 	 */
 	protected function getEditorStyles()
 	{
-		$font = $this->params->get('font_family', 0);
+		$font = $this->params->get('fontFamily', 0);
 
 		if ($font)
 		{
@@ -490,8 +490,8 @@ class plgEditorCodemirror extends JPlugin
 
 		$styles = array(
 			'font-family: ' . (isset($fonts[$font]) ? $fonts[$font] : 'monospace') .';',
-			'font-size: '   . $this->params->get('font_size', 10) . 'px;',
-			'line-height: ' . $this->params->get('line_height', 1.2) . 'em;',
+			'font-size: '   . $this->params->get('fontSize', 10) . 'px;',
+			'line-height: ' . $this->params->get('lineHeight', 1.2) . 'em;',
 			'border: '      . '1px solid #ccc;'
 		);
 
