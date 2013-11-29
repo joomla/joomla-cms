@@ -98,6 +98,7 @@ abstract class JHtmlBatch
 			. '</label>'
 			. '<select name="batch[language_id]" class="inputbox" id="batch-language-id">'
 			. '<option value="">' . JText::_('JLIB_HTML_BATCH_LANGUAGE_NOCHANGE') . '</option>'
+			. '<option value="*">' . JText::_('JALL_LANGUAGE') . '</option>'
 			. JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text')
 			. '</select>';
 	}
