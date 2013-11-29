@@ -1693,7 +1693,7 @@ class JDatabaseQueryTest extends TestCase
 			(string) $this->_instance,
 			$this->equalTo(
 				PHP_EOL . "SELECT name" . PHP_EOL .
-				"FROM foo" . PHP_EOL . 
+				"FROM foo" . PHP_EOL .
 				"WHERE a=1" . PHP_EOL .
 				"UNION (" . PHP_EOL .
 				"SELECT name" . PHP_EOL .
