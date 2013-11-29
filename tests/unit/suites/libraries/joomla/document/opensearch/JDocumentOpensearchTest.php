@@ -84,9 +84,9 @@ class JDocumentOpensearchTest extends TestCase
 			'<Url type="application/rss+xml" rel="suggestions" template="http://www.example.com?format=feed"/>' .
 			'</OpenSearchDescription>' . PHP_EOL;
 
-		$this->assertThat(
+		$this->assertXmlStringEqualsXmlString(
 			$this->object->render(),
-			$this->equalTo($expected)
+			$expected
 		);
 	}
 
