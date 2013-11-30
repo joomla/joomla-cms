@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Nov-2013 Jean-Marie Simonet
+ [#32846] Add in batch language option for all languages  Thanks Thomas Hunziker
+
 28-Nov-2013 Jean-Marie Simonet
  # [#32766] Formfield `ChromeStyle` produces fatal error if used outside of com_modules.  Thanks Thomas Hunziker
  # [#32786] Stop canonical message in home page using featured view of com_content  Thanks Bruno Batista
