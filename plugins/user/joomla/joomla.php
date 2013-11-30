@@ -181,20 +181,6 @@ class PlgUserJoomla extends JPlugin
 		// Mark the user as logged in
 		$instance->set('guest', 0);
 
-		// If the user has an outdated hash, update it.
-		if (substr($user['password'], 0, 4) != '$2y$' && $this->useStrongEncryption && JCrypt::hasStrongPasswordSupport() == true)
-		{
-			if (strlen($user['password']) > 55)
-			{
-				$user['password'] = substr($user['password'], 0, 55);
-
-				JFactory::getApplication()->enqueueMessage(JText::_('JLIB_USER_ERROR_PASSWORD_TRUNCATED'), 'notice');
-			}
-
-			$instance->password = password_hash($user['password'], PASSWORD_BCRYPT);
-			$instance->save();
-		}
-
 		// Register the needed session variables
 		$session = JFactory::getSession();
 		$session->set('user', $instance);
