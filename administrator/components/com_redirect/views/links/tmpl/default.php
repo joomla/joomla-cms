@@ -104,13 +104,13 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 							<?php echo JHtml::_('redirect.published', $item->published, $i); ?>
 							<?php if ($canEdit) : ?>
 								<a href="<?php echo JRoute::_('index.php?option=com_redirect&task=link.edit&id='.$item->id);?>" title="<?php echo $this->escape($item->old_url); ?>">
-									<?php echo $this->escape(str_replace(JUri::root(), '', $item->old_url)); ?></a>
+									<?php echo $this->escape(str_replace(JUri::root(), '', rawurldecode($item->old_url))); ?></a>
 							<?php else : ?>
-									<?php echo $this->escape(str_replace(JUri::root(), '', $item->old_url)); ?>
+									<?php echo $this->escape(str_replace(JUri::root(), '', rawurldecode($item->old_url))); ?>
 							<?php endif; ?>
 						</td>
 						<td class="small">
-							<?php echo $this->escape($item->new_url); ?>
+							<?php echo $this->escape(rawurldecode($item->new_url)); ?>
 						</td>
 						<td class="small">
 							<?php echo $this->escape($item->referer); ?>

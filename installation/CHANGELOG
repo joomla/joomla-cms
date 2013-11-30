@@ -25,6 +25,41 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+29-Nov-2013 Jean-Marie Simonet
+ [#32846] Add in batch language option for all languages  Thanks Thomas Hunziker
+
+28-Nov-2013 Jean-Marie Simonet
+ # [#32766] Formfield `ChromeStyle` produces fatal error if used outside of com_modules.  Thanks Thomas Hunziker
+ # [#32786] Stop canonical message in home page using featured view of com_content  Thanks Bruno Batista
+
+27-Nov-2013 Jean-Marie Simonet
+ # [#32815] Issues with the cache permissions  Thanks Tobias Zulauf
+ # [#32810] *mod_feed does not render hyperlinks in RSS 2.0 feeds containing GUIDs + others  Thanks Lewis Rosenthal
+ # [#32772] A Header is missing for the beez3 login form.  Thanks Tobias Zulauf
+ # [#32700] Cleanup beez3 error.php  
+ # [#32675] Missing check in JApplicationSite causes a fatal error  Thanks Michael Babker
+ $ Updating TinyMCE German de.js.
+
+26-Nov-2013 Jean-Marie Simonet
+ # [#32812] *Wrong JText causes double string use
+
+25-Nov-2013 Jean-Marie Simonet
+ # [#32605] Heading TOO BIG in the screen "Template Manager: Customise Template" 
+
+24-Nov-2013 Jean-Marie Simonet
+ # [#32779] Tags formfield doesn't show tag when editing an item with the same id  Thanks Thomas Hunziker
+ # [#32765] *com_redirect :do not translate cyrillic characters in url 
+ # [#30263] grid.boolean does not work properly in Isis  Thanks Peter Bui
+
+22-Nov-2013 Jean-Marie Simonet
+ # [#32727] Updating Joomla! RAD Layer to FOF 2.1.0 stable  Thanks Nicholas Dyonisopoulos
+ # [#32693] com_ajax cannot access modules with dashes in their name  Thanks Matt Thomas
+ # [#32776] *helpsite url can't be localised at install time 
+ ^ Updating en-GB xml versions
+
+21-Nov-2013 Jean-Marie Simonet
+ # Reverting #32675] as it prevents setting default language
+
 20-Nov-2013 Jean-Marie Simonet
  [#32740] Making Finder plugins language aware Thanks Hannes Papenberg
  $ Adding ro-RO installation lang file and updating th-TH

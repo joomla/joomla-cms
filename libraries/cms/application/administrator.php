@@ -281,20 +281,11 @@ class JApplicationAdministrator extends JApplicationCms
 			}
 		}
 
-		// Load the language to the API
-		$this->loadLanguage();
-
-		// Load the language from the API
-		$lang = $this->getLanguage();
-
-		// Register the language object with JFactory
-		JFactory::$language = $lang;
-
-		// Load Library language
-		$lang->load('lib_joomla', JPATH_ADMINISTRATOR);
-
 		// Finish initialisation
 		parent::initialiseApp($options);
+
+		// Load Library language
+		$this->getLanguage()->load('lib_joomla', JPATH_ADMINISTRATOR);
 	}
 
 	/**

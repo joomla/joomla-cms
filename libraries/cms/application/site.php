@@ -614,24 +614,15 @@ final class JApplicationSite extends JApplicationCms
 			}
 		}
 
-		// Load the language to the API
-		$this->loadLanguage();
-
-		// Load Library language
-		$lang = $this->getLanguage();
-
-		// Register the language object with JFactory
-		JFactory::$language = $lang;
+		// Finish initialisation
+		parent::initialiseApp($options);
 
 		/*
 		 * Try the lib_joomla file in the current language (without allowing the loading of the file in the default language)
 		 * Fallback to the default language if necessary
 		 */
-		$lang->load('lib_joomla', JPATH_SITE, null, false, true)
-			|| $lang->load('lib_joomla', JPATH_ADMINISTRATOR, null, false, true);
-
-		// Finish initialisation
-		parent::initialiseApp($options);
+		$this->getLanguage()->load('lib_joomla', JPATH_SITE, null, false, true)
+			|| $this->getLanguage()->load('lib_joomla', JPATH_ADMINISTRATOR, null, false, true);
 	}
 
 	/**
