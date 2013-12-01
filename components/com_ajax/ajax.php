@@ -30,4 +30,3 @@ if(!$app->input->get('format'))
 $controller = JControllerLegacy::getInstance('Ajax', array('base_path' => COM_AJAX_PATH_COMPONENT));
 $controller->execute($app->input->get('task'));
 $controller->redirect();
-

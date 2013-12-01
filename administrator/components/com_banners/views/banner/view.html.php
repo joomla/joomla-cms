@@ -44,6 +44,8 @@ class BannersViewBanner extends JViewLegacy
 		}
 
 		$this->addToolbar();
+		JHtml::_('jquery.framework');
+		JHtml::_('script', 'media/com_banners/banner.js');
 		parent::display($tpl);
 	}
 
@@ -64,7 +66,7 @@ class BannersViewBanner extends JViewLegacy
 		// Since we don't track these assets at the item level, use the category id.
 		$canDo		= JHelperContent::getActions($this->item->catid, 0, 'com_banners');
 
-		JToolbarHelper::title($isNew ? JText::_('COM_BANNERS_MANAGER_BANNER_NEW') : JText::_('COM_BANNERS_MANAGER_BANNER_EDIT'), 'banners.png');
+		JToolbarHelper::title($isNew ? JText::_('COM_BANNERS_MANAGER_BANNER_NEW') : JText::_('COM_BANNERS_MANAGER_BANNER_EDIT'), 'bookmark banners');
 
 		// If not checked out, can save the item.
 		if (!$checkedOut && ($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_banners', 'core.create')) > 0))
@@ -90,6 +92,11 @@ class BannersViewBanner extends JViewLegacy
 		}
 		else
 		{
+			if ($this->state->params->get('save_history', 0) && $user->authorise('core.edit'))
+			{
+				JToolbarHelper::versions('com_banners.banner', $this->item->id);
+			}
+
 			JToolbarHelper::cancel('banner.cancel', 'JTOOLBAR_CLOSE');
 		}
 

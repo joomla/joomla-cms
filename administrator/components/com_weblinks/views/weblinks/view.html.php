@@ -65,7 +65,7 @@ class WeblinksViewWeblinks extends JViewLegacy
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 
-		JToolbarHelper::title(JText::_('COM_WEBLINKS_MANAGER_WEBLINKS'), 'weblinks.png');
+		JToolbarHelper::title(JText::_('COM_WEBLINKS_MANAGER_WEBLINKS'), 'link weblinks');
 		if (count($user->getAuthorisedCategories('com_weblinks', 'core.create')) > 0)
 		{
 			JToolbarHelper::addNew('weblink.add');
@@ -101,7 +101,7 @@ class WeblinksViewWeblinks extends JViewLegacy
 			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
-		if ($canDo->get('core.admin'))
+		if ($user->authorise('core.admin', 'com_weblinks'))
 		{
 			JToolbarHelper::preferences('com_weblinks');
 		}

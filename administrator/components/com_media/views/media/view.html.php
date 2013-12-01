@@ -23,6 +23,11 @@ class MediaViewMedia extends JViewLegacy
 		$app	= JFactory::getApplication();
 		$config = JComponentHelper::getParams('com_media');
 
+		if (!$app->isAdmin())
+		{
+			return $app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
+		}
+
 		$lang	= JFactory::getLanguage();
 
 		$style = $app->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
@@ -103,7 +108,7 @@ class MediaViewMedia extends JViewLegacy
 		JHtml::_('bootstrap.framework');
 
 		// Set the titlebar text
-		JToolbarHelper::title(JText::_('COM_MEDIA'), 'mediamanager.png');
+		JToolbarHelper::title(JText::_('COM_MEDIA'), 'images mediamanager');
 
 		// Add a upload button
 		if ($user->authorise('core.create', 'com_media'))

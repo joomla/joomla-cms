@@ -89,7 +89,7 @@ class InstallationModelConfiguration extends JModelBase
 		$registry->set('secret', JUserHelper::genRandomPassword(16));
 		$registry->set('gzip', 0);
 		$registry->set('error_reporting', 'default');
-		$registry->set('helpurl', 'http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}');
+		$registry->set('helpurl', $options->helpurl);
 		$registry->set('ftp_host', isset($options->ftp_host) ? $options->ftp_host : '');
 		$registry->set('ftp_port', isset($options->ftp_host) ? $options->ftp_port : '');
 		$registry->set('ftp_user', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_user)) ? $options->ftp_user : '');
@@ -221,7 +221,7 @@ class InstallationModelConfiguration extends JModelBase
 	/**
 	 * Method to create the root user for the site
 	 *
-	 * @param   array  $options  The session options
+	 * @param   object  $options  The session options
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -241,13 +241,23 @@ class InstallationModelConfiguration extends JModelBase
 		catch (RuntimeException $e)
 		{
 			$app->enqueueMessage(JText::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'notice');
+
 			return false;
 		}
 
-		// Create random salt/password for the admin user
-		$salt = JUserHelper::genRandomPassword(32);
-		$crypt = JUserHelper::getCryptedPassword($options->admin_password, $salt);
-		$cryptpass = $crypt . ':' . $salt;
+		$useStrongPasswords = JCrypt::hasStrongPasswordSupport();
+
+		if ($useStrongPasswords)
+		{
+			$cryptpass = JUserHelper::getCryptedPassword($options->admin_password);
+		}
+		else
+		{
+			$salt = JUserHelper::genRandomPassword(16);
+			//$cryptpass = JUserHelper::getCryptedPassword($options->admin_password, $salt, 'sha256') . ':' . $salt;
+			$cryptpass = JUserHelper::getCryptedPassword($options->admin_password, $salt, 'sha256');
+
+		}
 
 		// Take the admin user id
 		$userId = InstallationModelDatabase::getUserId();

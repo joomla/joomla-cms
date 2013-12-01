@@ -163,6 +163,19 @@ class JFormFieldTag extends JFormFieldList
 			return false;
 		}
 
+		// Block the possibility to set a tag as it own parent
+		if ($this->form->getName() == 'com_tags.tag')
+		{
+			$id   = (int) $this->form->getValue('id', 0);
+			foreach ($options as $option)
+			{
+				if ($option->value == $id)
+				{
+					$option->disable = true;
+				}
+			}
+		}
+
 		// Merge any additional options in the XML definition.
 		$options = array_merge(parent::getOptions(), $options);
 

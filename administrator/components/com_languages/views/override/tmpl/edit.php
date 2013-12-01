@@ -14,7 +14,6 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
-
 ?>
 <script type="text/javascript">
 		window.addEvent('domready', function()
@@ -74,14 +73,14 @@ JHtml::_('formbehavior.chosen', 'select');
 				</div>
 				<?php endif; ?>
 
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('language'); ?>
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $this->form->getLabel('language'); ?>
+						</div>
+						<div class="controls">
+							<?php echo $this->form->getInput('language'); ?>
+						</div>
 					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('language'); ?>
-					</div>
-				</div>
 
 				<div class="control-group">
 					<div class="control-label">
@@ -112,7 +111,7 @@ JHtml::_('formbehavior.chosen', 'select');
 
 				<div class="control-group">
 					<?php echo $this->form->getInput('searchstring'); ?>
-					<button type="submit" class="btn btn-primary" onclick="Joomla.overrider.searchStrings();return false;">
+					<button type="submit" class="btn btn-primary" onclick="Joomla.overrider.searchStrings();return false;" formnovalidate>
 						<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_BUTTON'); ?>
 					</button>
 					<span id="refresh-status" class="overrider-spinner  help-block">

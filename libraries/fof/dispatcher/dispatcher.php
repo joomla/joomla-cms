@@ -1,8 +1,9 @@
 <?php
 /**
- * @package    FrameworkOnFramework
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     FrameworkOnFramework
+ * @subpackage  dispatcher
+ * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
 defined('_JEXEC') or die;
@@ -14,7 +15,7 @@ defined('_JEXEC') or die;
  * MVC framework with features making maintaining complex software much easier,
  * without tedious repetitive copying of the same code over and over again.
  *
- * @package  FrameworkOnFramework.Dispatcher
+ * @package  FrameworkOnFramework
  * @since    1.0
  */
 class FOFDispatcher extends JObject
@@ -246,12 +247,14 @@ class FOFDispatcher extends JObject
 		$this->input->set('layout', $this->layout);
 	}
 
-	/**
-	 * The main code of the Dispatcher. It spawns the necessary controller and
-	 * runs it.
-	 *
-	 * @return  null|Exception
-	 */
+    /**
+     * The main code of the Dispatcher. It spawns the necessary controller and
+     * runs it.
+     *
+     * @throws Exception
+     *
+     * @return  null|JError
+     */
 	public function dispatch()
 	{
 		if (!FOFPlatform::getInstance()->authorizeAdmin($this->input->getCmd('option', 'com_foobar')))
@@ -493,7 +496,7 @@ class FOFDispatcher extends JObject
 
 		if ($this->fofAuth_LogoutOnReturn && $this->_fofAuth_isLoggedIn)
 		{
-			return FOFPlatform::getInstance()->logoutUser();
+			FOFPlatform::getInstance()->logoutUser();
 		}
 
 		return true;
