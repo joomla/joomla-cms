@@ -117,7 +117,7 @@ $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
 						<?php endif; ?>
 						<?php if ($canEdit || $canEditOwn) : ?>	
 							<?php if ($this->catpreview): 
-								(strlen($item->description) > 0) ? $textintro = htmlentities(utf8_decode($item->description)) : $textintro = JTEXT::_(JGLOBAL_NODESC); 
+								(strlen($item->description) > 0) ? $textintro = htmlentities(utf8_decode($item->description)) : $textintro = JTEXT::_('JGLOBAL_NODESC'); 
 								?>
 								<span class="editlinktip hasTip" title="<?php echo JText::_('JGLOBAL_PREVIEW_DESCRIPTION');?>::<?php echo $textintro; ?>">
 									<a href="<?php echo JRoute::_('index.php?option=com_categories&task=category.edit&id='.$item->id.'&extension='.$extension);?>">
