@@ -142,7 +142,7 @@ class MenuItemEditPage extends AdminEditPage
 	{
 		foreach ($this->menuItemTypes as $array)
 		{
-			if ($array['type'] == $value)
+			if (trim($array['type']) == trim($value))
 				return $array['group'];
 		}
 		return false;
@@ -151,7 +151,6 @@ class MenuItemEditPage extends AdminEditPage
 	public function getHelpScreenshotName($options)
 	{
 		$prefix = (isset($options['prefix'])) ? $options['prefix'] : '';
-		$tabId = (isset($options['tab'])) ? $options['tab'] : '';
 		$language = (isset($options['language'])) ? $options['language'] : '';
 		$component = (isset($options['component'])) ? $options['component'] : '';
 		if ($language)
@@ -165,12 +164,12 @@ class MenuItemEditPage extends AdminEditPage
 			$group = $this->getGroupName($type);
 			if (isset($options['prefix']))
 			{
-				$options['prefix'] = $options['prefix'] . '-' . $screenName . '-' . $group . '-' . $type . '-' . $label;
+				$options['prefix'] = $options['prefix'] . '-' . $screenName . '-' . $group . '-' . $type;
 
 			}
 			else
 			{
-				$options['prefix'] = $screenName . '-' . $group . '-' . $type . '-' . $label;
+				$options['prefix'] = $screenName . '-' . $group . '-' . $type;
 			}
 		}
 		return parent::getHelpScreenshotName($options);

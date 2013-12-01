@@ -332,18 +332,13 @@ abstract class AdminPage
 		}
 		else
 		{
-			$screenName = $this->driver->findElement(By::className('page-title'))->getText();
-			if ($prefix)
-			{
-				$screenName = $prefix . '-' . $screenName;
-			}
 			if ($tabId && ($label = $this->getTabLabel($tabId)))
 			{
-				$name = 'help-' . $this->version . '-' . $screenName . '-' . $label . '.png';
+				$name = 'help-' . $this->version . '-' . $prefix . '-' . $label . '.png';
 			}
 			else
 			{
-				$name = 'help-' . $this->version . '-' . $screenName . '.png';
+				$name = 'help-' . $this->version . '-' . $prefix . '.png';
 			}
 		}
 		return strtolower(str_replace(array('\'', ' / ', ' - ', ' ', '/', ':', '&', '='), array('', '-', '-','-', '', '', '-', '-'), $name));
