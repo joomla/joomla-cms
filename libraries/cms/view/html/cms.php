@@ -138,7 +138,7 @@ abstract class JViewHtmlCms extends JViewHtml
 			$this->template = JPath::find($this->path['template'], $filetofind);
 		}
 
-		if ($this->_template != false)
+		if ($this->template != false)
 		{
 			// Unset so as not to introduce into template scope
 			unset($tpl);

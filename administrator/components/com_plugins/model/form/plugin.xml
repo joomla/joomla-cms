@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
     <fieldset
-            addfieldpath="/administrator/components/com_plugins/models/fields"
+            addfieldpath="/administrator/components/com_plugins/model/field"
             >
         <field
                 name="extension_id"

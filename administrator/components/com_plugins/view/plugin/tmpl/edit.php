@@ -29,11 +29,11 @@ JFactory::getDocument()->addScriptDeclaration($script);
 		<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('JDETAILS', true)); ?>
 				<div class="control-group">
-					<div class="control-label"><?php  echo $this->form->getInput('access'); ?>
+					<div class="control-label">
 						<?php echo $this->form->getLabel('name'); ?>
 					</div>
 					<div class="controls">
-						<?php // echo $this->form->getInput('name'); ?>
+						<?php echo $this->form->getInput('name'); ?>
 
 					</div>
 				</div>
@@ -86,7 +86,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 							<?php echo $this->form->getInput('extension_id'); ?>
 						</div>
 					</div>
-				<?php endif; ?>
+				<?php endif; ?><?php var_dump($this); ?>
 				<!-- Plugin metadata -->
 				<?php if ($this->state->get('xml')) : ?>
 					<?php if ($text = trim($this->form->xml->description)) : ?>
@@ -106,7 +106,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 				<?php endif; ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-			<?php // echo $this->loadTemplate('options'); ?>
+			<?php echo $this->loadTemplate('options'); ?>
 
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</fieldset>
