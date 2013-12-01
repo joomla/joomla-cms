@@ -10,16 +10,27 @@
 defined('_JEXEC') or die;
 
 /**
- * The AJAX Plugin Controller for XML format
- *
- * The plugin event triggered is onAjaxFoo, where 'foo' is
- * the value of the 'name' variable passed via the URL
- * Example: index.php?option=com_ajax&task=plugin.call&name=foo&format=xml
+ * The AJAX view RAW format
  *
  * @package     Joomla.Site
  * @subpackage  com_ajax
  *
  * @since   3.2
  */
+class AjaxViewAjaxRaw extends JViewBase
+{
 
-include_once __DIR__ . '/plugin.raw.php';
+	/**
+	 * Method to render the view.
+	 *
+	 * @return  string  The rendered view.
+	 *
+	 * @throws  RuntimeException
+	 */
+	function render()
+	{
+		// Retrieve the data
+		$data = $this->model->getData();
+		return is_scalar($data) ? (string) $data : implode("\n", (array) $data);
+	}
+}

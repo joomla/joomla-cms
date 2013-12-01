@@ -10,16 +10,14 @@
 defined('_JEXEC') or die;
 
 /**
- * The AJAX Module Controller for XML format
- *
- * modFooHelper::getAjax() is called where 'foo' is the value
- * of the 'name' variable passed via the URL
- * Example: index.php?option=com_ajax&task=module.call&name=foo&format=xml
+ * The AJAX view Image format
  *
  * @package     Joomla.Site
  * @subpackage  com_ajax
  *
  * @since   3.2
  */
+class AjaxViewAjaxImage extends AjaxViewAjaxRaw
+{
 
-include_once __DIR__ . '/module.raw.php';
+}

@@ -26,7 +26,7 @@ class AjaxError
 	 *
 	 * @since   3.2
 	 */
-	public static function display(Exception $error)
+	public static function render(Exception $error)
 	{
 		try
 		{

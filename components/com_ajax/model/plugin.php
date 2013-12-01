@@ -10,25 +10,19 @@
 defined('_JEXEC') or die;
 
 /**
- * The AJAX Plugin Controller for RAW format
- *
- * The plugin event triggered is onAjaxFoo, where 'foo' is
- * the value of the 'name' variable passed via the URL
- * Example: index.php?option=com_ajax&task=plugin.call&name=foo&format=raw
+ * The AJAX Plugin model.
  *
  * @package     Joomla.Site
  * @subpackage  com_ajax
  *
  * @since   3.2
  */
-class AjaxControllerPlugin extends JControllerLegacy
+class AjaxModelPlugin extends JModelBase
 {
-
 	/**
-	 * Do job!
-	 *
+	 * Dispatch the plugins and return a result
 	 */
-	public function call()
+	public function getData()
 	{
 		// Interaction with "ajax" group
 		JPluginHelper::importPlugin('ajax');
@@ -37,14 +31,15 @@ class AjaxControllerPlugin extends JControllerLegacy
 		// Allow interaction with "system" group
 		JPluginHelper::importPlugin('system');
 
-		$plugin     = ucfirst($this->input->get('name'));
+		// Get Application
+		$app = JFactory::getApplication();
+
+		$plugin     = ucfirst($app->input->get('plugin'));
 		$dispatcher = JEventDispatcher::getInstance();
 
-		// Call the plugins
-		$results = $dispatcher->trigger('onAjax' . $plugin );
+		// Call the plugins and return the result
+		return $dispatcher->trigger('onAjax' . $plugin );
 
-		echo  implode("\n", $results);
-
-		return true;
 	}
+
 }

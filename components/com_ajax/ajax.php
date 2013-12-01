@@ -12,12 +12,13 @@ defined('_JEXEC') or die;
 // Init the base path, for allow to call the same controllers from back end
 define('COM_AJAX_PATH_COMPONENT', JPATH_ROOT . '/components/com_ajax');
 
+// Load classes
+JLoader::registerPrefix('Ajax', COM_AJAX_PATH_COMPONENT);
 // Register classes to the autoload list
-JLoader::register('AjaxError', COM_AJAX_PATH_COMPONENT . '/helpers/error.php');
-JLoader::register('AjaxModuleHelper', COM_AJAX_PATH_COMPONENT . '/helpers/module.php');
+JLoader::register('AjaxError', COM_AJAX_PATH_COMPONENT . '/helper/error.php');
 
 // Use own exception handler
-set_exception_handler(array('AjaxError', 'display'));
+set_exception_handler(array('AjaxError', 'render'));
 
 // Get Application
 $app = JFactory::getApplication();
@@ -27,6 +28,14 @@ if(!$app->input->get('format'))
 	throw new InvalidArgumentException('No format given. Please specify response format.', 500);
 }
 
-$controller = JControllerLegacy::getInstance('Ajax', array('base_path' => COM_AJAX_PATH_COMPONENT));
-$controller->execute($app->input->get('task'));
-$controller->redirect();
+$action = 'plugin';
+if($app->input->get('module'))
+{
+	$action = 'module';
+}
+$app->input->set('action', $action);
+
+// Create the controller and execute
+$controller = new AjaxControllerAjax();
+$controller->execute();
+
