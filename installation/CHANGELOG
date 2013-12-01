@@ -25,6 +25,12 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+01-Dec-2013 Jean-Marie Simonet
+ # [#32844] *Regression: Batch Copy modules does not work if a position is not chosen  Thanks Thomas Hunziker
+
+29-Nov-2013 Jean-Marie Simonet
+ [#32846] Add in batch language option for all languages  Thanks Thomas Hunziker
+
 28-Nov-2013 Jean-Marie Simonet
  # [#32766] Formfield `ChromeStyle` produces fatal error if used outside of com_modules.  Thanks Thomas Hunziker
  # [#32786] Stop canonical message in home page using featured view of com_content  Thanks Bruno Batista
@@ -58,7 +64,7 @@ $ -> Language fix or change
  # Reverting #32675] as it prevents setting default language
 
 20-Nov-2013 Jean-Marie Simonet
- [#32740] Making Finder plugins language aware Thanks Hannes Papenberg
+ # [#32740] Making Finder plugins language aware Thanks Hannes Papenberg
  $ Adding ro-RO installation lang file and updating th-TH
  # [#26551] Multiple instances of script and css declarations with enabled caching  Thanks Dennis Hermatski
  # [#32636] Fixed issue with fields splitting causing layout issues  Thanks Peter van Westen
