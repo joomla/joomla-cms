@@ -56,10 +56,11 @@ abstract class JHtmlEmail
 			// Special handling when mail text is different from mail address
 			if ($text)
 			{
+				// Convert text - here is the right place
+				$text = static::convertEncoding($text);
+
 				if ($email)
 				{
-					// Convert text
-					$text = static::convertEncoding($text);
 
 					// Split email by @ symbol
 					$text = explode('@', $text);
