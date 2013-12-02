@@ -148,7 +148,7 @@ class PlgUserJoomla extends JPlugin
 
 					if (!$mail->Send())
 					{
-						$this->app->enqueueMessage(JText::_('ERROR_SENDING_EMAIL'), 'warning');
+						$this->app->enqueueMessage(JText::_('JERROR_SENDING_EMAIL'), 'warning');
 					}
 				}
 			}
