@@ -173,6 +173,72 @@ class plgCaptchaRecaptcha extends JPlugin
 	 */
 	private function _recaptcha_http_post($host, $path, $data, $port = 80)
 	{
+		if ($this->params->get('method', 'fsock') == 'curl')
+		{
+			return $this->_recaptcha_http_post_curl($host, $path, $data, $port);
+		}
+		
+		return $this->_recaptcha_http_post_fsock($host, $path, $data, $port);
+	}
+
+	/**
+	 * Submits an HTTP POST to a reCAPTCHA server using curl.
+	 *
+	 * @param   string  $host
+	 * @param   string  $path
+	 * @param   array   $data
+	 * @param   int     $port
+	 *
+	 * @return  array   Response
+	 *
+	 * @since  2.5
+	 */
+	private function _recaptcha_http_post_curl($host, $path, $data, $port = 80)
+	{
+		$req = $this->_recaptcha_qsencode($data);
+
+		$http_request  = "POST $path HTTP/1.0\r\n";
+		$http_request .= "Host: $host\r\n";
+		$http_request .= "Content-Type: application/x-www-form-urlencoded;\r\n";
+		$http_request .= "Content-Length: " . strlen($req) . "\r\n";
+		$http_request .= "User-Agent: reCAPTCHA/PHP\r\n";
+		$http_request .= "\r\n";
+		$http_request .= $req;
+
+		$response = '';
+		if (($fs = @fsockopen($host, $port, $errno, $errstr, 10)) == false )
+		{
+			die('Could not open socket');
+		}
+
+		fwrite($fs, $http_request);
+
+		while (!feof($fs))
+		{
+			// One TCP-IP packet
+			$response .= fgets($fs, 1160);
+		}
+
+		fclose($fs);
+		$response = explode("\r\n\r\n", $response, 2);
+
+		return $response;
+	}
+
+	/**
+	 * Submits an HTTP POST to a reCAPTCHA server using fsock.
+	 *
+	 * @param   string  $host
+	 * @param   string  $path
+	 * @param   array   $data
+	 * @param   int     $port
+	 *
+	 * @return  array   Response
+	 *
+	 * @since  2.5
+	 */
+	private function _recaptcha_http_post_fsock($host, $path, $data, $port = 80)
+	{
 		$req = $this->_recaptcha_qsencode($data);
 
 		$http_request  = "POST $path HTTP/1.0\r\n";

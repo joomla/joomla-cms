@@ -53,6 +53,17 @@
 			<option
 				value="red">PLG_RECAPTCHA_THEME_RED</option>
 			</field>
+		<field
+			name="method"
+			type="list"
+			default="fsock"
+			label="PLG_RECAPTCHA_METHOD"
+			description="PLG_RECAPTCHA_METHOD_DESC"
+			required="true"
+			>
+			<option value="fsock">PLG_RECAPTCHA_METHOD_FSOCK</option>
+			<option value="curl">PLG_RECAPTCHA_METHOD_CURL</option>
+		</field>
 		</fieldset>
 	</fields>
 	</config>
