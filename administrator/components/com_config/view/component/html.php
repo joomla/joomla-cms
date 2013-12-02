@@ -64,10 +64,10 @@ class ConfigViewComponentHtml extends ConfigViewCmsHtml
 
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
 		$this->currentComponent = JFactory::getApplication()->input->get('component');
-		$this->return = $app->input->get('return', '', 'base64');
+		$this->return = JFactory::getApplication()->input->get('return', '', 'base64');
 
 		$this->addToolbar();
-		$app->input->set('hidemainmenu', true);
+		JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		return parent::render();
 	}
@@ -87,6 +87,6 @@ class ConfigViewComponentHtml extends ConfigViewCmsHtml
 		JToolbarHelper::divider();
 		JToolbarHelper::cancel('config.cancel.component');
 		JToolbarHelper::divider();
-		JToolbarHelper::help('JHELP_SITE_GLOBAL_CONFIGURATION');
+		JToolbarHelper::help('JHELP_COMPONENTS_' . $this->currentComponent . '_OPTIONS');
 	}
 }

@@ -20,7 +20,7 @@ class ModuleEditPage extends AdminEditPage
 	 * Array of
 	 * @var array expected id values for tab div elements
 	 */
-	public $tabs = array('general', 'assignment', 'attrib-advanced');
+	public $tabs = array('general', 'assignment', 'permissions', 'attrib-advanced');
 
 	/**
 	 * Array of groups for this page. A group is a collapsable slider inside a tab.
@@ -98,6 +98,17 @@ class ModuleEditPage extends AdminEditPage
 		{
 			return false;
 		}
+	}
+
+	public function getTabIds()
+	{
+		$tabs = $this->driver->findElements(By::xPath("//div[@class='tab-content'][@id='myTabContent']/div"));
+		$return = array();
+		foreach ($tabs as $tab)
+		{
+			$return[] = $tab->getAttribute('id');
+		}
+		return $return;
 	}
 
 }

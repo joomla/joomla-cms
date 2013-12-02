@@ -19,9 +19,9 @@ defined('_JEXEC') or die;
  */
 class PlgCaptchaRecaptcha extends JPlugin
 {
-	const RECAPTCHA_API_SERVER = "http://api.recaptcha.net";
+	const RECAPTCHA_API_SERVER = "http://www.google.com/recaptcha/api";
 	const RECAPTCHA_API_SECURE_SERVER = "https://www.google.com/recaptcha/api";
-	const RECAPTCHA_VERIFY_SERVER = "api-verify.recaptcha.net";
+	const RECAPTCHA_VERIFY_SERVER = "www.google.com";
 
 	/**
 	 * Load the language file on instantiation.
@@ -126,7 +126,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 		}
 
 		$response = $this->_recaptcha_http_post(
-			self::RECAPTCHA_VERIFY_SERVER, "/verify",
+			self::RECAPTCHA_VERIFY_SERVER, "/recaptcha/api/verify",
 			array(
 				'privatekey' => $privatekey,
 				'remoteip'   => $remoteip,

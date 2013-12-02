@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  Application
  * @since       3.2
  */
-final class JApplicationAdministrator extends JApplicationCms
+class JApplicationAdministrator extends JApplicationCms
 {
 	/**
 	 * Class constructor.
@@ -281,20 +281,11 @@ final class JApplicationAdministrator extends JApplicationCms
 			}
 		}
 
-		// Execute the parent initialiseApp method.
+		// Finish initialisation
 		parent::initialiseApp($options);
 
-		// Load the language to the API
-		$this->loadLanguage();
-
-		// Load the language from the API
-		$lang = $this->getLanguage();
-
-		// Register the language object with JFactory
-		JFactory::$language = $lang;
-
 		// Load Library language
-		$lang->load('lib_joomla', JPATH_ADMINISTRATOR);
+		$this->getLanguage()->load('lib_joomla', JPATH_ADMINISTRATOR);
 	}
 
 	/**

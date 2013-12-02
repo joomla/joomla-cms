@@ -1,8 +1,9 @@
 <?php
 /**
- * @package    FrameworkOnFramework
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     FrameworkOnFramework
+ * @subpackage  render
+ * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
 
@@ -111,16 +112,16 @@ class FOFRenderStrapper extends FOFRenderAbstract
 		$message = $form->getView()->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));
 
 		$js = <<<ENDJAVASCRIPT
-		Joomla.submitbutton = function(task)
-		{
-			if (task == 'cancel' || document.formvalidator.isValid(document.id('adminForm')))
-			{
-				Joomla.submitform(task, document.getElementById('adminForm'));
-			}
-			else {
-				alert('$message');
-			}
-		}
+Joomla.submitbutton = function(task)
+{
+	if (task == 'cancel' || document.formvalidator.isValid(document.id('adminForm')))
+	{
+		Joomla.submitform(task, document.getElementById('adminForm'));
+	}
+	else {
+		alert('$message');
+	}
+};
 ENDJAVASCRIPT;
 
 		$document = FOFPlatform::getInstance()->getDocument();
@@ -579,6 +580,8 @@ ENDJS;
 				if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'ge'))
 				{
 					// Joomla! 3.0 or later
+					$form_class = '';
+					
 					if (!empty($filter))
 					{
 						$filter_html .= '<div class="filter-search btn-group pull-left">' . "\n";
@@ -614,6 +617,7 @@ ENDJS;
 				else
 				{
 					// Joomla! 2.5
+					$form_class = 'class="form-horizontal"';
 					$filter_html .= "\t\t\t\t\t<td>" . PHP_EOL;
 
 					if (!empty($filter))
@@ -622,7 +626,7 @@ ENDJS;
 
 						if (!empty($buttons))
 						{
-							$filter_html .= '<div class="btn-group pull-left hidden-phone">' . PHP_EOL;
+							$filter_html .= '<div class="btn-group hidden-phone">' . PHP_EOL;
 							$filter_html .= "\t\t\t\t\t\t$buttons" . PHP_EOL;
 							$filter_html .= '</div>' . PHP_EOL;
 						}
@@ -648,7 +652,7 @@ ENDJS;
 		$filter_order		 = $form->getView()->getLists()->order;
 		$filter_order_Dir	 = $form->getView()->getLists()->order_Dir;
 
-		$html .= '<form action="index.php" method="post" name="adminForm" id="adminForm">' . PHP_EOL;
+		$html .= '<form action="index.php" method="post" name="adminForm" id="adminForm" ' . $form_class . '>' . PHP_EOL;
 
 		if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'ge'))
 		{

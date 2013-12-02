@@ -118,10 +118,8 @@
 					default="0"
 					label="MOD_ARTICLES_NEWS_FIELD_READMORE_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_READMORE_DESC">
-					<option
-						value="0">JHIDE</option>
-					<option
-						value="1">JSHOW</option>
+					<option value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
 				</field>
 
 				<field
@@ -152,7 +150,7 @@
 				<field
 					name="direction"
 					type="list"
-					default="0"
+					default="1"
 					label="JGLOBAL_ORDER_DIRECTION_LABEL"
 					description="JGLOBAL_ORDER_DIRECTION_DESC">
 					<option

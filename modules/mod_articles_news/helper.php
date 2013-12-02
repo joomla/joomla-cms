@@ -62,7 +62,7 @@ abstract class ModArticlesNewsHelper
 		}
 		else
 		{
-			$direction = $params->get('direction') ? 'DESC' : 'ASC'; 
+			$direction = $params->get('direction', 1) ? 'DESC' : 'ASC'; 
 			$model->setState('list.direction', $direction);
 		}
 

@@ -634,7 +634,10 @@ class InstallationModelDatabase extends JModelBase
 			'contact_details' => 'created_by',
 			'content' => 'created_by',
 			'newsfeeds' => 'created_by',
-			'weblinks' => 'created_by',
+			'tags' => 'created_user_id',
+			'ucm_content' => 'core_created_user_id',
+			'ucm_history' => 'editor_user_id',
+			'weblinks' => 'created_by'
 		);
 
 		foreach ($updates_array as $table => $field)
