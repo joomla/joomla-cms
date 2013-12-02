@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+02-Dec-2013 Jean-Marie Simonet
+# [#32741] Error 404 when leaving K2 config box in Joomla 3.2  Thanks Christelle Olivier
+
 01-Dec-2013 Jean-Marie Simonet
  # [#32844] *Regression: Batch Copy modules does not work if a position is not chosen  Thanks Thomas Hunziker
 
