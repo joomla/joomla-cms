@@ -743,16 +743,18 @@ class CategoriesModelCategory extends JModelAdmin
 		$parts = explode('.', $value);
 		$parentId = (int) JArrayHelper::getValue($parts, 0, 1);
 
+		$table = $this->getTable();
 		$db = $this->getDbo();
+		$user = JFactory::getUser();
 		$extension = JFactory::getApplication()->input->get('extension', '', 'word');
 		$i = 0;
 
 		// Check that the parent exists
 		if ($parentId)
 		{
-			if (!$this->table->load($parentId))
+			if (!$table->load($parentId))
 			{
-				if ($error = $this->table->getError())
+				if ($error = $table->getError())
 				{
 					// Fatal error
 					$this->setError($error);
@@ -766,13 +768,11 @@ class CategoriesModelCategory extends JModelAdmin
 				}
 			}
 			// Check that user has create permission for parent category
-			$canCreate = ($parentId == $this->table->getRootId()) ? $this->user->authorise('core.create', $extension) : $this->user->authorise('core.create', $extension . '.category.' . $parentId);
-
+			$canCreate = ($parentId == $table->getRootId()) ? $user->authorise('core.create', $extension) : $user->authorise('core.create', $extension . '.category.' . $parentId);
 			if (!$canCreate)
 			{
 				// Error since user cannot create in parent category
 				$this->setError(JText::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
-
 				return false;
 			}
 		}
@@ -780,13 +780,13 @@ class CategoriesModelCategory extends JModelAdmin
 		// If the parent is 0, set it to the ID of the root item in the tree
 		if (empty($parentId))
 		{
-			if (!$parentId = $this->table->getRootId())
+			if (!$parentId = $table->getRootId())
 			{
 				$this->setError($db->getErrorMsg());
 				return false;
 			}
 			// Make sure we can create in root
-			elseif (!$this->user->authorise('core.create', $extension))
+			elseif (!$user->authorise('core.create', $extension))
 			{
 				$this->setError(JText::_('COM_CATEGORIES_BATCH_CANNOT_CREATE'));
 				return false;
@@ -796,7 +796,7 @@ class CategoriesModelCategory extends JModelAdmin
 		// We need to log the parent ID
 		$parents = array();
 
-		// Calculate the emergency stop count as a precaution against a runaway loop bug
+	// Calculate the emergency stop count as a precaution against a runaway loop bug
 		$query = $db->getQuery(true)
 			->select('COUNT(id)')
 			->from($db->quoteName('#__categories'));
@@ -813,18 +813,19 @@ class CategoriesModelCategory extends JModelAdmin
 			return false;
 		}
 
+
 		// Parent exists so let's proceed
 		while (!empty($pks) && $count > 0)
 		{
 			// Pop the first id off the stack
 			$pk = array_shift($pks);
 
-			$this->table->reset();
+			$table->reset();
 
 			// Check that the row actually exists
-			if (!$this->table->load($pk))
+			if (!$table->load($pk))
 			{
-				if ($error = $this->table->getError())
+				if ($error = $table->getError())
 				{
 					// Fatal error
 					$this->setError($error);
@@ -839,11 +840,11 @@ class CategoriesModelCategory extends JModelAdmin
 			}
 
 			// Copy is a bit tricky, because we also need to copy the children
-			$query->clear()
-				->select('id')
-				->from($db->quoteName('#__categories'))
-				->where('lft > ' . (int) $this->table->lft)
-				->where('rgt < ' . (int) $this->table->rgt);
+			$query->clear();
+			$query->select('id');
+			$query->from($db->quoteName('#__categories'));
+			$query->where('lft > ' . (int) $table->lft);
+			$query->where('rgt < ' . (int) $table->rgt);
 			$db->setQuery($query);
 			$childIds = $db->loadColumn();
 
@@ -857,63 +858,63 @@ class CategoriesModelCategory extends JModelAdmin
 			}
 
 			// Make a copy of the old ID and Parent ID
-			$oldId = $this->table->id;
-			$oldParentId = $this->table->parent_id;
+			$oldId = $table->id;
+			$oldParentId = $table->parent_id;
 
 			// Reset the id because we are making a copy.
-			$this->table->id = 0;
+			$table->id = 0;
 
 			// If we a copying children, the Old ID will turn up in the parents list
 			// otherwise it's a new top level item
-			$this->table->parent_id = isset($parents[$oldParentId]) ? $parents[$oldParentId] : $parentId;
+			$table->parent_id = isset($parents[$oldParentId]) ? $parents[$oldParentId] : $parentId;
 
 			// Set the new location in the tree for the node.
-			$this->table->setLocation($this->table->parent_id, 'last-child');
+			$table->setLocation($table->parent_id, 'last-child');
 
 			// TODO: Deal with ordering?
-			// $this->table->ordering	= 1;
-			$this->table->level = null;
-			$this->table->asset_id = null;
-			$this->table->lft = null;
-			$this->table->rgt = null;
+			//$table->ordering	= 1;
+			$table->level = null;
+			$table->asset_id = null;
+			$table->lft = null;
+			$table->rgt = null;
 
 			// Alter the title & alias
-			list($title, $alias) = $this->generateNewTitle($this->table->parent_id, $this->table->alias, $this->table->title);
-			$this->table->title = $title;
-			$this->table->alias = $alias;
+			list($title, $alias) = $this->generateNewTitle($table->parent_id, $table->alias, $table->title);
+			$table->title = $title;
+			$table->alias = $alias;
 
 			parent::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
 
 			// Store the row.
-			if (!$this->table->store())
+			if (!$table->store())
 			{
-				$this->setError($this->table->getError());
+				$this->setError($table->getError());
 				return false;
 			}
 
 			// Get the new item ID
-			$newId = $this->table->get('id');
+			$newId = $table->get('id');
 
 			// Add the new ID to the array
 			$newIds[$i] = $newId;
 			$i++;
 
 			// Now we log the old 'parent' to the new 'parent'
-			$parents[$oldId] = $this->table->id;
+			$parents[$oldId] = $table->id;
 			$count--;
 		}
 
 		// Rebuild the hierarchy.
-		if (!$this->table->rebuild())
+		if (!$table->rebuild())
 		{
-			$this->setError($this->table->getError());
+			$this->setError($table->getError());
 			return false;
 		}
 
 		// Rebuild the tree path.
-		if (!$this->table->rebuildPath($this->table->id))
+		if (!$table->rebuildPath($table->id))
 		{
-			$this->setError($this->table->getError());
+			$this->setError($table->getError());
 			return false;
 		}
 
