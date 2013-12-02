@@ -270,7 +270,7 @@ class plgFinderContent extends FinderIndexerAdapter
 
 		// Build the necessary route and path information.
 		$item->url = $this->getURL($item->id, $this->extension, $this->layout);
-		$item->route = ContentHelperRoute::getArticleRoute($item->slug, $item->catslug);
+		$item->route = ContentHelperRoute::getArticleRoute($item->slug, $item->catslug, $item->language);
 		$item->path = FinderIndexerHelper::getContentPath($item->route);
 
 		// Get the menu title if it exists.
