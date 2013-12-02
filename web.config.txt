@@ -3,7 +3,7 @@
    <system.webServer>
        <rewrite>
            <rules>
-               <rule name="Joomla! Rule 1" stopProcessing="true">
+               <rule name="Joomla!_Rule_1" stopProcessing="true">
                    <match url="^(.*)$" ignoreCase="false" />
                    <conditions logicalGrouping="MatchAny">
                        <add input="{QUERY_STRING}" pattern="base64_encode[^(]*\([^)]*\)" ignoreCase="false" />
@@ -13,7 +13,7 @@
                    </conditions>
                    <action type="CustomResponse" url="index.php" statusCode="403" statusReason="Forbidden" statusDescription="Forbidden" />
                </rule>
-               <rule name="Joomla! Rule 2">
+               <rule name="Joomla!_Rule_2">
                    <match url="(.*)" ignoreCase="false" />
                    <conditions logicalGrouping="MatchAll">
                      <add input="{URL}" pattern="^/index.php" ignoreCase="true" negate="true" />
