@@ -87,6 +87,7 @@ abstract class WeblinksHelperRoute
 		}
 
 		if ($id < 1 || !($category instanceof JCategoryNode))
+		{
 			$link = '';
 		}
 		else {
