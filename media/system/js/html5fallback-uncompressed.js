@@ -118,8 +118,8 @@
 
 			for(var i=0; i<flen; i++) {
 				var elem = f[i];
-		                elem.isRequired = !!elem.required,
-                		elem.isDisabled = !!elem.disabled;
+				elem.isRequired = !!elem.required,
+				elem.isDisabled = !!elem.disabled;
 
 				//Do Validation
 				if(!elem.isDisabled) {
