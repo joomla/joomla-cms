@@ -32,7 +32,7 @@ defined('_JEXEC') or die;
 				<tr>
 					<td>
 						<?php 
-						$lang_key       = 'PLG_FINDER_STATISTICS_'. str_replace(' ', '_', $type->type_title);
+						$lang_key       = 'PLG_FINDER_STATISTICS_' . str_replace(' ', '_', $type->type_title);
 						$lang_string    = JText::_($lang_key);
 						echo ($lang_string == $lang_key) ? $type->type_title : $lang_string; 
 						?>
