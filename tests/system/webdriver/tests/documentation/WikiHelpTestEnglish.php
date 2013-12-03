@@ -167,7 +167,7 @@ class WikihelpTestEnglish extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @test
+	 * @xtest
 	 */
 	public function takeScreenShotsMenuItemTypes()
 	{
@@ -216,7 +216,7 @@ class WikihelpTestEnglish extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function takeScreenShotsForModuleTypes()
 	{
@@ -256,11 +256,13 @@ class WikihelpTestEnglish extends JoomlaWebdriverTestCase
 				$moduleEditPage->selectTab($tabs[$i]);
 				if ($i > 0)
 				{
-					$name = $moduleEditPage->getHelpScreenshotName($tabs[$i], 'modules ' . $type['client']);
+					$options = array('prefix' => 'modules ' . $type['client'] . ' ' . 'module manager module ' . $type['name'], 'tab' => $tabs[$i]);
+					$name = $moduleEditPage->getHelpScreenshotName($options);
 				}
 				else
 				{
-					$name = $moduleEditPage->getHelpScreenshotName(null, 'modules ' . $type['client']);
+					$options = array('prefix' => 'modules ' . $type['client'] . ' ' . 'module manager module ' . $type['name']);
+					$name = $moduleEditPage->getHelpScreenshotName($options);
 				}
 				$this->helpScreenshot($name, $this->cfg->baseURI . "/tests/system/tmp/module-screens");
 			}
