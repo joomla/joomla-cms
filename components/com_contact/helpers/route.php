@@ -66,7 +66,7 @@ abstract class ContactHelperRoute
 			$category = JCategories::getInstance('Contact')->get($id);
 		}
 
-		if($id < 1)
+		if ($id < 1 || !($category instanceof JCategoryNode))
 		{
 			$link = '';
 		}
@@ -83,7 +83,7 @@ abstract class ContactHelperRoute
 
 			if ($item = self::_findItem($needles))
 			{
-				$link = 'index.php?Itemid='.$item;
+				$link .= '&Itemid='.$item;
 			}
 		}
 
