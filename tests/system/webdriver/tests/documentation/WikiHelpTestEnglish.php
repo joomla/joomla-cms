@@ -150,11 +150,9 @@ class WikihelpTestEnglish extends JoomlaWebdriverTestCase
 				$prefix = $linkArray[2] . ' ' . $screenName;
 				$options = array('prefix' => $prefix);
 				$name = $testPage->getHelpScreenshotName($options);
-				$this->helpScreenshot($name, $fullPath);
 				// process additional tabs if available
-				if (method_exists($testPage, 'getTabIds'))
+				if (method_exists($testPage, 'getTabIds') && ($tabs = $testPage->getTabIds()) && count($tabs) > 0)
 				{
-					$tabs = $testPage->getTabIds();
 					$limit = count($tabs);
 					for ($i = 0; $i < $limit; $i++)
 					{
@@ -165,7 +163,15 @@ class WikihelpTestEnglish extends JoomlaWebdriverTestCase
 							$name = $testPage->getHelpScreenshotName($options);
 							$this->helpScreenshot($name, $fullPath);
 						}
+						else
+						{
+							$this->helpScreenshot($name, $fullPath);
+						}
 					}
+				}
+				else
+				{
+					$this->helpScreenshot($name, $fullPath);
 				}
 			}
 		}
