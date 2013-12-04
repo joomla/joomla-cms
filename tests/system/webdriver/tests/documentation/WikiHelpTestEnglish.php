@@ -22,9 +22,9 @@ class WikihelpTestEnglish extends JoomlaWebdriverTestCase
 	 */
 
 	public  $allMenuLinks = array(
-		'Control Panel' 		=> array('ControlPanelPage', 'administrator/index.php', 'system'),
+// 		'Control Panel' 		=> array('ControlPanelPage', 'administrator/index.php', 'system'),
 // 		'Global Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config', 'configuration'),
-		'Banners Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_banners', 'configuration'),
+// 		'Banners Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_banners', 'configuration'),
 // 		'Cache Manager Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_cache', 'configuration'),
 // 		'Check-in Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_checkin', 'configuration'),
 // 		'Contacts Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_contact', 'configuration'),
@@ -40,25 +40,25 @@ class WikihelpTestEnglish extends JoomlaWebdriverTestCase
 // 		'Newsfeeds Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_newsfeeds', 'configuration'),
 // 		'Plugin Manager Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_plugins', 'configuration'),
 // 		'Post-installation Messages Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_postinstall', 'configuration'),
-		'Redirect Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_redirect', 'configuration'),
+// 		'Redirect Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_redirect', 'configuration'),
 // 		'Search Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_search', 'configuration'),
 // 		'Tags Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_tags', 'configuration'),
 // 		'Template Manager Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_templates', 'configuration'),
 // 		'Users Manager Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_users', 'configuration'),
 // 		'Weblinks Configuration'	=> array('GenericAdminEditPage', 'administrator/index.php?option=com_config&view=component&component=com_weblinks', 'configuration'),
 
-// 		'Global Checkin' 		=> array('GenericAdminPage', 'administrator/index.php?option=com_checkin', 'system'),
-// 		'Clear Cache' 			=> array('GenericAdminPage', 'administrator/index.php?option=com_cache', 'system'),
-// 		'Purge Expired Cache' 	=> array('GenericAdminPage', 'administrator/index.php?option=com_cache&view=purge', 'system'),
-// 		'System Information'	=> array('GenericAdminPage', 'administrator/index.php?option=com_admin&view=sysinfo', 'system'),
-// 		'User Manager'			=> array('UserManagerPage', 'administrator/index.php?option=com_users&view=users', 'users'),
+		'Global Checkin' 		=> array('GenericAdminPage', 'administrator/index.php?option=com_checkin', 'system'),
+		'Clear Cache' 			=> array('GenericAdminPage', 'administrator/index.php?option=com_cache', 'system'),
+		'Purge Expired Cache' 	=> array('GenericAdminPage', 'administrator/index.php?option=com_cache&view=purge', 'system'),
+		'System Information'	=> array('GenericAdminPage', 'administrator/index.php?option=com_admin&view=sysinfo', 'system'),
+		'User Manager'			=> array('UserManagerPage', 'administrator/index.php?option=com_users&view=users', 'users'),
 		'Add New User'			=> array('UserEditPage', 'administrator/index.php?option=com_users&task=user.add', 'users'),
-// 		'Groups'				=> array('GroupManagerPage', 'administrator/index.php?option=com_users&view=groups', 'users'),
-// 		'Add New Group'			=> array('GroupEditPage', 'administrator/index.php?option=com_users&task=group.add', 'users'),
-// 		'Access Levels'			=> array('LevelManagerPage', 'administrator/index.php?option=com_users&view=levels', 'users'),
-// 		'Add New Access Level'	=> array('LevelEditPage', 'administrator/index.php?option=com_users&task=level.add', 'users'),
-// 		'User Notes'			=> array('UserNotesManagerPage', 'administrator/index.php?option=com_users&view=notes', 'users'),
-// 		'Add User Note'			=> array('UserNotesEditPage', 'administrator/index.php?option=com_users&task=note.add', 'users'),
+		'Groups'				=> array('GroupManagerPage', 'administrator/index.php?option=com_users&view=groups', 'users'),
+		'Add New Group'			=> array('GroupEditPage', 'administrator/index.php?option=com_users&task=group.add', 'users'),
+		'Access Levels'			=> array('LevelManagerPage', 'administrator/index.php?option=com_users&view=levels', 'users'),
+		'Add New Access Level'	=> array('LevelEditPage', 'administrator/index.php?option=com_users&task=level.add', 'users'),
+		'User Notes'			=> array('UserNotesManagerPage', 'administrator/index.php?option=com_users&view=notes', 'users'),
+		'Add User Note'			=> array('UserNotesEditPage', 'administrator/index.php?option=com_users&task=note.add', 'users'),
 // 		'User Notes Categories'	=> array('CategoryManagerPage', 'administrator/index.php?option=com_categories&view=categories&extension=com_users', 'users'),
 // 		'Add User Note Category'	=> array('CategoryEditPage', 'administrator/index.php?option=com_categories&task=category.add&extension=com_users', 'users'),
 // 		'Mass Mail Users'		=> array('GenericAdminPage', 'administrator/index.php?option=com_users&view=mail', 'users'),
@@ -128,6 +128,14 @@ class WikihelpTestEnglish extends JoomlaWebdriverTestCase
 	 */
 	public function takeScreenShotsAllMenuLinks()
 	{
+		$folder = 'tmp/basic-screens';
+		$basePath = dirname(dirname(dirname(dirname(dirname(__DIR__)))));
+		$fullPath = $basePath . '/' . $folder;
+		if (!file_exists($fullPath))
+		{
+			mkdir($fullPath);
+		}
+
 		$testPage = $this->testPage;
 		$gcPage = $testPage->clickMenu('Global Configuration', 'GlobalConfigurationPage');
 		$gcPage->setFieldValue('Default List Limit', '5');
@@ -138,9 +146,11 @@ class WikihelpTestEnglish extends JoomlaWebdriverTestCase
 			if (strpos($linkArray[1], 'http') !== 0)
 			{
 				$testPage = $testPage->clickMenuByUrl($linkArray[1], $linkArray[0]);
-				$options = array('prefix' => $linkArray[2]);
+				$screenName = $this->driver->findElement(By::className('page-title'))->getText();
+				$prefix = $linkArray[2] . ' ' . $screenName;
+				$options = array('prefix' => $prefix);
 				$name = $testPage->getHelpScreenshotName($options);
-
+				$this->helpScreenshot($name, $fullPath);
 				// process additional tabs if available
 				if (method_exists($testPage, 'getTabIds'))
 				{
@@ -151,15 +161,11 @@ class WikihelpTestEnglish extends JoomlaWebdriverTestCase
 						$testPage->selectTab($tabs[$i]);
 						if ($i > 0)
 						{
-							$options = array('prefix' => $linkArray[2], 'tab' => $tabs[$i]);
+							$options = array('prefix' => $prefix, 'tab' => $tabs[$i]);
 							$name = $testPage->getHelpScreenshotName($options);
+							$this->helpScreenshot($name, $fullPath);
 						}
-						$this->helpScreenshot($name, $this->cfg->baseURI . "/tests/system/tmp/basic-screens");
 					}
-				}
-				else
-				{
-					$this->helpScreenshot($name, $this->cfg->baseURI . "/tests/system/tmp/basic-screens");
 				}
 			}
 		}
@@ -171,6 +177,13 @@ class WikihelpTestEnglish extends JoomlaWebdriverTestCase
 	 */
 	public function takeScreenShotsMenuItemTypes()
 	{
+		$folder = 'tmp/menu-item-screens';
+		$basePath = dirname(dirname(dirname(dirname(dirname(__DIR__)))));
+		$fullPath = $basePath . '/' . $folder;
+		if (!file_exists($fullPath))
+		{
+			mkdir($fullPath);
+		}
 		/* @var $menuItemEditPage MenuItemEditPage */
 
 		// First get a list of all menu item types (array like group => 'Articles', type => 'Archived Articles')
@@ -199,15 +212,15 @@ class WikihelpTestEnglish extends JoomlaWebdriverTestCase
 				$menuItemEditPage->selectTab($tabs[$i]);
 				if ($i > 0)
 				{
-					$options = array('tab' => $tabs[$i], 'prefix' => 'menus');
+					$options = array('tab' => $tabs[$i], 'prefix' => 'menus-menu-manager-new-menu-item');
 					$name = $menuItemEditPage->getHelpScreenshotName($options);
 				}
 				else
 				{
-					$options = array('prefix' => 'menus');
+					$options = array('prefix' => 'menus-menu-manager-new-menu-item');
 					$name = $menuItemEditPage->getHelpScreenshotName($options);
 				}
-				$this->helpScreenshot($name, $this->cfg->baseURI . "/tests/system/tmp/menu-item-screens");
+				$this->helpScreenshot($name, $fullPath);
 			}
 			$menuItemEditPage->clickButton('Cancel');
 			$menuItemsManagerPage = $this->getPageObject('MenuItemsManagerPage');
@@ -216,10 +229,18 @@ class WikihelpTestEnglish extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @test
+	 * @xtest
 	 */
 	public function takeScreenShotsForModuleTypes()
 	{
+		$folder = 'tmp/module-screens';
+		$basePath = dirname(dirname(dirname(dirname(dirname(__DIR__)))));
+		$fullPath = $basePath . '/' . $folder;
+		if (!file_exists($fullPath))
+		{
+			mkdir($fullPath);
+		}
+
 		/* @var $moduleEditPage ModuleEditPage */
 		/* @var $moduleManagerPage ModuleManagerPage */
 
@@ -264,7 +285,7 @@ class WikihelpTestEnglish extends JoomlaWebdriverTestCase
 					$options = array('prefix' => 'modules ' . $type['client'] . ' ' . 'module manager module ' . $type['name']);
 					$name = $moduleEditPage->getHelpScreenshotName($options);
 				}
-				$this->helpScreenshot($name, $this->cfg->baseURI . "/tests/system/tmp/module-screens");
+				$this->helpScreenshot($name, $fullPath);
 			}
 
 			$moduleEditPage->clickButton('toolbar-cancel');
@@ -274,11 +295,11 @@ class WikihelpTestEnglish extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * @xtest
+	 * @test
 	 */
 	public function writeWikiFilesForBasicScreens()
 	{
-		$folder = 'tests/system/tmp/wiki-basic-files';
+		$folder = 'tmp/wiki-basic-files';
 		$basePath = dirname(dirname(dirname(dirname(dirname(__DIR__)))));
 		$fullPath = $basePath . '/' . $folder;
 		if (!file_exists($fullPath))
@@ -293,7 +314,10 @@ class WikihelpTestEnglish extends JoomlaWebdriverTestCase
 				$testPage = $this->testPage->clickMenuByUrl($linkArray[1], $linkArray[0]);
 				if (method_exists($testPage, 'toWikiHelp'))
 				{
-					$text = $testPage->toWikiHelp($linkArray[2]);
+					$screenName = $this->driver->findElement(By::className('page-title'))->getText();
+					$prefix = $linkArray[2] . '-' . $screenName;
+					$screenshotOptions = array('prefix' => $prefix);
+					$text = $testPage->toWikiHelp(array(), array(), $screenshotOptions);
 					$fileName = $testPage->getHelpFileName($menuText);
 					file_put_contents($fullPath . '/' . $fileName, $text);
 				}
@@ -307,7 +331,7 @@ class WikihelpTestEnglish extends JoomlaWebdriverTestCase
 	 */
 	public function writeWikiFilesForMenuItemTypes()
 	{
-		$folder = 'tests/system/tmp/wiki-menu-item-files';
+		$folder = 'tmp/wiki-menu-item-files';
 		$basePath = dirname(dirname(dirname(dirname(dirname(__DIR__)))));
 		$fullPath = $basePath . '/' . $folder;
 		if (! file_exists($fullPath))
@@ -345,7 +369,7 @@ class WikihelpTestEnglish extends JoomlaWebdriverTestCase
 	 */
 	public function writeWikiFilesForModuleTypes()
 	{
-		$folder = 'tests/system/tmp/wiki-module-type-files';
+		$folder = 'tmp/wiki-module-type-files';
 		$basePath = dirname(dirname(dirname(dirname(dirname(__DIR__)))));
 		$fullPath = $basePath . '/' . $folder;
 		if (! file_exists($fullPath))

@@ -159,17 +159,21 @@ class MenuItemEditPage extends AdminEditPage
 		}
 		else
 		{
-			$screenName = $this->driver->findElement(By::className('page-title'))->getText();
 			$type = $this->driver->findElement(By::id('jform_type'))->getAttribute(@value);
 			$group = $this->getGroupName($type);
+			$screenName = '';
+			if ($group)
+			{
+				$screenName = '-' . $group . '-' . $type;
+			}
 			if (isset($options['prefix']))
 			{
-				$options['prefix'] = $options['prefix'] . '-' . $screenName . '-' . $group . '-' . $type;
+				$options['prefix'] = $options['prefix'] . $screenName;
 
 			}
 			else
 			{
-				$options['prefix'] = $screenName . '-' . $group . '-' . $type;
+				$options['prefix'] = $screenName;
 			}
 		}
 		return parent::getHelpScreenshotName($options);
