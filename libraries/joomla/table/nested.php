@@ -1406,6 +1406,23 @@ class JTableNested extends JTable
 	}
 
 	/**
+	 * Method to reset class properties to the defaults set in the class
+	 * definition. It will ignore the primary key as well as any private class
+	 * properties (except $_errors).
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2.1
+	 */
+	public function reset()
+	{
+		parent::reset();
+
+		// Reset the location properties.
+		$this->setLocation(0);
+	}
+
+	/**
 	 * Method to update order of table rows
 	 *
 	 * @param   array  $idArray    id numbers of rows to be reordered.
