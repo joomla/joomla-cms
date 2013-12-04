@@ -68,7 +68,7 @@ abstract class NewsfeedsHelperRoute
 			$category = JCategories::getInstance('Newsfeeds')->get($id);
 		}
 
-		if($id < 1)
+		if ($id < 1 || !($category instanceof JCategoryNode))
 		{
 			$link = '';
 		}

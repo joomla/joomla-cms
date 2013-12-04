@@ -86,7 +86,8 @@ abstract class WeblinksHelperRoute
 			$category = JCategories::getInstance('Weblinks')->get($id);
 		}
 
-		if ($id < 1) {
+		if ($id < 1 || !($category instanceof JCategoryNode))
+		{
 			$link = '';
 		}
 		else {
