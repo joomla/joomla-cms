@@ -30,7 +30,7 @@ class LanguageManagerPage extends AdminManagerPage
 	 * @var    string
 	 * @since  3.0
 	 */
-	protected $waitForXpath =  "//ul/li/a[@href='index.php?option=com_languages&view=languages']";
+	protected $waitForXpath =  "//ul/li/a[@href='index.php?option=com_languages']";
 
 	/**
 	 * URL used to uniquely identify this page
@@ -111,6 +111,45 @@ class LanguageManagerPage extends AdminManagerPage
 		$languageEditPage->clickButton('toolbar-save');
 		$this->test->getPageObject('LanguageManagerPage');
 		$this->searchFor();
+	}
+
+	/**
+	 * Get the language tag of the current default language
+	 *
+	 * @param   string  $siteOrAdmin  "site" for the Site language, "admin" for the admin language
+	 *
+	 * @return  string  Language tag (for example, "en-GB")
+	 */
+	public function getDefaultLanguage($siteOrAdmin = 'admin')
+	{
+		if ($siteOrAdmin == 'admin')
+		{
+			$xpath = "//a[@href='index.php?option=com_languages&view=installed&client=1']";
+		}
+		else
+		{
+			$xpath = "//a[@href='index.php?option=com_languages&view=installed&client=0']";
+		}
+		$this->driver->findElement(By::xPath($xpath))->click();
+		$this->test->getPageObject('LanguageManagerPage');
+		$tableElements = $this->driver->findElements(By::xPath("//tbody"));
+		if (isset($tableElements[0]))
+		{
+			$rowElements = $this->driver->findElement(By::xPath("//tbody"))->findElements(By::tagName('tr'));
+			$count = count($rowElements);
+			for ($i = 0; $i < $count; $i ++)
+			{
+				$columnElements = $rowElements[$i]->findElements(By::tagname("td"));
+				$languageTag = $columnElements[2]->getText();
+				$default = $columnElements[4]->findElement(By::tagName('i'));
+				$featured = $default->getAttribute('class');
+				if ($featured == 'icon-featured')
+				{
+					break;
+				}
+			}
+		}
+		return $languageTag;
 	}
 
 	/**

@@ -8,13 +8,18 @@ use SeleniumClient\WebDriver;
 use SeleniumClient\WebDriverWait;
 use SeleniumClient\DesiredCapabilities;
 
-class WikihelpTest extends JoomlaWebdriverTestCase
+class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 {
 	/**
 	 *
 	 * @var GlobalConfigurationPage
 	 */
 	protected $testPage = null; // Page under test
+
+	/**
+	 * @var defaultLanguage
+	 */
+	public static $defaultLanguage = '';
 
 	/**
 	 *
@@ -112,8 +117,17 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 
 	public function setUp()
 	{
+		iconv_set_encoding("internal_encoding", "UTF-8");
+		iconv_set_encoding("output_encoding", "UTF-8");
+		iconv_set_encoding("input_encoding", "UTF-8");
 		parent::setUp();
 		$this->testPage = $this->doAdminLogin();
+		$testPage = $this->testPage;
+		if (!self::$defaultLanguage)
+		{
+			$languageManagerPage = $testPage->clickMenu('Language Manager', 'LanguageManagerPage');
+			self::$defaultLanguage = strtolower($languageManagerPage->getDefaultLanguage('admin'));
+		}
 	}
 
 	public function tearDown()
@@ -128,17 +142,20 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 	 */
 	public function takeScreenShotsAllMenuLinks()
 	{
+		$folder = $this->getFolderName('tmp/basic-screens/');
+		$defaultLanguage = self::$defaultLanguage;
 		$testPage = $this->testPage;
 		$gcPage = $testPage->clickMenu('Global Configuration', 'GlobalConfigurationPage');
 		$gcPage->setFieldValue('Default List Limit', '5');
-		$gcPage->saveAndClose('ControlPanelPage');
+		$testPage = $gcPage->saveAndClose('ControlPanelPage');
 
 		foreach ($this->allMenuLinks as $menuText => $linkArray)
 		{
 			if (strpos($linkArray[1], 'http') !== 0)
 			{
 				$testPage = $testPage->clickMenuByUrl($linkArray[1], $linkArray[0]);
-				$name = $testPage->getHelpScreenshotName(null, $linkArray[2]);
+				$options = array('language' => $defaultLanguage, 'prefix' => $linkArray[2] . '-' . $menuText);
+				$name = $testPage->getHelpScreenshotName($options);
 
 				// process additional tabs if available
 				if (method_exists($testPage, 'getTabIds'))
@@ -150,14 +167,15 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 						$testPage->selectTab($tabs[$i]);
 						if ($i > 0)
 						{
-							$name = $testPage->getHelpScreenshotName($tabs[$i], $linkArray[2]);
+							$options = array('language' => $defaultLanguage, 'prefix' => $linkArray[2] . '-' . $menuText, 'tab' => $tabs[$i]);
+							$name = $testPage->getHelpScreenshotName($options);
 						}
-						$this->helpScreenshot($name, $this->cfg->baseURI . "/tests/system/tmp/basic-screens");
+						$this->helpScreenshot($name, $folder);
 					}
 				}
 				else
 				{
-					$this->helpScreenshot($name, $this->cfg->baseURI . "/tests/system/tmp/basic-screens");
+					$this->helpScreenshot($name, $folder);
 				}
 			}
 		}
@@ -169,18 +187,24 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 	 */
 	public function takeScreenShotsMenuItemTypes()
 	{
+		$defaultLanguage = self::$defaultLanguage;
+		$folder = $this->getFolderName('tmp/menu-item-screens/');
+		$testPage = $this->testPage;
+
 		/* @var $menuItemEditPage MenuItemEditPage */
 
 		// First get a list of all menu item types (array like group => 'Articles', type => 'Archived Articles')
 		$menuItemsManagerPage = $this->testPage->clickMenu('Main Menu', 'MenuItemsManagerPage');
 		$menuItemsManagerPage->clickButton('toolbar-new');
 		$menuItemEditPage = $this->getPageObject('MenuItemEditPage');
-		$menuItemTypes = $menuItemEditPage->menuItemTypes;
+		$menuItemTypes = $menuItemEditPage->getMenuItemTypes();
+		$menuItemEditPage->menuItemTypes = $menuItemTypes;
 		$menuItemsManagerPage = $this->testPage->clickMenu('Main Menu', 'MenuItemsManagerPage');
 		foreach ($menuItemTypes as $type)
 		{
 			$menuItemsManagerPage->clickButton('toolbar-new');
 			$menuItemEditPage = $this->getPageObject('MenuItemEditPage');
+			$menuItemEditPage->menuItemTypes = $menuItemTypes;
 			$menuItemEditPage->setMenuItemType($type['type']);
 			$menuItemEditPage->setFieldValue('Menu Title', $type['group'] . ' - ' . $type['type']);
 			$menuItemEditPage->tabs = null;
@@ -197,13 +221,15 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 				$menuItemEditPage->selectTab($tabs[$i]);
 				if ($i > 0)
 				{
-					$name = $menuItemEditPage->getHelpScreenshotName($tabs[$i], 'menus');
+					$options = array('tab' => $tabs[$i], 'language' => $defaultLanguage, 'prefix' => 'menus-menu-manager-new-menu-item');
+					$name = $menuItemEditPage->getHelpScreenshotName($options);
 				}
 				else
 				{
-					$name = $menuItemEditPage->getHelpScreenshotName(null, 'menus');
+					$options = array('language' => $defaultLanguage, 'prefix' => 'menus-menu-manager-new-menu-item');
+					$name = $menuItemEditPage->getHelpScreenshotName($defaultLanguage, 'menus-menu-manager-new-menu-item', 'code');
 				}
-				$this->helpScreenshot($name, $this->cfg->baseURI . "/tests/system/tmp/menu-item-screens");
+				$this->helpScreenshot($name, $folder);
 			}
 			$menuItemEditPage->clickButton('Cancel');
 			$menuItemsManagerPage = $this->getPageObject('MenuItemsManagerPage');
@@ -216,17 +242,18 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 	 */
 	public function takeScreenShotsForModuleTypes()
 	{
+		$defaultLanguage = self::$defaultLanguage;
+		$folder = $this->getFolderName('tmp/module-screens/');
+
 		/* @var $moduleEditPage ModuleEditPage */
 		/* @var $moduleManagerPage ModuleManagerPage */
 
 		// First get a list of all menu item types (array like group => 'Articles', type => 'Archived Articles')
 		$moduleManagerPage = $this->testPage->clickMenu('Module Manager', 'ModuleManagerPage');
+		$moduleManagerPage->moduleTypes = $moduleManagerPage->getModuleTypes();
 		foreach ($moduleManagerPage->moduleTypes as $type)
 		{
-			if ($type['client'] != 'site')
-			{
-				$moduleManagerPage->setFilter('filter_client_id', ucfirst($type['client']));
-			}
+			$moduleManagerPage->setClient($type['client']);
 			$moduleManagerPage->clickButton('toolbar-new');
 			$el = $this->driver->waitForElementUntilIsPresent(By::xPath('//ul[@id=\'new-modules-list\']//a[contains(., "' . $type["name"] . '")]'));
 			$coordinates = $el->getCoordinates();
@@ -250,15 +277,18 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 					continue;
 				}
 				$moduleEditPage->selectTab($tabs[$i]);
+				$moduleName = $moduleEditPage->getModuleName();
 				if ($i > 0)
 				{
-					$name = $moduleEditPage->getHelpScreenshotName($tabs[$i], 'modules ' . $type['client']);
+					$options = array('tab' => $tabs[$i], 'prefix' => 'modules ' . $type['client'] . '-' . $moduleName, 'language' => self::$defaultLanguage);
+					$name = $moduleEditPage->getHelpScreenshotName($options);
 				}
 				else
 				{
-					$name = $moduleEditPage->getHelpScreenshotName(null, 'modules ' . $type['client']);
+					$options = array('prefix' => 'modules ' . $type['client'] . '-' . $moduleName, 'language' => self::$defaultLanguage);
+					$name = $moduleEditPage->getHelpScreenshotName($options);
 				}
-				$this->helpScreenshot($name, $this->cfg->baseURI . "/tests/system/tmp/module-screens");
+				$this->helpScreenshot($name, $folder);
 			}
 
 			$moduleEditPage->clickButton('toolbar-cancel');
@@ -272,28 +302,25 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 	 */
 	public function writeWikiFilesForBasicScreens()
 	{
-		$folder = 'tests/system/tmp/wiki-basic-files';
-		$basePath = dirname(dirname(dirname(dirname(dirname(__DIR__)))));
-		$fullPath = $basePath . '/' . $folder;
-		if (!file_exists($fullPath))
-		{
-			mkdir($fullPath);
-		}
+		$testPage = $this->testPage;
+		$folder = $this->getFolderName('tmp/wiki-basic-files/');
 
 		foreach ($this->allMenuLinks as $menuText => $linkArray)
 		{
 			if (strpos($linkArray[1], 'http') !== 0)
 			{
 				$testPage = $this->testPage->clickMenuByUrl($linkArray[1], $linkArray[0]);
+				$testPage->tabs = null;
+				$testPage->tabLabels = null;
 				if (method_exists($testPage, 'toWikiHelp'))
 				{
-					$text = $testPage->toWikiHelp($linkArray[2]);
-					$fileName = $testPage->getHelpFileName($menuText);
-					file_put_contents($fullPath . '/' . $fileName, $text);
+					$screenshotOptions = array('prefix' => $linkArray[2] . '-' . $menuText, 'language' => self::$defaultLanguage);
+					$text = $testPage->toWikiHelp(array(), array(), $screenshotOptions);
+					$fileName = $testPage->getHelpFileName($linkArray[2] . '-' . $menuText . '-' . self::$defaultLanguage);
+					file_put_contents($folder . '/' . $fileName, $text);
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -301,33 +328,28 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 	 */
 	public function writeWikiFilesForMenuItemTypes()
 	{
-		$folder = 'tests/system/tmp/wiki-menu-item-files';
-		$basePath = dirname(dirname(dirname(dirname(dirname(__DIR__)))));
-		$fullPath = $basePath . '/' . $folder;
-		if (! file_exists($fullPath))
-		{
-			mkdir($fullPath);
-		}
+		$folder = $this->getFolderName('tmp/wiki-menu-item-files/');
 
 		/* @var $menuItemEditPage MenuItemEditPage */
 
 		$menuItemsManagerPage = $this->testPage->clickMenu('Main Menu', 'MenuItemsManagerPage');
 		$menuItemsManagerPage->clickButton('toolbar-new');
 		$menuItemEditPage = $this->getPageObject('MenuItemEditPage');
-		$menuItemTypes = $menuItemEditPage->menuItemTypes;
+		$menuItemEditPage->menuItemTypes = $menuItemEditPage->getMenuItemTypes();
 		$menuItemsManagerPage = $this->testPage->clickMenu('Main Menu', 'MenuItemsManagerPage');
-		foreach ($menuItemTypes as $type)
+		foreach ($menuItemEditPage->menuItemTypes as $type)
 		{
 			$menuItemsManagerPage->clickButton('toolbar-new');
-			$menuItemEditPage = $this->getPageObject('MenuItemEditPage');
+			$this->getPageObject('MenuItemEditPage');
 			$menuItemEditPage->setMenuItemType($type['type']);
 			$menuItemEditPage->tabs = null;
 			$menuItemEditPage->tabLabels = null;
-			$text = $menuItemEditPage->toWikiHelp('menus', array('header', 'details', 'attrib-menu-options', 'attrib-page-options', 'attrib-metadata', 'modules'));
+			$screenshotNameOptions = array('prefix' => 'menus-menu-manager-new-menu-item', 'language' => self::$defaultLanguage);
+			$text = $menuItemEditPage->toWikiHelp(array('header', 'details', 'attrib-menu-options', 'attrib-page-options', 'attrib-metadata', 'modules'), array(), $screenshotNameOptions);
 			if ($text)
 			{
-				$fileName = $menuItemEditPage->getHelpFileName(trim('menu-item-type-' . $type['group'] . ' ' . $type['type']));
-				file_put_contents($fullPath . '/' . $fileName, $text);
+				$fileName = $menuItemEditPage->getHelpFileName(trim('menu-item-type-' . $menuItemEditPage->getMenuItemComponent()));
+				file_put_contents($folder . '/' . $fileName, $text);
 			}
 			$menuItemEditPage->clickButton('Cancel');
 			$menuItemsManagerPage = $this->getPageObject('MenuItemsManagerPage');
@@ -339,24 +361,16 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 	 */
 	public function writeWikiFilesForModuleTypes()
 	{
-		$folder = 'tests/system/tmp/wiki-module-type-files';
-		$basePath = dirname(dirname(dirname(dirname(dirname(__DIR__)))));
-		$fullPath = $basePath . '/' . $folder;
-		if (! file_exists($fullPath))
-		{
-			mkdir($fullPath);
-		}
+		$folder = $this->getFolderName('tmp/wiki-module-type-files/');
 
 		/* @var $moduleEditPage ModuleEditPage */
 		/* @var $moduleManagerPage ModuleManagerPage */
 		// First get a list of all module types
 		$moduleManagerPage = $this->testPage->clickMenu('Module Manager', 'ModuleManagerPage');
+		$moduleManagerPage->moduleTypes = $moduleManagerPage->getModuleTypes();
 		foreach ($moduleManagerPage->moduleTypes as $type)
 		{
-			if ($type['client'] != 'site')
-			{
-				$moduleManagerPage->setFilter('filter_client_id', ucfirst($type['client']));
-			}
+			$moduleManagerPage->setClient($type['client']);
 			$moduleManagerPage->clickButton('toolbar-new');
 			$el = $this->driver->waitForElementUntilIsPresent(By::xPath('//ul[@id=\'new-modules-list\']//a[contains(., "' . $type["name"] . '")]'));
 			$coordinates = $el->getCoordinates();
@@ -370,17 +384,37 @@ class WikihelpTest extends JoomlaWebdriverTestCase
 			$moduleEditPage->tabs = null;
 			$moduleEditPage->tabLabels = null;
 			$excludedTabs = array('assignment','permissions','attrib-advanced');
-			$excludedFields = array('Show Title', 'Position', 'Status', 'Start Publishing', 'Finish Publishing', 'Access', 'Ordering', 'Language', 'Note');
-			$text = $moduleEditPage->toWikiHelp('modules-' . $type['client'], $excludedTabs, $excludedFields);
+			$excludedFields = array('jform_showtitle', 'jform_position', 'jform_published', 'jform_publish_up', 'jform_publish_down', 'jform_access', 'jform_ordering', 'jform_language', 'jform_note');
+			$moduleName = $moduleEditPage->getModuleName();
+			$options = array('prefix' => 'modules-' . $type['client'] . '-' . $moduleName, 'language' => self::$defaultLanguage);
+			$text = $moduleEditPage->toWikiHelp($excludedTabs, $excludedFields, $options);
 			if ($text)
 			{
-				$fileName = $moduleEditPage->getHelpFileName(trim('module-' . $type['client'] . '-' . $type['name']));
-				file_put_contents($fullPath . '/' . $fileName, $text);
+				$fileName = $moduleEditPage->getHelpFileName(trim('module-' . $type['client'] . '-' . $moduleName));
+				file_put_contents($folder . '/' . $fileName, $text);
 			}
 			$moduleEditPage->clickButton('toolbar-cancel');
 			$this->getPageObject('ModuleManagerPage');
 		}
 
+	}
+
+	public function getFolderName($parentFolder)
+	{
+		$basePath = dirname(dirname(dirname(dirname(dirname(__DIR__)))));
+		$baseFolder = $basePath . '/' . $parentFolder;
+		if (!file_exists($baseFolder))
+		{
+			mkdir($baseFolder);
+		}
+
+		$folder = $baseFolder . self::$defaultLanguage;
+		if (!file_exists($folder))
+		{
+			mkdir($folder);
+		}
+
+		return $folder;
 	}
 
 

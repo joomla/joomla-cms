@@ -306,19 +306,42 @@ abstract class AdminPage
 		return $this->driver->findElement(By::xPath("//dd[@class='error message']"))->getText();
 	}
 
-	public function getHelpScreenshotName($tabLabel = null, $prefix = null)
+	/**
+	 * Gets the file name for the help screenshot.
+	 *
+	 * @param  array  $options  Associative array as follows:
+	 *                             'prefix' => prefix for the file name
+	 *                             'language' => optional language code for non-English (use component and tabid in name)
+	 *                             'tab' => tab id to append to the file name
+	 *                             'component' => name of the component (for use in non-English file name)
+	 *
+	 * @return string file name.
+	 */
+	public function getHelpScreenshotName($options = array())
 	{
-		$screenName = $this->driver->findElement(By::className('page-title'))->getText();
-		if ($prefix)
+		$prefix = (isset($options['prefix'])) ? $options['prefix'] : '';
+		$tabId = (isset($options['tab'])) ? $options['tab'] : '';
+		$language = (isset($options['language'])) ? $options['language'] : '';
+		$component = (isset($options['component'])) ? $options['component'] : '';
+
+		if ($language)
 		{
-			$screenName = $prefix . '-' . $screenName;
+			$prefix = ($component) ? $prefix . '-' . $component : $prefix;
+			$prefix = ($tabId) ? $prefix . '-' . $tabId : $prefix;
+			$name = 'help-' . $this->version . '-' . $prefix . '-' . $language . '.png';
 		}
-		if ($tabLabel)
+		else
 		{
-			$screenName .= '-' . $tabLabel;
+			if ($tabId && ($label = $this->getTabLabel($tabId)))
+			{
+				$name = 'help-' . $this->version . '-' . $prefix . '-' . $label . '.png';
+			}
+			else
+			{
+				$name = 'help-' . $this->version . '-' . $prefix . '.png';
+			}
 		}
-		$name = 'help-' . $this->version . '-' . $screenName . '.png';
-		return strtolower(str_replace(array(' ', ':'), array('-', ''), $name));
+		return strtolower(str_replace(array('\'', ' / ', ' - ', ' ', '/', ':', '&', '='), array('', '-', '-','-', '', '', '-', '-'), $name));
 	}
 
 	public function getSystemMessage()
