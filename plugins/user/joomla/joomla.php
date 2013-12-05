@@ -55,9 +55,6 @@ class PlgUserJoomla extends JPlugin
 	public function __construct(&$subject, $config = array())
 	{
 		parent::__construct($subject, $config);
-
-		// As of CMS 3.2 strong encryption is the default.
-		$this->useStrongEncryption = $this->params->get('strong_passwords', true);
 	}
 
 	/**
@@ -205,18 +202,15 @@ class PlgUserJoomla extends JPlugin
 
 		// Mark the user as logged in
 		$instance->set('guest', 0);
-
+		
 		// If the user has an outdated hash, update it.
-		if (substr($user['password'], 0, 4) != '$2y$' && $this->useStrongEncryption && JCrypt::hasStrongPasswordSupport() == true)
+		//JCrypt::hasStrongPasswordSupport() includes a fallback for us in the worst case
+		JCrypt::hasStrongPasswordSupport();
+		if (strpos($oldUser->password, '$2y$') === false || password_needs_rehash($oldUser->password, PASSWORD_DEFAULT))
 		{
-			if (strlen($user['password']) > 55)
-			{
-				$user['password'] = substr($user['password'], 0, 55);
+			$hash = password_hash($user['password'], PASSWORD_DEFAULT);
 
-				JFactory::getApplication()->enqueueMessage(JText::_('JLIB_USER_ERROR_PASSWORD_TRUNCATED'), 'notice');
-			}
-
-			$instance->password = password_hash($user['password'], PASSWORD_BCRYPT);
+			$instance->password = $hash;
 			$instance->save();
 		}
 
@@ -489,26 +483,5 @@ class PlgUserJoomla extends JPlugin
 		$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->cookie_path, $this->cookie_domain);
 
 		return true;
-	}
-
-	/**
-	 * Method to set the default encryption for passwords
-	 *
-	 * @param   JRegistry  $userPluginParams  User plugin params
-	 *
-	 * @return  string  The default encryption method based on plugin parameters
-	 *
-	 * @since   3.2
-	 */
-	public static function setDefaultEncryption($userPluginParams)
-	{
-		if ($userPluginParams->get('strong_passwords') == 1)
-		{
-			return 'bcrypt';
-		}
-		else
-		{
-			return 'md5-hex';
-		}
 	}
 }

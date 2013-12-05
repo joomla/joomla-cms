@@ -54,29 +54,13 @@ class PlgAuthenticationJoomla extends JPlugin
 
 		if ($result)
 		{
-			if (substr($result->password, 0, 4) == '$2y$')
+			//JCrypt::hasStrongPasswordSupport() includes a fallback for password_hash() for us in the worst case
+			JCrypt::hasStrongPasswordSupport();
+			if (strpos($result->password, '$2y$') !== false)
 			{
-				// BCrypt passwords are always 60 characters, but it is possible that salt is appended although non standard.
-				$password60 = substr($result->password, 0, 60);
-
-				if (JCrypt::hasStrongPasswordSupport())
-				{
-					$match = password_verify($credentials['password'], $password60);
-				}
+				$match = password_verify($credentials['password'], $result->password);
 			}
-			elseif (substr($result->password, 0, 8) == '{SHA256}')
-			{
-				// Check the password
-				$parts	= explode(':', $result->password);
-				$crypt	= $parts[0];
-				$salt	= @$parts[1];
-				$testcrypt = JUserHelper::getCryptedPassword($credentials['password'], $salt, 'sha256', false);
 
-				if ($result->password == $testcrypt)
-				{
-					$match = true;
-				}
-			}
 			else
 			{
 				// Check the password
