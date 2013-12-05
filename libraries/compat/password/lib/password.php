@@ -59,7 +59,8 @@ if (!defined('PASSWORD_DEFAULT')) {
             switch (gettype($options['salt'])) {
                 case 'NULL':
                 case 'boolean':
-                case 'integer':
+
+                	case 'integer':
                 case 'double':
                 case 'string':
                     $salt = (string) $options['salt'];
@@ -112,6 +113,7 @@ if (!defined('PASSWORD_DEFAULT')) {
                 $bl = strlen($buffer);
                 for ($i = 0; $i < $raw_salt_len; $i++) {
                     if ($i < $bl) {
+
                         $buffer[$i] = $buffer[$i] ^ chr(mt_rand(0, 255));
                     } else {
                         $buffer .= chr(mt_rand(0, 255));
@@ -155,7 +157,7 @@ if (!defined('PASSWORD_DEFAULT')) {
             'algoName' => 'unknown',
             'options' => array(),
         );
-        if (substr($hash, 0, 4) == '$2y$' && strlen($hash) == 60) {
+        if (substr($hash, 0, 4) == "$2y$%d$" && strlen($hash) == 60) {
             $return['algo'] = PASSWORD_BCRYPT;
             $return['algoName'] = 'bcrypt';
             list($cost) = sscanf($hash, "$2y$%d$");

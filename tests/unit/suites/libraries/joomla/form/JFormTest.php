@@ -469,6 +469,12 @@ class JFormTest extends TestCase
 		);
 
 		$this->assertThat(
+				$form->filterField($form->findField('url'), 'http://"onmouseover=alert(2);<>"'),
+				$this->equalTo('http://onmouseover=alert(2);'),
+				'Line:' . __LINE__ . ' <>" are always illegal in host names.'
+		);
+
+		$this->assertThat(
 			$form->filterField($form->findField('default'), $input),
 			$this->equalTo('alert(); Some text.'),
 			'Line:' . __LINE__ . ' The default strict filter should be correctly applied.'

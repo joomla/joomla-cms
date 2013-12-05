@@ -46,7 +46,7 @@ class PlgSystemRedirect extends JPlugin
 		{
 			// Get the full current URI.
 			$uri = JUri::getInstance();
-			$current = $uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment'));
+			$current = rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment')));
 
 			// Attempt to ignore idiots.
 			if ((strpos($current, 'mosConfig_') !== false) || (strpos($current, '=http://') !== false))

@@ -39,8 +39,8 @@ class RedirectTableLink extends JTable
 	 */
 	public function check()
 	{
-		$this->old_url = trim($this->old_url);
-		$this->new_url = trim($this->new_url);
+		$this->old_url = trim(rawurldecode($this->old_url));
+		$this->new_url = trim(rawurldecode($this->new_url));
 
 		// Check for valid name.
 		if (empty($this->old_url))

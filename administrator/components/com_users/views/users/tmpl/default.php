@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
+JHtml::_('behavior.modal', 'a.modal');
 
 $canDo = UsersHelper::getActions();
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -47,7 +48,7 @@ $sortFields = $this->getSortFields();
 	<?php endif;?>
 		<?php
 		// Search tools bar
-		echo JLayoutHelper::render('joomla.searchtools.default', $this);
+		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 		?>
 	<table class="table table-striped">
 		<thead>

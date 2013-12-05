@@ -1,8 +1,9 @@
 <?php
 /**
- * @package    FrameworkOnFramework
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     FrameworkOnFramework
+ * @subpackage  table
+ * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
 defined('_JEXEC') or die;
@@ -160,11 +161,10 @@ class FOFTableBehaviorAssets extends FOFTableBehavior
 		if ($table->isAssetsTracked())
 		{
 			// Get and the asset name.
-			$table->$k 	= $pk;
-			$name    	= $table->getAssetName();
+			$name = $table->getAssetName();
 
 			// Do NOT touch JTable here -- we are loading the core asset table which is a JTable, not a FOFTable
-			$asset    = JTable::getInstance('Asset');
+			$asset = JTable::getInstance('Asset');
 
 			if ($asset->loadByName($name))
 			{

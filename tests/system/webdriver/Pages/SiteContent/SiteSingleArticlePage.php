@@ -38,28 +38,28 @@ class SiteSingleArticlePage extends SitePage
 	 * @var    string
 	 * @since  3.2
 	 */
-	protected $url = '/index.php/getting-started';	
-	
+	protected $url = '/index.php/';
+
 	/**
 	 * Function which checks if an Article is visible or not
 	 *@param string 	Title of the Article
-	 * 
+	 *
 	 * @return  True or Flase
-	 */	
+	 */
 	public function isArticlePresent($articleTitle)
 	{
-		$arrayElement=$this->driver->findElements(By::xPath("//h2[contains(text(), '".$articleTitle."')]"));
+		$arrayElement=$this->driver->findElements(By::xPath("//h2[contains(., '" . $articleTitle . "')]"));
 		if(count($arrayElement)>0)
 		{
 			return true;
 		}
-		else	
-		return false; 
+		else
+		return false;
 	}
-	
+
 	/**
 	 * Function which checks of edit icon is ppresent on the page or not
-	 * 
+	 *
 	 * @return True or Flase
 	 */
 	public function isEditPresent()

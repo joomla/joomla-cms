@@ -128,6 +128,15 @@ class PlgSystemRemember extends JPlugin
 
 			if ($rememberArray !== false)
 			{
+				if (count($rememberArray) != 3)
+				{
+					// Destroy the cookie in the browser.
+					$this->app->input->cookie->set(end($rememberArray), false, time() - 42000, $this->app->get('cookie_path'), $this->app->get('cookie_domain'));
+					JLog::add('Invalid cookie detected.', JLog::WARNING, 'error');
+
+					return false;
+				}
+
 				list($privateKey, $series, $uastring) = $rememberArray;
 
 				if (!JUserHelper::clearExpiredTokens($this))
@@ -177,7 +186,7 @@ class PlgSystemRemember extends JPlugin
 
 					if (empty($match))
 					{
-						JUserHelper:invalidateCookie($results[0]->user_id, $uastring);
+						JUserHelper::invalidateCookie($results[0]->user_id, $uastring);
 						JLog::add(JText::sprintf('PLG_SYSTEM_REMEMBER_ERROR_LOG_LOGIN_FAILED', $user->username), JLog::WARNING, 'security');
 
 						return false;

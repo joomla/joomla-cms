@@ -29,9 +29,9 @@ class TemplateEditPage extends AdminEditPage
 	 *
 	 * @var    string
 	 * @since  3.0
-	 */  
+	 */
 	protected $waitForXpath =  "//form[@id='style-form']";
-	
+
 	/**
 	 * URL used to uniquely identify this page
 	 *
@@ -39,16 +39,16 @@ class TemplateEditPage extends AdminEditPage
 	 * @since  3.0
 	 */
 	protected $url = 'administrator/index.php?option=com_templates&view=style&layout=edit';
-	
+
 	/**
-	 * Array of tabs present on this page, it depends on the Style that we chose sometimes it is just Details, 
+	 * Array of tabs present on this page, it depends on the Style that we chose sometimes it is just Details,
 	 * some times Both options and Details
 	 *
 	 * @var    array
 	 * @since  3.0
 	 */
-	public $tabs = array('details','options');
-	
+	public $tabs = array('details');
+
 	/**
 	 * Array of tab labels for this page
 	 *
@@ -57,11 +57,11 @@ class TemplateEditPage extends AdminEditPage
 	 */
 	public $tabLabels = array('Details','Options');
 	//Options screen would be present in some plugins and in some plugins the screen would not be present
-	
+
 	/**
 	 * Array of all the field Details of the Edit page, along with the ID and tab value they are present on
 	 *
-	 * @var array		 
+	 * @var array
 	 * @since 3.0
 	 */
 	public $inputFields = array (
@@ -69,6 +69,6 @@ class TemplateEditPage extends AdminEditPage
 			array('label' => 'Default', 'id' => 'jform_home', 'type' => 'fieldset', 'tab' => 'details'),
 			array('lable' => 'Show Site Name', 'id'=>'jform_params_showSiteName', 'type' => 'fieldset', 'tab' => 'options'),
 			array('lable' => 'Select Colour', 'id'=>'jform_params_colourChoice', 'type' => 'select', 'tab' => 'options'),
-			array('lable' => 'Bold Text', 'id'=>'jform_params_boldText', 'type' => 'fieldset', 'tab' => 'options'),									
+			array('lable' => 'Bold Text', 'id'=>'jform_params_boldText', 'type' => 'fieldset', 'tab' => 'options'),
 			);
 }

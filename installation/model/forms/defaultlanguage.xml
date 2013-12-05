@@ -9,8 +9,8 @@
 			filter="integer"
 			default="0"
 		>
-			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 		<field name="installLocalisedContent"
 			type="radio"
@@ -21,8 +21,8 @@
 			showon="activateMultilanguage:1"
 			default="1"
 		>
-			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 		<field name="activatePluginLanguageCode"
 			type="radio"
@@ -33,8 +33,8 @@
 			showon="activateMultilanguage:1"
 			default="0"
 		>
-			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 	</fieldset>
 </form>

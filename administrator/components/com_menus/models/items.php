@@ -46,6 +46,7 @@ class MenusModelItems extends JModelList
 				'path', 'a.path',
 				'client_id', 'a.client_id',
 				'home', 'a.home',
+				'a.ordering'
 			);
 
 			$app = JFactory::getApplication();
@@ -75,19 +76,34 @@ class MenusModelItems extends JModelList
 		$parentId = $this->getUserStateFromRequest($this->context . '.filter.parent_id', 'filter_parent_id', 0, 'int');
 		$this->setState('filter.parent_id', $parentId);
 
+		$search = $this->getUserStateFromRequest($this->context . '.search', 'filter_search');
+		$this->setState('filter.search', $search);
+
+		$published = $this->getUserStateFromRequest($this->context . '.published', 'filter_published', '');
+		$this->setState('filter.published', $published);
+
+		$access = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', 0, 'int');
+		$this->setState('filter.access', $access);
+
+		$parentId = $this->getUserStateFromRequest($this->context . '.filter.parent_id', 'filter_parent_id', 0, 'int');
+		$this->setState('filter.parent_id', $parentId);
+
+		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level', 0, 'int');
+		$this->setState('filter.level', $level);
+
 		$menuType = $app->input->getString('menutype', null);
 
 		if ($menuType)
 		{
-			if ($menuType != $app->getUserState($this->context . '.filter.menutype'))
+			if ($menuType != $app->getUserState($this->context . '.menutype'))
 			{
-				$app->setUserState($this->context . '.filter.menutype', $menuType);
+				$app->setUserState($this->context . '.menutype', $menuType);
 				$app->input->set('limitstart', 0);
 			}
 		}
 		else
 		{
-			$menuType = $app->getUserState($this->context . '.filter.menutype');
+			$menuType = $app->getUserState($this->context . '.menutype');
 
 			if (!$menuType)
 			{
@@ -96,6 +112,9 @@ class MenusModelItems extends JModelList
 		}
 
 		$this->setState('filter.menutype', $menuType);
+
+		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
+		$this->setState('filter.language', $language);
 
 		// Component parameters.
 		$params = JComponentHelper::getParams('com_menus');

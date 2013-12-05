@@ -23,7 +23,7 @@ $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 $ordering 	= ($listOrder == 'a.lft');
 $canOrder	= $user->authorise('core.edit.state',	'com_menus');
-$saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
+$saveOrder 	= ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
 $originalOrders = array();
 
 if ($saveOrder)
@@ -64,7 +64,7 @@ $assoc		= JLanguageAssociations::isEnabled();
 <?php endif;?>
 		<?php
 		// Search tools bar
-		echo JLayoutHelper::render('joomla.searchtools.default', $this);
+		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this), null, array('debug' => false));
 		?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-no-items">
@@ -75,7 +75,7 @@ $assoc		= JLanguageAssociations::isEnabled();
 				<thead>
 					<tr>
 						<th width="1%" class="hidden-phone">
-							<?php echo JHtml::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+							<?php echo JHtml::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 						</th>
 						<th width="1%" class="hidden-phone">
 							<?php echo JHtml::_('grid.checkall'); ?>

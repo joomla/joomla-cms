@@ -12,49 +12,58 @@ defined('_JEXEC') or die('Restricted access');
 /**
  * Base Display Controller
  *
- * @package     Joomla.Libraries
- * @subpackage  controller
+ * @package     Joomla.Site
+ * @subpackage  com_config
  * @since       3.2
 */
 class ConfigControllerDisplay extends JControllerBase
 {
-	/*
+	/**
+	 * Application object - Redeclared for proper typehinting
+	 *
+	 * @var    JApplicationCms
+	 * @since  3.2
+	 */
+	protected $app;
+
+	/**
 	 * Prefix for the view and model classes
 	 *
-	 * @var  string
+	 * @var    string
+	 * @since  3.2
 	 */
 	public $prefix = 'Config';
 
 	/**
+	 * Execute the controller.
+	 *
 	 * @return  mixed  A rendered view or true
 	 *
 	 * @since   3.2
 	 */
 	public function execute()
 	{
-		// Get the application
-		$app = $this->getApplication();
-
 		// Get the document object.
-		$document     = JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		$componentFolder = $this->input->getWord('option', 'com_config');
 
-		if ($app->isAdmin())
+		if ($this->app->isAdmin())
 		{
-			$viewName     = $this->input->getWord('view', 'application');
+			$viewName = $this->input->getWord('view', 'application');
 		}
 		else
 		{
-			$viewName     = $this->input->getWord('view', 'config');
+			$viewName = $this->input->getWord('view', 'config');
 		}
-		$viewFormat   = $document->getType();
-		$layoutName   = $this->input->getWord('layout', 'default');
+
+		$viewFormat = $document->getType();
+		$layoutName = $this->input->getWord('layout', 'default');
 
 		// Register the layout paths for the view
 		$paths = new SplPriorityQueue;
 
-		if ($app->isAdmin())
+		if ($this->app->isAdmin())
 		{
 			$paths->insert(JPATH_ADMINISTRATOR . '/components/' . $componentFolder . '/view/' . $viewName . '/tmpl', 1);
 		}
@@ -73,8 +82,7 @@ class ConfigControllerDisplay extends JControllerBase
 			// Access check.
 			if (!JFactory::getUser()->authorise('core.admin', $model->getState('component.option')))
 			{
-
-				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+				$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 
 				return;
 			}

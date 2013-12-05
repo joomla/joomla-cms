@@ -13,25 +13,29 @@ defined('JPATH_PLATFORM') or die;
  * Cancel Controller
  *
  * @package     Joomla.Libraries
- * @subpackage  Controller
+ * @subpackage  com_config
  * @since       3.2
  */
 class ConfigControllerCancel extends JControllerBase
 {
+	/**
+	 * Application object - Redeclared for proper typehinting
+	 *
+	 * @var    JApplicationCms
+	 * @since  3.2
+	 */
+	protected $app;
 
 	/**
 	 * Method to handle cancel
 	 *
-	 * @return  bool	True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   3.2
 	 */
 	public function execute()
 	{
-
 		// Redirect back to home(base) page
-		$this->app->redirect(JURI::base());
-
-		return true;
+		$this->app->redirect(JUri::base());
 	}
 }

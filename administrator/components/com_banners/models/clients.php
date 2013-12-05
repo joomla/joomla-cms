@@ -59,6 +59,13 @@ class BannersModelClients extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
+		// Load the filter state.
+		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
+		$this->setState('filter.search', $search);
+
+		$state = $this->getUserStateFromRequest($this->context . '.filter.state', 'filter_state', '', 'string');
+		$this->setState('filter.state', $state);
+
 		// Load the parameters.
 		$params = JComponentHelper::getParams('com_banners');
 		$this->setState('params', $params);
@@ -164,7 +171,7 @@ class BannersModelClients extends JModelList
 		{
 			if ($defaultPurchase == $purchaseType)
 			{
-				$query->where('a.purchase_type = ' . (int) $purchaseType . ' OR a.purchase_type = -1');
+				$query->where('(a.purchase_type = ' . (int) $purchaseType . ' OR a.purchase_type = -1)');
 			}
 			else
 			{

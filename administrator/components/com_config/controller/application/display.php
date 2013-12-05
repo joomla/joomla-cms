@@ -12,18 +12,18 @@ defined('_JEXEC') or die;
 /**
  * Base Display Controller
  *
- * @package     Joomla.Libraries
- * @subpackage  controller
+ * @package     Joomla.Administrator
+ * @subpackage  com_config
  * @since       3.2
  * @note        Needed for front end view
-*/
+ */
 class ConfigControllerApplicationDisplay extends ConfigControllerDisplay
 {
-	/*
+	/**
 	 * Prefix for the view and model classes
-	*
-	* @var  string
-	*/
+	 *
+	 * @var    string
+	 * @since  3.2
+	 */
 	public $prefix = 'Config';
-
 }

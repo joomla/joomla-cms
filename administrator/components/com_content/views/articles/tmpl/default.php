@@ -62,7 +62,7 @@ $assoc		= JLanguageAssociations::isEnabled();
 <?php endif;?>
 		<?php
 		// Search tools bar
-		echo JLayoutHelper::render('joomla.searchtools.default', $this);
+		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 		?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-no-items">
@@ -159,7 +159,7 @@ $assoc		= JLanguageAssociations::isEnabled();
 								?>
 							</div>
 						</td>
-						<td class="nowrap has-context">
+						<td class="has-context">
 							<div class="pull-left">
 								<?php if ($item->checked_out) : ?>
 									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
