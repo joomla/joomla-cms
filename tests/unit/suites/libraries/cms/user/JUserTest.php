@@ -236,9 +236,7 @@ class JUserTest extends TestCaseDatabase
 	{
 		// Set up user 99 to be root_user from configuration
 		$testConfig = $this->getMock('JConfig', array('get'));
-		$testConfig->expects(
-			$this->any()
-		)
+		$testConfig->expects($this->any())
 			->method('get')
 			->will($this->returnValue(99));
 		JFactory::$config = $testConfig;
@@ -397,7 +395,6 @@ class JUserTest extends TestCaseDatabase
 	 * Test...
 	 *
 	 * @covers JUser::bind
-	 * @todo Implement testBind().
 	 *
 	 * @return void
 	 */
