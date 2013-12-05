@@ -142,18 +142,8 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 	 */
 	public function takeScreenShotsAllMenuLinks()
 	{
+		$folder = $this->getFolderName('tmp/basic-screens/');
 		$defaultLanguage = self::$defaultLanguage;
-		$baseFolder = $this->cfg->baseURI . "/tests/system/tmp/basic-screens/";
-		$folder = $baseFolder . $defaultLanguage;
-		if (!file_exists($baseFolder))
-		{
-			mkdir($baseFolder);
-		}
-		if (!file_exists($folder))
-		{
-			mkdir($folder);
-		}
-
 		$testPage = $this->testPage;
 		$gcPage = $testPage->clickMenu('Global Configuration', 'GlobalConfigurationPage');
 		$gcPage->setFieldValue('Default List Limit', '5');
@@ -198,17 +188,7 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 	public function takeScreenShotsMenuItemTypes()
 	{
 		$defaultLanguage = self::$defaultLanguage;
-		$baseFolder = $this->cfg->baseURI . "/tests/system/tmp/menu-item-screens/";
-		$folder = $baseFolder . $defaultLanguage;
-		if (!file_exists($baseFolder))
-		{
-			mkdir($baseFolder);
-		}
-		if (!file_exists($folder))
-		{
-			mkdir($folder);
-		}
-
+		$folder = $this->getFolderName('tmp/menu-item-screens/');
 		$testPage = $this->testPage;
 
 		/* @var $menuItemEditPage MenuItemEditPage */
@@ -263,16 +243,7 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 	public function takeScreenShotsForModuleTypes()
 	{
 		$defaultLanguage = self::$defaultLanguage;
-		$baseFolder = $this->cfg->baseURI . "/tests/system/tmp/module-screens/";
-		$folder = $baseFolder . $defaultLanguage;
-		if (!file_exists($baseFolder))
-		{
-			mkdir($baseFolder);
-		}
-		if (!file_exists($folder))
-		{
-			mkdir($folder);
-		}
+		$folder = $this->getFolderName('tmp/module-screens/');
 
 		/* @var $moduleEditPage ModuleEditPage */
 		/* @var $moduleManagerPage ModuleManagerPage */
@@ -332,16 +303,7 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 	public function writeWikiFilesForBasicScreens()
 	{
 		$testPage = $this->testPage;
-		$baseFolder = $this->cfg->baseURI . "/tests/system/tmp/wiki-basic-files/";
-		$folder = $baseFolder . self::$defaultLanguage;
-		if (!file_exists($baseFolder))
-		{
-			mkdir($baseFolder);
-		}
-		if (!file_exists($folder))
-		{
-			mkdir($folder);
-		}
+		$folder = $this->getFolderName('tmp/wiki-basic-files/');
 
 		foreach ($this->allMenuLinks as $menuText => $linkArray)
 		{
@@ -366,16 +328,7 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 	 */
 	public function writeWikiFilesForMenuItemTypes()
 	{
-		$baseFolder = $baseFolder = $this->cfg->baseURI . 'tests/system/tmp/wiki-menu-item-files/';
-		$folder = $baseFolder . self::$defaultLanguage;
-		if (!file_exists($baseFolder))
-		{
-			mkdir($baseFolder);
-		}
-		if (!file_exists($folder))
-		{
-			mkdir($folder);
-		}
+		$folder = $this->getFolderName('tmp/wiki-menu-item-files/');
 
 		/* @var $menuItemEditPage MenuItemEditPage */
 
@@ -408,16 +361,7 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 	 */
 	public function writeWikiFilesForModuleTypes()
 	{
-		$baseFolder = $this->cfg->baseURI . 'tests/system/tmp/wiki-module-type-files/';
-		$folder = $baseFolder . self::$defaultLanguage;
-		if (!file_exists($baseFolder))
-		{
-			mkdir($baseFolder);
-		}
-		if (!file_exists($folder))
-		{
-			mkdir($folder);
-		}
+		$folder = $this->getFolderName('tmp/wiki-module-type-files/');
 
 		/* @var $moduleEditPage ModuleEditPage */
 		/* @var $moduleManagerPage ModuleManagerPage */
@@ -453,6 +397,24 @@ class WikihelpTestAllLanguages extends JoomlaWebdriverTestCase
 			$this->getPageObject('ModuleManagerPage');
 		}
 
+	}
+
+	public function getFolderName($parentFolder)
+	{
+		$basePath = dirname(dirname(dirname(dirname(dirname(__DIR__)))));
+		$baseFolder = $basePath . '/' . $parentFolder;
+		if (!file_exists($baseFolder))
+		{
+			mkdir($baseFolder);
+		}
+
+		$folder = $baseFolder . self::$defaultLanguage;
+		if (!file_exists($folder))
+		{
+			mkdir($folder);
+		}
+
+		return $folder;
 	}
 
 
