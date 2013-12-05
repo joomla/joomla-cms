@@ -25,6 +25,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Dec-2013 Jean-Marie Simonet
+ # [#31682] Options for ordering in config.xml of com_tags is wrong Thanks Phương Lê
+
 02-Dec-2013 Jean-Marie Simonet
 # [#32741] Error 404 when leaving K2 config box in Joomla 3.2  Thanks Christelle Olivier
 
