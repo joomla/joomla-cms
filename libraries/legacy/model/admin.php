@@ -294,7 +294,7 @@ abstract class JModelAdmin extends JModelForm
 
 				if (!$this->table->store())
 				{
-					$this->setError($table->getError());
+					$this->setError($this->table->getError());
 
 					return false;
 				}
@@ -1208,7 +1208,7 @@ abstract class JModelAdmin extends JModelForm
 	}
 
 	/**
-	 * Method to creat a tags helper to ensure proper management of tags
+	 * Method to create a tags helper to ensure proper management of tags
 	 *
 	 * @param   JTableObserverTags  $tagsObserver  The tags observer for this table
 	 * @param   JUcmType            $type          The type for the table being processed
@@ -1224,7 +1224,7 @@ abstract class JModelAdmin extends JModelForm
 	{
 		if (!empty($tagsObserver) && !empty($type))
 		{
-			$table->tagsHelper = new JHelperTags();
+			$table->tagsHelper = new JHelperTags;
 			$table->tagsHelper->typeAlias = $typeAlias;
 			$table->tagsHelper->tags = explode(',', $table->tagsHelper->getTagIds($pk, $typeAlias));
 		}

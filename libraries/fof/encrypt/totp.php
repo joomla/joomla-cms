@@ -1,6 +1,7 @@
 <?php
 /**
  * @package    FrameworkOnFramework
+ * @subpackage encrypt
  * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -23,22 +24,34 @@ class FOFEncryptTotp
 
 	private $_timeStep = 30;
 
+	private $_base32 = null;
+
 	/**
 	 * Initialises an RFC6238-compatible TOTP generator. Please note that this
 	 * class does not implement the constraint in the last paragraph of §5.2
 	 * of RFC6238. It's up to you to ensure that the same user/device does not
 	 * retry validation within the same Time Step.
 	 *
-	 * @param   int  $timeStep        The Time Step (in seconds). Use 30 to be compatible with Google Authenticator.
-	 * @param   int  $passCodeLength  The generated passcode length. Default: 6 digits.
-	 * @param   int  $secretLength    The length of the secret key. Default: 10 bytes (80 bits).
+	 * @param   int     $timeStep        The Time Step (in seconds). Use 30 to be compatible with Google Authenticator.
+	 * @param   int     $passCodeLength  The generated passcode length. Default: 6 digits.
+	 * @param   int     $secretLength    The length of the secret key. Default: 10 bytes (80 bits).
+	 * @param   Object  $base32          The base32 en/decrypter
 	 */
-	public function __construct($timeStep = 30, $passCodeLength = 6, $secretLength = 10)
+	public function __construct($timeStep = 30, $passCodeLength = 6, $secretLength = 10, $base32=null)
 	{
 		$this->_timeStep       = $timeStep;
 		$this->_passCodeLength = $passCodeLength;
 		$this->_secretLength   = $secretLength;
 		$this->_pinModulo      = pow(10, $this->_passCodeLength);
+
+		if (is_null($base32))
+		{
+			$this->_base32 = new FOFEncryptBase32;
+		}
+		else
+		{
+			$this->_base32 = $base32;
+		}
 	}
 
 	/**
@@ -98,8 +111,7 @@ class FOFEncryptTotp
 	public function getCode($secret, $time = null)
 	{
 		$period = $this->getPeriod($time);
-		$base32 = new FOFEncryptBase32;
-		$secret = $base32->decode($secret);
+		$secret = $this->_base32->decode($secret);
 
 		$time = pack("N", $period);
 		$time = str_pad($time, 8, chr(0), STR_PAD_LEFT);
@@ -162,9 +174,8 @@ class FOFEncryptTotp
 			$c = rand(0, 255);
 			$secret .= pack("c", $c);
 		}
-
 		$base32 = new FOFEncryptBase32;
 
-		return $base32->encode($secret);
+		return $this->_base32->encode($secret);
 	}
 }

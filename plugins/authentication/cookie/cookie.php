@@ -82,9 +82,9 @@ class PlgAuthenticationCookie extends JPlugin
 
 		if ($countResults !== 1)
 		{
-			 $response->status  = JAuthentication::STATUS_FAILURE;
+			$response->status = JAuthentication::STATUS_FAILURE;
 
-			 return;
+			return;
 		}
 
 		// We have a user with one cookie with a valid series and a corresponding record in the database.
