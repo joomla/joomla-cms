@@ -46,12 +46,9 @@ $format = '<input type="checkbox" id="%1$s" name="%2$s" value="%3$s" %4$s />';
 		$attributes = array_filter(array($checked, $class, $disabled, $onchange, $onclick));
 		?>
 
-		<li>
-			<label for="<?php echo $id; ?>" class="checkbox">
-				<?php echo sprintf($format, $id, $field->name, $value, implode(' ', $attributes)); ?>
-			<?php echo JText::_($option->text); ?></label>
-		</li>
+		<label for="<?php echo $id; ?>" class="checkbox">
+			<?php echo sprintf($format, $id, $field->name, $value, implode(' ', $attributes)); ?>
+		<?php echo JText::_($option->text); ?></label>
 
 	<?php endforeach; ?>
-
 </fieldset>
