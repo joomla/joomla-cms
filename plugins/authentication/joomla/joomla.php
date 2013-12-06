@@ -54,45 +54,9 @@ class PlgAuthenticationJoomla extends JPlugin
 
 		if ($result)
 		{
-			if (substr($result->password, 0, 4) == '$2y$')
-			{
-				// BCrypt passwords are always 60 characters, but it is possible that salt is appended although non standard.
-				$password60 = substr($result->password, 0, 60);
+			$match = JUserHelper::verifyPassword($credentials['password'], $result->password, $result->id);
 
-				if (JCrypt::hasStrongPasswordSupport())
-				{
-					$match = password_verify($credentials['password'], $password60);
-				}
-			}
-			elseif (substr($result->password, 0, 8) == '{SHA256}')
-			{
-				// Check the password
-				$parts	= explode(':', $result->password);
-				$crypt	= $parts[0];
-				$salt	= @$parts[1];
-				$testcrypt = JUserHelper::getCryptedPassword($credentials['password'], $salt, 'sha256', false);
-
-				if ($result->password == $testcrypt)
-				{
-					$match = true;
-				}
-			}
-			else
-			{
-				// Check the password
-				$parts	= explode(':', $result->password);
-				$crypt	= $parts[0];
-				$salt	= @$parts[1];
-
-				$testcrypt = JUserHelper::getCryptedPassword($credentials['password'], $salt, 'md5-hex', false);
-
-				if ($crypt == $testcrypt)
-				{
-					$match = true;
-				}
-			}
-
-			if (isset($match) && $match === true)
+			if ($match === true)
 			{
 				// Bring this in line with the rest of the system
 				$user = JUser::getInstance($result->id);
