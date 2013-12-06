@@ -463,7 +463,7 @@ class JControllerForm extends JControllerLegacy
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
 		$tmpl   = $this->input->get('tmpl');
-		$layout = $this->input->get('layout', 'edit');
+		$layout = $this->input->get('layout', 'edit', 'string');
 		$append = '';
 
 		// Setup redirect info.
