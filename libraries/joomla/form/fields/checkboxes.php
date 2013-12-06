@@ -124,57 +124,27 @@ class JFormFieldCheckboxes extends JFormField
 	 */
 	protected function getInput()
 	{
-		$html = array();
+		// True if the field has 'value' set. In other words, it has been stored, don't use the default values.
+		$hasValue = (isset($this->value) && !empty($this->value));
 
-		// Initialize some field attributes.
-		$class          = !empty($this->class) ? ' class="checkboxes ' . $this->class . '"' : ' class="checkboxes"';
-		$checkedOptions = explode(',', (string) $this->checkedOptions);
-		$required       = $this->required ? ' required aria-required="true"' : '';
-		$autofocus      = $this->autofocus ? ' autofocus' : '';
+		// If a value has been stored, use it. Otherwise, use the defaults.
+		$checkedOptions = $hasValue ? $this->value : $this->checkedOptions;
+
+		$displayData = array(
+			'autofocus' => (boolean) $this->autofocus,
+			'checkedOptions' => is_array($checkedOptions) ? $checkedOptions : explode(',', (string) $checkedOptions),
+			'classes' => explode(' ', (string) $this->class),
+			'field' => $this,
+			'hasValue' => $hasValue,
+			'options' => $this->getOptions(),
+			'required' => (boolean) $this->required
+			);
 
 		// Including fallback code for HTML5 non supported browsers.
 		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/html5fallback.js', false, true);
 
-		// Start the checkbox field output.
-		$html[] = '<fieldset id="' . $this->id . '"' . $class . $required . $autofocus . '>';
-
-		// Get the field options.
-		$options = $this->getOptions();
-
-		// Build the checkbox field output.
-		foreach ($options as $i => $option)
-		{
-			// Initialize some option attributes.
-			if (!isset($this->value) || empty($this->value))
-			{
-				$checked = (in_array((string) $option->value, (array) $checkedOptions) ? ' checked' : '');
-			}
-			else
-			{
-				$value = !is_array($this->value) ? explode(',', $this->value) : $this->value;
-				$checked = (in_array((string) $option->value, $value) ? ' checked' : '');
-			}
-
-			$checked = empty($checked) && $option->checked ? ' checked' : $checked;
-
-			$class = !empty($option->class) ? ' class="checkbox ' . $option->class . '"' : ' class="checkbox"';
-			$disabled = !empty($option->disable) || $this->disabled ? ' disabled' : '';
-
-			// Initialize some JavaScript option attributes.
-			$onclick = !empty($option->onclick) ? ' onclick="' . $option->onclick . '"' : '';
-			$onchange = !empty($option->onchange) ? ' onchange="' . $option->onchange . '"' : '';
-
-			$html[] = '<label' . $class . '>';
-			$html[] = '<input type="checkbox" name="' . $this->name . '" value="'
-				. htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8') . '"' . $checked . $onclick . $onchange . $disabled . '/>';
-			$html[] = JText::_($option->text) . '</label>';
-		}
-
-		// End the checkbox field output.
-		$html[] = '</fieldset>';
-
-		return implode($html);
+		return JLayoutHelper::render('joomla.fields.checkboxes', $displayData);
 	}
 
 	/**
