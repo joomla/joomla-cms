@@ -37,49 +37,22 @@ class JFormFieldRadio extends JFormField
 	 */
 	protected function getInput()
 	{
-		$html = array();
+		$displayData = array(
+			'autofocus' => (boolean) $this->autofocus,
+			'classes' => explode(' ', (string) $this->class),
+			'disabled' => (boolean) $this->disabled,
+			'field' => $this,
+			'options' => $this->getOptions(),
+			'readonly' => (boolean) $this->readonly,
+			'required' => (boolean) $this->required,
+			'value' => (string) $this->value
+			);
 
-		// Initialize some field attributes.
-		$class     = !empty($this->class) ? ' class="radio ' . $this->class . '"' : ' class="radio"';
-		$required  = $this->required ? ' required aria-required="true"' : '';
-		$autofocus = $this->autofocus ? ' autofocus' : '';
-		$disabled  = $this->disabled ? ' disabled' : '';
-		$readonly  = $this->readonly;
+		// Including fallback code for HTML5 non supported browsers.
+		JHtml::_('jquery.framework');
+		JHtml::_('script', 'system/html5fallback.js', false, true);
 
-		// Start the radio field output.
-		$html[] = '<fieldset id="' . $this->id . '"' . $class . $required . $autofocus . $disabled . ' >';
-
-		// Get the field options.
-		$options = $this->getOptions();
-
-		// Build the radio field output.
-		foreach ($options as $i => $option)
-		{
-			// Initialize some option attributes.
-			$checked = ((string) $option->value == (string) $this->value) ? ' checked="checked"' : '';
-			$class = !empty($option->class) ? ' class="radio ' . $option->class . '"' : ' class="radio"';
-
-			$disabled = !empty($option->disable) || ($readonly && !$checked);
-
-			$disabled = $disabled ? ' disabled' : '';
-
-			// Initialize some JavaScript option attributes.
-			$onclick = !empty($option->onclick) ? ' onclick="' . $option->onclick . '"' : '';
-			$onchange = !empty($option->onchange) ? ' onchange="' . $option->onchange . '"' : '';
-
-			$html[] = '<label' . $class . '>';
-			$html[] = '<input type="radio" name="' . $this->name . '" value="'
-				. htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8') . '"' . $checked . $required . $onclick
-				. $onchange . $disabled . ' />';
-			$html[] = JText::alt($option->text, preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)) . '</label>';
-
-			$required = '';
-		}
-
-		// End the radio field output.
-		$html[] = '</fieldset>';
-
-		return implode($html);
+		return JLayoutHelper::render('joomla.fields.radio', $displayData);
 	}
 
 	/**
