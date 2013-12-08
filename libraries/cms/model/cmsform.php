@@ -125,9 +125,9 @@ abstract class JModelCmsform extends JModelCms
 	 *
 	 * @since   3.2
 	 */
-	/*public function getForm($data = array(), $loadData = true)
+	public function getForm($data = array(), $loadData = true)
 	{
-	}*/
+	}
 
 	/**
 	 * Method to get a form object.

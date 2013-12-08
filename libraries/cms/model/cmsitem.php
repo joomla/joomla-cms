@@ -78,7 +78,7 @@ class JModelCmsitem extends JModelCmsform
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     JModelLegacy
+	 * @see     JModel
 	 * @since   3.2
 	 */
 	public function __construct($config = array())
@@ -159,6 +159,7 @@ class JModelCmsitem extends JModelCmsform
 		// Compile the store id.
 		return md5($id);
 	}
+
 	/**
 	 * Method to auto-populate the model state.
 	 *
@@ -173,7 +174,7 @@ class JModelCmsitem extends JModelCmsform
 	/**
 	 * Method to get an object.
 	 *
-	 * @param   integer	The id of the object to get.
+	 * @param   integer  $id  The id of the object to get.
 	 *
 	 * @return  mixed  Object on success, false on failure.
 	 */
@@ -203,9 +204,9 @@ class JModelCmsitem extends JModelCmsform
 					}
 				}
 
-				// Convert the JTable to a clean JObject.
+				// Convert the JTable to a clean object.
 				$properties = $table->getProperties(1);
-				$this->_item = JArrayHelper::toObject($properties, 'JObject');
+				$this->_item = JArrayHelper::toObject($properties);
 			}
 			elseif ($error = $table->getError())
 			{
@@ -225,7 +226,7 @@ class JModelCmsitem extends JModelCmsform
 	 *
 	 * @return  JTable  A database object
 	 *
-	 * @since	3.2
+	 * @since   3.2
 	 */
 	public function getTable($name = '', $prefix = 'Table', $options = array())
 	{
@@ -238,6 +239,8 @@ class JModelCmsitem extends JModelCmsform
 	 * @param   integer  $id  Optional ID of the weblink.
 	 *
 	 * @return  boolean  True on success
+	 *
+	 * @since  3.2
 	 */
 	public function hit($id = null)
 	{

@@ -74,7 +74,6 @@ class PluginsModelPlugin extends JModelAdmin
 		// Get the form.
 		$form = $this->loadForm('com_plugins.plugin', 'plugins', array('control' => 'jform', 'load_data' => $loadData));
 
-
 		if (empty($form))
 		{
 			return false;
@@ -102,7 +101,7 @@ class PluginsModelPlugin extends JModelAdmin
 	 * @return  mixed  The data for the form.
 	 * @since   1.6
 	 */
-/*	protected function loadFormData()
+	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
 		$data = JFactory::getApplication()->getUserState('com_plugins.edit.plugin.data', array());
@@ -115,7 +114,7 @@ class PluginsModelPlugin extends JModelAdmin
 		$this->preprocessData('com_plugins.plugin', $data);
 
 		return $data;
-	}*/
+	}
 
 	/**
 	 * Method to get a single record.

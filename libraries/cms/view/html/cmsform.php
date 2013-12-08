@@ -27,6 +27,13 @@ class JViewHtmlCmsform extends JViewHtmlCms
 	 */
 	public  $form;
 
+	/*
+	 * The form object
+	*
+	* @var JForm
+	*/
+	public  $item;
+
 	/**
 	 * Method to display the view.
 	 *
@@ -44,7 +51,7 @@ class JViewHtmlCmsform extends JViewHtmlCms
 			$lang = JFactory::getLanguage();
 			$this->state = $this->model->getState();
 			$this->form = $this->model->getForm();
-			var_dump($this);die;
+			$this->item = $this->model->getItem();
 		}
 		catch (Exception $e)
 		{
