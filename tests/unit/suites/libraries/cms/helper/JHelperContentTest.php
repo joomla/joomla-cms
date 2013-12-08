@@ -56,47 +56,6 @@ class JHelperContentTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tests the getCurrentLanguage()
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function testGetCurrentLanguage()
-	{
-		$this->markTestSkipped('Test not implemented.');
-	}
-
-	/**
-	 * getLanguageId data
-	 *
-	 * @return  array
-	 *
-	 * @since   3.2
-	 */
-	public function languageIdProvider()
-	{
-		return array(
-			array('Exists' => 'en-GB', 1),
-			array('Does not exit' => 'ab-CD', null),
-		);
-	}
-
-	/**
-	 * Tests the getLanguageId()
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 * @dataProvider  languageIdProvider
-	 */
-	public function testGetLanguageId($languageName, $expected)
-	{
-		$languageId = $this->object->getLanguageId($languageName);
-		$this->assertEquals($languageId, $expected);
-	}
-
-	/**
 	 * Tests the getActions() method
 	 *
 	 * @return  void
