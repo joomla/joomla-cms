@@ -306,7 +306,7 @@ abstract class JUserHelper
 	 */
 	public static function hashPassword($password)
 	{
-		$salt = JUserHelper::genRandomPassword(32);
+		$salt = static::genRandomPassword(32);
 		$crypted = md5($password . $salt);
 		return $crypted . ':' . $salt;
 	}
@@ -339,13 +339,13 @@ abstract class JUserHelper
 			// $rehash = password_needs_rehash($hash, PASSWORD_DEFAULT);
 			$rehash = true;
 		}
-		elseif (substr($hash,0,8) == '{SHA256}')
+		elseif (substr($hash, 0, 8) == '{SHA256}')
 		{
 			// Check the password
 			$parts     = explode(':', $hash);
 			$crypt     = $parts[0];
 			$salt      = @$parts[1];
-			$testcrypt = JUserHelper::getCryptedPassword($password, $salt, 'sha256', true);
+			$testcrypt = static::getCryptedPassword($password, $salt, 'sha256', true);
 
 			if ($hash == $testcrypt)
 			{

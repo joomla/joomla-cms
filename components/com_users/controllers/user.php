@@ -121,7 +121,7 @@ class UsersControllerUser extends UsersController
 	public function register()
 	{
 		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
-		
+
 		// Get the application
 		$app = JFactory::getApplication();
 
