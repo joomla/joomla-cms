@@ -315,13 +315,14 @@ class JTableUser extends JTable
 		$this->groups = $groups;
 		unset($groups);
 
+		$query = $this->_db->getQuery(true);
+		
 		// Store the group data if the user data was saved.
 		if (is_array($this->groups) && count($this->groups))
 		{
 			// Delete the old user group maps.
-			$query = $this->_db->getQuery(true)
-				->delete($this->_db->quoteName('#__user_usergroup_map'))
-				->where($this->_db->quoteName('user_id') . ' = ' . (int) $this->id);
+			$query->delete($this->_db->quoteName('#__user_usergroup_map'))
+			      ->where($this->_db->quoteName('user_id') . ' = ' . (int) $this->id);
 			$this->_db->setQuery($query);
 			$this->_db->execute();
 
