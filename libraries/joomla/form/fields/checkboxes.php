@@ -133,7 +133,7 @@ class JFormFieldCheckboxes extends JFormField
 		$displayData = array(
 			'autofocus' => (boolean) $this->autofocus,
 			'checkedOptions' => is_array($checkedOptions) ? $checkedOptions : explode(',', (string) $checkedOptions),
-			'classes' => explode(' ', (string) $this->class),
+			'classes' => array_filter(explode(' ', (string) $this->class)),
 			'field' => $this,
 			'hasValue' => $hasValue,
 			'options' => $this->getOptions(),
