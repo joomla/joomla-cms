@@ -29,8 +29,10 @@ $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $field->fieldname);
 	<?php echo $disabled ? 'disabled' : '';?>
 	<?php echo $required ? 'required aria-required="true"' : '';?>
 	<?php echo $autofocus ? 'autofocus' : ''; ?>>
-<ul>
-	<?php foreach ($options as $i => $option) : ?>
+
+	<?php if (!empty($options)) : ?>
+	<ul>
+		<?php foreach ($options as $i => $option) : ?>
 		<?php
 		// Initialize some option attributes.
 		$checked = ((string) $option->value == $value) ? 'checked' : '';
@@ -57,6 +59,8 @@ $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $field->fieldname);
 			<label for="<?php echo $id; ?>" <?php echo $class; ?>><?php echo JText::alt($option->text, $alt); ?></label>
 		</li>
 
-	<?php endforeach; ?>
-</ul>
+		<?php endforeach; ?>
+	</ul>
+	<?php endif; ?>
+
 </fieldset>

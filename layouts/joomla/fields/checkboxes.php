@@ -25,8 +25,10 @@ $format = '<input type="checkbox" id="%1$s" name="%2$s" value="%3$s" %4$s />';
 <fieldset id="<?php echo $field->id; ?>" class="<?php echo implode(' ', $classes); ?>"
 	<?php echo $required ? 'required aria-required="true"' : '';?>
 	<?php echo $autofocus ? 'autofocus' : ''; ?>>
-<ul>
-	<?php foreach ($options as $i => $option) : ?>
+
+	<?php if (!empty($options)) : ?>
+	<ul>
+		<?php foreach ($options as $i => $option) : ?>
 		<?php
 		// Initialize some option attributes.
 		$checked = in_array((string) $option->value, $checkedOptions) ? 'checked' : '';
@@ -51,6 +53,8 @@ $format = '<input type="checkbox" id="%1$s" name="%2$s" value="%3$s" %4$s />';
 			<label for="<?php echo $id; ?>" <?php echo $class; ?>><?php echo JText::_($option->text); ?></label>
 		</li>
 
-	<?php endforeach; ?>
-</ul>
+		<?php endforeach; ?>
+	</ul>
+	<?php endif; ?>
+
 </fieldset>
