@@ -517,7 +517,7 @@ abstract class JOAuth1Client
 	public static function generateNonce()
 	{
 		$mt = microtime();
-		$rand = mt_rand();
+		$rand = JCrypt::genRandomBytes();
 
 		// The md5s look nicer than numbers.
 		return md5($mt . $rand);

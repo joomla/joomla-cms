@@ -113,7 +113,7 @@ class ContactViewContacts extends JViewLegacy
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
-		if ($canDo->get('core.admin'))
+		if ($user->authorise('core.admin', 'com_contact'))
 		{
 			JToolbarHelper::preferences('com_contact');
 		}

@@ -34,6 +34,16 @@ class JHtmlFieldUrlTest_DataSet
 			'<input type="url" name="myTestName" id="myTestId" value="http://foobar.com" />',
 		),
 
+			// Stript always illegal characters that may be used in XSS.
+			'Value' => array(
+					array(
+							'id' => 'myTestId',
+							'name' => 'myTestName',
+							'value' => 'http://<>"foobar.com',
+					),
+					'<input type="url" name="myTestName" id="myTestId" value="http://foobar.com" />',
+			),
+
 		'Class' => array(
 			array(
 				'id' => 'myTestId',

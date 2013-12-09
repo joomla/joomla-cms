@@ -157,10 +157,18 @@ class JUpdaterExtension extends JUpdateAdapter
 	 */
 	public function findUpdate($options)
 	{
-		$url = $options['location'];
+		$url = trim($options['location']);
 		$this->_url = &$url;
 		$this->updateSiteId = $options['update_site_id'];
-		if (substr($url, -4) != '.xml')
+
+		$appendExtension = false;
+
+		if (array_key_exists('append_extension', $options))
+		{
+			$appendExtension = $options['append_extension'];
+		}
+
+		if ($appendExtension && (substr($url, -4) != '.xml'))
 		{
 			if (substr($url, -1) != '/')
 			{
@@ -185,6 +193,13 @@ class JUpdaterExtension extends JUpdateAdapter
 
 		if (!isset($response) || (!empty($response->code) && 200 != $response->code))
 		{
+			// If the URL is missing the .xml extension, try appending it and retry loading the update
+			if (!$appendExtension && (substr($url, -4) != '.xml'))
+			{
+				$options['append_extension'] = true;
+				return $this->findUpdate($options);
+			}
+
 			$query = $db->getQuery(true)
 				->update('#__update_sites')
 				->set('enabled = 0')
@@ -195,6 +210,7 @@ class JUpdaterExtension extends JUpdateAdapter
 			JLog::add("Error opening url: " . $url, JLog::WARNING, 'updater');
 			$app = JFactory::getApplication();
 			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), 'warning');
+
 			return false;
 		}
 
@@ -205,12 +221,23 @@ class JUpdaterExtension extends JUpdateAdapter
 
 		if (!xml_parse($this->xmlParser, $response->body))
 		{
+			// If the URL is missing the .xml extension, try appending it and retry loading the update
+			if (!$appendExtension && (substr($url, -4) != '.xml'))
+			{
+				$options['append_extension'] = true;
+				return $this->findUpdate($options);
+			}
+
 			JLog::add("Error parsing url: " . $url, JLog::WARNING, 'updater');
+
 			$app = JFactory::getApplication();
 			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_PARSE_URL', $url), 'warning');
+
 			return false;
 		}
+
 		xml_parser_free($this->xmlParser);
+
 		if (isset($this->latest))
 		{
 			if (isset($this->latest->client) && strlen($this->latest->client))
@@ -219,7 +246,7 @@ class JUpdaterExtension extends JUpdateAdapter
 				{
 					$byName = false;
 
-					// <client> has to be 'administrator' or 'site', numeric values are depreceated. See http://docs.joomla.org/Design_of_JUpdate
+					// <client> has to be 'administrator' or 'site', numeric values are deprecated. See http://docs.joomla.org/Design_of_JUpdate
 					JLog::add(
 						'Using numeric values for <client> in the updater xml is deprecated. Use \'administrator\' or \'site\' instead.',
 						JLog::WARNING, 'deprecated'
@@ -229,15 +256,18 @@ class JUpdaterExtension extends JUpdateAdapter
 				{
 					$byName = true;
 				}
+
 				$this->latest->client_id = JApplicationHelper::getClientInfo($this->latest->client, $byName)->id;
 				unset($this->latest->client);
 			}
+
 			$updates = array($this->latest);
 		}
 		else
 		{
 			$updates = array();
 		}
+
 		return array('update_sites' => array(), 'updates' => $updates);
 	}
 }

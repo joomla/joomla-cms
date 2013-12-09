@@ -26,6 +26,8 @@ class JHttpFactory
 	 *
 	 * @return  JHttp      Joomla Http class
 	 *
+	 * @throws  RuntimeException
+	 *
 	 * @since   12.1
 	 */
 	public static function getHttp(JRegistry $options = null, $adapters = null)
@@ -35,7 +37,12 @@ class JHttpFactory
 			$options = new JRegistry;
 		}
 
-		return new JHttp($options, self::getAvailableDriver($options, $adapters));
+		if (!$driver = self::getAvailableDriver($options, $adapters))
+		{
+			throw new RuntimeException('No transport driver available.');
+		}
+
+		return new JHttp($options, $driver);
 	}
 
 	/**

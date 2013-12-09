@@ -123,10 +123,8 @@ class JInstallerAdapterModule extends JAdapterInstance
 				}
 
 				$client = (string) $this->manifest->attributes()->client;
-				$lang->load($extension . '.sys', $source, null, false, false)
-					|| $lang->load($extension . '.sys', constant('JPATH_' . strtoupper($client)), null, false, false)
-					|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
-					|| $lang->load($extension . '.sys', constant('JPATH_' . strtoupper($client)), $lang->getDefault(), false, false);
+				$lang->load($extension . '.sys', $source, null, false, true)
+					|| $lang->load($extension . '.sys', constant('JPATH_' . strtoupper($client)), null, false, true);
 			}
 		}
 	}

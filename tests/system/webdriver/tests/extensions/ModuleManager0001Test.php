@@ -149,7 +149,8 @@ class ModuleManager0001Test extends JoomlaWebdriverTestCase
 		$type = 'Custom HTML';
 		$position = 'myposition';
 		$suffix = 'mysuffix';
-		$otherFields = array('Position' => $position, 'Module Class Suffix' => $suffix);
+		$note = 'My old note.';
+		$otherFields = array('Position' => $position, 'Module Class Suffix' => $suffix, 'Note' => $note);
 		$this->moduleManagerPage->setFilter('filter_client_id', $client)->searchFor($title);
 		$this->assertFalse($this->moduleManagerPage->getRowNumber($title), 'Test module should not be present');
 		$this->moduleManagerPage->addModule($title, $client, $type, $otherFields);

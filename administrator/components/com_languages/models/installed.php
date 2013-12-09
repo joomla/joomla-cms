@@ -328,7 +328,8 @@ class LanguagesModelInstalled extends JModelList
 
 		// Clean the cache of com_languages and component cache.
 		$this->cleanCache();
-		$this->cleanCache('_system');
+		$this->cleanCache('_system', 0);
+		$this->cleanCache('_system', 1);
 
 		return true;
 	}

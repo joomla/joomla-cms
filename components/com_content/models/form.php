@@ -54,7 +54,7 @@ class ContentModelForm extends ContentModelArticle
 		$params	= $app->getParams();
 		$this->setState('params', $params);
 
-		$this->setState('layout', $app->input->get('layout'));
+		$this->setState('layout', $app->input->getString('layout'));
 	}
 
 	/**

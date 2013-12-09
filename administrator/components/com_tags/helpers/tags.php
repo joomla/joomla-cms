@@ -32,6 +32,12 @@ class TagsHelper extends JHelperContent
 		$parts = explode('.', $extension);
 		$component = $parts[0];
 
+		// Avoid nonsense situation.
+		if ($component == 'tags')
+		{
+			return;
+		}
+		
 		// Try to find the component helper.
 		$file = JPath::clean(JPATH_ADMINISTRATOR . '/components/com_tags/helpers/tags.php');
 
@@ -48,10 +54,8 @@ class TagsHelper extends JHelperContent
 					$lang = JFactory::getLanguage();
 					// loading language file from the administrator/language directory then
 					// loading language file from the administrator/components/*extension*/language directory
-						$lang->load($component, JPATH_BASE, null, false, false)
-					||	$lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, false)
-					||	$lang->load($component, JPATH_BASE, $lang->getDefault(), false, false)
-					||	$lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), $lang->getDefault(), false, false);
+						$lang->load($component, JPATH_BASE, null, false, true)
+					||	$lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
 
 				}
 			}

@@ -15,11 +15,9 @@ $buttons = $displayData;
 JHtml::_('behavior.modal', 'a.modal-button');
 ?>
 <div id="editor-xtd-buttons" class="btn-toolbar pull-left">
-	<div class="btn-toolbar">
-		<?php if ($buttons) : ?>
-			<?php foreach ($buttons as $button) : ?>
-				<?php echo JLayoutHelper::render('joomla.tinymce.buttons.button', $button); ?>
-			<?php endforeach; ?>
-		<?php endif; ?>
-	</div>
+	<?php if ($buttons) : ?>
+		<?php foreach ($buttons as $button) : ?>
+			<?php echo JLayoutHelper::render('joomla.tinymce.buttons.button', $button); ?>
+		<?php endforeach; ?>
+	<?php endif; ?>
 </div>

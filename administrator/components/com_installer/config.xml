@@ -12,10 +12,8 @@
 			description="COM_INSTALLER_SHOW_JED_INFORMATION_DESC"
 			class="btn-group"
 			default="1">
-			<option
-					value="0">COM_INSTALLER_SHOW_JED_INFORMATION_HIDE_MESSAGE</option>
-			<option
-					value="1">COM_INSTALLER_SHOW_JED_INFORMATION_SHOW_MESSAGE</option>
+			<option value="1">COM_INSTALLER_SHOW_JED_INFORMATION_SHOW_MESSAGE</option>
+			<option value="0">COM_INSTALLER_SHOW_JED_INFORMATION_HIDE_MESSAGE</option>
 		</field>
 		<field
 			name="cachetimeout"

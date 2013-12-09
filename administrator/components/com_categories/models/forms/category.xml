@@ -135,7 +135,7 @@
 		type="accesslevel"
 		label="JFIELD_ACCESS_LABEL"
 		description="JFIELD_ACCESS_DESC"
-		class="span12 advancedSelect"/>
+		class="advancedSelect"/>
 
 	<field
 		name="metadesc"
@@ -189,7 +189,7 @@
 		type="contentlanguage"
 		label="JFIELD_LANGUAGE_LABEL"
 		description="COM_CATEGORIES_FIELD_LANGUAGE_DESC"
-		class="span12 advancedSelect">
+		class="advancedSelect">
 		<option value="*">JALL</option>
 	</field>
 

@@ -64,6 +64,7 @@
 				<field
 					name="forum_url"
 					type="url"
+					filter="url"
 					class="inputbox"
 					size="30"
 					default=""

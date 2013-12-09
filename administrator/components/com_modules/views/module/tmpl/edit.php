@@ -33,7 +33,7 @@ $script .= "	Joomla.submitform(task, document.getElementById('module-form'));
 					window.top.setTimeout('window.parent.SqueezeBox.close()', 1000);
 				}
 			}
-	}";
+	};";
 
 JFactory::getDocument()->addScriptDeclaration($script);
 
@@ -131,17 +131,13 @@ JFactory::getDocument()->addScriptDeclaration($script);
 					'note'
 				);
 
-				if ((string) $this->item->xml->name == 'mod_login')
-				{
-					$this->fields = array_diff($this->fields, array('published', 'publish_up', 'publish_down'));
-				}
 				?>
 				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php if (isset($long_description) && $long_description !='') : ?>
+		<?php if (isset($long_description) && $long_description != '') : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('JGLOBAL_FIELDSET_DESCRIPTION', true)); ?>
 			<?php echo $long_description; ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>

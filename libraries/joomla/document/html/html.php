@@ -616,10 +616,8 @@ class JDocumentHTML extends JDocument
 		$lang = JFactory::getLanguage();
 
 		// 1.5 or core then 1.6
-		$lang->load('tpl_' . $template, JPATH_BASE, null, false, false)
-			|| $lang->load('tpl_' . $template, $directory . '/' . $template, null, false, false)
-			|| $lang->load('tpl_' . $template, JPATH_BASE, $lang->getDefault(), false, false)
-			|| $lang->load('tpl_' . $template, $directory . '/' . $template, $lang->getDefault(), false, false);
+		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
+			|| $lang->load('tpl_' . $template, $directory . '/' . $template, null, false, true);
 
 		// Assign the variables
 		$this->template = $template;

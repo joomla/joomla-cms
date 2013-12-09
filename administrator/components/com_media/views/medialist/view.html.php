@@ -22,6 +22,11 @@ class MediaViewMediaList extends JViewLegacy
 	{
 		$app = JFactory::getApplication();
 
+		if (!$app->isAdmin())
+		{
+			return $app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
+		}
+
 		// Do not allow cache
 		$app->allowCache(false);
 

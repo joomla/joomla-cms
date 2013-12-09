@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.CMS
+ * @package     Joomla.Cms
  * @subpackage  Layout
  *
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.

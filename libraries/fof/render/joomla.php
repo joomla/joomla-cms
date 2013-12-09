@@ -1,8 +1,9 @@
 <?php
 /**
- * @package    FrameworkOnFramework
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     FrameworkOnFramework
+ * @subpackage  render
+ * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
 
@@ -465,16 +466,16 @@ class FOFRenderJoomla extends FOFRenderAbstract
 		$message = $form->getView()->escape(JText::_('JGLOBAL_VALIDATION_FORM_FAILED'));
 
 		$js = <<<ENDJAVASCRIPT
-		Joomla.submitbutton = function(task)
-		{
-			if (task == 'cancel' || document.formvalidator.isValid(document.id('adminForm')))
-			{
-				Joomla.submitform(task, document.getElementById('adminForm'));
-			}
-			else {
-				alert('$message');
-			}
-		}
+Joomla.submitbutton = function(task)
+{
+	if (task == 'cancel' || document.formvalidator.isValid(document.id('adminForm')))
+	{
+		Joomla.submitform(task, document.getElementById('adminForm'));
+	}
+	else {
+		alert('$message');
+	}
+};
 ENDJAVASCRIPT;
 
 		$document = FOFPlatform::getInstance()->getDocument();
