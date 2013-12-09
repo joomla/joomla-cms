@@ -988,43 +988,40 @@ abstract class JHtml
 			$inputvalue = '';
 		}
  
-		if (!$readonly && !$disabled)
+		// Load the calendar behavior
+		static::_('behavior.calendar');
+
+		// Only display the triggers once for each control.
+		if (!in_array($id, $done))
 		{
-			// Load the calendar behavior
-			static::_('behavior.calendar');
+			$document = JFactory::getDocument();
+			$document
+				->addScriptDeclaration(
+				'window.addEvent(\'domready\', function() {Calendar.setup({
+			// Id of the input field
+			inputField: "' . $id . '",
+			// Format of the input field
+			ifFormat: "' . $format . '",
+			// Trigger for the calendar (button ID)
+			button: "' . $id . '_img",
+			// Alignment (defaults to "Bl")
+			align: "Tl",
+			singleClick: true,
+			firstDay: ' . JFactory::getLanguage()->getFirstDay() . '
+			});});'
+			);
+			$done[] = $id;
+		}
 
-			// Only display the triggers once for each control.
-			if (!in_array($id, $done))
-			{
-				$document = JFactory::getDocument();
-				$document
-					->addScriptDeclaration(
-					'window.addEvent(\'domready\', function() {Calendar.setup({
-				// Id of the input field
-				inputField: "' . $id . '",
-				// Format of the input field
-				ifFormat: "' . $format . '",
-				// Trigger for the calendar (button ID)
-				button: "' . $id . '_img",
-				// Alignment (defaults to "Bl")
-				align: "Tl",
-				singleClick: true,
-				firstDay: ' . JFactory::getLanguage()->getFirstDay() . '
-				});});'
-				);
-				$done[] = $id;
-			}
+		// Hide button using inline styles for readonly/disabled fields
+		$btn_style	= ($readonly || $disabled) ? ' style="display:none;"' : '';
+		$div_class	= (!$readonly && !$disabled) ? ' class="input-append"' : '';
 
-			return '<div class="input-append"><input type="text" title="' . (0 !== (int) $value ? static::_('date', $value, null, null) : '')
+		return '<div'. $div_class . '>'
+				. '<input type="text" title="' . (0 !== (int) $value ? static::_('date', $value, null, null) : '')
 				. '" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
-				. '<button type="button" class="btn" id="' . $id . '_img"><i class="icon-calendar"></i></button></div>';
-		}
-		else
-		{
-			return '<input type="text" title="' . (0 !== (int) $value ? static::_('date', $value, null, null) : '')
-				. '" value="' . htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8') . '" ' . $attribs
-				. ' /><input type="hidden" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8') . '" />';
-		}
+				. '<button type="button" class="btn" id="' . $id . '_img"' . $btn_style . '><i class="icon-calendar"></i></button>'
+			. '</div>';
 	}
 
 	/**
