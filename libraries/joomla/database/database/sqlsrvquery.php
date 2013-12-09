@@ -58,24 +58,17 @@ class JDatabaseQuerySQLSrv extends JDatabaseQuery
 				$query .= (string) $this->from;
 
 				// Get the limit and offset values from JDatabase
-				$reflection = new ReflectionClass($this->db);
+				$limit  = $this->db->getLimit();
+				$offset = $this->db->getOffset();
 
-				$limitProp = $reflection->getProperty('limit');
-				$limitProp->setAccessible(true);
-				$limit = $limitProp->getValue($this->db);
-
-				$offsetProp = $reflection->getProperty('offset');
-				$offsetProp->setAccessible(true);
-				$offset = $offsetProp->getValue($this->db);
-
-				if ($this->limit > 0 || $this->offset > 0)
+				if ($limit > 0 || $offset > 0)
 				{
 					if ($this->order)
 					{
 						$query .= (string) $this->order;
 					}
 
-					$query = $this->processLimit($query, $this->limit, $this->offset);
+					$query = $this->processLimit($query, $limit, $offset);
 				}
 
 				if ($this->join)
