@@ -32,6 +32,12 @@ class TagsHelper extends JHelperContent
 		$parts = explode('.', $extension);
 		$component = $parts[0];
 
+		// Avoid nonsense situation.
+		if ($component == 'tags')
+		{
+			return;
+		}
+		
 		// Try to find the component helper.
 		$file = JPath::clean(JPATH_ADMINISTRATOR . '/components/com_tags/helpers/tags.php');
 
