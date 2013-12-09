@@ -1795,9 +1795,10 @@ CREATE TABLE "#__users" (
   "params" text NOT NULL,
   "lastResetTime" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "resetCount" bigint DEFAULT 0 NOT NULL,
+  "rememberme" varchar(255) DEFAULT '' NOT NULL,
   "otpKey" varchar(1000) DEFAULT '' NOT NULL,
   "otep" varchar(1000) DEFAULT '' NOT NULL,
-  PRIMARY KEY ("id")
+  PRIMARY KEY ("id"),
 );
 CREATE INDEX "#__users_idx_name" ON "#__users" ("name");
 CREATE INDEX "#__users_idx_block" ON "#__users" ("block");
@@ -1806,24 +1807,7 @@ CREATE INDEX "#__users_email" ON "#__users" ("email");
 
 COMMENT ON COLUMN "#__users"."lastResetTime" IS 'Date of last password reset';
 COMMENT ON COLUMN "#__users"."resetCount" IS 'Count of password resets since lastResetTime';
-
---
--- Table: #__user_keys
---
-CREATE TABLE "#__user_keys" (
-  "id" serial NOT NULL,
-  "user_id" varchar(255) NOT NULL,
-  "token" varchar(255) NOT NULL,
-  "series" varchar(255) NOT NULL,
-  "invalid" smallint NOT NULL,
-  "time" varchar(200) NOT NULL,
-  "uastring" varchar(255) NOT NULL,
-  PRIMARY KEY ("id"),
-	CONSTRAINT "#__user_keys_series" UNIQUE ("series"),
-	CONSTRAINT "#__user_keys_series_2" UNIQUE ("series"),
-	CONSTRAINT "#__user_keys_series_3" UNIQUE ("series")
-);
-CREATE INDEX "#__user_keys_idx_user_id" ON "#__user_keys" ("user_id");
+COMMENT ON COLUMN "#__users"."rememberme" IS 'Remember Me Key for authentication';
 
 --
 -- Table: #__user_notes

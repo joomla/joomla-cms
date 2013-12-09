@@ -790,11 +790,6 @@ class JApplicationCms extends JApplicationWeb
 			 */
 			$user = JFactory::getUser();
 
-			if ($response->type == 'Cookie')
-			{
-				$user->set('cookieLogin', true);
-			}
-
 			if (in_array(false, $results, true) == false)
 			{
 				$options['user'] = $user;
