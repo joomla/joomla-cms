@@ -11,6 +11,9 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
+// Disables loading of caption.js, now deprecated.
+// JHtml::_('behavior.caption');
+
 // Create shortcuts to some parameters.
 $params  = $this->item->params;
 $images  = json_decode($this->item->images);

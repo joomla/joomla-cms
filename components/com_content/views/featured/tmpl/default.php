@@ -11,6 +11,9 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
+// Disables loading of caption.js, now deprecated.
+// JHtml::_('behavior.caption');
+
 // If the page class is defined, add to class as suffix.
 // It will be a separate class if the user starts it with a space
 ?>
