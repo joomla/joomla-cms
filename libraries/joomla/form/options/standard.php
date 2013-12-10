@@ -18,8 +18,6 @@ defined('JPATH_PLATFORM') or die;
  */
 abstract class JFormOptionStandard
 {
-	protected $type = 'Standard';
-
 	/**
 	 * Method to get a list of options.
 	 *
@@ -39,23 +37,16 @@ abstract class JFormOptionStandard
 		$checked = ($checked == 'true' || $checked == 'checked' || $checked == '1');
 
 		// Create a new option object based on the <option /> element.
-		$tmp = JHtml::_(
-			'select.option',
-			(string) $option['value'],
-			JText::_(trim((string) $option)),
-			'value',
-			'text',
-			$disabled
+		return array(
+			(object) array(
+				'value' => (string) $option['value'],
+				'text' => JText::_(trim((string) $option)),
+				'disable' => $disabled,
+				'checked' => $checked,
+				'class' => (string) $option['class'],
+				'onclick' => (string) $option['onclick'],
+				'onchange' => (string) $option['onchange']
+			)
 		);
-
-		// Set some option attributes.
-		$tmp->class = (string) $option['class'];
-		$tmp->checked = $checked;
-
-		// Set some JavaScript option attributes.
-		$tmp->onclick = (string) $option['onclick'];
-		$tmp->onchange = (string) $option['onchange'];
-
-		return array($tmp);
 	}
 }

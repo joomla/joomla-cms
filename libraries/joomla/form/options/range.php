@@ -18,8 +18,6 @@ defined('JPATH_PLATFORM') or die;
  */
 abstract class JFormOptionRange
 {
-	protected $type = 'Range';
-
 	/**
 	 * Method to get a list of options.
 	 *
@@ -56,7 +54,10 @@ abstract class JFormOptionRange
 
 		foreach (range($first, $last, $step) as $i)
 		{
-			$options[] = JHtml::_('select.option', $i);
+			$options[] = (object) array(
+				'value' => $i,
+				'text' => $i
+			);
 		}
 
 		if ($reverse)

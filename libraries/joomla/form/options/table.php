@@ -18,8 +18,6 @@ defined('JPATH_PLATFORM') or die;
  */
 abstract class JFormOptionTable
 {
-	protected $type = 'Table';
-
 	/**
 	 * Method to get a list of options.
 	 *
@@ -68,13 +66,10 @@ abstract class JFormOptionTable
 		{
 			foreach ($items as $item)
 			{
-				$options[] = JHtml::_(
-					'select.option',
-					$item->$key,
-					$translate ? JText::_($item->$value) : $item->$value,
-					'value',
-					'text',
-					$disable ? (bool) $item->$disable : false
+				$options[] = (object) array(
+					'value' => $item->$key,
+					'text' => $translate ? JText::_($item->$value) : $item->$value,
+					'disable' => ($disable ? (bool) $item->$disable : false)
 				);
 			}
 		}

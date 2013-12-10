@@ -30,9 +30,9 @@ abstract class JFormOption
 	 */
 	public static function getOptions(SimpleXMLElement $option, $fieldname = '')
 	{
-		$type = $option['type'] ? (string) $option['type'] : 'standard';
+		$provider = $option['provider'] ? (string) $option['provider'] : 'standard';
 
-		$class = JFormHelper::loadOptionClass($type);
+		$class = JFormHelper::loadOptionClass($provider);
 
 		return $class ? $class::getOptions($option, $fieldname) : array();
 	}

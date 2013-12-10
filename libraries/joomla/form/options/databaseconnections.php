@@ -18,8 +18,6 @@ defined('JPATH_PLATFORM') or die;
  */
 abstract class JFormOptionDatabaseConnections
 {
-	protected $type = 'DatabaseConnections';
-
 	/**
 	 * Method to get a list of options.
 	 *
@@ -44,7 +42,7 @@ abstract class JFormOptionDatabaseConnections
 		 * If no supported databases are listed, it is assumed all available databases
 		 * are supported.
 		 */
-		$supported = array_filter(array_map('trim', explode(',', $option['supported'])));
+		$supported = array_filter(array_map('trim', explode(',', (string) $option['supported'])));
 
 		if (!empty($supported))
 		{
@@ -53,14 +51,20 @@ abstract class JFormOptionDatabaseConnections
 
 		foreach ($connectors as $connector)
 		{
-			$options[] = JHtml::_('select.option', $connector, JText::_(ucfirst($connector)));
+			$options[] = (object) array(
+				'value' => $connector,
+				'text' => JText::_(ucfirst($connector))
+			);
 		}
 
 		// This will come into play if an application is installed that requires
 		// a database that is not available on the server.
 		if (empty($options))
 		{
-			$options[] = JHtml::_('select.option', '', JText::_('JNONE'));
+			$options[] = (object) array(
+				'value' => '',
+				'text' => JText::_('JNONE')
+			);
 		}
 
 		return $options;
