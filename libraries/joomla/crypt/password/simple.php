@@ -61,16 +61,8 @@ class JCryptPasswordSimple implements JCryptPassword
 		{
 			case '$2a$':
 			case JCryptPassword::BLOWFISH:
-				if (JCrypt::hasStrongPasswordSupport())
-				{
-					$type = '$2y$';
-				}
-				else
-				{
-					$type = '$2a$';
-				}
 
-				$salt = $type . str_pad($this->cost, 2, '0', STR_PAD_LEFT) . '$' . $this->getSalt(22);
+				$salt = '$2a$' . str_pad($this->cost, 2, '0', STR_PAD_LEFT) . '$' . $this->getSalt(22);
 
 				return crypt($password, $salt);
 
@@ -139,16 +131,7 @@ class JCryptPasswordSimple implements JCryptPassword
 		// Check if the hash is a blowfish hash.
 		if (substr($hash, 0, 4) == '$2a$' || substr($hash, 0, 4) == '$2y$')
 		{
-			if (JCrypt::hasStrongPasswordSupport())
-			{
-				$type = '$2y$';
-			}
-			else
-			{
-				$type = '$2a$';
-			}
-
-			$hash = $type . substr($hash, 4);
+			$hash = substr($hash, 0, 4) . substr($hash, 4);
 
 			return (crypt($password, $hash) === $hash);
 		}

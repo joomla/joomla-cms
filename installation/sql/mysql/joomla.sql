@@ -1868,7 +1868,8 @@ CREATE TABLE IF NOT EXISTS `#__users` (
   KEY `idx_name` (`name`),
   KEY `idx_block` (`block`),
   KEY `username` (`username`),
-  KEY `email` (`email`)
+  KEY `email` (`email`),
+  KEY `rememberme` (`rememberme`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
