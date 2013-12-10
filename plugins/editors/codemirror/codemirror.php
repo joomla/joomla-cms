@@ -4,7 +4,7 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access.
+// No direct access
 defined('_JEXEC') or die;
 
 /**
@@ -16,6 +16,14 @@ defined('_JEXEC') or die;
  */
 class PlgEditorCodemirror extends JPlugin
 {
+	/**
+	 * Affects constructor behavior. If true, language files will be loaded automatically.
+	 *
+	 * @var    boolean
+	 * @since  12.3
+	 */
+	protected $autoloadLanguage = true;
+
 	/**
 	 * Base path for editor files.
 	 *
@@ -32,6 +40,30 @@ class PlgEditorCodemirror extends JPlugin
 			'html' => 'htmlmixed',
 			'ini'  => 'properties'
 		);
+
+	/**
+	 * The key combo to start full-screen editing.
+	 *
+	 * @var string
+	 */
+	protected $fullScreenCombo;
+
+	/**
+	 * Constructor
+	 *
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An optional associative array of configuration settings.
+	 *                             Recognized key values include 'name', 'group', 'params', 'language'
+	 *                             (this list is not meant to be comprehensive).
+	 *
+	 * @since   11.1
+	 */
+	public function __construct(&$subject, $config = array())
+	{
+		parent::__construct($subject, $config);
+
+		$this->loadLanguage();
+	}
 
 	/**
 	 * Initialises the Editor.
@@ -71,15 +103,19 @@ class PlgEditorCodemirror extends JPlugin
 	{
 		$fskeys = $this->params->get('fullScreenMod', array());
 		$fskeys[] = $this->params->get('fullScreen', 'F10');
+		$this->fullScreenCombo = implode('-', $fskeys);
+
+		$modeURL = JURI::root(true) . '/media/editors/codemirror/mode/%N/%N.js';
 
 		$script = array(
 			';(function (cm) {',
-				'cm.keyMap["default"]["' . implode('-', $fskeys) . '"] = function (cm) {',
+				'cm.keyMap["default"]["' . $this->fullScreenCombo . '"] = function (cm) {',
 					'cm.setOption("fullScreen", !cm.getOption("fullScreen"));',
 				'};',
 				'cm.keyMap["default"]["Esc"] = function (cm) {',
 					'cm.getOption("fullScreen") && cm.setOption("fullScreen", false);',
 				'};',
+				'cm.modeURL = ' . json_encode($modeURL) . ';',
 			'}(CodeMirror));'
 		);
 
@@ -108,11 +144,31 @@ class PlgEditorCodemirror extends JPlugin
 				'border-radius: 1em;',
 				'padding: 0 1em;',
 			'}',
-			'.CodeMirror-foldgutter { width: .7em; }',
-			'.CodeMirror-foldgutter-open, .CodeMirror-foldgutter-folded { opacity: .5; cursor: pointer; }',
+			'.CodeMirror-foldgutter, .CodeMirror-markergutter { width: 1.2em; text-align: center; }',
+			'.CodeMirror-markergutter { cursor: pointer; }',
+			'.CodeMirror-markergutter-mark { cursor: pointer; text-align: center; }',
+			'.CodeMirror-markergutter-mark:after { content: "\25CF"; }',
+			'.CodeMirror-foldgutter-open, .CodeMirror-foldgutter-folded { opacity: .75; cursor: pointer; text-align: center; }',
 			'.CodeMirror-foldgutter-open:after { content: "\25BE"; }',
 			'.CodeMirror-foldgutter-folded:after { content: "\25B8"; }'
 		);
+
+		// Set the active line color.
+		$color = $this->params->get('activeLineColor', '#a4c2eb');
+		$r = hexdec($color{1} . $color{2});
+		$g = hexdec($color{3} . $color{4});
+		$b = hexdec($color{5} . $color{6});
+		$styles[] = '.CodeMirror-activeline-background {background:rgba(' . $r . ', ' . $g . ', ' . $b . ', .5);}';
+
+		// Set the color for matched tags.
+		$color = $this->params->get('highlightMatchColor', '#fa542f');
+		$r = hexdec($color{1} . $color{2});
+		$g = hexdec($color{3} . $color{4});
+		$b = hexdec($color{5} . $color{6});
+		$styles[] = '.CodeMirror-matchingtag {background:rgba(' . $r . ', ' . $g . ', ' . $b . ', .5);}';
+
+		// Set the font styles.
+		$styles[] = '.CodeMirror {' . implode(' ', $this->getEditorStyles()) . '} ';
 
 		return implode(' ', $styles);
 	}
@@ -122,7 +178,7 @@ class PlgEditorCodemirror extends JPlugin
 	 *
 	 * @param   string  $id  The id of the editor field.
 	 *
-	 * @return  string Javascript
+	 * @return  string  Javascript
 	 */
 	public function onSave($id)
 	{
@@ -134,7 +190,7 @@ class PlgEditorCodemirror extends JPlugin
 	 *
 	 * @param   string  $id  The id of the editor field.
 	 *
-	 * @return string Javascript
+	 * @return  string  Javascript
 	 */
 	public function onGetContent($id)
 	{
@@ -144,10 +200,10 @@ class PlgEditorCodemirror extends JPlugin
 	/**
 	 * Set the editor content.
 	 *
-	 * @param   string  $id	      The id of the editor field.
+	 * @param   string  $id       The id of the editor field.
 	 * @param   string  $content  The content to set.
 	 *
-	 * @return  string Javascript
+	 * @return  string  Javascript
 	 */
 	public function onSetContent($id, $content)
 	{
@@ -157,7 +213,7 @@ class PlgEditorCodemirror extends JPlugin
 	/**
 	 * Adds the editor specific insert method.
 	 *
-	 * @return boolean
+	 * @return  boolean
 	 */
 	public function onGetInsertMethod()
 	{
@@ -188,15 +244,14 @@ class PlgEditorCodemirror extends JPlugin
 	 * @param   int      $row      The number of rows for the textarea.
 	 * @param   boolean  $buttons  True and the editor buttons will be displayed.
 	 * @param   string   $id       An optional ID for the textarea (note: since 1.6). If not supplied the name is used.
-	 * @param   string   $asset    The asset for the object.
-	 * @param   object   $author   The author.
+	 * @param   string   $asset    Not used.
+	 * @param   object   $author   Not used.
 	 * @param   array    $params   Associative array of editor parameters.
 	 *
-	 * @return string HTML
+	 * @return  string  HTML
 	 */
 	public function onDisplay(
-		$name, $content, $width, $height, $col, $row,
-		$buttons = true, $id = null, $asset = null, $author = null, $params = array())
+		$name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
 	{
 		$id = empty($id) ? $name : $id;
 
@@ -210,14 +265,17 @@ class PlgEditorCodemirror extends JPlugin
 		// Options for the CodeMirror constructor.
 		$options = new stdClass;
 
-		// Extra styles to add to the document.
-		$extraStyles = array('.CodeMirror {' . implode(' ', $this->getEditorStyles()) . '} ');
+		// Should we focus on the editor on load?
+		$options->autofocus	= (boolean) $this->params->get('autoFocus', true);
 
 		// Until there's a fix for the overflow problem, always wrap lines.
 		$options->lineWrapping = true;
 
+		// Add styling to the active line.
+		$options->styleActiveLine = (boolean) $this->params->get('activeLine', true);
+
 		// Do we use line numbering?
-		if ($options->lineNumbers = (boolean) $this->params->get('lineNumbers', $this->params->get('lineNumbers', 0)))
+		if ($options->lineNumbers = (boolean) $this->params->get('lineNumbers', 0))
 		{
 			$options->gutters[] = 'CodeMirror-linenumbers';
 		}
@@ -228,10 +286,15 @@ class PlgEditorCodemirror extends JPlugin
 			$options->gutters[] = 'CodeMirror-foldgutter';
 		}
 
+		// Do we use a marker gutter?
+		if ($options->foldGutter = (boolean) $this->params->get('markerGutter', $this->params->get('marker-gutter', 0)))
+		{
+			$options->gutters[] = 'CodeMirror-markergutter';
+		}
+
 		// Load the syntax mode.
-		$syntax = JFactory::getApplication()->getUserState('editor.source.syntax', 'html');
+		$syntax = $this->params->get('syntax', 'html');
 		$options->mode = isset($this->modeAlias[$syntax]) ? $this->modeAlias[$syntax] : $syntax;
-		$this->loadMode($options->mode);
 
 		// Load the theme if specified.
 		if ($theme = $this->params->get('theme'))
@@ -240,86 +303,52 @@ class PlgEditorCodemirror extends JPlugin
 			$this->loadTheme($options->theme);
 		}
 
-		// Add styling to the active line (any mode).
-		if ($this->params->get('activeLine'))
-		{
-			$options->styleActiveLine = true;
-
-			$color = $this->params->get('activeLineColor', '#a4c2eb');
-			$r = hexdec($color{1} . $color{2});
-			$g = hexdec($color{3} . $color{4});
-			$b = hexdec($color{5} . $color{6});
-			$extraStyles[] = '.CodeMirror-activeline-background {background:rgba(' . $r . ', ' . $g . ', ' . $b . ', .5);}';
-		}
-
 		// Special options for tagged modes (xml/html).
 		if (in_array($options->mode, array('xml', 'htmlmixed', 'htmlembedded', 'php')))
 		{
 			// Autogenerate closing tags (html/xml only).
-			$options->autoCloseTags = (boolean) $this->params->get('autoClose', true);
+			$options->autoCloseTags = (boolean) $this->params->get('autoCloseTags', true);
 
 			// Highlight the matching tag when the cursor is in a tag (html/xml only).
-			if ($this->params->get('highlightMatch', true))
-			{
-				$options->matchTags = true;
-
-				$color = $this->params->get('highlightMatchColor', '#fa542f');
-				$r = hexdec($color{1} . $color{2});
-				$g = hexdec($color{3} . $color{4});
-				$b = hexdec($color{5} . $color{6});
-				$extraStyles[] = '.CodeMirror-matchingtag {background:rgba(' . $r . ', ' . $g . ', ' . $b . ', .5);}';
-			}
+			$options->matchTags = (boolean) $this->params->get('matchTags', true);
 		}
 
 		// Special options for non-tagged modes.
 		if (!in_array($options->mode, array('xml', 'htmlmixed', 'htmlembedded')))
 		{
 			// Autogenerate closing brackets.
-			$options->autoCloseBrackets = (boolean) $this->params->get('autoClose', true);
+			$options->autoCloseBrackets = (boolean) $this->params->get('autoCloseBrackets', true);
 
 			// Highlight the matching bracket.
-			$options->matchBrackets = (boolean) $this->params->get('highlightMatch', true);
+			$options->matchBrackets = (boolean) $this->params->get('matchBrackets', true);
 		}
 
 		// Vim Keybindings.
-		if ($this->params->get('vimKeyBinding', 0))
-		{
-			$options->vimMode = true;
-		}
-
-		JFactory::getDocument()->addStyleDeclaration(implode("\n", $extraStyles));
+		$options->vimMode = (boolean) $this->params->get('vimKeyBinding', 0);
 
 		$html = array();
+		$html[]	= '<p class="label">' . JText::sprintf('PLG_CODEMIRROR_TOGGLE_FULL_SCREEN', $this->fullScreenCombo) . '</p>';
 		$html[]	= "<textarea name=\"$name\" id=\"$id\" cols=\"$col\" rows=\"$row\">$content</textarea>";
 		$html[] = $buttons;
 		$html[] = '<script type="text/javascript">';
 		$html[] = '(function (id, options) {';
 		$html[] = '    Joomla.editors.instances[id] = CodeMirror.fromTextArea(document.getElementById(id), options);';
+		$html[] = '    CodeMirror.autoLoadMode(Joomla.editors.instances[id], options.mode);';
+		$html[] = '    Joomla.editors.instances[id].on("gutterClick", function (cm, n, gutter) {';
+		$html[] = '        if (gutter != "CodeMirror-markergutter") { return; }';
+		$html[] = '        var info = cm.lineInfo(n);';
+		$html[] = '        var hasMarker = !!info.gutterMarkers && !!info.gutterMarkers["CodeMirror-markergutter"];';
+		$html[] = '        var makeMarker = function () {';
+		$html[] = '            var marker = document.createElement("div");';
+		$html[] = '            marker.className = "CodeMirror-markergutter-mark";';
+		$html[] = '            return marker;';
+		$html[] = '        };';
+		$html[] = '        cm.setGutterMarker(n, "CodeMirror-markergutter", hasMarker ? null : makeMarker());';
+		$html[] = '    });';
 		$html[] = '}(' . json_encode($id) . ', ' . json_encode($options) . '));';
 		$html[] = '</script>';
 
 		return implode("\n", $html);
-	}
-
-	/**
-	 * Loads a CodeMirror syntax mode file.
-	 *
-	 * @param   string  $mode  The syntax mode to load (ex. html, css, javascript).
-	 *
-	 * @return  void
-	 */
-	protected function loadMode($mode)
-	{
-		static $loaded = array();
-
-		if (in_array($mode, $loaded))
-		{
-			return;
-		}
-
-		$loaded[] = $mode;
-
-		JHtml::_('script', $this->basePath . 'mode/' . $mode . '.js');
 	}
 
 	/**
@@ -344,33 +373,14 @@ class PlgEditorCodemirror extends JPlugin
 	}
 
 	/**
-	 * Loads the CodeMirror addons file.
-	 *
-	 * @return  void
-	 */
-	protected function loadAddons()
-	{
-		static $loaded;
-
-		if ($loaded)
-		{
-			return;
-		}
-
-		$loaded = true;
-
-		JHtml::_('script', $this->basePath . 'lib/addons.js');
-	}
-
-	/**
 	 * Displays the editor buttons.
 	 *
 	 * @param   string  $id       The id of the control.
 	 * @param   mixed   $buttons  [array with button objects | boolean true to display buttons]
-	 * @param   string  $asset    The asset for the object.
-	 * @param   object  $author   The author.
+	 * @param   mixed   $asset    Unused.
+	 * @param   mixed   $author   Unused.
 	 *
-	 * @return  string HTML
+	 * @return  string  HTML
 	 */
 	protected function displayButtons($id, $buttons, $asset, $author)
 	{
@@ -427,97 +437,47 @@ class PlgEditorCodemirror extends JPlugin
 	}
 
 	/**
-	 * Gets the url of a font stylesheet (from google web fonts) based on param values
-	 *
-	 * @param   string  $font  The font name.
-	 *
-	 * @return	string	$styleSheet a url (or empty string)
-	 */
-	protected function loadFontStyleSheet($font)
-	{
-		$loaded = array();
-
-		// Load only once.
-		if (in_array($font, $loaded))
-		{
-			return;
-		}
-
-		$loaded[] = $font;
-
-		$google = '//fonts.googleapis.com/css?';
-
-		$styleSheets = array(
-			'anonymous_pro'   => 'family=Anonymous+Pro',
-			'cousine'         => 'family=Cousine',
-			'cutive_mono'     => 'family=Cutive+Mono',
-			'droid_sans_mono' => 'family=Droid+Sans+Mono',
-			'inconsolata'     => 'family=Inconsolata',
-			'lekton'          => 'family=Lekton',
-			'nova_mono'       => 'family=Nova+Mono',
-			'oxygen_mono'     => 'family=Oxygen+Mono',
-			'press_start_2p'  => 'family=Press+Start+2P',
-			'pt_mono'         => 'family=PT+Mono',
-			'share_tech_mono' => 'family=Share+Tech+Mono',
-			'source_code_pro' => 'family=Source+Code+Pro',
-			'ubuntu_mono'     => 'family=Ubuntu+Mono',
-			'vt323'           => 'family=VT323'
-		);
-
-		$url = isset($styleSheets[$font]) ? $google . $styleSheets[$font] : '';
-
-		if ($url)
-		{
-			JHtml::_('stylesheet', $url);
-		}
-	}
-
-	/**
 	 * Gets style declarations for using the selected font, size, and line-height from params
 	 * returning as array for json encoding
 	 *
-	 * @return	array
+	 * @return  array
 	 */
 	protected function getEditorStyles()
 	{
 		$font = $this->params->get('fontFamily', 0);
+		$info = $this->getFontInfo($font);
 
-		if ($font)
+		if (isset($info) && isset($info->url))
 		{
-			$this->loadFontStyleSheet($font);
+			JFactory::getDocument()->addStylesheet($info->url);
 		}
 
-		$fonts = array(
-			'anonymous_pro'   => '\'Anonymous Pro\', monospace',
-			'cousine'         => 'Cousine, monospace',
-			'cutive_mono'     => '\'Cutive Mono\', monospace',
-			'droid_sans_mono' => '\'Droid Sans Mono\', monospace',
-			'inconsolata'     => 'Inconsolata, monospace',
-			'lekton'          => 'Tekton, monospace',
-			'nova_mono'       => '\'Nova Mono\', monospace',
-			'oxygen_mono'     => '\'Oxygen Mono\', monospace',
-			'press_start_2p'  => '\'Press Start 2P\', monospace',
-			'pt_mono'         => '\'PT Mono\', monospace',
-			'share_tech_mono' => '\'Share Tech Mono\', monospace',
-			'source_code_pro' => '\'Source Code Pro\', monospace',
-			'ubuntu_mono'     => '\'Ubuntu Mono\', monospace',
-			'vt323'           => 'VT323, monospace'
-		);
-
 		$styles = array(
-			'font-family: ' . (isset($fonts[$font]) ? $fonts[$font] : 'monospace') . ';',
+			'font-family: ' . ((isset($info) && isset($info->css)) ? $info->css . '!important' : 'monospace') . ';',
 			'font-size: ' . $this->params->get('fontSize', 10) . 'px;',
 			'line-height: ' . $this->params->get('lineHeight', 1.2) . 'em;',
 			'border: ' . '1px solid #ccc;'
 		);
 
-		$min_height = $this->params->get('minHeight', 0);
+		return $styles;
+	}
 
-		if ($min_height && is_numeric($min_height))
+	/**
+	 * Gets font info from the json data file
+	 *
+	 * @param   string  $font  A key from the $fonts array.
+	 *
+	 * @return  object
+	 */
+	protected function getFontInfo($font)
+	{
+		static $fonts;
+
+		if (!$fonts)
 		{
-			$styles[] = 'min-height: ' . $min_height . 'px;';
+			$fonts = json_decode(JFile::read(__DIR__ . '/fonts.json'), true);
 		}
 
-		return $styles;
+		return isset($fonts[$font]) ? (object) $fonts[$font] : null;
 	}
 }
