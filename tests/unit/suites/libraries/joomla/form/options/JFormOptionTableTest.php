@@ -90,12 +90,11 @@ class JFormOptionTableTest extends TestCaseDatabase
 	 */
 	public function testGetOptions()
 	{
-		$element = simplexml_load_string('<option type="table" value_field="title" key_field="id" table="#__categories" />');
+		$element = simplexml_load_string('<option provider="table" value_field="title" key_field="id" table="#__categories" />');
 		$options = JFormOption::getOptions($element, 'TestField');
 
-		$this->assertLessThan(
-			count($options),
-			0,
+		$this->assertNotEmpty(
+			$options,
 			'Line:' . __LINE__ . ' There should be some options.'
 		);
 

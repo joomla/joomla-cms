@@ -74,23 +74,23 @@ class JFormOptionSessionHandlersTest extends TestCase
 	 */
 	public function testGetOptions()
 	{
-		$element = simplexml_load_string('<option type="sessionhandlers" />');
+		$element = simplexml_load_string('<option provider="sessionhandlers" />');
 
 		$options = JFormOption::getOptions($element, 'TestField');
 
 		$stores = JSession::getStores();
 
-		$this->assertEquals(
-			count($options),
+		$this->assertCount(
 			count($stores),
+			$options,
 			'Line:' . __LINE__ . ' There should be exactly one option per store type.'
 		);
 
 		foreach ($options as $option)
 		{
-			$this->assertThat(
-				in_array($option->value, $stores),
-				$this->isTrue(),
+			$this->assertContains(
+				$option->value,
+				$stores,
 				'Line:' . __LINE__ . ' The option value should be one of the store types.'
 			);
 

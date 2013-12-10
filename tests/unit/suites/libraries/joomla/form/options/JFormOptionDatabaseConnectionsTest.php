@@ -74,7 +74,7 @@ class JFormOptionDatabaseConnectionsTest extends TestCase
 	 */
 	public function testGetOptions()
 	{
-		$element = simplexml_load_string('<option type="databaseconnections" />');
+		$element = simplexml_load_string('<option provider="databaseconnections" />');
 
 		$options = JFormOption::getOptions($element, 'TestField');
 
@@ -87,17 +87,17 @@ class JFormOptionDatabaseConnectionsTest extends TestCase
 			return;
 		}
 
-		$this->assertEquals(
-			count($options),
+		$this->assertCount(
 			count($connectors),
+			$options,
 			'Line:' . __LINE__ . ' There should be exactly one option per connection type.'
 		);
 
 		foreach ($options as $option)
 		{
-			$this->assertThat(
-				in_array($option->value, $connectors),
-				$this->isTrue(),
+			$this->assertContains(
+				$option->value,
+				$connectors,
 				'Line:' . __LINE__ . ' The option value should be one of the store types.'
 			);
 
@@ -132,22 +132,22 @@ class JFormOptionDatabaseConnectionsTest extends TestCase
 		// Request only a subset of them.
 		$supported = array_slice($connectors, 0, 2);
 
-		$xml = '<option type="databaseconnections" supported="' . implode(',', $supported) . '" />';
+		$xml = '<option provider="databaseconnections" supported="' . implode(',', $supported) . '" />';
 		$element = simplexml_load_string($xml);
 
 		$options = JFormOption::getOptions($element, 'TestField');
 
-		$this->assertEquals(
-			count($options),
+		$this->assertCount(
 			count($supported),
+			$options,
 			'Line:' . __LINE__ . ' There should be exactly one option per "supported" connection type.'
 		);
 
 		foreach ($options as $option)
 		{
-			$this->assertThat(
-				in_array($option->value, $supported),
-				$this->isTrue(),
+			$this->assertContains(
+				$option->value,
+				$supported,
 				'Line:' . __LINE__ . ' The option value should be one of the "supported" store types.'
 			);
 
@@ -156,7 +156,6 @@ class JFormOptionDatabaseConnectionsTest extends TestCase
 				JText::_(ucfirst($option->value)),
 				'Line:' . __LINE__ . ' The the option text should be derived from the value.'
 			);
-
 		}
 	}
 
@@ -170,14 +169,14 @@ class JFormOptionDatabaseConnectionsTest extends TestCase
 	public function testGetOptionsSupportedNone()
 	{
 		// Request a type of connection that does is not available.
-		$xml = '<option type="databaseconnections" supported="AFakeTypeWhichCouldNotPossiblyExist" />';
+		$xml = '<option provider="databaseconnections" supported="AFakeTypeWhichCouldNotPossiblyExist" />';
 		$element = simplexml_load_string($xml);
 
 		$options = JFormOption::getOptions($element, 'TestField');
 
-		$this->assertEquals(
-			count($options),
+		$this->assertCount(
 			1,
+			$options,
 			'Line:' . __LINE__ . ' There should be exactly one option.'
 		);
 

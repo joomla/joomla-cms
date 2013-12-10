@@ -74,13 +74,13 @@ class JFormOptionRangeTest extends TestCase
 	 */
 	public function testGetOptions()
 	{
-		$element = simplexml_load_string('<option type="range" first="1" last="10" step="1" />');
+		$element = simplexml_load_string('<option provider="range" first="1" last="10" step="1" />');
 
 		$options = JFormOption::getOptions($element, 'TestField');
 
-		$this->assertEquals(
-			count($options),
+		$this->assertCount(
 			10,
+			$options,
 			'Line:' . __LINE__ . ' There should be 10 options.'
 		);
 
