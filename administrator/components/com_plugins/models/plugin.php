@@ -157,16 +157,8 @@ class PluginsModelPlugin extends JModelAdmin
 			$installer = JInstaller::getInstance();
 			$installer->setPath('source', $path);
 
-<<<<<<< HEAD
+
 			$this->_cache[$pk]->xml = $installer->getManifest();
-=======
-			if (file_exists($path))
-			{
-				$this->_cache[$pk]->xml = simplexml_load_file($path);
-			} else {
-				$this->_cache[$pk]->xml = null;
-			}
->>>>>>> 8f66e1d322763b9f0d6651efb9119cc247207e74
 		}
 
 		return $this->_cache[$pk];
@@ -248,30 +240,27 @@ class PluginsModelPlugin extends JModelAdmin
 			$lang->load('plg_'.$folder.'_'.$element, JPATH_ADMINISTRATOR, null, false, true)
 		||	$lang->load('plg_'.$folder.'_'.$element, JPATH_PLUGINS.'/'.$folder.'/'.$element, null, false, true);
 
-<<<<<<< HEAD
-		if ($xml = $installer->getManifest())
+
+		if (!$xml = $installer->getManifest())
 		{
-			// Get the plugin form.
-			if (!$form->load($xml, false, '//config')) {
-				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
-			}
+			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 		}
-		else
-=======
+
+		$formFile = $manifestPath . '/config.xml';
 		if (file_exists($formFile))
 		{
-			// Get the plugin form.
 			if (!$form->loadFile($formFile, false, '//config'))
 			{
 				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 			}
 		}
-
-		// Attempt to load the xml file.
-		if (!$xml = simplexml_load_file($formFile))
->>>>>>> 8f66e1d322763b9f0d6651efb9119cc247207e74
+		else
 		{
-			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+			// Get the plugin form.
+			if (!$form->load($xml, false, '//config'))
+			{
+				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+			}
 		}
 
 		// Get the help data from the XML file if present.
