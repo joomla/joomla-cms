@@ -20,8 +20,6 @@ JFormHelper::loadOptionClass('files');
  */
 abstract class JFormOptionImages extends JFormOptionFiles
 {
-	protected $type = 'Images';
-
 	/**
 	 * Method to get a list of options.
 	 *

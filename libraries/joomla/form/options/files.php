@@ -21,8 +21,6 @@ jimport('joomla.filesystem.folder');
  */
 abstract class JFormOptionFiles
 {
-	protected $type = 'Files';
-
 	/**
 	 * Method to get a list of options.
 	 *
@@ -41,8 +39,6 @@ abstract class JFormOptionFiles
 		$filter = (string) $option['filter'];
 		$exclude = (string) $option['exclude'];
 		$stripExt = (string) $option['stripext'];
-		$hideNone = (string) $option['hide_none'];
-		$hideDefault = (string) $option['hide_default'];
 
 		// Get the path in which to search for file options.
 		$path = (string) $option['directory'];
@@ -50,17 +46,6 @@ abstract class JFormOptionFiles
 		if (!is_dir($path))
 		{
 			$path = JPATH_ROOT . '/' . $path;
-		}
-
-		// Prepend some default options based on field attributes.
-		if (!$hideNone)
-		{
-			$options[] = JHtml::_('select.option', '-1', JText::alt('JOPTION_DO_NOT_USE', preg_replace('/[^a-zA-Z0-9_\-]/', '_', $fieldname)));
-		}
-
-		if (!$hideDefault)
-		{
-			$options[] = JHtml::_('select.option', '', JText::alt('JOPTION_USE_DEFAULT', preg_replace('/[^a-zA-Z0-9_\-]/', '_', $fieldname)));
 		}
 
 		// Get a list of files in the search path with the given filter.
@@ -86,7 +71,10 @@ abstract class JFormOptionFiles
 					$file = JFile::stripExt($file);
 				}
 
-				$options[] = JHtml::_('select.option', $file, $file);
+				$options[] = (object) array(
+					'value' => $file,
+					'text' => $file
+				);
 			}
 		}
 

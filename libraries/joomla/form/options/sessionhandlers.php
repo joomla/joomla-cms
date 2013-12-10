@@ -18,8 +18,6 @@ defined('JPATH_PLATFORM') or die;
  */
 abstract class JFormOptionSessionHandlers
 {
-	protected $type = 'SessionHandlers';
-
 	/**
 	 * Method to get a list of options.
 	 *
@@ -37,7 +35,10 @@ abstract class JFormOptionSessionHandlers
 		// Get the options from JSession.
 		foreach (JSession::getStores() as $store)
 		{
-			$options[] = JHtml::_('select.option', $store, JText::_('JLIB_FORM_VALUE_SESSION_' . $store));
+			$options[] = (object) array(
+				'value' => $store,
+				'text' => JText::_('JLIB_FORM_VALUE_SESSION_' . $store)
+			);
 		}
 
 		return $options;

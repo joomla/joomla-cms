@@ -18,8 +18,6 @@ defined('JPATH_PLATFORM') or die;
  */
 abstract class JFormOptionSQL
 {
-	protected $type = 'SQL';
-
 	/**
 	 * Method to get a list of options.
 	 *
@@ -66,13 +64,10 @@ abstract class JFormOptionSQL
 		{
 			foreach ($items as $item)
 			{
-				$options[] = JHtml::_(
-					'select.option',
-					$item->$key,
-					$translate ? JText::_($item->$value) : $item->$value,
-					'value',
-					'text',
-					$disable ? (bool) $item->$disable : false
+				$options[] = (object) array(
+					'value' => $item->$key,
+					'text' => $translate ? JText::_($item->$value) : $item->$value,
+					'disable' => ($disable ? (bool) $item->$disable : false)
 				);
 			}
 		}
