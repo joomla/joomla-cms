@@ -137,7 +137,7 @@ class JHtmlBehaviorTest extends TestCase
 	{
 		$data = array(
 			array(array('JHtmlBehavior::caption' => array('img.caption' => true))),
-			array(array('JHtmlBehavior::caption' => array('img.caption2' => true), 'img.caption2'),
+			array(array('JHtmlBehavior::caption' => array('img.caption2' => true)), 'img.caption2'),
 		);
 
 		return $data;
