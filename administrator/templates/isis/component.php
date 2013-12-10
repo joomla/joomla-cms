@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,14 +18,13 @@ $this->direction = $doc->direction;
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
+$doc->addScript('templates/' .$this->template. '/js/template.js');
 
 // Add Stylesheets
 $doc->addStyleSheet('templates/' .$this->template. '/css/template.css');
 
-// If Right-to-Left
-if ($this->direction == 'rtl') :
-	$doc->addStyleSheet('../media/jui/css/bootstrap-rtl.css');
-endif;
+// Load optional RTL Bootstrap CSS
+JHtml::_('bootstrap.loadCss', false, $this->direction);
 
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
@@ -45,24 +44,5 @@ endif;
 <body class="contentpane component">
 	<jdoc:include type="message" />
 	<jdoc:include type="component" />
-	<script>
-		(function($){
-		    // Turn radios into btn-group
-		    $('.radio.btn-group label').addClass('btn')
-		    $(".btn-group label:not(.active)").click(function(){
-		        var label = $(this);
-		        var input = $('#' + label.attr('for'));
-
-		        if (!input.prop('checked')){
-		            label.closest('.btn-group').find("label").removeClass('active btn-primary');
-		            label.addClass('active btn-primary');
-		            input.prop('checked', true);
-		        }
-		    });
-		    $(".btn-group input[checked=checked]").each(function(){
-		        $("label[for=" + $(this).attr('id') + "]").addClass('active btn-primary');
-		    });
-	    })(jQuery);
-	</script>
 </body>
 </html>

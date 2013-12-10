@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Template.system
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,27 +22,27 @@ function modChrome_none($module, &$params, &$attribs)
  */
 function modChrome_html5($module, &$params, &$attribs)
 {
-	$moduleTag      = $params->get('module_tag');
-	$headerTag      = htmlspecialchars($params->get('header_tag'));
-	$headerClass    = $params->get('header_class');
-	$bootstrapSize  = $params->get('bootstrap_size');
-	$moduleClass    = !empty($bootstrapSize) ? ' span' . (int) $bootstrapSize . '' : '';
-	$moduleClassSfx = htmlspecialchars($params->get('moduleclass_sfx'));
+	$moduleTag      = $params->get('module_tag', 'div');
+	$headerTag      = htmlspecialchars($params->get('header_tag', 'h3'));
+	$bootstrapSize  = (int) $params->get('bootstrap_size', 0);
+	$moduleClass    = $bootstrapSize != 0 ? ' span' . $bootstrapSize : '';
 
-	if (!empty ($module->content))
-	{
-		$html  = "<{$moduleTag} class=\"moduletable{$moduleClassSfx} {$moduleClass}\">";
+	// Temporarily store header class in variable
+	$headerClass	= $params->get('header_class');
+	$headerClass	= !empty($headerClass) ? ' class="' . htmlspecialchars($headerClass) . '"' : '';
 
-		if ((bool) $module->showtitle)
-		{
-			$html .= "<{$headerTag} class=\"{$headerClass}\">{$module->title}</{$headerTag}>";
-		}
+	if (!empty ($module->content)) : ?>
+		<<?php echo $moduleTag; ?> class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx')) . $moduleClass; ?>">
 
-		$html .= $module->content;
-		$html .= "</{$moduleTag}>";
+		<?php if ((bool) $module->showtitle) :?>
+			<<?php echo $headerTag . $headerClass . '>' . $module->title; ?></<?php echo $headerTag; ?>>
+		<?php endif; ?>
 
-		echo $html;
-	}
+			<?php echo $module->content; ?>
+
+		</<?php echo $moduleTag; ?>>
+
+	<?php endif;
 }
 
 /*

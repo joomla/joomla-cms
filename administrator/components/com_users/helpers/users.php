@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -141,13 +141,15 @@ class UsersHelper
 	public static function getGroups()
 	{
 		$db = JFactory::getDbo();
-		$db->setQuery(
-			'SELECT a.id AS value, a.title AS text, COUNT(DISTINCT b.id) AS level' .
-			' FROM #__usergroups AS a' .
-			' LEFT JOIN '.$db->quoteName('#__usergroups').' AS b ON a.lft > b.lft AND a.rgt < b.rgt' .
-			' GROUP BY a.id, a.title, a.lft, a.rgt' .
-			' ORDER BY a.lft ASC'
-		);
+		$query = $db->getQuery(true)
+			->select('a.id AS value')
+			->select('a.title AS text')
+			->select('COUNT(DISTINCT b.id) AS level')
+			->from('#__usergroups as a')
+			->join('LEFT', '#__usergroups  AS b ON a.lft > b.lft AND a.rgt < b.rgt')
+			->group('a.id, a.title, a.lft, a.rgt')
+			->order('a.lft ASC');
+		$db->setQuery($query);
 
 		try
 		{
@@ -186,6 +188,45 @@ class UsersHelper
 			JHtml::_('select.option', 'past_year', JText::_('COM_USERS_OPTION_RANGE_PAST_YEAR')),
 			JHtml::_('select.option', 'post_year', JText::_('COM_USERS_OPTION_RANGE_POST_YEAR')),
 		);
+		return $options;
+	}
+
+	/**
+	 * Creates a list of two factor authentication methods used in com_users
+	 * on user view
+	 *
+	 * @return  array
+	 *
+	 * @since   3.2.0
+	 */
+	public static function getTwoFactorMethods()
+	{
+		// Load the Joomla! RAD layer
+		if (!defined('FOF_INCLUDED'))
+		{
+			include_once JPATH_LIBRARIES . '/fof/include.php';
+		}
+
+		FOFPlatform::getInstance()->importPlugin('twofactorauth');
+		$identities = FOFPlatform::getInstance()->runPlugins('onUserTwofactorIdentify', array());
+
+		$options = array(
+			JHtml::_('select.option', 'none', JText::_('JGLOBAL_OTPMETHOD_NONE'), 'value', 'text'),
+		);
+
+		if (!empty($identities))
+		{
+			foreach ($identities as $identity)
+			{
+				if (!is_object($identity))
+				{
+					continue;
+				}
+
+				$options[] = JHtml::_('select.option', $identity->method, $identity->title, 'value', 'text');
+			}
+		}
+
 		return $options;
 	}
 }

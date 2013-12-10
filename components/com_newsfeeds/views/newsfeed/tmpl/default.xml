@@ -15,10 +15,12 @@
 			addfieldpath="/administrator/components/com_newsfeeds/models/fields"
 		 >
 
-			<field name="id" type="modal_newsfeeds"
+			<field name="id" type="modal_newsfeed"
 				description="COM_NEWSFEEDS_FIELD_SELECT_FEED_DESC"
 				label="COM_NEWSFEEDS_FIELD_SELECT_FEED_LABEL"
 				required="true"
+				edit="true"
+				clear="false"
 			/>
 		</fieldset>
 	</fields>
@@ -49,6 +51,15 @@
 			<field name="show_item_description" type="list"
 				description="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_DESC"
 				label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
+			<field name="show_tags" type="list"
+				label="COM_NEWSFEEDS_FIELD_SHOW_TAGS_LABEL"
+				description="COM_NEWSFEEDS_FIELD_SHOW_TAGS_DESC"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>

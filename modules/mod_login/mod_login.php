@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,15 +14,16 @@ require_once __DIR__ . '/helper.php';
 
 $params->def('greeting', 1);
 
-$type	= modLoginHelper::getType();
-$return	= modLoginHelper::getReturnURL($params, $type);
-$user	= JFactory::getUser();
+$type	          = ModLoginHelper::getType();
+$return	          = ModLoginHelper::getReturnURL($params, $type);
+$twofactormethods = ModLoginHelper::getTwoFactorMethods();
+$user	          = JFactory::getUser();
+$layout           = $params->get('layout', 'default');
 
-if ($type == 'logout')
+// Logged users must load the logout sublayout
+if (!$user->guest)
 {
-	require JModuleHelper::getLayoutPath('mod_login', $params->get('layout', 'logout'));
+	$layout .= '_logout';
 }
-else
-{
-	require JModuleHelper::getLayoutPath('mod_login', $params->get('layout', 'default'));
-}
+
+require JModuleHelper::getLayoutPath('mod_login', $layout);

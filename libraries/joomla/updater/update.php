@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,120 +19,160 @@ defined('JPATH_PLATFORM') or die;
 class JUpdate extends JObject
 {
 	/**
+	 * Update manifest <name> element
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $name;
 
 	/**
+	 * Update manifest <description> element
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $description;
 
 	/**
+	 * Update manifest <element> element
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $element;
 
 	/**
+	 * Update manifest <type> element
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $type;
 
 	/**
+	 * Update manifest <version> element
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $version;
 
 	/**
+	 * Update manifest <infourl> element
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $infourl;
 
 	/**
+	 * Update manifest <client> element
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $client;
 
 	/**
+	 * Update manifest <group> element
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $group;
 
 	/**
+	 * Update manifest <downloads> element
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $downloads;
 
 	/**
+	 * Update manifest <tags> element
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $tags;
 
 	/**
+	 * Update manifest <maintainer> element
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $maintainer;
 
 	/**
+	 * Update manifest <maintainerurl> element
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $maintainerurl;
 
 	/**
+	 * Update manifest <category> element
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $category;
 
 	/**
+	 * Update manifest <relationships> element
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $relationships;
 
 	/**
+	 * Update manifest <targetplatform> element
+	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $targetplatform;
 
 	/**
-	 * @var    string
+	 * Resource handle for the XML Parser
+	 *
+	 * @var    resource
 	 * @since  12.1
 	 */
 	protected $xmlParser;
 
 	/**
+	 * Element call stack
+	 *
 	 * @var    array
 	 * @since  12.1
 	 */
 	protected $stack = array('base');
 
 	/**
+	 * Unused state array
+	 *
 	 * @var    array
 	 * @since  12.1
 	 */
 	protected $stateStore = array();
 
 	/**
+	 * Object containing the current update data
+	 *
 	 * @var    stdClass
 	 * @since  12.1
 	 */
 	protected $currentUpdate;
 
 	/**
+	 * Object containing the latest update data
+	 *
 	 * @var    stdClass
 	 * @since  12.1
 	 */
@@ -180,7 +220,10 @@ class JUpdate extends JObject
 		$tag = $this->_getStackLocation();
 
 		// Reset the data
-		eval('$this->' . $tag . '->_data = "";');
+		if (isset($this->$tag))
+		{
+			$this->$tag->_data = "";
+		}
 
 		switch ($name)
 		{
@@ -196,7 +239,13 @@ class JUpdate extends JObject
 			// For everything else there's...the default!
 			default:
 				$name = strtolower($name);
+
+				if (!isset($this->currentUpdate->$name))
+				{
+					$this->currentUpdate->$name = new stdClass;
+				}
 				$this->currentUpdate->$name->_data = '';
+
 				foreach ($attrs as $key => $data)
 				{
 					$key = strtolower($key);
@@ -214,8 +263,8 @@ class JUpdate extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @note This is public because it is called externally
-	 * @since  11.1
+	 * @note    This is public because it is called externally
+	 * @since   11.1
 	 */
 	public function _endElement($parser, $name)
 	{
@@ -226,8 +275,13 @@ class JUpdate extends JObject
 			case 'UPDATE':
 				$ver = new JVersion;
 				$product = strtolower(JFilterInput::getInstance()->clean($ver->PRODUCT, 'cmd'));
-				if ($product == $this->currentUpdate->targetplatform->name
-					&& preg_match('/' . $this->currentUpdate->targetplatform->version . '/', $ver->RELEASE))
+
+				// Check for optional min_dev_level and max_dev_level attributes to further specify targetplatform (e.g., 3.0.1)
+				if (isset($this->currentUpdate->targetplatform->name)
+					&& $product == $this->currentUpdate->targetplatform->name
+					&& preg_match('/' . $this->currentUpdate->targetplatform->version . '/', $ver->RELEASE)
+					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) || $ver->DEV_LEVEL >= $this->currentUpdate->targetplatform->min_dev_level)
+					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || $ver->DEV_LEVEL <= $this->currentUpdate->targetplatform->max_dev_level))
 				{
 					if (isset($this->latest))
 					{
@@ -282,7 +336,10 @@ class JUpdate extends JObject
 
 		// Throw the data for this item together
 		$tag = strtolower($tag);
-		$this->currentUpdate->$tag->_data .= $data;
+		if (isset($this->currentUpdate->$tag))
+		{
+			$this->currentUpdate->$tag->_data .= $data;
+		}
 	}
 
 	/**

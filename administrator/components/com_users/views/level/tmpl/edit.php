@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
-// Load the tooltip behavior.
-JHtml::_('behavior.tooltip');
 JHtml::_('behavior.formvalidation');
 $canDo = UsersHelper::getActions();
 ?>
@@ -21,7 +19,8 @@ $canDo = UsersHelper::getActions();
 <script type="text/javascript">
 Joomla.submitbutton = function(task)
 {
-	if (task == 'level.cancel' || document.formvalidator.isValid(document.id('level-form'))) {
+	if (task == 'level.cancel' || document.formvalidator.isValid(document.id('level-form')))
+	{
 		Joomla.submitform(task, document.id('level-form'));
 	}
 }
@@ -32,7 +31,8 @@ window.addEvent('domready', function(){
 		i.addEvent('check', function(e){
 			// Check the child groups.
 			document.id('user-groups').getElements('input').each(function(c){
-				if (this.getProperty('rel') == c.id) {
+				if (this.getProperty('rel') == c.id)
+				{
 					c.setProperty('checked', true);
 					c.setProperty('disabled', true);
 					c.fireEvent('check');
@@ -44,7 +44,8 @@ window.addEvent('domready', function(){
 		i.addEvent('uncheck', function(e){
 			// Uncheck the parent groups.
 			document.id('user-groups').getElements('input').each(function(c){
-				if (c.getProperty('rel') == this.id) {
+				if (c.getProperty('rel') == this.id)
+				{
 					c.setProperty('checked', false);
 					c.setProperty('disabled', false);
 					c.fireEvent('uncheck');
@@ -56,9 +57,11 @@ window.addEvent('domready', function(){
 		i.addEvent('click', function(e){
 			// Check the child groups.
 			document.id('user-groups').getElements('input').each(function(c){
-				if (this.getProperty('rel') == c.id) {
+				if (this.getProperty('rel') == c.id)
+				{
 					c.setProperty('checked', true);
-					if (this.getProperty('checked')) {
+					if (this.getProperty('checked'))
+					{
 						c.setProperty('disabled', true);
 					} else {
 						c.setProperty('disabled', false);
@@ -69,7 +72,8 @@ window.addEvent('domready', function(){
 
 			// Uncheck the parent groups.
 			document.id('user-groups').getElements('input').each(function(c){
-				if (c.getProperty('rel') == this.id) {
+				if (c.getProperty('rel') == this.id)
+				{
 					c.setProperty('checked', false);
 					c.setProperty('disabled', false);
 					c.fireEvent('uncheck');
@@ -78,7 +82,8 @@ window.addEvent('domready', function(){
 		}.bind(i));
 
 		// Initialise the widget.
-		if (i.getProperty('checked')) {
+		if (i.getProperty('checked'))
+		{
 			i.fireEvent('click');
 		}
 	});

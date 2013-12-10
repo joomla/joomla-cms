@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,7 +42,7 @@ JHtml::_('formbehavior.chosen', 'select');
 				<?php echo JText::_('COM_MESSAGES_FIELD_MESSAGE_LABEL'); ?>
 			</div>
 			<div class="controls">
-				<?php echo $this->escape($this->item->message);?>
+				<?php echo $this->item->message; ?>
 			</div>
 		</div>
 		<input type="hidden" name="task" value="" />

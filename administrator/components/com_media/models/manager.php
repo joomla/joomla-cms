@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,7 +50,8 @@ class MediaModelManager extends JModelLegacy
 	function getFolderList($base = null)
 	{
 		// Get some paths from the request
-		if (empty($base)) {
+		if (empty($base))
+		{
 			$base = COM_MEDIA_BASE;
 		}
 		//corrections for windows paths
@@ -76,13 +77,22 @@ class MediaModelManager extends JModelLegacy
 		}
 
 		// Sort the folder list array
-		if (is_array($options)) {
+		if (is_array($options))
+		{
 			sort($options);
 		}
 
 		// Get asset and author id (use integer filter)
 		$input = JFactory::getApplication()->input;
 		$asset = $input->get('asset', 0, 'integer');
+
+		// For new items the asset is a string. JAccess always checks type first
+		// so both string and integer are supported.
+		if ($asset == 0)
+		{
+			$asset = $input->get('asset', 0, 'string');
+		}
+
 		$author = $input->get('author', 0, 'integer');
 
 		// Create the drop-down folder select list
@@ -94,7 +104,8 @@ class MediaModelManager extends JModelLegacy
 	function getFolderTree($base = null)
 	{
 		// Get some paths from the request
-		if (empty($base)) {
+		if (empty($base))
+		{
 			$base = COM_MEDIA_BASE;
 		}
 
@@ -118,7 +129,8 @@ class MediaModelManager extends JModelLegacy
 			$tmp = &$tree;
 			for ($i = 0, $n = count($path); $i < $n; $i++)
 			{
-				if (!isset($tmp['children'])) {
+				if (!isset($tmp['children']))
+				{
 					$tmp['children'] = array();
 				}
 

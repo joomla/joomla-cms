@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_submenu
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,9 +23,9 @@ defined('_JEXEC') or die;
 			?>
 			<?php
 			if ($hide) :
-					?><a class="nolink"><?php echo $item[0]; ?><?php
+					?><a class="nolink"><?php echo $item[0]; ?></a><?php
 			else :
-				if(strlen($item[1])) :
+				if (strlen($item[1])) :
 					?><a href="<?php echo JFilterOutput::ampReplace($item[1]); ?>"><?php echo $item[0]; ?></a><?php
 				else :
 					?><?php echo $item[0]; ?><?php

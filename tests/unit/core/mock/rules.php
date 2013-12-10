@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,7 +17,7 @@ class TestMockRules
 	/**
 	 * Creates an instance of the mock JDatabase object.
 	 *
-	 * @param   object  $test    A test object.
+	 * @param   object  $test  A test object.
 	 *
 	 * @return  object
 	 *
@@ -55,7 +55,8 @@ class TestMockRules
 	/**
 	 * Mocking the allow method.
 	 *
-	 * @param   string  $action  The action.
+	 * @param   string   $action    The action.
+	 * @param   integer  $identity  The identity ID.
 	 *
 	 * @return  mixed  Boolean or null.
 	 *

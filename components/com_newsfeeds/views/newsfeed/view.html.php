@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,30 +20,35 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 {
 	/**
 	 * @var		object
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $state;
 
 	/**
 	 * @var		object
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $item;
 
 	/**
 	 * @var		boolean
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected $print;
 
 	/**
-	 * @since	1.6
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 *
+	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
 		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();
-		$dispatcher	= JEventDispatcher::getInstance();
 
 		// Get view related request variables.
 		$print = $app->input->getBool('print');
@@ -59,12 +64,14 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 			$categoryModel->setState('category.id', $item->catid);
 			$categoryModel->setState('list.ordering', 'a.name');
 			$categoryModel->setState('list.direction', 'asc');
+			// TODO: $items is not used. Remove this line?
 			$items = $categoryModel->getItems();
 		}
 
 		// Check for errors.
 		// @TODO Maybe this could go into JComponentHelper::raiseErrors($this->get('Errors'))
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseWarning(500, implode("\n", $errors));
 
 			return false;
@@ -78,7 +85,8 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		// check if cache directory is writeable
 		$cacheDir = JPATH_CACHE . '/';
 
-		if (!is_writable($cacheDir)) {
+		if (!is_writable($cacheDir))
+		{
 			JError::raiseNotice('0', JText::_('COM_NEWSFEEDS_CACHE_DIRECTORY_UNWRITABLE'));
 			return;
 		}
@@ -132,19 +140,16 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 			}
 		}
 
-		$offset = $state->get('list.offset');
-
 		// Check the access to the newsfeed
 		$levels = $user->getAuthorisedViewLevels();
 
-		if (!in_array($item->access, $levels) or ((in_array($item->access, $levels) and (!in_array($item->category_access, $levels))))) {
+		if (!in_array($item->access, $levels) or ((in_array($item->access, $levels) and (!in_array($item->category_access, $levels)))))
+		{
 			JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
 			return;
 		}
 
 		// Get the current menu item
-		$menus	= $app->getMenu();
-		$menu	= $menus->getActive();
 		$params	= $app->getParams();
 
 		// Get the newsfeed
@@ -172,10 +177,9 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 			$msg = JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
 		}
 
-		$lists = array();
-
 		$feed_display_order = $params->get('feed_display_order', 'des');
-		if ($feed_display_order == 'asc') {
+		if ($feed_display_order == 'asc')
+		{
 			$newsfeed->items = array_reverse($newsfeed->items);
 		}
 
@@ -193,16 +197,23 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		}
 		$this->print = $print;
 
+		$item->tags = new JHelperTags;
+		$item->tags->getItemTags('com_newsfeeds.newsfeed', $item->id);
+
+		// Increment the hit counter of the newsfeed.
+		$model = $this->getModel();
+		$model->hit();
+
 		$this->_prepareDocument();
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 
 	/**
 	 * Prepares the document
 	 *
-	 * @return	void
-	 * @since	1.6
+	 * @return  void
+	 * @since   1.6
 	 */
 	protected function _prepareDocument()
 	{
@@ -214,10 +225,13 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
 		$menu = $menus->getActive();
-		if ($menu) {
+
+		if ($menu)
+		{
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 		}
-		else {
+		else
+		{
 			$this->params->def('page_heading', JText::_('COM_NEWSFEEDS_DEFAULT_PAGE_TITLE'));
 		}
 
@@ -229,7 +243,8 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		if ($menu && ($menu->query['option'] != 'com_newsfeeds' || $menu->query['view'] != 'newsfeed' || $id != $this->item->id))
 		{
 			// If this is not a single newsfeed menu item, set the page title to the newsfeed title
-			if ($this->item->name) {
+			if ($this->item->name)
+			{
 				$title = $this->item->name;
 			}
 
@@ -241,22 +256,26 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 				$category = $category->getParent();
 			}
 			$path = array_reverse($path);
-			foreach($path as $item)
+			foreach ($path as $item)
 			{
 				$pathway->addItem($item['title'], $item['link']);
 			}
 		}
 
-		if (empty($title)) {
+		if (empty($title))
+		{
 			$title = $app->getCfg('sitename');
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 1) {
+		elseif ($app->getCfg('sitename_pagetitles', 0) == 1)
+		{
 			$title = JText::sprintf('JPAGETITLE', $app->getCfg('sitename'), $title);
 		}
-		elseif ($app->getCfg('sitename_pagetitles', 0) == 2) {
+		elseif ($app->getCfg('sitename_pagetitles', 0) == 2)
+		{
 			$title = JText::sprintf('JPAGETITLE', $title, $app->getCfg('sitename'));
 		}
-		if (empty($title)) {
+		if (empty($title))
+		{
 			$title = $this->item->name;
 		}
 		$this->document->setTitle($title);
@@ -284,18 +303,21 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 			$this->document->setMetadata('robots', $this->params->get('robots'));
 		}
 
-		if ($app->getCfg('MetaTitle') == '1') {
+		if ($app->getCfg('MetaTitle') == '1')
+		{
 			$this->document->setMetaData('title', $this->item->name);
 		}
 
-		if ($app->getCfg('MetaAuthor') == '1') {
+		if ($app->getCfg('MetaAuthor') == '1')
+		{
 			$this->document->setMetaData('author', $this->item->author);
 		}
 
 		$mdata = $this->item->metadata->toArray();
 		foreach ($mdata as $k => $v)
 		{
-			if ($v) {
+			if ($v)
+			{
 				$this->document->setMetadata($k, $v);
 			}
 		}

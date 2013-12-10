@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,6 +26,8 @@ class WeblinksViewWeblinks extends JViewLegacy
 
 	/**
 	 * Display the view
+	 *
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
@@ -36,7 +38,8 @@ class WeblinksViewWeblinks extends JViewLegacy
 		WeblinksHelper::addSubmenu('weblinks');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
 			return false;
 		}
@@ -49,23 +52,26 @@ class WeblinksViewWeblinks extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @since	1.6
+	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
-		require_once JPATH_COMPONENT.'/helpers/weblinks.php';
+		require_once JPATH_COMPONENT . '/helpers/weblinks.php';
 
 		$state	= $this->get('State');
-		$canDo	= WeblinksHelper::getActions($state->get('filter.category_id'));
+		$canDo	= JHelperContent::getActions($state->get('filter.category_id'), 0, 'com_weblinks');
 		$user	= JFactory::getUser();
+
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 
-		JToolbarHelper::title(JText::_('COM_WEBLINKS_MANAGER_WEBLINKS'), 'weblinks.png');
-		if (count($user->getAuthorisedCategories('com_weblinks', 'core.create')) > 0) {
+		JToolbarHelper::title(JText::_('COM_WEBLINKS_MANAGER_WEBLINKS'), 'link weblinks');
+		if (count($user->getAuthorisedCategories('com_weblinks', 'core.create')) > 0)
+		{
 			JToolbarHelper::addNew('weblink.add');
 		}
-		if ($canDo->get('core.edit')) {
+		if ($canDo->get('core.edit'))
+		{
 			JToolbarHelper::editList('weblink.edit');
 		}
 		if ($canDo->get('core.edit.state')) {
@@ -76,22 +82,27 @@ class WeblinksViewWeblinks extends JViewLegacy
 			JToolbarHelper::archiveList('weblinks.archive');
 			JToolbarHelper::checkin('weblinks.checkin');
 		}
-		if ($state->get('filter.state') == -2 && $canDo->get('core.delete')) {
+		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		{
 			JToolbarHelper::deleteList('', 'weblinks.delete', 'JTOOLBAR_EMPTY_TRASH');
-		} elseif ($canDo->get('core.edit.state')) {
+		} elseif ($canDo->get('core.edit.state'))
+		{
 			JToolbarHelper::trash('weblinks.trash');
 		}
 		// Add a batch button
-		if ($canDo->get('core.edit'))
+		if ($user->authorise('core.create', 'com_weblinks') && $user->authorise('core.edit', 'com_weblinks') && $user->authorise('core.edit.state', 'com_weblinks'))
 		{
 			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
-			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn btn-small\">
-						<i class=\"icon-checkbox-partial\" title=\"$title\"></i>
-						$title</button>";
+
+			// Instantiate a new JLayoutFile instance and render the batch button
+			$layout = new JLayoutFile('joomla.toolbar.batch');
+
+			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
-		if ($canDo->get('core.admin')) {
+		if ($user->authorise('core.admin', 'com_weblinks'))
+		{
 			JToolbarHelper::preferences('com_weblinks');
 		}
 
@@ -122,6 +133,13 @@ class WeblinksViewWeblinks extends JViewLegacy
 			'filter_language',
 			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
 		);
+
+		JHtmlSidebar::addFilter(
+		JText::_('JOPTION_SELECT_TAG'),
+		'filter_tag',
+		JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag'))
+		);
+
 	}
 
 	/**

@@ -3,31 +3,75 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-$app   = JFactory::getApplication();
-$doc   = JFactory::getDocument();
-$lang  = JFactory::getLanguage();
-$input = $app->input;
-$user  = JFactory::getUser();
+$app	= JFactory::getApplication();
+$doc	= JFactory::getDocument();
+$lang	= JFactory::getLanguage();
+$input	= $app->input;
+$user	= JFactory::getUser();
 
-// Load optional rtl bootstrap css and bootstrap bugfixes
-JHtmlBootstrap::loadCss($includeMaincss = false, $this->direction);
+// Load optional RTL Bootstrap CSS
+JHtml::_('bootstrap.loadCss', false, $this->direction);
+
+// Load system style CSS
+$doc->addStyleSheetVersion('templates/system/css/system.css');
+
+// Loadtemplate CSS
+$doc->addStyleSheetVersion('templates/' . $this->template . '/css/template.css');
+
+// Load additional CSS styles for colors
+if (!$this->params->get('colourChoice'))
+{
+	$colour = 'standard';
+}
+else
+{
+	$colour = htmlspecialchars($this->params->get('colourChoice'));
+}
+
+$doc->addStyleSheetVersion('templates/' . $this->template . '/css/colour_' . $colour . '.css');
 
 // Load specific language related CSS
 $file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
-if (is_file($file)) :
-	$doc->addStyleSheet($file);
-endif;
+
+if (is_file($file))
+{
+	$doc->addStyleSheetVersion($file);
+}
+
+// Load additional CSS styles for rtl sites
+if ($this->direction == 'rtl')
+{
+	$doc->addStyleSheetVersion('templates/' . $this->template . '/css/template_rtl.css');
+	$doc->addStyleSheetVersion('templates/' . $this->template . '/css/colour_' . $colour . '_rtl.css');
+}
+
+// Load specific language related CSS
+$file = 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css';
+
+if (is_file($file))
+{
+	$doc->addStyleSheetVersion($file);
+}
+
+// Load additional CSS styles for bold Text
+if ($this->params->get('boldText'))
+{
+	$doc->addStyleSheetVersion('templates/' . $this->template . '/css/boldtext.css');
+}
+
+// Load template javascript
+$doc->addScriptVersion('templates/' . $this->template . '/js/template.js');
 
 // Logo file
 if ($this->params->get('logoFile'))
 {
-	$logo = JURI::root() . $this->params->get('logoFile');
+	$logo = JUri::root() . $this->params->get('logoFile');
 }
 else
 {
@@ -36,31 +80,13 @@ else
 
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo  $this->language; ?>" lang="<?php echo  $this->language; ?>" dir="<?php echo  $this->direction; ?>">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xml:lang="<?php echo  $this->language; ?>"
+	lang="<?php echo  $this->language; ?>"
+	dir="<?php echo  $this->direction; ?>">
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<jdoc:include type="head" />
-
-<!-- Load system style CSS -->
-<link rel="stylesheet" href="templates/system/css/system.css" type="text/css" />
-
-<!-- Load Template CSS -->
-<link href="templates/<?php echo  $this->template ?>/css/template.css" rel="stylesheet" type="text/css" />
-
-<!-- Load additional CSS styles for colors -->
-<?php
-	if (!$this->params->get('colourChoice')) :
-		$colour = 'standard';
-	else :
-		$colour = htmlspecialchars($this->params->get('colourChoice'));
-	endif;
-?>
-<link href="templates/<?php echo $this->template ?>/css/colour_<?php echo $colour; ?>.css" rel="stylesheet" type="text/css" />
-
-<!-- Load additional CSS styles for bold Text -->
-<?php if ($this->params->get('boldText')) : ?>
-	<link href="templates/<?php echo $this->template ?>/css/boldtext.css" rel="stylesheet" type="text/css" />
-<?php  endif; ?>
 
 <!-- Load additional CSS styles for Internet Explorer -->
 <!--[if IE 8]>
@@ -72,8 +98,6 @@ else
 <!--[if lt IE 9]>
 	<script src="../media/jui/js/html5.js"></script>
 <![endif]-->
-<!-- Load Template JavaScript -->
-<script type="text/javascript" src="templates/<?php  echo  $this->template  ?>/js/template.js"></script>
 
 </head>
 
@@ -104,23 +128,26 @@ else
 	<div id="module-status">
 		<jdoc:include type="modules" name="status"/>
 			<?php
-			//Display an harcoded logout
+			// Display an harcoded logout
 			$task = $app->input->get('task');
-			if ($task == 'edit' || $task == 'editA' || $app->input->getInt('hidemainmenu')) {
+
+			if ($task == 'edit' || $task == 'editA' || $app->input->getInt('hidemainmenu'))
+			{
 				$logoutLink = '';
-			} else {
-				$logoutLink = JRoute::_('index.php?option=com_login&task=logout&'. JSession::getFormToken() .'=1');
 			}
+			else
+			{
+				$logoutLink = JRoute::_('index.php?option=com_login&task=logout&' . JSession::getFormToken() . '=1');
+			}
+
 			$hideLinks = $app->input->getBool('hidemainmenu');
 			$output = array();
-			// Print the Preview link to Main site.
-			//$output[] = '<span class="viewsite"><a href="'.JURI::root().'" target="_blank">'.JText::_('JGLOBAL_VIEW_SITE').'</a></span>';
-			// Print the logout link.
-			//$output[] = '<span class="logout">' .($hideLinks ? '' : '<a href="'.$logoutLink.'">').JText::_('JLOGOUT').($hideLinks ? '' : '</a>').'</span>';
-			// Output the items.
-			foreach ($output as $item) :
-			echo $item;
-			endforeach;
+
+			foreach ($output as $item)
+			{
+				echo $item;
+			}
+
 			?>
 	</div>
 
@@ -135,7 +162,7 @@ else
 
 		<!-- Sub Menu Navigation -->
 		<div class="subheader">
-			<?php if (!$app->input->getInt('hidemainmenu')): ?>
+			<?php if (!$app->input->getInt('hidemainmenu')) : ?>
 				<h3 class="element-invisible"><?php echo JText::_('TPL_HATHOR_SUB_MENU'); ?></h3>
 				<jdoc:include type="modules" name="submenu" style="xhtmlid" id="submenu-box" />
 			<?php echo " " ?>
@@ -176,10 +203,22 @@ else
 <div id="footer">
 	<jdoc:include type="modules" name="footer" style="none"  />
 	<p class="copyright">
-		<?php $joomla = '<a href="http://www.joomla.org">Joomla!&#174;</a>';
+		<?php $joomla = '<a href="http://www.joomla.org" target="_blank">Joomla!&#174;</a>';
 			echo JText::sprintf('JGLOBAL_ISFREESOFTWARE', $joomla) ?>
 	</p>
 </div>
 
+<script type="text/javascript">
+	(function($){
+		$(document).ready(function () {
+			// Patches to fix some wrong render of chosen fields
+			$('.chzn-container, .chzn-drop, .chzn-choices .search-field input').each(function (index) {
+				$(this).css({
+					'width': 'auto'
+				});
+			});
+		});
+	})(jQuery);
+</script>
 </body>
 </html>

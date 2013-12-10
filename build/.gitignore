@@ -1,0 +1,5 @@
+# Ignore test report folders so they do not push to the repo #
+/api
+/coverage
+/logs
+/pdepend

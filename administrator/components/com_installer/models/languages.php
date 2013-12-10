@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,13 +48,13 @@ class InstallerModelLanguages extends JModelList
 	 */
 	protected function _getListQuery()
 	{
-		$db   = JFactory::getDBO();
+		$db   = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the updates table
-		$query->select('update_id, name, version, detailsurl, type');
+		$query->select('update_id, name, version, detailsurl, type')
 
-		$query->from('#__updates');
+			->from('#__updates');
 
 		// This Where clause will avoid to list languages already installed.
 		$query->where('extension_id = 0');
@@ -63,7 +63,7 @@ class InstallerModelLanguages extends JModelList
 		$search = $this->getState('filter.search');
 		if (!empty($search))
 		{
-			$search = $db->Quote('%' . $db->escape($search, true) . '%');
+			$search = $db->quote('%' . $db->escape($search, true) . '%');
 			$query->where('(name LIKE ' . $search . ')');
 		}
 
@@ -165,7 +165,7 @@ class InstallerModelLanguages extends JModelList
 			{
 				// Could not find the url, the information in the update server may be corrupt
 				$message  = JText::sprintf('COM_INSTALLER_MSG_LANGUAGES_CANT_FIND_REMOTE_MANIFEST', $language->name);
-				$message .= ' ' . JText::_(COM_INSTALLER_MSG_LANGUAGES_TRY_LATER);
+				$message .= ' ' . JText::_('COM_INSTALLER_MSG_LANGUAGES_TRY_LATER');
 				$app->enqueueMessage($message);
 				continue;
 			}
@@ -176,7 +176,7 @@ class InstallerModelLanguages extends JModelList
 			{
 				// Could not find the url , maybe the url is wrong in the update server, or there is not internet access
 				$message  = JText::sprintf('COM_INSTALLER_MSG_LANGUAGES_CANT_FIND_REMOTE_PACKAGE', $language->name);
-				$message .= ' ' . JText::_(COM_INSTALLER_MSG_LANGUAGES_TRY_LATER);
+				$message .= ' ' . JText::_('COM_INSTALLER_MSG_LANGUAGES_TRY_LATER');
 				$app->enqueueMessage($message);
 				continue;
 			}
@@ -189,7 +189,7 @@ class InstallerModelLanguages extends JModelList
 			{
 				// There was an error installing the package
 				$message  = JText::sprintf('COM_INSTALLER_INSTALL_ERROR', $language->name);
-				$message .= ' ' . JText::_(COM_INSTALLER_MSG_LANGUAGES_TRY_LATER);
+				$message .= ' ' . JText::_('COM_INSTALLER_MSG_LANGUAGES_TRY_LATER');
 				$app->enqueueMessage($message);
 				continue;
 			}
@@ -216,7 +216,7 @@ class InstallerModelLanguages extends JModelList
 	 *
 	 * @param   int  $uid  the id of the language in the #__updates table
 	 *
-	 * @return string
+	 * @return  string
 	 *
 	 * @since   2.5.7
 	 */

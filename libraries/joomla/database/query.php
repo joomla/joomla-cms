@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -101,7 +101,7 @@ class JDatabaseQueryElement
 	/**
 	 * Gets the elements of this element.
 	 *
-	 * @return  string
+	 * @return  array
 	 *
 	 * @since   11.1
 	 */
@@ -138,8 +138,12 @@ class JDatabaseQueryElement
  * @since       11.1
  *
  * @method      string  q()   q($text, $escape = true)  Alias for quote method
- * @method      string  qn()  qs($name, $as = null)     Alias for quoteName method
- * @method      string  e()   e($text, $extra = false)   Alias for escape method
+ * @method      string  qn()  qn($name, $as = null)     Alias for quoteName method
+ * @method      string  e()   e($text, $extra = false)  Alias for escape method
+ * @property-read   JDatabaseQueryElement  $type
+ * @property-read   JDatabaseQueryElement  $select
+ * @property-read   JDatabaseQueryElement  $group
+ * @property-read   JDatabaseQueryElement  $having
  */
 abstract class JDatabaseQuery
 {
@@ -270,6 +274,12 @@ abstract class JDatabaseQuery
 	protected $union = null;
 
 	/**
+	 * @var    JDatabaseQueryElement  The unionAll element.
+	 * @since  13.1
+	 */
+	protected $unionAll = null;
+
+	/**
 	 * Magic method to provide method alias support for quote() and quoteName().
 	 *
 	 * @param   string  $method  The called method.
@@ -339,6 +349,7 @@ abstract class JDatabaseQuery
 			case 'select':
 				$query .= (string) $this->select;
 				$query .= (string) $this->from;
+
 				if ($this->join)
 				{
 					// Special case for joins
@@ -372,6 +383,10 @@ abstract class JDatabaseQuery
 
 			case 'union':
 				$query .= (string) $this->union;
+				break;
+
+			case 'unionAll':
+				$query .= (string) $this->unionAll;
 				break;
 
 			case 'delete':
@@ -432,6 +447,7 @@ abstract class JDatabaseQuery
 					}
 
 					$elements = $this->values->getElements();
+
 					if (!($elements[0] instanceof $this))
 					{
 						$query .= ' VALUES ';
@@ -636,6 +652,10 @@ abstract class JDatabaseQuery
 				$this->union = null;
 				break;
 
+			case 'unionAll':
+				$this->unionAll = null;
+				break;
+
 			default:
 				$this->type = null;
 				$this->select = null;
@@ -655,6 +675,7 @@ abstract class JDatabaseQuery
 				$this->exec = null;
 				$this->call = null;
 				$this->union = null;
+				$this->unionAll = null;
 				$this->offset = 0;
 				$this->limit = 0;
 				break;
@@ -860,6 +881,8 @@ abstract class JDatabaseQuery
 	 * @param   string  $subQueryAlias  Alias used when $tables is a JDatabaseQuery.
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @throws  RuntimeException
 	 *
 	 * @since   11.1
 	 */
@@ -1069,8 +1092,8 @@ abstract class JDatabaseQuery
 	 *
 	 * Usage:
 	 * $query->insert('#__a')->set('id = 1');
-	 * $query->insert('#__a)->columns('id, title')->values('1,2')->values->('3,4');
-	 * $query->insert('#__a)->columns('id, title')->values(array('1,2', '3,4'));
+	 * $query->insert('#__a')->columns('id, title')->values('1,2')->values('3,4');
+	 * $query->insert('#__a')->columns('id, title')->values(array('1,2', '3,4'));
 	 *
 	 * @param   mixed    $table           The name of the table to insert data into.
 	 * @param   boolean  $incrementField  The name of the field to auto increment.
@@ -1239,8 +1262,9 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->quote('fulltext');
 	 * $query->q('fulltext');
+	 * $query->q(array('option', 'fulltext'));
 	 *
-	 * @param   string   $text    The string to quote.
+	 * @param   mixed    $text    A string or an array of strings to quote.
 	 * @param   boolean  $escape  True to escape the string, false to leave it unchanged.
 	 *
 	 * @return  string  The quoted input string.
@@ -1255,7 +1279,7 @@ abstract class JDatabaseQuery
 			throw new RuntimeException('JLIB_DATABASE_ERROR_INVALID_DB_OBJECT');
 		}
 
-		return $this->db->quote(($escape ? $this->db->escape($text) : $text));
+		return $this->db->quote($text, $escape);
 	}
 
 	/**
@@ -1484,6 +1508,11 @@ abstract class JDatabaseQuery
 	{
 		foreach ($this as $k => $v)
 		{
+			if ($k === 'db')
+			{
+				continue;
+			}
+
 			if (is_object($v) || is_array($v))
 			{
 				$this->{$k} = unserialize(serialize($v));
@@ -1510,7 +1539,6 @@ abstract class JDatabaseQuery
 	 */
 	public function union($query, $distinct = false, $glue = '')
 	{
-
 		// Clear any ORDER BY clause in UNION query
 		// See http://dev.mysql.com/doc/refman/5.0/en/union.html
 		if (!is_null($this->order))
@@ -1530,6 +1558,7 @@ abstract class JDatabaseQuery
 			$name = 'UNION ()';
 
 		}
+
 		// Get the JDatabaseQueryElement if it does not exist
 		if (is_null($this->union))
 		{
@@ -1538,7 +1567,6 @@ abstract class JDatabaseQuery
 		// Otherwise append the second UNION.
 		else
 		{
-			$glue = '';
 			$this->union->append($query);
 		}
 
@@ -1564,5 +1592,250 @@ abstract class JDatabaseQuery
 
 		// Apply the distinct flag to the union.
 		return $this->union($query, $distinct, $glue);
+	}
+
+	/**
+	 * Find and replace sprintf-like tokens in a format string.
+	 * Each token takes one of the following forms:
+	 *     %%       - A literal percent character.
+	 *     %[t]     - Where [t] is a type specifier.
+	 *     %[n]$[x] - Where [n] is an argument specifier and [t] is a type specifier.
+	 *
+	 * Types:
+	 * a - Numeric: Replacement text is coerced to a numeric type but not quoted or escaped.
+	 * e - Escape: Replacement text is passed to $this->escape().
+	 * E - Escape (extra): Replacement text is passed to $this->escape() with true as the second argument.
+	 * n - Name Quote: Replacement text is passed to $this->quoteName().
+	 * q - Quote: Replacement text is passed to $this->quote().
+	 * Q - Quote (no escape): Replacement text is passed to $this->quote() with false as the second argument.
+	 * r - Raw: Replacement text is used as-is. (Be careful)
+	 *
+	 * Date Types:
+	 * - Replacement text automatically quoted (use uppercase for Name Quote).
+	 * - Replacement text should be a string in date format or name of a date column.
+	 * y/Y - Year
+	 * m/M - Month
+	 * d/D - Day
+	 * h/H - Hour
+	 * i/I - Minute
+	 * s/S - Second
+	 *
+	 * Invariable Types:
+	 * - Takes no argument.
+	 * - Argument index not incremented.
+	 * t - Replacement text is the result of $this->currentTimestamp().
+	 * z - Replacement text is the result of $this->nullDate(false).
+	 * Z - Replacement text is the result of $this->nullDate(true).
+	 *
+	 * Usage:
+	 * $query->format('SELECT %1$n FROM %2$n WHERE %3$n = %4$a', 'foo', '#__foo', 'bar', 1);
+	 * Returns: SELECT `foo` FROM `#__foo` WHERE `bar` = 1
+	 *
+	 * Notes:
+	 * The argument specifier is optional but recommended for clarity.
+	 * The argument index used for unspecified tokens is incremented only when used.
+	 *
+	 * @param   string  $format  The formatting string.
+	 *
+	 * @return  string  Returns a string produced according to the formatting string.
+	 *
+	 * @since   12.3
+	 */
+	public function format($format)
+	{
+		$query = $this;
+		$args = array_slice(func_get_args(), 1);
+		array_unshift($args, null);
+
+		$i = 1;
+		$func = function ($match) use ($query, $args, &$i)
+		{
+			if (isset($match[6]) && $match[6] == '%')
+			{
+				return '%';
+			}
+
+			// No argument required, do not increment the argument index.
+			switch ($match[5])
+			{
+				case 't':
+					return $query->currentTimestamp();
+					break;
+
+				case 'z':
+					return $query->nullDate(false);
+					break;
+
+				case 'Z':
+					return $query->nullDate(true);
+					break;
+			}
+
+			// Increment the argument index only if argument specifier not provided.
+			$index = is_numeric($match[4]) ? (int) $match[4] : $i++;
+
+			if (!$index || !isset($args[$index]))
+			{
+				// TODO - What to do? sprintf() throws a Warning in these cases.
+				$replacement = '';
+			}
+			else
+			{
+				$replacement = $args[$index];
+			}
+
+			switch ($match[5])
+			{
+				case 'a':
+					return 0 + $replacement;
+					break;
+
+				case 'e':
+					return $query->escape($replacement);
+					break;
+
+				case 'E':
+					return $query->escape($replacement, true);
+					break;
+
+				case 'n':
+					return $query->quoteName($replacement);
+					break;
+
+				case 'q':
+					return $query->quote($replacement);
+					break;
+
+				case 'Q':
+					return $query->quote($replacement, false);
+					break;
+
+				case 'r':
+					return $replacement;
+					break;
+
+				// Dates
+				case 'y':
+					return $query->year($query->quote($replacement));
+					break;
+
+				case 'Y':
+					return $query->year($query->quoteName($replacement));
+					break;
+
+				case 'm':
+					return $query->month($query->quote($replacement));
+					break;
+
+				case 'M':
+					return $query->month($query->quoteName($replacement));
+					break;
+
+				case 'd':
+					return $query->day($query->quote($replacement));
+					break;
+
+				case 'D':
+					return $query->day($query->quoteName($replacement));
+					break;
+
+				case 'h':
+					return $query->hour($query->quote($replacement));
+					break;
+
+				case 'H':
+					return $query->hour($query->quoteName($replacement));
+					break;
+
+				case 'i':
+					return $query->minute($query->quote($replacement));
+					break;
+
+				case 'I':
+					return $query->minute($query->quoteName($replacement));
+					break;
+
+				case 's':
+					return $query->second($query->quote($replacement));
+					break;
+
+				case 'S':
+					return $query->second($query->quoteName($replacement));
+					break;
+			}
+
+			return '';
+		};
+
+		/**
+		 * Regexp to find an replace all tokens.
+		 * Matched fields:
+		 * 0: Full token
+		 * 1: Everything following '%'
+		 * 2: Everything following '%' unless '%'
+		 * 3: Argument specifier and '$'
+		 * 4: Argument specifier
+		 * 5: Type specifier
+		 * 6: '%' if full token is '%%'
+		 */
+		return preg_replace_callback('#%(((([\d]+)\$)?([aeEnqQryYmMdDhHiIsStzZ]))|(%))#', $func, $format);
+	}
+
+	/**
+	 * Add to the current date and time.
+	 * Usage:
+	 * $query->select($query->dateAdd());
+	 * Prefixing the interval with a - (negative sign) will cause subtraction to be used.
+	 * Note: Not all drivers support all units.
+	 *
+	 * @param   datetime  $date      The date to add to. May be date or datetime
+	 * @param   string    $interval  The string representation of the appropriate number of units
+	 * @param   string    $datePart  The part of the date to perform the addition on
+	 *
+	 * @return  string  The string with the appropriate sql for addition of dates
+	 *
+	 * @see     http://dev.mysql.com/doc/refman/5.1/en/date-and-time-functions.html#function_date-add
+	 * @since   13.1
+	 */
+	public function dateAdd($date, $interval, $datePart)
+	{
+		return trim("DATE_ADD('" . $date . "', INTERVAL " . $interval . ' ' . $datePart . ')');
+	}
+
+	/**
+	 * Add a query to UNION ALL with the current query.
+	 * Multiple unions each require separate statements and create an array of unions.
+	 *
+	 * Usage:
+	 * $query->union('SELECT name FROM  #__foo')
+	 * $query->union('SELECT name FROM  #__foo','distinct')
+	 * $query->union(array('SELECT name FROM  #__foo','SELECT name FROM  #__bar'))
+	 *
+	 * @param   mixed    $query     The JDatabaseQuery object or string to union.
+	 * @param   boolean  $distinct  True to only return distinct rows from the union.
+	 * @param   string   $glue      The glue by which to join the conditions.
+	 *
+	 * @return  mixed    The JDatabaseQuery object on success or boolean false on failure.
+	 *
+	 * @since   13.1
+	 */
+	public function unionAll($query, $distinct = false, $glue = '')
+	{
+			$glue = ')' . PHP_EOL . 'UNION ALL (';
+			$name = 'UNION ALL ()';
+
+		// Get the JDatabaseQueryElement if it does not exist
+		if (is_null($this->unionAll))
+		{
+			$this->unionAll = new JDatabaseQueryElement($name, $query, "$glue");
+		}
+
+		// Otherwise append the second UNION.
+		else
+		{
+			$this->unionAll->append($query);
+		}
+
+		return $this;
 	}
 }

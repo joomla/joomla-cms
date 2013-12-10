@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_search
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,15 +16,15 @@ defined('_JEXEC') or die;
  * @subpackage  mod_search
  * @since       1.5
  */
-class modSearchHelper
+class ModSearchHelper
 {
 	/**
 	 * Display the search button as an image.
 	 *
-	 * @param	string	$button_text	The alt text for the button.
+	 * @param   string	$button_text	The alt text for the button.
 	 *
-	 * @return	string	The HTML for the image.
-	 * @since	1.5
+	 * @return  string	The HTML for the image.
+	 * @since   1.5
 	 */
 	public static function getSearchImage($button_text)
 	{

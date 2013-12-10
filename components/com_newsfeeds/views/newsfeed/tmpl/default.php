@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -53,12 +53,18 @@ else
 	</h1>
 	<?php endif; ?>
 	<h2 class="<?php echo $direction; ?>">
-		<?php if ($this->item->published == 0): ?>
+		<?php if ($this->item->published == 0) : ?>
 			<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 		<?php endif; ?>
 		<a href="<?php echo $this->item->link; ?>" target="_blank">
 		<?php echo str_replace('&apos;', "'", $this->item->name); ?></a>
 	</h2>
+
+	<?php if ($this->params->get('show_tags', 1)) : ?>
+		<?php $this->item->tagLayout = new JLayoutFile('joomla.content.tags'); ?>
+		<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
+	<?php endif; ?>
+
 	<!-- Show Images from Component -->
 	<?php  if (isset($images->image_first) and !empty($images->image_first)) : ?>
 	<?php $imgfloat = (empty($images->float_first)) ? $this->params->get('float_first') : $images->float_first; ?>
@@ -95,25 +101,25 @@ else
 <?php endif; ?>
 
 	<!-- Show items -->
-	<?php if (!empty($this->rssDoc[0])){ ?>
+	<?php if (!empty($this->rssDoc[0])) { ?>
 	<ol>
-		<?php for ($i = 0; $i < $this->item->numarticles; $i++) {  ?>
+		<?php for ($i = 0; $i < $this->item->numarticles; $i++) { ?>
 
 	<?php
 		$uri = !empty($this->rssDoc[$i]->guid) || !is_null($this->rssDoc[$i]->guid) ? $this->rssDoc[$i]->guid : $this->rssDoc[$i]->uri;
 		$uri = substr($uri, 0, 4) != 'http' ? $this->item->link : $uri;
-		$text = !empty($this->rssDoc[$i]->content) ||  !is_null($this->rssDoc[$i]->content) ? $this->rssDoc[$i]->content : $this->rssDoc[$i]->description;
+		$text = !empty($this->rssDoc[$i]->content) || !is_null($this->rssDoc[$i]->content) ? $this->rssDoc[$i]->content : $this->rssDoc[$i]->description;
 	?>
 			<li>
-				<?php if (!empty($uri)) : ?>
-					<a href="<?php echo $uri; ?>" target="_blank">
+				<?php if (!empty($this->rssDoc[$i]->uri)) : ?>
+					<a href="<?php echo $this->rssDoc[$i]->uri; ?>" target="_blank">
 					<?php  echo $this->rssDoc[$i]->title; ?></a>
 				<?php else : ?>
-					<h3><?php  echo $this->rssDoc[$i]->title; ?></h3>
+					<h3><?php  echo '<a target="_blank" href="' .$this->rssDoc[$i]->uri . '">' .$this->rssDoc[$i]->title. '</a>'; ?></h3>
 				<?php  endif; ?>
 				<?php if ($this->params->get('show_item_description') && !empty($text)) : ?>
 					<div class="feed-item-description">
-					<?php if($this->params->get('show_feed_image', 0) == 0)
+					<?php if ($this->params->get('show_feed_image', 0) == 0)
 					{
 						$text = JFilterOutput::stripImages($text);
 					}
