@@ -18,8 +18,6 @@ defined('JPATH_PLATFORM') or die;
  */
 abstract class JFormOptionPlugins
 {
-	protected $type = 'Plugins';
-
 	/**
 	 * Method to get a list of options.
 	 *

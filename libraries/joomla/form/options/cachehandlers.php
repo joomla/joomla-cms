@@ -18,8 +18,6 @@ defined('JPATH_PLATFORM') or die;
  */
 abstract class JFormOptionCacheHandlers
 {
-	protected $type = 'CacheHandlers';
-
 	/**
 	 * Method to get a list of options.
 	 *
@@ -37,7 +35,10 @@ abstract class JFormOptionCacheHandlers
 		// Convert to name => name array.
 		foreach (JCache::getStores() as $store)
 		{
-			$options[] = JHtml::_('select.option', $store, JText::_('JLIB_FORM_VALUE_CACHE_' . $store));
+			$options[] = (object) array(
+				'value' => $store,
+				'text' => JText::_('JLIB_FORM_VALUE_CACHE_' . $store)
+			);
 		}
 
 		return $options;

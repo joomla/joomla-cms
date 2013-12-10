@@ -18,8 +18,6 @@ defined('JPATH_PLATFORM') or die;
  */
 abstract class JFormOptionLanguages
 {
-	protected $type = 'Languages';
-
 	/**
 	 * Method to get a list of options.
 	 *
