@@ -74,12 +74,11 @@ class JFormOptionFilesTest extends TestCase
 	 */
 	public function testGetOptions()
 	{
-		$element = simplexml_load_string('<option type="files" directory="." />');
+		$element = simplexml_load_string('<option provider="files" directory="." />');
 		$options = JFormOption::getOptions($element, 'TestField');
 
-		$this->assertLessThan(
-			count($options),
-			0,
+		$this->assertNotEmpty(
+			$options,
 			'Line:' . __LINE__ . ' There should be some options.'
 		);
 
