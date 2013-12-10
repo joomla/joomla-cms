@@ -63,7 +63,8 @@ class JFormFieldList extends JFormField
 		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true')
 		{
 			$html[] = JHtml::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $this->value, $this->id);
-			$html[] = '<input type="hidden" name="' . $this->name . '" value="' . $this->value . '"/>';
+			$disabled = ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
+			$html[] = '<input type="hidden" name="' . $this->name . '" value="' . $this->value . '"' . $disabled . '/>';
 		}
 		else
 		// Create a regular list.
