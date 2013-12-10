@@ -306,9 +306,10 @@ abstract class JUserHelper
 	 */
 	public static function hashPassword($password)
 	{
-		$salt = static::genRandomPassword(32);
-		$crypted = md5($password . $salt);
-		return $crypted . ':' . $salt;
+		// Use crypt-sha256, default 5000 rounds, with a 128-bit salt.
+		$salt = '$5$' . static::genRandomPassword(16);
+
+		return crypt($password, $salt);
 	}
 
 	/**
@@ -329,7 +330,17 @@ abstract class JUserHelper
 		$rehash = false;
 		$match = false;
 
-		if ($hash[0] == '$')
+		// If we are using the secure passwords from 3.2.1, crypt-sha256
+		if (strpos($hash, '$5$') === 0)
+		{
+			// Pass the entire hash to the crypt function
+			$testcrypt = crypt($password, $hash);
+
+			$match = JCrypt::timingSafeCompare($hash, $testcrypt);
+
+			$rehash = false;
+		}
+		elseif ($hash[0] == '$')
 		{
 			// JCrypt::hasStrongPasswordSupport() includes a fallback for us in the worst case
 			JCrypt::hasStrongPasswordSupport();
@@ -347,10 +358,7 @@ abstract class JUserHelper
 			$salt      = @$parts[1];
 			$testcrypt = static::getCryptedPassword($password, $salt, 'sha256', true);
 
-			if ($hash == $testcrypt)
-			{
-				$match = true;
-			}
+			$match = JCrypt::timingSafeCompare($hash, $testcrypt);
 
 			$rehash = true;
 		}
@@ -361,19 +369,14 @@ abstract class JUserHelper
 			$crypt = $parts[0];
 			$salt  = @$parts[1];
 
-			if (!$salt)
-			{
-				$rehash = true;
-			}
+			$rehash = true;
 
 			$testcrypt = md5($password . $salt) . ($salt ? ':' . $salt : '');
 
-			if ($hash == $testcrypt)
-			{
-				$match = true;
-			}
+			$match = JCrypt::timingSafeCompare($hash, $testcrypt);
 		}
 
+		// If we have a match, rehash to ensure we are using crypt-sha256
 		if ((int) $user_id > 0 && $match && $rehash)
 		{
 			$user = new JUser($user_id);
@@ -536,18 +539,18 @@ abstract class JUserHelper
 				}
 				break;
 
-				case 'sha256':
-					if ($seed)
-					{
-						return preg_replace('|^{sha256}|i', '', $seed);
-					}
-					else
-					{
-						return static::genRandomPassword(16);
-					}
-					break;
+			case 'sha256':
+				if ($seed)
+				{
+					return preg_replace('|^{sha256}|i', '', $seed);
+				}
+				else
+				{
+					return static::genRandomPassword(16);
+				}
+				break;
 
-				case 'crypt-md5':
+			case 'crypt-md5':
 				if ($seed)
 				{
 					return substr(preg_replace('|^{crypt}|i', '', $seed), 0, 12);
