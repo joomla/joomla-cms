@@ -153,12 +153,14 @@ class PluginsModelPlugin extends JModelAdmin
 			$this->_cache[$pk]->params = $registry->toArray();
 
 			// Get the plugin XML.
-			$path = JPATH_PLUGINS.'/'.$table->folder.'/'.$table->element;
-			$installer = JInstaller::getInstance();
-			$installer->setPath('source', $path);
+			$path = JPath::clean(JPATH_PLUGINS.'/'.$table->folder.'/'.$table->element.'/'.$table->element.'.xml');
 
-
-			$this->_cache[$pk]->xml = $installer->getManifest();
+			if (file_exists($path))
+			{
+				$this->_cache[$pk]->xml = simplexml_load_file($path);
+			} else {
+				$this->_cache[$pk]->xml = null;
+			}
 		}
 
 		return $this->_cache[$pk];
@@ -232,36 +234,29 @@ class PluginsModelPlugin extends JModelAdmin
 			$app->redirect(JRoute::_('index.php?option=com_plugins&view=plugins', false));
 		}
 
-		$manifestPath = JPATH_PLUGINS . '/' . $folder . '/' . $element;
-		$installer    = JInstaller::getInstance();
-		$installer->setPath('source', $manifestPath);
+		$formFile = JPath::clean(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/' . $element . '.xml');
+		if (!file_exists($formFile))
+		{
+			throw new Exception(JText::sprintf('COM_PLUGINS_ERROR_FILE_NOT_FOUND', $element . '.xml'));
+		}
 
 		// Load the core and/or local language file(s).
 			$lang->load('plg_'.$folder.'_'.$element, JPATH_ADMINISTRATOR, null, false, true)
 		||	$lang->load('plg_'.$folder.'_'.$element, JPATH_PLUGINS.'/'.$folder.'/'.$element, null, false, true);
 
-
-		if (!$xml = $installer->getManifest())
-		{
-			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
-		}
-
-		// Get the plugin form from a config.xml file, if exists
-		$formFile = $manifestPath . '/config.xml';
 		if (file_exists($formFile))
 		{
+			// Get the plugin form.
 			if (!$form->loadFile($formFile, false, '//config'))
 			{
 				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 			}
 		}
-		else
+
+		// Attempt to load the xml file.
+		if (!$xml = simplexml_load_file($formFile))
 		{
-			// Get the plugin form from the manifest file
-			if (!$form->load($xml, false, '//config'))
-			{
-				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
-			}
+			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 		}
 
 		// Get the help data from the XML file if present.

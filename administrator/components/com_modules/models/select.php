@@ -81,12 +81,7 @@ class ModulesModelSelect extends JModelList
 				'a.extension_id, a.name, a.element AS module'
 			)
 		);
-<<<<<<< HEAD
-		$query->select('a.manifest_cache AS manifest');
-		$query->from($db->quoteName('#__extensions').' AS a');
-=======
 		$query->from($db->quoteName('#__extensions') . ' AS a');
->>>>>>> 8f66e1d322763b9f0d6651efb9119cc247207e74
 
 		// Filter by module
 		$query->where('a.type = ' . $db->quote('module'));
@@ -120,9 +115,6 @@ class ModulesModelSelect extends JModelList
 
 		// Loop through the results to add the XML metadata,
 		// and load language support.
-<<<<<<< HEAD
-		foreach ($items as &$item) {
-=======
 		foreach ($items as &$item)
 		{
 			$path = JPath::clean($client->path . '/modules/' . $item->module . '/' . $item->module . '.xml');
@@ -135,20 +127,14 @@ class ModulesModelSelect extends JModelList
 				$item->xml = null;
 			}
 
->>>>>>> 8f66e1d322763b9f0d6651efb9119cc247207e74
 			// 1.5 Format; Core files or language packs then
 			// 1.6 3PD Extension Support
 			$lang->load($item->module . '.sys', $client->path, null, false, true)
 				|| $lang->load($item->module . '.sys', $client->path . '/modules/' . $item->module, null, false, true);
 			$item->name = JText::_($item->name);
 
-<<<<<<< HEAD
-			$item->manifest = json_decode($item->manifest);
-			if (isset($item->manifest) && $text = trim($item->manifest->description)) {
-=======
 			if (isset($item->xml) && $text = trim($item->xml->description))
 			{
->>>>>>> 8f66e1d322763b9f0d6651efb9119cc247207e74
 				$item->desc = JText::_($text);
 			}
 			else
@@ -157,6 +143,8 @@ class ModulesModelSelect extends JModelList
 			}
 		}
 		$items = JArrayHelper::sortObjects($items, 'name', 1, true, true);
+
+		// TODO: Use the cached XML from the extensions table?
 
 		return $items;
 	}

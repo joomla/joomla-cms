@@ -746,19 +746,18 @@ class ModulesModelModule extends JModelAdmin
 			$this->_cache[$pk]->assigned   = $assigned;
 			$this->_cache[$pk]->assignment = $assignment;
 
-<<<<<<< HEAD
-			// Get the module XML
-			$client	= JApplicationHelper::getClientInfo($table->client_id);
-			$path	= JPath::clean($client->path . '/modules/' . $table->module);
-			$installer = JInstaller::getInstance();
-			$installer->setPath('source', $path);
-=======
 			// Get the module XML.
 			$client = JApplicationHelper::getClientInfo($table->client_id);
 			$path   = JPath::clean($client->path . '/modules/' . $table->module . '/' . $table->module . '.xml');
->>>>>>> 8f66e1d322763b9f0d6651efb9119cc247207e74
 
-			$this->_cache[$pk]->xml = $installer->getManifest();
+			if (file_exists($path))
+			{
+				$this->_cache[$pk]->xml = simplexml_load_file($path);
+			}
+			else
+			{
+				$this->_cache[$pk]->xml = null;
+			}
 		}
 
 		return $this->_cache[$pk];
@@ -827,20 +826,23 @@ class ModulesModelModule extends JModelAdmin
 		$clientId = $this->getState('item.client_id');
 		$module   = $this->getState('item.module');
 
-		$client       = JApplicationHelper::getClientInfo($clientId);
-		$manifestPath = $client->path . '/modules/' . $module;
-		$installer    = JInstaller::getInstance();
-		$installer->setPath('source', $manifestPath);
+		$client   = JApplicationHelper::getClientInfo($clientId);
+		$formFile = JPath::clean($client->path . '/modules/' . $module . '/' . $module . '.xml');
 
 		// Load the core and/or local language file(s).
 		$lang->load($module, $client->path, null, false, true)
 			||	$lang->load($module, $client->path . '/modules/' . $module, null, false, true);
 
-		// Attempt to load the xml file.
-		if ($xml = $installer->getManifest())
+		if (file_exists($formFile))
 		{
 			// Get the module form.
-			if (!$form->load($xml, false, '//config'))
+			if (!$form->loadFile($formFile, false, '//config'))
+			{
+				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+			}
+
+			// Attempt to load the xml file.
+			if (!$xml = simplexml_load_file($formFile))
 			{
 				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 			}
@@ -855,10 +857,7 @@ class ModulesModelModule extends JModelAdmin
 				$this->helpKey = $helpKey ? $helpKey : $this->helpKey;
 				$this->helpURL = $helpURL ? $helpURL : $this->helpURL;
 			}
-		}
-		else
-		{
-			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
+
 		}
 
 		// Load the default advanced params
