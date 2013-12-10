@@ -306,10 +306,10 @@ abstract class JUserHelper
 	 */
 	public static function hashPassword($password)
 	{
-		// Use crypt-sha256, default 5000 rounds, with a 128-bit salt.
-		$salt = '$5$' . static::genRandomPassword(16);
+		// Use PHPass's portable hashes with a cost of 10.
+		$phpass = new PasswordHash(10, true);
 
-		return crypt($password, $salt);
+		return $phpass->HashPassword($password);
 	}
 
 	/**
@@ -330,13 +330,13 @@ abstract class JUserHelper
 		$rehash = false;
 		$match = false;
 
-		// If we are using the secure passwords from 3.2.1, crypt-sha256
-		if (strpos($hash, '$5$') === 0)
+		// If we are using phpass
+		if (strpos($hash, '$P$') === 0)
 		{
-			// Pass the entire hash to the crypt function
-			$testcrypt = crypt($password, $hash);
+			// Use PHPass's portable hashes with a cost of 10.
+			$phpass = new PasswordHash(10, true);
 
-			$match = JCrypt::timingSafeCompare($hash, $testcrypt);
+			$match = $phpass->CheckPassword($password, $hash);
 
 			$rehash = false;
 		}
