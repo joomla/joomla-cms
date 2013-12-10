@@ -293,7 +293,7 @@ class PlgEditorCodemirror extends JPlugin
 		}
 
 		// Load the syntax mode.
-		$syntax = $this->params->get('syntax', 'html');
+		$syntax = JFactory::getApplication()->getUserState('editor.source.syntax', 'html');
 		$options->mode = isset($this->modeAlias[$syntax]) ? $this->modeAlias[$syntax] : $syntax;
 
 		// Load the theme if specified.
