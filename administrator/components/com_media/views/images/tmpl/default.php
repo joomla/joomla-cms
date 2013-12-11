@@ -93,11 +93,7 @@ echo $params->get('image_path', 'images'); ?>/';
 					<label for="f_caption"><?php echo JText::_('COM_MEDIA_CAPTION') ?></label>
 				</div>
 				<div class="controls">
-					<select size="1" id="f_caption" >
-						<option value="" selected="selected" ><?php echo JText::_('JNO') ?></option>
-						<option value="1"><?php echo JText::_('JYES') ?></option>
-					</select>
-					<p class="help-block"><?php echo JText::_('COM_MEDIA_CAPTION_DESC');?></p>
+					<input type="text" id="f_caption" value="" />
 				</div>
 			</div>
 		</div>

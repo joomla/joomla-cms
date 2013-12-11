@@ -90,7 +90,9 @@ var ImageManager = this.ImageManager = {
 
 	onok: function()
 	{
-		extra = '';
+		var tag		= '';
+		var extra	= '';
+
 		// Get the image tag field information
 		var url		= this.fields.url.get('value');
 		var alt		= this.fields.alt.get('value');
@@ -109,16 +111,17 @@ var ImageManager = this.ImageManager = {
 			if (align != '') {
 				extra = extra + 'align="'+align+'" ';
 			}
-			// Set align attribute
+			// Set title attribute
 			if (title != '') {
 				extra = extra + 'title="'+title+'" ';
 			}
-			// Set align attribute
-			if (caption != '') {
-				extra = extra + 'class="caption" ';
-			}
 
-			var tag = "<img src=\""+url+"\" "+extra+"/>";
+			tag = '<img src="'+url+'" '+extra+'/>';
+
+			// Process caption
+			if (caption != '') {
+				tag = '<figure>'+tag+'<figcaption>'+caption+'</figcaption></figure>';
+			}
 		}
 
 		window.parent.jInsertEditorText(tag, this.editor);
