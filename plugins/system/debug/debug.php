@@ -1691,6 +1691,17 @@ class PlgSystemDebug extends JPlugin
 			JLog::DEBUG => 'DEBUG'
 		);
 
+		$prioritiesLabels = array(
+			JLog::EMERGENCY => 'important',
+			JLog::ALERT => 'warning',
+			JLog::CRITICAL => 'inverse',
+			JLog::ERROR => 'important',
+			JLog::WARNING => 'warning',
+			JLog::NOTICE => 'info',
+			JLog::INFO => 'info',
+			JLog::DEBUG => 'default'
+		);
+
 		$out = array();
 		$logPriorities = array();
 		$logCategories = array();
@@ -1712,7 +1723,10 @@ class PlgSystemDebug extends JPlugin
 
 			// Build the log output
 			$html = '<li class="dbg-log-entry" data-priority="' . $entry->priority . '" data-category="' . $entry->category . '">';
-			$html .= '<h5>' . $priorities[$entry->priority] . ' - ' . $entry->category . '</h5>';
+			$html .= '<h5>';
+			$html .= '<span class="label label-' . $prioritiesLabels[$entry->priority] . '">' . $priorities[$entry->priority] . '</span>';
+			$html .= '&nbsp;-&nbsp;' . $entry->category;
+			$html .= '</h5>';
 			$html .= '<code>' . $entry->message . '</code>';
 			$html .= '<hr />';
 			$html .= '</li>';
