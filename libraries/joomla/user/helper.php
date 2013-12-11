@@ -376,7 +376,7 @@ abstract class JUserHelper
 			$match = JCrypt::timingSafeCompare($hash, $testcrypt);
 		}
 
-		// If we have a match, rehash to ensure we are using crypt-sha256
+		// If we have a match and rehash = true, rehash the password with the current algorithm.
 		if ((int) $user_id > 0 && $match && $rehash)
 		{
 			$user = new JUser($user_id);
