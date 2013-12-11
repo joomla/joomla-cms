@@ -355,7 +355,7 @@ class AdmintoolsHelperDownload
 		{
 			return $result;
 		}
-		elseif ( $result === true )
+		elseif ($result === true)
 		{
 			return $return;
 		}
