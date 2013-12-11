@@ -61,6 +61,8 @@ abstract class JHtmlBehavior
 		}
 
 		JHtml::_('script', 'system/mootools-' . $type . '.js', false, true, false, false, $debug);
+		// Include jQuery
+		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/core.js', false, true);
 		static::$loaded[__METHOD__][$type] = true;
 
@@ -804,7 +806,6 @@ abstract class JHtmlBehavior
 		}
 		// Include jQuery
 		JHtml::_('jquery.framework');
-
 		JHtml::_('script', 'system/tabs-state.js', false, true);
 		self::$loaded[__METHOD__] = true;
 	}
