@@ -9,9 +9,16 @@
 
 defined('_JEXEC') or die;
 foreach ($list as $item) :
-
+	
+	//TODO This should be done differently, but can't find appropriate method in the core. Definitely needs refactoring.
+	$catclass = '';
+	foreach($catpath as $catpathitem){
+		$catpathitempiece = explode(':',$catpathitem);
+		if($item->id == $catpathitempiece[0])$catclass = 'active';
+		if($item->id == $catid)$catclass .= ' current';
+	}
 ?>
-	<li <?php if ($_SERVER['PHP_SELF'] == JRoute::_(ContentHelperRoute::getCategoryRoute($item->id))) echo ' class="active"';?>> <?php $levelup = $item->level - $startLevel - 1; ?>
+	<li<?php echo ($catclass!=''?' class="'.$catclass.'"':''); ?>> <?php $levelup = $item->level - $startLevel - 1; ?>
   <h<?php echo $params->get('item_heading') + $levelup; ?>>
 		<a href="<?php echo JRoute::_(ContentHelperRoute::getCategoryRoute($item->id)); ?>">
 		<?php echo $item->title;?><?php if($params->get('numitems')): ?>
