@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 $ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
+JHtml::_('formbehavior.chosen', 'select');
 
 ?>
 
