@@ -63,7 +63,6 @@ echo $params->get('image_path', 'images'); ?>/';
 						<option value="left"><?php echo JText::_('JGLOBAL_LEFT') ?></option>
 						<option value="right"><?php echo JText::_('JGLOBAL_RIGHT') ?></option>
 					</select>
-					<p class="help-block"><?php echo JText::_('COM_MEDIA_ALIGN_DESC');?></p>
 				</div>
 			</div>
 			<?php endif;?>
