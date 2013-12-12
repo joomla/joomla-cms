@@ -83,12 +83,13 @@ class BannerManagerPage extends AdminManagerPage
 	 *
 	 * @return  BannerManagerPage
 	 */
-	public function addBanner($name='Test Banner', $fields)
+	public function addBanner($name='Test Banner', $fields = null)
 	{
 		$this->clickButton('toolbar-new');
 		$bannerEditPage = $this->test->getPageObject('BannerEditPage');
 		$bannerEditPage->setFieldValues(array('Name' => $name));
-		if($fields) {
+		if ($fields)
+		{
 			$bannerEditPage->setFieldValues($fields);
 		}
 		$bannerEditPage->clickButton('toolbar-save');

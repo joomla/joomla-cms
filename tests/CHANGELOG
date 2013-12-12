@@ -26,6 +26,9 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+05-Dec-2013 Mark Dexter
+ # Clean up some webdriver tests to hopefully fix intermittent problems.
+
 14-Nov-2013 Mark Dexter
  # Fix problem with button not being visible on page.
   
