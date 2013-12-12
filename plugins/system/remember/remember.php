@@ -169,22 +169,7 @@ class PlgSystemRemember extends JPlugin
 				// We have a user with one cookie with a valid series and a corresponding record in the database.
 				if ($countResults === 1)
 				{
-					if (substr($results[0]->token, 0, 4) === '$2y$')
-					{
-						if (JCrypt::hasStrongPasswordSupport())
-						{
-							$match = password_verify($privateKey, $results[0]->token);
-						}
-					}
-					else
-					{
-						if (JCrypt::timingSafeCompare($results[0]->token, $privateKey))
-						{
-							$match = true;
-						}
-					}
-
-					if (empty($match))
+					if (!JCrypt::timingSafeCompare($results[0]->token, $privateKey))
 					{
 						JUserHelper::invalidateCookie($results[0]->user_id, $uastring);
 						JLog::add(JText::sprintf('PLG_SYSTEM_REMEMBER_ERROR_LOG_LOGIN_FAILED', $user->username), JLog::WARNING, 'security');
