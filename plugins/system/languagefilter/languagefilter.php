@@ -280,7 +280,7 @@ class PlgSystemLanguageFilter extends JPlugin
 					// redirect if sef does not exists and language is not the default one
 					if (!isset(self::$sefs[$sef]) && $lang_code != self::$default_lang)
 					{
-						$sef = isset(self::$lang_codes[$lang_code]) ? self::$lang_codes[$lang_code]->sef : self::$default_sef;
+						$sef = isset(self::$lang_codes[$lang_code]) && empty($path) ? self::$lang_codes[$lang_code]->sef : self::$default_sef;
 						$uri->setPath($sef . '/' . $path);
 
 						if ($app->getCfg('sef_rewrite'))
