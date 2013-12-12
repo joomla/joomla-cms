@@ -108,7 +108,7 @@ var ImageManager = this.ImageManager = {
 				extra = extra + 'alt="" ';
 			}
 			// Set align attribute
-			if (align != '') {
+			if (align != '' && caption == '') {
 				extra = extra + 'align="'+align+'" ';
 			}
 			// Set title attribute
@@ -120,7 +120,11 @@ var ImageManager = this.ImageManager = {
 
 			// Process caption
 			if (caption != '') {
-				tag = '<figure>'+tag+'<figcaption>'+caption+'</figcaption></figure>';
+				var figclass = '';
+				if (align != '') {
+					figclass = ' class="pull-'+align+'"';
+				}
+				tag = '<figure'+figclass+'>'+tag+'<figcaption>'+caption+'</figcaption></figure>';
 			}
 		}
 
