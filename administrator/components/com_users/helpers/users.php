@@ -211,7 +211,7 @@ class UsersHelper
 		$identities = FOFPlatform::getInstance()->runPlugins('onUserTwofactorIdentify', array());
 
 		$options = array(
-			JHtml::_('select.option', 'none', JText::_('COM_USERS_OPTION_OTPMETHOD_NONE'), 'value', 'text'),
+			JHtml::_('select.option', 'none', JText::_('JGLOBAL_OTPMETHOD_NONE'), 'value', 'text'),
 		);
 
 		if (!empty($identities))

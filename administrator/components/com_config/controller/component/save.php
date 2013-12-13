@@ -60,6 +60,8 @@ class ConfigControllerComponentSave extends JControllerBase
 
 		$returnUri = $this->input->post->get('return', null, 'base64');
 
+		$redirect = '';
+
 		if (!empty($returnUri))
 		{
 			$redirect = '&return=' . urlencode($returnUri);

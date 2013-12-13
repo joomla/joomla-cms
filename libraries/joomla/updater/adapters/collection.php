@@ -215,9 +215,17 @@ class JUpdaterCollection extends JUpdateAdapter
 	 */
 	public function findUpdate($options)
 	{
-		$url = $options['location'];
+		$url = trim($options['location']);
 		$this->updateSiteId = $options['update_site_id'];
-		if (substr($url, -4) != '.xml')
+
+		$appendExtension = false;
+
+		if (array_key_exists('append_extension', $options))
+		{
+			$appendExtension = $options['append_extension'];
+		}
+
+		if ($appendExtension && (substr($url, -4) != '.xml'))
 		{
 			if (substr($url, -1) != '/')
 			{
@@ -234,7 +242,7 @@ class JUpdaterCollection extends JUpdateAdapter
 		$http = JHttpFactory::getHttp();
 		$response = $http->get($url);
 
-		// JHttp transport throws an exception when there's no reponse.
+		// JHttp transport throws an exception when there's no response.
 		try
 		{
 			$response = $http->get($url);
@@ -246,6 +254,13 @@ class JUpdaterCollection extends JUpdateAdapter
 
 		if (!isset($response) || 200 != $response->code)
 		{
+			// If the URL is missing the .xml extension, try appending it and retry loading the update
+			if (!$appendExtension && (substr($url, -4) != '.xml'))
+			{
+				$options['append_extension'] = true;
+				return $this->findUpdate($options);
+			}
+
 			$query = $db->getQuery(true)
 				->update('#__update_sites')
 				->set('enabled = 0')
@@ -256,19 +271,31 @@ class JUpdaterCollection extends JUpdateAdapter
 			JLog::add("Error parsing url: " . $url, JLog::WARNING, 'updater');
 			$app = JFactory::getApplication();
 			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_OPEN_URL', $url), 'warning');
+
 			return false;
 		}
 
 		$this->xmlParser = xml_parser_create('');
 		xml_set_object($this->xmlParser, $this);
 		xml_set_element_handler($this->xmlParser, '_startElement', '_endElement');
+
 		if (!xml_parse($this->xmlParser, $response->body))
 		{
+			// If the URL is missing the .xml extension, try appending it and retry loading the update
+			if (!$appendExtension && (substr($url, -4) != '.xml'))
+			{
+				$options['append_extension'] = true;
+				return $this->findUpdate($options);
+			}
+
 			JLog::add("Error parsing url: " . $url, JLog::WARNING, 'updater');
+
 			$app = JFactory::getApplication();
 			$app->enqueueMessage(JText::sprintf('JLIB_UPDATER_ERROR_COLLECTION_PARSE_URL', $url), 'warning');
+
 			return false;
 		}
+
 		// TODO: Decrement the bad counter if non-zero
 		return array('update_sites' => $this->update_sites, 'updates' => $this->updates);
 	}

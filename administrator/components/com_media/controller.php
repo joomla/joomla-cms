@@ -34,14 +34,14 @@ class MediaController extends JControllerLegacy
 		switch ($vName)
 		{
 			case 'images':
-				$vLayout = $this->input->get('layout', 'default');
+				$vLayout = $this->input->get('layout', 'default', 'string');
 				$mName = 'manager';
 
 				break;
 
 			case 'imagesList':
 				$mName = 'list';
-				$vLayout = $this->input->get('layout', 'default');
+				$vLayout = $this->input->get('layout', 'default', 'string');
 
 				break;
 
@@ -55,7 +55,7 @@ class MediaController extends JControllerLegacy
 			case 'media':
 			default:
 				$vName = 'media';
-				$vLayout = $this->input->get('layout', 'default');
+				$vLayout = $this->input->get('layout', 'default', 'string');
 				$mName = 'manager';
 				break;
 		}

@@ -41,7 +41,7 @@ class JoomlaInstallerScript
 
 	/**
 	 * Medtho to update Database
-	 * 
+	 *
 	 * @return void
 	 */
 	protected function updateDatabase()
@@ -82,7 +82,7 @@ class JoomlaInstallerScript
 
 	/**
 	 * Update the manifest caches
-	 * 
+	 *
 	 * @return void
 	 */
 	protected function updateManifestCaches()
@@ -273,7 +273,7 @@ class JoomlaInstallerScript
 
 	/**
 	 * Delete files that should not exist
-	 * 
+	 *
 	 * @return void
 	 */
 	public function deleteUnexistingFiles()
@@ -961,11 +961,11 @@ class JoomlaInstallerScript
 			'/media/editors/tinymce/jscripts/tiny_mce/utils/form_utils.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/utils/mctabs.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/utils/validate.js',
-			'administrator/components/com_banners/models/fields/ordering.php',
-			'administrator/components/com_contact/models/fields/ordering.php',
-			'administrator/components/com_newsfeeds/models/fields/ordering.php',
-			'administrator/components/com_plugins/models/fields/ordering.php',
-			'administrator/components/com_weblinks/models/fields/ordering.php',
+			'/administrator/components/com_banners/models/fields/ordering.php',
+			'/administrator/components/com_contact/models/fields/ordering.php',
+			'/administrator/components/com_newsfeeds/models/fields/ordering.php',
+			'/administrator/components/com_plugins/models/fields/ordering.php',
+			'/administrator/components/com_weblinks/models/fields/ordering.php',
 			'/administrator/includes/application.php',
 			'/includes/application.php',
 			'/libraries/legacy/application/helper.php',
@@ -1009,7 +1009,9 @@ class JoomlaInstallerScript
 			'/media/editors/codemirror/js/tokenizephp.js',
 			'/media/editors/codemirror/js/undo.js',
 			'/media/editors/codemirror/js/util.js',
-			'administrator/components/com_weblinks/models/fields/index.html',
+			'/administrator/components/com_weblinks/models/fields/index.html',
+			'/plugins/user/joomla/postinstall/actions.php',
+			'/plugins/user/joomla/postinstall/index.html',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1063,7 +1065,8 @@ class JoomlaInstallerScript
 			'/libraries/joomla/plugin',
 			'/libraries/legacy/component',
 			'/libraries/legacy/module',
-			'administrator/components/com_weblinks/models/fields',
+			'/administrator/components/com_weblinks/models/fields',
+			'/plugins/user/joomla/postinstall',
 		);
 
 		jimport('joomla.filesystem.file');

@@ -973,12 +973,6 @@ abstract class JTable extends JObject implements JObservableInterface
 					return false;
 				}
 			}
-			else
-			{
-				$this->setError($asset->getError());
-
-				return false;
-			}
 		}
 
 		// Delete the row by primary key.

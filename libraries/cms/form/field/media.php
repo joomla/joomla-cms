@@ -256,7 +256,7 @@ class JFormFieldMedia extends JFormField
 		$attr = '';
 
 		// Initialize some field attributes.
-		$attr .= !empty($this->class) ? ' class="input-small ' . $this->class . '"' : 'class="input-small"';
+		$attr .= !empty($this->class) ? ' class="input-small ' . $this->class . '"' : ' class="input-small"';
 		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
 
 		// Initialize JavaScript field attributes.
