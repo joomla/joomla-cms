@@ -9,52 +9,48 @@
 
 defined('JPATH_BASE') or die;
 
+// Initialize some field attributes.
 $autofocus        = $displayData['autofocus'];
-$checkedOptions   = $displayData['checkedOptions'];
-$classes          = $displayData['classes'];
+$fieldclass       = $displayData['class'].' checkboxes';
 $field            = $displayData['field'];
-$hasValue         = $displayData['hasValue'];
 $options          = $displayData['options'];
 $required         = $displayData['required'];
 
-$classes[] = 'checkboxes';
+// init checked options (note : this was before in the foreach loop for nothing)
+$isEmpty         = !isset($displayData['value']) || empty($displayData['value']);
+if ($isEmpty) {
+	// nothing is set? use default checkedOptions from xml
+	$checkedOptions  = $displayData['checkedOptions'] ;
+}
+else
+{
+	$checkedOptions  = !is_array($displayData['value']) ? explode(',', $displayData['value']) : $displayData['value'];
+}
 
-$format = '<input type="checkbox" id="%1$s" name="%2$s" value="%3$s" %4$s />';
 ?>
-
-<fieldset id="<?php echo $field->id; ?>" class="<?php echo implode(' ', $classes); ?>"
+<fieldset id="<?php echo $field->id; ?>" class="<?php echo $fieldclass; ?>"
 	<?php echo $required ? 'required aria-required="true"' : '';?>
 	<?php echo $autofocus ? 'autofocus' : ''; ?>>
 
 	<?php if (!empty($options)) : ?>
 	<ul>
-		<?php foreach ($options as $i => $option) : ?>
-		<?php
-		// Initialize some option attributes.
-		$checked = in_array((string) $option->value, $checkedOptions) ? 'checked' : '';
+		<?php 
+		foreach ($options as $i => $option) {
+			// Initialize some option attributes.
+			$checked = in_array((string) $option->value, $checkedOptions) ? 'checked' : '';
+			$class = !empty($option->class) ? 'class="' . $option->class . '"' : '';
+			$disabled = !empty($option->disable) || $field->disabled ? 'disabled' : '';
 
-		// In case there is no stored value, use the option's default state.
-		$checked = (!$hasValue && $option->checked) ? 'checked' : $checked;
-
-		$class = !empty($option->class) ? 'class="' . $option->class . '"' : '';
-		$disabled = !empty($option->disable) || $field->disabled ? 'disabled' : '';
-
-		// Initialize some JavaScript option attributes.
-		$onclick = !empty($option->onclick) ? 'onclick="' . $option->onclick . '"' : '';
-		$onchange = !empty($option->onchange) ? 'onchange="' . $option->onchange . '"' : '';
-
-		$id = $field->id . $i;
-		$value = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
-		$attributes = array_filter(array($checked, $class, $disabled, $onchange, $onclick));
-		?>
-
-		<li>
-			<?php echo sprintf($format, $id, $field->name, $value, implode(' ', $attributes)); ?>
-			<label for="<?php echo $id; ?>" <?php echo $class; ?>><?php echo JText::_($option->text); ?></label>
-		</li>
-
-		<?php endforeach; ?>
+			// Initialize some JavaScript option attributes.
+			$onclick = !empty($option->onclick) ? 'onclick="' . $option->onclick . '"' : '';
+			$onchange = !empty($option->onchange) ? 'onchange="' . $option->onchange . '"' : '';
+			?>
+			<li>
+				<input type="checkbox" id="<?php echo $displayData['field']->id . $i; ?>" name="<?php echo $displayData['field']->name; ?>" value="<?php echo
+					. htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8'); ?>"<?php echo $checked . $class . $onclick . $onchange . $disabled; ?>/>
+				<label for="<?php echo $id; ?>" <?php echo $class; ?>><?php echo JText::_($option->text); ?></label>
+			</li>
+		<?php } ?>
 	</ul>
 	<?php endif; ?>
-
 </fieldset>
