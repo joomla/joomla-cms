@@ -52,7 +52,7 @@ class PlgSystemCache extends JPlugin
 	public function onAfterRoute()
 	{
 		global $_PROFILER;
-		
+
 		$app  = JFactory::getApplication();
 		$user = JFactory::getUser();
 
@@ -72,7 +72,7 @@ class PlgSystemCache extends JPlugin
 		{
 			// Set cached body
 			JResponse::setBody($data);
-			
+
 			echo JResponse::toString($app->getCfg('gzip'));
 
 			if (JDEBUG)
@@ -92,7 +92,7 @@ class PlgSystemCache extends JPlugin
 		{
 			return;
 		}
-		
+
 		if (count($app->getMessageQueue()))
 		{
 			return;
@@ -109,17 +109,17 @@ class PlgSystemCache extends JPlugin
 	private function isCachingEnabled()
 	{
 		$app  = JFactory::getApplication();
-		
+
 		if ($app->isAdmin())
 		{
 			return false;
 		}
-		
+
 		if (count($app->getMessageQueue()))
 		{
 			return false;
 		}
-		
+
 		// Check for menu items to include
 		$menuItems = $this->params->get('menuitems');
 
@@ -135,7 +135,7 @@ class PlgSystemCache extends JPlugin
 				return false;
 			}
 		}
-		
+
 		$menuItems = $this->params->get('menuitems_exclude');
 
 		if (!empty($menuItems))
@@ -150,7 +150,7 @@ class PlgSystemCache extends JPlugin
 				return false;
 			}
 		}
-		
+
 		// Check for components to include
 		$components = $this->params->get('components');
 
@@ -166,7 +166,7 @@ class PlgSystemCache extends JPlugin
 				return false;
 			}
 		}
-		
+
 		$components = $this->params->get('components_exclude');
 
 		if (!empty($components))
@@ -181,7 +181,7 @@ class PlgSystemCache extends JPlugin
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 }
