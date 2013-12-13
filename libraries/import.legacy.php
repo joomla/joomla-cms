@@ -76,6 +76,9 @@ if (version_compare(PHP_VERSION, '5.4.0', '<'))
 define('JPATH_ISWIN', IS_WIN);
 define('JPATH_ISMAC', IS_MAC);
 
+// Register the PasswordHash lib
+JLoader::register('PasswordHash', JPATH_PLATFORM . '/phpass/PasswordHash.php');
+
 // Register classes where the names have been changed to fit the autoloader rules
 // @deprecated  4.0
 JLoader::register('JSimpleCrypt', JPATH_PLATFORM . '/legacy/simplecrypt/simplecrypt.php');
