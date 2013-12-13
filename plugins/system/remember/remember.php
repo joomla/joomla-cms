@@ -116,92 +116,173 @@ class PlgSystemRemember extends JPlugin
 
 		$user = JFactory::getUser();
 
-		$this->app->rememberCookieLifetime = $this->lifetime;
-		$this->app->rememberCookieSecure   = $this->secure;
-		$this->app->rememberCookieLength   = $this->length;
-
 		// Check for a cookie
 		if ($user->get('guest') == 1)
 		{
-			// Create the cookie name and data
-			$rememberArray = JUserHelper::getRememberCookieData();
-
-			if ($rememberArray !== false)
+			$cookieName = $this->getShortHashedUserAgent();
+			$cookieValue = (string)$this->app->input->cookie->get($cookieName);
+			
+			if ($cookieValue != '')
 			{
-				if (count($rememberArray) != 3)
+				$query = $this->db->getQuery(true);
+				$query->select($this->db->quoteName('id'))
+					->from($this->db->quoteName('#__users'))
+					->where($this->db->quoteName('rememberme') . ' = ' . $this->db->quote($cookieValue));
+				
+				$this->db->setQuery($query);
+				$id = (int)$this->db->loadResult();
+				
+				if ($id > 0)
 				{
-					// Destroy the cookie in the browser.
-					$this->app->input->cookie->set(end($rememberArray), false, time() - 42000, $this->app->get('cookie_path'), $this->app->get('cookie_domain'));
-					JLog::add('Invalid cookie detected.', JLog::WARNING, 'error');
-
-					return false;
-				}
-
-				list($privateKey, $series, $uastring) = $rememberArray;
-
-				if (!JUserHelper::clearExpiredTokens($this))
-				{
-					JLog::add('Error in deleting expired cookie tokens.', JLog::WARNING, 'error');
-				}
-
-				// Find the matching record if it exists
-				$query = $this->db->getQuery(true)
-					->select($this->db->quoteName(array('user_id', 'token', 'series', 'time', 'invalid')))
-					->from($this->db->quoteName('#__user_keys'))
-					->where($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($series)))
-					->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($uastring))
-					->order($this->db->quoteName('time') . ' DESC');
-
-				$results = $this->db->setQuery($query)->loadObjectList();
-
-				$countResults = count($results);
-
-				// We have a user but a cookie that is not in the database, or it is invalid. This is a possible attack, so invalidate everything.
-				if (($countResults === 0 || $results[0]->invalid != 0) && !empty($results[0]->user_id))
-				{
-					JUserHelper::invalidateCookie($results[0]->user_id, $uastring);
-					JLog::add(JText::sprintf('PLG_SYSTEM_REMEMBER_ERROR_LOG_INVALIDATED_COOKIES', $user->username), JLog::WARNING, 'security');
-
-					// Possibly e-mail user and admin here.
-					return false;
-				}
-
-				// We have a user with one cookie with a valid series and a corresponding record in the database.
-				if ($countResults === 1)
-				{
-					if (substr($results[0]->token, 0, 4) === '$2y$')
-					{
-						if (JCrypt::hasStrongPasswordSupport())
-						{
-							$match = password_verify($privateKey, $results[0]->token);
-						}
-					}
-					else
-					{
-						if (JCrypt::timingSafeCompare($results[0]->token, $privateKey))
-						{
-							$match = true;
-						}
-					}
-
-					if (empty($match))
-					{
-						JUserHelper::invalidateCookie($results[0]->user_id, $uastring);
-						JLog::add(JText::sprintf('PLG_SYSTEM_REMEMBER_ERROR_LOG_LOGIN_FAILED', $user->username), JLog::WARNING, 'security');
-
-						return false;
-					}
-
 					// Set up the credentials array to pass to onUserAuthenticate
 					$credentials = array(
-						'username' => $results[0]->user_id,
+						'username' => $id,
 					);
 
-					return $this->app->login($credentials, array('silent' => true, 'lifetime' => $this->lifetime, 'secure' => $this->secure, 'length' => $this->length));
+					return $result = $this->app->login($credentials, array('silent' => true, 'lifetime' => $this->lifetime, 'secure' => $this->secure, 'length' => $this->length));
+				}
+				else
+				{
+					$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->cookie_path, $this->cookie_domain, false, true);
 				}
 			}
-		}
+		}	
 
 		return false;
+	}
+	
+	/**
+	 * This method should handle any authentication and report back to the subject
+	 *
+	 * @param   array   $credentials  Array holding the user credentials
+	 * @param   array   $options      Array of extra options
+	 * @param   object  &$response    Authentication response object
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.2
+	 */
+	public function onUserAuthenticate($credentials, $options, &$response)
+	{
+		// No remember me for admin
+		if ($this->app->isAdmin())
+		{
+			return false;
+		}
+
+		//RememberMe Login should only get the username and nothing else
+		if (!(count($credentials) == 1 && isset($credentials['username'])) && !$this->app->input->cookie->get($cookieName))
+		{
+			return false;
+		}
+
+		$response->type = 'RememberMe';
+		
+		$cookieName = $this->getShortHashedUserAgent();
+		$cookieValue = (string)$this->app->input->cookie->get($cookieName);
+			
+		if ($cookieValue != '')
+		{
+			$query = $this->db->getQuery(true);
+			$query->select($this->db->quoteName('id'))
+				->from($this->db->quoteName('#__users'))
+				->where($this->db->quoteName('rememberme') . ' = ' . $this->db->quote($cookieValue));
+				
+			$this->db->setQuery($query);
+			$id = (int)$this->db->loadResult();
+				
+			if ($id == $credentials['username'])
+			{
+				// Bring this in line with the rest of the system
+				$user = JUser::getInstance($id);
+				
+				// Set response data.
+				$response->username = $user->username;
+				$response->email    = $user->email;
+				$response->fullname = $user->name;
+				$response->password = $user->password;
+				$response->language = $user->getParam('language');
+
+				// Set response status.
+				$response->status        = JAuthentication::STATUS_SUCCESS;
+				$response->error_message = '';
+			}
+			else
+			{
+				$response->status        = JAuthentication::STATUS_FAILURE;
+				$response->error_message = JText::_('JGLOBAL_AUTH_NO_USER');
+			}
+		}
+	}
+	
+	public function onUserAfterLogin($options)
+	{
+		if($this->app->isSite() && isset($options['remember']) && $options['remember'])
+		{
+			$user = JFactory::getUser();
+			
+			if($user->rememberme == '')
+			{
+				$found = false;
+				do
+				{
+					$key = JUserHelper::genRandomPassword(32);
+					$query = $this->db->getQuery(true);
+					$query->select($this->db->quoteName('id'))
+						->from($this->db->quoteName('#__users'))
+						->where($this->db->quoteName('rememberme') . ' = ' . $this->db->quote($key));
+					$this->db->setQuery($query);
+					$found = (bool) $this->db->loadResult();
+				}
+				while($found);
+
+				$query->clear();
+				$query->update($this->db->quoteName('#__users'))
+					->set($this->db->quoteName('rememberme') . ' = ' . $this->db->quote($key))
+					->where($this->db->quoteName('id') . ' = ' . $this->db->quote($user->id));
+				
+				$this->db->setQuery($query)->execute();
+				
+				$user->rememberme = $key;
+			}
+
+			$this->app->input->cookie->set($this->getShortHashedUserAgent(), $user->rememberme, $this->lifetime, $this->cookie_path, $this->cookie_domain, $this->secure);
+		}
+	}
+	
+	public function onUserLogout($parameters, $options)
+	{
+		// No remember me for admin
+		if ($this->app->isAdmin())
+		{
+			return;
+		}
+		
+		$cookieName = $this->getShortHashedUserAgent();
+		$cookieValue = (string)$this->app->input->cookie->get($cookieName);
+		
+		if ($cookieValue != '')
+		{
+			$query = $this->db->getQuery(true);
+			$query->update($this->db->quoteName('#__users'))
+				->set($this->db->quoteName('rememberme') . ' = ' . $this->db->quote(''))
+				->where($this->db->quoteName('id') . ' = ' . $this->db->quote($parameters['id']));
+				
+			$this->db->setQuery($query)->execute();
+			
+			$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->cookie_path, $this->cookie_domain, false, true);
+		}
+		
+		return true;
+	}
+	
+	protected function getShortHashedUserAgent()
+	{
+		$ua = JFactory::getApplication()->client;
+		$uaString = $ua->userAgent;
+		$browserVersion = $ua->browserVersion;
+		$uaShort = str_replace($browserVersion, 'abcd', $uaString);
+
+		return md5(JUri::base() . $uaShort);
 	}
 }

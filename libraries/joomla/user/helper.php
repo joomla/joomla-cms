@@ -331,8 +331,6 @@ abstract class JUserHelper
 
 		if ($hash[0] == '$')
 		{
-			// JCrypt::hasStrongPasswordSupport() includes a fallback for us in the worst case
-			JCrypt::hasStrongPasswordSupport();
 			$match = password_verify($password, $hash);
 
 			// Uncomment this line if we actually move to bcrypt.
@@ -704,99 +702,5 @@ abstract class JUserHelper
 			$bin .= chr(array_shift($tmp));
 		}
 		return $bin;
-	}
-
-	/**
-	 * Method to remove a cookie record from the database and the browser
-	 *
-	 * @param   string  $userId      User ID for this user
-	 * @param   string  $cookieName  Series id (cookie name decoded)
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   3.2
-	 * @see     JInput::setCookie for more details
-	 */
-	public static function invalidateCookie($userId, $cookieName)
-	{
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		// Invalidate cookie in the database
-		$query
-			->update($db->quoteName('#__user_keys'))
-			->set($db->quoteName('invalid') . ' = 1')
-			->where($db->quotename('user_id') . ' = ' . $db->quote($userId));
-
-		$db->setQuery($query)->execute();
-
-		// Destroy the cookie in the browser.
-		$app = JFactory::getApplication();
-		$app->input->cookie->set($cookieName, false, time() - 42000, $app->get('cookie_path'), $app->get('cookie_domain'), false, true);
-
-		return true;
-	}
-
-	/**
-	 * Clear all expired tokens for all users.
-	 *
-	 * @return  mixed  Database query result
-	 *
-	 * @since   3.2
-	 */
-	public static function clearExpiredTokens()
-	{
-		$now = time();
-
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-		->delete('#__user_keys')
-		->where($db->quoteName('time') . ' < ' . $db->quote($now));
-
-		return $db->setQuery($query)->execute();
-	}
-
-	/**
-	 * Method to get the remember me cookie data
-	 *
-	 * @return  mixed  An array of information from an authentication cookie or false if there is no cookie
-	 *
-	 * @since   3.2
-	 */
-	public static function getRememberCookieData()
-	{
-		// Create the cookie name
-		$cookieName = static::getShortHashedUserAgent();
-
-		// Fetch the cookie value
-		$app = JFactory::getApplication();
-		$cookieValue = $app->input->cookie->get($cookieName);
-
-		if (!empty($cookieValue))
-		{
-			return explode('.', $cookieValue);
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	/**
-	 * Method to get a hashed user agent string that does not include browser version.
-	 * Used when frequent version changes cause problems.
-	 *
-	 * @return  string  A hashed user agent string with version replaced by 'abcd'
-	 *
-	 * @since   3.2
-	 */
-	public static function getShortHashedUserAgent()
-	{
-		$ua = JFactory::getApplication()->client;
-		$uaString = $ua->userAgent;
-		$browserVersion = $ua->browserVersion;
-		$uaShort = str_replace($browserVersion, 'abcd', $uaString);
-
-		return md5(JUri::base() . $uaShort);
 	}
 }
