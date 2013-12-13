@@ -39,28 +39,24 @@ class JFormFieldRange extends JFormFieldNumber
 	 */
 	protected function getInput()
 	{
-		// Initialize some field attributes.
-		$max      = !empty($this->max) ? ' max="' . $this->max . '"' : '';
-		$min      = !empty($this->min) ? ' min="' . $this->min . '"' : '';
-		$step     = !empty($this->step) ? ' step="' . $this->step . '"' : '';
-		$class    = !empty($this->class) ? ' class="' . $this->class . '"' : '';
-		$readonly = $this->readonly ? ' readonly' : '';
-		$disabled = $this->disabled ? ' disabled' : '';
-
-		$autofocus = $this->autofocus ? ' autofocus' : '';
-
+		// Initialize field attributes.
 		$value = (float) $this->value;
-		$value = empty($value) ? $this->min : $value;
 
-		// Initialize JavaScript field attributes.
-		$onchange = !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
+		$displayData = array(
+			'autofocus' => (boolean) $this->autofocus,
+			'class' => (string) $this->class,
+			'disabled' => (boolean) $this->disabled,
+			'field' => $this,
+			'options' => $this->getOptions(),
+			'readonly' => (boolean) $this->readonly,
+			'required' => (boolean) $this->required,
+			'max' => $this->max,
+			'min' => $this->min,
+			'step' => $this->step,
+			'onchange' => $this->onchange,
+			'value' => empty($value) ? $this->min : $value,
+			);
 
-		// Including fallback code for HTML5 non supported browsers.
-		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/html5fallback.js', false, true);
-
-		return '<input type="range" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
-			. htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"' . $class . $disabled . $readonly
-			. $onchange . $max . $step . $min . $autofocus . ' />';
+		return JLayoutHelper::render('joomla.fields.range', $displayData);
 	}
 }
