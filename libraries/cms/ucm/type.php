@@ -96,14 +96,14 @@ class JUcmType implements JUcm
 	}
 
 	/**
-	* Get the Content Type
-	*
-	* @param   integer  $pk  The primary key of the alias type
-	*
-	* @return  object  The UCM Type data
-	*
-	* @since   3.1
-	*/
+	 * Get the Content Type
+	 *
+	 * @param   integer  $pk  The primary key of the alias type
+	 *
+	 * @return  object  The UCM Type data
+	 *
+	 * @since   3.1
+	 */
 	public function getType($pk = null)
 	{
 		if (!$pk)

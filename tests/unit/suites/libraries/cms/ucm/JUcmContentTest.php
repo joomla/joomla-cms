@@ -8,16 +8,16 @@
  */
 
 /**
- * Test class for JUcmBase.
+ * Test class for JUcmContent.
  *
  * @package     Joomla.UnitTest
  * @subpackage  UCM
  * @since       3.2
  */
-class JUcmBaseTest extends TestCaseDatabase
+class JUcmContentTest extends TestCaseDatabase
 {
 	/**
-	 * @var    JUcmBase
+	 * @var    JUcmContent
 	 * @since  3.2
 	 */
 	protected $object;
@@ -38,7 +38,7 @@ class JUcmBaseTest extends TestCaseDatabase
 
 		JFactory::$application = $this->getMockWeb();
 
-		$this->object = new JUcmBase('com_content.article');
+		$this->object = new JUcmContent(JTable::getInstance('Content'), 'com_content.article');
 	}
 
 	/**
@@ -84,40 +84,12 @@ class JUcmBaseTest extends TestCaseDatabase
 	 */
 	public function test__construct()
 	{
-		$object = new JUcmBase('com_content.article');
+		$object = new JUcmContent(JTable::getInstance('Content'), 'com_content.article');
 
 		$this->assertInstanceOf(
-			'JUcmType',
-			TestReflection::getValue($object, 'type'),
-			'Ensure the type property is an instance of JUcmType'
+			'JTableContent',
+			TestReflection::getValue($object, 'table'),
+			'Ensure the table property is an instance of JTableContent'
 		);
-	}
-
-	/**
-	 * Tests the getType() method
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function testGetType()
-	{
-		$this->assertEquals(
-			$this->object->getType()->type->type_title,
-			'Article',
-			'The type title for com_content.article is Article.'
-		);
-	}
-
-	/**
-	 * Tests the mapBase() method
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function testMapBase()
-	{
-		$this->markTestSkipped('Test not implemented.');
 	}
 }
