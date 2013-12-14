@@ -48,7 +48,7 @@ else
 			<li>
 				<input type="checkbox" id="<?php echo $displayData['field']->id . $i; ?>" name="<?php echo $displayData['field']->name; ?>" value="<?php echo
 					htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8'); ?>"<?php echo $checked . $class . $onclick . $onchange . $disabled; ?>/>
-				<label for="<?php echo $id; ?>" <?php echo $class; ?>><?php echo JText::_($option->text); ?></label>
+				<label for="<?php echo $displayData['field']->id; ?>" <?php echo $class; ?>><?php echo JText::_($option->text); ?></label>
 			</li>
 		<?php } ?>
 	</ul>
