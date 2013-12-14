@@ -128,7 +128,6 @@ class JFormFieldCheckbox extends JFormField
 			'default' => !empty($this->default) ? $this->default : '1',
 			'disabled' => (boolean) $this->disabled,
 			'field' => $this,
-			'options' => $this->getOptions(),
 			'onclick' => !empty($displayData->onclick) ? ' onclick="' . $displayData->onclick . '"' : '',
 			'onchange' => !empty($displayData->onchange) ? ' onchange="' . $displayData->onchange . '"' : '',
 			'readonly' => (boolean) $this->readonly,

@@ -33,4 +33,3 @@ $onchange = !empty($displayData['onchange']) ? ' onchange="' . $displayData['onc
 <input type="range" name="<?php echo  $displayData['field']->name; ?>" id="<?php echo  $displayData['field']->id; ?>" value="<?php echo 
  htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"<?php echo  $class . $disabled . $readonly
  $onchange . $max . $step . $min . $autofocus; ?>/>
-
