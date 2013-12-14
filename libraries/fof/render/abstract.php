@@ -135,7 +135,7 @@ abstract class FOFRenderAbstract
 	 *				JError::raiseError('500', 'FOF is not installed');
 	 *			}
 	 *
-	 *			if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'ge'))
+	 *			if (version_compare(JVERSION, '3.0', 'ge'))
 	 *			{
 	 *				$strapper = new FOFRenderJoomla3;
 	 *			}

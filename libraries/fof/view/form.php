@@ -34,7 +34,7 @@ class FOFViewForm extends FOFViewHtml
 		$model = $this->getModel();
 
 		// Get the form
-		$this->form = $this->getModel()->getForm();
+		$this->form = $model->getForm();
 		$this->form->setModel($model);
 		$this->form->setView($this);
 
@@ -131,8 +131,8 @@ class FOFViewForm extends FOFViewHtml
 		$model = $this->getModel();
 
 		// Assign the item and form to the view
-		$this->assign('item', $model->getItem());
-		$this->assign('form', $this->form);
+		$this->item = $model->getItem();
+		$this->form = $this->form;
 
 		return true;
 	}
