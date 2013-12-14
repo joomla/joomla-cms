@@ -10,7 +10,7 @@
 defined('JPATH_BASE') or die;
 
 // Initialize some field attributes.
-$class     = !empty($displayData['class'] ? ' class="' . $displayData['class'] . '"' : '';
+$class     = !empty($displayData['class']) ? ' class="' . $displayData['class'] . '"' : '';
 $disabled  = $displayData['disabled'] ? ' disabled' : '';
 $value     = !empty($displayData['default']) ? $displayData['default'] : '1';
 $required  = $displayData['required'] ? ' required aria-required="true"' : '';
