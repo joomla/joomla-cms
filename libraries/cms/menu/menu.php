@@ -174,7 +174,7 @@ class JMenu
 	 *
 	 * @param   string  $language  The language code, default value of * means all.
 	 *
-	 * @return  object  The item object
+	 * @return  mixed  The item object or null when not found for given language
 	 *
 	 * @since   1.5
 	 */
@@ -190,7 +190,7 @@ class JMenu
 		}
 		else
 		{
-			return 0;
+			return null;
 		}
 	}
 
