@@ -27,4 +27,4 @@ JHtml::_('script', 'system/html5fallback.js', false, true);
 ?>
 <input type="checkbox" name="<?php echo $displayData['field']->name; ?>" id="<?php echo $displayData['field']->id; ?>" value="<?php echo 
  htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"<?php echo $class . $checked . $disabled . $onclick . $onchange
-	. $required . $autofocus ?>/>
+	. $required . $autofocus ?> />

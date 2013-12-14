@@ -35,9 +35,8 @@ $readonly  = $displayData['readonly'] ? ' readonly' : '';
 		$onclick = !empty($option->onclick) ? ' onclick="' . $option->onclick . '"' : '';
 		?>
 		<label for="<?php echo $displayData['field']->id . $i; ?>"<?php echo $class; ?>><?php echo
-		 JText::alt($option->text, preg_replace('/[^a-zA-Z0-9_\-]/', '_', $displayData['field']->fieldname)); ?>
-		</label>
+		 JText::alt($option->text, preg_replace('/[^a-zA-Z0-9_\-]/', '_', $displayData['field']->fieldname)); ?></label>
 		<input type="radio" id="<?php echo $displayData['field']->id . $i; ?>" name="<?php echo $displayData['field']->name; ?>" value="<?php echo
-		 htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8'); ?>"<?php echo $checked . $class . $onclick . $disabled; ?>/>
+		 htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8'); ?>"<?php echo $checked . $class . $onclick . $disabled; ?> />
 	<?php } ?>
 </fieldset>
