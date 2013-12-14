@@ -42,6 +42,7 @@ class JFormFieldRadio extends JFormField
 			'class' => (string) $this->class,
 			'disabled' => (boolean) $this->disabled,
 			'field' => $this,
+			'fieldname' =>$this->fieldname,
 			'options' => $this->getOptions(),
 			'readonly' => (boolean) $this->readonly,
 			'required' => (boolean) $this->required,

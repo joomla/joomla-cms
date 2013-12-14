@@ -28,7 +28,7 @@ else
 }
 
 ?>
-<fieldset id="<?php echo $field->id; ?>" class="<?php echo $fieldclass; ?>" <?php echo $required . $autofocus; ?>>
+<fieldset id="<?php echo $field->id; ?>" class="<?php echo $fieldclass; ?>"<?php echo $required . $autofocus; ?>>
 <?php if (!empty($options)) : ?>
 	<ul>
 	<?php 
