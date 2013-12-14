@@ -91,7 +91,7 @@ class JToolbarButtonHelpTest extends TestCaseDatabase
 	 */
 	public function testFetchButton()
 	{
-		$html = "<button onclick=\"Joomla.popupWindow('help/en-GB/Content_Article_Manager.html', 'JHELP', 700, 500, 1)\" rel=\"help\" class=\"btn btn-small\">\n"
+		$html = "<button onclick=\"Joomla.popupWindow('help/en-GB/Content_Article_Manager.html', 'Help', 700, 500, 1)\" rel=\"help\" class=\"btn btn-small\">\n"
 			. "\t<span class=\"icon-question-sign\"></span>\n"
 			. "\tHelp</button>\n";
 
