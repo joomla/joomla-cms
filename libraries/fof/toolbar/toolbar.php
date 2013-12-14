@@ -352,7 +352,7 @@ class FOFToolbar
 
 		if ($this->perms->create)
 		{
-			if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'ge'))
+			if (version_compare(JVERSION, '3.0', 'ge'))
 			{
 				JToolBarHelper::addNew();
 			}
@@ -364,7 +364,7 @@ class FOFToolbar
 
 		if ($this->perms->edit)
 		{
-			if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'ge'))
+			if (version_compare(JVERSION, '3.0', 'ge'))
 			{
 				JToolBarHelper::editList();
 			}
@@ -444,7 +444,13 @@ class FOFToolbar
 		JToolBarHelper::title(JText::_(strtoupper($option)) . ' &ndash; <small>' . JText::_($subtitle_key) . '</small>', $componentName);
 
 		// Set toolbar icons
-		JToolBarHelper::apply();
+        if ($this->perms->edit || $this->perms->editown)
+        {
+            // Show the apply button only if I can edit the record, otherwise I'll return to the edit form and get a
+            // 403 error since I can't do that
+            JToolBarHelper::apply();
+        }
+
 		JToolBarHelper::save();
 		JToolBarHelper::custom('savenew', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 		JToolBarHelper::cancel();

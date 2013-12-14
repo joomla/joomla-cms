@@ -261,6 +261,8 @@ interface FOFPlatformInterface
 	 * @param   string  $version2  Second version number
 	 * @param   string  $operator  Operator (see version_compare for valid operators)
 	 *
+     * @deprecated Use PHP's version_compare against JVERSION in your code. This method is scheduled for removal in FOF 3.0
+     *
 	 * @return  boolean
 	 */
 	public function checkVersion($version1, $version2, $operator);
