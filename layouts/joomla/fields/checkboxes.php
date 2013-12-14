@@ -10,11 +10,11 @@
 defined('JPATH_BASE') or die;
 
 // Initialize some field attributes.
-$autofocus        = $displayData['autofocus'];
-$fieldclass       = $displayData['class'].' checkboxes';
+$autofocus        = $displayData['autofocus'] ? 'autofocus' : '';
+$fieldclass       = $displayData['class'] ? $displayData['class'].' checkboxes' : 'checkboxes';
 $field            = $displayData['field'];
 $options          = $displayData['options'];
-$required         = $displayData['required'];
+$required         = $displayData['required'] ? 'required aria-required="true"' : '';
 
 // init checked options (note : this was before in the foreach loop for nothing)
 $isEmpty         = !isset($displayData['value']) || empty($displayData['value']);
@@ -28,13 +28,10 @@ else
 }
 
 ?>
-<fieldset id="<?php echo $field->id; ?>" class="<?php echo $fieldclass; ?>"
-	<?php echo $required ? 'required aria-required="true"' : '';?>
-	<?php echo $autofocus ? 'autofocus' : ''; ?>>
-
-	<?php if (!empty($options)) : ?>
+<fieldset id="<?php echo $field->id; ?>" class="<?php echo $fieldclass; ?>" <?php echo $required . $autofocus; ?>>
+<?php if (!empty($options)) : ?>
 	<ul>
-		<?php 
+	<?php 
 		foreach ($options as $i => $option) {
 			// Initialize some option attributes.
 			$checked = in_array((string) $option->value, $checkedOptions) ? 'checked' : '';
@@ -50,7 +47,7 @@ else
 					htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8'); ?>"<?php echo $checked . $class . $onclick . $onchange . $disabled; ?> />
 				<label for="<?php echo $displayData['field']->id; ?>" <?php echo $class; ?>><?php echo JText::_($option->text); ?></label>
 			</li>
-		<?php } ?>
+	<?php } ?>
 	</ul>
-	<?php endif; ?>
+<?php endif; ?>
 </fieldset>
