@@ -86,10 +86,10 @@ JFactory::getDocument()->addScriptDeclaration($script);
 							<?php echo $this->form->getInput('extension_id'); ?>
 						</div>
 					</div>
-				<?php endif; ?><?php var_dump($this); ?>
+				<?php endif; ?>
 				<!-- Plugin metadata -->
-				<?php if ($this->state->get('xml')) : ?>
-					<?php if ($text = trim($this->form->xml->description)) : ?>
+				<?php if ($this->item->get('xml')) : ?>
+					<?php if ($text = trim($this->item->xml->description)) : ?>
 						<div class="control-group">
 							<label id="jform_extdescription-lbl" class="control-label">
 								<?php echo JText::_('JGLOBAL_DESCRIPTION'); ?>

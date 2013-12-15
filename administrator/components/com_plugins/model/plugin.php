@@ -163,11 +163,12 @@ class PluginsModelPlugin extends JModelCmsitem
 			if (file_exists($path))
 			{
 				$this->cache[$pk]->xml = simplexml_load_file($path);
-			} else {
+			}
+			else
+			{
 				$this->cache[$pk]->xml = null;
 			}
 		}
-
 		return $this->cache[$pk];
 	}
 
@@ -260,8 +261,15 @@ class PluginsModelPlugin extends JModelCmsitem
 
 		if (file_exists($formFile))
 		{
+			$fieldPath =  JPath::clean(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/fields');
+
+			if (!is_dir($fieldPath))
+			{
+				$fieldPath = '';
+			}
+
 			// Get the plugin form.
-			if (!$form->loadFile($formFile, false, '//plugin'))
+			if (!$form->loadFile($formFile, false, $fieldPath))
 			{
 				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 			}
