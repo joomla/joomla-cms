@@ -86,7 +86,7 @@ $canDo = TemplatesHelper::getActions();
 
 		<?php
 		$this->fieldsets = array();
-		$this->ignore_fieldsets = array('basic', 'description');
+		$this->ignore_fieldsets = array('basic');
 		echo JLayoutHelper::render('joomla.edit.params', $this);
 		?>
 
