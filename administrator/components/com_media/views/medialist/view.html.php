@@ -20,8 +20,15 @@ class MediaViewMediaList extends JViewLegacy
 {
 	public function display($tpl = null)
 	{
+		$app = JFactory::getApplication();
+
+		if (!$app->isAdmin())
+		{
+			return $app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
+		}
+
 		// Do not allow cache
-		JResponse::allowCache(false);
+		$app->allowCache(false);
 
 		JHtml::_('behavior.framework', true);
 
@@ -43,6 +50,15 @@ class MediaViewMediaList extends JViewLegacy
 		$documents = $this->get('documents');
 		$folders = $this->get('folders');
 		$state = $this->get('state');
+
+		// Check for invalid folder name
+		if (empty($state->folder)) {
+			$dirname = JRequest::getVar('folder', '', '', 'string');
+			if (!empty($dirname)) {
+				$dirname = htmlspecialchars($dirname, ENT_COMPAT, 'UTF-8');
+				JError::raiseWarning(100, JText::sprintf('COM_MEDIA_ERROR_UNABLE_TO_BROWSE_FOLDER_WARNDIRNAME', $dirname));
+			}
+		}
 
 		$this->baseURL = JUri::root();
 		$this->images = &$images;

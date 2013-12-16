@@ -23,6 +23,11 @@ class MediaViewMedia extends JViewLegacy
 		$app	= JFactory::getApplication();
 		$config = JComponentHelper::getParams('com_media');
 
+		if (!$app->isAdmin())
+		{
+			return $app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
+		}
+
 		$lang	= JFactory::getLanguage();
 
 		$style = $app->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
@@ -99,47 +104,49 @@ class MediaViewMedia extends JViewLegacy
 		$bar = JToolBar::getInstance('toolbar');
 		$user = JFactory::getUser();
 
+		// The toolbar functions depend on Bootstrap JS
+		JHtml::_('bootstrap.framework');
+
 		// Set the titlebar text
-		JToolbarHelper::title(JText::_('COM_MEDIA'), 'mediamanager.png');
+		JToolbarHelper::title(JText::_('COM_MEDIA'), 'images mediamanager');
 
 		// Add a upload button
 		if ($user->authorise('core.create', 'com_media'))
 		{
-			$title = JText::_('JTOOLBAR_UPLOAD');
-			$dhtml = "<button data-toggle=\"collapse\" data-target=\"#collapseUpload\" class=\"btn btn-small btn-success\">
-						<i class=\"icon-plus icon-white\" title=\"$title\"></i>
-						$title</button>";
-			$bar->appendButton('Custom', $dhtml, 'upload');
+			// Instantiate a new JLayoutFile instance and render the layout
+			$layout = new JLayoutFile('toolbar.uploadmedia');
+
+			$bar->appendButton('Custom', $layout->render(array()), 'upload');
 			JToolbarHelper::divider();
 		}
 
 		// Add a create folder button
 		if ($user->authorise('core.create', 'com_media'))
 		{
-			$title = JText::_('COM_MEDIA_CREATE_NEW_FOLDER');
-			$dhtml = "<button data-toggle=\"collapse\" data-target=\"#collapseFolder\" class=\"btn btn-small\">
-						<i class=\"icon-folder\" title=\"$title\"></i>
-						$title</button>";
-			$bar->appendButton('Custom', $dhtml, 'folder');
+			// Instantiate a new JLayoutFile instance and render the layout
+			$layout = new JLayoutFile('toolbar.newfolder');
+
+			$bar->appendButton('Custom', $layout->render(array()), 'upload');
 			JToolbarHelper::divider();
 		}
 
 		// Add a delete button
 		if ($user->authorise('core.delete', 'com_media'))
 		{
-			$title = JText::_('JTOOLBAR_DELETE');
-			$dhtml = "<button onclick=\"MediaManager.submit('folder.delete')\" class=\"btn btn-small\">
-						<i class=\"icon-remove\" title=\"$title\"></i>
-						$title</button>";
-			$bar->appendButton('Custom', $dhtml, 'delete');
+			// Instantiate a new JLayoutFile instance and render the layout
+			$layout = new JLayoutFile('toolbar.deletemedia');
+
+			$bar->appendButton('Custom', $layout->render(array()), 'upload');
 			JToolbarHelper::divider();
 		}
-		// Add a delete button
+
+		// Add a preferences button
 		if ($user->authorise('core.admin', 'com_media'))
 		{
 			JToolbarHelper::preferences('com_media');
 			JToolbarHelper::divider();
 		}
+
 		JToolbarHelper::help('JHELP_CONTENT_MEDIA_MANAGER');
 	}
 

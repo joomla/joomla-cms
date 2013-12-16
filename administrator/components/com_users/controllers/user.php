@@ -74,36 +74,6 @@ class UsersControllerUser extends JControllerForm
 	}
 
 	/**
-	 * Overrides parent save method to check the submitted passwords match.
-	 *
-	 * @param   string  $key     The name of the primary key of the URL variable.
-	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
-	 *
-	 * @return  boolean  True if successful, false otherwise.
-	 *
-	 * @since   1.6
-	 */
-	public function save($key = null, $urlVar = null)
-	{
-		$data = $this->input->post->get('jform', array(), 'array');
-
-		// TODO: JForm should really have a validation handler for this.
-		if (isset($data['password']) && isset($data['password2']))
-		{
-			// Check the passwords match.
-			if ($data['password'] != $data['password2'])
-			{
-				$this->setMessage(JText::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'), 'warning');
-				$this->setRedirect(JRoute::_('index.php?option=com_users&view=user&layout=edit', false));
-			}
-
-			unset($data['password2']);
-		}
-
-		return parent::save();
-	}
-
-	/**
 	 * Function that allows child controller access to model data after the data has been saved.
 	 *
 	 * @param   JModelLegacy  $model      The data model object.

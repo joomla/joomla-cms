@@ -31,18 +31,31 @@ abstract class ModulesHelper
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
+	 * @param   integer  The module ID.
+	 *
 	 * @return  JObject
 	 */
-	public static function getActions()
+	public static function getActions($moduleId = 0)
 	{
 		$user	= JFactory::getUser();
 		$result	= new JObject;
 
-		$actions = JAccess::getActions('com_modules');
+		if (empty($moduleId))
+		{
+			$assetName = 'com_modules';
+		}
+		else
+		{
+			$assetName = 'com_modules.module.'.(int) $moduleId;
+		}
+
+		$actions = JAccess::getActionsFromFile(
+			JPATH_ADMINISTRATOR . '/components/com_modules/access.xml', "/access/section[@name='component']/"
+		);
 
 		foreach ($actions as $action)
 		{
-			$result->set($action->name, $user->authorise($action->name, 'com_modules'));
+			$result->set($action->name, $user->authorise($action->name, $assetName));
 		}
 
 		return $result;
@@ -188,10 +201,8 @@ abstract class ModulesHelper
 			$extension = $module->value;
 			$path = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
 			$source = $path . "/modules/$extension";
-				$lang->load("$extension.sys", $path, null, false, false)
-			||	$lang->load("$extension.sys", $source, null, false, false)
-			||	$lang->load("$extension.sys", $path, $lang->getDefault(), false, false)
-			||	$lang->load("$extension.sys", $source, $lang->getDefault(), false, false);
+				$lang->load("$extension.sys", $path, null, false, true)
+			||	$lang->load("$extension.sys", $source, null, false, true);
 			$modules[$i]->text = JText::_($module->text);
 		}
 		JArrayHelper::sortObjects($modules, 'text', 1, true, true);

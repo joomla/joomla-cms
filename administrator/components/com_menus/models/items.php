@@ -21,7 +21,8 @@ class MenusModelItems extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
 	 * @see     JController
 	 * @since   1.6
 	 */
@@ -45,10 +46,12 @@ class MenusModelItems extends JModelList
 				'path', 'a.path',
 				'client_id', 'a.client_id',
 				'home', 'a.home',
+				'a.ordering'
 			);
 
 			$app = JFactory::getApplication();
-			$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+			$assoc = JLanguageAssociations::isEnabled();
+
 			if ($assoc)
 			{
 				$config['filter_fields'][] = 'association';
@@ -70,6 +73,9 @@ class MenusModelItems extends JModelList
 	{
 		$app = JFactory::getApplication('administrator');
 
+		$parentId = $this->getUserStateFromRequest($this->context . '.filter.parent_id', 'filter_parent_id', 0, 'int');
+		$this->setState('filter.parent_id', $parentId);
+
 		$search = $this->getUserStateFromRequest($this->context . '.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
@@ -86,17 +92,18 @@ class MenusModelItems extends JModelList
 		$this->setState('filter.level', $level);
 
 		$menuType = $app->input->getString('menutype', null);
+
 		if ($menuType)
 		{
-			if ($menuType != $app->getUserState($this->context . '.filter.menutype'))
+			if ($menuType != $app->getUserState($this->context . '.menutype'))
 			{
-				$app->setUserState($this->context . '.filter.menutype', $menuType);
+				$app->setUserState($this->context . '.menutype', $menuType);
 				$app->input->set('limitstart', 0);
 			}
 		}
 		else
 		{
-			$menuType = $app->getUserState($this->context . '.filter.menutype');
+			$menuType = $app->getUserState($this->context . '.menutype');
 
 			if (!$menuType)
 			{
@@ -124,9 +131,10 @@ class MenusModelItems extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id    A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
 	 *
 	 * @return  string  A store id.
+	 *
 	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
@@ -148,6 +156,7 @@ class MenusModelItems extends JModelList
 	 * In the absence of better information, this is the first menu ordered by title.
 	 *
 	 * @return  string    The default menu type
+	 *
 	 * @since   1.6
 	 */
 	protected function getDefaultMenuType()
@@ -206,7 +215,7 @@ class MenusModelItems extends JModelList
 		$query->select('u.name AS editor')
 			->join('LEFT', $db->quoteName('#__users') . ' AS u ON u.id = a.checked_out');
 
-		//Join over components
+		// Join over components
 		$query->select('c.element AS componentname')
 			->join('LEFT', $db->quoteName('#__extensions') . ' AS c ON c.extension_id = a.component_id');
 
@@ -215,7 +224,8 @@ class MenusModelItems extends JModelList
 			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Join over the associations.
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$assoc = JLanguageAssociations::isEnabled();
+
 		if ($assoc)
 		{
 			$query->select('COUNT(asso2.id)>1 as association')
@@ -234,6 +244,7 @@ class MenusModelItems extends JModelList
 
 		// Filter on the published state.
 		$published = $this->getState('filter.published');
+
 		if (is_numeric($published))
 		{
 			$query->where('a.published = ' . (int) $published);
@@ -267,6 +278,7 @@ class MenusModelItems extends JModelList
 
 		// Filter the items over the parent id if set.
 		$parentId = $this->getState('filter.parent_id');
+
 		if (!empty($parentId))
 		{
 			$query->where('p.id = ' . (int) $parentId);
@@ -274,6 +286,7 @@ class MenusModelItems extends JModelList
 
 		// Filter the items over the menu id if set.
 		$menuType = $this->getState('filter.menutype');
+
 		if (!empty($menuType))
 		{
 			$query->where('a.menutype = ' . $db->quote($menuType));
@@ -307,7 +320,6 @@ class MenusModelItems extends JModelList
 		// Add the list ordering clause.
 		$query->order($db->escape($this->getState('list.ordering', 'a.lft')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
-		//echo nl2br(str_replace('#__','jos_',(string)$query)).'<hr/>';
 		return $query;
 	}
 }

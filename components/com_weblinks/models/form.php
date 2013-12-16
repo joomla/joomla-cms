@@ -21,6 +21,13 @@ require_once JPATH_COMPONENT_ADMINISTRATOR.'/models/weblink.php';
 class WeblinksModelForm extends WeblinksModelWeblink
 {
 	/**
+	 * Model typeAlias string. Used for version history.
+	 *
+	 * @var        string
+	 */
+	public $typeAlias = 'com_weblinks.weblink';
+
+	/**
 	 * Get the return URL.
 	 *
 	 * @return  string	The return URL.
@@ -64,6 +71,6 @@ class WeblinksModelForm extends WeblinksModelWeblink
 		$params	= $app->getParams();
 		$this->setState('params', $params);
 
-		$this->setState('layout', $app->input->get('layout'));
+		$this->setState('layout', $app->input->getString('layout'));
 	}
 }

@@ -19,6 +19,24 @@ defined('_JEXEC') or die;
 class UsersModelUser extends JModelAdmin
 {
 	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @since   3.2
+	 */
+	public function __construct($config = array())
+	{
+		parent::__construct($config);
+
+		// Load the Joomla! RAD layer
+		if (!defined('FOF_INCLUDED'))
+		{
+			include_once JPATH_LIBRARIES . '/fof/include.php';
+		}
+	}
+
+	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
 	 * @param   string  $type    The table type to instantiate
@@ -87,6 +105,7 @@ class UsersModelUser extends JModelAdmin
 
 		// Passwords fields are required when mail to user is set to No in joomla user plugin
 		$userId = $form->getValue('id');
+
 		if ($userId === 0 && $pluginParams->get('mail_to_user') === "0")
 		{
 			$form->setFieldAttribute('password', 'required', 'true');
@@ -148,39 +167,96 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function save($data)
 	{
-		$pk			= (!empty($data['id'])) ? $data['id'] : (int) $this->getState('user.id');
-		$user		= JUser::getInstance($pk);
+		$pk   = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('user.id');
+		$user = JUser::getInstance($pk);
 
 		$my = JFactory::getUser();
 
 		if ($data['block'] && $pk == $my->id && !$my->block)
 		{
 			$this->setError(JText::_('COM_USERS_USERS_ERROR_CANNOT_BLOCK_SELF'));
+
 			return false;
 		}
 
 		// Make sure that we are not removing ourself from Super Admin group
 		$iAmSuperAdmin = $my->authorise('core.admin');
+
 		if ($iAmSuperAdmin && $my->get('id') == $pk)
 		{
 			// Check that at least one of our new groups is Super Admin
 			$stillSuperAdmin = false;
 			$myNewGroups = $data['groups'];
+
 			foreach ($myNewGroups as $group)
 			{
 				$stillSuperAdmin = ($stillSuperAdmin) ? ($stillSuperAdmin) : JAccess::checkGroup($group, 'core.admin');
 			}
+
 			if (!$stillSuperAdmin)
 			{
 				$this->setError(JText::_('COM_USERS_USERS_ERROR_CANNOT_DEMOTE_SELF'));
+
 				return false;
 			}
+		}
+
+		// Handle the two factor authentication setup
+		if (array_key_exists('twofactor', $data))
+		{
+			$twoFactorMethod = $data['twofactor']['method'];
+
+			// Get the current One Time Password (two factor auth) configuration
+			$otpConfig = $this->getOtpConfig($pk);
+
+			if ($twoFactorMethod != 'none')
+			{
+				// Run the plugins
+				FOFPlatform::getInstance()->importPlugin('twofactorauth');
+				$otpConfigReplies = FOFPlatform::getInstance()->runPlugins('onUserTwofactorApplyConfiguration', array($twoFactorMethod));
+
+				// Look for a valid reply
+				foreach ($otpConfigReplies as $reply)
+				{
+					if (!is_object($reply) || empty($reply->method) || ($reply->method != $twoFactorMethod))
+					{
+						continue;
+					}
+
+					$otpConfig->method = $reply->method;
+					$otpConfig->config = $reply->config;
+
+					break;
+				}
+
+				// Save OTP configuration.
+				$this->setOtpConfig($pk, $otpConfig);
+
+				// Generate one time emergency passwords if required (depleted or not set)
+				if (empty($otpConfig->otep))
+				{
+					$oteps = $this->generateOteps($pk);
+				}
+			}
+			else
+			{
+				$otpConfig->method = 'none';
+				$otpConfig->config = array();
+				$this->setOtpConfig($pk, $otpConfig);
+			}
+
+			// Unset the raw data
+			unset($data['twofactor']);
+
+			// Reload the user record with the updated OTP configuration
+			$user->load($pk);
 		}
 
 		// Bind the data.
 		if (!$user->bind($data))
 		{
 			$this->setError($user->getError());
+
 			return false;
 		}
 
@@ -188,6 +264,7 @@ class UsersModelUser extends JModelAdmin
 		if (!$user->save())
 		{
 			$this->setError($user->getError());
+
 			return false;
 		}
 
@@ -207,12 +284,12 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function delete(&$pks)
 	{
-		$user	= JFactory::getUser();
-		$table	= $this->getTable();
-		$pks	= (array) $pks;
+		$user  = JFactory::getUser();
+		$table = $this->getTable();
+		$pks   = (array) $pks;
 
 		// Check if I am a Super Admin
-		$iAmSuperAdmin	= $user->authorise('core.admin');
+		$iAmSuperAdmin = $user->authorise('core.admin');
 
 		// Trigger the onUserBeforeSave event.
 		JPluginHelper::importPlugin('user');
@@ -221,6 +298,7 @@ class UsersModelUser extends JModelAdmin
 		if (in_array($user->id, $pks))
 		{
 			$this->setError(JText::_('COM_USERS_USERS_ERROR_CANNOT_DELETE_SELF'));
+
 			return false;
 		}
 
@@ -231,6 +309,7 @@ class UsersModelUser extends JModelAdmin
 			{
 				// Access checks.
 				$allow = $user->authorise('core.delete', 'com_users');
+
 				// Don't allow non-super-admin to delete a super admin
 				$allow = (!$iAmSuperAdmin && JAccess::check($pk, 'core.admin')) ? false : $allow;
 
@@ -245,6 +324,7 @@ class UsersModelUser extends JModelAdmin
 					if (!$table->delete($pk))
 					{
 						$this->setError($table->getError());
+
 						return false;
 					}
 					else
@@ -263,6 +343,7 @@ class UsersModelUser extends JModelAdmin
 			else
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 		}
@@ -282,14 +363,14 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function block(&$pks, $value = 1)
 	{
-		$app		= JFactory::getApplication();
-		$dispatcher	= JEventDispatcher::getInstance();
-		$user		= JFactory::getUser();
+		$app        = JFactory::getApplication();
+		$dispatcher = JEventDispatcher::getInstance();
+		$user       = JFactory::getUser();
 
 		// Check if I am a Super Admin
-		$iAmSuperAdmin	= $user->authorise('core.admin');
-		$table		= $this->getTable();
-		$pks		= (array) $pks;
+		$iAmSuperAdmin = $user->authorise('core.admin');
+		$table         = $this->getTable();
+		$pks           = (array) $pks;
 
 		JPluginHelper::importPlugin('user');
 
@@ -301,12 +382,12 @@ class UsersModelUser extends JModelAdmin
 				// Cannot block yourself.
 				unset($pks[$i]);
 				JError::raiseWarning(403, JText::_('COM_USERS_USERS_ERROR_CANNOT_BLOCK_SELF'));
-
 			}
 			elseif ($table->load($pk))
 			{
-				$old	= $table->getProperties();
-				$allow	= $user->authorise('core.edit.state', 'com_users');
+				$old   = $table->getProperties();
+				$allow = $user->authorise('core.edit.state', 'com_users');
+
 				// Don't allow non-super-admin to delete a super admin
 				$allow = (!$iAmSuperAdmin && JAccess::check($pk, 'core.admin')) ? false : $allow;
 
@@ -325,25 +406,29 @@ class UsersModelUser extends JModelAdmin
 					}
 
 					$table->block = (int) $value;
-				// If unblocking, also change password reset count to zero to unblock reset
+
+					// If unblocking, also change password reset count to zero to unblock reset
 					if ($table->block === 0)
 					{
 						$table->resetCount = 0;
 					}
+
 					// Allow an exception to be thrown.
 					try
 					{
 						if (!$table->check())
 						{
 							$this->setError($table->getError());
+
 							return false;
 						}
 
 						// Trigger the onUserBeforeSave event.
 						$result = $dispatcher->trigger('onUserBeforeSave', array($old, false, $table->getProperties()));
+
 						if (in_array(false, $result, true))
 						{
-							// Plugin will have to raise it's own error or throw an exception.
+							// Plugin will have to raise its own error or throw an exception.
 							return false;
 						}
 
@@ -351,6 +436,7 @@ class UsersModelUser extends JModelAdmin
 						if (!$table->store())
 						{
 							$this->setError($table->getError());
+
 							return false;
 						}
 
@@ -397,9 +483,9 @@ class UsersModelUser extends JModelAdmin
 		$user		= JFactory::getUser();
 
 		// Check if I am a Super Admin
-		$iAmSuperAdmin	= $user->authorise('core.admin');
-		$table		= $this->getTable();
-		$pks		= (array) $pks;
+		$iAmSuperAdmin = $user->authorise('core.admin');
+		$table         = $this->getTable();
+		$pks           = (array) $pks;
 
 		JPluginHelper::importPlugin('user');
 
@@ -410,6 +496,7 @@ class UsersModelUser extends JModelAdmin
 			{
 				$old	= $table->getProperties();
 				$allow	= $user->authorise('core.edit.state', 'com_users');
+
 				// Don't allow non-super-admin to delete a super admin
 				$allow = (!$iAmSuperAdmin && JAccess::check($pk, 'core.admin')) ? false : $allow;
 
@@ -429,11 +516,13 @@ class UsersModelUser extends JModelAdmin
 						if (!$table->check())
 						{
 							$this->setError($table->getError());
+
 							return false;
 						}
 
 						// Trigger the onUserBeforeSave event.
 						$result = $dispatcher->trigger('onUserBeforeSave', array($old, false, $table->getProperties()));
+
 						if (in_array(false, $result, true))
 						{
 							// Plugin will have to raise it's own error or throw an exception.
@@ -444,6 +533,7 @@ class UsersModelUser extends JModelAdmin
 						if (!$table->store())
 						{
 							$this->setError($table->getError());
+
 							return false;
 						}
 
@@ -495,6 +585,7 @@ class UsersModelUser extends JModelAdmin
 		if (empty($pks))
 		{
 			$this->setError(JText::_('COM_USERS_USERS_NO_ITEM_SELECTED'));
+
 			return false;
 		}
 
@@ -508,12 +599,14 @@ class UsersModelUser extends JModelAdmin
 			{
 				return false;
 			}
+
 			$done = true;
 		}
 
 		if (!$done)
 		{
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
+
 			return false;
 		}
 
@@ -545,6 +638,7 @@ class UsersModelUser extends JModelAdmin
 		if ((!JFactory::getUser()->get('isRoot') && JAccess::checkGroup($group_id, 'core.admin')) || $group_id < 1)
 		{
 			$this->setError(JText::_('COM_USERS_ERROR_INVALID_GROUP'));
+
 			return false;
 		}
 
@@ -552,19 +646,19 @@ class UsersModelUser extends JModelAdmin
 		{
 			// Sets users to a selected group
 			case 'set':
-				$doDelete	= 'all';
-				$doAssign	= true;
+				$doDelete = 'all';
+				$doAssign = true;
 				break;
 
 			// Remove users from a selected group
 			case 'del':
-				$doDelete	= 'group';
+				$doDelete = 'group';
 				break;
 
 			// Add users to a selected group
 			case 'add':
 			default:
-				$doAssign	= true;
+				$doAssign = true;
 				break;
 		}
 
@@ -592,6 +686,7 @@ class UsersModelUser extends JModelAdmin
 			catch (RuntimeException $e)
 			{
 				$this->setError($e->getMessage());
+
 				return false;
 			}
 		}
@@ -611,6 +706,7 @@ class UsersModelUser extends JModelAdmin
 			// Build the values clause for the assignment query.
 			$query->clear();
 			$groups = false;
+
 			foreach ($user_ids as $id)
 			{
 				if (!in_array($id, $users))
@@ -624,6 +720,7 @@ class UsersModelUser extends JModelAdmin
 			if (!$groups)
 			{
 				$this->setError(JText::_('COM_USERS_ERROR_NO_ADDITIONS'));
+
 				return false;
 			}
 
@@ -638,6 +735,7 @@ class UsersModelUser extends JModelAdmin
 			catch (RuntimeException $e)
 			{
 				$this->setError($e->getMessage());
+
 				return false;
 			}
 		}
@@ -655,9 +753,11 @@ class UsersModelUser extends JModelAdmin
 	public function getGroups()
 	{
 		$user = JFactory::getUser();
+
 		if ($user->authorise('core.edit', 'com_users') && $user->authorise('core.manage', 'com_users'))
 		{
 			$model = JModelLegacy::getInstance('Groups', 'UsersModel', array('ignore_request' => true));
+
 			return $model->getItems();
 		}
 		else
@@ -682,10 +782,21 @@ class UsersModelUser extends JModelAdmin
 		if (empty($userId))
 		{
 			$result = array();
-			$config = JComponentHelper::getParams('com_users');
-			if ($groupId = $config->get('new_usertype'))
+
+			$groupsIDs = $this->getForm()->getValue('groups');
+
+			if (!empty($groupsIDs))
 			{
-				$result[] = $groupId;
+				$result = $groupsIDs;
+			}
+			else
+			{
+				$config = JComponentHelper::getParams('com_users');
+
+				if ($groupId = $config->get('new_usertype'))
+				{
+					$result[] = $groupId;
+				}
 			}
 		}
 		else
@@ -694,5 +805,408 @@ class UsersModelUser extends JModelAdmin
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Returns the one time password (OTP) – a.k.a. two factor authentication –
+	 * configuration for a particular user.
+	 *
+	 * @param   integer  $user_id  The numeric ID of the user
+	 *
+	 * @return  stdClass  An object holding the OTP configuration for this user
+	 *
+	 * @since   3.2
+	 */
+	public function getOtpConfig($user_id = null)
+	{
+		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');
+
+		// Initialise
+		$otpConfig = (object) array(
+			'method' => 'none',
+			'config' => array(),
+			'otep'   => array()
+		);
+
+		/**
+		 * Get the raw data, without going through JUser (required in order to
+		 * be able to modify the user record before logging in the user).
+		 */
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__users'))
+			->where($db->qn('id') . ' = ' . $db->q($user_id));
+		$db->setQuery($query);
+		$item = $db->loadObject();
+
+		// Make sure this user does have OTP enabled
+		if (empty($item->otpKey))
+		{
+			return $otpConfig;
+		}
+
+		// Get the encrypted data
+		list($method, $encryptedConfig) = explode(':', $item->otpKey, 2);
+		$encryptedOtep = $item->otep;
+
+		// Create an encryptor class
+		$key = $this->getOtpConfigEncryptionKey();
+		$aes = new FOFEncryptAes($key, 256);
+
+		// Decrypt the data
+		$decryptedConfig = $aes->decryptString($encryptedConfig);
+		$decryptedOtep = $aes->decryptString($encryptedOtep);
+
+		// Remove the null padding added during encryption
+		$decryptedConfig = rtrim($decryptedConfig, "\0");
+		$decryptedOtep = rtrim($decryptedOtep, "\0");
+
+		// Update the configuration object
+		$otpConfig->method = $method;
+		$otpConfig->config = @json_decode($decryptedConfig);
+		$otpConfig->otep = @json_decode($decryptedOtep);
+
+		/*
+		 * If the decryption failed for any reason we essentially disable the
+		 * two-factor authentication. This prevents impossible to log in sites
+		 * if the site admin changes the site secret for any reason.
+		 */
+		if (is_null($otpConfig->config))
+		{
+			$otpConfig->config = array();
+		}
+
+		if (is_object($otpConfig->config))
+		{
+			$otpConfig->config = (array) $otpConfig->config;
+		}
+
+		if (is_null($otpConfig->otep))
+		{
+			$otpConfig->otep = array();
+		}
+
+		if (is_object($otpConfig->otep))
+		{
+			$otpConfig->otep = (array) $otpConfig->otep;
+		}
+
+		// Return the configuration object
+		return $otpConfig;
+	}
+
+	/**
+	 * Sets the one time password (OTP) – a.k.a. two factor authentication –
+	 * configuration for a particular user. The $otpConfig object is the same as
+	 * the one returned by the getOtpConfig method.
+	 *
+	 * @param   integer   $user_id    The numeric ID of the user
+	 * @param   stdClass  $otpConfig  The OTP configuration object
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   3.2
+	 */
+	public function setOtpConfig($user_id, $otpConfig)
+	{
+		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');
+
+		$updates = (object) array(
+			'id'     => $user_id,
+			'otpKey' => '',
+			'otep'   => ''
+		);
+
+		// Create an encryptor class
+		$key = $this->getOtpConfigEncryptionKey();
+		$aes = new FOFEncryptAes($key, 256);
+
+		// Create the encrypted option strings
+		if (!empty($otpConfig->method) && ($otpConfig->method != 'none'))
+		{
+			$decryptedConfig = json_encode($otpConfig->config);
+			$decryptedOtep = json_encode($otpConfig->otep);
+			$updates->otpKey = $otpConfig->method . ':' . $aes->encryptString($decryptedConfig);
+			$updates->otep = $aes->encryptString($decryptedOtep);
+		}
+
+		$db = $this->getDbo();
+		$result = $db->updateObject('#__users', $updates, 'id');
+
+		return $result;
+	}
+
+	/**
+	 * Gets the symmetric encryption key for the OTP configuration data. It
+	 * currently returns the site's secret.
+	 *
+	 * @return  string  The encryption key
+	 *
+	 * @since   3.2
+	 */
+	public function getOtpConfigEncryptionKey()
+	{
+		return JFactory::getConfig()->get('secret');
+	}
+
+	/**
+	 * Gets the configuration forms for all two-factor authentication methods
+	 * in an array.
+	 *
+	 * @param   integer  $user_id  The user ID to load the forms for (optional)
+	 *
+	 * @return  array
+	 *
+	 * @since   3.2
+	 */
+	public function getTwofactorform($user_id = null)
+	{
+		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');
+
+		$otpConfig = $this->getOtpConfig($user_id);
+
+		FOFPlatform::getInstance()->importPlugin('twofactorauth');
+
+		return FOFPlatform::getInstance()->runPlugins('onUserTwofactorShowConfiguration', array($otpConfig, $user_id));
+	}
+
+	/**
+	 * Generates a new set of One Time Emergency Passwords (OTEPs) for a given user.
+	 *
+	 * @param   integer  $user_id  The user ID
+	 * @param   integer  $count    How many OTEPs to generate? Default: 10
+	 *
+	 * @return  array  The generated OTEPs
+	 *
+	 * @since   3.2
+	 */
+	public function generateOteps($user_id, $count = 10)
+	{
+		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');
+
+		// Initialise
+		$oteps = array();
+
+		// Get the OTP configuration for the user
+		$otpConfig = $this->getOtpConfig($user_id);
+
+		// If two factor authentication is not enabled, abort
+		if (empty($otpConfig->method) || ($otpConfig->method == 'none'))
+		{
+			return $oteps;
+		}
+
+		$salt = "0123456789";
+		$base = strlen($salt);
+		$length = 16;
+
+		for ($i = 0; $i < $count; $i++)
+		{
+			$makepass = '';
+			$random = JCrypt::genRandomBytes($length + 1);
+			$shift = ord($random[0]);
+
+			for ($j = 1; $j <= $length; ++$j)
+			{
+				$makepass .= $salt[($shift + ord($random[$j])) % $base];
+				$shift += ord($random[$j]);
+			}
+
+			$oteps[] = $makepass;
+		}
+
+		$otpConfig->otep = $oteps;
+
+		// Save the now modified OTP configuration
+		$this->setOtpConfig($user_id, $otpConfig);
+
+		return $oteps;
+	}
+
+	/**
+	 * Checks if the provided secret key is a valid two factor authentication
+	 * secret key. If not, it will check it against the list of one time
+	 * emergency passwords (OTEPs). If it's a valid OTEP it will also remove it
+	 * from the user's list of OTEPs.
+	 *
+	 * This method will return true in the following conditions:
+	 * - The two factor authentication is not enabled
+	 * - You have provided a valid secret key for
+	 * - You have provided a valid OTEP
+	 *
+	 * You can define the following options in the $options array:
+	 * otp_config		The OTP (one time password, a.k.a. two factor auth)
+	 *				    configuration object. If not set we'll load it automatically.
+	 * warn_if_not_req	Issue a warning if you are checking a secret key against
+	 *					a user account which doesn't have any two factor
+	 *					authentication method enabled.
+	 * warn_irq_msg		The string to use for the warn_if_not_req warning
+	 *
+	 * @param   integer  $user_id    The user's numeric ID
+	 * @param   string   $secretkey  The secret key you want to check
+	 * @param   array    $options    Options; see above
+	 *
+	 * @return  boolean  True if it's a valid secret key for this user.
+	 *
+	 * @since   3.2
+	 */
+	public function isValidSecretKey($user_id, $secretkey, $options = array())
+	{
+		// Load the user's OTP (one time password, a.k.a. two factor auth) configuration
+		if (!array_key_exists('otp_config', $options))
+		{
+			$otpConfig = $this->getOtpConfig($user_id);
+			$options['otp_config'] = $otpConfig;
+		}
+		else
+		{
+			$otpConfig = $options['otp_config'];
+		}
+
+		// Check if the user has enabled two factor authentication
+		if (empty($otpConfig->method) || ($otpConfig->method == 'none'))
+		{
+			// Load language
+			$lang = JFactory::getLanguage();
+			$extension = 'com_users';
+			$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
+
+			$lang->load($extension, JPATH_ADMINISTRATOR, null, false, true)
+				|| $lang->load($extension, $source, null, false, true);
+
+			$warn = true;
+			$warnMessage = JText::_('COM_USERS_ERROR_SECRET_CODE_WITHOUT_TFA');
+
+			if (array_key_exists('warn_if_not_req', $options))
+			{
+				$warn = $options['warn_if_not_req'];
+			}
+
+			if (array_key_exists('warn_irq_msg', $options))
+			{
+				$warnMessage = $options['warn_irq_msg'];
+			}
+
+			// Warn the user if he's using a secret code but he has not
+			// enabled two factor auth in his account.
+			if (!empty($secretkey) && $warn)
+			{
+				try
+				{
+					$app = JFactory::getApplication();
+					$app->enqueueMessage($warnMessage, 'warning');
+				}
+				catch (Exception $exc)
+				{
+					// This happens when we are in CLI mode. In this case
+					// no warning is issued
+					return true;
+				}
+			}
+
+			return true;
+		}
+
+		$credentials = array(
+			'secretkey' => $secretkey,
+		);
+
+		// Load the Joomla! RAD layer
+		if (!defined('FOF_INCLUDED'))
+		{
+			include_once JPATH_LIBRARIES . '/fof/include.php';
+		}
+
+		// Try to validate the OTP
+		FOFPlatform::getInstance()->importPlugin('twofactorauth');
+
+		$otpAuthReplies = FOFPlatform::getInstance()->runPlugins('onUserTwofactorAuthenticate', array($credentials, $options));
+
+		$check = false;
+
+		/*
+		 * This looks like noob code but DO NOT TOUCH IT and do not convert
+		 * to in_array(). During testing in_array() inexplicably returned
+		 * null when the OTEP begins with a zero! o_O
+		 */
+		if (!empty($otpAuthReplies))
+		{
+			foreach ($otpAuthReplies as $authReply)
+			{
+				$check = $check || $authReply;
+			}
+		}
+
+		// Fall back to one time emergency passwords
+		if (!$check)
+		{
+			$check = $this->isValidOtep($user_id, $secretkey, $otpConfig);
+		}
+
+		return $check;
+	}
+
+	/**
+	 * Checks if the supplied string is a valid one time emergency password
+	 * (OTEP) for this user. If it is it will be automatically removed from the
+	 * user's list of OTEPs.
+	 *
+	 * @param   integer  $user_id    The user ID against which you are checking
+	 * @param   string   $otep       The string you want to test for validity
+	 * @param   object   $otpConfig  Optional; the two factor authentication configuration (automatically fetched if not set)
+	 *
+	 * @return  boolean  True if it's a valid OTEP or if two factor auth is not
+	 *                   enabled in this user's account.
+	 *
+	 * @since   3.2
+	 */
+	public function isValidOtep($user_id, $otep, $otpConfig = null)
+	{
+		if (is_null($otpConfig))
+		{
+			$otpConfig = $this->getOtpConfig($user_id);
+		}
+
+		// Did the user use an OTEP instead?
+		if (empty($otpConfig->otep))
+		{
+			if (empty($otpConfig->method) || ($otpConfig->method == 'none'))
+			{
+				// Two factor authentication is not enabled on this account.
+				// Any string is assumed to be a valid OTEP.
+				return true;
+			}
+			else
+			{
+				/**
+				 * Two factor authentication enabled and no OTEPs defined. The
+				 * user has used them all up. Therefore anything he enters is
+				 * an invalid OTEP.
+				 */
+				return false;
+			}
+		}
+
+		// Clean up the OTEP (remove dashes, spaces and other funny stuff
+		// our beloved users may have unwittingly stuffed in it)
+		$otep = filter_var($otep, FILTER_SANITIZE_NUMBER_INT);
+		$otep = str_replace('-', '', $otep);
+
+		$check = false;
+
+		// Did we find a valid OTEP?
+		if (in_array($otep, $otpConfig->otep))
+		{
+			// Remove the OTEP from the array
+			$otpConfig->otep = array_diff($otpConfig->otep, array($otep));
+
+			$this->setOtpConfig($user_id, $otpConfig);
+
+			// Return true; the OTEP was a valid one
+			$check = true;
+		}
+
+		return $check;
 	}
 }

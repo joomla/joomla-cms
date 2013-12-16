@@ -12,6 +12,13 @@
 			readonly="true" />
 
 		<field
+			id="contenthistory"
+			name="contenthistory"
+			type="contenthistory"
+			data-typeAlias="com_content.article"
+			label="JTOOLBAR_VERSIONS" />
+
+		<field
 			name="asset_id"
 			type="hidden"
 			filter="unset" />
@@ -32,6 +39,7 @@
 			type="text"
 			label="JFIELD_ALIAS_LABEL"
 			description="JFIELD_ALIAS_DESC"
+			hint="JFIELD_ALIAS_PLACEHOLDER"
 			class="inputbox"
 			size="45" />
 
@@ -115,6 +123,15 @@
 			size="20" />
 
 		<field
+			name="version_note"
+			type="text"
+			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
+			class="inputbox"
+			size="45"
+			labelclass="control-label" />
+
+		<field
 			id="publish_up"
 			name="publish_up"
 			type="calendar"
@@ -145,12 +162,13 @@
 			<option value="*">JALL</option>
 		</field>
 
-		<field name="tags" 
+		<field name="tags"
 			type="tag"
 			label="JTAG"
 			description="JTAG_DESC"
-			class="inputbox span12 small"
+			class="inputbox"
 			multiple="true"
+			size="45"
 		>
 		</field>
 
@@ -247,6 +265,7 @@
 				name="urla"
 				type="url"
 				validate="url"
+				filter="url"
 				label="COM_CONTENT_FIELD_URLA_LABEL"
 				description="COM_CONTENT_FIELD_URL_DESC" />
 			<field name="urlatext"
@@ -263,6 +282,7 @@
 			<field
 				name="urlb"
 				type="url"
+				filter="url"
 				validate="url"
 				label="COM_CONTENT_FIELD_URLB_LABEL"
 				description="COM_CONTENT_FIELD_URL_DESC" />
@@ -279,6 +299,7 @@
 			<field
 				name="urlc"
 				type="url"
+				filter="url"
 				validate="url"
 				label="COM_CONTENT_FIELD_URLC_LABEL"
 				description="COM_CONTENT_FIELD_URL_DESC" />
@@ -297,7 +318,7 @@
 		<fields name="metadata">
 			<fieldset name="jmetadata"
 				label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
-		
+
 					<field name="robots"
 						type="hidden"
 						filter="unset"
@@ -311,35 +332,34 @@
 						<option value="index, nofollow">JGLOBAL_INDEX_NOFOLLOW</option>
 						<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
 					</field>
-		
-					<field name="author" 
+
+					<field name="author"
 						type="hidden"
 						filter="unset"
-						label="JAUTHOR" 
+						label="JAUTHOR"
 						description="JFIELD_METADATA_AUTHOR_DESC"
-						size="20" 
-						labelclass="control-label" 
+						size="20"
+						labelclass="control-label"
 					/>
-	
-					<field name="rights" 
-						type="hidden" 
+
+					<field name="rights"
+						type="hidden"
 						label="JFIELD_META_RIGHTS_LABEL"
 						filter="unset"
-						description="JFIELD_META_RIGHTS_DESC" 
-						required="false" 
-						labelclass="control-label" 
+						description="JFIELD_META_RIGHTS_DESC"
+						required="false"
+						labelclass="control-label"
 					/>
-	
-					<field name="xreference" 
+
+					<field name="xreference"
 						type="hidden"
 						filter="unset"
 						label="COM_CONTENT_FIELD_XREFERENCE_LABEL"
 						description="COM_CONTENT_FIELD_XREFERENCE_DESC"
 						class="inputbox"
-						size="20" 
+						size="20"
 						labelclass="control-label" />
-	
+
 			</fieldset>
 		</fields>
-
 </form>

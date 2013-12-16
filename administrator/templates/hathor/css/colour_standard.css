@@ -48,7 +48,6 @@
 	background-repeat: repeat-x;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe5e5e5', GradientType=0);
 	border-color: #e6e6e6 #e6e6e6 #bfbfbf;
-	border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
 	*background-color: #e6e6e6;
 	filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
 	border: 1px solid #bbb;
@@ -1201,6 +1200,9 @@ a img.calendar {
 }
 .icon-32-batch {
 	background-image: url(../images/toolbar/icon-32-batch.png);
+}
+.icon-32-envelope {
+	background-image: url(../images/toolbar/icon-32-messaging.png);
 }
 .icon-48-categories {
 	background-image: url(../images/header/icon-48-category.png);

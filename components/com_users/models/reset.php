@@ -171,13 +171,8 @@ class UsersModelReset extends JModelForm
 			return false;
 		}
 
-		// Generate the new password hash.
-		$salt = JUserHelper::genRandomPassword(32);
-		$crypted = JUserHelper::getCryptedPassword($data['password1'], $salt);
-		$password = $crypted . ':' . $salt;
-
 		// Update the user object.
-		$user->password = $password;
+		$user->password = JUserHelper::hashPassword($data['password1']);
 		$user->activation = '';
 		$user->password_clear = $data['password1'];
 
@@ -266,7 +261,7 @@ class UsersModelReset extends JModelForm
 			return false;
 		}
 		$salt = $parts[1];
-		$testcrypt = JUserHelper::getCryptedPassword($data['token'], $salt);
+		$testcrypt = JUserHelper::getCryptedPassword($data['token'], $salt, 'md5-hex');
 
 		// Verify the token
 		if (!($crypt == $testcrypt))

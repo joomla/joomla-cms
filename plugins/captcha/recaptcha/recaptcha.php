@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 /**
  * Recaptcha Plugin.
- * Based on the oficial recaptcha library( http://recaptcha.net/plugins/php/ )
+ * Based on the official recaptcha library( https://developers.google.com/recaptcha/docs/php )
  *
  * @package     Joomla.Plugin
  * @subpackage  Captcha
@@ -19,9 +19,9 @@ defined('_JEXEC') or die;
  */
 class PlgCaptchaRecaptcha extends JPlugin
 {
-	const RECAPTCHA_API_SERVER = "http://api.recaptcha.net";
+	const RECAPTCHA_API_SERVER = "http://www.google.com/recaptcha/api";
 	const RECAPTCHA_API_SECURE_SERVER = "https://www.google.com/recaptcha/api";
-	const RECAPTCHA_VERIFY_SERVER = "api-verify.recaptcha.net";
+	const RECAPTCHA_VERIFY_SERVER = "www.google.com";
 
 	/**
 	 * Load the language file on instantiation.
@@ -126,7 +126,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 		}
 
 		$response = $this->_recaptcha_http_post(
-			self::RECAPTCHA_VERIFY_SERVER, "/verify",
+			self::RECAPTCHA_VERIFY_SERVER, "/recaptcha/api/verify",
 			array(
 				'privatekey' => $privatekey,
 				'remoteip'   => $remoteip,
@@ -153,7 +153,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 	/**
 	 * Encodes the given data into a query string format.
 	 *
-	 * @param   string  $data  Array of string elements to be encoded
+	 * @param   array  $data  Array of string elements to be encoded
 	 *
 	 * @return  string  Encoded request
 	 *

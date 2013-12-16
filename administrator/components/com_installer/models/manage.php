@@ -186,9 +186,9 @@ class InstallerModelManage extends InstallerModel
 	public function remove($eid = array())
 	{
 		$user = JFactory::getUser();
+
 		if ($user->authorise('core.delete', 'com_installer'))
 		{
-
 			$failed = array();
 
 			/*
@@ -205,10 +205,20 @@ class InstallerModelManage extends InstallerModel
 			$row = JTable::getInstance('extension');
 
 			// Uninstall the chosen extensions
+			$msgs = array();
+			$result = false;
 			foreach ($eid as $id)
 			{
 				$id = trim($id);
 				$row->load($id);
+
+				$langstring = 'COM_INSTALLER_TYPE_TYPE_' . strtoupper($row->type);
+				$rowtype = JText::_($langstring);
+				if (strpos($rowtype, $langstring) !== false)
+				{
+					$rowtype = $row->type;
+				}
+
 				if ($row->type && $row->type != 'language')
 				{
 					$result = $installer->uninstall($row->type, $id);
@@ -216,46 +226,36 @@ class InstallerModelManage extends InstallerModel
 					// Build an array of extensions that failed to uninstall
 					if ($result === false)
 					{
-						$failed[] = $id;
+						// There was an error in uninstalling the package
+						$msgs[] = JText::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
+						$result = false;
+					}
+					else
+					{
+						// Package uninstalled sucessfully
+						$msgs[] = JText::sprintf('COM_INSTALLER_UNINSTALL_SUCCESS', $rowtype);
+						$result = true;
 					}
 				}
 				else
 				{
-					$failed[] = $id;
+					if ($row->type == 'language')
+					{
+
+						// One should always uninstall a language package, not a single language
+						$msgs[] = JText::_('COM_INSTALLER_UNINSTALL_LANGUAGE');
+						$result = false;
+					}
+					else
+					{
+
+						// There was an error in uninstalling the package
+						$msgs[] = JText::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
+						$result = false;
+					}
 				}
 			}
-
-			$langstring = 'COM_INSTALLER_TYPE_TYPE_' . strtoupper($row->type);
-			$rowtype = JText::_($langstring);
-			if (strpos($rowtype, $langstring) !== false)
-			{
-				$rowtype = $row->type;
-			}
-
-			if (count($failed))
-			{
-				if ($row->type == 'language')
-				{
-
-					// One should always uninstall a language package, not a single language
-					$msg = JText::_('COM_INSTALLER_UNINSTALL_LANGUAGE');
-					$result = false;
-				}
-				else
-				{
-
-					// There was an error in uninstalling the package
-					$msg = JText::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
-					$result = false;
-				}
-			}
-			else
-			{
-
-				// Package uninstalled sucessfully
-				$msg = JText::sprintf('COM_INSTALLER_UNINSTALL_SUCCESS', $rowtype);
-				$result = true;
-			}
+			$msg = implode("<br />", $msgs);
 			$app = JFactory::getApplication();
 			$app->enqueueMessage($msg);
 			$this->setState('action', 'remove');

@@ -28,38 +28,32 @@
 				<field
 					name="show_loggedin_users"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					label="MOD_STATUS_FIELD_SHOW_LOGGEDIN_USERS_LABEL"
 					description="MOD_STATUS_FIELD_SHOW_LOGGEDIN_USERS_DESC">
-					<option
-						value="0">JNO</option>
-					<option
-						value="1">JYES</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 				<field
 					name="show_loggedin_users_admin"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					label="MOD_STATUS_FIELD_SHOW_LOGGEDIN_USERS_ADMIN_LABEL"
 					description="MOD_STATUS_FIELD_SHOW_LOGGEDIN_USERS_ADMIN_DESC">
-					<option
-						value="0">JNO</option>
-					<option
-						value="1">JYES</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 				<field
 					name="show_messages"
 					type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					label="MOD_STATUS_FIELD_SHOW_MESSAGES_LABEL"
 					description="MOD_STATUS_FIELD_SHOW_MESSAGES_DESC">
-					<option
-						value="0">JNO</option>
-					<option
-						value="1">JYES</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 			</fieldset>
 			<fieldset name="advanced">

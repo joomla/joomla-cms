@@ -557,6 +557,7 @@ class MenusModelItem extends JModelAdmin
 
 		// Get the form.
 		$form = $this->loadForm('com_menus.item', 'item', array('control' => 'jform', 'load_data' => $loadData), true);
+
 		if (empty($form))
 		{
 			return false;
@@ -688,13 +689,12 @@ class MenusModelItem extends JModelAdmin
 				{
 					// Load the language file for the component.
 					$lang = JFactory::getLanguage();
-					$lang->load($args['option'], JPATH_ADMINISTRATOR, null, false, false)
-						|| $lang->load($args['option'], JPATH_ADMINISTRATOR . '/components/' . $args['option'], null, false, false)
-						|| $lang->load($args['option'], JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-						|| $lang->load($args['option'], JPATH_ADMINISTRATOR . '/components/' . $args['option'], $lang->getDefault(), false, false);
+					$lang->load($args['option'], JPATH_ADMINISTRATOR, null, false, true)
+						|| $lang->load($args['option'], JPATH_ADMINISTRATOR . '/components/' . $args['option'], null, false, true);
 
 					// Determine the component id.
 					$component = JComponentHelper::getComponent($args['option']);
+
 					if (isset($component->id))
 					{
 						$table->component_id = $component->id;
@@ -741,7 +741,7 @@ class MenusModelItem extends JModelAdmin
 
 		// Load associated menu items
 		$app = JFactory::getApplication();
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$assoc = JLanguageAssociations::isEnabled();
 		if ($assoc)
 		{
 			if ($pk != null)
@@ -928,13 +928,18 @@ class MenusModelItem extends JModelAdmin
 				$formFile = false;
 
 				// Check for the layout XML file. Use standard xml file if it exists.
-				$path = JPath::clean($base . '/views/' . $view . '/tmpl/' . $layout . '.xml');
+				$tplFolders = array(
+						$base . '/views/' . $view . '/tmpl',
+						$base . '/view/' . $view . '/tmpl'
+				);
+				$path = JPath::find($tplFolders, $layout . '.xml');
+
 				if (is_file($path))
 				{
 					$formFile = $path;
 				}
 
-				// if custom layout, get the xml file from the template folder
+				// If custom layout, get the xml file from the template folder
 				// template folder is first part of file name -- template:folder
 				if (!$formFile && (strpos($layout, ':') > 0))
 				{
@@ -947,16 +952,25 @@ class MenusModelItem extends JModelAdmin
 				}
 			}
 
-			//Now check for a view manifest file
+			// Now check for a view manifest file
 			if (!$formFile)
 			{
-				if (isset($view) && is_file($path = JPath::clean($base . '/views/' . $view . '/metadata.xml')))
+				if (isset($view))
 				{
-					$formFile = $path;
+					$metadataFolders = array(
+							$base . '/view/' . $view,
+							$base . '/views/' . $view
+					);
+					$metaPath = JPath::find($metadataFolders, 'metadata.xml');
+
+					if (is_file($path = JPath::clean($metaPath)))
+					{
+						$formFile = $path;
+					}
 				}
 				else
 				{
-					//Now check for a component manifest file
+					// Now check for a component manifest file
 					$path = JPath::clean($base . '/metadata.xml');
 					if (is_file($path))
 					{
@@ -1039,7 +1053,8 @@ class MenusModelItem extends JModelAdmin
 
 		// Association menu items
 		$app = JFactory::getApplication();
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$assoc = JLanguageAssociations::isEnabled();
+
 		if ($assoc)
 		{
 			$languages = JLanguageHelper::getLanguages('lang_code');
@@ -1159,7 +1174,7 @@ class MenusModelItem extends JModelAdmin
 			$table->load($pk);
 			$isNew = false;
 		}
-		if (!$isNew && $table->menutype == $data['menutype'])
+		if (!$isNew)
 		{
 			if ($table->parent_id == $data['parent_id'])
 			{
@@ -1193,15 +1208,9 @@ class MenusModelItem extends JModelAdmin
 			}
 		}
 		// We have a new item, so it is not a change.
-		elseif ($isNew)
-		{
-			$table->setLocation($data['parent_id'], 'last-child');
-		}
-		// The menu type has changed so we need to just put this at the bottom
-		// of the root level.
 		else
 		{
-			$table->setLocation(1, 'last-child');
+			$table->setLocation($data['parent_id'], 'last-child');
 		}
 
 		// Bind the data.
@@ -1247,7 +1256,7 @@ class MenusModelItem extends JModelAdmin
 
 		// Load associated menu items
 		$app = JFactory::getApplication();
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$assoc = JLanguageAssociations::isEnabled();
 		if ($assoc)
 		{
 			// Adding self to the association

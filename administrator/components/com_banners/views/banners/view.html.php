@@ -41,11 +41,14 @@ class BannersViewBanners extends JViewLegacy
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -72,12 +75,14 @@ class BannersViewBanners extends JViewLegacy
 	{
 		require_once JPATH_COMPONENT . '/helpers/banners.php';
 
-		$canDo = BannersHelper::getActions($this->state->get('filter.category_id'));
+		$canDo = JHelperContent::getActions($this->state->get('filter.category_id'), 0, 'com_banners');
 		$user = JFactory::getUser();
+
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 
 		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_BANNERS'), 'banners.png');
+
 		if (count($user->getAuthorisedCategories('com_banners', 'core.create')) > 0)
 		{
 			JToolbarHelper::addNew('banner.add');
@@ -136,37 +141,12 @@ class BannersViewBanners extends JViewLegacy
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
-		if ($canDo->get('core.admin'))
+		if ($user->authorise('core.admin', 'com_banners'))
 		{
 			JToolbarHelper::preferences('com_banners');
 		}
+
 		JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_BANNERS');
-
-		JHtmlSidebar::setAction('index.php?option=com_banners&view=banners');
-
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_PUBLISHED'),
-			'filter_state',
-			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.state'), true)
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('COM_BANNERS_SELECT_CLIENT'),
-			'filter_client_id',
-			JHtml::_('select.options', BannersHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id'))
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_CATEGORY'),
-			'filter_category_id',
-			JHtml::_('select.options', JHtml::_('category.options', 'com_banners'), 'value', 'text', $this->state->get('filter.category_id'))
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_LANGUAGE'),
-			'filter_language',
-			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
-		);
 	}
 
 	/**
