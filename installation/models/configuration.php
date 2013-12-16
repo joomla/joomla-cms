@@ -215,9 +215,7 @@ class JInstallationModelConfiguration extends JModelLegacy
 		}
 
 		// Create random salt/password for the admin user
-		$salt = JUserHelper::genRandomPassword(32);
-		$crypt = JUserHelper::getCryptedPassword($options->admin_password, $salt);
-		$cryptpass = $crypt.':'.$salt;
+		$cryptpass = JUserHelper::hashPassword($options->admin_password);
 
 		// take the admin user id
 		JLoader::register('JInstallationModelDatabase', JPATH_INSTALLATION . '/models/database.php');
