@@ -163,9 +163,7 @@ class UsersModelReset extends JModelForm
 		}
 
 		// Generate the new password hash.
-		$salt		= JUserHelper::genRandomPassword(32);
-		$crypted	= JUserHelper::getCryptedPassword($data['password1'], $salt);
-		$password	= $crypted.':'.$salt;
+		$password = JUserHelper::hashPassword($data['password1']);
 
 		// Update the user object.
 		$user->password			= $password;
