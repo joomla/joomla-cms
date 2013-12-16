@@ -9,17 +9,67 @@
 
 defined('JPATH_BASE') or die;
 
-$autofocus        = $displayData['autofocus'];
-$checkedOptions   = $displayData['checkedOptions'];
-$classes          = $displayData['classes'];
-$field            = $displayData['field'];
-$hasValue         = $displayData['hasValue'];
-$options          = $displayData['options'];
-$required         = $displayData['required'];
+/**
+ * If true, the field should get an 'autofocus' attribute.
+ *
+ * @var boolean
+ */
+$autofocus = $displayData['autofocus'];
 
+/**
+ * A list of options that should be checked. These may either be stored or default values (from the field element).
+ *
+ * @var array
+ */
+$checkedOptions = $displayData['checkedOptions'];
+
+/**
+ * A list of classes for this field.
+ *
+ * @var array
+ */
+$classes = $displayData['classes'];
+
+/**
+ * The field object.
+ *
+ * @var JFormField
+ */
+$field = $displayData['field'];
+
+/**
+ * If true, the field has a stored value so that default values should not be used.
+ *
+ * @var boolean
+ */
+$hasValue = $displayData['hasValue'];
+
+/**
+ * A list of options for the field.
+ *
+ * @var array
+ */
+$options = $displayData['options'];
+
+/**
+ * If true, this is a required field.
+ *
+ * @var boolean
+ */
+$required = $displayData['required'];
+
+// Always use the 'checkboxes' class.
 $classes[] = 'checkboxes';
 
+// The format of the input tag to be filled in using sprintf.
+//     %1 - id
+//     %2 - name
+//     %3 - value
+//     %4 = any other attributes
 $format = '<input type="checkbox" id="%1$s" name="%2$s" value="%3$s" %4$s />';
+
+// The alt option for JText::alt
+$alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $field->fieldname);
 ?>
 
 <fieldset id="<?php echo $field->id; ?>" class="<?php echo implode(' ', $classes); ?>"
@@ -50,7 +100,7 @@ $format = '<input type="checkbox" id="%1$s" name="%2$s" value="%3$s" %4$s />';
 
 		<li>
 			<?php echo sprintf($format, $id, $field->name, $value, implode(' ', $attributes)); ?>
-			<label for="<?php echo $id; ?>" <?php echo $class; ?>><?php echo JText::_($option->text); ?></label>
+			<label for="<?php echo $id; ?>" <?php echo $class; ?>><?php echo JText::alt($option->text, $alt); ?></label>
 		</li>
 
 		<?php endforeach; ?>
