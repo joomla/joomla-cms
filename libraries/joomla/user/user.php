@@ -620,9 +620,7 @@ class JUser extends JObject
 
 			$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
 
-			$salt = JUserHelper::genRandomPassword(32);
-			$crypt = JUserHelper::getCryptedPassword($array['password'], $salt);
-			$array['password'] = $crypt . ':' . $salt;
+			$array['password'] = JUserHelper::hashPassword($array['password']);
 
 			// Set the registration timestamp
 
@@ -657,9 +655,7 @@ class JUser extends JObject
 
 				$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
 
-				$salt = JUserHelper::genRandomPassword(32);
-				$crypt = JUserHelper::getCryptedPassword($array['password'], $salt);
-				$array['password'] = $crypt . ':' . $salt;
+				$array['password'] = JUserHelper::hashPassword($array['password']);
 			}
 			else
 			{
