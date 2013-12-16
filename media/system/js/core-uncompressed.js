@@ -18,7 +18,7 @@ Joomla.submitform = function(task, form) {
         form = document.getElementById('adminForm');
     }
 
-    if (typeof(task) !== 'undefined') {
+    if (typeof(task) !== 'undefined' && task !== "") {
         form.task.value = task;
     }
 
