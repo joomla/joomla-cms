@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.folder');
-
+jimport('joomla.filesystem.path');
 /**
  * Menu Item Types Model for Menus.
  *
@@ -23,7 +23,7 @@ class MenusModelMenutypes extends JModelLegacy
 	/**
 	 * A reverse lookup of the base link URL to Title
 	 *
-	 * @var	array
+	 * @var  array
 	 */
 	protected $rlu = array();
 
@@ -81,10 +81,8 @@ class MenusModelMenutypes extends JModelLegacy
 
 						if (isset($option->request['option']))
 						{
-								$lang->load($option->request['option'].'.sys', JPATH_ADMINISTRATOR, null, false, false)
-							||	$lang->load($option->request['option'].'.sys', JPATH_ADMINISTRATOR.'/components/'.$option->request['option'], null, false, false)
-							||	$lang->load($option->request['option'].'.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-							||	$lang->load($option->request['option'].'.sys', JPATH_ADMINISTRATOR.'/components/'.$option->request['option'], $lang->getDefault(), false, false);
+								$lang->load($option->request['option'] . '.sys', JPATH_ADMINISTRATOR, null, false, true)
+							||	$lang->load($option->request['option'] . '.sys', JPATH_ADMINISTRATOR. '/components/'.$option->request['option'], null, false, true);
 						}
 					}
 				}
@@ -92,7 +90,7 @@ class MenusModelMenutypes extends JModelLegacy
 		}
 
 		// Allow a system plugin to insert dynamic menu types to the list shown in menus:
-		JDispatcher::getInstance()->trigger('onAfterGetMenuTypeOptions', array(&$list, $this));
+		JEventDispatcher::getInstance()->trigger('onAfterGetMenuTypeOptions', array(&$list, $this));
 
 		return $list;
 	}
@@ -115,7 +113,7 @@ class MenusModelMenutypes extends JModelLegacy
 	{
 		$options = array();
 
-		$mainXML = JPATH_SITE.'/components/'.$component.'/metadata.xml';
+		$mainXML = JPATH_SITE . '/components/' . $component . '/metadata.xml';
 
 		if (is_file($mainXML))
 		{
@@ -215,7 +213,16 @@ class MenusModelMenutypes extends JModelLegacy
 		$options = array();
 
 		// Get the views for this component.
-		$path = JPATH_SITE . '/components/' . $component . '/views';
+		if (is_dir(JPATH_SITE . '/components/' . $component))
+		{
+			$folders = JFolder::folders(JPATH_SITE . '/components/' . $component, 'view', false, true);
+		}
+		$path = '';
+
+		if (!empty($folders[0]))
+		{
+			$path = $folders[0];
+		}
 
 		if (is_dir($path))
 		{
@@ -232,7 +239,7 @@ class MenusModelMenutypes extends JModelLegacy
 			if (strpos($view, '_') !== 0)
 			{
 				// Determine if a metadata file exists for the view.
-				$file = $path.'/'.$view.'/metadata.xml';
+				$file = $path . '/' . $view . '/metadata.xml';
 
 				if (is_file($file))
 				{
@@ -286,15 +293,18 @@ class MenusModelMenutypes extends JModelLegacy
 									}
 								}
 							}
-							else {
+							else
+							{
 								$options = array_merge($options, (array) $this->getTypeOptionsFromLayouts($component, $view));
 							}
 						}
+
 						unset($xml);
 					}
 
 				}
-				else {
+				else
+				{
 					$options = array_merge($options, (array) $this->getTypeOptionsFromLayouts($component, $view));
 				}
 			}
@@ -309,9 +319,19 @@ class MenusModelMenutypes extends JModelLegacy
 		$layouts = array();
 		$layoutNames = array();
 		$lang = JFactory::getLanguage();
+		$path = '';
 
-		// Get the layouts from the view folder.
-		$path = JPATH_SITE . '/components/' . $component . '/views/' . $view . '/tmpl';
+		// Get the views for this component.
+		if (is_dir(JPATH_SITE . '/components/' . $component))
+		{
+			$folders = JFolder::folders(JPATH_SITE . '/components/' . $component, 'view', false, true);
+		}
+
+		if (!empty($folders[0]))
+		{
+			$path = $folders[0] . '/' . $view . '/tmpl';
+		}
+
 		if (is_dir($path))
 		{
 			$layouts = array_merge($layouts, JFolder::files($path, '.xml$', false, true));
@@ -321,7 +341,7 @@ class MenusModelMenutypes extends JModelLegacy
 			return $options;
 		}
 
-		// build list of standard layout names
+		// Build list of standard layout names
 		foreach ($layouts as $layout)
 		{
 			// Ignore private layouts.
@@ -332,20 +352,20 @@ class MenusModelMenutypes extends JModelLegacy
 			}
 		}
 
-		// get the template layouts
+		// Get the template layouts
 		// TODO: This should only search one template -- the current template for this item (default of specified)
 		$folders = JFolder::folders(JPATH_SITE . '/templates', '', false, true);
+
 		// Array to hold association between template file names and templates
 		$templateName = array();
+
 		foreach ($folders as $folder)
 		{
 			if (is_dir($folder . '/html/' . $component . '/' . $view))
 			{
 				$template = basename($folder);
-				$lang->load('tpl_'.$template.'.sys', JPATH_SITE, null, false, false)
-				||	$lang->load('tpl_'.$template.'.sys', JPATH_SITE.'/templates/'.$template, null, false, false)
-				||	$lang->load('tpl_'.$template.'.sys', JPATH_SITE, $lang->getDefault(), false, false)
-				||	$lang->load('tpl_'.$template.'.sys', JPATH_SITE.'/templates/'.$template, $lang->getDefault(), false, false);
+				$lang->load('tpl_' . $template . '.sys', JPATH_SITE, null, false, true)
+				||	$lang->load('tpl_' . $template . '.sys', JPATH_SITE . '/templates/' . $template, null, false, true);
 
 				$templateLayouts = JFolder::files($folder . '/html/' . $component . '/' . $view, '.xml$', false, true);
 
@@ -358,6 +378,7 @@ class MenusModelMenutypes extends JModelLegacy
 					if (array_search($templateLayoutName, $layoutNames) === false)
 					{
 						$layouts[] = $layout;
+
 						// Set template name array so we can get the right template for the layout
 						$templateName[$layout] = basename($folder);
 					}

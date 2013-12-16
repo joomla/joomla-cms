@@ -29,53 +29,53 @@
 				/>
 
 				<field name="profile" type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					description="PLG_DEBUG_FIELD_PROFILING_DESC"
 					label="PLG_DEBUG_FIELD_PROFILING_LABEL"
 				>
-					<option value="1">JYes</option>
-					<option value="0">JNo</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field name="queries" type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					description="PLG_DEBUG_FIELD_QUERIES_DESC"
 					label="PLG_DEBUG_FIELD_QUERIES_LABEL"
 				>
-					<option value="1">JYes</option>
-					<option value="0">JNo</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field name="query_types" type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					description="PLG_DEBUG_FIELD_QUERY_TYPES_DESC"
 					label="PLG_DEBUG_FIELD_QUERY_TYPES_LABEL"
 				>
-					<option value="1">JYes</option>
-					<option value="0">JNo</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field name="memory" type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					description="PLG_DEBUG_FIELD_MEMORY_DESC"
 					label="PLG_DEBUG_FIELD_MEMORY_LABEL"
 				>
-					<option value="1">JYes</option>
-					<option value="0">JNo</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field name="logs" type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					description="PLG_DEBUG_FIELD_LOGS_DESC"
 					label="PLG_DEBUG_FIELD_LOGS_LABEL"
 				>
-					<option value="1">JYes</option>
-					<option value="0">JNo</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field name="log_priorities" type="list" multiple="true" default="all"
@@ -111,43 +111,43 @@
 				label="PLG_DEBUG_LANGUAGE_FIELDSET_LABEL">
 
 				<field name="language_errorfiles" type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					description="PLG_DEBUG_FIELD_LANGUAGE_ERRORFILES_DESC"
 					label="PLG_DEBUG_FIELD_LANGUAGE_ERRORFILES_LABEL"
 				>
-					<option value="1">JYes</option>
-					<option value="0">JNo</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field name="language_files" type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					description="PLG_DEBUG_FIELD_LANGUAGE_FILES_DESC"
 					label="PLG_DEBUG_FIELD_LANGUAGE_FILES_LABEL"
 				>
-					<option value="1">JYes</option>
-					<option value="0">JNo</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field name="language_strings" type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					description="PLG_DEBUG_FIELD_LANGUAGE_STRING_DESC"
 					label="PLG_DEBUG_FIELD_LANGUAGE_STRING_LABEL"
 				>
-					<option value="1">JYes</option>
-					<option value="0">JNo</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field name="strip-first" type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="1"
 					description="PLG_DEBUG_FIELD_STRIP_FIRST_DESC"
 					label="PLG_DEBUG_FIELD_STRIP_FIRST_LABEL"
 				>
-					<option value="1">JYes</option>
-					<option value="0">JNo</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field name="strip-prefix" type="textarea"
@@ -169,13 +169,13 @@
 				label="PLG_DEBUG_LOGGING_FIELDSET_LABEL">
 
 				<field name="log-deprecated" type="radio"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					default="0"
 					description="PLG_DEBUG_FIELD_LOG_DEPRECATED_DESC"
 					label="PLG_DEBUG_FIELD_LOG_DEPRECATED_LABEL"
 				>
-					<option value="1">JYes</option>
-					<option value="0">JNo</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 			</fieldset>
 		</fields>

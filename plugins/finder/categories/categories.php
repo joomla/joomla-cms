@@ -291,7 +291,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		$class = $extension . 'HelperRoute';
 		if (class_exists($class) && method_exists($class, 'getCategoryRoute'))
 		{
-			$item->route = $class::getCategoryRoute($item->id);
+			$item->route = $class::getCategoryRoute($item->id, $item->language);
 		}
 		else
 		{

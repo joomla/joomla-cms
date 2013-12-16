@@ -24,20 +24,30 @@ class TagsViewTag extends JViewLegacy
 
 	protected $state;
 
+	protected $assoc;
+
 	/**
 	 * Display the view
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
 	 */
 	public function display($tpl = null)
 	{
 		$this->form  = $this->get('Form');
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
-		$this->canDo = TagsHelper::getActions($this->state->get('tags.component'));
+		$this->canDo = JHelperContent::getActions(0, 0, 'com_tags');
+		$this->assoc = $this->get('Assoc');
+
 		$input = JFactory::getApplication()->input;
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors'))) {
+		if (count($errors = $this->get('Errors')))
+		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -50,6 +60,8 @@ class TagsViewTag extends JViewLegacy
 	 * Add the page title and toolbar.
 	 *
 	 * @since  3.1
+	 *
+	 * @return void
 	 */
 	protected function addToolbar()
 	{
@@ -61,21 +73,19 @@ class TagsViewTag extends JViewLegacy
 
 		// Need to load the menu language file as mod_menu hasn't been loaded yet.
 		$lang = JFactory::getLanguage();
-			$lang->load('com_tags', JPATH_BASE, null, false, false)
-		||	$lang->load('com_tags', JPATH_ADMINISTRATOR.'/components/com_tags', null, false, false)
-		||	$lang->load('com_tags', JPATH_BASE, $lang->getDefault(), false, false)
-		||	$lang->load('com_tags', JPATH_ADMINISTRATOR.'/components/com_tags', $lang->getDefault(), false, false);
+			$lang->load('com_tags', JPATH_BASE, null, false, true)
+		||	$lang->load('com_tags', JPATH_ADMINISTRATOR . '/components/com_tags', null, false, true);
 
 		// Load the tags helper.
-		require_once JPATH_COMPONENT.'/helpers/tags.php';
+		require_once JPATH_COMPONENT . '/helpers/tags.php';
 
 		// Get the results for each action.
-		$canDo = TagsHelper::getActions('com_tags', $this->item->id);
+		$canDo = $this->canDo;
 
-		$title = JText::_('COM_TAGS_BASE_'.($isNew?'ADD':'EDIT').'_TITLE');
+		$title = JText::_('COM_TAGS_BASE_' . ($isNew?'ADD':'EDIT') . '_TITLE');
 
 		// Prepare the toolbar.
-		JToolbarHelper::title($title, 'tags.png');
+		JToolbarHelper::title($title, 'tag tag-' . ($isNew?'add':'edit') . ($isNew?'add':'edit'));
 
 		// For new records, check the create permission.
 		if ($isNew)
@@ -86,27 +96,39 @@ class TagsViewTag extends JViewLegacy
 		}
 
 		// If not checked out, can save the item.
-		elseif (!$checkedOut && ($canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_user_id == $userId))) {
+		elseif (!$checkedOut && ($canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_user_id == $userId)))
+		{
 			JToolbarHelper::apply('tag.apply');
 			JToolbarHelper::save('tag.save');
-			if ($canDo->get('core.create')) {
+
+			if ($canDo->get('core.create'))
+			{
 				JToolbarHelper::save2new('tag.save2new');
 			}
 		}
 
 		// If an existing item, can save to a copy.
-		if (!$isNew && $canDo->get('core.create')) {
+		if (!$isNew && $canDo->get('core.create'))
+		{
 			JToolbarHelper::save2copy('tag.save2copy');
 		}
 
-		if (empty($this->item->id))  {
+		if (empty($this->item->id))
+		{
 			JToolbarHelper::cancel('tag.cancel');
 		}
-		else {
+		else
+		{
+			if ($this->state->params->get('save_history', 0) && $user->authorise('core.edit'))
+			{
+				JToolbarHelper::versions('com_tags.tag', $this->item->id);
+			}
+
 			JToolbarHelper::cancel('tag.cancel', 'JTOOLBAR_CLOSE');
 		}
+
+		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_COMPONENTS_TAGS_MANAGER_EDIT');
 		JToolbarHelper::divider();
-
 	}
 }

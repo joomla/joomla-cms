@@ -39,12 +39,12 @@
 
 				<field name="verifypeer" type="radio"
 					default="1"
-					class="btn-group"
+					class="btn-group btn-group-yesno"
 					description="PLG_GMAIL_FIELD_VERIFYPEER_DESC"
 					label="PLG_GMAIL_FIELD_VERIFYPEER_LABEL"
 				>
-					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field name="user_blacklist" type="text"

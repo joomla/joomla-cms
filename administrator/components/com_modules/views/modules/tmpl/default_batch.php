@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 $clientId  = $this->state->get('filter.client_id');
 $published = $this->state->get('filter.published');
 $positions = JHtml::_('modules.positions', $clientId, $published);
+$positions['']['items'][] = ModulesHelper::createOption('nochange', JText::_('COM_MODULES_BATCH_POSITION_NOCHANGE'));
+$positions['']['items'][] = ModulesHelper::createOption('noposition', JText::_('COM_MODULES_BATCH_POSITION_NOPOSITION'));
 
 // Add custom position to options
 $customGroupText = JText::_('COM_MODULES_CUSTOM_POSITION');
@@ -28,7 +30,7 @@ $attr = array(
 ?>
 <div class="modal hide fade" id="collapseModal">
 	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal">x</button>
+		<button type="button" class="close" data-dismiss="modal">&#215;</button>
 		<h3><?php echo JText::_('COM_MODULES_BATCH_OPTIONS');?></h3>
 	</div>
 	<div class="modal-body">

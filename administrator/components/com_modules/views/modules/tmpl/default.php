@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
-JHtml::_('dropdown.init');
 JHtml::_('formbehavior.chosen', 'select');
 
 $client		= $this->state->get('filter.client_id') ? 'administrator' : 'site';
@@ -131,9 +130,9 @@ $sortFields = $this->getSortFields();
 			<?php foreach ($this->items as $i => $item) :
 				$ordering   = ($listOrder == 'ordering');
 				$canCreate  = $user->authorise('core.create',     'com_modules');
-				$canEdit    = $user->authorise('core.edit',       'com_modules');
+				$canEdit	= $user->authorise('core.edit',		  'com_modules.module.'.$item->id);
 				$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id')|| $item->checked_out == 0;
-				$canChange  = $user->authorise('core.edit.state', 'com_modules') && $canCheckin;
+				$canChange  = $user->authorise('core.edit.state', 'com_modules.module.'.$item->id) && $canCheckin;
 			?>
 				<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->position?>">
 					<td class="order nowrap center hidden-phone">
@@ -159,7 +158,19 @@ $sortFields = $this->getSortFields();
 						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 					</td>
 					<td class="center">
-						<?php echo JHtml::_('modules.state', $item->published, $i, $canChange, 'cb'); ?>
+						<div class="btn-group">
+							<?php echo JHtml::_('modules.state', $item->published, $i, $canChange, 'cb'); ?>
+							<?php
+								// Create dropdown items
+								JHtml::_('actionsdropdown.duplicate', 'cb' . $i, 'modules');
+
+								$action = $trashed ? 'untrash' : 'trash';
+								JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'modules');
+
+							// Render dropdown list
+							echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
+							?>
+						</div>
 					</td>
 					<td class="has-context">
 						<div class="pull-left">
@@ -170,7 +181,7 @@ $sortFields = $this->getSortFields();
 								<a href="<?php echo JRoute::_('index.php?option=com_modules&task=module.edit&id='.(int) $item->id); ?>">
 									<?php echo $this->escape($item->title); ?></a>
 							<?php else : ?>
-									<?php echo $this->escape($item->title); ?>
+								<?php echo $this->escape($item->title); ?>
 							<?php endif; ?>
 
 							<?php if (!empty($item->note)) : ?>
@@ -178,33 +189,6 @@ $sortFields = $this->getSortFields();
 									<?php echo JText::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note));?>
 								</div>
 							<?php endif; ?>
-						</div>
-						<div class="pull-left">
-							<?php
-								// Create dropdown items
-								JHtml::_('dropdown.edit', $item->id, 'module.');
-								JHtml::_('dropdown.divider');
-								if ($item->published) :
-									JHtml::_('dropdown.unpublish', 'cb' . $i, 'modules.');
-								else :
-									JHtml::_('dropdown.publish', 'cb' . $i, 'modules.');
-								endif;
-
-								JHtml::_('dropdown.divider');
-
-								if ($item->checked_out) :
-									JHtml::_('dropdown.checkin', 'cb' . $i, 'modules.');
-								endif;
-
-								if ($trashed) :
-									JHtml::_('dropdown.untrash', 'cb' . $i, 'modules.');
-								else :
-									JHtml::_('dropdown.trash', 'cb' . $i, 'modules.');
-								endif;
-
-								// Render dropdown list
-								echo JHtml::_('dropdown.render');
-								?>
 						</div>
 					</td>
 					<td class="small hidden-phone">

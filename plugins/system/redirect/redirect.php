@@ -46,7 +46,7 @@ class PlgSystemRedirect extends JPlugin
 		{
 			// Get the full current URI.
 			$uri = JUri::getInstance();
-			$current = $uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment'));
+			$current = rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment')));
 
 			// Attempt to ignore idiots.
 			if ((strpos($current, 'mosConfig_') !== false) || (strpos($current, '=http://') !== false))
@@ -68,7 +68,7 @@ class PlgSystemRedirect extends JPlugin
 			// If a redirect exists and is published, permanently redirect.
 			if ($link and ($link->published == 1))
 			{
-				$app->redirect($link->new_url, null, null, true, false);
+				$app->redirect($link->new_url, true);
 			}
 			else
 			{

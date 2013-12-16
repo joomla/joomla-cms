@@ -95,7 +95,7 @@ class LanguagesViewOverride extends JViewLegacy
 
 		$canDo	= LanguagesHelper::getActions();
 
-		JToolbarHelper::title(JText::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_TITLE'), 'langmanager');
+		JToolbarHelper::title(JText::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_TITLE'), 'comments-2 langmanager');
 
 		if ($canDo->get('core.edit'))
 		{

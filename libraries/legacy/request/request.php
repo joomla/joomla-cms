@@ -471,8 +471,8 @@ class JRequest
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  12.1  Use JInput::Set
-	 * @see         JInput::Set
+	 * @deprecated  12.1  Use JInput::set()
+	 * @see         JInput::set()
 	 * @since       11.1
 	 */
 	public static function set($array, $hash = 'default', $overwrite = true)

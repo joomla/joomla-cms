@@ -27,6 +27,11 @@ class BannersViewClient extends JViewLegacy
 	protected $state;
 
 	/**
+	 * @var  JObject  Object containing permissions for the item
+	 */
+	protected $canDo;
+
+	/**
 	 * Display the view
 	 */
 	public function display($tpl = null)
@@ -34,6 +39,7 @@ class BannersViewClient extends JViewLegacy
 		$this->form	= $this->get('Form');
 		$this->item	= $this->get('Item');
 		$this->state	= $this->get('State');
+		$this->canDo = JHelperContent::getActions(0, 0, 'com_banners');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -58,9 +64,9 @@ class BannersViewClient extends JViewLegacy
 		$user		= JFactory::getUser();
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
-		$canDo		= BannersHelper::getActions();
+		$canDo		= $this->canDo;
 
-		JToolbarHelper::title($isNew ? JText::_('COM_BANNERS_MANAGER_CLIENT_NEW') : JText::_('COM_BANNERS_MANAGER_CLIENT_EDIT'), 'banners-clients.png');
+		JToolbarHelper::title($isNew ? JText::_('COM_BANNERS_MANAGER_CLIENT_NEW') : JText::_('COM_BANNERS_MANAGER_CLIENT_EDIT'), 'bookmark banners-clients');
 
 		// If not checked out, can save the item.
 		if (!$checkedOut && ($canDo->get('core.edit')||$canDo->get('core.create')))
@@ -84,6 +90,11 @@ class BannersViewClient extends JViewLegacy
 		}
 		else
 		{
+			if ($this->state->params->get('save_history', 0) && $user->authorise('core.edit'))
+			{
+				JToolbarHelper::versions('com_banners.client', $this->item->id);
+			}
+
 			JToolbarHelper::cancel('client.cancel', 'JTOOLBAR_CLOSE');
 		}
 

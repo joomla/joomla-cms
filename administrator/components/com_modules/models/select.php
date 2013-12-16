@@ -105,7 +105,7 @@ class ModulesModelSelect extends JModelList
 	 *
 	 * @return  mixed  An array of objects on success, false on failure.
 	 */
-	public function &getItems()
+	public function getItems()
 	{
 		// Get the list of items from the database.
 		$items = parent::getItems();
@@ -129,10 +129,8 @@ class ModulesModelSelect extends JModelList
 
 			// 1.5 Format; Core files or language packs then
 			// 1.6 3PD Extension Support
-			$lang->load($item->module . '.sys', $client->path, null, false, false)
-				|| $lang->load($item->module . '.sys', $client->path . '/modules/' . $item->module, null, false, false)
-				|| $lang->load($item->module . '.sys', $client->path, $lang->getDefault(), false, false)
-				|| $lang->load($item->module . '.sys', $client->path . '/modules/' . $item->module, $lang->getDefault(), false, false);
+			$lang->load($item->module . '.sys', $client->path, null, false, true)
+				|| $lang->load($item->module . '.sys', $client->path . '/modules/' . $item->module, null, false, true);
 			$item->name = JText::_($item->name);
 
 			if (isset($item->xml) && $text = trim($item->xml->description))

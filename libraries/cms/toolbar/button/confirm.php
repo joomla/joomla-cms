@@ -59,6 +59,7 @@ class JToolbarButtonConfirm extends JToolbarButton
 	 * Get the button CSS Id
 	 *
 	 * @param   string   $type      Button type
+	 * @param   string   $msg       Message to display
 	 * @param   string   $name      Name to be used as apart of the id
 	 * @param   string   $text      Button text
 	 * @param   string   $task      The task associated with the button
@@ -69,7 +70,7 @@ class JToolbarButtonConfirm extends JToolbarButton
 	 *
 	 * @since   3.0
 	 */
-	public function fetchId($type = 'Confirm', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
+	public function fetchId($type = 'Confirm', $msg = '', $name = '', $text = '', $task = '', $list = true, $hideMenu = false)
 	{
 		return $this->_parent->getName() . '-' . $name;
 	}

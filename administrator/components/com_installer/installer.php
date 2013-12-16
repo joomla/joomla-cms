@@ -8,10 +8,11 @@
  */
 
 defined('_JEXEC') or die;
+JHtml::_('behavior.tabstate');
 
 if (!JFactory::getUser()->authorise('core.manage', 'com_installer'))
 {
-	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+	return JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
 }
 
 $controller	= JControllerLegacy::getInstance('Installer');
