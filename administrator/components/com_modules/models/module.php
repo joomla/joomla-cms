@@ -827,12 +827,15 @@ class ModulesModelModule extends JModelAdmin
 		$module   = $this->getState('item.module');
 
 		$client   = JApplicationHelper::getClientInfo($clientId);
-		$formFile = JPath::clean($client->path . '/modules/' . $module . '/' . $module . '.xml');
 
 		// Load the core and/or local language file(s).
 		$lang->load($module, $client->path, null, false, true)
 			||	$lang->load($module, $client->path . '/modules/' . $module, null, false, true);
 
+		$path = $client->path . '/modules/' . $module . '/';
+
+		// Attempt to load the config file
+		$formFile = JPath::clean($path . 'config.xml');
 		if (file_exists($formFile))
 		{
 			// Get the module form.
@@ -840,24 +843,22 @@ class ModulesModelModule extends JModelAdmin
 			{
 				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 			}
+		}
 
-			// Attempt to load the xml file.
-			if (!$xml = simplexml_load_file($formFile))
-			{
-				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
-			}
+		// Get the manifest file
+		$installer = JInstaller::getInstance();
+		$installer->setPath('source', $path);
+		$manifest = $installer->getManifest();
 
-			// Get the help data from the XML file if present.
-			$help = $xml->xpath('/extension/help');
-			if (!empty($help))
-			{
-				$helpKey = trim((string) $help[0]['key']);
-				$helpURL = trim((string) $help[0]['url']);
+		// Get the help data from the manifest file if present.
+		$help = $manifest->xpath('/extension/help');
+		if (!empty($help))
+		{
+			$helpKey = trim((string) $help[0]['key']);
+			$helpURL = trim((string) $help[0]['url']);
 
-				$this->helpKey = $helpKey ? $helpKey : $this->helpKey;
-				$this->helpURL = $helpURL ? $helpURL : $this->helpURL;
-			}
-
+			$this->helpKey = $helpKey ? $helpKey : $this->helpKey;
+			$this->helpURL = $helpURL ? $helpURL : $this->helpURL;
 		}
 
 		// Load the default advanced params
