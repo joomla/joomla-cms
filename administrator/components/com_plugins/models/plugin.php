@@ -234,23 +234,15 @@ class PluginsModelPlugin extends JModelAdmin
 			$app->redirect(JRoute::_('index.php?option=com_plugins&view=plugins', false));
 		}
 
-		// Use as the form file the config.xml file, if exists
-		$formFile = JPath::clean(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/config.xml');
-		if (!file_exists($formFile))
-		{
-			// Form file fallback. Uses the manifest file
-			$formFile = JPath::clean(JPATH_PLUGINS . '/' . $folder . '/' . $element . '/' . $element . '.xml');
-		}
-
-		if (!file_exists($formFile))
-		{
-			throw new Exception(JText::sprintf('COM_PLUGINS_ERROR_FILE_NOT_FOUND', $element . '.xml'));
-		}
-
 		// Load the core and/or local language file(s).
 			$lang->load('plg_'.$folder.'_'.$element, JPATH_ADMINISTRATOR, null, false, true)
 		||	$lang->load('plg_'.$folder.'_'.$element, JPATH_PLUGINS.'/'.$folder.'/'.$element, null, false, true);
 
+		// Plugin path
+		$path = JPATH_PLUGINS . '/' . $folder . '/' . $element . '/';
+
+		// Attempt to load the config file
+		$formFile = JPath::clean($path . 'config.xml');
 		if (file_exists($formFile))
 		{
 			// Get the plugin form.
@@ -260,14 +252,13 @@ class PluginsModelPlugin extends JModelAdmin
 			}
 		}
 
-		// Attempt to load the xml file.
-		if (!$xml = simplexml_load_file($formFile))
-		{
-			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
-		}
+		// Get the manifest file
+		$installer = JInstaller::getInstance();
+		$installer->setPath('source', $path);
+		$manifest = $installer->getManifest();
 
-		// Get the help data from the XML file if present.
-		$help = $xml->xpath('/extension/help');
+		// Get the help data from the manifest file if present.
+		$help = $manifest->xpath('/extension/help');
 		if (!empty($help))
 		{
 			$helpKey = trim((string) $help[0]['key']);
