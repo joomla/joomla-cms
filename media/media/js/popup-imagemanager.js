@@ -27,6 +27,7 @@ var ImageManager = this.ImageManager = {
 		this.fields.align	= document.id("f_align");
 		this.fields.title	= document.id("f_title");
 		this.fields.caption	= document.id("f_caption");
+		this.fields.c_class	= document.id("f_caption_class");
 
 		// Setup image listing objects
 		this.folderlist = document.id('folderlist');
@@ -99,6 +100,7 @@ var ImageManager = this.ImageManager = {
 		var align	= this.fields.align.get('value');
 		var title	= this.fields.title.get('value');
 		var caption	= this.fields.caption.get('value');
+		var c_class	= this.fields.c_class.get('value');
 
 		if (url != '') {
 			// Set alt attribute
@@ -122,7 +124,16 @@ var ImageManager = this.ImageManager = {
 			if (caption != '') {
 				var figclass = '';
 				if (align != '') {
-					figclass = ' class="pull-'+align+'"';
+					figclass = 'pull-'+align;
+				}
+				if (c_class != '') {
+					if (figclass != '') {
+						figclass = figclass+' ';
+					}
+					figclass = figclass + c_class;
+				}
+				if (figclass != '') {
+					figclass = ' class="'+figclass+'"';
 				}
 				tag = '<figure'+figclass+'>'+tag+'<figcaption>'+caption+'</figcaption></figure>';
 			}

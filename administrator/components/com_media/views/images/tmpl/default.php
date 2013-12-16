@@ -87,12 +87,25 @@ echo $params->get('image_path', 'images'); ?>/';
 			</div>
 		</div>
 		<div class="row">
-			<div class="span12 control-group">
+			<div class="span6 control-group">
 				<div class="control-label">
 					<label for="f_caption"><?php echo JText::_('COM_MEDIA_CAPTION') ?></label>
 				</div>
 				<div class="controls">
 					<input type="text" id="f_caption" value="" />
+				</div>
+			</div>
+			<div class="span6 control-group">
+				<div class="control-label">
+					<label for="f_caption_class"><?php echo JText::_('COM_MEDIA_CAPTION_CLASS') ?></label>
+				</div>
+				<div class="controls">
+					<input type="text" list="d_caption_class" id="f_caption_class" value="" />
+					<datalist id="d_caption-class">
+						<option value="text-left">
+						<option value="text-center">
+						<option value="text-right">
+					</datalist>
 				</div>
 			</div>
 		</div>
