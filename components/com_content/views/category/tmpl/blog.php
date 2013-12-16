@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 
-// Disables loading of caption.js, now deprecated.
-// JHtml::_('behavior.caption');
 ?>
 <div class="blog<?php echo $this->pageclass_sfx;?>">
 	<?php if ($this->params->get('show_page_heading', 1)) : ?>
