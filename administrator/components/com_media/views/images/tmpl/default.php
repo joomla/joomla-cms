@@ -61,6 +61,7 @@ echo $params->get('image_path', 'images'); ?>/';
 					<select size="1" id="f_align">
 						<option value="" selected="selected"><?php echo JText::_('COM_MEDIA_NOT_SET') ?></option>
 						<option value="left"><?php echo JText::_('JGLOBAL_LEFT') ?></option>
+						<option value="center"><?php echo JText::_('JGLOBAL_CENTER') ?></option>
 						<option value="right"><?php echo JText::_('JGLOBAL_RIGHT') ?></option>
 					</select>
 				</div>
@@ -101,7 +102,7 @@ echo $params->get('image_path', 'images'); ?>/';
 				</div>
 				<div class="controls">
 					<input type="text" list="d_caption_class" id="f_caption_class" value="" />
-					<datalist id="d_caption-class">
+					<datalist id="d_caption_class">
 						<option value="text-left">
 						<option value="text-center">
 						<option value="text-right">
