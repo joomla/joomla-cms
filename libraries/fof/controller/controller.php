@@ -1070,7 +1070,7 @@ class FOFController extends JObject
 
 				$registeredurlparams = null;
 
-				if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'ge'))
+				if (version_compare(JVERSION, '3.0', 'ge'))
 				{
 					if (property_exists($app, 'registeredurlparams'))
 					{
@@ -1093,7 +1093,7 @@ class FOFController extends JObject
 					$registeredurlparams->$key = $value;
 				}
 
-				if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'ge'))
+				if (version_compare(JVERSION, '3.0', 'ge'))
 				{
 					$app->registeredurlparams = $registeredurlparams;
 				}
@@ -1278,7 +1278,7 @@ class FOFController extends JObject
 				$customURL = base64_decode($customURL);
 			}
 
-			$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . FOFInflector::pluralize($this->view);
+			$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . FOFInflector::pluralize($this->view) . $this->getItemidURLSuffix();
 			$this->setRedirect($url, $model->getError(), 'error');
 
 			return false;
@@ -1351,7 +1351,7 @@ class FOFController extends JObject
 				$customURL = base64_decode($customURL);
 			}
 
-			$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . $this->view . '&task=edit&id=' . $id;
+			$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . $this->view . '&task=edit&id=' . $id  . $this->getItemidURLSuffix();
 			$this->setRedirect($url, JText::_($textkey));
 		}
 
@@ -1388,7 +1388,7 @@ class FOFController extends JObject
 			$customURL = base64_decode($customURL);
 		}
 
-		$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . FOFInflector::pluralize($this->view);
+		$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . FOFInflector::pluralize($this->view) . $this->getItemidURLSuffix();
 
 		if (!$status)
 		{
@@ -1431,7 +1431,7 @@ class FOFController extends JObject
 				$customURL = base64_decode($customURL);
 			}
 
-			$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . FOFInflector::pluralize($this->view);
+			$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . FOFInflector::pluralize($this->view) . $this->getItemidURLSuffix();
 			$this->setRedirect($url, JText::_($textkey));
 		}
 
@@ -1464,7 +1464,7 @@ class FOFController extends JObject
 				$customURL = base64_decode($customURL);
 			}
 
-			$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . $this->view . '&task=add';
+			$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . $this->view . '&task=add' . $this->getItemidURLSuffix();
 			$this->setRedirect($url, JText::_($textkey));
 		}
 
@@ -1497,7 +1497,7 @@ class FOFController extends JObject
 			$customURL = base64_decode($customURL);
 		}
 
-		$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . FOFInflector::pluralize($this->view);
+		$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . FOFInflector::pluralize($this->view) . $this->getItemidURLSuffix();
 		$this->setRedirect($url);
 
 		return true;
@@ -1681,7 +1681,7 @@ class FOFController extends JObject
 			$customURL = base64_decode($customURL);
 		}
 
-		$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . FOFInflector::pluralize($this->view);
+		$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . FOFInflector::pluralize($this->view) . $this->getItemidURLSuffix();
 		$this->setRedirect($url);
 
 		return $status;
@@ -1717,7 +1717,7 @@ class FOFController extends JObject
 			$customURL = base64_decode($customURL);
 		}
 
-		$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . FOFInflector::pluralize($this->view);
+		$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . FOFInflector::pluralize($this->view) . $this->getItemidURLSuffix();
 
 		if (!$status)
 		{
@@ -1761,7 +1761,7 @@ class FOFController extends JObject
 			$customURL = base64_decode($customURL);
 		}
 
-		$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . FOFInflector::pluralize($this->view);
+		$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . FOFInflector::pluralize($this->view) . $this->getItemidURLSuffix();
 
 		if (!$status)
 		{
@@ -1805,7 +1805,7 @@ class FOFController extends JObject
 			$customURL = base64_decode($customURL);
 		}
 
-		$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . FOFInflector::pluralize($this->view);
+		$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . FOFInflector::pluralize($this->view) . $this->getItemidURLSuffix();
 
 		if (!$status)
 		{
@@ -2011,7 +2011,7 @@ class FOFController extends JObject
 			$customURL = base64_decode($customURL);
 		}
 
-		$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . FOFInflector::pluralize($this->view);
+		$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . FOFInflector::pluralize($this->view) . $this->getItemidURLSuffix();
 
 		if (!$status)
 		{
@@ -2070,7 +2070,7 @@ class FOFController extends JObject
 			$customURL = base64_decode($customURL);
 		}
 
-		$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . FOFInflector::pluralize($this->view);
+		$url = !empty($customURL) ? $customURL : 'index.php?option=' . $this->component . '&view=' . FOFInflector::pluralize($this->view) . $this->getItemidURLSuffix();
 
 		if (!$status)
 		{
@@ -2151,11 +2151,11 @@ class FOFController extends JObject
 			}
 			elseif ($id != 0)
 			{
-				$url = 'index.php?option=' . $this->component . '&view=' . $this->view . '&task=edit&id=' . $id;
+				$url = 'index.php?option=' . $this->component . '&view=' . $this->view . '&task=edit&id=' . $id . $this->getItemidURLSuffix();
 			}
 			else
 			{
-				$url = 'index.php?option=' . $this->component . '&view=' . $this->view . '&task=add';
+				$url = 'index.php?option=' . $this->component . '&view=' . $this->view . '&task=add' . $this->getItemidURLSuffix();
 			}
 
 			$this->setRedirect($url, '<li>' . implode('</li><li>', $model->getErrors()) . '</li>', 'error');
@@ -2815,11 +2815,14 @@ class FOFController extends JObject
 					if (FOFPlatform::getInstance()->authorise('core.edit.own', $asset))
 					{
 						$table = $this->getThisModel()->getTable();
+                        $table->load($id);
 
-						if ($table && isset($table->created_by))
+                        $created_by = $table->getColumnAlias('created_by');
+
+						if ($table && isset($table->$created_by))
 						{
 							// Now test the owner is the user.
-							$owner_id = (int) $table->created_by;
+							$owner_id = (int) $table->$created_by;
 
 							// If the owner matches 'me' then do the test.
 							if ($owner_id == FOFPlatform::getInstance()->getUser()->id)
@@ -2948,9 +2951,27 @@ class FOFController extends JObject
 	 */
 	protected function onBeforeApply()
 	{
+        $model = $this->getThisModel();
+
+        if (!$model->getId())
+        {
+            $model->setIDsFromRequest();
+        }
+
+        $id = $model->getId();
+
+        if(!$id)
+        {
+            $defaultPrivilege = 'core.create';
+        }
+        else
+        {
+            $defaultPrivilege = 'core.edit';
+        }
+
 		$privilege = $this->configProvider->get(
 			$this->component . '.views.' .
-			FOFInflector::singularize($this->view) . '.acl.apply', 'core.edit'
+			FOFInflector::singularize($this->view) . '.acl.apply', $defaultPrivilege
 		);
 
 		return $this->checkACL($privilege);
@@ -2980,9 +3001,27 @@ class FOFController extends JObject
 	 */
 	protected function onBeforeCancel()
 	{
+        $model = $this->getThisModel();
+
+        if (!$model->getId())
+        {
+            $model->setIDsFromRequest();
+        }
+
+        $id = $model->getId();
+
+        if(!$id)
+        {
+            $defaultPrivilege = 'core.create';
+        }
+        else
+        {
+            $defaultPrivilege = 'core.edit';
+        }
+
 		$privilege = $this->configProvider->get(
 			$this->component . '.views.' .
-			FOFInflector::singularize($this->view) . '.acl.cancel', 'core.edit'
+			FOFInflector::singularize($this->view) . '.acl.cancel', $defaultPrivilege
 		);
 
 		return $this->checkACL($privilege);
@@ -3070,9 +3109,27 @@ class FOFController extends JObject
 	 */
 	protected function onBeforeSave()
 	{
+		$model = $this->getThisModel();
+
+		if (!$model->getId())
+		{
+			$model->setIDsFromRequest();
+		}
+
+		$id = $model->getId();
+
+		if(!$id)
+		{
+			$defaultPrivilege = 'core.create';
+		}
+		else
+		{
+			$defaultPrivilege = 'core.edit';
+		}
+
 		$privilege = $this->configProvider->get(
 			$this->component . '.views.' .
-			FOFInflector::singularize($this->view) . '.acl.save', 'core.edit'
+			FOFInflector::singularize($this->view) . '.acl.save', $defaultPrivilege
 		);
 
 		return $this->checkACL($privilege);
@@ -3087,7 +3144,7 @@ class FOFController extends JObject
 	{
 		$privilege = $this->configProvider->get(
 			$this->component . '.views.' .
-			FOFInflector::singularize($this->view) . '.acl.savenew', 'core.edit'
+			FOFInflector::singularize($this->view) . '.acl.savenew', 'core.create'
 		);
 
 		return $this->checkACL($privilege);
@@ -3121,6 +3178,24 @@ class FOFController extends JObject
 		);
 
 		return $this->checkACL($privilege);
+	}
+
+	/**
+	 * Gets a URL suffix with the Itemid parameter. If it's not the front-end of the site, or if
+	 * there is no Itemid set it returns an empty string.
+	 *
+	 * @return  string  The &Itemid=123 URL suffix, or an empty string if Itemid is not applicable
+	 */
+	public function getItemidURLSuffix()
+	{
+		if (FOFPlatform::getInstance()->isFrontend() && ($this->input->getCmd('Itemid', 0) != 0))
+		{
+			return '&Itemid=' . $this->input->getInt('Itemid', 0);
+		}
+		else
+		{
+			return '';
+		}
 	}
 
 	/**
@@ -3224,7 +3299,7 @@ class FOFController extends JObject
 
 		if (!$hasToken)
 		{
-			if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'ge'))
+			if (version_compare(JVERSION, '3.0', 'ge'))
 			{
 				throw new Exception(JText::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
 			}

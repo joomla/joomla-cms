@@ -375,7 +375,7 @@ class PlgUserJoomla extends JPlugin
 			$this->db->setQuery($query)->execute();
 		}
 
-		$cookieValue = $privateKey . '.' . $series . '.' . $cookieName;
+		$cookieValue = $cryptedKey . '.' . $series . '.' . $cookieName;
 
 		// Destroy the old cookie.
 		$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->app->get('cookie_path'), $this->app->get('cookie_domain'));
@@ -387,7 +387,7 @@ class PlgUserJoomla extends JPlugin
 
 		$query = $this->db->getQuery(true);
 
-		if (empty($user->cookieLogin) || $options['response'] != 'Coookie')
+		if (empty($options['user']->cookieLogin) || $options['responseType'] != 'Cookie')
 		{
 			// For users doing login from Joomla or other systems
 			$query->insert($this->db->quoteName('#__user_keys'));
@@ -441,7 +441,6 @@ class PlgUserJoomla extends JPlugin
 		$query
 			->delete('#__user_keys')
 			->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName))
-			->where($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($series)))
 			->where($this->db->quoteName('user_id') . ' = ' . $this->db->quote($options['username']));
 
 		$this->db->setQuery($query)->execute();

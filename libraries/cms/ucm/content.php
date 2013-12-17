@@ -27,22 +27,6 @@ class JUcmContent extends JUcmBase
 	protected $table;
 
 	/**
-	 * The UCM type object
-	 *
-	 * @var    JUcmType
-	 * @since  3.1
-	 */
-	public $type;
-
-	/**
-	 * The alias for the content table
-	 *
-	 * @var    string
-	 * @since  3.1
-	 */
-	protected $alias;
-
-	/**
 	 * The UCM data array
 	 *
 	 * @var    array
@@ -198,7 +182,7 @@ class JUcmContent extends JUcmBase
 	 * @param   JTable   $table       JTable Object
 	 * @param   boolean  $primaryKey  Flag that is true for data that are using #__ucm_content as their primary table
 	 *
-	 * @return  Boolean  true on success
+	 * @return  boolean  true on success
 	 *
 	 * @since   3.1
 	 */
