@@ -125,8 +125,18 @@ div.toggle-editor {
 	margin-left:auto;
 	margin-right:auto;
 }
-
-
+/* New captions */
+figure {
+	display: table;
+}
+figure.pull-center {
+	margin-left: auto;
+	margin-right: auto;
+}
+figcaption {
+	display: table-caption;
+	caption-side: bottom;
+}
 /* Calendar */
 #jform_publish_down_img {
 	width: 18px;

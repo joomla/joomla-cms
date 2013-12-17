@@ -123,19 +123,14 @@ var ImageManager = this.ImageManager = {
 			// Process caption
 			if (caption != '') {
 				var figclass = '';
+				var captionclass = '';
 				if (align != '') {
-					figclass = 'pull-'+align;
+					figclass = ' class="pull-'+align+'"';
 				}
 				if (c_class != '') {
-					if (figclass != '') {
-						figclass = figclass+' ';
-					}
-					figclass = figclass + c_class;
+					captionclass = ' class="'+c_class+'"';
 				}
-				if (figclass != '') {
-					figclass = ' class="'+figclass+'"';
-				}
-				tag = '<figure'+figclass+'>'+tag+'<figcaption>'+caption+'</figcaption></figure>';
+				tag = '<figure'+figclass+'>'+tag+'<figcaption'+captionclass+'>'+caption+'</figcaption></figure>';
 			}
 		}
 
