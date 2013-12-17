@@ -16,17 +16,24 @@ defined('_JEXEC') or die;
  * @subpackage  Application
  * @since       3.1
  */
-final class InstallationApplicationWeb extends JApplicationCms
+class InstallationApplicationWeb extends JApplicationCms
 {
 	/**
 	 * Class constructor.
 	 *
+	 * @param   mixed  $input   An optional argument to provide dependency injection for the application's
+	 *                          input object.  If the argument is a JInput object that object will become
+	 *                          the application's input object, otherwise a default input object is created.
+	 * @param   mixed  $config  An optional argument to provide dependency injection for the application's
+	 *                          config object.  If the argument is a JRegistry object that object will become
+	 *                          the application's config object, otherwise a default config object is created.
+	 * 
 	 * @since   3.1
 	 */
-	public function __construct()
+	public function __construct(JInput $input = null, JRegistry $config = null)
 	{
 		// Run the parent constructor
-		parent::__construct();
+		parent::__construct($input, $config);
 
 		// Load and set the dispatcher
 		$this->loadDispatcher();
