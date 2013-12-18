@@ -64,6 +64,10 @@ elseif ($input->get('module'))
 		{
 			$parts = explode('-', $module);
 		}
+		else
+		{
+			$parts = null;
+		}
 
 		if ($parts)
 		{
