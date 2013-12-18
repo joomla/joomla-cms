@@ -9,7 +9,8 @@
 
 defined('_JEXEC') or die;
 
-$input  = JFactory::getApplication()->input;
+$app    = JFactory::getApplication();
+$input  = $app->input;
 $user   = JFactory::getUser();
 $asset  = $input->get('asset');
 $author = $input->get('author');
@@ -22,13 +23,16 @@ if (!$user->authorise('core.manage', 'com_media')
 		&& 	count($user->getAuthorisedCategories($asset, 'core.create')) == 0)
 		&&	!($user->id == $author && $user->authorise('core.edit.own', $asset))))
 {
-	return JError::raiseWarning(403, JText::_('JERROR_ALERTNOAUTHOR'));
+	$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+
+	return;
 }
 
 $params = JComponentHelper::getParams('com_media');
 
-// Load the helper class
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/media.php';
+// Load classes
+JLoader::registerPrefix('Media', JPATH_COMPONENT);
+JLoader::registerPrefix('Media', JPATH_ROOT . '/components/com_media');
 
 // Set the path definitions
 $popup_upload = $input->get('pop_up', null);
@@ -43,6 +47,14 @@ if (substr(strtolower($view), 0, 6) == 'images' || $popup_upload == 1)
 define('COM_MEDIA_BASE',    JPATH_ROOT . '/' . $params->get($path, 'images'));
 define('COM_MEDIA_BASEURL', JUri::root() . $params->get($path, 'images'));
 
-$controller	= JControllerLegacy::getInstance('Media', array('base_path' => JPATH_COMPONENT_ADMINISTRATOR));
-$controller->execute($input->get('task'));
-$controller->redirect();
+// Load classes
+JLoader::registerPrefix('Config', JPATH_COMPONENT);
+JLoader::registerPrefix('Config', JPATH_ROOT . '/components/com_config');
+
+$controllerHelper = new ConfigControllerHelper;
+$controller = $controllerHelper->parseController($app);
+
+$controller->prefix = 'Media';
+
+// Perform the Request task
+$controller->execute();
