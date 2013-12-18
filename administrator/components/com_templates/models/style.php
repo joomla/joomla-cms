@@ -361,7 +361,7 @@ class TemplatesModelStyle extends JModelAdmin
 			$lang->load('tpl_'.$template, $client->path, null, false, true)
 		||	$lang->load('tpl_'.$template, $path, null, false, true);
 
-		$formFile	= JPath::clean($path . 'config.xml');
+		$formFile = JPath::clean($path . 'config.xml');
 		if (file_exists($formFile))
 		{
 			// Get the template form.
@@ -379,14 +379,15 @@ class TemplatesModelStyle extends JModelAdmin
 			$form->setFieldAttribute('home', 'readonly', 'true');
 		}
 
-		// Attempt to load the xml file.
-		if (!$xml = simplexml_load_file($formFile))
+		// Attempt to load the manifest file.
+		$manifestFile = JPath::clean($path . 'templateDetails.xml');
+		if (!$manifest = simplexml_load_file($manifestFile))
 		{
 			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 		}
 
 		// Get the help data from the XML file if present.
-		$help = $xml->xpath('/extension/help');
+		$help = $manifest->xpath('/extension/help');
 
 		if (!empty($help))
 		{
