@@ -99,14 +99,8 @@ class ConfigModelTemplates extends ConfigModelForm
 		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
 		||	$lang->load('tpl_' . $template, JPATH_BASE . '/templates/' . $template, null, false, true);
 
-		$formFile	= JPath::clean(JPATH_BASE . '/templates/' . $template . '/com_config.xml');
-
-		if (!file_exists($formFile))
-		{
-			// If com_config.xml not found, fall back to templateDetails.xml
-			$formFile	= JPath::clean(JPATH_BASE . '/templates/' . $template . '/templateDetails.xml');
-		}
 		// Look for com_config.xml, which contains fields to display
+		$formFile	= JPath::clean(JPATH_BASE . '/templates/' . $template . '/config.xml');
 
 		if (file_exists($formFile))
 		{
@@ -115,12 +109,6 @@ class ConfigModelTemplates extends ConfigModelForm
 			{
 				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 			}
-		}
-
-		// Attempt to load the xml file.
-		if (!$xml = simplexml_load_file($formFile))
-		{
-			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 		}
 
 		// Trigger the default form events.
