@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 JHtml::_('formbehavior.chosen', 'select');
+// Load tooltip instance without HTML support because we have a HTML tag in the tip
+JHtml::_('bootstrap.tooltip', '.noHtmlTip', array('html' => false));
 
 $user  = JFactory::getUser();
 $input = JFactory::getApplication()->input;
@@ -55,7 +57,7 @@ echo $params->get('image_path', 'images'); ?>/';
 			<?php if (!$this->state->get('field.id')):?>
 			<div class="span6 control-group">
 				<div class="control-label">
-					<label for="f_align"><?php echo JText::_('COM_MEDIA_ALIGN') ?></label>
+					<label title="<?php echo JText::_('COM_MEDIA_ALIGN_DESC'); ?>" class="noHtmlTip" for="f_align"><?php echo JText::_('COM_MEDIA_ALIGN') ?></label>
 				</div>
 				<div class="controls">
 					<select size="1" id="f_align">
@@ -98,7 +100,7 @@ echo $params->get('image_path', 'images'); ?>/';
 			</div>
 			<div class="span6 control-group">
 				<div class="control-label">
-					<label for="f_caption_class"><?php echo JText::_('COM_MEDIA_CAPTION_CLASS') ?></label>
+					<label title="<?php echo JText::_('COM_MEDIA_CAPTION_CLASS_DESC'); ?>" class="noHtmlTip" for="f_caption_class"><?php echo JText::_('COM_MEDIA_CAPTION_CLASS_LABEL') ?></label>
 				</div>
 				<div class="controls">
 					<input type="text" list="d_caption_class" id="f_caption_class" value="" />
