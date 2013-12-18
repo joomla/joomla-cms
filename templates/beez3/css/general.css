@@ -129,7 +129,8 @@ div.toggle-editor {
 figure {
 	display: table;
 }
-figure.pull-center {
+figure.pull-center,
+img.pull-center {
 	margin-left: auto;
 	margin-right: auto;
 }

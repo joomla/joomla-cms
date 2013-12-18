@@ -111,7 +111,7 @@ var ImageManager = this.ImageManager = {
 			}
 			// Set align attribute
 			if (align != '' && caption == '') {
-				extra = extra + 'align="'+align+'" ';
+				extra = extra + 'class="pull-'+align+'" ';
 			}
 			// Set title attribute
 			if (title != '') {
