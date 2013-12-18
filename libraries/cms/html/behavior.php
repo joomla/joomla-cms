@@ -62,7 +62,10 @@ abstract class JHtmlBehavior
 
 		JHtml::_('script', 'system/mootools-' . $type . '.js', false, true, false, false, $debug);
 
-		/* Uncomment as soon as core.js is rewritten to jQuery (Pull https://github.com/joomla/joomla-cms/pull/2687)
+		// Remove as soon as core.js is rewritten to jQuery (Pull https://github.com/joomla/joomla-cms/pull/2687)
+		JHtml::_('script', 'system/core.js', false, true);
+
+		/* Uncomment as soon as core.js is rewritten to jQuery
 		// Keep loading core.js for BC reasons
 		static::core();
 		*/
