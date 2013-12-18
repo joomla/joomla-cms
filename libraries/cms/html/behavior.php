@@ -61,8 +61,34 @@ abstract class JHtmlBehavior
 		}
 
 		JHtml::_('script', 'system/mootools-' . $type . '.js', false, true, false, false, $debug);
-		JHtml::_('script', 'system/core.js', false, true);
+		// Keep loading core.js for BC reasons
+		static::core();
 		static::$loaded[__METHOD__][$type] = true;
+
+		return;
+	}
+
+// Note to myself: this has to wait for implementation till core.js is converted to jQuery
+	/**
+	 * Method to load core.js into the document head.
+	 * 
+	 * Core.js defines the 'Joomla' namespace and contains functions which are used across extensions
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2.2
+	 */
+	public static function core()
+	{
+		// Only load once
+		if (isset(static::$loaded[__METHOD__]))
+		{
+			return;
+		}
+
+		JHtml::_('jquery.framework');
+		JHtml::_('script', 'system/core.js', false, true);
+		static::$loaded[__METHOD__] = true;
 
 		return;
 	}
