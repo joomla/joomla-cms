@@ -46,10 +46,10 @@ class MediaViewMediaList extends ConfigViewCmsHtml
 			});
 		});");
 
-		$images = $this->get('images');
-		$documents = $this->get('documents');
-		$folders = $this->get('folders');
-		$state = $this->get('state');
+		$images = $this->model->getImages();
+		$documents = $this->model->getDocuments();
+		$folders = $this->model->getFolders();
+		$state = $this->model->getState();
 
 		// Check for invalid folder name
 		if (empty($state->folder)) {
