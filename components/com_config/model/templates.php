@@ -95,12 +95,14 @@ class ConfigModelTemplates extends ConfigModelForm
 
 		jimport('joomla.filesystem.path');
 
+		$path = JPATH_BASE . '/templates/' . $template . '/';
+
 		// Load the core and/or local language file(s).
 		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
-		||	$lang->load('tpl_' . $template, JPATH_BASE . '/templates/' . $template, null, false, true);
+		||	$lang->load('tpl_' . $template, $path, null, false, true);
 
 		// Look for com_config.xml, which contains fields to display
-		$formFile	= JPath::clean(JPATH_BASE . '/templates/' . $template . '/config.xml');
+		$formFile	= JPath::clean($path . 'config.xml');
 
 		if (file_exists($formFile))
 		{
