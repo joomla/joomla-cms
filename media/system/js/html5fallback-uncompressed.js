@@ -152,7 +152,7 @@
 			elem.validityState = {
 				valueMissing: isMissing,
 				patterMismatch : isPatternMismatched,
-				valid: (!isMissing && !isPatternMismatched &&  !elem.isDisabled)
+				valid: (elem.isDisabled || !(isMissing || isPatternMismatched))
 			};
 
 			if(!self.browser.isRequiredNative){
