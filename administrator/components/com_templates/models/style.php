@@ -361,7 +361,7 @@ class TemplatesModelStyle extends JModelAdmin
 			$lang->load('tpl_'.$template, $client->path, null, false, true)
 		||	$lang->load('tpl_'.$template, $path, null, false, true);
 
-		$formFile	= JPath::clean($path . '/config.xml');
+		$formFile	= JPath::clean($path . 'config.xml');
 		if (file_exists($formFile))
 		{
 			// Get the template form.
