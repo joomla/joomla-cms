@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 /**
- * View for the global configuration
+ * View for plugin editing
  *
  * @package     Joomla.Administrator
  * @subpackage  com_plugins

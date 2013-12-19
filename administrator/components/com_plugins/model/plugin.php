@@ -158,7 +158,7 @@ class PluginsModelPlugin extends JModelCmsitem
 			$this->cache[$pk]->params = $registry->toArray();
 
 			// Get the plugin XML.
-			$path = JPath::clean(JPATH_PLUGINS.'/'.$table->folder.'/'.$table->element.'/'.$table->element.'.xml');
+			$path = JPath::clean(JPATH_PLUGINS . '/' . $table->folder . '/' . $table->element . '/' . $table->element . '.xml');
 
 			if (file_exists($path))
 			{
@@ -169,6 +169,7 @@ class PluginsModelPlugin extends JModelCmsitem
 				$this->cache[$pk]->xml = null;
 			}
 		}
+
 		return $this->cache[$pk];
 	}
 
@@ -207,8 +208,8 @@ class PluginsModelPlugin extends JModelCmsitem
 	}
 
 	/**
-	 * @param   object  $form  A form object.
-	 * @param   mixed   $data  The data expected for the form.
+	 * @param   object  $form   A form object.
+	 * @param   mixed   $data   The data expected for the form.
 	 * @param   group   $group  The plugin group
 	 *
 	 * @return  mixed   True if successful.
@@ -276,13 +277,13 @@ class PluginsModelPlugin extends JModelCmsitem
 		}
 
 		// Attempt to load the xml file.
-		if (!$xml = simplexml_load_file($formFile))
+		if (!$this->xml = simplexml_load_file($formFile))
 		{
 			throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 		}
 
 		// Get the help data from the XML file if present.
-		$help = $xml->xpath('/extension/help');
+		$help = $this->xml->xpath('/extension/help');
 
 		if (!empty($help))
 		{
