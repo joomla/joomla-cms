@@ -131,12 +131,14 @@ class JInstallerExtension extends JObject
 						$this->client_id = JApplicationHelper::getClientInfo($this->client, 1);
 						$this->client_id = $this->client_id->id;
 					}
+
 					if ($element->attributes()->group)
 					{
 						$this->group = (string) $element->attributes()->group;
 					}
 					break;
 			}
+
 			$this->filename = (string) $element;
 		}
 	}

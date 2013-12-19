@@ -80,6 +80,7 @@ abstract class JHtmlCategory
 					{
 						$language = $db->quote($language);
 					}
+
 					$query->where('a.language IN (' . implode(',', $config['filter.language']) . ')');
 				}
 			}

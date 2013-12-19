@@ -59,6 +59,7 @@ abstract class JHtmlContentLanguage
 		if ($all)
 		{
 			$all_option = array(new JObject(array('value' => '*', 'text' => $translate ? JText::alt('JALL', 'language') : 'JALL_LANGUAGE')));
+
 			return array_merge($all_option, static::$items);
 		}
 		else

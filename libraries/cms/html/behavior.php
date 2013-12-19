@@ -475,6 +475,7 @@ abstract class JHtmlBehavior
 		{
 			$document->addScriptDeclaration($translation);
 		}
+
 		static::$loaded[__METHOD__] = true;
 	}
 
