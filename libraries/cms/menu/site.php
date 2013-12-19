@@ -21,7 +21,7 @@ class JMenuSite extends JMenu
 	/**
 	 * Loads the entire menu table into memory.
 	 *
-	 * @return  array
+	 * @return  boolean  True on success, false on failure
 	 *
 	 * @since   1.5
 	 */
@@ -72,6 +72,8 @@ class JMenuSite extends JMenu
 
 			parse_str($url, $item->query);
 		}
+
+		return true;
 	}
 
 	/**
@@ -133,7 +135,7 @@ class JMenuSite extends JMenu
 	 *
 	 * @param   string  $language  The language code.
 	 *
-	 * @return  object  The item object
+	 * @return  mixed  The item object or null when not found for given language
 	 *
 	 * @since   1.6
 	 */
@@ -149,7 +151,7 @@ class JMenuSite extends JMenu
 		}
 		else
 		{
-			return 0;
+			return null;
 		}
 	}
 }
