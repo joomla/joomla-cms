@@ -18,6 +18,7 @@ $filters = $data['view']->filterForm->getGroup('filter');
 	<?php foreach ($filters as $fieldName => $field) : ?>
 		<?php if ($fieldName != 'filter_search') : ?>
 			<div class="js-stools-field-filter">
+				<?php echo $field->label; ?>
 				<?php echo $field->input; ?>
 			</div>
 		<?php endif; ?>
