@@ -48,7 +48,7 @@ $input = JFactory::getApplication()->input;
 		<form action="index.php?option=com_media" name="adminForm" id="mediamanager-form" method="post" enctype="multipart/form-data" >
 			<input type="hidden" name="task" value="" />
 			<input type="hidden" name="cb1" id="cb1" value="0" />
-			<input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->state->folder; ?>" />
+			<input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->state->get('folder'); ?>" />
 		</form>
 
 		<?php if ($user->authorise('core.create', 'com_media')):?>
@@ -61,7 +61,7 @@ $input = JFactory::getApplication()->input;
 								<input type="file" id="upload-file" name="Filedata[]" multiple /> <button class="btn btn-primary" id="upload-submit"><i class="icon-upload icon-white"></i> <?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?></button>
 								<p class="help-block"><?php echo $this->config->get('upload_maxsize') == '0' ? JText::_('COM_MEDIA_UPLOAD_FILES_NOLIMIT') : JText::sprintf('COM_MEDIA_UPLOAD_FILES', $this->config->get('upload_maxsize')); ?></p>
 					</fieldset>
-					<input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->state->folder; ?>" />
+					<input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->state->get('folder'); ?>" />
 					<input type="hidden" name="return-url" value="<?php echo base64_encode('index.php?option=com_media'); ?>" />
 				</div>
 			</form>
@@ -71,7 +71,7 @@ $input = JFactory::getApplication()->input;
 					<div class="path">
 						<input class="inputbox" type="text" id="folderpath" readonly="readonly" />
 						<input class="inputbox" type="text" id="foldername" name="foldername"  />
-						<input class="update-folder" type="hidden" name="folderbase" id="folderbase" value="<?php echo $this->state->folder; ?>" />
+						<input class="update-folder" type="hidden" name="folderbase" id="folderbase" value="<?php echo $this->state->get('folder'); ?>" />
 						<button type="submit" class="btn"><i class="icon-folder-open"></i> <?php echo JText::_('COM_MEDIA_CREATE_FOLDER'); ?></button>
 					</div>
 					<?php echo JHtml::_('form.token'); ?>
@@ -82,7 +82,7 @@ $input = JFactory::getApplication()->input;
 		<form action="index.php?option=com_media&amp;task=folder.create&amp;tmpl=<?php echo $input->getCmd('tmpl', 'index');?>" name="folderForm" id="folderForm" method="post">
 			<div id="folderview">
 				<div class="view">
-					<iframe class="thumbnail" src="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $this->state->folder;?>" id="folderframe" name="folderframe" width="100%" height="500px" marginwidth="0" marginheight="0" scrolling="auto"></iframe>
+					<iframe class="thumbnail" src="index.php?option=com_media&amp;controller=media.display.medialist&amp;view=medialist&amp;tmpl=component&amp;folder=<?php echo $this->state->get('folder');?>" id="folderframe" name="folderframe" width="100%" height="500px" marginwidth="0" marginheight="0" scrolling="auto"></iframe>
 				</div>
 				<?php echo JHtml::_('form.token'); ?>
 			</div>

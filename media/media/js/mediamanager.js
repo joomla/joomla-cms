@@ -86,7 +86,7 @@ var MediaManager = this.MediaManager = {
 		$('#' + viewstyle).removeClass('active');
 		viewstyle = type;
 		var folder = this.getFolder();
-		this._setFrameUrl('index.php?option=com_media&view=mediaList&tmpl=component&folder='+folder+'&layout='+type);
+		this._setFrameUrl('index.php?option=com_media&controller=media.display.medialist&view=medialist&tmpl=component&folder='+folder+'&layout='+type);
 	},
 
 	refreshFrame: function()

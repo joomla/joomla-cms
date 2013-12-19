@@ -20,7 +20,7 @@ $ulTarget = str_replace('/', '-', $this->folders['data']->relative);
 	$target = str_replace('/', '-', $folder['data']->relative); ?>
 	<li id="<?php echo $target; ?>">
 		<i class="icon-folder-2 pull-left" data-toggle="collapse" data-target="#collapseFolder-<?php echo $target; ?>"></i>
-		<a href="index.php?option=com_media&amp;view=mediaList&amp;tmpl=component&amp;folder=<?php echo $folder['data']->relative; ?>" target="folderframe">
+		<a href="index.php?option=com_media&amp;controller=media.display.medialist&amp;view=medialist&amp;tmpl=component&amp;folder=<?php echo $folder['data']->relative; ?>" target="folderframe">
 			<?php echo $folder['data']->name; ?>
 		</a>
 		<?php echo $this->getFolderLevel($folder); ?>

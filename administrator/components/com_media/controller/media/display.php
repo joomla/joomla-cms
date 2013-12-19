@@ -15,17 +15,9 @@ defined('_JEXEC') or die;
  * @package     Joomla.Administrator
  * @subpackage  com_media
  * @since       3.2
-*/
-class MediaControllerMediaDisplay extends JControllerBase
+ */
+class MediaControllerMediaDisplay extends ConfigControllerDisplay
 {
-	/**
-	 * Application object - Redeclared for proper typehinting
-	 *
-	 * @var    JApplicationCms
-	 * @since  3.2
-	 */
-	protected $app;
-
 	/**
 	 * Prefix for the view and model classes
 	 *
@@ -43,54 +35,8 @@ class MediaControllerMediaDisplay extends JControllerBase
 	 */
 	public function execute()
 	{
-		// Get the document object.
-		$document = JFactory::getDocument();
+		$this->input->set('view', 'media');
 
-		$componentFolder = $this->input->getWord('option', 'com_media');
-
-		$viewName = $this->input->getWord('view', 'media');
-
-		$viewFormat = $document->getType();
-
-		$layoutName = $this->app->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
-
-		// Register the layout paths for the view
-		$paths = new SplPriorityQueue;
-
-		$paths->insert(JPATH_ADMINISTRATOR . '/components/' . $componentFolder . '/view/' . $viewName . '/tmpl', 1);
-
-		$viewClass  = $this->prefix . 'View' . ucfirst($viewName) . ucfirst($viewFormat);
-		$modelClass = $this->prefix . 'Model' . ucfirst($viewName);
-
-		if (class_exists($viewClass))
-		{
-			$model = new $modelClass;
-
-			// Access check.
-			if (!JFactory::getUser()->authorise('core.admin', $model->getState('component.option')))
-			{
-				$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
-
-				return;
-			}
-
-			$view = new $viewClass($model, $paths);
-
-			$view->setLayout($layoutName);
-
-			// Push document object into the view.
-			$view->document = $document;
-
-			// Reply for service requests
-			if ($viewFormat == 'json')
-			{
-				return $view->render();
-			}
-
-			// Render view.
-			echo $view->render();
-		}
-
-		return true;
+		parent::execute();
 	}
 }

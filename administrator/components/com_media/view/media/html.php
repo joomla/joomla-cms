@@ -78,13 +78,13 @@ class MediaViewMediaHtml extends ConfigViewCmsHtml
 		$ftp = !JClientHelper::hasCredentials('ftp');
 
 		$session	= JFactory::getSession();
-		$state		= $this->model->getState();//**
+		$state		= $this->model->getState();
 		$this->session = $session;
 		$this->config = &$config;
 		$this->state = &$state;
 		$this->require_ftp = $ftp;
 		$this->folders_id = ' id="media-tree"';
-		$this->folders = $this->model->getFolderTree();//**
+		$this->folders = $this->model->getFolderTree();
 
 		// Set the toolbar
 		$this->addToolbar();

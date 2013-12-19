@@ -79,6 +79,8 @@ class MediaModelMedialist extends ConfigModelForm
 	 */
 	public function getList()
 	{
+		$mediaHelper = new JHelperMedia;
+
 		static $list;
 
 		// Only process the list once per request
@@ -154,7 +156,7 @@ class MediaModelMedialist extends ConfigModelForm
 
 							if (($info[0] > 60) || ($info[1] > 60))
 							{
-								$dimensions = MediaHelper::imageResize($info[0], $info[1], 60);
+								$dimensions = $mediaHelper->imageResize($info[0], $info[1], 60);
 								$tmp->width_60 = $dimensions[0];
 								$tmp->height_60 = $dimensions[1];
 							}
@@ -165,7 +167,7 @@ class MediaModelMedialist extends ConfigModelForm
 
 							if (($info[0] > 16) || ($info[1] > 16))
 							{
-								$dimensions = MediaHelper::imageResize($info[0], $info[1], 16);
+								$dimensions = $mediaHelper->imageResize($info[0], $info[1], 16);
 								$tmp->width_16 = $dimensions[0];
 								$tmp->height_16 = $dimensions[1];
 							}
@@ -197,8 +199,7 @@ class MediaModelMedialist extends ConfigModelForm
 				$tmp->name = basename($folder);
 				$tmp->path = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $folder));
 				$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
-				$mediaHelper = new JHelperMedia;
-				$count = $mediaHelper->countFiles($dir);
+				$count = $mediaHelper->countFiles($tmp->path);
 				$tmp->files = $count[0];
 				$tmp->folders = $count[1];
 
@@ -209,5 +210,10 @@ class MediaModelMedialist extends ConfigModelForm
 		$list = array('folders' => $folders, 'docs' => $docs, 'images' => $images);
 
 		return $list;
+	}
+
+	public function getForm($data = array(), $loadData = true)
+	{
+		return;
 	}
 }
