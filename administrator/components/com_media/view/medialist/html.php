@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_media
  * @since       1.0
  */
-class MediaViewMediaList extends ConfigViewCmsHtml
+class MediaViewMedialistHtml extends ConfigViewCmsHtml
 {
 	public function render()
 	{

@@ -52,7 +52,7 @@ class MediaControllerMediaDisplay extends JControllerBase
 
 		$viewFormat = $document->getType();
 
-		$layoutName = $app->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
+		$layoutName = $this->app->getUserStateFromRequest('media.list.layout', 'layout', 'thumbs', 'word');
 
 		// Register the layout paths for the view
 		$paths = new SplPriorityQueue;

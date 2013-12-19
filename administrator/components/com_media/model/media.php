@@ -161,4 +161,9 @@ class MediaModelMedia extends ConfigModelForm
 
 		return $tree;
 	}
+
+	public function getForm($data = array(), $loadData = true)
+	{
+		return;
+	}
 }

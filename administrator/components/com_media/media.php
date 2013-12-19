@@ -47,9 +47,13 @@ if (substr(strtolower($view), 0, 6) == 'images' || $popup_upload == 1)
 define('COM_MEDIA_BASE',    JPATH_ROOT . '/' . $params->get($path, 'images'));
 define('COM_MEDIA_BASEURL', JUri::root() . $params->get($path, 'images'));
 
-// Load classes
-JLoader::registerPrefix('Config', JPATH_COMPONENT);
+// Load controller helper classes
 JLoader::registerPrefix('Config', JPATH_ROOT . '/components/com_config');
+
+if($input->get('controller')=='')
+{
+	$input->set('controller', 'media.display.media');
+}
 
 $controllerHelper = new ConfigControllerHelper;
 $controller = $controllerHelper->parseController($app);
