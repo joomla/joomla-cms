@@ -13,23 +13,24 @@ defined('JPATH_BASE') or die;
 JHtml::_('jquery.framework');
 JHtml::_('script', 'system/html5fallback.js', false, true);
 
+$field = $displayData['field'];
+
 // Initialize some field attributes.
-$max      = !empty($displayData['max'] ? ' max="' . $displayData['max'] . '"' : '';
-$min      = !empty($displayData['min']) ? ' min="' . $displayData['min'] . '"' : '';
-$step     = !empty($displayData['step']) ? ' step="' . $displayData['step'] . '"' : '';
+$max      = $field->max != 0 ? ' max="' . $field->max . '"' : '';
+$min      = $field->min != 0 ? ' min="' . $field->min . '"' : '';
+$step     = $field->step != 0 ? ' step="' . $field->step . '"' : '';
+$class    = strlen($field->class) != 0 ? ' class="' . $field->class . '"' : '';
+$readonly = $field->readonly ? ' readonly' : '';
+$disabled = $field->disabled ? ' disabled' : '';
 
-$class = $displayData['class'] ? ' class="radio ' .  $displayData['class'] . '"' : ' class="radio"';
-$required  = $displayData['required'] ? ' required aria-required="true"' : '';
-$autofocus = $displayData['autofocus'] ? ' autofocus' : '';
-$disabled  = $displayData['disabled'] ? ' disabled' : '';
-$readonly  = $displayData['readonly'] ? ' readonly' : '';
+$autofocus = $field->autofocus ? ' autofocus' : '';
 
-$value = (float)$displayData['value'];
+$value = (float) $field->value;
+$value = $value < $field->min ? $field->min : $value;
 
 // Initialize JavaScript field attributes.
-$onchange = !empty($displayData['onchange']) ? ' onchange="' . $displayData['onchange'] . '"' : '';
+$onchange = strlen($field->onchange) != 0 ? ' onchange="' . $field->onchange . '"' : '';
 
-?>
-<input type="range" name="<?php echo  $displayData['field']->name; ?>" id="<?php echo  $displayData['field']->id; ?>" value="<?php echo 
- htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"<?php echo  $class . $disabled . $readonly
- $onchange . $max . $step . $min . $autofocus; ?> />
+echo '<input type="range" name="' . $field->name . '" id="' . $field->id . '"' . ' value="'
+	. htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"' . $class . $disabled . $readonly
+	. $onchange . $max . $step . $min . $autofocus . ' />';

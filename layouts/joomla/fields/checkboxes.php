@@ -9,45 +9,62 @@
 
 defined('JPATH_BASE') or die;
 
+// Including fallback code for HTML5 non supported browsers.
+JHtml::_('jquery.framework');
+JHtml::_('script', 'system/html5fallback.js', false, true);
+
+$field  = $displayData['field'];
+$html   = array();
+
 // Initialize some field attributes.
-$autofocus        = $displayData['autofocus'] ? 'autofocus' : '';
-$fieldclass       = $displayData['class'] ? $displayData['class'].' checkboxes' : 'checkboxes';
-$field            = $displayData['field'];
-$options          = $displayData['options'];
-$required         = $displayData['required'] ? 'required aria-required="true"' : '';
+$class          = strlen($field->class) != 0 ? ' class=checkboxes "' . $field->class . '"' : ' class="checkboxes"';
+$checkedOptions = explode(',', (string) $field->checkedOptions);
+$required       = $field->required ? ' required aria-required="true"' : '';
+$autofocus      = $field->autofocus ? ' autofocus' : '';
+$fieldValue		= $field->value;
 
-// init checked options (note : this was before in the foreach loop for nothing)
-$isEmpty         = !isset($displayData['value']) || empty($displayData['value']);
-if ($isEmpty) {
-	// nothing is set? use default checkedOptions from xml
-	$checkedOptions  = $displayData['checkedOptions'] ;
-}
-else
+// Start the checkbox field output.
+$html[] = '<fieldset id="' . $field->id . '"' . $class . $required . $autofocus . '>';
+
+// Get the field options.
+$options = $displayData['options'];
+
+// Build the checkbox field output.
+$html[] = '<ul>';
+
+foreach ($options as $i => $option)
 {
-	$checkedOptions  = !is_array($displayData['value']) ? explode(',', $displayData['value']) : $displayData['value'];
+	// Initialize some option attributes.
+	if (empty($fieldValue))
+	{
+		$checked = (in_array((string) $option->value, (array) $checkedOptions) ? ' checked' : '');
+	}
+	else
+	{
+		$value = !is_array($fieldValue) ? explode(',', $fieldValue) : $fieldValue;
+		$checked = (in_array((string) $option->value, $value) ? ' checked' : '');
+	}
+
+	$checked = strlen($checked) == 0 && $option->checked ? ' checked' : $checked;
+
+	$class = !empty($option->class) ? ' class="' . $class . '"' : '';
+	$disabled = !empty($option->disable) || $field->disabled ? ' disabled' : '';
+
+	// Initialize some JavaScript option attributes.
+	$onclick = !empty($option->onclick) ? ' onclick="' . $option->onclick . '"' : '';
+	$onchange = !empty($option->onchange) ? ' onchange="' . $option->onchange . '"' : '';
+
+	$html[] = '<li>';
+	$html[] = '<input type="checkbox" id="' . $field->id . $i . '" name="' . $field->name . '" value="'
+		. htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8') . '"' . $checked . $class . $onclick . $onchange . $disabled . '/>';
+
+	$html[] = '<label for="' . $field->id . $i . '"' . $class . '>' . JText::_($option->text) . '</label>';
+	$html[] = '</li>';
 }
 
-?>
-<fieldset id="<?php echo $field->id; ?>" class="<?php echo $fieldclass; ?>"<?php echo $required . $autofocus; ?>>
-<?php if (!empty($options)) : ?>
-	<ul>
-	<?php 
-		foreach ($options as $i => $option) {
-			// Initialize some option attributes.
-			$checked = in_array((string) $option->value, $checkedOptions) ? 'checked' : '';
-			$class = !empty($option->class) ? 'class="' . $option->class . '"' : '';
-			$disabled = !empty($option->disable) || $field->disabled ? 'disabled' : '';
+$html[] = '</ul>';
 
-			// Initialize some JavaScript option attributes.
-			$onclick = !empty($option->onclick) ? 'onclick="' . $option->onclick . '"' : '';
-			$onchange = !empty($option->onchange) ? 'onchange="' . $option->onchange . '"' : '';
-			?>
-			<li>
-				<input type="checkbox" id="<?php echo $displayData['field']->id . $i; ?>" name="<?php echo $displayData['field']->name; ?>" value="<?php echo
-					htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8'); ?>"<?php echo $checked . $class . $onclick . $onchange . $disabled; ?> />
-				<label for="<?php echo $displayData['field']->id; ?>" <?php echo $class; ?>><?php echo JText::_($option->text); ?></label>
-			</li>
-	<?php } ?>
-	</ul>
-<?php endif; ?>
-</fieldset>
+// End the checkbox field output.
+$html[] = '</fieldset>';
+
+echo implode($html);

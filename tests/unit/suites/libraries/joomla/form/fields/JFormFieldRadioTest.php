@@ -20,6 +20,44 @@ require_once __DIR__ . '/TestHelpers/JHtmlFieldRadio-helper-dataset.php';
 class JFormFieldRadioTest extends TestCase
 {
 	/**
+	 * Sets up dependencies for the test.
+	 *
+	 * @since       11.3
+	 *
+	 * @return void
+	 */
+	protected function setUp()
+	{
+		parent::setUp();
+
+		$this->saveFactoryState();
+
+		JFactory::$application = $this->getMockApplication();
+
+		$this->backupServer = $_SERVER;
+
+		$_SERVER['HTTP_HOST'] = 'example.com';
+		$_SERVER['SCRIPT_NAME'] = '';
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	protected function tearDown()
+	{
+		$_SERVER = $this->backupServer;
+
+		$this->restoreFactoryState();
+
+		parent::tearDown();
+	}
+
+	/**
 	 * Test...
 	 *
 	 * @return  array
@@ -97,3 +135,4 @@ class JFormFieldRadioTest extends TestCase
 		);
 	}
 }
+

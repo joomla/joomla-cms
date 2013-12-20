@@ -121,19 +121,10 @@ class JFormFieldCheckbox extends JFormField
 	 */
 	protected function getInput()
 	{
-		$displayData = array(
-			'autofocus' => (boolean) $this->autofocus,
-			'checked' => (boolean) $this->checked,
-			'class' => (string) $this->class,
-			'default' => !empty($this->default) ? $this->default : '1',
-			'disabled' => (boolean) $this->disabled,
-			'field' => $this,
-			'onclick' => !empty($this->onclick) ? ' onclick="' . $this->onclick . '"' : '',
-			'onchange' => !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '',
-			'readonly' => (boolean) $this->readonly,
-			'required' => (boolean) $this->required,
-			'value' => (string) $this->value
+			$displayData = array(
+					'field' => $this
 			);
-		return JLayoutHelper::render('joomla.fields.checkbox', $displayData);
+
+			return JLayoutHelper::render('joomla.fields.checkbox', $displayData);
 	}
 }

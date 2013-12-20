@@ -9,22 +9,25 @@
 
 defined('JPATH_BASE') or die;
 
-// Initialize some field attributes.
-$class     = !empty($displayData['class']) ? ' class="' . $displayData['class'] . '"' : '';
-$disabled  = $displayData['disabled'] ? ' disabled' : '';
-$value     = !empty($displayData['default']) ? $displayData['default'] : '1';
-$required  = $displayData['required'] ? ' required aria-required="true"' : '';
-$autofocus = $displayData['autofocus'] ? ' autofocus' : '';
-$checked   = $displayData['checked'] || !empty($displayData['value']) ? ' checked' : '';
-
-// Initialize JavaScript field attributes.
-$onclick  = $displayData['onclick'] ;
-$onchange = $displayData['onchange'] ;
-
 // Including fallback code for HTML5 non supported browsers.
 JHtml::_('jquery.framework');
 JHtml::_('script', 'system/html5fallback.js', false, true);
-?>
-<input type="checkbox" name="<?php echo $displayData['field']->name; ?>" id="<?php echo $displayData['field']->id; ?>" value="<?php echo 
- htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"<?php echo $class . $checked . $disabled . $onclick . $onchange
-	. $required . $autofocus ?> />
+
+$field = $displayData['field'];
+
+// Initialize some field attributes.
+$class     = strlen($field->class) != 0 ? ' class="' . $field->class . '"' : '';
+$disabled  = $field->disabled ? ' disabled' : '';
+$value     = strlen($field->default) != 0 ? $field->default : '1';
+$required  = $field->required ? ' required aria-required="true"' : '';
+$autofocus = $field->autofocus ? ' autofocus' : '';
+$checked   = $field->checked || strlen($field->value) != 0 ? ' checked' : '';
+
+// Initialize JavaScript field attributes.
+$onclick  = strlen($field->onclick) != 0 ? ' onclick="' . $field->onclick . '"' : '';
+$onchange = strlen($field->onchange) != 0 ? ' onchange="' . $field->onchange . '"' : '';
+
+echo '<input type="checkbox" name="' . $field->name . '" id="' . $field->id . '" value="'
+	. htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"' . $class . $checked . $disabled
+	. $onclick . $onchange . $required . $autofocus . ' />';
+

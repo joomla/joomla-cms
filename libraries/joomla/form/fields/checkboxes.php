@@ -125,16 +125,9 @@ class JFormFieldCheckboxes extends JFormField
 	protected function getInput()
 	{
 		$displayData = array(
-			'autofocus' => (boolean) $this->autofocus,
-			'checkedOptions' => explode(',', (string) $this->checkedOptions),
-			'class' => (string) $this->class,
-			'disabled' => (boolean) $this->disabled,
 			'field' => $this,
-			'options' => $this->getOptions(),
-			'readonly' => (boolean) $this->readonly,
-			'required' => (boolean) $this->required,
-			'value' => $this->value
-			);
+			'options' => $this->getOptions()
+		);
 
 		return JLayoutHelper::render('joomla.fields.checkboxes', $displayData);
 	}

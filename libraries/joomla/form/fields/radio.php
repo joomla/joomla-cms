@@ -38,16 +38,9 @@ class JFormFieldRadio extends JFormField
 	protected function getInput()
 	{
 		$displayData = array(
-			'autofocus' => (boolean) $this->autofocus,
-			'class' => (string) $this->class,
-			'disabled' => (boolean) $this->disabled,
 			'field' => $this,
-			'fieldname' =>$this->fieldname,
-			'options' => $this->getOptions(),
-			'readonly' => (boolean) $this->readonly,
-			'required' => (boolean) $this->required,
-			'value' => (string) $this->value
-			);
+			'options' => $this->getOptions()
+		);
 
 		return JLayoutHelper::render('joomla.fields.radio', $displayData);
 	}
