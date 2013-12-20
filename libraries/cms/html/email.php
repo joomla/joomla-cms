@@ -71,6 +71,7 @@ abstract class JHtmlEmail
 				{
 					$replacement .= "\n var addy_text" . $rand . " = '" . $text . "';";
 				}
+
 				$replacement .= "\n document.write('<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>');";
 				$replacement .= "\n document.write(addy_text" . $rand . ");";
 				$replacement .= "\n document.write('<\/a>');";
@@ -86,6 +87,7 @@ abstract class JHtmlEmail
 		{
 			$replacement .= "\n document.write(addy" . $rand . ");";
 		}
+
 		$replacement .= "\n //-->";
 		$replacement .= '\n </script>';
 

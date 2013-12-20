@@ -120,6 +120,7 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 
 				return false;
 			}
+
 			$basePath = $client->path;
 			$clientId = $client->id;
 		}
@@ -497,6 +498,7 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 				// Ignore special system template
 				continue;
 			}
+
 			$manifest_details = JInstaller::parseXMLInstallFile(JPATH_SITE . "/templates/$template/templateDetails.xml");
 			$extension = JTable::getInstance('extension');
 			$extension->set('type', 'template');

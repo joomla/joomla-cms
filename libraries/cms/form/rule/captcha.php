@@ -52,6 +52,7 @@ class JFormRuleCaptcha extends JFormRule
 		if (!$captcha->checkAnswer($value))
 		{
 			$error = $captcha->getError();
+
 			if ($error instanceof Exception)
 			{
 				return $error;

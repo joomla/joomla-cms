@@ -30,10 +30,12 @@ abstract class JHtmlIcons
 	public static function buttons($buttons)
 	{
 		$html = array();
+
 		foreach ($buttons as $button)
 		{
 			$html[] = JHtml::_('icons.button', $button);
 		}
+
 		return implode($html);
 	}
 
@@ -75,6 +77,7 @@ abstract class JHtmlIcons
 
 		// Instantiate a new JLayoutFile instance and render the layout
 		$layout = new JLayoutFile('joomla.quickicons.icon');
+
 		return $layout->render($button);
 	}
 }
