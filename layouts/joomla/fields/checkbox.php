@@ -19,6 +19,7 @@ $field = $displayData['field'];
 $class     = strlen($field->class) != 0 ? ' class="' . $field->class . '"' : '';
 $disabled  = $field->disabled ? ' disabled' : '';
 $value     = strlen($field->default) != 0 ? $field->default : '1';
+$value     = strlen($field->value) != 0 ? $field->value : $value;
 $required  = $field->required ? ' required aria-required="true"' : '';
 $autofocus = $field->autofocus ? ' autofocus' : '';
 $checked   = $field->checked || strlen($field->value) != 0 ? ' checked' : '';
