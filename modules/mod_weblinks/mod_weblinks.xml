@@ -34,7 +34,8 @@
 					extension="com_weblinks"
 					required="true"
 					label="JCATEGORY"
-					description="MOD_WEBLINKS_FIELD_CATEGORY_DESC" />
+					description="MOD_WEBLINKS_FIELD_CATEGORY_DESC"
+					class="advancedSelect"/>
 				<field
 					name="count"
 					type="text"
@@ -46,7 +47,8 @@
 					type="list"
 					default="title"
 					label="MOD_WEBLINKS_FIELD_ORDERING_LABEL"
-					description="MOD_WEBLINKS_FIELD_ORDERING_DESC">
+					description="MOD_WEBLINKS_FIELD_ORDERING_DESC"
+					class="advancedSelect">
 					<option
 						value="title">JGLOBAL_TITLE</option>
 					<option
@@ -59,7 +61,8 @@
 					type="list"
 					default="asc"
 					label="MOD_WEBLINKS_FIELD_ORDERDIRECTION_LABEL"
-					description="MOD_WEBLINKS_FIELD_ORDERDIRECTION_DESC">
+					description="MOD_WEBLINKS_FIELD_ORDERDIRECTION_DESC"
+					class="advancedSelect">
 					<option
 						value="asc">MOD_WEBLINKS_FIELD_VALUE_ASCENDING</option>
 					<option
@@ -70,7 +73,8 @@
 					type="list"
 					default="3"
 					label="MOD_WEBLINKS_FIELD_TARGET_LABEL"
-					description="MOD_WEBLINKS_FIELD_TARGET_DESC">
+					description="MOD_WEBLINKS_FIELD_TARGET_DESC"
+					class="advancedSelect">
 					<option
 						value="1">JBROWSERTARGET_NEW</option>
 					<option
@@ -83,7 +87,8 @@
 					type="list"
 					default="0"
 					label="MOD_WEBLINKS_FIELD_FOLLOW_LABEL"
-					description="MOD_WEBLINKS_FIELD_FOLLOW_DESC">
+					description="MOD_WEBLINKS_FIELD_FOLLOW_DESC"
+					class="advancedSelect">
 					<option
 						value="follow">MOD_WEBLINKS_FIELD_VALUE_FOLLOW</option>
 					<option
@@ -135,7 +140,8 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+					class="advancedSelect"/>
 				<field
 					name="moduleclass_sfx"
 					type="textarea" rows="3"
@@ -146,7 +152,8 @@
 					type="list"
 					default="1"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC">
+					description="COM_MODULES_FIELD_CACHING_DESC"
+					class="advancedSelect">
 					<option
 						value="1">JGLOBAL_USE_GLOBAL</option>
 					<option

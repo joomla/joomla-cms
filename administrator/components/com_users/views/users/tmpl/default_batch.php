@@ -15,7 +15,6 @@ $options = array(
 	JHtml::_('select.option', 'del', JText::_('COM_USERS_BATCH_DELETE')),
 	JHtml::_('select.option', 'set', JText::_('COM_USERS_BATCH_SET'))
 );
-JHtml::_('formbehavior.chosen', 'select');
 ?>
 <div class="modal hide fade" id="collapseModal">
 	<div class="modal-header">
@@ -30,7 +29,7 @@ JHtml::_('formbehavior.chosen', 'select');
 		</div>
 		<div id="batch-choose-action" class="combo controls">
 			<div class="control-group">
-				<select name="batch[group_id]" class="inputbox" id="batch-group-id">
+				<select name="batch[group_id]" class="inputbox advancedSelect" id="batch-group-id">
 					<option value=""><?php echo JText::_('JSELECT') ?></option>
 					<?php echo JHtml::_('select.options', JHtml::_('user.groups')); ?>
 				</select>

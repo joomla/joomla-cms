@@ -24,6 +24,7 @@
 					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_DETECT_BROWSER_DESC"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_DETECT_BROWSER_LABEL"
 					default="0"
+					class="advancedSelect"
 				>
 					<option value="0">PLG_SYSTEM_LANGUAGEFILTER_SITE_LANGUAGE</option>
 					<option value="1">PLG_SYSTEM_LANGUAGEFILTER_BROWSER_SETTINGS</option>

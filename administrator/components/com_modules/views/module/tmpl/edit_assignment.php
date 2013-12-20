@@ -43,7 +43,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 	<label id="jform_menus-lbl" class="control-label" for="jform_menus"><?php echo JText::_('COM_MODULES_MODULE_ASSIGN'); ?></label>
 
 	<div id="jform_menus" class="controls">
-		<select name="jform[assignment]" id="jform_assignment">
+		<select name="jform[assignment]" id="jform_assignment" class="advancedSelect">
 			<?php echo JHtml::_('select.options', ModulesHelper::getAssignmentOptions($this->item->client_id), 'value', 'text', $this->item->assignment, true); ?>
 		</select>
 	</div>

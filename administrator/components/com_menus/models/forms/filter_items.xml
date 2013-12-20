@@ -5,6 +5,7 @@
 		type="menu"
 		label="COM_MENUS_FILTER_CATEGORY"
 		description="JOPTION_FILTER_CATEGORY_DESC"
+		class="advancedSelect"
 		onchange="this.form.submit();"
 	/>
 	<fields name="filter">
@@ -21,6 +22,7 @@
 			label="COM_MENUS_FILTER_PUBLISHED"
 			statuses="*,0,1,2,-2"
 			description="COM_MENUS_FILTER_PUBLISHED_DESC"
+			class="advancedSelect"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -34,6 +36,7 @@
 			label="JOPTION_FILTER_LEVEL"
 			languages="*"
 			description="JOPTION_FILTER_LEVEL_DESC"
+			class="advancedSelect"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_MAX_LEVELS</option>
@@ -43,6 +46,7 @@
 			type="accesslevel"
 			label="JOPTION_FILTER_ACCESS"
 			description="JOPTION_FILTER_ACCESS_DESC"
+			class="advancedSelect"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
@@ -52,6 +56,7 @@
 			type="contentlanguage"
 			label="JOPTION_FILTER_LANGUAGE"
 			description="JOPTION_FILTER_LANGUAGE_DESC"
+			class="advancedSelect"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
@@ -65,6 +70,7 @@
 			label="JGLOBAL_SORT_BY"
 			statuses="*,0,1,2,-2"
 			description="JGLOBAL_SORT_BY"
+			class="advancedSelect"
 			onchange="this.form.submit();"
 			default="a.lft ASC"
 			>
@@ -89,7 +95,7 @@
 		<field
 			name="limit"
 			type="limitbox"
-			class="inputbox input-mini"
+			class="inputbox input-mini advancedSelect"
 			default="25"
 			label="COM_MENUS_LIST_LIMIT"
 			description="COM_MENUS_LIST_LIMIT_DESC"

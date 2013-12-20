@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('behavior.multiselect');
-JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('bootstrap.tooltip');
 
 $user		= JFactory::getUser();
@@ -71,7 +70,7 @@ $sortFields = $this->getSortFields();
 			</div>
 			<div class="btn-group pull-right hidden-phone">
 				<label for="directionTable" class="element-invisible"><?php echo JText::_('JFIELD_ORDERING_DESC'); ?></label>
-				<select name="directionTable" id="directionTable" class="input-medium" onchange="Joomla.orderTable()">
+				<select name="directionTable" id="directionTable" class="input-medium advancedSelect" onchange="Joomla.orderTable()">
 					<option value=""><?php echo JText::_('JFIELD_ORDERING_DESC'); ?></option>
 					<option value="asc" <?php if ($listDirn == 'asc') echo 'selected="selected"'; ?>><?php echo JText::_('JGLOBAL_ORDER_ASCENDING'); ?></option>
 					<option value="desc" <?php if ($listDirn == 'desc') echo 'selected="selected"'; ?>><?php echo JText::_('JGLOBAL_ORDER_DESCENDING');  ?></option>
@@ -79,7 +78,7 @@ $sortFields = $this->getSortFields();
 			</div>
 			<div class="btn-group pull-right">
 				<label for="sortTable" class="element-invisible"><?php echo JText::_('JGLOBAL_SORT_BY'); ?></label>
-				<select name="sortTable" id="sortTable" class="input-medium" onchange="Joomla.orderTable()">
+				<select name="sortTable" id="sortTable" class="input-medium advancedSelect" onchange="Joomla.orderTable()">
 					<option value=""><?php echo JText::_('JGLOBAL_SORT_BY');?></option>
 					<?php echo JHtml::_('select.options', $sortFields, 'value', 'text', $listOrder); ?>
 				</select>

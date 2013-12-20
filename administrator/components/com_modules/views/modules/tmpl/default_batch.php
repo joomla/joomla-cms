@@ -21,7 +21,7 @@ $customGroupText = JText::_('COM_MODULES_CUSTOM_POSITION');
 // Build field
 $attr = array(
 	'id'          => 'batch-position-id',
-	'list.attr'   => 'class="chzn-custom-value input-xlarge" '
+	'list.attr'   => 'class="chzn-custom-value input-xlarge advancedSelect" '
 	. 'data-custom_group_text="' . $customGroupText . '" '
 	. 'data-no_results_text="' . JText::_('COM_MODULES_ADD_CUSTOM_POSITION') . '" '
 	. 'data-placeholder="' . JText::_('COM_MODULES_TYPE_OR_SELECT_POSITION') . '" '

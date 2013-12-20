@@ -105,7 +105,8 @@
 			default="relevance"
 			validate="options"
 			label="COM_FINDER_CONFIG_SORT_ORDER_LABEL"
-			description="COM_FINDER_CONFIG_SORT_ORDER_DESC">
+			description="COM_FINDER_CONFIG_SORT_ORDER_DESC"
+			class="advancedSelect">
 			<option value="relevance">COM_FINDER_CONFIG_SORT_OPTION_RELEVANCE</option>
 			<option value="date">COM_FINDER_CONFIG_SORT_OPTION_START_DATE</option>
 			<option value="price">COM_FINDER_CONFIG_SORT_OPTION_LIST_PRICE</option>
@@ -115,7 +116,8 @@
 			default="desc"
 			validate="options"
 			label="COM_FINDER_CONFIG_SORT_DIRECTION_LABEL"
-			description="COM_FINDER_CONFIG_SORT_DIRECTION_DESC">
+			description="COM_FINDER_CONFIG_SORT_DIRECTION_DESC"
+			class="advancedSelect">
 			<option value="desc">COM_FINDER_CONFIG_SORT_OPTION_DESCENDING</option>
 			<option value="asc">COM_FINDER_CONFIG_SORT_OPTION_ASCENDING</option>
 		</field>
@@ -153,7 +155,8 @@
 			default="50"
 			label="COM_FINDER_CONFIG_BATCH_SIZE_LABEL"
 			description="COM_FINDER_CONFIG_BATCH_SIZE_DESCRIPTION"
-			validate="options" >
+			validate="options"
+			class="advancedSelect">
 			<option value="5">J5</option>
 			<option value="10">J10</option>
 			<option value="25">J25</option>
@@ -223,7 +226,8 @@
 			type="list"
 			default="snowball"
 			label="COM_FINDER_CONFIG_STEMMER_LABEL"
-			description="COM_FINDER_CONFIG_STEMMER_DESCRIPTION" >
+			description="COM_FINDER_CONFIG_STEMMER_DESCRIPTION"
+			class="advancedSelect">
 			<option value="porter_en">COM_FINDER_CONFIG_STEMMER_PORTER_EN</option>
 			<option value="fr">COM_FINDER_CONFIG_STEMMER_FR</option>
 			<option value="snowball">COM_FINDER_CONFIG_STEMMER_SNOWBALL</option>

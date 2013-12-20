@@ -23,6 +23,7 @@
 			first="0"
 			last="24"
 			step="1"
+			class="advancedSelect"
 			default="6" />
 	</fieldset>
 	<fieldset

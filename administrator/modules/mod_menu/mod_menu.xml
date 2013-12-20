@@ -31,7 +31,8 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+					class="advancedSelect"/>
 				<field
 					name="moduleclass_sfx"
 					type="textarea" rows="3"
@@ -43,7 +44,8 @@
 					type="list"
 					default="1"
 					label="MOD_MENU_FIELD_SHOWNEW"
-					description="MOD_MENU_FIELD_SHOWNEW_DESC">
+					description="MOD_MENU_FIELD_SHOWNEW_DESC"
+					class="advancedSelect">
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
@@ -53,7 +55,8 @@
 					type="list"
 					default="1"
 					label="MOD_MENU_FIELD_SHOWHELP"
-					description="MOD_MENU_FIELD_SHOWHELP_DESC">
+					description="MOD_MENU_FIELD_SHOWHELP_DESC"
+					class="advancedSelect">
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
@@ -74,7 +77,8 @@
 					type="list"
 					default="0"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC">
+					description="COM_MODULES_FIELD_CACHING_DESC"
+					class="advancedSelect">
 					<option
 						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>

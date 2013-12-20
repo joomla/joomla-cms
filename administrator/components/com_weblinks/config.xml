@@ -9,6 +9,7 @@
 			default="0"
 			description="COM_WEBLINKS_FIELD_TARGET_DESC"
 			label="COM_WEBLINKS_FIELD_TARGET_LABEL"
+			class="advancedSelect"
 		>
 			<option value="0">JBROWSERTARGET_PARENT</option>
 			<option value="1">JBROWSERTARGET_NEW</option>
@@ -27,7 +28,7 @@
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
-		
+
 		<field
 			name="history_limit"
 			type="text"
@@ -50,7 +51,8 @@
 				default="1"
 				label="COM_WEBLINKS_FIELD_ICON_LABEL"
 				description="COM_WEBLINKS_FIELD_ICON_DESC"
-				filter="integer">
+				filter="integer"
+				class="advancedSelect">
 				<option value="0">COM_WEBLINKS_FIELD_ICON_OPTION_TEXT</option>
 				<option value="1">COM_WEBLINKS_FIELD_ICON_OPTION_ICON</option>
 				<option value="2">COM_WEBLINKS_FIELD_ICON_OPTION_WEBLINK</option>
@@ -65,7 +67,8 @@
 			name="float_first"
 			type="list"
 			label="COM_WEBLINKS_FLOAT_LABEL"
-			description="COM_WEBLINKS_FLOAT_DESC">
+			description="COM_WEBLINKS_FLOAT_DESC"
+			class="advancedSelect">
 				<option value="right">COM_WEBLINKS_RIGHT</option>
 				<option value="left">COM_WEBLINKS_LEFT</option>
 				<option value="none">COM_WEBLINKS_NONE</option>
@@ -74,7 +77,8 @@
 			name="float_second"
 			type="list"
 			label="COM_WEBLINKS_FLOAT_LABEL"
-			description="COM_WEBLINKS_FLOAT_DESC">
+			description="COM_WEBLINKS_FLOAT_DESC"
+			class="advancedSelect">
 				<option value="right">COM_WEBLINKS_RIGHT</option>
 				<option value="left">COM_WEBLINKS_LEFT</option>
 				<option value="none">COM_WEBLINKS_NONE</option>
@@ -106,6 +110,7 @@
 			menuitems="true"
 			extension="com_weblinks"
 			view="category"
+			class="advancedSelect"
 		/>
 
 		<field name="show_category_title" type="radio"
@@ -142,6 +147,7 @@
 				description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 				default="-1"
+				class="advancedSelect"
 			>
 				<option value="0">JNONE</option>
 				<option value="-1">JALL</option>
@@ -212,6 +218,7 @@
 				default="-1"
 				description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
+				class="advancedSelect"
 			>
 				<option value="-1">JALL</option>
 				<option value="1">J1</option>
@@ -266,6 +273,7 @@
 			default="1"
 			description="JGLOBAL_FILTER_FIELD_DESC"
 			label="JGLOBAL_FILTER_FIELD_LABEL"
+			class="advancedSelect"
 			>
 				<option value="1">JSHOW</option>
 				<option value="hide">JHIDE</option>
@@ -314,6 +322,7 @@
 		<field name="show_pagination"
 			type="list"
 			default="2"
+			class="advancedSelect"
 			label="JGLOBAL_PAGINATION_LABEL"
 			description="JGLOBAL_PAGINATION_DESC">
 				<option value="1">JSHOW</option>

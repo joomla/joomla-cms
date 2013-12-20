@@ -23,7 +23,7 @@
 		<field
 			name="catid"
 			type="category"
-			class="inputbox"
+			class="inputbox advancedSelect"
 			extension="com_users"
 			label="COM_USERS_FIELD_CATEGORY_ID_LABEL"
 			description="JFIELD_CATEGORY_DESC" >
@@ -54,7 +54,7 @@
 			type="list"
 			label="JSTATUS"
 			description="COM_USERS_FIELD_STATE_DESC"
-			class="inputbox"
+			class="inputbox advancedSelect"
 			size="1"
 			default="1">
 			<option
@@ -116,7 +116,7 @@
 			type="hidden"
 			filter="unset"
 			/>
-			
+
 		<field name="publish_up" type="calendar"
 			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL" description="JGLOBAL_FIELD_PUBLISH_UP_DESC"
 			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="22"
@@ -125,16 +125,16 @@
 		<field name="publish_down" type="calendar"
 			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL" description="JGLOBAL_FIELD_PUBLISH_DOWN_DESC"
 			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="22"
-			filter="user_utc" />	
-			
-		<field 
+			filter="user_utc" />
+
+		<field
 			name="version_note"
 			type="text"
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
 			class="inputbox" size="45"
 			labelclass="control-label"
-			/>	
-	
+			/>
+
 	</fieldset>
 </form>

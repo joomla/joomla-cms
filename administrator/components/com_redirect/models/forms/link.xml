@@ -42,7 +42,7 @@
 			type="list"
 			label="JSTATUS"
 			description="JFIELD_PUBLISHED_DESC"
-			class="inputbox"
+			class="inputbox advancedSelect"
 			size="1"
 			required="true"
 			default="1">
