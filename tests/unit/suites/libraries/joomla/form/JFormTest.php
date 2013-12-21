@@ -1439,7 +1439,7 @@ class JFormTest extends TestCase
 		$this->assertThat(
 			count($form->getXML()->xpath('/form/fields/fields[@name="params"]/field[@name="show_title"]/option')),
 			$this->equalTo(3),
-			'Line:' . __LINE__ . ' The show_abstract in the params group is supposed to have 3 descendant nodes.'
+			'Line:' . __LINE__ . ' The show_title in the params group is supposed to have 3 descendant nodes.'
 		);
 	}
 
