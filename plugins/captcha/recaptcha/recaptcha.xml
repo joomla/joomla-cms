@@ -43,8 +43,7 @@
 			label="PLG_RECAPTCHA_THEME_LABEL"
 			description="PLG_RECAPTCHA_THEME_DESC"
 			required="true"
-			filter=""
-			class="advancedSelect">
+			filter="">
 			<option
 				value="clean">PLG_RECAPTCHA_THEME_CLEAN</option>
 			<option

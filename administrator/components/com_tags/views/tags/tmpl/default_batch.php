@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+JHtml::_('formbehavior.chosen', 'select');
 
 $published	= $this->state->get('filter.published');
 ?>

@@ -37,8 +37,7 @@
 					type="list"
 					default="c_dsc"
 					label="MOD_LATEST_FIELD_ORDERING_LABEL"
-					description="MOD_LATEST_FIELD_ORDERING_DESC"
-					class="advancedSelect">
+					description="MOD_LATEST_FIELD_ORDERING_DESC">
 					<option
 						value="c_dsc">MOD_LATEST_FIELD_VALUE_ORDERING_ADDED</option>
 					<option
@@ -52,7 +51,7 @@
 					label="JCATEGORY"
 					description="MOD_LATEST_FIELD_CATEGORY_DESC"
 					default=""
-					class="inputbox advancedSelect">
+					class="inputbox">
 					<option
 						value="">JOPTION_ANY_CATEGORY</option>
 				</field>
@@ -61,8 +60,7 @@
 					type="list"
 					default="0"
 					label="MOD_LATEST_FIELD_AUTHORS_LABEL"
-					description="MOD_LATEST_FIELD_AUTHORS_DESC"
-					class="advancedSelect">
+					description="MOD_LATEST_FIELD_AUTHORS_DESC">
 					<option
 						value="0">MOD_LATEST_FIELD_VALUE_AUTHORS_ANYONE</option>
 					<option
@@ -77,8 +75,7 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
-					class="advancedSelect"/>
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
 
 				<field
 					name="moduleclass_sfx"
@@ -91,8 +88,7 @@
 					type="list"
 					default="0"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC"
-					class="advancedSelect">
+					description="COM_MODULES_FIELD_CACHING_DESC">
 					<option
 						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>

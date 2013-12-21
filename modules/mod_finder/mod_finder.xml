@@ -29,15 +29,13 @@
 					type="searchfilter"
 					default=""
 					label="MOD_FINDER_FIELDSET_BASIC_SEARCHFILTER_LABEL"
-					description="MOD_FINDER_FIELDSET_BASIC_SEARCHFILTER_DESCRIPTION"
-					class="advancedSelect"/>
+					description="MOD_FINDER_FIELDSET_BASIC_SEARCHFILTER_DESCRIPTION" />
 				<field
 					name="show_autosuggest"
 					type="list"
 					default="1"
 					label="MOD_FINDER_FIELDSET_BASIC_AUTOSUGGEST_LABEL"
-					description="MOD_FINDER_FIELDSET_BASIC_AUTOSUGGEST_DESCRIPTION"
-					class="advancedSelect">
+					description="MOD_FINDER_FIELDSET_BASIC_AUTOSUGGEST_DESCRIPTION">
 					<option
 						value="1">JSHOW</option>
 					<option
@@ -48,8 +46,7 @@
 					type="list"
 					default="0"
 					label="MOD_FINDER_FIELDSET_BASIC_SHOW_ADVANCED_LABEL"
-					description="MOD_FINDER_FIELDSET_BASIC_SHOW_ADVANCED_DESCRIPTION"
-					class="advancedSelect">
+					description="MOD_FINDER_FIELDSET_BASIC_SHOW_ADVANCED_DESCRIPTION">
 					<option
 						value="2">MOD_FINDER_FIELDSET_BASIC_SHOW_ADVANCED_OPTION_LINK</option>
 					<option
@@ -63,8 +60,7 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
-					class="advancedSelect"/>
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
 				<field
 					name="moduleclass_sfx"
 					type="textarea" rows="3"
@@ -100,8 +96,7 @@
 					type="list"
 					default="top"
 					label="MOD_FINDER_FIELDSET_ADVANCED_LABEL_POS_LABEL"
-					description="MOD_FINDER_FIELDSET_ADVANCED_LABEL_POS_DESCRIPTION"
-					class="advancedSelect">
+					description="MOD_FINDER_FIELDSET_ADVANCED_LABEL_POS_DESCRIPTION">
 					<option
 						value="right">JGLOBAL_RIGHT</option>
 					<option
@@ -128,8 +123,7 @@
 					type="list"
 					default="right"
 					label="MOD_FINDER_FIELDSET_ADVANCED_BUTTON_POS_LABEL"
-					description="MOD_FINDER_FIELDSET_ADVANCED_BUTTON_POS_DESCRIPTION"
-					class="advancedSelect">
+					description="MOD_FINDER_FIELDSET_ADVANCED_BUTTON_POS_DESCRIPTION">
 					<option
 						value="right">JGLOBAL_RIGHT</option>
 					<option

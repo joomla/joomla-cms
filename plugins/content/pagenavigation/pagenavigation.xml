@@ -25,7 +25,6 @@
 					default="1"
 					description="PLG_PAGENAVIGATION_FIELD_POSITION_DESC"
 					label="PLG_PAGENAVIGATION_FIELD_POSITION_LABEL"
-					class="advancedSelect"
 				>
 					<option value="1">PLG_PAGENAVIGATION_FIELD_VALUE_BELOW</option>
 					<option value="0">PLG_PAGENAVIGATION_FIELD_VALUE_ABOVE</option>
@@ -35,7 +34,6 @@
 					default="1"
 					description="PLG_PAGENAVIGATION_FIELD_RELATIVE_DESC"
 					label="PLG_PAGENAVIGATION_FIELD_RELATIVE_LABEL"
-					class="advancedSelect"
 			>
 					<option value="1">PLG_PAGENAVIGATION_FIELD_VALUE_ARTICLE</option>
 					<option value="0">PLG_PAGENAVIGATION_FIELD_VALUE_TEXT</option>

@@ -13,9 +13,8 @@
 			menuitems="true"
 			extension="com_newsfeeds"
 			view="newsfeed"
-			class="advancedSelect"
 		/>
-
+		
 		<field
 			name="save_history"
 			type="radio"
@@ -27,7 +26,7 @@
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
-
+		
 		<field
 			name="history_limit"
 			type="text"
@@ -83,24 +82,22 @@
 			label="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_LABEL"
 			description="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_DESC" />
 
-		<field
+		<field 
 			id="feed_display_order"
-			name="feed_display_order"
+			name="feed_display_order" 
 			type="list"
 			label="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_LABEL"
 			description="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_DESC"
-			class="advancedSelect"
 		>
 			<option value="des">JGLOBAL_MOST_RECENT_FIRST</option>
 			<option value="asc">JGLOBAL_OLDEST_FIRST</option>
 		</field>
-
+		
 		<field
 			name="float_first"
 			type="list"
 			label="COM_NEWSFEEDS_FLOAT_LABEL"
-			description="COM_NEWSFEEDS_FLOAT_DESC"
-			class="advancedSelect">
+			description="COM_NEWSFEEDS_FLOAT_DESC">
 				<option value="right">COM_NEWSFEEDS_RIGHT</option>
 				<option value="left">COM_NEWSFEEDS_LEFT</option>
 				<option value="none">COM_NEWSFEEDS_NONE</option>
@@ -109,8 +106,7 @@
 			name="float_second"
 			type="list"
 			label="COM_NEWSFEEDS_FLOAT_LABEL"
-			description="COM_NEWSFEEDS_FLOAT_DESC"
-			class="advancedSelect">
+			description="COM_NEWSFEEDS_FLOAT_DESC">
 				<option value="right">COM_NEWSFEEDS_RIGHT</option>
 				<option value="left">COM_NEWSFEEDS_LEFT</option>
 				<option value="none">COM_NEWSFEEDS_NONE</option>
@@ -142,7 +138,6 @@
 			menuitems="true"
 			extension="com_newsfeeds"
 			view="category"
-			class="advancedSelect"
 		/>
 
 		<field name="show_category_title" type="radio"
@@ -183,7 +178,6 @@
 			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 			default="-1"
-			class="advancedSelect"
 		>
 			<option value="0">JNONE</option>
 			<option value="-1">JALL</option>
@@ -257,7 +251,6 @@
 			default="-1"
 			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
-			class="advancedSelect"
 		>
 			<option value="-1">JALL</option>
 			<option value="1">J1</option>
@@ -310,7 +303,6 @@
 			default="1"
 			description="JGLOBAL_FILTER_FIELD_DESC"
 			label="JGLOBAL_FILTER_FIELD_LABEL"
-			class="advancedSelect"
 			>
 				<option value="1">JSHOW</option>
 				<option value="hide">JHIDE</option>
@@ -372,7 +364,6 @@
 			default="2"
 			label="JGLOBAL_PAGINATION_LABEL"
 			description="JGLOBAL_PAGINATION_DESC"
-			class="advancedSelect"
 		>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>

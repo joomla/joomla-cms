@@ -14,6 +14,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.modal');
+JHtml::_('formbehavior.chosen', 'select');
 
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');

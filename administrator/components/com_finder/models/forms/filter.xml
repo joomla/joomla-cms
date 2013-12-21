@@ -43,7 +43,7 @@
 
 		<field name="state" type="list" label="JSTATUS"
 			description="JFIELD_PUBLISHED_DESC"
-			class="chzn-color-state advancedSelect"
+			class="chzn-color-state"
 			filter="intval" size="1" default="1" >
 			<option value="1">
 				JPUBLISHED</option>
@@ -62,7 +62,6 @@
 			<field
 				name="w1"
 				type="list"
-				class="advancedSelect"
 				label="COM_FINDER_FILTER_WHEN_START_DATE_LABEL"
 				description="COM_FINDER_FILTER_WHEN_START_DATE_DESCRIPTION"
 				default=""
@@ -80,7 +79,6 @@
 			<field
 				name="w2"
 				type="list"
-				class="advancedSelect"
 				label="COM_FINDER_FILTER_WHEN_END_DATE_LABEL"
 				description="COM_FINDER_FILTER_WHEN_END_DATE_DESCRIPTION"
 				default=""

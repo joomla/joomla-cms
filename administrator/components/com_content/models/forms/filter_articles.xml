@@ -12,7 +12,6 @@
 			type="status"
 			label="COM_CONTENT_FILTER_PUBLISHED"
 			description="COM_CONTENT_FILTER_PUBLISHED_DESC"
-			class="advancedSelect"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -23,7 +22,6 @@
 			label="JOPTION_FILTER_CATEGORY"
 			extension="com_content"
 			description="JOPTION_FILTER_CATEGORY_DESC"
-			class="advancedSelect"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_CATEGORY</option>
@@ -37,7 +35,6 @@
 			label="JOPTION_FILTER_LEVEL"
 			languages="*"
 			description="JOPTION_FILTER_LEVEL_DESC"
-			class="advancedSelect"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_MAX_LEVELS</option>
@@ -47,7 +44,6 @@
 			type="accesslevel"
 			label="JOPTION_FILTER_ACCESS"
 			description="JOPTION_FILTER_ACCESS_DESC"
-			class="advancedSelect"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
@@ -57,7 +53,6 @@
 			type="author"
 			label="COM_CONTENT_FILTER_AUTHOR"
 			description="COM_CONTENT_FILTER_AUTHOR_DESC"
-			class="advancedSelect"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_AUTHOR</option>
@@ -67,7 +62,6 @@
 			type="contentlanguage"
 			label="JOPTION_FILTER_LANGUAGE"
 			description="JOPTION_FILTER_LANGUAGE_DESC"
-			class="advancedSelect"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
@@ -79,7 +73,6 @@
 			mode="nested"
 			label="JOPTION_FILTER_TAG"
 			description="JOPTION_FILTER_TAG_DESC"
-			class="advancedSelect"
 			onchange="this.form.submit();"
 		>
 			<option value="">JOPTION_SELECT_TAG</option>
@@ -91,7 +84,6 @@
 			type="list"
 			label="COM_CONTENT_LIST_FULL_ORDERING"
 			description="COM_CONTENT_LIST_FULL_ORDERING_DESC"
-			class="advancedSelect"
 			onchange="this.form.submit();"
 			default="a.title ASC"
 			>
@@ -124,7 +116,7 @@
 		<field
 			name="limit"
 			type="limitbox"
-			class="inputbox input-mini advancedSelect"
+			class="inputbox input-mini"
 			default="25"
 			label="COM_CONTENT_LIST_LIMIT"
 			description="COM_CONTENT_LIST_LIMIT_DESC"

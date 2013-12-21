@@ -45,8 +45,7 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
-					class="advancedSelect"/>
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
 
 				<field
 					name="moduleclass_sfx"
@@ -59,8 +58,7 @@
 					type="list"
 					default="1"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC"
-					class="advancedSelect">
+					description="COM_MODULES_FIELD_CACHING_DESC">
 					<option
 						value="1">JGLOBAL_USE_GLOBAL</option>
 					<option

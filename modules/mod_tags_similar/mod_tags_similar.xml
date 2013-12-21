@@ -36,16 +36,14 @@
 					last="20"
 					step="1"
 					label="MOD_TAGS_SIMILAR_MAX_LABEL"
-					description="MOD_TAGS_SIMILAR_MAX_DESC"
-					class="advancedSelect">
+					description="MOD_TAGS_SIMILAR_MAX_DESC">
 				</field>
 				<field
 					name="matchtype"
 					type="list"
 					default="any"
 					label="MOD_TAGS_SIMILAR_FIELD_MATCHTYPE_LABEL"
-					description="MOD_TAGS_SIMILAR_FIELD_MATCHTYPE_DESC"
-					class="advancedSelect">
+					description="MOD_TAGS_SIMILAR_FIELD_MATCHTYPE_DESC">
 					<option
 						value="all">MOD_TAGS_SIMILAR_FIELD_ALL</option>
 					<option
@@ -60,8 +58,7 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
-					class="advancedSelect"/>
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
 				<field
 					name="moduleclass_sfx"
 					type="textarea" rows="3"
@@ -72,8 +69,7 @@
 					type="list"
 					default="1"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC"
-					class="advancedSelect">
+					description="COM_MODULES_FIELD_CACHING_DESC">
 					<option
 						value="1">JGLOBAL_USE_GLOBAL</option>
 					<option

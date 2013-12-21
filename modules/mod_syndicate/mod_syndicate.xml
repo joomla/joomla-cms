@@ -50,8 +50,7 @@
 					type="list"
 					default="rss"
 					label="MOD_SYNDICATE_FIELD_FORMAT_LABEL"
-					description="MOD_SYNDICATE_FIELD_FORMAT_DESC"
-					class="advancedSelect">
+					description="MOD_SYNDICATE_FIELD_FORMAT_DESC">
 					<option
 						value="rss">MOD_SYNDICATE_FIELD_VALUE_RSS</option>
 					<option
@@ -64,8 +63,7 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
-					class="advancedSelect"/>
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
 				<field
 					name="moduleclass_sfx"
 					type="textarea" rows="3"
@@ -76,8 +74,7 @@
 					type="list"
 					default="0"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC"
-					class="advancedSelect">
+					description="COM_MODULES_FIELD_CACHING_DESC">
 					<option
 						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>

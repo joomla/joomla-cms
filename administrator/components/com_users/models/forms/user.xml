@@ -138,7 +138,6 @@
 				client="administrator"
 				description="COM_USERS_USER_FIELD_BACKEND_TEMPLATE_DESC"
 				label="COM_USERS_USER_FIELD_BACKEND_TEMPLATE_LABEL"
-				class="advancedSelect"
 			>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
@@ -147,7 +146,6 @@
 				client="administrator"
 				description="COM_USERS_USER_FIELD_BACKEND_LANGUAGE_DESC"
 				label="COM_USERS_USER_FIELD_BACKEND_LANGUAGE_LABEL"
-				class="advancedSelect"
 			>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
@@ -156,7 +154,6 @@
 				client="site"
 				description="COM_USERS_USER_FIELD_FRONTEND_LANGUAGE_DESC"
 				label="COM_USERS_USER_FIELD_FRONTEND_LANGUAGE_LABEL"
-				class="advancedSelect"
 			>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
@@ -164,7 +161,6 @@
 			<field name="editor" type="plugins" folder="editors"
 				description="COM_USERS_USER_FIELD_EDITOR_DESC"
 				label="COM_USERS_USER_FIELD_EDITOR_LABEL"
-				class="advancedSelect"
 			>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
@@ -172,7 +168,6 @@
 			<field name="helpsite" type="helpsite"
 				label="COM_USERS_USER_FIELD_HELPSITE_LABEL"
 				description="COM_USERS_USER_FIELD_HELPSITE_DESC"
-				class="advancedSelect"
 			>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
@@ -180,7 +175,6 @@
 			<field name="timezone" type="timezone"
 				label="COM_USERS_USER_FIELD_TIMEZONE_LABEL"
 				description="COM_USERS_USER_FIELD_TIMEZONE_DESC"
-				class="advancedSelect"
 			>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>

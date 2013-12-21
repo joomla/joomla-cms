@@ -21,7 +21,7 @@
 		<field
 			name="enabled"
 			type="list"
-			class="chzn-color-state advancedSelect"
+			class="chzn-color-state"
 			label="JSTATUS"
 			description="COM_PLUGINS_FIELD_ENABLED_DESC"
 			size="1"
@@ -35,13 +35,13 @@
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
 			description="JFIELD_ACCESS_DESC"
-			class="inputbox advancedSelect"
+			class="inputbox"
 			size="1" />
 
 		<field
 			name="ordering"
 			type="Pluginordering"
-			class="inputbox advancedSelect"
+			class="inputbox"
 			label="JFIELD_ORDERING_LABEL"
 			description="JFIELD_ORDERING_DESC" />
 

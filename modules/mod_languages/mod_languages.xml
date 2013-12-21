@@ -30,8 +30,7 @@
 			<field name="language"
 				type="list"
 				description="JFIELD_MODULE_LANGUAGE_DESC"
-				label="JFIELD_LANGUAGE_LABEL"
-				class="advancedSelect">
+				label="JFIELD_LANGUAGE_LABEL">
 				<option value="*">JALL</option>
 			</field>
 		</fieldset>
@@ -117,8 +116,7 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="MOD_LANGUAGES_FIELD_MODULE_LAYOUT_DESC"
-					class="advancedSelect"/>
+					description="MOD_LANGUAGES_FIELD_MODULE_LAYOUT_DESC" />
 
 				<field
 					name="moduleclass_sfx"
@@ -131,8 +129,7 @@
 					type="list"
 					default="0"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="MOD_LANGUAGES_FIELD_CACHING_DESC"
-					class="advancedSelect">
+					description="MOD_LANGUAGES_FIELD_CACHING_DESC">
 					<option
 						value="1">JGLOBAL_USE_GLOBAL</option>
 					<option

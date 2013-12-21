@@ -24,8 +24,7 @@
 				<field name="style" type="list"
 					default="table"
 					description="PLG_LOADMODULE_FIELD_STYLE_DESC"
-					label="PLG_LOADMODULE_FIELD_STYLE_LABEL"
-					class="advancedSelect">
+					label="PLG_LOADMODULE_FIELD_STYLE_LABEL">
 					<option value="table">PLG_LOADMODULE_FIELD_VALUE_TABLE</option>
 					<option value="horz">PLG_LOADMODULE_FIELD_VALUE_HORIZONTAL</option>
 					<option value="xhtml">PLG_LOADMODULE_FIELD_VALUE_DIVS</option>

@@ -12,7 +12,6 @@
 			menuitems="true"
 			extension="com_content"
 			view="article"
-			class="advancedSelect"
 		/>
 
 		<field
@@ -53,8 +52,7 @@
 			type="list"
 			default="0"
 			label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
-			description="COM_CONTENT_FIELD_INFOBLOCK_POSITION_DESC"
-			class="advancedSelect">
+			description="COM_CONTENT_FIELD_INFOBLOCK_POSITION_DESC">
 			<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 			<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
 			<option value="2">COM_CONTENT_FIELD_OPTION_SPLIT</option>
@@ -292,8 +290,7 @@
 			type="list"
 			default="0"
 			label="COM_CONTENT_FIELD_URLSPOSITION_LABEL"
-			description="COM_CONTENT_FIELD_URLSPOSITION_DESC"
-			class="advancedSelect">
+			description="COM_CONTENT_FIELD_URLSPOSITION_DESC">
 			<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 			<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
 		</field>
@@ -375,7 +372,7 @@
 			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
 			default="Parent"
 			filter="int"
-			class="inputbox advancedSelect">
+			class="inputbox">
 				<option value="0">JBROWSERTARGET_PARENT</option>
 				<option value="1">JBROWSERTARGET_NEW</option>
 				<option value="2">JBROWSERTARGET_POPUP</option>
@@ -388,7 +385,7 @@
 			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
 			default="Parent"
 			filter="int"
-			class="inputbox advancedSelect">
+			class="inputbox">
 				<option value="0">JBROWSERTARGET_PARENT</option>
 				<option value="1">JBROWSERTARGET_NEW</option>
 				<option value="2">JBROWSERTARGET_POPUP</option>
@@ -401,12 +398,12 @@
 			description="COM_CONTENT_URL_FIELD_BROWSERNAV_DESC"
 			default="Parent"
 			filter="int"
-			class="inputbox advancedSelect">
+			class="inputbox">
 				<option value="0">JBROWSERTARGET_PARENT</option>
 				<option value="1">JBROWSERTARGET_NEW</option>
 				<option value="2">JBROWSERTARGET_POPUP</option>
 				<option value="3">JBROWSERTARGET_MODAL</option>
-		</field>
+		</field>	
 		<field
 			name="spacer4"
 			type="spacer"
@@ -417,8 +414,7 @@
 			name="float_intro"
 			type="list"
 			label="COM_CONTENT_FLOAT_INTRO_LABEL"
-			description="COM_CONTENT_FLOAT_DESC"
-			class="advancedSelect">
+			description="COM_CONTENT_FLOAT_DESC">
 				<option value="right">COM_CONTENT_RIGHT</option>
 				<option value="left">COM_CONTENT_LEFT</option>
 				<option value="none">COM_CONTENT_NONE</option>
@@ -427,8 +423,7 @@
 			name="float_fulltext"
 			type="list"
 			label="COM_CONTENT_FLOAT_FULLTEXT_LABEL"
-			description="COM_CONTENT_FLOAT_DESC"
-			class="advancedSelect">
+			description="COM_CONTENT_FLOAT_DESC">
 				<option value="right">COM_CONTENT_RIGHT</option>
 				<option value="left">COM_CONTENT_LEFT</option>
 				<option value="none">COM_CONTENT_NONE</option>
@@ -448,9 +443,8 @@
 			menuitems="true"
 			extension="com_content"
 			view="category"
-			class="advancedSelect"
 		/>
-		<field
+		<field 
 			name="show_category_heading_title_text"
 			type="radio"
 			class="btn-group btn-group-yesno"
@@ -492,7 +486,6 @@
 		</field>
 
 		<field name="maxLevel" type="list"
-			class="advancedSelect"
 			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 			default="-1"
@@ -578,7 +571,6 @@
 		</field>
 
 		<field name="maxLevelcat" type="list"
-			class="advancedSelect"
 			default="-1"
 			description="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_DESC"
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
@@ -663,8 +655,7 @@
 			type="list"
 			default="0"
 			label="JGLOBAL_MULTI_COLUMN_ORDER_LABEL"
-			description="JGLOBAL_MULTI_COLUMN_ORDER_DESC"
-			class="advancedSelect">
+			description="JGLOBAL_MULTI_COLUMN_ORDER_DESC">
 			<option
 				value="0">JGLOBAL_DOWN</option>
 			<option
@@ -683,7 +674,6 @@
 				default="0"
 				description="JGLOBAL_SHOW_SUBCATEGORY_CONTENT_DESC"
 				label="JGLOBAL_SHOW_SUBCATEGORY_CONTENT_LABEL"
-				class="advancedSelect"
 			>
 			<option value="0">JNONE</option>
 			<option value="-1">JALL</option>
@@ -714,8 +704,7 @@
 			type="list"
 			default="hide"
 			label="JGLOBAL_FILTER_FIELD_LABEL"
-			description="JGLOBAL_FILTER_FIELD_DESC"
-			class="advancedSelect">
+			description="JGLOBAL_FILTER_FIELD_DESC">
 				<option value="hide">JHIDE</option>
 				<option value="title">JGLOBAL_TITLE</option>
 				<option value="author">JAUTHOR</option>
@@ -736,8 +725,7 @@
 			type="list"
 			default="0"
 			label="JGLOBAL_SHOW_DATE_LABEL"
-			description="JGLOBAL_SHOW_DATE_DESC"
-			class="advancedSelect">
+			description="JGLOBAL_SHOW_DATE_DESC">
 				<option value="0">JHIDE</option>
 				<option value="created">JGLOBAL_CREATED</option>
 				<option value="modified">JGLOBAL_MODIFIED</option>
@@ -780,8 +768,7 @@
 			type="list"
 			default="none"
 			label="JGLOBAL_CATEGORY_ORDER_LABEL"
-			description="JGLOBAL_CATEGORY_ORDER_DESC"
-			class="advancedSelect">
+			description="JGLOBAL_CATEGORY_ORDER_DESC">
 			<option
 				value="none">JGLOBAL_NO_ORDER</option>
 			<option
@@ -796,8 +783,7 @@
 			type="list"
 			default="rdate"
 			label="JGLOBAL_Article_Order_Label"
-			description="JGLOBAL_Article_Order_Desc"
-			class="advancedSelect">
+			description="JGLOBAL_Article_Order_Desc">
 			<option
 				value="rdate">JGLOBAL_MOST_RECENT_FIRST</option>
 			<option
@@ -822,7 +808,6 @@
 				default="published"
 				description="JGLOBAL_ORDERING_DATE_DESC"
 				label="JGLOBAL_ORDERING_DATE_LABEL"
-				class="advancedSelect"
 			>
 				<option value="created">JGLOBAL_CREATED</option>
 				<option value="modified">JGLOBAL_MODIFIED</option>
@@ -833,8 +818,7 @@
 			type="list"
 			default="2"
 			label="JGLOBAL_Pagination_Label"
-			description="JGLOBAL_Pagination_Desc"
-			class="advancedSelect">
+			description="JGLOBAL_Pagination_Desc">
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 				<option value="2">JGLOBAL_AUTO</option>
@@ -873,8 +857,7 @@
 			type="list"
 			label="JGLOBAL_FEED_SUMMARY_LABEL"
 			description="JGLOBAL_FEED_SUMMARY_DESC"
-			default="0"
-			class="advancedSelect">
+			default="0">
 			<option
 				value="0">JGLOBAL_INTRO_TEXT</option>
 			<option

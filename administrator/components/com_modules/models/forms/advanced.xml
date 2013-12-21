@@ -10,7 +10,6 @@
 				label="COM_MODULES_FIELD_MODULE_TAG_LABEL"
 				description="COM_MODULES_FIELD_MODULE_TAG_DESC"
 				default="div"
-				class="advancedSelect"
 			/>
 
 			<field
@@ -21,7 +20,6 @@
 				step="1"
 				label="COM_MODULES_FIELD_BOOTSTRAP_SIZE_LABEL"
 				description="COM_MODULES_FIELD_BOOTSTRAP_SIZE_DESC"
-				class="advancedSelect"
 			/>
 
 			<field
@@ -30,7 +28,6 @@
 				default="h3"
 				label="COM_MODULES_FIELD_HEADER_TAG_LABEL"
 				description="COM_MODULES_FIELD_HEADER_TAG_DESC"
-				class="advancedSelect"
 			/>
 
 			<field
@@ -45,7 +42,6 @@
 				type="chromestyle"
 				label="COM_MODULES_FIELD_MODULE_STYLE_LABEL"
 				description="COM_MODULES_FIELD_MODULE_STYLE_DESC"
-				class="advancedSelect"
 			/>
 		</fieldset>
 	</fields>

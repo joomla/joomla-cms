@@ -17,8 +17,7 @@
 			type="usergroup"
 			default="2"
 			label="COM_USERS_CONFIG_FIELD_NEW_USER_TYPE_LABEL"
-			description="COM_USERS_CONFIG_FIELD_NEW_USER_TYPE_DESC"
-			class="advancedSelect">
+			description="COM_USERS_CONFIG_FIELD_NEW_USER_TYPE_DESC">
 		</field>
 
 		<field
@@ -26,8 +25,7 @@
 			type="usergroup"
 			default="1"
 			label="COM_USERS_CONFIG_FIELD_GUEST_USER_GROUP_LABEL"
-			description="COM_USERS_CONFIG_FIELD_GUEST_USER_GROUP_DESC"
-			class="advancedSelect">
+			description="COM_USERS_CONFIG_FIELD_GUEST_USER_GROUP_DESC">
 		</field>
 
 		<field
@@ -46,8 +44,7 @@
 			type="list"
 			default="2"
 			label="COM_USERS_CONFIG_FIELD_USERACTIVATION_LABEL"
-			description="COM_USERS_CONFIG_FIELD_USERACTIVATION_DESC"
-			class="advancedSelect">
+			description="COM_USERS_CONFIG_FIELD_USERACTIVATION_DESC">
 			<option
 				value="0">JNONE</option>
 			<option
@@ -74,8 +71,7 @@
 			default=""
 			label="COM_USERS_CONFIG_FIELD_CAPTCHA_LABEL"
 			description="COM_USERS_CONFIG_FIELD_CAPTCHA_DESC"
-			filter="cmd"
-			class="advancedSelect">
+			filter="cmd" >
 			<option
 				value="">JOPTION_USE_DEFAULT</option>
 			<option
@@ -120,8 +116,7 @@
 			first="0"
 			last="20"
 			step="1"
-			default="10"
-			class="advancedSelect">
+			default="10">
 			</field>
 		<field
 			name="reset_time"
@@ -131,8 +126,7 @@
 			first="1"
 			last="24"
 			step="1"
-			default="1"
-			class="advancedSelect">
+			default="1">
 			</field>
 
 		<field
@@ -143,8 +137,7 @@
 			first="4"
 			last="99"
 			step="1"
-			default="4"
-			class="advancedSelect">
+			default="4">
 			</field>
 
 		<field
@@ -155,8 +148,7 @@
 			first="0"
 			last="98"
 			step="1"
-			default="0"
-			class="advancedSelect">
+			default="0">
 			</field>
 
 		<field
@@ -167,8 +159,7 @@
 			first="0"
 			last="98"
 			step="1"
-			default="0"
-			class="advancedSelect">
+			default="0">
 			</field>
 		<field
 			name="minimum_uppercase"
@@ -178,8 +169,7 @@
 			first="0"
 			last="98"
 			step="1"
-			default="0"
-			class="advancedSelect">
+			default="0">
 			</field>
 	</fieldset>
 	

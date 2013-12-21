@@ -19,7 +19,7 @@
 
 		<field name="catid" type="categoryedit" extension="com_weblinks"
 			label="JCATEGORY" description="COM_WEBLINKS_FIELD_CATEGORY_DESC"
-			class="inputbox advancedSelect"
+			class="inputbox"
 		>
 		</field>
 
@@ -49,7 +49,7 @@
 			type="list"
 			label="JSTATUS"
 			description="COM_WEBLINKS_FIELD_STATE_DESC"
-			class="chzn-color-state advancedSelect"
+			class="chzn-color-state"
 			size="1"
 			default="1">
 			<option
@@ -71,14 +71,14 @@
         />
 
 		<field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"
-			description="JFIELD_ACCESS_DESC" class="inputbox advancedSelect" size="1" />
+			description="JFIELD_ACCESS_DESC" class="inputbox" size="1" />
 
 		<field
 			name="language"
 			type="contentlanguage"
 			label="JFIELD_LANGUAGE_LABEL"
 			description="COM_WEBLINKS_FIELD_LANGUAGE_DESC"
-			class="inputbox advancedSelect">
+			class="inputbox">
 			<option value="*">JALL</option>
 		</field>
 
@@ -158,7 +158,6 @@
 		<fieldset name="jbasic" label="COM_WEBLINKS_FIELDSET_OPTIONS">
 			<field name="target" type="list" default=""
 				label="COM_WEBLINKS_FIELD_TARGET_LABEL" description="COM_WEBLINKS_FIELD_TARGET_DESC"
-				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JBROWSERTARGET_PARENT</option>
@@ -176,7 +175,7 @@
 				description="COM_WEBLINKS_FIELD_HEIGHT_DESC" />
 
 			<field name="count_clicks" type="list"
-				class="chzn-color advancedSelect"
+				class="chzn-color"
 				label="COM_WEBLINKS_FIELD_COUNTCLICKS_LABEL"
 				description="COM_WEBLINKS_FIELD_COUNTCLICKS_DESC"
 			>
@@ -197,8 +196,7 @@
 				name="float_first"
 				type="list"
 				label="COM_WEBLINKS_FLOAT_LABEL"
-				description="COM_WEBLINKS_FLOAT_DESC"
-				class="advancedSelect">
+				description="COM_WEBLINKS_FLOAT_DESC">
 					<option value="">JGLOBAL_USE_GLOBAL</option>
 					<option value="right">COM_WEBLINKS_RIGHT</option>
 					<option value="left">COM_WEBLINKS_LEFT</option>
@@ -230,8 +228,7 @@
 				name="float_second"
 				type="list"
 				label="COM_WEBLINKS_FLOAT_LABEL"
-				description="COM_WEBLINKS_FLOAT_DESC"
-				class="advancedSelect">
+				description="COM_WEBLINKS_FLOAT_DESC">
 					<option value="">JGLOBAL_USE_GLOBAL</option>
 					<option value="right">COM_WEBLINKS_RIGHT</option>
 					<option value="left">COM_WEBLINKS_LEFT</option>
@@ -259,7 +256,6 @@
 				type="list"
 				label="JFIELD_METADATA_ROBOTS_LABEL"
 				description="JFIELD_METADATA_ROBOTS_DESC"
-				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>

@@ -15,6 +15,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.framework');
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.modal');
+JHtml::_('formbehavior.chosen', 'select');
 
 JText::script('ERROR');
 JText::script('JGLOBAL_VALIDATION_FORM_FAILED');
