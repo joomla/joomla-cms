@@ -270,7 +270,7 @@ class PluginsModelPlugin extends JModelCmsitem
 			}
 
 			// Get the plugin form.
-			if (!$form->loadFile($formFile, false, $fieldPath))
+			if (!$form->loadFile($formFile, false,  '//config'))
 			{
 				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 			}
