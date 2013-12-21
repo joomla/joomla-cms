@@ -817,7 +817,7 @@ class JForm
 					{
 						$olddom = dom_import_simplexml($current);
 						$loadeddom = dom_import_simplexml($field);
-						$addeddom = $olddom->ownerDocument->importNode($loadeddom);
+						$addeddom = $olddom->ownerDocument->importNode($loadeddom, true);
 						$olddom->parentNode->replaceChild($addeddom, $olddom);
 						$loadeddom->parentNode->removeChild($loadeddom);
 					}
