@@ -56,7 +56,6 @@
 				<field
 					name="showLast"
 					type="radio"
-					class="btn-group"
 					default="1"
 					class="btn-group btn-group-yesno"
 					label="MOD_BREADCRUMBS_FIELD_SHOWLAST_LABEL"

@@ -70,10 +70,9 @@
 				<field
 					name="link_titles"
 					type="list"
-					class="chzn-color"
+					class="chzn-color advancedSelect"
 					label="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_LABEL"
-					description="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_DESC"
-					class="advancedSelect">
+					description="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_DESC">
 					<option
 						value="">JGLOBAL_USE_GLOBAL</option>
 					<option
