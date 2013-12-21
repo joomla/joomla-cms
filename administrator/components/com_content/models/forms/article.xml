@@ -101,9 +101,8 @@
 			label="COM_CONTENT_FIELD_VERSION_LABEL" size="6" description="COM_CONTENT_FIELD_VERSION_DESC"
 			readonly="true" filter="unset" />
 
-		<field name="ordering" type="text" label="JFIELD_ORDERING_LABEL"
-			description="JFIELD_ORDERING_DESC" class="inputbox" size="6"
-			default="0" />
+		<field name="ordering" type="ordering" label="JFIELD_ORDERING_LABEL"
+			description="JFIELD_ORDERING_DESC" class="inputbox" size="6" />
 
 		<field name="metakey" type="textarea"
 			label="JFIELD_META_KEYWORDS_LABEL" description="JFIELD_META_KEYWORDS_DESC"
