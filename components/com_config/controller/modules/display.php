@@ -83,7 +83,7 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 			$model = new $modelClass;
 
 			// Access check.
-			if (!JFactory::getUser()->authorise('core.admin', $model->getState('component.option')))
+			if (!JFactory::getUser()->authorise('core.edit', 'com_modules' . $serviceData['id']))
 			{
 				$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
 				$app->redirect($redirect);
