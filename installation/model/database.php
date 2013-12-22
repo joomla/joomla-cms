@@ -606,9 +606,9 @@ class InstallationModelDatabase extends JModelBase
 			{
 				return false;
 			}
-
-			$this->postInstallSampleData($db);
 		}
+
+		$this->postInstallSampleData($db);
 
 		return true;
 	}
