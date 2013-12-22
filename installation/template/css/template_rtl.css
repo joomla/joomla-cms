@@ -6,3 +6,8 @@
 body{
 	direction: rtl;
 }
+/* Javascript Warning */
+#javascript-warning {
+	text-align: center;
+	font-size: 16px;
+}
