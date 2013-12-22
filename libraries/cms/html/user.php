@@ -57,6 +57,7 @@ abstract class JHtmlUser
 					$filteredGroups[] = $group;
 				}
 			}
+
 			$groups = $filteredGroups;
 		}
 

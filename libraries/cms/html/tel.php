@@ -61,7 +61,6 @@ abstract class JHtmlTel
 			$display[1] = $countrycode;
 			$display[2] = '.';
 			$display[3] = $number;
-
 		}
 		elseif ($displayplan == 'ARPA' || $displayplan == 'ENUM')
 		{

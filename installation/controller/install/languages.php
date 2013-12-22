@@ -65,6 +65,7 @@ class InstallationControllerInstallLanguages extends JControllerBase
 		{
 			// Install selected languages
 			$model->install($lids);
+			$app->enqueueMessage(JText::_('INSTL_LANGUAGES_MORE_LANGUAGES'));
 		}
 
 		// Redirect to the page.

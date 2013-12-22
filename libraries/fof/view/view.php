@@ -1,8 +1,9 @@
 <?php
 /**
- * @package    FrameworkOnFramework
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     FrameworkOnFramework
+ * @subpackage  view
+ * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
 defined('_JEXEC') or die;
@@ -260,7 +261,7 @@ abstract class FOFView extends JObject
 
 		if (array_key_exists('charset', $config))
 		{
-			JLog::add('Setting a custom charset for escaping is deprecated. Override FOFView::escape() instead.', JLog::WARNING, 'deprecated');
+			FOFPlatform::getInstance()->logDeprecated('Setting a custom charset for escaping in FOFView\'s constructor is deprecated. Override FOFView::escape() instead.');
 			$this->_charset = $config['charset'];
 		}
 
@@ -497,7 +498,7 @@ abstract class FOFView extends JObject
 	 */
 	public function assign()
 	{
-		JLog::add(__METHOD__ . ' is deprecated. Use native PHP syntax.', JLog::WARNING, 'deprecated');
+		FOFPlatform::getInstance()->logDeprecated(__CLASS__ . '::' . __METHOD__ . ' is deprecated. Use native PHP syntax.');
 
 		// Get the arguments; there may be 1 or 2.
 		$arg0 = @func_get_arg(0);
@@ -564,7 +565,7 @@ abstract class FOFView extends JObject
 	 */
 	public function assignRef($key, &$val)
 	{
-		JLog::add(__METHOD__ . ' is deprecated. Use native PHP syntax.', JLog::WARNING, 'deprecated');
+		FOFPlatform::getInstance()->logDeprecated(__CLASS__ . '::' . __METHOD__ . ' is deprecated. Use native PHP syntax.');
 
 		if (is_string($key) && substr($key, 0, 1) != '_')
 		{
@@ -787,7 +788,7 @@ abstract class FOFView extends JObject
 	 */
 	public function setEscape($spec)
 	{
-		JLog::add(__METHOD__ . ' is deprecated. Override FOFView::escape() instead.', JLog::WARNING, 'deprecated');
+		FOFPlatform::getInstance()->logDeprecated(__CLASS__ . '::' . __METHOD__ . ' is deprecated. Override FOFView::escape() instead.');
 
 		$this->_escape = $spec;
 	}
@@ -846,7 +847,7 @@ abstract class FOFView extends JObject
 			}
 		}
 
-		if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'lt') && ($result instanceof Exception))
+		if (version_compare(JVERSION, '3.0', 'lt') && ($result instanceof Exception))
 		{
 			JError::raiseError($result->getCode(), $result->getMessage());
 		}

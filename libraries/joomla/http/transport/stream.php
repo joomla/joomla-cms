@@ -34,6 +34,12 @@ class JHttpTransportStream implements JHttpTransport
 	 */
 	public function __construct(JRegistry $options)
 	{
+		// Verify that URLs can be used with fopen();
+		if (!ini_get('allow_url_fopen'))
+		{
+			throw new RuntimeException('Cannot use a stream transport when "allow_url_fopen" is disabled.');
+		}
+
 		// Verify that fopen() is available.
 		if (!self::isSupported())
 		{

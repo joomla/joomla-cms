@@ -234,7 +234,6 @@ class JHelperTags extends JHelper
 						}
 					}
 				}
-
 			}
 
 			// At this point $tags is an array of all tag ids
@@ -323,7 +322,6 @@ class JHelperTags extends JHelper
 						}
 					}
 				}
-
 			}
 
 			// At this point $tags is an array of all tag ids

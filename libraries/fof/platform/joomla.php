@@ -1,8 +1,9 @@
 <?php
 /**
- * @package    FrameworkOnFramework
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     FrameworkOnFramework
+ * @subpackage  platform
+ * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
 defined('_JEXEC') or die;
@@ -529,7 +530,7 @@ class FOFPlatformJoomla extends FOFPlatform implements FOFPlatformInterface
 	 */
 	public function supportsAjaxOrdering()
 	{
-		return $this->checkVersion(JVERSION, '3.0', 'ge');
+		return version_compare(JVERSION, '3.0', 'ge');
 	}
 
 	/**
@@ -712,5 +713,18 @@ class FOFPlatformJoomla extends FOFPlatform implements FOFPlatformInterface
 		$parameters = array('username'	 => $this->getUser()->username);
 
 		return $app->triggerEvent('onLogoutUser', array($parameters, $options));
+	}
+
+	/**
+	 * Logs a deprecated practice. In Joomla! this results in the $message being output in the
+	 * deprecated log file, found in your site's log directory.
+	 *
+	 * @param   $message  The deprecated practice log message
+	 *
+	 * @return  void
+	 */
+	public function logDeprecated($message)
+	{
+		JLog::add($message, JLog::WARNING, 'deprecated');
 	}
 }

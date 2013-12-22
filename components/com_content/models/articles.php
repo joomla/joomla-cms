@@ -122,7 +122,7 @@ class ContentModelArticles extends JModelList
 			$this->setState('filter.access', false);
 		}
 
-		$this->setState('layout', $app->input->get('layout'));
+		$this->setState('layout', $app->input->getString('layout'));
 	}
 
 	/**

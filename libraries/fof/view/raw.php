@@ -1,8 +1,9 @@
 <?php
 /**
- * @package    FrameworkOnFramework
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     FrameworkOnFramework
+ * @subpackage  view
+ * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
 defined('_JEXEC') or die;
@@ -60,19 +61,31 @@ class FOFViewRaw extends FOFView
 			$this->input = new FOFInput;
 		}
 
+		if (!array_key_exists('option', $this->config))
+		{
+			$this->config['option'] = $this->input->getCmd('option', 'com_foobar');
+		}
+
+		if (!array_key_exists('view', $this->config))
+		{
+			$this->config['view'] = $this->input->getCmd('view', 'cpanel');
+		}
+
 		$this->lists = new JObject;
 
 		if (!FOFPlatform::getInstance()->isCli())
 		{
 			$platform = FOFPlatform::getInstance();
 			$perms = (object) array(
-					'create'	 => $platform->authorise('core.create', $this->input->getCmd('option', 'com_foobar')),
-					'edit'		 => $platform->authorise('core.edit', $this->input->getCmd('option', 'com_foobar')),
-					'editstate'	 => $platform->authorise('core.edit.state', $this->input->getCmd('option', 'com_foobar')),
-					'delete'	 => $platform->authorise('core.delete', $this->input->getCmd('option', 'com_foobar')),
+					'create'	 => $platform->authorise('core.create'     , $this->input->getCmd('option', 'com_foobar')),
+					'edit'		 => $platform->authorise('core.edit'       , $this->input->getCmd('option', 'com_foobar')),
+					'editown'	 => $platform->authorise('core.edit.own'   , $this->input->getCmd('option', 'com_foobar')),
+					'editstate'	 => $platform->authorise('core.edit.state' , $this->input->getCmd('option', 'com_foobar')),
+					'delete'	 => $platform->authorise('core.delete'     , $this->input->getCmd('option', 'com_foobar')),
 			);
-			$this->assign('aclperms', $perms);
-			$this->perms = $perms;
+
+			$this->aclperms = $perms;
+			$this->perms    = $perms;
 		}
 	}
 
@@ -179,15 +192,14 @@ class FOFViewRaw extends FOFView
 		$this->lists->set('order_Dir', $model->getState('filter_order_Dir', 'DESC', 'cmd'));
 
 		// Assign data to the view
-		$this->assign('items', $model->getItemList());
-		$this->assign('pagination', $model->getPagination());
-		$this->assignRef('lists', $this->lists);
+		$this->items      = $model->getItemList();
+		$this->pagination = $model->getPagination();
 
 		// Pass page params on frontend only
 		if (FOFPlatform::getInstance()->isFrontend())
 		{
 			$params = JFactory::getApplication()->getParams();
-			$this->assignRef('params', $params);
+			$this->params = $params;
 		}
 
 		return true;
@@ -204,7 +216,7 @@ class FOFViewRaw extends FOFView
 	{
 		JRequest::setVar('hidemainmenu', true);
 		$model = $this->getModel();
-		$this->assign('item', $model->getItem());
+		$this->item = $model->getItem();
 
 		return true;
 	}
@@ -218,9 +230,36 @@ class FOFViewRaw extends FOFView
 	 */
 	protected function onEdit($tpl = null)
 	{
-		// An editor is an editor, no matter if the record is new or old :p
+        // This perms are used only for hestetic reasons (ie showing toolbar buttons), "real" checks
+        // are made by the controller
+        // It seems that I can't edit records, maybe I can edit only this one due asset tracking?
+		if (!$this->perms->edit || !$this->perms->editown)
+        {
+            $model = $this->getModel();
 
-		return $this->onAdd();
+            if($model)
+            {
+                $table = $model->getTable();
+
+                // Ok, record is tracked, let's see if I can this record
+                if($table->isAssetsTracked())
+                {
+                    $platform = FOFPlatform::getInstance();
+
+                    if(!$this->perms->edit)
+                    {
+                        $this->perms->edit = $platform->authorise('core.edit', $table->getAssetName());
+                    }
+
+                    if(!$this->perms->editown)
+                    {
+                        $this->perms->editown = $platform->authorise('core.edit.own', $table->getAssetName());
+                    }
+                }
+            }
+        }
+
+		return $this->onAdd($tpl);
 	}
 
 	/**
@@ -234,7 +273,7 @@ class FOFViewRaw extends FOFView
 	{
 		// All I need is to read the record
 
-		return $this->onAdd();
+		return $this->onAdd($tpl);
 	}
 
 	/**
@@ -249,7 +288,7 @@ class FOFViewRaw extends FOFView
 	 */
 	public function hasAjaxOrderingSupport()
 	{
-		if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'lt'))
+		if (version_compare(JVERSION, '3.0', 'lt'))
 		{
 			return false;
 		}
@@ -271,7 +310,7 @@ class FOFViewRaw extends FOFView
 		$orderingColumn = $table->getColumnAlias('ordering');
 		$fields = $table->getTableFields();
 
-		if (!array_key_exists($orderingColumn, $fields))
+		if (!is_array($fields) || !array_key_exists($orderingColumn, $fields))
 		{
 			return false;
 		}

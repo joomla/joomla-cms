@@ -27,8 +27,9 @@ $input = $app->input;
 // Requested format passed via URL
 $format = strtolower($input->getWord('format'));
 
-// Initialize default response
+// Initialize default response and module name
 $results = null;
+$parts = null;
 
 // Check for valid format
 if (!$format)
@@ -59,6 +60,14 @@ elseif ($input->get('module'))
 		if (strpos($module, '_'))
 		{
 			$parts = explode('_', $module);
+		}
+		elseif (strpos($module, '-'))
+		{
+			$parts = explode('-', $module);
+		}
+
+		if ($parts)
+		{
 			$class = 'mod';
 			foreach ($parts as $part)
 			{

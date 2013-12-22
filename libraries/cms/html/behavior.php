@@ -475,6 +475,7 @@ abstract class JHtmlBehavior
 		{
 			$document->addScriptDeclaration($translation);
 		}
+
 		static::$loaded[__METHOD__] = true;
 	}
 
@@ -804,7 +805,7 @@ abstract class JHtmlBehavior
 		}
 		// Include jQuery
 		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/tabs-state.js', true, true);
+		JHtml::_('script', 'system/tabs-state.js', false, true);
 		self::$loaded[__METHOD__] = true;
 	}
 }
