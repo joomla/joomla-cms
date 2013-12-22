@@ -113,7 +113,7 @@ if(JLanguageMultilang::isEnabled())
 						<hr />
 
 						<?php
-						if(JFactory::getUser()->authorise('core.edit.state', 'com_modules' . $this->item['id'])): ?>
+						if(JFactory::getUser()->authorise('core.edit.state', 'com_modules.module.' . $this->item['id'])): ?>
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $this->form->getLabel('published'); ?>

@@ -30,7 +30,7 @@ class ConfigViewModulesHtml extends ConfigViewCmsHtml
 	{
 
 		$user = JFactory::getUser();
-		$this->userIsAllowed = $user->authorise('core.edit', 'com_modules' . $this->item['id']);
+		$this->userIsAllowed = $user->authorise('core.edit', 'com_modules.module.' . $this->item['id']);
 
 		$lang = JFactory::getApplication()->getLanguage();
 		$lang->load('', JPATH_ADMINISTRATOR, $lang->getTag());
