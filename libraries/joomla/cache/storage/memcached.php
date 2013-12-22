@@ -52,11 +52,11 @@ class JCacheStorageMemcached extends JCacheStorage
 	 */
 	public function __construct($options = array())
 	{
-		parent::__construct($options);
 		if (self::$_db === null)
 		{
 			$this->getConnection();
 		}
+		parent::__construct($options);
 	}
 
 	/**
