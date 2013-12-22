@@ -32,6 +32,7 @@ $sortFields = $this->getSortFields();
 		table = document.getElementById("sortTable");
 		direction = document.getElementById("directionTable");
 		order = table.options[table.selectedIndex].value;
+
 		if (order != '<?php echo $listOrder; ?>')
 		{
 			dirn = 'asc';
@@ -40,6 +41,7 @@ $sortFields = $this->getSortFields();
 		{
 			dirn = direction.options[direction.selectedIndex].value;
 		}
+
 		Joomla.tableOrdering(order, dirn, '');
 	}
 </script>
@@ -153,7 +155,7 @@ $sortFields = $this->getSortFields();
 					</td>
 					<td>
 						<?php if ($item->checked_out) : ?>
-							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'plugins.', $canCheckin); ?>
+							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'j.checkin.', $canCheckin); ?>
 						<?php endif; ?>
 						<?php if ($canEdit) : ?>
 							<a href="<?php echo JRoute::_('index.php?option=com_plugins&view=plugin&controller=j.displayform.plugin.edit&extension_id='.(int) $item->extension_id); ?>">
