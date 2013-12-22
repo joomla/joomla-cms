@@ -2359,9 +2359,7 @@ SELECT 700, 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_TITLE', 'PLG_TWOFACTORAUTH_TOTP_
 UNION ALL
 SELECT 700, 'COM_CPANEL_MSG_EACCELERATOR_TITLE', 'COM_CPANEL_MSG_EACCELERATOR_BODY', 'COM_CPANEL_MSG_EACCELERATOR_BUTTON', 'com_cpanel', 1, 'action', 'admin://components/com_admin/postinstall/eaccelerator.php', 'admin_postinstall_eaccelerator_action', 'admin://components/com_admin/postinstall/eaccelerator.php', 'admin_postinstall_eaccelerator_condition', '3.2.0', 1
 UNION ALL
-SELECT 700, 'COM_CPANEL_WELCOME_BEGINNERS_TITLE', 'COM_CPANEL_WELCOME_BEGINNERS_MESSAGE', '', 'com_cpanel', 1, 'message', '', '', '', '', '3.2.0', 1
-UNION ALL
-SELECT 700, 'PLG_USER_JOOMLA_POSTINSTALL_STRONGPW_TITLE', 'PLG_USER_JOOMLA_POSTINSTALL_STRONGPW_TEXT', 'PLG_USER_JOOMLA_POSTINSTALL_STRONGPW_BTN', 'plg_user_joomla', 1, 'action', 'site://plugins/user/joomla/postinstall/actions.php', 'plguserjoomla_postinstall_action', 'site://plugins/user/joomla/postinstall/actions.php', 'plguserjoomla_postinstall_condition', '3.2.0', 1;
+SELECT 700, 'COM_CPANEL_WELCOME_BEGINNERS_TITLE', 'COM_CPANEL_WELCOME_BEGINNERS_MESSAGE', '', 'com_cpanel', 1, 'message', '', '', '', '', '3.2.0', 1;
 
 /****** Object:  Table [#__redirect_links] ******/
 SET QUOTED_IDENTIFIER ON;

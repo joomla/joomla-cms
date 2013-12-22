@@ -70,6 +70,7 @@ class JPathwaySite extends JPathway
 
 						default:
 							$router = $app::getRouter();
+
 							if ($router->getMode() == JROUTER_MODE_SEF)
 							{
 								$url = 'index.php?Itemid=' . $link->id;

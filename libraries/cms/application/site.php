@@ -297,6 +297,7 @@ final class JApplicationSite extends JApplicationCms
 		static $params = array();
 
 		$hash = '__default';
+
 		if (!empty($option))
 		{
 			$hash = $option;
@@ -331,6 +332,7 @@ final class JApplicationSite extends JApplicationCms
 			{
 				$description = $this->get('MetaDesc');
 			}
+
 			$rights = $this->get('MetaRights');
 			$robots = $this->get('robots');
 

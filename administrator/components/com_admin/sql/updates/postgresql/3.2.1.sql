@@ -1,2 +1,1 @@
-ALTER TABLE "#__users" ADD COLUMN "requireReset" smallint DEFAULT 0;
-COMMENT ON COLUMN "#__users"."requireReset" IS 'Require user to reset password on next login';
+DELETE FROM "#__postinstall_messages" WHERE "title_key" = 'PLG_USER_JOOMLA_POSTINSTALL_STRONGPW_TITLE';

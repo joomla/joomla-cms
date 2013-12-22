@@ -59,6 +59,13 @@ JText::script('INSTL_FTP_SETTINGS_CORRECT');
 		<!-- Container -->
 		<div class="container">
 			<jdoc:include type="message" />
+			<div id="javascript-warning">
+				<noscript>
+					<div class="alert alert-error">
+						<?php echo JText::_('INSTL_WARNJAVASCRIPT'); ?>
+					</div>
+				</noscript>
+			</div>
 			<div id="container-installation">
 				<jdoc:include type="component" />
 			</div>

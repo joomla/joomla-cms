@@ -1,1 +1,1 @@
-ALTER TABLE [#__users] ADD [requireReset] [smallint] NULL DEFAULT 0;
+DELETE FROM [#__postinstall_messages] WHERE [title_key] = 'PLG_USER_JOOMLA_POSTINSTALL_STRONGPW_TITLE';

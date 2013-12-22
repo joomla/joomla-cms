@@ -122,6 +122,7 @@ abstract class JInstallerHelper
 				$retval['extractdir'] = null;
 				$retval['packagefile'] = $archivename;
 				$retval['type'] = false;
+
 				return $retval;
 			}
 
@@ -243,6 +244,7 @@ abstract class JInstallerHelper
 
 			return $parts[count($parts) - 1];
 		}
+
 		return false;
 	}
 

@@ -157,7 +157,7 @@ class JUpdaterExtension extends JUpdateAdapter
 	 */
 	public function findUpdate($options)
 	{
-		$url = $options['location'];
+		$url = trim($options['location']);
 		$this->_url = &$url;
 		$this->updateSiteId = $options['update_site_id'];
 
