@@ -2730,6 +2730,7 @@ CREATE TABLE [#__update_sites](
 	[location] [nvarchar](max) NOT NULL,
 	[enabled] [int] NULL DEFAULT 0,
 	[last_check_timestamp] [int] NULL DEFAULT 0,
+	[extra_query] [nvarchar](1000) NULL DEFAULT '',
  CONSTRAINT [PK_#__update_sites_update_site_id] PRIMARY KEY CLUSTERED
 (
 	[update_site_id] ASC
@@ -2784,6 +2785,7 @@ CREATE TABLE [#__updates](
 	[data] [nvarchar](max) NOT NULL DEFAULT '',
 	[detailsurl] [nvarchar](max) NOT NULL,
 	[infourl] [nvarchar](max) NOT NULL,
+	[extra_query] [nvarchar](1000) NULL DEFAULT '',
  CONSTRAINT [PK_#__updates_update_id] PRIMARY KEY CLUSTERED
 (
 	[update_id] ASC

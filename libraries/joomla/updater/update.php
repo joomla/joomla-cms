@@ -139,6 +139,14 @@ class JUpdate extends JObject
 	protected $targetplatform;
 
 	/**
+	 * Extra query for download URLs
+	 *
+	 * @var    string
+	 * @since  13.1
+	 */
+	protected $extra_query;
+
+	/**
 	 * Resource handle for the XML Parser
 	 *
 	 * @var    resource

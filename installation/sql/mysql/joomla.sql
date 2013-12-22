@@ -1758,6 +1758,7 @@ CREATE TABLE IF NOT EXISTS `#__updates` (
   `data` text NOT NULL,
   `detailsurl` text NOT NULL,
   `infourl` text NOT NULL,
+  `extra_query` VARCHAR(1000) DEFAULT '',
   PRIMARY KEY (`update_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Available Updates';
 
@@ -1774,6 +1775,7 @@ CREATE TABLE IF NOT EXISTS `#__update_sites` (
   `location` text NOT NULL,
   `enabled` int(11) DEFAULT 0,
   `last_check_timestamp` bigint(20) DEFAULT 0,
+  `extra_query` VARCHAR(1000) DEFAULT '',
   PRIMARY KEY (`update_site_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Update Sites';
 
