@@ -61,19 +61,19 @@ class JUcmType implements JUcm
 	public $type;
 
 	/**
-	* The Database object
-	*
-	* @var    JDatabaseDriver
-	* @since  3.1
-	*/
+	 * The Database object
+	 *
+	 * @var    JDatabaseDriver
+	 * @since  3.1
+	 */
 	protected $db;
 
 	/**
-	* The alias for the content type
-	*
-	* @var	  string
-	* @since  3.1
-	*/
+	 * The alias for the content type
+	 *
+	 * @var	  string
+	 * @since  3.1
+	 */
 	protected $alias;
 
 	/**
@@ -178,7 +178,6 @@ class JUcmType implements JUcm
 		}
 
 		return false;
-
 	}
 
 	/**

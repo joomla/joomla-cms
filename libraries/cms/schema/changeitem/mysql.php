@@ -60,9 +60,11 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 
 		// We can only make check queries for alter table and create table queries
 		$command = strtoupper($wordArray[0] . ' ' . $wordArray[1]);
+
 		if ($command === 'ALTER TABLE')
 		{
 			$alterCommand = strtoupper($wordArray[3] . ' ' . $wordArray[4]);
+
 			if ($alterCommand == 'ADD COLUMN')
 			{
 				$result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = ' . $this->fixQuote($wordArray[5]);
@@ -79,6 +81,7 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 				{
 					$index = $this->fixQuote($wordArray[5]);
 				}
+
 				$result = 'SHOW INDEXES IN ' . $wordArray[2] . ' WHERE Key_name = ' . $index;
 				$this->queryType = 'ADD_INDEX';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $index);
@@ -103,10 +106,12 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 			{
 				// Kludge to fix problem with "integer unsigned"
 				$type = $this->fixQuote($wordArray[5]);
+
 				if (isset($wordArray[6]))
 				{
 					$type = $this->fixQuote($this->fixInteger($wordArray[5], $wordArray[6]));
 				}
+
 				$result = 'SHOW COLUMNS IN ' . $wordArray[2] . ' WHERE field = ' . $this->fixQuote($wordArray[4]) . ' AND type = ' . $type;
 				$this->queryType = 'CHANGE_COLUMN_TYPE';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[4]), $type);
@@ -131,6 +136,7 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 			{
 				$table = $wordArray[2];
 			}
+
 			$result = 'SHOW TABLES LIKE ' . $this->fixQuote($table);
 			$this->queryType = 'CREATE_TABLE';
 			$this->msgElements = array($this->fixQuote($table));
@@ -164,10 +170,12 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 	private function fixInteger($type1, $type2)
 	{
 		$result = $type1;
+
 		if (strtolower($type1) == "integer" && strtolower(substr($type2, 0, 8)) == 'unsigned')
 		{
 			$result = 'int(10) unsigned';
 		}
+
 		return $result;
 	}
 
@@ -187,6 +195,7 @@ class JSchemaChangeitemMysql extends JSchemaChangeitem
 		$string = str_replace('`', '', $string);
 		$string = str_replace(';', '', $string);
 		$string = str_replace('#__', $this->db->getPrefix(), $string);
+
 		return $this->db->quote($string);
 	}
 }

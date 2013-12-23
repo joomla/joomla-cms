@@ -167,6 +167,7 @@ class JFormFieldTag extends JFormFieldList
 		if ($this->form->getName() == 'com_tags.tag')
 		{
 			$id   = (int) $this->form->getValue('id', 0);
+
 			foreach ($options as $option)
 			{
 				if ($option->value == $id)

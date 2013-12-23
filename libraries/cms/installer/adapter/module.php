@@ -213,6 +213,7 @@ class JInstallerAdapterModule extends JAdapterInstance
 				}
 			}
 		}
+
 		if (!empty($element))
 		{
 			$this->parent->setPath('extension_root', $basePath . '/modules/' . $element);
@@ -773,6 +774,7 @@ class JInstallerAdapterModule extends JAdapterInstance
 
 			return false;
 		}
+
 		$this->parent->setPath('extension_root', $client->path . '/modules/' . $element);
 
 		$this->parent->setPath('source', $this->parent->getPath('extension_root'));

@@ -41,6 +41,7 @@ class JLanguageMultilang
 		if ($app->isSite())
 		{
 			$enabled = $app->getLanguageFilter();
+
 			return $enabled;
 		}
 

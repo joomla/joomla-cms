@@ -189,7 +189,6 @@ class JInstallerAdapterFile extends JAdapterInstance
 		{
 			if (!JFolder::exists($folder))
 			{
-
 				if (!$created = JFolder::create($folder))
 				{
 					JLog::add(JText::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_FAIL_SOURCE_DIRECTORY', $folder), JLog::WARNING, 'jerror');
@@ -208,7 +207,6 @@ class JInstallerAdapterFile extends JAdapterInstance
 					$this->parent->pushStep(array('type' => 'folder', 'path' => $folder));
 				}
 			}
-
 		}
 
 		// Now that we have file list, let's start copying them
@@ -593,7 +591,6 @@ class JInstallerAdapterFile extends JAdapterInstance
 						if ($eFileName->getName() == 'folder')
 						{
 							$folderList[] = $targetFolder . '/' . $eFileName;
-
 						}
 						else
 						{
@@ -682,7 +679,6 @@ class JInstallerAdapterFile extends JAdapterInstance
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -776,7 +772,6 @@ class JInstallerAdapterFile extends JAdapterInstance
 
 					array_push($this->fileList, $path);
 				}
-
 			}
 		}
 	}

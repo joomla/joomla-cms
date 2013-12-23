@@ -60,6 +60,7 @@ abstract class JHtmlRules
 		{
 			$html[] = '				<th class="col' . ($i + 2) . '">' . JText::_($action->title) . '</th>';
 		}
+
 		$html[] = '			</tr>';
 
 		foreach ($groups as $i => $group)
@@ -73,6 +74,7 @@ abstract class JHtmlRules
 					. ($assetId ? ($inherited->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])
 					: ($inheriting->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])) . '</td>';
 			}
+
 			$html[] = '			</tr>';
 		}
 

@@ -135,7 +135,7 @@ class InstallationModelDatabase extends JModelBase
 		// Validate database table prefix.
 		if (!preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $options->db_prefix))
 		{
-			$app->enqueueMessage(JText::_('INSTL_DATABASE_PREFIX_INVALID_CHARS'), 'notice');
+			$app->enqueueMessage(JText::_('INSTL_DATABASE_PREFIX_MSG'), 'notice');
 			return false;
 		}
 
