@@ -18,5 +18,10 @@
 		<language tag="en-GB">language/en-GB/en-GB.plg_system_languagecode.ini</language>
 		<language tag="en-GB">language/en-GB/en-GB.plg_system_languagecode.sys.ini</language>
 	</languages>
-	<config />
+	<config>
+		<fields name="params">
+			<field name="languagecodeplugin" type="hidden" 
+				default="true" />
+		</fields>
+	</config>
 </extension>
