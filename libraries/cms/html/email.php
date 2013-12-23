@@ -72,15 +72,15 @@ abstract class JHtmlEmail
 					$replacement .= "\n var addy_text" . $rand . " = '" . $text . "';";
 				}
 
-				$replacement .= "\n document.write('<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>'";
-				$replacement .= "+ addy_text" . $rand;
-				$replacement .= "+ '<\/a>');";
+				$replacement .= "\n document.write('<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>');";
+				$replacement .= "\n document.write(addy_text" . $rand . ");";
+				$replacement .= "\n document.write('<\/a>');";
 			}
 			else
 			{
-				$replacement .= "\n document.write('<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>'";
-				$replacement .= "+ addy" . $rand;
-				$replacement .= "+ '<\/a>');";
+				$replacement .= "\n document.write('<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>');";
+				$replacement .= "\n document.write(addy" . $rand . ");";
+				$replacement .= "\n document.write('<\/a>');";
 			}
 		}
 		else
@@ -94,10 +94,14 @@ abstract class JHtmlEmail
 		// XHTML compliance no Javascript text handling
 		$replacement .= "<script type='text/javascript'>";
 		$replacement .= "\n <!--";
-		$replacement .= "\n document.write('<span style=\'display: none;\'>'+ '";
+		$replacement .= "\n document.write('<span style=\'display: none;\'>');";
+		$replacement .= "\n //-->";
+		$replacement .= "\n </script>";
 		$replacement .= JText::_('JLIB_HTML_CLOAKING');
-		$replacement .= "'+ '</'";
-		$replacement .= "+ 'span>');";
+		$replacement .= "\n <script type='text/javascript'>";
+		$replacement .= "\n <!--";
+		$replacement .= "\n document.write('</');";
+		$replacement .= "\n document.write('span>');";
 		$replacement .= "\n //-->";
 		$replacement .= "\n </script>";
 
