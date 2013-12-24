@@ -172,7 +172,8 @@ class SearchViewSearch extends JViewLegacy
 					{
 						if (($pos = mb_strpos($srow, strtolower(SearchHelper::remove_accents($hlword)))) !== false)
 						{
-							$pos += $cnt++ * mb_strlen($hl1 . $hl2);
+							$pos += $cnt * mb_strlen($hl1 . $hl2);
+							$cnt++;
 
 							// iconv transliterates '€' to 'EUR'
 							// TODO: add other expanding translations?
@@ -185,7 +186,8 @@ class SearchViewSearch extends JViewLegacy
 					{
 						if (($pos = JString::strpos($srow, strtolower(SearchHelper::remove_accents($hlword)))) !== false)
 						{
-							$pos += $cnt++ * JString::strlen($hl1 . $hl2);
+							$pos += $cnt * JString::strlen($hl1 . $hl2);
+							$cnt++;
 
 							// iconv transliterates '€' to 'EUR'
 							// TODO: add other expanding translations?
