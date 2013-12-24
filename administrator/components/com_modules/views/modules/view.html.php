@@ -62,7 +62,7 @@ class ModulesViewModules extends JViewLegacy
 	protected function addToolbar()
 	{
 		$state	= $this->get('State');
-		$canDo	= ModulesHelper::getActions();
+		$canDo	= JHelperContent::getActions('com_modules');
 		$user  = JFactory::getUser();
 
 		// Get the toolbar object instance

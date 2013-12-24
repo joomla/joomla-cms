@@ -73,9 +73,7 @@ class LanguagesViewInstalled extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		require_once JPATH_COMPONENT.'/helpers/languages.php';
-
-		$canDo	= LanguagesHelper::getActions();
+		$canDo	= JHelperContent::getActions('com_languages');
 
 		JToolbarHelper::title(JText::_('COM_LANGUAGES_VIEW_INSTALLED_TITLE'), 'comments-2 langmanager');
 

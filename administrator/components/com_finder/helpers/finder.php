@@ -51,27 +51,4 @@ class FinderHelper
 			$vName == 'filters'
 		);
 	}
-
-	/**
-	 * Gets a list of the actions that can be performed.
-	 *
-	 * @return  JObject  A JObject containing the allowed actions.
-	 *
-	 * @since   2.5
-	 */
-	public static function getActions()
-	{
-		$user = JFactory::getUser();
-		$result = new JObject;
-		$assetName = 'com_finder';
-
-		$actions = JAccess::getActions($assetName, 'component');
-
-		foreach ($actions as $action)
-		{
-			$result->set($action->name, $user->authorise($action->name, $assetName));
-		}
-
-		return $result;
-	}
 }

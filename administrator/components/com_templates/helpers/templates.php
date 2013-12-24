@@ -40,26 +40,6 @@ class TemplatesHelper
 	}
 
 	/**
-	 * Gets a list of the actions that can be performed.
-	 *
-	 * @return  JObject
-	 */
-	public static function getActions()
-	{
-		$user = JFactory::getUser();
-		$result = new JObject;
-
-		$actions = JAccess::getActions('com_templates');
-
-		foreach ($actions as $action)
-		{
-			$result->set($action->name, $user->authorise($action->name, 'com_templates'));
-		}
-
-		return $result;
-	}
-
-	/**
 	 * Get a list of filter options for the application clients.
 	 *
 	 * @return  array  An array of JHtmlOption elements.

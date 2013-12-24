@@ -88,7 +88,7 @@ class CategoriesViewCategories extends JViewLegacy
 		$categoryId	= $this->state->get('filter.category_id');
 		$component	= $this->state->get('filter.component');
 		$section	= $this->state->get('filter.section');
-		$canDo		= null;
+		$canDo		= JHelperContent::getActions($component, 'category', $categoryId);
 		$user		= JFactory::getUser();
 		$extension  = JFactory::getApplication()->input->get('extension', '', 'word');
 
@@ -108,9 +108,6 @@ class CategoriesViewCategories extends JViewLegacy
 
 		// Load the category helper.
 		require_once JPATH_COMPONENT . '/helpers/categories.php';
-
-		// Get the results for each action.
-		$canDo = CategoriesHelper::getActions($component, $categoryId);
 
 		// If a component categories title string is present, let's use it.
 		if ($lang->hasKey($component_title_key = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORIES_TITLE'))

@@ -80,7 +80,7 @@ class LanguagesViewOverrides extends JViewLegacy
 	protected function addToolbar()
 	{
 		// Get the results for each action
-		$canDo = LanguagesHelper::getActions();
+		$canDo = JHelperContent::getActions('com_languages');
 
 		JToolbarHelper::title(JText::_('COM_LANGUAGES_VIEW_OVERRIDES_TITLE'), 'comments-2 langmanager');
 

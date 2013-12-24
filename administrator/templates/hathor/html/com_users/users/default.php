@@ -16,7 +16,6 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('behavior.modal');
 
-$canDo = UsersHelper::getActions();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
 $loggeduser = JFactory::getUser();
@@ -119,7 +118,7 @@ $loggeduser = JFactory::getUser();
 
 		<tbody>
 		<?php foreach ($this->items as $i => $item) :
-			$canEdit	= $canDo->get('core.edit');
+			$canEdit	= $this->canDo->get('core.edit');
 			$canChange	= $loggeduser->authorise('core.edit.state',	'com_users');
 			// If this group is super admin and this user is not super admin, $canEdit is false
 			if ((!$loggeduser->authorise('core.admin')) && JAccess::check($item->id, 'core.admin'))

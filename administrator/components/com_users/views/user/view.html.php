@@ -65,7 +65,7 @@ class UsersViewUser extends JViewLegacy
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		$user  = JFactory::getUser();
-		$canDo = UsersHelper::getActions();
+		$canDo = JHelperContent::getActions('com_users');
 		$isNew	= ($this->item->id == 0);
 		$isProfile = $this->item->id == $user->id;
 

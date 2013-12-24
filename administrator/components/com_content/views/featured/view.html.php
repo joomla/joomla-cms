@@ -80,7 +80,7 @@ class ContentViewFeatured extends JViewLegacy
 	protected function addToolbar()
 	{
 		$state	= $this->get('State');
-		$canDo	= JHelperContent::getActions($this->state->get('filter.category_id'), 0, 'com_content');
+		$canDo	= JHelperContent::getActions('com_content', 'category', $this->state->get('filter.category_id'));
 
 		JToolbarHelper::title(JText::_('COM_CONTENT_FEATURED_TITLE'), 'star featured');
 

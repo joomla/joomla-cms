@@ -43,38 +43,6 @@ class MenusHelper
 	}
 
 	/**
-	 * Gets a list of the actions that can be performed.
-	 *
-	 * @param   integer  The menu ID.
-	 *
-	 * @return  JObject
-	 * @since   1.6
-	 */
-	public static function getActions($parentId = 0)
-	{
-		$user = JFactory::getUser();
-		$result = new JObject;
-
-		if (empty($parentId))
-		{
-			$assetName = 'com_menus';
-		}
-		else
-		{
-			$assetName = 'com_menus.item.' . (int) $parentId;
-		}
-
-		$actions = JAccess::getActions('com_menus');
-
-		foreach ($actions as $action)
-		{
-			$result->set($action->name, $user->authorise($action->name, $assetName));
-		}
-
-		return $result;
-	}
-
-	/**
 	 * Gets a standard form of a link for lookups.
 	 *
 	 * @param   mixed    A link string or array of request variables.

@@ -75,7 +75,7 @@ class BannersViewBanners extends JViewLegacy
 	{
 		require_once JPATH_COMPONENT . '/helpers/banners.php';
 
-		$canDo = JHelperContent::getActions($this->state->get('filter.category_id'), 0, 'com_banners');
+		$canDo = JHelperContent::getActions('com_banners', 'category', $this->state->get('filter.category_id'));
 		$user = JFactory::getUser();
 
 		// Get the toolbar object instance

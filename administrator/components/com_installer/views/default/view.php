@@ -72,7 +72,7 @@ class InstallerViewDefault extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo	= InstallerHelper::getActions();
+		$canDo	= JHelperContent::getActions('com_installer');
 		JToolbarHelper::title(JText::_('COM_INSTALLER_HEADER_' . $this->getName()), 'puzzle install');
 
 		if ($canDo->get('core.admin'))

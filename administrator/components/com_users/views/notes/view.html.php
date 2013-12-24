@@ -99,7 +99,7 @@ class UsersViewNotes extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo = UsersHelper::getActions();
+		$canDo = JHelperContent::getActions('com_users', 'category', $this->state->get('filter.category_id'));
 
 		JToolbarHelper::title(JText::_('COM_USERS_VIEW_NOTES_TITLE'), 'users user');
 

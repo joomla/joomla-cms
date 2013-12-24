@@ -29,9 +29,10 @@ class LanguagesViewLanguage extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$this->item = $this->get('Item');
-		$this->form = $this->get('Form');
-		$this->state = $this->get('State');
+		$this->item 	= $this->get('Item');
+		$this->form 	= $this->get('Form');
+		$this->state 	= $this->get('State');
+		$this->canDo	= JHelperContent::getActions('com_languages');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -55,7 +56,7 @@ class LanguagesViewLanguage extends JViewLegacy
 
 		JFactory::getApplication()->input->set('hidemainmenu', 1);
 		$isNew = empty($this->item->lang_id);
-		$canDo = LanguagesHelper::getActions();
+		$canDo = $this->canDo;
 
 		JToolbarHelper::title(JText::_($isNew ? 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_NEW_TITLE' : 'COM_LANGUAGES_VIEW_LANGUAGE_EDIT_EDIT_TITLE'), 'comments-2 langmanager');
 

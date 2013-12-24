@@ -29,39 +29,6 @@ abstract class ModulesHelper
 	}
 
 	/**
-	 * Gets a list of the actions that can be performed.
-	 *
-	 * @param   integer  The module ID.
-	 *
-	 * @return  JObject
-	 */
-	public static function getActions($moduleId = 0)
-	{
-		$user	= JFactory::getUser();
-		$result	= new JObject;
-
-		if (empty($moduleId))
-		{
-			$assetName = 'com_modules';
-		}
-		else
-		{
-			$assetName = 'com_modules.module.'.(int) $moduleId;
-		}
-
-		$actions = JAccess::getActionsFromFile(
-			JPATH_ADMINISTRATOR . '/components/com_modules/access.xml', "/access/section[@name='component']/"
-		);
-
-		foreach ($actions as $action)
-		{
-			$result->set($action->name, $user->authorise($action->name, $assetName));
-		}
-
-		return $result;
-	}
-
-	/**
 	 * Get a list of filter options for the state of a module.
 	 *
 	 * @return  array  An array of JHtmlOption elements.
