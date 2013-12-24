@@ -29,9 +29,6 @@ class ConfigViewModulesHtml extends ConfigViewCmsHtml
 	public function render()
 	{
 
-		$user = JFactory::getUser();
-		$this->userIsAllowed = $user->authorise('core.edit', 'com_modules.module.' . $this->item['id']);
-
 		$lang = JFactory::getApplication()->getLanguage();
 		$lang->load('', JPATH_ADMINISTRATOR, $lang->getTag());
 		$lang->load('com_modules', JPATH_ADMINISTRATOR, $lang->getTag());
