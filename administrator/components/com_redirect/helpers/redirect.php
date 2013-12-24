@@ -31,27 +31,6 @@ class RedirectHelper
 	}
 
 	/**
-	 * Gets a list of the actions that can be performed.
-	 *
-	 * @return  JObject
-	 */
-	public static function getActions()
-	{
-		$user		= JFactory::getUser();
-		$result		= new JObject;
-		$assetName	= 'com_redirect';
-
-		$actions = JAccess::getActions($assetName);
-
-		foreach ($actions as $action)
-		{
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
-		}
-
-		return $result;
-	}
-
-	/**
 	 * Returns an array of standard published state filter options.
 	 *
 	 * @return  string  	The HTML code for the select tag

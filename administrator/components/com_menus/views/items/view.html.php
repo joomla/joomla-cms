@@ -212,9 +212,7 @@ class MenusViewItems extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		require_once JPATH_COMPONENT . '/helpers/menus.php';
-
-		$canDo	= MenusHelper::getActions($this->state->get('filter.parent_id'));
+		$canDo	= JHelperContent::getActions('com_menus');
 		$user  = JFactory::getUser();
 
 		// Get the toolbar object instance

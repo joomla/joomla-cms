@@ -64,7 +64,7 @@ class BannersViewBanner extends JViewLegacy
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 
 		// Since we don't track these assets at the item level, use the category id.
-		$canDo		= JHelperContent::getActions($this->item->catid, 0, 'com_banners');
+		$canDo		= JHelperContent::getActions('com_banners', 'category', $this->item->catid);
 
 		JToolbarHelper::title($isNew ? JText::_('COM_BANNERS_MANAGER_BANNER_NEW') : JText::_('COM_BANNERS_MANAGER_BANNER_EDIT'), 'bookmark banners');
 

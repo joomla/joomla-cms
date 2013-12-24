@@ -51,27 +51,6 @@ class LanguagesHelper
 	}
 
 	/**
-	 * Gets a list of the actions that can be performed.
-	 *
-	 * @return  JObject
-	 */
-	public static function getActions()
-	{
-		$user		= JFactory::getUser();
-		$result		= new JObject;
-		$assetName	= 'com_languages';
-
-		$actions = JAccess::getActions($assetName);
-
-		foreach ($actions as $action)
-		{
-			$result->set($action->name,	$user->authorise($action->name, $assetName));
-		}
-
-		return $result;
-	}
-
-	/**
 	 * Method for parsing ini files
 	 *
 	 * @param   string  $filename Path and name of the ini file to parse

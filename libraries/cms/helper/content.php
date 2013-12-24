@@ -35,39 +35,31 @@ class JHelperContent
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @param   integer  $categoryId  The category ID.
-	 * @param   integer  $id          The item ID.
-	 * @param   string   $assetName   The asset name
+	 * @param   string   $component	 The component name.
+	 * @param   string   $section	 The access section name.
+	 * @param   integer  $id   	     The item ID.
 	 *
 	 * @return  JObject
 	 *
 	 * @since   3.1
 	 */
-	public static function getActions($categoryId = 0, $id = 0, $assetName = '')
+	public static function getActions($component = '', $section = '', $id = 0)
 	{
-		// Reverted a change for version 2.5.6
 		$user	= JFactory::getUser();
 		$result	= new JObject;
 
-		$path = JPATH_ADMINISTRATOR . '/components/' . $assetName . '/access.xml';
+		$path = JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml';
 
-		if (empty($id) && empty($categoryId))
+		if ($section && $id)
 		{
-			$section = 'component';
-		}
-		elseif (empty($id))
-		{
-			$section = 'category';
-			$assetName .= '.category.' . (int) $categoryId;
+			$assetName = $component . '.' . $section . '.' . (int) $id;
 		}
 		else
 		{
-			// Used only in com_content
-			$section = 'article';
-			$assetName .= '.article.' . (int) $id;
+			$assetName = $component;
 		}
 
-		$actions = JAccess::getActionsFromFile($path, "/access/section[@name='" . $section . "']/");
+		$actions = JAccess::getActionsFromFile($path, "/access/section[@name='component']/");
 
 		foreach ($actions as $action)
 		{

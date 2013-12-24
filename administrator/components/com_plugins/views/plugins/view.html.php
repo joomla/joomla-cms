@@ -60,7 +60,7 @@ class PluginsViewPlugins extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo = PluginsHelper::getActions();
+		$canDo = JHelperContent::getActions('com_plugins');
 
 		JToolbarHelper::title(JText::_('COM_PLUGINS_MANAGER_PLUGINS'), 'power-cord plugin');
 
