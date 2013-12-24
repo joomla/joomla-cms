@@ -65,6 +65,7 @@ abstract class JHtmlLinks
 
 		return implode($html);
 	}
+
 	/**
 	 * Method to generate html code for a list of links
 	 *

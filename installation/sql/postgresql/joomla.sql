@@ -1684,6 +1684,7 @@ CREATE TABLE "#__updates" (
   "data" text DEFAULT '' NOT NULL,
   "detailsurl" text NOT NULL,
   "infourl" text NOT NULL,
+  "extra_query" varchar(1000) DEFAULT '',
   PRIMARY KEY ("update_id")
 );
 
@@ -1699,6 +1700,7 @@ CREATE TABLE "#__update_sites" (
   "location" text NOT NULL,
   "enabled" bigint DEFAULT 0,
   "last_check_timestamp" bigint DEFAULT 0,
+  "extra_query" varchar(1000) DEFAULT '',
   PRIMARY KEY ("update_site_id")
 );
 

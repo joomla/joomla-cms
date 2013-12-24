@@ -76,6 +76,7 @@ abstract class JHtmlTag
 					{
 						$language = $db->quote($language);
 					}
+
 					$query->where('a.language IN (' . implode(',', $config['filter.language']) . ')');
 				}
 			}
@@ -146,6 +147,7 @@ abstract class JHtmlTag
 			$item->title = str_repeat('- ', $repeat) . $item->title;
 			static::$items[$hash][] = JHtml::_('select.option', $item->id, $item->title);
 		}
+
 		return static::$items[$hash];
 	}
 

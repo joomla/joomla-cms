@@ -53,6 +53,7 @@ class JErrorPage
 			{
 				ob_end_clean();
 			}
+
 			$document->setTitle(JText::_('Error') . ': ' . $error->getCode());
 			$data = $document->render(
 				false,

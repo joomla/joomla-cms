@@ -229,6 +229,7 @@ class JComponentHelper
 				{
 					$filter->tagBlacklist = $customListTags;
 				}
+
 				if ($customListAttributes)
 				{
 					$filter->attrBlacklist = $customListAttributes;

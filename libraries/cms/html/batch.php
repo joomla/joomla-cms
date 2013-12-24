@@ -116,6 +116,7 @@ abstract class JHtmlBatch
 		JHtml::_('bootstrap.tooltip');
 
 		$optionNo = '';
+
 		if ($noUser)
 		{
 			$optionNo = '<option value="0">' . JText::_('JLIB_HTML_BATCH_USER_NOUSER') . '</option>';
