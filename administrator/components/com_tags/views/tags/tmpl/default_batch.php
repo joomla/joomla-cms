@@ -18,7 +18,7 @@ $published	= $this->state->get('filter.published');
 		<button type="button" class="close" data-dismiss="modal">&#215;</button>
 		<h3><?php echo JText::_('COM_TAGS_BATCH_OPTIONS');?></h3>
 	</div>
-	<div class="modal-body" style="max-height: 250px; height: 250px;">
+	<div class="modal-body" style="max-height: 340px; height: 340px;">
 		<p><?php echo JText::_('COM_TAGS_BATCH_TIP'); ?></p>
 		<div style="float: left; width: 50%;">
 			<div class="control-group">
