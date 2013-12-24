@@ -20,7 +20,6 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.tabstate');
 
-$canDo = TemplatesHelper::getActions();
 $input = JFactory::getApplication()->input;
 
 if ($this->type == 'image')

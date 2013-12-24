@@ -65,7 +65,7 @@ class BannersViewClients extends JViewLegacy
 	{
 		require_once JPATH_COMPONENT . '/helpers/banners.php';
 
-		$canDo = JHelperContent::getActions(0, 0, 'com_banners');
+		$canDo = JHelperContent::getActions('com_banners');
 
 		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_CLIENTS'), 'banners-clients.png');
 

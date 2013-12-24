@@ -66,9 +66,7 @@ class FinderViewMaps extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		// For whatever reason, the helper isn't being found
-		include_once JPATH_COMPONENT . '/helpers/finder.php';
-		$canDo	= FinderHelper::getActions();
+		$canDo	= JHelperContent::getActions('com_finder');
 
 		JToolbarHelper::title(JText::_('COM_FINDER_MAPS_TOOLBAR_TITLE'), 'zoom-in finder');
 		$toolbar = JToolbar::getInstance('toolbar');
