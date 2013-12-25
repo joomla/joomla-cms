@@ -1,21 +1,21 @@
 <?php
 /**
- * @package		Joomla.Administrator
- * @subpackage	com_installer
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-include_once dirname(__FILE__).'/../default/view.php';
+include_once dirname(__FILE__) . '/../default/view.php';
 
 /**
  * Extension Manager Manage View
  *
- * @package		Joomla.Administrator
- * @subpackage	com_installer
- * @since		1.6
+ * @package     Joomla.Administrator
+ * @subpackage  com_installer
+ * @since       1.6
  */
 class InstallerViewDiscover extends InstallerViewDefault
 {
@@ -28,6 +28,7 @@ class InstallerViewDiscover extends InstallerViewDefault
 		$this->state		= $this->get('State');
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
+		$this->form			= $this->get('Form');
 
 		parent::display($tpl);
 	}
@@ -36,10 +37,13 @@ class InstallerViewDiscover extends InstallerViewDefault
 	 * Add the page title and toolbar.
 	 *
 	 * @since	1.6
+	 *
+	 * @return void
 	 */
 	protected function addToolbar()
 	{
 		$canDo	= InstallerHelper::getActions();
+
 		/*
 		 * Set toolbar items for the page
 		 */
