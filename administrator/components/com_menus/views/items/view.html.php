@@ -81,10 +81,8 @@ class MenusViewItems extends JViewLegacy
 				case 'component':
 				default:
 					// Load language
-						$lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR, null, false, false)
-					||	$lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->componentname, null, false, false)
-					||	$lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-					||	$lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->componentname, $lang->getDefault(), false, false);
+						$lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR, null, false, true)
+					||	$lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->componentname, null, false, true);
 
 					if (!empty($item->componentname))
 					{
@@ -121,10 +119,8 @@ class MenusViewItems extends JViewLegacy
 											$file = JPATH_SITE . '/templates/' . $temp[0] . '/html/' . $item->componentname . '/' . $vars['view'] . '/' . $temp[1] . '.xml';
 
 											// Load template language file
-											$lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE, null, false, false)
-											||	$lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE . '/templates/' . $temp[0], null, false, false)
-											||	$lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE, $lang->getDefault(), false, false)
-											||	$lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE . '/templates/' . $temp[0], $lang->getDefault(), false, false);
+											$lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE, null, false, true)
+											||	$lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE . '/templates/' . $temp[0], null, false, true);
 										}
 										else
 										{

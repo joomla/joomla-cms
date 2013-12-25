@@ -168,10 +168,8 @@ class JFormFieldTemplatestyle extends JFormFieldGroupedList
 			foreach ($styles as $style)
 			{
 				$template = $style->template;
-				$lang->load('tpl_' . $template . '.sys', $client->path, null, false, false)
-					|| $lang->load('tpl_' . $template . '.sys', $client->path . '/templates/' . $template, null, false, false)
-					|| $lang->load('tpl_' . $template . '.sys', $client->path, $lang->getDefault(), false, false)
-					|| $lang->load('tpl_' . $template . '.sys', $client->path . '/templates/' . $template, $lang->getDefault(), false, false);
+				$lang->load('tpl_' . $template . '.sys', $client->path, null, false, true)
+					|| $lang->load('tpl_' . $template . '.sys', $client->path . '/templates/' . $template, null, false, true);
 				$name = JText::_($style->name);
 
 				// Initialize the group if necessary.

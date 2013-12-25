@@ -23,7 +23,7 @@
 				<field name="domain" type="url"
 					description="PLG_SEF_DOMAIN_DESCRIPTION"
 					label="PLG_SEF_DOMAIN_LABEL"
-					filter="string"
+					filter="url"
 					validate="url"
 				/>
 			</fieldset>

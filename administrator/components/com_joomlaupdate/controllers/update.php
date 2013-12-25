@@ -165,7 +165,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		// Set the default view name and format from the Request.
 		$vName   = $this->input->get('view', 'update');
 		$vFormat = $document->getType();
-		$lName   = $this->input->get('layout', 'default');
+		$lName   = $this->input->get('layout', 'default', 'string');
 
 		// Get and render the view.
 		if ($view = $this->getView($vName, $vFormat))

@@ -7375,3 +7375,7 @@ code {
 #filter-search {
 	vertical-align: top;
 }
+.editor {
+	overflow: hidden;
+	position: relative;
+}

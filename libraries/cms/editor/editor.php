@@ -316,6 +316,7 @@ class JEditor extends JObject
 				$return .= $result;
 			}
 		}
+
 		return $return;
 	}
 
@@ -489,9 +490,11 @@ class JEditor extends JObject
 		if (!is_file($path))
 		{
 			$path = JPATH_PLUGINS . '/editors/' . $name . '/' . $name . '.php';
+
 			if (!is_file($path))
 			{
 				JLog::add(JText::_('JLIB_HTML_EDITOR_CANNOT_LOAD'), JLog::WARNING, 'jerror');
+
 				return false;
 			}
 		}

@@ -94,14 +94,11 @@ if ($saveOrder)
 					<th width="1%">
 						<?php echo JHtml::_('grid.checkall'); ?>
 					</th>
-					<th class="left">
+					<th>
 						<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_LEVEL_NAME', 'a.title', $listDirn, $listOrder); ?>
 					</th>
 					<th width="5%" class="nowrap center hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
-					</th>
-					<th width="40%">
-						&#160;
 					</th>
 				</tr>
 			</thead>
@@ -153,9 +150,6 @@ if ($saveOrder)
 					</td>
 					<td class="center">
 						<?php echo (int) $item->id; ?>
-					</td>
-					<td>
-						&#160;
 					</td>
 				</tr>
 			<?php endforeach; ?>

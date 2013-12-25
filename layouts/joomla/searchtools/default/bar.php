@@ -29,7 +29,7 @@ $filters = $data['view']->filterForm->getGroup('filter');
 <?php if (!empty($filters['filter_search'])) : ?>
 	<?php if ($searchButton) : ?>
 		<label for="filter_search" class="element-invisible">
-			<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>
+			<?php echo JText::_('JSEARCH_FILTER'); ?>
 		</label>
 		<div class="btn-wrapper input-append">
 			<?php echo $filters['filter_search']->input; ?>

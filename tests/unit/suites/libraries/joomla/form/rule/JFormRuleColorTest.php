@@ -58,7 +58,7 @@ class JFormRuleColorTest extends TestCase
 			array('#GGGGGG', false),
 			array('FFFFFF', false),
 			array('#GGG', false),
-			array('', true)
+			array('', false)
 		);
 	}
 

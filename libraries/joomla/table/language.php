@@ -25,7 +25,7 @@ class JTableLanguage extends JTable
 	 *
 	 * @since   11.1
 	 */
-	public function __construct(JDatabaseDriver $db)
+	public function __construct($db)
 	{
 		parent::__construct('#__languages', 'lang_id', $db);
 	}

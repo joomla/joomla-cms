@@ -69,6 +69,7 @@ abstract class JHtmlSortablelist
 
 		// Set static array
 		static::$loaded[__METHOD__] = true;
+
 		return;
 	}
 
@@ -102,6 +103,7 @@ abstract class JHtmlSortablelist
 				});
 			})(jQuery);"
 		);
+
 		return;
 	}
 }

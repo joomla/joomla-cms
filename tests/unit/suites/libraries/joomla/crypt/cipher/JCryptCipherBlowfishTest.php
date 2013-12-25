@@ -137,7 +137,7 @@ class JCryptCipherBlowfishTest extends TestCase
 	 */
 	public function testGenerateKey()
 	{
-		$key = $this->_cipher->generateKey();
+		$key = $this->_cipher->generateKey(array('password' => 'J00ml@R0cks!'));
 
 		// Assert that the key is the correct type.
 		$this->assertInstanceOf('JCryptKey', $key);
