@@ -182,6 +182,9 @@ class JDocumentRendererTop extends JDocumentRenderer
 						
 			// Copy the async flag state.
 			isset($value['async']) ? $asset->setAttribute('async', (boolean) $value['async']) : null;
+			
+			// By default, render in the head.
+			$asset->setAttribute('head', true);
 		}
 	}
 			
@@ -221,6 +224,9 @@ class JDocumentRendererTop extends JDocumentRenderer
 			{
 				$asset->setContent($content);
 			}
+
+			// By default, render in the head.
+			$asset->setAttribute('head', true);
 		}
 	}
 	
