@@ -182,9 +182,6 @@ class JDocumentRendererTop extends JDocumentRenderer
 						
 			// Copy the async flag state.
 			isset($value['async']) ? $asset->setAttribute('async', (boolean) $value['async']) : null;
-			
-			// By default, render in the head.
-			$asset->setAttribute('head', true);
 		}
 	}
 			
@@ -224,9 +221,6 @@ class JDocumentRendererTop extends JDocumentRenderer
 			{
 				$asset->setContent($content);
 			}
-
-			// By default, render in the head.
-			$asset->setAttribute('head', true);
 		}
 	}
 	
@@ -584,7 +578,7 @@ class JDocumentRendererTop extends JDocumentRenderer
 			}
 			
 			// If the asset is head-only then render in the head; otherwise render in the tail.
-			if ($asset->getAttribute('head', false) == $head)
+			if ($asset->getAttribute('head', true) == $head)
 			{
 				// Filter by type if required.
 				$assetType = $asset->getType();
