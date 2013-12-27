@@ -37,22 +37,30 @@ class JFormFieldRadio extends JFormField
 	 */
 	protected function getInput()
 	{
-		$displayData = array(
-			'autofocus' => (boolean) $this->autofocus,
-			'classes' => explode(' ', (string) $this->class),
-			'disabled' => (boolean) $this->disabled,
-			'field' => $this,
-			'options' => $this->getOptions(),
-			'readonly' => (boolean) $this->readonly,
-			'required' => (boolean) $this->required,
-			'value' => (string) $this->value
-			);
+		$displayData = $this->getInputLayoutData();
 
 		// Including fallback code for HTML5 non supported browsers.
 		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/html5fallback.js', false, true);
 
 		return JLayoutHelper::render('joomla.fields.radio', $displayData);
+	}
+
+	/**
+	 * Method to get the data to be passed to the layout for rendering.
+	 *
+	 * @return  array
+	 *
+	 * @since 3.5
+	 */
+	protected function getInputLayoutData()
+	{
+		$displayData = parent::getInputLayoutData();
+
+		$displayData['value'] = (string) $this->value;
+		$displayData['options'] = $this->getOptions();
+
+		return $displayData;
 	}
 
 	/**

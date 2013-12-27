@@ -124,27 +124,37 @@ class JFormFieldCheckboxes extends JFormField
 	 */
 	protected function getInput()
 	{
-		// True if the field has 'value' set. In other words, it has been stored, don't use the default values.
-		$hasValue = (isset($this->value) && !empty($this->value));
-
-		// If a value has been stored, use it. Otherwise, use the defaults.
-		$checkedOptions = $hasValue ? $this->value : $this->checkedOptions;
-
-		$displayData = array(
-			'autofocus' => (boolean) $this->autofocus,
-			'checkedOptions' => is_array($checkedOptions) ? $checkedOptions : explode(',', (string) $checkedOptions),
-			'classes' => array_filter(explode(' ', (string) $this->class)),
-			'field' => $this,
-			'hasValue' => $hasValue,
-			'options' => $this->getOptions(),
-			'required' => (boolean) $this->required
-			);
+		$displayData = $this->getInputLayoutData();
 
 		// Including fallback code for HTML5 non supported browsers.
 		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/html5fallback.js', false, true);
 
 		return JLayoutHelper::render('joomla.fields.checkboxes', $displayData);
+	}
+
+	/**
+	 * Method to get the data to be passed to the layout for rendering.
+	 *
+	 * @return  array
+	 *
+	 * @since 3.5
+	 */
+	protected function getInputLayoutData()
+	{
+		$displayData = parent::getInputLayoutData();
+
+		// True if the field has 'value' set. In other words, it has been stored, don't use the default values.
+		$hasValue = (isset($this->value) && !empty($this->value));
+
+		// If a value has been stored, use it. Otherwise, use the defaults.
+		$checkedOptions = $hasValue ? $this->value : $this->checkedOptions;
+
+		$displayData['checkedOptions'] = is_array($checkedOptions) ? $checkedOptions : explode(',', (string) $checkedOptions);
+		$displayData['hasValue'] = $hasValue;
+		$displayData['options'] = $this->getOptions();
+
+		return $displayData;
 	}
 
 	/**
