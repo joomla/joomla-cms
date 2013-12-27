@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Document
  * @since       3.3
  */
-class JDocumentRendererBottom extends JDocumentRendererTop
+class JDocumentRendererTail extends JDocumentRendererHead
 {
 	/**
 	 * Renders the document head and returns the results as a string
