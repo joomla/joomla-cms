@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 	{
 		window.parent.Joomla.submitbutton('item.setType', type);
 		window.parent.SqueezeBox.close();
-	}
+	};
 </script>
 
 <h2 class="modal-title"><?php echo JText::_('COM_MENUS_TYPE_CHOOSE'); ?></h2>

@@ -24,7 +24,7 @@ $params = $this->state->get('params');
 			<?php echo $this->form->getField('description')->save(); ?>
 			Joomla.submitform(task);
 		}
-	}
+	};
 </script>
 <div class="edit<?php echo $this->pageclass_sfx; ?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>

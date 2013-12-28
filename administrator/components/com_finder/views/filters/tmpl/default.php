@@ -35,7 +35,7 @@ Joomla.submitbutton = function(pressbutton)
 		}
 	}
 	Joomla.submitform(pressbutton);
-}
+};
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=filters');?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>

@@ -36,7 +36,7 @@ JHtml::_('formbehavior.chosen', 'select');
 		{
 			Joomla.submitform(task, document.getElementById('override-form'));
 		}
-	}
+	};
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_languages&id='.$this->item->key); ?>" method="post" name="adminForm" id="override-form" class="form-validate form-horizontal">

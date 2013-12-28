@@ -22,7 +22,7 @@ $canDo = TemplatesHelper::getActions();
 		if (task == 'style.cancel' || document.formvalidator.isValid(document.id('style-form'))) {
 			Joomla.submitform(task, document.getElementById('style-form'));
 		}
-	}
+	};
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_templates&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="style-form" class="form-validate">

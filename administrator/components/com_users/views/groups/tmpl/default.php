@@ -45,7 +45,7 @@ JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 <?php endforeach;?>
 		}
 		Joomla.submitform(task);
-	}
+	};
 </script>
 <script type="text/javascript">
 	Joomla.orderTable = function()
@@ -62,7 +62,7 @@ JText::script('COM_USERS_GROUPS_CONFIRM_DELETE');
 			dirn = direction.options[direction.selectedIndex].value;
 		}
 		Joomla.tableOrdering(order, dirn, '');
-	}
+	};
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_users&view=groups');?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>

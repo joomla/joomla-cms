@@ -20,7 +20,7 @@ JHtml::_('behavior.formvalidation');
 		{
 			Joomla.submitform(task, document.getElementById('banner-form'));
 		}
-	}
+	};
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_banners&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="banner-form" class="form-validate">

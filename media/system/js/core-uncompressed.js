@@ -39,7 +39,7 @@ Joomla.submitform = function(task, form) {
  */
 Joomla.submitbutton = function(pressbutton) {
 	Joomla.submitform(pressbutton);
-}
+};
 
 /**
  * Custom behavior for JavaScript I18N in Joomla! 1.6
@@ -115,7 +115,7 @@ Joomla.checkAll = function(checkbox, stub) {
 		return true;
 	}
 	return false;
-}
+};
 
 /**
  * Render messages send via JSON
@@ -158,7 +158,7 @@ Joomla.renderMessages = function(messages) {
 Joomla.removeMessages = function() {
 	var children = $$('#system-message-container > *');
 	children.destroy();
-}
+};
 
 /**
  * USED IN: administrator/components/com_cache/views/cache/tmpl/default.php
@@ -181,7 +181,7 @@ Joomla.isChecked = function(isitchecked, form) {
 	} else {
 		form.boxchecked.value--;
 	}
-}
+};
 
 /**
  * USED IN: libraries/joomla/html/toolbar/button/help.php
@@ -195,7 +195,7 @@ Joomla.popupWindow = function(mypage, myname, w, h, scroll) {
 			+ ',scrollbars=' + scroll + ',resizable'
 	var win = window.open(mypage, myname, winprops)
 	win.window.focus();
-}
+};
 
 /**
  * USED IN: libraries/joomla/html/html/grid.php
@@ -208,7 +208,7 @@ Joomla.tableOrdering = function(order, dir, task, form) {
 	form.filter_order.value = order;
 	form.filter_order_Dir.value = dir;
 	Joomla.submitform(task, form);
-}
+};
 
 /**
  * USED IN: administrator/components/com_modules/views/module/tmpl/default.php

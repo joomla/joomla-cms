@@ -74,7 +74,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 				document.id(name).addClass('invalid');
 			});
 		}
-	}
+	};
 </script>
 
 <div class="menuitem-edit">

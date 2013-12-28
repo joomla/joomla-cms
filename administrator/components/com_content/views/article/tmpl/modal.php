@@ -80,7 +80,7 @@ if (isset($this->item->attribs['show_urls_images_backend']) && $this->item->attr
 
 		Joomla.submitform(task, document.getElementById('item-form'));
 		}
-	}
+	};
 </script>
 <div class="container-popup">
 

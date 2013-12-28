@@ -83,7 +83,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 			$('system-message').getElement('h4').innerHTML  = Joomla.JText._('ERROR');
 			$('system-message').getElement('div').innerHTML = Joomla.JText._('JGLOBAL_VALIDATION_FORM_FAILED');
 		}
-	}
+	};
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">

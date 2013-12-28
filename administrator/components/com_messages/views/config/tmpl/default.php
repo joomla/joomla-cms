@@ -23,7 +23,7 @@ JHtml::_('behavior.modal');
 		{
 			Joomla.submitform(task, document.getElementById('config-form'));
 		}
-	}
+	};
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_messages'); ?>" method="post" name="adminForm" id="message-form" class="form-validate form-horizontal">
 	<fieldset>

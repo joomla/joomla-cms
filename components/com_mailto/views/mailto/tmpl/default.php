@@ -22,7 +22,7 @@ JHtml::_('behavior.keepalive');
 			return false;
 		}
 		form.submit();
-	}
+	};
 </script>
 <?php
 $data	= $this->get('data');

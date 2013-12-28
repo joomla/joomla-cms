@@ -36,7 +36,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 		if (task == 'banner.cancel' || document.formvalidator.isValid(document.id('banner-form'))) {
 			Joomla.submitform(task, document.getElementById('banner-form'));
 		}
-	}
+	};
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_banners&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="banner-form" class="form-validate">

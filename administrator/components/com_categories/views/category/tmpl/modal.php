@@ -38,7 +38,7 @@ $assoc = JLanguageAssociations::isEnabled();
 
 			Joomla.submitform(task, document.getElementById('item-form'));
 		}
-	}
+	};
 </script>
 <div class="container-popup">
 

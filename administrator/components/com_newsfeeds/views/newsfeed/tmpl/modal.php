@@ -33,7 +33,7 @@ $assoc = JLanguageAssociations::isEnabled();
 
 			Joomla.submitform(task, document.getElementById('newsfeed-form'));
 		}
-	}
+	};
 </script>
 <div class="container-popup">
 

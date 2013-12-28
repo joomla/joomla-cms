@@ -21,7 +21,7 @@ $user = JFactory::getUser();
 		{
 			Joomla.submitform(task, document.getElementById('templates-form'));
 		}
-	}
+	};
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="templates-form" class="form-validate">

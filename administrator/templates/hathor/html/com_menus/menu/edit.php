@@ -22,7 +22,7 @@ JHtml::_('behavior.formvalidation');
 		{
 			Joomla.submitform(task, document.getElementById('item-form'));
 		}
-	}
+	};
 </script>
 
 <div class="menu-edit">

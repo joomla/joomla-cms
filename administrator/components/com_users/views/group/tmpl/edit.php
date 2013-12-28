@@ -24,7 +24,7 @@ $canDo = UsersHelper::getActions();
 		{
 			Joomla.submitform(task, document.getElementById('group-form'));
 		}
-	}
+	};
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_users&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="group-form" class="form-validate form-horizontal">

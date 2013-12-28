@@ -20,7 +20,7 @@ JHtml::_('behavior.formvalidation');
 		{
 			Joomla.submitform(task, document.getElementById('style-form'));
 		}
-	}
+	};
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_plugins&layout=edit&extension_id='.(int) $this->item->extension_id); ?>" method="post" name="adminForm" id="style-form" class="form-validate">

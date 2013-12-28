@@ -30,7 +30,7 @@ $assoc = JLanguageAssociations::isEnabled();
 		{
 			Joomla.submitform(task, document.getElementById('newsfeed-form'));
 		}
-	}
+	};
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_newsfeeds&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="newsfeed-form" class="form-validate">
