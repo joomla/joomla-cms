@@ -460,3 +460,13 @@ body input[type="text"].search-query {
     border-radius: 4px;
 
 }
+/* Text alignments */
+.text-left {
+	text-align: left;
+}
+.text-right {
+	text-align: right;
+}
+.text-center {
+	text-align: center;
+}
