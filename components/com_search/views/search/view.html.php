@@ -161,41 +161,18 @@ class SearchViewSearch extends JViewLegacy
 
 				$row         = SearchHelper::prepareSearchContent($row, $needle);
 				$searchwords = array_values(array_unique($searchwords));
-				$srow        = strtolower(SearchHelper::remove_accents($row));
-				$hl1         = '<span class="highlight">';
-				$hl2         = '</span>';
-				$cnt         = 0;
+				
 
-				foreach ($searchwords as $hlword)
-				{
-					if (extension_loaded('mbstring'))
+				$p = implode('|',$searchwords);
+				if (extension_loaded('mbstring'))
 					{
-						if (($pos = mb_strpos($srow, strtolower(SearchHelper::remove_accents($hlword)))) !== false)
-						{
-							$pos += $cnt++ * mb_strlen($hl1 . $hl2);
-
-							// iconv transliterates '€' to 'EUR'
-							// TODO: add other expanding translations?
-							$eur_compensation = $pos > 0 ? substr_count($row, "\xE2\x82\xAC", 0, $pos) * 2 : 0;
-							$pos -= $eur_compensation;
-							$row = mb_substr($row, 0, $pos) . $hl1 . mb_substr($row, $pos, mb_strlen($hlword)) . $hl2 . mb_substr($row, $pos + mb_strlen($hlword));
-						}
+						$row = mb_eregi_replace('('.$p.')', '<span class="highlight">\\0</span>', $row);
 					}
-					else
+				else
 					{
-						if (($pos = JString::strpos($srow, strtolower(SearchHelper::remove_accents($hlword)))) !== false)
-						{
-							$pos += $cnt++ * JString::strlen($hl1 . $hl2);
-
-							// iconv transliterates '€' to 'EUR'
-							// TODO: add other expanding translations?
-							$eur_compensation = $pos > 0 ? substr_count($row, "\xE2\x82\xAC", 0, $pos) * 2 : 0;
-							$pos -= $eur_compensation;
-							$row = JString::substr($row, 0, $pos) . $hl1 . JString::substr($row, $pos, JString::strlen($hlword)) . $hl2 . JString::substr($row, $pos + JString::strlen($hlword));
-						}
+						$row = preg_replace('/('.$p.')/iu', '<span class="highlight">$1</span>', $row); 
 					}
-				}
-
+					
 				$result = & $results[$i];
 
 				if ($result->created)
