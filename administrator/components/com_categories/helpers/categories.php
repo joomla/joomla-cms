@@ -46,7 +46,13 @@ class CategoriesHelper
 
 		// Try to find the component helper.
 		$eName = str_replace('com_', '', $component);
-		$file = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
+		$file = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helper/helper.php');
+		
+		// Legacy name style.
+		if (!file_exists($file))
+		{
+			$file = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
+		}
 
 		if (file_exists($file))
 		{
