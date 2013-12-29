@@ -55,8 +55,6 @@ class PlgAuthenticationCookie extends JPlugin
 			return false;
 		}
 
-//		JLoader::register('JAuthentication', JPATH_LIBRARIES . '/joomla/user/authentication.php');
-
 		$response->type = 'Cookie';
 
 		// Get cookie name
@@ -79,13 +77,13 @@ class PlgAuthenticationCookie extends JPlugin
 		if (count($rememberArray) != 3)
 		{
 			// Destroy the cookie in the browser.
-			$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->app->get('cookie_path'), $this->app->get('cookie_domain'));
+			$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain'));
 			JLog::add('Invalid cookie detected.', JLog::WARNING, 'error');
 
 			return false;
 		}
 
-		list($privateKey, $series, $uastring) = $rememberArray;
+		list($token, $series, $uastring) = $rememberArray;
 //		list($user, $series, $token) = $rememberArray;
 
 		// Remove expired tokens
@@ -98,7 +96,7 @@ class PlgAuthenticationCookie extends JPlugin
 		$query = $this->db->getQuery(true)
 			->select($this->db->quoteName(array('user_id', 'token', 'series', 'time')))
 			->from($this->db->quoteName('#__user_keys'))
-			->where($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($series)))
+			->where($this->db->quoteName('series') . ' = ' . $this->db->quote($series))
 			->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($uastring))
 			->order($this->db->quoteName('time') . ' DESC');
 
@@ -114,7 +112,7 @@ class PlgAuthenticationCookie extends JPlugin
 		// We have a user with one cookie with a valid series and a corresponding record in the database.
 		else
 		{
-			if ($results[0]->token != $privateKey)
+			if ($results[0]->token != $token)
 			{
 				// This is a real attack! Either the series was guessed correctly or a cookie was stolen and used twice (once by attacker and once by victim). 
 				// Delete all tokens for this user!
@@ -132,14 +130,6 @@ class PlgAuthenticationCookie extends JPlugin
 
 				return false;
 			}
-		}
-
-		// Set cookie params.
-		if (!empty($options['lifetime']) && !empty($options['length']) && !empty($options['secure']))
-		{
-			$response->lifetime = $options['lifetime'];
-			$response->length = $options['length'];
-			$response->secure = $options['secure'];
 		}
 
 		// Make sure there really is a user with this name and get the data for the session.
@@ -192,109 +182,82 @@ class PlgAuthenticationCookie extends JPlugin
 			return false;
 		}
 
-		// Return if no Cookie based login.
-		if (!isset($options['responseType']) || ($options['responseType'] != 'Cookie' && empty($options['remember'])))
-		{
-			return true;
-		}
-
-		// Logged in using a cookie
 		if (isset($options['responseType']) && $options['responseType'] == 'Cookie')
 		{
+			// Logged in using a cookie
+
+			// We need the old data to get the existing series
+			$rememberArray	= JUserHelper::getRememberCookieData();
+			$series			= $rememberArray[1];
 		}
-
-		// Remember checkbox is set
-		if (!empty($options['remember']))
+		elseif (!empty($options['remember']))
 		{
-		}
+			// Remember checkbox is set
 
-		// We get the parameter values differently for cookie and non-cookie logins.
-		$cookieLifetime	= empty($options['lifetime']) ? $this->app->rememberCookieLifetime : $options['lifetime'];
-		$length			= empty($options['length']) ? $this->app->rememberCookieLength : $options['length'];
-		$secure			= empty($options['secure']) ? $this->app->rememberCookieSecure : $options['secure'];
-
-		// We need the old data to match against the current database
-		$rememberArray = JUserHelper::getRememberCookieData();
-
-		$privateKey = JUserHelper::genRandomPassword($length);
-
-		// We are going to concatenate with . so we need to remove it from the strings.
-		$privateKey = str_replace('.', '', $privateKey);
-
-		$cryptedKey = JUserHelper::getCryptedPassword($privateKey, '', 'bcrypt', false);
-
-		$cookieName = JUserHelper::getShortHashedUserAgent();
-
-		// Create an identifier and make sure that it is unique.
-		$unique = false;
-
-		do
-		{
-			// Unique identifier for the device-user
-			$series = JUserHelper::genRandomPassword(20);
-
-			// We are going to concatenate with . so we need to remove it from the strings.
-			$series = str_replace('.', '', $series);
-
-			$query = $this->db->getQuery(true)
-				->select($this->db->quoteName('series'))
-				->from($this->db->quoteName('#__user_keys'))
-				->where($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($series)));
-
-			$results = $this->db->setQuery($query)->loadResult();
-
-			if (is_null($results))
+			// Create an unique series which will be used over the lifespan of the cookie
+			$unique = false;
+			do
 			{
-				$unique = true;
+				$series = JUserHelper::genRandomPassword(20);
+
+				$query = $this->db->getQuery(true)
+					->select($this->db->quoteName('series'))
+					->from($this->db->quoteName('#__user_keys'))
+					->where($this->db->quoteName('series') . ' = ' . $this->db->quote($series));
+
+				$results = $this->db->setQuery($query)->loadResult();
+
+				if (is_null($results))
+				{
+					$unique = true;
+				}
 			}
+			while ($unique === false);
 		}
-		while ($unique === false);
-
-		// If a user logs in with non cookie login and remember me checked we will
-		// delete any invalid entries so that he or she can use remember once again.
-		if ($options['responseType'] !== 'Cookie')
+		else
 		{
-			$query = $this->db->getQuery(true)
-				->delete('#__user_keys')
-				->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName))
-				->where($this->db->quoteName('user_id') . ' = ' . $this->db->quote($options['user']->username));
-
-			$this->db->setQuery($query)->execute();
+			return false;
 		}
 
-		$cookieValue = $cryptedKey . '.' . $series . '.' . $cookieName;
+		// Get the parameter values
+		$lifetime	= $this->params->get('cookie_lifetime', '60') * 24 * 60 * 60;
+		$length		= $this->params->get('key_length', '16');
 
-		// Destroy the old cookie.
-		$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->app->get('cookie_path'), $this->app->get('cookie_domain'));
+		// Generate new cookie
+		$token		= JUserHelper::genRandomPassword($length);
+		$cookieName	= JUserHelper::getShortHashedUserAgent();
+		$cookieValue = $token . '.' . $series . '.' . $cookieName;
 
-		// And make a new one.
+		// Destroy the old cookie
+		$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain'));
+
+		// And make a new one
 		$this->app->input->cookie->set(
-			$cookieName, $cookieValue, time() + $cookieLifetime, $this->app->get('cookie_path'), $this->app->get('cookie_domain'), $secure
+			$cookieName, $cookieValue, time() + $lifetime, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain'), $this->app->isSSLConnection()
 		);
 
 		$query = $this->db->getQuery(true);
 
-		if (empty($options['user']->cookieLogin) || $options['responseType'] != 'Cookie')
+		if (!empty($options['remember']))
 		{
-			// For users doing login from Joomla or other systems
-			$query->insert($this->db->quoteName('#__user_keys'));
+			$query
+				->insert($this->db->quoteName('#__user_keys'))
+				->set($this->db->quoteName('user_id') . ' = ' . $this->db->quote($options['user']->username))
+				->set($this->db->quoteName('series') . ' = ' . $this->db->quote($series))
+				->set($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName))
+				->set($this->db->quoteName('time') . ' = ' . (time() + $lifetime));
 		}
 		else
 		{
 			$query
 				->update($this->db->quoteName('#__user_keys'))
 				->where($this->db->quoteName('user_id') . ' = ' . $this->db->quote($options['user']->username))
-				->where($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($rememberArray[1])))
+				->where($this->db->quoteName('series') . ' = ' . $this->db->quote($series))
 				->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName));
 		}
 
 		$query
-			->set($this->db->quoteName('user_id') . ' = ' . $this->db->quote($options['user']->username))
-			->set($this->db->quoteName('time') . ' = ' . (time() + $cookieLifetime))
-			->set($this->db->quoteName('token') . ' = ' . $this->db->quote($cryptedKey))
-			->set($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($series)))
-			->set($this->db->quoteName('invalid') . ' = 0')
-			->set($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName));
+			->set($this->db->quoteName('token') . ' = ' . $this->db->quote($token));
 
 		$this->db->setQuery($query)->execute();
 
@@ -326,20 +289,19 @@ class PlgAuthenticationCookie extends JPlugin
 			return true;
 		}
 
-		list($privateKey, $series, $cookieName) = $rememberArray;
+		list($token, $series, $cookieName) = $rememberArray;
 
 		// Remove the record from the database
 		$query = $this->db->getQuery(true);
 
 		$query
 			->delete('#__user_keys')
-			->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName))
-			->where($this->db->quoteName('user_id') . ' = ' . $this->db->quote($options['username']));
+			->where($this->db->quoteName('series') . ' = ' . $this->db->quote($series));
 
 		$this->db->setQuery($query)->execute();
 
 		// Destroy the cookie
-		$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->app->get('cookie_path'), $this->app->get('cookie_domain'));
+		$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain'));
 
 		return true;
 	}
