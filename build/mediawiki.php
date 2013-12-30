@@ -78,6 +78,9 @@ class MediawikiCli extends JApplicationCli
 			$cleanMembers[] = $member;
 		}
 
+		// Make sure we only have an array of unique values before continuing
+		$cleanMembers = array_unique($cleanMembers);
+
 		$matchedMembers = array();
 
 		// Loop through the cleaned up title array and the language strings array to match things up
@@ -93,15 +96,84 @@ class MediawikiCli extends JApplicationCli
 				}
 			}
 		}
+
 		asort($matchedMembers);
 
 		// Now we strip off the JHELP_ prefix from the strings to get usable strings for both COM_ADMIN and JHELP
-		$toc = array();
+		$stripped = array();
 
 		foreach ($matchedMembers as $member)
 		{
-			$toc[] = str_replace('JHELP_', '', $member);
+			$stripped[] = str_replace('JHELP_', '', $member);
 		}
+
+		// Load the admin com_admin language file
+		$language->load('com_admin', JPATH_ADMINISTRATOR);
+
+		// Check to make sure a COM_ADMIN_HELP string exists, don't include in the TOC if not
+		$toc = array();
+
+		foreach ($stripped as $string)
+		{
+			// Validate the key exists
+			if ($language->hasKey('COM_ADMIN_HELP_' . $string))
+			{
+				$this->out('Adding ' . $string, true);
+
+				$toc[] = $string;
+			}
+			// We check if the string for words in singular/plural form and check again
+			else
+			{
+				$this->out('Inflecting ' . $string, true);
+
+				// Check the plurals first
+				if (strpos($string, '_CATEGORIES') !== false)
+				{
+					$string = str_replace('_CATEGORIES', '_CATEGORY', $string);
+				}
+				elseif (strpos($string, '_USERS') !== false)
+				{
+					$string = str_replace('_USERS', '_USER', $string);
+				}
+
+				$this->out('Checking after inflecting from plural to singular ' . $string, true);
+
+				// Now try to validate the key
+				if ($language->hasKey('COM_ADMIN_HELP_' . $string))
+				{
+					$this->out('Adding ' . $string, true);
+
+					$toc[] = $string;
+
+					continue;
+				}
+
+				// Now check singulars
+				if (strpos($string, '_CATEGORY') !== false)
+				{
+					$string = str_replace('_CATEGORY', '_CATEGORIES', $string);
+				}
+				elseif (strpos($string, '_USER') !== false)
+				{
+					$string = str_replace('_USER', '_USERS', $string);
+				}
+
+				$this->out('Checking after inflecting from singular to plural ' . $string, true);
+
+				// Now try to validate the key
+				if ($language->hasKey('COM_ADMIN_HELP_' . $string))
+				{
+					$this->out('Adding ' . $string, true);
+
+					$toc[] = $string;
+
+					continue;
+				}
+			}
+		}
+
+		$this->out('Number of strings: ' . count($toc), true);
 
 		// JSON encode the file and write it to JPATH_ADMINISTRATOR/help/en-GB/toc.json
 		file_put_contents(JPATH_ADMINISTRATOR . '/help/en-GB/toc.json', json_encode($toc));
