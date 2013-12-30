@@ -131,6 +131,24 @@ class JMediawikiCategories extends JMediawikiObject
 	}
 
 	/**
+     * Method to get information about the pages within a category
+     *
+     * @return  object
+     *
+     * @since   12.3
+     */
+	public function getCategoryMembers()
+	{
+		// Build the request.
+		$path = '?action=query&list=categorymembers&cmtitle=Category:Help_screen_3.2&cmlimit=max';
+
+		// Send the request.
+		$response = $this->client->get($this->fetchUrl($path));
+
+		return $this->validateResponse($response);
+	}
+
+	/**
      * Method to enumerate all categories.
      *
      * @param   string   $acfrom    The category to start enumerating from.
