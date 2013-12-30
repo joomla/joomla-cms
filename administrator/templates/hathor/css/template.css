@@ -3648,3 +3648,12 @@ fieldset.panelform .tooltip img {
 div.toggle-editor {
 	float: right;
 }
+.text-left {
+	text-align: left;
+}
+.text-right {
+	text-align: right;
+}
+.text-center {
+	text-align: center;
+}
