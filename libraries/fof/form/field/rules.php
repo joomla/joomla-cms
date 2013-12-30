@@ -87,7 +87,7 @@ class FOFFormFieldRules extends JFormFieldRules implements FOFFormField
 	}
 
     /**
-	 * At the timing of this writing (2013-12-03), the Joomla "rules" field is buggy. When you are
+	 * At the timing of this writing (2014-12-03), the Joomla "rules" field is buggy. When you are
 	 * dealing with a new record it gets the default permissions from the root asset node, which
 	 * is fine for the default permissions of Joomla articles, but unsuitable for third party software.
 	 * We had to copy & paste the whole code, since we can't "inject" the correct asset id if one is

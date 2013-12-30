@@ -1,9 +1,9 @@
 /*!
- * jQuery UI Sortable v1.9.2 - 2013-07-14
+ * jQuery UI Sortable v1.9.2 - 2014-07-14
  *
  * http://jqueryui.com
  *
- * Copyright 2013 jQuery Foundation and other contributors
+ * Copyright 2014 jQuery Foundation and other contributors
  * Released under the MIT license.
  * http://jquery.org/license
  *

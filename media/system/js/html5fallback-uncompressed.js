@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -380,7 +380,7 @@
 	    patternMessage : " doesn't match pattern.",
 	    doRenderMessage : false,
 	    formValidationEvent : 'onSubmit',
-	    emailPatt : /^[a-zA-Z0-9.!#$%&‚Äô*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+	    emailPatt : /^[a-zA-Z0-9.!#$%&???????*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
 	    urlPatt : /[a-z][\-\.+a-z]*:\/\//i
 	};
 	$(function(){

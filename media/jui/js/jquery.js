@@ -5,11 +5,11 @@
  * Includes Sizzle.js
  * http://sizzlejs.com/
  *
- * Copyright 2005, 2013 jQuery Foundation, Inc. and other contributors
+ * Copyright 2005, 2014 jQuery Foundation, Inc. and other contributors
  * Released under the MIT license
  * http://jquery.org/license
  *
- * Date: 2013-07-03T13:48Z
+ * Date: 2014-07-03T13:48Z
  */
 (function( window, undefined ) {
 
@@ -1003,11 +1003,11 @@ rootjQuery = jQuery(document);
  * Sizzle CSS Selector Engine v1.10.2
  * http://sizzlejs.com/
  *
- * Copyright 2013 jQuery Foundation, Inc. and other contributors
+ * Copyright 2014 jQuery Foundation, Inc. and other contributors
  * Released under the MIT license
  * http://jquery.org/license
  *
- * Date: 2013-07-03
+ * Date: 2014-07-03
  */
 (function( window, undefined ) {
 

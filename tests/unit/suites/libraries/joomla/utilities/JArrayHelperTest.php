@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Utilities
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -573,22 +573,22 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 					'string' => 'A Test String', 'integer' => 1,
 				),
 				(object) array(
-					'string' => 'é Test String', 'integer' => 2,
+					'string' => '?? Test String', 'integer' => 2,
 				),
 				(object) array(
-					'string' => 'è Test String', 'integer' => 3,
+					'string' => '?? Test String', 'integer' => 3,
 				),
 				(object) array(
-					'string' => 'É Test String', 'integer' => 4,
+					'string' => '?? Test String', 'integer' => 4,
 				),
 				(object) array(
-					'string' => 'È Test String', 'integer' => 5,
+					'string' => '?? Test String', 'integer' => 5,
 				),
 				(object) array(
-					'string' => 'Œ Test String', 'integer' => 6,
+					'string' => '?? Test String', 'integer' => 6,
 				),
 				(object) array(
-					'string' => 'œ Test String', 'integer' => 7,
+					'string' => '?? Test String', 'integer' => 7,
 				),
 				(object) array(
 					'string' => 'L Test String', 'integer' => 8,
@@ -1017,25 +1017,25 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 						'string' => 'A Test String', 'integer' => 1,
 					),
 					(object) array(
-						'string' => 'é Test String', 'integer' => 2,
+						'string' => '?? Test String', 'integer' => 2,
 					),
 					(object) array(
-						'string' => 'É Test String', 'integer' => 4,
+						'string' => '?? Test String', 'integer' => 4,
 					),
 					(object) array(
-						'string' => 'è Test String', 'integer' => 3,
+						'string' => '?? Test String', 'integer' => 3,
 					),
 					(object) array(
-						'string' => 'È Test String', 'integer' => 5,
+						'string' => '?? Test String', 'integer' => 5,
 					),
 					(object) array(
 						'string' => 'L Test String', 'integer' => 8,
 					),
 					(object) array(
-						'string' => 'œ Test String', 'integer' => 7,
+						'string' => '?? Test String', 'integer' => 7,
 					),
 					(object) array(
-						'string' => 'Œ Test String', 'integer' => 6,
+						'string' => '?? Test String', 'integer' => 6,
 					),
 					(object) array(
 						'string' => 'p Test String', 'integer' => 10,
@@ -1062,25 +1062,25 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 						'string' => 'A Test String', 'integer' => 1,
 					),
 					(object) array(
-						'string' => 'é Test String', 'integer' => 2,
+						'string' => '?? Test String', 'integer' => 2,
 					),
 					(object) array(
-						'string' => 'É Test String', 'integer' => 4,
+						'string' => '?? Test String', 'integer' => 4,
 					),
 					(object) array(
-						'string' => 'è Test String', 'integer' => 3,
+						'string' => '?? Test String', 'integer' => 3,
 					),
 					(object) array(
-						'string' => 'È Test String', 'integer' => 5,
+						'string' => '?? Test String', 'integer' => 5,
 					),
 					(object) array(
 						'string' => 'L Test String', 'integer' => 8,
 					),
 					(object) array(
-						'string' => 'Œ Test String', 'integer' => 6,
+						'string' => '?? Test String', 'integer' => 6,
 					),
 					(object) array(
-						'string' => 'œ Test String', 'integer' => 7,
+						'string' => '?? Test String', 'integer' => 7,
 					),
 					(object) array(
 						'string' => 'P Test String', 'integer' => 9,

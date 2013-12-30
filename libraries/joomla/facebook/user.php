@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Facebook
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -638,7 +638,7 @@ class JFacebookUser extends JFacebookObject
 	 * @param   string   $message   Photo description.
 	 * @param   string   $place     Facebook ID of the place associated with the photo.
 	 * @param   boolean  $no_story  If set to 1, optionally suppresses the feed story that is automatically
-	 * 								generated on a user’s profile when they upload a photo using your application.
+	 * 								generated on a user???s profile when they upload a photo using your application.
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *

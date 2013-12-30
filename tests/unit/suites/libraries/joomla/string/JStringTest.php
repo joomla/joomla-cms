@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  String
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -873,11 +873,11 @@ class JStringTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($expected, $actual, 'Line: ' . __LINE__ . ' Results should be equal');
 
 		// Test special characters in URL
-		$url = 'http://joomla.org/mytestpath/È';
+		$url = 'http://joomla.org/mytestpath/??';
 		$expected = parse_url($url);
 
 		// Fix up path for UTF-8 characters
-		$expected['path'] = '/mytestpath/È';
+		$expected['path'] = '/mytestpath/??';
 		$actual = JString::parse_url($url);
 		$this->assertEquals($expected, $actual, 'Line: ' . __LINE__ . ' Results should be equal');
 
@@ -894,11 +894,11 @@ class JStringTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($expected, $actual, 'Line: ' . __LINE__ . ' Results should be equal');
 
 		// Test a mix of the above
-		$url = 'http://john:doe@mydomain.com:80/%È21%25È3*%(';
+		$url = 'http://john:doe@mydomain.com:80/%??21%25??3*%(';
 		$expected = parse_url($url);
 
 		// Fix up path for UTF-8 characters
-		$expected['path'] = '/%È21%25È3*%(';
+		$expected['path'] = '/%??21%25??3*%(';
 		$actual = JString::parse_url($url);
 		$this->assertEquals($expected, $actual, 'Line: ' . __LINE__ . ' Results should be equal');
 
