@@ -81,7 +81,7 @@ class JHelperMedia
 
 		$filetypes = explode('.', $file['name']);
 		
-		if(count($explodedFileName) < 2)
+		if(count($filetypes) < 2)
 		{
 			// There seems to be no extension
 			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'notice');
