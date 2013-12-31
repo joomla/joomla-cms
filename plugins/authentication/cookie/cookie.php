@@ -78,6 +78,7 @@ class PlgAuthenticationCookie extends JPlugin
 			return false;
 		}
 
+		$token	= $cookieArray[0];
 		// Filter series since we're going to use it in the query
 		$filter	= new JFilterInput;
 		$series	= $filter->clean($cookieArray[1], 'ALNUM');
