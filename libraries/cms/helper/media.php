@@ -97,7 +97,8 @@ class JHelperMedia
 			'jse', 'lib', 'mde', 'msc', 'msp', 'mst', 'pif', 'scr', 'sct', 'shb', 'sys', 'vb', 'vbe', 'vbs', 'vxd', 'wsc', 'wsf', 'wsh'
 		);
 
-		if (!empty(array_intersect($filetypes, $executable)))
+		$check = array_intersect($filetypes, $executable);
+		if (!empty($check))
 		{
 			$app->enqueueMessage(JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'notice');
 
