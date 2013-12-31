@@ -44,26 +44,36 @@ class PlgSystemRemember extends JPlugin
 			return false;
 		}
 
-		// Why store in App? Better move this params to the cookie auth plugin anyway
-		$this->app->rememberCookieSecure   = $this->app->isSSLConnection();
-		$this->app->rememberCookieLifetime = $this->params->get('cookie_lifetime', '60') * 24 * 60 * 60;
-		$this->app->rememberCookieLength   = $this->params->get('key_length', '16');
-
 		// Check for a cookie if user is not logged in
 		if (JFactory::getUser()->get('guest'))
 		{
-			// Check for a cookie
-			if (JUserHelper::getRememberCookieData())
+			$cookieName = JUserHelper::getShortHashedUserAgent();
+
+			// Check for the cookie
+			if ($this->app->input->cookie->get($cookieName))
 			{
-				$options				= array();
-				$options['silent']		= true;
-				$options['secure']		= $this->app->isSSLConnection();
-				$options['lifetime']	= $this->params->get('cookie_lifetime', '60') * 24 * 60 * 60;
-				$options['length']		= $this->params->get('key_length', '16');
-				return $this->app->login(array('username' => ''), $options);
+				return $this->app->login(array('username' => ''), array('silent' => true));
 			}
 		}
 
 		return false;
+	}
+
+	public function onUserLogout($options)
+	{
+		// No remember me for admin
+		if ($this->app->isAdmin())
+		{
+			return false;
+		}
+
+		$cookieName = JUserHelper::getShortHashedUserAgent();
+
+		// Check for the cookie
+		if ($this->app->input->cookie->get($cookieName))
+		{
+			// Make sure authentication group is loaded to process onUserAfterLogout event
+			JPluginHelper::importPlugin('authentication');
+		}
 	}
 }
