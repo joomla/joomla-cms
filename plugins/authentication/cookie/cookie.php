@@ -57,24 +57,19 @@ class PlgAuthenticationCookie extends JPlugin
 
 		$response->type = 'Cookie';
 
-		// Get cookie name
-		$cookieName = JUserHelper::getShortHashedUserAgent();
+		// Get cookie
+		$cookieName		= JUserHelper::getShortHashedUserAgent();
 
-		// Check for a cookie
-		$rememberArray = JUserHelper::getRememberCookieData();
-
-		if (!$rememberArray)
-		{
-			return false;
-		}
-/* Alternative to JUserHelper::getRememberCookieData()
-		if (!$this->app->input->cookie->get($cookieName))
+		$cookieValue	= $this->app->input->cookie->get($cookieName);
+		if (!$cookieValue)
 		{
 			return;
-		} */
+		}
+
+		$cookieArray	= explode('.', $cookieValue);
 
 		// Check for valid cookie value
-		if (count($rememberArray) != 3)
+		if (count($cookieArray) != 2)
 		{
 			// Destroy the cookie in the browser.
 			$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain'));
@@ -83,8 +78,9 @@ class PlgAuthenticationCookie extends JPlugin
 			return false;
 		}
 
-		list($token, $series, $uastring) = $rememberArray;
-//		list($user, $series, $token) = $rememberArray;
+		// Filter series since we're going to use it in the query
+		$filter	= new JFilterInput;
+		$series	= $filter->clean($cookieArray[1], 'ALNUM');
 
 		// Remove expired tokens
 		$query = $this->db->getQuery(true)
@@ -97,7 +93,7 @@ class PlgAuthenticationCookie extends JPlugin
 			->select($this->db->quoteName(array('user_id', 'token', 'series', 'time')))
 			->from($this->db->quoteName('#__user_keys'))
 			->where($this->db->quoteName('series') . ' = ' . $this->db->quote($series))
-			->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($uastring))
+			->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName))
 			->order($this->db->quoteName('time') . ' DESC');
 
 		$results = $this->db->setQuery($query)->loadObjectList();
@@ -123,8 +119,7 @@ class PlgAuthenticationCookie extends JPlugin
 
 				// Issue warning by email to user and/or admin?
 
-				// Move language string to this plugin
-				JLog::add(JText::sprintf('PLG_SYSTEM_REMEMBER_ERROR_LOG_LOGIN_FAILED', $results[0]->user_id), JLog::WARNING, 'security');
+				JLog::add(JText::sprintf('PLG_AUTH_COOKIE_ERROR_LOG_LOGIN_FAILED', $results[0]->user_id), JLog::WARNING, 'security');
 
 				$response->status  = JAuthentication::STATUS_FAILURE;
 
@@ -185,14 +180,19 @@ class PlgAuthenticationCookie extends JPlugin
 		if (isset($options['responseType']) && $options['responseType'] == 'Cookie')
 		{
 			// Logged in using a cookie
+			$cookieName		= JUserHelper::getShortHashedUserAgent();
 
 			// We need the old data to get the existing series
-			$rememberArray	= JUserHelper::getRememberCookieData();
-			$series			= $rememberArray[1];
+			$cookieValue	= $this->app->input->cookie->get($cookieName);
+			$cookieArray	= explode('.', $cookieValue);
+			// Filter series since we're going to use it in the query
+			$filter			= new JFilterInput;
+			$series			= $filter->clean($cookieArray[1], 'ALNUM');
 		}
 		elseif (!empty($options['remember']))
 		{
 			// Remember checkbox is set
+			$cookieName		= JUserHelper::getShortHashedUserAgent();
 
 			// Create an unique series which will be used over the lifespan of the cookie
 			$unique = false;
@@ -225,13 +225,9 @@ class PlgAuthenticationCookie extends JPlugin
 
 		// Generate new cookie
 		$token		= JUserHelper::genRandomPassword($length);
-		$cookieName	= JUserHelper::getShortHashedUserAgent();
-		$cookieValue = $token . '.' . $series . '.' . $cookieName;
+		$cookieValue = $token . '.' . $series;
 
-		// Destroy the old cookie
-		$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain'));
-
-		// And make a new one
+		// Overwrite existing cookie with new value
 		$this->app->input->cookie->set(
 			$cookieName, $cookieValue, time() + $lifetime, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain'), $this->app->isSSLConnection()
 		);
@@ -240,6 +236,7 @@ class PlgAuthenticationCookie extends JPlugin
 
 		if (!empty($options['remember']))
 		{
+			// Create new record
 			$query
 				->insert($this->db->quoteName('#__user_keys'))
 				->set($this->db->quoteName('user_id') . ' = ' . $this->db->quote($options['user']->username))
@@ -249,6 +246,7 @@ class PlgAuthenticationCookie extends JPlugin
 		}
 		else
 		{
+			// Update existing record with new token
 			$query
 				->update($this->db->quoteName('#__user_keys'))
 				->where($this->db->quoteName('user_id') . ' = ' . $this->db->quote($options['user']->username))
@@ -281,19 +279,22 @@ class PlgAuthenticationCookie extends JPlugin
 			return false;
 		}
 
-		$rememberArray = JUserHelper::getRememberCookieData();
-
+		$cookieName		= JUserHelper::getShortHashedUserAgent();
+		$cookieValue	= $this->app->input->cookie->get($cookieName);
 		// There are no cookies to delete.
-		if ($rememberArray === false)
+		if (!$cookieValue)
 		{
 			return true;
 		}
 
-		list($token, $series, $cookieName) = $rememberArray;
+		$cookieArray	= explode('.', $cookieValue);
+
+		// Filter series since we're going to use it in the query
+		$filter	= new JFilterInput;
+		$series	= $filter->clean($cookieArray[1], 'ALNUM');
 
 		// Remove the record from the database
 		$query = $this->db->getQuery(true);
-
 		$query
 			->delete('#__user_keys')
 			->where($this->db->quoteName('series') . ' = ' . $this->db->quote($series));
