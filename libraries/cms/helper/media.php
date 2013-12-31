@@ -187,7 +187,7 @@ class JHelperMedia
 			}
 		}
 
-		/// Do no allow any tags in the content
+		// Do no allow any tags in the content.
 		$xss_check = file_get_contents($file['tmp_name'], false, null, -1, 256);
 
 		if (preg_match('#<[a-z][a-z0-9]*[\s>]#si', $xss_check))
