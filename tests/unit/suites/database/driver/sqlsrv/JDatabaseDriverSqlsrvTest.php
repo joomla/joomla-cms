@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -478,7 +478,7 @@ class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 	public function testExecute()
 	{
 		self::$driver->setQuery(
-			"INSERT INTO [jos_dbtest] ([title],[start_date],[description]) VALUES ('testTitle','2013-04-01 00:00:00.000','description')"
+			"INSERT INTO [jos_dbtest] ([title],[start_date],[description]) VALUES ('testTitle','2014-04-01 00:00:00.000','description')"
 		);
 
 		$this->assertNotEquals(self::$driver->execute(), false, __LINE__);

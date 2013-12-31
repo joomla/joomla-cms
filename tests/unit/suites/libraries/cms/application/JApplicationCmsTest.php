@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -597,7 +597,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 	 */
 	public function testRedirectWithJavascriptRedirect()
 	{
-		$url = 'http://mydomain.com/index.php?phi=Φ';
+		$url = 'http://mydomain.com/index.php?phi=??';
 
 		// Inject the client information.
 		TestReflection::setValue(

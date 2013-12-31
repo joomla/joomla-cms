@@ -3,7 +3,7 @@
  * jQuery Image Cropping Plugin - released under MIT License
  * Author: Kelly Hallman <khallman@gmail.com>
  * http://github.com/tapmodo/Jcrop
- * Copyright (c) 2008-2013 Tapmodo Interactive LLC {{{
+ * Copyright (c) 2008-2014 Tapmodo Interactive LLC {{{
  *
  * Permission is hereby granted, free of charge, to any person
  * obtaining a copy of this software and associated documentation

@@ -3,11 +3,11 @@
 	<name>FOF</name>
 	<libraryname>fof</libraryname>
 	<description>LIB_FOF_XML_DESCRIPTION</description>
-	<creationDate>2013-12-14</creationDate>
+	<creationDate>2014-12-14</creationDate>
 	<author>Nicholas K. Dionysopoulos / Akeeba Ltd</author>
 	<authorEmail>nicholas@akeebabackup.com</authorEmail>
 	<authorUrl>https://www.akeebabackup.com</authorUrl>
-	<copyright>(C)2011-2013 Nicholas K. Dionysopoulos</copyright>
+	<copyright>(C)2011-2014 Nicholas K. Dionysopoulos</copyright>
 	<license>GNU GPLv2 or later</license>
 	<version>2.1.1</version>
 	<packager>Akeeba Ltd</packager>

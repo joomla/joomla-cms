@@ -1,7 +1,7 @@
-/*! jQuery UI - v1.9.2 - 2013-07-14
+/*! jQuery UI - v1.9.2 - 2014-07-14
 * http://jqueryui.com
 * Includes: jquery.ui.core.js, jquery.ui.widget.js, jquery.ui.mouse.js, jquery.ui.position.js
-* Copyright 2013 jQuery Foundation and other contributors Licensed MIT */
+* Copyright 2014 jQuery Foundation and other contributors Licensed MIT */
 
 (function( $, undefined ) {
 

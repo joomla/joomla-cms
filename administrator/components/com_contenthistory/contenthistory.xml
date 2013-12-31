@@ -2,8 +2,8 @@
 <extension type="component" version="3.2" method="upgrade">
 	<name>com_contenthistory</name>
 	<author>Joomla! Project</author>
-	<creationDate>May 2013</creationDate>
-	<copyright>(C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
+	<creationDate>May 2014</creationDate>
+	<copyright>(C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
