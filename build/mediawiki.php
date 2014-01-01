@@ -51,6 +51,11 @@ class MediawikiCli extends JApplicationCli
 	 */
 	public function doExecute()
 	{
+		// Get the version data for the script
+		$version     = new JVersion;
+		$helpVersion = str_replace('.', '', $version->RELEASE);
+		$namespace   = 'Help' . $helpVersion . ':';
+
 		// Set up options for JMediawiki
 		$options = new JRegistry;
 		$options->set('api.url', 'http://docs.joomla.org');
@@ -59,7 +64,7 @@ class MediawikiCli extends JApplicationCli
 
 		// Get the category members (local hack)
 		$this->out('Fetching data from docs wiki', true);
-		$categoryMembers = $mediawiki->categories->getCategoryMembers();
+		$categoryMembers = $mediawiki->categories->getCategoryMembers('Category:Help_screen_' . $version->RELEASE, null, 'max');
 
 		$members = array();
 
@@ -86,11 +91,6 @@ class MediawikiCli extends JApplicationCli
 		 */
 
 		$cleanMembers = array();
-
-		// Establish the namespace prefix
-		$version     = new JVersion;
-		$helpVersion = str_replace('.', '', $version->RELEASE);
-		$namespace   = 'Help' . $helpVersion . ':';
 
 		// Strip the namespace prefix off the titles and replace spaces with underscores
 		foreach ($members as $member)
