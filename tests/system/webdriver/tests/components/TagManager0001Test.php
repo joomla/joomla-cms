@@ -3,7 +3,7 @@
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -95,6 +95,7 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 		$textArray = $tagEditPage->getTabIds();
 
  		// Keep the following line commented to make it easy to generate values for arrays as fields change.
+
 // 		$tagEditPage->printFieldArray($tagEditPage->getAllInputFields($tagEditPage->tabs));
 
 		$this->assertEquals($tagEditPage->tabs, $textArray, 'Tab labels should match expected values.');
