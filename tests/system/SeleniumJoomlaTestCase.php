@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.FunctionalTest
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,9 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 {
 	public $cfg; // configuration so tests can get at the fields
 	protected $captureScreenshotOnFailure = false;
+
 	protected $screenshotPath = null;
+
 	protected $screenshotUrl = null;
 
 	public function setUp()
@@ -724,9 +726,12 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 				break;
 		}
 
+
 		$this->select("id=jform_editor", $select);
+
 		$this->click("css=span.icon-32-save");
 		$this->waitForPageToLoad("30000");
+
 	}
 
 	function setTinyText($text)
