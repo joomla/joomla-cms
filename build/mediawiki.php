@@ -48,10 +48,12 @@ class MediawikiCli extends JApplicationCli
 		$mediawiki = new JMediawiki($options);
 
 		// Get the category members (local hack)
+		$this->out('Fetching data from docs wiki', true);
 		$categoryMembers = $mediawiki->categories->getCategoryMembers();
 
 		$members = array();
 
+		// Loop through the result objects to get every document
 		foreach ($categoryMembers->query->categorymembers as $catmembers)
 		{
 			foreach ($catmembers as $member)
@@ -63,27 +65,38 @@ class MediawikiCli extends JApplicationCli
 		// Get the language object
 		$language = JFactory::getLanguage();
 
-		// Get the strings via Reflection
+		// Get the language strings via Reflection as the property is protected
 		$refl = new ReflectionClass($language);
 		$property = $refl->getProperty('strings');
 		$property->setAccessible(true);
 		$strings = $property->getValue($language);
 
-		// Now we start fancy processing so we can get the language key for the titles
+		/*
+		 * Now we start fancy processing so we can get the language key for the titles
+		 */
+
 		$cleanMembers = array();
 
+		// Establish the namespace prefix
+		$version     = new JVersion;
+		$helpVersion = str_replace('.', '', $version->RELEASE);
+		$namespace   = 'Help' . $helpVersion . ':';
+
+		// Strip the namespace prefix off the titles and replace spaces with underscores
 		foreach ($members as $member)
 		{
-			$member = str_replace(array('Help32:', ' '), array('', '_'), $member);
-			$cleanMembers[] = $member;
+			$cleanMembers[] = str_replace(array($namespace, ' '), array('', '_'), $member);
 		}
 
 		// Make sure we only have an array of unique values before continuing
 		$cleanMembers = array_unique($cleanMembers);
 
+		/*
+		 * Loop through the cleaned up title array and the language strings array to match things up
+		 */
+
 		$matchedMembers = array();
 
-		// Loop through the cleaned up title array and the language strings array to match things up
 		foreach ($cleanMembers as $member)
 		{
 			foreach ($strings as $k => $v)
@@ -97,6 +110,7 @@ class MediawikiCli extends JApplicationCli
 			}
 		}
 
+		// Alpha sort the array
 		asort($matchedMembers);
 
 		// Now we strip off the JHELP_ prefix from the strings to get usable strings for both COM_ADMIN and JHELP
@@ -107,66 +121,60 @@ class MediawikiCli extends JApplicationCli
 			$stripped[] = str_replace('JHELP_', '', $member);
 		}
 
+		/*
+		 * Check to make sure a COM_ADMIN_HELP string exists, don't include in the TOC if not
+		 */
+
 		// Load the admin com_admin language file
 		$language->load('com_admin', JPATH_ADMINISTRATOR);
 
-		// Check to make sure a COM_ADMIN_HELP string exists, don't include in the TOC if not
 		$toc = array();
 
 		foreach ($stripped as $string)
 		{
 			// Validate the key exists
+			$this->out('Validating key COM_ADMIN_HELP_' . $string, true);
+
 			if ($language->hasKey('COM_ADMIN_HELP_' . $string))
 			{
 				$this->out('Adding ' . $string, true);
 
-				$toc[] = $string;
+				$toc[$string] = $string;
 			}
 			// We check if the string for words in singular/plural form and check again
 			else
 			{
 				$this->out('Inflecting ' . $string, true);
 
-				// Check the plurals first
 				if (strpos($string, '_CATEGORIES') !== false)
 				{
-					$string = str_replace('_CATEGORIES', '_CATEGORY', $string);
+					$inflected = str_replace('_CATEGORIES', '_CATEGORY', $string);
 				}
 				elseif (strpos($string, '_USERS') !== false)
 				{
-					$string = str_replace('_USERS', '_USER', $string);
+					$inflected = str_replace('_USERS', '_USER', $string);
 				}
-
-				$this->out('Checking after inflecting from plural to singular ' . $string, true);
-
-				// Now try to validate the key
-				if ($language->hasKey('COM_ADMIN_HELP_' . $string))
+				elseif (strpos($string, '_CATEGORY') !== false)
 				{
-					$this->out('Adding ' . $string, true);
-
-					$toc[] = $string;
-
-					continue;
-				}
-
-				// Now check singulars
-				if (strpos($string, '_CATEGORY') !== false)
-				{
-					$string = str_replace('_CATEGORY', '_CATEGORIES', $string);
+					$inflected = str_replace('_CATEGORY', '_CATEGORIES', $string);
 				}
 				elseif (strpos($string, '_USER') !== false)
 				{
-					$string = str_replace('_USER', '_USERS', $string);
+					$inflected = str_replace('_USER', '_USERS', $string);
+				}
+				else
+				{
+					$inflected = '';
 				}
 
-				$this->out('Checking after inflecting from singular to plural ' . $string, true);
-
 				// Now try to validate the key
-				if ($language->hasKey('COM_ADMIN_HELP_' . $string))
-				{
-					$this->out('Adding ' . $string, true);
+				$this->out('Validating key COM_ADMIN_HELP_' . $inflected, true);
 
-					$toc[] = $string;
+				if ($language->hasKey('COM_ADMIN_HELP_' . $inflected))
+				{
+					$this->out('Adding ' . $inflected, true);
+
+					$toc[$string] = $inflected;
 
 					continue;
 				}

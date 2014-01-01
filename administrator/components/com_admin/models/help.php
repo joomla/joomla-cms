@@ -136,9 +136,9 @@ class AdminModelHelp extends JModelLegacy
 				$data = json_decode(file_get_contents(JPATH_BASE . '/help/' . $lang_tag . '/toc.json'));
 
 				// Loop through the data array
-				foreach ($data as $item)
+				foreach ($data as $key => $value)
 				{
-					$this->toc[$item] = JText::_('COM_ADMIN_HELP_' . $item);
+					$this->toc[$key] = JText::_('COM_ADMIN_HELP_' . $value);
 				}
 			}
 			else
