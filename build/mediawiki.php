@@ -1,5 +1,12 @@
 <?php
-// We are a valid entry point.
+/**
+ * @package    Joomla.Build
+ *
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+// Set flag that this is a parent file.
 const _JEXEC = 1;
 
 // Load system defines
@@ -14,8 +21,8 @@ if (!defined('_JDEFINES'))
 	require_once JPATH_BASE . '/includes/defines.php';
 }
 
-// Get the framework.
-require_once JPATH_LIBRARIES . '/import.legacy.php';
+// Get the Platform without legacy libraries.
+require_once JPATH_LIBRARIES . '/import.php';
 
 // Bootstrap the CMS libraries.
 require_once JPATH_LIBRARIES . '/cms.php';
@@ -28,7 +35,10 @@ ini_set('display_errors', 1);
 JFactory::getLanguage()->load('joomla', JPATH_ADMINISTRATOR, null, false, false);
 
 /**
- * Utility CLI to retrieve data via JMediawiki
+ * Utility CLI to retrieve the list of help screens from the docs wiki and create an index for the admin help view
+ *
+ * @package  Joomla.Build
+ * @since    3.0
  */
 class MediawikiCli extends JApplicationCli
 {
