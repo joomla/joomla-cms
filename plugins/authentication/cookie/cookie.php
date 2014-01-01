@@ -100,6 +100,8 @@ class PlgAuthenticationCookie extends JPlugin
 
 		if (count($results) !== 1)
 		{
+			// Destroy the cookie in the browser.
+			$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain'));
 			$response->status = JAuthentication::STATUS_FAILURE;
 
 			return;
@@ -117,6 +119,9 @@ class PlgAuthenticationCookie extends JPlugin
 					->delete('#__user_keys')
 					->where($this->db->quoteName('user_id') . ' = ' . $this->db->quote($results[0]->user_id));
 				$this->db->setQuery($query)->execute();
+
+				// Destroy the cookie in the browser.
+				$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->app->get('cookie_path', '/'), $this->app->get('cookie_domain'));
 
 				// Issue warning by email to user and/or admin?
 
