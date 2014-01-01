@@ -78,7 +78,6 @@ class PlgAuthenticationCookie extends JPlugin
 			return false;
 		}
 
-		$token	= $cookieArray[0];
 		// Filter series since we're going to use it in the query
 		$filter	= new JFilterInput;
 		$series	= $filter->clean($cookieArray[1], 'ALNUM');
@@ -109,7 +108,8 @@ class PlgAuthenticationCookie extends JPlugin
 		// We have a user with one cookie with a valid series and a corresponding record in the database.
 		else
 		{
-			if ($results[0]->token != $token)
+			$token	= JUserHelper::hashPassword($cookieArray[0]);
+			if (!JUserHelper::verifyPassword($cookieArray[0], $results[0]->token))
 			{
 				// This is a real attack! Either the series was guessed correctly or a cookie was stolen and used twice (once by attacker and once by victim). 
 				// Delete all tokens for this user!
@@ -255,8 +255,9 @@ class PlgAuthenticationCookie extends JPlugin
 				->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName));
 		}
 
+		$hashed_token	= JUserHelper::hashPassword($token);
 		$query
-			->set($this->db->quoteName('token') . ' = ' . $this->db->quote($token));
+			->set($this->db->quoteName('token') . ' = ' . $this->db->quote($hashed_token));
 
 		$this->db->setQuery($query)->execute();
 
