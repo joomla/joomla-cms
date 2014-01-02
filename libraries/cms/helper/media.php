@@ -90,7 +90,7 @@ class JHelperMedia
 		$explodedFileName = explode('.', $file['name']);
 		unset($explodedFileName[0]);
 
-		if (count($explodedFileName > 1))
+		if (count($explodedFileName) > 1)
 		{
 			foreach ($executable as $extensionName)
 			{
