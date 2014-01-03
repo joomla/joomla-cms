@@ -21,9 +21,8 @@ defined('_JEXEC') or die;
 class JHelperPath
 {
 	/**
-	 * The mapper to find extension type.
-	 *
-	 * @var  array
+	 * @var    array  The mapper to find extension type.
+	 * @since  3.3
 	 */
 	protected static $extMapper = array(
 		'com_' => 'components',
@@ -41,6 +40,8 @@ class JHelperPath
 	 * @param   boolean  $absolute  True to return whole path.
 	 *
 	 * @return  string  The found path.
+	 *
+	 * @since  3.3
 	 */
 	public static function get($element, $client = null, $absolute = true)
 	{
@@ -107,6 +108,8 @@ class JHelperPath
 	 * @param   boolean  $absolute  True to return whole path.
 	 *
 	 * @return  string  The found path.
+	 *
+	 * @since   3.3
 	 */
 	public static function getAdmin($element, $absolute = true)
 	{
@@ -120,6 +123,8 @@ class JHelperPath
 	 * @param   boolean  $absolute  True to return whole path.
 	 *
 	 * @return  string  The found path.
+	 *
+	 * @since   3.3
 	 */
 	public static function getSite($element, $absolute = true)
 	{
@@ -134,6 +139,8 @@ class JHelperPath
 	 * @return  array
 	 *
 	 * @throws  \InvalidArgumentException
+	 *
+	 * @since   3.3
 	 */
 	protected static function extractElement($element)
 	{
@@ -173,6 +180,8 @@ class JHelperPath
 	 * @param   string  $prefix  The extension prefix.
 	 *
 	 * @return  string|null  Extension type name.
+	 *
+	 * @since   3.3
 	 */
 	protected static function getExtName($prefix)
 	{
