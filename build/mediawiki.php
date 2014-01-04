@@ -178,15 +178,16 @@ class MediawikiCli extends JApplicationCli
 				}
 
 				// Now try to validate the key
-				$this->out('Validating key COM_ADMIN_HELP_' . $inflected, true);
-
-				if ($language->hasKey('COM_ADMIN_HELP_' . $inflected))
+				if ($inflected !== '')
 				{
-					$this->out('Adding ' . $inflected, true);
+					$this->out('Validating key COM_ADMIN_HELP_' . $inflected, true);
 
-					$toc[$string] = $inflected;
+					if ($language->hasKey('COM_ADMIN_HELP_' . $inflected))
+					{
+						$this->out('Adding ' . $inflected, true);
 
-					continue;
+						$toc[$string] = $inflected;
+					}
 				}
 			}
 		}
