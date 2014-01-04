@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -323,37 +323,6 @@ class JDatabaseQueryTest extends TestCase
 		);
 	}
 
-	/**
-	 * Tests the union element of __toString.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.1
-	 */
-	public function test__toStringUnion()
-	{
-		$this->markTestIncomplete('This test does not work!');
-		$this->_instance->select('*')
-			->union('SELECT id FROM a');
-
-		$this->assertEquals("UNION (SELECT id FROM a)", trim($this->_instance));
-	}
-
-	/**
-	 * Tests the unionAll element of __toString.
-	 *
-	 * @return  void
-	 *
-	 * @since   13.1
-	 */
-	public function test__toStringUnionAll()
-	{
-		$this->markTestIncomplete('This test does not work!');
-		$this->_instance->select('*')
-		->unionAll('SELECT id FROM a');
-
-		$this->assertEquals("UNION ALL (SELECT id FROM a)", trim($this->_instance));
-	}
 	/**
 	 * Tests the JDatabaseQuery::call method.
 	 *
