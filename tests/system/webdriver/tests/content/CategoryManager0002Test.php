@@ -24,7 +24,7 @@ use SeleniumClient\DesiredCapabilities;
  */
 class CategoryManager0002Test extends JoomlaWebdriverTestCase
 {
-  /**
+	/**
 	 * The page class being tested.
 	 *
 	 * @var     CategoryManagerPage
@@ -118,5 +118,4 @@ class CategoryManager0002Test extends JoomlaWebdriverTestCase
 		$this->categoryManagerPage->setFilter('Select Status', 'Select Status');
 		$this->categoryManagerPage->trashAndDelete('ABC_TEST');
 	}
-
 }

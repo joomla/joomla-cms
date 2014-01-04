@@ -24,7 +24,7 @@ use SeleniumClient\DesiredCapabilities;
  */
 class ArticleManager0002Test extends JoomlaWebdriverTestCase
 {
-  /**
+	/**
 	 * The page class being tested.
 	 *
 	 * @var     ArticleManagerPage
@@ -118,5 +118,4 @@ class ArticleManager0002Test extends JoomlaWebdriverTestCase
 		$this->articleManagerPage->trashAndDelete($articleName_1);
 		$this->articleManagerPage->trashAndDelete($articleName_2);
 	}
-
 }
