@@ -24,7 +24,7 @@ use SeleniumClient\DesiredCapabilities;
  */
 class ArticleManager0002Test extends JoomlaWebdriverTestCase
 {
-  /**
+	/**
 	 * The page class being tested.
 	 *
 	 * @var     ArticleManagerPage
