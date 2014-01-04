@@ -1725,7 +1725,83 @@ class JDatabaseQueryTest extends TestCase
 				"UNION (" . PHP_EOL .
 				"SELECT name" . PHP_EOL .
 				"FROM bar" . PHP_EOL .
-				"WHERE b=2)" . PHP_EOL
+				"WHERE b=2)"
+			)
+		);
+	}
+
+	/**
+	 * Tests the JDatabaseQuery::union method when passed two query objects chained.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.??
+	 */
+	public function testUnionObjectsChained()
+	{
+		$this->_instance->select('name')->from('foo')->where('a=1');
+
+		$q2 = new JDatabaseQueryInspector($this->dbo);
+		$q2->select('name')->from('bar')->where('b=2');
+
+		$q3 = new JDatabaseQueryInspector($this->dbo);
+		$q3->select('name')->from('baz')->where('c=3');
+
+		TestReflection::setValue($this->_instance, 'union', null);
+		$this->_instance->union($q2)->union($q3);
+
+		$this->assertThat(
+			(string) $this->_instance,
+			$this->equalTo(
+				PHP_EOL . "SELECT name" . PHP_EOL .
+				"FROM foo" . PHP_EOL .
+				"WHERE a=1" . PHP_EOL .
+				"UNION (" . PHP_EOL .
+				"SELECT name" . PHP_EOL .
+				"FROM bar" . PHP_EOL .
+				"WHERE b=2)" . PHP_EOL .
+				"UNION (" . PHP_EOL .
+				"SELECT name" . PHP_EOL .
+				"FROM baz" . PHP_EOL .
+				"WHERE c=3)"
+			)
+		);
+	}
+
+	/**
+	 * Tests the JDatabaseQuery::union method when passed two query objects in an array.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.??
+	 */
+	public function testUnionObjectsArray()
+	{
+		$this->_instance->select('name')->from('foo')->where('a=1');
+
+		$q2 = new JDatabaseQueryInspector($this->dbo);
+		$q2->select('name')->from('bar')->where('b=2');
+
+		$q3 = new JDatabaseQueryInspector($this->dbo);
+		$q3->select('name')->from('baz')->where('c=3');
+
+		TestReflection::setValue($this->_instance, 'union', null);
+		$this->_instance->union(array($q2, $q3));
+
+		$this->assertThat(
+			(string) $this->_instance,
+			$this->equalTo(
+				PHP_EOL . "SELECT name" . PHP_EOL .
+				"FROM foo" . PHP_EOL .
+				"WHERE a=1" . PHP_EOL .
+				"UNION (" . PHP_EOL .
+				"SELECT name" . PHP_EOL .
+				"FROM bar" . PHP_EOL .
+				"WHERE b=2)" . PHP_EOL .
+				"UNION (" . PHP_EOL .
+				"SELECT name" . PHP_EOL .
+				"FROM baz" . PHP_EOL .
+				"WHERE c=3)"
 			)
 		);
 	}
