@@ -213,6 +213,4 @@ class ArticleManager0001Test extends JoomlaWebdriverTestCase
 		$arrayElement = $this->driver->findElements(By::xPath("//a[contains(text(), 'Edit')]"));
 		$this->assertEquals(count($arrayElement), 0, 'Edit Icons Must Not be Present');
 	}
-
-
 }

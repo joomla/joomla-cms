@@ -118,5 +118,4 @@ class ArticleManager0002Test extends JoomlaWebdriverTestCase
 		$this->articleManagerPage->trashAndDelete($articleName_1);
 		$this->articleManagerPage->trashAndDelete($articleName_2);
 	}
-
 }
