@@ -25,7 +25,7 @@ use SeleniumClient\DesiredCapabilities;
 class BannerManager0002Test extends JoomlaWebdriverTestCase
 {
 
-  /**
+	/**
 	 * The page class being tested.
 	 *
 	 * @var     bannerManagerPage
