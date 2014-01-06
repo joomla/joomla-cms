@@ -27,12 +27,13 @@ abstract class JInstallerHelper
 	 *
 	 * @param   string  $url     URL of file to download
 	 * @param   string  $target  Download target filename [optional]
+	 * @param   array   $options Array of optional data, as key => value [optional]
 	 *
 	 * @return  mixed  Path to downloaded package or boolean false on failure
 	 *
 	 * @since   3.1
 	 */
-	public static function downloadPackage($url, $target = false)
+	public static function downloadPackage($url, $target = false, $options = array())
 	{
 		$config = JFactory::getConfig();
 
@@ -45,7 +46,8 @@ abstract class JInstallerHelper
 		ini_set('user_agent', $version->getUserAgent('Installer'));
 
 		$http = JHttpFactory::getHttp();
-		$response = $http->get($url);
+		$headers = empty($options['headers']) ? array() : $options['headers'];
+		$response = $http->get($url, $headers);
 
 		if (302 == $response->code && isset($response->headers['Location']))
 		{
