@@ -257,6 +257,7 @@ class InstallerModelLanguages extends JModelList
 	 */
 	protected function _downloadPackage($url)
 	{
+		// Download the package from the given URL
 		$p_file = JInstallerHelper::downloadPackage($url);
 
 		// Was the package downloaded?

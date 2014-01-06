@@ -292,7 +292,6 @@ class InstallerModelUpdate extends JModelList
 			return false;
 		}
 
-		// Load installer plugins for assistance if required:
 		$p_file = JInstallerHelper::downloadPackage($url);
 
 		// Was the package downloaded?
