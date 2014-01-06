@@ -293,7 +293,7 @@ class InstallerModelUpdate extends JModelList
 		}
 
 		// Load installer plugins for assistance if required:
-		$p_file = JInstallerHelper::downloadPackage($url, $target = false);
+		$p_file = JInstallerHelper::downloadPackage($url);
 
 		// Was the package downloaded?
 		if (!$p_file)

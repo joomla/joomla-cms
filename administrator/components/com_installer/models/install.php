@@ -318,7 +318,7 @@ class InstallerModelInstall extends JModelLegacy
 		}
 
 		// Download the package at the URL given
-		$p_file = JInstallerHelper::downloadPackage($url, $target = false);
+		$p_file = JInstallerHelper::downloadPackage($url);
 
 		// Was the package downloaded?
 		if (!$p_file)
