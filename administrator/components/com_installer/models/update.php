@@ -293,12 +293,7 @@ class InstallerModelUpdate extends JModelList
 		}
 
 		// Load installer plugins for assistance if required:
-		JPluginHelper::importPlugin('installer');
-		$dispatcher = JEventDispatcher::getInstance();
-		$headers = array();
-		$results = $dispatcher->trigger('onInstallerBeforePackageDownload', array($this, &$url, &$headers));
-		
-		$p_file = JInstallerHelper::downloadPackage($url, $target = false, array('headers' => $headers));
+		$p_file = JInstallerHelper::downloadPackage($url, $target = false);
 
 		// Was the package downloaded?
 		if (!$p_file)
