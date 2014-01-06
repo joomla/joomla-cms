@@ -94,7 +94,7 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 		$tagEditPage = $this->getPageObject('TagEditPage');
 		$textArray = $tagEditPage->getTabIds();
 
- 		// Keep the following line commented to make it easy to generate values for arrays as fields change.
+		// Keep the following line commented to make it easy to generate values for arrays as fields change.
 
 // 		$tagEditPage->printFieldArray($tagEditPage->getAllInputFields($tagEditPage->tabs));
 
@@ -126,17 +126,17 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 	{
 		$salt = rand();
 		$tagName = 'Tag' . $salt;
-		$caption = 'Sample'. $salt;
+		$caption = 'Sample' . $salt;
 		$alt = 'alt' . $salt;
 		$float = 'Right'; //Other than the Default Value
 
 		$this->assertFalse($this->tagManagerPage->getRowNumber($tagName), 'Test tag should not be present');
-		$this->tagManagerPage->addTag($tagName,$caption,$alt,$float);
+		$this->tagManagerPage->addTag($tagName, $caption, $alt, $float);
 		$message = $this->tagManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'Tags successfully saved') >= 0, 'Tag save should return success');
 		$this->assertEquals(1, $this->tagManagerPage->getRowNumber($tagName), 'Test test tag should be in row 1');
 		$values = $this->tagManagerPage->getFieldValues('TagEditPage', $tagName, array('Title', 'Caption'));
-		$this->assertEquals(array($tagName,$caption), $values, 'Actual name, caption should match expected');
+		$this->assertEquals(array($tagName, $caption), $values, 'Actual name, caption should match expected');
 		$this->tagManagerPage->trashAndDelete($tagName);
 		$this->assertFalse($this->tagManagerPage->getRowNumber($tagName), 'Test tag should not be present');
 	}
