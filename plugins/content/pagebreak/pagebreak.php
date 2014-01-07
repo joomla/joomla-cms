@@ -217,7 +217,7 @@ class plgContentPagebreak extends JPlugin
 		$limitstart = JRequest::getUInt('limitstart', 0);
 		$showall = JRequest::getInt('showall', 0);
 		// TOC header.
-		$row->toc .= '<div id="article-index">';
+		$row->toc = '<div id="article-index">';
 
 		if($this->params->get('article_index')==1)
 		{
