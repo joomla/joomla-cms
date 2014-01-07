@@ -24,14 +24,14 @@ use SeleniumClient\DesiredCapabilities;
  */
 class LanguageManager0001Test extends JoomlaWebdriverTestCase
 {
-  /**
+	/**
 	 * The page class being tested.
 	 *
 	 * @var     LanguageManagerPage
 	 * @since   3.0
 	 */
 	protected $languageManagerPage = null;
-	
+
 	/**
 	 * Login to back end and navigate to menu Language Manager.
 	 *
@@ -42,7 +42,7 @@ class LanguageManager0001Test extends JoomlaWebdriverTestCase
 		parent::setUp();
 		$cpPage = $this->doAdminLogin();
 		$this->tagManagerPage = $cpPage->clickMenu('Language Manager', 'LanguageManagerPage');
-	    $this->driver->findElement(By::xPath("//ul/li/a[@href='index.php?option=com_languages&view=languages']"))->click();
+		$this->driver->findElement(By::xPath("//ul/li/a[@href='index.php?option=com_languages&view=languages']"))->click();
 	}
 
 	/**
@@ -55,7 +55,7 @@ class LanguageManager0001Test extends JoomlaWebdriverTestCase
 		$this->doAdminLogout();
 		parent::tearDown();
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -75,11 +75,10 @@ class LanguageManager0001Test extends JoomlaWebdriverTestCase
 		$languageEditPage->clickButton('toolbar-cancel');
 		$this->languageManagerPage = $this->getPageObject('LanguageManagerPage');
 	}
-	
-	
+
 	/**
 	 * @test
-	*/ 
+	 */
 	public function constructor_OpenEditScreen_LanguageEditOpened()
 	{
 		$this->languageManagerPage = $this->getPageObject('LanguageManagerPage');
@@ -88,10 +87,10 @@ class LanguageManager0001Test extends JoomlaWebdriverTestCase
 		$languageEditPage->clickButton('cancel');
 		$this->languageManagerPage = $this->getPageObject('LanguageManagerPage');
 	}
-	
+
 	/**
 	 * @test
-	*/
+	 */
 	public function getTabIds_ScreenDisplayed_EqualExpected()
 	{
 		$this->languageManagerPage = $this->getPageObject('LanguageManagerPage');
@@ -102,7 +101,7 @@ class LanguageManager0001Test extends JoomlaWebdriverTestCase
 		$languageEditPage->clickButton('toolbar-cancel');
 		$this->languageManagerPage = $this->getPageObject('LanguageManagerPage');
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -119,7 +118,7 @@ class LanguageManager0001Test extends JoomlaWebdriverTestCase
 		$this->languageManagerPage->trashAndDelete($langName);
 		$this->assertFalse($this->languageManagerPage->getRowNumber($langName), 'Test lang should not be present');
 	}
-	
+
 	/**
 	 * @test
 	 */
@@ -127,51 +126,51 @@ class LanguageManager0001Test extends JoomlaWebdriverTestCase
 	{
 		$salt = rand();
 		$langName = 'lang' . $salt;
-		$lang_title_native = 'Sample'. $salt;
+		$lang_title_native = 'Sample' . $salt;
 		$url_code = 'Sample' . $salt;
 		$image_prefix = 'us'; //Other than the Default Value
-		$language_tag= 'Sample';
-		$this->languageManagerPage = $this->getPageObject('LanguageManagerPage');		
+		$language_tag = 'Sample';
+		$this->languageManagerPage = $this->getPageObject('LanguageManagerPage');
 		$this->assertFalse($this->languageManagerPage->getRowNumber($langName), 'Test lang should not be present');
-		$this->languageManagerPage->addLanguage($langName,$lang_title_native,$url_code,$image_prefix,$language_tag);
+		$this->languageManagerPage->addLanguage($langName, $lang_title_native, $url_code, $image_prefix, $language_tag);
 		$message = $this->languageManagerPage->getAlertMessage();
-		$this->assertTrue(strpos($message, 'Content Language successfully saved') >= 0, 'Content Language save should return success');		
+		$this->assertTrue(strpos($message, 'Content Language successfully saved') >= 0, 'Content Language save should return success');
 		$this->assertEquals(2, $this->languageManagerPage->getRowNumber($langName), 'Test lang should be in row 2');
 		$values = $this->languageManagerPage->getFieldValues('LanguageEditPage', $langName, array('Title', 'Title Native'));
-		$this->assertEquals(array($langName,$lang_title_native), $values, 'Actual name, native name should match expected');
+		$this->assertEquals(array($langName, $lang_title_native), $values, 'Actual name, native name should match expected');
 		$this->languageManagerPage->trashAndDelete($langName);
 		$this->assertFalse($this->languageManagerPage->getRowNumber($langName), 'Test lang should not be present');
 	}
-	
+
 	/**
 	 * @test
-	*/
+	 */
 	public function editLanguage_ChangeFields_FieldsChanged()
 	{
 		$salt = rand();
 		$langName = 'lang' . $salt;
-		$new_lang_name='new_sample_Title';
-		$lang_title_native = 'Sample'. $salt;
+		$new_lang_name = 'new_sample_Title';
+		$lang_title_native = 'Sample' . $salt;
 		$url_code = 'Sample' . $salt;
 		$image_prefix = 'us'; //Other than the Default Value
-		$language_tag= 'Sample';
-		$this->languageManagerPage = $this->getPageObject('LanguageManagerPage');		
+		$language_tag = 'Sample';
+		$this->languageManagerPage = $this->getPageObject('LanguageManagerPage');
 		$this->assertFalse($this->languageManagerPage->getRowNumber($langName), 'Test lang should not be present');
-		$this->languageManagerPage->addLanguage($langName,$lang_title_native,$url_code,$image_prefix,$language_tag);
+		$this->languageManagerPage->addLanguage($langName, $lang_title_native, $url_code, $image_prefix, $language_tag);
 		$message = $this->languageManagerPage->getAlertMessage();
-		$this->assertTrue(strpos($message, 'Content Language successfully saved') >= 0, 'Content Language save should return success');		
+		$this->assertTrue(strpos($message, 'Content Language successfully saved') >= 0, 'Content Language save should return success');
 		$this->languageManagerPage->editLanguage($langName, array('Title' => 'new_sample_Title', 'Title Native' => 'Default'));
 		$values = $this->languageManagerPage->getFieldValues('LanguageEditPage', $new_lang_name, array('Title', 'Title Native'));
 		$this->assertEquals(array('new_sample_Title', 'Default'), $values, 'Actual values should match expected');
 		$this->languageManagerPage->trashAndDelete($new_lang_name);
 	}
-	
+
 	/**
 	 * @test
 	 */
 	public function changeLanguageState_ChangeEnabledUsingToolbar_EnabledChanged()
 	{
-		$this->languageManagerPage = $this->getPageObject('LanguageManagerPage');			
+		$this->languageManagerPage = $this->getPageObject('LanguageManagerPage');
 		$this->languageManagerPage->addLanguage('Test Lang');
 		$state = $this->languageManagerPage->getState('Test Lang');
 		$this->assertEquals('published', $state, 'Initial state should be published');
@@ -180,6 +179,6 @@ class LanguageManager0001Test extends JoomlaWebdriverTestCase
 		$this->assertEquals('unpublished', $state, 'State should be unpublished');
 		$this->languageManagerPage->trashAndDelete('Test Lang');
 	}
-	
-		
+
+
 }
