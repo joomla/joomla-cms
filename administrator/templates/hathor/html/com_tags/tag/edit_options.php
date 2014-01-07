@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 if (isset($fieldSet->description) && trim($fieldSet->description)) :
-	echo '<p class="tip">'.$this->escape(JText::_($fieldSet->description)).'</p>';
+	echo '<p class="tip">' . JText::_($fieldSet->description) . '</p>';
 endif;
 ?>
 <fieldset class="panelform">
@@ -47,7 +47,7 @@ endif;
 	foreach ($fieldSets as $name => $fieldSet) :
 	echo JHtml::_('sliders.panel', JText::_($fieldSet->label), $name.'-params');
 	if (isset($fieldSet->description) && trim($fieldSet->description)) :
-		echo '<p class="tip">'.$this->escape(JText::_($fieldSet->description)).'</p>';
+		echo '<p class="tip">' . JText::_($fieldSet->description). '</p>';
 	endif;
 	?>
 	<fieldset class="panelform">

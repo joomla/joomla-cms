@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 		$label = !empty($fieldSet->label) ? $fieldSet->label : 'COM_TEMPLATES_'.$name.'_FIELDSET_LABEL';
 		echo JHtml::_('sliders.panel', JText::_($label), $name.'-options');
 			if (isset($fieldSet->description) && trim($fieldSet->description)) :
-				echo '<p class="tip">'.$this->escape(JText::_($fieldSet->description)).'</p>';
+				echo '<p class="tip">' . JText::_($fieldSet->description) . '</p>';
 			endif;
 			?>
 		<fieldset class="panelform">
