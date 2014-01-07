@@ -245,7 +245,8 @@ $stickyToolbar = $this->params->get('stickyToolbar', '1');
 			<div class="btn-group pull-right">
 				<p>
 					<jdoc:include type="modules" name="footer" style="no" />
-					&copy; <?php echo $sitename; ?> <?php echo date('Y'); ?></p>
+					&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?>
+				</p>
 
 			</div>
 			<jdoc:include type="modules" name="status" style="no" />
