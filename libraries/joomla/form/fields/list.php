@@ -60,7 +60,7 @@ class JFormFieldList extends JFormField
 		$options = (array) $this->getOptions();
 
 		// Create a read-only list (no name) with a hidden input to store the value.
-		if (((string) $this->readonly == '1' || (string) $this->readonly == 'true') && ((string) $this->disabled != '1' || (string) $this->disabled != 'true'))
+		if (((string) $this->readonly == '1' || (string) $this->readonly == 'true') && (string) $this->disabled != '1' && (string) $this->disabled != 'true')
 		{
 			$html[] = JHtml::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $this->value, $this->id);
 			$html[] = '<input type="hidden" name="' . $this->name . '" value="' . $this->value . '"/>';
