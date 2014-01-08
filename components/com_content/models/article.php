@@ -80,9 +80,7 @@ class ContentModelArticle extends JModelItem
 		if (!isset($this->_item[$pk]))
 		{
 			try
-			{
-				$params = JFactory::getApplication()->getParams();
-				
+			{	
 				$db = $this->getDbo();
 				$query = $db->getQuery(true)
 					->select(
@@ -142,7 +140,7 @@ class ContentModelArticle extends JModelItem
 
 				// Filter by start and end dates.
 				$nullDate = $db->quote($db->getNullDate());
-				if ($params->get('timerresolution', 2) == 2)
+				if ($this->getState('params')->get('timerresolution', 2) == 2)
 				{
 					$date = JFactory::getDate();
 					$nowDate = $db->quote($date->toSql());
@@ -150,7 +148,7 @@ class ContentModelArticle extends JModelItem
 					$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
 						->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
 				}
-				elseif ($params->get('timerresolution', 2) == 1)
+				elseif ($this->getState('params')->get('timerresolution', 2) == 1)
 				{
 					//Create time for lower bound of publish up
 					$ts = time() - (time()%300);

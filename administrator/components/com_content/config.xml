@@ -895,7 +895,7 @@
 
 		<field
 			name="timerresolution"
-			type="radio"
+			type="list"
 			label="COM_CONTENT_TIMER_RESOLUTION_LABEL"
 			description="COM_CONTENT_TIMER_RESOLUTION_DESC"
 			default="2">
