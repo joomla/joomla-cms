@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Contacts
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -265,7 +265,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 
 		// Build the necessary route and path information.
 		$item->url = $this->getURL($item->id, $this->extension, $this->layout);
-		$item->route = ContactHelperRoute::getContactRoute($item->slug, $item->catslug);
+		$item->route = ContactHelperRoute::getContactRoute($item->slug, $item->catslug, $item->language);
 		$item->path = FinderIndexerHelper::getContentPath($item->route);
 
 		// Get the menu title if it exists.

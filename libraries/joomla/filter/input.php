@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Filter
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -597,7 +597,8 @@ class JFilterInput
 			$attrSubSet = explode('=', trim($attrSet[$i]), 2);
 
 			// Take the last attribute in case there is an attribute with no value
-			$attrSubSet[0] = array_pop(explode(' ', trim($attrSubSet[0])));
+			$attrSubSet_0 = explode(' ', trim($attrSubSet[0]));
+			$attrSubSet[0] = array_pop($attrSubSet_0);
 
 			// Remove all "non-regular" attribute names
 			// AND blacklisted attributes

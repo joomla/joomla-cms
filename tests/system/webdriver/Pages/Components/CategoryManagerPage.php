@@ -11,7 +11,7 @@ use SeleniumClient\WebElement;
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -82,18 +82,19 @@ class CategoryManagerPage extends AdminManagerPage
 	 *
 	 * @param string   $name          Test Category Title
 	 *
-	 * @param string   $alias 	  	  Test Category Alias
-	 *
 	 * @param string   $desc		  Test Description of Category
+	 *
+	 * @param array    $fields        Optional associative array of fields to set
 	 *
 	 * @return  CategoryManagerPage
 	 */
-	public function addCategory($name='ABC Testing', $alias='ABC SAMPLE ALIAS',$desc='Testing')
+	public function addCategory($name='ABC Testing', $desc='System Test Category', $fields = array())
 	{
 		$new_name = $name;
 		$this->clickButton('toolbar-new');
 		$categoryEditPage = $this->test->getPageObject('CategoryEditPage');
-		$categoryEditPage->setFieldValues(array('Title' => $name, 'Alias' => $alias,'Description'=>$desc));
+		$categoryEditPage->setFieldValues(array('Title' => $name, 'Description'=>$desc));
+		$categoryEditPage->setFieldValues($fields);
 		$categoryEditPage->clickButton('toolbar-save');
 		$this->test->getPageObject('CategoryManagerPage');
 	}

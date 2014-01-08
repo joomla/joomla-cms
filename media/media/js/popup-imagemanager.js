@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,6 +27,7 @@ var ImageManager = this.ImageManager = {
 		this.fields.align	= document.id("f_align");
 		this.fields.title	= document.id("f_title");
 		this.fields.caption	= document.id("f_caption");
+		this.fields.c_class	= document.id("f_caption_class");
 
 		// Setup image listing objects
 		this.folderlist = document.id('folderlist');
@@ -90,13 +91,16 @@ var ImageManager = this.ImageManager = {
 
 	onok: function()
 	{
-		extra = '';
+		var tag		= '';
+		var extra	= '';
+
 		// Get the image tag field information
 		var url		= this.fields.url.get('value');
 		var alt		= this.fields.alt.get('value');
 		var align	= this.fields.align.get('value');
 		var title	= this.fields.title.get('value');
 		var caption	= this.fields.caption.get('value');
+		var c_class	= this.fields.c_class.get('value');
 
 		if (url != '') {
 			// Set alt attribute
@@ -106,19 +110,28 @@ var ImageManager = this.ImageManager = {
 				extra = extra + 'alt="" ';
 			}
 			// Set align attribute
-			if (align != '') {
-				extra = extra + 'align="'+align+'" ';
+			if (align != '' && caption == '') {
+				extra = extra + 'class="pull-'+align+'" ';
 			}
-			// Set align attribute
+			// Set title attribute
 			if (title != '') {
 				extra = extra + 'title="'+title+'" ';
 			}
-			// Set align attribute
-			if (caption != '') {
-				extra = extra + 'class="caption" ';
-			}
 
-			var tag = "<img src=\""+url+"\" "+extra+"/>";
+			tag = '<img src="'+url+'" '+extra+'/>';
+
+			// Process caption
+			if (caption != '') {
+				var figclass = '';
+				var captionclass = '';
+				if (align != '') {
+					figclass = ' class="pull-'+align+'"';
+				}
+				if (c_class != '') {
+					captionclass = ' class="'+c_class+'"';
+				}
+				tag = '<figure'+figclass+'>'+tag+'<figcaption'+captionclass+'>'+caption+'</figcaption></figure>';
+			}
 		}
 
 		window.parent.jInsertEditorText(tag, this.editor);

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -267,7 +267,7 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 
 		// Build the necessary route and path information.
 		$item->url = $this->getURL($item->id, $this->extension, $this->layout);
-		$item->route = NewsfeedsHelperRoute::getNewsfeedRoute($item->slug, $item->catslug);
+		$item->route = NewsfeedsHelperRoute::getNewsfeedRoute($item->slug, $item->catslug, $item->language);
 		$item->path = FinderIndexerHelper::getContentPath($item->route);
 
 		/*

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Component
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -229,6 +229,7 @@ class JComponentHelper
 				{
 					$filter->tagBlacklist = $customListTags;
 				}
+
 				if ($customListAttributes)
 				{
 					$filter->attrBlacklist = $customListAttributes;
@@ -251,7 +252,7 @@ class JComponentHelper
 				// Remove white listed attributes from filter's default blacklist
 				if ($whiteListAttributes)
 				{
-					$filter->attrBlacklist = array_diff($filter->attrBlacklist);
+					$filter->attrBlacklist = array_diff($filter->attrBlacklist, $whiteListAttributes);
 				}
 			}
 			// White lists take third precedence.

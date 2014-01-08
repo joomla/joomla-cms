@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,7 +33,7 @@ JHtml::_('behavior.keepalive');
 	</form>
 <?php else : ?>
 	<form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" id="login-form" >
-	<?php if ($params->get('pretext')): ?>
+	<?php if ($params->get('pretext')) : ?>
 		<div class="pretext">
 		<p><?php echo $params->get('pretext'); ?></p>
 		</div>
@@ -45,19 +45,16 @@ JHtml::_('behavior.keepalive');
 	</p>
 	<p id="form-login-password">
 		<label for="modlgn-passwd"><?php echo JText::_('JGLOBAL_PASSWORD') ?></label>
-		<input id="modlgn-passwd" type="password" name="password" class="inputbox" size="18"  />
+		<input id="modlgn-passwd" type="password" name="password" class="inputbox" size="18" />
 	</p>
-	<?php if (count($twofactormethods) > 1): ?>
+	<?php if (count($twofactormethods) > 1) : ?>
 		<div id="form-login-secretkey" class="control-group">
 			<div class="controls">
 				<?php if (!$params->get('usetext')) : ?>
 					<div class="input-prepend input-append">
-						<span class="add-on">
-								<label for="modlgn-secretkey" class="element-invisible"><?php echo JText::_('JGLOBAL_SECRETKEY'); ?>
-							</label>
-						</span>
+						<label for="modlgn-secretkey"><?php echo JText::_('JGLOBAL_SECRETKEY'); ?></label>
 						<input id="modlgn-secretkey" type="text" name="secretkey" class="input-small" tabindex="0" size="18" />
-				</div>
+					</div>
 				<?php else: ?>
 					<label for="modlgn-secretkey"><?php echo JText::_('JGLOBAL_SECRETKEY') ?></label>
 					<input id="modlgn-secretkey" type="text" name="secretkey" class="input-small" tabindex="0" size="18" />
@@ -93,9 +90,9 @@ JHtml::_('behavior.keepalive');
 			</li>
 		<?php endif; ?>
 	</ul>
-	<?php if ($params->get('posttext')): ?>
+	<?php if ($params->get('posttext')) : ?>
 		<div class="posttext">
-		<p><?php echo $params->get('posttext'); ?></p>
+			<p><?php echo $params->get('posttext'); ?></p>
 		</div>
 	<?php endif; ?>
 	</fieldset>

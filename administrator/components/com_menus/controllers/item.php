@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -171,7 +171,7 @@ class MenusControllerItem extends JControllerForm
 
 		if ($data['type'] == 'url')
 		{
-			 $data['link'] = str_replace(array('"', '>', '<'), '', $data['link']);
+			$data['link'] = str_replace(array('"', '>', '<'), '', $data['link']);
 
 			if (strstr($data['link'], ':'))
 			{
@@ -184,7 +184,7 @@ class MenusControllerItem extends JControllerForm
 				{
 					$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'warning');
 					$this->setRedirect(
-					     JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId), false)
+						JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId), false)
 					);
 
 					return false;

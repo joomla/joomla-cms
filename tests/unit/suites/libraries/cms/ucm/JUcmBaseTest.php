@@ -3,7 +3,7 @@
  * @package	    Joomla.UnitTest
  * @subpackage  UCM
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -38,7 +38,7 @@ class JUcmBaseTest extends TestCaseDatabase
 
 		JFactory::$application = $this->getMockWeb();
 
-		$this->object = new JUcmBase;
+		$this->object = new JUcmBase('com_content.article');
 	}
 
 	/**
@@ -57,6 +57,25 @@ class JUcmBaseTest extends TestCaseDatabase
 	}
 
 	/**
+	 * Gets the data set to be loaded into the database during setup
+	 *
+	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
+	 *
+	 * @since   3.2
+	 */
+	protected function getDataSet()
+	{
+		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
+
+		$dataSet->addTable('jos_content_types', JPATH_TEST_DATABASE . '/jos_content_types.csv');
+		$dataSet->addTable('jos_languages', JPATH_TEST_DATABASE . '/jos_languages.csv');
+		$dataSet->addTable('jos_ucm_base', JPATH_TEST_DATABASE . '/jos_ucm_base.csv');
+		$dataSet->addTable('jos_ucm_content', JPATH_TEST_DATABASE . '/jos_ucm_content.csv');
+
+		return $dataSet;
+	}
+
+	/**
 	 * Tests the __construct()
 	 *
 	 * @return  void
@@ -65,19 +84,13 @@ class JUcmBaseTest extends TestCaseDatabase
 	 */
 	public function test__construct()
 	{
-		$this->markTestSkipped('Test not implemented.');
-	}
+		$object = new JUcmBase('com_content.article');
 
-	/**
-	 * Tests the getLanguageId() method
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function testStore()
-	{
-		$this->markTestSkipped('Test not implemented.');
+		$this->assertInstanceOf(
+			'JUcmType',
+			TestReflection::getValue($object, 'type'),
+			'Ensure the type property is an instance of JUcmType'
+		);
 	}
 
 	/**
@@ -89,7 +102,11 @@ class JUcmBaseTest extends TestCaseDatabase
 	 */
 	public function testGetType()
 	{
-		$this->markTestSkipped('Test not implemented.');
+		$this->assertEquals(
+			$this->object->getType()->type->type_title,
+			'Article',
+			'The type title for com_content.article is Article.'
+		);
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTTP
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -34,6 +34,12 @@ class JHttpTransportStream implements JHttpTransport
 	 */
 	public function __construct(JRegistry $options)
 	{
+		// Verify that URLs can be used with fopen();
+		if (!ini_get('allow_url_fopen'))
+		{
+			throw new RuntimeException('Cannot use a stream transport when "allow_url_fopen" is disabled.');
+		}
+
 		// Verify that fopen() is available.
 		if (!self::isSupported())
 		{

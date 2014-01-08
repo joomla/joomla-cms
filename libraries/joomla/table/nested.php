@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -1403,6 +1403,23 @@ class JTableNested extends JTable
 		$this->path = $path;
 
 		return true;
+	}
+
+	/**
+	 * Method to reset class properties to the defaults set in the class
+	 * definition. It will ignore the primary key as well as any private class
+	 * properties (except $_errors).
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2.1
+	 */
+	public function reset()
+	{
+		parent::reset();
+
+		// Reset the location properties.
+		$this->setLocation(0);
 	}
 
 	/**
