@@ -469,10 +469,12 @@ class ContentModelArticles extends JModelList
 		}
 		elseif ($params->get('timerresolution', 2) == 1)
 		{
-			$ts = time() - (time()/60%5*60 + time()%60);
+			//Create time for lower bound of publish up
+			$ts = time() - (time()%300);
 			$date = JFactory::getDate($ts);
 			$nowDate = $db->quote($date->toSql());
-			$ts = $ts + 60*5;
+			//Create time for upper bound of publish down
+			$ts += 300;
 			$date = JFactory::getDate($ts);
 			$nowDate2 = $db->quote($date->toSql());
 
