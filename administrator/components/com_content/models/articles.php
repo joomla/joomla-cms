@@ -111,8 +111,13 @@ class ContentModelArticles extends JModelList
 		$tag = $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
 		$this->setState('filter.tag', $tag);
 
+		// Get Default Order List
+		$defOrder = JComponentHelper::getParams('com_content')->get('admin_ordering_content', 'alpha');
+		$ordering = self::configDefaultOrder($defOrder);
+		$ordering = explode(', ', $ordering);
+
 		// List state information.
-		parent::populateState('a.title', 'asc');
+		parent::populateState($ordering['0'], $ordering['1']);
 
 		// Force a language
 		$forcedLanguage = $app->input->get('forcedLanguage');
@@ -386,5 +391,47 @@ class ContentModelArticles extends JModelList
 		}
 
 		return $items;
+	}
+
+	public static function configDefaultOrder($orderby)
+	{
+
+		switch ($orderby)
+		{
+			case 'date' :
+				$orderby = 'a.created, asc';
+				break;
+
+			case 'rdate' :
+				$orderby = 'a.created, desc';
+				break;
+
+			case 'alpha' :
+				$orderby = 'a.title, asc';
+				break;
+
+			case 'ralpha' :
+				$orderby = 'a.title, desc';
+				break;
+
+			case 'author' :
+				$orderby = 'a.created_by, asc';
+				break;
+
+			case 'rauthor' :
+				$orderby = 'a.created_by, desc';
+				break;
+
+			case 'hits' :
+				$orderby = 'a.hits, desc';
+				break;
+
+			case 'rhits' :
+				$orderby = 'a.hits, asc';
+				break;
+
+		}
+
+		return $orderby;
 	}
 }
