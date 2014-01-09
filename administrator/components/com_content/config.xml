@@ -403,7 +403,7 @@
 				<option value="1">JBROWSERTARGET_NEW</option>
 				<option value="2">JBROWSERTARGET_POPUP</option>
 				<option value="3">JBROWSERTARGET_MODAL</option>
-		</field>	
+		</field>
 		<field
 			name="spacer4"
 			type="spacer"
@@ -444,7 +444,7 @@
 			extension="com_content"
 			view="category"
 		/>
-		<field 
+		<field
 			name="show_category_heading_title_text"
 			type="radio"
 			class="btn-group btn-group-yesno"
@@ -873,6 +873,36 @@
 			default="0">
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+		</field>
+
+	</fieldset>
+
+	<fieldset name="admin"
+		label="JGLOBAL_ADMINISTRATION_LABEL"
+		description="COM_CONTENT_CONFIG_ADMINISTRATION_SETTINGS_DESC"
+		>
+
+		<field name="admin_ordering_content"
+			type="list"
+			default="rdate"
+			description="JGLOBAL_ADMIN_DEFAULT_ORDERING_CONTENT_DESC"
+			label="JGLOBAL_ADMIN_DEFAULT_ORDERING_CONTENT_LABEL">
+			<option
+				value="rdate">JGLOBAL_MOST_RECENT_FIRST</option>
+			<option
+				value="date">JGLOBAL_OLDEST_FIRST</option>
+			<option
+				value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
+			<option
+				value="ralpha">JGLOBAL_TITLE_REVERSE_ALPHABETICAL</option>
+			<option
+				value="author">JGLOBAL_AUTHOR_ALPHABETICAL</option>
+			<option
+				value="rauthor">JGLOBAL_AUTHOR_REVERSE_ALPHABETICAL</option>
+			<option
+				value="hits">JGLOBAL_MOST_HITS</option>
+			<option
+				value="rhits">JGLOBAL_LEAST_HITS</option>
 		</field>
 
 	</fieldset>
