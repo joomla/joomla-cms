@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -281,6 +281,7 @@ final class JApplicationSite extends JApplicationCms
 		static $params = array();
 
 		$hash = '__default';
+
 		if (!empty($option))
 		{
 			$hash = $option;
@@ -315,6 +316,7 @@ final class JApplicationSite extends JApplicationCms
 			{
 				$description = $this->get('MetaDesc');
 			}
+
 			$rights = $this->get('MetaRights');
 			$robots = $this->get('robots');
 

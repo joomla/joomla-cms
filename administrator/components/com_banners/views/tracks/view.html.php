@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -62,7 +62,7 @@ class BannersViewTracks extends JViewLegacy
 		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_TRACKS'), 'bookmark banners-tracks');
 
 		$bar = JToolBar::getInstance('toolbar');
-		$bar->appendButton('Slider', 'export', 'JTOOLBAR_EXPORT', 'index.php?option=com_banners&amp;view=download&amp;tmpl=component', 600, 300);
+		$bar->appendButton('Popup', 'export', 'JTOOLBAR_EXPORT', 'index.php?option=com_banners&amp;view=download&amp;tmpl=component', 600, 300);
 		if ($canDo->get('core.delete'))
 		{
 			$bar->appendButton('Confirm', 'COM_BANNERS_DELETE_MSG', 'delete', 'COM_BANNERS_TRACKS_DELETE', 'tracks.delete', false);

@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,13 +14,13 @@ defined('_JEXEC') or die;
 $version = new JVersion;
 ?>
 <script type="text/javascript">
-    function installLanguages() {
-        var $ = jQuery.noConflict();
-        $(install_languages_desc).hide();
-        $(wait_installing).show();
-        $(wait_installing_spinner).show();
-        Install.submitform();
-    }
+	function installLanguages() {
+		var $ = jQuery.noConflict();
+		$('#install_languages_desc').hide();
+		$('#wait_installing').show();
+		$('#wait_installing_spinner').show();
+		Install.submitform();
+	}
 </script>
 
 <?php echo JHtml::_('installation.stepbarlanguages'); ?>
