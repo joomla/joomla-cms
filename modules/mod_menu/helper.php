@@ -41,7 +41,6 @@ class ModMenuHelper
 		$cache = JFactory::getCache('mod_menu', '');
 		if (!($items = $cache->get($key)))
 		{
-			$path    = $base->tree;
 			$start   = (int) $params->get('startLevel');
 			$end     = (int) $params->get('endLevel');
 			$showAll = $params->get('showAllChildren');
@@ -56,7 +55,7 @@ class ModMenuHelper
 					if (($start && $start > $item->level)
 						|| ($end && $item->level > $end)
 						|| (!$showAll && $item->level > 1 && !in_array($item->parent_id, $path))
-						|| ($start > 1 && !in_array($item->tree[$start - 2], $path)))
+						|| ($start > 1 && !in_array($base->id, $item->tree)))
 					{
 						unset($items[$i]);
 						continue;
