@@ -29,6 +29,8 @@ class PlgSearchCategories extends JPlugin
 	protected $autoloadLanguage = true;
 
 	/**
+	 * Get content search areas.
+	 * 
 	 * @return array An array of search areas
 	 */
 	public function onContentSearchAreas()
@@ -36,20 +38,23 @@ class PlgSearchCategories extends JPlugin
 		static $areas = array(
 			'categories' => 'PLG_SEARCH_CATEGORIES_CATEGORIES'
 		);
+
 		return $areas;
 	}
 
 	/**
-	 * Categories Search method
+	 * Content search method
 	 *
 	 * The sql must return the following fields that are
 	 * used in a common display routine: href, title, section, created, text,
-	 * browsernav
+	 * browsernav.
 	 *
-	 * @param string Target search string
-	 * @param string mathcing option, exact|any|all
-	 * @param string ordering option, newest|oldest|popular|alpha|category
-	 * @param mixed  An array if restricted to areas, null if search all
+	 * @param   string  $text      Target search string
+	 * @param   string  $phrase    Matching option, exact|any|all
+	 * @param   string  $ordering  Ordering option, newest|oldest|popular|alpha|category
+	 * @param   mixed   $areas     An array if restricted to areas, null if search all
+	 * 
+	 * @return  array
 	 */
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
@@ -71,10 +76,12 @@ class PlgSearchCategories extends JPlugin
 		$sArchived = $this->params->get('search_archived', 1);
 		$limit = $this->params->def('search_limit', 50);
 		$state = array();
+
 		if ($sContent)
 		{
 			$state[] = 1;
 		}
+
 		if ($sArchived)
 		{
 			$state[] = 2;
@@ -86,6 +93,7 @@ class PlgSearchCategories extends JPlugin
 		}
 
 		$text = trim($text);
+
 		if ($text == '')
 		{
 			return array();
@@ -137,7 +145,7 @@ class PlgSearchCategories extends JPlugin
 		$text = $db->quote('%' . $db->escape($text, true) . '%', false);
 		$query = $db->getQuery(true);
 
-		//sqlsrv changes
+		// Sqlsrv changes
 		$case_when = ' CASE WHEN ';
 		$case_when .= $query->charLength('a.alias', '!=', '0');
 		$case_when .= ' THEN ';
@@ -148,11 +156,13 @@ class PlgSearchCategories extends JPlugin
 		$query->select('a.title, a.description AS text, \'\' AS created, \'2\' AS browsernav, a.id AS catid, ' . $case_when)
 			->from('#__categories AS a')
 			->where(
-				'(a.title LIKE ' . $text . ' OR a.description LIKE ' . $text . ') AND a.published IN (' . implode(',', $state) . ') AND a.extension = ' . $db->quote('com_content')
-					. 'AND a.access IN (' . $groups . ')'
+				'(a.title LIKE ' . $text . ' OR a.description LIKE ' . $text
+				. ') AND a.published IN (' . implode(',', $state) . ') AND a.extension = ' . $db->quote('com_content')
+				. 'AND a.access IN (' . $groups . ')'
 			)
 			->group('a.id, a.title, a.description, a.alias')
 			->order($order);
+
 		if ($app->isSite() && JLanguageMultilang::isEnabled())
 		{
 			$query->where('a.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
@@ -162,9 +172,11 @@ class PlgSearchCategories extends JPlugin
 		$rows = $db->loadObjectList();
 
 		$return = array();
+
 		if ($rows)
 		{
 			$count = count($rows);
+
 			for ($i = 0; $i < $count; $i++)
 			{
 				$rows[$i]->href = ContentHelperRoute::getCategoryRoute($rows[$i]->slug);

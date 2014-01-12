@@ -182,7 +182,10 @@ class PlgSystemRemember extends JPlugin
 						'username' => $results[0]->user_id,
 					);
 
-					return $this->app->login($credentials, array('silent' => true, 'lifetime' => $this->lifetime, 'secure' => $this->secure, 'length' => $this->length));
+					return $this->app->login(
+						$credentials,
+						array('silent' => true, 'lifetime' => $this->lifetime, 'secure' => $this->secure, 'length' => $this->length)
+					);
 				}
 			}
 		}

@@ -137,8 +137,8 @@ class PlgFinderCategories extends FinderIndexerAdapter
 			{
 				$this->categoryAccessChange($row);
 			}
-
 		}
+
 		return true;
 	}
 
@@ -148,7 +148,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	 * to queue the item to be indexed later.
 	 *
 	 * @param   string   $context  The context of the content passed to the plugin.
-	 * @param   JTable   $row     A JTable object
+	 * @param   JTable   $row      A JTable object
 	 * @param   boolean  $isNew    If the content is just about to be created
 	 *
 	 * @return  boolean  True on success.
@@ -190,9 +190,9 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		// We only want to handle categories here
 		if ($context == 'com_categories.category')
 		{
-			// The category published state is tied to the parent category
-			// published state so we need to look up all published states
-			// before we change anything.
+			/* The category published state is tied to the parent category
+			 * published state so we need to look up all published states
+			 * before we change anything. */
 			foreach ($pks as $pk)
 			{
 				/* TODO: The $item variable does not seem to be used at all
@@ -252,6 +252,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 
 		// Need to import component route helpers dynamically, hence the reason it's handled here
 		$path = JPATH_SITE . '/components/' . $item->extension . '/helpers/route.php';
+
 		if (is_file($path))
 		{
 			include_once $path;
@@ -280,7 +281,8 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metadesc');
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metaauthor');
 		$item->addInstruction(FinderIndexer::META_CONTEXT, 'author');
-		//$item->addInstruction(FinderIndexer::META_CONTEXT, 'created_by_alias');
+
+		// $item->addInstruction(FinderIndexer::META_CONTEXT, 'created_by_alias');
 
 		// Trigger the onContentPrepare event.
 		$item->summary = FinderIndexerHelper::prepareContent($item->summary, $item->params);
@@ -289,6 +291,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		$item->url = $this->getURL($item->id, $item->extension, $this->layout);
 
 		$class = $extension . 'HelperRoute';
+
 		if (class_exists($class) && method_exists($class, 'getCategoryRoute'))
 		{
 			$item->route = $class::getCategoryRoute($item->id, $item->language);
@@ -297,6 +300,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		{
 			$item->route = ContentHelperRoute::getCategoryRoute($item->slug, $item->catid);
 		}
+
 		$item->path = FinderIndexerHelper::getContentPath($item->route);
 
 		// Get the menu title if it exists.
@@ -351,6 +355,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	protected function getListQuery($query = null)
 	{
 		$db = JFactory::getDbo();
+
 		// Check if we can use the supplied SQL query.
 		$query = $query instanceof JDatabaseQuery ? $query : $db->getQuery(true)
 			->select('a.id, a.title, a.alias, a.description AS summary, a.extension')
@@ -365,7 +370,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		$a_id = $query->castAsChar('a.id');
 		$case_when_item_alias .= $query->concatenate(array($a_id, 'a.alias'), ':');
 		$case_when_item_alias .= ' ELSE ';
-		$case_when_item_alias .= $a_id.' END as slug';
+		$case_when_item_alias .= $a_id . ' END as slug';
 		$query->select($case_when_item_alias)
 			->from('#__categories AS a')
 			->where($db->quoteName('a.id') . ' > 1');

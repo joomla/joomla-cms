@@ -87,12 +87,14 @@ class PlgCaptchaRecaptcha extends JPlugin
 	}
 
 	/**
-	  * Calls an HTTP POST function to verify if the user's guess was correct
-	  *
-	  * @return  True if the answer is correct, false otherwise
-	  *
-	  * @since  2.5
-	  */
+	 * Calls an HTTP POST function to verify if the user's guess was correct
+	 * 
+	 * @param   string  $code  Not used.
+	 *
+	 * @return  True if the answer is correct, false otherwise
+	 *
+	 * @since  2.5
+	 */
 	public function onCheckAnswer($code)
 	{
 		$input      = JFactory::getApplication()->input;
@@ -177,10 +179,10 @@ class PlgCaptchaRecaptcha extends JPlugin
 	/**
 	 * Submits an HTTP POST to a reCAPTCHA server.
 	 *
-	 * @param   string  $host
-	 * @param   string  $path
-	 * @param   array   $data
-	 * @param   int     $port
+	 * @param   string  $host  Host name of server.
+	 * @param   string  $path  Path on server.
+	 * @param   array   $data  Data to be posted to server.
+	 * @param   int     $port  Optional HTTP port number
 	 *
 	 * @return  array   Response
 	 *

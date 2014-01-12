@@ -18,7 +18,11 @@ defined('_JEXEC') or die;
  */
 class PlgSystemP3p extends JPlugin
 {
-	/*
+	/**
+	 * After initialise.
+	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public function onAfterInitialise()
@@ -26,12 +30,14 @@ class PlgSystemP3p extends JPlugin
 		// Get the header
 		$header = $this->params->get('header', 'NOI ADM DEV PSAi COM NAV OUR OTRo STP IND DEM');
 		$header = trim($header);
-		// Bail out on empty header (why would anyone do that?!)
+
+		// Bail out on empty header (why would anyone do that?!).
 		if ( empty($header) )
 		{
 			return;
 		}
+
 		// Replace any existing P3P headers in the response
-		JFactory::getApplication()->setHeader('P3P', 'CP="'.$header.'"', true);
+		JFactory::getApplication()->setHeader('P3P', 'CP="' . $header . '"', true);
 	}
 }

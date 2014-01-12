@@ -29,9 +29,9 @@ class PlgButtonImage extends JPlugin
 	/**
 	 * Display the button
 	 *
-	 * @param   string  $name  The name of the button to display
-	 * @param   string  $asset
-	 * @param   string  $author
+	 * @param   string  $name    The name of the button to display
+	 * @param   string  $asset   Asset.
+	 * @param   string  $author  Author.
 	 *
 	 * @return array A two element array of (imageName, textToInsert)
 	 */

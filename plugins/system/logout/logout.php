@@ -27,12 +27,13 @@ class PlgSystemLogout extends JPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 * Object Constructor.
+	 * Constructor.
 	 *
-	 * @access	public
-	 * @param   object	The object to observe -- event dispatcher.
-	 * @param   object	The configuration object for the plugin.
-	 * @return  void
+	 * @param   object  &$subject  The object to observe.
+	 * @param   array   $config    An optional associative array of configuration settings.
+	 *                             Recognised key values include 'name', 'group', 'params', 'language'
+	 *                             (this list is not meant to be comprehensive).
+	 * 
 	 * @since   1.6
 	 */
 	public function __construct(&$subject, $config)
@@ -41,6 +42,7 @@ class PlgSystemLogout extends JPlugin
 
 		$input = JFactory::getApplication()->input;
 		$hash  = JApplication::getHash('PlgSystemLogout');
+
 		if (JFactory::getApplication()->isSite() && $input->cookie->getString($hash))
 		{
 			// Destroy the cookie
@@ -57,10 +59,11 @@ class PlgSystemLogout extends JPlugin
 	/**
 	 * This method should handle any logout logic and report back to the subject
 	 *
-	 * @param   array  $user		Holds the user data.
-	 * @param   array  $options	Array holding options (client, ...).
+	 * @param   array  $user     Holds the user data.
+	 * @param   array  $options  Array holding options (client, ...).
 	 *
 	 * @return  boolean Always returns true
+	 * 
 	 * @since   1.6
 	 */
 	public function onUserLogout($user, $options = array())
@@ -74,9 +77,17 @@ class PlgSystemLogout extends JPlugin
 			$cookie_path 	= $conf->get('config.cookie_path', '/');
 			setcookie($hash, true, time() + 86400, $cookie_path, $cookie_domain);
 		}
+
 		return true;
 	}
 
+	/**
+	 * Handle an error.
+	 * 
+	 * @param   object  &$error  Error to be rendered.
+	 * 
+	 * @return  void
+	 */
 	public static function handleError(&$error)
 	{
 		// Get the application object.

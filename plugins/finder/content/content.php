@@ -166,7 +166,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 	 * to queue the item to be indexed later.
 	 *
 	 * @param   string   $context  The context of the content passed to the plugin.
-	 * @param   JTable   $row     A JTable object
+	 * @param   JTable   $row      A JTable object
 	 * @param   boolean  $isNew    If the content is just about to be created
 	 *
 	 * @return  boolean  True on success.
@@ -337,6 +337,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 	protected function getListQuery($query = null)
 	{
 		$db = JFactory::getDbo();
+
 		// Check if we can use the supplied SQL query.
 		$query = $query instanceof JDatabaseQuery ? $query : $db->getQuery(true)
 			->select('a.id, a.title, a.alias, a.introtext AS summary, a.fulltext AS body')
@@ -353,7 +354,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 		$a_id = $query->castAsChar('a.id');
 		$case_when_item_alias .= $query->concatenate(array($a_id, 'a.alias'), ':');
 		$case_when_item_alias .= ' ELSE ';
-		$case_when_item_alias .= $a_id.' END as slug';
+		$case_when_item_alias .= $a_id . ' END as slug';
 		$query->select($case_when_item_alias);
 
 		$case_when_category_alias = ' CASE WHEN ';
@@ -362,7 +363,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 		$c_id = $query->castAsChar('c.id');
 		$case_when_category_alias .= $query->concatenate(array($c_id, 'c.alias'), ':');
 		$case_when_category_alias .= ' ELSE ';
-		$case_when_category_alias .= $c_id.' END as catslug';
+		$case_when_category_alias .= $c_id . ' END as catslug';
 		$query->select($case_when_category_alias)
 
 			->select('u.name AS author')

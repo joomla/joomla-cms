@@ -21,11 +21,14 @@ class PlgSystemLanguagecode extends JPlugin
 	/**
 	 * Plugin that change the language code used in the <html /> tag
 	 *
+	 * @return  void
+	 * 
 	 * @since  2.5
 	 */
 	public function onAfterRender()
 	{
 		$app = JFactory::getApplication();
+
 		// Use this plugin only in site application
 		if ($app->isSite())
 		{
@@ -59,34 +62,43 @@ class PlgSystemLanguagecode extends JPlugin
 
 			// Replace codes in <link hreflang="" /> attributes
 			preg_match_all(chr(1) . '(<link.*\s+hreflang=")([0-9a-z\-]*)(".*\s+rel="alternate".*/>)' . chr(1) . 'i', $body, $matches);
+
 			foreach ($matches[2] as $match)
 			{
 				$new_code = $this->params->get(strtolower($match));
+
 				if ($new_code)
 				{
 					$patterns[] = chr(1) . '(<link.*\s+hreflang=")(' . $match . ')(".*\s+rel="alternate".*/>)' . chr(1) . 'i';
 					$replace[] = '${1}' . $new_code . '${3}';
 				}
 			}
+
 			preg_match_all(chr(1) . '(<link.*\s+rel="alternate".*\s+hreflang=")([0-9A-Za-z\-]*)(".*/>)' . chr(1) . 'i', $body, $matches);
+
 			foreach ($matches[2] as $match)
 			{
 				$new_code = $this->params->get(strtolower($match));
+
 				if ($new_code)
 				{
 					$patterns[] = chr(1) . '(<link.*\s+rel="alternate".*\s+hreflang=")(' . $match . ')(".*/>)' . chr(1) . 'i';
 					$replace[] = '${1}' . $new_code . '${3}';
 				}
 			}
+
 			$app->setBody(preg_replace($patterns, $replace, $body));
 		}
 	}
 
 	/**
-	 * @param   JForm	$form	The form to be altered.
-	 * @param   array  $data	The associated data for the form.
+	 * Prepare form.
+	 * 
+	 * @param   JForm  $form  The form to be altered.
+	 * @param   array  $data  The associated data for the form.
 	 *
 	 * @return  boolean
+	 * 
 	 * @since	2.5
 	 */
 	public function onContentPrepareForm($form, $data)
@@ -95,6 +107,7 @@ class PlgSystemLanguagecode extends JPlugin
 		if (!($form instanceof JForm))
 		{
 			$this->_subject->setError('JERROR_NOT_A_FORM');
+
 			return false;
 		}
 
@@ -119,7 +132,7 @@ class PlgSystemLanguagecode extends JPlugin
 								description="PLG_SYSTEM_LANGUAGECODE_FIELDSET_DESC"
 							>
 								<field
-									name="'.strtolower($tag).'"
+									name="' . strtolower($tag) . '"
 									type="text"
 									description="' . htmlspecialchars(JText::sprintf('PLG_SYSTEM_LANGUAGECODE_FIELD_DESC', $language['name']), ENT_COMPAT, 'UTF-8') . '"
 									translate_description="false"
