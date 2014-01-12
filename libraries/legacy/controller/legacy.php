@@ -141,6 +141,7 @@ class JControllerLegacy extends JObject
 	 * @var JViewLegacy
 	 * @since 3.2
 	 */
+	protected $view;
 
 	/**
 	 * Instance container.
