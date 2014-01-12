@@ -76,6 +76,12 @@ class PlgContentContact extends JPlugin
 	 */
 	protected function getContactID($created_by)
 	{
+		static $contacts = array();
+		if(isset($contacts[$created_by]))
+		{
+			return $contacts[$created_by];
+		}
+
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
@@ -93,6 +99,8 @@ class PlgContentContact extends JPlugin
 
 		$db->setQuery($query);
 
-		return $db->loadResult();
+		$contacts[$created_by] = $db->loadResult();
+
+		return $contacts[$created_by];
 	}
 }
