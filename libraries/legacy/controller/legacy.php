@@ -134,6 +134,13 @@ class JControllerLegacy extends JObject
 	 * @since  12.2
 	 */
 	protected $input;
+	
+	/**
+	 * Holds a JView object to allow the view to be defined without overriding the display function
+	 * 
+	 * @var JViewLegacy
+	 * @since 3.2
+	 */
 
 	/**
 	 * Instance container.
@@ -634,19 +641,23 @@ class JControllerLegacy extends JObject
 	{
 		$document = JFactory::getDocument();
 		$viewType = $document->getType();
-		$viewName = $this->input->get('view', $this->default_view);
-		$viewLayout = $this->input->get('layout', 'default');
-
-		$view = $this->getView($viewName, $viewType, '', array('base_path' => $this->basePath, 'layout' => $viewLayout));
-
-		// Get/Create the model
-		if ($model = $this->getModel($viewName))
+		
+		if (!isset($this->view))
 		{
-			// Push the model into the view (as default)
-			$view->setModel($model, true);
+			$viewName = $this->input->get('view', $this->default_view);
+			$viewLayout = $this->input->get('layout', 'default');
+
+			$this->view = $this->getView($viewName, $viewType, '', array('base_path' => $this->basePath, 'layout' => $viewLayout));
+
+			// Get/Create the model
+			if ($model = $this->getModel($viewName))
+			{
+				// Push the model into the view (as default)
+				$this->view->setModel($model, true);
+			}
 		}
 
-		$view->document = $document;
+		$this->view->document = $document;
 
 		$conf = JFactory::getConfig();
 
@@ -678,11 +689,11 @@ class JControllerLegacy extends JObject
 				$app->registeredurlparams = $registeredurlparams;
 			}
 
-			$cache->get($view, 'display');
+			$cache->get($this->view, 'display');
 		}
 		else
 		{
-			$view->display();
+			$this->view->display();
 		}
 
 		return $this;
