@@ -174,16 +174,17 @@ abstract class ContentHelperRoute
 				}
 			}
 		}
-		else
+
+		if ($language != '*')
 		{
-			if ($language != '*') {
-				$needles['language'] = '*';
-				return self::_findItem($needles);
-			}
-			$active = $menus->getActive();
-			if ($active && $active->component == 'com_content') {
-				return $active->id;
-			}
+			$needles['language'] = '*';
+			return self::_findItem($needles);
+		}
+
+		$active = $menus->getActive();
+		if ($active && $active->component == 'com_content')
+		{
+			return $active->id;
 		}
 
 		return null;
