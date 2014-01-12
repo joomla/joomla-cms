@@ -30,7 +30,7 @@ class PlgContentContact extends JPlugin
 	 */
 	public function onContentPrepare($context, &$row, $params, $page = 0)
 	{
-		if ($context != 'com_content.category' && $context != 'com_content.article')
+		if ($context != 'com_content.category' && $context != 'com_content.article' && $context != 'com_content.featured')
 		{
 			return true;
 		}
