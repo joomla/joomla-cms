@@ -23,41 +23,39 @@ class PlgContentContact extends JPlugin
 	 *
 	 * @param   string   $context  The context of the content being passed to the plugin.
 	 * @param   mixed    &$row     An object with a "text" property
-	 * @param   mixed    &$params  Additional parameters. See {@see PlgContentContent()}.
+	 * @param   mixed    $params   Additional parameters. See {@see PlgContentContent()}.
 	 * @param   integer  $page     Optional page number. Unused. Defaults to zero.
 	 *
 	 * @return  boolean	True on success.
 	 */
 	public function onContentPrepare($context, &$row, $params, $page = 0)
 	{
-		if ($context != 'com_content.category' && $context != 'com_content.article' && $context != 'com_content.featured')
+		$allowed_contexts = array('com_content.category', 'com_content.article', 'com_content.featured');
+		if (!in_array($context, $allowed_contexts))
 		{
 			return true;
 		}
 
-		if ($params === null || $params === '')
+		// Return if we don't have valid params or don't link the author
+		if (!($params instanceof JRegistry) || !$params->get('link_author'))
 		{
 			return true;
 		}
 
-		if ((int) $params->get('link_author') == 0)
-		{
-			return true;
-		}
-
-		if (! isset($row->id) || (int) $row->id == 0)
+		// Return if we don't have a valid article id
+		if (!isset($row->id) || !(int)$row->id)
 		{
 			return true;
 		}
 
 		$row->contactid = $this->getContactID($row->created_by);
 
-		if (!empty($row->contactid))
+		if ($row->contactid)
 		{
 			$needle = 'index.php?option=com_contact&view=contact&id=' . $row->contactid;
 			$menu = JFactory::getApplication()->getMenu();
 			$item = $menu->getItems('link', $needle, true);
-			$link = !empty($item) ? $needle . '&Itemid=' . $row->id : $needle;
+			$link = $item ? $needle . '&Itemid=' . $item->id : $needle;
 			$row->contact_link = JRoute::_($link);
 		}
 		else
@@ -80,7 +78,6 @@ class PlgContentContact extends JPlugin
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
-		$query->clear();
 
 		$query->select('MAX(contact.id) AS contactid');
 		$query->from('#__contact_details AS contact');
@@ -94,7 +91,7 @@ class PlgContentContact extends JPlugin
 				. ' OR contact.language IS NULL)');
 		}
 
-		$db->setQuery($query->__toString());
+		$db->setQuery($query);
 
 		return $db->loadResult();
 	}
