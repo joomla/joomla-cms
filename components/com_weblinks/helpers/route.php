@@ -138,24 +138,27 @@ abstract class WeblinksHelperRoute
 			}
 		}
 
-		if ($needles) {
+		if ($needles)
+		{
 			foreach ($needles as $view => $ids)
 			{
-				if (isset(self::$lookup[$view])) {
+				if (isset(self::$lookup[$view]))
+				{
 					foreach($ids as $id)
 					{
-						if (isset(self::$lookup[$view][(int)$id])) {
+						if (isset(self::$lookup[$view][(int)$id]))
+						{
 							return self::$lookup[$view][(int)$id];
 						}
 					}
 				}
 			}
 		}
-		else {
-			$active = $menus->getActive();
-			if ($active) {
-				return $active->id;
-			}
+
+		$active = $menus->getActive();
+		if ($active)
+		{
+			return $active->id;
 		}
 
 		return null;

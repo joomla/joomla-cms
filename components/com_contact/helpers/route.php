@@ -132,12 +132,11 @@ abstract class ContactHelperRoute
 				}
 			}
 		}
-		else
+
+		$active = $menus->getActive();
+		if ($active)
 		{
-			$active = $menus->getActive();
-			if ($active) {
-				return $active->id;
-			}
+			return $active->id;
 		}
 
 		return null;
