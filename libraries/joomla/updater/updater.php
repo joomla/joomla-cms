@@ -75,7 +75,7 @@ class JUpdater extends JAdapter
 
 		$retval	= false;
 
-		$query->select('DISTINCT a.update_site_id, a.type, a.location, a.last_check_timestamp, extra_query')
+		$query->select('DISTINCT a.update_site_id, a.type, a.location, a.last_check_timestamp, a.extra_query')
 			->from('#__update_sites AS a')
 			->where('a.enabled = 1');
 
