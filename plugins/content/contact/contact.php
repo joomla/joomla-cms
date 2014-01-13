@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.Contact
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Plugin
  * @subpackage  Content.Contact
- * @since       1.5
+ * @since       3.2
  */
 class PlgContentContact extends JPlugin
 {
@@ -70,7 +70,6 @@ class PlgContentContact extends JPlugin
 	 * Retrieve Contact
 	 *
 	 * @param   int    $created_by
-	 * @param   int    $filter_language
 	 *
 	 * @return  mixed|null|integer
 	 */
