@@ -46,8 +46,25 @@ abstract class JInstallerHelper
 		$version = new JVersion;
 		ini_set('user_agent', $version->getUserAgent('Installer'));
 
+		// load installer plugins, and allow url and headers modification
+		$headers = array();
+		JPluginHelper::importPlugin('installer');
+		$dispatcher = JEventDispatcher::getInstance();
+		$results = $dispatcher->trigger('onInstallerBeforePackageDownload', array(&$url, &$headers));
+
+		// set headers
+		if (!empty($headers))
+		{
+			$headersString = '';
+			foreach ($headers as $key => $value)
+			{
+				$headersString .= $key . ': ' . $value . "\r\n";
+			}
+			$context = stream_context_create(array('http' => array('header' => $headersString)));
+		}
+
 		// Open the remote server socket for reading
-		$inputHandle = @ fopen($url, "r");
+		$inputHandle = empty($headers) ? @fopen($url, "r") : @fopen($url, "r", false, $context);
 		$error = strstr($php_errormsg, 'failed to open stream:');
 		if (!$inputHandle)
 		{
