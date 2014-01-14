@@ -51,7 +51,7 @@ abstract class JInstallerHelper
 		// load installer plugins, and allow url and headers modification
 		$headers = array();
 		JPluginHelper::importPlugin('installer');
-		$dispatcher = JEventDispatcher::getInstance();
+		$dispatcher	= JDispatcher::getInstance();
 		$results = $dispatcher->trigger('onInstallerBeforePackageDownload', array(&$url, &$headers));
 		
 		try
