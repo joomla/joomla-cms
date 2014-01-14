@@ -112,12 +112,12 @@ class ContentModelArticles extends JModelList
 		$this->setState('filter.tag', $tag);
 
 		// Get Default Order List
-		$defOrder = JComponentHelper::getParams('com_content')->get('admin_ordering_content', 'alpha');
-		$ordering = self::configDefaultOrder($defOrder);
-		$ordering = explode(', ', $ordering);
+		$params = JComponentHelper::getParams('com_content');
+		$ordering = $params->get('admin_articles_ordering', 'a.title');
+		$direction = $params->get('admin_articles_dir', 'ASC');
 
 		// List state information.
-		parent::populateState($ordering['0'], $ordering['1']);
+		parent::populateState($ordering, $direction);
 
 		// Force a language
 		$forcedLanguage = $app->input->get('forcedLanguage');

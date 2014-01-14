@@ -10,6 +10,7 @@
 defined('JPATH_BASE') or die;
 
 $data = $displayData;
+$user  = JFactory::getUser();
 
 // Load the form list fields
 $list = $data['view']->filterForm->getGroup('list');
@@ -25,11 +26,13 @@ $thisURL = JURI::getInstance()->toString();
 		<?php foreach ($list as $fieldName => $field) : ?>
 			<div class="js-stools-field-list">
 				<?php echo $field->input; ?>
-				<?php if ($fieldName == 'list_fullordering' AND $component == 'com_content') : ?>
-					<a class="hasTooltip" href="<?php echo JRoute::_($thisURL.'&setdefault=list_defaultordering') ?>" data-original-title="Clear" data-toggle="tooltip" title="<?php echo JText::_('JGLOBAL_DEFAULT_LIST_FULLORDERING_DESC') ?>"
-					>
-						<span class="icon-pin"></span>
-					</a>
+				<?php if ($user->authorise('core.admin', $component)) : ?>
+					<?php if ($fieldName == 'list_fullordering' AND $component == 'com_content') : ?>
+						<a class="hasTooltip" href="<?php echo JRoute::_($thisURL.'&setdefault=list_defaultordering') ?>" data-original-title="Clear" data-toggle="tooltip" title="<?php echo JText::_('JGLOBAL_DEFAULT_LIST_FULLORDERING_DESC') ?>"
+						>
+							<span class="icon-pin"></span>
+						</a>
+					<?php endif; ?>
 				<?php endif; ?>
 			</div>
 		<?php endforeach; ?>
