@@ -30,7 +30,7 @@
  * @author Marcus Bointon
  * @copyright 2004 - 2008 Andy Prevost
  * @author Jim Jagielski
- * @copyright 2010 - 2012 Jim Jagielski
+ * @copyright 2010 - 2013 Jim Jagielski
  * @license http://www.gnu.org/copyleft/lesser.html Distributed under the Lesser General Public License (LGPL)
  * @version $Id: class.smtp.php 450 2010-06-23 16:46:33Z coolbru $
  */

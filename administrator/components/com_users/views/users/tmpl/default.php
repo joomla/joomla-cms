@@ -2,7 +2,7 @@
 /**
  * @package		Joomla.Administrator
  * @subpackage	com_users
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,7 @@ JHtml::_('behavior.multiselect');
 JHtml::_('behavior.modal');
 
 $canDo = UsersHelper::getActions();
+$user = JFactory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
 $loggeduser = JFactory::getUser();
@@ -177,7 +178,9 @@ $loggeduser = JFactory::getUser();
 	</table>
 
 	<?php //Load the batch processing form. ?>
-	<?php echo $this->loadTemplate('batch'); ?>
+	<?php if ($user->authorize('core.create', 'com_users') && $user->authorize('core.edit', 'com_users') && $user->authorize('core.edit.state', 'com_users')) : ?>
+		<?php echo $this->loadTemplate('batch'); ?>
+	<?php endif;?>
 
 	<div>
 		<input type="hidden" name="task" value="" />

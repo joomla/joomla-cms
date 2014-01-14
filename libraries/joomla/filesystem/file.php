@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -61,6 +61,9 @@ class JFile
 	 */
 	public static function makeSafe($file)
 	{
+		// Remove any trailing dots, as those aren't ever valid file names.
+		$file = rtrim($file, '.');
+
 		$regex = array('#(\.){2,}#', '#[^A-Za-z0-9\.\_\- ]#', '#^\.#');
 
 		return preg_replace($regex, '', $file);

@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,6 +22,11 @@ img  {
 	margin: 20px auto;
 	width: 400px;
 	padding: 20px;
+}
+
+#frame img {
+	max-width: 100%;
+	height: auto;
 }
 
 #frame form {
@@ -52,10 +57,30 @@ input    { border: 1px solid #0E67A1; }
 input.button 		 { background-color: white; }
 input.button:hover { border-color:  #FC902E; }
 
-
-
 #frmlogin	      { margin: 0 10px 0 10px;  }
 #frmlogin fieldset.button { text-align: right; }
 
+/* -- message styles ----------------------------------- */
 
+#system-message {
+	background: none repeat scroll 0 0 #FFFFFF;
+	border: 1px solid #CCCCCC;
+	margin: 10px auto 0;
+	padding: 5px 15px 10px;
+	text-align: left;
+	width: 410px;
+}
 
+#system-message dt {
+	color: red;
+	margin: 5px 0;
+	font-weight: bold;
+}
+
+#system-message dd {
+	margin: 0px;
+}
+
+.login {
+	margin-top: 5px;
+}

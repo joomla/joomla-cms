@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -128,8 +128,11 @@ class PluginsModelPlugins extends JModelList
 					}
 				}
 			}
+
 			$lang = JFactory::getLanguage();
-			JArrayHelper::sortObjects($result, 'name', $this->getState('list.direction') == 'desc' ? -1 : 1, true, $lang->getLocale());
+			$direction = ($this->getState('list.direction') == 'desc') ? -1 : 1;
+			JArrayHelper::sortObjects($result, $ordering, $direction, true, $lang->getLocale());
+
 			$total = count($result);
 			$this->cache[$this->getStoreId('getTotal')] = $total;
 			if ($total < $limitstart) {

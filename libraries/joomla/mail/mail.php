@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Mail
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -417,7 +417,6 @@ class JMail extends PHPMailer
 	public function sendMail($from, $fromName, $recipient, $subject, $body, $mode = false, $cc = null, $bcc = null, $attachment = null,
 		$replyTo = null, $replyToName = null)
 	{
-		$this->setSender(array($from, $fromName));
 		$this->setSubject($subject);
 		$this->setBody($body);
 
@@ -446,6 +445,10 @@ class JMail extends PHPMailer
 		{
 			$this->addReplyTo(array($replyTo, $replyToName));
 		}
+
+		// Add sender to replyTo only if no replyTo received
+		$autoReplyTo = (empty($this->ReplyTo)) ? true : false;
+		$this->setSender(array($from, $fromName, $autoReplyTo));
 
 		return $this->Send();
 	}

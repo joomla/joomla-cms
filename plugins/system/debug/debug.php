@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Debug
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -84,7 +84,11 @@ class plgSystemDebug extends JPlugin
 
 		// Capture output
 		$contents = ob_get_contents();
-		ob_end_clean();
+
+		if ($contents)
+		{
+			ob_end_clean();
+		}
 
 		// No debug for Safari and Chrome redirection
 		if (strstr(strtolower($_SERVER['HTTP_USER_AGENT']), 'webkit') !== false
@@ -299,9 +303,12 @@ class plgSystemDebug extends JPlugin
 					$entries = implode($entries);
 				}
 
-				$html .= '<code>';
-				$html .= $sKey . ' &rArr; ' . $entries . '<br />';
-				$html .= '</code>';
+				if (is_string($entries))
+				{
+					$html .= '<code>';
+					$html .= $sKey . ' &rArr; ' . $entries . '<br />';
+					$html .= '</code>';
+				}
 			}
 		}
 

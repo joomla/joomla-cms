@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -222,7 +222,7 @@ class JInstallationModelConfiguration extends JModelLegacy
 		// take the admin user id
 		JLoader::register('JInstallationModelDatabase', JPATH_INSTALLATION . '/models/database.php');
 		$userId = JInstallationModelDatabase::getUserId();
-		
+
 		//we don't need anymore the randUserId in the session, let's remove it
 		JInstallationModelDatabase::resetRandUserId();
 
@@ -243,7 +243,7 @@ class JInstallationModelConfiguration extends JModelLegacy
 			$query = $db->getQuery(true);
 			$query->update('#__users');
 			$query->set('name = '.$db->quote('Super User'));
-			$query->set('username = '.$db->quote($options->admin_user));
+			$query->set('username = '.$db->quote(trim($options->admin_user)));
 			$query->set('email = '.$db->quote($options->admin_email));
 			$query->set('password = '.$db->quote($cryptpass));
 			$query->set('usertype = '.$db->quote('deprecated'));
@@ -267,7 +267,7 @@ class JInstallationModelConfiguration extends JModelLegacy
 			$query->insert('#__users', true);
 			$query->columns($columns);
 
-			$query->values($db->quote($userId) . ', '. $db->quote('Super User') . ', ' . $db->quote($options->admin_user) . ', '.
+			$query->values($db->quote($userId) . ', '. $db->quote('Super User') . ', ' . $db->quote(trim($options->admin_user)) . ', '.
 				$db->quote($options->admin_email). ', '. $db->quote($cryptpass). ', '. $db->quote('deprecated').', '.$db->quote('0').', '.$db->quote('1').', '.
 				$db->quote($installdate).', '.$db->quote($nullDate).', '.$db->quote('0').', '.$db->quote(''));
 		}

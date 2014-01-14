@@ -2,7 +2,7 @@
 /**
  * @package		Joomla.Site
  * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,7 +43,11 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 	</div>
 <?php endif; ?>
 
-
+<?php if (empty($this->lead_items) && empty($this->link_items) && empty($this->intro_items)) : ?>
+	<?php if ($this->params->get('show_no_articles', 1)) : ?>
+		<p><?php echo JText::_('COM_CONTENT_NO_ARTICLES'); ?></p>
+	<?php endif; ?>
+<?php endif; ?>
 
 <?php $leadingcount=0 ; ?>
 <?php if (!empty($this->lead_items)) : ?>
@@ -102,9 +106,11 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers');
 
 	<?php if (!empty($this->children[$this->category->id])&& $this->maxLevel != 0) : ?>
 		<div class="cat-children">
+		<?php if ($this->params->get('show_category_heading_title_text', 1) == 1) : ?>
 		<h3>
-<?php echo JTEXT::_('JGLOBAL_SUBCATEGORIES'); ?>
-</h3>
+		<?php echo JTEXT::_('JGLOBAL_SUBCATEGORIES'); ?>
+		</h3>
+		<?php endif; ?>
 			<?php echo $this->loadTemplate('children'); ?>
 		</div>
 	<?php endif; ?>

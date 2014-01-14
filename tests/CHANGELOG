@@ -1,6 +1,6 @@
 0. Metadata
 -----------
-Copyright:		Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+Copyright:		Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
 License:		GNU General Public License version 2 or later; see LICENSE.txt
 
 1. Copyright and disclaimer
@@ -25,6 +25,9 @@ $ -> Language fix or change
 ^ -> Change
 - -> Removed
 ! -> Note
+
+04-Nov-2012 Mark Dexter
+ ^ Add phpunit.xml.dist file and fix redirect test
 
 30-Jul-2012 Mark Dexter
  ^ Add ability to capture screenshots on failure for system tests

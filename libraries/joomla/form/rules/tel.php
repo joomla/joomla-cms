@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -81,7 +81,7 @@ class JFormRuleTel extends JFormRule
 			//If the rule is set but no plan is selected just check that there are between
 			//7 and 15 digits inclusive and no illegal characters (but common number separators
 			//are allowed).
-			$cleanvalue = preg_replace('/[+. -(\)]/', '', $value);
+			$cleanvalue = preg_replace('/[+. \-(\)]/', '', $value);
 			$regex = '/^[0-9]{7,15}?$/';
 			if (preg_match($regex, $cleanvalue) == true)
 			{

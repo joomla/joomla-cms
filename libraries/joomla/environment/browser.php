@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Environment
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -382,6 +382,12 @@ class JBrowser extends JObject
 			{
 				$this->setBrowser('chrome');
 				list ($this->_majorVersion, $this->_minorVersion) = explode('.', $version[1]);
+			}
+			elseif (preg_match('|CriOS[/ ]([0-9.]+)|', $this->_agent, $version))
+			{
+				$this->setBrowser('chrome');
+				list ($this->_majorVersion, $this->_minorVersion) = explode('.', $version[1]);
+				$this->_mobile = true;
 			}
 			elseif (strpos($this->_lowerAgent, 'elaine/') !== false
 				|| strpos($this->_lowerAgent, 'palmsource') !== false

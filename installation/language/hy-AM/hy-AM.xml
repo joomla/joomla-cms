@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="2.5" client="installation">
+	<name>Armenian</name>
+	<version>2.5</version>
+	<creationDate>2012-12-04</creationDate>
+	<author>Andrey Aleksanyants</author>
+	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description>hy-AM installation language pack</description>
+	<files>
+		<filename>hy-AM.ini</filename>
+	</files>
+	<metadata>
+		<name>Armenian</name>
+		<tag>hy-AM</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params />
+</metafile>

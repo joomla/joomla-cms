@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -445,6 +445,17 @@ class JInstallationControllerSetup extends JControllerLegacy
 				}
 			}
 
+			// Rename the robots.txt.dist file to robots.txt
+			if ($return)
+			{
+				$robotsFile = JPath::clean($options->ftp_root . '/robots.txt');
+				$distFile = JPath::clean($options->ftp_root . '/robots.txt.dist');
+				if (!file_exists($robotsFile) && file_exists($distFile))
+				{
+					$return = $ftp->rename($distFile, $robotsFile);
+				}
+			}
+
 			$ftp->quit();
 		} else {
 			// Try to delete the folder.
@@ -455,6 +466,12 @@ class JInstallationControllerSetup extends JControllerLegacy
 			ob_end_clean();
 		}
 
+
+			// Rename the robots.txt.dist file if robots.txt doesn't exist
+			if ($return && !file_exists(JPATH_ROOT . '/robots.txt') && file_exists(JPATH_ROOT . '/robots.txt.dist'))
+			{
+				$return = JFile::move(JPATH_ROOT . '/robots.txt.dist', JPATH_ROOT . '/robots.txt');
+			}
 		// If an error was encountered return an error.
 		if (!$return) {
 			$this->sendResponse(new Exception(JText::_('INSTL_COMPLETE_ERROR_FOLDER_DELETE'), 500));

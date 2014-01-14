@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -46,40 +46,50 @@ abstract class JInstallerHelper
 		$version = new JVersion;
 		ini_set('user_agent', $version->getUserAgent('Installer'));
 
+		$http = JHttpFactory::getHttp();
+
 		// load installer plugins, and allow url and headers modification
 		$headers = array();
 		JPluginHelper::importPlugin('installer');
 		$dispatcher = JEventDispatcher::getInstance();
 		$results = $dispatcher->trigger('onInstallerBeforePackageDownload', array(&$url, &$headers));
-
-		// set headers
-		if (!empty($headers))
+		
+		try
 		{
-			$headersString = '';
-			foreach ($headers as $key => $value)
-			{
-				$headersString .= $key . ': ' . $value . "\r\n";
-			}
-			$context = stream_context_create(array('http' => array('header' => $headersString)));
+			$response = $http->get($url, $headers);
+		}
+		catch (Exception $exc)
+		{
+			$response = null;
 		}
 
-		// Open the remote server socket for reading
-		$inputHandle = empty($headers) ? @fopen($url, "r") : @fopen($url, "r", false, $context);
-		$error = strstr($php_errormsg, 'failed to open stream:');
-		if (!$inputHandle)
+		if (is_null($response))
 		{
-			JError::raiseWarning(42, JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $error));
+			JError::raiseWarning(42, JText::_('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT'));
+
 			return false;
 		}
 
-		$meta_data = stream_get_meta_data($inputHandle);
-		foreach ($meta_data['wrapper_data'] as $wrapper_data)
+		if (302 == $response->code && isset($response->headers['Location']))
 		{
-			if (substr($wrapper_data, 0, strlen("Content-Disposition")) == "Content-Disposition")
+			return self::downloadPackage($response->headers['Location']);
+		}
+		elseif (200 != $response->code)
+		{
+			if ($response->body === '')
 			{
-				$contentfilename = explode("\"", $wrapper_data);
-				$target = $contentfilename[1];
+				$response->body = $php_errormsg;
 			}
+
+			JError::raiseWarning(42, JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->body));
+
+			return false;
+		}
+
+		if (isset($response->headers['Content-Disposition']))
+		{
+			$contentfilename = explode("\"", $response->headers['Content-Disposition']);
+			$target = $contentfilename[1];
 		}
 
 		// Set the target path if not given
@@ -92,24 +102,8 @@ abstract class JInstallerHelper
 			$target = $config->get('tmp_path') . '/' . basename($target);
 		}
 
-		// Initialise contents buffer
-		$contents = null;
-
-		while (!feof($inputHandle))
-		{
-			$contents .= fread($inputHandle, 4096);
-			if ($contents === false)
-			{
-				JError::raiseWarning(44, JText::sprintf('JLIB_INSTALLER_ERROR_FAILED_READING_NETWORK_RESOURCES', $php_errormsg));
-				return false;
-			}
-		}
-
 		// Write buffer to file
-		JFile::write($target, $contents);
-
-		// Close file pointer resource
-		fclose($inputHandle);
+		JFile::write($target, $response->body);
 
 		// Restore error tracking to what it was before
 		ini_set('track_errors', $track_errors);

@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -301,12 +301,7 @@ abstract class JFactory
 	{
 		if (!self::$database)
 		{
-			//get the debug configuration setting
-			$conf = self::getConfig();
-			$debug = $conf->get('debug');
-
 			self::$database = self::createDbo();
-			self::$database->setDebug($debug);
 		}
 
 		return self::$database;

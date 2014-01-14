@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -171,7 +171,6 @@ class JPath
 	{
 		if (strpos($path, '..') !== false)
 		{
-			// Don't translate
 			JError::raiseError(20, 'JPath::check Use of relative paths not permitted');
 			jexit();
 		}
@@ -196,18 +195,29 @@ class JPath
 	 * @return  string  The cleaned path.
 	 *
 	 * @since   11.1
+	 * @throws  UnexpectedValueException
 	 */
 	public static function clean($path, $ds = DIRECTORY_SEPARATOR)
 	{
+		if (!is_string($path) && !empty($path))
+		{
+			throw new UnexpectedValueException('JPath::clean: $path is not a string.');
+		}
+
 		$path = trim($path);
 
 		if (empty($path))
 		{
 			$path = JPATH_ROOT;
 		}
+		// Remove double slashes and backslashes and convert all slashes and backslashes to DIRECTORY_SEPARATOR
+		// If dealing with a UNC path don't forget to prepend the path with a backslash.
+		elseif (($ds == '\\') && ($path[0] == '\\' ) && ( $path[1] == '\\' ))
+		{
+			$path = "\\" . preg_replace('#[/\\\\]+#', $ds, $path);
+		}
 		else
 		{
-			// Remove double slashes and backslashes and convert all slashes and backslashes to DIRECTORY_SEPARATOR
 			$path = preg_replace('#[/\\\\]+#', $ds, $path);
 		}
 

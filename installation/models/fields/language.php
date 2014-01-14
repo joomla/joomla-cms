@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.Installation
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -54,10 +54,16 @@ class JFormFieldLanguage extends JFormFieldList
 			$native = $session['language'];
 		}
 
-		// Get the list of available languages.
+			// Get the list of available languages.
 		$options = JLanguageHelper::createLanguageList($native);
-		if (!$options || $options  instanceof Exception) {
+		if (!$options || $options  instanceof Exception)
+		{
 			$options = array();
+		}
+		// Sort languages by name
+		else
+		{
+			usort($options, array($this, '_sortLanguages'));
 		}
 
 		// Set the default value from the native language.
@@ -68,4 +74,15 @@ class JFormFieldLanguage extends JFormFieldList
 
 		return $options;
 	}
+
+	/**
+	 * Method to sort languages by name.
+	 *
+	 * @ported from	3.0
+	 */
+	protected function _sortLanguages($a, $b)
+	{
+		return strcmp($a['text'], $b['text']);
+	}
+
 }

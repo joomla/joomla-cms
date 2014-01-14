@@ -2,7 +2,7 @@
 <metafile
 	version="2.5"
 	client="installation">
-	<name>简体中文</name>
+	<name>Chinese Simplified-简体中文</name>
 	<version>2.5</version>
 	<creationDate>2011.1.11</creationDate>
 	<author>Derek Joe and Jonathan Chang</author>
@@ -13,7 +13,7 @@
 		<filename>zh-CN.ini</filename>
 	</files>
 	<metadata>
-		<name>简体中文</name>
+		<name>Chinese Simplified 简体中文</name>
 		<tag>zh-CN</tag>
 		<rtl>0</rtl>
 	</metadata>

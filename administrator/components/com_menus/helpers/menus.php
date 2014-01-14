@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -97,7 +97,7 @@ class MenusHelper
 		// Only take the option, view and layout parts.
 		foreach ($request as $name => $value)
 		{
-			if (!in_array($name, self::$_filter))
+			if ((!in_array($name, self::$_filter)) && (!($name == 'task' && !array_key_exists('view', $request))))
 			{
 				// Remove the variables we want to ignore.
 				unset($request[$name]);

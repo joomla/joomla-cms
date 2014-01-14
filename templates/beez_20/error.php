@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.Site
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,12 +27,9 @@ $this->direction = $doc->direction;
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title><?php echo $this->error->getCode(); ?> - <?php echo htmlspecialchars($this->error->getMessage()); ?></title>
 
-<meta name="language" content="<?php echo $this->language; ?>" />
-
-	<title><?php echo $this->error->getCode(); ?> - <?php echo $this->title; ?></title>
-<?php if ($this->error->getCode()>=400 && $this->error->getCode() < 500) { 	?>
-
+<?php if ($this->error->getCode()>=400 && $this->error->getCode() < 500) { ?>
 
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/system/css/system.css" type="text/css" />
 		<link rel="stylesheet" href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/css/position.css" type="text/css" media="screen,projection" />
@@ -155,7 +152,7 @@ $this->direction = $doc->direction;
 
 						<h3><?php echo JText::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?></h3>
 
-						<h2>#<?php echo $this->error->getCode() ;?>&nbsp;<?php echo $this->error->getMessage();?></h2> <br />
+						<h2>#<?php echo $this->error->getCode() ;?>&nbsp;<?php echo htmlspecialchars($this->error->getMessage()); ?></h2> <br />
 
 
 			</div><!-- end wrapper -->

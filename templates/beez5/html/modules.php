@@ -3,7 +3,7 @@
  * @version
  * @package		Joomla.Site
  * @subpackage	Templates.beez5
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -68,7 +68,7 @@ function modChrome_beezTabs($module, $params, $attribs)
 	static $modules;
 
 	if ($modulecount < 1) {
-		$modulecount = count(JModuleHelper::getModules($attribs['name']));
+		$modulecount = count(JModuleHelper::getModules($module->position));
 		$modules = array();
 	}
 

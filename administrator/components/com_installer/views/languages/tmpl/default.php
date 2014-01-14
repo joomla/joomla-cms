@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       2.5.7
  */
@@ -70,7 +70,7 @@ $ver = new JVersion;
 								<?php echo $language->version; ?>
 							</td>
 							<td class="center">
-								<?php echo $language->type; ?>
+								<?php echo JText::_('COM_INSTALLER_TYPE_' . strtoupper($language->type)); ?>
 							</td>
 							<td>
 								<?php echo $language->detailsurl; ?>

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  *
  * This example search plugin searches banner description for the search text.

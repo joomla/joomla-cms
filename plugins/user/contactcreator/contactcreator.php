@@ -79,6 +79,7 @@ class plgUserContactCreator extends JPlugin
 		$contact->user_id = $user_id;
 		$contact->email_to = $user['email'];
 		$contact->catid = $category;
+		$contact->language = '*';
 
 		$autowebpage = $this->params->get('autowebpage', '');
 

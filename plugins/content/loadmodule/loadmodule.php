@@ -2,7 +2,7 @@
 /**
  * @package		Joomla.Plugin
  * @subpackage	Content.loadmodule
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -81,7 +81,7 @@ class plgContentLoadmodule extends JPlugin
 				}
 
 				$module = trim($matchesmodlist[0]);
-				$name   = trim($matchesmodlist[1]);
+				$name   = htmlspecialchars_decode(trim($matchesmodlist[1]));
 				$style  = trim($matchesmodlist[2]);
 				// $match[0] is full pattern match, $match[1] is the module,$match[2] is the title
 				$output = $this->_loadmod($module, $name, $style);

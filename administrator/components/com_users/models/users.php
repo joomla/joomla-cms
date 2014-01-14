@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -72,10 +72,10 @@ class UsersModelUsers extends JModelList
 		$search = $this->getUserStateFromRequest($this->context.'.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$active = $this->getUserStateFromRequest($this->context.'.filter.active', 'filter_active');
+		$active = $this->getUserStateFromRequest($this->context.'.filter.active', 'filter_active', '*');
 		$this->setState('filter.active', $active);
 
-		$state = $this->getUserStateFromRequest($this->context.'.filter.state', 'filter_state');
+		$state = $this->getUserStateFromRequest($this->context.'.filter.state', 'filter_state', '*');
 		$this->setState('filter.state', $state);
 
 		$groupId = $this->getUserStateFromRequest($this->context.'.filter.group', 'filter_group_id', null, 'int');
@@ -332,7 +332,7 @@ class UsersModelUsers extends JModelList
 		$range = $this->getState('filter.range');
 
 		// Apply the range filter.
-		if ($range = $this->getState('filter.range'))
+		if ($range)
 		{
 			jimport('joomla.utilities.date');
 

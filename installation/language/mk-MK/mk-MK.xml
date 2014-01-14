@@ -2,18 +2,18 @@
 <metafile
 	version="2.5"
 	client="installation">
-	<name>Македонски (Macedonian)</name>
+	<name>Macedonian-Македонски</name>
 	<version>2.5</version>
 	<creationDate>2010-12-31</creationDate>
 	<author>Macedonian translation team: Top.Net.MK</author>
-	<copyright>Copyright (C) 2005 - 2012 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description></description>
 	<files>
 		<filename>mk-MK.ini</filename>
 	</files>
 	<metadata>
-		<name>Македонски (Macedonian)</name>
+		<name>Macedonian-Македонски</name>
 		<tag>mk-MK</tag>
 		<rtl>0</rtl>
 	</metadata>

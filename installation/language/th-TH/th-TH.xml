@@ -6,14 +6,14 @@
 	<version>2.5.5</version>
 	<creationDate>September 2011</creationDate>
 	<author>Thai Translation Team</author>
-	<copyright>Copyright (C) 2005-2012 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>Thai installation language for Joomla 2.5</description>
 	<files>
 		<filename>th-TH.ini</filename>
 	</files>
 	<metadata>
-		<name>ไทย (ภาษาไทย)</name>
+		<name>Thai-ไทย (ภาษาไทย)</name>
 		<tag>th-TH</tag>
 		<rtl>0</rtl>
 	</metadata>

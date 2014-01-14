@@ -47,7 +47,11 @@ $cparams = JComponentHelper::getParams('com_media');
 	</div>
 <?php endif; ?>
 
-
+<?php if (empty($this->lead_items) && empty($this->link_items) && empty($this->intro_items)) : ?>
+	<?php if ($this->params->get('show_no_articles', 1)) : ?>
+		<p><?php echo JText::_('COM_CONTENT_NO_ARTICLES'); ?></p>
+	<?php endif; ?>
+<?php endif; ?>
 
 <?php $leadingcount=0 ; ?>
 <?php if (!empty($this->lead_items)) : ?>
@@ -106,9 +110,11 @@ $cparams = JComponentHelper::getParams('com_media');
 
 	<?php if (is_array($this->children[$this->category->id]) && count($this->children[$this->category->id]) > 0 && $this->params->get('maxLevel') !=0) : ?>
 		<div class="cat-children">
+		<?php if ($this->params->get('show_category_heading_title_text', 1) == 1) : ?>
 		<h3>
-<?php echo JTEXT::_('JGLOBAL_SUBCATEGORIES'); ?>
-</h3>
+		<?php echo JTEXT::_('JGLOBAL_SUBCATEGORIES'); ?>
+		</h3>
+		<?php endif; ?>
 			<?php echo $this->loadTemplate('children'); ?>
 		</div>
 	<?php endif; ?>

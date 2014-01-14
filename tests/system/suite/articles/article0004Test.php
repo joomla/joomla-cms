@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.SystemTest
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * checks that all menu choices are shown in back end
  */
@@ -169,10 +169,15 @@ class Article0004 extends SeleniumJoomlaTestCase
 		$this->assertTrue($this->isElementPresent("//dl[@id=\"system-message\"][contains(., 'success')]"));
 		echo "Check that articles movd to new category\n";
 		$this->assertTrue((bool) strpos($this->getTable("//form[@id='adminForm']/table.2.1"), 'Alias: archive-module'));
+
 		$this->assertEquals("Languages", $this->getTable("//form[@id='adminForm']/table.2.4"));
+
 		$this->assertTrue((bool) strpos($this->getTable("//form[@id='adminForm']/table.3.1"), 'Alias: article-categories-module'));
+
 		$this->assertEquals("Languages", $this->getTable("//form[@id='adminForm']/table.3.4"));
+
 		$this->assertTrue((bool) strpos($this->getTable("//form[@id='adminForm']/table.4.1"), 'Alias: articles-category-module'));
+
 		$this->assertEquals("Languages", $this->getTable("//form[@id='adminForm']/table.4.4"));
 		echo "Move articles back to original category\n";
 		$this->click("cb1");

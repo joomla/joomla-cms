@@ -1,10 +1,12 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+jimport('joomla.application.component.modellist');
 
 /**
  * This models supports retrieving lists of article categories.
@@ -13,7 +15,7 @@ defined('_JEXEC') or die;
  * @subpackage	com_content
  * @since		1.6
  */
-class ContentModelCategories extends JModelLegacy
+class ContentModelCategories extends JModelList
 {
 	/**
 	 * Model context string.
@@ -40,7 +42,7 @@ class ContentModelCategories extends JModelLegacy
 	 *
 	 * @since	1.6
 	 */
-	protected function populateState()
+	protected function populateState($ordering = null, $direction = null)
 	{
 		$app = JFactory::getApplication();
 		$this->setState('filter.extension', $this->_extension);

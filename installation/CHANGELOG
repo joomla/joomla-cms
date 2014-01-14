@@ -1,6 +1,6 @@
 0. Metadata
 -----------
-Copyright:		Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+Copyright:		Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
 License:		GNU General Public License version 2 or later; see LICENSE.txt
 
 1. Copyright and disclaimer
@@ -25,6 +25,359 @@ $ -> Language fix or change
 ^ -> Change
 - -> Removed
 ! -> Note
+
+04-Dec-2013 Jean-Marie Simonet
+ # [#32868] Trashed categories create a fatal error when creating URLs to them, URLs to contact categories are wrong. Thanks Hannes Papenberg
+
+26-Nov-2013 Jean-Marie Simonet
+ # [#32812] *Wrong JText causes double string use
+
+20-Nov-2013 Jean-Marie Simonet
+ # [#26551] Multiple instances of script and css declarations with enabled caching  Thanks Dennis Hermatski
+
+16-Nov-2013 Michael Babker
+ # [#32578] [2.5] Argument 1 passed to JHttpTransportStream::getResponse() must be an array
+
+13-Nov-2013 Jean-Marie Simonet
+ # [#32608] After update 2.5.14=>2.5.16 the com_update produces errors  Thanks David Jardin
+
+12-Nov-2013 Jean-Marie Simonet
+ # [#30648] Incorrect ID for trash toolbar button when message is added  Thanks Jurian Even
+ # [#29596] Inefficient code  Thanks Ben tasker
+
+11-Nov-2013 Jean-Marie Simonet
+ # [#31055] Smart Search does not remove search phrases from index when saving an article.  Thanks Chris Davenport
+
+08-Nov-2013 Jean-Marie Simonet
+# [#32599] Register Email multilingual Problem in Joomla! 2.5.16  Thanks Panagiotis Chatzikamaris
+
+08-Nov-2013 David Hurley
+ # [#32576] Wrong Recaptcha URLs causing broken captcha. Thanks David Jardin
+
+-------------------- 2.5.16 Stable Release 06-November-2013] ------------------
+
+06-Nov-2013 Michael Babker
+ # unexpected T_PAAMAYIM_NEKUDOTAYIM in /libraries/joomla/http/factory.php
+ # MySQL(i) drivers are not handling limits correctly.  Thanks George Wilson
+
+-------------------- 2.5.15 Stable Release 06-November-2013] ------------------
+
+31-Oct-2013 Jean-Marie Simonet
+ # [#32460] Installation beta2 hangs on PHP5.3.3-7  Thanks Tobias Zulauf
+
+22-Oct-2013 Jean-Marie Simonet
+ $ Missing lang string.
+ # [#31193] Errors when using "localise.sql" files - J2.5. Thanks Michael Babker and George Wilson
+
+20-Oct-2013 Elin Waring
+ # [#32327] Installation halts at 1st step on PHP 5.3.3.
+
+20-Oct-2013 Roberto Segura
+# [#31716] Offline template: "remember me" checkbox not removed when plugin disabled. Thanks Tobias Zulauf
+
+07-Oct-2013 Jean-Marie Simonet
+ # [#30586] Usernames that should not be accepted can be actualy registered. Thanks Sergio Manzi
+ # [#32199] *Allow username edit in profile edit when username is not compliant. Thanks Achal Aggarwal
+
+05-Oct-2013 Jean-Marie Simonet
+ # [#28214] Menu Items Could be Saved without Menu Item Type. Thanks Tristan Bellosta
+
+04-Oct-2013 Jean-Marie Simonet
+ # [#31827] Installation doesn't work when installation is in the path  Thanks Robert Deutz
+
+22-Sep-2013 Roberto Segura
+ # [#27830] Loss of checked item in user registration back end. Thanks Achal Aggarwal
+
+11-Sep-2013 Jean-Marie Simonet
+ + Adding Albanian flag
+
+07-Sep-2013 Jean-Marie Simonet
+ # [#31914] mod_footer - replacement in language override string doesn`t work correct. Thanks Carsten Wirtz
+ # [#31896] Stupid return in contact component table. Thanks George Wilson
+
+22-Aug-2013 Jean-Marie Simonet
+ # [#28349] Incorrect ordering in Newsflash module. Thanks Gregory Wyman and Brian Teeman
+ # Updating Russian flag. Thanks Peter Farrer
+
+21-Aug-2013 Jean-Marie Simonet
+ # [#31724] Error pages: charset not defined - XSS risk.
+ # [#28496] *Register Email multilingual Problem in Joomla! 2.5.13
+ # [#29442] Automatic updates are confusing - better handling required. Thanks Nicholas Dionysopoulos
+
+18-Aug-2013 Jean-Marie Simonet
+ $ [#30664] User Categories helps screen strings missing. Thanks George Wilson
+
+14-Aug-2013 Jean-Marie Simonet
+ #$ [#31631] Small typo fix in Plugin. Thanks Gunjan Patel and Tobias Zulauf
+ # [#27824] Offline image overflow. Thanks Angelika Reisiger
+
+12-Aug-2013 Jean-Marie Simonet
+ # [#31681] Module manager allows positions with trailing spaces. Thanks Richard McDaniel
+
+08-Aug-2013 Elin Waring
+ # [#31786] get_html_translation_table requires encoding value for PHP 5.4 Thanks Robert Deutz and Tobias Zulauf
+
+07-Aug-2013 Jean-Marie Simonet
+ #$ [#31622] Media Manager doesn't cope with folder names that include spaces. Thanks Richard McDaniel
+ # [#31410] Warnings at the offline screen looks bad. Thanks Lu Nguyen
+ # [#31633] Detailed changelog in readme.txt points to SVN which is out of date. Thanks Brian Teeman
+
+03-Aug-2013 Jean-Marie Simonet
+ # [#31411] Show Offline image only if it exists. Thanks Tobias Zulauf
+ # [#31360] The site is offline but anyhow the error page will show (e.g. at a 404 error). Thanks Mihail Irintchev
+ # [#31630] email cloaking inserts space (2.5.13). Thanks Peter Martin and Marc Antoine Thevenet
+
+-------------------- 2.5.14 Stable Release 01-August-2013] ------------------
+
+31-Jul-2013 Jean-Marie Simonet
+ # Missing list of Subcategories in a blog view. Revert [#30150]
+
+-------------------- 2.5.13 Stable Release 25-July-2013] ------------------
+
+21-Jul-2013 Mark Dexter
+ ^ [#31319] registration option disabled by default is safer. Thanks Brian Teeman.
+
+19-Jul-2013 Jean-Marie Simonet
+ # Performance bug - Initial patch partially reverted  2.5 Fix (Regression)/ Thanks Thomas Hunziker
+
+17-Jul-2013 Jean-Marie Simonet
+# [#31477] Remove unneeded GROUP BY and fix duplicate article display. Thanks Thomas Hunziker
+
+06-Jul-2013 Jean-Marie Simonet
+ $ [#31290] Add Debug User Group Help Screen language string. Thanks George Wilson
+ # [#31348] Regression for plugin filter search with spaces in the title. Reverting
+ # [#27935] 'Next' button not working on first try after login in com_users. Thanks Antonio Durán Terrés and Brian Teeman
+
+01-Jul-2013 Jean-Marie Simonet
+ # [#31280] Loadmodule support for htmlspecialchars in title. Thanks Peter Wiseman
+
+13-Jun-2013 Jean-Marie Simonet
+ # [#31108] Fatal erorr right after install. Thanks Klas and Michael Babker
+ # [#31120] [2.5] *plug-in manager search give errors and warning for '/','*' and '\
+ # [#30354] Invalid Javascript Redirect in JApplication::redirect() when headers have already been sent. Thanks Ben Tasker.
+ $ [#26548] [patch] incorrect error check in menus.php. Thanks Rob Clayburn and Ben Tasker
+ # [#30150] com_content loads articles before error checking. Thanks Richard McDaniel.
+
+07-Jun-2013 Jean-Marie Simonet
+ + [#31106] Added Belgian flag for mod_languages. Thanks Fonny Smets
+
+24-May-2013 Michael Babker
+ # [#30994] Untranslated String.  Thanks Jean-Marie Simonet
+
+24-May-2013 Jean-Marie Simonet
+ # [#30945] Wrong error when folder creation not possible due to permissions. Thanks Phil Taylor
+
+19-May-2013 Michael Babker
+ # [#30926] Beez5: Additional < in category list.  Thanks Constantin Romankiewicz
+ # [#30906] *Batch usage needs strict permissions.  Thanks Jean-Marie Simonet
+
+13-May-2013 Jean-Marie Simonet
+ ^ [#30663] Default Value for the Option Show Sub-menu Items to be Set as Yes. Thanks Mig
+ # [#30873] *Multilanguage: PHP warning when logging.
+
+05-May-2013 Michael Babker
+ ^ [#30810] Disable ReCaptcha plugin when Joomla is installed.  Thanks Nick Savov
+
+03-May-2013 Jean-Marie Simonet
+ # [#30571] * Strict Standards: Declaration of ContentModelCategories::populateState() should be compatible with JModel::populateState()
+ # [#30103] Cannot delete web site entry for a contact. Thanks Elin Waring
+ # [#30748] *Multilanguage issue with contacts. Thanks Benjamin Trenkle
+ # [#30672] Category blog: COM_CONTENT_NO_ARTICLES message is missing. Thanks Charles Perk.
+
+30-Apr-2013 Jean-Marie Simonet
+ # [#29922] Browser Agent Google Chrome on IOS. Thanks Georges Wilson.
+
+29-Apr-2013 Jean-Marie Simonet
+ # [#30723] Can't upload file after update from 2.5.9 to 2.5.10. Thanks Mark Dexter
+
+-------------------- 2.5.11 Stable Release 26-April-2013] ------------------
+
+26-Apr-2013 Mark Dexter
+ # [#30681] Error in Database tab in Extension Manager. Thanks Amirol Ahmad.
+ # [#30702] Only titles display in featured/blogged views when hide intro text is selected.
+ # [#30725] Exception thrown for empty path. Thanks Elin Waring.
+
+26-Apr-2013 Jean-Marie Simonet
+ # [#30717] Memcached driver breaks Joomla configuration page. Thanks Ofer Cohen
+
+-------------------- 2.5.10 Stable Release 24-April-2013] ------------------
+
+23-Apr-2013 Mark Dexter
+ # [#30652] Commit for issue 29916 broke Smart Search indexing. Thanks Don Gilbert.
+
+14-Apr-2013 Mark Dexter
+ # [#30506] Joomla update system erases entire site if downloaded zip package is broken. Thanks Aliaksei Kanstantsinau.
+ # [#30288] Module Prepare Paramater breaks Cache + Browser Cache + Application Rendering time. Thanks Parth Lawate.
+
+14-Apr-2013 Michael Babker
+ # [#29240] Undefined property: JSite::$registeredurlparams.  Thanks Mark Stanton
+
+12-Apr-2013 Jean-Marie Simonet
+ # [#30538] Joomla Update Options button displays even if you don't have permission. Thanks Mark Dexter
+ # [#30537] Menus with default view in URL and sub-tasks are missing in other defined attributes and do not display correctly in menu type input in backend. Thanks Beat
+ #+ [#30139] Memcache handler Issue (Not working at all). Thanks Ofer Cohen and sajal suni
+ # [#29250] *Com_content caches article view no matter of Itemid. Thanks Dennis Hermatski
+ # [#30206] findmanifest should prioritize main folder manifests. Thanks Roberto Segura
+ # [#30154] Allow ability to upload file (eg: profile picture) through com_users registration view. Thanks Cy Lee
+
+11-Apr-2013 Jean-Marie Simonet
+ #$ [#30534] Missing Help Button in Joomla! Update component. Thanks Mark Dexter
+
+08-Apr-2013 Michael Babker
+ # [#29916] MySQL connections are not closed.  Thanks Ian Goldstein
+ # [#30505] Weblink module ignores end publishing date.  Thanks Thomas Hunziker
+
+07-Apr-2013 Michael Babker
+ # [#30091] Help Screens, key wrong, missing or not created correctly.  Thanks Mark Dexter
+ # [#30428] nofollw not set correctly in mod_weblinks.  Thanks Ingo Wetsches
+ # [#30209] Undefined index errors by using the style 'beezTabs' at an beez template.  Thanks Constantin Romankiewicz
+ # [#30041] Use of '/' not being handled well on Windows Servers.  Thanks Parth Lawate
+ # [#30054] Catchable fatal error: Object of class stdClass could not be converted to string in /plugins/system/debug/debug.php on line 303.  Thanks Ryan K.
+ ^ [#29898] mod_banners module must be unprotected extension.  Thanks Alex B.
+
+06-Apr-2013 Mark Dexter
+ # [#30482] Fix tel validation in 2.5.x series. Thanks Don Gilbert.
+ # [#30480] com_contact error in admin->view->contacts search "author:xxxx". Thanks Brent Cordis.
+
+04-Apr-2013 Mark Dexter
+ # Revert [#30430] Severe bug with "com_content" component routing.
+
+04-Apr-2013 Jean-Mari Simonet
+ # [#30430] Severe bug with "com_content" component routing. Thanks sajal soni.
+
+28-Mar-2013 Jean-Marie Simonet
+ # *Multilanguage 2.5: SIngle article display does not filter correctly author contact per language.
+ # [#29417] sendMail automatically adds sender as replyTo. Thanks Roberto.
+
+24-Mar-2013 Michael Babker
+ # [#28978] Smart search (com_finder) - problem when using "Allow Empty Search".  Thanks Valentin
+
+21-Mar-2013 Jean-Marie Simonet
+# [#30346] *Contact creator does not include default language "All" for the contact created
+
+20-Mar-2013 Jean-Marie Simonet
+ # [#29982] Cant add fields to the category form using a plugin. Thanks Parth
+
+18-Mar-2013 Jean-Marie Simonet
+ # [#26860] A Contact name *must not* be unique. Thanks Christophe
+ $ Updating Swahili intallation ini file
+
+17-Mar-2013 Jean-Marie Simonet
+ #+ [#29677] robots.txt in updates. Thanks Mark
+ + [#29294] Show Correct Meta Titles in Joomla Admin for better usability. Thanks Parth
+ # [#29810] File deletion issue. Thanks Elin
+ # [#30312] *Porting to 2.5.x a 3.x improvement in languagefilter
+
+16-Mar-2013 Michael Babker
+ # [#30249] Show Intro Text = Hide currently has no effect in Featured and Category menu items.  Thanks Matt
+
+16-Mar-2013 Jean-Marie Simonet
+ +$ [#27945] Hide Subcategories text. Thanks Aka.
+
+05-Mar-2013 Jean-Marie Simonet
+ + [#29769] com_config component missing triggers on save. Thanks Nicholas Antimisiaris
+
+28-Feb-2013 Jean-Marie Simonet
+ # [#30100] Plugins ordering broken when search filter is populated. Thanks Jurian
+ # [#29968] Only text gets passed to content events in blog view (for Joomla 2.5.x). Thanks Jonathan.
+
+09-Feb-2013 Michael Babker
+ # [#29970] Robots.txt check url no more working.  Thanks Brian
+
+-------------------- 2.5.9 Stable Release [4-February-2013] ------------------
+
+30-Jan-2013 Mark Dexter
+ # [#27709] Saving in backend very slow when many user groups. Thanks Elin.
+ # [#29705] blank login page J3.x beez3.
+
+29-Jan-2013 Mark Dexter
+ # [#29999] Fix fatal error in JInstallerFile::uninstall(). Thanks Matias Griese.
+ # [#28714] Authentication - Gmail: Apply Username suffix does not allow user to login with suffix already applied. Thanks Janich Rasmussen.
+
+26-Jan-2013 Jean-Marie Simonet
+# [#30031] *Notice: Undefined index: title in /plugins/content/pagebreak/pagebreak.php on line 197. Thanks Bernard
+
+25-Jan-2013 Jean-Marie Simonet
+ # [#29731] RSS feed gets corrupted when ampersand (&) or other escapable characters exist in Site Meta Description. Thanks Jan
+
+25-Jan-2013 Jean-Marie Simonet
+ # [#29998] Problem with grid sort. Thanks Zhevron
+ # [#28841] Username modification in frontend (Profile Edit) is not saved. Thanks Jisse Reitsma
+
+24-Jan-2013 Jean-Marie Simonet
+ # [#29904] *With plugin Language Filter enabled, user articles parameter in frontend shows all articles
+
+21-Jan-2013 Jean-Marie Simonet
+ # [#29848] UTF8 SEF URLs are causing browser too many redirects failures - additional patch. Thanks Nicholas
+
+19-Jan-2013 Jean-Marie Simonet
+ # [#29964] Files upload problem
+
+16-Jan-2013 Jean-Marie Simonet
+ # [#28778] Incorrect Rendering of Breadcrumb Trail for Home Page Sub-Items. Thanks James and Peter
+ # [#29962] *303 when not using URL Language code in multilanguage - again. Thanks Yannick
+
+13-Jan-2013 Jean-Marie Simonet
+ # [#29939] *Fatal error when displaying any Categories Menu item
+ # [#29911] *Com_content feed read more links broken. Thanks Jurian
+
+12-Jan-2013 Jean-Marie Simonet
+ # [#25337] site on unc path, path.php removes
+ # [#29919] User Profile Plugin - Required field not enforced
+ # [#29799] com_contacts - FormField Modal . Thanks Mark
+
+03-Jan-2013 Michael Babker
+ # [#29887] *Disable System redirect breaks 404.  Thanks Yannick
+
+02-Jan-2013 Jean-Marie Simonet
+ # [#27903] invalid call to parent::getStoreId in getStoreId of NewsfeedsModelCategories (unused). Thanks Michael and Peter
+
+21-Dec-2012 Jean-Marie Simonet
+ $^ Porting installation language list alpha ordering from 3.0
+ # [#29567] UTF8 SEF URLs are causing browser too many redirects failures. Thanks Dennis and Nicholas
+
+19-Dec-2012 Jean-Marie Simonet
+ $ Normalizing names of installation languages
+
+17-Dec-2012 Jean-Marie Simonet
+ $+ Adding Armenian hy-AM new installation language
+
+12-Dec-2012 Mark Dexter
+ # [#29715] *Submit an Article doesn't work. Thanks Jean-Marie.
+
+-------------------- 2.5.8 Stable Release [8-November-2012] ------------------
+
+29-Oct-2012 Jean-Marie Simonet
+ # [#29575] Article Manager excludes identity of author
+
+28-Oct-2012 Jean-Marie Simonet
+ +$ Adding Kiswahili installation lang sw-KE
+
+27-Oct-2012 Jean-Marie Simonet
+ # [#29574] Backport JAccess fixes from platform. Thanks Elin
+ + Adding Kiswahili (East African Kiswahili Commission) flag
+
+18-Oct-2012 Jean-Marie Simonet
+ # [#29401] Repeated htmlspecialchars() Applied When Multiple Breadcrumbs Active. Thanks Peter and Roland
+
+17-Oct-2012 Jean-Marie Simonet
+ # [#29264] Field "alias" disappears in menu manager with type "External URL". Thanks Roberto
+
+12-Oct-2012 Jean-Marie Simonet
+ # [#29488] Missing JText In Language Installer
+
+09-Oct-2012 Jean-Marie Simonet
+ # [#29463] Notice in language manager when FTP layer is enabled.
+ $ Correcting mn-MN installation ini
+
+08-Oct-2012 Jean-Marie Simonet
+ # [#28764] user notes category is not properly nested in the assets table [2.5]. Thanks Peter
+
+04-Oct-2012 Jean-Marie Simonet
+ # [#28849] Publishing date instead of creation date in com_content/category/view.feed.php. Thanks Tobias Ribizel.
+
+01-Oct-2012 Jean-Marie Simonet
+ # [#28297] com_banners: BannersModelClients SQL error (group by banner id). Thanks Nils
 
 -------------------- 2.5.7 Stable Release [13-September-2012] ------------------
 
@@ -79,7 +432,7 @@ $ -> Language fix or change
 
 10-Aug-2012 Jean-Marie Simonet
  # [#28855] Fix Array to string conversion notices (PHP 5.4 only).Thanks Rouven
- 
+
 09-Aug-2012 Mark Dexter
  # [#25663] "Can't build admin menu item" error while (re)installing component. Thanks Nicholas.
 
@@ -88,7 +441,7 @@ $ -> Language fix or change
 
 31-Jul-2012 Jean-Marie Simonet
  [#28877] Overriding settings in the language xx-XX.localise.php
- 
+
 25-Jul-2012 Jean-Marie Simonet
  [#28846] *When URL Language Code is removed, language switcher module redirects to URL without .html suffix. Thanks Dennis
 
@@ -103,7 +456,7 @@ $ -> Language fix or change
 08-Jul-2012 Jean-Marie Simonet
  # [#28510] DB error "session" table Duplicate entry. Thanks Rob
  #^ [#28785] mod_wrapper doesn't support iframe without border. Thanks Andrea Sisti
- 
+
 05-Jul-2012 Jean-Marie Simonet
  # [#28770] Loss of data when editing an article through the front end. Thanks Franz
 
@@ -118,7 +471,7 @@ $ -> Language fix or change
  # [#28763] Make the field for installing sample data easier to use (Elin Waring)
  # [#28751] *Copy Template Feature - language files have capital letters (Jean-Marie Simonet)
  # [#28647] Registration form: language override for "Name" label causes side effects (Johannnes S-F)
- # [#28759] Undefined property: JSite::$registeredurlparams (Rouven Weßling) 
+ # [#28759] Undefined property: JSite::$registeredurlparams (Rouven Weßling)
 
 29-Jun-2012 Jean-Marie Simonet
  # [#28713] Article Media Manager: 'This file is too large to upload' appears in a Media Manager screen
@@ -127,7 +480,7 @@ $ -> Language fix or change
 26-Jun-2012 Jean-Marie Simonet
  # [#28745] mailto fatal error when sending article-mail in joomla 2.5.6. Thanks Rouven.
  # [#28682] "Articles" appearing in title. Thanks Christophe
- 
+
 26-Jun-2012 Christophe Demko
  ^ [#28730] Use the MVC legacy aliases in the administrator (Rouven Weßling)
 
@@ -231,7 +584,7 @@ $ -> Language fix or change
  ^ [#28551] Fix some issues with exceptions. Thanks Rouven
  + [#28176] Media formfield: show preview. Thanks Benjamin
  + [#28383] Add the ability to limit the number of password resets within a time period. Thanks Mark
- 
+
 08-Jun-2012 Jean-Marie Simonet
  ^ [#28613] Use fewer deprecated methods. Thanks Rouven
  ^ [#28377] Backport JDatabase::execute(). Thanks Rouven.
@@ -247,7 +600,7 @@ $ -> Language fix or change
  ^ [#28570] Backport JAccess::getActionsFrom. Thanks Michael
  ^ [#28549] Provide legacy aliases for the MVC classes. Thanks Rouven
  # [#28400] Help Site URL Defaulting to Version 1.6. Thanks Mark
- 
+
 06-Jun-2012 Christophe Demko
  ^ [#28378] Backport JInput:def() from the platform (Rouven Weßling)
  # [#28487] Menu Item Alias does not obey Secure Setting of Aliased Item (Don Gilbert)
@@ -293,7 +646,7 @@ $ -> Language fix or change
  # [#28561] Move some JFormFields from the platform to the CMS. Thanks Rouven.
  # [#28335] Simplify schema path in installation, add support for other databases. Thanks Michael.
  # [#28598] *Article Category list displays hits in author column if no article author or createdbyalias.
- 
+
 30-May-2012 Jean-Marie Simonet
  $ Missing language string
  $ Updating installation ini files: et-EE, mn-MN
@@ -353,7 +706,7 @@ $ -> Language fix or change
 11-May-2012 Jean-Marie Simonet
  # [#27711] Plugin SEF don't support "poster" video attribute. Thanks Ryan
  # [#28481] Edit Menu Item: Modules appears multiple times in the list. Thanks Doesnt Matter.
- # [#28205] Remove 'Display: no' modules from Module Assignment list (1.7), or button to hide them. Thanks Jason Williams and Andrea. 
+ # [#28205] Remove 'Display: no' modules from Module Assignment list (1.7), or button to hide them. Thanks Jason Williams and Andrea.
  # [#28514] duplicate line in user.php. Thanks Viet Vu
  # [#28421] Update PHPMailer to 5.2.1. Thanks Rouven.
  # [#28505] *Multilang validation errors when SEF is off
@@ -439,14 +792,14 @@ $ -> Language fix or change
 
 27-Mar-2012 Jean-Marie Simonet
  $ Updating installation ini file cs-CZ
- 
+
 26-Mar-2012 Jean-Marie Simonet
  $ Updating installation ini file ru-RU
- 
+
 25-Mar-2012 Jean-Marie Simonet
  $ Updating installation ini file nl-NL
  # *SEF issue when using article button in multilanguage. Thanks Christophe
- 
+
 25-Mar-2012 Christophe Demko
  # [#28284] System messages included in cached pages
  # [#28268] Update MooTools to 1.4.5 (Rouven Weßling)
@@ -454,7 +807,7 @@ $ -> Language fix or change
 
 23-Mar-2012 Jean-Marie Simonet
  $ Updating installation ini file sq-IQ
- 
+
 23-Mar-2012 Christophe Demko
   # [#28175] *Calendar readonly="true" status prevents loading custom calendars.
   # [#28277] Wrong 'category' tag in category feed
@@ -530,7 +883,7 @@ $ -> Language fix or change
 03-Mar-2012 Mark Dexter
  # [#28001] path delimiter doesn't work properly on SQL Server and SQL Azure
  # [#27898] System cache throws warning on Ajax requests with JSON response
- # [#27150] PHP Fatal error when detele a article category assigned to a artcle categories module** 
+ # [#27150] PHP Fatal error when detele a article category assigned to a artcle categories module**
  # [#28046] Update MooTools to version 1.4.4
 
 03-Mar-2012 Christophe Demko
@@ -548,7 +901,7 @@ $ -> Language fix or change
  # [#27888] users notes categories. Thanks Christophe and Michael.
  # [#28188] Javascript issue on IE7 during install. Thanks Adrien
  # [#28186] PHP Strict Standards: Non-static method UsersHelperRoute::getResetRoute() should not be called statically, assuming $this from incompatible context. Thanks Richard.
- 
+
 02-Mar-2012 Jean-Marie Simonet
  # [#25423] $message not initialized in ~/components/com_users/controllers/reset.php. Thanks Christophe.
  # [#28162] Creating menu items saves selection when it shouldn't. Thanks Jeremy
@@ -569,7 +922,7 @@ $ -> Language fix or change
  # [#28132] Typo in joomla-cms / installation / models / configuration.php. Thanks Vladimir and Michael
  # [#28114] missing css .icon-32-print class in bluestork template (and Hathor). Thanks Javier and Michael
  # [#27706] JAccess::getGroupsByUser doesn't work as expected in case of guest user. Thanks Patrick
- 
+
 24-Feb-2012 Christophe Demko
  # [#28118] Notice 'Only variable references should be returned by reference' (Piotr Konieczny)
  # [#28115] *PHP 5.3.8 Notice for some language packs with iconv
@@ -583,16 +936,16 @@ $ -> Language fix or change
  # [#28099] Editor buttons in Custom HTML module
  # [#28088] Strict error with JSite::getMenu()
  # [#28098] Entering link to article via Article button -making it Multilanguage aware
- 
+
 20-Feb-2012 Jean-Marie Simonet
  $ Updating ko-KR installation ini file
  $ [#28090] Changes to the Administrator Language Strings (mostly English). Thanks Mig
- 
+
 19-Feb-2012 Jean-Marie Simonet
  [#28091] Move the check if multilang is enabled to the libraries. Thanks Rouven
  [#28068] Module weblinks does not import needed JModel class. Thanks Pepe.
  [#28075] Recaptcha image doesnt show up, maybe because of https secure website. Thanks Viet.
- 
+
 17-Feb-2012 Jean-Marie Simonet
  # [#28072] *Content Languages ordering broken
 
@@ -602,7 +955,7 @@ $ -> Language fix or change
 
 14-Feb-2012 Jean-Marie Simonet
  # [#28044] Plugin Loadmodule ignores selected style. Thanks Nikolai
- 
+
 13-Feb-2012 Christophe Demko
  # [#28017] JModuleHelper All but selected does not work correctly when there is no itemid (Elin Waring)
  # [#28000] Featured articles parameter does not work in mod_articles_popular
@@ -611,7 +964,7 @@ $ -> Language fix or change
  #$ [#27716] Saving 'Start Publishing' updates 'Finish Publishing' not 'Start Publishing'. Thanks John.
  # [#27902] *mod_languages html 5 validation error empty action attribute. Thanks Danilo.
  # [#27410] Don't use DS anymore. Thanks Rouven
- 
+
 12-Feb-2012 Jean-Marie Simonet
  # [#28028] *Entering an article link via the Article button=>links broken in SEF. Thanks Rouven.
 
@@ -725,7 +1078,7 @@ $ -> Language fix or change
  # [#27791] SQL Server - Cannot access Smart Search Filter Edit View. Thanks Michael
  # [#27789] SQL Server - Smart Search Statistics view fails to load. Thanks Michael.
  # [#27691] Active taxonomy nodes are ignored in Smart Search module. Thanks Chris.
- 
+
 21-Jan-2012 Jean-Marie Simonet
  $ Updating installation ini files tr-TR, ur-PK
  # [#27557] Code style fix and Hathor CSS fixes to Extensions/Installer. Thanks Andrea.
@@ -789,7 +1142,7 @@ $ -> Language fix or change
  $ Updating installation ini files lo-LA, ca-ES
  $ Updating installation ini file bn-BD
  $  [#27756] Duplicated keys at language files. Thanks Valc.
- 
+
 17-Jan-2012 Mark Dexter
  # [#27736] Remove the use of more deprecated functions
  # [#27717] error saving _finder_tokens with big articles
@@ -819,7 +1172,7 @@ $ -> Language fix or change
  $ [#27588] Email or e-mail inconsistency. Thanks Brian and Herve.
  $ [#27537] Missing capitalisation in en-GB.com_users.ini. Thanks Brian.
  $ Update installation ini he-IL for typo
- 
+
 15-Jan-2012 Christophe Demko
  + [#27451] Add a Admin Menu Item for adding a New User Notes Category
  ^ [#27722] protected function dayToString($day, $abbr = false) Why protected (romacron)
@@ -830,7 +1183,7 @@ $ -> Language fix or change
  $ Typo in tpl_hathor.sys.ini. Thanks Stella.
  #$ [#27653] patch for captcha fields on reset, remind and contact forms. Thanks Nicola, Rouven, Christophe.
  $ [#27723] Improve tool tip and label for manage permission. Thanks Elin.
- 
+
 14-Jan-2012 Christophe Demko
  # [#27712] Errors in joomla.sql (Christian Kern)
  ^ Deleting more "$ Id $"
@@ -882,7 +1235,7 @@ $ -> Language fix or change
  # [#27694] *Finder search broken because of filters Country and Region.
  $ Updating installation ini files bs-BA, gu-IN
  # [#27683] *Smartsearch remaining issues after commit #27565. Thanks Chris.
- $ Updating installation ini files af-ZA, lv-LV 
+ $ Updating installation ini files af-ZA, lv-LV
 
 10-Jan-2012 Jean-Marie Simonet
  $ Updating installation ini files az-AZ, bg-BG, ckb-IQ, da-DK, de-DE, es-ES, et-EE, fi-FI, hu-HU, it-IT, ja-JP, km-KH, mk-MK, nl-NL, sr-SR, sr-YU, sv-SE, ta-IN
@@ -897,7 +1250,7 @@ $ -> Language fix or change
  # [#27479] Finder schema to support SQLServer
  # [#27607] Sample Data for SQLServer and SQLAzure
  # [#27635] JForm issue with Fabrik - proposed solution (thanks Rouven & Christophe)
- # [#27630] Issue with replacePrefix -- valid only for SQLServer 
+ # [#27630] Issue with replacePrefix -- valid only for SQLServer
  + [#27507] Add ablility to turn off the email to user when an Admin creates a user
  # [#24602] Users with create rights in a category but not component can't create subcategories**
  # [#27650] sample sites - category not found
@@ -988,7 +1341,7 @@ $ -> Language fix or change
  # Fixing again [#27533] lost when committing [#27498]
  # Fixing again [#27510] lost when committing [#27498]
  # [#27502] JS Error: #plg_quickicon_joomlaupdate does not exist. Thanks Rouven
- 
+
 29-Dec-2011 Christophe Demko
  # [#27552] Bad character in Smart Search newsfeeds plug-in (Chris Davenport)
 
@@ -1053,7 +1406,7 @@ $ -> Language fix or change
  # [#27273] Sorting broken in com_contact single category view (Denise McLaurin)
 
 21-Dec-2011 Mark Dexter
- + [#27348] Finder Integration: Rob Schley, Michael Babker, Elin Waring, Chris Davenport, Omar Ramos, Viet Hoang Vu, 
+ + [#27348] Finder Integration: Rob Schley, Michael Babker, Elin Waring, Chris Davenport, Omar Ramos, Viet Hoang Vu,
  	Jean Marie Simonet, Rouven Weßling, Louis Landry, Gabriele Pongelli
  # [#27455] Group by clause in articles missing 2 new columns
  # [#27454] SQLQuery with function!
@@ -1061,7 +1414,7 @@ $ -> Language fix or change
 21-Dec-2011 Christophe Demko
  ^ [#27409] Remove unnecessary import calls and fix up docblocks (Rouven Weßling)
  $ [#27417] Options have replaced preferences (Jean-Marie Simonet)
- 
+
 21-Dec-2011 Jean-Marie Simonet
  $ Updating installation ini file el-GR, sr-RS, sr-YU
 
@@ -1339,7 +1692,7 @@ $ -> Language fix or change
  #$ [#26980] Missing menu ordering in edit. Thanks Christophe and Elin.
  #$ [#25037] No option to remove the default language from the URL and links. Thanks Christophe.
  # [#26979] *Ordering when editing in front-end
- 
+
 07-Nov-2011 Jean-Marie Simonet
  #$ [#27007] *mod_articles_category missing option to sort by feature articles ordering system. Thanks Denise.
  $ [#24697] Tooltip partly matches the related options in Latest News module
@@ -1360,7 +1713,7 @@ $ -> Language fix or change
 
 04-Nov-2011 Jean-Marie Simonet
  # [#27075] Make sure there is a blank line at the end of every PHP file. Thanks Rouven
- 
+
 04-Nov-2011 Christophe Demko
  # [#27038] Apply the patch to fix the MySQL specific queries - com_installer (Sudhi Seshachala)
 
@@ -1402,7 +1755,7 @@ $ -> Language fix or change
  # [#26977] *Multilanguage: adding custom Site Name per Content Language
  + Adding Austria and Switzerland flags for mod_languages
  # Modifying version.php to 1.7.2
- 
+
 18-Oct-2011 Christophe Demko
  # [#26897] JDatabasequery work in com_plugins
 
@@ -1411,7 +1764,7 @@ $ -> Language fix or change
  # [#26885] JText do not recognize "" no-string. Thanks Christophe.
  # [#26491] Date Icon "string untranslated". Thanks Christophe
  # [#24973] JHTML select.options with html entities. Thanks Pavel and Bill.
- 
+
 16-Oct-2011 Christophe Demko
  # [#26904] JDatabasequery work in com_redirect and com_search (Elin Waring)
  # [#26898] JDatabasequery work in com_newsfeeds (Elin Waring)
@@ -1429,11 +1782,11 @@ Pushed to github the following missing SVN commits when joomla-cms was moved
  # [#24664] Back-end language switching is working only when Default is selected
  # [#26907] *Adding tip to batch function (Jean-Marie Simonet)
  # [#26427] header items in the administrator panel are not in the right order on RTL template
- 
+
 12-Oct-2011 Jean-Marie Simonet
  $ Add new language key to 1.7.2 com_installer file
  $ Updating uk-UA installation.ini
- 
+
 10-Oct-2011 Jean-Marie Simonet
  + [#26913] Hathor missing notice images in rtl & some colors. Thanks Andrea
  #+ [#26866] notices in RTL doesn't mirroring. Thanks Ofer.
@@ -1573,14 +1926,14 @@ Pushed to github the following missing SVN commits when joomla-cms was moved
  # [#26356] Users can lock everyone out of the administrator. Thanks Irfan and Elin.
  # [#26423] com contact -- add finishing touches to sortname fields. Thanks Elin.
  $ Updating installation ini files: es-ES, fi-FI, it-IT, zh-TW. Adding Bulgarian language.
- 
+
 12-Sep-2011 Jean-Marie Simonet
  # [#26753] Login description containing markup displayed regardless of presence of content
  # [#26766] Modules should be able to be saved with no position. Thanks Elin.
 
 10-Sep-2011 Jean-Marie Simonet
  # [#24310] Users Manager Log In Form Required Field Indicator. Thanks Bill
- 
+
 08-Sep-2011 Christophe Demko
  # [#26609] Template manager missing toolbar icons
  # [#26502] untranslated string from *.xml
@@ -1600,7 +1953,7 @@ Pushed to github the following missing SVN commits when joomla-cms was moved
 
 05-Sep-2011 Jean-Marie Simonet
  #Correcting wrong formatting of mod_articles_category.xml
- 
+
 04-Sep-2011 Christophe Demko
  # [#26701] com_content Form View $article object that does not exist in the _prepareDocument method on line 115. (Jean-Marie Simonet)
  # [#26710] Clean up admin and installation CSS (Rouven Weßling)
@@ -1620,27 +1973,27 @@ Pushed to github the following missing SVN commits when joomla-cms was moved
  # [#26512] Moving an existing single menuitem to another menu. using the drop down in 1.7.0 Thanks Elin.
  # [#26496] Inconsistency in Admin Template options - Show Site Name. Thanks Bill.
  # Correcting 2 unwanted Returns in 2 language files.
- 
+
 24-Aug-2011 Jean-Marie Simonet
  #$ Added Scottish Gaelic gd-GB in installation language
  $ Correcting some strings order in en-GB.lib_joomla.ini
  $ Added 2 JLIB error strings in en-GB, en-AU, en-US ini files
  # Updated Credits
- 
+
 23-Aug-2011 Mark Dexter
  # [#26631] Sync more changes from platform 11.2
  # Revert [#26631] (use branch merge instead)
 
 23-Aug-2011 Jean-Marie Simonet
  # [#26683] Language switcher module wrong link with menu associations when no SEF. Thanks Kelsang.
- 
+
 22-Aug-2011 Jean-Marie Simonet
  # [#26454] mod_languages: cache does not work properly with menu associations
  # [#26654] Incorrect references to com_user. Thanks Michael.
  # Deleted obsolete admin modules mod_online and mod_unread from joomla.sql
  $ String missing in en-GB.plg_content_joomla.sys.ini
  $ Sync beez2 ini files in beez language folder vs core language.
- 
+
 19-Aug-2011 Jean-Marie Simonet
  # [#26655] *Ordering column issue for _menu table in sample_data.sql
 
@@ -1663,7 +2016,7 @@ Pushed to github the following missing SVN commits when joomla-cms was moved
  #$ [#26535] Incorrectly labeled folder in the Media manager + Options tips
  # [#26568] Missing return in modeladmin.php. Thanks Jacob. (lib change)
  # [#26603] Flash uploader is broken. Thanks Rouven.
- 
+
 03-Aug-2011 Jean-Marie Simonet
  $ Updating installation language files: hr-HR, pt-PT
  #$ [#26543] com_modules language has a typo. Thanks Daniel and Elin.
@@ -1673,11 +2026,11 @@ Pushed to github the following missing SVN commits when joomla-cms was moved
 
 28-Jul-2011 Jean-Marie Simonet
  # [#26510] wrong file name. Thanks Bill
- $ [#26499] Incorrect English not en-GB. Thanks Jacob 
+ $ [#26499] Incorrect English not en-GB. Thanks Jacob
  $ [#26497] Incorrect English in template. Thanks Bill
  $ [#26500] Improve English grammar. Thanks Bill.
  $ [#26416] Incorrect terminology in Language Switcher module. Thanks Jacob.
- 
+
 25-Jul-2011 Jean-Marie Simonet
  # [#26490] Untranslated Strings DELETE="Delete" Media Manager > Details View in iframe
  # [#26470] No translation in title column of module manager (lib change)
@@ -1785,7 +2138,7 @@ Pushed to github the following missing SVN commits when joomla-cms was moved
  ! Mail package docblocks/code formatting sync'd with platform repo.
  ! Plugin package docblocks/code formatting sync'd with platform repo.
  ! Registry package docblocks/code formatting sync'd with platform repo.
- 
+
 09-Jul-2011 Christophe Demko
  # [#26349] Update TinyMCE to version 3.4.3.2 (Rouven Weßling)
  # [#24537] JUserHelper::removeUserFromGroup doesn't remove user from group (use of the code located in the platform)
@@ -1800,13 +2153,13 @@ Pushed to github the following missing SVN commits when joomla-cms was moved
 
 09-Jul-2011 Andrew Eddie
  ^ JPlatform class file moved to /libraries/ to sync with platform repo.
- ! Database package docblocks sync'd with platform repo. 
+ ! Database package docblocks sync'd with platform repo.
  ! Error package docblocks sync'd with platform repo.
  # Removed define for JPLATFORM from platform.php as it causes problems on some setups (probably due to slight variations in the spl autoloader).
- 
+
 08-Jul-2011 Andrew Eddie
- ! Application package docblocks sync'd with platform repo. 
- ! Client package docblocks sync'd with platform repo. 
+ ! Application package docblocks sync'd with platform repo.
+ ! Client package docblocks sync'd with platform repo.
 
 08-Jul-2011 Christophe Demko
  # [#26282] user manager - last visited date (bill richardson)
@@ -1873,7 +2226,7 @@ Pushed to github the following missing SVN commits when joomla-cms was moved
  # [#26262] Remove more images from bluestork (Rouven Weßling)
 
 27-Jun-2011 Mark Dexter
- ^ [#26088] Add WAI-ARIA and HTML5 support the progressbar.js (Rouven Weßling) 
+ ^ [#26088] Add WAI-ARIA and HTML5 support the progressbar.js (Rouven Weßling)
  ^ [#26099] Make loadmodule plugin more useful (Elin Waring)
  # [#25696] Updating from J1.6.2 to J1.6.3 removes all files!
 
@@ -1897,7 +2250,7 @@ Pushed to github the following missing SVN commits when joomla-cms was moved
 
 23-Jun-2011 Jean-Marie Simonet
  $ Correcting extraneous spaces in some ini files
- 
+
 23-Jun-2011 Christophe Demko
  # [#24662] Newly published articles showing pending when they are actually published (revived) (Elin Waring)
  # [#22158] Templates are still available for assignment after being unpublished
@@ -1926,7 +2279,7 @@ Pushed to github the following missing SVN commits when joomla-cms was moved
 
 21-Jun-2011 Jean-Marie Simonet
  # [#26172] fatal error when calling $app->logout(); Thanks Nikolai
- 
+
 21-Jun-2011 Mark Dexter
  # [#26194] Replace calls to JRegistry::loadJSON (Michael Babker)
  # [#26196] Use field type email in com_contact (Rouven Weßling)
@@ -1976,7 +2329,7 @@ Pushed to github the following missing SVN commits when joomla-cms was moved
 
 16-Jun-2011 Jean-Marie Simonet
  $ Alpha Ordering ini strings in com_search ini and com_users.ini. Updating xx-XX
- 
+
 16-Jun-2011 Christophe Demko
  + [#26073] Make single contact view ready to use dynamic forms
  + [#26120] [patch] JToolBar cleanup for Save and Create New and Save as Copy
@@ -1994,7 +2347,7 @@ Pushed to github the following missing SVN commits when joomla-cms was moved
  # [#26136] Add back borders in editor for codemirror. Thanks Andrea.
  $ [#26101] pagebreak or page break. Thanks Bill.
  # [#26160] com_content archive view does not display the parent category. Thanks Christophe.
- 
+
 13-Jun-2011 Mark Dexter
  # [#26158] Cannot create menu items
 
@@ -2036,14 +2389,14 @@ Pushed to github the following missing SVN commits when joomla-cms was moved
  # Updating site templates xmls to version 1.7
  # Updating tests xmls to version 1.7
  # Updating some occurrences of Joomla! 1.6 to Joomla! 1.7 (more TODO)
- 
+
 09-Jun-2011 Mark Dexter
  # [#26089] Sync admin layouts (hathor)
 
 09-Jun-2011 Jean-Marie Simonet
  # Updating installation languages xmls to version 1.7
  #$ Deleting redundant lang string from Rev 21463
- 
+
 08-Jun-2011 Mark Dexter
  # [#24826] ACL bug in Contact component backend
  # [#25711] All Components are deleted from the Administration interface when a new Menu Type named “menu” is deleted
@@ -2063,7 +2416,7 @@ Pushed to github the following missing SVN commits when joomla-cms was moved
 
 07-Jun-2011 Jean-Marie Simonet
  $ Updating site en-GB.lib_joomla.ini
- 
+
 07-Jun-2011 Christophe Demko
  + [#25409] Examples for the editor, search & system plugins. (Peter Nurse)
  # [#26041] Menu type manager slows down considerably as menu tree gets larger (Andrew Eddie)
@@ -2089,7 +2442,7 @@ Pushed to github the following missing SVN commits when joomla-cms was moved
 04-Jun-2011 Jean-Marie Simonet
  # [#25873] *Featured Articles Menu Option does not show option to select category as intended
  - [#26013] The Flag Image for the Language Tamil ( ta) is Incorrect
- 
+
 04-Jun-2011 Mark Dexter
  # [#26028] Fix backward incompatible changes to JVersion
  # [#25634] Extension Manager: wrong installer method called during update
@@ -2101,14 +2454,14 @@ Pushed to github the following missing SVN commits when joomla-cms was moved
  + Feature [#25313] Update TinyMCE to version 3.4.2 (Rouven Weßling)
  # [#25852] Cache and mod_menu problem
  # [#26039] Latest News Module redirects to incorrect login URL
- 
+
 04-Jun-2011 Andrew Eddie
  + Feature [#25866] Add support to log deprecated API.
  + Feature [#25987] JToolBarHelper functions for Save and Create New and Save as Copy (Joseph LeBlanc).
  + Feature [#25732] Add JFormRuleOptions rule to validate type="list" parameters (Mark Dexter).
  + Feature [#25461] Mod_custom with backgroundimages (Angie Radtke).
  + Feature [#25119] Allow preselection of categories in com_content (Peter Kneisel, Ole Bang Ottosen, Jean-Marie Simonet).
- 
+
 03-Jun-2011 Jean-Marie Simonet
  + [#26035] *Adding the possibility for language packs to include a css file for back-end font change
  # [#25918] *Error when Login Module try to get the return URL of the current page when SEF turn on and the page is redirect forever
@@ -2123,7 +2476,7 @@ Pushed to github the following missing SVN commits when joomla-cms was moved
 
 31-May-2011 Jean-Marie Simonet
  # [#26012] *Archives Module & Related Articles Module do not use localised calendar date
- 
+
 30-May-2011 Mark Dexter
  # [#26004] *Back-end language change broken by framework patch in tracker #25925
  # [#25956] Improve accessibility in admin modules
@@ -2167,7 +2520,7 @@ Pushed to github the following missing SVN commits when joomla-cms was moved
  # [#25850] Incorrect ordering of plugins type filter. Thanks Dennis.
  # [#25754] Removing double semi-colons. Thanks Dennis
  # [#25681] IE <= 7 and Beez templates - Incorrect mouse pointer over open/close "button" if right column is visible. Thanks Peter.
- 
+
 14-May-2011 Christophe Demko
  # [#25772] Librairie JDate translates month and day strings for RFC822 format which is not correct
 
@@ -2181,14 +2534,14 @@ $ [#25872] *Wrong tip for contact redirect
 
 12-May-2011 Jean-Marie Simonet
  #S [#25864] Split Language Manager: Installed Languages into separate views. Thanks Michael.
- 
+
 10-May-2011 Jean-Marie Simonet
  #$ [#25845] *Breadcrumbs never use the language string for Home
  #$ [#25837] *Admin menu does not differentiate between default Home set to "All" and those set to a Content Language. Thanks Christophe.
 
 09-May-2011 Jean-Marie Simonet
  [#25830] *404 - page not found - error.php - for template beez_20 - not working properly
- 
+
 05-May-2011 Jean-Marie Simonet
  # [#25820] *Automatic site content language change at login parameter not implemented in languagefilter.
 
@@ -2197,7 +2550,7 @@ $ [#25872] *Wrong tip for contact redirect
  # [#25795] *Normalizing language load in profile plugin
  # [#25642] Update TinyMCE to version 3.3.9.4. Thanks Rouven.
  # [#24574] After Reading message, the counter does not refresh. Thanks Marco and Roland.
- 
+
 28-Apr-2011 Christophe Demko
  # [#25693] Incorrect importing of languagefilter, plugin's class is initialised twice (Dennis Hermatski)
 
@@ -2208,7 +2561,7 @@ $ [#25872] *Wrong tip for contact redirect
 27-Apr-2011 Jean-Marie Simonet
  # [#25759] Broken system messages in beez_20 and beez5. Thanks Dennis.
  # [#25752] No ending fieldset tag in com_contact. Thanks Dennis.
- 
+
 26-Apr-2011 Jean-Marie Simonet
  $ [#25742] SPACERDROP_LABEL too long for a label. Thanks Paulo.
  # [#25753] Hathor bugs with batch function. Thanks Dennis.
@@ -2222,7 +2575,7 @@ $ [#25872] *Wrong tip for contact redirect
  #$ [#25724] *Improving the langswitcher module, correcting some ini strings
  # [#25717] *If plugin language filter is enabled a contact with linked user shows articles in all languages instead of filtered for current language. Thanks Marcel and Dennis.
  # [#25725] You can delete the default template style. Thanks Elin.
- 
+
 22-Apr-2011 Jean-Marie Simonet
  # [#25722] *Displaying status of Content languages Default Home page in Manager.
 
@@ -2236,7 +2589,7 @@ $ [#25872] *Wrong tip for contact redirect
 16-Apr-2011 Jean-Marie Simonet
  $ Updating es-ES installation file
  # [#25650] Can't insert image for menu item. Thanks Dennis and Rouven
- 
+
 15-Apr-2011 Jean-Marie Simonet
  # Removing install check
 
@@ -2247,7 +2600,7 @@ $ [#25872] *Wrong tip for contact redirect
 
 13-Apr-2011 Jean-Marie Simonet
  # Correcting error in the plugin language filter xml
- 
+
 12-Apr-2011 Mark Dexter
  # [#25593] Module Articles Category takes server timezone instead of Joomla one
  # [#25370] new layouts - No pagination on articles category page if first visit
@@ -2266,7 +2619,7 @@ $ [#25872] *Wrong tip for contact redirect
 10-Apr-2011 Jean-Marie Simonet
  $ Adding lib_joomla.ini into site language folder and localise.php in admin language folder to prevent confusion for TTs.
  $ Changing en-GB.xmls version for 1.6.2
- 
+
 09-Apr-2011 Jean-Marie Simonet
  #$ Updating pl-PL installation language
 
@@ -2299,7 +2652,7 @@ $ [#25872] *Wrong tip for contact redirect
 05-Apr-2011 Jean-Marie Simonet
  #$ Adding Icelandic to installation languages
  #$ Upgrading ru_RU installation language
- 
+
 04-Apr-2011 Mark Dexter
  # [#25519] Minor Bugs in mod_whosonline
 
@@ -2316,7 +2669,7 @@ $ [#25872] *Wrong tip for contact redirect
  # [#25074] Form onchange event pointing to non-existant event
  # [#22926] browser detection script reports wrong informations
  # [#25397] Typos in sample data
- 
+
 02-Apr-2011 Jean-Marie Simonet
  $ Added missing strings
 
@@ -2336,7 +2689,7 @@ $ [#25872] *Wrong tip for contact redirect
 
 30-Mar-2011 Jean-Marie Simonet
  #$ Adding Bosnian to installation languages
- 
+
 29-Mar-2011 Mark Dexter
  # [#25288] Media form field is not allowed access to media manager in the front end
  # [#25129] Media manager popup - Change of directory don't reflect in list of images and folders on windows system (XAMPP)
@@ -2348,19 +2701,19 @@ $ [#25872] *Wrong tip for contact redirect
  # Correcting some components xml
  # Normalizing front-end modules xml (format and sys.ini missing)
  # Normalizing back-end modules xml (languages missing)
- 
+
 28-Mar-2011 Jean-Marie Simonet
  # [#25481] *Combined patch for various meta issues in menu items. Thanks Piotr
- 
+
 27-Mar-2011 Jean-Marie Simonet
  #$ Adding Azeri to installation languages
  # [#25224] Many places calling JHTML:: instead of JHtml:: Thanks Peter and Bill.
  # [#25451] Installer missing client-side check that package was selected prior to pressing Upload and Install Button. Thanks Amy.
- # [#25467] Empty file administrator/components/com_users/helpers/levels.php  
- 
+ # [#25467] Empty file administrator/components/com_users/helpers/levels.php
+
 24-Mar-2011 Jean-Marie Simonet
  # [#25436] *Metatag Robots not working for menu items
- 
+
 23-Mar-2011 Jean-Marie Simonet
  # Adding Khmer flag to language switcher images. Thanks Sovann Heng.
  # [#25417] JPane slider effect not functioning properly. Thanks Byron and Bill.
@@ -2368,24 +2721,24 @@ $ [#25872] *Wrong tip for contact redirect
  #$ Adding Croatian to installation languages
  # [#25432] Hathor: minor bug that causes hidden Date values in com_templates. Thanks CY Lee and Bill.
  # [#25412] tooltips in high contrast mode (bluestork).
- 
+
 23-Mar-2011 Christophe Demko
  # [#25416] *Although en-GB language is protected by default in db, it can be uninstalled (Jean-Marie Simonet)
 
 22-Mar-2011 Jean-Marie Simonet
  # [#25399] *rev 20974 breaks normal sliders/tabs behavior.
  # Minor typos errors in some ini files. Thanks Sovann Heng.
- 
+
 21-Mar-2011 Jean-Marie Simonet
  # [#25355] com_menus translation is missing for list items. Thanks Kolyamba.
- 
+
 20-Mar-2011 Mark Dexter
  # Fix typo in revision 20991
 
 20-Mar-2011 Jean-Marie Simonet
  # [#25400] *langswitcher module can display content languages with no specific home page. Thanks Christophe.
  # [#25401] *Content language ordering not implemented. Thanks Christophe.
- 
+
 19-Mar-2011 Jean-Marie Simonet
  #$  [#25349] Menu item type Alias, not editable alias. Thanks Pavel.
 
@@ -2406,7 +2759,7 @@ $ [#25872] *Wrong tip for contact redirect
 17-Mar-2011 Jean-Marie Simonet
  # [#25356] Following  tracker 25210. Thanks Christophe.
  # [#25118] Featured articles are reordered when editing one of them. Thanks Ian and Christophe.
- 
+
 16-Mar-2011 Mark Dexter
  # Fix typo in 25308 (revision 20969)
 
@@ -2418,7 +2771,7 @@ $ [#25872] *Wrong tip for contact redirect
 
 16-Mar-2011 Jean-Marie Simonet
  # [#25338] *Unused show title parameter for archives menu item
- 
+
 15-Mar-2011 Jean-Marie Simonet
  # [#25088] System information > Directory Permissions: List incomplete. Thanks Nikolai and Reinhard.
  # [#25027] module assignment slider gives inaccurate information for modules with "all except". Thanks Elin and Christophe.
@@ -2427,7 +2780,7 @@ $ [#25872] *Wrong tip for contact redirect
 14-Mar-2011 Jean-Marie Simonet
  # [#25320] Typos on the 404 page. Thanks Bill.
  #$ [#25259] Article edit page permits you to attempt to edit checked-out articles, causing 403 errors. Thanks Bernie
- 
+
 13-Mar-2011 Christophe Demko
  # [#24998] Don't add aria role breadcrumbs (Rouven Weßling, Mark Dexter)
 
@@ -2441,7 +2794,7 @@ $ [#25872] *Wrong tip for contact redirect
  # [#25176] 404 after pagebreak in <--prev next --> footer. Thanks Ian and Dave.
  # [#25285] *Normalizing com_messages UI
  # [#24345] *joomla.xml still exists after install of install. Thanks Ian.
- 
+
 10-Mar-2011 Jean-Marie Simonet
  $# [#25252] *Missing weblink ini strings when submit/edit weblink from a content.
  # [#25262] Logout in administration menu not working
@@ -2453,7 +2806,7 @@ $ [#25872] *Wrong tip for contact redirect
 
 09-Mar-2011 Jean-Marie Simonet
  $ [#25231] Typo in en-GB.lib_joomla.ini. Thanks Serge.
- # [#25213] Several places calling getXMLparser instead of getXMLParser. Thanks Bill and Anon 
+ # [#25213] Several places calling getXMLparser instead of getXMLParser. Thanks Bill and Anon
  $ [#25145] Incorrect SMTP security option. Thanks Ian and Jozcef.
  # [#25240] *Issue with Articles created in front-end and set to featured. Thanks Andrew.
  # [#25238] 1.6.1 breaks wrapper menu links. Thanks Elin
@@ -2482,7 +2835,7 @@ $ [#25872] *Wrong tip for contact redirect
  # [#24865] sef plugin results in a blank page for large content
  # [#25110] *Duplicated module is published
  # [#25091] Sample Data Typo
- # [#25034] *modifying Beez5 to compatibility with RTL 
+ # [#25034] *modifying Beez5 to compatibility with RTL
 
 01-Mar-2011 Ian MacLennan
  # [#25038] Codemirror update causes improper characters in template html/css editing
@@ -2518,7 +2871,7 @@ $ [#25872] *Wrong tip for contact redirect
  # [#25011] Beez_20 and Beez 5 xml patch
  # [#23491] Upgrade Codemirror to Version 0.94
  # [#24740] Make some scripts compatible with Mootools 1.3
- 
+
 21-Feb-2011 Jean-Marie Simonet
  # [#24999] The strings used for the display column in the module assignment slider are confusing. Thanks Elin and Andrea
  # [#24983] modifying Beez 20 to compatibility with RTL Thanks Mahmood and Ofer.
@@ -2526,15 +2879,15 @@ $ [#25872] *Wrong tip for contact redirect
  # [#24929] Multiselect not implemented in all views. Thanks Ian and Andrea.
  # [#25008] JNO/JYES instead JSHOW/JHIDE in mod_weblinks.xml Thanks Serge and Bill.
  $ Adding mn-MN to installation langs
- 
+
 20-Feb-2011 Jean-Marie Simonet
  # [#24916] Missing class blog_children. Thanks Markus and Bill.
  # [#24915] Missing class default_children. Thanks Markus and Bill.
- 
+
 19-Feb-2011 Jean-Marie Simonet
  # [#24978] duplicate code weblink .php
  # [#24545] Stripped code in contents and custom html module. Thanks Amy and Janich.
- 
+
 18-Feb-2011 Jean-Marie Simonet
  # [#24975] JS patch for Beez5 - IE issue hide.js. Thanks Ole.
  # [#24947] Incorrect ID attribute's value in backend menu. Thanks Serge
@@ -2585,7 +2938,7 @@ $ [#25872] *Wrong tip for contact redirect
  # [#24872] Transliteration does not work in Category Manager
  $ Corrected an ini string value
  # [#24912] *Multilanguage on and site offline: loggin front-end gets in a loop
- 
+
 13-Feb-2011 Jean-Marie Simonet
  $ [#24874] Change "Templates Manager" to "Template Manager". Thanks Mark.
 
@@ -2626,7 +2979,7 @@ $ [#25872] *Wrong tip for contact redirect
 
 07-Feb-2011 Jean-Marie Simonet
  $ Correcting English spelling
- 
+
 06-Feb-2011 Jean-Marie Simonet
  # [#24743] Contact form typo - duplicate tag </label> for Email and Message. Thanks Peter and Elin.
  # [#24711] duplicate case in switch in ~/components/com_users/controller.php. Thanks Boris and Bill.
@@ -2650,7 +3003,7 @@ $ [#25872] *Wrong tip for contact redirect
  # [#24726] Link Author option lacks in Archived Articles menu item. Thanks Bill.
  $ Correcting some ini strings values
  #$ [#24732] Message label incorrect showed and inconsistency with colon after labels in Contact form. Thanks Bill.
- 
+
 02-Feb-2011 Mark Dexter
  # [#24702] *Don't show empty divs in mod_login
  # [#24704] *menu items metadata not implemented
@@ -2679,7 +3032,7 @@ $ [#25872] *Wrong tip for contact redirect
 
 31-Jan-2011 Jean-Marie Simonet
  $ Deleting duplicate lang string
- $ Updating aa-AA.ini 
+ $ Updating aa-AA.ini
 
 30-Jan-2011 Jean-Marie Simonet
  $ Customising a lang key to fit different languages
@@ -2709,10 +3062,10 @@ $ [#25872] *Wrong tip for contact redirect
 28-Jan-2011 Jean-Marie Simonet
  $ Correcting parse issues in 14 installation langs
  # [#24657] Enabling debug language mode in installation application. Thanks Christophe.
- 
+
 27-Jan-2011 Mark Dexter
  # [#24644] Joomla! Web Application Framework library is uninstallable
- # Fix SVN properties on some joomla_update sql scripts 
+ # Fix SVN properties on some joomla_update sql scripts
 
 27-Jan-2011 Christophe Demko
  # [#24558] Improve the Directory Permissions in com_admin (Rouven Weßling)
@@ -2734,7 +3087,7 @@ $ [#25872] *Wrong tip for contact redirect
  #$ [#24615] Extra language definitions for icon tooltips in Messages component
  #$ [#24587] beez template typo with position-15
  $ Adding pt-PT installation lang
- 
+
 25-Jan-2011 Jean-Marie Simonet
  $ Adding el-GR, ka-GE installation langs
  $ Adding fi-FI installation langs. Modifying gu-IN.
@@ -2750,16 +3103,16 @@ $ [#25872] *Wrong tip for contact redirect
  $ Updating ca-ES, adding ml-IN installation lang
  $ Correcting parse errors in ml-IN.ini
  #$ [#24573] Backend mod_status private messages pluralisation. Thanks Edgars. Reordered en-GB.mod_status.ini
- 
+
 23-Jan-2011 Jean-Marie Simonet
  # [#24523] Improve the cpanel of admin templates + correcting some errors. Thanks Christophe.
- $ Adding bn-BD, ckb-IQ, eo-XX, ta-IN installation langs + updating 35 installation langs for 1.6.1 
+ $ Adding bn-BD, ckb-IQ, eo-XX, ta-IN installation langs + updating 35 installation langs for 1.6.1
  $ Updating vi_VN
  # [#24570] Correcting icon message display in installation with rtl lang
  # [#24463] Admin Trashed menu doesn't display - link error. Thanks Barny and Bill.
  # [#24459] In Users -> Mass Mail Users, the tooltips are not being styled. Thanks Jeremy.
  $ Missing strings in lv-LV
- 
+
 22-Jan-2011 Jean-Marie Simonet
  # Updating some TT credits
  # [#24525] In Bluestork, longer labels are being cut off especially radio button labels. Thanks Andrea
@@ -2770,8 +3123,8 @@ $ [#25872] *Wrong tip for contact redirect
 
 21-Jan-2011 Jean-Marie Simonet
  $ [#24520] Incorrect tooltips in Articles Categories module. Thanks Jozsef and Bill.
- $ [#24518] Incorrect tooltip in Module Manager. Thanks Jozsef and Bill. 
- 
+ $ [#24518] Incorrect tooltip in Module Manager. Thanks Jozsef and Bill.
+
 20-Jan-2011 Jean-Marie Simonet
  # [#24491] com_contact, wrong string is used in config.xml (COM_CONTACT_FIELD_PROFILE_SHOW_LABEL used twice). Thanks Edgars.
  # Changing version number in en-GB.xml and en-US.xml installation
@@ -2782,8 +3135,8 @@ $ [#25872] *Wrong tip for contact redirect
  #$ [#24464] Incorrect language definition in 'List Contacts in a Category' menu item type. Thanks Jozsef and Bill.
  # [#24397] group perms list should be expand/collapsible at will. Thanks Jeremy and Andrea.
  #$ [#24475] Multiple groups are a problem in the user manager. Thanks Andrea.
- $ [#24097] Adding new strings from that non-committed yet patch in installation ini files to freeze them for 1.6.1. 
-  
+ $ [#24097] Adding new strings from that non-committed yet patch in installation ini files to freeze them for 1.6.1.
+
 18-Jan-2011 Jean-Marie Simonet
  # Correcting code typo
  # [#24327] Bluestork administrator template template.css typo. Thanks Bill.
@@ -2797,7 +3150,7 @@ $ [#25872] *Wrong tip for contact redirect
  + Adding he.gif flag to langswitcher
  # [#24426] Missing language string JLIB_INSTALLER_ABORT_PACK_INSTALLER_COPY_SETUP. Thanks Bill.
  # [#24409] RTL/LTR issues in Beez2 and 5 (News feeds and debug)
- 
+
 16-Jan-2011 Jean-Marie Simonet
  # [#24391] Implementing RTL pagination in beez
  # [#23083] Internationalisation of sample data options list. Thanks Christophe.
@@ -2806,11 +3159,11 @@ $ [#25872] *Wrong tip for contact redirect
  $ Correcting lang string typo
  #$ [#24384] Missing Language string Cache Unwritable
  # [#24396] MODULES_ERR_XML incorrectly called. Thanks Michael
- 
+
 14-Jan-2011 Jean-Marie Simonet
  $ Correcting lang string typo
  # [#24377] Adding a "Location" column in Language Manager
- 
+
 13-Jan-2011 Jean-Marie Simonet
  + Adding pt_br.gif flag for langswitcher
  $ [#24328] Inconsistent term for User Group. Thanks Mark.
@@ -2824,7 +3177,7 @@ $ [#25872] *Wrong tip for contact redirect
  # [#24294] Javascript error in installation. Thanks Christophe
  # [#24301] /templates status indicator in backend. Thanks Sergey
  + [#24292] Refresh Cache in Extension Manager: Failed loading XML file
- 
+
 
 -------------------- 1.6.0 Stable Release [10-Jan-2011] ------------------
 
@@ -2979,7 +3332,7 @@ $ [#25872] *Wrong tip for contact redirect
  # [#24118] Update Error pages for Beez2 and Beez5 (Angie Radtke, Elin Waring)
  # [#24138] Hathor security, css, and image update/fixes (Andrea Tarr)
  # [#23971] Category Blog View next page button does not work (Mark Dexter)
- 
+
 06-Jan-2011 Jean-Marie Simonet
  $ Adding es-ES, nl-NL, tr-TR, uk-UA, id-ID, sr-SR, sr-YU in installation
 
@@ -3025,7 +3378,7 @@ $ [#25872] *Wrong tip for contact redirect
  # [#24119] Adding automatically the character * to all required fields in admin and site
  $ [#24126] Feed Count vs. Number of articles in News Feed Manager. Thanks Bill.
  $ [#24127] Obsolete string in the news feeds component language file. Thanks Bill. + updated xx-XX.newsfeeds.sys.ini
- 
+
 
 03-Jan-2011 Mark Dexter
  # [#23845] [Patch] Administrators can create, edit, delete Super Users
@@ -3048,7 +3401,7 @@ $ [#25872] *Wrong tip for contact redirect
 02-Jan-2011 Jean-Marie Simonet
  # [#22509] No message generated on new article creation in the front end. Thanks Christophe.
  # Correcting some hathor headers.
- 
+
 02-Jan-2011 Christophe Demko
  # [#24068] Remove BitFolge library from SQL (Michael Babker)
  # [#23937] Fix some uses of JPATH_ROOT when there is a better alternative (Rouven Weßling)
@@ -3088,19 +3441,19 @@ $ [#25872] *Wrong tip for contact redirect
  # [#24038] Menu views blanked out in menu item type select modal in Hathor (Andrea Tarr)
  # [#23921] Fix more inputs that could be used to inject scripts. (Rouven Weßling)
  # [#24040] Move hardcoded bluestork image in mod_logged to media/system (Andrea Tarr)
- 
+
 30-Dec-2010 Jean-Marie Simonet
  # [#24035] Enable Resize in TinyMCE Extended Mode. Thanks Hans-Stefan and Bill.
  # [#22564] Temp folder has to include JPATH_ROOT for gz extension upload to work. Thanks Sam.
  #$ [#24036] Various issues with default languages and disabled languages. Remains some TODO.
- 
+
 29-Dec-2010 Jean-Marie Simonet
  # [#24027] Allowing site only language packs to load xx-XX.lib_joomla.ini file
  # [#24026] [patch] language 'JError_Checkin_saved' should be 'JLIB_APPLICATION_ERROR_CHECKIN_FAILED'. Thanks Bill and Ray.
  $ [#24017] COM_CONFIG_ACTION_EDITOWN_DESC conceptual issue. Thanks Bill
  # [#23817] Error in installation (joomla.sql). Thanks Mark and Elin
- # [#23919] Admin menu shows global checkin link to those without such rights. Thanks Bill. 
- 
+ # [#23919] Admin menu shows global checkin link to those without such rights. Thanks Bill.
+
 28-Dec-2010 Jean-Marie Simonet
  # [#23983] Admin username and password being saved as FTP credentials if you aren't careful. Thanks Elin.
  $ [#24011] No_Images_Found Text String Missing. Thanks Bill.
@@ -3109,7 +3462,7 @@ $ [#25872] *Wrong tip for contact redirect
  $ Missing lang strings
  # [#23938] Fix a couple of issues related to path configuration. Thanks Rouven.
  $ Modifying some language strings in installation ini file.
- 
+
 27-Dec-2010 Jean-Marie Simonet
  # [#23942] Accessibility fix for sliders. Thanks Andrea.
  $# [#23997] Refactoring language strings for permissions tooltips and Note. + reordering some inis.
@@ -3126,7 +3479,7 @@ $ [#25872] *Wrong tip for contact redirect
 25-Dec-2010 Jean-Marie Simonet
  # [#23970] language string missing COM_BANNERS_FIELD_VALUE_0. Thanks Bill.
  $ [#23927] Bad Translation
- 
+
 25-Dec-2010 Mark Dexter
  # [#23886] Escape Module Class Suffix for all Modules (Rouven Weßling)
  # [#23773] Category not found notice
@@ -3158,7 +3511,7 @@ $ [#25872] *Wrong tip for contact redirect
  $ [#23931] Untranslated String in en-GB.com_banners.ini. Thanks Bill
  $ [#23930] Untranslated String in en-GB.com_categories.ini. Thanks Bill
  $ [#23928] Bad translation in Weblink Component. Thanks Bill.
- 
+
 21-Dec-2010 Christophe Demko
  # [#23894] Components menu item visible in disabled menu (Sander Potjer)
  # [#23782] [PATCH] Fix router calls for components containing hyphens and full stops. (Tom Lee)
@@ -3178,7 +3531,7 @@ $ [#25872] *Wrong tip for contact redirect
  # [#23889] Action ordering com_users. Thanks Sander.
  # [#23880] Contact-form emty. No inputfields. Thanks Bill.
  # [#23820] Missing Lang Strings because of validate.js
- 
+
 18-Dec-2010 Ian MacLennan
  # [#23874] JPluginHelper::importPlugin('users') instead of JPluginHelper::importPlugin('user')
 
@@ -3186,7 +3539,7 @@ $ [#25872] *Wrong tip for contact redirect
  # [#23799] Can't uninstall Beez and Bluestork templates.
  $ Updating Milkyway description
  # [#23865] Missing language string. Thanks Bill.
- 
+
 17-Dec-2010 Jean-Marie Simonet
  # [#23670] Non-installed languages display in the Language Manager Installed view. Thanks Pooja.
  # [#23809] Special characters used in menu names should be converted to HTML equivalents. Thanks Christophe.
@@ -3196,7 +3549,7 @@ $ [#25872] *Wrong tip for contact redirect
  # [#23843] wrong lang string called by com_messages. Thanks Stefania
  # [#23676] Link Weblinks in Module causes error. Thanks Tim.
  $ Missing weblinks error strings in front-end.
- 
+
 17-Dec-2010 Ian MacLennan
  # [#22035] Custom HTML module filtering issues
 
@@ -3214,7 +3567,7 @@ $ [#25872] *Wrong tip for contact redirect
  # Changing link to language packs
  $ [#23797] Correction of language in banner manager. Thanks Bill.
  $ [#23787] Redirect manager state - published or enabled
- 
+
 -------------------- 1.6.0 RC1 Release [14-Dec-2010] ------------------
 
 14-Dec-2010 Mark Dexter
@@ -3228,7 +3581,7 @@ $ [#25872] *Wrong tip for contact redirect
 
 14-Dec-2010 Jean-Marie Simonet
  # [#23771] RTL header display issue (bluestork) + same in admin
- 
+
 14-Dec-2010 Christophe Demko
  # [#23770] unit test are not working on JLanguage since commit on [#23407]
  # [#23749] User with core.admin but not core.manage in com_messages can be selected as recipient of messages (Rouven Weßling)
@@ -3263,7 +3616,7 @@ $ [#25872] *Wrong tip for contact redirect
  # [#23725] Duplicate contradicting messages on send mail error
  # [#23696] Menus creation fail with 1.5-style menus metadata: using SimpleXMLElement attributes missing (string) typecast (Beat)
  # [#23697] Menus with default view have a view=(empty) in URL and are missing other defined attributes and 1.5-type-menu-metada does not display menu type correctly in backend (Beat)
- # Fix up error trying to run installation with [#23745]  
+ # Fix up error trying to run installation with [#23745]
 
 12-Dec-2010 Christophe Demko
  # Checking the table when copy a menu item (missing in [#23721])
@@ -3277,7 +3630,7 @@ $ [#25872] *Wrong tip for contact redirect
 
 11-Dec-2010 Jean-Marie Simonet
  # [#23715] Add Site Name to Page Title not working for articles/newsfeeds/weblinks selected via a category. Thanks Mark
- 
+
 11-Dec-2010 Christophe Demko
  # [#23720] *Changing Home set to ALL languages to another language and reverting = 500 + unpublish message
  # [#22648] function isCompatible incorrectly checks current version (Mark Dexter)
@@ -3292,7 +3645,7 @@ $ [#25872] *Wrong tip for contact redirect
  # [#23291] Improve JBrowser (Rouven Weßling)
 
 10-Dec-2010 Mark Dexter
- ^ [#22730] Assign usergroup to guests (Dennis Hermacki) 
+ ^ [#22730] Assign usergroup to guests (Dennis Hermacki)
 
 10-Dec-2010 Christophe Demko
  # [#23589] mod_latestnews ignores "show featured" setting
@@ -3305,7 +3658,7 @@ $ [#25872] *Wrong tip for contact redirect
  # [#23714] Misc Hathor css fixes. Thanks Andrea.
  $ [#23713] "User Manager: Edit Access Level" has some small errors. Thanks Peter and Bill.
  $ [#23712] "User Manager: Add New View Permission Level" label is not logical. Thanks Peter and Bill
- 
+
 09-Dec-2010 Mark Dexter
  # [#23695] Apply patch 23034 to contacts and newsfeeds
  # [#23690] Fullpath disclosure in template error files
@@ -3424,7 +3777,7 @@ $ [#25872] *Wrong tip for contact redirect
  $ [#23598] The word "warning" cannot be translated. + ordered some strings and updated xx-XX.ini
  # [#23586] Discovering of plugins by the extension manager consider them as installed. Thanks Christophe.
  $ [#23585] Correct Batch Menu Copy/Move Label. Thanks Michael
- 
+
 30-Nov-2010 Christophe Demko
  # [#23532] Strict errors - issues with JCacheController (Ian MacLennan)
  # [#23537] Method signatures don't match causing PHP strict errors - JRouter (Ian MacLennan)
@@ -3457,7 +3810,7 @@ $ [#25872] *Wrong tip for contact redirect
  # [#23557] Super admin requesting password reminder gets wrong Notice. Thanks Christophe.
  # [#23527] Add css3 support for rounded corners to the mozilla/webkit corners in Hathor. Thanks Andrea.
  # [#23450] mod_articles_category register to readmore and alternative readmore Patch attached. Thanks Angie
- 
+
 28-Nov-2010 Jean-Marie Simonet
  # [#22623] stressed titles / utf8 characters don't make it through the return parameter. Thanks Christophe.
 
@@ -3473,7 +3826,7 @@ $ [#25872] *Wrong tip for contact redirect
 
 27-Nov-2010 Jean-Marie Simonet
  $ Moving a string to library ini.
- 
+
 27-Nov-2010 Christophe Demko
  # [#23523] Add Hathor override for the new My Profile view (Andrea Tarr)
  # [#23526] mod_login module does not display correct URL while redirecting
@@ -3489,7 +3842,7 @@ $ [#25872] *Wrong tip for contact redirect
 25-Nov-2010 Jean-Marie Simonet
  # Hiding and correcting related to [#23117]
  # [#23505] SEF off url inconsistencies in category routes. Thanks Andrew.
- 
+
 25-Nov-2010 Christophe Demko
  # [#23462] Checkboxes Form Field is not displayed correctly Options panel (Andrea Tarr)
  # [#23460] com_plugins uses wrong JPATH constants (Ian MacLennan)
@@ -3552,7 +3905,7 @@ $ [#25872] *Wrong tip for contact redirect
  #$ [#23416] Adding descriptions in the images modal
  # [#23413] Module Article categories. Thanks Mark
  # [#23303] Newfeed layouts should show unpublished feeds if logged in. Thanks Mark.
- 
+
 20-Nov-2010 Mark Dexter
  # [#23380] Category manager allows deleting a category that has items assigned to it
  # [#21581] mod_articles_category Fixes. (Omar Ramos)
@@ -3609,7 +3962,7 @@ $ Adding missing strings
  # [#23363] Menu_Item_Root is not translatable + some strings
  $ Missing string values
  # [#23365] Images can be inserted anymore. Thanks Rouven.
- 
+
 17-Nov-2010 Andrew Eddie
  # Fixed issue [#23347] Move profile editing out of com_users and into com_admin
  # Fixed issue [#23110] Any user with create or edit rights to com_user can make a group a superadmin group (Elin Waring).
@@ -3618,7 +3971,7 @@ $ Adding missing strings
  # Fixed issue [#21837] @todo ACL - Disallow creation of Super User & Admin group by non Super User (Michael Babker, Christopher Garvis, Elin Waring).
  # Fixed issue [#23306] "Add New Article" quick icon permissions check (Michael Babker, Elin Waring, Christophe Demko).
  # Fixed issue [#22868] Improving permissions debug (Dennis Hermacki, Andrea Tarr).
-  
+
 16-Nov-2010 Christophe Demko
  # Fix the Edit profile permission
 
@@ -3648,14 +4001,14 @@ $ Adding missing strings
  $ Adding missing string
  # [#23318] Remove hardcoded style so that RTL will work. Thanks Andrea.
  $ Moving and consolidated some strings
- 
+
 14-Nov-2010 Mark Dexter
 # [#21571] category blog view drill down does not maintain layout style
 
 14-Nov-2010 Jean-Marie Simonet
  # [#23217] Move rules strings to library language file and rename keys for consistency. Consolidated some strings.
  # [#21264] RTL issues with media manager. Thanks Andrea.
- 
+
 14-Nov-2010 Christophe Demko
  # [#23167] Remove align and valign attributes from the site (Rouven Weßling)
  # [#23126] Missing images in hathor template (Andrea Tarr)
@@ -3717,10 +4070,10 @@ $ Deleted some redundant ini string
  # [#23132] Some language have issues when translating global strings such as JALL. Thanks Christophe.
  # [#22839] author link redirects to login form and not to profile of author. Thanks Elin and Bill.
  $ [#23149] COM_USERS_ACTIVATION_TOKEN_NOT_FOUND message has no translation. Thanks Ronald
-  
+
 09-Nov-2010 Mark Dexter
 # [#23054] Follow up on Issue 22932 - Alternate Layouts for Components
-# Fix PHP notice problem with [#23054] 
+# Fix PHP notice problem with [#23054]
 
 08-Nov-2010 Ian MacLennan
  # [21571] Reverting commit to examine closer
@@ -3765,7 +4118,7 @@ $ Deleted some redundant ini string
 05-Nov-2010 Jean-Marie Simonet
  # [#21798] Saving Profile Plugin configuration disables Profile, Thanks Mathavan and Elin.
  #$ Enabling dashes in template ini keys for positions. Adding these strings for admin templates. + some.
- 
+
 04-Nov-2010 Christophe Demko
  # [#23096] Clarification & Simplification of ACL UI (Andrew Eddie, Andrew Tarr)
 
@@ -3814,7 +4167,7 @@ $ Deleted some redundant ini string
  # [#23076] Plugin Edits not checking back in in Bluestork. Thanks Andrea.
  # [#23066] Single edit fix issues in Hathor. Thanks Andrea
  # [#23080] Hathor menu batch copy strings. Thanks Bill.
- 
+
 30-Oct-2010 Mark Dexter
 # [#21529] Aliases for _adminmenu items [sample data/joomla.sql]
 # [#23046] Delete unused vcard files
@@ -3829,11 +4182,11 @@ $ Deleted some redundant ini string
 
 29-Oct-2010 Mark Dexter
 # Recommitting [#22178] When 'No Editor' is selected for user, HTML still re-formats when a file is saved (with joomla.sql fix)
-# Reverting issue [#22178] When 'No Editor' is selected for user, HTML still re-formats when a file is saved (dani shap, Ian MacLennan, Hannes Papenberg, Elin Waring). 
+# Reverting issue [#22178] When 'No Editor' is selected for user, HTML still re-formats when a file is saved (dani shap, Ian MacLennan, Hannes Papenberg, Elin Waring).
 
 29-Oct-2010 Jean-Marie Simonet
  $ Updatings templates language folder sys.ini files for modules positions.
- 
+
 29-Oct-2010 Andrew Eddie
  # Fixed issue [#21260] ACL Permissions for Authors to Edit Own Content Items Missing (James Brice, Elin Waring, Michael Babker).
  # Fixed issue [#22389] JFormFieldCategory et al not selecting default from list view (Boris Baddenoff, Mathavan Jeyadev).
@@ -3842,7 +4195,7 @@ $ Deleted some redundant ini string
  # Fixed issue [#22178] When 'No Editor' is selected for user, HTML still re-formats when a file is saved (dani shap, Ian MacLennan, Hannes Papenberg, Elin Waring).
  # Fixed issue [#22556] *Wrong messages when uninstalling core components (Jean-Marie Simonet, Ramindu Deshapriya).
  # Fixed bug in JTableNested unit test due to changes in the publish method.
- 
+
 28-Oct-2010 Mark Dexter
  # [#22878] Contact menu items don't work correctly with published state of contacts and contact categories
 
@@ -3853,7 +4206,7 @@ $ Deleted some redundant ini string
  # [#23037] TinyMCE resizing settings. Thanks Dennis.
  # [#23040] Right arrows aren't vertically centered in "Permissions setting". Thanks Dennis.
  ^ Updating pending and expired old 1.5 icons to new format (Temp)
- 
+
 28-Oct-2010 Andrew Eddie
  # Fixed issue [#23041] Incorrect testing for variable is an instance of a class (marius van rijnsoever).
  # Fixed issue [#23032] Help system is generating incorrect URLs (Chris Davenport, Dennis Hermacki).
@@ -3867,7 +4220,7 @@ $ Deleted some redundant ini string
  # [#23018] Clean up Legacy() method from content/contact helpers. Thanks Louis.
  # Missing RTL css in bluestork.
  # [#22619] SEF issue with mod_rewrite on when period in the alias.
- 
+
 26-Oct-2010 Ian MacLennan
  # [#22987] using getElementById('adminForm') in submitform breaks Joomla 1.5 compatibility
 
@@ -3880,7 +4233,7 @@ $ Deleted some redundant ini string
  # Forgotten getLayout() change for pagebreak in rev 22932
  # [#23004] pagenavigation plugin generates incorrect XHTML. Thanks Bill and Rouven.
  # [#22981] Hathor RTL login CSS issues in Safari. Thanks Andrea.
- 
+
 24-Oct-2010 Jean-Marie Simonet
  # [#22667] Login/Logout Redirect not working. Thanks Mathavan and Christophe.
  # [#22626] Parent Item selection does not update when Menu Location is changed. Thanks Mathavan.
@@ -3892,7 +4245,7 @@ $ Deleted some redundant ini string
  # [#22879] [patch] com_content: it's not possible to set title, introtext or fulltext to zero ("0"). Thanks Artyom.
  # [#22980] RTL fix for ACL Permission in Bluestork and Hathor. Thanks Andrea.
  # [#22876] Shifting of Elements on Screen when Options Box with Blocking Opens. Thanks Mathavan.
- 
+
 23-Oct-2010 Christophe Demko
  # [#22442] available module positions
 
@@ -3900,7 +4253,7 @@ $ Deleted some redundant ini string
  # [#22970] Menu item set to "registered" does not display when superuser logs in. Thanks Elin
  # [#22959] Language switcher forbids you from reading content in a second language. No way to disable filtering. Thanks Christophe.
  # [#22783] Error on front end, "the template for this display is not available" Thanks I Otura, Christophe and Bill.
- 
+
 22-Oct-2010 Christophe Demko
  # [#21386] Category field includes categories user does not have permission to save to. (Elin Waring)
  # [#22932] Several issues in layouts
@@ -3941,7 +4294,7 @@ $ Deleted some redundant ini string
  # [#21635] fail to copy menu item. Thanks Mathavan and Louis
  $ [#22914] COM_SEARCH_EXACT_PHRASE doesn't need the colon at end. Thanks Bill.
  # Reverting [#21635] as it breaks re-save article when debug on.
- 
+
 15-Oct-2010 Jean-Marie Simonet
  # Making core site templates installable/uninstallable. Changed protected template from milkyway to beez2.
 
@@ -3982,7 +4335,7 @@ $ Deleted some redundant ini string
  # [#22835] Enabling browser lang sniffing in langfilter system plugin.
  # [#22858] news feed - 2 level subcategory feed name link causes error. Thanks Bill.
  # [#22535] Missing always fulltext value in com_content article view. Thanks Angie and Christophe.
- 
+
 13-Oct-2010 Andrew Eddie
  # Fixed issue [#21343] Email is not spamprotected in search (Janich Rasmussen, Joseph LeBlanc, Hannes Papenberg).
  # Fixed issue [#22809] [patch] loadmodule plugin incorrectly handles positions with the same name (Artyom Bisyarin).
@@ -3994,7 +4347,7 @@ $ Deleted some redundant ini string
  # [#22755] Backend module menu assignment improvements and fixes. Thanks Dennis.
  # [#21792] Alternate Page Title does not show. Thanks Bill.
  $# Separating joomla libraries ini strings from main ini. Temporary load via application.php. TBD: load through library to prepare for framework separation.
- 
+
 11-Oct-2010 Mark Dexter
 # [#22819] Clean up errors in new ACL UI
 
@@ -4030,11 +4383,11 @@ $ Deleted some redundant ini string
 
 6-Oct-2010 Ron Severdia
  ^ Updated Blueprint to 1.0 in Atomic (Thanks Christian Montoya)
- 
+
 6-Oct-2010 Andrew Eddie
  # Partially Fixed [#21260] ACL Permissions for Authors to Edit Own Content Items Missing.
  # Partially Fixed [#22529] Permissions UI patch backend (Angie Radtke, Michael Babker, Elin Waring, Christophe Demko).
- 
+
 5-Oct-2010 Christophe Demko
  # [#22438] Wrong value before the search input box (I think) (thanks Ronald de Vries, bill richardson, Rouven Weßling, Elin Waring)
  # [#22675] Com_Categories mistake in xml (thanks Elin)
@@ -4048,7 +4401,7 @@ $ Deleted some redundant ini string
 
 5-Oct-2010 Jean-Marie Simonet
  $ Normalizing some strings.
- 
+
 4-oct-2010 Christophe Demko
  # [#22049] Site Maintenance Menu (thanks bill richardson, Mathavan Jeyadev)
 
@@ -4067,7 +4420,7 @@ $ Deleted some redundant ini string
 
 30-Sep-2010 Jean-Marie Simonet
  # [#22582] Menu location lost after pressing "Save & New". Thanks Mathavan
- 
+
 29-Sep-2010 Jean-Marie Simonet
  # [#22512] Category didn't load component translations. Thanks Christophe and Marcelo.
  # [#22591] Trashing an item in Featured Articles view redirects to non-Featured Articles view. Thanks Mathavan.
@@ -4077,7 +4430,7 @@ $ Deleted some redundant ini string
  ^ Updated Atomic preview & thumbnail
  ^ Updated Blueprint plug-ins
  # Fix validation issue in Atomic login override
- 
+
 28-Sep-2010 Christophe Demko
  # [#22603] XML well formedness errors in com_messages and com_weblinks (thanks Rouven Weßling)
  # [#22125] We don't have CSS for system "warning" messages - deleting and moving icons
@@ -4092,7 +4445,7 @@ $ Deleted some redundant ini string
  # [#21825] Pagebreak and Article Buttons don't work when using CodeMirror. Thanks Mathavan.
  $ Adding missing strings in front-end
  #  [#22432] Administrator login form not consistent in Chrome. Thanks Bill and Viet.
- 
+
 26-Sep-2010 Jean-Marie Simonet
  # [#22596] Implementing language filtering in modals + normalizing filters/columns + fixing Newsfeeds language filtering
 
@@ -4129,31 +4482,31 @@ $ Deleted some redundant ini string
  # [#22497] Adding Written by in Article Edit icon overlib in front-end
  # [#22498] Translating Manager Extensions Types for install/uninstall messages.
  $ Added missing string.
-  
+
 17-Sep-2010 Jean-Marie Simonet
  # [#22466] Registration failed message when mail function doesn't work. Thanks Roland.
  # [#22100] Unable to view unpublished article in frontend. Thanks Elin.
  # [#22481] Patch: Templates Date column blank. Thanks Ole.
  $ [#22471] Module banners - description. Thanks Bill.
  # [#22470] Incorrect vertical align of system message icon in Bluestork. Thanks Viet.
- 
+
 16-Sep-2010 Jean-Marie Simonet
  $ [#22461] Module articles - newsflash - description. Thanks Bill
  # Took off forgotten echo from 22418
  # [#22448] Weblink search year gives -0001 for new weblinks. Thanks Ole.
- 
+
 15-Sep-2010 Mark Dexter
-# Sample data fixes (Thanks Elin Waring) 
+# Sample data fixes (Thanks Elin Waring)
 
 15-Sep-2010 Christophe Demko
  # [#22418] Category Manager page title no longer includes component name
- 
+
 15-Sep-2010 Jean-Marie Simonet
  # [#22450] Add level filter to admin categories view. Thanks Andrew and Christophe.
  $ Changed figures to strings in Menu items manager maxlevels filter
  # [#22427] Module Manager: Modules - Module Filter Only Lists "Administrator Menu" at times. Thanks Michael.
  # [#22440] default module positions. Thanks Christophe.
- 
+
 15-Sep-2010 Andrew Eddie
  # Fixed issue [#22125] We don't have CSS for system "warning" messages (Artyom Bisyarin, Elin Waring).
  # Fixed issue [#22385] Make meta data not required (Elin Waring).
@@ -4202,7 +4555,7 @@ $ Deleted some redundant ini string
  # [#21762] Menu module displaying levels incorrectly. Thanks Bill.
  $ Updated xx-XX.ini admin.
  # [#21295] No articles in this category below of sub-category list. Thanks Bill.
- 
+
 12-Sep-2010 Sam Moffatt
  # [#22381] Sample missing banner white.png
  - Removed OpenID support
@@ -4210,7 +4563,7 @@ $ Deleted some redundant ini string
 11-Sep-2010 Jean-Marie Simonet
  $ [#22383] Patch: Language file corrections, minor typos. Thanks Ole.
  ^ Correcting double semi-colons in css files
- 
+
 10-Sep-2010 Ian MacLennan
  # [#22086] Inconsistency with files installer return type
  # [#22301] Adding new group has a notice message, not a normal message
@@ -4261,7 +4614,7 @@ $ Deleted some redundant ini string
  ^ Updated Blueprint cheatsheet
  ^ Updated backend users icon
  # [#21746] Bluestork display issue with Permissions views in IE7
- 
+
 06-Sep-2010 Ian MacLennan
  # [#21573] Error in flash uploader
  # [#22018] The alert of "failed" creating a menu item doesn't look like a Failed (admin default template)
@@ -4290,13 +4643,13 @@ $ Deleted some redundant ini string
  $ [#22192] Code Mirror tab mode description missing.Thanks Bill.
  # [#22275] Two check-in buttons in Newsfeeds. Thanks Michael.
  # [#22207] toolbar icon divider in administrator template. Thanks Bill.
- 
+
 03-Sep-2010 Mark Dexter
  # Fix syntax errors in diff_15_to_16.sql (Elin Waring)
 
 03-Sep-2010 Jean-Marie Simonet
  # [#22186] beez2 - Park links right module displacement.
- 
+
 03-Sep-2010 Andrew Eddie
  # Fixed issue [#22248] Fix inappropriate code comment (Brian Teeman, Bill Richardson).
  # Fixing issue [#21447] - Added user.debug task to user controller to assist with access control testing.
@@ -4327,14 +4680,14 @@ $ Deleted some redundant ini string
 
 31-Aug-2010 Jean-Marie Simonet
  # [#22150] hathor menu type - unable to select type. Thanks Bill.
- # [#22161] edit article - show icons and + param missing 
+ # [#22161] edit article - show icons and + param missing
  # [#21932] checkall-toggle does not work with Hathor template on User Manager: Users screen. Thanks Andrea.
  # [#20920] Featured Button Missing on Front End Article Submission. Thanks Hannes.
  $ Reordered front-end en-GB.ini strings
  $ Modified publish/unpublish to enable/disable in Extension Manager->Manage toolbars
  $ [#22156] edit weblink - order description missing. Thanks Bill.
  $ [#22152] permissions edit terms inconsistency. Thanks Bill.
- 
+
 30-Aug-2010 Jean-Marie Simonet
  # [#22050] useful joomla links menu. Thanks Bill.
  # [#22046] cannot unblock users. Thanks Michael and Dennis.
@@ -4347,7 +4700,7 @@ $ Deleted some redundant ini string
  # Fixed issue [#22102] E-mail field in contact editing does not validate (Roland Dalmulder).
 
 29-Aug-2010 Jean-Marie Simonet
- # [#22023] Enlarge inputbox for article title on modal select. 
+ # [#22023] Enlarge inputbox for article title on modal select.
  # [#22104] hathor col fix. Thanks Bill.
 
 28-Aug-2010 Mark Dexter
@@ -4374,7 +4727,7 @@ $ Deleted some redundant ini string
  # Fixed issue [#20847] Remove _self in mod_random_image (Amy Stephen, Rouven Weßling).
  # Fixed issue [#9627] Installation of admin e-mail with plus symbol not validating (Richard Vazquez, Hannes Papenberg, Christophe Demko, Ian MacLennan).
  # Fixed issue [#21924] form element "hidden" not entirely hidden (Boris Baddenoff, Bill Richardson).
- 
+
 27-Aug-2010 Sam Moffatt
  # Fixed issue with com_admin XML manifest file (excessive new line)
  + Added joomla.xml file for future updates and tracking

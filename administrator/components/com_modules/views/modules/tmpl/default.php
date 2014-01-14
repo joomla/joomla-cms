@@ -2,7 +2,7 @@
 /**
  * @package		Joomla.Administrator
  * @subpackage	com_modules
- * @copyright	Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -190,7 +190,7 @@ $saveOrder	= $listOrder == 'ordering';
 	</table>
 
 	<?php //Load the batch processing form.is user is allowed ?>
-	<?php if($user->authorize('core.create', 'com_modules') || $user->authorize('core.edit', 'com_modules')) : ?>
+	<?php if($user->authorize('core.create', 'com_modules') && $user->authorize('core.edit', 'com_modules') && $user->authorize('core.edit.state', 'com_modules')) : ?>
 		<?php echo $this->loadTemplate('batch'); ?>
 	<?php endif;?>
 
