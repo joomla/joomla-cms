@@ -1202,6 +1202,12 @@ class JTableNested extends JTable
 	 */
 	public function getRootId()
 	{
+		static $root_id = 0;
+		if ($root_id !== 0)
+		{
+			return $root_id;
+		}
+
 		// Get the root item.
 		$k = $this->_tbl_key;
 
@@ -1215,7 +1221,8 @@ class JTableNested extends JTable
 
 		if (count($result) == 1)
 		{
-			return $result[0];
+			$root_id = $result[0];
+			return $root_id;
 		}
 
 		// Test for a unique record with lft = 0
@@ -1228,7 +1235,8 @@ class JTableNested extends JTable
 
 		if (count($result) == 1)
 		{
-			return $result[0];
+			$root_id = $result[0];
+			return $root_id;
 		}
 
 		$fields = $this->getFields();
@@ -1245,12 +1253,14 @@ class JTableNested extends JTable
 
 			if (count($result) == 1)
 			{
-				return $result[0];
+				$root_id = $result[0];
+				return $root_id;
 			}
 		}
 
 		$e = new UnexpectedValueException(sprintf('%s::getRootId', get_class($this)));
 		$this->setError($e);
+		$root_id = false;
 
 		return false;
 	}
