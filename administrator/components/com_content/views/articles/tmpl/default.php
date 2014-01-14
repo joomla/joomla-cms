@@ -24,6 +24,16 @@ $archived	= $this->state->get('filter.published') == 2 ? true : false;
 $trashed	= $this->state->get('filter.published') == -2 ? true : false;
 $saveOrder	= $listOrder == 'a.ordering';
 
+$saveListPref =  $app->input->get('setdefault', '');
+$returnSaveDefaultURL = 'index.php?option=com_content&view=articles';
+
+if ($saveListPref=='list_defaultordering')
+{
+	$this->saveDefault("1", $listOrder, $listDirn);
+	$app->enqueueMessage(JText::_('JGLOBAL_DEFAULT_LIST_FULLORDERING_SUCCESS'), 'message');
+	$app->redirect($returnSaveDefaultURL);
+}
+
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_content&task=articles.saveOrderAjax&tmpl=component';
@@ -68,7 +78,6 @@ $assoc		= JLanguageAssociations::isEnabled();
 			<div class="alert alert-no-items">
 				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
-<<<<<<< HEAD
 		<?php else : ?>
 			<table class="table table-striped" id="articleList">
 				<thead>
@@ -122,118 +131,6 @@ $assoc		= JLanguageAssociations::isEnabled();
 					?>
 					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->catid; ?>">
 						<td class="order nowrap center hidden-phone">
-=======
-			<div class="btn-group pull-right">
-				<label for="sortTable" class="element-invisible"><?php echo JText::_('JGLOBAL_SORT_BY'); ?></label>
-				<select name="sortTable" id="sortTable" class="input-medium" onchange="Joomla.orderTable()">
-					<option value=""><?php echo JText::_('JGLOBAL_SORT_BY');?></option>
-					<?php echo JHtml::_('select.options', $sortFields, 'value', 'text', $listOrder); ?>
-				</select>
-			</div>
-		</div>
-		<div class="clearfix"> </div>
-
-		<table class="table table-striped" id="articleList">
-			<thead>
-				<tr>
-					<th width="1%" class="nowrap center hidden-phone">
-						<?php echo JHtml::_('grid.sort', '<i class="icon-menu-2"></i>', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING'); ?>
-					</th>
-					<th width="1%" class="hidden-phone">
-						<?php echo JHtml::_('grid.checkall'); ?>
-					</th>
-					<th width="1%" style="min-width:55px" class="nowrap center">
-						<?php echo JHtml::_('grid.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
-					</th>
-					<th>
-						<?php echo JHtml::_('grid.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
-					</th>
-					<th width="10%" class="nowrap hidden-phone">
-						<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
-					</th>
-				<?php if ($assoc) : ?>
-					<th width="5%" class="nowrap hidden-phone">
-						<?php echo JHtml::_('grid.sort', 'COM_CONTENT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
-					</th>
-				<?php endif;?>
-					<th width="10%" class="nowrap hidden-phone">
-						<?php echo JHtml::_('grid.sort',  'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
-					</th>
-					<th width="5%" class="nowrap hidden-phone">
-						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
-					</th>
-					<th width="10%" class="nowrap hidden-phone">
-						<?php echo JHtml::_('grid.sort', 'JDATE', 'a.created', $listDirn, $listOrder); ?>
-					</th>
-					<th width="10%">
-						<?php echo JHtml::_('grid.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
-					</th>
-					<th width="1%" class="nowrap hidden-phone">
-						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
-					</th>
-				</tr>
-			</thead>
-			<tbody>
-			<?php foreach ($this->items as $i => $item) :
-				$item->max_ordering = 0; //??
-				$ordering   = ($listOrder == 'a.ordering');
-				$canCreate  = $user->authorise('core.create',     'com_content.category.'.$item->catid);
-				$canEdit    = $user->authorise('core.edit',       'com_content.article.'.$item->id);
-				$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
-				$canEditOwn = $user->authorise('core.edit.own',   'com_content.article.'.$item->id) && $item->created_by == $userId;
-				$canChange  = $user->authorise('core.edit.state', 'com_content.article.'.$item->id) && $canCheckin;
-				?>
-				<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->catid; ?>">
-					<td class="order nowrap center hidden-phone">
-						<?php
-						$iconClass = '';
-						if (!$canChange)
-						{
-							$iconClass = ' inactive';
-						}
-						elseif (!$saveOrder)
-						{
-							$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::tooltipText('JORDERINGDISABLED');
-						}
-						?>
-						<span class="sortable-handler<?php echo $iconClass ?>">
-							<i class="icon-menu"></i>
-						</span>
-						<?php if ($canChange && $saveOrder) : ?>
-							<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order " />
-						<?php endif; ?>
-					</td>
-					<td class="center hidden-phone">
-						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
-					</td>
-					<td class="center">
-						<div class="btn-group">
-							<?php echo JHtml::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-							<?php echo JHtml::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
-						</div>
-					</td>
-					<td class="has-context">
-						<div class="pull-left">
-							<?php if ($item->checked_out) : ?>
-								<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
-							<?php endif; ?>
-							<?php if ($item->language == '*'):?>
-								<?php $language = JText::alt('JALL', 'language'); ?>
-							<?php else:?>
-								<?php $language = $item->language_title ? $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-							<?php endif;?>
-							<?php if ($canEdit || $canEditOwn) : ?>
-								<a href="<?php echo JRoute::_('index.php?option=com_content&task=article.edit&id=' . $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
-									<?php echo $this->escape($item->title); ?></a>
-							<?php else : ?>
-								<span title="<?php echo JText::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
-							<?php endif; ?>
-							<div class="small">
-								<?php echo JText::_('JCATEGORY') . ": " . $this->escape($item->category_title); ?>
-							</div>
-						</div>
-						<div class="pull-left">
->>>>>>> bc4efc30b037b74c4f1dc577e1b899731791139f
 							<?php
 							$iconClass = '';
 							if (!$canChange)

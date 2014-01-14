@@ -166,4 +166,49 @@ class ContentViewArticles extends JViewLegacy
 			'a.featured'     => JText::_('JFEATURED')
 		);
 	}
+
+	/**
+	 * Update Params if Set Default
+	 *
+	 * @since   3.2
+	 */
+	public function saveDefault($saveDefaultOrdering, $listOrder, $listDirn)
+	{
+		if ($saveDefaultOrdering == '1') {
+			$params['admin_articles_ordering'] = $listOrder;
+			$params['admin_articles_dir'] = $listDirn;
+
+			$this->updateParams( $params );
+		}
+	}
+
+	/**
+	 * Save Default Ordering in Params
+	 *
+	 * Update Database
+	 *
+	 * @since   3.2
+	 */
+	protected function updateParams($params_array) {
+		if ( count($params_array) > 0 ) {
+
+			// read the existing component value(s)
+			$db = JFactory::getDbo();
+			$db->setQuery('SELECT params FROM #__extensions WHERE name = "com_content"');
+			$params = json_decode( $db->loadResult(), true );
+
+			// add the new variable(s) to the existing one(s)
+			foreach ( $params_array as $name => $value )
+			{
+				$params[ (string) $name ] = (string) $value;
+			}
+
+			// store the combined new and existing values back as a JSON string
+			$paramsString = json_encode( $params );
+			$db->setQuery('UPDATE #__extensions SET params = ' .
+				$db->quote( $paramsString ) .
+				' WHERE name = "com_content"' );
+				$db->query();
+		}
+	}
 }
