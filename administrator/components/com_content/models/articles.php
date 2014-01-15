@@ -392,46 +392,4 @@ class ContentModelArticles extends JModelList
 
 		return $items;
 	}
-
-	public static function configDefaultOrder($orderby)
-	{
-
-		switch ($orderby)
-		{
-			case 'date' :
-				$orderby = 'a.created, asc';
-				break;
-
-			case 'rdate' :
-				$orderby = 'a.created, desc';
-				break;
-
-			case 'alpha' :
-				$orderby = 'a.title, asc';
-				break;
-
-			case 'ralpha' :
-				$orderby = 'a.title, desc';
-				break;
-
-			case 'author' :
-				$orderby = 'a.created_by, asc';
-				break;
-
-			case 'rauthor' :
-				$orderby = 'a.created_by, desc';
-				break;
-
-			case 'hits' :
-				$orderby = 'a.hits, desc';
-				break;
-
-			case 'rhits' :
-				$orderby = 'a.hits, asc';
-				break;
-
-		}
-
-		return $orderby;
-	}
 }
