@@ -298,7 +298,7 @@
 
 		<field name="admin_articles_ordering"
 			type="hidden"
-			default="date"
+			default="a.title"
 		/>
 
 		<field name="admin_articles_dir"
