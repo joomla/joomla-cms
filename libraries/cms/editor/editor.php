@@ -282,6 +282,8 @@ class JEditor extends JObject
 	{
 		$this->asset = $asset;
 		$this->author = $author;
+		$params['html_width'] = $width;
+		$params['html_height'] = $height;
 		$this->_loadEditor($params);
 
 		// Check whether editor is already loaded
