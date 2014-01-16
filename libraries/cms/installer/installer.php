@@ -287,7 +287,7 @@ class JInstaller extends JAdapter
 	 */
 	public function setPath($name, $value)
 	{
-		$this->paths[$name] = $value;
+		$this->paths[$name] = trim($value);
 	}
 
 	/**
@@ -909,7 +909,7 @@ class JInstaller extends JAdapter
 
 			if ($fCharset == 'utf8' && $fDriver == $dbDriver)
 			{
-				$sqlfile = $this->getPath('extension_root') . '/' . $file;
+				$sqlfile = $this->getPath('extension_root') . '/' . trim($file);
 
 				// Check that sql files exists before reading. Otherwise raise error for rollback
 				if (!file_exists($sqlfile))
