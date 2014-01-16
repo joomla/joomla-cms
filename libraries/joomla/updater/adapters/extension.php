@@ -65,6 +65,10 @@ class JUpdaterExtension extends JUpdateAdapter
 				{
 					$this->currentUpdate->targetplatform = $attrs;
 				}
+				if ($name == 'PHP_MINIMUM')
+				{
+					$this->currentUpdate->php_minimum = '';
+				}
 				break;
 		}
 	}
@@ -99,11 +103,25 @@ class JUpdaterExtension extends JUpdateAdapter
 					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) || $ver->DEV_LEVEL >= $this->currentUpdate->targetplatform->min_dev_level)
 					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || $ver->DEV_LEVEL <= $this->currentUpdate->targetplatform->max_dev_level))
 				{
-					// Target platform isn't a valid field in the update table so unset it to prevent J! from trying to store it
-					unset($this->currentUpdate ->targetplatform);
+					// Target platform and php_minimum aren't valid fields in the update table so unset them to prevent J! from trying to store them
+					unset($this->currentUpdate->targetplatform);
+
 					if (isset($this->latest))
 					{
-						if (version_compare($this->currentUpdate ->version, $this->latest->version, '>') == 1)
+						// Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
+						if ((isset($this->currentUpdate->php_minimum) && version_compare(PHP_VERSION, $this->currentUpdate->php_minimum, '>='))
+							|| !isset($this->currentUpdate->php_minimum))
+						{
+							unset($this->currentUpdate->php_minimum);
+
+							$phpMatch = true;
+						}
+						else
+						{
+							$phpMatch = false;
+						}
+
+						if ($phpMatch && version_compare($this->currentUpdate->version, $this->latest->version, '>') == 1)
 						{
 							$this->latest = $this->currentUpdate;
 						}
@@ -143,6 +161,11 @@ class JUpdaterExtension extends JUpdateAdapter
 		{
 			$tag = strtolower($tag);
 			$this->currentUpdate->$tag .= $data;
+		}
+
+		if ($tag == 'PHP_MINIMUM')
+		{
+			$this->currentUpdate->php_minimum = $data;
 		}
 	}
 

@@ -293,7 +293,18 @@ class JUpdate extends JObject
 				{
 					if (isset($this->latest))
 					{
-						if (version_compare($this->currentUpdate->version->_data, $this->latest->version->_data, '>') == 1)
+						// Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
+						if ((isset($this->currentUpdate->php_minimum) && version_compare(PHP_VERSION, $this->currentUpdate->php_minimum, '>='))
+							|| !isset($this->currentUpdate->php_minimum))
+						{
+							$phpMatch = true;
+						}
+						else
+						{
+							$phpMatch = false;
+						}
+
+						if ($phpMatch && version_compare($this->currentUpdate->version, $this->latest->version, '>') == 1)
 						{
 							$this->latest = $this->currentUpdate;
 						}
