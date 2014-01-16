@@ -104,7 +104,7 @@ class JHtmlIcon
 
 		$url	= 'index.php?option=com_content&task=article.edit&a_id='.$article->id.'&return='.base64_encode(urlencode($uri));
 		$icon	= $article->state ? 'edit.png' : 'edit_unpublished.png';
-		if ($article->publish_up > JFactory::getDate())
+		if (strtotime($article->publish_up) > strtotime(JFactory::getDate()))
 		{
 			$icon = 'edit_unpublished.png';
 		}
