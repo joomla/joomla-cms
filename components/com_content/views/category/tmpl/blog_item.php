@@ -19,7 +19,7 @@ JHtml::_('behavior.framework');
 
 ?>
 
-<?php if ($this->item->state == 0) : ?>
+<?php if ($this->item->state == 0 || $this->item->publish_up > JFactory::getDate()) : ?>
 <div class="system-unpublished">
 <?php endif; ?>
 <?php if ($params->get('show_title')) : ?>
@@ -167,7 +167,7 @@ JHtml::_('behavior.framework');
 		</p>
 <?php endif; ?>
 
-<?php if ($this->item->state == 0) : ?>
+<?php if ($this->item->state == 0 || $this->item->publish_up > JFactory::getDate()) : ?>
 </div>
 <?php endif; ?>
 
