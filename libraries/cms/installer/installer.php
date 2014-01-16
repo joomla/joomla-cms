@@ -287,7 +287,7 @@ class JInstaller extends JAdapter
 	 */
 	public function setPath($name, $value)
 	{
-		$this->paths[$name] = trim($value);
+		$this->paths[$name] = $value;
 	}
 
 	/**
