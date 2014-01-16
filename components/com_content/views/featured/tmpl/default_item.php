@@ -15,7 +15,7 @@ $images = json_decode($this->item->images);
 $canEdit	= $this->item->params->get('access-edit');
 ?>
 
-<?php if ($this->item->state == 0 || $this->item->publish_up > JFactory::getDate()) : ?>
+<?php if ($this->item->state == 0 || strtotime($this->item->publish_up) > strtotime(JFactory::getDate())) : ?>
 <div class="system-unpublished">
 <?php endif; ?>
 <?php if ($params->get('show_title')) : ?>
@@ -167,7 +167,7 @@ $canEdit	= $this->item->params->get('access-edit');
 		</p>
 <?php endif; ?>
 
-<?php if ($this->item->state == 0 || $this->item->publish_up > JFactory::getDate()) : ?>
+<?php if ($this->item->state == 0 || strtotime($this->item->publish_up) > strtotime(JFactory::getDate())) : ?>
 </div>
 <?php endif; ?>
 

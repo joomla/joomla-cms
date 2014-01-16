@@ -24,7 +24,7 @@ if ($templateparams->get('html5')!=1)
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 ?>
 
-<?php if ($this->item->state == 0 || $this->item->publish_up > JFactory::getDate()) : ?>
+<?php if ($this->item->state == 0 || strtotime($this->item->publish_up) > strtotime(JFactory::getDate())) : ?>
 <?php endif; ?>
 <?php if ($params->get('show_title')) : ?>
 	<h2>
@@ -176,7 +176,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 		</p>
 <?php endif; ?>
 
-<?php if ($this->item->state == 0 || $this->item->publish_up > JFactory::getDate()) : ?>
+<?php if ($this->item->state == 0 || strtotime($this->item->publish_up) > strtotime(JFactory::getDate())) : ?>
 </div>
 <?php endif; ?>
 
