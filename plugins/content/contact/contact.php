@@ -43,7 +43,7 @@ class PlgContentContact extends JPlugin
 		}
 
 		// Return if we don't have a valid article id
-		if (!isset($row->id) || !(int)$row->id)
+		if (!isset($row->id) || !(int) $row->id)
 		{
 			return true;
 		}
