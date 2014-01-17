@@ -43,7 +43,35 @@ class JFeedFactory
 		// Open the URI within the stream reader.
 		if (!$reader->open($uri, null, LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_NOWARNING))
 		{
-			throw new RuntimeException('Unable to open the feed.');
+			// IF allow_url_fopen is enabled or CURL is not available
+			if( ini_get('allow_url_fopen') || !function_exists( "curl_init" ) )
+			{
+				// This is an error
+				throw new RuntimeException('Unable to open the feed.');
+			}
+			// Otherwise, retry with usage of CURL
+			else
+			{
+				// Resuce with CURL
+				$ch = curl_init();
+				$timeout = 5;
+				curl_setopt ($ch, CURLOPT_URL, $uri);
+				curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
+				curl_setopt ($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+				$file_contents = curl_exec($ch);
+				$error  = curl_error( $ch);
+				curl_close($ch);
+				
+				if( !empty( $error ))
+				{
+					throw new RuntimeException('Unable to open the feed with CURL.');
+				}
+				// Set the value to the XMLReader parser
+				if ( !$reader->xml( $file_contents, null, LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_NOWARNING))
+				{
+					throw new RuntimeException('Unable to parse the feed.');
+				}
+			}
 		}
 
 		try
