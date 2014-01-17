@@ -111,14 +111,25 @@ class JUpdaterExtension extends JUpdateAdapter
 						// Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
 						if (!isset($this->currentUpdate->php_minimum) || version_compare(PHP_VERSION, $this->currentUpdate->php_minimum, '>='))
 						{
-							unset($this->currentUpdate->php_minimum);
-
 							$phpMatch = true;
 						}
 						else
 						{
+							// Notify the user of the potential update
+							$msg = JText::sprintf(
+								'JLIB_INSTALLER_AVAILABLE_UPDATE_PHP_VERSION',
+								$this->currentUpdate->name,
+								$this->currentUpdate->version,
+								$this->currentUpdate->php_minimum,
+								PHP_VERSION
+							);
+
+							JFactory::getApplication()->enqueueMessage($msg, 'warning');
+
 							$phpMatch = false;
 						}
+
+						unset($this->currentUpdate->php_minimum);
 
 						if ($phpMatch && version_compare($this->currentUpdate->version, $this->latest->version, '>') == 1)
 						{
