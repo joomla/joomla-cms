@@ -285,7 +285,8 @@
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
-			<field
+
+		<field
 			name="urls_position"
 			type="list"
 			default="0"
@@ -294,6 +295,17 @@
 			<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 			<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
 		</field>
+
+		<field name="admin_articles_ordering"
+			type="hidden"
+			default="a.title"
+		/>
+
+		<field name="admin_articles_dir"
+			type="hidden"
+			default="ASC"
+		/>
+
 	</fieldset>
 	<fieldset name="editinglayout" label="COM_CONTENT_EDITING_LAYOUT"
 				description="COM_CONTENT_CONFIG_EDITOR_LAYOUT">
@@ -403,7 +415,7 @@
 				<option value="1">JBROWSERTARGET_NEW</option>
 				<option value="2">JBROWSERTARGET_POPUP</option>
 				<option value="3">JBROWSERTARGET_MODAL</option>
-		</field>	
+		</field>
 		<field
 			name="spacer4"
 			type="spacer"
@@ -444,7 +456,7 @@
 			extension="com_content"
 			view="category"
 		/>
-		<field 
+		<field
 			name="show_category_heading_title_text"
 			type="radio"
 			class="btn-group btn-group-yesno"
@@ -876,7 +888,6 @@
 		</field>
 
 	</fieldset>
-
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
