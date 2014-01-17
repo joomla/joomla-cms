@@ -103,7 +103,7 @@ class ContentViewCategory extends JViewCategory
 			}
 
 			JPluginHelper::importPlugin('content');
-			$dispatcher->trigger('onContentPrepare', array ('com_content.category', &$item, &$item->params, 0));
+			$dispatcher->trigger('onContentPrepare', array ('com_content.category', &$item, &$this->params, 0));
 
 			// Old plugins: Use processed text as introtext
 			$item->introtext = $item->text;
