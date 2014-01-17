@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -66,7 +66,7 @@ class TemplatesViewStyle extends JViewLegacy
 
 		JToolbarHelper::title(
 			$isNew ? JText::_('COM_TEMPLATES_MANAGER_ADD_STYLE')
-			: JText::_('COM_TEMPLATES_MANAGER_EDIT_STYLE'), 'thememanager'
+			: JText::_('COM_TEMPLATES_MANAGER_EDIT_STYLE'), 'eye thememanager'
 		);
 
 		// If not checked out, can save the item.

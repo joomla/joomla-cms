@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -86,15 +86,6 @@ class JApplicationCms extends JApplicationWeb
 	protected $template = null;
 
 	/**
-	 * Indicates that strong encryption should be used.
-	 *
-	 * @var    boolean
-	 * @since  3.2
-	 * @note   Default has been changed as of 3.2. If salted md5 is required, it must be explictly set.
-	 */
-	protected $useStrongEncryption = false;
-
-	/**
 	 * Class constructor.
 	 *
 	 * @param   mixed  $input   An optional argument to provide dependency injection for the application's
@@ -138,9 +129,6 @@ class JApplicationCms extends JApplicationWeb
 		if ($this->config->get('session') !== false)
 		{
 			$this->loadSession();
-
-			// Register the session with JFactory
-			JFactory::$session = $this->getSession();
 		}
 	}
 
@@ -569,6 +557,15 @@ class JApplicationCms extends JApplicationWeb
 			$this->set('language', $options['language']);
 		}
 
+		// Build our language object
+		$lang = JLanguage::getInstance($this->get('language'), $this->get('debug_lang'));
+
+		// Load the language to the API
+		$this->loadLanguage($lang);
+
+		// Register the language object with JFactory
+		JFactory::$language = $this->getLanguage();
+
 		// Set user specific editor.
 		$user = JFactory::getUser();
 		$editor = $user->getParam('editor', $this->get('editor'));
@@ -584,20 +581,6 @@ class JApplicationCms extends JApplicationWeb
 		}
 
 		$this->set('editor', $editor);
-
-		/*
-		 * Set the encryption to use. The availability of strong encryption must always be checked separately.
-		 * Use JCrypt::hasStrongPasswordSupport() to check PHP for this support.
-		 */
-		if (JPluginHelper::isEnabled('user', 'joomla'))
-		{
-			$userPlugin = JPluginHelper::getPlugin('user', 'joomla');
-			$userPluginParams = new JRegistry;
-			$userPluginParams->loadString($userPlugin->params);
-			$useStrongEncryption = $userPluginParams->get('strong_passwords', 0);
-
-			$this->config->set('useStrongEncryption', $useStrongEncryption);
-		}
 
 		// Trigger the onAfterInitialise event.
 		JPluginHelper::importPlugin('system');
@@ -651,17 +634,14 @@ class JApplicationCms extends JApplicationWeb
 		}
 
 		// Generate a session name.
-		$name = md5($this->get('secret') . $this->get('session_name', get_class($this)));
+		$name = JApplicationHelper::getHash($this->get('session_name', get_class($this)));
 
 		// Calculate the session lifetime.
 		$lifetime = (($this->get('lifetime')) ? $this->get('lifetime') * 60 : 900);
 
-		// Get the session handler from the configuration.
-		$handler = $this->get('session_handler', 'none');
-
 		// Initialize the options for JSession.
 		$options = array(
-			'name' => $name,
+			'name'   => $name,
 			'expire' => $lifetime
 		);
 
@@ -686,21 +666,13 @@ class JApplicationCms extends JApplicationWeb
 
 		$this->registerEvent('onAfterSessionStart', array($this, 'afterSessionStart'));
 
-		$session = JSession::getInstance($handler, $options);
+		// There's an internal coupling to the session object being present in JFactory, need to deal with this at some point
+		$session = JFactory::getSession($options);
 		$session->initialise($this->input, $this->dispatcher);
-
-		if ($session->getState() == 'expired')
-		{
-			$session->restart();
-		}
-		else
-		{
-			$session->start();
-		}
+		$session->start();
 
 		// TODO: At some point we need to get away from having session data always in the db.
-
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// Remove expired sessions from the database.
 		$time = time();
@@ -716,6 +688,9 @@ class JApplicationCms extends JApplicationWeb
 			$db->setQuery($query);
 			$db->execute();
 		}
+
+		// Get the session handler from the configuration.
+		$handler = $this->get('session_handler', 'none');
 
 		if (($handler != 'database' && ($time % 2 || $session->isNew()))
 			|| ($handler == 'database' && $session->isNew()))
@@ -926,13 +901,6 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	public function redirect($url, $moved = false)
 	{
-		// Persist messages if they exist.
-		if (count($this->_messageQueue))
-		{
-			$session = JFactory::getSession();
-			$session->set('application.queue', $this->_messageQueue);
-		}
-
 		// Handle B/C by checking if a message was passed to the method, will be removed at 4.0
 		if (func_num_args() > 1)
 		{
@@ -974,6 +942,13 @@ class JApplicationCms extends JApplicationWeb
 				// Reset the $moved variable
 				$moved = isset($args[3]) ? (boolean) $args[3] : false;
 			}
+		}
+
+		// Persist messages if they exist.
+		if (count($this->_messageQueue))
+		{
+			$session = JFactory::getSession();
+			$session->set('application.queue', $this->_messageQueue);
 		}
 
 		// Hand over processing to the parent now

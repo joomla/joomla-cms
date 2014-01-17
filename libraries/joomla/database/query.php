@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -554,7 +554,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  The required char length call.
 	 *
-	 * @since 11.1
+	 * @since   11.1
 	 */
 	public function charLength($field, $operator = null, $condition = null)
 	{

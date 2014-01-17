@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -118,13 +118,13 @@ class JFormFieldSpacerTest extends TestCase
 			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
 
-		$equals = '<span class="spacer"><span class="before"></span><span class="">' .
+		$equals = '<span class="spacer"><span class="before"></span><span>' .
 			'<label id="spacer-lbl" class="hasTooltip" title="<strong>spacer</strong>">spacer</label></span>' .
 			'<span class="after"></span></span>';
 
 		$this->assertEquals(
-			$field->label,
 			$equals,
+			$field->label,
 			'Line:' . __LINE__ . ' The getLabel method should return something without error.'
 		);
 
@@ -146,8 +146,8 @@ class JFormFieldSpacerTest extends TestCase
 			'<label id="spacer-lbl" class="">spacer</label></span><span class="after"></span></span>';
 
 		$this->assertEquals(
-			$field->label,
 			$equals,
+			$field->label,
 			'Line:' . __LINE__ . ' The getLabel method should return something without error.'
 		);
 
@@ -188,12 +188,12 @@ class JFormFieldSpacerTest extends TestCase
 			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
 
-		$expected = '<span class="spacer"><span class="before"></span><span class=""><hr class="" /></span>' .
+		$expected = '<span class="spacer"><span class="before"></span><span><hr /></span>' .
 			'<span class="after"></span></span>';
 
 		$this->assertEquals(
-			$field->label,
 			$expected,
+			$field->label,
 			'Line:' . __LINE__ . ' The getLabel method should return something without error.'
 		);
 	}

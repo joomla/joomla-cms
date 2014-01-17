@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -446,10 +446,64 @@ final class InstallationApplicationWeb extends JApplicationCms
 			$options['language'] = 'en-GB';
 		}
 
+		// Check for custom helpurl
+		if (empty($forced['helpurl']))
+		{
+			$options['helpurl'] = 'http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}';
+		}
+		else
+		{
+			$options['helpurl'] = $forced['helpurl'];
+		}
+
+		// Store helpurl in the session
+		$this->getSession()->set('setup.helpurl', $options['helpurl']);
+
 		// Set the language in the class
 		$this->config->set('language', $options['language']);
 		$this->config->set('debug_lang', $forced['debug']);
 		$this->config->set('sampledata', $forced['sampledata']);
+		$this->config->set('helpurl', $options['helpurl']);
+	}
+
+	/**
+	 * Allows the application to load a custom or default document.
+	 *
+	 * The logic and options for creating this object are adequately generic for default cases
+	 * but for many applications it will make sense to override this method and create a document,
+	 * if required, based on more specific needs.
+	 *
+	 * @param   JDocument  $document  An optional document object. If omitted, the factory document is created.
+	 *
+	 * @return  InstallationApplicationWeb This method is chainable.
+	 *
+	 * @since   3.2
+	 */
+	public function loadDocument(JDocument $document = null)
+	{
+		if ($document === null)
+		{
+			$lang = JFactory::getLanguage();
+
+			$type = $this->input->get('format', 'html', 'word');
+
+			$attributes = array(
+				'charset' => 'utf-8',
+				'lineend' => 'unix',
+				'tab' => '  ',
+				'language' => $lang->getTag(),
+				'direction' => $lang->isRTL() ? 'rtl' : 'ltr'
+			);
+
+			$document = JDocument::getInstance($type, $attributes);
+
+			// Register the instance to JFactory
+			JFactory::$document = $document;
+		}
+
+		$this->document = $document;
+
+		return $this;
 	}
 
 	/**

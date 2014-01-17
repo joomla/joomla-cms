@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -92,14 +92,6 @@ class JApplication extends JApplicationBase
 	 * @deprecated  4.0
 	 */
 	protected static $instances = array();
-
-	/**
-	 * @var    boolean  Indicates that strong encryption should be used.
-	 * @since  3.2
-	 * @note   Default has been changed as of 3.2. If salted md5 is required it must be explictly set.
-	 * @deprecated  4.0
-	 */
-	protected $useStrongEncryption = false;
 
 	/**
 	 * Class constructor.
@@ -207,9 +199,11 @@ class JApplication extends JApplicationBase
 		// Set user specific editor.
 		$user = JFactory::getUser();
 		$editor = $user->getParam('editor', $this->getCfg('editor'));
+
 		if (!JPluginHelper::isEnabled('editors', $editor))
 		{
 			$editor = $this->getCfg('editor');
+
 			if (!JPluginHelper::isEnabled('editors', $editor))
 			{
 				$editor = 'none';
@@ -217,18 +211,6 @@ class JApplication extends JApplicationBase
 		}
 
 		$config->set('editor', $editor);
-
-		// Set the encryption to use. The availability of strong encryption must always be checked separately.
-		// Use JCrypt::hasStrongPasswordSupport() to check PHP for this support.
-		if (JPluginHelper::isEnabled('user', 'joomla'))
-		{
-			$userPlugin = JPluginHelper::getPlugin('user', 'joomla');
-			$userPluginParams = new JRegistry;
-			$userPluginParams->loadString($userPlugin->params);
-			$useStrongEncryption = $userPluginParams->get('strong_passwords', 0);
-
-			$config->set('useStrongEncryption', $useStrongEncryption);
-		}
 
 		// Trigger the onAfterInitialise event.
 		JPluginHelper::importPlugin('system');
@@ -408,6 +390,7 @@ class JApplication extends JApplicationBase
 			$document = JFactory::getDocument();
 
 			jimport('phputf8.utils.ascii');
+
 			if (($this->client->engine == JApplicationWebClient::TRIDENT) && !utf8_is_ascii($url))
 			{
 				// MSIE type browser and/or server cause issues when url contains utf8 character,so use a javascript redirect method
@@ -422,6 +405,7 @@ class JApplication extends JApplicationBase
 				header('Content-Type: text/html; charset=' . $document->getCharset());
 			}
 		}
+
 		$this->close();
 	}
 
@@ -497,6 +481,7 @@ class JApplication extends JApplicationBase
 	public function getCfg($varname, $default = null)
 	{
 		$config = JFactory::getConfig();
+
 		return $config->get('' . $varname, $default);
 	}
 
@@ -518,10 +503,12 @@ class JApplication extends JApplicationBase
 		if (empty($name))
 		{
 			$r = null;
+
 			if (!preg_match('/J(.*)/i', get_class($this), $r))
 			{
 				JLog::add(JText::_('JLIB_APPLICATION_ERROR_APPLICATION_GET_NAME'), JLog::WARNING, 'jerror');
 			}
+
 			$name = strtolower($r[1]);
 		}
 
@@ -708,7 +695,6 @@ class JApplication extends JApplicationBase
 
 				// The user is successfully logged in. Run the after login events
 				$this->triggerEvent('onUserAfterLogin', array($options));
-
 			}
 
 			return true;
@@ -1008,6 +994,7 @@ class JApplication extends JApplicationBase
 
 		// Remove expired sessions from the database.
 		$time = time();
+
 		if ($time % 2)
 		{
 			// The modulus introduces a little entropy, making the flushing less accurate
@@ -1022,6 +1009,7 @@ class JApplication extends JApplicationBase
 
 		// Check to see the the session already exists.
 		$handler = $this->getCfg('session_handler');
+
 		if (($handler != 'database' && ($time % 2 || $session->isNew()))
 			|| ($handler == 'database' && $session->isNew()))
 		{
@@ -1060,6 +1048,7 @@ class JApplication extends JApplicationBase
 		if (!$exists)
 		{
 			$query->clear();
+
 			if ($session->isNew())
 			{
 				$query->insert($db->quoteName('#__session'))
@@ -1105,6 +1094,7 @@ class JApplication extends JApplicationBase
 	public function afterSessionStart()
 	{
 		$session = JFactory::getSession();
+
 		if ($session->isNew())
 		{
 			$session->set('registry', new JRegistry('session'));

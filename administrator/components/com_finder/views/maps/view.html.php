@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -70,7 +70,7 @@ class FinderViewMaps extends JViewLegacy
 		include_once JPATH_COMPONENT . '/helpers/finder.php';
 		$canDo	= FinderHelper::getActions();
 
-		JToolbarHelper::title(JText::_('COM_FINDER_MAPS_TOOLBAR_TITLE'), 'finder');
+		JToolbarHelper::title(JText::_('COM_FINDER_MAPS_TOOLBAR_TITLE'), 'zoom-in finder');
 		$toolbar = JToolbar::getInstance('toolbar');
 
 		if ($canDo->get('core.edit.state'))

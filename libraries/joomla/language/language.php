@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Language
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -1274,18 +1274,6 @@ class JLanguage
 	public function getFirstDay()
 	{
 		return (int) (isset($this->metadata['firstDay']) ? $this->metadata['firstDay'] : 0);
-	}
-
-	/**
-	 * Get if month before year for this language.
-	 *
-	 * @return  integer  Month before Year according to the language
-	 *
-	 * @since   3.2.2
-	 */
-	public function getMonthBeforeYear()
-	{
-		return (int) (isset($this->metadata['monthBeforeYear']) ? $this->metadata['monthBeforeYear'] : 1);
 	}
 
 	/**
