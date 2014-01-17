@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Categories
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -291,7 +291,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		$class = $extension . 'HelperRoute';
 		if (class_exists($class) && method_exists($class, 'getCategoryRoute'))
 		{
-			$item->route = $class::getCategoryRoute($item->id);
+			$item->route = $class::getCategoryRoute($item->id, $item->language);
 		}
 		else
 		{

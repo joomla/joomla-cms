@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -162,11 +162,11 @@ class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Options list dataset
+	 * Test...
 	 *
 	 * @return  array
 	 *
-	 * @since   3.2
+	 * @since   3.1
 	 */
 	public function getOptionsData()
 	{
@@ -348,7 +348,7 @@ class JHtmlSelectTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  getGenericlistData
 	 * @since         3.2
-	 */
+	*/
 	public function testGenericlist($expected, $data, $name, $attribs = null, $optKey = 'value', $optText = 'text',
 		$selected = null, $idtag = false, $translate = false)
 	{

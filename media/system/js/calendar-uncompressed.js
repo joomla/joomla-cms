@@ -13,7 +13,7 @@
  */
 
 /** The Calendar object constructor. */
-Calendar = function (firstDayOfWeek, monthBeforeYear, dateStr, onSelected, onClose) {
+Calendar = function (firstDayOfWeek, dateStr, onSelected, onClose) {
 	// member variables
 	this.activeDiv = null;
 	this.currentDateEl = null;
@@ -32,7 +32,6 @@ Calendar = function (firstDayOfWeek, monthBeforeYear, dateStr, onSelected, onClo
 	this.isPopup = true;
 	this.weekNumbers = true;
 	this.firstDayOfWeek = typeof firstDayOfWeek == "number" ? firstDayOfWeek : Calendar._FD; // 0 for Sunday, 1 for Monday, etc.
-	this.monthBeforeYear = typeof monthBeforeYear == "number" ? monthBeforeYear : Calendar._MBF; // 0 for year before month, 1 for month before year.
 	this.showsOtherMonths = false;
 	this.dateStr = dateStr;
 	this.ar_days = null;
@@ -1184,11 +1183,7 @@ Calendar.prototype._init = function (firstDayOfWeek, date) {
 		if (!(hasdays || this.showsOtherMonths))
 			row.className = "emptyrow";
 	}
-	if (this.monthBeforeYear == 1) {
-		this.title.innerHTML = Calendar._PM + Calendar._MN[month] + Calendar._SM + Calendar._SEP + Calendar._PY + year + Calendar._SY;
-	} else {
-		this.title.innerHTML = Calendar._PY + year + Calendar._SY + Calendar._SEP + Calendar._PM + Calendar._MN[month] + Calendar._SM;
-	}
+	this.title.innerHTML = Calendar._MN[month] + ", " + year;
 	this.onSetTime();
 	this.table.style.visibility = "visible";
 	this._initMultipleDates();

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -61,7 +61,7 @@ class MenusViewMenus extends JViewLegacy
 
 		$canDo	= MenusHelper::getActions($this->state->get('filter.parent_id'));
 
-		JToolbarHelper::title(JText::_('COM_MENUS_VIEW_MENUS_TITLE'), 'menumgr.png');
+		JToolbarHelper::title(JText::_('COM_MENUS_VIEW_MENUS_TITLE'), 'list menumgr');
 
 		if ($canDo->get('core.create'))
 		{

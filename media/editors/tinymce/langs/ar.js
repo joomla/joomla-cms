@@ -152,5 +152,6 @@ tinymce.addI18n('ar',{
 "Tools": "\u0623\u062f\u0627\u0648\u0627\u062a",
 "View": "\u0639\u0631\u0636",
 "Table": "\u062c\u062f\u0648\u0644",
-"Format": "\u062a\u0646\u0633\u064a\u0642"
+"Format": "\u062a\u0646\u0633\u064a\u0642",
+"_dir": "rtl"
 });

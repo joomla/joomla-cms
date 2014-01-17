@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -138,16 +138,6 @@ class MenusControllerItem extends JControllerForm
 		$context  = 'com_menus.edit.item';
 		$recordId = $this->input->getInt('id');
 
-		if (!$this->checkEditId($context, $recordId))
-		{
-			// Somehow the person just went to the form and saved it - we don't allow that.
-			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId));
-			$this->setMessage($this->getError(), 'error');
-			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=items' . $this->getRedirectToListAppend(), false));
-
-			return false;
-		}
-
 		// Populate the row id from the session.
 		$data['id'] = $recordId;
 
@@ -178,6 +168,30 @@ class MenusControllerItem extends JControllerForm
 
 			return false;
 		}
+
+		if ($data['type'] == 'url')
+		{
+			$data['link'] = str_replace(array('"', '>', '<'), '', $data['link']);
+
+			if (strstr($data['link'], ':'))
+			{
+				$segments = explode(':', $data['link']);
+				$protocol = strtolower($segments[0]);
+				$scheme = array('http', 'https', 'ftp', 'ftps', 'gopher', 'mailto', 'news', 'prospero', 'telnet', 'rlogin', 'tn3270', 'wais', 'url',
+					'mid', 'cid', 'nntp', 'tel', 'urn', 'ldap', 'file', 'fax', 'modem', 'git');
+
+				if (!in_array($protocol, $scheme))
+				{
+					$app->enqueueMessage(JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'warning');
+					$this->setRedirect(
+						JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId), false)
+					);
+
+					return false;
+				}
+			}
+		}
+
 		$data = $model->validate($form, $data);
 
 		// Check for the special 'request' entry.

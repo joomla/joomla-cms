@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -71,6 +71,7 @@ class AdminModelHelp extends JModelLegacy
 		{
 			$this->help_search = JFactory::getApplication()->input->getString('helpsearch');
 		}
+
 		return $this->help_search;
 	}
 
@@ -88,6 +89,7 @@ class AdminModelHelp extends JModelLegacy
 			$page = JFactory::getApplication()->input->get('page', 'JHELP_START_HERE');
 			$this->page = JHelp::createUrl($page);
 		}
+
 		return $this->page;
 	}
 
@@ -110,7 +112,6 @@ class AdminModelHelp extends JModelLegacy
 				// Use english as fallback
 				$this->lang_tag = 'en-GB';
 			}
-
 		}
 
 		return $this->lang_tag;
@@ -129,38 +130,58 @@ class AdminModelHelp extends JModelLegacy
 			$lang_tag = $this->getLangTag();
 			$help_search = $this->getHelpSearch();
 
-			// Get Help files
-			jimport('joomla.filesystem.folder');
-			$files = JFolder::files(JPATH_BASE . '/help/' . $lang_tag, '\.xml$|\.html$');
-			$this->toc = array();
-			foreach ($files as $file)
+			// New style - Check for a TOC JSON file
+			if (file_exists(JPATH_BASE . '/help/' . $lang_tag . '/toc.json'))
 			{
-				$buffer = file_get_contents(JPATH_BASE . '/help/' . $lang_tag . '/' . $file);
-				if (preg_match('#<title>(.*?)</title>#', $buffer, $m))
+				$data = json_decode(file_get_contents(JPATH_BASE . '/help/' . $lang_tag . '/toc.json'));
+
+				// Loop through the data array
+				foreach ($data as $key => $value)
 				{
-					$title = trim($m[1]);
-					if ($title)
+					$this->toc[$key] = JText::_('COM_ADMIN_HELP_' . $value);
+				}
+			}
+			else
+			{
+				// Get Help files
+				jimport('joomla.filesystem.folder');
+				$files = JFolder::files(JPATH_BASE . '/help/' . $lang_tag, '\.xml$|\.html$');
+				$this->toc = array();
+
+				foreach ($files as $file)
+				{
+					$buffer = file_get_contents(JPATH_BASE . '/help/' . $lang_tag . '/' . $file);
+
+					if (preg_match('#<title>(.*?)</title>#', $buffer, $m))
 					{
-						// Translate the page title
-						$title = JText::_($title);
-						// strip the extension
-						$file = preg_replace('#\.xml$|\.html$#', '', $file);
-						if ($help_search)
+						$title = trim($m[1]);
+
+						if ($title)
 						{
-							if (JString::strpos(JString::strtolower(strip_tags($buffer)), JString::strtolower($help_search)) !== false)
+							// Translate the page title
+							$title = JText::_($title);
+
+							// Strip the extension
+							$file = preg_replace('#\.xml$|\.html$#', '', $file);
+
+							if ($help_search)
+							{
+								if (JString::strpos(JString::strtolower(strip_tags($buffer)), JString::strtolower($help_search)) !== false)
+								{
+									// Add an item in the Table of Contents
+									$this->toc[$file] = $title;
+								}
+							}
+							else
 							{
 								// Add an item in the Table of Contents
 								$this->toc[$file] = $title;
 							}
 						}
-						else
-						{
-							// Add an item in the Table of Contents
-							$this->toc[$file] = $title;
-						}
 					}
 				}
 			}
+
 			// Sort the Table of Contents
 			asort($this->toc);
 		}
