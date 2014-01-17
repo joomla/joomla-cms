@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  Application
  * @since       3.2
  */
-class JApplicationAdministrator extends JApplicationCms
+final class JApplicationAdministrator extends JApplicationCms
 {
 	/**
 	 * Class constructor.
@@ -281,11 +281,20 @@ class JApplicationAdministrator extends JApplicationCms
 			}
 		}
 
-		// Finish initialisation
+		// Execute the parent initialiseApp method.
 		parent::initialiseApp($options);
 
+		// Load the language to the API
+		$this->loadLanguage();
+
+		// Load the language from the API
+		$lang = $this->getLanguage();
+
+		// Register the language object with JFactory
+		JFactory::$language = $lang;
+
 		// Load Library language
-		$this->getLanguage()->load('lib_joomla', JPATH_ADMINISTRATOR);
+		$lang->load('lib_joomla', JPATH_ADMINISTRATOR);
 	}
 
 	/**

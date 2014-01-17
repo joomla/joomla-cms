@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.pagebreak
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -259,7 +259,7 @@ class PlgContentPagebreak extends JPlugin
 		$showall = $input->getInt('showall', 0);
 
 		// TOC header.
-		$row->toc = '<div class="pull-right article-index">';
+		$row->toc .= '<div class="pull-right article-index">';
 
 		if ($this->params->get('article_index') == 1)
 		{

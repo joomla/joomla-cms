@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,24 +11,23 @@
 defined('_JEXEC') or die;
 
 echo JHtml::_('sliders.start', 'panel-sliders', array('useCookie' => '1'));
-if (JFactory::getUser()->authorise('core.manage', 'com_postinstall')) :
-	if ($this->postinstall_message_count):
-		echo JHtml::_('sliders.panel', JText::_('COM_CPANEL_MESSAGES_TITLE'), 'cpanel-panel-com-postinstall');
-	?>
-		<div class="modal-body">
-			<p>
-				<?php echo JText::_('COM_CPANEL_MESSAGES_BODY_NOCLOSE'); ?>
-			</p>
-			<p>
-				<?php echo JText::_('COM_CPANEL_MESSAGES_BODYMORE_NOCLOSE'); ?>
-			</p>
-		</div>
-		<div class="modal-footer">
-			<button onclick="window.location='index.php?option=com_postinstall&eid=700'; return false" class="btn btn-primary btn-large" >
-				<?php echo JText::_('COM_CPANEL_MESSAGES_REVIEW'); ?>
-			</button>
-		</div>
-	<?php endif; ?>
+
+if ($this->postinstall_message_count):
+	echo JHtml::_('sliders.panel', JText::_('COM_CPANEL_MESSAGES_TITLE'), 'cpanel-panel-com-postinstall');
+?>
+	<div class="modal-body">
+		<p>
+			<?php echo JText::_('COM_CPANEL_MESSAGES_BODY_NOCLOSE'); ?>
+		</p>
+		<p>
+			<?php echo JText::_('COM_CPANEL_MESSAGES_BODYMORE_NOCLOSE'); ?>
+		</p>
+	</div>
+	<div class="modal-footer">
+		<button onclick="window.location='index.php?option=com_postinstall&eid=700'; return false" class="btn btn-primary btn-large" >
+			<?php echo JText::_('COM_CPANEL_MESSAGES_REVIEW'); ?>
+		</button>
+	</div>
 <?php endif;
 
 foreach ($this->modules as $module)

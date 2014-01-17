@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,25 +33,6 @@ class JViewCategoryfeed extends JViewLegacy
 		$document = JFactory::getDocument();
 
 		$extension      = $app->input->getString('option');
-		$contentType = $extension . '.' . $this->viewName;
-
-		$ucmType = new JUcmType;
-		$ucmRow = $ucmType->getTypeByAlias($contentType);
-		$ucmMapCommon = json_decode($ucmRow->field_mappings)->common;
-		$createdField = null;
-		$titleField = null;
-
-		if (is_object($ucmMapCommon))
-		{
-			$createdField = $ucmMapCommon->core_created_time;
-			$titleField = $ucmMapCommon->core_title;
-		}
-		elseif (is_array($ucmMapCommon))
-		{
-			$createdField = $ucmMapCommon[0]->core_created_time;
-			$titleField = $ucmMapCommon[0]->core_title;
-		}
-
 		$document->link = JRoute::_(JHelperRoute::getCategoryRoute($app->input->getInt('id'), $language = 0, $extension));
 
 		$app->input->set('limit', $app->get('feed_limit'));
@@ -74,32 +55,17 @@ class JViewCategoryfeed extends JViewLegacy
 			$this->reconcileNames($item);
 
 			// Strip html from feed item title
-			if ($titleField)
-			{
-				$title = $this->escape($item->$titleField);
-				$title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
-			}
-			else
-			{
-				$title = '';
-			}
+			$title = $this->escape($item->title);
+			$title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
 
 			// URL link to article
 			$router = new JHelperRoute;
-			$link   = JRoute::_($router->getRoute($item->id, $contentType, null, null, $item->catid));
+			$link   = JRoute::_($router->getRoute($item->id, $item->catid));
 
 			// Strip HTML from feed item description text.
 			$description = $item->description;
 			$author      = $item->created_by_alias ? $item->created_by_alias : $item->author;
-
-			if ($createdField)
-			{
-				$date = isset($item->$createdField) ? date('r', strtotime($item->$createdField)) : '';
-			}
-			else
-			{
-				$date = '';
-			}
+			$date        = isset($item->date) ? date('r', strtotime($item->date)) : '';
 
 			// Load individual item creator class.
 			$feeditem              = new JFeedItem;

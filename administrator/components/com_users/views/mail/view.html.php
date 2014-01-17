@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,7 +43,7 @@ class UsersViewMail extends JViewLegacy
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		JToolbarHelper::title(JText::_('COM_USERS_MASS_MAIL'), 'users massmail');
+		JToolbarHelper::title(JText::_('COM_USERS_MASS_MAIL'), 'massmail.png');
 		JToolbarHelper::custom('mail.send', 'envelope.png', 'send_f2.png', 'COM_USERS_TOOLBAR_MAIL_SEND_MAIL', false);
 		JToolbarHelper::cancel('mail.cancel');
 		JToolbarHelper::divider();

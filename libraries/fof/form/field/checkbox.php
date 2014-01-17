@@ -1,7 +1,6 @@
 <?php
 /**
  * @package    FrameworkOnFramework
- * @subpackage form
  * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -25,12 +24,6 @@ class FOFFormFieldCheckbox extends JFormFieldCheckbox implements FOFFormField
 	protected $static;
 
 	protected $repeatable;
-	
-	/** @var   FOFTable  The item being rendered in a repeatable form field */
-	public $item;
-	
-	/** @var int A monotonically increasing number, denoting the row number in a repeatable view */
-	public $rowid;
 
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
@@ -79,10 +72,8 @@ class FOFFormFieldCheckbox extends JFormFieldCheckbox implements FOFFormField
 	public function getStatic()
 	{
 		$class = $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
+
 		$value = $this->element['value'] ? (string) $this->element['value'] : '1';
-		$disabled = ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
-		$onclick = $this->element['onclick'] ? ' onclick="' . (string) $this->element['onclick'] . '"' : '';
-		$required = $this->required ? ' required="required" aria-required="true"' : '';
 
 		if (empty($this->value))
 		{
@@ -95,7 +86,7 @@ class FOFFormFieldCheckbox extends JFormFieldCheckbox implements FOFFormField
 
 		return '<span id="' . $this->id . '" ' . $class . '>' .
 			'<input type="checkbox" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
-			. htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"' . $class . $checked . $disabled . $onclick . $required . ' />' .
+			. htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"' . $class . $checked . $disabled . $onclick . ' />' .
 			'</span>';
 	}
 
@@ -110,10 +101,8 @@ class FOFFormFieldCheckbox extends JFormFieldCheckbox implements FOFFormField
 	public function getRepeatable()
 	{
 		$class = $this->element['class'] ? (string) $this->element['class'] : '';
+
 		$value = $this->element['value'] ? (string) $this->element['value'] : '1';
-		$disabled = ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
-		$onclick = $this->element['onclick'] ? ' onclick="' . (string) $this->element['onclick'] . '"' : '';
-		$required = $this->required ? ' required="required" aria-required="true"' : '';
 
 		if (empty($this->value))
 		{
@@ -126,7 +115,7 @@ class FOFFormFieldCheckbox extends JFormFieldCheckbox implements FOFFormField
 
 		return '<span class="' . $this->id . ' ' . $class . '">' .
 			'<input type="checkbox" name="' . $this->name . '" class="' . $this->id . ' ' . $class . '"' . ' value="'
-			. htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"' . $checked . $disabled . $onclick . $required . ' />' .
+			. htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"' . $checked . $disabled . $onclick . ' />' .
 			'</span>';
 	}
 }

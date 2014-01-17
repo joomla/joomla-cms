@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -930,19 +930,6 @@ class JApplicationWeb extends JApplicationBase
 		}
 
 		return $config;
-	}
-
-	/**
-	 * Flush the media version to refresh versionable assets
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function flushAssets()
-	{
-		$version = new JVersion;
-		$version->refreshMediaVersion();
 	}
 
 	/**

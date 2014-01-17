@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Router
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -263,54 +263,36 @@ class JRouterSite extends JRouter
 		}
 		else
 		{
-			// Get menu items.
-			$items = $menu->getMenu();
+			// Need to reverse the array (highest sublevels first)
+			$items = array_reverse($menu->getMenu());
 
 			$found           = false;
 			$route_lowercase = JString::strtolower($route);
 			$lang_tag        = JFactory::getLanguage()->getTag();
 
-			// Iterate through all items and check route matches.
 			foreach ($items as $item)
 			{
-				if ($item->route && JString::strpos($route_lowercase . '/', $item->route . '/') === 0 && $item->type != 'menulink')
+				if (isset($item->language))
 				{
-					// Usual method for non-multilingual site.
-					if (!$app->getLanguageFilter())
-					{
-						// Exact route match. We can break iteration because exact item was found.
-						if ($item->route == $route_lowercase)
-						{
-							$found = $item;
-							break;
-						}
+					$item->language = trim($item->language);
+				}
 
-						// Partial route match. Item with highest level takes priority.
-						if (!$found || $found->level < $item->level)
-						{
-							$found = $item;
-						}
+				// Get the length of the route
+				$length = strlen($item->route);
+				if ($length > 0 && JString::strpos($route_lowercase . '/', $item->route . '/') === 0
+					&& $item->type != 'menulink' && (!$app->getLanguageFilter() || $item->language == '*'
+					|| $item->language == $lang_tag))
+				{
+					// We have exact item for this language
+					if ($item->language == $lang_tag)
+					{
+						$found = $item;
+						break;
 					}
-					// Multilingual site.
-					elseif ($item->language == '*' || $item->language == $lang_tag)
+					// Or let's remember an item for all languages
+					elseif (!$found)
 					{
-						// Exact route match.
-						if ($item->route == $route_lowercase)
-						{
-							$found = $item;
-
-							// Break iteration only if language is matched.
-							if ($item->language == $lang_tag)
-							{
-								break;
-							}
-						}
-
-						// Partial route match. Item with highest level or same language takes priority.
-						if (!$found || $found->level < $item->level || $item->language == $lang_tag)
-						{
-							$found = $item;
-						}
+						$found = $item;
 					}
 				}
 			}

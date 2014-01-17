@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -136,8 +136,8 @@ class JHtmlBehaviorTest extends TestCase
 	public function getCaptionData()
 	{
 		$data = array(
-			array(array('JHtmlBehavior::caption' => array('img.caption' => true))),
-			array(array('JHtmlBehavior::caption' => array('img.caption2' => true)), 'img.caption2'),
+			array(array('JHtmlBehavior::caption' => array('img.caption' => true), 'JHtmlBehavior::framework' => array('core' => true))),
+			array(array('JHtmlBehavior::caption' => array('img.caption2' => true), 'JHtmlBehavior::framework' => array('core' => true)), 'img.caption2'),
 		);
 
 		return $data;

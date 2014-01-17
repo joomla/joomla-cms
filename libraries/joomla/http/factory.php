@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTTP
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -26,8 +26,6 @@ class JHttpFactory
 	 *
 	 * @return  JHttp      Joomla Http class
 	 *
-	 * @throws  RuntimeException
-	 *
 	 * @since   12.1
 	 */
 	public static function getHttp(JRegistry $options = null, $adapters = null)
@@ -37,12 +35,7 @@ class JHttpFactory
 			$options = new JRegistry;
 		}
 
-		if (!$driver = self::getAvailableDriver($options, $adapters))
-		{
-			throw new RuntimeException('No transport driver available.');
-		}
-
-		return new JHttp($options, $driver);
+		return new JHttp($options, self::getAvailableDriver($options, $adapters));
 	}
 
 	/**

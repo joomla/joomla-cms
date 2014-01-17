@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Updater
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -137,14 +137,6 @@ class JUpdate extends JObject
 	 * @since  11.1
 	 */
 	protected $targetplatform;
-
-	/**
-	 * Extra query for download URLs
-	 *
-	 * @var    string
-	 * @since  13.1
-	 */
-	protected $extra_query;
 
 	/**
 	 * Resource handle for the XML Parser

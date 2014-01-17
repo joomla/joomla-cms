@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -53,8 +53,6 @@ class InstallationModelSetup extends JModelBase
 		{
 			$options['language'] = JFactory::getLanguage()->getTag();
 		}
-
-		$options['helpurl'] = $session->get('setup.helpurl', null);
 
 		// Merge the new setup options into the current ones and store in the session.
 		$options = array_merge($old, (array) $options);

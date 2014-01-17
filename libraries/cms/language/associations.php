@@ -1,9 +1,9 @@
 <?php
 /**
  * @package     Joomla.Libraries
- * @subpackage  Language
+ * @subpackage  helper
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -125,7 +125,7 @@ class JLanguageAssociations
 			{
 				$params = new JRegistry(JPluginHelper::getPlugin('system', 'languagefilter')->params);
 
-				$enabled  = (boolean) $params->get('item_associations', true);
+				$enabled  = (boolean) $params->get('item_associations', false);
 				$tested = true;
 			}
 		}

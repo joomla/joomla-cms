@@ -1,7 +1,6 @@
 <?php
 /**
  * @package    FrameworkOnFramework
- * @subpackage form
  * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -22,12 +21,6 @@ class FOFFormFieldText extends JFormFieldText implements FOFFormField
 	protected $static;
 
 	protected $repeatable;
-	
-	/** @var   FOFTable  The item being rendered in a repeatable form field */
-	public $item;
-	
-	/** @var int A monotonically increasing number, denoting the row number in a repeatable view */
-	public $rowid;
 
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
@@ -220,9 +213,6 @@ class FOFFormFieldText extends JFormFieldText implements FOFFormField
 		$keyfield = $this->item->getKeyName();
 		$replace  = $this->item->$keyfield;
 		$ret = str_replace('[ITEM:ID]', $replace, $ret);
-
-		// Replace the [ITEMID] in the URL with the current Itemid parameter
-		$ret = str_replace('[ITEMID]', JFactory::getApplication()->input->getInt('Itemid', 0), $ret);
 
 		// Replace other field variables in the URL
 		$fields = $this->item->getFields();

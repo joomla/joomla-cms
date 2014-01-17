@@ -61,7 +61,6 @@ abstract class JCryptCipherMcrypt implements JCryptCipher
 	 * @return  string  The decrypted data string.
 	 *
 	 * @since   12.1
-	 * @throws  InvalidArgumentException
 	 */
 	public function decrypt($data, JCryptKey $key)
 	{
@@ -86,7 +85,6 @@ abstract class JCryptCipherMcrypt implements JCryptCipher
 	 * @return  string  The encrypted data string.
 	 *
 	 * @since   12.1
-	 * @throws  InvalidArgumentException
 	 */
 	public function encrypt($data, JCryptKey $key)
 	{
@@ -110,7 +108,6 @@ abstract class JCryptCipherMcrypt implements JCryptCipher
 	 * @return  JCryptKey
 	 *
 	 * @since   12.1
-	 * @throws  InvalidArgumentException
 	 */
 	public function generateKey(array $options = array())
 	{
@@ -121,15 +118,11 @@ abstract class JCryptCipherMcrypt implements JCryptCipher
 		$key->public = mcrypt_create_iv(mcrypt_get_iv_size($this->type, $this->mode));
 
 		// Get the salt and password setup.
-		$salt = (isset($options['salt'])) ? $options['salt'] : substr(pack("h*", md5(JCrypt::genRandomBytes())), 0, 16);
-
-		if (!isset($options['password']))
-		{
-			throw new InvalidArgumentException('Password is not set.');
-		}
+		$salt = (isset($options['salt'])) ? $options['salt'] : substr(pack("h*", md5(mt_rand())), 0, 16);
+		$password = (isset($options['password'])) ? $options['password'] : 'J00ml4R0ck$!';
 
 		// Generate the derived key.
-		$key->private = $this->pbkdf2($options['password'], $salt, mcrypt_get_key_size($this->type, $this->mode));
+		$key->private = $this->pbkdf2($password, $salt, mcrypt_get_key_size($this->type, $this->mode));
 
 		return $key;
 	}

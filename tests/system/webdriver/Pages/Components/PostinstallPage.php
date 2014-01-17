@@ -13,7 +13,7 @@ use SeleniumClient\WebElement;
  */
 class PostinstallPage extends AdminPage
 {
-	protected $waitForXpath =  "//h1[contains(., 'Post-installation Messages')]";
+	protected $waitForXpath =  "//h1[contains(text(), 'Post-installation Messages')]";
 
 	/**
 	 * Clears post-installation messages by navigating to that screen and back
@@ -22,14 +22,8 @@ class PostinstallPage extends AdminPage
 	 */
 	public function clearInstallMessages()
 	{
-		$clearButtons = $this->driver->findElements(By::xPath("//a[contains(text(), 'Hide this message')]"));
-		while (count($clearButtons) > 0)
-		{
-			$clearButtons[0]->click();
-			$page = $this->test->getPageObject('PostinstallPage');
-			$clearButtons = $this->driver->findElements(By::xPath("//a[contains(text(), 'Hide this message')]"));
-		}
-
+		$this->driver->findElement(By::xPath("//a[contains(text(), 'Hide this message')]"))->click();
+		$page = $this->test->getPageObject('PostinstallPage');
 	}
 
 }

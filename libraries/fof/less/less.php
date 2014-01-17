@@ -1,9 +1,8 @@
 <?php
 /**
- * @package     FrameworkOnFramework
- * @subpackage  less
- * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @package    FrameworkOnFramework
+ * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
 defined('_JEXEC') or die;
@@ -11,7 +10,7 @@ defined('_JEXEC') or die;
 /**
  * This class is taken near verbatim (changes marked with **FOF** comment markers) from:
  *
- * lessphp v0.3.9
+ * lessphp v0.3.8
  * http://leafo.net/lessphp
  *
  * LESS css compiler, adapted from http://lesscss.org
@@ -27,7 +26,7 @@ defined('_JEXEC') or die;
  */
 class FOFLess
 {
-	public static $VERSION = "v0.3.9";
+	public static $VERSION = "v0.3.8";
 
 	protected static $TRUE = array("keyword", "true");
 
@@ -530,9 +529,6 @@ class FOFLess
 							$parts[] = "($q[1])";
 						}
 						break;
-					case "variable":
-						$parts[] = $this->compileValue($this->reduce($q));
-						break;
 				}
 			}
 
@@ -708,7 +704,7 @@ class FOFLess
 			if (is_array($s))
 			{
 				list(, $value) = $s;
-				$out[] = trim($this->compileValue($this->reduce($value)));
+				$out[] = $this->compileValue($this->reduce($value));
 			}
 			else
 			{
@@ -1322,18 +1318,6 @@ class FOFLess
 	}
 
 	/**
-	 * Lib is rem
-	 *
-	 * @param   type  $value  X
-	 *
-	 * @return  boolean
-	 */
-	protected function lib_isrem($value)
-	{
-		return $this->toBool($value[0] == "number" && $value[2] == "rem");
-	}
-
-	/**
 	 * LIb rgba hex
 	 *
 	 * @param   type  $color  X
@@ -1482,26 +1466,6 @@ class FOFLess
 		$value = $this->assertNumber($arg);
 
 		return array("number", round($value), $arg[2]);
-	}
-
-	/**
-	 * Lib unit
-	 *
-	 * @param   type  $arg  X
-	 *
-	 * @return  array
-	 */
-	protected function lib_unit($arg)
-	{
-		if ($arg[0] == "list")
-		{
-			list($number, $newUnit) = $arg[2];
-			return array("number", $this->assertNumber($number), $this->compileValue($this->lib_e($newUnit)));
-		}
-		else
-		{
-			return array("number", $this->assertNumber($arg), "");
-		}
 	}
 
 	/**
@@ -1776,35 +1740,6 @@ class FOFLess
 		}
 
 		return $this->fixColor($new);
-	}
-
-	/**
-	 * Third party code; your guess is as good as mine
-	 *
-	 * @param   array  $arg  Arg
-	 *
-	 * @return  string
-	 */
-	protected function lib_contrast($args)
-	{
-		if ($args[0] != 'list' || count($args[2]) < 3)
-		{
-			return array(array('color', 0, 0, 0), 0);
-		}
-
-		list($inputColor, $darkColor, $lightColor) = $args[2];
-
-		$inputColor = $this->assertColor($inputColor);
-		$darkColor = $this->assertColor($darkColor);
-		$lightColor = $this->assertColor($lightColor);
-		$hsl = $this->toHSL($inputColor);
-
-		if ($hsl[3] > 50)
-		{
-			return $darkColor;
-		}
-
-		return $lightColor;
 	}
 
 	/**
@@ -2130,19 +2065,9 @@ class FOFLess
 	{
 		switch ($value[0])
 		{
-			case "interpolate":
-				$reduced = $this->reduce($value[1]);
-				$var     = $this->compileValue($reduced);
-				$res     = $this->reduce(array("variable", $this->vPrefix . $var));
-
-				if (empty($value[2]))
-				{
-					$res = $this->lib_e($res);
-				}
-
-				return $res;
 			case "variable":
 				$key = $value[1];
+
 				if (is_array($key))
 				{
 					$key = $this->reduce($key);
@@ -2313,14 +2238,9 @@ class FOFLess
 
 				if (isset(self::$cssColors[$name]))
 				{
-					$rgba = explode(',', self::$cssColors[$name]);
+					list($r, $g, $b) = explode(',', self::$cssColors[$name]);
 
-					if (isset($rgba[3]))
-					{
-						return array('color', $rgba[0], $rgba[1], $rgba[2], $rgba[3]);
-					}
-
-					return array('color', $rgba[0], $rgba[1], $rgba[2]);
+					return array('color', $r, $g, $b);
 				}
 
 				return null;
@@ -2593,63 +2513,6 @@ class FOFLess
 		}
 
 		return $this->fixColor($out);
-	}
-
-	/**
-	 * Lib red
-	 *
-	 * @param   type  $color  X
-	 *
-	 * @return  type
-	 */
-	public function lib_red($color)
-	{
-		$color = $this->coerceColor($color);
-
-		if (is_null($color))
-		{
-			$this->throwError('color expected for red()');
-		}
-
-		return $color[1];
-	}
-
-	/**
-	 * Lib green
-	 *
-	 * @param   type  $color  X
-	 *
-	 * @return  type
-	 */
-	public function lib_green($color)
-	{
-		$color = $this->coerceColor($color);
-
-		if (is_null($color))
-		{
-			$this->throwError('color expected for green()');
-		}
-
-		return $color[2];
-	}
-
-	/**
-	 * Lib blue
-	 *
-	 * @param   type  $color  X
-	 *
-	 * @return  type
-	 */
-	public function lib_blue($color)
-	{
-		$color = $this->coerceColor($color);
-
-		if (is_null($color))
-		{
-			$this->throwError('color expected for blue()');
-		}
-
-		return $color[3];
 	}
 
 	/**
@@ -3442,7 +3305,6 @@ class FOFLess
 		'teal'					 => '0,128,128',
 		'thistle'				 => '216,191,216',
 		'tomato'				 => '255,99,71',
-		'transparent'			 => '0,0,0,0',
 		'turquoise'				 => '64,224,208',
 		'violet'				 => '238,130,238',
 		'wheat'					 => '245,222,179',

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -109,15 +109,15 @@ class JHelperContent
 	}
 
 	/**
-	 * Gets the associated language ID
-	 *
-	 * @param   string  $langCode  The language code to look up
-	 *
-	 * @return  integer  The language ID
-	 *
-	 * @since   3.1
-	 * @note    JHelper::getLanguage() is the preferred method.
-	 */
+	* Gets the associated language ID
+	*
+	* @param   string  $langCode  The language code to look up
+	*
+	* @return  integer  The language ID
+	*
+	* @since   3.1
+	* @note    JHelper::getLanguage() is the preferred method.
+	*/
 	public static function getLanguageId($langCode)
 	{
 		$db    = JFactory::getDbo();

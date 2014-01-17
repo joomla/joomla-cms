@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,46 +19,12 @@ defined('JPATH_PLATFORM') or die;
 abstract class JFormField
 {
 	/**
-	 * The description text for the form field. Usually used in tooltips.
+	 * The description text for the form field.  Usually used in tooltips.
 	 *
 	 * @var    string
 	 * @since  11.1
 	 */
 	protected $description;
-
-	/**
-	 * The hint text for the form field used to display hint inside the field.
-	 *
-	 * @var    string
-	 * @since  3.2
-	 */
-	protected $hint;
-
-	/**
-	 * The autocomplete state for the form field.  If 'off' element will not be automatically
-	 * completed by browser.
-	 *
-	 * @var    mixed
-	 * @since  3.2
-	 */
-	protected $autocomplete = 'on';
-
-	/**
-	 * The spellcheck state for the form field.
-	 *
-	 * @var    boolean
-	 * @since  3.2
-	 */
-	protected $spellcheck = true;
-
-	/**
-	 * The autofocus request for the form field.  If true element will be automatically
-	 * focused on document load.
-	 *
-	 * @var    boolean
-	 * @since  3.2
-	 */
-	protected $autofocus = false;
 
 	/**
 	 * The SimpleXMLElement object of the <field /> XML element that describes the form field.
@@ -109,14 +75,6 @@ abstract class JFormField
 	protected $translateDescription = true;
 
 	/**
-	 * True to translate the field hint string.
-	 *
-	 * @var    boolean
-	 * @since  3.2
-	 */
-	protected $translateHint = true;
-
-	/**
 	 * The document id for the form field.
 	 *
 	 * @var    string
@@ -148,22 +106,6 @@ abstract class JFormField
 	 * @since  11.1
 	 */
 	protected $multiple = false;
-
-	/**
-	 * Allows extensions to create repeat elements
-	 *
-	 * @var    mixed
-	 * @since  3.2
-	 */
-	public $repeat = false;
-
-	/**
-	 * The pattern (Reg Ex) of value of the form field.
-	 *
-	 * @var    string
-	 * @since  11.1
-	 */
-	protected $pattern;
 
 	/**
 	 * The name of the form field.
@@ -199,23 +141,6 @@ abstract class JFormField
 	protected $required = false;
 
 	/**
-	 * The disabled state for the form field.  If true then the field will be disabled and user can't
-	 * interact with the field.
-	 *
-	 * @var    boolean
-	 * @since  3.2
-	 */
-	protected $disabled = false;
-
-	/**
-	 * The readonly state for the form field.  If true then the field will be readonly.
-	 *
-	 * @var    boolean
-	 * @since  3.2
-	 */
-	protected $readonly = false;
-
-	/**
 	 * The form field type.
 	 *
 	 * @var    string
@@ -241,52 +166,12 @@ abstract class JFormField
 	protected $value;
 
 	/**
-	 * The default value of the form field.
-	 *
-	 * @var    mixed
-	 * @since  11.1
-	 */
-	protected $default;
-
-	/**
-	 * The size of the form field.
-	 *
-	 * @var    integer
-	 * @since  3.2
-	 */
-	protected $size;
-
-	/**
-	 * The class of the form field
-	 *
-	 * @var    mixed
-	 * @since  3.2
-	 */
-	protected $class;
-
-	/**
 	 * The label's CSS class of the form field
 	 *
 	 * @var    mixed
 	 * @since  11.1
 	 */
-	protected $labelclass;
-
-	/**
-	 * The javascript onchange of the form field.
-	 *
-	 * @var    string
-	 * @since  3.2
-	 */
-	protected $onchange;
-
-	/**
-	 * The javascript onclick of the form field.
-	 *
-	 * @var    string
-	 * @since  3.2
-	 */
-	protected $onclick;
+	protected $labelClass;
 
 	/**
 	 * The count value for generated name field
@@ -350,7 +235,6 @@ abstract class JFormField
 		switch ($name)
 		{
 			case 'description':
-			case 'hint':
 			case 'formControl':
 			case 'hidden':
 			case 'id':
@@ -360,18 +244,9 @@ abstract class JFormField
 			case 'type':
 			case 'validate':
 			case 'value':
-			case 'class':
-			case 'labelclass':
-			case 'size':
-			case 'onchange':
-			case 'onclick':
+			case 'labelClass':
 			case 'fieldname':
 			case 'group':
-			case 'disabled':
-			case 'readonly':
-			case 'autofocus':
-			case 'autocomplete':
-			case 'spellcheck':
 				return $this->$name;
 
 			case 'input':
@@ -397,104 +272,6 @@ abstract class JFormField
 		}
 
 		return null;
-	}
-
-	/**
-	 * Method to set certain otherwise inaccessible properties of the form field object.
-	 *
-	 * @param   string  $name   The property name for which to the the value.
-	 * @param   mixed   $value  The value of the property.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function __set($name, $value)
-	{
-		switch ($name)
-		{
-			case 'class':
-				// Removes spaces from left & right and extra spaces from middle
-				$value = preg_replace('/\s+/', ' ', trim((string) $value));
-
-			case 'description':
-			case 'hint':
-			case 'value':
-			case 'labelclass':
-			case 'onchange':
-			case 'onclick':
-			case 'validate':
-			case 'pattern':
-			case 'group':
-			case 'default':
-				$this->$name = (string) $value;
-				break;
-
-			case 'id':
-				$this->id = $this->getId((string) $value, $this->fieldname);
-				break;
-
-			case 'fieldname':
-				$this->fieldname = $this->getFieldName((string) $value);
-				break;
-
-			case 'name':
-				$this->fieldname = $this->getFieldName((string) $value);
-				$this->name = $this->getName($this->fieldname);
-				break;
-
-			case 'multiple':
-				// Allow for field classes to force the multiple values option.
-				$value = (string) $value;
-				$value = $value === '' && isset($this->forceMultiple) ? (string) $this->forceMultiple : $value;
-
-			case 'required':
-			case 'disabled':
-			case 'readonly':
-			case 'autofocus':
-			case 'hidden':
-				$value = (string) $value;
-				$this->$name = ($value === 'true' || $value === $name || $value === '1');
-				break;
-
-			case 'autocomplete':
-				$value = (string) $value;
-				$value = ($value == 'on' || $value == '') ? 'on' : $value;
-				$this->$name = ($value === 'false' || $value === 'off' || $value === '0') ? false : $value;
-				break;
-
-			case 'spellcheck':
-			case 'translateLabel':
-			case 'translateDescription':
-			case 'translateHint':
-				$value = (string) $value;
-				$this->$name = !($value === 'false' || $value === 'off' || $value === '0');
-				break;
-
-			case 'translate_label':
-				$value = (string) $value;
-				$this->translateLabel = $this->translateLabel && !($value === 'false' || $value === 'off' || $value === '0');
-				break;
-
-			case 'translate_description':
-				$value = (string) $value;
-				$this->translateDescription = $this->translateDescription && !($value === 'false' || $value === 'off' || $value === '0');
-				break;
-
-			case 'size':
-				$this->$name = (int) $value;
-				break;
-
-			default:
-				if (property_exists(__CLASS__, $name))
-				{
-					JLog::add("Cannot access protected / private property $name of " . __CLASS__);
-				}
-				else
-				{
-					$this->$name = $value;
-				}
-		}
 	}
 
 	/**
@@ -542,48 +319,68 @@ abstract class JFormField
 		// Set the XML element object.
 		$this->element = $element;
 
+		// Get some important attributes from the form field element.
+		$class = (string) $element['class'];
+		$id = (string) $element['id'];
+		$multiple = (string) $element['multiple'];
+		$name = (string) $element['name'];
+		$required = (string) $element['required'];
+
+		// Set the required and validation options.
+		$this->required = ($required == 'true' || $required == 'required' || $required == '1');
+		$this->validate = (string) $element['validate'];
+
+		// Add the required class if the field is required.
+		if ($this->required)
+		{
+			if ($class)
+			{
+				if (strpos($class, 'required') === false)
+				{
+					$this->element['class'] = $class . ' required';
+				}
+			}
+			else
+			{
+				$this->element['class'] = 'required';
+			}
+		}
+
+		// Set the multiple values option.
+		$this->multiple = ($multiple == 'true' || $multiple == 'multiple');
+
+		// Allow for field classes to force the multiple values option.
+		if (isset($this->forceMultiple))
+		{
+			$this->multiple = (bool) $this->forceMultiple;
+		}
+
+		// Set the field description text.
+		$this->description = (string) $element['description'];
+
+		// Set the visibility.
+		$this->hidden = ((string) $element['type'] == 'hidden' || (string) $element['hidden'] == 'true');
+
+		// Determine whether to translate the field label and/or description.
+		$this->translateLabel = !((string) $this->element['translate_label'] == 'false' || (string) $this->element['translate_label'] == '0');
+		$this->translateDescription = !((string) $this->element['translate_description'] == 'false'
+			|| (string) $this->element['translate_description'] == '0');
+
 		// Set the group of the field.
 		$this->group = $group;
 
-		$attributes = array(
-			'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange',
-			'onclick', 'validate', 'pattern', 'default', 'required',
-			'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck',
-			'translateHint', 'translateLabel','translate_label', 'translateDescription',
-			'translate_description' ,'size');
-
-		$this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
+		// Set the field name and id.
+		$this->fieldname = $this->getFieldName($name);
+		$this->name = $this->getName($this->fieldname);
+		$this->id = $this->getId($id, $this->fieldname);
 
 		// Set the field default value.
 		$this->value = $value;
 
-		foreach ($attributes as $attributeName)
-		{
-			$this->__set($attributeName, $element[$attributeName]);
-		}
-
-		// Allow for repeatable elements
-		$repeat = (string) $element['repeat'];
-		$this->repeat = ($repeat == 'true' || $repeat == 'multiple' || (!empty($this->form->repeat) && $this->form->repeat == 1));
-
-		// Set the visibility.
-		$this->hidden = ($this->hidden || (string) $element['type'] == 'hidden');
+		// Set the CSS class of field label
+		$this->labelClass = (string) $element['labelclass'];
 
 		return true;
-	}
-
-	/**
-	 * Simple method to set the value
-	 *
-	 * @param   mixed  $value  Value to set
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function setValue($value)
-	{
-		$this->value = $value;
 	}
 
 	/**
@@ -632,18 +429,6 @@ abstract class JFormField
 
 		// Clean up any invalid characters.
 		$id = preg_replace('#\W#', '_', $id);
-
-		// If this is a repeatable element, add the repeat count to the ID
-		if ($this->repeat)
-		{
-			$repeatCounter = empty($this->form->repeatCounter) ? 0 : $this->form->repeatCounter;
-			$id .= '-' . $repeatCounter;
-
-			if (strtolower($this->type) == 'radio')
-			{
-				$id .= '-';
-			}
-		}
 
 		return $id;
 	}
@@ -703,7 +488,7 @@ abstract class JFormField
 		// Build the class for the label.
 		$class = !empty($this->description) ? 'hasTooltip' : '';
 		$class = $this->required == true ? $class . ' required' : $class;
-		$class = !empty($this->labelclass) ? $class . ' ' . $this->labelclass : $class;
+		$class = !empty($this->labelClass) ? $class . ' ' . $this->labelClass : $class;
 
 		// Add the opening label tag and main attributes attributes.
 		$label .= '<label id="' . $this->id . '-lbl" for="' . $this->id . '" class="' . $class . '"';
@@ -711,10 +496,8 @@ abstract class JFormField
 		// If a description is specified, use it to build a tooltip.
 		if (!empty($this->description))
 		{
-			// Don't translate discription if specified in the field xml.
-			$description = $this->translateDescription ? JText::_($this->description) : $this->description;
 			JHtml::_('bootstrap.tooltip');
-			$label .= ' title="' . JHtml::tooltipText(trim($text, ':'), $description, 0) . '"';
+			$label .= ' title="' . JHtml::tooltipText(trim($text, ':'), JText::_($this->description), 0) . '"';
 		}
 
 		// Add the label text and closing tag.
@@ -741,9 +524,6 @@ abstract class JFormField
 	 */
 	protected function getName($fieldName)
 	{
-		// To support repeated element, extensions can set this in plugin->onRenderSettings
-		$repeatCounter = empty($this->form->repeatCounter) ? 0 : $this->form->repeatCounter;
-
 		$name = '';
 
 		// If there is a form control set for the attached form add it first.
@@ -860,26 +640,5 @@ abstract class JFormField
 		}
 
 		return $default;
-	}
-
-	/**
-	 * Method to get a control group with label and input.
-	 *
-	 * @return  string  A string containing the html for the control goup
-	 *
-	 * @since   3.2
-	 */
-	public function getControlGroup()
-	{
-		if ($this->hidden)
-		{
-			return $this->getInput();
-		}
-
-		return
-			'<div class="control-group">'
-			. '<div class="control-label">' . $this->getLabel() . '</div>'
-			. '<div class="controls">' . $this->getInput() . '</div>'
-			. '</div>';
 	}
 }

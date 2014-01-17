@@ -15,7 +15,6 @@ defined('FOF_INCLUDED') or die();
  * created on the fly.
  *
  * @package  FrameworkOnFramework
- * @subpackage  autoloader
  * @since    2.1
  */
 class FOFAutoloaderComponent

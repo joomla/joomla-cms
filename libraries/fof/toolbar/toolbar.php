@@ -1,9 +1,8 @@
 <?php
 /**
- * @package     FrameworkOnFramework
- * @subpackage  toolbar
- * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @package    FrameworkOnFramework
+ * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
 defined('_JEXEC') or die;
@@ -124,7 +123,7 @@ class FOFToolbar
 	}
 
 	/**
-	 * Public constructor
+	 * Public cinstructor
 	 *
 	 * @param   array  $config  The configuration array of the component
 	 */
@@ -346,13 +345,13 @@ class FOFToolbar
 		// Set toolbar title
 		$option = $this->input->getCmd('option', 'com_foobar');
 		$subtitle_key = strtoupper($option . '_TITLE_' . $this->input->getCmd('view', 'cpanel'));
-		JToolBarHelper::title(JText::_(strtoupper($option)) . ': ' . JText::_($subtitle_key), str_replace('com_', '', $option));
+		JToolBarHelper::title(JText::_(strtoupper($option)) . ' &ndash; <small>' . JText::_($subtitle_key) . '</small>', str_replace('com_', '', $option));
 
 		// Add toolbar buttons
 
 		if ($this->perms->create)
 		{
-			if (version_compare(JVERSION, '3.0', 'ge'))
+			if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'ge'))
 			{
 				JToolBarHelper::addNew();
 			}
@@ -364,7 +363,7 @@ class FOFToolbar
 
 		if ($this->perms->edit)
 		{
-			if (version_compare(JVERSION, '3.0', 'ge'))
+			if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'ge'))
 			{
 				JToolBarHelper::editList();
 			}
@@ -444,13 +443,7 @@ class FOFToolbar
 		JToolBarHelper::title(JText::_(strtoupper($option)) . ' &ndash; <small>' . JText::_($subtitle_key) . '</small>', $componentName);
 
 		// Set toolbar icons
-        if ($this->perms->edit || $this->perms->editown)
-        {
-            // Show the apply button only if I can edit the record, otherwise I'll return to the edit form and get a
-            // 403 error since I can't do that
-            JToolBarHelper::apply();
-        }
-
+		JToolBarHelper::apply();
 		JToolBarHelper::save();
 		JToolBarHelper::custom('savenew', 'save-new.png', 'save-new_f2.png', 'JTOOLBAR_SAVE_AND_NEW', false);
 		JToolBarHelper::cancel();

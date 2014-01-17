@@ -1,7 +1,6 @@
 <?php
 /**
  * @package    FrameworkOnFramework
- * @subpackage form
  * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -35,12 +34,12 @@ class FOFForm extends JForm
 	/**
 	 * Method to get an instance of a form.
 	 *
-	 * @param   string  	$name		The name of the form.
-	 * @param   string  	$data		The name of an XML file or string to load as the form definition.
-	 * @param   array   	$options	An array of form options.
-	 * @param   bool  		$replace	Flag to toggle whether form fields should be replaced if a field
-	 *                      	      	already exists with the same group/name.
-	 * @param   bool|string $xpath		An optional xpath to search for the fields.
+	 * @param   string  $name     The name of the form.
+	 * @param   string  $data     The name of an XML file or string to load as the form definition.
+	 * @param   array   $options  An array of form options.
+	 * @param   string  $replace  Flag to toggle whether form fields should be replaced if a field
+	 *                            already exists with the same group/name.
+	 * @param   string  $xpath    An optional xpath to search for the fields.
 	 *
 	 * @return  object  FOFForm instance.
 	 *
@@ -78,7 +77,7 @@ class FOFForm extends JForm
 			{
 				if ($forms[$name]->loadFile($data, $replace, $xpath) == false)
 				{
-					throw new RuntimeException('FOFForm::getInstance could not load file ' . $data . '.xml');
+					throw new RuntimeException('FOFForm::getInstance could not load file');
 				}
 			}
 		}

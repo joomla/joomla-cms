@@ -6,7 +6,7 @@
 	<name>mod_latest</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
-	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -96,12 +96,14 @@
 				<field
 					name="automatic_title"
 					type="radio"
-					class="btn-group btn-group-yesno"
+					class="btn-group"
 					default="0"
 					label="COM_MODULES_FIELD_AUTOMATIC_TITLE_LABEL"
 					description="COM_MODULES_FIELD_AUTOMATIC_TITLE_DESC">
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
+					<option
+						value="0">JNO</option>
+					<option
+						value="1">JYES</option>
 				</field>
 			</fieldset>
 		</fields>

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -205,16 +205,6 @@ function ContentBuildRoute(&$query)
 				unset($query['month']);
 			}
 		}
-	}
-
-	if ($view == 'featured')
-	{
-		if (!$menuItemGiven)
-		{
-			$segments[] = $view;
-		}
-
-		unset($query['view']);
 	}
 
 	// if the layout is specified and it is the same as the layout in the menu item, we

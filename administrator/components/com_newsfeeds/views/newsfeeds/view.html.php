@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -60,7 +60,7 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
-		JToolbarHelper::title(JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEEDS'), 'feed newsfeeds');
+		JToolbarHelper::title(JText::_('COM_NEWSFEEDS_MANAGER_NEWSFEEDS'), 'newsfeeds.png');
 
 		if (count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)
 		{
@@ -99,7 +99,7 @@ class NewsfeedsViewNewsfeeds extends JViewLegacy
 			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
-		if ($user->authorise('core.admin', 'com_newsfeeds'))
+		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::preferences('com_newsfeeds');
 		}

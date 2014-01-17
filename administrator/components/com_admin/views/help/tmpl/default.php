@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,7 +35,7 @@ JHtml::_('bootstrap.tooltip');
 					<li class="nav-header"><?php echo JText::_('COM_ADMIN_ALPHABETICAL_INDEX'); ?></li>
 					<?php foreach ($this->toc as $k => $v):?>
 						<li>
-						    <?php $url = JHelp::createUrl('JHELP_' . strtoupper($k)); ?>
+						    <?php $url = JHelp::createUrl('JHELP_'.strtoupper($k)); ?>
 							<?php echo JHtml::_('link', $url, $v, array('target' => 'helpFrame'));?>
 						</li>
 					<?php endforeach;?>

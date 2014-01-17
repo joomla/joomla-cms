@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,7 +38,7 @@ class InstallerController extends JControllerLegacy
 		// Set the default view name and format from the Request.
 		$vName   = $this->input->get('view', 'install');
 		$vFormat = $document->getType();
-		$lName   = $this->input->get('layout', 'default', 'string');
+		$lName   = $this->input->get('layout', 'default');
 
 		// Get and render the view.
 		if ($view = $this->getView($vName, $vFormat))

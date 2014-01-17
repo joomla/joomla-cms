@@ -6,7 +6,7 @@
 			type="text"
 			class="readonly"
 			label="JGLOBAL_FIELD_ID_LABEL"
-			description="JGLOBAL_FIELD_ID_DESC"
+			description ="JGLOBAL_FIELD_ID_DESC"
 			default="0"
 			filter="int"
 			readonly="true"/>
@@ -16,7 +16,7 @@
 			type="text"
 			label="COM_MENUS_ITEM_FIELD_TITLE_LABEL"
 			description="COM_MENUS_ITEM_FIELD_TITLE_DESC"
-			class="inputbox input-xxlarge input-large-text"
+			class="inputbox"
 			size="40"
 			required="true"/>
 
@@ -25,7 +25,6 @@
 			type="alias"
 			label="JFIELD_ALIAS_LABEL"
 			description="JFIELD_ALIAS_DESC"
-			hint="JFIELD_ALIAS_PLACEHOLDER"
 			class="inputbox"
 			size="40"/>
 
@@ -38,7 +37,7 @@
 			type="text"
 			label="JFIELD_NOTE_LABEL"
 			description="COM_MENUS_ITEM_FIELD_NOTE_DESC"
-			class="inputbox span12"
+			class="inputbox"
 			size="40"/>
 
 		<field
@@ -70,8 +69,8 @@
 
 		<field
 			name="published"
-			type="list"
-			class="chzn-color-state"
+			type="radio"
+			class="btn-group"
 			id="published"
 			label="JSTATUS"
 			description="JFIELD_PUBLISHED_DESC"
@@ -104,7 +103,7 @@
 		</field>
 
 		<field
-			name="menuordering"
+			name="menuordering"		
 			type="menuordering"
 			label="COM_MENUS_ITEM_FIELD_ORDERING_LABEL"
 			description="COM_MENUS_ITEM_FIELD_ORDERING_DESC"
@@ -117,6 +116,14 @@
 			name="component_id"
 			type="hidden"
 			filter="int" />
+
+		<field
+			name="ordering"
+			type="ordering"
+			label="JFIELD_ORDERING_LABEL"
+			description="JFIELD_ORDERING_DESC"
+			filter="int"
+			class="inputbox"/>
 
 		<field
 			name="browserNav"
@@ -158,10 +165,12 @@
 			label="COM_MENUS_ITEM_FIELD_HOME_LABEL"
 			description="COM_MENUS_ITEM_FIELD_HOME_DESC"
 			default="0"
-			class="btn-group btn-group-yesno"
+			class="btn-group"
 			filter="integer">
-			<option value="1">JYES</option>
-			<option value="0">JNO</option>
+			<option
+				value="0">JNO</option>
+			<option
+				value="1">JYES</option>
 		</field>
 
 		<field

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cpanel
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,7 +35,7 @@ class CpanelViewCpanel extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Set toolbar items for the page
-		JToolbarHelper::title(JText::_('COM_CPANEL'), 'home-2 cpanel');
+		JToolbarHelper::title(JText::_('COM_CPANEL'), 'cpanel.png');
 		JToolbarHelper::help('screen.cpanel');
 
 		$input = JFactory::getApplication()->input;
@@ -59,6 +59,21 @@ class CpanelViewCpanel extends JViewLegacy
 		$messages = $messages_model->getItemList();
 
 		$this->postinstall_message_count = count($messages);
+
+		if ($this->postinstall_message_count)
+		{
+			$js = <<< ENDJS
+jQuery(document).ready(function(){
+	jQuery('#messagesModal').modal({
+		backdrop: true,
+		keyboard: true,
+		show: true
+	});
+});
+ENDJS;
+
+			JFactory::getDocument()->addScriptDeclaration($js);
+		}
 
 		parent::display($tpl);
 	}

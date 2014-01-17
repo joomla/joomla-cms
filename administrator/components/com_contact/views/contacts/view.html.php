@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -71,7 +71,7 @@ class ContactViewContacts extends JViewLegacy
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 
-		JToolbarHelper::title(JText::_('COM_CONTACT_MANAGER_CONTACTS'), 'address contact');
+		JToolbarHelper::title(JText::_('COM_CONTACT_MANAGER_CONTACTS'), 'contact.png');
 
 		if ($canDo->get('core.create') || (count($user->getAuthorisedCategories('com_contact', 'core.create'))) > 0)
 		{
@@ -113,7 +113,7 @@ class ContactViewContacts extends JViewLegacy
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
-		if ($user->authorise('core.admin', 'com_contact'))
+		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::preferences('com_contact');
 		}

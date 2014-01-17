@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -71,6 +71,6 @@ class WeblinksModelForm extends WeblinksModelWeblink
 		$params	= $app->getParams();
 		$this->setState('params', $params);
 
-		$this->setState('layout', $app->input->getString('layout'));
+		$this->setState('layout', $app->input->get('layout'));
 	}
 }

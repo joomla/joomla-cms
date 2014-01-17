@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,31 +31,18 @@ abstract class ModulesHelper
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @param   integer  The module ID.
-	 *
 	 * @return  JObject
 	 */
-	public static function getActions($moduleId = 0)
+	public static function getActions()
 	{
 		$user	= JFactory::getUser();
 		$result	= new JObject;
 
-		if (empty($moduleId))
-		{
-			$assetName = 'com_modules';
-		}
-		else
-		{
-			$assetName = 'com_modules.module.'.(int) $moduleId;
-		}
-
-		$actions = JAccess::getActionsFromFile(
-			JPATH_ADMINISTRATOR . '/components/com_modules/access.xml', "/access/section[@name='component']/"
-		);
+		$actions = JAccess::getActions('com_modules');
 
 		foreach ($actions as $action)
 		{
-			$result->set($action->name, $user->authorise($action->name, $assetName));
+			$result->set($action->name, $user->authorise($action->name, 'com_modules'));
 		}
 
 		return $result;
@@ -201,8 +188,10 @@ abstract class ModulesHelper
 			$extension = $module->value;
 			$path = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
 			$source = $path . "/modules/$extension";
-				$lang->load("$extension.sys", $path, null, false, true)
-			||	$lang->load("$extension.sys", $source, null, false, true);
+				$lang->load("$extension.sys", $path, null, false, false)
+			||	$lang->load("$extension.sys", $source, null, false, false)
+			||	$lang->load("$extension.sys", $path, $lang->getDefault(), false, false)
+			||	$lang->load("$extension.sys", $source, $lang->getDefault(), false, false);
 			$modules[$i]->text = JText::_($module->text);
 		}
 		JArrayHelper::sortObjects($modules, 'text', 1, true, true);

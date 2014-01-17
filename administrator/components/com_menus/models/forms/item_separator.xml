@@ -9,14 +9,13 @@
 			label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_LABEL"
 			description="COM_MENUS_ITEM_FIELD_MENU_IMAGE_DESC" />
 
-			<field name="menu_text" type="radio"
-				class="btn-group btn-group-yesno"
+			<field name="menu_text" type="radio" class="btn-group"
 				label="COM_MENUS_ITEM_FIELD_MENU_TEXT_LABEL"
 				description="COM_MENUS_ITEM_FIELD_MENU_TEXT_DESC"
 				default="1" filter="integer"
 			>
-				<option value="1">JYES</option>
 				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 
 		</fieldset>

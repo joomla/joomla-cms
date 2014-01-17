@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,14 +29,8 @@ class TagsHelper extends JHelperContent
 	 */
 	public static function addSubmenu($extension)
 	{
-		$parts     = explode('.', $extension);
+		$parts = explode('.', $extension);
 		$component = $parts[0];
-
-		// Avoid nonsense situation.
-		if ($component == 'tags')
-		{
-			return;
-		}
 
 		// Try to find the component helper.
 		$file = JPath::clean(JPATH_ADMINISTRATOR . '/components/com_tags/helpers/tags.php');
@@ -52,10 +46,12 @@ class TagsHelper extends JHelperContent
 				if (is_callable(array($cName, 'addSubmenu')))
 				{
 					$lang = JFactory::getLanguage();
-
-					// Loading language file from administrator/language directory then administrator/components/<extension>/language
-					$lang->load($component, JPATH_BASE, null, false, true)
-					||	$lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
+					// loading language file from the administrator/language directory then
+					// loading language file from the administrator/components/*extension*/language directory
+						$lang->load($component, JPATH_BASE, null, false, false)
+					||	$lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, false)
+					||	$lang->load($component, JPATH_BASE, $lang->getDefault(), false, false)
+					||	$lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), $lang->getDefault(), false, false);
 
 				}
 			}

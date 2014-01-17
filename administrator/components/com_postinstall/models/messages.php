@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_postinstall
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -133,11 +133,9 @@ class PostinstallModelMessages extends FOFModel
 			// Filter out messages based on dynamically loaded programmatic conditions
 			if (!empty($item->condition_file) && !empty($item->condition_method))
 			{
-				jimport('joomla.filesystem.file');
-
 				$file = FOFTemplateUtils::parsePath($item->condition_file, true);
 
-				if (JFile::exists($file))
+				if (is_file($file))
 				{
 					require_once $file;
 

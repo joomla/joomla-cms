@@ -1,9 +1,8 @@
 <?php
 /**
- * @package     FrameworkOnFramework
- * @subpackage  view
- * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @package    FrameworkOnFramework
+ * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
 defined('_JEXEC') or die;
@@ -103,7 +102,7 @@ class FOFViewCsv extends FOFViewHtml
 		$model = $this->getModel();
 
 		$items = $model->getItemList();
-		$this->items = $items;
+		$this->assignRef('items', $items);
 
 		$document = FOFPlatform::getInstance()->getDocument();
 
@@ -145,7 +144,7 @@ class FOFViewCsv extends FOFViewHtml
 			$hasFailed = true;
 		}
 
-		if (version_compare(JVERSION, '3.0', 'lt'))
+		if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'lt'))
 		{
 			if ($result instanceof Exception)
 			{
@@ -193,12 +192,7 @@ class FOFViewCsv extends FOFViewHtml
 
 				foreach ($keys as $k)
 				{
-					$k = str_replace('"', '""', $k);
-					$k = str_replace("\r", '\\r', $k);
-					$k = str_replace("\n", '\\n', $k);
-					$k = '"' . $k . '"';
-
-					$csv[] = $k;
+					$csv[] = '"' . str_replace('"', '""', $k) . '"';
 				}
 
 				echo implode(",", $csv) . "\r\n";
@@ -229,12 +223,7 @@ class FOFViewCsv extends FOFViewHtml
 						$v = 'Object';
 					}
 
-					$v = str_replace('"', '""', $v);
-					$v = str_replace("\r", '\\r', $v);
-					$v = str_replace("\n", '\\n', $v);
-					$v = '"' . $v . '"';
-
-					$csv[] = $v;
+					$csv[] = '"' . str_replace('"', '""', $v) . '"';
 				}
 
 				echo implode(",", $csv) . "\r\n";

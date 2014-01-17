@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  UCM
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,6 +25,22 @@ class JUcmContent extends JUcmBase
 	 * @since  3.1
 	 */
 	protected $table;
+
+	/**
+	 * The UCM type object
+	 *
+	 * @var    JUcmType
+	 * @since  3.1
+	 */
+	public $type;
+
+	/**
+	 * The alias for the content table
+	 *
+	 * @var    string
+	 * @since  3.1
+	 */
+	protected $alias;
 
 	/**
 	 * The UCM data array
@@ -182,7 +198,7 @@ class JUcmContent extends JUcmBase
 	 * @param   JTable   $table       JTable Object
 	 * @param   boolean  $primaryKey  Flag that is true for data that are using #__ucm_content as their primary table
 	 *
-	 * @return  boolean  true on success
+	 * @return  Boolean  true on success
 	 *
 	 * @since   3.1
 	 */

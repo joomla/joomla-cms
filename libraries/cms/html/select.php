@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,7 +27,7 @@ abstract class JHtmlSelect
 	static protected $optionDefaults = array(
 		'option' => array('option.attr' => null, 'option.disable' => 'disable', 'option.id' => null, 'option.key' => 'value',
 			'option.key.toHtml' => true, 'option.label' => null, 'option.label.toHtml' => true, 'option.text' => 'text',
-			'option.text.toHtml' => true, 'option.class' => 'class', 'option.onclick' => 'onclick'));
+			'option.text.toHtml' => true));
 
 	/**
 	 * Generates a yes/no radio list.
@@ -125,42 +125,6 @@ abstract class JHtmlSelect
 		$baseIndent = str_repeat($options['format.indent'], $options['format.depth']++);
 		$html = $baseIndent . '<select' . ($id !== '' ? ' id="' . $id . '"' : '') . ' name="' . $name . '"' . $attribs . '>' . $options['format.eol']
 			. static::options($data, $options) . $baseIndent . '</select>' . $options['format.eol'];
-
-		return $html;
-	}
-
-	/**
-	 * Method to build a list with suggestions
-	 *
-	 * @param   array    $data       An array of objects, arrays, or values.
-	 * @param   string   $optKey     The name of the object variable for the option value. If
-	 *                               set to null, the index of the value array is used.
-	 * @param   string   $optText    The name of the object variable for the option text.
-	 * @param   mixed    $idtag      Value of the field id or null by default
-	 * @param   boolean  $translate  True to translate
-	 *
-	 * @return  string  HTML for the select list
-	 *
-	 * @since   3.2
-	 */
-	public static function suggestionlist($data, $optKey = 'value', $optText = 'text', $idtag, $translate = false)
-	{
-		// Set default options
-		$options = array_merge(JHtml::$formatOptions, array('format.depth' => 0, 'id' => false));
-
-		// Get options from the parameters
-		$options['id'] = $idtag;
-		$options['list.attr'] = null;
-		$options['list.translate'] = $translate;
-		$options['option.key'] = $optKey;
-		$options['option.text'] = $optText;
-		$options['list.select'] = null;
-
-		$id = ' id="' . $idtag . '"';
-
-		$baseIndent = str_repeat($options['format.indent'], $options['format.depth']++);
-		$html = $baseIndent . '<datalist' . $id . '>' . $options['format.eol']
-			. static::options($data, $options) . $baseIndent . '</datalist>' . $options['format.eol'];
 
 		return $html;
 	}
@@ -610,16 +574,6 @@ abstract class JHtmlSelect
 				{
 					$extra .= ' disabled="disabled"';
 				}
-
-				if (isset($element->$options['option.class']) && $element->$options['option.class'])
-				{
-					$extra .= ' class="' . $element->$options['option.class'] . '"';
-				}
-
-				if (isset($element->$options['option.onclick']) && $element->$options['option.onclick'])
-				{
-					$extra .= ' onclick="' . $element->$options['option.onclick'] . '"';
-				}
 			}
 			else
 			{
@@ -654,7 +608,7 @@ abstract class JHtmlSelect
 				$splitText = preg_split('/ -[\s]*/', $text, 2, PREG_SPLIT_NO_EMPTY);
 				$text = isset($splitText[0]) ? $splitText[0] : '';
 
-				if (!empty($splitText[1]))
+				if (isset($splitText[1]))
 				{
 					$text .= ' - ' . $splitText[1];
 				}

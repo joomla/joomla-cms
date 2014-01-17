@@ -40,7 +40,8 @@
 
 		<field
 			name="searchtype"
-			type="list"
+			type="radio"
+			class="btn-group"
 			label="COM_LANGUAGES_OVERRIDE_FIELD_SEARCHTYPE_LABEL"
 			description="COM_LANGUAGES_OVERRIDE_FIELD_SEARCHTYPE_DESC"
 			default="value">

@@ -43,7 +43,7 @@ class FOFHalLinks
 			return false;
 		}
 
-		if (!array_key_exists($rel, $this->_links) || $overwrite)
+		if (!array_key_exists($rel, $this->_links) || !$overwrite)
 		{
 			$this->_links[$rel] = $link;
 		}
@@ -80,21 +80,11 @@ class FOFHalLinks
 			return false;
 		}
 
-		$localOverwrite = $overwrite;
-
 		foreach ($links as $link)
 		{
 			if ($link instanceof FOFHalLink)
 			{
-				$this->addLink($rel, $link, $localOverwrite);
-			}
-
-			// After the first time we call this with overwrite on we have to
-			// turn it off so that the other links are added to the set instead
-			// of overwriting the first item that's already added.
-			if ($localOverwrite)
-			{
-				$localOverwrite = false;
+				$this->addLink($rel, $link, $overwrite);
 			}
 		}
 	}

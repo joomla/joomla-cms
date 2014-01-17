@@ -13,9 +13,9 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `#__assets` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
-  `parent_id` int(11) NOT NULL DEFAULT 0 COMMENT 'Nested set parent.',
-  `lft` int(11) NOT NULL DEFAULT 0 COMMENT 'Nested set lft.',
-  `rgt` int(11) NOT NULL DEFAULT 0 COMMENT 'Nested set rgt.',
+  `parent_id` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set parent.',
+  `lft` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set lft.',
+  `rgt` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set rgt.',
   `level` int(10) unsigned NOT NULL COMMENT 'The cached level in the nested tree.',
   `name` varchar(50) NOT NULL COMMENT 'The unique name for the asset.\n',
   `title` varchar(100) NOT NULL COMMENT 'The descriptive title for the asset.',
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `#__assets` (
 --
 
 INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`) VALUES
-(1, 0, 0, 105, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
+(1, 0, 0, 75, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
 (2, 1, 1, 2, 1, 'com_admin', 'com_admin', '{}'),
 (3, 1, 3, 6, 1, 'com_banners', 'com_banners', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 (4, 1, 7, 8, 1, 'com_cache', 'com_cache', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
@@ -48,42 +48,27 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (15, 1, 33, 34, 1, 'com_media', 'com_media', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":{"5":1}}'),
 (16, 1, 35, 36, 1, 'com_menus', 'com_menus', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 (17, 1, 37, 38, 1, 'com_messages', 'com_messages', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
-(18, 1, 39, 70, 1, 'com_modules', 'com_modules', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(19, 1, 71, 74, 1, 'com_newsfeeds', 'com_newsfeeds', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
-(20, 1, 75, 76, 1, 'com_plugins', 'com_plugins', '{"core.admin":{"7":1},"core.manage":[],"core.edit":[],"core.edit.state":[]}'),
-(21, 1, 77, 78, 1, 'com_redirect', 'com_redirect', '{"core.admin":{"7":1},"core.manage":[]}'),
-(22, 1, 79, 80, 1, 'com_search', 'com_search', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
-(23, 1, 81, 82, 1, 'com_templates', 'com_templates', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(24, 1, 83, 86, 1, 'com_users', 'com_users', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(25, 1, 87, 90, 1, 'com_weblinks', 'com_weblinks', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}'),
-(26, 1, 91, 92, 1, 'com_wrapper', 'com_wrapper', '{}'),
+(18, 1, 39, 40, 1, 'com_modules', 'com_modules', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(19, 1, 41, 44, 1, 'com_newsfeeds', 'com_newsfeeds', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
+(20, 1, 45, 46, 1, 'com_plugins', 'com_plugins', '{"core.admin":{"7":1},"core.manage":[],"core.edit":[],"core.edit.state":[]}'),
+(21, 1, 47, 48, 1, 'com_redirect', 'com_redirect', '{"core.admin":{"7":1},"core.manage":[]}'),
+(22, 1, 49, 50, 1, 'com_search', 'com_search', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
+(23, 1, 51, 52, 1, 'com_templates', 'com_templates', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(24, 1, 53, 56, 1, 'com_users', 'com_users', '{"core.admin":{"7":1},"core.manage":[],"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(25, 1, 57, 60, 1, 'com_weblinks', 'com_weblinks', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":[],"core.edit":{"4":1},"core.edit.state":{"5":1},"core.edit.own":[]}'),
+(26, 1, 61, 62, 1, 'com_wrapper', 'com_wrapper', '{}'),
 (27, 8, 18, 19, 2, 'com_content.category.2', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
 (28, 3, 4, 5, 2, 'com_banners.category.3', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
 (29, 7, 14, 15, 2, 'com_contact.category.4', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
-(30, 19, 72, 73, 2, 'com_newsfeeds.category.5', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
-(31, 25, 88, 89, 2, 'com_weblinks.category.6', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
-(32, 24, 84, 85, 1, 'com_users.category.7', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(33, 1, 93, 94, 1, 'com_finder', 'com_finder', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
-(34, 1, 95, 96, 1, 'com_joomlaupdate', 'com_joomlaupdate', '{"core.admin":[],"core.manage":[],"core.delete":[],"core.edit.state":[]}'),
-(35, 1, 97, 98, 1, 'com_tags', 'com_tags', '{"core.admin":[],"core.manage":[],"core.manage":[],"core.delete":[],"core.edit.state":[]}'),
-(36, 1, 99, 100, 1, 'com_contenthistory', 'com_contenthistory', '{}'),
-(37, 1, 101, 102, 1, 'com_ajax', 'com_ajax', '{}'),
-(38, 1, 103, 104, 1, 'com_postinstall', 'com_postinstall', '{}'),
-(39, 18, 40, 41, 2, 'com_modules.module.1', 'Main Menu', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(40, 18, 42, 43, 2, 'com_modules.module.2', 'Login', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(41, 18, 44, 45, 2, 'com_modules.module.3', 'Popular Articles', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(42, 18, 46, 47, 2, 'com_modules.module.4', 'Recently Added Articles', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(43, 18, 48, 49, 2, 'com_modules.module.8', 'Toolbar', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(44, 18, 50, 51, 2, 'com_modules.module.9', 'Quick Icons', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(45, 18, 52, 53, 2, 'com_modules.module.10', 'Logged-in Users', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(46, 18, 54, 55, 2, 'com_modules.module.12', 'Admin Menu', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(47, 18, 56, 57, 2, 'com_modules.module.13', 'Admin Submenu', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(48, 18, 58, 59, 2, 'com_modules.module.14', 'User Status', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(49, 18, 60, 61, 2, 'com_modules.module.15', 'Title', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(50, 18, 62, 63, 2, 'com_modules.module.16', 'Login Form', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(51, 18, 64, 65, 2, 'com_modules.module.17', 'Breadcrumbs', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(52, 18, 66, 67, 2, 'com_modules.module.79', 'Multilanguage status', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
-(53, 18, 68, 69, 2, 'com_modules.module.86', 'Joomla Version', '{"core.delete":[],"core.edit":[],"core.edit.state":[]}');
+(30, 19, 42, 43, 2, 'com_newsfeeds.category.5', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
+(31, 25, 58, 59, 2, 'com_weblinks.category.6', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[],"core.edit.own":[]}'),
+(32, 24, 54, 55, 1, 'com_users.category.7', 'Uncategorised', '{"core.create":[],"core.delete":[],"core.edit":[],"core.edit.state":[]}'),
+(33, 1, 63, 64, 1, 'com_finder', 'com_finder', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
+(34, 1, 65, 66, 1, 'com_joomlaupdate', 'com_joomlaupdate', '{"core.admin":[],"core.manage":[],"core.delete":[],"core.edit.state":[]}'),
+(35, 1, 67, 68, 1, 'com_tags', 'com_tags', '{"core.admin":[],"core.manage":[],"core.manage":[],"core.delete":[],"core.edit.state":[]}'),
+(36, 1, 69, 70, 1, 'com_contenthistory', 'com_contenthistory', '{}'),
+(37, 1, 71, 72, 1, 'com_ajax', 'com_ajax', '{}'),
+(38, 1, 73, 74, 1, 'com_postinstall', 'com_postinstall', '{}');
 
 -- --------------------------------------------------------
 
@@ -107,39 +92,39 @@ CREATE TABLE IF NOT EXISTS `#__associations` (
 
 CREATE TABLE IF NOT EXISTS `#__banners` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `cid` int(11) NOT NULL DEFAULT 0,
-  `type` int(11) NOT NULL DEFAULT 0,
+  `cid` int(11) NOT NULL DEFAULT '0',
+  `type` int(11) NOT NULL DEFAULT '0',
   `name` varchar(255) NOT NULL DEFAULT '',
   `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
-  `imptotal` int(11) NOT NULL DEFAULT 0,
-  `impmade` int(11) NOT NULL DEFAULT 0,
-  `clicks` int(11) NOT NULL DEFAULT 0,
+  `imptotal` int(11) NOT NULL DEFAULT '0',
+  `impmade` int(11) NOT NULL DEFAULT '0',
+  `clicks` int(11) NOT NULL DEFAULT '0',
   `clickurl` varchar(200) NOT NULL DEFAULT '',
-  `state` tinyint(3) NOT NULL DEFAULT 0,
-  `catid` int(10) unsigned NOT NULL DEFAULT 0,
+  `state` tinyint(3) NOT NULL DEFAULT '0',
+  `catid` int(10) unsigned NOT NULL DEFAULT '0',
   `description` text NOT NULL,
   `custombannercode` varchar(2048) NOT NULL,
-  `sticky` tinyint(1) unsigned NOT NULL DEFAULT 0,
-  `ordering` int(11) NOT NULL DEFAULT 0,
+  `sticky` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `ordering` int(11) NOT NULL DEFAULT '0',
   `metakey` text NOT NULL,
   `params` text NOT NULL,
-  `own_prefix` tinyint(1) NOT NULL DEFAULT 0,
+  `own_prefix` tinyint(1) NOT NULL DEFAULT '0',
   `metakey_prefix` varchar(255) NOT NULL DEFAULT '',
-  `purchase_type` tinyint(4) NOT NULL DEFAULT -1,
-  `track_clicks` tinyint(4) NOT NULL DEFAULT -1,
-  `track_impressions` tinyint(4) NOT NULL DEFAULT -1,
-  `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
+  `purchase_type` tinyint(4) NOT NULL DEFAULT '-1',
+  `track_clicks` tinyint(4) NOT NULL DEFAULT '-1',
+  `track_impressions` tinyint(4) NOT NULL DEFAULT '-1',
+  `checked_out` int(10) unsigned NOT NULL DEFAULT '0',
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `reset` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `language` char(7) NOT NULL DEFAULT '',
-  `created_by` int(10) unsigned NOT NULL DEFAULT 0,
+  `created_by` int(10) unsigned NOT NULL DEFAULT '0',
   `created_by_alias` varchar(255) NOT NULL DEFAULT '',
   `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modified_by` int(10) unsigned NOT NULL DEFAULT 0,
-  `version` int(10) unsigned NOT NULL DEFAULT 1,
+  `modified_by` int(10) unsigned NOT NULL DEFAULT '0',
+  `version` int(10) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `idx_state` (`state`),
   KEY `idx_own_prefix` (`own_prefix`),
@@ -160,15 +145,15 @@ CREATE TABLE IF NOT EXISTS `#__banner_clients` (
   `contact` varchar(255) NOT NULL DEFAULT '',
   `email` varchar(255) NOT NULL DEFAULT '',
   `extrainfo` text NOT NULL,
-  `state` tinyint(3) NOT NULL DEFAULT 0,
-  `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
+  `state` tinyint(3) NOT NULL DEFAULT '0',
+  `checked_out` int(10) unsigned NOT NULL DEFAULT '0',
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `metakey` text NOT NULL,
-  `own_prefix` tinyint(4) NOT NULL DEFAULT 0,
+  `own_prefix` tinyint(4) NOT NULL DEFAULT '0',
   `metakey_prefix` varchar(255) NOT NULL DEFAULT '',
-  `purchase_type` tinyint(4) NOT NULL DEFAULT -1,
-  `track_clicks` tinyint(4) NOT NULL DEFAULT -1,
-  `track_impressions` tinyint(4) NOT NULL DEFAULT -1,
+  `purchase_type` tinyint(4) NOT NULL DEFAULT '-1',
+  `track_clicks` tinyint(4) NOT NULL DEFAULT '-1',
+  `track_impressions` tinyint(4) NOT NULL DEFAULT '-1',
   PRIMARY KEY (`id`),
   KEY `idx_own_prefix` (`own_prefix`),
   KEY `idx_metakey_prefix` (`metakey_prefix`)
@@ -184,7 +169,7 @@ CREATE TABLE IF NOT EXISTS `#__banner_tracks` (
   `track_date` datetime NOT NULL,
   `track_type` int(10) unsigned NOT NULL,
   `banner_id` int(10) unsigned NOT NULL,
-  `count` int(10) unsigned NOT NULL DEFAULT 0,
+  `count` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`track_date`,`track_type`,`banner_id`),
   KEY `idx_track_date` (`track_date`),
   KEY `idx_track_type` (`track_type`),
@@ -199,32 +184,32 @@ CREATE TABLE IF NOT EXISTS `#__banner_tracks` (
 
 CREATE TABLE IF NOT EXISTS `#__categories` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `asset_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
-  `parent_id` int(10) unsigned NOT NULL DEFAULT 0,
-  `lft` int(11) NOT NULL DEFAULT 0,
-  `rgt` int(11) NOT NULL DEFAULT 0,
-  `level` int(10) unsigned NOT NULL DEFAULT 0,
+  `asset_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to the #__assets table.',
+  `parent_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `lft` int(11) NOT NULL DEFAULT '0',
+  `rgt` int(11) NOT NULL DEFAULT '0',
+  `level` int(10) unsigned NOT NULL DEFAULT '0',
   `path` varchar(255) NOT NULL DEFAULT '',
   `extension` varchar(50) NOT NULL DEFAULT '',
   `title` varchar(255) NOT NULL,
   `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
   `note` varchar(255) NOT NULL DEFAULT '',
   `description` mediumtext NOT NULL,
-  `published` tinyint(1) NOT NULL DEFAULT 0,
-  `checked_out` int(11) unsigned NOT NULL DEFAULT 0,
+  `published` tinyint(1) NOT NULL DEFAULT '0',
+  `checked_out` int(11) unsigned NOT NULL DEFAULT '0',
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `access` int(10) unsigned NOT NULL DEFAULT 0,
+  `access` int(10) unsigned NOT NULL DEFAULT '0',
   `params` text NOT NULL,
   `metadesc` varchar(1024) NOT NULL COMMENT 'The meta description for the page.',
   `metakey` varchar(1024) NOT NULL COMMENT 'The meta keywords for the page.',
   `metadata` varchar(2048) NOT NULL COMMENT 'JSON encoded metadata properties.',
-  `created_user_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `created_user_id` int(10) unsigned NOT NULL DEFAULT '0',
   `created_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modified_user_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `modified_user_id` int(10) unsigned NOT NULL DEFAULT '0',
   `modified_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `hits` int(10) unsigned NOT NULL DEFAULT 0,
+  `hits` int(10) unsigned NOT NULL DEFAULT '0',
   `language` char(7) NOT NULL,
-  `version` int(10) unsigned NOT NULL DEFAULT 1,
+  `version` int(10) unsigned NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `cat_idx` (`extension`,`published`,`access`),
   KEY `idx_access` (`access`),
@@ -240,13 +225,13 @@ CREATE TABLE IF NOT EXISTS `#__categories` (
 --
 
 INSERT INTO `#__categories` (`id`, `asset_id`, `parent_id`, `lft`, `rgt`, `level`, `path`, `extension`, `title`, `alias`, `note`, `description`, `published`, `checked_out`, `checked_out_time`, `access`, `params`, `metadesc`, `metakey`, `metadata`, `created_user_id`, `created_time`, `modified_user_id`, `modified_time`, `hits`, `language`, `version`) VALUES
-(1, 0, 0, 0, 13, 0, '', 'system', 'ROOT', 'root', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '{}', 42, '2011-01-01 00:00:01', 0, '0000-00-00 00:00:00', 0, '*', 1),
-(2, 27, 1, 1, 2, 1, 'uncategorised', 'com_content', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, '2011-01-01 00:00:01', 0, '0000-00-00 00:00:00', 0, '*', 1),
-(3, 28, 1, 3, 4, 1, 'uncategorised', 'com_banners', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, '2011-01-01 00:00:01', 0, '0000-00-00 00:00:00', 0, '*', 1),
-(4, 29, 1, 5, 6, 1, 'uncategorised', 'com_contact', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, '2011-01-01 00:00:01', 0, '0000-00-00 00:00:00', 0, '*', 1),
-(5, 30, 1, 7, 8, 1, 'uncategorised', 'com_newsfeeds', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, '2011-01-01 00:00:01', 0, '0000-00-00 00:00:00', 0, '*', 1),
-(6, 31, 1, 9, 10, 1, 'uncategorised', 'com_weblinks', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, '2011-01-01 00:00:01', 0, '0000-00-00 00:00:00', 0, '*', 1),
-(7, 32, 1, 11, 12, 1, 'uncategorised', 'com_users', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, '2011-01-01 00:00:01', 0, '0000-00-00 00:00:00', 0, '*', 1);
+(1, 0, 0, 0, 13, 0, '', 'system', 'ROOT', 'root', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', 42, '2011-01-01 00:00:01', 0, '0000-00-00 00:00:00', 0, '*', 1),
+(2, 27, 1, 1, 2, 1, 'uncategorised', 'com_content', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2011-01-01 00:00:01', 0, '0000-00-00 00:00:00', 0, '*', 1),
+(3, 28, 1, 3, 4, 1, 'uncategorised', 'com_banners', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":"","foobar":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2011-01-01 00:00:01', 0, '0000-00-00 00:00:00', 0, '*', 1),
+(4, 29, 1, 5, 6, 1, 'uncategorised', 'com_contact', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2011-01-01 00:00:01', 0, '0000-00-00 00:00:00', 0, '*', 1),
+(5, 30, 1, 7, 8, 1, 'uncategorised', 'com_newsfeeds', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2011-01-01 00:00:01', 0, '0000-00-00 00:00:00', 0, '*', 1),
+(6, 31, 1, 9, 10, 1, 'uncategorised', 'com_weblinks', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2011-01-01 00:00:01', 0, '0000-00-00 00:00:00', 0, '*', 1),
+(7, 32, 1, 11, 12, 1, 'uncategorised', 'com_users', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"target":"","image":""}', '', '', '{"page_title":"","author":"","robots":""}', 42, '2011-01-01 00:00:01', 0, '0000-00-00 00:00:00', 0, '*', 1);
 
 -- --------------------------------------------------------
 
@@ -269,15 +254,15 @@ CREATE TABLE IF NOT EXISTS `#__contact_details` (
   `misc` mediumtext,
   `image` varchar(255) DEFAULT NULL,
   `email_to` varchar(255) DEFAULT NULL,
-  `default_con` tinyint(1) unsigned NOT NULL DEFAULT 0,
-  `published` tinyint(1) NOT NULL DEFAULT 0,
-  `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
+  `default_con` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `published` tinyint(1) NOT NULL DEFAULT '0',
+  `checked_out` int(10) unsigned NOT NULL DEFAULT '0',
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `ordering` int(11) NOT NULL DEFAULT 0,
+  `ordering` int(11) NOT NULL DEFAULT '0',
   `params` text NOT NULL,
-  `user_id` int(11) NOT NULL DEFAULT 0,
-  `catid` int(11) NOT NULL DEFAULT 0,
-  `access` int(10) unsigned NOT NULL DEFAULT 0,
+  `user_id` int(11) NOT NULL DEFAULT '0',
+  `catid` int(11) NOT NULL DEFAULT '0',
+  `access` int(10) unsigned NOT NULL DEFAULT '0',
   `mobile` varchar(255) NOT NULL DEFAULT '',
   `webpage` varchar(255) NOT NULL DEFAULT '',
   `sortname1` varchar(255) NOT NULL,
@@ -285,19 +270,19 @@ CREATE TABLE IF NOT EXISTS `#__contact_details` (
   `sortname3` varchar(255) NOT NULL,
   `language` char(7) NOT NULL,
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `created_by` int(10) unsigned NOT NULL DEFAULT 0,
+  `created_by` int(10) unsigned NOT NULL DEFAULT '0',
   `created_by_alias` varchar(255) NOT NULL DEFAULT '',
   `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modified_by` int(10) unsigned NOT NULL DEFAULT 0,
+  `modified_by` int(10) unsigned NOT NULL DEFAULT '0',
   `metakey` text NOT NULL,
   `metadesc` text NOT NULL,
   `metadata` text NOT NULL,
-  `featured` tinyint(3) unsigned NOT NULL DEFAULT 0 COMMENT 'Set if article is featured.',
+  `featured` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'Set if article is featured.',
   `xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
   `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `version` int(10) unsigned NOT NULL DEFAULT 1,
-  `hits` int(10) unsigned NOT NULL DEFAULT 0,
+  `version` int(10) unsigned NOT NULL DEFAULT '1',
+  `hits` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `idx_access` (`access`),
   KEY `idx_checkout` (`checked_out`),
@@ -317,33 +302,33 @@ CREATE TABLE IF NOT EXISTS `#__contact_details` (
 
 CREATE TABLE IF NOT EXISTS `#__content` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `asset_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
+  `asset_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to the #__assets table.',
   `title` varchar(255) NOT NULL DEFAULT '',
   `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
   `introtext` mediumtext NOT NULL,
   `fulltext` mediumtext NOT NULL,
-  `state` tinyint(3) NOT NULL DEFAULT 0,
-  `catid` int(10) unsigned NOT NULL DEFAULT 0,
+  `state` tinyint(3) NOT NULL DEFAULT '0',
+  `catid` int(10) unsigned NOT NULL DEFAULT '0',
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `created_by` int(10) unsigned NOT NULL DEFAULT 0,
+  `created_by` int(10) unsigned NOT NULL DEFAULT '0',
   `created_by_alias` varchar(255) NOT NULL DEFAULT '',
   `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modified_by` int(10) unsigned NOT NULL DEFAULT 0,
-  `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
+  `modified_by` int(10) unsigned NOT NULL DEFAULT '0',
+  `checked_out` int(10) unsigned NOT NULL DEFAULT '0',
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `images` text NOT NULL,
   `urls` text NOT NULL,
   `attribs` varchar(5120) NOT NULL,
-  `version` int(10) unsigned NOT NULL DEFAULT 1,
-  `ordering` int(11) NOT NULL DEFAULT 0,
+  `version` int(10) unsigned NOT NULL DEFAULT '1',
+  `ordering` int(11) NOT NULL DEFAULT '0',
   `metakey` text NOT NULL,
   `metadesc` text NOT NULL,
-  `access` int(10) unsigned NOT NULL DEFAULT 0,
-  `hits` int(10) unsigned NOT NULL DEFAULT 0,
+  `access` int(10) unsigned NOT NULL DEFAULT '0',
+  `hits` int(10) unsigned NOT NULL DEFAULT '0',
   `metadata` text NOT NULL,
-  `featured` tinyint(3) unsigned NOT NULL DEFAULT 0 COMMENT 'Set if article is featured.',
+  `featured` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'Set if article is featured.',
   `language` char(7) NOT NULL COMMENT 'The language code for the article.',
   `xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
   PRIMARY KEY (`id`),
@@ -364,8 +349,8 @@ CREATE TABLE IF NOT EXISTS `#__content` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__content_frontpage` (
-  `content_id` int(11) NOT NULL DEFAULT 0,
-  `ordering` int(11) NOT NULL DEFAULT 0,
+  `content_id` int(11) NOT NULL DEFAULT '0',
+  `ordering` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`content_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -376,9 +361,9 @@ CREATE TABLE IF NOT EXISTS `#__content_frontpage` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__content_rating` (
-  `content_id` int(11) NOT NULL DEFAULT 0,
-  `rating_sum` int(10) unsigned NOT NULL DEFAULT 0,
-  `rating_count` int(10) unsigned NOT NULL DEFAULT 0,
+  `content_id` int(11) NOT NULL DEFAULT '0',
+  `rating_sum` int(10) unsigned NOT NULL DEFAULT '0',
+  `rating_count` int(10) unsigned NOT NULL DEFAULT '0',
   `lastip` varchar(50) NOT NULL DEFAULT '',
   PRIMARY KEY (`content_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -408,22 +393,17 @@ CREATE TABLE IF NOT EXISTS `#__content_types` (
 -- Dumping data for table `#__content_types`
 --
 
-INSERT INTO `#__content_types` (`type_id`, `type_title`, `type_alias`, `table`, `rules`, `field_mappings`, `router`, `content_history_options`) VALUES
-(1, 'Article', 'com_content.article', '{"special":{"dbtable":"#__content","key":"id","type":"Content","prefix":"JTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"state","core_alias":"alias","core_created_time":"created","core_modified_time":"modified","core_body":"introtext", "core_hits":"hits","core_publish_up":"publish_up","core_publish_down":"publish_down","core_access":"access", "core_params":"attribs", "core_featured":"featured", "core_metadata":"metadata", "core_language":"language", "core_images":"images", "core_urls":"urls", "core_version":"version", "core_ordering":"ordering", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"catid", "core_xreference":"xreference", "asset_id":"asset_id"}, "special":{"fulltext":"fulltext"}}', 'ContentHelperRoute::getArticleRoute', '{"formFile":"administrator\\/components\\/com_content\\/models\\/forms\\/article.xml", "hideFields":["asset_id","checked_out","checked_out_time","version"],"ignoreChanges":["modified_by", "modified", "checked_out", "checked_out_time", "version", "hits"],"convertToInt":["publish_up", "publish_down", "featured", "ordering"],"displayLookup":[{"sourceColumn":"catid","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"created_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"modified_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"} ]}'),
-(2, 'Weblink', 'com_weblinks.weblink', '{"special":{"dbtable":"#__weblinks","key":"id","type":"Weblink","prefix":"WeblinksTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"state","core_alias":"alias","core_created_time":"created","core_modified_time":"modified","core_body":"description", "core_hits":"hits","core_publish_up":"publish_up","core_publish_down":"publish_down","core_access":"access", "core_params":"params", "core_featured":"featured", "core_metadata":"metadata", "core_language":"language", "core_images":"images", "core_urls":"urls", "core_version":"version", "core_ordering":"ordering", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"catid", "core_xreference":"xreference", "asset_id":"null"}, "special":{}}', 'WeblinksHelperRoute::getWeblinkRoute', '{"formFile":"administrator\\/components\\/com_weblinks\\/models\\/forms\\/weblink.xml", "hideFields":["asset_id","checked_out","checked_out_time","version","featured","images"], "ignoreChanges":["modified_by", "modified", "checked_out", "checked_out_time", "version", "hits"], "convertToInt":["publish_up", "publish_down", "featured", "ordering"], "displayLookup":[{"sourceColumn":"catid","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"created_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"modified_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"} ]}'),
-(3, 'Contact', 'com_contact.contact', '{"special":{"dbtable":"#__contact_details","key":"id","type":"Contact","prefix":"ContactTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"name","core_state":"published","core_alias":"alias","core_created_time":"created","core_modified_time":"modified","core_body":"address", "core_hits":"hits","core_publish_up":"publish_up","core_publish_down":"publish_down","core_access":"access", "core_params":"params", "core_featured":"featured", "core_metadata":"metadata", "core_language":"language", "core_images":"image", "core_urls":"webpage", "core_version":"version", "core_ordering":"ordering", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"catid", "core_xreference":"xreference", "asset_id":"null"}, "special":{"con_position":"con_position","suburb":"suburb","state":"state","country":"country","postcode":"postcode","telephone":"telephone","fax":"fax","misc":"misc","email_to":"email_to","default_con":"default_con","user_id":"user_id","mobile":"mobile","sortname1":"sortname1","sortname2":"sortname2","sortname3":"sortname3"}}', 'ContactHelperRoute::getContactRoute', '{"formFile":"administrator\\/components\\/com_contact\\/models\\/forms\\/contact.xml","hideFields":["default_con","checked_out","checked_out_time","version","xreference"],"ignoreChanges":["modified_by", "modified", "checked_out", "checked_out_time", "version", "hits"],"convertToInt":["publish_up", "publish_down", "featured", "ordering"], "displayLookup":[ {"sourceColumn":"created_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"catid","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"modified_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"} ] }'),
-(4, 'Newsfeed', 'com_newsfeeds.newsfeed', '{"special":{"dbtable":"#__newsfeeds","key":"id","type":"Newsfeed","prefix":"NewsfeedsTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"name","core_state":"published","core_alias":"alias","core_created_time":"created","core_modified_time":"modified","core_body":"description", "core_hits":"hits","core_publish_up":"publish_up","core_publish_down":"publish_down","core_access":"access", "core_params":"params", "core_featured":"featured", "core_metadata":"metadata", "core_language":"language", "core_images":"images", "core_urls":"link", "core_version":"version", "core_ordering":"ordering", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"catid", "core_xreference":"xreference", "asset_id":"null"}, "special":{"numarticles":"numarticles","cache_time":"cache_time","rtl":"rtl"}}', 'NewsfeedsHelperRoute::getNewsfeedRoute', '{"formFile":"administrator\\/components\\/com_newsfeeds\\/models\\/forms\\/newsfeed.xml","hideFields":["asset_id","checked_out","checked_out_time","version"],"ignoreChanges":["modified_by", "modified", "checked_out", "checked_out_time", "version", "hits"],"convertToInt":["publish_up", "publish_down", "featured", "ordering"],"displayLookup":[{"sourceColumn":"catid","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"created_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"modified_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"} ]}'),
+INSERT INTO `#__content_types` (`type_id`, `type_title`, `type_alias`, `table`, `rules`, `field_mappings`,`router`, `content_history_options`) VALUES
+(1, 'Article', 'com_content.article', '{"special":{"dbtable":"#__content","key":"id","type":"Content","prefix":"JTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"state","core_alias":"alias","core_created_time":"created","core_modified_time":"modified","core_body":"introtext", "core_hits":"hits","core_publish_up":"publish_up","core_publish_down":"publish_down","core_access":"access", "core_params":"attribs", "core_featured":"featured", "core_metadata":"metadata", "core_language":"language", "core_images":"images", "core_urls":"urls", "core_version":"version", "core_ordering":"ordering", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"catid", "core_xreference":"xreference", "asset_id":"asset_id"}, "special":{"fulltext":"fulltext"}}', 'ContentHelperRoute::getArticleRoute', '{"form_file":"administrator\\/components\\/com_content\\/models\\/forms\\/article.xml",  "hide_fields":["asset_id","checked_out","checked_out_time","version"],  "display_lookup":[ {"source_column":"catid","target_table":"#__categories","target_column":"id","display_column":"title"},  {"source_column":"created_by","target_table":"#__users","target_column":"id","display_column":"name"}, {"source_column":"access","target_table":"#__viewlevels","target_column":"id","display_column":"title"}, {"source_column":"modified_by","target_table":"#__users","target_column":"id","display_column":"name"} ]}'),
+(2, 'Weblink', 'com_weblinks.weblink', '{"special":{"dbtable":"#__weblinks","key":"id","type":"Weblink","prefix":"WeblinksTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"state","core_alias":"alias","core_created_time":"created","core_modified_time":"modified","core_body":"description", "core_hits":"hits","core_publish_up":"publish_up","core_publish_down":"publish_down","core_access":"access", "core_params":"params", "core_featured":"featured", "core_metadata":"metadata", "core_language":"language", "core_images":"images", "core_urls":"urls", "core_version":"version", "core_ordering":"ordering", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"catid", "core_xreference":"xreference", "asset_id":"null"}, "special":{}}', 'WeblinksHelperRoute::getWeblinkRoute', '{"form_file":"administrator\\/components\\/com_weblinks\\/models\\/forms\\/weblink.xml",    "hide_fields":["asset_id","checked_out","checked_out_time","version","featured"],    "display_lookup":[  {"source_column":"catid","target_table":"#__categories","target_column":"id","display_column":"title"},    {"source_column":"created_by","target_table":"#__users","target_column":"id","display_column":"name"},   {"source_column":"access","target_table":"#__viewlevels","target_column":"id","display_column":"title"},   {"source_column":"modified_by","target_table":"#__users","target_column":"id","display_column":"name"}  ]}'),
+(3, 'Contact', 'com_contact.contact', '{"special":{"dbtable":"#__contact_details","key":"id","type":"Contact","prefix":"ContactTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"name","core_state":"published","core_alias":"alias","core_created_time":"created","core_modified_time":"modified","core_body":"address", "core_hits":"hits","core_publish_up":"publish_up","core_publish_down":"publish_down","core_access":"access", "core_params":"params", "core_featured":"featured", "core_metadata":"metadata", "core_language":"language", "core_images":"image", "core_urls":"webpage", "core_version":"version", "core_ordering":"ordering", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"catid", "core_xreference":"xreference", "asset_id":"null"}, "special":{"con_position":"con_position","suburb":"suburb","state":"state","country":"country","postcode":"postcode","telephone":"telephone","fax":"fax","misc":"misc","email_to":"email_to","default_con":"default_con","user_id":"user_id","mobile":"mobile","sortname1":"sortname1","sortname2":"sortname2","sortname3":"sortname3"}}', 'ContactHelperRoute::getContactRoute', '{"form_file":"administrator/components/com_contact/models/forms/contact.xml","hide_fields":["default_con","checked_out","checked_out_time","version","xreference"],"display_lookup":[  {"source_column":"created_by","target_table":"#__users","target_column":"id","display_column":"name"},{"source_column":"catid","target_table":"#__categories","target_column":"id","display_column":"title"},{"source_column":"modified_by","target_table":"#__users","target_column":"id","display_column":"name"},{"source_column":"access","target_table":"#__viewlevels","target_column":"id","display_column":"title"},{"source_column":"user_id","target_table":"#__users","target_column":"id","display_column":"name"} ] }'),
+(4, 'Newsfeed', 'com_newsfeeds.newsfeed', '{"special":{"dbtable":"#__newsfeeds","key":"id","type":"Newsfeed","prefix":"NewsfeedsTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"name","core_state":"published","core_alias":"alias","core_created_time":"created","core_modified_time":"modified","core_body":"description", "core_hits":"hits","core_publish_up":"publish_up","core_publish_down":"publish_down","core_access":"access", "core_params":"params", "core_featured":"featured", "core_metadata":"metadata", "core_language":"language", "core_images":"images", "core_urls":"link", "core_version":"version", "core_ordering":"ordering", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"catid", "core_xreference":"xreference", "asset_id":"null"}, "special":{"numarticles":"numarticles","cache_time":"cache_time","rtl":"rtl"}}', 'NewsfeedsHelperRoute::getNewsfeedRoute', '{"form_file":"administrator\\/components\\/com_newsfeeds\\/models\\/forms\\/newsfeed.xml",   "hide_fields":["asset_id","checked_out","checked_out_time","version"],   "display_lookup":[  {"source_column":"catid","target_table":"#__categories","target_column":"id","display_column":"title"},   {"source_column":"created_by","target_table":"#__users","target_column":"id","display_column":"name"},  {"source_column":"access","target_table":"#__viewlevels","target_column":"id","display_column":"title"},  {"source_column":"modified_by","target_table":"#__users","target_column":"id","display_column":"name"}  ]}'),
 (5, 'User', 'com_users.user', '{"special":{"dbtable":"#__users","key":"id","type":"User","prefix":"JTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"name","core_state":"null","core_alias":"username","core_created_time":"registerdate","core_modified_time":"lastvisitDate","core_body":"null", "core_hits":"null","core_publish_up":"null","core_publish_down":"null","access":"null", "core_params":"params", "core_featured":"null", "core_metadata":"null", "core_language":"null", "core_images":"null", "core_urls":"null", "core_version":"null", "core_ordering":"null", "core_metakey":"null", "core_metadesc":"null", "core_catid":"null", "core_xreference":"null", "asset_id":"null"}, "special":{}}', 'UsersHelperRoute::getUserRoute', ''),
-(6, 'Article Category', 'com_content.category', '{"special":{"dbtable":"#__categories","key":"id","type":"Category","prefix":"JTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"published","core_alias":"alias","core_created_time":"created_time","core_modified_time":"modified_time","core_body":"description", "core_hits":"hits","core_publish_up":"null","core_publish_down":"null","core_access":"access", "core_params":"params", "core_featured":"null", "core_metadata":"metadata", "core_language":"language", "core_images":"null", "core_urls":"null", "core_version":"version", "core_ordering":"null", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"parent_id", "core_xreference":"null", "asset_id":"asset_id"}, "special":{"parent_id":"parent_id","lft":"lft","rgt":"rgt","level":"level","path":"path","extension":"extension","note":"note"}}', 'ContentHelperRoute::getCategoryRoute', '{"formFile":"administrator\\/components\\/com_categories\\/models\\/forms\\/category.xml", "hideFields":["asset_id","checked_out","checked_out_time","version","lft","rgt","level","path","extension"], "ignoreChanges":["modified_user_id", "modified_time", "checked_out", "checked_out_time", "version", "hits", "path"],"convertToInt":["publish_up", "publish_down"], "displayLookup":[{"sourceColumn":"created_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"modified_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"parent_id","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"}]}'),
-(7, 'Contact Category', 'com_contact.category', '{"special":{"dbtable":"#__categories","key":"id","type":"Category","prefix":"JTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"published","core_alias":"alias","core_created_time":"created_time","core_modified_time":"modified_time","core_body":"description", "core_hits":"hits","core_publish_up":"null","core_publish_down":"null","core_access":"access", "core_params":"params", "core_featured":"null", "core_metadata":"metadata", "core_language":"language", "core_images":"null", "core_urls":"null", "core_version":"version", "core_ordering":"null", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"parent_id", "core_xreference":"null", "asset_id":"asset_id"}, "special":{"parent_id":"parent_id","lft":"lft","rgt":"rgt","level":"level","path":"path","extension":"extension","note":"note"}}', 'ContactHelperRoute::getCategoryRoute', '{"formFile":"administrator\\/components\\/com_categories\\/models\\/forms\\/category.xml", "hideFields":["asset_id","checked_out","checked_out_time","version","lft","rgt","level","path","extension"], "ignoreChanges":["modified_user_id", "modified_time", "checked_out", "checked_out_time", "version", "hits", "path"],"convertToInt":["publish_up", "publish_down"], "displayLookup":[{"sourceColumn":"created_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"modified_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"parent_id","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"}]}'),
-(8, 'Newsfeeds Category', 'com_newsfeeds.category', '{"special":{"dbtable":"#__categories","key":"id","type":"Category","prefix":"JTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"published","core_alias":"alias","core_created_time":"created_time","core_modified_time":"modified_time","core_body":"description", "core_hits":"hits","core_publish_up":"null","core_publish_down":"null","core_access":"access", "core_params":"params", "core_featured":"null", "core_metadata":"metadata", "core_language":"language", "core_images":"null", "core_urls":"null", "core_version":"version", "core_ordering":"null", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"parent_id", "core_xreference":"null", "asset_id":"asset_id"}, "special":{"parent_id":"parent_id","lft":"lft","rgt":"rgt","level":"level","path":"path","extension":"extension","note":"note"}}', 'NewsfeedsHelperRoute::getCategoryRoute', '{"formFile":"administrator\\/components\\/com_categories\\/models\\/forms\\/category.xml", "hideFields":["asset_id","checked_out","checked_out_time","version","lft","rgt","level","path","extension"], "ignoreChanges":["modified_user_id", "modified_time", "checked_out", "checked_out_time", "version", "hits", "path"],"convertToInt":["publish_up", "publish_down"], "displayLookup":[{"sourceColumn":"created_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"modified_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"parent_id","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"}]}'),
-(9, 'Weblinks Category', 'com_weblinks.category', '{"special":{"dbtable":"#__categories","key":"id","type":"Category","prefix":"JTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"published","core_alias":"alias","core_created_time":"created_time","core_modified_time":"modified_time","core_body":"description", "core_hits":"hits","core_publish_up":"null","core_publish_down":"null","core_access":"access", "core_params":"params", "core_featured":"null", "core_metadata":"metadata", "core_language":"language", "core_images":"null", "core_urls":"null", "core_version":"version", "core_ordering":"null", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"parent_id", "core_xreference":"null", "asset_id":"asset_id"}, "special":{"parent_id":"parent_id","lft":"lft","rgt":"rgt","level":"level","path":"path","extension":"extension","note":"note"}}', 'WeblinksHelperRoute::getCategoryRoute', '{"formFile":"administrator\\/components\\/com_categories\\/models\\/forms\\/category.xml", "hideFields":["asset_id","checked_out","checked_out_time","version","lft","rgt","level","path","extension"], "ignoreChanges":["modified_user_id", "modified_time", "checked_out", "checked_out_time", "version", "hits", "path"],"convertToInt":["publish_up", "publish_down"], "displayLookup":[{"sourceColumn":"created_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"modified_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"parent_id","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"}]}'),
-(10, 'Tag', 'com_tags.tag', '{"special":{"dbtable":"#__tags","key":"tag_id","type":"Tag","prefix":"TagsTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"published","core_alias":"alias","core_created_time":"created_time","core_modified_time":"modified_time","core_body":"description", "core_hits":"hits","core_publish_up":"null","core_publish_down":"null","core_access":"access", "core_params":"params", "core_featured":"featured", "core_metadata":"metadata", "core_language":"language", "core_images":"images", "core_urls":"urls", "core_version":"version", "core_ordering":"null", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"null", "core_xreference":"null", "asset_id":"null"}, "special":{"parent_id":"parent_id","lft":"lft","rgt":"rgt","level":"level","path":"path"}}', 'TagsHelperRoute::getTagRoute', '{"formFile":"administrator\\/components\\/com_tags\\/models\\/forms\\/tag.xml", "hideFields":["checked_out","checked_out_time","version", "lft", "rgt", "level", "path", "urls", "publish_up", "publish_down"],"ignoreChanges":["modified_user_id", "modified_time", "checked_out", "checked_out_time", "version", "hits", "path"],"convertToInt":["publish_up", "publish_down"], "displayLookup":[{"sourceColumn":"created_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"}, {"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"}, {"sourceColumn":"modified_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"}]}'),
-(11, 'Banner', 'com_banners.banner', '{"special":{"dbtable":"#__banners","key":"id","type":"Banner","prefix":"BannersTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"name","core_state":"published","core_alias":"alias","core_created_time":"created","core_modified_time":"modified","core_body":"description", "core_hits":"null","core_publish_up":"publish_up","core_publish_down":"publish_down","core_access":"access", "core_params":"params", "core_featured":"null", "core_metadata":"metadata", "core_language":"language", "core_images":"images", "core_urls":"link", "core_version":"version", "core_ordering":"ordering", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"catid", "core_xreference":"null", "asset_id":"null"}, "special":{"imptotal":"imptotal", "impmade":"impmade", "clicks":"clicks", "clickurl":"clickurl", "custombannercode":"custombannercode", "cid":"cid", "purchase_type":"purchase_type", "track_impressions":"track_impressions", "track_clicks":"track_clicks"}}', '','{"formFile":"administrator\\/components\\/com_banners\\/models\\/forms\\/banner.xml", "hideFields":["checked_out","checked_out_time","version", "reset"],"ignoreChanges":["modified_by", "modified", "checked_out", "checked_out_time", "version", "imptotal", "impmade", "reset"], "convertToInt":["publish_up", "publish_down", "ordering"], "displayLookup":[{"sourceColumn":"catid","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"}, {"sourceColumn":"cid","targetTable":"#__banner_clients","targetColumn":"id","displayColumn":"name"}, {"sourceColumn":"created_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"modified_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"} ]}'),
-(12, 'Banners Category', 'com_banners.category', '{"special":{"dbtable":"#__categories","key":"id","type":"Category","prefix":"JTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"published","core_alias":"alias","core_created_time":"created_time","core_modified_time":"modified_time","core_body":"description", "core_hits":"hits","core_publish_up":"null","core_publish_down":"null","core_access":"access", "core_params":"params", "core_featured":"null", "core_metadata":"metadata", "core_language":"language", "core_images":"null", "core_urls":"null", "core_version":"version", "core_ordering":"null", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"parent_id", "core_xreference":"null", "asset_id":"asset_id"}, "special": {"parent_id":"parent_id","lft":"lft","rgt":"rgt","level":"level","path":"path","extension":"extension","note":"note"}}','','{"formFile":"administrator\\/components\\/com_categories\\/models\\/forms\\/category.xml", "hideFields":["asset_id","checked_out","checked_out_time","version","lft","rgt","level","path","extension"], "ignoreChanges":["modified_user_id", "modified_time", "checked_out", "checked_out_time", "version", "hits", "path"], "convertToInt":["publish_up", "publish_down"], "displayLookup":[{"sourceColumn":"created_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"modified_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"parent_id","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"}]}'),
-(13, 'Banner Client', 'com_banners.client', '{"special":{"dbtable":"#__banner_clients","key":"id","type":"Client","prefix":"BannersTable"}}', '', '', '', '{"formFile":"administrator\\/components\\/com_banners\\/models\\/forms\\/client.xml", "hideFields":["checked_out","checked_out_time"], "ignoreChanges":["checked_out", "checked_out_time"], "convertToInt":[], "displayLookup":[]}'),
-(14, 'User Notes', 'com_users.note', '{"special":{"dbtable":"#__user_notes","key":"id","type":"Note","prefix":"UsersTable"}}', '', '', '', '{"formFile":"administrator\\/components\\/com_users\\/models\\/forms\\/note.xml", "hideFields":["checked_out","checked_out_time", "publish_up", "publish_down"],"ignoreChanges":["modified_user_id", "modified_time", "checked_out", "checked_out_time"], "convertToInt":["publish_up", "publish_down"],"displayLookup":[{"sourceColumn":"catid","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"}, {"sourceColumn":"created_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"}, {"sourceColumn":"user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"}, {"sourceColumn":"modified_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"}]}'),
-(15, 'User Notes Category', 'com_users.category', '{"special":{"dbtable":"#__categories","key":"id","type":"Category","prefix":"JTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"published","core_alias":"alias","core_created_time":"created_time","core_modified_time":"modified_time","core_body":"description", "core_hits":"hits","core_publish_up":"null","core_publish_down":"null","core_access":"access", "core_params":"params", "core_featured":"null", "core_metadata":"metadata", "core_language":"language", "core_images":"null", "core_urls":"null", "core_version":"version", "core_ordering":"null", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"parent_id", "core_xreference":"null", "asset_id":"asset_id"}, "special":{"parent_id":"parent_id","lft":"lft","rgt":"rgt","level":"level","path":"path","extension":"extension","note":"note"}}', '', '{"formFile":"administrator\\/components\\/com_categories\\/models\\/forms\\/category.xml", "hideFields":["checked_out","checked_out_time","version","lft","rgt","level","path","extension"], "ignoreChanges":["modified_user_id", "modified_time", "checked_out", "checked_out_time", "version", "hits", "path"], "convertToInt":["publish_up", "publish_down"], "displayLookup":[{"sourceColumn":"created_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"}, {"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"modified_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"parent_id","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"}]}');
+(6, 'Article Category', 'com_content.category', '{"special":{"dbtable":"#__categories","key":"id","type":"Category","prefix":"JTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"published","core_alias":"alias","core_created_time":"created_time","core_modified_time":"modified_time","core_body":"description", "core_hits":"hits","core_publish_up":"null","core_publish_down":"null","core_access":"access", "core_params":"params", "core_featured":"null", "core_metadata":"metadata", "core_language":"language", "core_images":"null", "core_urls":"null", "core_version":"version", "core_ordering":"null", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"parent_id", "core_xreference":"null", "asset_id":"asset_id"}, "special":{"parent_id":"parent_id","lft":"lft","rgt":"rgt","level":"level","path":"path","extension":"extension","note":"note"}}', 'ContentHelperRoute::getCategoryRoute', '{"form_file":"administrator\\/components\\/com_categories\\/models\\/forms\\/category.xml",   "hide_fields":["asset_id","checked_out","checked_out_time","version","lft","rgt","level","path","extension"],   "display_lookup":[   {"source_column":"created_user_id","target_table":"#__users","target_column":"id","display_column":"name"},{"source_column":"access","target_table":"#__viewlevels","target_column":"id","display_column":"title"},{"source_column":"modified_user_id","target_table":"#__users","target_column":"id","display_column":"name"},{"source_column":"parent_id","target_table":"#__categories","target_column":"id","display_column":"title"}  ] }'),
+(7, 'Contact Category', 'com_contact.category', '{"special":{"dbtable":"#__categories","key":"id","type":"Category","prefix":"JTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"published","core_alias":"alias","core_created_time":"created_time","core_modified_time":"modified_time","core_body":"description", "core_hits":"hits","core_publish_up":"null","core_publish_down":"null","core_access":"access", "core_params":"params", "core_featured":"null", "core_metadata":"metadata", "core_language":"language", "core_images":"null", "core_urls":"null", "core_version":"version", "core_ordering":"null", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"parent_id", "core_xreference":"null", "asset_id":"asset_id"}, "special":{"parent_id":"parent_id","lft":"lft","rgt":"rgt","level":"level","path":"path","extension":"extension","note":"note"}}', 'ContactHelperRoute::getCategoryRoute', '{"form_file":"administrator\\/components\\/com_categories\\/models\\/forms\\/category.xml",   "hide_fields":["asset_id","checked_out","checked_out_time","version","lft","rgt","level","path","extension"],   "display_lookup":[   {"source_column":"created_user_id","target_table":"#__users","target_column":"id","display_column":"name"},{"source_column":"access","target_table":"#__viewlevels","target_column":"id","display_column":"title"},{"source_column":"modified_user_id","target_table":"#__users","target_column":"id","display_column":"name"},{"source_column":"parent_id","target_table":"#__categories","target_column":"id","display_column":"title"}  ] }'),
+(8, 'Newsfeeds Category', 'com_newsfeeds.category', '{"special":{"dbtable":"#__categories","key":"id","type":"Category","prefix":"JTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"published","core_alias":"alias","core_created_time":"created_time","core_modified_time":"modified_time","core_body":"description", "core_hits":"hits","core_publish_up":"null","core_publish_down":"null","core_access":"access", "core_params":"params", "core_featured":"null", "core_metadata":"metadata", "core_language":"language", "core_images":"null", "core_urls":"null", "core_version":"version", "core_ordering":"null", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"parent_id", "core_xreference":"null", "asset_id":"asset_id"}, "special":{"parent_id":"parent_id","lft":"lft","rgt":"rgt","level":"level","path":"path","extension":"extension","note":"note"}}', 'NewsfeedsHelperRoute::getCategoryRoute', '{"form_file":"administrator\\/components\\/com_categories\\/models\\/forms\\/category.xml",   "hide_fields":["asset_id","checked_out","checked_out_time","version","lft","rgt","level","path","extension"],   "display_lookup":[   {"source_column":"created_user_id","target_table":"#__users","target_column":"id","display_column":"name"},{"source_column":"access","target_table":"#__viewlevels","target_column":"id","display_column":"title"},{"source_column":"modified_user_id","target_table":"#__users","target_column":"id","display_column":"name"},{"source_column":"parent_id","target_table":"#__categories","target_column":"id","display_column":"title"}  ] }'),
+(9, 'Weblinks Category', 'com_weblinks.category', '{"special":{"dbtable":"#__categories","key":"id","type":"Category","prefix":"JTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"published","core_alias":"alias","core_created_time":"created_time","core_modified_time":"modified_time","core_body":"description", "core_hits":"hits","core_publish_up":"null","core_publish_down":"null","core_access":"access", "core_params":"params", "core_featured":"null", "core_metadata":"metadata", "core_language":"language", "core_images":"null", "core_urls":"null", "core_version":"version", "core_ordering":"null", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"parent_id", "core_xreference":"null", "asset_id":"asset_id"}, "special":{"parent_id":"parent_id","lft":"lft","rgt":"rgt","level":"level","path":"path","extension":"extension","note":"note"}}', 'WeblinksHelperRoute::getCategoryRoute', '{"form_file":"administrator\\/components\\/com_categories\\/models\\/forms\\/category.xml",   "hide_fields":["asset_id","checked_out","checked_out_time","version","lft","rgt","level","path","extension"],   "display_lookup":[   {"source_column":"created_user_id","target_table":"#__users","target_column":"id","display_column":"name"},{"source_column":"access","target_table":"#__viewlevels","target_column":"id","display_column":"title"},{"source_column":"modified_user_id","target_table":"#__users","target_column":"id","display_column":"name"},{"source_column":"parent_id","target_table":"#__categories","target_column":"id","display_column":"title"}  ] }'),
+(10, 'Tag', 'com_tags.tag', '{"special":{"dbtable":"#__tags","key":"tag_id","type":"Tag","prefix":"TagsTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"published","core_alias":"alias","core_created_time":"created_time","core_modified_time":"modified_time","core_body":"description", "core_hits":"hits","core_publish_up":"null","core_publish_down":"null","core_access":"access", "core_params":"params", "core_featured":"featured", "core_metadata":"metadata", "core_language":"language", "core_images":"images", "core_urls":"urls", "core_version":"version", "core_ordering":"null", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"null", "core_xreference":"null", "asset_id":"null"}, "special":{"parent_id":"parent_id","lft":"lft","rgt":"rgt","level":"level","path":"path"}}', 'TagsHelperRoute::getTagRoute', '');
 
 -- --------------------------------------------------------
 
@@ -454,7 +434,7 @@ CREATE TABLE IF NOT EXISTS `#__contentitem_tag_map` (
 
 CREATE TABLE IF NOT EXISTS `#__core_log_searches` (
   `search_term` varchar(128) NOT NULL DEFAULT '',
-  `hits` int(10) unsigned NOT NULL DEFAULT 0
+  `hits` int(10) unsigned NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -470,17 +450,17 @@ CREATE TABLE IF NOT EXISTS `#__extensions` (
   `element` varchar(100) NOT NULL,
   `folder` varchar(100) NOT NULL,
   `client_id` tinyint(3) NOT NULL,
-  `enabled` tinyint(3) NOT NULL DEFAULT 1,
-  `access` int(10) unsigned NOT NULL DEFAULT 1,
-  `protected` tinyint(3) NOT NULL DEFAULT 0,
+  `enabled` tinyint(3) NOT NULL DEFAULT '1',
+  `access` int(10) unsigned NOT NULL DEFAULT '1',
+  `protected` tinyint(3) NOT NULL DEFAULT '0',
   `manifest_cache` text NOT NULL,
   `params` text NOT NULL,
   `custom_data` text NOT NULL,
   `system_data` text NOT NULL,
-  `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
+  `checked_out` int(10) unsigned NOT NULL DEFAULT '0',
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `ordering` int(11) DEFAULT 0,
-  `state` int(11) DEFAULT 0,
+  `ordering` int(11) DEFAULT '0',
+  `state` int(11) DEFAULT '0',
   PRIMARY KEY (`extension_id`),
   KEY `element_clientid` (`element`,`client_id`),
   KEY `element_folder_clientid` (`element`,`folder`,`client_id`),
@@ -495,7 +475,7 @@ INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`
 (1, 'com_mailto', 'component', 'com_mailto', '', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (2, 'com_wrapper', 'component', 'com_wrapper', '', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (3, 'com_admin', 'component', 'com_admin', '', 1, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(4, 'com_banners', 'component', 'com_banners', '', 1, 1, 1, 0, '', '{"purchase_type":"3","track_impressions":"0","track_clicks":"0","metakey_prefix":"","save_history":"1","history_limit":10}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(4, 'com_banners', 'component', 'com_banners', '', 1, 1, 1, 0, '', '{"purchase_type":"3","track_impressions":"0","track_clicks":"0","metakey_prefix":""}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (5, 'com_cache', 'component', 'com_cache', '', 1, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (6, 'com_categories', 'component', 'com_categories', '', 1, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (7, 'com_checkin', 'component', 'com_checkin', '', 1, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
@@ -516,11 +496,11 @@ INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`
 (22, 'com_content', 'component', 'com_content', '', 1, 1, 0, 1, '', '{"article_layout":"_:default","show_title":"1","link_titles":"1","show_intro":"1","show_category":"1","link_category":"1","show_parent_category":"0","link_parent_category":"0","show_author":"1","link_author":"0","show_create_date":"0","show_modify_date":"0","show_publish_date":"1","show_item_navigation":"1","show_vote":"0","show_readmore":"1","show_readmore_title":"1","readmore_limit":"100","show_icons":"1","show_print_icon":"1","show_email_icon":"1","show_hits":"1","show_noauth":"0","show_publishing_options":"1","show_article_options":"1","save_history":"1","history_limit":10,"show_urls_images_frontend":"0","show_urls_images_backend":"1","targeta":0,"targetb":0,"targetc":0,"float_intro":"left","float_fulltext":"left","category_layout":"_:blog","show_category_title":"0","show_description":"0","show_description_image":"0","maxLevel":"1","show_empty_categories":"0","show_no_articles":"1","show_subcat_desc":"1","show_cat_num_articles":"0","show_base_description":"1","maxLevelcat":"-1","show_empty_categories_cat":"0","show_subcat_desc_cat":"1","show_cat_num_articles_cat":"1","num_leading_articles":"1","num_intro_articles":"4","num_columns":"2","num_links":"4","multi_column_order":"0","show_subcategory_content":"0","show_pagination_limit":"1","filter_field":"hide","show_headings":"1","list_show_date":"0","date_format":"","list_show_hits":"1","list_show_author":"1","orderby_pri":"order","orderby_sec":"rdate","order_date":"published","show_pagination":"2","show_pagination_results":"1","show_feed_link":"1","feed_summary":"0"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (23, 'com_config', 'component', 'com_config', '', 1, 1, 0, 1, '', '{"filters":{"1":{"filter_type":"NH","filter_tags":"","filter_attributes":""},"6":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"7":{"filter_type":"NONE","filter_tags":"","filter_attributes":""},"2":{"filter_type":"NH","filter_tags":"","filter_attributes":""},"3":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"4":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"5":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"10":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"12":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"8":{"filter_type":"NONE","filter_tags":"","filter_attributes":""}}}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (24, 'com_redirect', 'component', 'com_redirect', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(25, 'com_users', 'component', 'com_users', '', 1, 1, 0, 1, '', '{"allowUserRegistration":"1","new_usertype":"2","guest_usergroup":"13","sendpassword":"1","useractivation":"1","mail_to_admin":"0","captcha":"","frontend_userparams":"1","site_language":"0","change_login_name":"0","reset_count":"10","reset_time":"1","minimum_length":"4","minimum_integers":"0","minimum_symbols":"0","minimum_uppercase":"0","save_history":"1","history_limit":5,"mailSubjectPrefix":"","mailBodySuffix":""}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(25, 'com_users', 'component', 'com_users', '', 1, 1, 0, 1, '', '{"allowUserRegistration":"1","new_usertype":"2","guest_usergroup":"9","sendpassword":"1","useractivation":"2","mail_to_admin":"1","captcha":"","frontend_userparams":"1","site_language":"0","change_login_name":"0","reset_count":"10","reset_time":"1","mailSubjectPrefix":"","mailBodySuffix":""}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (27, 'com_finder', 'component', 'com_finder', '', 1, 1, 0, 0, '', '{"show_description":"1","description_length":255,"allow_empty_query":"0","show_url":"1","show_advanced":"1","expand_advanced":"0","show_date_filters":"0","highlight_terms":"1","opensearch_name":"","opensearch_description":"","batch_size":"50","memory_table_limit":30000,"title_multiplier":"1.7","text_multiplier":"0.7","meta_multiplier":"1.2","path_multiplier":"2.0","misc_multiplier":"0.3","stemmer":"snowball"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (28, 'com_joomlaupdate', 'component', 'com_joomlaupdate', '', 1, 1, 0, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(29, 'com_tags', 'component', 'com_tags', '', 1, 1, 1, 1, '', '{"tag_layout":"_:default","save_history":"1","history_limit":5,"show_tag_title":"0","tag_list_show_tag_image":"0","tag_list_show_tag_description":"0","tag_list_image":"","show_tag_num_items":"0","tag_list_orderby":"title","tag_list_orderby_direction":"ASC","show_headings":"0","tag_list_show_date":"0","tag_list_show_item_image":"0","tag_list_show_item_description":"0","tag_list_item_maximum_characters":0,"return_any_or_all":"1","include_children":"0","maximum":200,"tag_list_language_filter":"all","tags_layout":"_:default","all_tags_orderby":"title","all_tags_orderby_direction":"ASC","all_tags_show_tag_image":"0","all_tags_show_tag_descripion":"0","all_tags_tag_maximum_characters":20,"all_tags_show_tag_hits":"0","filter_field":"1","show_pagination_limit":"1","show_pagination":"2","show_pagination_results":"1","tag_field_ajax_mode":"1","show_feed_link":"1"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(30, 'com_contenthistory', 'component', 'com_contenthistory', '', 1, 1, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(29, 'com_tags', 'component', 'com_tags', '', 1, 1, 1, 1, '', '{"show_tag_title":"0","tag_list_show_tag_image":"0","tag_list_show_tag_description":"0","tag_list_image":"","show_tag_num_items":"0","tag_list_orderby":"title","tag_list_orderby_direction":"ASC","show_headings":"0","tag_list_show_date":"0","tag_list_show_item_image":"0","tag_list_show_item_description":"0","tag_list_item_maximum_characters":0,"return_any_or_all":"1","include_children":"0","maximum":200,"tag_list_language_filter":"all","tags_layout":"_:default","all_tags_orderby":"title","all_tags_orderby_direction":"ASC","all_tags_show_tag_image":"0","all_tags_show_tag_descripion":"0","all_tags_tag_maximum_characters":20,"all_tags_show_tag_hits":"0","filter_field":"1","show_pagination_limit":"1","show_pagination":"2","show_pagination_results":"1","tag_field_ajax_mode":"1","show_feed_link":"1"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(30, 'com_contenthistory', 'component', 'com_contenthistory', '', 1, 1, 1, 0, '', '{}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (31, 'com_ajax', 'component', 'com_ajax', '', 1, 1, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (32, 'com_postinstall', 'component', 'com_postinstall', '', 1, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (100, 'PHPMailer', 'library', 'phpmailer', '', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
@@ -573,7 +553,6 @@ INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`
 (400, 'plg_authentication_gmail', 'plugin', 'gmail', 'authentication', 0, 0, 1, 0, '', '{"applysuffix":"0","suffix":"","verifypeer":"1","user_blacklist":""}', '', '', 0, '0000-00-00 00:00:00', 1, 0),
 (401, 'plg_authentication_joomla', 'plugin', 'joomla', 'authentication', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (402, 'plg_authentication_ldap', 'plugin', 'ldap', 'authentication', 0, 0, 1, 0, '', '{"host":"","port":"389","use_ldapV3":"0","negotiate_tls":"0","no_referrals":"0","auth_method":"bind","base_dn":"","search_string":"","users_dn":"","username":"admin","password":"bobby7","ldap_fullname":"fullName","ldap_email":"mail","ldap_uid":"uid"}', '', '', 0, '0000-00-00 00:00:00', 3, 0),
-(403, 'plg_content_contact', 'plugin', 'contact', 'content', 0, 1, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 1, 0),
 (404, 'plg_content_emailcloak', 'plugin', 'emailcloak', 'content', 0, 1, 1, 0, '', '{"mode":"1"}', '', '', 0, '0000-00-00 00:00:00', 1, 0),
 (406, 'plg_content_loadmodule', 'plugin', 'loadmodule', 'content', 0, 1, 1, 0, '', '{"style":"xhtml"}', '', '', 0, '2011-09-18 15:22:50', 0, 0),
 (407, 'plg_content_pagebreak', 'plugin', 'pagebreak', 'content', 0, 1, 1, 0, '', '{"title":"1","multipage_toc":"1","showall":"1"}', '', '', 0, '0000-00-00 00:00:00', 4, 0),
@@ -619,14 +598,13 @@ INSERT INTO `#__extensions` (`extension_id`, `name`, `type`, `element`, `folder`
 (447, 'plg_finder_tags', 'plugin', 'tags', 'finder', 0, 1, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (448, 'plg_twofactorauth_totp', 'plugin', 'totp', 'twofactorauth', 0, 0, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (449, 'plg_authentication_cookie', 'plugin', 'cookie', 'authentication', 0, 1, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(450, 'plg_twofactorauth_yubikey', 'plugin', 'yubikey', 'twofactorauth', 0, 0, 1, 0, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (503, 'beez3', 'template', 'beez3', '', 0, 1, 1, 0, '', '{"wrapperSmall":"53","wrapperLarge":"72","sitetitle":"","sitedescription":"","navposition":"center","templatecolor":"nature"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (504, 'hathor', 'template', 'hathor', '', 1, 1, 1, 0, '', '{"showSiteName":"0","colourChoice":"0","boldText":"0"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (506, 'protostar', 'template', 'protostar', '', 0, 1, 1, 0, '', '{"templateColor":"","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (507, 'isis', 'template', 'isis', '', 1, 1, 1, 0, '', '{"templateColor":"","logoFile":""}', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (600, 'English (United Kingdom)', 'language', 'en-GB', '', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (601, 'English (United Kingdom)', 'language', 'en-GB', '', 1, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(700, 'files_joomla', 'file', 'joomla', '', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
+(700, 'Joomla! CMS', 'file', 'joomla', '', 0, 1, 1, 1, '', '', '', '', 0, '0000-00-00 00:00:00', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -638,15 +616,15 @@ CREATE TABLE IF NOT EXISTS `#__finder_filters` (
   `filter_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `alias` varchar(255) NOT NULL,
-  `state` tinyint(1) NOT NULL DEFAULT 1,
+  `state` tinyint(1) NOT NULL DEFAULT '1',
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created_by` int(10) unsigned NOT NULL,
   `created_by_alias` varchar(255) NOT NULL,
   `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modified_by` int(10) unsigned NOT NULL DEFAULT 0,
-  `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
+  `modified_by` int(10) unsigned NOT NULL DEFAULT '0',
+  `checked_out` int(10) unsigned NOT NULL DEFAULT '0',
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `map_count` int(10) unsigned NOT NULL DEFAULT 0,
+  `map_count` int(10) unsigned NOT NULL DEFAULT '0',
   `data` text NOT NULL,
   `params` mediumtext,
   PRIMARY KEY (`filter_id`)
@@ -666,16 +644,16 @@ CREATE TABLE IF NOT EXISTS `#__finder_links` (
   `description` varchar(255) DEFAULT NULL,
   `indexdate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `md5sum` varchar(32) DEFAULT NULL,
-  `published` tinyint(1) NOT NULL DEFAULT 1,
-  `state` int(5) DEFAULT 1,
-  `access` int(5) DEFAULT 0,
+  `published` tinyint(1) NOT NULL DEFAULT '1',
+  `state` int(5) DEFAULT '1',
+  `access` int(5) DEFAULT '0',
   `language` varchar(8) NOT NULL,
   `publish_start_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_end_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `start_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `end_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `list_price` double unsigned NOT NULL DEFAULT 0,
-  `sale_price` double unsigned NOT NULL DEFAULT 0,
+  `list_price` double unsigned NOT NULL DEFAULT '0',
+  `sale_price` double unsigned NOT NULL DEFAULT '0',
   `type_id` int(11) NOT NULL,
   `object` mediumblob NOT NULL,
   PRIMARY KEY (`link_id`),
@@ -935,11 +913,11 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_termsf` (
 
 CREATE TABLE IF NOT EXISTS `#__finder_taxonomy` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `parent_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `parent_id` int(10) unsigned NOT NULL DEFAULT '0',
   `title` varchar(255) NOT NULL,
-  `state` tinyint(1) unsigned NOT NULL DEFAULT 1,
-  `access` tinyint(1) unsigned NOT NULL DEFAULT 0,
-  `ordering` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `state` tinyint(1) unsigned NOT NULL DEFAULT '1',
+  `access` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `ordering` tinyint(1) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `parent_id` (`parent_id`),
   KEY `state` (`state`),
@@ -979,11 +957,11 @@ CREATE TABLE IF NOT EXISTS `#__finder_terms` (
   `term_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `term` varchar(75) NOT NULL,
   `stem` varchar(75) NOT NULL,
-  `common` tinyint(1) unsigned NOT NULL DEFAULT 0,
-  `phrase` tinyint(1) unsigned NOT NULL DEFAULT 0,
-  `weight` float unsigned NOT NULL DEFAULT 0,
+  `common` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `phrase` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `weight` float unsigned NOT NULL DEFAULT '0',
   `soundex` varchar(75) NOT NULL,
-  `links` int(10) NOT NULL DEFAULT 0,
+  `links` int(10) NOT NULL DEFAULT '0',
   `language` char(3) NOT NULL DEFAULT '',
   PRIMARY KEY (`term_id`),
   UNIQUE KEY `idx_term` (`term`),
@@ -1135,10 +1113,10 @@ INSERT INTO `#__finder_terms_common` (`term`, `language`) VALUES
 CREATE TABLE IF NOT EXISTS `#__finder_tokens` (
   `term` varchar(75) NOT NULL,
   `stem` varchar(75) NOT NULL,
-  `common` tinyint(1) unsigned NOT NULL DEFAULT 0,
-  `phrase` tinyint(1) unsigned NOT NULL DEFAULT 0,
-  `weight` float unsigned NOT NULL DEFAULT 1,
-  `context` tinyint(1) unsigned NOT NULL DEFAULT 2,
+  `common` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `phrase` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `weight` float unsigned NOT NULL DEFAULT '1',
+  `context` tinyint(1) unsigned NOT NULL DEFAULT '2',
   `language` char(3) NOT NULL DEFAULT '',
   KEY `idx_word` (`term`),
   KEY `idx_context` (`context`)
@@ -1155,10 +1133,10 @@ CREATE TABLE IF NOT EXISTS `#__finder_tokens_aggregate` (
   `map_suffix` char(1) NOT NULL,
   `term` varchar(75) NOT NULL,
   `stem` varchar(75) NOT NULL,
-  `common` tinyint(1) unsigned NOT NULL DEFAULT 0,
-  `phrase` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `common` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `phrase` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `term_weight` float unsigned NOT NULL,
-  `context` tinyint(1) unsigned NOT NULL DEFAULT 2,
+  `context` tinyint(1) unsigned NOT NULL DEFAULT '2',
   `context_weight` float unsigned NOT NULL,
   `total_weight` float unsigned NOT NULL,
   `language` char(3) NOT NULL DEFAULT '',
@@ -1197,9 +1175,9 @@ CREATE TABLE IF NOT EXISTS `#__languages` (
   `metakey` text NOT NULL,
   `metadesc` text NOT NULL,
   `sitename` varchar(1024) NOT NULL DEFAULT '',
-  `published` int(11) NOT NULL DEFAULT 0,
-  `access` int(10) unsigned NOT NULL DEFAULT 0,
-  `ordering` int(11) NOT NULL DEFAULT 0,
+  `published` int(11) NOT NULL DEFAULT '0',
+  `access` int(10) unsigned NOT NULL DEFAULT '0',
+  `ordering` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`lang_id`),
   UNIQUE KEY `idx_sef` (`sef`),
   UNIQUE KEY `idx_image` (`image`),
@@ -1213,7 +1191,7 @@ CREATE TABLE IF NOT EXISTS `#__languages` (
 --
 
 INSERT INTO `#__languages` (`lang_id`, `lang_code`, `title`, `title_native`, `sef`, `image`, `description`, `metakey`, `metadesc`, `sitename`, `published`, `access`, `ordering`) VALUES
-(1, 'en-GB', 'English (UK)', 'English (UK)', 'en', 'en', '', '', '', '', 1, 1, 1);
+(1, 'en-GB', 'English (UK)', 'English (UK)', 'en', 'en', '', '', '', '', 1, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -1230,22 +1208,22 @@ CREATE TABLE IF NOT EXISTS `#__menu` (
   `path` varchar(1024) NOT NULL COMMENT 'The computed path of the menu item based on the alias field.',
   `link` varchar(1024) NOT NULL COMMENT 'The actually link the menu item refers to.',
   `type` varchar(16) NOT NULL COMMENT 'The type of link: Component, URL, Alias, Separator',
-  `published` tinyint(4) NOT NULL DEFAULT 0 COMMENT 'The published state of the menu link.',
-  `parent_id` int(10) unsigned NOT NULL DEFAULT 1 COMMENT 'The parent menu item in the menu tree.',
-  `level` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'The relative level in the tree.',
-  `component_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to #__extensions.id',
-  `checked_out` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to #__users.id',
+  `published` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'The published state of the menu link.',
+  `parent_id` int(10) unsigned NOT NULL DEFAULT '1' COMMENT 'The parent menu item in the menu tree.',
+  `level` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'The relative level in the tree.',
+  `component_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to #__extensions.id',
+  `checked_out` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'FK to #__users.id',
   `checked_out_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'The time the menu item was checked out.',
-  `browserNav` tinyint(4) NOT NULL DEFAULT 0 COMMENT 'The click behaviour of the link.',
-  `access` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'The access level required to view the menu item.',
+  `browserNav` tinyint(4) NOT NULL DEFAULT '0' COMMENT 'The click behaviour of the link.',
+  `access` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'The access level required to view the menu item.',
   `img` varchar(255) NOT NULL COMMENT 'The image of the menu item.',
-  `template_style_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `template_style_id` int(10) unsigned NOT NULL DEFAULT '0',
   `params` text NOT NULL COMMENT 'JSON encoded data for the menu item.',
-  `lft` int(11) NOT NULL DEFAULT 0 COMMENT 'Nested set lft.',
-  `rgt` int(11) NOT NULL DEFAULT 0 COMMENT 'Nested set rgt.',
-  `home` tinyint(3) unsigned NOT NULL DEFAULT 0 COMMENT 'Indicates if this menu item is the home or default page.',
+  `lft` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set lft.',
+  `rgt` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set rgt.',
+  `home` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'Indicates if this menu item is the home or default page.',
   `language` char(7) NOT NULL DEFAULT '',
-  `client_id` tinyint(4) NOT NULL DEFAULT 0,
+  `client_id` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_client_id_parent_id_alias_language` (`client_id`,`parent_id`,`alias`,`language`),
   KEY `idx_componentid` (`component_id`,`menutype`,`published`,`access`),
@@ -1282,10 +1260,10 @@ INSERT INTO `#__menu` (`id`, `menutype`, `title`, `alias`, `note`, `path`, `link
 (19, 'menu', 'com_weblinks_links', 'Links', '', 'Weblinks/Links', 'index.php?option=com_weblinks', 'component', 0, 18, 2, 21, 0, '0000-00-00 00:00:00', 0, 0, 'class:weblinks', 0, '', 34, 35, 0, '*', 1),
 (20, 'menu', 'com_weblinks_categories', 'Categories', '', 'Weblinks/Categories', 'index.php?option=com_categories&extension=com_weblinks', 'component', 0, 18, 2, 6, 0, '0000-00-00 00:00:00', 0, 0, 'class:weblinks-cat', 0, '', 36, 37, 0, '*', 1),
 (21, 'menu', 'com_finder', 'Smart Search', '', 'Smart Search', 'index.php?option=com_finder', 'component', 0, 1, 1, 27, 0, '0000-00-00 00:00:00', 0, 0, 'class:finder', 0, '', 39, 40, 0, '*', 1),
-(22, 'menu', 'com_joomlaupdate', 'Joomla! Update', '', 'Joomla! Update', 'index.php?option=com_joomlaupdate', 'component', 1, 1, 1, 28, 0, '0000-00-00 00:00:00', 0, 0, 'class:joomlaupdate', 0, '', 41, 42, 0, '*', 1),
+(22, 'menu', 'com_joomlaupdate', 'Joomla! Update', '', 'Joomla! Update', 'index.php?option=com_joomlaupdate', 'component', 1, 1, 1, 32, 0, '0000-00-00 00:00:00', 0, 0, 'class:joomlaupdate', 0, '', 41, 42, 0, '*', 1),
 (23, 'main', 'com_tags', 'Tags', '', 'Tags', 'index.php?option=com_tags', 'component', 0, 1, 1, 29, 0, '0000-00-00 00:00:00', 0, 1, 'class:tags', 0, '', 43, 44, 0, '', 1),
 (24, 'main', 'com_postinstall', 'Post-installation messages', '', 'Post-installation messages', 'index.php?option=com_postinstall', 'component', 0, 1, 1, 32, 0, '0000-00-00 00:00:00', 0, 1, 'class:postinstall', 0, '', 45, 46, 0, '*', 1),
-(101, 'mainmenu', 'Home', 'home', '', 'home', 'index.php?option=com_content&view=featured', 'component', 1, 1, 1, 22, 0, '0000-00-00 00:00:00', 0, 1, '', 0, '{"featured_categories":[""],"layout_type":"blog","num_leading_articles":"1","num_intro_articles":"3","num_columns":"3","num_links":"0","multi_column_order":"1","orderby_pri":"","orderby_sec":"front","order_date":"","show_pagination":"2","show_pagination_results":"1","show_title":"","link_titles":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"","show_readmore":"","show_readmore_title":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"","show_noauth":"","show_feed_link":"1","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":1,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 47, 48, 1, '*', 0);
+(101, 'mainmenu', 'Home', 'home', '', 'home', 'index.php?option=com_content&view=featured', 'component', 1, 1, 1, 22, 0, '0000-00-00 00:00:00', 0, 1, '', 0, '{"featured_categories":[""],"num_leading_articles":"1","num_intro_articles":"3","num_columns":"3","num_links":"0","orderby_pri":"","orderby_sec":"front","order_date":"","multi_column_order":"1","show_pagination":"2","show_pagination_results":"1","show_noauth":"","article-allow_ratings":"","article-allow_comments":"","show_feed_link":"1","feed_summary":"","show_title":"","link_titles":"","show_intro":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_readmore":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","show_page_heading":1,"page_title":"","page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 47, 48, 1, '*', 0);
 
 -- --------------------------------------------------------
 
@@ -1317,12 +1295,12 @@ INSERT INTO `#__menu_types` (`id`, `menutype`, `title`, `description`) VALUES
 
 CREATE TABLE IF NOT EXISTS `#__messages` (
   `message_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id_from` int(10) unsigned NOT NULL DEFAULT 0,
-  `user_id_to` int(10) unsigned NOT NULL DEFAULT 0,
-  `folder_id` tinyint(3) unsigned NOT NULL DEFAULT 0,
+  `user_id_from` int(10) unsigned NOT NULL DEFAULT '0',
+  `user_id_to` int(10) unsigned NOT NULL DEFAULT '0',
+  `folder_id` tinyint(3) unsigned NOT NULL DEFAULT '0',
   `date_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `state` tinyint(1) NOT NULL DEFAULT 0,
-  `priority` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `state` tinyint(1) NOT NULL DEFAULT '0',
+  `priority` tinyint(1) unsigned NOT NULL DEFAULT '0',
   `subject` varchar(255) NOT NULL DEFAULT '',
   `message` text NOT NULL,
   PRIMARY KEY (`message_id`),
@@ -1336,7 +1314,7 @@ CREATE TABLE IF NOT EXISTS `#__messages` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__messages_cfg` (
-  `user_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0',
   `cfg_name` varchar(100) NOT NULL DEFAULT '',
   `cfg_value` varchar(255) NOT NULL DEFAULT '',
   UNIQUE KEY `idx_user_var_name` (`user_id`,`cfg_name`)
@@ -1350,22 +1328,21 @@ CREATE TABLE IF NOT EXISTS `#__messages_cfg` (
 
 CREATE TABLE IF NOT EXISTS `#__modules` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `asset_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
   `title` varchar(100) NOT NULL DEFAULT '',
   `note` varchar(255) NOT NULL DEFAULT '',
   `content` text NOT NULL,
-  `ordering` int(11) NOT NULL DEFAULT 0,
+  `ordering` int(11) NOT NULL DEFAULT '0',
   `position` varchar(50) NOT NULL DEFAULT '',
-  `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
+  `checked_out` int(10) unsigned NOT NULL DEFAULT '0',
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `published` tinyint(1) NOT NULL DEFAULT 0,
+  `published` tinyint(1) NOT NULL DEFAULT '0',
   `module` varchar(50) DEFAULT NULL,
-  `access` int(10) unsigned NOT NULL DEFAULT 0,
-  `showtitle` tinyint(3) unsigned NOT NULL DEFAULT 1,
+  `access` int(10) unsigned NOT NULL DEFAULT '0',
+  `showtitle` tinyint(3) unsigned NOT NULL DEFAULT '1',
   `params` text NOT NULL,
-  `client_id` tinyint(4) NOT NULL DEFAULT 0,
+  `client_id` tinyint(4) NOT NULL DEFAULT '0',
   `language` char(7) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `published` (`published`,`access`),
@@ -1377,22 +1354,22 @@ CREATE TABLE IF NOT EXISTS `#__modules` (
 -- Dumping data for table `#__modules`
 --
 
-INSERT INTO `#__modules` (`id`, `asset_id`, `title`, `note`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `publish_up`, `publish_down`, `published`, `module`, `access`, `showtitle`, `params`, `client_id`, `language`) VALUES
-(1, 55, 'Main Menu', '', '', 1, 'position-7', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_menu', 1, 1, '{"menutype":"mainmenu","startLevel":"0","endLevel":"0","showAllChildren":"0","tag_id":"","class_sfx":"","window_open":"","layout":"","moduleclass_sfx":"_menu","cache":"1","cache_time":"900","cachemode":"itemid"}', 0, '*'),
-(2, 56, 'Login', '', '', 1, 'login', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_login', 1, 1, '', 1, '*'),
-(3, 57, 'Popular Articles', '', '', 3, 'cpanel', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_popular', 3, 1, '{"count":"5","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0","automatic_title":"1"}', 1, '*'),
-(4, 58, 'Recently Added Articles', '', '', 4, 'cpanel', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_latest', 3, 1, '{"count":"5","ordering":"c_dsc","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0","automatic_title":"1"}', 1, '*'),
-(8, 59, 'Toolbar', '', '', 1, 'toolbar', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_toolbar', 3, 1, '', 1, '*'),
-(9, 60, 'Quick Icons', '', '', 1, 'icon', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_quickicon', 3, 1, '', 1, '*'),
-(10, 61, 'Logged-in Users', '', '', 2, 'cpanel', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_logged', 3, 1, '{"count":"5","name":"1","layout":"_:default","moduleclass_sfx":"","cache":"0","automatic_title":"1"}', 1, '*'),
-(12, 62, 'Admin Menu', '', '', 1, 'menu', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_menu', 3, 1, '{"layout":"","moduleclass_sfx":"","shownew":"1","showhelp":"1","cache":"0"}', 1, '*'),
-(13, 63, 'Admin Submenu', '', '', 1, 'submenu', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_submenu', 3, 1, '', 1, '*'),
-(14, 64, 'User Status', '', '', 2, 'status', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_status', 3, 1, '', 1, '*'),
-(15, 65, 'Title', '', '', 1, 'title', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_title', 3, 1, '', 1, '*'),
-(16, 66, 'Login Form', '', '', 7, 'position-7', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_login', 1, 1, '{"greeting":"1","name":"0"}', 0, '*'),
-(17, 67, 'Breadcrumbs', '', '', 1, 'position-2', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 1, 1, '{"moduleclass_sfx":"","showHome":"1","homeText":"","showComponent":"1","separator":"","cache":"1","cache_time":"900","cachemode":"itemid"}', 0, '*'),
-(79, 68, 'Multilanguage status', '', '', 1, 'status', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 'mod_multilangstatus', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
-(86, 69, 'Joomla Version', '', '', 1, 'footer', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_version', 3, 1, '{"format":"short","product":"1","layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*');
+INSERT INTO `#__modules` (`id`, `title`, `note`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `publish_up`, `publish_down`, `published`, `module`, `access`, `showtitle`, `params`, `client_id`, `language`) VALUES
+(1, 'Main Menu', '', '', 1, 'position-7', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_menu', 1, 1, '{"menutype":"mainmenu","startLevel":"0","endLevel":"0","showAllChildren":"0","tag_id":"","class_sfx":"","window_open":"","layout":"","moduleclass_sfx":"_menu","cache":"1","cache_time":"900","cachemode":"itemid"}', 0, '*'),
+(2, 'Login', '', '', 1, 'login', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_login', 1, 1, '', 1, '*'),
+(3, 'Popular Articles', '', '', 3, 'cpanel', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_popular', 3, 1, '{"count":"5","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0","automatic_title":"1"}', 1, '*'),
+(4, 'Recently Added Articles', '', '', 4, 'cpanel', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_latest', 3, 1, '{"count":"5","ordering":"c_dsc","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0","automatic_title":"1"}', 1, '*'),
+(8, 'Toolbar', '', '', 1, 'toolbar', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_toolbar', 3, 1, '', 1, '*'),
+(9, 'Quick Icons', '', '', 1, 'icon', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_quickicon', 3, 1, '', 1, '*'),
+(10, 'Logged-in Users', '', '', 2, 'cpanel', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_logged', 3, 1, '{"count":"5","name":"1","layout":"_:default","moduleclass_sfx":"","cache":"0","automatic_title":"1"}', 1, '*'),
+(12, 'Admin Menu', '', '', 1, 'menu', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_menu', 3, 1, '{"layout":"","moduleclass_sfx":"","shownew":"1","showhelp":"1","cache":"0"}', 1, '*'),
+(13, 'Admin Submenu', '', '', 1, 'submenu', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_submenu', 3, 1, '', 1, '*'),
+(14, 'User Status', '', '', 2, 'status', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_status', 3, 1, '', 1, '*'),
+(15, 'Title', '', '', 1, 'title', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_title', 3, 1, '', 1, '*'),
+(16, 'Login Form', '', '', 7, 'position-7', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_login', 1, 1, '{"greeting":"1","name":"0"}', 0, '*'),
+(17, 'Breadcrumbs', '', '', 1, 'position-2', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 1, 1, '{"moduleclass_sfx":"","showHome":"1","homeText":"","showComponent":"1","separator":"","cache":"1","cache_time":"900","cachemode":"itemid"}', 0, '*'),
+(79, 'Multilanguage status', '', '', 1, 'status', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 'mod_multilangstatus', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
+(86, 'Joomla Version', '', '', 1, 'footer', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_version', 3, 1, '{"format":"short","product":"1","layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*');
 
 -- --------------------------------------------------------
 
@@ -1401,8 +1378,8 @@ INSERT INTO `#__modules` (`id`, `asset_id`, `title`, `note`, `content`, `orderin
 --
 
 CREATE TABLE IF NOT EXISTS `#__modules_menu` (
-  `moduleid` int(11) NOT NULL DEFAULT 0,
-  `menuid` int(11) NOT NULL DEFAULT 0,
+  `moduleid` int(11) NOT NULL DEFAULT '0',
+  `menuid` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`moduleid`,`menuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1436,26 +1413,26 @@ INSERT INTO `#__modules_menu` (`moduleid`, `menuid`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `#__newsfeeds` (
-  `catid` int(11) NOT NULL DEFAULT 0,
+  `catid` int(11) NOT NULL DEFAULT '0',
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL DEFAULT '',
   `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
   `link` varchar(200) NOT NULL DEFAULT '',
-  `published` tinyint(1) NOT NULL DEFAULT 0,
-  `numarticles` int(10) unsigned NOT NULL DEFAULT 1,
-  `cache_time` int(10) unsigned NOT NULL DEFAULT 3600,
-  `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
+  `published` tinyint(1) NOT NULL DEFAULT '0',
+  `numarticles` int(10) unsigned NOT NULL DEFAULT '1',
+  `cache_time` int(10) unsigned NOT NULL DEFAULT '3600',
+  `checked_out` int(10) unsigned NOT NULL DEFAULT '0',
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `ordering` int(11) NOT NULL DEFAULT 0,
-  `rtl` tinyint(4) NOT NULL DEFAULT 0,
-  `access` int(10) unsigned NOT NULL DEFAULT 0,
+  `ordering` int(11) NOT NULL DEFAULT '0',
+  `rtl` tinyint(4) NOT NULL DEFAULT '0',
+  `access` int(10) unsigned NOT NULL DEFAULT '0',
   `language` char(7) NOT NULL DEFAULT '',
   `params` text NOT NULL,
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `created_by` int(10) unsigned NOT NULL DEFAULT 0,
+  `created_by` int(10) unsigned NOT NULL DEFAULT '0',
   `created_by_alias` varchar(255) NOT NULL DEFAULT '',
   `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modified_by` int(10) unsigned NOT NULL DEFAULT 0,
+  `modified_by` int(10) unsigned NOT NULL DEFAULT '0',
   `metakey` text NOT NULL,
   `metadesc` text NOT NULL,
   `metadata` text NOT NULL,
@@ -1463,8 +1440,8 @@ CREATE TABLE IF NOT EXISTS `#__newsfeeds` (
   `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `description` text NOT NULL,
-  `version` int(10) unsigned NOT NULL DEFAULT 1,
-  `hits` int(10) unsigned NOT NULL DEFAULT 0,
+  `version` int(10) unsigned NOT NULL DEFAULT '1',
+  `hits` int(10) unsigned NOT NULL DEFAULT '0',
   `images` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_access` (`access`),
@@ -1493,35 +1470,6 @@ CREATE TABLE IF NOT EXISTS `#__overrider` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__postinstall_messages`
---
-
-CREATE TABLE `#__postinstall_messages` (
-  `postinstall_message_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `extension_id` bigint(20) NOT NULL DEFAULT 700 COMMENT 'FK to #__extensions',
-  `title_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'Lang key for the title',
-  `description_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'Lang key for description',
-  `action_key` varchar(255) NOT NULL DEFAULT '',
-  `language_extension` varchar(255) NOT NULL DEFAULT 'com_postinstall' COMMENT 'Extension holding lang keys',
-  `language_client_id` tinyint(3) NOT NULL DEFAULT '1',
-  `type` varchar(10) NOT NULL DEFAULT 'link' COMMENT 'Message type - message, link, action',
-  `action_file` varchar(255) DEFAULT '' COMMENT 'RAD URI to the PHP file containing action method',
-  `action` varchar(255) DEFAULT '' COMMENT 'Action method name or URL',
-  `condition_file` varchar(255) DEFAULT NULL COMMENT 'RAD URI to file holding display condition method',
-  `condition_method` varchar(255) DEFAULT NULL COMMENT 'Display condition method, must return boolean',
-  `version_introduced` varchar(50) NOT NULL DEFAULT '3.2.0' COMMENT 'Version when this message was introduced',
-  `enabled` tinyint(3) NOT NULL DEFAULT 1,
-  PRIMARY KEY (`postinstall_message_id`)
-) DEFAULT CHARSET=utf8;
-
-INSERT INTO `#__postinstall_messages` (`extension_id`, `title_key`, `description_key`, `action_key`, `language_extension`, `language_client_id`, `type`, `action_file`, `action`, `condition_file`, `condition_method`, `version_introduced`, `enabled`) VALUES
-(700, 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_TITLE', 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_BODY', 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_ACTION', 'plg_twofactorauth_totp', 1, 'action', 'site://plugins/twofactorauth/totp/postinstall/actions.php', 'twofactorauth_postinstall_action', 'site://plugins/twofactorauth/totp/postinstall/actions.php', 'twofactorauth_postinstall_condition', '3.2.0', 1),
-(700, 'COM_CPANEL_MSG_EACCELERATOR_TITLE', 'COM_CPANEL_MSG_EACCELERATOR_BODY', 'COM_CPANEL_MSG_EACCELERATOR_BUTTON', 'com_cpanel', 1, 'action', 'admin://components/com_admin/postinstall/eaccelerator.php', 'admin_postinstall_eaccelerator_action', 'admin://components/com_admin/postinstall/eaccelerator.php', 'admin_postinstall_eaccelerator_condition', '3.2.0', 1),
-(700, 'COM_CPANEL_WELCOME_BEGINNERS_TITLE', 'COM_CPANEL_WELCOME_BEGINNERS_MESSAGE', '', 'com_cpanel', 1, 'message', '', '', '', '', '3.2.0', 1);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `#__redirect_links`
 --
 
@@ -1531,7 +1479,7 @@ CREATE TABLE IF NOT EXISTS `#__redirect_links` (
   `new_url` varchar(255) NOT NULL,
   `referer` varchar(150) NOT NULL,
   `comment` varchar(255) NOT NULL,
-  `hits` int(10) unsigned NOT NULL DEFAULT 0,
+  `hits` int(10) unsigned NOT NULL DEFAULT '0',
   `published` tinyint(4) NOT NULL,
   `created_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `modified_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -1560,11 +1508,11 @@ CREATE TABLE IF NOT EXISTS `#__schemas` (
 
 CREATE TABLE IF NOT EXISTS `#__session` (
   `session_id` varchar(200) NOT NULL DEFAULT '',
-  `client_id` tinyint(3) unsigned NOT NULL DEFAULT 0,
-  `guest` tinyint(4) unsigned DEFAULT 1,
+  `client_id` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `guest` tinyint(4) unsigned DEFAULT '1',
   `time` varchar(14) DEFAULT '',
   `data` mediumtext,
-  `userid` int(11) DEFAULT 0,
+  `userid` int(11) DEFAULT '0',
   `username` varchar(150) DEFAULT '',
   PRIMARY KEY (`session_id`),
   KEY `userid` (`userid`),
@@ -1579,33 +1527,33 @@ CREATE TABLE IF NOT EXISTS `#__session` (
 
 CREATE TABLE IF NOT EXISTS `#__tags` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `parent_id` int(10) unsigned NOT NULL DEFAULT 0,
-  `lft` int(11) NOT NULL DEFAULT 0,
-  `rgt` int(11) NOT NULL DEFAULT 0,
-  `level` int(10) unsigned NOT NULL DEFAULT 0,
+  `parent_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `lft` int(11) NOT NULL DEFAULT '0',
+  `rgt` int(11) NOT NULL DEFAULT '0',
+  `level` int(10) unsigned NOT NULL DEFAULT '0',
   `path` varchar(255) NOT NULL DEFAULT '',
   `title` varchar(255) NOT NULL,
   `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
   `note` varchar(255) NOT NULL DEFAULT '',
   `description` mediumtext NOT NULL,
-  `published` tinyint(1) NOT NULL DEFAULT 0,
-  `checked_out` int(11) unsigned NOT NULL DEFAULT 0,
+  `published` tinyint(1) NOT NULL DEFAULT '0',
+  `checked_out` int(11) unsigned NOT NULL DEFAULT '0',
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `access` int(10) unsigned NOT NULL DEFAULT 0,
+  `access` int(10) unsigned NOT NULL DEFAULT '0',
   `params` text NOT NULL,
   `metadesc` varchar(1024) NOT NULL COMMENT 'The meta description for the page.',
   `metakey` varchar(1024) NOT NULL COMMENT 'The meta keywords for the page.',
   `metadata` varchar(2048) NOT NULL COMMENT 'JSON encoded metadata properties.',
-  `created_user_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `created_user_id` int(10) unsigned NOT NULL DEFAULT '0',
   `created_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created_by_alias` varchar(255) NOT NULL DEFAULT '',
-  `modified_user_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `modified_user_id` int(10) unsigned NOT NULL DEFAULT '0',
   `modified_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `images` text NOT NULL,
   `urls` text NOT NULL,
-  `hits` int(10) unsigned NOT NULL DEFAULT 0,
+  `hits` int(10) unsigned NOT NULL DEFAULT '0',
   `language` char(7) NOT NULL,
-  `version` int(10) unsigned NOT NULL DEFAULT 1,
+  `version` int(10) unsigned NOT NULL DEFAULT '1',
   `publish_up` datetime NOT NULL default '0000-00-00 00:00:00',
   `publish_down` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
@@ -1622,8 +1570,8 @@ CREATE TABLE IF NOT EXISTS `#__tags` (
 -- Dumping data for table `#__tags`
 --
 
-INSERT INTO `#__tags` (`id`, `parent_id`, `lft`, `rgt`, `level`, `path`, `title`, `alias`, `note`, `description`, `published`, `checked_out`, `checked_out_time`, `access`, `params`, `metadesc`, `metakey`, `metadata`, `created_user_id`, `created_time`,`created_by_alias`, `modified_user_id`, `modified_time`, `images`, `urls`, `hits`, `language`, `version`) VALUES
-(1, 0, 0, 1, 0, '', 'ROOT', 'root', '', '', 1, 0, '0000-00-00 00:00:00', 1, '', '', '', '', '', '2011-01-01 00:00:01','', 0, '0000-00-00 00:00:00', '', '',  0, '*', 1);
+INSERT INTO `#__tags` (`id`, `parent_id`, `lft`, `rgt`, `level`, `path`, `title`, `alias`, `note`, `description`, `published`, `checked_out`, `checked_out_time`, `access`, `params`, `metadesc`, `metakey`, `metadata`, `created_user_id`, `created_time`,`created_by_alias`, `modified_user_id`, `modified_time`, `images`, `urls`, `hits`, `language`, `version`)
+VALUES (1, 0, 0, 1, 0, '', 'ROOT', 'root', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '', '', '2011-01-01 00:00:01','', 0, '0000-00-00 00:00:00', '', '',  0, '*', 1);
 
 --
 -- Table structure for table `#__template_styles`
@@ -1632,8 +1580,8 @@ INSERT INTO `#__tags` (`id`, `parent_id`, `lft`, `rgt`, `level`, `path`, `title`
 CREATE TABLE IF NOT EXISTS `#__template_styles` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `template` varchar(50) NOT NULL DEFAULT '',
-  `client_id` tinyint(1) unsigned NOT NULL DEFAULT 0,
-  `home` char(7) NOT NULL DEFAULT 0,
+  `client_id` tinyint(1) unsigned NOT NULL DEFAULT '0',
+  `home` char(7) NOT NULL DEFAULT '0',
   `title` varchar(255) NOT NULL DEFAULT '',
   `params` text NOT NULL,
   PRIMARY KEY (`id`),
@@ -1676,17 +1624,17 @@ CREATE TABLE IF NOT EXISTS `#__ucm_content` (
   `core_title` varchar(255) NOT NULL,
   `core_alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
   `core_body` mediumtext NOT NULL,
-  `core_state` tinyint(1) NOT NULL DEFAULT 0,
+  `core_state` tinyint(1) NOT NULL DEFAULT '0',
   `core_checked_out_time`  varchar(255) NOT NULL DEFAULT '',
-  `core_checked_out_user_id` int(10) unsigned NOT NULL DEFAULT 0,
-  `core_access` int(10) unsigned NOT NULL DEFAULT 0,
+  `core_checked_out_user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `core_access` int(10) unsigned NOT NULL DEFAULT '0',
   `core_params` text NOT NULL,
-  `core_featured` tinyint(4) unsigned NOT NULL DEFAULT 0,
+  `core_featured` tinyint(4) unsigned NOT NULL DEFAULT '0',
   `core_metadata` varchar(2048) NOT NULL COMMENT 'JSON encoded metadata properties.',
-  `core_created_user_id` int(10) unsigned  NOT NULL DEFAULT 0,
+  `core_created_user_id` int(10) unsigned  NOT NULL DEFAULT '0',
   `core_created_by_alias` varchar(255) NOT NULL DEFAULT '',
   `core_created_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `core_modified_user_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'Most recent user that modified',
+  `core_modified_user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Most recent user that modified',
   `core_modified_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `core_language` char(7) NOT NULL,
   `core_publish_up` datetime NOT NULL,
@@ -1695,12 +1643,12 @@ CREATE TABLE IF NOT EXISTS `#__ucm_content` (
   `asset_id` int(10) unsigned COMMENT 'FK to the #__assets table.',
   `core_images` text NOT NULL,
   `core_urls` text NOT NULL,
-  `core_hits` int(10) unsigned NOT NULL DEFAULT 0,
-  `core_version` int(10) unsigned NOT NULL DEFAULT 1,
-  `core_ordering` int(11) NOT NULL DEFAULT 0,
+  `core_hits` int(10) unsigned NOT NULL DEFAULT '0',
+  `core_version` int(10) unsigned NOT NULL DEFAULT '1',
+  `core_ordering` int(11) NOT NULL DEFAULT '0',
   `core_metakey` text NOT NULL,
   `core_metadesc` text NOT NULL,
-  `core_catid` int(10) unsigned NOT NULL DEFAULT 0,
+  `core_catid` int(10) unsigned NOT NULL DEFAULT '0',
   `core_xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
   `core_type_id` int(10) unsigned,
   PRIMARY KEY (`core_content_id`),
@@ -1730,11 +1678,11 @@ CREATE TABLE IF NOT EXISTS `#__ucm_history` (
   `ucm_type_id` int(10) unsigned NOT NULL,
   `version_note` varchar(255) NOT NULL DEFAULT '' COMMENT 'Optional version name',
   `save_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `editor_user_id` int(10) unsigned NOT NULL DEFAULT 0,
-  `character_count` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'Number of characters in this version.',
+  `editor_user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `character_count` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Number of characters in this version.',
   `sha1_hash` varchar(50) NOT NULL DEFAULT '' COMMENT 'SHA1 hash of the version_data column.',
   `version_data` mediumtext NOT NULL COMMENT 'json-encoded string of version data',
-  `keep_forever` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0=auto delete; 1=keep',
+  `keep_forever` tinyint(4) NOT NULL DEFAULT '0' COMMENT '0=auto delete; 1=keep',
   PRIMARY KEY (`version_id`),
   KEY `idx_ucm_item_id` (`ucm_type_id`,`ucm_item_id`),
   KEY `idx_save_date` (`save_date`)
@@ -1747,19 +1695,18 @@ CREATE TABLE IF NOT EXISTS `#__ucm_history` (
 
 CREATE TABLE IF NOT EXISTS `#__updates` (
   `update_id` int(11) NOT NULL AUTO_INCREMENT,
-  `update_site_id` int(11) DEFAULT 0,
-  `extension_id` int(11) DEFAULT 0,
+  `update_site_id` int(11) DEFAULT '0',
+  `extension_id` int(11) DEFAULT '0',
   `name` varchar(100) DEFAULT '',
   `description` text NOT NULL,
   `element` varchar(100) DEFAULT '',
   `type` varchar(20) DEFAULT '',
   `folder` varchar(20) DEFAULT '',
-  `client_id` tinyint(3) DEFAULT 0,
+  `client_id` tinyint(3) DEFAULT '0',
   `version` varchar(10) DEFAULT '',
   `data` text NOT NULL,
   `detailsurl` text NOT NULL,
   `infourl` text NOT NULL,
-  `extra_query` VARCHAR(1000) DEFAULT '',
   PRIMARY KEY (`update_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Available Updates';
 
@@ -1774,9 +1721,8 @@ CREATE TABLE IF NOT EXISTS `#__update_sites` (
   `name` varchar(100) DEFAULT '',
   `type` varchar(20) DEFAULT '',
   `location` text NOT NULL,
-  `enabled` int(11) DEFAULT 0,
-  `last_check_timestamp` bigint(20) DEFAULT 0,
-  `extra_query` VARCHAR(1000) DEFAULT '',
+  `enabled` int(11) DEFAULT '0',
+  `last_check_timestamp` bigint(20) DEFAULT '0',
   PRIMARY KEY (`update_site_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Update Sites';
 
@@ -1796,8 +1742,8 @@ INSERT INTO `#__update_sites` (`update_site_id`, `name`, `type`, `location`, `en
 --
 
 CREATE TABLE IF NOT EXISTS `#__update_sites_extensions` (
-  `update_site_id` int(11) NOT NULL DEFAULT 0,
-  `extension_id` int(11) NOT NULL DEFAULT 0,
+  `update_site_id` int(11) NOT NULL DEFAULT '0',
+  `extension_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`update_site_id`,`extension_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Links extensions to update sites';
 
@@ -1818,9 +1764,9 @@ INSERT INTO `#__update_sites_extensions` (`update_site_id`, `extension_id`) VALU
 
 CREATE TABLE IF NOT EXISTS `#__usergroups` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
-  `parent_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'Adjacency List Reference Id',
-  `lft` int(11) NOT NULL DEFAULT 0 COMMENT 'Nested set lft.',
-  `rgt` int(11) NOT NULL DEFAULT 0 COMMENT 'Nested set rgt.',
+  `parent_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Adjacency List Reference Id',
+  `lft` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set lft.',
+  `rgt` int(11) NOT NULL DEFAULT '0' COMMENT 'Nested set rgt.',
   `title` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_usergroup_parent_title_lookup` (`parent_id`,`title`),
@@ -1856,14 +1802,14 @@ CREATE TABLE IF NOT EXISTS `#__users` (
   `username` varchar(150) NOT NULL DEFAULT '',
   `email` varchar(100) NOT NULL DEFAULT '',
   `password` varchar(100) NOT NULL DEFAULT '',
-  `block` tinyint(4) NOT NULL DEFAULT 0,
-  `sendEmail` tinyint(4) DEFAULT 0,
+  `block` tinyint(4) NOT NULL DEFAULT '0',
+  `sendEmail` tinyint(4) DEFAULT '0',
   `registerDate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `lastvisitDate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `activation` varchar(100) NOT NULL DEFAULT '',
   `params` text NOT NULL,
   `lastResetTime` datetime NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT 'Date of last password reset',
-  `resetCount` int(11) NOT NULL DEFAULT 0 COMMENT 'Count of password resets since lastResetTime',
+  `resetCount` int(11) NOT NULL DEFAULT '0' COMMENT 'Count of password resets since lastResetTime',
   `otpKey` varchar(1000) NOT NULL DEFAULT '' COMMENT 'Two factor authentication encrypted keys',
   `otep` varchar(1000) NOT NULL DEFAULT '' COMMENT 'One time emergency passwords',
   PRIMARY KEY (`id`),
@@ -1902,14 +1848,14 @@ CREATE TABLE IF NOT EXISTS `#__user_keys` (
 
 CREATE TABLE IF NOT EXISTS `#__user_notes` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(10) unsigned NOT NULL DEFAULT 0,
-  `catid` int(10) unsigned NOT NULL DEFAULT 0,
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `catid` int(10) unsigned NOT NULL DEFAULT '0',
   `subject` varchar(100) NOT NULL DEFAULT '',
   `body` text NOT NULL,
-  `state` tinyint(3) NOT NULL DEFAULT 0,
-  `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
+  `state` tinyint(3) NOT NULL DEFAULT '0',
+  `checked_out` int(10) unsigned NOT NULL DEFAULT '0',
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `created_user_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `created_user_id` int(10) unsigned NOT NULL DEFAULT '0',
   `created_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `modified_user_id` int(10) unsigned NOT NULL,
   `modified_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -1931,7 +1877,7 @@ CREATE TABLE IF NOT EXISTS `#__user_profiles` (
   `user_id` int(11) NOT NULL,
   `profile_key` varchar(100) NOT NULL,
   `profile_value` varchar(255) NOT NULL,
-  `ordering` int(11) NOT NULL DEFAULT 0,
+  `ordering` int(11) NOT NULL DEFAULT '0',
   UNIQUE KEY `idx_user_id_profile_key` (`user_id`,`profile_key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Simple user profile storage table';
 
@@ -1942,8 +1888,8 @@ CREATE TABLE IF NOT EXISTS `#__user_profiles` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__user_usergroup_map` (
-  `user_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'Foreign Key to #__users.id',
-  `group_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'Foreign Key to #__usergroups.id',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__users.id',
+  `group_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Foreign Key to #__usergroups.id',
   PRIMARY KEY (`user_id`,`group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -1956,11 +1902,11 @@ CREATE TABLE IF NOT EXISTS `#__user_usergroup_map` (
 CREATE TABLE IF NOT EXISTS `#__viewlevels` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
   `title` varchar(100) NOT NULL DEFAULT '',
-  `ordering` int(11) NOT NULL DEFAULT 0,
+  `ordering` int(11) NOT NULL DEFAULT '0',
   `rules` varchar(5120) NOT NULL COMMENT 'JSON encoded access control.',
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_assetgroup_title_lookup` (`title`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6;
 
 --
 -- Dumping data for table `#__viewlevels`
@@ -1970,8 +1916,8 @@ INSERT INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
 (1, 'Public', 0, '[1]'),
 (2, 'Registered', 1, '[6,2,8]'),
 (3, 'Special', 2, '[6,3,8]'),
-(5, 'Guest', 0, '[9]'),
-(6, 'Super Users', 0, '[8]');
+(5, 'Guest', 0, '[9]');
+
 -- --------------------------------------------------------
 
 --
@@ -1980,32 +1926,32 @@ INSERT INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
 
 CREATE TABLE IF NOT EXISTS `#__weblinks` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `catid` int(11) NOT NULL DEFAULT 0,
+  `catid` int(11) NOT NULL DEFAULT '0',
   `title` varchar(250) NOT NULL DEFAULT '',
   `alias` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '',
   `url` varchar(250) NOT NULL DEFAULT '',
   `description` text NOT NULL,
-  `hits` int(11) NOT NULL DEFAULT 0,
-  `state` tinyint(1) NOT NULL DEFAULT 0,
-  `checked_out` int(11) NOT NULL DEFAULT 0,
+  `hits` int(11) NOT NULL DEFAULT '0',
+  `state` tinyint(1) NOT NULL DEFAULT '0',
+  `checked_out` int(11) NOT NULL DEFAULT '0',
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `ordering` int(11) NOT NULL DEFAULT 0,
-  `access` int(11) NOT NULL DEFAULT 1,
+  `ordering` int(11) NOT NULL DEFAULT '0',
+  `access` int(11) NOT NULL DEFAULT '1',
   `params` text NOT NULL,
   `language` char(7) NOT NULL DEFAULT '',
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `created_by` int(10) unsigned NOT NULL DEFAULT 0,
+  `created_by` int(10) unsigned NOT NULL DEFAULT '0',
   `created_by_alias` varchar(255) NOT NULL DEFAULT '',
   `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modified_by` int(10) unsigned NOT NULL DEFAULT 0,
+  `modified_by` int(10) unsigned NOT NULL DEFAULT '0',
   `metakey` text NOT NULL,
   `metadesc` text NOT NULL,
   `metadata` text NOT NULL,
-  `featured` tinyint(3) unsigned NOT NULL DEFAULT 0 COMMENT 'Set if link is featured.',
+  `featured` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT 'Set if link is featured.',
   `xreference` varchar(50) NOT NULL COMMENT 'A reference to enable linkages to external data sets.',
   `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `version` int(10) unsigned NOT NULL DEFAULT 1,
+  `version` int(10) unsigned NOT NULL DEFAULT '1',
   `images` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_access` (`access`),
@@ -2018,3 +1964,30 @@ CREATE TABLE IF NOT EXISTS `#__weblinks` (
   KEY `idx_xreference` (`xreference`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__postinstall_messages`
+--
+
+CREATE TABLE `#__postinstall_messages` (
+  `postinstall_message_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `extension_id` bigint(20) NOT NULL DEFAULT '700' COMMENT 'FK to #__extensions',
+  `title_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'Lang key for the title',
+  `description_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'Lang key for description',
+  `action_key` varchar(255) NOT NULL DEFAULT '',
+  `language_extension` varchar(255) NOT NULL DEFAULT 'com_postinstall' COMMENT 'Extension holding lang keys',
+  `language_client_id` tinyint(3) NOT NULL DEFAULT '1',
+  `type` varchar(10) NOT NULL DEFAULT 'link' COMMENT 'Message type - message, link, action',
+  `action_file` varchar(255) DEFAULT '' COMMENT 'RAD URI to the PHP file containing action method',
+  `action` varchar(255) DEFAULT '' COMMENT 'Action method name or URL',
+  `condition_file` varchar(255) DEFAULT NULL COMMENT 'RAD URI to file holding display condition method',
+  `condition_method` varchar(255) DEFAULT NULL COMMENT 'Display condition method, must return boolean',
+  `version_introduced` varchar(50) NOT NULL DEFAULT '3.2.0' COMMENT 'Version when this message was introduced',
+  `enabled` tinyint(3) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`postinstall_message_id`)
+) DEFAULT CHARSET=utf8;
+
+INSERT INTO `#__postinstall_messages` (`postinstall_message_id`, `extension_id`, `title_key`, `description_key`, `action_key`, `language_extension`, `language_client_id`, `type`, `action_file`, `action`, `condition_file`, `condition_method`, `version_introduced`, `enabled`)
+VALUES
+(1, 700, 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_TITLE', 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_BODY', 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_ACTION', 'plg_twofactorauth_totp', 1, 'action', 'site://plugins/twofactorauth/totp/postinstall/actions.php', 'twofactorauth_postinstall_action', 'site://plugins/twofactorauth/totp/postinstall/actions.php', 'twofactorauth_postinstall_condition', '3.2.0', 1);

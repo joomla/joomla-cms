@@ -3,7 +3,7 @@
  * @package	    Joomla.UnitTest
  * @subpackage  Toolbar
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@
  * @subpackage  Toolbar
  * @since       3.0
  */
-class JToolbarButtonTest extends TestCaseDatabase
+class JToolbarButtonTest extends TestCase
 {
 	/**
 	 * @var    JToolbar
@@ -29,14 +29,6 @@ class JToolbarButtonTest extends TestCaseDatabase
 	 * @since  3.0
 	 */
 	protected $object;
-
-	/**
-	 * Backup of the SERVER superglobal
-	 *
-	 * @var    array
-	 * @since  3.2
-	 */
-	protected $backupServer;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -56,11 +48,6 @@ class JToolbarButtonTest extends TestCaseDatabase
 		$this->saveFactoryState();
 
 		JFactory::$application = $this->getMockApplication();
-
-		$this->backupServer = $_SERVER;
-
-		$_SERVER['HTTP_HOST'] = 'example.com';
-		$_SERVER['SCRIPT_NAME'] = '';
 	}
 
 	/**
@@ -73,8 +60,6 @@ class JToolbarButtonTest extends TestCaseDatabase
 	 */
 	protected function tearDown()
 	{
-		$_SERVER = $this->backupServer;
-
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -111,25 +96,12 @@ class JToolbarButtonTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Tests the render method
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
+	 * @todo   Implement testRender().
 	 */
 	public function testRender()
 	{
-		$type = array('Standard', 'test');
-
-		$expected = "<div class=\"btn-wrapper\"  id=\"toolbar-test\">\n"
-			. "\t<button onclick=\"if (document.adminForm.boxchecked.value==0){alert('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST');}else{ Joomla.submitbutton('')}\" class=\"btn btn-small\">\n"
-			. "\t<span class=\"icon-test\"></span>\n"
-			. "\t</button>\n"
-			. "</div>\n";
-
-		$this->assertEquals(
-			$expected,
-			$this->object->render($type)
+		// Remove the following lines when you implement this test.
+		$this->markTestIncomplete('This test has not been implemented yet.'
 		);
 	}
 

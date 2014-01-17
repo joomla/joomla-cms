@@ -69,7 +69,7 @@ abstract class AdminManagerPage extends AdminPage
 
 	public function getFilters()
 	{
-		$container = $this->driver->findElement(By::xPath("//div[contains(@class, 'filter-select') or contains(@class, 'js-stools')]"));
+		$container = $this->driver->findElement(By::xPath("//div[contains(@class, 'filter-select')]"));
 		$elements = $container->findElements(By::tagName('select'));
 		$result = array();
 		// @var WebdriverElement $el
@@ -93,26 +93,22 @@ abstract class AdminManagerPage extends AdminPage
 	/**
 	 * Checks a table for a row containing the desired text
 	 *
-	 * @param string $name  Text that identifies the desired row
+	 * @param  string  $name  Text that identifies the desired row
 	 *
-	 * @return mixed row that contains the text or false if row not found
+	 * @return mixed   row that contains the text or false if row not found
 	 */
 	public function getRowNumber($name)
 	{
 		$result = false;
-		$tableElements = $this->driver->findElements(By::xPath("//tbody"));
-		if (isset($tableElements[0]))
+		$rowElements = $this->driver->findElement(By::xPath("//tbody"))->findElements(By::tagName('tr'));
+		$count = count($rowElements);
+		for ($i = 0; $i < $count; $i++)
 		{
-			$rowElements = $this->driver->findElement(By::xPath("//tbody"))->findElements(By::tagName('tr'));
-			$count = count($rowElements);
-			for ($i = 0; $i < $count; $i ++)
+			$rowText = $rowElements[$i]->getText();
+			if (strpos(strtolower($rowText), strtolower($name)) !== false)
 			{
-				$rowText = $rowElements[$i]->getText();
-				if (strpos(strtolower($rowText), strtolower($name)) !== false)
-				{
-					$result = $i + 1;
-					break;
-				}
+				$result = $i + 1;
+				break;
 			}
 		}
 		return $result;
@@ -142,31 +138,14 @@ abstract class AdminManagerPage extends AdminPage
 		foreach ($orderings as $order)
 		{
 			$result[$order] = array();
-
-			// Check to see whether there is a separate sort direction list control
-			$directionTable = $this->driver->findElements(By::id('directionTable_chzn'));
-			if (count($directionTable) == 0)
-			{
-				$this->setOrder($order . ' ascending');
-			}
-			else
-			{
-				$this->setOrder($order);
-			}
+			$this->setOrder($order);
 
 			foreach ($rows as $row)
 			{
 				$result[$order]['ascending'][] = $this->getRowNumber($row);
 			}
 
-			if (count($directionTable) == 0)
-			{
-				$this->setOrder($order . ' descending');
-			}
-			else
-			{
-				$this->setOrderDirection('Descending');
-			}
+			$this->setOrderDirection('Descending');
 
 			foreach ($rows as $row)
 			{
@@ -186,10 +165,12 @@ abstract class AdminManagerPage extends AdminPage
 
 			// In some cases we have to click the button twice since using bootstrap tooltips. (Not sure why.)
 			$this->driver->findElement(By::xPath("//button[@data-original-title='Search' or @title='Search']"))->click();
+			$page = $this->test->getPageObject(get_class($this));
+			$this->driver->findElement(By::xPath("//button[@data-original-title='Search' or @title='Search']"))->click();
 		}
 		else
 		{
-			$this->driver->findElement(By::xPath("//button[@title='Clear' or @title='Reset' or @data-original-title='Reset' or @data-original-title='Clear']"))->click();
+			$this->driver->findElement(By::xPath("//div[@id='filter-bar']//button[@title='Clear' or @title='Reset' or @data-original-title='Reset' or @data-original-title='Clear']"))->click();
 		}
 		return $this->test->getPageObject(get_class($this));
 	}
@@ -217,37 +198,9 @@ abstract class AdminManagerPage extends AdminPage
 		}
 		if ($filterId)
 		{
-			$el = $this->driver->findElement(By::xPath("//div[@id='" . $filterId . "_chzn']/a"));
-			if (!$el->isDisplayed())
-			{
-				$elements = $this->driver->findElements(By::xPath("//button[contains(., 'Search tools')]"));
-				if (isset($elements[0]))
-				{
-					while (!$el->isDisplayed())
-					{
-						$elements[0]->click();
-					}
-				}
-			}
-			$selectElementArray = $this->driver->findElements(By::xPath("//div[@id='" . $filterId . "_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $value . "')]"));
-			if (count($selectElementArray) == 1)
-			{
-				$selectElement = $selectElementArray[0];
-			}
-			else
-			{
-				return false;
-			}
-
-			// Click container until element is selected
-			sleep(2);
-			$el->click();
-			while (!$selectElement->isDisplayed())
-			{
-				sleep(2);
-				$el->click();
-			}
-			$selectElement->click();
+			$container = $this->driver->findElement(By::xPath("//div[@id='" . $filterId . "_chzn']"));
+			$this->driver->findElement(By::xPath("//div[@id='" . $filterId . "_chzn']/a"))->click();
+			$this->driver->findElement(By::xPath("//div[@id='" . $filterId . "_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $value . "')]"))->click();
 			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 		}
 		return $this->test->getPageObject(get_class($this));
@@ -255,19 +208,12 @@ abstract class AdminManagerPage extends AdminPage
 
 	public function setOrder($value)
 	{
-		$container = $this->driver->findElement(By::xPath("//div[@id='list_fullordering_chzn' or @id='sortTable_chzn']/a"));
-		$container->click();
-		$el = $this->driver->findElement(By::xPath("//div[@id='list_fullordering_chzn' or @id='sortTable_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $value . "')]"));
-		// Make sure the container is opened. Not sure why we need this, but sometimes the $el is not displayed after the first click. This seems to fix it.
-		while (!$el->isDisplayed())
-		{
-			$container->click();
-		}
-		$el->click();
+		$container = $this->driver->findElement(By::xPath("//div[@id='sortTable_chzn']"));
+		$this->driver->findElement(By::xPath("//div[@id='sortTable_chzn']/a"))->click();
+		$this->driver->findElement(By::xPath("//div[@id='sortTable_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $value . "')]"))->click();
 		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 
 		return $this->test->getPageObject(get_class($this));
-
 	}
 
 	public function setOrderDirection($value)
@@ -288,7 +234,6 @@ abstract class AdminManagerPage extends AdminPage
 
 	public function trashAndDelete($name)
 	{
-		$this->setFilter('Status', 'All');
 		$this->searchFor($name);
 		$this->checkAll();
 		$this->clickButton('toolbar-trash');
@@ -310,8 +255,6 @@ abstract class AdminManagerPage extends AdminPage
 		{
 			$el->click();
 		}
-		$this->driver->findElement(By::id("filter_search"))->click();
-		sleep(2);
 		$this->clickButton('toolbar-delete');
 		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 		$this->searchFor();

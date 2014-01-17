@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -261,17 +261,14 @@ abstract class JFactory
 	 * @return  JCacheController object
 	 *
 	 * @see     JCache
-	 * @since   11.1
 	 */
 	public static function getCache($group = '', $handler = 'callback', $storage = null)
 	{
 		$hash = md5($group . $handler . $storage);
-
 		if (isset(self::$cache[$hash]))
 		{
 			return self::$cache[$hash];
 		}
-
 		$handler = ($handler == 'function') ? 'callback' : $handler;
 
 		$options = array('defaultgroup' => $group);
@@ -346,7 +343,6 @@ abstract class JFactory
 		{
 			self::$mailer = self::createMailer();
 		}
-
 		$copy = clone self::$mailer;
 
 		return $copy;
@@ -394,7 +390,6 @@ abstract class JFactory
 		JLog::add(__METHOD__ . ' is deprecated. Use SimpleXML directly.', JLog::WARNING, 'deprecated');
 
 		$class = 'SimpleXMLElement';
-
 		if (class_exists('JXMLElement'))
 		{
 			$class = 'JXMLElement';
@@ -593,7 +588,6 @@ abstract class JFactory
 		$options['expire'] = ($conf->get('lifetime')) ? $conf->get('lifetime') * 60 : 900;
 
 		$session = JSession::getInstance($handler, $options);
-
 		if ($session->getState() == 'expired')
 		{
 			$session->restart();
@@ -634,7 +628,6 @@ abstract class JFactory
 			{
 				header('HTTP/1.1 500 Internal Server Error');
 			}
-
 			jexit('Database Error: ' . $e->getMessage());
 		}
 
@@ -723,16 +716,8 @@ abstract class JFactory
 		$input = self::getApplication()->input;
 		$type = $input->get('format', 'html', 'word');
 
-		$version = new JVersion;
-
-		$attributes = array(
-			'charset' => 'utf-8',
-			'lineend' => 'unix',
-			'tab' => '  ',
-			'language' => $lang->getTag(),
-			'direction' => $lang->isRTL() ? 'rtl' : 'ltr',
-			'mediaversion' => $version->getMediaVersion()
-		);
+		$attributes = array('charset' => 'utf-8', 'lineend' => 'unix', 'tab' => '  ', 'language' => $lang->getTag(),
+			'direction' => $lang->isRTL() ? 'rtl' : 'ltr');
 
 		return JDocument::getInstance($type, $attributes);
 	}

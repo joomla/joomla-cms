@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,7 +46,7 @@ $params = $this->state->get('params');
 					<span class="icon-cancel"></span> <?php echo JText::_('JCANCEL') ?>
 				</button>
 			</div>
-			<?php if ($params->get('save_history', 0)) : ?>
+			<?php if ($params->get('save_history')) : ?>
 				<div class="btn-group">
 					<?php echo $this->form->getInput('contenthistory'); ?>
 				</div>
@@ -95,7 +95,7 @@ $params = $this->state->get('params');
 			</div>
 		</div>
 
-		<?php if ($params->get('save_history', 0)) : ?>
+		<?php if ($params->get('save_history')) : ?>
 			<div class="control-group">
 				<div class="control-label">
 					<?php echo $this->form->getLabel('version_note'); ?>

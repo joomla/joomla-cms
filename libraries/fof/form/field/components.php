@@ -1,7 +1,6 @@
 <?php
 /**
  * @package    FrameworkOnFramework
- * @subpackage form
  * @copyright  Copyright (C) 2010 - 2013 Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -27,12 +26,6 @@ class FOFFormFieldComponents extends JFormFieldList implements FOFFormField
 	protected $repeatable;
 
 	public $client_ids = null;
-	
-	/** @var   FOFTable  The item being rendered in a repeatable form field */
-	public $item;
-	
-	/** @var int A monotonically increasing number, denoting the row number in a repeatable view */
-	public $rowid;
 
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.

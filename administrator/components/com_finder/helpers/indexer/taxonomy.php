@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -219,7 +219,7 @@ class FinderIndexerTaxonomy
 
 		if ($id)
 		{
-			$db->updateObject('#__finder_taxonomy_map', $map, array('link_id', 'node_id'));
+			$db->updateObject('#__finder_taxonomy_map', $map);
 		}
 		else
 		{

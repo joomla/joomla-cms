@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -328,8 +328,7 @@ class LanguagesModelInstalled extends JModelList
 
 		// Clean the cache of com_languages and component cache.
 		$this->cleanCache();
-		$this->cleanCache('_system', 0);
-		$this->cleanCache('_system', 1);
+		$this->cleanCache('_system');
 
 		return true;
 	}

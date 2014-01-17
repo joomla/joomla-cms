@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,8 +17,6 @@ JHtml::_('behavior.keepalive');
 
 $app = JFactory::getApplication();
 $input = $app->input;
-
-$saveHistory = $this->state->get('params')->get('save_history', 0);
 
 $assoc = JLanguageAssociations::isEnabled();
 
@@ -68,11 +66,6 @@ $assoc = JLanguageAssociations::isEnabled();
 					<?php echo $this->form->getInput('tags'); ?>
 				</div>
 			</li>
-
-			<?php if ($saveHistory) : ?>
-				<li><?php echo $this->form->getLabel('version_note'); ?>
-				<?php echo $this->form->getInput('version_note'); ?></li>
-			<?php endif; ?>
 
 			<li><?php echo $this->form->getLabel('id'); ?>
 			<?php echo $this->form->getInput('id'); ?></li>
@@ -131,7 +124,6 @@ $assoc = JLanguageAssociations::isEnabled();
 			</fieldset>
 
 			<?php if ($assoc) : ?>
-				<?php echo JHtml::_('sliders.panel', JText::_('COM_NEWSFEEDS_ITEM_ASSOCIATIONS_FIELDSET_LABEL'), '-options');?>
 				<?php echo $this->loadTemplate('associations'); ?>
 			<?php endif; ?>
 

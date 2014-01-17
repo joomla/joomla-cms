@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,12 +23,6 @@ class TagsModelTag extends JModelAdmin
 	 * @since  3.1
 	 */
 	protected $text_prefix = 'COM_TAGS';
-
-	/**
-	 * @var    string  The type alias for this content type.
-	 * @since  3.2
-	 */
-	public $typeAlias = 'com_tags.tag';
 
 	/**
 	 * Method to test whether a record can be deleted.

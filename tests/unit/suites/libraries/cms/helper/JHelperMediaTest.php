@@ -3,7 +3,7 @@
  * @package	    Joomla.UnitTest
  * @subpackage  Media
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -151,11 +151,7 @@ class JHelperMediaTest extends TestCaseDatabase
 			array('Name contains bad characters' => array('name' => 'my<body>picture.jpg', 'type' => 'image/jpeg', 'tmp_name' => JPATH_TESTS . '/suites/libraries/joomla/image/stubs/koala.jpg', 'error' => 0, 'size' => 8), false),
 			array('Name contains bad extension' => array('name' => 'myscript.php.jpg', 'type' => 'image/jpeg', 'tmp_name' => JPATH_TESTS . '/suites/libraries/joomla/image/stubs/koala.jpg', 'error' => 0, 'size' => 8), false),
 			array('Name contains a space' => array('name' => 'my script.php.jpg', 'type' => 'image/jpeg', 'tmp_name' => JPATH_TESTS . '/suites/libraries/joomla/image/stubs/koala.jpg', 'error' => 0, 'size' => 8), false),
-			array('Empty name' => array('name' => '', 'type' => 'image/jpeg', 'tmp_name' => JPATH_TESTS . '/suites/libraries/joomla/image/stubs/koala.jpg', 'error' => 0, 'size' => 8), false),
-			array('Unknown format' => array('name' => 'myfile.xyz', 'type' => 'image/jpeg', 'tmp_name' => JPATH_TESTS . '/suites/libraries/joomla/image/stubs/koala.jpg', 'error' => 0, 'size' => 8), false),
-			array('File above php limit' => array('name' => 'mypicture.jpg', 'type' => 'image/jpeg', 'tmp_name' => JPATH_TESTS . '/suites/libraries/joomla/image/stubs/koala.jpg', 'error' => 0, 'size' => 20485770), false),
-			array('File above max configured but below php limit' => array('name' => 'mypicture.jpg', 'type' => 'image/jpeg', 'tmp_name' => JPATH_TESTS . '/suites/libraries/joomla/image/stubs/koala.jpg', 'error' => 0, 'size' => 10685770), false),
-			);
+		);
 	}
 
 	/**
@@ -173,41 +169,5 @@ class JHelperMediaTest extends TestCaseDatabase
 	{
 		$canUpload = $this->object->canUpload($file);
 		$this->assertEquals($canUpload, $expected);
-	}
-
-	/**
-	 * imageResize data
-	 *
-	 * @return  array
-	 *
-	 * @since   3.2
-	 */
-	public function imageResizeProvider()
-	{
-		return array(
-				array('Bigger Height' => 300, 200, 150, array(150, 100)),
-				array('Bigger Width' => 200, 300, 150, array(100, 150)),
-				array('Square' => 300, 300, 150, array(150, 150)),
-				array('0 Height' => 300, 0, 150, array(150, 0)),
-				array('0 Width' => 0, 300, 150, array(0, 150)),
-				array('0 Target' => 300, 200, 0, array(0, 0)),
-		);
-	}
-
-	/**
-	 * Tests the imageResize method
-	 *
-	 * @param   string  $fileName  The filename
-	 * @param   string  $expected  Expected result
-	 *
-	 * @return  void
-	 *
-	 * @dataProvider  imageResizeProvider
-	 * @since         3.2
-	 */
-	public function testImageResize($width, $height, $target, $expected)
-	{
-		$newSize = $this->object->imageResize($width, $height, $target);
-		$this->assertEquals($newSize, $expected);
 	}
 }

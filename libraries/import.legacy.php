@@ -5,7 +5,7 @@
  *
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -76,9 +76,6 @@ if (version_compare(PHP_VERSION, '5.4.0', '<'))
 define('JPATH_ISWIN', IS_WIN);
 define('JPATH_ISMAC', IS_MAC);
 
-// Register the PasswordHash lib
-JLoader::register('PasswordHash', JPATH_PLATFORM . '/phpass/PasswordHash.php');
-
 // Register classes where the names have been changed to fit the autoloader rules
 // @deprecated  4.0
 JLoader::register('JSimpleCrypt', JPATH_PLATFORM . '/legacy/simplecrypt/simplecrypt.php');
@@ -93,3 +90,5 @@ JLoader::register('JRules', JPATH_PLATFORM . '/legacy/access/rules.php');
 JLoader::register('JCli', JPATH_PLATFORM . '/legacy/application/cli.php');
 JLoader::register('JDaemon', JPATH_PLATFORM . '/legacy/application/daemon.php');
 JLoader::register('JApplication', JPATH_LIBRARIES . '/legacy/application/application.php');
+
+require_once JPATH_LIBRARIES . '/framework/aliases.php';

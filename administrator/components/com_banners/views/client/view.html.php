@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -66,7 +66,7 @@ class BannersViewClient extends JViewLegacy
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo		= $this->canDo;
 
-		JToolbarHelper::title($isNew ? JText::_('COM_BANNERS_MANAGER_CLIENT_NEW') : JText::_('COM_BANNERS_MANAGER_CLIENT_EDIT'), 'bookmark banners-clients');
+		JToolbarHelper::title($isNew ? JText::_('COM_BANNERS_MANAGER_CLIENT_NEW') : JText::_('COM_BANNERS_MANAGER_CLIENT_EDIT'), 'banners-clients.png');
 
 		// If not checked out, can save the item.
 		if (!$checkedOut && ($canDo->get('core.edit')||$canDo->get('core.create')))
@@ -90,11 +90,6 @@ class BannersViewClient extends JViewLegacy
 		}
 		else
 		{
-			if ($this->state->params->get('save_history', 0) && $user->authorise('core.edit'))
-			{
-				JToolbarHelper::versions('com_banners.client', $this->item->id);
-			}
-
 			JToolbarHelper::cancel('client.cancel', 'JTOOLBAR_CLOSE');
 		}
 

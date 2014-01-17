@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -193,39 +193,6 @@ class JLayoutFile extends JLayoutBase
 			{
 				array_unshift($this->includePaths, $paths);
 			}
-		}
-	}
-
-	/**
-	 * Remove one path from the layout search
-	 *
-	 * @param   string  $path  The path to remove from the layout search
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function removeIncludePath($path)
-	{
-		$this->removeIncludePaths($path);
-	}
-
-	/**
-	 * Remove one or more paths to exclude in layout search
-	 *
-	 * @param   string  $paths  The path or array of paths to remove for the layout search
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function removeIncludePaths($paths)
-	{
-		if (!empty($paths))
-		{
-			$paths = (array) $paths;
-
-			$this->includePaths = array_diff($this->includePaths, $paths);
 		}
 	}
 

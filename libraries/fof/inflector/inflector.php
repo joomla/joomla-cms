@@ -1,9 +1,8 @@
 <?php
 /**
- * @package     FrameworkOnFramework
- * @subpackage  inflector
- * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @package    FrameworkOnFramework
+ * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
 
@@ -31,36 +30,25 @@ class FOFInflector
 			'/move$/i'                      => 'moves',
 			'/sex$/i'                       => 'sexes',
 			'/child$/i'                     => 'children',
-			'/children$/i'                  => 'children',
 			'/man$/i'                       => 'men',
-			'/men$/i'                       => 'men',
 			'/foot$/i'                      => 'feet',
-			'/feet$/i'                      => 'feet',
 			'/person$/i'                    => 'people',
-			'/people$/i'                    => 'people',
 			'/taxon$/i'                     => 'taxa',
-			'/taxa$/i'                      => 'taxa',
 			'/(quiz)$/i'                    => '$1zes',
 			'/^(ox)$/i'                     => '$1en',
-			'/oxen$/i'                      => 'oxen',
 			'/(m|l)ouse$/i'                 => '$1ice',
-			'/(m|l)ice$/i'                  => '$1ice',
 			'/(matr|vert|ind|suff)ix|ex$/i' => '$1ices',
 			'/(x|ch|ss|sh)$/i'              => '$1es',
 			'/([^aeiouy]|qu)y$/i'           => '$1ies',
 			'/(?:([^f])fe|([lr])f)$/i'      => '$1$2ves',
 			'/sis$/i'                       => 'ses',
 			'/([ti]|addend)um$/i'           => '$1a',
-			'/([ti]|addend)a$/i'            => '$1a',
 			'/(alumn|formul)a$/i'           => '$1ae',
-			'/(alumn|formul)ae$/i'          => '$1ae',
 			'/(buffal|tomat|her)o$/i'       => '$1oes',
 			'/(bu)s$/i'                     => '$1ses',
 			'/(alias|status)$/i'            => '$1es',
 			'/(octop|vir)us$/i'             => '$1i',
-			'/(octop|vir)i$/i'              => '$1i',
 			'/(gen)us$/i'                   => '$1era',
-			'/(gen)era$/i'                  => '$1era',
 			'/(ax|test)is$/i'               => '$1es',
 			'/s$/i'                         => 's',
 			'/$/'                           => 's',
@@ -77,24 +65,20 @@ class FOFInflector
 			'/databases$/i'                                                    => 'database',
 			'/(quiz)zes$/i'                                                    => '\1',
 			'/(matr|suff)ices$/i'                                              => '\1ix',
-			'/(vert|ind|cod)ices$/i'                                           => '\1ex',
+			'/(vert|ind)ices$/i'                                               => '\1ex',
 			'/^(ox)en/i'                                                       => '\1',
 			'/(alias|status)es$/i'                                             => '\1',
 			'/(tomato|hero|buffalo)es$/i'                                      => '\1',
 			'/([octop|vir])i$/i'                                               => '\1us',
 			'/(gen)era$/i'                                                     => '\1us',
 			'/(cris|^ax|test)es$/i'                                            => '\1is',
-			'/is$/i'                                                           => 'is',
-			'/us$/i'                                                           => 'us',
-			'/ias$/i'                                                          => 'ias',
 			'/(shoe)s$/i'                                                      => '\1',
-			'/(o)es$/i'                                                        => '\1e',
+			'/(o)es$/i'                                                        => '\1',
 			'/(bus)es$/i'                                                      => '\1',
 			'/([m|l])ice$/i'                                                   => '\1ouse',
 			'/(x|ch|ss|sh)es$/i'                                               => '\1',
 			'/(m)ovies$/i'                                                     => '\1ovie',
 			'/(s)eries$/i'                                                     => '\1eries',
-			'/(v)ies$/i'                                                       => '\1ie',
 			'/([^aeiouy]|qu)ies$/i'                                            => '\1y',
 			'/([lr])ves$/i'                                                    => '\1f',
 			'/(tive)s$/i'                                                      => '\1',
@@ -138,16 +122,10 @@ class FOFInflector
 	/**
 	 * Constructor
 	 *
-	 * Prevent creating instances of this class by making the constructor private
+	 * Prevent creating instances of this class by making the contructor private
 	 */
 	private function __construct()
 	{
-	}
-
-	public static function deleteCache()
-	{
-		self::$_cache['pluralized'] = array();
-		self::$_cache['singularized'] = array();
 	}
 
 	/**

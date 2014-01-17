@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_weblinks
  * @since       1.5
  */
-class WeblinksViewCategories extends JViewCategories
+class WeblinksViewCategories extends JViewCategory
 {
 	protected $item = null;
 
@@ -81,5 +81,18 @@ class WeblinksViewCategories extends JViewCategories
 		$this->items  = &$items;
 
 		return parent::display($tpl);
+	}
+
+	/**
+	 * Method to prepares the document
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	protected function prepareDocument()
+	{
+		parent::prepareDocument();
+		parent::addFeed();
 	}
 }

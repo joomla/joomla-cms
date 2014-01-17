@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.vote
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,7 @@ class PlgContentVote extends JPlugin
 	 */
 	public function onContentBeforeDisplay($context, &$row, &$params, $page=0)
 	{
-		$parts = explode(".", $context);
+		$parts = explode(" ", $context);
 		if ($parts[0] != 'com_content')
 		{
 			return false;

@@ -341,8 +341,7 @@
 .icon-radio-unchecked:before {
 	content: "\e227";
 }
-.icon-radio-checked:before,
-.icon-generic:before {
+.icon-radio-checked:before {
 	content: "\e228";
 }
 .icon-circle:before {
@@ -1465,8 +1464,7 @@ p.tab-description {
 .cpanel div.icon a {
 	display: block;
 	float: left;
-	height: auto;
-	min-height: 97px;
+	height: 97px;
 	width: 108px;
 	color: #2c2c2c;
 	vertical-align: middle;
@@ -1475,14 +1473,13 @@ p.tab-description {
 }
 #cpanel img,
 .cpanel img {
-	padding: 10px;
+	padding: 10px 0;
 	margin: 0 auto;
 }
 #cpanel span,
 .cpanel span {
 	display: block;
 	text-align: center;
-	padding: 0 0 5px;
 }
 div.cpanel-icons {
 	width: 54%;
@@ -1833,10 +1830,6 @@ table.admintable td.key.vtop {
 fieldset.adminform {
 	margin: 0 10px 10px 10px;
 	overflow: hidden;
-}
-.adminformlist .btn.modal {
-	float: left;
-	margin-top: 7px;
 }
 ul.adminformlist,
 ul.adminformlist li,
@@ -2274,7 +2267,7 @@ table.adminlist .pagination button {
 	margin-right: 20px;
 }
 div.toggle-editor {
-	margin-top: 9px;
+	margin-top: 27px;
 }
 .tip {
 	float: left;
@@ -3547,10 +3540,6 @@ table {
 table.adminlist .item-associations li a {
 	color: #ffffff;
 }
-.hidden {
-	display: none;
-	visibility: hidden;
-}
 .tooltip {
 	position: absolute;
 	z-index: 1030;
@@ -3644,16 +3633,4 @@ th .tooltip-inner {
 fieldset.panelform .tooltip img {
 	float: none;
 	margin: 0;
-}
-div.toggle-editor {
-	float: right;
-}
-.text-left {
-	text-align: left;
-}
-.text-right {
-	text-align: right;
-}
-.text-center {
-	text-align: center;
 }

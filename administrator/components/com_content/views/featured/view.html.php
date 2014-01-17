@@ -3,18 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * View class for a list of featured articles.
- *
  * @package     Joomla.Administrator
  * @subpackage  com_content
- * @since       1.6
  */
 class ContentViewFeatured extends JViewLegacy
 {
@@ -26,27 +23,20 @@ class ContentViewFeatured extends JViewLegacy
 
 	/**
 	 * Display the view
-	 *
-	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
-	 *
-	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
 		ContentHelper::addSubmenu('featured');
 
-		$this->items         = $this->get('Items');
-		$this->pagination    = $this->get('Pagination');
-		$this->state         = $this->get('State');
-		$this->authors       = $this->get('Authors');
-		$this->filterForm    = $this->get('FilterForm');
-		$this->activeFilters = $this->get('ActiveFilters');
+		$this->items      = $this->get('Items');
+		$this->pagination = $this->get('Pagination');
+		$this->state      = $this->get('State');
+		$this->authors    = $this->get('Authors');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
-
 			return false;
 		}
 
@@ -73,8 +63,6 @@ class ContentViewFeatured extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
-	 * @return  void
-	 *
 	 * @since   1.6
 	 */
 	protected function addToolbar()
@@ -82,7 +70,7 @@ class ContentViewFeatured extends JViewLegacy
 		$state	= $this->get('State');
 		$canDo	= JHelperContent::getActions($this->state->get('filter.category_id'), 0, 'com_content');
 
-		JToolbarHelper::title(JText::_('COM_CONTENT_FEATURED_TITLE'), 'star featured');
+		JToolbarHelper::title(JText::_('COM_CONTENT_FEATURED_TITLE'), 'featured.png');
 
 		if ($canDo->get('core.create'))
 		{
@@ -105,8 +93,7 @@ class ContentViewFeatured extends JViewLegacy
 		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('', 'articles.delete', 'JTOOLBAR_EMPTY_TRASH');
-		}
-		elseif ($canDo->get('core.edit.state'))
+		} elseif ($canDo->get('core.edit.state'))
 		{
 			JToolbarHelper::trash('articles.trash');
 		}
@@ -115,8 +102,45 @@ class ContentViewFeatured extends JViewLegacy
 		{
 			JToolbarHelper::preferences('com_content');
 		}
-
 		JToolbarHelper::help('JHELP_CONTENT_FEATURED_ARTICLES');
+
+		JHtmlSidebar::setAction('index.php?option=com_content&view=featured');
+
+		JHtmlSidebar::addFilter(
+			JText::_('JOPTION_SELECT_PUBLISHED'),
+			'filter_published',
+			JHtml::_('select.options', JHtml::_('jgrid.publishedOptions'), 'value', 'text', $this->state->get('filter.published'), true)
+		);
+
+		JHtmlSidebar::addFilter(
+			JText::_('JOPTION_SELECT_CATEGORY'),
+			'filter_category_id',
+			JHtml::_('select.options', JHtml::_('category.options', 'com_content'), 'value', 'text', $this->state->get('filter.category_id'))
+		);
+
+		JHtmlSidebar::addFilter(
+			JText::_('JOPTION_SELECT_MAX_LEVELS'),
+			'filter_level',
+			JHtml::_('select.options', $this->f_levels, 'value', 'text', $this->state->get('filter.level'))
+		);
+
+		JHtmlSidebar::addFilter(
+			JText::_('JOPTION_SELECT_ACCESS'),
+			'filter_access',
+			JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
+		);
+
+		JHtmlSidebar::addFilter(
+			JText::_('JOPTION_SELECT_AUTHOR'),
+			'filter_author_id',
+			JHtml::_('select.options', $this->authors, 'value', 'text', $this->state->get('filter.author_id'))
+		);
+
+		JHtmlSidebar::addFilter(
+			JText::_('JOPTION_SELECT_LANGUAGE'),
+			'filter_language',
+			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
+		);
 	}
 
 	/**

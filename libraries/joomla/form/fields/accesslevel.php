@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -29,12 +29,12 @@ class JFormFieldAccessLevel extends JFormFieldList
 	 * @var    string
 	 * @since  11.1
 	 */
-	protected $type = 'AccessLevel';
+	public $type = 'AccessLevel';
 
 	/**
 	 * Method to get the field input markup.
 	 *
-	 * @return  string  The field input markup.
+	 * @return  string   The field input markup.
 	 *
 	 * @since   11.1
 	 */
@@ -43,15 +43,14 @@ class JFormFieldAccessLevel extends JFormFieldList
 		$attr = '';
 
 		// Initialize some field attributes.
-		$attr .= !empty($this->class) ? ' class="' . $this->class . '"' : '';
-		$attr .= $this->disabled ? ' disabled' : '';
-		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
-		$attr .= $this->multiple ? ' multiple' : '';
-		$attr .= $this->required ? ' required aria-required="true"' : '';
-		$attr .= $this->autofocus ? ' autofocus' : '';
+		$attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
+		$attr .= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
+		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
+		$attr .= $this->multiple ? ' multiple="multiple"' : '';
+		$attr .= $this->required ? ' required="required" aria-required="true"' : '';
 
 		// Initialize JavaScript field attributes.
-		$attr .= $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
+		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
 		// Get the field options.
 		$options = $this->getOptions();

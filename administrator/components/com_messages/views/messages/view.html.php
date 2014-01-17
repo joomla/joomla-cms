@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -56,7 +56,7 @@ class MessagesViewMessages extends JViewLegacy
 		$state	= $this->get('State');
 		$canDo	= MessagesHelper::getActions();
 
-		JToolbarHelper::title(JText::_('COM_MESSAGES_MANAGER_MESSAGES'), 'envelope inbox');
+		JToolbarHelper::title(JText::_('COM_MESSAGES_MANAGER_MESSAGES'), 'inbox.png');
 
 		if ($canDo->get('core.create'))
 		{

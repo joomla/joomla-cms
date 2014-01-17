@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 ?>
 <div class="btn-toolbar">
 	<div class="btn-group pull-right">
-		<a href="#" class="btn btn-primary" onclick="Install.submitform();" title="<?php echo JText::_('JCHECK_AGAIN'); ?>"><i class="icon-refresh icon-white"></i> <?php echo JText::_('JCHECK_AGAIN'); ?></a>
+		<a href="#" class="btn btn-primary" onclick="Install.submitform();" title="<?php echo JText::_('JCheck_Again'); ?>"><i class="icon-refresh icon-white"></i> <?php echo JText::_('JCheck_Again'); ?></a>
 	</div>
 </div>
 <form action="index.php" method="post" id="languageForm" class="form-horizontal">
