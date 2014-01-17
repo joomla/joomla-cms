@@ -118,8 +118,14 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 						<?php if (!empty($article->author) || !empty($article->created_by_alias)) : ?>
 							<?php $author = $article->author ?>
 							<?php $author = ($article->created_by_alias ? $article->created_by_alias : $author);?>
-							<?php if (!empty($article->contact_link ) &&  $this->params->get('link_author') == true):?>
-								<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $article->contact_link, $author)); ?>
+
+							<?php if (!empty($article->contactid ) &&  $this->params->get('link_author') == true):?>
+								<?php echo JHtml::_(
+										'link',
+										JRoute::_('index.php?option=com_contact&view=contact&id='.$article->contactid),
+										$author
+								); ?>
+
 							<?php else :?>
 								<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
 							<?php endif; ?>

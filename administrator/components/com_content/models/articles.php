@@ -111,8 +111,13 @@ class ContentModelArticles extends JModelList
 		$tag = $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
 		$this->setState('filter.tag', $tag);
 
+		// Get Default Order List
+		$params = JComponentHelper::getParams('com_content');
+		$ordering = $params->get('admin_articles_ordering', 'a.title');
+		$direction = $params->get('admin_articles_dir', 'ASC');
+
 		// List state information.
-		parent::populateState('a.title', 'asc');
+		parent::populateState($ordering, $direction);
 
 		// Force a language
 		$forcedLanguage = $app->input->get('forcedLanguage');
