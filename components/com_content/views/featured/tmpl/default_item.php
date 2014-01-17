@@ -17,7 +17,7 @@ $info    = $this->item->params->get('info_block_position', 0);
 
 ?>
 
-<?php if ($this->item->state == 0) : ?>
+<?php if ($this->item->state == 0 || strtotime($this->item->publish_up) > strtotime(JFactory::getDate())) : ?>
 	<div class="system-unpublished">
 <?php endif; ?>
 
@@ -33,6 +33,9 @@ $info    = $this->item->params->get('info_block_position', 0);
 
 <?php if ($this->item->state == 0) : ?>
 	<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
+<?php endif; ?>
+<?php if (strtotime($this->item->publish_up) > strtotime(JFactory::getDate())) : ?>
+	<span class="label label-warning"><?php echo JText::_('JNOTPUBLISHEDYET'); ?></span>
 <?php endif; ?>
 
 <?php if ($params->get('show_print_icon') || $params->get('show_email_icon') || $canEdit) : ?>
@@ -252,7 +255,7 @@ $info    = $this->item->params->get('info_block_position', 0);
 
 <?php endif; ?>
 
-<?php if ($this->item->state == 0) : ?>
+<?php if ($this->item->state == 0 || strtotime($this->item->publish_up) > strtotime(JFactory::getDate())) : ?>
 </div>
 <?php endif; ?>
 

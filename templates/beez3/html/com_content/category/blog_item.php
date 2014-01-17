@@ -17,7 +17,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 ?>
 
 
-<?php if ($this->item->state == 0) : ?>
+<?php if ($this->item->state == 0 || strtotime($this->item->publish_up) > strtotime(JFactory::getDate())) : ?>
 <div class="system-unpublished">
 <?php endif; ?>
 <?php if ($params->get('show_title')) : ?>
@@ -162,7 +162,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 		</p>
 <?php endif; ?>
 
-<?php if ($this->item->state == 0) : ?>
+<?php if ($this->item->state == 0 || strtotime($this->item->publish_up) > strtotime(JFactory::getDate())) : ?>
 </div>
 <?php endif; ?>
 

@@ -46,6 +46,9 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 			<?php if ($this->item->state == 0) : ?>
 				<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 			<?php endif; ?>
+			<?php if (strtotime($this->item->publish_up) > strtotime(JFactory::getDate())) : ?>
+				<span class="label label-warning"><?php echo JText::_('JNOTPUBLISHEDYET'); ?></span>
+			<?php endif; ?>
 			<?php if ($params->get('show_title')) : ?>
 				<?php if ($params->get('link_titles') && !empty($this->item->readmore_link)) : ?>
 					<a href="<?php echo $this->item->readmore_link; ?>"> <?php echo $this->escape($this->item->title); ?></a>
