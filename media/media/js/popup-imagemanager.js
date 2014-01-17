@@ -1,5 +1,5 @@
 /**
- * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,7 +27,6 @@ var ImageManager = this.ImageManager = {
 		this.fields.align	= document.id("f_align");
 		this.fields.title	= document.id("f_title");
 		this.fields.caption	= document.id("f_caption");
-		this.fields.c_class	= document.id("f_caption_class");
 
 		// Setup image listing objects
 		this.folderlist = document.id('folderlist');
@@ -91,16 +90,13 @@ var ImageManager = this.ImageManager = {
 
 	onok: function()
 	{
-		var tag		= '';
-		var extra	= '';
-
+		extra = '';
 		// Get the image tag field information
 		var url		= this.fields.url.get('value');
 		var alt		= this.fields.alt.get('value');
 		var align	= this.fields.align.get('value');
 		var title	= this.fields.title.get('value');
 		var caption	= this.fields.caption.get('value');
-		var c_class	= this.fields.c_class.get('value');
 
 		if (url != '') {
 			// Set alt attribute
@@ -110,28 +106,19 @@ var ImageManager = this.ImageManager = {
 				extra = extra + 'alt="" ';
 			}
 			// Set align attribute
-			if (align != '' && caption == '') {
-				extra = extra + 'class="pull-'+align+'" ';
+			if (align != '') {
+				extra = extra + 'align="'+align+'" ';
 			}
-			// Set title attribute
+			// Set align attribute
 			if (title != '') {
 				extra = extra + 'title="'+title+'" ';
 			}
-
-			tag = '<img src="'+url+'" '+extra+'/>';
-
-			// Process caption
+			// Set align attribute
 			if (caption != '') {
-				var figclass = '';
-				var captionclass = '';
-				if (align != '') {
-					figclass = ' class="pull-'+align+'"';
-				}
-				if (c_class != '') {
-					captionclass = ' class="'+c_class+'"';
-				}
-				tag = '<figure'+figclass+'>'+tag+'<figcaption'+captionclass+'>'+caption+'</figcaption></figure>';
+				extra = extra + 'class="caption" ';
 			}
+
+			var tag = "<img src=\""+url+"\" "+extra+"/>";
 		}
 
 		window.parent.jInsertEditorText(tag, this.editor);

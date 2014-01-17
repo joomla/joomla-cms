@@ -7,7 +7,7 @@
 	<name>mod_weblinks</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2009</creationDate>
-	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -92,7 +92,7 @@
 				<field
 					name="description"
 					type="radio"
-					class="btn-group btn-group-yesno"
+					class="btn-group"
 					default="0"
 					label="MOD_WEBLINKS_FIELD_DESCRIPTION_LABEL"
 					description="MOD_WEBLINKS_FIELD_DESCRIPTION_DESC">
@@ -104,7 +104,7 @@
 				<field
 					name="hits"
 					type="radio"
-					class="btn-group btn-group-yesno"
+					class="btn-group"
 					default="0"
 					label="MOD_WEBLINKS_FIELD_HITS_LABEL"
 					description="MOD_WEBLINKS_FIELD_HITS_DESC">
@@ -116,8 +116,8 @@
 
 				<field
 					name="count_clicks"
-					type="list"
-					class="chzn-color"
+					type="radio"
+					class="btn-group"
 					default="0"
 					label="MOD_WEBLINKS_FIELD_COUNTCLICKS_LABEL"
 					description="MOD_WEBLINKS_FIELD_COUNTCLICKS_DESC">

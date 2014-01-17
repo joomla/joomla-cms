@@ -28,11 +28,11 @@ class ControlPanelPage extends AdminPage
 			'Menu Manager' => 'administrator/index.php?option=com_menus',
 			'User Manager' => 'administrator/index.php?option=com_users',
 			'Module Manager' => 'administrator/index.php?option=com_modules',
-			'User Manager' => 'administrator/index.php?option=com_users',
+			'Extension Manager' => 'administrator/index.php?option=com_installer',
+			'Language Manager' => 'administrator/index.php?option=com_languages',
 			'Global Configuration' => 'administrator/index.php?option=com_config',
 			'Template Manager' => 'administrator/index.php?option=com_templates',
-			'Language Manager' => 'administrator/index.php?option=com_languages',
-			'Install Extensions' => 'administrator/index.php?option=com_installer',
+			'Edit Profile' => 'administrator/index.php?option=com_admin&task=profile.edit&id=',
 			'All extensions are up-to-date' => 'administrator/index.php?option=com_installer&view=update',
 	);
 
@@ -43,7 +43,7 @@ class ControlPanelPage extends AdminPage
 	 */
 	public function getControlPanelIcons()
 	{
-		$container = $this->driver->findElement(By::xPath("//div[contains(@class, 'quick-icons')]"));
+		$container = $this->driver->findElement(By::xPath("//div[contains(., 'Quick Icons')]/../div[@class='row-striped']"));
 		$elements = $container->findElements(By::tagName('a'));
 		$return = array();
 		foreach ($elements as $element)

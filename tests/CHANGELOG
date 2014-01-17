@@ -1,6 +1,6 @@
 0. Metadata
 -----------
-Copyright:		Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+Copyright:		Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
 License:		GNU General Public License version 2 or later; see LICENSE.txt
 
 1. Copyright and disclaimer
@@ -25,33 +25,6 @@ $ -> Language fix or change
 ^ -> Change
 - -> Removed
 ! -> Note
-
-05-Dec-2013 Mark Dexter
- # Clean up some webdriver tests to hopefully fix intermittent problems.
-
-14-Nov-2013 Mark Dexter
- # Fix problem with button not being visible on page.
-  
-01-Nov-2013 Mark Dexter
- # Fix problem with hidden filters in User Manager.
-
-31-Oct-2013 Mark Dexter
- # Fix problem with category filter in article manager.
-
-30-Oct-2013 Mark Dexter
- # Fix weblink and newsfeed edit for markup changes.
-
-29-Oct-2013 Mark Dexter
- # More webdriver fixes for 3.2.
-
-27-Oct-2013 Mark Dexter
- # More webdriver fixes for 3.2 changes. Most tests working again.
-
-18-Oct-2013 Mark Dexter
- # Fix Webdriver tests for 3.2 changes.
-
-09-Oct-2013 Mark Dexter
- # Fix Webdriver page class for markup changes.
 
 03-Oct-2013 Mark Dexter
  # Fix system tests for code changes.

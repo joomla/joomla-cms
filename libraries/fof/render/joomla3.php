@@ -1,9 +1,8 @@
 <?php
 /**
- * @package     FrameworkOnFramework
- * @subpackage  render
- * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @package    FrameworkOnFramework
+ * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
 
@@ -21,7 +20,7 @@ class FOFRenderJoomla3 extends FOFRenderStrapper
 	public function __construct()
 	{
 		$this->priority	 = 55;
-		$this->enabled	 = version_compare(JVERSION, '3.0', 'ge');
+		$this->enabled	 = FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'ge');
 	}
 
 	/**

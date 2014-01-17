@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -58,7 +58,7 @@ class JFormRuleColorTest extends TestCase
 			array('#GGGGGG', false),
 			array('FFFFFF', false),
 			array('#GGG', false),
-			array('', false)
+			array('', true)
 		);
 	}
 

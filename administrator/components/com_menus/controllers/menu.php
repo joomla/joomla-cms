@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,6 +47,16 @@ class MenusControllerMenu extends JControllerForm
 		$context  = 'com_menus.edit.menu';
 		$task     = $this->getTask();
 		$recordId = $this->input->getInt('id');
+
+		if (!$this->checkEditId($context, $recordId))
+		{
+			// Somehow the person just went to the form and saved it - we don't allow that.
+			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId));
+			$this->setMessage($this->getError(), 'error');
+			$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list.$this->getRedirectToListAppend(), false));
+
+			return false;
+		}
 
 		// Make sure we are not trying to modify an administrator menu.
 		if (isset($data['client_id']) && $data['client_id'] == 1){

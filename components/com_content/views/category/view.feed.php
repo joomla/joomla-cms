@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,12 +18,6 @@ defined('_JEXEC') or die;
  */
 class ContentViewCategory extends JViewCategoryfeed
 {
-	/**
-	 * @var    string  The name of the view to link individual items to
-	 * @since  3.2
-	 */
-	protected $viewName = 'article';
-
 	/**
 	 * Method to reconcile non standard names from components to usage in this class.
 	 * Typically overriden in the component feed view class.

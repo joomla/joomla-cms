@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Menu
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ class JMenuSite extends JMenu
 	/**
 	 * Loads the entire menu table into memory.
 	 *
-	 * @return  boolean  True on success, false on failure
+	 * @return  array
 	 *
 	 * @since   1.5
 	 */
@@ -49,7 +49,6 @@ class JMenuSite extends JMenu
 		catch (RuntimeException $e)
 		{
 			JError::raiseWarning(500, JText::sprintf('JERROR_LOADING_MENUS', $e->getMessage()));
-
 			return false;
 		}
 
@@ -73,8 +72,6 @@ class JMenuSite extends JMenu
 
 			parse_str($url, $item->query);
 		}
-
-		return true;
 	}
 
 	/**
@@ -136,7 +133,7 @@ class JMenuSite extends JMenu
 	 *
 	 * @param   string  $language  The language code.
 	 *
-	 * @return  mixed  The item object or null when not found for given language
+	 * @return  object  The item object
 	 *
 	 * @since   1.6
 	 */
@@ -152,7 +149,7 @@ class JMenuSite extends JMenu
 		}
 		else
 		{
-			return null;
+			return 0;
 		}
 	}
 }

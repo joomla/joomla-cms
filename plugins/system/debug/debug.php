@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Debug
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -59,14 +59,6 @@ class PlgSystemDebug extends JPlugin
 	 * @since  3.1.2
 	 */
 	private $explains = array();
-
-	/**
-	 * Holds total amount of executed queries
-	 *
-	 * @var    int
-	 * @since  3.2
-	 */
-	private $totalQueries = 0;
 
 	/**
 	 * Constructor.
@@ -1054,7 +1046,7 @@ class PlgSystemDebug extends JPlugin
 
 		$html = array();
 
-		$html[] = '<h4>' . JText::sprintf('PLG_DEBUG_QUERIES_LOGGED', $this->totalQueries)
+		$html[] = '<h4>' . JText::sprintf('PLG_DEBUG_QUERIES_LOGGED', $db->getCount())
 			. sprintf(' <span class="label ' . $labelClass . '">%.1f&nbsp;ms</span>', ($totalQueryTime)) . '</h4><br />';
 
 		if ($total_duplicates)
@@ -1302,8 +1294,6 @@ class PlgSystemDebug extends JPlugin
 	public function mysqlDisconnectHandler(&$db)
 	{
 		$db->setDebug(false);
-
-		$this->totalQueries = $db->getCount();
 
 		$dbVersion5037 = (strncmp($db->name, 'mysql', 5) == 0) && version_compare($db->getVersion(), '5.0.37', '>=');
 

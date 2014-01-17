@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -18,8 +18,7 @@
 class JUserHelperTest extends TestCaseDatabase
 {
 	/**
-	 * @var    JUserHelper
-	 * @since  12.1
+	 * @var JUserHelper
 	 */
 	protected $object;
 
@@ -27,9 +26,7 @@ class JUserHelperTest extends TestCaseDatabase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @return  void
-	 *
-	 * @since   12.1
+	 * @return void
 	 */
 	protected function setUp()
 	{
@@ -272,7 +269,6 @@ class JUserHelperTest extends TestCaseDatabase
 				false),
 		);
 	}
-
 	/**
 	 * Testing activateUser().
 	 *
@@ -291,54 +287,6 @@ class JUserHelperTest extends TestCaseDatabase
 		$this->assertThat(
 			JUserHelper::activateUser($activation),
 			$this->equalTo($expected)
-		);
-	}
-
-	/**
-	 * Testing hashPassword().
-	 *
-	 * @covers  JUserHelper::hashPassword
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function testHashPassword()
-	{
-		$this->assertEquals(
-			strpos(JUserHelper::hashPassword('mySuperSecretPassword'), '$P$'),
-			0,
-			'Joomla currently hashes passwords using PHPass, verify the correct prefix is present'
-		);
-	}
-
-	/**
-	 * Testing verifyPassword().
-	 *
-	 * @covers  JUserHelper::verifyPassword
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function testVerifyPassword()
-	{
-		$this->assertTrue(
-			JUserHelper::verifyPassword('mySuperSecretPassword', '$P$D6vpNa203LlaQUah3KcVQIhgFZ4E6o1'),
-			'Properly verifies a password hashed with PHPass'
-		);
-
-		$this->assertTrue(
-			JUserHelper::verifyPassword('mySuperSecretPassword', '$2y$10$0GfV1d.dfYvWu83ZKFD4surhsaRpVjUZqhG9bShmPcSnmqwCes/lC'),
-			'Properly verifies a password hashed with BCrypt'
-		);
-
-		$this->assertTrue(
-			JUserHelper::verifyPassword('mySuperSecretPassword', '{SHA256}972c5f5b845306847cb4bf941b7a683f1a828f48c46abef8b9ae4dac9798b1d5:oeLpBZ2sFJwLZmm4'),
-			'Properly verifies a password hashed with SHA256'
-		);
-
-		$this->assertTrue(
-			JUserHelper::verifyPassword('mySuperSecretPassword', '693560686f4d591d8dd5e34006442061'),
-			'Properly verifies a password hashed with Joomla legacy MD5'
 		);
 	}
 }

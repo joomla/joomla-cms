@@ -1,9 +1,8 @@
 <?php
 /**
- * @package     FrameworkOnFramework
- * @subpackage  table
- * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @package    FrameworkOnFramework
+ * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
 defined('_JEXEC') or die;
@@ -152,7 +151,7 @@ class FOFTable extends JObject implements JTableInterface
 	 * com_example.viewname format. They asset name will be this key appended
 	 * with the item's ID, e.g. com_example.viewname.123
 	 *
-	 * @var    string
+	 * @var type
 	 */
 	protected $_assetKey = '';
 
@@ -304,9 +303,6 @@ class FOFTable extends JObject implements JTableInterface
 		$type       = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
 		$tableClass = $prefix . ucfirst($type);
 
-		$config['_table_type'] = $type;
-		$config['_table_class'] = $tableClass;
-
 		$configProvider = new FOFConfigProvider;
 		$configProviderKey = $option . '.views.' . FOFInflector::singularize($type) . '.config.';
 
@@ -422,7 +418,7 @@ class FOFTable extends JObject implements JTableInterface
 				$instance->setTriggerEvents($config['trigger_events']);
 			}
 
-			if (version_compare(JVERSION, '3.1', 'ge'))
+			if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.1', 'ge'))
 			{
 				if (array_key_exists('has_tags', $config))
 				{
@@ -597,8 +593,6 @@ class FOFTable extends JObject implements JTableInterface
 		{
 			$this->$access_field = (int) JFactory::getConfig()->get('access');
 		}
-
-		$this->config = $config;
 	}
 
 	/**
@@ -679,32 +673,6 @@ class FOFTable extends JObject implements JTableInterface
 	 */
 	public function addBehavior($name, $config = array())
 	{
-		// First look for ComponentnameTableViewnameBehaviorName (e.g. FoobarTableItemsBehaviorTags)
-		if (isset($this->config['option']))
-		{
-			$option_name = str_replace('com_', '', $this->config['option']);
-			$behaviorClass = $this->config['_table_class'] . 'Behavior' . ucfirst(strtolower($name));
-
-			if (class_exists($behaviorClass))
-			{
-				$behavior = new $behaviorClass($this->tableDispatcher, $config);
-
-				return true;
-			}
-
-			// Then look for ComponentnameTableBehaviorName (e.g. FoobarTableBehaviorTags)
-			$option_name = str_replace('com_', '', $this->config['option']);
-			$behaviorClass = ucfirst($option_name) . 'TableBehavior' . ucfirst(strtolower($name));
-
-			if (class_exists($behaviorClass))
-			{
-				$behavior = new $behaviorClass($this->tableDispatcher, $config);
-
-				return true;
-			}
-		}
-
-		// Nothing found? Return false.
 
 		$behaviorClass = 'FOFTableBehavior' . ucfirst(strtolower($name));
 
@@ -760,7 +728,7 @@ class FOFTable extends JObject implements JTableInterface
 		$this->_has_tags = false;
 
 		// Tags are available only in 3.1+
-		if (version_compare(JVERSION, '3.1', 'ge'))
+		if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.1', 'ge'))
 		{
 			$this->_has_tags = $newState ? true : false;
 		}
@@ -949,7 +917,6 @@ class FOFTable extends JObject implements JTableInterface
         $known        = $this->getKnownFields();
         $skipFields[] = $this->_tbl_key;
 
-        if(in_array($this->getColumnAlias('hits'), $known))         $skipFields[] = $this->getColumnAlias('hits');
         if(in_array($this->getColumnAlias('created_on'), $known))   $skipFields[] = $this->getColumnAlias('created_on');
         if(in_array($this->getColumnAlias('created_by'), $known))   $skipFields[] = $this->getColumnAlias('created_by');
         if(in_array($this->getColumnAlias('modified_on'), $known))  $skipFields[] = $this->getColumnAlias('modified_on');
@@ -1022,7 +989,7 @@ class FOFTable extends JObject implements JTableInterface
 	}
 
 	/**
-	 * Generic check for whether dependencies exist for this object in the db schema
+	 * Generic check for whether dependancies exist for this object in the db schema
 	 *
 	 * @param   integer  $oid    The primary key of the record to delete
 	 * @param   array    $joins  Any joins to foreign table, used to determine if dependent records exist
@@ -1065,7 +1032,7 @@ class FOFTable extends JObject implements JTableInterface
 			$query->group($db->qn('master') . '.' . $db->qn($k));
 			$this->_db->setQuery((string) $query);
 
-			if (version_compare(JVERSION, '3.0', 'ge'))
+			if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'ge'))
 			{
 				try
 				{
@@ -1238,7 +1205,6 @@ class FOFTable extends JObject implements JTableInterface
 
 		if ($result !== true)
 		{
-			$this->setError($this->_db->getErrorMsg());
 			return false;
 		}
 
@@ -1474,7 +1440,15 @@ class FOFTable extends JObject implements JTableInterface
         }
 
 		$date = JFactory::getDate();
-		$time = $date->toSql();
+
+		if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'ge'))
+		{
+			$time = $date->toSql();
+		}
+		else
+		{
+			$time = $date->toMysql();
+		}
 
 		$query = $this->_db->getQuery(true)
 			->update($this->_db->qn($this->_tbl))
@@ -1741,7 +1715,7 @@ class FOFTable extends JObject implements JTableInterface
 
 		$this->_db->setQuery((string) $query);
 
-		if (version_compare(JVERSION, '3.0', 'ge'))
+		if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'ge'))
 		{
 			try
 			{
@@ -1851,38 +1825,26 @@ class FOFTable extends JObject implements JTableInterface
 		}
 
 		$k  = $this->_tbl_key;
-		$pk = ($oid) ? $oid : $this->$k;
+		$pk = (is_null($oid)) ? $this->$k : $oid;
 
 		// If no primary key is given, return false.
-		if (!$pk)
+
+		if ($pk === null)
 		{
 			$result = false;
 		}
 		else
 		{
 			// Check the row in by primary key.
-			$query = $this->_db->getQuery(true)
-						  ->update($this->_tbl)
-						  ->set($this->_db->qn($hits_field) . ' = (' . $this->_db->qn($hits_field) . ' + 1)')
-						  ->where($this->_tbl_key . ' = ' . $this->_db->q($pk));
+			$query = $this->_db->getQuery(true);
+			$query->update($this->_tbl);
+			$query->set($this->_db->qn($hits_field) . ' = (' . $this->_db->qn($hits_field) . ' + 1)');
+			$query->where($this->_tbl_key . ' = ' . $this->_db->q($pk));
+			$this->_db->setQuery($query);
+			$this->_db->execute();
 
-			$this->_db->setQuery($query)->execute();
-
-			// In order to update the table object, I have to load the table
-			if(!$this->$k)
-			{
-				$query = $this->_db->getQuery(true)
-							  ->select($this->_db->qn($hits_field))
-							  ->from($this->_db->qn($this->_tbl))
-							  ->where($this->_db->qn($this->_tbl_key) . ' = ' . $this->_db->q($pk));
-
-				$this->$hits_field = $this->_db->setQuery($query)->loadResult();
-			}
-			else
-			{
-				// Set table values in the object.
-				$this->$hits_field++;
-			}
+			// Set table values in the object.
+			$this->hits++;
 
 			$result = true;
 		}
@@ -1908,8 +1870,14 @@ class FOFTable extends JObject implements JTableInterface
 
 		foreach (get_object_vars($this) as $k => $v)
 		{
-			if (!in_array($k, $this->getKnownFields()))
+			if (is_array($v) or is_object($v) or $v === null)
 			{
+				continue;
+			}
+
+			if ($k[0] == '_')
+			{
+				// Internal field
 				continue;
 			}
 
@@ -1932,8 +1900,15 @@ class FOFTable extends JObject implements JTableInterface
 
 		foreach (get_object_vars($this) as $k => $v)
 		{
-			if (!in_array($k, $this->getKnownFields()))
+			// Special internal fields
+			if (in_array($k, array('config', 'input', 'knownFields')))
 			{
+				continue;
+			}
+
+			if (($k[0] == '_') || ($k[0] == '*'))
+			{
+				// Internal field
 				continue;
 			}
 
@@ -1956,8 +1931,14 @@ class FOFTable extends JObject implements JTableInterface
 
 		foreach (get_object_vars($this) as $k => $v)
 		{
-			if (!in_array($k, $this->getKnownFields()))
+			if (is_array($v) or is_object($v) or $v === null)
 			{
+				continue;
+			}
+
+			if ($k[0] == '_')
+			{
+				// Internal field
 				continue;
 			}
 
@@ -2015,6 +1996,7 @@ class FOFTable extends JObject implements JTableInterface
 		}
 
 		// Make sure the cached table fields cache is loaded
+
 		if (empty(self::$tableFieldCache))
 		{
 			if ($useCache)
@@ -2064,10 +2046,7 @@ class FOFTable extends JObject implements JTableInterface
 			$tableName = $this->_tbl;
 		}
 
-		// Try to load again column specifications if the table is not loaded OR if it's loaded and
-		// the previous call returned an error
-		if (!array_key_exists($tableName, self::$tableFieldCache) ||
-			(isset(self::$tableFieldCache[$tableName]) && !self::$tableFieldCache[$tableName]))
+		if (!array_key_exists($tableName, self::$tableFieldCache))
 		{
 			// Lookup the fields for this table only once.
 			$name = $tableName;
@@ -2088,7 +2067,7 @@ class FOFTable extends JObject implements JTableInterface
 				// The table doesn't exist. Return false.
 				self::$tableFieldCache[$tableName] = false;
 			}
-			elseif (version_compare(JVERSION, '3.0', 'ge'))
+			elseif (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'ge'))
 			{
 				$fields = $this->_db->getTableColumns($name, false);
 
@@ -2385,19 +2364,21 @@ class FOFTable extends JObject implements JTableInterface
 	/**
 	 * Is the field quoted?
 	 *
-	 * @param   string  $column     Column field
+	 * @param   string  $column     Column, passed by reference, so in later version of Joomla
+	 *                              I can always quote them
 	 *
 	 * @return  bool    Is the field quoted?
 	 */
-	protected function isQuoted($column)
+	protected function isQuoted(&$column)
 	{
-		// Empty string, un-quoted by definition
-		if(!$column)
+		// Under Joomla 3.2 I can safely quote the column again, then return true
+		if(FOFPlatform::getInstance()->checkVersion(JVERSION, '3.2', 'ge'))
 		{
-			return false;
+			$column = JFactory::getDbo()->qn($column);
+			return true;
 		}
 
-		// I need some "magic". If the first char is not a letter, a number
+		// On previous version I need some "magic". If the first char is not a letter, a number
 		// an underscore or # (needed for table), then most likely the field is quoted
 		preg_match_all('/^[a-z0-9_#]/i', $column, $matches);
 
@@ -2529,7 +2510,14 @@ class FOFTable extends JObject implements JTableInterface
 				JLoader::import('joomla.utilities.date');
 				$date = new JDate();
 
-				$this->$created_on = $date->toSql();
+				if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'ge'))
+				{
+					$this->$created_on = $date->toSql();
+				}
+				else
+				{
+					$this->$created_on = $date->toMysql();
+				}
 			}
 			elseif ($hasModifiedOn && $hasModifiedBy)
 			{
@@ -2542,7 +2530,14 @@ class FOFTable extends JObject implements JTableInterface
 				JLoader::import('joomla.utilities.date');
 				$date = new JDate();
 
-				$this->$modified_on = $date->toSql();
+				if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'ge'))
+				{
+					$this->$modified_on = $date->toSql();
+				}
+				else
+				{
+					$this->$modified_on = $date->toMysql();
+				}
 			}
 		}
 
@@ -2584,7 +2579,7 @@ class FOFTable extends JObject implements JTableInterface
 					->select($db->qn($slug))
 					->from($this->_tbl)
 					->where($db->qn($slug) . ' = ' . $db->q($newSlug))
-					->where('NOT '. $db->qn($this->_tbl_key) . ' = ' . $db->q($this->{$this->_tbl_key}));
+					->where($db->qn($this->_tbl_key) . ' = ' . $db->q($this->{$this->_tbl_key}), 'AND NOT');
 				$db->setQuery($query);
 				$existingItems = $db->loadAssocList();
 			}
@@ -3267,10 +3262,10 @@ class FOFTable extends JObject implements JTableInterface
 	{
 		$k = $this->_tbl_key;
 
-        // If there is no assetKey defined, stop here, or we'll get a wrong name
-        if(!$this->_assetKey || !$this->$k)
+        // If there is no assetKey defined, let's set it to table name
+        if(!$this->_assetKey)
         {
-            throw new UnexpectedValueException('Table must have an asset key defined and a value for the table id in order to track assets');
+            throw new UnexpectedValueException('Table must have an asset key defined in order to track assets');
         }
 
 		return $this->_assetKey . '.' . (int) $this->$k;
@@ -3425,25 +3420,6 @@ class FOFTable extends JObject implements JTableInterface
 	{
 		return $this->_trackAssets;
 	}
-
-    /**
-     * Method to manually set this record as ACL asset or not.
-     * We have to do this since the automatic check is made in the constructor, but here we can't set any alias.
-     * So, even if you have an alias for `asset_id`, it wouldn't be reconized and assets won't be tracked.
-     *
-     * @param $state
-     */
-    public function setAssetsTracked($state)
-    {
-        $state = (bool) $state;
-
-        if($state)
-        {
-            JLoader::import('joomla.access.rules');
-        }
-
-        $this->_trackAssets = $state;
-    }
 
 	/**
 	 * Method to provide a shortcut to binding, checking and storing a FOFTable

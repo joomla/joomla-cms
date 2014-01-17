@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -154,9 +154,9 @@ class ContenthistoryHelper
 		// First, see if we have a file name in the $typesTable
 		$options = json_decode($typesTable->content_history_options);
 
-		if (is_object($options) && isset($options->formFile) && JFile::exists(JPATH_ROOT . '/' . $options->formFile))
+		if (is_object($options) && isset($options->form_file) && JFile::exists(JPATH_ROOT . '/' . $options->form_file))
 		{
-			$result = JPATH_ROOT . '/' . $options->formFile;
+			$result = JPATH_ROOT . '/' . $options->form_file;
 		}
 		else
 		{
@@ -188,13 +188,13 @@ class ContenthistoryHelper
 	{
 		$result = false;
 
-		if (isset($lookup->sourceColumn) && isset($lookup->targetTable) && isset($lookup->targetColumn)&& isset($lookup->displayColumn))
+		if (isset($lookup->source_column) && isset($lookup->target_table) && isset($lookup->target_column)&& isset($lookup->display_column))
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
-			$query->select($db->quoteName($lookup->displayColumn))
-				->from($db->quoteName($lookup->targetTable))
-				->where($db->quoteName($lookup->targetColumn) . ' = ' . $db->quote($value));
+			$query->select($db->quoteName($lookup->display_column))
+				->from($db->quoteName($lookup->target_table))
+				->where($db->quoteName($lookup->target_column) . ' = ' . $db->quote($value));
 			$db->setQuery($query);
 
 			try
@@ -225,9 +225,9 @@ class ContenthistoryHelper
 	{
 		if ($options = json_decode($typeTable->content_history_options))
 		{
-			if (isset($options->hideFields) && is_array($options->hideFields))
+			if (isset($options->hide_fields) && is_array($options->hide_fields))
 			{
-				foreach ($options->hideFields as $field)
+				foreach ($options->hide_fields as $field)
 				{
 					unset($object->$field);
 				}
@@ -259,11 +259,13 @@ class ContenthistoryHelper
 			 * Loading language file from the administrator/language directory then
 			 * loading language file from the administrator/components/extension/language directory
 			 */
-			$lang->load($component, JPATH_ADMINISTRATOR, null, false, true)
-			|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
+			$lang->load($component, JPATH_ADMINISTRATOR, null, false, false)
+			|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, false)
+			|| $lang->load($component, JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
+			|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), $lang->getDefault(), false, false);
 
 			// Force loading of back-end global language file
-			$lang->load('joomla', JPath::clean(JPATH_ADMINISTRATOR), null, false, true);
+			$lang->load('joomla', JPath::clean(JPATH_ADMINISTRATOR), null, false, false);
 		}
 	}
 
@@ -349,11 +351,11 @@ class ContenthistoryHelper
 	{
 		if ($options = json_decode($typesTable->content_history_options))
 		{
-			if (isset($options->displayLookup) && is_array($options->displayLookup))
+			if (isset($options->display_lookup) && is_array($options->display_lookup))
 			{
-				foreach ($options->displayLookup as $lookup)
+				foreach ($options->display_lookup as $lookup)
 				{
-					$sourceColumn = isset($lookup->sourceColumn) ? $lookup->sourceColumn : false;
+					$sourceColumn = isset($lookup->source_column) ? $lookup->source_column : false;
 					$sourceValue = isset($object->$sourceColumn->value) ? $object->$sourceColumn->value : false;
 
 					if ($sourceColumn && $sourceValue && ($lookupValue = static::getLookupValue($lookup, $sourceValue)))

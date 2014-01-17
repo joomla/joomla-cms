@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.joomla
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,6 +35,32 @@ class PlgUserJoomla extends JPlugin
 	protected $db;
 
 	/**
+	 * True to use strong password encryption
+	 *
+	 * @var    boolean
+	 * @since  3.2
+	 */
+	protected $useStrongEncryption;
+
+	/**
+	 * Constructor. We use it to set the app and db properties.
+	 *
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An optional associative array of configuration settings.
+	 *                             Recognized key values include 'name', 'group', 'params', 'language'
+	 *                             (this list is not meant to be comprehensive).
+	 *
+	 * @since   3.2
+	 */
+	public function __construct(&$subject, $config = array())
+	{
+		parent::__construct($subject, $config);
+
+		// As of CMS 3.2 strong encryption is the default.
+		$this->useStrongEncryption = $this->params->get('strong_passwords', true);
+	}
+
+	/**
 	 * Remove all sessions for the user name
 	 *
 	 * Method is called after user data is deleted from the database
@@ -54,11 +80,10 @@ class PlgUserJoomla extends JPlugin
 			return false;
 		}
 
-		$query = $this->db->getQuery(true)
+		$this->db->getQuery(true)
 			->delete($this->db->quoteName('#__session'))
-			->where($this->db->quoteName('userid') . ' = ' . (int) $user['id']);
-
-		$this->db->setQuery($query)->execute();
+			->where($this->db->quoteName('userid') . ' = ' . (int) $user['id'])
+			->execute();
 
 		return true;
 	}
@@ -123,7 +148,7 @@ class PlgUserJoomla extends JPlugin
 
 					if (!$mail->Send())
 					{
-						$this->app->enqueueMessage(JText::_('JERROR_SENDING_EMAIL'), 'warning');
+						$this->app->enqueueMessage(JText::_('ERROR_SENDING_EMAIL'), 'warning');
 					}
 				}
 			}
@@ -180,6 +205,20 @@ class PlgUserJoomla extends JPlugin
 
 		// Mark the user as logged in
 		$instance->set('guest', 0);
+
+		// If the user has an outdated hash, update it.
+		if (substr($user['password'], 0, 4) != '$2y$' && $this->useStrongEncryption && JCrypt::hasStrongPasswordSupport() == true)
+		{
+			if (strlen($user['password']) > 55)
+			{
+				$user['password'] = substr($user['password'], 0, 55);
+
+				JFactory::getApplication()->enqueueMessage(JText::_('JLIB_USER_ERROR_PASSWORD_TRUNCATED'), 'notice');
+			}
+
+			$instance->password = password_hash($user['password'], PASSWORD_BCRYPT);
+			$instance->save();
+		}
 
 		// Register the needed session variables
 		$session = JFactory::getSession();
@@ -375,7 +414,7 @@ class PlgUserJoomla extends JPlugin
 			$this->db->setQuery($query)->execute();
 		}
 
-		$cookieValue = $cryptedKey . '.' . $series . '.' . $cookieName;
+		$cookieValue = $privateKey . '.' . $series . '.' . $cookieName;
 
 		// Destroy the old cookie.
 		$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->app->get('cookie_path'), $this->app->get('cookie_domain'));
@@ -387,7 +426,7 @@ class PlgUserJoomla extends JPlugin
 
 		$query = $this->db->getQuery(true);
 
-		if (empty($options['user']->cookieLogin) || $options['responseType'] != 'Cookie')
+		if (empty($user->cookieLogin) || $options['response'] != 'Coookie')
 		{
 			// For users doing login from Joomla or other systems
 			$query->insert($this->db->quoteName('#__user_keys'));
@@ -441,13 +480,35 @@ class PlgUserJoomla extends JPlugin
 		$query
 			->delete('#__user_keys')
 			->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName))
+			->where($this->db->quoteName('series') . ' = ' . $this->db->quote(base64_encode($series)))
 			->where($this->db->quoteName('user_id') . ' = ' . $this->db->quote($options['username']));
 
 		$this->db->setQuery($query)->execute();
 
 		// Destroy the cookie
-		$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->app->get('cookie_path'), $this->app->get('cookie_domain'));
+		$this->app->input->cookie->set($cookieName, false, time() - 42000, $this->cookie_path, $this->cookie_domain);
 
 		return true;
+	}
+
+	/**
+	 * Method to set the default encryption for passwords
+	 *
+	 * @param   JRegistry  $userPluginParams  User plugin params
+	 *
+	 * @return  string  The default encryption method based on plugin parameters
+	 *
+	 * @since   3.2
+	 */
+	public static function setDefaultEncryption($userPluginParams)
+	{
+		if ($userPluginParams->get('strong_passwords') == 1)
+		{
+			return 'bcrypt';
+		}
+		else
+		{
+			return 'md5-hex';
+		}
 	}
 }

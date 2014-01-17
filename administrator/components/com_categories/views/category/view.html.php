@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -90,12 +90,13 @@ class CategoriesViewCategory extends JViewLegacy
 		$parts = explode('.', $extension);
 		$component = $parts[0];
 		$section = (count($parts) > 1) ? $parts[1] : null;
-		$componentParams = JComponentHelper::getParams($component);
 
 		// Need to load the menu language file as mod_menu hasn't been loaded yet.
 		$lang = JFactory::getLanguage();
-		$lang->load($component, JPATH_BASE, null, false, true)
-		|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, null, false, true);
+		$lang->load($component, JPATH_BASE, null, false, false)
+		|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, null, false, false)
+		|| $lang->load($component, JPATH_BASE, $lang->getDefault(), false, false)
+		|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, $lang->getDefault(), false, false);
 
 		// Load the category helper.
 		require_once JPATH_COMPONENT . '/helpers/categories.php';
@@ -123,7 +124,7 @@ class CategoriesViewCategory extends JViewLegacy
 		JHtml::_('stylesheet', $component . '/administrator/categories.css', array(), true);
 
 		// Prepare the toolbar.
-		JToolbarHelper::title($title, 'folder category-' . ($isNew ? 'add' : 'edit') . ' ' . substr($component, 4) . ($section ? "-$section" : '') . '-category-' . ($isNew ? 'add' : 'edit'));
+		JToolbarHelper::title($title, 'category-' . ($isNew ? 'add' : 'edit') . ' ' . substr($component, 4) . ($section ? "-$section" : '') . '-category-' . ($isNew ? 'add' : 'edit'));
 
 		// For new records, check the create permission.
 		if ($isNew && (count($user->getAuthorisedCategories($component, 'core.create')) > 0))
@@ -156,13 +157,15 @@ class CategoriesViewCategory extends JViewLegacy
 		}
 		else
 		{
-			if ($componentParams->get('save_history', 0) && $user->authorise('core.edit'))
-			{
-				$typeAlias = $extension . '.category';
-				JToolbarHelper::versions($typeAlias, $this->item->id);
-			}
-
 			JToolbarHelper::cancel('category.cancel', 'JTOOLBAR_CLOSE');
+		}
+
+		$saveHistory = JComponentHelper::getParams($input->getCmd('extension', 'com_content'))->get('save_history', 0);
+		if ($saveHistory && $user->authorise('core.edit'))
+		{
+			$itemId = $this->item->id;
+			$typeAlias = $extension . '.category';
+			JToolbarHelper::versions($typeAlias, $itemId);
 		}
 
 		JToolbarHelper::divider();
@@ -187,6 +190,6 @@ class CategoriesViewCategory extends JViewLegacy
 		{
 			$url = null;
 		}
-		JToolbarHelper::help($ref_key, $componentParams->exists('helpURL'), $url, $component);
+		JToolbarHelper::help($ref_key, JComponentHelper::getParams($component)->exists('helpURL'), $url, $component);
 	}
 }

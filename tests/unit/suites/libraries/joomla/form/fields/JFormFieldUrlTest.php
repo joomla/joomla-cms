@@ -3,12 +3,11 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 JFormHelper::loadFieldClass('url');
-require_once __DIR__ . '/TestHelpers/JHtmlFieldUrl-helper-dataset.php';
 
 /**
  * Test class for JFormFieldUrl.
@@ -20,90 +19,36 @@ require_once __DIR__ . '/TestHelpers/JHtmlFieldUrl-helper-dataset.php';
 class JFormFieldUrlTest extends TestCase
 {
 	/**
-	 * Backup of the SERVER superglobal
-	 *
-	 * @var    array
-	 * @since  3.1
-	 */
-	protected $backupServer;
-
-	/**
-	 * Sets up the fixture, for example, opens a network connection.
-	 * This method is called before a test is executed.
+	 * Test the getInput method.
 	 *
 	 * @return  void
 	 *
-	 * @since   3.1
+	 * @since   12.1
 	 */
-	protected function setUp()
+	public function testGetInput()
 	{
-		parent::setUp();
+		$form = new JForm('form1');
 
-		$this->saveFactoryState();
-
-		JFactory::$application = $this->getMockApplication();
-
-		$this->backupServer = $_SERVER;
-
-		$_SERVER['HTTP_HOST'] = 'example.com';
-		$_SERVER['SCRIPT_NAME'] = '';
-	}
-
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	protected function tearDown()
-	{
-		$_SERVER = $this->backupServer;
-
-		$this->restoreFactoryState();
-
-		parent::tearDown();
-	}
-
-	/**
-	 * Test...
-	 *
-	 * @return  array
-	 *
-	 * @since   3.1
-	 */
-	public function getInputData()
-	{
-		return JHtmlFieldUrlTest_DataSet::$getInputTest;
-	}
-
-	/**
-	 * Test the getInput method where there is no value from the element
-	 * and no checked attribute.
-	 *
-	 * @param   array   $data  	   @todo
-	 * @param   string  $expected  @todo
-	 *
-	 * @return  void
-	 *
-	 * @since   12.2
-	 *
-	 * @dataProvider  getInputData
-	 */
-	public function testGetInput($data, $expected)
-	{
-		$formField = new JFormFieldUrl;
-
-		foreach ($data as $attr => $value)
-		{
-			TestReflection::setValue($formField, $attr, $value);
-		}
-
-		$this->assertEquals(
-			$expected,
-			TestReflection::invoke($formField, 'getInput'),
-			'Line:' . __LINE__ . ' The field did not produce the right html'
+		$this->assertThat(
+			$form->load('<form><field name="url" type="url" /></form>'),
+			$this->isTrue(),
+			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
+
+		$field = new JFormFieldUrl($form);
+
+		$this->assertThat(
+			$field->setup($form->getXml()->field, 'value'),
+			$this->isTrue(),
+			'Line:' . __LINE__ . ' The setup method should return true.'
+		);
+
+		$this->assertThat(
+			strlen($field->input),
+			$this->greaterThan(0),
+			'Line:' . __LINE__ . ' The getInput method should return something without error.'
+		);
+
+		// TODO: Should check all the attributes have come in properly.
 	}
 }

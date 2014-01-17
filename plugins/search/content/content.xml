@@ -3,7 +3,7 @@
 	<name>plg_search_content</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -29,23 +29,23 @@
 				/>
 
 				<field name="search_content" type="radio"
-					class="btn-group btn-group-yesno"
+					class="btn-group"
 					default="0"
 					description="PLG_SEARCH_CONTENT_FIELD_CONTENT_DESC"
 					label="PLG_SEARCH_CONTENT_FIELD_CONTENT_LABEL"
 				>
-					<option value="1">JON</option>
 					<option value="0">JOFF</option>
+					<option value="1">JON</option>
 				</field>
 
 				<field name="search_archived" type="radio"
-					class="btn-group btn-group-yesno"
+					class="btn-group"
 					default="0"
 					description="PLG_SEARCH_CONTENT_FIELD_ARCHIVED_DESC"
 					label="PLG_SEARCH_CONTENT_FIELD_ARCHIVED_LABEL"
 				>
-					<option value="1">JON</option>
 					<option value="0">JOFF</option>
+					<option value="1">JON</option>
 				</field>
 			</fieldset>
 

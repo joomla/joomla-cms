@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -156,7 +156,7 @@ class PlgEditorTinymce extends JPlugin
 			}
 		}
 
-		$relative_urls = $this->params->get('relative_urls', '1');
+		$relative_urls		= $this->params->get('relative_urls', '1');
 
 		if ($relative_urls)
 		{
@@ -169,7 +169,7 @@ class PlgEditorTinymce extends JPlugin
 			$relative_urls = "false";
 		}
 
-		$newlines = $this->params->get('newlines', 0);
+		$newlines			= $this->params->get('newlines', 0);
 
 		if ($newlines)
 		{
@@ -188,18 +188,6 @@ class PlgEditorTinymce extends JPlugin
 		// Advanced Options
 		$html_height		= $this->params->get('html_height', '550');
 		$html_width			= $this->params->get('html_width', '750');
-
-		// Image advanced options
-		$image_advtab = $this->params->get('image_advtab', 1);
-
-		if ($image_advtab)
-		{
-			$image_advtab = "true";
-		}
-		else
-		{
-			$image_advtab = "false";
-		}
 
 		// The param is true false, so we turn true to both rather than showing vertical resize only
 		$resizing = $this->params->get('resizing', '1');
@@ -433,10 +421,10 @@ class PlgEditorTinymce extends JPlugin
 			$toolbar4_add[] = 'template';
 
 			// Note this check for the template_list.js file will be removed in Joomla 4.0
-			if (is_file(JPATH_ROOT . "/media/editors/tinymce/templates/template_list.js"))
+			if (JFile::exists(JPATH_ROOT . "/media/editors/tinymce/templates/template_list.js"))
 			{
 				// If using the legacy file we need to include and input the files the new way
-				$str = file_get_contents(JPATH_ROOT . "/media/editors/tinymce/templates/template_list.js");
+				$str = file_get_contents(JUri::root() . "media/editors/tinymce/templates/template_list.js");
 
 				// Find from one [ to the last ]
 				preg_match_all('/\[.*\]/', $str, $matches);
@@ -545,7 +533,7 @@ class PlgEditorTinymce extends JPlugin
 		$toolbar4 = implode(' ', $toolbar4_add);
 
 		// See if mobileVersion is activated
-		$mobileVersion = $this->params->get('mobile', 0);
+		$mobileVersion = $this->params->get('mobile', 1);
 
 		$load = "\t<script type=\"text/javascript\" src=\"" .
 				JUri::root() . $this->_basePath .
@@ -580,7 +568,6 @@ class PlgEditorTinymce extends JPlugin
 						selector: \"textarea.mce_editable\",
 						language : \"$langPrefix\",
 						mode : \"specific_textareas\",
-						autosave_restore_when_empty: false,
 						$skin
 						theme : \"$theme\",
 						schema: \"html5\",
@@ -613,7 +600,6 @@ class PlgEditorTinymce extends JPlugin
 					directionality: \"$text_direction\",
 					language : \"$langPrefix\",
 					mode : \"specific_textareas\",
-					autosave_restore_when_empty: false,
 					$skin
 					theme : \"$theme\",
 					schema: \"html5\",
@@ -656,7 +642,6 @@ class PlgEditorTinymce extends JPlugin
 					directionality: \"$text_direction\",
 					language : \"$langPrefix\",
 					mode : \"specific_textareas\",
-					autosave_restore_when_empty: false,
 					$skin
 					theme : \"$theme\",
 					schema: \"html5\",
@@ -681,21 +666,6 @@ class PlgEditorTinymce extends JPlugin
 					relative_urls : $relative_urls,
 					remove_script_host : false,
 					document_base_url : \"" . JUri::root() . "\",
-					rel_list : [
-						{title: 'Alternate', value: 'alternate'},
-						{title: 'Author', value: 'author'},
-						{title: 'Bookmark', value: 'bookmark'},
-						{title: 'Help', value: 'help'},
-						{title: 'License', value: 'license'},
-						{title: 'Lightbox', value: 'lightbox'},
-						{title: 'Next', value: 'next'},
-						{title: 'No Follow', value: 'nofollow'},
-						{title: 'No Referrer', value: 'noreferrer'},
-						{title: 'Prefetch', value: 'prefetch'},
-						{title: 'Prev', value: 'prev'},
-						{title: 'Search', value: 'search'},
-						{title: 'Tag', value: 'tag'}
-					],
 					//Templates
 					" . $templates . "
 					// Layout
@@ -703,7 +673,6 @@ class PlgEditorTinymce extends JPlugin
 					importcss_append: true,
 					// Advanced Options
 					$resizing
-					image_advtab: $image_advtab,
 					height : \"$html_height\",
 					width : \"$html_width\",
 
@@ -842,11 +811,9 @@ class PlgEditorTinymce extends JPlugin
 		$textarea->height  = $height;
 		$textarea->content = $content;
 
-		$editor = '<div class="editor">';
-		$editor .= JLayoutHelper::render('joomla.tinymce.textarea', $textarea);
+		$editor = JLayoutHelper::render('joomla.tinymce.textarea', $textarea);
 		$editor .= $this->_displayButtons($id, $buttons, $asset, $author);
 		$editor .= $this->_toogleButton($id);
-		$editor .= '</div>';
 
 		return $editor;
 	}

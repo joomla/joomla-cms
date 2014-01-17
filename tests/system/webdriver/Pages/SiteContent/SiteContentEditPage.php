@@ -11,7 +11,7 @@ use SeleniumClient\WebElement;
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -38,22 +38,20 @@ class SiteContentEditPage extends SitePage
 	 * @var    string
 	 * @since  3.2
 	 */
-	protected $url = '/index.php/component/content/?view=form&layout=edit&a_id=';
-
+	protected $url = '/index.php/component/content/?view=form&layout=edit&a_id=';	
+	
 	/**
 	 * Function which changes the articles texts and returns back to the siteContentFeaturedPage after saving the changes
 	 *
 	 * @var string articleText
-	 *
+	 * 
 	 * @return  null
-	 */
+	 */	
 	public function editArticle($articleText)
 	{
 		$d = $this->driver;
-		$guiEditor = $this->driver->findElement(By::xPath("//a[contains(@onclick, 'mceToggleEditor')]"));
-		$guiEditor->click();
 		$d->findElement(By::xPath("//textarea[@id='jform_articletext']"))->clear();
 		$d->findElement(By::xPath("//textarea[@id='jform_articletext']"))->sendKeys($articleText);
-		$d->findElement(By::xPath("//button[@type='button'][@class='btn btn-primary']"))->click();
+		$d->findElement(By::xPath("//button[@type='button'][@class='btn btn-primary']"))->click(); 
 	}
 }

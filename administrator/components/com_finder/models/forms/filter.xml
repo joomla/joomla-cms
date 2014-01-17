@@ -7,13 +7,11 @@
 
 		<field
 			name="title" type="text" id="title"
-			class="inputbox input-xxlarge input-large-text"
 			label="JGLOBAL_TITLE" description="COM_FINDER_FILTER_TITLE_DESCRIPTION"
-			size="40" default="" required="true" />
+			size="30" default="" required="true" />
 
 		<field name="alias" type="text" label="JFIELD_ALIAS_LABEL"
-			description="JFIELD_ALIAS_DESC"
-			hint="JFIELD_ALIAS_PLACEHOLDER" class="inputbox" size="45" />
+			description="JFIELD_ALIAS_DESC" class="inputbox" size="45" />
 
 		<field name="created" type="calendar" label="JGLOBAL_FIELD_CREATED_LABEL"
 			description="JGLOBAL_FIELD_CREATED_DESC" class="inputbox" size="22"
@@ -42,8 +40,7 @@
 
 
 		<field name="state" type="list" label="JSTATUS"
-			description="JFIELD_PUBLISHED_DESC"
-			class="chzn-color-state"
+			description="JFIELD_PUBLISHED_DESC" class="inputbox"
 			filter="intval" size="1" default="1" >
 			<option value="1">
 				JPUBLISHED</option>
@@ -58,41 +55,39 @@
 	</fieldset>
 
 	<fields name="params">
-		<fieldset name="jbasic" label="COM_FINDER_FILTER_FIELDSET_PARAMS">
-			<field
-				name="w1"
-				type="list"
-				label="COM_FINDER_FILTER_WHEN_START_DATE_LABEL"
-				description="COM_FINDER_FILTER_WHEN_START_DATE_DESCRIPTION"
-				default=""
-				filter="string">
-				<option value="">JNONE</option>
-				<option value="-1">COM_FINDER_FILTER_WHEN_BEFORE</option>
-				<option value="0">COM_FINDER_FILTER_WHEN_EXACTLY</option>
-				<option value="1">COM_FINDER_FILTER_WHEN_AFTER</option>
-			</field>
+		<field
+			name="w1"
+			type="list"
+			label="COM_FINDER_FILTER_WHEN_START_DATE_LABEL"
+			description="COM_FINDER_FILTER_WHEN_START_DATE_DESCRIPTION"
+			default=""
+			filter="string">
+			<option value="">JNONE</option>
+			<option value="-1">COM_FINDER_FILTER_WHEN_BEFORE</option>
+			<option value="0">COM_FINDER_FILTER_WHEN_EXACTLY</option>
+			<option value="1">COM_FINDER_FILTER_WHEN_AFTER</option>
+		</field>
 
-			<field name="d1" type="calendar" class="inputbox"
-				label="COM_FINDER_FILTER_START_DATE_LABEL" description="COM_FINDER_FILTER_START_DATE_DESCRIPTION"
-				size="22" format="%Y-%m-%d" filter="user_utc" />
+		<field name="d1" type="calendar" class="inputbox"
+			label="COM_FINDER_FILTER_START_DATE_LABEL" description="COM_FINDER_FILTER_START_DATE_DESCRIPTION"
+			size="22" format="%Y-%m-%d" filter="user_utc" />
 
-			<field
-				name="w2"
-				type="list"
-				label="COM_FINDER_FILTER_WHEN_END_DATE_LABEL"
-				description="COM_FINDER_FILTER_WHEN_END_DATE_DESCRIPTION"
-				default=""
-				filter="string">
-				<option value="">JNONE</option>
-				<option value="-1">COM_FINDER_FILTER_WHEN_BEFORE</option>
-				<option value="0">COM_FINDER_FILTER_WHEN_EXACTLY</option>
-				<option value="1">COM_FINDER_FILTER_WHEN_AFTER</option>
-			</field>
+		<field
+			name="w2"
+			type="list"
+			label="COM_FINDER_FILTER_WHEN_END_DATE_LABEL"
+			description="COM_FINDER_FILTER_WHEN_END_DATE_DESCRIPTION"
+			default=""
+			filter="string">
+			<option value="">JNONE</option>
+			<option value="-1">COM_FINDER_FILTER_WHEN_BEFORE</option>
+			<option value="0">COM_FINDER_FILTER_WHEN_EXACTLY</option>
+			<option value="1">COM_FINDER_FILTER_WHEN_AFTER</option>
+		</field>
 
-			<field name="d2" type="calendar" class="inputbox"
-				label="COM_FINDER_FILTER_END_DATE_LABEL" description="COM_FINDER_FILTER_END_DATE_DESCRIPTION"
-				size="22" format="%Y-%m-%d" filter="user_utc" />
-		</fieldset>
+		<field name="d2" type="calendar" class="inputbox"
+			label="COM_FINDER_FILTER_END_DATE_LABEL" description="COM_FINDER_FILTER_END_DATE_DESCRIPTION"
+			size="22" format="%Y-%m-%d" filter="user_utc" />
 
 	</fields>
 </form>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,22 +47,9 @@ function modChrome_well($module, &$params, &$attribs)
 {
 	if ($module->content)
 	{
-		$bootstrapSize  = $params->get('bootstrap_size');
-		$moduleClass    = !empty($bootstrapSize) ? ' span' . (int) $bootstrapSize . '' : '';
-
-		if ( $moduleClass )
-		{
-			echo '<div class="' . $moduleClass . '">';
-		}
-
-		echo '<div class="well well-small">';
-		echo '<h2 class="module-title nav-header">' . $module->title .'</h2>';
+		echo "<div class=\"well well-small\">";
+		echo "<div class=\"module-title nav-header\">".$module->title."</div>";
 		echo $module->content;
-		echo '</div>';
-
-		if ( $moduleClass )
-		{
-			echo '</div>';
-		}
+		echo "</div>";
 	}
 }

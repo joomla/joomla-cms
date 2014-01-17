@@ -1,4 +1,4 @@
-Joomla! CMS [![Analytics](https://ga-beacon.appspot.com/UA-544070-3/joomla-cms/readme)](https://github.com/igrigorik/ga-beacon)
+Joomla! CMS
 ====================
 
 Build Status
@@ -10,7 +10,7 @@ What is this?
 ---------------------
 * This is a Joomla! installation/upgrade package to version 3.x
 * Joomla! [Official site](http://www.joomla.org)
-* Joomla! 3.2 [version history](http://docs.joomla.org/Joomla_3.2_version_history)
+* Joomla! 3.1 [version history](http://docs.joomla.org/Joomla_3.1_version_history)
 * Detailed changes in the [Changelog](https://github.com/joomla/joomla-cms/commits/master)
 
 What is Joomla?
@@ -69,8 +69,8 @@ Where can you get support and help?
 Do you already have a Joomla site that's not built with Joomla 3.x ?
 ---------------------
 * What's [new in Joomla 3.x](http://www.joomla.org/3)
-* What are the [main differences from 2.5 to 3.x](http://docs.joomla.org/What_are_the_major_differences_between_Joomla!_2.5_and_3.x%3F)?
-* How to [migrate from 2.5.x to 3.x](http://docs.joomla.org/Should_I_update_from_Joomla!_2.5_to_3.x%3F)?
+* What are the [main differences from 2.5 to 3.x](http://docs.joomla.org/Differences_from_Joomla_2.5_to_Joomla_3.0)?
+* How to [migrate from 2.5.x to 3.x](http://docs.joomla.org/Migrating_from_Joomla_2.5_to_Joomla_3.0)?
 * What are the [main differences from 1.5 to 2.5](http://docs.joomla.org/Differences_from_Joomla_1.5_to_Joomla_2.5)?
 * How to [migrate from 1.5.x to 3.x](http://docs.joomla.org/Migrating_from_Joomla_1.5_to_Joomla_3.0)?
 * [Convert an existing Web site to Joomla](http://docs.joomla.org/How_to_Convert_an_existing_Web_site_to_a_Joomla!_Web_site)
@@ -85,7 +85,7 @@ Do you want to improve Joomla?
 
 Copyright:
 ---------------------
-* Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.
+* Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.
 * [Credits](http://docs.joomla.org/Joomla_3_Credits)
 * Distributed under the GNU General Public License version 2 or later
 * See [Licenses details](http://docs.joomla.org/Joomla_Licenses)

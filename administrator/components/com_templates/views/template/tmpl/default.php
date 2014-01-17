@@ -3,14 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.modal');
@@ -23,10 +23,12 @@ JHtml::_('behavior.tabstate');
 $canDo = TemplatesHelper::getActions();
 $input = JFactory::getApplication()->input;
 
-if ($this->type == 'image')
+if($this->type == 'image')
 {
-	JHtml::_('script', 'system/jquery.Jcrop.min.js', false, true);
-	JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
+	$doc = JFactory::getDocument();
+	$doc->addScript(JUri::root() . 'media/system/js/jquery.Jcrop.min.js');
+	$doc->addStyleSheet(JUri::root() . 'media/system/css/jquery.Jcrop.min.css');
+
 }
 ?>
 <script type="text/javascript">
@@ -178,7 +180,7 @@ if ($this->type == 'image')
 						<input type="hidden" name="task" value="" />
 						<?php echo JHtml::_('form.token'); ?>
 						<div class="hero-unit" style="text-align: justify;">
-							<h2><?php echo JText::_('COM_TEMPLATES_HOME_HEADING'); ?></h2>
+							<h1><?php echo JText::_('COM_TEMPLATES_HOME_HEADING'); ?></h1>
 							<p><?php echo JText::_('COM_TEMPLATES_HOME_TEXT'); ?></p>
 							<p>
 								<a href="http://docs.joomla.org/J3.2:How_to_use_the_Template_Manager" target="_blank" class="btn btn-primary btn-large">
@@ -367,7 +369,7 @@ if ($this->type == 'image')
 			</div>
 		</div>
 		<div class="modal-footer">
-			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
+			<a href="#" class="btn" data-dismiss="modal">Close</a>
 			<button class="btn btn-primary" type="submit"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_COPY'); ?></button>
 		</div>
 	</div>
@@ -392,7 +394,7 @@ if ($this->type == 'image')
 				</div>
 			</div>
 			<div class="modal-footer">
-				<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
+				<a href="#" class="btn" data-dismiss="modal">Close</a>
 				<button class="btn btn-primary" type="submit"><?php echo JText::_('COM_TEMPLATES_BUTTON_RENAME'); ?></button>
 			</div>
 		</div>
@@ -409,7 +411,7 @@ if ($this->type == 'image')
 			<p><?php echo JText::sprintf('COM_TEMPLATES_MODAL_FILE_DELETE', $this->fileName); ?></p>
 		</div>
 		<div class="modal-footer">
-			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
+			<a href="#" class="btn" data-dismiss="modal">Close</a>
 			<a href="<?php echo JRoute::_('index.php?option=com_templates&task=template.delete&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" class="btn btn-danger"><?php echo JText::_('COM_TEMPLATES_BUTTON_DELETE');?></a>
 		</div>
 	</div>
@@ -472,7 +474,7 @@ if ($this->type == 'image')
 		</div>
 	</div>
 	<div class="modal-footer">
-		<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
+		<a href="#" class="btn" data-dismiss="modal">Close</a>
 	</div>
 </div>
 <div  id="folderModal" class="modal hide fade">
@@ -500,7 +502,7 @@ if ($this->type == 'image')
 	<div class="modal-footer">
 		<form id="deleteFolder" method="post" action="<?php echo JRoute::_('index.php?option=com_templates&task=template.deleteFolder&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
 			<fieldset>
-				<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
+				<a href="#" class="btn" data-dismiss="modal">Close</a>
 				<input type="hidden" class="address" name="address" />
 				<input type="submit" value="<?php echo JText::_('COM_TEMPLATES_BUTTON_DELETE');?>" class="btn btn-danger" />
 			</fieldset>
@@ -531,7 +533,7 @@ if ($this->type == 'image')
 				</div>
 			</div>
 			<div class="modal-footer">
-				<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
+				<a href="#" class="btn" data-dismiss="modal">Close</a>
 				<button class="btn btn-primary" type="submit"><?php echo JText::_('COM_TEMPLATES_BUTTON_RESIZE'); ?></button>
 			</div>
 		</div>

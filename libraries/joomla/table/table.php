@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -115,7 +115,7 @@ abstract class JTable extends JObject implements JObservableInterface
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($table, $key, $db)
+	public function __construct($table, $key, JDatabaseDriver $db)
 	{
 		// Set internal variables.
 		$this->_tbl = $table;
@@ -504,7 +504,7 @@ abstract class JTable extends JObject implements JObservableInterface
 	 * @link    http://docs.joomla.org/JTable/setDBO
 	 * @since   11.1
 	 */
-	public function setDBO($db)
+	public function setDBO(JDatabaseDriver $db)
 	{
 		$this->_db = $db;
 
@@ -972,6 +972,12 @@ abstract class JTable extends JObject implements JObservableInterface
 
 					return false;
 				}
+			}
+			else
+			{
+				$this->setError($asset->getError());
+
+				return false;
 			}
 		}
 

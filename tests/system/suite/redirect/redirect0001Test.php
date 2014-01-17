@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.SystemTest
- * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * checks that all menu choices are shown in back end
  */
@@ -34,23 +34,14 @@ class Redirect0001Test extends SeleniumJoomlaTestCase
 		$this->waitForPageToLoad("30000");
 
 		$this->jPrint("Goto plugin manager and enable redirect plugin\n");
-
 		$this->click("link=Plugin Manager");
-
 		$this->waitForPageToLoad("30000");
-
-
 
 		$this->type("filter_search", "redirect");
-
 		$this->click("//button[@type='submit']");
-
 		$this->waitForPageToLoad("30000");
-
 		$this->click("cb0");
-
 		$this->click("//div[@id='toolbar-publish']/button");
-
 		$this->waitForPageToLoad("30000");
 		$this->doAdminLogout();
 
@@ -115,25 +106,15 @@ class Redirect0001Test extends SeleniumJoomlaTestCase
 		$this->select("filter_state", "label=- Select Status -");
 		$this->waitForPageToLoad("30000");
 
-
 		$this->jPrint("Goto plugin manager and disable redirect plugin\n");
-
 		$this->click("link=Plugin Manager");
-
 		$this->waitForPageToLoad("30000");
-
-
 
 		$this->type("filter_search", "redirect");
-
 		$this->click("//button[@type='submit']");
-
 		$this->waitForPageToLoad("30000");
-
 		$this->click("cb0");
-
 		$this->click("//div[@id='toolbar-unpublish']/button");
-
 		$this->waitForPageToLoad("30000");
 		$this->doAdminLogout();
 	}

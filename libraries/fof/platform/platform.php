@@ -1,9 +1,8 @@
 <?php
 /**
- * @package     FrameworkOnFramework
- * @subpackage  platform
- * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @package    FrameworkOnFramework
+ * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
 defined('_JEXEC') or die;
@@ -64,7 +63,7 @@ abstract class FOFPlatform implements FOFPlatformInterface
 	 */
 	public function setErrorHandling($level, $log_level, $options = array())
 	{
-		if (version_compare(JVERSION, '3.0', 'lt') )
+		if ($this->checkVersion(JVERSION, '3.0', 'lt') )
 		{
 			return JError::setErrorHandling($level, $log_level, $options);
 		}
@@ -566,18 +565,5 @@ abstract class FOFPlatform implements FOFPlatformInterface
 	public function logoutUser()
 	{
 		return true;
-	}
-
-	/**
-	 * Logs a deprecated practice. In Joomla! this results in the $message being output in the
-	 * deprecated log file, found in your site's log directory.
-	 *
-	 * @param   $message  The deprecated practice log message
-	 *
-	 * @return  void
-	 */
-	public function logDeprecated($message)
-	{
-		// The default implementation does nothing. Override this in your platform classes.
 	}
 }

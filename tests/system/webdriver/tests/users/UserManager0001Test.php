@@ -93,7 +93,7 @@ class UserManager0001Test extends JoomlaWebdriverTestCase
 	public function addUser_WithGivenFields_UserAdded()
 	{
 		$salt = rand();
-		$userName = 'Test User' . $salt;
+		$userName = 'User' . $salt;
 		$login = 'user' . $salt;
 		$password = 'password' . $salt;
 		$email = 'myemail' . $salt . '@test.com';
@@ -107,8 +107,7 @@ class UserManager0001Test extends JoomlaWebdriverTestCase
 		$this->assertEquals($groups, $actualGroups, 'Specified groups should be set');
 		$values = $this->userManagerPage->getFieldValues('UserEditPage', $userName, array('Login Name', 'Email'));
 		$this->assertEquals(array($login, $email), $values, 'Actual login, email should match expected');
-		$this->userManagerPage->searchFor();
-		$this->userManagerPage->delete('Test User');
+		$this->userManagerPage->delete($userName);
 		$this->assertFalse($this->userManagerPage->getRowNumber($userName), 'Test user should not be present');
 	}
 
@@ -135,9 +134,7 @@ class UserManager0001Test extends JoomlaWebdriverTestCase
 		$this->assertEquals($newGroups, $actualGroups, 'New groups should be assigned');
 		$values = $this->userManagerPage->getFieldValues('UserEditPage', $userName, array('Email', 'Time Zone'));
 		$this->assertEquals(array('newemail@test.com', 'Toronto' ), $values, 'Actual values should match expected');
-		$this->userManagerPage->searchFor();
 		$this->userManagerPage->delete($userName);
-		$this->assertFalse($this->userManagerPage->getRowNumber($userName) > 0, 'Test User should not be present');
 	}
 
 	/**
@@ -145,17 +142,13 @@ class UserManager0001Test extends JoomlaWebdriverTestCase
 	 */
 	public function changeUserState_ChangeEnabledUsingToolbar_EnabledChanged()
 	{
-		$salt = rand();
-		$userName = 'Test User ' . $salt;
-		$this->userManagerPage->addUser($userName);
-		$state = $this->userManagerPage->getState($userName);
+		$this->userManagerPage->addUser('Test User');
+		$state = $this->userManagerPage->getState('Test User');
 		$this->assertEquals('published', $state, 'Initial state should be published');
-		$this->userManagerPage->changeUserState($userName, 'unpublished');
-		$state = $this->userManagerPage->getState($userName);
+		$this->userManagerPage->changeUserState('Test User', 'unpublished');
+		$state = $this->userManagerPage->getState('Test User');
 		$this->assertEquals('unpublished', $state, 'State should be unpublished');
-		$this->userManagerPage->searchFor();
-		$this->userManagerPage->delete($userName);
-		$this->assertFalse($this->userManagerPage->getRowNumber($userName) > 0, 'Test User should not be present');
+		$this->userManagerPage->delete('Test User');
 	}
 
 }

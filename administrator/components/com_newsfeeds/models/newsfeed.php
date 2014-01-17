@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,10 +50,40 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	{
 		$categoryId = (int) $value;
 
+		$table = $this->getTable();
 		$i = 0;
 
-		if (!parent::checkCategoryId($categoryId))
+		// Check that the category exists
+		if ($categoryId)
 		{
+			$categoryTable = JTable::getInstance('Category');
+			if (!$categoryTable->load($categoryId))
+			{
+				if ($error = $categoryTable->getError())
+				{
+					// Fatal error
+					$this->setError($error);
+					return false;
+				}
+				else
+				{
+					$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
+					return false;
+				}
+			}
+		}
+
+		if (empty($categoryId))
+		{
+			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
+			return false;
+		}
+
+		// Check that the user has create permission for the component
+		$user = JFactory::getUser();
+		if (!$user->authorise('core.create', 'com_newsfeeds.category.' . $categoryId))
+		{
+			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
 			return false;
 		}
 
@@ -63,16 +93,15 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 			// Pop the first ID off the stack
 			$pk = array_shift($pks);
 
-			$this->table->reset();
+			$table->reset();
 
 			// Check that the row actually exists
-			if (!$this->table->load($pk))
+			if (!$table->load($pk))
 			{
-				if ($error = $this->table->getError())
+				if ($error = $table->getError())
 				{
 					// Fatal error
 					$this->setError($error);
-
 					return false;
 				}
 				else
@@ -84,37 +113,35 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 			}
 
 			// Alter the title & alias
-			$data = $this->generateNewTitle($categoryId, $this->table->alias, $this->table->name);
-			$this->table->name = $data['0'];
-			$this->table->alias = $data['1'];
+			$data = $this->generateNewTitle($categoryId, $table->alias, $table->name);
+			$table->name = $data['0'];
+			$table->alias = $data['1'];
 
 			// Reset the ID because we are making a copy
-			$this->table->id = 0;
+			$table->id = 0;
 
 			// New category ID
-			$this->table->catid = $categoryId;
+			$table->catid = $categoryId;
 
 			// TODO: Deal with ordering?
-			//$this->table->ordering	= 1;
+			//$table->ordering	= 1;
 
 			// Check the row.
-			if (!$this->table->check())
+			if (!$table->check())
 			{
-				$this->setError($this->table->getError());
+				$this->setError($table->getError());
 				return false;
 			}
 
-			parent::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
-
 			// Store the row.
-			if (!$this->table->store())
+			if (!$table->store())
 			{
-				$this->setError($this->table->getError());
+				$this->setError($table->getError());
 				return false;
 			}
 
 			// Get the new item ID
-			$newId = $this->table->get('id');
+			$newId = $table->get('id');
 
 			// Add the new ID to the array
 			$newIds[$i] = $newId;
@@ -402,7 +429,6 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 				}
 			}
 		}
-
 		if (!empty($item->id))
 		{
 			$item->tags = new JHelperTags;

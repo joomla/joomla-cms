@@ -1,7 +1,6 @@
 <?php
 /**
  * @package    FrameworkOnFramework
- * @subpackage form
  * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -22,16 +21,6 @@ if (!class_exists('JFormFieldAccessLevel'))
  */
 class FOFFormFieldTag extends JFormFieldTag implements FOFFormField
 {
-	protected $static;
-
-	protected $repeatable;
-	
-	/** @var   FOFTable  The item being rendered in a repeatable form field */
-	public $item;
-	
-	/** @var int A monotonically increasing number, denoting the row number in a repeatable view */
-	public $rowid;
-
 	/**
 	 * Method to get a list of tags
 	 *

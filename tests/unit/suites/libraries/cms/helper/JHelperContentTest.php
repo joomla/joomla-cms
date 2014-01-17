@@ -3,7 +3,7 @@
  * @package	    Joomla.UnitTest
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license	    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,30 +14,13 @@
  * @subpackage  Helper
  * @since       3.2
  */
-class JHelperContentTest extends TestCaseDatabase
+class JHelperContentTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var    JHelper
 	 * @since  3.2
 	 */
 	protected $object;
-
-	/**
-	 * Gets the data set to be loaded into the database during setup
-	 *
-	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
-	 *
-	 * @since   3.2
-	 */
-	protected function getDataSet()
-	{
-		$dataSet = new PHPUnit_Extensions_Database_DataSet_CsvDataSet(',', "'", '\\');
-
-		$dataSet->addTable('jos_languages', JPATH_TEST_DATABASE . '/jos_languages.csv');
-		$dataSet->addTable('jos_users', JPATH_TEST_DATABASE . '/jos_users.csv');
-
-		return $dataSet;
-	}
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -52,7 +35,18 @@ class JHelperContentTest extends TestCaseDatabase
 		parent::setUp();
 
 		$this->object = new JHelperContent;
-		JFactory::$application = $this->getMockApplication();
+	}
+
+	/**
+	 * Tests the tagItem method
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public function testTagItem()
+	{
+		$this->markTestSkipped('Test not implemented.');
 	}
 
 	/**
@@ -68,75 +62,38 @@ class JHelperContentTest extends TestCaseDatabase
 	}
 
 	/**
-	 * getLanguageId data
-	 *
-	 * @return  array
-	 *
-	 * @since   3.2
-	 */
-	public function languageIdProvider()
-	{
-		return array(
-			array('Exists' => 'en-GB', 1),
-			array('Does not exit' => 'ab-CD', null),
-		);
-	}
-
-	/**
-	 * Tests the getLanguageId()
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 * @dataProvider  languageIdProvider
-	 */
-	public function testGetLanguageId($languageName, $expected)
-	{
-		$languageId = $this->object->getLanguageId($languageName);
-		$this->assertEquals($languageId, $expected);
-	}
-
-	/**
-	 * Tests the getActions() method
+	 * Tests the getLanguageId() method
 	 *
 	 * @return  void
 	 *
 	 * @since   3.2
 	 */
-	public function testGetActions()
+	public function testLanguageId()
 	{
 		$this->markTestSkipped('Test not implemented.');
 	}
 
 	/**
-	 * Tests the addSubmenu() method
+	 * Tests the getStore() method
 	 *
 	 * @return  void
 	 *
 	 * @since   3.2
 	 */
-	public function testAddSubmenu()
+	public function testStore()
 	{
-		$this->markTestSkipped('Test should be implemented in classes extendig this.');
+		$this->markTestSkipped('Test not implemented.');
 	}
 
-	/*
-	 *  Tests the getRowData() method
+	/**
+	 * Tests the getPrimaryKey() method
 	 *
 	 * @return  void
 	 *
 	 * @since   3.2
 	 */
-	public function testGetRowData()
+	public function testGetPrimaryKey()
 	{
-		$db = JFactory::getDbo();
-		$db->setQuery('SELECT * FROM ' . $db->quoteName('#__users') . ' WHERE ' . $db->quoteName('id') . ' = ' . (int) 42);
-		$arrayFromQuery =  $db->loadAssoc();
-
-		$testTable = new JTableUser(self::$driver);
-		$testTable->load(42);
-		$arrayFromMethod = $this->object->getRowData($testTable);
-
-		$this->assertEquals($arrayFromQuery, $arrayFromMethod);
+		$this->markTestSkipped('Test not implemented.');
 	}
 }

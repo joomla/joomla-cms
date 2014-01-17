@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,12 +39,12 @@ class JFormFieldModuleOrder extends JFormField
 		$attr = '';
 
 		// Initialize some field attributes.
-		$attr .= !empty($this->class) ? ' class="' . $this->class . '"' : '';
-		$attr .= $this->disabled ? ' disabled' : '';
-		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
+		$attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
+		$attr .= ((string) $this->element['disabled'] == 'true') ? ' disabled="disabled"' : '';
+		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
 
 		// Initialize JavaScript field attributes.
-		$attr .= !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
+		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
 
 		$html[] = '<script type="text/javascript">';
 
@@ -64,7 +64,6 @@ class JFormFieldModuleOrder extends JFormField
 			->order('ordering');
 
 		$db->setQuery($query);
-
 		try
 		{
 			$orders = $db->loadObjectList();
@@ -72,19 +71,16 @@ class JFormFieldModuleOrder extends JFormField
 		catch (RuntimeException $e)
 		{
 			JError::raiseWarning(500, $e->getMessage());
-
 			return false;
 		}
 
 		$orders2 = array();
-
 		for ($i = 0, $n = count($orders); $i < $n; $i++)
 		{
 			if (!isset($orders2[$orders[$i]->position]))
 			{
 				$orders2[$orders[$i]->position] = 0;
 			}
-
 			$orders2[$orders[$i]->position]++;
 			$ord = $orders2[$orders[$i]->position];
 			$title = JText::sprintf('COM_MODULES_OPTION_ORDER_POSITION', $ord, addslashes($orders[$i]->title));

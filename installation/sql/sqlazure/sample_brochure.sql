@@ -1,3 +1,4 @@
+
 TRUNCATE TABLE [#__assets];
 
 SET IDENTITY_INSERT  [#__assets] ON;
@@ -43,7 +44,7 @@ INSERT INTO [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [titl
 INSERT INTO [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES ('39', '36', '31', '32', '3', N'com_content.article.5', N'Article 3 Title ', N'{"core.delete":[],"core.edit":[],"core.edit.state":[]}');
 INSERT INTO [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES ('40', '27', '23', '24', '3', N'com_content.article.6', N'Creating Your Site', N'{"core.delete":[],"core.edit":[],"core.edit.state":[]}');
 INSERT INTO [#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES('41', '1', '79', '80', '1', 'com_joomlaupdate', 'com_joomlaupdate', '{"core.admin":[],"core.manage":[],"core.delete":[],"core.edit.state":[]}');
-INSERT INTO[#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES ('42', '1', '81', '82', '1', 'com_ajax', 'com_ajax', '{}');
+INSERT INTO[#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES ('42', '1', '81', '82', '1', 'com_ajax', 'com_ajax', '{}'
 INSERT INTO[#__assets] ([id], [parent_id], [lft], [rgt], [level], [name], [title], [rules]) VALUES (43, 1, 83, 84, 1, 'com_postinstall', 'com_postinstall','{}');
 
 SET IDENTITY_INSERT [#__assets] OFF;

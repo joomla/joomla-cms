@@ -1,7 +1,6 @@
 <?php
 /**
  * @package    FrameworkOnFramework
- * @subpackage form
  * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -29,7 +28,7 @@ class FOFFormHeaderFieldsearchable extends FOFFormHeaderField
 		$filterclass = $this->element['filterclass'] ? ' class="' . (string) $this->element['filterclass'] . '"' : '';
 		$placeholder = $this->element['placeholder'] ? $this->element['placeholder'] : $this->getLabel();
 		$name        = $this->element['searchfieldname'] ? $this->element['searchfieldname'] : $this->name;
-		$placeholder = ' placeholder="' . JText::_($placeholder) . '"';
+		$placeholder = 'placeholder="' . JText::_($placeholder) . '"';
 
 		if ($this->element['searchfieldname'])
 		{
@@ -62,7 +61,7 @@ class FOFFormHeaderFieldsearchable extends FOFFormHeaderField
 	 */
 	protected function getButtons()
 	{
-		$buttonclass = $this->element['buttonclass'] ? (string) $this->element['buttonclass'] : 'btn hasTip hasTooltip';
+		$buttonclass = $this->element['buttonclass'] ? ' class="' . (string) $this->element['buttonclass'] . '"' : '';
 		$buttonsState = strtolower($this->element['buttons']);
 		$show_buttons = !in_array($buttonsState, array('no', 'false', '0'));
 
@@ -73,11 +72,11 @@ class FOFFormHeaderFieldsearchable extends FOFFormHeaderField
 
 		$html = '';
 
-		$html .= '<button class="' . $buttonclass . '" onclick="this.form.submit();" title="' . JText::_('JSEARCH_FILTER') . '" >' . "\n";
-		$html .= '<i class="icon-search"></i>';
+		$html .= '<button ' . $buttonclass . ' onclick="this.form.submit();">' . "\n";
+		$html .= "\t" . JText::_('JSEARCH_FILTER') . "\n";
 		$html .= '</button>' . "\n";
-		$html .= '<button class="' . $buttonclass . '" onclick="document.adminForm.' . $this->id . '.value=\'\';this.form.submit();" title="' . JText::_('JSEARCH_RESET') . '">' . "\n";
-		$html .= '<i class="icon-remove"></i>';
+		$html .= '<button ' . $buttonclass . ' onclick="document.adminForm.' . $this->id . '.value=\'\';this.form.submit();">' . "\n";
+		$html .= "\t" . JText::_('JSEARCH_RESET') . "\n";
 		$html .= '</button>' . "\n";
 
 		return $html;

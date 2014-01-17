@@ -3,12 +3,11 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 JFormHelper::loadFieldClass('password');
-require_once __DIR__ . '/TestHelpers/JHtmlFieldPassword-helper-dataset.php';
 
 /**
  * Test class for JFormFieldPassword.
@@ -68,124 +67,34 @@ class JFormFieldPasswordTest extends TestCase
 	}
 
 	/**
-	 * Test...
-	 *
-	 * @return  array
-	 *
-	 * @since   3.1
-	 */
-	public function getInputData()
-	{
-		return JHtmlFieldPasswordTest_DataSet::$getInputTest;
-	}
-
-	/**
-	 * Tests maxLength attribute setup by JFormFieldText::setup method
-	 *
-	 * @covers JFormField::setup
-	 * @covers JFormField::__get
+	 * Test the getInput method.
 	 *
 	 * @return void
 	 */
-	public function testSetupMaxlength()
+	public function testGetInput()
 	{
-		$field = new JFormFieldPassword;
-		$element = simplexml_load_string(
-			'<field name="myName" type="password" maxlength="60" />');
+		$form = new JForm('form1');
 
 		$this->assertThat(
-			$field->setup($element, ''),
+			$form->load('<form><field name="password" type="password" /></form>'),
 			$this->isTrue(),
-			'Line:' . __LINE__ . ' The setup method should return true if successful.'
+			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
-		$this->assertThat(
-			$field->maxLength,
-			$this->equalTo(60),
-			'Line:' . __LINE__ . ' The property should be computed from the XML.'
-		);
-	}
-
-	/**
-	 * Tests threshold attribute setup by JFormFieldText::setup method
-	 *
-	 * @covers JFormField::setup
-	 * @covers JFormField::__get
-	 *
-	 * @return void
-	 */
-	public function testSetupThreshold()
-	{
-		$field = new JFormFieldPassword;
-		$element = simplexml_load_string(
-			'<field name="myName" type="password" threshold="75" />');
+		$field = new JFormFieldPassword($form);
 
 		$this->assertThat(
-			$field->setup($element, ''),
+			$field->setup($form->getXml()->field, 'value'),
 			$this->isTrue(),
-			'Line:' . __LINE__ . ' The setup method should return true if successful.'
+			'Line:' . __LINE__ . ' The setup method should return true.'
 		);
 
 		$this->assertThat(
-			$field->threshold,
-			$this->equalTo(75),
-			'Line:' . __LINE__ . ' The property should be computed from the XML.'
-		);
-	}
-
-	/**
-	 * Tests meter attribute setup by JFormFieldText::setup method
-	 *
-	 * @covers JFormField::setup
-	 * @covers JFormField::__get
-	 *
-	 * @return void
-	 */
-	public function testSetupMeter()
-	{
-		$field = new JFormFieldPassword;
-		$element = simplexml_load_string(
-			'<field name="myName" type="password" strengthmeter="true" />');
-
-		$this->assertThat(
-			$field->setup($element, ''),
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' The setup method should return true if successful.'
+			strlen($field->input),
+			$this->greaterThan(0),
+			'Line:' . __LINE__ . ' The getInput method should return something without error.'
 		);
 
-		$this->assertThat(
-			$field->meter,
-			$this->isTrue(),
-			'Line:' . __LINE__ . ' The property should be computed from the XML.'
-		);
-	}
-
-	/**
-	 * Test the getInput method where there is no value from the element
-	 * and no checked attribute.
-	 *
-	 * @param   array   $data  	   @todo
-	 * @param   string  $expected  @todo
-	 *
-	 * @return  void
-	 *
-	 * @since   12.2
-	 *
-	 * @dataProvider  getInputData
-	 */
-	public function testGetInput($data, $expected)
-	{
-		$formField = new JFormFieldPassword;
-
-		foreach ($data as $attr => $value)
-		{
-			TestReflection::setValue($formField, $attr, $value);
-		}
-
-		$this->assertEquals(
-			$expected,
-			TestReflection::invoke($formField, 'getInput'),
-			'Line:' . __LINE__ . ' The field with no value and no checked attribute did not produce the right html'
-		);
+		// TODO: Should check all the attributes have come in properly.
 	}
 }

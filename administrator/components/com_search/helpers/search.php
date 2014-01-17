@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -218,7 +218,8 @@ class SearchHelper
 	}
 
 	/**
-	 * Transliterates given text to ASCII
+	 * Transliterates given text to ASCII//TRANSLIT.
+	 * Simulates glibc transliteration style even if libiconv is used by PHP
 	 *
 	 * @param   string  $str  String to remove accents from
 	 *
@@ -228,8 +229,8 @@ class SearchHelper
 	 */
 	public static function remove_accents($str)
 	{
-		$str = JLanguageTransliterate::utf8_latin_to_ascii($str);
-
+		setlocale(LC_ALL, "en_GB.UTF-8");
+		$str = iconv("UTF-8", "ASCII//TRANSLIT//IGNORE", $str);
 		//TODO: remove other prefixes as well?
 		return preg_replace("/[\"'^]([a-z])/ui", '\1', $str);
 	}

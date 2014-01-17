@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -71,7 +71,6 @@ abstract class JHtmlEmail
 				{
 					$replacement .= "\n var addy_text" . $rand . " = '" . $text . "';";
 				}
-
 				$replacement .= "\n document.write('<a ' + path + '\'' + prefix + ':' + addy" . $rand . " + '\'>');";
 				$replacement .= "\n document.write(addy_text" . $rand . ");";
 				$replacement .= "\n document.write('<\/a>');";
@@ -87,7 +86,6 @@ abstract class JHtmlEmail
 		{
 			$replacement .= "\n document.write(addy" . $rand . ");";
 		}
-
 		$replacement .= "\n //-->";
 		$replacement .= '\n </script>';
 

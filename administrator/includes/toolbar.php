@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Administrator
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,8 +31,15 @@ abstract class JToolbarHelper
 	 */
 	public static function title($title, $icon = 'generic.png')
 	{
-		$layout = new JLayoutFile('joomla.toolbar.title');
-		$html = $layout->render(array('title' => $title, 'icon' => $icon));
+		// Strip the extension.
+		$icons = explode(' ', $icon);
+
+		foreach ($icons as $i => $icon)
+		{
+			$icons[$i] = 'icon-48-' . preg_replace('#\.[^.]*$#', '', $icon);
+		}
+
+		$html = '<div class="pagetitle ' . htmlspecialchars(implode(' ', $icons)) . '"><h2>' . $title . '</h2></div>';
 
 		$app = JFactory::getApplication();
 		$app->JComponentTitle = $html;

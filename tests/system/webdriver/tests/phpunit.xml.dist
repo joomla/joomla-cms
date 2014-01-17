@@ -8,8 +8,7 @@
 			<directory>control_panel</directory>
 			<directory>extensions</directory>
 			<directory>menus</directory>
-			<directory>users</directory>	
-			<directory>services</directory>			
+			<directory>users</directory>			
 		</testsuite>
 	</testsuites>
 	<logging>

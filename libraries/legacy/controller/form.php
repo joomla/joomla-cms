@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -311,6 +311,23 @@ class JControllerForm extends JControllerLegacy
 		// Attempt to check-in the current record.
 		if ($recordId)
 		{
+			// Check we are holding the id in the edit list.
+			if (!$this->checkEditId($context, $recordId))
+			{
+				// Somehow the person just went to the form - we don't allow that.
+				$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId));
+				$this->setMessage($this->getError(), 'error');
+
+				$this->setRedirect(
+					JRoute::_(
+						'index.php?option=' . $this->option . '&view=' . $this->view_list
+						. $this->getRedirectToListAppend(), false
+					)
+				);
+
+				return false;
+			}
+
 			if ($checkin)
 			{
 				if ($model->checkin($recordId) === false)
@@ -463,7 +480,7 @@ class JControllerForm extends JControllerLegacy
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
 		$tmpl   = $this->input->get('tmpl');
-		$layout = $this->input->get('layout', 'edit', 'string');
+		$layout = $this->input->get('layout', 'edit');
 		$append = '';
 
 		// Setup redirect info.
@@ -560,7 +577,7 @@ class JControllerForm extends JControllerLegacy
 		$recordId = $table->$key;
 
 		// To avoid data collisions the urlVar may be different from the primary key.
-		$urlVar = empty($this->urlVar) ? $key : $this->urlVar;
+		$urlVar = empty($this->urlVar) ? $key : $this->url;
 
 		// Access check.
 		if (!$this->allowEdit(array($key => $recordId), $key))
@@ -632,6 +649,22 @@ class JControllerForm extends JControllerLegacy
 		}
 
 		$recordId = $this->input->getInt($urlVar);
+
+		if (!$this->checkEditId($context, $recordId))
+		{
+			// Somehow the person just went to the form and tried to save it. We don't allow that.
+			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId));
+			$this->setMessage($this->getError(), 'error');
+
+			$this->setRedirect(
+				JRoute::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_list
+					. $this->getRedirectToListAppend(), false
+				)
+			);
+
+			return false;
+		}
 
 		// Populate the row id from the session.
 		$data[$key] = $recordId;

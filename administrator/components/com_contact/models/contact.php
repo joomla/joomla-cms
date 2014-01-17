@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,6 +20,7 @@ JLoader::register('ContactHelper', JPATH_ADMINISTRATOR . '/components/com_contac
  */
 class ContactModelContact extends JModelAdmin
 {
+
 	/**
 	 * The type alias for this content type.
 	 *
@@ -59,27 +60,6 @@ class ContactModelContact extends JModelAdmin
 
 		$done = false;
 
-		// Set some needed variables.
-		$this->user = JFactory::getUser();
-		$this->table = $this->getTable();
-		$this->tableClassName = get_class($this->table);
-		$this->contentType = new JUcmType;
-		$this->type = $this->contentType->getTypeByTable($this->tableClassName);
-		$this->batchSet = true;
-
-		if ($this->type === false)
-		{
-			$type = new JUcmType;
-			$this->type = $type->getTypeByAlias($this->typeAlias);
-			$typeAlias = $this->type->type_alias;
-		}
-		else
-		{
-			$typeAlias = $this->type->type_alias;
-		}
-
-		$this->tagsObserver = $this->table->getObserverOfClass('JTableObserverTags');
-
 		if (!empty($commands['category_id']))
 		{
 			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
@@ -87,7 +67,6 @@ class ContactModelContact extends JModelAdmin
 			if ($cmd == 'c')
 			{
 				$result = $this->batchCopy($commands['category_id'], $pks, $contexts);
-
 				if (is_array($result))
 				{
 					$pks = $result;
@@ -101,7 +80,6 @@ class ContactModelContact extends JModelAdmin
 			{
 				return false;
 			}
-
 			$done = true;
 		}
 
@@ -148,7 +126,6 @@ class ContactModelContact extends JModelAdmin
 		if (!$done)
 		{
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
-
 			return false;
 		}
 
@@ -176,23 +153,52 @@ class ContactModelContact extends JModelAdmin
 		$table = $this->getTable();
 		$i = 0;
 
-		if (!parent::checkCategoryId($categoryId))
+		// Check that the category exists
+		if ($categoryId)
 		{
+			$categoryTable = JTable::getInstance('Category');
+			if (!$categoryTable->load($categoryId))
+			{
+				if ($error = $categoryTable->getError())
+				{
+					// Fatal error
+					$this->setError($error);
+					return false;
+				}
+				else
+				{
+					$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
+					return false;
+				}
+			}
+		}
+
+		if (empty($categoryId))
+		{
+			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
 			return false;
 		}
 
-		// Parent exists so we proceed
+		// Check that the user has create permission for the component
+		$user = JFactory::getUser();
+		if (!$user->authorise('core.create', 'com_contact.category.' . $categoryId))
+		{
+			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
+			return false;
+		}
+
+		// Parent exists so we let's proceed
 		while (!empty($pks))
 		{
 			// Pop the first ID off the stack
 			$pk = array_shift($pks);
 
-			$this->table->reset();
+			$table->reset();
 
 			// Check that the row actually exists
-			if (!$this->table->load($pk))
+			if (!$table->load($pk))
 			{
-				if ($error = $this->table->getError())
+				if ($error = $table->getError())
 				{
 					// Fatal error
 					$this->setError($error);
@@ -207,37 +213,35 @@ class ContactModelContact extends JModelAdmin
 			}
 
 			// Alter the title & alias
-			$data = $this->generateNewTitle($categoryId, $this->table->alias, $this->table->name);
-			$this->table->name = $data['0'];
-			$this->table->alias = $data['1'];
+			$data = $this->generateNewTitle($categoryId, $table->alias, $table->name);
+			$table->name = $data['0'];
+			$table->alias = $data['1'];
 
 			// Reset the ID because we are making a copy
-			$this->table->id = 0;
+			$table->id = 0;
 
 			// New category ID
-			$this->table->catid = $categoryId;
+			$table->catid = $categoryId;
 
 			// TODO: Deal with ordering?
-			//$this->table->ordering	= 1;
+			//$table->ordering	= 1;
 
 			// Check the row.
-			if (!$this->table->check())
+			if (!$table->check())
 			{
-				$this->setError($this->table->getError());
+				$this->setError($table->getError());
 				return false;
 			}
 
-			parent::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
-
 			// Store the row.
-			if (!$this->table->store())
+			if (!$table->store())
 			{
-				$this->setError($this->table->getError());
+				$this->setError($table->getError());
 				return false;
 			}
 
 			// Get the new item ID
-			$newId = $this->table->get('id');
+			$newId = $table->get('id');
 
 			// Add the new ID to the array
 			$newIds[$i] = $newId;
@@ -263,21 +267,21 @@ class ContactModelContact extends JModelAdmin
 	 */
 	protected function batchUser($value, $pks, $contexts)
 	{
+		// Set the variables
+		$user = JFactory::getUser();
+		$table = $this->getTable();
 
 		foreach ($pks as $pk)
 		{
-			if ($this->user->authorise('core.edit', $contexts[$pk]))
+			if ($user->authorise('core.edit', $contexts[$pk]))
 			{
-				$this->table->reset();
-				$this->table->load($pk);
-				$this->table->user_id = (int) $value;
+				$table->reset();
+				$table->load($pk);
+				$table->user_id = (int) $value;
 
-				static::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
-
-				if (!$this->table->store())
+				if (!$table->store())
 				{
-					$this->this->setError($table->getError());
-
+					$this->setError($table->getError());
 					return false;
 				}
 			}

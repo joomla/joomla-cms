@@ -11,7 +11,7 @@ use SeleniumClient\WebElement;
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -47,8 +47,6 @@ class CategoryManagerPage extends AdminManagerPage
 	 * @since  3.0
 	 */
 	public $filters = array(
-			'Sort Table By:' => 'list_fullordering',
-			'20' => 'list_limit',
 			'Select Max Levels' => 'filter_level',
 			'Select Status' => 'filter_published',
 			'Select Access' => 'filter_access',
@@ -82,19 +80,18 @@ class CategoryManagerPage extends AdminManagerPage
 	 *
 	 * @param string   $name          Test Category Title
 	 *
-	 * @param string   $desc		  Test Description of Category
+	 * @param string   $alias 	  	  Test Category Alias
 	 *
-	 * @param array    $fields        Optional associative array of fields to set
+	 * @param string   $desc		  Test Description of Category
 	 *
 	 * @return  CategoryManagerPage
 	 */
-	public function addCategory($name='ABC Testing', $desc='System Test Category', $fields = array())
+	public function addCategory($name='ABC Testing', $alias='ABC SAMPLE ALIAS',$desc='Testing')
 	{
 		$new_name = $name;
 		$this->clickButton('toolbar-new');
 		$categoryEditPage = $this->test->getPageObject('CategoryEditPage');
-		$categoryEditPage->setFieldValues(array('Title' => $name, 'Description'=>$desc));
-		$categoryEditPage->setFieldValues($fields);
+		$categoryEditPage->setFieldValues(array('Title' => $name, 'Alias' => $alias,'Description'=>$desc));
 		$categoryEditPage->clickButton('toolbar-save');
 		$this->test->getPageObject('CategoryManagerPage');
 	}

@@ -3,13 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ADMINISTRATOR . '/components/com_users/models/user.php';
+require_once JPATH_ADMINISTRATOR.'/components/com_users/models/user.php';
 
 /**
  * User model.
@@ -34,25 +34,11 @@ class AdminModelProfile extends UsersModelUser
 	{
 		// Get the form.
 		$form = $this->loadForm('com_admin.profile', 'profile', array('control' => 'jform', 'load_data' => $loadData));
-
 		if (empty($form))
 		{
 			return false;
 		}
-
-		// Check for username compliance and parameter set
-		$usernameCompliant = true;
-
-		if ($this->loadFormData()->username)
-		{
-			$username = $this->loadFormData()->username;
-			$isUsernameCompliant  = !(preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $username) || strlen(utf8_decode($username)) < 2
-				|| trim($username) != $username);
-		}
-
-		$this->setState('user.username.compliant', $isUsernameCompliant);
-
-		if (!JComponentHelper::getParams('com_users')->get('change_login_name') && $isUsernameCompliant)
+		if (!JComponentHelper::getParams('com_users')->get('change_login_name'))
 		{
 			$form->setFieldAttribute('username', 'required', 'false');
 			$form->setFieldAttribute('username', 'readonly', 'true');
@@ -90,8 +76,6 @@ class AdminModelProfile extends UsersModelUser
 	/**
 	 * Method to get a single record.
 	 *
-	 * @param   integer  $pk  The id of the primary key.
-	 *
 	 * @return  mixed  Object on success, false on failure.
 	 *
 	 * @since   1.6
@@ -120,15 +104,6 @@ class AdminModelProfile extends UsersModelUser
 		unset($data['groups']);
 		unset($data['sendEmail']);
 		unset($data['block']);
-
-		// Unset the username if it should not be overwritten
-		$username = $data['username'];
-		$isUsernameCompliant = $this->getState('user.username.compliant');
-
-		if (!JComponentHelper::getParams('com_users')->get('change_login_name') && $isUsernameCompliant)
-		{
-			unset($data['username']);
-		}
 
 		// Bind the data.
 		if (!$user->bind($data))

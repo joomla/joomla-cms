@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,22 +20,12 @@ class JTableContenthistory extends JTable
 {
 	/**
 	 * Array of object fields to unset from the data object before calculating SHA1 hash. This allows us to detect a meaningful change
-	 * in the database row using the hash. This can be read from the #__content_types content_history_options column.
+	 * in the database row using the hash.
 	 *
 	 * @var    array
 	 * @since  3.2
 	 */
 	public $ignoreChanges = array();
-
-	/**
-	 * Array of object fields to convert to integers before calculating SHA1 hash. Some values are stored differently
-	 * when an item is created than when the item is changed and saved. This works around that issue.
-	 * This can be read from the #__content_types content_history_options column.
-	 *
-	 * @var    array
-	 * @since  3.2
-	 */
-	public $convertToInt = array();
 
 	/**
 	 * Constructor
@@ -47,8 +37,7 @@ class JTableContenthistory extends JTable
 	public function __construct($db)
 	{
 		parent::__construct('#__ucm_history', 'version_id', $db);
-		$this->ignoreChanges = array('modified_by', 'modified_user_id', 'modified', 'modified_time', 'checked_out', 'checked_out_time', 'version', 'hits', 'path');
-		$this->convertToInt = array('publish_up', 'publish_down', 'ordering', 'featured');
+		$this->ignoreChanges = array('modified', 'modified_time', 'checked_out_time', 'version', 'hits');
 	}
 
 	/**
@@ -63,12 +52,10 @@ class JTableContenthistory extends JTable
 	public function store($updateNulls = false)
 	{
 		$this->set('character_count', strlen($this->get('version_data')));
-		$typeTable = JTable::getInstance('Contenttype');
-		$typeTable->load($this->ucm_type_id);
 
 		if (!isset($this->sha1_hash))
 		{
-			$this->set('sha1_hash', $this->getSha1($this->get('version_data'), $typeTable));
+			$this->set('sha1_hash', $this->getSha1($this->get('version_data')));
 		}
 
 		$this->set('editor_user_id', JFactory::getUser()->id);
@@ -81,33 +68,25 @@ class JTableContenthistory extends JTable
 	 * Utility method to get the hash after removing selected values. This lets us detect changes other than
 	 * modified date (which will change on every save).
 	 *
-	 * @param   mixed              $jsonData   Either an object or a string with json-encoded data
-	 * @param   JTableContenttype  $typeTable  Table object with data for this content type
+	 * @param   mixed  $jsonData  Either an object or a string with json-encoded data
 	 *
 	 * @return  string  SHA1 hash on sucess. Empty string on failure.
 	 *
 	 * @since   3.2
 	 */
-	public function getSha1($jsonData, JTableContenttype $typeTable)
+	public function getSha1($jsonData)
 	{
 		$object = (is_object($jsonData)) ? $jsonData : json_decode($jsonData);
 
-		if (isset($typeTable->content_history_options) && (is_object(json_decode($typeTable->content_history_options))))
-		{
-			$options = json_decode($typeTable->content_history_options);
-			$this->ignoreChanges = isset($options->ignoreChanges) ? $options->ignoreChanges : $this->ignoreChanges;
-			$this->convertToInt = isset($options->convertToInt) ? $options->convertToInt : $this->convertToInt;
-		}
-
 		foreach ($this->ignoreChanges as $remove)
 		{
-			if (property_exists($object, $remove))
+			if (isset($object->$remove))
 			{
 				unset($object->$remove);
 			}
 		}
 
-		// Convert integers, booleans, and nulls to strings to get a consistent hash value
+		// Convert integers and booleans to strings to get a consistent hash value
 		foreach ($object as $name => $value)
 		{
 			if (is_object($value))
@@ -115,27 +94,24 @@ class JTableContenthistory extends JTable
 				// Go one level down for JSON column values
 				foreach ($value as $subName => $subValue)
 				{
-					$object->$subName = (is_int($subValue) || is_bool($subValue) || is_null($subValue)) ? (string) $subValue : $subValue;
+					$object->$subName = (is_int($subValue) || is_bool($subValue)) ? (string) $subValue : $subValue;
 				}
 			}
 			else
 			{
-				$object->$name = (is_int($value) || is_bool($value) || is_null($value)) ? (string) $value : $value;
+				$object->$name = (is_int($value) || is_bool($value)) ? (string) $value : $value;
 			}
 		}
 
-		// Work around empty values
-		foreach ($this->convertToInt as $convert)
+		// Work around empty publish_up, publish_down values
+		if (isset($object->publish_down))
 		{
-			if (isset($object->$convert))
-			{
-				$object->$convert = (int) $object->$convert;
-			}
+			$object->publish_down = (int) $object->publish_down;
 		}
 
-		if (isset($object->review_time))
+		if (isset($object->publish_up))
 		{
-			$object->review_time = (int) $object->review_time;
+			$object->publish_up = (int) $object->publish_up;
 		}
 
 		return sha1(json_encode($object));

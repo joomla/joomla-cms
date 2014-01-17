@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -162,7 +162,7 @@ $sortFields = $this->getSortFields();
 					<td>
 						<?php echo JHtml::_('grid.id', $i, $item->lang_id); ?>
 					</td>
-					<td class="center">
+					<td>
 						<?php echo JHtml::_('jgrid.published', $item->published, $i, 'languages.', $canChange); ?>
 					</td>
 					<td>
@@ -178,19 +178,19 @@ $sortFields = $this->getSortFields();
 					<td>
 						<?php echo $this->escape($item->title_native); ?>
 					</td>
-					<td class="center">
+					<td>
 						<?php echo $this->escape($item->lang_code); ?>
 					</td>
-					<td class="center">
+					<td>
 						<?php echo $this->escape($item->sef); ?>
 					</td>
-					<td class="center">
+					<td>
 						<?php echo $this->escape($item->image); ?>&nbsp;<?php echo JHtml::_('image', 'mod_languages/'.$item->image.'.gif', $item->image, array('title' => $item->image), true); ?>
 					</td>
 					<td class="center">
 						<?php echo $this->escape($item->access_level); ?>
 					</td>
-					<td class="center">
+					<td>
 						<?php if ($item->home == '1') : ?>
 							<?php echo JText::_('JYES');?>
 						<?php else:?>

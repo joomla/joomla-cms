@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -284,7 +284,6 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	protected function downloadPackage($url, $target)
 	{
 		JLoader::import('helpers.download', JPATH_COMPONENT_ADMINISTRATOR);
-		JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_URL', $packageURL), JLog::INFO, 'Update');
 		$result = AdmintoolsHelperDownload::download($url, $target);
 
 		if (!$result)
@@ -717,9 +716,6 @@ ENDDATA;
 		{
 			$installer->set('extension_message', $msg);
 		}
-
-		// Refresh versionable assets cache
-		JFactory::getApplication()->flushAssets();
 
 		return true;
 	}

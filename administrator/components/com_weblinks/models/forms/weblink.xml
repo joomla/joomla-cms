@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset
-		addfieldpath="/administrator/components/com_categories/models/fields"
-	>
+            addfieldpath="/administrator/components/com_categories/models/fields"
+    >
 		<field name="id" type="text" default="0" label="JGLOBAL_FIELD_ID_LABEL"
 			readonly="true" class="readonly"
 			description="JGLOBAL_FIELD_ID_DESC"/>
 
-		<field name="title" type="text"
-			class="inputbox input-xxlarge input-large-text"
+		<field name="title" type="text" class="inputbox"
 			size="40" label="JGLOBAL_TITLE"
 			description="COM_WEBLINKS_FIELD_TITLE_DESC" required="true" />
 
 		<field name="alias" type="text" class="inputbox"
 			size="40" label="JFIELD_ALIAS_LABEL"
-			description="COM_WEBLINKS_FIELD_ALIAS_DESC"
-			hint="JFIELD_ALIAS_PLACEHOLDER" />
+			description="COM_WEBLINKS_FIELD_ALIAS_DESC" />
 
 		<field name="catid" type="categoryedit" extension="com_weblinks"
 			label="JCATEGORY" description="COM_WEBLINKS_FIELD_CATEGORY_DESC"
@@ -24,8 +22,7 @@
 		</field>
 
 
-		<field name="url" type="url"
-			class="inputbox span12"
+		<field name="url" type="url" class="inputbox"
 			filter="url"
 			size="40" label="COM_WEBLINKS_FIELD_URL_LABEL"
 			description="COM_WEBLINKS_FIELD_URL_DESC" required="true" />
@@ -49,7 +46,7 @@
 			type="list"
 			label="JSTATUS"
 			description="COM_WEBLINKS_FIELD_STATE_DESC"
-			class="chzn-color-state"
+			class="inputbox span12 small"
 			size="1"
 			default="1">
 			<option
@@ -64,21 +61,20 @@
 				value="-2">JTRASHED</option>
 		</field>
 
-		<field name="ordering" type="ordering" class="inputbox"
+		<field name="ordering" type="Weblinkordering" class="inputbox"
 			label="JFIELD_ORDERING_LABEL"
 			description="JFIELD_ORDERING_DESC"
-			content_type="com_weblinks.weblink"
         />
 
 		<field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"
-			description="JFIELD_ACCESS_DESC" class="inputbox" size="1" />
+			description="JFIELD_ACCESS_DESC" class="inputbox span12 small" size="1" />
 
 		<field
 			name="language"
 			type="contentlanguage"
 			label="JFIELD_LANGUAGE_LABEL"
 			description="COM_WEBLINKS_FIELD_LANGUAGE_DESC"
-			class="inputbox">
+			class="inputbox span12 small">
 			<option value="*">JALL</option>
 		</field>
 
@@ -86,7 +82,7 @@
 			type="tag"
 			label="JTAG"
 			description="JTAG_DESC"
-			class="inputbox"
+			class="inputbox span12 small"
 			multiple="true"
 		>
 		</field>
@@ -175,7 +171,6 @@
 				description="COM_WEBLINKS_FIELD_HEIGHT_DESC" />
 
 			<field name="count_clicks" type="list"
-				class="chzn-color"
 				label="COM_WEBLINKS_FIELD_COUNTCLICKS_LABEL"
 				description="COM_WEBLINKS_FIELD_COUNTCLICKS_DESC"
 			>
@@ -185,8 +180,7 @@
 			</field>
 		</fieldset>
 	</fields>
-	<fields name="images">
-		<fieldset name="images" label="JGLOBAL_FIELDSET_IMAGE_OPTIONS">
+	<fields name="images" label="JGLOBAL_FIELDSET_IMAGE_OPTIONS">
 			<field
 				name="image_first"
 				type="media"
@@ -215,10 +209,6 @@
 				class="inputbox"
 				size="20" />
 
-			<field name="spacer1"
-				type="spacer"
-				hr="true" />
-
 			<field
 				name="image_second"
 				type="media"
@@ -246,9 +236,7 @@
 				description="COM_WEBLINKS_FIELD_IMAGE_CAPTION_DESC"
 				class="inputbox"
 				size="20" />
-		</fieldset>
 	</fields>
-
 	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 

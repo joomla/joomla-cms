@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -33,7 +33,7 @@ class JTableUser extends JTable
 	 *
 	 * @since  11.1
 	 */
-	public function __construct($db)
+	public function __construct(JDatabaseDriver $db)
 	{
 		parent::__construct('#__users', 'id', $db);
 
@@ -186,8 +186,7 @@ class JTableUser extends JTable
 			return false;
 		}
 
-		if (preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $this->username) || strlen(utf8_decode($this->username)) < 2
-			|| trim($this->username) != $this->username)
+		if (preg_match("#[<>\"'%;()&]#i", $this->username) || strlen(utf8_decode($this->username)) < 2)
 		{
 			$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_VALID_AZ09', 2));
 
@@ -315,13 +314,12 @@ class JTableUser extends JTable
 		$this->groups = $groups;
 		unset($groups);
 
-		$query = $this->_db->getQuery(true);
-
 		// Store the group data if the user data was saved.
 		if (is_array($this->groups) && count($this->groups))
 		{
 			// Delete the old user group maps.
-			$query->delete($this->_db->quoteName('#__user_usergroup_map'))
+			$query = $this->_db->getQuery(true)
+				->delete($this->_db->quoteName('#__user_usergroup_map'))
 				->where($this->_db->quoteName('user_id') . ' = ' . (int) $this->id);
 			$this->_db->setQuery($query);
 			$this->_db->execute();

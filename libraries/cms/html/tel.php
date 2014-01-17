@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -61,6 +61,7 @@ abstract class JHtmlTel
 			$display[1] = $countrycode;
 			$display[2] = '.';
 			$display[3] = $number;
+
 		}
 		elseif ($displayplan == 'ARPA' || $displayplan == 'ENUM')
 		{

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,8 +14,6 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Administrator
  * @subpackage  com_content
- *
- * @since       1.6
  */
 class ContentModelArticles extends JModelList
 {
@@ -49,14 +47,11 @@ class ContentModelArticles extends JModelList
 				'hits', 'a.hits',
 				'publish_up', 'a.publish_up',
 				'publish_down', 'a.publish_down',
-				'published', 'a.published',
-				'author_id',
-				'category_id',
-				'level',
-				'tag'
 			);
 
-			if (JLanguageAssociations::isEnabled())
+			$app = JFactory::getApplication();
+			$assoc = JLanguageAssociations::isEnabled();
+			if ($assoc)
 			{
 				$config['filter_fields'][] = 'association';
 			}
@@ -108,20 +103,19 @@ class ContentModelArticles extends JModelList
 		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
 		$this->setState('filter.language', $language);
 
-		$tag = $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
-		$this->setState('filter.tag', $tag);
-
-		// List state information.
-		parent::populateState('a.title', 'asc');
-
-		// Force a language
+		// force a language
 		$forcedLanguage = $app->input->get('forcedLanguage');
-
 		if (!empty($forcedLanguage))
 		{
 			$this->setState('filter.language', $forcedLanguage);
 			$this->setState('filter.forcedLanguage', $forcedLanguage);
 		}
+
+		$tag = $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
+		$this->setState('filter.tag', $tag);
+
+		// List state information.
+		parent::populateState('a.title', 'asc');
 	}
 
 	/**
@@ -131,10 +125,9 @@ class ContentModelArticles extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id  A prefix for the store id.
+	 * @param   string  $id    A prefix for the store id.
 	 *
 	 * @return  string  A store id.
-	 *
 	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
@@ -154,7 +147,6 @@ class ContentModelArticles extends JModelList
 	 * Build an SQL query to load the list data.
 	 *
 	 * @return  JDatabaseQuery
-	 *
 	 * @since   1.6
 	 */
 	protected function getListQuery()
@@ -197,7 +189,8 @@ class ContentModelArticles extends JModelList
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
 		// Join over the associations.
-		if (JLanguageAssociations::isEnabled())
+		$assoc = JLanguageAssociations::isEnabled();
+		if ($assoc)
 		{
 			$query->select('COUNT(asso2.id)>1 as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_content.item'))
@@ -220,7 +213,6 @@ class ContentModelArticles extends JModelList
 
 		// Filter by published state
 		$published = $this->getState('filter.published');
-
 		if (is_numeric($published))
 		{
 			$query->where('a.state = ' . (int) $published);
@@ -233,7 +225,6 @@ class ContentModelArticles extends JModelList
 		// Filter by a single or group of categories.
 		$baselevel = 1;
 		$categoryId = $this->getState('filter.category_id');
-
 		if (is_numeric($categoryId))
 		{
 			$cat_tbl = JTable::getInstance('Category', 'JTable');
@@ -259,7 +250,6 @@ class ContentModelArticles extends JModelList
 
 		// Filter by author
 		$authorId = $this->getState('filter.author_id');
-
 		if (is_numeric($authorId))
 		{
 			$type = $this->getState('filter.author_id.include', true) ? '= ' : '<>';
@@ -268,7 +258,6 @@ class ContentModelArticles extends JModelList
 
 		// Filter by search in title.
 		$search = $this->getState('filter.search');
-
 		if (!empty($search))
 		{
 			if (stripos($search, 'id:') === 0)
@@ -295,7 +284,6 @@ class ContentModelArticles extends JModelList
 
 		// Filter by a single tag.
 		$tagId = $this->getState('filter.tag');
-
 		if (is_numeric($tagId))
 		{
 			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId)
@@ -309,25 +297,22 @@ class ContentModelArticles extends JModelList
 		// Add the list ordering clause.
 		$orderCol = $this->state->get('list.ordering', 'a.title');
 		$orderDirn = $this->state->get('list.direction', 'asc');
-
 		if ($orderCol == 'a.ordering' || $orderCol == 'category_title')
 		{
 			$orderCol = 'c.title ' . $orderDirn . ', a.ordering';
 		}
-
-		// SQL server change
+		//sqlsrv change
 		if ($orderCol == 'language')
 		{
 			$orderCol = 'l.title';
 		}
-
 		if ($orderCol == 'access_level')
 		{
 			$orderCol = 'ag.title';
 		}
-
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 
+		// echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
 	}
 
@@ -335,7 +320,6 @@ class ContentModelArticles extends JModelList
 	 * Build a list of authors
 	 *
 	 * @return  JDatabaseQuery
-	 *
 	 * @since   1.6
 	 */
 	public function getAuthors()
@@ -363,28 +347,26 @@ class ContentModelArticles extends JModelList
 	 * Overridden to add a check for access levels.
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
-	 *
 	 * @since   1.6.1
 	 */
 	public function getItems()
 	{
 		$items = parent::getItems();
-
-		if (JFactory::getApplication()->isSite())
+		$app = JFactory::getApplication();
+		if ($app->isSite())
 		{
 			$user = JFactory::getUser();
 			$groups = $user->getAuthorisedViewLevels();
 
 			for ($x = 0, $count = count($items); $x < $count; $x++)
 			{
-				// Check the access level. Remove articles the user shouldn't see
+				//Check the access level. Remove articles the user shouldn't see
 				if (!in_array($items[$x]->access, $groups))
 				{
 					unset($items[$x]);
 				}
 			}
 		}
-
 		return $items;
 	}
 }

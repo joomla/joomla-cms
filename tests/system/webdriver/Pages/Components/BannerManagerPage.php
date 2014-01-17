@@ -11,7 +11,7 @@ use SeleniumClient\WebElement;
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -43,17 +43,15 @@ class BannerManagerPage extends AdminManagerPage
 	/**
 	 * Array of filter id values for this page
 	 *
-	 * @var array
-	 * @since 3.2
+	 * @var    array
+	 * @since  3.2
 	 */
 	public $filters = array(
-		'Sort Table By:' => 'list_fullordering',
-		'20' => 'list_limit',
-		'Select Status' => 'filter_state',
-		'Select Client' => 'filter_client_id',
-		'Select Category' => 'filter_category_id',
-		'Select Language' => 'filter_language'
-	);
+			'Select Status' => 'filter_state',
+			'Select Client' => 'filter_client_id',
+			'Select Category' => 'filter_category_id',
+			'Select Language' => 'filter_language',
+			);
 
 	/**
 	 * Array of toolbar id values for this page
@@ -83,13 +81,12 @@ class BannerManagerPage extends AdminManagerPage
 	 *
 	 * @return  BannerManagerPage
 	 */
-	public function addBanner($name='Test Banner', $fields = null)
+	public function addBanner($name='Test Banner', $fields)
 	{
 		$this->clickButton('toolbar-new');
 		$bannerEditPage = $this->test->getPageObject('BannerEditPage');
 		$bannerEditPage->setFieldValues(array('Name' => $name));
-		if ($fields)
-		{
+		if($fields) {
 			$bannerEditPage->setFieldValues($fields);
 		}
 		$bannerEditPage->clickButton('toolbar-save');
@@ -125,7 +122,7 @@ class BannerManagerPage extends AdminManagerPage
 	{
 		$result = false;
 		$row = $this->getRowNumber($name);
-		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[3]//a"))->getAttribute(@onclick);
+		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[3]/a"))->getAttribute(@onclick);
 		if (strpos($text, 'banners.unpublish') > 0)
 		{
 			$result = 'published';

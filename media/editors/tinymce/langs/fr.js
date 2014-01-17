@@ -37,7 +37,7 @@ tinymce.addI18n('fr_FR',{
 "Paste is now in plain text mode. Contents will now be pasted as plain text until you toggle this option off.": "Le presse-papiers est maintenant en mode \"texte plein\". Les contenus seront coll\u00e9s sans retenir les formatages jusqu'\u00e0 ce que vous d\u00e9sactivez cette option.",
 "Underline": "Soulign\u00e9",
 "Cancel": "Annuler",
-"Justify": "Justifier",
+"Justify": "Justifi\u00e9",
 "Inline": "en place",
 "Copy": "Copier",
 "Align left": "Aligner \u00e0 gauche",
@@ -169,8 +169,5 @@ tinymce.addI18n('fr_FR',{
 "Tools": "Outils",
 "View": "Voir",
 "Table": "Tableau",
-"Format": "Format",
-"Insert time": "Ins\u00e9rer date\/heure",
-"Toggle blockquote": "Basculer les blockquotes",
-"Insert nonbreaking space": "Ins\u00e9rer une espace ins\u00e9cable"
+"Format": "Format"
 });

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -281,7 +281,6 @@ final class JApplicationSite extends JApplicationCms
 		static $params = array();
 
 		$hash = '__default';
-
 		if (!empty($option))
 		{
 			$hash = $option;
@@ -316,7 +315,6 @@ final class JApplicationSite extends JApplicationCms
 			{
 				$description = $this->get('MetaDesc');
 			}
-
 			$rights = $this->get('MetaRights');
 			$robots = $this->get('robots');
 
@@ -616,15 +614,26 @@ final class JApplicationSite extends JApplicationCms
 			}
 		}
 
-		// Finish initialisation
+		// Execute the parent initialiseApp method.
 		parent::initialiseApp($options);
+
+		// Load the language to the API
+		$this->loadLanguage();
+
+		// Load Library language
+		$lang = $this->getLanguage();
+
+		// Register the language object with JFactory
+		JFactory::$language = $lang;
 
 		/*
 		 * Try the lib_joomla file in the current language (without allowing the loading of the file in the default language)
 		 * Fallback to the default language if necessary
 		 */
-		$this->getLanguage()->load('lib_joomla', JPATH_SITE, null, false, true)
-			|| $this->getLanguage()->load('lib_joomla', JPATH_ADMINISTRATOR, null, false, true);
+		$lang->load('lib_joomla', JPATH_SITE, null, false, false)
+			|| $lang->load('lib_joomla', JPATH_ADMINISTRATOR, null, false, false)
+			|| $lang->load('lib_joomla', JPATH_SITE, null, true)
+			|| $lang->load('lib_joomla', JPATH_ADMINISTRATOR, null, true);
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,11 +51,6 @@ else
 {
 	$logo = $this->baseurl . "/templates/" . $this->template . "/images/logo.png";
 }
-
-// Template Parameters
-$displayHeader = $params->get('displayHeader', '1');
-$statusFixed = $params->get('statusFixed', '1');
-$stickyToolbar = $params->get('stickyToolbar', '1');
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php echo $this->language; ?>" lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -63,6 +58,7 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title><?php echo $this->title; ?> <?php echo htmlspecialchars($this->error->getMessage()); ?></title>
+	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/template.css" type="text/css" />
 	<?php // If debug  mode
 		$debug = JFactory::getConfig()->get('debug_lang');
 		if ((defined('JDEBUG') && JDEBUG) || $debug) : ?>
@@ -85,8 +81,15 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 		<link rel="stylesheet" href="<?php echo $file;?>" type="text/css" />
 	<?php
 	}
+	// Use of Google Font
+	if ($params->get('googleFont'))
+	{
 	?>
-	<link rel="stylesheet" href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/template<?php echo ($this->direction == 'rtl' ? '-rtl' : ''); ?>.css" type="text/css" />
+		<link href='http://fonts.googleapis.com/css?family=<?php echo $params->get('googleFontName');?>' rel='stylesheet' type='text/css'>
+	<?php
+	}
+	?>
+
 	<link href="<?php echo $this->baseurl ?>/templates/<?php echo $this->template; ?>/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
 	<?php
 	// Template color
@@ -121,16 +124,6 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 	<?php
 	}
 	?>
-
-	<?php
-	// Sidebar background color
-	if ($params->get('sidebarColor')) : ?>
-		<style type="text/css">
-			.nav-list > .active > a, .nav-list > .active > a:hover {
-				background: <?php echo $params->get('sidebarColor'); ?>;
-			}
-		</style>
-	<?php endif; ?>
 	<script src="../media/jui/js/jquery.js" type="text/javascript"></script>
 	<script src="../media/jui/js/jquery-noconflict.js" type="text/javascript"></script>
 	<script src="../media/jui/js/bootstrap.js" type="text/javascript"></script>
@@ -152,11 +145,7 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 						<span class="icon-bar"></span>
 					</a>
 				<?php endif; ?>
-				<a class="admin-logo" href="<?php echo $this->baseurl; ?>"><span class="icon-joomla"></span></a>
-
-				<a class="brand hidden-desktop hidden-tablet" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ISIS_PREVIEW', $sitename); ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false); ?>
-					<span class="icon-out-2 small"></span></a>
-
+				<a class="brand" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ISIS_PREVIEW', $sitename);?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false);?> <i class="icon-out-2 small"></i></a>
 				<?php if ($params->get('admin_menus') != '0') : ?>
 				<div class="nav-collapse">
 				<?php else : ?>
@@ -173,30 +162,15 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 						echo $output;
 					}
 					?>
-					<ul class="nav nav-user<?php echo ($this->direction == 'rtl') ? ' pull-left' : ' pull-right'; ?>">
-						<li class="dropdown">
-							<a class="dropdown-toggle" data-toggle="dropdown" href="#"><span class="icon-cog"></span>
-								<b class="caret"></b></a>
+					<ul class="<?php if ($this->direction == 'rtl') : ?>nav<?php else : ?>nav pull-right<?php endif; ?>">
+						<li class="dropdown"> <a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo $user->username; ?> <b class="caret"></b></a>
 							<ul class="dropdown-menu">
-								<li>
-									<span>
-										<span class="icon-user"></span>
-										<strong><?php echo $user->name; ?></strong>
-									</span>
-								</li>
+								<li class=""><a href="index.php?option=com_admin&task=profile.edit&id=<?php echo $user->id;?>"><?php echo JText::_('TPL_ISIS_EDIT_ACCOUNT');?></a></li>
 								<li class="divider"></li>
-								<li class="">
-									<a href="index.php?option=com_admin&task=profile.edit&id=<?php echo $user->id; ?>"><?php echo JText::_('TPL_ISIS_EDIT_ACCOUNT'); ?></a>
-								</li>
-								<li class="divider"></li>
-								<li class="">
-									<a href="<?php echo JRoute::_('index.php?option=com_login&task=logout&' . JSession::getFormToken() . '=1'); ?>"><?php echo JText::_('TPL_ISIS_LOGOUT'); ?></a>
-								</li>
+								<li class=""><a href="<?php echo JRoute::_('index.php?option=com_login&task=logout&'. JSession::getFormToken() .'=1');?>"><?php echo JText::_('TPL_ISIS_LOGOUT');?></a></li>
 							</ul>
 						</li>
 					</ul>
-					<a class="brand visible-desktop visible-tablet" href="<?php echo JUri::root(); ?>" title="<?php echo JText::sprintf('TPL_ISIS_PREVIEW', $sitename); ?>" target="_blank"><?php echo JHtml::_('string.truncate', $sitename, 14, false, false); ?>
-						<span class="icon-out-2 small"></span></a>
 				</div>
 				<!--/.nav-collapse -->
 			</div>
@@ -204,38 +178,17 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 	</nav>
 	<!-- Header -->
 	<header class="header">
-		<?php if ($displayHeader) : ?>
-		<div class="container-logo">
-			<img src="<?php echo $logo; ?>" class="logo" />
-		</div>
-		<?php endif; ?>
-		<div class="container-title">
-			<h1 class="page-title"><?php echo JText::_('ERROR'); ?></h1>
+		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span2 container-logo">
+					<a class="logo" href="<?php echo $this->baseurl; ?>"><img src="<?php echo $logo;?>" alt="<?php echo $sitename; ?>" /></a>
+				</div>
+				<div class="span10">
+					<h1 class="page-title"><?php echo JText::_('ERROR'); ?></h1>
+				</div>
+			</div>
 		</div>
 	</header>
-	<?php if ((!$statusFixed) && ($this->countModules('status'))) : ?>
-		<!-- Begin Status Module -->
-		<div id="status" class="navbar status-top hidden-phone">
-			<div class="btn-toolbar">
-				<div class="btn-group pull-right">
-					<p>&copy; <?php echo $sitename; ?> <?php echo date('Y');?></p>
-				</div>
-				<?php
-				// Display status modules
-				$this->statusmodules = JModuleHelper::getModules('status');
-				foreach ($this->statusmodules as $statusmodule)
-				{
-					$output = JModuleHelper::renderModule($statusmodule, array('style' => 'no'));
-					$params = new JRegistry;
-					$params->loadString($statusmodule->params);
-					echo $output;
-				}
-				?>
-			</div>
-			<div class="clearfix"></div>
-		</div>
-		<!-- End Status Module -->
-	<?php endif; ?>
 	<div class="subhead-spacer" style="margin-bottom: 20px"></div>
 	<!-- container-fluid -->
 	<div class="container-fluid container-main">
@@ -256,6 +209,26 @@ $stickyToolbar = $params->get('stickyToolbar', '1');
 		</section>
 		<hr />
 	</div>
+	<!-- Begin Status Module -->
+	<div id="status" class="navbar navbar-fixed-bottom hidden-phone">
+		<div class="btn-toolbar">
+			<div class="btn-group pull-right">
+				<p>&copy; <?php echo $sitename; ?> <?php echo date('Y');?></p>
+			</div>
+			<?php
+			// Display status modules
+			$this->statusmodules = JModuleHelper::getModules('status');
+			foreach ($this->statusmodules as $statusmodule)
+			{
+				$output = JModuleHelper::renderModule($statusmodule, array('style' => 'no'));
+				$params = new JRegistry;
+				$params->loadString($statusmodule->params);
+				echo $output;
+			}
+			?>
+		</div>
+	</div>
+	<!-- End Status Module -->
 	<script>
 		(function($){
 			// fix sub nav on scroll

@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -370,24 +370,6 @@ class JFormDataHelper
 			validate="none"
 			label="Title"
 			description="The title." />
-
-		<field
-			name="published_by_true"
-			type="text"
-			disabled="true"
-			readonly="true" />
-
-		<field
-			name="published_by_1"
-			type="text"
-			disabled="1"
-			readonly="1" />
-
-		<field
-			name="published_by_attr"
-			type="text"
-			disabled="disabled"
-			readonly="readonly" />
 
 		<fields
 			name="params">

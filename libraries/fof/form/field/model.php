@@ -1,7 +1,6 @@
 <?php
 /**
  * @package    FrameworkOnFramework
- * @subpackage form
  * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -127,9 +126,6 @@ class FOFFormFieldModel extends FOFFormFieldList implements FOFFormField
 			$keyfield = $this->item->getKeyName();
 			$replace  = $this->item->$keyfield;
 			$link_url = str_replace('[ITEM:ID]', $replace, $link_url);
-
-			// Replace the [ITEMID] in the URL with the current Itemid parameter
-			$link_url = str_replace('[ITEMID]', JFactory::getApplication()->input->getInt('Itemid', 0), $link_url);
 
 			// Replace other field variables in the URL
 			$fields = $this->item->getFields();

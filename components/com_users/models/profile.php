@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -171,20 +171,7 @@ class UsersModelProfile extends JModelForm
 		{
 			return false;
 		}
-
-		// Check for username compliance and parameter set
-		$isUsernameCompliant = true;
-
-		if ($this->loadFormData()->username)
-		{
-			$username = $this->loadFormData()->username;
-			$isUsernameCompliant  = !(preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $username) || strlen(utf8_decode($username)) < 2
-				|| trim($username) != $username);
-		}
-
-		$this->setState('user.username.compliant', $isUsernameCompliant);
-
-		if (!JComponentHelper::getParams('com_users')->get('change_login_name') && $isUsernameCompliant)
+		if (!JComponentHelper::getParams('com_users')->get('change_login_name'))
 		{
 			$form->setFieldAttribute('username', 'class', '');
 			$form->setFieldAttribute('username', 'filter', '');
@@ -275,10 +262,7 @@ class UsersModelProfile extends JModelForm
 		$data['password']	= $data['password1'];
 
 		// Unset the username if it should not be overwritten
-		$username = $data['username'];
-		$isUsernameCompliant = $this->getState('user.username.compliant');
-
-		if (!JComponentHelper::getParams('com_users')->get('change_login_name') && $isUsernameCompliant)
+		if (!JComponentHelper::getParams('com_users')->get('change_login_name'))
 		{
 			unset($data['username']);
 		}

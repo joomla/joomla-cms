@@ -6135,7 +6135,7 @@ a.badge:focus {
 
 /* Joomla JUI NOTE: Original .modal definition has to be commented */
 
-// > Joomla JUI
+/* >>> JUI >>> */
 
 div.modal {
   position: fixed;
@@ -6172,11 +6172,11 @@ div.modal.fade.in {
   top: 10%;
 }
 
-// < Joomla JUI
+/* <<< JUI <<< */
 
 /* Joomla JUI NOTE: Original .modal definition has to be commented */
 
-// > Joomla JUI
+/* >>> JUI >>> */
 
 @media (max-width: 767px) {
   div.modal {
@@ -6203,4 +6203,4 @@ div.modal.fade.in {
   }
 }
 
-// < Joomla JUI
+/* <<< JUI <<< */

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,12 +34,17 @@ class WeblinksHelper extends JHelperContent
 			'index.php?option=com_weblinks&view=weblinks',
 			$vName == 'weblinks'
 		);
-
 		JHtmlSidebar::addEntry(
 			JText::_('COM_WEBLINKS_SUBMENU_CATEGORIES'),
 			'index.php?option=com_categories&extension=com_weblinks',
 			$vName == 'categories'
 		);
+		if ($vName == 'categories')
+		{
+			JToolbarHelper::title(
+				JText::sprintf('COM_CATEGORIES_CATEGORIES_TITLE', JText::_('com_weblinks')),
+				'weblinks-categories');
+		}
 	}
 
 }

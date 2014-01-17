@@ -10,11 +10,11 @@
  * source software licenses. See COPYRIGHT.php for copyright notices and
  * details.
 	/* Typography =================================================== */
-body#shadow {
+body {
 	font-family: arial,sans-serif
 }
 
-body h1,body h2,body h3,body h4,body h5,body h6 {
+h1,h2,h3,h4,h5,h6 {
 	margin: 0;
 	font-family: inherit;
 	font-weight: normal;
@@ -22,38 +22,38 @@ body h1,body h2,body h3,body h4,body h5,body h6 {
 	text-rendering: optimizelegibility;
 }
 
-body h1 {
+h1 {
 	margin-bottom: 0.75em;
 	font-size: 3.6em;
 	line-height: 1.2;
 }
 
-body h2 {
+h2 {
 	margin-bottom: 0.75em;
 	font-size: 1.5em;
 	line-height: 1.2;
 	padding: 5px 0
 }
 
-body h3 {
+h3 {
 	margin-bottom: 1em;
 	font-size: 1.4em;
 	line-height: 1.3;
 	padding-bottom: 5px
 }
 
-body h4 {
+h4 {
 	margin-bottom: 1.5em;
 	font-size: 1.2em;
 	line-height: 1.25;
 }
 
-body h5 {
+h5 {
 	font-size: 1.1em;
 	margin-bottom: 1.5em;
 }
 
-body p,body ol,body ul,body dl,body address {
+p,ol,ul,dl,address {
 	margin-bottom: 1.5em;
 	font-size: 1.0em;
 	line-height: 1.5em;
@@ -63,12 +63,12 @@ small {
 	font-size: 0.9em;
 }
 
-body ul,body ol {
+ul,ol {
 	margin: 0 0 1.5em 12px;
 	padding: 0 0 0 12px;
 }
 
-body li ul,body li ol {
+li ul,li ol {
 	margin: 0;
 }
 
@@ -226,7 +226,7 @@ label {
 	max-width: 90%
 }
 
-input,textarea,select,#advanced-search-toggle, input.search-query {
+input,textarea,select,#advanced-search-toggle {
 	border: 1px solid #CCCCCC;
 	border-radius: 3px;
 	display: inline-block;
