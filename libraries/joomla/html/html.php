@@ -834,6 +834,74 @@ abstract class JHtml
 
 		return '<span class="' . $class . '" title="' . $tooltip . '">' . $tip . '</span>';
 	}
+	
+	/**
+	 * Converts a linux formatted date code to PHP formatted date code
+	 *
+	 * @param   string  $format   The linux format date value
+	 * 
+	 * @return  string  PHP formatted date code
+	 *
+	 */
+	public static function linux_to_php_date($format)
+	{
+		$result = array(
+				"a"=>"D",
+				"A"=>"l",
+				"b"=>"M",
+				"B"=>"F",
+				"c"=>"r",
+				"C"=>"",
+				"d"=>"d",
+				"D"=>"h/d/y",
+				"e"=>"",
+				"F"=>"Y-h-d",
+				"g"=>"",
+				"G"=>"o",
+				"h"=>"M",
+				"H"=>"H",
+				"I"=>"h",
+				"j"=>"z",
+				"k"=>"G",
+				"l"=>"g",
+				"m"=>"h",
+				"M"=>"i",
+				"n"=>"",
+				"N"=>"",
+				"p"=>"A",
+				"P"=>"a",
+				"r"=>"h:i:s A",
+				"R"=>"H:i",
+				"s"=>"U",
+				"S"=>"s",
+				"t"=>"",
+				"T"=>"H:i:s",
+				"u"=>"N",
+				"U"=>"",
+				"V"=>"W",
+				"w"=>"w",
+				"W"=>"W",
+				"x"=>"m/d/Y",
+				"X"=>"H:i:s",
+				"y"=>"y",
+				"Y"=>"Y",
+				"z"=>"O",
+				":z"=>"P",
+				"Z"=>"T",
+			);
+		$arr=explode("%",$format);
+		for($i=0;$i<count($arr);$i++)
+		{
+			if($i==0)
+				echo $arr[$i];
+			elseif($arr[$i]==":" && $arr[$i+1]=="z")
+				echo $result[":z"];
+			elseif(isset($result[$arr[$i]]))
+				echo $result[$arr[$i]];
+			else
+				echo $arr[$i];
+		}
+	}
 
 	/**
 	 * Displays a calendar control field
@@ -898,7 +966,7 @@ abstract class JHtml
 		else
 		{
 			return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value, null, null) : '')
-				. '" value="' . (0 !== (int) $value ? self::_('date', $value, str_replace("%","",$format), null) : '') . '" ' . $attribs
+				. '" value="' . (0 !== (int) $value ? self::_('date', $value, self::linux_to_php_date($format), null) : '') . '" ' . $attribs
 				. ' /><input type="hidden" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" />';
 		}
 	}
