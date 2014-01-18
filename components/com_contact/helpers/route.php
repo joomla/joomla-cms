@@ -197,7 +197,7 @@ abstract class ContactHelperRoute
 		}
 
 		$active = $menus->getActive();
-		if ($active && ($active->language == '*' || !JLanguageMultilang::isEnabled()))
+		if ($active && (in_array($active->language, array('*', $language)) || !JLanguageMultilang::isEnabled()))
 		{
 			return $active->id;
 		}
