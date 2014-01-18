@@ -283,7 +283,8 @@ class JMailHelperTest extends TestCase
 			array("other.email-with-dash@example.com", true),
 			array("user@[IPv6:2001:db8:1ff::a0b:dbd0]", false),
 			array('much.more unusual"@example.com', false),
-			array('very.unusual.@.unusual.com"@example.com', false)
+			array('very.unusual.@.unusual.com"@example.com', false),
+			array("somébody@example.com",false)
 		);
 	}
 
