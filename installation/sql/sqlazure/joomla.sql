@@ -2783,7 +2783,7 @@ CREATE TABLE [#__updates](
 	[type] [nvarchar](20) DEFAULT '',
 	[folder] [nvarchar](20) DEFAULT '',
 	[client_id] [smallint] DEFAULT 0,
-	[version] [nvarchar](10) DEFAULT '',
+	[version] [nvarchar](32) DEFAULT '',
 	[data] [nvarchar](max) NOT NULL DEFAULT '',
 	[detailsurl] [nvarchar](max) NOT NULL,
 	[infourl] [nvarchar](max) NOT NULL,
