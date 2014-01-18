@@ -35,7 +35,7 @@
  *   daFormat        | the date format that will be used to display the date in displayArea
  *   singleClick     | (true/false) wether the calendar is in single click mode or not (default: true)
  *   firstDay        | numeric: 0 to 6.  "0" means display Sunday first, "1" means display Monday first, etc.
- *   monthBeforeYear | (true/false) if it's true (default) the calendar will display month before year
+ *   monthBeforeYear | numeric: 0 or 1.  "0" means display year before month, "1" means display month before year (default: "1")
  *   align           | alignment (default: "Br"); if you don't know what's this see the calendar documentation
  *   range           | array with 2 elements.  Default: [1900, 2999] -- the range of years available
  *   weekNumbers     | (true/false) if it's true (default) the calendar will display week numbers
