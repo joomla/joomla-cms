@@ -1277,6 +1277,18 @@ class JLanguage
 	}
 
 	/**
+	 * Get if month before year for this language.
+	 *
+	 * @return  integer  Month before Year according to the language
+	 *
+	 * @since   3.2
+	 */
+	public function getMonthBeforeYear()
+	{
+		return (int) (isset($this->metadata['monthBeforeYear']) ? $this->metadata['monthBeforeYear'] : 1);
+	}
+
+	/**
 	 * Get the weekends days for this language.
 	 *
 	 * @return  string  The weekend days of the week separated by a comma according to the language
