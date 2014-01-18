@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -891,6 +891,7 @@ abstract class JHtml
 				);
 				$done[] = $id;
 			}
+	
 			return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value, null, null) : '') . '" name="' . $name . '" id="' . $id
 				. '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
 				. self::_('image', 'system/calendar.png', JText::_('JLIB_HTML_CALENDAR'), array('class' => 'calendar', 'id' => $id . '_img'), true);
@@ -898,7 +899,7 @@ abstract class JHtml
 		else
 		{
 			return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value, null, null) : '')
-				. '" value="' . (0 !== (int) $value ? self::_('date', $value, 'Y-m-d H:i:s', null) : '') . '" ' . $attribs
+				. '" value="' . (0 !== (int) $value ? self::_('date', $value, str_replace("%","",$format), null) : '') . '" ' . $attribs
 				. ' /><input type="hidden" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" />';
 		}
 	}
