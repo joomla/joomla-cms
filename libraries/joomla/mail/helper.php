@@ -110,84 +110,18 @@ abstract class JMailHelper
 	 */
 	public static function isEmailAddress($email)
 	{
-		// Split the email into a local and domain
-		$atIndex = strrpos($email, "@");
-		$domain = substr($email, $atIndex + 1);
-		$local = substr($email, 0, $atIndex);
+		// The regular expression to use in testing a form field value.
+		$regex = '^[a-zA-Z0-9.!#$%&‚Äô*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$';
 
-		// Check Length of domain
-		$domainLen = strlen($domain);
+		// Handle idn e-mail addresses by converting to punycode.
+		$email = JStringPunycode::emailToPunycode($email);
 
-		if ($domainLen < 1 || $domainLen > 255)
-		{
-			return false;
-		}
-
-		/*
-		 * Check the local address
-		 * We're a bit more conservative about what constitutes a "legal" address, that is, A-Za-z0-9!#$%&\'*+/=?^_`{|}~-
-		 * Also, the last character in local cannot be a period ('.')
-		 */
-		$allowed = 'A-Za-z0-9!#&*+=?_-';
-		$regex = "/^[$allowed][\.$allowed]{0,63}$/";
-
-		if (!preg_match($regex, $local) || substr($local, -1) == '.')
-		{
-			return false;
-		}
-
-		// No problem if the domain looks like an IP address, ish
-		$regex = '/^[0-9\.]+$/';
-
-		if (preg_match($regex, $domain))
+		// Test the value against the regular expression.
+		if (preg_match(chr(1) . $regex . chr(1), $email))
 		{
 			return true;
 		}
 
-		// Check Lengths
-		$localLen = strlen($local);
-
-		if ($localLen < 1 || $localLen > 64)
-		{
-			return false;
-		}
-
-		// Check the domain
-		$domain_array = explode(".", rtrim($domain, '.'));
-		$regex = '/^[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/';
-
-		foreach ($domain_array as $domain)
-		{
-			// Convert domain to punycode
-			$domain = JStringPunycode::toPunycode($domain);
-
-			// Must be something
-			if (!$domain)
-			{
-				return false;
-			}
-
-			// Check for invalid characters
-			if (!preg_match($regex, $domain))
-			{
-				return false;
-			}
-
-			// Check for a dash at the beginning of the domain
-			if (strpos($domain, '-') === 0)
-			{
-				return false;
-			}
-
-			// Check for a dash at the end of the domain
-			$length = strlen($domain) - 1;
-
-			if (strpos($domain, '-', $length) === $length)
-			{
-				return false;
-			}
-		}
-
-		return true;
+		return false;
 	}
 }

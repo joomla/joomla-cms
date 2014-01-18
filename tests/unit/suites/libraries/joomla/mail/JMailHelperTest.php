@@ -267,14 +267,23 @@ class JMailHelperTest extends TestCase
 			array("joe@his.home.place", true),
 			array("joe@home.org", true),
 			array("joe@joebob.name", true),
-			array("joe.@bob.com", false),
-			array(".joe@bob.com", false),
+			array("joe.@bob.com", true),
+			array(".joe@bob.com", true),
 			array("joe<>bob@bob.come", false),
 			array("joe&bob@bob.com", true),
-			array("~joe@bob.com", false),
-			array("joe$@bob.com", false),
+			array("~joe@bob.com", true),
+			array("joe$@bob.com", true),
 			array("joe+bob@bob.com", true),
-			array("o'reilly@there.com", false)
+			array("o'reilly@there.com", false),
+			array("info@джумла-тест.рф", true),
+			array("niceandsimple@example.com", true),
+			array("very.common@example.com", true),
+			array("a.little.lengthy.but.fine@dept.example.com", true),
+			array("disposable.style.email.with+symbol@example.com", true),
+			array("other.email-with-dash@example.com", true),
+			array("user@[IPv6:2001:db8:1ff::a0b:dbd0]", false),
+			array('much.more unusual"@example.com', false),
+			array('very.unusual.@.unusual.com"@example.com', false)
 		);
 	}
 
