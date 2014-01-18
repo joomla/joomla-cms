@@ -34,6 +34,8 @@ class ModMenuHelper
 
 		// Get active menu item
 		$base = self::getBase($params);
+		
+		
 		$user = JFactory::getUser();
 		$levels = $user->getAuthorisedViewLevels();
 		asort($levels);
@@ -45,6 +47,9 @@ class ModMenuHelper
 			$end     = (int) $params->get('endLevel');
 			$showAll = $params->get('showAllChildren');
 			$items   = $menu->getItems('menutype', $params->get('menutype'));
+			
+			$path = $base->tree;
+			$base_id = $base->tree[ max(0, $base->level - $start - 1) ];
 
 			$lastitem = 0;
 
@@ -54,8 +59,8 @@ class ModMenuHelper
 				{
 					if (($start && $start > $item->level)
 						|| ($end && $item->level > $end)
-						|| (!$showAll && $item->level > 1 && !in_array($item->parent_id, $path))
-						|| ($start > 1 && !in_array($base->id, $item->tree)))
+						// || (!$showAll && $item->level > 1 && !in_array($item->parent_id, $path))
+						|| ($start > 1 && !in_array($base_id, $item->tree)))
 					{
 						unset($items[$i]);
 						continue;
