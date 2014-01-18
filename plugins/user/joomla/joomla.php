@@ -290,7 +290,7 @@ class PlgUserJoomla extends JPlugin
 		{
 			if (!$instance->save())
 			{
-				JLog::add('Error in autoregistration for user ' .  $user['username'] . '.', JLog::WARNING, 'error');
+				JLog::add('Error in autoregistration for user ' . $user['username'] . '.', JLog::WARNING, 'error');
 			}
 		}
 		else
@@ -307,7 +307,7 @@ class PlgUserJoomla extends JPlugin
 	 * We set a new cookie either for a user with no cookies or one
 	 * where the user used a cookie to authenticate.
 	 *
-	 * @param   array  options  Array holding options
+	 * @param   array  $options  Array holding options
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -361,6 +361,7 @@ class PlgUserJoomla extends JPlugin
 				$unique = true;
 			}
 		}
+
 		while ($unique === false);
 
 		// If a user logs in with non cookie login and remember me checked we will

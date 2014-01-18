@@ -72,7 +72,6 @@ class PlgAuthenticationGMail extends JPlugin
 					$curl = curl_init('https://mail.google.com/mail/feed/atom');
 					curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 					curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, $this->params->get('verifypeer', 1));
-					//curl_setopt($curl, CURLOPT_HEADER, 1);
 					curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
 					curl_setopt($curl, CURLOPT_USERPWD, $credentials['username'] . ':' . $credentials['password']);
 					curl_exec($curl);

@@ -14,27 +14,30 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Plugin
  * @subpackage  System.cache
+ * 
+ * @since       1.0
  */
 class PlgSystemCache extends JPlugin
 {
+	public $_cache		= null;
 
-	var $_cache		= null;
-
-	var $_cache_key	= null;
+	public $_cache_key	= null;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
-	 * @access	protected
-	 * @param   object	$subject The object to observe
-	 * @param   array  $config  An array that holds the plugin configuration
-	 * @since   1.0
+	 * @param   object  &$subject  The object to observe.
+	 * @param   array   $config    An optional associative array of configuration settings.
+	 *                             Recognised key values include 'name', 'group', 'params', 'language'
+	 *                             (this list is not meant to be comprehensive).
+	 * 
+	 * @since   1.5
 	 */
-	function __construct(& $subject, $config)
+	public function __construct(& $subject, $config)
 	{
 		parent::__construct($subject, $config);
 
-		//Set the language in the class
+		// Set the language in the class
 		$options = array(
 			'defaultgroup'	=> 'page',
 			'browsercache'	=> $this->params->get('browsercache', false),
@@ -46,10 +49,11 @@ class PlgSystemCache extends JPlugin
 	}
 
 	/**
-	* Converting the site URL to fit to the HTTP request
-	*
-	*/
-	function onAfterInitialise()
+	 * Converting the site URL to fit to the HTTP request
+	 *
+	 * @return   void
+	 */
+	public function onAfterInitialise()
 	{
 		global $_PROFILER;
 
@@ -89,7 +93,12 @@ class PlgSystemCache extends JPlugin
 		}
 	}
 
-	function onAfterRender()
+	/**
+	 * After render.
+	 * 
+	 * @return   void
+	 */
+	public function onAfterRender()
 	{
 		$app = JFactory::getApplication();
 
@@ -104,6 +113,7 @@ class PlgSystemCache extends JPlugin
 		}
 
 		$user = JFactory::getUser();
+
 		if ($user->get('guest'))
 		{
 			// We need to check again here, because auto-login plugins have not been fired before the first aid check

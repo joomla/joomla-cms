@@ -27,6 +27,8 @@ class PlgSearchContacts extends JPlugin
 	protected $autoloadLanguage = true;
 
 	/**
+	 * Get content search areas.
+	 * 
 	 * @return array An array of search areas
 	 */
 	public function onContentSearchAreas()
@@ -34,18 +36,22 @@ class PlgSearchContacts extends JPlugin
 		static $areas = array(
 			'contacts' => 'PLG_SEARCH_CONTACTS_CONTACTS'
 		);
+
 		return $areas;
 	}
 
 	/**
-	 * Contacts Search method
+	 * Content Search method
 	 *
 	 * The sql must return the following fields that are used in a common display
 	 * routine: href, title, section, created, text, browsernav
 	 *
-	 * @param string Target search string
-	 * @param string matching option, exact|any|all
-	 * @param string ordering option, newest|oldest|popular|alpha|category
+	 * @param   string  $text      Target search string
+	 * @param   string  $phrase    Matching option, exact|any|all
+	 * @param   string  $ordering  Ordering option, newest|oldest|popular|alpha|category
+	 * @param   mixed   $areas     An array if restricted to areas, null if search all
+	 * 
+	 * @return  array
 	 */
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
@@ -66,10 +72,12 @@ class PlgSearchContacts extends JPlugin
 		$sArchived = $this->params->get('search_archived', 1);
 		$limit = $this->params->def('search_limit', 50);
 		$state = array();
+
 		if ($sContent)
 		{
 			$state[] = 1;
 		}
+
 		if ($sArchived)
 		{
 			$state[] = 2;
@@ -81,6 +89,7 @@ class PlgSearchContacts extends JPlugin
 		}
 
 		$text = trim($text);
+
 		if ($text == '')
 		{
 			return array();
@@ -108,7 +117,8 @@ class PlgSearchContacts extends JPlugin
 		$text = $db->quote('%' . $db->escape($text, true) . '%', false);
 
 		$query = $db->getQuery(true);
-		//sqlsrv changes
+
+		// Sqlsrv changes
 		$case_when = ' CASE WHEN ';
 		$case_when .= $query->charLength('a.alias', '!=', '0');
 		$case_when .= ' THEN ';

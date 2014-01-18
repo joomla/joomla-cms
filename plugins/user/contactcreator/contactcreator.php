@@ -28,40 +28,58 @@ class PlgUserContactCreator extends JPlugin
 	 */
 	protected $autoloadLanguage = true;
 
+	/**
+	 * After user save.
+	 * 
+	 * @param   array    $user     Array of user information.
+	 * @param   boolean  $isnew    True if user is newly registered.
+	 * @param   boolean  $success  True if user was successfully stored.
+	 * @param   string   $msg      Not used.
+	 * 
+	 * @return  void
+	 */
 	public function onUserAfterSave($user, $isnew, $success, $msg)
 	{
+		// If the user wasn't stored we don't resync.
 		if (!$success)
 		{
-			return false; // if the user wasn't stored we don't resync
+			return false;
 		}
 
+		// If the user isn't new we don't sync.
 		if (!$isnew)
 		{
-			return false; // if the user isn't new we don't sync
+			return false;
 		}
 
-		// ensure the user id is really an int
+		// Ensure the user id is really an int.
 		$user_id = (int) $user['id'];
 
+		// If the user id appears invalid then bail out just in case.
 		if (empty($user_id))
 		{
 			die('invalid userid');
-			return false; // if the user id appears invalid then bail out just in case
+
+			return false;
 		}
 
 		$category = $this->params->get('category', 0);
+
+		// Bail out if we don't have a category.
 		if (empty($category))
 		{
 			JError::raiseWarning(41, JText::_('PLG_CONTACTCREATOR_ERR_NO_CATEGORY'));
-			return false; // bail out if we don't have a category
+
+			return false;
 		}
 
 		$db = JFactory::getDbo();
-		// grab the contact ID for this user; note $user_id is cleaned above
-		$db->setQuery('SELECT id FROM #__contact_details WHERE user_id = '. $user_id);
+
+		// Grab the contact ID for this user; note $user_id is cleaned above.
+		$db->setQuery('SELECT id FROM #__contact_details WHERE user_id = ' . $user_id);
 		$id = $db->loadResult();
 
-		JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_contact/tables');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_contact/tables');
 		$contact = JTable::getInstance('contact', 'ContactTable');
 
 		if (!$contact)
@@ -88,11 +106,13 @@ class PlgUserContactCreator extends JPlugin
 
 		if (!empty($autowebpage))
 		{
-			// search terms
+			// Search terms.
 			$search_array = array('[name]', '[username]', '[userid]', '[email]');
-			// replacement terms, urlencoded
+
+			// Replacement terms, urlencoded.
 			$replace_array = array_map('urlencode', array($user['name'], $user['username'], $user['id'], $user['email']));
-			// now replace it in together
+
+			// Now replace it in together.
 			$contact->webpage = str_replace($search_array, $replace_array, $autowebpage);
 		}
 

@@ -21,6 +21,8 @@ require_once JPATH_SITE . '/components/com_content/router.php';
 class PlgSearchContent extends JPlugin
 {
 	/**
+	 * Get content search areas.
+	 * 
 	 * @return array An array of search areas
 	 */
 	public function onContentSearchAreas()
@@ -28,17 +30,23 @@ class PlgSearchContent extends JPlugin
 		static $areas = array(
 			'content' => 'JGLOBAL_ARTICLES'
 		);
+
 		return $areas;
 	}
 
 	/**
-	 * Content Search method
-	 * The sql must return the following fields that are used in a common display
-	 * routine: href, title, section, created, text, browsernav
-	 * @param string Target search string
-	 * @param string mathcing option, exact|any|all
-	 * @param string ordering option, newest|oldest|popular|alpha|category
-	 * @param mixed  An array if the search it to be restricted to areas, null if search all
+	 * Content search method
+	 *
+	 * The sql must return the following fields that are
+	 * used in a common display routine: href, title, section, created, text,
+	 * browsernav.
+	 *
+	 * @param   string  $text      Target search string
+	 * @param   string  $phrase    Matching option, exact|any|all
+	 * @param   string  $ordering  Ordering option, newest|oldest|popular|alpha|category
+	 * @param   mixed   $areas     An array if restricted to areas, null if search all
+	 * 
+	 * @return  array
 	 */
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
@@ -52,6 +60,7 @@ class PlgSearchContent extends JPlugin
 		require_once JPATH_ADMINISTRATOR . '/components/com_search/helpers/search.php';
 
 		$searchText = $text;
+
 		if (is_array($areas))
 		{
 			if (!array_intersect($areas, array_keys($this->onContentSearchAreas())))
@@ -69,6 +78,7 @@ class PlgSearchContent extends JPlugin
 		$now = $date->toSql();
 
 		$text = trim($text);
+
 		if ($text == '')
 		{
 			return array();
@@ -92,6 +102,7 @@ class PlgSearchContent extends JPlugin
 			default:
 				$words = explode(' ', $text);
 				$wheres = array();
+
 				foreach ($words as $word)
 				{
 					$word = $db->quote('%' . $db->escape($word, true) . '%', false);
@@ -103,6 +114,7 @@ class PlgSearchContent extends JPlugin
 					$wheres2[] = 'a.metadesc LIKE ' . $word;
 					$wheres[] = implode(' OR ', $wheres2);
 				}
+
 				$where = '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
 				break;
 		}
@@ -134,11 +146,12 @@ class PlgSearchContent extends JPlugin
 		$rows = array();
 		$query = $db->getQuery(true);
 
-		// search articles
+		// Search articles
 		if ($sContent && $limit > 0)
 		{
 			$query->clear();
-			//sqlsrv changes
+
+			// Sqlsrv changes
 			$case_when = ' CASE WHEN ';
 			$case_when .= $query->charLength('a.alias', '!=', '0');
 			$case_when .= ' THEN ';
@@ -188,14 +201,16 @@ class PlgSearchContent extends JPlugin
 					$list[$key]->href = ContentHelperRoute::getArticleRoute($item->slug, $item->catslug);
 				}
 			}
+
 			$rows[] = $list;
 		}
 
-		// search archived content
+		// Search archived content.
 		if ($sArchived && $limit > 0)
 		{
 			$query->clear();
-			//sqlsrv changes
+
+			// Sqlsrv changes
 			$case_when = ' CASE WHEN ';
 			$case_when .= $query->charLength('a.alias', '!=', '0');
 			$case_when .= ' THEN ';
@@ -218,7 +233,8 @@ class PlgSearchContent extends JPlugin
 					. $case_when . ',' . $case_when1 . ', '
 					. 'c.title AS section, \'2\' AS browsernav'
 			);
-			//.'CONCAT_WS("/", c.title) AS section, \'2\' AS browsernav' );
+
+			// .'CONCAT_WS("/", c.title) AS section, \'2\' AS browsernav' );
 			$query->from('#__content AS a')
 				->join('INNER', '#__categories AS c ON c.id=a.catid AND c.access IN (' . $groups . ')')
 				->where(
@@ -239,7 +255,7 @@ class PlgSearchContent extends JPlugin
 			$db->setQuery($query, 0, $limit);
 			$list3 = $db->loadObjectList();
 
-			// find an itemid for archived to use if there isn't another one
+			// Find an itemid for archived to use if there isn't another one.
 			$item = $app->getMenu()->getItems('link', 'index.php?option=com_content&view=archive', true);
 			$itemid = isset($item->id) ? '&Itemid=' . $item->id : '';
 
@@ -260,11 +276,13 @@ class PlgSearchContent extends JPlugin
 		}
 
 		$results = array();
+
 		if (count($rows))
 		{
 			foreach ($rows as $row)
 			{
 				$new_row = array();
+
 				foreach ($row as $article)
 				{
 					if (SearchHelper::checkNoHTML($article, $searchText, array('text', 'title', 'metadesc', 'metakey')))
@@ -272,6 +290,7 @@ class PlgSearchContent extends JPlugin
 						$new_row[] = $article;
 					}
 				}
+
 				$results = array_merge($results, (array) $new_row);
 			}
 		}

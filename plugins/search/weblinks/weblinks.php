@@ -29,6 +29,8 @@ class PlgSearchWeblinks extends JPlugin
 	protected $autoloadLanguage = true;
 
 	/**
+	 * Get content search areas.
+	 * 
 	 * @return array An array of search areas
 	 */
 	public function onContentSearchAreas()
@@ -36,19 +38,23 @@ class PlgSearchWeblinks extends JPlugin
 		static $areas = array(
 			'weblinks' => 'PLG_SEARCH_WEBLINKS_WEBLINKS'
 		);
+
 		return $areas;
 	}
 
 	/**
-	 * Weblink Search method
+	 * Content search method
 	 *
-	 * The sql must return the following fields that are used in a common display
-	 * routine: href, title, section, created, text, browsernav
+	 * The sql must return the following fields that are
+	 * used in a common display routine: href, title, section, created, text,
+	 * browsernav.
 	 *
-	 * @param string Target search string
-	 * @param string mathcing option, exact|any|all
-	 * @param string ordering option, newest|oldest|popular|alpha|category
-	 * @param mixed  An array if the search it to be restricted to areas, null if search all
+	 * @param   string  $text      Target search string
+	 * @param   string  $phrase    Matching option, exact|any|all
+	 * @param   string  $ordering  Ordering option, newest|oldest|popular|alpha|category
+	 * @param   mixed   $areas     An array if restricted to areas, null if search all
+	 * 
+	 * @return  array
 	 */
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
@@ -71,10 +77,12 @@ class PlgSearchWeblinks extends JPlugin
 		$sArchived = $this->params->get('search_archived', 1);
 		$limit = $this->params->def('search_limit', 50);
 		$state = array();
+
 		if ($sContent)
 		{
 			$state[] = 1;
 		}
+
 		if ($sArchived)
 		{
 			$state[] = 2;
@@ -86,10 +94,12 @@ class PlgSearchWeblinks extends JPlugin
 		}
 
 		$text = trim($text);
+
 		if ($text == '')
 		{
 			return array();
 		}
+
 		$searchWeblinks = JText::_('PLG_SEARCH_WEBLINKS');
 
 		switch ($phrase)
@@ -108,6 +118,7 @@ class PlgSearchWeblinks extends JPlugin
 			default:
 				$words = explode(' ', $text);
 				$wheres = array();
+
 				foreach ($words as $word)
 				{
 					$word = $db->quote('%' . $db->escape($word, true) . '%', false);
@@ -117,6 +128,7 @@ class PlgSearchWeblinks extends JPlugin
 					$wheres2[] = 'a.title LIKE ' . $word;
 					$wheres[] = implode(' OR ', $wheres2);
 				}
+
 				$where = '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
 				break;
 		}
@@ -145,7 +157,8 @@ class PlgSearchWeblinks extends JPlugin
 		}
 
 		$query = $db->getQuery(true);
-		//sqlsrv changes
+
+		// Sqlsrv changes
 		$case_when = ' CASE WHEN ';
 		$case_when .= $query->charLength('a.alias', '!=', '0');
 		$case_when .= ' THEN ';
@@ -182,6 +195,7 @@ class PlgSearchWeblinks extends JPlugin
 		$rows = $db->loadObjectList();
 
 		$return = array();
+
 		if ($rows)
 		{
 			foreach ($rows as $key => $row)

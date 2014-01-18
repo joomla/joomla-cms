@@ -19,12 +19,13 @@ defined('JPATH_BASE') or die;
 class PlgSystemRedirect extends JPlugin
 {
 	/**
-	 * Object Constructor.
+	 * Constructor.
 	 *
-	 * @access    public
-	 * @param   object    The object to observe -- event dispatcher.
-	 * @param   object    The configuration object for the plugin.
-	 * @return  void
+	 * @param   object  &$subject  The object to observe.
+	 * @param   array   $config    An optional associative array of configuration settings.
+	 *                             Recognised key values include 'name', 'group', 'params', 'language'
+	 *                             (this list is not meant to be comprehensive).
+	 * 
 	 * @since   1.6
 	 */
 	public function __construct(&$subject, $config)
@@ -36,6 +37,13 @@ class PlgSystemRedirect extends JPlugin
 		set_exception_handler(array('PlgSystemRedirect', 'handleError'));
 	}
 
+	/**
+	 * Handle an error.
+	 * 
+	 * @param   object  &$error  Error to be rendered.
+	 * 
+	 * @return  void
+	 */
 	public static function handleError(&$error)
 	{
 		// Get the application object.
@@ -76,9 +84,9 @@ class PlgSystemRedirect extends JPlugin
 
 				$db->setQuery('SELECT id FROM ' . $db->quoteName('#__redirect_links') . '  WHERE old_url= ' . $db->quote($current));
 				$res = $db->loadResult();
+
 				if (!$res)
 				{
-
 					// If not, add the new url to the database.
 					$columns = array(
 						$db->quoteName('old_url'),
