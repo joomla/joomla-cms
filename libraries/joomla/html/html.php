@@ -865,7 +865,7 @@ abstract class JHtml
 				"j"=>"z",
 				"k"=>"G",
 				"l"=>"g",
-				"m"=>"h",
+				"m"=>"m",
 				"M"=>"i",
 				"n"=>"",
 				"N"=>"",
@@ -895,12 +895,23 @@ abstract class JHtml
 		{
 			if($i==0)
 				$finalFormat.= $arr[$i];
-			elseif($arr[$i]==":" && $arr[$i+1]=="z")
-				$finalFormat.= $result[":z"];
-			elseif(isset($result[$arr[$i]]))
-				$finalFormat.= $result[$arr[$i]];
 			else
-				$finalFormat.= $arr[$i];
+			{
+				$chars=str_split($arr[$i]);
+				if($chars[0]==":" && $chars[1]=="z")
+				{
+					array_shift($chars);
+					$finalFormat.= $result[":z"].implode($chars);
+				}
+				elseif(isset($result[$chars[0]]))
+				{
+					$finalFormat.= $result[$chars[0]];
+					array_shift($chars);
+					$finalFormat.=implode($chars);
+				}
+				else
+					$finalFormat.= $arr[$i];
+			}
 		}
 		return $finalFormat;
 	}
