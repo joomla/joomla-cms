@@ -845,6 +845,7 @@ abstract class JHtml
 	 */
 	public static function linux_to_php_date($format)
 	{
+		$finalFormat="";
 		$result = array(
 				"a"=>"D",
 				"A"=>"l",
@@ -893,14 +894,15 @@ abstract class JHtml
 		for($i=0;$i<count($arr);$i++)
 		{
 			if($i==0)
-				echo $arr[$i];
+				$finalFormat.= $arr[$i];
 			elseif($arr[$i]==":" && $arr[$i+1]=="z")
-				echo $result[":z"];
+				$finalFormat.= $result[":z"];
 			elseif(isset($result[$arr[$i]]))
-				echo $result[$arr[$i]];
+				$finalFormat.= $result[$arr[$i]];
 			else
-				echo $arr[$i];
+				$finalFormat.= $arr[$i];
 		}
+		return $finalFormat;
 	}
 
 	/**
