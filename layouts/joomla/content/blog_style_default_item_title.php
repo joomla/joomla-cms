@@ -36,5 +36,8 @@ JHtml::_('behavior.framework');
 			<?php if (strtotime($displayData->publish_up) > strtotime(JFactory::getDate())) : ?>
 				<span class="label label-warning"><?php echo JText::_('JNOTPUBLISHEDYET'); ?></span>
 			<?php endif; ?>
+			<?php if ((strtotime($displayData->publish_down) < strtotime(JFactory::getDate())) && $displayData->publish_down != '0000-00-00 00:00:00') : ?>
+				<span class="label label-warning"><?php echo JText::_('JEXPIRED'); ?></span>
+		<?php endif; ?>
 		</div>
 	<?php endif; ?>

@@ -57,6 +57,9 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 		<?php if (strtotime($this->item->publish_up) > strtotime(JFactory::getDate())) : ?>
 				<span class="label label-warning"><?php echo JText::_('JNOTPUBLISHEDYET'); ?></span>
 		<?php endif; ?>
+				<?php if ((strtotime($this->item->publish_down) < strtotime(JFactory::getDate())) && $this->item->publish_down != '0000-00-00 00:00:00') : ?>
+				<span class="label label-warning"><?php echo JText::_('JEXPIRED'); ?></span>
+		<?php endif; ?>
 	</div>
 	<?php endif; ?>
 	<?php if (!$this->print) : ?>
