@@ -944,7 +944,7 @@ abstract class JHtml
 		{
 			$attribs = JArrayHelper::toString($attribs);
 		}
-
+		$corrFormat=self::linux_to_php_date($format);
 		if (!$readonly && !$disabled)
 		{
 			// Load the calendar behavior
@@ -972,14 +972,14 @@ abstract class JHtml
 				);
 				$done[] = $id;
 			}
-			return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value, null, null) : '') . '" name="' . $name . '" id="' . $id
-				. '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
+			return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value, $corrFormat, null) : '') . '" name="' . $name . '" id="' . $id
+				. '" value="' . htmlspecialchars(self::_('date', $value, $corrFormat, null), ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
 				. self::_('image', 'system/calendar.png', JText::_('JLIB_HTML_CALENDAR'), array('class' => 'calendar', 'id' => $id . '_img'), true);
 		}
 		else
 		{
-			return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value, null, null) : '')
-				. '" value="' . (0 !== (int) $value ? self::_('date', $value, self::linux_to_php_date($format), null) : '') . '" ' . $attribs
+			return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value, $corrFormat, null) : '')
+				. '" value="' . (0 !== (int) $value ? self::_('date', $value, $corrFormat, null) : '') . '" ' . $attribs
 				. ' /><input type="hidden" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" />';
 		}
 	}
