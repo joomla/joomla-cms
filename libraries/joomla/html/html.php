@@ -834,7 +834,7 @@ abstract class JHtml
 
 		return '<span class="' . $class . '" title="' . $tooltip . '">' . $tip . '</span>';
 	}
-	
+
 	/**
 	 * Displays a calendar control field
 	 *
@@ -865,31 +865,27 @@ abstract class JHtml
 		}
 		
 		// Format value when not '0000-00-00 00:00:00', otherwise blank it as it would result in 1970-01-01.
-	    if ((int)$value)
-	    {
-			$tz = date_default_timezone_get();
+	    	if ((int)$value)
+	    	{
+		$tz = date_default_timezone_get();
 	        date_default_timezone_set('UTC');
 	        $inputvalue = strftime($format, strtotime($value));
 	        date_default_timezone_set($tz);
-      	}
-      	else
-      	{
+	        }
+	      	else
+	      	{
  			$inputvalue = '';
 		}
 		
-		if (!$readonly && !$disabled)
-		{
-			// Load the calendar behavior
-			self::_('behavior.calendar');
-			self::_('behavior.tooltip');
-
+		// Load the calendar behavior
+		self::_('behavior.calendar');
+		self::_('behavior.tooltip');
 			// Only display the triggers once for each control.
-			if (!in_array($id, $done))
-			{
-				$document = JFactory::getDocument();
-				$document
-					->addScriptDeclaration(
-					'window.addEvent(\'domready\', function() {Calendar.setup({
+		if (!in_array($id, $done))
+		{
+			$document = JFactory::getDocument();
+			$document->addScriptDeclaration(
+				'window.addEvent(\'domready\', function() {Calendar.setup({
 				// Id of the input field
 				inputField: "' . $id . '",
 				// Format of the input field
@@ -901,10 +897,10 @@ abstract class JHtml
 				singleClick: true,
 				firstDay: ' . JFactory::getLanguage()->getFirstDay() . '
 				});});'
-				);
-				$done[] = $id;
-			}
+			);
+			$done[] = $id;
 		}
+		
 		$style=($readonly || $disabled)?'display:none':'';
 		return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value, null, null) : '') . '" name="' . $name . '" id="' . $id
 				. '" value="' . htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
