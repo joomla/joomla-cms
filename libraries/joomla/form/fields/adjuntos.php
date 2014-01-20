@@ -52,11 +52,16 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = 'var btnAgregarAdjunto = new Element("button", {';
         $script[] = '   id: "btn-agregar-adjunto",';
         $script[] = '       events: {';
-        $script[] = '           click: function() { agregarAdjunto() } ';
+        $script[] = '           click: function(event) { ';
+        $script[] = '               event.preventDefault();';
+        $script[] = '               agregarAdjunto()';
+        $script[] = '           }';
         $script[] = '       }';
         $script[] = '}).set("text", "+");';
 
         $script[] = '$("controles-adjuntos").grab(btnAgregarAdjunto);';
+
+        $script[] = '});';
 
         $script[] = 'var adjuntoCount = 0;';     
 
@@ -108,8 +113,6 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = 'function eliminarAdjunto(el) {';
         $script[] = '   $(el.get("data-id")).dispose();';
         $script[] = '}';
-
-        $script[] = '});';
 
         JFactory::getDocument()->addStyleDeclaration(implode("\n", $style));
         JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
