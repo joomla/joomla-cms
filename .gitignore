@@ -6,4 +6,5 @@
 /logs/*
 /cache/*
 /tmp/*
+/uploads/*
 .idea
