@@ -443,8 +443,8 @@ class ContentModelArticles extends JModelList
 
 		// Filter by start and end dates.
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content'))) {
-			$nullDate	= $db->Quote($db->getNullDate());
-			$nowDate	= $db->Quote(JFactory::getDate()->toSql());
+			$nullDate	= $db->quote($db->getNullDate());
+			$nowDate	= $db->quote(JFactory::getDate()->toSql());
 
 			$query->where('(a.publish_up = '.$nullDate.' OR a.publish_up <= '.$nowDate.')')
 				->where('(a.publish_down = '.$nullDate.' OR a.publish_down >= '.$nowDate.')');
