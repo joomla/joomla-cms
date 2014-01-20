@@ -135,6 +135,16 @@ if (!empty($this->items))
 								<?php echo JText::_('JUNPUBLISHED'); ?>
 							</span>
 						<?php endif; ?>
+						<?php if (strtotime($article->publish_up) > strtotime(JFactory::getDate())) : ?>
+							<span class="list-published label label-warning">
+								<?php echo JText::_('JNOTPUBLISHEDYET'); ?>
+							</span>
+						<?php endif; ?>
+						<?php if ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != '0000-00-00 00:00:00') : ?>
+							<span class="list-published label label-warning">
+								<?php echo JText::_('JEXPIRED'); ?>
+							</span>
+						<?php endif; ?>
 					</td>
 					<?php if ($this->params->get('list_show_date')) : ?>
 						<td headers="categorylist_header_date" class="list-date small">
