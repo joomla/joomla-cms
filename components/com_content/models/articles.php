@@ -170,6 +170,9 @@ class ContentModelArticles extends JModelList
 	 */
 	protected function getListQuery()
 	{
+		// Get the current user for authorisation checks
+		$user	= JFactory::getUser();
+
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
@@ -265,7 +268,6 @@ class ContentModelArticles extends JModelList
 		// Filter by access level.
 		if ($access = $this->getState('filter.access'))
 		{
-			$user = JFactory::getUser();
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN (' . $groups . ')')
 				->where('c.access IN (' . $groups . ')');
@@ -440,11 +442,13 @@ class ContentModelArticles extends JModelList
 		}
 
 		// Filter by start and end dates.
-		$nullDate = $db->quote($db->getNullDate());
-		$nowDate = $db->quote(JFactory::getDate()->toSql());
+		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content'))) {
+			$nullDate	= $db->quote($db->getNullDate());
+			$nowDate	= $db->quote(JFactory::getDate()->toSql());
 
-		$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
-			->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+			$query->where('(a.publish_up = '.$nullDate.' OR a.publish_up <= '.$nowDate.')')
+				->where('(a.publish_down = '.$nullDate.' OR a.publish_down >= '.$nowDate.')');
+		}
 
 		// Filter by Date Range or Relative Date
 		$dateFiltering = $this->getState('filter.date_filtering', 'off');

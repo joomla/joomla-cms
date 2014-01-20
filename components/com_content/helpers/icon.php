@@ -181,11 +181,21 @@ abstract class JHtmlIcon
 		if ($legacy)
 		{
 			$icon = $article->state ? 'edit.png' : 'edit_unpublished.png';
+			if (strtotime($article->publish_up) > strtotime(JFactory::getDate())
+				|| ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != '0000-00-00 00:00:00'))
+			{
+				$icon = 'edit_unpublished.png';
+			}
 			$text = JHtml::_('image', 'system/' . $icon, JText::_('JGLOBAL_EDIT'), null, true);
 		}
 		else
 		{
 			$icon = $article->state ? 'edit' : 'eye-close';
+			if (strtotime($article->publish_up) > strtotime(JFactory::getDate())
+			 || ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != '0000-00-00 00:00:00'))
+			{
+				$icon = 'eye-close';
+			}
 			$text = '<span class="hasTooltip icon-' . $icon . ' tip" title="' . JHtml::tooltipText(JText::_('COM_CONTENT_EDIT_ITEM'), $overlib, 0) . '"></span>&#160;' . JText::_('JGLOBAL_EDIT') . '&#160;';
 		}
 
