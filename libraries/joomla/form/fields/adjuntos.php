@@ -28,6 +28,8 @@ class JFormFieldAdjuntos extends JFormField
 
     function getInput() 
     {
+        $jinput = JFactory::getApplication()->input;
+        $id = $jinput->get->get('id', '0', null);
 
         JHtml::_('script', 'system/progressbar.js', false, true);
         JHtml::_('script', 'system/mootools-file-upload.js', false, true);
@@ -102,7 +104,9 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = '   function subirArchivo() {';
         $script[] = '       var upload = new File.Upload({';
         $script[] = '           url: "'.JURI::root().'administrator/index.php?option=com_content&view=article&layout=edit&task=adjuntos.subir",';
-        $script[] = '           data: {"campo":"campo-adjunto-"+adjuntoCount},';
+        $script[] = '           data: {';
+        $script[] = '               "campo":"campo-adjunto-"+adjuntoCount,';
+        $script[] = '               "id-articulo":'.$id.'},';
         $script[] = '           images: ["campo-adjunto-"+adjuntoCount],';
         $script[] = '       });';
         $script[] = '       upload.send();';

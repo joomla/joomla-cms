@@ -19,12 +19,20 @@ class ContentControllerAdjuntos extends JControllerForm
 {
     public function subir() {
 
-        // Esta tarea debe accionarse sólamente cuándo el artículo ha sido previamente guardado,
-        // con el fin de evitar subir archivos huerfanos
-        // TODO: Validar si el artículo actual existe en la base de datos
+        $jinput = JFactory::getApplication()->input;
+
+        /**
+         * Esta tarea debe accionarse sólamente cuándo el artículo ha sido previamente guardado,
+         * con el fin de evitar subir archivos huerfanos
+         */
+
+        $id = $jinput->get->get('id-articulo', null, null);
+        if($id == 0) {
+            print_r('Debe haber guardado el artículo para agregar adjuntos');
+            return;
+        }
 
         // Obtiene la variable @campo enviada en el request 
-        $jinput = JFactory::getApplication()->input;
         $campo = $jinput->get->get('campo', null, null);
 
         $archivo = $jinput->files->get($campo);
