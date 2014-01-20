@@ -178,10 +178,11 @@ abstract class JHtmlIcon
 		$overlib .= '&lt;br /&gt;';
 		$overlib .= JText::sprintf('COM_CONTENT_WRITTEN_BY', htmlspecialchars($author, ENT_COMPAT, 'UTF-8'));
 
-		if ($legacy)
+	if ($legacy)
 		{
 			$icon = $article->state ? 'edit.png' : 'edit_unpublished.png';
-			if (strtotime($article->publish_up) > strtotime(JFactory::getDate()))
+			if (strtotime($article->publish_up) > strtotime(JFactory::getDate())
+				|| ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != '0000-00-00 00:00:00'))
 			{
 				$icon = 'edit_unpublished.png';
 			}
@@ -190,7 +191,8 @@ abstract class JHtmlIcon
 		else
 		{
 			$icon = $article->state ? 'edit' : 'eye-close';
-			if (strtotime($article->publish_up) > strtotime(JFactory::getDate()))
+			if (strtotime($article->publish_up) > strtotime(JFactory::getDate())
+			 || ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != '0000-00-00 00:00:00'))
 			{
 				$icon = 'eye-close';
 			}
