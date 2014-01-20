@@ -836,87 +836,6 @@ abstract class JHtml
 	}
 	
 	/**
-	 * Converts a linux formatted date code to PHP formatted date code
-	 *
-	 * @param   string  $format   The linux format date value
-	 * 
-	 * @return  string  PHP formatted date code
-	 *
-	 */
-	public static function linux_to_php_date($format)
-	{
-		$finalFormat="";
-		$result = array(
-				"a"=>"D",
-				"A"=>"l",
-				"b"=>"M",
-				"B"=>"F",
-				"c"=>"r",
-				"C"=>"",
-				"d"=>"d",
-				"D"=>"h/d/y",
-				"e"=>"",
-				"F"=>"Y-h-d",
-				"g"=>"",
-				"G"=>"o",
-				"h"=>"M",
-				"H"=>"H",
-				"I"=>"h",
-				"j"=>"z",
-				"k"=>"G",
-				"l"=>"g",
-				"m"=>"m",
-				"M"=>"i",
-				"n"=>"",
-				"N"=>"",
-				"p"=>"A",
-				"P"=>"a",
-				"r"=>"h:i:s A",
-				"R"=>"H:i",
-				"s"=>"U",
-				"S"=>"s",
-				"t"=>"",
-				"T"=>"H:i:s",
-				"u"=>"N",
-				"U"=>"",
-				"V"=>"W",
-				"w"=>"w",
-				"W"=>"W",
-				"x"=>"m/d/Y",
-				"X"=>"H:i:s",
-				"y"=>"y",
-				"Y"=>"Y",
-				"z"=>"O",
-				":z"=>"P",
-				"Z"=>"T",
-			);
-		$arr=explode("%",$format);
-		for($i=0;$i<count($arr);$i++)
-		{
-			if($i==0)
-				$finalFormat.= $arr[$i];
-			else
-			{
-				$chars=str_split($arr[$i]);
-				if($chars[0]==":" && $chars[1]=="z")
-				{
-					array_shift($chars);
-					$finalFormat.= $result[":z"].implode($chars);
-				}
-				elseif(isset($result[$chars[0]]))
-				{
-					$finalFormat.= $result[$chars[0]];
-					array_shift($chars);
-					$finalFormat.=implode($chars);
-				}
-				else
-					$finalFormat.= $arr[$i];
-			}
-		}
-		return $finalFormat;
-	}
-
-	/**
 	 * Displays a calendar control field
 	 *
 	 * @param   string  $value    The date value
@@ -944,7 +863,20 @@ abstract class JHtml
 		{
 			$attribs = JArrayHelper::toString($attribs);
 		}
-		$corrFormat=self::linux_to_php_date($format);
+		
+		// Format value when not '0000-00-00 00:00:00', otherwise blank it as it would result in 1970-01-01.
+	    if ((int)$value)
+	    {
+			$tz = date_default_timezone_get();
+	        date_default_timezone_set('UTC');
+	        $inputvalue = strftime($format, strtotime($value));
+	        date_default_timezone_set($tz);
+      	}
+      	else
+      	{
+ 			$inputvalue = '';
+		}
+		
 		if (!$readonly && !$disabled)
 		{
 			// Load the calendar behavior
@@ -972,16 +904,12 @@ abstract class JHtml
 				);
 				$done[] = $id;
 			}
-			return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value, $corrFormat, null) : '') . '" name="' . $name . '" id="' . $id
-				. '" value="' . htmlspecialchars(self::_('date', $value, $corrFormat, null), ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
-				. self::_('image', 'system/calendar.png', JText::_('JLIB_HTML_CALENDAR'), array('class' => 'calendar', 'id' => $id . '_img'), true);
 		}
-		else
-		{
-			return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value, $corrFormat, null) : '')
-				. '" value="' . (0 !== (int) $value ? self::_('date', $value, $corrFormat, null) : '') . '" ' . $attribs
-				. ' /><input type="hidden" name="' . $name . '" id="' . $id . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" />';
-		}
+		$style=($readonly || $disabled)?'display:none':'';
+		return '<input type="text" title="' . (0 !== (int) $value ? self::_('date', $value, null, null) : '') . '" name="' . $name . '" id="' . $id
+				. '" value="' . htmlspecialchars($inputvalue, ENT_COMPAT, 'UTF-8') . '" ' . $attribs . ' />'
+				. self::_('image', 'system/calendar.png', JText::_('JLIB_HTML_CALENDAR'), array('class' => 'calendar', 'id' => $id . '_img', 'style' => $style), true);
+		
 	}
 
 	/**
