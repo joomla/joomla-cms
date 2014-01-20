@@ -68,7 +68,7 @@ class JFormFieldCalendar extends JFormField
 		{
 			$attributes['onchange'] = (string) $this->element['onchange'];
 		}
-		
+
 		// Handle the special case for "now".
 		if (strtoupper($this->value) == 'NOW')
 		{
