@@ -97,6 +97,7 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = '   function subirArchivo() {';
         $script[] = '       var upload = new File.Upload({';
         $script[] = '           url: "'.JURI::root().'administrator/index.php?option=com_content&view=article&layout=edit&task=adjuntos.subir",';
+        $script[] = '           data: {"campo":"campo-adjunto-"+adjuntoCount},';
         $script[] = '           images: ["campo-adjunto-"+adjuntoCount],';
         $script[] = '       });';
         $script[] = '       upload.send();';
