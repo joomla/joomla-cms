@@ -149,6 +149,12 @@ class LanguagesModelLanguage extends JModelAdmin
 			$isNew = false;
 		}
 
+		// Prevent white spaces, including East Asian double bytes
+		$spaces = array('/\xE3\x80\x80/', ' ');
+
+		$data['lang_code'] = str_replace($spaces, '', $data['lang_code']);
+		$data['sef'] = str_replace($spaces, '', $data['sef']);
+
 		// Bind the data
 		if (!$table->bind($data))
 		{
