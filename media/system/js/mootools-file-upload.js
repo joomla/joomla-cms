@@ -22,6 +22,10 @@ File.Upload = new Class({
 		var self = this;
 		this.setOptions(options);
 		this.uploadReq = new Request.File({
+            onProgress: function(event){
+                var loaded = event.loaded;
+                console.log(loaded);
+            },
 			onComplete: function(){
 				self.fireEvent('complete', arguments);
 				this.reset();
@@ -56,12 +60,15 @@ File.Upload = new Class({
 	
 	send: function(input){
 		if(input) this.add(input);
-		this.uploadReq.send({
-			url: this.options.url
+            console.log(this.options.url);
+            this.uploadReq.send({
+            url: this.options.url
 		});
 	}
 
 });
+
+var progressSupport = ('onprogress' in new Browser.Request);
 
 Request.File = new Class({
 
@@ -96,6 +103,13 @@ Request.File = new Class({
 		
 		var xhr = this.xhr;
 		xhr.open('POST', url, true);
+
+        if (progressSupport) {
+            xhr.onloadstart = this.loadstart.bind(this);
+            xhr.onprogress = this.progress.bind(this);
+            xhr.upload.onprogress = this.progress.bind(this);
+        }
+
 		xhr.onreadystatechange = this.onStateChange.bind(this);
 		
 		Object.each(this.headers, function(value, key){

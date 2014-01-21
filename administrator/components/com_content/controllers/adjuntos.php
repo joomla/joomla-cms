@@ -26,7 +26,7 @@ class ContentControllerAdjuntos extends JControllerForm
          * con el fin de evitar subir archivos huerfanos
          */
 
-        $id = $jinput->get->get('id-articulo', null, null);
+        $id = $jinput->get->get('id', null, null);
         if($id == 0) {
             print_r('Debe haber guardado el artículo para agregar adjuntos');
             return;
@@ -36,7 +36,6 @@ class ContentControllerAdjuntos extends JControllerForm
         $campo = $jinput->get->get('campo', null, null);
 
         $archivo = $jinput->files->get($campo);
-        print_r($archivo);
 
         if(isset($archivo)){
 

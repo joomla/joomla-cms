@@ -31,7 +31,7 @@ class JFormFieldAdjuntos extends JFormField
         $jinput = JFactory::getApplication()->input;
         $id = $jinput->get->get('id', '0', null);
 
-        JHtml::_('script', 'system/progressbar.js', false, true);
+        JHtml::_('script', 'system/progressbar-uncompressed.js', false, true);
         JHtml::_('script', 'system/mootools-file-upload.js', false, true);
 
         $archivo    = $this->element['archivo'];
@@ -85,6 +85,10 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = '       type:"file"';
         $script[] = '   });';
 
+        $script[] = '   var progressBar = new Element("div", {';
+        $script[] = '       id:"progress-bar-"+adjuntoCount,';
+        $script[] = '   })';
+
         $script[] = '   fieldArchivo.addEvents({';
         $script[] = '           "change": function() { subirArchivo() }';
         $script[] = '   })';    
@@ -97,6 +101,7 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = '   }).set({"text": "-", "data-id": formAdjunto.id})';
 
         $script[] = '   fieldArchivo.inject(formAdjunto);';
+        $script[] = '   progressBar.inject(formAdjunto)';
         $script[] = '   btnEliminarAdjunto.inject(formAdjunto);';
 
         $script[] = '   $("adjuntos").grab(formAdjunto);';
@@ -106,7 +111,7 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = '           url: "'.JURI::root().'administrator/index.php?option=com_content&view=article&layout=edit&task=adjuntos.subir",';
         $script[] = '           data: {';
         $script[] = '               "campo":"campo-adjunto-"+adjuntoCount,';
-        $script[] = '               "id-articulo":'.$id.'},';
+        $script[] = '               "id":'.$id.'},';
         $script[] = '           images: ["campo-adjunto-"+adjuntoCount],';
         $script[] = '       });';
         $script[] = '       upload.send();';
