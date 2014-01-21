@@ -56,7 +56,16 @@ class CpanelViewCpanel extends JViewLegacy
 		}
 
 		$messages_model = FOFModel::getTmpInstance('Messages', 'PostinstallModel', array('input' => array('eid' => 700)));
-		$messages = $messages_model->getItemList();
+		// In case of an Upgrade, the #__postinstall_messages is not present and therefore throw an Exception
+		// Here we intercept any error to allow displaying a cPanel without any "post messages".
+		try
+		{
+		   $messages = $messages_model->getItemList();
+		}
+		catch( RuntimeException $e) {
+		   $messages = array();
+		}
+
 
 		$this->postinstall_message_count = count($messages);
 
