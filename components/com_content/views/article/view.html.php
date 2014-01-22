@@ -212,7 +212,7 @@ class ContentViewArticle extends JViewLegacy
 			{
 				$title = $this->item->title;
 			}
-			$path = array(array('title' => $this->item->title, 'link' => ''));
+			$path = array(array('title' => $this->item->title, 'link' => ContentHelperRoute::getArticleRoute($this->item->id . ':' . $this->item->alias, $this->item->catid)));
 			$category = JCategories::getInstance('Content')->get($this->item->catid);
 
 			while ($category && ($menu->query['option'] != 'com_content' || $menu->query['view'] == 'article' || $id != $category->id) && $category->id > 1)
