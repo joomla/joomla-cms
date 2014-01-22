@@ -155,6 +155,12 @@ class LanguagesModelLanguage extends JModelAdmin
 		$data['lang_code'] = str_replace($spaces, '', $data['lang_code']);
 		$data['sef'] = str_replace($spaces, '', $data['sef']);
 
+		// Prevent saving access as guest
+		if ($data['access'] == 5)
+		{
+			$data['access'] = 1;
+		}
+
 		// Bind the data
 		if (!$table->bind($data))
 		{
