@@ -73,7 +73,7 @@
     var map = {
       name : "autoCloseBrackets",
       Backspace: function(cm) {
-        if (cm.somethingSelected()) return CodeMirror.Pass;
+        if (cm.somethingSelected() || cm.getOption("disableInput")) return CodeMirror.Pass;
         var cur = cm.getCursor(), around = charsAround(cm, cur);
         if (around && pairs.indexOf(around) % 2 == 0)
           cm.replaceRange("", CodeMirror.Pos(cur.line, cur.ch - 1), CodeMirror.Pos(cur.line, cur.ch + 1));
@@ -94,7 +94,8 @@
         else cm.execCommand("goCharRight");
       }
       map["'" + left + "'"] = function(cm) {
-        if (left == "'" && cm.getTokenAt(cm.getCursor()).type == "comment")
+        if (left == "'" && cm.getTokenAt(cm.getCursor()).type == "comment" ||
+            cm.getOption("disableInput"))
           return CodeMirror.Pass;
         if (cm.somethingSelected()) return surround(cm);
         if (left == right && maybeOverwrite(cm) != CodeMirror.Pass) return;
@@ -115,7 +116,8 @@
   function buildExplodeHandler(pairs) {
     return function(cm) {
       var cur = cm.getCursor(), around = charsAround(cm, cur);
-      if (!around || pairs.indexOf(around) % 2 != 0) return CodeMirror.Pass;
+      if (!around || pairs.indexOf(around) % 2 != 0 || cm.getOption("disableInput"))
+        return CodeMirror.Pass;
       cm.operation(function() {
         var newPos = CodeMirror.Pos(cur.line + 1, 0);
         cm.replaceSelection("\n\n", {anchor: newPos, head: newPos}, "+input");
@@ -170,7 +172,7 @@
   function autoCloseGT(cm) {
     var pos = cm.getCursor(), tok = cm.getTokenAt(pos);
     var inner = CodeMirror.innerMode(cm.getMode(), tok.state), state = inner.state;
-    if (inner.mode.name != "xml" || !state.tagName) return CodeMirror.Pass;
+    if (inner.mode.name != "xml" || !state.tagName || cm.getOption("disableInput")) return CodeMirror.Pass;
 
     var opt = cm.getOption("autoCloseTags"), html = inner.mode.configuration == "html";
     var dontCloseTags = (typeof opt == "object" && opt.dontCloseTags) || (html && htmlDontClose);
@@ -180,10 +182,13 @@
     if (tok.end > pos.ch) tagName = tagName.slice(0, tagName.length - tok.end + pos.ch);
     var lowerTagName = tagName.toLowerCase();
     // Don't process the '>' at the end of an end-tag or self-closing tag
-    if (tok.type == "string" && (tok.end != pos.ch || !/[\"\']/.test(tok.string.charAt(tok.string.length - 1)) || tok.string.length == 1) ||
+    if (!tagName ||
+        tok.type == "string" && (tok.end != pos.ch || !/[\"\']/.test(tok.string.charAt(tok.string.length - 1)) || tok.string.length == 1) ||
         tok.type == "tag" && state.type == "closeTag" ||
         tok.string.indexOf("/") == (tok.string.length - 1) || // match something like <someTagName />
-        dontCloseTags && indexOf(dontCloseTags, lowerTagName) > -1)
+        dontCloseTags && indexOf(dontCloseTags, lowerTagName) > -1 ||
+        CodeMirror.scanForClosingTag && CodeMirror.scanForClosingTag(cm, pos, tagName,
+                                                                     Math.min(cm.lastLine() + 1, pos.line + 50)))
       return CodeMirror.Pass;
 
     var doIndent = indentTags && indexOf(indentTags, lowerTagName) > -1;
@@ -191,8 +196,8 @@
     cm.replaceSelection(">" + (doIndent ? "\n\n" : "") + "</" + tagName + ">",
                         {head: curPos, anchor: curPos});
     if (doIndent) {
-      cm.indentLine(pos.line + 1);
-      cm.indentLine(pos.line + 2);
+      cm.indentLine(pos.line + 1, null, true);
+      cm.indentLine(pos.line + 2, null);
     }
   }
 
@@ -200,7 +205,8 @@
     var pos = cm.getCursor(), tok = cm.getTokenAt(pos);
     var inner = CodeMirror.innerMode(cm.getMode(), tok.state), state = inner.state;
     if (tok.type == "string" || tok.string.charAt(0) != "<" ||
-        tok.start != pos.ch - 1 || inner.mode.name != "xml")
+        tok.start != pos.ch - 1 || inner.mode.name != "xml" ||
+        cm.getOption("disableInput"))
       return CodeMirror.Pass;
 
     var tagName = state.context && state.context.tagName;
@@ -270,7 +276,7 @@
     var one = cm.markText(found.from, Pos(found.from.line, found.from.ch + 1), {className: style});
     var two = found.to && cm.markText(found.to, Pos(found.to.line, found.to.ch + 1), {className: style});
     // Kludge to work around the IE bug from issue #1193, where text
-    // input stops going to the textare whever this fires.
+    // input stops going to the textarea whenever this fires.
     if (ie_lt8 && cm.state.focused) cm.display.input.focus();
     var clear = function() {
       cm.operation(function() { one.clear(); two && two.clear(); });
@@ -455,8 +461,7 @@ CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
 
   function doFold(cm, pos, options, force) {
     var finder = options && (options.call ? options : options.rangeFinder);
-    if (!finder) finder = cm.getHelper(pos, "fold");
-    if (!finder) return;
+    if (!finder) finder = CodeMirror.fold.auto;
     if (typeof pos == "number") pos = CodeMirror.Pos(pos, 0);
     var minSize = options && options.minFoldSize || 0;
 
@@ -515,6 +520,10 @@ CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
     doFold(this, pos, options, force);
   });
 
+  CodeMirror.commands.fold = function(cm) {
+    cm.foldCode(cm.getCursor());
+  };
+
   CodeMirror.registerHelper("fold", "combine", function() {
     var funcs = Array.prototype.slice.call(arguments, 0);
     return function(cm, start) {
@@ -523,6 +532,14 @@ CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
         if (found) return found;
       }
     };
+  });
+
+  CodeMirror.registerHelper("fold", "auto", function(cm, start) {
+    var helpers = cm.getHelpers(start, "fold");
+    for (var i = 0; i < helpers.length; i++) {
+      var cur = helpers[i](cm, start);
+      if (cur) return cur;
+    }
   });
 })();
 (function() {
@@ -589,7 +606,7 @@ CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
       if (isFolded(cm, cur)) {
         mark = marker(opts.indicatorFolded);
       } else {
-        var pos = Pos(cur, 0), func = opts.rangeFinder || cm.getHelper(pos, "fold");
+        var pos = Pos(cur, 0), func = opts.rangeFinder || CodeMirror.fold.auto;
         var range = func && func(cm, pos);
         if (range && range.from.line + 1 < range.to.line)
           mark = marker(opts.indicatorOpen);
@@ -815,6 +832,12 @@ CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
       if (close) return {open: open, close: close};
     }
   };
+
+  // Used by addon/edit/closetag.js
+  CodeMirror.scanForClosingTag = function(cm, pos, name, end) {
+    var iter = new Iter(cm, pos.line, pos.ch, end ? {from: 0, to: end} : null);
+    return !!findMatchingClose(iter, name);
+  };
 })();
 (function() {
   if (!CodeMirror.modeURL) CodeMirror.modeURL = "../mode/%N/%N.js";
@@ -881,10 +904,10 @@ CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
   CodeMirror.defineOption("styleActiveLine", false, function(cm, val, old) {
     var prev = old && old != CodeMirror.Init;
     if (val && !prev) {
-      updateActiveLine(cm);
-      cm.on("cursorActivity", updateActiveLine);
+      updateActiveLine(cm, cm.getCursor().line);
+      cm.on("beforeSelectionChange", selectionChange);
     } else if (!val && prev) {
-      cm.off("cursorActivity", updateActiveLine);
+      cm.off("beforeSelectionChange", selectionChange);
       clearActiveLine(cm);
       delete cm.state.activeLine;
     }
@@ -897,13 +920,19 @@ CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
     }
   }
 
-  function updateActiveLine(cm) {
-    var line = cm.getLineHandleVisualStart(cm.getCursor().line);
+  function updateActiveLine(cm, selectedLine) {
+    var line = cm.getLineHandleVisualStart(selectedLine);
     if (cm.state.activeLine == line) return;
-    clearActiveLine(cm);
-    cm.addLineClass(line, "wrap", WRAP_CLASS);
-    cm.addLineClass(line, "background", BACK_CLASS);
-    cm.state.activeLine = line;
+    cm.operation(function() {
+      clearActiveLine(cm);
+      cm.addLineClass(line, "wrap", WRAP_CLASS);
+      cm.addLineClass(line, "background", BACK_CLASS);
+      cm.state.activeLine = line;
+    });
+  }
+
+  function selectionChange(cm, sel) {
+    updateActiveLine(cm, sel.head.line);
   }
 })();
 /**
@@ -992,6 +1021,7 @@ CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
     { keys: ['<End>'], type: 'keyToKey', toKeys: ['$'] },
     { keys: ['<PageUp>'], type: 'keyToKey', toKeys: ['<C-b>'] },
     { keys: ['<PageDown>'], type: 'keyToKey', toKeys: ['<C-f>'] },
+    { keys: ['<CR>'], type: 'keyToKey', toKeys: ['j', '^'], context: 'normal' },
     // Motions
     { keys: ['H'], type: 'motion',
         motion: 'moveToTopLine',
@@ -1155,6 +1185,12 @@ CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
         actionArgs: { forward: true }},
     { keys: ['<C-o>'], type: 'action', action: 'jumpListWalk',
         actionArgs: { forward: false }},
+    { keys: ['<C-e>'], type: 'action',
+        action: 'scroll',
+        actionArgs: { forward: true, linewise: true }},
+    { keys: ['<C-y>'], type: 'action',
+        action: 'scroll',
+        actionArgs: { forward: false, linewise: true }},
     { keys: ['a'], type: 'action', action: 'enterInsertMode', isEdit: true,
         actionArgs: { insertAt: 'charAfter' }},
     { keys: ['A'], type: 'action', action: 'enterInsertMode', isEdit: true,
@@ -1232,12 +1268,16 @@ CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
     CodeMirror.defineOption('vimMode', false, function(cm, val) {
       if (val) {
         cm.setOption('keyMap', 'vim');
+        cm.setOption('disableInput', true);
         CodeMirror.signal(cm, "vim-mode-change", {mode: "normal"});
         cm.on('beforeSelectionChange', beforeSelectionChange);
         maybeInitVimState(cm);
+        CodeMirror.on(cm.getInputField(), 'paste', getOnPasteFn(cm));
       } else if (cm.state.vim) {
         cm.setOption('keyMap', 'default');
+        cm.setOption('disableInput', false);
         cm.off('beforeSelectionChange', beforeSelectionChange);
+        CodeMirror.off(cm.getInputField(), 'paste', getOnPasteFn(cm));
         cm.state.vim = null;
       }
     });
@@ -1249,6 +1289,18 @@ CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
       if (head.ch && head.ch == cm.doc.getLine(head.line).length) {
         head.ch--;
       }
+    }
+    function getOnPasteFn(cm) {
+      var vim = cm.state.vim;
+      if (!vim.onPasteFn) {
+        vim.onPasteFn = function() {
+          if (!vim.insertMode) {
+            cm.setCursor(offsetCursor(cm.getCursor(), 0, 1));
+            actions.enterInsertMode(cm, {}, vim);
+          }
+        };
+      }
+      return vim.onPasteFn;
     }
 
     var numberRegex = /[\d]/;
@@ -1457,9 +1509,9 @@ CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
       maybeInitVimState_: maybeInitVimState,
 
       InsertModeKey: InsertModeKey,
-      map: function(lhs, rhs) {
+      map: function(lhs, rhs, ctx) {
         // Add user defined key bindings.
-        exCommandDispatcher.map(lhs, rhs);
+        exCommandDispatcher.map(lhs, rhs, ctx);
       },
       defineEx: function(name, prefix, func){
         if (name.indexOf(prefix) !== 0) {
@@ -1741,11 +1793,17 @@ CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
         } else {
           // Find the best match in the list of matchedCommands.
           var context = vim.visualMode ? 'visual' : 'normal';
-          var bestMatch = matchedCommands[0]; // Default to first in the list.
+          var bestMatch; // Default to first in the list.
           for (var i = 0; i < matchedCommands.length; i++) {
-            if (matchedCommands[i].context == context) {
-              bestMatch = matchedCommands[i];
+            var current = matchedCommands[i];
+            if (current.context == context) {
+              bestMatch = current;
               break;
+            } else if (!bestMatch && !current.context) {
+              // Only set an imperfect match to best match if no best match is
+              // set and the imperfect match is not restricted to another
+              // context.
+              bestMatch = current;
             }
           }
           return getFullyMatchedCommandOrNull(bestMatch);
@@ -2544,6 +2602,43 @@ CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
         markPos = markPos ? markPos : cm.getCursor();
         cm.setCursor(markPos);
       },
+      scroll: function(cm, actionArgs, vim) {
+        if (vim.visualMode) {
+          return;
+        }
+        var repeat = actionArgs.repeat || 1;
+        var lineHeight = cm.defaultTextHeight();
+        var top = cm.getScrollInfo().top;
+        var delta = lineHeight * repeat;
+        var newPos = actionArgs.forward ? top + delta : top - delta;
+        var cursor = cm.getCursor();
+        var cursorCoords = cm.charCoords(cursor, 'local');
+        if (actionArgs.forward) {
+          if (newPos > cursorCoords.top) {
+             cursor.line += (newPos - cursorCoords.top) / lineHeight;
+             cursor.line = Math.ceil(cursor.line);
+             cm.setCursor(cursor);
+             cursorCoords = cm.charCoords(cursor, 'local');
+             cm.scrollTo(null, cursorCoords.top);
+          } else {
+             // Cursor stays within bounds.  Just reposition the scroll window.
+             cm.scrollTo(null, newPos);
+          }
+        } else {
+          var newBottom = newPos + cm.getScrollInfo().clientHeight;
+          if (newBottom < cursorCoords.bottom) {
+             cursor.line -= (cursorCoords.bottom - newBottom) / lineHeight;
+             cursor.line = Math.floor(cursor.line);
+             cm.setCursor(cursor);
+             cursorCoords = cm.charCoords(cursor, 'local');
+             cm.scrollTo(
+                 null, cursorCoords.bottom - cm.getScrollInfo().clientHeight);
+          } else {
+             // Cursor stays within bounds.  Just reposition the scroll window.
+             cm.scrollTo(null, newPos);
+          }
+        }
+      },
       scrollToCursor: function(cm, actionArgs) {
         var lineNum = cm.getCursor().line;
         var charCoords = cm.charCoords({line: lineNum, ch: 0}, 'local');
@@ -2599,6 +2694,7 @@ CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
           cm.setCursor(motions.moveToFirstNonWhiteSpaceCharacter(cm));
         }
         cm.setOption('keyMap', 'vim-insert');
+        cm.setOption('disableInput', false);
         if (actionArgs && actionArgs.replace) {
           // Handle Replace-mode as a special case of insert mode.
           cm.toggleOverwrite(true);
@@ -3804,14 +3900,16 @@ CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
     // pair of commands that have a shared prefix, at least one of their
     // shortNames must not match the prefix of the other command.
     var defaultExCommandMap = [
-      { name: 'map', type: 'builtIn' },
-      { name: 'write', shortName: 'w', type: 'builtIn' },
-      { name: 'undo', shortName: 'u', type: 'builtIn' },
-      { name: 'redo', shortName: 'red', type: 'builtIn' },
-      { name: 'sort', shortName: 'sor', type: 'builtIn'},
-      { name: 'substitute', shortName: 's', type: 'builtIn'},
-      { name: 'nohlsearch', shortName: 'noh', type: 'builtIn'},
-      { name: 'delmarks', shortName: 'delm', type: 'builtin'}
+      { name: 'map' },
+      { name: 'nmap', shortName: 'nm' },
+      { name: 'vmap', shortName: 'vm' },
+      { name: 'write', shortName: 'w' },
+      { name: 'undo', shortName: 'u' },
+      { name: 'redo', shortName: 'red' },
+      { name: 'sort', shortName: 'sor' },
+      { name: 'substitute', shortName: 's' },
+      { name: 'nohlsearch', shortName: 'noh' },
+      { name: 'delmarks', shortName: 'delm' }
     ];
     Vim.ExCommandDispatcher = function() {
       this.buildCommandMap_();
@@ -3863,6 +3961,7 @@ CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
           exCommands[commandName](cm, params);
         } catch(e) {
           showConfirm(cm, e);
+          throw e;
         }
       },
       parseInput_: function(cm, inputStream, result) {
@@ -3945,8 +4044,9 @@ CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
           this.commandMap_[key] = command;
         }
       },
-      map: function(lhs, rhs) {
+      map: function(lhs, rhs, ctx) {
         if (lhs != ':' && lhs.charAt(0) == ':') {
+          if (ctx) { throw Error('Mode not supported for ex mappings'); }
           var commandName = lhs.substring(1);
           if (rhs != ':' && rhs.charAt(0) == ':') {
             // Ex to Ex mapping
@@ -3966,17 +4066,21 @@ CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
         } else {
           if (rhs != ':' && rhs.charAt(0) == ':') {
             // Key to Ex mapping.
-            defaultKeymap.unshift({
+            var mapping = {
               keys: parseKeyString(lhs),
               type: 'keyToEx',
-              exArgs: { input: rhs.substring(1) }});
+              exArgs: { input: rhs.substring(1) }};
+            if (ctx) { mapping.context = ctx; }
+            defaultKeymap.unshift(mapping);
           } else {
             // Key to key mapping
-            defaultKeymap.unshift({
+            var mapping = {
               keys: parseKeyString(lhs),
               type: 'keyToKey',
               toKeys: parseKeyString(rhs)
-            });
+            };
+            if (ctx) { mapping.context = ctx; }
+            defaultKeymap.unshift(mapping);
           }
         }
       }
@@ -3998,7 +4102,7 @@ CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
     }
 
     var exCommands = {
-      map: function(cm, params) {
+      map: function(cm, params, ctx) {
         var mapArgs = params.args;
         if (!mapArgs || mapArgs.length < 2) {
           if (cm) {
@@ -4006,8 +4110,10 @@ CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
           }
           return;
         }
-        exCommandDispatcher.map(mapArgs[0], mapArgs[1], cm);
+        exCommandDispatcher.map(mapArgs[0], mapArgs[1], ctx);
       },
+      nmap: function(cm, params) { this.map(cm, params, 'normal'); },
+      vmap: function(cm, params) { this.map(cm, params, 'visual'); },
       move: function(cm, params) {
         commandDispatcher.processCommand(cm, cm.state.vim, {
             type: 'motion',
@@ -4023,7 +4129,7 @@ CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
             var args = new CodeMirror.StringStream(params.argString);
             if (args.eat('!')) { reverse = true; }
             if (args.eol()) { return; }
-            if (!args.eatSpace()) { throw new Error('invalid arguments ' + args.match(/.*/)[0]); }
+            if (!args.eatSpace()) { return 'Invalid arguments'; }
             var opts = args.match(/[a-z]+/);
             if (opts) {
               opts = opts[0];
@@ -4032,13 +4138,17 @@ CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
               var decimal = opts.indexOf('d') != -1 && 1;
               var hex = opts.indexOf('x') != -1 && 1;
               var octal = opts.indexOf('o') != -1 && 1;
-              if (decimal + hex + octal > 1) { throw new Error('invalid arguments'); }
+              if (decimal + hex + octal > 1) { return 'Invalid arguments'; }
               number = decimal && 'decimal' || hex && 'hex' || octal && 'octal';
             }
-            if (args.eatSpace() && args.match(/\/.*\//)) { throw new Error('patterns not supported'); }
+            if (args.eatSpace() && args.match(/\/.*\//)) { 'patterns not supported'; }
           }
         }
-        parseArgs();
+        var err = parseArgs();
+        if (err) {
+          showConfirm(cm, err + ': ' + params.argString);
+          return;
+        }
         var lineStart = params.line || cm.firstLine();
         var lineEnd = params.lineEnd || params.line || cm.lastLine();
         if (lineStart == lineEnd) { return; }
@@ -4159,13 +4269,13 @@ CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
         clearSearchHighlight(cm);
       },
       delmarks: function(cm, params) {
-        if (!params.argString || !params.argString.trim()) {
+        if (!params.argString || !trim(params.argString)) {
           showConfirm(cm, 'Argument required');
           return;
         }
 
         var state = cm.state.vim;
-        var stream = new CodeMirror.StringStream(params.argString.trim());
+        var stream = new CodeMirror.StringStream(trim(params.argString));
         while (!stream.eol()) {
           stream.eatSpace();
 
@@ -4302,7 +4412,8 @@ CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
       // Actually do replace.
       next();
       if (done) {
-        throw new Error('No matches for ' + query.source);
+        showConfirm(cm, 'No matches for ' + query.source);
+        return;
       }
       if (!confirm) {
         replaceAll();
@@ -4353,7 +4464,6 @@ CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
 
       var cmToVimKeymap = {
         'nofallthrough': true,
-        'disableInput': true,
         'style': 'fat-cursor'
       };
       function bindKeys(keys, modifier) {
@@ -4400,6 +4510,7 @@ CodeMirror.includeRangeFinder = CodeMirror.fold.include; // deprecated
       cm.setCursor(cm.getCursor().line, cm.getCursor().ch-1, true);
       vim.insertMode = false;
       cm.setOption('keyMap', 'vim');
+      cm.setOption('disableInput', true);
       cm.toggleOverwrite(false); // exit replace mode if we were in it.
       CodeMirror.signal(cm, "vim-mode-change", {mode: "normal"});
     }
