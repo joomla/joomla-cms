@@ -48,6 +48,7 @@ class JFormRuleOptions extends JFormRule
 		{
 			// If all values are in the $options array, $diff will be empty and the options valid.
 			$diff = array_diff($value, $options);
+
 			return empty($diff);
 		}
 		else
