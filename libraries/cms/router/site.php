@@ -443,13 +443,9 @@ class JRouterSite extends JRouter
 		$tmp       = '';
 		$itemID    = !empty($query['Itemid']) ? $query['Itemid'] : null;
 
-		// Use the component routing handler if it exists
-		$path = JPATH_SITE . '/components/' . $component . '/router.php';
-
 		// Use the custom routing handler if it exists
-		if (file_exists($path) && !empty($query))
+		if (!empty($query) && $this->loadComponentRouter($component))
 		{
-			require_once $path;
 			$function = substr($component, 4) . 'BuildRoute';
 			$function = str_replace(array("-", "."), "", $function);
 			$parts    = $function($query);
@@ -524,6 +520,41 @@ class JRouterSite extends JRouter
 		// Set query again in the URI
 		$uri->setQuery($query);
 		$uri->setPath($route);
+	}
+
+	/**
+	 * Load the component router using a static path cache to prevent excessive file_exists.
+	 *
+	 * @param   $component  string  The component router to load.
+	 *
+	 * @return  boolean  If the router exists to load.
+	 *
+	 * @since   3.5
+	 */
+	protected function loadComponentRouter($component)
+	{
+		static $pathList = array();
+
+		if (isset($pathList[$component]))
+		{
+			return $pathList[$component];
+		}
+
+		// Use the component routing handler if it exists
+		$path = JPATH_SITE . '/components/' . $component . '/router.php';
+
+		// Use the custom routing handler if it exists
+		if (file_exists($path))
+		{
+			$pathList[$component] = true;
+			require_once($path);
+		}
+		else
+		{
+			$pathList[$component] = false;
+		}
+
+		return $pathList[$component];
 	}
 
 	/**
