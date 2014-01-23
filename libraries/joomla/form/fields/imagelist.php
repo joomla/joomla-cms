@@ -27,24 +27,31 @@ class JFormFieldImageList extends JFormFieldFileList
 	 * @since  11.1
 	 */
 	protected $type = 'ImageList';
-
+	
+	
 	/**
-	 * Method to get the list of images field options.
+	 * Method to attach a JForm object to the field.
 	 * Use the filter attribute to specify allowable file extensions.
 	 *
-	 * @return  array  The field option objects.
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   mixed             $value    The form field value to validate.
+	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                      full field name would end up being "bar[foo]".
 	 *
-	 * @since   11.1
+	 * @return  boolean  True on success.
+	 *
+	 * @see     JFormField::setup()
+	 * @since   3.2
 	 */
-	protected function getOptions()
+	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
 		// Define the image file type filter.
 		$filter = '\.png$|\.gif$|\.jpg$|\.bmp$|\.ico$|\.jpeg$|\.psd$|\.eps$';
 
 		// Set the form field element attribute for file type filter.
 		$this->element->addAttribute('filter', $filter);
-
-		// Get the field options.
-		return parent::getOptions();
+		
+		return parent::setup($element, $value, $group);
 	}
 }
