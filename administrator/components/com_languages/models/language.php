@@ -76,6 +76,12 @@ class LanguagesModelLanguage extends JModelAdmin
 			return $false;
 		}
 
+		// Set a valid accesslevel in case '0' is stored due to a bug in the installation SQL (was fixed with PR 2714).
+		if ($table->access == '0')
+		{
+			$table->access = (int) JFactory::getConfig()->get('access');
+		}
+
 		$properties = $table->getProperties(1);
 		$value = JArrayHelper::toObject($properties, 'JObject');
 
@@ -154,12 +160,6 @@ class LanguagesModelLanguage extends JModelAdmin
 
 		$data['lang_code'] = str_replace($spaces, '', $data['lang_code']);
 		$data['sef'] = str_replace($spaces, '', $data['sef']);
-
-		// Prevent saving access as guest
-		if ($data['access'] == 5)
-		{
-			$data['access'] = 1;
-		}
 
 		// Bind the data
 		if (!$table->bind($data))
