@@ -399,6 +399,20 @@ class JBrowser
 				$this->setBrowser('mml');
 				$this->mobile = true;
 			}
+			
+			//Some more conditions which tell that the platform is mobile
+			if(!$this->mobile)
+			{
+				$agents = array('Windows Phone','Windows CE','iPhone','iPad','iPod','Blackberry','Android');
+				foreach($agents as $agent)
+				{
+					if(stripos($this->lowerAgent, strtolower($agent)) !== false)
+					{
+						$this->mobile=true;
+						break;
+					}
+				}
+			}
 		}
 	}
 
