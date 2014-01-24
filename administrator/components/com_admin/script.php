@@ -128,6 +128,7 @@ class JoomlaInstallerScript
 		$extensions[] = array('library', 'joomla', '', 0);
 		$extensions[] = array('library', 'idna_convert', '', 0);
 		$extensions[] = array('library', 'fof', '', 0);
+		$extensions[] = array('library', 'phpass', '', 0);
 
 		// Modules site
 		// Site
