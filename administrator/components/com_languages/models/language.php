@@ -155,6 +155,17 @@ class LanguagesModelLanguage extends JModelAdmin
 		$data['lang_code'] = str_replace($spaces, '', $data['lang_code']);
 		$data['sef'] = str_replace($spaces, '', $data['sef']);
 
+		// Check language access and show a warning if language is not accessible by public.
+		// Take an empty (non-logged-in) user to perform the ACL check
+		$user	= new JUser;
+		$levels	= $user->getAuthorisedViewLevels();
+
+		if (!in_array($data['access'], $levels))
+		{
+			$msg = JText::sprintf('COM_LANGUAGES_LANGUAGE_NOT_PUBLIC', $data['title']);
+			JFactory::getApplication()->enqueueMessage($msg, 'warning');
+		}
+
 		// Bind the data
 		if (!$table->bind($data))
 		{
