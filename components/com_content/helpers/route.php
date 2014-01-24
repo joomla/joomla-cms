@@ -2,7 +2,7 @@
 /**
  * @package		Joomla.Site
  * @subpackage	com_content
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -135,24 +135,25 @@ abstract class ContentHelperRoute
 	{
 		$app		= JFactory::getApplication();
 		$menus		= $app->getMenu('site');
+		$language	= isset($needles['language']) ? $needles['language'] : '*';
 
 		// Prepare the reverse lookup array.
-		if (self::$lookup === null)
+		if (!isset(self::$lookup[$language]))
 		{
-			self::$lookup = array();
+			self::$lookup[$language] = array();
 
 			$component	= JComponentHelper::getComponent('com_content');
 			$items		= $menus->getItems('component_id', $component->id);
 			foreach ($items as $item)
 			{
-				if (isset($item->query) && isset($item->query['view']))
+				if (isset($item->query) && isset($item->query['view']) && $item->language == $language) 
 				{
 					$view = $item->query['view'];
-					if (!isset(self::$lookup[$view])) {
-						self::$lookup[$view] = array();
+					if (!isset(self::$lookup[$language][$view])) {
+						self::$lookup[$language][$view] = array();
 					}
 					if (isset($item->query['id'])) {
-						self::$lookup[$view][$item->query['id']] = $item->id;
+						self::$lookup[$language][$view][$item->query['id']] = $item->id;
 					}
 				}
 			}
@@ -162,23 +163,28 @@ abstract class ContentHelperRoute
 		{
 			foreach ($needles as $view => $ids)
 			{
-				if (isset(self::$lookup[$view]))
+				if (isset(self::$lookup[$language][$view]))
 				{
 					foreach($ids as $id)
 					{
-						if (isset(self::$lookup[$view][(int)$id])) {
-							return self::$lookup[$view][(int)$id];
+						if (isset(self::$lookup[$language][$view][(int)$id])) {
+							return self::$lookup[$language][$view][(int)$id];
 						}
 					}
 				}
 			}
 		}
-		else
+
+		if ($language != '*')
 		{
-			$active = $menus->getActive();
-			if ($active && $active->component == 'com_content') {
-				return $active->id;
-			}
+			$needles['language'] = '*';
+			return self::_findItem($needles);
+		}
+
+		$active = $menus->getActive();
+		if ($active && $active->component == 'com_content')
+		{
+			return $active->id;
 		}
 
 		return null;

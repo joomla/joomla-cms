@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.SystemTest
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * checks that all menu choices are shown in back end
  */
@@ -63,12 +63,18 @@ class Redirect0001Test extends SeleniumJoomlaTestCase
 	function testDeleteRedirect()
 	{
 		echo "Starting testDeleteRedirect.\n";
+
 		$this->deleteAllVisibleCookies();
+
 		$this->gotoAdmin();
+
 		$this->doAdminLogin();
 
+
 		$badLink = $this->cfg->host . $this->cfg->path . 'index.php/using-joomla/extensions/components/content-component/single-articlexxx';
+
 		$goodLink = $this->cfg->host . $this->cfg->path . 'index.php/getting-started';
+
 		echo "Go to front end and try bad URL now without redirect";
 		$this->gotoSite();
 		$this->open($badLink, "true"); // need true to allow selenium to load error page

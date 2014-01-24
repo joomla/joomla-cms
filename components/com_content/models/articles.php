@@ -1,6 +1,6 @@
 <?php
 /**
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -149,6 +149,9 @@ class ContentModelArticles extends JModelList
 	 */
 	function getListQuery()
 	{
+		// Get the current user for authorisation checks
+		$user	= JFactory::getUser();
+
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
@@ -157,7 +160,7 @@ class ContentModelArticles extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.title_alias, a.introtext, ' .
+				'a.id, a.title, a.alias, a.title_alias, a.introtext, a.language, ' .
 				'a.checked_out, a.checked_out_time, ' .
 				'a.catid, a.created, a.created_by, a.created_by_alias, ' .
 				// use created if modified is 0
@@ -248,7 +251,6 @@ class ContentModelArticles extends JModelList
 
 		// Filter by access level.
 		if ($access = $this->getState('filter.access')) {
-			$user	= JFactory::getUser();
 			$groups	= implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN ('.$groups.')');
 			$query->where('c.access IN ('.$groups.')');
@@ -397,12 +399,14 @@ class ContentModelArticles extends JModelList
 			$query->where($authorWhere.$authorAliasWhere);
 		}
 
-		// Filter by start and end dates.
-		$nullDate	= $db->Quote($db->getNullDate());
-		$nowDate	= $db->Quote(JFactory::getDate()->toSql());
+		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content'))) {
+			// Filter by start and end dates.
+			$nullDate	= $db->Quote($db->getNullDate());
+			$nowDate	= $db->Quote(JFactory::getDate()->toSql());
 
-		$query->where('(a.publish_up = '.$nullDate.' OR a.publish_up <= '.$nowDate.')');
-		$query->where('(a.publish_down = '.$nullDate.' OR a.publish_down >= '.$nowDate.')');
+			$query->where('(a.publish_up = '.$nullDate.' OR a.publish_up <= '.$nowDate.')');
+			$query->where('(a.publish_down = '.$nullDate.' OR a.publish_down >= '.$nowDate.')');
+		}
 
 		// Filter by Date Range or Relative Date
 		$dateFiltering = $this->getState('filter.date_filtering', 'off');
