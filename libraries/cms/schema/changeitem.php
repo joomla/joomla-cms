@@ -197,7 +197,14 @@ abstract class JSchemaChangeitem
 		if ($this->checkQuery)
 		{
 			$this->db->setQuery($this->checkQuery);
-			$rows = $this->db->loadObject();
+			try
+			{
+				$rows = $this->db->loadObject();
+			}
+			catch( RuntimeException $e)
+			{
+				$rows = false;
+			}
 
 			if ($rows !== false)
 			{
