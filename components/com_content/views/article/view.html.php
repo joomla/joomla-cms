@@ -176,7 +176,7 @@ class ContentViewArticle extends JViewLegacy
 		if ($menu && ($menu->query['option'] != 'com_content' || $menu->query['view'] != 'article' || $id != $this->item->id))
 		{
 			// If this is not a single article menu item, set the page title to the article title
-			if ($this->item->title) {
+			if (($this->params->get('page_title') == $menu->title) || ($this->params->get('page_title') == $menu->params->get('page_title')) && $this->item->title) {
 				$title = $this->item->title;
 			}
 			$path = array(array('title' => $this->item->title, 'link' => ''));
