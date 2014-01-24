@@ -22,14 +22,14 @@ class LevelEditPage extends AdminEditPage
 	 * @var unknown_type
 	 */
 	public $inputFields = array (
-			array('label' => 'Level Title', 'id' => 'jform_title', 'type' => 'input', 'tab' => 'none')
+			array('label' => 'Level Title', 'id' => 'jform_title', 'type' => 'input', 'tab' => 'header')
 	);
 
 	public function getAllInputFields($tabIds = array())
 	{
 		$return = array();
 		$labels = $this->driver->findElements(By::xPath("//fieldset/div[@class='control-group']/div/label"));
-		$tabId = 'none';
+		$tabId = 'header';
 		foreach ($labels as $label)
 		{
 			if ($label->getAttribute('class') == 'checkbox')

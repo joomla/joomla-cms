@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -90,7 +90,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		}
 		else
 		{
-			if ($this->state->params->get('save_history', 1) && $user->authorise('core.edit'))
+			if ($this->state->params->get('save_history', 0) && $user->authorise('core.edit'))
 			{
 				JToolbarHelper::versions('com_newsfeeds.newsfeed', $this->item->id);
 			}

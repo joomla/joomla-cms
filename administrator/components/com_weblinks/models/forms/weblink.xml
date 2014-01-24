@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset
-            addfieldpath="/administrator/components/com_categories/models/fields"
-    >
+		addfieldpath="/administrator/components/com_categories/models/fields"
+	>
 		<field name="id" type="text" default="0" label="JGLOBAL_FIELD_ID_LABEL"
 			readonly="true" class="readonly"
 			description="JGLOBAL_FIELD_ID_DESC"/>
@@ -184,6 +184,8 @@
 				<option value="1">JYES</option>
 			</field>
 		</fieldset>
+	</fields>
+	<fields name="images">
 		<fieldset name="images" label="JGLOBAL_FIELDSET_IMAGE_OPTIONS">
 			<field
 				name="image_first"
@@ -246,6 +248,7 @@
 				size="20" />
 		</fieldset>
 	</fields>
+
 	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 

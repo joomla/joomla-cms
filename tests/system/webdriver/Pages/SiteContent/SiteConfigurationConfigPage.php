@@ -11,7 +11,7 @@ use SeleniumClient\WebElement;
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -38,15 +38,15 @@ class SiteConfigurationConfigPage extends SitePage
 	 * @var    string
 	 * @since  3.2
 	 */
-	protected $url = '/index.php?option=com_config&view=config&controller=config.display.config';	
+	protected $url = 'controller=config.display.config';
 
 	/**
 	 * Function which changes the sitename saving the changes
 	 *
 	 * @var string siteName
-	 * 
+	 *
 	 * @return  null
-	 */		
+	 */
 	public function changeSiteName($siteName)
 	{
 
@@ -55,30 +55,30 @@ class SiteConfigurationConfigPage extends SitePage
 		$d->findElement(By::xPath("//input[@id='jform_sitename']"))->clear();
 		$d->findElement(By::xPath("//input[@id='jform_sitename']"))->sendKeys($siteName);
 		$d->findElement(By::xPath("//button[@type='button'][@class='btn btn-primary']"))->click();
-
+		$this->test->getPageObject('SiteConfigurationConfigPage');
 	}
 
 	/**
 	 * Function which returns site name
 	 *
-	 * 
+	 *
 	 * @return  string   site name
-	 */	
+	 */
 	public function getSiteName()
 	{
 		$d = $this->driver;
 
-		return $d->findElement(By::xPath("//span[@class='site-title']"))->getText();		
-		
+		return $d->findElement(By::xPath("//span[@class='site-title']"))->getText();
+
 	}
 
 	/**
 	 * Function which changes the meta description saving the changes
 	 *
 	 * @var string metaDescription
-	 * 
+	 *
 	 * @return  null
-	 */	
+	 */
 	public function changeMetaDescription($metaDescription)
 	{
 
@@ -87,6 +87,7 @@ class SiteConfigurationConfigPage extends SitePage
 		$d->findElement(By::xPath("//textarea[@id='jform_MetaDesc']"))->clear();
 		$d->findElement(By::xPath("//textarea[@id='jform_MetaDesc']"))->sendKeys($metaDescription);
 		$d->findElement(By::xPath("//button[@type='button'][@class='btn btn-primary']"))->click();
+		$this->test->getPageObject('SiteConfigurationConfigPage');
 
 	}
 
@@ -94,13 +95,13 @@ class SiteConfigurationConfigPage extends SitePage
 	 * Function which returns the meta description
 	 *
 	 * @return  string   Meta description
-	 */	
+	 */
 	public function getMetaDescription()
 	{
 		$d = $this->driver;
 
-		return $d->findElement(By::xPath("//textarea[@id='jform_MetaDesc']"))->getText();		
-		
+		return $d->findElement(By::xPath("//textarea[@id='jform_MetaDesc']"))->getText();
+
 	}
 
 }

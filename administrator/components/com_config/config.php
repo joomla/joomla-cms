@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,11 +22,10 @@ JLoader::registerPrefix('Config', JPATH_ROOT . '/components/com_config');
 // Application
 $app = JFactory::getApplication();
 
-$controllerHelper = new ConfigControllerHelper();
+$controllerHelper = new ConfigControllerHelper;
 $controller = $controllerHelper->parseController($app);
 
 $controller->prefix = 'Config';
 
 // Perform the Request task
 $controller->execute();
-

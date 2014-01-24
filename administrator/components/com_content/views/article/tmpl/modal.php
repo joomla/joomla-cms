@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,6 +17,11 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
 
+$this->hiddenFieldsets = array();
+$this->hiddenFieldsets[0] = 'basic-limited';
+$this->configFieldsets = array();
+$this->configFieldsets[0] = 'editorConfig';
+
 // Create shortcut to parameters.
 $params = $this->state->get('params');
 //$params = $params->toArray();
@@ -24,6 +29,39 @@ $params = $this->state->get('params');
 $app = JFactory::getApplication();
 $input = $app->input;
 $assoc = JLanguageAssociations::isEnabled();
+
+// This checks if the config options have ever been saved. If they haven't they will fall back to the original settings.
+$params = json_decode($params);
+$editoroptions = isset($params->show_publishing_options);
+
+if (!$editoroptions)
+{
+	$params->show_publishing_options = '1';
+	$params->show_article_options = '1';
+	$params->show_urls_images_backend = '0';
+	$params->show_urls_images_frontend = '0';
+}
+
+// Check if the article uses configuration settings besides global. If so, use them.
+if (isset($this->item->attribs['show_publishing_options']) && $this->item->attribs['show_publishing_options'] != '')
+{
+	$params->show_publishing_options = $this->item->attribs['show_publishing_options'];
+}
+
+if (isset($this->item->attribs['show_article_options']) && $this->item->attribs['show_article_options'] != '')
+{
+	$params->show_article_options = $this->item->attribs['show_article_options'];
+}
+
+if (isset($this->item->attribs['show_urls_images_frontend']) && $this->item->attribs['show_urls_images_frontend'] != '')
+{
+	$params->show_urls_images_frontend = $this->item->attribs['show_urls_images_frontend'];
+}
+
+if (isset($this->item->attribs['show_urls_images_backend']) && $this->item->attribs['show_urls_images_backend'] != '')
+{
+	$params->show_urls_images_backend = $this->item->attribs['show_urls_images_backend'];
+}
 
 ?>
 
@@ -75,7 +113,7 @@ $assoc = JLanguageAssociations::isEnabled();
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
 		<?php // Do not show the publishing options if the edit form is configured not to. ?>
-		<?php if ($params->get('show_publishing_options')) : ?>
+		<?php if ($params->show_publishing_options == 1) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('COM_CONTENT_FIELDSET_PUBLISHING', true)); ?>
 			<div class="row-fluid form-horizontal-desktop">
 				<div class="span6">
@@ -89,7 +127,7 @@ $assoc = JLanguageAssociations::isEnabled();
 		<?php endif; ?>
 
 		<?php // Do not show the images and links options if the edit form is configured not to. ?>
-		<?php if ($params->get('show_urls_images_backend')) : ?>
+		<?php if ($params->show_urls_images_backend == 1) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'images', JText::_('COM_CONTENT_FIELDSET_URLS_AND_IMAGES', true)); ?>
 			<div class="row-fluid form-horizontal-desktop">
 				<div class="span6">
@@ -111,14 +149,29 @@ $assoc = JLanguageAssociations::isEnabled();
 			<div class="hidden"><?php echo $this->loadTemplate('associations'); ?></div>
 		<?php endif; ?>
 
+		<?php $this->show_options = $params->show_article_options; ?>
+		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
+
+		<?php if ($this->canDo->get('core.admin')) : ?>
+			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'editor', JText::_('COM_CONTENT_SLIDER_EDITOR_CONFIG', true)); ?>
+				<?php foreach ($this->form->getFieldset('editorConfig') as $field) : ?>
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $field->label; ?>
+						</div>
+						<div class="controls">
+							<?php echo $field->input; ?>
+						</div>
+					</div>
+				<?php endforeach; ?>
+			<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php endif; ?>
+
 		<?php if ($this->canDo->get('core.admin')) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'permissions', JText::_('COM_CONTENT_FIELDSET_RULES', true)); ?>
 				<?php echo $this->form->getInput('rules'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
-
-		<?php $this->show_options = $params->get('show_article_options'); ?>
-		<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 
 		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 

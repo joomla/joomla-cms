@@ -7091,6 +7091,18 @@ h6 {
 	margin-left: auto;
 	margin-right: auto;
 }
+figure {
+	display: table;
+}
+figure.pull-center,
+img.pull-center {
+	margin-left: auto;
+	margin-right: auto;
+}
+figcaption {
+	display: table-caption;
+	caption-side: bottom;
+}
 #aside .nav .nav-child {
 	border-left: 2px solid #ddd;
 	padding-left: 5px;
@@ -7374,4 +7386,8 @@ code {
 }
 #filter-search {
 	vertical-align: top;
+}
+.editor {
+	overflow: hidden;
+	position: relative;
 }

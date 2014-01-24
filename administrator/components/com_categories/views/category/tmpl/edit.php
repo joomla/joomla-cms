@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ JHtml::_('formbehavior.chosen', 'select');
 $app = JFactory::getApplication();
 $input = $app->input;
 
-$assoc = isset($app->item_associations);
+$assoc = JLanguageAssociations::isEnabled();
 ?>
 
 <script type="text/javascript">
@@ -42,6 +42,7 @@ $assoc = isset($app->item_associations);
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'general', JText::_('JCATEGORY', true)); ?>
 		<div class="row-fluid">
 			<div class="span9">
+				<?php echo $this->form->getLabel('description'); ?>
 				<?php echo $this->form->getInput('description'); ?>
 			</div>
 			<div class="span3">
