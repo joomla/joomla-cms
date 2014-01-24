@@ -425,7 +425,10 @@ class BannersModelBanner extends JModelAdmin
 			// Prime some default values.
 			if ($this->getState('banner.id') == 0)
 			{
-				$data->set('catid', $app->input->getInt('catid', $app->getUserState('com_banners.banners.filter.category_id')));
+				$filters = (array) $app->getUserState('com_banners.banners.filter');
+				$filterCatId = isset($filters['category_id']) ? $filters['category_id'] : null;
+
+				$data->set('catid', $app->input->getInt('catid', $filterCatId));
 			}
 		}
 
