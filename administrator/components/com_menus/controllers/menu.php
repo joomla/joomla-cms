@@ -59,8 +59,8 @@ class MenusControllerMenu extends JControllerForm
 			return false;
 		}
 
-		// Prevent using 'menu' as menutype as this is reserved for back-end menus
-		if (strtolower($data['menutype']) == 'menu')
+		// Prevent using 'menu' or 'main' as menutype as this is reserved for back-end menus
+		if (strtolower($data['menutype']) == 'menu' || strtolower($data['menutype']) == 'main')
 		{
 			$msg = JText::_('COM_MENUS_ERROR_MENUTYPE');
 			JFactory::getApplication()->enqueueMessage($msg, 'error');
