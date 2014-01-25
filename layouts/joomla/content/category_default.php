@@ -32,7 +32,7 @@ $tagsData  = $displayData->get('category')->tags->itemTags;
 		<?php endif; ?>
 		<?php if($params->get('show_category_title', 1)) : ?>
 			<h2>
-				<?php echo JHtml::_('content.prepare', $displayData->get('category')->title, 'title', $extension.'.category'); ?>
+				<?php echo JHtml::_('content.prepare', $displayData->get('category')->title, '', $extension.'.category.title'); ?>
 			</h2>
 		<?php endif; ?>
 		<?php if ($displayData->get('show_tags', 1)) : ?>
