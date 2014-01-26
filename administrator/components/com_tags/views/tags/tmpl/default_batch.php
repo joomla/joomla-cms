@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_tags
+ * @package		Joomla.Administrator
+ * @subpackage	com_tags
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -18,16 +18,20 @@ $published = $this->state->get('filter.published');
 		<button type="button" class="close" data-dismiss="modal">&#215;</button>
 		<h3><?php echo JText::_('COM_TAGS_BATCH_OPTIONS'); ?></h3>
 	</div>
-	<div class="modal-body">
+	<div class="modal-body" style="max-height: 340px; height: 340px;">
 		<p><?php echo JText::_('COM_TAGS_BATCH_TIP'); ?></p>
-		<div class="control-group">
-			<div class="controls">
-				<?php echo JHtml::_('batch.access'); ?>
+		<div style="float: left; width: 50%;">
+			<div class="control-group">
+				<div class="controls">
+					<?php echo JHtml::_('batch.language'); ?>
+				</div>
 			</div>
 		</div>
-		<div class="control-group">
-			<div class="controls">
-				<?php echo JHtml::_('batch.language'); ?>
+		<div style="float: right; width: 50%;">
+			<div class="control-group">
+				<div class="controls">
+					<?php echo JHtml::_('batch.access'); ?>
+				</div>
 			</div>
 		</div>
 	</div>
