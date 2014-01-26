@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_newsfeeds
+ * @package		Joomla.Administrator
+ * @subpackage	com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -16,30 +16,29 @@ $published = $this->state->get('filter.published');
 		<button type="button" class="close" data-dismiss="modal">&#215;</button>
 		<h3><?php echo JText::_('COM_NEWSFEEDS_BATCH_OPTIONS');?></h3>
 	</div>
-	<div class="modal-body">
+	<div class="modal-body" style="max-height: 440px; height: 440px;">
 		<p><?php echo JText::_('COM_NEWSFEEDS_BATCH_TIP'); ?></p>
-		<div class="control-group">
-			<div class="controls">
-				<?php echo JHtml::_('batch.access');?>
+		<div style="float: left; width: 50%;">
+			<div class="control-group">
+				<div class="controls">
+					<?php echo JHtml::_('batch.tag');?>
+				</div>
 			</div>
 		</div>
-		<div class="control-group">
-			<div class="controls">
-				<?php echo JHtml::_('batch.language'); ?>
+		<div style="float: right; width: 50%;">
+			<div class="control-group">
+				<div class="controls">
+					<?php echo JHtml::_('batch.access');?>
+				</div>
 			</div>
+			<?php if ($published >= 0) : ?>
+				<div class="control-group">
+					<div class="controls">
+						<?php echo JHtml::_('batch.item', 'com_newsfeeds');?>
+					</div>
+				</div>
+			<?php endif; ?>
 		</div>
-		<div class="control-group">
-			<div class="controls">
-				<?php echo JHtml::_('batch.tag');?>
-			</div>
-		</div>
-		<?php if ($published >= 0) : ?>
-		<div class="control-group">
-			<div class="controls">
-				<?php echo JHtml::_('batch.item', 'com_newsfeeds');?>
-			</div>
-		</div>
-		<?php endif; ?>
 	</div>
 	<div class="modal-footer">
 		<button class="btn" type="button" onclick="document.id('batch-category-id').value='';document.id('batch-access').value='';document.id('batch-language-id').value='';document.id('batch-tag-id)').value=''" data-dismiss="modal">
