@@ -14,7 +14,7 @@ $published = $this->state->get('filter.published');
 <div class="modal hide fade" id="collapseModal">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal">&#215;</button>
-		<h3><?php echo JText::_('COM_CONTACT_BATCH_OPTIONS');?></h3>
+		<h3><?php echo JText::_('COM_CONTACT_BATCH_OPTIONS'); ?></h3>
 	</div>
 	<div class="modal-body" style="max-height: 485px; height: 485px;">
 		<p><?php echo JText::_('COM_CONTACT_BATCH_TIP'); ?></p>
@@ -31,20 +31,20 @@ $published = $this->state->get('filter.published');
 			</div>
 			<div class="control-group">
 				<div class="controls">
-					<?php echo JHtml::_('batch.tag');?>
+					<?php echo JHtml::_('batch.tag'); ?>
 				</div>
 			</div>
 		</div>
 		<div style="float: right; width: 50%;">
 			<div class="control-group">
 				<div class="controls">
-					<?php echo JHtml::_('batch.access');?>
+					<?php echo JHtml::_('batch.access'); ?>
 				</div>
 			</div>
 			<?php if ($published >= 0) : ?>
 				<div class="control-group">
 					<div class="controls">
-						<?php echo JHtml::_('batch.item', 'com_contact');?>
+						<?php echo JHtml::_('batch.item', 'com_contact'); ?>
 					</div>
 				</div>
 			<?php endif; ?>
