@@ -33,14 +33,14 @@ $extension = $this->escape($this->state->get('filter.extension'));
 			</div>
 			<div class="control-group">
 				<div class="controls">
-					<?php echo JHtml::_('batch.tag');?>
+					<?php echo JHtml::_('batch.tag'); ?>
 				</div>
 			</div>
 		</div>
 		<div style="float: right; width: 50%;">
 			<div class="control-group">
 				<div class="controls">
-					<?php echo JHtml::_('batch.access');?>
+					<?php echo JHtml::_('batch.access'); ?>
 				</div>
 			</div>
 			<?php if ($published >= 0) : ?>
@@ -50,7 +50,7 @@ $extension = $this->escape($this->state->get('filter.extension'));
 					</label>
 					<div id="batch-choose-action" class="combo controls">
 						<select name="batch[category_id]" class="inputbox" id="batch-category-id">
-							<option value=""><?php echo JText::_('JSELECT') ?></option>
+							<option value=""><?php echo JText::_('JSELECT'); ?></option>
 							<?php echo JHtml::_('select.options', JHtml::_('category.categories', $extension, array('filter.published' => $published))); ?>
 						</select>
 					</div>
