@@ -18,14 +18,14 @@ $published = $this->state->get('filter.published');
 <div class="modal hide fade" id="collapseModal">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal">&#215;</button>
-		<h3><?php echo JText::_('COM_MENUS_BATCH_OPTIONS');?></h3>
+		<h3><?php echo JText::_('COM_MENUS_BATCH_OPTIONS'); ?></h3>
 	</div>
 	<div class="modal-body" style="max-height: 440px; height: 440px;">
 		<p><?php echo JText::_('COM_MENUS_BATCH_TIP'); ?></p>
 		<div style="float: left; width: 50%;">
 			<div class="control-group">
 				<div class="controls">
-					<?php echo JHtml::_('batch.access');?>
+					<?php echo JHtml::_('batch.access'); ?>
 				</div>
 			</div>
 			<div class="control-group">
@@ -42,8 +42,8 @@ $published = $this->state->get('filter.published');
 					</label>
 					<div class="controls">
 						<select name="batch[menu_id]" class="inputbox" id="batch-menu-id">
-							<option value=""><?php echo JText::_('JSELECT') ?></option>
-							<?php echo JHtml::_('select.options', JHtml::_('menu.menuitems', array('published' => $published)));?>
+							<option value=""><?php echo JText::_('JSELECT'); ?></option>
+							<?php echo JHtml::_('select.options', JHtml::_('menu.menuitems', array('published' => $published))); ?>
 						</select>
 					</div>
 				</div>
