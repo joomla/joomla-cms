@@ -14,14 +14,14 @@ $published = $this->state->get('filter.published');
 <div class="modal hide fade" id="collapseModal">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal">&#215;</button>
-		<h3><?php echo JText::_('COM_BANNERS_BATCH_OPTIONS');?></h3>
+		<h3><?php echo JText::_('COM_BANNERS_BATCH_OPTIONS'); ?></h3>
 	</div>
 	<div class="modal-body" style="max-height: 440px; height: 440px;">
 		<p><?php echo JText::_('COM_BANNERS_BATCH_TIP'); ?></p>
 		<div style="float: left; width: 50%;">
 			<div class="control-group">
 				<div class="controls">
-					<?php echo JHtml::_('banner.clients');?>
+					<?php echo JHtml::_('banner.clients'); ?>
 				</div>
 			</div>
 			<div class="control-group">
@@ -34,7 +34,7 @@ $published = $this->state->get('filter.published');
 			<?php if ($published >= 0) : ?>
 				<div class="control-group">
 					<div class="controls">
-						<?php echo JHtml::_('batch.item', 'com_banners');?>
+						<?php echo JHtml::_('batch.item', 'com_banners'); ?>
 					</div>
 				</div>
 			<?php endif; ?>
