@@ -1299,13 +1299,6 @@
 				value="1">JSHOW</option>
 		</field>
 
-        <field
-            name="adjuntos"
-            type="adjuntos"
-            label="Adjuntar"
-            description="Descripcion adjuntos"
-            />
-
 	</fieldset>
 
 	<fieldset

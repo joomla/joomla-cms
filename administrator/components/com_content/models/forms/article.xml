@@ -909,31 +909,10 @@
 	
 	<fields name="attachments">
 		<field
-			name="attacha"
-			type="media"
-			fileType="document"
-			label="COM_CONTENT_FIELD_ATTACHMENTA_LABEL"
-			description="COM_CONTENT_FIELD_ATTACHMENTA_DESC" />
-		
-		<field
-			name="attachb"
-			type="media"
-			fileType="document"
-			label="COM_CONTENT_FIELD_ATTACHMENTB_LABEL"
-			description="COM_CONTENT_FIELD_ATTACHMENTB_DESC" />
-		
-		<field
-			name="attachc"
-			type="media"
-			fileType="document"
-			label="COM_CONTENT_FIELD_ATTACHMENTC_LABEL"
-			description="COM_CONTENT_FIELD_ATTACHMENTC_DESC" />
-
-			<field
-				name="adjuntos"
-				type="adjuntos"
-				label="adjuntos"
-                description="Adjuntos" />
+			name="adjuntos"
+			type="adjuntos"
+			label="Adjuntos"
+            description="Adjuntos" />
 	</fields> 
 	
 	<fields name="metadata">
