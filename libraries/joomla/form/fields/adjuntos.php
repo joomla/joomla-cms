@@ -47,9 +47,18 @@ class JFormFieldAdjuntos extends JFormField
         $style[] = '    float: right;';
         $style[] = '    width: 55%;';
         $style[] = '}';
+        $style[] = '.error-msg {';
+        $style[] = '    background-color: red;';
+        $style[] = '    color: yellow;';
+        $style[] = '    font-weight: bold;';
+        $style[] = '    padding: 3px;';
+        $style[] = '    position: relative;';
+        $style[] = '}';
 
         $script = array();
         $script[] = 'window.addEvent("domready", function(){';
+
+        $script[] = 'aId =('.$id.'==0) ? false : true';
 
         $script[] = 'var btnAgregarAdjunto = new Element("button", {';
         $script[] = '   id: "btn-agregar-adjunto",';
@@ -90,7 +99,16 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = '   })';
 
         $script[] = '   fieldArchivo.addEvents({';
-        $script[] = '           "change": function() { subirArchivo() }';
+        $script[] = '           "change": function() {'; 
+        $script[] = '               if(aId) {';
+        $script[] = '                    subirArchivo();';
+        $script[] = '               } else { ';
+        $script[] = '                   error = new Element("div",{';
+        $script[] = '                       class:"error-msg"';
+        $script[] = '                   }).set({"text":"Por favor guarde el Artículo antes de adjuntar archivos"});';
+        $script[] = '                   $("controles-adjuntos").grab(error,"before")';
+        $script[] = '               }';
+        $script[] = '           }';
         $script[] = '   })';    
 
         $script[] = '   var btnEliminarAdjunto = new Element("button", {';
@@ -113,6 +131,7 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = '               "campo":"campo-adjunto-"+adjuntoCount,';
         $script[] = '               "id":'.$id.'},';
         $script[] = '           images: ["campo-adjunto-"+adjuntoCount],';
+        $script[] = '           onComplete: function (){ console.log("Request")}';
         $script[] = '       });';
         $script[] = '       upload.send();';
         $script[] = '   }';
