@@ -120,13 +120,12 @@
 				var elem = f[i];
 
 				//Do Validation
-				if(!elem.isDisabled) {
-					isFieldValid = self.validateField(elem);
-					// Set focus to first invalid field
-					if(form.isValid && !isFieldValid){
+				if (!self.validateField(elem)) {
+					if (form.isValid) {
 						self.setFocusOn(elem);
 					}
-					form.isValid = isFieldValid && form.isValid;
+
+					form.isValid = false;
 				}
 			}
 			if(self.options.doRenderMessage){
