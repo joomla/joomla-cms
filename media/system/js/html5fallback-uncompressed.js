@@ -153,7 +153,7 @@
 			}
 			elem.validityState = {
 				valueMissing: isMissing,
-				patterMismatch : isPatternMismatched,
+				patternMismatch : isPatternMismatched,
 				valid: (!isMissing && !isPatternMismatched)
 			};
 			if(elem.validityState.valueMissing){
@@ -162,7 +162,7 @@
 			else{
 				$elem.removeClass(self.options.requiredClass);
 			}
-			if(elem.validityState.patterMismatch){
+			if(elem.validityState.patternMismatch){
 				$elem.addClass(self.options.patternClass);
 			}
 			else{
