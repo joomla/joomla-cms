@@ -80,17 +80,17 @@ class PlgSystemDebug extends JPlugin
 	{
 		parent::__construct($subject, $config);
 
+		// Log the deprecated API.
+		if ($this->params->get('log-deprecated'))
+		{
+			JLog::addLogger(array('text_file' => 'deprecated.php'), JLog::ALL, array('deprecated'));
+		}
+		
 		//Skip the plugin if debug is off
 		$app = JFactory::getApplication();
 		if ($app->getCfg('debug_lang') == '0' and $app->getCfg('debug')  == '0')
 		{
 			return;
-		}
-		
-		// Log the deprecated API.
-		if ($this->params->get('log-deprecated'))
-		{
-			JLog::addLogger(array('text_file' => 'deprecated.php'), JLog::ALL, array('deprecated'));
 		}
 
 		$this->debugLang = JFactory::getApplication()->getCfg('debug_lang');
