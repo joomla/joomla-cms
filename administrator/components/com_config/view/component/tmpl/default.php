@@ -56,9 +56,19 @@ JHtml::_('formbehavior.chosen', 'select');
 							if (isset($fieldSet->description) && !empty($fieldSet->description)) :
 								echo '<p class="tab-description">'.JText::_($fieldSet->description).'</p>';
 							endif;
-							foreach ($this->form->getFieldset($name) as $field):
+							foreach ($this->form->getFieldset($name) as $field) :
+								$class	= '';
+								$rel	= '';
+								if ($showon = $field->getAttribute('showon')) :
+									JHtml::_('jquery.framework');
+									JHtml::_('script', 'jui/cms.js', false, true);
+									$id		= $this->form->getFormControl();
+									$showon	= explode(':', $showon, 2);
+									$class	= ' showon_' . implode(' showon_', explode(',', $showon[1]));
+									$rel	= ' rel="showon_' . $id . '['. $showon[0] . ']"';
+								endif;
 						?>
-							<div class="control-group">
+							<div class="control-group<?php echo $class; ?>"<?php echo $rel; ?>>
 						<?php if (!$field->hidden && $name != "permissions") : ?>
 								<div class="control-label">
 									<?php echo $field->label; ?>
