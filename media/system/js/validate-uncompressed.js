@@ -50,6 +50,7 @@ var JFormValidator = new Class({
 
 		this.setHandler('email',
 			function (value) {
+				value = punycode.encode(value);
 				regex=/^[a-zA-Z0-9.!#$%&‚Äô*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 				return regex.test(value);
 			}
