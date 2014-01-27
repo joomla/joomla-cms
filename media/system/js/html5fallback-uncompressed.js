@@ -155,7 +155,7 @@
 			elem.validityState = {
 				valueMissing: isMissing,
 				patterMismatch : isPatternMismatched,
-				valid: (!isMissing && !isPatternMismatched &&  !elem.isDisabled)
+				valid: (!isMissing && !isPatternMismatched)
 			};
 			if(elem.validityState.valueMissing){
 				$elem.addClass(self.options.requiredClass);
