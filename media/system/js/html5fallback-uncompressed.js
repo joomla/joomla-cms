@@ -143,16 +143,19 @@
 			var	self = elem.form.H5Form,
 				$elem = $(elem),
 				isMissing = false,
-				isRequired = !!($(elem).attr("required")),
-				isDisabled = !!($elem.attr("disabled"));
+				isPatternMismatched = false;
+
+			elem.isRequired = !!($elem.attr("required"));
+			elem.isDisabled = !!($elem.attr("disabled"));
+
 			if(!elem.isDisabled){
-				isMissing = !self.browser.isRequiredNative && isRequired && self.isValueMissing(self, elem);
+				isMissing = !self.browser.isRequiredNative && elem.isRequired && self.isValueMissing(self, elem);
 				isPatternMismatched = !self.browser.isPatternNative && self.matchPattern(self, elem);
 			}
 			elem.validityState = {
 				valueMissing: isMissing,
 				patterMismatch : isPatternMismatched,
-				valid: (!isMissing && !isPatternMismatched &&  !isDisabled)
+				valid: (!isMissing && !isPatternMismatched &&  !elem.isDisabled)
 			};
 			if(elem.validityState.valueMissing){
 				$elem.addClass(self.options.requiredClass);
@@ -175,7 +178,7 @@
 			else{
 				$elem.removeClass(self.options.invalidClass);
 				var $labelref = self.findLabel($elem);
-				$labelref.removeClass(self.options.invalidClass)
+				$labelref.removeClass(self.options.invalidClass);
 				$labelref.attr('aria-invalid', 'false');
 			}
 			return elem.validityState.valid;
@@ -184,7 +187,7 @@
 		isValueMissing : function(self, elem){
 			var $elem = $(elem),
 				node = /^(input|textarea|select)$/i,
-	            ignoredType = /^submit$/i,
+				ignoredType = /^submit$/i,
 				val = $elem.val(),
 				type = elem.type !== undefined ? elem.type : elem.tagName.toLowerCase(),
 				specialTypes = /^(checkbox|radio|fieldset)$/i;
