@@ -27,7 +27,7 @@ class AdminControllerProfile extends JControllerForm
 	 * @param   string  $key   The name of the key for the primary key.
 	 *
 	 * @return  boolean
-     *
+	 *
 	 * @since   1.6
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
@@ -36,15 +36,15 @@ class AdminControllerProfile extends JControllerForm
 	}
 
 	/**
-     * Overrides parent save method to check the submitted passwords match.
-     *
-     * @param   string  $key     The name of the primary key of the URL variable.
-     * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
-     *
-     * @return  boolean  True if successful, false otherwise.
-     *
-     * @since   3.2
-     */
+	 * Overrides parent save method to check the submitted passwords match.
+	 *
+	 * @param   string  $key     The name of the primary key of the URL variable.
+	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+	 *
+	 * @return  boolean  True if successful, false otherwise.
+	 *
+	 * @since   3.2
+	 */
 	public function save($key = null, $urlVar = null)
 	{
 		$this->setRedirect(JRoute::_('index.php?option=com_admin&view=profile&layout=edit&id=' . JFactory::getUser()->id, false));
