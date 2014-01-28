@@ -24,7 +24,7 @@ JHtml::_('bootstrap.tooltip');
 						<i class="icon-remove"></i></button>
 				</div>
 			</div>
-			<div class="clearfix"> </div>
+			<div class="clearfix"></div>
 			<div class="sidebar-nav">
 				<ul class="nav nav-list">
 					<li><?php echo JHtml::_('link', JHelp::createUrl('JHELP_START_HERE'), JText::_('COM_ADMIN_START_HERE'), array('target' => 'helpFrame')) ?></li>
