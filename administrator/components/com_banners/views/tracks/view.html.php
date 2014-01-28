@@ -43,7 +43,7 @@ class BannersViewTracks extends JViewLegacy
 		BannersHelper::addSubmenu('tracks');
 
 		$this->addToolbar();
-		require_once JPATH_COMPONENT .'/models/fields/bannerclient.php';
+		require_once JPATH_COMPONENT . '/models/fields/bannerclient.php';
 		$this->sidebar = JHtmlSidebar::render();
 		parent::display($tpl);
 	}
@@ -55,9 +55,9 @@ class BannersViewTracks extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		require_once JPATH_COMPONENT.'/helpers/banners.php';
+		require_once JPATH_COMPONENT . '/helpers/banners.php';
 
-		$canDo	= JHelperContent::getActions($this->state->get('filter.category_id'), 0, 'com_banners');
+		$canDo = JHelperContent::getActions($this->state->get('filter.category_id'), 0, 'com_banners');
 
 		JToolbarHelper::title(JText::_('COM_BANNERS_MANAGER_TRACKS'), 'bookmark banners-tracks');
 
