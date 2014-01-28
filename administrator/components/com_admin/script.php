@@ -246,10 +246,12 @@ class JoomlaInstallerScript
 
 		foreach ($extensions as $extension)
 		{
-			$query->where('type=' . $db->quote($extension[0])
+			$query->where(
+				'type=' . $db->quote($extension[0])
 				. ' AND element=' . $db->quote($extension[1])
 				. ' AND folder=' . $db->quote($extension[2])
-				. ' AND client_id=' . $extension[3], 'OR');
+				. ' AND client_id=' . $extension[3], 'OR'
+			);
 		}
 
 		$db->setQuery($query);
