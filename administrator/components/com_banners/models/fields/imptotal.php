@@ -41,9 +41,10 @@ class JFormFieldImpTotal extends JFormField
 		$value		= empty($this->value) ? '' : $this->value;
 		$checked	= empty($this->value) ? ' checked="checked"' : '';
 
-		return '<input type="text" name="' . $this->name . '" id="' . $this->id . '" size="9" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8')
-			. '" ' . $class . $onchange . ' />
-			<fieldset class="checkboxes impunlimited"><input id="' . $this->id . '_unlimited" type="checkbox"' . $checked . $onclick . ' />
-			<label for="' . $this->id . '_unlimited" id="jform-imp" type="text">' . JText::_('COM_BANNERS_UNLIMITED') . '</label></fieldset>';
+		return
+			'<input type="text" name="' . $this->name . '" id="' . $this->id . '" size="9" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8')
+			. '" ' . $class . $onchange . ' />'
+			. '<fieldset class="checkboxes impunlimited"><input id="' . $this->id . '_unlimited" type="checkbox"' . $checked . $onclick . ' />'
+			. '<label for="' . $this->id . '_unlimited" id="jform-imp" type="text">' . JText::_('COM_BANNERS_UNLIMITED') . '</label></fieldset>';
 	}
 }
