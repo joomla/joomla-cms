@@ -29,7 +29,7 @@ class BannersController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		require_once JPATH_COMPONENT.'/helpers/banners.php';
+		require_once JPATH_COMPONENT . '/helpers/banners.php';
 		BannersHelper::updateReset();
 
 		$view   = $this->input->get('view', 'banners');
