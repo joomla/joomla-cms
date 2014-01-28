@@ -78,12 +78,14 @@ class BannersControllerBanners extends JControllerAdmin
 			{
 				JError::raiseWarning(500, $model->getError());
 			}
-			else {
+			else
+			{
 				if ($value == 1)
 				{
 					$ntext = 'COM_BANNERS_N_BANNERS_STUCK';
 				}
-				else {
+				else
+				{
 					$ntext = 'COM_BANNERS_N_BANNERS_UNSTUCK';
 				}
 				$this->setMessage(JText::plural($ntext, count($ids)));
