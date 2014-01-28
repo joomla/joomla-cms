@@ -85,7 +85,7 @@ class PlgSystemDebug extends JPlugin
 		{
 			JLog::addLogger(array('text_file' => 'deprecated.php'), JLog::ALL, array('deprecated'));
 		}
-		
+
 		// Skip the plugin if debug is off
 		$app = JFactory::getApplication();
 		if ($app->getCfg('debug_lang') == '0' && $app->getCfg('debug') == '0')
