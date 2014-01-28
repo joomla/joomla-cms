@@ -33,8 +33,8 @@ class BannersTableBanner extends JTable
 	public function clicks()
 	{
 		$query = 'UPDATE #__banners'
-			. ' SET clicks = (clicks + 1)'
-			. ' WHERE id = ' . (int) $this->id;
+		. ' SET clicks = (clicks + 1)'
+		. ' WHERE id = ' . (int) $this->id;
 
 		$this->_db->setQuery($query);
 		$this->_db->execute();
