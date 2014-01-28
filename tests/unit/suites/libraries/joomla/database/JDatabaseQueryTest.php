@@ -1302,22 +1302,26 @@ class JDatabaseQueryTest extends TestCase
 			'Tests chaining.'
 		);
 
-		$this->assertThat(
+		$this->assertEquals(
+			'SET foo = 1',
 			trim(TestReflection::getValue($this->_instance, 'set')),
-			$this->identicalTo('SET foo = 1'),
 			'Tests set with a string.'
 		);
 
 		$this->_instance->set('bar = 2');
-		$this->assertEquals("SET foo = 1" . PHP_EOL . "\t, bar = 2", trim(TestReflection::getValue($this->_instance, 'set')), 'Tests appending with set().');
+		$this->assertEquals(
+			"SET foo = 1\n\t, bar = 2",
+			trim(TestReflection::getValue($this->_instance, 'set')),
+			'Tests appending with set().'
+		);
 
 		// Clear the set.
 		TestReflection::setValue($this->_instance, 'set', null);
 		$this->_instance->set(array('foo = 1', 'bar = 2'));
 
-		$this->assertThat(
+		$this->assertEquals(
+			"SET foo = 1\n\t, bar = 2",
 			trim(TestReflection::getValue($this->_instance, 'set')),
-			$this->identicalTo("SET foo = 1" . PHP_EOL . "\t, bar = 2"),
 			'Tests set with an array.'
 		);
 
@@ -1325,9 +1329,9 @@ class JDatabaseQueryTest extends TestCase
 		TestReflection::setValue($this->_instance, 'set', null);
 		$this->_instance->set(array('foo = 1', 'bar = 2'), ';');
 
-		$this->assertThat(
+		$this->assertEquals(
+			"SET foo = 1\n\t; bar = 2",
 			trim(TestReflection::getValue($this->_instance, 'set')),
-			$this->identicalTo("SET foo = 1" . PHP_EOL . "\t; bar = 2"),
 			'Tests set with an array and glue.'
 		);
 	}
