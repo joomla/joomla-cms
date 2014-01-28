@@ -43,8 +43,8 @@ class JFeedFactory
 		// Open the URI within the stream reader.
 		if (!$reader->open($uri, null, LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_NOWARNING))
 		{
-			// IF allow_url_fopen is enabled
-			if( ini_get('allow_url_fopen'))
+			// If allow_url_fopen is enabled
+			if (ini_get('allow_url_fopen'))
 			{
 				// This is an error
 				throw new RuntimeException('Unable to open the feed.');
@@ -52,12 +52,12 @@ class JFeedFactory
 			// Otherwise, 
 			else
 			{
-				// retry with JHttpFactory that allow using CURL and Sockets as alternative method when available
+				// Retry with JHttpFactory that allow using CURL and Sockets as alternative method when available
 				$connector = JHttpFactory::getHttp();
 				$feed = $connector->get($uri);
 				
 				// Set the value to the XMLReader parser
-				if ( !$reader->xml( $feed->body, null, LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_NOWARNING))
+				if (!$reader->xml($feed->body, null, LIBXML_NOERROR | LIBXML_ERR_NONE | LIBXML_NOWARNING))
 				{
 					throw new RuntimeException('Unable to parse the feed.');
 				}
