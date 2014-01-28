@@ -48,7 +48,7 @@ class BannersControllerTracks extends JControllerLegacy
 	 *
 	 * @return  JController  This object to support chaining.
 	 * @since   1.5
-	 * @todo    his should be done as a view, not here!
+	 * @todo    This should be done as a view, not here!
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
