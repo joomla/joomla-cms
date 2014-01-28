@@ -24,6 +24,11 @@ $published = $this->state->get('filter.published');
 					<?php echo JHtml::_('batch.tag'); ?>
 				</div>
 			</div>
+			<div class="control-group">
+				<div class="controls">
+					<?php echo JHtml::_('batch.language'); ?>
+				</div>
+			</div>
 		</div>
 		<div style="float: right; width: 50%;">
 			<div class="control-group">
