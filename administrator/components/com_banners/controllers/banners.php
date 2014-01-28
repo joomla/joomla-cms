@@ -35,7 +35,7 @@ class BannersControllerBanners extends JControllerAdmin
 	{
 		parent::__construct($config);
 
-		$this->registerTask('sticky_unpublish',	'sticky_publish');
+		$this->registerTask('sticky_unpublish', 'sticky_publish');
 	}
 
 	/**
@@ -68,7 +68,7 @@ class BannersControllerBanners extends JControllerAdmin
 		else
 		{
 			// Get the model.
-			$model	= $this->getModel();
+			$model = $this->getModel();
 
 			// Change the state of the records.
 			if (!$model->stick($ids, $value))
