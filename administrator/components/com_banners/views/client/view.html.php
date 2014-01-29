@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('BannersHelper', JPATH_COMPONENT.'/helpers/banners.php');
+JLoader::register('BannersHelper', JPATH_COMPONENT . '/helpers/banners.php');
 
 /**
  * View to edit a client.
@@ -69,7 +69,7 @@ class BannersViewClient extends JViewLegacy
 		JToolbarHelper::title($isNew ? JText::_('COM_BANNERS_MANAGER_CLIENT_NEW') : JText::_('COM_BANNERS_MANAGER_CLIENT_EDIT'), 'bookmark banners-clients');
 
 		// If not checked out, can save the item.
-		if (!$checkedOut && ($canDo->get('core.edit')||$canDo->get('core.create')))
+		if (!$checkedOut && ($canDo->get('core.edit') || $canDo->get('core.create')))
 		{
 			JToolbarHelper::apply('client.apply');
 			JToolbarHelper::save('client.save');
