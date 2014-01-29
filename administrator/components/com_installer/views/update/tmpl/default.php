@@ -19,13 +19,11 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 <div id="installer-update">
 	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=update');?>" method="post" name="adminForm" id="adminForm">
 	<?php if (!empty($this->sidebar)) : ?>
-		<div id="j-sidebar-container" class="span2">
-			<?php echo $this->sidebar; ?>
-		</div>
-		<div id="j-main-container" class="span10">
-	<?php else : ?>
-		<div id="j-main-container">
+	<div id="j-sidebar-container" class="span2">
+		<?php echo $this->sidebar; ?>
+	</div>
 	<?php endif; ?>
+	<div id="j-main-container"<?php echo !empty($this->sidebar) ? ' class="span10"' : ''; ?>>
 
 	<?php if ($this->showMessage) : ?>
 		<div class="alert alert-info">
