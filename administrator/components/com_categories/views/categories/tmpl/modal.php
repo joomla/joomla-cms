@@ -81,7 +81,15 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<?php echo JHtml::_('grid.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 			</th>
 			<th width="5%" class="nowrap hidden-phone">
-				<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_LANGUAGE', 'language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
+				<?php
+				echo JHtml::_(
+					'grid.sort',
+					'JGRID_HEADING_LANGUAGE',
+					'language',
+					$this->state->get('list.direction'),
+					$this->state->get('list.ordering')
+				);
+				?>
 			</th>
 				<th width="1%" class="nowrap hidden-phone">
 					<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
