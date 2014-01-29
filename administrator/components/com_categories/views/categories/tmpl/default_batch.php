@@ -23,34 +23,36 @@ $extension = $this->escape($this->state->get('filter.extension'));
 		<button type="button" class="close" data-dismiss="modal">&#215;</button>
 		<h3><?php echo JText::_('COM_CATEGORIES_BATCH_OPTIONS'); ?></h3>
 	</div>
-	<div class="modal-body" style="max-height: 440px; height: 440px;">
-		<p><?php echo JText::_('COM_CATEGORIES_BATCH_TIP'); ?></p>
-		<div style="float: left; width: 50%;">
-			<div class="control-group">
+	<div class="modal-body modal-batch row-fluid">
+		<p class="span12">
+			<?php echo JText::_('COM_CATEGORIES_BATCH_TIP'); ?>
+		</p>
+		<div class="row-fluid">
+			<div class="control-group span6">
 				<div class="controls">
 					<?php echo JHtml::_('batch.language'); ?>
 				</div>
 			</div>
-			<div class="control-group">
+			<div class="control-group span6">
 				<div class="controls">
 					<?php echo JHtml::_('batch.tag'); ?>
 				</div>
 			</div>
 		</div>
-		<div style="float: right; width: 50%;">
-			<div class="control-group">
+		<div class="row-fluid">
+			<div class="control-group span6">
 				<div class="controls">
 					<?php echo JHtml::_('batch.access'); ?>
 				</div>
 			</div>
 			<?php if ($published >= 0) : ?>
-				<div class="control-group">
+				<div class="control-group span6">
 					<label id="batch-choose-action-lbl" for="batch-category-id" class="control-label">
 						<?php echo JText::_('COM_CATEGORIES_BATCH_CATEGORY_LABEL'); ?>
 					</label>
 					<div id="batch-choose-action" class="combo controls">
 						<select name="batch[category_id]" class="inputbox" id="batch-category-id">
-							<option value=""><?php echo JText::_('JSELECT'); ?></option>
+							<option value=""><?php echo JText::_('JSELECT') ?></option>
 							<?php echo JHtml::_('select.options', JHtml::_('category.categories', $extension, array('filter.published' => $published))); ?>
 						</select>
 					</div>
