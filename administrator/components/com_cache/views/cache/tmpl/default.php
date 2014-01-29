@@ -21,7 +21,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 		<?php echo $this->sidebar; ?>
 	</div>
 	<?php endif; ?>
-	<div id="j-main-container"<?php echo empty($this->sidebar) ? '' : ' class="span10"'; ?>>
+	<div id="j-main-container"<?php echo !empty($this->sidebar) ? ' class="span10"' : ''; ?>>
   	<table class="table table-striped">
   		<thead>
   			<tr>
