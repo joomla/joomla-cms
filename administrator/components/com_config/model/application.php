@@ -199,13 +199,6 @@ class ConfigModelApplication extends ConfigModelForm
 			$data['caching'] = 0;
 		}
 
-		// Clean the cache if disabled but previously enabled.
-		if (!$data['caching'] && $prev['caching'])
-		{
-			$cache = JFactory::getCache();
-			$cache->clean();
-		}
-
 		// Create the new configuration object.
 		$config = new JRegistry('config');
 		$config->loadArray($data);
@@ -219,12 +212,22 @@ class ConfigModelApplication extends ConfigModelForm
 		$temp->set('ftp_pass', $data['ftp_pass']);
 		$temp->set('ftp_root', $data['ftp_root']);
 
-		// Clear cache of com_config component.
-		$this->cleanCache('_system', 0);
-		$this->cleanCache('_system', 1);
-
 		// Write the configuration file.
-		return $this->writeConfigFile($config);
+		$result = $this->writeConfigFile($config);
+
+		// Clean the cache if disabled but previously enabled.
+		if (!$data['caching'] && $prev['caching'])
+		{
+			$cache = JFactory::getCache();
+			// Don't let cache cleaning errors stop us
+			@$cache->clean();
+		}
+
+		// Clear cache of com_config component if we can
+		@$this->cleanCache('_system', 0);
+		@$this->cleanCache('_system', 1);
+
+		return $result;
 	}
 
 	/**
