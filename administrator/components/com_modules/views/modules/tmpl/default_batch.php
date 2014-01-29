@@ -33,23 +33,25 @@ $attr = array(
 		<button type="button" class="close" data-dismiss="modal">&#215;</button>
 		<h3><?php echo JText::_('COM_MODULES_BATCH_OPTIONS'); ?></h3>
 	</div>
-	<div class="modal-body" style="max-height: 440px; height: 440px;">
-		<p><?php echo JText::_('COM_MODULES_BATCH_TIP'); ?></p>
-		<div style="float: left; width: 50%;">
-			<div class="control-group">
+	<div class="modal-body modal-batch row-fluid">
+		<p class="span12">
+			<?php echo JText::_('COM_MODULES_BATCH_TIP'); ?>
+		</p>
+		<div class="row-fluid">
+			<div class="control-group span6">
 				<div class="controls">
 					<?php echo JHtml::_('batch.access'); ?>
 				</div>
 			</div>
-			<div class="control-group">
+			<div class="control-group span6">
 				<div class="controls">
 					<?php echo JHtml::_('batch.language'); ?>
 				</div>
 			</div>
 		</div>
-		<div style="float: right; width: 50%;">
+		<div class="row-fluid">
 			<?php if ($published >= 0) : ?>
-				<div class="control-group">
+				<div class="control-group span6">
 					<div class="controls">
 						<label id="batch-choose-action-lbl" for="batch-choose-action">
 							<?php echo JText::_('COM_MODULES_BATCH_POSITION_LABEL'); ?>
