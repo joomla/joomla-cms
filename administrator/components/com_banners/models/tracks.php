@@ -22,6 +22,7 @@ class BannersModelTracks extends JModelList
 	 * Constructor.
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
 	 * @see     JController
 	 * @since   1.6
 	 */
@@ -97,8 +98,8 @@ class BannersModelTracks extends JModelList
 		// Select the required fields from the table.
 		$query->select(
 			'a.track_date as track_date,'
-				. 'a.track_type as track_type,'
-				. $db->quoteName('a.count') . ' as ' . $db->quoteName('count')
+			. 'a.track_type as track_type,'
+			. $db->quoteName('a.count') . ' as ' . $db->quoteName('count')
 		);
 		$query->from($db->quoteName('#__banner_tracks') . ' AS a');
 
@@ -451,22 +452,22 @@ class BannersModelTracks extends JModelList
 			$this->content = '';
 			$this->content .=
 				'"' . str_replace('"', '""', JText::_('COM_BANNERS_HEADING_NAME')) . '","' .
-					str_replace('"', '""', JText::_('COM_BANNERS_HEADING_CLIENT')) . '","' .
-					str_replace('"', '""', JText::_('JCATEGORY')) . '","' .
-					str_replace('"', '""', JText::_('COM_BANNERS_HEADING_TYPE')) . '","' .
-					str_replace('"', '""', JText::_('COM_BANNERS_HEADING_COUNT')) . '","' .
-					str_replace('"', '""', JText::_('JDATE')) . '"' . "\n";
+				str_replace('"', '""', JText::_('COM_BANNERS_HEADING_CLIENT')) . '","' .
+				str_replace('"', '""', JText::_('JCATEGORY')) . '","' .
+				str_replace('"', '""', JText::_('COM_BANNERS_HEADING_TYPE')) . '","' .
+				str_replace('"', '""', JText::_('COM_BANNERS_HEADING_COUNT')) . '","' .
+				str_replace('"', '""', JText::_('JDATE')) . '"' . "\n";
 
 			foreach ($this->getItems() as $item)
 			{
 
 				$this->content .=
 					'"' . str_replace('"', '""', $item->name) . '","' .
-						str_replace('"', '""', $item->client_name) . '","' .
-						str_replace('"', '""', $item->category_title) . '","' .
-						str_replace('"', '""', ($item->track_type == 1 ? JText::_('COM_BANNERS_IMPRESSION') : JText::_('COM_BANNERS_CLICK'))) . '","' .
-						str_replace('"', '""', $item->count) . '","' .
-						str_replace('"', '""', $item->track_date) . '"' . "\n";
+					str_replace('"', '""', $item->client_name) . '","' .
+					str_replace('"', '""', $item->category_title) . '","' .
+					str_replace('"', '""', ($item->track_type == 1 ? JText::_('COM_BANNERS_IMPRESSION') : JText::_('COM_BANNERS_CLICK'))) . '","' .
+					str_replace('"', '""', $item->count) . '","' .
+					str_replace('"', '""', $item->track_date) . '"' . "\n";
 			}
 
 			if ($this->getState('compressed'))
