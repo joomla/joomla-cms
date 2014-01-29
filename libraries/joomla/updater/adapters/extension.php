@@ -104,7 +104,7 @@ class JUpdaterExtension extends JUpdateAdapter
 					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || $ver->DEV_LEVEL <= $this->currentUpdate->targetplatform->max_dev_level))
 				{
 					// Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
-					if (!isset($this->currentUpdate->php_minimum) || version_compare(PHP_VERSION, $this->currentUpdate->php_minimum, '>='))
+					if (!isset($this->currentUpdate->php_minimum) || version_compare(PHP_VERSION, $this->currentUpdate->php_minimum->_data, '>='))
 					{
 						$phpMatch = true;
 					}
@@ -115,7 +115,7 @@ class JUpdaterExtension extends JUpdateAdapter
 							'JLIB_INSTALLER_AVAILABLE_UPDATE_PHP_VERSION',
 							$this->currentUpdate->name,
 							$this->currentUpdate->version,
-							$this->currentUpdate->php_minimum,
+							$this->currentUpdate->php_minimum->_data,
 							PHP_VERSION
 						);
 
