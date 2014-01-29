@@ -18,7 +18,6 @@ $published = $this->state->get('filter.published');
 	</div>
 	<div class="modal-body">
 		<p><?php echo JText::_('COM_BANNERS_BATCH_TIP'); ?></p>
-
 		<div class="control-group">
 			<div class="controls">
 				<?php echo JHtml::_('banner.clients'); ?>
