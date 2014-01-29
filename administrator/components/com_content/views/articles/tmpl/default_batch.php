@@ -13,31 +13,33 @@ $published = $this->state->get('filter.published');
 ?>
 <div class="modal hide fade" id="collapseModal">
 	<div class="modal-header">
-		<button type="button" role="presentation" class="close" data-dismiss="modal">&#215;</button>
+		<button type="button" class="close" data-dismiss="modal">&#215;</button>
 		<h3><?php echo JText::_('COM_CONTENT_BATCH_OPTIONS'); ?></h3>
 	</div>
-	<div class="modal-body" style="max-height: 455px; height: 455px;">
-		<p><?php echo JText::_('COM_CONTENT_BATCH_TIP'); ?></p>
-		<div style="float: left; width: 50%;">
-			<div class="control-group">
+	<div class="modal-body modal-batch row-fluid">
+		<p class="span12">
+			<?php echo JText::_('COM_CONTENT_BATCH_TIP'); ?>
+		</p>
+		<div class="row-fluid">
+			<div class="control-group span6">
 				<div class="controls">
 					<?php echo JHtml::_('batch.tag'); ?>
 				</div>
 			</div>
-			<div class="control-group">
+			<div class="control-group span6">
 				<div class="controls">
 					<?php echo JHtml::_('batch.language'); ?>
 				</div>
 			</div>
 		</div>
-		<div style="float: right; width: 50%;">
-			<div class="control-group">
+		<div class="row-fluid">
+			<div class="control-group span6">
 				<div class="controls">
 					<?php echo JHtml::_('batch.access'); ?>
 				</div>
 			</div>
 			<?php if ($published >= 0) : ?>
-				<div class="control-group">
+				<div class="control-group span6">
 					<div class="controls">
 						<?php echo JHtml::_('batch.item', 'com_content'); ?>
 					</div>
