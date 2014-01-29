@@ -20,21 +20,23 @@ $published = $this->state->get('filter.published');
 		<button type="button" class="close" data-dismiss="modal">&#215;</button>
 		<h3><?php echo JText::_('COM_MENUS_BATCH_OPTIONS'); ?></h3>
 	</div>
-	<div class="modal-body" style="max-height: 440px; height: 440px;">
-		<p><?php echo JText::_('COM_MENUS_BATCH_TIP'); ?></p>
-		<div style="float: left; width: 50%;">
-			<div class="control-group">
+	<div class="modal-body modal-batch row-fluid">
+		<p class="span12">
+			<?php echo JText::_('COM_MENUS_BATCH_TIP'); ?>
+		</p>
+		<div class="row-fluid">
+            <div class="control-group span6">
 				<div class="controls">
 					<?php echo JHtml::_('batch.access'); ?>
 				</div>
 			</div>
-			<div class="control-group">
+			<div class="control-group span6">
 				<div class="controls">
 					<?php echo JHtml::_('batch.language'); ?>
 				</div>
 			</div>
 		</div>
-		<div style="float: right; width: 50%;">
+		<div class="row-fluid">
 			<?php if ($published >= 0) : ?>
 				<div id="batch-choose-action" class="combo control-group">
 					<label id="batch-choose-action-lbl" class="control-label" for="batch-choose-action">
@@ -42,7 +44,7 @@ $published = $this->state->get('filter.published');
 					</label>
 					<div class="controls">
 						<select name="batch[menu_id]" class="inputbox" id="batch-menu-id">
-							<option value=""><?php echo JText::_('JSELECT'); ?></option>
+							<option value=""><?php echo JText::_('JSELECT') ?></option>
 							<?php echo JHtml::_('select.options', JHtml::_('menu.menuitems', array('published' => $published))); ?>
 						</select>
 					</div>
