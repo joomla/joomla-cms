@@ -29,26 +29,32 @@ class JDocumentRendererMessage extends JDocumentRenderer
 	 *
 	 * @since   11.1
 	 */
-	public function render($name, $params = array (), $content = null)
+	public function render($name, $params = array(), $content = null)
 	{
 		$msgList = $this->getData();
-		$buffer = null;
+		$displayData = array(
+			'msgList' => $msgList,
+			'name' => $name,
+			'params' => $params,
+			'content' => $content
+		);
+
 		$app = JFactory::getApplication();
 		$chromePath = JPATH_THEMES . '/' . $app->getTemplate() . '/html/message.php';
-		$itemOverride = false;
 
 		if (file_exists($chromePath))
 		{
 			include_once $chromePath;
-			if (function_exists('renderMessage'))
-			{
-				$itemOverride = true;
-			}
 		}
 
-		$buffer = ($itemOverride) ? renderMessage($msgList) : JLayoutHelper::render('joomla.system.message', array('msgList' => $msgList));
+		if (function_exists('renderMessage'))
+		{
+			JLog::add('renderMessage() is deprecated. Override system message rendering with layouts instead.', JLog::WARNING, 'deprecated');
 
-		return $buffer;
+			return renderMessage($msgList);
+		}
+
+		return JLayoutHelper::render('joomla.system.message', $displayData);
 	}
 
 	/**
