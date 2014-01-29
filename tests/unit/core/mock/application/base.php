@@ -12,7 +12,7 @@
  * @package  Joomla.Test
  * @since    12.1
  */
-class TestMockApplicationWeb
+class TestMockApplicationBase
 {
 	/**
 	 * Creates and instance of the mock JApplicationBase object.

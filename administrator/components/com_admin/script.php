@@ -128,6 +128,7 @@ class JoomlaInstallerScript
 		$extensions[] = array('library', 'joomla', '', 0);
 		$extensions[] = array('library', 'idna_convert', '', 0);
 		$extensions[] = array('library', 'fof', '', 0);
+		$extensions[] = array('library', 'phpass', '', 0);
 
 		// Modules site
 		// Site
@@ -245,10 +246,12 @@ class JoomlaInstallerScript
 
 		foreach ($extensions as $extension)
 		{
-			$query->where('type=' . $db->quote($extension[0])
+			$query->where(
+				'type=' . $db->quote($extension[0])
 				. ' AND element=' . $db->quote($extension[1])
 				. ' AND folder=' . $db->quote($extension[2])
-				. ' AND client_id=' . $extension[3], 'OR');
+				. ' AND client_id=' . $extension[3], 'OR'
+			);
 		}
 
 		$db->setQuery($query);
@@ -1120,12 +1123,12 @@ class JoomlaInstallerScript
 	{
 		// List all components added since 1.6
 		$newComponents = array(
-				'com_finder',
-				'com_joomlaupdate',
-				'com_tags',
-				'com_contenthistory',
-				'com_ajax',
-				'com_postinstall'
+			'com_finder',
+			'com_joomlaupdate',
+			'com_tags',
+			'com_contenthistory',
+			'com_ajax',
+			'com_postinstall'
 		);
 
 		foreach ($newComponents as $component)
