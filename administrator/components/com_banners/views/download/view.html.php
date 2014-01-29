@@ -19,6 +19,7 @@ defined('_JEXEC') or die;
 class BannersViewDownload extends JViewLegacy
 {
 	protected $form;
+
 	/**
 	 * Display the view
 	 */
