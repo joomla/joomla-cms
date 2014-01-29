@@ -133,17 +133,17 @@ abstract class JHtmlSelect
 	 * Method to build a list with suggestions
 	 *
 	 * @param   array    $data       An array of objects, arrays, or values.
+	 * @param   mixed    $idtag      Value of the field id or null by default
 	 * @param   string   $optKey     The name of the object variable for the option value. If
 	 *                               set to null, the index of the value array is used.
-	 * @param   string   $optText    The name of the object variable for the option text.
-	 * @param   mixed    $idtag      Value of the field id or null by default
+	 * @param   string   $optText    The name of the object variable for the option text.	 *
 	 * @param   boolean  $translate  True to translate
 	 *
 	 * @return  string  HTML for the select list
 	 *
 	 * @since   3.2
 	 */
-	public static function suggestionlist($data, $optKey = 'value', $optText = 'text', $idtag, $translate = false)
+	public static function suggestionlist($data, $idtag, $optKey = 'value', $optText = 'text', $translate = false)
 	{
 		// Set default options
 		$options = array_merge(JHtml::$formatOptions, array('format.depth' => 0, 'id' => false));
