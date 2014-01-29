@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.languagefilter
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 
-JLoader::register('MultilangstatusHelper', JPATH_ADMINISTRATOR.'/components/com_languages/helpers/multilangstatus.php');
+JLoader::register('MultilangstatusHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/multilangstatus.php');
 
 /**
  * Joomla! Language Filter Plugin
@@ -214,7 +214,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				|| $this->params->get('detect_browser', 1) && JLanguageHelper::detectLanguage() != self::$tag && !self::$cookie
 			)
 			{
-				$uri->setPath($uri->getPath().'/'.$sef.'/');
+				$uri->setPath($uri->getPath() . '/' . $sef . '/');
 			}
 			else
 			{
@@ -266,12 +266,12 @@ class PlgSystemLanguageFilter extends JPlugin
 
 						if ($app->getCfg('sef_rewrite'))
 						{
-							$app->redirect($uri->base().$uri->toString(array('path', 'query', 'fragment')));
+							$app->redirect($uri->base() . $uri->toString(array('path', 'query', 'fragment')));
 						}
 						else
 						{
 							$path = $uri->toString(array('path', 'query', 'fragment'));
-							$app->redirect($uri->base().'index.php'.($path ? ('/' . $path) : ''));
+							$app->redirect($uri->base() . 'index.php'.($path ? ('/' . $path) : ''));
 						}
 					}
 				}
@@ -290,7 +290,7 @@ class PlgSystemLanguageFilter extends JPlugin
 						else
 						{
 							$path = $uri->toString(array('path', 'query', 'fragment'));
-							$app->redirect($uri->base().'index.php'.($path ? ('/' . $path) : ''));
+							$app->redirect($uri->base() . 'index.php'.($path ? ('/' . $path) : ''));
 						}
 					}
 					// redirect if sef is the default one
@@ -309,7 +309,7 @@ class PlgSystemLanguageFilter extends JPlugin
 						else
 						{
 							$path = $uri->toString(array('path', 'query', 'fragment'));
-							$app->redirect($uri->base().'index.php'.($path ? ('/' . $path) : ''));
+							$app->redirect($uri->base() . 'index.php' . ($path ? ('/' . $path) : ''));
 						}
 					}
 				}
@@ -404,7 +404,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			{
 				if ($app->isSite())
 				{
-					$app->setUserState('com_users.edit.profile.redirect', 'index.php?Itemid='.$app->getMenu()->getDefault($lang_code)->id.'&lang='.self::$lang_codes[$lang_code]->sef);
+					$app->setUserState('com_users.edit.profile.redirect', 'index.php?Itemid=' . $app->getMenu()->getDefault($lang_code)->id . '&lang=' . self::$lang_codes[$lang_code]->sef);
 					self::$tag = $lang_code;
 					// Create a cookie
 					$conf = JFactory::getConfig();
@@ -467,12 +467,12 @@ class PlgSystemLanguageFilter extends JPlugin
 				if (isset($associations[$lang_code]) && $menu->getItem($associations[$lang_code]))
 				{
 					$itemid = $associations[$lang_code];
-					$app->setUserState('users.login.form.return', 'index.php?&Itemid='.$itemid);
+					$app->setUserState('users.login.form.return', 'index.php?&Itemid=' . $itemid);
 				}
 				else
 				{
 					$itemid = isset(self::$homes[$lang_code]) ? self::$homes[$lang_code]->id : self::$homes['*']->id;
-					$app->setUserState('users.login.form.return', 'index.php?&Itemid='.$itemid);
+					$app->setUserState('users.login.form.return', 'index.php?&Itemid=' . $itemid);
 				}
 			}
 		}
@@ -505,21 +505,21 @@ class PlgSystemLanguageFilter extends JPlugin
 				// Get menu item link
 				if ($app->getCfg('sef'))
 				{
-					$active_link = JRoute::_('index.php?Itemid='.$active->id, false);
+					$active_link = JRoute::_('index.php?Itemid=' . $active->id, false);
 				}
 				else
 				{
-					$active_link = JRoute::_($active->link.'&Itemid='.$active->id, false);
+					$active_link = JRoute::_($active->link.'&Itemid=' . $active->id, false);
 				}
 
-				if ($active_link == JUri::base(true).'/')
+				if ($active_link == JUri::base(true) . '/')
 				{
 					$active_link .= 'index.php';
 				}
 
 				// Get current link
 				$current_link = JUri::getInstance()->toString(array('path', 'query'));
-				if ($current_link == JUri::base(true).'/')
+				if ($current_link == JUri::base(true) . '/')
 				{
 					$current_link .= 'index.php';
 				}
@@ -576,11 +576,11 @@ class PlgSystemLanguageFilter extends JPlugin
 						{
 							if ($app->getCfg('sef'))
 							{
-								$link = JRoute::_('index.php?Itemid='.$item->id.'&lang='.$language->sef);
+								$link = JRoute::_('index.php?Itemid=' . $item->id . '&lang='.$language->sef);
 							}
 							else
 							{
-								$link = JRoute::_($item->link.'&Itemid='.$item->id.'&lang='.$language->sef);
+								$link = JRoute::_($item->link . '&Itemid=' . $item->id . '&lang='.$language->sef);
 							}
 							$doc->addHeadLink($server . $link, 'alternate', 'rel', array('hreflang' => $language->lang_code));
 						}
@@ -604,11 +604,11 @@ class PlgSystemLanguageFilter extends JPlugin
 					{
 						if ($app->getCfg('sef'))
 						{
-							$link = JRoute::_('index.php?Itemid='.$item->id.'&lang='.$language->sef);
+							$link = JRoute::_('index.php?Itemid=' . $item->id . '&lang=' . $language->sef);
 						}
 						else
 						{
-							$link = JRoute::_($item->link.'&Itemid='.$item->id.'&lang='.$language->sef);
+							$link = JRoute::_($item->link.'&Itemid=' . $item->id . '&lang=' . $language->sef);
 						}
 						$doc->addHeadLink($server . $link, 'alternate', 'rel', array('hreflang' => $language->lang_code));
 					}

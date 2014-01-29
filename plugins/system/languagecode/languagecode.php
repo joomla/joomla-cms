@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.languagecode
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -91,9 +91,6 @@ class PlgSystemLanguagecode extends JPlugin
 	 */
 	public function onContentPrepareForm($form, $data)
 	{
-		// Ensure that data is an object
-		$data = (object) $data;
-
 		// Check we have a form
 		if (!($form instanceof JForm))
 		{
@@ -101,18 +98,11 @@ class PlgSystemLanguagecode extends JPlugin
 			return false;
 		}
 
-		// Check we are manipulating a valid form.
-		$app = JFactory::getApplication();
-		if ($form->getName() != 'com_plugins.plugin'
-			|| isset($data->name) && $data->name != 'plg_system_languagecode'
-			|| empty($data) && !$app->getUserState('plg_system_language_code.edit')
-		)
+		// Check we are manipulating the languagecode plugin.
+		if ($form->getName() != 'com_plugins.plugin' || !$form->getField('languagecodeplugin', 'params'))
 		{
 			return true;
 		}
-
-		// Mark the plugin as being edited
-		$app->setUserState('plg_system_language_code.edit', $data->name == 'plg_system_languagecode');
 
 		// Get site languages
 		if ($languages = JLanguage::getKnownLanguages(JPATH_SITE))

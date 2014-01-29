@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -194,7 +194,7 @@ class JPath
 	 */
 	public static function clean($path, $ds = DIRECTORY_SEPARATOR)
 	{
-		if (!is_string($path))
+		if (!is_string($path) && !empty($path))
 		{
 			throw new UnexpectedValueException('JPath::clean: $path is not a string.');
 		}

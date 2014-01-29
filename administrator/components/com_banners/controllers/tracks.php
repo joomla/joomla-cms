@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -58,19 +58,19 @@ class BannersControllerTracks extends JControllerLegacy
 		// Load the filter state.
 		$app = JFactory::getApplication();
 
-		$type = $app->getUserState($this->context.'.filter.type');
+		$type = $app->getUserState($this->context . '.filter.type');
 		$model->setState('filter.type', $type);
 
-		$begin = $app->getUserState($this->context.'.filter.begin');
+		$begin = $app->getUserState($this->context . '.filter.begin');
 		$model->setState('filter.begin', $begin);
 
-		$end = $app->getUserState($this->context.'.filter.end');
+		$end = $app->getUserState($this->context . '.filter.end');
 		$model->setState('filter.end', $end);
 
-		$categoryId = $app->getUserState($this->context.'.filter.category_id');
+		$categoryId = $app->getUserState($this->context . '.filter.category_id');
 		$model->setState('filter.category_id', $categoryId);
 
-		$clientId = $app->getUserState($this->context.'.filter.client_id');
+		$clientId = $app->getUserState($this->context . '.filter.client_id');
 		$model->setState('filter.client_id', $clientId);
 
 		$model->setState('list.limit', 0);
