@@ -361,15 +361,15 @@ abstract class JHtmlBootstrap
 		// Include Bootstrap framework
 		static::framework();
 
-		$opt['animation'] 	= isset($params['animation']) ? $params['animation'] : null;
-		$opt['html'] 		= isset($params['html']) ? $params['html'] : true;
-		$opt['placement'] 	= isset($params['placement']) ? $params['placement'] : null;
-		$opt['selector'] 	= isset($params['selector']) ? $params['selector'] : null;
-		$opt['title'] 		= isset($params['title']) ? $params['title'] : null;
-		$opt['trigger'] 	= isset($params['trigger']) ? $params['trigger'] : 'hover focus';
-		$opt['content'] 	= isset($params['content']) ? $params['content'] : null;
-		$opt['delay'] 		= isset($params['delay']) ? $params['delay'] : null;
-		$opt['container'] 	= isset($params['container']) ? $params['container'] : 'body';
+		$opt['animation'] = isset($params['animation']) ? $params['animation'] : null;
+		$opt['html']      = isset($params['html']) ? $params['html'] : true;
+		$opt['placement'] = isset($params['placement']) ? $params['placement'] : null;
+		$opt['selector']  = isset($params['selector']) ? $params['selector'] : null;
+		$opt['title']     = isset($params['title']) ? $params['title'] : null;
+		$opt['trigger']   = isset($params['trigger']) ? $params['trigger'] : 'hover focus';
+		$opt['content']   = isset($params['content']) ? $params['content'] : null;
+		$opt['delay']     = isset($params['delay']) ? $params['delay'] : null;
+		$opt['container'] = isset($params['container']) ? $params['container'] : 'body';
 
 		$options = JHtml::getJSObject($opt);
 
