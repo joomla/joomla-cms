@@ -22,27 +22,27 @@ JHtml::_('formbehavior.chosen', 'select');
 		<button type="button" class="close" data-dismiss="modal">&#215;</button>
 		<h3><?php echo JText::_('COM_USERS_BATCH_OPTIONS'); ?></h3>
 	</div>
-	<div class="modal-body" style="max-height: 340px; height: 340px;">
+	<div class="modal-body modal-batch row-fluid">
 		<div id="batch-choose-action" class="combo control-group">
 			<label id="batch-choose-action-lbl" class="control-label" for="batch-choose-action">
-				<?php echo JText::_('COM_USERS_BATCH_GROUP'); ?>
+				<?php echo JText::_('COM_USERS_BATCH_GROUP') ?>
 			</label>
 		</div>
-		<div style="float: left; width: 50%;">
+		<div class="row-fluid">
 			<div id="batch-choose-action" class="combo controls">
-				<div class="control-group">
+				<div class="control-group span6">
 					<select name="batch[group_id]" class="inputbox" id="batch-group-id">
-						<option value=""><?php echo JText::_('JSELECT'); ?></option>
+						<option value=""><?php echo JText::_('JSELECT') ?></option>
 						<?php echo JHtml::_('select.options', JHtml::_('user.groups')); ?>
 					</select>
 				</div>
 			</div>
 		</div>
-		<div style="float: right; width: 50%;">
+		<!--<div class="row-fluid"> -->
 			<div class="control-group radio">
-				<?php echo JHtml::_('select.radiolist', $options, 'batch[group_action]', '', 'value', 'text', 'add'); ?>
+				<?php echo JHtml::_('select.radiolist', $options, 'batch[group_action]', '', 'value', 'text', 'add') ?>
 			</div>
-		</div>
+		<!--</div>-->
 	</div>
 	<div class="modal-footer">
 		<button class="btn" type="button" onclick="document.id('batch-group-id').value=''" data-dismiss="modal">
