@@ -38,11 +38,11 @@ JHtml::_('formbehavior.chosen', 'select');
 				</div>
 			</div>
 		</div>
-		<!--<div class="row-fluid"> -->
+		<div class="row-fluid">
 			<div class="control-group radio">
 				<?php echo JHtml::_('select.radiolist', $options, 'batch[group_action]', '', 'value', 'text', 'add') ?>
 			</div>
-		<!--</div>-->
+		</div>
 	</div>
 	<div class="modal-footer">
 		<button class="btn" type="button" onclick="document.id('batch-group-id').value=''" data-dismiss="modal">
