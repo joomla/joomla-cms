@@ -369,7 +369,7 @@ abstract class JHtmlBootstrap
 		$opt['trigger'] 	= isset($params['trigger']) ? $params['trigger'] : 'hover focus';
 		$opt['content'] 	= isset($params['content']) ? $params['content'] : null;
 		$opt['delay'] 		= isset($params['delay']) ? $params['delay'] : null;
-		$opt['container'] 	= isset($params['container']) ? (is_string($params['container']) ? $params['container'] : (boolean)$params['container']) : 'body';
+		$opt['container'] 	= isset($params['container']) ? $params['container'] : 'body';
 
 		$options = JHtml::getJSObject($opt);
 
@@ -466,7 +466,7 @@ abstract class JHtmlBootstrap
 			$opt['title']     = isset($params['title']) ? (string) $params['title'] : null;
 			$opt['trigger']   = isset($params['trigger']) ? (string) $params['trigger'] : null;
 			$opt['delay']     = isset($params['delay']) ? (int) $params['delay'] : null;
-			$opt['container'] = isset($params['container']) ? (is_string($params['container']) ? $params['container'] : (boolean)$params['container']) : 'body';
+			$opt['container'] = isset($params['container']) ? $params['container'] : 'body';
 			$opt['template']  = isset($params['template']) ? (string) $params['template'] : null;
 
 			$options = JHtml::getJSObject($opt);
