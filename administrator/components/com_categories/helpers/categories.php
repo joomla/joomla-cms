@@ -133,6 +133,7 @@ class CategoriesHelper
 		if ($error = $db->getErrorMsg())
 		{
 			JError::raiseWarning(500, $error);
+
 			return false;
 		}
 
