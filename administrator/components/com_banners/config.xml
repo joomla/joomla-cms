@@ -58,7 +58,7 @@
 		label="COM_BANNERS_FIELDSET_CONFIG_BANNER_OPTIONS_LABEL"
 		description="COM_BANNERS_FIELDSET_CONFIG_BANNER_OPTIONS_DESC">
 	
-			<field
+		<field
 			name="save_history"
 			type="radio"
 			class="btn-group btn-group-yesno"

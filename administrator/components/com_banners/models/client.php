@@ -31,24 +31,26 @@ class BannersModelClient extends JModelAdmin
 	 * Method to test whether a record can be deleted.
 	 *
 	 * @param   object	A record object.
+	 * 
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
 	 * @since   1.6
 	 */
 	protected function canDelete($record)
 	{
 		if (!empty($record->id))
+		{
+			if ($record->state != -2)
 			{
-				if ($record->state != -2)
-				{
-					return;
-				}
+				return;
+			}
 			$user = JFactory::getUser();
 
 			if (!empty($record->catid))
 			{
-				return $user->authorise('core.delete', 'com_banners.category.'.(int) $record->catid);
+				return $user->authorise('core.delete', 'com_banners.category.' . (int) $record->catid);
 			}
-			else {
+			else
+			{
 				return $user->authorise('core.delete', 'com_banners');
 			}
 		}
@@ -58,6 +60,7 @@ class BannersModelClient extends JModelAdmin
 	 * Method to test whether a record can be deleted.
 	 *
 	 * @param   object   A record object.
+	 * 
 	 * @return  boolean  True if allowed to change the state of the record.
 	 *                   Defaults to the permission set in the component.
 	 *
@@ -69,7 +72,7 @@ class BannersModelClient extends JModelAdmin
 
 		if (!empty($record->catid))
 		{
-			return $user->authorise('core.edit.state', 'com_banners.category.'.(int) $record->catid);
+			return $user->authorise('core.edit.state', 'com_banners.category.' . (int) $record->catid);
 		}
 		else
 		{
@@ -83,6 +86,7 @@ class BannersModelClient extends JModelAdmin
 	 * @param   type	The table type to instantiate
 	 * @param   string	A prefix for the table class name. Optional.
 	 * @param   array  Configuration array for model. Optional.
+	 * 
 	 * @return  JTable	A database object
 	 * @since   1.6
 	 */
@@ -137,6 +141,7 @@ class BannersModelClient extends JModelAdmin
 	 * Prepare and sanitise the table data prior to saving.
 	 *
 	 * @param   JTable	A JTable object.
+	 * 
 	 * @since   1.6
 	 */
 	protected function prepareTable($table)

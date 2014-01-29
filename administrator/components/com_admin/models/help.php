@@ -20,6 +20,7 @@ class AdminModelHelp extends JModelLegacy
 {
 	/**
 	 * The search string
+	 *
 	 * @var    string
 	 *
 	 * @since  1.6
@@ -28,6 +29,7 @@ class AdminModelHelp extends JModelLegacy
 
 	/**
 	 * The page to be viewed
+	 *
 	 * @var    string
 	 *
 	 * @since  1.6
@@ -36,6 +38,7 @@ class AdminModelHelp extends JModelLegacy
 
 	/**
 	 * The iso language tag
+	 *
 	 * @var    string
 	 *
 	 * @since  1.6
@@ -46,6 +49,7 @@ class AdminModelHelp extends JModelLegacy
 	 * Table of contents
 	 *
 	 * @var    array
+	 *
 	 * @since  1.6
 	 */
 	protected $toc = null;
@@ -54,6 +58,7 @@ class AdminModelHelp extends JModelLegacy
 	 * URL for the latest version check
 	 *
 	 * @var    string
+	 *
 	 * @since  1.6
 	 */
 	protected $latest_version_check = null;
