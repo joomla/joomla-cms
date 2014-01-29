@@ -107,9 +107,10 @@ class ConfigControllerApplicationSave extends JControllerBase
 
 		// Set the success message.
 		$this->app->enqueueMessage(JText::_('COM_CONFIG_SAVE_SUCCESS'));
-
+		// If task is not set, use 'default'
+		$task = (isset($this->options[3])) ? $this->options[3] : 'default';
 		// Set the redirect based on the task.
-		switch ($this->options[3])
+		switch ($task)
 		{
 			case 'apply':
 				$this->app->redirect(JRoute::_('index.php?option=com_config', false));
