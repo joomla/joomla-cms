@@ -29,11 +29,11 @@ $published = $this->state->get('filter.published');
 			</div>
 		</div>
 		<?php if ($published >= 0) : ?>
-		<div class="control-group">
-			<div class="controls">
-				<?php echo JHtml::_('batch.item', 'com_banners');?>
+			<div class="control-group">
+				<div class="controls">
+					<?php echo JHtml::_('batch.item', 'com_banners');?>
+				</div>
 			</div>
-		</div>
 		<?php endif; ?>
 	</div>
 	<div class="modal-footer">
