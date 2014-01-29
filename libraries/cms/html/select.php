@@ -143,7 +143,7 @@ abstract class JHtmlSelect
 	 *
 	 * @since   3.2
 	 */
-	public static function suggestionlist($data, $optKey = 'value', $optText = 'text', $idtag, $translate = false)
+	public static function suggestionlist($data, $optKey = 'value', $optText = 'text', $idtag = null, $translate = false)
 	{
 		// Set default options
 		$options = array_merge(JHtml::$formatOptions, array('format.depth' => 0, 'id' => false));
