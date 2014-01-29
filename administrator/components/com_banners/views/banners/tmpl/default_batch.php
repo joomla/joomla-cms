@@ -31,7 +31,7 @@ $published = $this->state->get('filter.published');
 		<?php if ($published >= 0) : ?>
 			<div class="control-group">
 				<div class="controls">
-					<?php echo JHtml::_('batch.item', 'com_banners');?>
+					<?php echo JHtml::_('batch.item', 'com_banners'); ?>
 				</div>
 			</div>
 		<?php endif; ?>
