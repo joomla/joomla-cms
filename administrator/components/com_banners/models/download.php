@@ -31,10 +31,10 @@ class BannersModelDownload extends JModelForm
 	{
 		$input = JFactory::getApplication()->input;
 
-		$basename = $input->cookie->getString(JApplication::getHash($this->_context.'.basename'), '__SITE__');
+		$basename = $input->cookie->getString(JApplication::getHash($this->_context . '.basename'), '__SITE__');
 		$this->setState('basename', $basename);
 
-		$compressed = $input->cookie->getInt(JApplication::getHash($this->_context.'.compressed'), 1);
+		$compressed = $input->cookie->getInt(JApplication::getHash($this->_context . '.compressed'), 1);
 		$this->setState('compressed', $compressed);
 	}
 

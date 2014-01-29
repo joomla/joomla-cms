@@ -271,7 +271,7 @@ class BannersModelBanner extends JModelAdmin
 			$newId = $table->get('id');
 
 			// Add the new ID to the array
-			$newIds[$i]	= $newId;
+			$newIds[$i] = $newId;
 			$i++;
 		}
 
@@ -415,7 +415,7 @@ class BannersModelBanner extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$app  = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$data = $app->getUserState('com_banners.edit.banner.data', array());
 
 		if (empty($data))
@@ -425,7 +425,10 @@ class BannersModelBanner extends JModelAdmin
 			// Prime some default values.
 			if ($this->getState('banner.id') == 0)
 			{
-				$data->set('catid', $app->input->getInt('catid', $app->getUserState('com_banners.banners.filter.category_id')));
+				$filters = (array) $app->getUserState('com_banners.banners.filter');
+				$filterCatId = isset($filters['category_id']) ? $filters['category_id'] : null;
+
+				$data->set('catid', $app->input->getInt('catid', $filterCatId));
 			}
 		}
 
@@ -486,7 +489,7 @@ class BannersModelBanner extends JModelAdmin
 	protected function getReorderConditions($table)
 	{
 		$condition = array();
-		$condition[] = 'catid = '. (int) $table->catid;
+		$condition[] = 'catid = ' . (int) $table->catid;
 		$condition[] = 'state >= 0';
 		return $condition;
 	}
@@ -502,7 +505,7 @@ class BannersModelBanner extends JModelAdmin
 		if (empty($table->id))
 		{
 			// Set the values
-			$table->created	= $date->toSql();
+			$table->created = $date->toSql();
 
 			// Set ordering to the last item if not set
 			if (empty($table->ordering))
@@ -557,5 +560,4 @@ class BannersModelBanner extends JModelAdmin
 
 		return false;
 	}
-
 }
