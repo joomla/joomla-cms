@@ -89,6 +89,12 @@ class JLogLoggerFormattedtext extends JLogLogger
 
 		// Build the fields array based on the format string.
 		$this->parseFields();
+
+		// Make sure the log file is writable
+		if (!is_writable($this->path))
+		{
+			throw new RuntimeException('Cannot write to log file.');
+		}
 	}
 
 	/**

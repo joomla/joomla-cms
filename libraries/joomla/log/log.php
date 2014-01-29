@@ -252,7 +252,30 @@ class JLog
 
 				if (class_exists($class))
 				{
-					$this->loggers[$signature] = new $class($this->configurations[$signature]);
+					$logOptions = $this->configurations[$signature];
+					// Logs can fail, this should not cause Joomla! to faile
+					try
+					{
+						$logger = new $class($logOptions);
+					}
+					catch (\RuntimeException $exception)
+					{
+						$logType = $logOptions['logger'];
+						// If the log type was the messagequeue then we are truly dead
+						if ( $logType == 'messagequeue')
+						{
+							throw $exception;
+						}
+
+						// Switch to messagequeue
+						$logOptions['logger'] = 'messagequeue';
+						$logger = new JLogLoggerMessagequeue($logOptions);
+						// Log the failure in the new log
+						$logErrorEntry = new JLogEntry('Unable to create log of type '.$logType, Jlog::ERROR);
+						$logger->addEntry($logErrorEntry);
+
+					}
+					$this->loggers[$signature] = $logger;
 				}
 				else
 				{
