@@ -89,7 +89,9 @@ class CacheModelCache extends JModelList
 						$this->_data = array_slice($this->_data, $this->getState('list.start'), $this->getState('list.limit'));
 					}
 				}
-			} else {
+			}
+			else
+			{
 				$this->_data = array();
 			}
 		}
