@@ -116,6 +116,17 @@
 		</field>
 
 		<field
+			name="requireReset"
+			type="radio"
+			default="0"
+			class="btn-group btn-group-yesno"
+			label="COM_USERS_USER_FIELD_REQUIRERESET_LABEL"
+			description="COM_USERS_USER_FIELD_REQUIRERESET_DESC">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field
 			name="id"
 			type="text"
 			class="readonly"

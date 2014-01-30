@@ -1797,6 +1797,7 @@ CREATE TABLE "#__users" (
   "resetCount" bigint DEFAULT 0 NOT NULL,
   "otpKey" varchar(1000) DEFAULT '' NOT NULL,
   "otep" varchar(1000) DEFAULT '' NOT NULL,
+  "requireReset" smallint DEFAULT 0,
   PRIMARY KEY ("id")
 );
 CREATE INDEX "#__users_idx_name" ON "#__users" ("name");
@@ -1806,6 +1807,7 @@ CREATE INDEX "#__users_email" ON "#__users" ("email");
 
 COMMENT ON COLUMN "#__users"."lastResetTime" IS 'Date of last password reset';
 COMMENT ON COLUMN "#__users"."resetCount" IS 'Count of password resets since lastResetTime';
+COMMENT ON COLUMN "#__users"."requireReset" IS 'Require user to reset password on next login';
 
 --
 -- Table: #__user_keys
