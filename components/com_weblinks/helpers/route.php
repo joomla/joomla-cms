@@ -228,7 +228,8 @@ abstract class WeblinksHelperRoute
 		}
 
 		$active = $menus->getActive();
-		if ($active && ($active->language == '*' || !JLanguageMultilang::isEnabled()))
+		if ($active
+			&& ( !empty($app->scope) || $active->language == '*' || !JLanguageMultilang::isEnabled()))
 		{
 			return $active->id;
 		}

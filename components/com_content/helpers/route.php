@@ -210,7 +210,11 @@ abstract class ContentHelperRoute
 		}
 
 		$active = $menus->getActive();
-		if ($active && $active->component == 'com_content' && ($active->language == '*' || !JLanguageMultilang::isEnabled()))
+		// This code is also run for links in modules, hence the awkward test. Testing for app->scope ensures that
+		// links in for example the com_tags context fall back to the active menu-id. Similar testing is done in
+		// in helpers of com_contact, com_weblinks and com_newsfeed
+		if ($active
+			&& ( !empty($app->scope) || ( $active->component == 'com_content' && ($active->language == '*' || !JLanguageMultilang::isEnabled()))))
 		{
 			return $active->id;
 		}
