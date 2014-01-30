@@ -40,7 +40,7 @@ class ConfigViewComponentHtml extends ConfigViewCmsHtml
 		try
 		{
 			$form = $this->model->getForm();
-			$component	= $this->model->getComponent();
+			$component = $this->model->getComponent();
 			$user = JFactory::getUser();
 		}
 		catch (Exception $e)
