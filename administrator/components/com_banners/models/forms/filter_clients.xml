@@ -7,7 +7,7 @@
 			label="COM_BANNERS_SEARCH_IN_TITLE"
 			hint="JSEARCH_FILTER"
 			class="js-stools-search-string"
-		/>
+			/>
 		<field
 			name="state"
 			type="status"
@@ -24,7 +24,7 @@
 			default="0"
 			class="inputbox"
 			onchange="this.form.submit();"
-		>
+			>
 			<option value="">COM_BANNERS_SELECT_TYPE</option>
 			<option value="1">COM_BANNERS_FIELD_VALUE_1</option>
 			<option value="2">COM_BANNERS_FIELD_VALUE_2</option>
@@ -67,6 +67,6 @@
 			label="COM_BANNERS_LIST_LIMIT"
 			description="COM_BANNERS_LIST_LIMIT_DESC"
 			onchange="this.form.submit();"
-		/>
+			/>
 	</fields>
 </form>
