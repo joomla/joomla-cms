@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 require_once JPATH_SITE . '/components/com_content/helpers/route.php';
 
 /**
- * Categories Search plugin
+ * Categories search plugin.
  *
  * @package     Joomla.Plugin
  * @subpackage  Search.categories
@@ -29,7 +29,11 @@ class PlgSearchCategories extends JPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 * @return array An array of search areas
+	 * Determine areas searchable by this plugin.
+	 *
+	 * @return  array  An array of search areas.
+	 *
+	 * @since   1.6
 	 */
 	public function onContentSearchAreas()
 	{
@@ -40,16 +44,19 @@ class PlgSearchCategories extends JPlugin
 	}
 
 	/**
-	 * Categories Search method
+	 * Search content (categories).
 	 *
-	 * The sql must return the following fields that are
-	 * used in a common display routine: href, title, section, created, text,
-	 * browsernav
+	 * The SQL must return the following fields that are used in a common display
+	 * routine: href, title, section, created, text, browsernav.
 	 *
-	 * @param string Target search string
-	 * @param string mathcing option, exact|any|all
-	 * @param string ordering option, newest|oldest|popular|alpha|category
-	 * @param mixed  An array if restricted to areas, null if search all
+	 * @param   string  $text      Target search string.
+	 * @param   string  $phrase    Matching option (possible values: exact|any|all).  Default is "any".
+	 * @param   string  $ordering  Ordering option (possible values: newest|oldest|popular|alpha|category).  Default is "newest".
+	 * @param   mixed   $areas     An array if the search is to be restricted to areas or null to search all areas.
+	 *
+	 * @return  array  Search results.
+	 *
+	 * @since   1.6
 	 */
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
@@ -137,7 +144,7 @@ class PlgSearchCategories extends JPlugin
 		$text = $db->quote('%' . $db->escape($text, true) . '%', false);
 		$query = $db->getQuery(true);
 
-		//sqlsrv changes
+		// SQLSRV changes.
 		$case_when = ' CASE WHEN ';
 		$case_when .= $query->charLength('a.alias', '!=', '0');
 		$case_when .= ' THEN ';
