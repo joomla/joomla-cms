@@ -86,5 +86,4 @@ class JDocumentRendererMessage extends JDocumentRenderer
 
 		return $lists;
 	}
-
 }
