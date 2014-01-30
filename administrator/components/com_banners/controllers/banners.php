@@ -20,7 +20,7 @@ class BannersControllerBanners extends JControllerAdmin
 {
 	/**
 	 * @var     string  The prefix to use with controller messages.
-	 * 
+	 *
 	 * @since   1.6
 	 */
 	protected $text_prefix = 'COM_BANNERS_BANNERS';
@@ -29,7 +29,7 @@ class BannersControllerBanners extends JControllerAdmin
 	 * Constructor.
 	 *
 	 * @param   array An optional associative array of configuration settings.
-	 * 
+	 *
 	 * @see     JController
 	 * @since   1.6
 	 */
@@ -42,7 +42,7 @@ class BannersControllerBanners extends JControllerAdmin
 
 	/**
 	 * Proxy for getModel.
-	 * 
+	 *
 	 * @since   1.6
 	 */
 	public function getModel($name = 'Banner', $prefix = 'BannersModel', $config = array('ignore_request' => true))
