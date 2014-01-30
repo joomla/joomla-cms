@@ -46,7 +46,7 @@ class JSchemaChangeitemSqlsrv extends JSchemaChangeitem
 
 		// Fix up extra spaces around () and in general
 		$find = array('#((\s*)\(\s*([^)\s]+)\s*)(\))#', '#(\s)(\s*)#');
-		$replace = array('($3)', '$1');
+		$replace = array(' ($3) ', '$1');
 		$updateQuery = preg_replace($find, $replace, $this->updateQuery);
 		$wordArray = explode(' ', $updateQuery);
 
@@ -63,11 +63,11 @@ class JSchemaChangeitemSqlsrv extends JSchemaChangeitem
 		if ($command === 'ALTER TABLE')
 		{
 			$alterCommand = strtoupper($wordArray[3] . ' ' . $wordArray[4]);
-			if ($alterCommand == 'ADD')
+			if (strtoupper($wordArray[3]) == 'ADD' && strtoupper($wordArray[4]) != 'DEFAULT')
 			{
-				$result = 'SELECT * FROM INFORMATION_SCHEMA.Columns ' . $wordArray[2] . ' WHERE COLUMN_NAME = ' . $this->fixQuote($wordArray[5]);
-				$this->queryType = 'ADD';
-				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]));
+				$result = 'SELECT * FROM INFORMATION_SCHEMA.Columns ' . $wordArray[2] . ' WHERE COLUMN_NAME = ' . $this->fixQuote($wordArray[4]);
+				$this->queryType = 'ADD_COLUMN';
+				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[4]));
 			}
 			elseif ($alterCommand == 'CREATE INDEX')
 			{
