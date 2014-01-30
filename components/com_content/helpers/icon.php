@@ -40,7 +40,7 @@ abstract class JHtmlIcon
 		{
 			if ($legacy)
 			{
-				$text = JHtml::_('image', 'system/new.png', JText::_('JNEW'), null, true);
+				$text = JHtml::_('image', 'system/new.png', JText::_('JNEW'), $attribs, true);
 			}
 			else
 			{
@@ -95,7 +95,7 @@ abstract class JHtmlIcon
 		{
 			if ($legacy)
 			{
-				$text = JHtml::_('image', 'system/emailButton.png', JText::_('JGLOBAL_EMAIL'), null, true);
+				$text = JHtml::_('image', 'system/emailButton.png', JText::_('JGLOBAL_EMAIL'), $attribs, true);
 			}
 			else
 			{
@@ -181,7 +181,7 @@ abstract class JHtmlIcon
 		if ($legacy)
 		{
 			$icon = $article->state ? 'edit.png' : 'edit_unpublished.png';
-			$text = JHtml::_('image', 'system/' . $icon, JText::_('JGLOBAL_EDIT'), null, true);
+			$text = JHtml::_('image', 'system/' . $icon, JText::_('JGLOBAL_EDIT'), $attribs, true);
 		}
 		else
 		{
@@ -220,7 +220,7 @@ abstract class JHtmlIcon
 		{
 			if ($legacy)
 			{
-				$text = JHtml::_('image', 'system/printButton.png', JText::_('JGLOBAL_PRINT'), null, true);
+				$text = JHtml::_('image', 'system/printButton.png', JText::_('JGLOBAL_PRINT'), $attribs, true);
 			}
 			else
 			{
@@ -256,7 +256,7 @@ abstract class JHtmlIcon
 		{
 			if ($legacy)
 			{
-				$text = JHtml::_('image', 'system/printButton.png', JText::_('JGLOBAL_PRINT'), null, true);
+				$text = JHtml::_('image', 'system/printButton.png', JText::_('JGLOBAL_PRINT'), $attribs, true);
 			}
 			else
 			{
