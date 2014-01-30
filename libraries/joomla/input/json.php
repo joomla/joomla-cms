@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Input
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -50,6 +50,23 @@ class JInputJSON extends JInput
 		{
 			$this->_raw = file_get_contents('php://input');
 			$this->data = json_decode($this->_raw, true);
+
+			// Array Processing
+			foreach ($this->data as $key => $value)
+			{
+				if ((preg_match('/([A-Z0-9_\.-]+)\[([A-Z0-9_\.-]+)\]/i', $key, $matches))
+					&& (count($matches) == 3))
+				{
+					$array_name = $matches[1];
+					$array_key = $matches[2];
+
+					if (!array_key_exists($array_name, $this->data))
+					{
+						$this->data[$array_name] = array();
+					}
+					$this->data[$array_name][$array_key] = $value;
+				}
+			}
 		}
 		else
 		{
