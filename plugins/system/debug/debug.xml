@@ -26,6 +26,7 @@
 					label="PLG_DEBUG_FIELD_ALLOWED_GROUPS_LABEL"
 					multiple="true"
 					size="10"
+					class="advancedSelect"
 				/>
 
 				<field name="profile" type="radio"
@@ -81,6 +82,7 @@
 				<field name="log_priorities" type="list" multiple="true" default="all"
 					label="PLG_DEBUG_FIELD_LOG_PRIORITIES_LABEL"
 					description="PLG_DEBUG_FIELD_LOG_PRIORITIES_DESC"
+					class="advancedSelect"
 				>
 					<option value="all">PLG_DEBUG_FIELD_LOG_PRIORITIES_ALL</option>
 					<option value="emergency">PLG_DEBUG_FIELD_LOG_PRIORITIES_EMERGENCY</option>

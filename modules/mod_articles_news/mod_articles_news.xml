@@ -36,7 +36,8 @@
 					default=""
 					size="10"
 					label="JCATEGORY"
-					description="MOD_ARTICLES_NEWS_FIELD_CATEGORY_DESC" >
+					description="MOD_ARTICLES_NEWS_FIELD_CATEGORY_DESC"
+					class="advancedSelect">
 					<option value="">JOPTION_ALL_CATEGORIES</option>
 				</field>
 
@@ -69,7 +70,7 @@
 				<field
 					name="link_titles"
 					type="list"
-					class="chzn-color"
+					class="chzn-color advancedSelect"
 					label="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_LINKTITLE_DESC">
 					<option
@@ -85,7 +86,8 @@
 					type="list"
 					default="h4"
 					label="MOD_ARTICLES_NEWS_TITLE_HEADING"
-					description="MOD_ARTICLES_NEWS_TITLE_HEADING_DESCRIPTION">
+					description="MOD_ARTICLES_NEWS_TITLE_HEADING_DESCRIPTION"
+					class="advancedSelect">
 					<option
 						value="h1">JH1</option>
 					<option
@@ -134,7 +136,8 @@
 					type="list"
 					default="a.publish_up"
 					label="MOD_ARTICLES_NEWS_FIELD_ORDERING_LABEL"
-					description="MOD_ARTICLES_NEWS_FIELD_ORDERING_DESC">
+					description="MOD_ARTICLES_NEWS_FIELD_ORDERING_DESC"
+					class="advancedSelect">
 					<option
 						value="a.publish_up">MOD_ARTICLES_NEWS_FIELD_ORDERING_PUBLISHED_DATE</option>
 					<option
@@ -154,7 +157,8 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+					class="advancedSelect"/>
 
 				<field
 					name="moduleclass_sfx"
@@ -167,7 +171,8 @@
 					type="list"
 					default="1"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC">
+					description="COM_MODULES_FIELD_CACHING_DESC"
+					class="advancedSelect">
 					<option
 						value="1">JGLOBAL_USE_GLOBAL</option>
 					<option

@@ -48,7 +48,8 @@
 					type="menuitem"
 					disable="separator"
 					label="MOD_LOGIN_FIELD_LOGIN_REDIRECTURL_LABEL"
-					description="MOD_LOGIN_FIELD_LOGIN_REDIRECTURL_DESC" >
+					description="MOD_LOGIN_FIELD_LOGIN_REDIRECTURL_DESC"
+					class="advancedSelect">
 					<option
 						value="">JDEFAULT</option>
 				</field>
@@ -57,7 +58,8 @@
 					type="menuitem"
 					disable="separator"
 					label="MOD_LOGIN_FIELD_LOGOUT_REDIRECTURL_LABEL"
-					description="MOD_LOGIN_FIELD_LOGOUT_REDIRECTURL_DESC" >
+					description="MOD_LOGIN_FIELD_LOGOUT_REDIRECTURL_DESC"
+					class="advancedSelect">
 					<option
 						value="">JDEFAULT</option>
 				</field>
@@ -76,7 +78,8 @@
 					type="list"
 					default="0"
 					label="MOD_LOGIN_FIELD_NAME_LABEL"
-					description="MOD_LOGIN_FIELD_NAME_DESC">
+					description="MOD_LOGIN_FIELD_NAME_DESC"
+					class="advancedSelect">
 					<option
 						value="0">MOD_LOGIN_VALUE_NAME</option>
 					<option
@@ -97,7 +100,8 @@
 					type="list"
 					default="0"
 					label="MOD_LOGIN_FIELD_USETEXT_LABEL"
-					description="MOD_LOGIN_FIELD_USETEXT_DESC">
+					description="MOD_LOGIN_FIELD_USETEXT_DESC"
+					class="advancedSelect">
 					<option
 						value="0">MOD_LOGIN_VALUE_ICONS</option>
 					<option
@@ -112,7 +116,8 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+					class="advancedSelect"/>
 				<field
 					name="moduleclass_sfx"
 					type="textarea" rows="3"
@@ -124,7 +129,8 @@
 					type="list"
 					default="0"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC">
+					description="COM_MODULES_FIELD_CACHING_DESC"
+					class="advancedSelect">
 					<option
 						value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>

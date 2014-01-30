@@ -12,6 +12,7 @@
 			default="lts"
 			label="COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_LABEL"
 			description="COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DESC"
+			class="advancedSelect"
 			>
 			<option value="lts">COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_LTS</option>
 			<option value="sts">COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_STS</option>

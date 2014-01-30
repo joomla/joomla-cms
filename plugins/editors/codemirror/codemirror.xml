@@ -101,7 +101,7 @@
 				</field>
 
 				<field name="theme" type="list"
-					   class="btn-group btn-group-yesno"
+					   class="btn-group btn-group-yesno advancedSelect"
 					   default="default"
 					   description="PLG_CODEMIRROR_FIELD_THEME_DESC"
 					   label="PLG_CODEMIRROR_FIELD_THEME_LABEL"
@@ -112,6 +112,7 @@
 
 				<field name="tabmode" type="list"
 						default="indent"
+						class="advancedSelect"
 						description="PLG_CODEMIRROR_FIELD_TABMODE_DESC"
 						label="PLG_CODEMIRROR_FIELD_TABMODE_LABEL"
 					>

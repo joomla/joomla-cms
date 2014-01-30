@@ -38,7 +38,7 @@ abstract class JHtmlBatch
 			. JHtml::_(
 				'access.assetgrouplist',
 				'batch[assetgroup_id]', '',
-				'class="inputbox"',
+				'class="inputbox advancedSelect"',
 				array(
 					'title' => JText::_('JLIB_HTML_BATCH_NOCHANGE'),
 					'id' => 'batch-access'
@@ -69,7 +69,7 @@ abstract class JHtmlBatch
 		return
 			'<label id="batch-choose-action-lbl" for="batch-choose-action">' . JText::_('JLIB_HTML_BATCH_MENU_LABEL') . '</label>'
 			. '<div id="batch-choose-action" class="control-group">'
-			. '<select name="batch[category_id]" class="inputbox" id="batch-category-id">'
+			. '<select name="batch[category_id]" class="inputbox advancedSelect" id="batch-category-id">'
 			. '<option value="">' . JText::_('JSELECT') . '</option>'
 			. JHtml::_('select.options', JHtml::_('category.options', $extension))
 			. '</select>'
@@ -96,7 +96,7 @@ abstract class JHtmlBatch
 			. ' title="' . JHtml::tooltipText('JLIB_HTML_BATCH_LANGUAGE_LABEL', 'JLIB_HTML_BATCH_LANGUAGE_LABEL_DESC') . '">'
 			. JText::_('JLIB_HTML_BATCH_LANGUAGE_LABEL')
 			. '</label>'
-			. '<select name="batch[language_id]" class="inputbox" id="batch-language-id">'
+			. '<select name="batch[language_id]" class="inputbox advancedSelect" id="batch-language-id">'
 			. '<option value="">' . JText::_('JLIB_HTML_BATCH_LANGUAGE_NOCHANGE') . '</option>'
 			. JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text')
 			. '</select>';
@@ -127,7 +127,7 @@ abstract class JHtmlBatch
 			. ' title="' . JHtml::tooltipText('JLIB_HTML_BATCH_USER_LABEL', 'JLIB_HTML_BATCH_USER_LABEL_DESC') . '">'
 			. JText::_('JLIB_HTML_BATCH_USER_LABEL')
 			. '</label>'
-			. '<select name="batch[user_id]" class="inputbox" id="batch-user-id">'
+			. '<select name="batch[user_id]" class="inputbox advancedSelect" id="batch-user-id">'
 			. '<option value="">' . JText::_('JLIB_HTML_BATCH_USER_NOCHANGE') . '</option>'
 			. $optionNo
 			. JHtml::_('select.options', JHtml::_('user.userlist'), 'value', 'text')
@@ -151,7 +151,7 @@ abstract class JHtmlBatch
 			. ' title="' . JHtml::tooltipText('JLIB_HTML_BATCH_TAG_LABEL', 'JLIB_HTML_BATCH_TAG_LABEL_DESC') . '">'
 			. JText::_('JLIB_HTML_BATCH_TAG_LABEL')
 			. '</label>'
-			. '<select name="batch[tag]" class="inputbox" id="batch-tag-id">'
+			. '<select name="batch[tag]" class="inputbox advancedSelect" id="batch-tag-id">'
 			. '<option value="">' . JText::_('JLIB_HTML_BATCH_TAG_NOCHANGE') . '</option>'
 			. JHtml::_('select.options', JHtml::_('tag.tags', array('filter.published' => array(1))), 'value', 'text')
 			. '</select>';

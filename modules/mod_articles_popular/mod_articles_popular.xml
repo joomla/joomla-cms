@@ -37,7 +37,8 @@
 					size="10"
 					default=""
 					label="JCATEGORY"
-					description="MOD_POPULAR_FIELD_CATEGORY_DESC" >
+					description="MOD_POPULAR_FIELD_CATEGORY_DESC"
+					class="advancedSelect">
 					<option value="">JOPTION_ALL_CATEGORIES</option>
 				</field>
 
@@ -70,7 +71,8 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+					class="advancedSelect"/>
 
 				<field
 					name="moduleclass_sfx"
@@ -83,7 +85,8 @@
 					type="list"
 					default="1"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
-					description="COM_MODULES_FIELD_CACHING_DESC">
+					description="COM_MODULES_FIELD_CACHING_DESC"
+					class="advancedSelect">
 					<option
 						value="1">JGLOBAL_USE_GLOBAL</option>
 					<option

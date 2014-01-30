@@ -10,7 +10,8 @@
 			label="COM_CONFIG_FIELD_CACHE_LABEL"
 			description="COM_CONFIG_FIELD_CACHE_DESC"
 			required="true"
-			filter="integer">
+			filter="integer"
+			class="advancedSelect">
 			<option value="0">COM_CONFIG_FIELD_VALUE_CACHE_OFF</option>
 			<option value="1">COM_CONFIG_FIELD_VALUE_CACHE_CONSERVATIVE</option>
 			<option value="2">COM_CONFIG_FIELD_VALUE_CACHE_PROGRESSIVE</option>
@@ -21,7 +22,8 @@
 			default=""
 			label="COM_CONFIG_FIELD_CACHE_HANDLER_LABEL"
 			description="COM_CONFIG_FIELD_CACHE_HANDLER_DESC"
-			filter="word">
+			filter="word"
+			class="advancedSelect">
 		</field>
 
 		<field
@@ -90,7 +92,8 @@
 			label="COM_CONFIG_FIELD_DATABASE_TYPE_LABEL"
 			description="COM_CONFIG_FIELD_DATABASE_TYPE_DESC"
 			supported="mysql,mysqli,postgresql,sqlsrv,sqlazure"
-			filter="string" />
+			filter="string"
+			class="advancedSelect"/>
 
 		<field
 			name="host"
@@ -227,7 +230,8 @@
 			default="UTC"
 			label="COM_CONFIG_FIELD_SERVER_TIMEZONE_LABEL"
 			description="COM_CONFIG_FIELD_SERVER_TIMEZONE_DESC"
-			required="true">
+			required="true"
+			class="advancedSelect">
 			<option value="UTC">JLIB_FORM_VALUE_TIMEZONE_UTC</option>
 		</field>
 	</fieldset>
@@ -256,7 +260,8 @@
 			label="COM_CONFIG_FIELD_MAIL_MAILER_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_MAILER_DESC"
 			required="true"
-			filter="word">
+			filter="word"
+			class="advancedSelect">
 			<option value="mail">COM_CONFIG_FIELD_VALUE_PHP_MAIL</option>
 			<option value="sendmail">COM_CONFIG_FIELD_VALUE_SENDMAIL</option>
 			<option value="smtp">COM_CONFIG_FIELD_VALUE_SMTP</option>
@@ -309,7 +314,8 @@
 			showon="mailer:smtp"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_SECURE_LABEL"
 			description="COM_CONFIG_FIELD_MAIL_SMTP_SECURE_DESC"
-			filter="word">
+			filter="word"
+			class="advancedSelect">
 			<option value="none">COM_CONFIG_FIELD_VALUE_NONE</option>
 			<option value="ssl">COM_CONFIG_FIELD_VALUE_SSL</option>
 			<option value="tls">COM_CONFIG_FIELD_VALUE_TLS</option>
@@ -383,6 +389,7 @@
 			label="JFIELD_METADATA_ROBOTS_LABEL"
 			description="JFIELD_METADATA_ROBOTS_DESC"
 			default=""
+			class="advancedSelect"
 			>
 			<option value="">JGLOBAL_INDEX_FOLLOW</option>
 			<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
@@ -481,7 +488,8 @@
 			default="0"
 			label="COM_CONFIG_FIELD_SITENAME_PAGETITLES_LABEL"
 			description="COM_CONFIG_FIELD_SITENAME_PAGETITLES_DESC"
-			filter="integer">
+			filter="integer"
+			class="advancedSelect">
 			<option value="2">COM_CONFIG_FIELD_VALUE_AFTER</option>
 			<option value="1">COM_CONFIG_FIELD_VALUE_BEFORE</option>
 			<option value="0">JNO</option>
@@ -518,7 +526,8 @@
 			default="default"
 			label="COM_CONFIG_FIELD_ERROR_REPORTING_LABEL"
 			description="COM_CONFIG_FIELD_ERROR_REPORTING_DESC"
-			filter="cmd">
+			filter="cmd"
+			class="advancedSelect">
 			<option value="default">COM_CONFIG_FIELD_VALUE_SYSTEM_DEFAULT</option>
 			<option value="none">COM_CONFIG_FIELD_VALUE_NONE</option>
 			<option value="simple">COM_CONFIG_FIELD_VALUE_SIMPLE</option>
@@ -532,7 +541,8 @@
 			default="-1"
 			label="COM_CONFIG_FIELD_FORCE_SSL_LABEL"
 			description="COM_CONFIG_FIELD_FORCE_SSL_DESC"
-			filter="integer">
+			filter="integer"
+			class="advancedSelect">
 			<option value="0">COM_CONFIG_FIELD_VALUE_NONE</option>
 			<option value="1">COM_CONFIG_FIELD_VALUE_ADMINISTRATOR_ONLY</option>
 			<option value="2">COM_CONFIG_FIELD_VALUE_ENTIRE_SITE</option>
@@ -559,7 +569,8 @@
 			label="COM_CONFIG_FIELD_SESSION_HANDLER_LABEL"
 			description="COM_CONFIG_FIELD_SESSION_HANDLER_DESC"
 			required="true"
-			filter="word" />
+			filter="word"
+			class="advancedSelect"/>
 	</fieldset>
 
 	<fieldset
@@ -593,7 +604,8 @@
 			default="1"
 			label="COM_CONFIG_FIELD_SITE_DISPLAY_MESSAGE_LABEL"
 			description="COM_CONFIG_FIELD_SITE_DISPLAY_MESSAGE_DESC"
-			filter="integer">
+			filter="integer"
+			class="advancedSelect">
 			<option value="0">JHIDE</option>
 			<option value="1">COM_CONFIG_FIELD_VALUE_DISPLAY_OFFLINE_MESSAGE_CUSTOM</option>
 			<option value="2">COM_CONFIG_FIELD_VALUE_DISPLAY_OFFLINE_MESSAGE_LANGUAGE</option>
@@ -620,6 +632,7 @@
 			default="1"
 			label="COM_CONFIG_FRONTEDITING_LABEL"
 			description="COM_CONFIG_FRONTEDITING_DESC"
+			class="advancedSelect"
 			filter="integer">
 			<!-- <option value="3">COM_CONFIG_FRONTEDITING_MENUSANDMODULES_ADMIN_TOO</option> -->
 			<option value="2">COM_CONFIG_FRONTEDITING_MENUSANDMODULES</option>
@@ -635,7 +648,8 @@
 			label="COM_CONFIG_FIELD_DEFAULT_EDITOR_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_EDITOR_DESC"
 			required="true"
-			filter="cmd" />
+			filter="cmd"
+			class="advancedSelect"/>
 
 		<field
 			name="captcha"
@@ -645,7 +659,8 @@
 			label="COM_CONFIG_FIELD_DEFAULT_CAPTCHA_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_CAPTCHA_DESC"
 			required="true"
-			filter="cmd">
+			filter="cmd"
+			class="advancedSelect">
 			<option value="0">JOPTION_DO_NOT_USE</option>
 		</field>
 
@@ -656,7 +671,8 @@
 			label="COM_CONFIG_FIELD_DEFAULT_ACCESS_LEVEL_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_ACCESS_LEVEL_DESC"
 			required="true"
-			filter="integer" />
+			filter="integer"
+			class="advancedSelect"/>
 
 		<field
 			name="list_limit"
@@ -664,7 +680,8 @@
 			default="20"
 			label="COM_CONFIG_FIELD_DEFAULT_LIST_LIMIT_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_LIST_LIMIT_DESC"
-			filter="integer">
+			filter="integer"
+			class="advancedSelect">
 			<option value="5">J5</option>
 			<option value="10">J10</option>
 			<option value="15">J15</option>
@@ -681,7 +698,8 @@
 			default="10"
 			label="COM_CONFIG_FIELD_DEFAULT_FEED_LIMIT_LABEL"
 			description="COM_CONFIG_FIELD_DEFAULT_FEED_LIMIT_DESC"
-			filter="integer">
+			filter="integer"
+			class="advancedSelect">
 			<option value="5">J5</option>
 			<option value="10">J10</option>
 			<option value="15">J15</option>
@@ -698,7 +716,8 @@
 			default="author"
 			label="COM_CONFIG_FIELD_FEED_EMAIL_LABEL"
 			description="COM_CONFIG_FIELD_FEED_EMAIL_DESC"
-			filter="word">
+			filter="word"
+			class="advancedSelect">
 			<option value="author">COM_CONFIG_FIELD_VALUE_AUTHOR_EMAIL</option>
 			<option value="site">COM_CONFIG_FIELD_VALUE_SITE_EMAIL</option>
 			<option value="none">COM_CONFIG_FIELD_VALUE_NO_EMAIL</option>
@@ -724,7 +743,8 @@
 			type="helpsite"
 			label="COM_CONFIG_FIELD_HELP_SERVER_LABEL"
 			description="COM_CONFIG_FIELD_HELP_SERVER_DESC"
-			required="true" />
+			required="true"
+			class="advancedSelect"/>
 	</fieldset>
 
 	<fieldset

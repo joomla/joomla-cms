@@ -19,12 +19,12 @@
 
 		<field name="catid" type="categoryedit" extension="com_banners"
 			label="JCATEGORY" description="COM_BANNERS_FIELD_CATEGORY_DESC"
-			class="inputbox" required="true"
+			class="inputbox advancedSelect" required="true"
 			addfieldpath="/administrator/components/com_categories/models/fields" />
 
 		<field name="state" type="list"
 			label="JSTATUS" description="COM_BANNERS_FIELD_STATE_DESC"
-			class="chzn-color-state"
+			class="chzn-color-state advancedSelect"
 			size="1" default="1" >
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
@@ -37,7 +37,7 @@
 			table="#__banners" />
 
 		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
-			description="COM_BANNERS_FIELD_LANGUAGE_DESC" class="inputbox" >
+			description="COM_BANNERS_FIELD_LANGUAGE_DESC" class="inputbox advancedSelect" >
 			<option value="*">JALL</option>
 		</field>
 
@@ -55,7 +55,7 @@
 
 		<field name="type" type="list"
 			label="COM_BANNERS_FIELD_TYPE_LABEL" description="COM_BANNERS_FIELD_TYPE_DESC"
-			default="0" class="inputbox">
+			default="0" class="inputbox advancedSelect">
 			<option value="0">COM_BANNERS_FIELD_VALUE_IMAGE
 			</option>
 			<option value="1">COM_BANNERS_FIELD_VALUE_CUSTOM
@@ -133,11 +133,12 @@
 			label="COM_BANNERS_FIELD_CLICKS_LABEL" description="COM_BANNERS_FIELD_CLICKS_DESC" />
 
 		<field name="cid" type="bannerclient"
+			class="advancedSelect"
 			label="COM_BANNERS_FIELD_CLIENT_LABEL" description="COM_BANNERS_FIELD_CLIENT_DESC" />
 
 		<field name="purchase_type" type="list"
 			label="COM_BANNERS_FIELD_PURCHASETYPE_LABEL" description="COM_BANNERS_FIELD_PURCHASETYPE_DESC"
-			default="0" class="inputbox" >
+			default="0" class="inputbox advancedSelect" >
 			<option value="-1">COM_BANNERS_FIELD_VALUE_USECLIENTDEFAULT
 			</option>
 			<option value="1">COM_BANNERS_FIELD_VALUE_1
@@ -154,7 +155,8 @@
 
 		<field name="track_impressions" type="list" default="0"
 			label="COM_BANNERS_FIELD_TRACKIMPRESSION_LABEL"
-			description="COM_BANNERS_FIELD_TRACKIMPRESSION_DESC" >
+			description="COM_BANNERS_FIELD_TRACKIMPRESSION_DESC"
+			class="advancedSelect" >
 			<option value="-1">COM_BANNERS_FIELD_VALUE_USECLIENTDEFAULT
 			</option>
 			<option value="0">JNO</option>
@@ -162,7 +164,8 @@
 		</field>
 
 		<field name="track_clicks" type="list" default="0"
-			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL" description="COM_BANNERS_FIELD_TRACKCLICK_DESC">
+			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL" description="COM_BANNERS_FIELD_TRACKCLICK_DESC"
+			class="advancedSelect">
 			<option value="-1">COM_BANNERS_FIELD_VALUE_USECLIENTDEFAULT
 			</option>
 			<option value="0">JNO</option>

@@ -30,6 +30,7 @@
 					description="PLG_CONTACTCREATOR_FIELD_CATEGORY_DESC"
 					extension="com_contact"
 					label="JCATEGORY"
+					class="advancedSelect"
 				/>
 
 				<field name="autopublish" type="radio"

@@ -44,7 +44,7 @@
 		</field>
 
 		<field name="published" type="list"
-			class="chzn-color-state"
+			class="chzn-color-state advancedSelect"
 			default="1"
 			description="COM_MODULES_FIELD_PUBLISHED_DESC"
 			label="JSTATUS"
@@ -83,17 +83,20 @@
 			description="COM_MODULES_FIELD_POSITION_DESC"
 			label="COM_MODULES_FIELD_POSITION_LABEL"
 			maxlength="50"
+			class="advancedSelect"
 		/>
 
 		<field name="access" type="accesslevel"
 			description="JFIELD_ACCESS_DESC"
 			label="JFIELD_ACCESS_LABEL"
 			size="1"
+			class="advancedSelect"
 		/>
 
 		<field name="ordering" type="moduleorder"
 			description="JFIELD_ORDERING_DESC"
 			label="JFIELD_ORDERING_LABEL"
+			class="advancedSelect"
 		/>
 
 		<field name="content" type="editor"
@@ -108,6 +111,7 @@
 		<field name="language" type="contentlanguage"
 			description="JFIELD_MODULE_LANGUAGE_DESC"
 			label="JFIELD_LANGUAGE_LABEL"
+			class="advancedSelect"
 		>
 			<option value="*">JALL</option>
 		</field>

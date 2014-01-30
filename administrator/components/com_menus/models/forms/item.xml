@@ -55,7 +55,7 @@
 			type="menu"
 			label="COM_MENUS_ITEM_FIELD_ASSIGNED_LABEL"
 			description="COM_MENUS_ITEM_FIELD_ASSIGNED_DESC"
-			class="inputbox"
+			class="inputbox advancedSelect"
 			required="true"
 			size="1" />
 
@@ -71,7 +71,7 @@
 		<field
 			name="published"
 			type="list"
-			class="chzn-color-state"
+			class="chzn-color-state advancedSelect"
 			id="published"
 			label="JSTATUS"
 			description="JFIELD_PUBLISHED_DESC"
@@ -97,7 +97,7 @@
 			description="COM_MENUS_ITEM_FIELD_PARENT_DESC"
 			default="1"
 			filter="int"
-			class="inputbox"
+			class="inputbox advancedSelect"
 			size="1">
 			<option
 				value="1">COM_MENUS_ITEM_ROOT</option>
@@ -109,7 +109,7 @@
 			label="COM_MENUS_ITEM_FIELD_ORDERING_LABEL"
 			description="COM_MENUS_ITEM_FIELD_ORDERING_DESC"
 			filter="int"
-			class="inputbox"
+			class="inputbox advancedSelect"
 			size="1">
 		</field>
 
@@ -125,7 +125,7 @@
 			description="COM_MENUS_ITEM_FIELD_BROWSERNAV_DESC"
 			default="Parent"
 			filter="int"
-			class="inputbox">
+			class="inputbox advancedSelect">
 				<option value="0">COM_MENUS_FIELD_VALUE_PARENT</option>
 				<option value="1">COM_MENUS_FIELD_VALUE_NEW_WITH_NAV</option>
 				<option value="2">COM_MENUS_FIELD_VALUE_NEW_WITHOUT_NAV</option>
@@ -135,7 +135,7 @@
 			name="access"
 			type="accesslevel"
 			id="access"
-			class="inputbox"
+			class="inputbox advancedSelect"
 			label="JFIELD_ACCESS_LABEL"
 			description="JFIELD_ACCESS_DESC"
 			default="1"
@@ -148,7 +148,7 @@
 			label="COM_MENUS_ITEM_FIELD_TEMPLATE_LABEL"
 			description="COM_MENUS_ITEM_FIELD_TEMPLATE_DESC"
 			filter="int"
-			class="inputbox">
+			class="inputbox advancedSelect">
 			<option value="0">JOPTION_USE_DEFAULT</option>
 		</field>
 
@@ -169,7 +169,7 @@
 			type="contentlanguage"
 			label="JFIELD_LANGUAGE_LABEL"
 			description="COM_MENUS_ITEM_FIELD_LANGUAGE_DESC"
-			class="inputbox">
+			class="inputbox advancedSelect">
 			<option value="*">JALL</option>
 		</field>
 

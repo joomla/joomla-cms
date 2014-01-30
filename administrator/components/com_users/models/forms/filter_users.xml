@@ -13,6 +13,7 @@
 			type="userstate"
 			label="COM_USERS_FILTER_STATE"
 			description="COM_USERS_FILTER_STATE_DESC"
+			class="advancedSelect"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_FILTER_STATE</option>
@@ -22,6 +23,7 @@
 			type="useractive"
 			label="COM_USERS_FILTER_ACTIVE"
 			description="COM_USERS_FILTER_ACTIVE_DESC"
+			class="advancedSelect"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_FILTER_ACTIVE</option>
@@ -31,6 +33,7 @@
 			type="usergrouplist"
 			label="COM_USERS_FILTER_GROUP"
 			description="COM_USERS_FILTER_GROUP_DESC"
+			class="advancedSelect"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_FILTER_USERGROUP</option>
@@ -40,6 +43,7 @@
 			type="registrationdaterange"
 			label="COM_USERS_OPTION_FILTER_DATE"
 			description="COM_USERS_OPTION_FILTER_DATE"
+			class="advancedSelect"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_OPTION_FILTER_DATE</option>
@@ -51,6 +55,7 @@
 			type="list"
 			label="COM_CONTENT_LIST_FULL_ORDERING"
 			description="COM_CONTENT_LIST_FULL_ORDERING_DESC"
+			class="advancedSelect"
 			onchange="this.form.submit();"
 			default="a.title ASC"
 			>
@@ -75,7 +80,7 @@
 		<field
 			name="limit"
 			type="limitbox"
-			class="inputbox input-mini"
+			class="inputbox input-mini advancedSelect"
 			default="25"
 			label="COM_CONTENT_LIST_LIMIT"
 			description="COM_CONTENT_LIST_LIMIT_DESC"

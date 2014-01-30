@@ -26,6 +26,7 @@
 	<field
 		name="parent_id"
 		type="categoryedit"
+		class="advancedSelect"
 		label="COM_CATEGORIES_FIELD_PARENT_LABEL"
 		description="COM_CATEGORIES_FIELD_PARENT_DESC"/>
 
@@ -104,7 +105,7 @@
 	<field
 		name="published"
 		type="list"
-		class="chzn-color-state"
+		class="chzn-color-state advancedSelect"
 		default="1"
 		size="1"
 		label="JSTATUS"
@@ -133,7 +134,8 @@
 		name="access"
 		type="accesslevel"
 		label="JFIELD_ACCESS_LABEL"
-		description="JFIELD_ACCESS_DESC"/>
+		description="JFIELD_ACCESS_DESC"
+		class="advancedSelect"/>
 
 	<field
 		name="metadesc"
@@ -186,7 +188,8 @@
 		name="language"
 		type="contentlanguage"
 		label="JFIELD_LANGUAGE_LABEL"
-		description="COM_CATEGORIES_FIELD_LANGUAGE_DESC">
+		description="COM_CATEGORIES_FIELD_LANGUAGE_DESC"
+		class="advancedSelect">
 		<option value="*">JALL</option>
 	</field>
 
@@ -222,6 +225,7 @@
 				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
 				view="category"
 				useglobal="true"
+				class="advancedSelect"
 				/>
 
 			<field
@@ -246,6 +250,7 @@
 				type="list"
 				label="JFIELD_METADATA_ROBOTS_LABEL"
 				description="JFIELD_METADATA_ROBOTS_DESC"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>

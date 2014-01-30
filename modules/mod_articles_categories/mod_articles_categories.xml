@@ -31,7 +31,8 @@
 				extension="com_content"
 				published=""
 				label="MOD_ARTICLES_CATEGORIES_FIELD_PARENT_LABEL"
-				description="MOD_ARTICLES_CATEGORIES_FIELD_PARENT_DESC"/>
+				description="MOD_ARTICLES_CATEGORIES_FIELD_PARENT_DESC"
+				class="advancedSelect"/>
 			<field
 				name="show_description"
 				type="radio"
@@ -66,6 +67,7 @@
 				label="MOD_ARTICLES_CATEGORIES_FIELD_COUNT_LABEL"
 				description="MOD_ARTICLES_CATEGORIES_FIELD_COUNT_DESC"
 				default="0"
+				class="advancedSelect"
 			>
 				<option value="0">JALL</option>
 				<option value="1">J1</option>
@@ -84,6 +86,7 @@
 				label="MOD_ARTICLES_CATEGORIES_FIELD_MAXLEVEL_LABEL"
 				description="MOD_ARTICLES_CATEGORIES_FIELD_MAXLEVEL_DESC"
 				default="0"
+				class="advancedSelect"
 			>
 				<option value="0">JALL</option>
 				<option value="1">J1</option>
@@ -101,10 +104,12 @@
 		</fieldset>
 		<fieldset name="advanced">
 			<field name="layout" type="modulelayout"
-				label="JFIELD_ALT_LAYOUT_LABEL" description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+				label="JFIELD_ALT_LAYOUT_LABEL" description="JFIELD_ALT_MODULE_LAYOUT_DESC"
+				class="advancedSelect"/>
 			<field name="item_heading" type="list" default="4"
 				label="MOD_ARTICLES_CATEGORIES_TITLE_HEADING_LABEL"
 				description="MOD_ARTICLES_CATEGORIES_TITLE_HEADING_DESC"
+				class="advancedSelect"
 			>
 				<option value="1">JH1</option>
 				<option value="2">JH2</option>
@@ -118,7 +123,8 @@
 				description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
 
 			<field name="owncache" type="list" default="1"
-				label="COM_MODULES_FIELD_CACHING_LABEL" description="COM_MODULES_FIELD_CACHING_DESC" >
+				label="COM_MODULES_FIELD_CACHING_LABEL" description="COM_MODULES_FIELD_CACHING_DESC"
+				class="advancedSelect">
 				<option value="1">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING
 				</option>

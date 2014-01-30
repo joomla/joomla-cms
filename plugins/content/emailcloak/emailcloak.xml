@@ -25,6 +25,7 @@
 					default="1"
 					description="PLG_CONTENT_EMAILCLOAK_MODE_DESC"
 					label="PLG_CONTENT_EMAILCLOAK_MODE_LABEL"
+					class="advancedSelect"
 				>
 					<option value="0">PLG_CONTENT_EMAILCLOAK_NONLINKABLE</option>
 					<option value="1">PLG_CONTENT_EMAILCLOAK_LINKABLE</option>

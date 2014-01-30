@@ -14,7 +14,6 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
-JHtml::_('formbehavior.chosen', 'select');
 
 $this->hiddenFieldsets = array();
 $this->hiddenFieldsets[0] = 'basic-limited';

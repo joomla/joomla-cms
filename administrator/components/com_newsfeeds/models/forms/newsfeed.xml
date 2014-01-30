@@ -18,7 +18,7 @@
 
 		<field name="published" type="list"
 			label="JSTATUS" description="JFIELD_PUBLISHED_DESC"
-			class="chzn-color-state" size="1" default="1"
+			class="chzn-color-state advancedSelect" size="1" default="1"
 		>
 			<option value="1">
 				JPUBLISHED</option>
@@ -32,12 +32,12 @@
 
 		<field name="catid" type="categoryedit" extension="com_newsfeeds"
 			label="JCATEGORY" description="COM_NEWSFEEDS_FIELD_CATEGORY_DESC"
-			class="inputbox" required="true"
+			class="inputbox advancedSelect" required="true"
 		>
 		</field>
 
 		<field name="language" type="contentlanguage" label="JFIELD_LANGUAGE_LABEL"
-			description="COM_NEWSFEEDS_FIELD_LANGUAGE_DESC" class="inputbox"
+			description="COM_NEWSFEEDS_FIELD_LANGUAGE_DESC" class="inputbox advancedSelect"
 		>
 			<option value="*">JALL</option>
 		</field>
@@ -126,7 +126,7 @@
 			filter="user_utc" />
 
 		<field name="access" type="accesslevel" label="JFIELD_ACCESS_LABEL"
-			description="JFIELD_ACCESS_DESC" class="inputbox" size="1" />
+			description="JFIELD_ACCESS_DESC" class="inputbox advancedSelect" size="1" />
 
 		<field name="metakey" type="textarea"
 			label="JFIELD_META_KEYWORDS_LABEL" description="JFIELD_META_KEYWORDS_DESC"
@@ -215,7 +215,7 @@
 			description="JGLOBAL_FIELD_FIELD_CACHETIME_DESC"
 			required="true" />
 
-		<field name="rtl" type="list" class="inputbox"
+		<field name="rtl" type="list" class="inputbox advancedSelect"
 			default="0" label="COM_NEWSFEEDS_FIELD_RTL_LABEL"
 			description="COM_NEWSFEEDS_FIELD_RTL_DESC"
 		>
@@ -285,9 +285,10 @@
 		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 
 			<field name="robots"
-			type="list"
-			label="JFIELD_METADATA_ROBOTS_LABEL"
-			description="JFIELD_METADATA_ROBOTS_DESC"
+				type="list"
+				label="JFIELD_METADATA_ROBOTS_LABEL"
+				description="JFIELD_METADATA_ROBOTS_DESC"
+				class="advancedSelect"
 			>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>

@@ -51,7 +51,7 @@
 				validate="color"
 				label="TPL_ISIS_COLOR_LABEL"
 				description="TPL_ISIS_COLOR_DESC" />
-				
+
 				<field name="headerColor" class="" type="color" default="#184A7D"
 				validate="color"
 				label="TPL_ISIS_COLOR_HEADER_LABEL"
@@ -106,6 +106,18 @@
 				default="1"
 				label="TPL_ISIS_STICKY_LABEL"
 				description="TPL_ISIS_STICKY_DESC"
+				filter="integer">
+				<option
+					value="1">JYES</option>
+				<option
+					value="0">JNO</option>
+				</field>
+
+				<field name="enableChosen" type="radio"
+				class="btn-group"
+				default="1"
+				label="TPL_ISIS_CHOSEN_LABEL"
+				description="TPL_ISIS_CHOSEN_DESC"
 				filter="integer">
 				<option
 					value="1">JYES</option>
