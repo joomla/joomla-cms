@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$app      = JFactory::getApplication();
+$app = JFactory::getApplication();
 $template = $app->getTemplate();
 
 // Load the tooltip behavior.
@@ -25,7 +25,7 @@ JHtml::_('formbehavior.chosen', 'select');
 		}
 	}
 </script>
-<form action="<?php echo JRoute::_('index.php?option=com_config');?>" id="component-form" method="post" name="adminForm" autocomplete="off" class="form-validate form-horizontal">
+<form action="<?php echo JRoute::_('index.php?option=com_config'); ?>" id="component-form" method="post" name="adminForm" autocomplete="off" class="form-validate form-horizontal">
 	<div class="row-fluid">
 		<!-- Begin Sidebar -->
 		<div id="sidebar" class="span2">
@@ -89,9 +89,9 @@ JHtml::_('formbehavior.chosen', 'select');
 		</div>
 	</div>
 	<div>
-		<input type="hidden" name="id" value="<?php echo $this->component->id;?>" />
-		<input type="hidden" name="component" value="<?php echo $this->component->option;?>" />
-		<input type="hidden" name="return" value="<?php echo $this->return;?>" />
+		<input type="hidden" name="id" value="<?php echo $this->component->id; ?>" />
+		<input type="hidden" name="component" value="<?php echo $this->component->option; ?>" />
+		<input type="hidden" name="return" value="<?php echo $this->return; ?>" />
 		<input type="hidden" name="task" value="" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
