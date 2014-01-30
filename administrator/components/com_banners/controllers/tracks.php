@@ -19,7 +19,8 @@ defined('_JEXEC') or die;
 class BannersControllerTracks extends JControllerLegacy
 {
 	/**
-	 * @var		string	The context for persistent state.
+	 * @var     string  The prefix to use with controller messages.
+	 * 
 	 * @since   1.6
 	 */
 	protected $context = 'com_banners.tracks';
