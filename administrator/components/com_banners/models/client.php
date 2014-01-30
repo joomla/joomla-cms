@@ -31,7 +31,7 @@ class BannersModelClient extends JModelAdmin
 	 * Method to test whether a record can be deleted.
 	 *
 	 * @param   object	A record object.
-	 * 
+	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
 	 * @since   1.6
 	 */
@@ -60,7 +60,7 @@ class BannersModelClient extends JModelAdmin
 	 * Method to test whether a record can be deleted.
 	 *
 	 * @param   object   A record object.
-	 * 
+	 *
 	 * @return  boolean  True if allowed to change the state of the record.
 	 *                   Defaults to the permission set in the component.
 	 *
@@ -141,7 +141,7 @@ class BannersModelClient extends JModelAdmin
 	 * Prepare and sanitise the table data prior to saving.
 	 *
 	 * @param   JTable	A JTable object.
-	 * 
+	 *
 	 * @since   1.6
 	 */
 	protected function prepareTable($table)
