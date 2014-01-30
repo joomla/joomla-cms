@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -71,10 +71,11 @@ class BannersTableBanner extends JTable
 		{
 			// Set ordering to 0 if state is archived or trashed
 			$this->ordering = 0;
-		} elseif (empty($this->ordering))
+		}
+		elseif (empty($this->ordering))
 		{
 			// Set ordering to last if ordering was 0
-			$this->ordering = self::getNextOrder($this->_db->quoteName('catid').'=' . $this->_db->quote($this->catid).' AND state>=0');
+			$this->ordering = self::getNextOrder($this->_db->quoteName('catid') . '=' . $this->_db->quote($this->catid) . ' AND state>=0');
 		}
 
 		return true;
@@ -83,8 +84,9 @@ class BannersTableBanner extends JTable
 	/**
 	 * Overloaded bind function
 	 *
-	 * @param   array  $hash named array
-	 * @return  null|string	null is operation was satisfactory, otherwise returns an error
+	 * @param   array        $hash named array
+	 * 
+	 * @return  null|string  null is operation was satisfactory, otherwise returns an error
 	 * @see JTable:bind
 	 * @since 1.5
 	 */
@@ -95,12 +97,14 @@ class BannersTableBanner extends JTable
 			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 
-			if ((int) $registry->get('width', 0) < 0){
+			if ((int) $registry->get('width', 0) < 0)
+			{
 				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_NEGATIVE_NOT_PERMITTED', JText::_('COM_BANNERS_FIELD_WIDTH_LABEL')));
 				return false;
 			}
 
-			if ((int) $registry->get('height', 0) < 0){
+			if ((int) $registry->get('height', 0) < 0)
+			{
 				$this->setError(JText::sprintf('JLIB_DATABASE_ERROR_NEGATIVE_NOT_PERMITTED', JText::_('COM_BANNERS_FIELD_HEIGHT_LABEL')));
 				return false;
 			}
@@ -123,6 +127,7 @@ class BannersTableBanner extends JTable
 
 		return parent::bind($array, $ignore);
 	}
+
 	/**
 	 * Method to store a row
 	 *
@@ -145,25 +150,25 @@ class BannersTableBanner extends JTable
 				$purchase_type = $params->get('purchase_type');
 			}
 
-			switch($purchase_type)
+			switch ($purchase_type)
 			{
 				case 1:
 					$this->reset = $this->_db->getNullDate();
 					break;
 				case 2:
-					$date = JFactory::getDate('+1 year '.date('Y-m-d', strtotime('now')));
+					$date = JFactory::getDate('+1 year ' . date('Y-m-d', strtotime('now')));
 					$this->reset = $this->_db->quote($date->toSql());
 					break;
 				case 3:
-					$date = JFactory::getDate('+1 month '.date('Y-m-d', strtotime('now')));
+					$date = JFactory::getDate('+1 month ' . date('Y-m-d', strtotime('now')));
 					$this->reset = $this->_db->quote($date->toSql());
 					break;
 				case 4:
-					$date = JFactory::getDate('+7 day '.date('Y-m-d', strtotime('now')));
+					$date = JFactory::getDate('+7 day ' . date('Y-m-d', strtotime('now')));
 					$this->reset = $this->_db->quote($date->toSql());
 					break;
 				case 5:
-					$date = JFactory::getDate('+1 day '.date('Y-m-d', strtotime('now')));
+					$date = JFactory::getDate('+1 day ' . date('Y-m-d', strtotime('now')));
 					$this->reset = $this->_db->quote($date->toSql());
 					break;
 			}
@@ -194,7 +199,7 @@ class BannersTableBanner extends JTable
 			if ($oldrow->state >= 0 && ($this->state < 0 || $oldrow->catid != $this->catid))
 			{
 				// Reorder the oldrow
-				$this->reorder($this->_db->quoteName('catid').'=' . $this->_db->quote($oldrow->catid).' AND state>=0');
+				$this->reorder($this->_db->quoteName('catid') . '=' . $this->_db->quote($oldrow->catid) . ' AND state>=0');
 			}
 		}
 		return count($this->getErrors()) == 0;
@@ -205,10 +210,11 @@ class BannersTableBanner extends JTable
 	 * table.  The method respects checked out rows by other users and will attempt
 	 * to checkin rows that it can after adjustments are made.
 	 *
-	 * @param   mixed	An optional array of primary key values to update.  If not
-	 *					set the instance property value is used.
-	 * @param   integer The publishing state. eg. [0 = unpublished, 1 = published, 2=archived, -2=trashed]
-	 * @param   integer The user id of the user performing the operation.
+	 * @param   mixed    An optional array of primary key values to update.  If not
+	 *                     set the instance property value is used.
+	 * @param   integer  The publishing state. eg. [0 = unpublished, 1 = published, 2=archived, -2=trashed]
+	 * @param   integer  The user id of the user performing the operation.
+	 * 
 	 * @return  boolean  True on success.
 	 * @since   1.6
 	 */
@@ -219,7 +225,7 @@ class BannersTableBanner extends JTable
 		// Sanitize input.
 		JArrayHelper::toInteger($pks);
 		$userId = (int) $userId;
-		$state  = (int) $state;
+		$state = (int) $state;
 
 		// If there are no primary keys set check to see if the instance key is set.
 		if (empty($pks))
@@ -229,7 +235,8 @@ class BannersTableBanner extends JTable
 				$pks = array($this->$k);
 			}
 			// Nothing to set publishing state on, return false.
-			else {
+			else
+			{
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 				return false;
 			}
@@ -273,10 +280,11 @@ class BannersTableBanner extends JTable
 	 * table.  The method respects checked out rows by other users and will attempt
 	 * to checkin rows that it can after adjustments are made.
 	 *
-	 * @param   mixed	An optional array of primary key values to update.  If not
-	 *					set the instance property value is used.
-	 * @param   integer The sticky state. eg. [0 = unsticked, 1 = sticked]
-	 * @param   integer The user id of the user performing the operation.
+	 * @param   mixed    An optional array of primary key values to update.  If not
+	 *                     set the instance property value is used.
+	 * @param   integer  The sticky state. eg. [0 = unsticked, 1 = sticked]
+	 * @param   integer  The user id of the user performing the operation.
+	 * 
 	 * @return  boolean  True on success.
 	 * @since   1.6
 	 */
@@ -297,7 +305,8 @@ class BannersTableBanner extends JTable
 				$pks = array($this->$k);
 			}
 			// Nothing to set publishing state on, return false.
-			else {
+			else
+			{
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 				return false;
 			}

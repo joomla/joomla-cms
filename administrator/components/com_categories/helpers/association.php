@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,6 +44,7 @@ abstract class CategoryHelperAssociation
 			$helperClassname = ucfirst(substr($extension, 4)) . 'HelperRoute';
 
 			$associations = CategoriesHelper::getAssociations($id, $extension);
+
 			foreach ($associations as $tag => $item)
 			{
 				if (class_exists($helperClassname) && is_callable(array($helperClassname, 'getCategoryRoute')))

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,6 @@ defined('_JEXEC') or die;
  */
 class CategoriesHelper
 {
-
 	/**
 	 * Configure the Submenu links.
 	 *
@@ -57,11 +56,11 @@ class CategoriesHelper
 
 			if (class_exists($cName))
 			{
-
 				if (is_callable(array($cName, 'addSubmenu')))
 				{
 					$lang = JFactory::getLanguage();
-					// loading language file from the administrator/language directory then
+
+					// Loading language file from the administrator/language directory then
 					// loading language file from the administrator/components/*extension*/language directory
 					$lang->load($component, JPATH_BASE, null, false, true)
 					|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
@@ -133,6 +132,7 @@ class CategoriesHelper
 		if ($error = $db->getErrorMsg())
 		{
 			JError::raiseWarning(500, $error);
+
 			return false;
 		}
 

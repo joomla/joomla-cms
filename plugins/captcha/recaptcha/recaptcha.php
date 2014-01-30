@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Captcha
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -87,12 +87,14 @@ class PlgCaptchaRecaptcha extends JPlugin
 	}
 
 	/**
-	  * Calls an HTTP POST function to verify if the user's guess was correct
-	  *
-	  * @return  True if the answer is correct, false otherwise
-	  *
-	  * @since  2.5
-	  */
+	 * Calls an HTTP POST function to verify if the user's guess was correct
+	 *
+	 * @param   string  $code  Answer provided by user.
+	 *
+	 * @return  True if the answer is correct, false otherwise
+	 *
+	 * @since  2.5
+	 */
 	public function onCheckAnswer($code)
 	{
 		$input      = JFactory::getApplication()->input;
@@ -177,10 +179,10 @@ class PlgCaptchaRecaptcha extends JPlugin
 	/**
 	 * Submits an HTTP POST to a reCAPTCHA server.
 	 *
-	 * @param   string  $host
-	 * @param   string  $path
-	 * @param   array   $data
-	 * @param   int     $port
+	 * @param   string  $host  Host name to POST to.
+	 * @param   string  $path  Path on host to POST to.
+	 * @param   array   $data  Data to be POSTed.
+	 * @param   int     $port  Optional port number on host.
 	 *
 	 * @return  array   Response
 	 *
