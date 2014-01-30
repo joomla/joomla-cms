@@ -25,7 +25,8 @@ $assoc = JLanguageAssociations::isEnabled();
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'category.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
+		if (task == 'category.cancel' || document.formvalidator.isValid(document.id('item-form')))
+		{
 			<?php echo $this->form->getField('description')->save(); ?>
 			Joomla.submitform(task, document.getElementById('item-form'));
 		}
