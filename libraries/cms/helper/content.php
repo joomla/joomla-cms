@@ -49,6 +49,12 @@ class JHelperContent
 		$user	= JFactory::getUser();
 		$result	= new JObject;
 
+		if (empty($assetName))
+		{
+			$app = JFactory::getApplication();
+			$app->input->getWord('option', 'com_content');
+		}
+
 		$path = JPATH_ADMINISTRATOR . '/components/' . $assetName . '/access.xml';
 
 		if (empty($id) && empty($categoryId))

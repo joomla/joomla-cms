@@ -21,34 +21,29 @@ class PluginsController extends JControllerLegacy
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   boolean			If true, the view output will be cached
-	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean  If true, the view output will be cached
+	 * @param   array    An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  JController		This object to support chaining.
+	 * @return  JController  This object to support chaining.
+	 *
 	 * @since   1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		require_once JPATH_COMPONENT.'/helpers/plugins.php';
+		// Set the default view name and format from the Request.
+		$vName = $this->input->get('view', 'plugins');
 
-		// Load the submenu.
-		PluginsHelper::addSubmenu($this->input->get('view', 'plugins'));
+		JLog::add('PluginsController is deprecated. Use JControllerDisplay or JControllerDisplayform instead.', JLog::WARNING, 'deprecated');
 
-		$view   = $this->input->get('view', 'plugins');
-		$layout = $this->input->get('layout', 'default');
-		$id     = $this->input->getInt('extension_id');
-
-		// Check for edit form.
-		if ($view == 'plugin' && $layout == 'edit' && !$this->checkEditId('com_plugins.edit.plugin', $id))
+		if (ucfirst($vName) == 'Plugins')
 		{
-			// Somehow the person just went to the form - we don't allow that.
-			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
-			$this->setMessage($this->getError(), 'error');
-			$this->setRedirect(JRoute::_('index.php?option=com_plugins&view=plugins', false));
-
-			return false;
+			$controller = new JControllerDisplay;
+		}
+		elseif (ucfirst($vName) == 'Plugin')
+		{
+			$controller = new JControllerDisplayform;
 		}
 
-		parent::display();
+		return $controller->execute();
 	}
 }

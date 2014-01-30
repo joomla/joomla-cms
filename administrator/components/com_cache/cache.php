@@ -9,11 +9,25 @@
 
 defined('_JEXEC') or die;
 
-if (!JFactory::getUser()->authorise('core.manage', 'com_cache'))
+// Load classes
+JLoader::registerPrefix('Cache', JPATH_COMPONENT);
+
+// Tell the browser not to cache this page.
+JResponse::setHeader('Expires', 'Mon, 26 Jul 1997 05:00:00 GMT', true);
+
+$app = JFactory::getApplication();
+
+// Set a fallback view
+if (!$app->input->get('view'))
 {
-	return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+	$app->input->set('view', 'cache');
 }
 
-$controller	= JControllerLegacy::getInstance('Cache');
-$controller->execute(JFactory::getApplication()->input->get('task'));
-$controller->redirect();
+// Create the controller
+$controllerHelper = new JControllerHelper();
+$controller = $controllerHelper->parseController($app);
+
+$controller->prefix = 'Cache';
+
+// Perform the Request task
+$controller->execute();
