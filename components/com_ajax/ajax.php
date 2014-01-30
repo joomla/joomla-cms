@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_ajax
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,9 +27,8 @@ $input = $app->input;
 // Requested format passed via URL
 $format = strtolower($input->getWord('format'));
 
-// Initialize default response and module name
+// Initialize default response
 $results = null;
-$parts = null;
 
 // Check for valid format
 if (!$format)

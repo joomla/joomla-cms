@@ -1,4 +1,4 @@
-Joomla! CMS [![Analytics](https://ga-beacon.appspot.com/UA-544070-3/joomla-cms/readme)](https://github.com/igrigorik/ga-beacon)
+Joomla! CMS
 ====================
 
 Build Status
@@ -85,7 +85,7 @@ Do you want to improve Joomla?
 
 Copyright:
 ---------------------
-* Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.
+* Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.
 * [Credits](http://docs.joomla.org/Joomla_3_Credits)
 * Distributed under the GNU General Public License version 2 or later
 * See [Licenses details](http://docs.joomla.org/Joomla_Licenses)

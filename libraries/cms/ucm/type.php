@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  UCM
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -61,19 +61,19 @@ class JUcmType implements JUcm
 	public $type;
 
 	/**
-	 * The Database object
-	 *
-	 * @var    JDatabaseDriver
-	 * @since  3.1
-	 */
+	* The Database object
+	*
+	* @var    JDatabaseDriver
+	* @since  3.1
+	*/
 	protected $db;
 
 	/**
-	 * The alias for the content type
-	 *
-	 * @var	  string
-	 * @since  3.1
-	 */
+	* The alias for the content type
+	*
+	* @var	  string
+	* @since  3.1
+	*/
 	protected $alias;
 
 	/**
@@ -178,6 +178,7 @@ class JUcmType implements JUcm
 		}
 
 		return false;
+
 	}
 
 	/**

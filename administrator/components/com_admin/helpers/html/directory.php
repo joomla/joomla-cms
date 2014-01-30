@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,7 +46,7 @@ abstract class JHtmlDirectory
 	 *
 	 * @return  string	html code
 	 */
-	public static function message($dir, $message, $visible = true)
+	public static function message($dir, $message, $visible=true)
 	{
 		if ($visible)
 		{

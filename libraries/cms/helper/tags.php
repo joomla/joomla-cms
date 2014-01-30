@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -234,6 +234,7 @@ class JHelperTags extends JHelper
 						}
 					}
 				}
+
 			}
 
 			// At this point $tags is an array of all tag ids
@@ -322,6 +323,7 @@ class JHelperTags extends JHelper
 						}
 					}
 				}
+
 			}
 
 			// At this point $tags is an array of all tag ids

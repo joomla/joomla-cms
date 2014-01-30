@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,7 +27,7 @@ abstract class JHtmlSelect
 	static protected $optionDefaults = array(
 		'option' => array('option.attr' => null, 'option.disable' => 'disable', 'option.id' => null, 'option.key' => 'value',
 			'option.key.toHtml' => true, 'option.label' => null, 'option.label.toHtml' => true, 'option.text' => 'text',
-			'option.text.toHtml' => true, 'option.class' => 'class', 'option.onclick' => 'onclick'));
+			'option.text.toHtml' => true));
 
 	/**
 	 * Generates a yes/no radio list.
@@ -609,16 +609,6 @@ abstract class JHtmlSelect
 				if (isset($element->$options['option.disable']) && $element->$options['option.disable'])
 				{
 					$extra .= ' disabled="disabled"';
-				}
-
-				if (isset($element->$options['option.class']) && $element->$options['option.class'])
-				{
-					$extra .= ' class="' . $element->$options['option.class'] . '"';
-				}
-
-				if (isset($element->$options['option.onclick']) && $element->$options['option.onclick'])
-				{
-					$extra .= ' onclick="' . $element->$options['option.onclick'] . '"';
 				}
 			}
 			else

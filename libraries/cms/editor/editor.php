@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Editor
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -316,7 +316,6 @@ class JEditor extends JObject
 				$return .= $result;
 			}
 		}
-
 		return $return;
 	}
 
@@ -490,11 +489,9 @@ class JEditor extends JObject
 		if (!is_file($path))
 		{
 			$path = JPATH_PLUGINS . '/editors/' . $name . '/' . $name . '.php';
-
 			if (!is_file($path))
 			{
 				JLog::add(JText::_('JLIB_HTML_EDITOR_CANNOT_LOAD'), JLog::WARNING, 'jerror');
-
 				return false;
 			}
 		}

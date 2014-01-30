@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -93,63 +93,63 @@ $sortFields = $this->getSortFields();
 					</tr>
 				</tfoot>
 				<tbody>
-					<?php foreach ($this->items as $i => $item) :
-						$ordering   = ($listOrder == 'ordering');
-						$canCreate  = $user->authorise('core.create',     'com_banners');
-						$canEdit    = $user->authorise('core.edit',       'com_banners');
-						$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id') || $item->checked_out == 0;
-						$canChange  = $user->authorise('core.edit.state', 'com_banners') && $canCheckin;
-						?>
-						<tr class="row<?php echo $i % 2; ?>">
-							<td class="center hidden-phone">
-								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
-							</td>
-							<td class="center">
-								<div class="btn-group">
-									<?php echo JHtml::_('jgrid.published', $item->state, $i, 'clients.', $canChange); ?>
-									<?php
-									// Create dropdown items
-									$action = $archived ? 'unarchive' : 'archive';
-									JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'clients');
+				<?php foreach ($this->items as $i => $item) :
+					$ordering   = ($listOrder == 'ordering');
+					$canCreate  = $user->authorise('core.create',     'com_banners');
+					$canEdit    = $user->authorise('core.edit',       'com_banners');
+					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id') || $item->checked_out == 0;
+					$canChange  = $user->authorise('core.edit.state', 'com_banners') && $canCheckin;
+					?>
+					<tr class="row<?php echo $i % 2; ?>">
+						<td class="center hidden-phone">
+							<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+						</td>
+						<td class="center">
+							<div class="btn-group">
+								<?php echo JHtml::_('jgrid.published', $item->state, $i, 'clients.', $canChange);?>
+								<?php
+								// Create dropdown items
+								$action = $archived ? 'unarchive' : 'archive';
+								JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'clients');
 
-									$action = $trashed ? 'untrash' : 'trash';
-									JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'clients');
+								$action = $trashed ? 'untrash' : 'trash';
+								JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'clients');
 
-									// Render dropdown list
-									echo JHtml::_('actionsdropdown.render', $this->escape($item->name));
-									?>
-								</div>
-							</td>
-							<td class="nowrap has-context">
-								<div class="pull-left">
-									<?php if ($item->checked_out) : ?>
-										<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'clients.', $canCheckin); ?>
-									<?php endif; ?>
-									<?php if ($canEdit) : ?>
-										<a href="<?php echo JRoute::_('index.php?option=com_banners&task=client.edit&id=' . (int) $item->id); ?>">
-											<?php echo $this->escape($item->name); ?></a>
-									<?php else : ?>
-										<?php echo $this->escape($item->name); ?>
-									<?php endif; ?>
-								</div>
-							</td>
-							<td class="small hidden-phone">
-								<?php echo $item->contact; ?>
-							</td>
-							<td class="center hidden-phone">
-								<?php echo $item->nbanners; ?>
-							</td>
-							<td class="small hidden-phone">
-								<?php if ($item->purchase_type < 0): ?>
-									<?php echo JText::sprintf('COM_BANNERS_DEFAULT', JText::_('COM_BANNERS_FIELD_VALUE_' . $params->get('purchase_type'))); ?>
-								<?php else: ?>
-									<?php echo JText::_('COM_BANNERS_FIELD_VALUE_' . $item->purchase_type); ?>
+								// Render dropdown list
+								echo JHtml::_('actionsdropdown.render', $this->escape($item->name));
+								?>
+							</div>
+						</td>
+						<td class="nowrap has-context">
+							<div class="pull-left">
+								<?php if ($item->checked_out) : ?>
+									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'clients.', $canCheckin); ?>
 								<?php endif; ?>
-							</td>
-							<td class="center hidden-phone">
-								<?php echo $item->id; ?>
-							</td>
-						</tr>
+								<?php if ($canEdit) : ?>
+									<a href="<?php echo JRoute::_('index.php?option=com_banners&task=client.edit&id='.(int) $item->id); ?>">
+										<?php echo $this->escape($item->name); ?></a>
+								<?php else : ?>
+										<?php echo $this->escape($item->name); ?>
+								<?php endif; ?>
+							</div>
+						</td>
+						<td class="small hidden-phone">
+							<?php echo $item->contact;?>
+						</td>
+						<td class="center hidden-phone">
+							<?php echo $item->nbanners; ?>
+						</td>
+						<td class="small hidden-phone">
+							<?php if ($item->purchase_type < 0):?>
+								<?php echo JText::sprintf('COM_BANNERS_DEFAULT', JText::_('COM_BANNERS_FIELD_VALUE_'.$params->get('purchase_type')));?>
+							<?php else:?>
+								<?php echo JText::_('COM_BANNERS_FIELD_VALUE_'.$item->purchase_type);?>
+							<?php endif;?>
+						</td>
+						<td class="center hidden-phone">
+							<?php echo $item->id; ?>
+						</td>
+					</tr>
 					<?php endforeach; ?>
 				</tbody>
 			</table>

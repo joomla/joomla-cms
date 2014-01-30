@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -167,7 +167,6 @@ class JFormFieldTag extends JFormFieldList
 		if ($this->form->getName() == 'com_tags.tag')
 		{
 			$id   = (int) $this->form->getValue('id', 0);
-
 			foreach ($options as $option)
 			{
 				if ($option->value == $id)

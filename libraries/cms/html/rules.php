@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -60,7 +60,6 @@ abstract class JHtmlRules
 		{
 			$html[] = '				<th class="col' . ($i + 2) . '">' . JText::_($action->title) . '</th>';
 		}
-
 		$html[] = '			</tr>';
 
 		foreach ($groups as $i => $group)
@@ -74,7 +73,6 @@ abstract class JHtmlRules
 					. ($assetId ? ($inherited->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])
 					: ($inheriting->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])) . '</td>';
 			}
-
 			$html[] = '			</tr>';
 		}
 

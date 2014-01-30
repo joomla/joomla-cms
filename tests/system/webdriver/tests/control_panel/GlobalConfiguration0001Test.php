@@ -53,4 +53,5 @@ class GlobalConfiguration0001Test extends JoomlaWebdriverTestCase
 		$actualFields = $this->getActualFieldsFromElements($testElements);
 		$this->assertEquals($actualFields, $gc->inputFields);
 	}
+
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,7 +24,7 @@ JHtml::_('bootstrap.tooltip');
 						<i class="icon-remove"></i></button>
 				</div>
 			</div>
-			<div class="clearfix"></div>
+			<div class="clearfix"> </div>
 			<div class="sidebar-nav">
 				<ul class="nav nav-list">
 					<li><?php echo JHtml::_('link', JHelp::createUrl('JHELP_START_HERE'), JText::_('COM_ADMIN_START_HERE'), array('target' => 'helpFrame')) ?></li>
@@ -33,17 +33,17 @@ JHtml::_('bootstrap.tooltip');
 					<li><?php echo JHtml::_('link', JHelp::createUrl('JHELP_GLOSSARY'), JText::_('COM_ADMIN_GLOSSARY'), array('target' => 'helpFrame')) ?></li>
 					<hr class="hr-condensed" />
 					<li class="nav-header"><?php echo JText::_('COM_ADMIN_ALPHABETICAL_INDEX'); ?></li>
-					<?php foreach ($this->toc as $k => $v): ?>
+					<?php foreach ($this->toc as $k => $v):?>
 						<li>
-							<?php $url = JHelp::createUrl('JHELP_' . strtoupper($k)); ?>
-							<?php echo JHtml::_('link', $url, $v, array('target' => 'helpFrame')); ?>
+						    <?php $url = JHelp::createUrl('JHELP_' . strtoupper($k)); ?>
+							<?php echo JHtml::_('link', $url, $v, array('target' => 'helpFrame'));?>
 						</li>
-					<?php endforeach; ?>
+					<?php endforeach;?>
 				</ul>
 			</div>
 		</div>
 		<div class="span9">
-			<iframe name="helpFrame" height="2100px" src="<?php echo $this->page; ?>" class="helpFrame table table-bordered"></iframe>
+			<iframe name="helpFrame" height="2100px" src="<?php echo $this->page;?>" class="helpFrame table table-bordered"></iframe>
 		</div>
 	</div>
 	<input class="textarea" type="hidden" name="option" value="com_admin" />

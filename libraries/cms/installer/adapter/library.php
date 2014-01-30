@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -38,7 +38,6 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 		{
 			$this->parent->setPath('source', JPATH_PLATFORM . '/' . $this->parent->extension->element);
 		}
-
 		$this->manifest = $this->parent->getManifest();
 		$extension = 'lib_' . strtolower(JFilterInput::getInstance()->clean((string) $this->manifest->name, 'cmd'));
 		$name = strtolower((string) $this->manifest->libraryname);
@@ -213,7 +212,6 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 
 			return false;
 		}
-
 		return $row->get('extension_id');
 	}
 
@@ -326,6 +324,7 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 
 			$this->parent->removeFiles($xml->files, -1);
 			JFile::delete($manifestFile);
+
 		}
 		else
 		{
@@ -388,7 +387,6 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 			$extension->set('params', '{}');
 			$results[] = $extension;
 		}
-
 		return $results;
 	}
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +23,6 @@ class CategoriesControllerCategories extends JControllerAdmin
 	 *
 	 * @param   string  $name    The model name. Optional.
 	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  The array of possible config values. Optional.
 	 *
 	 * @return  object  The model.
 	 *
@@ -32,7 +31,6 @@ class CategoriesControllerCategories extends JControllerAdmin
 	public function getModel($name = 'Category', $prefix = 'CategoriesModel', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
-
 		return $model;
 	}
 
@@ -56,14 +54,12 @@ class CategoriesControllerCategories extends JControllerAdmin
 		{
 			// Rebuild succeeded.
 			$this->setMessage(JText::_('COM_CATEGORIES_REBUILD_SUCCESS'));
-
 			return true;
 		}
 		else
 		{
 			// Rebuild failed.
 			$this->setMessage(JText::_('COM_CATEGORIES_REBUILD_FAILURE'));
-
 			return false;
 		}
 	}
@@ -92,7 +88,6 @@ class CategoriesControllerCategories extends JControllerAdmin
 		{
 			// Nothing to reorder
 			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
-
 			return true;
 		}
 	}

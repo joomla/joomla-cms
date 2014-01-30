@@ -3,7 +3,7 @@
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -120,9 +120,9 @@ class ContactManager0001Test extends JoomlaWebdriverTestCase
 	{
 		$salt = rand();
 		$contactName = 'Contact' . $salt;
-		$address = '10 Downing Street';
-		$city = 'London';
-		$country = 'England';
+		$address='10 Downing Street';
+		$city='London';
+		$country='England';
 
 		$this->assertFalse($this->contactManagerPage->getRowNumber($contactName), 'Test contact should not be present');
 		$this->contactManagerPage->addContact($contactName, array('Country' => $country, 'Address' => $address, 'City or Suburb' => $city));
@@ -130,7 +130,7 @@ class ContactManager0001Test extends JoomlaWebdriverTestCase
 		$this->assertTrue(strpos($message, 'Contact successfully saved') >= 0, 'Contact save should return success');
 		$this->assertEquals(5, $this->contactManagerPage->getRowNumber($contactName), 'Test test contact should be in row 5');
 		$values = $this->contactManagerPage->getFieldValues('ContactEditPage', $contactName, array('Name', 'Address', 'City or Suburb', 'Country'));
-		$this->assertEquals(array($contactName, $address, $city, $country), $values, 'Actual name, address, city and country should match expected');
+		$this->assertEquals(array($contactName,$address,$city,$country), $values, 'Actual name, address, city and country should match expected');
 		$this->contactManagerPage->trashAndDelete($contactName);
 		$this->assertFalse($this->contactManagerPage->getRowNumber($contactName), 'Test contact should not be present');
 	}

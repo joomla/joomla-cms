@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -94,11 +94,14 @@ if ($saveOrder)
 					<th width="1%">
 						<?php echo JHtml::_('grid.checkall'); ?>
 					</th>
-					<th>
+					<th class="left">
 						<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_LEVEL_NAME', 'a.title', $listDirn, $listOrder); ?>
 					</th>
 					<th width="5%" class="nowrap center hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+					</th>
+					<th width="40%">
+						&#160;
 					</th>
 				</tr>
 			</thead>
@@ -150,6 +153,9 @@ if ($saveOrder)
 					</td>
 					<td class="center">
 						<?php echo (int) $item->id; ?>
+					</td>
+					<td>
+						&#160;
 					</td>
 				</tr>
 			<?php endforeach; ?>

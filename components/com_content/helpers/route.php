@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -209,14 +209,13 @@ abstract class ContentHelperRoute
 			}
 		}
 
-		// Check if the active menuitem matches the requested language
 		$active = $menus->getActive();
-		if ($active && $active->component == 'com_content' && ($language == '*' || in_array($active->language, array('*', $language)) || !JLanguageMultilang::isEnabled()))
+		if ($active && $active->component == 'com_content' && ($active->language == '*' || !JLanguageMultilang::isEnabled()))
 		{
 			return $active->id;
 		}
 
-		// If not found, return language specific home link
+		// if not found, return language specific home link
 		$default = $menus->getDefault($language);
 		return !empty($default->id) ? $default->id : null;
 	}

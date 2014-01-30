@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,9 +27,9 @@ if (jQuery) {
 				$('[rel=\"showon_'+target+'\"]').each(function(){
 					var i = jQuery(this);
 					if (i.hasClass('showon_' + v))
-						i.slideDown();
+						i.show();
 					else
-						i.slideUp();
+						i.hide();
 				});
 			};
 		$('[rel^=\"showon_\"]').each(function(){

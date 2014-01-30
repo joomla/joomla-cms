@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -172,8 +172,7 @@ class SearchViewSearch extends JViewLegacy
 					{
 						if (($pos = mb_strpos($srow, strtolower(SearchHelper::remove_accents($hlword)))) !== false)
 						{
-							$pos += $cnt * mb_strlen($hl1 . $hl2);
-							$cnt++;
+							$pos += $cnt++ * mb_strlen($hl1 . $hl2);
 
 							// iconv transliterates '€' to 'EUR'
 							// TODO: add other expanding translations?
@@ -186,8 +185,7 @@ class SearchViewSearch extends JViewLegacy
 					{
 						if (($pos = JString::strpos($srow, strtolower(SearchHelper::remove_accents($hlword)))) !== false)
 						{
-							$pos += $cnt * JString::strlen($hl1 . $hl2);
-							$cnt++;
+							$pos += $cnt++ * JString::strlen($hl1 . $hl2);
 
 							// iconv transliterates '€' to 'EUR'
 							// TODO: add other expanding translations?
