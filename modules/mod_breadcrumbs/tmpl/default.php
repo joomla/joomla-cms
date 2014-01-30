@@ -17,7 +17,7 @@ JHtml::_('bootstrap.tooltip');
 	<?php
 	if ($params->get('showHere', 1))
 	{
-		echo '<li class="active"><span class="divider icon-location hasTooltip" title="' . JText::_('MOD_BREADCRUMBS_HERE') . '"></span></li>';
+		echo '<li class="active"><span class="divider icon-location hasTooltip" title="' . JText::_('MOD_BREADCRUMBS_HERE') . '">' . JText::_('MOD_BREADCRUMBS_HERE') . '</span></li>';
 	}
 
 	// Get rid of duplicated entries on trail including home page when using multilanguage
