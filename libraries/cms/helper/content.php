@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
  * @subpackage  Helper
  * @since       3.1
  */
-class JHelperContent
+class JHelperContent extends JHelper
 {
 	/**
 	 * Configure the Linkbar. Must be implemented by each extension.
@@ -75,76 +75,5 @@ class JHelperContent
 		}
 
 		return $result;
-	}
-
-	/**
-	 * Gets the current language
-	 *
-	 * @param   boolean  $detectBrowser  Flag indicating whether to use the browser language as a fallback.
-	 *
-	 * @return  string  The language string
-	 *
-	 * @since   3.1
-	 * @note    JHelper::getCurrentLanguage is the preferred method
-	 */
-	public static function getCurrentLanguage($detectBrowser = true)
-	{
-		$app = JFactory::getApplication();
-		$langCode = $app->input->cookie->getString(JApplicationHelper::getHash('language'));
-
-		// No cookie - let's try to detect browser language or use site default
-		if (!$langCode)
-		{
-			if ($detectBrowser)
-			{
-				$langCode = JLanguageHelper::detectLanguage();
-			}
-			else
-			{
-				$langCode = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
-			}
-		}
-
-		return $langCode;
-	}
-
-	/**
-	* Gets the associated language ID
-	*
-	* @param   string  $langCode  The language code to look up
-	*
-	* @return  integer  The language ID
-	*
-	* @since   3.1
-	* @note    JHelper::getLanguage() is the preferred method.
-	*/
-	public static function getLanguageId($langCode)
-	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('lang_id')
-			->from('#__languages')
-			->where($db->quoteName('lang_code') . ' = ' . $db->quote($langCode));
-		$db->setQuery($query);
-
-		$id = $db->loadResult();
-
-		return $id;
-	}
-
-	/**
-	 * Gets a row of data from a table
-	 *
-	 * @param   JTable  $table  JTable instance for a row.
-	 *
-	 * @return  array  Associative array of all columns and values for a row in a table.
-	 *
-	 * @since   3.1
-	 */
-	public function getRowData(JTable $table)
-	{
-		$data = new JHelper;
-
-		return $data->getRowData($table);
 	}
 }

@@ -27,7 +27,7 @@ class JHelper
 	 *
 	 * @since   3.2
 	 */
-	public function getCurrentLanguage($detectBrowser = true)
+	public static function getCurrentLanguage($detectBrowser = true)
 	{
 		$app = JFactory::getApplication();
 		$langCode = $app->input->cookie->getString(JApplicationHelper::getHash('language'));
@@ -57,7 +57,7 @@ class JHelper
 	 *
 	 * @since   3.2
 	 */
-	public function getLanguageId($langCode)
+	public static function getLanguageId($langCode)
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -80,7 +80,7 @@ class JHelper
 	 *
 	 * @since   3.2
 	 */
-	public function getRowData(JTable $table)
+	public static function getRowData(JTable $table)
 	{
 		$fields = $table->getFields();
 		$data = array();
@@ -104,7 +104,7 @@ class JHelper
 	 *
 	 * @since   3.2
 	 */
-	public function getDataObject(JTable $table)
+	public static function getDataObject(JTable $table)
 	{
 		$fields = $table->getFields();
 		$dataObject = new stdClass;
