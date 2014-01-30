@@ -421,20 +421,13 @@ class JInstallerAdapterPackage extends JAdapterInstance
 		// Set the package root path
 		$this->parent->setPath('extension_root', JPATH_MANIFESTS . '/packages/' . $manifest->packagename);
 
-		// Because packages may not have their own folders we cannot use the standard method of finding an installation manifest
-		if (!file_exists($manifestFile))
-		{
-			// TODO: Fail?
-			JLog::add(JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_MISSINGMANIFEST'), JLog::WARNING, 'jerror');
+		$this->parent->setPath('source', JPATH_MANIFESTS . '/packages');
 
-			return false;
-
-		}
-
-		$xml = simplexml_load_file($manifestFile);
+		$this->parent->findManifest();
+		$this->manifest = $this->parent->getManifest();
 
 		// If we cannot load the XML file return false
-		if (!$xml)
+		if (!$this->manifest)
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_LOAD_MANIFEST'), JLog::WARNING, 'jerror');
 
@@ -442,7 +435,7 @@ class JInstallerAdapterPackage extends JAdapterInstance
 		}
 
 		// Check for a valid XML root tag.
-		if ($xml->getName() != 'extension')
+		if ($this->manifest->getName() != 'extension')
 		{
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_INVALID_MANIFEST'), JLog::WARNING, 'jerror');
 
