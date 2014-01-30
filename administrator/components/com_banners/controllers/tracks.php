@@ -20,7 +20,7 @@ class BannersControllerTracks extends JControllerLegacy
 {
 	/**
 	 * @var     string  The prefix to use with controller messages.
-	 * 
+	 *
 	 * @since   1.6
 	 */
 	protected $context = 'com_banners.tracks';
