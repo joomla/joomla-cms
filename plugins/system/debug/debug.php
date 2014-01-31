@@ -739,11 +739,20 @@ class PlgSystemDebug extends JPlugin
 					}
 				}
 
-				$ratio = 0.5; // how heavy should the string length count: 0 - 1
-				$timeScore = $queryTime / (strlen($query) * $ratio) * 200;
+				// How heavy should the string length count: 0 - 1
+				$ratio = 0.5;
+
+				if (strlen($query) != 0)
+				{
+					$timeScore = $queryTime / (strlen($query) * $ratio) * 200;
+				}
+				else
+				{
+					$timeScore = 0;
+				}
 
 				// Determine color of bargraph depending on query speed and presence of warnings in EXPLAIN:
-				if ($timeScore > 10)
+				if ($timeScore > 10 || $timeScore === 0)
 				{
 					$barClass = 'bar-danger';
 					$labelClass = 'label-important';
