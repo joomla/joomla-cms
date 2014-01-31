@@ -40,10 +40,12 @@ $sortFields = $this->getSortFields();
 		table = document.getElementById("sortTable");
 		direction = document.getElementById("directionTable");
 		order = table.options[table.selectedIndex].value;
-		if (order != '<?php echo $listOrder; ?>') {
+		if (order != '<?php echo $listOrder; ?>')
+		{
 			dirn = 'asc';
 		}
-		else {
+		else
+		{
 			dirn = direction.options[direction.selectedIndex].value;
 		}
 		Joomla.tableOrdering(order, dirn, '');
