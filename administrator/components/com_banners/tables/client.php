@@ -61,7 +61,7 @@ class BannersTableClient extends JTable
 		}
 
 		// Build the WHERE clause for the primary keys.
-		$where = $k.'='.implode(' OR '.$k.'=', $pks);
+		$where = $k . '=' . implode(' OR ' . $k . '=', $pks);
 
 		// Determine if there is checkin support for the table.
 		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time'))
@@ -70,14 +70,14 @@ class BannersTableClient extends JTable
 		}
 		else
 		{
-			$checkin = ' AND (checked_out = 0 OR checked_out = '.(int) $userId.')';
+			$checkin = ' AND (checked_out = 0 OR checked_out = ' . (int) $userId . ')';
 		}
 
 		// Update the publishing state for rows with the given primary keys.
 		$this->_db->setQuery(
-			'UPDATE '.$this->_db->quoteName($this->_tbl).
-			' SET '.$this->_db->quoteName('state').' = '.(int) $state .
-			' WHERE ('.$where.')' .
+			'UPDATE ' . $this->_db->quoteName($this->_tbl) .
+			' SET ' . $this->_db->quoteName('state') . ' = ' . (int) $state .
+			' WHERE (' . $where . ')' .
 			$checkin
 		);
 
