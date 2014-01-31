@@ -30,14 +30,15 @@ JHtml::_('formbehavior.chosen', 'select');
 			<div class="sidebar-nav">
 				<?php echo $this->loadTemplate('navigation'); ?>
 				<?php
-					// Display the submenu position modules
-					$this->submenumodules = JModuleHelper::getModules('submenu');
-					foreach ($this->submenumodules as $submenumodule) {
-						$output = JModuleHelper::renderModule($submenumodule);
-						$params = new JRegistry;
-						$params->loadString($submenumodule->params);
-						echo $output;
-					}
+				// Display the submenu position modules
+				$this->submenumodules = JModuleHelper::getModules('submenu');
+				foreach ($this->submenumodules as $submenumodule)
+				{
+					$output = JModuleHelper::renderModule($submenumodule);
+					$params = new JRegistry;
+					$params->loadString($submenumodule->params);
+					echo $output;
+				}
 				?>
 			</div>
 		</div>
@@ -108,7 +109,7 @@ JHtml::_('formbehavior.chosen', 'select');
 				<input type="hidden" name="task" value="" />
 				<?php echo JHtml::_('form.token'); ?>
 			</div>
-			</div>
+		</div>
 		<!-- End Content -->
 	</div>
 </form>
