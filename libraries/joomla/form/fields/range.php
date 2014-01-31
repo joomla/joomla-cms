@@ -39,28 +39,11 @@ class JFormFieldRange extends JFormFieldNumber
 	 */
 	protected function getInput()
 	{
-		// Initialize some field attributes.
-		$max      = !empty($this->max) ? ' max="' . $this->max . '"' : '';
-		$min      = !empty($this->min) ? ' min="' . $this->min . '"' : '';
-		$step     = !empty($this->step) ? ' step="' . $this->step . '"' : '';
-		$class    = !empty($this->class) ? ' class="' . $this->class . '"' : '';
-		$readonly = $this->readonly ? ' readonly' : '';
-		$disabled = $this->disabled ? ' disabled' : '';
 
-		$autofocus = $this->autofocus ? ' autofocus' : '';
+		$displayData = array(
+			'field' => $this,
+		);
 
-		$value = (float) $this->value;
-		$value = empty($value) ? $this->min : $value;
-
-		// Initialize JavaScript field attributes.
-		$onchange = !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
-
-		// Including fallback code for HTML5 non supported browsers.
-		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/html5fallback.js', false, true);
-
-		return '<input type="range" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
-			. htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"' . $class . $disabled . $readonly
-			. $onchange . $max . $step . $min . $autofocus . ' />';
+		return JLayoutHelper::render('joomla.fields.range', $displayData);
 	}
 }
