@@ -26,6 +26,10 @@ class BannersViewTracks extends JViewLegacy
 
 	/**
 	 * Display the view
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
@@ -37,6 +41,7 @@ class BannersViewTracks extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -51,6 +56,8 @@ class BannersViewTracks extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function addToolbar()
@@ -63,16 +70,19 @@ class BannersViewTracks extends JViewLegacy
 
 		$bar = JToolBar::getInstance('toolbar');
 		$bar->appendButton('Popup', 'export', 'JTOOLBAR_EXPORT', 'index.php?option=com_banners&amp;view=download&amp;tmpl=component', 600, 300);
+
 		if ($canDo->get('core.delete'))
 		{
 			$bar->appendButton('Confirm', 'COM_BANNERS_DELETE_MSG', 'delete', 'COM_BANNERS_TRACKS_DELETE', 'tracks.delete', false);
 			JToolbarHelper::divider();
 		}
+
 		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::preferences('com_banners');
 			JToolbarHelper::divider();
 		}
+
 		JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_TRACKS');
 
 		JHtmlSidebar::setAction('index.php?option=com_banners&view=tracks');
