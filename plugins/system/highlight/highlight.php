@@ -37,7 +37,7 @@ class PlgSystemHighlight extends JPlugin
 			return true;
 		}
 
-		// Set the variables
+		// Set the variables.
 		$input = JFactory::getApplication()->input;
 		$extension = $input->get('option', '', 'cmd');
 
@@ -63,7 +63,7 @@ class PlgSystemHighlight extends JPlugin
 			return true;
 		}
 
-		// Clean the terms array
+		// Clean the terms array.
 		$filter = JFilterInput::getInstance();
 
 		$cleanTerms = array();
