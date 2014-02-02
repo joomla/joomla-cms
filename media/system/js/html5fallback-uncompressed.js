@@ -137,8 +137,8 @@
 
 		validateField : function(e) {
 			var elem = e.target || e;
-			if(elem.form === undefined || elem.form === null){
-				return null;
+			if(!elem.form){
+				return;
 			}
 			var	self = elem.form.H5Form,
 				$elem = $(elem),
