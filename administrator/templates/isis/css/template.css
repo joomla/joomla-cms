@@ -6129,7 +6129,7 @@ div.modal {
 	top: 10%;
 	left: 50%;
 	z-index: 1050;
-	width: 580px;
+	width: 560px;
 	margin-left: -280px;
 	background-color: #fff;
 	border: 1px solid #999;
@@ -6155,6 +6155,9 @@ div.modal.fade {
 }
 div.modal.fade.in {
 	top: 10%;
+}
+.modal-batch {
+	overflow-y: visible;
 }
 @media (max-width: 767px) {
 	div.modal {
@@ -7928,7 +7931,4 @@ a.grid_true {
 	height: 16px;
 	width: 16px;
 	background-image: url('../images/admin/icon-16-allow.png');
-}
-.modal-batch{
-	overflow-y: visible;
 }
