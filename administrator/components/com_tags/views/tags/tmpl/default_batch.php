@@ -1,15 +1,13 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_tags
+ * @package		Joomla.Administrator
+ * @subpackage	com_tags
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-
-JHtml::_('formbehavior.chosen', 'select');
 
 $published = $this->state->get('filter.published');
 ?>
@@ -18,16 +16,20 @@ $published = $this->state->get('filter.published');
 		<button type="button" class="close" data-dismiss="modal">&#215;</button>
 		<h3><?php echo JText::_('COM_TAGS_BATCH_OPTIONS'); ?></h3>
 	</div>
-	<div class="modal-body">
-		<p><?php echo JText::_('COM_TAGS_BATCH_TIP'); ?></p>
-		<div class="control-group">
-			<div class="controls">
-				<?php echo JHtml::_('batch.access'); ?>
+	<div class="modal-body modal-batch row-fluid">
+		<p class="span12">
+			<?php echo JText::_('COM_TAGS_BATCH_TIP'); ?>
+		</p>
+		<div class="row-fluid">
+			<div class="control-group span6">
+				<div class="controls">
+					<?php echo JHtml::_('batch.language'); ?>
+				</div>
 			</div>
-		</div>
-		<div class="control-group">
-			<div class="controls">
-				<?php echo JHtml::_('batch.language'); ?>
+			<div class="control-group span6">
+				<div class="controls">
+					<?php echo JHtml::_('batch.access'); ?>
+				</div>
 			</div>
 		</div>
 	</div>
