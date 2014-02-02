@@ -88,6 +88,9 @@ class PlgUserJoomla extends JPlugin
 			{
 				if ($mail_to_user)
 				{
+					$lang = JFactory::getLanguage();
+					$defaultLocale = $lang->getTag();
+
 					/**
 					 * Look for user language. Priority:
 					 * 	1. User frontend language
@@ -95,9 +98,11 @@ class PlgUserJoomla extends JPlugin
 					 * 	3. Default backend language
 					 */
 					$userParams = new JRegistry($user['params']);
-					$userLocale = $userParams->get('language', $userParams->get('admin_language'));
 
-					$lang = $userLocale ? JLanguage::getInstance($userLocale) : JFactory::getLanguage();
+					if ($userLocale = $userParams->get('language', $userParams->get('admin_language')))
+					{
+						$lang->setLanguage($userLocale);
+					}
 
 					$lang->load('plg_user_joomla', JPATH_ADMINISTRATOR);
 
@@ -129,6 +134,12 @@ class PlgUserJoomla extends JPlugin
 						->addRecipient($user['email'])
 						->setSubject($emailSubject)
 						->setBody($emailBody);
+
+					// Set language back to default
+					if ($userLocale)
+					{
+						$lang->setLanguage($defaultLocale);
+					}
 
 					if (!$mail->Send())
 					{
