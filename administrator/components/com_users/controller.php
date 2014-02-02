@@ -28,7 +28,7 @@ class UsersController extends JControllerLegacy
 	 */
 	protected function canView($view)
 	{
-		$canDo	= UsersHelper::getActions();
+		$canDo	= JHelperContent::getActions('com_users');
 
 		switch ($view)
 		{
