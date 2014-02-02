@@ -21,12 +21,30 @@ File.Upload = new Class({
 	initialize: function(options){
 		var self = this;
 		this.setOptions(options);
+
+        adjuntoId=this.options.adjuntoId;
+        var progress = new Element("div.progress", {
+            id:"progress-bar-"+adjuntoId
+        }).setStyle('width', '0');
+
+        var uploaded = new Element("div.uploaded").set('text', 'arriba').setStyles({background:'red'});
+
 		this.uploadReq = new Request.File({
-            onProgress: function(event){
-                var loaded = event.loaded;
-                console.log(loaded);
+            onRequest: function() {
+                progress.setStyles.pass({display: 'block', width: 0}, progress);
+                progress.replaces($("campo-adjunto-"+adjuntoId));
             },
-			onComplete: function(){
+            onProgress: function(event){
+                var loaded = event.loaded, total = event.total;
+                progress.setStyle('width', parseInt(loaded / total * 100, 10).limit(0,100)+ '%');
+            },
+			onComplete: function(response){
+                progress.setStyle('width', '100%');
+                uploaded.inject(progress, 'after').wraps($('btn-eliminar-adjunto-'+adjuntoId).setStyle('float','right')); 
+
+                var slide = new Fx.Slide(uploaded).hide().slideIn();
+                console.log(response)
+                
 				self.fireEvent('complete', arguments);
 				this.reset();
 			}
@@ -60,7 +78,6 @@ File.Upload = new Class({
 	
 	send: function(input){
 		if(input) this.add(input);
-            console.log(this.options.url);
             this.uploadReq.send({
             url: this.options.url
 		});

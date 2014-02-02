@@ -54,6 +54,10 @@ class JFormFieldAdjuntos extends JFormField
         $style[] = '    padding: 3px;';
         $style[] = '    position: relative;';
         $style[] = '}';
+        $style[] = '.progress {';
+        $style[] = '    background-color: blue;';
+        $style[] = '    height: 3px;';
+        $style[] = '}';
 
         $script = array();
         $script[] = 'window.addEvent("domready", function(){';
@@ -94,10 +98,6 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = '       type:"file"';
         $script[] = '   });';
 
-        $script[] = '   var progressBar = new Element("div", {';
-        $script[] = '       id:"progress-bar-"+adjuntoCount,';
-        $script[] = '   })';
-
         $script[] = '   fieldArchivo.addEvents({';
         $script[] = '           "change": function() {'; 
         $script[] = '               if(aId) {';
@@ -112,16 +112,14 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = '   })';    
 
         $script[] = '   var btnEliminarAdjunto = new Element("button", {';
-        $script[] = '       id: "btn-eliminar-adjunto",';
+        $script[] = '       id: "btn-eliminar-adjunto-"+adjuntoCount,';
         $script[] = '       events: {';
         $script[] = '           click: function() { eliminarAdjunto(this) }';
         $script[] = '       }';
         $script[] = '   }).set({"text": "-", "data-id": formAdjunto.id})';
 
         $script[] = '   fieldArchivo.inject(formAdjunto);';
-        $script[] = '   progressBar.inject(formAdjunto)';
         $script[] = '   btnEliminarAdjunto.inject(formAdjunto);';
-
         $script[] = '   $("adjuntos").grab(formAdjunto);';
 
         $script[] = '   function subirArchivo() {';
@@ -131,7 +129,7 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = '               "campo":"campo-adjunto-"+adjuntoCount,';
         $script[] = '               "id":'.$id.'},';
         $script[] = '           images: ["campo-adjunto-"+adjuntoCount],';
-        $script[] = '           onComplete: function (){ console.log("Request")}';
+        $script[] = '           adjuntoId: adjuntoCount,'; 
         $script[] = '       });';
         $script[] = '       upload.send();';
         $script[] = '   }';
