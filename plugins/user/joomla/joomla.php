@@ -81,19 +81,6 @@ class PlgUserJoomla extends JPlugin
 	{
 		$mail_to_user = $this->params->get('mail_to_user', 1);
 
-		// Look for a user default language
-		$instance = $this->_getUser($user);
-		$user_langsite_code = $instance->getParam('language');
-
-		if (empty($user_langsite_code))
-		{
-			$user_lang_code = $instance->getParam('admin_language');
-		}
-		else
-		{
-			$user_lang_code = $user_langsite_code;
-		}
-
 		if ($isnew)
 		{
 			// TODO: Suck in the frontend registration emails here as well. Job for a rainy day.
@@ -101,16 +88,16 @@ class PlgUserJoomla extends JPlugin
 			{
 				if ($mail_to_user)
 				{
-					if (empty($user_lang_code))
-					{
-						$lang = JFactory::getLanguage();
-					}
-					else
-					{
-						// Send the mail using the default language defined for the user
-						JFactory::getLanguage()->setLanguage($user_lang_code);
-						$lang = JFactory::getLanguage();
-					}
+					/**
+					 * Look for user language. Priority:
+					 * 	1. User frontend language
+					 * 	2. User backend language
+					 * 	3. Default backend language
+					 */
+					$userParams = new JRegistry($user['params']);
+					$userLocale = $userParams->get('language', $userParams->get('admin_language'));
+
+					$lang = $userLocale ? JLanguage::getInstance($userLocale) : JFactory::getLanguage();
 
 					$lang->load('plg_user_joomla', JPATH_ADMINISTRATOR);
 
@@ -312,7 +299,7 @@ class PlgUserJoomla extends JPlugin
 		{
 			if (!$instance->save())
 			{
-				JLog::add('Error in autoregistration for user ' .  $user['username'] . '.', JLog::WARNING, 'error');
+				JLog::add('Error in autoregistration for user ' . $user['username'] . '.', JLog::WARNING, 'error');
 			}
 		}
 		else
@@ -329,7 +316,7 @@ class PlgUserJoomla extends JPlugin
 	 * We set a new cookie either for a user with no cookies or one
 	 * where the user used a cookie to authenticate.
 	 *
-	 * @param   array  options  Array holding options
+	 * @param   array  $options  Array holding options
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -383,6 +370,7 @@ class PlgUserJoomla extends JPlugin
 				$unique = true;
 			}
 		}
+
 		while ($unique === false);
 
 		// If a user logs in with non cookie login and remember me checked we will
