@@ -43,8 +43,10 @@ $published = $this->state->get('filter.published');
 					<?php echo JHtml::_('batch.tag'); ?>
 				</div>
 			</div>
+		</div>
+		<div class="row-fluid">
 			<?php if ($published >= 0) : ?>
-				<div class="control-group">
+				<div class="control-group span6">
 					<div class="controls">
 						<?php echo JHtml::_('batch.item', 'com_contact'); ?>
 					</div>
