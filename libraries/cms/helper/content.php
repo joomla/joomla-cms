@@ -84,9 +84,9 @@ class JHelperContent
 	/**
 	 * Gets a list of the actions that can be performed.
 	 *
-	 * @param   string   $component	 The component name.
-	 * @param   string   $section	 The access section name.
-	 * @param   integer  $id   	     The item ID.
+	 * @param   string   $component  The component name.
+	 * @param   string   $section    The access section name.
+	 * @param   integer  $id         The item ID.
 	 *
 	 * @return  JObject
 	 *
@@ -95,9 +95,10 @@ class JHelperContent
 	public static function getActions($component = '', $section = '', $id = 0)
 	{
 		// Check for deprecated arguments order
-		if(is_int($component) || is_null($component))
+		if (is_int($component) || is_null($component))
 		{
-			$result = JHelperContent::_getActions($component, $section, $id);
+			$result = self::_getActions($component, $section, $id);
+
 			return $result;
 		}
 
