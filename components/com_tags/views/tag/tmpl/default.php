@@ -8,8 +8,8 @@
  */
 
 defined('_JEXEC') or die;
-// Note that there are certain parts of this layout used only when there is exactly one tag.
 
+// Note that there are certain parts of this layout used only when there is exactly one tag.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 $isSingleTag = (count($this->item) == 1);
 ?>
@@ -57,5 +57,4 @@ $isSingleTag = (count($this->item) == 1);
 			<?php echo $this->pagination->getPagesLinks(); ?>
 		</div>
 	<?php endif; ?>
-
 </div>
