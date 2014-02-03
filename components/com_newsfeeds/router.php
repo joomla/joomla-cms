@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Build the route for the com_newsfeeds component
  *
- * @return  array  An array of URL arguments
+ * @param   array  &$query  An array of URL arguments
  *
  * @return  array  The URL arguments to use to assemble the subsequent URL.
  */
