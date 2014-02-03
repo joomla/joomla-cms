@@ -50,7 +50,7 @@ function newsfeedsBuildRoute(&$query)
 		unset($query['view']);
 	}
 
-	// are we dealing with an newsfeed that is attached to a menu item?
+	// Are we dealing with an newsfeed that is attached to a menu item?
 	if (isset($query['view']) && ($mView == $query['view']) and (isset($query['id'])) and ($mId == (int) $query['id']))
 	{
 		unset($query['view']);
@@ -75,6 +75,7 @@ function newsfeedsBuildRoute(&$query)
 			$menuCatid = $mId;
 			$categories = JCategories::getInstance('Newsfeeds');
 			$category = $categories->get($catid);
+
 			if ($category)
 			{
 				$path = $category->getPath();
@@ -147,11 +148,11 @@ function newsfeedsBuildRoute(&$query)
  *
  * @return  array  The URL attributes to be used by the application.
  */
-function NewsfeedsParseRoute($segments)
+function newsfeedsParseRoute($segments)
 {
 	$vars = array();
 
-	//Get the active menu item.
+	// Get the active menu item.
 	$app	= JFactory::getApplication();
 	$menu	= $app->getMenu();
 	$item	= $menu->getActive();
