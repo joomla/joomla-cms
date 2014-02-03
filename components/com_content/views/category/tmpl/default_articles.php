@@ -21,6 +21,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 
 // Check for at least one editable article
 $isEditable = false;
+
 if (!empty($this->items))
 {
 	foreach ($this->items as $article)
