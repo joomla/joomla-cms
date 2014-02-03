@@ -54,7 +54,7 @@ class MessagesViewMessages extends JViewLegacy
 	protected function addToolbar()
 	{
 		$state	= $this->get('State');
-		$canDo	= MessagesHelper::getActions();
+		$canDo	= JHelperContent::getActions('com_messages');
 
 		JToolbarHelper::title(JText::_('COM_MESSAGES_MANAGER_MESSAGES'), 'envelope inbox');
 

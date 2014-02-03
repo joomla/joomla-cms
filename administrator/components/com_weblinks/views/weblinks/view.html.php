@@ -59,7 +59,7 @@ class WeblinksViewWeblinks extends JViewLegacy
 		require_once JPATH_COMPONENT . '/helpers/weblinks.php';
 
 		$state	= $this->get('State');
-		$canDo	= JHelperContent::getActions($state->get('filter.category_id'), 0, 'com_weblinks');
+		$canDo	= JHelperContent::getActions('com_weblinks', 'category', $state->get('filter.category_id'));
 		$user	= JFactory::getUser();
 
 		// Get the toolbar object instance

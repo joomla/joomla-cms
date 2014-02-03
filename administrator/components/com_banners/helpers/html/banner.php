@@ -48,6 +48,7 @@ abstract class JHtmlBanner
 	 * Method to get the field options.
 	 *
 	 * @return  array  The field option objects.
+	 *
 	 * @since   1.6
 	 */
 	public static function clientlist()

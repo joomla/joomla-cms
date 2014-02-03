@@ -21,8 +21,8 @@ class BannersModelBanners extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
-	 * 
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
 	 * @see     JController
 	 * @since   1.6
 	 */
@@ -60,6 +60,8 @@ class BannersModelBanners extends JModelList
 	/**
 	 * Method to get the maximum ordering value for each category.
 	 *
+	 * @return  array
+	 *
 	 * @since   1.6
 	 */
 	public function &getCategoryOrders()
@@ -75,6 +77,7 @@ class BannersModelBanners extends JModelList
 			$db->setQuery($query);
 			$this->cache['categoryorders'] = $db->loadAssocList('catid', 0);
 		}
+
 		return $this->cache['categoryorders'];
 	}
 
@@ -82,6 +85,7 @@ class BannersModelBanners extends JModelList
 	 * Build an SQL query to load the list data.
 	 *
 	 * @return  JDatabaseQuery
+	 *
 	 * @since   1.6
 	 */
 	protected function getListQuery()
@@ -123,6 +127,7 @@ class BannersModelBanners extends JModelList
 
 		// Filter by published state
 		$published = $this->getState('filter.state');
+
 		if (is_numeric($published))
 		{
 			$query->where('a.state = ' . (int) $published);
@@ -134,6 +139,7 @@ class BannersModelBanners extends JModelList
 
 		// Filter by category.
 		$categoryId = $this->getState('filter.category_id');
+
 		if (is_numeric($categoryId))
 		{
 			$query->where('a.catid = ' . (int) $categoryId);
@@ -141,6 +147,7 @@ class BannersModelBanners extends JModelList
 
 		// Filter by client.
 		$clientId = $this->getState('filter.client_id');
+
 		if (is_numeric($clientId))
 		{
 			$query->where('a.cid = ' . (int) $clientId);
@@ -148,6 +155,7 @@ class BannersModelBanners extends JModelList
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
+
 		if (!empty($search))
 		{
 			if (stripos($search, 'id:') === 0)
@@ -170,14 +178,17 @@ class BannersModelBanners extends JModelList
 		// Add the list ordering clause.
 		$orderCol = $this->state->get('list.ordering', 'ordering');
 		$orderDirn = $this->state->get('list.direction', 'ASC');
+
 		if ($orderCol == 'ordering' || $orderCol == 'category_title')
 		{
 			$orderCol = 'c.title ' . $orderDirn . ', a.ordering';
 		}
+
 		if ($orderCol == 'client_name')
 		{
 			$orderCol = 'cl.name';
 		}
+
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 
 		return $query;
@@ -190,8 +201,10 @@ class BannersModelBanners extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id    A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
+	 *
 	 * @return  string  A store id.
+	 *
 	 * @since   1.6
 	 */
 	protected function getStoreId($id = '')
@@ -209,11 +222,12 @@ class BannersModelBanners extends JModelList
 	/**
 	 * Returns a reference to the a Table object, always creating it.
 	 *
-	 * @param   type      The table type to instantiate
-	 * @param   string    A prefix for the table class name. Optional.
-	 * @param   array     Configuration array for model. Optional.
-	 * 
+	 * @param   string  $type    The table type to instantiate
+	 * @param   string  $prefix  A prefix for the table class name. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
 	 * @return  JTable    A database object
+	 *
 	 * @since   1.6
 	 */
 	public function getTable($type = 'Banner', $prefix = 'BannersTable', $config = array())
@@ -225,6 +239,11 @@ class BannersModelBanners extends JModelList
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
