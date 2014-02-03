@@ -34,16 +34,19 @@ function newsfeedsBuildRoute(&$query)
 	{
 		$menuItem = $menu->getItem($query['Itemid']);
 	}
+
 	$mView = (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
 	$mId   = (empty($menuItem->query['id'])) ? null : $menuItem->query['id'];
 
 	if (isset($query['view']))
 	{
 		$view = $query['view'];
+
 		if (empty($query['Itemid']) || empty($menuItem) || $menuItem->component != 'com_newsfeeds')
 		{
 			$segments[] = $query['view'];
 		}
+
 		unset($query['view']);
 	}
 
@@ -68,6 +71,7 @@ function newsfeedsBuildRoute(&$query)
 			{
 				$catid = $query['id'];
 			}
+
 			$menuCatid = $mId;
 			$categories = JCategories::getInstance('Newsfeeds');
 			$category = $categories->get($catid);
@@ -77,20 +81,25 @@ function newsfeedsBuildRoute(&$query)
 				$path = array_reverse($path);
 
 				$array = array();
+
 				foreach ($path as $id)
 				{
 					if ((int) $id == (int) $menuCatid)
 					{
 						break;
 					}
+
 					if ($advanced)
 					{
 						list($tmp, $id) = explode(':', $id, 2);
 					}
+
 					$array[] = $id;
 				}
+
 				$segments = array_merge($segments, array_reverse($array));
 			}
+
 			if ($view == 'newsfeed')
 			{
 				if ($advanced)
@@ -101,9 +110,11 @@ function newsfeedsBuildRoute(&$query)
 				{
 					$id = $query['id'];
 				}
+
 				$segments[] = $id;
 			}
 		}
+
 		unset($query['id']);
 		unset($query['catid']);
 	}
@@ -128,6 +139,7 @@ function newsfeedsBuildRoute(&$query)
 
 	return $segments;
 }
+
 /**
  * Parse the segments of a URL.
  *
@@ -163,9 +175,11 @@ function NewsfeedsParseRoute($segments)
 	$vars['catid'] = $id;
 	$vars['id'] = $id;
 	$found = 0;
+
 	foreach ($segments as $segment)
 	{
 		$segment = $advanced ? str_replace(':', '-', $segment) : $segment;
+
 		foreach ($categories as $category)
 		{
 			if ($category->slug == $segment || $category->alias == $segment)
@@ -178,6 +192,7 @@ function NewsfeedsParseRoute($segments)
 				break;
 			}
 		}
+
 		if ($found == 0)
 		{
 			if ($advanced)
@@ -195,9 +210,11 @@ function NewsfeedsParseRoute($segments)
 			{
 				$nid = $segment;
 			}
+
 			$vars['id'] = $nid;
 			$vars['view'] = 'newsfeed';
 		}
+
 		$found = 0;
 	}
 
