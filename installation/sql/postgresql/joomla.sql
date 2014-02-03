@@ -1683,7 +1683,7 @@ CREATE TABLE "#__updates" (
   "type" varchar(20) DEFAULT '',
   "folder" varchar(20) DEFAULT '',
   "client_id" smallint DEFAULT 0,
-  "version" varchar(10) DEFAULT '',
+  "version" varchar(32) DEFAULT '',
   "data" text DEFAULT '' NOT NULL,
   "detailsurl" text NOT NULL,
   "infourl" text NOT NULL,

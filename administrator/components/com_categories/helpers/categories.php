@@ -71,44 +71,6 @@ class CategoriesHelper
 		}
 	}
 
-	/**
-	 * Gets a list of the actions that can be performed.
-	 *
-	 * @param   string   $extension   The extension.
-	 * @param   integer  $categoryId  The category ID.
-	 *
-	 * @return  JObject
-	 *
-	 * @since   1.6
-	 */
-	public static function getActions($extension, $categoryId = 0)
-	{
-		$user = JFactory::getUser();
-		$result = new JObject;
-		$parts = explode('.', $extension);
-		$component = $parts[0];
-
-		if (empty($categoryId))
-		{
-			$assetName = $component;
-			$level = 'component';
-		}
-		else
-		{
-			$assetName = $component . '.category.' . (int) $categoryId;
-			$level = 'category';
-		}
-
-		$actions = JAccess::getActions($component, $level);
-
-		foreach ($actions as $action)
-		{
-			$result->set($action->name, $user->authorise($action->name, $assetName));
-		}
-
-		return $result;
-	}
-
 	public static function getAssociations($pk, $extension = 'com_content')
 	{
 		$associations = array();

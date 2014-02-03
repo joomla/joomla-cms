@@ -40,26 +40,6 @@ class MessagesHelper
 	}
 
 	/**
-	 * Gets a list of the actions that can be performed.
-	 *
-	 * @return  JObject
-	 */
-	public static function getActions()
-	{
-		$user	= JFactory::getUser();
-		$result	= new JObject;
-
-		$actions = JAccess::getActions('com_messages');
-
-		foreach ($actions as $action)
-		{
-			$result->set($action->name,	$user->authorise($action->name, 'com_messages'));
-		}
-
-		return $result;
-	}
-
-	/**
 	 * Get a list of filter options for the state of a module.
 	 *
 	 * @return  array  An array of JHtmlOption elements.
