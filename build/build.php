@@ -125,11 +125,12 @@ for ($num = $release - 1; $num >= 0; $num--)
 	$deletedFiles = array();
 	$files        = file('diffdocs/' . $version . '.' . $num);
 
-	// Loop through and add all files except: tests, installation, build, .git, or docs
+	// Loop through and add all files except: tests, installation, build, .git, .travis, travis, phpunit, .md, docs, or images
 	foreach ($files as $file)
 	{
-		if (substr($file, 2, 5) != 'tests' && substr($file, 2, 4) != 'docs' && substr($file, 2, 12) != 'installation' && substr($file, 2, 5) != 'build' && substr($file, 2, 4) != '.git'
-			&& substr($file, 2, 7) != '.travis' && substr($file, 2, 6) != 'travis' && substr($file, 2, 7) != 'phpunit' && substr($file, -3) != '.md')
+		if (substr($file, 2, 5) != 'tests' && substr($file, 2, 4) != 'docs' && substr($file, 2, 12) != 'installation' && substr($file, 2, 5) != 'build'
+			&& substr($file, 2, 4) != '.git' && substr($file, 2, 7) != '.travis' && substr($file, 2, 6) != 'travis' && substr($file, 2, 7) != 'phpunit'
+			&& substr($file, -3) != '.md' && substr($file, 2, 6) != 'images')
 		{
 			// Don't add deleted files to the list
 			if (substr($file, 0, 1) != 'D')
@@ -191,6 +192,12 @@ system('zip -r ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-
 // Create full update file without installation folder.
 echo "Build full update package.\n";
 system('rm -r installation');
+system('rm -r images/banners');
+system('rm -r images/sampledata');
+system('rm images/joomla_black.gif');
+system('rm images/joomla_green.gif');
+system('rm images/joomla_logo_black.jpg');
+system('rm images/powered_by.png');
 
 system('tar --create --bzip2 --file ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.bz2 * > /dev/null');
 
