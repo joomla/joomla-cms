@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  *
  * @return  array  The URL arguments to use to assemble the subsequent URL.
  */
-function NewsfeedsBuildRoute(&$query)
+function newsfeedsBuildRoute(&$query)
 {
 	$segments = array();
 
