@@ -20,7 +20,7 @@ function newsfeedsBuildRoute(&$query)
 {
 	$segments = array();
 
-	// get a menu item based on Itemid or currently active
+	// Get a menu item based on Itemid or currently active
 	$app	= JFactory::getApplication();
 	$menu	= $app->getMenu();
 	$params = JComponentHelper::getParams('com_newsfeeds');
