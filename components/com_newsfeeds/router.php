@@ -144,7 +144,7 @@ function newsfeedsBuildRoute(&$query)
 /**
  * Parse the segments of a URL.
  *
- * @return  array  The segments of the URL to parse.
+ * @param   array  $segments  The segments of the URL to parse.
  *
  * @return  array  The URL attributes to be used by the application.
  */
