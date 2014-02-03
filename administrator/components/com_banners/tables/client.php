@@ -18,6 +18,13 @@ defined('_JEXEC') or die;
  */
 class BannersTableClient extends JTable
 {
+	/**
+	 * Constructor
+	 *
+	 * @param   JDatabaseDriver  &$_db  Database connector object
+	 *
+	 * @since   1.5
+	 */
 	public function __construct(&$_db)
 	{
 		$this->checked_out_time = $_db->getNullDate();
@@ -29,11 +36,12 @@ class BannersTableClient extends JTable
 	 * table.  The method respects checked out rows by other users and will attempt
 	 * to checkin rows that it can after adjustments are made.
 	 *
-	 * @param   mixed	An optional array of primary key values to update.  If not
-	 *					set the instance property value is used.
-	 * @param   integer The publishing state. eg. [0 = unpublished, 1 = published]
-	 * @param   integer The user id of the user performing the operation.
+	 * @param   mixed    $pks     An optional array of primary key values to update.  If not set the instance property value is used.
+	 * @param   integer  $state   The publishing state. eg. [0 = unpublished, 1 = published, 2=archived, -2=trashed]
+	 * @param   integer  $userId  The user id of the user performing the operation.
+	 *
 	 * @return  boolean  True on success.
+	 *
 	 * @since   1.0.4
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
@@ -56,6 +64,7 @@ class BannersTableClient extends JTable
 			else
 			{
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+
 				return false;
 			}
 		}
@@ -88,6 +97,7 @@ class BannersTableClient extends JTable
 		catch (RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
+
 			return false;
 		}
 
@@ -108,6 +118,7 @@ class BannersTableClient extends JTable
 		}
 
 		$this->setError('');
+
 		return true;
 	}
 }
