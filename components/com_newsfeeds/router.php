@@ -56,6 +56,7 @@ function newsfeedsBuildRoute(&$query)
 		unset($query['view']);
 		unset($query['catid']);
 		unset($query['id']);
+
 		return $segments;
 	}
 
@@ -167,6 +168,7 @@ function newsfeedsParseRoute($segments)
 	{
 		$vars['view']	= $segments[0];
 		$vars['id']		= $segments[$count - 1];
+
 		return $vars;
 	}
 
