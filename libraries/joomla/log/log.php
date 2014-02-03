@@ -150,7 +150,15 @@ class JLog
 			$entry = new JLogEntry((string) $entry, $priority, $category, $date);
 		}
 
-		self::$instance->addLogEntry($entry);
+		// By default, logging is an option not a right
+		try
+		{
+			self::$instance->addLogEntry($entry);
+		}
+		catch (\RuntimeException $e)
+		{
+// Do nothing; the logs directory is probably not writeable (usually Plesk-based hosts)
+		}
 	}
 
 	/**
