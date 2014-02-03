@@ -95,11 +95,11 @@ class PlgUserJoomla extends JPlugin
 					 * Look for user language. Priority:
 					 * 	1. User frontend language
 					 * 	2. User backend language
-					 * 	3. Default backend language
 					 */
 					$userParams = new JRegistry($user['params']);
+					$userLocale = $userParams->get('language', $userParams->get('admin_language', $defaultLocale));
 
-					if ($userLocale = $userParams->get('language', $userParams->get('admin_language')))
+					if ($userLocale != $defaultLocale)
 					{
 						$lang->setLanguage($userLocale);
 					}
@@ -135,8 +135,8 @@ class PlgUserJoomla extends JPlugin
 						->setSubject($emailSubject)
 						->setBody($emailBody);
 
-					// Set language back to default
-					if ($userLocale)
+					// Set application language back to default if we changed it
+					if ($userLocale != $defaultLocale)
 					{
 						$lang->setLanguage($defaultLocale);
 					}
