@@ -118,7 +118,7 @@ class PluginsViewPlugins extends JViewLegacy
 	{
 		return array(
 				'ordering' => JText::_('JGRID_HEADING_ORDERING'),
-				'a.state' => JText::_('JSTATUS'),
+				'enabled' => JText::_('JSTATUS'),
 				'name' => JText::_('JGLOBAL_TITLE'),
 				'folder' => JText::_('COM_PLUGINS_FOLDER_HEADING'),
 				'element' => JText::_('COM_PLUGINS_ELEMENT_HEADING'),
