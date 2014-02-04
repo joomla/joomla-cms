@@ -16,10 +16,8 @@ $published = $this->state->get('filter.published');
 		<button type="button" class="close" data-dismiss="modal">&#215;</button>
 		<h3><?php echo JText::_('COM_CONTENT_BATCH_OPTIONS'); ?></h3>
 	</div>
-	<div class="modal-body modal-batch row-fluid">
-		<p class="span12">
-			<?php echo JText::_('COM_CONTENT_BATCH_TIP'); ?>
-		</p>
+	<div class="modal-body modal-batch">
+		<p><?php echo JText::_('COM_CONTENT_BATCH_TIP'); ?></p>
 		<div class="row-fluid">
 			<div class="control-group span6">
 				<div class="controls">
