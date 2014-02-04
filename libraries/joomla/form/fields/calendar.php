@@ -143,7 +143,7 @@ class JFormFieldCalendar extends JFormField
 		$hint = $this->translateHint ? JText::_($this->hint) : $this->hint;
 
 		// Initialize some field attributes.
-		$format = $this->format;
+		$format = (strpos($this->format, '%') !== false) ? str_replace("%", "", $this->format) : $this->format;
 
 		// Build the attributes array.
 		$attributes = array();
@@ -211,6 +211,6 @@ class JFormFieldCalendar extends JFormField
 		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/html5fallback.js', false, true);
 
-		return JHtml::_('calendar', $this->value, $this->name, $this->id, $format, $attributes);
+		return JHtml::_('calendar', $this->value, $this->name, $this->id, $this->format, $attributes);
 	}
 }
