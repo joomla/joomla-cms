@@ -41,5 +41,4 @@ class WeblinksHelper extends JHelperContent
 			$vName == 'categories'
 		);
 	}
-
 }
