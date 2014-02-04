@@ -21,7 +21,7 @@ class WeblinksHelper extends JHelperContent
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string	$vName  The name of the active view.
+	 * @param   string  $vName  The name of the active view.
 	 *
 	 * @return  void
 	 *
