@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -209,15 +209,7 @@ class TagsViewTag extends JViewLegacy
 			$this->params->set('page_subheading', $menu->title);
 		}
 
-		// If this is not a single tag menu item, set the page title to the menu item title
-		if (count($this->item) == 1)
-		{
-			$title = $this->item[0]->title;
-		}
-		else
-		{
-			$title = $this->state->params->get('page_title');
-		}
+		$title = $this->state->params->get('page_title');
 
 		if (empty($title))
 		{

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Joomla.Libraries
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,14 +12,13 @@ defined('_JEXEC') or die('Restricted access');
 /**
  * Helper class for controllers
  *
- * @package     Joomla.Libraries
- * @subpackage  controller
+ * @package     Joomla.Site
+ * @subpackage  com_config
  * @since       3.2
 */
 class ConfigControllerHelper
 {
-
-	/*
+	/**
 	 * Method to parse a controller from a url
 	 * Defaults to the base controllers and passes an array of options.
 	 * $options[0] is the location of the controller which defaults to the core libraries (referenced as 'j'
@@ -29,13 +28,12 @@ class ConfigControllerHelper
 	 * not prefixed with Config.
 	 * Additional options maybe added to parameterise the controller.
 	 *
-	 * @param  JApplication  $app  A JApplication object (could be JApplication or JApplicationCms)
+	 * @param   JApplicationBase  $app  An application object
 	 *
 	 * @return  JController  A JController object
 	 *
-	 * @since  3.2
+	 * @since   3.2
 	 */
-
 	public function parseController($app)
 	{
 		$tasks = array();
@@ -108,7 +106,7 @@ class ConfigControllerHelper
 			}
 		}
 
-		$controllerName = $location .  'Controller' . $view . $activity;
+		$controllerName = $location . 'Controller' . $view . $activity;
 
 		if (!class_exists($controllerName))
 		{

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  UCM
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -61,19 +61,19 @@ class JUcmType implements JUcm
 	public $type;
 
 	/**
-	* The Database object
-	*
-	* @var    JDatabaseDriver
-	* @since  3.1
-	*/
+	 * The Database object
+	 *
+	 * @var    JDatabaseDriver
+	 * @since  3.1
+	 */
 	protected $db;
 
 	/**
-	* The alias for the content type
-	*
-	* @var	  string
-	* @since  3.1
-	*/
+	 * The alias for the content type
+	 *
+	 * @var	  string
+	 * @since  3.1
+	 */
 	protected $alias;
 
 	/**
@@ -96,14 +96,14 @@ class JUcmType implements JUcm
 	}
 
 	/**
-	* Get the Content Type
-	*
-	* @param   integer  $pk  The primary key of the alias type
-	*
-	* @return  object  The UCM Type data
-	*
-	* @since   3.1
-	*/
+	 * Get the Content Type
+	 *
+	 * @param   integer  $pk  The primary key of the alias type
+	 *
+	 * @return  object  The UCM Type data
+	 *
+	 * @since   3.1
+	 */
 	public function getType($pk = null)
 	{
 		if (!$pk)
@@ -144,6 +144,40 @@ class JUcmType implements JUcm
 		$type = $this->db->loadObject();
 
 		return $type;
+	}
+
+	/**
+	 * Get the Content Type from the table class name
+	 *
+	 * @param   string  $tableName  The table for the type
+	 *
+	 * @return  mixed  The UCM Type data if found, false if no match is found
+	 *
+	 * @since   3.2
+	 */
+	public function getTypeByTable($tableName)
+	{
+		$query	= $this->db->getQuery(true);
+		$query->select('ct.*');
+		$query->from($this->db->quoteName('#__content_types', 'ct'));
+
+		// $query->where($this->db->quoteName('ct.type_alias') . ' = ' . (int) $typeAlias);
+		$this->db->setQuery($query);
+
+		$types = $this->db->loadObjectList();
+
+		foreach ($types as $type)
+		{
+			$tableFromType = json_decode($type->table);
+			$tableNameFromType = $tableFromType->special->prefix . $tableFromType->special->type;
+
+			if ($tableNameFromType == $tableName)
+			{
+				return $type;
+			}
+		}
+
+		return false;
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -141,8 +141,6 @@ class JFormFieldEditor extends JFormFieldTextarea
 	 */
 	public function __set($name, $value)
 	{
-		$value = (string) $value;
-
 		switch ($name)
 		{
 			case 'height':
@@ -150,10 +148,12 @@ class JFormFieldEditor extends JFormFieldTextarea
 			case 'assetField':
 			case 'authorField':
 			case 'asset':
-				$this->$name = $value;
+				$this->$name = (string) $value;
 				break;
 
 			case 'buttons':
+				$value = (string) $value;
+
 				if ($value == 'true' || $value == 'yes' || $value == '1')
 				{
 					$this->buttons = true;
@@ -169,12 +169,13 @@ class JFormFieldEditor extends JFormFieldTextarea
 				break;
 
 			case 'hide':
+				$value = (string) $value;
 				$this->hide = $value ? explode(',', $value) : array();
 				break;
 
 			case 'editorType':
 				// Can be in the form of: editor="desired|alternative".
-				$this->editorType  = explode('|', trim($value));
+				$this->editorType  = explode('|', trim((string) $value));
 				break;
 
 			default:

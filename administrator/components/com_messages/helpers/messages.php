@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,26 +37,6 @@ class MessagesHelper
 			'index.php?option=com_messages',
 			$vName == 'messages'
 		);
-	}
-
-	/**
-	 * Gets a list of the actions that can be performed.
-	 *
-	 * @return  JObject
-	 */
-	public static function getActions()
-	{
-		$user	= JFactory::getUser();
-		$result	= new JObject;
-
-		$actions = JAccess::getActions('com_messages');
-
-		foreach ($actions as $action)
-		{
-			$result->set($action->name,	$user->authorise($action->name, 'com_messages'));
-		}
-
-		return $result;
 	}
 
 	/**

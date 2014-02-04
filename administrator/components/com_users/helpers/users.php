@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,7 +42,7 @@ class UsersHelper
 		);
 
 		// Groups and Levels are restricted to core.admin
-		$canDo = self::getActions();
+		$canDo = JHelperContent::getActions('com_users');
 
 		if ($canDo->get('core.admin'))
 		{
@@ -69,32 +69,6 @@ class UsersHelper
 				$vName == 'categories' || $extension == 'com_users'
 			);
 		}
-	}
-
-	/**
-	 * Gets a list of the actions that can be performed.
-	 *
-	 * @return  JObject
-	 *
-	 * @since   1.6
-	 * @todo    Refactor to work with notes
-	 */
-	public static function getActions()
-	{
-		if (empty(self::$actions))
-		{
-			$user = JFactory::getUser();
-			self::$actions = new JObject;
-
-			$actions = JAccess::getActions('com_users');
-
-			foreach ($actions as $action)
-			{
-				self::$actions->set($action->name, $user->authorise($action->name, 'com_users'));
-			}
-		}
-
-		return self::$actions;
 	}
 
 	/**
@@ -211,7 +185,7 @@ class UsersHelper
 		$identities = FOFPlatform::getInstance()->runPlugins('onUserTwofactorIdentify', array());
 
 		$options = array(
-			JHtml::_('select.option', 'none', JText::_('COM_USERS_OPTION_OTPMETHOD_NONE'), 'value', 'text'),
+			JHtml::_('select.option', 'none', JText::_('JGLOBAL_OTPMETHOD_NONE'), 'value', 'text'),
 		);
 
 		if (!empty($identities))
