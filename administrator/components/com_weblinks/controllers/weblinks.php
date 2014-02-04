@@ -25,6 +25,7 @@ class WeblinksControllerWeblinks extends JControllerAdmin
 	public function getModel($name = 'Weblink', $prefix = 'WeblinksModel', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
+
 		return $model;
 	}
 
