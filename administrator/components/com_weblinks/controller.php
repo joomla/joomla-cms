@@ -30,7 +30,7 @@ class WeblinksController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		require_once JPATH_COMPONENT.'/helpers/weblinks.php';
+		require_once JPATH_COMPONENT . '/helpers/weblinks.php';
 
 		$view   = $this->input->get('view', 'weblinks');
 		$layout = $this->input->get('layout', 'default');
