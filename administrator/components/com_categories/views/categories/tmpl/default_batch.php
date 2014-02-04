@@ -23,10 +23,8 @@ $extension = $this->escape($this->state->get('filter.extension'));
 		<button type="button" class="close" data-dismiss="modal">&#215;</button>
 		<h3><?php echo JText::_('COM_CATEGORIES_BATCH_OPTIONS'); ?></h3>
 	</div>
-	<div class="modal-body modal-batch row-fluid">
-		<p class="span12">
-			<?php echo JText::_('COM_CATEGORIES_BATCH_TIP'); ?>
-		</p>
+	<div class="modal-body modal-batch">
+		<p><?php echo JText::_('COM_CATEGORIES_BATCH_TIP'); ?></p>
 		<div class="row-fluid">
 			<div class="control-group span6">
 				<div class="controls">
@@ -46,19 +44,21 @@ $extension = $this->escape($this->state->get('filter.extension'));
 				</div>
 			</div>
 			<?php if ($published >= 0) : ?>
-				<div class="control-group span6">
-					<label id="batch-choose-action-lbl" for="batch-category-id" class="control-label">
-						<?php echo JText::_('COM_CATEGORIES_BATCH_CATEGORY_LABEL'); ?>
-					</label>
-					<div id="batch-choose-action" class="combo controls">
-						<select name="batch[category_id]" class="inputbox" id="batch-category-id">
-							<option value=""><?php echo JText::_('JSELECT') ?></option>
-							<?php echo JHtml::_('select.options', JHtml::_('category.categories', $extension, array('filter.published' => $published))); ?>
-						</select>
+				<div class="span6">
+					<div class="control-group">
+						<label id="batch-choose-action-lbl" for="batch-category-id" class="control-label">
+							<?php echo JText::_('COM_CATEGORIES_BATCH_CATEGORY_LABEL'); ?>
+						</label>
+						<div id="batch-choose-action" class="combo controls">
+							<select name="batch[category_id]" class="inputbox" id="batch-category-id">
+								<option value=""><?php echo JText::_('JSELECT') ?></option>
+								<?php echo JHtml::_('select.options', JHtml::_('category.categories', $extension, array('filter.published' => $published))); ?>
+							</select>
+						</div>
 					</div>
-				</div>
-				<div class="control-group radio">
-					<?php echo JHtml::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
+					<div class="control-group radio">
+						<?php echo JHtml::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
+					</div>
 				</div>
 			<?php endif; ?>
 		</div>
