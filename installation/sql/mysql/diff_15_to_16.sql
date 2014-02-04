@@ -824,7 +824,7 @@ CREATE TABLE  `#__updates` (
   `type` varchar(20) default '',
   `folder` varchar(20) default '',
   `client_id` tinyint(3) default '0',
-  `version` varchar(10) default '',
+  `version` varchar(32) default '',
   `data` text,
   `detailsurl` text,
   PRIMARY KEY  (`update_id`)
