@@ -53,13 +53,11 @@ $assoc		= JLanguageAssociations::isEnabled();
 
 <form action="<?php echo JRoute::_('index.php?option=com_content&view=articles'); ?>" method="post" name="adminForm" id="adminForm">
 <?php if (!empty( $this->sidebar)) : ?>
-	<div id="j-sidebar-container" class="span2">
+	<div id="j-sidebar-container" class="hidden-desktop hidden-tablet">
 		<?php echo $this->sidebar; ?>
 	</div>
-	<div id="j-main-container" class="span10">
-<?php else : ?>
-	<div id="j-main-container">
 <?php endif;?>
+	<div id="j-main-container">
 		<?php
 		// Search tools bar
 		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));

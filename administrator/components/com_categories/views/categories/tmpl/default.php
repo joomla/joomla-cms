@@ -52,12 +52,12 @@ $sortFields = $this->getSortFields();
 	}
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_categories&view=categories'); ?>" method="post" name="adminForm" id="adminForm">
-	<?php if (!empty($this->sidebar)) : ?>
-		<div id="j-sidebar-container" class="span2">
-			<?php echo $this->sidebar; ?>
-		</div>
-	<?php endif; ?>
-	<div id="j-main-container"<?php echo !empty($this->sidebar) ? ' class="span10"' : ''; ?>>
+<?php if (!empty( $this->sidebar)) : ?>
+	<div id="j-sidebar-container" class="hidden-desktop hidden-tablet">
+		<?php echo $this->sidebar; ?>
+	</div>
+<?php endif;?>
+	<div id="j-main-container">
 		<?php
 		// Search tools bar
 		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
