@@ -19,7 +19,14 @@ defined('_JEXEC') or die;
 class WeblinksControllerWeblinks extends JControllerAdmin
 {
 	/**
-	 * Proxy for getModel.
+	 * Proxy for getModel
+	 *
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  The array of possible config values. Optional.
+	 *
+	 * @return  object  The model.
+	 *
 	 * @since   1.6
 	 */
 	public function getModel($name = 'Weblink', $prefix = 'WeblinksModel', $config = array('ignore_request' => true))
@@ -32,8 +39,8 @@ class WeblinksControllerWeblinks extends JControllerAdmin
 	/**
 	 * Method to provide child classes the opportunity to process after the delete task.
 	 *
-	 * @param   JModelLegacy   $model   The model for the component
-	 * @param   mixed          $ids     array of ids deleted.
+	 * @param   JModelLegacy  $model  The model for the component
+	 * @param   mixed         $ids    array of ids deleted.
 	 *
 	 * @return  void
 	 *
