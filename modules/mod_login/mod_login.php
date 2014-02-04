@@ -20,10 +20,14 @@ $twofactormethods = ModLoginHelper::getTwoFactorMethods();
 $user	          = JFactory::getUser();
 $layout           = $params->get('layout', 'default');
 
-// Logged users must load the logout sublayout
 if (!$user->guest)
 {
+	// Logged users must load the logout sublayout
 	$layout .= '_logout';
+}
+else {
+	// Guests can see Two Factor methods
+	$twofactormethods = ModLoginHelper::getTwoFactorMethods();
 }
 
 require JModuleHelper::getLayoutPath('mod_login', $layout);
