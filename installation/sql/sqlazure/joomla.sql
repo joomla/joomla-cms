@@ -2455,6 +2455,7 @@ CREATE TABLE [#__languages](
 	[published] [int] NOT NULL,
 	[ordering]  [int] NOT NULL,
 	[sitename] [nvarchar] (1024) NOT NULL,
+	[access] [bigint] NOT NULL DEFAULT 0,
  CONSTRAINT [PK_#__languages_lang_id] PRIMARY KEY CLUSTERED
 (
 	[lang_id] ASC
@@ -2480,8 +2481,8 @@ End;
 
 SET IDENTITY_INSERT #__languages  ON;
 
-INSERT INTO #__languages (lang_id,lang_code,title,title_native,sef,image,description,metakey,metadesc,sitename,published,ordering)
-VALUES('1', 'en-GB', 'English (UK)', 'English (UK)', 'en', 'en', '', '', '', '', '1','1');
+INSERT INTO #__languages (lang_id,lang_code,title,title_native,sef,image,description,metakey,metadesc,sitename,published,ordering,access)
+VALUES('1', 'en-GB', 'English (UK)', 'English (UK)', 'en', 'en', '', '', '', '', '1','1','1');
 
 SET IDENTITY_INSERT #__languages  OFF;
 
