@@ -31,6 +31,7 @@ if (!empty($this->query->highlight) && empty($this->result->mime) && $this->para
 	<h4 class="result-title <?php echo $mime; ?>"><a href="<?php echo JRoute::_($route); ?>"><?php echo $this->result->title; ?></a></h4>
 	<?php if ($this->params->get('show_description', 1)) : ?>
 	<p class="result-text<?php echo $this->pageclass_sfx; ?>">
+		<?php preg_match('/(?:.){0,' . $length . '}' . $this->query->input . '(?:.){0,' . $length . '}/s', $this->result->description, $description); ?>
 		<?php if(!empty($description[0])) : ?>
 			<?php echo $description[0]; ?>
 		<?php else: ?>
