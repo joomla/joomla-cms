@@ -37,6 +37,16 @@ class JHttpFactory
 			$options = new JRegistry;
 		}
 
+		if (empty($adapters))
+		{
+			$config = JFactory::getConfig();
+
+			if ($config->get('proxy_enable', 0))
+			{
+				$adapters = 'curl';
+			}
+		}
+
 		if (!$driver = self::getAvailableDriver($options, $adapters))
 		{
 			throw new RuntimeException('No transport driver available.');
