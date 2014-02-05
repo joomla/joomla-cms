@@ -140,6 +140,11 @@ abstract class JModuleHelper
 	{
 		static $chrome;
 
+		if (!is_object($module))
+		{
+			return;
+		}
+
 		if (defined('JDEBUG'))
 		{
 			JProfiler::getInstance('Application')->mark('beforeRenderModule ' . $module->module . ' (' . $module->title . ')');
