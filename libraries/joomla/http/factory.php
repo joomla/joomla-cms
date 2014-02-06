@@ -41,7 +41,7 @@ class JHttpFactory
 		{
 			$config = JFactory::getConfig();
 
-			if ($config->get('proxy_enable', 0))
+			if ($config->get('proxy_enable'))
 			{
 				$adapters = 'curl';
 			}
