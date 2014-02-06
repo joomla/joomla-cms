@@ -40,22 +40,22 @@ $sortFields = $this->getSortFields();
 		table = document.getElementById("sortTable");
 		direction = document.getElementById("directionTable");
 		order = table.options[table.selectedIndex].value;
-		if (order != '<?php echo $listOrder; ?>') {
+		if (order != '<?php echo $listOrder; ?>')
+		{
 			dirn = 'asc';
 		}
-		else {
+		else
+		{
 			dirn = direction.options[direction.selectedIndex].value;
 		}
 		Joomla.tableOrdering(order, dirn, '');
 	}
 </script>
 <form action="<?php echo JRoute::_('index.php?option=com_categories&view=categories'); ?>" method="post" name="adminForm" id="adminForm">
-	<?php if (!empty($this->sidebar)) : ?>
-		<div id="j-sidebar-container" class="span2">
-			<?php echo $this->sidebar; ?>
-		</div>
-	<?php endif; ?>
-	<div id="j-main-container"<?php echo !empty($this->sidebar) ? ' class="span10"' : ''; ?>>
+	<div id="j-sidebar-container" class="span2">
+		<?php echo $this->sidebar; ?>
+	</div>
+	<div id="j-main-container" class="span10">
 		<?php
 		// Search tools bar
 		echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this));
@@ -152,8 +152,8 @@ $sortFields = $this->getSortFields();
 								}
 								?>
 								<span class="sortable-handler<?php echo $iconClass ?>">
-								<i class="icon-menu"></i>
-							</span>
+									<i class="icon-menu"></i>
+								</span>
 								<?php if ($canChange && $saveOrder) : ?>
 									<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $orderkey + 1; ?>" />
 								<?php endif; ?>
@@ -176,12 +176,12 @@ $sortFields = $this->getSortFields();
 									<?php echo $this->escape($item->title); ?>
 								<?php endif; ?>
 								<span class="small" title="<?php echo $this->escape($item->path); ?>">
-								<?php if (empty($item->note)) : ?>
-									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
-								<?php else : ?>
-									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
-								<?php endif; ?>
-							</span>
+									<?php if (empty($item->note)) : ?>
+										<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+									<?php else : ?>
+										<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
+									<?php endif; ?>
+								</span>
 							</td>
 							<td class="small hidden-phone">
 								<?php echo $this->escape($item->access_level); ?>
@@ -201,8 +201,8 @@ $sortFields = $this->getSortFields();
 								<?php endif; ?>
 							</td>
 							<td class="center hidden-phone">
-							<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt); ?>">
-								<?php echo (int) $item->id; ?></span>
+								<span title="<?php echo sprintf('%d-%d', $item->lft, $item->rgt); ?>">
+									<?php echo (int) $item->id; ?></span>
 							</td>
 						</tr>
 					<?php endforeach; ?>

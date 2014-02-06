@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('formbehavior.chosen', 'select');
-
 $published = $this->state->get('filter.published');
 ?>
 <div class="modal hide fade" id="collapseModal">
@@ -18,16 +16,18 @@ $published = $this->state->get('filter.published');
 		<button type="button" class="close" data-dismiss="modal">&#215;</button>
 		<h3><?php echo JText::_('COM_TAGS_BATCH_OPTIONS'); ?></h3>
 	</div>
-	<div class="modal-body">
+	<div class="modal-body modal-batch">
 		<p><?php echo JText::_('COM_TAGS_BATCH_TIP'); ?></p>
-		<div class="control-group">
-			<div class="controls">
-				<?php echo JHtml::_('batch.access'); ?>
+		<div class="row-fluid">
+			<div class="control-group span6">
+				<div class="controls">
+					<?php echo JHtml::_('batch.language'); ?>
+				</div>
 			</div>
-		</div>
-		<div class="control-group">
-			<div class="controls">
-				<?php echo JHtml::_('batch.language'); ?>
+			<div class="control-group span6">
+				<div class="controls">
+					<?php echo JHtml::_('batch.access'); ?>
+				</div>
 			</div>
 		</div>
 	</div>

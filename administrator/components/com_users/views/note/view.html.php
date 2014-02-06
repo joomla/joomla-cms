@@ -86,7 +86,9 @@ class UsersViewNote extends JViewLegacy
 		$user		= JFactory::getUser();
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
-		$canDo		= UsersHelper::getActions($this->state->get('filter.category_id'), $this->item->id);
+
+		// Since we don't track these assets at the item level, use the category id.
+		$canDo		= JHelperContent::getActions('com_users', 'category', $this->item->catid);
 
 		JToolbarHelper::title(JText::_('COM_USERS_NOTES'), 'users user');
 

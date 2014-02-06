@@ -19,7 +19,8 @@ defined('_JEXEC') or die;
 class BannersControllerTracks extends JControllerLegacy
 {
 	/**
-	 * @var		string	The context for persistent state.
+	 * @var     string  The prefix to use with controller messages.
+	 *
 	 * @since   1.6
 	 */
 	protected $context = 'com_banners.tracks';
@@ -38,6 +39,7 @@ class BannersControllerTracks extends JControllerLegacy
 	public function getModel($name = 'Tracks', $prefix = 'BannersModel', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
+
 		return $model;
 	}
 
@@ -45,6 +47,7 @@ class BannersControllerTracks extends JControllerLegacy
 	 * Method to remove a record.
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public function delete()
@@ -77,6 +80,7 @@ class BannersControllerTracks extends JControllerLegacy
 		$model->setState('list.start', 0);
 
 		$count = $model->getTotal();
+
 		// Remove the items.
 		if (!$model->delete())
 		{

@@ -91,7 +91,7 @@ class TemplatesViewTemplates extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo = TemplatesHelper::getActions();
+		$canDo = JHelperContent::getActions('com_templates');
 
 		JToolbarHelper::title(JText::_('COM_TEMPLATES_MANAGER_TEMPLATES'), 'eye thememanager');
 

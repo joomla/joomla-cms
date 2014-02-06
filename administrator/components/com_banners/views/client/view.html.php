@@ -33,18 +33,23 @@ class BannersViewClient extends JViewLegacy
 
 	/**
 	 * Display the view
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
-		$this->form	= $this->get('Form');
-		$this->item	= $this->get('Item');
+		$this->form		= $this->get('Form');
+		$this->item		= $this->get('Item');
 		$this->state	= $this->get('State');
-		$this->canDo = JHelperContent::getActions(0, 0, 'com_banners');
+		$this->canDo	= JHelperContent::getActions('com_banners');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -54,6 +59,8 @@ class BannersViewClient extends JViewLegacy
 
 	/**
 	 * Add the page title and toolbar.
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -74,9 +81,9 @@ class BannersViewClient extends JViewLegacy
 			JToolbarHelper::apply('client.apply');
 			JToolbarHelper::save('client.save');
 		}
+
 		if (!$checkedOut && $canDo->get('core.create'))
 		{
-
 			JToolbarHelper::save2new('client.save2new');
 		}
 		// If an existing item, can save to a copy.
