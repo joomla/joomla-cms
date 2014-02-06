@@ -144,9 +144,11 @@ class JHttpTransportCurl implements JHttpTransport
 
 		// Proxy configuration
 		$config = JFactory::getConfig();
-		if ($config->get('proxy_enable', 0))
+
+		if ($config->get('proxy_enable'))
 		{
 			$options[CURLOPT_PROXY] = $config->get('proxy_host') . ':' . $config->get('proxy_port');
+
 			if ($user = $config->get('proxy_user'))
 			{
 				$options[CURLOPT_PROXYUSERPWD] = $user . ':' . $config->get('proxy_pass');
