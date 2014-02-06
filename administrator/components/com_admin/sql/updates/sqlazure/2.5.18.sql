@@ -1,1 +1,1 @@
-# Placeholder file for database changes for version 2.5.18
+ALTER TABLE [#__languages] ADD [access] [bigint] NOT NULL DEFAULT 0;
