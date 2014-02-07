@@ -96,7 +96,7 @@ class JFormFieldModal_Article extends JFormField
 
 		$title = false;
 
-		if ((int)$this->value > 0)
+		if ((int) $this->value > 0)
 		{
 			$db	= JFactory::getDbo();
 			$db->setQuery(
