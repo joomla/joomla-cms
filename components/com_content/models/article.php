@@ -108,21 +108,6 @@ class ContentModelArticle extends JModelItem
 				$query->select('u.name AS author');
 				$query->join('LEFT', '#__users AS u on u.id = a.created_by');
 
-				// Get contact id
-				$subQuery = $db->getQuery(true);
-				$subQuery->select('MAX(contact.id) AS id');
-				$subQuery->from('#__contact_details AS contact');
-				$subQuery->where('contact.published = 1');
-				$subQuery->where('contact.user_id = a.created_by');
-
-				// Filter by language
-				if ($this->getState('filter.language'))
-				{
-					$subQuery->where('(contact.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ') OR contact.language IS NULL)');
-				}
-
-				$query->select('(' . $subQuery . ') as contactid');
-
 				// Filter by language
 				if ($this->getState('filter.language'))
 				{
@@ -182,6 +167,8 @@ class ContentModelArticle extends JModelItem
 				if (((is_numeric($published)) || (is_numeric($archived))) && (($data->state != $published) && ($data->state != $archived))) {
 					return JError::raiseError(404, JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
 				}
+
+                $data->contactid = $this->getContactID($data->created_by);
 
 				// Convert parameter fields to objects.
 				$registry = new JRegistry;
@@ -247,6 +234,36 @@ class ContentModelArticle extends JModelItem
 
 		return $this->_item[$pk];
 	}
+
+    /**
+     * Retrieve Contact
+     *
+     * @param   int    $created_by
+     *
+     * @return  mixed|null|integer
+     */
+    protected function getContactID($created_by)
+    {
+        $db = JFactory::getDbo();
+        $query = $db->getQuery(true);
+        $query->clear();
+
+        $query->select('MAX(contact.id) AS contactid');
+        $query->from('#__contact_details AS contact');
+        $query->where('contact.published = 1');
+        $query->where('contact.user_id = ' . (int) $created_by);
+
+        if (JLanguageMultilang::isEnabled())
+        {
+            $query->where('(contact.language in '
+                . '(' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ') '
+                . ' OR contact.language IS NULL)');
+        }
+
+        $db->setQuery($query->__toString());
+
+        return $db->loadResult();
+    }
 
 	/**
 	 * Increment the hit counter for the article.

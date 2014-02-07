@@ -204,21 +204,6 @@ class ContentModelArticles extends JModelList
 		$query->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 		$query->join('LEFT', '#__users AS uam ON uam.id = a.modified_by');
 
-		// Get contact id
-		$subQuery = $db->getQuery(true);
-		$subQuery->select('MAX(contact.id) AS id');
-		$subQuery->from('#__contact_details AS contact');
-		$subQuery->where('contact.published = 1');
-		$subQuery->where('contact.user_id = a.created_by');
-
-		// Filter by language
-		if ($this->getState('filter.language'))
-		{
-			$subQuery->where('(contact.language in (' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ') OR contact.language IS NULL)');
-		}
-
-		$query->select('(' . $subQuery . ') as contactid');
-
 		// Join over the categories to get parent category titles
 		$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias');
 		$query->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
@@ -589,6 +574,8 @@ class ContentModelArticles extends JModelList
 					$item->params->set('access-view', in_array($item->access, $groups) && in_array($item->category_access, $groups));
 				}
 			}
+
+            $item->contactid = $this->getContactID($item->created_by);
 		}
 
 		return $items;
@@ -597,4 +584,34 @@ class ContentModelArticles extends JModelList
 	{
 		return $this->getState('list.start');
 	}
+
+    /**
+     * Retrieve Contact
+     *
+     * @param   int    $created_by
+     *
+     * @return  mixed|null|integer
+     */
+    protected function getContactID($created_by)
+    {
+        $db = JFactory::getDbo();
+        $query = $db->getQuery(true);
+        $query->clear();
+
+        $query->select('MAX(contact.id) AS contactid');
+        $query->from('#__contact_details AS contact');
+        $query->where('contact.published = 1');
+        $query->where('contact.user_id = ' . (int) $created_by);
+
+        if (JLanguageMultilang::isEnabled())
+        {
+            $query->where('(contact.language in '
+                . '(' . $db->quote(JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ') '
+                . ' OR contact.language IS NULL)');
+        }
+
+        $db->setQuery($query->__toString());
+
+        return $db->loadResult();
+    }
 }
