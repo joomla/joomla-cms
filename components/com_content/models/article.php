@@ -80,7 +80,7 @@ class ContentModelArticle extends JModelItem
 		if (!isset($this->_item[$pk]))
 		{
 			try
-			{	
+			{
 				$db = $this->getDbo();
 				$query = $db->getQuery(true)
 					->select(
