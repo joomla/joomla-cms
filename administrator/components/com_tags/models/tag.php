@@ -47,6 +47,7 @@ class TagsModelTag extends JModelAdmin
 			{
 				return;
 			}
+
 			return parent::canDelete($record);
 		}
 	}
@@ -119,7 +120,6 @@ class TagsModelTag extends JModelAdmin
 	{
 		if ($result = parent::getItem($pk))
 		{
-
 			// Prime required properties.
 			if (empty($result->id))
 			{
@@ -186,12 +186,14 @@ class TagsModelTag extends JModelAdmin
 
 		// Get the form.
 		$form = $this->loadForm('com_tags.tag', 'tag', array('control' => 'jform', 'load_data' => $loadData));
+
 		if (empty($form))
 		{
 			return false;
 		}
 
 		$user = JFactory::getUser();
+
 		if (!$user->authorise('core.edit.state', 'com_tags' . $jinput->get('id')))
 		{
 			// Disable fields for display.
@@ -307,6 +309,7 @@ class TagsModelTag extends JModelAdmin
 		if (!$table->bind($data))
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
@@ -321,14 +324,17 @@ class TagsModelTag extends JModelAdmin
 		if (!$table->check())
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
 		// Trigger the onContentBeforeSave event.
 		$result = $dispatcher->trigger($this->event_before_save, array($this->option . '.' . $this->name, &$table, $isNew));
+
 		if (in_array(false, $result, true))
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
@@ -336,6 +342,7 @@ class TagsModelTag extends JModelAdmin
 		if (!$table->store())
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
@@ -346,6 +353,7 @@ class TagsModelTag extends JModelAdmin
 		if (!$table->rebuildPath($table->id))
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
@@ -380,6 +388,7 @@ class TagsModelTag extends JModelAdmin
 		if (!$table->rebuild())
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
@@ -409,6 +418,7 @@ class TagsModelTag extends JModelAdmin
 		if (!$table->saveorder($idArray, $lft_array))
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
@@ -433,6 +443,7 @@ class TagsModelTag extends JModelAdmin
 	{
 		// Alter the title & alias
 		$table = $this->getTable();
+
 		while ($table->load(array('alias' => $alias, 'parent_id' => $parent_id)))
 		{
 			$title = ($table->title != $title) ? $title : JString::increment($title);

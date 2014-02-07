@@ -24,11 +24,13 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 $ordering 	= ($listOrder == 'a.lft');
 $canOrder	= $user->authorise('core.edit.state',	'com_tags');
 $saveOrder 	= ($listOrder == 'a.lft' && $listDirn == 'asc');
+
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_tags&task=tags.saveOrderAjax';
 	JHtml::_('sortablelist.sortable', 'categoryList', 'adminForm', strtolower($listDirn), $saveOrderingUrl, false, true);
 }
+
 $sortFields = $this->getSortFields();
 ?>
 <script type="text/javascript">
@@ -138,6 +140,7 @@ $sortFields = $this->getSortFields();
 						$parentsStr = "";
 						$_currentParentId = $item->parent_id;
 						$parentsStr = " ".$_currentParentId;
+						
 						for ($j = 0; $j < $item->level; $j++)
 						{
 							foreach ($this->ordering as $k => $v)

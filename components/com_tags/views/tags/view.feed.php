@@ -29,6 +29,7 @@ class TagsViewTags extends JViewLegacy
 		$fromName  = $app->getCfg('fromname');
 		$feedEmail = $app->getCfg('feed_email', 'author');
 		$document->editor = $fromName;
+
 		if ($feedEmail != "none")
 		{
 			$document->editorEmail = $siteEmail;
@@ -36,6 +37,7 @@ class TagsViewTags extends JViewLegacy
 
 		// Get some data from the model
 		$items    = $this->get('Items');
+
 		foreach ($items as $item)
 		{
 			// Strip HTML from feed item title

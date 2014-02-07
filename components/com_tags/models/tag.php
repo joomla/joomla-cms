@@ -37,7 +37,8 @@ class TagsModelTag extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
 	 * @see     JController
 	 * @since   3.1
 	 */
@@ -126,7 +127,6 @@ class TagsModelTag extends JModelList
 	 */
 	protected function getListQuery()
 	{
-
 		$tagId  = $this->getState('tag.id') ? : '';
 
 		$typesr = $this->getState('tag.typesr');
@@ -137,7 +137,7 @@ class TagsModelTag extends JModelList
 		$language = $this->getState('tag.language');
 		$stateFilter = $this->getState('tag.state');
 
-	// Optionally filter on language
+		// Optionally filter on language
 		if (empty($language))
 		{
 			$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
@@ -145,6 +145,7 @@ class TagsModelTag extends JModelList
 
 		$listQuery = New JHelperTags;
 		$query = $listQuery->getTagItemsQuery($tagId, $typesr, $includeChildren, $orderByOption, $orderDir, $matchAll, $language, $stateFilter);
+
 		if ($this->state->get('list.filter'))
 		{
 			$query->where($this->_db->quoteName('c.core_title') . ' LIKE ' . $this->_db->quote('%' . $this->state->get('list.filter') . '%'));
@@ -182,12 +183,14 @@ class TagsModelTag extends JModelList
 		{
 			$pkString .= (int) $id . ',';
 		}
+
 		$pkString = rtrim($pkString, ',');
 
 		$this->setState('tag.id', $pkString);
 
 		// Get the selected list of types from the request. If none are specified all are used.
 		$typesr = $app->input->getObject('types');
+
 		if ($typesr)
 		{
 			$typesr = (array) $typesr;
@@ -199,6 +202,7 @@ class TagsModelTag extends JModelList
 
 		// List state information
 		$format = $app->input->getWord('format');
+
 		if ($format == 'feed')
 		{
 			$limit = $app->getCfg('feed_limit');
@@ -214,6 +218,7 @@ class TagsModelTag extends JModelList
 				$limit = $this->state->params->get('maximum', 20);
 			}
 		}
+
 		$this->setState('list.limit', $limit);
 
 		$offset = $app->input->get('limitstart', 0, 'uint');
@@ -222,18 +227,22 @@ class TagsModelTag extends JModelList
 		$itemid = $pkString . ':' . $app->input->get('Itemid', 0, 'int');
 		$orderCol = $app->getUserStateFromRequest('com_tags.tag.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
 		$orderCol = !$orderCol ? $this->state->params->get('tag_list_orderby', 'c.core_title') : $orderCol;
+
 		if (!in_array($orderCol, $this->filter_fields))
 		{
 			$orderCol = 'c.core_title';
 		}
+
 		$this->setState('list.ordering', $orderCol);
 
 		$listOrder = $app->getUserStateFromRequest('com_tags.tag.list.' . $itemid . '.filter_order_direction', 'filter_order_Dir', '', 'string');
 		$listOrder = !$listOrder ? $this->state->params->get('tag_list_orderby_direction', 'ASC') : $listOrder;
+
 		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', '')))
 		{
 			$listOrder = 'ASC';
 		}
+
 		$this->setState('list.direction', $listOrder);
 
 		$this->setState('tag.state', 1);
@@ -246,9 +255,10 @@ class TagsModelTag extends JModelList
 	/**
 	 * Method to get tag data for the current tag or tags
 	 *
-	 * @param   integer  An optional ID
+	 * @param   integer  $pk  An optional ID
 	 *
-	 * @return  object
+	 * @return  object  Tag item Object
+	 *
 	 * @since   3.1
 	 */
 	public function getItem($pk = null)
@@ -266,6 +276,7 @@ class TagsModelTag extends JModelList
 			$table = JTable::getInstance('Tag', 'TagsTable');
 
 			$idsArray = explode(',', $id);
+
 			// Attempt to load the rows into an array.
 			foreach ($idsArray as $id)
 			{
@@ -289,6 +300,7 @@ class TagsModelTag extends JModelList
 				catch (RuntimeException $e)
 				{
 					$this->setError($e->getMessage());
+
 					return false;
 				}
 			}
