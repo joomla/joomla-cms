@@ -102,7 +102,7 @@ class JFormFieldModal_Article extends JFormField
 			$db->setQuery(
 				'SELECT title' .
 				' FROM #__content' .
-				' WHERE id = '.(int) $this->value
+				' WHERE id = ' . (int) $this->value
 			);
 
 			try
