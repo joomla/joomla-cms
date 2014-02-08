@@ -66,7 +66,7 @@ elseif ($input->get('module'))
 			$parts = explode('-', $module);
 		}
 
-		if ($parts)
+		if (isset($parts))
 		{
 			$class = 'mod';
 			foreach ($parts as $part)
