@@ -7,7 +7,7 @@
 			label="COM_BANNERS_SEARCH_IN_TITLE"
 			hint="JSEARCH_FILTER"
 			class="js-stools-search-string"
-		/>
+			/>
 		<field
 			name="state"
 			type="status"
@@ -87,6 +87,6 @@
 			label="COM_BANNERS_LIST_LIMIT"
 			description="COM_BANNERS_LIST_LIMIT_DESC"
 			onchange="this.form.submit();"
-		/>
+			/>
 	</fields>
 </form>
