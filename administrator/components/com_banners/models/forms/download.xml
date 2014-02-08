@@ -6,7 +6,7 @@
 			label="COM_BANNERS_FIELD_COMPRESSED_LABEL"
 			description="COM_BANNERS_FIELD_COMPRESSED_DESC"
 			default="0"
-		>
+			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
