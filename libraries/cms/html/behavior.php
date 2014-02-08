@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -43,7 +43,7 @@ abstract class JHtmlBehavior
 		$type = $extras ? 'more' : 'core';
 
 		// Only load once
-		if (!empty(self::$loaded[__METHOD__][$type]))
+		if (!empty(static::$loaded[__METHOD__][$type]))
 		{
 			return;
 		}
@@ -55,14 +55,14 @@ abstract class JHtmlBehavior
 			$debug = $config->get('debug');
 		}
 
-		if ($type != 'core' && empty(self::$loaded[__METHOD__]['core']))
+		if ($type != 'core' && empty(static::$loaded[__METHOD__]['core']))
 		{
-			self::framework(false, $debug);
+			static::framework(false, $debug);
 		}
 
 		JHtml::_('script', 'system/mootools-' . $type . '.js', false, true, false, false, $debug);
 		JHtml::_('script', 'system/core.js', false, true);
-		self::$loaded[__METHOD__][$type] = true;
+		static::$loaded[__METHOD__][$type] = true;
 
 		return;
 	}
@@ -79,25 +79,25 @@ abstract class JHtmlBehavior
 	public static function caption($selector = 'img.caption')
 	{
 		// Only load once
-		if (isset(self::$loaded[__METHOD__][$selector]))
+		if (isset(static::$loaded[__METHOD__][$selector]))
 		{
 			return;
 		}
 
-		// Include MooTools framework
-		self::framework();
+		// Include jQuery
+		JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'system/caption.js', true, true);
+		JHtml::_('script', 'system/caption.js', false, true);
 
 		// Attach caption to document
 		JFactory::getDocument()->addScriptDeclaration(
-			"window.addEvent('load', function() {
+			"jQuery(window).on('load',  function() {
 				new JCaption('" . $selector . "');
 			});"
 		);
 
 		// Set static array
-		self::$loaded[__METHOD__][$selector] = true;
+		static::$loaded[__METHOD__][$selector] = true;
 	}
 
 	/**
@@ -115,7 +115,7 @@ abstract class JHtmlBehavior
 	public static function formvalidation()
 	{
 		// Only load once
-		if (isset(self::$loaded[__METHOD__]))
+		if (isset(static::$loaded[__METHOD__]))
 		{
 			return;
 		}
@@ -123,11 +123,12 @@ abstract class JHtmlBehavior
 		// Add validate.js language strings
 		JText::script('JLIB_FORM_FIELD_INVALID');
 
-		// Include MooTools framework
-		self::framework();
+		// Include MooTools More framework
+		static::framework('more');
 
-		JHtml::_('script', 'system/validate.js', true, true);
-		self::$loaded[__METHOD__] = true;
+		JHtml::_('script', 'system/punycode.js', false, true);
+		JHtml::_('script', 'system/validate.js', false, true);
+		static::$loaded[__METHOD__] = true;
 	}
 
 	/**
@@ -140,28 +141,28 @@ abstract class JHtmlBehavior
 	public static function switcher()
 	{
 		// Only load once
-		if (isset(self::$loaded[__METHOD__]))
+		if (isset(static::$loaded[__METHOD__]))
 		{
 			return;
 		}
 
-		// Include MooTools framework
-		self::framework();
+		// Include jQuery
+		JHtml::_('jquery.framework');
 
 		JHtml::_('script', 'system/switcher.js', true, true);
 
 		$script = "
 			document.switcher = null;
-			window.addEvent('domready', function(){
-				toggler = document.id('submenu');
-				element = document.id('config-document');
+			jQuery(function($){
+				var toggler = document.getElementById('submenu');
+				var element = document.getElementById('config-document');
 				if (element) {
-					document.switcher = new JSwitcher(toggler, element, {cookieName: toggler.getProperty('class')});
+					document.switcher = new JSwitcher(toggler, element);
 				}
 			});";
 
 		JFactory::getDocument()->addScriptDeclaration($script);
-		self::$loaded[__METHOD__] = true;
+		static::$loaded[__METHOD__] = true;
 	}
 
 	/**
@@ -176,15 +177,15 @@ abstract class JHtmlBehavior
 	 */
 	public static function combobox()
 	{
-		if (isset(self::$loaded[__METHOD__]))
+		if (isset(static::$loaded[__METHOD__]))
 		{
 			return;
 		}
 		// Include MooTools framework
-		self::framework();
+		static::framework();
 
 		JHtml::_('script', 'system/combobox.js', true, true);
-		self::$loaded[__METHOD__] = true;
+		static::$loaded[__METHOD__] = true;
 	}
 
 	/**
@@ -217,13 +218,13 @@ abstract class JHtmlBehavior
 	{
 		$sig = md5(serialize(array($selector, $params)));
 
-		if (isset(self::$loaded[__METHOD__][$sig]))
+		if (isset(static::$loaded[__METHOD__][$sig]))
 		{
 			return;
 		}
 
 		// Include MooTools framework
-		self::framework(true);
+		static::framework(true);
 
 		// Setup options object
 		$opt['maxTitleChars'] = (isset($params['maxTitleChars']) && ($params['maxTitleChars'])) ? (int) $params['maxTitleChars'] : 50;
@@ -255,7 +256,7 @@ abstract class JHtmlBehavior
 		);
 
 		// Set static array
-		self::$loaded[__METHOD__][$sig] = true;
+		static::$loaded[__METHOD__][$sig] = true;
 
 		return;
 	}
@@ -286,10 +287,10 @@ abstract class JHtmlBehavior
 		$document = JFactory::getDocument();
 
 		// Load the necessary files if they haven't yet been loaded
-		if (!isset(self::$loaded[__METHOD__]))
+		if (!isset(static::$loaded[__METHOD__]))
 		{
 			// Include MooTools framework
-			self::framework(true);
+			static::framework(true);
 
 			// Load the JavaScript and css
 			JHtml::_('script', 'system/modal.js', true, true);
@@ -298,7 +299,7 @@ abstract class JHtmlBehavior
 
 		$sig = md5(serialize(array($selector, $params)));
 
-		if (isset(self::$loaded[__METHOD__][$sig]))
+		if (isset(static::$loaded[__METHOD__][$sig]))
 		{
 			return;
 		}
@@ -343,7 +344,7 @@ abstract class JHtmlBehavior
 		);
 
 		// Set static array
-		self::$loaded[__METHOD__][$sig] = true;
+		static::$loaded[__METHOD__][$sig] = true;
 
 		return;
 	}
@@ -360,13 +361,13 @@ abstract class JHtmlBehavior
 	public static function multiselect($id = 'adminForm')
 	{
 		// Only load once
-		if (isset(self::$loaded[__METHOD__][$id]))
+		if (isset(static::$loaded[__METHOD__][$id]))
 		{
 			return;
 		}
 
-		// Include MooTools framework
-		self::framework();
+		// Include jQuery
+		JHtml::_('jquery.framework');
 
 		JHtml::_('script', 'system/multiselect.js', true, true);
 
@@ -378,7 +379,7 @@ abstract class JHtmlBehavior
 		);
 
 		// Set static array
-		self::$loaded[__METHOD__][$id] = true;
+		static::$loaded[__METHOD__][$id] = true;
 
 		return;
 	}
@@ -397,12 +398,12 @@ abstract class JHtmlBehavior
 	public static function tree($id, $params = array(), $root = array())
 	{
 		// Include MooTools framework
-		self::framework();
+		static::framework();
 
 		JHtml::_('script', 'system/mootree.js', true, true, false, false);
 		JHtml::_('stylesheet', 'system/mootree.css', array(), true);
 
-		if (isset(self::$loaded[__METHOD__][$id]))
+		if (isset(static::$loaded[__METHOD__][$id]))
 		{
 			return;
 		}
@@ -442,7 +443,7 @@ abstract class JHtmlBehavior
 		$document->addScriptDeclaration($js);
 
 		// Set static array
-		self::$loaded[__METHOD__][$id] = true;
+		static::$loaded[__METHOD__][$id] = true;
 
 		return;
 	}
@@ -457,7 +458,7 @@ abstract class JHtmlBehavior
 	public static function calendar()
 	{
 		// Only load once
-		if (isset(self::$loaded[__METHOD__]))
+		if (isset(static::$loaded[__METHOD__]))
 		{
 			return;
 		}
@@ -469,13 +470,14 @@ abstract class JHtmlBehavior
 		JHtml::_('script', $tag . '/calendar.js', false, true);
 		JHtml::_('script', $tag . '/calendar-setup.js', false, true);
 
-		$translation = self::calendartranslation();
+		$translation = static::calendartranslation();
 
 		if ($translation)
 		{
 			$document->addScriptDeclaration($translation);
 		}
-		self::$loaded[__METHOD__] = true;
+
+		static::$loaded[__METHOD__] = true;
 	}
 
 	/**
@@ -488,7 +490,7 @@ abstract class JHtmlBehavior
 	public static function colorpicker()
 	{
 		// Only load once
-		if (isset(self::$loaded[__METHOD__]))
+		if (isset(static::$loaded[__METHOD__]))
 		{
 			return;
 		}
@@ -511,7 +513,7 @@ abstract class JHtmlBehavior
 			"
 		);
 
-		self::$loaded[__METHOD__] = true;
+		static::$loaded[__METHOD__] = true;
 	}
 
 	/**
@@ -524,7 +526,7 @@ abstract class JHtmlBehavior
 	public static function simplecolorpicker()
 	{
 		// Only load once
-		if (isset(self::$loaded[__METHOD__]))
+		if (isset(static::$loaded[__METHOD__]))
 		{
 			return;
 		}
@@ -541,7 +543,7 @@ abstract class JHtmlBehavior
 			"
 		);
 
-		self::$loaded[__METHOD__] = true;
+		static::$loaded[__METHOD__] = true;
 	}
 
 	/**
@@ -554,13 +556,13 @@ abstract class JHtmlBehavior
 	public static function keepalive()
 	{
 		// Only load once
-		if (isset(self::$loaded[__METHOD__]))
+		if (isset(static::$loaded[__METHOD__]))
 		{
 			return;
 		}
 
 		// Include MooTools framework
-		self::framework();
+		static::framework();
 
 		$config = JFactory::getConfig();
 		$lifetime = ($config->get('lifetime') * 60000);
@@ -584,7 +586,7 @@ abstract class JHtmlBehavior
 		$script .= ');';
 
 		$document->addScriptDeclaration($script);
-		self::$loaded[__METHOD__] = true;
+		static::$loaded[__METHOD__] = true;
 
 		return;
 	}
@@ -608,10 +610,13 @@ abstract class JHtmlBehavior
 	{
 		$sig = md5(serialize(array($terms, $start, $end)));
 
-		if (isset(self::$loaded[__METHOD__][$sig]))
+		if (isset(static::$loaded[__METHOD__][$sig]))
 		{
 			return;
 		}
+
+		// Include jQuery
+		JHtml::_('jquery.framework');
 
 		JHtml::_('script', 'system/highlighter.js', true, true);
 
@@ -619,9 +624,9 @@ abstract class JHtmlBehavior
 
 		$document = JFactory::getDocument();
 		$document->addScriptDeclaration("
-			window.addEvent('domready', function () {
-				var start = document.id('" . $start . "');
-				var end = document.id('" . $end . "');
+			jQuery(function ($) {
+				var start = document.getElementById('" . $start . "');
+				var end = document.getElementById('" . $end . "');
 				if (!start || !end || !Joomla.Highlighter) {
 					return true;
 				}
@@ -632,12 +637,12 @@ abstract class JHtmlBehavior
 					onlyWords: false,
 					tag: '" . $tag . "'
 				}).highlight([\"" . implode('","', $terms) . "\"]);
-				start.dispose();
-				end.dispose();
+				$(start).remove();
+				$(end).remove();
 			});
 		");
 
-		self::$loaded[__METHOD__][$sig] = true;
+		static::$loaded[__METHOD__][$sig] = true;
 
 		return;
 	}
@@ -652,13 +657,13 @@ abstract class JHtmlBehavior
 	public static function noframes()
 	{
 		// Only load once
-		if (isset(self::$loaded[__METHOD__]))
+		if (isset(static::$loaded[__METHOD__]))
 		{
 			return;
 		}
 
 		// Include MooTools framework
-		self::framework();
+		static::framework();
 
 		$js = "window.addEvent('domready', function () {if (top == self) {document.documentElement.style.display = 'block'; }" .
 			" else {top.location = self.location; }});";
@@ -666,9 +671,9 @@ abstract class JHtmlBehavior
 		$document->addStyleDeclaration('html { display:none }');
 		$document->addScriptDeclaration($js);
 
-		JResponse::setHeader('X-Frames-Options', 'SAME-ORIGIN');
+		JFactory::getApplication()->setHeader('X-Frames-Options', 'SAMEORIGIN');
 
-		self::$loaded[__METHOD__] = true;
+		static::$loaded[__METHOD__] = true;
 	}
 
 	/**
@@ -734,6 +739,7 @@ abstract class JHtmlBehavior
 		);
 
 		// This will become an object in Javascript but define it first in PHP for readability
+		$today = " " . JText::_('JLIB_HTML_BEHAVIOR_TODAY') . " ";
 		$text = array(
 			'INFO'			=> JText::_('JLIB_HTML_BEHAVIOR_ABOUT_THE_CALENDAR'),
 
@@ -759,9 +765,9 @@ abstract class JHtmlBehavior
 			'NEXT_MONTH'	=> JText::_('JLIB_HTML_BEHAVIOR_NEXT_MONTH_HOLD_FOR_MENU'),
 			'SEL_DATE'		=> JText::_('JLIB_HTML_BEHAVIOR_SELECT_DATE'),
 			'DRAG_TO_MOVE'	=> JText::_('JLIB_HTML_BEHAVIOR_DRAG_TO_MOVE'),
-			'PART_TODAY'	=> JText::_('JLIB_HTML_BEHAVIOR_TODAY'),
+			'PART_TODAY'	=> $today,
 			'DAY_FIRST'		=> JText::_('JLIB_HTML_BEHAVIOR_DISPLAY_S_FIRST'),
-			'WEEKEND'		=> "0,6",
+			'WEEKEND'		=> JFactory::getLanguage()->getWeekEnd(),
 			'CLOSE'			=> JText::_('JLIB_HTML_BEHAVIOR_CLOSE'),
 			'TODAY'			=> JText::_('JLIB_HTML_BEHAVIOR_TODAY'),
 			'TIME_PART'		=> JText::_('JLIB_HTML_BEHAVIOR_SHIFT_CLICK_OR_DRAG_TO_CHANGE_VALUE'),
@@ -777,5 +783,30 @@ abstract class JHtmlBehavior
 			. ' Calendar._MN = ' . json_encode($months_long) . ';'
 			. ' Calendar._SMN = ' . json_encode($months_short) . ';'
 			. ' Calendar._TT = ' . json_encode($text) . ';';
+	}
+
+	/**
+	 * Add unobtrusive JavaScript support to keep a tab state.
+	 *
+	 * Note that keeping tab state only works for inner tabs if in accordance with the following example
+	 * parent tab = permissions
+	 * child tab = permission-<identifier>
+	 *
+	 * Each tab header "a" tag also should have a unique href attribute
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public static function tabstate()
+	{
+		if (isset(self::$loaded[__METHOD__]))
+		{
+			return;
+		}
+		// Include jQuery
+		JHtml::_('jquery.framework');
+		JHtml::_('script', 'system/tabs-state.js', false, true);
+		self::$loaded[__METHOD__] = true;
 	}
 }

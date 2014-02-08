@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -141,24 +141,24 @@ abstract class JHtmlString
 	}
 
 	/**
-	* Method to extend the truncate method to more complex situations
-	*
-	* The goal is to get the proper length plain text string with as much of
-	* the html intact as possible with all tags properly closed.
-	*
-	* @param   string   $html       The content of the introtext to be truncated
-	* @param   integer  $maxLength  The maximum number of characters to render
-	* @param   boolean  $noSplit    Don't split a word if that is where the cutoff occurs (default: true).
-	*
-	* @return  string  The truncated string. If the string is truncated an ellipsis
-	*                  (...) will be appended.
-	*
-	* @note    If a maximum length of 3 or less is selected and the text has more than
-	*          that number of characters an ellipsis will be displayed.
-	*          This method will not create valid HTML from malformed HTML.
-	*
-	* @since   3.1
-	*/
+	 * Method to extend the truncate method to more complex situations
+	 *
+	 * The goal is to get the proper length plain text string with as much of
+	 * the html intact as possible with all tags properly closed.
+	 *
+	 * @param   string   $html       The content of the introtext to be truncated
+	 * @param   integer  $maxLength  The maximum number of characters to render
+	 * @param   boolean  $noSplit    Don't split a word if that is where the cutoff occurs (default: true).
+	 *
+	 * @return  string  The truncated string. If the string is truncated an ellipsis
+	 *                  (...) will be appended.
+	 *
+	 * @note    If a maximum length of 3 or less is selected and the text has more than
+	 *          that number of characters an ellipsis will be displayed.
+	 *          This method will not create valid HTML from malformed HTML.
+	 *
+	 * @since   3.1
+	 */
 	public static function truncateComplex($html, $maxLength = 0, $noSplit = true)
 	{
 		// Start with some basic rules.
@@ -189,6 +189,7 @@ abstract class JHtmlString
 				return substr($html, 0, $l) . '</' . $tag . '...';
 			}
 
+			// TODO: $character doesn't seem to be used...
 			$character = substr(strip_tags($html), 0, 1);
 
 			return substr($html, 0, $l) . '</' . $tag . '...';
@@ -221,8 +222,6 @@ abstract class JHtmlString
 		$ptString = rtrim($ptString, '.');
 
 		// Now deal with more complex truncation.
-		$diffLength = 0;
-
 		while ($maxLength <= $baseLength)
 		{
 			// Get the truncated string assuming HTML is allowed.

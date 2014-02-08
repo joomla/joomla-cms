@@ -3,13 +3,11 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-
-jimport('joomla.filesystem.file');
 
 /**
  * Configuration setup model for the Joomla Core Installer.
@@ -91,7 +89,7 @@ class InstallationModelConfiguration extends JModelBase
 		$registry->set('secret', JUserHelper::genRandomPassword(16));
 		$registry->set('gzip', 0);
 		$registry->set('error_reporting', 'default');
-		$registry->set('helpurl', 'http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}');
+		$registry->set('helpurl', $options->helpurl);
 		$registry->set('ftp_host', isset($options->ftp_host) ? $options->ftp_host : '');
 		$registry->set('ftp_port', isset($options->ftp_host) ? $options->ftp_port : '');
 		$registry->set('ftp_user', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_user)) ? $options->ftp_user : '');
@@ -103,6 +101,7 @@ class InstallationModelConfiguration extends JModelBase
 		$registry->set('offset', 'UTC');
 
 		/* Mail Settings */
+		$registry->set('mailonline', 1);
 		$registry->set('mailer', 'mail');
 		$registry->set('mailfrom', $options->admin_email);
 		$registry->set('fromname', $options->site_name);
@@ -184,8 +183,6 @@ class InstallationModelConfiguration extends JModelBase
 		if ($useFTP == true)
 		{
 			// Connect the FTP client
-			jimport('joomla.filesystem.path');
-
 			$ftp = JClientFtp::getInstance($options->ftp_host, $options->ftp_port);
 			$ftp->login($options->ftp_user, $options->ftp_pass);
 
@@ -224,7 +221,7 @@ class InstallationModelConfiguration extends JModelBase
 	/**
 	 * Method to create the root user for the site
 	 *
-	 * @param   array  $options  The session options
+	 * @param   object  $options  The session options
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -244,13 +241,11 @@ class InstallationModelConfiguration extends JModelBase
 		catch (RuntimeException $e)
 		{
 			$app->enqueueMessage(JText::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'notice');
+
 			return false;
 		}
 
-		// Create random salt/password for the admin user
-		$salt = JUserHelper::genRandomPassword(32);
-		$crypt = JUserHelper::getCryptedPassword($options->admin_password, $salt);
-		$cryptpass = $crypt . ':' . $salt;
+		$cryptpass = JUserHelper::hashPassword($options->admin_password);
 
 		// Take the admin user id
 		$userId = InstallationModelDatabase::getUserId();
@@ -273,10 +268,10 @@ class InstallationModelConfiguration extends JModelBase
 
 		if ($db->loadResult())
 		{
-			$query = $db->getQuery(true)
+			$query->clear()
 				->update($db->quoteName('#__users'))
 				->set($db->quoteName('name') . ' = ' . $db->quote('Super User'))
-				->set($db->quoteName('username') . ' = ' . $db->quote($options->admin_user))
+				->set($db->quoteName('username') . ' = ' . $db->quote(trim($options->admin_user)))
 				->set($db->quoteName('email') . ' = ' . $db->quote($options->admin_email))
 				->set($db->quoteName('password') . ' = ' . $db->quote($cryptpass))
 				->set($db->quoteName('block') . ' = 0')
@@ -289,17 +284,16 @@ class InstallationModelConfiguration extends JModelBase
 		}
 		else
 		{
-			$query = $db->getQuery(true);
 			$columns = array($db->quoteName('id'), $db->quoteName('name'), $db->quoteName('username'),
 							$db->quoteName('email'), $db->quoteName('password'),
 							$db->quoteName('block'),
 							$db->quoteName('sendEmail'), $db->quoteName('registerDate'),
 							$db->quoteName('lastvisitDate'), $db->quoteName('activation'), $db->quoteName('params'));
-			$query->insert('#__users', true)
+			$query->clear()
+				->insert('#__users', true)
 				->columns($columns)
-
 				->values(
-				$db->quote($userId) . ', ' . $db->quote('Super User') . ', ' . $db->quote($options->admin_user) . ', ' .
+				$db->quote($userId) . ', ' . $db->quote('Super User') . ', ' . $db->quote(trim($options->admin_user)) . ', ' .
 				$db->quote($options->admin_email) . ', ' . $db->quote($cryptpass) . ', ' .
 				$db->quote('0') . ', ' . $db->quote('1') . ', ' . $db->quote($installdate) . ', ' . $db->quote($nullDate) . ', ' .
 				$db->quote('0') . ', ' . $db->quote('')
@@ -319,7 +313,7 @@ class InstallationModelConfiguration extends JModelBase
 		}
 
 		// Map the super admin to the Super Admin Group
-		$query = $db->getQuery(true)
+		$query->clear()
 			->select($db->quoteName('user_id'))
 			->from($db->quoteName('#__user_usergroup_map'))
 			->where($db->quoteName('user_id') . ' = ' . $db->quote($userId));
@@ -328,14 +322,14 @@ class InstallationModelConfiguration extends JModelBase
 
 		if ($db->loadResult())
 		{
-			$query = $db->getQuery(true)
+			$query->clear()
 				->update($db->quoteName('#__user_usergroup_map'))
 				->set($db->quoteName('user_id') . ' = ' . $db->quote($userId))
 				->set($db->quoteName('group_id') . ' = 8');
 		}
 		else
 		{
-			$query = $db->getQuery(true)
+			$query->clear()
 				->insert($db->quoteName('#__user_usergroup_map'), false)
 				->columns(array($db->quoteName('user_id'), $db->quoteName('group_id')))
 				->values($db->quote($userId) . ', 8');

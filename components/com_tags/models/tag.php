@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -295,5 +295,31 @@ class TagsModelTag extends JModelList
 		}
 
 		return $this->item;
+	}
+
+	/**
+	 * Increment the hit counter.
+	 *
+	 * @param   integer  Optional primary key of the article to increment.
+	 *
+	 * @return  boolean  True if successful; false otherwise and internal error set.
+	 *
+	 * @since   3.2
+	 */
+	public function hit($pk = 0)
+	{
+		$input = JFactory::getApplication()->input;
+		$hitcount = $input->getInt('hitcount', 1);
+
+		if ($hitcount)
+		{
+			$pk = (!empty($pk)) ? $pk : (int) $this->getState('tag.id');
+
+			$table = JTable::getInstance('Tag', 'TagsTable');
+			$table->load($pk);
+			$table->hit($pk);
+		}
+
+		return true;
 	}
 }

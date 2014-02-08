@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -84,10 +84,17 @@
 					//clone and check all the checkboxes in sortable range to post
 					root.cloneMarkedCheckboxes();
 
+					// Detach task field if exists
+					var f  = $('#' + formId);
+					var ft = $('input[name|="task"]', f);
+
+					if (ft.length) ft.detach();
+
 					//serialize form then post to callback url
-					var formData = $('#' + formId).serialize();
-					formData = formData.replace('task', '');
-					$.post(saveOrderingUrl, formData);
+					$.post(saveOrderingUrl, f.serialize());
+
+					// Re-Append original task field
+					if (ft.length) ft.appendTo(f);
 
 					//remove cloned checkboxes
 					root.removeClonedCheckboxes();

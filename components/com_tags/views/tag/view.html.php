@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,6 +30,15 @@ class TagsViewTag extends JViewLegacy
 
 	protected $params;
 
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 *
+	 * @since   3.1
+	 */
 	public function display($tpl = null)
 	{
 		$app		= JFactory::getApplication();
@@ -69,6 +78,10 @@ class TagsViewTag extends JViewLegacy
 				$itemElement->params->merge($temp);
 				$itemElement->params = (array) json_decode($itemElement->params);
 			}
+		}
+
+		if ($items !== false)
+		{
 			foreach ($items as $itemElement)
 			{
 				$itemElement->event = new stdClass;
@@ -79,7 +92,7 @@ class TagsViewTag extends JViewLegacy
 				$dispatcher = JEventDispatcher::getInstance();
 
 				JPluginHelper::importPlugin('content');
-				$results = $dispatcher->trigger('onContentPrepare', array ('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
+				$dispatcher->trigger('onContentPrepare', array ('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
 
 				$results = $dispatcher->trigger('onContentAfterTitle', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
 				$itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
@@ -90,12 +103,7 @@ class TagsViewTag extends JViewLegacy
 				$results = $dispatcher->trigger('onContentAfterDisplay', array('com_tags.tag', &$itemElement, &$itemElement->core_params, 0));
 				$itemElement->event->afterDisplayContent = trim(implode("\n", $results));
 
-				if ($itemElement->text)
-				{
-					$itemElement->core_body = $itemElement->text;
-				}
 			}
-
 		}
 
 		$this->state      = &$state;
@@ -158,6 +166,10 @@ class TagsViewTag extends JViewLegacy
 			}
 		}
 
+		// Increment the hit counter
+		$model = $this->getModel();
+		$model->hit();
+
 		$this->_prepareDocument();
 
 		parent::display($tpl);
@@ -170,7 +182,6 @@ class TagsViewTag extends JViewLegacy
 	{
 		$app		= JFactory::getApplication();
 		$menus		= $app->getMenu();
-		$pathway	= $app->getPathway();
 		$title 		= null;
 
 		// Because the application sets a default page title,
@@ -186,22 +197,12 @@ class TagsViewTag extends JViewLegacy
 			$this->params->def('page_heading', JText::_('COM_TAGS_DEFAULT_PAGE_TITLE'));
 		}
 
-		$id = (int) @$menu->query['id'];
-
 		if ($menu && ($menu->query['option'] != 'com_tags'))
 		{
-			$this->params->set('page_subheading', $item->title);
+			$this->params->set('page_subheading', $menu->title);
 		}
 
-		// If this is not a single tag menu item, set the page title to the menu item title
-		if (count($this->item) == 1)
-		{
-			$title = $this->item[0]->title;
-		}
-		else
-		{
-			$title = $this->state->params->get('page_title');
-		}
+		$title = $this->state->params->get('page_title');
 
 		if (empty($title))
 		{
@@ -218,7 +219,7 @@ class TagsViewTag extends JViewLegacy
 
 		$this->document->setTitle($title);
 
-		foreach ($this->item as $j => $itemElement)
+		foreach ($this->item as $itemElement)
 		{
 			if ($itemElement->metadesc)
 			{

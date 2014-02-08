@@ -5,6 +5,7 @@ php:
   - 5.4
 
 before_script:
+  - composer self-update
   - pyrus channel-discover pear.phpunit.de
   - pyrus install --force phpunit/DbUnit
   - phpenv rehash

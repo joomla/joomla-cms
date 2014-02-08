@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Extension.Joomla
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -247,12 +247,12 @@ class PlgExtensionJoomla extends JPlugin
 			foreach ($children as $child)
 			{
 				$attrs = $child->attributes();
-				$this->addUpdateSite($attrs['name'], $attrs['type'], $child, true);
+				$this->addUpdateSite($attrs['name'], $attrs['type'], trim($child), true);
 			}
 		}
 		else
 		{
-			$data = (string) $updateservers;
+			$data = trim((string) $updateservers);
 
 			if (strlen($data))
 			{

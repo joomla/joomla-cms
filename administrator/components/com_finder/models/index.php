@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -192,7 +192,10 @@ class FinderModelIndex extends JModelList
 		if ($this->getState('filter.search') != '')
 		{
 			$search = $db->escape($this->getState('filter.search'));
-			$query->where('l.title LIKE ' . $db->quote('%' . $db->escape($search) . '%') . ' OR l.url LIKE ' . $db->quote('%' . $db->escape($search) . '%') . ' OR l.indexdate LIKE  ' . $db->quote('%' . $db->escape($search) . '%'));
+			$query->where(
+				'l.title LIKE ' . $db->quote('%' . $db->escape($search) . '%') . ' OR l.url LIKE ' . $db->quote('%' . $db->escape($search) . '%')
+				. ' OR l.indexdate LIKE  ' . $db->quote('%' . $db->escape($search) . '%')
+			);
 		}
 
 		// Handle the list ordering.
@@ -219,9 +222,9 @@ class FinderModelIndex extends JModelList
 		$query = $db->getQuery(true)
 			->select('name, enabled')
 			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('type') . ' = ' .  $db->quote('plugin'))
-			->where($db->quoteName('folder') . ' IN(' .  $db->quote('system') . ',' . $db->quote('content') . ')')
-			->where($db->quoteName('element') . ' = ' .  $db->quote('finder'));
+			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+			->where($db->quoteName('folder') . ' IN(' . $db->quote('system') . ',' . $db->quote('content') . ')')
+			->where($db->quoteName('element') . ' = ' . $db->quote('finder'));
 		$db->setQuery($query);
 		$db->execute();
 		$plugins = $db->loadObjectList('name');

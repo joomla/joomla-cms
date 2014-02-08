@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -160,10 +160,37 @@ abstract class JModelAdmin extends JModelForm
 		if (empty($pks))
 		{
 			$this->setError(JText::_('JGLOBAL_NO_ITEM_SELECTED'));
+
 			return false;
 		}
 
 		$done = false;
+
+		// Set some needed variables.
+		$this->user = JFactory::getUser();
+		$this->table = $this->getTable();
+		$this->tableClassName = get_class($this->table);
+		$this->contentType = new JUcmType;
+		$this->type = $this->contentType->getTypeByTable($this->tableClassName);
+		$this->batchSet = true;
+
+		if ($this->type == false)
+		{
+			$type = new JUcmType;
+			$this->type = $type->getTypeByAlias($this->typeAlias);
+
+		}
+		if ($this->type === false)
+		{
+			$type = new JUcmType;
+			$this->type = $type->getTypeByAlias($this->typeAlias);
+			$typeAlias = $this->type->type_alias;
+		}
+		else
+		{
+			$typeAlias = $this->type->type_alias;
+		}
+		$this->tagsObserver = $this->table->getObserverOfClass('JTableObserverTags');
 
 		if (!empty($commands['category_id']))
 		{
@@ -172,6 +199,7 @@ abstract class JModelAdmin extends JModelForm
 			if ($cmd == 'c')
 			{
 				$result = $this->batchCopy($commands['category_id'], $pks, $contexts);
+
 				if (is_array($result))
 				{
 					$pks = $result;
@@ -185,6 +213,7 @@ abstract class JModelAdmin extends JModelForm
 			{
 				return false;
 			}
+
 			$done = true;
 		}
 
@@ -243,21 +272,29 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function batchAccess($value, $pks, $contexts)
 	{
-		// Set the variables
-		$user = JFactory::getUser();
-		$table = $this->getTable();
+		if (!$this->batchSet)
+		{
+			// Set some needed variables.
+			$this->user = JFactory::getUser();
+			$this->table = $this->getTable();
+			$this->tableClassName = get_class($this->table);
+			$this->contentType = new JUcmType;
+			$this->type = $this->contentType->getTypeByTable($this->tableClassName);
+		}
 
 		foreach ($pks as $pk)
 		{
-			if ($user->authorise('core.edit', $contexts[$pk]))
+			if ($this->user->authorise('core.edit', $contexts[$pk]))
 			{
-				$table->reset();
-				$table->load($pk);
-				$table->access = (int) $value;
+				$this->table->reset();
+				$this->table->load($pk);
+				$this->table->access = (int) $value;
 
-				if (!$table->store())
+				static::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+
+				if (!$this->table->store())
 				{
-					$this->setError($table->getError());
+					$this->setError($this->table->getError());
 
 					return false;
 				}
@@ -289,61 +326,41 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function batchCopy($value, $pks, $contexts)
 	{
-		$categoryId = (int) $value;
+		if (!$this->batchSet)
+		{
+			// Set some needed variables.
+			$this->user = JFactory::getUser();
+			$this->table = $this->getTable();
+			$this->tableClassName = get_class($this->table);
+			$this->contentType = new JUcmType;
+			$this->type = $this->contentType->getTypeByTable($this->tableClassName);
+		}
 
-		$table = $this->getTable();
 		$i = 0;
 
-		// Check that the category exists
-		if ($categoryId)
-		{
-			$categoryTable = JTable::getInstance('Category');
-			if (!$categoryTable->load($categoryId))
-			{
-				if ($error = $categoryTable->getError())
-				{
-					// Fatal error
-					$this->setError($error);
-					return false;
-				}
-				else
-				{
-					$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
-					return false;
-				}
-			}
-		}
+		$categoryId = $value;
 
-		if (empty($categoryId))
+		if (!static::checkCategoryId($categoryId))
 		{
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
 			return false;
 		}
 
-		// Check that the user has create permission for the component
-		$extension = JFactory::getApplication()->input->get('option', '');
-		$user = JFactory::getUser();
-		if (!$user->authorise('core.create', $extension . '.category.' . $categoryId))
-		{
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
-			return false;
-		}
-
-		// Parent exists so we let's proceed
+		// Parent exists so let's proceed
 		while (!empty($pks))
 		{
 			// Pop the first ID off the stack
 			$pk = array_shift($pks);
 
-			$table->reset();
+			$this->table->reset();
 
 			// Check that the row actually exists
-			if (!$table->load($pk))
+			if (!$this->table->load($pk))
 			{
-				if ($error = $table->getError())
+				if ($error = $this->table->getError())
 				{
 					// Fatal error
 					$this->setError($error);
+
 					return false;
 				}
 				else
@@ -354,36 +371,37 @@ abstract class JModelAdmin extends JModelForm
 				}
 			}
 
-			// Alter the title & alias
-			$data = $this->generateNewTitle($categoryId, $table->alias, $table->title);
-			$table->title = $data['0'];
-			$table->alias = $data['1'];
+			static::generateTitle($categoryId, $this->table);
 
 			// Reset the ID because we are making a copy
-			$table->id = 0;
+			$this->table->id = 0;
 
 			// New category ID
-			$table->catid = $categoryId;
+			$this->table->catid = $categoryId;
 
 			// TODO: Deal with ordering?
-			// $table->ordering	= 1;
+			// $this->table->ordering	= 1;
 
 			// Check the row.
-			if (!$table->check())
+			if (!$this->table->check())
 			{
-				$this->setError($table->getError());
+				$this->setError($this->table->getError());
+
 				return false;
 			}
 
+			static::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+
 			// Store the row.
-			if (!$table->store())
+			if (!$this->table->store())
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 
 			// Get the new item ID
-			$newId = $table->get('id');
+			$newId = $this->table->get('id');
 
 			// Add the new ID to the array
 			$newIds[$i]	= $newId;
@@ -409,27 +427,37 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function batchLanguage($value, $pks, $contexts)
 	{
-		// Set the variables
-		$user	= JFactory::getUser();
-		$table = $this->getTable();
+		if (!$this->batchSet)
+		{
+			// Set some needed variables.
+			$this->user = JFactory::getUser();
+			$this->table = $this->getTable();
+			$this->tableClassName = get_class($this->table);
+			$this->contentType = new JUcmType;
+			$this->type = $this->contentType->getTypeByTable($this->tableClassName);
+		}
 
 		foreach ($pks as $pk)
 		{
-			if ($user->authorise('core.edit', $contexts[$pk]))
+			if ($this->user->authorise('core.edit', $contexts[$pk]))
 			{
-				$table->reset();
-				$table->load($pk);
-				$table->language = $value;
+				$this->table->reset();
+				$this->table->load($pk);
+				$this->table->language = $value;
 
-				if (!$table->store())
+				static::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+
+				if (!$this->table->store())
 				{
-					$this->setError($table->getError());
+					$this->setError($this->table->getError());
+
 					return false;
 				}
 			}
 			else
 			{
 				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+
 				return false;
 			}
 		}
@@ -453,61 +481,41 @@ abstract class JModelAdmin extends JModelForm
 	 */
 	protected function batchMove($value, $pks, $contexts)
 	{
+		if (!$this->batchSet)
+		{
+			// Set some needed variables.
+			$this->user = JFactory::getUser();
+			$this->table = $this->getTable();
+			$this->tableClassName = get_class($this->table);
+			$this->contentType = new JUcmType;
+			$this->type = $this->contentType->getTypeByTable($this->tableClassName);
+		}
+
 		$categoryId = (int) $value;
 
-		$table = $this->getTable();
-
-		// Check that the category exists
-		if ($categoryId)
+		if (!static::checkCategoryId($categoryId))
 		{
-			$categoryTable = JTable::getInstance('Category');
-			if (!$categoryTable->load($categoryId))
-			{
-				if ($error = $categoryTable->getError())
-				{
-					// Fatal error
-					$this->setError($error);
-					return false;
-				}
-				else
-				{
-					$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
-					return false;
-				}
-			}
-		}
-
-		if (empty($categoryId))
-		{
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
-			return false;
-		}
-
-		// Check that user has create and edit permission for the component
-		$extension = JFactory::getApplication()->input->get('option', '');
-		$user = JFactory::getUser();
-		if (!$user->authorise('core.create', $extension . '.category.' . $categoryId))
-		{
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
 			return false;
 		}
 
 		// Parent exists so we proceed
 		foreach ($pks as $pk)
 		{
-			if (!$user->authorise('core.edit', $contexts[$pk]))
+			if (!$this->user->authorise('core.edit', $contexts[$pk]))
 			{
 				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+
 				return false;
 			}
 
 			// Check that the row actually exists
-			if (!$table->load($pk))
+			if (!$this->table->load($pk))
 			{
-				if ($error = $table->getError())
+				if ($error = $this->table->getError())
 				{
 					// Fatal error
 					$this->setError($error);
+
 					return false;
 				}
 				else
@@ -519,19 +527,23 @@ abstract class JModelAdmin extends JModelForm
 			}
 
 			// Set the new category ID
-			$table->catid = $categoryId;
+			$this->table->catid = $categoryId;
 
 			// Check the row.
-			if (!$table->check())
+			if (!$this->table->check())
 			{
-				$this->setError($table->getError());
+				$this->setError($this->table->getError());
+
 				return false;
 			}
 
+			static::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+
 			// Store the row.
-			if (!$table->store())
+			if (!$this->table->store())
 			{
-				$this->setError($table->getError());
+				$this->setError($this->table->getError());
+
 				return false;
 			}
 		}
@@ -565,13 +577,15 @@ abstract class JModelAdmin extends JModelForm
 			{
 				$table->reset();
 				$table->load($pk);
-				$metaObject = json_decode($table->metadata);
-				$metaObject->tags = (isset($metaObject->tags) && is_array($metaObject->tags)) ? $metaObject->tags : array();
-				$metaObject->tags[] = (int) $value;
-				$metaObject->tags = array_unique($metaObject->tags);
-				$table->metadata = json_encode($metaObject);
+				$tags = array($value);
 
-				if (!$table->store())
+				/**
+				 * @var  JTableObserverTags  $tagsObserver
+				 */
+				$tagsObserver = $table->getObserverOfClass('JTableObserverTags');
+				$result = $tagsObserver->setNewTags($tags, false);
+
+				if (!$result)
 				{
 					$this->setError($table->getError());
 
@@ -604,6 +618,7 @@ abstract class JModelAdmin extends JModelForm
 	protected function canDelete($record)
 	{
 		$user = JFactory::getUser();
+
 		return $user->authorise('core.delete', $this->option);
 	}
 
@@ -619,6 +634,7 @@ abstract class JModelAdmin extends JModelForm
 	protected function canEditState($record)
 	{
 		$user = JFactory::getUser();
+
 		return $user->authorise('core.edit.state', $this->option);
 	}
 
@@ -716,6 +732,7 @@ abstract class JModelAdmin extends JModelForm
 
 					// Trigger the onContentBeforeDelete event.
 					$result = $dispatcher->trigger($this->event_before_delete, array($context, $table));
+
 					if (in_array(false, $result, true))
 					{
 						$this->setError($table->getError());
@@ -910,6 +927,7 @@ abstract class JModelAdmin extends JModelForm
 					// Prune items that you can't change.
 					unset($pks[$i]);
 					JLog::add(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+
 					return false;
 				}
 			}
@@ -919,6 +937,7 @@ abstract class JModelAdmin extends JModelForm
 		if (!$table->publish($pks, $value, $user->get('id')))
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
@@ -930,6 +949,7 @@ abstract class JModelAdmin extends JModelForm
 		if (in_array(false, $result, true))
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
@@ -977,7 +997,6 @@ abstract class JModelAdmin extends JModelForm
 					continue;
 				}
 
-				$where = array();
 				$where = $this->getReorderConditions($table);
 
 				if (!$table->move($delta, $where))
@@ -1025,6 +1044,11 @@ abstract class JModelAdmin extends JModelForm
 		$dispatcher = JEventDispatcher::getInstance();
 		$table = $this->getTable();
 
+		if ((!empty($data['tags']) && $data['tags'][0] != ''))
+		{
+			$table->newTags = $data['tags'];
+		}
+
 		$key = $table->getKeyName();
 		$pk = (!empty($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
 		$isNew = true;
@@ -1046,6 +1070,7 @@ abstract class JModelAdmin extends JModelForm
 			if (!$table->bind($data))
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 
@@ -1061,6 +1086,7 @@ abstract class JModelAdmin extends JModelForm
 
 			// Trigger the onContentBeforeSave event.
 			$result = $dispatcher->trigger($this->event_before_save, array($this->option . '.' . $this->name, $table, $isNew));
+
 			if (in_array(false, $result, true))
 			{
 				$this->setError($table->getError());
@@ -1111,6 +1137,11 @@ abstract class JModelAdmin extends JModelForm
 	public function saveorder($pks = null, $order = null)
 	{
 		$table = $this->getTable();
+		$tableClassName = get_class($table);
+		$contentType = new JUcmType;
+		$type = $contentType->getTypeByTable($tableClassName);
+		$typeAlias = $type->type_alias;
+		$tagsObserver = $table->getObserverOfClass('JTableObserverTags');
 		$conditions = array();
 
 		if (empty($pks))
@@ -1133,6 +1164,8 @@ abstract class JModelAdmin extends JModelForm
 			elseif ($table->ordering != $order[$i])
 			{
 				$table->ordering = $order[$i];
+
+				$this->createTagsHelper($tagsObserver, $type, $pk, $typeAlias, $table);
 
 				if (!$table->store())
 				{
@@ -1172,5 +1205,99 @@ abstract class JModelAdmin extends JModelForm
 		$this->cleanCache();
 
 		return true;
+	}
+
+	/**
+	 * Method to create a tags helper to ensure proper management of tags
+	 *
+	 * @param   JTableObserverTags  $tagsObserver  The tags observer for this table
+	 * @param   JUcmType            $type          The type for the table being processed
+	 * @param   integer             $pk            Primary key of the item bing processed
+	 * @param   string              $typeAlias     The type alias for this table
+	 * @param   JTable              $table         The JTable object
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public function createTagsHelper($tagsObserver, $type, $pk, $typeAlias, $table)
+	{
+		if (!empty($tagsObserver) && !empty($type))
+		{
+			$table->tagsHelper = new JHelperTags;
+			$table->tagsHelper->typeAlias = $typeAlias;
+			$table->tagsHelper->tags = explode(',', $table->tagsHelper->getTagIds($pk, $typeAlias));
+		}
+	}
+
+	/**
+	 * Method to check the validity of the category ID for batch copy and move
+	 *
+	 * @param   integer  $categoryId  The category ID to check
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.2
+	 */
+	protected function checkCategoryId($categoryId)
+	{
+		// Check that the category exists
+		if ($categoryId)
+		{
+			$categoryTable = JTable::getInstance('Category');
+
+			if (!$categoryTable->load($categoryId))
+			{
+				if ($error = $categoryTable->getError())
+				{
+					// Fatal error
+					$this->setError($error);
+					return false;
+				}
+				else
+				{
+					$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
+
+					return false;
+				}
+			}
+		}
+
+		if (empty($categoryId))
+		{
+			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
+			return false;
+		}
+
+		// Check that the user has create permission for the component
+		$extension = JFactory::getApplication()->input->get('option', '');
+
+		if (!$this->user->authorise('core.create', $extension . '.category.' . $categoryId))
+		{
+			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
+
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * A method to preprocess generating a new title in order to allow tables with alternative names
+	 * for alias and title to use the batch move and copy methods
+	 *
+	 * @param   integer  $categoryId  The target category id
+	 * @param   JTable   $table       The JTable within which move or copy is taking place
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public function generateTitle($categoryId, $table)
+	{
+		// Alter the title & alias
+		$data = $this->generateNewTitle($categoryId, $table->alias, $table->title);
+		$table->title = $data['0'];
+		$table->alias = $data['1'];
 	}
 }

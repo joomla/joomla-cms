@@ -3,15 +3,14 @@
  * @package     Joomla.Libraries
  * @subpackage  Pagination
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Pagination Class. Provides a common interface for content pagination for the
- * Joomla! CMS.
+ * Pagination Class. Provides a common interface for content pagination for the Joomla! CMS.
  *
  * @package     Joomla.Libraries
  * @subpackage  Pagination
@@ -44,25 +43,25 @@ class JPagination
 	public $prefix = null;
 
 	/**
-	 * @var    integer
+	 * @var    integer  Value pagination object begins at
 	 * @since  3.0
 	 */
 	public $pagesStart;
 
 	/**
-	 * @var    integer
+	 * @var    integer  Value pagination object ends at
 	 * @since  3.0
 	 */
 	public $pagesStop;
 
 	/**
-	 * @var    integer
+	 * @var    integer  Current page
 	 * @since  3.0
 	 */
 	public $pagesCurrent;
 
 	/**
-	 * @var    integer
+	 * @var    integer  Total number of pages
 	 * @since  3.0
 	 */
 	public $pagesTotal;
@@ -135,6 +134,7 @@ class JPagination
 		{
 			$this->pagesStart = 1;
 		}
+
 		if ($this->pagesStart + $displayedPages > $this->pagesTotal)
 		{
 			$this->pagesStop = $this->pagesTotal;
@@ -619,22 +619,24 @@ class JPagination
 	{
 		$app = JFactory::getApplication();
 
+		$title = '';
+		$class = '';
+
+		if (!is_numeric($item->text))
+		{
+			JHtml::_('bootstrap.tooltip');
+			$title = ' title="' . $item->text . '"';
+			$class = 'hasTooltip ';
+		}
+
 		if ($app->isAdmin())
 		{
-			if ($item->base > 0)
-			{
-				return "<a title=\"" . $item->text . "\" onclick=\"document.adminForm." . $this->prefix . "limitstart.value=" . $item->base
-					. "; Joomla.submitform();return false;\">" . $item->text . "</a>";
-			}
-			else
-			{
-				return "<a title=\"" . $item->text . "\" onclick=\"document.adminForm." . $this->prefix
-					. "limitstart.value=0; Joomla.submitform();return false;\">" . $item->text . "</a>";
-			}
+			return '<a' . $title . ' href="#" onclick="document.adminForm.' . $this->prefix
+			. 'limitstart.value=' . ($item->base > 0 ? $item->base : '0') . '; Joomla.submitform();return false;">' . $item->text . '</a>';
 		}
 		else
 		{
-			return "<a title=\"" . $item->text . "\" href=\"" . $item->link . "\" class=\"pagenav\">" . $item->text . "</a>";
+			return '<a' . $title . ' href="' . $item->link . '" class="' . $class . 'pagenav">' . $item->text . '</a>';
 		}
 	}
 
@@ -653,11 +655,11 @@ class JPagination
 
 		if ($app->isAdmin())
 		{
-			return "<span>" . $item->text . "</span>";
+			return '<span>' . $item->text . '</span>';
 		}
 		else
 		{
-			return "<span class=\"pagenav\">" . $item->text . "</span>";
+			return '<span class="pagenav">' . $item->text . '</span>';
 		}
 	}
 

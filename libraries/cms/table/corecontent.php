@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -39,7 +39,7 @@ class JTableCorecontent extends JTable
 	 *
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
 	 *
-	 * @see     JTable::bind
+	 * @see     JTable::bind()
 	 * @since   3.1
 	 */
 	public function bind($array, $ignore = '')
@@ -87,7 +87,7 @@ class JTableCorecontent extends JTable
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @see     JTable::check
+	 * @see     JTable::check()
 	 * @since   3.1
 	 */
 	public function check()
@@ -95,6 +95,7 @@ class JTableCorecontent extends JTable
 		if (trim($this->core_title) == '')
 		{
 			$this->setError(JText::_('LIB_CMS_WARNING_PROVIDE_VALID_NAME'));
+
 			return false;
 		}
 
@@ -129,7 +130,7 @@ class JTableCorecontent extends JTable
 			$bad_characters = array("\n", "\r", "\"", "<", ">");
 
 			// Remove bad characters
-			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey);
+			$after_clean = JString::str_ireplace($bad_characters, "", $this->core_metakey);
 
 			// Create array using commas as delimiter
 			$keys = explode(',', $after_clean);
@@ -164,6 +165,7 @@ class JTableCorecontent extends JTable
 	public function delete($pk = null)
 	{
 		$baseTable = JTable::getInstance('Ucm');
+
 		return parent::delete($pk) && $baseTable->delete($pk);
 	}
 
@@ -190,6 +192,7 @@ class JTableCorecontent extends JTable
 			->from($db->quoteName('#__ucm_content'))
 			->where($db->quoteName('core_content_item_id') . ' = ' . (int) $contentItemId);
 		$db->setQuery($query);
+
 		if ($ucmId = $db->loadResult())
 		{
 			return $this->delete($ucmId);
@@ -236,10 +239,10 @@ class JTableCorecontent extends JTable
 			}
 
 			$isNew = true;
-
 		}
 
 		$oldRules = $this->getRules();
+
 		if (empty($oldRules))
 		{
 			$this->setRules('{}');
@@ -325,6 +328,7 @@ class JTableCorecontent extends JTable
 			else
 			{
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+
 				return false;
 			}
 		}
@@ -341,11 +345,13 @@ class JTableCorecontent extends JTable
 
 		// Determine if there is checkin support for the table.
 		$checkin = false;
+
 		if (property_exists($this, 'core_checked_out_user_id') && property_exists($this, 'core_checked_out_time'))
 		{
 			$checkin = true;
 			$query->where(' (' . $this->_db->quoteName('core_checked_out_user_id') . ' = 0 OR ' . $this->_db->quoteName('core_checked_out_user_id') . ' = ' . (int) $userId . ')');
 		}
+
 		$this->_db->setQuery($query);
 
 		try
@@ -355,6 +361,7 @@ class JTableCorecontent extends JTable
 		catch (RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
+
 			return false;
 		}
 

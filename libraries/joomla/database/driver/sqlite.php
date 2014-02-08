@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -253,12 +253,10 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	{
 		$this->connect();
 
-		$query = $this->getQuery(true);
-
-		$tables = array();
 		$type = 'table';
 
-		$query->select('name')
+		$query = $this->getQuery(true)
+			->select('name')
 			->from('sqlite_master')
 			->where('type = :type')
 			->bind(':type', $type)

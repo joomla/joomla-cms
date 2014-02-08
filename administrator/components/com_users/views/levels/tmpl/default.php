@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,10 +12,8 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
-// Load the tooltip behavior.
 JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
-JHtml::_('dropdown.init');
 JHtml::_('formbehavior.chosen', 'select');
 
 $user		= JFactory::getUser();
@@ -59,11 +57,11 @@ if ($saveOrder)
 <?php endif;?>
 		<div id="filter-bar" class="btn-toolbar">
 			<div class="filter-search btn-group pull-left">
-				<input type="text" name="filter_search" placeholder="<?php echo JText::_('COM_USERS_SEARCH_ACCESS_LEVELS'); ?>" id="filter_search" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_USERS_SEARCH_TITLE_LEVELS'); ?>" />
+				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_USERS_SEARCH_TITLE_LEVELS'); ?>" />
 			</div>
 			<div class="filter-search btn-group pull-left">
-				<button class="btn hasTooltip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-				<button class="btn hasTooltip" type="button" onclick="document.id('filter_search').value='';this.form.submit();" title="<?php echo JText::_('JSEARCH_RESET'); ?>"><i class="icon-remove"></i></button>
+				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
+				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_RESET'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
 			</div>
 			<div class="btn-group pull-right hidden-phone">
 				<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?></label>
@@ -94,16 +92,13 @@ if ($saveOrder)
 						<?php echo JHtml::_('grid.sort', '<i class="icon-menu-2"></i>', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING'); ?>
 					</th>
 					<th width="1%">
-						<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
+						<?php echo JHtml::_('grid.checkall'); ?>
 					</th>
-					<th class="left">
+					<th>
 						<?php echo JHtml::_('grid.sort', 'COM_USERS_HEADING_LEVEL_NAME', 'a.title', $listDirn, $listOrder); ?>
 					</th>
 					<th width="5%" class="nowrap center hidden-phone">
 						<?php echo JHtml::_('grid.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
-					</th>
-					<th width="40%">
-						&#160;
 					</th>
 				</tr>
 			</thead>
@@ -124,23 +119,23 @@ if ($saveOrder)
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<td class="order nowrap center hidden-phone">
-					<?php if ($canChange) :
-						$disableClassName = '';
-						$disabledLabel	  = '';
-
-						if (!$saveOrder) :
-							$disabledLabel    = JText::_('JORDERINGDISABLED');
-							$disableClassName = 'inactive tip-top';
-						endif; ?>
-						<span class="sortable-handler hasTooltip <?php echo $disableClassName; ?>" title="<?php echo $disabledLabel; ?>">
+						<?php
+						$iconClass = '';
+						if (!$canChange)
+						{
+							$iconClass = ' inactive';
+						}
+						elseif (!$saveOrder)
+						{
+							$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::tooltipText('JORDERINGDISABLED');
+						}
+						?>
+						<span class="sortable-handler<?php echo $iconClass ?>">
 							<i class="icon-menu"></i>
 						</span>
-						<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order " />
-					<?php else : ?>
-						<span class="sortable-handler inactive" >
-							<i class="icon-menu"></i>
-						</span>
-					<?php endif; ?>
+						<?php if ($canChange && $saveOrder) : ?>
+							<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order " />
+						<?php endif; ?>
 					</td>
 					<td class="center">
 						<?php echo JHtml::_('grid.id', $i, $item->id); ?>
@@ -155,9 +150,6 @@ if ($saveOrder)
 					</td>
 					<td class="center">
 						<?php echo (int) $item->id; ?>
-					</td>
-					<td>
-						&#160;
 					</td>
 				</tr>
 			<?php endforeach; ?>

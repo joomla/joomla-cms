@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,8 +21,9 @@ class TemplatesModelStyles extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
-	 * @see     JController
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @see     JControllerLegacy
 	 * @since   1.6
 	 */
 	public function __construct($config = array())
@@ -55,8 +56,6 @@ class TemplatesModelStyles extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = JFactory::getApplication('administrator');
-
 		// Load the filter state.
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
@@ -82,7 +81,7 @@ class TemplatesModelStyles extends JModelList
 	 * different modules that might need different sets of data or different
 	 * ordering requirements.
 	 *
-	 * @param   string  $id    A prefix for the store id.
+	 * @param   string  $id  A prefix for the store id.
 	 *
 	 * @return  string  A store id.
 	 */
@@ -138,6 +137,7 @@ class TemplatesModelStyles extends JModelList
 
 		// Filter by client.
 		$clientId = $this->getState('filter.client_id');
+
 		if (is_numeric($clientId))
 		{
 			$query->where('a.client_id = ' . (int) $clientId);
@@ -145,6 +145,7 @@ class TemplatesModelStyles extends JModelList
 
 		// Filter by search in title
 		$search = $this->getState('filter.search');
+
 		if (!empty($search))
 		{
 			if (stripos($search, 'id:') === 0)
@@ -161,7 +162,6 @@ class TemplatesModelStyles extends JModelList
 		// Add the list ordering clause.
 		$query->order($db->escape($this->getState('list.ordering', 'a.title')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
-		//echo nl2br(str_replace('#__','jos_',$query));
 		return $query;
 	}
 }

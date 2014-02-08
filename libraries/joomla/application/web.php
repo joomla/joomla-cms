@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -200,10 +200,10 @@ class JApplicationWeb extends JApplicationBase
 	 * @return  JApplicationWeb  Instance of $this to allow chaining.
 	 *
 	 * @deprecated  13.1 (Platform) & 4.0 (CMS)
-	 * @see     loadSession()
-	 * @see     loadDocument()
-	 * @see     loadLanguage()
-	 * @see     loadDispatcher()
+	 * @see     JApplicationWeb::loadSession()
+	 * @see     JApplicationWeb::loadDocument()
+	 * @see     JApplicationWeb::loadLanguage()
+	 * @see     JApplicationBase::loadDispatcher()
 	 * @since   11.3
 	 */
 	public function initialise($session = null, $document = null, $language = null, $dispatcher = null)
@@ -307,7 +307,7 @@ class JApplicationWeb extends JApplicationBase
 		// Setup the document options.
 		$options = array(
 			'template' => $this->get('theme'),
-			'file' => 'index.php',
+			'file' => $this->get('themeFile', 'index.php'),
 			'params' => $this->get('themeParams')
 		);
 
@@ -390,7 +390,12 @@ class JApplicationWeb extends JApplicationBase
 
 				// Set the encoding headers.
 				$this->setHeader('Content-Encoding', $encoding);
-				$this->setHeader('X-Content-Encoded-By', 'Joomla');
+
+				// Header will be removed at 4.0
+				if ($this->get('MetaVersion'))
+				{
+					$this->setHeader('X-Content-Encoded-By', 'Joomla');
+				}
 
 				// Replace the output with the encoded data.
 				$this->setBody($gzdata);
@@ -466,7 +471,8 @@ class JApplicationWeb extends JApplicationBase
 		// Check for relative internal links.
 		if (preg_match('#^index\.php#', $url))
 		{
-			$url = $this->get('uri.base.full') . $url;
+			// We changed this from "$this->get('uri.base.full') . $url" due to the inability to run the system tests with the original code
+			$url = JUri::base() . $url;
 		}
 
 		// Perform a basic sanity check to make sure we don't have any CRLF garbage.
@@ -480,8 +486,8 @@ class JApplicationWeb extends JApplicationBase
 		 */
 		if (!preg_match('#^[a-z]+\://#i', $url))
 		{
-			// Get a JURI instance for the requested URI.
-			$uri = JURI::getInstance($this->get('uri.request'));
+			// Get a JUri instance for the requested URI.
+			$uri = JUri::getInstance($this->get('uri.request'));
 
 			// Get a base URL to prepend from the requested URI.
 			$prefix = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
@@ -504,7 +510,7 @@ class JApplicationWeb extends JApplicationBase
 		// If the headers have already been sent we need to send the redirect statement via JavaScript.
 		if ($this->checkHeadersSent())
 		{
-			echo "<script>document.location.href='$url';</script>\n";
+			echo "<script>document.location.href='" . str_replace("'", "&apos;", $url) . "';</script>\n";
 		}
 		else
 		{
@@ -513,7 +519,7 @@ class JApplicationWeb extends JApplicationBase
 			{
 				$html = '<html><head>';
 				$html .= '<meta http-equiv="content-type" content="text/html; charset=' . $this->charSet . '" />';
-				$html .= '<script>document.location.href=\'' . $url . '\';</script>';
+				$html .= '<script>document.location.href=\'' . str_replace("'", "&apos;", $url) . '\';</script>';
 				$html .= '</head><body></body></html>';
 
 				echo $html;
@@ -840,8 +846,6 @@ class JApplicationWeb extends JApplicationBase
 	 */
 	protected function detectRequestUri()
 	{
-		$uri = '';
-
 		// First we need to detect the URI scheme.
 		if (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) && (strtolower($_SERVER['HTTPS']) != 'off'))
 		{
@@ -892,15 +896,16 @@ class JApplicationWeb extends JApplicationBase
 	 * @return  mixed   Either an array or object to be loaded into the configuration object.
 	 *
 	 * @since   11.3
+	 * @throws  RuntimeException
 	 */
 	protected function fetchConfigurationData($file = '', $class = 'JConfig')
 	{
 		// Instantiate variables.
 		$config = array();
 
-		if (empty($file) && defined('JPATH_BASE'))
+		if (empty($file) && defined('JPATH_ROOT'))
 		{
-			$file = JPATH_BASE . '/configuration.php';
+			$file = JPATH_ROOT . '/configuration.php';
 
 			// Applications can choose not to have any configuration data
 			// by not implementing this method and not having a config file.
@@ -925,6 +930,19 @@ class JApplicationWeb extends JApplicationBase
 		}
 
 		return $config;
+	}
+
+	/**
+	 * Flush the media version to refresh versionable assets
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public function flushAssets()
+	{
+		$version = new JVersion;
+		$version->refreshMediaVersion();
 	}
 
 	/**
@@ -1043,6 +1061,7 @@ class JApplicationWeb extends JApplicationBase
 		// Instantiate the session object.
 		$session = JSession::getInstance($handler, $options);
 		$session->initialise($this->input, $this->dispatcher);
+
 		if ($session->getState() == 'expired')
 		{
 			$session->restart();
@@ -1068,6 +1087,7 @@ class JApplicationWeb extends JApplicationBase
 	public function afterSessionStart()
 	{
 		$session = JFactory::getSession();
+
 		if ($session->isNew())
 		{
 			$session->set('registry', new JRegistry('session'));
@@ -1101,6 +1121,7 @@ class JApplicationWeb extends JApplicationBase
 
 		// Check to see if an explicit base URI has been set.
 		$siteUri = trim($this->get('site_uri'));
+
 		if ($siteUri != '')
 		{
 			$uri = JUri::getInstance($siteUri);
@@ -1150,6 +1171,7 @@ class JApplicationWeb extends JApplicationBase
 
 		// Get an explicitly set media URI is present.
 		$mediaURI = trim($this->get('media_uri'));
+
 		if ($mediaURI)
 		{
 			if (strpos($mediaURI, '://') !== false)
@@ -1160,7 +1182,8 @@ class JApplicationWeb extends JApplicationBase
 			else
 			{
 				// Normalise slashes.
-				$mediaURI = '/' . trim($mediaURI, '/\\') . '/';
+				$mediaURI = trim($mediaURI, '/\\');
+				$mediaURI = !empty($mediaURI) ? '/' . $mediaURI . '/' : '/';
 				$this->set('uri.media.full', $this->get('uri.base.host') . $mediaURI);
 				$this->set('uri.media.path', $mediaURI);
 			}
@@ -1172,16 +1195,4 @@ class JApplicationWeb extends JApplicationBase
 			$this->set('uri.media.path', $this->get('uri.base.path') . 'media/');
 		}
 	}
-}
-
-/**
- * Deprecated class placeholder.  You should use JApplicationWeb instead.
- *
- * @package     Joomla.Platform
- * @subpackage  Application
- * @since       11.3
- * @deprecated  12.3 (Platform) & 4.0 (CMS)
- */
-class JWeb extends JApplicationWeb
-{
 }

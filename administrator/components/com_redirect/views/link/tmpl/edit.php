@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 // Include the HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-JHtml::_('behavior.tooltip');
+
 JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.keepalive');
 JHtml::_('formbehavior.chosen', 'select');
@@ -33,11 +33,11 @@ JHtml::_('formbehavior.chosen', 'select');
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'basic', empty($this->item->id) ? JText::_('COM_REDIRECT_NEW_LINK', true) : JText::sprintf('COM_REDIRECT_EDIT_LINK', $this->item->id, true)); ?>
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('old_url'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('old_url'); ?></div>
+					<div class="controls"><?php echo rawurldecode($this->form->getInput('old_url')); ?></div>
 				</div>
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('new_url'); ?></div>
-					<div class="controls"><?php echo $this->form->getInput('new_url'); ?></div>
+					<div class="controls"><?php echo rawurldecode($this->form->getInput('new_url')); ?></div>
 				</div>
 				<div class="control-group">
 					<div class="control-label"><?php echo $this->form->getLabel('published'); ?></div>

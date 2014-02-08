@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,6 +25,14 @@ class WeblinksControllerWeblink extends JControllerForm
 	 * @since   1.6
 	 */
 	protected $view_list = 'categories';
+
+	/**
+	 * The URL edit variable.
+	 *
+	 * @var    string
+	 * @since  3.2
+	 */
+	protected $urlVar = 'a.id';
 
 	/**
 	 * Method to add a new record.
@@ -194,7 +202,7 @@ class WeblinksControllerWeblink extends JControllerForm
 
 		if (empty($return) || !JUri::isInternal(base64_decode($return)))
 		{
-			return JURI::base();
+			return JUri::base();
 		}
 		else
 		{
@@ -213,8 +221,7 @@ class WeblinksControllerWeblink extends JControllerForm
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
-			$task = $this->getTask();
-
+		return;
 	}
 
 	/**
@@ -228,7 +235,6 @@ class WeblinksControllerWeblink extends JControllerForm
 	 */
 	public function save($key = null, $urlVar = 'w_id')
 	{
-
 		$result = parent::save($key, $urlVar);
 
 		// If ok, redirect to the return page.
@@ -236,7 +242,6 @@ class WeblinksControllerWeblink extends JControllerForm
 		{
 			$this->setRedirect($this->getReturnPage());
 		}
-		$model = $this->getModel();
 
 		return $result;
 	}

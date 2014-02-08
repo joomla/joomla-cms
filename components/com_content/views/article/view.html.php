@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,7 +32,6 @@ class ContentViewArticle extends JViewLegacy
 	{
 		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();
-		$userId		= $user->get('id');
 		$dispatcher	= JEventDispatcher::getInstance();
 
 		$this->item		= $this->get('Item');
@@ -151,7 +150,7 @@ class ContentViewArticle extends JViewLegacy
 		// Process the content plugins.
 
 		JPluginHelper::importPlugin('content');
-		$results = $dispatcher->trigger('onContentPrepare', array ('com_content.article', &$item, &$this->params, $offset));
+		$dispatcher->trigger('onContentPrepare', array ('com_content.article', &$item, &$this->params, $offset));
 
 		$item->event = new stdClass;
 		$results = $dispatcher->trigger('onContentAfterTitle', array('com_content.article', &$item, &$this->params, $offset));

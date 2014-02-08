@@ -3,13 +3,15 @@
  * @package     Joomla.Platform
  * @subpackage  Archive
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.folder');
+jimport('joomla.filesystem.path');
 
 /**
  * Tar format adapter for the JArchive class
@@ -77,6 +79,7 @@ class JArchiveTar implements JArchiveExtractable
 		$this->_metadata = null;
 
 		$this->_data = file_get_contents($archive);
+
 		if (!$this->_data)
 		{
 			if (class_exists('JError'))
@@ -94,6 +97,7 @@ class JArchiveTar implements JArchiveExtractable
 		for ($i = 0, $n = count($this->_metadata); $i < $n; $i++)
 		{
 			$type = strtolower($this->_metadata[$i]['type']);
+
 			if ($type == 'file' || $type == 'unix file')
 			{
 				$buffer = $this->_metadata[$i]['data'];
@@ -168,6 +172,7 @@ class JArchiveTar implements JArchiveExtractable
 				"a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/a8checksum/Ctypeflag/a100link/a6magic/a2version/a32uname/a32gname/a8devmajor/a8devminor",
 				substr($data, $position)
 			);
+
 			if (!$info)
 			{
 				if (class_exists('JError'))
@@ -212,6 +217,7 @@ class JArchiveTar implements JArchiveExtractable
 			}
 		}
 		$this->_metadata = $return_array;
+
 		return true;
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -28,6 +28,7 @@ class JStringController
 	public function _getArray()
 	{
 		static $strings = array();
+
 		return $strings;
 	}
 
@@ -59,6 +60,7 @@ class JStringController
 	public function getRef($reference)
 	{
 		$ref = &self::_getArray();
+
 		if (isset($ref[$reference]))
 		{
 			return $ref[$reference];

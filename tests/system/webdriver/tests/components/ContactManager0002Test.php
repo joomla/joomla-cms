@@ -3,7 +3,7 @@
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -80,7 +80,7 @@ class ContactManager0002Test extends JoomlaWebdriverTestCase
 		$this->assertFalse($this->contactManagerPage->getRowNumber($contactName), 'Contact should not show');
 		$test = $this->contactManagerPage->setFilter('filter_published', 'Published');
 		$this->assertEquals(8, $this->contactManagerPage->getRowNumber($contactName), 'Contact should be in row 8');
-		$this->contactManagerPage->deleteItem($contactName);
+		$this->contactManagerPage->trashAndDelete($contactName);
 		$this->assertFalse($this->contactManagerPage->getRowNumber($contactName), 'Contact should not be present');
 	}
 
@@ -115,8 +115,8 @@ class ContactManager0002Test extends JoomlaWebdriverTestCase
 		$this->assertEquals(8, $this->contactManagerPage->getRowNumber($contactName_1), 'Contact should be in row 8');
 
 		$this->contactManagerPage->setFilter('Select Status', 'Select Status');
-		$this->contactManagerPage->deleteItem($contactName_1);
-		$this->contactManagerPage->deleteItem($contactName_2);
+		$this->contactManagerPage->trashAndDelete($contactName_1);
+		$this->contactManagerPage->trashAndDelete($contactName_2);
 	}
 
 }

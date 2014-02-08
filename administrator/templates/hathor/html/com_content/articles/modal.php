@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,6 @@ if ($app->isSite())
 require_once JPATH_ROOT . '/components/com_content/helpers/route.php';
 
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
-JHtml::_('behavior.tooltip');
 
 $function  = $app->input->getCmd('function', 'jSelectArticle');
 $listOrder = $this->escape($this->state->get('list.ordering'));

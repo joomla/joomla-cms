@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,7 +27,7 @@ class JInstaller extends JAdapter
 	 * Array of paths needed by the installer
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.1
 	 */
 	protected $paths = array();
 
@@ -35,7 +35,7 @@ class JInstaller extends JAdapter
 	 * True if package is an upgrade
 	 *
 	 * @var    boolean
-	 * @since  12.1
+	 * @since  3.1
 	 */
 	protected $upgrade = null;
 
@@ -49,6 +49,7 @@ class JInstaller extends JAdapter
 
 	/**
 	 * True if existing files can be overwritten
+	 *
 	 * @var    boolean
 	 * @since  12.1
 	 */
@@ -59,7 +60,7 @@ class JInstaller extends JAdapter
 	 * - Used for installation rollback
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.1
 	 */
 	protected $stepStack = array();
 
@@ -104,7 +105,9 @@ class JInstaller extends JAdapter
 	protected $redirect_url = null;
 
 	/**
-	 * @var    JInstaller  JInstaller instance container.
+	 * JInstaller instance container.
+	 *
+	 * @var    JInstaller
 	 * @since  3.1
 	 */
 	protected static $instance;
@@ -136,6 +139,7 @@ class JInstaller extends JAdapter
 		{
 			self::$instance = new JInstaller;
 		}
+
 		return self::$instance;
 	}
 
@@ -456,6 +460,9 @@ class JInstaller extends JAdapter
 
 			if ($result !== false)
 			{
+				// Refresh versionable assets cache
+				JFactory::getApplication()->flushAssets();
+
 				return true;
 			}
 			else
@@ -539,6 +546,9 @@ class JInstaller extends JAdapter
 
 					if ($result !== false)
 					{
+						// Refresh versionable assets cache
+						JFactory::getApplication()->flushAssets();
+
 						return true;
 					}
 					else
@@ -614,12 +624,14 @@ class JInstaller extends JAdapter
 		else
 		{
 			$this->abort(JText::_('JLIB_INSTALLER_ABORT_NOUPDATEPATH'));
+
 			return false;
 		}
 
 		if (!$this->setupInstall())
 		{
 			$this->abort(JText::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'));
+
 			return false;
 		}
 
@@ -698,6 +710,9 @@ class JInstaller extends JAdapter
 				'onExtensionAfterUninstall',
 				array('installer' => clone $this, 'eid' => $identifier, 'result' => $result)
 			);
+
+			// Refresh versionable assets cache
+			JFactory::getApplication()->flushAssets();
 
 			return $result;
 		}
@@ -894,7 +909,7 @@ class JInstaller extends JAdapter
 
 			if ($fCharset == 'utf8' && $fDriver == $dbDriver)
 			{
-				$sqlfile = $this->getPath('extension_root') . '/' . $file;
+				$sqlfile = $this->getPath('extension_root') . '/' . trim($file);
 
 				// Check that sql files exists before reading. Otherwise raise error for rollback
 				if (!file_exists($sqlfile))
@@ -1027,7 +1042,6 @@ class JInstaller extends JAdapter
 	 */
 	public function parseSchemaUpdates(SimpleXMLElement $schema, $eid)
 	{
-		$files = array();
 		$update_count = 0;
 
 		// Ensure we have an XML element and a valid extension id
@@ -1115,6 +1129,12 @@ class JInstaller extends JAdapter
 											JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_SQL_ERROR', $db->stderr(true)), JLog::WARNING, 'jerror');
 
 											return false;
+										}
+										else
+										{
+											$queryString = (string) $query;
+											$queryString = str_replace(array("\r", "\n"), array('', ' '), substr($queryString, 0, 80));
+											JLog::add(JText::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), JLog::INFO, 'Update');
 										}
 
 										$update_count++;
@@ -1608,6 +1628,12 @@ class JInstaller extends JAdapter
 						{
 							JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FILE', $filesource, $filedest), JLog::WARNING, 'jerror');
 
+							// In 3.2, TinyMCE language handling changed.  Display a special notice in case an older language pack is installed.
+							if (strpos($filedest, 'media/editors/tinymce/jscripts/tiny_mce/langs'))
+							{
+								JLog::add(JText::_('JLIB_INSTALLER_NOT_ERROR'), JLog::WARNING, 'jerror');
+							}
+
 							return false;
 						}
 
@@ -1654,13 +1680,6 @@ class JInstaller extends JAdapter
 		}
 
 		$retval = true;
-
-		$debug = false;
-
-		if (isset($GLOBALS['installerdebug']) && $GLOBALS['installerdebug'])
-		{
-			$debug = true;
-		}
 
 		// Get the client info if we're using a specific client
 		if ($cid > -1)
@@ -1793,7 +1812,7 @@ class JInstaller extends JAdapter
 
 		if (!empty($folder))
 		{
-			$val = JFolder::delete($source);
+			JFolder::delete($source);
 		}
 
 		return $retval;
@@ -1834,7 +1853,7 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  boolean  True on success, False on error
 	 *
-	 * @since 3.1
+	 * @since   3.1
 	 */
 	public function findManifest()
 	{
@@ -2021,6 +2040,7 @@ class JInstaller extends JAdapter
 						{
 							$container .= '/';
 						}
+
 						// Aappend the folder part
 						$container .= $part;
 

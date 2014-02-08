@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.Isis
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -156,6 +156,7 @@ function pagination_item_active(&$item)
 	// Check for "Prev" item
 	if ($item->text == JText::_('JPREV'))
 	{
+		$item->text = JText::_('JPREVIOUS');
 		$display = '<i class="icon-previous"></i>';
 	}
 
@@ -186,7 +187,14 @@ function pagination_item_active(&$item)
 		$limit = 'limitstart.value=0';
 	}
 
-	return '<li><a href="#" title="' . $item->text . '" onclick="document.adminForm.' . $item->prefix . $limit . '; Joomla.submitform();return false;">' . $display . '</a></li>';
+	$title = '';
+	if (!is_numeric($item->text))
+	{
+		JHtml::_('bootstrap.tooltip');
+		$title = ' class="hasTooltip" title="' . $item->text . '"';
+	}
+
+	return '<li><a' . $title . ' href="#" onclick="document.adminForm.' . $item->prefix . $limit . '; Joomla.submitform();return false;">' . $display . '</a></li>';
 }
 
 /**

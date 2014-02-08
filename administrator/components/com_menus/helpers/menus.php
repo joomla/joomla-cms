@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,38 +40,6 @@ class MenusHelper
 			'index.php?option=com_menus&view=items',
 			$vName == 'items'
 		);
-	}
-
-	/**
-	 * Gets a list of the actions that can be performed.
-	 *
-	 * @param   integer  The menu ID.
-	 *
-	 * @return  JObject
-	 * @since   1.6
-	 */
-	public static function getActions($parentId = 0)
-	{
-		$user = JFactory::getUser();
-		$result = new JObject;
-
-		if (empty($parentId))
-		{
-			$assetName = 'com_menus';
-		}
-		else
-		{
-			$assetName = 'com_menus.item.' . (int) $parentId;
-		}
-
-		$actions = JAccess::getActions('com_menus');
-
-		foreach ($actions as $action)
-		{
-			$result->set($action->name, $user->authorise($action->name, $assetName));
-		}
-
-		return $result;
 	}
 
 	/**
@@ -127,7 +95,11 @@ class MenusHelper
 	public static function getMenuTypes()
 	{
 		$db = JFactory::getDbo();
-		$db->setQuery('SELECT a.menutype FROM #__menu_types AS a');
+		$query = $db->getQuery(true)
+			->select('a.menutype')
+			->from('#__menu_types AS a');
+		$db->setQuery($query);
+
 		return $db->loadColumn();
 	}
 
@@ -143,7 +115,7 @@ class MenusHelper
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('a.id AS value, a.title AS text, a.level, a.menutype, a.type, a.template_style_id, a.checked_out')
+			->select('a.id AS value, a.title AS text, a.alias, a.level, a.menutype, a.type, a.template_style_id, a.checked_out')
 			->from('#__menu AS a')
 			->join('LEFT', $db->quoteName('#__menu') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 

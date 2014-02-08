@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -127,8 +127,8 @@ class LanguagesModelStrings extends JModelLegacy
 
 			// Create the search query
 			$query = $this->_db->getQuery(true)
-						->select('constant, string, file')
-						->from($this->_db->quoteName('#__overrider'));
+				->select('constant, string, file')
+				->from($this->_db->quoteName('#__overrider'));
 			if ($input->get('searchtype') == 'constant')
 			{
 				$query->where('constant LIKE '.$searchstring);

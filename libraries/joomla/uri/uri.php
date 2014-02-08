@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Uri
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -83,7 +83,7 @@ class JUri
 	protected $vars = array();
 
 	/**
-	 * @var    array  An array of JURI instances.
+	 * @var    array  An array of JUri instances.
 	 * @since  11.1
 	 */
 	protected static $instances = array();
@@ -143,7 +143,6 @@ class JUri
 	 * @return  JUri  The URI object.
 	 *
 	 * @since   11.1
-	 * @throws  InvalidArgumentException
 	 */
 	public static function getInstance($uri = 'SERVER')
 	{
@@ -167,6 +166,7 @@ class JUri
 				 * to determine if we are running on apache or IIS.  If PHP_SELF and REQUEST_URI
 				 * are present, we will assume we are running on apache.
 				 */
+
 				if (!empty($_SERVER['PHP_SELF']) && !empty($_SERVER['REQUEST_URI']))
 				{
 					// To build the entire URI we need to prepend the protocol, and the http host
@@ -191,11 +191,8 @@ class JUri
 					}
 				}
 
-				// Check for quotes in the URL to prevent injections through the Host header
-				if ($theURI !== str_replace(array("'", '"', '<', '>'), '', $theURI))
-				{
-					throw new InvalidArgumentException('Invalid URI detected.');
-				}
+				// Extra cleanup to remove invalid chars in the URL to prevent injections through the Host header
+				$theURI = str_replace(array("'", '"', '<', '>'), array("%27", "%22", "%3C", "%3E"), $theURI);
 			}
 			else
 			{
@@ -206,7 +203,7 @@ class JUri
 			self::$instances[$uri] = new JUri($theURI);
 		}
 
-		return clone self::$instances[$uri];
+		return self::$instances[$uri];
 	}
 
 	/**

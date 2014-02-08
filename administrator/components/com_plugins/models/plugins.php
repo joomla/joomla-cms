@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -61,8 +61,6 @@ class PluginsModelPlugins extends JModelList
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = JFactory::getApplication('administrator');
-
 		// Load the filter state.
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
@@ -127,7 +125,17 @@ class PluginsModelPlugins extends JModelList
 			$this->_db->setQuery($query);
 			$result = $this->_db->loadObjectList();
 			$this->translate($result);
-			$lang = JFactory::getLanguage();
+			if (!empty($search))
+			{
+				foreach ($result as $i => $item)
+				{
+					if (!preg_match("/$search/i", $item->name))
+					{
+						unset($result[$i]);
+					}
+				}
+			}
+
 			$direction = ($this->getState('list.direction') == 'desc') ? -1 : 1;
 			JArrayHelper::sortObjects($result, $ordering, $direction, true, true);
 
@@ -173,10 +181,8 @@ class PluginsModelPlugins extends JModelList
 		{
 			$source = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
 			$extension = 'plg_' . $item->folder . '_' . $item->element;
-			$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, false)
-				|| $lang->load($extension . '.sys', $source, null, false, false)
-				|| $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-				|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false);
+			$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true)
+				|| $lang->load($extension . '.sys', $source, null, false, true);
 			$item->name = JText::_($item->name);
 		}
 	}
@@ -244,11 +250,6 @@ class PluginsModelPlugins extends JModelList
 			if (stripos($search, 'id:') === 0)
 			{
 				$query->where('a.extension_id = ' . (int) substr($search, 3));
-			}
-			else
-			{
-				$search = $db->quote('%' . $db->escape($search, true) . '%');
-				$query->where('(' . 'a.name LIKE ' . $search . ')');
 			}
 		}
 

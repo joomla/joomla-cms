@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -57,7 +57,7 @@ class UsersModelLogin extends JModelForm
 		if ($return = JRequest::getVar('return', '', 'method', 'base64'))
 		{
 			$data['return'] = base64_decode($return);
-			if (!JURI::isInternal($data['return']))
+			if (!JUri::isInternal($data['return']))
 			{
 				$data['return'] = '';
 			}

@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -304,20 +304,34 @@ abstract class JModelLegacy extends JObject
 	}
 
 	/**
-	 * Returns a record count for the query
+	 * Returns a record count for the query.
 	 *
-	 * @param   string  $query  The query.
+	 * @param   JDatabaseQuery|string  $query  The query.
 	 *
-	 * @return  integer  Number of rows for query
+	 * @return  integer  Number of rows for query.
 	 *
 	 * @since   12.2
 	 */
 	protected function _getListCount($query)
 	{
+		// Use fast COUNT(*) on JDatabaseQuery objects if there no GROUP BY or HAVING clause:
+		if ($query instanceof JDatabaseQuery
+			&& $query->type == 'select'
+			&& $query->group === null
+			&& $query->having === null)
+		{
+			$query = clone $query;
+			$query->clear('select')->clear('order')->select('COUNT(*)');
+
+			$this->_db->setQuery($query);
+			return (int) $this->_db->loadResult();
+		}
+
+		// Otherwise fall back to inefficient way of counting all results.
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 
-		return $this->_db->getNumRows();
+		return (int) $this->_db->getNumRows();
 	}
 
 	/**
@@ -330,7 +344,7 @@ abstract class JModelLegacy extends JObject
 	 * @return  mixed  Model object or boolean false if failed
 	 *
 	 * @since   12.2
-	 * @see     JTable::getInstance
+	 * @see     JTable::getInstance()
 	 */
 	protected function _createTable($name, $prefix = 'Table', $config = array())
 	{
@@ -432,6 +446,57 @@ abstract class JModelLegacy extends JObject
 		}
 
 		throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name), 0);
+	}
+
+	/**
+	 * Method to load a row for editing from the version history table.
+	 *
+	 * @param   integer  $version_id  Key to the version history table.
+	 * @param   JTable   &$table      Content table object being loaded.
+	 *
+	 * @return  boolean  False on failure or error, true otherwise.
+	 *
+	 * @since   12.2
+	 */
+	public function loadHistory($version_id, JTable &$table)
+	{
+		// Only attempt to check the row in if it exists.
+		if ($version_id)
+		{
+			$user = JFactory::getUser();
+
+			// Get an instance of the row to checkout.
+			$historyTable = JTable::getInstance('Contenthistory');
+
+			if (!$historyTable->load($version_id))
+			{
+				$this->setError($historyTable->getError());
+
+				return false;
+			}
+
+			$rowArray = JArrayHelper::fromObject(json_decode($historyTable->version_data));
+
+			$typeId = JTable::getInstance('Contenttype')->getTypeId($this->typeAlias);
+
+			if ($historyTable->ucm_type_id != $typeId)
+			{
+				$this->setError(JText::_('JLIB_APPLICATION_ERROR_HISTORY_ID_MISMATCH'));
+				$key = $table->getKeyName();
+
+				if (isset($rowArray[$key]))
+				{
+					$table->checkIn($rowArray[$key]);
+				}
+
+				return false;
+			}
+		}
+
+		$this->setState('save_date', $historyTable->save_date);
+		$this->setState('version_note', $historyTable->version_note);
+
+		return $table->bind($rowArray);
 	}
 
 	/**

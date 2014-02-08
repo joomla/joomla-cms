@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -39,6 +39,14 @@ abstract class JLoader
 	 * @since  12.1
 	 */
 	protected static $prefixes = array();
+
+	/**
+	 * Holds proxy classes and the class names the proxy.
+	 *
+	 * @var    array
+	 * @since  3.2
+	 */
+	protected static $classAliases = array();
 
 	/**
 	 * Container for namespace => path map.
@@ -256,9 +264,10 @@ abstract class JLoader
 	 * set to true then any registered lookups for the given prefix will be overwritten with the current
 	 * lookup path. When loaded, prefix paths are searched in a "last in, first out" order.
 	 *
-	 * @param   string   $prefix  The class prefix to register.
-	 * @param   string   $path    Absolute file path to the library root where classes with the given prefix can be found.
-	 * @param   boolean  $reset   True to reset the prefix with only the given lookup path.
+	 * @param   string   $prefix   The class prefix to register.
+	 * @param   string   $path     Absolute file path to the library root where classes with the given prefix can be found.
+	 * @param   boolean  $reset    True to reset the prefix with only the given lookup path.
+	 * @param   boolean  $prepend  If true, push the path to the beginning of the prefix lookup paths array.
 	 *
 	 * @return  void
 	 *
@@ -266,7 +275,7 @@ abstract class JLoader
 	 *
 	 * @since   12.1
 	 */
-	public static function registerPrefix($prefix, $path, $reset = false)
+	public static function registerPrefix($prefix, $path, $reset = false, $prepend = false)
 	{
 		// Verify the library path exists.
 		if (!file_exists($path))
@@ -282,8 +291,38 @@ abstract class JLoader
 		// Otherwise we want to simply add the path to the prefix.
 		else
 		{
-			array_unshift(self::$prefixes[$prefix], $path);
+			if ($prepend)
+			{
+				array_unshift(self::$prefixes[$prefix], $path);
+			}
+			else
+			{
+				self::$prefixes[$prefix][] = $path;
+			}
 		}
+	}
+
+	/**
+	 * Offers the ability for "just in time" usage of `class_alias()`.
+	 * You cannot overwrite an existing alias.
+	 *
+	 * @param   string  $alias     The alias name to register.
+	 * @param   string  $original  The original class to alias.
+	 *
+	 * @return  boolean  True if registration was successful. False if the alias already exists.
+	 *
+	 * @since   3.2
+	 */
+	public static function registerAlias($alias, $original)
+	{
+		if (!isset(self::$classAliases[$alias]))
+		{
+			self::$classAliases[$alias] = $original;
+
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -292,6 +331,7 @@ abstract class JLoader
 	 * @param   string   $namespace  A case sensitive Namespace to register.
 	 * @param   string   $path       A case sensitive absolute file path to the library root where classes of the given namespace can be found.
 	 * @param   boolean  $reset      True to reset the namespace with only the given lookup path.
+	 * @param   boolean  $prepend    If true, push the path to the beginning of the namespace lookup paths array.
 	 *
 	 * @return  void
 	 *
@@ -299,7 +339,7 @@ abstract class JLoader
 	 *
 	 * @since   12.3
 	 */
-	public static function registerNamespace($namespace, $path, $reset = false)
+	public static function registerNamespace($namespace, $path, $reset = false, $prepend = false)
 	{
 		// Verify the library path exists.
 		if (!file_exists($path))
@@ -316,7 +356,14 @@ abstract class JLoader
 		// Otherwise we want to simply add the path to the namespace.
 		else
 		{
-			array_unshift(self::$namespaces[$namespace], $path);
+			if ($prepend)
+			{
+				array_unshift(self::$namespaces[$namespace], $path);
+			}
+			else
+			{
+				self::$namespaces[$namespace][] = $path;
+			}
 		}
 	}
 
@@ -335,7 +382,7 @@ abstract class JLoader
 	 *
 	 * @since   12.3
 	 */
-	public static function setup($enablePsr = false, $enablePrefixes = true, $enableClasses = true)
+	public static function setup($enablePsr = true, $enablePrefixes = true, $enableClasses = true)
 	{
 		if ($enableClasses)
 		{
@@ -356,6 +403,7 @@ abstract class JLoader
 		{
 			// Register the PSR-0 based autoloader.
 			spl_autoload_register(array('JLoader', 'loadByPsr0'));
+			spl_autoload_register(array('JLoader', 'loadByAlias'));
 		}
 	}
 
@@ -414,6 +462,29 @@ abstract class JLoader
 		}
 
 		return false;
+	}
+
+	/**
+	 * Method to autoload classes that have been aliased using the registerAlias method.
+	 *
+	 * @param   string  $class  The fully qualified class name to autoload.
+	 *
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   3.2
+	 */
+	public static function loadByAlias($class)
+	{
+		// Remove the root backslash if present.
+		if ($class[0] == '\\')
+		{
+			$class = substr($class, 1);
+		}
+
+		if (isset(self::$classAliases[$class]))
+		{
+			class_alias(self::$classAliases[$class], $class);
+		}
 	}
 
 	/**

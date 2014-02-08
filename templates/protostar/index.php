@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.protostar
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -68,7 +68,7 @@ else
 // Logo file or site title param
 if ($this->params->get('logoFile'))
 {
-	$logo = '<img src="'. JURI::root() . $this->params->get('logoFile') .'" alt="'. $sitename .'" />';
+	$logo = '<img src="'. JUri::root() . $this->params->get('logoFile') .'" alt="'. $sitename .'" />';
 }
 elseif ($this->params->get('sitetitle'))
 {
@@ -89,7 +89,7 @@ else
 	if ($this->params->get('googleFont'))
 	{
 	?>
-		<link href='http://fonts.googleapis.com/css?family=<?php echo $this->params->get('googleFontName');?>' rel='stylesheet' type='text/css' />
+		<link href='//fonts.googleapis.com/css?family=<?php echo $this->params->get('googleFontName');?>' rel='stylesheet' type='text/css' />
 		<style type="text/css">
 			h1,h2,h3,h4,h5,h6,.site-title{
 				font-family: '<?php echo str_replace('+', ' ', $this->params->get('googleFontName'));?>', sans-serif;
@@ -194,8 +194,14 @@ else
 		<div class="container<?php echo ($params->get('fluidContainer') ? '-fluid' : '');?>">
 			<hr />
 			<jdoc:include type="modules" name="footer" style="none" />
-			<p class="pull-right"><a href="#top" id="back-top"><?php echo JText::_('TPL_PROTOSTAR_BACKTOTOP'); ?></a></p>
-			<p>&copy; <?php echo $sitename; ?> <?php echo date('Y');?></p>
+			<p class="pull-right">
+				<a href="#top" id="back-top">
+					<?php echo JText::_('TPL_PROTOSTAR_BACKTOTOP'); ?>
+				</a>
+			</p>
+			<p>
+				&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?>
+			</p>
 		</div>
 	</footer>
 	<jdoc:include type="modules" name="debug" style="none" />

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_tags_popular
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,13 +18,24 @@ defined('_JEXEC') or die;
  */
 abstract class ModTagsPopularHelper
 {
-	public static function getList($params)
+	public static function getList(&$params)
 	{
-		$db        = JFactory::getDbo();
-		$user      = JFactory::getUser();
-		$groups    = implode(',', $user->getAuthorisedViewLevels());
-		$timeframe = $params->get('timeframe', 'alltime');
-		$maximum   = $params->get('maximum', 5);
+		$db				= JFactory::getDbo();
+		$user     		= JFactory::getUser();
+		$groups 		= implode(',', $user->getAuthorisedViewLevels());
+		$timeframe		= $params->get('timeframe', 'alltime');
+		$maximum		= $params->get('maximum', 5);
+		$order_value	= $params->get('order_value', 'count');
+
+		if ($order_value == 'rand()')
+		{
+			$order_direction	= '';
+		}
+		else
+		{
+			$order_value		= $db->quoteName($order_value);
+			$order_direction	= $params->get('order_direction', 1) ? 'DESC' : 'ASC';
+		}
 
 		$query = $db->getQuery(true)
 			->select(
@@ -61,7 +72,7 @@ abstract class ModTagsPopularHelper
 		}
 
 		$query->join('INNER', $db->quoteName('#__tags', 't') . ' ON ' . $db->quoteName('tag_id') . ' = t.id')
-			->order('count DESC');
+			->order($order_value . ' ' . $order_direction);
 		$db->setQuery($query, 0, $maximum);
 		$results = $db->loadObjectList();
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -145,9 +145,8 @@ class JInstallerAdapterComponent extends JAdapterInstance
 				$source = $path . '/' . $folder;
 			}
 		}
-		$lang->load($extension . '.sys', $source, null, false, false) || $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, false)
-			|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
-			|| $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false);
+
+		$lang->load($extension . '.sys', $source, null, false, true) || $lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true);
 	}
 
 	/**
@@ -253,6 +252,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 						JLog::WARNING, 'jerror'
 					);
 				}
+
 				return false;
 			}
 		}
@@ -1145,7 +1145,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 		}
 
 		// Remove categories for this component
-		$query = $db->getQuery(true)
+		$query->clear()
 			->delete('#__categories')
 			->where('extension=' . $db->quote($element), 'OR')
 			->where('extension LIKE ' . $db->quote($element . '.%'));
@@ -1289,7 +1289,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 			if (!$table->bind($data) || !$table->check() || !$table->store())
 			{
 				// The menu item already exists. Delete it and retry instead of throwing an error.
-				$query = $db->getQuery(true)
+				$query->clear()
 					->select('id')
 					->from('#__menu')
 					->where('menutype = ' . $db->quote('main'))
@@ -1312,7 +1312,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 				else
 				{
 					// Remove the old menu item
-					$query = $db->getQuery(true)
+					$query->clear()
 						->delete('#__menu')
 						->where('id = ' . (int) $menu_id);
 
@@ -1516,8 +1516,8 @@ class JInstallerAdapterComponent extends JAdapterInstance
 			}
 			// Rebuild the whole tree
 			$table->rebuild();
-
 		}
+
 		return true;
 	}
 
@@ -1588,6 +1588,7 @@ class JInstallerAdapterComponent extends JAdapterInstance
 				$results[] = $extension;
 			}
 		}
+
 		return $results;
 	}
 
@@ -1726,7 +1727,6 @@ class JInstallerAdapterComponent extends JAdapterInstance
 
 		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'preflight'))
 		{
-
 			if ($this->parent->manifestClass->preflight('discover_install', $this) === false)
 			{
 				// Install failed, rollback changes
@@ -1798,7 +1798,6 @@ class JInstallerAdapterComponent extends JAdapterInstance
 
 		if ($this->parent->manifestClass && method_exists($this->parent->manifestClass, 'install'))
 		{
-
 			if ($this->parent->manifestClass->install($this) === false)
 			{
 				// Install failed, rollback changes

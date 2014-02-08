@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,11 +28,15 @@ $listDirn  = $this->escape($this->state->get('list.direction')); ?>
 <?php endif;?>
 		<div id="filter-bar" class="btn-toolbar clearfix">
 			<div class="filter-search btn-group pull-left">
-				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDES_FILTER_SEARCH_DESC'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" title="<?php echo JText::_('COM_LANGUAGES_VIEW_OVERRIDES_FILTER_SEARCH_DESC'); ?>" />
+				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_LANGUAGES_VIEW_OVERRIDES_FILTER_SEARCH_DESC'); ?>" />
 			</div>
 			<div class="btn-group pull-left">
-				<button class="btn hasTooltip" type="submit" title="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
-				<button class="btn hasTooltip" type="button" title="<?php echo JText::_('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_SUBMIT'); ?>"><i class="icon-search"></i></button>
+				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::tooltipText('JSEARCH_FILTER_CLEAR'); ?>" onclick="document.id('filter_search').value='';this.form.submit();"><i class="icon-remove"></i></button>
+			</div>
+			<div class="btn-group pull-right hidden-phone">
+				<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?></label>
+				<?php echo $this->pagination->getLimitBox(); ?>
 			</div>
 		</div>
 
@@ -40,7 +44,7 @@ $listDirn  = $this->escape($this->state->get('list.direction')); ?>
 			<thead>
 				<tr>
 					<th width="1%">
-						<input type="checkbox" name="checkall-toggle" value="" title="<?php echo JText::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)" />
+						<?php echo JHtml::_('grid.checkall'); ?>
 					</th>
 					<th width="30%" class="left">
 						<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_KEY', 'key', $listDirn, $listOrder); ?>
@@ -48,20 +52,17 @@ $listDirn  = $this->escape($this->state->get('list.direction')); ?>
 					<th class="left">
 						<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_TEXT', 'text', $listDirn, $listOrder); ?>
 					</th>
-					<th class="nowrap">
+					<th class="nowrap center">
 						<?php echo JText::_('COM_LANGUAGES_FIELD_LANG_TAG_LABEL'); ?>
 					</th>
-					<th>
+					<th class="center">
 						<?php echo JText::_('JCLIENT'); ?>
-					</th>
-					<th class="right" width="20">
-						<?php echo JText::_('COM_LANGUAGES_HEADING_NUM'); ?>
 					</th>
 				</tr>
 			</thead>
 			<tfoot>
 				<tr>
-					<td colspan="6">
+					<td colspan="5">
 						<?php echo $this->pagination->getListFooter(); ?>
 					</td>
 				</tr>
@@ -89,9 +90,6 @@ $listDirn  = $this->escape($this->state->get('list.direction')); ?>
 					</td>
 					<td class="center">
 						<?php echo $client; ?>
-					</td>
-					<td class="right">
-						<?php echo $this->pagination->getRowOffset($i); ?>
 					</td>
 				</tr>
 			<?php $i++;

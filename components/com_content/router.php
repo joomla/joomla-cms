@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -93,12 +93,11 @@ function ContentBuildRoute(&$query)
 				if (strpos($query['id'], ':') === false)
 				{
 					$db = JFactory::getDbo();
-					$aquery = $db->setQuery(
-						$db->getQuery(true)
-							->select('alias')
-							->from('#__content')
-							->where('id=' . (int) $query['id'])
-					);
+					$dbQuery = $db->getQuery(true)
+						->select('alias')
+						->from('#__content')
+						->where('id=' . (int) $query['id']);
+					$db->setQuery($dbQuery);
 					$alias = $db->loadResult();
 					$query['id'] = $query['id'] . ':' . $alias;
 				}
@@ -206,6 +205,16 @@ function ContentBuildRoute(&$query)
 				unset($query['month']);
 			}
 		}
+	}
+
+	if ($view == 'featured')
+	{
+		if (!$menuItemGiven)
+		{
+			$segments[] = $view;
+		}
+
+		unset($query['view']);
 	}
 
 	// if the layout is specified and it is the same as the layout in the menu item, we

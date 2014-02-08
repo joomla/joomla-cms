@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -174,7 +174,6 @@ class MenusModelMenu extends JModelForm
 	public function save($data)
 	{
 		$id = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('menu.id');
-		$isNew = true;
 
 		// Get a row instance.
 		$table = $this->getTable();
@@ -183,7 +182,6 @@ class MenusModelMenu extends JModelForm
 		if ($id > 0)
 		{
 			$table->load($id);
-			$isNew = false;
 		}
 
 		// Bind the data.

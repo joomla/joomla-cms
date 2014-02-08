@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -39,7 +39,7 @@ abstract class JHtmlContentLanguage
 	 */
 	public static function existing($all = false, $translate = false)
 	{
-		if (empty(self::$items))
+		if (empty(static::$items))
 		{
 			// Get the database object and a new query object.
 			$db    = JFactory::getDbo();
@@ -53,14 +53,18 @@ abstract class JHtmlContentLanguage
 
 			// Set the query and load the options.
 			$db->setQuery($query);
-			self::$items = $db->loadObjectList();
-
-			if ($all)
-			{
-				array_unshift(self::$items, new JObject(array('value' => '*', 'text' => $translate ? JText::alt('JALL', 'language') : 'JALL_LANGUAGE')));
-			}
+			static::$items = $db->loadObjectList();
 		}
 
-		return self::$items;
+		if ($all)
+		{
+			$all_option = array(new JObject(array('value' => '*', 'text' => $translate ? JText::alt('JALL', 'language') : 'JALL_LANGUAGE')));
+
+			return array_merge($all_option, static::$items);
+		}
+		else
+		{
+			return static::$items;
+		}
 	}
 }

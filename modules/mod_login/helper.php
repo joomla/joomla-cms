@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_login
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,7 +47,7 @@ class ModLoginHelper
 		if (!$url)
 		{
 			// Stay on the same page
-			$uri = clone JURI::getInstance();
+			$uri = clone JUri::getInstance();
 			$vars = $router->parse($uri);
 			unset($vars['lang']);
 			if ($router->getMode() == JROUTER_MODE_SEF)
@@ -63,17 +63,17 @@ class ModLoginHelper
 						$url = 'index.php?Itemid='.$itemid;
 					}
 					else {
-						$url = 'index.php?'.JURI::buildQuery($vars).'&Itemid='.$itemid;
+						$url = 'index.php?'.JUri::buildQuery($vars).'&Itemid='.$itemid;
 					}
 				}
 				else
 				{
-					$url = 'index.php?'.JURI::buildQuery($vars);
+					$url = 'index.php?'.JUri::buildQuery($vars);
 				}
 			}
 			else
 			{
-				$url = 'index.php?'.JURI::buildQuery($vars);
+				$url = 'index.php?'.JUri::buildQuery($vars);
 			}
 		}
 
@@ -84,5 +84,11 @@ class ModLoginHelper
 	{
 		$user = JFactory::getUser();
 		return (!$user->get('guest')) ? 'logout' : 'login';
+	}
+
+	public static function getTwoFactorMethods()
+	{
+		require_once JPATH_ADMINISTRATOR . '/components/com_users/helpers/users.php';
+		return UsersHelper::getTwoFactorMethods();
 	}
 }

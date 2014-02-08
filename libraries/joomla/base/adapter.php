@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Base
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -113,6 +113,7 @@ class JAdapter extends JObject
 			require_once $fullpath;
 
 			$class = $this->_classprefix . ucfirst($name);
+
 			if (!class_exists($class))
 			{
 				return false;

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -54,7 +54,7 @@ class JDocumentRendererAtom extends JDocumentRenderer
 
 		$data = $this->_doc;
 
-		$uri = JURI::getInstance();
+		$uri = JUri::getInstance();
 		$url = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
 		$syndicationURL = JRoute::_('&format=feed&type=atom');
 

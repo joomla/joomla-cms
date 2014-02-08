@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Mail
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -34,6 +34,8 @@ class JMail extends PHPMailer
 
 	/**
 	 * Constructor
+	 *
+	 * @since   11.1
 	 */
 	public function __construct()
 	{
@@ -74,44 +76,55 @@ class JMail extends PHPMailer
 	 */
 	public function Send()
 	{
-		if (($this->Mailer == 'mail') && !function_exists('mail'))
+		if (JFactory::getConfig()->get('mailonline', 1))
 		{
-			if (class_exists('JError'))
+			if (($this->Mailer == 'mail') && !function_exists('mail'))
 			{
-				return JError::raiseNotice(500, JText::_('JLIB_MAIL_FUNCTION_DISABLED'));
+				if (class_exists('JError'))
+				{
+					return JError::raiseNotice(500, JText::_('JLIB_MAIL_FUNCTION_DISABLED'));
+				}
+				else
+				{
+					throw new RuntimeException(sprintf('%s::Send mail not enabled.', get_class($this)));
+				}
 			}
-			else
+
+			@$result = parent::Send();
+
+			if ($result == false)
 			{
-				throw new RuntimeException(sprintf('%s::Send mail not enabled.', get_class($this)));
+				if (class_exists('JError'))
+				{
+					$result = JError::raiseNotice(500, JText::_($this->ErrorInfo));
+				}
+				else
+				{
+					throw new RuntimeException(sprintf('%s::Send failed: "%s".', get_class($this), $this->ErrorInfo));
+				}
 			}
+
+			return $result;
 		}
-
-		@$result = parent::Send();
-
-		if ($result == false)
+		else
 		{
-			if (class_exists('JError'))
-			{
-				$result = JError::raiseNotice(500, JText::_($this->ErrorInfo));
-			}
-			else
-			{
-				throw new RuntimeException(sprintf('%s::Send failed: "%s".', get_class($this), $this->ErrorInfo));
-			}
-		}
+			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_MAIL_FUNCTION_OFFLINE'));
 
-		return $result;
+			return false;
+		}
 	}
 
 	/**
 	 * Set the email sender
 	 *
-	 * @param   array  $from  email address and Name of sender
-	 *                        <code>array([0] => email Address [1] => Name)</code>
+	 * @param   mixed  $from  email address and Name of sender
+	 *                        <code>array([0] => email Address, [1] => Name)</code>
+	 *                        or as a string
 	 *
 	 * @return  JMail  Returns this object for chaining.
 	 *
 	 * @since   11.1
+	 * @throws  UnexpectedValueException
 	 */
 	public function setSender($from)
 	{
@@ -135,8 +148,10 @@ class JMail extends PHPMailer
 		}
 		else
 		{
-			// If it is neither, we throw a warning
+			// If it is neither, we log a message and throw an exception
 			JLog::add(JText::sprintf('JLIB_MAIL_INVALID_EMAIL_SENDER', $from), JLog::WARNING, 'jerror');
+
+			throw new UnexpectedValueException(sprintf('Invalid email Sender: %s, JMail::setSender(%s)', $from));
 		}
 
 		return $this;
@@ -188,6 +203,7 @@ class JMail extends PHPMailer
 	 * @return  JMail  Returns this object for chaining.
 	 *
 	 * @since   11.1
+	 * @throws  InvalidArgumentException
 	 */
 	protected function add($recipient, $name = '', $method = 'AddAddress')
 	{
@@ -213,6 +229,7 @@ class JMail extends PHPMailer
 			else
 			{
 				$name = JMailHelper::cleanLine($name);
+
 				foreach ($recipient as $to)
 				{
 					$to = JMailHelper::cleanLine($to);
@@ -242,6 +259,7 @@ class JMail extends PHPMailer
 	public function addRecipient($recipient, $name = '')
 	{
 		$this->add($recipient, $name, 'AddAddress');
+
 		return $this;
 	}
 
@@ -346,6 +364,23 @@ class JMail extends PHPMailer
 	public function addReplyTo($replyto, $name = '')
 	{
 		$this->add($replyto, $name, 'AddReplyTo');
+
+		return $this;
+	}
+
+	/**
+	 * Sets message type to HTML
+	 *
+	 * @param   boolean  $ishtml  Boolean true or false.
+	 *
+	 * @return  JMail  Returns this object for chaining.
+	 *
+	 * @since   12.3
+	 */
+	public function isHtml($ishtml = true)
+	{
+		parent::IsHTML($ishtml);
+
 		return $this;
 	}
 

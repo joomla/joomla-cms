@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,13 +19,17 @@ defined('JPATH_PLATFORM') or die;
 class JCacheController
 {
 	/**
+	 * JCache object
+	 *
 	 * @var    JCache
 	 * @since  11.1
 	 */
 	public $cache;
 
 	/**
-	 * @var    array  Array of options
+	 * Array of options
+	 *
+	 * @var    array
 	 * @since  11.1
 	 */
 	public $options;
@@ -171,7 +175,6 @@ class JCacheController
 	 */
 	public function get($id, $group = null)
 	{
-		$data = false;
 		$data = $this->cache->get($id, $group);
 
 		if ($data === false)
@@ -208,7 +211,7 @@ class JCacheController
 	 * @param   boolean  $wrkarounds  True to use wrkarounds
 	 *
 	 * @return  boolean  True if cache stored
-	 * 
+	 *
 	 * @since   11.1
 	 */
 	public function store($data, $id, $group = null, $wrkarounds = true)

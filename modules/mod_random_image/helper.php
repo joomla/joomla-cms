@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_random_image
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -109,7 +109,7 @@ class ModRandomImageHelper
 	{
 		$folder	= $params->get('folder');
 
-		$LiveSite	= JURI::base();
+		$LiveSite	= JUri::base();
 
 		// if folder includes livesite info, remove
 		if (JString::strpos($folder, $LiveSite) === 0)

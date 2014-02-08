@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -20,26 +20,26 @@ defined('JPATH_PLATFORM') or die;
 class JTableContent extends JTable
 {
 	/**
-	 * Helper object for storing and deleting tag information.
-	 *
-	 * @var    JHelperTags
-	 * @since  3.1
-	 */
-	protected $tagsHelper = null;
-
-	/**
 	 * Constructor
 	 *
 	 * @param   JDatabaseDriver  $db  A database connector object
 	 *
 	 * @since   11.1
 	 */
-	public function __construct($db)
+	public function __construct(JDatabaseDriver $db)
 	{
 		parent::__construct('#__content', 'id', $db);
 
-		$this->tagsHelper = new JHelperTags;
-		$this->tagsHelper->typeAlias = 'com_content.article';
+		/*
+		 * This is left here for reference:
+		 *
+		 * This would set up the tags observer in $this from here (so not entirely decoupled):
+		 * JTableObserverTags::createObserver($this, array('typeAlias' => 'com_content.article'));
+		 *
+		 * But this makes the relation between content and tags completely external to Content as JTable is observable:
+		 * So we are doing this only once in libraries/cms.php:
+		 * JObserverFactory::addObserverClassToClass('JTableObserverTags', 'JTableContent', array('typeAlias' => 'com_content.article'));
+		 */
 	}
 
 	/**
@@ -54,6 +54,7 @@ class JTableContent extends JTable
 	protected function _getAssetName()
 	{
 		$k = $this->_tbl_key;
+
 		return 'com_content.article.' . (int) $this->$k;
 	}
 
@@ -79,7 +80,7 @@ class JTableContent extends JTable
 	 *
 	 * @since   11.1
 	 */
-	protected function _getAssetParentId($table = null, $id = null)
+	protected function _getAssetParentId(JTable $table = null, $id = null)
 	{
 		$assetId = null;
 
@@ -94,6 +95,7 @@ class JTableContent extends JTable
 
 			// Get the asset id from the database.
 			$this->_db->setQuery($query);
+
 			if ($result = $this->_db->loadResult())
 			{
 				$assetId = (int) $result;
@@ -120,7 +122,7 @@ class JTableContent extends JTable
 	 *
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
 	 *
-	 * @see     JTable::bind
+	 * @see     JTable::bind()
 	 * @since   11.1
 	 */
 	public function bind($array, $ignore = '')
@@ -171,7 +173,7 @@ class JTableContent extends JTable
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @see     JTable::check
+	 * @see     JTable::check()
 	 * @since   11.1
 	 */
 	public function check()
@@ -179,6 +181,7 @@ class JTableContent extends JTable
 		if (trim($this->title) == '')
 		{
 			$this->setError(JText::_('COM_CONTENT_WARNING_PROVIDE_VALID_NAME'));
+
 			return false;
 		}
 
@@ -241,23 +244,6 @@ class JTableContent extends JTable
 	}
 
 	/**
-	 * Override parent delete method to delete tags information.
-	 *
-	 * @param   integer  $pk  Primary key to delete.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   3.1
-	 * @throws  UnexpectedValueException
-	 */
-	public function delete($pk = null)
-	{
-		$result = parent::delete($pk);
-		$this->tagsHelper->typeAlias = 'com_content.article';
-		return $result && $this->tagsHelper->deleteTagData($this, $pk);
-	}
-
-	/**
 	 * Overrides JTable::store to set modified data and user id.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
@@ -294,6 +280,7 @@ class JTableContent extends JTable
 
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Content', 'JTable');
+
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
@@ -301,11 +288,7 @@ class JTableContent extends JTable
 			return false;
 		}
 
-		$this->tagsHelper->typeAlias = 'com_content.article';
-		$this->tagsHelper->preStoreProcess($this);
-		$result = parent::store($updateNulls);
-
-		return $result && $this->tagsHelper->postStoreProcess($this);
+		return parent::store($updateNulls);
 	}
 
 	/**
@@ -341,6 +324,7 @@ class JTableContent extends JTable
 			else
 			{
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+
 				return false;
 			}
 		}
@@ -358,11 +342,9 @@ class JTableContent extends JTable
 			$checkin = ' AND (checked_out = 0 OR checked_out = ' . (int) $userId . ')';
 		}
 
-		// Get the JDatabaseQuery object
-		$query = $this->_db->getQuery(true);
-
 		// Update the publishing state for rows with the given primary keys.
-		$query->update($this->_db->quoteName($this->_tbl))
+		$query = $this->_db->getQuery(true)
+			->update($this->_db->quoteName($this->_tbl))
 			->set($this->_db->quoteName('state') . ' = ' . (int) $state)
 			->where('(' . $where . ')' . $checkin);
 		$this->_db->setQuery($query);
@@ -374,6 +356,7 @@ class JTableContent extends JTable
 		catch (RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
+
 			return false;
 		}
 

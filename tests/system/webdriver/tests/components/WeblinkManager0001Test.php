@@ -3,7 +3,7 @@
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -62,7 +62,11 @@ class WeblinkManager0001Test extends JoomlaWebdriverTestCase
 	{
 		$this->weblinkManagerPage->clickButton('toolbar-new');
 		$weblinkEditPage = $this->getPageObject('WeblinkEditPage');
-		$testElements = $weblinkEditPage->getAllInputFields(array('details', 'publishing', 'params-jbasic', 'metadata-jmetadata'));
+		// Option to print actual element array
+		/* @var $weblinkEditPage WeblinkEditPage */
+// 	 	$weblinkEditPage->printFieldArray($weblinkEditPage->getAllInputFields($weblinkEditPage->tabs));
+
+		$testElements = $weblinkEditPage->getAllInputFields($weblinkEditPage->tabs);
 		$actualFields = $this->getActualFieldsFromElements($testElements);
 		$this->assertEquals($weblinkEditPage->inputFields, $actualFields);
 		$weblinkEditPage->clickButton('toolbar-cancel');
@@ -100,13 +104,13 @@ class WeblinkManager0001Test extends JoomlaWebdriverTestCase
 	{
 		$salt = rand();
 		$weblinkName = 'Weblink' . $salt;
-		$url='www.example.com';
+		$url = 'www.example.com';
 		$this->assertFalse($this->weblinkManagerPage->getRowNumber($weblinkName), 'Test Weblink should not be present');
 		$this->weblinkManagerPage->addWeblink($weblinkName, $url, false);
 		$message = $this->weblinkManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'Weblink successfully saved') >= 0, 'Weblink save should return success');
 		$this->assertEquals(10, $this->weblinkManagerPage->getRowNumber($weblinkName), 'Test Weblink should be in row 10');
-		$this->weblinkManagerPage->deleteItem($weblinkName);
+		$this->weblinkManagerPage->trashAndDelete($weblinkName);
 		$this->assertFalse($this->weblinkManagerPage->getRowNumber($weblinkName), 'Test Weblink should not be present');
 	}
 
@@ -117,19 +121,26 @@ class WeblinkManager0001Test extends JoomlaWebdriverTestCase
 	{
 		$salt = rand();
 		$weblinkName = 'Weblink' . $salt;
-		$url='www.example.com';
-		$alt='Alternative Text' . $salt;
-		$float='Right';
-		$caption='Sample Caption' . $salt;
+		$url = 'www.example.com';
+		$alt = 'Alternative Text' . $salt;
+		$float = 'Right';
+		$caption = 'Sample Caption' . $salt;
 
+		$this->weblinkManagerPage->searchFor($weblinkName);
 		$this->assertFalse($this->weblinkManagerPage->getRowNumber($weblinkName), 'Test weblink should not be present');
+		$this->weblinkManagerPage->searchFor();
+
 		$this->weblinkManagerPage->addWeblink($weblinkName, $url, array('Alt text' => $alt, 'Caption' => $caption, 'Image Float' => $float));
 		$message = $this->weblinkManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'Weblink successfully saved') >= 0, 'Weblink save should return success');
-		$this->assertEquals(10, $this->weblinkManagerPage->getRowNumber($weblinkName), 'Test weblink should be in row 10');
+
+		$this->weblinkManagerPage->searchFor($weblinkName);
+		$this->assertEquals(1, $this->weblinkManagerPage->getRowNumber($weblinkName), 'Test weblink should be in row 10');
+		$this->weblinkManagerPage->searchFor();
+
 		$values = $this->weblinkManagerPage->getFieldValues('WeblinkEditPage', $weblinkName, array('Title', 'Alt text', 'Caption', 'Image Float'));
-		$this->assertEquals(array($weblinkName,$alt,$caption,$float), $values, 'Actual title, alt text, caption and image float should match expected');
-		$this->weblinkManagerPage->deleteItem($weblinkName);
+		$this->assertEquals(array($weblinkName, $alt, $caption, $float), $values, 'Actual title, alt text, caption and image float should match expected');
+		$this->weblinkManagerPage->trashAndDelete($weblinkName);
 		$this->assertFalse($this->weblinkManagerPage->getRowNumber($weblinkName), 'Test weblink should not be present');
 	}
 
@@ -140,12 +151,12 @@ class WeblinkManager0001Test extends JoomlaWebdriverTestCase
 	{
 		$salt = rand();
 		$weblinkName = 'Weblink' . $salt;
-		$url='www.example.com';
+		$url = 'www.example.com';
 		$this->assertFalse($this->weblinkManagerPage->getRowNumber($weblinkName), 'Test weblink should not be present');
 		$this->weblinkManagerPage->addWeblink($weblinkName, $url, false);
 		$this->weblinkManagerPage->editWeblink($weblinkName, array('Alt text' => 'Alternative Text' . $salt, 'Caption' => 'Sample Caption' . $salt, 'Image Float' => 'Right'));
 		$values = $this->weblinkManagerPage->getFieldValues('WeblinkEditPage', $weblinkName, array('Alt text', 'Caption', 'Image Float'));
-		$this->weblinkManagerPage->deleteItem($weblinkName);
+		$this->weblinkManagerPage->trashAndDelete($weblinkName);
 	}
 
 	/**
@@ -155,13 +166,13 @@ class WeblinkManager0001Test extends JoomlaWebdriverTestCase
 	{
 		$salt = rand();
 		$weblinkName = 'Weblink' . $salt;
-		$url='www.example.com';
+		$url = 'www.example.com';
 		$this->weblinkManagerPage->addWeblink($weblinkName, $url, false);
 		$state = $this->weblinkManagerPage->getState($weblinkName);
 		$this->assertEquals('published', $state, 'Initial state should be published');
 		$this->weblinkManagerPage->changeWeblinkState($weblinkName, 'unpublished');
 		$state = $this->weblinkManagerPage->getState($weblinkName);
 		$this->assertEquals('unpublished', $state, 'State should be unpublished');
-		$this->weblinkManagerPage->deleteItem($weblinkName);
+		$this->weblinkManagerPage->trashAndDelete($weblinkName);
 	}
 }

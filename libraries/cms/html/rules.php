@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -35,13 +35,13 @@ abstract class JHtmlRules
 	 */
 	public static function assetFormWidget($actions, $assetId = null, $parent = null, $control = 'jform[rules]', $idPrefix = 'jform_rules')
 	{
-		$images = self::_getImagesArray();
+		$images = static::_getImagesArray();
 
 		// Get the user groups.
-		$groups = self::_getUserGroups();
+		$groups = static::_getUserGroups();
 
 		// Get the incoming inherited rules as well as the asset specific rules.
-		$inheriting = JAccess::getAssetRules($parent ? $parent : self::_getParentAssetId($assetId), true);
+		$inheriting = JAccess::getAssetRules($parent ? $parent : static::_getParentAssetId($assetId), true);
 		$inherited = JAccess::getAssetRules($assetId, true);
 		$rules = JAccess::getAssetRules($assetId);
 
@@ -60,6 +60,7 @@ abstract class JHtmlRules
 		{
 			$html[] = '				<th class="col' . ($i + 2) . '">' . JText::_($action->title) . '</th>';
 		}
+
 		$html[] = '			</tr>';
 
 		foreach ($groups as $i => $group)
@@ -73,6 +74,7 @@ abstract class JHtmlRules
 					. ($assetId ? ($inherited->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])
 					: ($inheriting->allow($action->name, $group->identities) ? $images['allow'] : $images['deny'])) . '</td>';
 			}
+
 			$html[] = '			</tr>';
 		}
 

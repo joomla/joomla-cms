@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  UCM
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,22 +25,6 @@ class JUcmContent extends JUcmBase
 	 * @since  3.1
 	 */
 	protected $table;
-
-	/**
-	 * The UCM type object
-	 *
-	 * @var    JUcmType
-	 * @since  3.1
-	 */
-	public $type;
-
-	/**
-	 * The alias for the content table
-	 *
-	 * @var    string
-	 * @since  3.1
-	 */
-	protected $alias;
 
 	/**
 	 * The UCM data array
@@ -151,11 +135,13 @@ class JUcmContent extends JUcmBase
 	{
 		$contentType = isset($type) ? $type : $this->type;
 
-		$fields = json_decode($contentType->type->field_mappings, true);
+		$fields = json_decode($contentType->type->field_mappings);
 
 		$ucmData = array();
 
-		foreach ($fields['common'][0] as $i => $field)
+		$common = (is_object($fields->common)) ? $fields->common : $fields->common[0];
+
+		foreach ($common as $i => $field)
 		{
 			if ($field && $field != 'null' && array_key_exists($field, $original))
 			{
@@ -165,7 +151,9 @@ class JUcmContent extends JUcmBase
 
 		if (array_key_exists('special', $ucmData))
 		{
-			foreach ($fields['special'][0] as $i => $field)
+			$special = (is_object($fields->special)) ? $fields->special : $fields->special[0];
+
+			foreach ($special as $i => $field)
 			{
 				if ($field && $field != 'null' && array_key_exists($field, $original))
 				{
@@ -194,7 +182,7 @@ class JUcmContent extends JUcmBase
 	 * @param   JTable   $table       JTable Object
 	 * @param   boolean  $primaryKey  Flag that is true for data that are using #__ucm_content as their primary table
 	 *
-	 * @return  Boolean  true on success
+	 * @return  boolean  true on success
 	 *
 	 * @since   3.1
 	 */

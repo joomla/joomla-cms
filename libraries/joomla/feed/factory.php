@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,7 +27,7 @@ class JFeedFactory
 	/**
 	 * Method to load a URI into the feed reader for parsing.
 	 *
-	 * @param   string  $uri  The URI of the feed to load.
+	 * @param   string  $uri  The URI of the feed to load. Idn uris must be passed already converted to punycode.
 	 *
 	 * @return  JFeedReader
 	 *

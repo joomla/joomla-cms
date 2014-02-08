@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -164,6 +164,7 @@ abstract class JHtmlAccess
 				{
 					$checked = in_array($item->id, $selected) ? ' checked="checked"' : '';
 				}
+
 				$rel = ($item->parent_id > 0) ? ' rel="' . $count . 'group_' . $item->parent_id . '"' : '';
 
 				// Build the HTML for the item.
@@ -241,7 +242,7 @@ abstract class JHtmlAccess
 	 */
 	public static function assetgroups()
 	{
-		if (empty(self::$asset_groups))
+		if (empty(static::$asset_groups))
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
@@ -251,10 +252,10 @@ abstract class JHtmlAccess
 				->order('a.ordering ASC');
 
 			$db->setQuery($query);
-			self::$asset_groups = $db->loadObjectList();
+			static::$asset_groups = $db->loadObjectList();
 		}
 
-		return self::$asset_groups;
+		return static::$asset_groups;
 	}
 
 	/**
@@ -273,7 +274,7 @@ abstract class JHtmlAccess
 	{
 		static $count;
 
-		$options = self::assetgroups();
+		$options = static::assetgroups();
 
 		if (isset($config['title']))
 		{

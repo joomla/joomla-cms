@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_category
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -293,7 +293,6 @@ abstract class ModArticlesCategoryHelper
 	public static function truncate($html, $maxLength = 0)
 	{
 		$baseLength = strlen($html);
-		$diffLength = 0;
 
 		// First get the plain text string. This is the rendered text we want to end up with.
 		$ptString = JHtml::_('string.truncate', $html, $maxLength, $noSplit = true, $allowHtml = false);

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_related_items
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ require_once JPATH_SITE . '/components/com_content/helpers/route.php';
  */
 abstract class ModRelatedItemsHelper
 {
-	public static function getList($params)
+	public static function getList(&$params)
 	{
 		$db = JFactory::getDbo();
 		$app = JFactory::getApplication();

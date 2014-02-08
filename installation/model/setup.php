@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -53,6 +53,8 @@ class InstallationModelSetup extends JModelBase
 		{
 			$options['language'] = JFactory::getLanguage()->getTag();
 		}
+
+		$options['helpurl'] = $session->get('setup.helpurl', null);
 
 		// Merge the new setup options into the current ones and store in the session.
 		$options = array_merge($old, (array) $options);
@@ -309,10 +311,13 @@ class InstallationModelSetup extends JModelBase
 		$option->notice = null;
 		$options[] = $option;
 
-		// Check for configuration file writeable.
+		// Check for configuration file writable.
+		$writable = (is_writable(JPATH_CONFIGURATION . '/configuration.php')
+			|| (!file_exists(JPATH_CONFIGURATION . '/configuration.php') && is_writable(JPATH_ROOT)));
+
 		$option = new stdClass;
 		$option->label  = JText::sprintf('INSTL_WRITABLE', 'configuration.php');
-		$option->state  = (is_writable(JPATH_CONFIGURATION . '/configuration.php') || (!file_exists(JPATH_CONFIGURATION . '/configuration.php') && is_writable(JPATH_ROOT)));
+		$option->state  = $writable;
 		$option->notice = ($option->state) ? null : JText::_('INSTL_NOTICEYOUCANSTILLINSTALL');
 		$options[] = $option;
 

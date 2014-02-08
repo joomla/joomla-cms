@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,7 +44,6 @@ class TagsControllerTags extends JControllerAdmin
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		$extension = $this->input->get('extension');
 		$this->setRedirect(JRoute::_('index.php?option=com_tags&view=tags', false));
 
 		$model = $this->getModel();

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,27 +28,6 @@ class PluginsHelper
 	public static function addSubmenu($vName)
 	{
 		// No submenu for this component.
-	}
-
-	/**
-	 * Gets a list of the actions that can be performed.
-	 *
-	 * @return  JObject
-	 */
-	public static function getActions()
-	{
-		$user = JFactory::getUser();
-		$result = new JObject;
-		$assetName = 'com_plugins';
-
-		$actions = JAccess::getActions($assetName);
-
-		foreach ($actions as $action)
-		{
-			$result->set($action->name, $user->authorise($action->name, $assetName));
-		}
-
-		return $result;
 	}
 
 	/**

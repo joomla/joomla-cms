@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,9 @@ class TemplatesHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string    The name of the active view.
+	 * @param   string  $vName  The name of the active view.
+	 *
+	 * @return  void
 	 */
 	public static function addSubmenu($vName)
 	{
@@ -35,26 +37,6 @@ class TemplatesHelper
 			'index.php?option=com_templates&view=templates',
 			$vName == 'templates'
 		);
-	}
-
-	/**
-	 * Gets a list of the actions that can be performed.
-	 *
-	 * @return  JObject
-	 */
-	public static function getActions()
-	{
-		$user = JFactory::getUser();
-		$result = new JObject;
-
-		$actions = JAccess::getActions('com_templates');
-
-		foreach ($actions as $action)
-		{
-			$result->set($action->name, $user->authorise($action->name, 'com_templates'));
-		}
-
-		return $result;
 	}
 
 	/**
@@ -74,6 +56,8 @@ class TemplatesHelper
 
 	/**
 	 * Get a list of filter options for the templates with styles.
+	 *
+	 * @param   mixed  $clientId  The CMS client id (0:site | 1:administrator) or '*' for all.
 	 *
 	 * @return  array  An array of JHtmlOption elements.
 	 */
@@ -96,15 +80,25 @@ class TemplatesHelper
 			->order('name');
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
+
 		return $options;
 	}
 
+	/**
+	 * TODO
+	 *
+	 * @param   string  $templateBaseDir  TODO
+	 * @param   string  $templateDir      TODO
+	 *
+	 * @return  boolean|JObject
+	 */
 	public static function parseXMLTemplateFile($templateBaseDir, $templateDir)
 	{
 		$data = new JObject;
 
 		// Check of the xml file exists
 		$filePath = JPath::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
+
 		if (is_file($filePath))
 		{
 			$xml = JInstaller::parseXMLInstallFile($filePath);
@@ -124,6 +118,13 @@ class TemplatesHelper
 	}
 
 	/**
+	 * TODO
+	 *
+	 * @param   integer  $clientId     TODO
+	 * @param   string   $templateDir  TODO
+	 *
+	 * @return  boolean|array
+	 *
 	 * @since   3.0
 	 */
 	public static function getPositions($clientId, $templateDir)
@@ -137,6 +138,7 @@ class TemplatesHelper
 		{
 			// Read the file to see if it's a valid component XML file
 			$xml = simplexml_load_file($filePath);
+
 			if (!$xml)
 			{
 				return false;
@@ -149,6 +151,7 @@ class TemplatesHelper
 			if ($xml->getName() != 'extension' && $xml->getName() != 'metafile')
 			{
 				unset($xml);
+
 				return false;
 			}
 

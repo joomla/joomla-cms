@@ -3,7 +3,7 @@
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -62,7 +62,12 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 	{
 		$this->tagManagerPage->clickButton('toolbar-new');
 		$tagEditPage = $this->getPageObject('TagEditPage');
-		$testElements = $tagEditPage->getAllInputFields(array('general','publishing','metadata'));
+
+		// Option to print actual element array
+		/* @var $tagEditPage TagEditPage */
+// 	 	$tagEditPage->printFieldArray($tagEditPage->getAllInputFields($tagEditPage->tabs));
+
+		$testElements = $tagEditPage->getAllInputFields($tagEditPage->tabs);
 		$actualFields = $this->getActualFieldsFromElements($testElements);
 		$this->assertEquals($tagEditPage->inputFields, $actualFields);
 		$tagEditPage->clickButton('toolbar-cancel');
@@ -88,6 +93,11 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 		$this->tagManagerPage->clickButton('toolbar-new');
 		$tagEditPage = $this->getPageObject('TagEditPage');
 		$textArray = $tagEditPage->getTabIds();
+
+		// Keep the following line commented to make it easy to generate values for arrays as fields change.
+
+// 		$tagEditPage->printFieldArray($tagEditPage->getAllInputFields($tagEditPage->tabs));
+
 		$this->assertEquals($tagEditPage->tabs, $textArray, 'Tab labels should match expected values.');
 		$tagEditPage->clickButton('toolbar-cancel');
 		$this->tagManagerPage = $this->getPageObject('TagManagerPage');
@@ -105,7 +115,7 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 		$message = $this->tagManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'Tag successfully saved') >= 0, 'Tag save should return success');
 		$this->assertEquals(1, $this->tagManagerPage->getRowNumber($tagName), 'Test Tag should be in row 2');
-		$this->tagManagerPage->deleteItem($tagName);
+		$this->tagManagerPage->trashAndDelete($tagName);
 		$this->assertFalse($this->tagManagerPage->getRowNumber($tagName), 'Test Tag should not be present');
 	}
 
@@ -116,18 +126,18 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 	{
 		$salt = rand();
 		$tagName = 'Tag' . $salt;
-		$caption = 'Sample'. $salt;
+		$caption = 'Sample' . $salt;
 		$alt = 'alt' . $salt;
 		$float = 'Right'; //Other than the Default Value
 
 		$this->assertFalse($this->tagManagerPage->getRowNumber($tagName), 'Test tag should not be present');
-		$this->tagManagerPage->addTag($tagName,$caption,$alt,$float);
+		$this->tagManagerPage->addTag($tagName, $caption, $alt, $float);
 		$message = $this->tagManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'Tags successfully saved') >= 0, 'Tag save should return success');
 		$this->assertEquals(1, $this->tagManagerPage->getRowNumber($tagName), 'Test test tag should be in row 1');
 		$values = $this->tagManagerPage->getFieldValues('TagEditPage', $tagName, array('Title', 'Caption'));
-		$this->assertEquals(array($tagName,$caption), $values, 'Actual name, caption should match expected');
-		$this->tagManagerPage->deleteItem($tagName);
+		$this->assertEquals(array($tagName, $caption), $values, 'Actual name, caption should match expected');
+		$this->tagManagerPage->trashAndDelete($tagName);
 		$this->assertFalse($this->tagManagerPage->getRowNumber($tagName), 'Test tag should not be present');
 	}
 
@@ -146,7 +156,7 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 		$this->tagManagerPage->editTag($tagName, array('Caption' => 'new_sample_Caption', 'Alt' => 'Sample_Alt'));
 		$values = $this->tagManagerPage->getFieldValues('tagEditPage', $tagName, array('Caption', 'Alt'));
 		$this->assertEquals(array('new_sample_Caption', 'Sample_Alt'), $values, 'Actual values should match expected');
-		$this->tagManagerPage->deleteItem($tagName);
+		$this->tagManagerPage->trashAndDelete($tagName);
 	}
 
 	/**
@@ -160,6 +170,6 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 		$this->tagManagerPage->changeTagState('Test Tag', 'unpublished');
 		$state = $this->tagManagerPage->getState('Test Tag');
 		$this->assertEquals('unpublished', $state, 'State should be unpublished');
-		$this->tagManagerPage->deleteItem('Test Tag');
+		$this->tagManagerPage->trashAndDelete('Test Tag');
 	}
 }

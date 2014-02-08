@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -112,10 +112,7 @@ class JFormFieldTag extends JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$options = array();
-
 		$published = $this->element['published']? $this->element['published'] : array(0,1);
-		$name = (string) $this->element['name'];
 
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true)
@@ -124,7 +121,7 @@ class JFormFieldTag extends JFormFieldList
 			->join('LEFT', $db->quoteName('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
 		// Ajax tag only loads assigned values
-		if (!$this->isNested())
+		if (!$this->isNested() && !empty($this->value))
 		{
 			// Only item assigned values
 			$values = (array) $this->value;
@@ -139,8 +136,6 @@ class JFormFieldTag extends JFormFieldList
 		}
 
 		$query->where($db->quoteName('a.alias') . ' <> ' . $db->quote('root'));
-
-		// Filter to only load active items
 
 		// Filter on the published state
 		if (is_numeric($published))
@@ -166,6 +161,20 @@ class JFormFieldTag extends JFormFieldList
 		catch (RuntimeException $e)
 		{
 			return false;
+		}
+
+		// Block the possibility to set a tag as it own parent
+		if ($this->form->getName() == 'com_tags.tag')
+		{
+			$id   = (int) $this->form->getValue('id', 0);
+
+			foreach ($options as $option)
+			{
+				if ($option->value == $id)
+				{
+					$option->disable = true;
+				}
+			}
 		}
 
 		// Merge any additional options in the XML definition.

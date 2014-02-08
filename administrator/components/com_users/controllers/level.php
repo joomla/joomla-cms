@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,7 +48,6 @@ class UsersControllerLevel extends JControllerForm
 		// Check for request forgeries.
 		JSession::checkToken() or jexit(JText::_('JInvalid_Token'));
 
-		$user = JFactory::getUser();
 		$ids  = $this->input->get('cid', array(), 'array');
 
 		if (!JFactory::getUser()->authorise('core.admin', $this->option))
