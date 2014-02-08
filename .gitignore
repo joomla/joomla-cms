@@ -7,3 +7,4 @@
 /cache/*
 /tmp/*
 .idea
+administrator/components/com_jokteupdate/restoration.php
