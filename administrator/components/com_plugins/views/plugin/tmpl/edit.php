@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -96,6 +96,14 @@ $this->fieldsets = $this->form->getFieldsets('params');
 				<div class="form-vertical">
 					<div class="control-group">
 						<div class="control-label">
+							<?php echo $this->form->getLabel('ordering'); ?>
+						</div>
+						<div class="controls">
+							<?php echo $this->form->getInput('ordering'); ?>
+						</div>
+					</div>
+					<div class="control-group">
+						<div class="control-label">
 							<?php echo $this->form->getLabel('folder'); ?>
 						</div>
 						<div class="controls">
@@ -115,7 +123,7 @@ $this->fieldsets = $this->form->getFieldsets('params');
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-		<?php if ($long_description) : ?>
+		<?php if (isset($long_description) && $long_description != '') : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'description', JText::_('JGLOBAL_FIELDSET_DESCRIPTION', true)); ?>
 			<?php echo $long_description; ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
@@ -123,7 +131,7 @@ $this->fieldsets = $this->form->getFieldsets('params');
 
 		<?php
 		$this->fieldsets = array();
-		$this->ignore_fieldsets = array('basic');
+		$this->ignore_fieldsets = array('basic', 'description');
 		echo JLayoutHelper::render('joomla.edit.params', $this);
 		?>
 

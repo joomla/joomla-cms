@@ -46,7 +46,7 @@
 			type="tag"
 			label="JTAG"
 			description="JTAG_DESC"
-			class="inputbox"
+			class="inputbox span12"
 			multiple="true"
 		>
 		</field>
@@ -55,7 +55,7 @@
 			type="text"
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
-			class="inputbox" size="45"
+			class="inputbox span12" size="45"
 			labelclass="control-label"
 		/>
 
@@ -139,8 +139,71 @@
 		<field name="xreference" type="text"
 			label="JFIELD_XREFERENCE_LABEL" description="JFIELD_XREFERENCE_DESC"
 			class="inputbox" size="20" />
-
+	<fields name="images">
+		<fieldset name="images" label="JGLOBAL_FIELDSET_IMAGE_OPTIONS">
+			<field
+				name="image_first"
+				type="media"
+				label="COM_NEWSFEEDS_FIELD_FIRST_LABEL"
+				description="COM_NEWSFEEDS_FIELD_FIRST_DESC" />
+			<field
+				name="float_first"
+				type="list"
+				label="COM_NEWSFEEDS_FLOAT_LABEL"
+				description="COM_NEWSFEEDS_FLOAT_DESC">
+					<option value="">JGLOBAL_USE_GLOBAL</option>
+					<option value="right">COM_NEWSFEEDS_RIGHT</option>
+					<option value="left">COM_NEWSFEEDS_LEFT</option>
+					<option value="none">COM_NEWSFEEDS_NONE</option>
+			</field>
+			<field name="image_first_alt"
+				type="text"
+				label="COM_NEWSFEEDS_FIELD_IMAGE_ALT_LABEL"
+				description="COM_NEWSFEEDS_FIELD_IMAGE_ALT_DESC"
+				class="inputbox"
+				size="20" />
+			<field name="image_first_caption"
+				type="text"
+				label="COM_NEWSFEEDS_FIELD_IMAGE_CAPTION_LABEL"
+				description="COM_NEWSFEEDS_FIELD_IMAGE_CAPTION_DESC"
+				class="inputbox"
+				size="20" />
+			<field
+				name="spacer1"
+				type="spacer"
+				hr="true"
+				/>
+			<field
+				name="image_second"
+				type="media"
+				label="COM_NEWSFEEDS_FIELD_SECOND_LABEL"
+				description="COM_NEWSFEEDS_FIELD_SECOND_DESC" />
+			<field
+				name="float_second"
+				type="list"
+				label="COM_NEWSFEEDS_FLOAT_LABEL"
+				description="COM_NEWSFEEDS_FLOAT_DESC">
+					<option value="">JGLOBAL_USE_GLOBAL</option>
+					<option value="right">COM_NEWSFEEDS_RIGHT</option>
+					<option value="left">COM_NEWSFEEDS_LEFT</option>
+					<option value="none">COM_NEWSFEEDS_NONE</option>
+			</field>
+			<field name="image_second_alt"
+				type="text"
+				label="COM_NEWSFEEDS_FIELD_IMAGE_ALT_LABEL"
+				description="COM_NEWSFEEDS_FIELD_IMAGE_ALT_DESC"
+				class="inputbox"
+				size="20" />
+			<field name="image_second_caption"
+				type="text"
+				label="COM_NEWSFEEDS_FIELD_IMAGE_CAPTION_LABEL"
+				description="COM_NEWSFEEDS_FIELD_IMAGE_CAPTION_DESC"
+				class="inputbox"
+				size="20" />
+		</fieldset>
+	</fields>
 	</fieldset>
+
 	<fieldset name="jbasic" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
 		<field name="numarticles" type="Text" class="inputbox"
 			default="5" size="2" label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_LABEL"
@@ -216,67 +279,6 @@
 	</fieldset>
 
 	<fields name="params" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
-		<fieldset name="images" label="JGLOBAL_FIELDSET_IMAGE_OPTIONS">
-			<field
-				name="image_first"
-				type="media"
-				label="COM_NEWSFEEDS_FIELD_FIRST_LABEL"
-				description="COM_NEWSFEEDS_FIELD_FIRST_DESC" />
-			<field
-				name="float_first"
-				type="list"
-				label="COM_NEWSFEEDS_FLOAT_LABEL"
-				description="COM_NEWSFEEDS_FLOAT_DESC">
-					<option value="">JGLOBAL_USE_GLOBAL</option>
-					<option value="right">COM_NEWSFEEDS_RIGHT</option>
-					<option value="left">COM_NEWSFEEDS_LEFT</option>
-					<option value="none">COM_NEWSFEEDS_NONE</option>
-			</field>
-			<field name="image_first_alt"
-				type="text"
-				label="COM_NEWSFEEDS_FIELD_IMAGE_ALT_LABEL"
-				description="COM_NEWSFEEDS_FIELD_IMAGE_ALT_DESC"
-				class="inputbox"
-				size="20" />
-			<field name="image_first_caption"
-				type="text"
-				label="COM_NEWSFEEDS_FIELD_IMAGE_CAPTION_LABEL"
-				description="COM_NEWSFEEDS_FIELD_IMAGE_CAPTION_DESC"
-				class="inputbox"
-				size="20" />
-			<field
-				name="spacer1"
-				type="spacer"
-				hr="true"
-				/>
-			<field
-				name="image_second"
-				type="media"
-				label="COM_NEWSFEEDS_FIELD_SECOND_LABEL"
-				description="COM_NEWSFEEDS_FIELD_SECOND_DESC" />
-			<field
-				name="float_second"
-				type="list"
-				label="COM_NEWSFEEDS_FLOAT_LABEL"
-				description="COM_NEWSFEEDS_FLOAT_DESC">
-					<option value="">JGLOBAL_USE_GLOBAL</option>
-					<option value="right">COM_NEWSFEEDS_RIGHT</option>
-					<option value="left">COM_NEWSFEEDS_LEFT</option>
-					<option value="none">COM_NEWSFEEDS_NONE</option>
-			</field>
-			<field name="image_second_alt"
-				type="text"
-				label="COM_NEWSFEEDS_FIELD_IMAGE_ALT_LABEL"
-				description="COM_NEWSFEEDS_FIELD_IMAGE_ALT_DESC"
-				class="inputbox"
-				size="20" />
-			<field name="image_second_caption"
-				type="text"
-				label="COM_NEWSFEEDS_FIELD_IMAGE_CAPTION_LABEL"
-				description="COM_NEWSFEEDS_FIELD_IMAGE_CAPTION_DESC"
-				class="inputbox"
-				size="20" />
-		</fieldset>
 	</fields>
 
 	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Module
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -84,6 +84,7 @@ abstract class JModuleHelper
 		$modules =& static::load();
 
 		$total = count($modules);
+
 		for ($i = 0; $i < $total; $i++)
 		{
 			if ($modules[$i]->position == $position)
@@ -169,10 +170,8 @@ abstract class JModuleHelper
 			$lang = JFactory::getLanguage();
 
 			// 1.5 or Core then 1.6 3PD
-			$lang->load($module->module, JPATH_BASE, null, false, false) ||
-				$lang->load($module->module, dirname($path), null, false, false) ||
-				$lang->load($module->module, JPATH_BASE, $lang->getDefault(), false, false) ||
-				$lang->load($module->module, dirname($path), $lang->getDefault(), false, false);
+			$lang->load($module->module, JPATH_BASE, null, false, true) ||
+				$lang->load($module->module, dirname($path), null, false, true);
 
 			$content = '';
 			ob_start();
@@ -202,6 +201,7 @@ abstract class JModuleHelper
 
 		// Check if the current module has a style param to override template module style
 		$paramsChromeStyle = $params->get('style');
+
 		if ($paramsChromeStyle)
 		{
 			$attribs['style'] = preg_replace('/^(system|' . $template . ')\-/i', '', $paramsChromeStyle);
@@ -366,12 +366,14 @@ abstract class JModuleHelper
 		catch (RuntimeException $e)
 		{
 			JLog::add(JText::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $e->getMessage()), JLog::WARNING, 'jerror');
+
 			return $clean;
 		}
 
 		// Apply negative selections and eliminate duplicates
 		$negId = $Itemid ? -(int) $Itemid : false;
 		$dupes = array();
+
 		for ($i = 0, $n = count($modules); $i < $n; $i++)
 		{
 			$module = &$modules[$i];
@@ -387,6 +389,7 @@ abstract class JModuleHelper
 				{
 					unset($clean[$module->id]);
 				}
+
 				continue;
 			}
 
@@ -475,10 +478,12 @@ abstract class JModuleHelper
 
 			case 'safeuri':
 				$secureid = null;
+
 				if (is_array($cacheparams->modeparams))
 				{
 					$uri = JRequest::get();
 					$safeuri = new stdClass;
+
 					foreach ($cacheparams->modeparams as $key => $value)
 					{
 						// Use int filter for id/catid to clean out spamy slugs
@@ -489,6 +494,7 @@ abstract class JModuleHelper
 						}
 					}
 				}
+
 				$secureid = md5(serialize(array($safeuri, $cacheparams->method, $moduleparams)));
 				$ret = $cache->get(
 					array($cacheparams->class, $cacheparams->method),

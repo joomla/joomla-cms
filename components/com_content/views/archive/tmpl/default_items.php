@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,12 +29,9 @@ $params = $this->params;
 					<div class="createdby">
 					<?php $author = $item->author; ?>
 					<?php $author = ($item->created_by_alias ? $item->created_by_alias : $author); ?>
-						<?php if (!empty($item->contactid ) && $params->get('link_author') == true) : ?>
-							<?php echo JText::sprintf(
-							'COM_CONTENT_WRITTEN_BY',
-							JHtml::_('link', JRoute::_('index.php?option=com_contact&view=contact&id='.$item->contactid), $author)
-							); ?>
-						<?php else :?>
+						<?php if (!empty($item->contact_link) && $params->get('link_author') == true) : ?>
+							<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $this->item->contact_link, $author)); ?>
+						<?php else: ?>
 							<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
 						<?php endif; ?>
 					</div>

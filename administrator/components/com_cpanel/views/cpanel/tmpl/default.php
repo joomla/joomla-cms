@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cpanel
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,32 +11,6 @@ defined('_JEXEC') or die;
 
 $user = JFactory::getUser();
 ?>
-<?php if ($this->postinstall_message_count): ?>
-<div id="messagesModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="messagesModalLabel" aria-hidden="true">
-	<div class="modal-header">
-		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-		<h3 id="messagesModalLabel">
-			<?php echo JText::_('COM_CPANEL_MESSAGES_TITLE'); ?>
-		</h3>
-	</div>
-	<div class="modal-body">
-		<p>
-			<?php echo JText::_('COM_CPANEL_MESSAGES_BODY'); ?>
-		</p>
-		<p>
-			<?php echo JText::_('COM_CPANEL_MESSAGES_BODYMORE'); ?>
-		</p>
-	</div>
-	<div class="modal-footer">
-		<a href="index.php?option=com_postinstall&eid=700" class="btn btn-primary btn-large" >
-			<?php echo JText::_('COM_CPANEL_MESSAGES_REVIEW'); ?>
-		</a>
-		<button class="btn" data-dismiss="modal" aria-hidden="true">
-			<?php echo JText::_('COM_CPANEL_MESSAGES_CLOSE'); ?>
-		</button>
-	</div>
-</div>
-<?php endif; ?>
 <div class="row-fluid">
 	<?php $iconmodules = JModuleHelper::getModules('icon');
 	if ($iconmodules) : ?>
@@ -53,6 +27,28 @@ $user = JFactory::getUser();
 		</div>
 	<?php endif; ?>
 	<div class="span<?php echo ($iconmodules) ? 9 : 12; ?>">
+		<?php if ($user->authorise('core.manage', 'com_postinstall')) : ?>
+			<div class="row-fluid">
+				<?php if ($this->postinstall_message_count): ?>
+					<div class="alert alert-info">
+					<h4>
+						<?php echo JText::_('COM_CPANEL_MESSAGES_TITLE'); ?>
+					</h4>
+					<p>
+						<?php echo JText::_('COM_CPANEL_MESSAGES_BODY_NOCLOSE'); ?>
+					</p>
+					<p>
+						<?php echo JText::_('COM_CPANEL_MESSAGES_BODYMORE_NOCLOSE'); ?>
+					</p>
+					<p>
+						<a href="index.php?option=com_postinstall&eid=700" class="btn btn-primary">
+						<?php echo JText::_('COM_CPANEL_MESSAGES_REVIEW'); ?>
+						</a>
+					</p>
+					</div>
+				<?php endif; ?>
+			</div>
+		<?php endif; ?>
 		<div class="row-fluid">
 			<?php
 			$spans = 0;
@@ -63,6 +59,10 @@ $user = JFactory::getUser();
 				$params = new JRegistry;
 				$params->loadString($module->params);
 				$bootstrapSize = $params->get('bootstrap_size');
+				if (!$bootstrapSize)
+				{
+					$bootstrapSize = 12;
+				}
 				$spans += $bootstrapSize;
 				if ($spans > 12)
 				{

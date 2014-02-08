@@ -3,7 +3,7 @@
 * @package     Joomla.Administrator
 * @subpackage  com_templates
 *
-* @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+* @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
 * @license     GNU General Public License version 2 or later; see LICENSE.txt
 */
 
@@ -65,10 +65,8 @@ class TemplatesModelTemplate extends JModelForm
 			$lang   = JFactory::getLanguage();
 
 			// Load the core and/or local language file(s).
-			$lang->load('tpl_' . $template->element, $client->path, null, false, false) ||
-			$lang->load('tpl_' . $template->element, $client->path . '/templates/' . $template->element, null, false, false) ||
-			$lang->load('tpl_' . $template->element, $client->path, $lang->getDefault(), false, false) ||
-			$lang->load('tpl_' . $template->element, $client->path . '/templates/' . $template->element, $lang->getDefault(), false, false);
+			$lang->load('tpl_' . $template->element, $client->path, null, false, true) ||
+			$lang->load('tpl_' . $template->element, $client->path . '/templates/' . $template->element, null, false, true);
 			$this->element = $path;
 
 			if (!is_writable($path))
@@ -110,7 +108,7 @@ class TemplatesModelTemplate extends JModelForm
 		{
 			if (!in_array($value, array(".", "..")))
 			{
-				if (is_dir($dir . $value . '/'))
+				if (is_dir($dir . $value))
 				{
 					$relativePath = str_replace($this->element, '', $dir . $value);
 					$result['/' . $relativePath] = $this->getDirectoryTree($dir . $value . '/');
@@ -685,7 +683,6 @@ class TemplatesModelTemplate extends JModelForm
 	{
 		if ($template = $this->getTemplate())
 		{
-			JLoader::registerPrefix('J', JPATH_ROOT . '/build/libraries');
 			$app          = JFactory::getApplication();
 			$client       = JApplicationHelper::getClientInfo($template->client_id);
 			$path         = JPath::clean($client->path . '/templates/' . $template->element . '/');
@@ -693,7 +690,15 @@ class TemplatesModelTemplate extends JModelForm
 			$explodeArray = explode('/', $inFile);
 			$fileName     = end($explodeArray);
 			$outFile      = reset(explode('.', $fileName));
-			$less         = new JLess;
+
+			// Load the RAD layer to use its LESS compiler
+			if (!defined('FOF_INCLUDED'))
+			{
+				require_once JPATH_LIBRARIES . '/fof/include.php';
+			}
+
+			$less = new FOFLess;
+			$less->setFormatter(new FOFLessFormatterJoomla);
 
 			try
 			{

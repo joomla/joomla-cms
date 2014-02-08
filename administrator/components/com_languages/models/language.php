@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -74,6 +74,12 @@ class LanguagesModelLanguage extends JModelAdmin
 		{
 			$this->setError($table->getError());
 			return $false;
+		}
+
+		// Set a valid accesslevel in case '0' is stored due to a bug in the installation SQL (was fixed with PR 2714).
+		if ($table->access == '0')
+		{
+			$table->access = (int) JFactory::getConfig()->get('access');
 		}
 
 		$properties = $table->getProperties(1);
@@ -148,6 +154,12 @@ class LanguagesModelLanguage extends JModelAdmin
 			$table->load($langId);
 			$isNew = false;
 		}
+
+		// Prevent white spaces, including East Asian double bytes
+		$spaces = array('/\xE3\x80\x80/', ' ');
+
+		$data['lang_code'] = str_replace($spaces, '', $data['lang_code']);
+		$data['sef'] = str_replace($spaces, '', $data['sef']);
 
 		// Bind the data
 		if (!$table->bind($data))

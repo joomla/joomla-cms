@@ -18,15 +18,13 @@
 		<field
 			name="save_history"
 			type="radio"
-			class="btn-group"
-			default="1"
+			class="btn-group btn-group-yesno"
+			default="0"
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
 			description="JGLOBAL_SAVE_HISTORY_OPTIONS_DESC"
 			>
-			<option
-				value="0">JNO</option>
-			<option
-				value="1">JYES</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field
@@ -40,24 +38,26 @@
 
 		<field 
 			name="show_tag_title" 
-			type="radio" class="btn-group btn-group-yesno"
+			type="radio"
+			class="btn-group btn-group-yesno"
 			label="COM_TAGS_SHOW_TAG_TITLE_LABEL"
 			description="COM_TAGS_SHOW_TAG_TITLE_DESC"
 			default="0"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field 
 			name="tag_list_show_tag_image" 
-			type="radio" class="btn-group btn-group-yesno"
+			type="radio"
+			class="btn-group btn-group-yesno"
 			description="COM_TAGS_SHOW_TAG_IMAGE_DESC"
 			label="COM_TAGS_SHOW_TAG_IMAGE_LABEL"
 			default="1"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field 
@@ -68,8 +68,8 @@
 			label="COM_TAGS_SHOW_TAG_DESCRIPTION_LABEL"
 			default="1"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field 
@@ -87,8 +87,8 @@
 			description="COM_TAGS_NUMBER_TAG_ITEMS_DESC"
 			default="0"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 	
 		<field name="tag_list_orderby"
@@ -96,11 +96,11 @@
 			default="title"
 			label="JGLOBAL_FIELD_FIELD_ORDERING_LABEL"
 			description="JGLOBAL_FIELD_FIELD_ORDERING_DESC">
-				<option value="title">JGLOBAL_TITLE</option>
+				<option value="c.core_title">JGLOBAL_TITLE</option>
 				<option value="match_count">COM_TAGS_MATCH_COUNT</option>
-				<option value="created_time">JGLOBAL_CREATED_DATE</option>
-				<option value="modified_time">JGLOBAL_MODIFIED_DATE</option>
-				<option value="publish_up">JGLOBAL_PUBLISHED_DATE</option>
+				<option value="c.core_created_time">JGLOBAL_CREATED_DATE</option>
+				<option value="c.core_modified_time">JGLOBAL_MODIFIED_DATE</option>
+				<option value="c.core_publish_up">JGLOBAL_PUBLISHED_DATE</option>
 		</field>
 
 		<field 
@@ -123,9 +123,8 @@
 			description="JGLOBAL_SHOW_HEADINGS_DESC"
 			label="JGLOBAL_SHOW_HEADINGS_LABEL"
 		>
-
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field 
@@ -140,7 +139,7 @@
 				<option value="modified">JGLOBAL_MODIFIED</option>
 				<option value="published">JPUBLISHED</option>
 		</field>
-		
+
 		<field 
 			name="tag_list_show_item_image" 
 			type="radio" 
@@ -149,8 +148,8 @@
 			label="COM_TAGS_SHOW_ITEM_IMAGE_LABEL"
 			default="1"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 		
 		<field 
@@ -159,8 +158,8 @@
 			label="COM_TAGS_TAG_LIST_SHOW_ITEM_DESCRIPTION_LABEL"
 			description="COM_TAGS_TAG_LIST_SHOW_ITEM_DESCRIPTION_DESC"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 		
 		<field
@@ -186,8 +185,8 @@
 			description="COM_TAGS_SEARCH_TYPE_DESC"
 			default="1"
 		>
-			<option value="0">COM_TAGS_ALL</option>
 			<option value="1">COM_TAGS_ANY</option>
+			<option value="0">COM_TAGS_ALL</option>
 		</field>
 		
 		<field 
@@ -198,8 +197,8 @@
 			label="COM_TAGS_INCLUDE_CHILDREN_LABEL"
 			default="0"
 		>
-			<option value="0">COM_TAGS_EXCLUDE</option>
 			<option value="1">COM_TAGS_INCLUDE</option>
+			<option value="0">COM_TAGS_EXCLUDE</option>
 		</field>
 		
 		<field
@@ -273,8 +272,8 @@
 			label="COM_TAGS_SHOW_ITEM_IMAGE_LABEL"
 			default="1"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field 
@@ -285,8 +284,8 @@
 			label="COM_TAGS_SHOW_ITEM_DESCRIPTION_LABEL"
 			default="1"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 		
 		<field
@@ -305,8 +304,8 @@
 			label="JGLOBAL_HITS"
 			default="0"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 	</fieldset>
@@ -323,8 +322,8 @@
 			description="JGLOBAL_FILTER_FIELD_DESC"
 			label="JGLOBAL_FILTER_FIELD_LABEL"
 			>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
 		</field>
 
 		<field 
@@ -335,8 +334,8 @@
 			description="JGLOBAL_DISPLAY_SELECT_DESC"
 			label="JGLOBAL_DISPLAY_SELECT_LABEL"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 		
 		<field 
@@ -346,8 +345,8 @@
 			description="JGLOBAL_PAGINATION_DESC"
 			label="JGLOBAL_PAGINATION_LABEL"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			<option value="2">JGLOBAL_AUTO</option>
 		</field>
 
@@ -359,8 +358,8 @@
 			label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 			description="JGLOBAL_PAGINATION_RESULTS_DESC"
 		>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 		
 	</fieldset>
@@ -399,8 +398,8 @@
 			default="1"
 			label="JGLOBAL_SHOW_FEED_LINK_LABEL"
 			description="JGLOBAL_SHOW_FEED_LINK_DESC">
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
 		</field>
 
 	</fieldset>

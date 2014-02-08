@@ -1,6 +1,6 @@
 0. Metadata
 -----------
-Copyright:		Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+Copyright:		Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
 License:		GNU General Public License version 2 or later; see LICENSE.txt
 
 1. Copyright and disclaimer
@@ -25,8 +25,396 @@ $ -> Language fix or change
 - -> Removed
 ! -> Note
 
+04-Dec-2013 Jean-Marie Simonet
+ # [#31682] Options for ordering in config.xml of com_tags is wrong Thanks Phương Lê
+
+02-Dec-2013 Jean-Marie Simonet
+# [#32741] Error 404 when leaving K2 config box in Joomla 3.2  Thanks Christelle Olivier
+
+01-Dec-2013 Jean-Marie Simonet
+ # [#32844] *Regression: Batch Copy modules does not work if a position is not chosen  Thanks Thomas Hunziker
+
+29-Nov-2013 Jean-Marie Simonet
+ [#32846] Add in batch language option for all languages  Thanks Thomas Hunziker
+
+28-Nov-2013 Jean-Marie Simonet
+ # [#32766] Formfield `ChromeStyle` produces fatal error if used outside of com_modules.  Thanks Thomas Hunziker
+ # [#32786] Stop canonical message in home page using featured view of com_content  Thanks Bruno Batista
+
+27-Nov-2013 Jean-Marie Simonet
+ # [#32815] Issues with the cache permissions  Thanks Tobias Zulauf
+ # [#32810] *mod_feed does not render hyperlinks in RSS 2.0 feeds containing GUIDs + others  Thanks Lewis Rosenthal
+ # [#32772] A Header is missing for the beez3 login form.  Thanks Tobias Zulauf
+ # [#32700] Cleanup beez3 error.php  
+ # [#32675] Missing check in JApplicationSite causes a fatal error  Thanks Michael Babker
+ $ Updating TinyMCE German de.js.
+
+26-Nov-2013 Jean-Marie Simonet
+ # [#32812] *Wrong JText causes double string use
+
+25-Nov-2013 Jean-Marie Simonet
+ # [#32605] Heading TOO BIG in the screen "Template Manager: Customise Template" 
+
+24-Nov-2013 Jean-Marie Simonet
+ # [#32779] Tags formfield doesn't show tag when editing an item with the same id  Thanks Thomas Hunziker
+ # [#32765] *com_redirect :do not translate cyrillic characters in url 
+ # [#30263] grid.boolean does not work properly in Isis  Thanks Peter Bui
+
+22-Nov-2013 Jean-Marie Simonet
+ # [#32727] Updating Joomla! RAD Layer to FOF 2.1.0 stable  Thanks Nicholas Dyonisopoulos
+ # [#32693] com_ajax cannot access modules with dashes in their name  Thanks Matt Thomas
+ # [#32776] *helpsite url can't be localised at install time 
+ ^ Updating en-GB xml versions
+
+21-Nov-2013 Jean-Marie Simonet
+ # Reverting #32675] as it prevents setting default language
+
+20-Nov-2013 Jean-Marie Simonet
+ # [#32740] Making Finder plugins language aware Thanks Hannes Papenberg
+ $ Adding ro-RO installation lang file and updating th-TH
+ # [#26551] Multiple instances of script and css declarations with enabled caching  Thanks Dennis Hermatski
+ # [#32636] Fixed issue with fields splitting causing layout issues  Thanks Peter van Westen
+ # [#32675] Missing check in JApplicationSite causes a fatal error  Thanks Michael Babker
+ # [#32732] Update default sample data  Thanks Michael Babker
+
+18-Nov-2013 Jean-Marie Simonet
+ # [#32615] Regression: Module can't be deleted  Thanks Hannes Papenberg
+ $ [#32738] Component options help button always links to Global Configuration help screen  Thanks Mark Dexter
+ $ [#32731] Added new language strings for front end com_config  Thanks Buddhima Wijeweera
+ # [#32640] viewsite class has been removed from mod_status (J3.2) Thanks Jurian Even
+ $ Complete TinyMCE fr.js lang file
+
+17-Nov-2013 Jean-Marie Simonet
+ # [#32721] Fix small error in application view  Thanks Bruno Batista
+ # [#32165] False helper include in article model file  Thanks Panayiotis Halouvas
+ # [#32726] PHP notice in com_config  Thanks David Jardin
+ # [#32734] *Regression: Insert article in Frontend edit is broken: 500 JForm::getInstance could not load file  Thanks Michael Babker
+
+16-Nov-2013 Michael Babker
+ # [#32662] Feed information missing in RSS type Syndication Feed.  Thanks George Wilson
+ # [#32699] Joomla! extension updates can't use update XML sources with URLs not ending in .xml.  Thanks Nicholas Dionysopoulos
+ # [#32074] Fixed PHP Notice: Undefined variable: versionName in contenthistory.php on line 155.  Thanks George Wilson
+ # [#32716] *Regression: TinyMCE non empty textarea on New or Save & New.  Thanks Jean-Marie Simonet
+ ^ [#30373] Installer 404 should be 403 for authorization.  Thanks Naouak
+
+13-Nov-2013 Jean-Marie Simonet
+ # [#32412] protostar error page logo  Thanks David Beuving
+ + [#32660] TinyMCE editor lacks link relation option  Thanks Artur Stępień
+ # [#32626] *Banners Manager: Options is gone when filtering by a category
+ +$ [#32678] TinyMCE 4 in Joomla 3.2 has no image advanced options
+ # [#32672] Fixed problem with featured view Thanks Bruno Batista
+ $ [#32546] Language strings missing for com_tags  Thanks George Wilson
+ $ [#32680] Missing string Thanks David Jardin
+ # [#32509] group is missing from settable JFormField properties  Thanks Klas 10
+
+12-Nov-2013 Jean-Marie Simonet
+ # [#32629] The media formfield is missing a space before the class attribute Thanks Thomas Hunziker
+ # [#32588] Joomla 3.2 JavaScript errors (Uncaught TypeError: undefined is not a function )  Thanks Jurian Even
+ # [#32523] Update some wrong docblock packages  Thanks Simon Asika
+ # [#32630] $config variable missing in comment  Thanks Demis Palma
+ # [#32617] Email subsystem blocked after upgrade to Joomla 3.2  Thanks Demis Palma
+ # [#30648] Incorrect ID for trash toolbar button when message is added  Thanks Jurian Even
+ # [#32627] Back end configuration does not work if cache is enabled  Thanks Dennis Hermatski
+ # [#31425] Invalid debug database queries count  Thanks Vitalij L.
+
+11-Nov-2013 Jean-Marie Simonet
+ # [#32622] CSS Layout Issue with Protostar and Weblinks Front End Submit Thansk George Wilson
+ # [#31678] [Regression] Modal behavior missing for user notes view  Thanks Ashan Fernando
+ # [#32337] Fix jform labelclass property  Thanks Viet Vu
+ # [#32124] phpwarnings if directory in unwritable.  Thanks Achal Aggarwal
+ # [#32623] Mod_login need to pick up com_users settings on links  Thanks Daniele Rosario
+ $ [#32607] Remove two whitespaces and alphasort the content history string  Thanks Tobias Zulauf
+ # [#32506] Very small center correction in the overrides table view  Thanks Tobias Zulauf
+
+10-Nov-2013 Jean-Marie Simonet
+ + Adding Montenegrin srp-ME flag in mod_languages
+ $ Missing language string
+
+09-Nov-2013 Michael Babker #JWC13 Bug Squash
+ #$ [#32456] "No" Fields at mod_search are blue.  Thanks Thomas Hunziker
+ #$ [#32609] Debugger show a missing language string at some places.  Thanks Tobias Zulauf
+ # [#31055] Smart Search does not remove search phrases from index when saving an article.  Thanks Chris Davenport
+ # [#32620] Sorting columns in feature contacts does gives js error.  Thanks Ashan Fernando
+ # [#32597] Tags field is to big at the weblink submit form.  Thanks Tobias Zulauf
+ # [#32600] Article Manager: Options is gone when filtering an category.  Thanks Jelle Kok
+ # [#32444] default option 'mobile' for Tinimce differ from tynimce.php and tinymce.xml.  Thanks George Wilson
+
+09-Nov-2013 Jean-Marie Simonet
+ # [#32585] Password reset does not work  Thanks Elin Waring and David Jardin
+ $ [#32516] Term "article" is used in descriptions of other content items. Thanks Jozsef Tamas Herczeg
+ # [#32476] The form in view tag of com_tags is not properly closed when there is no associated items with the tag  Thanks Phương Lê
+
+08-Nov-2013 David Hurley
+ # [#32576] Wrong Recaptcha URLs causing broken captcha. Thanks David Jardin
+
+08-Nov-2013 Jean-Marie Simonet
+ + Adding French help server. Thanks Rafael Logvinski (AFUJ)
+ # [#32477] *Multilanguage: Issue with submenu set to ALL  Thanks Dennis Hermatski
+ # [#32452] Inconsistency for Yes/No radio type buttons in various configurations  Thanks Thomas Hunziker
+ # [#32584] Vote plugin not work  Thanks SmokerМan Nikola
+ $ [#32581] Untranslated String in the FE profiel (if you use a admin user) Thanks Tobias Zulauf
+ # [#32504] Add class="center" to the content language view  Thanks Tobias Zulauf
+ # [#31610] Problems in jhttp classes break updater  Thanks David Jardin
+ # [#32507] Correction of center in the template manager  Thanks Tobias Zulauf
+
+07-Nov-2013 Michael Babker
+ # [#32582] Upgrade to 3.2.0 errors as Postgres null date is '1970-01-01 00:00:00' instead of '0000-00-00 00:00:00'.  Thanks Alan Hicks
+
+06-Nov-2013 Michael Babker
+ # [#32555] MS SQL Database configuration fails with multiple errors during a fresh Joomla! 3.2 installation
+
+-------------------- 3.2.0 Stable Release [06-Nov-2013] ------------------
+
+06-Nov-2013 Michael Babker
+ # [#32545] BC issue: JApplication::redirect($url, $message) broken: Message not displayed after redirect: Affecting many extensions.  Thanks Beat
+
+06-Nov-2013 Jean-Marie Simonet
+ # [#32528] tinymce.php; template_list.js inclusion with file_get_contents over http  Thanks marco maria leoni
+
+05-Nov-2013 Michael Babker
+ ^ Revert [#30556] JDatabaseDriver::replacePrefix: Optimization.  Thanks Elin Waring
+
+05-Nov-2013 David Hurley
+ # [#32522] Handle an invalid remember cookie. Thanks Elin Waring
+
+05-Nov-2013 Jean-Marie Simonet
+ # [#32513] *Regression: No filtering work in Hathor (managers as well as choosing article via modal) Thanks Roberto Segura
+
+04-Nov-2013 Michael Babker
+ # [#32511] *B/C: Hathor edit contact or newsfeed broken on legacy sites.  Thanks Elin Waring
+ # [#32514] New menu item > Articles > Single Article: search article doesn't work.  Thanks Roberto Segura
+ # [#31992] Hathor: Content Versioning missing Version Notes
+ # [#32459] [com_finder] Fix to taxonomy.php.  Thanks Jan Schönherr
+ ^ [#32515] *Displaying message when installing pre 3.2.0 language packs containing older TinyMCE lang installation.  Thanks Jean-Marie Simonet
+
+04-Nov-2013 Jean-Marie Simonet
+ $ Adding updated installation language file ckb-IQ
+
+03-Nov-2013 Michael Babker
+ # [#32498] 3.2RC - Bootstrap CSS styles loaded from (media/JUI/) for logged in users on front-end.  Thanks Thomas Hunziker
+ ^ [#32508] Widen the permissions dropdown.  Thanks George Wilson
+ # [#32480] ConfigModelForm and ConfigModelApplication use non existing setError() methods
+
+03-Nov-2013 Jean-Marie Simonet
+ # [#32496] *Implements Loading always en-GB before another language to cope for missing strings Thanks Nicholas Dyonisopoulos and George Wilson
+ # [#32497] Update to TinyMCE 4.0.10  Thanks George Wilson
+ + Adding Flemish nl-be Belgium flag in mod_languages
+ # [#32499] *Regression JUX #32096: edit override field is unrelated to multilang
+ # [#32502] Double lang ID in the language view  Thanks Tobias Zulauf
+ # [#32501] *Multilingual Hathor: correcting Associations sliders display for article, category, contact, newsfeed, menu
+
+02-Nov-2013 Michael Babker
+ ^ [#32347] Versioning not working in update package.  Thanks Thomas Hunziker
+
+02-Nov-2013 Jean-Marie Simonet
+ $ Deleting non-updated installation lang files: bs-BA, ckb-IQ, cs-CZ, eo-XX, pt-PT, pr-BR, ro-RO, sq-Al
+
+-------------------- 3.2 Release Candidate [01-Nov-2013] ------------------
+
+01-Nov-2013 Mark Dexter
+ # [#32210] History version does not show current version correctly in some cases. Thanks Mark Dexter.
+
+01-Nov-2013 Jean-Marie Simonet
+ $ Correcting installation sv-SE
+ $ [#32473] (en-GB ONLY: ) Values of 6 keys in en-GB.com_templates.ini admin language file are grammatically incorrect. Thanks Thomas Jackson
+ $ Updating installation lang file: nb-NO
+
+31-Oct-2013 Michael Babker
+ # [#32478] ConfigModelComponent class was moved without deprecation period, result in fatal error
+ # [#32446] cpanel span calculation doesn't threat bootstrapSize 0 properly.  Thanks Thomas Hunziker
+ # [#32275] Sample data bug breaks cpanel (update).  Thanks Thomas Hunziker
+
+31-Oct-2013 Jean-Marie Simonet
+ # [#32460] Installation beta2 hangs on PHP5.3.3-7  Thanks Tobias Zulauf
+
+30-Oct-2013 Michael Babker
+ # [#32421] Installation 3.2.b2 fails on PostgreSQL
+ # [#31604] Invalid column name 'RowNumber' from articles model with MS SQL Server
+
+30-Oct-2013 Jean-Marie Simonet
+ # [#32237] Different Display at the edit views  Thanks Tobias Zulauf
+ # [#32416] Color field gives php errors when using control="simple"  Thanks Peter van Wetsen
+ # [#32291] Position field in Hathor module manager "select position" is in wrong place Thanks Ashan Fernando
+ # [#32448] Missing 'btn-group-yesno' class for yes/no buttons in plg : editors / codemirror  Thanks Marc-Antoine Thevenet
+ # [#32445] Wrong class for ‘yes/no’ button in plg : User - Joomla!  Thanks Marc-Antoine Thevenet
+ $ [#32470] Incomplete value of a key in en-GB.com_templates.ini admin language file  Thanks Jozsef Tamas Herczeg
+
+29-Oct-2013 Jean-Marie Simonet
+ $ Updating installation language: be-BY, hr-HR, hu-HU
+ # [#32436] The navigation of the plugins and modules does not work!  Thanks Roberto Segura
+ # [#32455] Restoring an article from version history in front end has incorrect redirect  Thanks Mark Dexter
+ $ Updating installation files : hr-HR, pl-PL
+
+29-Oct-2013 Roberto Segura
+ # [#32453] Super user password doesn't update hash and some other issues.  Thanks Elin Waring
+ ^ [#32434] Various code styling fixes. Thanks Gunjan Patel
+ ^ [#32457] Yes/No Button at mod_breadcrumbs. Thanks Tobias Zulauf
+ # [#32450] Issue #1866 Loosing port in URL of a Weblink. Thanks Marcel van Beelen
+
+28-Oct-2013 Michael Babker
+ # [#32375] Regression 3 column blog layout - prototsar.  Thanks Thomas Hunziker
+ # [#32379] Regression: Preformatted images and urls broken in back weblinks and newsfeeds.  Thanks Elin Waring
+
+27-Oct-2013 Michael Babker
+ ^ [#32334] Move com_contenthistory media to media folder
+
+27-Oct-2013 Jean-Marie Simonet
+ # Correcting Contenthistory messages to accept single quotes
+
+26-Oct-2013 David Hurley
+ + [#32026] Yubi key feature addition. Thanks Nicholas Dionysopoulos
+ # [#32431] Fix login module status button. Thanks Ofer Cohen
+
+25-Oct-2013 Jean-Marie Simonet
+ #$ Updating both en-GB.xml
+ # RTL Isis menus colour should be white, not blue.
+ $ Updating installation lang file: sv-SE
+
+24-Oct-2013 Elin Waring
+ # [#32419] Installation 3.2.b2 fails on MSSQL. Thanks Marcel van Beelen
+ # [#32417] Small bug in menutypes.php. Thanks Bruno Batista
+
+-------------------- 3.2 Beta 2 Release [24-Oct-2013] ------------------
+
+24-Oct-2013 Jean-Marie Simonet
+ # RTL Isis menus should be aligned right. Thanks Ofer Cohen
+ # RTL Isis dropdown toggle icon should be aligned with other icons.
+ $ [#31959] Alpha sort en-GB.com_installer.ini  Thanks Brian Teeman
+ ^ [#32345] Corrected JUI comment tags in less/css/js files. Thanks Peter Van Westen
+ $ [#32408] Add warning text to post install strong password language string. Thanks Nicolas Antimisiaris
+ $ Adding lang strings for new position postinstall in Isis and Hathor
+ $ New installation lang file: Montenegrin srp-ME
+
+23-Oct-2013 Michael Babker
+ # [#32401] *Custom module Options hard to find.  Thanks Jean-Marie Simonet
+ # [#32398] Some older php admin users can't login.  Thanks Elin Waring
+ # [#32150] tag added to an article gets removed if ordering changed or in batch processing.  Thanks Elin Waring
+ ^ [#32216] New post install/post update messages.  Thanks Nicholas Dionysopoulos
+ ^ [#32330] Removing `postinstall_message_id` from postinstall INSERT queries.  Thanks Thomas Hunziker
+ ^ [#32395] CS errors found in CMS build (mostly com_config related).  Thanks Buddhima Wijeweera
+ # [#32343] Regression in Module and Plugin views.  Thanks David Hurley
+
+23-Oct-2013 Jean-Marie Simonet
+ # [#32310] Regression: Restore lost editor configuration tab.
+ # [#32393] /layouts not included in robots.txt  Thanks Matt Thomas
+ # [#32378] Installation error: JLIB_DATABASE_QUERY_FAILED. Thanks Marcel van Beelen
+ # [#32394] Replace JLess uses with FOFLess. Thanks Michael Babker
+ $ [#31954] Another batch of en-GB grammar corrections  Thanks Brian Teeman
+ # [#32297] Refactoring com_config. Thanks Buddhima Wijeweera
+
+22-Oct-2013 Michael Babker
+ + [#28638] Advanced ACL for com_modules, permissions per module.  Thanks Sander Potjer
+ # [#32289] Sometimes passwords are blank and you can't login.  Thanks Elin Waring
+ ^ [#32381] Update Joomla! RAD layer to FOF 2.1.rc4.  Thanks Nicholas Dionysopoulos
+
+22-Oct-2013 David Hurley
+ ^ Update to previously new submitted Framework code. Thanks Andrew Eddie
+
+22-Oct-2013 Jean-Marie Simonet
+ # [#32368] *Regression: Cancelling Component Options edit wrong redirect Thanks Achal Aggarwal
+ $ Missing lang string. Normalising both lib_joomla.ini
+ ^ [#32372] Update TinyMCE to 4.0.8. Thanks Zitrone
+ # Updating TinyMce RTL lang files to 4.0.8
+
+21-Oct-2013 Michael Babker
+ # [#32361] [3.x] Search tools fixes.  Thanks Roberto Segura
+
+21-Oct-2013 Roberto Segura
+ # [#32366] Login module doesn't show "forgot" links if user registration is disabled. Thanks Thomas Hunziker
+ + [#32174] Not translated "Close" in new template file edit screen. Thanks Tobias Zulauf
+ ^ [#32354] Hard Coded SQL Queries at the Joomla content Plugin. Thanks Tobias Zulauf
+ # [#32364] Regression: Contact data saving incorrectly, fix edit screen. Thanks Elin Waring
+ ^ [#32308] FE Site Settings wthout class="btn-group". Thanks Tobias Zulauf
+ ^ [#32304] Nowrap not needed in Title attributes. Thanks Cyril Rezé
+ # Missing row-fluid in markup after recent contact edit changes
+
+20-Oct-2013 Elin Waring
+ # [#32327] Installation halts at 1st step on PHP 5.3.3.
+ + [#32333] Adding template.js for Beez3 template. Thanks Buddhima Wijeweera
+
+20-Oct-2013 Jean-Marie Simonet
+ # [#32278] Error Page is not in the new JUX design. Thanks Michael Babker
+ $ Updating Installation languages: fi-FI, nl-NL
+ $ Updating TinyMCE nl lang file.
+ #$ [#32342] Fix wrong pluralization Thanks Nikolai Plath
+
+20-Oct-2013 Roberto Segura
+ # [#32346] Coding error in plugins/system/remember/remember.php. Thanks Mike Smith
+ # [#32290] Login screen showing secret key field when it shouldn't, not showing remember me. Thanks Elin Waring
+ $ [#32338] Missing string. Thanks Roger Perren
+ # [#32353] Fatal Error: Class 'PlgUserJoomla' not found. Thanks George Wilson
+ # [#32352] Add class aliases for legacy application classes. Thanks Michael Babker
+ # [#32326] Control Panel Icon Needs to Change. Thanks Nick Savov
+ # [#32315] *regression: Notices or fatal errors for categories menu item display. Thanks Achal Aggarwal
+ # [#31139] Two functions in com_content article model need to use JDatabase. Thanks Gunjan Patel
+ # [#31716] Offline template: "remember me" checkbox not removed when plugin disabled. Thanks Tobias Zulauf
+
+18-Oct-2013 Jean-Marie Simonet
+ # [#32344] *Overrides bug: Warning: constant() [function.constant]: Couldn't find constant JPATH_0
+
+17-Oct-2013 Michael Babker
+ + [#31861] [JUX2] [04] New Search tools on top of lists.  Thanks Roberto Segura
+
+17-Oct-2013 David Hurley
+ ^ [#32287] Update to sample data defaults. Thanks Elin Waring
+ # [#32277] Fix problem with form field ordering. Thanks Achal Aggarwal
+
+17-Oct-2013 Jean-Marie Simonet
+ $ Updating installation lang files: af-ZA, vi-VN, sr-YU, sr-RS
+ $ Updating installation lang files: sr-YU, sr-RS
+
+16-Oct-2013 Michael Babker
+ # [#32247] Jgrid bug producing double quotes.  Thanks Brian Teeman
+ ^ [#32317] *Postinstall component missing a toolbar Options button.  Thanks Nicholas Dionysopoulos
+ ^ [#32325] Category edit is missing label for Description field.  Thanks Mark Dexter
+ ^ [#32309] Code CS Issue in com_modules helper.  Thanks Chad Windnagle
+ ^ [#32194] Banner model has hardcoded SQL.  Thanks Peter Martin
+ # [#31654] Browser Page Title Not Showing for Tagged Item Menu.  Thanks Achal Aggarwal
+ # [#30535] The tag shows itself as a parent tag choice, when it shouldn't.  Thanks Eliot Bendinelli
+ # [#32080] mod_articles_archive ordering is broken.  Thanks David Jardin
+ ^ [#31806] New context should be based on default context.  Thanks Elijah Madden
+ ^ [#32070] Removed unused JToolbarHelper::title() in component helper.  Thanks Bruno Batista
+ # [#32134] Send mail button in Mass Mail has no icon in hathor.  Thanks Tobias Zulauf
+
+15-Oct-2013 Michael Babker
+ # [#32322] com_config is broken at hathor
+
+15-Oct-2013 Jean-Marie Simonet
+ # [#32296] *Regression JUX #32096 weblink association + normalising use of static commands for $assoc
+ # [#32284] Adding missing index.html files. Thanks Achal Aggarwal
+ # [#32306] Add and fix ACL for com_postinstall and the postinstall message at the Control Panel. Thanks Tobias Zulauf
+
+13-Oct-2013 Elin Waring
+ + [#31786] get_html_translation_table requires encoding value for PHP 5.4. Thanks Robert Deutz
+
+12-Oct-2013 Michael Babker
+ + [#31264] GSOC 2013 Project: com_config or front end website administration.  Thanks Buddhima Wijeweera
+
+-------------------- 3.2 Beta 1 Release [11-Oct-2013] ------------------
+
+11-Oct-2013 Roberto Segura
+ # [#32152] Session expired message on login. Thanks Michael Babker
+ # [#32236] Cannot read property H5Form of undefined. Thanks Achal Aggarwal
+
+11-Oct-2013 Jean-Marie Simonet
+ # [#32234] *RTL: URL fields should be align left and LTR. BE patch
+
+10-Oct-2013 Michael Babker
+ # [#32233] Regression - language override broken.  Thanks Achal Aggarwal
+
+10-Oct-2013 David Hurley
+ ^ [#32220] Update FOF to 2.1rc3. Thanks Nicholas Dionysopoulos
+ # [#32245] Update message styling. Thanks Michael Babker
+
+10-Oct-2013 Elin Waring
+ # [#32239] Sample data bug breaks cpanel. Thanks Brian Teeman
+ # [#32240] Fix broken template style editing (regression). Thanks Roberto Segura
+ # [#32244] Missing Version Note in Banner Client form. Thanks Mark Dexter
+ ^ [#32242] Change post-installation messages notification from a modal to a message area. Thanks Nicholas Dionysopoulos
+ # [#32219] Last selected tab will be loaded even going out to a new section and coming back to the same section. Thanks Ashan Fernando
+
 10-Oct-2013 Jean-Marie Simonet
- [#32232] *Normalising plugin edit on the model of module edit 
+ # [#32232] *Normalising plugin edit on the model of module edit
  $ Updating installation lang files: ko-KR
 
 10-Oct-2013 Roberto Segura
@@ -38,6 +426,10 @@ $ -> Language fix or change
 
 09-Oct-2013 David Hurley
  # [#32221] Fix version / cancel button placement Thanks Janich Rasmussen
+ # [#31858] Move actions to status buttons. Thanks Beat
+ # [#32027] Cleaned up top menu bar. Thanks Beat
+ # [#32095] Add view-dependent icons. Thanks Beat
+ + [#31864] Add front-end hover to modules. Thanks Beat
 
 09-Oct-2013 Jean-Marie Simonet
  # [#32217] Module position modal styling broken  Thanks Peter van Westen
@@ -48,6 +440,11 @@ $ -> Language fix or change
  # [#32214] *ACL settings do not display for components. Thanks Michael Babker
  # [#32215] *Setting frontend editing new Global Configuration setting to Modules & menus breaks back-end display. Thanks Roberto Segura
  ^ [#32227] Fix checkstyle. Thanks Nikolai Plath.
+
+08-Oct-2013 Elin Waring
+ ^ [#31997] Add content history versions to com_tags. Thanks Mark Dexter
+ ^ [#32170] Add content history versions to com_banners. Thanks Mark Dexter
+ ^ [#32204] Add version history for user notes and user notes categories. Thanks Mark Dexter
 
 08-Oct-2013 Michael Babker
  ^ [#31347] Introducing HTML5 form fields and attributes - GSOC.  Thanks Achal Aggarwal
