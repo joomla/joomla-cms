@@ -78,7 +78,7 @@ class JErrorPage
 		}
 		catch (Exception $e)
 		{
-			exit('Error displaying the error page: ' . $e->getMessage());
+			exit('Error displaying the error page: ' . $e->getMessage() . ': ' . $error->getMessage());
 		}
 	}
 }
