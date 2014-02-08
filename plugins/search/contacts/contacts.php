@@ -58,6 +58,8 @@ class PlgSearchContacts extends JPlugin
 	 */
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
+		require_once JPATH_SITE . '/components/com_contact/helpers/route.php';
+
 		$db = JFactory::getDbo();
 		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
@@ -169,7 +171,7 @@ class PlgSearchContacts extends JPlugin
 		{
 			foreach ($rows as $key => $row)
 			{
-				$rows[$key]->href = 'index.php?option=com_contact&view=contact&id=' . $row->slug . '&catid=' . $row->catslug;
+				$rows[$key]->href = ContactHelperRoute::getContactRoute($row->slug, $row->catslug);
 				$rows[$key]->text = $row->title;
 				$rows[$key]->text .= ($row->con_position) ? ', ' . $row->con_position : '';
 				$rows[$key]->text .= ($row->misc) ? ', ' . $row->misc : '';
