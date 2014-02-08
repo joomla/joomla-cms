@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
  * FrameworkOnFramework model behavior class. It defines the events which are
  * called by a Model.
  *
+ * @codeCoverageIgnore
  * @package  FrameworkOnFramework
  * @since    2.1
  */

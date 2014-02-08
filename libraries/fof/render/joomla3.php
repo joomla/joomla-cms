@@ -21,7 +21,7 @@ class FOFRenderJoomla3 extends FOFRenderStrapper
 	public function __construct()
 	{
 		$this->priority	 = 55;
-		$this->enabled	 = FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'ge');
+		$this->enabled	 = version_compare(JVERSION, '3.0', 'ge');
 	}
 
 	/**

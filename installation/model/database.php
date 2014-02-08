@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -135,7 +135,7 @@ class InstallationModelDatabase extends JModelBase
 		// Validate database table prefix.
 		if (!preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $options->db_prefix))
 		{
-			$app->enqueueMessage(JText::_('INSTL_DATABASE_PREFIX_INVALID_CHARS'), 'notice');
+			$app->enqueueMessage(JText::_('INSTL_DATABASE_PREFIX_MSG'), 'notice');
 			return false;
 		}
 

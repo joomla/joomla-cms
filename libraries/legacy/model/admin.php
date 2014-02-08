@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -294,7 +294,7 @@ abstract class JModelAdmin extends JModelForm
 
 				if (!$this->table->store())
 				{
-					$this->setError($table->getError());
+					$this->setError($this->table->getError());
 
 					return false;
 				}

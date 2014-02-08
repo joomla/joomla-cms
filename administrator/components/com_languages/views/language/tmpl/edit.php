@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,8 +13,6 @@ JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
-
-$canDo = LanguagesHelper::getActions();
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
@@ -77,7 +75,7 @@ $canDo = LanguagesHelper::getActions();
 						<?php echo $this->form->getInput('lang_code'); ?>
 					</div>
 			</div>
-			<?php if ($canDo->get('core.edit.state')) : ?>
+			<?php if ($this->canDo->get('core.edit.state')) : ?>
 				<div class="control-group">
 					<div class="control-label">
 						<?php echo $this->form->getLabel('published'); ?>

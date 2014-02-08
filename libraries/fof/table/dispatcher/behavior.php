@@ -13,6 +13,7 @@ JLoader::import('legacy.dispatcher.dispatcher');
 /**
  * FrameworkOnFramework table behavior dispatcher class
  *
+ * @codeCoverageIgnore
  * @package  FrameworkOnFramework
  * @since    2.1
  */

@@ -113,8 +113,8 @@ class FOFFormFieldCalendar extends JFormFieldCalendar implements FOFFormField
 		// PHP date doesn't use percentages (%) for the format, but the calendar Javascript
 		// DOES use it (@see: calendar-uncompressed.js). Therefore we have to convert it.
 		$formatJS  = $format;
-		$formatPHP = str_replace('%', '', $formatJS);
-
+		$formatPHP = str_replace(array('%', 'H:M:S'), array('', 'H:i:s'), $formatJS);
+		
 		// Get some system objects.
 		$config = JFactory::getConfig();
 		$user = JFactory::getUser();

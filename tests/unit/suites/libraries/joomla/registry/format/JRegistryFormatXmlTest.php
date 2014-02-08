@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Registry
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -39,16 +39,11 @@ class JRegistryFormatXMLTest extends PHPUnit_Framework_TestCase
 		$object->section->key = 'value';
 		$object->array = array('nestedarray' => array('test1' => 'value1'));
 
-		// Check for different PHP behavior of displaying boolean false in XML.
-		$checkFalse = '<check/>' == simplexml_load_string('<test/>')->addChild('check', false)->asXML()
-			? '/>'
-			: '></node>';
-
 		$string = "<?xml version=\"1.0\"?>\n<registry>" .
 			"<node name=\"foo\" type=\"string\">bar</node>" .
 			"<node name=\"quoted\" type=\"string\">\"stringwithquotes\"</node>" .
 			"<node name=\"booleantrue\" type=\"boolean\">1</node>" .
-			"<node name=\"booleanfalse\" type=\"boolean\"" . $checkFalse .
+			"<node name=\"booleanfalse\" type=\"boolean\"></node>" .
 			"<node name=\"numericint\" type=\"integer\">42</node>" .
 			"<node name=\"numericfloat\" type=\"double\">3.1415</node>" .
 			"<node name=\"section\" type=\"object\">" .
@@ -62,9 +57,9 @@ class JRegistryFormatXMLTest extends PHPUnit_Framework_TestCase
 			"</registry>\n";
 
 		// Test basic object to string.
-		$this->assertThat(
+		$this->assertXmlStringEqualsXmlString(
 			$class->objectToString($object, $options),
-			$this->equalTo($string)
+			$string
 		);
 	}
 

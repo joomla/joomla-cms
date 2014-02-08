@@ -37,40 +37,6 @@ class FOFViewHtml extends FOFViewRaw
 		}
 
 		parent::__construct($config);
-
-		$this->config = $config;
-
-		// Get the input
-		if (array_key_exists('input', $config))
-		{
-			if ($config['input'] instanceof FOFInput)
-			{
-				$this->input = $config['input'];
-			}
-			else
-			{
-				$this->input = new FOFInput($config['input']);
-			}
-		}
-		else
-		{
-			$this->input = new FOFInput;
-		}
-
-		$this->lists = new JObject;
-
-		if (!FOFPlatform::getInstance()->isCli())
-		{
-			$platform = FOFPlatform::getInstance();
-			$perms = (object) array(
-					'create'	 => $platform->authorise('core.create', $this->input->getCmd('option', 'com_foobar')),
-					'edit'		 => $platform->authorise('core.edit', $this->input->getCmd('option', 'com_foobar')),
-					'editstate'	 => $platform->authorise('core.edit.state', $this->input->getCmd('option', 'com_foobar')),
-					'delete'	 => $platform->authorise('core.delete', $this->input->getCmd('option', 'com_foobar')),
-			);
-			$this->assign('aclperms', $perms);
-			$this->perms = $perms;
-		}
 	}
 
 	/**

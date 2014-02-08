@@ -128,6 +128,9 @@ class FOFFormFieldModel extends FOFFormFieldList implements FOFFormField
 			$replace  = $this->item->$keyfield;
 			$link_url = str_replace('[ITEM:ID]', $replace, $link_url);
 
+			// Replace the [ITEMID] in the URL with the current Itemid parameter
+			$link_url = str_replace('[ITEMID]', JFactory::getApplication()->input->getInt('Itemid', 0), $link_url);
+
 			// Replace other field variables in the URL
 			$fields = $this->item->getFields();
 

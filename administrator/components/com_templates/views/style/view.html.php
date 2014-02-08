@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,6 +36,7 @@ class TemplatesViewStyle extends JViewLegacy
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
 		$this->form  = $this->get('Form');
+		$this->canDo = JHelperContent::getActions('com_templates');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -62,7 +63,7 @@ class TemplatesViewStyle extends JViewLegacy
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		$isNew = ($this->item->id == 0);
-		$canDo = TemplatesHelper::getActions();
+		$canDo = $this->canDo;
 
 		JToolbarHelper::title(
 			$isNew ? JText::_('COM_TEMPLATES_MANAGER_ADD_STYLE')

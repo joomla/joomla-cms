@@ -126,6 +126,12 @@ class FOFRenderJoomla extends FOFRenderAbstract
 		$html .= "\t" . '<input type="hidden" name="hidemainmenu" value="" />' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="filter_order" value="' . $filter_order . '" />' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="filter_order_Dir" value="' . $filter_order_Dir . '" />' . PHP_EOL;
+
+		if (FOFPlatform::getInstance()->isFrontend() && ($input->getCmd('Itemid', 0) != 0))
+		{
+			$html .= "\t" . '<input type="hidden" name="Itemid" value="' . $input->getCmd('Itemid', 0) . '" />' . PHP_EOL;
+		}
+
 		$html .= "\t" . '<input type="hidden" name="' . JFactory::getSession()->getFormToken() . '" value="1" />' . PHP_EOL;
 
 		// Start the table output
@@ -379,8 +385,13 @@ class FOFRenderJoomla extends FOFRenderAbstract
 		$html .= "\t" . '<input type="hidden" name="option" value="' . $input->getCmd('option') . '" />' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="view" value="' . $input->getCmd('view', 'edit') . '" />' . PHP_EOL;
 		$html .= "\t" . '<input type="hidden" name="task" value="" />' . PHP_EOL;
-
 		$html .= "\t" . '<input type="hidden" name="' . $key . '" value="' . $keyValue . '" />' . PHP_EOL;
+
+		if (FOFPlatform::getInstance()->isFrontend() && ($input->getCmd('Itemid', 0) != 0))
+		{
+			$html .= "\t" . '<input type="hidden" name="Itemid" value="' . $input->getCmd('Itemid', 0) . '" />' . PHP_EOL;
+		}
+
 		$html .= "\t" . '<input type="hidden" name="' . JFactory::getSession()->getFormToken() . '" value="1" />' . PHP_EOL;
 
 		$html .= $this->renderFormRaw($form, $model, $input, 'edit');

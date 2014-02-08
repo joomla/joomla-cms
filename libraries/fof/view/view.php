@@ -847,7 +847,7 @@ abstract class FOFView extends JObject
 			}
 		}
 
-		if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'lt') && ($result instanceof Exception))
+		if (version_compare(JVERSION, '3.0', 'lt') && ($result instanceof Exception))
 		{
 			JError::raiseError($result->getCode(), $result->getMessage());
 		}

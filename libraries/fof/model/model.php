@@ -368,7 +368,7 @@ class FOFModel extends JObject
 		}
 
 		// First look for ComponentnameModelViewnameBehaviorName (e.g. FoobarModelItemsBehaviorFilter)
-		$option_name = str_replace('com_', '', $this->name);
+		$option_name = str_replace('com_', '', $this->option);
 		$behaviorClass = ucfirst($option_name) . 'Model' . FOFInflector::pluralize($this->name) . 'Behavior' . ucfirst(strtolower($name));
 
 		if (class_exists($behaviorClass))
@@ -379,7 +379,7 @@ class FOFModel extends JObject
 		}
 
 		// Then look for ComponentnameModelBehaviorName (e.g. FoobarModelBehaviorFilter)
-		$option_name = str_replace('com_', '', $this->name);
+		$option_name = str_replace('com_', '', $this->option);
 		$behaviorClass = ucfirst($option_name) . 'ModelBehavior' . ucfirst(strtolower($name));
 
 		if (class_exists($behaviorClass))
@@ -576,7 +576,7 @@ class FOFModel extends JObject
 			$component = $config['option'];
 		}
 
-		// Set the $name/$_name variable
+		// Set the $name variable
 		$this->input->set('option', $component);
 		$component = $this->input->getCmd('option', 'com_foobar');
 
@@ -586,15 +586,7 @@ class FOFModel extends JObject
 		}
 
 		$this->input->set('option', $component);
-		$name = str_replace('com_', '', strtolower($component));
-
-		if (array_key_exists('name', $config))
-		{
-			$name = $config['name'];
-		}
-
-		$this->name = $name;
-		$this->option = $component;
+		$bareComponent = str_replace('com_', '', strtolower($component));
 
 		// Get the view name
 		$className = get_class($this);
@@ -613,9 +605,21 @@ class FOFModel extends JObject
 		}
 		else
 		{
-			$eliminatePart = ucfirst($name) . 'Model';
+			$eliminatePart = ucfirst($bareComponent) . 'Model';
 			$view = strtolower(str_replace($eliminatePart, '', $className));
 		}
+
+		if (array_key_exists('name', $config))
+		{
+			$name = $config['name'];
+		}
+		else
+		{
+			$name = $view;
+		}
+
+		$this->name = $name;
+		$this->option = $component;
 
 		// Set the model state
 		if (array_key_exists('state', $config))
@@ -956,10 +960,17 @@ class FOFModel extends JObject
 		{
 			foreach ($idlist as $value)
 			{
-				$this->id_list[] = (int) $value;
+                // Protect vs fatal error (objects) and wrong behavior (nested array)
+                if(!is_object($value) && !is_array($value))
+                {
+                    $this->id_list[] = (int) $value;
+                }
 			}
 
-			$this->id = $this->id_list[0];
+            if(count($this->id_list))
+            {
+                $this->id = $this->id_list[0];
+            }
 		}
 
 		return $this;
@@ -1081,28 +1092,30 @@ class FOFModel extends JObject
 
 			// Do we have saved data?
 			$session = JFactory::getSession();
-			$serialized = $session->get($this->getHash() . 'savedata', null);
-
-			if (!empty($serialized))
+			if ($this->_savestate)
 			{
-				$data = @unserialize($serialized);
-
-				if ($data !== false)
+				$serialized = $session->get($this->getHash() . 'savedata', null);
+				if (!empty($serialized))
 				{
-					$k = $table->getKeyName();
+					$data = @unserialize($serialized);
 
-					if (!array_key_exists($k, $data))
+					if ($data !== false)
 					{
-						$data[$k] = null;
-					}
+						$k = $table->getKeyName();
 
-					if ($data[$k] != $this->id)
-					{
-						$session->set($this->getHash() . 'savedata', null);
-					}
-					else
-					{
-						$this->record->bind($data);
+						if (!array_key_exists($k, $data))
+						{
+							$data[$k] = null;
+						}
+
+						if ($data[$k] != $this->id)
+						{
+							$session->set($this->getHash() . 'savedata', null);
+						}
+						else
+						{
+							$this->record->bind($data);
+						}
 					}
 				}
 			}
@@ -1118,7 +1131,8 @@ class FOFModel extends JObject
 	 *
 	 * @param   boolean  $overrideLimits  Should I override set limits?
 	 * @param   string   $group           The group by clause
-	 *
+	 * @codeCoverageIgnore
+     *
 	 * @return  array
 	 */
 	public function &getList($overrideLimits = false, $group = '')
@@ -1298,12 +1312,18 @@ class FOFModel extends JObject
 					$this->setError($error);
 					$session = JFactory::getSession();
 					$tableprops = $table->getProperties(true);
+
 					unset($tableprops['input']);
 					unset($tableprops['config']['input']);
 					unset($tableprops['config']['db']);
 					unset($tableprops['config']['dbo']);
-					$hash = $this->getHash() . 'savedata';
-					$session->set($hash, serialize($tableprops));
+
+
+					if ($this->_savestate)
+					{
+						$hash = $this->getHash() . 'savedata';
+						$session->set($hash, serialize($tableprops));
+					}
 				}
 			}
 
@@ -1314,7 +1334,10 @@ class FOFModel extends JObject
 			$this->id = $table->$key;
 
 			// Remove the session data
-			JFactory::getSession()->set($this->getHash() . 'savedata', null);
+			if ($this->_savestate)
+			{
+				JFactory::getSession()->set($this->getHash() . 'savedata', null);
+			}
 		}
 
 		$this->onAfterSave($table);
@@ -1813,7 +1836,8 @@ class FOFModel extends JObject
 
 		if (empty($prefix))
 		{
-			$prefix = ucfirst($this->getName()) . 'Table';
+			$bareComponent = str_replace('com_', '', $this->option);
+			$prefix        = ucfirst($bareComponent) . 'Table';
 		}
 
 		if (empty($options))
@@ -1826,7 +1850,7 @@ class FOFModel extends JObject
 			return $table;
 		}
 
-		if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'ge'))
+		if (version_compare(JVERSION, '3.0', 'ge'))
 		{
 			throw new Exception(JText::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name), 0);
 		}
@@ -1862,11 +1886,10 @@ class FOFModel extends JObject
 		$result = null;
 
 		// Clean the model name
-		$name = preg_replace('/[^A-Z0-9_]/i', '', $name);
+		$name   = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
 		// Make sure we are returning a DBO object
-
 		if (!array_key_exists('dbo', $config))
 		{
 			$config['dbo'] = $this->getDBO();
@@ -1956,7 +1979,7 @@ class FOFModel extends JObject
 	{
 		$tableName = $this->getTable()->getTableName();
 
-		if (FOFPlatform::getInstance()->checkVersion(JVERSION, '3.0', 'ge'))
+		if (version_compare(JVERSION, '3.0', 'ge'))
 		{
 			$fields = $this->getDbo()->getTableColumns($tableName, true);
 		}
