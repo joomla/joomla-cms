@@ -146,6 +146,13 @@ class JDocument
 	public $_script = array();
 
 	/**
+	 * Array of scripts options
+	 *
+	 *  @var    array
+	 */
+	public $_script_options = array();
+
+	/**
 	 * Array of linked style sheets
 	 *
 	 * @var    array
@@ -524,6 +531,40 @@ class JDocument
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Add option for script
+	 *
+	 * @param string $name a full extension name e.g. plg_name, com_name
+	 * @param array $options - scrip options as array
+	 *
+	 * @return  JDocument instance of $this to allow chaining
+	 *
+	 */
+	public function setScriptOptions($options, $name)
+	{
+		$this->_script_options[$name] = $options;
+		return $this;
+	}
+
+	/**
+	 * Get script(s) options
+	 *
+	 * @param string $name a full extension name e.g. plg_name, com_name
+	 *
+	 * @return array that contain optios for script/extension by name or all options
+	 *
+	 */
+	public function getScriptOptions($name = null)
+	{
+		if ($name)
+		{
+			return (empty($this->_script_options[$name])) ? array() : $this->_script_options[$name];
+		}
+		else {
+			return $this->_script_options;
+		}
 	}
 
 	/**
