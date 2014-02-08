@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,27 +34,22 @@ abstract class ModulesHelper
 	 * @param   integer  The module ID.
 	 *
 	 * @return  JObject
+	 *
+	 * @deprecated  3.2  Use JHelperContent::getActions() instead
 	 */
 	public static function getActions($moduleId = 0)
 	{
-		$user	= JFactory::getUser();
-		$result	= new JObject;
+		// Log usage of deprecated function
+		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
 
-		if (empty($moduleId)) {
-			$assetName = 'com_modules';
+		// Get list of actions
+		if (empty($moduleId))
+		{
+			$result = JHelperContent::getActions('com_modules');
 		}
 		else
 		{
-			$assetName = 'com_modules.module.'.(int) $moduleId;
-		}
-
-		$actions = JAccess::getActionsFromFile(
-			JPATH_ADMINISTRATOR . '/components/com_modules/access.xml',"/access/section[@name='component']/"
-		);
-
-		foreach ($actions as $action)
-		{
-			$result->set($action->name, $user->authorise($action->name, $assetName));
+			$result = JHelperContent::getActions('com_modules', 'module', $moduleId);
 		}
 
 		return $result;
@@ -200,10 +195,8 @@ abstract class ModulesHelper
 			$extension = $module->value;
 			$path = $clientId ? JPATH_ADMINISTRATOR : JPATH_SITE;
 			$source = $path . "/modules/$extension";
-				$lang->load("$extension.sys", $path, null, false, false)
-			||	$lang->load("$extension.sys", $source, null, false, false)
-			||	$lang->load("$extension.sys", $path, $lang->getDefault(), false, false)
-			||	$lang->load("$extension.sys", $source, $lang->getDefault(), false, false);
+				$lang->load("$extension.sys", $path, null, false, true)
+			||	$lang->load("$extension.sys", $source, null, false, true);
 			$modules[$i]->text = JText::_($module->text);
 		}
 		JArrayHelper::sortObjects($modules, 'text', 1, true, true);

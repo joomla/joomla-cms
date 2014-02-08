@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -430,14 +430,17 @@ class JModelList extends JModelLegacy
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = JFactory::getApplication()->getUserState($this->context, array());
+		$data = JFactory::getApplication()->getUserState($this->context, new stdClass);
 
 		// Pre-fill the list options
-		if (empty($data))
+		if (!property_exists($data, 'list'))
 		{
-			$data['list']['limit']     = $this->state->{'list.limit'};
-			$data['list']['ordering']  = $this->state->{'list.ordering'};
-			$data['list']['direction'] = $this->state->{'list.direction'};
+			$data->list = array(
+				'direction' => $this->state->{'list.direction'},
+				'limit'     => $this->state->{'list.limit'},
+				'ordering'  => $this->state->{'list.ordering'},
+				'start'     => $this->state->{'list.start'}
+			);
 		}
 
 		return $data;
@@ -466,12 +469,8 @@ class JModelList extends JModelLegacy
 		{
 			$app = JFactory::getApplication();
 
-			// Pre-fill the limits
-			$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'uint');
-			$this->setState('list.limit', $limit);
-
 			// Receive & set filters
-			if ($filters = $this->getUserStateFromRequest($this->context . '.filter', 'filter'))
+			if ($filters = $app->getUserStateFromRequest($this->context . '.filter', 'filter', array(), 'array'))
 			{
 				foreach ($filters as $name => $value)
 				{
@@ -479,8 +478,10 @@ class JModelList extends JModelLegacy
 				}
 			}
 
+			$limit = 0;
+
 			// Receive & set list options
-			if ($list = $this->getUserStateFromRequest($this->context . '.list', 'list'))
+			if ($list = $app->getUserStateFromRequest($this->context . '.list', 'list', array(), 'array'))
 			{
 				foreach ($list as $name => $value)
 				{
@@ -547,6 +548,10 @@ class JModelList extends JModelLegacy
 			else
 			// Keep B/C for components previous to jform forms for filters
 			{
+				// Pre-fill the limits
+				$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'uint');
+				$this->setState('list.limit', $limit);
+
 				// Check if the ordering field is in the white list, otherwise use the incoming value.
 				$value = $app->getUserStateFromRequest($this->context . '.ordercol', 'filter_order', $ordering);
 
@@ -568,6 +573,22 @@ class JModelList extends JModelLegacy
 				}
 
 				$this->setState('list.direction', $value);
+			}
+
+			// Support old ordering field
+			$oldOrdering = $app->input->get('filter_order');
+
+			if (!empty($oldOrdering) && in_array($value, $this->filter_fields))
+			{
+				$this->setState('list.ordering', $oldOrdering);
+			}
+
+			// Support old direction field
+			$oldDirection = $app->input->get('filter_order_Dir');
+
+			if (!empty($oldDirection) && in_array(strtoupper($oldDirection), array('ASC', 'DESC', '')))
+			{
+				$this->setState('list.direction', $oldDirection);
 			}
 
 			$value = $app->getUserStateFromRequest($this->context . '.limitstart', 'limitstart', 0);

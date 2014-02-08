@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -466,6 +466,12 @@ class JFormTest extends TestCase
 			$form->filterField($form->findField('url'), ''),
 			$this->equalTo(''),
 			'Line:' . __LINE__ . ' An empty "url" filter return nothing.'
+		);
+
+		$this->assertThat(
+				$form->filterField($form->findField('url'), 'http://"onmouseover=alert(2);<>"'),
+				$this->equalTo('http://onmouseover=alert(2);'),
+				'Line:' . __LINE__ . ' <>" are always illegal in host names.'
 		);
 
 		$this->assertThat(

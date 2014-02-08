@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -232,6 +232,7 @@ class InstallerModelUpdate extends JModelList
 			$instance = JTable::getInstance('update');
 			$instance->load($uid);
 			$update->loadFromXML($instance->detailsurl);
+			$update->set('extra_query', $instance->extra_query);
 
 			// Install sets state and enqueues messages
 			$res = $this->install($update);
@@ -263,6 +264,22 @@ class InstallerModelUpdate extends JModelList
 		if (isset($update->get('downloadurl')->_data))
 		{
 			$url = $update->downloadurl->_data;
+
+			$extra_query = $update->get('extra_query');
+
+			if ($extra_query)
+			{
+				if (strpos($url, '?') === false)
+				{
+					$url .= '?';
+				}
+				else
+				{
+					$url .= '&amp;';
+				}
+
+				$url .= $extra_query;
+			}
 		}
 		else
 		{

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,6 @@ JLoader::register('ContactHelper', JPATH_ADMINISTRATOR . '/components/com_contac
  */
 class ContactModelContact extends JModelAdmin
 {
-
 	/**
 	 * The type alias for this content type.
 	 *
@@ -64,7 +63,7 @@ class ContactModelContact extends JModelAdmin
 		$this->user = JFactory::getUser();
 		$this->table = $this->getTable();
 		$this->tableClassName = get_class($this->table);
-		$this->contentType = new JUcmType();
+		$this->contentType = new JUcmType;
 		$this->type = $this->contentType->getTypeByTable($this->tableClassName);
 		$this->batchSet = true;
 
@@ -78,8 +77,8 @@ class ContactModelContact extends JModelAdmin
 		{
 			$typeAlias = $this->type->type_alias;
 		}
-		$this->tagsObserver = $this->table->getObserverOfClass('JTableObserverTags');
 
+		$this->tagsObserver = $this->table->getObserverOfClass('JTableObserverTags');
 
 		if (!empty($commands['category_id']))
 		{
@@ -88,6 +87,7 @@ class ContactModelContact extends JModelAdmin
 			if ($cmd == 'c')
 			{
 				$result = $this->batchCopy($commands['category_id'], $pks, $contexts);
+
 				if (is_array($result))
 				{
 					$pks = $result;
@@ -101,6 +101,7 @@ class ContactModelContact extends JModelAdmin
 			{
 				return false;
 			}
+
 			$done = true;
 		}
 

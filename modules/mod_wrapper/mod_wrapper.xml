@@ -7,7 +7,7 @@
 	<name>mod_wrapper</name>
 	<author>Joomla! Project</author>
 	<creationDate>October 2004</creationDate>
-	<copyright>Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -41,10 +41,8 @@
 					default="1"
 					label="MOD_WRAPPER_FIELD_ADD_LABEL"
 					description="MOD_WRAPPER_FIELD_ADD_DESC">
-					<option
-						value="0">JNO</option>
-					<option
-						value="1">JYES</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 				<field
 					name="scrolling"
@@ -80,10 +78,8 @@
 					default="1"
 					label="MOD_WRAPPER_FIELD_AUTOHEIGHT_LABEL"
 					description="MOD_WRAPPER_FIELD_AUTOHEIGHT_DESC">
-					<option
-						value="0">JNO</option>
-					<option
-						value="1">JYES</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 				<field
 					name="frameborder"
@@ -92,10 +88,8 @@
 					default="1"
 					label="MOD_WRAPPER_FIELD_FRAME_LABEL"
 					description="MOD_WRAPPER_FIELD_FRAME_DESC">
-					<option
-						value="0">JNO</option>
-					<option
-						value="1">JYES</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 				<field
 					name="target"

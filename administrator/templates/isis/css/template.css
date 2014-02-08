@@ -6129,7 +6129,7 @@ div.modal {
 	top: 10%;
 	left: 50%;
 	z-index: 1050;
-	width: 560px;
+	width: 580px;
 	margin-left: -280px;
 	background-color: #fff;
 	border: 1px solid #999;
@@ -6155,6 +6155,9 @@ div.modal.fade {
 }
 div.modal.fade.in {
 	top: 10%;
+}
+.modal-batch {
+	overflow-y: visible;
 }
 @media (max-width: 767px) {
 	div.modal {
@@ -7909,4 +7912,23 @@ input.input-large-text {
 .chzn-color-state.chzn-single[rel="value_-2"]:active,
 .chzn-color-state.chzn-single[rel="value_-2"].active {
 	background-color: #942a25 \9;
+}
+#permissions-sliders .input-small {
+	width: 120px;
+}
+.editor {
+	overflow: hidden;
+	position: relative;
+}
+a.grid_false {
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+	background-image: url('../images/admin/publish_r.png');
+}
+a.grid_true {
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+	background-image: url('../images/admin/icon-16-allow.png');
 }

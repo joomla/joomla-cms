@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,7 +41,7 @@ class JoomlaInstallerScript
 
 	/**
 	 * Medtho to update Database
-	 * 
+	 *
 	 * @return void
 	 */
 	protected function updateDatabase()
@@ -82,7 +82,7 @@ class JoomlaInstallerScript
 
 	/**
 	 * Update the manifest caches
-	 * 
+	 *
 	 * @return void
 	 */
 	protected function updateManifestCaches()
@@ -128,6 +128,7 @@ class JoomlaInstallerScript
 		$extensions[] = array('library', 'joomla', '', 0);
 		$extensions[] = array('library', 'idna_convert', '', 0);
 		$extensions[] = array('library', 'fof', '', 0);
+		$extensions[] = array('library', 'phpass', '', 0);
 
 		// Modules site
 		// Site
@@ -177,6 +178,7 @@ class JoomlaInstallerScript
 		$extensions[] = array('plugin', 'gmail', 'authentication', 0);
 		$extensions[] = array('plugin', 'joomla', 'authentication', 0);
 		$extensions[] = array('plugin', 'ldap', 'authentication', 0);
+		$extensions[] = array('plugin', 'contact', 'content', 0);
 		$extensions[] = array('plugin', 'emailcloak', 'content', 0);
 		$extensions[] = array('plugin', 'loadmodule', 'content', 0);
 		$extensions[] = array('plugin', 'pagebreak', 'content', 0);
@@ -244,10 +246,12 @@ class JoomlaInstallerScript
 
 		foreach ($extensions as $extension)
 		{
-			$query->where('type=' . $db->quote($extension[0])
+			$query->where(
+				'type=' . $db->quote($extension[0])
 				. ' AND element=' . $db->quote($extension[1])
 				. ' AND folder=' . $db->quote($extension[2])
-				. ' AND client_id=' . $extension[3], 'OR');
+				. ' AND client_id=' . $extension[3], 'OR'
+			);
 		}
 
 		$db->setQuery($query);
@@ -273,7 +277,7 @@ class JoomlaInstallerScript
 
 	/**
 	 * Delete files that should not exist
-	 * 
+	 *
 	 * @return void
 	 */
 	public function deleteUnexistingFiles()
@@ -961,11 +965,11 @@ class JoomlaInstallerScript
 			'/media/editors/tinymce/jscripts/tiny_mce/utils/form_utils.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/utils/mctabs.js',
 			'/media/editors/tinymce/jscripts/tiny_mce/utils/validate.js',
-			'administrator/components/com_banners/models/fields/ordering.php',
-			'administrator/components/com_contact/models/fields/ordering.php',
-			'administrator/components/com_newsfeeds/models/fields/ordering.php',
-			'administrator/components/com_plugins/models/fields/ordering.php',
-			'administrator/components/com_weblinks/models/fields/ordering.php',
+			'/administrator/components/com_banners/models/fields/ordering.php',
+			'/administrator/components/com_contact/models/fields/ordering.php',
+			'/administrator/components/com_newsfeeds/models/fields/ordering.php',
+			'/administrator/components/com_plugins/models/fields/ordering.php',
+			'/administrator/components/com_weblinks/models/fields/ordering.php',
 			'/administrator/includes/application.php',
 			'/includes/application.php',
 			'/libraries/legacy/application/helper.php',
@@ -1009,7 +1013,9 @@ class JoomlaInstallerScript
 			'/media/editors/codemirror/js/tokenizephp.js',
 			'/media/editors/codemirror/js/undo.js',
 			'/media/editors/codemirror/js/util.js',
-			'administrator/components/com_weblinks/models/fields/index.html',
+			'/administrator/components/com_weblinks/models/fields/index.html',
+			'/plugins/user/joomla/postinstall/actions.php',
+			'/plugins/user/joomla/postinstall/index.html',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -1063,7 +1069,8 @@ class JoomlaInstallerScript
 			'/libraries/joomla/plugin',
 			'/libraries/legacy/component',
 			'/libraries/legacy/module',
-			'administrator/components/com_weblinks/models/fields',
+			'/administrator/components/com_weblinks/models/fields',
+			'/plugins/user/joomla/postinstall',
 		);
 
 		jimport('joomla.filesystem.file');
@@ -1116,12 +1123,12 @@ class JoomlaInstallerScript
 	{
 		// List all components added since 1.6
 		$newComponents = array(
-				'com_finder',
-				'com_joomlaupdate',
-				'com_tags',
-				'com_contenthistory',
-				'com_ajax',
-				'com_postinstall'
+			'com_finder',
+			'com_joomlaupdate',
+			'com_tags',
+			'com_contenthistory',
+			'com_ajax',
+			'com_postinstall'
 		);
 
 		foreach ($newComponents as $component)

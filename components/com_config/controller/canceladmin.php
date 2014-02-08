@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Cancel Controller for Admin
  *
  * @package     Joomla.Libraries
- * @subpackage  Controller
+ * @subpackage  com_config
  * @since       3.2
  */
 class ConfigControllerCanceladmin extends ConfigControllerCancel
@@ -55,7 +55,8 @@ class ConfigControllerCanceladmin extends ConfigControllerCancel
 		// Check for request forgeries.
 		if (!JSession::checkToken())
 		{
-			$this->app->redirect('index.php', JText::_('JINVALID_TOKEN'));
+			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN'));
+			$this->app->redirect('index.php');
 		}
 
 		if (empty($this->context))
@@ -69,7 +70,6 @@ class ConfigControllerCanceladmin extends ConfigControllerCancel
 		if (!empty($this->redirect))
 		{
 			$this->app->redirect($this->redirect);
-
 		}
 		else
 		{
