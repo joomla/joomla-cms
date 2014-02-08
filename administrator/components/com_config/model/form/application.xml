@@ -236,17 +236,15 @@
 		name="mail"
 		label="CONFIG_MAIL_SETTINGS_LABEL">
 		<field
-				name="mailonline"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				default="1"
-				label="COM_CONFIG_FIELD_MAIL_MAILONLINE_LABEL"
-				description="COM_CONFIG_FIELD_MAIL_MAILONLINE_DESC"
-				filter="integer">
-			<option
-					value="1">JYES</option>
-			<option
-					value="0">JNO</option>
+			name="mailonline"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="1"
+			label="COM_CONFIG_FIELD_MAIL_MAILONLINE_LABEL"
+			description="COM_CONFIG_FIELD_MAIL_MAILONLINE_DESC"
+			filter="integer">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field
