@@ -13,6 +13,11 @@ JHtml::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
 
 JHtml::_('bootstrap.tooltip');
 
+if ($params->get('show_autosuggest', 1))
+{
+	JHtml::_('behavior.framework');
+}
+
 // Load the smart search component language file.
 $lang = JFactory::getLanguage();
 $lang->load('com_finder', JPATH_SITE);
