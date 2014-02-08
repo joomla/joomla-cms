@@ -7,7 +7,7 @@
 			label="COM_CATEGORIES_ITEMS_SEARCH_FILTER"
 			hint="JSEARCH_FILTER"
 			class="js-stools-search-string"
-		/>
+			/>
 		<field
 			name="level"
 			type="integer"
@@ -57,7 +57,7 @@
 			label="JOPTION_FILTER_TAG"
 			description="JOPTION_FILTER_TAG_DESC"
 			onchange="this.form.submit();"
-		>
+			>
 			<option value="">JOPTION_SELECT_TAG</option>
 		</field>
 	</fields>
@@ -93,6 +93,6 @@
 			label="COM_CATEGORIES_LIST_LIMIT"
 			description="COM_CATEGORIES_LIST_LIMIT_DESC"
 			onchange="this.form.submit();"
-		/>
+			/>
 	</fields>
 </form>
