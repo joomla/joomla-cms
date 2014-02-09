@@ -76,12 +76,12 @@ class ContentControllerAdjuntos extends JControllerForm
         // Encontrar una mejor forma de descomponer @dest :E
         $ruta = implode('/', explode('/', $dest, '-1'));
         $archivo = end(explode('/',$dest));
-        $nombreArchivo = end(explode('-',$archivo));
-        $hash = reset(explode('-', $archivo));
+        $hash = array_shift(explode('-', $archivo));
+        $nombreArchivo = substr($archivo, (strpos($archivo, '-')+1));
 
         $arr = array("id" => $id, "nombreArchivo" => $nombreArchivo, "ruta" => $ruta, "hash" => $hash);
 
-        $dest = '';
+        $dest = null;
 
         return $arr;
     }
