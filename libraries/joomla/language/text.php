@@ -355,8 +355,6 @@ class JText
 		{
 			// Normalize the key and translate the string.
 			self::$strings[strtoupper($string)] = JFactory::getLanguage()->_($string, $jsSafe, $interpretBackSlashes);
-			
-			JHtml::_('script', 'system/core.js', false, true);
 		}
 
 		return self::$strings;
