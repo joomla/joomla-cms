@@ -85,4 +85,8 @@ class ContentControllerAdjuntos extends JControllerForm
 
         return $arr;
     }
+
+    public function borrar() {
+        print_r('{"estado": "borrando"}');
+    }
 }

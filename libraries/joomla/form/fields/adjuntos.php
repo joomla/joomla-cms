@@ -170,6 +170,12 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = '}';
 
         $script[] = 'function eliminarAdjunto(el) {';
+        $script[] = '   var request = new Request({';
+        $script[] = '       url: "'.JURI::root().'administrator/index.php?option=com_content&task=adjuntos.borrar&format=json",';
+        $script[] = '       onComplete: function(res) {';
+        $script[] = '           console.log(res)';
+        $script[] = '       }';
+        $script[] = '   }).send();';
         $script[] = '   $(el.get("data-id")).dispose();';
         $script[] = '}';
 
