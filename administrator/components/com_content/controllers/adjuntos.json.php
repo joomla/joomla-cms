@@ -49,6 +49,11 @@ class ContentControllerAdjuntos extends JControllerForm
             $dest = JPATH_ROOT.DS.'uploads'.DS.sha1(time()).'-'.$nombreArchivo;
 
             if(JFile::upload($src, $dest)) {
+
+                $nombreArchivo = end(explode('/',$dest));
+                $data = array("id" => $id, "nombreArchivo" => $nombreArchivo);
+                print_r(json_encode($data));
+
                 // TODO: Implementa/valida una estructura de datos para los nombres 
                 // de los archivos que se guardan en la base de datos
                print_r("Archivo Subido"); 
