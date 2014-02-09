@@ -43,9 +43,18 @@ class JFormFieldAdjuntos extends JFormField
         $path       = $this->element['path'];       
 
         $style = array();
+        $style[] = '#controles-adjuntos {';
+        $style[] = '    width: 180px;';
+        $style[] = '    position:relative;';
+        $style[] = '}';
         $style[] = '#adjuntos {';
         $style[] = '    float: right;';
         $style[] = '    width: 55%;';
+        $style[] = '    position:relative;';
+        $style[] = '}';
+        $style[] = '.form-adjunto {';
+        $style[] = '    margin-bottom: 3px;';
+        $style[] = '    position:relative;';
         $style[] = '}';
         $style[] = '.error-msg {';
         $style[] = '    background-color: red;';
@@ -55,8 +64,21 @@ class JFormFieldAdjuntos extends JFormField
         $style[] = '    position: relative;';
         $style[] = '}';
         $style[] = '.progress {';
-        $style[] = '    background-color: blue;';
+        $style[] = '    background-color: #111111;';
         $style[] = '    height: 3px;';
+        $style[] = '}';
+        $style[] = '.uploaded {';
+        $style[] = '    border: 1px solid #cccccc;';
+        $style[] = '    position: relative;';
+        $style[] = '    height: 38px;';
+        $style[] = '}';
+        $style[] = '.nombre-archivo {';
+        $style[] = '    padding: 0 40px;';
+        $style[] = '}';
+        $style[] = '.btn-adjunto {';
+        $style[] = '    position: absolute;';
+        $style[] = '    top: 0;';
+        $style[] = '    right: 0;';
         $style[] = '}';
 
         $script = array();
@@ -66,6 +88,7 @@ class JFormFieldAdjuntos extends JFormField
 
         $script[] = 'var btnAgregarAdjunto = new Element("button", {';
         $script[] = '   id: "btn-agregar-adjunto",';
+        $script[] = '   class:"btn-adjunto",';
         $script[] = '       events: {';
         $script[] = '           click: function(event) { ';
         $script[] = '               event.preventDefault();';
@@ -113,6 +136,7 @@ class JFormFieldAdjuntos extends JFormField
 
         $script[] = '   var btnEliminarAdjunto = new Element("button", {';
         $script[] = '       id: "btn-eliminar-adjunto-"+adjuntoCount,';
+        $script[] = '       class:"btn-adjunto",';
         $script[] = '       events: {';
         $script[] = '           click: function() { eliminarAdjunto(this) }';
         $script[] = '       }';
@@ -132,10 +156,12 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = '           adjuntoId: adjuntoCount,'; 
         $script[] = '           onComplete: function(res) {';
         $script[] = '               var data = JSON.decode(res);';
+        $script[] = '               var nombreArchivo = new Element("div",{';
+        $script[] = '                   class:"nombre-archivo"';
+        $script[] = '               }).set("text", data.nombreArchivo);';
         $script[] = '               uploaded = formAdjunto.getElements(".uploaded")';
-        $script[] = '               uploaded.set("text", data.nombreArchivo);';
+        $script[] = '               uploaded.grab(nombreArchivo,"top");';
         $script[] = '               console.log(data);';
-        $script[] = '               ';
         $script[] = '           }';
         $script[] = '       });';
         $script[] = '       upload.send();';

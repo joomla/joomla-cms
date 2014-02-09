@@ -27,7 +27,7 @@ File.Upload = new Class({
             id:"progress-bar-"+adjuntoId
         }).setStyle('width', '0');
 
-        var uploaded = new Element("div.uploaded").set('text', 'arriba').setStyles({background:'red'});
+        var uploaded = new Element("div.uploaded");
 
 		this.uploadReq = new Request.File({
             onRequest: function() {
