@@ -43,7 +43,6 @@ File.Upload = new Class({
                 uploaded.inject(progress, 'after').wraps($('btn-eliminar-adjunto-'+adjuntoId).setStyle('float','right')); 
 
                 var slide = new Fx.Slide(uploaded).hide().slideIn();
-                console.log(response)
                 
 				self.fireEvent('complete', arguments);
 				this.reset();

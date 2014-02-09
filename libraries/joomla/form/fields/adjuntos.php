@@ -130,6 +130,13 @@ class JFormFieldAdjuntos extends JFormField
         $script[] = '               "id":'.$id.'},';
         $script[] = '           images: ["campo-adjunto-"+adjuntoCount],';
         $script[] = '           adjuntoId: adjuntoCount,'; 
+        $script[] = '           onComplete: function(res) {';
+        $script[] = '               var data = JSON.decode(res);';
+        $script[] = '               uploaded = formAdjunto.getElements(".uploaded")';
+        $script[] = '               uploaded.set("text", data.nombreArchivo);';
+        $script[] = '               console.log(data);';
+        $script[] = '               ';
+        $script[] = '           }';
         $script[] = '       });';
         $script[] = '       upload.send();';
         $script[] = '   }';

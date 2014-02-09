@@ -50,17 +50,39 @@ class ContentControllerAdjuntos extends JControllerForm
 
             if(JFile::upload($src, $dest)) {
 
-                $nombreArchivo = end(explode('/',$dest));
-                $data = array("id" => $id, "nombreArchivo" => $nombreArchivo);
+                $data = self::reformarArchivo($id, $dest);
+
                 print_r(json_encode($data));
 
                 // TODO: Implementa/valida una estructura de datos para los nombres 
                 // de los archivos que se guardan en la base de datos
-               print_r("Archivo Subido"); 
             } else {
                 print_r("Ha ocurrido un error");
                 print_r($archivo['error']);
             }
         }
+    }
+
+    /**
+     * Asigna un formato estandard al nombre de archivo
+     *
+     * @param   $id     String entregado por el Id del artículo     
+     * @param   $dest   String ruta de destino del archivo
+     * @return  $arr    Array con los datos relacionados con el archivo subido
+     */
+
+    function reformarArchivo($id, $dest) {
+
+        // Encontrar una mejor forma de descomponer @dest :E
+        $ruta = implode('/', explode('/', $dest, '-1'));
+        $archivo = end(explode('/',$dest));
+        $nombreArchivo = end(explode('-',$archivo));
+        $hash = reset(explode('-', $archivo));
+
+        $arr = array("id" => $id, "nombreArchivo" => $nombreArchivo, "ruta" => $ruta, "hash" => $hash);
+
+        $dest = '';
+
+        return $arr;
     }
 }
