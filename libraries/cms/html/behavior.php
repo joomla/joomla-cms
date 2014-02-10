@@ -467,8 +467,8 @@ abstract class JHtmlBehavior
 		$tag = JFactory::getLanguage()->getTag();
 
 		JHtml::_('stylesheet', 'system/calendar-jos.css', array(' title' => JText::_('JLIB_HTML_BEHAVIOR_GREEN'), ' media' => 'all'), true);
-		JHtml::_('script', $tag . '/calendar.js', false, true);
-		JHtml::_('script', $tag . '/calendar-setup.js', false, true);
+		JHtml::_('script', $tag . '/calendar-uncompressed.js', false, true);
+		JHtml::_('script', $tag . '/calendar-setup-uncompressed.js', false, true);
 
 		$translation = static::calendartranslation();
 
@@ -727,8 +727,8 @@ abstract class JHtmlBehavior
 		);
 		$months_long = array_map(
 			$callback, array(
-				'JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE',
-				'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'
+				'JANUARY_CAL', 'FEBRUARY_CAL', 'MARCH_CAL', 'APRIL_CAL', 'MAY_CAL', 'JUNE_CAL',
+				'JULY_CAL', 'AUGUST_CAL', 'SEPTEMBER_CAL', 'OCTOBER_CAL', 'NOVEMBER_CAL', 'DECEMBER_CAL'
 			)
 		);
 		$months_short = array_map(
@@ -776,12 +776,39 @@ abstract class JHtmlBehavior
 			'WK'			=> JText::_('JLIB_HTML_BEHAVIOR_WK'),
 			'TIME'			=> JText::_('JLIB_HTML_BEHAVIOR_TIME')
 		);
+		// This will load strings from language packs to set prefix, suffix, separator for month and year if needed. If not needed by a language, the translation string could be empty, or a copy/paste of en-GB source translation (usage of a sentence to help understanding on a translation platform such as Transifex)
+		$separator_month_year = JText::_('SEPARATOR_MONTH_YEAR');
+		if ($separator_month_year == 'CALENDAR_SEPARATOR_MONTH_YEAR_FACULTATIVE') {
+			$separator_month_year = ' ';
+		}
+		$prefix_month = JText::_('PREFIX_MONTH');
+		if ($prefix_month == 'CALENDAR_PREFIX_MONTH_FACULTATIVE') {
+			$prefix_month = '';
+		}
+		$suffix_month = JText::_('SUFFIX_MONTH');
+		if ($suffix_month == 'CALENDAR_SUFFIX_MONTH_FACULTATIVE') {
+			$suffix_month = '';
+		}
+		$prefix_year = JText::_('PREFIX_YEAR');
+		if ($prefix_year == 'CALENDAR_PREFIX_YEAR_FACULTATIVE') {
+			$prefix_year = '';
+		}
+		$suffix_year = JText::_('SUFFIX_YEAR');
+		if ($suffix_year == 'CALENDAR_SUFFIX_YEAR_FACULTATIVE') {
+			$suffix_year = '';
+		}
 
 		return 'Calendar._DN = ' . json_encode($weekdays_full) . ';'
 			. ' Calendar._SDN = ' . json_encode($weekdays_short) . ';'
 			. ' Calendar._FD = 0;'
 			. ' Calendar._MN = ' . json_encode($months_long) . ';'
 			. ' Calendar._SMN = ' . json_encode($months_short) . ';'
+			. ' Calendar._MBY = 1;'
+			. ' Calendar._SEP = ' . json_encode($separator_month_year) . ';'
+			. ' Calendar._PM = ' . json_encode($prefix_month) . ';'
+			. ' Calendar._SM = ' . json_encode($suffix_month) . ';'
+			. ' Calendar._PY = ' . json_encode($prefix_year) . ';'
+			. ' Calendar._SY = ' . json_encode($suffix_year) . ';'
 			. ' Calendar._TT = ' . json_encode($text) . ';';
 	}
 

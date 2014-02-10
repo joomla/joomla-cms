@@ -996,7 +996,8 @@ abstract class JHtml
 				// Alignment (defaults to "Bl")
 				align: "Tl",
 				singleClick: true,
-				firstDay: ' . JFactory::getLanguage()->getFirstDay() . '
+				firstDay: ' . JFactory::getLanguage()->getFirstDay() . ',
+				monthBeforeYear: ' . JFactory::getLanguage()->getMonthBeforeYear() . '
 				});});'
 				);
 				$done[] = $id;
