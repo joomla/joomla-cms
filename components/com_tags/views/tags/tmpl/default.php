@@ -13,26 +13,21 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
-$description = $this->params->get('all_tags_description');
+$description      = $this->params->get('all_tags_description');
 $descriptionImage = $this->params->get('all_tags_description_image');
 ?>
 <div class="tag-category<?php echo $this->pageclass_sfx; ?>">
-	<?php
+	<?php if ($this->state->get('show_page_heading')): ?>
+		<h1><?php echo $this->escape($this->params->get('page_heading')); ?></h1>
+	<?php endif; ?>
 
-	if ($this->state->get('show_page_heading'))
-	{
-		echo '<h1>' . $this->escape($this->params->get('page_heading')) . '</h1>';
-	}
+	<?php if ($this->params->get('all_tags_show_description_image') && !empty($descriptionImage)): ?>
+		<div><img src="<?php echo $descriptionImage; ?>"></div>
+	<?php endif; ?>
 
-	if ($this->params->get('all_tags_show_description_image') && !empty($descriptionImage))
-	{
-		echo '<div><img src="' . $descriptionImage . '"></div>';
-	}
-
-	if (!empty($description))
-	{
-		echo "<div>$description</div>";
-	}
+	<?php if (!empty($description)): ?>
+		<div><?php echo $description; ?></div>
+	<?php endif;
 
 	echo $this->loadTemplate('items');
 	?>
