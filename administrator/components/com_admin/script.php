@@ -1115,7 +1115,7 @@ class JoomlaInstallerScript
 	/**
 	 * Method to create assets for newly installed components
 	 *
-	 * @return  void
+	 * @return  boolean
 	 *
 	 * @since   3.2
 	 */
