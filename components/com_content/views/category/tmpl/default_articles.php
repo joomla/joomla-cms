@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.framework');
 
@@ -19,8 +19,9 @@ $n			= count($this->items);
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 
-// check for at least one editable article
+// Check for at least one editable article
 $isEditable = false;
+
 if (!empty($this->items))
 {
 	foreach ($this->items as $article)
