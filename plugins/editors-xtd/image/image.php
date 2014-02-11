@@ -27,13 +27,13 @@ class PlgButtonImage extends JPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 * Display the button
+	 * Display the button.
 	 *
-	 * @param   string  $name  The name of the button to display
-	 * @param   string  $asset
-	 * @param   string  $author
+	 * @param   string   $name    The name of the button to display.
+	 * @param   string   $asset   The name of the asset being edited.
+	 * @param   integer  $author  The id of the author owning the asset being edited.
 	 *
-	 * @return array A two element array of (imageName, textToInsert)
+	 * @return  array    A two element array of (imageName, textToInsert) or false if not authorised.
 	 */
 	public function onDisplay($name, $asset, $author)
 	{

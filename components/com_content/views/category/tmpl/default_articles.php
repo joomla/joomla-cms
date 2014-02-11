@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 JHtml::_('behavior.framework');
 
@@ -19,8 +19,9 @@ $n			= count($this->items);
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 
-// check for at least one editable article
+// Check for at least one editable article
 $isEditable = false;
+
 if (!empty($this->items))
 {
 	foreach ($this->items as $article)
@@ -135,6 +136,16 @@ if (!empty($this->items))
 								<?php echo JText::_('JUNPUBLISHED'); ?>
 							</span>
 						<?php endif; ?>
+						<?php if (strtotime($article->publish_up) > strtotime(JFactory::getDate())) : ?>
+							<span class="list-published label label-warning">
+								<?php echo JText::_('JNOTPUBLISHEDYET'); ?>
+							</span>
+						<?php endif; ?>
+						<?php if ((strtotime($article->publish_down) < strtotime(JFactory::getDate())) && $article->publish_down != '0000-00-00 00:00:00') : ?>
+							<span class="list-published label label-warning">
+								<?php echo JText::_('JEXPIRED'); ?>
+							</span>
+						<?php endif; ?>
 					</td>
 					<?php if ($this->params->get('list_show_date')) : ?>
 						<td headers="categorylist_header_date" class="list-date small">
@@ -150,15 +161,9 @@ if (!empty($this->items))
 							<?php if (!empty($article->author) || !empty($article->created_by_alias)) : ?>
 								<?php $author = $article->author ?>
 								<?php $author = ($article->created_by_alias ? $article->created_by_alias : $author);?>
-
-								<?php if (!empty($article->contactid ) &&  $this->params->get('link_author') == true):?>
-									<?php echo JHtml::_(
-											'link',
-											JRoute::_('index.php?option=com_contact&view=contact&id='.$article->contactid),
-											$author
-									); ?>
-
-								<?php else :?>
+								<?php if (!empty($article->contact_link) && $this->params->get('link_author') == true) : ?>
+									<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $article->contact_link, $author)); ?>
+								<?php else: ?>
 									<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
 								<?php endif; ?>
 							<?php endif; ?>

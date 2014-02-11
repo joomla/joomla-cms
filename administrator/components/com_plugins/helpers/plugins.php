@@ -34,19 +34,16 @@ class PluginsHelper
 	 * Gets a list of the actions that can be performed.
 	 *
 	 * @return  JObject
+	 *
+	 * @deprecated  3.2  Use JHelperContent::getActions() instead
 	 */
 	public static function getActions()
 	{
-		$user = JFactory::getUser();
-		$result = new JObject;
-		$assetName = 'com_plugins';
+		// Log usage of deprecated function
+		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
 
-		$actions = JAccess::getActions($assetName);
-
-		foreach ($actions as $action)
-		{
-			$result->set($action->name, $user->authorise($action->name, $assetName));
-		}
+		// Get list of actions
+		$result = JHelperContent::getActions('com_plugins');
 
 		return $result;
 	}

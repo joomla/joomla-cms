@@ -43,18 +43,16 @@ class TemplatesHelper
 	 * Gets a list of the actions that can be performed.
 	 *
 	 * @return  JObject
+	 *
+	 * @deprecated  3.2  Use JHelperContent::getActions() instead
 	 */
 	public static function getActions()
 	{
-		$user = JFactory::getUser();
-		$result = new JObject;
+		// Log usage of deprecated function
+		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
 
-		$actions = JAccess::getActions('com_templates');
-
-		foreach ($actions as $action)
-		{
-			$result->set($action->name, $user->authorise($action->name, 'com_templates'));
-		}
+		// Get list of actions
+		$result = JHelperContent::getActions('com_templates');
 
 		return $result;
 	}

@@ -38,6 +38,7 @@ class UsersViewUsers extends JViewLegacy
 		$this->state		= $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
+		$this->canDo		= JHelperContent::getActions('com_users');
 
 		UsersHelper::addSubmenu('users');
 
@@ -66,7 +67,7 @@ class UsersViewUsers extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo	= UsersHelper::getActions();
+		$canDo	= $this->canDo;
 		$user 	= JFactory::getUser();
 
 		// Get the toolbar object instance

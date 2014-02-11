@@ -29,7 +29,7 @@ class BannersController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		require_once JPATH_COMPONENT.'/helpers/banners.php';
+		require_once JPATH_COMPONENT . '/helpers/banners.php';
 		BannersHelper::updateReset();
 
 		$view   = $this->input->get('view', 'banners');
@@ -37,7 +37,8 @@ class BannersController extends JControllerLegacy
 		$id     = $this->input->getInt('id');
 
 		// Check for edit form.
-		if ($view == 'banner' && $layout == 'edit' && !$this->checkEditId('com_banners.edit.banner', $id)) {
+		if ($view == 'banner' && $layout == 'edit' && !$this->checkEditId('com_banners.edit.banner', $id))
+		{
 
 			// Somehow the person just went to the form - we don't allow that.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
@@ -46,7 +47,8 @@ class BannersController extends JControllerLegacy
 
 			return false;
 		}
-		elseif ($view == 'client' && $layout == 'edit' && !$this->checkEditId('com_banners.edit.client', $id)) {
+		elseif ($view == 'client' && $layout == 'edit' && !$this->checkEditId('com_banners.edit.client', $id))
+		{
 
 			// Somehow the person just went to the form - we don't allow that.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));

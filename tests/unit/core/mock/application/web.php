@@ -12,7 +12,7 @@
  * @package  Joomla.Test
  * @since    12.1
  */
-class TestMockApplicationWeb
+class TestMockApplicationWeb extends TestMockApplicationBase
 {
 	/**
 	 * Mock storage for the response body.

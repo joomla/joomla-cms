@@ -25,7 +25,8 @@ $assoc = JLanguageAssociations::isEnabled();
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'category.cancel' || document.formvalidator.isValid(document.id('item-form'))) {
+		if (task == 'category.cancel' || document.formvalidator.isValid(document.id('item-form')))
+		{
 			<?php echo $this->form->getField('description')->save(); ?>
 			Joomla.submitform(task, document.getElementById('item-form'));
 		}
@@ -64,13 +65,13 @@ $assoc = JLanguageAssociations::isEnabled();
 
 		<?php if ($assoc) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'associations', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS', true)); ?>
-				<?php echo $this->loadTemplate('associations'); ?>
+			<?php echo $this->loadTemplate('associations'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 
 		<?php if ($this->canDo->get('core.admin')) : ?>
 			<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'rules', JText::_('COM_CATEGORIES_FIELDSET_RULES', true)); ?>
-				<?php echo $this->form->getInput('rules'); ?>
+			<?php echo $this->form->getInput('rules'); ?>
 			<?php echo JHtml::_('bootstrap.endTab'); ?>
 		<?php endif; ?>
 

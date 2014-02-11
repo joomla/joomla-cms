@@ -172,7 +172,7 @@ class TemplatesViewTemplate extends JViewLegacy
 	protected function addToolbar()
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
-		$canDo = TemplatesHelper::getActions();
+		$canDo = JHelperContent::getActions('com_templates');
 
 		if ($canDo->get('core.edit') && $canDo->get('core.create') && $canDo->get('core.admin'))
 		{

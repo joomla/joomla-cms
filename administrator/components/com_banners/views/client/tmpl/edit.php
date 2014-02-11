@@ -9,11 +9,9 @@
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
+JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 JHtml::_('behavior.formvalidation');
 JHtml::_('formbehavior.chosen', 'select');
-
-$canDo = JHelperContent::getActions(0, 0, 'com_banners');
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
@@ -25,7 +23,7 @@ $canDo = JHelperContent::getActions(0, 0, 'com_banners');
 	}
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=com_banners&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="client-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_banners&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="client-form" class="form-validate">
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
@@ -54,7 +52,7 @@ $canDo = JHelperContent::getActions(0, 0, 'com_banners');
 		<?php echo $this->form->getControlGroups('metadata'); ?>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
 
-	<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+		<?php echo JHtml::_('bootstrap.endTabSet'); ?>
 	</div>
 
 	<input type="hidden" name="task" value="" />
