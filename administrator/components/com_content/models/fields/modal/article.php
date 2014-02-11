@@ -94,7 +94,6 @@ class JFormFieldModal_Article extends JFormField
 			$link .= '&amp;forcedLanguage='.$this->element['language'];
 		}
 
-		$title = false;
 
 		if ((int) $this->value > 0)
 		{
