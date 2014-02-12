@@ -140,7 +140,7 @@ class JUcmType implements JUcm
 
 		$query->where($this->db->quoteName('ct.type_alias') . ' = ' . (string) $typeAlias);
 		$this->db->setQuery($query);
-		var_dump($query->dump());
+		print $query->dump();
 
 		$type = $this->db->loadObject();
 
