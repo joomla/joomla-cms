@@ -117,6 +117,7 @@ class JUcmType implements JUcm
 
 		$query->where($this->db->quoteName('ct.type_id') . ' = ' . (int) $pk);
 		$this->db->setQuery($query);
+		print_r($query->dump());
 
 		$type = $this->db->loadObject();
 
