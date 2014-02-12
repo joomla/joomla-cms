@@ -9,17 +9,23 @@
 
 defined('JPATH_BASE') or die;
 
+// Including fallback code for HTML5 non supported browsers.
+JHtml::_('jquery.framework');
+JHtml::_('script', 'system/html5fallback.js', false, true);
+
 $data = new JRegistry($displayData);
 
 // Always use the 'radio' class.
 $classes = $data->get('classes', array());
 $classes[] = 'radio';
 
-// The format of the input tag to be filled in using sprintf.
-//     %1 - id
-//     %2 - name
-//     %3 - value
-//     %4 = any other attributes
+/**
+ * The format of the input tag to be filled in using sprintf.
+ *     %1 - id
+ *     %2 - name
+ *     %3 - value
+ *     %4 = any other attributes
+ */
 $format = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s />';
 
 $id = $data->get('id', '');

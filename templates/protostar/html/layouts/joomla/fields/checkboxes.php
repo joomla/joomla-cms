@@ -10,16 +10,21 @@
 defined('JPATH_BASE') or die;
 
 $data = new JRegistry($displayData);
+$data = new JRegistry($displayData);
+
+$data = new JRegistry($displayData);
 
 // Always use the 'checkboxes' class.
 $classes = $data->get('classes', array());
 $classes[] = 'checkboxes';
 
-// The format of the input tag to be filled in using sprintf.
-//     %1 - id
-//     %2 - name
-//     %3 - value
-//     %4 = any other attributes
+/**
+ * The format of the input tag to be filled in using sprintf.
+ *     %1 - id
+ *     %2 - name
+ *     %3 - value
+ *     %4 = any other attributes
+ */
 $format = '<input type="checkbox" id="%1$s" name="%2$s" value="%3$s" %4$s />';
 
 $id = $data->get('id', '');

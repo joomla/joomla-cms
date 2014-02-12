@@ -126,10 +126,6 @@ class JFormFieldCheckboxes extends JFormField
 	{
 		$displayData = $this->getInputLayoutData();
 
-		// Including fallback code for HTML5 non supported browsers.
-		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/html5fallback.js', false, true);
-
 		return JLayoutHelper::render('joomla.fields.checkboxes', $displayData);
 	}
 
