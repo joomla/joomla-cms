@@ -1001,21 +1001,12 @@ class MenusModelItem extends JModelAdmin
 			$this->helpLocal = (($helpLoc == 'true') || ($helpLoc == '1') || ($helpLoc == 'local')) ? true : false;
 		}
 
-		// Now load the component params.
-		// TODO: Work out why 'fixing' this breaks JForm
-		if ($isNew = false)
-		{
-			$path = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $option . '/config.xml');
-		}
-		else
-		{
-			$path = 'null';
-		}
+		$path = JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $option . '/config.xml');
 
 		if (is_file($path))
 		{
 			// Add the component params last of all to the existing form.
-			if (!$form->load($path, true, '/config'))
+			if (!$form->loadFile($path, true, '/config'))
 			{
 				throw new Exception(JText::_('JERROR_LOADFILE_FAILED'));
 			}
