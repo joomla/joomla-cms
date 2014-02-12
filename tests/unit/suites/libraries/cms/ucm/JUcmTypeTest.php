@@ -118,8 +118,6 @@ class JUcmTypeTest extends TestCaseDatabase
 	 */
 	public function testGetTypeByAlias()
 	{
-		$this->markTestSkipped('The alias column is being casted to integer at present...');
-
 		$this->assertEquals(
 			1,
 			$this->object->getTypeByAlias('com_content.article')->type_id,
