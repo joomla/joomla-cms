@@ -355,6 +355,17 @@ class JText
 		{
 			// Normalize the key and translate the string.
 			self::$strings[strtoupper($string)] = JFactory::getLanguage()->_($string, $jsSafe, $interpretBackSlashes);
+			
+			// Load core.js dependence
+			
+			// Remove as soon as core.js is rewritten to jQuery
+			// https://github.com/joomla/joomla-cms/pull/2687
+			// https://github.com/joomla/joomla-cms/pull/3047
+			JHtml::_('behavior.framework');
+			JHtml::_('script', 'system/core.js', false, true);
+			
+			/* Uncomment as soon as core.js is rewritten to jQuery
+			JHtml::_('behavior.core'); */
 		}
 
 		return self::$strings;
