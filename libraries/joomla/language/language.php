@@ -724,23 +724,24 @@ class JLanguage
 	 */
 	public function load($extension = 'joomla', $basePath = JPATH_BASE, $lang = null, $reload = false, $default = true, $loadGB = true)
 	{
-		// Load the en-GB language first if we're not debugging and a non-en-GB language is requested to be loaded
-		// with $loadGB set to true
-		if ($loadGB && $lang != 'en-GB' && !$this->debug)
-		{
-			$this->load($extension, $basePath, 'en-GB', false, false, false);
-		}
-
-		// Load the default language first if we're not debugging and a non-default language is requested to be loaded
-		// with $default set to true
-		if ($default && $lang != $this->default && !($loadGB && 'en-GB' == $this->default) && !$this->debug)
-		{
-			$this->load($extension, $basePath, $this->default, false, true);
-		}
-
 		if (!$lang)
 		{
 			$lang = $this->lang;
+		}
+
+		if(!$this->debug)
+		{
+			// Load the en-GB language first if a non-en-GB language is requested to be loaded with $loadGB set to true
+			if ($loadGB && $lang != 'en-GB')
+			{
+				$this->load($extension, $basePath, 'en-GB', false, false, false);
+			}
+
+			// Load the default language first if a non-default language is requested to be loaded with $default set to true
+			if ($default && $lang != $this->default && !($loadGB && 'en-GB' == $this->default))
+			{
+				$this->load($extension, $basePath, $this->default, false, true);
+			}
 		}
 
 		$path = self::getLanguagePath($basePath, $lang);
