@@ -243,6 +243,56 @@ class JApplicationCms extends JApplicationWeb
 	}
 
 	/**
+	 * Clear the system message queue.
+	 *
+	 * @param   array  $type  The message types to clear. Default is empty (= all).
+	 *
+	 * @return  void
+	 *
+	 * @since   3.3
+	 */
+	public function clearMessageQueue($types = array())
+	{
+		// For empty queue, if messages exists in the session, enqueue them first.
+		if (!count($this->_messageQueue))
+		{
+			$sessionQueue = JFactory::getSession()->get('application.queue');
+
+			if (count($sessionQueue))
+			{
+				$this->_messageQueue = $sessionQueue;
+			}
+		}
+
+		// Empty the session message queue
+		JFactory::getSession()->set('application.queue', null);
+
+		// Make sure $types is an array
+		if (!is_array($types))
+		{
+			$types = array($types);
+		}
+
+		// if no types are given, or the $types array contains 'all', clear entire message queue
+		if (empty($types) || in_array('all', $types))
+		{
+			$this->_messageQueue = array();
+			return;
+		}
+
+		// Clear all messages of the given types
+		foreach ($this->_messageQueue as $i => $msg)
+		{
+			// Check if the message type is set and if it is present in the $types array
+			// Also check for the type plus an 's'. In case the $types array contains 'messages' instead of 'message', etc.
+			if (isset($msg['type']) && (in_array($msg['type'], $types) || in_array($msg['type'] . 's', $types)))
+			{
+				unset($this->_messageQueue[$i]);
+			}
+		}
+	}
+
+	/**
 	 * Execute the application.
 	 *
 	 * @return  void
