@@ -105,13 +105,13 @@ class InstallerModelWarnings extends JModelList
 		}
 
 		$memory_limit = $this->return_bytes(ini_get('memory_limit'));
-		if ($memory_limit < (8 * 1024 * 1024))
+		if ($memory_limit < (8 * 1024 * 1024) && $memory_limit != -1)
 		{
 			// 8MB
 			$messages[] = array('message' => JText::_('COM_INSTALLER_MSG_WARNINGS_LOWMEMORYWARN'),
 					'description' => JText::_('COM_INSTALLER_MSG_WARNINGS_LOWMEMORYDESC'));
 		}
-		elseif ($memory_limit < (16 * 1024 * 1024))
+		elseif ($memory_limit < (16 * 1024 * 1024) && $memory_limit != -1)
 		{
 			// 16MB
 			$messages[] = array('message' => JText::_('COM_INSTALLER_MSG_WARNINGS_MEDMEMORYWARN'),
