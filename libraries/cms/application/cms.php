@@ -226,17 +226,7 @@ class JApplicationCms extends JApplicationWeb
 	public function enqueueMessage($msg, $type = 'message')
 	{
 		// For empty queue, if messages exists in the session, enqueue them first.
-		if (!count($this->_messageQueue))
-		{
-			$session = JFactory::getSession();
-			$sessionQueue = $session->get('application.queue');
-
-			if (count($sessionQueue))
-			{
-				$this->_messageQueue = $sessionQueue;
-				$session->set('application.queue', null);
-			}
-		}
+		$this->getMessageQueue();
 
 		// Enqueue the message.
 		$this->_messageQueue[] = array('message' => $msg, 'type' => strtolower($type));
@@ -253,19 +243,8 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	public function clearMessageQueue($types = array())
 	{
-		// For empty queue, if messages exists in the session, enqueue them first.
-		if (!count($this->_messageQueue))
-		{
-			$sessionQueue = JFactory::getSession()->get('application.queue');
-
-			if (count($sessionQueue))
-			{
-				$this->_messageQueue = $sessionQueue;
-			}
-		}
-
-		// Empty the session message queue
-		JFactory::getSession()->set('application.queue', null);
+		// Run getMessageQueue to place the session queue in the message queue
+		$this->getMessageQueue();
 
 		// Make sure $types is an array
 		if (!is_array($types))
@@ -426,15 +405,16 @@ class JApplicationCms extends JApplicationWeb
 		// For empty queue, if messages exists in the session, enqueue them.
 		if (!count($this->_messageQueue))
 		{
-			$session = JFactory::getSession();
-			$sessionQueue = $session->get('application.queue');
+			$sessionQueue = JFactory::getSession()->get('application.queue');
 
 			if (count($sessionQueue))
 			{
 				$this->_messageQueue = $sessionQueue;
-				$session->set('application.queue', null);
 			}
 		}
+
+		// Make sure the session message queue is unset
+		JFactory::getSession()->set('application.queue', null);
 
 		return $this->_messageQueue;
 	}
