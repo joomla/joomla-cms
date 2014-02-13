@@ -716,23 +716,32 @@ class JLanguage
 	 * @param   string   $lang       The language to load, default null for the current language.
 	 * @param   boolean  $reload     Flag that will force a language to be reloaded if set to true.
 	 * @param   boolean  $default    Flag that force the default language to be loaded if the current does not exist.
+	 * @param   boolean  $loadGB     Flag that force the en-GB language to be loaded first.
 	 *
 	 * @return  boolean  True if the file has successfully loaded.
 	 *
 	 * @since   11.1
 	 */
-	public function load($extension = 'joomla', $basePath = JPATH_BASE, $lang = null, $reload = false, $default = true)
+	public function load($extension = 'joomla', $basePath = JPATH_BASE, $lang = null, $reload = false, $default = true, $loadGB = true)
 	{
-		// Load the default language first if we're not debugging and a non-default language is requested to be loaded
-		// with $default set to true
-		if (!$this->debug && ($lang != $this->default) && $default)
-		{
-			$this->load($extension, $basePath, $this->default, false, true);
-		}
-
 		if (!$lang)
 		{
 			$lang = $this->lang;
+		}
+
+		if(!$this->debug)
+		{
+			// Load the en-GB language first if a non-en-GB language is requested to be loaded with $loadGB set to true
+			if ($loadGB && $lang != 'en-GB')
+			{
+				$this->load($extension, $basePath, 'en-GB', false, false, false);
+			}
+
+			// Load the default language first if a non-default language is requested to be loaded with $default set to true
+			if ($default && $lang != $this->default && !($loadGB && 'en-GB' == $this->default))
+			{
+				$this->load($extension, $basePath, $this->default, false, true);
+			}
 		}
 
 		$path = self::getLanguagePath($basePath, $lang);
