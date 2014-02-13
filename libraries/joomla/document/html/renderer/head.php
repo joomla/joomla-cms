@@ -219,18 +219,9 @@ class JDocumentRendererHead extends JDocumentRenderer
 		// Generate script language declarations.
 		if (count(JText::script()))
 		{
-			JHtml::_('script', 'system/core.js', false, true);
-			
 			$buffer .= $tab . '<script type="text/javascript">' . $lnEnd;
 			$buffer .= $tab . $tab . '(function() {' . $lnEnd;
-			$buffer .= $tab . $tab . $tab . 'var strings = ' . json_encode(JText::script()) . ';' . $lnEnd;
-			$buffer .= $tab . $tab . $tab . 'if (typeof Joomla == \'undefined\') {' . $lnEnd;
-			$buffer .= $tab . $tab . $tab . $tab . 'Joomla = {};' . $lnEnd;
-			$buffer .= $tab . $tab . $tab . $tab . 'Joomla.JText = strings;' . $lnEnd;
-			$buffer .= $tab . $tab . $tab . '}' . $lnEnd;
-			$buffer .= $tab . $tab . $tab . 'else {' . $lnEnd;
-			$buffer .= $tab . $tab . $tab . $tab . 'Joomla.JText.load(strings);' . $lnEnd;
-			$buffer .= $tab . $tab . $tab . '}' . $lnEnd;
+			$buffer .= $tab . $tab . $tab . 'Joomla.JText.load(' . json_encode(JText::script()) . ');' . $lnEnd;
 			$buffer .= $tab . $tab . '})();' . $lnEnd;
 			$buffer .= $tab . '</script>' . $lnEnd;
 		}
