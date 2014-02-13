@@ -441,12 +441,14 @@ class ContentModelArticles extends JModelList
 			$query->where($authorWhere . $authorAliasWhere);
 		}
 
-		// Filter by start and end dates.
-		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content'))) {
-			$nullDate	= $db->quote($db->getNullDate());
-			$nowDate	= $db->quote(JFactory::getDate()->toSql());
+		// Define null and now dates
+		$nullDate	= $db->quote($db->getNullDate());
+		$nowDate	= $db->quote(JFactory::getDate()->toSql());
 
-			$query->where('(a.publish_up = '.$nullDate.' OR a.publish_up <= '.$nowDate.')')
+		// Filter by start and end dates.
+		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
+		{
+			$query	->where('(a.publish_up = '.$nullDate.' OR a.publish_up <= '.$nowDate.')')
 				->where('(a.publish_down = '.$nullDate.' OR a.publish_down >= '.$nowDate.')');
 		}
 
