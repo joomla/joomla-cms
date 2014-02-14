@@ -33,12 +33,13 @@ abstract class JHtmlBehavior
 	 *
 	 * @param   boolean  $extras  Flag to determine whether to load MooTools More in addition to Core
 	 * @param   mixed    $debug   Is debugging mode on? [optional]
+         * @param   mixed   $useCdn   Is content delivery networks utilized [optional]
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	public static function framework($extras = false, $debug = null)
+	public static function framework($extras = false, $debug = null,$useCdn = null)
 	{
 		$type = $extras ? 'more' : 'core';
 
@@ -53,13 +54,37 @@ abstract class JHtmlBehavior
 		{
 			$config = JFactory::getConfig();
 			$debug = $config->get('debug');
+                        if($useCdn === null)
+                        {
+                            $useCdn = (boolean) $config->get('useCdn');
+                        }
 		}
-
+                if($useCdn === null || $useCdn === true)
+                {
+                    $config = JFactory::getConfig();
+                    if($useCdn === null)
+                        {
+                            $useCdn = (boolean) $config->get('useCdn');
+                        }
+                     if($useCdn)
+                    {
+                        $cdnMTUri = (strlen($config->get('cdnMTUri'))>0 ? $config->get('cdnMTUri'): null);
+                        if($debug)
+                        {
+                        $cdnMTUri = (strlen($config->get('cdnMTUriD'))>0 ? $config->get('cdnMTUriD'):$cdnMTUri);
+                        }
+                     }
+                }
 		if ($type != 'core' && empty(static::$loaded[__METHOD__]['core']))
 		{
 			static::framework(false, $debug);
 		}
-
+                if($useCdn && $cdnMTUri !== null)
+                {
+                    JFactory::getDocument()->addScript($cdnMTUri); 
+                }
+                    
+                
 		JHtml::_('script', 'system/mootools-' . $type . '.js', false, true, false, false, $debug);
 		JHtml::_('script', 'system/core.js', false, true);
 		static::$loaded[__METHOD__][$type] = true;

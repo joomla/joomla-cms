@@ -423,6 +423,75 @@
 		</field>
 
 	</fieldset>
+        <fieldset
+                name="cdn"
+                label="CONFIG_CDN_SETTINGS_LABEL">
+            <field 
+                    name="useCdn"
+                    type="radio"
+                    class="btn-group btn-group-yesno"
+                    default="0"
+                    label="COM_CONFIG_FIELD_CDN_LABEL"
+                    description="COM_CONFIG_FIELD_CDN_DESC"
+                    filter="integer">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+            </field>
+            <field 
+                    name="cdnjQUri"
+                    type="text"
+                    label="COM_CONFIG_FIELD_CDN_JQUERYURI_LABEL"
+                    description="COM_CONFIG_FIELD_CDN_JQUERYURI_DESC"
+                    filter="string"
+                    size="50"
+                    showon="useCdn:1">
+            </field>
+            <field 
+                    name="cdnjQUriD"
+                    type="text"
+                    label="COM_CONFIG_FIELD_CDN_JQUERYURID_LABEL"
+                    description="COM_CONFIG_FIELD_CDN_JQUERYURID_DESC"
+                    filter="string"
+                    size="50"
+                    showon="useCdn:1">
+            </field>
+            <field 
+                    name="cdnjQMigrateUri"
+                    type="text"
+                    label="COM_CONFIG_FIELD_CDN_JQMIGRATEURI_LABEL"
+                    description="COM_CONFIG_FIELD_CDN_JQMIGRATEURI_DESC"
+                    filter="string"
+                    showon="useCdn:1"
+                    size="50">
+            </field>
+            <field 
+                    name="cdnjQMigrateUriD"
+                    type="text"
+                    label="COM_CONFIG_FIELD_CDN_JQMIGRATEURID_LABEL"
+                    description="COM_CONFIG_FIELD_CDN_JQMIGRATEURID_DESC"
+                    filter="string"
+                    showon="useCdn:1"
+                    size="50" >
+            </field>
+            <field 
+                    name="cdnMTUri"
+                    type="text"
+                    label="COM_CONFIG_FIELD_CDN_MOOTOOLSURI_LABEL"
+                    description="COM_CONFIG_FIELD_CDN_MOOTOOLSURI_DESC"
+                    filter="string"
+                    showon="useCdn:1"
+                    size="50">
+            </field>
+            <field 
+                    name="cdnMTUriD"
+                    type="text"
+                    label="COM_CONFIG_FIELD_CDN_MOOTOOLSURID_LABEL"
+                    description="COM_CONFIG_FIELD_CDN_MOOTOOLSURI_DESC"
+                    filter="string"
+                    showon="useCdn:1"
+                    size="50" >
+            </field>
+        </fieldset>
 
 	<fieldset
 		name="seo"
