@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,11 +48,13 @@ if ($currentPage >= $step)
 ?>
 
 <div class="pagination pagination-toolbar clearfix" style="text-align: center;">
+
 	<?php if ($showLimitBox) : ?>
 		<div class="limit pull-right">
 			<?php echo JText::_('JGLOBAL_DISPLAY_NUM') . $list['limitfield']; ?>
 		</div>
 	<?php endif; ?>
+
 	<?php if ($showPagesLinks && (!empty($pages))) : ?>
 		<ul class="pagination-list">
 			<?php
@@ -74,7 +76,9 @@ if ($currentPage >= $step)
 				echo JLayoutHelper::render('joomla.pagination.link', $pages['end']); ?>
 		</ul>
 	<?php endif; ?>
+
 	<?php if ($showLimitStart) : ?>
 		<input type="hidden" name="<?php echo $list['prefix']; ?>limitstart" value="<?php echo $list['limitstart']; ?>" />
 	<?php endif; ?>
+
 </div>

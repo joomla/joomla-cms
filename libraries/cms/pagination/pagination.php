@@ -422,7 +422,7 @@ class JPagination
 	 *
 	 * @return  string  Pagination links.
 	 *
-	 * @since   3.2
+	 * @since   3.3
 	 */
 	public function getPaginationLinks($layoutId = 'joomla.pagination.links', $options = array())
 	{
@@ -449,7 +449,7 @@ class JPagination
 	 *
 	 * @return  string  Pagination page list string.
 	 *
-	 * @since   3.2
+	 * @since   3.3
 	 */
 	public function getPaginationPages()
 	{
