@@ -37,7 +37,7 @@ abstract class JHtmlJquery
 	 *
 	 * @since   3.0
 	 */
-	public static function framework($noConflict = true, $debug = null, $migrate = true,$useCdn = null)
+	public static function framework($noConflict = true, $debug = null, $migrate = true, $useCdn = null)
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__]))

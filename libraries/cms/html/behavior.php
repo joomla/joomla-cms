@@ -39,7 +39,7 @@ abstract class JHtmlBehavior
 	 *
 	 * @since   1.6
 	 */
-	public static function framework($extras = false, $debug = null,$useCdn = null)
+	public static function framework($extras = false, $debug = null, $useCdn = null)
 	{
 		$type = $extras ? 'more' : 'core';
 
