@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  HTML
+ * @package    Joomla.Libraries
+ * @subpackage HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -12,33 +12,33 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Utility class for JavaScript behaviors
  *
- * @package     Joomla.Libraries
- * @subpackage  HTML
- * @since       1.5
+ * @package    Joomla.Libraries
+ * @subpackage HTML
+ * @since      1.5
  */
 abstract class JHtmlBehavior
 {
-	/**
-	 * Array containing information for loaded files
-	 *
-	 * @var    array
-	 * @since  2.5
-	 */
+        /**
+        * Array containing information for loaded files
+        *
+        * @var    array
+        * @since  2.5
+        */
 	protected static $loaded = array();
 
 	/**
-	 * Method to load the MooTools framework into the document head
-	 *
-	 * If debugging mode is on an uncompressed version of MooTools is included for easier debugging.
-	 *
-	 * @param   boolean  $extras  Flag to determine whether to load MooTools More in addition to Core
-	 * @param   mixed    $debug   Is debugging mode on? [optional]
-         * @param   mixed   $useCdn   Is content delivery networks utilized [optional]
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
+        * Method to load the MooTools framework into the document head
+        *
+        * If debugging mode is on an uncompressed version of MooTools is included for easier debugging.
+        *
+        * @param   boolean  $extras  Flag to determine whether to load MooTools More in addition to Core
+        * @param   mixed    $debug   Is debugging mode on? [optional]
+        * @param   mixed   $useCdn   Is content delivery networks utilized [optional]
+        *
+        * @return  void
+        *
+        * @since   1.6
+        */
 	public static function framework($extras = false, $debug = null, $useCdn = null)
 	{
 		$type = $extras ? 'more' : 'core';
@@ -83,9 +83,11 @@ abstract class JHtmlBehavior
                 {
                     JFactory::getDocument()->addScript($cdnMTUri); 
                 }
-                    
-                
-		JHtml::_('script', 'system/mootools-' . $type . '.js', false, true, false, false, $debug);
+                else
+                {
+                    JHtml::_('script', 'system/mootools-' . $type . '.js', false, true, false, false, $debug);
+                }              
+
 		JHtml::_('script', 'system/core.js', false, true);
 		static::$loaded[__METHOD__][$type] = true;
 
