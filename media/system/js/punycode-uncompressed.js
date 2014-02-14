@@ -489,7 +489,7 @@
 		typeof define.amd == 'object' &&
 		define.amd
 	) {
-		define(function() {
+		define('punycode', function() {
 			return punycode;
 		});
 	}	else if (freeExports && !freeExports.nodeType) {
