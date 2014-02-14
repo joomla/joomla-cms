@@ -1,4 +1,4 @@
-/*! http://mths.be/punycode v1.2.3 by @mathias */
+/*! http://mths.be/punycode v1.2.3 (C) by @mathias | MIT License */
 ;(function(root) {
 
 	/** Detect free variables */
