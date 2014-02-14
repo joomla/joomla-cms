@@ -105,6 +105,12 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	protected $callStacks = array();
 
 	/**
+	 * @var    array  The log of connection info of executed SQL statements.
+	 * @since  CMS 3.3.0
+	 */
+	protected $connectionInfo = array();
+
+	/**
 	 * @var    string  The character(s) used to quote SQL statement names such as table names or field names,
 	 *                 etc.  The child classes should define this as necessary.  If a single character string the
 	 *                 same character is used for both sides of the quoted name, else the first character will be
@@ -702,6 +708,18 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	public function getCallStacks()
 	{
 		return $this->callStacks;
+	}
+
+	/**
+	 * Get the database driver SQL connection info log.
+	 *
+	 * @return  array  connection info of SQL statements executed by the database driver
+	 *
+	 * @since   CMS 3.3.0
+	 */
+	public function getConnectionInfo()
+	{
+		return $this->connectionInfo;
 	}
 
 	/**

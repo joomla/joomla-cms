@@ -664,6 +664,7 @@ class PlgSystemDebug extends JPlugin
 
 		$timings = $db->getTimings();
 		$callStacks = $db->getCallStacks();
+		$connectionInfo = $db->getConnectionInfo();
 
 		$db->setDebug(false);
 
@@ -988,6 +989,20 @@ class PlgSystemDebug extends JPlugin
 					}
 				}
 
+				// Connection info
+
+				if (isset($connectionInfo[$id]))
+				{
+					$htmlConnectionInfoElements = array();
+
+					foreach ($connectionInfo[$id] as $infoLabel => $infoValue)
+					{
+						$htmlConnectionInfoElements[] = $infoLabel . ": " . $infoValue;
+					}
+
+					$htmlConnectionInfo = '<div class="dbg-query-table"><div>' . implode('</div><div>', $htmlConnectionInfoElements) . '</div></div>';
+				}
+
 				$htmlAccordions = JHtml::_(
 					'bootstrap.startAccordion', 'dbg_query_' . $id, array(
 						'active' => ($info[$id]->hasWarnings ? ('dbg_query_explain_' . $id) : '')
@@ -1006,6 +1021,13 @@ class PlgSystemDebug extends JPlugin
 				{
 					$htmlAccordions .= JHtml::_('bootstrap.addSlide', 'dbg_query_' . $id, JText::_('PLG_DEBUG_CALL_STACK'), 'dbg_query_callstack_' . $id)
 						. $htmlCallStack
+						. JHtml::_('bootstrap.endSlide');
+				}
+
+				if ($htmlConnectionInfo)
+				{
+					$htmlAccordions .= JHtml::_('bootstrap.addSlide', 'dbg_query_' . $id, JText::_('PLG_DEBUG_CONNECTION_INFO'), 'dbg_query_connectioninfo_' . $id)
+						. $htmlConnectionInfo
 						. JHtml::_('bootstrap.endSlide');
 				}
 

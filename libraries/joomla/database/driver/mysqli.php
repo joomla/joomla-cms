@@ -553,6 +553,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 				// Avoid warning if result already freed by third-party library
 				@$this->freeResult();
 			}
+
 			$memoryBefore = memory_get_usage();
 		}
 
@@ -562,6 +563,12 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		if ($this->debug)
 		{
 			$this->timings[] = microtime(true);
+
+			if (function_exists("mysqli_fetch_all") && function_exists("mysqlnd_ms_get_last_used_connection"))
+			{
+				$this->connectionInfo[] = mysqlnd_ms_get_last_used_connection($this->connection);
+			}
+
 			if (defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
 			{
 				$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
