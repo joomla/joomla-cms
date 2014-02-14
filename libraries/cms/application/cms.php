@@ -225,7 +225,7 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	public function enqueueMessage($msg, $type = 'message')
 	{
- +		// Run getMessageQueue to place the session queue in the message queue.
+ 		// Run getMessageQueue to place the session queue in the message queue.
 		$this->getMessageQueue();
 
 		// Enqueue the message.
