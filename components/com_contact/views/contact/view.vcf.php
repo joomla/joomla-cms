@@ -19,8 +19,11 @@ class ContactViewContact extends JViewLegacy
 
 	protected $item;
 
-	public function display()
+	public function display($tpl = null)
 	{
+		// Initialise application
+		$app = JFactory::getApplication();
+		
 		// Get model data.
 		$item = $this->get('Item');
 
