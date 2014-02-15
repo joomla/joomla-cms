@@ -53,22 +53,22 @@ abstract class JHtmlJquery
 			$debug = (boolean) $config->get('debug');
 
 			// Check if CDN us null now to avoid a second call to the configuration later if CDN is false
-			if($useCdn === null)
+			if ($useCdn === null)
 			{
 				$useCdn = (boolean) $config->get('useCdn');
 			}
 		}
 		// Now check CDN again in case debug was not null and also if it was true - we need the CDN parameters now to process.
-		if($useCdn === null || $useCdn === true)
+		if ($useCdn === null || $useCdn === true)
 		{
 			$config = JFactory::getConfig();
 
-			if($useCdn === null)
+			if ($useCdn === null)
 			{
 				$useCdn = (boolean) $config->get('useCdn');
 			}
 			// Here we have confirmed useCDN is true so we pull the CDN params if they are empty declare them as null
-			if($useCdn)
+			if ($useCdn)
 			{
 				$cdnjQUri = (strlen($config->get('cdnjQUri')) > 0 ? $config->get('cdnjQUri'): null);
 				$cdnjQMigrateUri = (strlen($config->get('cdnjQMigrateUri')) > 0 ? $config->get('cdnjQMigrateUri'): null);
@@ -99,7 +99,7 @@ abstract class JHtmlJquery
 		// Check if we are loading Migrate
 		if ($migrate)
 		{
-			if($useCdn && $cdnjQMigrateUri != null )
+			if ($useCdn && $cdnjQMigrateUri != null )
 			{
 				JFactory::getDocument()->addScript($cdnjQMigrateUri);
 			}
