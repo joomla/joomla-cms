@@ -2274,7 +2274,7 @@ table.adminlist .pagination button {
 	margin-right: 20px;
 }
 div.toggle-editor {
-	margin-top: 27px;
+	margin-top: 9px;
 }
 .tip {
 	float: left;
@@ -3644,4 +3644,16 @@ th .tooltip-inner {
 fieldset.panelform .tooltip img {
 	float: none;
 	margin: 0;
+}
+div.toggle-editor {
+	float: right;
+}
+.text-left {
+	text-align: left;
+}
+.text-right {
+	text-align: right;
+}
+.text-center {
+	text-align: center;
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -216,6 +216,7 @@ class JInstallerAdapterPackage extends JAdapterInstance
 					// If it's an archive
 					$package = JInstallerHelper::unpack($file);
 				}
+
 				$tmpInstaller = new JInstaller;
 				$installResult = $tmpInstaller->{$this->route}($package['dir']);
 
@@ -237,6 +238,7 @@ class JInstallerAdapterPackage extends JAdapterInstance
 						'result' => $installResult
 					);
 				}
+
 				$i++;
 			}
 		}
@@ -372,6 +374,7 @@ class JInstallerAdapterPackage extends JAdapterInstance
 		{
 			$this->parent->set('extension_message', $msg);
 		}
+
 		return $row->extension_id;
 	}
 
@@ -428,7 +431,6 @@ class JInstallerAdapterPackage extends JAdapterInstance
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_MISSINGMANIFEST'), JLog::WARNING, 'jerror');
 
 			return false;
-
 		}
 
 		$xml = simplexml_load_file($manifestFile);
@@ -528,6 +530,7 @@ class JInstallerAdapterPackage extends JAdapterInstance
 			{
 				JFolder::delete($folder);
 			}
+
 			$row->delete();
 		}
 		else

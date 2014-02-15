@@ -11,7 +11,7 @@ use SeleniumClient\WebElement;
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -83,12 +83,13 @@ class BannerManagerPage extends AdminManagerPage
 	 *
 	 * @return  BannerManagerPage
 	 */
-	public function addBanner($name='Test Banner', $fields)
+	public function addBanner($name='Test Banner', $fields = null)
 	{
 		$this->clickButton('toolbar-new');
 		$bannerEditPage = $this->test->getPageObject('BannerEditPage');
 		$bannerEditPage->setFieldValues(array('Name' => $name));
-		if($fields) {
+		if ($fields)
+		{
 			$bannerEditPage->setFieldValues($fields);
 		}
 		$bannerEditPage->clickButton('toolbar-save');

@@ -104,8 +104,8 @@ class ConfigModelComponent extends ConfigModelForm
 
 		// Load common and local language files.
 		$lang = JFactory::getLanguage();
-			$lang->load($option, JPATH_BASE, null, false, true)
-		||	$lang->load($option, JPATH_BASE . "/components/$option", null, false, true);
+		$lang->load($option, JPATH_BASE, null, false, true)
+		|| $lang->load($option, JPATH_BASE . "/components/$option", null, false, true);
 
 		$result = JComponentHelper::getComponent($option);
 
@@ -180,7 +180,8 @@ class ConfigModelComponent extends ConfigModelForm
 		}
 
 		// Clean the component cache.
-		$this->cleanCache('_system');
+		$this->cleanCache('_system', 0);
+		$this->cleanCache('_system', 1);
 
 		return true;
 	}

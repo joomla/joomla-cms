@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,7 +45,7 @@ class ContentViewArticle extends JViewLegacy
 		$this->form		= $this->get('Form');
 		$this->item		= $this->get('Item');
 		$this->state	= $this->get('State');
-		$this->canDo	= JHelperContent::getActions($this->state->get('filter.category_id'), 0, 'com_content');
+		$this->canDo	= JHelperContent::getActions('com_content', 'article', $this->item->id);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Router
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -284,6 +284,7 @@ class JRouterSite extends JRouter
 							$found = $item;
 							break;
 						}
+
 						// Partial route match. Item with highest level takes priority.
 						if (!$found || $found->level < $item->level)
 						{
@@ -291,18 +292,20 @@ class JRouterSite extends JRouter
 						}
 					}
 					// Multilingual site.
-					else if ($item->language == '*' || $item->language == $lang_tag)
+					elseif ($item->language == '*' || $item->language == $lang_tag)
 					{
 						// Exact route match.
 						if ($item->route == $route_lowercase)
 						{
 							$found = $item;
+
 							// Break iteration only if language is matched.
 							if ($item->language == $lang_tag)
 							{
 								break;
 							}
 						}
+
 						// Partial route match. Item with highest level or same language takes priority.
 						if (!$found || $found->level < $item->level || $item->language == $lang_tag)
 						{
