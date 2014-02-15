@@ -94,20 +94,24 @@ class JFormFieldModal_Article extends JFormField
 			$link .= '&amp;forcedLanguage='.$this->element['language'];
 		}
 
-		$db	= JFactory::getDbo();
-		$db->setQuery(
-			'SELECT title' .
-			' FROM #__content' .
-			' WHERE id = '.(int) $this->value
-		);
 
-		try
+		if ((int) $this->value > 0)
 		{
-			$title = $db->loadResult();
-		}
-		catch (RuntimeException $e)
-		{
-			JError::raiseWarning(500, $e->getMessage());
+			$db	= JFactory::getDbo();
+			$db->setQuery(
+				'SELECT title' .
+				' FROM #__content' .
+				' WHERE id = ' . (int) $this->value
+			);
+
+			try
+			{
+				$title = $db->loadResult();
+			}
+			catch (RuntimeException $e)
+			{
+				JError::raiseWarning(500, $e->getMessage());
+			}
 		}
 
 		if (empty($title))
