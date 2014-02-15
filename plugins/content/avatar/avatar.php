@@ -13,9 +13,9 @@ defined('_JEXEC') or die; // Stopping Unauthorized access
  *
  * @package     Joomla.Plugin
  * @subpackage  Content.joomla
- * @since       1.5
+ * @since       3.2
  */
-Class PlgContentGravatar extends JPlugin
+Class PlgContentAvatar extends JPlugin
 {
     protected $autoloadLanguage = true;
     protected $defaultsize=100;
@@ -40,17 +40,17 @@ Class PlgContentGravatar extends JPlugin
                 $emailid=$row->author_email;
             
             
-            if ($array=='http')
-            {
-                $html[]=  $this->buildHTML($GRAVATAR_SERVER,$default,$emailid,$size);
-            }
+                if ($array=='http')
+                {
+                    $html[]=  $this->buildHTML($GRAVATAR_SERVER,$default,$emailid,$size);
+                }
             
-            if($array=='https')
-            {
-               $html[]=  $this->buildHTML($GRAVATAR_SECURE_SERVER,$securedefault,$emailid,$size);
+                if($array=='https')
+                {
+                    $html[]=  $this->buildHTML($GRAVATAR_SECURE_SERVER,$securedefault,$emailid,$size);
+                }
             }
-        }
-        return implode("</br> ", $html);
+                return implode("<br /> ", $html);
     }
     
     public function buildHTML($avatar,$gravatar_profile,$email,$size)
@@ -66,22 +66,22 @@ Class PlgContentGravatar extends JPlugin
                 $myemail=$profile['entry'][0]['emails'][0]['value'];    //Displaying my email
                 $im_accounts=$profile['entry'][0]['ims'][0]['value'];   //Displaying my Ims accounts
                 
-                
+                JHtml::_('jquery.framework');
                 $html[] = '<form="well span4">';
-                $html[] = JHtml::_('image', $gravurl, JText::_('MY_AVATAR'), null, true);
+                $html[] = JHtml::_('image', $gravurl, JText::_('PLG_CONTENT_AVATAR'), null, true);
                
                 
                 
                 $html[]='<label class="label label-info">';
-                $html[]= "My Gravatar Name: ".$name;
+                $html[]= JText::_('PLG_CONTENT_AVATAR_MY_NAME').$name;
                 $html[]='</label>';
               
                 $html[]='<label class="label label-info">';
-                $html[]= "My public Email: ".$myemail;
+                $html[]=JText::_('PLG_CONTENT_AVATAR_MY_PUBLIC_EMAIL').$myemail;
                 $html[]='</label>';
                 
                 $html[]='<label class="label label-info">';
-                $html[]= "My IM account id: ".$im_accounts;
+                $html[]= JText::_('PLG_CONTENT_AVATAR_IM_ACCOUNT').$im_accounts;
                 $html[]='</label>';
                 $html[] = '</form>';
              
@@ -102,7 +102,7 @@ Class PlgContentGravatar extends JPlugin
              
                 } 
                 
-         return implode("</br> ", $html);
+         return implode("<br /> ", $html);
         
     }
         

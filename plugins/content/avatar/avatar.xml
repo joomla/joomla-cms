@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="3.1" type="plugin"  group="content"> 
 
-<name>plg_content_gravatar</name>
+<name>plg_content_avatar</name>
 <creationDate>20/8/2013</creationDate>
 <author>Mohamed Infaz</author>
 <files>
-    <filename plugin="gravatar">gravatar.php</filename>
+    <filename plugin="avatar">avatar.php</filename>
     <filename>index.html</filename>
 </files>
 <authorEmail>infaz9999@gmail.com</authorEmail>
@@ -13,13 +13,16 @@
 <version>3.0.0</version>
 <copyright>Copyright information</copyright>
 
-
+<languages>
+		<language tag="en-GB">en-GB.plg_content_avatar.ini</language>
+		<language tag="en-GB">en-GB.plg_content_avatar.sys.ini</language>
+</languages>
 <config>
 	<fields name="params">
             <fieldset name="basic">
-                <field name="size" description="PLG_USER_GRAVATAR_DESC" label="PLG_USER_GRAVATAR_SIZE" type="Text">
+                <field name="size" description="PLG_CONTENT_GRAVATAR_SIZE_DESC" label="PLG_CONTENT_GRAVATAR_SIZE" type="Text">
                 </field>
-                <field name="default" description="PLF_USER_GRAVATAR_DESC" label="PLG_USER_GRAVATAR_DEFAULT" type="List">
+                <field name="default" description="PLG_CONTENT_GRAVATAR_DEFAULT_DESC" label="PLG_CONTENT_GRAVATAR_DEFAULT" type="List">
                     <option value="404">404</option>
                     <option value="mm">mm</option>
                     <option value="identicon">identicon</option>
@@ -28,12 +31,12 @@
                     <option value="retro">retro</option>
                     <option value="blank">blank</option>
                 </field>
-                <field name="avatar_http" description="Http address for the avatar" label="HTTP/Avatar" type="Text"></field>
-                <field name="profile_http" description="Http address for the profile" label="HTTP/Profile" type="Text"></field>
-                <field name="avatar_https" description="Https address for the avatar" label="HTTPS/Avatar" type="Text"></field>
-                <field name="profile_https" description="Https address for the profile" label="HTTPS/Profile" type="Text"></field>
+                <field name="avatar_http" description="PLG_CONTENT_AVATAR_HTTP" label="LG_CONTENT_AVATAR_HTTP_LABEL" type="Text"></field>
+                <field name="profile_http" description="PLG_CONTENT_PROFILE_HTTP" label="PLG_CONTENT_PROFILE_HTTP_LABEL" type="Text"></field>
+                <field name="avatar_https" description="PLG_CONTENT_AVATAR_HTTPS" label="PLG_CONTENT_AVATAR_HTTPS_LABEL" type="Text"></field>
+                <field name="profile_https" description="PLG_CONTENT_PROFILE_HTTPS" label="PLG_CONTENT_PROFILE_HTTPS_LABEL" type="Text"></field>
             </fieldset>
 	</fields>
 </config>
-<description>The following Plugin retrieves information from your Gravatar account and show information in your Joomla Website </description>
+<description>PLG_CONTENT_AVATAR_XML </description>
 </extension>
