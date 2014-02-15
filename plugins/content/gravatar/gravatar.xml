@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.1" type="plugin"  group="content"> 
+
+<name>plg_content_gravatar</name>
+<creationDate>20/8/2013</creationDate>
+<author>Mohamed Infaz</author>
+<files>
+    <filename plugin="gravatar">gravatar.php</filename>
+    <filename>index.html</filename>
+</files>
+<authorEmail>infaz9999@gmail.com</authorEmail>
+<authorUrl>www.cricketpissa.blogspot.com</authorUrl>
+<version>3.0.0</version>
+<copyright>Copyright information</copyright>
+
+
+<config>
+	<fields name="params">
+            <fieldset name="basic">
+                <field name="size" description="PLG_USER_GRAVATAR_DESC" label="PLG_USER_GRAVATAR_SIZE" type="Text">
+                </field>
+                <field name="default" description="PLF_USER_GRAVATAR_DESC" label="PLG_USER_GRAVATAR_DEFAULT" type="List">
+                    <option value="404">404</option>
+                    <option value="mm">mm</option>
+                    <option value="identicon">identicon</option>
+                    <option value="monsterid">monsterid</option>
+                    <option value="wavatar">wavatar</option>
+                    <option value="retro">retro</option>
+                    <option value="blank">blank</option>
+                </field>
+                
+            </fieldset>
+	</fields>
+</config>
+<description>The following Plugin retrieves information from your Gravatar account and show information in your Joomla Website </description>
+</extension>
