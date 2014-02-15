@@ -67,23 +67,23 @@ Class PlgContentGravatar extends JPlugin
                 $im_accounts=$profile['entry'][0]['ims'][0]['value'];   //Displaying my Ims accounts
                 
                 
-                $html[] = '<span class="gravatar_image">';
+                $html[] = '<form="well">';
                 $html[] = JHtml::_('image', $gravurl, JText::_('MY_AVATAR'), null, true);
-                $html[] = '</span>';
+                //$html[] = '</span>';
                 
                 
-                $html[]='<span class="gravatar_name" style="color:blue">';
+                $html[]='<label class="label label-info">';
                 $html[]= "My Gravatar Name: ".$name;
-                $html[]='</span>';
+                $html[]='</label>';
                 
-                $html[]='<span class="My public Email" style="color:blue">';
+                $html[]='<label class="label label-info">';
                 $html[]= "My public Email: ".$myemail;
-                $html[]='</span>';
+                $html[]='</label>';
                 
-                $html[]='<span class="gravatar_im accounts" style="color:blue">';
+                $html[]='<label class="label label-info">';
                 $html[]= "My IM account id: ".$im_accounts;
-                $html[]='</span>';
-                
+                $html[]='</label>';
+                $html[] = '</form>';
              
                 }
                  else
