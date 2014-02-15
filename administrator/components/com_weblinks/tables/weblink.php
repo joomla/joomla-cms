@@ -146,10 +146,10 @@ class WeblinksTableWeblink extends JTable
 
 		// Check for existing name
 		$query = $this->_db->getQuery(true)
-						->select($this->_db->quoteName('id'))
-						->from($this->_db->quoteName('#__weblinks'))
-						->where($this->_db->quoteName('title') . ' = ' . $this->_db->quote($this->title))
-						->where($this->_db->quoteName('catid') . ' = ' . (int) $this->catid);
+			->select($this->_db->quoteName('id'))
+			->from($this->_db->quoteName('#__weblinks'))
+			->where($this->_db->quoteName('title') . ' = ' . $this->_db->quote($this->title))
+			->where($this->_db->quoteName('catid') . ' = ' . (int) $this->catid);
 		$this->_db->setQuery($query);
 
 		$xid = (int) $this->_db->loadResult();

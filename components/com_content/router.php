@@ -301,9 +301,9 @@ function ContentParseRoute($segments)
 		else
 		{
 			$query = $db->getQuery(true)
-						->select($db->quoteName(array('alias', 'catid')))
-						->from($db->quoteName('#__content'))
-						->where($db->quoteName('id') . ' = ' . (int) $id);
+				->select($db->quoteName(array('alias', 'catid')))
+				->from($db->quoteName('#__content'))
+				->where($db->quoteName('id') . ' = ' . (int) $id);
 			$db->setQuery($query);
 			$article = $db->loadObject();
 

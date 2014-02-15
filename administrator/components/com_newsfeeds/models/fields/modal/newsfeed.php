@@ -101,9 +101,9 @@ class JFormFieldModal_Newsfeed extends JFormField
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
-						->select($db->quoteName('name'))
-						->from($db->quoteName('#__newsfeeds'))
-						->where($db->quoteName('id') . ' = ' . (int) $this->value);
+				->select($db->quoteName('name'))
+				->from($db->quoteName('#__newsfeeds'))
+				->where($db->quoteName('id') . ' = ' . (int) $this->value);
 			$db->setQuery($query);
 
 			try

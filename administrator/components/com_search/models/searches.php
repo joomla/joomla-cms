@@ -177,7 +177,7 @@ class SearchModelSearches extends JModelList
 	{
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
-					->delete($db->quoteName('#__core_log_searches'));
+			->delete($db->quoteName('#__core_log_searches'));
 		$db->setQuery($query);
 
 		try

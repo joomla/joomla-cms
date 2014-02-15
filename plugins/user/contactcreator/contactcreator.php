@@ -60,9 +60,9 @@ class PlgUserContactCreator extends JPlugin
 
 		// Grab the contact ID for this user; note $user_id is cleaned above
 		$query = $db->getQuery(true)
-					->select($db->quoteName('id'))
-					->from('#__contact_details')
-					->where($db->quoteName('user_id') . ' = ' . $user_id);
+			->select($db->quoteName('id'))
+			->from('#__contact_details')
+			->where($db->quoteName('user_id') . ' = ' . $user_id);
 		$db->setQuery($query);
 		$id = $db->loadResult();
 

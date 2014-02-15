@@ -217,10 +217,10 @@ class PluginsModelPlugin extends JModelAdmin
 		// Load the core and/or local language sys file(s) for the ordering field.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-					->select($db->quoteName('element'))
-					->from($db->quoteName('#__extensions'))
-					->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
-					->where($db->quoteName('folder') . ' = ' . $db->quote($folder));
+			->select($db->quoteName('element'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+			->where($db->quoteName('folder') . ' = ' . $db->quote($folder));
 		$db->setQuery($query);
 		$elements = $db->loadColumn();
 

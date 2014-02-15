@@ -100,9 +100,9 @@ class JFormFieldModal_Category extends JFormField
 		{
 			$db	= JFactory::getDbo();
 			$query = $db->getQuery(true)
-						->select($db->quoteName('title'))
-						->from($db->quoteName('#__categories'))
-						->where($db->quoteName('id') . ' = ' . (int) $this->value);
+				->select($db->quoteName('title'))
+				->from($db->quoteName('#__categories'))
+				->where($db->quoteName('id') . ' = ' . (int) $this->value);
 			$db->setQuery($query);
 
 			try
