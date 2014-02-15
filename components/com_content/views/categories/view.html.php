@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,4 +25,10 @@ class ContentViewCategories extends JViewCategories
 	 * @since  3.2
 	 */
 	protected $pageHeading = 'JGLOBAL_ARTICLES';
+
+	/**
+	 * @var    string  The name of the extension for the category
+	 * @since  3.2
+	 */
+	protected $extension = 'com_content';
 }

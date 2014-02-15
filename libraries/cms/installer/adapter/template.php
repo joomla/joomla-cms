@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -89,10 +89,8 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 		$extension = "tpl_$name";
 		$lang = JFactory::getLanguage();
 		$source = $path ? $path : ($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/templates/' . $name;
-		$lang->load($extension . '.sys', $source, null, false, false)
-			|| $lang->load($extension . '.sys', constant('JPATH_' . strtoupper($client)), null, false, false)
-			|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
-			|| $lang->load($extension . '.sys', constant('JPATH_' . strtoupper($client)), $lang->getDefault(), false, false);
+		$lang->load($extension . '.sys', $source, null, false, true)
+			|| $lang->load($extension . '.sys', constant('JPATH_' . strtoupper($client)), null, false, true);
 	}
 
 	/**
@@ -122,6 +120,7 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 
 				return false;
 			}
+
 			$basePath = $client->path;
 			$clientId = $client->id;
 		}
@@ -502,6 +501,7 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 				// Ignore special system template
 				continue;
 			}
+
 			$manifest_details = JInstaller::parseXMLInstallFile(JPATH_SITE . "/templates/$template/templateDetails.xml");
 			$extension = JTable::getInstance('extension');
 			$extension->set('type', 'template');

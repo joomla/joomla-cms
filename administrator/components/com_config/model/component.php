@@ -45,7 +45,6 @@ class ConfigModelComponent extends ConfigModelForm
 		}
 
 		$this->setState($state);
-
 	}
 
 	/**
@@ -56,7 +55,7 @@ class ConfigModelComponent extends ConfigModelForm
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
 	 *
-	 * @since	1.6
+	 * @since	3.2
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -75,12 +74,12 @@ class ConfigModelComponent extends ConfigModelForm
 
 		// Get the form.
 		$form = $this->loadForm(
-				'com_config.component',
-				'config',
-				array('control' => 'jform', 'load_data' => $loadData),
-				false,
-				'/config'
-			);
+			'com_config.component',
+			'config',
+			array('control' => 'jform', 'load_data' => $loadData),
+			false,
+			'/config'
+		);
 
 		if (empty($form))
 		{
@@ -96,7 +95,7 @@ class ConfigModelComponent extends ConfigModelForm
 	 *
 	 * @return	object
 	 *
-	 * @since	1.6
+	 * @since	3.2
 	 */
 	public function getComponent()
 	{
@@ -105,10 +104,8 @@ class ConfigModelComponent extends ConfigModelForm
 
 		// Load common and local language files.
 		$lang = JFactory::getLanguage();
-			$lang->load($option, JPATH_BASE, null, false, false)
-		||	$lang->load($option, JPATH_BASE . "/components/$option", null, false, false)
-		||	$lang->load($option, JPATH_BASE, $lang->getDefault(), false, false)
-		||	$lang->load($option, JPATH_BASE . "/components/$option", $lang->getDefault(), false, false);
+		$lang->load($option, JPATH_BASE, null, false, true)
+		|| $lang->load($option, JPATH_BASE . "/components/$option", null, false, true);
 
 		$result = JComponentHelper::getComponent($option);
 
@@ -120,9 +117,10 @@ class ConfigModelComponent extends ConfigModelForm
 	 *
 	 * @param   array  $data  An array containing all global config data.
 	 *
-	 * @return  bool  True on success, false on failure.
+	 * @return  boolean  True on success, false on failure.
 	 *
-	 * @since	1.6
+	 * @since	3.2
+	 * @throws  RuntimeException
 	 */
 	public function save($data)
 	{
@@ -131,24 +129,23 @@ class ConfigModelComponent extends ConfigModelForm
 		// Save the rules.
 		if (isset($data['params']) && isset($data['params']['rules']))
 		{
-			$rules	= new JAccessRules($data['params']['rules']);
-			$asset	= JTable::getInstance('asset');
+			$rules = new JAccessRules($data['params']['rules']);
+			$asset = JTable::getInstance('asset');
 
 			if (!$asset->loadByName($data['option']))
 			{
-				$root	= JTable::getInstance('asset');
+				$root = JTable::getInstance('asset');
 				$root->loadByName('root.1');
 				$asset->name = $data['option'];
 				$asset->title = $data['option'];
 				$asset->setLocation($root->id, 'last-child');
 			}
+
 			$asset->rules = (string) $rules;
 
 			if (!$asset->check() || !$asset->store())
 			{
-				$this->setError($asset->getError());
-
-				return false;
+				throw new RuntimeException($table->getError());
 			}
 
 			// We don't need this anymore
@@ -159,9 +156,7 @@ class ConfigModelComponent extends ConfigModelForm
 		// Load the previous Data
 		if (!$table->load($data['id']))
 		{
-			$this->setError($table->getError());
-
-			return false;
+			throw new RuntimeException($table->getError());
 		}
 
 		unset($data['id']);
@@ -169,29 +164,24 @@ class ConfigModelComponent extends ConfigModelForm
 		// Bind the data.
 		if (!$table->bind($data))
 		{
-			$this->setError($table->getError());
-
-			return false;
+			throw new RuntimeException($table->getError());
 		}
 
 		// Check the data.
 		if (!$table->check())
 		{
-			$this->setError($table->getError());
-
-			return false;
+			throw new RuntimeException($table->getError());
 		}
 
 		// Store the data.
 		if (!$table->store())
 		{
-			$this->setError($table->getError());
-
-			return false;
+			throw new RuntimeException($table->getError());
 		}
 
 		// Clean the component cache.
-		$this->cleanCache('_system');
+		$this->cleanCache('_system', 0);
+		$this->cleanCache('_system', 1);
 
 		return true;
 	}

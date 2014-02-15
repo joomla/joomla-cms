@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,9 +35,9 @@ class BannersModelBanner extends JModelAdmin
 	/**
 	 * Method to perform batch operations on an item or a set of items.
 	 *
-	 * @param   array   $commands   An array of commands to perform.
-	 * @param   array   $pks        An array of item ids.
-	 * @param   array   $contexts   An array of item contexts.
+	 * @param   array  $commands  An array of commands to perform.
+	 * @param   array  $pks       An array of item ids.
+	 * @param   array  $contexts  An array of item contexts.
 	 *
 	 * @return  boolean   Returns true on success, false on failure.
 	 *
@@ -58,6 +58,7 @@ class BannersModelBanner extends JModelAdmin
 		if (empty($pks))
 		{
 			$this->setError(JText::_('JGLOBAL_NO_ITEM_SELECTED'));
+
 			return false;
 		}
 
@@ -70,6 +71,7 @@ class BannersModelBanner extends JModelAdmin
 			if ($cmd == 'c')
 			{
 				$result = $this->batchCopy($commands['category_id'], $pks, $contexts);
+
 				if (is_array($result))
 				{
 					$pks = $result;
@@ -83,6 +85,7 @@ class BannersModelBanner extends JModelAdmin
 			{
 				return false;
 			}
+
 			$done = true;
 		}
 
@@ -109,6 +112,7 @@ class BannersModelBanner extends JModelAdmin
 		if (!$done)
 		{
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
+
 			return false;
 		}
 
@@ -146,12 +150,14 @@ class BannersModelBanner extends JModelAdmin
 				if (!$table->store())
 				{
 					$this->setError($table->getError());
+
 					return false;
 				}
 			}
 			else
 			{
 				$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+
 				return false;
 			}
 		}
@@ -184,17 +190,20 @@ class BannersModelBanner extends JModelAdmin
 		if ($categoryId)
 		{
 			$categoryTable = JTable::getInstance('Category');
+
 			if (!$categoryTable->load($categoryId))
 			{
 				if ($error = $categoryTable->getError())
 				{
 					// Fatal error
 					$this->setError($error);
+
 					return false;
 				}
 				else
 				{
 					$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
+
 					return false;
 				}
 			}
@@ -203,14 +212,17 @@ class BannersModelBanner extends JModelAdmin
 		if (empty($categoryId))
 		{
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
+
 			return false;
 		}
 
 		// Check that the user has create permission for the component
 		$user = JFactory::getUser();
+
 		if (!$user->authorise('core.create', 'com_banners.category.' . $categoryId))
 		{
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
+
 			return false;
 		}
 
@@ -229,6 +241,7 @@ class BannersModelBanner extends JModelAdmin
 				{
 					// Fatal error
 					$this->setError($error);
+
 					return false;
 				}
 				else
@@ -251,12 +264,13 @@ class BannersModelBanner extends JModelAdmin
 			$table->catid = $categoryId;
 
 			// TODO: Deal with ordering?
-			//$table->ordering	= 1;
+			// $table->ordering	= 1;
 
 			// Check the row.
 			if (!$table->check())
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 
@@ -264,6 +278,7 @@ class BannersModelBanner extends JModelAdmin
 			if (!$table->store())
 			{
 				$this->setError($table->getError());
+
 				return false;
 			}
 
@@ -271,7 +286,7 @@ class BannersModelBanner extends JModelAdmin
 			$newId = $table->get('id');
 
 			// Add the new ID to the array
-			$newIds[$i]	= $newId;
+			$newIds[$i] = $newId;
 			$i++;
 		}
 
@@ -298,6 +313,7 @@ class BannersModelBanner extends JModelAdmin
 			{
 				return;
 			}
+
 			$user = JFactory::getUser();
 
 			if (!empty($record->catid))
@@ -366,6 +382,7 @@ class BannersModelBanner extends JModelAdmin
 	{
 		// Get the form.
 		$form = $this->loadForm('com_banners.banner', 'banner', array('control' => 'jform', 'load_data' => $loadData));
+
 		if (empty($form))
 		{
 			return false;
@@ -415,7 +432,7 @@ class BannersModelBanner extends JModelAdmin
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$app  = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$data = $app->getUserState('com_banners.edit.banner.data', array());
 
 		if (empty($data))
@@ -425,7 +442,10 @@ class BannersModelBanner extends JModelAdmin
 			// Prime some default values.
 			if ($this->getState('banner.id') == 0)
 			{
-				$data->set('catid', $app->input->getInt('catid', $app->getUserState('com_banners.banners.filter.category_id')));
+				$filters = (array) $app->getUserState('com_banners.banners.filter');
+				$filterCatId = isset($filters['category_id']) ? $filters['category_id'] : null;
+
+				$data->set('catid', $app->input->getInt('catid', $filterCatId));
 			}
 		}
 
@@ -468,6 +488,7 @@ class BannersModelBanner extends JModelAdmin
 		if (!$table->stick($pks, $value, $user->get('id')))
 		{
 			$this->setError($table->getError());
+
 			return false;
 		}
 
@@ -486,13 +507,20 @@ class BannersModelBanner extends JModelAdmin
 	protected function getReorderConditions($table)
 	{
 		$condition = array();
-		$condition[] = 'catid = '. (int) $table->catid;
+		$condition[] = 'catid = ' . (int) $table->catid;
 		$condition[] = 'state >= 0';
+
 		return $condition;
 	}
 
 	/**
-	 * @since  3.0
+	 * Prepare and sanitise the table prior to saving.
+	 *
+	 * @param   JTable  $table  A JTable object.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
 	 */
 	protected function prepareTable($table)
 	{
@@ -502,15 +530,16 @@ class BannersModelBanner extends JModelAdmin
 		if (empty($table->id))
 		{
 			// Set the values
-			$table->created	= $date->toSql();
+			$table->created = $date->toSql();
 
 			// Set ordering to the last item if not set
 			if (empty($table->ordering))
 			{
 				$db = JFactory::getDbo();
 				$query = $db->getQuery(true)
-							->select('MAX(ordering)')
-							->from($db->quoteName('#__banners'));
+					->select('MAX(ordering)')
+					->from('#__banners');
+
 				$db->setQuery($query);
 				$max = $db->loadResult();
 
@@ -530,9 +559,10 @@ class BannersModelBanner extends JModelAdmin
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param   array  The form data.
+	 * @param   array  $data  The form data.
 	 *
 	 * @return  boolean  True on success.
+	 *
 	 * @since   1.6
 	 */
 
@@ -556,5 +586,4 @@ class BannersModelBanner extends JModelAdmin
 
 		return false;
 	}
-
 }

@@ -6129,7 +6129,7 @@ div.modal {
 	top: 10%;
 	left: 50%;
 	z-index: 1050;
-	width: 560px;
+	width: 580px;
 	margin-left: -280px;
 	background-color: #fff;
 	border: 1px solid #999;
@@ -6155,6 +6155,9 @@ div.modal.fade {
 }
 div.modal.fade.in {
 	top: 10%;
+}
+.modal-batch {
+	overflow-y: visible;
 }
 @media (max-width: 767px) {
 	div.modal {
@@ -7358,9 +7361,6 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 .nav-filters hr {
 	margin: 5px 0;
 }
-.view-module .tab-content {
-	overflow: visible;
-}
 #assignment.tab-pane {
 	min-height: 500px;
 }
@@ -7774,6 +7774,9 @@ th .tooltip-inner {
 #helpsite-refresh {
 	vertical-align: top;
 }
+.alert-no-items {
+	margin-top: 20px;
+}
 @media (max-width: 767px) {
 	html[dir=rtl] #toolbar #toolbar-options,
 	html[dir=rtl] #toolbar #toolbar-help,
@@ -7909,6 +7912,25 @@ input.input-large-text {
 .chzn-color-state.chzn-single[rel="value_-2"]:active,
 .chzn-color-state.chzn-single[rel="value_-2"].active {
 	background-color: #942a25 \9;
+}
+#permissions-sliders .input-small {
+	width: 120px;
+}
+.editor {
+	overflow: hidden;
+	position: relative;
+}
+a.grid_false {
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+	background-image: url('../images/admin/publish_r.png');
+}
+a.grid_true {
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+	background-image: url('../images/admin/icon-16-allow.png');
 }
 .pull-right {
 	float: left;
@@ -8241,7 +8263,7 @@ body {
 }
 .navbar .nav > li > a {
 	padding: 8px 10px;
-	color: #D2E3FC;
+	color: #FFFFFF;
 }
 .container-logo {
 	padding-top: 6px;
@@ -8506,4 +8528,25 @@ input[type="url"] {
 	.page-title [class*=" icon-"] {
 		margin-left: 10px;
 	}
+}
+#status .badge {
+	margin-left: 0;
+}
+.dropdown-menu > li > a {
+	text-align: right;
+}
+.btn-group > .btn + .dropdown-toggle {
+	float: none;
+}
+a.grid_false {
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+	background-image: url('../images/admin/publish_r.png');
+}
+a.grid_true {
+	display: inline-block;
+	height: 16px;
+	width: 16px;
+	background-image: url('../images/admin/icon-16-allow.png');
 }

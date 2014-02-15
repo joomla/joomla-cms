@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,8 @@ class BannersModelTracks extends JModelList
 	/**
 	 * Constructor.
 	 *
-	 * @param   array  An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
 	 * @see     JController
 	 * @since   1.6
 	 */
@@ -51,6 +52,11 @@ class BannersModelTracks extends JModelList
 	 * Method to auto-populate the model state.
 	 *
 	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -84,6 +90,7 @@ class BannersModelTracks extends JModelList
 	 * Build an SQL query to load the list data.
 	 *
 	 * @return  JDatabaseQuery
+	 *
 	 * @since   1.6
 	 */
 	protected function getListQuery()
@@ -97,8 +104,8 @@ class BannersModelTracks extends JModelList
 		// Select the required fields from the table.
 		$query->select(
 			'a.track_date as track_date,'
-				. 'a.track_type as track_type,'
-				. $db->quoteName('a.count') . ' as ' . $db->quoteName('count')
+			. 'a.track_type as track_type,'
+			. $db->quoteName('a.count') . ' as ' . $db->quoteName('count')
 		);
 		$query->from($db->quoteName('#__banner_tracks') . ' AS a');
 
@@ -116,6 +123,7 @@ class BannersModelTracks extends JModelList
 
 		// Filter by type
 		$type = $this->getState('filter.type');
+
 		if (!empty($type))
 		{
 			$query->where('a.track_type = ' . (int) $type);
@@ -123,6 +131,7 @@ class BannersModelTracks extends JModelList
 
 		// Filter by client
 		$clientId = $this->getState('filter.client_id');
+
 		if (is_numeric($clientId))
 		{
 			$query->where('b.cid = ' . (int) $clientId);
@@ -130,6 +139,7 @@ class BannersModelTracks extends JModelList
 
 		// Filter by category
 		$catedoryId = $this->getState('filter.category_id');
+
 		if (is_numeric($catedoryId))
 		{
 			$query->where('b.catid = ' . (int) $catedoryId);
@@ -138,6 +148,7 @@ class BannersModelTracks extends JModelList
 		// Filter by begin date
 
 		$begin = $this->getState('filter.begin');
+
 		if (!empty($begin))
 		{
 			$query->where('a.track_date >= ' . $db->quote($begin));
@@ -145,6 +156,7 @@ class BannersModelTracks extends JModelList
 
 		// Filter by end date
 		$end = $this->getState('filter.end');
+
 		if (!empty($end))
 		{
 			$query->where('a.track_date <= ' . $db->quote($end));
@@ -159,8 +171,6 @@ class BannersModelTracks extends JModelList
 
 	/**
 	 * Method to delete rows.
-	 *
-	 * @param   array  An array of item ids.
 	 *
 	 * @return  boolean  Returns true on success, false on failure.
 	 */
@@ -188,6 +198,7 @@ class BannersModelTracks extends JModelList
 
 			// Filter by type
 			$type = $this->getState('filter.type');
+
 			if (!empty($type))
 			{
 				$query->where('track_type = ' . (int) $type);
@@ -195,6 +206,7 @@ class BannersModelTracks extends JModelList
 
 			// Filter by begin date
 			$begin = $this->getState('filter.begin');
+
 			if (!empty($begin))
 			{
 				$query->where('track_date >= ' . $db->quote($begin));
@@ -202,14 +214,17 @@ class BannersModelTracks extends JModelList
 
 			// Filter by end date
 			$end = $this->getState('filter.end');
+
 			if (!empty($end))
 			{
 				$query->where('track_date <= ' . $db->quote($end));
 			}
 
 			$where = '1';
+
 			// Filter by client
 			$clientId = $this->getState('filter.client_id');
+
 			if (!empty($clientId))
 			{
 				$where .= ' AND cid = ' . (int) $clientId;
@@ -233,6 +248,7 @@ class BannersModelTracks extends JModelList
 			catch (RuntimeException $e)
 			{
 				$this->setError($e->getMessage());
+
 				return false;
 			}
 		}
@@ -248,13 +264,13 @@ class BannersModelTracks extends JModelList
 	 * Get file name
 	 *
 	 * @return  string    The file name
+	 *
 	 * @since   1.6
 	 */
 	public function getBaseName()
 	{
 		if (!isset($this->basename))
 		{
-
 			$app = JFactory::getApplication();
 			$basename = $this->getState('basename');
 			$basename = str_replace('__SITE__', $app->getCfg('sitename'), $basename);
@@ -270,6 +286,7 @@ class BannersModelTracks extends JModelList
 				{
 					$basename = str_replace('__CATID__', '', $basename);
 				}
+
 				$categoryName = $this->getCategoryName();
 				$basename = str_replace('__CATNAME__', $categoryName, $basename);
 			}
@@ -280,9 +297,9 @@ class BannersModelTracks extends JModelList
 			}
 
 			$clientId = $this->getState('filter.client_id');
+
 			if (is_numeric($clientId))
 			{
-
 				if ($clientId > 0)
 				{
 					$basename = str_replace('__CLIENTID__', $clientId, $basename);
@@ -291,20 +308,20 @@ class BannersModelTracks extends JModelList
 				{
 					$basename = str_replace('__CLIENTID__', '', $basename);
 				}
+
 				$clientName = $this->getClientName();
 				$basename = str_replace('__CLIENTNAME__', $clientName, $basename);
 			}
 			else
 			{
-
 				$basename = str_replace('__CLIENTID__', '', $basename);
 				$basename = str_replace('__CLIENTNAME__', '', $basename);
 			}
 
 			$type = $this->getState('filter.type');
+
 			if ($type > 0)
 			{
-
 				$basename = str_replace('__TYPE__', $type, $basename);
 				$typeName = JText::_('COM_BANNERS_TYPE' . $type);
 				$basename = str_replace('__TYPENAME__', $typeName, $basename);
@@ -316,6 +333,7 @@ class BannersModelTracks extends JModelList
 			}
 
 			$begin = $this->getState('filter.begin');
+
 			if (!empty($begin))
 			{
 				$basename = str_replace('__BEGIN__', $begin, $basename);
@@ -326,6 +344,7 @@ class BannersModelTracks extends JModelList
 			}
 
 			$end = $this->getState('filter.end');
+
 			if (!empty($end))
 			{
 				$basename = str_replace('__END__', $end, $basename);
@@ -345,6 +364,7 @@ class BannersModelTracks extends JModelList
 	 * Get the category name.
 	 *
 	 * @return  string    The category name
+	 *
 	 * @since   1.6
 	 */
 	protected function getCategoryName()
@@ -367,6 +387,7 @@ class BannersModelTracks extends JModelList
 			catch (RuntimeException $e)
 			{
 				$this->setError($e->getMessage());
+
 				return false;
 			}
 		}
@@ -382,6 +403,7 @@ class BannersModelTracks extends JModelList
 	 * Get the category name
 	 *
 	 * @return  string    The category name.
+	 *
 	 * @since   1.6
 	 */
 	protected function getClientName()
@@ -404,6 +426,7 @@ class BannersModelTracks extends JModelList
 			catch (RuntimeException $e)
 			{
 				$this->setError($e->getMessage());
+
 				return false;
 			}
 		}
@@ -419,6 +442,7 @@ class BannersModelTracks extends JModelList
 	 * Get the file type.
 	 *
 	 * @return  string    The file type
+	 *
 	 * @since   1.6
 	 */
 	public function getFileType()
@@ -430,6 +454,7 @@ class BannersModelTracks extends JModelList
 	 * Get the mime type.
 	 *
 	 * @return  string    The mime type.
+	 *
 	 * @since   1.6
 	 */
 	public function getMimeType()
@@ -441,32 +466,31 @@ class BannersModelTracks extends JModelList
 	 * Get the content
 	 *
 	 * @return  string    The content.
+	 *
 	 * @since   1.6
 	 */
 	public function getContent()
 	{
 		if (!isset($this->content))
 		{
-
 			$this->content = '';
 			$this->content .=
 				'"' . str_replace('"', '""', JText::_('COM_BANNERS_HEADING_NAME')) . '","' .
-					str_replace('"', '""', JText::_('COM_BANNERS_HEADING_CLIENT')) . '","' .
-					str_replace('"', '""', JText::_('JCATEGORY')) . '","' .
-					str_replace('"', '""', JText::_('COM_BANNERS_HEADING_TYPE')) . '","' .
-					str_replace('"', '""', JText::_('COM_BANNERS_HEADING_COUNT')) . '","' .
-					str_replace('"', '""', JText::_('JDATE')) . '"' . "\n";
+				str_replace('"', '""', JText::_('COM_BANNERS_HEADING_CLIENT')) . '","' .
+				str_replace('"', '""', JText::_('JCATEGORY')) . '","' .
+				str_replace('"', '""', JText::_('COM_BANNERS_HEADING_TYPE')) . '","' .
+				str_replace('"', '""', JText::_('COM_BANNERS_HEADING_COUNT')) . '","' .
+				str_replace('"', '""', JText::_('JDATE')) . '"' . "\n";
 
 			foreach ($this->getItems() as $item)
 			{
-
 				$this->content .=
 					'"' . str_replace('"', '""', $item->name) . '","' .
-						str_replace('"', '""', $item->client_name) . '","' .
-						str_replace('"', '""', $item->category_title) . '","' .
-						str_replace('"', '""', ($item->track_type == 1 ? JText::_('COM_BANNERS_IMPRESSION') : JText::_('COM_BANNERS_CLICK'))) . '","' .
-						str_replace('"', '""', $item->count) . '","' .
-						str_replace('"', '""', $item->track_date) . '"' . "\n";
+					str_replace('"', '""', $item->client_name) . '","' .
+					str_replace('"', '""', $item->category_title) . '","' .
+					str_replace('"', '""', ($item->track_type == 1 ? JText::_('COM_BANNERS_IMPRESSION') : JText::_('COM_BANNERS_CLICK'))) . '","' .
+					str_replace('"', '""', $item->count) . '","' .
+					str_replace('"', '""', $item->track_date) . '"' . "\n";
 			}
 
 			if ($this->getState('compressed'))
@@ -480,7 +504,7 @@ class BannersModelTracks extends JModelList
 				$files['track']['time'] = time();
 				$ziproot = $app->getCfg('tmp_path') . '/' . uniqid('banners_tracks_') . '.zip';
 
-				// run the packager
+				// Run the packager
 				jimport('joomla.filesystem.folder');
 				jimport('joomla.filesystem.file');
 				$delete = JFolder::files($app->getCfg('tmp_path') . '/', uniqid('banners_tracks_'), false, true);
@@ -491,6 +515,7 @@ class BannersModelTracks extends JModelList
 					{
 						// JFile::delete throws an error
 						$this->setError(JText::_('COM_BANNERS_ERR_ZIP_DELETE_FAILURE'));
+
 						return false;
 					}
 				}
@@ -498,11 +523,13 @@ class BannersModelTracks extends JModelList
 				if (!$packager = JArchive::getAdapter('zip'))
 				{
 					$this->setError(JText::_('COM_BANNERS_ERR_ZIP_ADAPTER_FAILURE'));
+
 					return false;
 				}
 				elseif (!$packager->create($ziproot, $files))
 				{
 					$this->setError(JText::_('COM_BANNERS_ERR_ZIP_CREATE_FAILURE'));
+
 					return false;
 				}
 

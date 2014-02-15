@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -97,20 +97,23 @@ class JFormFieldModal_Newsfeed extends JFormField
 		}
 
 		// Get the title of the linked chart
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-					->select($db->quoteName('name'))
-					->from($db->quoteName('#__newsfeeds'))
-					->where($db->quoteName('id') . ' = ' . (int) $this->value);
-		$db->setQuery($query);
+		if ((int) $this->value > 0)
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+						->select($db->quoteName('name'))
+						->from($db->quoteName('#__newsfeeds'))
+						->where($db->quoteName('id') . ' = ' . (int) $this->value);
+			$db->setQuery($query);
 
-		try
-		{
-			$title = $db->loadResult();
-		}
-		catch (RuntimeException $e)
-		{
-			JError::raiseWarning(500, $e->getMessage);
+			try
+			{
+				$title = $db->loadResult();
+			}
+			catch (RuntimeException $e)
+			{
+				JError::raiseWarning(500, $e->getMessage);
+			}
 		}
 
 		if (empty($title))

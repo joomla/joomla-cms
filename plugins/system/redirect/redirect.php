@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.redirect
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,12 +19,11 @@ defined('JPATH_BASE') or die;
 class PlgSystemRedirect extends JPlugin
 {
 	/**
-	 * Object Constructor.
+	 * Constructor.
 	 *
-	 * @access    public
-	 * @param   object    The object to observe -- event dispatcher.
-	 * @param   object    The configuration object for the plugin.
-	 * @return  void
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An optional associative array of configuration settings.
+	 *
 	 * @since   1.6
 	 */
 	public function __construct(&$subject, $config)
@@ -36,6 +35,15 @@ class PlgSystemRedirect extends JPlugin
 		set_exception_handler(array('PlgSystemRedirect', 'handleError'));
 	}
 
+	/**
+	 * Method to handle an error condition.
+	 *
+	 * @param   Exception  &$error  The Exception object to be handled.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.6
+	 */
 	public static function handleError(&$error)
 	{
 		// Get the application object.
@@ -46,7 +54,7 @@ class PlgSystemRedirect extends JPlugin
 		{
 			// Get the full current URI.
 			$uri = JUri::getInstance();
-			$current = $uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment'));
+			$current = rawurldecode($uri->toString(array('scheme', 'host', 'port', 'path', 'query', 'fragment')));
 
 			// Attempt to ignore idiots.
 			if ((strpos($current, 'mosConfig_') !== false) || (strpos($current, '=http://') !== false))
@@ -107,7 +115,7 @@ class PlgSystemRedirect extends JPlugin
 				}
 				else
 				{
-					// Existing error url, increase hit counter
+					// Existing error url, increase hit counter.
 					$query->clear()
 						->update($db->quoteName('#__redirect_links'))
 						->set($db->quoteName('hits') . ' = ' . $db->quote('hits') . ' + 1')
@@ -115,6 +123,7 @@ class PlgSystemRedirect extends JPlugin
 					$db->setQuery($query);
 					$db->execute();
 				}
+
 				// Render the error page.
 				JError::customErrorPage($error);
 			}

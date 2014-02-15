@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -446,10 +446,24 @@ final class InstallationApplicationWeb extends JApplicationCms
 			$options['language'] = 'en-GB';
 		}
 
+		// Check for custom helpurl
+		if (empty($forced['helpurl']))
+		{
+			$options['helpurl'] = 'http://help.joomla.org/proxy/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}';
+		}
+		else
+		{
+			$options['helpurl'] = $forced['helpurl'];
+		}
+
+		// Store helpurl in the session
+		$this->getSession()->set('setup.helpurl', $options['helpurl']);
+
 		// Set the language in the class
 		$this->config->set('language', $options['language']);
 		$this->config->set('debug_lang', $forced['debug']);
 		$this->config->set('sampledata', $forced['sampledata']);
+		$this->config->set('helpurl', $options['helpurl']);
 	}
 
 	/**
