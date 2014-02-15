@@ -121,12 +121,13 @@ abstract class JHtmlJquery
 	 *
 	 * @param   array  $components  The jQuery UI components to load [optional]
 	 * @param   mixed  $debug       Is debugging mode on? [optional]
+	 * @param   mixed  $useCdn      Is content delivery networks utilized [optional]
 	 *
 	 * @return  void
 	 *
 	 * @since   3.0
 	 */
-	public static function ui(array $components = array('core'), $debug = null)
+	public static function ui(array $components = array('core'), $debug = null, $useCdn = null)
 	{
 		// Set an array containing the supported jQuery UI components handled by this method
 		$supported = array('core', 'sortable');
@@ -139,6 +140,31 @@ abstract class JHtmlJquery
 		{
 			$config = JFactory::getConfig();
 			$debug  = (boolean) $config->get('debug');
+
+			if ($useCdn === null)
+			{
+				$useCdn = (boolean) $config->get('useCdn');
+			}
+		}
+
+		if ($useCdn === null || $useCdn === true)
+		{
+			$config = JFactory::getConfig();
+
+			if ($useCdn === null)
+			{
+				$useCdn = (boolean) $config->get('useCdn');
+			}
+			// Here we have confirmed useCDN is true so we pull the CDN params if they are empty declare them as null
+			if ($useCdn)
+			{
+				$cdnjQUiUri = (strlen($config->get('cdnjQUiUri')) > 0 ? $config->get('cdnjQUiUri'): null);
+
+				if($debug)
+				{
+					$cdnjQUiUri = (strlen($config->get('cdnjQUiUriD')) > 0 ? $config->get('cdnjQUiUriD'):$cdnjQUiUri);
+				}
+			}
 		}
 
 		// Load each of the requested components
@@ -147,7 +173,15 @@ abstract class JHtmlJquery
 			// Only attempt to load the component if it's supported in core and hasn't already been loaded
 			if (in_array($component, $supported) && empty(static::$loaded[__METHOD__][$component]))
 			{
-				JHtml::_('script', 'jui/jquery.ui.' . $component . '.min.js', false, true, false, false, $debug);
+				if ($useCdn && $cdnjQUiUri != null )
+				{
+					JFactory::getDocument()->addScript($cdnjQUIUri);
+				}
+				else
+				{
+					JHtml::_('script', 'jui/jquery.ui.' . $component . '.min.js', false, true, false, false, $debug);
+				}
+
 				static::$loaded[__METHOD__][$component] = true;
 			}
 		}
