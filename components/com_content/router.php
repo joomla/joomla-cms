@@ -300,7 +300,10 @@ function ContentParseRoute($segments)
 		}
 		else
 		{
-			$query = 'SELECT alias, catid FROM #__content WHERE id = ' . (int) $id;
+			$query = $db->getQuery(true)
+						->select($db->quoteName(array('alias', 'catid')))
+						->from($db->quoteName('#__content'))
+						->where($db->quoteName('id') . ' = ' . (int) $id);
 			$db->setQuery($query);
 			$article = $db->loadObject();
 

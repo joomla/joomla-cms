@@ -602,9 +602,9 @@ class ContactModelContact extends JModelAdmin
 			if (empty($table->ordering))
 			{
 				$db = JFactory::getDbo();
-				$query = $db->getQuery(true);
-				$query->select('MAX(ordering)');
-				$query->from('#__contact_details');
+				$query = $db->getQuery(true)
+							->select('MAX(ordering)')
+							->from($db->quoteName('#__contact_details'));
 				$db->setQuery($query);
 				$max = $db->loadResult();
 

@@ -176,9 +176,9 @@ class SearchModelSearches extends JModelList
 	public function reset()
 	{
 		$db = $this->getDbo();
-		$db->setQuery(
-			'DELETE FROM #__core_log_searches'
-		);
+		$query = $db->getQuery(true)
+					->delete($db->quoteName('#__core_log_searches'));
+		$db->setQuery($query);
 
 		try
 		{

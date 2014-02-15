@@ -438,7 +438,10 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 			if (empty($table->ordering))
 			{
 				$db = JFactory::getDbo();
-				$db->setQuery('SELECT MAX(ordering) FROM #__newsfeeds');
+				$query = $db->getQuery(true)
+							->select('MAX(ordering)')
+							->from($db->quoteName('#__newsfeeds'));
+				$db->setQuery($query);
 				$max = $db->loadResult();
 
 				$table->ordering = $max + 1;
