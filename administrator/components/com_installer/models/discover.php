@@ -160,7 +160,11 @@ class InstallerModelDiscover extends InstallerModel
 	{
 		$app       = JFactory::getApplication();
 		$installer = JInstaller::getInstance();
-		$eid       = JRequest::getVar('cid', 0);
+		$input = $app->input;
+		
+		// This seems to replace JRequest::getVar (with no filtering) satisfactorily
+		// but not sure why it now requires an array filter
+		$eid = $app->input->get('cid', 0, 'array');
 
 		if (is_array($eid) || $eid)
 		{
