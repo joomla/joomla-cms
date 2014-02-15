@@ -28,34 +28,27 @@ Class PlgContentGravatar extends JPlugin
 
     public function onContentBeforeDisplay($context, &$row, &$params, $page=0)
     {
-    if($context=='com_content.featured')
-        {
-            //$uri=JURI::base();
-            //$array[]=(JString::parse_url($uri));
             $array=JURI::getInstance()->getScheme(); 
             $size=$this->params->get('size',$this->defaultsize);
-            $emailid=$row->author_email;
+            $GRAVATAR_SERVER=$this->params->get('avatar_http',$this->GRAVATAR_SERVER);
+            $default=$this->params->get('profile_http',$this->default);
+            $GRAVATAR_SECURE_SERVER=  $this->params->get('avatar_https',$this->GRAVATAR_SECURE_SERVER);
+            $securedefault=  $this->params->get('profile_https',$this->securedefault);
+        
+            if($context=='com_content.featured')
+            {
+                $emailid=$row->author_email;
             
             
             if ($array=='http')
             {
-                $html[]=  $this->buildHTML($this->GRAVATAR_SERVER,  $this->default,$emailid,$size);
-                
-                
+                $html[]=  $this->buildHTML($GRAVATAR_SERVER,$default,$emailid,$size);
             }
             
             if($array=='https')
             {
-               
-                $html[]=  $this->buildHTML($this->GRAVATAR_SECURE_SERVER,  $this->securedefault,$emailid,$size);
-                
-                
+               $html[]=  $this->buildHTML($GRAVATAR_SECURE_SERVER,$securedefault,$emailid,$size);
             }
-            
-            
-            
-            
-           
         }
         return implode("</br> ", $html);
     }

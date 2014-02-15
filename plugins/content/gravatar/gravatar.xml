@@ -28,7 +28,10 @@
                     <option value="retro">retro</option>
                     <option value="blank">blank</option>
                 </field>
-                
+                <field name="avatar_http" description="Http address for the avatar" label="HTTP/Avatar" type="Text"></field>
+                <field name="profile_http" description="Http address for the profile" label="HTTP/Profile" type="Text"></field>
+                <field name="avatar_https" description="Https address for the avatar" label="HTTPS/Avatar" type="Text"></field>
+                <field name="profile_https" description="Https address for the profile" label="HTTPS/Profile" type="Text"></field>
             </fieldset>
 	</fields>
 </config>
