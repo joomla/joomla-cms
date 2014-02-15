@@ -15,8 +15,10 @@ defined('_JEXEC') or die; // Stopping Unauthorized access
  * @subpackage  Content.joomla
  * @since       3.2
  */
+
 Class PlgContentAvatar extends JPlugin
 {
+    
     protected $autoloadLanguage = true;
     protected $defaultsize=100;
     protected $GRAVATAR_SERVER="http://www.gravatar.com/avatar/";
