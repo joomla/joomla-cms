@@ -800,7 +800,10 @@ abstract class JError
 			}
 
 			@ob_end_clean();
-			$document->setTitle(JText::_('Error') . ': ' . $error->get('code'));
+			// When there is a DB error, the $error can be a RuntimeException object and the get function does not exists.
+			// So test that the get function is present to avoid a PHP Fatail error that forbid reporting the error.
+			if ( method_exists( $error, 'get')) { $document->setTitle(JText::_('Error') . ': ' . $error->get('code')); }
+			else                                { $document->setTitle(JText::_('Error')); }
 			$data = $document->render(false, array('template' => $template, 'directory' => JPATH_THEMES, 'debug' => $config->get('debug')));
 
 			// Failsafe to get the error displayed.
