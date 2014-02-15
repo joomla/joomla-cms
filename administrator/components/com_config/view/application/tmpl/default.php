@@ -65,6 +65,7 @@ JHtml::_('formbehavior.chosen', 'select');
 						</div>
 						<div class="span6">
 							<?php echo $this->loadTemplate('seo'); ?>
+                                                        <?php echo $this->loadTemplate('cdn'); ?>
 							<?php echo $this->loadTemplate('cookie'); ?>
 						</div>
 					</div>

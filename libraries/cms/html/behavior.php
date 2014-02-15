@@ -33,38 +33,72 @@ abstract class JHtmlBehavior
 	 *
 	 * @param   boolean  $extras  Flag to determine whether to load MooTools More in addition to Core
 	 * @param   mixed    $debug   Is debugging mode on? [optional]
+	 * @param   mixed    $useCdn  Is content delivery networks utilized [optional]
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	public static function framework($extras = false, $debug = null)
+	public static function framework($extras = false, $debug = null, $useCdn = null)
 	{
-		$type = $extras ? 'more' : 'core';
+	$type = $extras ? 'more' : 'core';
 
-		// Only load once
-		if (!empty(static::$loaded[__METHOD__][$type]))
-		{
-			return;
-		}
-
-		// If no debugging value is set, use the configuration setting
-		if ($debug === null)
-		{
-			$config = JFactory::getConfig();
-			$debug = $config->get('debug');
-		}
-
-		if ($type != 'core' && empty(static::$loaded[__METHOD__]['core']))
-		{
-			static::framework(false, $debug);
-		}
-
-		JHtml::_('script', 'system/mootools-' . $type . '.js', false, true, false, false, $debug);
-		JHtml::_('script', 'system/core.js', false, true);
-		static::$loaded[__METHOD__][$type] = true;
-
+	// Only load once
+	if (!empty(static::$loaded[__METHOD__][$type]))
+	{
 		return;
+	}
+
+	// If no debugging value is set, use the configuration setting
+	if ($debug === null)
+	{
+		$config = JFactory::getConfig();
+		$debug = $config->get('debug');
+
+		if ($useCdn === null)
+		{
+		$useCdn = (boolean) $config->get('useCdn');
+		}
+	}
+
+	if ($useCdn === null || $useCdn === true)
+	{
+		$config = JFactory::getConfig();
+
+		if ($useCdn === null)
+		{
+		$useCdn = (boolean) $config->get('useCdn');
+		}
+
+		if ($useCdn)
+		{
+			$cdnMTUri = (strlen($config->get('cdnMTUri')) > 0 ? $config->get('cdnMTUri') : null);
+
+			if ($debug)
+			{
+				$cdnMTUri = (strlen($config->get('cdnMTUriD')) > 0 ? $config->get('cdnMTUriD') : $cdnMTUri);
+			}
+		}
+	}
+
+	if ($type != 'core' && empty(static::$loaded[__METHOD__]['core']))
+	{
+		static::framework(false, $debug);
+	}
+
+	if ($useCdn && $cdnMTUri !== null)
+	{
+		JFactory::getDocument()->addScript($cdnMTUri);
+	}
+	else
+	{
+		JHtml::_('script', 'system/mootools-' . $type . '.js', false, true, false, false, $debug);
+	}
+
+	JHtml::_('script', 'system/core.js', false, true);
+	static::$loaded[__METHOD__][$type] = true;
+
+	return;
 	}
 
 	/**
@@ -78,26 +112,22 @@ abstract class JHtmlBehavior
 	 */
 	public static function caption($selector = 'img.caption')
 	{
-		// Only load once
-		if (isset(static::$loaded[__METHOD__][$selector]))
-		{
-			return;
-		}
+	// Only load once
+	if (isset(static::$loaded[__METHOD__][$selector]))
+	{
+		return;
+	}
 
-		// Include jQuery
-		JHtml::_('jquery.framework');
+	// Include jQuery
+	JHtml::_('jquery.framework');
 
-		JHtml::_('script', 'system/caption.js', false, true);
+	JHtml::_('script', 'system/caption.js', false, true);
 
-		// Attach caption to document
-		JFactory::getDocument()->addScriptDeclaration(
-			"jQuery(window).on('load',  function() {
-				new JCaption('" . $selector . "');
-			});"
-		);
+	// Attach caption to document
+	JFactory::getDocument()->addScriptDeclaration("jQuery(window).on('load',  function() {new JCaption('" . $selector . "');});");
 
-		// Set static array
-		static::$loaded[__METHOD__][$selector] = true;
+	// Set static array
+	static::$loaded[__METHOD__][$selector] = true;
 	}
 
 	/**
@@ -665,8 +695,8 @@ abstract class JHtmlBehavior
 		// Include MooTools framework
 		static::framework();
 
-		$js = "window.addEvent('domready', function () {if (top == self) {document.documentElement.style.display = 'block'; }" .
-			" else {top.location = self.location; }});";
+		$js = "window.addEvent('domready', function () {if (top == self) {document.documentElement.style.display = 'block'; }"
+				. " else {top.location = self.location; }});";
 		$document = JFactory::getDocument();
 		$document->addStyleDeclaration('html { display:none }');
 		$document->addScriptDeclaration($js);

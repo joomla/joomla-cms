@@ -32,12 +32,13 @@ abstract class JHtmlJquery
 	 * @param   boolean  $noConflict  True to load jQuery in noConflict mode [optional]
 	 * @param   mixed    $debug       Is debugging mode on? [optional]
 	 * @param   boolean  $migrate     True to enable the jQuery Migrate plugin
-	 *
+	 * @param   mixed    $useCdn      Is content delivery networks utilized [optional]
+	 * 
 	 * @return  void
 	 *
 	 * @since   3.0
 	 */
-	public static function framework($noConflict = true, $debug = null, $migrate = true)
+	public static function framework($noConflict = true, $debug = null, $migrate = true, $useCdn = null)
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__]))
@@ -49,12 +50,47 @@ abstract class JHtmlJquery
 		if ($debug === null)
 		{
 			$config = JFactory::getConfig();
-			$debug  = (boolean) $config->get('debug');
+			$debug = (boolean) $config->get('debug');
+
+			// Check if CDN us null now to avoid a second call to the configuration later if CDN is false
+			if ($useCdn === null)
+			{
+				$useCdn = (boolean) $config->get('useCdn');
+			}
+		}
+		// Now check CDN again in case debug was not null and also if it was true - we need the CDN parameters now to process.
+		if ($useCdn === null || $useCdn === true)
+		{
+			$config = JFactory::getConfig();
+
+			if ($useCdn === null)
+			{
+				$useCdn = (boolean) $config->get('useCdn');
+			}
+			// Here we have confirmed useCDN is true so we pull the CDN params if they are empty declare them as null
+			if ($useCdn)
+			{
+				$cdnjQUri = (strlen($config->get('cdnjQUri')) > 0 ? $config->get('cdnjQUri'): null);
+				$cdnjQMigrateUri = (strlen($config->get('cdnjQMigrateUri')) > 0 ? $config->get('cdnjQMigrateUri'): null);
+
+				if($debug)
+				{
+					$cdnjQUri = (strlen($config->get('cdnjQUriD')) > 0 ? $config->get('cdnjQUriD'):$cdnjQUri);
+					$cdnjQMigrateUri = (strlen($config->get('cdnjQMigrateUriD')) > 0 ? $config->get('cdnjQMigrateUriD') : $cdnjQMigrateUri);
+				}
+			}
 		}
 
-		JHtml::_('script', 'jui/jquery.min.js', false, true, false, false, $debug);
+		if ($useCdn && $cdnjQUri != null)
+		{
+			JFactory::getDocument()->addScript($cdnjQUri);
+		}
+		else
+		{
+			JHtml::_('script', 'jui/jquery.min.js', false, true, false, false, $debug);
+		}
 
-		// Check if we are loading in noConflict
+		// Check if we are loading in noConflict not worth using a CDN
 		if ($noConflict)
 		{
 			JHtml::_('script', 'jui/jquery-noconflict.js', false, true, false, false, false);
@@ -63,7 +99,14 @@ abstract class JHtmlJquery
 		// Check if we are loading Migrate
 		if ($migrate)
 		{
-			JHtml::_('script', 'jui/jquery-migrate.min.js', false, true, false, false, $debug);
+			if ($useCdn && $cdnjQMigrateUri != null )
+			{
+				JFactory::getDocument()->addScript($cdnjQMigrateUri);
+			}
+			else
+			{
+				JHtml::_('script', 'jui/jquery-migrate.min.js', false, true, false, false, $debug);
+			}
 		}
 
 		static::$loaded[__METHOD__] = true;
@@ -78,12 +121,13 @@ abstract class JHtmlJquery
 	 *
 	 * @param   array  $components  The jQuery UI components to load [optional]
 	 * @param   mixed  $debug       Is debugging mode on? [optional]
+	 * @param   mixed  $useCdn      Is content delivery networks utilized [optional]
 	 *
 	 * @return  void
 	 *
 	 * @since   3.0
 	 */
-	public static function ui(array $components = array('core'), $debug = null)
+	public static function ui(array $components = array('core'), $debug = null, $useCdn = null)
 	{
 		// Set an array containing the supported jQuery UI components handled by this method
 		$supported = array('core', 'sortable');
@@ -96,6 +140,31 @@ abstract class JHtmlJquery
 		{
 			$config = JFactory::getConfig();
 			$debug  = (boolean) $config->get('debug');
+
+			if ($useCdn === null)
+			{
+				$useCdn = (boolean) $config->get('useCdn');
+			}
+		}
+
+		if ($useCdn === null || $useCdn === true)
+		{
+			$config = JFactory::getConfig();
+
+			if ($useCdn === null)
+			{
+				$useCdn = (boolean) $config->get('useCdn');
+			}
+			// Here we have confirmed useCDN is true so we pull the CDN params if they are empty declare them as null
+			if ($useCdn)
+			{
+				$cdnjQUiUri = (strlen($config->get('cdnjQUiUri')) > 0 ? $config->get('cdnjQUiUri'): null);
+
+				if($debug)
+				{
+					$cdnjQUiUri = (strlen($config->get('cdnjQUiUriD')) > 0 ? $config->get('cdnjQUiUriD'):$cdnjQUiUri);
+				}
+			}
 		}
 
 		// Load each of the requested components
@@ -104,7 +173,15 @@ abstract class JHtmlJquery
 			// Only attempt to load the component if it's supported in core and hasn't already been loaded
 			if (in_array($component, $supported) && empty(static::$loaded[__METHOD__][$component]))
 			{
-				JHtml::_('script', 'jui/jquery.ui.' . $component . '.min.js', false, true, false, false, $debug);
+				if ($useCdn && $cdnjQUiUri != null )
+				{
+					JFactory::getDocument()->addScript($cdnjQUIUri);
+				}
+				else
+				{
+					JHtml::_('script', 'jui/jquery.ui.' . $component . '.min.js', false, true, false, false, $debug);
+				}
+
 				static::$loaded[__METHOD__][$component] = true;
 			}
 		}
