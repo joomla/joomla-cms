@@ -62,6 +62,31 @@ class PlgUserJoomla extends JPlugin
 
 		return true;
 	}
+	
+	
+	/**
+	 * Pre-store-process the user data.
+	 *
+	 * @access	public
+	 * @param	array	$old	The user properties as they were before change
+	 * @param	boolean	$isNew	Flag indicating whether the data relates to a new user instance
+	 * @param	array	$new	The changed user properties
+	 * @throws	InvalidArgumentException
+	 * @return	boolean
+	 */
+	public function onUserBeforeSave($old, $isNew, $new)
+	{
+		if ($this->app->isAdmin())
+		{
+			// Dump the processed user's group data for comparision after saving done.
+			$oldUserData = JFactory::getUser(0);
+			$oldUserData->setProperties($old);
+
+			$this->oldUserGroups = $oldUserData->get('groups');
+		}
+
+		return true;
+	}
 
 	/**
 	 * Utility method to act on a user after it has been saved.
@@ -79,6 +104,65 @@ class PlgUserJoomla extends JPlugin
 	 */
 	public function onUserAfterSave($user, $isnew, $success, $msg)
 	{
+		if ($this->app->isAdmin())
+		{
+			// Check if the processed user's group data has changed.
+			$newUserData = JFactory::getUser(0);
+			$newUserData->setProperties($data);
+
+			$newUserGroups = $newUserData->get('groups');
+			$oldUserGroups = &$this->oldUserGroups;
+
+			$hash_old = hash('md5', serialize(array_values($oldUserGroups)));
+			$hash_new = hash('md5', serialize(array_values($newUserGroups)));
+
+			// If so, set a flag into the user's session to trigger its session getting updated asap.
+			if ($hash_old !== $hash_new)
+			{
+				// Get id of the user's session.
+				$session_id = $this->db->setQuery(
+					$this->db->getQuery(true)
+					->from($this->db->qn('#__session'))
+					->select($this->db->qn('session_id'))
+					->where($this->db->qn('userid') . ' = ' . (int) $newUserData->get('id'))
+				)
+				->loadResult();
+
+				if ($session_id)
+				{
+					// Get session handler.
+					$handler = JSessionStorage::getInstance($this->app->getCfg('session_handler'));
+
+					// Load session data by id.
+					if ($session = $handler->read($session_id))
+					{
+						// Unserialize session data.
+						$session        = JSessionHelper::unserialize($session);
+
+						// Populate helper vars.
+						$sess_namespace = current(array_keys($session));
+						$sess_data      = current(array_values($session));
+
+						// Set refresh-flag.
+						$sess_data['session.refresh'] = true;
+
+						// Store updated session data.
+						if (false === ($written = $handler->write($session_id, $sess_namespace .'|'. serialize($sess_data))))
+						{
+							throw new RuntimeException(JText::_('JLIB_SESSION_ERROR_UNSUPPORTED_HANDLER'), 500);
+						}
+
+					}
+
+				}
+
+			}
+
+			// Delete dumped data.
+			unset($this->oldUserGroups);
+
+		}
+		
 		$mail_to_user = $this->params->get('mail_to_user', 1);
 
 		if ($isnew)
