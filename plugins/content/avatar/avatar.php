@@ -77,7 +77,7 @@ Class PlgContentAvatar extends JPlugin
                
                 
                 
-                $html[]='<label class="label label-inverse">';
+                $html[]='<label class="label label-info">';
                 $html[]= JText::_('PLG_CONTENT_AVATAR_MY_NAME').$name;
                 $html[]='</label>';
               
