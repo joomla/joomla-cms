@@ -39,6 +39,7 @@ Class PlgContentAvatar extends JPlugin
             $GRAVATAR_SECURE_SERVER=  $this->params->get('avatar_https',$this->GRAVATAR_SECURE_SERVER);
             $securedefault=  $this->params->get('profile_https',$this->securedefault);
             //if the article is featured 
+           
             if($context=='com_content.featured')
             {   //get the email of the Author 
                 $emailid=$row->author_email;
@@ -46,13 +47,21 @@ Class PlgContentAvatar extends JPlugin
                 $html=($array=='http'? $this->buildHTML($GRAVATAR_SERVER,$default,$emailid,$size): $this->buildHTML($GRAVATAR_SECURE_SERVER,$securedefault,$emailid,$size));
                 
             }
+            else
+            {
+                $id=$row->created_by;
+                $user = JFactory::getUser($id);
+                $emailid=$user->email;
+                $html=($array=='http'? $this->buildHTML($GRAVATAR_SERVER,$default,$emailid,$size): $this->buildHTML($GRAVATAR_SECURE_SERVER,$securedefault,$emailid,$size));
+            } 
+            
                 return implode("<br /> ", $html);
         }
     
         public function buildHTML($avatar,$gravatar_profile,$email,$size)
         {
                 $gravurl=$avatar.md5( strtolower( trim( $email ) ) )."?d=".urlencode($this->default )."&s=".$size;
-                $str=  @file_get_contents("$gravatar_profile".md5($email).".php");
+                $str=  file_get_contents("$gravatar_profile".md5($email).".php");
                 $profile=  unserialize($str);
                  
                 if ( is_array( $profile ) && isset( $profile['entry'] ) )
@@ -62,13 +71,13 @@ Class PlgContentAvatar extends JPlugin
                 $myemail=$profile['entry'][0]['emails'][0]['value'];    
                 $im_accounts=$profile['entry'][0]['ims'][0]['value'];   
                 
-                JHtml::_('jquery.framework');
+                //JHtml::_('jquery.framework');
                 $html[] = '<form="well span4">';
                 $html[] = JHtml::_('image', $gravurl, JText::_('PLG_CONTENT_AVATAR'), null, true);
                
                 
                 
-                $html[]='<label class="label label-info">';
+                $html[]='<label class="label label-inverse">';
                 $html[]= JText::_('PLG_CONTENT_AVATAR_MY_NAME').$name;
                 $html[]='</label>';
               
