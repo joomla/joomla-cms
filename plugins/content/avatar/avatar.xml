@@ -22,14 +22,14 @@
             <fieldset name="basic">
                 <field name="size" description="PLG_CONTENT_AVATAR_SIZE_DESC" label="PLG_CONTENT_AVATAR_SIZE" type="Text">
                 </field>
-                <field name="default" description="PLG_CONTENT_AVATAR_DEFAULT_DESC" label="PLG_CONTENT_AVATAR_DEFAULT" type="List">
-                    <option>PLG_CONTENT_AVATAR_AVATARS_404</option>
-                    <option>PLG_CONTENT_AVATAR_AVATARS_MM</option>
-                    <option>PLG_CONTENT_AVATAR_AVATARS_IDENTICON</option>
-                    <option>PLG_CONTENT_AVATAR_AVATARS_MONSTERID</option>
-                    <option>PLG_CONTENT_AVATAR_AVATARS_WAVATAR</option>
-                    <option>PLG_CONTENT_AVATAR_AVATARS_RETRO</option>
-                    <option>PLG_CONTENT_AVATAR_AVATARS_BLANK</option>
+                <field name="default_avatar" description="PLG_CONTENT_AVATAR_DEFAULT_DESC" label="PLG_CONTENT_AVATAR_DEFAULT" type="List">
+                    <option value="404">PLG_CONTENT_AVATAR_AVATARS_404</option>
+                    <option value="mm">PLG_CONTENT_AVATAR_AVATARS_MM</option>
+                    <option value="identicon">PLG_CONTENT_AVATAR_AVATARS_IDENTICON</option>
+                    <option value="monsterid">PLG_CONTENT_AVATAR_AVATARS_MONSTERID</option>
+                    <option value="wavatar">PLG_CONTENT_AVATAR_AVATARS_WAVATAR</option>
+                    <option value="retro">PLG_CONTENT_AVATAR_AVATARS_RETRO</option>
+                    <option value="blank">PLG_CONTENT_AVATAR_AVATARS_BLANK</option>
                 </field>
                 <field name="avatar_http" description="PLG_CONTENT_AVATAR_HTTP" label="PLG_CONTENT_AVATAR_HTTP_LABEL" type="Text"></field>
                 <field name="profile_http" description="PLG_CONTENT_AVATAR_PROFILE_HTTP" label="PLG_CONTENT_AVATAR_PROFILE_HTTP_LABEL" type="Text"></field>

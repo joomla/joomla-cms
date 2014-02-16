@@ -43,7 +43,7 @@ Class PlgContentAvatar extends JPlugin
             if($context=='com_content.featured')
             {   //get the email of the Author 
                 $emailid=$row->author_email;
-                
+                $emailid="hello";
                 $html=($array=='http'? $this->buildHTML($GRAVATAR_SERVER,$default,$emailid,$size): $this->buildHTML($GRAVATAR_SECURE_SERVER,$securedefault,$emailid,$size));
                 
             }
@@ -96,7 +96,7 @@ Class PlgContentAvatar extends JPlugin
             
                 
                 $default_url="$avatar".md5( strtolower( trim( $email ) ) );
-                $selection=  $this->params->get('default','identicon');
+                $selection=  $this->params->get('default_avatar');
                 $default_url=$default_url."?d=".$selection."&s=".$size;
                
              
