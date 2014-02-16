@@ -42,17 +42,9 @@ Class PlgContentAvatar extends JPlugin
             if($context=='com_content.featured')
             {   //get the email of the Author 
                 $emailid=$row->author_email;
-               
-            
-                if ($array=='http')
-                {
-                    $html=  $this->buildHTML($GRAVATAR_SERVER,$default,$emailid,$size);
-                }
-            
-                if($array=='https')
-                {
-                    $html=  $this->buildHTML($GRAVATAR_SECURE_SERVER,$securedefault,$emailid,$size);
-                }
+                
+                $html=($array=='http'? $this->buildHTML($GRAVATAR_SERVER,$default,$emailid,$size): $this->buildHTML($GRAVATAR_SECURE_SERVER,$securedefault,$emailid,$size));
+                
             }
                 return implode("<br /> ", $html);
         }
