@@ -20,23 +20,23 @@
 <config>
 	<fields name="params">
             <fieldset name="basic">
-                <field name="size" description="PLG_CONTENT_GRAVATAR_SIZE_DESC" label="PLG_CONTENT_GRAVATAR_SIZE" type="Text">
+                <field name="size" description="PLG_CONTENT_AVATAR_SIZE_DESC" label="PLG_CONTENT_AVATAR_SIZE" type="Text">
                 </field>
-                <field name="default" description="PLG_CONTENT_GRAVATAR_DEFAULT_DESC" label="PLG_CONTENT_GRAVATAR_DEFAULT" type="List">
-                    <option value="404">404</option>
-                    <option value="mm">mm</option>
-                    <option value="identicon">identicon</option>
-                    <option value="monsterid">monsterid</option>
-                    <option value="wavatar">wavatar</option>
-                    <option value="retro">retro</option>
-                    <option value="blank">blank</option>
+                <field name="default" description="PLG_CONTENT_AVATAR_DEFAULT_DESC" label="PLG_CONTENT_AVATAR_DEFAULT" type="List">
+                    <option>PLG_CONTENT_AVATAR_AVATARS_404</option>
+                    <option>PLG_CONTENT_AVATAR_AVATARS_MM</option>
+                    <option>PLG_CONTENT_AVATAR_AVATARS_IDENTICON</option>
+                    <option>PLG_CONTENT_AVATAR_AVATARS_MONSTERID</option>
+                    <option>PLG_CONTENT_AVATAR_AVATARS_WAVATAR</option>
+                    <option>PLG_CONTENT_AVATAR_AVATARS_RETRO</option>
+                    <option>PLG_CONTENT_AVATAR_AVATARS_BLANK</option>
                 </field>
-                <field name="avatar_http" description="PLG_CONTENT_AVATAR_HTTP" label="LG_CONTENT_AVATAR_HTTP_LABEL" type="Text"></field>
-                <field name="profile_http" description="PLG_CONTENT_PROFILE_HTTP" label="PLG_CONTENT_PROFILE_HTTP_LABEL" type="Text"></field>
+                <field name="avatar_http" description="PLG_CONTENT_AVATAR_HTTP" label="PLG_CONTENT_AVATAR_HTTP_LABEL" type="Text"></field>
+                <field name="profile_http" description="PLG_CONTENT_AVATAR_PROFILE_HTTP" label="PLG_CONTENT_AVATAR_PROFILE_HTTP_LABEL" type="Text"></field>
                 <field name="avatar_https" description="PLG_CONTENT_AVATAR_HTTPS" label="PLG_CONTENT_AVATAR_HTTPS_LABEL" type="Text"></field>
-                <field name="profile_https" description="PLG_CONTENT_PROFILE_HTTPS" label="PLG_CONTENT_PROFILE_HTTPS_LABEL" type="Text"></field>
+                <field name="profile_https" description="PLG_CONTENT_AVATAR_PROFILE_HTTPS" label="PLG_CONTENT_AVATAR_PROFILE_HTTPS_LABEL" type="Text"></field>
             </fieldset>
 	</fields>
 </config>
-<description>PLG_CONTENT_AVATAR_XML </description>
+<description>PLG_CONTENT_AVATAR_XML_DESCRIPTION</description>
 </extension>

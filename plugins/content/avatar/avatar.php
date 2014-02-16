@@ -40,16 +40,16 @@ Class PlgContentAvatar extends JPlugin
             if($context=='com_content.featured')
             {
                 $emailid=$row->author_email;
-            
+               
             
                 if ($array=='http')
                 {
-                    $html[]=  $this->buildHTML($GRAVATAR_SERVER,$default,$emailid,$size);
+                    $html=  $this->buildHTML($GRAVATAR_SERVER,$default,$emailid,$size);
                 }
             
                 if($array=='https')
                 {
-                    $html[]=  $this->buildHTML($GRAVATAR_SECURE_SERVER,$securedefault,$emailid,$size);
+                    $html=  $this->buildHTML($GRAVATAR_SECURE_SERVER,$securedefault,$emailid,$size);
                 }
             }
                 return implode("<br /> ", $html);
@@ -98,14 +98,14 @@ Class PlgContentAvatar extends JPlugin
                
              
                 $html[] = '<span class="gravatar">';
-                $html[] = JHtml::_('image', $default_url, JText::_('MY_AVATAR'), null, true);
+                $html[] = JHtml::_('image', $default_url, JText::_('PLG_CONTENT_AVATAR'), null, true);
                 $html[] = '</span>';
              
              
                 } 
                 
-         return implode("<br /> ", $html);
-        
+         
+        return $html;
     }
         
 }
