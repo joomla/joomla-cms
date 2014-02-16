@@ -154,6 +154,22 @@ abstract class ConfigViewCmsHtml extends JViewHtml
 			// clear it.
 			$this->_output = ob_get_contents();
 			ob_end_clean();
+		//clear the template name and description at this point as well if they are set,
+			
+			if(isset($this->name))
+			{
+				unset($this->name);
+			}
+
+			if(isset($this->description))
+			{
+				unset($this->description);
+			}
+
+			if(isset($this->fieldsname))
+			{
+				unset($this->fieldsname);
+			}
 
 			return $this->_output;
 		}
