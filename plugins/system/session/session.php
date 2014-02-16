@@ -1,0 +1,104 @@
+<?php
+/**
+ * @package		Joomla.Plugin
+ * @subpackage	System.session
+ *
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+// No direct access.
+defined('_JEXEC') or die;
+
+class plgSystemSession extends JPlugin
+{
+	/**
+	 * Load the language file on instantiation.
+	 *
+	 * @var	boolean
+	 * @since  3.1
+	 */
+	protected $autoloadLanguage = true;
+
+	/**
+	 * Application object
+	 *
+	 * @var    JApplicationCms
+	 * @since  3.2
+	 */
+	protected $app;
+
+	/**
+	 * Database object
+	 *
+	 * @var    JDatabaseDriver
+	 * @since  3.2
+	 */
+	protected $db;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param	object	$subject	The object to observe.
+	 * @param	array	$config	An array that holds the plugin configuration.
+	 */
+	public function __construct(&$subject, $config)
+	{
+		parent::__construct($subject, $config);
+	}
+
+	/**
+	 * This event is triggered after the framework has loaded and the
+	 * application initialise method has been called.
+	 *
+	 * @access	public
+	 * @return	void
+	 */
+	public function onAfterInitialise()
+	{
+		$user         = JFactory::getUser();
+		$session      = JFactory::getSession();
+		$session_name = $session->getName();
+		$session_id   = $session->getId();
+
+		if ($session->get('session.refresh', null) === true)
+		{
+			$logged_in_user = &$user;
+			$logged_in_user->groups = JUserHelper::getUserGroups($logged_in_user->id);
+			$logged_in_user->getAuthorisedGroups();
+			$logged_in_user->getAuthorisedViewLevels();
+
+			// Load session data by id.
+			$handler = JSessionStorage::getInstance($this->app->getCfg('session_handler'));
+
+			if ($db_session = $handler->read($session_id))
+			{
+				// Get the session data.
+				$db_session     = JSessionHelper::unserialize($db_session);
+
+				// Populate helper vars.
+				$sess_namespace = current(array_keys($db_session));
+				$sess_data      = current(array_values($db_session));
+
+				// Get ref to user object in data.
+				$sess_user      = &$sess_data['user'];
+
+				// Assign updated logged in user data.
+				$sess_user      = &$user;
+
+				// Store updated session data.
+				if (false === ($written = $handler->write($session_id, $sess_namespace .'|'. serialize($sess_data))))
+				{
+					throw new RuntimeException(JText::_('JLIB_SESSION_ERROR_UNSUPPORTED_HANDLER'), 500);
+				}
+
+			}
+
+			// Unset refresh-flag.
+			$session->set('session.refresh', null);
+
+		}
+
+	}
+
+}
