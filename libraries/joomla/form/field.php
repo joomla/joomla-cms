@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -273,19 +273,19 @@ abstract class JFormField
 	protected $labelclass;
 
 	/**
-	* The javascript onchange of the form field.
-	*
-	* @var    string
-	* @since  3.2
-	*/
+	 * The javascript onchange of the form field.
+	 *
+	 * @var    string
+	 * @since  3.2
+	 */
 	protected $onchange;
 
 	/**
-	* The javascript onclick of the form field.
-	*
-	* @var    string
-	* @since  3.2
-	*/
+	 * The javascript onclick of the form field.
+	 *
+	 * @var    string
+	 * @since  3.2
+	 */
 	protected $onclick;
 
 	/**
@@ -471,6 +471,16 @@ abstract class JFormField
 				$this->$name = !($value === 'false' || $value === 'off' || $value === '0');
 				break;
 
+			case 'translate_label':
+				$value = (string) $value;
+				$this->translateLabel = $this->translateLabel && !($value === 'false' || $value === 'off' || $value === '0');
+				break;
+
+			case 'translate_description':
+				$value = (string) $value;
+				$this->translateDescription = $this->translateDescription && !($value === 'false' || $value === 'off' || $value === '0');
+				break;
+
 			case 'size':
 				$this->$name = (int) $value;
 				break;
@@ -539,7 +549,8 @@ abstract class JFormField
 			'multiple', 'name', 'id', 'hint', 'class', 'description', 'labelclass', 'onchange',
 			'onclick', 'validate', 'pattern', 'default', 'required',
 			'disabled', 'readonly', 'autofocus', 'hidden', 'autocomplete', 'spellcheck',
-			'translateHint', 'translateLabel', 'translateDescription', 'size');
+			'translateHint', 'translateLabel','translate_label', 'translateDescription',
+			'translate_description' ,'size');
 
 		$this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
@@ -700,8 +711,10 @@ abstract class JFormField
 		// If a description is specified, use it to build a tooltip.
 		if (!empty($this->description))
 		{
+			// Don't translate discription if specified in the field xml.
+			$description = $this->translateDescription ? JText::_($this->description) : $this->description;
 			JHtml::_('bootstrap.tooltip');
-			$label .= ' title="' . JHtml::tooltipText(trim($text, ':'), JText::_($this->description), 0) . '"';
+			$label .= ' title="' . JHtml::tooltipText(trim($text, ':'), $description, 0) . '"';
 		}
 
 		// Add the label text and closing tag.

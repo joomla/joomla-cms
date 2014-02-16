@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -296,6 +296,98 @@ abstract class JUserHelper
 	}
 
 	/**
+	 * Hashes a password using the current encryption.
+	 *
+	 * @param   string  $password  The plaintext password to encrypt.
+	 *
+	 * @return  string  The encrypted password.
+	 *
+	 * @since   3.2.1
+	 */
+	public static function hashPassword($password)
+	{
+		// Use PHPass's portable hashes with a cost of 10.
+		$phpass = new PasswordHash(10, true);
+
+		return $phpass->HashPassword($password);
+	}
+
+	/**
+	 * Formats a password using the current encryption. If the user ID is given
+	 * and the hash does not fit the current hashing algorithm, it automatically
+	 * updates the hash.
+	 *
+	 * @param   string   $password  The plaintext password to check.
+	 * @param   string   $hash      The hash to verify against.
+	 * @param   integer  $user_id   ID of the user if the password hash should be updated
+	 *
+	 * @return  boolean  True if the password and hash match, false otherwise
+	 *
+	 * @since   3.2.1
+	 */
+	public static function verifyPassword($password, $hash, $user_id = 0)
+	{
+		$rehash = false;
+		$match = false;
+
+		// If we are using phpass
+		if (strpos($hash, '$P$') === 0)
+		{
+			// Use PHPass's portable hashes with a cost of 10.
+			$phpass = new PasswordHash(10, true);
+
+			$match = $phpass->CheckPassword($password, $hash);
+
+			$rehash = false;
+		}
+		elseif ($hash[0] == '$')
+		{
+			// JCrypt::hasStrongPasswordSupport() includes a fallback for us in the worst case
+			JCrypt::hasStrongPasswordSupport();
+			$match = password_verify($password, $hash);
+
+			// Uncomment this line if we actually move to bcrypt.
+			// $rehash = password_needs_rehash($hash, PASSWORD_DEFAULT);
+			$rehash = true;
+		}
+		elseif (substr($hash, 0, 8) == '{SHA256}')
+		{
+			// Check the password
+			$parts     = explode(':', $hash);
+			$crypt     = $parts[0];
+			$salt      = @$parts[1];
+			$testcrypt = static::getCryptedPassword($password, $salt, 'sha256', true);
+
+			$match = JCrypt::timingSafeCompare($hash, $testcrypt);
+
+			$rehash = true;
+		}
+		else
+		{
+			// Check the password
+			$parts = explode(':', $hash);
+			$crypt = $parts[0];
+			$salt  = @$parts[1];
+
+			$rehash = true;
+
+			$testcrypt = md5($password . $salt) . ($salt ? ':' . $salt : '');
+
+			$match = JCrypt::timingSafeCompare($hash, $testcrypt);
+		}
+
+		// If we have a match and rehash = true, rehash the password with the current algorithm.
+		if ((int) $user_id > 0 && $match && $rehash)
+		{
+			$user = new JUser($user_id);
+			$user->password = static::hashPassword($password);
+			$user->save();
+		}
+
+		return $match;
+	}
+
+	/**
 	 * Formats a password using the current encryption.
 	 *
 	 * @param   string   $plaintext     The plaintext password to encrypt.
@@ -311,41 +403,12 @@ abstract class JUserHelper
 	 * @return  string  The encrypted password.
 	 *
 	 * @since   11.1
-	 * @note    In Joomla! CMS 3.2 the default encrytion has been changed to bcrypt. When PHP 5.5 is the minimum
-	 *          supported version it will be changed to the PHP PASSWORD_DEFAULT constant.
+	 * @deprecated  4.0
 	 */
-	public static function getCryptedPassword($plaintext, $salt = '', $encryption = 'bcrypt', $show_encrypt = false)
+	public static function getCryptedPassword($plaintext, $salt = '', $encryption = 'md5-hex', $show_encrypt = false)
 	{
-		$app = JFactory::getApplication();
-
-		if ($app->getClientId() != 2)
-		{
-			$joomlaPluginEnabled = JPluginHelper::isEnabled('user', 'joomla');
-		}
-
-		// The Joomla user plugin allows you to use weaker passwords if necessary.
-		if (!empty($joomlaPluginEnabled))
-		{
-			JPluginHelper::importPlugin('user', 'joomla');
-			$userPlugin = JPluginHelper::getPlugin('user', 'joomla');
-			$userPluginParams = new JRegistry($userPlugin->params);
-			PlgUserJoomla::setDefaultEncryption($userPluginParams);
-		}
-
-		// Not all controllers check the length, although they should to avoid DOS attacks.
-		// The maximum password length for bcrypt is 55:
-		if (strlen($plaintext) > 55)
-		{
-			$app->enqueueMessage(JText::_('JLIB_USER_ERROR_PASSWORD_TOO_LONG'), 'error');
-
-			return false;
-		}
-
 		// Get the salt to use.
-		if (empty($salt))
-		{
-			$salt = self::getSalt($encryption, $salt, $plaintext);
-		}
+		$salt = static::getSalt($encryption, $salt, $plaintext);
 
 		// Encrypt the password.
 		switch ($encryption)
@@ -382,7 +445,7 @@ abstract class JUserHelper
 			case 'aprmd5':
 				$length = strlen($plaintext);
 				$context = $plaintext . '$apr1$' . $salt;
-				$binary = self::_bin(md5($plaintext . $salt . $plaintext));
+				$binary = static::_bin(md5($plaintext . $salt . $plaintext));
 
 				for ($i = $length; $i > 0; $i -= 16)
 				{
@@ -393,7 +456,7 @@ abstract class JUserHelper
 					$context .= ($i & 1) ? chr(0) : $plaintext[0];
 				}
 
-				$binary = self::_bin(md5($context));
+				$binary = static::_bin(md5($context));
 
 				for ($i = 0; $i < 1000; $i++)
 				{
@@ -408,7 +471,7 @@ abstract class JUserHelper
 						$new .= $plaintext;
 					}
 					$new .= ($i & 1) ? substr($binary, 0, 16) : $plaintext;
-					$binary = self::_bin(md5($new));
+					$binary = static::_bin(md5($new));
 				}
 
 				$p = array();
@@ -422,43 +485,21 @@ abstract class JUserHelper
 					{
 						$j = 5;
 					}
-					$p[] = self::_toAPRMD5((ord($binary[$i]) << 16) | (ord($binary[$k]) << 8) | (ord($binary[$j])), 5);
+					$p[] = static::_toAPRMD5((ord($binary[$i]) << 16) | (ord($binary[$k]) << 8) | (ord($binary[$j])), 5);
 				}
 
-				return '$apr1$' . $salt . '$' . implode('', $p) . self::_toAPRMD5(ord($binary[11]), 3);
-
-			case 'md5-hex':
-				$encrypted = ($salt) ? md5($plaintext . $salt) : md5($plaintext);
-
-				return ($show_encrypt) ? '{MD5}' . $encrypted : $encrypted;
+				return '$apr1$' . $salt . '$' . implode('', $p) . static::_toAPRMD5(ord($binary[11]), 3);
 
 			case 'sha256':
 				$encrypted = ($salt) ? hash('sha256', $plaintext . $salt) . ':' . $salt : hash('sha256', $plaintext);
 
 				return ($show_encrypt) ? '{SHA256}' . $encrypted : '{SHA256}' . $encrypted;
 
-			// 'bcrypt' is the default case starting in CMS 3.2.
-			case 'bcrypt':
+			case 'md5-hex':
 			default:
-				$useStrongEncryption = JCrypt::hasStrongPasswordSupport();
+				$encrypted = ($salt) ? md5($plaintext . $salt) : md5($plaintext);
 
-				if ($useStrongEncryption === true)
-				{
-					$encrypted = password_hash($plaintext, PASSWORD_BCRYPT);
-
-					if (!$encrypted)
-					{
-						// Something went wrong fall back to sha256.
-							return static::getCryptedPassword($plaintext, '', 'sha256', false);
-					}
-
-					return ($show_encrypt) ? '{BCRYPT}' . $encrypted : $encrypted;
-				}
-				else
-				{
-					// BCrypt isn't available but we want strong passwords, fall back to sha256.
-					return static::getCryptedPassword($plaintext, '', 'sha256', false);
-				}
+				return ($show_encrypt) ? '{MD5}' . $encrypted : $encrypted;
 		}
 	}
 
@@ -479,9 +520,7 @@ abstract class JUserHelper
 	 * @return  string  The generated or extracted salt.
 	 *
 	 * @since   11.1
-	 * @note    Default $encryption will be changed to 'bcrypt' in CMS 3.2 and will at
-	 *          the type used by the PHP PASSWORD_DEFAULT constant until 5.5 is the minimum
-	 *          version required. At that point the default will be PASSWORD_DEFAULT.
+	 * @deprecated  4.0
 	 */
 	public static function getSalt($encryption = 'md5-hex', $seed = '', $plaintext = '')
 	{
@@ -500,18 +539,18 @@ abstract class JUserHelper
 				}
 				break;
 
-				case 'sha256':
-					if ($seed)
-					{
-						return preg_replace('|^{sha256}|i', '', $seed);
-					}
-					else
-					{
-						return static::genRandomPassword(16);
-					}
-					break;
+			case 'sha256':
+				if ($seed)
+				{
+					return preg_replace('|^{sha256}|i', '', $seed);
+				}
+				else
+				{
+					return static::genRandomPassword(16);
+				}
+				break;
 
-				case 'crypt-md5':
+			case 'crypt-md5':
 				if ($seed)
 				{
 					return substr(preg_replace('|^{crypt}|i', '', $seed), 0, 12);
@@ -575,9 +614,6 @@ abstract class JUserHelper
 				}
 				break;
 
-			// BCrypt is aliased because a BCrypt has may be requested when it is not present, and so it falls back to
-			// the default behavior of generating a salt.
-			case 'bcrypt';
 			default:
 				$salt = '';
 
@@ -600,7 +636,7 @@ abstract class JUserHelper
 	 *
 	 * @since   11.1
 	 */
-	public static function genRandomPassword($length = 16)
+	public static function genRandomPassword($length = 8)
 	{
 		$salt = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 		$base = strlen($salt);
