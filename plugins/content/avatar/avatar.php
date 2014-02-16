@@ -43,7 +43,6 @@ Class PlgContentAvatar extends JPlugin
             if($context=='com_content.featured')
             {   //get the email of the Author 
                 $emailid=$row->author_email;
-                //$emailid="infaz";
                 $html=($array=='http'? $this->buildHTML($GRAVATAR_SERVER,$default,$emailid,$size): $this->buildHTML($GRAVATAR_SECURE_SERVER,$securedefault,$emailid,$size));
                 
             }
@@ -62,64 +61,58 @@ Class PlgContentAvatar extends JPlugin
         {
                 
                 // Create an instance of a default JHttp object.
-                $gravurl=$avatar.md5(strtolower(trim($email)))."&s=".$size;
+                
                 // Invoke the HEAD request.
                 $http = JHttpFactory::getHttp();
-                $response= $http->head($gravurl);
-                
-                if($response->code==302)
-                {
-                     
-                     $html[] = '<div class="avatar">';
-                     $html[] = JHtml::_('image', $gravurl, JText::_('PLG_CONTENT_AVATAR'), 'class = "img-circle"', null, true);
-                     $html[] = '</div>';
-                }
-                else
-                {
-                    //$default_url="$avatar".md5(strtolower(trim($email)));
-                    $selection=  $this->params->get('default_avatar');
-                    $default_url="$avatar".md5(strtolower(trim($email)))."?d=".$selection."&s=".$size;
+                $hashedemail=md5(strtolower(trim($email)));
+                $selection=  $this->params->get('default_avatar','404');
+                $grav_url=$avatar.$hashedemail."?d=".$selection."&s=".$size;
                
-             
+               
+                    
                     $html[] = '<div class="avatar">';
-                    $html[] = JHtml::_('image', $default_url, JText::_('PLG_CONTENT_AVATAR'), null, true);
+                    $html[] = JHtml::_('image', $grav_url, JText::_('PLG_CONTENT_AVATAR'), null, true);
                     $html[] = '</div>';
                     
-                }
                 
                 
-                $response_profile = $http->head("$gravatar_profile".md5($email).".php");
                 
-               
+                    $response_profile = $http->get("$gravatar_profile".$hashedemail.".php");
+                    
+                    
                 
-                if($response_profile->code==302||$response_profile==200)
+                if($response_profile->code==302||$response_profile->code==200)
                 {
-                    $str=  file_get_contents("$gravatar_profile".md5($email).".php");
-                    $profile=  unserialize($str);
-                 
+                    $str = file_get_contents( $gravatar_profile.$hashedemail.".php" );
+                    $profile = unserialize( $str );
+                    //$profile=  unserialize($response_profile->body);
+                    
+                
+                    
+                    
                     if ( is_array( $profile ) && isset( $profile['entry'] ) )
                     {      
                     //Reference the array to get details    
-                    $name=$profile['entry'][0]['displayName'];   
-                    $myemail=$profile['entry'][0]['emails'][0]['value'];    
-                    $im_accounts=$profile['entry'][0]['ims'][0]['value'];   
+                        $name=$profile['entry'][0]['displayName'];   
+                        $myemail=$profile['entry'][0]['emails'][0]['value'];    
+                        $im_accounts=$profile['entry'][0]['ims'][0]['value'];   
                 
-                    //JHtml::_('jquery.framework');
+                    
                
                 
-                    $html[]='<div class="avatar">';
-                    $html[]='<label class="label label-info">';
-                    $html[]= JText::_('PLG_CONTENT_AVATAR_MY_NAME').$name;
-                    $html[]='</label>';
+                        $html[]='<div class="avatar">';
+                        $html[]='<label class="label label-info">';
+                        $html[]= JText::_('PLG_CONTENT_AVATAR_MY_NAME').$name;
+                        $html[]='</label>';
               
-                    $html[]='<label class="label label-info">';
-                    $html[]=JText::_('PLG_CONTENT_AVATAR_MY_PUBLIC_EMAIL').$myemail;
-                    $html[]='</label>';
+                        $html[]='<label class="label label-info">';
+                        $html[]=JText::_('PLG_CONTENT_AVATAR_MY_PUBLIC_EMAIL').$myemail;
+                        $html[]='</label>';
                 
-                    $html[]='<label class="label label-info">';
-                    $html[]= JText::_('PLG_CONTENT_AVATAR_IM_ACCOUNT').$im_accounts;
-                    $html[]='</label>';
-                    $html[]='</div>';
+                        $html[]='<label class="label label-info">';
+                        $html[]= JText::_('PLG_CONTENT_AVATAR_IM_ACCOUNT').$im_accounts;
+                        $html[]='</label>';
+                        $html[]='</div>';
              
                     }
                 
