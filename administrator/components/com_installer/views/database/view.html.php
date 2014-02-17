@@ -44,7 +44,7 @@ class InstallerViewDatabase extends InstallerViewDefault
 		$this->pagination = $this->get('Pagination');
 		$this->errorCount = count($this->errors);
 
-		if (!(strncmp($this->schemaVersion, JVERSION, 5) === 0))
+		if (version_compare($this->schemaVersion, JVERSION) != 0)
 		{
 			$this->errorCount++;
 		}
@@ -52,7 +52,7 @@ class InstallerViewDatabase extends InstallerViewDefault
 		{
 			$this->errorCount++;
 		}
-		if (($this->updateVersion != JVERSION))
+		if (version_compare($this->updateVersion, JVERSION) != 0)
 		{
 			$this->errorCount++;
 		}

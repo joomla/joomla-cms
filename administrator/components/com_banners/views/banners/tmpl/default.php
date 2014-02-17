@@ -166,6 +166,9 @@ $sortFields = $this->getSortFields();
 									<?php else : ?>
 										<?php echo $this->escape($item->name); ?>
 									<?php endif; ?>
+									<span class="small">
+										<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+									</span>
 									<div class="small">
 										<?php echo $this->escape($item->category_title); ?>
 									</div>
