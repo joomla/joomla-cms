@@ -45,15 +45,16 @@ class PlgUserContactCreator extends JPlugin
 
 		if (empty($user_id))
 		{
-			die('invalid userid');
 			return false; // if the user id appears invalid then bail out just in case
 		}
 
 		$category = $this->params->get('category', 0);
+
 		if (empty($category))
 		{
-			JError::raiseWarning(41, JText::_('PLG_CONTACTCREATOR_ERR_NO_CATEGORY'));
-			return false; // bail out if we don't have a category
+			JFactory::getApplication()->enqueueMessage(JText::_('PLG_CONTACTCREATOR_ERR_NO_CATEGORY', 'warning'));
+
+			return false;
 		}
 
 		$db = JFactory::getDbo();
@@ -103,7 +104,12 @@ class PlgUserContactCreator extends JPlugin
 
 		if (!(isset($result)) || !$result)
 		{
-			JError::raiseError(42, JText::sprintf('PLG_CONTACTCREATOR_ERR_FAILED_UPDATE', $contact->getError()));
+			if ($contact->load(array('alias' => $contact->alias, 'catid' => $category)) && ($contact->id != $id || $id == 0))
+			{
+				JFactory::getApplication()->enqueueMessage(JText::_('PLG_CONTACTCREATOR_ERR_FAILED_CREATING_CONTACT', 'warning'));
+
+				return false;
+			}
 		}
 	}
 }
