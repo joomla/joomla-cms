@@ -88,6 +88,7 @@ class PlgUserJoomla extends JPlugin
 			{
 				if ($mail_to_user)
 				{
+					// Load user_joomla plugin language (not done automatically).
 					$lang = JFactory::getLanguage();
 					$defaultLocale = $lang->getTag();
 
