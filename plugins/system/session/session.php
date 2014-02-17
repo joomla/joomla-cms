@@ -56,46 +56,52 @@ class plgSystemSession extends JPlugin
 	 */
 	public function onAfterInitialise()
 	{
-		$user         = JFactory::getUser();
-		$session      = JFactory::getSession();
-		$session_name = $session->getName();
-		$session_id   = $session->getId();
-
-		if ($session->get('session.refresh', null) === true)
+		// Check if the required counterpart plugin is available and enabled.
+		if (JPluginHelper::isEnabled('user', 'session'))
 		{
-			$logged_in_user = &$user;
-			$logged_in_user->groups = JUserHelper::getUserGroups($logged_in_user->id);
-			$logged_in_user->getAuthorisedGroups();
-			$logged_in_user->getAuthorisedViewLevels();
+			$session         = JFactory::getSession();
+			$session_id      = $session->getId();
+			$session_handler = $this->app->getCfg('session_handler');
 
-			// Load session data by id.
-			$handler = JSessionStorage::getInstance($this->app->getCfg('session_handler'));
+			// Read the update flag name to check for.
+			$plg_params      = new JRegistry(JPluginHelper::getPlugin('user', 'session')->params);
+			$flag            = $plg_params->get('session_update_flag_name', 'refresh');
 
-			if ($db_session = $handler->read($session_id))
+			// Our session tweak currently works only for session storage 'Database'.
+			if ($session_handler == 'database' && $session->get("session.{$flag}", null) == true)
 			{
-				// Get the session data.
-				$db_session     = JSessionHelper::unserialize($db_session);
+				$user = JFactory::getUser();
+				$user->groups = JUserHelper::getUserGroups($user->id);
+				$user->getAuthorisedGroups();
+				$user->getAuthorisedViewLevels();
 
-				// Populate helper vars.
-				$sess_namespace = current(array_keys($db_session));
-				$sess_data      = current(array_values($db_session));
+				// Load session data by id.
+				$handler = JSessionStorage::getInstance($session_handler);
 
-				// Get ref to user object in data.
-				$sess_user      = &$sess_data['user'];
-
-				// Assign updated logged in user data.
-				$sess_user      = &$user;
-
-				// Store updated session data.
-				if (false === ($written = $handler->write($session_id, $sess_namespace .'|'. serialize($sess_data))))
+				if ($db_session = $handler->read($session_id))
 				{
-					throw new RuntimeException(JText::_('JLIB_SESSION_ERROR_UNSUPPORTED_HANDLER'), 500);
+					// Get the session data.
+					$db_session        = JSessionHelper::unserialize($db_session);
+
+					// Populate helper vars.
+					$sess_namespace    = current(array_keys($db_session));
+					$sess_data         = current(array_values($db_session));
+
+					// Replace session user data by updated logged in user data to.
+					$sess_data['user'] = &$user;
+
+					// Store updated session data.
+					if (false === ($written = $handler->write($session_id, $sess_namespace .'|'. serialize($sess_data))))
+					{
+						throw new RuntimeException(JText::_('JLIB_SESSION_ERROR_UNSUPPORTED_HANDLER'), 500);
+					}
+
 				}
 
-			}
+				// Unset refresh-flag.
+				$session->set('session.refresh', null);
 
-			// Unset refresh-flag.
-			$session->set('session.refresh', null);
+			}
 
 		}
 
