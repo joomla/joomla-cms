@@ -243,6 +243,12 @@ class JApplicationCms extends JApplicationWeb
 	 */
 	public function clearMessageQueue($types = array())
 	{
+		// Don't clear message queue in debug mode.
+		if (defined('JDEBUG') && JDEBUG)
+		{
+			return;
+		}
+
 		// Run getMessageQueue to place the session queue in the message queue.
 		$this->getMessageQueue();
 
