@@ -62,31 +62,6 @@ class PlgUserJoomla extends JPlugin
 
 		return true;
 	}
-	
-	
-	/**
-	 * Pre-store-process the user data.
-	 *
-	 * @access	public
-	 * @param	array	$old	The user properties as they were before change
-	 * @param	boolean	$isNew	Flag indicating whether the data relates to a new user instance
-	 * @param	array	$new	The changed user properties
-	 * @throws	InvalidArgumentException
-	 * @return	boolean
-	 */
-	public function onUserBeforeSave($old, $isNew, $new)
-	{
-		if ($this->app->isAdmin())
-		{
-			// Dump the processed user's group data for comparision after saving done.
-			$oldUserData = JFactory::getUser(0);
-			$oldUserData->setProperties($old);
-
-			$this->oldUserGroups = $oldUserData->get('groups');
-		}
-
-		return true;
-	}
 
 	/**
 	 * Utility method to act on a user after it has been saved.
@@ -104,65 +79,6 @@ class PlgUserJoomla extends JPlugin
 	 */
 	public function onUserAfterSave($user, $isnew, $success, $msg)
 	{
-		if ($this->app->isAdmin())
-		{
-			// Check if the processed user's group data has changed.
-			$newUserData = JFactory::getUser(0);
-			$newUserData->setProperties($data);
-
-			$newUserGroups = $newUserData->get('groups');
-			$oldUserGroups = &$this->oldUserGroups;
-
-			$hash_old = hash('md5', serialize(array_values($oldUserGroups)));
-			$hash_new = hash('md5', serialize(array_values($newUserGroups)));
-
-			// If so, set a flag into the user's session to trigger its session getting updated asap.
-			if ($hash_old !== $hash_new)
-			{
-				// Get id of the user's session.
-				$session_id = $this->db->setQuery(
-					$this->db->getQuery(true)
-					->from($this->db->qn('#__session'))
-					->select($this->db->qn('session_id'))
-					->where($this->db->qn('userid') . ' = ' . (int) $newUserData->get('id'))
-				)
-				->loadResult();
-
-				if ($session_id)
-				{
-					// Get session handler.
-					$handler = JSessionStorage::getInstance($this->app->getCfg('session_handler'));
-
-					// Load session data by id.
-					if ($session = $handler->read($session_id))
-					{
-						// Unserialize session data.
-						$session        = JSessionHelper::unserialize($session);
-
-						// Populate helper vars.
-						$sess_namespace = current(array_keys($session));
-						$sess_data      = current(array_values($session));
-
-						// Set refresh-flag.
-						$sess_data['session.refresh'] = true;
-
-						// Store updated session data.
-						if (false === ($written = $handler->write($session_id, $sess_namespace .'|'. serialize($sess_data))))
-						{
-							throw new RuntimeException(JText::_('JLIB_SESSION_ERROR_UNSUPPORTED_HANDLER'), 500);
-						}
-
-					}
-
-				}
-
-			}
-
-			// Delete dumped data.
-			unset($this->oldUserGroups);
-
-		}
-		
 		$mail_to_user = $this->params->get('mail_to_user', 1);
 
 		if ($isnew)
@@ -172,8 +88,22 @@ class PlgUserJoomla extends JPlugin
 			{
 				if ($mail_to_user)
 				{
-					// Load user_joomla plugin language (not done automatically).
 					$lang = JFactory::getLanguage();
+					$defaultLocale = $lang->getTag();
+
+					/**
+					 * Look for user language. Priority:
+					 * 	1. User frontend language
+					 * 	2. User backend language
+					 */
+					$userParams = new JRegistry($user['params']);
+					$userLocale = $userParams->get('language', $userParams->get('admin_language', $defaultLocale));
+
+					if ($userLocale != $defaultLocale)
+					{
+						$lang->setLanguage($userLocale);
+					}
+
 					$lang->load('plg_user_joomla', JPATH_ADMINISTRATOR);
 
 					// Compute the mail subject.
@@ -204,6 +134,12 @@ class PlgUserJoomla extends JPlugin
 						->addRecipient($user['email'])
 						->setSubject($emailSubject)
 						->setBody($emailBody);
+
+					// Set application language back to default if we changed it
+					if ($userLocale != $defaultLocale)
+					{
+						$lang->setLanguage($defaultLocale);
+					}
 
 					if (!$mail->Send())
 					{
@@ -374,7 +310,7 @@ class PlgUserJoomla extends JPlugin
 		{
 			if (!$instance->save())
 			{
-				JLog::add('Error in autoregistration for user ' .  $user['username'] . '.', JLog::WARNING, 'error');
+				JLog::add('Error in autoregistration for user ' . $user['username'] . '.', JLog::WARNING, 'error');
 			}
 		}
 		else
@@ -391,7 +327,7 @@ class PlgUserJoomla extends JPlugin
 	 * We set a new cookie either for a user with no cookies or one
 	 * where the user used a cookie to authenticate.
 	 *
-	 * @param   array  options  Array holding options
+	 * @param   array  $options  Array holding options
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -445,6 +381,7 @@ class PlgUserJoomla extends JPlugin
 				$unique = true;
 			}
 		}
+
 		while ($unique === false);
 
 		// If a user logs in with non cookie login and remember me checked we will
