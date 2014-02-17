@@ -174,8 +174,9 @@ class PlgEditorTinymce extends JPlugin
 		}
 
 		$invalid_elements	= $this->params->def('invalid_elements', 'script,applet,iframe');
+		$valid_elements     = $this->params->def('valid_elements', '');
 		$extended_elements	= $this->params->def('extended_elements', '');
-
+		
 		// theme_advanced_* settings
 		$toolbar			= $this->params->def('toolbar', 'top');
 		$toolbar_align		= $this->params->def('toolbar_align', 'left');
@@ -539,6 +540,7 @@ class PlgEditorTinymce extends JPlugin
 					inline_styles : true,
 					gecko_spellcheck : true,
 					entity_encoding : \"$entity_encoding\",
+					valid_elements : \"$valid_elements\",
 					extended_valid_elements : \"$elements\",
 					$forcenewline
 					invalid_elements : \"$invalid_elements\",
@@ -581,6 +583,7 @@ class PlgEditorTinymce extends JPlugin
 					inline_styles : true,
 					gecko_spellcheck : true,
 					entity_encoding : \"$entity_encoding\",
+					valid_elements : \"$valid_elements\",
 					extended_valid_elements : \"$elements\",
 					$forcenewline
 					invalid_elements : \"$invalid_elements\",
