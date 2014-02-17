@@ -18,7 +18,7 @@
  *
  * @package		Joomla.Build
  *
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -84,29 +84,29 @@ echo "Create list of changed files from git repository.\n";
  * Note: If we add new top-level directories or files, be sure to include them here.
  */
 $filesArray = array(
-		"administrator/index.php\n" => true,
-		"bin/index.html\n" => true,
-		"cache/index.html\n" => true,
-		"cli/index.html\n" => true,
-		"components/index.html\n" => true,
-		"images/index.html\n" => true,
-		"includes/index.html\n" => true,
-		"language/index.html\n" => true,
-		"layouts/index.html\n" => true,
-		"libraries/index.html\n" => true,
-		"logs/index.html\n" => true,
-		"media/index.html\n" => true,
-		"modules/index.html\n" => true,
-		"plugins/index.html\n" => true,
-		"templates/index.html\n" => true,
-		"tmp/index.html\n" => true,
-		"htaccess.txt\n" => true,
-		"index.php\n" => true,
-		"LICENSE.txt\n" => true,
-		"README.txt\n" => true,
-		"robots.txt.dist\n" => true,
-		"web.config.txt\n" => true,
-		"joomla.xml\n" => true,
+	"administrator/index.php\n" => true,
+	"bin/index.html\n" => true,
+	"cache/index.html\n" => true,
+	"cli/index.html\n" => true,
+	"components/index.html\n" => true,
+	"images/index.html\n" => true,
+	"includes/index.html\n" => true,
+	"language/index.html\n" => true,
+	"layouts/index.html\n" => true,
+	"libraries/index.html\n" => true,
+	"logs/index.html\n" => true,
+	"media/index.html\n" => true,
+	"modules/index.html\n" => true,
+	"plugins/index.html\n" => true,
+	"templates/index.html\n" => true,
+	"tmp/index.html\n" => true,
+	"htaccess.txt\n" => true,
+	"index.php\n" => true,
+	"LICENSE.txt\n" => true,
+	"README.txt\n" => true,
+	"robots.txt.dist\n" => true,
+	"web.config.txt\n" => true,
+	"joomla.xml\n" => true
 );
 
 // For the packages, replace spaces in stability (RC) with underscores
@@ -127,11 +127,12 @@ for ($num = $release - 1; $num >= 0; $num--)
 	$deletedFiles = array();
 	$files        = file('diffdocs/' . $version . '.' . $num);
 
-	// Loop through and add all files except: tests, installation, build, .git, or docs
+	// Loop through and add all files except: tests, installation, build, .git, .travis, travis, phpunit, .md, or images
 	foreach ($files as $file)
 	{
 		if (substr($file, 2, 5) != 'tests' && substr($file, 2, 12) != 'installation' && substr($file, 2, 5) != 'build' && substr($file, 2, 4) != '.git'
-			&& substr($file, 2, 7) != '.travis' && substr($file, 2, 6) != 'travis' && substr($file, 2, 7) != 'phpunit' && substr($file, -3) != '.md')
+			&& substr($file, 2, 7) != '.travis' && substr($file, 2, 6) != 'travis' && substr($file, 2, 7) != 'phpunit' && substr($file, -3) != '.md'
+			&& substr($file, 2, 6) != 'images')
 		{
 			// Don't add deleted files to the list
 			if (substr($file, 0, 1) != 'D')
@@ -190,9 +191,16 @@ system('tar --create --gzip --file ../packages_full' . $fullVersion . '/Joomla_'
 
 system('zip -r ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.zip * > /dev/null');
 
-// Create full update file without installation folder.
+// Create full update file without installation folder or sample images.
 echo "Build full update package.\n";
 system('rm -r installation');
+system('rm -r images/banners');
+system('rm -r images/headers');
+system('rm -r images/sampledata');
+system('rm images/joomla_black.gif');
+system('rm images/joomla_green.gif');
+system('rm images/joomla_logo_black.jpg');
+system('rm images/powered_by.png');
 
 system('tar --create --bzip2 --file ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.bz2 * > /dev/null');
 

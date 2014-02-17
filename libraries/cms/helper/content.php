@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,9 +42,13 @@ class JHelperContent
 	 * @return  JObject
 	 *
 	 * @since   3.1
+	 * @deprecated  3.2  Use JHelperContent::getActions() instead
 	 */
-	public static function getActions($categoryId = 0, $id = 0, $assetName = '')
+	public static function _getActions($categoryId = 0, $id = 0, $assetName = '')
 	{
+		// Log usage of deprecated function
+		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
+
 		// Reverted a change for version 2.5.6
 		$user	= JFactory::getUser();
 		$result	= new JObject;
@@ -68,6 +72,51 @@ class JHelperContent
 		}
 
 		$actions = JAccess::getActionsFromFile($path, "/access/section[@name='" . $section . "']/");
+
+		foreach ($actions as $action)
+		{
+			$result->set($action->name, $user->authorise($action->name, $assetName));
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Gets a list of the actions that can be performed.
+	 *
+	 * @param   string   $component  The component name.
+	 * @param   string   $section    The access section name.
+	 * @param   integer  $id         The item ID.
+	 *
+	 * @return  JObject
+	 *
+	 * @since   3.2
+	 */
+	public static function getActions($component = '', $section = '', $id = 0)
+	{
+		// Check for deprecated arguments order
+		if (is_int($component) || is_null($component))
+		{
+			$result = self::_getActions($component, $section, $id);
+
+			return $result;
+		}
+
+		$user	= JFactory::getUser();
+		$result	= new JObject;
+
+		$path = JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml';
+
+		if ($section && $id)
+		{
+			$assetName = $component . '.' . $section . '.' . (int) $id;
+		}
+		else
+		{
+			$assetName = $component;
+		}
+
+		$actions = JAccess::getActionsFromFile($path, "/access/section[@name='component']/");
 
 		foreach ($actions as $action)
 		{

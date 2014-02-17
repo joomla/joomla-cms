@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.joomla
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -88,8 +88,22 @@ class PlgUserJoomla extends JPlugin
 			{
 				if ($mail_to_user)
 				{
-					// Load user_joomla plugin language (not done automatically).
 					$lang = JFactory::getLanguage();
+					$defaultLocale = $lang->getTag();
+
+					/**
+					 * Look for user language. Priority:
+					 * 	1. User frontend language
+					 * 	2. User backend language
+					 */
+					$userParams = new JRegistry($user['params']);
+					$userLocale = $userParams->get('language', $userParams->get('admin_language', $defaultLocale));
+
+					if ($userLocale != $defaultLocale)
+					{
+						$lang->setLanguage($userLocale);
+					}
+
 					$lang->load('plg_user_joomla', JPATH_ADMINISTRATOR);
 
 					// Compute the mail subject.
@@ -120,6 +134,12 @@ class PlgUserJoomla extends JPlugin
 						->addRecipient($user['email'])
 						->setSubject($emailSubject)
 						->setBody($emailBody);
+
+					// Set application language back to default if we changed it
+					if ($userLocale != $defaultLocale)
+					{
+						$lang->setLanguage($defaultLocale);
+					}
 
 					if (!$mail->Send())
 					{
@@ -290,7 +310,7 @@ class PlgUserJoomla extends JPlugin
 		{
 			if (!$instance->save())
 			{
-				JLog::add('Error in autoregistration for user ' .  $user['username'] . '.', JLog::WARNING, 'error');
+				JLog::add('Error in autoregistration for user ' . $user['username'] . '.', JLog::WARNING, 'error');
 			}
 		}
 		else
@@ -307,7 +327,7 @@ class PlgUserJoomla extends JPlugin
 	 * We set a new cookie either for a user with no cookies or one
 	 * where the user used a cookie to authenticate.
 	 *
-	 * @param   array  options  Array holding options
+	 * @param   array  $options  Array holding options
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -361,6 +381,7 @@ class PlgUserJoomla extends JPlugin
 				$unique = true;
 			}
 		}
+
 		while ($unique === false);
 
 		// If a user logs in with non cookie login and remember me checked we will
