@@ -179,7 +179,7 @@ class JFormFieldCalendarTest extends TestCase
 						'size' => 25,
 						'maxlength' => 45,
 						'class' => 'myClass',
-						'readonly' => '',
+						'readonly' => 'readonly',
 					)
 				)
 			),
@@ -207,7 +207,7 @@ class JFormFieldCalendarTest extends TestCase
 					array(
 						'size' => 25,
 						'maxlength' => 45,
-						'disabled' => '',
+						'disabled' => 'disabled',
 						'onchange' => 'This is my onchange value',
 					)
 				)
@@ -380,7 +380,7 @@ class JFormFieldCalendarTest extends TestCase
 				'size' => 25,
 				'maxlength' => 45,
 				'class' => 'myClass',
-				'readonly' => ''
+				'readonly' => 'readonly'
 			)
 		);
 
@@ -452,7 +452,7 @@ class JFormFieldCalendarTest extends TestCase
 				'size' => 25,
 				'maxlength' => 45,
 				'class' => 'myClass',
-				'readonly' => ''
+				'readonly' => 'readonly'
 			)
 		);
 
@@ -476,7 +476,7 @@ class JFormFieldCalendarTest extends TestCase
 				'size' => 25,
 				'maxlength' => 45,
 				'class' => 'myClass',
-				'readonly' => ''
+				'readonly' => 'readonly'
 			)
 		);
 

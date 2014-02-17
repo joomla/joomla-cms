@@ -35,7 +35,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 }
 ?>
 	<?php if (!$useDefList && $this->print) : ?>
-		<div id="pop-print" class="btn">
+		<div id="pop-print" class="btn hidden-print">
 			<?php echo JHtml::_('icon.print_screen', $this->item, $params); ?>
 		</div>
 		<div class="clearfix"> </div>
@@ -82,7 +82,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 		<?php endif; ?>
 	<?php else : ?>
 		<?php if ($useDefList) : ?>
-			<div id="pop-print" class="btn">
+			<div id="pop-print" class="btn hidden-print">
 				<?php echo JHtml::_('icon.print_screen', $this->item, $params); ?>
 			</div>
 		<?php endif; ?>
