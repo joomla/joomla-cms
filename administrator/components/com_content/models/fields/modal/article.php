@@ -94,7 +94,6 @@ class JFormFieldModal_Article extends JFormField
 			$link .= '&amp;forcedLanguage='.$this->element['language'];
 		}
 
-
 		if ((int) $this->value > 0)
 		{
 			$db	= JFactory::getDbo();
