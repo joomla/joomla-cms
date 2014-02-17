@@ -16,6 +16,7 @@ defined('_JEXEC') or die; // Stopping Unauthorized access
  * @since       3.2
  */
 
+
 Class PlgContentAvatar extends JPlugin
 {
     //Load the Language files and Initialize Avatar Servers
@@ -26,11 +27,15 @@ Class PlgContentAvatar extends JPlugin
         protected $GRAVATAR_SECURE_SERVER="https://secure.gravatar.com/avatar";
         protected $securedefault="https://secure.gravatar.com/";
         protected $uri;
-
+        
        
         public function onContentBeforeDisplay($context, &$row, &$params, $page=0)
         {       
             //get the scheme http or https
+            if($this->params->get('check_curl')=="true")
+            {
+                include 'curl.php';
+            }
             $array=JURI::getInstance()->getScheme(); 
             //Get input parameters if not use the default values
             $size=$this->params->get('size',$this->defaultsize);
@@ -66,15 +71,14 @@ Class PlgContentAvatar extends JPlugin
                 $hashedemail=md5(strtolower(trim($email)));
                 $selection=  $this->params->get('default_avatar','404');
                 $grav_url=$avatar.$hashedemail."?d=".$selection."&s=".$size;
-                $style=$this->params->get('style');
-                $alignment=  $this->params->get('alignment');
-                //$response=$http->head($grav_url);
-                //var_dump($response->code);
-                //$html[] = '<div class="avatar">';
+                $style=$this->params->get('style','');
+                $alignment=  $this->params->get('alignment','');
+                
+                $html[] = '<div class="avatar">';
                 
                 $html[] = JHtml::_('image',$grav_url,JText::_('PLG_CONTENT_AVATAR'),'class="img-avatar '  . '  ' . $style . ' ' . $alignment . '"',true);
                 
-                //$html[] = '</div>';
+                $html[] = '</div>';
                     
                 $response_profile = $http->get("$gravatar_profile".$hashedemail.".php");
                  
