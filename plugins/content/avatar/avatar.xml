@@ -19,7 +19,7 @@
 </languages>
 <config>
 	<fields name="params">
-            <fieldset name="basic" label="PLG_CONTENT_AVATAR_OPTION_BASIC">
+            <fieldset name="basic" label="JGLOBAL_FIELDSET_BASIC">
                 <field name="size" description="PLG_CONTENT_AVATAR_SIZE_DESC" label="PLG_CONTENT_AVATAR_SIZE" type="Text">
                 </field>
                 
@@ -49,7 +49,7 @@
                 </field>
                 </fieldset>
                 
-                <fieldset name="Advanced" label="PLG_CONTENT_AVATAR_OPTION_ADVANCED">
+                <fieldset name="Advanced" label="JGLOBAL_FIELDSET_ADVANCED">
                 <field name="avatar_http" description="PLG_CONTENT_AVATAR_HTTP" label="PLG_CONTENT_AVATAR_HTTP_LABEL" type="Text"></field>
                 <field name="profile_http" description="PLG_CONTENT_AVATAR_PROFILE_HTTP" label="PLG_CONTENT_AVATAR_PROFILE_HTTP_LABEL" type="Text"></field>
                 <field name="avatar_https" description="PLG_CONTENT_AVATAR_HTTPS" label="PLG_CONTENT_AVATAR_HTTPS_LABEL" type="Text"></field>

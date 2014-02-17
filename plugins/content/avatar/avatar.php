@@ -32,10 +32,7 @@ Class PlgContentAvatar extends JPlugin
         public function onContentBeforeDisplay($context, &$row, &$params, $page=0)
         {       
             //get the scheme http or https
-            if($this->params->get('check_curl')=="true")
-            {
-                include 'curl.php';
-            }
+            
             $array=JURI::getInstance()->getScheme(); 
             //Get input parameters if not use the default values
             $size=$this->params->get('size',$this->defaultsize);
@@ -84,10 +81,18 @@ Class PlgContentAvatar extends JPlugin
                  
                 if($response_profile->code==302||$response_profile->code==200)
                 {
-                    $str = file_get_contents( $gravatar_profile.$hashedemail.".php" );
-                    $profile = unserialize($str);
+                    if($this->params->get('check_curl',"No")=="Yes")
+                    {
+                        $str=$response_profile->body;
+                        $profile = unserialize($str);
+                    }
+                    else
+                    {
+                        $str = file_get_contents( $gravatar_profile.$hashedemail.".php" );
+                        $profile = unserialize($str);
+                    }
                     
-                    if ( is_array( $profile ) && isset( $profile['entry'] ) )
+                    if (is_array($profile )&&isset( $profile['entry']))
                     {      
                         //Reference the array to get details    
                         $name=$profile['entry'][0]['displayName'];   
