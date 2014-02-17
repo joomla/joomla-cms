@@ -310,7 +310,7 @@ class PlgUserJoomla extends JPlugin
 		{
 			if (!$instance->save())
 			{
-				JLog::add('Error in autoregistration for user ' . $user['username'] . '.', JLog::WARNING, 'error');
+				JLog::add('Error in autoregistration for user ' .  $user['username'] . '.', JLog::WARNING, 'error');
 			}
 		}
 		else
