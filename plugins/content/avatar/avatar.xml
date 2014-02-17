@@ -31,6 +31,18 @@
                     <option value="retro">PLG_CONTENT_AVATAR_AVATARS_RETRO</option>
                     <option value="blank">PLG_CONTENT_AVATAR_AVATARS_BLANK</option>
                 </field>
+                <field name="style" description="PLG_CONTENT_AVATAR_IMAGE_STYLE_DESC" label="PLG_CONTENT_AVATAR_IMAGE_STYLE_LABEL" type="List">
+                    <option value="">PLG_CONTENT_AVATAR_IMAGE_NONE</option>
+                    <option value="img-rounded">PLG_CONTENT_AVATAR_IMAGE_ROUNDED</option>
+                    <option value="img-circle">PLG_CONTENT_AVATAR_IMAGE_CIRCLE</option>
+                    <option value="img-polaroid">PLG_CONTENT_AVATAR_IMAGE_POLOROID</option>
+                </field>
+                <field name="alignment" description="PLG_CONTENT_AVATAR_IMAGE_ALIGNMENT" label="PLG_CONTENT_AVATAR_IMAGE_ALIGNMENT_LABEL" type="List">
+                    <option value="">PLG_CONTENT_AVATAR_IMAGE_ALIGNMENT_NONE</option>
+                    <option value="pull-left">PLG_CONTENT_AVATAR_IMAGE_ALIGNMENT_LEFT </option>
+                    <option value="pull-right">PLG_CONTENT_AVATAR_IMAGE_ALIGNMENT_RIGHT</option>
+                    
+                </field>
                 <field name="avatar_http" description="PLG_CONTENT_AVATAR_HTTP" label="PLG_CONTENT_AVATAR_HTTP_LABEL" type="Text"></field>
                 <field name="profile_http" description="PLG_CONTENT_AVATAR_PROFILE_HTTP" label="PLG_CONTENT_AVATAR_PROFILE_HTTP_LABEL" type="Text"></field>
                 <field name="avatar_https" description="PLG_CONTENT_AVATAR_HTTPS" label="PLG_CONTENT_AVATAR_HTTPS_LABEL" type="Text"></field>

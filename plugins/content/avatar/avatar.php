@@ -27,7 +27,7 @@ Class PlgContentAvatar extends JPlugin
         protected $securedefault="https://secure.gravatar.com/";
         protected $uri;
 
-
+       
         public function onContentBeforeDisplay($context, &$row, &$params, $page=0)
         {       
             //get the scheme http or https
@@ -61,38 +61,31 @@ Class PlgContentAvatar extends JPlugin
         {
                 
                 // Create an instance of a default JHttp object.
-                
                 // Invoke the HEAD request.
                 $http = JHttpFactory::getHttp();
                 $hashedemail=md5(strtolower(trim($email)));
                 $selection=  $this->params->get('default_avatar','404');
                 $grav_url=$avatar.$hashedemail."?d=".$selection."&s=".$size;
-               
-               
-                    
-                    $html[] = '<div class="avatar">';
-                    $html[] = JHtml::_('image', $grav_url, JText::_('PLG_CONTENT_AVATAR'), null, true);
-                    $html[] = '</div>';
-                    
+                $style=$this->params->get('style');
+                $alignment=  $this->params->get('alignment');
+                //$response=$http->head($grav_url);
+                //var_dump($response->code);
+                //$html[] = '<div class="avatar">';
                 
+                $html[] = JHtml::_('image',$grav_url,JText::_('PLG_CONTENT_AVATAR'),'class="img-avatar '  . '  ' . $style . ' ' . $alignment . '"',true);
                 
-                
-                    $response_profile = $http->get("$gravatar_profile".$hashedemail.".php");
+                //$html[] = '</div>';
                     
-                    
-                
+                $response_profile = $http->get("$gravatar_profile".$hashedemail.".php");
+                 
                 if($response_profile->code==302||$response_profile->code==200)
                 {
                     $str = file_get_contents( $gravatar_profile.$hashedemail.".php" );
-                    $profile = unserialize( $str );
-                    //$profile=  unserialize($response_profile->body);
-                    
-                
-                    
+                    $profile = unserialize($str);
                     
                     if ( is_array( $profile ) && isset( $profile['entry'] ) )
                     {      
-                    //Reference the array to get details    
+                        //Reference the array to get details    
                         $name=$profile['entry'][0]['displayName'];   
                         $myemail=$profile['entry'][0]['emails'][0]['value'];    
                         $im_accounts=$profile['entry'][0]['ims'][0]['value'];   
@@ -100,7 +93,7 @@ Class PlgContentAvatar extends JPlugin
                     
                
                 
-                        $html[]='<div class="avatar">';
+                        $html[]='<div class="avatar-profile">';
                         $html[]='<label class="label label-info">';
                         $html[]= JText::_('PLG_CONTENT_AVATAR_MY_NAME').$name;
                         $html[]='</label>';
