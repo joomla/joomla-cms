@@ -327,7 +327,7 @@ class PlgUserJoomla extends JPlugin
 	 * We set a new cookie either for a user with no cookies or one
 	 * where the user used a cookie to authenticate.
 	 *
-	 * @param   array  $options  Array holding options
+	 * @param   array  options  Array holding options
 	 *
 	 * @return  boolean  True on success
 	 *
