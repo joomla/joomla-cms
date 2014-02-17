@@ -23,9 +23,22 @@ class JMenuSite extends JMenu
 	 */
 	public function load()
 	{
+		$this->_items = JFactory::getCache('_system')->call(array('JMenuSite', '_loadCachable'));
+		if($this->_items === false) {
+			JError::raiseWarning(500, JText::sprintf('JERROR_LOADING_MENUS', $db->getErrorMsg()));
+			return false;
+		}
+	}
+
+	/**
+	 * Helper method to load the entire menu table into cache storage
+	 * Returns an array or the boolean false in case of failure
+	 *
+	 * @return mixed
+	 */
+	public static function _loadCachable() {
 		// Initialise variables.
 		$db		= JFactory::getDbo();
-		$app	= JApplication::getInstance('site');
 		$query	= $db->getQuery(true);
 
 		$query->select('m.id, m.menutype, m.title, m.alias, m.note, m.path AS route, m.link, m.type, m.level, m.language');
@@ -40,16 +53,15 @@ class JMenuSite extends JMenu
 
 		// Set the query
 		$db->setQuery($query);
-		if (!($this->_items = $db->loadObjectList('id'))) {
-			JError::raiseWarning(500, JText::sprintf('JERROR_LOADING_MENUS', $db->getErrorMsg()));
+		if (!($_items = $db->loadObjectList('id'))) {
 			return false;
 		}
 
-		foreach($this->_items as &$item) {
+		foreach($_items as &$item) {
 			// Get parent information.
 			$parent_tree = array();
-			if (isset($this->_items[$item->parent_id])) {
-				$parent_tree  = $this->_items[$item->parent_id]->tree;
+			if (isset($_items[$item->parent_id])) {
+				$parent_tree  = $_items[$item->parent_id]->tree;
 			}
 
 			// Create tree.
@@ -62,6 +74,8 @@ class JMenuSite extends JMenu
 
 			parse_str($url, $item->query);
 		}
+
+		return $_items;
 	}
 
 	/**
