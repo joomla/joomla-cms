@@ -55,8 +55,8 @@
                 <field name="avatar_https" description="PLG_CONTENT_AVATAR_HTTPS" label="PLG_CONTENT_AVATAR_HTTPS_LABEL" type="Text"></field>
                 <field name="profile_https" description="PLG_CONTENT_AVATAR_PROFILE_HTTPS" label="PLG_CONTENT_AVATAR_PROFILE_HTTPS_LABEL" type="Text"></field>
                 <field name="check_curl" type="list" label="PLG_CONTENT_AVATAR_CURL_LABEL" description="PLG_CONTENT_AVATAR_CURL_DESC">
-                    <option value="true">PLG_CONTENT_AVATAR_CURL_YES</option>
-                    <option value="false">PLG_CONTENT_AVATAR_CURL_NO</option>
+                    <option value="1">PLG_CONTENT_AVATAR_CURL_YES</option>
+                    <option value="0">PLG_CONTENT_AVATAR_CURL_NO</option>
                 </field>
                 </fieldset>
 	</fields>

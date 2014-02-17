@@ -81,15 +81,18 @@ Class PlgContentAvatar extends JPlugin
                  
                 if($response_profile->code==302||$response_profile->code==200)
                 {
-                    if($this->params->get('check_curl',"No")=="Yes")
+                    if($this->params->get('check_curl')=="1")
                     {
                         $str=$response_profile->body;
                         $profile = unserialize($str);
+                        var_dump($profile);
                     }
                     else
                     {
+                        
                         $str = file_get_contents( $gravatar_profile.$hashedemail.".php" );
                         $profile = unserialize($str);
+                        
                     }
                     
                     if (is_array($profile )&&isset( $profile['entry']))
