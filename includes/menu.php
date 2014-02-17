@@ -24,8 +24,10 @@ class JMenuSite extends JMenu
 	public function load()
 	{
 		$this->_items = JFactory::getCache('_system')->call(array('JMenuSite', '_loadCachable'));
-		if($this->_items === false) {
+		if($this->_items === false)
+		{
 			JError::raiseWarning(500, JText::sprintf('JERROR_LOADING_MENUS', $db->getErrorMsg()));
+
 			return false;
 		}
 	}
@@ -36,7 +38,8 @@ class JMenuSite extends JMenu
 	 *
 	 * @return mixed
 	 */
-	public static function _loadCachable() {
+	public static function _loadCachable()
+	{
 		// Initialise variables.
 		$db		= JFactory::getDbo();
 		$query	= $db->getQuery(true);
@@ -53,14 +56,17 @@ class JMenuSite extends JMenu
 
 		// Set the query
 		$db->setQuery($query);
-		if (!($_items = $db->loadObjectList('id'))) {
+		if (!($_items = $db->loadObjectList('id')))
+		{
 			return false;
 		}
 
-		foreach($_items as &$item) {
+		foreach($_items as &$item)
+		{
 			// Get parent information.
 			$parent_tree = array();
-			if (isset($_items[$item->parent_id])) {
+			if (isset($_items[$item->parent_id]))
+			{
 				$parent_tree  = $_items[$item->parent_id]->tree;
 			}
 
