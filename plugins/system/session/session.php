@@ -67,8 +67,7 @@ class plgSystemSession extends JPlugin
 			$plg_params      = new JRegistry(JPluginHelper::getPlugin('user', 'session')->params);
 			$flag            = $plg_params->get('session_update_flag_name', 'refresh');
 
-			// Our session tweak currently works only for session storage 'Database'.
-			if ($session_handler == 'database' && $session->get("session.{$flag}", null) == true)
+			if (in_array($session_handler, array('database','xcache')) && $session->get("session.{$flag}", null) == true)
 			{
 				$user = JFactory::getUser();
 				$user->groups = JUserHelper::getUserGroups($user->id);
