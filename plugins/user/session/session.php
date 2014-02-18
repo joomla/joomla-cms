@@ -1,6 +1,6 @@
 <?php
 /**
- * @package		Joomla.Plugin
+ * @package	Joomla.Plugin
  * @subpackage	User.session
  *
  * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
@@ -101,7 +101,7 @@ class plgUserSession extends JPlugin
 			// Our session tweak currently works only for session storage 'Database'.
 			$session_handler = $this->app->getCfg('session_handler');
 
-			if ($session_handler == 'database')
+			if (in_array($session_handler, array('database','xcache')))
 			{
 				// Check if the processed user's group data has change.
 				$newUserData = JFactory::getUser(0);
