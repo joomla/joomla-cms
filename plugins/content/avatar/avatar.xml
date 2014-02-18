@@ -32,7 +32,10 @@
                     <option value="retro">PLG_CONTENT_AVATAR_AVATARS_RETRO</option>
                     <option value="blank">PLG_CONTENT_AVATAR_AVATARS_BLANK</option>
                 </field>
-                
+                <field name="show_profileinfo" description="PLG_CONTENT_AVATAR_PROFILE_DESC" label="PLG_CONTENT_AVATAR_PROFILE_LABEL" type="list">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
                 <field name="style" description="PLG_CONTENT_AVATAR_IMAGE_STYLE_DESC" label="PLG_CONTENT_AVATAR_IMAGE_STYLE_LABEL" type="List">
                     <option value="">PLG_CONTENT_AVATAR_IMAGE_NONE</option>
                     <option value="img-rounded">PLG_CONTENT_AVATAR_IMAGE_ROUNDED</option>
@@ -55,8 +58,8 @@
                 <field name="avatar_https" description="PLG_CONTENT_AVATAR_HTTPS" label="PLG_CONTENT_AVATAR_HTTPS_LABEL" type="Text"></field>
                 <field name="profile_https" description="PLG_CONTENT_AVATAR_PROFILE_HTTPS" label="PLG_CONTENT_AVATAR_PROFILE_HTTPS_LABEL" type="Text"></field>
                 <field name="check_curl" type="list" label="PLG_CONTENT_AVATAR_CURL_LABEL" description="PLG_CONTENT_AVATAR_CURL_DESC">
-                    <option value="1">PLG_CONTENT_AVATAR_CURL_YES</option>
-                    <option value="0">PLG_CONTENT_AVATAR_CURL_NO</option>
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 </fieldset>
 	</fields>

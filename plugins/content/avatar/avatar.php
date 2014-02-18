@@ -102,23 +102,23 @@ Class PlgContentAvatar extends JPlugin
                         $myemail=$profile['entry'][0]['emails'][0]['value'];    
                         $im_accounts=$profile['entry'][0]['ims'][0]['value'];   
                 
-                    
-               
+                        if($this->params->get('show_profileinfo')=="1")
+                        {
+                            $html[]='<div class="avatar">' .  JHtml::_('bootstrap.startAccordion', 'slide-avatar', array('active' => 'author-details')); ;
+                            $html[]=JHtml::_('bootstrap.addSlide', 'slide-avatar', JText::_('JAUTHOR_DETAILS'), 'details') . '<label class="label label-info">';
+                            $html[]= JText::_('PLG_CONTENT_AVATAR_MY_NAME').$name;
+                            $html[]='</label>';
+                            $html[]='<label class="label label-info">';
+                            $html[]=JText::_('PLG_CONTENT_AVATAR_MY_PUBLIC_EMAIL').$myemail;
+                            $html[]='</label>';
                 
-                        $html[]='<div class="avatar-profile">';
-                        $html[]='<label class="label label-info">';
-                        $html[]= JText::_('PLG_CONTENT_AVATAR_MY_NAME').$name;
-                        $html[]='</label>';
-              
-                        $html[]='<label class="label label-info">';
-                        $html[]=JText::_('PLG_CONTENT_AVATAR_MY_PUBLIC_EMAIL').$myemail;
-                        $html[]='</label>';
-                
-                        $html[]='<label class="label label-info">';
-                        $html[]= JText::_('PLG_CONTENT_AVATAR_IM_ACCOUNT').$im_accounts;
-                        $html[]='</label>';
-                        $html[]='</div>';
-             
+                            $html[]='<label class="label label-info">';
+                            $html[]= JText::_('PLG_CONTENT_AVATAR_IM_ACCOUNT').$im_accounts;
+                            $html[]='</label>';
+                            $html[]=JHtml::_('bootstrap.endSlide');
+                            $html[]='</div>';
+                        
+                        }
                     }
                 
                 
