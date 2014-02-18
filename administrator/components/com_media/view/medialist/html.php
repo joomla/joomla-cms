@@ -52,7 +52,7 @@ class MediaViewMedialistHtml extends ConfigViewCmsHtml
 		$state = $this->model->getState();
 
 		// Check for invalid folder name
-		if (empty($state->folder)) {
+		if ($state->get('folder') == null) {
 			$dirname = JRequest::getVar('folder', '', '', 'string');
 			if (!empty($dirname)) {
 				$dirname = htmlspecialchars($dirname, ENT_COMPAT, 'UTF-8');
