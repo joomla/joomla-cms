@@ -66,8 +66,9 @@ $input = JFactory::getApplication()->input;
 				</div>
 			</form>
 		</div>
+		<!-- New Folder Form -->
 		<div id="collapseFolder" class="collapse">
-			<form action="index.php?option=com_media&amp;task=folder.create&amp;tmpl=<?php echo $input->getCmd('tmpl', 'index');?>" name="folderForm" id="folderForm" class="form-inline" method="post">
+			<form action="index.php?option=com_media&amp;controller=media.create.medialist&amp;tmpl=<?php echo $input->getCmd('tmpl', 'index');?>" name="folderForm" id="folderForm" class="form-inline" method="post">
 					<div class="path">
 						<input class="inputbox" type="text" id="folderpath" readonly="readonly" />
 						<input class="inputbox" type="text" id="foldername" name="foldername"  />

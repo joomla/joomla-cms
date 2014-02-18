@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 		<li class="imgOutline thumbnail height-80 width-80 center">
 			<div class="imgTotal">
 				<div class="imgBorder">
-					<a class="btn" href="index.php?option=com_media&amp;view=medialist&amp;tmpl=component&amp;folder=<?php echo $this->state->get('parent'); ?>" target="folderframe">
+					<a class="btn" href="index.php?option=com_media&amp;controller=media.display.medialist&amp;view=medialist&amp;tmpl=component&amp;folder=<?php echo $this->state->get('parent'); ?>" target="folderframe">
 						<i class="icon-arrow-up"></i></a>
 				</div>
 			</div>
