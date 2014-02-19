@@ -983,13 +983,14 @@ class JForm
 	 * @param   string  $attribute  The name of the attribute for which to set a value.
 	 * @param   mixed   $value      The value to set for the attribute.
 	 * @param   string  $group      The optional dot-separated form group path on which to find the field.
+	 * @param   boolean $replace    True to replace whole existing field attributes or false to append the new.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   11.1
 	 * @throws  UnexpectedValueException
 	 */
-	public function setFieldAttribute($name, $attribute, $value, $group = null)
+	public function setFieldAttribute($name, $attribute, $value, $group = null, $replace = true)
 	{
 		// Make sure there is a valid JForm XML document.
 		if (!($this->xml instanceof SimpleXMLElement))
@@ -1009,7 +1010,29 @@ class JForm
 		// Otherwise set the attribute and return true.
 		else
 		{
-			$element[$attribute] = $value;
+			// If the attribute to be set must not merged with existing ones, simply set it.
+			if ($replace)
+			{
+				$element[$attribute] = $value;
+			}
+			// Otherwise merge it.
+			else
+			{
+				// Explode current attributes into array.
+				$attributes = explode(' ', (string) $element[$attribute]);
+
+				// Explode passed in values into array.
+				$value = explode(' ', trim($value));
+
+				// Merge both.
+				$attributes = array_unique(array_filter(array_merge($attributes, $value)));
+
+				// Sort for better readability.
+				sort($attributes);
+
+				// Set merged attributes back.
+				$element[$attribute] = trim(implode(' ', $attributes));
+			}
 
 			// Synchronize any paths found in the load.
 			$this->syncPaths();
