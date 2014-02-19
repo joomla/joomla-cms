@@ -31,7 +31,7 @@ abstract class JHtmlBatch
 
 		// Create the batch selector to change an access level on a selection list.
 		return
-			'<label id="batch-access-lbl" for="batch-access" class="hasToolip"'
+			'<label id="batch-access-lbl" for="batch-access" class="hasTooltip"'
 			. 'title="' . JHtml::tooltipText('JLIB_HTML_BATCH_ACCESS_LABEL', 'JLIB_HTML_BATCH_ACCESS_LABEL_DESC') . '">'
 			. JText::_('JLIB_HTML_BATCH_ACCESS_LABEL')
 			. '</label>'
@@ -92,7 +92,7 @@ abstract class JHtmlBatch
 
 		// Create the batch selector to change the language on a selection list.
 		return
-			'<label id="batch-language-lbl" for="batch-language-id" class="hasToolip"'
+			'<label id="batch-language-lbl" for="batch-language-id" class="hasTooltip"'
 			. ' title="' . JHtml::tooltipText('JLIB_HTML_BATCH_LANGUAGE_LABEL', 'JLIB_HTML_BATCH_LANGUAGE_LABEL_DESC') . '">'
 			. JText::_('JLIB_HTML_BATCH_LANGUAGE_LABEL')
 			. '</label>'
