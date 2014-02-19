@@ -68,9 +68,10 @@ class PlgUserContactCreator extends JPlugin
 		$db = JFactory::getDbo();
 		$db->setQuery('SELECT id FROM #__contact_details WHERE alias = "' . $user['name'] . '"');
 		$id2 = $db->loadResult();
-		if ($id2)
+	 
+	 	if ($id2)
 		{	
-			// if same alias exists,append current date,time to alias
+			// If same alias exists,append current date,time to alias
 			$contact->alias=$user['name'] . JHtml::date($input = 'now', 'm/d/Y h:i:s a', false);
 		}
 		
