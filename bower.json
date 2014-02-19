@@ -1,0 +1,20 @@
+{
+  "name": "joomla-cms",
+  "version": "3.2.2",
+  "homepage": "https://github.com/joomla/joomla-cms",
+  "description": "Joomla! is a Content Management System (CMS) which enables you to build Web sites and powerful online applications.",
+  "license": "GPLv2",
+  "private": true,
+  "dependencies": {
+    "jquery": ">= 1.10.1",
+    "bootstrap": ">= 2.3.2",
+  },
+  "ignore": [
+    "**/.*",
+    "bower_components",
+    "build.xml",
+    "composer.json",
+    "phpunit.xml.dist",
+    "tests"
+  ]
+}
