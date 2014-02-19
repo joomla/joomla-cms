@@ -887,8 +887,8 @@ class JInstallerAdapterModule extends JAdapterInstance
 
 			// Wipe out any items assigned to menus
 			$query = $db->getQuery(true)
-						->delete($db->quoteName('#__modules_menu'))
-						->where($db->quoteName('moduleid') . ' IN (' . $modID . ')');
+				->delete($db->quoteName('#__modules_menu'))
+				->where($db->quoteName('moduleid') . ' IN (' . $modID . ')');
 			$db->setQuery($query);
 
 			try
