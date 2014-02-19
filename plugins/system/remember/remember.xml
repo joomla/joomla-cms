@@ -40,6 +40,26 @@
 					<option value="64">64</option>
 				</field>
 
+				<field name="secure" type="radio"
+					class="btn-group"
+					default="0"
+					description="PLG_SYSTEM_REMEMBER_FIELD_SECURE_ONLY_DESC"
+					label="PLG_SYSTEM_REMEMBER_FIELD_SECURE_ONLY_LABEL">
+					<option value="0">JNo</option>
+					<option value="1">JYes</option>
+				</field>
+
+				<field name="http_only" type="radio"
+					class="btn-group"
+					default="0"
+					description="PLG_SYSTEM_REMEMBER_FIELD_HTTP_ONLY_DESC"
+					label="PLG_SYSTEM_REMEMBER_FIELD_HTTP_ONLY_LABEL"
+				>
+					<option value="0">JNo</option>
+					<option value="1">JYes</option>
+				</field>
+
+
 			</fieldset>
 		</fields>
 	</config>

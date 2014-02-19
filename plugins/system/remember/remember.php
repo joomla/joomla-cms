@@ -96,8 +96,9 @@ class PlgSystemRemember extends JPlugin
 		$this->cookie_domain = $this->app->get('cookie_domain', '');
 		$this->cookie_path = $this->app->get('cookie_path', '/');
 		$this->lifetime = time() + ($this->params->get('cookie_lifetime', '60') * 24 * 60 * 60);
-		$this->secure = $this->app->isSSLConnection();
+		$this->secure = $this->params->get('secure_only', $this->app->isSSLConnection());
 		$this->length = $this->params->get('key_length', '16');
+		$this->http = $this->params->get('http_only', false);
 	}
 
 	/**
@@ -119,8 +120,9 @@ class PlgSystemRemember extends JPlugin
 		$user = JFactory::getUser();
 
 		$this->app->rememberCookieLifetime = $this->lifetime;
-		$this->app->rememberCookieSecure   = $this->secure;
-		$this->app->rememberCookieLength   = $this->length;
+		$this->app->rememberCookieSecure = $this->secure;
+		$this->app->rememberCookieLength = $this->length;
+		$this->app->rememberCookieHttp = $this->http;
 
 		// Check for a cookie.
 		if ($user->get('guest') == 1)
@@ -184,7 +186,7 @@ class PlgSystemRemember extends JPlugin
 						'username' => $results[0]->user_id,
 					);
 
-					return $this->app->login($credentials, array('silent' => true, 'lifetime' => $this->lifetime, 'secure' => $this->secure, 'length' => $this->length));
+					return $this->app->login($credentials, array('silent' => true, 'lifetime' => $this->lifetime, 'secure' => $this->secure, 'length' => $this->length, 'http' => $this->http));
 				}
 			}
 		}

@@ -121,6 +121,7 @@ class PlgAuthenticationCookie extends JPlugin
 			$response->lifetime = $options['lifetime'];
 			$response->length = $options['length'];
 			$response->secure = $options['secure'];
+			$response->http_only = $options['http_only'];
 		}
 
 		// Make sure there really is a user with this name and get the data for the session.
