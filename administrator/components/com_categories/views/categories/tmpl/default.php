@@ -20,6 +20,8 @@ $app		= JFactory::getApplication();
 $user		= JFactory::getUser();
 $userId		= $user->get('id');
 $extension	= $this->escape($this->state->get('filter.extension'));
+$archived	= $this->state->get('filter.published') == 2 ? true : false;
+$trashed	= $this->state->get('filter.published') == -2 ? true : false;
 $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 $ordering 	= ($listOrder == 'a.lft');
@@ -162,7 +164,20 @@ $sortFields = $this->getSortFields();
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							</td>
 							<td class="center">
-								<?php echo JHtml::_('jgrid.published', $item->published, $i, 'categories.', $canChange); ?>
+								<div class="btn-group">
+									<?php echo JHtml::_('jgrid.published', $item->published, $i, 'categories.', $canChange, 'cb'); ?>
+									<?php
+									// Create dropdown items
+									$action = $archived ? 'unarchive' : 'archive';
+									JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'categories');
+
+									$action = $trashed ? 'untrash' : 'trash';
+									JHtml::_('actionsdropdown.' . $action, 'cb' . $i, 'categories');
+
+									// Render dropdown list
+									echo JHtml::_('actionsdropdown.render', $this->escape($item->title));
+									?>
+								</div>
 							</td>
 							<td>
 								<?php echo str_repeat('<span class="gi">&mdash;</span>', $item->level - 1) ?>
