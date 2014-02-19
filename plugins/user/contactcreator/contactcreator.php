@@ -64,6 +64,17 @@ class PlgUserContactCreator extends JPlugin
 		JTable::addIncludePath(JPATH_ADMINISTRATOR.'/components/com_contact/tables');
 		$contact = JTable::getInstance('contact', 'ContactTable');
 
+		// See if a contact with same alias as that of present user name exists
+		$db = JFactory::getDbo();
+		$db->setQuery('SELECT id FROM #__contact_details WHERE alias = "' . $user['name'] . '"');
+		$id2 = $db->loadResult();
+	 
+	 	if ($id2)
+		{	
+			// If same alias exists,append current date,time to alias
+			$contact->alias=$user['name'] . JHtml::date($input = 'now', 'm/d/Y h:i:s a', false);
+		}
+		
 		if (!$contact)
 		{
 			return false;
