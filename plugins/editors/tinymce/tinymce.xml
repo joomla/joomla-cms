@@ -427,6 +427,36 @@
 					<option value="0">JOFF</option>
 				</field>
 
+				<field name="list_templates"
+					type="Repeatable"
+					icon="list"
+					description="PLG_TINY_FIELD_TEMPLATE_FIELD_ELEMENTS_DESC"
+					label="PLG_TINY_FIELD_TEMPLATE_FIELD_ELEMENTS_LABEL"
+					default="{'template':['Layout','Simple snippet'],'location':['layout1.html','snippet1.html'],'description':['HTMLLayout','Simple HTML snippet']}">
+					<fields name="params">
+						<fieldset hidden="true" name="list_templates_modal" repeat="true">
+							<field name="template"
+								label="PLG_TINY_FIELD_TEMPLATE_FIELD_NAME_LABEL"
+								size="30"
+								type="text"/>
+							<field name="location"
+								label="PLG_TINY_FIELD_TEMPLATE_FIELD_LOCATION_LABEL"
+								description="PLG_TINY_FIELD_TEMPLATE_LOCATION_DESC"
+								size="30"
+								type="filelist"
+								directory="media/editors/tinymce/templates"
+								exclude="index.html"
+								hide_default="true"
+								hide_none="true"/>
+							<field name="description"
+								label="PLG_TINY_FIELD_TEMPLATE_FIELD_DESCRIPTION_LABEL"
+								size="30"
+								type="textarea"
+								/>
+						</fieldset>
+					</fields>
+				</field>
+
 				<field name="custom_plugin" type="text"
 					description="PLG_TINY_FIELD_CUSTOMPLUGIN_DESC"
 					label="PLG_TINY_FIELD_CUSTOMPLUGIN_LABEL"
