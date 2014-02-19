@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.remember
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ defined('_JEXEC') or die;
 class PlgSystemRemember extends JPlugin
 {
 	/**
-	 * Application object
+	 * Application object.
 	 *
 	 * @var    JApplicationCms
 	 * @since  3.2
@@ -29,7 +29,7 @@ class PlgSystemRemember extends JPlugin
 	protected $app;
 
 	/**
-	 * Database object
+	 * Database object.
 	 *
 	 * @var    JDatabaseDriver
 	 * @since  3.2
@@ -77,9 +77,11 @@ class PlgSystemRemember extends JPlugin
 	protected $length;
 
 	/**
-	 * Constructor. We use it to set the app and db properties.
+	 * Constructor.
+	 * 
+	 * Used to set the application and database properties.
 	 *
-	 * @param   object  &$subject  The object to observe
+	 * @param   object  &$subject  The object to observe.
 	 * @param   array   $config    An optional associative array of configuration settings.
 	 *                             Recognized key values include 'name', 'group', 'params', 'language'
 	 *                             (this list is not meant to be comprehensive).
@@ -99,7 +101,7 @@ class PlgSystemRemember extends JPlugin
 	}
 
 	/**
-	 * Remember me method to run onAfterInitialise
+	 * Remember me method to run onAfterInitialise.
 	 *
 	 * @return  boolean
 	 *
@@ -108,7 +110,7 @@ class PlgSystemRemember extends JPlugin
 	 */
 	public function onAfterInitialise()
 	{
-		// No remember me for admin
+		// No remember me for admin.
 		if ($this->app->isAdmin())
 		{
 			return false;
@@ -120,14 +122,23 @@ class PlgSystemRemember extends JPlugin
 		$this->app->rememberCookieSecure   = $this->secure;
 		$this->app->rememberCookieLength   = $this->length;
 
-		// Check for a cookie
+		// Check for a cookie.
 		if ($user->get('guest') == 1)
 		{
-			// Create the cookie name and data
+			// Create the cookie name and data.
 			$rememberArray = JUserHelper::getRememberCookieData();
 
 			if ($rememberArray !== false)
 			{
+				if (count($rememberArray) != 3)
+				{
+					// Destroy the cookie in the browser.
+					$this->app->input->cookie->set(end($rememberArray), false, time() - 42000, $this->app->get('cookie_path'), $this->app->get('cookie_domain'));
+					JLog::add('Invalid cookie detected.', JLog::WARNING, 'error');
+
+					return false;
+				}
+
 				list($privateKey, $series, $uastring) = $rememberArray;
 
 				if (!JUserHelper::clearExpiredTokens($this))
@@ -135,7 +146,7 @@ class PlgSystemRemember extends JPlugin
 					JLog::add('Error in deleting expired cookie tokens.', JLog::WARNING, 'error');
 				}
 
-				// Find the matching record if it exists
+				// Find the matching record if it exists.
 				$query = $this->db->getQuery(true)
 					->select($this->db->quoteName(array('user_id', 'token', 'series', 'time', 'invalid')))
 					->from($this->db->quoteName('#__user_keys'))
@@ -160,30 +171,15 @@ class PlgSystemRemember extends JPlugin
 				// We have a user with one cookie with a valid series and a corresponding record in the database.
 				if ($countResults === 1)
 				{
-					if (substr($results[0]->token, 0, 4) === '$2y$')
+					if (!JCrypt::timingSafeCompare($results[0]->token, $privateKey))
 					{
-						if (JCrypt::hasStrongPasswordSupport())
-						{
-							$match = password_verify($privateKey, $results[0]->token);
-						}
-					}
-					else
-					{
-						if (JCrypt::timingSafeCompare($results[0]->token, $privateKey))
-						{
-							$match = true;
-						}
-					}
-
-					if (empty($match))
-					{
-						JUserHelper:invalidateCookie($results[0]->user_id, $uastring);
+						JUserHelper::invalidateCookie($results[0]->user_id, $uastring);
 						JLog::add(JText::sprintf('PLG_SYSTEM_REMEMBER_ERROR_LOG_LOGIN_FAILED', $user->username), JLog::WARNING, 'security');
 
 						return false;
 					}
 
-					// Set up the credentials array to pass to onUserAuthenticate
+					// Set up the credentials array to pass to onUserAuthenticate.
 					$credentials = array(
 						'username' => $results[0]->user_id,
 					);

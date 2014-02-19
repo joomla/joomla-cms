@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,18 +16,17 @@ defined('_JEXEC') or die('Restricted access');
  * @subpackage  com_config
  * @since       3.2
 */
-class ConfigControllerTemplatesDisplay extends JControllerBase
+class ConfigControllerTemplatesDisplay extends ConfigControllerDisplay
 {
 	/**
 	 * Method to display global configuration.
 	 *
-	 * @return  bool	True on success, false on failure.
+	 * @return  boolean  True on success, false on failure.
 	 *
 	 * @since   3.2
 	 */
 	public function execute()
 	{
-
 		// Get the application
 		$app = $this->getApplication();
 
@@ -65,7 +64,6 @@ class ConfigControllerTemplatesDisplay extends JControllerBase
 
 		if (class_exists($viewClass))
 		{
-
 			if ($viewName != 'close')
 			{
 				$model = new $modelClass;
@@ -77,7 +75,6 @@ class ConfigControllerTemplatesDisplay extends JControllerBase
 
 					return;
 				}
-
 			}
 
 			$view = new $viewClass($model, $paths);
@@ -104,5 +101,4 @@ class ConfigControllerTemplatesDisplay extends JControllerBase
 
 		return true;
 	}
-
 }

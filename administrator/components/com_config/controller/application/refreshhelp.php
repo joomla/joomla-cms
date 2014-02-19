@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,14 +15,21 @@ defined('_JEXEC') or die;
  * @package     Joomla.Administrator
  * @subpackage  com_config
  * @since       3.2
-*/
+ */
 class ConfigControllerApplicationRefreshhelp extends JControllerBase
 {
+	/**
+	 * Application object - Redeclared for proper typehinting
+	 *
+	 * @var    JApplicationCms
+	 * @since  3.2
+	 */
+	protected $app;
 
 	/**
 	 * Method to refresh help in global configuration.
 	 *
-	 * @return  bool	True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   3.2
 	 */
@@ -33,20 +40,20 @@ class ConfigControllerApplicationRefreshhelp extends JControllerBase
 		// Set FTP credentials, if given
 		JClientHelper::setCredentialsFromRequest('ftp');
 
-		// Get application instance
-		$app = JFactory::getApplication();
-
 		if (($data = file_get_contents('http://help.joomla.org/helpsites.xml')) === false)
 		{
-			$app->redirect(JRoute::_('index.php?option=com_config', false), JText::_('COM_CONFIG_ERROR_HELPREFRESH_FETCH'), 'error');
+			$this->app->enqueueMessage(JText::_('COM_CONFIG_ERROR_HELPREFRESH_FETCH'), 'error');
+			$this->app->redirect(JRoute::_('index.php?option=com_config', false));
 		}
 		elseif (!JFile::write(JPATH_BASE . '/help/helpsites.xml', $data))
 		{
-			$app->redirect(JRoute::_('index.php?option=com_config', false), JText::_('COM_CONFIG_ERROR_HELPREFRESH_ERROR_STORE'), 'error');
+			$this->app->enqueueMessage(JText::_('COM_CONFIG_ERROR_HELPREFRESH_ERROR_STORE'), 'error');
+			$this->app->redirect(JRoute::_('index.php?option=com_config', false));
 		}
 		else
 		{
-			$app->redirect(JRoute::_('index.php?option=com_config', false), JText::_('COM_CONFIG_HELPREFRESH_SUCCESS'));
+			$this->app->enqueueMessage(JText::_('COM_CONFIG_HELPREFRESH_SUCCESS'), 'error');
+			$this->app->redirect(JRoute::_('index.php?option=com_config', false));
 		}
 	}
 }

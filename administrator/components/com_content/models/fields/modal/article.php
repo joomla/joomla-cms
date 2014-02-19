@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -94,20 +94,23 @@ class JFormFieldModal_Article extends JFormField
 			$link .= '&amp;forcedLanguage='.$this->element['language'];
 		}
 
-		$db	= JFactory::getDbo();
-		$db->setQuery(
-			'SELECT title' .
-			' FROM #__content' .
-			' WHERE id = '.(int) $this->value
-		);
+		if ((int) $this->value > 0)
+		{
+			$db	= JFactory::getDbo();
+			$db->setQuery(
+				'SELECT title' .
+				' FROM #__content' .
+				' WHERE id = ' . (int) $this->value
+			);
 
-		try
-		{
-			$title = $db->loadResult();
-		}
-		catch (RuntimeException $e)
-		{
-			JError::raiseWarning(500, $e->getMessage());
+			try
+			{
+				$title = $db->loadResult();
+			}
+			catch (RuntimeException $e)
+			{
+				JError::raiseWarning(500, $e->getMessage());
+			}
 		}
 
 		if (empty($title))

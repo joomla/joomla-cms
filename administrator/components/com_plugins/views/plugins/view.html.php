@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -60,7 +60,7 @@ class PluginsViewPlugins extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo = PluginsHelper::getActions();
+		$canDo = JHelperContent::getActions('com_plugins');
 
 		JToolbarHelper::title(JText::_('COM_PLUGINS_MANAGER_PLUGINS'), 'power-cord plugin');
 
@@ -118,7 +118,7 @@ class PluginsViewPlugins extends JViewLegacy
 	{
 		return array(
 				'ordering' => JText::_('JGRID_HEADING_ORDERING'),
-				'a.state' => JText::_('JSTATUS'),
+				'enabled' => JText::_('JSTATUS'),
 				'name' => JText::_('JGLOBAL_TITLE'),
 				'folder' => JText::_('COM_PLUGINS_FOLDER_HEADING'),
 				'element' => JText::_('COM_PLUGINS_ELEMENT_HEADING'),
