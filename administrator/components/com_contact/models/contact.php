@@ -586,12 +586,8 @@ class ContactModelContact extends JModelAdmin
 		$user = JFactory::getUser();
 
 		$table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
-		$table->alias = JApplication::stringURLSafe($table->alias);
 
-		if (empty($table->alias))
-		{
-			$table->alias = JApplication::stringURLSafe($table->name);
-		}
+		$table->generateAlias();
 
 		if (empty($table->id))
 		{
