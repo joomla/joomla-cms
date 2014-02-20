@@ -89,8 +89,13 @@ class ContenthistoryHelper
 	 *
 	 * @since   3.2
 	 */
-	public static function getFormValues($object, JTableContenttype $typesTable)
+	public static function getFormValues($object, $typesTable)
 	{
+		if (!(get_class($typesTable) == 'JTableContenttype'  || is_subclass_of($typesTable, 'JTableContenttype')))
+		{
+			throw new Exception(JText::_('JERROR_WRONG_CLASS_TYPE'));
+		}
+
 		$labels = array();
 		$values = array();
 		$expandedObjectArray = static::createObjectArray($object);
@@ -145,8 +150,13 @@ class ContenthistoryHelper
 	 *
 	 * @since   3.2
 	 */
-	public static function getFormFile(JTableContenttype $typesTable)
+	public static function getFormFile($typesTable)
 	{
+		if (!(get_class($typesTable) == 'JTableContenttype'  || is_subclass_of($typesTable, 'JTableContenttype')))
+		{
+			throw new Exception(JText::_('JERROR_WRONG_CLASS_TYPE'));
+		}
+
 		$result = false;
 		jimport('joomla.filesystem.file');
 		jimport('joomla.filesystem.folder');
@@ -321,8 +331,13 @@ class ContenthistoryHelper
 	 *
 	 * @since   3.2
 	 */
-	public static function prepareData(JTableContenthistory $table)
+	public static function prepareData($table)
 	{
+		if (!(get_class($table) == 'JTableContenttype'  || is_subclass_of($table, 'JTableContenttype')))
+		{
+			throw new Exception(JText::_('JERROR_WRONG_CLASS_TYPE'));
+		}
+
 		$object = static::decodeFields($table->version_data);
 		$typesTable = JTable::getInstance('Contenttype');
 		$typesTable->load(array('type_id' => $table->ucm_type_id));

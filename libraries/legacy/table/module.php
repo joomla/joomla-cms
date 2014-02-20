@@ -70,8 +70,13 @@ class JTableModule extends JTable
 	 *
 	 * @since   11.1
 	 */
-	protected function _getAssetParentId(JTable $table = null, $id = null)
+	protected function _getAssetParentId($table = null, $id = null)
 	{
+		if (!(get_class($typesTable) == 'JTable'  || is_subclass_of($typesTable, 'JTable')))
+		{
+			throw new Exception(JText::_('JERROR_WRONG_CLASS_TYPE'));
+		}
+
 		$assetId = null;
 
 		// This is a module that needs to parent with the extension.

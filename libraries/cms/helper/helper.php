@@ -80,8 +80,13 @@ class JHelper
 	 *
 	 * @since   3.2
 	 */
-	public function getRowData(JTable $table)
+	public function getRowData($table)
 	{
+		if (!(get_class($table) == 'JTable'  || is_subclass_of($table, 'JTable')))
+		{
+			throw new Exception(JText::_('JERROR_WRONG_CLASS_TYPE'));
+		}
+
 		$fields = $table->getFields();
 		$data = array();
 
@@ -104,8 +109,13 @@ class JHelper
 	 *
 	 * @since   3.2
 	 */
-	public function getDataObject(JTable $table)
+	public function getDataObject($table)
 	{
+		if (!(get_class($table) == 'JTable'  || is_subclass_of($table, 'JTable')))
+		{
+			throw new Exception(JText::_('JERROR_WRONG_CLASS_TYPE'));
+		}
+
 		$fields = $table->getFields();
 		$dataObject = new stdClass;
 

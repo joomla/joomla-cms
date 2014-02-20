@@ -34,8 +34,13 @@ abstract class JTableObserver implements JObserverInterface
 	 *
 	 * @since   3.1.2
 	 */
-	public function __construct(JTable $table)
+	public function __construct($table)
 	{
+		if (!(get_class($table) == 'JTable'  || is_subclass_of($table, 'JTable')))
+		{
+			throw new Exception(JText::_('JERROR_WRONG_CLASS_TYPE'));
+		}
+
 		$table->attachObserver($this);
 		$this->table = $table;
 	}

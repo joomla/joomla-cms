@@ -43,8 +43,13 @@ class JUcmContent extends JUcmBase
 	 *
 	 * @since   3.1
 	 */
-	public function __construct(JTable $table = null, $alias = null, JUcmType $type = null)
+	public function __construct($table = null, $alias = null, JUcmType $type = null)
 	{
+		if (!(is_null($table) || get_class($table) == 'JTable'  || is_subclass_of($table, 'JTable')))
+		{
+			throw new Exception(JText::_('JERROR_WRONG_CLASS_TYPE'));
+		}
+
 		// Setup dependencies.
 		$input = JFactory::getApplication()->input;
 		$this->alias = isset($alias) ? $alias : $input->get('option') . '.' . $input->get('view');
