@@ -40,12 +40,12 @@ class MediaModelEditor extends ConfigModelForm
 
 		if(!$property)
 		{
-				
+
 			return parent::getState();
 		}
 		else
 		{
-				
+
 			return parent::getState()->get($property, $default);
 		}
 
@@ -86,6 +86,39 @@ class MediaModelEditor extends ConfigModelForm
 		}
 
 		return $image;
+
+	}
+
+	/**
+	 * Crop an image.
+	 *
+	 * @param   string  $file  The name and location of the file
+	 * @param   string  $w     width.
+	 * @param   string  $h     height.
+	 * @param   string  $x     x-coordinate.
+	 * @param   string  $y     y-coordinate.
+	 *
+	 * @return  boolean     true if image cropped successfully, false otherwise.
+	 *
+	 * @since   3.3
+	 */
+	public function cropImage($file, $w, $h, $x, $y)
+	{
+		$app      = JFactory::getApplication();
+
+		$JImage   = new JImage($file);
+
+		try
+		{
+			$image = $JImage->crop($w, $h, $x, $y, true);
+			$image->toFile($file);
+
+			return true;
+		}
+		catch (Exception $e)
+		{
+			$app->enqueueMessage($e->getMessage(), 'error');
+		}
 
 	}
 }

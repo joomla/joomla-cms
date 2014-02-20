@@ -51,6 +51,7 @@ class MediaViewEditorHtml extends ConfigViewCmsHtml
 		$this->require_ftp = $ftp;
 
 		// From template manager
+		$this->folder   = $app->input->get('folder');
 		$this->file     = $app->input->get('file');
 		$explodeArray   = explode('.', $this->file);
 		$ext            = end($explodeArray);
@@ -97,7 +98,7 @@ class MediaViewEditorHtml extends ConfigViewCmsHtml
 // 			JToolbarHelper::save2copy('media.save.editor.save2copy');
 // 		}
 
-		JToolbarHelper::cancel('media.cancel.editor', 'COM_MEDIA_BUTTON_CLOSE_FILE');
+		JToolbarHelper::cancel('cancel.media.editor', 'COM_MEDIA_BUTTON_CLOSE_FILE');
 
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_CONTENT_MEDIA_MANAGER_EDITOR');

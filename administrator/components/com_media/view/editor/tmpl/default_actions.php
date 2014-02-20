@@ -41,13 +41,12 @@ $input = JFactory::getApplication()->input;
 	</button>
 
 	<br /> <br /> 
-	
-	<a class="btn btn-large" target="_top"
-		href="index.php?option=com_media&amp;controller=media.delete.media&amp;tmpl=index&amp;<?php echo JSession::getFormToken(); ?>=1&amp;folder=<?php echo $this->state->get('folder'); ?>"
-		rel="" title="<?php echo JText::_('COM_MEDIA_EDITOR_BUTTON_CROP');?>">
-		<i class='icon-move' title='COM_MEDIA_EDITOR_BUTTON_CROP'></i> <?php echo JText::_('COM_MEDIA_EDITOR_BUTTON_CROP') ?>
-	</a>
 
+	<button type="submit" form="adminForm" class='btn btn-large'>
+		<i class='icon-move' title='COM_MEDIA_EDITOR_BUTTON_CROP'></i>
+		<?php echo JText::_('COM_MEDIA_EDITOR_BUTTON_CROP') ?>
+	</button>
+	
 	<br /> <br />
 
 	<button data-toggle='modal' data-target='#' class='btn btn-large'>
