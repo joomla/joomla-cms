@@ -30,6 +30,7 @@ if ($saveOrder)
 	JHtml::_('sortablelist.sortable', 'categoryList', 'adminForm', strtolower($listDirn), $saveOrderingUrl, false, true);
 }
 $sortFields = $this->getSortFields();
+$originalOrders = array();
 ?>
 <script type="text/javascript">
 	Joomla.orderTable = function() {
@@ -125,7 +126,6 @@ $sortFields = $this->getSortFields();
 				</tfoot>
 				<tbody>
 				<?php
-				$originalOrders = array();
 				foreach ($this->items as $i => $item) :
 					$orderkey   = array_search($item->id, $this->ordering[$item->parent_id]);
 					$canCreate  = $user->authorise('core.create',     'com_tags');
