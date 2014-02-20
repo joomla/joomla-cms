@@ -60,8 +60,25 @@ abstract class JInstallerHelper
 
 		if (isset($response->headers['Content-Disposition']))
 		{
+			// Expected format:
+			// Content-Disposition: attachment; filename="fname.ext"
 			$contentfilename = explode("\"", $response->headers['Content-Disposition']);
-			$target = $contentfilename[1];
+
+			if (isset($contentfilename[1]))
+			{
+				$target = $contentfilename[1];
+			}
+			else
+			{
+				// Expected format:
+				// Content-Disposition: attachment; filename=fname.ext
+				$contentfilename = explode('filename=', $response->headers['Content-Disposition']);
+
+				if (isset($contentfilename[1]))
+				{
+					$target = trim($contentfilename[1], '"');
+				}
+			}
 		}
 
 		// Set the target path if not given
