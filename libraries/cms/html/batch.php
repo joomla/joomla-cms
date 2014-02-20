@@ -27,11 +27,11 @@ abstract class JHtmlBatch
 	 */
 	public static function access()
 	{
-		JHtml::_('bootstrap.tooltip');
+		JHtml::_('bootstrap.tooltip', '.modalTooltip', array('container' => '.modal-body'));
 
 		// Create the batch selector to change an access level on a selection list.
 		return
-			'<label id="batch-access-lbl" for="batch-access" class="hasTooltip"'
+			'<label id="batch-access-lbl" for="batch-access" class="modalTooltip"'
 			. 'title="' . JHtml::tooltipText('JLIB_HTML_BATCH_ACCESS_LABEL', 'JLIB_HTML_BATCH_ACCESS_LABEL_DESC') . '">'
 			. JText::_('JLIB_HTML_BATCH_ACCESS_LABEL')
 			. '</label>'
@@ -88,11 +88,11 @@ abstract class JHtmlBatch
 	 */
 	public static function language()
 	{
-		JHtml::_('bootstrap.tooltip');
+		JHtml::_('bootstrap.tooltip', '.modalTooltip', array('container' => '.modal-body'));
 
 		// Create the batch selector to change the language on a selection list.
 		return
-			'<label id="batch-language-lbl" for="batch-language-id" class="hasTooltip"'
+			'<label id="batch-language-lbl" for="batch-language-id" class="modalTooltip"'
 			. ' title="' . JHtml::tooltipText('JLIB_HTML_BATCH_LANGUAGE_LABEL', 'JLIB_HTML_BATCH_LANGUAGE_LABEL_DESC') . '">'
 			. JText::_('JLIB_HTML_BATCH_LANGUAGE_LABEL')
 			. '</label>'
@@ -113,7 +113,7 @@ abstract class JHtmlBatch
 	 */
 	public static function user($noUser = true)
 	{
-		JHtml::_('bootstrap.tooltip');
+		JHtml::_('bootstrap.tooltip', '.modalTooltip', array('container' => '.modal-body'));
 
 		$optionNo = '';
 
@@ -124,7 +124,7 @@ abstract class JHtmlBatch
 
 		// Create the batch selector to select a user on a selection list.
 		return
-			'<label id="batch-user-lbl" for="batch-user" class="hasTooltip"'
+			'<label id="batch-user-lbl" for="batch-user" class="modalTooltip"'
 			. ' title="' . JHtml::tooltipText('JLIB_HTML_BATCH_USER_LABEL', 'JLIB_HTML_BATCH_USER_LABEL_DESC') . '">'
 			. JText::_('JLIB_HTML_BATCH_USER_LABEL')
 			. '</label>'
@@ -144,11 +144,11 @@ abstract class JHtmlBatch
 	 */
 	public static function tag()
 	{
-		JHtml::_('bootstrap.tooltip');
+		JHtml::_('bootstrap.tooltip', '.modalTooltip', array('container' => '.modal-body'));
 
 		// Create the batch selector to tag items on a selection list.
 		return
-			'<label id="batch-tag-lbl" for="batch-tag-id" class="hasTooltip"'
+			'<label id="batch-tag-lbl" for="batch-tag-id" class="modalTooltip"'
 			. ' title="' . JHtml::tooltipText('JLIB_HTML_BATCH_TAG_LABEL', 'JLIB_HTML_BATCH_TAG_LABEL_DESC') . '">'
 			. JText::_('JLIB_HTML_BATCH_TAG_LABEL')
 			. '</label>'
