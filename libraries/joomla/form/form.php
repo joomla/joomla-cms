@@ -1011,6 +1011,7 @@ class JForm
 		{
 			$element[$attribute] = $value;
 
+
 			// Synchronize any paths found in the load.
 			$this->syncPaths();
 

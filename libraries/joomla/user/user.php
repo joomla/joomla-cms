@@ -415,10 +415,10 @@ class JUser extends JObject
 			$this->_authLevels = array();
 		}
 
-		if (empty($this->_authLevels))
-		{
-			$this->_authLevels = JAccess::getAuthorisedViewLevels($this->id);
-		}
+		/* Force loading the latest state.
+		 * Otherwise updating the user session fails, cuz it stucks with the 'old' values.
+		 */
+		$this->_authLevels = JAccess::getAuthorisedViewLevels($this->id);
 
 		return $this->_authLevels;
 	}
@@ -437,10 +437,10 @@ class JUser extends JObject
 			$this->_authGroups = array();
 		}
 
-		if (empty($this->_authGroups))
-		{
-			$this->_authGroups = JAccess::getGroupsByUser($this->id);
-		}
+		/* Force loading the latest state.
+		 * Otherwise updating the user session fails, cuz it stucks with the 'old' values.
+		 */
+		$this->_authGroups = JAccess::getGroupsByUser($this->id);
 
 		return $this->_authGroups;
 	}
