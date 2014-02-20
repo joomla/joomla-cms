@@ -69,35 +69,6 @@ class CategoriesControllerCategories extends JControllerAdmin
 	}
 
 	/**
-	 * Save the manual order inputs from the categories list page.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public function saveorder()
-	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-
-		// Get the arrays from the Request
-		$order = $this->input->post->get('order', null, 'array');
-		$originalOrder = explode(',', $this->input->getString('original_order_values'));
-
-		// Make sure something has changed
-		if (!($order === $originalOrder))
-		{
-			parent::saveorder();
-		}
-		else
-		{
-			// Nothing to reorder
-			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
-
-			return true;
-		}
-	}
-
-	/**
 	 * Deletes and returns correctly.
 	 *
 	 * @return  void

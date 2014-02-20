@@ -61,27 +61,6 @@ class MenusControllerItems extends JControllerAdmin
 		}
 	}
 
-	public function saveorder()
-	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
-
-		// Get the arrays from the Request
-		$order = $this->input->post->get('order', null, 'array');
-		$originalOrder = explode(',', $this->input->getString('original_order_values'));
-
-		// Make sure something has changed
-		if (!($order === $originalOrder))
-		{
-			parent::saveorder();
-		}
-		else
-		{
-			// Nothing to reorder
-			$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list, false));
-			return true;
-		}
-	}
-
 	/**
 	 * Method to set the home property for a list of items
 	 *
