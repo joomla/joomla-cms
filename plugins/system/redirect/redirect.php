@@ -82,7 +82,11 @@ class PlgSystemRedirect extends JPlugin
 			{
 				$referer = empty($_SERVER['HTTP_REFERER']) ? '' : $_SERVER['HTTP_REFERER'];
 
-				$db->setQuery('SELECT id FROM ' . $db->quoteName('#__redirect_links') . '  WHERE old_url= ' . $db->quote($current));
+				$query = $db->getQuery(true)
+					->select($db->quoteName('id'))
+					->from($db->quoteName('#__redirect_links'))
+					->where($db->quoteName('old_url') . ' = ' . $db->quote($current));
+				$db->setQuery($query);
 				$res = $db->loadResult();
 				if (!$res)
 				{

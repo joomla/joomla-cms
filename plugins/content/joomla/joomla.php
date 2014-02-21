@@ -60,9 +60,9 @@ class PlgContentJoomla extends JPlugin
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-		->select($db->quoteName('id'))
-		->from($db->quoteName('#__users'))
-		->where($db->quoteName('sendEmail') . ' = 1');
+			->select($db->quoteName('id'))
+			->from($db->quoteName('#__users'))
+			->where($db->quoteName('sendEmail') . ' = 1');
 		$db->setQuery($query);
 		$users = (array) $db->loadColumn();
 
