@@ -210,28 +210,28 @@ JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
 
 <!-- Resize Modal -->
 <form
-	action="<?php echo JRoute::_('index.php?option=com_templates&task=template.resizeImage&id=' . $input->getInt('id') . '&file=' . $this->file); ?>"
+	action="<?php echo JRoute::_('index.php?option=com_media&controller=media.resize.editor&folder=' . $this->folder . '&file=' . $this->file); ?>"
 	method="post">
 	<div id="resizeModal" class="modal hide fade">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal"
 				aria-hidden="true">&times;</button>
 			<h3>
-				<?php echo JText::_('COM_TEMPLATES_RESIZE_IMAGE'); ?>
+				<?php echo JText::_('COM_MEDIA_EDITOR_RESIZE_IMAGE'); ?>
 			</h3>
 		</div>
 		<div class="modal-body">
 			<div id="template-manager-css" class="form-horizontal">
 				<div class="control-group">
 					<label for="height" class="control-label hasTooltip"
-						title="<?php echo JHtml::tooltipText('COM_TEMPLATES_IMAGE_HEIGHT'); ?>"><?php echo JText::_('COM_TEMPLATES_IMAGE_HEIGHT')?>
+						title="<?php echo JHtml::tooltipText('COM_MEDIA_EDITOR_IMAGE_HEIGHT'); ?>"><?php echo JText::_('COM_MEDIA_EDITOR_IMAGE_HEIGHT')?>
 					</label>
 					<div class="controls">
 						<input class="input-xlarge" type="number" name="height"
 							placeholder="<?php echo $this->image['height']; ?> px" required />
 					</div>
 					<br /> <label for="width" class="control-label hasTooltip"
-						title="<?php echo JHtml::tooltipText('COM_TEMPLATES_IMAGE_WIDTH'); ?>"><?php echo JText::_('COM_TEMPLATES_IMAGE_WIDTH')?>
+						title="<?php echo JHtml::tooltipText('COM_MEDIA_EDITOR_IMAGE_WIDTH'); ?>"><?php echo JText::_('COM_MEDIA_EDITOR_IMAGE_WIDTH')?>
 					</label>
 					<div class="controls">
 						<input class="input-xlarge" type="number" name="width"
@@ -241,10 +241,10 @@ JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
 			</div>
 		</div>
 		<div class="modal-footer">
-			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?>
+			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_EDITOR_BUTTON_RESIZE_CLOSE'); ?>
 			</a>
 			<button class="btn btn-primary" type="submit">
-				<?php echo JText::_('COM_TEMPLATES_BUTTON_RESIZE'); ?>
+				<?php echo JText::_('COM_MEDIA_EDITOR_BUTTON_RESIZE'); ?>
 			</button>
 		</div>
 	</div>

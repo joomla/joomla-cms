@@ -167,4 +167,38 @@ class MediaModelEditor extends ConfigModelForm
 		}
 
 	}
+
+	/**
+	 * Resize an image.
+	 *
+	 * @param   string  $file    The name and location of the file
+	 * @param   string  $width   The new width of the image.
+	 * @param   string  $height  The new height of the image.
+	 *
+	 * @return   boolean  true if image resize successful, false otherwise.
+	 *
+	 * @since   3.2
+	 */
+	public function resizeImage($file, $width, $height)
+	{
+		$app     = JFactory::getApplication();
+
+		$JImage = new JImage($file);
+
+		try
+		{
+			$image = $JImage->resize($width, $height, true, 1);
+			$image->toFile($file);
+
+			return true;
+		}
+		catch (Exception $e)
+		{
+			$app->enqueueMessage($e->getMessage(), 'error');
+		}
+
+	}
+
+	
+
 }
