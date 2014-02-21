@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -80,6 +80,27 @@ class CategoriesModelCategories extends JModelList
 		// Extract the optional section name
 		$this->setState('filter.section', (count($parts) > 1) ? $parts[1] : null);
 
+		$search = $this->getUserStateFromRequest($context . '.search', 'filter_search');
+		$this->setState('filter.search', $search);
+
+		$level = $this->getUserStateFromRequest($context . '.filter.level', 'filter_level');
+		$this->setState('filter.level', $level);
+
+		$access = $this->getUserStateFromRequest($context . '.filter.access', 'filter_access');
+		$this->setState('filter.access', $access);
+
+		$published = $this->getUserStateFromRequest($context . '.filter.published', 'filter_published', '');
+		$this->setState('filter.published', $published);
+
+		$language = $this->getUserStateFromRequest($context . '.filter.language', 'filter_language', '');
+		$this->setState('filter.language', $language);
+
+		$tag = $this->getUserStateFromRequest($this->context . '.filter.tag', 'filter_tag', '');
+		$this->setState('filter.tag', $tag);
+
+		// List state information.
+		parent::populateState('a.lft', 'asc');
+
 		// Force a language
 		$forcedLanguage = $app->input->get('forcedLanguage');
 
@@ -88,9 +109,6 @@ class CategoriesModelCategories extends JModelList
 			$this->setState('filter.language', $forcedLanguage);
 			$this->setState('filter.forcedLanguage', $forcedLanguage);
 		}
-
-		// List state information.
-		parent::populateState('a.lft', 'asc');
 	}
 
 	/**

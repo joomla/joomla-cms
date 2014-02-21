@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,24 +20,26 @@ JHtml::_('formbehavior.chosen', 'select');
 <div class="modal hide fade" id="collapseModal">
 	<div class="modal-header">
 		<button type="button" class="close" data-dismiss="modal">&#215;</button>
-		<h3><?php echo JText::_('COM_USERS_BATCH_OPTIONS');?></h3>
+		<h3><?php echo JText::_('COM_USERS_BATCH_OPTIONS'); ?></h3>
 	</div>
-	<div class="modal-body overflow-visible">
-		<div id="batch-choose-action" class="combo control-group">
-			<label id="batch-choose-action-lbl" class="control-label" for="batch-choose-action">
-				<?php echo JText::_('COM_USERS_BATCH_GROUP') ?>
-			</label>
-		</div>
-		<div id="batch-choose-action" class="combo controls">
-			<div class="control-group">
-				<select name="batch[group_id]" class="inputbox" id="batch-group-id">
-					<option value=""><?php echo JText::_('JSELECT') ?></option>
-					<?php echo JHtml::_('select.options', JHtml::_('user.groups')); ?>
-				</select>
+	<div class="modal-body modal-batch overflow-visible">
+		<div class="row-fluid">
+			<div id="batch-choose-action" class="combo control-group">
+				<label id="batch-choose-action-lbl" class="control-label" for="batch-choose-action">
+					<?php echo JText::_('COM_USERS_BATCH_GROUP') ?>
+				</label>
 			</div>
-		</div>
-		<div class="control-group radio">
-			<?php echo JHtml::_('select.radiolist', $options, 'batch[group_action]', '', 'value', 'text', 'add') ?>
+			<div id="batch-choose-action" class="combo controls">
+				<div class="control-group">
+					<select name="batch[group_id]" class="inputbox" id="batch-group-id">
+						<option value=""><?php echo JText::_('JSELECT') ?></option>
+						<?php echo JHtml::_('select.options', JHtml::_('user.groups')); ?>
+					</select>
+				</div>
+			</div>
+			<div class="control-group radio">
+				<?php echo JHtml::_('select.radiolist', $options, 'batch[group_action]', '', 'value', 'text', 'add') ?>
+			</div>
 		</div>
 	</div>
 	<div class="modal-footer">

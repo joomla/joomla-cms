@@ -217,7 +217,7 @@
 		type="text" 
 		label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 		description="JGLOBAL_FIELD_VERSION_NOTE_DESC" 
-		class="inputbox" size="45" 
+		class="inputbox span12" size="45" 
 		labelclass="control-label"
 	/>
 

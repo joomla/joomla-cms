@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.joomla
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -60,9 +60,9 @@ class PlgContentJoomla extends JPlugin
 
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-		->select($db->quoteName('id'))
-		->from($db->quoteName('#__users'))
-		->where($db->quoteName('sendEmail') . ' = 1');
+			->select($db->quoteName('id'))
+			->from($db->quoteName('#__users'))
+			->where($db->quoteName('sendEmail') . ' = 1');
 		$db->setQuery($query);
 		$users = (array) $db->loadColumn();
 

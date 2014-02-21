@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -129,15 +129,6 @@ class JFormFieldTag extends JFormFieldList
 			$query->where('a.id IN (' . implode(',', $values) . ')');
 		}
 
-		// Block the possibility to set a tag as it own parent
-		$id   = (int) $this->form->getValue('id', 0);
-		$name = (int) $this->form->getValue('name', '');
-
-		if ($name == 'com_tags.tag')
-		{
-			$query->where('a.id != ' . $db->quote($id));
-		}
-
 		// Filter language
 		if (!empty($this->element['language']))
 		{
@@ -170,6 +161,20 @@ class JFormFieldTag extends JFormFieldList
 		catch (RuntimeException $e)
 		{
 			return false;
+		}
+
+		// Block the possibility to set a tag as it own parent
+		if ($this->form->getName() == 'com_tags.tag')
+		{
+			$id   = (int) $this->form->getValue('id', 0);
+
+			foreach ($options as $option)
+			{
+				if ($option->value == $id)
+				{
+					$option->disable = true;
+				}
+			}
 		}
 
 		// Merge any additional options in the XML definition.

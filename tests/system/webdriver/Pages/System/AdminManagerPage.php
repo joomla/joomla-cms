@@ -223,7 +223,10 @@ abstract class AdminManagerPage extends AdminPage
 				$elements = $this->driver->findElements(By::xPath("//button[contains(., 'Search tools')]"));
 				if (isset($elements[0]))
 				{
-					$elements[0]->click();
+					while (!$el->isDisplayed())
+					{
+						$elements[0]->click();
+					}
 				}
 			}
 			$selectElementArray = $this->driver->findElements(By::xPath("//div[@id='" . $filterId . "_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $value . "')]"));

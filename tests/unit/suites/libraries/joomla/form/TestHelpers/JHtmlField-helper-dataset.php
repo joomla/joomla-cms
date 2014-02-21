@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -229,11 +229,43 @@ class JHtmlFieldTest_DataSet
 			'',
 		),
 
-		'onclick' => array(
+		'onClick' => array(
 			array(
 				'onclick' => 'iamclicked(this);',
 			),
 			'<field type="text" name="myName" onclick="iamclicked(this);" />',
+			'',
+		),
+
+		'translateLabel' => array(
+			array(
+				'translateLabel' => false,
+			),
+			'<field type="text" name="myName" onclick="iamclicked(this);" translateLabel="false" />',
+			'',
+		),
+
+		'translate_label' => array(
+			array(
+				'translateLabel' => false,
+			),
+			'<field type="text" name="myName" onclick="iamclicked(this);" translate_label="false" />',
+			'',
+		),
+
+		'translateDescription' => array(
+			array(
+				'translateDescription' => false,
+			),
+			'<field type="text" name="myName" onclick="iamclicked(this);" translateDescription="false" />',
+			'',
+		),
+
+		'translate_description' => array(
+			array(
+				'translateDescription' => false,
+			),
+			'<field type="text" name="myName" onclick="iamclicked(this);" translate_description="false" />',
 			'',
 		),
 

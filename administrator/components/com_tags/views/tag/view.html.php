@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,7 +38,7 @@ class TagsViewTag extends JViewLegacy
 		$this->form  = $this->get('Form');
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
-		$this->canDo = JHelperContent::getActions(0, 0, 'com_tags');
+		$this->canDo = JHelperContent::getActions('com_tags');
 		$this->assoc = $this->get('Assoc');
 
 		$input = JFactory::getApplication()->input;
@@ -73,10 +73,8 @@ class TagsViewTag extends JViewLegacy
 
 		// Need to load the menu language file as mod_menu hasn't been loaded yet.
 		$lang = JFactory::getLanguage();
-			$lang->load('com_tags', JPATH_BASE, null, false, false)
-		||	$lang->load('com_tags', JPATH_ADMINISTRATOR . '/components/com_tags', null, false, false)
-		||	$lang->load('com_tags', JPATH_BASE, $lang->getDefault(), false, false)
-		||	$lang->load('com_tags', JPATH_ADMINISTRATOR . '/components/com_tags', $lang->getDefault(), false, false);
+			$lang->load('com_tags', JPATH_BASE, null, false, true)
+		||	$lang->load('com_tags', JPATH_ADMINISTRATOR . '/components/com_tags', null, false, true);
 
 		// Load the tags helper.
 		require_once JPATH_COMPONENT . '/helpers/tags.php';
@@ -121,7 +119,7 @@ class TagsViewTag extends JViewLegacy
 		}
 		else
 		{
-			if ($this->state->params->get('save_history', 1) && $user->authorise('core.edit'))
+			if ($this->state->params->get('save_history', 0) && $user->authorise('core.edit'))
 			{
 				JToolbarHelper::versions('com_tags.tag', $this->item->id);
 			}

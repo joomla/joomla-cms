@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -85,6 +85,14 @@ class MediaModelManager extends JModelLegacy
 		// Get asset and author id (use integer filter)
 		$input = JFactory::getApplication()->input;
 		$asset = $input->get('asset', 0, 'integer');
+
+		// For new items the asset is a string. JAccess always checks type first
+		// so both string and integer are supported.
+		if ($asset == 0)
+		{
+			$asset = $input->get('asset', 0, 'string');
+		}
+
 		$author = $input->get('author', 0, 'integer');
 
 		// Create the drop-down folder select list

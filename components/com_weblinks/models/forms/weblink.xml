@@ -57,6 +57,7 @@
 		/>
 
 		<field name="url" type="url"
+			filter="url"
 			description="COM_WEBLINKS_FIELD_URL_DESC"
 			label="COM_WEBLINKS_FIELD_URL_LABEL"
 			required="true"
@@ -76,7 +77,7 @@
 			type="tag"
 			label="JTAG"
 			description="JTAG_DESC"
-			class="inputbox span12 small"
+			class="inputbox"
 			multiple="true" />
 
 		<field
