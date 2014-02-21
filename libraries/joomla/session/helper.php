@@ -45,7 +45,7 @@ abstract class JSessionHelper
 			break;
 
 			default :
-				throw new RuntimeException(JText::sprintf('COM_KEY2SWAP_SESSION_HANDLER_ERROR_UNSUPPORTED_HANDLER', $handler));
+				throw new RuntimeException(JText::sprintf('JLIB_SESSION_ERROR_UNSUPPORTED_HANDLER', $handler));
 		}
 	}
 
@@ -64,7 +64,7 @@ abstract class JSessionHelper
 		{
 			if (! strstr(substr($session_data, $offset), "|"))
 			{
-				throw new RuntimeException(JText::sprintf('COM_KEY2SWAP_SESSION_HANDLER_ERROR_INVALID_REMAINING_DATA', substr($session_data, $offset)));
+				throw new RuntimeException(JText::sprintf('JLIB_SESSION_ERROR_INVALID_REMAINING_DATA', substr($session_data, $offset)));
 			}
 
 			$pos     = strpos($session_data, "|", $offset);
