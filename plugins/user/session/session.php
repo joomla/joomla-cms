@@ -98,6 +98,7 @@ class plgUserSession extends JPlugin
 				return true;
 			}
 
+			// Get session information.
 			$debug              = JDEBUG;
 			$session_handler    = $this->app->getCfg('session_handler');
 			$supported_handlers = array(
@@ -159,7 +160,7 @@ class plgUserSession extends JPlugin
 								$this->app->enqueueMessage(JText::_('PLG_USER_SESSION_ERROR_STORE_FAIL'), 'error');
 							}
 
-							if ($debug)
+							if (JDEBUG)
 							{
 								$this->app->enqueueMessage(JText::sprintf('PLG_USER_SESSION_ERROR_STORE_SUCCESS_DEBUG', ucfirst($session_handler)), 'notice');
 							}
@@ -167,7 +168,7 @@ class plgUserSession extends JPlugin
 						}
 						else
 						{
-							if ($debug)
+							if (JDEBUG)
 							{
 								$this->app->enqueueMessage(JText::sprintf('PLG_USER_SESSION_ERROR_STORE_FAIL_DEBUG', ucfirst($session_handler)), 'error');
 							}
@@ -182,7 +183,7 @@ class plgUserSession extends JPlugin
 			else
 			{
 				// State the incompatibility so admins might consider to change the selected session handler.
-				if ($debug)
+				if (JDEBUG)
 				{
 					$this->app->enqueueMessage(JText::sprintf('PLG_USER_SESSION_ERROR_UNSUPPORTED_HANDLER'), 'warning');
 				}
