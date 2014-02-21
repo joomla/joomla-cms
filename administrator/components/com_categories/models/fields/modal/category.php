@@ -99,11 +99,11 @@ class JFormFieldModal_Category extends JFormField
 		if ((int) $this->value > 0)
 		{
 			$db	= JFactory::getDbo();
-			$db->setQuery(
-				'SELECT title' .
-				' FROM #__categories' .
-				' WHERE id = ' . (int) $this->value
-			);
+			$query = $db->getQuery(true)
+				->select($db->quoteName('title'))
+				->from($db->quoteName('#__categories'))
+				->where($db->quoteName('id') . ' = ' . (int) $this->value);
+			$db->setQuery($query);
 
 			try
 			{
