@@ -19,6 +19,14 @@ defined('JPATH_PLATFORM') or die;
 class JSessionStorageMemcache extends JSessionStorage
 {
 	/**
+	 * The registered servers stack.
+	 *
+	 * @var    array
+	 * @since  12.2
+	 */
+	private $_servers;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   array  $options  Optional parameters.
