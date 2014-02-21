@@ -1,6 +1,6 @@
 <?php
 /**
- * @package		Joomla.Plugin
+ * @package	Joomla.Plugin
  * @subpackage	System.session
  *
  * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
@@ -59,46 +59,80 @@ class plgSystemSession extends JPlugin
 		// Check if the required counterpart plugin is available and enabled.
 		if (JPluginHelper::isEnabled('user', 'session'))
 		{
-			$session         = JFactory::getSession();
-			$session_id      = $session->getId();
-			$session_handler = $this->app->getCfg('session_handler');
-
 			// Read the update flag name to check for.
-			$plg_params      = new JRegistry(JPluginHelper::getPlugin('user', 'session')->params);
-			$flag            = $plg_params->get('session_update_flag_name', 'refresh');
+			$plg_params         = new JRegistry(JPluginHelper::getPlugin('user', 'session')->params);
+			$flag               = $plg_params->get('session_update_flag_name', 'refresh');
+			$debug              = JDEBUG;
 
-			if (in_array($session_handler, array('database','xcache')) && $session->get("session.{$flag}", null) == true)
+			$session            = JFactory::getSession();
+			$session_id         = $session->getId();
+			$session_handler    = $this->app->getCfg('session_handler');
+			$supported_handlers = array(
+				'database',
+// 				'memcache',
+// 				'memcached',
+				'xcache'
+			);
+
+			// Our tweak currently works for selected session storage handlers only.
+			if (in_array($session_handler, $supported_handlers))
 			{
-				$user = JFactory::getUser();
-				$user->groups = JUserHelper::getUserGroups($user->id);
-				$user->getAuthorisedGroups();
-				$user->getAuthorisedViewLevels();
-
-				// Load session data by id.
-				$handler = JSessionStorage::getInstance($session_handler);
-
-				if ($db_session = $handler->read($session_id))
+				if ($session->get("session.{$flag}", null) == true)
 				{
-					// Get the session data.
-					$db_session        = JSessionHelper::unserialize($db_session);
+					$user = JFactory::getUser();
+					$user->groups = JUserHelper::getUserGroups($user->id);
+					$user->getAuthorisedGroups();
+					$user->getAuthorisedViewLevels();
 
-					// Populate helper vars.
-					$sess_namespace    = current(array_keys($db_session));
-					$sess_data         = current(array_values($db_session));
+					// Load session data by id.
+					$handler = JSessionStorage::getInstance($session_handler);
 
-					// Replace session user data by updated logged in user data to.
-					$sess_data['user'] = &$user;
-
-					// Store updated session data.
-					if (false === ($written = $handler->write($session_id, $sess_namespace .'|'. serialize($sess_data))))
+					if ($db_session = $handler->read($session_id))
 					{
-						throw new RuntimeException(JText::_('JLIB_SESSION_ERROR_UNSUPPORTED_HANDLER'), 500);
+						// Get the session data.
+						$db_session        = JSessionHelper::unserialize($db_session);
+
+						// Populate helper vars.
+						$sess_namespace    = current(array_keys($db_session));
+						$sess_data         = current(array_values($db_session));
+
+						// Replace session user data by updated logged in user data to.
+						$sess_data['user'] = &$user;
+
+						// Store updated session data.
+						if (false === ($written = $handler->write($session_id, $sess_namespace .'|'. serialize($sess_data))))
+						{
+							throw new RuntimeException(JText::_('PLG_SYSTEM_SESSION_ERROR_STORE_FAIL'), 500);
+						}
+
+						if ($debug)
+						{
+							$this->app->enqueueMessage(JText::sprintf('PLG_SYSTEM_SESSION_ERROR_STORE_SUCCESS_DEBUG', ucfirst($session_handler)), 'notice');
+						}
+
 					}
+					else
+					{
+						if ($debug)
+						{
+							$this->app->enqueueMessage(JText::sprintf('PLG_SYSTEM_SESSION_ERROR_STORE_FAIL_DEBUG', ucfirst($session_handler)), 'error');
+						}
+
+					}
+
+					// Unset refresh-flag.
+					$session->set('session.refresh', null);
 
 				}
 
-				// Unset refresh-flag.
-				$session->set('session.refresh', null);
+			}
+			else
+			{
+				// State the incompatibility so admins might consider to change the selected session handler.
+				if ($debug)
+				{
+					$this->app->enqueueMessage(JText::sprintf('PLG_SYSTEM_SESSION_ERROR_UNSUPPORTED_HANDLER', ucfirst($session_handler)), 'notice');
+				}
 
 			}
 
