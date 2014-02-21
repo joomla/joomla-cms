@@ -98,10 +98,17 @@ class plgUserSession extends JPlugin
 				return true;
 			}
 
-			// Our session tweak currently works only for session storage 'Database'.
-			$session_handler = $this->app->getCfg('session_handler');
+			$debug              = JDEBUG;
+			$session_handler    = $this->app->getCfg('session_handler');
+			$supported_handlers = array(
+				'database',
+// 				'memcache',
+// 				'memcached',
+				'xcache'
+			);
 
-			if (in_array($session_handler, array('database','xcache')))
+			// Our tweak currently works for selected session storage handlers only.
+			if (in_array($session_handler, $supported_handlers))
 			{
 				// Check if the processed user's group data has change.
 				$newUserData = JFactory::getUser(0);
@@ -129,7 +136,7 @@ class plgUserSession extends JPlugin
 					{
 						// Get session handler.
 						$handler = JSessionStorage::getInstance($session_handler);
-						
+
 						// Get name of the update flag to use.
 						$flag    = $this->params->get('session_update_flag_name', 'refresh');
 
@@ -149,13 +156,35 @@ class plgUserSession extends JPlugin
 							// Store updated session data.
 							if (false === ($written = $handler->write($session_id, $sess_namespace .'|'. serialize($sess_data))))
 							{
-								throw new RuntimeException(JText::_('JLIB_SESSION_ERROR_UNSUPPORTED_HANDLER'), 500);
+								$this->app->enqueueMessage(JText::_('PLG_USER_SESSION_ERROR_STORE_FAIL'), 'error');
+							}
+
+							if ($debug)
+							{
+								$this->app->enqueueMessage(JText::sprintf('PLG_USER_SESSION_ERROR_STORE_SUCCESS_DEBUG', ucfirst($session_handler)), 'notice');
+							}
+
+						}
+						else
+						{
+							if ($debug)
+							{
+								$this->app->enqueueMessage(JText::sprintf('PLG_USER_SESSION_ERROR_STORE_FAIL_DEBUG', ucfirst($session_handler)), 'error');
 							}
 
 						}
 
 					}
 
+				}
+
+			}
+			else
+			{
+				// State the incompatibility so admins might consider to change the selected session handler.
+				if ($debug)
+				{
+					$this->app->enqueueMessage(JText::sprintf('PLG_USER_SESSION_ERROR_UNSUPPORTED_HANDLER'), 'warning');
 				}
 
 			}
