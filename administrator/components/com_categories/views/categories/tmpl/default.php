@@ -24,7 +24,6 @@ $listOrder	= $this->escape($this->state->get('list.ordering'));
 $listDirn	= $this->escape($this->state->get('list.direction'));
 $ordering 	= ($listOrder == 'a.lft');
 $saveOrder 	= ($listOrder == 'a.lft' && strtolower($listDirn) == 'asc');
-$originalOrders = array();
 
 if ($saveOrder)
 {
@@ -215,7 +214,6 @@ $sortFields = $this->getSortFields();
 		<input type="hidden" name="extension" value="<?php echo $extension; ?>" />
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="original_order_values" value="<?php echo implode($originalOrders, ','); ?>" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>
