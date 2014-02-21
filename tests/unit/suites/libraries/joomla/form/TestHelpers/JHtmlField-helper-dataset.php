@@ -241,7 +241,7 @@ class JHtmlFieldTest_DataSet
 			array(
 				'translateLabel' => false,
 			),
-			'<field type="text" name="myName" onclick="iamclicked(this);" translateLabel="false" />',
+			'<field type="text" name="myName" translateLabel="false" />',
 			'',
 		),
 
@@ -249,7 +249,7 @@ class JHtmlFieldTest_DataSet
 			array(
 				'translateLabel' => false,
 			),
-			'<field type="text" name="myName" onclick="iamclicked(this);" translate_label="false" />',
+			'<field type="text" name="myName" translate_label="false" />',
 			'',
 		),
 
@@ -257,7 +257,7 @@ class JHtmlFieldTest_DataSet
 			array(
 				'translateDescription' => false,
 			),
-			'<field type="text" name="myName" onclick="iamclicked(this);" translateDescription="false" />',
+			'<field type="text" name="myName" translateDescription="false" />',
 			'',
 		),
 
@@ -265,7 +265,7 @@ class JHtmlFieldTest_DataSet
 			array(
 				'translateDescription' => false,
 			),
-			'<field type="text" name="myName" onclick="iamclicked(this);" translate_description="false" />',
+			'<field type="text" name="myName" translate_description="false" />',
 			'',
 		),
 
