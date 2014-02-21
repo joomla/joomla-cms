@@ -269,5 +269,21 @@ class JHtmlFieldTest_DataSet
 			'',
 		),
 
+		'default' => array(
+			array(
+				'default' => "foobar",
+			),
+			'<field type="text" name="myName" default="foobar" />',
+			'',
+		),
+
+		'value_default' => array(
+			array(
+				'default' => "barfoo",
+			),
+			'<field type="text" name="myName" value="barfoo" />',
+			'',
+		),
+
 	);
 }

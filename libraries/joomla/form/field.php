@@ -360,6 +360,7 @@ abstract class JFormField
 			case 'type':
 			case 'validate':
 			case 'value':
+			case 'default':
 			case 'class':
 			case 'labelclass':
 			case 'size':
@@ -552,8 +553,6 @@ abstract class JFormField
 			'translateHint', 'translateLabel','translate_label', 'translateDescription',
 			'translate_description' ,'size');
 
-		$this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
-
 		// Set the field default value.
 		$this->value = $value;
 
@@ -568,6 +567,8 @@ abstract class JFormField
 
 		// Set the visibility.
 		$this->hidden = ($this->hidden || (string) $element['type'] == 'hidden');
+
+		$this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
 		return true;
 	}
