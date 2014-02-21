@@ -36,6 +36,7 @@ class JSessionStorageMemcache extends JSessionStorage
 		$config = JFactory::getConfig();
 
 		// This will be an array of loveliness
+		// This might help: {@link http://www.php.net/manual/en/memcached.sessions.php#112439}
 		// @todo: multiple servers
 		$this->_servers = array(
 			array(
@@ -56,7 +57,7 @@ class JSessionStorageMemcache extends JSessionStorage
 	 */
 	public function register()
 	{
-
+		// This might help: {@link http://www.php.net/manual/en/memcached.sessions.php#112439}
 		// @todo: evaluate servers count first
 		$server = current($this->_servers);
 		
