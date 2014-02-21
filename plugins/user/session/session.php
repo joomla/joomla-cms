@@ -61,9 +61,11 @@ class plgUserSession extends JPlugin
 	{
 		if ($this->app->isAdmin())
 		{
-			// Check if the required counterpart plugin is available and enabled.
-			if (! JPluginHelper::isEnabled('system', 'session'))
+			// Make sure, both plugins are activated or return.
+			if (JPluginHelper::isEnabled('user', 'session') && ! JPluginHelper::isEnabled('system', 'session'))
 			{
+				$this->app->enqueueMessage(JText::_('PLG_USER_SESSION_HINT_ENABLE_BOTH_PLUGINS'), 'notice');
+
 				return true;
 			}
 
@@ -92,9 +94,11 @@ class plgUserSession extends JPlugin
 	{
 		if ($this->app->isAdmin())
 		{
-			// Check if the required counterpart plugin is available and enabled.
-			if (! JPluginHelper::isEnabled('system', 'session'))
+			// Make sure, both plugins are activated or return.
+			if (JPluginHelper::isEnabled('user', 'session') && ! JPluginHelper::isEnabled('system', 'session'))
 			{
+				$this->app->enqueueMessage(JText::_('PLG_USER_SESSION_HINT_ENABLE_BOTH_PLUGINS'), 'notice');
+
 				return true;
 			}
 
