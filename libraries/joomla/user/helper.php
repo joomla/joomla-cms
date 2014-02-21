@@ -718,7 +718,7 @@ abstract class JUserHelper
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.2
-	 * @see     JInput::setCookie for more details
+	 * @deprecated  4.0  This is handled in the authentication plugin itself. The 'invalid' column in the db should be removed as well
 	 */
 	public static function invalidateCookie($userId, $cookieName)
 	{
@@ -746,6 +746,7 @@ abstract class JUserHelper
 	 * @return  mixed  Database query result
 	 *
 	 * @since   3.2
+	 * @deprecated  4.0  This is handled in the authentication plugin itself
 	 */
 	public static function clearExpiredTokens()
 	{
@@ -765,6 +766,7 @@ abstract class JUserHelper
 	 * @return  mixed  An array of information from an authentication cookie or false if there is no cookie
 	 *
 	 * @since   3.2
+	 * @deprecated  4.0  This is handled in the authentication plugin itself
 	 */
 	public static function getRememberCookieData()
 	{
