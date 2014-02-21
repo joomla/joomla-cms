@@ -56,6 +56,14 @@ class plgSystemSession extends JPlugin
 	 */
 	public function onAfterInitialise()
 	{
+		$user = JFactory::getUser();
+
+		// No action on guest users.
+		if ($user->guest)
+		{
+			return;
+		}
+
 		// Check if the required counterpart plugin is available and enabled.
 		if (JPluginHelper::isEnabled('user', 'session'))
 		{
@@ -79,7 +87,6 @@ class plgSystemSession extends JPlugin
 			{
 				if ($session->get("session.{$flag}", null) == true)
 				{
-					$user = JFactory::getUser();
 					$user->groups = JUserHelper::getUserGroups($user->id);
 					$user->getAuthorisedGroups();
 					$user->getAuthorisedViewLevels();
