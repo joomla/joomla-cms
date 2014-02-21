@@ -113,7 +113,7 @@ class PlgAuthenticationCookie extends JPlugin
 			$token	= JUserHelper::hashPassword($cookieArray[0]);
 			if (!JUserHelper::verifyPassword($cookieArray[0], $results[0]->token))
 			{
-				// This is a real attack! Either the series was guessed correctly or a cookie was stolen and used twice (once by attacker and once by victim). 
+				// This is a real attack! Either the series was guessed correctly or a cookie was stolen and used twice (once by attacker and once by victim).
 				// Delete all tokens for this user!
 				$query = $this->db->getQuery(true)
 					->delete('#__user_keys')
