@@ -357,13 +357,11 @@ class PlgContentPagebreak extends JPlugin
 	 */
 	protected function _createNavigation(&$row, $page, $n)
 	{
+		$pnSpace = '';
+
 		if (JText::_('JGLOBAL_LT') || JText::_('JGLOBAL_LT'))
 		{
 			$pnSpace = ' ';
-		}
-		else
-		{
-			$pnSpace = '';
 		}
 
 		if ($page < $n - 1)
