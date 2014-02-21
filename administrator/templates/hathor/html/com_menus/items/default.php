@@ -134,7 +134,6 @@ $assoc		= JLanguageAssociations::isEnabled();
 
 		<tbody>
 		<?php
-		$originalOrders = array();
 		foreach ($this->items as $i => $item) :
 			$orderkey   = array_search($item->id, $this->ordering[$item->parent_id]);
 			$canCreate  = $user->authorise('core.create',     'com_menus');
@@ -180,7 +179,6 @@ $assoc		= JLanguageAssociations::isEnabled();
 						<?php endif; ?>
 						<?php $disabled = $saveOrder ?  '' : 'disabled="disabled"'; ?>
 						<input type="text" name="order[]" value="<?php echo $orderkey + 1;?>" <?php echo $disabled ?> class="text-area-order" title="<?php echo $item->title; ?> order" />
-						<?php $originalOrders[] = $orderkey + 1; ?>
 					<?php else : ?>
 						<?php echo $orderkey + 1;?>
 					<?php endif; ?>
@@ -244,7 +242,6 @@ $assoc		= JLanguageAssociations::isEnabled();
 	<input type="hidden" name="boxchecked" value="0" />
 	<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
-	<input type="hidden" name="original_order_values" value="<?php echo implode($originalOrders, ','); ?>" />
 	<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>
