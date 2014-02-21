@@ -211,7 +211,9 @@ class JFormFieldEditor extends JFormFieldTextarea
 
 			$buttons    = (string) $this->element['buttons'];
 			$hide       = (string) $this->element['hide'];
-			$editorType = (string) $this->element['editor'];
+			
+			// For backward compatibility, revert to editor if editorType is not provided
+			$editorType = ($this->element['editorType'] ? (string) $this->element['editorType'] : (string) $this->element['editor']);
 
 			if ($buttons == 'true' || $buttons == 'yes' || $buttons == '1')
 			{
