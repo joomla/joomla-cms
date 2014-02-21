@@ -73,7 +73,11 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
   			<?php foreach ($this->items as $i => $item) : ?>
   				<tr class="row<?php echo $i % 2;?>">
   					<td><?php echo JHtml::_('grid.id', $i, $item->extension_id); ?></td>
-  					<td><span class="bold hasTooltip" title="<?php echo JHtml::tooltipText($item->name, $item->description, 0); ?>"><?php echo $item->name; ?></span></td>
+  					<td>
+						<label for="cb<?php echo $i;?>">
+							<span class="bold hasTooltip" title="<?php echo JHtml::tooltipText($item->name, $item->description, 0); ?>"><?php echo $item->name; ?></span>
+						</label>
+					</td>
   					<td class="center"><?php echo JText::_('COM_INSTALLER_TYPE_' . $item->type); ?></td>
   					<td class="center"><?php echo @$item->version != '' ? $item->version : '&#160;'; ?></td>
   					<td class="center"><?php echo @$item->creationDate != '' ? $item->creationDate : '&#160;'; ?></td>
