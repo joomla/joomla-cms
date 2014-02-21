@@ -251,3 +251,38 @@ JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
 	<?php echo JHtml::_('form.token'); ?>
 </form>
 
+<!-- Rotate Modal -->
+<form
+	action="<?php echo JRoute::_('index.php?option=com_media&controller=media.rotate.editor&folder=' . $this->folder . '&file=' . $this->file); ?>"
+	method="post">
+	<div id="rotateModal" class="modal hide fade">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"
+				aria-hidden="true">&times;</button>
+			<h3>
+				<?php echo JText::_('COM_MEDIA_EDITOR_ROTATE_IMAGE'); ?>
+			</h3>
+		</div>
+		<div class="modal-body">
+			<div id="template-manager-css" class="form-horizontal">
+				<div class="control-group">
+					<label for="height" class="control-label hasTooltip"
+						title="<?php echo JHtml::tooltipText('COM_MEDIA_EDITOR_IMAGE_ANGLE'); ?>"><?php echo JText::_('COM_MEDIA_EDITOR_IMAGE_ANGLE')?>
+					</label>
+					<div class="controls">
+						<input class="input-xlarge" type="number" name="angle"
+							placeholder="0" required />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_EDITOR_BUTTON_ROTATE_CLOSE'); ?>
+			</a>
+			<button class="btn btn-primary" type="submit">
+				<?php echo JText::_('COM_MEDIA_EDITOR_BUTTON_ROTATE'); ?>
+			</button>
+		</div>
+	</div>
+	<?php echo JHtml::_('form.token'); ?>
+</form>

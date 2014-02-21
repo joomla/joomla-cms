@@ -10,13 +10,13 @@
 defined('_JEXEC') or die;
 
 /**
- * Base Resize Controller
+ * Base Rotate Controller
  *
  * @package     Joomla.Administrator
  * @subpackage  com_media
  * @since       3.3
  */
-class MediaControllerEditorResize extends JControllerBase
+class MediaControllerEditorRotate extends JControllerBase
 {
 	/**
 	 * Prefix for the view and model classes
@@ -35,8 +35,7 @@ class MediaControllerEditorResize extends JControllerBase
 	 */
 	public function execute()
 	{
-		$width  = $this->app->input->get('width');
-		$height = $this->app->input->get('height');
+		$angle = $this->app->input->get('angle');
 
 		$file   = $this->app->input->get('file');
 		$folder = $this->app->input->get('folder');
@@ -53,15 +52,15 @@ class MediaControllerEditorResize extends JControllerBase
 
 		$model = new $modelClass;
 
-		if ($model->resizeImage($path, $width, $height))
+		if ($model->resizeImage($path, $angle))
 		{
-			$this->app->enqueueMessage(JText::_('COM_MEDIA_EDITOR_FILE_RESIZE_SUCCESS'));
+			$this->app->enqueueMessage(JText::_('COM_MEDIA_EDITOR_FILE_ROTATE_SUCCESS'));
 			$url = 'index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file;
 			$this->app->redirect(JRoute::_($url, false));
 		}
 		else
 		{
-			$this->app->enqueueMessage(JText::_('COM_MEDIA_EDITOR_FILE_RESIZE_ERROR'), 'error');
+			$this->app->enqueueMessage(JText::_('COM_MEDIA_EDITOR_FILE_ROTATE_ERROR'), 'error');
 			$url = 'index.php?option=com_media&controller=media.display.editor&folder=' . $folder . '&file=' . $file;
 			$this->app->redirect(JRoute::_($url, false));
 		}

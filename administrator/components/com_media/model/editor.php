@@ -199,6 +199,34 @@ class MediaModelEditor extends ConfigModelForm
 
 	}
 
-	
+	/**
+	 * Rotate an image.
+	 *
+	 * @param   string  $file    The name and location of the file
+	 * @param   string  $angle   The new angle of the image.
+	 *
+	 * @return   boolean  true if image rotate successful, false otherwise.
+	 *
+	 * @since   3.2
+	 */
+	public function rotateImage($file, $angle)
+	{
+		$app     = JFactory::getApplication();
+
+		$JImage = new JImage($file);
+
+		try
+		{
+			$image = $JImage->rotate($angle, -1, false);
+			$image->toFile($file);
+
+			return true;
+		}
+		catch (Exception $e)
+		{
+			$app->enqueueMessage($e->getMessage(), 'error');
+		}
+
+	}
 
 }
