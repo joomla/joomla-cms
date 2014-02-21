@@ -135,7 +135,7 @@ class PlgUserContactCreator extends JPlugin
 	 *
 	 * @return  array  Contains the modified title and alias.
 	 *
-	 * @since   3.3
+	 * @since   3.2.3
 	 */
 	protected function generateAliasAndName($alias, $name, $categoryId)
 	{
@@ -158,6 +158,8 @@ class PlgUserContactCreator extends JPlugin
 	 * Get an instance of the contact table
 	 *
 	 * @return  ContactTableContact
+	 *
+	 * @since   3.2.3
 	 */
 	protected function getContactTable()
 	{
