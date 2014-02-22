@@ -110,7 +110,7 @@ Class PlgContentAvatar extends JPlugin
                         
                         
                             // Select the element which has HasPopOver id or class and set it up for the Pop Over
-                            $html[]= JHtmlBootstrap::popover('.hasPopover',array('placement'=>'right', 'container'=>'body','html'=> true,'content'=>
+                            $html[]= JHtmlBootstrap::popover('.hasPopover',array('animation'=>true,'trigger'=>'click','placement'=>'right', 'container'=>'body','html'=> true,'content'=>
                                      '<div class="avatar">'.
                                      '<dl>' .
                                      
