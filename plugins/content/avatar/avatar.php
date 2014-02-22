@@ -103,26 +103,47 @@ Class PlgContentAvatar extends JPlugin
                         $myemail=$profile['entry'][0]['emails'][0]['value'];    
                         $im_accounts=$profile['entry'][0]['ims'][0]['value'];
                         $about_me=$profile['entry'][0]['aboutMe'];
+                        $blogs=$profile['entry'][0]['urls'][0]['value'];
+                        $current_location=$profile['entry'][0]['currentLocation'];
+                       
                         
                         
                         
                             // Select the element which has HasPopOver id or class and set it up for the Pop Over
                             $html[]= JHtmlBootstrap::popover('.hasPopover',array('placement'=>'right', 'container'=>'body','html'=> true,'content'=>
                                      '<div class="avatar">'.
-                                     '<label class="label label-info">'.
-                                     JText::_('PLG_CONTENT_AVATAR_MY_NAME').$name.
-                                     '</label>'.
-                                     '<label class="label label-info">'.
-                                     JText::_('PLG_CONTENT_AVATAR_MY_PUBLIC_EMAIL').$myemail.
-                                     '</label>'.
-                                     '<label class="label label-info">'.
-                                     JText::_('PLG_CONTENT_AVATAR_IM_ACCOUNT').$im_accounts.
-                                     '</label>'.
-                                     '<label class="label label-info">'.
-                                     '</div>'
+                                     '<dl>' .
+                                     
+                                     '<dt>' . JText::_('PLG_CONTENT_AVATAR_MY_NAME') . '</dt>'.
+                                     
+                                    
+                                     '<dd>'. $name . '</dd>'.
+                                     
+                                     
+                                 
+                                     '<dt>' . JText::_('PLG_CONTENT_AVATAR_MY_PUBLIC_EMAIL') . '</dt>'.
+                                     '<dd>' . $myemail . '</dd>' .
+                                    
+                                     
+                                     
+                                     '<dt>'.JText::_('PLG_CONTENT_AVATAR_IM_ACCOUNT').'</dt>'.
+                                     '<dd>'.$im_accounts.'</dd>'.
+                                   
+                                
+                                     '<dt>'.JText::_('PLG_CONTENT_AVATAR_ABOUT_ME').'</dt>'.
+                                     '<dd>'.$about_me.'</dd>'.
+                                     
+                                     '<dt>'.JText::_('PLG_CONTENT_AVATAR_CURRENT_LOCATION').'</dt>'.
+                                     '<dd>'.$current_location.'</dd>'.
+                                     
+                                     '<dt>'.JText::_('PLG_CONTENT_AVATAR_BLOGS').'</dt>'.
+                                     '<dd>'.$blogs.'</dd>'.
+                                     
+                                     '</dl>'.
+                                     '</div>'));
                                    
 
-                                ));
+                               
                             
                          }
                     }
