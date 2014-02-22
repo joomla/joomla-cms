@@ -45,7 +45,14 @@ abstract class JInstallerHelper
 		ini_set('user_agent', $version->getUserAgent('Installer'));
 
 		$http = JHttpFactory::getHttp();
-		$response = $http->get($url);
+		
+		// load installer plugins, and allow url and headers modification
+		$headers = array();
+		JPluginHelper::importPlugin('installer');
+		$dispatcher = JEventDispatcher::getInstance();
+		$results = $dispatcher->trigger('onInstallerBeforePackageDownload', array(&$url, &$headers));
+		
+		$response = $http->get($url, $headers);
 
 		if (302 == $response->code && isset($response->headers['Location']))
 		{
