@@ -394,14 +394,14 @@ class JLayoutFile extends JLayoutBase
 
 		if (!empty($plugin) && !empty($type))
 		{
-			// (7) Plugin overrides path
+			// (5) Plugin overrides path
 			$this->addIncludePaths(JPATH_SITE . '/plugins/' . $type . '/' . $plugin . '/layouts');
 
-			// (7) Plugin template overrides path
+			// (6) Plugin template overrides path
 			$this->addIncludePath(JPATH_THEMES . '/' . JFactory::getApplication()->getTemplate() . '/html/layouts/' . $type . '/' . $plugin);
 		}
 
-		// (5 - highest priority) Received a custom high priority path ?
+		// (7 - highest priority) Received a custom high priority path ?
 		if (!is_null($this->basePath))
 		{
 			$this->addIncludePath(rtrim($this->basePath, DIRECTORY_SEPARATOR));
