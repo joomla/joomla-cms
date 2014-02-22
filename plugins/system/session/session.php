@@ -73,6 +73,7 @@ class plgSystemSession extends JPlugin
 		$plg_params         = new JRegistry(JPluginHelper::getPlugin('user', 'session')->params);
 		$flag               = $plg_params->get('session_update_flag_name', 'refresh');
 
+		// Get session information.
 		$session            = JFactory::getSession();
 		$session_id         = $session->getId();
 		$session_handler    = $this->app->getCfg('session_handler');
