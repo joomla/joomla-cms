@@ -72,7 +72,6 @@ class plgSystemSession extends JPlugin
 		// Read the update flag name to check for.
 		$plg_params         = new JRegistry(JPluginHelper::getPlugin('user', 'session')->params);
 		$flag               = $plg_params->get('session_update_flag_name', 'refresh');
-		$debug              = JDEBUG;
 
 		$session            = JFactory::getSession();
 		$session_id         = $session->getId();
@@ -114,7 +113,7 @@ class plgSystemSession extends JPlugin
 						throw new RuntimeException(JText::_('PLG_SYSTEM_SESSION_ERROR_STORE_FAIL'), 500);
 					}
 
-					if ($debug)
+					if (JDEBUG)
 					{
 						$this->app->enqueueMessage(JText::sprintf('PLG_SYSTEM_SESSION_ERROR_STORE_SUCCESS_DEBUG', ucfirst($session_handler)), 'notice');
 					}
@@ -122,7 +121,7 @@ class plgSystemSession extends JPlugin
 				}
 				else
 				{
-					if ($debug)
+					if (JDEBUG)
 					{
 						$this->app->enqueueMessage(JText::sprintf('PLG_SYSTEM_SESSION_ERROR_STORE_FAIL_DEBUG', ucfirst($session_handler)), 'error');
 					}
@@ -138,7 +137,7 @@ class plgSystemSession extends JPlugin
 		else
 		{
 			// State the incompatibility so admins might consider to change the selected session handler.
-			if ($debug)
+			if (JDEBUG)
 			{
 				$this->app->enqueueMessage(JText::sprintf('PLG_SYSTEM_SESSION_ERROR_UNSUPPORTED_HANDLER', ucfirst($session_handler)), 'notice');
 			}
