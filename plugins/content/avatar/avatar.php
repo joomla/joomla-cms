@@ -32,7 +32,6 @@ Class PlgContentAvatar extends JPlugin
         public function onContentBeforeDisplay($context, &$row, &$params, $page=0)
         {       
             //get the scheme http or https
-            
             $array=JURI::getInstance()->getScheme(); 
             //Get input parameters if not use the default values
             $size=$this->params->get('size',$this->defaultsize);
@@ -70,62 +69,66 @@ Class PlgContentAvatar extends JPlugin
                 $grav_url=$avatar.$hashedemail."?d=".$selection."&s=".$size;
                 $style=$this->params->get('style','');
                 $alignment=  $this->params->get('alignment','');
-                
-                $html[] = '<div class="avatar">';
-                
-                $html[] = JHtml::_('image',$grav_url,JText::_('PLG_CONTENT_AVATAR'),'class="img-avatar '  . '  ' . $style . ' ' . $alignment . '"',true);
-                
-                $html[] = '</div>';
-                    
-                $response_profile = $http->get("$gravatar_profile".$hashedemail.".php");
-                 
-                if($response_profile->code==302||$response_profile->code==200)
+                // Show the Image
+                $html[]= '<div class="avatar">';
+                $html[]= JHtml::_('image',$grav_url,JText::_('PLG_CONTENT_AVATAR'),'class="img-avatar hasPopover'  . '  ' . $style . ' ' . $alignment . '"',true);
+                $html[] ='</div>';
+                // Perform the operation only if the show profile is selected
+                if($this->params->get('show_profileinfo')=="1")
                 {
-                    if($this->params->get('check_curl')=="1")
+                    //$html[]=JHtml::_('link',null,  JText::_('PLG_CONTENT_AVATAR_PROFILE_INFORMATION'),'class="avatar hasPopover"',true);
+                    // Get the HTTP object to reference Profile information
+                    $response_profile = $http->get("$gravatar_profile".$hashedemail.".php");
+                    // If profile is found then perform further information 
+                    if($response_profile->code==302||$response_profile->code==200)
                     {
-                        $str=$response_profile->body;
-                        $profile = unserialize($str);
-                        var_dump($profile);
-                    }
-                    else
-                    {
-                        
-                        $str = file_get_contents( $gravatar_profile.$hashedemail.".php" );
-                        $profile = unserialize($str);
-                        
-                    }
-                    
-                    if (is_array($profile )&&isset( $profile['entry']))
-                    {      
-                        //Reference the array to get details    
-                        $name=$profile['entry'][0]['displayName'];   
-                        $myemail=$profile['entry'][0]['emails'][0]['value'];    
-                        $im_accounts=$profile['entry'][0]['ims'][0]['value'];   
-                
-                        if($this->params->get('show_profileinfo')=="1")
+                        // If curl is on fetch information using JHttp Object
+                        if($this->params->get('check_curl')=="1")
                         {
-                            $html[]='<div class="avatar">' .  JHtml::_('bootstrap.startAccordion', 'slide-avatar', array('active' => 'author-details')); ;
-                            $html[]=JHtml::_('bootstrap.addSlide', 'slide-avatar', JText::_('JAUTHOR_DETAILS'), 'details') . '<label class="label label-info">';
-                            $html[]= JText::_('PLG_CONTENT_AVATAR_MY_NAME').$name;
-                            $html[]='</label>';
-                            $html[]='<label class="label label-info">';
-                            $html[]=JText::_('PLG_CONTENT_AVATAR_MY_PUBLIC_EMAIL').$myemail;
-                            $html[]='</label>';
-                
-                            $html[]='<label class="label label-info">';
-                            $html[]= JText::_('PLG_CONTENT_AVATAR_IM_ACCOUNT').$im_accounts;
-                            $html[]='</label>';
-                            $html[]=JHtml::_('bootstrap.endSlide');
-                            $html[]='</div>';
+                            $str=$response_profile->body;
+                            $profile = unserialize($str);
+                        }
+                        else
+                        {
+                        
+                            $str = file_get_contents( $gravatar_profile.$hashedemail.".php" );
+                            $profile = unserialize($str);
                         
                         }
+                        // If the profile is null
+                        if (is_array($profile )&&isset( $profile['entry']))
+                        {      
+                        // Reference the array to get details    
+                        $name=$profile['entry'][0]['displayName'];   
+                        $myemail=$profile['entry'][0]['emails'][0]['value'];    
+                        $im_accounts=$profile['entry'][0]['ims'][0]['value'];
+                        $about_me=$profile['entry'][0]['aboutMe'];
+                        
+                        
+                        
+                            // Select the element which has HasPopOver id or class and set it up for the Pop Over
+                            $html[]= JHtmlBootstrap::popover('.hasPopover',array('placement'=>'right', 'container'=>'body','html'=> true,'content'=>
+                                     '<div class="avatar">'.
+                                     '<label class="label label-info">'.
+                                     JText::_('PLG_CONTENT_AVATAR_MY_NAME').$name.
+                                     '</label>'.
+                                     '<label class="label label-info">'.
+                                     JText::_('PLG_CONTENT_AVATAR_MY_PUBLIC_EMAIL').$myemail.
+                                     '</label>'.
+                                     '<label class="label label-info">'.
+                                     JText::_('PLG_CONTENT_AVATAR_IM_ACCOUNT').$im_accounts.
+                                     '</label>'.
+                                     '<label class="label label-info">'.
+                                     '</div>'
+                                   
+
+                                ));
+                            
+                         }
                     }
-                
-                
-                
-                }
          
+                }
+             
                     return $html;
         }
-        
 }
