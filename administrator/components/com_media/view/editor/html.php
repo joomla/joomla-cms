@@ -98,7 +98,7 @@ class MediaViewEditorHtml extends ConfigViewCmsHtml
 // 			JToolbarHelper::save2copy('media.save.editor.save2copy');
 // 		}
 
-		JToolbarHelper::cancel('cancel.media.editor', 'COM_MEDIA_BUTTON_CLOSE_FILE');
+		JToolbarHelper::cancel('media.cancel.editor');
 
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_CONTENT_MEDIA_MANAGER_EDITOR');
