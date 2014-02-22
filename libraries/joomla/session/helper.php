@@ -32,18 +32,19 @@ abstract class JSessionHelper
 	 */
 	public static function unserialize($session_data)
 	{
-		$handler = strtolower(ini_get("session.serialize_handler"));
+		$handler = strtolower(ini_get('session.serialize_handler'));
 
 		switch ($handler)
 		{
-			case "php" :
+			case 'php' :
 				return static::unserialize_php($session_data);
 			break;
 
-			case "php_binary" :
+			case 'php_binary' :
 				return static::unserialize_phpbinary($session_data);
 			break;
 
+			case 'wddx' : // TODO
 			default :
 				throw new RuntimeException(JText::sprintf('JLIB_SESSION_ERROR_UNSUPPORTED_HANDLER', $handler));
 		}
@@ -62,12 +63,12 @@ abstract class JSessionHelper
 
 		while ($offset < strlen($session_data))
 		{
-			if (! strstr(substr($session_data, $offset), "|"))
+			if (! strstr(substr($session_data, $offset), '|'))
 			{
 				throw new RuntimeException(JText::sprintf('JLIB_SESSION_ERROR_INVALID_REMAINING_DATA', substr($session_data, $offset)));
 			}
 
-			$pos     = strpos($session_data, "|", $offset);
+			$pos     = strpos($session_data, '|', $offset);
 			$length  = $pos - $offset;
 			$varname = substr($session_data, $offset, $length);
 			$offset += $length + 1;
@@ -106,5 +107,15 @@ abstract class JSessionHelper
 
 		return $return_data;
 	}
-
+	
+	/* (non-PHPdoc)
+	 * @static
+	 * @param	string	$session_data	The session data to process
+	 * @return	multitype:mixed
+	 */
+	private static function unserialize_wddx($session_data)
+	{
+		// TODO
+	}
+	
 }
