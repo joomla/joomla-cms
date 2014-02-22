@@ -19,7 +19,7 @@ if (JText::_('JGLOBAL_LT') || JText::_('JGLOBAL_GT'))
 }
 ?>
 
-<?php if ($link = $displayData->get('link', null) : ?>
+<?php if ($link = $displayData->get('link', null)) : ?>
 <a href="<?php echo $displayData->get('link'); ?>"><?php echo JText::_('JGLOBAL_LT') . JText::_('JGLOBAL_LT') . $pnSpace . JText::_('JPREV'); ?></a>
 <?php else : ?>
 <?php echo JText::_('JPREV'); ?>
