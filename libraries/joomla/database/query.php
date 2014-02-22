@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -101,7 +101,7 @@ class JDatabaseQueryElement
 	/**
 	 * Gets the elements of this element.
 	 *
-	 * @return  string
+	 * @return  array
 	 *
 	 * @since   11.1
 	 */
@@ -138,8 +138,12 @@ class JDatabaseQueryElement
  * @since       11.1
  *
  * @method      string  q()   q($text, $escape = true)  Alias for quote method
- * @method      string  qn()  qs($name, $as = null)     Alias for quoteName method
- * @method      string  e()   e($text, $extra = false)   Alias for escape method
+ * @method      string  qn()  qn($name, $as = null)     Alias for quoteName method
+ * @method      string  e()   e($text, $extra = false)  Alias for escape method
+ * @property-read   JDatabaseQueryElement  $type
+ * @property-read   JDatabaseQueryElement  $select
+ * @property-read   JDatabaseQueryElement  $group
+ * @property-read   JDatabaseQueryElement  $having
  */
 abstract class JDatabaseQuery
 {
@@ -382,8 +386,8 @@ abstract class JDatabaseQuery
 				break;
 
 			case 'unionAll':
-					$query .= (string) $this->unionAll;
-					break;
+				$query .= (string) $this->unionAll;
+				break;
 
 			case 'delete':
 				$query .= (string) $this->delete;
@@ -550,7 +554,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  The required char length call.
 	 *
-	 * @since 11.1
+	 * @since   11.1
 	 */
 	public function charLength($field, $operator = null, $condition = null)
 	{
@@ -877,6 +881,8 @@ abstract class JDatabaseQuery
 	 * @param   string  $subQueryAlias  Alias used when $tables is a JDatabaseQuery.
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @throws  RuntimeException
 	 *
 	 * @since   11.1
 	 */
@@ -1502,6 +1508,11 @@ abstract class JDatabaseQuery
 	{
 		foreach ($this as $k => $v)
 		{
+			if ($k === 'db')
+			{
+				continue;
+			}
+
 			if (is_object($v) || is_array($v))
 			{
 				$this->{$k} = unserialize(serialize($v));
@@ -1556,7 +1567,6 @@ abstract class JDatabaseQuery
 		// Otherwise append the second UNION.
 		else
 		{
-			$glue = '';
 			$this->union->append($query);
 		}
 
@@ -1782,11 +1792,10 @@ abstract class JDatabaseQuery
 	 * @param   string    $interval  The string representation of the appropriate number of units
 	 * @param   string    $datePart  The part of the date to perform the addition on
 	 *
-	 * @return  sring  The string with the appropriate sql for addition of dates
+	 * @return  string  The string with the appropriate sql for addition of dates
 	 *
+	 * @see     http://dev.mysql.com/doc/refman/5.1/en/date-and-time-functions.html#function_date-add
 	 * @since   13.1
-	 *
-	 * @see http://dev.mysql.com/doc/refman/5.1/en/date-and-time-functions.html#function_date-add
 	 */
 	public function dateAdd($date, $interval, $datePart)
 	{
@@ -1824,7 +1833,6 @@ abstract class JDatabaseQuery
 		// Otherwise append the second UNION.
 		else
 		{
-			$glue = '';
 			$this->unionAll->append($query);
 		}
 

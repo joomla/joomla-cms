@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -99,7 +99,9 @@ abstract class JHtmlQuery
 					}
 
 					// Add the node to the explanation.
-					$parts[] = '<span class="query-taxonomy">' . JText::sprintf('COM_FINDER_QUERY_TAXONOMY_NODE', $title, JText::_(FinderHelperLanguage::branchSingular($branch))) . '</span>';
+					$parts[] = '<span class="query-taxonomy">'
+						. JText::sprintf('COM_FINDER_QUERY_TAXONOMY_NODE', $title, JText::_(FinderHelperLanguage::branchSingular($branch)))
+						. '</span>';
 				}
 			}
 		}

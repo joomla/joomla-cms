@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.Isis
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,11 +13,12 @@ function renderMessage($msgList)
 {
 	$buffer  = null;
 	$buffer .= "\n<div id=\"system-message-container\">";
-	$buffer .= '<button type="button" class="close" data-dismiss="alert">&times;</button>';
 	$alert = array('error' => 'alert-error', 'warning' => '', 'notice' => 'alert-info', 'message' => 'alert-success');
 
-	if (is_array($msgList))
+	// Only render the message list and the close button if $msgList has items
+	if (is_array($msgList) && (count($msgList) >= 1))
 	{
+		$buffer .= '<button type="button" class="close" data-dismiss="alert">&times;</button>';
 		foreach ($msgList as $type => $msgs)
 		{
 			$buffer .= '<div class="alert ' . $alert[$type]. '">';

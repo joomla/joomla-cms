@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -253,16 +253,14 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	{
 		$this->connect();
 
-		$query = $this->getQuery(true);
-
-		$tables = array();
 		$type = 'table';
 
-		$query->select('name');
-		$query->from('sqlite_master');
-		$query->where('type = :type');
-		$query->bind(':type', $type);
-		$query->order('name');
+		$query = $this->getQuery(true)
+			->select('name')
+			->from('sqlite_master')
+			->where('type = :type')
+			->bind(':type', $type)
+			->order('name');
 
 		$this->setQuery($query);
 
@@ -283,6 +281,7 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 		$this->connect();
 
 		$this->setQuery("SELECT sqlite_version()");
+
 		return $this->loadResult();
 	}
 
@@ -379,5 +378,87 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	public static function isSupported()
 	{
 		return class_exists('PDO') && in_array('sqlite', PDO::getAvailableDrivers());
+	}
+
+	/**
+	 * Method to commit a transaction.
+	 *
+	 * @param   boolean  $toSavepoint  If true, commit to the last savepoint.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 * @throws  RuntimeException
+	 */
+	public function transactionCommit($toSavepoint = false)
+	{
+		$this->connect();
+
+		if (!$toSavepoint || $this->transactionDepth <= 1)
+		{
+			parent::transactionCommit($toSavepoint);
+		}
+		else
+		{
+			$this->transactionDepth--;
+		}
+	}
+
+	/**
+	 * Method to roll back a transaction.
+	 *
+	 * @param   boolean  $toSavepoint  If true, rollback to the last savepoint.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 * @throws  RuntimeException
+	 */
+	public function transactionRollback($toSavepoint = false)
+	{
+		$this->connect();
+
+		if (!$toSavepoint || $this->transactionDepth <= 1)
+		{
+			parent::transactionRollback($toSavepoint);
+		}
+		else
+		{
+			$savepoint = 'SP_' . ($this->transactionDepth - 1);
+			$this->setQuery('ROLLBACK TO ' . $this->quoteName($savepoint));
+
+			if ($this->execute())
+			{
+				$this->transactionDepth--;
+			}
+		}
+	}
+
+	/**
+	 * Method to initialize a transaction.
+	 *
+	 * @param   boolean  $asSavepoint  If true and a transaction is already active, a savepoint will be created.
+	 *
+	 * @return  void
+	 *
+	 * @since   12.3
+	 * @throws  RuntimeException
+	 */
+	public function transactionStart($asSavepoint = false)
+	{
+		$this->connect();
+
+		if (!$asSavepoint || !$this->transactionDepth)
+		{
+			parent::transactionStart($asSavepoint);
+		}
+
+		$savepoint = 'SP_' . $this->transactionDepth;
+		$this->setQuery('SAVEPOINT ' . $this->quoteName($savepoint));
+
+		if ($this->execute())
+		{
+			$this->transactionDepth++;
+		}
 	}
 }

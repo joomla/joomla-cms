@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -66,6 +66,11 @@ class TagsModelTags extends JModelList
 		{
 			$this->setState('filter.published', 1);
 		}
+
+		// Optional filter text
+		$itemid = $pid . ':' . $app->input->getInt('Itemid', 0);
+		$filterSearch = $app->getUserStateFromRequest('com_tags.tags.list.' . $itemid . '.filter_search', 'filter-search', '', 'string');
+		$this->setState('list.filter', $filterSearch);
 	}
 
 	/**
@@ -103,10 +108,12 @@ class TagsModelTags extends JModelList
 	 */
 	protected function getListQuery()
 	{
+		$app = JFactory::getApplication('site');
 		$user	= JFactory::getUser();
 		$groups	= implode(',', $user->getAuthorisedViewLevels());
 		$pid = $this->getState('tag.parent_id');
 		$orderby = $this->state->params->get('all_tags_orderby', 'title');
+		$published = $this->state->params->get('published', 1);
 		$orderDirection = $this->state->params->get('all_tags_orderby_direction', 'ASC');
 		$language = $this->getState('tag.language');
 
@@ -115,10 +122,10 @@ class TagsModelTags extends JModelList
 		$query	= $db->getQuery(true);
 
 		// Select required fields from the tags.
-		$query->select('a.*');
+		$query->select('a.*')
 
-		$query->from($db->quoteName('#__tags') . ' AS a');
-		$query->where($db->quoteName('a.access') . ' IN (' . $groups . ')');
+			->from($db->quoteName('#__tags') . ' AS a')
+			->where($db->quoteName('a.access') . ' IN (' . $groups . ')');
 
 		if (!empty($pid))
 		{
@@ -139,10 +146,40 @@ class TagsModelTags extends JModelList
 			{
 				$language = JHelperContent::getCurrentLanguage();
 			}
-			$query->where($db->qn('language') . ' IN (' . $db->q($language) . ', ' . $db->q('*') . ')');
+			$query->where($db->quoteName('language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
 		}
 
-		$query->order($db->quoteName($orderby) . ' ' . $orderDirection);
+		// List state information
+		$format = $app->input->getWord('format');
+		if ($format == 'feed')
+		{
+			$limit = $app->getCfg('feed_limit');
+		}
+		else
+		{
+			if ($this->state->params->get('show_pagination_limit'))
+			{
+				$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->getCfg('list_limit'), 'uint');
+			}
+			else
+			{
+				$limit = $this->state->params->get('maximum', 20);
+			}
+		}
+		$this->setState('list.limit', $limit);
+
+		$offset = $app->input->get('limitstart', 0, 'uint');
+		$this->setState('list.start', $offset);
+
+		// Optionally filter on entered value
+		if ($this->state->get('list.filter'))
+		{
+			$query->where($db->quoteName('a.title') . ' LIKE ' . $db->quote('%' . $this->state->get('list.filter') . '%'));
+		}
+
+		$query->where($db->quoteName('a.published'). ' = ' . $published);
+
+		$query->order($db->quoteName($orderby) . ' ' . $orderDirection . ', a.title ASC');
 
 		return $query;
 	}

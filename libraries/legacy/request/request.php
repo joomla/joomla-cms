@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Request
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -33,7 +33,7 @@ JLog::add('JRequest is deprecated.', JLog::WARNING, 'deprecated');
  * @package     Joomla.Legacy
  * @subpackage  Request
  * @since       11.1
- * @deprecated  12.1  Get the JInput object from the application instead
+ * @deprecated  12.1 (Platform) & 4.0 (CMS) - Get the JInput object from the application instead
  */
 class JRequest
 {
@@ -48,7 +48,7 @@ class JRequest
 	 */
 	public static function getURI()
 	{
-		$uri = JURI::getInstance();
+		$uri = JUri::getInstance();
 		return $uri->toString(array('path', 'query'));
 	}
 
@@ -471,8 +471,8 @@ class JRequest
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  12.1  Use JInput::Set
-	 * @see         JInput::Set
+	 * @deprecated  12.1  Use JInput::set()
+	 * @see         JInput::set()
 	 * @since       11.1
 	 */
 	public static function set($array, $hash = 'default', $overwrite = true)

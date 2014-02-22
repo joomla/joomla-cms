@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,7 @@ $templateparams = $app->getTemplate(true)->params;
 $images = json_decode($this->item->images);
 $urls = json_decode($this->item->urls);
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
+JHtml::_('behavior.caption');
 
 // Create shortcut to parameters.
 $params = $this->item->params;
@@ -126,15 +127,11 @@ if ($params->get('show_title')) : ?>
 	<dd class="createdby">
 		<?php $author = $this->item->author; ?>
 		<?php $author = ($this->item->created_by_alias ? $this->item->created_by_alias : $author);?>
-
-			<?php if (!empty($this->item->contactid ) &&  $params->get('link_author') == true):?>
-				<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY',
-					JHtml::_('link', JRoute::_('index.php?option=com_contact&view=contact&id=' . $this->item->contactid), $author)
-				); ?>
-
-			<?php else :?>
-				<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
-			<?php endif; ?>
+		<?php if (!empty($this->item->contact_link ) &&  $params->get('link_author') == true) : ?>
+			<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $this->item->contact_link, $author)); ?>
+		<?php else :?>
+			<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $author); ?>
+		<?php endif; ?>
 	</dd>
 <?php endif; ?>
 <?php if ($params->get('show_hits')) : ?>
@@ -158,7 +155,7 @@ if ($params->get('show_title')) : ?>
 	<?php  if (isset($images->image_fulltext) and !empty($images->image_fulltext)) : ?>
 	<?php $imgfloat = (empty($images->float_fulltext)) ? $params->get('float_fulltext') : $images->float_fulltext; ?>
 
-	<div class="img-fulltext-"<?php echo htmlspecialchars($imgfloat); ?>">
+	<div class="img-fulltext-<?php echo htmlspecialchars($imgfloat); ?>">
 	<img
 		<?php if ($images->image_fulltext_caption):
 			echo 'class="caption"'.' title="' .htmlspecialchars($images->image_fulltext_caption) .'"';

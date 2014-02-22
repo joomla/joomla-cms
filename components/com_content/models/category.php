@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -125,17 +125,16 @@ class ContentModelCategory extends JModelList
 				// Create a new query object.
 		$db		= $this->getDbo();
 		$query	= $db->getQuery(true);
-		$groups	= implode(',', $user->getAuthorisedViewLevels());
 
 		if ((!$user->authorise('core.edit.state', 'com_content')) &&  (!$user->authorise('core.edit', 'com_content'))){
 			// limit to published for people who can't edit or edit.state.
 			$this->setState('filter.published', 1);
 			// Filter by start and end dates.
-			$nullDate = $db->Quote($db->getNullDate());
-			$nowDate = $db->Quote(JFactory::getDate()->toSQL());
+			$nullDate = $db->quote($db->getNullDate());
+			$nowDate = $db->quote(JFactory::getDate()->toSQL());
 
-			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')');
-			$query->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
+				->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
 		}
 		else
 		{
@@ -198,7 +197,7 @@ class ContentModelCategory extends JModelList
 
 		$this->setState('filter.language', JLanguageMultilang::isEnabled());
 
-		$this->setState('layout', $app->input->get('layout'));
+		$this->setState('layout', $app->input->getString('layout'));
 
 	}
 
@@ -210,7 +209,6 @@ class ContentModelCategory extends JModelList
 	 */
 	function getItems()
 	{
-		$params = $this->getState()->get('params');
 		$limit = $this->getState('list.limit');
 
 		if ($this->_articles === null && $category = $this->getCategory())
@@ -331,7 +329,6 @@ class ContentModelCategory extends JModelList
 			if (is_object($this->_item))
 			{
 				$user	= JFactory::getUser();
-				$userId	= $user->get('id');
 				$asset	= 'com_content.category.'.$this->_item->id;
 
 				// Check general create permission.
@@ -449,24 +446,16 @@ class ContentModelCategory extends JModelList
 	 */
 	public function hit($pk = 0)
 	{
-		// Initialise variables.
-		$pk = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
+		$input = JFactory::getApplication()->input;
+		$hitcount = $input->getInt('hitcount', 1);
 
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-		$query->update('#__categories');
-		$query->set('hits = hits + 1');
-		$query->where('id = ' . (int) $pk);
-		$db->setQuery($query);
+		if ($hitcount)
+		{
+			$pk = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
 
-		try
-		{
-			$db->execute();
-		}
-		catch (RuntimeException $e)
-		{
-			$this->setError($e->getMessage());
-			return false;
+			$table = JTable::getInstance('Category', 'JTable');
+			$table->load($pk);
+			$table->hit($pk);
 		}
 
 		return true;

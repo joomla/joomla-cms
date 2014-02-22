@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -76,21 +76,19 @@ class JFormFieldModulelayout extends JFormField
 
 			// Load language file
 			$lang = JFactory::getLanguage();
-			$lang->load($module . '.sys', $client->path, null, false, false)
-				|| $lang->load($module . '.sys', $client->path . '/modules/' . $module, null, false, false)
-				|| $lang->load($module . '.sys', $client->path, $lang->getDefault(), false, false)
-				|| $lang->load($module . '.sys', $client->path . '/modules/' . $module, $lang->getDefault(), false, false);
+			$lang->load($module . '.sys', $client->path, null, false, true)
+				|| $lang->load($module . '.sys', $client->path . '/modules/' . $module, null, false, true);
 
 			// Get the database object and a new query object.
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 
 			// Build the query.
-			$query->select('element, name');
-			$query->from('#__extensions as e');
-			$query->where('e.client_id = ' . (int) $clientId);
-			$query->where('e.type = ' . $db->quote('template'));
-			$query->where('e.enabled = 1');
+			$query->select('element, name')
+				->from('#__extensions as e')
+				->where('e.client_id = ' . (int) $clientId)
+				->where('e.type = ' . $db->quote('template'))
+				->where('e.enabled = 1');
 
 			if ($template)
 			{
@@ -99,8 +97,8 @@ class JFormFieldModulelayout extends JFormField
 
 			if ($template_style_id)
 			{
-				$query->join('LEFT', '#__template_styles as s on s.template=e.element');
-				$query->where('s.id=' . (int) $template_style_id);
+				$query->join('LEFT', '#__template_styles as s on s.template=e.element')
+					->where('s.id=' . (int) $template_style_id);
 			}
 
 			// Set the query and load the templates.
@@ -140,13 +138,8 @@ class JFormFieldModulelayout extends JFormField
 				foreach ($templates as $template)
 				{
 					// Load language file
-					$lang->load('tpl_' . $template->element . '.sys', $client->path, null, false, false)
-						|| $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, null, false, false)
-						|| $lang->load('tpl_' . $template->element . '.sys', $client->path, $lang->getDefault(), false, false)
-						|| $lang->load(
-						'tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, $lang->getDefault(),
-						false, false
-					);
+					$lang->load('tpl_' . $template->element . '.sys', $client->path, null, false, true)
+						|| $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, null, false, true);
 
 					$template_path = JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $module);
 

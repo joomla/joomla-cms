@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -97,8 +97,10 @@ class InstallerModelUpdate extends JModelList
 		$group = $this->getState('filter.group');
 
 		// Grab updates ignoring new installs
-		$query->select('*')->from('#__updates')->where('extension_id != 0');
-		$query->order($this->getState('list.ordering') . ' ' . $this->getState('list.direction'));
+		$query->select('*')
+			->from('#__updates')
+			->where('extension_id != 0')
+			->order($this->getState('list.ordering') . ' ' . $this->getState('list.direction'));
 
 		if ($type)
 		{
@@ -116,12 +118,12 @@ class InstallerModelUpdate extends JModelList
 		// Filter by extension_id
 		if ($eid = $this->getState('filter.extension_id'))
 		{
-			$query->where($db->qn('extension_id') . ' = ' . $db->q((int) $eid));
+			$query->where($db->quoteName('extension_id') . ' = ' . $db->quote((int) $eid));
 		}
 		else
 		{
-			$query->where($db->qn('extension_id') . ' != ' . $db->q(0));
-			$query->where($db->qn('extension_id') . ' != ' . $db->q(700));
+			$query->where($db->quoteName('extension_id') . ' != ' . $db->quote(0))
+				->where($db->quoteName('extension_id') . ' != ' . $db->quote(700));
 		}
 
 		// Filter by search
@@ -149,7 +151,7 @@ class InstallerModelUpdate extends JModelList
 		$this->purge();
 
 		$updater = JUpdater::getInstance();
-		$results = $updater->findUpdates($eid, $cache_timeout);
+		$updater->findUpdates($eid, $cache_timeout);
 		return true;
 	}
 
@@ -170,9 +172,9 @@ class InstallerModelUpdate extends JModelList
 		if ($db->execute())
 		{
 			// Reset the last update check timestamp
-			$query = $db->getQuery(true);
-			$query->update($db->qn('#__update_sites'));
-			$query->set($db->qn('last_check_timestamp') . ' = ' . $db->q(0));
+			$query = $db->getQuery(true)
+				->update($db->quoteName('#__update_sites'))
+				->set($db->quoteName('last_check_timestamp') . ' = ' . $db->quote(0));
 			$db->setQuery($query);
 			$db->execute();
 			$this->_message = JText::_('COM_INSTALLER_PURGED_UPDATES');
@@ -195,8 +197,10 @@ class InstallerModelUpdate extends JModelList
 	public function enableSites()
 	{
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->update('#__update_sites')->set('enabled = 1')->where('enabled = 0');
+		$query = $db->getQuery(true)
+			->update('#__update_sites')
+			->set('enabled = 1')
+			->where('enabled = 0');
 		$db->setQuery($query);
 		if ($db->execute())
 		{
@@ -233,6 +237,7 @@ class InstallerModelUpdate extends JModelList
 			$instance = JTable::getInstance('update');
 			$instance->load($uid);
 			$update->loadFromXML($instance->detailsurl);
+			$update->set('extra_query', $instance->extra_query);
 
 			// Install sets state and enqueues messages
 			$res = $this->install($update);
@@ -264,6 +269,22 @@ class InstallerModelUpdate extends JModelList
 		if (isset($update->get('downloadurl')->_data))
 		{
 			$url = $update->downloadurl->_data;
+
+			$extra_query = $update->get('extra_query');
+
+			if ($extra_query)
+			{
+				if (strpos($url, '?') === false)
+				{
+					$url .= '?';
+				}
+				else
+				{
+					$url .= '&amp;';
+				}
+
+				$url .= $extra_query;
+			}
 		}
 		else
 		{
@@ -341,7 +362,6 @@ class InstallerModelUpdate extends JModelList
 	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
-		$app = JFactory::getApplication();
 		JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
 		JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
 		$form = JForm::getInstance('com_installer.update', 'update', array('load_data' => $loadData));

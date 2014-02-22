@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,7 +27,7 @@ class JTableCorecontent extends JTable
 	 */
 	public function __construct($db)
 	{
-		parent::__construct('#__core_content', 'core_content_id', $db);
+		parent::__construct('#__ucm_content', 'core_content_id', $db);
 	}
 
 	/**
@@ -39,12 +39,11 @@ class JTableCorecontent extends JTable
 	 *
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
 	 *
-	 * @see     JTable::bind
+	 * @see     JTable::bind()
 	 * @since   3.1
 	 */
 	public function bind($array, $ignore = '')
 	{
-
 		if (isset($array['core_params']) && is_array($array['core_params']))
 		{
 			$registry = new JRegistry;
@@ -88,7 +87,7 @@ class JTableCorecontent extends JTable
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @see     JTable::check
+	 * @see     JTable::check()
 	 * @since   3.1
 	 */
 	public function check()
@@ -96,15 +95,16 @@ class JTableCorecontent extends JTable
 		if (trim($this->core_title) == '')
 		{
 			$this->setError(JText::_('LIB_CMS_WARNING_PROVIDE_VALID_NAME'));
+
 			return false;
 		}
 
 		if (trim($this->core_alias) == '')
 		{
-			$this->alias = $this->core_title;
+			$this->core_alias = $this->core_title;
 		}
 
-		$this->alias = JApplication::stringURLSafe($this->alias);
+		$this->core_alias = JApplication::stringURLSafe($this->core_alias);
 
 		if (trim(str_replace('-', '', $this->core_alias)) == '')
 		{
@@ -130,7 +130,7 @@ class JTableCorecontent extends JTable
 			$bad_characters = array("\n", "\r", "\"", "<", ">");
 
 			// Remove bad characters
-			$after_clean = JString::str_ireplace($bad_characters, "", $this->metakey);
+			$after_clean = JString::str_ireplace($bad_characters, "", $this->core_metakey);
 
 			// Create array using commas as delimiter
 			$keys = explode(',', $after_clean);
@@ -153,6 +153,57 @@ class JTableCorecontent extends JTable
 	}
 
 	/**
+	 * Override JTable delete method to include deleting corresponding row from #__ucm_base.
+	 *
+	 * @param   integer  $pk  primary key value to delete. Must be set or throws an exception.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.1
+	 * @throws  UnexpectedValueException
+	 */
+	public function delete($pk = null)
+	{
+		$baseTable = JTable::getInstance('Ucm');
+
+		return parent::delete($pk) && $baseTable->delete($pk);
+	}
+
+	/**
+	 * Method to delete a row from the #__ucm_content table by content_item_id.
+	 *
+	 * @param   integer  $contentItemId  value of the core_content_item_id to delete. Corresponds to the primary key of the content table.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.1
+	 * @throws  UnexpectedValueException
+	 */
+	public function deleteByContentId($contentItemId = null)
+	{
+		if ($contentItemId === null || ((int) $contentItemId) === 0)
+		{
+			throw new UnexpectedValueException('Null content item key not allowed.');
+		}
+
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('core_content_id'))
+			->from($db->quoteName('#__ucm_content'))
+			->where($db->quoteName('core_content_item_id') . ' = ' . (int) $contentItemId);
+		$db->setQuery($query);
+
+		if ($ucmId = $db->loadResult())
+		{
+			return $this->delete($ucmId);
+		}
+		else
+		{
+			return true;
+		}
+	}
+
+	/**
 	 * Overrides JTable::store to set modified data and user id.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
@@ -166,35 +217,82 @@ class JTableCorecontent extends JTable
 		$date = JFactory::getDate();
 		$user = JFactory::getUser();
 
-		if ($this->id)
+		if ($this->core_content_id)
 		{
 			// Existing item
 			$this->core_modified_time = $date->toSql();
-			$this->core_modified_by_user_id = $user->get('id');
+			$this->core_modified_user_id = $user->get('id');
+			$isNew = false;
 		}
 		else
 		{
-			// New content item. A content item core_created_time and core_created_by_user_id field can be set by the user,
+			// New content item. A content item core_created_time and core_created_user_id field can be set by the user,
 			// so we don't touch either of these if they are set.
 			if (!(int) $this->core_created_time)
 			{
 				$this->core_created_time = $date->toSql();
 			}
 
-			if (empty($this->core_created_by_user_id))
+			if (empty($this->core_created_user_id))
 			{
-				$this->core_created_by_user_id = $user->get('id');
+				$this->core_created_user_id = $user->get('id');
 			}
-		}
-		// Verify that the alias is unique
-		$table = JTable::getInstance('Corecontent', 'JTable');
-		if ($table->load(array('alias' => $this->core_alias, 'catid' => $this->core_catid)) && ($table->core_content_id != $this->core_content_id || $this->core_content_id == 0))
-		{
-			$this->setError(JText::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
-			return false;
+
+			$isNew = true;
 		}
 
-		return parent::store($updateNulls);
+		$oldRules = $this->getRules();
+
+		if (empty($oldRules))
+		{
+			$this->setRules('{}');
+		}
+
+		$result = parent::store($updateNulls);
+
+		return $result && $this->storeUcmBase($updateNulls, $isNew);
+	}
+
+	/**
+	 * Insert or update row in ucm_base table
+	 *
+	 * @param   boolean  $updateNulls  True to update fields even if they are null.
+	 * @param   boolean  $isNew        if true, need to insert. Otherwise update.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.1
+	 */
+	protected function storeUcmBase($updateNulls = false, $isNew = false)
+	{
+		// Store the ucm_base row
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+		$languageId = JHelperContent::getLanguageId($this->core_language);
+
+		if ($isNew)
+		{
+			$query->insert($db->quoteName('#__ucm_base'))
+				->columns(array($db->quoteName('ucm_id'), $db->quoteName('ucm_item_id'), $db->quoteName('ucm_type_id'), $db->quoteName('ucm_language_id')))
+				->values(
+					$db->quote($this->core_content_id) . ', '
+					. $db->quote($this->core_content_item_id) . ', '
+					. $db->quote($this->core_type_id) . ', '
+					. $db->quote($languageId)
+			);
+		}
+		else
+		{
+			$query->update($db->quoteName('#__ucm_base'))
+				->set($db->quoteName('ucm_item_id') . ' = ' . $db->quote($this->core_content_item_id))
+				->set($db->quoteName('ucm_type_id') . ' = ' . $db->quote($this->core_type_id))
+				->set($db->quoteName('ucm_language_id') . ' = ' . $db->quote($languageId))
+				->where($db->quoteName('ucm_id') . ' = ' . $db->quote($this->core_content_id));
+		}
+
+		$db->setQuery($query);
+
+		return $db->execute();
 	}
 
 	/**
@@ -230,6 +328,7 @@ class JTableCorecontent extends JTable
 			else
 			{
 				$this->setError(JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+
 				return false;
 			}
 		}
@@ -240,15 +339,19 @@ class JTableCorecontent extends JTable
 		$query = $this->_db->getQuery(true);
 
 		// Update the publishing state for rows with the given primary keys.
-		$query->update($this->_db->quoteName($this->_tbl));
-		$query->set($this->_db->quoteName('core_state') . ' = ' . (int) $state);
-		$query->where($this->_db->quoteName($k) . 'IN (' . $pksImploded . ')');
+		$query->update($this->_db->quoteName($this->_tbl))
+			->set($this->_db->quoteName('core_state') . ' = ' . (int) $state)
+			->where($this->_db->quoteName($k) . 'IN (' . $pksImploded . ')');
 
 		// Determine if there is checkin support for the table.
+		$checkin = false;
+
 		if (property_exists($this, 'core_checked_out_user_id') && property_exists($this, 'core_checked_out_time'))
 		{
+			$checkin = true;
 			$query->where(' (' . $this->_db->quoteName('core_checked_out_user_id') . ' = 0 OR ' . $this->_db->quoteName('core_checked_out_user_id') . ' = ' . (int) $userId . ')');
 		}
+
 		$this->_db->setQuery($query);
 
 		try
@@ -258,6 +361,7 @@ class JTableCorecontent extends JTable
 		catch (RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
+
 			return false;
 		}
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -89,8 +89,7 @@ class TagsViewTags extends JViewLegacy
 			// If the current view is the active item and the tags view, then the menu item params take priority
 			if (strpos($currentLink, 'view=tags'))
 			{
-				// $item->params are the article params, $temp are the menu item params
-				// Merge so that the menu item params take priority
+				$this->params = $active->params;
 				$this->params->merge($temp);
 				// Load layout from active query (in case it is an alternative menu item)
 				if (isset($active->query['layout']))
@@ -100,13 +99,13 @@ class TagsViewTags extends JViewLegacy
 			}
 			else
 			{
-				// Current view is not a single tag, so the article params take priority here
-				// Merge the menu item params with the article params so that the article params take priority
+				// Current view is not a single tag, so the tag params take priority here
+				// Merge the menu item params with the tag params so that the tag params take priority
 				$temp->merge($item->params);
 				$item->params = $temp;
 
 				// Check for alternative layouts (since we are not in a single-article menu item)
-				// Single-article menu item layout takes priority over alt layout for an article
+				// Single tag menu item layout takes priority over alt layout for a tag
 				if ($layout = $item->params->get('tag_layout'))
 				{
 					$this->setLayout($layout);
@@ -115,11 +114,11 @@ class TagsViewTags extends JViewLegacy
 		}
 		else
 		{
-			// Merge so that article params take priority
+			// Merge so that tag params take priority
 			$temp->merge($item[0]->params);
 			$item[0]->params = $temp;
 			// Check for alternative layouts (since we are not in a single-tag menu item)
-			// Single-tag menu item layout takes priority over alt layout for an article
+			// Single-tag menu item layout takes priority over alt layout for a tag
 			if ($layout = $item[0]->params->get('tag_layout'))
 			{
 				$this->setLayout($layout);
@@ -138,7 +137,6 @@ class TagsViewTags extends JViewLegacy
 	{
 		$app		= JFactory::getApplication();
 		$menus		= $app->getMenu();
-		$pathway	= $app->getPathway();
 		$title 		= null;
 
 		// Because the application sets a default page title,
@@ -154,11 +152,9 @@ class TagsViewTags extends JViewLegacy
 			$this->params->def('page_heading', JText::_('COM_TAGS_DEFAULT_PAGE_TITLE'));
 		}
 
-		$id = (int) @$menu->query['id'];
-
 		if ($menu && ($menu->query['option'] != 'com_tags'))
 		{
-			$this->params->set('page_subheading', $item->title);
+			$this->params->set('page_subheading', $menu->title);
 		}
 
 		// If this is not a single tag menu item, set the page title to the tag titles
@@ -177,8 +173,6 @@ class TagsViewTags extends JViewLegacy
 				}
 			}
 
-			$path = array(array('title' => $title, 'link' => ''));
-
 			if (empty($title))
 			{
 				$title = $app->getCfg('sitename');
@@ -194,7 +188,7 @@ class TagsViewTags extends JViewLegacy
 
 			$this->document->setTitle($title);
 
-			foreach ($this->item as $j => $itemElement)
+			foreach ($this->item as $itemElement)
 			{
 				if ($itemElement->metadesc)
 				{
@@ -224,19 +218,18 @@ class TagsViewTags extends JViewLegacy
 					$this->document->setMetaData('author', $itemElement->created_user_id);
 				}
 
-				/* $mdata = $this->item->metadata->toArray();*/
-				/*foreach ($mdata as $k => $v)
+				$mdata = $this->item->metadata->toArray();
+				foreach ($mdata as $k => $v)
 				{
 					if ($v)
 					{
 						$this->document->setMetadata($k, $v);
 					}
-				}*/
+				}
 			}
 		}
-		// TODO create tags feed document
+
 		// Add alternative feed link
-		/*
 		if ($this->params->get('show_feed_link', 1) == 1)
 		{
 			$link	= '&format=feed&limitstart=';
@@ -245,6 +238,6 @@ class TagsViewTags extends JViewLegacy
 			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
 			$this->document->addHeadLink(JRoute::_($link.'&type=atom'), 'alternate', 'rel', $attribs);
 		}
-		*/
+
 	}
 }

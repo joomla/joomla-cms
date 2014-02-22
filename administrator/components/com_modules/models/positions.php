@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -98,13 +98,13 @@ class ModulesModelPositions extends JModelList
 			if ($type != 'template')
 			{
 				// Get the database object and a new query object.
-				$query	= $this->_db->getQuery(true);
-				$query->select('DISTINCT(position) as value');
-				$query->from('#__modules');
-				$query->where($this->_db->quoteName('client_id').' = '.(int) $clientId);
+				$query	= $this->_db->getQuery(true)
+					->select('DISTINCT(position) as value')
+					->from('#__modules')
+					->where($this->_db->quoteName('client_id').' = '.(int) $clientId);
 				if ($search)
 				{
-					$query->where('position LIKE '.$this->_db->Quote('%'.$this->_db->escape($search, true).'%'));
+					$query->where('position LIKE '.$this->_db->quote('%'.$this->_db->escape($search, true).'%'));
 				}
 
 				$this->_db->setQuery($query);
@@ -138,10 +138,8 @@ class ModulesModelPositions extends JModelList
 					$xml = simplexml_load_file($path);
 					if (isset($xml->positions[0]))
 					{
-						$lang->load('tpl_'.$template->element.'.sys', $client->path, null, false, false)
-					||	$lang->load('tpl_'.$template->element.'.sys', $client->path.'/templates/'.$template->element, null, false, false)
-					||	$lang->load('tpl_'.$template->element.'.sys', $client->path, $lang->getDefault(), false, false)
-					||	$lang->load('tpl_'.$template->element.'.sys', $client->path.'/templates/'.$template->element, $lang->getDefault(), false, false);
+						$lang->load('tpl_'.$template->element.'.sys', $client->path, null, false, true)
+					||	$lang->load('tpl_'.$template->element.'.sys', $client->path.'/templates/'.$template->element, null, false, true);
 						foreach ($xml->positions[0] as $position)
 						{
 							$value = (string) $position['value'];

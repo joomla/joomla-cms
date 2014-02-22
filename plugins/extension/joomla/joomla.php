@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Extension.Joomla
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,50 +52,51 @@ class PlgExtensionJoomla extends JPlugin
 	 */
 	private function addUpdateSite($name, $type, $location, $enabled)
 	{
-		$dbo = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// Look if the location is used already; doesn't matter what type you can't have two types at the same address, doesn't make sense
-		$query = $dbo->getQuery(true);
-		$query->select('update_site_id')
+		$query = $db->getQuery(true)
+			->select('update_site_id')
 			->from('#__update_sites')
-			->where('location = ' . $dbo->Quote($location));
-		$dbo->setQuery($query);
-		$update_site_id = (int) $dbo->loadResult();
+			->where('location = ' . $db->quote($location));
+		$db->setQuery($query);
+		$update_site_id = (int) $db->loadResult();
 
 		// If it doesn't exist, add it!
 		if (!$update_site_id)
 		{
-			$query->clear();
-			$query->insert('#__update_sites');
-			$query->columns(array($dbo->quoteName('name'), $dbo->quoteName('type'), $dbo->quoteName('location'), $dbo->quoteName('enabled')));
-			$query->values($dbo->quote($name) . ', ' . $dbo->quote($type) . ', ' . $dbo->quote($location) . ', ' . (int) $enabled);
-			$dbo->setQuery($query);
-			if ($dbo->execute())
+			$query->clear()
+				->insert('#__update_sites')
+				->columns(array($db->quoteName('name'), $db->quoteName('type'), $db->quoteName('location'), $db->quoteName('enabled')))
+				->values($db->quote($name) . ', ' . $db->quote($type) . ', ' . $db->quote($location) . ', ' . (int) $enabled);
+			$db->setQuery($query);
+			if ($db->execute())
 			{
 				// Link up this extension to the update site
-				$update_site_id = $dbo->insertid();
+				$update_site_id = $db->insertid();
 			}
 		}
 
 		// Check if it has an update site id (creation might have faileD)
 		if ($update_site_id)
 		{
-			$query->clear();
-
 			// Look for an update site entry that exists
-			$query->select('update_site_id')->from('#__update_sites_extensions');
-			$query->where('update_site_id = ' . $update_site_id)->where('extension_id = ' . $this->eid);
-			$dbo->setQuery($query);
-			$tmpid = (int) $dbo->loadResult();
+			$query->clear()
+				->select('update_site_id')
+				->from('#__update_sites_extensions')
+				->where('update_site_id = ' . $update_site_id)
+				->where('extension_id = ' . $this->eid);
+			$db->setQuery($query);
+			$tmpid = (int) $db->loadResult();
 			if (!$tmpid)
 			{
 				// Link this extension to the relevant update site
-				$query->clear();
-				$query->insert('#__update_sites_extensions');
-				$query->columns(array($dbo->quoteName('update_site_id'), $dbo->quoteName('extension_id')));
-				$query->values($update_site_id . ', ' . $this->eid);
-				$dbo->setQuery($query);
-				$dbo->execute();
+				$query->clear()
+					->insert('#__update_sites_extensions')
+					->columns(array($db->quoteName('update_site_id'), $db->quoteName('extension_id')))
+					->values($update_site_id . ', ' . $this->eid);
+				$db->setQuery($query);
+				$db->execute();
 			}
 		}
 	}
@@ -138,16 +139,16 @@ class PlgExtensionJoomla extends JPlugin
 		if ($eid)
 		{
 			// Wipe out any update_sites_extensions links
-			$db = JFactory::getDBO();
-			$query = $db->getQuery(true);
-			$query->delete('#__update_sites_extensions')
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->delete('#__update_sites_extensions')
 				->where('extension_id = ' . $eid);
 			$db->setQuery($query);
 			$db->execute();
 
 			// Delete any unused update sites
-			$query->clear();
-			$query->select('update_site_id')
+			$query->clear()
+				->select('update_site_id')
 				->from('#__update_sites_extensions');
 			$db->setQuery($query);
 			$results = $db->loadColumn();
@@ -176,8 +177,8 @@ class PlgExtensionJoomla extends JPlugin
 				{
 					// Nuke any pending updates with this site before we delete it
 					// TODO: investigate alternative of using a query after the delete below with a query and not in like above
-					$query->clear();
-					$query->delete('#__updates')
+					$query->clear()
+						->delete('#__updates')
 						->where('update_site_id IN (' . implode(',', $update_sites_pending_delete) . ')');
 					$db->setQuery($query);
 					$db->execute();
@@ -190,8 +191,8 @@ class PlgExtensionJoomla extends JPlugin
 			}
 
 			// Last but not least we wipe out any pending updates for the extension
-			$query->clear();
-			$query->delete('#__updates')
+			$query->clear()
+				->delete('#__updates')
 				->where('extension_id = '. $eid);
 			$db->setQuery($query);
 			$db->execute();
@@ -246,12 +247,12 @@ class PlgExtensionJoomla extends JPlugin
 			foreach ($children as $child)
 			{
 				$attrs = $child->attributes();
-				$this->addUpdateSite($attrs['name'], $attrs['type'], $child, true);
+				$this->addUpdateSite($attrs['name'], $attrs['type'], trim($child), true);
 			}
 		}
 		else
 		{
-			$data = (string) $updateservers;
+			$data = trim((string) $updateservers);
 
 			if (strlen($data))
 			{

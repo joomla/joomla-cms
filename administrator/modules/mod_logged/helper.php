@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_logged
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,20 +21,21 @@ abstract class ModLoggedHelper
 	/**
 	 * Get a list of logged users.
 	 *
-	 * @param   JRegistry  $params  The module parameters.
+	 * @param   JRegistry  &$params  The module parameters.
 	 *
 	 * @return  mixed  An array of users, or false on error.
+	 *
+	 * @throws  RuntimeException
 	 */
-	public static function getList($params)
+	public static function getList(&$params)
 	{
 		$db    = JFactory::getDbo();
 		$user  = JFactory::getUser();
-		$query = $db->getQuery(true);
-
-		$query->select('s.time, s.client_id, u.id, u.name, u.username');
-		$query->from('#__session AS s');
-		$query->leftJoin('#__users AS u ON s.userid = u.id');
-		$query->where('s.guest = 0');
+		$query = $db->getQuery(true)
+			->select('s.time, s.client_id, u.id, u.name, u.username')
+			->from('#__session AS s')
+			->join('LEFT', '#__users AS u ON s.userid = u.id')
+			->where('s.guest = 0');
 		$db->setQuery($query, 0, $params->get('count', 5));
 
 		try
@@ -43,9 +44,7 @@ abstract class ModLoggedHelper
 		}
 		catch (RuntimeException $e)
 		{
-			throw new RuntimeException($e->getMessage());
-
-			return false;
+			throw $e;
 		}
 
 		foreach ($results as $k => $result)

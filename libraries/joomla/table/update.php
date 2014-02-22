@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -36,7 +36,7 @@ class JTableUpdate extends JTable
 	 *
 	 * @return  boolean  True if the object is ok
 	 *
-	 * @see     JTable::check
+	 * @see     JTable::check()
 	 * @since   11.1
 	 */
 	public function check()
@@ -45,6 +45,7 @@ class JTableUpdate extends JTable
 		if (trim($this->name) == '' || trim($this->element) == '')
 		{
 			$this->setError(JText::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_EXTENSION'));
+
 			return false;
 		}
 		return true;
@@ -59,7 +60,7 @@ class JTableUpdate extends JTable
 	 *
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
 	 *
-	 * @see     JTable::bind
+	 * @see     JTable::bind()
 	 * @since   11.1
 	 */
 	public function bind($array, $ignore = '')
@@ -93,15 +94,18 @@ class JTableUpdate extends JTable
 	public function find($options = array())
 	{
 		$where = array();
+
 		foreach ($options as $col => $val)
 		{
-			$where[] = $col . ' = ' . $this->_db->Quote($val);
+			$where[] = $col . ' = ' . $this->_db->quote($val);
 		}
-		$query = $this->_db->getQuery(true);
-		$query->select($this->_db->quoteName($this->_tbl_key));
-		$query->from($this->_db->quoteName($this->_tbl));
-		$query->where(implode(' AND ', $where));
+
+		$query = $this->_db->getQuery(true)
+			->select($this->_db->quoteName($this->_tbl_key))
+			->from($this->_db->quoteName($this->_tbl))
+			->where(implode(' AND ', $where));
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadResult();
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,12 +12,18 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform class for interacting with a GitHub server instance.
  *
- * @property-read  JGithubGists    $gists    GitHub API object for gists.
- * @property-read  JGithubIssues   $issues   GitHub API object for issues.
- * @property-read  JGithubPulls    $pulls    GitHub API object for pulls.
- * @property-read  JGithubRefs     $refs     GitHub API object for referencess.
- * @property-read  JGithubForks    $forks    GitHub API object for forks.
- * @property-read  JGithubCommits  $commits  GitHub API object for commits.
+ * @property-read  JGithubGists       $gists       GitHub API object for gists.
+ * @property-read  JGithubIssues      $issues      GitHub API object for issues.
+ * @property-read  JGithubPulls       $pulls       GitHub API object for pulls.
+ * @property-read  JGithubRefs        $refs        GitHub API object for referencess.
+ * @property-read  JGithubForks       $forks       GitHub API object for forks.
+ * @property-read  JGithubCommits     $commits     GitHub API object for commits.
+ * @property-read  JGithubMilestones  $milestones  GitHub API object for commits.
+ * @property-read  JGithubStatuses    $statuses    GitHub API object for commits.
+ * @property-read  JGithubAccount     $account     GitHub API object for account references.
+ * @property-read  JGithubHooks       $hooks       GitHub API object for hooks.
+ * @property-read  JGithubUsers       $users       GitHub API object for users.
+ * @property-read  JGithubMeta        $meta        GitHub API object for meta.
  *
  * @package     Joomla.Platform
  * @subpackage  GitHub
@@ -74,6 +80,42 @@ class JGithub
 	protected $commits;
 
 	/**
+	 * @var    JGithubMilestones  GitHub API object for milestones.
+	 * @since  12.3
+	 */
+	protected $milestones;
+
+	/**
+	 * @var    JGithubStatuses  GitHub API object for statuses.
+	 * @since  12.3
+	 */
+	protected $statuses;
+
+	/**
+	 * @var    JGithubAccount  GitHub API object for account references.
+	 * @since  12.3
+	 */
+	protected $account;
+
+	/**
+	 * @var    JGithubHooks  GitHub API object for hooks.
+	 * @since  12.3
+	 */
+	protected $hooks;
+
+	/**
+	 * @var    JGithubUsers  GitHub API object for users.
+	 * @since  12.4
+	 */
+	protected $users;
+
+	/**
+	 * @var    JGithubMeta  GitHub API object for meta.
+	 * @since  13.1
+	 */
+	protected $meta;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   JRegistry    $options  GitHub options object.
@@ -98,62 +140,23 @@ class JGithub
 	 * @return  JGithubObject  GitHub API object (gists, issues, pulls, etc).
 	 *
 	 * @since   11.3
+	 * @throws  InvalidArgumentException
 	 */
 	public function __get($name)
 	{
-		if ($name == 'gists')
+		$class = 'JGithub' . ucfirst($name);
+
+		if (class_exists($class))
 		{
-			if ($this->gists == null)
+			if (false == isset($this->$name))
 			{
-				$this->gists = new JGithubGists($this->options, $this->client);
+				$this->$name = new $class($this->options, $this->client);
 			}
-			return $this->gists;
+
+			return $this->$name;
 		}
 
-		if ($name == 'issues')
-		{
-			if ($this->issues == null)
-			{
-				$this->issues = new JGithubIssues($this->options, $this->client);
-			}
-			return $this->issues;
-		}
-
-		if ($name == 'pulls')
-		{
-			if ($this->pulls == null)
-			{
-				$this->pulls = new JGithubPulls($this->options, $this->client);
-			}
-			return $this->pulls;
-		}
-
-		if ($name == 'refs')
-		{
-			if ($this->refs == null)
-			{
-				$this->refs = new JGithubRefs($this->options, $this->client);
-			}
-			return $this->refs;
-		}
-
-		if ($name == 'forks')
-		{
-			if ($this->forks == null)
-			{
-				$this->forks = new JGithubForks($this->options, $this->client);
-			}
-			return $this->forks;
-		}
-
-		if ($name == 'commits')
-		{
-			if ($this->commits == null)
-			{
-				$this->commits = new JGithubCommits($this->options, $this->client);
-			}
-			return $this->commits;
-		}
+		throw new InvalidArgumentException(sprintf('Argument %s produced an invalid class name: %s', $name, $class));
 	}
 
 	/**

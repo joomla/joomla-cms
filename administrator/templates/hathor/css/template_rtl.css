@@ -3,7 +3,7 @@
 /**
  * @package		Joomla.Administrator
  * @subpackage	templates.hathor
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @since		1.6
  *
@@ -1285,4 +1285,22 @@ div.btn-toolbar {
 .media {
 	float:none;
 	margin: 10px 20px;
+}
+
+.alert .close {
+	right: 5px;
+	float: left;
+}
+
+.tooltip-inner {
+	text-align: right;
+}
+div.toggle-editor {
+	float: left;
+}
+#editor-xtd-buttons .btn {
+	float: right;
+}
+div.toggle-editor {
+	margin-top: 14px;
 }

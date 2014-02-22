@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,6 +38,10 @@ function TagsBuildRoute(&$query)
 
 	$mView = (empty($menuItem->query['view'])) ? null : $menuItem->query['view'];
 	$mId   = (empty($menuItem->query['id'])) ? null : $menuItem->query['id'];
+	if (is_array($mId))
+	{
+		JArrayHelper::toInteger($mId);
+	}
 
 	if (isset($query['view'])) {
 		$view = $query['view'];
@@ -45,19 +49,14 @@ function TagsBuildRoute(&$query)
 		if (empty($query['Itemid'])) {
 			$segments[] = $query['view'];
 		}
-
-		// We need to keep the view for forms since they never have their own menu item
-		if ($view != 'form') {
-			unset($query['view']);
-		}
+		unset($query['view']);
 	}
 
 	// Are we dealing with a tag that is attached to a menu item?
-	if (isset($query['view']) && ($mView == $query['view']) and (isset($query['id'])) and ($mId == (int) $query['id']))
+	if (isset($view) && ($mView == $view) and (isset($query['id'])) and ($mId == $query['id']))
 	{
 		unset($query['view']);
 		unset($query['id']);
-
 		return $segments;
 	}
 
@@ -65,10 +64,6 @@ function TagsBuildRoute(&$query)
 	{
 		if ($mId != (int) $query['id'] || $mView != $view)
 		{
-			if ($view == 'tag') {
-				$tagid = $query['id'];
-			}
-
 			if ($view == 'tag') {
 				if ($advanced) {
 					list($tmp, $id) = explode(':', $query['id'], 2);
@@ -80,9 +75,7 @@ function TagsBuildRoute(&$query)
 				$segments[] = $id;
 			}
 		}
-
 		unset($query['id']);
-
 	}
 
 	if (isset($query['layout'])) {
@@ -117,8 +110,6 @@ function TagsParseRoute($segments)
 	$app	= JFactory::getApplication();
 	$menu	= $app->getMenu();
 	$item	= $menu->getActive();
-	$params = JComponentHelper::getParams('com_tags');
-	$advanced = $params->get('sef_advanced_link', 0);
 
 	// Count route segments
 	$count = count($segments);
@@ -136,6 +127,11 @@ function TagsParseRoute($segments)
 
 	$found = 0;
 
+	/* TODO: Sort this code out. Makes no sense!
+	 * $found isn't used.
+	 * Indentation is all off
+	 * The foreach loop will always break in first itteration
+	 */
 	foreach($segments as $segment)
 	{
 		if ($found == 0)

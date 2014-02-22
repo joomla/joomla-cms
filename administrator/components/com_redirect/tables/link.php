@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,8 +39,8 @@ class RedirectTableLink extends JTable
 	 */
 	public function check()
 	{
-		$this->old_url = trim($this->old_url);
-		$this->new_url = trim($this->new_url);
+		$this->old_url = trim(rawurldecode($this->old_url));
+		$this->new_url = trim(rawurldecode($this->new_url));
 
 		// Check for valid name.
 		if (empty($this->old_url))
@@ -66,7 +66,10 @@ class RedirectTableLink extends JTable
 		$db = $this->getDbo();
 
 		// Check for existing name
-		$query = 'SELECT id FROM #__redirect_links WHERE old_url ='.$db->Quote($this->old_url);
+		$query = $db->getQuery(true)
+			->select($db->quoteName('id'))
+			->from('#__redirect_links')
+			->where($db->quoteName('old_url') . ' = ' . $db->quote($this->old_url));
 		$db->setQuery($query);
 
 		$xid = (int) $db->loadResult();

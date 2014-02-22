@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  MediaWiki
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -336,6 +336,7 @@ class JMediawikiUsers extends JMediawikiObject
 		$path = '?action=unblock';
 
 		// Build the request data.
+		// TODO: $data doesn't seem to be used!
 		$data = array(
 			'id' => $id,
 			'token' => $token,

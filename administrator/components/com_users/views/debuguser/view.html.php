@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  com_users
  * @since       1.6
  */
-class UsersViewDebugUser extends JViewLegacy
+class UsersViewDebuguser extends JViewLegacy
 {
 	protected $actions;
 
@@ -31,6 +31,12 @@ class UsersViewDebugUser extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
+		// Access check.
+		if (!JFactory::getUser()->authorise('core.manage', 'com_users') || !JFactory::getConfig()->get('debug'))
+		{
+			return JError::raiseWarning(404, JText::_('JERROR_ALERTNOAUTHOR'));
+		}
+
 		$this->actions		= $this->get('DebugActions');
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
@@ -58,7 +64,7 @@ class UsersViewDebugUser extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JToolbarHelper::title(JText::sprintf('COM_USERS_VIEW_DEBUG_USER_TITLE', $this->user->id, $this->user->name), 'user');
+		JToolbarHelper::title(JText::sprintf('COM_USERS_VIEW_DEBUG_USER_TITLE', $this->user->id, $this->user->name), 'users user');
 
 		JToolbarHelper::help('JHELP_USERS_DEBUG_USERS');
 

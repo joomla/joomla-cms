@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,6 +30,14 @@ class JInstallerAdapterPackage extends JAdapterInstance
 	protected $route = 'install';
 
 	/**
+	 * <scriptfile> element of the extension manifest
+	 *
+	 * @var    object
+	 * @since  3.1
+	 */
+	protected $scriptElement = null;
+
+	/**
 	 * Load language from a path
 	 *
 	 * @param   string  $path  The path of the language.
@@ -44,10 +52,8 @@ class JInstallerAdapterPackage extends JAdapterInstance
 		$extension = 'pkg_' . strtolower(JFilterInput::getInstance()->clean((string) $this->manifest->packagename, 'cmd'));
 		$lang = JFactory::getLanguage();
 		$source = $path;
-		$lang->load($extension . '.sys', $source, null, false, false)
-			|| $lang->load($extension . '.sys', JPATH_SITE, null, false, false)
-			|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
-			|| $lang->load($extension . '.sys', JPATH_SITE, $lang->getDefault(), false, false);
+		$lang->load($extension . '.sys', $source, null, false, true)
+			|| $lang->load($extension . '.sys', JPATH_SITE, null, false, true);
 	}
 
 	/**
@@ -210,6 +216,7 @@ class JInstallerAdapterPackage extends JAdapterInstance
 					// If it's an archive
 					$package = JInstallerHelper::unpack($file);
 				}
+
 				$tmpInstaller = new JInstaller;
 				$installResult = $tmpInstaller->{$this->route}($package['dir']);
 
@@ -231,6 +238,7 @@ class JInstallerAdapterPackage extends JAdapterInstance
 						'result' => $installResult
 					);
 				}
+
 				$i++;
 			}
 		}
@@ -366,6 +374,7 @@ class JInstallerAdapterPackage extends JAdapterInstance
 		{
 			$this->parent->set('extension_message', $msg);
 		}
+
 		return $row->extension_id;
 	}
 
@@ -422,7 +431,6 @@ class JInstallerAdapterPackage extends JAdapterInstance
 			JLog::add(JText::_('JLIB_INSTALLER_ERROR_PACK_UNINSTALL_MISSINGMANIFEST'), JLog::WARNING, 'jerror');
 
 			return false;
-
 		}
 
 		$xml = simplexml_load_file($manifestFile);
@@ -522,6 +530,7 @@ class JInstallerAdapterPackage extends JAdapterInstance
 			{
 				JFolder::delete($folder);
 			}
+
 			$row->delete();
 		}
 		else
@@ -549,17 +558,17 @@ class JInstallerAdapterPackage extends JAdapterInstance
 	{
 		$db = $this->parent->getDbo();
 
-		$query = $db->getQuery(true);
-		$query->select('extension_id');
-		$query->from('#__extensions');
-		$query->where('type = ' . $db->Quote($type));
-		$query->where('element = ' . $db->Quote($id));
+		$query = $db->getQuery(true)
+			->select('extension_id')
+			->from('#__extensions')
+			->where('type = ' . $db->quote($type))
+			->where('element = ' . $db->quote($id));
 
 		switch ($type)
 		{
 			case 'plugin':
 				// Plugins have a folder but not a client
-				$query->where('folder = ' . $db->Quote($group));
+				$query->where('folder = ' . $db->quote($group));
 				break;
 
 			case 'library':

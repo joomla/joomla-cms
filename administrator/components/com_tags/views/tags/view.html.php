@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,8 +23,6 @@ class TagsViewTags extends JViewLegacy
 	protected $pagination;
 
 	protected $state;
-
-	protected $assoc;
 
 	/**
 	 * Display the view
@@ -76,12 +74,13 @@ class TagsViewTags extends JViewLegacy
 	protected function addToolbar()
 	{
 		$state	= $this->get('State');
-		$canDo	= TagsHelper::getActions($state->get('filter.parent_id'));
+		$canDo	= JHelperContent::getActions('com_tags');
 		$user	= JFactory::getUser();
+
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 
-		JToolbarHelper::title(JText::_('COM_TAGS_MANAGER_TAGS'), 'modules.png');
+		JToolbarHelper::title(JText::_('COM_TAGS_MANAGER_TAGS'), 'tags');
 
 		if ($canDo->get('core.create'))
 		{
@@ -112,13 +111,15 @@ class TagsViewTags extends JViewLegacy
 			JToolbarHelper::trash('tags.trash');
 		}
 		// Add a batch button
-		if ($user->authorise('core.edit'))
+		if ($user->authorise('core.create', 'com_tags') && $user->authorise('core.edit', 'com_tags') && $user->authorise('core.edit.state', 'com_tags'))
 		{
 			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
-			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn btn-small\">
-						<i class=\"icon-checkbox-partial\" title=\"$title\"></i>
-						$title</button>";
+
+			// Instantiate a new JLayoutFile instance and render the batch button
+			$layout = new JLayoutFile('joomla.toolbar.batch');
+
+			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 		if ($canDo->get('core.admin'))

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -38,15 +38,14 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 		{
 			$this->parent->setPath('source', JPATH_PLATFORM . '/' . $this->parent->extension->element);
 		}
+
 		$this->manifest = $this->parent->getManifest();
 		$extension = 'lib_' . strtolower(JFilterInput::getInstance()->clean((string) $this->manifest->name, 'cmd'));
 		$name = strtolower((string) $this->manifest->libraryname);
 		$lang = JFactory::getLanguage();
 		$source = $path ? $path : JPATH_PLATFORM . "/$name";
-		$lang->load($extension . '.sys', $source, null, false, false)
-			|| $lang->load($extension . '.sys', JPATH_SITE, null, false, false)
-			|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
-			|| $lang->load($extension . '.sys', JPATH_SITE, $lang->getDefault(), false, false);
+		$lang->load($extension . '.sys', $source, null, false, true)
+			|| $lang->load($extension . '.sys', JPATH_SITE, null, false, true);
 	}
 
 	/**
@@ -74,11 +73,11 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 		$this->set('element', $element);
 
 		$db = $this->parent->getDbo();
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('extension_id'));
-		$query->from($db->quoteName('#__extensions'));
-		$query->where($db->quoteName('type') . ' = ' . $db->quote('library'));
-		$query->where($db->quoteName('element') . ' = ' . $db->quote($element));
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('library'))
+			->where($db->quoteName('element') . ' = ' . $db->quote($element));
 		$db->setQuery($query);
 		$result = $db->loadResult();
 
@@ -214,6 +213,7 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 
 			return false;
 		}
+
 		return $row->get('extension_id');
 	}
 
@@ -246,11 +246,11 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 		// We don't want to compromise this instance!
 		$installer = new JInstaller;
 		$db = $this->parent->getDbo();
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('extension_id'));
-		$query->from($db->quoteName('#__extensions'));
-		$query->where($db->quoteName('type') . ' = ' . $db->quote('library'));
-		$query->where($db->quoteName('element') . ' = ' . $db->quote($element));
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('library'))
+			->where($db->quoteName('element') . ' = ' . $db->quote($element));
 		$db->setQuery($query);
 		$result = $db->loadResult();
 
@@ -326,7 +326,6 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 
 			$this->parent->removeFiles($xml->files, -1);
 			JFile::delete($manifestFile);
-
 		}
 		else
 		{
@@ -382,11 +381,14 @@ class JInstallerAdapterLibrary extends JAdapterInstance
 			$extension->set('type', 'library');
 			$extension->set('client_id', 0);
 			$extension->set('element', $file);
+			$extension->set('folder', '');
 			$extension->set('name', $file);
 			$extension->set('state', -1);
 			$extension->set('manifest_cache', json_encode($manifest_details));
+			$extension->set('params', '{}');
 			$results[] = $extension;
 		}
+
 		return $results;
 	}
 

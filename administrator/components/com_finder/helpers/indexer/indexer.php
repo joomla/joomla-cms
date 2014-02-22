@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -326,9 +326,11 @@ abstract class FinderIndexer
 					// Read into the buffer.
 					$buffer .= fread($input, 2048);
 
-					// If we haven't reached the end of the file, seek to the last
-					// space character and drop whatever is after that to make sure
-					// we didn't truncate a term while reading the input.
+					/*
+					 * If we haven't reached the end of the file, seek to the last
+					 * space character and drop whatever is after that to make sure
+					 * we didn't truncate a term while reading the input.
+					 */
 					if (!feof($input))
 					{
 						// Find the last space character.
@@ -340,8 +342,7 @@ abstract class FinderIndexer
 							// Truncate the string to the last space character.
 							$string = substr($buffer, 0, $ls);
 
-							// Adjust the buffer based on the last space for the
-							// next iteration and trim.
+							// Adjust the buffer based on the last space for the next iteration and trim.
 							$buffer = JString::trim(substr($buffer, $ls));
 						}
 						// No space character was found.
@@ -374,7 +375,7 @@ abstract class FinderIndexer
 					// Check if we're approaching the memory limit of the token table.
 					if ($count > self::$state->options->get('memory_table_limit', 30000))
 					{
-						self::toggleTables(false);
+						$this->toggleTables(false);
 					}
 
 					unset($string);
@@ -389,9 +390,11 @@ abstract class FinderIndexer
 				$end = strlen($input);
 				$chunk = 2048;
 
-				// As it turns out, the complex regular expressions we use for
-				// sanitizing input are not very efficient when given large
-				// strings. It is much faster to process lots of short strings.
+				/*
+				 * As it turns out, the complex regular expressions we use for
+				 * sanitizing input are not very efficient when given large
+				 * strings. It is much faster to process lots of short strings.
+				 */
 				while ($start < $end)
 				{
 					// Setup the string.
@@ -427,7 +430,7 @@ abstract class FinderIndexer
 					// Check if we're approaching the memory limit of the token table.
 					if ($count > self::$state->options->get('memory_table_limit', 30000))
 					{
-						self::toggleTables(false);
+						$this->toggleTables(false);
 					}
 				}
 			}

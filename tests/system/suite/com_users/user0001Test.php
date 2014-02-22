@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.SystemTest
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * Tests creating and deleting a User
  */
@@ -49,7 +49,7 @@ class User0001Test extends SeleniumJoomlaTestCase
 		$this->jPrint ("Check that user does not exist\n");
 		$this->assertFalse($this->isElementPresent("link=username1"));
 		$this->jPrint ("Clear Filter and check that Super User exists\n");
-		$this->click("//button[@type='button']");
+		$this->click("//button[@type='button'][contains(@onclick, \".value=''\")]");
 		$this->waitForPageToLoad("30000");
 		$this->assertEquals("Super User", $this->getText("link=Super User"));
 		$this->jPrint ("Finished user0001Test.php\n");

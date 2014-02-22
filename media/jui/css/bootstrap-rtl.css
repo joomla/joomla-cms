@@ -37,7 +37,7 @@
 }
 .navbar .brand {
 	float: right;
-	padding: 8px 20px 12px;
+	padding: 8px 20px 8px 12px;
 	margin-right: -20px;
 	margin-left: 0;
 }
@@ -355,11 +355,13 @@ body {
 	padding-left: 5px;
 }
 .navbar .nav > li > a {
-	padding: 9px 10px;
-	color: #D2E3FC;
+	padding: 8px 10px;
+	color: #FFFFFF;
 }
 .container-logo {
 	padding-top: 6px;
+	float: left;
+	text-align: left;
 }
 .modal-header .close {
 	float: left;
@@ -457,6 +459,10 @@ body {
 	margin-left: 0;
 	margin-right: 5px;
 }
+.btn-toolbar .btn-wrapper {
+	display: inline-block;
+	margin: 0 5px 5px 0;
+}
 .btn-group > .btn + .btn {
 	margin-left: 0;
 	margin-right: -1px;
@@ -541,5 +547,31 @@ body {
 #mediamanager-form .description,
 #mediamanager-form .filesize,
 #mediamanager-form .dimensions {
+	direction: ltr;
+}
+.tooltip-inner {
+	text-align: right;
+}
+@media (max-width: 480px) {
+	.btn-toolbar .btn-wrapper {
+		display: block;
+		margin: 0 0 5px 0;
+	}
+	.btn-toolbar .btn-wrapper .btn {
+		margin-left: 0px;
+		margin-right: 10px;
+	}
+}
+#pop-print {
+	float: left;
+	margin: 10px;
+}
+#install_url,
+#install_directory,
+#jform_customurl,
+#jform_link,
+#jform_params_url,
+input[type="url"] {
+	text-align: left;
 	direction: ltr;
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -21,7 +21,21 @@ jimport('joomla.filesystem.folder');
  */
 class JInstallerAdapterFile extends JAdapterInstance
 {
+	/**
+	 * Install function routing
+	 *
+	 * @var    string
+	 * @since  3.1
+	 */
 	protected $route = 'install';
+
+	/**
+	 * <scriptfile> element of the extension manifest
+	 *
+	 * @var    object
+	 * @since  3.1
+	 */
+	protected $scriptElement = null;
 
 	/**
 	 * Custom loadLanguage method
@@ -38,10 +52,8 @@ class JInstallerAdapterFile extends JAdapterInstance
 		$extension = 'files_' . str_replace('files_', '', strtolower(JFilterInput::getInstance()->clean((string) $this->manifest->name, 'cmd')));
 		$lang = JFactory::getLanguage();
 		$source = $path;
-		$lang->load($extension . '.sys', $source, null, false, false)
-			|| $lang->load($extension . '.sys', JPATH_SITE, null, false, false)
-			|| $lang->load($extension . '.sys', $source, $lang->getDefault(), false, false)
-			|| $lang->load($extension . '.sys', JPATH_SITE, $lang->getDefault(), false, false);
+		$lang->load($extension . '.sys', $source, null, false, true)
+			|| $lang->load($extension . '.sys', JPATH_SITE, null, false, true);
 	}
 
 	/**
@@ -177,7 +189,6 @@ class JInstallerAdapterFile extends JAdapterInstance
 		{
 			if (!JFolder::exists($folder))
 			{
-
 				if (!$created = JFolder::create($folder))
 				{
 					JLog::add(JText::sprintf('JLIB_INSTALLER_ABORT_FILE_INSTALL_FAIL_SOURCE_DIRECTORY', $folder), JLog::WARNING, 'jerror');
@@ -196,7 +207,6 @@ class JInstallerAdapterFile extends JAdapterInstance
 					$this->parent->pushStep(array('type' => 'folder', 'path' => $folder));
 				}
 			}
-
 		}
 
 		// Now that we have file list, let's start copying them
@@ -220,11 +230,11 @@ class JInstallerAdapterFile extends JAdapterInstance
 		 * we can assume that it was (badly) uninstalled
 		 * If it isn't, add an entry to extensions
 		 */
-		$query = $db->getQuery(true);
-		$query->select($query->qn('extension_id'))
-			->from($query->qn('#__extensions'));
-		$query->where($query->qn('type') . ' = ' . $query->q('file'))
-			->where($query->qn('element') . ' = ' . $query->q($element));
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('file'))
+			->where($db->quoteName('element') . ' = ' . $db->quote($element));
 		$db->setQuery($query);
 
 		try
@@ -389,7 +399,7 @@ class JInstallerAdapterFile extends JAdapterInstance
 		// Clobber any possible pending updates
 		$update = JTable::getInstance('update');
 		$uid = $update->find(
-			array('element' => $this->get('element'), 'type' => 'file', 'client_id' => '', 'folder' => '')
+			array('element' => $this->get('element'), 'type' => 'file', 'client_id' => (int) '', 'folder' => '')
 		);
 
 		if ($uid)
@@ -549,9 +559,8 @@ class JInstallerAdapterFile extends JAdapterInstance
 			}
 
 			// Remove the schema version
-			$query = $db->getQuery(true);
-			$query->delete()
-				->from('#__schemas')
+			$query = $db->getQuery(true)
+				->delete('#__schemas')
 				->where('extension_id = ' . $row->extension_id);
 			$db->setQuery($query);
 			$db->execute();
@@ -559,7 +568,6 @@ class JInstallerAdapterFile extends JAdapterInstance
 			// Loop through all elements and get list of files and folders
 			foreach ($xml->fileset->files as $eFiles)
 			{
-				$folder = (string) $eFiles->attributes()->folder;
 				$target = (string) $eFiles->attributes()->target;
 
 				// Create folder path
@@ -583,7 +591,6 @@ class JInstallerAdapterFile extends JAdapterInstance
 						if ($eFileName->getName() == 'folder')
 						{
 							$folderList[] = $targetFolder . '/' . $eFileName;
-
 						}
 						else
 						{
@@ -646,11 +653,11 @@ class JInstallerAdapterFile extends JAdapterInstance
 		// Get a database connector object
 		$db = $this->parent->getDBO();
 
-		$query = $db->getQuery(true);
-		$query->select($query->qn('extension_id'))
-			->from($query->qn('#__extensions'));
-		$query->where($query->qn('type') . ' = ' . $query->q('file'))
-			->where($query->qn('element') . ' = ' . $query->q($extension));
+		$query = $db->getQuery(true)
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('type') . ' = ' . $db->quote('file'))
+			->where($db->quoteName('element') . ' = ' . $db->quote($extension));
 		$db->setQuery($query);
 
 		try
@@ -672,7 +679,6 @@ class JInstallerAdapterFile extends JAdapterInstance
 		}
 
 		return true;
-
 	}
 
 	/**
@@ -766,7 +772,6 @@ class JInstallerAdapterFile extends JAdapterInstance
 
 					array_push($this->fileList, $path);
 				}
-
 			}
 		}
 	}

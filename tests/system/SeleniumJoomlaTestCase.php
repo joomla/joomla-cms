@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.FunctionalTest
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -243,7 +243,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->jPrint ( "Add group " . $groupName . " to " . $levelName . " access level.\n");
 		$this->jPrint ( "Navagating to Access Levels.\n");
 		$this->jClick('Access Levels');
-		$this->click("//tr/td[contains(a,'$levelName')]/preceding-sibling::*/input");
+		$this->click("//tr/td[contains(a,'" . $levelName . "')]/..//input[@type='checkbox']");
 		$this->jClick('Edit');
 		$this->assertTrue($this->isTextPresent(": Edit", $this->getText("//h1")));
 		$id = $this->click("//label[contains(., '" . $groupName . "')]/input");
@@ -680,7 +680,7 @@ class SeleniumJoomlaTestCase extends PHPUnit_Extensions_SeleniumTestCase
 		$this->toggleCheckBox($title, $type);
 		$this->click("//div[@id='toolbar-" . $newState . "']/button");
 		$this->waitForPageToLoad("30000");
-		$this->click("//button[@type='button']");
+		$this->click("//button[@type='button'][contains(@onclick, \".value=''\")]");
 		$this->waitForPageToLoad("30000");
 		$this->select($filter, "label=- Select Status -");
 		$this->waitForPageToLoad("30000");

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -122,6 +122,7 @@ class ContentModelFeatured extends ContentModelArticles
 		$orderby = $primary . ' ' . $secondary . ' a.created DESC ';
 		$this->setState('list.ordering', $orderby);
 		$this->setState('list.direction', '');
+
 		// Create a new query object.
 		$query = parent::getListQuery();
 
@@ -132,7 +133,9 @@ class ContentModelFeatured extends ContentModelArticles
 		}
 
 		// Filter by categories
-		if (is_array($featuredCategories = $this->getState('filter.frontpage.categories')))
+		$featuredCategories = $this->getState('filter.frontpage.categories');
+
+		if (is_array($featuredCategories) && !in_array('', $featuredCategories))
 		{
 			$query->where('a.catid IN (' . implode(',', $featuredCategories) . ')');
 		}

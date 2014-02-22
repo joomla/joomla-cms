@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Registry
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -84,6 +84,7 @@ class JRegistryFormatXML extends JRegistryFormat
 		{
 			case 'integer':
 				$value = (string) $node;
+
 				return (int) $value;
 				break;
 			case 'string':
@@ -91,14 +92,17 @@ class JRegistryFormatXML extends JRegistryFormat
 				break;
 			case 'boolean':
 				$value = (string) $node;
+
 				return (bool) $value;
 				break;
 			case 'double':
 				$value = (string) $node;
+
 				return (float) $value;
 				break;
 			case 'array':
 				$value = array();
+
 				foreach ($node->children() as $child)
 				{
 					$value[(string) $child['name']] = $this->getValueFromNode($child);
@@ -106,6 +110,7 @@ class JRegistryFormatXML extends JRegistryFormat
 				break;
 			default:
 				$value = new stdClass;
+
 				foreach ($node->children() as $child)
 				{
 					$value->$child['name'] = $this->getValueFromNode($child);

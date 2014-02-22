@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -64,13 +64,13 @@ class FinderModelSuggestions extends JModelList
 		$query = $db->getQuery(true);
 
 		// Select required fields
-		$query->select('t.term');
-		$query->from($db->quoteName('#__finder_terms') . ' AS t');
-		$query->where('t.term LIKE ' . $db->quote($db->escape($this->getState('input'), true) . '%'));
-		$query->where('t.common = 0');
-		$query->where('t.language IN (' . $db->quote($db->escape($this->getState('language'), true)) . ', ' . $db->quote('*') . ')');
-		$query->order('t.links DESC');
-		$query->order('t.weight DESC');
+		$query->select('t.term')
+			->from($db->quoteName('#__finder_terms') . ' AS t')
+			->where('t.term LIKE ' . $db->quote($db->escape($this->getState('input'), true) . '%'))
+			->where('t.common = 0')
+			->where('t.language IN (' . $db->quote($db->escape($this->getState('language'), true)) . ', ' . $db->quote('*') . ')')
+			->order('t.links DESC')
+			->order('t.weight DESC');
 
 		return $query;
 	}

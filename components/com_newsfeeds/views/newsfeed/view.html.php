@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,13 +37,18 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 	protected $print;
 
 	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 *
 	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
 		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();
-		$dispatcher	= JEventDispatcher::getInstance();
 
 		// Get view related request variables.
 		$print = $app->input->getBool('print');
@@ -59,6 +64,7 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 			$categoryModel->setState('category.id', $item->catid);
 			$categoryModel->setState('list.ordering', 'a.name');
 			$categoryModel->setState('list.direction', 'asc');
+			// TODO: $items is not used. Remove this line?
 			$items = $categoryModel->getItems();
 		}
 
@@ -134,8 +140,6 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 			}
 		}
 
-		$offset = $state->get('list.offset');
-
 		// Check the access to the newsfeed
 		$levels = $user->getAuthorisedViewLevels();
 
@@ -146,8 +150,6 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		}
 
 		// Get the current menu item
-		$menus	= $app->getMenu();
-		$menu	= $menus->getActive();
 		$params	= $app->getParams();
 
 		// Get the newsfeed
@@ -175,8 +177,6 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 			$msg = JText::_('COM_NEWSFEEDS_ERRORS_FEED_NOT_RETRIEVED');
 		}
 
-		$lists = array();
-
 		$feed_display_order = $params->get('feed_display_order', 'des');
 		if ($feed_display_order == 'asc')
 		{
@@ -197,12 +197,16 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 		}
 		$this->print = $print;
 
-		$item->tags = new JTags;
+		$item->tags = new JHelperTags;
 		$item->tags->getItemTags('com_newsfeeds.newsfeed', $item->id);
+
+		// Increment the hit counter of the newsfeed.
+		$model = $this->getModel();
+		$model->hit();
 
 		$this->_prepareDocument();
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 
 	/**

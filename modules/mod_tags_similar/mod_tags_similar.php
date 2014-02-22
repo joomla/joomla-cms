@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_tags_similar
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ $cacheparams->cachemode = 'safeuri';
 $cacheparams->class = 'ModTagssimilarHelper';
 $cacheparams->method = 'getList';
 $cacheparams->methodparams = $params;
-$cacheparams->modeparams = array('id' => 'int', 'Itemid' => 'int');
+$cacheparams->modeparams = array('id' => 'array', 'Itemid' => 'int');
 
 $list = JModuleHelper::moduleCache($module, $params, $cacheparams);
 

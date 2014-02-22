@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,7 +28,6 @@ class ContentViewForm extends JViewLegacy
 
 	public function display($tpl = null)
 	{
-		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();
 
 		// Get model data.
@@ -52,7 +51,7 @@ class ContentViewForm extends JViewLegacy
 			return false;
 		}
 
-		$this->item->tags = new JTags;
+		$this->item->tags = new JHelperTags;
 		if (!empty($this->item->id))
 		{
 			$this->item->tags->getItemTags('com_content.article.', $this->item->id);
@@ -100,7 +99,6 @@ class ContentViewForm extends JViewLegacy
 	{
 		$app		= JFactory::getApplication();
 		$menus		= $app->getMenu();
-		$pathway	= $app->getPathway();
 		$title 		= null;
 
 		// Because the application sets a default page title,

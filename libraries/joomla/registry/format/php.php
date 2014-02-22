@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Registry
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -33,6 +33,7 @@ class JRegistryFormatPHP extends JRegistryFormat
 	{
 		// Build the object variables string
 		$vars = '';
+
 		foreach (get_object_vars($object) as $k => $v)
 		{
 			if (is_scalar($v))
@@ -86,10 +87,12 @@ class JRegistryFormatPHP extends JRegistryFormat
 	{
 		$s = 'array(';
 		$i = 0;
+
 		foreach ($a as $k => $v)
 		{
 			$s .= ($i) ? ', ' : '';
 			$s .= '"' . $k . '" => ';
+
 			if (is_array($v) || is_object($v))
 			{
 				$s .= $this->getArrayString((array) $v);
@@ -98,9 +101,12 @@ class JRegistryFormatPHP extends JRegistryFormat
 			{
 				$s .= '"' . addslashes($v) . '"';
 			}
+
 			$i++;
 		}
+
 		$s .= ')';
+
 		return $s;
 	}
 }

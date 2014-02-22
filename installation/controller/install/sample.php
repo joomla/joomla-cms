@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,10 +41,10 @@ class InstallationControllerInstallSample extends JControllerBase
 		$options = $model->getOptions();
 
 		// Get the database model.
-		$database = new InstallationModelDatabase;
+		$db = new InstallationModelDatabase;
 
 		// Attempt to create the database tables.
-		$return = $database->installSampleData($options);
+		$return = $db->installSampleData($options);
 
 		$r = new stdClass;
 		$r->view = 'install';

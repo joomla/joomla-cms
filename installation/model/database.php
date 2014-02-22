@@ -3,15 +3,11 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-
-jimport('joomla.filesystem.file');
-jimport('joomla.filesystem.folder');
-jimport('legacy.application.helper');
 
 /**
  * Database configuration model for the Joomla Core Installer.
@@ -101,7 +97,7 @@ class InstallationModelDatabase extends JModelBase
 		$options = JArrayHelper::toObject($options);
 
 		// Load the back-end language files so that the DB error messages work
-		$lang        = JFactory::getLanguage();
+		$lang = JFactory::getLanguage();
 		$currentLang = $lang->getTag();
 
 		// Load the selected language
@@ -139,7 +135,7 @@ class InstallationModelDatabase extends JModelBase
 		// Validate database table prefix.
 		if (!preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $options->db_prefix))
 		{
-			$app->enqueueMessage(JText::_('INSTL_DATABASE_PREFIX_INVALID_CHARS'), 'notice');
+			$app->enqueueMessage(JText::_('INSTL_DATABASE_PREFIX_MSG'), 'notice');
 			return false;
 		}
 
@@ -176,9 +172,9 @@ class InstallationModelDatabase extends JModelBase
 	 *
 	 * @param   array  $options  The configuration options
 	 *
-	 * @return	boolean	True on success.
+	 * @return    boolean    True on success.
 	 *
-	 * @since	3.1
+	 * @since    3.1
 	 */
 	public function createDatabase($options)
 	{
@@ -438,15 +434,15 @@ class InstallationModelDatabase extends JModelBase
 				$version = JFile::stripExt($file);
 			}
 		}
-		$query = $db->getQuery(true);
-		$query->insert($db->quoteName('#__schemas'));
-		$query->columns(
-			array(
-				$db->quoteName('extension_id'),
-				$db->quoteName('version_id')
+		$query = $db->getQuery(true)
+			->insert($db->quoteName('#__schemas'))
+			->columns(
+				array(
+					$db->quoteName('extension_id'),
+					$db->quoteName('version_id')
+				)
 			)
-		);
-		$query->values('700, ' . $db->quote($version));
+			->values('700, ' . $db->quote($version));
 		$db->setQuery($query);
 
 		try
@@ -460,9 +456,9 @@ class InstallationModelDatabase extends JModelBase
 		}
 
 		// Attempt to refresh manifest caches
-		$query = $db->getQuery(true);
-		$query->select('*');
-		$query->from('#__extensions');
+		$query->clear()
+			->select('*')
+			->from('#__extensions');
 		$db->setQuery($query);
 
 		$return = true;
@@ -535,12 +531,12 @@ class InstallationModelDatabase extends JModelBase
 			}
 			$params = json_encode($params);
 
-				// Update the language settings in the language manager.
-				$query = $db->getQuery(true);
-				$query->update($db->quoteName('#__extensions'));
-				$query->set($db->quoteName('params') . ' = ' . $db->quote($params));
-				$query->where($db->quoteName('element') . ' = ' . $db->quote('com_languages'));
-				$db->setQuery($query);
+			// Update the language settings in the language manager.
+			$query->clear()
+				->update($db->quoteName('#__extensions'))
+				->set($db->quoteName('params') . ' = ' . $db->quote($params))
+				->where($db->quoteName('element') . ' = ' . $db->quote('com_languages'));
+			$db->setQuery($query);
 
 			try
 			{
@@ -638,18 +634,20 @@ class InstallationModelDatabase extends JModelBase
 			'contact_details' => 'created_by',
 			'content' => 'created_by',
 			'newsfeeds' => 'created_by',
-			'weblinks' => 'created_by',
+			'tags' => 'created_user_id',
+			'ucm_content' => 'core_created_user_id',
+			'ucm_history' => 'editor_user_id',
+			'weblinks' => 'created_by'
 		);
 
 		foreach ($updates_array as $table => $field)
 		{
 			$db->setQuery(
 				'UPDATE ' . $db->quoteName('#__' . $table) .
-				' SET ' . $db->quoteName($field) . ' = ' . $db->Quote($userId)
+					' SET ' . $db->quoteName($field) . ' = ' . $db->quote($userId)
 			);
 			$db->execute();
 		}
-
 	}
 
 	/**
@@ -660,7 +658,7 @@ class InstallationModelDatabase extends JModelBase
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since	3.1
+	 * @since    3.1
 	 */
 	public function backupDatabase($db, $prefix)
 	{
@@ -713,7 +711,7 @@ class InstallationModelDatabase extends JModelBase
 	 *
 	 * @param   JDatabaseDriver  $db       JDatabase object.
 	 * @param   JObject          $options  JObject coming from "initialise" function to pass user
-	 * 										and database name to database driver.
+	 *                                     and database name to database driver.
 	 * @param   boolean          $utf      True if the database supports the UTF-8 character set.
 	 *
 	 * @return  boolean  True on success.
@@ -846,9 +844,6 @@ class InstallationModelDatabase extends JModelBase
 	{
 		// Run the create database query.
 		$db->setQuery($db->getAlterDbCharacterSet($name));
-			/*'ALTER DATABASE '.$db->quoteName($name).' CHARACTER' .
-			' SET `utf8`'
-		);*/
 
 		try
 		{
@@ -865,62 +860,62 @@ class InstallationModelDatabase extends JModelBase
 	/**
 	 * Method to split up queries from a schema file into an array.
 	 *
-	 * @param   string  $sql  SQL schema.
+	 * @param   string  $query  SQL schema.
 	 *
 	 * @return  array  Queries to perform.
 	 *
 	 * @since   3.1
 	 */
-	protected function _splitQueries($sql)
+	protected function _splitQueries($query)
 	{
-		$buffer    = array();
-		$queries   = array();
+		$buffer = array();
+		$queries = array();
 		$in_string = false;
 
 		// Trim any whitespace.
-		$sql = trim($sql);
+		$query = trim($query);
 
 		// Remove comment lines.
-		$sql = preg_replace("/\n\#[^\n]*/", '', "\n" . $sql);
+		$query = preg_replace("/\n\#[^\n]*/", '', "\n" . $query);
 
 		// Remove PostgreSQL comment lines.
-		$sql = preg_replace("/\n\--[^\n]*/", '', "\n" . $sql);
+		$query = preg_replace("/\n\--[^\n]*/", '', "\n" . $query);
 
 		// Find function
-		$funct = explode('CREATE OR REPLACE FUNCTION', $sql);
+		$funct = explode('CREATE OR REPLACE FUNCTION', $query);
 
 		// Save sql before function and parse it
-		$sql = $funct[0];
+		$query = $funct[0];
 
 		// Parse the schema file to break up queries.
-		for ($i = 0; $i < strlen($sql) - 1; $i++)
+		for ($i = 0; $i < strlen($query) - 1; $i++)
 		{
-			if ($sql[$i] == ";" && !$in_string)
+			if ($query[$i] == ";" && !$in_string)
 			{
-				$queries[] = substr($sql, 0, $i);
-				$sql = substr($sql, $i + 1);
+				$queries[] = substr($query, 0, $i);
+				$query = substr($query, $i + 1);
 				$i = 0;
 			}
 
-			if ($in_string && ($sql[$i] == $in_string) && $buffer[1] != "\\")
+			if ($in_string && ($query[$i] == $in_string) && $buffer[1] != "\\")
 			{
 				$in_string = false;
 			}
-			elseif (!$in_string && ($sql[$i] == '"' || $sql[$i] == "'") && (!isset ($buffer[0]) || $buffer[0] != "\\"))
+			elseif (!$in_string && ($query[$i] == '"' || $query[$i] == "'") && (!isset ($buffer[0]) || $buffer[0] != "\\"))
 			{
-				$in_string = $sql[$i];
+				$in_string = $query[$i];
 			}
 			if (isset ($buffer[1]))
 			{
 				$buffer[0] = $buffer[1];
 			}
-			$buffer[1] = $sql[$i];
+			$buffer[1] = $query[$i];
 		}
 
 		// If the is anything left over, add it to the queries.
-		if (!empty($sql))
+		if (!empty($query))
 		{
-			$queries[] = $sql;
+			$queries[] = $query;
 		}
 
 		// Add function part as is

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,7 @@ $templateparams = $app->getTemplate(true)->params;
 
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
+JHtml::_('behavior.caption');
 
 $pageClass = $this->params->get('pageclass_sfx');
 ?>
@@ -78,9 +79,9 @@ $pageClass = $this->params->get('pageclass_sfx');
 		echo '</h2>';
 	} ?>
 		</div>
-	<?php endif; ?>	
+	<?php endif; ?>
 	<?php echo $this->loadTemplate('children'); ?>
-		
+
 
 	<div class="cat-items">
 		<?php echo $this->loadTemplate('articles'); ?>

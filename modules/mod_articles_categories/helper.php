@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_categories
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,10 @@ abstract class ModArticlesCategoriesHelper
 {
 	public static function getList(&$params)
 	{
-		$categories = JCategories::getInstance('Content');
+		$options = array();
+		$options['countItems'] = $params->get('numitems', 0);
+
+		$categories = JCategories::getInstance('Content', $options);
 		$category = $categories->get($params->get('parent', 'root'));
 
 		if ($category != null)

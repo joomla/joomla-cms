@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,8 +46,11 @@ class ContentViewFeatured extends JViewLegacy
 			$link = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid));
 
 			// Get row fulltext
-			$db = JFactory::getDBO();
-			$query = 'SELECT' .$db->quoteName('fulltext'). 'FROM #__content WHERE id ='.$row->id;
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select($db->quoteName('fulltext'))
+				->from($db->quoteName('#__content'))
+				->where($db->quoteName('id') . ' = ' . $row->id);
 			$db->setQuery($query);
 			$row->fulltext = $db->loadResult();
 
@@ -59,7 +62,6 @@ class ContentViewFeatured extends JViewLegacy
 			$item->title		= $title;
 			$item->link			= $link;
 			$item->date			= $row->publish_up;
-			$item_category		= $categories->get($row->catid);
 			$item->category		= array();
 			$item->category[]	= JText::_('JFEATURED'); // All featured articles are categorized as "Featured"
 			for ($item_category = $categories->get($row->catid); $item_category !== null; $item_category = $item_category->getParent())

@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Schema
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -60,9 +60,11 @@ class JSchemaChangeitemSqlsrv extends JSchemaChangeitem
 
 		// We can only make check queries for alter table and create table queries
 		$command = strtoupper($wordArray[0] . ' ' . $wordArray[1]);
+
 		if ($command === 'ALTER TABLE')
 		{
 			$alterCommand = strtoupper($wordArray[3] . ' ' . $wordArray[4]);
+
 			if ($alterCommand == 'ADD')
 			{
 				$result = 'SELECT * FROM INFORMATION_SCHEMA.Columns ' . $wordArray[2] . ' WHERE COLUMN_NAME = ' . $this->fixQuote($wordArray[5]);
@@ -76,23 +78,9 @@ class JSchemaChangeitemSqlsrv extends JSchemaChangeitem
 				$this->queryType = 'CREATE INDEX';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $index);
 			}
-			elseif (strtoupper($wordArray[3]) == 'MODIFY')
+			elseif (strtoupper($wordArray[3]) == 'MODIFY' || strtoupper($wordArray[3]) == 'CHANGE')
 			{
-				$type = $this->fixQuote($wordArray[5]);
-				if (isset($wordArray[6]))
-				{
-					$type = $this->fixQuote($this->fixInteger($wordArray[5], $wordArray[6]));
-				}
 				$result = 'SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS  WHERE table_name = ' . $this->fixQuote($wordArray[2]);
-				$this->queryType = 'ALTER COLUMN COLUMN_NAME =' . $this->fixQuote($wordArray[4]);
-				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[4]));
-			}
-			elseif (strtoupper($wordArray[3]) == 'CHANGE')
-			{
-				// Kludge to fix problem with "integer unsigned"
-				$type = $this->fixQuote($this->fixInteger($wordArray[6], $wordArray[7]));
-				$result = 'SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS  WHERE table_name = ' . $this->fixQuote($wordArray[2]);
-				$this->fixQuote($wordArray[4]);
 				$this->queryType = 'ALTER COLUMN COLUMN_NAME =' . $this->fixQuote($wordArray[4]);
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[4]));
 			}
@@ -134,10 +122,12 @@ class JSchemaChangeitemSqlsrv extends JSchemaChangeitem
 	private function fixInteger($type1, $type2)
 	{
 		$result = $type1;
+
 		if (strtolower($type1) == 'integer' && strtolower(substr($type2, 0, 8)) == 'unsigned')
 		{
 			$result = 'int';
 		}
+
 		return $result;
 	}
 
@@ -157,6 +147,7 @@ class JSchemaChangeitemSqlsrv extends JSchemaChangeitem
 		$string = str_replace('`', '', $string);
 		$string = str_replace(';', '', $string);
 		$string = str_replace('#__', $this->db->getPrefix(), $string);
+
 		return $this->db->quote($string);
 	}
 }

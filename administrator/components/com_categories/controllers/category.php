@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,7 +29,7 @@ class CategoriesControllerCategory extends JControllerForm
 	/**
 	 * Constructor.
 	 *
-	 * @param  array  $config  An optional associative array of configuration settings.
+	 * @param  array   $config  An optional associative array of configuration settings.
 	 *
 	 * @since  1.6
 	 * @see    JController
@@ -57,6 +57,7 @@ class CategoriesControllerCategory extends JControllerForm
 	protected function allowAdd($data = array())
 	{
 		$user = JFactory::getUser();
+
 		return ($user->authorise('core.create', $this->extension) || count($user->getAuthorisedCategories($this->extension, 'core.create')));
 	}
 
@@ -94,6 +95,7 @@ class CategoriesControllerCategory extends JControllerForm
 		{
 			// Now test the owner is the user.
 			$ownerId = (int) isset($data['created_user_id']) ? $data['created_user_id'] : 0;
+
 			if (empty($ownerId) && $recordId)
 			{
 				// Need to do a lookup from the model.
@@ -113,6 +115,7 @@ class CategoriesControllerCategory extends JControllerForm
 				return true;
 			}
 		}
+
 		return false;
 	}
 
@@ -121,7 +124,7 @@ class CategoriesControllerCategory extends JControllerForm
 	 *
 	 * @param   object  $model  The model.
 	 *
-	 * @return  boolean   True if successful, false otherwise and internal error is set.
+	 * @return  boolean  True if successful, false otherwise and internal error is set.
 	 *
 	 * @since   1.6
 	 */
@@ -170,6 +173,7 @@ class CategoriesControllerCategory extends JControllerForm
 
 		return $append;
 	}
+
 	/**
 	 * Function that allows child controller access to model data after the data has been saved.
 	 *
@@ -177,12 +181,11 @@ class CategoriesControllerCategory extends JControllerForm
 	 * @param   array         $validData  The validated data.
 	 *
 	 * @return  void
+	 *
 	 * @since   3.1
 	 */
 	protected function postSaveHook(JModelLegacy $model, $validData = array())
 	{
-		$task = $this->getTask();
-
 		$item = $model->getItem();
 
 		if (isset($item->params) && is_array($item->params))
@@ -191,28 +194,12 @@ class CategoriesControllerCategory extends JControllerForm
 			$registry->loadArray($item->params);
 			$item->params = (string) $registry;
 		}
+
 		if (isset($item->metadata) && is_array($item->metadata))
 		{
 			$registry = new JRegistry;
 			$registry->loadArray($item->metadata);
 			$item->metadata = (string) $registry;
-		}
-		$id = $item->id;
-
-		if (empty($validData['tags']) && !empty($item->tags))
-		{
-			$oldTags = new JTags;
-			$oldTags->unTagItem($id, $item->extension . '.category');
-			return;
-		}
-
-		$tags = $validData['tags'];
-
-		if ($tags[0] != '')
-		{
-			$isNew = $item->id == 0 ? 1 : 0;
-			$tagsHelper = new JTags;
-			$tagsHelper->tagItem($id, $item->extension . '.category', $isNew, $item, $tags, null);
 		}
 
 		return;

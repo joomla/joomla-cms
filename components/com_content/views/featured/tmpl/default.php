@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,21 +27,19 @@ JHtml::_('behavior.caption');
 
 <?php $leadingcount = 0; ?>
 <?php if (!empty($this->lead_items)) : ?>
-<div class="items-leading">
+<div class="items-leading clearfix">
 	<?php foreach ($this->lead_items as &$item) : ?>
-		<div class="leading-<?php echo $leadingcount; ?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>">
+		<div class="leading-<?php echo $leadingcount; ?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?> clearfix">
 			<?php
 				$this->item = &$item;
 				echo $this->loadTemplate('item');
 			?>
 		</div>
-		<div class="clearfix"></div>
 		<?php
 			$leadingcount++;
 		?>
 	<?php endforeach; ?>
 </div>
-<div class="clearfix"></div>
 <?php endif; ?>
 <?php
 	$introcount = (count($this->intro_items));

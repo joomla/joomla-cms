@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,6 +20,9 @@ defined('_JEXEC') or die;
 abstract class ContactHelperRoute
 {
 	protected static $lookup;
+
+	protected static $lang_lookup = array();
+
 	/**
 	 * @param   integer  The route of the contact
 	 */
@@ -43,29 +46,16 @@ abstract class ContactHelperRoute
 		}
 		if ($language && $language != "*" && JLanguageMultilang::isEnabled())
 		{
-			$db		= JFactory::getDBO();
-			$query	= $db->getQuery(true);
-			$query->select('a.sef AS sef');
-			$query->select('a.lang_code AS lang_code');
-			$query->from('#__languages AS a');
+			self::buildLanguageLookup();
 
-			$db->setQuery($query);
-			$langs = $db->loadObjectList();
-			foreach ($langs as $lang)
+			if (isset(self::$lang_lookup[$language]))
 			{
-				if ($language == $lang->lang_code)
-				{
-					$link .= '&lang='.$lang->sef;
-					$needles['language'] = $language;
-				}
+				$link .= '&lang='.self::$lang_lookup[$language];
+				$needles['language'] = $language;
 			}
 		}
 
 		if ($item = self::_findItem($needles))
-		{
-			$link .= '&Itemid='.$item;
-		}
-		elseif ($item = self::_findItem())
 		{
 			$link .= '&Itemid='.$item;
 		}
@@ -86,35 +76,29 @@ abstract class ContactHelperRoute
 			$category = JCategories::getInstance('Contact')->get($id);
 		}
 
-		if ($id < 1)
+		if ($id < 1 || !($category instanceof JCategoryNode))
 		{
 			$link = '';
 		}
 		else
 		{
-			//Create the link
-			$link = 'index.php?option=com_contact&view=category&id='.$id;
-			$needles = array(
-				'category' => array($id)
-			);
+			$needles = array();
+
+			// Create the link
+			$link = 'index.php?option=com_contact&view=category&id=' . $id;
+
+			$catids = array_reverse($category->getPath());
+			$needles['category'] = $catids;
+			$needles['categories'] = $catids;
 
 			if ($language && $language != "*" && JLanguageMultilang::isEnabled())
 			{
-				$db		= JFactory::getDBO();
-				$query	= $db->getQuery(true);
-				$query->select('a.sef AS sef');
-				$query->select('a.lang_code AS lang_code');
-				$query->from('#__languages AS a');
+				self::buildLanguageLookup();
 
-				$db->setQuery($query);
-				$langs = $db->loadObjectList();
-				foreach ($langs as $lang)
+				if (isset(self::$lang_lookup[$language]))
 				{
-					if ($language == $lang->lang_code)
-					{
-						$link .= '&lang='.$lang->sef;
-						$needles['language'] = $language;
-					}
+					$link .= '&lang=' . self::$lang_lookup[$language];
+					$needles['language'] = $language;
 				}
 			}
 
@@ -122,28 +106,29 @@ abstract class ContactHelperRoute
 			{
 				$link .= '&Itemid='.$item;
 			}
-			else
-			{
-				if ($category)
-				{
-					$catids = array_reverse($category->getPath());
-					$needles = array(
-						'category' => $catids,
-						'categories' => $catids
-					);
-					if ($item = self::_findItem($needles))
-					{
-						$link .= '&Itemid='.$item;
-					}
-					elseif ($item = self::_findItem())
-					{
-						$link .= '&Itemid='.$item;
-					}
-				}
-			}
 		}
 
 		return $link;
+	}
+
+	protected static function buildLanguageLookup()
+	{
+		if (count(self::$lang_lookup) == 0)
+		{
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('a.sef AS sef')
+				->select('a.lang_code AS lang_code')
+				->from('#__languages AS a');
+
+			$db->setQuery($query);
+			$langs = $db->loadObjectList();
+
+			foreach ($langs as $lang)
+			{
+				self::$lang_lookup[$lang->lang_code] = $lang->sef;
+			}
+		}
 	}
 
 	protected static function _findItem($needles = null)
@@ -211,13 +196,14 @@ abstract class ContactHelperRoute
 			}
 		}
 
+		// Check if the active menuitem matches the requested language
 		$active = $menus->getActive();
-		if ($active && ($active->language == '*' || !JLanguageMultilang::isEnabled()))
+		if ($active && ($language == '*' || in_array($active->language, array('*', $language)) || !JLanguageMultilang::isEnabled()))
 		{
 			return $active->id;
 		}
 
-		// if not found, return language specific home link
+		// If not found, return language specific home link
 		$default = $menus->getDefault($language);
 		return !empty($default->id) ? $default->id : null;
 	}

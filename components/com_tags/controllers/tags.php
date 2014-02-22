@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,7 +38,7 @@ class TagsControllerTags extends JControllerLegacy
 			'parent_id' => $app->input->get('parent_id', null)
 		);
 
-		if ($results = JTags::searchTags($filters))
+		if ($results = JHelperTags::searchTags($filters))
 		{
 			// Output a JSON object
 			echo json_encode($results);

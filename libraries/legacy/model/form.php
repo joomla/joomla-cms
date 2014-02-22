@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -47,6 +47,7 @@ abstract class JModelForm extends JModelLegacy
 
 			// Get an instance of the row to checkin.
 			$table = $this->getTable();
+
 			if (!$table->load($pk))
 			{
 				$this->setError($table->getError());
@@ -85,15 +86,22 @@ abstract class JModelForm extends JModelLegacy
 		// Only attempt to check the row in if it exists.
 		if ($pk)
 		{
-			$user = JFactory::getUser();
-
 			// Get an instance of the row to checkout.
 			$table = $this->getTable();
+
 			if (!$table->load($pk))
 			{
 				$this->setError($table->getError());
 				return false;
 			}
+
+			// If there is no checked_out or checked_out_time field, just return true.
+			if (!property_exists($table, 'checked_out') || !property_exists($table, 'checked_out_time'))
+			{
+				return true;
+			}
+
+			$user = JFactory::getUser();
 
 			// Check if this is the user having previously checked out the row.
 			if ($table->checked_out > 0 && $table->checked_out != $user->get('id'))
@@ -156,6 +164,8 @@ abstract class JModelForm extends JModelLegacy
 		// Get the form.
 		JForm::addFormPath(JPATH_COMPONENT . '/models/forms');
 		JForm::addFieldPath(JPATH_COMPONENT . '/models/fields');
+		JForm::addFormPath(JPATH_COMPONENT . '/model/form');
+		JForm::addFieldPath(JPATH_COMPONENT . '/model/field');
 
 		try
 		{
@@ -302,6 +312,12 @@ abstract class JModelForm extends JModelLegacy
 			}
 
 			return false;
+		}
+
+		// Tags B/C break at 3.1.2
+		if (isset($data['metadata']['tags']) && !isset($data['tags']))
+		{
+			$data['tags'] = $data['metadata']['tags'];
 		}
 
 		return $data;

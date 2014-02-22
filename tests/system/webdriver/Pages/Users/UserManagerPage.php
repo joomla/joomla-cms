@@ -17,6 +17,8 @@ class UserManagerPage extends AdminManagerPage
 	protected $url = 'administrator/index.php?option=com_users&view=users';
 
 	public $filters = array(
+			'Sort Table By:' => 'list_fullordering',
+			'20' => 'list_limit',
 			'State' => 'filter_state',
 			'Active' => 'filter_active',
 			'Group' => 'filter_group_id',
@@ -70,15 +72,6 @@ class UserManagerPage extends AdminManagerPage
 			$this->clickButton('toolbar-unpublish');
 			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 		}
-		$this->searchFor();
-	}
-
-	public function deleteUser($name)
-	{
-		$this->searchFor($name);
-		$this->driver->findElement(By::name("checkall-toggle"))->click();
-		$this->clickButton('toolbar-delete');
-		$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 		$this->searchFor();
 	}
 

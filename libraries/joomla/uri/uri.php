@@ -3,14 +3,14 @@
  * @package     Joomla.Platform
  * @subpackage  Uri
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 /**
- * JURI Class
+ * JUri Class
  *
  * This class serves two purposes. First it parses a URI and provides a common interface
  * for the Joomla Platform to access and manipulate a URI.  Second it obtains the URI of
@@ -83,7 +83,7 @@ class JUri
 	protected $vars = array();
 
 	/**
-	 * @var    array  An array of JURI instances.
+	 * @var    array  An array of JUri instances.
 	 * @since  11.1
 	 */
 	protected static $instances = array();
@@ -135,12 +135,12 @@ class JUri
 	}
 
 	/**
-	 * Returns the global JURI object, only creating it
+	 * Returns the global JUri object, only creating it
 	 * if it doesn't already exist.
 	 *
 	 * @param   string  $uri  The URI to parse.  [optional: if null uses script URI]
 	 *
-	 * @return  JURI  The URI object.
+	 * @return  JUri  The URI object.
 	 *
 	 * @since   11.1
 	 */
@@ -190,6 +190,9 @@ class JUri
 						$theURI .= '?' . $_SERVER['QUERY_STRING'];
 					}
 				}
+
+				// Extra cleanup to remove invalid chars in the URL to prevent injections through the Host header
+				$theURI = str_replace(array("'", '"', '<', '>'), array("%27", "%22", "%3C", "%3E"), $theURI);
 			}
 			else
 			{
@@ -197,9 +200,10 @@ class JUri
 				$theURI = $uri;
 			}
 
-			self::$instances[$uri] = new JURI($theURI);
+			self::$instances[$uri] = new JUri($theURI);
 		}
-		return clone self::$instances[$uri];
+
+		return self::$instances[$uri];
 	}
 
 	/**
@@ -218,6 +222,7 @@ class JUri
 		{
 			$config = JFactory::getConfig();
 			$live_site = $config->get('live_site');
+
 			if (trim($live_site) != '')
 			{
 				$uri = self::getInstance($live_site);
@@ -335,9 +340,10 @@ class JUri
 		// Set the original URI to fall back on
 		$this->uri = $uri;
 
-		// Parse the URI and populate the object fields. If URI is parsed properly,
-		// set method return value to true.
-
+		/*
+		 * Parse the URI and populate the object fields. If URI is parsed properly,
+		 * set method return value to true.
+		 */
 		$parts = JString::parse_url($uri);
 
 		$retval = ($parts) ? true : false;
@@ -358,7 +364,6 @@ class JUri
 		$this->fragment = isset($parts['fragment']) ? $parts['fragment'] : null;
 
 		// Parse the query
-
 		if (isset($parts['query']))
 		{
 			parse_str($parts['query'], $this->vars);
@@ -447,6 +452,7 @@ class JUri
 		{
 			return $this->vars[$name];
 		}
+
 		return $default;
 	}
 
@@ -492,6 +498,7 @@ class JUri
 			{
 				$query = str_replace('&amp;', '&', $query);
 			}
+
 			parse_str($query, $this->vars);
 		}
 
@@ -760,10 +767,12 @@ class JUri
 		$uri = self::getInstance($url);
 		$base = $uri->toString(array('scheme', 'host', 'port', 'path'));
 		$host = $uri->toString(array('scheme', 'host', 'port'));
+
 		if (stripos($base, self::base()) !== 0 && !empty($host))
 		{
 			return false;
 		}
+
 		return true;
 	}
 

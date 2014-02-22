@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Openstreetmap
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,13 +14,14 @@ defined('JPATH_PLATFORM') or die();
  *
  * @package     Joomla.Platform
  * @subpackage  Openstreetmap
- *
  * @since       13.1
  */
 class JOpenstreetmapOauth extends JOAuth1Client
 {
 	/**
-	 * @var    JRegistry  Options for the JOpenstreetmapOauth object.
+	 * Options for the JOpenstreetmapOauth object.
+	 *
+	 * @var    JRegistry
 	 * @since  13.1
 	 */
 	protected $options;
@@ -32,7 +33,7 @@ class JOpenstreetmapOauth extends JOAuth1Client
 	 * @param   JHttp      $client   The HTTP client object.
 	 * @param   JInput     $input    The input object
 	 *
-	 * @since 13.1
+	 * @since   13.1
 	 */
 	public function __construct(JRegistry $options = null, JHttp $client = null, JInput $input = null)
 	{
@@ -72,8 +73,8 @@ class JOpenstreetmapOauth extends JOAuth1Client
 	 *
 	 * @return  void
 	 *
-	 * @since  13.1
-	 * @throws DomainException
+	 * @since   13.1
+	 * @throws  DomainException
 	 */
 	public function validateResponse($url, $response)
 	{

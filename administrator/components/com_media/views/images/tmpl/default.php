@@ -3,13 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 JHtml::_('formbehavior.chosen', 'select');
+// Load tooltip instance without HTML support because we have a HTML tag in the tip
+JHtml::_('bootstrap.tooltip', '.noHtmlTip', array('html' => false));
 
 $user  = JFactory::getUser();
 $input = JFactory::getApplication()->input;
@@ -55,15 +57,15 @@ echo $params->get('image_path', 'images'); ?>/';
 			<?php if (!$this->state->get('field.id')):?>
 			<div class="span6 control-group">
 				<div class="control-label">
-					<label for="f_align"><?php echo JText::_('COM_MEDIA_ALIGN') ?></label>
+					<label title="<?php echo JText::_('COM_MEDIA_ALIGN_DESC'); ?>" class="noHtmlTip" for="f_align"><?php echo JText::_('COM_MEDIA_ALIGN') ?></label>
 				</div>
 				<div class="controls">
 					<select size="1" id="f_align">
 						<option value="" selected="selected"><?php echo JText::_('COM_MEDIA_NOT_SET') ?></option>
 						<option value="left"><?php echo JText::_('JGLOBAL_LEFT') ?></option>
+						<option value="center"><?php echo JText::_('JGLOBAL_CENTER') ?></option>
 						<option value="right"><?php echo JText::_('JGLOBAL_RIGHT') ?></option>
 					</select>
-					<p class="help-block"><?php echo JText::_('COM_MEDIA_ALIGN_DESC');?></p>
 				</div>
 			</div>
 			<?php endif;?>
@@ -88,16 +90,25 @@ echo $params->get('image_path', 'images'); ?>/';
 			</div>
 		</div>
 		<div class="row">
-			<div class="span12 control-group">
+			<div class="span6 control-group">
 				<div class="control-label">
 					<label for="f_caption"><?php echo JText::_('COM_MEDIA_CAPTION') ?></label>
 				</div>
 				<div class="controls">
-					<select size="1" id="f_caption" >
-						<option value="" selected="selected" ><?php echo JText::_('JNO') ?></option>
-						<option value="1"><?php echo JText::_('JYES') ?></option>
-					</select>
-					<p class="help-block"><?php echo JText::_('COM_MEDIA_CAPTION_DESC');?></p>
+					<input type="text" id="f_caption" value="" />
+				</div>
+			</div>
+			<div class="span6 control-group">
+				<div class="control-label">
+					<label title="<?php echo JText::_('COM_MEDIA_CAPTION_CLASS_DESC'); ?>" class="noHtmlTip" for="f_caption_class"><?php echo JText::_('COM_MEDIA_CAPTION_CLASS_LABEL') ?></label>
+				</div>
+				<div class="controls">
+					<input type="text" list="d_caption_class" id="f_caption_class" value="" />
+					<datalist id="d_caption_class">
+						<option value="text-left">
+						<option value="text-center">
+						<option value="text-right">
+					</datalist>
 				</div>
 			</div>
 		</div>
@@ -111,7 +122,7 @@ echo $params->get('image_path', 'images'); ?>/';
 </form>
 
 <?php if ($user->authorise('core.create', 'com_media')) : ?>
-	<form action="<?php echo JURI::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName() . '=' . $this->session->getId(); ?>&amp;<?php echo JSession::getFormToken();?>=1&amp;asset=<?php echo $input->getCmd('asset');?>&amp;author=<?php echo $input->getCmd('author');?>&amp;format=<?php echo $this->config->get('enable_flash') == '1' ? 'json' : '' ?>&amp;view=images" id="uploadForm" class="form-horizontal" name="uploadForm" method="post" enctype="multipart/form-data">
+	<form action="<?php echo JUri::base(); ?>index.php?option=com_media&amp;task=file.upload&amp;tmpl=component&amp;<?php echo $this->session->getName() . '=' . $this->session->getId(); ?>&amp;<?php echo JSession::getFormToken();?>=1&amp;asset=<?php echo $input->getCmd('asset');?>&amp;author=<?php echo $input->getCmd('author');?>&amp;view=images" id="uploadForm" class="form-horizontal" name="uploadForm" method="post" enctype="multipart/form-data">
 		<div id="uploadform" class="well">
 			<fieldset id="upload-noflash" class="actions">
 				<div class="control-group">
@@ -124,26 +135,6 @@ echo $params->get('image_path', 'images'); ?>/';
 					</div>
 				</div>
 			</fieldset>
-			<div id="upload-flash" class="hide">
-				<ul>
-					<li><a href="#" id="upload-browse"><?php echo JText::_('COM_MEDIA_BROWSE_FILES'); ?></a></li>
-					<li><a href="#" id="upload-clear"><?php echo JText::_('COM_MEDIA_CLEAR_LIST'); ?></a></li>
-					<li><a href="#" id="upload-start"><?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?></a></li>
-				</ul>
-				<div class="clr"> </div>
-				<p class="overall-title"></p>
-				<?php echo JHtml::_('image', 'media/bar.gif', JText::_('COM_MEDIA_OVERALL_PROGRESS'), array('class' => 'progress overall-progress'), true); ?>
-				<div class="clr"> </div>
-				<p class="current-title"></p>
-				<?php echo JHtml::_('image', 'media/bar.gif', JText::_('COM_MEDIA_CURRENT_PROGRESS'), array('class' => 'progress current-progress'), true); ?>
-				<p class="current-text"></p>
-				<ul class="upload-queue" id="upload-queue">
-					<li style="display:none;"></li>
-				</ul>
-				<ul class="upload-queue" id="upload-queue">
-					<li style="display: none"></li>
-				</ul>
-			</div>
 			<input type="hidden" name="return-url" value="<?php echo base64_encode('index.php?option=com_media&view=images&tmpl=component&fieldid=' . $input->getCmd('fieldid', '') . '&e_name=' . $input->getCmd('e_name') . '&asset=' . $input->getCmd('asset') . '&author=' . $input->getCmd('author')); ?>" />
 		</div>
 	</form>

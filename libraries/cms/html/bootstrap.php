@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -25,6 +25,51 @@ abstract class JHtmlBootstrap
 	protected static $loaded = array();
 
 	/**
+	 * Add javascript support for the Bootstrap affix plugin
+	 *
+	 * @param   string  $selector  Unique selector for the element to be affixed.
+	 * @param   array   $params    An array of options.
+	 *                             Options for the affix plugin can be:
+	 *                             - offset  number|function|object  Pixels to offset from screen when calculating position of scroll.
+	 *                                                               If a single number is provided, the offset will be applied in both top
+	 *                                                               and left directions. To listen for a single direction, or multiple
+	 *                                                               unique offsets, just provide an object offset: { x: 10 }.
+	 *                                                               Use a function when you need to dynamically provide an offset
+	 *                                                               (useful for some responsive designs).
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	public static function affix($selector = 'affix', $params = array())
+	{
+		$sig = md5(serialize(array($selector, $params)));
+
+		if (!isset(static::$loaded[__METHOD__][$sig]))
+		{
+			// Include Bootstrap framework
+			static::framework();
+
+			// Setup options object
+			$opt['offset'] = isset($params['offset']) ? $params['offset'] : 10;
+
+			$options = JHtml::getJSObject($opt);
+
+			// Attach the carousel to document
+			JFactory::getDocument()->addScriptDeclaration(
+				"(function($){
+					$('#$selector').affix($options);
+					})(jQuery);"
+			);
+
+			// Set static array
+			static::$loaded[__METHOD__][$sig] = true;
+		}
+
+		return;
+	}
+
+	/**
 	 * Add javascript support for Bootstrap alerts
 	 *
 	 * @param   string  $selector  Common class for the alerts
@@ -36,13 +81,13 @@ abstract class JHtmlBootstrap
 	public static function alert($selector = 'alert')
 	{
 		// Only load once
-		if (isset(self::$loaded[__METHOD__][$selector]))
+		if (isset(static::$loaded[__METHOD__][$selector]))
 		{
 			return;
 		}
 
 		// Include Bootstrap framework
-		self::framework();
+		static::framework();
 
 		// Attach the alerts to the document
 		JFactory::getDocument()->addScriptDeclaration(
@@ -51,7 +96,39 @@ abstract class JHtmlBootstrap
 				})(jQuery);"
 		);
 
-		self::$loaded[__METHOD__][$selector] = true;
+		static::$loaded[__METHOD__][$selector] = true;
+
+		return;
+	}
+
+	/**
+	 * Add javascript support for Bootstrap buttons
+	 *
+	 * @param   string  $selector  Common class for the buttons
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	public static function button($selector = 'button')
+	{
+		// Only load once
+		if (isset(static::$loaded[__METHOD__][$selector]))
+		{
+			return;
+		}
+
+		// Include Bootstrap framework
+		static::framework();
+
+		// Attach the alerts to the document
+		JFactory::getDocument()->addScriptDeclaration(
+			"(function($){
+				$('.$selector').button();
+				})(jQuery);"
+		);
+
+		static::$loaded[__METHOD__][$selector] = true;
 
 		return;
 	}
@@ -75,14 +152,14 @@ abstract class JHtmlBootstrap
 	{
 		$sig = md5(serialize(array($selector, $params)));
 
-		if (!isset(self::$loaded[__METHOD__][$sig]))
+		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
-			self::framework();
+			static::framework();
 
 			// Setup options object
-			$opt['interval'] = (isset($params['interval']) && ($params['interval'])) ? (int) $params['interval'] : 5000;
-			$opt['pause'] = (isset($params['pause']) && ($params['pause'])) ? $params['pause'] : 'hover';
+			$opt['interval'] = isset($params['interval']) ? (int) $params['interval'] : 5000;
+			$opt['pause']    = isset($params['pause']) ? $params['pause'] : 'hover';
 
 			$options = JHtml::getJSObject($opt);
 
@@ -94,7 +171,7 @@ abstract class JHtmlBootstrap
 			);
 
 			// Set static array
-			self::$loaded[__METHOD__][$sig] = true;
+			static::$loaded[__METHOD__][$sig] = true;
 		}
 
 		return;
@@ -112,13 +189,13 @@ abstract class JHtmlBootstrap
 	public static function dropdown($selector = 'dropdown-toggle')
 	{
 		// Only load once
-		if (isset(self::$loaded[__METHOD__][$selector]))
+		if (isset(static::$loaded[__METHOD__][$selector]))
 		{
 			return;
 		}
 
 		// Include Bootstrap framework
-		self::framework();
+		static::framework();
 
 		// Attach the dropdown to the document
 		JFactory::getDocument()->addScriptDeclaration(
@@ -127,7 +204,7 @@ abstract class JHtmlBootstrap
 				})(jQuery);"
 		);
 
-		self::$loaded[__METHOD__][$selector] = true;
+		static::$loaded[__METHOD__][$selector] = true;
 
 		return;
 	}
@@ -146,7 +223,7 @@ abstract class JHtmlBootstrap
 	public static function framework($debug = null)
 	{
 		// Only load once
-		if (!empty(self::$loaded[__METHOD__]))
+		if (!empty(static::$loaded[__METHOD__]))
 		{
 			return;
 		}
@@ -158,11 +235,11 @@ abstract class JHtmlBootstrap
 		if ($debug === null)
 		{
 			$config = JFactory::getConfig();
-			$debug  = (boolean) $config->get('debug');
+			$debug = (boolean) $config->get('debug');
 		}
 
 		JHtml::_('script', 'jui/bootstrap.min.js', false, true, false, false, $debug);
-		self::$loaded[__METHOD__] = true;
+		static::$loaded[__METHOD__] = true;
 
 		return;
 	}
@@ -186,16 +263,16 @@ abstract class JHtmlBootstrap
 	{
 		$sig = md5(serialize(array($selector, $params)));
 
-		if (!isset(self::$loaded[__METHOD__][$sig]))
+		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
-			self::framework();
+			static::framework();
 
 			// Setup options object
-			$opt['backdrop'] = (isset($params['backdrop']) && ($params['backdrop'])) ? (boolean) $params['backdrop'] : true;
-			$opt['keyboard'] = (isset($params['keyboard']) && ($params['keyboard'])) ? (boolean) $params['keyboard'] : true;
-			$opt['show']     = (isset($params['show']) && ($params['show'])) ? (boolean) $params['show'] : true;
-			$opt['remote']   = (isset($params['remote']) && ($params['remote'])) ? (boolean) $params['remote'] : '';
+			$opt['backdrop'] = isset($params['backdrop']) ? (boolean) $params['backdrop'] : true;
+			$opt['keyboard'] = isset($params['keyboard']) ? (boolean) $params['keyboard'] : true;
+			$opt['show']     = isset($params['show']) ? (boolean) $params['show'] : true;
+			$opt['remote']   = isset($params['remote']) ?  $params['remote'] : '';
 
 			$options = JHtml::getJSObject($opt);
 
@@ -207,7 +284,7 @@ abstract class JHtmlBootstrap
 			);
 
 			// Set static array
-			self::$loaded[__METHOD__][$sig] = true;
+			static::$loaded[__METHOD__][$sig] = true;
 		}
 
 		return;
@@ -227,7 +304,7 @@ abstract class JHtmlBootstrap
 	public static function renderModal($selector = 'modal', $params = array(), $footer = '')
 	{
 		// Ensure the behavior is loaded
-		self::modal($selector, $params);
+		static::modal($selector, $params);
 
 		$html = "<div class=\"modal hide fade\" id=\"" . $selector . "\">\n";
 		$html .= "<div class=\"modal-header\">\n";
@@ -240,7 +317,8 @@ abstract class JHtmlBootstrap
 
 		$html .= "<script>";
 		$html .= "jQuery('#" . $selector . "').on('show', function () {\n";
-		$html .= "document.getElementById('" . $selector . "-container').innerHTML = '<div class=\"modal-body\"><iframe class=\"iframe\" src=\"" . $params['url'] . "\" height=\"" . $params['height'] . "\" width=\"" . $params['width'] . "\"></iframe></div>" . $footer . "';\n";
+		$html .= "document.getElementById('" . $selector . "-container').innerHTML = '<div class=\"modal-body\"><iframe class=\"iframe\" src=\""
+			. $params['url'] . "\" height=\"" . $params['height'] . "\" width=\"" . $params['width'] . "\"></iframe></div>" . $footer . "';\n";
 		$html .= "});\n";
 		$html .= "</script>";
 
@@ -252,20 +330,21 @@ abstract class JHtmlBootstrap
 	 *
 	 * Use element's Title as popover content
 	 *
-	 * @param   string  $selector  Selector for the tooltip
-	 * @param   array   $params    An array of options for the tooltip.
-	 *                  Options for the tooltip can be:
-	 *                      animation  boolean          apply a css fade transition to the tooltip
-	 *                      html       boolean          Insert HTML into the tooltip. If false, jQuery's text method will be used to insert
+	 * @param   string  $selector  Selector for the popover
+	 * @param   array   $params    An array of options for the popover.
+	 *                  Options for the popover can be:
+	 *                      animation  boolean          apply a css fade transition to the popover
+	 *                      html       boolean          Insert HTML into the popover. If false, jQuery's text method will be used to insert
 	 *                                                  content into the dom.
-	 *                      placement  string|function  how to position the tooltip - top | bottom | left | right
-	 *                      selector   string           If a selector is provided, tooltip objects will be delegated to the specified targets.
+	 *                      placement  string|function  how to position the popover - top | bottom | left | right
+	 *                      selector   string           If a selector is provided, popover objects will be delegated to the specified targets.
+	 *                      trigger    string           how popover is triggered - hover | focus | manual
 	 *                      title      string|function  default title value if `title` tag isn't present
-	 *                      trigger    string           how tooltip is triggered - hover | focus | manual
 	 *                      content    string|function  default content value if `data-content` attribute isn't present
-	 *                      delay      number|object    delay showing and hiding the tooltip (ms) - does not apply to manual trigger type
+	 *                      delay      number|object    delay showing and hiding the popover (ms) - does not apply to manual trigger type
 	 *                                                  If a number is supplied, delay is applied to both hide/show
 	 *                                                  Object structure is: delay: { show: 500, hide: 100 }
+	 *                      container  string|boolean   Appends the popover to a specific element: { container: 'body' }
 	 *
 	 * @return  void
 	 *
@@ -274,22 +353,23 @@ abstract class JHtmlBootstrap
 	public static function popover($selector = '.hasPopover', $params = array())
 	{
 		// Only load once
-		if (isset(self::$loaded[__METHOD__][$selector]))
+		if (isset(static::$loaded[__METHOD__][$selector]))
 		{
 			return;
 		}
 
 		// Include Bootstrap framework
-		self::framework();
+		static::framework();
 
 		$opt['animation'] = isset($params['animation']) ? $params['animation'] : null;
-		$opt['html']      = isset($params['html']) ? $params['html'] : null;
+		$opt['html']      = isset($params['html']) ? $params['html'] : true;
 		$opt['placement'] = isset($params['placement']) ? $params['placement'] : null;
 		$opt['selector']  = isset($params['selector']) ? $params['selector'] : null;
 		$opt['title']     = isset($params['title']) ? $params['title'] : null;
-		$opt['trigger']   = isset($params['trigger']) ? $params['trigger'] : 'hover';
+		$opt['trigger']   = isset($params['trigger']) ? $params['trigger'] : 'hover focus';
 		$opt['content']   = isset($params['content']) ? $params['content'] : null;
 		$opt['delay']     = isset($params['delay']) ? $params['delay'] : null;
+		$opt['container'] = isset($params['container']) ? $params['container'] : 'body';
 
 		$options = JHtml::getJSObject($opt);
 
@@ -301,7 +381,7 @@ abstract class JHtmlBootstrap
 			});"
 		);
 
-		self::$loaded[__METHOD__][$selector] = true;
+		static::$loaded[__METHOD__][$selector] = true;
 
 		return;
 	}
@@ -322,13 +402,13 @@ abstract class JHtmlBootstrap
 	{
 		$sig = md5(serialize(array($selector, $params)));
 
-		if (!isset(self::$loaded[__METHOD__][$sig]))
+		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
-			self::framework();
+			static::framework();
 
 			// Setup options object
-			$opt['offset'] = (isset($params['offset']) && ($params['offset'])) ? (int) $params['offset'] : 10;
+			$opt['offset'] = isset($params['offset']) ? (int) $params['offset'] : 10;
 
 			$options = JHtml::getJSObject($opt);
 
@@ -340,7 +420,7 @@ abstract class JHtmlBootstrap
 			);
 
 			// Set static array
-			self::$loaded[__METHOD__][$sig] = true;
+			static::$loaded[__METHOD__][$sig] = true;
 		}
 
 		return;
@@ -362,9 +442,10 @@ abstract class JHtmlBootstrap
 	 *                             - selector   string           If a selector is provided, tooltip objects will be delegated to the specified targets.
 	 *                             - title      string|function  Default title value if `title` tag isn't present
 	 *                             - trigger    string           How tooltip is triggered - hover | focus | manual
-	 *                             - delay      number           Delay showing and hiding the tooltip (ms) - does not apply to manual trigger type
+	 *                             - delay      integer          Delay showing and hiding the tooltip (ms) - does not apply to manual trigger type
 	 *                                                           If a number is supplied, delay is applied to both hide/show
 	 *                                                           Object structure is: delay: { show: 500, hide: 100 }
+	 *                             - container  string|boolean   Appends the popover to a specific element: { container: 'body' }
 	 *
 	 * @return  void
 	 *
@@ -372,19 +453,21 @@ abstract class JHtmlBootstrap
 	 */
 	public static function tooltip($selector = '.hasTooltip', $params = array())
 	{
-		if (!isset(self::$loaded[__METHOD__][$selector]))
+		if (!isset(static::$loaded[__METHOD__][$selector]))
 		{
 			// Include Bootstrap framework
-			self::framework();
+			static::framework();
 
 			// Setup options object
-			$opt['animation'] = (isset($params['animation']) && ($params['animation'])) ? (boolean) $params['animation'] : null;
-			$opt['html']      = (isset($params['html']) && ($params['html'])) ? (boolean) $params['html'] : null;
-			$opt['placement'] = (isset($params['placement']) && ($params['placement'])) ? (string) $params['placement'] : null;
-			$opt['selector']  = (isset($params['selector']) && ($params['selector'])) ? (string) $params['selector'] : null;
-			$opt['title']     = (isset($params['title']) && ($params['title'])) ? (string) $params['title'] : null;
-			$opt['trigger']   = (isset($params['trigger']) && ($params['trigger'])) ? (string) $params['trigger'] : null;
-			$opt['delay']     = (isset($params['delay']) && ($params['delay'])) ? (int) $params['delay'] : null;
+			$opt['animation'] = isset($params['animation']) ? (boolean) $params['animation'] : null;
+			$opt['html']      = isset($params['html']) ? (boolean) $params['html'] : true;
+			$opt['placement'] = isset($params['placement']) ? (string) $params['placement'] : null;
+			$opt['selector']  = isset($params['selector']) ? (string) $params['selector'] : null;
+			$opt['title']     = isset($params['title']) ? (string) $params['title'] : null;
+			$opt['trigger']   = isset($params['trigger']) ? (string) $params['trigger'] : null;
+			$opt['delay']     = isset($params['delay']) ? (int) $params['delay'] : null;
+			$opt['container'] = isset($params['container']) ? $params['container'] : 'body';
+			$opt['template']  = isset($params['template']) ? (string) $params['template'] : null;
 
 			$options = JHtml::getJSObject($opt);
 
@@ -397,7 +480,66 @@ abstract class JHtmlBootstrap
 			);
 
 			// Set static array
-			self::$loaded[__METHOD__][$selector] = true;
+			static::$loaded[__METHOD__][$selector] = true;
+		}
+
+		return;
+	}
+
+	/**
+	 * Add javascript support for Bootstrap typeahead
+	 *
+	 * @param   string  $selector  The selector for the typeahead element.
+	 * @param   array   $params    An array of options for the typeahead element.
+	 *                             Options for the tooltip can be:
+	 *                             - source       array, function  The data source to query against. May be an array of strings or a function.
+	 *                                                             The function is passed two arguments, the query value in the input field and the
+	 *                                                             process callback. The function may be used synchronously by returning the data
+	 *                                                             source directly or asynchronously via the process callback's single argument.
+	 *                             - items        number           The max number of items to display in the dropdown.
+	 *                             - minLength    number           The minimum character length needed before triggering autocomplete suggestions
+	 *                             - matcher      function         The method used to determine if a query matches an item. Accepts a single argument,
+	 *                                                             the item against which to test the query. Access the current query with this.query.
+	 *                                                             Return a boolean true if query is a match.
+	 *                             - sorter       function         Method used to sort autocomplete results. Accepts a single argument items and has
+	 *                                                             the scope of the typeahead instance. Reference the current query with this.query.
+	 *                             - updater      function         The method used to return selected item. Accepts a single argument, the item and
+	 *                                                             has the scope of the typeahead instance.
+	 *                             - highlighter  function         Method used to highlight autocomplete results. Accepts a single argument item and
+	 *                                                             has the scope of the typeahead instance. Should return html.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 */
+	public static function typeahead($selector = '.typeahead', $params = array())
+	{
+		if (!isset(static::$loaded[__METHOD__][$selector]))
+		{
+			// Include Bootstrap framework
+			static::framework();
+
+			// Setup options object
+			$opt['source']      = isset($params['source']) ? $params['source'] : '[]';
+			$opt['items']       = isset($params['items']) ? (int) $params['items'] : 8;
+			$opt['minLength']   = isset($params['minLength']) ? (int) $params['minLength'] : 1;
+			$opt['matcher']     = isset($params['matcher']) ? (string) $params['matcher'] : null;
+			$opt['sorter']      = isset($params['sorter']) ? (string) $params['sorter'] : null;
+			$opt['updater']     = isset($params['updater']) ? (string) $params['updater'] : null;
+			$opt['highlighter'] = isset($params['highlighter']) ? (int) $params['highlighter'] : null;
+
+			$options = JHtml::getJSObject($opt);
+
+			// Attach tooltips to document
+			JFactory::getDocument()->addScriptDeclaration(
+				"jQuery(document).ready(function()
+				{
+					jQuery('" . $selector . "').typeahead(" . $options . ");
+				});"
+			);
+
+			// Set static array
+			static::$loaded[__METHOD__][$selector] = true;
 		}
 
 		return;
@@ -422,15 +564,15 @@ abstract class JHtmlBootstrap
 	{
 		$sig = md5(serialize(array($selector, $params)));
 
-		if (!isset(self::$loaded[__METHOD__][$sig]))
+		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
-			self::framework();
+			static::framework();
 
 			// Setup options object
-			$opt['parent'] = (isset($params['parent']) && ($params['parent'])) ? (boolean) $params['parent'] : false;
-			$opt['toggle'] = (isset($params['toggle']) && ($params['toggle'])) ? (boolean) $params['toggle'] : true;
-			$opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
+			$opt['parent'] = isset($params['parent']) ? (boolean) $params['parent'] : false;
+			$opt['toggle'] = isset($params['toggle']) ? (boolean) $params['toggle'] : true;
+			$opt['active'] = isset($params['active']) ? (string) $params['active'] : '';
 
 			$options = JHtml::getJSObject($opt);
 
@@ -442,8 +584,8 @@ abstract class JHtmlBootstrap
 			);
 
 			// Set static array
-			self::$loaded[__METHOD__][$sig] = true;
-			self::$loaded[__METHOD__]['active'] = $opt['active'];
+			static::$loaded[__METHOD__][$sig] = true;
+			static::$loaded[__METHOD__]['active'] = $opt['active'];
 		}
 
 		return '<div id="' . $selector . '" class="accordion">';
@@ -475,17 +617,17 @@ abstract class JHtmlBootstrap
 	 */
 	public static function addSlide($selector, $text, $id, $class = '')
 	{
-		$in = (self::$loaded['JHtmlBootstrap::startAccordion']['active'] == $id) ? ' in' : '';
+		$in = (static::$loaded['JHtmlBootstrap::startAccordion']['active'] == $id) ? ' in' : '';
 		$class = (!empty($class)) ? ' ' . $class : '';
 
 		$html = '<div class="accordion-group' . $class . '">'
-				. '<div class="accordion-heading">'
-				. '<strong><a href="#' . $id . '" data-parent="#' . $selector . '" data-toggle="collapse" class="accordion-toggle">'
-				. $text
-				. '</a></strong>'
-				. '</div>'
-				. '<div class="accordion-body collapse' . $in . '" id="' . $id . '">'
-				. '<div class="accordion-inner">';
+			. '<div class="accordion-heading">'
+			. '<strong><a href="#' . $id . '" data-parent="#' . $selector . '" data-toggle="collapse" class="accordion-toggle">'
+			. $text
+			. '</a></strong>'
+			. '</div>'
+			. '<div class="accordion-body collapse' . $in . '" id="' . $id . '">'
+			. '<div class="accordion-inner">';
 
 		return $html;
 	}
@@ -510,39 +652,31 @@ abstract class JHtmlBootstrap
 	 *
 	 * @return  string
 	 *
-	 * @since   3.0
+	 * @since   3.1
 	 */
-	public static function startPane($selector = 'myTab', $params = array())
+	public static function startTabSet($selector = 'myTab', $params = array())
 	{
 		$sig = md5(serialize(array($selector, $params)));
 
-		if (!isset(self::$loaded[__METHOD__][$sig]))
+		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
 			// Include Bootstrap framework
-			self::framework();
+			static::framework();
 
 			// Setup options object
 			$opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
 
-			$options = JHtml::getJSObject($opt);
-
-			// Attach tooltips to document
-			JFactory::getDocument()->addScriptDeclaration(
-				"(function($){
-					$('#$selector a').click(function (e)
-					{
-						e.preventDefault();
-						$(this).tab('show');
-					});
-				})(jQuery);"
-			);
+			// Attach tabs to document
+			JFactory::getDocument()
+				->addScriptDeclaration(JLayoutHelper::render('libraries.cms.html.bootstrap.starttabsetscript', array('selector' => $selector)));
 
 			// Set static array
-			self::$loaded[__METHOD__][$sig] = true;
-			self::$loaded[__METHOD__][$selector]['active'] = $opt['active'];
+			static::$loaded[__METHOD__][$sig] = true;
+			static::$loaded[__METHOD__][$selector]['active'] = $opt['active'];
 		}
-		$html = '<ul class="nav nav-tabs" id="' . $selector . 'Tabs"></ul>';
-		$html .= '<div class="tab-content" id="' . $selector . 'Content">';
+
+		$html = JLayoutHelper::render('libraries.cms.html.bootstrap.starttabset', array('selector' => $selector));
+
 		return $html;
 	}
 
@@ -551,11 +685,13 @@ abstract class JHtmlBootstrap
 	 *
 	 * @return  string  HTML to close the pane
 	 *
-	 * @since   3.0
+	 * @since   3.1
 	 */
-	public static function endPane()
+	public static function endTabSet()
 	{
-		return '</div>';
+		$html = JLayoutHelper::render('libraries.cms.html.bootstrap.endtabset');
+
+		return $html;
 	}
 
 	/**
@@ -567,22 +703,109 @@ abstract class JHtmlBootstrap
 	 *
 	 * @return  string  HTML to start a new panel
 	 *
-	 * @since   3.0
+	 * @since   3.1
 	 */
-	public static function addPanel($selector, $id, $title)
+	public static function addTab($selector, $id, $title)
 	{
-		$active = (self::$loaded['JHtmlBootstrap::startPane'][$selector]['active'] == $id) ? ' active' : '';
+		static $tabScriptLayout = null;
+		static $tabLayout = null;
+
+		$tabScriptLayout = is_null($tabScriptLayout) ? new JLayoutFile('libraries.cms.html.bootstrap.addtabscript') : $tabScriptLayout;
+		$tabLayout = is_null($tabLayout) ? new JLayoutFile('libraries.cms.html.bootstrap.addtab') : $tabLayout;
+
+		$active = (static::$loaded['JHtmlBootstrap::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
 
 		// Inject tab into UL
-		JFactory::getDocument()->addScriptDeclaration(
-			"(function($){
-				$(document).ready(function() {
-					// Handler for .ready() called.
-					var tab = $('<li class=\"$active\"><a href=\"#$id\" data-toggle=\"tab\">$title</a></li>');
-					$('#" . $selector . "Tabs').append(tab);
-				});
-			})(jQuery);"
-		);
+		JFactory::getDocument()
+		->addScriptDeclaration($tabScriptLayout->render(array('selector' => $selector,'id' => $id, 'active' => $active, 'title' => $title)));
+
+		$html = $tabLayout->render(array('id' => $id, 'active' => $active));
+
+		return $html;
+	}
+
+	/**
+	 * Close the current tab content panel
+	 *
+	 * @return  string  HTML to close the pane
+	 *
+	 * @since   3.1
+	 */
+	public static function endTab()
+	{
+		$html = JLayoutHelper::render('libraries.cms.html.bootstrap.endtab');
+
+		return $html;
+	}
+
+	/**
+	 * Creates a tab pane
+	 *
+	 * @param   string  $selector  The pane identifier.
+	 * @param   array   $params    The parameters for the pane
+	 *
+	 * @return  string
+	 *
+	 * @since   3.0
+	 * @deprecated  4.0	Use JHtml::_('bootstrap.startTabSet') instead.
+	 */
+	public static function startPane($selector = 'myTab', $params = array())
+	{
+		$sig = md5(serialize(array($selector, $params)));
+
+		if (!isset(static::$loaded['JHtmlBootstrap::startTabSet'][$sig]))
+		{
+			// Include Bootstrap framework
+			static::framework();
+
+			// Setup options object
+			$opt['active'] = isset($params['active']) ? (string) $params['active'] : '';
+
+			// Attach tooltips to document
+			JFactory::getDocument()->addScriptDeclaration(
+				"(function($){
+					$('#$selector a').click(function (e) {
+						e.preventDefault();
+						$(this).tab('show');
+					});
+				})(jQuery);"
+			);
+
+			// Set static array
+			static::$loaded['JHtmlBootstrap::startTabSet'][$sig] = true;
+			static::$loaded['JHtmlBootstrap::startTabSet'][$selector]['active'] = $opt['active'];
+		}
+
+		return '<div class="tab-content" id="' . $selector . 'Content">';
+	}
+
+	/**
+	 * Close the current tab pane
+	 *
+	 * @return  string  HTML to close the pane
+	 *
+	 * @since   3.0
+	 * @deprecated  4.0	Use JHtml::_('bootstrap.endTabSet') instead.
+	 */
+	public static function endPane()
+	{
+		return '</div>';
+	}
+
+	/**
+	 * Begins the display of a new tab content panel.
+	 *
+	 * @param   string  $selector  Identifier of the panel.
+	 * @param   string  $id        The ID of the div element
+	 *
+	 * @return  string  HTML to start a new panel
+	 *
+	 * @since   3.0
+	 * @deprecated  4.0 Use JHtml::_('bootstrap.addTab') instead.
+	 */
+	public static function addPanel($selector, $id)
+	{
+		$active = (static::$loaded['JHtmlBootstrap::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
 
 		return '<div id="' . $id . '" class="tab-pane' . $active . '">';
 	}
@@ -593,6 +816,7 @@ abstract class JHtmlBootstrap
 	 * @return  string  HTML to close the pane
 	 *
 	 * @since   3.0
+	 * @deprecated  4.0 Use JHtml::_('bootstrap.endTab') instead.
 	 */
 	public static function endPanel()
 	{

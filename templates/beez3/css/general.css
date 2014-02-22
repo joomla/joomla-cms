@@ -125,8 +125,19 @@ div.toggle-editor {
 	margin-left:auto;
 	margin-right:auto;
 }
-
-
+/* New captions */
+figure {
+	display: table;
+}
+figure.pull-center,
+img.pull-center {
+	margin-left: auto;
+	margin-right: auto;
+}
+figcaption {
+	display: table-caption;
+	caption-side: bottom;
+}
 /* Calendar */
 #jform_publish_down_img {
 	width: 18px;
@@ -332,4 +343,130 @@ span.optional
 	clear: both;
 	overflow: hidden;
 	height: 0;
+}
+
+/* ##########################  tooltip  ########################### */
+.tooltip {
+	position: absolute;
+	z-index: 103000;
+	display: block;
+	visibility: visible;
+	font-size: 11px;
+	line-height: 1.4;
+	opacity: 0;
+	filter: alpha(opacity=0);
+}
+.tooltip.in {
+	opacity: 0.8;
+	filter: alpha(opacity=80);
+}
+.tooltip.top {
+	margin-top: -3px;
+	padding: 5px 0;
+}
+.tooltip.right {
+	margin-left: 3px;
+	padding: 0 5px;
+}
+.tooltip.bottom {
+	margin-top: 3px;
+	padding: 5px 0;
+}
+.tooltip.left {
+	margin-left: -3px;
+	padding: 0 5px;
+}
+.tooltip-inner {
+	max-width: 200px;
+	padding: 8px;
+	color: #fff;
+	text-align: left;
+	text-decoration: none;
+	background-color: #000;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+.tooltip-arrow {
+	position: absolute;
+	width: 0;
+	height: 0;
+	border-color: transparent;
+	border-style: solid;
+}
+.tooltip.top .tooltip-arrow {
+	bottom: 0;
+	left: 50%;
+	margin-left: -5px;
+	border-width: 5px 5px 0;
+	border-top-color: #000;
+}
+.tooltip.right .tooltip-arrow {
+	top: 50%;
+	left: 0;
+	margin-top: -5px;
+	border-width: 5px 5px 5px 0;
+	border-right-color: #000;
+}
+.tooltip.left .tooltip-arrow {
+	top: 50%;
+	right: 0;
+	margin-top: -5px;
+	border-width: 5px 0 5px 5px;
+	border-left-color: #000;
+}
+.tooltip.bottom .tooltip-arrow {
+	top: 0;
+	left: 50%;
+	margin-left: -5px;
+	border-width: 0 5px 5px;
+	border-bottom-color: #000;
+}
+.element-invisible {
+	position: absolute;
+	padding: 0;
+	margin: 0;
+	border: 0;
+	height: 1px;
+	width: 1px;
+	overflow: hidden;
+}
+#filter-search {
+	vertical-align: top;
+}
+.input-mini {
+	width: 60px;
+}
+
+/* Bootstrap overrides anhiliation
+ * @since 3.2
+ */
+body#shadow {
+    line-height: 1.5em;
+}
+body .nav-pills > .active > a, body .nav-pills > .active > a:hover, body .nav-pills > .active > a:focus {
+    background-color: transparent;
+}
+body .nav-pills > li > a {
+    border-radius: 0px;
+    line-height: 1.5em;
+}
+body a {
+    text-decoration: underline;
+}
+body input[type="text"].search-query {
+    line-height: 1.5em;
+    height: auto;
+    border-radius: 4px;
+
+}
+/* Text alignments */
+.text-left {
+	text-align: left;
+}
+.text-right {
+	text-align: right;
+}
+.text-center {
+	text-align: center;
 }

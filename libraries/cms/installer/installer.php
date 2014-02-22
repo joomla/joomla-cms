@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,7 +27,7 @@ class JInstaller extends JAdapter
 	 * Array of paths needed by the installer
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.1
 	 */
 	protected $paths = array();
 
@@ -35,7 +35,7 @@ class JInstaller extends JAdapter
 	 * True if package is an upgrade
 	 *
 	 * @var    boolean
-	 * @since  12.1
+	 * @since  3.1
 	 */
 	protected $upgrade = null;
 
@@ -49,6 +49,7 @@ class JInstaller extends JAdapter
 
 	/**
 	 * True if existing files can be overwritten
+	 *
 	 * @var    boolean
 	 * @since  12.1
 	 */
@@ -59,7 +60,7 @@ class JInstaller extends JAdapter
 	 * - Used for installation rollback
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.1
 	 */
 	protected $stepStack = array();
 
@@ -104,7 +105,9 @@ class JInstaller extends JAdapter
 	protected $redirect_url = null;
 
 	/**
-	 * @var    JInstaller  JInstaller instance container.
+	 * JInstaller instance container.
+	 *
+	 * @var    JInstaller
 	 * @since  3.1
 	 */
 	protected static $instance;
@@ -136,6 +139,7 @@ class JInstaller extends JAdapter
 		{
 			self::$instance = new JInstaller;
 		}
+
 		return self::$instance;
 	}
 
@@ -348,8 +352,8 @@ class JInstaller extends JAdapter
 					$query = $db->getQuery(true);
 
 					// Remove the entry from the #__extensions table
-					$query->delete($db->quoteName('#__extensions'));
-					$query->where($db->quoteName('extension_id') . ' = ' . (int) $step['id']);
+					$query->delete($db->quoteName('#__extensions'))
+						->where($db->quoteName('extension_id') . ' = ' . (int) $step['id']);
 					$db->setQuery($query);
 					$stepval = $db->execute();
 
@@ -456,6 +460,9 @@ class JInstaller extends JAdapter
 
 			if ($result !== false)
 			{
+				// Refresh versionable assets cache
+				JFactory::getApplication()->flushAssets();
+
 				return true;
 			}
 			else
@@ -539,6 +546,9 @@ class JInstaller extends JAdapter
 
 					if ($result !== false)
 					{
+						// Refresh versionable assets cache
+						JFactory::getApplication()->flushAssets();
+
 						return true;
 					}
 					else
@@ -614,11 +624,15 @@ class JInstaller extends JAdapter
 		else
 		{
 			$this->abort(JText::_('JLIB_INSTALLER_ABORT_NOUPDATEPATH'));
+
+			return false;
 		}
 
 		if (!$this->setupInstall())
 		{
-			return $this->abort(JText::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'));
+			$this->abort(JText::_('JLIB_INSTALLER_ABORT_DETECTMANIFEST'));
+
+			return false;
 		}
 
 		$type = (string) $this->manifest->attributes()->type;
@@ -696,6 +710,9 @@ class JInstaller extends JAdapter
 				'onExtensionAfterUninstall',
 				array('installer' => clone $this, 'eid' => $identifier, 'result' => $result)
 			);
+
+			// Refresh versionable assets cache
+			JFactory::getApplication()->flushAssets();
 
 			return $result;
 		}
@@ -892,7 +909,7 @@ class JInstaller extends JAdapter
 
 			if ($fCharset == 'utf8' && $fDriver == $dbDriver)
 			{
-				$sqlfile = $this->getPath('extension_root') . '/' . $file;
+				$sqlfile = $this->getPath('extension_root') . '/' . trim($file);
 
 				// Check that sql files exists before reading. Otherwise raise error for rollback
 				if (!file_exists($sqlfile))
@@ -958,7 +975,7 @@ class JInstaller extends JAdapter
 	{
 		if ($eid && $schema)
 		{
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$schemapaths = $schema->children();
 
 			if (!$schemapaths)
@@ -994,18 +1011,17 @@ class JInstaller extends JAdapter
 					usort($files, 'version_compare');
 
 					// Update the database
-					$query = $db->getQuery(true);
-					$query->delete()
-						->from('#__schemas')
+					$query = $db->getQuery(true)
+						->delete('#__schemas')
 						->where('extension_id = ' . $eid);
 					$db->setQuery($query);
 
 					if ($db->execute())
 					{
-						$query->clear();
-						$query->insert($db->quoteName('#__schemas'));
-						$query->columns(array($db->quoteName('extension_id'), $db->quoteName('version_id')));
-						$query->values($eid . ', ' . $db->quote(end($files)));
+						$query->clear()
+							->insert($db->quoteName('#__schemas'))
+							->columns(array($db->quoteName('extension_id'), $db->quoteName('version_id')))
+							->values($eid . ', ' . $db->quote(end($files)));
 						$db->setQuery($query);
 						$db->execute();
 					}
@@ -1026,13 +1042,12 @@ class JInstaller extends JAdapter
 	 */
 	public function parseSchemaUpdates(SimpleXMLElement $schema, $eid)
 	{
-		$files = array();
 		$update_count = 0;
 
 		// Ensure we have an XML element and a valid extension id
 		if ($eid && $schema)
 		{
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$schemapaths = $schema->children();
 
 			if (count($schemapaths))
@@ -1067,8 +1082,8 @@ class JInstaller extends JAdapter
 						return false;
 					}
 
-					$query = $db->getQuery(true);
-					$query->select('version_id')
+					$query = $db->getQuery(true)
+						->select('version_id')
 						->from('#__schemas')
 						->where('extension_id = ' . $eid);
 					$db->setQuery($query);
@@ -1115,6 +1130,12 @@ class JInstaller extends JAdapter
 
 											return false;
 										}
+										else
+										{
+											$queryString = (string) $query;
+											$queryString = str_replace(array("\r", "\n"), array('', ' '), substr($queryString, 0, 80));
+											JLog::add(JText::sprintf('JLIB_INSTALLER_UPDATE_LOG_QUERY', $file, $queryString), JLog::INFO, 'Update');
+										}
 
 										$update_count++;
 									}
@@ -1124,18 +1145,17 @@ class JInstaller extends JAdapter
 					}
 
 					// Update the database
-					$query = $db->getQuery(true);
-					$query->delete()
-						->from('#__schemas')
+					$query = $db->getQuery(true)
+						->delete('#__schemas')
 						->where('extension_id = ' . $eid);
 					$db->setQuery($query);
 
 					if ($db->execute())
 					{
-						$query->clear();
-						$query->insert($db->quoteName('#__schemas'));
-						$query->columns(array($db->quoteName('extension_id'), $db->quoteName('version_id')));
-						$query->values($eid . ', ' . $db->quote(end($files)));
+						$query->clear()
+							->insert($db->quoteName('#__schemas'))
+							->columns(array($db->quoteName('extension_id'), $db->quoteName('version_id')))
+							->values($eid . ', ' . $db->quote(end($files)));
 						$db->setQuery($query);
 						$db->execute();
 					}
@@ -1608,6 +1628,12 @@ class JInstaller extends JAdapter
 						{
 							JLog::add(JText::sprintf('JLIB_INSTALLER_ERROR_FAIL_COPY_FILE', $filesource, $filedest), JLog::WARNING, 'jerror');
 
+							// In 3.2, TinyMCE language handling changed.  Display a special notice in case an older language pack is installed.
+							if (strpos($filedest, 'media/editors/tinymce/jscripts/tiny_mce/langs'))
+							{
+								JLog::add(JText::_('JLIB_INSTALLER_NOT_ERROR'), JLog::WARNING, 'jerror');
+							}
+
 							return false;
 						}
 
@@ -1654,13 +1680,6 @@ class JInstaller extends JAdapter
 		}
 
 		$retval = true;
-
-		$debug = false;
-
-		if (isset($GLOBALS['installerdebug']) && $GLOBALS['installerdebug'])
-		{
-			$debug = true;
-		}
 
 		// Get the client info if we're using a specific client
 		if ($cid > -1)
@@ -1793,7 +1812,7 @@ class JInstaller extends JAdapter
 
 		if (!empty($folder))
 		{
-			$val = JFolder::delete($source);
+			JFolder::delete($source);
 		}
 
 		return $retval;
@@ -1834,12 +1853,18 @@ class JInstaller extends JAdapter
 	 *
 	 * @return  boolean  True on success, False on error
 	 *
-	 * @since 3.1
+	 * @since   3.1
 	 */
 	public function findManifest()
 	{
-		// Get an array of all the XML files from the installation directory
-		$xmlfiles = JFolder::files($this->getPath('source'), '.xml$', 1, true);
+		// Main folder manifests (higher priority)
+		$parentXmlfiles = JFolder::files($this->getPath('source'), '.xml$', false, true);
+
+		// Search for children manifests (lower priority)
+		$allXmlFiles    = JFolder::files($this->getPath('source'), '.xml$', 1, true);
+
+		// Create an unique array of files ordered by priority
+		$xmlfiles = array_unique(array_merge($parentXmlfiles, $allXmlFiles));
 
 		// If at least one XML file exists
 		if (!empty($xmlfiles))
@@ -1945,16 +1970,17 @@ class JInstaller extends JAdapter
 	 */
 	public function cleanDiscoveredExtension($type, $element, $folder = '', $client = 0)
 	{
-		$dbo = JFactory::getDBO();
-		$query = $dbo->getQuery(true);
-		$query->delete($dbo->quoteName('#__extensions'));
-		$query->where('type = ' . $dbo->Quote($type));
-		$query->where('element = ' . $dbo->Quote($element));
-		$query->where('folder = ' . $dbo->Quote($folder));
-		$query->where('client_id = ' . (int) $client);
-		$query->where('state = -1');
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__extensions'))
+			->where('type = ' . $db->quote($type))
+			->where('element = ' . $db->quote($element))
+			->where('folder = ' . $db->quote($folder))
+			->where('client_id = ' . (int) $client)
+			->where('state = -1');
+		$db->setQuery($query);
 
-		return $dbo->execute();
+		return $db->execute();
 	}
 
 	/**
@@ -2014,6 +2040,7 @@ class JInstaller extends JAdapter
 						{
 							$container .= '/';
 						}
+
 						// Aappend the folder part
 						$container .= $part;
 

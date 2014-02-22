@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -107,8 +107,9 @@ class InstallerModelDatabase extends InstallerModel
 	public function getSchemaVersion()
 	{
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select('version_id')->from($db->qn('#__schemas'))
+		$query = $db->getQuery(true)
+			->select('version_id')
+			->from($db->quoteName('#__schemas'))
 			->where('extension_id = 700');
 		$db->setQuery($query);
 		$result = $db->loadResult();
@@ -139,17 +140,17 @@ class InstallerModelDatabase extends InstallerModel
 		else
 		{
 			// Delete old row
-			$query = $db->getQuery(true);
-			$query->delete($db->qn('#__schemas'));
-			$query->where($db->qn('extension_id') . ' = 700');
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__schemas'))
+				->where($db->quoteName('extension_id') . ' = 700');
 			$db->setQuery($query);
 			$db->execute();
 
 			// Add new row
-			$query = $db->getQuery(true);
-			$query->insert($db->qn('#__schemas'));
-			$query->set($db->qn('extension_id') . '= 700');
-			$query->set($db->qn('version_id') . '= ' . $db->q($schema));
+			$query->clear()
+				->insert($db->quoteName('#__schemas'))
+				->set($db->quoteName('extension_id') . '= 700')
+				->set($db->quoteName('version_id') . '= ' . $db->quote($schema));
 			$db->setQuery($query);
 			if ($db->execute())
 			{

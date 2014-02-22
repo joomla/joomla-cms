@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,12 +26,19 @@ class UsersViewUsers extends JViewLegacy
 
 	/**
 	 * Display the view
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  void
 	 */
 	public function display($tpl = null)
 	{
 		$this->items		= $this->get('Items');
 		$this->pagination	= $this->get('Pagination');
 		$this->state		= $this->get('State');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
+		$this->canDo		= JHelperContent::getActions('com_users');
 
 		UsersHelper::addSubmenu('users');
 
@@ -39,6 +46,7 @@ class UsersViewUsers extends JViewLegacy
 		if (count($errors = $this->get('Errors')))
 		{
 			JError::raiseError(500, implode("\n", $errors));
+
 			return false;
 		}
 
@@ -53,21 +61,25 @@ class UsersViewUsers extends JViewLegacy
 	/**
 	 * Add the page title and toolbar.
 	 *
+	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	protected function addToolbar()
 	{
-		$canDo	= UsersHelper::getActions();
+		$canDo	= $this->canDo;
+		$user 	= JFactory::getUser();
 
 		// Get the toolbar object instance
 		$bar = JToolBar::getInstance('toolbar');
 
-		JToolbarHelper::title(JText::_('COM_USERS_VIEW_USERS_TITLE'), 'user');
+		JToolbarHelper::title(JText::_('COM_USERS_VIEW_USERS_TITLE'), 'users user');
 
 		if ($canDo->get('core.create'))
 		{
 			JToolbarHelper::addNew('user.add');
 		}
+
 		if ($canDo->get('core.edit'))
 		{
 			JToolbarHelper::editList('user.edit');
@@ -89,13 +101,15 @@ class UsersViewUsers extends JViewLegacy
 		}
 
 		// Add a batch button
-		if ($canDo->get('core.edit'))
+		if ($user->authorise('core.create', 'com_users') && $user->authorise('core.edit', 'com_users') && $user->authorise('core.edit.state', 'com_users'))
 		{
 			JHtml::_('bootstrap.modal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
-			$dhtml = "<button data-toggle=\"modal\" data-target=\"#collapseModal\" class=\"btn btn-small\">
-			<i class=\"icon-checkbox-partial\" title=\"$title\"></i>
-			$title</button>";
+
+			// Instantiate a new JLayoutFile instance and render the batch button
+			$layout = new JLayoutFile('joomla.toolbar.batch');
+
+			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
@@ -106,31 +120,26 @@ class UsersViewUsers extends JViewLegacy
 		}
 
 		JToolbarHelper::help('JHELP_USERS_USER_MANAGER');
+	}
 
-		JHtmlSidebar::setAction('index.php?option=com_users&view=users');
-
-		JHtmlSidebar::addFilter(
-			JText::_('COM_USERS_FILTER_STATE'),
-			'filter_state',
-			JHtml::_('select.options', UsersHelper::getStateOptions(), 'value', 'text', $this->state->get('filter.state'))
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('COM_USERS_FILTER_ACTIVE'),
-			'filter_active',
-			JHtml::_('select.options', UsersHelper::getActiveOptions(), 'value', 'text', $this->state->get('filter.active'))
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('COM_USERS_FILTER_USERGROUP'),
-			'filter_group_id',
-			JHtml::_('select.options', UsersHelper::getGroups(), 'value', 'text', $this->state->get('filter.group_id'))
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('COM_USERS_OPTION_FILTER_DATE'),
-			'filter_range',
-			JHtml::_('select.options', Usershelper::getRangeOptions(), 'value', 'text', $this->state->get('filter.range'))
+	/**
+	 * Returns an array of fields the table can be sorted by
+	 *
+	 * @return  array  Array containing the field name to sort by as the key and display text as value
+	 *
+	 * @since   3.0
+	 */
+	protected function getSortFields()
+	{
+		return array(
+				'a.name' => JText::_('COM_USERS_HEADING_NAME'),
+				'a.username' => JText::_('JGLOBAL_USERNAME'),
+				'a.block' => JText::_('COM_USERS_HEADING_ENABLED'),
+				'a.activation' => JText::_('COM_USERS_HEADING_ACTIVATED'),
+				'a.email' => JText::_('JGLOBAL_EMAIL'),
+				'a.lastvisitDate' => JText::_('COM_USERS_HEADING_LAST_VISIT_DATE'),
+				'a.registerDate' => JText::_('COM_USERS_HEADING_REGISTRATION_DATE'),
+				'a.id' => JText::_('JGRID_HEADING_ID')
 		);
 	}
 }

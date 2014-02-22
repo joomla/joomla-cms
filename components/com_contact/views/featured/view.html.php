@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -53,10 +53,6 @@ class ContactViewFeatured extends JViewLegacy
 			return false;
 		}
 
-		// Check whether category access level allows access.
-		$user	= JFactory::getUser();
-		$groups	= $user->getAuthorisedViewLevels();
-
 		// Prepare the data.
 		// Compute the contact slug.
 		for ($i = 0, $n = count($items); $i < $n; $i++)
@@ -104,7 +100,6 @@ class ContactViewFeatured extends JViewLegacy
 	{
 		$app		= JFactory::getApplication();
 		$menus		= $app->getMenu();
-		$pathway	= $app->getPathway();
 		$title 		= null;
 
 		// Because the application sets a default page title,
@@ -118,7 +113,6 @@ class ContactViewFeatured extends JViewLegacy
 		{
 			$this->params->def('page_heading', JText::_('COM_CONTACT_DEFAULT_PAGE_TITLE'));
 		}
-		$id = (int) @$menu->query['id'];
 
 		$title = $this->params->get('page_title', '');
 		if (empty($title))

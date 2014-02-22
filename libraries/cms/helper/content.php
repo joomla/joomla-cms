@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 /**
  * Helper for standard content style extensions.
+ * This class mainly simplifies static helper methods often repeated in individual components
  *
  * @package     Joomla.Libraries
  * @subpackage  Helper
@@ -41,216 +42,88 @@ class JHelperContent
 	 * @return  JObject
 	 *
 	 * @since   3.1
+	 * @deprecated  3.2  Use JHelperContent::getActions() instead
 	 */
-	public static function getActions($categoryId = 0, $id = 0, $assetName = '')
+	public static function _getActions($categoryId = 0, $id = 0, $assetName = '')
 	{
+		// Log usage of deprecated function
+		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
+
 		// Reverted a change for version 2.5.6
 		$user	= JFactory::getUser();
 		$result	= new JObject;
 
-		$actions = array(
-			'core.admin', 'core.manage', 'core.create', 'core.edit', 'core.edit.own', 'core.edit.state', 'core.delete'
-		);
+		$path = JPATH_ADMINISTRATOR . '/components/' . $assetName . '/access.xml';
+
+		if (empty($id) && empty($categoryId))
+		{
+			$section = 'component';
+		}
+		elseif (empty($id))
+		{
+			$section = 'category';
+			$assetName .= '.category.' . (int) $categoryId;
+		}
+		else
+		{
+			// Used only in com_content
+			$section = 'article';
+			$assetName .= '.article.' . (int) $id;
+		}
+
+		$actions = JAccess::getActionsFromFile($path, "/access/section[@name='" . $section . "']/");
 
 		foreach ($actions as $action)
 		{
-			$result->set($action, $user->authorise($action, $assetName));
+			$result->set($action->name, $user->authorise($action->name, $assetName));
 		}
 
 		return $result;
 	}
 
 	/**
-	* Applies the content filters to arbitrary text as per settings for current user group
-	*
-	* @param   text  $text  The string to filter
-	*
-	* @return  string  The filtered string
-	*
-	* @since   3.1
-	*/
-	public static function filterText($text)
+	 * Gets a list of the actions that can be performed.
+	 *
+	 * @param   string   $component  The component name.
+	 * @param   string   $section    The access section name.
+	 * @param   integer  $id         The item ID.
+	 *
+	 * @return  JObject
+	 *
+	 * @since   3.2
+	 */
+	public static function getActions($component = '', $section = '', $id = 0)
 	{
-		// Filter settings
-		$config		= JComponentHelper::getParams('com_config');
-		$user		= JFactory::getUser();
-		$userGroups	= JAccess::getGroupsByUser($user->get('id'));
-
-		$filters = $config->get('filters');
-
-		$blackListTags       = array();
-		$blackListAttributes = array();
-
-		$customListTags       = array();
-		$customListAttributes = array();
-
-		$whiteListTags       = array();
-		$whiteListAttributes = array();
-
-		$noHtml     = false;
-		$whiteList  = false;
-		$blackList  = false;
-		$customList = false;
-		$unfiltered = false;
-
-		// Cycle through each of the user groups the user is in.
-		// Remember they are included in the Public group as well.
-		foreach ($userGroups as $groupId)
+		// Check for deprecated arguments order
+		if (is_int($component) || is_null($component))
 		{
-			// May have added a group but not saved the filters.
-			if (!isset($filters->$groupId))
-			{
-				continue;
-			}
+			$result = self::_getActions($component, $section, $id);
 
-			// Each group the user is in could have different filtering properties.
-			$filterData = $filters->$groupId;
-			$filterType	= strtoupper($filterData->filter_type);
-
-			if ($filterType == 'NH')
-			{
-				// Maximum HTML filtering.
-				$noHtml = true;
-			}
-			elseif ($filterType == 'NONE')
-			{
-				// No HTML filtering.
-				$unfiltered = true;
-			}
-			else
-			{
-				// Black, white or custom list.
-				// Preprocess the tags and attributes.
-				$tags			= explode(',', $filterData->filter_tags);
-				$attributes		= explode(',', $filterData->filter_attributes);
-				$tempTags		= array();
-				$tempAttributes	= array();
-
-				foreach ($tags as $tag)
-				{
-					$tag = trim($tag);
-
-					if ($tag)
-					{
-						$tempTags[] = $tag;
-					}
-				}
-
-				foreach ($attributes as $attribute)
-				{
-					$attribute = trim($attribute);
-
-					if ($attribute)
-					{
-						$tempAttributes[] = $attribute;
-					}
-				}
-
-				// Collect the black or white list tags and attributes.
-				// Each lists is cummulative.
-				if ($filterType == 'BL')
-				{
-					$blackList				= true;
-					$blackListTags			= array_merge($blackListTags, $tempTags);
-					$blackListAttributes	= array_merge($blackListAttributes, $tempAttributes);
-				}
-				elseif ($filterType == 'CBL')
-				{
-					// Only set to true if Tags or Attributes were added
-					if ($tempTags || $tempAttributes)
-					{
-						$customList				= true;
-						$customListTags			= array_merge($customListTags, $tempTags);
-						$customListAttributes	= array_merge($customListAttributes, $tempAttributes);
-					}
-				}
-				elseif ($filterType == 'WL')
-				{
-					$whiteList				= true;
-					$whiteListTags			= array_merge($whiteListTags, $tempTags);
-					$whiteListAttributes	= array_merge($whiteListAttributes, $tempAttributes);
-				}
-			}
+			return $result;
 		}
 
-		// Remove duplicates before processing (because the black list uses both sets of arrays).
-		$blackListTags			= array_unique($blackListTags);
-		$blackListAttributes	= array_unique($blackListAttributes);
-		$customListTags			= array_unique($customListTags);
-		$customListAttributes	= array_unique($customListAttributes);
-		$whiteListTags			= array_unique($whiteListTags);
-		$whiteListAttributes	= array_unique($whiteListAttributes);
+		$user	= JFactory::getUser();
+		$result	= new JObject;
 
-		// Unfiltered assumes first priority.
-		if ($unfiltered)
+		$path = JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml';
+
+		if ($section && $id)
 		{
-			// Dont apply filtering.
+			$assetName = $component . '.' . $section . '.' . (int) $id;
 		}
 		else
 		{
-			// Custom blacklist precedes Default blacklist
-			if ($customList)
-			{
-				$filter = JFilterInput::getInstance(array(), array(), 1, 1);
-
-				// Override filter's default blacklist tags and attributes
-				if ($customListTags)
-				{
-					$filter->tagBlacklist = $customListTags;
-				}
-
-				if ($customListAttributes)
-				{
-					$filter->attrBlacklist = $customListAttributes;
-				}
-			}
-
-			// Black lists take third precedence.
-			elseif ($blackList)
-			{
-				// Remove the white-listed attributes from the black-list.
-				$filter = JFilterInput::getInstance(
-					// Blacklisted tags
-					array_diff($blackListTags, $whiteListTags),
-					// Blacklisted attributes
-					array_diff($blackListAttributes, $whiteListAttributes),
-					// Blacklist tags
-					1,
-					// Blacklist attributes
-					1
-				);
-
-				// Remove white listed tags from filter's default blacklist
-				if ($whiteListTags)
-				{
-					$filter->tagBlacklist = array_diff($filter->tagBlacklist, $whiteListTags);
-				}
-
-				// Remove white listed attributes from filter's default blacklist
-				if ($whiteListAttributes)
-				{
-					$filter->attrBlacklist = array_diff($filter->attrBlacklist);
-				}
-
-			}
-
-			// White lists take fourth precedence.
-			elseif ($whiteList)
-			{
-				// Turn off xss auto clean
-				$filter	= JFilterInput::getInstance($whiteListTags, $whiteListAttributes, 0, 0, 0);
-			}
-
-			// No HTML takes last place.
-			else
-			{
-				$filter = JFilterInput::getInstance();
-			}
-
-			$text = $filter->clean($text, 'html');
+			$assetName = $component;
 		}
 
-		return $text;
+		$actions = JAccess::getActionsFromFile($path, "/access/section[@name='component']/");
+
+		foreach ($actions as $action)
+		{
+			$result->set($action->name, $user->authorise($action->name, $assetName));
+		}
+
+		return $result;
 	}
 
 	/**
@@ -261,11 +134,12 @@ class JHelperContent
 	 * @return  string  The language string
 	 *
 	 * @since   3.1
+	 * @note    JHelper::getCurrentLanguage is the preferred method
 	 */
 	public static function getCurrentLanguage($detectBrowser = true)
 	{
 		$app = JFactory::getApplication();
-		$langCode = $app->input->cookie->getString(JApplication::getHash('language'));
+		$langCode = $app->input->cookie->getString(JApplicationHelper::getHash('language'));
 
 		// No cookie - let's try to detect browser language or use site default
 		if (!$langCode)
@@ -281,5 +155,45 @@ class JHelperContent
 		}
 
 		return $langCode;
+	}
+
+	/**
+	 * Gets the associated language ID
+	 *
+	 * @param   string  $langCode  The language code to look up
+	 *
+	 * @return  integer  The language ID
+	 *
+	 * @since   3.1
+	 * @note    JHelper::getLanguage() is the preferred method.
+	 */
+	public static function getLanguageId($langCode)
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('lang_id')
+			->from('#__languages')
+			->where($db->quoteName('lang_code') . ' = ' . $db->quote($langCode));
+		$db->setQuery($query);
+
+		$id = $db->loadResult();
+
+		return $id;
+	}
+
+	/**
+	 * Gets a row of data from a table
+	 *
+	 * @param   JTable  $table  JTable instance for a row.
+	 *
+	 * @return  array  Associative array of all columns and values for a row in a table.
+	 *
+	 * @since   3.1
+	 */
+	public function getRowData(JTable $table)
+	{
+		$data = new JHelper;
+
+		return $data->getRowData($table);
 	}
 }

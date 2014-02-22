@@ -14,7 +14,9 @@
 	width: 128px;
 }
 .container{
+	position: relative;
 	max-width: 900px;
+	z-index: 1060;
 }
 .thumbnail {
 	margin-bottom:9px;
@@ -119,4 +121,9 @@
 }
 .list-item-subtitle {
 	margin-bottom:9px;
+}
+/* Javascript Warning */
+#javascript-warning {
+	text-align: center;
+	font-size: 16px;
 }

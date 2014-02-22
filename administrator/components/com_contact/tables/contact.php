@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,11 +18,11 @@ class ContactTableContact extends JTable
 	/**
 	 * Constructor
 	 *
-	 * @param  JDatabase  Database connector object
+	 * @param   JDatabaseDriver  &$db  Database connector object
 	 *
-	 * @since 1.0
+	 * @since   1.0
 	 */
-	public function __construct(& $db)
+	public function __construct(&$db)
 	{
 		parent::__construct('#__contact_details', 'id', $db);
 	}
@@ -58,7 +58,7 @@ class ContactTableContact extends JTable
 	/**
 	 * Stores a contact
 	 *
-	 * @param   boolean	True to update fields even if they are null.
+	 * @param   boolean  True to update fields even if they are null.
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
@@ -85,7 +85,7 @@ class ContactTableContact extends JTable
 		}
 		else
 		{
-			// New newsfeed. A feed created and created_by field can be set by the user,
+			// New contact. A contact created and created_by field can be set by the user,
 			// so we don't touch either of these if they are set.
 			if (!(int) $this->created)
 			{
@@ -115,6 +115,12 @@ class ContactTableContact extends JTable
 			$this->xreference = '';
 		}
 
+		// Store utf8 email as punycode
+		$this->email_to = JStringPunycode::emailToPunycode($this->email_to);
+
+		// Convert IDN urls to punycode
+		$this->webpage = JStringPunycode::urlToPunycode($this->webpage);
+
 		// Verify that the alias is unique
 		$table = JTable::getInstance('Contact', 'ContactTable');
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
@@ -124,7 +130,6 @@ class ContactTableContact extends JTable
 			return false;
 		}
 
-		// Attempt to store the data.
 		return parent::store($updateNulls);
 	}
 
@@ -155,15 +160,9 @@ class ContactTableContact extends JTable
 			return false;
 		}
 
-		if (empty($this->alias))
-		{
-			$this->alias = $this->name;
-		}
-		$this->alias = JApplication::stringURLSafe($this->alias);
-		if (trim(str_replace('-', '', $this->alias)) == '')
-		{
-			$this->alias = JFactory::getDate()->format("Y-m-d-H-i-s");
-		}
+		// Generate a valid alias
+		$this->generateAlias();
+
 		/** check for valid category */
 		if (trim($this->catid) == '')
 		{
@@ -179,8 +178,6 @@ class ContactTableContact extends JTable
 
 			return false;
 		}
-
-		return true;
 
 		// Clean up keywords -- eliminate extra spaces between phrases
 		// and cr (\r) and lf (\n) characters from string
@@ -210,5 +207,28 @@ class ContactTableContact extends JTable
 		}
 
 		return true;
+	}
+
+	/**
+	 * Generate a valid alias from title / date.
+	 * Remains public to be able to check for duplicated alias before saving
+	 *
+	 * @return  string
+	 */
+	public function generateAlias()
+	{
+		if (empty($this->alias))
+		{
+			$this->alias = $this->name;
+		}
+
+		$this->alias = JApplication::stringURLSafe($this->alias);
+
+		if (trim(str_replace('-', '', $this->alias)) == '')
+		{
+			$this->alias = JFactory::getDate()->format("Y-m-d-H-i-s");
+		}
+
+		return $this->alias;
 	}
 }

@@ -3,14 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 jimport('joomla.filesystem.folder');
-
+jimport('joomla.filesystem.path');
 /**
  * Menu Item Types Model for Menus.
  *
@@ -23,7 +23,7 @@ class MenusModelMenutypes extends JModelLegacy
 	/**
 	 * A reverse lookup of the base link URL to Title
 	 *
-	 * @var	array
+	 * @var  array
 	 */
 	protected $rlu = array();
 
@@ -56,13 +56,13 @@ class MenusModelMenutypes extends JModelLegacy
 		$list = array();
 
 		// Get the list of components.
-		$db = JFactory::getDBO();
-		$query = $db->getQuery(true);
-		$query->select('name, element AS ' . $db->qn('option'));
-		$query->from('#__extensions');
-		$query->where('type = ' . $db->q('component'));
-		$query->where('enabled = 1');
-		$query->order('name ASC');
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('name, element AS ' . $db->quoteName('option'))
+			->from('#__extensions')
+			->where('type = ' . $db->quote('component'))
+			->where('enabled = 1')
+			->order('name ASC');
 		$db->setQuery($query);
 		$components = $db->loadObjectList();
 
@@ -77,28 +77,43 @@ class MenusModelMenutypes extends JModelLegacy
 				{
 					if (isset($option->request))
 					{
-						$this->rlu[MenusHelper::getLinkKey($option->request)] = $option->get('title');
+						$this->addReverseLookupUrl($option);
 
 						if (isset($option->request['option']))
 						{
-								$lang->load($option->request['option'].'.sys', JPATH_ADMINISTRATOR, null, false, false)
-							||	$lang->load($option->request['option'].'.sys', JPATH_ADMINISTRATOR.'/components/'.$option->request['option'], null, false, false)
-							||	$lang->load($option->request['option'].'.sys', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-							||	$lang->load($option->request['option'].'.sys', JPATH_ADMINISTRATOR.'/components/'.$option->request['option'], $lang->getDefault(), false, false);
+								$lang->load($option->request['option'] . '.sys', JPATH_ADMINISTRATOR, null, false, true)
+							||	$lang->load($option->request['option'] . '.sys', JPATH_ADMINISTRATOR. '/components/'.$option->request['option'], null, false, true);
 						}
 					}
 				}
 			}
 		}
 
+		// Allow a system plugin to insert dynamic menu types to the list shown in menus:
+		JEventDispatcher::getInstance()->trigger('onAfterGetMenuTypeOptions', array(&$list, $this));
+
 		return $list;
+	}
+
+	/**
+	 * Method to create the reverse lookup for link-to-name.
+	 * (can be used from onAfterGetMenuTypeOptions handlers)
+	 *
+	 * @param   $option  JObject  with request array or string and title public variables
+	 *
+	 * @return  void
+	 * @since   3.1
+	 */
+	public function addReverseLookupUrl($option)
+	{
+		$this->rlu[MenusHelper::getLinkKey($option->request)] = $option->get('title');
 	}
 
 	protected function getTypeOptionsByComponent($component)
 	{
 		$options = array();
 
-		$mainXML = JPATH_SITE.'/components/'.$component.'/metadata.xml';
+		$mainXML = JPATH_SITE . '/components/' . $component . '/metadata.xml';
 
 		if (is_file($mainXML))
 		{
@@ -198,7 +213,16 @@ class MenusModelMenutypes extends JModelLegacy
 		$options = array();
 
 		// Get the views for this component.
-		$path = JPATH_SITE . '/components/' . $component . '/views';
+		if (is_dir(JPATH_SITE . '/components/' . $component))
+		{
+			$folders = JFolder::folders(JPATH_SITE . '/components/' . $component, 'view', false, true);
+		}
+		$path = '';
+
+		if (!empty($folders[0]))
+		{
+			$path = $folders[0];
+		}
 
 		if (is_dir($path))
 		{
@@ -215,7 +239,7 @@ class MenusModelMenutypes extends JModelLegacy
 			if (strpos($view, '_') !== 0)
 			{
 				// Determine if a metadata file exists for the view.
-				$file = $path.'/'.$view.'/metadata.xml';
+				$file = $path . '/' . $view . '/metadata.xml';
 
 				if (is_file($file))
 				{
@@ -269,15 +293,18 @@ class MenusModelMenutypes extends JModelLegacy
 									}
 								}
 							}
-							else {
+							else
+							{
 								$options = array_merge($options, (array) $this->getTypeOptionsFromLayouts($component, $view));
 							}
 						}
+
 						unset($xml);
 					}
 
 				}
-				else {
+				else
+				{
 					$options = array_merge($options, (array) $this->getTypeOptionsFromLayouts($component, $view));
 				}
 			}
@@ -291,11 +318,20 @@ class MenusModelMenutypes extends JModelLegacy
 		$options = array();
 		$layouts = array();
 		$layoutNames = array();
-		$templateLayouts = array();
 		$lang = JFactory::getLanguage();
+		$path = '';
 
-		// Get the layouts from the view folder.
-		$path = JPATH_SITE . '/components/' . $component . '/views/' . $view . '/tmpl';
+		// Get the views for this component.
+		if (is_dir(JPATH_SITE . '/components/' . $component))
+		{
+			$folders = JFolder::folders(JPATH_SITE . '/components/' . $component, 'view', false, true);
+		}
+
+		if (!empty($folders[0]))
+		{
+			$path = $folders[0] . '/' . $view . '/tmpl';
+		}
+
 		if (is_dir($path))
 		{
 			$layouts = array_merge($layouts, JFolder::files($path, '.xml$', false, true));
@@ -305,38 +341,36 @@ class MenusModelMenutypes extends JModelLegacy
 			return $options;
 		}
 
-		// build list of standard layout names
+		// Build list of standard layout names
 		foreach ($layouts as $layout)
 		{
 			// Ignore private layouts.
 			if (strpos(basename($layout), '_') === false)
 			{
-				$file = $layout;
 				// Get the layout name.
 				$layoutNames[] = basename($layout, '.xml');
 			}
 		}
 
-		// get the template layouts
+		// Get the template layouts
 		// TODO: This should only search one template -- the current template for this item (default of specified)
 		$folders = JFolder::folders(JPATH_SITE . '/templates', '', false, true);
+
 		// Array to hold association between template file names and templates
 		$templateName = array();
+
 		foreach ($folders as $folder)
 		{
 			if (is_dir($folder . '/html/' . $component . '/' . $view))
 			{
 				$template = basename($folder);
-				$lang->load('tpl_'.$template.'.sys', JPATH_SITE, null, false, false)
-				||	$lang->load('tpl_'.$template.'.sys', JPATH_SITE.'/templates/'.$template, null, false, false)
-				||	$lang->load('tpl_'.$template.'.sys', JPATH_SITE, $lang->getDefault(), false, false)
-				||	$lang->load('tpl_'.$template.'.sys', JPATH_SITE.'/templates/'.$template, $lang->getDefault(), false, false);
+				$lang->load('tpl_' . $template . '.sys', JPATH_SITE, null, false, true)
+				||	$lang->load('tpl_' . $template . '.sys', JPATH_SITE . '/templates/' . $template, null, false, true);
 
 				$templateLayouts = JFolder::files($folder . '/html/' . $component . '/' . $view, '.xml$', false, true);
 
 				foreach ($templateLayouts as $layout)
 				{
-					$file = $layout;
 					// Get the layout name.
 					$templateLayoutName = basename($layout, '.xml');
 
@@ -344,6 +378,7 @@ class MenusModelMenutypes extends JModelLegacy
 					if (array_search($templateLayoutName, $layoutNames) === false)
 					{
 						$layouts[] = $layout;
+
 						// Set template name array so we can get the right template for the layout
 						$templateName[$layout] = basename($folder);
 					}

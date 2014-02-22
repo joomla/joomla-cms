@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,7 +28,6 @@ class WeblinksViewForm extends JViewLegacy
 
 	public function display($tpl = null)
 	{
-		$app		= JFactory::getApplication();
 		$user		= JFactory::getUser();
 
 		// Get model data.
@@ -43,7 +42,8 @@ class WeblinksViewForm extends JViewLegacy
 		}
 		else
 		{
-			$authorised = $user->authorise('core.edit', 'com_weblinks.weblink.'.$this->item->id);
+			$authorised = $user->authorise('core.edit', 'com_weblinks.category.'.$this->item->catid);
+
 		}
 
 		if ($authorised !== true)

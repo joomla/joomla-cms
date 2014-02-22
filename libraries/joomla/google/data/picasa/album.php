@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Google
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -373,12 +373,13 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 * @return  mixed  Data from Google
 	 *
 	 * @since   12.3
-	 * @throws UnexpectedValueException
+	 * @throws  RuntimeException
 	 */
 	public function upload($file, $title = '', $summary = '')
 	{
 		if ($this->isAuthenticated())
 		{
+			jimport('joomla.filesystem.file');
 			$title = $title != '' ? $title : JFile::getName($file);
 
 			if (!($type = $this->getMIME($file)))

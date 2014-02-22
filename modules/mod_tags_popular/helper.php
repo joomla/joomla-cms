@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_tags_popular
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,27 +18,37 @@ defined('_JEXEC') or die;
  */
 abstract class ModTagsPopularHelper
 {
-	public static function getList($params)
+	public static function getList(&$params)
 	{
-		$db        = JFactory::getDbo();
-		$user      = JFactory::getUser();
-		$groups    = implode(',', $user->getAuthorisedViewLevels());
-		$timeframe = $params->get('timeframe', 'alltime');
-		$maximum   = $params->get('maximum', 5);
+		$db				= JFactory::getDbo();
+		$user     		= JFactory::getUser();
+		$groups 		= implode(',', $user->getAuthorisedViewLevels());
+		$timeframe		= $params->get('timeframe', 'alltime');
+		$maximum		= $params->get('maximum', 5);
+		$order_value	= $params->get('order_value', 'count');
 
-		$query = $db->getQuery(true);
+		if ($order_value == 'rand()')
+		{
+			$order_direction	= '';
+		}
+		else
+		{
+			$order_value		= $db->quoteName($order_value);
+			$order_direction	= $params->get('order_direction', 1) ? 'DESC' : 'ASC';
+		}
 
-		$query->select(
-			array(
-				'MAX(' . $db->quoteName('tag_id') . ') AS tag_id',
-				' COUNT(*) AS count', 'MAX(' . $db->quoteName('t.title') . ') AS title',
-				'MAX(' .$db->quoteName('t.access') . ') AS access',
-				'MAX(' .$db->quoteName('t.alias') . ') AS alias'
+		$query = $db->getQuery(true)
+			->select(
+				array(
+					'MAX(' . $db->quoteName('tag_id') . ') AS tag_id',
+					' COUNT(*) AS count', 'MAX(t.title) AS title',
+					'MAX(' .$db->quoteName('t.access') . ') AS access',
+					'MAX(' .$db->quoteName('t.alias') . ') AS alias'
+				)
 			)
-		);
-		$query->group($db->quoteName(array('tag_id', 'title', 'access', 'alias')));
-		$query->from($db->quoteName('#__contentitem_tag_map'));
-		$query->where($db->quoteName('t.access') . ' IN (' . $groups . ')');
+			->group($db->quoteName(array('tag_id', 'title', 'access', 'alias')))
+			->from($db->quoteName('#__contentitem_tag_map'))
+			->where($db->quoteName('t.access') . ' IN (' . $groups . ')');
 
 		// Only return published tags
 		$query->where($db->quoteName('t.published') . ' = 1 ');
@@ -52,7 +62,7 @@ abstract class ModTagsPopularHelper
 			{
 				$language = JHelperContent::getCurrentLanguage();
 			}
-			$query->where($db->qn('t.language') . ' IN (' . $db->q($language) . ', ' . $db->q('*') . ')');
+			$query->where($db->quoteName('t.language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
 		}
 
 		if ($timeframe != 'alltime')
@@ -61,8 +71,8 @@ abstract class ModTagsPopularHelper
 			$query->where($db->quoteName('tag_date') . ' > ' . $query->dateAdd($now->toSql('date'), '-1', strtoupper($timeframe)));
 		}
 
-		$query->join('INNER', $db->quoteName('#__tags', 't') . ' ON ' . $db->quoteName('tag_id') . ' = ' . $db->quoteName('t.id'));
-		$query->order('count DESC');
+		$query->join('INNER', $db->quoteName('#__tags', 't') . ' ON ' . $db->quoteName('tag_id') . ' = t.id')
+			->order($order_value . ' ' . $order_direction);
 		$db->setQuery($query, 0, $maximum);
 		$results = $db->loadObjectList();
 

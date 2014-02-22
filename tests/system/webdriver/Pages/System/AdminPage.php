@@ -116,6 +116,7 @@ abstract class AdminPage
 			'Newsfeeds'				=> 'administrator/index.php?option=com_newsfeeds',
 			'Feeds'					=> 'administrator/index.php?option=com_newsfeeds',
 			'Newsfeeds Categories'	=> 'administrator/index.php?option=com_categories&extension=com_newsfeeds',
+	'Post-installation Messages'	=> 'administrator/index.php?option=com_postinstall',
 			'Redirect'				=> 'administrator/index.php?option=com_redirect',
 			'Search'				=> 'administrator/index.php?option=com_search',
 			'Smart Search'			=> 'administrator/index.php?option=com_finder',
@@ -140,6 +141,7 @@ abstract class AdminPage
 			'Security Center'		=> 'http://developer.joomla.org/security.html',
 			'Developer Resources'	=> 'http://developer.joomla.org/',
 			'Joomla Shop'			=> 'http://shop.joomla.org/',
+			'Tags'			=>	'administrator/index.php?option=com_tags',
 	);
 
 

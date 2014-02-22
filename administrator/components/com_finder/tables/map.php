@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -71,10 +71,10 @@ class FinderTableMap extends JTable
 		$where = $k . '=' . implode(' OR ' . $k . '=', $pks);
 
 		// Update the publishing state for rows with the given primary keys.
-		$query = $this->_db->getQuery(true);
-		$query->update($this->_db->quoteName($this->_tbl));
-		$query->set($this->_db->quoteName('state') . ' = ' . (int) $state);
-		$query->where($where);
+		$query = $this->_db->getQuery(true)
+			->update($this->_db->quoteName($this->_tbl))
+			->set($this->_db->quoteName('state') . ' = ' . (int) $state)
+			->where($where);
 		$this->_db->setQuery($query);
 
 		try

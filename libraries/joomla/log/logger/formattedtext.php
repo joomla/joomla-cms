@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -159,6 +159,7 @@ class JLogLoggerFormattedtext extends JLogLogger
 
 		// Fill in field data for the line.
 		$line = $this->format;
+
 		foreach ($this->fields as $field)
 		{
 			$line = str_replace('{' . $field . '}', (isset($tmp[$field])) ? $tmp[$field] : '-', $line);
@@ -210,6 +211,7 @@ class JLogLoggerFormattedtext extends JLogLogger
 	 * @return  void
 	 *
 	 * @since   11.1
+	 * @throws  RuntimeException
 	 */
 	protected function initFile()
 	{

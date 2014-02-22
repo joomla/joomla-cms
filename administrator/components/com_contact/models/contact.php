@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,6 +20,14 @@ JLoader::register('ContactHelper', JPATH_ADMINISTRATOR . '/components/com_contac
  */
 class ContactModelContact extends JModelAdmin
 {
+	/**
+	 * The type alias for this content type.
+	 *
+	 * @var      string
+	 * @since    3.2
+	 */
+	public $typeAlias = 'com_contact.contact';
+
 	/**
 	 * Method to perform batch operations on an item or a set of items.
 	 *
@@ -51,6 +59,27 @@ class ContactModelContact extends JModelAdmin
 
 		$done = false;
 
+		// Set some needed variables.
+		$this->user = JFactory::getUser();
+		$this->table = $this->getTable();
+		$this->tableClassName = get_class($this->table);
+		$this->contentType = new JUcmType;
+		$this->type = $this->contentType->getTypeByTable($this->tableClassName);
+		$this->batchSet = true;
+
+		if ($this->type === false)
+		{
+			$type = new JUcmType;
+			$this->type = $type->getTypeByAlias($this->typeAlias);
+			$typeAlias = $this->type->type_alias;
+		}
+		else
+		{
+			$typeAlias = $this->type->type_alias;
+		}
+
+		$this->tagsObserver = $this->table->getObserverOfClass('JTableObserverTags');
+
 		if (!empty($commands['category_id']))
 		{
 			$cmd = JArrayHelper::getValue($commands, 'move_copy', 'c');
@@ -58,6 +87,7 @@ class ContactModelContact extends JModelAdmin
 			if ($cmd == 'c')
 			{
 				$result = $this->batchCopy($commands['category_id'], $pks, $contexts);
+
 				if (is_array($result))
 				{
 					$pks = $result;
@@ -71,6 +101,7 @@ class ContactModelContact extends JModelAdmin
 			{
 				return false;
 			}
+
 			$done = true;
 		}
 
@@ -117,6 +148,7 @@ class ContactModelContact extends JModelAdmin
 		if (!$done)
 		{
 			$this->setError(JText::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
+
 			return false;
 		}
 
@@ -144,52 +176,23 @@ class ContactModelContact extends JModelAdmin
 		$table = $this->getTable();
 		$i = 0;
 
-		// Check that the category exists
-		if ($categoryId)
+		if (!parent::checkCategoryId($categoryId))
 		{
-			$categoryTable = JTable::getInstance('Category');
-			if (!$categoryTable->load($categoryId))
-			{
-				if ($error = $categoryTable->getError())
-				{
-					// Fatal error
-					$this->setError($error);
-					return false;
-				}
-				else
-				{
-					$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
-					return false;
-				}
-			}
-		}
-
-		if (empty($categoryId))
-		{
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
 			return false;
 		}
 
-		// Check that the user has create permission for the component
-		$user = JFactory::getUser();
-		if (!$user->authorise('core.create', 'com_contact.category.' . $categoryId))
-		{
-			$this->setError(JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
-			return false;
-		}
-
-		// Parent exists so we let's proceed
+		// Parent exists so we proceed
 		while (!empty($pks))
 		{
 			// Pop the first ID off the stack
 			$pk = array_shift($pks);
 
-			$table->reset();
+			$this->table->reset();
 
 			// Check that the row actually exists
-			if (!$table->load($pk))
+			if (!$this->table->load($pk))
 			{
-				if ($error = $table->getError())
+				if ($error = $this->table->getError())
 				{
 					// Fatal error
 					$this->setError($error);
@@ -204,38 +207,40 @@ class ContactModelContact extends JModelAdmin
 			}
 
 			// Alter the title & alias
-			$data = $this->generateNewTitle($categoryId, $table->alias, $table->name);
-			$table->name = $data['0'];
-			$table->alias = $data['1'];
+			$data = $this->generateNewTitle($categoryId, $this->table->alias, $this->table->name);
+			$this->table->name = $data['0'];
+			$this->table->alias = $data['1'];
 
 			// Reset the ID because we are making a copy
-			$table->id = 0;
+			$this->table->id = 0;
 
 			// New category ID
-			$table->catid = $categoryId;
+			$this->table->catid = $categoryId;
 
 			// TODO: Deal with ordering?
-			//$table->ordering	= 1;
+			//$this->table->ordering	= 1;
 
 			// Check the row.
-			if (!$table->check())
+			if (!$this->table->check())
 			{
-				$this->setError($table->getError());
+				$this->setError($this->table->getError());
 				return false;
 			}
 
+			parent::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+
 			// Store the row.
-			if (!$table->store())
+			if (!$this->table->store())
 			{
-				$this->setError($table->getError());
+				$this->setError($this->table->getError());
 				return false;
 			}
 
 			// Get the new item ID
-			$newId = $table->get('id');
+			$newId = $this->table->get('id');
 
 			// Add the new ID to the array
-			$newIds[$i]	= $newId;
+			$newIds[$i] = $newId;
 			$i++;
 		}
 
@@ -258,21 +263,21 @@ class ContactModelContact extends JModelAdmin
 	 */
 	protected function batchUser($value, $pks, $contexts)
 	{
-		// Set the variables
-		$user = JFactory::getUser();
-		$table = $this->getTable();
 
 		foreach ($pks as $pk)
 		{
-			if ($user->authorise('core.edit', $contexts[$pk]))
+			if ($this->user->authorise('core.edit', $contexts[$pk]))
 			{
-				$table->reset();
-				$table->load($pk);
-				$table->user_id = (int) $value;
+				$this->table->reset();
+				$this->table->load($pk);
+				$this->table->user_id = (int) $value;
 
-				if (!$table->store())
+				static::createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
+
+				if (!$this->table->store())
 				{
-					$this->setError($table->getError());
+					$this->this->setError($table->getError());
+
 					return false;
 				}
 			}
@@ -306,14 +311,14 @@ class ContactModelContact extends JModelAdmin
 				return;
 			}
 			$user = JFactory::getUser();
-			return $user->authorise('core.delete', 'com_contact.category.'.(int) $record->catid);
+			return $user->authorise('core.delete', 'com_contact.category.' . (int) $record->catid);
 		}
 	}
 
 	/**
 	 * Method to test whether a record can have its state edited.
 	 *
-	 * @param   object	$record	A record object.
+	 * @param   object    $record    A record object.
 	 *
 	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
 	 * @since   1.6
@@ -325,10 +330,11 @@ class ContactModelContact extends JModelAdmin
 		// Check against the category.
 		if (!empty($record->catid))
 		{
-			return $user->authorise('core.edit.state', 'com_contact.category.'.(int) $record->catid);
+			return $user->authorise('core.edit.state', 'com_contact.category.' . (int) $record->catid);
 		}
 		// Default to component settings if category not known.
-		else {
+		else
+		{
 			return parent::canEditState($record);
 		}
 	}
@@ -336,11 +342,11 @@ class ContactModelContact extends JModelAdmin
 	/**
 	 * Returns a Table object, always creating it
 	 *
-	 * @param   type	$type	The table type to instantiate
-	 * @param   string	$prefix	A prefix for the table class name. Optional.
-	 * @param   array  $config	Configuration array for model. Optional.
+	 * @param   type      $type      The table type to instantiate
+	 * @param   string    $prefix    A prefix for the table class name. Optional.
+	 * @param   array     $config    Configuration array for model. Optional.
 	 *
-	 * @return  JTable	A database object
+	 * @return  JTable    A database object
 	 * @since   1.6
 	 */
 	public function getTable($type = 'Contact', $prefix = 'ContactTable', $config = array())
@@ -351,8 +357,8 @@ class ContactModelContact extends JModelAdmin
 	/**
 	 * Method to get the row form.
 	 *
-	 * @param   array  $data		Data for the form.
-	 * @param   boolean	$loadData	True if the form is to load its own data (default case), false if not.
+	 * @param   array      $data        Data for the form.
+	 * @param   boolean    $loadData    True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  mixed  A JForm object on success, false on failure
 	 * @since   1.6
@@ -389,7 +395,7 @@ class ContactModelContact extends JModelAdmin
 	/**
 	 * Method to get a single record.
 	 *
-	 * @param   integer	$pk	The id of the primary key.
+	 * @param   integer    $pk    The id of the primary key.
 	 *
 	 * @return  mixed  Object on success, false on failure.
 	 * @since   1.6
@@ -402,12 +408,11 @@ class ContactModelContact extends JModelAdmin
 			$registry = new JRegistry;
 			$registry->loadString($item->metadata);
 			$item->metadata = $registry->toArray();
-
 		}
 
 		// Load associated contact items
 		$app = JFactory::getApplication();
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$assoc = JLanguageAssociations::isEnabled();
 
 		if ($assoc)
 		{
@@ -427,7 +432,7 @@ class ContactModelContact extends JModelAdmin
 		// Load item tags
 		if (!empty($item->id))
 		{
-			$item->tags = new JTags;
+			$item->tags = new JHelperTags;
 			$item->tags->getTagIds($item->id, 'com_contact.contact');
 		}
 
@@ -468,7 +473,7 @@ class ContactModelContact extends JModelAdmin
 	 * @param   array  The form data.
 	 *
 	 * @return  boolean  True on success.
-	 * @since	3.0
+	 * @since    3.0
 	 */
 	public function save($data)
 	{
@@ -478,14 +483,25 @@ class ContactModelContact extends JModelAdmin
 		if ($app->input->get('task') == 'save2copy')
 		{
 			list($name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
-			$data['name']	= $name;
-			$data['alias']	= $alias;
+			$data['name'] = $name;
+			$data['alias'] = $alias;
+			$data['published'] = 0;
+		}
+
+		$links = array('linka', 'linkb', 'linkc', 'linkd', 'linke');
+
+		foreach ($links as $link)
+		{
+			if ($data['params'][$link])
+			{
+				$data['params'][$link] = JStringPunycode::urlToPunycode($data['params'][$link]);
+			}
 		}
 
 		if (parent::save($data))
 		{
 
-			$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+			$assoc = JLanguageAssociations::isEnabled();
 			if ($assoc)
 			{
 				$id = (int) $this->getState($this->getName() . '.id');
@@ -514,10 +530,10 @@ class ContactModelContact extends JModelAdmin
 
 				// Deleting old association for these items
 				$db = JFactory::getDbo();
-				$query = $db->getQuery(true);
-				$query->delete('#__associations');
-				$query->where('context='.$db->quote('com_contact.item'));
-				$query->where('id IN ('.implode(',', $associations).')');
+				$query = $db->getQuery(true)
+					->delete('#__associations')
+					->where('context=' . $db->quote('com_contact.item'))
+					->where('id IN (' . implode(',', $associations) . ')');
 				$db->setQuery($query);
 				$db->execute();
 
@@ -531,12 +547,12 @@ class ContactModelContact extends JModelAdmin
 				{
 					// Adding new association for these items
 					$key = md5(json_encode($associations));
-					$query->clear();
-					$query->insert('#__associations');
+					$query->clear()
+						->insert('#__associations');
 
-					foreach ($associations as $tag => $id)
+					foreach ($associations as $id)
 					{
-						$query->values($id.','.$db->quote('com_contact.item') . ',' . $db->quote($key));
+						$query->values($id . ',' . $db->quote('com_contact.item') . ',' . $db->quote($key));
 					}
 
 					$db->setQuery($query);
@@ -559,7 +575,7 @@ class ContactModelContact extends JModelAdmin
 	/**
 	 * Prepare and sanitise the table prior to saving.
 	 *
-	 * @param   JTable	$table
+	 * @param   JTable    $table
 	 *
 	 * @return  void
 	 * @since   1.6
@@ -569,24 +585,23 @@ class ContactModelContact extends JModelAdmin
 		$date = JFactory::getDate();
 		$user = JFactory::getUser();
 
-		$table->name		= htmlspecialchars_decode($table->name, ENT_QUOTES);
-		$table->alias		= JApplication::stringURLSafe($table->alias);
+		$table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
 
-		if (empty($table->alias))
-		{
-			$table->alias = JApplication::stringURLSafe($table->name);
-		}
+		$table->generateAlias();
 
 		if (empty($table->id))
 		{
 			// Set the values
-			$table->created	= $date->toSql();
+			$table->created = $date->toSql();
 
 			// Set ordering to the last item if not set
 			if (empty($table->ordering))
 			{
 				$db = JFactory::getDbo();
-				$db->setQuery('SELECT MAX(ordering) FROM #__contact_details');
+				$query = $db->getQuery(true)
+					->select('MAX(ordering)')
+					->from($db->quoteName('#__contact_details'));
+				$db->setQuery($query);
 				$max = $db->loadResult();
 
 				$table->ordering = $max + 1;
@@ -595,18 +610,17 @@ class ContactModelContact extends JModelAdmin
 		else
 		{
 			// Set the values
-			$table->modified	= $date->toSql();
-			$table->modified_by	= $user->get('id');
+			$table->modified = $date->toSql();
+			$table->modified_by = $user->get('id');
 		}
 		// Increment the content version number.
 		$table->version++;
-
 	}
 
 	/**
 	 * A protected method to get a set of ordering conditions.
 	 *
-	 * @param   JTable	$table	A record object.
+	 * @param   JTable    $table    A record object.
 	 *
 	 * @return  array  An array of conditions to add to add to ordering queries.
 	 * @since   1.6
@@ -614,7 +628,7 @@ class ContactModelContact extends JModelAdmin
 	protected function getReorderConditions($table)
 	{
 		$condition = array();
-		$condition[] = 'catid = '.(int) $table->catid;
+		$condition[] = 'catid = ' . (int) $table->catid;
 
 		return $condition;
 	}
@@ -623,7 +637,7 @@ class ContactModelContact extends JModelAdmin
 	{
 		// Association content items
 		$app = JFactory::getApplication();
-		$assoc = isset($app->item_associations) ? $app->item_associations : 0;
+		$assoc = JLanguageAssociations::isEnabled();
 		if ($assoc)
 		{
 			$languages = JLanguageHelper::getLanguages('lang_code');
@@ -645,10 +659,12 @@ class ContactModelContact extends JModelAdmin
 					$add = true;
 					$field = $fieldset->addChild('field');
 					$field->addAttribute('name', $tag);
-					$field->addAttribute('type', 'modal_contacts');
+					$field->addAttribute('type', 'modal_contact');
 					$field->addAttribute('language', $tag);
 					$field->addAttribute('label', $language->title);
 					$field->addAttribute('translate_label', 'false');
+					$field->addAttribute('edit', 'true');
+					$field->addAttribute('clear', 'true');
 				}
 			}
 			if ($add)
@@ -663,8 +679,8 @@ class ContactModelContact extends JModelAdmin
 	/**
 	 * Method to toggle the featured setting of contacts.
 	 *
-	 * @param   array  $pks	The ids of the items to toggle.
-	 * @param   integer  $value	The value to toggle to.
+	 * @param   array    $pks      The ids of the items to toggle.
+	 * @param   integer  $value    The value to toggle to.
 	 *
 	 * @return  boolean  True on success.
 	 * @since   1.6
@@ -687,11 +703,12 @@ class ContactModelContact extends JModelAdmin
 		{
 			$db = $this->getDbo();
 
-			$db->setQuery(
-				'UPDATE #__contact_details' .
-				' SET featured = '.(int) $value.
-				' WHERE id IN ('.implode(',', $pks).')'
-			);
+			$query = $db->getQuery(true);
+			$query->update('#__contact_details');
+			$query->set('featured = ' . (int) $value);
+			$query->where('id IN (' . implode(',', $pks) . ')');
+			$db->setQuery($query);
+
 			$db->execute();
 		}
 		catch (Exception $e)

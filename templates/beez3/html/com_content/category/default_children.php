@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,6 +39,8 @@ $class = ' class="first"';
 					</div>
 				<?php endif; ?>
 				<?php endif; ?>
+
+				<?php if ($this->params->get('show_cat_num_articles', 1)) : ?>
 				<?php if ($child->getNumItems() == true) : ?>
 				<dl>
 					<dt>
@@ -48,6 +50,7 @@ $class = ' class="first"';
 						<?php echo $child->getNumItems(true); ?>
 					</dd>
 				</dl>
+				<?php endif; ?>
 				<?php endif; ?>
 
 				<?php if (count($child->getChildren()) > 0 ) :

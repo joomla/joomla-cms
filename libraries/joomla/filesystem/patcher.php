@@ -4,7 +4,7 @@
  * @package     Joomla.Platform
  * @subpackage  FileSystem
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -44,37 +44,32 @@ class JFilesystemPatcher
 	const SPLIT = '/(\r\n)|(\r)|(\n)/';
 
 	/**
-	 * @var  array  sources files
-	 *
-	 * @since   12.1
+	 * @var    array  sources files
+	 * @since  12.1
 	 */
 	protected $sources = array();
 
 	/**
-	 * @var  array  destination files
-	 *
-	 * @since   12.1
+	 * @var    array  destination files
+	 * @since  12.1
 	 */
 	protected $destinations = array();
 
 	/**
-	 * @var  array  removal files
-	 *
-	 * @since   12.1
+	 * @var    array  removal files
+	 * @since  12.1
 	 */
 	protected $removals = array();
 
 	/**
-	 * @var  array  patches
-	 *
-	 * @since   12.1
+	 * @var    array  patches
+	 * @since  12.1
 	 */
 	protected $patches = array();
 
 	/**
-	 * @var  array  instance of this class
-	 *
-	 * @since   12.1
+	 * @var    array  instance of this class
+	 * @since  12.1
 	 */
 	protected static $instance;
 
@@ -102,6 +97,7 @@ class JFilesystemPatcher
 		{
 			static::$instance = new static;
 		}
+
 		return static::$instance;
 	}
 
@@ -109,6 +105,8 @@ class JFilesystemPatcher
 	 * Reset the pacher
 	 *
 	 * @return  JFilesystemPatcher  This object for chaining
+	 *
+	 * @since   12.1
 	 */
 	public function reset()
 	{
@@ -116,15 +114,17 @@ class JFilesystemPatcher
 		$this->destinations = array();
 		$this->removals = array();
 		$this->patches = array();
+
 		return $this;
 	}
 
 	/**
 	 * Apply the patches
 	 *
-	 * @throw  RuntimeException
+	 * @return  integer  The number of files patched
 	 *
-	 * @return integer the number of files patched
+	 * @since   12.1
+	 * @throws  RuntimeException
 	 */
 	public function apply()
 	{
@@ -178,6 +178,7 @@ class JFilesystemPatcher
 				{
 					$this->sources[$file] = $content;
 				}
+
 				$done++;
 			}
 		}
@@ -191,6 +192,7 @@ class JFilesystemPatcher
 				{
 					unset($this->sources[$file]);
 				}
+
 				$done++;
 			}
 		}
@@ -203,6 +205,7 @@ class JFilesystemPatcher
 
 		// Clear the patches
 		$this->patches = array();
+
 		return $done;
 	}
 
@@ -240,6 +243,7 @@ class JFilesystemPatcher
 			'root' => isset($root) ? rtrim($root, DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR : '',
 			'strip' => $strip
 		);
+
 		return $this;
 	}
 
@@ -268,7 +272,8 @@ class JFilesystemPatcher
 	 *
 	 * @return  boolean  TRUE in case of success, FALSE in case of failure
 	 *
-	 * @throw  RuntimeException
+	 * @since   12.1
+	 * @throws  RuntimeException
 	 */
 	protected static function findHeader(&$lines, &$src, &$dst)
 	{
@@ -292,6 +297,7 @@ class JFilesystemPatcher
 
 			// Advance to the next line
 			$line = next($lines);
+
 			if ($line === false)
 			{
 				throw new RuntimeException('Unexpected EOF');
@@ -328,14 +334,17 @@ class JFilesystemPatcher
 	 *
 	 * @return  boolean  TRUE in case of success, false in case of failure
 	 *
-	 * @throw  RuntimeException
+	 * @since   12.1
+	 * @throws  RuntimeException
 	 */
 	protected static function findHunk(&$lines, &$src_line, &$src_size, &$dst_line, &$dst_size)
 	{
 		$line = current($lines);
+
 		if (preg_match(self::HUNK, $line, $m))
 		{
 			$src_line = (int) $m[1];
+
 			if ($m[3] === '')
 			{
 				$src_size = 1;
@@ -346,6 +355,7 @@ class JFilesystemPatcher
 			}
 
 			$dst_line = (int) $m[4];
+
 			if ($m[6] === '')
 			{
 				$dst_size = 1;
@@ -381,7 +391,8 @@ class JFilesystemPatcher
 	 *
 	 * @return  void
 	 *
-	 * @throw  RuntimeException
+	 * @since   12.1
+	 * @throws  RuntimeException
 	 */
 	protected function applyHunk(&$lines, $src, $dst, $src_line, $src_size, $dst_line, $dst_size)
 	{
@@ -396,6 +407,7 @@ class JFilesystemPatcher
 		$destin = array();
 		$src_left = $src_size;
 		$dst_left = $dst_size;
+
 		do
 		{
 			if (!isset($line[0]))
@@ -411,6 +423,7 @@ class JFilesystemPatcher
 				{
 					throw new RuntimeException(JText::sprintf('JLIB_FILESYSTEM_PATCHER_REMOVE_LINE', key($lines)));
 				}
+
 				$source[] = substr($line, 1);
 				$src_left--;
 			}
@@ -420,6 +433,7 @@ class JFilesystemPatcher
 				{
 					throw new RuntimeException(JText::sprintf('JLIB_FILESYSTEM_PATCHER_ADD_LINE', key($lines)));
 				}
+
 				$destin[] = substr($line, 1);
 				$dst_left--;
 			}
@@ -431,24 +445,27 @@ class JFilesystemPatcher
 				$src_left--;
 				$dst_left--;
 			}
+
 			if ($src_left == 0 && $dst_left == 0)
 			{
-
 				// Now apply the patch, finally!
 				if ($src_size > 0)
 				{
 					$src_lines = & $this->getSource($src);
+
 					if (!isset($src_lines))
 					{
 						throw new RuntimeException(JText::sprintf('JLIB_FILESYSTEM_PATCHER_UNEXISING_SOURCE', $src));
 					}
 				}
+
 				if ($dst_size > 0)
 				{
 					if ($src_size > 0)
 					{
 						$dst_lines = & $this->getDestination($dst, $src);
 						$src_bottom = $src_line + count($source);
+
 						for ($l = $src_line;$l < $src_bottom;$l++)
 						{
 							if ($src_lines[$l] != $source[$l - $src_line])
@@ -456,6 +473,7 @@ class JFilesystemPatcher
 								throw new RuntimeException(JText::sprintf('JLIB_FILESYSTEM_PATCHER_FAILED_VERIFY', $src, $l));
 							}
 						}
+
 						array_splice($dst_lines, $dst_line, count($source), $destin);
 					}
 					else
@@ -467,11 +485,15 @@ class JFilesystemPatcher
 				{
 					$this->removals[] = $src;
 				}
+
 				next($lines);
+
 				return;
 			}
+
 			$line = next($lines);
 		}
+
 		while ($line !== false);
 		throw new RuntimeException('Unexpected EOF');
 	}
@@ -498,6 +520,7 @@ class JFilesystemPatcher
 				$this->sources[$src] = null;
 			}
 		}
+
 		return $this->sources[$src];
 	}
 
@@ -517,6 +540,7 @@ class JFilesystemPatcher
 		{
 			$this->destinations[$dst] = $this->getSource($src);
 		}
+
 		return $this->destinations[$dst];
 	}
 }

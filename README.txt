@@ -1,13 +1,13 @@
 1- What is this?
-	* This is a Joomla! installation/upgrade package to version 3.0.x
+	* This is a Joomla! installation/upgrade package to version 3.x
 	* Joomla! Official site: http://www.joomla.org
-	* Joomla 3.0 version history - http://docs.joomla.org/Joomla_3.0_version_history
-	* Detailed changes in the Changelog: http://joomlacode.org/gf/project/joomla/scmsvn/?action=browse&path=/development/trunk/administrator/&view=log
+	* Joomla 3.2 version history - http://docs.joomla.org/Joomla_3.2_version_history
+	* Detailed changes in the Changelog: https://github.com/joomla/joomla-cms/commits/master
 
 2- What is Joomla?
 	* Joomla is a Content Management System (CMS) which enables you to build Web sites and powerful online applications.
 	* It's a free and OpenSource software, distributed under the GNU General Public License version 2 or later
-	* This is a simple and powerful web server application and it requires a server with PHP and MySQL to run it. 
+	* This is a simple and powerful web server application and it requires a server with PHP and either MySQL, PostgreSQL, or SQL Server to run it.
 	More details here: http://www.joomla.org/about-joomla.html
 
 3- Is Joomla for you?
@@ -36,7 +36,7 @@
 	* See minimum requirements here: http://www.joomla.org/technical-requirements.html
 	* How do you install Joomla! ? - http://docs.joomla.org/Installing_Joomla!
 	* Start your Joomla experience building your site with a local test server.
-	When ready it can be moved to an on-line hosting account of your choice. 
+	When ready it can be moved to an on-line hosting account of your choice.
 	See the tutorial: http://docs.joomla.org/Tutorial:Joomla_Local_install
 
 9- Updates are free!
@@ -49,12 +49,12 @@
 	* Post questions at our forums: http://forum.joomla.org
 	* Joomla Resources Directory (JRD): http://resources.joomla.org/tos.html
 
-11- Do you already have a Joomla site that's not built with Joomla 3.0.x ?
-	* What's new in Joomla 3.0.x - http://www.joomla.org/3
-	* What are the main differences from 2.5 to 3.0? Table of contents: http://docs.joomla.org/Differences_from_Joomla_2.5_to_Joomla_3.0
-	* How to migrate from 2.5.x to 3.0.x? Tutorial: http://docs.joomla.org/Migrating_from_Joomla_2.5_to_Joomla_3.0
+11- Do you already have a Joomla site that's not built with Joomla 3.x ?
+	* What's new in Joomla 3.x - http://www.joomla.org/3
+	* What are the main differences from 2.5 to 3? Table of contents: http://docs.joomla.org/Differences_from_Joomla_2.5_to_Joomla_3.0
+	* How to migrate from 2.5.x to 3.x? Tutorial: http://docs.joomla.org/Migrating_from_Joomla_2.5_to_Joomla_3.0
 	* What are the main differences from 1.5 to 2.5? Table of contents: http://docs.joomla.org/Differences_from_Joomla_1.5_to_Joomla_2.5
-	* How to migrate from 1.5.x to 3.0.x? Tutorial: http://docs.joomla.org/Migrating_from_Joomla_1.5_to_Joomla_3.0
+	* How to migrate from 1.5.x to 3.x? Tutorial: http://docs.joomla.org/Migrating_from_Joomla_1.5_to_Joomla_3.0
 	* Convert an existing Web site to Joomla - http://docs.joomla.org/How_to_Convert_an_existing_Web_site_to_a_Joomla!_Web_site
 
 12- Do you want to improve Joomla?
@@ -65,7 +65,7 @@
 	* Are you a Web designer? http://docs.joomla.org/Web_designers
 
 Copyright:
-	* Copyright (C) 2005 - 2013 Open Source Matters. All rights reserved.
-	* Credits: http://docs.joomla.org/Joomla_3.0_Credits
+	* Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.
+	* Credits: http://docs.joomla.org/Joomla_3_Credits
 	* Distributed under the GNU General Public License version 2 or later
 	* See Licenses details at http://docs.joomla.org/Joomla_Licenses

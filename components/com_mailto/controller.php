@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_mailto
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -56,7 +56,7 @@ class MailtoController extends JControllerLegacy
 		$link     = MailtoHelper::validateHash($this->input->get('link', '', 'post'));
 
 		// Verify that this is a local link
-		if (!$link || !JURI::isInternal($link))
+		if (!$link || !JUri::isInternal($link))
 		{
 			//Non-local url...
 			JError::raiseNotice(500, JText::_('COM_MAILTO_EMAIL_NOT_SENT'));
@@ -127,12 +127,18 @@ class MailtoController extends JControllerLegacy
 
 		// Build the message to send
 		$msg	= JText::_('COM_MAILTO_EMAIL_MSG');
+
+		$link = $link;
 		$body	= sprintf($msg, $SiteName, $sender, $from, $link);
 
 		// Clean the email data
 		$subject = JMailHelper::cleanSubject($subject);
 		$body	 = JMailHelper::cleanBody($body);
-		$sender	 = JMailHelper::cleanAddress($sender);
+
+		// To send we need to use punycode.
+		$from = JStringPunycode::emailToPunycode($from);
+		$from	 = JMailHelper::cleanAddress($from);
+		$email = JStringPunycode::emailToPunycode($email);
 
 		// Send the email
 		if (JFactory::getMailer()->sendMail($from, $sender, $email, $subject, $body) !== true)

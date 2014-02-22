@@ -133,6 +133,11 @@
   display:none;
 }
 
+#jform_position_chzn.chzn-container-single-nosearch .chzn-search input {
+	position: relative;
+	display: block;
+}
+
 /* @group Multi Chosen */
 .chzn-container-multi .chzn-choices {
   background-color: #fff;

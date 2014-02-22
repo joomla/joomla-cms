@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Utilities
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,7 +17,7 @@ JLog::add('JXMLElement is deprecated. Use SimpleXMLElement.', JLog::WARNING, 'de
  * @package     Joomla.Legacy
  * @subpackage  Utilities
  * @since       11.1
- * @deprecated  13.3 Use SimpleXMLElement instead.
+ * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use SimpleXMLElement instead.
  */
 class JXMLElement extends SimpleXMLElement
 {

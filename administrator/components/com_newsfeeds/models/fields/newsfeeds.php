@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,11 +39,10 @@ class JFormFieldNewsfeeds extends JFormFieldList
 		$options = array();
 
 		$db		= JFactory::getDbo();
-		$query	= $db->getQuery(true);
-
-		$query->select('id As value, name As text');
-		$query->from('#__newsfeeds AS a');
-		$query->order('a.name');
+		$query	= $db->getQuery(true)
+			->select('id As value, name As text')
+			->from('#__newsfeeds AS a')
+			->order('a.name');
 
 		// Get the options.
 		$db->setQuery($query);

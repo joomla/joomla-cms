@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -90,8 +90,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 */
 	public function __destruct()
 	{
-		$this->freeResult();
-		unset($this->connection);
+		$this->disconnect();
 	}
 
 	/**
@@ -109,8 +108,12 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 			return;
 		}
 
-		// Initialize the connection string variable:
-		$connectionString = '';
+		// Make sure the PDO extension for PHP is installed and enabled.
+		if (!self::isSupported())
+		{
+			throw new RuntimeException('PDO Extension is not available.', 1);
+		}
+
 		$replace = array();
 		$with = array();
 
@@ -279,12 +282,6 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		// Create the connection string:
 		$connectionString = str_replace($replace, $with, $format);
 
-		// Make sure the PDO extension for PHP is installed and enabled.
-		if (!self::isSupported())
-		{
-			throw new RuntimeException('PDO Extension is not available.', 1);
-		}
-
 		try
 		{
 			$this->connection = new PDO(
@@ -296,7 +293,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		}
 		catch (PDOException $e)
 		{
-			throw new RuntimeException('Could not connect to PDO' . ': ' . $e->getMessage(), 2, $e);
+			throw new RuntimeException('Could not connect to PDO: ' . $e->getMessage(), 2, $e);
 		}
 	}
 
@@ -309,6 +306,11 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 */
 	public function disconnect()
 	{
+		foreach ($this->disconnectHandlers as $h)
+		{
+			call_user_func_array($h, array( &$this));
+		}
+
 		$this->freeResult();
 		unset($this->connection);
 	}
@@ -366,28 +368,31 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		}
 
 		// Take a local copy so that we don't modify the original query and cause issues later
-		$sql = $this->replacePrefix((string) $this->sql);
-		if ($this->limit > 0 || $this->offset > 0)
+		$query = $this->replacePrefix((string) $this->sql);
+
+		if (!($this->sql instanceof JDatabaseQuery) && ($this->limit > 0 || $this->offset > 0))
 		{
 			// @TODO
-			$sql .= ' LIMIT ' . $this->offset . ', ' . $this->limit;
+			$query .= ' LIMIT ' . $this->offset . ', ' . $this->limit;
 		}
 
 		// Increment the query counter.
 		$this->count++;
 
+		// Reset the error values.
+		$this->errorNum = 0;
+		$this->errorMsg = '';
+
 		// If debugging is enabled then let's log the query.
 		if ($this->debug)
 		{
 			// Add the query to the object queue.
-			$this->log[] = $sql;
+			$this->log[] = $query;
 
-			JLog::add($sql, JLog::DEBUG, 'databasequery');
+			JLog::add($query, JLog::DEBUG, 'databasequery');
+
+			$this->timings[] = microtime(true);
 		}
-
-		// Reset the error values.
-		$this->errorNum = 0;
-		$this->errorMsg = '';
 
 		// Execute the query.
 		$this->executed = false;
@@ -404,6 +409,19 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 			}
 
 			$this->executed = $this->prepared->execute();
+		}
+
+		if ($this->debug)
+		{
+			$this->timings[] = microtime(true);
+			if (defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
+			{
+				$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+			}
+			else
+			{
+				$this->callStacks[] = debug_backtrace();
+			}
 		}
 
 		// If an error occurred handle it.
@@ -539,7 +557,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		}
 
 		// Backup the query state.
-		$sql = $this->sql;
+		$query = $this->sql;
 		$limit = $this->limit;
 		$offset = $this->offset;
 		$prepared = $this->prepared;
@@ -560,7 +578,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		}
 
 		// Restore the query state.
-		$this->sql = $sql;
+		$this->sql = $query;
 		$this->limit = $limit;
 		$this->offset = $offset;
 		$this->prepared = $prepared;
@@ -621,7 +639,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	/**
 	 * Method to get the auto-incremented value from the last INSERT statement.
 	 *
-	 * @return  integer  The value of the auto-increment field from the last inserted row.
+	 * @return  string  The value of the auto-increment field from the last inserted row.
 	 *
 	 * @since   12.1
 	 */
@@ -679,9 +697,9 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 			$query->setLimit($limit, $offset);
 		}
 
-		$sql = $this->replacePrefix((string) $query);
+		$query = $this->replacePrefix((string) $query);
 
-		$this->prepared = $this->connection->prepare($sql, $driverOptions);
+		$this->prepared = $this->connection->prepare($query, $driverOptions);
 
 		// Store reference to the JDatabaseQuery instance:
 		parent::setQuery($query, $offset, $limit);
@@ -704,46 +722,67 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	/**
 	 * Method to commit a transaction.
 	 *
-	 * @return  bool
+	 * @param   boolean  $toSavepoint  If true, commit to the last savepoint.
+	 *
+	 * @return  void
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
-	public function transactionCommit()
+	public function transactionCommit($toSavepoint = false)
 	{
 		$this->connect();
 
-		return $this->connection->commit();
+		if (!$toSavepoint || $this->transactionDepth == 1)
+		{
+			$this->connection->commit();
+		}
+
+		$this->transactionDepth--;
 	}
 
 	/**
 	 * Method to roll back a transaction.
 	 *
-	 * @return  bool
+	 * @param   boolean  $toSavepoint  If true, rollback to the last savepoint.
+	 *
+	 * @return  void
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
-	public function transactionRollback()
+	public function transactionRollback($toSavepoint = false)
 	{
 		$this->connect();
 
-		return $this->connection->rollBack();
+		if (!$toSavepoint || $this->transactionDepth == 1)
+		{
+			$this->connection->rollBack();
+		}
+
+		$this->transactionDepth--;
 	}
 
 	/**
 	 * Method to initialize a transaction.
 	 *
-	 * @return  bool
+	 * @param   boolean  $asSavepoint  If true and a transaction is already active, a savepoint will be created.
+	 *
+	 * @return  void
 	 *
 	 * @since   12.1
 	 * @throws  RuntimeException
 	 */
-	public function transactionStart()
+	public function transactionStart($asSavepoint = false)
 	{
 		$this->connect();
 
-		return $this->connection->beginTransaction();
+		if (!$asSavepoint || !$this->transactionDepth)
+		{
+			$this->connection->beginTransaction();
+		}
+
+		$this->transactionDepth++;
 	}
 
 	/**
@@ -952,7 +991,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 		// Get properties of the current class
 		$properties = $reflect->getProperties();
 
-		foreach ($properties as $key => $property)
+		foreach ($properties as $property)
 		{
 			// Do not serialize properties that are PDO
 			if ($property->isStatic() == false && !($this->{$property->name} instanceof PDO))

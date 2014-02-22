@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,22 +21,26 @@ class CategoriesControllerCategories extends JControllerAdmin
 	/**
 	 * Proxy for getModel
 	 *
-	 * @param   string	$name	The model name. Optional.
-	 * @param   string	$prefix	The class prefix. Optional.
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  The array of possible config values. Optional.
 	 *
 	 * @return  object  The model.
+	 *
 	 * @since   1.6
 	 */
 	public function getModel($name = 'Category', $prefix = 'CategoriesModel', $config = array('ignore_request' => true))
 	{
 		$model = parent::getModel($name, $prefix, $config);
+
 		return $model;
 	}
 
 	/**
 	 * Rebuild the nested set tree.
 	 *
-	 * @return  bool	False on failure or error, true on success.
+	 * @return  bool  False on failure or error, true on success.
+	 *
 	 * @since   1.6
 	 */
 	public function rebuild()
@@ -52,12 +56,14 @@ class CategoriesControllerCategories extends JControllerAdmin
 		{
 			// Rebuild succeeded.
 			$this->setMessage(JText::_('COM_CATEGORIES_REBUILD_SUCCESS'));
+
 			return true;
 		}
 		else
 		{
 			// Rebuild failed.
 			$this->setMessage(JText::_('COM_CATEGORIES_REBUILD_FAILURE'));
+
 			return false;
 		}
 	}
@@ -66,6 +72,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 	 * Save the manual order inputs from the categories list page.
 	 *
 	 * @return  void
+	 *
 	 * @since   1.6
 	 */
 	public function saveorder()
@@ -84,64 +91,51 @@ class CategoriesControllerCategories extends JControllerAdmin
 		else
 		{
 			// Nothing to reorder
-			$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list, false));
+			$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+
 			return true;
 		}
 	}
 
 	/**
-	 * Method to save the submitted ordering values for records via AJAX.
+	 * Deletes and returns correctly.
 	 *
 	 * @return  void
 	 *
-	 * @since   3.0
+	 * @since   3.1.2
 	 */
-	public function saveOrderAjax()
+	public function delete()
 	{
 		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
-		// Get the arrays from the Request
-		$pks   = $this->input->post->get('cid', null, 'array');
-		$order = $this->input->post->get('order', null, 'array');
-		$originalOrder = explode(',', $this->input->getString('original_order_values'));
+		// Get items to remove from the request.
+		$cid = $this->input->get('cid', array(), 'array');
+		$extension = $this->input->getCmd('extension', null);
 
-		// Make sure something has changed
-		if (!($order === $originalOrder))
+		if (!is_array($cid) || count($cid) < 1)
 		{
-			// Get the model
+			JError::raiseWarning(500, JText::_($this->text_prefix . '_NO_ITEM_SELECTED'));
+		}
+		else
+		{
+			// Get the model.
 			$model = $this->getModel();
-			// Save the ordering
-			$return = $model->saveorder($pks, $order);
-			if ($return)
+
+			// Make sure the item ids are integers
+			jimport('joomla.utilities.arrayhelper');
+			JArrayHelper::toInteger($cid);
+
+			// Remove the items.
+			if ($model->delete($cid))
 			{
-				echo "1";
+				$this->setMessage(JText::plural($this->text_prefix . '_N_ITEMS_DELETED', count($cid)));
+			}
+			else
+			{
+				$this->setMessage($model->getError());
 			}
 		}
-		// Close the application
-		JFactory::getApplication()->close();
 
+		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&extension=' . $extension, false));
 	}
-	/**
-	 * Function that allows child controller access to model data
-	 * after the item has been deleted.
-	 *
-	 * @param   JModelLegacy  $model  The data model object.
-	 * @param   integer       $ids    The array of ids for items being deleted.
-	 *
-	 * @return  void
-	 *
-	 * @since   12.2
-	 */
-	protected function postDeleteHook(JModelLegacy $model, $ids = null)
-	{
-		// If an item has been tagged we need to untag it and delete it from #__core_content.
-		$task = $this->getTask();
-		$extension = $this->input->get('extension');
-		$item = $model->getItem();
-
-		$tags = new JTags;
-		$tags->deleteTagData($ids, $extension . '.category');
-
-	}
-
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 $mime = !empty($this->result->mime) ? 'mime-' . $this->result->mime : null;
 
 // Get the base url.
-$base = JURI::getInstance()->toString(array('scheme', 'host', 'port'));
+$base = JUri::getInstance()->toString(array('scheme', 'host', 'port'));
 
 // Get the route with highlighting information.
 if (!empty($this->query->highlight) && empty($this->result->mime) && $this->params->get('highlight_terms', 1) && JPluginHelper::isEnabled('system', 'highlight'))
@@ -32,6 +32,6 @@ if (!empty($this->query->highlight) && empty($this->result->mime) && $this->para
 	</p>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_url', 1)) : ?>
-	<small class="small result-url<?php echo $this->pageclass_sfx; ?>"><?php echo $base . JRoute::_($this->result->route); ?></small>
+	<div class="small result-url<?php echo $this->pageclass_sfx; ?>"><?php echo $base . JRoute::_($this->result->route); ?></div>
 	<?php endif; ?>
 </li>

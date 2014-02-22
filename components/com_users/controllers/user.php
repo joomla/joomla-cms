@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT.'/controller.php';
+require_once JPATH_COMPONENT . '/controller.php';
 
 /**
  * Registration controller class for Users.
@@ -36,6 +36,7 @@ class UsersControllerUser extends UsersController
 		$data['return'] = base64_decode($app->input->post->get('return', '', 'BASE64'));
 		$data['username'] = JRequest::getVar('username', '', 'method', 'username');
 		$data['password'] = JRequest::getString('password', '', 'post', JREQUEST_ALLOWRAW);
+		$data['secretkey'] = JRequest::getString('secretkey', '');
 
 		// Set the return URL if empty.
 		if (empty($data['return']))
@@ -53,13 +54,19 @@ class UsersControllerUser extends UsersController
 
 		// Get the log in credentials.
 		$credentials = array();
-		$credentials['username'] = $data['username'];
-		$credentials['password'] = $data['password'];
+		$credentials['username']  = $data['username'];
+		$credentials['password']  = $data['password'];
+		$credentials['secretkey'] = $data['secretkey'];
 
 		// Perform the log in.
 		if (true === $app->login($credentials, $options))
 		{
 			// Success
+			if ($options['remember'] = true)
+			{
+				$app->setUserState('rememberLogin', true);
+			}
+
 			$app->setUserState('users.login.form.data', array());
 			$app->redirect(JRoute::_($app->getUserState('users.login.form.return'), false));
 		}
@@ -92,7 +99,7 @@ class UsersControllerUser extends UsersController
 			// Get the return url from the request and validate that it is internal.
 			$return = JRequest::getVar('return', '', 'method', 'base64');
 			$return = base64_decode($return);
-			if (!JURI::isInternal($return))
+			if (!JUri::isInternal($return))
 			{
 				$return = '';
 			}
@@ -115,6 +122,9 @@ class UsersControllerUser extends UsersController
 	{
 		JSession::checkToken('post') or jexit(JText::_('JINVALID_TOKEN'));
 
+		// Get the application
+		$app = JFactory::getApplication();
+
 		// Get the form data.
 		$data  = $this->input->post->get('user', array(), 'array');
 
@@ -126,7 +136,6 @@ class UsersControllerUser extends UsersController
 		if ($return === false)
 		{
 			// Get the validation messages.
-			$app	= &JFactory::getApplication();
 			$errors	= $model->getErrors();
 
 			// Push up to three validation messages out to the user.

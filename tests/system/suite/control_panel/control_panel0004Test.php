@@ -1,7 +1,7 @@
 <?php
 /**
  * @package		Joomla.SystemTest
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * Basic test of add, edit, and delete Content Category from back end.
  */
@@ -73,14 +73,14 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->jPrint("Check that new category is not shown." . "\n");
 		$this->assertFalse($this->isElementPresent("link=Functional Test Category"));
 		$this->jPrint("Change filter to Select State." . "\n");
-		$this->click("//button[@type='button']");
+		$this->click("//button[@type='button'][contains(@onclick, \".value=''\")]");
 		$this->waitForPageToLoad("30000");
 		$this->select("filter_published", "label=- Select Status -");
 		$this->waitForPageToLoad("30000");
 		$this->jPrint("Check that new category is not shown." . "\n");
 		$this->assertFalse($this->isElementPresent("link=Functional Test Category"));
 		$this->jPrint("Change filter to Select State." . "\n");
-		$this->click("//button[@type='button']");
+		$this->click("//button[@type='button'][contains(@onclick, \".value=''\")]");
 		$this->waitForPageToLoad("30000");
 		$this->jPrint("Check that reordering still works." . "\n");
 		$this->jPrint("Check that Templates and Modules categories are in original order." . "\n");
@@ -359,7 +359,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->assertContains("Featured Articles", $this->getTable("//table[@class='adminlist'].10.1"));
 
 		$this->jPrint ("Move Content Component Menu Item Down One\n");
-		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Content Component')]/../../td//a[@title='Move Down']");
+		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Content Component')]/../../td//i[@class='icon-downarrow']");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"));
 		$this->jPrint ("Check that Contact Component and Content Component Menu Items are in new order\n");
@@ -376,7 +376,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->assertContains("Featured Articles", $this->getTable("//table[@class='adminlist'].15.1"));
 
 		$this->jPrint ("Move Content Component Menu Item Up One\n");
-		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Content Component')]/../../td//a[@title='Move Up']");
+		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Content Component')]/../../td//i[@class='icon-uparrow']");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"));
 		$this->jPrint ("Check that Contact Component and Content Component Menu Items are in original order\n");
@@ -393,7 +393,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->assertContains("Featured Articles", $this->getTable("//table[@class='adminlist'].10.1"));
 
 		$this->jPrint ("Move Getting Started menu item down one\n");
-		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Getting Started')]/../../td//a[@title='Move Down']");
+		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Getting Started')]/../../td//i[@class='icon-downarrow']");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"));
 		$this->jPrint ("Check that Using Joomla! is now in first row\n");
@@ -402,7 +402,7 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->select("limit", "value=0");
 		$this->clickGo();
 		$this->waitForPageToLoad("30000");
-		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Getting Started')]/../../td//a[@title='Move Up']");
+		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Getting Started')]/../../td//i[@class='icon-uparrow']");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"));
 		$this->jPrint ("Check that Getting Started is now in first row\n");
@@ -417,12 +417,12 @@ class ControlPanel0004 extends SeleniumJoomlaTestCase
 		$this->click("//a[contains(@href, 'option=com_categories&extension=com_weblinks')]");
 		$this->waitForPageToLoad("30000");
 		$this->jPrint ("Move weblinks Uncatgorised up\n");
-		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Uncategorised')]/../../td//a[@title='Move Up']");
+		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Uncategorised')]/../../td//i[@class='icon-uparrow']");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"));
 		$this->assertContains("Uncategorised", $this->getTable("//table[@class='adminlist'].1.1"));
 		$this->jPrint ("Move weblinks Uncatgorised back down\n");
-		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Uncategorised')]/../../td//a[@title='Move Down']");
+		$this->click("//table[@class='adminlist']/tbody//tr//td/a[contains(text(), 'Uncategorised')]/../../td//i[@class='icon-downarrow']");
 		$this->waitForPageToLoad("30000");
 		$this->assertTrue($this->isElementPresent("//div[@id='system-message-container'][contains(., 'success')]"));
 		$this->assertContains("Sample Data-Weblinks", $this->getTable("//table[@class='adminlist'].1.1"));

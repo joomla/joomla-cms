@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -54,10 +54,9 @@ class LanguagesViewLanguages extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		require_once JPATH_COMPONENT.'/helpers/languages.php';
-		$canDo	= LanguagesHelper::getActions();
+		$canDo	= JHelperContent::getActions('com_languages');
 
-		JToolbarHelper::title(JText::_('COM_LANGUAGES_VIEW_LANGUAGES_TITLE'), 'langmanager.png');
+		JToolbarHelper::title(JText::_('COM_LANGUAGES_VIEW_LANGUAGES_TITLE'), 'comments-2 langmanager');
 
 		if ($canDo->get('core.create'))
 		{
@@ -114,6 +113,28 @@ class LanguagesViewLanguages extends JViewLegacy
 			JText::_('JOPTION_SELECT_ACCESS'),
 			'filter_access',
 			JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
+		);
+	}
+
+	/**
+	 * Returns an array of fields the table can be sorted by
+	 *
+	 * @return  array  Array containing the field name to sort by as the key and display text as value
+	 *
+	 * @since   3.0
+	 */
+	protected function getSortFields()
+	{
+		return array(
+				'a.ordering' => JText::_('JGRID_HEADING_ORDERING'),
+				'a.published' => JText::_('JSTATUS'),
+				'a.title' => JText::_('JGLOBAL_TITLE'),
+				'a.title_native' => JText::_('COM_LANGUAGES_HEADING_TITLE_NATIVE'),
+				'a.lang_code' => JText::_('COM_LANGUAGES_FIELD_LANG_TAG_LABEL'),
+				'a.sef' => JText::_('COM_LANGUAGES_FIELD_LANG_CODE_LABEL'),
+				'a.image' => JText::_('COM_LANGUAGES_HEADING_LANG_IMAGE'),
+				'a.access' => JText::_('JGRID_HEADING_ACCESS'),
+				'a.lang_id' => JText::_('JGRID_HEADING_ID')
 		);
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,15 +19,16 @@ defined('_JEXEC') or die;
 class CategoriesController extends JControllerLegacy
 {
 	/**
-	 * @var		string	The extension for which the categories apply.
-	 * @since   1.6
+	 * @var    string  The extension for which the categories apply.
+	 * @since  1.6
 	 */
 	protected $extension;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   array An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
 	 * @see     JController
 	 * @since   1.6
 	 */
@@ -45,10 +46,11 @@ class CategoriesController extends JControllerLegacy
 	/**
 	 * Method to display a view.
 	 *
-	 * @param   boolean			If true, the view output will be cached
-	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean      $cachable   If true, the view output will be cached
+	 * @param   array        $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
-	 * @return  JController		This object to support chaining.
+	 * @return  JController  This object to support chaining.
+	 *
 	 * @since   1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
@@ -59,7 +61,7 @@ class CategoriesController extends JControllerLegacy
 		// Set the default view name and format from the Request.
 		$vName   = $this->input->get('view', 'categories');
 		$vFormat = $document->getType();
-		$lName   = $this->input->get('layout', 'default');
+		$lName   = $this->input->get('layout', 'default', 'string');
 		$id      = $this->input->getInt('id');
 
 		// Check for edit form.
@@ -68,7 +70,7 @@ class CategoriesController extends JControllerLegacy
 			// Somehow the person just went to the form - we don't allow that.
 			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
 			$this->setMessage($this->getError(), 'error');
-			$this->setRedirect(JRoute::_('index.php?option=com_categories&view=categories&extension='.$this->extension, false));
+			$this->setRedirect(JRoute::_('index.php?option=com_categories&view=categories&extension=' . $this->extension, false));
 
 			return false;
 		}
@@ -87,7 +89,7 @@ class CategoriesController extends JControllerLegacy
 			$view->document = $document;
 
 			// Load the submenu.
-			require_once JPATH_COMPONENT.'/helpers/categories.php';
+			require_once JPATH_COMPONENT . '/helpers/categories.php';
 
 			CategoriesHelper::addSubmenu($model->getState('filter.extension'));
 			$view->display();
