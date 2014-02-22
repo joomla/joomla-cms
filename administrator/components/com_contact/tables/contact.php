@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -160,15 +160,9 @@ class ContactTableContact extends JTable
 			return false;
 		}
 
-		if (empty($this->alias))
-		{
-			$this->alias = $this->name;
-		}
-		$this->alias = JApplication::stringURLSafe($this->alias);
-		if (trim(str_replace('-', '', $this->alias)) == '')
-		{
-			$this->alias = JFactory::getDate()->format("Y-m-d-H-i-s");
-		}
+		// Generate a valid alias
+		$this->generateAlias();
+
 		/** check for valid category */
 		if (trim($this->catid) == '')
 		{
@@ -213,5 +207,28 @@ class ContactTableContact extends JTable
 		}
 
 		return true;
+	}
+
+	/**
+	 * Generate a valid alias from title / date.
+	 * Remains public to be able to check for duplicated alias before saving
+	 *
+	 * @return  string
+	 */
+	public function generateAlias()
+	{
+		if (empty($this->alias))
+		{
+			$this->alias = $this->name;
+		}
+
+		$this->alias = JApplication::stringURLSafe($this->alias);
+
+		if (trim(str_replace('-', '', $this->alias)) == '')
+		{
+			$this->alias = JFactory::getDate()->format("Y-m-d-H-i-s");
+		}
+
+		return $this->alias;
 	}
 }

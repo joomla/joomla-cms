@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -77,11 +77,8 @@ class JFormRulePassword extends JFormRule
 
 		$valueLength = strlen($value);
 
-		/*
-		 * We set a maximum length to prevent abuse since it is unfiltered.
-		 * 55 is the length we use because that is roughly the maximum for bcrypt
-		 */
-		if ($valueLength > 55)
+		// We set a maximum length to prevent abuse since it is unfiltered.
+		if ($valueLength > 4096)
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_USERS_MSG_PASSWORD_TOO_LONG'), 'warning');
 		}

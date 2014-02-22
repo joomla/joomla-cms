@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 require_once JPATH_SITE . '/components/com_content/router.php';
 
 /**
- * Content Search plugin
+ * Content search plugin.
  *
  * @package     Joomla.Plugin
  * @subpackage  Search.content
@@ -21,7 +21,11 @@ require_once JPATH_SITE . '/components/com_content/router.php';
 class PlgSearchContent extends JPlugin
 {
 	/**
-	 * @return array An array of search areas
+	 * Determine areas searchable by this plugin.
+	 *
+	 * @return  array  An array of search areas.
+	 *
+	 * @since   1.6
 	 */
 	public function onContentSearchAreas()
 	{
@@ -32,13 +36,18 @@ class PlgSearchContent extends JPlugin
 	}
 
 	/**
-	 * Content Search method
-	 * The sql must return the following fields that are used in a common display
-	 * routine: href, title, section, created, text, browsernav
-	 * @param string Target search string
-	 * @param string mathcing option, exact|any|all
-	 * @param string ordering option, newest|oldest|popular|alpha|category
-	 * @param mixed  An array if the search it to be restricted to areas, null if search all
+	 * Search content (articles).
+	 * The SQL must return the following fields that are used in a common display
+	 * routine: href, title, section, created, text, browsernav.
+	 *
+	 * @param   string  $text      Target search string.
+	 * @param   string  $phrase    Matching option (possible values: exact|any|all).  Default is "any".
+	 * @param   string  $ordering  Ordering option (possible values: newest|oldest|popular|alpha|category).  Default is "newest".
+	 * @param   mixed   $areas     An array if the search it to be restricted to areas or null to search all areas.
+	 *
+	 * @return  array  Search results.
+	 *
+	 * @since   1.6
 	 */
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
@@ -134,11 +143,12 @@ class PlgSearchContent extends JPlugin
 		$rows = array();
 		$query = $db->getQuery(true);
 
-		// search articles
+		// Search articles.
 		if ($sContent && $limit > 0)
 		{
 			$query->clear();
-			//sqlsrv changes
+
+			// SQLSRV changes.
 			$case_when = ' CASE WHEN ';
 			$case_when .= $query->charLength('a.alias', '!=', '0');
 			$case_when .= ' THEN ';
@@ -170,7 +180,7 @@ class PlgSearchContent extends JPlugin
 				->group('a.id, a.title, a.metadesc, a.metakey, a.created, a.introtext, a.fulltext, c.title, a.alias, c.alias, c.id')
 				->order($order);
 
-			// Filter by language
+			// Filter by language.
 			if ($app->isSite() && JLanguageMultilang::isEnabled())
 			{
 				$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
@@ -191,11 +201,12 @@ class PlgSearchContent extends JPlugin
 			$rows[] = $list;
 		}
 
-		// search archived content
+		// Search archived content.
 		if ($sArchived && $limit > 0)
 		{
 			$query->clear();
-			//sqlsrv changes
+
+			// SQLSRV changes.
 			$case_when = ' CASE WHEN ';
 			$case_when .= $query->charLength('a.alias', '!=', '0');
 			$case_when .= ' THEN ';
@@ -218,7 +229,8 @@ class PlgSearchContent extends JPlugin
 					. $case_when . ',' . $case_when1 . ', '
 					. 'c.title AS section, \'2\' AS browsernav'
 			);
-			//.'CONCAT_WS("/", c.title) AS section, \'2\' AS browsernav' );
+
+			// .'CONCAT_WS("/", c.title) AS section, \'2\' AS browsernav' );
 			$query->from('#__content AS a')
 				->join('INNER', '#__categories AS c ON c.id=a.catid AND c.access IN (' . $groups . ')')
 				->where(
@@ -229,7 +241,7 @@ class PlgSearchContent extends JPlugin
 				)
 				->order($order);
 
-			// Filter by language
+			// Filter by language.
 			if ($app->isSite() && JLanguageMultilang::isEnabled())
 			{
 				$query->where('a.language in (' . $db->quote($tag) . ',' . $db->quote('*') . ')')
@@ -239,7 +251,7 @@ class PlgSearchContent extends JPlugin
 			$db->setQuery($query, 0, $limit);
 			$list3 = $db->loadObjectList();
 
-			// find an itemid for archived to use if there isn't another one
+			// Find an itemid for archived to use if there isn't another one.
 			$item = $app->getMenu()->getItems('link', 'index.php?option=com_content&view=archive', true);
 			$itemid = isset($item->id) ? '&Itemid=' . $item->id : '';
 

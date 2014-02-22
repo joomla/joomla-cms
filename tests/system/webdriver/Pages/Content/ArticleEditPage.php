@@ -11,7 +11,7 @@ use SeleniumClient\WebElement;
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -124,6 +124,25 @@ class ArticleEditPage extends AdminEditPage
 			array('label' => 'Alternative Layout', 'id' => 'jform_attribs_article_layout', 'type' => 'select', 'tab' => 'attrib-basic'),
 
 			);
+
+	public function addArticleText($text)
+	{
+		$values = array('id' => 'jform_articletext', 'value' => $text);
+		$this->setTextAreaValues($values);
+	}
+
+	public function setFieldValues($array)
+	{
+		if(isset($array['text']))
+		{
+			$this->addArticleText($array['text']);
+			unset($array['text']);
+		}
+		if (count($array) > 0)
+		{
+			parent::setFieldValues($array);
+		}
+	}
 
 
 }

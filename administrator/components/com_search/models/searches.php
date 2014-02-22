@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -176,9 +176,9 @@ class SearchModelSearches extends JModelList
 	public function reset()
 	{
 		$db = $this->getDbo();
-		$db->setQuery(
-			'DELETE FROM #__core_log_searches'
-		);
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__core_log_searches'));
+		$db->setQuery($query);
 
 		try
 		{

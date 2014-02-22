@@ -210,6 +210,7 @@ class MenuItemEditPage extends AdminEditPage
 	{
 		$group = $this->getGroupName($value);
 		$d = $this->driver;
+		$d->findElement(By::xPath("//input[@id='jform_title']"))->click();
 		$d->findElement(By::xPath("//a[contains(@onclick, 'option=com_menus&view=menutypes')]"))->click();
 		$el = $d->waitForElementUntilIsPresent(By::xPath("//iframe[contains(@src, 'option=com_menus&view=menutypes')]"));
 		$el = $d->switchTo()->getFrameByWebElement($el);
