@@ -90,7 +90,7 @@ class JFormFieldCheckboxTest extends TestCase
 	{
 		$field = new JFormFieldCheckbox;
 		$element = simplexml_load_string(
-			'<field name="myName" type="checkbox" checked="true" />');
+			'<field name="myName" type="checkbox" checked="true" value="red" />');
 
 		$this->assertThat(
 			$field->setup($element, ''),
@@ -101,6 +101,12 @@ class JFormFieldCheckboxTest extends TestCase
 		$this->assertThat(
 			$field->checked,
 			$this->isTrue(),
+			'Line:' . __LINE__ . ' The property should be computed from the XML.'
+		);
+
+		$this->assertEquals(
+			'red',
+			$field->checkedValue,
 			'Line:' . __LINE__ . ' The property should be computed from the XML.'
 		);
 	}

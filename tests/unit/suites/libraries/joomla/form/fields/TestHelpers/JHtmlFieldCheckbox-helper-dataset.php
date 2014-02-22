@@ -29,20 +29,29 @@ class JHtmlFieldCheckboxTest_DataSet
 			array(
 				'id' => 'myTestId',
 				'name' => 'myTestName',
-				'default' => 'red',
-				'value' => 'red',
+				'checkedValue' => 'red',
 			),
-			'<input type="checkbox" name="myTestName" id="myTestId" value="red" checked />',
+			'<input type="checkbox" name="myTestName" id="myTestId" value="red" />',
 		),
 
-		'NoValueChecked' => array(
+		// Default gets evaluated as value.
+		'NoValueCheckedUsingDefault' => array(
 			array(
 				'id' => 'myTestId',
 				'name' => 'myTestName',
-				'default' => 'red',
+				'value' => 'red',
+				'checkedValue' => '1',
+			),
+			'<input type="checkbox" name="myTestName" id="myTestId" value="1" checked />',
+		),
+
+		'NoValueCheckedUsingChecked' => array(
+			array(
+				'id' => 'myTestId',
+				'name' => 'myTestName',
 				'checked' => true,
 			),
-			'<input type="checkbox" name="myTestName" id="myTestId" value="red" checked />',
+			'<input type="checkbox" name="myTestName" id="myTestId" value="1" checked />',
 		),
 
 		'Disabled' => array(
