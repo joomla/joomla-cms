@@ -229,4 +229,46 @@ class MediaModelEditor extends ConfigModelForm
 
 	}
 
+	public function getFilterList()
+	{
+		return array("smooth" => "Smooth", "contrast" => "Contrast", "edgedetect" => "Edge Detect", "grayscale" => "Grayscale", "sketchy" => "Sketchy", "emboss" => "Emboss", "brightness" => "Brightness", "negate" => "Negate");
+	}
+
+	/**
+	 * Filter an image.
+	 *
+	 * @param   string  $file    The name and location of the file
+	 * @param   string  $filter  The new filter for the image.
+	 * @param   string  $value   The filter value only use in brightness, contrast and smooth filters.
+	 *
+	 * @return   boolean  true if image filtering successful, false otherwise.
+	 *
+	 * @since   3.2
+	 */
+	public function filterImage($file, $filter, $value = null)
+	{
+		$app     = JFactory::getApplication();
+		$options = array_fill(0, 11, 0);
+
+		if(!empty($value))
+		{
+			$key = constant('IMG_FILTER_' . strtoupper($filter));
+			$options[$key]= $value;
+		}
+
+		$JImage = new JImage($file);
+
+		try
+		{
+			$image = $JImage->filter($filter, $options);
+			$image->toFile($file);
+
+			return true;
+		}
+		catch (Exception $e)
+		{
+			$app->enqueueMessage($e->getMessage(), 'error');
+		}
+
+	}
 }

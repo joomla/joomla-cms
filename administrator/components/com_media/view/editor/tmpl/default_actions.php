@@ -56,7 +56,7 @@ $input = JFactory::getApplication()->input;
 
 	<br /> <br />
 
-	<button data-toggle='modal' data-target='#' class='btn btn-large'>
+	<button data-toggle='modal' data-target='#filterModal' class='btn btn-large'>
 		<i class='icon-refresh' title='COM_MEDIA_EDITOR_BUTTON_FILTER'></i>
 		<?php echo JText::_('COM_MEDIA_EDITOR_BUTTON_FILTER') ?>
 	</button>

@@ -186,7 +186,7 @@ JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
 			</h3>
 		</div>
 		<div class="modal-body">
-			<div id="template-manager-css" class="form-horizontal">
+			<div id="" class="form-horizontal">
 				<div class="control-group">
 					<label for="new_name" class="control-label hasTooltip"
 						title="<?php echo JHtml::tooltipText(JText::_('COM_MEDIA_EDITOR_NEW_FILE_NAME')); ?>"><?php echo JText::_('COM_MEDIA_EDITOR_NEW_FILE_NAME')?>
@@ -221,7 +221,7 @@ JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
 			</h3>
 		</div>
 		<div class="modal-body">
-			<div id="template-manager-css" class="form-horizontal">
+			<div id="" class="form-horizontal">
 				<div class="control-group">
 					<label for="height" class="control-label hasTooltip"
 						title="<?php echo JHtml::tooltipText('COM_MEDIA_EDITOR_IMAGE_HEIGHT'); ?>"><?php echo JText::_('COM_MEDIA_EDITOR_IMAGE_HEIGHT')?>
@@ -264,9 +264,9 @@ JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
 			</h3>
 		</div>
 		<div class="modal-body">
-			<div id="template-manager-css" class="form-horizontal">
+			<div id="" class="form-horizontal">
 				<div class="control-group">
-					<label for="height" class="control-label hasTooltip"
+					<label for="angle" class="control-label hasTooltip"
 						title="<?php echo JHtml::tooltipText('COM_MEDIA_EDITOR_IMAGE_ANGLE'); ?>"><?php echo JText::_('COM_MEDIA_EDITOR_IMAGE_ANGLE')?>
 					</label>
 					<div class="controls">
@@ -281,6 +281,61 @@ JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
 			</a>
 			<button class="btn btn-primary" type="submit">
 				<?php echo JText::_('COM_MEDIA_EDITOR_BUTTON_ROTATE'); ?>
+			</button>
+		</div>
+	</div>
+	<?php echo JHtml::_('form.token'); ?>
+</form>
+
+<!-- Filter Modal -->
+<form
+	action="<?php echo JRoute::_('index.php?option=com_media&controller=media.filter.editor&folder=' . $this->folder . '&file=' . $this->file); ?>"
+	method="post">
+	<div id="filterModal" class="modal hide fade">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"
+				aria-hidden="true">&times;</button>
+			<h3>
+				<?php echo JText::_('COM_MEDIA_EDITOR_FILTER_IMAGE'); ?>
+			</h3>
+		</div>
+		<div class="modal-body">
+			<div id="" class="form-horizontal" >
+				<div class="control-group">
+					<label for="filter" class="control-label hasTooltip"
+						title="<?php echo JHtml::tooltipText('COM_MEDIA_EDITOR_FILTER_NAME'); ?>"><?php echo JText::_('COM_MEDIA_EDITOR_FILTER_NAME')?>
+					</label>
+					<?php
+						$filters = $this->model->getFilterList();
+// 						$filterWithValue = array("brightness", "contrast", "smooth");
+					?>
+					<div class="controls">
+					<select class="input-xlarge" type="list" name="filter" required>
+							<?php foreach ($filters as $k => $v):?>
+							<option value="<?php echo $k;?>"> <?php echo $v;?> </option>
+							<?php endforeach;?>
+						</select>
+					</div>
+					<br /> 
+					<!-- Only for filters require a value -->
+					
+					<label for="value" class="control-label hasTooltip"
+						title="<?php echo JHtml::tooltipText('COM_MEDIA_EDITOR_FILTER_VALUE'); ?>"><?php echo JText::_('COM_MEDIA_EDITOR_FILTER_VALUE')?>
+					</label>
+					<div class="controls">
+						<input class="input-small" type="number" name="value"
+							placeholder="0" />
+						<span class="help-inline"><span class="label label-default">Require Only for "brightness", "contrast", "smooth" filters</span></span>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_EDITOR_BUTTON_FILTER_CLOSE'); ?>
+			</a>
+			<button class="btn btn-primary" type="submit">
+				<?php echo JText::_('COM_MEDIA_EDITOR_BUTTON_FILTER'); ?>
 			</button>
 		</div>
 	</div>
