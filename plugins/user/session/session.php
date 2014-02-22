@@ -103,7 +103,6 @@ class plgUserSession extends JPlugin
 			}
 
 			// Get session information.
-			$debug              = JDEBUG;
 			$session_handler    = $this->app->getCfg('session_handler');
 			$supported_handlers = array(
 				'database',
