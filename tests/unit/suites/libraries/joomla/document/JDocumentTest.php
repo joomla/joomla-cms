@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,12 +14,27 @@
  * @subpackage  Document
  * @since       11.1
  */
-class JDocumentTest extends TestCase
+class JDocumentTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @var  JDocument
 	 */
 	protected $object;
+
+	/**
+	 * Sets up the fixture, for example, open a network connection.
+	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	protected function setUp()
+	{
+		parent::setUp();
+
+		$this->object = new JDocument;
+	}
 
 	/**
 	 * Test...
@@ -82,40 +97,40 @@ class JDocumentTest extends TestCase
 	 */
 	public function testConstruct($options, $expects)
 	{
-		$this->object = new JDocument($options);
+		$object = new JDocument($options);
 
 		$this->assertThat(
-			$this->object->_getLineEnd(),
+			$object->_getLineEnd(),
 			$this->equalTo($expects['lineend'])
 		);
 
 		$this->assertThat(
-			$this->object->getCharset(),
+			$object->getCharset(),
 			$this->equalTo($expects['charset'])
 		);
 
 		$this->assertThat(
-			$this->object->getLanguage(),
+			$object->getLanguage(),
 			$this->equalTo($expects['language'])
 		);
 
 		$this->assertThat(
-			$this->object->getDirection(),
+			$object->getDirection(),
 			$this->equalTo($expects['direction'])
 		);
 
 		$this->assertThat(
-			$this->object->_getTab(),
+			$object->_getTab(),
 			$this->equalTo($expects['tab'])
 		);
 
 		$this->assertThat(
-			$this->object->getLink(),
+			$object->getLink(),
 			$this->equalTo($expects['link'])
 		);
 
 		$this->assertThat(
-			$this->object->getBase(),
+			$object->getBase(),
 			$this->equalTo($expects['base'])
 		);
 	}
@@ -127,22 +142,22 @@ class JDocumentTest extends TestCase
 	 */
 	public function testGetInstance()
 	{
-		$this->object = JDocument::getInstance();
+		$object = JDocument::getInstance();
 
 		$this->assertThat(
-			$this->object,
+			$object,
 			$this->isInstanceOf('JDocumentHtml')
 		);
 
-		$this->object = JDocument::getInstance('custom');
+		$object = JDocument::getInstance('custom');
 
 		$this->assertThat(
-			$this->object,
+			$object,
 			$this->isInstanceOf('JDocumentRaw')
 		);
 
 		$this->assertThat(
-			$this->object->getType(),
+			$object->getType(),
 			$this->equalTo('custom')
 		);
 	}
@@ -154,7 +169,6 @@ class JDocumentTest extends TestCase
 	 */
 	public function testSetType()
 	{
-		$this->object = new JDocument;
 		$this->object->setType('raw');
 		$this->assertThat(
 			$this->object->_type,
@@ -170,7 +184,6 @@ class JDocumentTest extends TestCase
 	 */
 	public function testGetType()
 	{
-		$this->object = new JDocument;
 		$this->object->_type = 'raw';
 		$this->assertThat(
 			$this->object->getType(),
@@ -186,7 +199,6 @@ class JDocumentTest extends TestCase
 	 */
 	public function testGetSetBuffer()
 	{
-		$this->object = new JDocument;
 		$this->object->setBuffer('This is the content of my document');
 
 		$this->assertThat(
@@ -203,7 +215,6 @@ class JDocumentTest extends TestCase
 	 */
 	public function testGetSetMetaData()
 	{
-		$this->object = new JDocument;
 		$this->assertThat(
 			$this->object->getMetaData('generator'),
 			$this->equalTo('Joomla! - Open Source Content Management'),
@@ -268,8 +279,6 @@ class JDocumentTest extends TestCase
 	 */
 	public function testAddScript()
 	{
-		$this->object = new JDocument;
-
 		$this->object->addScript('http://www.joomla.org');
 		$this->assertThat(
 			$this->object->_scripts['http://www.joomla.org']['mime'],
@@ -312,8 +321,6 @@ class JDocumentTest extends TestCase
 	 */
 	public function testAddScriptDeclaration()
 	{
-		$this->object = new JDocument;
-
 		$this->object->addScriptDeclaration('My Script');
 		$this->assertThat(
 			$this->object->_script['text/javascript'],
@@ -343,8 +350,6 @@ class JDocumentTest extends TestCase
 	 */
 	public function testAddStyleSheet()
 	{
-		$this->object = new JDocument;
-
 		$this->object->addStyleSheet(
 			'http://www.joomla.org', 'text/style', 'screen', array('attrib1' => 'value1')
 		);
@@ -372,8 +377,6 @@ class JDocumentTest extends TestCase
 	 */
 	public function testAddStyleDeclaration()
 	{
-		$this->object = new JDocument;
-
 		$this->object->addStyleDeclaration('My Style');
 		$this->assertThat(
 			$this->object->_style['text/css'],
@@ -403,8 +406,6 @@ class JDocumentTest extends TestCase
 	 */
 	public function testGetSetCharset()
 	{
-		$this->object = new JDocument;
-
 		$this->object->setCharset('My Character Set');
 
 		$this->assertThat(
@@ -420,8 +421,6 @@ class JDocumentTest extends TestCase
 	 */
 	public function testGetCharset()
 	{
-		$this->object = new JDocument;
-
 		$this->object->_charset = 'My Character Set';
 
 		$this->assertThat(
@@ -437,8 +436,6 @@ class JDocumentTest extends TestCase
 	 */
 	public function testSetLanguage()
 	{
-		$this->object = new JDocument;
-
 		$this->object->setLanguage('My Character Set');
 
 		$this->assertThat(
@@ -454,8 +451,6 @@ class JDocumentTest extends TestCase
 	 */
 	public function testGetLanguage()
 	{
-		$this->object = new JDocument;
-
 		$this->object->language = 'de-de';
 
 		$this->assertThat(
@@ -471,8 +466,6 @@ class JDocumentTest extends TestCase
 	 */
 	public function testSetDirection()
 	{
-		$this->object = new JDocument;
-
 		$this->object->setDirection('rtl');
 
 		$this->assertThat(
@@ -488,8 +481,6 @@ class JDocumentTest extends TestCase
 	 */
 	public function testGetDirection()
 	{
-		$this->object = new JDocument;
-
 		$this->object->direction = 'rtl';
 
 		$this->assertThat(
@@ -505,8 +496,6 @@ class JDocumentTest extends TestCase
 	 */
 	public function testSetTitle()
 	{
-		$this->object = new JDocument;
-
 		$this->object->setTitle('My Title');
 
 		$this->assertThat(
@@ -522,8 +511,6 @@ class JDocumentTest extends TestCase
 	 */
 	public function testGetTitle()
 	{
-		$this->object = new JDocument;
-
 		$this->object->title = 'My Title';
 
 		$this->assertThat(
@@ -539,8 +526,6 @@ class JDocumentTest extends TestCase
 	 */
 	public function testSetBase()
 	{
-		$this->object = new JDocument;
-
 		$this->object->setBase('http://www.example.com/base');
 
 		$this->assertThat(
@@ -556,8 +541,6 @@ class JDocumentTest extends TestCase
 	 */
 	public function testGetBase()
 	{
-		$this->object = new JDocument;
-
 		$this->object->base = 'http://www.example.com/base';
 
 		$this->assertThat(
@@ -573,8 +556,6 @@ class JDocumentTest extends TestCase
 	 */
 	public function testSetDescription()
 	{
-		$this->object = new JDocument;
-
 		$this->object->setDescription('Joomla Rocks');
 
 		$this->assertThat(
@@ -590,8 +571,6 @@ class JDocumentTest extends TestCase
 	 */
 	public function testGetDescription()
 	{
-		$this->object = new JDocument;
-
 		$this->object->description = 'Joomla Rocks';
 
 		$this->assertThat(
@@ -607,8 +586,6 @@ class JDocumentTest extends TestCase
 	 */
 	public function testSetLink()
 	{
-		$this->object = new JDocument;
-
 		$this->object->setLink('My Link String');
 
 		$this->assertThat(
@@ -624,8 +601,6 @@ class JDocumentTest extends TestCase
 	 */
 	public function testGetLink()
 	{
-		$this->object = new JDocument;
-
 		$this->object->link = 'My Link String';
 
 		$this->assertThat(
@@ -641,8 +616,6 @@ class JDocumentTest extends TestCase
 	 */
 	public function testSetGenerator()
 	{
-		$this->object = new JDocument;
-
 		$this->object->setGenerator('Joomla Content Management');
 
 		$this->assertThat(
@@ -658,8 +631,6 @@ class JDocumentTest extends TestCase
 	 */
 	public function testGetGenerator()
 	{
-		$this->object = new JDocument;
-
 		$this->object->setGenerator('Joomla Content Management');
 
 		$this->assertThat(
@@ -675,8 +646,6 @@ class JDocumentTest extends TestCase
 	 */
 	public function testSetModifiedDate()
 	{
-		$this->object = new JDocument;
-
 		$this->object->setModifiedDate('2010-06-22');
 
 		$this->assertThat(
@@ -692,8 +661,6 @@ class JDocumentTest extends TestCase
 	 */
 	public function testGetModifiedDate()
 	{
-		$this->object = new JDocument;
-
 		$this->object->_mdate = '2010-06-22';
 
 		$this->assertThat(
@@ -709,8 +676,6 @@ class JDocumentTest extends TestCase
 	 */
 	public function testSetMimeEncoding()
 	{
-		$this->object = new JDocument;
-
 		$this->object->setMimeEncoding('text/xls');
 
 		$this->assertThat(
@@ -726,11 +691,10 @@ class JDocumentTest extends TestCase
 	 */
 	public function testGetMimeEncoding()
 	{
-		$document = new JDocument;
-		$document->setMimeEncoding('image');
-		$this->assertEquals('image', $document->getMimeEncoding(), 'getMimeEncoding should be image');
-		$document->setMimeEncoding('zip');
-		$this->assertEquals('zip', $document->getMimeEncoding(), 'getMimeEncoding should be zip');
+		$this->object->setMimeEncoding('image');
+		$this->assertEquals('image', $this->object->getMimeEncoding(), 'getMimeEncoding should be image');
+		$this->object->setMimeEncoding('zip');
+		$this->assertEquals('zip', $this->object->getMimeEncoding(), 'getMimeEncoding should be zip');
 	}
 
 	/**
@@ -740,8 +704,6 @@ class JDocumentTest extends TestCase
 	 */
 	public function testSetLineEnd()
 	{
-		$this->object = new JDocument;
-
 		$this->object->setLineEnd('win');
 
 		$this->assertThat(
@@ -769,7 +731,6 @@ class JDocumentTest extends TestCase
 			$this->object->_lineEnd,
 			$this->equalTo("<br />")
 		);
-
 	}
 
 	/**
@@ -779,8 +740,6 @@ class JDocumentTest extends TestCase
 	 */
 	public function test_getLineEnd()
 	{
-		$this->object = new JDocument;
-
 		$this->object->_lineEnd = "\12";
 
 		$this->assertThat(
@@ -796,15 +755,12 @@ class JDocumentTest extends TestCase
 	 */
 	public function testSetTab()
 	{
-		$this->object = new JDocument;
-
 		$this->object->setTab('Crazy Indent');
 
 		$this->assertThat(
 			$this->object->_tab,
 			$this->equalTo('Crazy Indent')
 		);
-
 	}
 
 	/**
@@ -814,8 +770,6 @@ class JDocumentTest extends TestCase
 	 */
 	public function test_getTab()
 	{
-		$this->object = new JDocument;
-
 		$this->object->_tab = 'Crazy Indent';
 
 		$this->assertThat(
@@ -831,7 +785,6 @@ class JDocumentTest extends TestCase
 	 */
 	public function testLoadRenderer()
 	{
-		$this->object = new JDocument;
 		$this->object->setType('html');
 		$renderer = $this->object->loadRenderer('head');
 		$this->assertThat(
@@ -848,7 +801,6 @@ class JDocumentTest extends TestCase
 	 */
 	public function testLoadRendererException()
 	{
-		$this->object = new JDocument;
 		$this->object->setType('html');
 		$this->object->loadRenderer('unknown');
 	}
@@ -860,8 +812,6 @@ class JDocumentTest extends TestCase
 	 */
 	public function testParse()
 	{
-		$this->object = new JDocument;
-
 		$this->assertThat(
 			$this->object->parse(),
 			$this->isInstanceOf('JDocument')
@@ -875,75 +825,6 @@ class JDocumentTest extends TestCase
 	 */
 	public function testRender()
 	{
-		$backupApp = JFactory::$application;
-
-		JFactory::$application = $this->getMockWeb();
-
-		$this->object = new JDocument;
-
-		$this->object->render();
-		$headers = JFactory::getApplication()->getHeaders();
-
-		$lastMod = false;
-		$contentType = false;
-
-		foreach ($headers as $header)
-		{
-			if ($header['name'] == 'Last-Modified')
-			{
-				$lastMod = $header;
-			}
-
-			if ($header['name'] == 'Content-Type')
-			{
-				$contentType = $header;
-			}
-		}
-
-		$this->assertThat(
-			$lastMod,
-			$this->equalTo(false)
-		);
-
-		$this->assertThat(
-			$contentType['value'],
-			$this->equalTo('; charset=utf-8')
-		);
-
-		$this->object->setModifiedDate('My date');
-		$this->object->setMimeEncoding('MyMimeType');
-		$this->object->setCharset('MyCharset');
-
-		$this->object->render();
-
-		$headers = JFactory::getApplication()->getHeaders();
-
-		$lastMod = false;
-		$contentType = false;
-
-		foreach ($headers as $header)
-		{
-			if ($header['name'] == 'Last-Modified')
-			{
-				$lastMod = $header;
-			}
-
-			if ($header['name'] == 'Content-Type')
-			{
-				$contentType = $header;
-			}
-		}
-
-		$this->assertThat(
-			$lastMod['value'],
-			$this->equalTo('My date')
-		);
-
-		$this->assertThat(
-			$contentType['value'],
-			$this->equalTo('mymimetype; charset=MyCharset')
-		);
-
-		JFactory::$application = $backupApp;
+		$this->markTestSkipped('Test not implemented.');
 	}
 }

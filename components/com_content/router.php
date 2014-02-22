@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -207,6 +207,16 @@ function ContentBuildRoute(&$query)
 		}
 	}
 
+	if ($view == 'featured')
+	{
+		if (!$menuItemGiven)
+		{
+			$segments[] = $view;
+		}
+
+		unset($query['view']);
+	}
+
 	// if the layout is specified and it is the same as the layout in the menu item, we
 	// unset it so it doesn't go into the query string.
 	if (isset($query['layout']))
@@ -290,7 +300,10 @@ function ContentParseRoute($segments)
 		}
 		else
 		{
-			$query = 'SELECT alias, catid FROM #__content WHERE id = ' . (int) $id;
+			$query = $db->getQuery(true)
+				->select($db->quoteName(array('alias', 'catid')))
+				->from($db->quoteName('#__content'))
+				->where($db->quoteName('id') . ' = ' . (int) $id);
 			$db->setQuery($query);
 			$article = $db->loadObject();
 

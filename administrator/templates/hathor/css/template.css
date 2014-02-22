@@ -341,7 +341,8 @@
 .icon-radio-unchecked:before {
 	content: "\e227";
 }
-.icon-radio-checked:before {
+.icon-radio-checked:before,
+.icon-generic:before {
 	content: "\e228";
 }
 .icon-circle:before {
@@ -1464,7 +1465,8 @@ p.tab-description {
 .cpanel div.icon a {
 	display: block;
 	float: left;
-	height: 97px;
+	height: auto;
+	min-height: 97px;
 	width: 108px;
 	color: #2c2c2c;
 	vertical-align: middle;
@@ -1473,13 +1475,14 @@ p.tab-description {
 }
 #cpanel img,
 .cpanel img {
-	padding: 10px 0;
+	padding: 10px;
 	margin: 0 auto;
 }
 #cpanel span,
 .cpanel span {
 	display: block;
 	text-align: center;
+	padding: 0 0 5px;
 }
 div.cpanel-icons {
 	width: 54%;
@@ -1830,6 +1833,10 @@ table.admintable td.key.vtop {
 fieldset.adminform {
 	margin: 0 10px 10px 10px;
 	overflow: hidden;
+}
+.adminformlist .btn.modal {
+	float: left;
+	margin-top: 7px;
 }
 ul.adminformlist,
 ul.adminformlist li,
@@ -2267,7 +2274,7 @@ table.adminlist .pagination button {
 	margin-right: 20px;
 }
 div.toggle-editor {
-	margin-top: 27px;
+	margin-top: 9px;
 }
 .tip {
 	float: left;
@@ -3189,6 +3196,9 @@ ul.helpmenu li {
 .menu-tags {
 	background-image: url(../images/menu/icon-16-tags.png);
 }
+.menu-postinstall {
+	background-image: url(../images/menu/icon-16-generic.png);
+}
 #menu li a:focus+ul {
 	margin-left: 0;
 }
@@ -3537,6 +3547,10 @@ table {
 table.adminlist .item-associations li a {
 	color: #ffffff;
 }
+.hidden {
+	display: none;
+	visibility: hidden;
+}
 .tooltip {
 	position: absolute;
 	z-index: 1030;
@@ -3630,4 +3644,16 @@ th .tooltip-inner {
 fieldset.panelform .tooltip img {
 	float: none;
 	margin: 0;
+}
+div.toggle-editor {
+	float: right;
+}
+.text-left {
+	text-align: left;
+}
+.text-right {
+	text-align: right;
+}
+.text-center {
+	text-align: center;
 }

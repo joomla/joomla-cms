@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -66,7 +66,7 @@ abstract class JHtmlJGrid
 
 		if ($enabled)
 		{
-			$html[] = '<a class="btn btn-micro ' . ($active_class == "publish" ? 'active' : '') . ' ' . ($tip ? 'hasTooltip"' : '') . '"';
+			$html[] = '<a class="btn btn-micro' . ($active_class == 'publish' ? ' active' : '') . ($tip ? ' hasTooltip' : '') . '"';
 			$html[] = ' href="javascript:void(0);" onclick="return listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
 			$html[] = $tip ? ' title="' . $title . '"' : '';
 			$html[] = '>';
@@ -76,7 +76,7 @@ abstract class JHtmlJGrid
 		}
 		else
 		{
-			$html[] = '<a class="btn btn-micro disabled jgrid ' . ($tip ? 'hasTooltip"' : '') . '"';
+			$html[] = '<a class="btn btn-micro disabled jgrid' . ($tip ? ' hasTooltip' : '') . '"';
 			$html[] = $tip ? ' title="' . $title . '"' : '';
 			$html[] = '>';
 
@@ -124,6 +124,7 @@ abstract class JHtmlJGrid
 			$checkbox = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
+
 		$state = JArrayHelper::getValue($states, (int) $value, $states[0]);
 		$task = array_key_exists('task', $state) ? $state['task'] : $state[0];
 		$text = array_key_exists('text', $state) ? $state['text'] : (array_key_exists(1, $state) ? $state[1] : '');
@@ -370,6 +371,7 @@ abstract class JHtmlJGrid
 			$checkbox = array_key_exists('checkbox', $options) ? $options['checkbox'] : $checkbox;
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
+
 		return static::action($i, $task, $prefix, $text, $text, $text, false, 'uparrow', 'uparrow_disabled', $enabled, true, $checkbox);
 	}
 

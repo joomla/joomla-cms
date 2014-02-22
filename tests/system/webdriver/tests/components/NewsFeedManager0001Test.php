@@ -3,7 +3,7 @@
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -62,13 +62,12 @@ class NewsFeedManager0001Test extends JoomlaWebdriverTestCase
 	{
 		$this->newsFeedManagerPage->clickButton('toolbar-new');
 		$newsFeedEditPage = $this->getPageObject('NewsFeedEditPage');
-		$testElements = $newsFeedEditPage->getAllInputFields(array('details', 'publishing', 'params-jbasic', 'metadata-jmetadata'));
-		$actualFields = array();
-		foreach ($testElements as $el)
-		{
-			$el->labelText = (substr($el->labelText, -2) == ' *') ? substr($el->labelText, 0, -2) : $el->labelText;
-			$actualFields[] = array('label' => $el->labelText, 'id' => $el->id, 'type' => $el->tag, 'tab' => $el->tab);
-		}
+		// Option to print actual element array
+		/* @var $newsFeedEditPage NewsFeedEditPage */
+// 	 	$newsFeedEditPage->printFieldArray($newsFeedEditPage->getAllInputFields($newsFeedEditPage->tabs));
+
+		$testElements = $newsFeedEditPage->getAllInputFields($newsFeedEditPage->tabs);
+		$actualFields = $this->getActualFieldsFromElements($testElements);
 		$this->assertEquals($newsFeedEditPage->inputFields, $actualFields);
 		$newsFeedEditPage->clickButton('toolbar-cancel');
 		$this->newsFeedManagerPage = $this->getPageObject('NewsFeedManagerPage');
