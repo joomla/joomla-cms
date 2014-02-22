@@ -113,20 +113,14 @@ class MediaViewMediaHtml extends ConfigViewCmsHtml
 		// Add a upload button
 		if ($user->authorise('core.create', 'com_media'))
 		{
-			// Instantiate a new JLayoutFile instance and render the layout
-			$layout = new JLayoutFile('toolbar.uploadmedia');
-
-			$bar->appendButton('Custom', $layout->render(array()), 'upload');
+			JToolbarHelper::modal('uploadModal', 'icon-upload', 'COM_MEDIA_UPLOAD');
 			JToolbarHelper::divider();
 		}
 
 		// Add a create folder button
 		if ($user->authorise('core.create', 'com_media'))
 		{
-			// Instantiate a new JLayoutFile instance and render the layout
-			$layout = new JLayoutFile('toolbar.newfolder');
-
-			$bar->appendButton('Custom', $layout->render(array()), 'upload');
+			JToolbarHelper::modal('newfolderModal', 'icon-folder-open', 'COM_MEDIA_CREATE_FOLDER');
 			JToolbarHelper::divider();
 		}
 
@@ -139,6 +133,8 @@ class MediaViewMediaHtml extends ConfigViewCmsHtml
 			$bar->appendButton('Custom', $layout->render(array()), 'upload');
 			JToolbarHelper::divider();
 		}
+
+		JToolbarHelper::cancel('media.cancel.medialist');
 
 		// Add a preferences button
 		if ($user->authorise('core.admin', 'com_media'))

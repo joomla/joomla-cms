@@ -52,32 +52,68 @@ $input = JFactory::getApplication()->input;
 		</form>
 
 		<?php if ($user->authorise('core.create', 'com_media')):?>
-		<!-- File Upload Form -->
-		<div id="collapseUpload" class="collapse">
-			<form action="<?php echo JUri::base(); ?>index.php?option=com_media&amp;controller=media.upload.media&amp;tmpl=component&amp;<?php echo $this->session->getName().'='.$this->session->getId(); ?>&amp;<?php echo JSession::getFormToken();?>=1&amp;format=html" id="uploadForm" class="form-inline" name="uploadForm" method="post" enctype="multipart/form-data">
-				<div id="uploadform">
-					<fieldset id="upload-noflash" class="actions">
-							<label for="upload-file" class="control-label"><?php echo JText::_('COM_MEDIA_UPLOAD_FILE'); ?></label>
-								<input type="file" id="upload-file" name="Filedata[]" multiple /> <button class="btn btn-primary" id="upload-submit"><i class="icon-upload icon-white"></i> <?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?></button>
-								<p class="help-block"><?php echo $this->config->get('upload_maxsize') == '0' ? JText::_('COM_MEDIA_UPLOAD_FILES_NOLIMIT') : JText::sprintf('COM_MEDIA_UPLOAD_FILES', $this->config->get('upload_maxsize')); ?></p>
-					</fieldset>
+		
+	<!-- File Upload Form Modal -->
+	<form action="<?php echo JRoute::_('index.php?option=com_media&controller=media.upload.media&format=html'); ?>" name="uploadForm" method="post" enctype="multipart/form-data" >
+	<div id="uploadModal" class="modal hide fade">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"
+				aria-hidden="true">&times;</button>
+			<h3>
+				<?php echo JText::_('COM_MEDIA_UPLOAD_FILE'); ?>
+			</h3>
+		</div>
+		<div class="modal-body">
+			<div id="" class="form-horizontal">
+				<fieldset id="upload-noflash" class="actions">
+					<label for="upload-file" class="control-label"><?php echo JText::_('COM_MEDIA_UPLOAD_FILE'); ?></label>
+					<input type="file" id="upload-file" name="Filedata[]" multiple /> 
+					<p class="help-block"><?php echo $this->config->get('upload_maxsize') == '0' ? JText::_('COM_MEDIA_UPLOAD_FILES_NOLIMIT') : JText::sprintf('COM_MEDIA_UPLOAD_FILES', $this->config->get('upload_maxsize')); ?></p>
+				</fieldset>
 					<input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->state->get('folder'); ?>" />
 					<input type="hidden" name="return-url" value="<?php echo base64_encode('index.php?option=com_media'); ?>" />
-				</div>
-			</form>
+			</div>
 		</div>
-		<!-- New Folder Form -->
-		<div id="collapseFolder" class="collapse">
-			<form action="index.php?option=com_media&amp;controller=media.create.medialist&amp;tmpl=<?php echo $input->getCmd('tmpl', 'index');?>" name="folderForm" id="folderForm" class="form-inline" method="post">
-					<div class="path">
-						<input class="inputbox" type="text" id="folderpath" readonly="readonly" />
-						<input class="inputbox" type="text" id="foldername" name="foldername"  />
+		<div class="modal-footer">
+			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_UPLOAD_CLOSE'); ?>
+			</a>
+			<button class="btn btn-primary" id="upload-submit">
+				<i class="icon-upload icon-white"></i> <?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?>
+			</button>
+		</div>
+	</div>
+		<?php echo JHtml::_('form.token'); ?>
+	</form>
+		
+		
+	<!-- New Folder Form Modal -->
+	<form action="<?php echo JRoute::_('index.php?option=com_media&controller=media.create.medialist'); ?>" method="post">
+	<div id="newfolderModal" class="modal hide fade">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"
+				aria-hidden="true">&times;</button>
+			<h3>
+				<?php echo JText::_('COM_MEDIA_CREATE_FOLDER'); ?>
+			</h3>
+		</div>
+		<div class="modal-body">
+			<div id="" class="form-horizontal">
+						<input class="input-xlarge" type="text" id="folderpath" readonly="readonly" />
+						<input class="input-medium" type="text" id="foldername" name="foldername" required />
 						<input class="update-folder" type="hidden" name="folderbase" id="folderbase" value="<?php echo $this->state->get('folder'); ?>" />
-						<button type="submit" class="btn"><i class="icon-folder-open"></i> <?php echo JText::_('COM_MEDIA_CREATE_FOLDER'); ?></button>
-					</div>
-					<?php echo JHtml::_('form.token'); ?>
-			</form>
+			</div>
 		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_CREATE_FOLDER_CLOSE'); ?>
+			</a>
+			<button class="btn btn-primary" type="submit">
+				<i class="icon-folder-open"></i> <?php echo JText::_('COM_MEDIA_CREATE_FOLDER'); ?>
+			</button>
+		</div>
+	</div>
+		<?php echo JHtml::_('form.token'); ?>
+	</form>
+		
 		<?php endif;?>
 
 		<form action="index.php?option=com_media&amp;task=folder.create&amp;tmpl=<?php echo $input->getCmd('tmpl', 'index');?>" name="folderForm" id="folderForm" method="post">
