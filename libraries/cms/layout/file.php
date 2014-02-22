@@ -378,10 +378,12 @@ class JLayoutFile extends JLayoutBase
 			if ($this->options->get('client') == 0)
 			{
 				$this->addIncludePaths(JPATH_SITE . '/components/' . $component . '/layouts');
+				$this->addIncludePaths(JPATH_SITE . '/components/' . $component . '/layout');
 			}
 			else
 			{
 				$this->addIncludePaths(JPATH_ADMINISTRATOR . '/components/' . $component . '/layouts');
+				$this->addIncludePaths(JPATH_ADMINISTRATOR . '/components/' . $component . '/layout');
 			}
 
 			// (4) Component template overrides path

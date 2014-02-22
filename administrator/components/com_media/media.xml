@@ -33,7 +33,7 @@
 			
 			<folder>controller</folder>
 			<!--  folder>helpers</folder-->
-			<!--  folder>layouts</folder-->
+			<folder>layout</folder>
 			<folder>model</folder>
 			<folder>view</folder>
 		</files>

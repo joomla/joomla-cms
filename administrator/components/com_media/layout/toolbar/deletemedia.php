@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-$title = JText::_('JTOOLBAR_UPLOAD');
+$title = JText::_('JTOOLBAR_DELETE');
 ?>
-<button data-toggle="collapse" data-target="#collapseUpload" class="btn btn-small btn-success">
-	<i class="icon-plus icon-white" title="<?php echo $title; ?>"></i> <?php echo $title; ?>
+<button onclick="MediaManager.submit('media.delete.medialist')" class="btn btn-small">
+	<i class="icon-remove" title="<?php echo $title; ?>"></i> <?php echo $title; ?>
 </button>

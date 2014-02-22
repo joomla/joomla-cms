@@ -11,6 +11,6 @@ defined('_JEXEC') or die;
 
 $title = JText::_('COM_MEDIA_CREATE_NEW_FOLDER');
 ?>
-<button data-toggle="collapse" data-target="#collapseFolder" class="btn btn-small">
+<button data-toggle="modal" data-target="#newfolderModal" class="btn btn-small">
 	<i class="icon-folder" title="<?php echo $title; ?>"></i> <?php echo $title; ?>
 </button>

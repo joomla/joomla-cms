@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-$title = JText::_('JTOOLBAR_DELETE');
+$title = JText::_('JTOOLBAR_UPLOAD');
 ?>
-<button onclick="MediaManager.submit('folder.delete')" class="btn btn-small">
-	<i class="icon-remove" title="<?php echo $title; ?>"></i> <?php echo $title; ?>
+<button data-toggle="modal" data-target="#uploadModal" class="btn btn-small btn-success">
+	<i class="icon-upload icon-white" title="<?php echo $title; ?>"></i> <?php echo $title; ?>
 </button>
