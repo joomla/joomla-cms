@@ -26,11 +26,18 @@ class MediaViewEditorHtml extends ConfigViewCmsHtml
 	public function render()
 	{
 		$app	= JFactory::getApplication();
+		$user	= JFactory::getUser();
 		$config = JComponentHelper::getParams('com_media');
 
 		if (!$app->isAdmin())
 		{
 			return $app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
+		}
+
+		// Only allow for users wit edit permission
+		if (!$user->authorise('core.edit', 'com_media'))
+		{
+			return;
 		}
 
 		$lang	= JFactory::getLanguage();
@@ -92,6 +99,7 @@ class MediaViewEditorHtml extends ConfigViewCmsHtml
 
 		
 		}
+
 		// If an existing item, can save to a copy.
 // 		if ($user->authorise('core.create', 'com_media'))
 // 		{
