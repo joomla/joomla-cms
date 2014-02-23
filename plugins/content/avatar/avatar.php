@@ -114,7 +114,7 @@ Class PlgContentAvatar extends JPlugin
                             
                             foreach($verified_accounts as $verified_account)
                             {
-                                $verified_accountdetails.= '<dt>' . $verified_account['shortname'] .'</dt>' . '<dd>' . '<a href="' . '' . $verified_account['url'] .'">' . $verified_account['url']. '</a>' . '</dd>';
+                                $verified_accountdetails.= '<dt>' . $verified_account['shortname'] .'</dt>' . '<dd>' . '<a href="' . '' . $verified_account['url'] .'">' . $verified_account['display']. '</a>' . '</dd>';
                             }
                             
                             foreach ($im_accounts as $ims )
