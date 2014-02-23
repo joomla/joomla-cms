@@ -468,7 +468,10 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 		$db->setQuery($query);
 		$db->execute();
 
-		$query = 'DELETE FROM #__template_styles WHERE template = ' . $db->quote($name) . ' AND client_id = ' . $clientId;
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__template_styles'))
+			->where($db->quoteName('template') . ' = ' . $db->quote($name))
+			->where($db->quoteName('client_id') . ' = ' . $clientId);
 		$db->setQuery($query);
 		$db->execute();
 
