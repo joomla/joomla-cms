@@ -362,7 +362,10 @@ class JCategories
 			$this->_nodes[$id] = null;
 		}
 		
-		$this->_nodes[$id]->childrennumitems = $this->_nodes[$id]->getNumItems(true) - $this->_nodes[$id]->getNumItems(false);
+		if (isset($this->_options['countItems']))
+		{
+			$this->_nodes[$id]->childrennumitems = $this->_nodes[$id]->getNumItems(true) - $this->_nodes[$id]->getNumItems(false);
+		}
 	}
 }
 
