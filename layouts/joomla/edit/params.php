@@ -44,36 +44,31 @@ if ($displayData->get('show_options', 1))
 	foreach ($fieldSets as $name => $fieldSet)
 	{
 		if (in_array($name, $ignoreFieldsets) || (!empty($configFieldsets) && in_array($name, $configFieldsets))
-				|| !empty($hiddenFieldsets) && in_array($name, $hiddenFieldsets))
-			if (!isset($fieldSet->repeat) || isset($fieldSet->repeat) && $fieldSet->repeat == false)
-			{
-				if (in_array($name, $ignoreFieldsets))
-				{
-					continue;
-				}
-
-				if (!empty($fieldSet->label))
-				{
-					$label = JText::_($fieldSet->label, true);
-				}
-				else
-				{
-					$label = strtoupper('JGLOBAL_FIELDSET_' . $name);
-					if (JText::_($label, true) == $label)
-					{
-						$label = strtoupper($app->input->get('option') . '_' . $name . '_FIELDSET_LABEL');
-					}
-					$label = JText::_($label, true);
-				}
-
-				echo JHtml::_('bootstrap.addTab', 'myTab', 'attrib-' . $name, $label);
-
-				$displayData->fieldset = $name;
-				echo JLayoutHelper::render('joomla.edit.fieldset', $displayData);
-
-				echo JHtml::_('bootstrap.endTab');
-			}
+				|| !empty($hiddenFieldsets) && in_array($name, $hiddenFieldsets) || isset($fieldSet->repeat) && $fieldSet->repeat == true)
+		{
+			continue;
 		}
+
+		if (!empty($fieldSet->label))
+		{
+			$label = JText::_($fieldSet->label, true);
+		}
+		else
+		{
+			$label = strtoupper('JGLOBAL_FIELDSET_' . $name);
+			if (JText::_($label, true) == $label)
+			{
+				$label = strtoupper($app->input->get('option') . '_' . $name . '_FIELDSET_LABEL');
+			}
+			$label = JText::_($label, true);
+		}
+
+		echo JHtml::_('bootstrap.addTab', 'myTab', 'attrib-' . $name, $label);
+
+		$displayData->fieldset = $name;
+		echo JLayoutHelper::render('joomla.edit.fieldset', $displayData);
+
+		echo JHtml::_('bootstrap.endTab');
 	}
 }
 else
