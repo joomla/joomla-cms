@@ -54,7 +54,7 @@ $input = JFactory::getApplication()->input;
 		<?php if ($user->authorise('core.create', 'com_media')):?>
 		
 	<!-- File Upload Form Modal -->
-	<form action="<?php echo JRoute::_('index.php?option=com_media&controller=media.upload.media&format=html'); ?>" name="uploadForm" method="post" enctype="multipart/form-data" >
+	<form action="<?php echo JRoute::_('index.php?option=com_media&controller=media.upload.media&format=html'); ?>" id="uploadForm" name="uploadForm" method="post" enctype="multipart/form-data" >
 	<div id="uploadModal" class="modal hide fade">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal"
