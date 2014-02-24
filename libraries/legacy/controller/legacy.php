@@ -409,6 +409,7 @@ class JControllerLegacy extends JObject
 		else
 		{
 			$this->addModelPath($this->basePath . '/models', $this->model_prefix);
+			$this->addModelPath($this->basePath . '/model', $this->model_prefix);
 		}
 
 		// Set the default view search path
@@ -420,6 +421,7 @@ class JControllerLegacy extends JObject
 		else
 		{
 			$this->setPath('view', $this->basePath . '/views');
+			$this->setPath('view', $this->basePath . '/view');
 		}
 
 		// Set the default view.
