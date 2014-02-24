@@ -45,12 +45,8 @@ if ($displayData->get('show_options', 1))
 	{
 		// Ensure any fieldsets we don't want to show are skipped (including repeating formfield fieldsets)
 		if (in_array($name, $ignoreFieldsets) || (!empty($configFieldsets) && in_array($name, $configFieldsets))
-<<<<<<< HEAD
 				|| !empty($hiddenFieldsets) && in_array($name, $hiddenFieldsets)
 				|| (isset($fieldSet->repeat) && $fieldSet->repeat == true))
-=======
-				|| !empty($hiddenFieldsets) && in_array($name, $hiddenFieldsets) || isset($fieldSet->repeat) && $fieldSet->repeat == true)
->>>>>>> d5da3ca38dfabd7584af648ca7832a800814b23f
 		{
 			continue;
 		}
