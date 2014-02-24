@@ -47,7 +47,7 @@ abstract class JHtmlGrid
 
 		if ($toggle)
 		{
-			return '<a class="grid_' . $bool . ' hasToolip" title="' . $title . '" rel="{id:\'cb' . $i . '\', task:\'' . $task
+			return '<a class="grid_' . $bool . ' hasTooltip" title="' . $title . '" rel="{id:\'cb' . $i . '\', task:\'' . $task
 				. '\'}" href="#toggle"></a>';
 		}
 		else
