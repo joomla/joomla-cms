@@ -97,6 +97,14 @@ class JTableNested extends JTable
 	 * @since  11.1
 	 */
 	protected $_debug = 0;
+	
+	/**
+	 * Cache for the root ID
+	 * 
+	 * @var    integer
+	 * @since  14.1
+	 */
+	protected static $root_id = 0;
 
 	/**
 	 * Sets the debug level on or off
@@ -1202,10 +1210,9 @@ class JTableNested extends JTable
 	 */
 	public function getRootId()
 	{
-		static $root_id = 0;
-		if ($root_id !== 0)
+		if ((int) self::$root_id > 0)
 		{
-			return $root_id;
+			return self::$root_id;
 		}
 
 		// Get the root item.
@@ -1221,8 +1228,8 @@ class JTableNested extends JTable
 
 		if (count($result) == 1)
 		{
-			$root_id = $result[0];
-			return $root_id;
+			self::$root_id = $result[0];
+			return self::$root_id;
 		}
 
 		// Test for a unique record with lft = 0
@@ -1235,8 +1242,8 @@ class JTableNested extends JTable
 
 		if (count($result) == 1)
 		{
-			$root_id = $result[0];
-			return $root_id;
+			self::$root_id = $result[0];
+			return self::$root_id;
 		}
 
 		$fields = $this->getFields();
@@ -1253,14 +1260,14 @@ class JTableNested extends JTable
 
 			if (count($result) == 1)
 			{
-				$root_id = $result[0];
-				return $root_id;
+				self::$root_id = $result[0];
+				return self::$root_id;
 			}
 		}
 
 		$e = new UnexpectedValueException(sprintf('%s::getRootId', get_class($this)));
 		$this->setError($e);
-		$root_id = false;
+		self::$root_id = false;
 
 		return false;
 	}
