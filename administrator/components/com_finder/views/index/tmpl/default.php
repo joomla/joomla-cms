@@ -127,19 +127,21 @@ Joomla.submitbutton = function(pressbutton)
 						<?php echo JHtml::_('jgrid.published', $item->published, $i, 'index.', $canChange, 'cb'); ?>
 					</td>
 					<td>
-						<strong>
-							<?php echo $this->escape($item->title); ?>
-						</strong>
-						<small class="muted">
-						<?php
-							if (strlen($item->url) > 80)
-							{
-								echo substr($item->url, 0, 70) . '...';
-							} else {
-								echo $item->url;
-							}
-						?>
-						</small>
+						<label for="cb<?php echo $i ?>">
+							<strong>
+								<?php echo $this->escape($item->title); ?>
+							</strong>
+							<small class="muted">
+							<?php
+								if (strlen($item->url) > 80)
+								{
+									echo substr($item->url, 0, 70) . '...';
+								} else {
+									echo $item->url;
+								}
+							?>
+							</small>
+						</label>
 					</td>
 					<td class="hidden-phone">
 						<?php if (intval($item->publish_start_date) or intval($item->publish_end_date) or intval($item->start_date) or intval($item->end_date)) : ?>
