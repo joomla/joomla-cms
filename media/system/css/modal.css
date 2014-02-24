@@ -154,27 +154,21 @@
 	overflow: visible;
     }
 }
-@media (max-width: 769px) {
+@media (max-width: 979px) {
 	#sbox-window {
-		position: fixed;
-		float: left;
 		overflow: none;
-		top: 0 !important;
-		left: 0 !important;
-		margin: 3% 2% !important;
-		padding-left: 0 !important;
-		padding-right: 0 !important;
-		width: 96% !important;
-		height: 94% !important;
 	}
 	#sbox-btn-close {
-		position: fixed;
-		overflow: none;
-		right: 0px;
-		top: 0px;
+		right: -10px;
+		top: -10px;
 	}
+}
+@media (max-device-width: 979px) {
 	#sbox-content {
-		overflow: scroll !important;
+		-webkit-overflow-scrolling: touch;
+	}
+	#sbox-content.sbox-content-iframe {
+		overflow: scroll;
 		-webkit-overflow-scrolling: touch;
 	}
 }
