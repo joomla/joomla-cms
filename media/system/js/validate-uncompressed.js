@@ -144,6 +144,17 @@ var JFormValidator = new Class({
 	{
 		var valid = true;
 
+		// Precompute label-field associations
+		var labels = document.getElementsByTagName('label');
+		for (var i = 0; i < labels.length; i++) {
+			if (labels[i].htmlFor != '') {
+				var element = document.getElementById(labels[i].htmlFor);
+				if (element) {
+					element.labelref = labels[i];
+				}
+			}
+		}
+
 		// Validate form fields
 		var elements = form.getElements('fieldset').concat(Array.from(form.elements));
 		for (var i=0;i < elements.length; i++) {
@@ -178,16 +189,6 @@ var JFormValidator = new Class({
 
 	handleResponse: function(state, el)
 	{
-		// Find the label object for the given field if it exists
-		if (!(el.labelref)) {
-			var labels = $$('label');
-			labels.each(function(label){
-				if (label.get('for') == el.get('id')) {
-					el.labelref = label;
-				}
-			});
-		}
-
 		// Set the element and its label (if exists) invalid state
 		if (state == false) {
 			el.addClass('invalid');
