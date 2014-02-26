@@ -137,7 +137,7 @@ class JFormFieldModal_Article extends JFormField
 		// Edit article button
 		if ($allowEdit)
 		{
-			$html[] = '<a class="btn hasTooltip'.($value ? '' : ' hidden').'" href="index.php?option=com_content&layout=modal&tmpl=component&task=article.edit&id=' . $value. '" target="_blank" title="'.JHtml::tooltipText('COM_CONTENT_EDIT_ARTICLE').'" ><span class="icon-edit"></span> ' . JText::_('JACTION_EDIT') . '</a>';
+			$html[] = '<a class="modal btn hasTooltip'.($value ? '' : ' hidden').'" href="index.php?option=com_content&layout=modal&tmpl=component&task=article.edit&id=' . $value. '" title="'.JHtml::tooltipText('COM_CONTENT_EDIT_ARTICLE').'" ><span class="icon-edit"></span> ' . JText::_('JACTION_EDIT') . '</a>';
 		}
 
 		// Clear article button
