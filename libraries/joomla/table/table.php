@@ -1500,7 +1500,8 @@ abstract class JTable extends JObject implements JObservableInterface
 
 		// Check if the table has a state field at all using common titles.
 		$field = null;
-		if (! property_exists($this, 'published') && ! property_exists($this, 'state'))
+		
+		if (!property_exists($this, 'published') && !property_exists($this, 'state'))
 		{
 			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_PUBLISH_FAILED', get_class($this), 'Table has no state field.'));
 			$this->setError($e);
