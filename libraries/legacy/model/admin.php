@@ -926,7 +926,20 @@ abstract class JModelAdmin extends JModelForm
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
+					
 					JLog::add(JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), JLog::WARNING, 'jerror');
+
+					return false;
+				}
+
+				// If the table is checked out by another user, drop it and report to the user
+				// trying to change its state.
+				if ($table->checked_out AND ((int) $table->checked_out !== (int) $user->id))
+				{
+					JLog::add(JText::sprintf('COM_KEY2SWAP_ERROR_ROW_IS_CHECKED_OUT_BY', $pks[$i]), JLog::WARNING, 'jerror');
+
+					// Prune items that you can't change.
+					unset($pks[$i]);
 
 					return false;
 				}
