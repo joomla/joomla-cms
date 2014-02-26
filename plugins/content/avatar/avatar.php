@@ -58,7 +58,13 @@ Class PlgContentAvatar extends JPlugin
             return implode("<br /> ", $html);
     }
         /**
-         * Build The HTML avatar and the profile 
+         * Function which builds the html of avatar and the profile.
+         * @param type $avatar           URL to get the avatar.
+         * @param type $gravatar_profile URL to get the profile information.
+         * @param type $email            Email address of the author
+         * @param type $size             Size of the avatar 
+         * Build The HTML avatar and the profile
+         * @return type  HTML 
          */
     public function buildHTML($avatar, $gravatar_profile, $email, $size)
     {
@@ -129,8 +135,6 @@ Class PlgContentAvatar extends JPlugin
                                 
                             $blog_details.='<dt>'.$blog['title'] . '</dt>' .'<dd>' . '<a href="'.''.$blog['value'].'">' . $blog['value']. '</a>' . '</dd>';
                     }
-                            
-                            
                             
                             // Select the element which has HasPopOver id or class and set it up for the Pop Over
                             $html[] = JHtmlBootstrap::popover(
