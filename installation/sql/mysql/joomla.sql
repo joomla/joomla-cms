@@ -1747,23 +1747,23 @@ CREATE TABLE IF NOT EXISTS `#__ucm_history` (
 -- Table structure for table `#__updates`
 --
 
-CREATE TABLE IF NOT EXISTS `#__updates` (
+CREATE TABLE `#__updates` (
   `update_id` int(11) NOT NULL AUTO_INCREMENT,
-  `update_site_id` int(11) DEFAULT 0,
-  `extension_id` int(11) DEFAULT 0,
+  `update_site_id` int(11) DEFAULT '0',
+  `extension_id` int(11) DEFAULT '0',
   `name` varchar(100) DEFAULT '',
   `description` text NOT NULL,
   `element` varchar(100) DEFAULT '',
   `type` varchar(20) DEFAULT '',
   `folder` varchar(20) DEFAULT '',
-  `client_id` tinyint(3) DEFAULT 0,
+  `client_id` tinyint(3) DEFAULT '0',
   `version` varchar(32) DEFAULT '',
   `data` text NOT NULL,
   `detailsurl` text NOT NULL,
   `infourl` text NOT NULL,
-  `extra_query` VARCHAR(1000) DEFAULT '',
+  `extra_query` text NOT NULL,
   PRIMARY KEY (`update_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Available Updates';
+) ENGINE=InnoDB AUTO_INCREMENT=138 DEFAULT CHARSET=utf8 COMMENT='Available Updates';
 
 -- --------------------------------------------------------
 
