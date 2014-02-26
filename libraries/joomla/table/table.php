@@ -1494,6 +1494,30 @@ abstract class JTable extends JObject implements JObservableInterface
 	{
 		$k = $this->_tbl_keys;
 
+		// Check if the table has a state field at all using common titles.
+		$field = null;
+		if (! property_exists($this, 'published') && ! property_exists($this, 'state'))
+		{
+			$e = new JException(JText::sprintf('JLIB_DATABASE_ERROR_PUBLISH_FAILED', get_class($this), 'Table has no state field.'));
+			$this->setError($e);
+
+			return false;
+		}
+		// Calculate, which field most probably acts as the state field.
+		else
+		{
+			// If the most commonly used field exists, use this.
+			if (property_exists($this, 'published'))
+			{
+				$field = 'published';
+			}
+			// If not, but there is a 'state' field, use that.
+			elseif (property_exists($this, 'state'))
+			{
+				$field = 'state';
+			}
+		}
+
 		if (!is_null($pks))
 		{
 			foreach ($pks AS $key => $pk)
@@ -1534,7 +1558,8 @@ abstract class JTable extends JObject implements JObservableInterface
 			// Update the publishing state for rows with the given primary keys.
 			$query = $this->_db->getQuery(true)
 				->update($this->_tbl)
-				->set('published = ' . (int) $state);
+				// Don't hardcode the field name. Use our detected field.
+				->set("{$field} = " . (int) $state);
 
 			// Determine if there is checkin support for the table.
 			if (property_exists($this, 'checked_out') || property_exists($this, 'checked_out_time'))
@@ -1550,8 +1575,8 @@ abstract class JTable extends JObject implements JObservableInterface
 			// Build the WHERE clause for the primary keys.
 			$this->appendPrimaryKeys($query, $pk);
 
-			$this->_db->setQuery($query);
-			$this->_db->execute();
+			// Execute the query.
+			$this->_db->setQuery($query)->execute();
 
 			// If checkin is supported and all rows were adjusted, check them in.
 			if ($checkin && (count($pks) == $this->_db->getAffectedRows()))
@@ -1571,7 +1596,8 @@ abstract class JTable extends JObject implements JObservableInterface
 
 			if ($ours)
 			{
-				$this->published = $state;
+				// Don't hardcode the field name. Use our detected field.
+				$this->{$field} = $state;
 			}
 		}
 
