@@ -19,8 +19,11 @@ defined('_JEXEC') or die;
 class BannersRouter implements JComponentRouter
 {
 	/**
-	 * @return  array  A named array
-	 * @return  array
+	 * Build the route for the com_banners component
+	 *
+	 * @param   array  &$query  An array of URL arguments
+	 *
+	 * @return  array  The URL arguments to use to assemble the subsequent URL.
 	 */
 	public function build(&$query)
 	{
@@ -41,14 +44,11 @@ class BannersRouter implements JComponentRouter
 	}
 
 	/**
-	 * @return  array  A named array
-	 * @param   array
+	 * Parse the segments of a URL.
 	 *
-	 * Formats:
+	 * @param array $segments The segments of the URL to parse.
 	 *
-	 * index.php?/banners/task/id/Itemid
-	 *
-	 * index.php?/banners/id/Itemid
+	 * @return array The URL attributes to be used by the application.
 	 */
 	public function parse(&$segments)
 	{
