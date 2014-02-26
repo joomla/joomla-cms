@@ -109,6 +109,9 @@ class JDocumentHTML extends JDocument
 
 		// Set default mime type and document metadata (meta data syncs with mime type by default)
 		$this->setMimeEncoding('text/html');
+
+		// Set default X-UA-Compatible to make sure IE uses the latest rendering mode
+		$this->setMetaData('X-UA-Compatible', 'IE=edge', true);
 	}
 
 	/**
@@ -131,6 +134,7 @@ class JDocumentHTML extends JDocument
 		$data['scripts']     = $this->_scripts;
 		$data['script']      = $this->_script;
 		$data['custom']      = $this->_custom;
+
 		return $data;
 	}
 
@@ -175,7 +179,6 @@ class JDocumentHTML extends JDocument
 	 */
 	public function mergeHeadData($data)
 	{
-
 		if (empty($data) || !is_array($data))
 		{
 			return;
@@ -194,6 +197,7 @@ class JDocumentHTML extends JDocument
 			foreach ($data['metaTags'] as $type1 => $data1)
 			{
 				$booldog = $type1 == 'http-equiv' ? true : false;
+
 				foreach ($data1 as $name2 => $data2)
 				{
 					$this->setMetaData($name2, $data2, $booldog);
@@ -325,6 +329,7 @@ class JDocumentHTML extends JDocument
 		}
 
 		$result = null;
+
 		if (isset(parent::$_buffer[$type][$name]))
 		{
 			return parent::$_buffer[$type][$name];
@@ -337,6 +342,7 @@ class JDocumentHTML extends JDocument
 		}
 
 		$renderer = $this->loadRenderer($type);
+
 		if ($this->_caching == true && $type == 'modules')
 		{
 			$cache = JFactory::getCache('com_modules', '');
@@ -349,7 +355,6 @@ class JDocumentHTML extends JDocument
 			}
 			else
 			{
-
 				$options = array();
 				$options['nopathway'] = 1;
 				$options['nomodules'] = 1;
@@ -364,7 +369,6 @@ class JDocumentHTML extends JDocument
 
 				$cache->store($cbuffer, 'cbuffer_' . $type);
 			}
-
 		}
 		else
 		{
@@ -439,6 +443,7 @@ class JDocumentHTML extends JDocument
 		}
 
 		parent::render();
+
 		return $data;
 	}
 
@@ -455,9 +460,10 @@ class JDocumentHTML extends JDocument
 	{
 		$operators = '(\+|\-|\*|\/|==|\!=|\<\>|\<|\>|\<=|\>=|and|or|xor)';
 		$words = preg_split('# ' . $operators . ' #', $condition, null, PREG_SPLIT_DELIM_CAPTURE);
+
 		for ($i = 0, $n = count($words); $i < $n; $i += 2)
 		{
-			// odd parts (modules)
+			// Odd parts (modules)
 			$name = strtolower($words[$i]);
 			$words[$i] = ((isset(parent::$_buffer['modules'][$name])) && (parent::$_buffer['modules'][$name] === false))
 				? 0
@@ -486,6 +492,7 @@ class JDocumentHTML extends JDocument
 			$app = JFactory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
+
 			if ($active)
 			{
 				$query->getQuery(true);
@@ -516,8 +523,6 @@ class JDocumentHTML extends JDocument
 	 */
 	protected function _loadTemplate($directory, $filename)
 	{
-		//		$component	= JApplicationHelper::getComponentName();
-
 		$contents = '';
 
 		// Check to see if we have a valid template file
@@ -526,7 +531,7 @@ class JDocumentHTML extends JDocument
 			// Store the file path
 			$this->_file = $directory . '/' . $filename;
 
-			//get the file content
+			// Get the file content
 			ob_start();
 			require $directory . '/' . $filename;
 			$contents = ob_get_contents();
@@ -536,9 +541,11 @@ class JDocumentHTML extends JDocument
 		// Try to find a favicon by checking the template and root folder
 		$path = $directory . '/';
 		$dirs = array($path, JPATH_BASE . '/');
+
 		foreach ($dirs as $dir)
 		{
 			$icon = $dir . 'favicon.ico';
+
 			if (file_exists($icon))
 			{
 				$path = str_replace(JPATH_BASE . '/', '', $dir);
@@ -575,6 +582,7 @@ class JDocumentHTML extends JDocument
 
 		// Load the language file for the template
 		$lang = JFactory::getLanguage();
+
 		// 1.5 or core then 1.6
 
 		$lang->load('tpl_' . $template, JPATH_BASE, null, false, false)
@@ -628,6 +636,7 @@ class JDocumentHTML extends JDocument
 					$template_tags_last[$matches[0][$i]] = array('type' => $type, 'name' => $name, 'attribs' => $attribs);
 				}
 			}
+
 			// Reverse the last array so the jdocs are in forward order.
 			$template_tags_last = array_reverse($template_tags_last);
 
