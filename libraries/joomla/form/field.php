@@ -311,6 +311,34 @@ abstract class JFormField
 	 */
 	protected $renderLayout = 'joomla.form.renderfield';
 
+	/*
+	 * Layout to render the field input
+	 *
+	 * @var  string
+	 */
+	protected $layout = null;
+
+	/**
+	 * Layout to render the field label
+	 *
+	 * @var  string
+	 */
+	protected $labelLayout = 'joomla.form.field.label';
+
+	/**
+	 * Prefixes to use to render the field.
+	 *
+	 * @var  array
+	 */
+	protected $layoutPrefixes = array();
+
+	/**
+	 * Suffixes to use to render the field.
+	 *
+	 * @var  array
+	 */
+	protected $layoutSuffixes = array();
+
 	/**
 	 * Method to instantiate the form field object.
 	 *
@@ -379,6 +407,8 @@ abstract class JFormField
 			case 'autofocus':
 			case 'autocomplete':
 			case 'spellcheck':
+			case 'translateLabel':
+			case 'translateDescription':
 				return $this->$name;
 
 			case 'input':
@@ -662,7 +692,27 @@ abstract class JFormField
 	 *
 	 * @since   11.1
 	 */
-	abstract protected function getInput();
+	protected function getInput()
+	{
+		$layout = !empty($this->element['layout']) ? $this->element['layout'] : $this->layout;
+
+		if ($layout && $this->validateRequirements())
+		{
+			return $this->getRenderer($layout)->render(
+				array(
+					'id'       => $this->id,
+					'element'  => $this->element,
+					'field'    => $this,
+					'multiple' => $this->multiple,
+					'name'     => $this->name,
+					'required' => $this->required,
+					'value'    => $this->value
+				)
+			);
+		}
+
+		return;
+	}
 
 	/**
 	 * Method to get the field title.
@@ -696,45 +746,42 @@ abstract class JFormField
 	 */
 	protected function getLabel()
 	{
-		$label = '';
+		$layout = !empty($this->element['label-layout']) ? (string) $this->element['label-layout'] : $this->labelLayout;
 
-		if ($this->hidden)
+		if ($layout && !$this->hidden && $this->validateRequirements())
 		{
-			return $label;
+			return $this->getRenderer($layout)->render(
+				array(
+					'id'       => $this->id,
+					'element'  => $this->element,
+					'field'    => $this,
+					'multiple' => $this->multiple,
+					'name'     => $this->name,
+					'required' => $this->required,
+					'value'    => $this->value
+				)
+			);
 		}
 
-		// Get the label text from the XML element, defaulting to the element name.
-		$text = $this->element['label'] ? (string) $this->element['label'] : (string) $this->element['name'];
-		$text = $this->translateLabel ? JText::_($text) : $text;
+		return;
+	}
 
-		// Build the class for the label.
-		$class = !empty($this->description) ? 'hasTooltip' : '';
-		$class = $this->required == true ? $class . ' required' : $class;
-		$class = !empty($this->labelclass) ? $class . ' ' . $this->labelclass : $class;
+	/**
+	 * Get the layout used to render the field.
+	 *
+	 * @param   string  $layoutId  Layout to render
+	 * @param   mixed   $options   Optional custom options to load. JRegistry or array format
+	 *
+	 * @return  JLayoutFile  The layout
+	 */
+	public function getRenderer($layoutId, $options = array())
+	{
+		$prefixes = !empty($this->element['layout-prefixes']) ? explode(',', $this->element['layout-prefixes']) : $this->layoutPrefixes;
+		$suffixes = !empty($this->element['layout-suffixes']) ? explode(',', $this->element['layout-suffixes']) : $this->layoutSuffixes;
 
-		// Add the opening label tag and main attributes attributes.
-		$label .= '<label id="' . $this->id . '-lbl" for="' . $this->id . '" class="' . $class . '"';
+		$options = array_merge(array('prefixes' => $prefixes, 'suffixes' => $suffixes), $options);
 
-		// If a description is specified, use it to build a tooltip.
-		if (!empty($this->description))
-		{
-			// Don't translate discription if specified in the field xml.
-			$description = $this->translateDescription ? JText::_($this->description) : $this->description;
-			JHtml::_('bootstrap.tooltip');
-			$label .= ' title="' . JHtml::tooltipText(trim($text, ':'), $description, 0) . '"';
-		}
-
-		// Add the label text and closing tag.
-		if ($this->required)
-		{
-			$label .= '>' . $text . '<span class="star">&#160;*</span></label>';
-		}
-		else
-		{
-			$label .= '>' . $text . '</label>';
-		}
-
-		return $label;
+		return new JLayoutFile($layoutId, null, $options);
 	}
 
 	/**
@@ -922,5 +969,33 @@ abstract class JFormField
 		}
 
 		return JLayoutHelper::render($this->renderLayout, array('input' => $this->getInput(), 'label' => $this->getLabel(), 'options' => $options));
+	}
+
+	/**
+	 * Function to determine if field validates the requirements
+	 *
+	 * @return  boolean
+	 */
+	protected function validateRequirements()
+	{
+		// Filter requirements
+		if ($requires = explode(',', (string) $this->element['requires']))
+		{
+			// Requires multilanguage
+			if (in_array('multilanguage', $requires) && !JLanguageMultilang::isEnabled())
+			{
+				return false;
+			}
+
+			// Requires associations
+			if (in_array('associations', $requires) && !JLanguageAssociations::isEnabled())
+			{
+				return false;
+			}
+
+			return true;
+		}
+
+		return false;
 	}
 }
