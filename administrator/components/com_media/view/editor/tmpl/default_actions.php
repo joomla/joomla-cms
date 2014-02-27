@@ -63,4 +63,11 @@ $input = JFactory::getApplication()->input;
 
 	<br /> <br />
 
+	<button data-toggle='modal' data-target='#thumbsModal' class='btn btn-large'>
+		<i class='icon-refresh' title='COM_MEDIA_EDITOR_BUTTON_THUMBS'></i>
+		<?php echo JText::_('COM_MEDIA_EDITOR_BUTTON_THUMBS') ?>
+	</button>
+
+	<br /> <br />
+
 </p>

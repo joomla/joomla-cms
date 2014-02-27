@@ -142,8 +142,6 @@ class MediaViewMediaHtml extends ConfigViewCmsHtml
 			JToolbarHelper::divider();
 		}
 
-		JToolbarHelper::cancel('media.cancel.media');
-
 		// Add a preferences button
 		if ($user->authorise('core.admin', 'com_media'))
 		{

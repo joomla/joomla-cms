@@ -341,3 +341,60 @@ JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
 	</div>
 	<?php echo JHtml::_('form.token'); ?>
 </form>
+
+<!-- Thumbs Modal -->
+<form
+	action="<?php echo JRoute::_('index.php?option=com_media&controller=media.thumbs.editor&folder=' . $this->folder . '&file=' . $this->file); ?>"
+	method="post">
+	<div id="thumbsModal" class="modal hide fade">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"
+				aria-hidden="true">&times;</button>
+			<h3>
+				<?php echo JText::_('COM_MEDIA_EDITOR_THUMBS_IMAGE'); ?>
+			</h3>
+		</div>
+		<div class="modal-body">
+			<div id="" class="form-horizontal">
+				<div class="control-group">
+					<label for="s" class="control-label hasTooltip"
+						title="<?php echo JHtml::tooltipText('COM_MEDIA_EDITOR_IMAGE_THUMBS_SIZE'); ?>"><?php echo JText::_('COM_MEDIA_EDITOR_IMAGE_THUMBS_SIZE')?>
+					</label>
+					<div class="controls">
+						<input class="input-xlarge" type="text" name="s"
+							placeholder="100x100" required />
+					</div>
+					
+					<label for="c" class="control-label hasTooltip"
+						title="<?php echo JHtml::tooltipText('COM_MEDIA_EDITOR_THUMBS_CREATION_METHOD'); ?>"><?php echo JText::_('COM_MEDIA_EDITOR_THUMBS_CREATION_METHOD')?>
+					</label>
+					<?php
+						$creationMethods = $this->model->getCreationMethodsList();
+					?>
+					<div class="controls">
+					<select class="input-xlarge" type="list" name="c" required>
+							<?php foreach ($creationMethods as $k => $v):?>
+							<option value="<?php echo $k;?>"> <?php echo $v;?> </option>
+							<?php endforeach;?>
+						</select>
+					</div>
+					
+					<label for="t" class="control-label hasTooltip"
+						title="<?php echo JHtml::tooltipText('COM_MEDIA_EDITOR_IMAGE_THUMBS_FOLDER'); ?>"><?php echo JText::_('COM_MEDIA_EDITOR_IMAGE_THUMBS_FOLDER')?>
+					</label>
+					<div class="controls">
+						<input class="input-xlarge" type="text" name="t" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_EDITOR_BUTTON_THUMBS_CLOSE'); ?>
+			</a>
+			<button class="btn btn-primary" type="submit">
+				<?php echo JText::_('COM_MEDIA_EDITOR_BUTTON_THUMBS'); ?>
+			</button>
+		</div>
+	</div>
+	<?php echo JHtml::_('form.token'); ?>
+</form>

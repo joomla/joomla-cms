@@ -229,9 +229,45 @@ class MediaModelEditor extends ConfigModelForm
 
 	}
 
+	/**
+	 * Generating thumbs an image.
+	 *
+	 * @param   string  $file             The name and location of the file
+	 * @param   mixed   $size             The thumbnail sizes as a string or an array
+	 * @param   int     $creationMethod   The thumbnail creation method
+	 * @param   string  $thumbsFolder     The folder to save thumbnails
+	 *
+	 * @return   boolean  true if image rotate successful, false otherwise.
+	 *
+	 * @since   3.2
+	 */
+	public function createThumbs($file, $sizes, $creationMethod = JImage::SCALE_INSIDE, $thumbsFolder = null)
+	{
+		$app     = JFactory::getApplication();
+
+		$JImage = new JImage($file);
+
+		try
+		{
+			$image = $JImage->createThumbs($sizes, $creationMethod, $thumbsFolder);
+
+			return true;
+		}
+		catch (Exception $e)
+		{
+			$app->enqueueMessage($e->getMessage(), 'error');
+		}
+
+	}
+
 	public function getFilterList()
 	{
 		return array("smooth" => "Smooth", "contrast" => "Contrast", "edgedetect" => "Edge Detect", "grayscale" => "Grayscale", "sketchy" => "Sketchy", "emboss" => "Emboss", "brightness" => "Brightness", "negate" => "Negate");
+	}
+
+	public function getCreationMethodsList()
+	{
+		return array(JImage::SCALE_FILL => "Scale Fill", JImage::SCALE_INSIDE => "Scale Inside", JImage::SCALE_OUTSIDE => "Scale Outside", JImage::CROP => "Crop", JImage::CROP_RESIZE => "Crop Resize", JImage::SCALE_FIT => "Scale Fit");
 	}
 
 	/**
