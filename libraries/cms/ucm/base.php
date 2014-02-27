@@ -48,7 +48,14 @@ class JUcmBase implements JUcm
 		$input = JFactory::getApplication()->input;
 		$this->alias = isset($alias) ? $alias : $input->get('option') . '.' . $input->get('view');
 
-		$this->type = isset($type) ? $type : $this->getType();
+		if($type)
+		{
+			$this->type = $type;
+		}
+		else
+		{
+			$this->getType();
+		}
 	}
 
 	/**
@@ -108,9 +115,11 @@ class JUcmBase implements JUcm
 	 */
 	public function getType()
 	{
-		$type = new JUcmType($this->alias);
-
-		return $type;
+		if(!$this->type)
+		{
+			$this->type = new JUcmType($this->alias);
+		}
+		return $this->type;
 	}
 
 	/**
