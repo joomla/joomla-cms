@@ -1597,7 +1597,11 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 			$output = JArrayHelper::sortObjects($input, $key, $direction, $casesensitive, $locale);
 		}
 
-		$this->assertEquals($expect, $output, $message);
+                $this->assertEquals(sizeof($expect), sizeof($output), $message);
+                for ($i = 0; $i < sizeof($expect); $i++) {
+                        echo $expect[$i]->$key;
+                        $this->assertEquals($expect[$i]->$key, $output[$i]->$key, $message);
+                }
 	}
 
 	/**
