@@ -10,31 +10,41 @@
 defined('_JEXEC') or die;
 
 /**
- * @param   array
- * @return  array
+ * Routing class from com_search
+ *
+ * @package     Joomla.Site
+ * @subpackage  com_search
+ * @since       3.2
  */
-function SearchBuildRoute(&$query)
+class SearchRouter implements JComponentRouter
 {
-	$segments = array();
-
-	if (isset($query['view']))
+	/**
+	 * @param   array
+	 * @return  array
+	 */
+	public function build(&$query)
 	{
-		unset($query['view']);
+		$segments = array();
+
+		if (isset($query['view']))
+		{
+			unset($query['view']);
+		}
+		return $segments;
 	}
-	return $segments;
-}
 
-/**
- * @param   array
- * @return  array
- */
-function SearchParseRoute($segments)
-{
-	$vars = array();
+	/**
+	 * @param   array
+	 * @return  array
+	 */
+	public function parse(&$segments)
+	{
+		$vars = array();
 
-	$searchword	= array_shift($segments);
-	$vars['searchword'] = $searchword;
-	$vars['view'] = 'search';
+		$searchword	= array_shift($segments);
+		$vars['searchword'] = $searchword;
+		$vars['view'] = 'search';
 
-	return $vars;
+		return $vars;
+	}
 }

@@ -10,30 +10,40 @@
 defined('_JEXEC') or die;
 
 /**
- * @param   array
- * @return  array
+ * Routing class from com_wrapper
+ *
+ * @package     Joomla.Site
+ * @subpackage  com_wrapper
+ * @since       3.2
  */
-function WrapperBuildRoute(&$query)
+class WrapperRouter implements JComponentRouter
 {
-	$segments = array();
-
-	if (isset($query['view']))
+	/**
+	 * @param   array
+	 * @return  array
+	 */
+	public function build(&$query)
 	{
-		unset($query['view']);
+		$segments = array();
+
+		if (isset($query['view']))
+		{
+			unset($query['view']);
+		}
+
+		return $segments;
 	}
 
-	return $segments;
-}
+	/**
+	 * @param   array
+	 * @return  array
+	 */
+	public function parse(&$segments)
+	{
+		$vars = array();
 
-/**
- * @param   array
- * @return  array
- */
-function WrapperParseRoute($segments)
-{
-	$vars = array();
+		$vars['view'] = 'wrapper';
 
-	$vars['view'] = 'wrapper';
-
-	return $vars;
+		return $vars;
+	}
 }
