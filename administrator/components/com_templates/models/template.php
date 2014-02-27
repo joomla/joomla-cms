@@ -56,10 +56,8 @@ class TemplatesModelTemplate extends JModelLegacy
 			$lang	= JFactory::getLanguage();
 
 			// Load the core and/or local language file(s).
-			$lang->load('tpl_'.$template->element, $client->path, null, false, false)
-				||	$lang->load('tpl_'.$template->element, $client->path.'/templates/'.$template->element, null, false, false)
-				||	$lang->load('tpl_'.$template->element, $client->path, $lang->getDefault(), false, false)
-				||	$lang->load('tpl_'.$template->element, $client->path.'/templates/'.$template->element, $lang->getDefault(), false, false);
+				$lang->load('tpl_' . $template->element, $client->path, null, false, true)
+			||	$lang->load('tpl_' . $template->element, $client->path . '/templates/' . $template->element, null, false, true);
 
 			// Check if the template path exists.
 

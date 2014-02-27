@@ -82,7 +82,7 @@ class JAdministrator extends JApplication
 
 		// Load Library language
 		$lang = JFactory::getLanguage();
-		$lang->load('lib_joomla', JPATH_ADMINISTRATOR);
+		$lang->load('lib_joomla', JPATH_ADMINISTRATOR, null, false, true);
 	}
 
 	/**
