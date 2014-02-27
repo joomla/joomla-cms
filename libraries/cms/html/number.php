@@ -57,6 +57,6 @@ abstract class JHtmlNumber
 
 		// TODO Allow conversion of units where $bytes = '32M'.
 
-		return round($bytes / pow(1024, $i), $precision) . ' ' . $unitTypes[$i];
+		return number_format($bytes / pow(1024, $i), $precision, JText::_('DECIMALS_SEPARATOR'), '') . ' ' . $unitTypes[$i];
 	}
 }
