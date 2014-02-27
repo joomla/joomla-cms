@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -84,15 +84,6 @@ class JApplicationCms extends JApplicationWeb
 	 * @since  3.2
 	 */
 	protected $template = null;
-
-	/**
-	 * Indicates that strong encryption should be used.
-	 *
-	 * @var    boolean
-	 * @since  3.2
-	 * @note   Default has been changed as of 3.2. If salted md5 is required, it must be explictly set.
-	 */
-	protected $useStrongEncryption = false;
 
 	/**
 	 * Class constructor.
@@ -566,6 +557,15 @@ class JApplicationCms extends JApplicationWeb
 			$this->set('language', $options['language']);
 		}
 
+		// Build our language object
+		$lang = JLanguage::getInstance($this->get('language'), $this->get('debug_lang'));
+
+		// Load the language to the API
+		$this->loadLanguage($lang);
+
+		// Register the language object with JFactory
+		JFactory::$language = $this->getLanguage();
+
 		// Set user specific editor.
 		$user = JFactory::getUser();
 		$editor = $user->getParam('editor', $this->get('editor'));
@@ -581,20 +581,6 @@ class JApplicationCms extends JApplicationWeb
 		}
 
 		$this->set('editor', $editor);
-
-		/*
-		 * Set the encryption to use. The availability of strong encryption must always be checked separately.
-		 * Use JCrypt::hasStrongPasswordSupport() to check PHP for this support.
-		 */
-		if (JPluginHelper::isEnabled('user', 'joomla'))
-		{
-			$userPlugin = JPluginHelper::getPlugin('user', 'joomla');
-			$userPluginParams = new JRegistry;
-			$userPluginParams->loadString($userPlugin->params);
-			$useStrongEncryption = $userPluginParams->get('strong_passwords', 0);
-
-			$this->config->set('useStrongEncryption', $useStrongEncryption);
-		}
 
 		// Trigger the onAfterInitialise event.
 		JPluginHelper::importPlugin('system');

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Site
  * @subpackage  com_banners
- * @since       3.2
+ * @since       3.3
  */
 class BannersRouter implements JComponentRouter
 {
@@ -24,6 +24,8 @@ class BannersRouter implements JComponentRouter
 	 * @param   array  &$query  An array of URL arguments
 	 *
 	 * @return  array  The URL arguments to use to assemble the subsequent URL.
+	 *
+	 * @since   3.3
 	 */
 	public function build(&$query)
 	{
@@ -34,6 +36,7 @@ class BannersRouter implements JComponentRouter
 			$segments[] = $query['task'];
 			unset($query['task']);
 		}
+
 		if (isset($query['id']))
 		{
 			$segments[] = $query['id'];
@@ -46,9 +49,11 @@ class BannersRouter implements JComponentRouter
 	/**
 	 * Parse the segments of a URL.
 	 *
-	 * @param array $segments The segments of the URL to parse.
+	 * @param   array  &$segments  The segments of the URL to parse.
 	 *
-	 * @return array The URL attributes to be used by the application.
+	 * @return  array  The URL attributes to be used by the application.
+	 *
+	 * @since   3.3
 	 */
 	public function parse(&$segments)
 	{
@@ -61,6 +66,7 @@ class BannersRouter implements JComponentRouter
 		{
 			$count--;
 			$segment = array_shift($segments);
+
 			if (is_numeric($segment))
 			{
 				$vars['id'] = $segment;
@@ -74,6 +80,7 @@ class BannersRouter implements JComponentRouter
 		if ($count)
 		{
 			$segment = array_shift($segments);
+
 			if (is_numeric($segment))
 			{
 				$vars['id'] = $segment;

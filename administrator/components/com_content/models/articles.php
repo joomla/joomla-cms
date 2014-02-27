@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -90,7 +90,7 @@ class ContentModelArticles extends JModelList
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$access = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', 0, 'int');
+		$access = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access');
 		$this->setState('filter.access', $access);
 
 		$authorId = $app->getUserStateFromRequest($this->context . '.filter.author_id', 'filter_author_id');
@@ -102,7 +102,7 @@ class ContentModelArticles extends JModelList
 		$categoryId = $this->getUserStateFromRequest($this->context . '.filter.category_id', 'filter_category_id');
 		$this->setState('filter.category_id', $categoryId);
 
-		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level', 0, 'int');
+		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
 		$this->setState('filter.level', $level);
 
 		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');

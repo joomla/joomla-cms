@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,28 +14,30 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Site
  * @subpackage  com_content
- * @since       3.2
+ * @since       3.3
  */
 class ContentRouter implements JComponentRouter
 {
 	/**
 	 * Build the route for the com_content component
 	 *
-	 * @return  array  An array of URL arguments
+	 * @param   array  &$query  An array of URL arguments
+	 *
 	 * @return  array  The URL arguments to use to assemble the subsequent URL.
-	 * @since    1.5
+	 *
+	 * @since   3.3
 	 */
 	public function build(&$query)
 	{
 		$segments = array();
 
-		// get a menu item based on Itemid or currently active
+		// Get a menu item based on Itemid or currently active
 		$app = JFactory::getApplication();
 		$menu = $app->getMenu();
 		$params = JComponentHelper::getParams('com_content');
 		$advanced = $params->get('sef_advanced_link', 0);
 
-		// we need a menu item.  Either the one specified in the query, or the current active one if none specified
+		// We need a menu item.  Either the one specified in the query, or the current active one if none specified
 		if (empty($query['Itemid']))
 		{
 			$menuItem = $menu->getActive();
@@ -47,7 +49,7 @@ class ContentRouter implements JComponentRouter
 			$menuItemGiven = true;
 		}
 
-		// check again
+		// Check again
 		if ($menuItemGiven && isset($menuItem) && $menuItem->component != 'com_content')
 		{
 			$menuItemGiven = false;
@@ -60,11 +62,11 @@ class ContentRouter implements JComponentRouter
 		}
 		else
 		{
-			// we need to have a view in the query or it is an invalid URL
+			// We need to have a view in the query or it is an invalid URL
 			return $segments;
 		}
 
-		// are we dealing with an article or category that is attached to a menu item?
+		// Are we dealing with an article or category that is attached to a menu item?
 		if (($menuItem instanceof stdClass) && $menuItem->query['view'] == $query['view'] && isset($query['id']) && $menuItem->query['id'] == (int) $query['id'])
 		{
 			unset($query['view']);
@@ -98,6 +100,7 @@ class ContentRouter implements JComponentRouter
 				if (isset($query['id']) && isset($query['catid']) && $query['catid'])
 				{
 					$catid = $query['catid'];
+
 					// Make sure we have the id and the alias
 					if (strpos($query['id'], ':') === false)
 					{
@@ -113,7 +116,7 @@ class ContentRouter implements JComponentRouter
 				}
 				else
 				{
-					// we should have these two set for this view.  If we don't, it is an error
+					// We should have these two set for this view.  If we don't, it is an error
 					return $segments;
 				}
 			}
@@ -125,7 +128,7 @@ class ContentRouter implements JComponentRouter
 				}
 				else
 				{
-					// we should have id set for this view.  If we don't, it is an error
+					// We should have id set for this view.  If we don't, it is an error
 					return $segments;
 				}
 			}
@@ -144,7 +147,7 @@ class ContentRouter implements JComponentRouter
 
 			if (!$category)
 			{
-				// we couldn't find the category we were given.  Bail.
+				// We couldn't find the category we were given.  Bail.
 				return $segments;
 			}
 
@@ -183,8 +186,10 @@ class ContentRouter implements JComponentRouter
 				{
 					$id = $query['id'];
 				}
+
 				$segments[] = $id;
 			}
+
 			unset($query['id']);
 			unset($query['catid']);
 		}
@@ -216,8 +221,20 @@ class ContentRouter implements JComponentRouter
 			}
 		}
 
-		// if the layout is specified and it is the same as the layout in the menu item, we
-		// unset it so it doesn't go into the query string.
+		if ($view == 'featured')
+		{
+			if (!$menuItemGiven)
+			{
+				$segments[] = $view;
+			}
+
+			unset($query['view']);
+		}
+
+		/*
+		 * If the layout is specified and it is the same as the layout in the menu item, we
+		 * unset it so it doesn't go into the query string.
+		 */
 		if (isset($query['layout']))
 		{
 			if ($menuItemGiven && isset($menuItem->query['layout']))
@@ -242,16 +259,17 @@ class ContentRouter implements JComponentRouter
 	/**
 	 * Parse the segments of a URL.
 	 *
-	 * @return  array  The segments of the URL to parse.
+	 * @param   array  &$segments  The segments of the URL to parse.
 	 *
 	 * @return  array  The URL attributes to be used by the application.
-	 * @since    1.5
+	 *
+	 * @since   3.3
 	 */
 	public function parse(&$segments)
 	{
 		$vars = array();
 
-		//Get the active menu item.
+		// Get the active menu item.
 		$app = JFactory::getApplication();
 		$menu = $app->getMenu();
 		$item = $menu->getActive();
@@ -262,8 +280,10 @@ class ContentRouter implements JComponentRouter
 		// Count route segments
 		$count = count($segments);
 
-		// Standard routing for articles.  If we don't pick up an Itemid then we get the view from the segments
-		// the first segment is the view and the last segment is the id of the article or category.
+		/*
+		 * Standard routing for articles.  If we don't pick up an Itemid then we get the view from the segments
+		 * the first segment is the view and the last segment is the id of the article or category.
+		 */
 		if (!isset($item))
 		{
 			$vars['view'] = $segments[0];
@@ -272,22 +292,25 @@ class ContentRouter implements JComponentRouter
 			return $vars;
 		}
 
-		// if there is only one segment, then it points to either an article or a category
-		// we test it first to see if it is a category.  If the id and alias match a category
-		// then we assume it is a category.  If they don't we assume it is an article
+		/*
+		 * If there is only one segment, then it points to either an article or a category.
+		 * We test it first to see if it is a category.  If the id and alias match a category,
+		 * then we assume it is a category.  If they don't we assume it is an article
+		 */
 		if ($count == 1)
 		{
-			// we check to see if an alias is given.  If not, we assume it is an article
+			// We check to see if an alias is given.  If not, we assume it is an article
 			if (strpos($segments[0], ':') === false)
 			{
 				$vars['view'] = 'article';
 				$vars['id'] = (int) $segments[0];
+
 				return $vars;
 			}
 
 			list($id, $alias) = explode(':', $segments[0], 2);
 
-			// first we check if it is a category
+			// First we check if it is a category
 			$category = JCategories::getInstance('Content')->get($id);
 
 			if ($category && $category->alias == $alias)
@@ -299,7 +322,10 @@ class ContentRouter implements JComponentRouter
 			}
 			else
 			{
-				$query = 'SELECT alias, catid FROM #__content WHERE id = ' . (int) $id;
+				$query = $db->getQuery(true)
+					->select($db->quoteName(array('alias', 'catid')))
+					->from($db->quoteName('#__content'))
+					->where($db->quoteName('id') . ' = ' . (int) $id);
 				$db->setQuery($query);
 				$article = $db->loadObject();
 
@@ -317,9 +343,11 @@ class ContentRouter implements JComponentRouter
 			}
 		}
 
-		// if there was more than one segment, then we can determine where the URL points to
-		// because the first segment will have the target category id prepended to it.  If the
-		// last segment has a number prepended, it is an article, otherwise, it is a category.
+		/*
+		 * If there was more than one segment, then we can determine where the URL points to
+		 * because the first segment will have the target category id prepended to it.  If the
+		 * last segment has a number prepended, it is an article, otherwise, it is a category.
+		 */
 		if (!$advanced)
 		{
 			$cat_id = (int) $segments[0];
@@ -341,7 +369,7 @@ class ContentRouter implements JComponentRouter
 			return $vars;
 		}
 
-		// we get the category id from the menu item and search from there
+		// We get the category id from the menu item and search from there
 		$id = $item->query['id'];
 		$category = JCategories::getInstance('Content')->get($id);
 

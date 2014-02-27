@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -120,6 +120,7 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 
 				return false;
 			}
+
 			$basePath = $client->path;
 			$clientId = $client->id;
 		}
@@ -467,7 +468,10 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 		$db->setQuery($query);
 		$db->execute();
 
-		$query = 'DELETE FROM #__template_styles WHERE template = ' . $db->quote($name) . ' AND client_id = ' . $clientId;
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__template_styles'))
+			->where($db->quoteName('template') . ' = ' . $db->quote($name))
+			->where($db->quoteName('client_id') . ' = ' . $clientId);
 		$db->setQuery($query);
 		$db->execute();
 
@@ -497,6 +501,7 @@ class JInstallerAdapterTemplate extends JAdapterInstance
 				// Ignore special system template
 				continue;
 			}
+
 			$manifest_details = JInstaller::parseXMLInstallFile(JPATH_SITE . "/templates/$template/templateDetails.xml");
 			$extension = JTable::getInstance('extension');
 			$extension->set('type', 'template');

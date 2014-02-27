@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -973,12 +973,6 @@ abstract class JTable extends JObject implements JObservableInterface
 					return false;
 				}
 			}
-			else
-			{
-				$this->setError($asset->getError());
-
-				return false;
-			}
 		}
 
 		// Delete the row by primary key.
@@ -1256,7 +1250,11 @@ abstract class JTable extends JObject implements JObservableInterface
 		}
 
 		$db = JFactory::getDbo();
-		$db->setQuery('SELECT COUNT(userid) FROM ' . $db->quoteName('#__session') . ' WHERE ' . $db->quoteName('userid') . ' = ' . (int) $against);
+		$query = $db->getQuery(true)
+			->select('COUNT(userid)')
+			->from($db->quoteName('#__session'))
+			->where($db->quoteName('userid') . ' = ' . (int) $against);
+		$db->setQuery($query);
 		$checkedOut = (boolean) $db->loadResult();
 
 		// If a session exists for the user then it is checked out.

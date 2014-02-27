@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,28 +14,30 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Site
  * @subpackage  com_weblinks
- * @since       3.2
+ * @since       3.3
  */
 class WeblinksRouter implements JComponentRouter
 {
 	/**
 	 * Build the route for the com_weblinks component
 	 *
-	 * @return  array  An array of URL arguments
+	 * @param   array  &$query  An array of URL arguments
 	 *
 	 * @return  array  The URL arguments to use to assemble the subsequent URL.
+	 *
+	 * @since   3.3
 	 */
 	public function build(&$query)
 	{
 		$segments = array();
 
-		// get a menu item based on Itemid or currently active
+		// Get a menu item based on Itemid or currently active
 		$app = JFactory::getApplication();
 		$menu = $app->getMenu();
 		$params = JComponentHelper::getParams('com_weblinks');
 		$advanced = $params->get('sef_advanced_link', 0);
 
-		// we need a menu item.  Either the one specified in the query, or the current active one if none specified
+		// We need a menu item.  Either the one specified in the query, or the current active one if none specified
 		if (empty($query['Itemid']))
 		{
 			$menuItem = $menu->getActive();
@@ -64,7 +66,7 @@ class WeblinksRouter implements JComponentRouter
 			}
 		}
 
-		// are we dealing with an weblink that is attached to a menu item?
+		// Are we dealing with an weblink that is attached to a menu item?
 		if (isset($query['view']) && ($mView == $query['view']) and (isset($query['id'])) and ($mId == (int) $query['id']))
 		{
 			unset($query['view']);
@@ -93,11 +95,12 @@ class WeblinksRouter implements JComponentRouter
 
 				if ($category)
 				{
-					//TODO Throw error that the category either not exists or is unpublished
+					// TODO Throw error that the category either not exists or is unpublished
 					$path = $category->getPath();
 					$path = array_reverse($path);
 
 					$array = array();
+
 					foreach ($path as $id)
 					{
 						if ((int) $id == (int) $menuCatid)
@@ -112,6 +115,7 @@ class WeblinksRouter implements JComponentRouter
 
 						$array[] = $id;
 					}
+
 					$segments = array_merge($segments, array_reverse($array));
 				}
 
@@ -158,15 +162,17 @@ class WeblinksRouter implements JComponentRouter
 	/**
 	 * Parse the segments of a URL.
 	 *
-	 * @return  array  The segments of the URL to parse.
+	 * @param   array  &$segments  The segments of the URL to parse.
 	 *
 	 * @return  array  The URL attributes to be used by the application.
+	 *
+	 * @since   3.3
 	 */
 	public function parse(&$segments)
 	{
 		$vars = array();
 
-		//Get the active menu item.
+		// Get the active menu item.
 		$app = JFactory::getApplication();
 		$menu = $app->getMenu();
 		$item = $menu->getActive();
@@ -181,6 +187,7 @@ class WeblinksRouter implements JComponentRouter
 		{
 			$vars['view'] = $segments[0];
 			$vars['id'] = $segments[$count - 1];
+
 			return $vars;
 		}
 

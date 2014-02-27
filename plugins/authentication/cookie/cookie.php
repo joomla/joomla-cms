@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Authentication.cookie
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -82,9 +82,9 @@ class PlgAuthenticationCookie extends JPlugin
 
 		if ($countResults !== 1)
 		{
-			 $response->status  = JAuthentication::STATUS_FAILURE;
+			$response->status = JAuthentication::STATUS_FAILURE;
 
-			 return;
+			return;
 		}
 
 		// We have a user with one cookie with a valid series and a corresponding record in the database.

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -91,7 +91,7 @@ class ConfigViewApplicationHtml extends ConfigViewCmsHtml
 	{
 		JToolbarHelper::title(JText::_('COM_CONFIG_GLOBAL_CONFIGURATION'), 'equalizer config');
 		JToolbarHelper::apply('config.save.application.apply');
-		JToolbarHelper::save('config.save.application');
+		JToolbarHelper::save('config.save.application.save');
 		JToolbarHelper::divider();
 		JToolbarHelper::cancel('config.cancel.application');
 		JToolbarHelper::divider();
