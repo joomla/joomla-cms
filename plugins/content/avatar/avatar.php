@@ -40,18 +40,19 @@ Class PlgContentAvatar extends JPlugin
      * @return type  HTML
      */
     public function onContentBeforeDisplay($context, &$row, &$params, $limitstart=0)
-    {       
-        // get the scheme http or https
-        
-        $array = JURI::getInstance()-> getScheme(); 
-        // Get input parameters if not use the default values
-        $size = $this->params->get('size', $this->defaultsize);
-        $GRAVATAR_SERVER = $this->params->get('avatar_http', $this->GRAVATAR_SERVER);
-        $default = $this->params->get('profile_http', $this->default);
-        $GRAVATAR_SECURE_SERVER = $this->params->get('avatar_https', $this->GRAVATAR_SECURE_SERVER);
-        $securedefault = $this->params->get('profile_https', $this->securedefault);
-        
-        if(isset($row->created_by)) {
+    {     
+        if($context=='com_content.article'||$context=='com_content.featured') {
+            
+            // get the scheme http or https
+            $array = JURI::getInstance()-> getScheme(); 
+            // Get input parameters if not use the default values
+            $size = $this->params->get('size', $this->defaultsize);
+            $GRAVATAR_SERVER = $this->params->get('avatar_http', $this->GRAVATAR_SERVER);
+            $default = $this->params->get('profile_http', $this->default);
+            $GRAVATAR_SECURE_SERVER = $this->params->get('avatar_https', $this->GRAVATAR_SECURE_SERVER);
+            $securedefault = $this->params->get('profile_https', $this->securedefault);
+       
+       
             
             $id = $row->created_by;
             $user = JFactory::getUser($id);
@@ -60,6 +61,8 @@ Class PlgContentAvatar extends JPlugin
         
             return implode("<br /> ", $html);
         }
+        else    
+            return;
         
     }
         /**
