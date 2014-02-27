@@ -25,7 +25,7 @@ JHtml::_('behavior.keepalive');
 					<label for="mod-login-secretkey">
 						<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>
 					</label>
-					<input name="secretkey" tabindex="3" id="mod-login-secretkey" type="text" class="input-medium" size="15"/>
+					<input name="secretkey" autocomplete="off" tabindex="3" id="mod-login-secretkey" type="text" class="input-medium" size="15"/>
 				</div>
 			</div>
 		<?php endif; ?>
@@ -33,7 +33,7 @@ JHtml::_('behavior.keepalive');
 			<label id="mod-login-language-lbl" for="lang"><?php echo JText::_('MOD_LOGIN_LANGUAGE'); ?></label>
 			<?php echo $langs; ?>
 		<?php endif; ?>
-		
+
 		<div class="clr"></div>
 
 		<div class="button-holder">

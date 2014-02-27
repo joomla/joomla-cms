@@ -66,6 +66,15 @@ class FinderModelStatistics extends JModelLegacy
 		$db->setQuery($query);
 		$data->type_list = $db->loadObjectList();
 
+		$lang  = JFactory::getLanguage();
+		$plugins = JPluginHelper::getPlugin('finder');
+
+		foreach ($plugins as $plugin)
+		{
+			$lang->load('plg_finder_' . $plugin->name . '.sys', JPATH_ADMINISTRATOR, null, false, true)
+			|| $lang->load('plg_finder_' . $plugin->name . '.sys', JPATH_PLUGINS . '/finder/' . $plugin->name, null, false, true);
+		}
+
 		return $data;
 	}
 }

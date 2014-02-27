@@ -94,15 +94,14 @@ class JFormFieldModal_Article extends JFormField
 			$link .= '&amp;forcedLanguage='.$this->element['language'];
 		}
 
-
 		if ((int) $this->value > 0)
 		{
 			$db	= JFactory::getDbo();
-			$db->setQuery(
-				'SELECT title' .
-				' FROM #__content' .
-				' WHERE id = ' . (int) $this->value
-			);
+			$query = $db->getQuery(true)
+				->select($db->quoteName('title'))
+				->from($db->quoteName('#__content'))
+				->where($db->quoteName('id') . ' = ' . (int) $this->value);
+			$db->setQuery($query);
 
 			try
 			{
