@@ -20,12 +20,12 @@ class JRouterSite extends JRouter
 {
 	/**
 	 * Component-router objects
-	 * 
+	 *
 	 * @var    array
-	 * @since  3.2
+	 * @since  3.3
 	 */
 	protected $componentRouters = array();
-	
+
 	/**
 	 * Function to convert a route to an internal URI
 	 *
@@ -445,9 +445,9 @@ class JRouterSite extends JRouter
 		$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $query['option']);
 		$tmp       = '';
 		$itemID    = !empty($query['Itemid']) ? $query['Itemid'] : null;
-		
+
 		$crouter = $this->getComponentRouter($component);
-		
+
 		$parts = $crouter->build($query);
 
 		// Encode the route segments
@@ -653,37 +653,48 @@ class JRouterSite extends JRouter
 
 		return $uri;
 	}
-	
+
 	/**
 	 * Get component router
-	 * 
+	 *
 	 * @param   string $component Name of the component including com_ prefix
-	 * 
+	 *
 	 * @return  object The router of the component
-	 * 
-	 * @since   3.2
+	 *
+	 * @since   3.3
 	 */
 	public function getComponentRouter($component)
 	{
-		if(!isset($this->componentRouters[$component])) {
+		if (!isset($this->componentRouters[$component]))
+		{
 			$compname = ucfirst(substr($component, 4));
-			if(!class_exists($compname.'Router')) {
+
+			if (!class_exists($compname . 'Router'))
+			{
 				// Use the component routing handler if it exists
-				$path = JPATH_SITE.'/components/'.$component.'/router.php';
+				$path = JPATH_SITE . '/components/' . $component . '/router.php';
 
 				// Use the custom routing handler if it exists
-				if (file_exists($path)) {
+				if (file_exists($path))
+				{
 					require_once $path;
 				}
 			}
-			$name = $compname.'Router';
-			if(class_exists($name)) {
+
+			$name = $compname . 'Router';
+
+			if (class_exists($name))
+			{
 				$reflection = new ReflectionClass($name);
-				if(in_array('JComponentRouter', $reflection->getInterfaceNames())) {
+
+				if (in_array('JComponentRouter', $reflection->getInterfaceNames()))
+				{
 					$this->componentRouters[$component] = new $name();
 				}
 			}
-			if(!isset($this->componentRouters[$component])) {
+
+			if (!isset($this->componentRouters[$component]))
+			{
 				$this->componentRouters[$component] = new JComponentRouterLegacy($compname);
 			}
 		}
@@ -693,21 +704,26 @@ class JRouterSite extends JRouter
 
 	/**
 	 * Set a router for a component
-	 * 
-	 * @param   string $component Componentname with com_ prefix
-	 * @param   object $router Componentrouter
-	 * 
-	 * @return  boolean True if the router was accepted, false if not
-	 * 
-	 * @since   3.2
+	 *
+	 * @param   string  $component  Component name with com_ prefix
+	 * @param   object  $router     Component router
+	 *
+	 * @return  boolean  True if the router was accepted, false if not
+	 *
+	 * @since   3.3
 	 */
 	public function setComponentRouter($component, $router)
 	{
 		$reflection = new ReflectionClass($router);
-		if(in_array('JComponentRouter', $reflection->getInterfaceNames())) {
+
+		if (in_array('JComponentRouter', $reflection->getInterfaceNames()))
+		{
 			$this->componentRouters[$component] = $router;
+
 			return true;
-		} else {
+		}
+		else
+		{
 			return false;
 		}
 	}

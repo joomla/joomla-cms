@@ -14,22 +14,23 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Site
  * @subpackage  com_finder
- * @since       3.2
+ * @since       3.3
  */
 class FinderRouter implements JComponentRouter
 {
 	/**
-	 * Method to build a SEF route.
+	 * Build the route for the com_finder component
 	 *
-	 * @param   array  &$query  An array of route variables.
+	 * @param   array  &$query  An array of URL arguments
 	 *
-	 * @return  array  An array of route segments.
+	 * @return  array  The URL arguments to use to assemble the subsequent URL.
 	 *
-	 * @since   2.5
+	 * @since   3.3
 	 */
 	public function build(&$query)
 	{
 		static $menu;
+
 		$segments = array();
 
 		// Load the menu if necessary.
@@ -97,13 +98,13 @@ class FinderRouter implements JComponentRouter
 	}
 
 	/**
-	 * Method to parse a SEF route.
+	 * Parse the segments of a URL.
 	 *
-	 * @param   array  $segments  An array of route segments.
+	 * @param   array  &$segments  The segments of the URL to parse.
 	 *
-	 * @return  array  An array of route variables.
+	 * @return  array  The URL attributes to be used by the application.
 	 *
-	 * @since   2.5
+	 * @since   3.3
 	 */
 	public function parse(&$segments)
 	{
