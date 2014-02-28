@@ -50,7 +50,8 @@ class MediaControllerMediaUpload extends JControllerBase
 		if (!JSession::checkToken('request'))
 		{
 			$this->app->enqueueMessage(JText::_('JINVALID_TOKEN'));
-			$this->app->redirect('index.php');
+
+			return false;
 		}
 		$params = JComponentHelper::getParams('com_media');
 
@@ -80,6 +81,7 @@ class MediaControllerMediaUpload extends JControllerBase
 			)
 			{
 				$this->app->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNFILETOOLARGE'), 'warning');
+
 				return false;
 			}
 		}
@@ -116,7 +118,8 @@ class MediaControllerMediaUpload extends JControllerBase
 			{
 				// No filename (after the name was cleaned by JFile::makeSafe)
 				$this->app->enqueueMessage(JText::_('COM_MEDIA_INVALID_REQUEST'), 'error');
-				$this->app->redirect(JRoute::_('index.php', false));
+
+				return false;
 
 			}
 		}
