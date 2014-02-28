@@ -81,25 +81,23 @@ $n = count($this->items);
 					</a>
 				</h3>
 		<?php endif; ?>
-		<?php if ($this->params->get('all_tags_show_tag_image') && !empty($item->images)) : ?>
-			<?php $images  = json_decode($item->images); ?>
+		<?php if ($this->params->get('all_tags_show_tag_image') && !empty($item->images->image_intro)) : ?>
 			<span class="tag-body">
-			<?php if (!empty($images->image_intro)): ?>
-				<?php $imgfloat = (empty($images->float_intro)) ? $this->params->get('float_intro') : $images->float_intro; ?>
-				<div class="pull-<?php echo htmlspecialchars($imgfloat); ?> item-image">
+				<?php $imgfloat = (empty($item->images->float_intro)) ? $this->params->get('float_intro') : $item->images->float_intro; ?>
+				<?php $class = ($imgfloat != 'none' ? 'pull-'.$imgfloat.' ' : ''); ?>
+				<div class="<?php echo $class; ?>item-image">
 					<img
-				<?php if ($images->image_intro_caption) : ?>
-					<?php echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_intro_caption) . '"'; ?>
+				<?php if ($item->images->image_intro_caption) : ?>
+					<?php echo 'class="caption"' . ' title="' . htmlspecialchars($item->images->image_intro_caption) . '"'; ?>
 				<?php endif; ?>
-				src="<?php echo $images->image_intro; ?>" alt="<?php echo htmlspecialchars($images->image_fulltext_alt); ?>"/>
+				src="<?php echo $item->images->image_intro; ?>" alt="<?php echo htmlspecialchars($item->images->image_intro_alt); ?>" />
 				</div>
-			<?php endif; ?>
 			</span>
 		<?php endif; ?>
 		<div class="caption">
 			<?php if ($this->params->get('all_tags_show_tag_description', 1)) : ?>
 				<span class="tag-body">
-					<?php echo JHtml::_('string.truncate', $item->description, $this->params->get('tag_list_item_maximum_characters')); ?>
+					<?php echo JHtml::_('string.truncate', $item->description, $this->params->get('all_tags_tag_maximum_characters')); ?>
 				</span>
 			<?php endif; ?>
 			<?php if ($this->params->get('all_tags_show_tag_hits')) : ?>
