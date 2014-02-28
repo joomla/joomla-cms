@@ -76,7 +76,7 @@ class JRoute
 
 			if (!is_array($host_port))
 			{
-				$uri2 = JURI::getInstance();
+				$uri2 = JUri::getInstance();
 				$host_port = array($uri2->getHost(), $uri2->getPort());
 			}
 
