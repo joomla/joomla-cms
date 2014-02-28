@@ -141,6 +141,7 @@ class JViewCategory extends JViewLegacy
 		$cparams          = $category->getParams();
 		$category->params = clone($params);
 		$category->params->merge($cparams);
+		$category->params->merge($category->getMetadata());
 
 		$children = array($category->id => $children);
 
@@ -238,19 +239,22 @@ class JViewCategory extends JViewLegacy
 
 		$this->document->setTitle($title);
 
-		if ($this->params->get('menu-meta_description'))
+		$metadesc = (trim($this->category->metadesc) != '' ? trim($this->category->metadesc) : trim($this->params->get('menu-meta_description')));
+		if ($metadesc)
 		{
-			$this->document->setDescription($this->params->get('menu-meta_description'));
+			$this->document->setDescription($metadesc);
 		}
 
-		if ($this->params->get('menu-meta_keywords'))
+		$metakey = (trim($this->category->metakey) != '' ? trim($this->category->metakey) : trim($this->params->get('menu-meta_keywords')));
+		if ($metakey)
 		{
-			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
+			$this->document->setMetadata('keywords', $metakey);
 		}
 
-		if ($this->params->get('robots'))
+		$robots = ($this->category->params->get('robots') ?: $this->params->get('robots'));
+		if ($robots)
 		{
-			$this->document->setMetadata('robots', $this->params->get('robots'));
+			$this->document->setMetadata('robots', $robots);
 		}
 	}
 
