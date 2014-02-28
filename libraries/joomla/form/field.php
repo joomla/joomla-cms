@@ -872,6 +872,8 @@ abstract class JFormField
 	 */
 	public function getControlGroup()
 	{
+		JLog::add('JFormField->getControlGroup() is deprecated use JFormField->renderField().', JLog::WARNING, 'deprecated');
+
 		return $this->renderField();
 	}
 
