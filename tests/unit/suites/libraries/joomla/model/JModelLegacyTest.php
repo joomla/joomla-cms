@@ -192,17 +192,12 @@ class JModelLegacyTest extends TestCase
 	/**
 	 * Tests the getName method.
 	 *
-	 * @expectedException      Exception
-	 * @expectedExceptionCode  500
-	 *
 	 * @since   12.3
 	 *
 	 * @return  void
 	 */
 	public function testGetName()
 	{
-		$this->markTestSkipped('CMS has not yet received Platform updates to implement this test');
-
 		// Test default fixture
 		$this->assertEquals('lead', $this->fixture->getName());
 		$this->assertEquals('com_test', TestReflection::getValue($this->fixture, 'option'));
@@ -221,6 +216,7 @@ class JModelLegacyTest extends TestCase
 		$this->assertFalse(JModelLegacy::getInstance('Does', 'NotExist'));
 
 		// Test creating class that does exist, but does not contain 'Model' (uppercase)
+		$this->setExpectedException('Exception', 'JLIB_APPLICATION_ERROR_MODEL_GET_NAME', 500);
 		$this->fixture = JModelLegacy::getInstance('NomodelInName');
 		$this->fixture->getName();
 	}
