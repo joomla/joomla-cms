@@ -656,7 +656,7 @@ class JForm
 	 */
 	public function getControlGroups($name)
 	{
-		JLog::add('JForm>getControlGroups() is deprecated use JForm->renderFieldset().', JLog::WARNING, 'deprecated');
+		JLog::add('JForm->getControlGroups() is deprecated use JForm->renderFieldset().', JLog::WARNING, 'deprecated');
 
 		return $this->renderFieldset($name);
 	}
