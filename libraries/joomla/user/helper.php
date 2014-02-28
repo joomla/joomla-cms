@@ -594,9 +594,9 @@ abstract class JUserHelper
 	 *
 	 * @since   11.1
 	 */
-	public static function genRandomPassword($length = 8)
+	public static function genRandomPassword($length = 10)
 	{
-		$salt = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+		$salt = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@%+\/'!#$^?:.(){}[]~-_";
 		$base = strlen($salt);
 		$makepass = '';
 
