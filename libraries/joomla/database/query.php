@@ -407,6 +407,11 @@ abstract class JDatabaseQuery
 					$query .= (string) $this->where;
 				}
 
+				if ($this->order)
+				{
+					$query .= (string) $this->order;
+				}
+
 				break;
 
 			case 'update':
@@ -426,6 +431,11 @@ abstract class JDatabaseQuery
 				if ($this->where)
 				{
 					$query .= (string) $this->where;
+				}
+
+				if ($this->order)
+				{
+					$query .= (string) $this->order;
 				}
 
 				break;
