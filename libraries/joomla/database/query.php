@@ -406,7 +406,7 @@ abstract class JDatabaseQuery
 				{
 					$query .= (string) $this->where;
 				}
-				
+
 				if ($this->order)
 				{
 					$query .= (string) $this->order;
@@ -432,7 +432,7 @@ abstract class JDatabaseQuery
 				{
 					$query .= (string) $this->where;
 				}
-				
+
 				if ($this->order)
 				{
 					$query .= (string) $this->order;
