@@ -629,38 +629,76 @@ class JForm
 	 * @param   string  $name     The name of the field for which to get the value.
 	 * @param   string  $group    The optional dot-separated form group path on which to get the value.
 	 * @param   mixed   $default  The optional default value of the field value is empty.
+	 * @param   array   $options  Any options to be passed into the rendering of the field
 	 *
 	 * @return  string  A string containing the html for the control goup
 	 *
-	 * @since   3.2
+	 * @since      3.2
+	 * @deprecated 3.2.3  Use renderField() instead of getControlGroup
 	 */
 	public function getControlGroup($name, $group = null, $default = null)
 	{
+		return $this->renderField($name, $group, $default);
+	}
+
+	/**
+	 * Method to get all control groups with label and input of a fieldset.
+	 *
+	 * @param   string  $name     The name of the fieldset for which to get the values.
+	 * @param   array   $options  Any options to be passed into the rendering of the field
+	 *
+	 * @return  string  A string containing the html for the control goups
+	 *
+	 * @since      3.2
+	 * @deprecated 3.2.3 Use renderFieldset() instead of getControlGroups
+	 */
+	public function getControlGroups($name)
+	{
+		return $this->renderFieldset($name);
+	}
+
+	/**
+	 * Method to get a control group with label and input.
+	 *
+	 * @param   string  $name     The name of the field for which to get the value.
+	 * @param   string  $group    The optional dot-separated form group path on which to get the value.
+	 * @param   mixed   $default  The optional default value of the field value is empty.
+	 * @param   array   $options  Any options to be passed into the rendering of the field
+	 *
+	 * @return  string  A string containing the html for the control goup
+	 *
+	 * @since   3.2.3
+	 */
+	public function renderField($name, $group = null, $default = null, $options = array())
+	{
 		$field = $this->getField($name, $group, $default);
+
 		if ($field)
 		{
-			return $field->getControlGroup();
+			return $field->getControlGroup($options);
 		}
+
 		return '';
 	}
 
 	/**
 	 * Method to get all control groups with label and input of a fieldset.
 	 *
-	 * @param   string  $name  The name of the fieldset for which to get the values.
+	 * @param   string  $name     The name of the fieldset for which to get the values.
+	 * @param   array   $options  Any options to be passed into the rendering of the field
 	 *
 	 * @return  string  A string containing the html for the control goups
 	 *
-	 * @since   3.2
+	 * @since   3.2.3
 	 */
-	public function getControlGroups($name)
+	public function renderFieldset($name, $options = array())
 	{
 		$fields = $this->getFieldset($name);
 
 		$html = array();
 		foreach ($fields as $field)
 		{
-			$html[] = $field->getControlGroup();
+			$html[] = $field->getControlGroup($options);
 		}
 
 		return implode('', $html);

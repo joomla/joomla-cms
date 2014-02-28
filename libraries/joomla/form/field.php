@@ -865,21 +865,32 @@ abstract class JFormField
 	/**
 	 * Method to get a control group with label and input.
 	 *
-	 * @return  string  A string containing the html for the control goup
+	 * @return  string  A string containing the html for the control group
+	 *
+	 * @since      3.2
+	 * @deprecated 3.2.3 Use renderField() instead
+	 */
+	public function getControlGroup()
+	{
+		return $this->renderField();
+	}
+
+	/**
+	 * Method to get a control group with label and input.
+	 *
+	 * @return  string  A string containing the html for the control group
 	 *
 	 * @since   3.2
 	 */
-	public function getControlGroup()
+	public function renderField($options = array())
 	{
 		if ($this->hidden)
 		{
 			return $this->getInput();
 		}
 
-		return
-			'<div class="control-group">'
-			. '<div class="control-label">' . $this->getLabel() . '</div>'
-			. '<div class="controls">' . $this->getInput() . '</div>'
-			. '</div>';
+		$hiddenLabel = isset($options['hiddenLabel']) ? $options['hiddenLabel'] : false;
+		
+		return JLayoutHelper::render('libraries.joomla.form.renderfield', array('input' => $this->getInput(), 'label' => $this->getLabel(), 'hiddenLabel' => $hiddenLabel));
 	}
 }
