@@ -308,8 +308,19 @@
 			<option value="0">JHIDE</option>
 		</field>
 
+		<field
+			name="float_intro"
+			type="list"
+			label="COM_TAGS_FLOAT_INTRO_LABEL"
+			description="COM_TAGS_FLOAT_INTRO_DESC">
+				<option value="none">COM_TAGS_NONE</option>
+				<option value="left">COM_TAGS_LEFT</option>
+				<option value="right">COM_TAGS_RIGHT</option>
+		</field>
+		
 	</fieldset>
-		<fieldset
+	
+	<fieldset
 		name="shared"
 		label="COM_TAGS_CONFIG_SHARED_SETTINGS_LABEL"
 		description="COM_TAGS_CONFIG_SHARED_SETTINGS_DESC">
