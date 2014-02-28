@@ -44,68 +44,23 @@ $assoc = JLanguageAssociations::isEnabled();
 						<div >
 							<?php echo $this->form->getControlGroup('user_id'); ?>
 						</div>
-						<div class="control-group">
-							<div class="control-label"><?php echo $this->form->getLabel('image'); ?></div>
-							<div class="controls"><?php echo $this->form->getInput('image'); ?></div>
-						</div>
-						<div class="control-group">
-							<div class="control-label"><?php echo $this->form->getLabel('con_position'); ?></div>
-							<div class="controls"><?php echo $this->form->getInput('con_position'); ?></div>
-						</div>
-						<div class="control-group">
-							<div class="control-label"><?php echo $this->form->getLabel('email_to'); ?></div>
-							<div class="controls"><?php echo $this->form->getInput('email_to'); ?></div>
-						</div>
-						<div class="control-group">
-							<div class="control-label"><?php echo $this->form->getLabel('address'); ?></div>
-							<div class="controls"><?php echo $this->form->getInput('address'); ?></div>
-						</div>
-						<div class="control-group">
-							<div class="control-label"><?php echo $this->form->getLabel('suburb'); ?></div>
-							<div class="controls"><?php echo $this->form->getInput('suburb'); ?></div>
-						</div>
-						<div class="control-group">
-							<div class="control-label"><?php echo $this->form->getLabel('state'); ?></div>
-							<div class="controls"><?php echo $this->form->getInput('state'); ?></div>
-						</div>
-						<div class="control-group">
-							<div class="control-label"><?php echo $this->form->getLabel('postcode'); ?></div>
-							<div class="controls"><?php echo $this->form->getInput('postcode'); ?></div>
-						</div>
-						<div class="control-group">
-							<div class="control-label"><?php echo $this->form->getLabel('country'); ?></div>
-							<div class="controls"><?php echo $this->form->getInput('country'); ?></div>
-						</div>
+						<?php echo $this->form->getControlGroup('image'); ?>
+						<?php echo $this->form->getControlGroup('con_position'); ?>
+						<?php echo $this->form->getControlGroup('email_to'); ?>
+						<?php echo $this->form->getControlGroup('address'); ?>
+						<?php echo $this->form->getControlGroup('suburb'); ?>
+						<?php echo $this->form->getControlGroup('state'); ?>
+						<?php echo $this->form->getControlGroup('postcode'); ?>
+						<?php echo $this->form->getControlGroup('country'); ?>
 					</div>
 					<div class="span6">
-						<div class="control-group">
-							<div class="control-label"><?php echo $this->form->getLabel('telephone'); ?></div>
-							<div class="controls"><?php echo $this->form->getInput('telephone'); ?></div>
-						</div>
-						<div class="control-group">
-							<div class="control-label"><?php echo $this->form->getLabel('mobile'); ?></div>
-							<div class="controls"><?php echo $this->form->getInput('mobile'); ?></div>
-						</div>
-						<div class="control-group">
-							<div class="control-label"><?php echo $this->form->getLabel('fax'); ?></div>
-							<div class="controls"><?php echo $this->form->getInput('fax'); ?></div>
-						</div>
-						<div class="control-group">
-							<div class="control-label"><?php echo $this->form->getLabel('webpage'); ?></div>
-							<div class="controls"><?php echo $this->form->getInput('webpage'); ?></div>
-						</div>
-						<div class="control-group">
-							<div class="control-label"><?php echo $this->form->getLabel('sortname1'); ?></div>
-							<div class="controls"><?php echo $this->form->getInput('sortname1'); ?></div>
-						</div>
-						<div class="control-group">
-							<div class="control-label"><?php echo $this->form->getLabel('sortname2'); ?></div>
-							<div class="controls"><?php echo $this->form->getInput('sortname2'); ?></div>
-						</div>
-						<div class="control-group">
-							<div class="control-label"><?php echo $this->form->getLabel('sortname3'); ?></div>
-							<div class="controls"><?php echo $this->form->getInput('sortname3'); ?></div>
-						</div>
+						<?php echo $this->form->getControlGroup('telephone'); ?>
+						<?php echo $this->form->getControlGroup('mobile'); ?>
+						<?php echo $this->form->getControlGroup('fax'); ?>
+						<?php echo $this->form->getControlGroup('webpage'); ?>
+						<?php echo $this->form->getControlGroup('sortname1'); ?>
+						<?php echo $this->form->getControlGroup('sortname2'); ?>
+						<?php echo $this->form->getControlGroup('sortname3'); ?>
 					</div>
 				</div>
 			</div>
