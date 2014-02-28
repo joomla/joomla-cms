@@ -239,19 +239,19 @@ class JViewCategory extends JViewLegacy
 
 		$this->document->setTitle($title);
 
-		$metadesc = (trim($this->category->metadesc) != '' ? trim($this->category->metadesc) : trim($this->params->get('menu-meta_description')));
+		$metadesc = (trim($this->params->get('menu-meta_description')) != '' ? trim($this->params->get('menu-meta_description')) : trim($this->category->metadesc));
 		if ($metadesc)
 		{
 			$this->document->setDescription($metadesc);
 		}
 
-		$metakey = (trim($this->category->metakey) != '' ? trim($this->category->metakey) : trim($this->params->get('menu-meta_keywords')));
+		$metakey = (trim($this->params->get('menu-meta_keywords')) != '' ? trim($this->params->get('menu-meta_keywords')) : trim($this->category->metakey));
 		if ($metakey)
 		{
 			$this->document->setMetadata('keywords', $metakey);
 		}
 
-		$robots = ($this->category->params->get('robots') ?: $this->params->get('robots'));
+		$robots = ($this->params->get('robots') ?: $this->category->params->get('robots'));
 		if ($robots)
 		{
 			$this->document->setMetadata('robots', $robots);
