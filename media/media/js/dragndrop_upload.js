@@ -35,12 +35,9 @@ function sendFileToUploadController(formData,status)
     status.setAbort(jqXHR);
 }
  
-var rowCount=0;
+
 function createStatusbar(obj)
 {
-     rowCount++;
-     var row="odd";
-     if(rowCount %2 ==0) row ="even";
      this.statusbar = $("<tr></tr>");
      this.filename = $("<td 'width: 10%;'><div class='filename'></div></td>").appendTo(this.statusbar);
      this.size = $("<td 'width: 20%;'><div class='filesize'></div></td>").appendTo(this.statusbar);
@@ -48,8 +45,6 @@ function createStatusbar(obj)
      this.abort = $("<td 'width: 10%;'><span class='badge badge-important'>&times;</span></td>").appendTo(this.statusbar);
 
      $("#upload-container").append(this.statusbar);
-     
-    // obj.after(this.statusbar);
  
     this.setFileNameSize = function(name,size)
     {
@@ -75,7 +70,7 @@ function createStatusbar(obj)
         if(parseInt(progress) >= 100)
         {
          	this.abort.find('span').addClass('badge-success').removeClass('badge-important');
-            this.abort.find('span').html('Completed');
+            this.abort.find('span').html('OK');
         }
     }
     this.setAbort = function(jqxhr)
@@ -83,11 +78,8 @@ function createStatusbar(obj)
         var sb = this.statusbar;
         this.abort.click(function()
         {
-        	if(parseInt(progress) < 100)
-            {
-	            jqxhr.abort();
-	            sb.hide();
-            }
+       	    jqxhr.abort();
+            sb.hide();
         });
     }
 }
@@ -105,6 +97,7 @@ function handleFileUpload(files,obj)
         status.setFileNameSize(files[i].name,files[i].size);
         sendFileToUploadController(fd,status);
    }
+   
    
   
 }
@@ -149,9 +142,12 @@ $(document).on('drop', function (e)
     e.preventDefault();
 });
 
-// Reload folder iframe when exit
-$('#uploadModal').on('hidden', function () {
-	$('#folderframe').attr('src', function (i, val) { return val; });
+// Reload folder iFrame when exit
+$('#uploadModal').on('hide', function () {
+	$('#folderframe').attr('src', function (i, val) { 
+		// Setting folder name in iFrame url
+		return val.replace(/&folder=.*&/,"&folder="+document.getElementById('folder').value+"&") ;
+	});
 });
 
 });
