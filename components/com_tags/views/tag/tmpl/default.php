@@ -20,16 +20,24 @@ $isSingleTag = (count($this->item) == 1);
 		</h1>
 	<?php endif; ?>
 	<?php if ($this->params->get('show_tag_title', 1)) : ?>
-		<h2>
-			<?php echo JHtml::_('content.prepare', $this->document->title, '', 'com_tag.tag'); ?>
-		</h2>
+		<?php if ($isSingleTag) : ?>
+			<h2>
+				<?php echo JHtml::_('content.prepare', $this->item[0]->title, '', 'com_tag.tag'); ?>
+			</h2>
+		<?php else : ?>
+			<?php foreach ($this->item as $i => $item) : ?>
+				<?php $tag_titles[] = JHtml::_('content.prepare', $item->title, '', 'com_tag.tag'); ?>
+			<?php endforeach; ?>
+			<h2>
+				<?php echo implode(', ', $tag_titles); ?>
+			</h2>
+		<?php endif; ?>
 	<?php endif; ?>
 	<?php // We only show a tag description if there is a single tag. ?>
-	<?php if (count($this->item) == 1 && (($this->params->get('tag_list_show_tag_image', 1)) || $this->params->get('tag_list_show_tag_description', 1))) : ?>
+	<?php if ($isSingleTag && (($this->params->get('tag_list_show_tag_image', 1)) || $this->params->get('tag_list_show_tag_description', 1))) : ?>
 		<div class="category-desc">
-			<?php $images = json_decode($this->item[0]->images); ?>
-			<?php if ($this->params->get('tag_list_show_tag_image', 1) == 1 && !empty($images->image_fulltext)) : ?>
-				<img src="<?php echo htmlspecialchars($images->image_fulltext); ?>">
+			<?php if ($this->params->get('tag_list_show_tag_image', 1) == 1 && !empty($this->item[0]->images->image_fulltext)) : ?>
+				<img src="<?php echo htmlspecialchars($this->item[0]->images->image_fulltext); ?>">
 			<?php endif; ?>
 			<?php if ($this->params->get('tag_list_show_tag_description') == 1 && $this->item[0]->description) : ?>
 				<?php echo JHtml::_('content.prepare', $this->item[0]->description, '', 'com_tags.tag'); ?>
