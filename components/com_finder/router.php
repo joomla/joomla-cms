@@ -119,3 +119,25 @@ class FinderRouter implements JComponentRouter
 		return $vars;
 	}
 }
+
+/**
+ * Finder router functions
+ *
+ * These functions are proxys for the new router interface 
+ * for old SEF extensions.
+ *
+ * @deprecated  4.0  Use Class based routers instead
+ */
+function FinderBuildRoute(&$query)
+{
+	$router = new FinderRouter;
+
+	return $router->build($query);
+}
+
+function FinderParseRoute($segments)
+{
+	$router = new FinderRouter;
+
+	return $router->parse($segments);
+}
