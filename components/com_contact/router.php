@@ -239,3 +239,25 @@ class ContactRouter implements JComponentRouter
 		return $vars;
 	}
 }
+
+/**
+ * Contact router functions
+ *
+ * These functions are proxys for the new router interface 
+ * for old SEF extensions.
+ *
+ * @deprecated  4.0  Use Class based routers instead
+ */
+function ContactBuildRoute(&$query)
+{
+	$router = new ContactRouter;
+
+	return $router->build($query);
+}
+
+function ContactParseRoute($segments)
+{
+	$router = new ContactRouter;
+
+	return $router->parse($segments);
+}
