@@ -90,3 +90,26 @@ class BannersRouter implements JComponentRouter
 		return $vars;
 	}
 }
+
+
+/**
+ * Banners router functions
+ *
+ * These functions are proxys for the new router interface 
+ * for old SEF extensions.
+ *
+ * @deprecated  4.0  Use Class based routers instead
+ */
+function BannersBuildRoute(&$query)
+{
+	$router = new BannersRouter;
+
+	return $router->build($query);
+}
+
+function BannersParseRoute($segments)
+{
+	$router = new BannersRouter;
+
+	return $router->parse($segments);
+}
