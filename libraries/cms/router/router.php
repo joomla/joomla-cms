@@ -80,7 +80,7 @@ class JRouter
 		'build' => array(),
 		'parse' => array()
 	);
-	
+
 	/**
 	 * Caching of processed URIs
 	 *
@@ -210,9 +210,9 @@ class JRouter
 
 		if (isset($this->cache[$key]))
 		{
-			return clone($this->cache[$key]);
+			return clone $this->cache[$key];
 		}
-		
+
 		// Create the URI object
 		$uri = $this->createURI($url);
 
@@ -230,8 +230,8 @@ class JRouter
 		{
 			$this->_buildSefRoute($uri);
 		}
-		
-		$this->cache[$key] = clone($uri);
+
+		$this->cache[$key] = clone $uri;
 
 		return $uri;
 	}
@@ -576,6 +576,7 @@ class JRouter
 		{
 			$uri = new JUri('index.php');
 			$uri->setQuery($url);
+
 			return $uri;
 		}
 		// Create full URL if we are only appending variables to it
