@@ -439,3 +439,25 @@ class ContentRouter implements JComponentRouter
 		return $vars;
 	}
 }
+
+/**
+ * Content router functions
+ *
+ * These functions are proxys for the new router interface 
+ * for old SEF extensions.
+ *
+ * @deprecated  4.0  Use Class based routers instead
+ */
+function ContentBuildRoute(&$query)
+{
+	$router = new ContentRouter;
+
+	return $router->build($query);
+}
+
+function ContentParseRoute($segments)
+{
+	$router = new ContentRouter;
+
+	return $router->parse($segments);
+}
