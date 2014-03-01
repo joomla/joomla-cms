@@ -244,3 +244,25 @@ class WeblinksRouter implements JComponentRouter
 		return $vars;
 	}
 }
+
+/**
+ * Weblinks router functions
+ *
+ * These functions are proxys for the new router interface 
+ * for old SEF extensions.
+ *
+ * @deprecated  4.0  Use Class based routers instead
+ */
+function WeblinksBuildRoute(&$query)
+{
+	$router = new WeblinksRouter;
+
+	return $router->build($query);
+}
+
+function WeblinksParseRoute($segments)
+{
+	$router = new WeblinksRouter;
+
+	return $router->parse($segments);
+}
