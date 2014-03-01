@@ -54,84 +54,21 @@ $params = $this->state->get('params');
 		</div>
 
 		<hr class="hr-condensed" />
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('title'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('title'); ?>
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('alias'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('alias'); ?>
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('catid'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('catid'); ?>
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('url'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('url'); ?>
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('tags'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('tags'); ?>
-			</div>
-		</div>
+		<?php echo $this->form->getControlGroup('title'); ?>
+		<?php echo $this->form->getControlGroup('alias'); ?>
+		<?php echo $this->form->getControlGroup('catid'); ?>
+		<?php echo $this->form->getControlGroup('url'); ?>
+		<?php echo $this->form->getControlGroup('tags'); ?>
 
 		<?php if ($params->get('save_history', 0)) : ?>
-			<div class="control-group">
-				<div class="control-label">
-					<?php echo $this->form->getLabel('version_note'); ?>
-				</div>
-				<div class="controls">
-					<?php echo $this->form->getInput('version_note'); ?>
-				</div>
-			</div>
+			<?php echo $this->form->getControlGroup('version_note'); ?>
 		<?php endif; ?>
 
 		<?php if ($this->user->authorise('core.edit.state', 'com_weblinks.weblink')) : ?>
-			<div class="control-group">
-				<div class="control-label">
-					<?php echo $this->form->getLabel('state'); ?>
-				</div>
-				<div class="controls">
-					<?php echo $this->form->getInput('state'); ?>
-				</div>
-			</div>
+			<?php echo $this->form->getControlGroup('state'); ?>
 		<?php endif; ?>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('language'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('language'); ?>
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('description'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('description'); ?>
-			</div>
-		</div>
+		<?php echo $this->form->getControlGroup('language'); ?>
+		<?php echo $this->form->getControlGroup('description'); ?>
 
 		<input type="hidden" name="return" value="<?php echo $this->return_page;?>" />
 		<input type="hidden" name="task" value="" />
