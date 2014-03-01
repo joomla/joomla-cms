@@ -172,5 +172,7 @@ tinymce.addI18n('fr_FR',{
 "Format": "Format",
 "Insert time": "Ins\u00e9rer date\/heure",
 "Toggle blockquote": "Basculer les blockquotes",
-"Insert nonbreaking space": "Ins\u00e9rer une espace ins\u00e9cable"
+"Insert nonbreaking space": "Ins\u00e9rer une espace ins\u00e9cable",
+"The URL you entered seems to be an email address. Do you want to add the required mailto: prefix?": "Cette URL semble \u00eatre une adresse e-mail. Voulez-vous ajouter le pr\u00e9fixe mailto: n\u00e9cessaire?",
+"The URL you entered seems to be an external link. Do you want to add the required http:// prefix?": "Cette URL semble \u00eatre une adresse externe au site. Voulez-vous ajouter le pr\u00e9fixe http:// n\u00e9cessaire?"
 });
