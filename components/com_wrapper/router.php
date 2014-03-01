@@ -57,3 +57,25 @@ class WrapperRouter implements JComponentRouter
 		return $vars;
 	}
 }
+
+/**
+ * Wrapper router functions
+ *
+ * These functions are proxys for the new router interface 
+ * for old SEF extensions.
+ *
+ * @deprecated  4.0  Use Class based routers instead
+ */
+function WrapperBuildRoute(&$query)
+{
+	$router = new WrapperRouter;
+
+	return $router->build($query);
+}
+
+function WrapperParseRoute($segments)
+{
+	$router = new WrapperRouter;
+
+	return $router->parse($segments);
+}
