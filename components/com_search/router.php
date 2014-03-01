@@ -59,3 +59,25 @@ class SearchRouter implements JComponentRouter
 		return $vars;
 	}
 }
+
+/**
+ * Search router functions
+ *
+ * These functions are proxys for the new router interface 
+ * for old SEF extensions.
+ *
+ * @deprecated  4.0  Use Class based routers instead
+ */
+function SearchBuildRoute(&$query)
+{
+	$router = new SearchRouter;
+
+	return $router->build($query);
+}
+
+function SearchParseRoute($segments)
+{
+	$router = new SearchRouter;
+
+	return $router->parse($segments);
+}
