@@ -176,3 +176,25 @@ class TagsRouter implements JComponentRouter
 		return $vars;
 	}
 }
+
+/**
+ * Tags router functions
+ *
+ * These functions are proxys for the new router interface 
+ * for old SEF extensions.
+ *
+ * @deprecated  4.0  Use Class based routers instead
+ */
+function TagsBuildRoute(&$query)
+{
+	$router = new TagsRouter;
+
+	return $router->build($query);
+}
+
+function TagsParseRoute($segments)
+{
+	$router = new TagsRouter;
+
+	return $router->parse($segments);
+}
