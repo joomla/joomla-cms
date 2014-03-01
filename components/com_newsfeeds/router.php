@@ -237,3 +237,25 @@ class NewsfeedsRouter implements JComponentRouter
 		return $vars;
 	}
 }
+
+/**
+ * Newsfeeds router functions
+ *
+ * These functions are proxys for the new router interface 
+ * for old SEF extensions.
+ *
+ * @deprecated  4.0  Use Class based routers instead
+ */
+function NewsfeedsBuildRoute(&$query)
+{
+	$router = new NewsfeedsRouter;
+
+	return $router->build($query);
+}
+
+function NewsfeedsParseRoute($segments)
+{
+	$router = new NewsfeedsRouter;
+
+	return $router->parse($segments);
+}
