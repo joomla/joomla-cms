@@ -56,6 +56,11 @@ class MediaViewMediaHtml extends ConfigViewCmsHtml
 			JHtml::_('stylesheet', 'media/mootree_rtl.css', array(), true);
 		endif;
 
+		//For Drag & Drop Upload
+		JHtml::_('jquery.framework', false);
+		JHtml::_('script', 'media/dragndrop_upload.js', true, true);
+		JHtml::stylesheet('media/media/css/dragndrop_upload.css');
+
 		if (DIRECTORY_SEPARATOR == '\\')
 		{
 			$base = str_replace(DIRECTORY_SEPARATOR, "\\\\", COM_MEDIA_BASE);

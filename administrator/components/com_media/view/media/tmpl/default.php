@@ -59,22 +59,49 @@ $input = JFactory::getApplication()->input;
 			</h3>
 		</div>
 		<div class="modal-body">
-			<div id="" class="form-horizontal">
-				<fieldset id="upload-noflash" class="actions">
-					<label for="upload-file" class="control-label"><?php echo JText::_('COM_MEDIA_UPLOAD_FILE'); ?></label>
-					<input type="file" id="upload-file" name="Filedata[]" multiple /> 
-					<p class="help-block"><?php echo $this->config->get('upload_maxsize') == '0' ? JText::_('COM_MEDIA_UPLOAD_FILES_NOLIMIT') : JText::sprintf('COM_MEDIA_UPLOAD_FILES', $this->config->get('upload_maxsize')); ?></p>
-				</fieldset>
-					<input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->state->get('folder'); ?>" />
-					<input type="hidden" name="return-url" value="<?php echo base64_encode('index.php?option=com_media'); ?>" />
-			</div>
+
+			<?php 
+			echo JHtml::_('bootstrap.startAccordion', 'collapseTypes', array('active' => 'collapse_dragndrop'));
+
+			echo JHtml::_('bootstrap.addSlide', 'collapseTypes', JText::_('COM_MEDIA_DRAGNDROP_UPLOAD'), 'collapse_dragndrop');
+			?>
+
+				<!-- Ajax based Drag&Drop Uploader -->
+				<div id="dragandrophandler" class="hero-unit"><h2>Drag & Drop Files Here</h2></div>
+
+						<table class="table table-striped">
+							<tbody id="upload-container">	 						
+							</tbody>					
+						</table>
+
+				<input type="hidden" id="form-token" value="<?php echo JSession::getFormToken();?>" />
+			<?php echo JHtml::_('bootstrap.endSlide'); ?>
+
+			<?php echo JHtml::_('bootstrap.addSlide', 'collapseTypes', JText::_('COM_MEDIA_REGULAR_UPLOAD'), 'collapse_regular'); ?>
+
+				<!-- Regular Uploader -->
+				<div id="" class="form-horizontal">
+					<fieldset id="upload-noflash" class="actions">
+						<label for="upload-file" class="control-label"><?php echo JText::_('COM_MEDIA_UPLOAD_FILE'); ?></label>
+						<input type="file" id="upload-file" name="Filedata[]" multiple /> 
+						<p class="help-block"><?php echo $this->config->get('upload_maxsize') == '0' ? JText::_('COM_MEDIA_UPLOAD_FILES_NOLIMIT') : JText::sprintf('COM_MEDIA_UPLOAD_FILES', $this->config->get('upload_maxsize')); ?></p>
+					</fieldset>
+						<input class="update-folder" type="hidden" name="folder" id="folder" value="<?php echo $this->state->get('folder'); ?>" />
+						<input type="hidden" name="return-url" value="<?php echo base64_encode('index.php?option=com_media'); ?>" />
+
+						<button class="btn btn-primary" id="upload-submit">
+							<i class="icon-upload icon-white"></i> <?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?>
+						</button>
+				</div>
+
+			<?php echo JHtml::_('bootstrap.endSlide'); ?>
+			<?php echo JHtml::_('bootstrap.endAccordion'); ?>
+
 		</div>
 		<div class="modal-footer">
 			<a href="#" class="btn" data-dismiss="modal"><?php echo JText::_('COM_MEDIA_UPLOAD_CLOSE'); ?>
 			</a>
-			<button class="btn btn-primary" id="upload-submit">
-				<i class="icon-upload icon-white"></i> <?php echo JText::_('COM_MEDIA_START_UPLOAD'); ?>
-			</button>
+			
 		</div>
 	</div>
 		<?php echo JHtml::_('form.token'); ?>
