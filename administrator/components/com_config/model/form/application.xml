@@ -302,6 +302,18 @@
 			<option value="0">JNO</option>
 		</field>
 
+		<field 
+			name="smtpauthmethod"
+			type="list"
+			default="LOGIN"
+			showon="mailer:smtp"
+			label="COM_CONFIG_FIELD_MAIL_SMTP_AUTH_METHOD_LABEL"
+			description="COM_CONFIG_FIELD_MAIL_SMTP_AUTH_METHOD_DESC">
+			<option value="LOGIN">LOGIN</option>
+			<option value="PLAIN">PLAIN</option>
+			<option value="NTLM">NTLM</option>
+		</field>
+
 		<field
 			name="smtpsecure"
 			type="list"

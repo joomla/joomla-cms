@@ -369,7 +369,7 @@ class SMTP {
          ** How to telnet in windows: http://technet.microsoft.com/en-us/library/aa995718%28EXCHG.65%29.aspx
          ** PROTOCOL Documentation http://curl.haxx.se/rfc/ntlm.html#ntlmSmtpAuthentication
          */
-        if (file_exists('extras/ntlm_sasl_client.php')) {
+        if (file_exists(dirname(__FILE__) . '/extras/ntlm_sasl_client.php')) {
          require_once 'extras/ntlm_sasl_client.php';
         }
         $temp = new stdClass();
