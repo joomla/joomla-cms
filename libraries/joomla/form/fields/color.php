@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -159,6 +159,8 @@ class JFormFieldColor extends JFormField
 
 		$onchange  = !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
 		$class     = $this->class;
+		$required  = $this->required ? ' required aria-required="true"' : '';
+		$disabled  = $this->disabled ? ' disabled' : '';
 		$autofocus = $this->autofocus ? ' autofocus' : '';
 
 		$color = strtolower($this->value);
@@ -177,7 +179,7 @@ class JFormFieldColor extends JFormField
 			$class = ' class="' . trim('simplecolors chzn-done ' . $class) . '"';
 			JHtml::_('behavior.simplecolorpicker');
 
-			$colors = strtolower();
+			$colors = strtolower($this->colors);
 
 			if (empty($colors))
 			{
@@ -244,10 +246,8 @@ class JFormFieldColor extends JFormField
 		{
 			$class        = ' class="' . trim('minicolors ' . $class) . '"';
 			$control      = $control ? ' data-control="' . $control . '"' : '';
-			$disabled     = $this->disabled ? ' disabled' : '';
 			$readonly     = $this->readonly ? ' readonly' : '';
 			$hint         = $hint ? ' placeholder="' . $hint . '"' : ' placeholder="#rrggbb"';
-			$required     = $this->required ? ' required aria-required="true"' : '';
 			$autocomplete = !$this->autocomplete ? ' autocomplete="off"' : '';
 
 			// Including fallback code for HTML5 non supported browsers.
@@ -258,7 +258,7 @@ class JFormFieldColor extends JFormField
 
 			return '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' . ' value="'
 				. htmlspecialchars($color, ENT_COMPAT, 'UTF-8') . '"' . $hint . $class . $position . $control
-				. $disabled . $required . $onchange . $autocomplete . $autofocus . '/>';
+				. $readonly . $disabled . $required . $onchange . $autocomplete . $autofocus . '/>';
 		}
 	}
 }

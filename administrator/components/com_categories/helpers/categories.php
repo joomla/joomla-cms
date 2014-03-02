@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,6 @@ defined('_JEXEC') or die;
  */
 class CategoriesHelper
 {
-
 	/**
 	 * Configure the Submenu links.
 	 *
@@ -57,16 +56,14 @@ class CategoriesHelper
 
 			if (class_exists($cName))
 			{
-
 				if (is_callable(array($cName, 'addSubmenu')))
 				{
 					$lang = JFactory::getLanguage();
-					// loading language file from the administrator/language directory then
+
+					// Loading language file from the administrator/language directory then
 					// loading language file from the administrator/components/*extension*/language directory
-					$lang->load($component, JPATH_BASE, null, false, false)
-					|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, false)
-					|| $lang->load($component, JPATH_BASE, $lang->getDefault(), false, false)
-					|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), $lang->getDefault(), false, false);
+					$lang->load($component, JPATH_BASE, null, false, true)
+					|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
 
 					call_user_func(array($cName, 'addSubmenu'), 'categories' . (isset($section) ? '.' . $section : ''));
 				}
@@ -83,31 +80,15 @@ class CategoriesHelper
 	 * @return  JObject
 	 *
 	 * @since   1.6
+	 * @deprecated  3.2  Use JHelperContent::getActions() instead
 	 */
 	public static function getActions($extension, $categoryId = 0)
 	{
-		$user = JFactory::getUser();
-		$result = new JObject;
-		$parts = explode('.', $extension);
-		$component = $parts[0];
+		// Log usage of deprecated function
+		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
 
-		if (empty($categoryId))
-		{
-			$assetName = $component;
-			$level = 'component';
-		}
-		else
-		{
-			$assetName = $component . '.category.' . (int) $categoryId;
-			$level = 'category';
-		}
-
-		$actions = JAccess::getActions($component, $level);
-
-		foreach ($actions as $action)
-		{
-			$result->set($action->name, $user->authorise($action->name, $assetName));
-		}
+		// Get list of actions
+		$result = JHelperContent::getActions($extension, 'category', $categoryId);
 
 		return $result;
 	}
@@ -135,6 +116,7 @@ class CategoriesHelper
 		if ($error = $db->getErrorMsg())
 		{
 			JError::raiseWarning(500, $error);
+
 			return false;
 		}
 

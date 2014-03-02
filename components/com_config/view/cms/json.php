@@ -3,7 +3,7 @@
  * @package     Joomla.Cms
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -23,15 +23,14 @@ abstract class ConfigViewCmsJson extends ConfigViewCmsHtml
 	public $data;
 
 	/**
-	 * Display the view
+	 * Method to render the view.
 	 *
-	 * @param   string  $tpl  Layout
+	 * @return  string  The rendered view.
 	 *
-	 * @return  string
+	 * @since   3.2
 	 */
 	public function render()
 	{
-
 		$this->data = $this->model->getData();
 
 		return json_encode($this->data);

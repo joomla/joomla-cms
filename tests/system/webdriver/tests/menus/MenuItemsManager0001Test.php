@@ -3,7 +3,7 @@
  * @package     Joomla.Test
  * @subpackage  Webdriver
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 require_once 'JoomlaWebdriverTestCase.php';
@@ -116,10 +116,12 @@ class MenuItemsManager0001Test extends JoomlaWebdriverTestCase
 		$this->menuItemsManagerPage->addMenuItem();
 		$message = $this->menuItemsManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'Menu successfully saved') >= 0, 'Menu save should return success');
-		$this->menuItemsManagerPage->setFilter('menutype', 'Main Menu');
+		$this->menuItemsManagerPage->setFilter('Menu', 'Main Menu');
 		$this->assertTrue($this->menuItemsManagerPage->getRowNumber('Test Menu') > 0, 'Test menu should be in list');
 		$this->menuItemsManagerPage->trashAndDelete('Test Menu');
+		$this->menuItemsManagerPage->setFilter('Status', 'All');
 		$this->assertFalse($this->menuItemsManagerPage->getRowNumber('Test Menu'), 'Test menu should not be present');
+		$this->menuItemsManagerPage->searchFor();
 	}
 
 	/**
@@ -132,11 +134,12 @@ class MenuItemsManager0001Test extends JoomlaWebdriverTestCase
 		$menuType = 'Single Contact';
 		$itemName = 'Bananas';
 		$menuLocation = 'About Joomla';
-		$this->menuItemsManagerPage->setFilter('menutype', $menuLocation);
+		$this->menuItemsManagerPage->setFilter('Menu', $menuLocation);
 		$this->assertFalse($this->menuItemsManagerPage->getRowNumber($title), 'Test menu should not be present');
 		$this->menuItemsManagerPage->addMenuItem($title, $menuType, $menuLocation, array('contact' => $itemName));
 		$message = $this->menuItemsManagerPage->getAlertMessage();
 		$this->assertContains('Menu item successfully saved', $message, 'Menu save should return success', true);
+		$this->menuItemsManagerPage->setFilter('Menu', 'About Joomla');
 		$this->menuItemsManagerPage->searchFor($title);
 		$this->assertTrue($this->menuItemsManagerPage->getRowNumber($title) > 0, 'Test menu should be on the page');
 		$this->menuItemsManagerPage->searchFor();
@@ -160,17 +163,20 @@ class MenuItemsManager0001Test extends JoomlaWebdriverTestCase
 		$itemName = '- Joomla!';
 		$menuLocation = 'Fruit Shop';
 		$metaDescription = 'Test menu item for webdriver test.';
-		$this->menuItemsManagerPage->setFilter('menutype', $menuLocation);
+		$this->menuItemsManagerPage->setFilter('Menu', $menuLocation);
 		$this->assertFalse($this->menuItemsManagerPage->getRowNumber($title), 'Test menu should not be present');
 		$this->menuItemsManagerPage->addMenuItem($title, $menuType, $menuLocation, array('category' => $itemName, 'Meta Description' => $metaDescription));
 		$message = $this->menuItemsManagerPage->getAlertMessage();
 		$this->assertContains('Menu item successfully saved', $message, 'Menu save should return success', true);
+		$this->menuItemsManagerPage->setFilter('Menu', 'Fruit Shop');
 		$this->menuItemsManagerPage->searchFor($title);
 		$this->assertTrue($this->menuItemsManagerPage->getRowNumber($title) > 0, 'Test menu should be on the page');
 		$this->menuItemsManagerPage->searchFor();
+		$this->menuItemsManagerPage->setFilter('Menu', 'Fruit Shop');
 		$actualValues = $this->menuItemsManagerPage->getFieldValues('MenuItemEditPage', $title, array('Menu Title', 'Menu Item Type', 'category'));
 		$expectedValues = array ($title, $menuType, $itemName);
 		$this->assertEquals($expectedValues, $actualValues, 'Actual values should match entered values');
+		$this->menuItemsManagerPage->setFilter('Menu', 'Fruit Shop');
 		$this->menuItemsManagerPage->trashAndDelete($title);
 		$this->menuItemsManagerPage->searchFor($title);
 		$this->assertFalse($this->menuItemsManagerPage->getRowNumber($title), 'Test menu should not be present');
@@ -187,7 +193,7 @@ class MenuItemsManager0001Test extends JoomlaWebdriverTestCase
 		$menuType = 'Single News Feed';
 		$itemName = 'Joomla! Connect';
 		$menuLocation = 'Top';
-		$this->menuItemsManagerPage->setFilter('menutype', $menuLocation);
+		$this->menuItemsManagerPage->setFilter('Menu', $menuLocation);
 		$this->assertFalse($this->menuItemsManagerPage->getRowNumber($title), 'Test menu should not be present');
 		$this->menuItemsManagerPage->addMenuItem($title, $menuType, $menuLocation, array('newsfeed' => $itemName));
 
@@ -197,10 +203,11 @@ class MenuItemsManager0001Test extends JoomlaWebdriverTestCase
 		$newMenuLocation = 'Main Menu';
 		$this->menuItemsManagerPage->editMenuItem($title, array('Menu Title' => $newTitle, 'Menu Item Type' => $newMenuType, 'category' => $newCategory, 'Menu Location' => $newMenuLocation));
 
-		$this->menuItemsManagerPage->setFilter('menutype', $newMenuLocation);
+		$this->menuItemsManagerPage->setFilter('Menu', $newMenuLocation);
 		$actualValues = $this->menuItemsManagerPage->getFieldValues('MenuItemEditPage', $newTitle, array('Menu Title', 'Menu Item Type', 'category', 'Menu Location'));
 		$expectedValues = array ($newTitle, $newMenuType, $newCategory, $newMenuLocation);
 		$this->assertEquals($expectedValues, $actualValues, 'Actual values should match entered values');
+		$this->menuItemsManagerPage->setFilter('Menu', $newMenuLocation);
 		$this->menuItemsManagerPage->trashAndDelete($newTitle);
 		$this->assertFalse($this->menuItemsManagerPage->getRowNumber($newTitle), 'Test menu item should not be present');
 	}

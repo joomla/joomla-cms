@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,7 +27,6 @@ class ConfigControllerConfigDisplay extends ConfigControllerDisplay
 	 */
 	public function execute()
 	{
-
 		// Get the application
 		$app = $this->getApplication();
 
@@ -62,7 +61,6 @@ class ConfigControllerConfigDisplay extends ConfigControllerDisplay
 
 		if (class_exists($viewClass))
 		{
-
 			if ($viewName != 'close')
 			{
 				$model = new $modelClass;
@@ -70,11 +68,8 @@ class ConfigControllerConfigDisplay extends ConfigControllerDisplay
 				// Access check.
 				if (!JFactory::getUser()->authorise('core.admin', $model->getState('component.option')))
 				{
-
 					return;
-
 				}
-
 			}
 
 			$view = new $viewClass($model, $paths);
@@ -99,7 +94,7 @@ class ConfigControllerConfigDisplay extends ConfigControllerDisplay
 			// Render view.
 			echo $view->render();
 		}
+
 		return true;
 	}
-
 }

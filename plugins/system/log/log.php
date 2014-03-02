@@ -3,14 +3,14 @@
  * @package     Joomla.Plugin
  * @subpackage  System.log
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * Joomla! System Logging Plugin
+ * Joomla! System Logging Plugin.
  *
  * @package     Joomla.Plugin
  * @subpackage  System.log
@@ -18,6 +18,15 @@ defined('_JEXEC') or die;
  */
 class PlgSystemLog extends JPlugin
 {
+	/**
+	 * Called if user fails to be logged in.
+	 *
+	 * @param   array  $response  Array of response data.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.5
+	 */
 	public function onUserLoginFailure($response)
 	{
 		$errorlog = array();

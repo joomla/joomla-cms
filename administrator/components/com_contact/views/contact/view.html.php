@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -64,8 +64,9 @@ class ContactViewContact extends JViewLegacy
 		$userId		= $user->get('id');
 		$isNew		= ($this->item->id == 0);
 		$checkedOut	= !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
+
 		// Since we don't track these assets at the item level, use the category id.
-		$canDo		= JHelperContent::getActions($this->item->catid, 0, 'com_contact');
+		$canDo		= JHelperContent::getActions('com_contact', 'category', $this->item->catid);
 
 		JToolbarHelper::title(JText::_('COM_CONTACT_MANAGER_CONTACT'), 'address contact');
 
@@ -107,7 +108,7 @@ class ContactViewContact extends JViewLegacy
 				JToolbarHelper::save2copy('contact.save2copy');
 			}
 
-			if ($this->state->params->get('save_history', 1) && $user->authorise('core.edit'))
+			if ($this->state->params->get('save_history', 0) && $user->authorise('core.edit'))
 			{
 				JToolbarHelper::versions('com_contact.contact', $this->item->id);
 			}

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,6 @@ defined('_JEXEC') or die;
  */
 class ConfigModelTemplates extends ConfigModelForm
 {
-
 	/**
 	 * Method to auto-populate the model state.
 	 *
@@ -28,7 +27,6 @@ class ConfigModelTemplates extends ConfigModelForm
 	 */
 	protected function populateState()
 	{
-
 		$state = $this->loadState();
 
 		// Load the parameters.
@@ -64,12 +62,10 @@ class ConfigModelTemplates extends ConfigModelForm
 		}
 		catch (Exception $e)
 		{
-
 			JFactory::getApplication()->enqueueMessage($e->getMessage());
 
 			return false;
 		}
-
 
 		if (empty($form))
 		{
@@ -80,15 +76,19 @@ class ConfigModelTemplates extends ConfigModelForm
 	}
 
 	/**
-	 * @param   object  $form  A form object.
-	 * @param   mixed   $data  The data expected for the form.
+	 * Method to preprocess the form
 	 *
-	 * @throws	Exception if there is an error in the form event.
+	 * @param   JForm   $form   A form object.
+	 * @param   mixed   $data   The data expected for the form.
+	 * @param   string  $group  Plugin group to load
+	 *
+	 * @return  void
+	 *
 	 * @since   3.2
+	 * @throws	Exception if there is an error in the form event.
 	 */
 	protected function preprocessForm(JForm $form, $data, $group = 'content')
 	{
-
 		$lang = JFactory::getLanguage();
 
 		$template = JFactory::getApplication()->getTemplate();
@@ -96,10 +96,8 @@ class ConfigModelTemplates extends ConfigModelForm
 		jimport('joomla.filesystem.path');
 
 		// Load the core and/or local language file(s).
-		$lang->load('tpl_' . $template, JPATH_BASE, null, false, false)
-		||	$lang->load('tpl_' . $template, JPATH_BASE . '/templates/' . $template, null, false, false)
-		||	$lang->load('tpl_' . $template, JPATH_BASE, $lang->getDefault(), false, false)
-		||	$lang->load('tpl_' . $template, JPATH_BASE . '/templates/' . $template, $lang->getDefault(), false, false);
+		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
+		||	$lang->load('tpl_' . $template, JPATH_BASE . '/templates/' . $template, null, false, true);
 
 		// Look for com_config.xml, which contains fileds to display
 		$formFile	= JPath::clean(JPATH_BASE . '/templates/' . $template . '/com_config.xml');
@@ -128,5 +126,4 @@ class ConfigModelTemplates extends ConfigModelForm
 		// Trigger the default form events.
 		parent::preprocessForm($form, $data, $group);
 	}
-
 }

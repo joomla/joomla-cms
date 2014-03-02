@@ -3,12 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-
 
 /**
  * View for the global configuration
@@ -28,10 +27,9 @@ class ConfigViewApplicationHtml extends ConfigViewCmsHtml
 	/**
 	 * Method to display the view.
 	 *
-	 * @param   string  $tpl  Layout
+	 * @return  string  The rendered view.
 	 *
-	 * @return  void
-	 *
+	 * @since   3.2
 	 */
 	public function render()
 	{
@@ -44,12 +42,10 @@ class ConfigViewApplicationHtml extends ConfigViewCmsHtml
 			$form = $this->model->getForm();
 			$data = $this->model->getData();
 			$user = JFactory::getUser();
-			$app = JFactory::getApplication();
-
 		}
 		catch (Exception $e)
 		{
-			$app->enqueueMessage($e->getMessage(), 'error');
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -80,6 +76,7 @@ class ConfigViewApplicationHtml extends ConfigViewCmsHtml
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
 
 		$this->addToolbar();
+
 		return parent::render();
 	}
 
@@ -94,7 +91,7 @@ class ConfigViewApplicationHtml extends ConfigViewCmsHtml
 	{
 		JToolbarHelper::title(JText::_('COM_CONFIG_GLOBAL_CONFIGURATION'), 'equalizer config');
 		JToolbarHelper::apply('config.save.application.apply');
-		JToolbarHelper::save('config.save.application');
+		JToolbarHelper::save('config.save.application.save');
 		JToolbarHelper::divider();
 		JToolbarHelper::cancel('config.cancel.application');
 		JToolbarHelper::divider();

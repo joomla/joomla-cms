@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,8 +43,10 @@ if ($displayData->get('show_options', 1))
 {
 	foreach ($fieldSets as $name => $fieldSet)
 	{
+		// Ensure any fieldsets we don't want to show are skipped (including repeating formfield fieldsets)
 		if (in_array($name, $ignoreFieldsets) || (!empty($configFieldsets) && in_array($name, $configFieldsets))
-				|| !empty($hiddenFieldsets) && in_array($name, $hiddenFieldsets))
+				|| !empty($hiddenFieldsets) && in_array($name, $hiddenFieldsets)
+				|| (isset($fieldSet->repeat) && $fieldSet->repeat == true))
 		{
 			continue;
 		}

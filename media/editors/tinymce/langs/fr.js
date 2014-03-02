@@ -37,7 +37,7 @@ tinymce.addI18n('fr_FR',{
 "Paste is now in plain text mode. Contents will now be pasted as plain text until you toggle this option off.": "Le presse-papiers est maintenant en mode \"texte plein\". Les contenus seront coll\u00e9s sans retenir les formatages jusqu'\u00e0 ce que vous d\u00e9sactivez cette option.",
 "Underline": "Soulign\u00e9",
 "Cancel": "Annuler",
-"Justify": "Justifi\u00e9",
+"Justify": "Justifier",
 "Inline": "en place",
 "Copy": "Copier",
 "Align left": "Aligner \u00e0 gauche",
@@ -169,5 +169,10 @@ tinymce.addI18n('fr_FR',{
 "Tools": "Outils",
 "View": "Voir",
 "Table": "Tableau",
-"Format": "Format"
+"Format": "Format",
+"Insert time": "Ins\u00e9rer date\/heure",
+"Toggle blockquote": "Basculer les blockquotes",
+"Insert nonbreaking space": "Ins\u00e9rer une espace ins\u00e9cable",
+"The URL you entered seems to be an email address. Do you want to add the required mailto: prefix?": "Cette URL semble \u00eatre une adresse e-mail. Voulez-vous ajouter le pr\u00e9fixe mailto: n\u00e9cessaire?",
+"The URL you entered seems to be an external link. Do you want to add the required http:// prefix?": "Cette URL semble \u00eatre une adresse externe au site. Voulez-vous ajouter le pr\u00e9fixe http:// n\u00e9cessaire?"
 });

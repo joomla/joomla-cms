@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -76,6 +76,21 @@ class MenusModelItems extends JModelList
 		$parentId = $this->getUserStateFromRequest($this->context . '.filter.parent_id', 'filter_parent_id', 0, 'int');
 		$this->setState('filter.parent_id', $parentId);
 
+		$search = $this->getUserStateFromRequest($this->context . '.search', 'filter_search');
+		$this->setState('filter.search', $search);
+
+		$published = $this->getUserStateFromRequest($this->context . '.published', 'filter_published', '');
+		$this->setState('filter.published', $published);
+
+		$access = $this->getUserStateFromRequest($this->context . '.filter.access', 'filter_access', 0, 'int');
+		$this->setState('filter.access', $access);
+
+		$parentId = $this->getUserStateFromRequest($this->context . '.filter.parent_id', 'filter_parent_id', 0, 'int');
+		$this->setState('filter.parent_id', $parentId);
+
+		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level', 0, 'int');
+		$this->setState('filter.level', $level);
+
 		$menuType = $app->input->getString('menutype', null);
 
 		if ($menuType)
@@ -97,6 +112,9 @@ class MenusModelItems extends JModelList
 		}
 
 		$this->setState('filter.menutype', $menuType);
+
+		$language = $this->getUserStateFromRequest($this->context . '.filter.language', 'filter_language', '');
+		$this->setState('filter.language', $language);
 
 		// Component parameters.
 		$params = JComponentHelper::getParams('com_menus');

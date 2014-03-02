@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ abstract class JHtmlSystem
 	/**
 	 * Method to generate a string message for a value
 	 *
-	 * @param string $val a php ini value
+	 * @param   string  $val  a php ini value
 	 *
 	 * @return  string html code
 	 */
