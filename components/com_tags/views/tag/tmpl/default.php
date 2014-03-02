@@ -37,7 +37,7 @@ $isSingleTag = (count($this->item) == 1);
 	<?php if ($isSingleTag && (($this->params->get('tag_list_show_tag_image', 1)) || $this->params->get('tag_list_show_tag_description', 1))) : ?>
 		<div class="category-desc">
 			<?php if ($this->params->get('tag_list_show_tag_image', 1) == 1 && !empty($this->item[0]->images->image_fulltext)) : ?>
-				<img src="<?php echo htmlspecialchars($this->item[0]->images->image_fulltext); ?>">
+				<img src="<?php echo htmlspecialchars($this->item[0]->images->image_fulltext); ?>" />
 			<?php endif; ?>
 			<?php if ($this->params->get('tag_list_show_tag_description') == 1 && $this->item[0]->description) : ?>
 				<?php echo JHtml::_('content.prepare', $this->item[0]->description, '', 'com_tags.tag'); ?>
@@ -48,7 +48,7 @@ $isSingleTag = (count($this->item) == 1);
 	<?php // If there are multiple tags and a description or image has been supplied use that. ?>
 	<?php if (!$isSingleTag && ($this->params->get('tag_list_show_tag_description', 1) || $this->params->get('show_description_image', 1))): ?>
 		<?php if ($this->params->get('show_description_image', 1) == 1 && $this->params->get('tag_list_image')) : ?>
-			<img src="<?php echo $this->params->get('tag_list_image'); ?>">
+			<img src="<?php echo $this->params->get('tag_list_image'); ?>" />
 		<?php endif; ?>
 		<?php if ($this->params->get('tag_list_description', '') > '') : ?>
 			<?php echo JHtml::_('content.prepare', $this->params->get('tag_list_description'), '', 'com_tags.tag'); ?>
