@@ -2194,7 +2194,9 @@ SELECT 17, 67, 'Breadcrumbs', '', '', 1, 'position-2', 0, '1900-01-01 00:00:00',
 UNION ALL
 SELECT 79, 68, 'Multilanguage status', '', '', 1, 'status', 0, '1900-01-01 00:00:00', '1900-01-01 00:00:00', '1900-01-01 00:00:00', 0, 'mod_multilangstatus', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'
 UNION ALL
-SELECT 86, 69, 'Joomla Version', '', '', 1, 'footer', 0, '1900-01-01 00:00:00', '1900-01-01 00:00:00', '1900-01-01 00:00:00', 1, 'mod_version', 3, 1, '{"format":"short","product":"1","layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*';
+SELECT 86, 69, 'Joomla Version', '', '', 1, 'footer', 0, '1900-01-01 00:00:00', '1900-01-01 00:00:00', '1900-01-01 00:00:00', 1, 'mod_version', 3, 1, '{"format":"short","product":"1","layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'
+UNION ALL
+SELECT 99, 195, 'Release Notes', '', '<iframe width="100%" height="1000" src="http://www.joomla.org/announcements/release-news">\r\n</iframe>', 1, 'postinstall', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_custom', 1, 1, '{"prepare_content":"1","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 1, '*';
 
 SET IDENTITY_INSERT [#__modules]  OFF;
 
@@ -2244,7 +2246,9 @@ SELECT 17, 0
 UNION ALL
 SELECT 79, 0
 UNION ALL
-SELECT 86, 0;
+SELECT 86, 0
+UNION ALL
+SELECT 99, 0;
 
 /****** Object:  Table [#__newsfeeds] ******/
 SET QUOTED_IDENTIFIER ON;
