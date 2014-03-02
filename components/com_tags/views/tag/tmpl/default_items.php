@@ -79,7 +79,7 @@ $n = count($this->items);
 			<?php echo $item->event->afterDisplayTitle; ?>
 			<?php $images  = json_decode($item->core_images);?>
 			<?php if ($this->params->get('tag_list_show_item_image', 1) == 1 && !empty($images->image_intro)) :?>
-				<img src="<?php echo htmlspecialchars($images->image_intro);?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>">
+				<img src="<?php echo htmlspecialchars($images->image_intro);?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>" />
 			<?php endif; ?>
 			<?php if ($this->params->get('tag_list_show_item_description', 1)) : ?>
 				<?php echo $item->event->beforeDisplayContent; ?>

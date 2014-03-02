@@ -37,7 +37,12 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 				<?php echo $this->pagination->getLimitBox(); ?>
 			</div>
 		<?php endif; ?>
-
+		<?php if ($this->params->get('show_tag_num_items')) : ?>
+			<div class="btn-group span4 pull-right">
+				<span class="badge badge-info"><?php echo $this->pagination->getResultsCounter(); ?></span>
+			</div>
+		<?php endif; ?>
+		
 		<input type="hidden" name="filter_order" value="" />
 		<input type="hidden" name="filter_order_Dir" value="" />
 		<input type="hidden" name="limitstart" value="" />
@@ -79,13 +84,25 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 					<tr class="cat-list-row<?php echo $i % 2; ?>" >
 					<?php endif; ?>
 						<td headers="categorylist_header_title" class="list-title">
-							<a href="<?php echo JRoute::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
+							<a class="span12" href="<?php echo JRoute::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
 								<?php echo $this->escape($item->core_title); ?>
 							</a>
 							<?php if ($item->core_state == 0) : ?>
 								<span class="list-published label label-warning">
 									<?php echo JText::_('JUNPUBLISHED'); ?>
 								</span>
+							<?php endif; ?>
+							<?php echo $item->event->afterDisplayTitle; ?>
+							<?php $images  = json_decode($item->core_images);?>
+							<?php if ($this->params->get('tag_list_show_item_image', 1) == 1 && !empty($images->image_intro)) :?>
+								<img src="<?php echo htmlspecialchars($images->image_intro);?>" alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>" />
+							<?php endif; ?>
+							<?php if ($this->params->get('tag_list_show_item_description', 1)) : ?>
+								<?php echo $item->event->beforeDisplayContent; ?>
+								<span class="tag-body">
+									<?php echo JHtml::_('string.truncate', $item->core_body, $this->params->get('tag_list_item_maximum_characters')); ?>
+								</span>
+								<?php echo $item->event->afterDisplayContent; ?>
 							<?php endif; ?>
 						</td>
 						<?php if ($this->params->get('tag_list_show_date')) : ?>
