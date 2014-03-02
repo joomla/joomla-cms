@@ -695,25 +695,24 @@ class JCache
 		// Get url parameters set by plugins
 		if (!empty($app->registeredurlparams))
 		{
-			$registeredurlparams = $app->registeredurlparams;
-		}
+                    $registeredurlparams = $app->registeredurlparams;
+                    // Platform defaults
+                    $registeredurlparams->format = 'WORD';
+                    $registeredurlparams->option = 'WORD';
+                    $registeredurlparams->view = 'WORD';
+                    $registeredurlparams->layout = 'WORD';
+                    $registeredurlparams->tpl = 'CMD';
+                    $registeredurlparams->id = 'INT';
+                    $safeuriaddon = new stdClass;
 
-		// Platform defaults
-		$registeredurlparams->format = 'WORD';
-		$registeredurlparams->option = 'WORD';
-		$registeredurlparams->view = 'WORD';
-		$registeredurlparams->layout = 'WORD';
-		$registeredurlparams->tpl = 'CMD';
-		$registeredurlparams->id = 'INT';
-
-		$safeuriaddon = new stdClass;
-
-		foreach ($registeredurlparams as $key => $value)
-		{
+                    foreach ($registeredurlparams as $key => $value)
+                    {
 			$safeuriaddon->$key = $app->input->get($key, null, $value);
-		}
+                    }
 
-		return md5(serialize($safeuriaddon));
+                    return md5(serialize($safeuriaddon));
+		}
+                
 	}
 
 	/**
