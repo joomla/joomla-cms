@@ -28,9 +28,9 @@ define('COM_MEDIA_BASE',	JPATH_ROOT.'/'.$params->get('image_path', 'images'));
 define('COM_MEDIA_BASEURL', JURI::root().'/'.$params->get('image_path', 'images'));
 
 $lang = JFactory::getLanguage();
-	$lang->load('com_media', JPATH_ADMINISTRATOR, null, false, false)
-	||	$lang->load('com_media', JPATH_SITE, null, false, false)
-	||	$lang->load('com_media', JPATH_ADMINISTRATOR, $lang->getDefault(), false, false);
+
+	$lang->load('com_media', JPATH_ADMINISTRATOR, null, false, true)
+||	$lang->load('com_media', JPATH_SITE, null, false, true);
 
 // Load the admin HTML view
 require_once JPATH_COMPONENT_ADMINISTRATOR.'/helpers/media.php';
