@@ -715,6 +715,8 @@ abstract class JHtmlBootstrap
 
 		$active = (static::$loaded['JHtmlBootstrap::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
 
+		$title = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
+
 		// Inject tab into UL
 		JFactory::getDocument()
 		->addScriptDeclaration($tabScriptLayout->render(array('selector' => $selector,'id' => $id, 'active' => $active, 'title' => $title)));
