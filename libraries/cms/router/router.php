@@ -85,7 +85,7 @@ class JRouter
 	 * Caching of processed URIs
 	 *
 	 * @var    array
-	 * @since  3.5
+	 * @since  3.3
 	 */
 	protected $cache = array();
 
