@@ -590,11 +590,12 @@ class JRouterSite extends JRouter
 
 		if ($this->_mode == JROUTER_MODE_SEF && $route)
 		{
-			if (!is_null($limitstart = $uri->getVar('limitstart')))
+			$limitstart = (int) $uri->getVar('limitstart');
+			if ($limistart > 0)
 			{
-				if($limitstart>0) $uri->setVar('start', (int) $limitstart);
-				$uri->delVar('limitstart');
+				$uri->setVar('start', $limitstart);
 			}
+			$uri->delVar('limitstart');
 		}
 
 		$uri->setPath($route);
