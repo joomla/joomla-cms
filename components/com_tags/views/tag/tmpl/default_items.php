@@ -46,7 +46,12 @@ $n = count($this->items);
 				<?php echo $this->pagination->getLimitBox(); ?>
 			</div>
 		<?php endif; ?>
-
+		<?php if ($this->params->get('show_tag_num_items')) : ?>
+			<div class="btn-group span4 pull-right">
+				<span class="badge badge-info"><?php echo $this->pagination->getResultsCounter(); ?></span>
+			</div>
+		<?php endif; ?>
+		
 		<input type="hidden" name="filter_order" value="" />
 		<input type="hidden" name="filter_order_Dir" value="" />
 		<input type="hidden" name="limitstart" value="" />
