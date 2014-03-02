@@ -23,4 +23,4 @@ JHtml::_('bootstrap.framework');
 
 echo "(function($){
 		$('#$selector').collapse($options);
-	})(jQuery);"
+	})(jQuery);";

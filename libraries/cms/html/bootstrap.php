@@ -572,10 +572,11 @@ abstract class JHtmlBootstrap
 
 			// Set static array
 			static::$loaded[__METHOD__][$sig] = true;
-			static::$loaded[__METHOD__]['active'] = $opt['active'];
+			$active = isset($params['active']) ? (string) $params['active'] : '';
+			static::$loaded[__METHOD__]['active'] = $active;
 		}
 
-		$html = JLayoutHelper::render('libraries.cms.html.bootstrap.endaccordion');
+		$html = JLayoutHelper::render('libraries.cms.html.bootstrap.startaccordion');
 
 		return $html;
 	}
@@ -611,7 +612,7 @@ abstract class JHtmlBootstrap
 		$in = (static::$loaded['JHtmlBootstrap::startAccordion']['active'] == $id) ? ' in' : '';
 		$class = (!empty($class)) ? ' ' . $class : '';
 		
-		$layout = new JLayoutFile('libraries.cms.html.bootstrap.addslide')
+		$layout = new JLayoutFile('libraries.cms.html.bootstrap.addslide');
 		$html = $layout->render(array('selector' => $selector, 'text' => $text, 'id' => $id, 'class' => $class, 'in' => $in));
 
 		return $html;
