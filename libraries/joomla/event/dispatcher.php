@@ -203,7 +203,6 @@ class JEventDispatcher extends JObject
 				}
 			}
 
-			
 			$methods = array($observer['event']);
 		}
 		else
