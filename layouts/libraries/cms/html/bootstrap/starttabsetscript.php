@@ -11,6 +11,9 @@ defined('_JEXEC') or die;
 
 $selector = empty($displayData['selector']) ? '' : $displayData['selector'];
 
+// Include Bootstrap framework
+JHtml::_('bootstrap.framework');
+
 echo "(function($){
 					$('#$selector a').click(function (e)
 					{
