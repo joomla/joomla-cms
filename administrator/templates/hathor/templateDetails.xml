@@ -41,6 +41,7 @@
 		<position>login</position>
 		<position>debug</position>
 		<position>footer</position>
+		<position>postinstall</position>
 	</positions>
 	 <languages>
 		<language tag="en-GB">language/en-GB/en-GB.tpl_hathor.ini</language>

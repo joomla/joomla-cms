@@ -38,6 +38,7 @@
 		<position>footer</position>
 		<position>login</position>
 		<position>debug</position>
+		<position>postinstall</position>
 	</positions>
 	<languages folder="language">
 		<language tag="en-GB">en-GB/en-GB.tpl_isis.ini</language>
