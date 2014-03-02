@@ -41,43 +41,40 @@ Class PlgContentAvatar extends JPlugin
      */
     public function onContentBeforeDisplay($context, &$row, &$params, $limitstart=0)
     {     
-        if($context=='com_content.article'||$context=='com_content.featured') {
-            
-            // get the scheme http or https
+            // Get the scheme http or https
             $array = JURI::getInstance()-> getScheme(); 
-            // Get input parameters if not use the default values
+            $app = JFactory::getApplication();
+            $http = JHttpFactory::getHttp();
+           
+        if ($app->isSite()) {
             $size = $this->params->get('size', $this->defaultsize);
             $GRAVATAR_SERVER = $this->params->get('avatar_http', $this->GRAVATAR_SERVER);
             $default = $this->params->get('profile_http', $this->default);
             $GRAVATAR_SECURE_SERVER = $this->params->get('avatar_https', $this->GRAVATAR_SECURE_SERVER);
             $securedefault = $this->params->get('profile_https', $this->securedefault);
        
-       
-            
             $id = $row->created_by;
             $user = JFactory::getUser($id);
             $emailid = $user->email;
-            $html = ($array == 'http'? $this->buildHTML($GRAVATAR_SERVER, $default, $emailid, $size): $this->buildHTML($GRAVATAR_SECURE_SERVER, $securedefault, $emailid, $size));
+            $html = ($array == 'http'? $this->buildHTML($GRAVATAR_SERVER, $default, $emailid, $size, $http): $this->buildHTML($GRAVATAR_SECURE_SERVER, $securedefault, $emailid, $size, $http));
         
             return implode("<br /> ", $html);
-        }
-        else    
+        } else {
             return;
-        
+        }
     }
         /**
          * Function which builds the html of avatar and the profile.
          * @param type $avatar           URL to get the avatar.
          * @param type $gravatar_profile URL to get the profile information.
-         * @param type $email            Email address of the author
-         * @param type $size             Size of the avatar 
+         * @param type $email            Email address of the author.
+         * @param type $size             Size of the avatar. 
+         * @param type $http             The JHTTP object.
          * Build The HTML avatar and the profile
          * @return type  HTML 
          */
-    public function buildHTML($avatar, $gravatar_profile, $email, $size)
+    public function buildHTML($avatar, $gravatar_profile, $email, $size, $http)
     {
-        // Create an instance of a default JHttp object.
-        $http = JHttpFactory::getHttp();
         $hashedemail = md5(strtolower(trim($email)));
         $selection = $this->params->get('default_avatar', '404');
         $grav_url = $avatar . $hashedemail . '?d=' . $selection . '&s=' . $size;
@@ -89,27 +86,21 @@ Class PlgContentAvatar extends JPlugin
         $html[] = '</div>';
                 
         // Perform the operation only if the show profile is selected
-        if($this->params->get('show_profileinfo') == '1') {
-        
+        if ($this->params->get('show_profileinfo') == '1') {
             // Get the HTTP object to reference Profile information
             $response_profile = $http->get($gravatar_profile . $hashedemail . '.php');
             // If profile is found then perform further information 
-            if($response_profile->code == 302 || $response_profile->code == 200) {
-            
+            if ($response_profile->code == 302 || $response_profile->code == 200) {
                 // If curl is on fetch information using JHttp Object
-                if($this->params->get('check_curl') == '1') {
-            
+                if ($this->params->get('check_curl') == '1') {
                     $str = $response_profile->body;
                     $profile = unserialize($str);
-                }
-                else {
-            
+                } else {
                     $str = file_get_contents($gravatar_profile . $hashedemail . '.php');
                     $profile = unserialize($str);
                 }
-                // If the profile is null
+                // If the profile is not null
                 if (is_array($profile) && isset($profile['entry'])) {
-            
                     // Reference the array to get details    
                     $name = $profile['entry'][0]['displayName'];   
                     $myemail = $profile['entry'][0]['emails'][0]['value'];    
@@ -124,7 +115,7 @@ Class PlgContentAvatar extends JPlugin
                     $blog_details='';
                     $verified_accountdetails='';
                             
-                    foreach($verified_accounts as $verified_account) {
+                    foreach ($verified_accounts as $verified_account) {
                                 
                             $verified_accountdetails.= '<dd>' . '<a href="' . '' . $verified_account['url'] .'">' . $verified_account['display']. '</a>' . '</dd>';
                     }
@@ -134,12 +125,12 @@ Class PlgContentAvatar extends JPlugin
                             $im_accounts_id.= '<dt>'. $ims['type'] . '</dt>' . '<dd>' . $ims['value'] . '</dd>';
                     }
                     
-                    foreach($phone_numbers as $phone_number) {
+                    foreach ($phone_numbers as $phone_number) {
                                 
                             $contact_numbers.= '<dt>' . $phone_number['type']. '</dt>' . ' ' .'<dd>' . $phone_number['value'] . '</dd>';
                     }
                     
-                    foreach($blogs as $blog) {
+                    foreach ($blogs as $blog) {
                                 
                             $blog_details.='<dt>'.$blog['title'] . '</dt>' .'<dd>' . '<a href="'.''.$blog['value'].'">' . $blog['value']. '</a>' . '</dd>';
                     }
