@@ -427,7 +427,8 @@ class JMail extends PHPMailer
 	 */
 	public function useSMTP($auth = null, $host = null, $user = null, $pass = null, $secure = null, $port = 25)
 	{
-		$this->SMTPAuth = $auth;
+		$this->SMTPAuth = $auth == null ? 0 : 1;
+		$this->AuthType = $auth == null ? '' : $auth;
 		$this->Host = $host;
 		$this->Username = $user;
 		$this->Password = $pass;

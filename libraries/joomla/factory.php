@@ -655,7 +655,7 @@ abstract class JFactory
 	{
 		$conf = self::getConfig();
 
-		$smtpauth = ($conf->get('smtpauth') == 0) ? null : 1;
+		$smtpauth = ($conf->get('smtpauth') == 0) ? null : $conf->get('smtpauthmethod');
 		$smtpuser = $conf->get('smtpuser');
 		$smtppass = $conf->get('smtppass');
 		$smtphost = $conf->get('smtphost');
