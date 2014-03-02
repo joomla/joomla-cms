@@ -566,29 +566,18 @@ abstract class JHtmlBootstrap
 
 		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
-			// Include Bootstrap framework
-			static::framework();
-
-			// Setup options object
-			$opt['parent'] = isset($params['parent']) ? (boolean) $params['parent'] : false;
-			$opt['toggle'] = isset($params['toggle']) ? (boolean) $params['toggle'] : true;
-			$opt['active'] = isset($params['active']) ? (string) $params['active'] : '';
-
-			$options = JHtml::getJSObject($opt);
-
 			// Attach accordion to document
-			JFactory::getDocument()->addScriptDeclaration(
-				"(function($){
-					$('#$selector').collapse($options);
-				})(jQuery);"
-			);
+			JFactory::getDocument()
+				->addScriptDeclaration(JLayoutHelper::render('libraries.cms.html.bootstrap.startaccordionscript', array('selector' => $selector, 'params' => $params)));
 
 			// Set static array
 			static::$loaded[__METHOD__][$sig] = true;
 			static::$loaded[__METHOD__]['active'] = $opt['active'];
 		}
 
-		return '<div id="' . $selector . '" class="accordion">';
+		$html = JLayoutHelper::render('libraries.cms.html.bootstrap.endaccordion');
+
+		return $html;
 	}
 
 	/**
@@ -600,7 +589,9 @@ abstract class JHtmlBootstrap
 	 */
 	public static function endAccordion()
 	{
-		return '</div>';
+		$html = JLayoutHelper::render('libraries.cms.html.bootstrap.endaccordion');
+
+		return $html;
 	}
 
 	/**
@@ -619,15 +610,9 @@ abstract class JHtmlBootstrap
 	{
 		$in = (static::$loaded['JHtmlBootstrap::startAccordion']['active'] == $id) ? ' in' : '';
 		$class = (!empty($class)) ? ' ' . $class : '';
-
-		$html = '<div class="accordion-group' . $class . '">'
-			. '<div class="accordion-heading">'
-			. '<strong><a href="#' . $id . '" data-parent="#' . $selector . '" data-toggle="collapse" class="accordion-toggle">'
-			. $text
-			. '</a></strong>'
-			. '</div>'
-			. '<div class="accordion-body collapse' . $in . '" id="' . $id . '">'
-			. '<div class="accordion-inner">';
+		
+		$layout = new JLayoutFile('libraries.cms.html.bootstrap.addslide')
+		$html = $layout->render(array('selector' => $selector, 'text' => $text, 'id' => $id, 'class' => $class, 'in' => $in));
 
 		return $html;
 	}
@@ -641,7 +626,9 @@ abstract class JHtmlBootstrap
 	 */
 	public static function endSlide()
 	{
-		return '</div></div></div>';
+		$html = JLayoutHelper::render('libraries.cms.html.bootstrap.endslide');
+
+		return $html;
 	}
 
 	/**
