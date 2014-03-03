@@ -1397,9 +1397,9 @@ class JHtmlTest extends TestCase
 		$this->assertThat(
 			JHtml::tooltip('Content', 'Title'),
 			$this->equalTo(
-				'<span class="hasTooltip" title="<strong>Title</strong><br />Content"><img src="' .
-				JUri::base(true) . '/media/system/images/tooltip.png" alt="Tooltip" /></span>'
-			),
+				'<span class="hasTooltip" title="' .
+				'&lt;strong&gt;Title&lt;/strong&gt;&lt;br /&gt;Content' .
+				'"><img src="/media/system/images/tooltip.png" alt="Tooltip" /></span>'			),
 			'Tooltip with title and content failed'
 		);
 
@@ -1673,7 +1673,7 @@ class JHtmlTest extends TestCase
 	{
 		$this->assertThat(
 			JHtml::tooltipText('Title::Content'),
-			$this->equalTo('<strong>Title</strong><br />Content'),
+			$this->equalTo('&lt;strong&gt;Title&lt;/strong&gt;&lt;br /&gt;Content'),
 			'A string with "::" should be converted'
 		);
 
