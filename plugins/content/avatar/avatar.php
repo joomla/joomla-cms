@@ -87,8 +87,10 @@ Class PlgContentAvatar extends JPlugin
                 
         // Perform the operation only if the show profile is selected
         if ($this->params->get('show_profileinfo') == '1') {
+            
             // Get the HTTP object to reference Profile information
             $response_profile = $http->get($gravatar_profile . $hashedemail . '.php');
+            
             // If profile is found then perform further information 
             if ($response_profile->code == 302 || $response_profile->code == 200) {
                 // If curl is on fetch information using JHttp Object
@@ -101,61 +103,87 @@ Class PlgContentAvatar extends JPlugin
                 }
                 // If the profile is not null
                 if (is_array($profile) && isset($profile['entry'])) {
-                    // Reference the array to get details    
-                    $name = $profile['entry'][0]['displayName'];   
-                    $myemail = $profile['entry'][0]['emails'][0]['value'];    
-                    $im_accounts = $profile['entry'][0]['ims'];
-                    $verified_accounts=$profile['entry'][0]['accounts'];
-                    $phone_numbers=$profile['entry'][0]['phoneNumbers'];
-                    $about_me = $profile['entry'][0]['aboutMe'];
-                    $blogs = $profile['entry'][0]['urls'];
-                    $current_location = $profile['entry'][0]['currentLocation'];
-                    $contact_numbers='';
-                    $im_accounts_id='';
-                    $blog_details='';
-                    $verified_accountdetails='';
-                            
-                    foreach ($verified_accounts as $verified_account) {
-                                
-                            $verified_accountdetails.= '<dd>' . '<a href="' . '' . $verified_account['url'] .'">' . $verified_account['display']. '</a>' . '</dd>';
-                    }
-                            
-                    foreach ($im_accounts as $ims ) {
-                                
-                            $im_accounts_id.= '<dt>'. $ims['type'] . '</dt>' . '<dd>' . $ims['value'] . '</dd>';
-                    }
                     
-                    foreach ($phone_numbers as $phone_number) {
+                    // If Name Exists
+                    if (isset($profile['entry'][0]['displayName'])) {
+                        $namedef = '<dt>' . JText::_('PLG_CONTENT_AVATAR_MY_NAME') . '</dt>';
+                        $name = $profile['entry'][0]['displayName']; 
+                    }
+                    // If about me Exists
+                    if (isset($profile['entry'][0]['aboutMe'])) {
+                        $about_me_def = '<dt>' . JText::_('PLG_CONTENT_AVATAR_ABOUT_ME') . '</dt>'; 
+                        $about_me = $profile['entry'][0]['aboutMe'];
+                    }
+                    // If the current Location exist
+                    if (isset($profile['entry'][0]['currentLocation'])) {
+                        $current_location_def = '<dt>' . JText::_('PLG_CONTENT_AVATAR_CURRENT_LOCATION') . '</dt>'; 
+                        $current_location = $profile['entry'][0]['currentLocation'];
+                    }
+                    // If the Email exists
+                    if (isset($profile['entry'][0]['emails'])) {
+                        $myemaildef='<dt>' . JText::_('PLG_CONTENT_AVATAR_MY_PUBLIC_EMAIL') . '</dt>';
+                        $myemail = $profile['entry'][0]['emails'][0]['value'];
+                    }
+                    // If IM accounts exist
+                    if (isset($profile['entry'][0]['ims'])) { 
+                        $im_accounts =$profile['entry'][0]['ims'];
+                        $im_accounts_id='';
+                        $im_accounts_definition='<dt>' . JText::_('PLG_CONTENT_AVATAR_IM_ACCOUNT') . '</dt>';
+                        foreach ($im_accounts as $ims ) {
+                                $im_accounts_id.= '<dt>'. $ims['type'] . '</dt>' . '<dd>' . $ims['value'] . '</dd>';
+                        }
+                    }
+                    // If Verified accounts exist
+                    if (isset($profile['entry'][0]['accounts'])) {
+                        $verified_accounts=$profile['entry'][0]['accounts'];
+                        $verified_accountdetails='';
+                        $verified_account_def='<dt>' . JText::_('PLG_CONTENT_AVATAR_VERIFIED') . '</dt>'; 
+                        
+                        foreach ($verified_accounts as $verified_account) {
+                                $verified_accountdetails.= '<dd>' . '<a href="' . '' . $verified_account['url'] .'">' . $verified_account['display']. '</a>' . '</dd>';
+                        }
+                    }
+                    // If phone numbers exist
+                    if (isset($profile['entry'][0]['phoneNumbers'])) {
+                        $phone_numbers = $profile['entry'][0]['phoneNumbers'];
+                        $contact_numbers = '';
+                        $contact_number_def = '<dt>' . JText::_('PLG_CONTENT_AVATAR_CONTACT'). '</dt>';
+                        
+                        foreach ($phone_numbers as $phone_number) {
                                 
                             $contact_numbers.= '<dt>' . $phone_number['type']. '</dt>' . ' ' .'<dd>' . $phone_number['value'] . '</dd>';
+                        }
+                    }
+                    // If blogs Exist
+                    if (isset($profile['entry'][0]['urls'])) {
+                        $blogs = $profile['entry'][0]['urls'];
+                        $blog_details='';
+                        $blog_details_def='<dt>' . JText::_('PLG_CONTENT_AVATAR_BLOGS') . '</dt>';
+                        foreach ($blogs as $blog) {
+                                $blog_details.='<dt>'.$blog['title'] . '</dt>' .'<dd>' . '<a href="'.''.$blog['value'].'">' . $blog['value']. '</a>' . '</dd>';
+                        }
                     }
                     
-                    foreach ($blogs as $blog) {
-                                
-                            $blog_details.='<dt>'.$blog['title'] . '</dt>' .'<dd>' . '<a href="'.''.$blog['value'].'">' . $blog['value']. '</a>' . '</dd>';
-                    }
-                            
                             // Select the element which has HasPopOver id or class and set it up for the Pop Over
                             $html[] = JHtmlBootstrap::popover(
                                 '.hasPopover', array('animation'=>true, 'trigger'=>'click', 'placement'=>'right', 'container'=>'body', 'html'=> true, 'content'=>
                                 '<div class="avatar popover-content">' .
-                                '<dl>' .
-                                '<dt>' . JText::_('PLG_CONTENT_AVATAR_MY_NAME') . '</dt>' .
-                                '<dd>' . $name . '</dd>' .
-                                '<dt>' . JText::_('PLG_CONTENT_AVATAR_MY_PUBLIC_EMAIL') . '</dt>'.
-                                '<dd>' . '<a href="'.'' . $email .'">' . $myemail . '</a>' . '</dd>' .
-                                '<dt>' . JText::_('PLG_CONTENT_AVATAR_IM_ACCOUNT') . '</dt>' 
-                                       . $im_accounts_id . 
-                                '<dt>' . JText::_('PLG_CONTENT_AVATAR_CONTACT'). '</dt>'  
-                                       . $contact_numbers .
-                                '<dt>' . JText::_('PLG_CONTENT_AVATAR_ABOUT_ME') . '</dt>' .
-                                '<dd>' . $about_me . '</dd>' .
-                                '<dt>' . JText::_('PLG_CONTENT_AVATAR_CURRENT_LOCATION') . '</dt>' .
-                                '<dd>' . $current_location . '</dd>' .
-                                '<dt>' . JText::_('PLG_CONTENT_AVATAR_BLOGS') . '</dt>' 
-                                       . $blog_details .
-                                '<dt>' . JText::_('PLG_CONTENT_AVATAR_VERIFIED') . '</dt>' 
-                                       . $verified_accountdetails.
+                                '<dl>' .$namedef.
+                                '<dd>' . $name . '</dd>' 
+                                       . $myemaildef .
+                                '<dd>' . '<a href="'.'' . $email .'">' . $myemail . '</a>' . '</dd>' 
+                                       . $im_accounts_definition 
+                                       . $im_accounts_id 
+                                       . $contact_number_def 
+                                       . $contact_numbers 
+                                       . $about_me_def .
+                                '<dd>' . $about_me . '</dd>' 
+                                       . $current_location_def .
+                                '<dd>' . $current_location . '</dd>' 
+                                       . $blog_details_def 
+                                       . $blog_details 
+                                       . $verified_account_def
+                                       . $verified_accountdetails .
                                 '</dl>'.
                                 '</div>')
                             );
