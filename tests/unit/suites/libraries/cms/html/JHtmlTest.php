@@ -1418,7 +1418,9 @@ class JHtmlTest extends TestCase
 		$this->assertThat(
 			JHtml::tooltip('Content', 'Title', 'tooltip.png', null, null, 'MyAlt'),
 			$this->equalTo(
-				'<span class="hasTooltip" title="<strong>Title</strong><br />Content"><img src="' .
+				'<span class="hasTooltip" title="' .
+				'&lt;strong&gt;Title&lt;/strong&gt;&lt;br /&gt;Content' .
+				'"><img src="' .
 				JUri::base(true) . '/media/system/images/tooltip.png" alt="MyAlt" /></span>'
 			),
 			'Tooltip with title and content and alt failed'
@@ -1427,7 +1429,9 @@ class JHtmlTest extends TestCase
 		$this->assertThat(
 			JHtml::tooltip('Content', 'Title', 'tooltip.png', null, null, 'MyAlt', 'hasTooltip2'),
 			$this->equalTo(
-				'<span class="hasTooltip2" title="<strong>Title</strong><br />Content"><img src="' . JUri::base(true) .
+				'<span class="hasTooltip2" title="'.
+				'&lt;strong&gt;Title&lt;/strong&gt;&lt;br /&gt;Content' .
+				'"><img src="' . JUri::base(true) .
 				'/media/system/images/tooltip.png" alt="MyAlt" /></span>'
 			),
 			'Tooltip with title and content and alt and class failed'
