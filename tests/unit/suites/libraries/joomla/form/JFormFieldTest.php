@@ -204,8 +204,9 @@ class JFormFieldTest extends TestCase
 			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
 
-		$equals = '<label id="title_id-lbl" for="title_id" class="hasTooltip required" ' .
-			'title="<strong>Title</strong><br />The title.">Title<span class="star">&#160;*</span></label>';
+		$equals = '<label id="title_id-lbl" for="title_id" class="hasTooltip required" title="' .
+			'&lt;strong&gt;Title&lt;/strong&gt;&lt;br /&gt;The title.' .
+			'">Title<span class="star">&#160;*</span></label>';
 
 		$this->assertThat(
 			$field->getLabel(),
