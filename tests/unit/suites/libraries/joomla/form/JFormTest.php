@@ -1169,8 +1169,9 @@ class JFormTest extends TestCase
 			'Line:' . __LINE__ . ' XML string should load successfully.'
 		);
 
-		$expected = '<label id="title_id-lbl" for="title_id" class="hasTooltip required" ' .
-				'title="<strong>Title</strong><br />The title.">Title<span class="star">&#160;*</span></label>';
+		$expected = '<label id="title_id-lbl" for="title_id" class="hasTooltip required" title="' .
+			'&lt;strong&gt;Title&lt;/strong&gt;&lt;br /&gt;The title.' .
+			'">Title<span class="star">&#160;*</span></label>';
 
 		$this->assertThat(
 			$form->getLabel('title'),
