@@ -1405,7 +1405,7 @@ class JHtmlTest extends TestCase
 
 		$this->assertThat(
 			JHtml::tooltip('Content', 'Title', null, 'Text'),
-			$this->equalTo('<span class="hasTooltip" title="<strong>Title</strong><br />Content">Text</span>'),
+			$this->equalTo('<span class="hasTooltip" title="&lt;strong&gt;Title&lt;/strong&gt;&lt;br /&gt;Content">Text</span>'),
 			'Tooltip with title and content and text failed'
 		);
 
@@ -1685,7 +1685,7 @@ class JHtmlTest extends TestCase
 
 		$this->assertThat(
 			JHtml::tooltipText('Title', 'Content'),
-			$this->equalTo('<strong>Title</strong><br />Content'),
+			$this->equalTo('&lt;strong&gt;Title&lt;/strong&gt;&lt;br /&gt;Content'),
 			'A title and content should be combined'
 		);
 
