@@ -889,7 +889,6 @@ abstract class JHtml
 	 * @return  string  The tooltip string
 	 *
 	 * @since   3.1.2
-	 * modified 2014-03-03. MrBenGriffin (Tracker ID 32989)
 	 */
 	public static function tooltipText($title = '', $content = '', $translate = 1, $escape = 1)
 	{
