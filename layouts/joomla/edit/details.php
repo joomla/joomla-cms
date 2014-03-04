@@ -36,7 +36,7 @@ $saveHistory = $displayData->get('state')->get('params')->get('save_history', 0)
 			</div>
 		<?php endif; ?>
 		<?php if ($published) : ?>
-			<?php echo $displayData->getForm()->getControlGroup('state'); ?>
+			<?php echo $displayData->getForm()->getControlGroup('published'); ?>
 		<?php else : ?>
 			<?php echo $displayData->getForm()->getControlGroup('state'); ?>
 		<?php endif; ?>
