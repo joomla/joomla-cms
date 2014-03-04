@@ -44,7 +44,7 @@ class JFormFieldList extends JFormField
 		$options = (array) $this->getOptions();
 
 		// Default to the class "advancedSelect" to support Chosen.
-		if (!empty($this->class))
+		if (empty($this->class))
 		{
 			$this->class = 'advancedSelect';
 		}
