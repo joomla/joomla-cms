@@ -46,7 +46,8 @@ Class PlgContentAvatar extends JPlugin
             $app = JFactory::getApplication();
             $http = JHttpFactory::getHttp();
            
-        if ($app->isSite()) {
+        if ($app->isSite()) 
+        {
             $size = $this->params->get('size', $this->defaultsize);
             $GRAVATAR_SERVER = $this->params->get('avatar_http', $this->GRAVATAR_SERVER);
             $default = $this->params->get('profile_http', $this->default);
@@ -59,7 +60,9 @@ Class PlgContentAvatar extends JPlugin
             $html = ($array == 'http'? $this->buildHTML($GRAVATAR_SERVER, $default, $emailid, $size, $http): $this->buildHTML($GRAVATAR_SECURE_SERVER, $securedefault, $emailid, $size, $http));
         
             return implode("<br /> ", $html);
-        } else {
+        } 
+        else 
+        {
             return;
         }
     }
@@ -86,80 +89,97 @@ Class PlgContentAvatar extends JPlugin
         $html[] = '</div>';
                 
         // Perform the operation only if the show profile is selected
-        if ($this->params->get('show_profileinfo') == '1') {
+        if ($this->params->get('show_profileinfo') == '1') 
+        {
             
             // Get the HTTP object to reference Profile information
             $response_profile = $http->get($gravatar_profile . $hashedemail . '.php');
             
             // If profile is found then perform further information 
-            if ($response_profile->code == 302 || $response_profile->code == 200) {
+            if ($response_profile->code == 302 || $response_profile->code == 200) 
+            {
                 // If curl is on fetch information using JHttp Object
-                if ($this->params->get('check_curl') == '1') {
+                if ($this->params->get('check_curl') == '1') 
+                {
                     $str = $response_profile->body;
                     $profile = unserialize($str);
-                } else {
+                } 
+                else 
+                {
                     $str = file_get_contents($gravatar_profile . $hashedemail . '.php');
                     $profile = unserialize($str);
                 }
                 // If the profile is not null
-                if (is_array($profile) && isset($profile['entry'])) {
+                if (is_array($profile) && isset($profile['entry'])) 
+                {
                     
                     // If Name Exists
-                    if (isset($profile['entry'][0]['displayName'])) {
+                    if (isset($profile['entry'][0]['displayName'])) 
+                    {
                         $namedef = '<dt>' . JText::_('PLG_CONTENT_AVATAR_MY_NAME') . '</dt>';
                         $name = $profile['entry'][0]['displayName']; 
                     }
                     // If about me Exists
-                    if (isset($profile['entry'][0]['aboutMe'])) {
+                    if (isset($profile['entry'][0]['aboutMe'])) 
+                    {
                         $about_me_def = '<dt>' . JText::_('PLG_CONTENT_AVATAR_ABOUT_ME') . '</dt>'; 
                         $about_me = $profile['entry'][0]['aboutMe'];
                     }
                     // If the current Location exist
-                    if (isset($profile['entry'][0]['currentLocation'])) {
+                    if (isset($profile['entry'][0]['currentLocation'])) 
+                    {
                         $current_location_def = '<dt>' . JText::_('PLG_CONTENT_AVATAR_CURRENT_LOCATION') . '</dt>'; 
                         $current_location = $profile['entry'][0]['currentLocation'];
                     }
                     // If the Email exists
-                    if (isset($profile['entry'][0]['emails'])) {
+                    if (isset($profile['entry'][0]['emails'])) 
+                    {
                         $myemaildef='<dt>' . JText::_('PLG_CONTENT_AVATAR_MY_PUBLIC_EMAIL') . '</dt>';
                         $myemail = $profile['entry'][0]['emails'][0]['value'];
                     }
                     // If IM accounts exist
-                    if (isset($profile['entry'][0]['ims'])) { 
+                    if (isset($profile['entry'][0]['ims'])) 
+                    { 
                         $im_accounts =$profile['entry'][0]['ims'];
                         $im_accounts_id='';
                         $im_accounts_definition='<dt>' . JText::_('PLG_CONTENT_AVATAR_IM_ACCOUNT') . '</dt>';
-                        foreach ($im_accounts as $ims ) {
+                        foreach ($im_accounts as $ims ) 
+                        {
                                 $im_accounts_id.= '<dt>'. $ims['type'] . '</dt>' . '<dd>' . $ims['value'] . '</dd>';
                         }
                     }
                     // If Verified accounts exist
-                    if (isset($profile['entry'][0]['accounts'])) {
+                    if (isset($profile['entry'][0]['accounts'])) 
+                    {
                         $verified_accounts=$profile['entry'][0]['accounts'];
                         $verified_accountdetails='';
                         $verified_account_def='<dt>' . JText::_('PLG_CONTENT_AVATAR_VERIFIED') . '</dt>'; 
                         
-                        foreach ($verified_accounts as $verified_account) {
+                        foreach ($verified_accounts as $verified_account) 
+                        {
                                 $verified_accountdetails.= '<dd>' . '<a href="' . '' . $verified_account['url'] .'">' . $verified_account['display']. '</a>' . '</dd>';
                         }
                     }
                     // If phone numbers exist
-                    if (isset($profile['entry'][0]['phoneNumbers'])) {
+                    if (isset($profile['entry'][0]['phoneNumbers'])) 
+                    {
                         $phone_numbers = $profile['entry'][0]['phoneNumbers'];
                         $contact_numbers = '';
                         $contact_number_def = '<dt>' . JText::_('PLG_CONTENT_AVATAR_CONTACT'). '</dt>';
                         
-                        foreach ($phone_numbers as $phone_number) {
-                                
-                            $contact_numbers.= '<dt>' . $phone_number['type']. '</dt>' . ' ' .'<dd>' . $phone_number['value'] . '</dd>';
+                        foreach ($phone_numbers as $phone_number) 
+                        {
+                                $contact_numbers.= '<dt>' . $phone_number['type']. '</dt>' . ' ' .'<dd>' . $phone_number['value'] . '</dd>';
                         }
                     }
                     // If blogs Exist
-                    if (isset($profile['entry'][0]['urls'])) {
+                    if (isset($profile['entry'][0]['urls'])) 
+                    {
                         $blogs = $profile['entry'][0]['urls'];
                         $blog_details='';
                         $blog_details_def='<dt>' . JText::_('PLG_CONTENT_AVATAR_BLOGS') . '</dt>';
-                        foreach ($blogs as $blog) {
+                        foreach ($blogs as $blog) 
+                        {
                                 $blog_details.='<dt>'.$blog['title'] . '</dt>' .'<dd>' . '<a href="'.''.$blog['value'].'">' . $blog['value']. '</a>' . '</dd>';
                         }
                     }
