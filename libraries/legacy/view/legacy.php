@@ -492,9 +492,6 @@ class JViewLegacy extends JObject
 		$renderer->setIncludePaths(
 			array(
 				JPATH_THEMES . "/" . $template . '/html/' . $component . '/' . $this->getName(),
-				// New MVC
-				$this->_basePath . '/view/' . $this->getName() . '/tmpl',
-				// Old MVC
 				$this->_basePath . '/views/' . $this->getName() . '/tmpl'
 			)
 		);
