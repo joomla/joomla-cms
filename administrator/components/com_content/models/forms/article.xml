@@ -394,7 +394,7 @@
 				hr="true"
 			/>
 
-			<field name="alternative_readmore" type="inputbox"
+			<field name="alternative_readmore" type="text"
 				label="JFIELD_READMORE_LABEL"
 				description="JFIELD_READMORE_DESC"
 				size="25" />
