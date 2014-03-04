@@ -229,6 +229,13 @@ abstract class AdminManagerPage extends AdminPage
 					}
 				}
 			}
+
+			// Open and close the list to create the li elements on the page
+			$el->click();
+			sleep(2);
+			$el->click();
+			sleep(2);
+			$el->click();
 			$selectElementArray = $this->driver->findElements(By::xPath("//div[@id='" . $filterId . "_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $value . "')]"));
 			if (count($selectElementArray) == 1)
 			{
@@ -239,9 +246,6 @@ abstract class AdminManagerPage extends AdminPage
 				return false;
 			}
 
-			// Click container until element is selected
-			sleep(2);
-			$el->click();
 			while (!$selectElement->isDisplayed())
 			{
 				sleep(2);
@@ -272,6 +276,7 @@ abstract class AdminManagerPage extends AdminPage
 
 	public function setOrderDirection($value)
 	{
+		$this->driver->findElement(By::xPath("//div[@id='directionTable_chzn']/a/div/b"))->click();
 		$el = $this->driver->findElement(By::xPath("//div[@id='directionTable_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $value . "')]"));
 		$displayedBefore = $el->isDisplayed();
 		$container = $this->driver->findElement(By::xPath("//div[@id='directionTable_chzn']/a"));
