@@ -31,12 +31,7 @@ class PlgAuthenticationGMail extends JPlugin
 	 */
 	public function onUserAuthenticate($credentials, $options, &$response)
 	{
-		// Load plugin language: first load english and then active
-		if (!JFactory::getConfig()->get('debug_lang'))
-		{
-			JFactory::getLanguage()->load('plg_authentication_gmail', JPATH_ADMINISTRATOR, 'en-GB', true);
-		}
-
+		// Load plugin language
 		$this->loadLanguage();
 
 		// No backend authentication
