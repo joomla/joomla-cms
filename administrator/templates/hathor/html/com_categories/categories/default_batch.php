@@ -41,7 +41,7 @@ $extension = $this->escape($this->state->get('filter.extension'));
 				</label>
 
 				<div id="batch-choose-action" class="combo controls">
-					<select name="batch[category_id]" class="inputbox" id="batch-category-id">
+					<select name="batch[category_id]" id="batch-category-id">
 						<option value=""><?php echo JText::_('JSELECT') ?></option>
 						<?php echo JHtml::_('select.options', JHtml::_('category.categories', $extension, array('filter.published' => $published))); ?>
 					</select>

@@ -42,7 +42,7 @@ $saveOrder	= $listOrder == 'ordering';
 			<label class="selectlabel" for="filter_state">
 				<?php echo JText::_('JOPTION_SELECT_PUBLISHED'); ?>
 			</label>
-			<select name="filter_state" class="inputbox" id="filter_state">
+			<select name="filter_state" id="filter_state">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_PUBLISHED');?></option>
 				<?php echo JHtml::_('select.options', PluginsHelper::publishedOptions(), 'value', 'text', $this->state->get('filter.state'), true);?>
 			</select>
@@ -50,14 +50,14 @@ $saveOrder	= $listOrder == 'ordering';
 			<label class="selectlabel" for="filter_folder">
 				<?php echo JText::_('COM_PLUGINS_OPTION_FOLDER'); ?>
 			</label>
-			<select name="filter_folder" class="inputbox" id="filter_folder">
+			<select name="filter_folder" id="filter_folder">
 				<option value=""><?php echo JText::_('COM_PLUGINS_OPTION_FOLDER');?></option>
 				<?php echo JHtml::_('select.options', PluginsHelper::folderOptions(), 'value', 'text', $this->state->get('filter.folder'));?>
 			</select>
             <label class="selectlabel" for="filter_access">
 				<?php echo JText::_('JOPTION_SELECT_ACCESS'); ?>
 			</label>
-			<select name="filter_access" class="inputbox" id="filter_access">
+			<select name="filter_access" id="filter_access">
 				<option value=""><?php echo JText::_('JOPTION_SELECT_ACCESS');?></option>
 				<?php echo JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'));?>
 			</select>
