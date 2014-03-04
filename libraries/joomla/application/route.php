@@ -53,17 +53,15 @@ class JRoute
 			}
 		}
 
-		if ((strpos($url, '&') !== 0) && (strpos($url, 'index.php') !== 0))
+		if (!is_array($url) && (strpos($url, '&') !== 0) && (strpos($url, 'index.php') !== 0))
 		{
 			return $url;
 		}
 
 		// Build route.
 		$uri = self::$_router->build($url);
-		$url = $uri->toString(array('path', 'query', 'fragment'));
 
-		// Replace spaces.
-		$url = preg_replace('/\s/u', '%20', $url);
+		$scheme = array('path', 'query', 'fragment');
 
 		/*
 		 * Get the secure/unsecure URLs.
@@ -72,30 +70,27 @@ class JRoute
 		 * https and need to set our secure URL to the current request URL, if not, and the scheme is
 		 * 'http', then we need to do a quick string manipulation to switch schemes.
 		 */
-		if ((int) $ssl)
+		if ((int) $ssl || $uri->isSSL())
 		{
-			$uri = JUri::getInstance();
+			static $host_port;
 
-			// Get additional parts.
-			static $prefix;
-
-			if (!$prefix)
+			if (!is_array($host_port))
 			{
-				$prefix = $uri->toString(array('host', 'port'));
+				$uri2 = JUri::getInstance();
+				$host_port = array($uri2->getHost(), $uri2->getPort());
 			}
 
 			// Determine which scheme we want.
-			$scheme = ((int) $ssl === 1) ? 'https' : 'http';
-
-			// Make sure our URL path begins with a slash.
-			if (!preg_match('#^/#', $url))
-			{
-				$url = '/' . $url;
-			}
-
-			// Build the URL.
-			$url = $scheme . '://' . $prefix . $url;
+			$uri->setScheme(($ssl === 1 || $uri->isSSL()) ? 'https' : 'http');
+			$uri->setHost($host_port[0]);
+			$uri->setPort($host_port[1]);
+			$scheme = array_merge($scheme, array('host', 'port', 'scheme'));
 		}
+
+		$url = $uri->toString($scheme);
+
+		// Replace spaces.
+		$url = preg_replace('/\s/u', '%20', $url);
 
 		if ($xhtml)
 		{
