@@ -30,7 +30,6 @@
 		<field
 			name="auto_purge"
 			type="text"
-			class="inputbox"
 			size="6"
 			default="7"
 			label="COM_MESSAGES_FIELD_AUTO_PURGE_LABEL"

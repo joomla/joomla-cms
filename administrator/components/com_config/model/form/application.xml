@@ -759,7 +759,6 @@
 			label="FIELD_RULES_LABEL"
 			translate_label="false"
 			validate="rules"
-			class="inputbox"
 			filter="rules">
 			<action
 				name="core.login.site"
@@ -815,7 +814,6 @@
 			name="filters"
 			type="filters"
 			label="COM_CONFIG_TEXT_FILTERS"
-			class="inputbox"
 			filter="" />
 	</fieldset>
 
