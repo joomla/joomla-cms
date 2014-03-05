@@ -297,7 +297,6 @@ abstract class JHtml
 	 */
 	protected static function includeRelativeFiles($folder, $file, $relative, $detect_browser, $detect_debug)
 	{
-		
 		// If http is present in filename
 		if (strpos($file, 'http') === 0)
 		{
@@ -305,7 +304,6 @@ abstract class JHtml
 		}
 		else
 		{
-			
 			// Extract extension and strip the file
 			$strip = JFile::stripExt($file);
 			$ext   = JFile::getExt($file);
@@ -334,7 +332,6 @@ abstract class JHtml
 			// If relative search in template directory or media directory
 			if ($relative)
 			{
-				
 				// Get the template
 				$template = JFactory::getApplication()->getTemplate();
 
@@ -371,7 +368,6 @@ abstract class JHtml
 					 */
 					foreach ($files as $file)
 					{
-						
 						// If the file is in the template folder
 						$path = JPATH_THEMES . "/$template/$folder/$file";
 
@@ -385,18 +381,15 @@ abstract class JHtml
 						}
 						else
 						{
-							
 							// If the file contains any /: it can be in an media extension subfolder
 							if (strpos($file, '/'))
 							{
-								
 								// Divide the file extracting the extension as the first part before /
 								list($extension, $file) = explode('/', $file, 2);
 
 								// If the file yet contains any /: it can be a plugin
 								if (strpos($file, '/'))
 								{
-									
 									// Divide the file extracting the element as the first part before /
 									list($element, $file) = explode('/', $file, 2);
 
@@ -450,7 +443,6 @@ abstract class JHtml
 								}
 								else
 								{
-									
 									// Try to deals in the extension media folder
 									$path = JPATH_ROOT . "/media/$extension/$folder/$file";
 
@@ -488,7 +480,7 @@ abstract class JHtml
 									}
 								}
 							}
-							
+
 							// Try to deal with system files in the media folder
 							else
 							{
@@ -507,7 +499,7 @@ abstract class JHtml
 					}
 				}
 			}
-			
+
 			// If not relative and http is not present in filename
 			else
 			{
@@ -654,7 +646,7 @@ abstract class JHtml
 				return $includes;
 			}
 		}
-		
+
 		// If inclusion is required
 		else
 		{
@@ -684,7 +676,6 @@ abstract class JHtml
 	 */
 	public static function script($file, $framework = false, $relative = false, $path_only = false, $detect_browser = true, $detect_debug = true)
 	{
-		
 		// Include MooTools framework
 		if ($framework)
 		{
@@ -709,7 +700,7 @@ abstract class JHtml
 				return $includes;
 			}
 		}
-		
+
 		// If inclusion is required
 		else
 		{
@@ -761,7 +752,6 @@ abstract class JHtml
 	 */
 	public static function date($input = 'now', $format = null, $tz = true, $gregorian = false)
 	{
-		
 		// Get some system objects.
 		$config = JFactory::getConfig();
 		$user = JFactory::getUser();
@@ -769,35 +759,32 @@ abstract class JHtml
 		// UTC date converted to user time zone.
 		if ($tz === true)
 		{
-			
 			// Get a date object based on UTC.
 			$date = JFactory::getDate($input, 'UTC');
 
 			// Set the correct time zone based on the user configuration.
 			$date->setTimeZone(new DateTimeZone($user->getParam('timezone', $config->get('offset'))));
 		}
-		
+
 		// UTC date converted to server time zone.
 		elseif ($tz === false)
 		{
-			
 			// Get a date object based on UTC.
 			$date = JFactory::getDate($input, 'UTC');
 
 			// Set the correct time zone based on the server configuration.
 			$date->setTimeZone(new DateTimeZone($config->get('offset')));
 		}
-		
+
 		// No date conversion.
 		elseif ($tz === null)
 		{
 			$date = JFactory::getDate($input);
 		}
-		
+
 		// UTC date converted to given time zone.
 		else
 		{
-			
 			// Get a date object based on UTC.
 			$date = JFactory::getDate($input, 'UTC');
 
@@ -810,7 +797,7 @@ abstract class JHtml
 		{
 			$format = JText::_('DATE_FORMAT_LC1');
 		}
-		
+
 		// $format is an existing language key
 		elseif (JFactory::getLanguage()->hasKey($format))
 		{
@@ -882,7 +869,6 @@ abstract class JHtml
 
 		if ($class == 'hasTip')
 		{
-			
 			// Still using MooTools tooltips!
 			$tooltip = htmlspecialchars($tooltip, ENT_COMPAT, 'UTF-8');
 
@@ -914,14 +900,12 @@ abstract class JHtml
 	 */
 	public static function tooltipText($title = '', $content = '', $translate = 1, $escape = 1)
 	{
-		
 		// Initialise return value.
 		$result = '';
 
 		// Don't process empty strings
 		if ($content != '' || $title != '')
 		{
-			
 			// Split title into title and content if the title contains '::' (old Mootools format).
 			if ($content == '' && !(strpos($title, '::') === false))
 			{
@@ -940,13 +924,13 @@ abstract class JHtml
 			{
 				$result = $content;
 			}
-			
+
 			// Use only the title, if title and text are the same.
 			elseif ($title == $content)
 			{
 				$result = '<strong>' . $title . '</strong>';
 			}
-			
+
 			// Use a formatted string combining the title and content.
 			elseif ($content != '')
 			{
@@ -956,13 +940,14 @@ abstract class JHtml
 			{
 				$result = $title;
 			}
-			
+
 			// Escape everything, if required.
 			if ($escape)
 			{
 				$result = htmlspecialchars($result);
 			}
 		}
+
 		return $result;
 	}
 
@@ -1062,7 +1047,6 @@ abstract class JHtml
 	 */
 	public static function addIncludePath($path = '')
 	{
-		
 		// Force path to array
 		settype($path, 'array');
 
@@ -1093,7 +1077,6 @@ abstract class JHtml
 
 		foreach ($array as $k => $v)
 		{
-			
 			// Don't encode either of these types
 			if (is_null($v) || is_resource($v))
 			{
@@ -1115,13 +1098,11 @@ abstract class JHtml
 			{
 				if (strpos($v, '\\') === 0)
 				{
-					
 					// Items such as functions and JSON objects are prefixed with \, strip the prefix and don't encode them
 					$elements[] = $key . ': ' . substr($v, 1);
 				}
 				else
 				{
-					
 					// The safest way to insert a string
 					$elements[] = $key . ': ' . json_encode((string) $v);
 				}
