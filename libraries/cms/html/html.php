@@ -892,10 +892,13 @@ abstract class JHtml
 	 */
 	public static function tooltipText($title = '', $content = '', $translate = 1, $escape = 1)
 	{
+		//initialise return value.
 		$result = '';
+
 		// don't process empty strings
 		if ($content != '' || $title != '')
 		{
+			
 			// Split title into title and content if the title contains '::' (old Mootools format).
 			if ($content == '' && !(strpos($title, '::') === false))
 			{
@@ -914,11 +917,13 @@ abstract class JHtml
 			{
 				$result = $content;
 			}
+			
 			// Use only the title, if title and text are the same.
 			elseif ($title == $content)
 			{
 				$result = '<strong>' . $title . '</strong>';
 			}
+			
 			// Use a formatted string combining the title and content.
 			elseif ($content != '')
 			{
@@ -927,6 +932,7 @@ abstract class JHtml
 			else {
 				$result = $title;
 			}
+			
 			// escape everything, if required.
 			if ($escape) {
 				$result = htmlspecialchars($result);
