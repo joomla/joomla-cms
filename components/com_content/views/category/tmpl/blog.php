@@ -55,7 +55,7 @@ JHtml::_('behavior.caption');
 		<div class="items-leading clearfix">
 			<?php foreach ($this->lead_items as &$item) : ?>
 				<div
-					class="leading-<?php echo $leadingcount; ?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>">
+					class="leading-<?php echo $leadingcount; ?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?> clearfix">
 					<?php
 					$this->item = & $item;
 					echo $this->loadTemplate('item');
