@@ -63,13 +63,22 @@ $selectName = $readOnly ? '' : $name;
 ?>
 <select name="<?php echo $selectName; ?>" <?php echo $renderedAttributes; ?>>
 	<?php if ($options) : ?>
-		<?php foreach ($options as $option) :?>
+		<?php foreach ($options as $optionKey => $optionValue) :?>
 				<?php
+					// Force object to array conversion
+					$optionValue = (array) $optionValue;
+
+					// BC: Some special cases come in the format [value] => text
+					$option = array(
+						'text' => isset($optionValue['text']) ? $optionValue['text'] : $optionValue[0],
+						'value' => isset($optionValue['value']) ? $optionValue['value'] : $optionKey
+					);
+
 					// Value can be an array or a string
-					$selected = is_array($value) ? in_array($option->value, $value) : ($option->value == $value);
+					$selected = is_array($value) ? in_array($option['value'], $value) : ($option['value'] == $value);
 				?>
-				<option value="<?php echo $option->value; ?>" <?php if ($selected) : ?>selected="selected"<?php endif; ?>>
-					<?php echo $option->text; ?>
+				<option value="<?php echo $option['value']; ?>" <?php if ($selected) : ?>selected="selected"<?php endif; ?>>
+					<?php echo $option['text']; ?>
 				</option>
 		<?php endforeach; ?>
 	<?php endif; ?>
