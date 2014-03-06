@@ -16,10 +16,10 @@ defined('_JEXEC') or die;
  * @subpackage  com_newsfeeds
  * @since       3.3
  */
-class NewsfeedsRouter implements JComponentRouter
+class NewsfeedsRouter implements JComponentRouterInterface
 {
 	/**
-	 * Make method for the com_newsfeeds component
+	 * Preprocess method for the com_newsfeeds component
 	 *
 	 * @param   array  $query  An associative array of URL arguments
 	 *
@@ -27,7 +27,7 @@ class NewsfeedsRouter implements JComponentRouter
 	 *
 	 * @since   3.3
 	 */
-	public function make($query)
+	public function preprocess($query)
 	{
 		return $query;
 	}

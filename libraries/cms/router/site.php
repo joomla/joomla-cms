@@ -424,7 +424,7 @@ class JRouterSite extends JRouter
 
 		$crouter = $this->getComponentRouter($component);
 
-		$query = $crouter->make($query);
+		$query = $crouter->preprocess($query);
 		
 		$uri->setQuery($query);
 	}
@@ -476,7 +476,7 @@ class JRouterSite extends JRouter
 
 		$crouter = $this->getComponentRouter($component);
 
-		$query = $crouter->make($query);
+		$query = $crouter->preprocess($query);
 		
 		$parts = $crouter->build($query);
 

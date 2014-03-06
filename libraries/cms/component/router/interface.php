@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Component
  * @since       3.3
  */
-interface JComponentRouter
+interface JComponentRouterInterface
 {
 	/**
 	 * Prepare-method for URLs
@@ -31,7 +31,7 @@ interface JComponentRouter
 	 *
 	 * @since   3.3
 	 */
-	public function make($query);
+	public function preprocess($query);
 
 	/**
 	 * Build method for URLs
