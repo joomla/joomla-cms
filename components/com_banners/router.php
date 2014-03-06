@@ -16,10 +16,10 @@ defined('_JEXEC') or die;
  * @subpackage  com_banners
  * @since       3.3
  */
-class BannersRouter implements JComponentRouter
+class BannersRouter implements JComponentRouterInterface
 {
 	/**
-	 * Make method for the com_banners component
+	 * Preprocess method for the com_banners component
 	 *
 	 * @param   array  $query  An associative array of URL arguments
 	 *
@@ -27,7 +27,7 @@ class BannersRouter implements JComponentRouter
 	 *
 	 * @since   3.3
 	 */
-	public function make($query)
+	public function preprocess($query)
 	{
 		return $query;
 	}

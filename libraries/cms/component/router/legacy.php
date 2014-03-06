@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Component
  * @since       3.3
  */
-class JComponentRouterLegacy implements JComponentRouter
+class JComponentRouterLegacy implements JComponentRouterInterface
 {
 	/**
 	 * Name of the component
@@ -39,7 +39,7 @@ class JComponentRouterLegacy implements JComponentRouter
 	}
 
 	/**
-	 * Generic make function for missing or legacy component router
+	 * Generic preprocess function for missing or legacy component router
 	 *
 	 * @param   array  $query  An associative array of URL arguments
 	 *
@@ -47,7 +47,7 @@ class JComponentRouterLegacy implements JComponentRouter
 	 *
 	 * @since   3.3
 	 */
-	public function make($query)
+	public function preprocess($query)
 	{
 		return $query;
 	}

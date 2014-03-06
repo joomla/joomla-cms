@@ -16,10 +16,10 @@ defined('_JEXEC') or die;
  * @subpackage  com_contact
  * @since       3.3
  */
-class ContactRouter implements JComponentRouter
+class ContactRouter implements JComponentRouterInterface
 {
 	/**
-	 * Make method for the com_contact component
+	 * Preprocess method for the com_contact component
 	 *
 	 * @param   array  $query  An associative array of URL arguments
 	 *
@@ -27,7 +27,7 @@ class ContactRouter implements JComponentRouter
 	 *
 	 * @since   3.3
 	 */
-	public function make($query)
+	public function preprocess($query)
 	{
 		return $query;
 	}

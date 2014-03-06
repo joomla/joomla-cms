@@ -16,10 +16,10 @@ defined('_JEXEC') or die;
  * @subpackage  com_users
  * @since       3.2
  */
-class UsersRouter implements JComponentRouter
+class UsersRouter implements JComponentRouterInterface
 {
 	/**
-	 * Make method for the com_users component
+	 * Preprocess method for the com_users component
 	 *
 	 * @param   array  $query  An associative array of URL arguments
 	 *
@@ -27,7 +27,7 @@ class UsersRouter implements JComponentRouter
 	 *
 	 * @since   3.3
 	 */
-	public function make($query)
+	public function preprocess($query)
 	{
 		return $query;
 	}

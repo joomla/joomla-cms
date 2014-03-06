@@ -16,10 +16,10 @@ defined('_JEXEC') or die;
  * @subpackage  com_content
  * @since       3.3
  */
-class ContentRouter implements JComponentRouter
+class ContentRouter implements JComponentRouterInterface
 {
 	/**
-	 * Make method for the com_content component
+	 * Preprocess method for the com_content component
 	 *
 	 * @param   array  $query  An associative array of URL arguments
 	 *
@@ -27,7 +27,7 @@ class ContentRouter implements JComponentRouter
 	 *
 	 * @since   3.3
 	 */
-	public function make($query)
+	public function preprocess($query)
 	{
 		return $query;
 	}

@@ -16,10 +16,10 @@ defined('_JEXEC') or die;
  * @subpackage  com_weblinks
  * @since       3.3
  */
-class WeblinksRouter implements JComponentRouter
+class WeblinksRouter implements JComponentRouterInterface
 {
 	/**
-	 * Make method for the com_weblinks component
+	 * Preprocess method for the com_weblinks component
 	 *
 	 * @param   array  $query  An associative array of URL arguments
 	 *
@@ -27,7 +27,7 @@ class WeblinksRouter implements JComponentRouter
 	 *
 	 * @since   3.3
 	 */
-	public function make($query)
+	public function preprocess($query)
 	{
 		return $query;
 	}
