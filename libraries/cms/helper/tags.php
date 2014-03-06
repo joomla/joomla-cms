@@ -547,6 +547,11 @@ class JHelperTags extends JHelper
 
 			->where('m.tag_id IN (' . $tagId . ')')
 			->where('c.core_state IN (' . $stateFilter . ')');
+			if ($stateFilter == 1) {
+				$nowDate = $db->Quote(JFactory::getDate()->toSQL());
+				$query->where('(core_publish_up = ' . $nullDate . ' OR core_publish_up <= ' . $nowDate . ')');
+				$query->where('(core_publish_down = ' . $nullDate . ' OR core_publish_down >= ' . $nowDate . ')');
+			}
 
 		// Optionally filter on language
 		if (empty($language))
