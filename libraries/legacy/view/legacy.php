@@ -482,7 +482,7 @@ class JViewLegacy extends JObject
 	 *
 	 * @return  JLayoutFile       Renderer instance
 	 */
-	protected function getRenderer($layout, $options = array())
+	public function getRenderer($layout, $options = array())
 	{
 		$component = JApplicationHelper::getComponentName();
 		$template  = JFactory::getApplication()->getTemplate();
