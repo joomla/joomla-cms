@@ -19,6 +19,20 @@ defined('_JEXEC') or die;
 class UsersRouter implements JComponentRouter
 {
 	/**
+	 * Make method for the com_users component
+	 *
+	 * @param   array  $query  An associative array of URL arguments
+	 *
+	 * @return  array  The URL arguments to use to assemble the subsequent URL.
+	 *
+	 * @since   3.3
+	 */
+	public function make($query)
+	{
+		return $query;
+	}
+
+	/**
 	 * Function to build a Users URL route.
 	 *
 	 * @return  array  The array of query string values for which to build a route.

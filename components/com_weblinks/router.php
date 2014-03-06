@@ -19,6 +19,20 @@ defined('_JEXEC') or die;
 class WeblinksRouter implements JComponentRouter
 {
 	/**
+	 * Make method for the com_weblinks component
+	 *
+	 * @param   array  $query  An associative array of URL arguments
+	 *
+	 * @return  array  The URL arguments to use to assemble the subsequent URL.
+	 *
+	 * @since   3.3
+	 */
+	public function make($query)
+	{
+		return $query;
+	}
+
+	/**
 	 * Build the route for the com_weblinks component
 	 *
 	 * @param   array  &$query  An array of URL arguments
