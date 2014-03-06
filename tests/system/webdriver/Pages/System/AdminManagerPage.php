@@ -226,16 +226,16 @@ abstract class AdminManagerPage extends AdminPage
 					while (!$el->isDisplayed())
 					{
 						$elements[0]->click();
+						sleep(2);
 					}
 				}
 			}
 
 			// Open and close the list to create the li elements on the page
+			$el = $this->driver->findElement(By::xPath("//div[@id='" . $filterId . "_chzn']/a/div/b"));
+			$test = $el->isDisplayed();
 			$el->click();
 			sleep(2);
-			$el->click();
-			sleep(2);
-			$el->click();
 			$selectElementArray = $this->driver->findElements(By::xPath("//div[@id='" . $filterId . "_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $value . "')]"));
 			if (count($selectElementArray) == 1)
 			{
