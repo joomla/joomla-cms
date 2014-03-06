@@ -41,7 +41,7 @@ defined('_JEXEC') or die;
 							<li><?php echo JText::_('COM_INSTALLER_MSG_DATABASE_FILTER_ERROR'); ?>
 						<?php endif; ?>
 
-						<?php if (version_compare($this->schemaVersion, JVERSION) != 0) : ?>
+						<?php if ($this->schemaVersion != $this->changeset->getSchema()) : ?>
 							<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $this->schemaVersion, JVERSION); ?></li>
 						<?php endif; ?>
 
