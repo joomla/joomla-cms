@@ -1,1 +1,0 @@
-ALTER TABLE `#__associations` CHANGE `id` `id` INT(11) NOT NULL COMMENT 'A reference to the associated item.';
