@@ -155,7 +155,7 @@ class ModuleManagerPage extends AdminManagerPage
 				$this->setClient($client);
 			}
 			$this->clickButton('toolbar-new');
-			$this->driver->waitForElementUntilIsPresent(By::xPath("//body[contains(@class, 'com_modules view-selectlayout')]"));
+			$this->driver->waitForElementUntilIsPresent(By::xPath("//body[contains(@class, 'com_modules view-select layout')]"));
 			$el = $this->driver->findElement(By::id('new-modules-list'));
 			$moduleElements = $el->findElements(By::xPath("//a/strong"));
 			foreach ($moduleElements as $element)
