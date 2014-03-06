@@ -144,6 +144,17 @@
 					<option
 						value="rand()">MOD_ARTICLES_NEWS_FIELD_ORDERING_RANDOM</option>
 				</field>
+				
+				<field name="article_ordering_direction"
+					type="list"
+					default="ASC"
+					label="MOD_ARTICLES_NEWS_FIELD_ARTICLEORDERINGDIR_LABEL"
+					description="MOD_ARTICLES_NEWS_FIELD_ARTICLEORDERINGDIR_DESC">
+					<option 
+						value="DESC">MOD_ARTICLES_NEWS_FIELD_ORDERING_OPTION_DESCENDING_VALUE</option>
+					<option 
+						value="ASC">MOD_ARTICLES_NEWS_FIELD_ORDERING_OPTION_ASCENDING_VALUE</option>
+				</field>
 
 			</fieldset>
 
