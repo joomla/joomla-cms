@@ -32,7 +32,7 @@ defined('_JEXEC') or die;
 			<?php endif; ?>
 
 			<?php if ($this->schemaVersion != $this->changeSet->getSchema()) : ?>
-				<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $this->schemaVersion, JVERSION); ?></li>
+				<li><?php echo JText::sprintf('COM_INSTALLER_MSG_DATABASE_SCHEMA_ERROR', $this->schemaVersion, $this->changeSet->getSchema()); ?></li>
 			<?php endif; ?>
 
 			<?php if (version_compare($this->updateVersion, JVERSION) != 0) : ?>
