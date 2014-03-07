@@ -443,7 +443,7 @@ if($this->type == 'image')
 				  method="post" name="adminForm" id="adminForm">
 				<fieldset class="panelform">
 					<label id="new_name" class="hasTooltip" title="<?php echo JHtml::tooltipText('COM_TEMPLATES_TEMPLATE_NEW_NAME_DESC'); ?>"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_NEW_NAME_LABEL')?></label>
-					<input class="inputbox" type="text" id="new_name" name="new_name"  />
+					<input type="text" id="new_name" name="new_name"  />
 					<button type="submit"><?php echo JText::_('COM_TEMPLATES_TEMPLATE_COPY'); ?></button>
 				</fieldset>
 				<?php echo JHtml::_('form.token'); ?>
@@ -454,7 +454,7 @@ if($this->type == 'image')
 					  method="post" name="adminForm" id="adminForm">
 					<fieldset class="panelform">
 						<label id="new_name" class="hasTooltip" title="<?php echo JHtml::tooltipText(JText::_('COM_TEMPLATES_NEW_FILE_NAME')); ?>"><?php echo JText::_('COM_TEMPLATES_NEW_FILE_NAME')?></label>
-						<input class="inputbox" type="text" name="new_name"  />
+						<input type="text" name="new_name"  />
 						<button type="submit"><?php echo JText::_('COM_TEMPLATES_BUTTON_RENAME'); ?></button>
 					</fieldset>
 					<?php echo JHtml::_('form.token'); ?>

@@ -28,7 +28,7 @@ $listDirn	= $this->escape($this->state->get('list.direction'));
 			<label class="selectlabel" for="filter_client_id">
 				<?php echo JText::_('COM_CACHE_SELECT_CLIENT'); ?>
 			</label>
-			<select name="filter_client_id" class="inputbox" id="filter_client_id">
+			<select name="filter_client_id" id="filter_client_id">
 				<?php echo JHtml::_('select.options', CacheHelper::getClientOptions(), 'value', 'text', $this->state->get('clientId'));?>
 			</select>
 
