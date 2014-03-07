@@ -38,7 +38,7 @@ class InstallerViewDatabase extends InstallerViewDefault
 		$this->errorCount = count($this->errors);
 
 		$errors = count($this->errors);
-		if ($this->schemaVersion != $this->changeset->getSchema())
+		if ($this->schemaVersion != $this->changeSet->getSchema())
 		{
 			$this->errorCount++;
 		}
