@@ -177,7 +177,6 @@ class JMicrodata
 		$this->type = static::sanitizeType($type);
 
 		// If the given Type isn't available, fallback to Thing
-
 		if (!static::isTypeAvailable($this->type))
 		{
 			$this->type	= 'Thing';
@@ -500,9 +499,7 @@ class JMicrodata
 
 					default:
 						// Default $displayType = 'inline'
-
 						$html = static::htmlScope($type::scope()) . ' ' . static::htmlProperty($this->fallbackProperty);
-
 						break;
 				}
 			}
