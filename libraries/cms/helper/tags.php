@@ -367,11 +367,6 @@ class JHelperTags extends JHelper
 	 */
 	public function getItemTags($contentType, $id, $getTagData = true)
 	{
-		if (is_array($id))
-		{
-			$id = implode($id);
-		}
-
 		// Initialize some variables.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
@@ -380,7 +375,7 @@ class JHelperTags extends JHelper
 			->where(
 				array(
 					$db->quoteName('m.type_alias') . ' = ' . $db->quote($contentType),
-					$db->quoteName('m.content_item_id') . ' = ' . $id,
+					$db->quoteName('m.content_item_id') . ' = ' . (int) $id,
 					$db->quoteName('t.published') . ' = 1'
 				)
 			);
@@ -420,45 +415,51 @@ class JHelperTags extends JHelper
 	 * Method to get a list of tags for a given item.
 	 * Normally used for displaying a list of tags within a layout
 	 *
-	 * @param   integer  $id      The id (primary key) of the item to be tagged.
-	 * @param   string   $prefix  Dot separated string with the option and view to be used for a url.
+	 * @param   mixed   $ids     The id or array of ids (primary key) of the item to be tagged.
+	 * @param   string  $prefix  Dot separated string with the option and view to be used for a url.
 	 *
 	 * @return  string   Comma separated list of tag Ids.
 	 *
 	 * @since   3.1
 	 */
-	public function getTagIds($id, $prefix)
+	public function getTagIds($ids, $prefix)
 	{
-		if (!empty($id))
+		if (empty($ids))
 		{
-			if (is_array($id))
-			{
-				$id = implode(',', $id);
-			}
-
-			$db = JFactory::getDbo();
-
-			// Load the tags.
-			$query = $db->getQuery(true)
-				->select($db->quoteName('t.id'))
-				->from($db->quoteName('#__tags') . ' AS t ')
-				->join(
-					'INNER', $db->quoteName('#__contentitem_tag_map') . ' AS m'
-					. ' ON ' . $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id')
-					. ' AND ' . $db->quoteName('m.type_alias') . ' = ' . $db->quote($prefix)
-					. ' AND ' . $db->quoteName('m.content_item_id') . ' IN ( ' . $id . ')'
-				);
-
-			$db->setQuery($query);
-
-			// Add the tags to the content data.
-			$tagsList = $db->loadColumn();
-			$this->tags = implode(',', $tagsList);
+			return;
 		}
-		else
-		{
-			$this->tags = null;
-		}
+
+		/**
+		 * Ids possible formats:
+		 * ---------------------
+		 * 	$id = 1;
+		 *  $id = array(1,2);
+		 *  $id = array('1,3,4,19');
+		 *  $id = '1,3';
+		 */
+		$ids = (array) $ids;
+		$ids = implode(',', $ids);
+		$ids = explode(',', $ids);
+		JArrayHelper::toInteger($ids);
+
+		$db = JFactory::getDbo();
+
+		// Load the tags.
+		$query = $db->getQuery(true)
+			->select($db->quoteName('t.id'))
+			->from($db->quoteName('#__tags') . ' AS t ')
+			->join(
+				'INNER', $db->quoteName('#__contentitem_tag_map') . ' AS m'
+				. ' ON ' . $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id')
+				. ' AND ' . $db->quoteName('m.type_alias') . ' = ' . $db->quote($prefix)
+				. ' AND ' . $db->quoteName('m.content_item_id') . ' IN ( ' . implode(',', $ids) . ')'
+			);
+
+		$db->setQuery($query);
+
+		// Add the tags to the content data.
+		$tagsList = $db->loadColumn();
+		$this->tags = implode(',', $tagsList);
 
 		return $this->tags;
 	}
@@ -491,39 +492,30 @@ class JHelperTags extends JHelper
 
 		$ntagsr = substr_count($tagId, ',') + 1;
 
+		// Force ids to array and sanitize
+		$tagIds = (array) $tagId;
+		$tagIds = implode(',', $tagIds);
+		$tagIds = explode(',', $tagIds);
+		JArrayHelper::toInteger($tagIds);
+
 		// If we want to include children we have to adjust the list of tags.
 		// We do not search child tags when the match all option is selected.
 		if ($includeChildren)
 		{
-			if (!is_array($tagId))
-			{
-				$tagIdArray = explode(',', $tagId);
-			}
-			else
-			{
-				$tagIdArray = $tagId;
-			}
-
 			$tagTreeList = '';
+			$tagTreeArray = array();
 
-			foreach ($tagIdArray as $tag)
+			foreach ($tagIds as $tag)
 			{
-				if ($this->getTagTreeArray($tag, $tagTreeArray))
-				{
-					$tagTreeList .= implode(',', $this->getTagTreeArray($tag, $tagTreeArray)) . ',';
-				}
+				$this->getTagTreeArray($tag, $tagTreeArray);
 			}
 
-			if ($tagTreeList)
-			{
-				$tagId = trim($tagTreeList, ',');
-			}
+			$tagIds = array_unique(array_merge($tagIds, $tagTreeArray));
 		}
 
-		if (is_array($tagId))
-		{
-			$tagId = implode(',', $tagId);
-		}
+		// Sanitize filter states
+		$stateFilters = explode(',', $stateFilter);
+		JArrayHelper::toInteger($stateFilters);
 
 		// M is the mapping table. C is the core_content table. Ct is the content_types table.
 		$query->select('m.type_alias, m.content_item_id, m.core_content_id, count(m.tag_id) AS match_count,  MAX(m.tag_date) as tag_date, MAX(c.core_title) AS core_title')
@@ -545,8 +537,8 @@ class JHelperTags extends JHelper
 
 			->join('LEFT', '#__users AS ua ON ua.id = c.core_created_user_id')
 
-			->where('m.tag_id IN (' . $tagId . ')')
-			->where('c.core_state IN (' . $stateFilter . ')');
+			->where('m.tag_id IN (' . implode(',', $tagIds) . ')')
+			->where('c.core_state IN (' . implode(',', $stateFilters) . ')');
 
 		// Optionally filter on language
 		if (empty($language))
@@ -585,7 +577,7 @@ class JHelperTags extends JHelper
 		if ($ntagsr > 1 && $anyOrAll != 1 && $includeChildren != 1)
 		{
 			// The number of results should equal the number of tags requested.
-			$query->having("COUNT('m.tag_id') = " . $ntagsr);
+			$query->having("COUNT('m.tag_id') = " . (int) $ntagsr);
 		}
 
 		// Set up the order by using the option chosen
@@ -595,7 +587,7 @@ class JHelperTags extends JHelper
 		}
 		else
 		{
-			$orderBy = 'MAX(' . $orderByOption . ')';
+			$orderBy = 'MAX(' . $db->quoteName($orderByOption) . ')';
 		}
 
 		$query->order($orderBy . ' ' . $orderDir);
@@ -619,13 +611,12 @@ class JHelperTags extends JHelper
 		if (is_array($tagIds) && count($tagIds) > 0)
 		{
 			JArrayHelper::toInteger($tagIds);
-			$tagIds = implode(',', $tagIds);
 
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__tags'))
-				->where($db->quoteName('id') . ' IN (' . $tagIds . ')');
+				->where($db->quoteName('id') . ' IN (' . implode(',', $tagIds) . ')');
 			$query->order($db->quoteName('title'));
 
 			$db->setQuery($query);
@@ -652,7 +643,7 @@ class JHelperTags extends JHelper
 
 		if ($table->isLeaf($id))
 		{
-			$tagTreeArray[] .= $id;
+			$tagTreeArray[] = $id;
 
 			return $tagTreeArray;
 		}
@@ -709,18 +700,19 @@ class JHelperTags extends JHelper
 
 		if (!empty($selectTypes))
 		{
-			if (is_array($selectTypes))
-			{
-				$selectTypes = implode(',', $selectTypes);
-			}
+			$selectTypes = (array) $selectTypes;
 
 			if ($useAlias)
 			{
-				$query->where($db->quoteName('type_alias') . ' IN (' . $db->quote($selectTypes) . ')');
+				$selectTypes = array_map(array($db, 'quote'), $selectTypes);
+
+				$query->where($db->quoteName('type_alias') . ' IN (' . implode(',', $selectTypes) . ')');
 			}
 			else
 			{
-				$query->where($db->quoteName('type_id') . ' IN (' . $selectTypes . ')');
+				JArrayHelper::toInteger($selectTypes);
+
+				$query->where($db->quoteName('type_id') . ' IN (' . implode(',', $selectTypes) . ')');
 			}
 		}
 
@@ -1024,6 +1016,8 @@ class JHelperTags extends JHelper
 
 		if (is_array($tags) && count($tags) > 0)
 		{
+			JArrayHelper::toInteger($tags);
+
 			$query->where($db->quoteName('tag_id') . ' IN ' . implode(',', $tags));
 		}
 
