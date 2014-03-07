@@ -37,7 +37,6 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParser::parse
 	 * @since   12.3
 	 */
 	public function testParse()
@@ -74,7 +73,6 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParser::registerNamespace
 	 * @since   12.3
 	 */
 	public function testRegisterNamespace()
@@ -107,7 +105,6 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers             JFeedParser::registerNamespace
 	 * @expectedException  PHPUnit_Framework_Error
 	 * @since              12.3
 	 */
@@ -122,7 +119,6 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers             JFeedParser::registerNamespace
 	 * @expectedException  PHPUnit_Framework_Error
 	 * @since              12.3
 	 */
@@ -136,7 +132,6 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParser::processElement
 	 * @since   12.3
 	 */
 	public function testProcessElementWithElement()
@@ -172,7 +167,6 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParser::processElement
 	 * @since   12.3
 	 */
 	public function testProcessElementWithEntry()
@@ -212,7 +206,6 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParser::fetchNamespace
 	 * @since   12.3
 	 */
 	public function testFetchNamespace()
@@ -237,7 +230,6 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParser::moveToNextElement
 	 * @since   12.3
 	 */
 	public function testMoveToNextElement()
@@ -274,7 +266,6 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParser::moveToNextElement
 	 * @since   12.3
 	 */
 	public function testMoveToNextElementByName()
@@ -298,7 +289,6 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParser::moveToClosingElement
 	 * @since   12.3
 	 */
 	public function testMoveToClosingElement()
@@ -321,7 +311,6 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParser::moveToClosingElement
 	 * @since   12.3
 	 */
 	public function testMoveToClosingElementWithInternalElements()
@@ -369,7 +358,6 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedParser::moveToClosingElement
 	 * @since   12.3
 	 */
 	public function testMoveToClosingElementWithSelfClosingTag()

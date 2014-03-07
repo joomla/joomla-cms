@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -66,13 +66,13 @@ class FinderViewIndex extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$canDo	= FinderHelper::getActions();
+		$canDo	= JHelperContent::getActions('com_finder');
 
-		JToolbarHelper::title(JText::_('COM_FINDER_INDEX_TOOLBAR_TITLE'), 'finder');
+		JToolbarHelper::title(JText::_('COM_FINDER_INDEX_TOOLBAR_TITLE'), 'zoom-in finder');
 
 		$toolbar = JToolbar::getInstance('toolbar');
 		$toolbar->appendButton(
-			'Popup', '', 'COM_FINDER_INDEX', 'index.php?option=com_finder&view=indexer&tmpl=component', 500, 210, 0, 0,
+			'Popup', 'archive', 'COM_FINDER_INDEX', 'index.php?option=com_finder&view=indexer&tmpl=component', 500, 210, 0, 0,
 			'window.parent.location.reload()', 'COM_FINDER_HEADING_INDEXER'
 		);
 
@@ -95,7 +95,7 @@ class FinderViewIndex extends JViewLegacy
 			JToolbarHelper::preferences('com_finder');
 		}
 
-		$toolbar->appendButton('Popup', '', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
+		$toolbar->appendButton('Popup', 'stats', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
 
 		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_INDEXED_CONTENT');
 

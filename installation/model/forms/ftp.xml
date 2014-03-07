@@ -8,8 +8,8 @@
 				filter="int"
 				required="true"
 			>
-				<option value="0">JNO</option>
 				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
 			<field name="ftp_user" type="text" id="ftp_user" class="inputbox"
 				label="INSTL_FTP_USER_LABEL"
@@ -40,8 +40,8 @@
 				required="true"
 				filter="int"
 			>
-				<option value="0">JNO</option>
 				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
 		</fieldset>
 	</fieldset>

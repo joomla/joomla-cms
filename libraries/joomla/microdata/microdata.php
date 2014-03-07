@@ -3,7 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  Microdata
  *
+<<<<<<< HEAD
  * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+=======
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+>>>>>>> upstream/master
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -21,72 +25,118 @@ class JMicrodata
 	/**
 	 * Array with all available Types and Properties
 	 *
+<<<<<<< HEAD
 	 * @var     array
 	 * @since   3.2
+=======
+	 * @var    array
+	 * @since  3.2
+>>>>>>> upstream/master
 	 */
 	protected static $types = null;
 
 	/**
 	 * The Schema.org Type
 	 *
+<<<<<<< HEAD
 	 * @var		string
 	 * @since	3.2
+=======
+	 * @var    string
+	 * @since  3.2
+>>>>>>> upstream/master
 	 */
 	protected $type = null;
 
 	/**
 	 * The Property
 	 *
+<<<<<<< HEAD
 	 * @var		string
 	 * @since	3.2
+=======
+	 * @var    string
+	 * @since  3.2
+>>>>>>> upstream/master
 	 */
 	protected $property = null;
 
 	/**
 	 * The Human value or Machine value
 	 *
+<<<<<<< HEAD
 	 * @var		string
 	 * @since	3.2
+=======
+	 * @var    string
+	 * @since  3.2
+>>>>>>> upstream/master
 	 */
 	protected $content = null;
 
 	/**
 	 * The Machine value
+<<<<<<< HEAD
 	 * 
 	 * @var     string
 	 * @since   3.2
+=======
+	 *
+	 * @var    string
+	 * @since  3.2
+>>>>>>> upstream/master
 	 */
 	protected $machineContent = null;
 
 	/**
 	 * Fallback Type
 	 *
+<<<<<<< HEAD
 	 * @var		string
 	 * @since	3.2
+=======
+	 * @var    string
+	 * @since  3.2
+>>>>>>> upstream/master
 	 */
 	protected $fallbackType = null;
 
 	/**
 	 * Fallback Property
 	 *
+<<<<<<< HEAD
 	 * @var		string
 	 * @since	3.2
+=======
+	 * @var    string
+	 * @since  3.2
+>>>>>>> upstream/master
 	 */
 	protected $fallbackProperty = null;
 
 	/**
 	 * Used to check if a Fallback must be used
 	 *
+<<<<<<< HEAD
 	 * @var		string
 	 * @since	3.2
+=======
+	 * @var    string
+	 * @since  3.2
+>>>>>>> upstream/master
 	 */
 	protected $fallback = false;
 
 	/**
 	 * Used to check if the Microdata semantics output are enabled or disabled
 	 *
+<<<<<<< HEAD
 	 * @var 	boolean
 	 * @since	3.2
+=======
+	 * @var    boolean
+	 * @since  3.2
+>>>>>>> upstream/master
 	 */
 	protected $enabled = true;
 
@@ -95,6 +145,11 @@ class JMicrodata
 	 *
 	 * @param   string   $type  Optional, Fallback to Thing Type
 	 * @param   boolean  $flag  Enable or disable microdata output
+<<<<<<< HEAD
+=======
+	 *
+	 * @since   3.2
+>>>>>>> upstream/master
 	 */
 	public function __construct($type = '', $flag = true)
 	{
@@ -112,8 +167,15 @@ class JMicrodata
 
 	/**
 	 * Load all Types and Properties from the types.json file
+<<<<<<< HEAD
 	 * 
 	 * @return	void
+=======
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+>>>>>>> upstream/master
 	 */
 	protected static function loadTypes()
 	{
@@ -130,7 +192,13 @@ class JMicrodata
 	 *
 	 * @param   boolean  $flag  Enable or disable microdata output
 	 *
+<<<<<<< HEAD
 	 * @return	object
+=======
+	 * @return  JMicrodata  Instance of $this
+	 *
+	 * @since   3.2
+>>>>>>> upstream/master
 	 */
 	public function enable($flag = true)
 	{
@@ -141,8 +209,15 @@ class JMicrodata
 
 	/**
 	 * Return true if Microdata semantics output are enabled
+<<<<<<< HEAD
 	 * 
 	 * @return	boolean
+=======
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.2
+>>>>>>> upstream/master
 	 */
 	public function isEnabled()
 	{
@@ -154,7 +229,13 @@ class JMicrodata
 	 *
 	 * @param   string  $type  The Type to be setup
 	 *
+<<<<<<< HEAD
 	 * @return	object
+=======
+	 * @return  JMicrodata  Instance of $this
+	 *
+	 * @since   3.2
+>>>>>>> upstream/master
 	 */
 	public function setType($type)
 	{
@@ -167,7 +248,11 @@ class JMicrodata
 		$this->type = static::sanitizeType($type);
 
 		// If the given Type isn't available, fallback to Thing
+<<<<<<< HEAD
 		if ( !static::isTypeAvailable($this->type) )
+=======
+		if (!static::isTypeAvailable($this->type))
+>>>>>>> upstream/master
 		{
 			$this->type	= 'Thing';
 		}
@@ -178,7 +263,13 @@ class JMicrodata
 	/**
 	 * Return the current Type name
 	 *
+<<<<<<< HEAD
 	 * @return string
+=======
+	 * @return  string
+	 *
+	 * @since   3.2
+>>>>>>> upstream/master
 	 */
 	public function getType()
 	{
@@ -190,7 +281,13 @@ class JMicrodata
 	 *
 	 * @param   string  $property  The Property
 	 *
+<<<<<<< HEAD
 	 * @return	object
+=======
+	 * @return  JMicrodata  Instance of $this
+	 *
+	 * @since   3.2
+>>>>>>> upstream/master
 	 */
 	public function property($property)
 	{
@@ -218,7 +315,13 @@ class JMicrodata
 	/**
 	 * Return the property variable
 	 *
+<<<<<<< HEAD
 	 * @return	string
+=======
+	 * @return  string
+	 *
+	 * @since   3.2
+>>>>>>> upstream/master
 	 */
 	public function getProperty()
 	{
@@ -230,8 +333,15 @@ class JMicrodata
 	 *
 	 * @param   string  $value         The human value or marchine value to be used
 	 * @param   string  $machineValue  The machine value
+<<<<<<< HEAD
 	 * 
 	 * @return	object
+=======
+	 *
+	 * @return  JMicrodata  Instance of $this
+	 *
+	 * @since   3.2
+>>>>>>> upstream/master
 	 */
 	public function content($value, $machineValue = null)
 	{
@@ -244,7 +354,13 @@ class JMicrodata
 	/**
 	 * Return the content variable
 	 *
+<<<<<<< HEAD
 	 * @return	string
+=======
+	 * @return  string
+	 *
+	 * @since   3.2
+>>>>>>> upstream/master
 	 */
 	public function getContent()
 	{
@@ -257,7 +373,13 @@ class JMicrodata
 	 * @param   string  $type      The Fallback Type
 	 * @param   string  $property  The Fallback Property
 	 *
+<<<<<<< HEAD
 	 * @return	object
+=======
+	 * @return  JMicrodata  Instance of $this
+	 *
+	 * @since   3.2
+>>>>>>> upstream/master
 	 */
 	public function fallback($type, $property)
 	{
@@ -291,7 +413,13 @@ class JMicrodata
 	/**
 	 * Return the fallbackType variable
 	 *
+<<<<<<< HEAD
 	 * @return	string
+=======
+	 * @return  string
+	 *
+	 * @since   3.2
+>>>>>>> upstream/master
 	 */
 	public function getFallbackType()
 	{
@@ -301,7 +429,13 @@ class JMicrodata
 	/**
 	 * Return the fallbackProperty variable
 	 *
+<<<<<<< HEAD
 	 * @return	string
+=======
+	 * @return  string
+	 *
+	 * @since   3.2
+>>>>>>> upstream/master
 	 */
 	public function getFallbackProperty()
 	{
@@ -317,7 +451,13 @@ class JMicrodata
 	 * @param   string   $displayType  Optional, 'inline', available ['inline'|'span'|'div'|meta]
 	 * @param   boolean  $emptyOutput  Return an empty string if the microdata output is disabled and there is a $content value
 	 *
+<<<<<<< HEAD
 	 * @return	string
+=======
+	 * @return  string
+	 *
+	 * @since   3.2
+>>>>>>> upstream/master
 	 */
 	public function display($displayType = '', $emptyOutput = false)
 	{
@@ -359,9 +499,17 @@ class JMicrodata
 			}
 			else
 			{
+<<<<<<< HEAD
 				/* Process and return the HTML in an automatic way,
 				 * with the Property expected Types and display the Microdata in the right way,
 				 * check if the Property is normal, nested or must be rendered in a metadata tag */
+=======
+				/*
+				 * Process and return the HTML in an automatic way,
+				 * with the Property expected Types and display the Microdata in the right way,
+				 * check if the Property is normal, nested or must be rendered in a metadata tag
+				 */
+>>>>>>> upstream/master
 				switch (static::getExpectedDisplayType($this->type, $this->property))
 				{
 					case 'nested':
@@ -384,8 +532,12 @@ class JMicrodata
 							$nestedType = $nestedType[0];
 						}
 
+<<<<<<< HEAD
 						/* Check if a Content is available,
 						 * otherwise Fallback to an 'inline' display type */
+=======
+						// Check if a Content is available, otherwise Fallback to an 'inline' display type
+>>>>>>> upstream/master
 						if ($this->content !== null)
 						{
 							if ($nestedProperty)
@@ -405,14 +557,19 @@ class JMicrodata
 						}
 						else
 						{
+<<<<<<< HEAD
 							$html = static::htmlProperty($this->property)
 								. " " . static::htmlScope($nestedType);
+=======
+							$html = static::htmlProperty($this->property) . ' ' . static::htmlScope($nestedType);
+>>>>>>> upstream/master
 
 							if ($nestedProperty)
 							{
 								$html .= ' ' . static::htmlProperty($nestedProperty);
 							}
 						}
+<<<<<<< HEAD
 						break;
 
 					case 'meta':
@@ -423,17 +580,40 @@ class JMicrodata
 							$html = ($this->machineContent !== null) ? $this->machineContent : $this->content;
 							$html = static::htmlMeta($html, $this->property)
 								. $this->content;
+=======
+
+						break;
+
+					case 'meta':
+						// Check if the Content value is available, otherwise Fallback to an 'inline' display Type
+						if ($this->content !== null)
+						{
+							$html = ($this->machineContent !== null) ? $this->machineContent : $this->content;
+							$html = static::htmlMeta($html, $this->property) . $this->content;
+>>>>>>> upstream/master
 						}
 						else
 						{
 							$html = static::htmlProperty($this->property);
 						}
+<<<<<<< HEAD
 						break;
 
 					default:
 						/* Default expected display type = 'normal'
 						 * Check if the Content value is available,
 						 * otherwise Fallback to an 'inline' display Type */
+=======
+
+						break;
+
+					default:
+						/*
+						 * Default expected display type = 'normal'
+						 * Check if the Content value is available,
+						 * otherwise Fallback to an 'inline' display Type
+						 */
+>>>>>>> upstream/master
 						if ($this->content !== null)
 						{
 							$html = static::htmlSpan($this->content, $this->property);
@@ -442,6 +622,10 @@ class JMicrodata
 						{
 							$html = static::htmlProperty($this->property);
 						}
+<<<<<<< HEAD
+=======
+
+>>>>>>> upstream/master
 						break;
 				}
 			}
@@ -468,13 +652,18 @@ class JMicrodata
 
 					default:
 						// Default $displayType = 'inline'
+<<<<<<< HEAD
 						$html = static::htmlScope($type::scope())
 							. ' ' . static::htmlProperty($this->fallbackProperty);
+=======
+						$html = static::htmlScope($type::scope()) . ' ' . static::htmlProperty($this->fallbackProperty);
+>>>>>>> upstream/master
 						break;
 				}
 			}
 			else
 			{
+<<<<<<< HEAD
 				/* Process and return the HTML in an automatic way,
 				 * with the Property expected Types an display the Microdata in the right way,
 				* check if the Property is nested or must be rendered in a metadata tag */
@@ -483,6 +672,17 @@ class JMicrodata
 					case 'meta':
 						/* Check if the Content value is available,
 						 * otherwise Fallback to an 'inline' display Type */
+=======
+				/*
+				 * Process and return the HTML in an automatic way,
+				 * with the Property expected Types an display the Microdata in the right way,
+				 * check if the Property is nested or must be rendered in a metadata tag
+				 */
+				switch (static::getExpectedDisplayType($this->fallbackType, $this->fallbackProperty))
+				{
+					case 'meta':
+						// Check if the Content value is available, otherwise Fallback to an 'inline' display Type
+>>>>>>> upstream/master
 						if ($this->content !== null)
 						{
 							$html = ($this->machineContent !== null) ? $this->machineContent : $this->content;
@@ -490,6 +690,7 @@ class JMicrodata
 						}
 						else
 						{
+<<<<<<< HEAD
 							$html = static::htmlScope($this->fallbackType)
 								. ' ' . static::htmlProperty($this->fallbackProperty);
 						}
@@ -499,6 +700,19 @@ class JMicrodata
 						/* Default expected display type = 'normal'
 						 * Check if the Content value is available,
 						 * otherwise Fallback to an 'inline' display Type */
+=======
+							$html = static::htmlScope($this->fallbackType) . ' ' . static::htmlProperty($this->fallbackProperty);
+						}
+
+						break;
+
+					default:
+						/*
+						 * Default expected display type = 'normal'
+						 * Check if the Content value is available,
+						 * otherwise Fallback to an 'inline' display Type
+						 */
+>>>>>>> upstream/master
 						if ($this->content !== null)
 						{
 							$html = static::htmlSpan($this->content, $this->fallbackProperty);
@@ -506,9 +720,15 @@ class JMicrodata
 						}
 						else
 						{
+<<<<<<< HEAD
 							$html = static::htmlScope($this->fallbackType)
 								. ' ' . static::htmlProperty($this->fallbackProperty);
 						}
+=======
+							$html = static::htmlScope($this->fallbackType) . ' ' . static::htmlProperty($this->fallbackProperty);
+						}
+
+>>>>>>> upstream/master
 						break;
 				}
 			}
@@ -531,7 +751,13 @@ class JMicrodata
 	/**
 	 * Return the HTML of the current Scope
 	 *
+<<<<<<< HEAD
 	 * @return	string
+=======
+	 * @return  string
+	 *
+	 * @since   3.2
+>>>>>>> upstream/master
 	 */
 	public function displayScope()
 	{
@@ -549,7 +775,13 @@ class JMicrodata
 	 *
 	 * @param   string  $type  The Type to sanitize
 	 *
+<<<<<<< HEAD
 	 * @return	string
+=======
+	 * @return  string
+	 *
+	 * @since   3.2
+>>>>>>> upstream/master
 	 */
 	public static function sanitizeType($type)
 	{
@@ -561,7 +793,13 @@ class JMicrodata
 	 *
 	 * @param   string  $property  The Property to sanitize
 	 *
+<<<<<<< HEAD
 	 * @return	string
+=======
+	 * @return  string
+	 *
+	 * @since   3.2
+>>>>>>> upstream/master
 	 */
 	public static function sanitizeProperty($property)
 	{
@@ -569,9 +807,17 @@ class JMicrodata
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Return an array with all Types and Properties 
 	 *
 	 * @return	array
+=======
+	 * Return an array with all Types and Properties
+	 *
+	 * @return  array
+	 *
+	 * @since   3.2
+>>>>>>> upstream/master
 	 */
 	public static function getTypes()
 	{
@@ -580,10 +826,19 @@ class JMicrodata
 		return static::$types;
 	}
 
+<<<<<<< HEAD
 	/**
 	 * Return an array with all available Types
 	 *
 	 * @return	array
+=======
+	/**
+	 * Return an array with all available Types
+	 *
+	 * @return  array
+	 *
+	 * @since   3.2
+>>>>>>> upstream/master
 	 */
 	public static function getAvailableTypes()
 	{
@@ -599,6 +854,11 @@ class JMicrodata
 	 * @param   string  $property  The Property to process
 	 *
 	 * @return  array
+<<<<<<< HEAD
+=======
+	 *
+	 * @since   3.2
+>>>>>>> upstream/master
 	 */
 	public static function getExpectedTypes($type, $property)
 	{
@@ -635,6 +895,11 @@ class JMicrodata
 	 * @param   string  $property  The Property to process
 	 *
 	 * @return  string
+<<<<<<< HEAD
+=======
+	 *
+	 * @since   3.2
+>>>>>>> upstream/master
 	 */
 	protected static function getExpectedDisplayType($type, $property)
 	{
@@ -665,7 +930,13 @@ class JMicrodata
 	 * @param   string  $type      The Type where to check
 	 * @param   string  $property  The Property to check
 	 *
+<<<<<<< HEAD
 	 * @return	boolean
+=======
+	 * @return  boolean
+	 *
+	 * @since   3.2
+>>>>>>> upstream/master
 	 */
 	public static function isPropertyInType($type, $property)
 	{
@@ -696,13 +967,23 @@ class JMicrodata
 	 *
 	 * @param   string  $type  The Type to check
 	 *
+<<<<<<< HEAD
 	 * @return	boolean
+=======
+	 * @return  boolean
+	 *
+	 * @since   3.2
+>>>>>>> upstream/master
 	 */
 	public static function isTypeAvailable($type)
 	{
 		static::loadTypes();
 
+<<<<<<< HEAD
 		return ( array_key_exists($type, static::$types) ) ? true : false;
+=======
+		return (array_key_exists($type, static::$types)) ? true : false;
+>>>>>>> upstream/master
 	}
 
 	/**
@@ -713,7 +994,11 @@ class JMicrodata
 	 * @param   string   $scope     Optional, the Type scope to display
 	 * @param   boolean  $inverse   Optional, default = false, inverse the $scope with the $property
 	 *
+<<<<<<< HEAD
 	 * @return	string
+=======
+	 * @return  string
+>>>>>>> upstream/master
 	 *
 	 * @since	3.2
 	 */
@@ -753,7 +1038,11 @@ class JMicrodata
 	 * @param   string   $scope     Optional, the Type scope to display
 	 * @param   boolean  $inverse   Optional, default = false, inverse the $scope with the $property
 	 *
+<<<<<<< HEAD
 	 * @return	string
+=======
+	 * @return  string
+>>>>>>> upstream/master
 	 *
 	 * @since	3.2
 	 */
@@ -794,7 +1083,11 @@ class JMicrodata
 	 * @param   string   $scope     Optional, the Type scope to display
 	 * @param   boolean  $inverse   Optional, default = false, inverse the $scope with the $property
 	 *
+<<<<<<< HEAD
 	 * @return	string
+=======
+	 * @return  string
+>>>>>>> upstream/master
 	 *
 	 * @since	3.2
 	 */
@@ -833,6 +1126,11 @@ class JMicrodata
 	 * @param   string  $scope  The Scope to process
 	 *
 	 * @return  string
+<<<<<<< HEAD
+=======
+	 *
+	 * @since   3.2
+>>>>>>> upstream/master
 	 */
 	public static function htmlScope($scope)
 	{
@@ -850,6 +1148,11 @@ class JMicrodata
 	 * @param   string  $property  The Property to process
 	 *
 	 * @return  string
+<<<<<<< HEAD
+=======
+	 *
+	 * @since   3.2
+>>>>>>> upstream/master
 	 */
 	public static function htmlProperty($property)
 	{

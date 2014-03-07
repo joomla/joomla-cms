@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Twofactorauth.totp
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,24 @@ defined('_JEXEC') or die;
  *
  * @package     Joomla.Plugin
  * @subpackage  Twofactorauth.totp
+ * @since       3.2
  */
 class PlgTwofactorauthTotp extends JPlugin
 {
+	/**
+	 * Affects constructor behavior. If true, language files will be loaded automatically.
+	 *
+	 * @var    boolean
+	 * @since  3.2
+	 */
+	protected $autoloadLanguage = true;
+
+	/**
+	 * Method name
+	 *
+	 * @var    string
+	 * @since  3.2
+	 */
 	protected $methodName = 'totp';
 
 	/**
@@ -26,6 +41,8 @@ class PlgTwofactorauthTotp extends JPlugin
 	 * @param   array   $config    An optional associative array of configuration settings.
 	 *                             Recognized key values include 'name', 'group', 'params', 'language'
 	 *                             (this list is not meant to be comprehensive).
+	 *
+	 * @since   3.2
 	 */
 	public function __construct(&$subject, $config = array())
 	{
@@ -36,9 +53,6 @@ class PlgTwofactorauthTotp extends JPlugin
 		{
 			include_once JPATH_LIBRARIES . '/fof/include.php';
 		}
-
-		// Load the translation files
-		$this->loadLanguage();
 	}
 
 	/**
@@ -46,10 +60,12 @@ class PlgTwofactorauthTotp extends JPlugin
 	 * authentication plugin.
 	 *
 	 * @return  stdClass  An object with public properties method and title
+	 *
+	 * @since   3.2
 	 */
 	public function onUserTwofactorIdentify()
 	{
-		$section = (int)$this->params->get('section', 3);
+		$section = (int) $this->params->get('section', 3);
 
 		$current_section = 0;
 
@@ -76,9 +92,9 @@ class PlgTwofactorauthTotp extends JPlugin
 			return false;
 		}
 
-		return (object)array(
-			'method'	=> $this->methodName,
-			'title'		=> JText::_('PLG_TWOFACTORAUTH_TOTP_METHOD_TITLE'),
+		return (object) array(
+			'method' => $this->methodName,
+			'title'  => JText::_('PLG_TWOFACTORAUTH_TOTP_METHOD_TITLE')
 		);
 	}
 
@@ -88,9 +104,10 @@ class PlgTwofactorauthTotp extends JPlugin
 	 * @param   object   $otpConfig  The two factor auth configuration object
 	 * @param   integer  $user_id    The numeric user ID of the user whose form we'll display
 	 *
-	 * @see UsersModelUser::getOtpConfig
-	 *
 	 * @return  boolean|string  False if the method is not ours, the HTML of the configuration page otherwise
+	 *
+	 * @see     UsersModelUser::getOtpConfig
+	 * @since   3.2
 	 */
 	public function onUserTwofactorShowConfiguration($otpConfig, $user_id = null)
 	{
@@ -115,9 +132,8 @@ class PlgTwofactorauthTotp extends JPlugin
 		// This is the URL to the QR code for Google Authenticator
 		$url = $totp->getUrl($username, $hostname, $secret);
 
-        // Is this a new TOTP setup? If so, we'll have to show the code
-        // validation field.
-        $new_totp = $otpConfig->method != 'totp';
+		// Is this a new TOTP setup? If so, we'll have to show the code validation field.
+		$new_totp = $otpConfig->method != 'totp';
 
 		// Start output buffering
 		@ob_start();
@@ -141,8 +157,8 @@ class PlgTwofactorauthTotp extends JPlugin
 
 		// Return the form contents
 		return array(
-			'method'	=> $this->methodName,
-			'form'		=> $html,
+			'method' => $this->methodName,
+			'form'   => $html
 		);
 	}
 
@@ -152,9 +168,10 @@ class PlgTwofactorauthTotp extends JPlugin
 	 *
 	 * @param   string  $method  The two factor auth method for which we'll show the config page
 	 *
-	 * @see UsersModelUser::setOtpConfig
-	 *
 	 * @return  boolean|stdClass  False if the method doesn't match or we have an error, OTP config object if it succeeds
+	 *
+	 * @see     UsersModelUser::setOtpConfig
+	 * @since   3.2
 	 */
 	public function onUserTwofactorApplyConfiguration($method)
 	{
@@ -194,9 +211,11 @@ class PlgTwofactorauthTotp extends JPlugin
 		$code = $totp->getCode($data['key']);
 		$check = $code == $data['securitycode'];
 
-		// If the check fails, test the previous 30 second slot. This allow the
-		// user to enter the security code when it's becoming red in Google
-		// Authenticator app (reaching the end of its 30 second lifetime)
+		/*
+		 * If the check fails, test the previous 30 second slot. This allow the
+		 * user to enter the security code when it's becoming red in Google
+		 * Authenticator app (reaching the end of its 30 second lifetime)
+		 */
 		if (!$check)
 		{
 			$time = time() - 30;
@@ -204,8 +223,10 @@ class PlgTwofactorauthTotp extends JPlugin
 			$check = $code == $data['securitycode'];
 		}
 
-		// If the check fails, test the next 30 second slot. This allows some
-		// time drift between the authentication device and the server
+		/*
+		 * If the check fails, test the next 30 second slot. This allows some
+		 * time drift between the authentication device and the server
+		 */
 		if (!$check)
 		{
 			$time = time() + 30;
@@ -220,12 +241,12 @@ class PlgTwofactorauthTotp extends JPlugin
 		}
 
 		// Check succeedeed; return an OTP configuration object
-		$otpConfig = (object)array(
-			'method'	=> 'totp',
-			'config'	=> array(
-				'code'	=> $data['key']
+		$otpConfig = (object) array(
+			'method'   => 'totp',
+			'config'   => array(
+				'code' => $data['key']
 			),
-			'otep'		=> array()
+			'otep'     => array()
 		);
 
 		return $otpConfig;
@@ -240,7 +261,7 @@ class PlgTwofactorauthTotp extends JPlugin
 	 *
 	 * @return  boolean  True if the user is authorised with this two-factor authentication method
 	 *
-	 * @since   3.2.0
+	 * @since   3.2
 	 */
 	public function onUserTwofactorAuthenticate($credentials, $options)
 	{
@@ -272,9 +293,11 @@ class PlgTwofactorauthTotp extends JPlugin
 		$code = $totp->getCode($otpConfig->config['code']);
 		$check = $code == $credentials['secretkey'];
 
-		// If the check fails, test the previous 30 second slot. This allow the
-		// user to enter the security code when it's becoming red in Google
-		// Authenticator app (reaching the end of its 30 second lifetime)
+		/*
+		 * If the check fails, test the previous 30 second slot. This allow the
+		 * user to enter the security code when it's becoming red in Google
+		 * Authenticator app (reaching the end of its 30 second lifetime)
+		 */
 		if (!$check)
 		{
 			$time = time() - 30;
@@ -282,8 +305,10 @@ class PlgTwofactorauthTotp extends JPlugin
 			$check = $code == $credentials['secretkey'];
 		}
 
-		// If the check fails, test the next 30 second slot. This allows some
-		// time drift between the authentication device and the server
+		/*
+		 * If the check fails, test the next 30 second slot. This allows some
+		 * time drift between the authentication device and the server
+		 */
 		if (!$check)
 		{
 			$time = time() + 30;

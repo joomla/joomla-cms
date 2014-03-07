@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  String
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -761,7 +761,7 @@ abstract class JString
 	 *
 	 * @author  <hsivonen@iki.fi>
 	 * @see     http://hsivonen.iki.fi/php-utf8/
-	 * @see     compliant
+	 * @see     JString::compliant()
 	 * @since   11.1
 	 */
 	public static function valid($str)
@@ -912,7 +912,7 @@ abstract class JString
 	 *
 	 * @return  boolean  TRUE if string is valid UTF-8
 	 *
-	 * @see     valid
+	 * @see     JString::valid()
 	 * @see     http://www.php.net/manual/en/reference.pcre.pattern.modifiers.php#54805
 	 * @since   11.1
 	 */

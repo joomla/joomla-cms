@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,7 +47,10 @@ class ContentViewFeatured extends JViewLegacy
 
 			// Get row fulltext
 			$db = JFactory::getDbo();
-			$query = 'SELECT' .$db->quoteName('fulltext'). 'FROM #__content WHERE id ='.$row->id;
+			$query = $db->getQuery(true)
+				->select($db->quoteName('fulltext'))
+				->from($db->quoteName('#__content'))
+				->where($db->quoteName('id') . ' = ' . $row->id);
 			$db->setQuery($query);
 			$row->fulltext = $db->loadResult();
 

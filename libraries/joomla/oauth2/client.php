@@ -3,12 +3,11 @@
  * @package     Joomla.Platform
  * @subpackage  OAuth2
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
-jimport('joomla.environment.response');
 
 /**
  * Joomla Platform class for interacting with an OAuth 2.0 server.

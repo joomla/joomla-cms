@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,26 +20,17 @@ class ContenthistoryControllerPreview extends JControllerLegacy
 {
 	/**
 	 * Proxy for getModel.
-	 * @since   1.6
+	 *
+	 * @param   string  $name    The name of the model
+	 * @param   string  $prefix  The prefix for the model
+	 * @param   array   $config  An additional array of parameters
+	 *
+	 * @return  JModelLegacy  The model
+	 *
+	 * @since   3.2
 	 */
 	public function getModel($name = 'Preview', $prefix = 'ContenthistoryModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, $config);
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
-
-	/**
-	 * Method to provide child classes the opportunity to process after the delete task.
-	 *
-	 * @param   JModelLegacy   $model   The model for the component
-	 * @param   mixed          $ids     array of ids deleted.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	protected function postDeleteHook(JModelLegacy $model, $ids = null)
-	{
-	}
-
 }

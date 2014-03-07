@@ -1,6 +1,6 @@
 /**
  * @package		Joomla.JavaScript
- * @copyright	Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,8 +10,9 @@
 jQuery(document).ready(function() {
 	jQuery('#helpsite-refresh').click(function()
 	{
+		// Uses global variable helpsite_base for bast uri
 		var select_id = jQuery(this).attr('rel');
-		jQuery.getJSON('index.php?option=com_config&task=application.refreshHelp&format=json', function(data){
+		jQuery.getJSON(helpsite_base + '/index.php?option=com_users&task=profile.gethelpsites&format=json', function(data){
 			// The response contains the options to use in help site select field
 			var items = [];
 

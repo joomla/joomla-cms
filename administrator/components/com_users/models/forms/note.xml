@@ -91,24 +91,28 @@
 
 		<field
 			name="created_user_id"
+			label="JGLOBAL_FIELD_CREATED_BY_LABEL"
 			type="hidden"
 			filter="unset"
 			/>
 
 		<field
 			name="created_time"
+			label="JGLOBAL_FIELD_CREATED_LABEL"
 			type="hidden"
 			filter="unset"
 			/>
 
 		<field
 			name="modified_user_id"
+			label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
 			type="hidden"
 			filter="unset"
 			/>
 
 		<field
 			name="modified_time"
+			label="JGLOBAL_FIELD_MODIFIED_LABEL"
 			type="hidden"
 			filter="unset"
 			/>
@@ -121,6 +125,16 @@
 		<field name="publish_down" type="calendar"
 			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL" description="JGLOBAL_FIELD_PUBLISH_DOWN_DESC"
 			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="22"
-			filter="user_utc" />			
+			filter="user_utc" />	
+			
+		<field 
+			name="version_note"
+			type="text"
+			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
+			description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
+			class="inputbox" size="45"
+			labelclass="control-label"
+			/>	
+	
 	</fieldset>
 </form>

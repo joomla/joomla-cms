@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -99,7 +99,7 @@ class JTableContenttype extends JTable
 	 *
 	 * @param   string  $typeAlias  Content type alias (for example, 'com_content.article').
 	 *
-	 * @return  mixed     type_id for this alias if successful, otherwise null.
+	 * @return  mixed  type_id for this alias if successful, otherwise null.
 	 *
 	 * @since   3.2
 	 */
@@ -118,7 +118,7 @@ class JTableContenttype extends JTable
 	/**
 	 * Method to get the JTable object for the content type from the table object.
 	 *
-	 * @return  mixed     JTable object on success, otherwise false.
+	 * @return  mixed  JTable object on success, otherwise false.
 	 *
 	 * @since   3.2
 	 */

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Input
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * @subpackage  Input
  * @since       11.1
  */
-class JInputCLI extends JInput
+class JInputCli extends JInput
 {
 	/**
 	 * The executable that was called to run the CLI script.

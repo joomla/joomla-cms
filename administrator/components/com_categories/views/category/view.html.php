@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,7 +34,7 @@ class CategoriesViewCategory extends JViewLegacy
 		$this->form = $this->get('Form');
 		$this->item = $this->get('Item');
 		$this->state = $this->get('State');
-		$this->canDo = CategoriesHelper::getActions($this->state->get('category.component'));
+		$this->canDo = JHelperContent::getActions($this->state->get('category.extension'), 'category', $this->item->id);
 		$this->assoc = $this->get('Assoc');
 
 		$input = JFactory::getApplication()->input;
@@ -90,19 +90,18 @@ class CategoriesViewCategory extends JViewLegacy
 		$parts = explode('.', $extension);
 		$component = $parts[0];
 		$section = (count($parts) > 1) ? $parts[1] : null;
+		$componentParams = JComponentHelper::getParams($component);
 
 		// Need to load the menu language file as mod_menu hasn't been loaded yet.
 		$lang = JFactory::getLanguage();
-		$lang->load($component, JPATH_BASE, null, false, false)
-		|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, null, false, false)
-		|| $lang->load($component, JPATH_BASE, $lang->getDefault(), false, false)
-		|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, $lang->getDefault(), false, false);
+		$lang->load($component, JPATH_BASE, null, false, true)
+		|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, null, false, true);
 
 		// Load the category helper.
 		require_once JPATH_COMPONENT . '/helpers/categories.php';
 
 		// Get the results for each action.
-		$canDo = CategoriesHelper::getActions($component, $this->item->id);
+		$canDo = $this->canDo;
 
 		// If a component categories title string is present, let's use it.
 		if ($lang->hasKey($component_title_key = $component . ($section ? "_$section" : '') . '_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE'))
@@ -124,7 +123,7 @@ class CategoriesViewCategory extends JViewLegacy
 		JHtml::_('stylesheet', $component . '/administrator/categories.css', array(), true);
 
 		// Prepare the toolbar.
-		JToolbarHelper::title($title, 'category-' . ($isNew ? 'add' : 'edit') . ' ' . substr($component, 4) . ($section ? "-$section" : '') . '-category-' . ($isNew ? 'add' : 'edit'));
+		JToolbarHelper::title($title, 'folder category-' . ($isNew ? 'add' : 'edit') . ' ' . substr($component, 4) . ($section ? "-$section" : '') . '-category-' . ($isNew ? 'add' : 'edit'));
 
 		// For new records, check the create permission.
 		if ($isNew && (count($user->getAuthorisedCategories($component, 'core.create')) > 0))
@@ -157,15 +156,13 @@ class CategoriesViewCategory extends JViewLegacy
 		}
 		else
 		{
-			JToolbarHelper::cancel('category.cancel', 'JTOOLBAR_CLOSE');
-		}
+			if ($componentParams->get('save_history', 0) && $user->authorise('core.edit'))
+			{
+				$typeAlias = $extension . '.category';
+				JToolbarHelper::versions($typeAlias, $this->item->id);
+			}
 
-		$saveHistory = JComponentHelper::getParams($input->getCmd('extension', 'com_content'))->get('save_history', 0);
-		if ($saveHistory && $user->authorise('core.edit'))
-		{
-			$itemId = $this->item->id;
-			$typeAlias = $extension . '.category';
-			JToolbarHelper::versions($typeAlias, $itemId);
+			JToolbarHelper::cancel('category.cancel', 'JTOOLBAR_CLOSE');
 		}
 
 		JToolbarHelper::divider();
@@ -190,6 +187,6 @@ class CategoriesViewCategory extends JViewLegacy
 		{
 			$url = null;
 		}
-		JToolbarHelper::help($ref_key, JComponentHelper::getParams($component)->exists('helpURL'), $url, $component);
+		JToolbarHelper::help($ref_key, $componentParams->exists('helpURL'), $url, $component);
 	}
 }
