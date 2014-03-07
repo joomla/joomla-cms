@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,7 +44,7 @@ class InstallerViewDatabase extends InstallerViewDefault
 		$this->pagination = $this->get('Pagination');
 		$this->errorCount = count($this->errors);
 
-		if (!(strncmp($this->schemaVersion, JVERSION, 5) === 0))
+		if (version_compare($this->schemaVersion, JVERSION) != 0)
 		{
 			$this->errorCount++;
 		}
@@ -52,7 +52,7 @@ class InstallerViewDatabase extends InstallerViewDefault
 		{
 			$this->errorCount++;
 		}
-		if (($this->updateVersion != JVERSION))
+		if (version_compare($this->updateVersion, JVERSION) != 0)
 		{
 			$this->errorCount++;
 		}

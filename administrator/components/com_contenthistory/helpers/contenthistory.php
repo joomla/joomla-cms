@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -93,10 +93,10 @@ class ContenthistoryHelper
 	{
 		$labels = array();
 		$values = array();
-		$expandedObjectArray = self::createObjectArray($object);
-		self::loadLanguageFiles($typesTable->type_alias);
+		$expandedObjectArray = static::createObjectArray($object);
+		static::loadLanguageFiles($typesTable->type_alias);
 
-		if ($formFile = self::getFormFile($typesTable))
+		if ($formFile = static::getFormFile($typesTable))
 		{
 			if ($xml = simplexml_load_file($formFile))
 			{
@@ -141,7 +141,7 @@ class ContenthistoryHelper
 	 *
 	 * @param   JTableContenttype  $typesTable  Table object with content history options.
 	 *
-	 * @return  mixed    JModel object if successful, false if no model found.
+	 * @return  mixed  JModel object if successful, false if no model found.
 	 *
 	 * @since   3.2
 	 */
@@ -154,9 +154,9 @@ class ContenthistoryHelper
 		// First, see if we have a file name in the $typesTable
 		$options = json_decode($typesTable->content_history_options);
 
-		if (is_object($options) && isset($options->form_file) && JFile::exists(JPATH_ROOT . '/' . $options->form_file))
+		if (is_object($options) && isset($options->formFile) && JFile::exists(JPATH_ROOT . '/' . $options->formFile))
 		{
-			$result = JPATH_ROOT . '/' . $options->form_file;
+			$result = JPATH_ROOT . '/' . $options->formFile;
 		}
 		else
 		{
@@ -180,7 +180,7 @@ class ContenthistoryHelper
 	 * @param   stdClass  $lookup  The std object with the values needed to do the query.
 	 * @param   mixed     $value   The value used to find the matching title or name. Typically the id.
 	 *
-	 * @return mixed      Value from database (for example, name or title) on success, false on failure.
+	 * @return  mixed  Value from database (for example, name or title) on success, false on failure.
 	 *
 	 * @since   3.2
 	 */
@@ -188,13 +188,13 @@ class ContenthistoryHelper
 	{
 		$result = false;
 
-		if (isset($lookup->source_column) && isset($lookup->target_table) && isset($lookup->target_column)&& isset($lookup->display_column))
+		if (isset($lookup->sourceColumn) && isset($lookup->targetTable) && isset($lookup->targetColumn)&& isset($lookup->displayColumn))
 		{
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
-			$query->select($db->quoteName($lookup->display_column))
-				->from($db->quoteName($lookup->target_table))
-				->where($db->quoteName($lookup->target_column) . ' = ' . $db->quote($value));
+			$query->select($db->quoteName($lookup->displayColumn))
+				->from($db->quoteName($lookup->targetTable))
+				->where($db->quoteName($lookup->targetColumn) . ' = ' . $db->quote($value));
 			$db->setQuery($query);
 
 			try
@@ -225,9 +225,9 @@ class ContenthistoryHelper
 	{
 		if ($options = json_decode($typeTable->content_history_options))
 		{
-			if (isset($options->hide_fields) && is_array($options->hide_fields))
+			if (isset($options->hideFields) && is_array($options->hideFields))
 			{
-				foreach ($options->hide_fields as $field)
+				foreach ($options->hideFields as $field)
 				{
 					unset($object->$field);
 				}
@@ -242,7 +242,7 @@ class ContenthistoryHelper
 	 *
 	 * @param   string  $typeAlias  The type alias, for example 'com_content.article'.
 	 *
-	 * @return  null
+	 * @return  void
 	 *
 	 * @since   3.2
 	 */
@@ -254,17 +254,16 @@ class ContenthistoryHelper
 		{
 			$component = ($aliasArray[1] == 'category') ? 'com_categories' : $aliasArray[0];
 			$lang = JFactory::getLanguage();
+
 			/**
 			 * Loading language file from the administrator/language directory then
 			 * loading language file from the administrator/components/extension/language directory
 			 */
-			$lang->load($component, JPATH_ADMINISTRATOR, null, false, false)
-			|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, false)
-			|| $lang->load($component, JPATH_ADMINISTRATOR, $lang->getDefault(), false, false)
-			|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), $lang->getDefault(), false, false);
+			$lang->load($component, JPATH_ADMINISTRATOR, null, false, true)
+			|| $lang->load($component, JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
 
 			// Force loading of back-end global language file
-			$lang->load('joomla', JPath::clean(JPATH_ADMINISTRATOR), null, false, false);
+			$lang->load('joomla', JPath::clean(JPATH_ADMINISTRATOR), null, false, true);
 		}
 	}
 
@@ -277,7 +276,7 @@ class ContenthistoryHelper
 	 * @param   stdClass  $object      The std object from the JSON string. Can be nested 1 level deep.
 	 * @param   stdClass  $formValues  Standard class of label and value in an associative array.
 	 *
-	 * @return stdClass   Object with translated labels where available
+	 * @return  stdClass  Object with translated labels where available
 	 *
 	 * @since   3.2
 	 */
@@ -318,19 +317,19 @@ class ContenthistoryHelper
 	 *
 	 * @param   JTableContenthistory  $table  Table object loaded with data.
 	 *
-	 * @return stdClass   Object ready for the views.
+	 * @return  stdClass  Object ready for the views.
 	 *
 	 * @since   3.2
 	 */
 	public static function prepareData(JTableContenthistory $table)
 	{
-		$object = self::decodeFields($table->version_data);
+		$object = static::decodeFields($table->version_data);
 		$typesTable = JTable::getInstance('Contenttype');
 		$typesTable->load(array('type_id' => $table->ucm_type_id));
-		$formValues = self::getFormValues($object, $typesTable);
-		$object = self::mergeLabels($object, $formValues);
-		$object = self::hideFields($object, $typesTable);
-		$object = self::processLookupFields($object, $typesTable);
+		$formValues = static::getFormValues($object, $typesTable);
+		$object = static::mergeLabels($object, $formValues);
+		$object = static::hideFields($object, $typesTable);
+		$object = static::processLookupFields($object, $typesTable);
 
 		return $object;
 	}
@@ -342,7 +341,7 @@ class ContenthistoryHelper
 	 * @param   stdClass           $object      The std object from the JSON string. Can be nested 1 level deep.
 	 * @param   JTableContenttype  $typesTable  Table object loaded with data.
 	 *
-	 * @return stdClass   Object with lookup values inserted.
+	 * @return  stdClass  Object with lookup values inserted.
 	 *
 	 * @since   3.2
 	 */
@@ -350,14 +349,14 @@ class ContenthistoryHelper
 	{
 		if ($options = json_decode($typesTable->content_history_options))
 		{
-			if (isset($options->display_lookup) && is_array($options->display_lookup))
+			if (isset($options->displayLookup) && is_array($options->displayLookup))
 			{
-				foreach ($options->display_lookup as $lookup)
+				foreach ($options->displayLookup as $lookup)
 				{
-					$sourceColumn = isset($lookup->source_column) ? $lookup->source_column : false;
+					$sourceColumn = isset($lookup->sourceColumn) ? $lookup->sourceColumn : false;
 					$sourceValue = isset($object->$sourceColumn->value) ? $object->$sourceColumn->value : false;
 
-					if ($sourceColumn && $sourceValue && ($lookupValue = self::getLookupValue($lookup, $sourceValue)))
+					if ($sourceColumn && $sourceValue && ($lookupValue = static::getLookupValue($lookup, $sourceValue)))
 					{
 						$object->$sourceColumn->value = $lookupValue;
 					}

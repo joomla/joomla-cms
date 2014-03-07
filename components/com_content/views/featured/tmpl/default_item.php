@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,8 @@ $info      = $this->item->params->get('info_block_position', 0);
 $microdata = JFactory::getMicrodata()->enable(true)->setType('Article');
 ?>
 
-<?php if ($this->item->state == 0) : ?>
+<?php if ($this->item->state == 0 || strtotime($this->item->publish_up) > strtotime(JFactory::getDate())
+	|| ((strtotime($this->item->publish_down) < strtotime(JFactory::getDate())) && $this->item->publish_down != '0000-00-00 00:00:00' )) : ?>
 	<div class="system-unpublished">
 <?php endif; ?>
 
@@ -35,6 +36,12 @@ $microdata = JFactory::getMicrodata()->enable(true)->setType('Article');
 
 <?php if ($this->item->state == 0) : ?>
 	<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
+<?php endif; ?>
+<?php if (strtotime($this->item->publish_up) > strtotime(JFactory::getDate())) : ?>
+	<span class="label label-warning"><?php echo JText::_('JNOTPUBLISHEDYET'); ?></span>
+<?php endif; ?>
+<?php if ((strtotime($this->item->publish_down) < strtotime(JFactory::getDate())) && $this->item->publish_down != '0000-00-00 00:00:00') : ?>
+	<span class="label label-warning"><?php echo JText::_('JEXPIRED'); ?></span>
 <?php endif; ?>
 
 <?php if ($params->get('show_print_icon') || $params->get('show_email_icon') || $canEdit) : ?>
@@ -67,12 +74,9 @@ $microdata = JFactory::getMicrodata()->enable(true)->setType('Article');
 			<dd class="createdby">
 				<?php $author = $this->item->author; ?>
 				<?php $author = ($this->item->created_by_alias ? $this->item->created_by_alias : $author); ?>
-				<?php if (!empty($this->item->contactid ) && $params->get('link_author') == true) : ?>
-					<?php
-					echo JText::sprintf('COM_CONTENT_WRITTEN_BY',
-						JHtml::_('link', JRoute::_('index.php?option=com_contact&view=contact&id='.$this->item->contactid), $microdata->content($author)->property('author')->fallback('Person', 'name')->display())
-					); ?>
-				<?php else :?>
+				<?php if (!empty($this->item->contact_link) && $params->get('link_author') == true) : ?>
+					<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $this->item->contact_link, $microdata->content($author)->property('author')->fallback('Person', 'name')->display())); ?>
+				<?php else: ?>
 					<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $microdata->content($author)->property('author')->fallback('Person', 'name')->display()); ?>
 				<?php endif; ?>
 			</dd>
@@ -158,12 +162,9 @@ $microdata = JFactory::getMicrodata()->enable(true)->setType('Article');
 				<dd class="createdby">
 					<?php $author = $this->item->author; ?>
 					<?php $author = ($this->item->created_by_alias ? $this->item->created_by_alias : $author); ?>
-					<?php if (!empty($this->item->contactid ) && $params->get('link_author') == true) : ?>
-						<?php
-						echo JText::sprintf('COM_CONTENT_WRITTEN_BY',
-							JHtml::_('link', JRoute::_('index.php?option=com_contact&view=contact&id='.$this->item->contactid), $microdata->content($author)->property('author')->fallback('Person', 'name')->display())
-						); ?>
-					<?php else : ?>
+					<?php if (!empty($this->item->contact_link) && $params->get('link_author') == true) : ?>
+						<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $this->item->contact_link, $microdata->content($author)->property('author')->fallback('Person', 'name')->display())); ?>
+					<?php else: ?>
 						<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $microdata->content($author)->property('author')->fallback('Person', 'name')->display()); ?>
 					<?php endif; ?>
 				</dd>
@@ -260,7 +261,8 @@ $microdata = JFactory::getMicrodata()->enable(true)->setType('Article');
 
 <?php endif; ?>
 
-<?php if ($this->item->state == 0) : ?>
+<?php if ($this->item->state == 0 || strtotime($this->item->publish_up) > strtotime(JFactory::getDate())
+	|| ((strtotime($this->item->publish_down) < strtotime(JFactory::getDate())) && $this->item->publish_down != '0000-00-00 00:00:00' )) : ?>
 </div>
 <?php endif; ?>
 

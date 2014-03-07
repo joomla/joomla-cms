@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,12 +32,9 @@ $microdata = JFactory::getMicrodata()->enable(true)->setType('Article');
 					<div class="createdby">
 					<?php $author = $item->author; ?>
 					<?php $author = ($item->created_by_alias ? $item->created_by_alias : $author); ?>
-						<?php if (!empty($item->contactid ) && $params->get('link_author') == true) : ?>
-							<?php echo JText::sprintf(
-							'COM_CONTENT_WRITTEN_BY',
-							JHtml::_('link', JRoute::_('index.php?option=com_contact&view=contact&id='.$item->contactid), $microdata->content($author)->property('author')->fallback('Person', 'name')->display())
-							); ?>
-						<?php else :?>
+						<?php if (!empty($item->contact_link) && $params->get('link_author') == true) : ?>
+							<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $item->contact_link, $microdata->content($author)->property('author')->fallback('Person', 'name')->display())); ?>
+						<?php else: ?>
 							<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $microdata->content($author)->property('author')->fallback('Person', 'name')->display()); ?>
 						<?php endif; ?>
 					</div>

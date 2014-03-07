@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.vote
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,12 +34,18 @@ class PlgContentVote extends JPlugin
 	 * @param   object   &$params  The article params
 	 * @param   integer  $page     The 'page' number
 	 *
-	 * @return  string  html string containing code for the votes
+	 * @return  mixed  html string containing code for the votes if in com_content else boolean false
 	 *
 	 * @since   1.6
 	 */
 	public function onContentBeforeDisplay($context, &$row, &$params, $page=0)
 	{
+		$parts = explode(".", $context);
+		if ($parts[0] != 'com_content')
+		{
+			return false;
+		}
+
 		$html = '';
 
 		if (!empty($params) && $params->get('show_vote', null))
@@ -84,21 +90,21 @@ class PlgContentVote extends JPlugin
 
 				for ($i = 1; $i < 6; $i++)
 				{
-					$options[] = JHTML::_('select.option', $i, JText::sprintf('PLG_VOTE_VOTE', $i));
+					$options[] = JHtml::_('select.option', $i, JText::sprintf('PLG_VOTE_VOTE', $i));
 				}
 
 				// Generate voting form
-				$html .= '<form method="post" action="' . htmlspecialchars($uri->toString()) . '" class="form-inline">'
-					. '<span class="content_vote">'
-					. '<label class="unseen element-invisible" for="content_vote_' . $row->id . '">' . JText::_('PLG_VOTE_LABEL') . '</label>'
-					. JHTML::_('select.genericlist', $options, 'user_rating', null, 'value', 'text', '5', 'content_vote_' . $row->id)
-					. '&#160;<input class="btn btn-mini" type="submit" name="submit_vote" value="' . JText::_('PLG_VOTE_RATE') . '" />'
-					. '<input type="hidden" name="task" value="article.vote" />'
-					. '<input type="hidden" name="hitcount" value="0" />'
-					. '<input type="hidden" name="url" value="' . htmlspecialchars($uri->toString()) . '" />'
-					. JHtml::_('form.token')
-					. '</span>'
-					. '</form>';
+				$html .= '<form method="post" action="' . htmlspecialchars($uri->toString()) . '" class="form-inline">';
+				$html .= '<span class="content_vote">';
+				$html .= '<label class="unseen element-invisible" for="content_vote_' . $row->id . '">' . JText::_('PLG_VOTE_LABEL') . '</label>';
+				$html .= JHtml::_('select.genericlist', $options, 'user_rating', null, 'value', 'text', '5', 'content_vote_' . $row->id);
+				$html .= '&#160;<input class="btn btn-mini" type="submit" name="submit_vote" value="' . JText::_('PLG_VOTE_RATE') . '" />';
+				$html .= '<input type="hidden" name="task" value="article.vote" />';
+				$html .= '<input type="hidden" name="hitcount" value="0" />';
+				$html .= '<input type="hidden" name="url" value="' . htmlspecialchars($uri->toString()) . '" />';
+				$html .= JHtml::_('form.token');
+				$html .= '</span>';
+				$html .= '</form>';
 			}
 		}
 

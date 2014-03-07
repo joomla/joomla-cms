@@ -4,14 +4,12 @@
 		<field
 			name="allowUserRegistration"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="COM_USERS_CONFIG_FIELD_ALLOWREGISTRATION_LABEL"
 			description="COM_USERS_CONFIG_FIELD_ALLOWREGISTRATION_DESC">
-			<option
-				value="0">JNO</option>
-			<option
-				value="1">JYES</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field
@@ -33,14 +31,12 @@
 		<field
 			name="sendpassword"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="COM_USERS_CONFIG_FIELD_SENDPASSWORD_LABEL"
 			description="COM_USERS_CONFIG_FIELD_SENDPASSWORD_DESC">
-			<option
-				value="0">JNO</option>
-			<option
-				value="1">JYES</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field
@@ -60,14 +56,12 @@
 		<field
 			name="mail_to_admin"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="COM_USERS_CONFIG_FIELD_MAILTOADMIN_LABEL"
 			description="COM_USERS_CONFIG_FIELD_MAILTOADMIN_DESC">
-			<option
-				value="0">JNO</option>
-			<option
-				value="1">JYES</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field
@@ -87,38 +81,32 @@
 		<field
 			name="frontend_userparams"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="1"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_USERPARAMS_LABEL"
 			description="COM_USERS_CONFIG_FIELD_FRONTEND_USERPARAMS_DESC">
-			<option
-				value="0">JHIDE</option>
-			<option
-				value="1">JSHOW</option>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 		<field
 			name="site_language"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="0"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_LANG_LABEL"
 			description="COM_USERS_CONFIG_FIELD_FRONTEND_LANG_DESC">
-			<option
-				value="0">JHIDE</option>
-			<option
-				value="1">JSHOW</option>
+			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 		<field
 			name="change_login_name"
 			type="radio"
-			class="btn-group"
+			class="btn-group btn-group-yesno"
 			default="0"
 			label="COM_USERS_CONFIG_FIELD_CHANGEUSERNAME_LABEL"
 			description="COM_USERS_CONFIG_FIELD_CHANGEUSERNAME_DESC">
-			<option
-				value="0">JNO</option>
-			<option
-				value="1">JYES</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 		<field
 			name="reset_count"
@@ -183,6 +171,32 @@
 			step="1"
 			default="0">
 			</field>
+	</fieldset>
+	
+	<fieldset
+		name="user_notes_history"
+		label="COM_USERS_CONFIG_FIELD_NOTES_HISTORY" >
+		
+			<field
+			name="save_history"
+			type="radio"
+			class="btn-group"
+			default="0"
+			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
+			description="JGLOBAL_SAVE_HISTORY_OPTIONS_DESC"
+			>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		
+		<field
+			name="history_limit"
+			type="text"
+			filter="integer"
+			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
+			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
+			default="5"
+		/>
 	</fieldset>
 
  	<fieldset

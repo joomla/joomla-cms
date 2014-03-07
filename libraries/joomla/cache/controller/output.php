@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,17 +19,26 @@ defined('JPATH_PLATFORM') or die;
 class JCacheControllerOutput extends JCacheController
 {
 	/**
-	 * @since   11.1
+	 * Cache data ID
+	 *
+	 * @var    string
+	 * @since  11.1
 	 */
 	protected $_id;
 
 	/**
-	 * @since   11.1
+	 * Cache data group
+	 *
+	 * @var    string
+	 * @since  11.1
 	 */
 	protected $_group;
 
 	/**
-	 * @since   11.1
+	 * Object to test locked state
+	 *
+	 * @var    object
+	 * @since  11.1
 	 */
 	protected $_locktest = null;
 

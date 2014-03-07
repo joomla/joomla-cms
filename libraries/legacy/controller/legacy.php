@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -634,7 +634,7 @@ class JControllerLegacy extends JObject
 		$document = JFactory::getDocument();
 		$viewType = $document->getType();
 		$viewName = $this->input->get('view', $this->default_view);
-		$viewLayout = $this->input->get('layout', 'default');
+		$viewLayout = $this->input->get('layout', 'default', 'string');
 
 		$view = $this->getView($viewName, $viewType, '', array('base_path' => $this->basePath, 'layout' => $viewLayout));
 
@@ -918,7 +918,12 @@ class JControllerLegacy extends JObject
 		if ($this->redirect)
 		{
 			$app = JFactory::getApplication();
-			$app->redirect($this->redirect, $this->message, $this->messageType);
+
+			// Enqueue the redirect message
+			$app->enqueueMessage($this->message, $this->messageType);
+
+			// Execute the redirect
+			$app->redirect($this->redirect);
 		}
 
 		return false;

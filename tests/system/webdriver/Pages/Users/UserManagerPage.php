@@ -17,6 +17,8 @@ class UserManagerPage extends AdminManagerPage
 	protected $url = 'administrator/index.php?option=com_users&view=users';
 
 	public $filters = array(
+			'Sort Table By:' => 'list_fullordering',
+			'20' => 'list_limit',
 			'State' => 'filter_state',
 			'Active' => 'filter_active',
 			'Group' => 'filter_group_id',

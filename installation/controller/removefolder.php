@@ -3,13 +3,11 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-
-jimport('joomla.filesystem.folder');
 
 /**
  * Controller class to set the FTP data for the Joomla Installer.
@@ -66,8 +64,6 @@ class InstallationControllerRemovefolder extends JControllerBase
 		if ($useFTP == true)
 		{
 			// Connect the FTP client
-			jimport('joomla.filesystem.path');
-
 			$ftp = JClientFtp::getInstance($options->ftp_host, $options->ftp_port);
 			$ftp->login($options->ftp_user, $options->ftp_pass);
 

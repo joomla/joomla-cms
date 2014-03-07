@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,17 +38,14 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 }
 ?>
 	<?php if (!$useDefList && $this->print) : ?>
-		<div id="pop-print" class="btn">
+		<div id="pop-print" class="btn hidden-print">
 			<?php echo JHtml::_('icon.print_screen', $this->item, $params); ?>
 		</div>
-		<div class="clearfix"> </div
+		<div class="clearfix"> </div>
 	<?php endif; ?>
 	<?php if ($params->get('show_title') || $params->get('show_author')) : ?>
 	<div class="page-header">
 		<h2>
-			<?php if ($this->item->state == 0) : ?>
-				<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
-			<?php endif; ?>
 			<?php if ($params->get('show_title')) : ?>
 				<?php if ($params->get('link_titles') && !empty($this->item->readmore_link)) : ?>
 					<a href="<?php echo $this->item->readmore_link; ?>" <?php echo $microdata->property('url')->display(); ?>><?php echo $microdata->content($this->escape($this->item->title))->property('name')->display(); ?></a>
@@ -57,6 +54,15 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 				<?php endif; ?>
 			<?php endif; ?>
 		</h2>
+		<?php if ($this->item->state == 0) : ?>
+			<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
+		<?php endif; ?>
+		<?php if (strtotime($this->item->publish_up) > strtotime(JFactory::getDate())) : ?>
+			<span class="label label-warning"><?php echo JText::_('JNOTPUBLISHEDYET'); ?></span>
+		<?php endif; ?>
+		<?php if ((strtotime($this->item->publish_down) < strtotime(JFactory::getDate())) && $this->item->publish_down != '0000-00-00 00:00:00') : ?>
+			<span class="label label-warning"><?php echo JText::_('JEXPIRED'); ?></span>
+		<?php endif; ?>
 	</div>
 	<?php endif; ?>
 	<?php if (!$this->print) : ?>
@@ -79,7 +85,7 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 		<?php endif; ?>
 	<?php else : ?>
 		<?php if ($useDefList) : ?>
-			<div id="pop-print" class="btn">
+			<div id="pop-print" class="btn hidden-print">
 				<?php echo JHtml::_('icon.print_screen', $this->item, $params); ?>
 			</div>
 		<?php endif; ?>
@@ -93,14 +99,8 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 			<?php if ($params->get('show_author') && !empty($this->item->author )) : ?>
 				<dd class="createdby">
 					<?php $author = $this->item->created_by_alias ? $this->item->created_by_alias : $this->item->author; ?>
-					<?php if (!empty($this->item->contactid) && $params->get('link_author') == true) : ?>
-						<?php
-						$needle = 'index.php?option=com_contact&view=contact&id=' . $this->item->contactid;
-						$menu = JFactory::getApplication()->getMenu();
-						$item = $menu->getItems('link', $needle, true);
-						$cntlink = !empty($item) ? $needle . '&Itemid=' . $item->id : $needle;
-						?>
-						<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', JRoute::_($cntlink), $microdata->content($author)->property('author')->fallback('Person', 'name')->display())); ?>
+					<?php if (!empty($this->item->contact_link) && $params->get('link_author') == true) : ?>
+						<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $this->item->contact_link, $microdata->content($author)->property('author')->fallback('Person', 'name')->display())); ?>
 					<?php else: ?>
 						<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $microdata->content($author)->property('author')->fallback('Person', 'name')->display()); ?>
 					<?php endif; ?>
@@ -200,16 +200,10 @@ if (!empty($this->item->pagination) && $this->item->pagination && !$this->item->
 				<?php if ($params->get('show_author') && !empty($this->item->author )) : ?>
 					<dd class="createdby">
 						<?php $author = $this->item->created_by_alias ? $this->item->created_by_alias : $this->item->author; ?>
-						<?php if (!empty($this->item->contactid) && $params->get('link_author') == true) : ?>
-						<?php
-						$needle = 'index.php?option=com_contact&view=contact&id=' . $this->item->contactid;
-						$menu = JFactory::getApplication()->getMenu();
-						$item = $menu->getItems('link', $needle, true);
-						$cntlink = !empty($item) ? $needle . '&Itemid=' . $item->id : $needle;
-						?>
-						<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', JRoute::_($cntlink), $microdata->content($author)->property('author')->fallback('Person', 'name')->display())); ?>
+						<?php if (!empty($this->item->contact_link) && $params->get('link_author') == true) : ?>
+							<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', JHtml::_('link', $this->item->contact_link, $microdata->content($author)->property('author')->fallback('Person', 'name')->display())); ?>
 						<?php else: ?>
-						<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $microdata->content($author)->property('author')->fallback('Person', 'name')->display()); ?>
+							<?php echo JText::sprintf('COM_CONTENT_WRITTEN_BY', $microdata->content($author)->property('author')->fallback('Person', 'name')->display()); ?>
 						<?php endif; ?>
 					</dd>
 				<?php endif; ?>

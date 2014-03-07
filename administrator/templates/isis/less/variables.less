@@ -47,13 +47,13 @@
 @sansFontFamily:        "Helvetica Neue", Helvetica, Arial, sans-serif;
 @serifFontFamily:       Georgia, "Times New Roman", Times, serif;
 @monoFontFamily:        Monaco, Menlo, Consolas, "Courier New", monospace;
-/* >>> JUI >>> */
+// > Joomla JUI
 @baseFontSize:          13px;
-/* <<< JUI <<< */
+// < Joomla JUI
 @baseFontFamily:        @sansFontFamily;
-/* >>> JUI >>> */
+// > Joomla JUI
 @baseLineHeight:        18px;
-/* <<< JUI <<< */
+// < Joomla JUI
 @altFontFamily:         @serifFontFamily;
 
 @headingsFontFamily:    inherit; // empty to use BS default, @baseFontFamily
@@ -66,9 +66,9 @@
 // Based on 14px font-size and 20px line-height
 
 @fontSizeLarge:         @baseFontSize * 1.25; // ~18px
-/* >>> JUI >>> */
+// > Joomla JUI
 @fontSizeSmall:         ceil(@baseFontSize * 0.85); // ~12px
-/* <<< JUI <<< */
+// < Joomla JUI
 @fontSizeMini:          @baseFontSize * 0.75; // ~11px
 
 @paddingLarge:          11px 19px; // 44px
@@ -93,10 +93,10 @@
 @btnBackgroundHighlight:            darken(@white, 10%);
 @btnBorder:                         #bbb;
 
-/* >>> JUI >>> */
+// > Joomla JUI
 @btnPrimaryBackground:              #2384d3;
 @btnPrimaryBackgroundHighlight:     #15497c;
-/* <<< JUI <<< */
+// < Joomla JUI
 
 @btnInfoBackground:                 #5bc0de;
 @btnInfoBackgroundHighlight:        #2f96b4;
@@ -184,9 +184,9 @@
 
 // Navbar
 // -------------------------
-/* >>> JUI >>> */
-@navbarCollapseWidth:             738px;
-/* <<< JUI <<< */
+// > Joomla JUI
+@navbarCollapseWidth:             767px;
+// < Joomla JUI
 @navbarCollapseDesktopWidth:      @navbarCollapseWidth + 1;
 
 @navbarHeight:                    40px;
@@ -204,14 +204,14 @@
 @navbarBrandColor:                @navbarLinkColor;
 
 // Inverted navbar
-/* >>> JUI >>> */
+// > Joomla JUI
 @navbarInverseBackground:                darken(@headerBackground, 10%);
 @navbarInverseBackgroundHighlight:       darken(@headerBackground, 5%);
 @navbarInverseBorder:                    darken(@headerBackground, 15%);
 
 @navbarInverseText:                      lighten(@grayLight, 25%);
 @navbarInverseLinkColor:                 lighten(@grayLight, 25%);
-/* <<< JUI <<< */
+// < Joomla JUI
 @navbarInverseLinkColorHover:            @white;
 @navbarInverseLinkColorActive:           @navbarInverseLinkColorHover;
 @navbarInverseLinkBackgroundHover:       transparent;
@@ -311,7 +311,7 @@
 @fluidGridColumnWidth768:      percentage(@gridColumnWidth768/@gridRowWidth768);
 @fluidGridGutterWidth768:      percentage(@gridGutterWidth768/@gridRowWidth768);
 
-/* >>> JUI >>> */
+// > Joomla JUI
 // Login
 // -------------------------
 @loginBackground:                 #142849;
@@ -321,4 +321,4 @@
 // -------------------------
 @headerBackground:                 #1a3867;
 @headerBackgroundHighlight:        #17568c;
-/* <<< JUI <<< */
+// < Joomla JUI

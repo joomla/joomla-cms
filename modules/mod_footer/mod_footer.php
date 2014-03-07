@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_footer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 $app		= JFactory::getApplication();
 $date		= JFactory::getDate();
-$cur_year	= $date->format('Y');
+$cur_year	= JHtml::_('date', $date, 'Y');
 $csite_name	= $app->getCfg('sitename');
 
 if (is_int(JString::strpos(JText :: _('MOD_FOOTER_LINE1'), '%date%')))

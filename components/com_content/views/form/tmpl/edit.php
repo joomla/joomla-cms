@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,7 +31,7 @@ if (!$editoroptions)
 <script type="text/javascript">
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'article.cancel' || document.formvalidator.isValid(document.id('adminForm')))
+		if (task == 'article.cancel' || document.formvalidator.isValid(document.getElementById('adminForm')))
 		{
 			<?php echo $this->form->getField('articletext')->save(); ?>
 			Joomla.submitform(task);
@@ -59,7 +59,7 @@ if (!$editoroptions)
 					<span class="icon-cancel"></span>&#160;<?php echo JText::_('JCANCEL') ?>
 				</button>
 			</div>
-			<?php if ($params->get('save_history')) : ?>
+			<?php if ($params->get('save_history', 0)) : ?>
 			<div class="btn-group">
 				<?php echo $this->form->getInput('contenthistory'); ?>
 			</div>
@@ -67,7 +67,7 @@ if (!$editoroptions)
 		</div>
 		<fieldset>
 			<ul class="nav nav-tabs">
-				<li class="active"><a href="#editor" data-toggle="tab"><?php echo JText::_('JEDITOR') ?></a></li>
+				<li class="active"><a href="#editor" data-toggle="tab"><?php echo JText::_('COM_CONTENT_ARTICLE_CONTENT') ?></a></li>
 				<?php if ($params->get('show_urls_images_frontend') ) : ?>
 				<li><a href="#images" data-toggle="tab"><?php echo JText::_('COM_CONTENT_IMAGES_AND_URLS') ?></a></li>
 				<?php endif; ?>
@@ -246,7 +246,7 @@ if (!$editoroptions)
 							<?php echo $this->form->getInput('tags'); ?>
 						</div>
 					</div>
-					<?php if ($params->get('save_history')) : ?>
+					<?php if ($params->get('save_history', 0)) : ?>
 					<div class="control-group">
 						<div class="control-label">
 							<?php echo $this->form->getLabel('version_note'); ?>

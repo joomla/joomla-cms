@@ -3,17 +3,18 @@
  * @package     Joomla.Plugin
  * @subpackage  System.cache
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * Joomla! Page Cache Plugin
+ * Joomla! Page Cache Plugin.
  *
  * @package     Joomla.Plugin
  * @subpackage  System.cache
+ * @since       1.5
  */
 class PlgSystemCache extends JPlugin
 {
@@ -23,18 +24,18 @@ class PlgSystemCache extends JPlugin
 	var $_cache_key	= null;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
-	 * @access	protected
-	 * @param   object	$subject The object to observe
-	 * @param   array  $config  An array that holds the plugin configuration
-	 * @since   1.0
+	 * @param   object  &$subject  The object to observe.
+	 * @param   array   $config    An optional associative array of configuration settings.
+	 *
+	 * @since   1.5
 	 */
 	function __construct(& $subject, $config)
 	{
 		parent::__construct($subject, $config);
 
-		//Set the language in the class
+		// Set the language in the class.
 		$options = array(
 			'defaultgroup'	=> 'page',
 			'browsercache'	=> $this->params->get('browsercache', false),
@@ -46,13 +47,16 @@ class PlgSystemCache extends JPlugin
 	}
 
 	/**
-	* Converting the site URL to fit to the HTTP request
-	*
-	*/
+	 * Converting the site URL to fit to the HTTP request.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.5
+	 */
 	function onAfterInitialise()
 	{
 		global $_PROFILER;
-		
+
 		$app  = JFactory::getApplication();
 		$user = JFactory::getUser();
 
@@ -75,10 +79,10 @@ class PlgSystemCache extends JPlugin
 
 		if ($data !== false)
 		{
-			// Set cached body
-			JResponse::setBody($data);
-			
-			echo JResponse::toString($app->getCfg('gzip'));
+			// Set cached body.
+			$app->setBody($data);
+
+			echo $app->toString($app->getCfg('gzip'));
 
 			if (JDEBUG)
 			{
@@ -89,6 +93,13 @@ class PlgSystemCache extends JPlugin
 		}
 	}
 
+	/**
+	 * After render.
+	 *
+	 * @return   void
+	 *
+	 * @since   1.5
+	 */
 	function onAfterRender()
 	{
 		$app = JFactory::getApplication();
@@ -97,7 +108,7 @@ class PlgSystemCache extends JPlugin
 		{
 			return;
 		}
-		
+
 		if (count($app->getMessageQueue()))
 		{
 			return;
@@ -106,7 +117,7 @@ class PlgSystemCache extends JPlugin
 		$user = JFactory::getUser();
 		if ($user->get('guest'))
 		{
-			// We need to check again here, because auto-login plugins have not been fired before the first aid check
+			// We need to check again here, because auto-login plugins have not been fired before the first aid check.
 			$this->_cache->store(null, $this->_cache_key);
 		}
 	}

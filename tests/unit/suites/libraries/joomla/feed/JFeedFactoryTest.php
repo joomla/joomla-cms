@@ -30,7 +30,6 @@ class JFeedFactoryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers             JFeedFactory::getFeed
 	 * @expectedException  RuntimeException
 	 * @since              12.3
 	 */
@@ -45,7 +44,6 @@ class JFeedFactoryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers             JFeedFactory::getFeed
 	 * @expectedException  LogicException
 	 * @since              12.3
 	 */
@@ -59,7 +57,6 @@ class JFeedFactoryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers             JFeedFactory::getFeed
 	 * @expectedException  RuntimeException
 	 * @since              3.1
 	 */
@@ -74,7 +71,6 @@ class JFeedFactoryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedFactory::getFeed
 	 * @since   12.3
 	 */
 	public function testGetFeedMockParser()
@@ -91,7 +87,6 @@ class JFeedFactoryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedFactory::getFeed
 	 * @since   12.3
 	 */
 	public function testGetFeed()
@@ -104,7 +99,6 @@ class JFeedFactoryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedFactory::registerParser
 	 * @since   12.3
 	 */
 	public function testRegisterParser()
@@ -121,7 +115,6 @@ class JFeedFactoryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers             JFeedFactory::registerParser
 	 * @expectedException  InvalidArgumentException
 	 * @since              12.3
 	 */
@@ -139,7 +132,6 @@ class JFeedFactoryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers             JFeedFactory::registerParser
 	 * @expectedException  InvalidArgumentException
 	 * @since              12.3
 	 */
@@ -157,7 +149,6 @@ class JFeedFactoryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers  JFeedFactory::_fetchFeedParser
 	 * @since   12.3
 	 */
 	public function test_fetchFeedParser()
@@ -174,13 +165,12 @@ class JFeedFactoryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @covers             JFeedFactory::_fetchFeedParser
 	 * @expectedException  LogicException
 	 * @since              12.3
 	 */
 	public function test_fetchFeedParserWithInvalidTag()
 	{
-		$parser = TestReflection::invoke($this->_instance, '_fetchFeedParser', 'foobar', new XMLReader);
+		TestReflection::invoke($this->_instance, '_fetchFeedParser', 'foobar', new XMLReader);
 	}
 
 	/**

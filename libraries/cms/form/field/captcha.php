@@ -26,6 +26,51 @@ class JFormFieldCaptcha extends JFormField
 	protected $type = 'Captcha';
 
 	/**
+	 * Method to get certain otherwise inaccessible properties from the form field object.
+	 *
+	 * @param   string  $name  The property name for which to the the value.
+	 *
+	 * @return  mixed  The property value or null.
+	 *
+	 * @since   3.2
+	 */
+	public function __get($name)
+	{
+		switch ($name)
+		{
+			case 'plugin':
+			case 'namespace':
+				return $this->$name;
+		}
+
+		return parent::__get($name);
+	}
+
+	/**
+	 * Method to set certain otherwise inaccessible properties of the form field object.
+	 *
+	 * @param   string  $name   The property name for which to the the value.
+	 * @param   mixed   $value  The value of the property.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 */
+	public function __set($name, $value)
+	{
+		switch ($name)
+		{
+			case 'plugin':
+			case 'namespace':
+				$this->$name = (string) $value;
+				break;
+
+			default:
+				parent::__set($name, $value);
+		}
+	}
+
+	/**
 	 * Method to attach a JForm object to the field.
 	 *
 	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
@@ -45,6 +90,9 @@ class JFormFieldCaptcha extends JFormField
 		$plugin = $this->element['plugin'] ?
 			(string) $this->element['plugin'] :
 			JFactory::getApplication()->getParams()->get('captcha', JFactory::getConfig()->get('captcha'));
+
+		$this->plugin = $plugin;
+
 		if ($plugin === 0 || $plugin === '0' || $plugin === '' || $plugin === null)
 		{
 			$this->hidden = true;
@@ -54,12 +102,14 @@ class JFormFieldCaptcha extends JFormField
 			// Force field to be required. There's no reason to have a captcha if it is not required.
 			// Obs: Don't put required="required" in the xml file, you just need to have validate="captcha"
 			$this->required = true;
-			$class = $this->element['class'];
-			if (strpos($class, 'required') === false)
+
+			if (strpos($this->class, 'required') === false)
 			{
-				$this->element['class'] = $class . ' required';
+				$this->class = $this->class . ' required';
 			}
 		}
+
+		$this->namespace = $this->element['namespace'] ? (string) $this->element['namespace'] : $this->form->getName();
 
 		return $result;
 	}
@@ -73,24 +123,18 @@ class JFormFieldCaptcha extends JFormField
 	 */
 	protected function getInput()
 	{
-		$class     = $this->element['class'] ? (string) $this->element['class'] : '';
-		$plugin    = $this->element['plugin'] ? (string) $this->element['plugin'] : JFactory::getApplication()->getParams()->get('captcha', JFactory::getConfig()->get('captcha'));
-		$namespace = $this->element['namespace'] ? (string) $this->element['namespace'] : $this->form->getName();
-
-		// Use 0 for none
-		if ($plugin === 0 || $plugin === '0' || $plugin === '' || $plugin === null)
+		if ($this->hidden)
 		{
 			return '';
 		}
 		else
 		{
-
-			if (($captcha = JCaptcha::getInstance($plugin, array('namespace' => $namespace))) == null)
+			if (($captcha = JCaptcha::getInstance($this->plugin, array('namespace' => $this->namespace))) == null)
 			{
 				return '';
 			}
 		}
 
-		return $captcha->display($this->name, $this->id, $class);
+		return $captcha->display($this->name, $this->id, $this->class);
 	}
 }
