@@ -794,4 +794,3 @@ abstract class JFactory
 		return $retval;
 	}
 }
-
