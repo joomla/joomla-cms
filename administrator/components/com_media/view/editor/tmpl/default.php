@@ -97,7 +97,27 @@ JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
 				$('#adminForm input').val('');
 			};
 
+
+			// Functions for automatic calculate when resizing
+			$('#resize-height').bind('keyup mouseup', function()
+			{
+				var currentWidth = $("#current-width").val();
+				var currentHeight = $("#current-height").val();
+				$("#resize-width").val(Math.round(($(this).val()/currentHeight) * currentWidth));					    
+			});
+
+			$('#resize-width').bind('keyup mouseup', function()
+			{
+				var currentWidth = $("#current-width").val();
+				var currentHeight = $("#current-height").val();
+				$("#resize-height").val(Math.round(($(this).val()/currentWidth) * currentHeight));					    
+			});
+
 	});
+
+
+	
+	
 </script>
 <style>
 
@@ -227,17 +247,21 @@ JHtml::_('stylesheet', 'system/jquery.Jcrop.min.css', array(), true);
 						title="<?php echo JHtml::tooltipText('COM_MEDIA_EDITOR_IMAGE_HEIGHT'); ?>"><?php echo JText::_('COM_MEDIA_EDITOR_IMAGE_HEIGHT')?>
 					</label>
 					<div class="controls">
-						<input class="input-xlarge" type="number" name="height"
-							placeholder="<?php echo $this->image['height']; ?> px" required />
+						<input class="span3" type="number" name="height" id="resize-height"
+							placeholder="<?php echo $this->image['height']; ?> " value="<?php echo $this->image['height']; ?> " required />
+						<span class="help-inline">px</span>
 					</div>
 					<br /> <label for="width" class="control-label hasTooltip"
 						title="<?php echo JHtml::tooltipText('COM_MEDIA_EDITOR_IMAGE_WIDTH'); ?>"><?php echo JText::_('COM_MEDIA_EDITOR_IMAGE_WIDTH')?>
 					</label>
 					<div class="controls">
-						<input class="input-xlarge" type="number" name="width"
-							placeholder="<?php echo $this->image['width']; ?> px" required />
+						<input class="span3" type="number" name="width" id="resize-width"
+							placeholder="<?php echo $this->image['height']; ?> " value="<?php echo $this->image['width']; ?> " required />
+						<span class="help-inline">px</span>
 					</div>
 				</div>
+			<input type="hidden" id="current-height" value="<?php echo $this->image['height']; ?>" />	
+			<input type="hidden" id="current-width" value="<?php echo $this->image['width']; ?>" />
 			</div>
 		</div>
 		<div class="modal-footer">
