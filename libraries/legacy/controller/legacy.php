@@ -420,7 +420,6 @@ class JControllerLegacy extends JObject
 		else
 		{
 			$this->setPath('view', $this->basePath . '/views');
-			$this->setPath('view', $this->basePath . '/view');
 		}
 
 		// Set the default view.
@@ -600,7 +599,12 @@ class JControllerLegacy extends JObject
 		$viewType = preg_replace('/[^A-Z0-9_]/i', '', $type);
 
 		// Build the view class name
-		$viewClass = $classPrefix . $viewName;
+		$viewClass = $classPrefix . ucfirst($viewName) . ucfirst($type);
+
+		if (!class_exists($viewClass))
+		{
+			$viewClass = $classPrefix . $viewName;
+		}
 
 		if (!class_exists($viewClass))
 		{
@@ -855,7 +859,7 @@ class JControllerLegacy extends JObject
 
 		if (empty($prefix))
 		{
-			$prefix = $this->getName() . 'View';
+			$prefix = ucfirst($this->getName()) . 'View';
 		}
 
 		if (empty($views[$name]))
