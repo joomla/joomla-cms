@@ -409,7 +409,6 @@ class JControllerLegacy extends JObject
 		else
 		{
 			$this->addModelPath($this->basePath . '/models', $this->model_prefix);
-			$this->addModelPath($this->basePath . '/model', $this->model_prefix);
 		}
 
 		// Set the default view search path
@@ -561,6 +560,13 @@ class JControllerLegacy extends JObject
 		// Clean the model name
 		$modelName = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$classPrefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
+
+		$className = ucfirst($classPrefix) . ucfirst(strtolower($modelName));
+
+		if (class_exists($className))
+		{
+			return new $className($config);
+		}
 
 		$result = JModelLegacy::getInstance($modelName, $classPrefix, $config);
 
