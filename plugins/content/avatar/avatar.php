@@ -83,6 +83,7 @@ Class PlgContentAvatar extends JPlugin
         $grav_url = $avatar . $hashedemail . '?d=' . $selection . '&s=' . $size;
         $style = $this->params->get('style', '');
         $alignment = $this->params->get('alignment', '');
+        
         // Show the Image
         $html[] = '<div class="avatar">';
         $html[] = JHtml::_('image', $grav_url, JText::_('PLG_CONTENT_AVATAR'), 'class = "img-avatar hasPopover' . ' ' . $style . ' ' . $alignment . ' " ', true);
@@ -91,7 +92,6 @@ Class PlgContentAvatar extends JPlugin
         // Perform the operation only if the show profile is selected
         if ($this->params->get('show_profileinfo') == '1') 
         {
-            
             // Get the HTTP object to reference Profile information
             $response_profile = $http->get($gravatar_profile . $hashedemail . '.php');
             
@@ -109,34 +109,38 @@ Class PlgContentAvatar extends JPlugin
                     $str = file_get_contents($gravatar_profile . $hashedemail . '.php');
                     $profile = unserialize($str);
                 }
+                
                 // If the profile is not null
                 if (is_array($profile) && isset($profile['entry'])) 
                 {
-                    
                     // If Name Exists
                     if (isset($profile['entry'][0]['displayName'])) 
                     {
                         $namedef = '<dt>' . JText::_('PLG_CONTENT_AVATAR_MY_NAME') . '</dt>';
                         $name = $profile['entry'][0]['displayName']; 
                     }
+                    
                     // If about me Exists
                     if (isset($profile['entry'][0]['aboutMe'])) 
                     {
                         $about_me_def = '<dt>' . JText::_('PLG_CONTENT_AVATAR_ABOUT_ME') . '</dt>'; 
                         $about_me = $profile['entry'][0]['aboutMe'];
                     }
+                    
                     // If the current Location exist
                     if (isset($profile['entry'][0]['currentLocation'])) 
                     {
                         $current_location_def = '<dt>' . JText::_('PLG_CONTENT_AVATAR_CURRENT_LOCATION') . '</dt>'; 
                         $current_location = $profile['entry'][0]['currentLocation'];
                     }
+                    
                     // If the Email exists
                     if (isset($profile['entry'][0]['emails'])) 
                     {
                         $myemaildef='<dt>' . JText::_('PLG_CONTENT_AVATAR_MY_PUBLIC_EMAIL') . '</dt>';
                         $myemail = $profile['entry'][0]['emails'][0]['value'];
                     }
+                    
                     // If IM accounts exist
                     if (isset($profile['entry'][0]['ims'])) 
                     { 
@@ -148,6 +152,7 @@ Class PlgContentAvatar extends JPlugin
                                 $im_accounts_id.= '<dt>'. $ims['type'] . '</dt>' . '<dd>' . $ims['value'] . '</dd>';
                         }
                     }
+                    
                     // If Verified accounts exist
                     if (isset($profile['entry'][0]['accounts'])) 
                     {
@@ -160,6 +165,7 @@ Class PlgContentAvatar extends JPlugin
                                 $verified_accountdetails.= '<dd>' . '<a href="' . '' . $verified_account['url'] .'">' . $verified_account['display']. '</a>' . '</dd>';
                         }
                     }
+                    
                     // If phone numbers exist
                     if (isset($profile['entry'][0]['phoneNumbers'])) 
                     {
@@ -172,6 +178,7 @@ Class PlgContentAvatar extends JPlugin
                                 $contact_numbers.= '<dt>' . $phone_number['type']. '</dt>' . ' ' .'<dd>' . $phone_number['value'] . '</dd>';
                         }
                     }
+                    
                     // If blogs Exist
                     if (isset($profile['entry'][0]['urls'])) 
                     {
