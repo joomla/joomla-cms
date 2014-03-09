@@ -43,8 +43,12 @@ class FinderController extends JControllerLegacy
 		$viewName = $input->get('view', 'search', 'word');
 		$input->set('view', $viewName);
 
-		// Don't cache view for search queries
-		if ($input->get('q') || $input->get('f') || $input->get('t'))
+		/* Don't cache view for search queries
+		 * The last condition must explicitly force the filter type 'array', 
+		 * because the default filter type is 'string', which makes JFilter::get() 
+		 * fail to check for 't' (is array) as its default filter type applied is 'cmd'.
+		 */
+		if ($input->get('q', null, 'string') || $input->get('f', null, 'int') || $input->get('t', null, 'array'))
 		{
 			$cachable = false;
 		}
