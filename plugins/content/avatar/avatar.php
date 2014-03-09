@@ -129,7 +129,7 @@ Class PlgContentAvatar extends JPlugin
                     if (isset($profile['entry'][0]['aboutMe'])) 
                     {
                         $aboutme = '<dt>' . JText::_('PLG_CONTENT_AVATAR_ABOUT_ME') . '</dt>'; 
-                        $aboutme.= '<dd>' .$profile['entry'][0]['aboutMe'] . '</dd>';
+                        $aboutme.= '<dd>' . $profile['entry'][0]['aboutMe'] . '</dd>';
                     }
                     
                     // If the current Location exist
@@ -190,7 +190,7 @@ Class PlgContentAvatar extends JPlugin
                         
                         foreach ($blogs as $blog) 
                         {
-                                $blogdetails.= '<dt>'.$blog['title'] . '</dt>' .'<dd>' . '<a href="'.''.$blog['value'].'">' . $blog['value']. '</a>' . '</dd>';
+                                $blogdetails.= '<dt>' . $blog['title'] . '</dt>' . '<dd>' . '<a href="' . '' . $blog['value'] . '">' . $blog['value'] . '</a>' . '</dd>';
                         }
                     }
                     
