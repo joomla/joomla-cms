@@ -1126,8 +1126,8 @@ class FinderModelSearch extends JModelList
 		$this->setState('list.start', $input->get('limitstart', 0, 'uint'));
 		$this->setState('list.limit', $input->get('limit', $app->getCfg('list_limit', 20), 'uint'));
 
-		// Load the sort ordering.
-		$order = $params->get('sort_order', 'relevance');
+		// Load the sort ordering allowing the user to pass in a field name to order by or fall back to component parameter.
+		$order = $input->getWord('order', $params->get('sort_order', 'relevance'));
 		switch ($order)
 		{
 			case 'date':
@@ -1142,13 +1142,17 @@ class FinderModelSearch extends JModelList
 				$this->setState('list.ordering', 'm.weight');
 				break;
 
+			case 'title':
+				$this->setState('list.ordering', 'l.title');
+				break;
+
 			default:
 				$this->setState('list.ordering', 'l.link_id');
 				break;
 		}
 
-		// Load the sort direction.
-		$dirn = $params->get('sort_direction', 'desc');
+		// Load the sort direction allowing the user to pass in a direction or fall back to component parameter.
+		$dirn = $input->getWord('dir', $params->get('sort_direction', 'desc'));
 		switch ($dirn)
 		{
 			case 'asc':
