@@ -1082,7 +1082,7 @@ class FinderModelSearch extends JModelList
 		$options = array();
 
 		// Get the empty query setting.
-		$options['empty']    = $params->getInt('allow_empty_query', 0);
+		$options['empty']    = $params->get('allow_empty_query', 0);
 
 		// Get the static taxonomy filters.
 		$options['filter']   = $request->getInt('f', $params->get('f', ''));
