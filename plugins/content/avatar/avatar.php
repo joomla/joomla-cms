@@ -1,12 +1,12 @@
 <?php
 /**
- * @package     Joomla.Plugin
- * @subpackage  Content.joomla
+ * @package    Joomla.Plugin
+ * @subpackage Content.joomla
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-// Stopping Unauthorized access 
+
 defined('_JEXEC') or die; 
 
 /**
@@ -228,17 +228,17 @@ Class PlgContentAvatar extends JPlugin
                     // Select the element which has HasPopOver id or class and set it up for the Pop Over
                     $html[] = JHtmlBootstrap::popover(
                         '.hasPopover', array('animation'=>true, 'trigger'=>'click', 'placement'=>'right', 'container'=>'body', 'html'=> true, 'content'=>
-                                '<div class="avatar well">' .
-                                '<dl>' . $name
-                                       . $myemail 
-                                       . $imaccounts  
-                                       . $contactnumbers 
-                                       . $aboutme
-                                       . $currentlocation  
-                                       . $blogdetails 
-                                       . $verifiedaccount .
-                                '</dl>'.
-                                '</div>')
+                        '<div class="avatar well">' .
+                        '<dl>' . $name
+                               . $myemail 
+                               . $imaccounts  
+                               . $contactnumbers 
+                               . $aboutme
+                               . $currentlocation  
+                               . $blogdetails 
+                               . $verifiedaccount .
+                        '</dl>'.
+                        '</div>')
                     );
                                 $doc = JFactory::getDocument();
                                 JHtml::_('jquery.framework', false);
