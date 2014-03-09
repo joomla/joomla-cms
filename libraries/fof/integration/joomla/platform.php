@@ -531,13 +531,15 @@ class FOFIntegrationJoomlaPlatform extends FOFPlatform implements FOFPlatformInt
 	 *
 	 * @see FOFPlatformInterface::runPlugins()
 	 *
-	 * @return  array  A simple array containing the resutls of the plugins triggered
+	 * @return  array  A simple array containing the results of the plugins triggered
 	 */
 	public function runPlugins($event, $data)
 	{
 		if (!$this->isCli())
 		{
-			$dispatcher = FOFUtilsObservableDispatcher::getInstance();
+			// IMPORTANT: DO NOT REPLACE THIS INSTANCE OF JDispatcher WITH ANYTHING ELSE. WE NEED JOOMLA!'S PLUGIN EVENT
+			// DISPATCHER HERE, NOT OUR GENERIC EVENTS DISPATCHER
+			$dispatcher = JDispatcher::getInstance();
 
 			return $dispatcher->trigger($event, $data);
 		}
@@ -857,7 +859,7 @@ class FOFIntegrationJoomlaPlatform extends FOFPlatform implements FOFPlatformInt
 	 * Logs a deprecated practice. In Joomla! this results in the $message being output in the
 	 * deprecated log file, found in your site's log directory.
 	 *
-	 * @param   $message  The deprecated practice log message
+	 * @param   string  $message  The deprecated practice log message
 	 *
 	 * @return  void
 	 */

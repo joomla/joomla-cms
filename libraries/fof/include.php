@@ -12,7 +12,7 @@ defined('_JEXEC') or die();
 
 if (!defined('FOF_INCLUDED'))
 {
-    define('FOF_INCLUDED', '2.2.0');
+    define('FOF_INCLUDED', '2.2.1');
 
 	// Register the FOF autoloader
     require_once __DIR__ . '/autoloader/fof.php';

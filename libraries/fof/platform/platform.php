@@ -527,7 +527,7 @@ abstract class FOFPlatform implements FOFPlatformInterface
 	 *
 	 * @see FOFPlatformInterface::runPlugins()
 	 *
-	 * @return  array  A simple array containing the resutls of the plugins triggered
+	 * @return  array  A simple array containing the results of the plugins triggered
 	 */
 	public function runPlugins($event, $data)
 	{
