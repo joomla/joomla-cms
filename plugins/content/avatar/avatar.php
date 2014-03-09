@@ -66,16 +66,15 @@ Class PlgContentAvatar extends JPlugin
      * @var   string
      * @since 3.2
      */
-        
         protected $secureprofile = 'https://secure.gravatar.com/';
      
     /**
      * This function gets triggered before rendering content element
      *
-     * @param type $context    The context of the content being passed to the plugin.
-     * @param type &$row       The article object.
-     * @param type &$params    The article params.
-     * @param type $limitstart An integer that determines the "page" of the content that is to be generated.
+     * @param string  $context    The context of the content being passed to the plugin.
+     * @param object  &$row       The article object.
+     * @param object  &$params    The article params.
+     * @param integer $limitstart An integer that determines the "page" of the content that is to be generated.
      * 
      * @return type string in the front end 
      * 
