@@ -121,11 +121,14 @@ abstract class JHtmlBehavior
 			return;
 		}
 
+		// Include MooTools framework
+		static::framework();
+
+		// Include jQuery Framework
+		JHtml::_('jquery.framework');
+
 		// Add validate.js language strings
 		JText::script('JLIB_FORM_FIELD_INVALID');
-
-		// Include MooTools More framework
-		static::framework('more');
 
 		JHtml::_('script', 'system/punycode.js', false, true);
 		JHtml::_('script', 'system/validate.js', false, true);
