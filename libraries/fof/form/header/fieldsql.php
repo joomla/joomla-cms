@@ -2,11 +2,11 @@
 /**
  * @package    FrameworkOnFramework
  * @subpackage form
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @copyright  Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 /**
  * Generic field header, with drop down filters based on a SQL query
@@ -32,7 +32,7 @@ class FOFFormHeaderFieldsql extends FOFFormHeaderFieldselectable
 		$query     = (string) $this->element['query'];
 
 		// Get the database object.
-		$db = JFactory::getDBO();
+		$db = FOFPlatform::getInstance()->getDbo();
 
 		// Set the query and get the result list.
 		$db->setQuery($query);

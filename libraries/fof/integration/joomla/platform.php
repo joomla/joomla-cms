@@ -2,11 +2,11 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  platform
- * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 /**
  * Part of the FOF Platform Abstraction Layer.
@@ -16,9 +16,48 @@ defined('_JEXEC') or die;
  * @package  FrameworkOnFramework
  * @since    2.1
  */
-class FOFPlatformJoomla extends FOFPlatform implements FOFPlatformInterface
+class FOFIntegrationJoomlaPlatform extends FOFPlatform implements FOFPlatformInterface
 {
+	/**
+	 * The table and table field cache object, used to speed up database access
+	 *
+	 * @var  JRegistry|null
+	 */
 	private $_cache = null;
+
+	/**
+	 * Public constructor
+	 */
+	public function __construct()
+	{
+		$this->name = 'joomla';
+		$this->humanReadableName = 'Joomla!';
+		$this->version = defined('JVERSION') ? JVERSION : '0.0';
+	}
+
+    /**
+     * Checks if the current script is run inside a valid CMS execution
+     *
+     * @see FOFPlatformInterface::checkExecution()
+     *
+     * @return bool
+     */
+    public function checkExecution()
+    {
+        return defined('_JEXEC');
+    }
+
+    public function raiseError($code, $message)
+    {
+        if (version_compare($this->version, '3.0', 'ge'))
+        {
+            throw new Exception($message, $code);
+        }
+        else
+        {
+            return JError::raiseError($code, $message);
+        }
+    }
 
 	/**
 	 * Is this platform enabled?
@@ -114,6 +153,24 @@ class FOFPlatformJoomla extends FOFPlatform implements FOFPlatformInterface
 
 		return array($isCLI, $isAdmin);
 	}
+
+    /**
+     * Returns absolute path to directories used by the CMS.
+     *
+     * @see FOFPlatformInterface::getPlatformBaseDirs()
+     *
+     * @return  array  A hash array with keys root, public, admin, tmp and log.
+     */
+    public function getPlatformBaseDirs()
+    {
+        return array(
+            'root'   => JPATH_ROOT,
+            'public' => JPATH_SITE,
+            'admin'  => JPATH_ADMINISTRATOR,
+            'tmp'    => JFactory::getConfig()->get('tmp_dir'),
+            'log'    => JFactory::getConfig()->get('log_dir')
+        );
+    }
 
 	/**
 	 * Returns the base (root) directories for a given component.
@@ -358,6 +415,37 @@ class FOFPlatformJoomla extends FOFPlatform implements FOFPlatformInterface
 		return $document;
 	}
 
+    /**
+     * Returns an object to handle dates
+     *
+     * @param   mixed   $time       The initial time
+     * @param   null    $tzOffest   The timezone offset
+     * @param   bool    $locale     Should I try to load a specific class for current language?
+     *
+     * @return  JDate object
+     */
+    public function getDate($time = 'now', $tzOffest = null, $locale = true)
+    {
+        if($locale)
+        {
+            return JFactory::getDate($time, $tzOffest);
+        }
+        else
+        {
+            return new JDate($time, $tzOffest);
+        }
+    }
+
+    public function getLanguage()
+    {
+        return JFactory::getLanguage();
+    }
+
+    public function getDbo()
+    {
+        return JFactory::getDbo();
+    }
+
 	/**
 	 * This method will try retrieving a variable from the request (input) data.
 	 *
@@ -429,6 +517,7 @@ class FOFPlatformJoomla extends FOFPlatform implements FOFPlatformInterface
 	{
 		if (!$this->isCli())
 		{
+            JLoader::import('joomla.plugin.helper');
 			JPluginHelper::importPlugin($type);
 		}
 	}
@@ -448,7 +537,7 @@ class FOFPlatformJoomla extends FOFPlatform implements FOFPlatformInterface
 	{
 		if (!$this->isCli())
 		{
-			$dispatcher = JDispatcher::getInstance();
+			$dispatcher = FOFUtilsObservableDispatcher::getInstance();
 
 			return $dispatcher->trigger($event, $data);
 		}
@@ -602,18 +691,17 @@ class FOFPlatformJoomla extends FOFPlatform implements FOFPlatformInterface
 			if ($data === false)
 			{
 				// Find the path to the file
-				$cachePath = JPATH_CACHE . '/fof';
-				$filename  = $cachePath . '/cache.php';
-
-				JLoader::import('joomla.filesystem.file');
+				$cachePath  = JPATH_CACHE . '/fof';
+				$filename   = $cachePath . '/cache.php';
+                $filesystem = $this->getIntegrationObject('filesystem');
 
 				// Load the cache file if it exists. JRegistryFormatPHP fails
 				// miserably, so I have to work around it.
-				if (JFile::exists($filename))
+				if ($filesystem->fileExists($filename))
 				{
 					@include_once $filename;
 
-					JFile::delete($filename);
+					$filesystem->fileDelete($filename);
 
 					$className = 'FOFCacheStorage';
 
@@ -668,6 +756,11 @@ class FOFPlatformJoomla extends FOFPlatform implements FOFPlatformInterface
 		$cache->store($false, 'cache', 'fof');
 	}
 
+    public function getConfig()
+    {
+        return JFactory::getConfig();
+    }
+
 	/**
 	 * logs in a user
 	 *
@@ -681,6 +774,46 @@ class FOFPlatformJoomla extends FOFPlatform implements FOFPlatformInterface
 		$options = array('remember'		 => false);
 		$authenticate = JAuthentication::getInstance();
 		$response = $authenticate->authenticate($authInfo, $options);
+
+        // User failed to authenticate: maybe he enabled two factor authentication?
+        // Let's try again "manually", skipping the check vs two factor auth
+        // Due the big mess with encryption algorithms and libraries, we are doing this extra check only
+        // if we're in Joomla 2.5.18+ or 3.2.1+
+        if($response->status != JAuthentication::STATUS_SUCCESS && method_exists('JUserHelper', 'verifyPassword'))
+        {
+            $db    = JFactory::getDbo();
+            $query = $db->getQuery(true)
+                        ->select('id, password')
+                        ->from('#__users')
+                        ->where('username=' . $db->quote($authInfo['username']));
+            $result = $db->setQuery($query)->loadObject();
+
+            if ($result)
+            {
+
+                $match = JUserHelper::verifyPassword($authInfo['password'], $result->password, $result->id);
+
+                if ($match === true)
+                {
+                    // Bring this in line with the rest of the system
+                    $user = JUser::getInstance($result->id);
+                    $response->email = $user->email;
+                    $response->fullname = $user->name;
+
+                    if (JFactory::getApplication()->isAdmin())
+                    {
+                        $response->language = $user->getParam('admin_language');
+                    }
+                    else
+                    {
+                        $response->language = $user->getParam('language');
+                    }
+
+                    $response->status = JAuthentication::STATUS_SUCCESS;
+                    $response->error_message = '';
+                }
+            }
+        }
 
 		if ($response->status == JAuthentication::STATUS_SUCCESS)
 		{
@@ -715,6 +848,11 @@ class FOFPlatformJoomla extends FOFPlatform implements FOFPlatformInterface
 		return $app->triggerEvent('onLogoutUser', array($parameters, $options));
 	}
 
+    public function logAddLogger($file)
+    {
+        JLog::addLogger(array('text_file' => $file), JLog::ALL, array('fof'));
+    }
+
 	/**
 	 * Logs a deprecated practice. In Joomla! this results in the $message being output in the
 	 * deprecated log file, found in your site's log directory.
@@ -727,4 +865,58 @@ class FOFPlatformJoomla extends FOFPlatform implements FOFPlatformInterface
 	{
 		JLog::add($message, JLog::WARNING, 'deprecated');
 	}
+
+    public function logDebug($message)
+    {
+        JLog::add($message, JLog::DEBUG, 'fof');
+    }
+
+    /**
+     * Returns the root URI for the request.
+     *
+     * @param   boolean  $pathonly  If false, prepend the scheme, host and port information. Default is false.
+     * @param   string   $path      The path
+     *
+     * @return  string  The root URI string.
+     */
+    public function URIroot($pathonly = false, $path = null)
+    {
+        JLoader::import('joomla.environment.uri');
+
+        return JUri::root($pathonly, $path);
+    }
+
+    /**
+     * Returns the base URI for the request.
+     *
+     * @param   boolean  $pathonly  If false, prepend the scheme, host and port information. Default is false.
+     * |
+     * @return  string  The base URI string
+     */
+    public function URIbase($pathonly = false)
+    {
+        JLoader::import('joomla.environment.uri');
+
+        return JUri::base($pathonly);
+    }
+
+    /**
+     * Method to set a response header.  If the replace flag is set then all headers
+     * with the given name will be replaced by the new one (only if the current platform supports header caching)
+     *
+     * @param   string   $name     The name of the header to set.
+     * @param   string   $value    The value of the header to set.
+     * @param   boolean  $replace  True to replace any headers with the same name.
+     *
+     * @return  void
+     */
+    public function setHeader($name, $value, $replace = false)
+    {
+        JResponse::setHeader($name, $value, $replace);
+    }
+
+    public function sendHeaders()
+    {
+        JResponse::sendHeaders();
+    }
 }
