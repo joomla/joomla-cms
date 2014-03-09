@@ -49,14 +49,14 @@ Class PlgContentAvatar extends JPlugin
       */
         protected $profile = 'http://www.gravatar.com/';
     /**
-     * The URL for secure requests which gets the image.
+     * The URL for secure requests which gets the image, secure requests are more preffered.
      *
      * @var   String
      * @since 3.2
      */
         protected $securegravatar = 'https://secure.gravatar.com/avatar';
     /**
-     * The URL for secure requests which gets the profile.
+     * The URL for secure requests which gets the profile, secure requests are more preffered.
      *
      * @var   String
      * @since 3.2
@@ -77,10 +77,10 @@ Class PlgContentAvatar extends JPlugin
      */
     public function onContentBeforeDisplay($context, &$row, &$params, $limitstart=0)
     {     
-            // Get the scheme http or https
-            $array = JURI::getInstance()-> getScheme(); 
-            $app = JFactory::getApplication();
-            $http = JHttpFactory::getHttp();
+        // Get the scheme http or https
+        $array = JURI::getInstance()-> getScheme(); 
+        $app = JFactory::getApplication();
+        $http = JHttpFactory::getHttp();
            
         if ($app->isSite())
         {
@@ -197,7 +197,7 @@ Class PlgContentAvatar extends JPlugin
                         
                         foreach ($verified_accounts as $verified_account) 
                         {
-                                $verifiedaccount.= '<dd>' . '<a href="' . '' . $verified_account['url'] .'">' . $verified_account['display']. '</a>' . '</dd>';
+                                $verifiedaccount.= '<dd>' . '<a href="' . '' . $verified_account['url'] . '">' . $verified_account['display']. '</a>' . '</dd>';
                         }
                     }   
                     
@@ -225,10 +225,10 @@ Class PlgContentAvatar extends JPlugin
                         }
                     }
                     
-                            // Select the element which has HasPopOver id or class and set it up for the Pop Over
-                            $html[] = JHtmlBootstrap::popover(
-                                '.hasPopover', array('animation'=>true, 'trigger'=>'click', 'placement'=>'right', 'container'=>'body', 'html'=> true, 'content'=>
-                                '<div class="avatar popover-content">' .
+                        // Select the element which has HasPopOver id or class and set it up for the Pop Over
+                        $html[] = JHtmlBootstrap::popover(
+                            '.hasPopover', array('animation'=>true, 'trigger'=>'click', 'placement'=>'right', 'container'=>'body', 'html'=> true, 'content'=>
+                                '<div class="avatar well">' .
                                 '<dl>' . $name
                                        . $myemail 
                                        . $imaccounts  
@@ -239,7 +239,7 @@ Class PlgContentAvatar extends JPlugin
                                        . $verifiedaccount .
                                 '</dl>'.
                                 '</div>')
-                            );
+                        );
                             $doc = JFactory::getDocument();
                             JHtml::_('jquery.framework', false);
                             $doc->addScriptDeclaration(
