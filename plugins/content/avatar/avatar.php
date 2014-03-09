@@ -30,7 +30,7 @@ Class PlgContentAvatar extends JPlugin
     /**
      * Default size of the avatar if a size is not set at the backend.
      *
-     * @var   integer
+     * @var   String
      * @since 3.2
      */
         protected $defaultsize = 100;
@@ -95,7 +95,7 @@ Class PlgContentAvatar extends JPlugin
             $emailid = $user->email;
             $html = ($array == 'http'? $this->buildHTML($gravatar, $profile, $emailid, $size, $http): $this->buildHTML($securegravatar, $secureprofile, $emailid, $size, $http));
         
-            return implode("<br /> ", $html);
+            return implode('<br /> ', $html);
         } 
         else 
         {
@@ -104,11 +104,11 @@ Class PlgContentAvatar extends JPlugin
     }
         /**
          * Function which builds the html of avatar and the profile.
-         * @param type $avatar           URL to get the avatar.
-         * @param type $gravatar_profile URL to get the profile information.
-         * @param type $email            Email address of the author.
-         * @param type $size             Size of the avatar. 
-         * @param type $http             The JHTTP object.
+         * @param type String URL to get the avatar.
+         * @param type String URL to get the profile information.
+         * @param type String Email address of the author.
+         * @param type String Size of the avatar. 
+         * @param type JHTTP  The JHTTP object.
          * Build The HTML avatar and the profile
          * @return type  HTML 
          */
@@ -225,9 +225,9 @@ Class PlgContentAvatar extends JPlugin
                         }
                     }
                     
-                        // Select the element which has HasPopOver id or class and set it up for the Pop Over
-                        $html[] = JHtmlBootstrap::popover(
-                            '.hasPopover', array('animation'=>true, 'trigger'=>'click', 'placement'=>'right', 'container'=>'body', 'html'=> true, 'content'=>
+                    // Select the element which has HasPopOver id or class and set it up for the Pop Over
+                    $html[] = JHtmlBootstrap::popover(
+                        '.hasPopover', array('animation'=>true, 'trigger'=>'click', 'placement'=>'right', 'container'=>'body', 'html'=> true, 'content'=>
                                 '<div class="avatar well">' .
                                 '<dl>' . $name
                                        . $myemail 
@@ -239,16 +239,16 @@ Class PlgContentAvatar extends JPlugin
                                        . $verifiedaccount .
                                 '</dl>'.
                                 '</div>')
-                        );
-                            $doc = JFactory::getDocument();
-                            JHtml::_('jquery.framework', false);
-                            $doc->addScriptDeclaration(
-                                '
-                            jQuery(document).ready(function () { 
-                                   
-                                });         
-                                      '
-                            );
+                    );
+                                $doc = JFactory::getDocument();
+                                JHtml::_('jquery.framework', false);
+                                $doc->addScriptDeclaration(
+                                    '
+                                jQuery(document).ready(function () { 
+                            
+                                    });         
+                                        '
+                                );
                 }
             }
         }
