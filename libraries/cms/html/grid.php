@@ -315,30 +315,29 @@ abstract class JHtmlGrid
 
 		if (!$loaded)
 		{
+			// Include jQuery
+			JHtml::_('jquery.framework');
+
 			// Build the behavior script.
 			$js = '
-		window.addEvent(\'domready\', function(){
-			actions = $$(\'a.move_up\');
-			actions.combine($$(\'a.move_down\'));
-			actions.combine($$(\'a.grid_true\'));
-			actions.combine($$(\'a.grid_false\'));
-			actions.combine($$(\'a.grid_trash\'));
-			actions.each(function(a){
-				a.addEvent(\'click\', function(){
+		jQuery(function($){
+			$actions = $(\'a.move_up, a.move_down, a.grid_true, a.grid_false, a.grid_trash\');
+			$actions.each(function(){
+				$(this).on(\'click\', function(){
 					args = JSON.decode(this.rel);
 					listItemTask(args.id, args.task);
 				});
 			});
-			$$(\'input.check-all-toggle\').each(function(el){
-				el.addEvent(\'click\', function(){
-					if (el.checked) {
-						document.id(this.form).getElements(\'input[type=checkbox]\').each(function(i){
-							i.checked = true;
+			$(\'input.check-all-toggle\').each(function(){
+				$(this).on(\'click\', function(){
+					if (this.checked) {
+						$(this).closest(\'form\').find(\'input[type=checkbox]\').each(function(){
+							this.checked = true;
 						})
 					}
 					else {
-						document.id(this.form).getElements(\'input[type=checkbox]\').each(function(i){
-							i.checked = false;
+						$(this).closest(\'form\').find(\'input[type=checkbox]\').each(function(){
+							this.checked = false;
 						})
 					}
 				});
