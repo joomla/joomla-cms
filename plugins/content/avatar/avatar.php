@@ -20,7 +20,10 @@ defined('_JEXEC') or die;
 
 Class PlgContentAvatar extends JPlugin
 {
-        // Load the Language files and Initialize Avatar Servers
+    /**
+     *
+     * @var 
+     */
         protected $autoloadLanguage = true;
         protected $defaultsize = 100;
         protected $GRAVATAR_SERVER = 'http://www.gravatar.com/avatar/';
@@ -37,7 +40,9 @@ Class PlgContentAvatar extends JPlugin
      * @param type &$params    The article params.
      * @param type $limitstart An integer that determines the "page" of the content that is to be generated.
      * 
-     * @return type  HTML
+     * @return type  mixed type string in the front end 
+     * 
+     * @since   1.6 
      */
     public function onContentBeforeDisplay($context, &$row, &$params, $limitstart=0)
     {     
@@ -116,53 +121,52 @@ Class PlgContentAvatar extends JPlugin
                     // If Name Exists
                     if (isset($profile['entry'][0]['displayName'])) 
                     {
-                        $namedef = '<dt>' . JText::_('PLG_CONTENT_AVATAR_MY_NAME') . '</dt>';
-                        $name = $profile['entry'][0]['displayName']; 
+                        $name = '<dt>' . JText::_('PLG_CONTENT_AVATAR_MY_NAME') . '</dt>';
+                        $name.= '<dd>' . $profile['entry'][0]['displayName'] . '</dd>'; 
                     }
                     
                     // If about me Exists
                     if (isset($profile['entry'][0]['aboutMe'])) 
                     {
-                        $about_me_def = '<dt>' . JText::_('PLG_CONTENT_AVATAR_ABOUT_ME') . '</dt>'; 
-                        $about_me = $profile['entry'][0]['aboutMe'];
+                        $aboutme = '<dt>' . JText::_('PLG_CONTENT_AVATAR_ABOUT_ME') . '</dt>'; 
+                        $aboutme.= '<dd>' .$profile['entry'][0]['aboutMe'] . '</dd>';
                     }
                     
                     // If the current Location exist
                     if (isset($profile['entry'][0]['currentLocation'])) 
                     {
-                        $current_location_def = '<dt>' . JText::_('PLG_CONTENT_AVATAR_CURRENT_LOCATION') . '</dt>'; 
-                        $current_location = $profile['entry'][0]['currentLocation'];
+                        $currentlocation = '<dt>' . JText::_('PLG_CONTENT_AVATAR_CURRENT_LOCATION') . '</dt>'; 
+                        $currentlocation.= '<dd>' . $profile['entry'][0]['currentLocation'] . '</dd>';
                     }
                     
                     // If the Email exists
                     if (isset($profile['entry'][0]['emails'])) 
                     {
-                        $myemaildef='<dt>' . JText::_('PLG_CONTENT_AVATAR_MY_PUBLIC_EMAIL') . '</dt>';
-                        $myemail = $profile['entry'][0]['emails'][0]['value'];
+                        $myemaildef = '<dt>' . JText::_('PLG_CONTENT_AVATAR_MY_PUBLIC_EMAIL') . '</dt>';
+                        $myemail = $profile['entry'][0]['emails'][0]['value'] ;
                     }
                     
                     // If IM accounts exist
                     if (isset($profile['entry'][0]['ims'])) 
                     { 
-                        $im_accounts =$profile['entry'][0]['ims'];
-                        $im_accounts_id='';
-                        $im_accounts_definition='<dt>' . JText::_('PLG_CONTENT_AVATAR_IM_ACCOUNT') . '</dt>';
+                        $im_accounts = $profile['entry'][0]['ims'];
+                        $imaccounts = '<dt>' . JText::_('PLG_CONTENT_AVATAR_IM_ACCOUNT') . '</dt>';
+                        
                         foreach ($im_accounts as $ims ) 
                         {
-                                $im_accounts_id.= '<dt>'. $ims['type'] . '</dt>' . '<dd>' . $ims['value'] . '</dd>';
+                                $imaccounts.= '<dt>' . $ims['type'] . '</dt>' . '<dd>' . $ims['value'] . '</dd>';
                         }
                     }
                     
                     // If Verified accounts exist
                     if (isset($profile['entry'][0]['accounts'])) 
                     {
-                        $verified_accounts=$profile['entry'][0]['accounts'];
-                        $verified_accountdetails='';
-                        $verified_account_def='<dt>' . JText::_('PLG_CONTENT_AVATAR_VERIFIED') . '</dt>'; 
+                        $verified_accounts = $profile['entry'][0]['accounts'];
+                        $verifiedaccount = '<dt>' . JText::_('PLG_CONTENT_AVATAR_VERIFIED') . '</dt>'; 
                         
                         foreach ($verified_accounts as $verified_account) 
                         {
-                                $verified_accountdetails.= '<dd>' . '<a href="' . '' . $verified_account['url'] .'">' . $verified_account['display']. '</a>' . '</dd>';
+                                $verifiedaccount.= '<dd>' . '<a href="' . '' . $verified_account['url'] .'">' . $verified_account['display']. '</a>' . '</dd>';
                         }
                     }
                     
@@ -170,12 +174,11 @@ Class PlgContentAvatar extends JPlugin
                     if (isset($profile['entry'][0]['phoneNumbers'])) 
                     {
                         $phone_numbers = $profile['entry'][0]['phoneNumbers'];
-                        $contact_numbers = '';
-                        $contact_number_def = '<dt>' . JText::_('PLG_CONTENT_AVATAR_CONTACT'). '</dt>';
+                        $contactnumbers = '<dt>' . JText::_('PLG_CONTENT_AVATAR_CONTACT'). '</dt>';
                         
                         foreach ($phone_numbers as $phone_number) 
                         {
-                                $contact_numbers.= '<dt>' . $phone_number['type']. '</dt>' . ' ' .'<dd>' . $phone_number['value'] . '</dd>';
+                                $contactnumbers.= '<dt>' . $phone_number['type']. '</dt>' . ' ' .'<dd>' . $phone_number['value'] . '</dd>';
                         }
                     }
                     
@@ -183,11 +186,11 @@ Class PlgContentAvatar extends JPlugin
                     if (isset($profile['entry'][0]['urls'])) 
                     {
                         $blogs = $profile['entry'][0]['urls'];
-                        $blog_details='';
-                        $blog_details_def='<dt>' . JText::_('PLG_CONTENT_AVATAR_BLOGS') . '</dt>';
+                        $blogdetails = '<dt>' . JText::_('PLG_CONTENT_AVATAR_BLOGS') . '</dt>';
+                        
                         foreach ($blogs as $blog) 
                         {
-                                $blog_details.='<dt>'.$blog['title'] . '</dt>' .'<dd>' . '<a href="'.''.$blog['value'].'">' . $blog['value']. '</a>' . '</dd>';
+                                $blogdetails.= '<dt>'.$blog['title'] . '</dt>' .'<dd>' . '<a href="'.''.$blog['value'].'">' . $blog['value']. '</a>' . '</dd>';
                         }
                     }
                     
@@ -195,22 +198,15 @@ Class PlgContentAvatar extends JPlugin
                             $html[] = JHtmlBootstrap::popover(
                                 '.hasPopover', array('animation'=>true, 'trigger'=>'click', 'placement'=>'right', 'container'=>'body', 'html'=> true, 'content'=>
                                 '<div class="avatar popover-content">' .
-                                '<dl>' .$namedef.
-                                '<dd>' . $name . '</dd>' 
+                                '<dl>' . $name
                                        . $myemaildef .
-                                '<dd>' . '<a href="'.'' . $email .'">' . $myemail . '</a>' . '</dd>' 
-                                       . $im_accounts_definition 
-                                       . $im_accounts_id 
-                                       . $contact_number_def 
-                                       . $contact_numbers 
-                                       . $about_me_def .
-                                '<dd>' . $about_me . '</dd>' 
-                                       . $current_location_def .
-                                '<dd>' . $current_location . '</dd>' 
-                                       . $blog_details_def 
-                                       . $blog_details 
-                                       . $verified_account_def
-                                       . $verified_accountdetails .
+                                '<dd>' . '<a href="' . '' . $myemail . '">' . $myemail . '</a>' . '</dd>' 
+                                       . $imaccounts  
+                                       . $contactnumbers 
+                                       . $aboutme
+                                       . $currentlocation  
+                                       . $blogdetails 
+                                       . $verifiedaccount .
                                 '</dl>'.
                                 '</div>')
                             );
