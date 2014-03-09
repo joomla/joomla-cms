@@ -113,7 +113,7 @@ Class PlgContentAvatar extends JPlugin
      * @param string $size             Size of the avatar. 
      * @param jhttp  $http             The JHTTP object.
      * 
-     * @return type  HTML 
+     * @return string HTML 
      */
     public function buildHTML($avatar, $gravatar_profile, $email, $size, $http)
     {
