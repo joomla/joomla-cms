@@ -18,6 +18,7 @@ defined('_JEXEC') or die;
  * @package     Joomla.Libraries
  * @subpackage  Helper
  * @since       3.1
+ * @deprecated  4.0
  */
 class JHelperRoute
 {

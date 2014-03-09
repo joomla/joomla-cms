@@ -717,7 +717,7 @@ class JRouterSite extends JRouter
 			{
 				$reflection = new ReflectionClass($name);
 
-				if (in_array('JComponentRouter', $reflection->getInterfaceNames()))
+				if (in_array('JComponentRouterInterface', $reflection->getInterfaceNames()))
 				{
 					$this->componentRouters[$component] = new $name();
 				}
@@ -746,7 +746,7 @@ class JRouterSite extends JRouter
 	{
 		$reflection = new ReflectionClass($router);
 
-		if (in_array('JComponentRouter', $reflection->getInterfaceNames()))
+		if (in_array('JComponentRouterInterface', $reflection->getInterfaceNames()))
 		{
 			$this->componentRouters[$component] = $router;
 

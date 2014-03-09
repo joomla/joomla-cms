@@ -16,22 +16,8 @@ defined('_JEXEC') or die;
  * @subpackage  com_users
  * @since       3.2
  */
-class UsersRouter implements JComponentRouterInterface
+class UsersRouter extends JComponentRouterBasic implements JComponentRouterInterface
 {
-	/**
-	 * Preprocess method for the com_users component
-	 *
-	 * @param   array  $query  An associative array of URL arguments
-	 *
-	 * @return  array  The URL arguments to use to assemble the subsequent URL.
-	 *
-	 * @since   3.3
-	 */
-	public function preprocess($query)
-	{
-		return $query;
-	}
-
 	/**
 	 * Function to build a Users URL route.
 	 *
