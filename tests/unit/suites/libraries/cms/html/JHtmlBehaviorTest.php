@@ -204,7 +204,7 @@ class JHtmlBehaviorTest extends TestCase
 
 		JHtmlBehaviorInspector::formvalidation();
 		$this->assertEquals(
-			array('JHtmlBehavior::framework' => array('core' => true, 'more' => true), 'JHtmlBehavior::formvalidation' => true),
+			array('JHtmlBehavior::framework' => array('core' => true), 'JHtmlBehavior::formvalidation' => true),
 			JHtmlBehaviorInspector::getLoaded()
 		);
 	}
