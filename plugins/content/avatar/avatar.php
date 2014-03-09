@@ -27,6 +27,7 @@ Class PlgContentAvatar extends JPlugin
      * @since 3.1
      */
         protected $autoloadLanguage = true;
+        
     /**
      * Default size of the avatar in px if a size is not set at the backend.
      *
@@ -34,6 +35,7 @@ Class PlgContentAvatar extends JPlugin
      * @since 3.2
      */
         protected $defaultsize = 100;
+        
     /**
      * The URL for the gravatar image.
      *
@@ -41,6 +43,7 @@ Class PlgContentAvatar extends JPlugin
      * @since 3.2
      */
         protected $gravatar = 'http://www.gravatar.com/avatar/';
+        
     /**
      * The URL for the gravatar profile.
      *
@@ -48,12 +51,14 @@ Class PlgContentAvatar extends JPlugin
      * @since 3.2
       */
         protected $profile = 'http://www.gravatar.com/';
+        
     /**
      * The URL for secure requests which gets the image, secure requests are more preffered.
      *
      * @var   string
      * @since 3.2
      */
+        
         protected $securegravatar = 'https://secure.gravatar.com/avatar';
     /**
      * The URL for secure requests which gets the profile, secure requests are more preffered.
@@ -61,6 +66,7 @@ Class PlgContentAvatar extends JPlugin
      * @var   string
      * @since 3.2
      */
+        
         protected $secureprofile = 'https://secure.gravatar.com/';
      
     /**
@@ -71,25 +77,22 @@ Class PlgContentAvatar extends JPlugin
      * @param type &$params    The article params.
      * @param type $limitstart An integer that determines the "page" of the content that is to be generated.
      * 
-     * @return type  mixed type string in the front end 
+     * @return type string in the front end 
      * 
      * @since 1.6 
      */
     public function onContentBeforeDisplay($context, &$row, &$params, $limitstart=0)
     {     
-        // Get the scheme http or https
-        $array = JURI::getInstance()-> getScheme(); 
-        $app = JFactory::getApplication();
-        $http = JHttpFactory::getHttp();
-           
-        if ($app->isSite())
+        if (JFactory::getApplication()->isSite())
         {
+            $array = JURI::getInstance()-> getScheme(); 
+            $http = JHttpFactory::getHttp();
             $size = $this->params->get('size', $this->defaultsize);
             $gravatar = $this->params->get('avatar_http', $this->gravatar);
             $profile = $this->params->get('profile_http', $this->profile);
             $securegravatar = $this->params->get('avatar_https', $this->securegravatar);
             $secureprofile = $this->params->get('profile_https', $this->secureprofile);
-       
+            
             $id = $row->created_by;
             $user = JFactory::getUser($id);
             $emailid = $user->email;
@@ -101,17 +104,18 @@ Class PlgContentAvatar extends JPlugin
         {
             return;
         }
-    }
-        /**
-         * Function which builds the html of avatar and the profile.
-         * @param string $avatar           URL to get the avatar.
-         * @param string $gravatar_profile URL to get the profile information.
-         * @param string $email            Email address of the author.
-         * @param string $size             Size of the avatar. 
-         * @param jhttp  $http             The JHTTP object.
-         * 
-         * @return type  HTML 
-         */
+    } 
+    
+    /**
+     * Function which builds the html of avatar and the profile.
+     * @param string $avatar           URL to get the avatar.
+     * @param string $gravatar_profile URL to get the profile information.
+     * @param string $email            Email address of the author.
+     * @param string $size             Size of the avatar. 
+     * @param jhttp  $http             The JHTTP object.
+     * 
+     * @return type  HTML 
+     */
     public function buildHTML($avatar, $gravatar_profile, $email, $size, $http)
     {
         $hashedemail = md5(strtolower(trim($email)));
