@@ -117,6 +117,8 @@ function BannersBuildRoute(&$query)
 {
 	$router = new BannersRouter;
 
+	$query = $router->preprocess($query)
+
 	return $router->build($query);
 }
 

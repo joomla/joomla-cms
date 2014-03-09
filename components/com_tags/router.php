@@ -203,6 +203,8 @@ function TagsBuildRoute(&$query)
 {
 	$router = new TagsRouter;
 
+	$query = $router->preprocess($query)
+
 	return $router->build($query);
 }
 

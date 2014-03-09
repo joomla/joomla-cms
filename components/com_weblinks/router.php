@@ -257,6 +257,8 @@ function WeblinksBuildRoute(&$query)
 {
 	$router = new WeblinksRouter;
 
+	$query = $router->preprocess($query)
+
 	return $router->build($query);
 }
 

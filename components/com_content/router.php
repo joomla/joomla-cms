@@ -452,6 +452,8 @@ function ContentBuildRoute(&$query)
 {
 	$router = new ContentRouter;
 
+	$query = $router->preprocess($query)
+
 	return $router->build($query);
 }
 

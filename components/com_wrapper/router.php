@@ -84,6 +84,8 @@ function WrapperBuildRoute(&$query)
 {
 	$router = new WrapperRouter;
 
+	$query = $router->preprocess($query)
+
 	return $router->build($query);
 }
 

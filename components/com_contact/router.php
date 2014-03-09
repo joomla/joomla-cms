@@ -252,6 +252,8 @@ function ContactBuildRoute(&$query)
 {
 	$router = new ContactRouter;
 
+	$query = $router->preprocess($query)
+
 	return $router->build($query);
 }
 

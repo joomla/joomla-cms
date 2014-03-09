@@ -262,6 +262,8 @@ function UsersBuildRoute(&$query)
 {
 	$router = new UsersRouter;
 
+	$query = $router->preprocess($query)
+
 	return $router->build($query);
 }
 
