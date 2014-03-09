@@ -20,18 +20,49 @@ defined('_JEXEC') or die;
 
 Class PlgContentAvatar extends JPlugin
 {
-    /**
-     *
-     * @var 
-     */
+     /**
+      * Load the language file on instantiation.
+      *
+      * @var   boolean
+      * @since 3.1
+      */
         protected $autoloadLanguage = true;
+    /**
+     * Default size of the avatar if a size is not set at the backend.
+     *
+     * @var   integer
+     * @since 3.2
+     */
         protected $defaultsize = 100;
-        protected $GRAVATAR_SERVER = 'http://www.gravatar.com/avatar/';
-        protected $default = 'http://www.gravatar.com/';
-        protected $GRAVATAR_SECURE_SERVER = 'https://secure.gravatar.com/avatar';
-        protected $securedefault = 'https://secure.gravatar.com/';
-        protected $uri;
-
+    /**
+     * The URL for the gravatar image.
+     *
+     * @var   String
+     * @since 3.2
+     */
+        protected $gravatar = 'http://www.gravatar.com/avatar/';
+    /**
+     * The URL for the gravatar profile.
+     *
+     * @var   String
+     * @since 3.2
+      */
+        protected $profile = 'http://www.gravatar.com/';
+    /**
+     * The URL for secure requests which gets the image.
+     *
+     * @var   String
+     * @since 3.2
+     */
+        protected $securegravatar = 'https://secure.gravatar.com/avatar';
+    /**
+     * The URL for secure requests which gets the profile.
+     *
+     * @var   String
+     * @since 3.2
+     */
+        protected $secureprofile = 'https://secure.gravatar.com/';
+     
     /**
      * This function gets triggered before rendering content element
      *
@@ -42,7 +73,7 @@ Class PlgContentAvatar extends JPlugin
      * 
      * @return type  mixed type string in the front end 
      * 
-     * @since   1.6 
+     * @since 1.6 
      */
     public function onContentBeforeDisplay($context, &$row, &$params, $limitstart=0)
     {     
@@ -51,18 +82,18 @@ Class PlgContentAvatar extends JPlugin
             $app = JFactory::getApplication();
             $http = JHttpFactory::getHttp();
            
-        if ($app->isSite()) 
+        if ($app->isSite())
         {
             $size = $this->params->get('size', $this->defaultsize);
-            $GRAVATAR_SERVER = $this->params->get('avatar_http', $this->GRAVATAR_SERVER);
-            $default = $this->params->get('profile_http', $this->default);
-            $GRAVATAR_SECURE_SERVER = $this->params->get('avatar_https', $this->GRAVATAR_SECURE_SERVER);
-            $securedefault = $this->params->get('profile_https', $this->securedefault);
+            $gravatar = $this->params->get('avatar_http', $this->gravatar);
+            $profile = $this->params->get('profile_http', $this->profile);
+            $securegravatar = $this->params->get('avatar_https', $this->securegravatar);
+            $secureprofile = $this->params->get('profile_https', $this->secureprofile);
        
             $id = $row->created_by;
             $user = JFactory::getUser($id);
             $emailid = $user->email;
-            $html = ($array == 'http'? $this->buildHTML($GRAVATAR_SERVER, $default, $emailid, $size, $http): $this->buildHTML($GRAVATAR_SECURE_SERVER, $securedefault, $emailid, $size, $http));
+            $html = ($array == 'http'? $this->buildHTML($gravatar, $profile, $emailid, $size, $http): $this->buildHTML($securegravatar, $secureprofile, $emailid, $size, $http));
         
             return implode("<br /> ", $html);
         } 
@@ -95,13 +126,13 @@ Class PlgContentAvatar extends JPlugin
         $html[] = '</div>';
                 
         // Perform the operation only if the show profile is selected
-        if ($this->params->get('show_profileinfo') == '1') 
+        if ($this->params->get('show_profileinfo') == '1')
         {
             // Get the HTTP object to reference Profile information
             $response_profile = $http->get($gravatar_profile . $hashedemail . '.php');
             
             // If profile is found then perform further information 
-            if ($response_profile->code == 302 || $response_profile->code == 200) 
+            if ($response_profile->code == 302 || $response_profile->code == 200)
             {
                 // If curl is on fetch information using JHttp Object
                 if ($this->params->get('check_curl') == '1') 
@@ -142,8 +173,8 @@ Class PlgContentAvatar extends JPlugin
                     // If the Email exists
                     if (isset($profile['entry'][0]['emails'])) 
                     {
-                        $myemaildef = '<dt>' . JText::_('PLG_CONTENT_AVATAR_MY_PUBLIC_EMAIL') . '</dt>';
-                        $myemail = $profile['entry'][0]['emails'][0]['value'] ;
+                        $myemail = '<dt>' . JText::_('PLG_CONTENT_AVATAR_MY_PUBLIC_EMAIL') . '</dt>';
+                        $myemail.= '<dd>' . '<a href="' . '' . $profile['entry'][0]['emails'][0]['value'] . '">' . $profile['entry'][0]['emails'][0]['value'] . '</a>' . '</dd>'; 
                     }
                     
                     // If IM accounts exist
@@ -168,7 +199,7 @@ Class PlgContentAvatar extends JPlugin
                         {
                                 $verifiedaccount.= '<dd>' . '<a href="' . '' . $verified_account['url'] .'">' . $verified_account['display']. '</a>' . '</dd>';
                         }
-                    }
+                    }   
                     
                     // If phone numbers exist
                     if (isset($profile['entry'][0]['phoneNumbers'])) 
@@ -199,8 +230,7 @@ Class PlgContentAvatar extends JPlugin
                                 '.hasPopover', array('animation'=>true, 'trigger'=>'click', 'placement'=>'right', 'container'=>'body', 'html'=> true, 'content'=>
                                 '<div class="avatar popover-content">' .
                                 '<dl>' . $name
-                                       . $myemaildef .
-                                '<dd>' . '<a href="' . '' . $myemail . '">' . $myemail . '</a>' . '</dd>' 
+                                       . $myemail 
                                        . $imaccounts  
                                        . $contactnumbers 
                                        . $aboutme
