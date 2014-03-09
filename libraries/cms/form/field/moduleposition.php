@@ -139,7 +139,7 @@ class JFormFieldModulePosition extends JFormFieldText
 		// Build the script.
 		$script = array();
 		$script[] = '	function jSelectPosition_' . $this->id . '(name) {';
-		$script[] = '		document.id("' . $this->id . '").value = name;';
+		$script[] = '		document.getElementById("' . $this->id . '").value = name;';
 		$script[] = '		SqueezeBox.close();';
 		$script[] = '	}';
 
