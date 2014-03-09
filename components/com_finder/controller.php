@@ -48,7 +48,7 @@ class FinderController extends JControllerLegacy
 		 * because the default filter type is 'string', which makes JFilter::get() 
 		 * fail to check for 't' (is array) as its default filter type applied is 'cmd'.
 		 */
-		if ($input->get('q', null, 'string') || $input->get('f', null, 'int') || $input->get('t', null, 'array'))
+		if ($input->getString('q', null) || $input->getInt('f', null) || $input->get('t', null, 'array'))
 		{
 			$cachable = false;
 		}
