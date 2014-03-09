@@ -1069,7 +1069,6 @@ class FinderModelSearch extends JModelList
 		$input = $app->input;
 		$params = $app->getParams();
 		$user = JFactory::getUser();
-		$filter = JFilterInput::getInstance();
 
 		$this->setState('filter.language', JLanguageMultilang::isEnabled());
 
