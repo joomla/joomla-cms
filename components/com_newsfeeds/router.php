@@ -250,7 +250,7 @@ function NewsfeedsBuildRoute(&$query)
 {
 	$router = new NewsfeedsRouter;
 
-	$query = $router->preprocess($query)
+	$query = $router->preprocess($query);
 
 	return $router->build($query);
 }
