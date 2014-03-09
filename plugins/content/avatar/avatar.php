@@ -28,37 +28,37 @@ Class PlgContentAvatar extends JPlugin
      */
         protected $autoloadLanguage = true;
     /**
-     * Default size of the avatar if a size is not set at the backend.
+     * Default size of the avatar in px if a size is not set at the backend.
      *
-     * @var   String
+     * @var   string
      * @since 3.2
      */
         protected $defaultsize = 100;
     /**
      * The URL for the gravatar image.
      *
-     * @var   String
+     * @var   string
      * @since 3.2
      */
         protected $gravatar = 'http://www.gravatar.com/avatar/';
     /**
      * The URL for the gravatar profile.
      *
-     * @var   String
+     * @var   string
      * @since 3.2
       */
         protected $profile = 'http://www.gravatar.com/';
     /**
      * The URL for secure requests which gets the image, secure requests are more preffered.
      *
-     * @var   String
+     * @var   string
      * @since 3.2
      */
         protected $securegravatar = 'https://secure.gravatar.com/avatar';
     /**
      * The URL for secure requests which gets the profile, secure requests are more preffered.
      *
-     * @var   String
+     * @var   string
      * @since 3.2
      */
         protected $secureprofile = 'https://secure.gravatar.com/';
@@ -104,12 +104,12 @@ Class PlgContentAvatar extends JPlugin
     }
         /**
          * Function which builds the html of avatar and the profile.
-         * @param type String URL to get the avatar.
-         * @param type String URL to get the profile information.
-         * @param type String Email address of the author.
-         * @param type String Size of the avatar. 
-         * @param type JHTTP  The JHTTP object.
-         * Build The HTML avatar and the profile
+         * @param string $avatar           URL to get the avatar.
+         * @param string $gravatar_profile URL to get the profile information.
+         * @param string $email            Email address of the author.
+         * @param string $size             Size of the avatar. 
+         * @param jhttp  $http             The JHTTP object.
+         * 
          * @return type  HTML 
          */
     public function buildHTML($avatar, $gravatar_profile, $email, $size, $http)
@@ -240,15 +240,15 @@ Class PlgContentAvatar extends JPlugin
                         '</dl>'.
                         '</div>')
                     );
-                                $doc = JFactory::getDocument();
-                                JHtml::_('jquery.framework', false);
-                                $doc->addScriptDeclaration(
-                                    '
+                    $doc = JFactory::getDocument();
+                    JHtml::_('jquery.framework', false);
+                    $doc->addScriptDeclaration(
+                        '
                                 jQuery(document).ready(function () { 
                             
                                     });         
-                                        '
-                                );
+                        '
+                    );
                 }
             }
         }
