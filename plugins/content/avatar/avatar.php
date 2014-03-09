@@ -20,12 +20,12 @@ defined('_JEXEC') or die;
 
 Class PlgContentAvatar extends JPlugin
 {
-     /**
-      * Load the language file on instantiation.
-      *
-      * @var   boolean
-      * @since 3.1
-      */
+    /**
+     * Load the language file on instantiation.
+     *
+     * @var   boolean
+     * @since 3.1
+     */
         protected $autoloadLanguage = true;
     /**
      * Default size of the avatar if a size is not set at the backend.
