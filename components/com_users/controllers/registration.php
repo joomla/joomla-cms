@@ -34,10 +34,8 @@ class UsersControllerRegistration extends UsersController
 
 		// Check for admin activation. Don't allow non-super-admin to delete a super admin
 		$userParams = JComponentHelper::getParams('com_users');
-		$admin = JFactory::getUser();
-		$allow	= $admin->authorise('core.edit.state', 'com_users');
 
-		if ($userParams->get('useractivation') == 2 && !$allow || $userParams->get('useractivation') == 2 && $user->get('id'))
+		if ($userParams->get('useractivation') != 2 && $user->get('id'))
 		{
 			$this->setRedirect('index.php');
 			return true;
