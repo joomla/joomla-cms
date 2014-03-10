@@ -1132,7 +1132,7 @@ class FinderModelSearch extends JModelList
 		 * from the pool of fields that are indexed like the 'title' field.
 		 * Also, we allow this parameter to be passed in either case (lower/upper).
 		 */
-		$order = $input->getWord('order', $params->get('sort_order', 'relevance'));
+		$order = $input->getWord('filter_order', $params->get('sort_order', 'relevance'));
 		$order = JString::strtolower($order);
 		switch ($order)
 		{
@@ -1163,7 +1163,7 @@ class FinderModelSearch extends JModelList
 		 * More flexibility was way more user friendly. So we allow to be inverted.
 		 * Also, we allow this parameter to be passed in either case (lower/upper).
 		 */
-		$dirn = $input->getWord('dir', $params->get('sort_direction', 'desc'));
+		$dirn = $input->getWord('filter_order_DIR', $params->get('sort_direction', 'desc'));
 		$dirn = JString::strtolower($dirn);
 		switch ($dirn)
 		{
