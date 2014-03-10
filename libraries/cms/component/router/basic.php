@@ -52,7 +52,7 @@ abstract class JComponentRouterBasic
 		if (isset($query['language']) && $query['language'] != "*" && JLanguageMultilang::isEnabled() && isset($this->lang_lookup[$query['language']]))
 		{
 			$query['lang'] = $this->lang_lookup[$query['language']];
-			$needles['language'] = $language;
+			$needles['language'] = $query['lang'];
 		}
 		unset($query['language']);
 		
