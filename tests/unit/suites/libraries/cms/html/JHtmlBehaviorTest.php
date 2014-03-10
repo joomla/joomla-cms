@@ -79,12 +79,12 @@ class JHtmlBehaviorTest extends TestCase
 	public function getFrameworkData()
 	{
 		$data = array(
-			array(array('JHtmlBehavior::framework' => array('core' => true))),
-			array(array('JHtmlBehavior::framework' => array('core' => true, 'more' => true)), true),
-			array(array('JHtmlBehavior::framework' => array('core' => true)), false, false),
-			array(array('JHtmlBehavior::framework' => array('core' => true)), false, true),
-			array(array('JHtmlBehavior::framework' => array('core' => true, 'more' => true)), true, false),
-			array(array('JHtmlBehavior::framework' => array('core' => true, 'more' => true)), true, true)
+			array(array('JHtmlBehavior::core' => true, 'JHtmlBehavior::framework' => array('core' => true))),
+			array(array('JHtmlBehavior::core' => true, 'JHtmlBehavior::framework' => array('core' => true, 'more' => true)), true),
+			array(array('JHtmlBehavior::core' => true, 'JHtmlBehavior::framework' => array('core' => true)), false, false),
+			array(array('JHtmlBehavior::core' => true, 'JHtmlBehavior::framework' => array('core' => true)), false, true),
+			array(array('JHtmlBehavior::core' => true, 'JHtmlBehavior::framework' => array('core' => true, 'more' => true)), true, false),
+			array(array('JHtmlBehavior::core' => true, 'JHtmlBehavior::framework' => array('core' => true, 'more' => true)), true, true)
 		);
 
 		return $data;
