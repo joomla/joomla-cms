@@ -510,7 +510,7 @@
         chosen = $this.data('chosen');
         if (options === 'destroy' && chosen) {
           chosen.destroy();
-        } else if (!chosen) {
+        } else if (!chosen && !$this.hasClass("chzn-done")) {
           $this.data('chosen', new Chosen(this, options));
         }
       });
