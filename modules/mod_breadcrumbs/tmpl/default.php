@@ -17,7 +17,7 @@ JHtml::_('bootstrap.tooltip');
 	<?php
 	if ($params->get('showHere', 1))
 	{
-		echo '<li class="active">' . JText::_('MOD_BREADCRUMBS_HERE') . '&#160;</span></li>';
+		echo '<li class="active">' . JText::_('MOD_BREADCRUMBS_HERE') . '&#160;</li>';
 	}
 	else
 	{

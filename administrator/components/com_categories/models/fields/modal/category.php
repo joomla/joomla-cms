@@ -96,20 +96,23 @@ class JFormFieldModal_Category extends JFormField
 			$link .= '&amp;forcedLanguage=' . $this->element['language'];
 		}
 
-		$db = JFactory::getDbo();
-		$db->setQuery(
-			'SELECT title' .
-			' FROM #__categories' .
-			' WHERE id = ' . (int) $this->value
-		);
+		if ((int) $this->value > 0)
+		{
+			$db	= JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select($db->quoteName('title'))
+				->from($db->quoteName('#__categories'))
+				->where($db->quoteName('id') . ' = ' . (int) $this->value);
+			$db->setQuery($query);
 
-		try
-		{
-			$title = $db->loadResult();
-		}
-		catch (RuntimeException $e)
-		{
-			JError::raiseWarning(500, $e->getMessage());
+			try
+			{
+				$title = $db->loadResult();
+			}
+			catch (RuntimeException $e)
+			{
+				JError::raiseWarning(500, $e->getMessage());
+			}
 		}
 
 		if (empty($title))
