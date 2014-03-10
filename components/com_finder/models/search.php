@@ -1163,7 +1163,7 @@ class FinderModelSearch extends JModelList
 		 * More flexibility was way more user friendly. So we allow to be inverted.
 		 * Also, we allow this parameter to be passed in either case (lower/upper).
 		 */
-		$dirn = $input->getWord('filter_order_DIR', $params->get('sort_direction', 'desc'));
+		$dirn = $input->getWord('filter_order_Dir', $params->get('sort_direction', 'desc'));
 		$dirn = JString::strtolower($dirn);
 		switch ($dirn)
 		{
