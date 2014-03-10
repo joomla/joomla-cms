@@ -49,7 +49,7 @@ abstract class JComponentRouterBasic
 	{
 		$needles = array();
 
-		if (isset($query['language']) && $query['language'] != "*" && JLanguageMultilang::isEnabled() && isset(self::$lang_lookup[$query['language']]))
+		if (isset($query['language']) && $query['language'] != "*" && JLanguageMultilang::isEnabled() && isset($this->lang_lookup[$query['language']]))
 		{
 			$query['lang'] = $this->lang_lookup[$query['language']];
 			$needles['language'] = $language;
