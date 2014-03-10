@@ -85,14 +85,21 @@ class ContactViewCategory extends JViewCategory
 		parent::prepareDocument();
 
 		$menu = $this->menu;
-		$id = (int) @$menu->query['id'];
+		if(isset($menu->query['view']) && ($menu->query['view'] == 'category' || $menu->query['view'] == 'categories'))
+		{
+			$id = (int) @$menu->query['id'];
+		}
+		else
+		{
+			$id = 0;
+		}
 
-		if ($menu && ($menu->query['option'] != $this->extension || $menu->query['view'] == $this->viewName || $id != $this->category->id))
+		if ($id != $this->category->id)
 		{
 			$path = array(array('title' => $this->category->title, 'link' => ''));
 			$category = $this->category->getParent();
 
-			while (($menu->query['option'] != 'com_contact' || $menu->query['view'] == 'contact' || $id != $category->id) && $category->id > 1)
+			while ($id != $category->id && $category->id > 1)
 			{
 				$path[] = array('title' => $category->title, 'link' => ContactHelperRoute::getCategoryRoute($category->id));
 				$category = $category->getParent();

@@ -80,13 +80,13 @@ class WeblinksViewCategory extends JViewCategory
 
 		$id = (int) @$menu->query['id'];
 
-		if ($menu && ($menu->query['option'] != 'com_weblinks' || $id != $this->category->id))
+		if ($id != $this->category->id))
 		{
 			$this->params->set('page_subheading', $this->category->title);
 			$path = array(array('title' => $this->category->title, 'link' => ''));
 			$category = $this->category->getParent();
 
-			while (($menu->query['option'] != 'com_weblinks' || $id != $category->id) && $category->id > 1)
+			while ($id != $category->id && $category->id > 1)
 			{
 				$path[] = array('title' => $category->title, 'link' => WeblinksHelperRoute::getCategoryRoute($category->id));
 				$category = $category->getParent();

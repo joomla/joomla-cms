@@ -183,14 +183,21 @@ class ContentViewCategory extends JViewCategory
 	{
 		parent::prepareDocument();
 		$menu = $this->menu;
-		$id = (int) @$menu->query['id'];
+		if(isset($menu->query['view']) && ($menu->query['view'] == 'category' || $menu->query['view'] == 'categories'))
+		{
+			$id = (int) @$menu->query['id'];
+		}
+		else
+		{
+			$id = 0;
+		}
 
-		if ($menu && ($menu->query['option'] != 'com_content' || $menu->query['view'] == 'article' || $id != $this->category->id))
+		if ($id != $this->category->id)
 		{
 			$path = array(array('title' => $this->category->title, 'link' => ''));
 			$category = $this->category->getParent();
 
-			while (($menu->query['option'] != 'com_content' || $menu->query['view'] == 'article' || $id != $category->id) && $category->id > 1)
+			while ($id != $category->id && $category->id > 1)
 			{
 				$path[] = array('title' => $category->title, 'link' => ContentHelperRoute::getCategoryRoute($category->id));
 				$category = $category->getParent();

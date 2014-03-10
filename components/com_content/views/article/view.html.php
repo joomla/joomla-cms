@@ -205,7 +205,7 @@ class ContentViewArticle extends JViewLegacy
 		$id = (int) @$menu->query['id'];
 
 		// if the menu item does not concern this article
-		if ($menu && ($menu->query['option'] != 'com_content' || $menu->query['view'] != 'article' || $id != $this->item->id))
+		if ($menu && ($menu->query['view'] != 'article' || $id != $this->item->id))
 		{
 			// If this is not a single article menu item, set the page title to the article title
 			if ($this->item->title)
@@ -215,7 +215,7 @@ class ContentViewArticle extends JViewLegacy
 			$path = array(array('title' => $this->item->title, 'link' => ''));
 			$category = JCategories::getInstance('Content')->get($this->item->catid);
 
-			while ($category && ($menu->query['option'] != 'com_content' || $menu->query['view'] == 'article' || $id != $category->id) && $category->id > 1)
+			while ($category && $id != $category->id && $category->id > 1)
 			{
 				$path[] = array('title' => $category->title, 'link' => ContentHelperRoute::getCategoryRoute($category->id));
 				$category = $category->getParent();

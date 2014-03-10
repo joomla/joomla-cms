@@ -69,18 +69,25 @@ class NewsfeedsViewCategory extends JViewCategory
 	protected function prepareDocument()
 	{
 		parent::prepareDocument();
-		$id = (int) @$menu->query['id'];
 
 		$menu = $this->menu;
+		if(isset($menu->query['view']) && ($menu->query['view'] == 'category' || $menu->query['view'] == 'categories'))
+		{
+			$id = (int) @$menu->query['id'];
+		}
+		else
+		{
+			$id = 0;
+		}
 
-		if ($menu && ($menu->query['option'] != 'com_newsfeeds' || $menu->query['view'] == 'newsfeed' || $id != $this->category->id))
+		if ($id != $this->category->id)
 		{
 			$path = array(array('title' => $this->category->title, 'link' => ''));
 			$category = $this->category->getParent();
 
-			while (($menu->query['option'] != 'com_newsfeeds' || $menu->query['view'] == 'newsfeed' || $id != $category->id) && $category->id > 1)
+			while ($id != $category->id && $category->id > 1)
 			{
-				$path[] = array('title' => $category->title, 'link' => NewsfeedsHelperRoute::getCategoryRoute($category->id));
+				$path[] = array('title' => $category->title, 'link' => NewsfeedHelperRoute::getCategoryRoute($category->id));
 				$category = $category->getParent();
 			}
 
