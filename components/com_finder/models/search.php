@@ -1171,7 +1171,7 @@ class FinderModelSearch extends JModelList
 			$app->setUserState("{$this->context}.ordercol", $ordering);
 		}
 		// Replace the model's state.
-		$this->setState('list.ordering', "l.{$ordering}");
+		$this->setState('list.ordering', ($ordering ? "l.{$ordering}" : $ordering));
 		
 		// Allow customise the sort ordering direction. (currently this is 'hard' defined via menu item parameter)
 		$direction = $app->getUserStateFromRequest("{$this->context}.orderdir", 'filter_order_Dir', $direction);
