@@ -1164,20 +1164,18 @@ class FinderModelSearch extends JModelList
 		
 		// Allow customise the sort ordering. (currently this is 'hard' defined via menu item parameter)
 		$ordering = $app->getUserStateFromRequest("{$this->context}.ordercol", 'filter_order', $ordering);
-		$ordering = $filter->clean($ordering, 'CMD');
-		$ordering = strtolower("l.{$ordering}");
+		$ordering = JString::strtolower($filter->clean($ordering, 'CMD'));
 		// If this information is missing in the user's session, add it.
 		if (!JArrayHelper::getValue($this->filter_fields, $ordering, null))
 		{
 			$app->setUserState("{$this->context}.ordercol", $ordering);
 		}
 		// Replace the model's state.
-		$this->setState('list.ordering', $ordering);
+		$this->setState('list.ordering', "l.{$ordering}");
 		
 		// Allow customise the sort ordering direction. (currently this is 'hard' defined via menu item parameter)
 		$direction = $app->getUserStateFromRequest("{$this->context}.orderdir", 'filter_order_Dir', $direction);
-		$direction = $filter->clean($direction, 'WORD');
-		$direction = strtolower($direction);
+		$direction = JString::strtolower($filter->clean($direction, 'WORD'));
 		// If this information is missing in the user's session, add it.
 		if (!JArrayHelper::getValue($this->filter_fields, $direction, null))
 		{
