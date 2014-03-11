@@ -102,7 +102,7 @@ class JTableNested extends JTable
 	 * Cache for the root ID
 	 * 
 	 * @var    integer
-	 * @since  14.1
+	 * @since  3.3
 	 */
 	protected static $root_id = 0;
 
