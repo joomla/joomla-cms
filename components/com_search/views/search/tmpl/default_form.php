@@ -29,7 +29,9 @@ $upper_limit = $lang->getUpperLimitSearchWord();
 
 	<div class="searchintro<?php echo $this->params->get('pageclass_sfx'); ?>">
 		<?php if (!empty($this->searchword)):?>
-		<p><?php echo JText::plural('COM_SEARCH_SEARCH_KEYWORD_N_RESULTS', '<span class="badge badge-info">'. $this->total. '</span>');?></p>
+		<p>
+			<strong><?php echo JText::plural('COM_SEARCH_SEARCH_KEYWORD_N_RESULTS', '<span class="badge badge-info">'. $this->total. '</span>');?></strong>
+		</p>
 		<?php endif;?>
 	</div>
 
