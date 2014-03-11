@@ -239,7 +239,7 @@ $info    = $this->item->params->get('info_block_position', 0);
 		$link->setVar('return', base64_encode($returnURL));
 	endif; ?>
 
-  <?php echo JLayoutHelper::render('joomla.content.readmore', array('item' => $this->item, 'params' => $params, 'link' => $link)); ?>
+	<?php echo JLayoutHelper::render('joomla.content.readmore', array('item' => $this->item, 'params' => $params, 'link' => $link)); ?>
 
 <?php endif; ?>
 

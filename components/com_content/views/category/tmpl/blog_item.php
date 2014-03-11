@@ -57,7 +57,7 @@ JHtml::_('behavior.framework');
 		$link->setVar('return', base64_encode($returnURL));
 	endif; ?>
 
-  <?php echo JLayoutHelper::render('joomla.content.readmore', array('item' => $this->item, 'params' => $params, 'link' => $link)); ?>
+	<?php echo JLayoutHelper::render('joomla.content.readmore', array('item' => $this->item, 'params' => $params, 'link' => $link)); ?>
 
 <?php endif; ?>
 
