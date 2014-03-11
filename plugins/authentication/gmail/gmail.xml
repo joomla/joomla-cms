@@ -51,6 +51,14 @@
 					label="PLG_GMAIL_FIELD_USER_BLACKLIST_LABEL"
 					size="20"
 				/>
+				<field name="backendLogin" type="radio"
+					default="0"
+					description="PLG_GMAIL_FIELD_BACKEND_LOGIN_DESC"
+					label="PLG_GMAIL_FIELD_BACKEND_LOGIN_LABEL"
+					>
+						<option value="1">JENABLED</option>
+						<option value="0">JDISABLED</option>
+				</field>
 			</fieldset>
 
 		</fields>
