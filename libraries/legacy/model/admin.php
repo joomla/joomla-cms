@@ -933,7 +933,7 @@ abstract class JModelAdmin extends JModelForm
 				}
 
 				// If the table is checked out by another user, drop it and report to the user trying to change its state.
-				if ($table->checked_out && ((int) $table->checked_out !== (int) $user->id))
+				if (property_exists($table, 'checked_out') && ((int) $table->checked_out !== (int) $user->id))
 				{
 					JLog::add(JText::sprintf('COM_KEY2SWAP_ERROR_ROW_IS_CHECKED_OUT_BY', $pks[$i]), JLog::WARNING, 'jerror');
 
