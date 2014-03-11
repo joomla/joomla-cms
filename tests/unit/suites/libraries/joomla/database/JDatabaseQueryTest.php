@@ -332,11 +332,13 @@ class JDatabaseQueryTest extends TestCase
 	 */
 	public function test__toStringUnion()
 	{
-		$this->markTestIncomplete('This test does not work!');
-		$this->_instance->select('*')
-			->union('SELECT id FROM a');
+		$this->_instance->union('SELECT id FROM a')
+			->union('SELECT id FROM b');
 
-		$this->assertEquals("UNION (SELECT id FROM a)", trim($this->_instance));
+		$this->assertEquals(
+			'(SELECT id FROM a)' . PHP_EOL . 'UNION (SELECT id FROM b)',
+			trim($this->_instance)
+		);
 	}
 
 	/**
@@ -348,11 +350,13 @@ class JDatabaseQueryTest extends TestCase
 	 */
 	public function test__toStringUnionAll()
 	{
-		$this->markTestIncomplete('This test does not work!');
-		$this->_instance->select('*')
-		->unionAll('SELECT id FROM a');
+		$this->_instance->unionAll('SELECT id FROM a')
+			->unionAll('SELECT id FROM b');
 
-		$this->assertEquals("UNION ALL (SELECT id FROM a)", trim($this->_instance));
+		$this->assertEquals(
+			'(SELECT id FROM a)' . PHP_EOL . 'UNION ALL (SELECT id FROM b)',
+			trim($this->_instance)
+		);
 	}
 	/**
 	 * Tests the JDatabaseQuery::call method.
@@ -446,7 +450,6 @@ class JDatabaseQueryTest extends TestCase
 			'columns',
 			'values',
 			'union',
-			'unionAll',
 			'exec',
 			'call',
 		);
@@ -496,7 +499,6 @@ class JDatabaseQueryTest extends TestCase
 			'columns',
 			'values',
 			'union',
-			'unionAll',
 			'exec',
 			'call',
 		);
@@ -551,7 +553,6 @@ class JDatabaseQueryTest extends TestCase
 			'update',
 			'insert',
 			'union',
-			'unionAll',
 		);
 
 		$clauses = array(
@@ -1580,7 +1581,7 @@ class JDatabaseQueryTest extends TestCase
 		$teststring = (string) TestReflection::getValue($this->_instance, 'union');
 		$this->assertThat(
 			$teststring,
-			$this->equalTo(PHP_EOL . "UNION (SELECT name FROM foo)"),
+			$this->equalTo(PHP_EOL . "(SELECT name FROM foo)"),
 			'Tests rendered query with union.'
 		);
 	}
@@ -1599,7 +1600,7 @@ class JDatabaseQueryTest extends TestCase
 		$teststring = (string) TestReflection::getValue($this->_instance, 'union');
 		$this->assertThat(
 			$teststring,
-			$this->equalTo(PHP_EOL . "UNION DISTINCT (SELECT name FROM foo)"),
+			$this->equalTo(PHP_EOL . "(SELECT name FROM foo)"),
 			'Tests rendered query with union distinct as a string.'
 		);
 	}
@@ -1618,7 +1619,7 @@ class JDatabaseQueryTest extends TestCase
 		$teststring = (string) TestReflection::getValue($this->_instance, 'union');
 		$this->assertThat(
 			$teststring,
-			$this->equalTo(PHP_EOL . "UNION DISTINCT (SELECT name FROM foo)"),
+			$this->equalTo(PHP_EOL . "(SELECT name FROM foo)"),
 			'Tests rendered query with union distinct true.'
 		);
 	}
@@ -1637,7 +1638,7 @@ class JDatabaseQueryTest extends TestCase
 		$teststring = (string) TestReflection::getValue($this->_instance, 'union');
 		$this->assertThat(
 			$teststring,
-			$this->equalTo(PHP_EOL . "UNION (SELECT name FROM foo)"),
+			$this->equalTo(PHP_EOL . "(SELECT name FROM foo)"),
 			'Tests rendered query with union distinct false.'
 		);
 	}
@@ -1656,7 +1657,7 @@ class JDatabaseQueryTest extends TestCase
 		$teststring = (string) TestReflection::getValue($this->_instance, 'union');
 		$this->assertThat(
 			$teststring,
-			$this->equalTo(PHP_EOL . "UNION (SELECT name FROM foo)" . PHP_EOL . "UNION (SELECT name FROM bar)"),
+			$this->equalTo(PHP_EOL . "(SELECT name FROM foo)" . PHP_EOL . "UNION (SELECT name FROM bar)"),
 			'Tests rendered query with two unions as an array.'
 		);
 	}
@@ -1676,7 +1677,7 @@ class JDatabaseQueryTest extends TestCase
 		$teststring = (string) TestReflection::getValue($this->_instance, 'union');
 		$this->assertThat(
 			$teststring,
-			$this->equalTo(PHP_EOL . "UNION (SELECT name FROM foo)" . PHP_EOL . "UNION (SELECT name FROM bar)"),
+			$this->equalTo(PHP_EOL . "(SELECT name FROM foo)" . PHP_EOL . "UNION (SELECT name FROM bar)"),
 			'Tests rendered query with two unions sequentially.'
 		);
 	}
@@ -1695,7 +1696,7 @@ class JDatabaseQueryTest extends TestCase
 		$teststring = (string) TestReflection::getValue($this->_instance, 'union');
 		$this->assertThat(
 			trim($teststring),
-			$this->equalTo("UNION DISTINCT (SELECT name FROM foo)"),
+			$this->equalTo("(SELECT name FROM foo)"),
 			'Tests rendered query with unionDistinct.'
 		);
 	}
@@ -1714,7 +1715,7 @@ class JDatabaseQueryTest extends TestCase
 		$teststring = (string) TestReflection::getValue($this->_instance, 'union');
 		$this->assertThat(
 			$teststring,
-			$this->equalTo(PHP_EOL . "UNION DISTINCT (SELECT name FROM foo)" . PHP_EOL . "UNION DISTINCT (SELECT name FROM bar)"),
+			$this->equalTo(PHP_EOL . "(SELECT name FROM foo)" . PHP_EOL . "UNION (SELECT name FROM bar)"),
 			'Tests rendered query with two unions distinct.'
 		);
 	}
@@ -1815,12 +1816,12 @@ class JDatabaseQueryTest extends TestCase
 	 */
 	public function testUnionAllUnion()
 	{
-		TestReflection::setValue($this->_instance, 'unionAll', null);
+		TestReflection::setValue($this->_instance, 'union', null);
 		$this->_instance->unionAll('SELECT name FROM foo');
-		$teststring = (string) TestReflection::getValue($this->_instance, 'unionAll');
+		$teststring = (string) TestReflection::getValue($this->_instance, 'union');
 		$this->assertThat(
 			$teststring,
-			$this->equalTo(PHP_EOL . "UNION ALL (SELECT name FROM foo)"),
+			$this->equalTo(PHP_EOL . "(SELECT name FROM foo)"),
 			'Tests rendered query with unionAll.'
 		);
 	}
@@ -1834,12 +1835,12 @@ class JDatabaseQueryTest extends TestCase
 	 */
 	public function testUnionAllArray()
 	{
-		TestReflection::setValue($this->_instance, 'unionAll', null);
+		TestReflection::setValue($this->_instance, 'union', null);
 		$this->_instance->unionAll(array('SELECT name FROM foo', 'SELECT name FROM bar'));
-		$teststring = (string) TestReflection::getValue($this->_instance, 'unionAll');
+		$teststring = (string) TestReflection::getValue($this->_instance, 'union');
 		$this->assertThat(
 			$teststring,
-			$this->equalTo(PHP_EOL . "UNION ALL (SELECT name FROM foo)" . PHP_EOL . "UNION ALL (SELECT name FROM bar)"),
+			$this->equalTo(PHP_EOL . "(SELECT name FROM foo)" . PHP_EOL . "UNION ALL (SELECT name FROM bar)"),
 			'Tests rendered query with two union alls as an array.'
 		);
 	}
@@ -1853,13 +1854,13 @@ class JDatabaseQueryTest extends TestCase
 	 */
 	public function testUnionAllTwo()
 	{
-		TestReflection::setValue($this->_instance, 'unionAll', null);
+		TestReflection::setValue($this->_instance, 'union', null);
 		$this->_instance->unionAll('SELECT name FROM foo');
 		$this->_instance->unionAll('SELECT name FROM bar');
-		$teststring = (string) TestReflection::getValue($this->_instance, 'unionAll');
+		$teststring = (string) TestReflection::getValue($this->_instance, 'union');
 		$this->assertThat(
 			$teststring,
-			$this->equalTo(PHP_EOL . "UNION ALL (SELECT name FROM foo)" . PHP_EOL . "UNION ALL (SELECT name FROM bar)"),
+			$this->equalTo(PHP_EOL . "(SELECT name FROM foo)" . PHP_EOL . "UNION ALL (SELECT name FROM bar)"),
 			'Tests rendered query with two union alls sequentially.'
 		);
 	}
