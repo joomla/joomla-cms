@@ -1056,8 +1056,8 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				continue;
 			}
 
-			// Ignore any internal fields and the primary key
-			if (($k[0] == "_") || ($k == $key))
+			// Ignore any internal fields or primary keys with value 0.
+			if (($k[0] == "_") || ($k == $key && $v === 0))
 			{
 				continue;
 			}
