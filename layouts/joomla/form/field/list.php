@@ -80,7 +80,7 @@ $selectName = $readOnly ? '' : $name;
 					// Value can be an array or a string
 					$selected = is_array($value) ? in_array($option['value'], $value, true) : ($option['value'] == $value);
 				?>
-				<option value="<?php echo $option['value']; ?>" <?php if ($selected) : ?>selected="selected"<?php endif; ?>>
+				<option value="<?php echo $option['value']; ?>"<?php if ($selected) : ?> selected="selected"<?php endif; ?>>
 					<?php echo $option['text']; ?>
 				</option>
 		<?php endforeach; ?>
