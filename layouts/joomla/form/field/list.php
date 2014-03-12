@@ -58,6 +58,9 @@ if ($attributes)
 
 $readOnly = ((string) $element['readonly'] == 'true');
 
+// Always force strict string comparison vs values
+$value = is_array($value) ? array_map('strval', $value) : (string) $value;
+
 // If it's readonly the select will have no name
 $selectName = $readOnly ? '' : $name;
 ?>
@@ -70,12 +73,12 @@ $selectName = $readOnly ? '' : $name;
 
 					// BC: Some special cases come in the format [value] => text
 					$option = array(
-						'text' => isset($optionValue['text']) ? $optionValue['text'] : $optionValue[0],
-						'value' => isset($optionValue['value']) ? $optionValue['value'] : $optionKey
+						'text' => isset($optionValue['text']) ? (string) $optionValue['text'] : (string) $optionValue[0],
+						'value' => isset($optionValue['value']) ? (string) $optionValue['value'] : (string) $optionKey
 					);
 
 					// Value can be an array or a string
-					$selected = is_array($value) ? in_array($option['value'], $value) : ($option['value'] == $value);
+					$selected = is_array($value) ? in_array($option['value'], $value, true) : ($option['value'] == $value);
 				?>
 				<option value="<?php echo $option['value']; ?>" <?php if ($selected) : ?>selected="selected"<?php endif; ?>>
 					<?php echo $option['text']; ?>
