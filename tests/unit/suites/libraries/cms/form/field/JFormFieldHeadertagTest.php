@@ -14,8 +14,24 @@
  * @subpackage  Form
  * @since       3.1
  */
-class JFormFieldHeadertagTest extends PHPUnit_Framework_TestCase
+class JFormFieldHeadertagTest extends TestCase
 {
+	/**
+	 * Sets up the fixture.
+	 *
+	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.3
+	 */
+	protected function setUp()
+	{
+		JFactory::$application = $this->getMockApplication();
+
+		parent::setUp();
+	}
+
 	/**
 	 * Tests the getInput method.
 	 *

@@ -19,6 +19,22 @@ JFormHelper::loadFieldClass('list');
 class JFormFieldListTest extends TestCase
 {
 	/**
+	 * Sets up the fixture.
+	 *
+	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.3
+	 */
+	protected function setUp()
+	{
+		JFactory::$application = $this->getMockApplication();
+
+		parent::setUp();
+	}
+
+	/**
 	 * Test the getInput method.
 	 *
 	 * @return void
