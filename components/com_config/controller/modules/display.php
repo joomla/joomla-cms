@@ -61,7 +61,7 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 		$document->setType('json');
 
 		// Execute back-end controller
-		if(!($serviceData = json_decode($displayClass->display(), true)))
+		if (!($serviceData = json_decode($displayClass->display(), true)))
 		{
 			$app->redirect($redirect);
 		}

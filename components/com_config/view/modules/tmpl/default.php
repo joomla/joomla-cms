@@ -19,7 +19,7 @@ JHtml::_('formbehavior.chosen', 'select');
 $hasContent = empty($this->item['module']) || $this->item['module'] == 'custom' || $this->item['module'] == 'mod_custom';
 
 // If multi-language site, make language read-only
-if(JLanguageMultilang::isEnabled())
+if (JLanguageMultilang::isEnabled())
 {
 	$this->form->setFieldAttribute('language', 'readonly', 'true');
 }
@@ -113,7 +113,7 @@ if(JLanguageMultilang::isEnabled())
 						<hr />
 
 						<?php
-						if(JFactory::getUser()->authorise('core.edit.state', 'com_modules.module.' . $this->item['id'])): ?>
+						if (JFactory::getUser()->authorise('core.edit.state', 'com_modules.module.' . $this->item['id'])): ?>
 						<div class="control-group">
 							<div class="control-label">
 								<?php echo $this->form->getLabel('published'); ?>
@@ -181,7 +181,7 @@ if(JLanguageMultilang::isEnabled())
 							<?php echo $this->loadTemplate('options'); ?>
 						</div>
 
-						<?php if ($hasContent) : ?>
+						<?php if ($hasContent): ?>
 							<div class="tab-pane" id="custom">
 								<?php echo $this->form->getInput('content'); ?>
 							</div>
