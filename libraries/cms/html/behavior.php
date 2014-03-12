@@ -61,6 +61,7 @@ abstract class JHtmlBehavior
 		}
 
 		JHtml::_('script', 'system/mootools-' . $type . '.js', false, true, false, false, $debug);
+		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/core.js', false, true);
 		static::$loaded[__METHOD__][$type] = true;
 
@@ -120,11 +121,14 @@ abstract class JHtmlBehavior
 			return;
 		}
 
+		// Include MooTools framework
+		static::framework();
+
+		// Include jQuery Framework
+		JHtml::_('jquery.framework');
+
 		// Add validate.js language strings
 		JText::script('JLIB_FORM_FIELD_INVALID');
-
-		// Include MooTools More framework
-		static::framework('more');
 
 		JHtml::_('script', 'system/punycode.js', false, true);
 		JHtml::_('script', 'system/validate.js', false, true);
@@ -240,18 +244,21 @@ abstract class JHtmlBehavior
 
 		$options = JHtml::getJSObject($opt);
 
+		// Include jQuery
+		JHtml::_('jquery.framework');
+
 		// Attach tooltips to document
 		JFactory::getDocument()->addScriptDeclaration(
-			"window.addEvent('domready', function() {
-			$$('$selector').each(function(el) {
-				var title = el.get('title');
+			"jQuery(function($) {
+			 $('$selector').each(function() {
+				var title = $(this).attr('title');
 				if (title) {
 					var parts = title.split('::', 2);
-					el.store('tip:title', parts[0]);
-					el.store('tip:text', parts[1]);
+					$(this).get(0).store('tip:title', parts[0]); // Depends on Mootools store which requires for Tips
+					$(this).get(0).store('tip:text', parts[1]);  // Depends on Mootools store which requires for Tips
 				}
 			});
-			var JTooltips = new Tips($$('$selector'), $options);
+			var JTooltips = new Tips($('$selector').get(), $options);
 		});"
 		);
 
@@ -323,9 +330,12 @@ abstract class JHtmlBehavior
 		$opt['onShow']        = (isset($params['onShow'])) ? $params['onShow'] : null;
 		$opt['onHide']        = (isset($params['onHide'])) ? $params['onHide'] : null;
 
+		// Include jQuery
+		JHtml::_('jquery.framework');
+
 		if (isset($params['fullScreen']) && (bool) $params['fullScreen'])
 		{
-			$opt['size']      = array('x' => '\\window.getSize().x-80', 'y' => '\\window.getSize().y-80');
+			$opt['size']      = array('x' => '\\jQuery(window).width() - 80', 'y' => '\\jQuery(window).height() - 80');
 		}
 
 		$options = JHtml::getJSObject($opt);
@@ -334,10 +344,9 @@ abstract class JHtmlBehavior
 		$document
 			->addScriptDeclaration(
 			"
-		window.addEvent('domready', function() {
-
+		jQuery(function($) {
 			SqueezeBox.initialize(" . $options . ");
-			SqueezeBox.assign($$('" . $selector . "'), {
+			SqueezeBox.assign($('" . $selector . "').get(), {
 				parse: 'rel'
 			});
 		});"
@@ -408,6 +417,9 @@ abstract class JHtmlBehavior
 			return;
 		}
 
+		// Include jQuery
+		JHtml::_('jquery.framework');
+
 		// Setup options object
 		$opt['div']   = (array_key_exists('div', $params)) ? $params['div'] : $id . '_tree';
 		$opt['mode']  = (array_key_exists('mode', $params)) ? $params['mode'] : 'folders';
@@ -434,7 +446,7 @@ abstract class JHtmlBehavior
 
 		$treeName = (array_key_exists('treeName', $params)) ? $params['treeName'] : '';
 
-		$js = '		window.addEvent(\'domready\', function(){
+		$js = '		jQuery(function(){
 			tree' . $treeName . ' = new MooTreeControl(' . $options . ',' . $rootNode . ');
 			tree' . $treeName . '.adopt(\'' . $id . '\');})';
 
@@ -561,8 +573,8 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include MooTools framework
-		static::framework();
+		// Include jQuery
+		JHtml::_('jquery.framework');
 
 		$config = JFactory::getConfig();
 		$lifetime = ($config->get('lifetime') * 60000);
@@ -579,10 +591,10 @@ abstract class JHtmlBehavior
 		$document = JFactory::getDocument();
 		$script = '';
 		$script .= 'function keepAlive() {';
-		$script .= '	var myAjax = new Request({method: "get", url: "index.php"}).send();';
+		$script .= '	jQuery.get("index.php");';
 		$script .= '}';
-		$script .= ' window.addEvent("domready", function()';
-		$script .= '{ keepAlive.periodical(' . $refreshTime . '); }';
+		$script .= 'jQuery(function($)';
+		$script .= '{ setInterval(keepAlive, ' . $refreshTime . '); }';
 		$script .= ');';
 
 		$document->addScriptDeclaration($script);
@@ -665,7 +677,10 @@ abstract class JHtmlBehavior
 		// Include MooTools framework
 		static::framework();
 
-		$js = "window.addEvent('domready', function () {if (top == self) {document.documentElement.style.display = 'block'; }" .
+		// Include jQuery
+		JHtml::_('jquery.framework');
+
+		$js = "jQuery(function () {if (top == self) {document.documentElement.style.display = 'block'; }" .
 			" else {top.location = self.location; }});";
 		$document = JFactory::getDocument();
 		$document->addStyleDeclaration('html { display:none }');
