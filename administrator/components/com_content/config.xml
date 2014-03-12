@@ -311,7 +311,7 @@
 		<field
 			name="microdata_type"
 			type="list"
-			default="0"
+			default="article"
 			label="JGLOBAL_MICRODATA_TYPE_LABEL"
 			description="JGLOBAL_MICRODATA_TYPE_DESC">
 			<option value="article">Article</option>
@@ -432,7 +432,7 @@
 				<option value="1">JBROWSERTARGET_NEW</option>
 				<option value="2">JBROWSERTARGET_POPUP</option>
 				<option value="3">JBROWSERTARGET_MODAL</option>
-		</field>	
+		</field>
 		<field
 			name="spacer4"
 			type="spacer"
@@ -473,7 +473,7 @@
 			extension="com_content"
 			view="category"
 		/>
-		<field 
+		<field
 			name="show_category_heading_title_text"
 			type="radio"
 			class="btn-group btn-group-yesno"
