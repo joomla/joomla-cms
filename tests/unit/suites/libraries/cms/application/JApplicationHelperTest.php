@@ -52,29 +52,89 @@ class JApplicationHelperInspector extends JApplicationHelper
  */
 class JApplicationHelperTest extends TestCase
 {
+
 	/**
 	 * Test JApplicationHelper::getComponentName
 	 *
 	 * @return  void
-	 *
-	 * @todo    Implement testGetComponentName().
 	 */
 	public function testGetComponentName()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+        $testComponentName = 'com_test_component';
+
+        $mockApplication = $this->getMockApplication();
+        $mockInput = $this->getMockBuilder('JInput')
+                          ->setConstructorArgs(array(array('option' => $testComponentName)))
+                          ->getMock();
+
+        $mockApplication->input = $mockInput;
+        JFactory::$application = $mockApplication;
+
+        $mockInput->expects($this->once())->method('get')->with($this->equalTo('option'))->will($this->returnValue($testComponentName));
+        $componentName = JApplicationHelper::getComponentName();
+
+        $this->assertEquals($testComponentName, $componentName);
+
 	}
 
 	/**
 	 * Test JApplicationHelper::getClientInfo
 	 *
 	 * @return  void
-	 *
-	 * @todo    Implement testGetClientInfo().
 	 */
 	public function testGetClientInfo()
 	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
+        $infoId = 1;
+        $infoName = 'installation';
+
+        $clientInfo = JApplicationHelper::getClientInfo();
+
+        $existedClientInfoById = JApplicationHelper::getClientInfo($infoId);
+        $nonExistedClientInfoById = JApplicationHelper::getClientInfo(-1);
+
+        $existedClientInfoByName = JApplicationHelper::getClientInfo($infoName, true);
+        $nonExistedClientInfoByName = JApplicationHelper::getClientInfo('non-installation', true);
+
+        $expectedClientInfo = $this->expectedClientInfo();
+
+        $this->assertEquals($expectedClientInfo, $clientInfo);
+
+        $this->assertEquals($expectedClientInfo[$infoId], $existedClientInfoById);
+        $this->assertNull($nonExistedClientInfoById);
+
+        $this->assertNotNull($existedClientInfoByName);
+        $this->assertEquals($infoName, $existedClientInfoByName->name);
+        $this->assertNull($nonExistedClientInfoByName);
+
 	}
+
+
+    private function expectedClientInfo()
+    {
+        $clientInfo = array();
+
+        $obj = new stdClass;
+
+        // Site Client
+        $obj->id = 0;
+        $obj->name = 'site';
+        $obj->path = JPATH_SITE;
+        $clientInfo[0] = clone $obj;
+
+        // Administrator Client
+        $obj->id = 1;
+        $obj->name = 'administrator';
+        $obj->path = JPATH_ADMINISTRATOR;
+        $clientInfo[1] = clone $obj;
+
+        // Installation Client
+        $obj->id = 2;
+        $obj->name = 'installation';
+        $obj->path = JPATH_INSTALLATION;
+        $clientInfo[2] = clone $obj;
+
+        return $clientInfo;
+    }
+
+
 }
