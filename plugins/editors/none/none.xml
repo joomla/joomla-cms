@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.1" type="plugin" group="editors">
+	<name>plg_editors_none</name>
+	<version>3.0.0</version>
+	<creationDate>August 2004</creationDate>
+	<author></author>
+	<authorEmail>N/A</authorEmail>
+	<authorUrl></authorUrl>
+	<copyright></copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description>PLG_NONE_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="none">none.php</filename>
+		<filename>index.html</filename>	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_editors_none.ini</language>
+		<language tag="en-GB">en-GB.plg_editors_none.sys.ini</language>
+	</languages>
+</extension>

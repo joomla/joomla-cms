@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset>
+		<field
+			name="key"
+			type="text"
+			class="inputbox"
+			label="COM_LANGUAGES_OVERRIDE_FIELD_KEY_LABEL"
+			description="COM_LANGUAGES_OVERRIDE_FIELD_KEY_DESC"
+			size="60"
+			required="true"
+			filter="LanguagesHelper::filterKey" />
+
+		<field
+			name="override"
+			type="textarea"
+			class="inputbox"
+			label="COM_LANGUAGES_OVERRIDE_FIELD_OVERRIDE_LABEL"
+			description="COM_LANGUAGES_OVERRIDE_FIELD_OVERRIDE_DESC"
+			cols="50"
+			rows="5"
+			filter="LanguagesHelper::filterText" />
+
+		<field
+			name="both"
+			type="checkbox"
+			class="inputbox"
+			label="COM_LANGUAGES_OVERRIDE_FIELD_BOTH_LABEL"
+			description="COM_LANGUAGES_OVERRIDE_FIELD_BOTH_DESC"
+			value="true"
+			filter="boolean" />
+
+		<field
+			name="searchstring"
+			type="text"
+			class="inputbox"
+			label="COM_LANGUAGES_OVERRIDE_FIELD_SEARCHSTRING_LABEL"
+			description="COM_LANGUAGES_OVERRIDE_FIELD_SEARCHSTRING_DESC"
+			size="50" />
+
+		<field
+			name="searchtype"
+			type="list"
+			label="COM_LANGUAGES_OVERRIDE_FIELD_SEARCHTYPE_LABEL"
+			description="COM_LANGUAGES_OVERRIDE_FIELD_SEARCHTYPE_DESC"
+			default="value">
+			<option value="constant">COM_LANGUAGES_OVERRIDE_FIELD_SEARCHTYPE_CONSTANT</option>
+			<option value="value">COM_LANGUAGES_OVERRIDE_FIELD_SEARCHTYPE_TEXT</option>
+		</field>
+
+		<field name="language" type="text"
+			label="COM_LANGUAGES_OVERRIDE_FIELD_LANGUAGE_LABEL"
+			description="COM_LANGUAGES_OVERRIDE_FIELD_LANGUAGE_DESC"
+			filter="unset"
+			readonly="true"
+			class="readonly"
+			size="50"
+		/>
+
+		<field name="client" type="text"
+			label="COM_LANGUAGES_OVERRIDE_FIELD_CLIENT_LABEL"
+			description="COM_LANGUAGES_OVERRIDE_FIELD_CLIENT_DESC"
+			filter="unset"
+			readonly="true"
+			class="readonly"
+			size="50"
+		/>
+
+		<field name="file" type="text"
+			label="COM_LANGUAGES_OVERRIDE_FIELD_FILE_LABEL"
+			description="COM_LANGUAGES_OVERRIDE_FIELD_FILE_DESC"
+			filter="unset"
+			readonly="true"
+			class="readonly"
+			size="80"
+		/>
+
+		<field
+			name="id"
+			type="hidden" />
+	</fieldset>
+</form>

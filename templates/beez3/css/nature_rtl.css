@@ -1,0 +1,11 @@
+h1#logo {
+	padding: 0.6em 20px 10px 10px;
+}
+
+#header ul.menu {
+	left: 0;
+	right: auto;
+}
+#logo span {
+    padding-right: 2px;
+}

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_FINDER_MENU_SEARCH_VIEW_DEFAULT_TITLE">
+		<help
+			key = "JHELP_MENUS_MENU_ITEM_FINDER_SEARCH"
+		/>
+		<message>
+			<![CDATA[COM_FINDER_MENU_SEARCH_VIEW_DEFAULT_TEXT]]>
+		</message>
+	</layout>
+
+	<fields name="request" addfieldpath="/administrator/components/com_finder/models/fields">
+		<fieldset name="request">
+			<field name="q"
+				type="text"
+				label="COM_FINDER_SEARCH_SEARCH_QUERY_LABEL"
+				description="COM_FINDER_SEARCH_SEARCH_QUERY_DESC"
+				size="30"
+			/>
+			<field name="f"
+				type="searchfilter"
+				default=""
+				label="COM_FINDER_SEARCH_FILTER_SEARCH_LABEL"
+				description="COM_FINDER_SEARCH_FILTER_SEARCH_DESC"
+			/>
+		</fieldset>
+	</fields>
+	<fields name="params" addfieldpath="/administrator/components/com_finder/models/fields">
+		<fieldset name="basic">
+			<field name="show_date_filters"
+				type="list"
+				default=""
+				validate="options"
+				label="COM_FINDER_CONFIG_SHOW_DATE_FILTERS_LABEL"
+				description="COM_FINDER_CONFIG_SHOW_DATE_FILTERS_DESC">
+				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+			</field>
+			<field name="show_advanced"
+				type="list"
+				default=""
+				validate="options"
+				label="COM_FINDER_CONFIG_SHOW_ADVANCED_LABEL"
+				description="COM_FINDER_CONFIG_SHOW_ADVANCED_DESC">
+				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+			</field>
+			<field name="expand_advanced"
+				type="list"
+				default=""
+				validate="options"
+				label="COM_FINDER_CONFIG_EXPAND_ADVANCED_LABEL"
+				description="COM_FINDER_CONFIG_EXPAND_ADVANCED_DESC">
+				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+			</field>
+			<field type="spacer" />
+			<field name="show_description"
+				type="list"
+				default=""
+				validate="options"
+				label="COM_FINDER_CONFIG_SHOW_DESCRIPTION_LABEL"
+				description="COM_FINDER_CONFIG_SHOW_DESCRIPTION_DESC">
+				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+			</field>
+			<field name="description_length"
+				type="text"
+				default="255"
+				filter="integer"
+				label="COM_FINDER_CONFIG_DESCRIPTION_LENGTH_LABEL"
+				description="COM_FINDER_CONFIG_DESCRIPTION_LENGTH_DESC"
+				size="5"
+			/>
+			<field name="show_url"
+				type="list"
+				default=""
+				validate="options"
+				label="COM_FINDER_CONFIG_SHOW_URL_LABEL"
+				description="COM_FINDER_CONFIG_SHOW_URL_DESC">
+				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+			</field>
+			<field type="spacer" />
+		</fieldset>
+		<fieldset name="advanced">
+			<field name="show_pagination_limit" type="list"
+				label="JGLOBAL_DISPLAY_SELECT_LABEL"
+				validate="options"
+				description="JGLOBAL_DISPLAY_SELECT_DESC">
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+			<field name="show_pagination" type="list"
+				description="JGLOBAL_PAGINATION_DESC"
+				validate="options"
+				label="JGLOBAL_PAGINATION_LABEL" >
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+				<option value="2">JGLOBAL_AUTO</option>
+			</field>
+			<field name="show_pagination_results" type="list"
+				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
+				validate="options"
+				description="JGLOBAL_PAGINATION_RESULTS_DESC" >
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+			<field name="allow_empty_query"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				validate="options"
+				label="COM_FINDER_ALLOW_EMPTY_QUERY_LABEL"
+				description="COM_FINDER_ALLOW_EMPTY_QUERY_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field name="sort_order"
+				type="list"
+				default=""
+				validate="options"
+				label="COM_FINDER_CONFIG_SORT_ORDER_LABEL"
+				description="COM_FINDER_CONFIG_SORT_ORDER_DESC">
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="relevance">COM_FINDER_CONFIG_SORT_OPTION_RELEVANCE</option>
+				<option value="date">COM_FINDER_CONFIG_SORT_OPTION_START_DATE</option>
+				<option value="price">COM_FINDER_CONFIG_SORT_OPTION_LIST_PRICE</option>
+			</field>
+			<field name="sort_direction"
+				type="list"
+				default=""
+				validate="options"
+				label="COM_FINDER_CONFIG_SORT_DIRECTION_LABEL"
+				description="COM_FINDER_CONFIG_SORT_DIRECTION_DESC">
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="desc">COM_FINDER_CONFIG_SORT_OPTION_DESCENDING</option>
+				<option value="asc">COM_FINDER_CONFIG_SORT_OPTION_ASCENDING</option>
+			</field>
+			<field type="spacer" />
+			<field name="show_feed"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				validate="options"
+				label="COM_FINDER_CONFIG_SHOW_FEED_LABEL"
+				description="COM_FINDER_CONFIG_SHOW_FEED_DESC">
+				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
+			</field>
+			<field name="show_feed_text"
+				type="radio"
+				class="btn-group btn-group-yesno"
+				default="0"
+				validate="options"
+				label="COM_FINDER_CONFIG_SHOW_FEED_TEXT_LABEL"
+				description="COM_FINDER_CONFIG_SHOW_FEED_TEXT_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+		</fieldset>
+		<fieldset name="integration">
+			<field name="show_feed_link" type="list"
+				description="JGLOBAL_SHOW_FEED_LINK_DESC"
+				validate="options"
+				label="JGLOBAL_SHOW_FEED_LINK_LABEL" >
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+		</fieldset>
+	</fields>
+</metadata>

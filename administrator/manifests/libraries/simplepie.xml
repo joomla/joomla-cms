@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension type="library" version="3.1">
+	<name>SimplePie</name>
+	<libraryname>simplepie</libraryname>
+	<version>1.2</version>
+	<description>LIB_SIMPLEPIE_XML_DESCRIPTION</description>
+	<creationDate>2004</creationDate>
+	<copyright>Copyright (c) 2004-2009, Ryan Parman and Geoffrey Sneddon</copyright>
+	<license>http://www.opensource.org/licenses/bsd-license.php BSD License</license>
+	<author>SimplePie</author>
+	<authorEmail></authorEmail>
+	<authorUrl>http://simplepie.org/</authorUrl>
+	<packager>Joomla!</packager>
+	<packagerurl>http://www.joomla.org</packagerurl>
+	<files folder="libraries">
+		<folder>simplepie</folder>
+	</files>
+</extension>

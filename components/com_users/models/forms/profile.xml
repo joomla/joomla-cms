@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="core"
+		label="COM_USERS_PROFILE_DEFAULT_LABEL">
+
+		<field name="id" type="hidden"
+			filter="integer"
+		/>
+
+		<field name="name" type="text"
+			description="COM_USERS_PROFILE_NAME_DESC"
+			filter="string"
+			label="COM_USERS_PROFILE_NAME_LABEL"
+			required="true"
+			size="30"
+		/>
+
+		<field name="username" type="text"
+			class="validate-username"
+			description="COM_USERS_DESIRED_USERNAME"
+			filter="username"
+			label="COM_USERS_PROFILE_USERNAME_LABEL"
+			message="COM_USERS_PROFILE_USERNAME_MESSAGE"
+			required="true"
+			size="30"
+			validate="username"
+		/>
+
+		<field name="password2" type="password"
+			autocomplete="off"
+			class="validate-password"
+			description="COM_USERS_DESIRED_PASSWORD"
+			field="password1"
+			filter="raw"
+			label="COM_USERS_PROFILE_PASSWORD1_LABEL"
+			message="COM_USERS_PROFILE_PASSWORD1_MESSAGE"
+			size="30"
+			validate="equals"
+		/>
+
+		<field name="password1" type="password"
+			autocomplete="off"
+			class="validate-password"
+			description="COM_USERS_PROFILE_PASSWORD2_DESC"
+			filter="raw"
+			label="COM_USERS_PROFILE_PASSWORD2_LABEL"
+			size="30"
+			validate="password"
+		/>
+
+		<field name="email1" type="email"
+			description="COM_USERS_PROFILE_EMAIL1_DESC"
+			filter="string"
+			label="COM_USERS_PROFILE_EMAIL1_LABEL"
+			message="COM_USERS_PROFILE_EMAIL1_MESSAGE"
+			required="true"
+			size="30"
+			unique="true"
+			validate="email"
+		/>
+
+		<field name="email2" type="email"
+			description="COM_USERS_PROFILE_EMAIL2_DESC"
+			field="email1"
+			filter="string"
+			label="COM_USERS_PROFILE_EMAIL2_LABEL"
+			message="COM_USERS_PROFILE_EMAIL2_MESSAGE"
+			required="true"
+			size="30"
+			validate="equals"
+		/>
+	</fieldset>
+	
+	<!-- Used to get the two factor authentication configuration -->
+	<field name="twofactor" type="hidden" />
+</form>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+   <system.webServer>
+       <rewrite>
+           <rules>
+               <rule name="Joomla! Rule 1" stopProcessing="true">
+                   <match url="^(.*)$" ignoreCase="false" />
+                   <conditions logicalGrouping="MatchAny">
+                       <add input="{QUERY_STRING}" pattern="base64_encode[^(]*\([^)]*\)" ignoreCase="false" />
+                       <add input="{QUERY_STRING}" pattern="(&gt;|%3C)([^s]*s)+cript.*(&lt;|%3E)" />
+                       <add input="{QUERY_STRING}" pattern="GLOBALS(=|\[|\%[0-9A-Z]{0,2})" ignoreCase="false" />
+                       <add input="{QUERY_STRING}" pattern="_REQUEST(=|\[|\%[0-9A-Z]{0,2})" ignoreCase="false" />
+                   </conditions>
+                   <action type="CustomResponse" url="index.php" statusCode="403" statusReason="Forbidden" statusDescription="Forbidden" />
+               </rule>
+               <rule name="Joomla! Rule 2">
+                   <match url="(.*)" ignoreCase="false" />
+                   <conditions logicalGrouping="MatchAll">
+                     <add input="{URL}" pattern="^/index.php" ignoreCase="true" negate="true" />
+                     <add input="{URL}" pattern="/component/|(/[^.]*|\.(php|html?|feed|pdf|vcf|raw))$" />
+                     <add input="{REQUEST_FILENAME}" matchType="IsFile" ignoreCase="false" negate="true" />
+                     <add input="{REQUEST_FILENAME}" matchType="IsDirectory" ignoreCase="false" negate="true" />
+                   </conditions>
+                   <action type="Rewrite" url="index.php" />
+               </rule>
+           </rules>
+       </rewrite>
+   </system.webServer>
+</configuration>

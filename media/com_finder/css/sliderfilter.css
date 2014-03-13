@@ -1,0 +1,56 @@
+#finder-filter-window {
+	width: 100%;
+	padding: 0;
+	margin: 10px 0 10px;
+	overflow: auto;
+}
+
+.checklist,
+#branch-selectors {
+	border: 1px solid #ccc;
+	height: 220px;
+	overflow: auto;
+	width: 220px;
+	float: left;
+	margin: 0;
+}
+
+#finder-filter-window dl {
+	padding: 0;
+	margin: 0;
+	width: 220px;
+}
+
+.checklist {
+	border-left-width: 0;
+}
+
+#filter_lists div {
+	float: left;
+}
+
+.checklist dt,
+#branch-selectors dt {
+	background-color: #F6F6F6;
+	border-bottom: 1px solid #ccc;
+	padding: 0 0 2px 2px;
+	width: 100%;
+	text-align: left;
+}
+
+.checklist,
+.checklist dd,
+#branch-selectors dd,
+.checklist div.control-group,
+#branch-selectors div.control-group {
+	margin: 0;
+	padding: 0 0 0 2px;
+	width: 100%;
+	text-align: left;
+}
+
+.checklist label:hover,
+#branch-selectors label:hover {
+	background: #F6F6F6;
+	color: #000;
+}

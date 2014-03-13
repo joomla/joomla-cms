@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="joomla" default="build" basedir=".">
+	<property name="source" value="." />
+	<property name="joomlasource" value="administrator,cli,components,includes,installation,language/en-GB,libraries/cms,modules,plugins,templates" />
+
+	<target name="clean" description="Clean up and create artifact directories">
+		<delete dir="${basedir}/build/api" />
+		<delete dir="${basedir}/build/coverage" />
+		<delete dir="${basedir}/build/logs" />
+		<delete dir="${basedir}/build/pdepend" />
+
+		<mkdir dir="${basedir}/build/api" />
+		<mkdir dir="${basedir}/build/coverage" />
+		<mkdir dir="${basedir}/build/logs" />
+		<mkdir dir="${basedir}/build/pdepend" />
+	</target>
+
+	<target name="phpunit" description="Run unit tests using PHPUnit and generates junit.xml and clover.xml">
+		<exec executable="phpunit">
+			<arg value="-d" />
+			<arg value="zend.enable_gc=0" />
+		</exec>
+	</target>
+
+	<target name="parallelTasks" description="Run the pdepend, phpmd and phpcs tasks in parallel using a maximum of 2 threads.">
+		<parallel threadCount="2">
+			<sequential>
+				<antcall target="pdepend" />
+				<antcall target="phpmd" />
+			</sequential>
+			<antcall target="phpcs" />
+		</parallel>
+	</target>
+
+	<target name="phpcs" description="Generate checkstyle.xml using PHP_CodeSniffer">
+		<exec executable="phpcs">
+			<arg value="--report=checkstyle" />
+			<arg value="--extensions=php" />
+			<arg value="-p" />
+			<arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
+			<arg value="--standard=${basedir}/build/phpcs/Joomla" />
+			<arg path="${source}" />
+		</exec>
+	</target>
+
+	<target name="pdepend" description="Generate jdepend.xml and software metrics charts using PHP_Depend">
+		<exec executable="pdepend">
+			<arg value="--jdepend-xml=${basedir}/build/logs/jdepend.xml" />
+			<arg value="--jdepend-chart=${basedir}/build/pdepend/dependencies.svg" />
+			<arg value="--overview-pyramid=${basedir}/build/pdepend/overview-pyramid.svg" />
+			<arg value="--ignore=build,tests" />
+			<arg path="${source}" />
+		</exec>
+	</target>
+
+	<target name="phpmd" description="Generate pmd.xml using PHPMD">
+		<exec executable="phpmd">
+			<arg path="${joomlasource}" />
+			<arg value="xml" />
+			<arg value="${basedir}/build/phpmd.xml" />
+			<arg value="--reportfile" />
+			<arg value="${basedir}/build/logs/pmd.xml" />
+		</exec>
+	</target>
+
+	<target name="phpdoc" description="Generate API documentation using phpDocumentor">
+		<exec executable="phpdoc">
+			<arg value="-d" />
+			<arg path="${basedir}/libraries/cms/,${basedir}/libraries/joomla/,${basedir}/libraries/legacy/" />
+			<arg value="-f" />
+			<arg path="${basedir}/libraries/loader.php,${basedir}/libraries/platform.php" />
+			<arg value="-t" />
+			<arg path="${basedir}/build/api/" />
+			<arg value="--template" />
+			<arg value="joomla" />
+			<arg value="--title" />
+			<arg value="Joomla! CMS API" />
+		</exec>
+	</target>
+
+	<target name="lint" description="Perform syntax check of sourcecode files">
+		<apply executable="php" failonerror="true">
+			<arg value="-l" />
+
+			<fileset dir="${basedir}/administrator">
+				<include name="**/*.php" />
+				<modified />
+			</fileset>
+
+			<fileset dir="${basedir}/cli">
+				<include name="**/*.php" />
+				<modified />
+			</fileset>
+
+			<fileset dir="${basedir}/components">
+				<include name="**/*.php" />
+				<modified />
+			</fileset>
+
+			<fileset dir="${basedir}/installation">
+				<include name="**/*.php" />
+				<modified />
+			</fileset>
+
+			<fileset dir="${basedir}/includes">
+				<include name="**/*.php" />
+				<modified />
+			</fileset>
+
+			<fileset dir="${basedir}/language/en-GB">
+				<include name="**/*.php" />
+				<modified />
+			</fileset>
+
+			<fileset dir="${basedir}/libraries">
+				<include name="**/*.php" />
+				<modified />
+			</fileset>
+
+			<fileset dir="${basedir}/modules">
+				<include name="**/*.php" />
+				<modified />
+			</fileset>
+
+			<fileset dir="${basedir}/templates">
+				<include name="**/*.php" />
+				<modified />
+			</fileset>
+		</apply>
+	</target>
+
+
+	<target name="build" depends="clean,phpunit,parallelTasks" />
+</project>

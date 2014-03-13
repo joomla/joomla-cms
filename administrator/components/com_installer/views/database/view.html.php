@@ -44,7 +44,7 @@ class InstallerViewDatabase extends InstallerViewDefault
 		$this->pagination = $this->get('Pagination');
 		$this->errorCount = count($this->errors);
 
-		if (version_compare($this->schemaVersion, JVERSION) != 0)
+		if ($this->schemaVersion != $this->changeSet->getSchema())
 		{
 			$this->errorCount++;
 		}

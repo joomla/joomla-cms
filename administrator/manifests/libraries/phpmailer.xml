@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<extension type="library" version="3.1">
+	<name>PHPMailer</name>
+	<libraryname>phpmailer</libraryname>
+	<version>5.2.6</version>
+	<description>LIB_PHPMAILER_XML_DESCRIPTION</description>
+	<creationDate>2001</creationDate>
+	<copyright>(c) 2001-2003, Brent R. Matzelle, (c) 2004-2009, Andy Prevost. All Rights Reserved., (c) 2010-2013, Jim Jagielski. All Rights Reserved.</copyright>
+	<license>http://www.gnu.org/licenses/lgpl-2.1.html GNU/LGPL</license>
+	<author>PHPMailer</author>
+	<authorEmail>jimjag@gmail.com</authorEmail>
+	<authorUrl>https://github.com/PHPMailer/PHPMailer</authorUrl>
+	<packager>Joomla!</packager>
+	<packagerurl>http://www.joomla.org</packagerurl>
+	<files folder="libraries">
+		<folder>phpmailer</folder>
+	</files>
+</extension>

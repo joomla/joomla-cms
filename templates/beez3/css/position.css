@@ -1,0 +1,495 @@
+/**
+
+ * @author ( Angie Radtke )
+ * @package Joomla
+ * @subpackage Accessible-Template-Beez
+ * @copyright Copyright (C) 2005 - 2009 Open Source Matters. All rights reserved.
+ * @license GNU/GPL, see LICENSE.php
+ * Joomla! is free software. This version may have been modified pursuant to the
+ * GNU General Public License, and as distributed it includes or is derivative
+ * of works licensed under the GNU General Public License or other free or open
+ * source software licenses. See COPYRIGHT.php for copyright notices and
+ * details.
+ */
+
+html,
+body,
+body div,
+span,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+abbr,
+address,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+samp,
+small,
+strong,
+sub,
+sup,
+var,
+b,
+i,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section,
+time,
+mark,
+audio,
+video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    vertical-align: baseline;
+    background: transparent;
+}
+
+article,
+aside,
+figure,
+footer,
+header,
+hgroup,
+nav,
+section {
+    display: block;
+}
+
+html {
+    background: #ffffff;
+    font-size: 100.01%;
+    -webkit-overflow-scrolling: touch;
+    -webkit-tap-highlight-color: #f3f5f6;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
+
+body {
+
+    position: relative;
+    width: 100%;
+    line-height: 1.5em;
+    background: #eee
+}
+
+/* ###################### general ###################### */
+#all {
+    margin: 0 auto;
+    max-width: 1050px;
+    padding: 0;
+    text-align: left;
+    font-size: 0.8em
+}
+
+#header {
+    display: block !important;
+    position: relative;
+    padding: 8em 0 0 0;
+    overflow: hidden;
+}
+
+#header ul {
+    position: absolute;
+    left: 0;
+    top: 5em;
+    right: 0;
+    display: block;
+    margin: 0 0 1px 0;
+    text-align: right;
+    list-style-type: none;
+    padding: 10px 0
+}
+
+#back {
+    margin: 0;
+    padding: 0;
+}
+
+#contentarea,
+#contentarea2 {
+    position: relative;
+    overflow: hidden;
+    padding: 0 20px !important;
+    margin: 0;
+
+}
+
+#wrapper {
+    width: 53%;
+    float: left;
+    position: relative;
+
+}
+
+#wrapper2 {
+    width: 72%;
+    float: left;
+    position: relative;
+    padding-bottom: 20px;
+
+}
+
+#wrapper2 .item-page {
+    max-width: 660px
+}
+
+#main {
+    padding-top: 10px;
+    padding-bottom: 20px;
+    position: relative;
+
+}
+
+#right {
+    float: left;
+    width: 20%;
+    margin: 10px 0 10px 2%;
+    padding: 0 0 5px 0;
+    position: relative;
+}
+
+.unseen,
+.hidelabeltxt,
+#line label {
+    display: inline;
+    height: 0;
+    left: -3000px;
+    position: absolute;
+    top: -2000px;
+    width: 0;
+}
+
+/* ++++++++++++++  nav after content  ++++++++++++++ */
+.left {
+    padding-top: 0;
+    float: right;
+    margin: 10px 0 10px 0;
+    width: 22%;
+    position: relative;
+
+}
+
+/* ++++++++++++++  nav before content  ++++++++++++++ */
+.left1 {
+    padding: 0;
+    float: left;
+    margin: 10px 3% 10px 0;
+    width: 21%;
+    position: relative
+}
+
+.leftbigger {
+    width: 25%
+}
+
+/* ###################### header ###################### */
+
+.skiplinks,
+.skiplinks li {
+    display: inline;
+    height: 0;
+    line-height: 0;
+    padding: 0 !important;
+}
+
+.skiplinks li a.u2 {
+    display: inline;
+    height: 0;
+    left: -3000px;
+    position: absolute;
+    top: -2000px;
+    width: 0;
+
+}
+
+.skiplinks li a.u2:active,
+.skiplinks li a.u2:focus {
+    position: absolute;
+    width: 13em;
+    top: -4em;
+    left: 10px;
+    line-height: 1.5em;
+    padding: 5px;
+    font-weight: bold;
+    height: 3em;
+
+}
+
+.wrap {
+    border: 0;
+    clear: both;
+    float: none;
+    font-size: 1px;
+    height: 0;
+    line-height: 1px;
+    margin: 0;
+    padding: 0;
+    visibility: hidden;
+}
+
+#logo {
+    margin-top: 0;
+    margin-left: 10px;
+    display: block;
+    padding: 1em 20px 20px 10px;
+    width: 425px;
+    font-weight: normal;
+    line-height: 1em;
+
+}
+
+#logo img {
+    display: block;
+}
+
+#logo span {
+    padding-left: 2px
+}
+
+#logo span.header1 {
+    display: block;
+    top: 0;
+    line-height: 0.8em;
+    font-size: 0.7em;
+    padding-left: 55px
+}
+
+.logoheader {
+    margin: -2px 10px 0;
+    padding: 0;
+    text-align: left;
+    font-weight: normal;
+    line-height: 1.5em;
+}
+.header1 {
+	font-size: 1.5em;
+	margin-left: 10px;
+}
+
+#line {
+    padding: 5px 0 2px 2px;
+    position: absolute;
+    right: 10px;
+    top: 0.5em;
+    max-width: 40em;
+    text-align: right;
+    min-width: 40em
+
+}
+
+#fontsize,
+#line .search {
+    display: inline;
+    margin: 0;
+}
+
+/* ++++++++++++++  button for closing right column  ++++++++++++++ */
+
+#close {
+    margin-right: 0;
+    text-transform: uppercase;
+}
+
+#close span {
+    position: absolute;
+    right: 20px;
+    z-index: 10000;
+    top: 5px;
+    font-weight: bold;
+    text-align: right;
+    line-height: 1.5em;
+    margin-top:20px;
+    padding: 5px
+}
+
+#close > a {
+    display: block;
+    overflow: hidden
+}
+
+#close > a:hover span {
+    background: #095197
+}
+
+/* ###################### main ###################### */
+
+/* ++++++++++++++  position  ++++++++++++++ */
+
+.blog-featured {
+    padding: 0;
+}
+
+.items-leading {
+    padding: 0 5px 10px 5px;
+    overflow: hidden;
+    margin-bottom: 10px
+}
+
+.row-separator {
+    display: block;
+    clear: both;
+    margin: 0;
+    border: 0;
+    height: 1px
+}
+
+.item-separator {
+    display: none;
+    margin: 0;
+}
+
+.shownocolumns {
+    width: 98% !important;
+}
+
+#top {
+    margin: 0 0 20px 0;
+    overflow: hidden
+}
+
+/* ++++++++++++++  blog  ++++++++++++++ */
+
+.cols-1 {
+    display: block;
+    float: none !important;
+    margin: 0 !important;
+}
+
+.cols-2 .column-1 {
+    width: 46%;
+    float: left;
+}
+
+.cols-2 .column-2 {
+    width: 46%;
+    float: right;
+    margin: 0
+}
+
+.cols-3 .column-1 {
+    float: left;
+    width: 29%;
+    padding: 0 5px;
+    margin-right: 4%
+
+}
+
+.cols-3 .column-2 {
+    float: left;
+    width: 29%;
+    margin-left: 0;
+    padding: 0 5px
+}
+
+.cols-3 .column-3 {
+    float: right;
+    width: 29%;
+    padding: 0 5px
+}
+
+.items-row {
+    overflow: hidden;
+    margin-bottom: 10px !important;
+}
+
+.column-1,
+.column-2,
+.column-3 {
+    padding: 10px 5px
+}
+
+.column-2 {
+    width: 55%;
+    margin-left: 40%;
+}
+
+.column-3 {
+    width: 30%
+}
+
+.blog-more {
+    padding: 10px 5px
+}
+
+/* ++++++++++++++  footer  ++++++++++++++ */
+
+#bottom {
+    overflow: hidden
+}
+
+.box {
+    width: 27%;
+    float: left;
+    margin-right: 10px;
+    min-height: 100px
+}
+
+.box1 {
+    width: 35%
+}
+
+.box2 {
+    width: 32%
+}
+
+.box3 {
+    float: right
+}
+
+#footer-inner, #footer {
+    max-width: 1025px;
+    margin: 0 auto;
+
+    padding: 10px 15px 10px 10px;
+}
+
+img {
+    border: 0 none;
+    max-width: 100%;
+}
+
+/* hide the mobile menu button */
+#mobile_select {
+    display: none
+}

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="com_user_reset_view_default_title" option="com_user_reset_view_default_option">
+		<help
+			key="JHELP_MENUS_MENU_ITEM_USER_PASSWORD_RESET"
+		/>
+		<message>
+			<![CDATA[COM_USER_RESET_VIEW_DEFAULT_DESC]]>
+		</message>
+	</layout>
+</metadata>

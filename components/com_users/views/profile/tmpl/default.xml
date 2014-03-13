@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="com_user_profile_view_default_title" option="com_user_profile_view_default_option">
+		<help
+			key = "JHELP_MENUS_MENU_ITEM_USER_PROFILE"
+		/>
+		<message>
+			<![CDATA[com_user_profile_view_default_desc]]>
+		</message>
+	</layout>
+</metadata>
