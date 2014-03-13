@@ -42,9 +42,12 @@ $params = $this->params;
 		<?php if ($useDefList && ($info == 0 || $info == 2)) : ?>
 			<div class="article-info muted">
 				<dl class="article-info">
-				<dt class="article-info-term">
-					<?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?>
-				</dt>
+					<dl class="article-info">
+						<?php if (JText::_('COM_CONTENT_ARTICLE_INFO')) { ?>
+							<dt class="article-info-term">
+								<?php echo JText::_('COM_CONTENT_ARTICLE_INFO'); ?>
+							</dt>
+						<?php } ?>
 
 				<?php if ($params->get('show_parent_category') && !empty($item->parent_slug)) : ?>
 					<dd>
