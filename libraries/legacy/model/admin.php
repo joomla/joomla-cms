@@ -770,10 +770,19 @@ abstract class JModelAdmin extends JModelForm
 			}
 			else
 			{
-				$error = $table->getError() ? $table->getError() : JText::_('JLIB_DATABASE_ERROR_EMPTY_ROW_RETURNED');
+				if ($table->getError())
+				{
+					$this->setError($table->getError());
+					return false;
+				}
 
-				$this->setError($error);
-				return false;
+				$key = $table->getKeyName();
+
+				if (empty($table->$key))
+				{
+					$this->setError(JText::_('JLIB_DATABASE_ERROR_EMPTY_ROW_RETURNED'));
+					return false;
+				}
 			}
 		}
 
