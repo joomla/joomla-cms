@@ -388,6 +388,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			foreach ($fields as $field)
 			{
 				// Do some dirty translation to MySQL output.
+				$result[$field->column_name] = $field;
 				// TODO: Come up with and implement a standard across databases.
 				$result[$field->column_name] = (object) array(
 					'Field' => $field->column_name,
