@@ -735,13 +735,13 @@ abstract class JModelAdmin extends JModelForm
 
 					if (in_array(false, $result, true))
 					{
-						$this->setError($table->getError());
+						$this->setError($dispatcher->getError());
 						return false;
 					}
 
 					if (!$table->delete($pk))
 					{
-						$this->setError($table->getError());
+						$this->setError($dispatcher->getError());
 						return false;
 					}
 
