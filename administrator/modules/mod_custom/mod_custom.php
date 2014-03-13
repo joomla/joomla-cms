@@ -15,4 +15,7 @@ if ($params->def('prepare_content', 1))
 	$module->content = JHtml::_('content.prepare', $module->content, '', 'mod_custom.content');
 }
 
+// Replace 'images/' to '../images/' if we would use a image form /images at the backend.
+$module->content = preg_replace('*src\=\"(?!administrator\/)images/*', 'src="../images/', $module->content);
+
 require JModuleHelper::getLayoutPath('mod_custom');
