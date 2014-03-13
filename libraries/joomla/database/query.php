@@ -1845,4 +1845,3 @@ abstract class JDatabaseQuery
 		return $this;
 	}
 }
-
