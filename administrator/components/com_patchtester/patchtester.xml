@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension type="component" version="3.1" method="upgrade">
+	<name>com_patchtester</name>
+	<author>Joomla! Project</author>
+	<creationDate>October 2011</creationDate>
+	<copyright>(C) 2011 - 2012 Ian MacLennan, (C) 2013 Open Source Matters, Inc. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>http://www.joomla.org</authorUrl>
+	<version>2.0.0.beta</version>
+	<description>COM_PATCHTESTER_XML_DESCRIPTION</description>
+	<scriptfile>script.php</scriptfile>
+	<install>
+		<sql>
+			<file driver="mysql" charset="utf8">install/sql/mysql/install.sql</file>
+			<file driver="postgresql" charset="utf8">install/sql/postgresql/install.sql</file>
+			<file driver="sqlsrv" charset="utf8">install/sql/sqlsrv/install.sql</file>
+		</sql>
+	</install>
+	<uninstall>
+		<sql>
+			<file driver="mysql" charset="utf8">install/sql/mysql/uninstall.sql</file>
+			<file driver="postgresql" charset="utf8">install/sql/postgresql/uninstall.sql</file>
+			<file driver="sqlsrv" charset="utf8">install/sql/sqlsrv/uninstall.sql</file>
+		</sql>
+	</uninstall>
+	<update>
+		<schemas>
+			<schemapath type="mysql">install/sql/updates/mysql</schemapath>
+			<schemapath type="postgresql">install/sql/updates/postgresql</schemapath>
+			<schemapath type="sqlsrv">install/sql/updates/sqlsrv</schemapath>
+		</schemas>
+	</update>
+	<administration>
+		<menu img="components/com_patchtester/assets/images/icon-16-patchtester.png">com_patchtester</menu>
+		<files folder="admin">
+			<folder>assets</folder>
+			<folder>backups</folder>
+			<folder>controllers</folder>
+			<folder>helpers</folder>
+			<folder>install</folder>
+			<folder>language</folder>
+			<folder>models</folder>
+			<folder>tables</folder>
+			<folder>views</folder>
+			<filename>access.xml</filename>
+			<filename>config.xml</filename>
+			<filename>controller.php</filename>
+			<filename>patchtester.php</filename>
+		</files>
+	</administration>
+</extension>

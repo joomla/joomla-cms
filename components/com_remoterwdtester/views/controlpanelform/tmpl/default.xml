@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+    <layout title="COM_REMOTERWDTESTER_TITLE_FORM_VIEW_CONTROLPANEL" option="View">
+        <message>
+                        <![CDATA[COM_REMOTERWDTESTER_TITLE_FORM_VIEW_CONTROLPANEL_DESC]]>
+        </message>
+    </layout>
+    <fields name="params">
+        <fieldset name="basic" label="COM_REMOTERWDTESTER_FIELDSET_ITEM_ID_SELECT_LABEL">
+            <field name="item_id" query="SELECT 'Please select a Item' as `id`" type="sql" key_field="id" value_field="id" label="COM_REMOTERWDTESTER_ITEM_ID_SELECT_LABEL_FORM" require="true" description="JGLOBAL_SHOW_TITLE_DESC">
+            </field>
+        </fieldset>
+    </fields>
+</metadata>
