@@ -50,7 +50,7 @@ class JFormFieldFile extends JFormField
 		switch ($name)
 		{
 			case 'accept':
-				return $this->$name;
+				return $this->accept;
 		}
 
 		return parent::__get($name);
@@ -71,7 +71,7 @@ class JFormFieldFile extends JFormField
 		switch ($name)
 		{
 			case 'accept':
-				$this->$accept = (string) $value;
+				$this->accept = (string) $value;
 				break;
 
 			default:

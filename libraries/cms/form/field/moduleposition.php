@@ -50,7 +50,7 @@ class JFormFieldModulePosition extends JFormFieldText
 		switch ($name)
 		{
 			case 'clientId':
-				return $this->$name;
+				return $this->clientId;
 		}
 
 		return parent::__get($name);
