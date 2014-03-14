@@ -15,13 +15,13 @@ use SeleniumClient\WebDriver;
 use SeleniumClient\WebDriverWait;
 use SeleniumClient\DesiredCapabilities;
 
-
+/**
+ * This class tests the Config FrontEnd
+ * @author Kshitij
+ *
+ */
 class ConfigFrontEnd0001Test extends JoomlaWebdriverTestCase
 {
-
-	private $previousSiteName;
-	
-	
 	/**
 	 * Login and start test.
 	 *
@@ -29,18 +29,8 @@ class ConfigFrontEnd0001Test extends JoomlaWebdriverTestCase
 	 */
 	public function setUp()
 	{
-
-		$cfg = new SeleniumConfig();
 		parent::setUp();
-
-		$homePageUrl = 'index.php';
-		$this->driver->get($cfg->host.$cfg->path . $homePageUrl);
 		$this->doSiteLogin();
-		$url = $cfg->host.$cfg->path . $homePageUrl . '?option=com_config&view=config&controller=config.display.config';
-
-		$this->siteHomePage = $this->getPageObject('SiteConfigurationConfigPage', true, $url);
-
-		$this->previousSiteName = $this->siteHomePage->getSiteName();
 	}
 
 	/**
@@ -50,26 +40,27 @@ class ConfigFrontEnd0001Test extends JoomlaWebdriverTestCase
 	 */
 	public function tearDown()
 	{
-		if(!empty($this->previousSiteName))
-		{
-			$this->siteHomePage->changeSiteName($this->previousSiteName);
-		}
-
 		$this->doSiteLogout();
 		parent::tearDown();
 	}
-
 
 	/**
 	 * @test
 	 */
 	public function testChangeSiteName()
 	{
-
-		$this->siteHomePage->changeSiteName('JoomlaTestSiteTest');
-
-		$this->assertEquals('JoomlaTestSiteTest', $this->siteHomePage->getSiteName(), 'Site name has not changed');		
-
+		$newSiteName = 'Joomla Testing';
+		$homePageUrl = 'index.php';
+		$cfg = new SeleniumConfig();
+		$url = $cfg->host . $cfg->path . $homePageUrl . '?option=com_config&view=config&controller=config.display.config';
+		$this->siteHomePage = $this->getPageObject('SiteConfigurationConfigPage', true, $url);
+		$previousSiteName = $this->siteHomePage->getSiteName();
+		$this->siteHomePage->changeSiteName($newSiteName);
+		$this->assertEquals($newSiteName, $this->siteHomePage->getSiteName(), 'Site name has changed');
+		if (!empty($previousSiteName))
+		{
+			$this->siteHomePage->changeSiteName($previousSiteName);
+		}
+		$this->assertEquals($previousSiteName, $this->siteHomePage->getSiteName(), 'Site name has changed');
 	}
-
 }
