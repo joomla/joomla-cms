@@ -24,7 +24,7 @@ var JFormValidator = function() {
  	},
 
  	findLabel = function(id, form){
- 	 	var $label, $form = $(form);
+ 	 	var $label, $form = jQuery(form);
  	 	if (!id) {
  	 	 	return false;
  	 	}
@@ -56,7 +56,7 @@ var JFormValidator = function() {
  	},
 
  	validate = function(el) {
- 	 	var $el = $(el), tagName, handler;
+ 	 	var $el = jQuery(el), tagName, handler;
  	 	// Ignore the element if its currently disabled, because are not submitted for the http-request. For those case return always true.
  	 	if ($el.attr('disabled')) {
  	 	 	handleResponse(true, $el);
@@ -98,24 +98,24 @@ var JFormValidator = function() {
  	isValid = function(form) {
  	 	var valid = true, i, message, errors, error, label;
  	 	// Validate form fields
- 	 	$.each($(form).data('inputfields'), function(index, el) {
+ 	 	jQuery.each(jQuery(form).find('input, textarea, select, fieldset, button'), function(index, el) {
  	 	 	if (validate(el) === false) {
  	 	 	 	valid = false;
  	 	 	}
  	 	});
  	 	// Run custom form validators if present
- 	 	$.each(custom, function(key, validator) {
+ 	 	jQuery.each(custom, function(key, validator) {
  	 	 	if (validator.exec() !== true) {
  	 	 	 	valid = false;
  	 	 	}
  	 	});
  	 	if (!valid) {
  	 	 	message = Joomla.JText._('JLIB_FORM_FIELD_INVALID');
- 	 	 	errors = $("label.invalid");
+ 	 	 	errors = jQuery("input.invalid, textarea.invalid, select.invalid, fieldset.invalid, button.invalid");
  	 	 	error = {};
  	 	 	error.error = [];
  	 	 	for ( i = 0; i < errors.length; i++) {
- 	 	 	 	label = $(errors[i]).text();
+ 	 	 	 	label = jQuery('label[for=' + errors[i].id + ']').text();
  	 	 	 	if (label !== 'undefined') {
  	 	 	 	 	error.error[i] = message + label.replace("*", "");
  	 	 	 	}
@@ -128,7 +128,7 @@ var JFormValidator = function() {
  	attachToForm = function(form) {
  	 	var inputFields = [];
  	 	// Iterate through the form object and attach the validate method to all input fields.
- 	 	$(form).find('input, textarea, select, fieldset, button').each(function() {
+ 	 	jQuery(form).find('input, textarea, select, fieldset, button').each(function() {
  	 	 	var $el = $(this), id = $el.attr('id'), tagName = $el.prop("tagName").toLowerCase();
  	 	 	if ($el.hasClass('required')) {
  	 	 	 	$el.attr('aria-required', 'true').attr('required', 'required');
@@ -183,7 +183,7 @@ var JFormValidator = function() {
  	 	 	return regex.test(value);
  	 	});
  	 	// Attach to forms with class 'form-validate'
- 	 	$('form.form-validate').each(function() {
+ 	 	jQuery('form.form-validate').each(function() {
  	 	 	attachToForm(this);
  	 	}, this);
  	};
