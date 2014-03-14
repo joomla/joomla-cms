@@ -893,6 +893,6 @@ abstract class JFormField
 
 		$hiddenLabel = isset($options['hiddenLabel']) ? $options['hiddenLabel'] : false;
 		
-		return JLayoutHelper::render('libraries.joomla.form.renderfield', array('input' => $this->getInput(), 'label' => $this->getLabel(), 'hiddenLabel' => $hiddenLabel));
+		return JLayoutHelper::render('joomla.form.renderfield', array('input' => $this->getInput(), 'label' => $this->getLabel(), 'hiddenLabel' => $hiddenLabel));
 	}
 }
