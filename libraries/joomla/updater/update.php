@@ -171,7 +171,7 @@ class JUpdate extends JObject
         array_push($this->_stack, $name);
         $tag = $this->_getStackLocation();
         // Reset the data
-        eval('$this->' . $tag . '->_data = "";');
+        @eval('$this->' . $tag . '->_data = "";');
 
         switch ($name)
         {
@@ -190,7 +190,7 @@ class JUpdate extends JObject
             // For everything else there's...the default!
             default:
                 $name = strtolower($name);
-                $this->_current_update->$name->_data = '';
+                @$this->_current_update->$name->_data = '';
                 foreach ($attrs as $key => $data)
                 {
                     $key = strtolower($key);
@@ -312,7 +312,7 @@ class JUpdate extends JObject
         //$this->$tag->_data .= $data;
         // Throw the data for this item together
         $tag = strtolower($tag);
-        $this->_current_update->$tag->_data .= $data;
+        @$this->_current_update->$tag->_data .= $data;
     }
 
     /**

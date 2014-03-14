@@ -190,7 +190,7 @@ class JFilterInput extends JObject
 				break;
 
 			case 'WORD':
-				$result = (string) preg_replace('/[^A-Z_]/i', '', $source);
+                                $result = (string) preg_replace('/[^A-Z_]/i', '', $source);
 				break;
 
 			case 'ALNUM':
@@ -575,7 +575,7 @@ class JFilterInput extends JObject
 				// strips unicode, hex, etc
 				$attrSubSet[1] = str_replace('&#', '', $attrSubSet[1]);
 				// Strip normal newline within attr value
-				$attrSubSet[1] = preg_replace('/[\n\r]/', '', $attrSubSet[1]);
+				$attrSubSet[1] = @preg_replace('/[\n\r]/', '', $attrSubSet[1]);
 				// Strip double quotes
 				$attrSubSet[1] = str_replace('"', '', $attrSubSet[1]);
 				// Convert single quotes from either side to doubles (Single quotes shouldn't be used to pad attr values)
@@ -649,9 +649,9 @@ class JFilterInput extends JObject
 		}
 		$source = strtr($source, $ttr);
 		// Convert decimal
-		$source = preg_replace('/&#(\d+);/me', "utf8_encode(chr(\\1))", $source); // decimal notation
+                $source = @preg_replace('/&#(\d+);/me', "utf8_encode(chr(\\1))", $source); // decimal notation
 		// Convert hex
-		$source = preg_replace('/&#x([a-f0-9]+);/mei', "utf8_encode(chr(0x\\1))", $source); // hex notation
+                $source = @preg_replace('/&#x([a-f0-9]+);/mei', "utf8_encode(chr(0x\\1))", $source); // hex notation
 		return $source;
 	}
 
@@ -719,7 +719,7 @@ class JFilterInput extends JObject
 	protected function _stripCSSExpressions($source)
 	{
 		// Strip any comments out (in the form of /*...*/)
-		$test = preg_replace('#\/\*.*\*\/#U', '', $source);
+                $test = @preg_replace('#\/\*.*\*\/#U', '', $source);
 		// Test for :expression
 		if (!stripos($test, ':expression'))
 		{
