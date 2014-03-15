@@ -114,7 +114,7 @@ class TagManager0001Test extends JoomlaWebdriverTestCase
 		$this->tagManagerPage->addTag($tagName);
 		$message = $this->tagManagerPage->getAlertMessage();
 		$this->assertTrue(strpos($message, 'Tag successfully saved') >= 0, 'Tag save should return success');
-		$this->assertEquals(2, $this->tagManagerPage->getRowNumber($tagName), 'Test Tag should be in row 2');
+		$this->assertGreaterThanOrEqual(1, $this->tagManagerPage->getRowNumber($tagName), 'Test test tag should be present');
 		$this->tagManagerPage->trashAndDelete($tagName);
 		$this->assertFalse($this->tagManagerPage->getRowNumber($tagName), 'Test Tag should not be present');
 	}
