@@ -8138,7 +8138,7 @@ a.grid_true {
 	float: right;
 }
 .input-append .add-on {
-	float: left;
+	float: none;
 }
 .input-prepend .add-on,
 .input-prepend .btn {
