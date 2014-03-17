@@ -73,6 +73,15 @@ class JSchemaChangeitemPostgresql extends JSchemaChangeitem
 				$this->queryType = 'ADD_COLUMN';
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]));
 			}
+			elseif ($alterCommand === 'DROP COLUMN')
+			{
+				$result = 'SELECT column_name FROM information_schema.columns WHERE table_name='
+						. $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5]);
+			
+				$this->queryType = 'DROP_COLUMN';
+				$this->checkQueryExpected = 0;
+				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]));
+			}
 			elseif ($alterCommand === 'ALTER COLUMN')
 			{
 				if (strtoupper($wordArray[6]) == 'TYPE')
