@@ -305,6 +305,13 @@ abstract class JFormField
 	protected static $generated_fieldname = '__field';
 
 	/**
+	 * Layout to render the form field
+	 *
+	 * @var  string
+	 */
+	protected $renderLayout = 'joomla.form.renderfield';
+
+	/**
 	 * Method to instantiate the form field object.
 	 *
 	 * @param   JForm  $form  The form to attach to the form field object.
@@ -893,6 +900,6 @@ abstract class JFormField
 
 		$hiddenLabel = isset($options['hiddenLabel']) ? $options['hiddenLabel'] : false;
 		
-		return JLayoutHelper::render('joomla.form.renderfield', array('input' => $this->getInput(), 'label' => $this->getLabel(), 'hiddenLabel' => $hiddenLabel));
+		return JLayoutHelper::render($this->renderLayout, array('input' => $this->getInput(), 'label' => $this->getLabel(), 'hiddenLabel' => $hiddenLabel));
 	}
 }
