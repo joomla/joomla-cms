@@ -77,6 +77,7 @@ class JCacheStorageMemcache extends JCacheStorage
 		$config = JFactory::getConfig();
 		$this->_persistent = $config->get('memcache_persist', true);
 		$this->_compress = $config->get('memcache_compress', false) == false ? 0 : MEMCACHE_COMPRESSED;
+		$this->_locking = $config->get('memcache_cache_locking', $this->_locking);
 
 		/*
 		 * This will be an array of loveliness
@@ -349,6 +350,12 @@ class JCacheStorageMemcache extends JCacheStorage
 	public function lock($id, $group, $locktime)
 	{
 		$returning = new stdClass;
+		if(!$this->_locking){
+			$returning->locked = true;
+			$returning->locklooped = true;
+			return $returning;
+		}
+
 		$returning->locklooped = false;
 
 		$looptime = $locktime * 10;
@@ -415,6 +422,10 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	public function unlock($id, $group = null)
 	{
+		if(!$this->_locking){
+			return true;
+		}
+
 		$cache_id = $this->_getCacheId($id, $group) . '_lock';
 
 		if (!$this->lockindex())
@@ -451,6 +462,10 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	protected function lockindex()
 	{
+		if(!$this->_locking){
+			return true;
+		}
+
 		$looptime = 300;
 		$data_lock = self::$_db->add($this->_hash . '-index_lock', 1, false, 30);
 
@@ -486,6 +501,10 @@ class JCacheStorageMemcache extends JCacheStorage
 	 */
 	protected function unlockindex()
 	{
+		if(!$this->_locking){
+			return true;
+		}
+
 		return self::$_db->delete($this->_hash . '-index_lock');
 	}
 }
