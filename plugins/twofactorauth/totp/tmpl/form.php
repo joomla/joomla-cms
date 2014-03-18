@@ -83,7 +83,10 @@ defined('_JEXEC') or die;
 	</div>
 </fieldset>
 
-<?php if ($new_totp): ?>
+<?php
+if ($new_totp)
+{
+?>
 <fieldset>
 	<legend>
 		<?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_STEP3_HEAD') ?>
@@ -100,4 +103,5 @@ defined('_JEXEC') or die;
 		</div>
 	</div>
 </fieldset>
-<?php endif; ?>
+<?php
+}

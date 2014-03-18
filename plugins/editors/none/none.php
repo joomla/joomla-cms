@@ -92,6 +92,8 @@ class PlgEditorNone extends JPlugin
 	}
 
 	/**
+	 * Get the editor insert method
+	 *
 	 * @param   string  $id  The id of the editor field
 	 *
 	 * @return  boolean  returns true when complete
@@ -131,7 +133,18 @@ class PlgEditorNone extends JPlugin
 	 *
 	 * @return  string
 	 */
-	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
+	public function onDisplay(
+		$name,
+		$content,
+		$width,
+		$height,
+		$col,
+		$row,
+		$buttons = true,
+		$id = null,
+		$asset = null,
+		$author = null,
+		$params = array())
 	{
 		if (empty($id))
 		{
@@ -150,7 +163,13 @@ class PlgEditorNone extends JPlugin
 		}
 
 		$buttons = $this->_displayButtons($id, $buttons, $asset, $author);
-		$editor  = "<textarea name=\"$name\" id=\"$id\" cols=\"$col\" rows=\"$row\" style=\"width: $width; height: $height;\">$content</textarea>" . $buttons;
+		$editor  = '<textarea '
+			. 'name="' . $name . '" '
+			. 'id="' . $id . '" '
+			. 'cols="' . $col . '" '
+			. 'rows="' . $row . '" '
+			. 'style="width: ' . $width . '; height: ' . $height . ';">'
+			. $content . '</textarea>' . $buttons;
 
 		return $editor;
 	}
@@ -201,7 +220,8 @@ class PlgEditorNone extends JPlugin
 					$href		= ($button->get('link')) ? 'class="btn" href="' . JUri::base() . $button->get('link') . '"' : null;
 					$onclick	= ($button->get('onclick')) ? 'onclick="' . $button->get('onclick') . '"' : null;
 					$title      = ($button->get('title')) ? $button->get('title') : $button->get('text');
-					$return .= "<a " . $modal . " title=\"" . $title . "\" " . $href . " " . $onclick . " rel=\"" . $button->get('options') . "\"><i class=\"icon-" . $button->get('name') . "\"></i> " . $button->get('text') . "</a>\n";
+					$return .= "<a " . $modal . " title=\"" . $title . "\" " . $href . " " . $onclick . " rel=\"" . $button->get('options') . "\">";
+					$return .= "<i class=\"icon-" . $button->get('name') . "\"></i> " . $button->get('text') . "</a>\n";
 				}
 			}
 

@@ -222,6 +222,7 @@ class PlgAuthenticationCookie extends JPlugin
 					$unique = true;
 				}
 			}
+
 			while ($unique === false);
 		}
 		else
