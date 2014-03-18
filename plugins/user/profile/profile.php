@@ -37,8 +37,8 @@ class PlgUserProfile extends JPlugin
 	/**
 	 * Constructor
 	 *
-	 * @param   object  $subject  The object to observe
-	 * @param   array   $config   An array that holds the plugin configuration
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An array that holds the plugin configuration
 	 *
 	 * @since   1.5
 	 */
@@ -49,8 +49,10 @@ class PlgUserProfile extends JPlugin
 	}
 
 	/**
-	 * @param   string     $context  The context for the data
-	 * @param   integer    $data     The user id
+	 * Unknown Description
+	 *
+	 * @param   string   $context  The context for the data
+	 * @param   integer  $data     The user id
 	 *
 	 * @return  boolean
 	 *
@@ -85,6 +87,7 @@ class PlgUserProfile extends JPlugin
 				catch (RuntimeException $e)
 				{
 					$this->_subject->setError($e->getMessage());
+
 					return false;
 				}
 
@@ -95,6 +98,7 @@ class PlgUserProfile extends JPlugin
 				{
 					$k = str_replace('profile.', '', $v[0]);
 					$data->profile[$k] = json_decode($v[1], true);
+
 					if ($data->profile[$k] === null)
 					{
 						$data->profile[$k] = $v[1];
@@ -106,10 +110,12 @@ class PlgUserProfile extends JPlugin
 			{
 				JHtml::register('users.url', array(__CLASS__, 'url'));
 			}
+
 			if (!JHtml::isRegistered('users.calendar'))
 			{
 				JHtml::register('users.calendar', array(__CLASS__, 'calendar'));
 			}
+
 			if (!JHtml::isRegistered('users.tos'))
 			{
 				JHtml::register('users.tos', array(__CLASS__, 'tos'));
@@ -119,6 +125,13 @@ class PlgUserProfile extends JPlugin
 		return true;
 	}
 
+	/**
+	 * Description not available
+	 *
+	 * @param   unknown  $value  Unknown variable
+	 *
+	 * @return  unknown
+	 */
 	public static function url($value)
 	{
 		if (empty($value))
@@ -141,6 +154,13 @@ class PlgUserProfile extends JPlugin
 		}
 	}
 
+	/**
+	 * Description not available
+	 *
+	 * @param   unknown  $value  Unknown variable
+	 *
+	 * @return  unknown
+	 */
 	public static function calendar($value)
 	{
 		if (empty($value))
@@ -153,6 +173,13 @@ class PlgUserProfile extends JPlugin
 		}
 	}
 
+	/**
+	 * Description not available
+	 *
+	 * @param   unknown  $value  Unknown variable
+	 *
+	 * @return  unknown
+	 */
 	public static function tos($value)
 	{
 		if ($value)
@@ -166,10 +193,13 @@ class PlgUserProfile extends JPlugin
 	}
 
 	/**
-	 * @param   JForm    $form    The form to be altered.
-	 * @param   array    $data    The associated data for the form.
+	 * Unknown Description
+	 *
+	 * @param   JForm  $form  The form to be altered.
+	 * @param   array  $data  The associated data for the form.
 	 *
 	 * @return  boolean
+	 * 
 	 * @since   1.6
 	 */
 	public function onContentPrepareForm($form, $data)
@@ -177,11 +207,13 @@ class PlgUserProfile extends JPlugin
 		if (!($form instanceof JForm))
 		{
 			$this->_subject->setError('JERROR_NOT_A_FORM');
+
 			return false;
 		}
 
 		// Check we are manipulating a valid form.
 		$name = $form->getName();
+
 		if (!in_array($name, array('com_admin.profile', 'com_users.user', 'com_users.profile', 'com_users.registration')))
 		{
 			return true;
@@ -206,8 +238,9 @@ class PlgUserProfile extends JPlugin
 			'tos',
 		);
 
-		//Change fields description when displayed in front-end
+		// Change fields description when displayed in front-end
 		$app = JFactory::getApplication();
+
 		if ($app->isSite())
 		{
 			$form->setFieldAttribute('address1', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
@@ -246,8 +279,7 @@ class PlgUserProfile extends JPlugin
 			{
 				// Remove the field if it is disabled in registration and profile
 				if ($this->params->get('register-require_' . $field, 1) == 0
-					&& $this->params->get('profile-require_' . $field, 1) == 0
-				)
+					&& $this->params->get('profile-require_' . $field, 1) == 0)
 				{
 					$form->removeField($field, 'profile');
 				}
@@ -328,6 +360,16 @@ class PlgUserProfile extends JPlugin
 		return true;
 	}
 
+	/**
+	 * Description not available
+	 *
+	 * @param   unknown  $data    Unknown variable
+	 * @param   unknown  $isNew   Unknown variable
+	 * @param   unknown  $result  Unknown variable
+	 * @param   unknown  $error   Unknown variable
+	 *
+	 * @return  unknown
+	 */
 	public function onUserAfterSave($data, $isNew, $result, $error)
 	{
 		$userId = JArrayHelper::getValue($data, 'id', 0, 'int');
@@ -352,7 +394,7 @@ class PlgUserProfile extends JPlugin
 
 				foreach ($data['profile'] as $k => $v)
 				{
-					$tuples[] = '(' . $userId . ', ' . $db->quote('profile.' . $k) . ', ' . $db->quote(json_encode($v)) . ', ' . $order++ . ')';
+					$tuples[] = '(' . $userId . ', ' . $db->quote('profile.' . $k) . ', ' . $db->quote(json_encode($v)) . ', ' . ($order++) . ')';
 				}
 
 				$db->setQuery('INSERT INTO #__user_profiles VALUES ' . implode(', ', $tuples));
@@ -361,6 +403,7 @@ class PlgUserProfile extends JPlugin
 			catch (RuntimeException $e)
 			{
 				$this->_subject->setError($e->getMessage());
+
 				return false;
 			}
 		}
@@ -403,6 +446,7 @@ class PlgUserProfile extends JPlugin
 			catch (Exception $e)
 			{
 				$this->_subject->setError($e->getMessage());
+
 				return false;
 			}
 		}
