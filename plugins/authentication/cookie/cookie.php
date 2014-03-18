@@ -61,6 +61,7 @@ class PlgAuthenticationCookie extends JPlugin
 		$cookieName		= JUserHelper::getShortHashedUserAgent();
 
 		$cookieValue	= $this->app->input->cookie->get($cookieName);
+
 		if (!$cookieValue)
 		{
 			return;
@@ -111,6 +112,7 @@ class PlgAuthenticationCookie extends JPlugin
 		else
 		{
 			$token	= JUserHelper::hashPassword($cookieArray[0]);
+
 			if (!JUserHelper::verifyPassword($cookieArray[0], $results[0]->token))
 			{
 				// This is a real attack! Either the series was guessed correctly or a cookie was stolen and used twice (once by attacker and once by victim).
@@ -169,7 +171,7 @@ class PlgAuthenticationCookie extends JPlugin
 	 * We set a new cookie either for a user with no cookies or one
 	 * where the user used a cookie to authenticate.
 	 *
-	 * @param   array  options  Array holding options
+	 * @param   array  $options  Array holding options
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -191,6 +193,7 @@ class PlgAuthenticationCookie extends JPlugin
 			// We need the old data to get the existing series
 			$cookieValue	= $this->app->input->cookie->get($cookieName);
 			$cookieArray	= explode('.', $cookieValue);
+
 			// Filter series since we're going to use it in the query
 			$filter			= new JFilterInput;
 			$series			= $filter->clean($cookieArray[1], 'ALNUM');
@@ -202,6 +205,7 @@ class PlgAuthenticationCookie extends JPlugin
 
 			// Create an unique series which will be used over the lifespan of the cookie
 			$unique = false;
+
 			do
 			{
 				$series = JUserHelper::genRandomPassword(20);
@@ -288,6 +292,7 @@ class PlgAuthenticationCookie extends JPlugin
 
 		$cookieName		= JUserHelper::getShortHashedUserAgent();
 		$cookieValue	= $this->app->input->cookie->get($cookieName);
+
 		// There are no cookies to delete.
 		if (!$cookieValue)
 		{
