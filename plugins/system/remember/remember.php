@@ -59,6 +59,13 @@ class PlgSystemRemember extends JPlugin
 		return false;
 	}
 
+	/**
+	 * No description available.
+	 *
+	 * @param   unknown  $options  Unknown value
+	 *
+	 * @return  boolean
+	 */
 	public function onUserLogout($options)
 	{
 		// No remember me for admin
