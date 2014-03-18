@@ -92,6 +92,8 @@ class PlgEditorNone extends JPlugin
 	}
 
 	/**
+	 * No description available
+	 *
 	 * @param   string  $id  The id of the editor field
 	 *
 	 * @return  boolean  returns true when complete
