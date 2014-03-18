@@ -68,12 +68,13 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		}
 
 		$feed_title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
+		$datalink = implode("/", array_map("rawurlencode", explode("/", $data->link)));
 
 		$feed = "<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n";
 		$feed .= "	<channel>\n";
 		$feed .= "		<title>" . $feed_title . "</title>\n";
 		$feed .= "		<description><![CDATA[" . $data->description . "]]></description>\n";
-		$feed .= "		<link>" . str_replace(' ', '%20', $url . $data->link) . "</link>\n";
+		$feed .= "		<link>" . str_replace(' ', '%20', $url . $datalink) . "</link>\n";
 		$feed .= "		<lastBuildDate>" . htmlspecialchars($now->toRFC822(true), ENT_COMPAT, 'UTF-8') . "</lastBuildDate>\n";
 		$feed .= "		<generator>" . $data->getGenerator() . "</generator>\n";
 		$feed .= '		<atom:link rel="self" type="application/rss+xml" href="' . str_replace(' ', '%20', $url . $syndicationURL) . "\"/>\n";
@@ -158,17 +159,18 @@ class JDocumentRendererRSS extends JDocumentRenderer
 
 		for ($i = 0, $count = count($data->items); $i < $count; $i++)
 		{
-			if ((strpos($data->items[$i]->link, 'http://') === false) && (strpos($data->items[$i]->link, 'https://') === false))
+			$itemlink = implode("/", array_map("rawurlencode", explode("/", $data->items[$i]->link)));
+			if ((strpos($itemlink, 'http://') === false) && (strpos($itemlink, 'https://') === false))
 			{
-				$data->items[$i]->link = str_replace(' ', '%20', $url . $data->items[$i]->link);
+				$itemlink = str_replace(' ', '%20', $itemlink);
 			}
 			$feed .= "		<item>\n";
 			$feed .= "			<title>" . htmlspecialchars(strip_tags($data->items[$i]->title), ENT_COMPAT, 'UTF-8') . "</title>\n";
-			$feed .= "			<link>" . str_replace(' ', '%20', $data->items[$i]->link) . "</link>\n";
+			$feed .= "			<link>" . str_replace(' ', '%20', $url . $itemlink ) . "</link>\n";
 
 			if (empty($data->items[$i]->guid) === true)
 			{
-				$feed .= "			<guid isPermaLink=\"true\">" . str_replace(' ', '%20', $data->items[$i]->link) . "</guid>\n";
+				$feed .= "			<guid isPermaLink=\"true\">" . str_replace(' ', '%20', $url . $itemlink) . "</guid>\n";
 			}
 			else
 			{

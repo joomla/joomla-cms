@@ -113,9 +113,10 @@ class JDocumentRendererAtom extends JDocumentRenderer
 
 		for ($i = 0, $count = count($data->items); $i < $count; $i++)
 		{
+			$itemlink = implode("/", array_map("rawurlencode", explode("/", $data->items[$i]->link)));
 			$feed .= "	<entry>\n";
 			$feed .= "		<title>" . htmlspecialchars(strip_tags($data->items[$i]->title), ENT_COMPAT, 'UTF-8') . "</title>\n";
-			$feed .= '		<link rel="alternate" type="text/html" href="' . $url . $data->items[$i]->link . "\"/>\n";
+			$feed .= '		<link rel="alternate" type="text/html" href="' . $url . $itemlink . "\"/>\n";
 
 			if ($data->items[$i]->date == "")
 			{
@@ -127,7 +128,7 @@ class JDocumentRendererAtom extends JDocumentRenderer
 			$feed .= "		<updated>" . htmlspecialchars($itemDate->toISO8601(true), ENT_COMPAT, 'UTF-8') . "</updated>\n";
 			if (empty($data->items[$i]->guid) === true)
 			{
-				$feed .= "		<id>" . str_replace(' ', '%20', $url . $data->items[$i]->link) . "</id>\n";
+				$feed .= "		<id>" . str_replace(' ', '%20', $url . $itemlink) . "</id>\n";
 			}
 			else
 			{
