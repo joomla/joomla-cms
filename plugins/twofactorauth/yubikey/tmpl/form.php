@@ -13,7 +13,10 @@ defined('_JEXEC') or die;
 	<?php echo JText::_('PLG_TWOFACTORAUTH_YUBIKEY_INTRO') ?>
 </div>
 
-<?php if ($new_totp): ?>
+<?php
+if ($new_totp)
+{
+?>
 <fieldset>
 	<legend>
 		<?php echo JText::_('PLG_TWOFACTORAUTH_YUBIKEY_STEP1_HEAD') ?>
@@ -32,7 +35,11 @@ defined('_JEXEC') or die;
 		</div>
 	</div>
 </fieldset>
-<?php else: ?>
+<?php 
+}
+else
+{
+?>
 <fieldset>
 	<legend>
 		<?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_RESET_HEAD') ?>
@@ -42,4 +49,5 @@ defined('_JEXEC') or die;
 		<?php echo JText::_('PLG_TWOFACTORAUTH_TOTP_RESET_TEXT') ?>
 	</p>
 </fieldset>
-<?php endif; ?>
+<?php 
+}

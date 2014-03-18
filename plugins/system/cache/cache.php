@@ -18,10 +18,9 @@ defined('_JEXEC') or die;
  */
 class PlgSystemCache extends JPlugin
 {
+	private $cache		= null;
 
-	var $_cache		= null;
-
-	var $_cache_key	= null;
+	private $cache_key	= null;
 
 	/**
 	 * Constructor.
@@ -31,7 +30,7 @@ class PlgSystemCache extends JPlugin
 	 *
 	 * @since   1.5
 	 */
-	function __construct(& $subject, $config)
+	public function __construct(& $subject, $config)
 	{
 		parent::__construct($subject, $config);
 
@@ -42,8 +41,8 @@ class PlgSystemCache extends JPlugin
 			'caching'		=> false,
 		);
 
-		$this->_cache		= JCache::getInstance('page', $options);
-		$this->_cache_key	= JUri::getInstance()->toString();
+		$this->cache		= JCache::getInstance('page', $options);
+		$this->cache_key	= JUri::getInstance()->toString();
 	}
 
 	/**
@@ -53,7 +52,7 @@ class PlgSystemCache extends JPlugin
 	 *
 	 * @since   1.5
 	 */
-	function onAfterInitialise()
+	public function onAfterInitialise()
 	{
 		global $_PROFILER;
 
@@ -72,10 +71,10 @@ class PlgSystemCache extends JPlugin
 
 		if ($user->get('guest') && $app->input->getMethod() == 'GET')
 		{
-			$this->_cache->setCaching(true);
+			$this->cache->setCaching(true);
 		}
 
-		$data = $this->_cache->get($this->_cache_key);
+		$data = $this->cache->get($this->cache_key);
 
 		if ($data !== false)
 		{
@@ -100,7 +99,7 @@ class PlgSystemCache extends JPlugin
 	 *
 	 * @since   1.5
 	 */
-	function onAfterRender()
+	public function onAfterRender()
 	{
 		$app = JFactory::getApplication();
 
@@ -115,10 +114,11 @@ class PlgSystemCache extends JPlugin
 		}
 
 		$user = JFactory::getUser();
+
 		if ($user->get('guest'))
 		{
 			// We need to check again here, because auto-login plugins have not been fired before the first aid check.
-			$this->_cache->store(null, $this->_cache_key);
+			$this->cache->store(null, $this->cache_key);
 		}
 	}
 }
