@@ -875,9 +875,22 @@ abstract class JFormField
 		{
 			return $this->getInput();
 		}
+		
+		$class = '';
+		$rel = '';
+		
+		if ($showon = $this->getAttribute('showon'))
+		{
+			JHtml::_('jquery.framework');
+			JHtml::_('script', 'jui/cms.js', false, true);
+			$showon = explode(':', $showon, 2);
+			$class = ' showon_' . implode(' showon_', explode(',', $showon[1]));
+			$id = $this->getName($showon[0]);
+			$rel = ' rel="showon_' . $id . '"';
+		}
 
 		return
-			'<div class="control-group">'
+			'<div class="control-group' . $class . '"' . $rel . '>'
 			. '<div class="control-label">' . $this->getLabel() . '</div>'
 			. '<div class="controls">' . $this->getInput() . '</div>'
 			. '</div>';
