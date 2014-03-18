@@ -476,6 +476,17 @@
 		</field>
 
 		<field
+			name="microdata"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="1"
+			label="JGLOBAL_MICRODATA_LABEL"
+			description="JGLOBAL_MICRODATA_DESC">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field
 			name="sitename_pagetitles"
 			type="list"
 			default="0"
