@@ -41,6 +41,7 @@ class PlgContentVote extends JPlugin
 	public function onContentBeforeDisplay($context, &$row, &$params, $page=0)
 	{
 		$parts = explode(".", $context);
+
 		if ($parts[0] != 'com_content')
 		{
 			return false;
@@ -50,13 +51,16 @@ class PlgContentVote extends JPlugin
 
 		if (!empty($params) && $params->get('show_vote', null))
 		{
-			$rating = (int) @$row->rating;
+			$rating      = (int) @$row->rating;
+			$ratingCount = (int) $row->rating_count;
+			$attribs     = json_decode($row->attribs, true);
+			$microdata   = JFactory::getMicrodata()->enable($params->get('microdata', 1))->setType($attribs['microdata_type']);
 
 			$view = JFactory::getApplication()->input->getString('view', '');
-			$img = '';
+			$img  = '';
 
 			// Look for images in template if available
-			$starImageOn = JHtml::_('image', 'system/rating_star.png', JText::_('PLG_VOTE_STAR_ACTIVE'), null, true);
+			$starImageOn  = JHtml::_('image', 'system/rating_star.png', JText::_('PLG_VOTE_STAR_ACTIVE'), null, true);
 			$starImageOff = JHtml::_('image', 'system/rating_star_blank.png', JText::_('PLG_VOTE_STAR_INACTIVE'), null, true);
 
 			for ($i = 0; $i < $rating; $i++)
@@ -69,10 +73,13 @@ class PlgContentVote extends JPlugin
 				$img .= $starImageOff;
 			}
 
-			$html .= '<div class="content_rating">';
-			$html .= '<p class="unseen element-invisible">' . JText::sprintf('PLG_VOTE_USER_RATING', $rating, '5') . '</p>';
-			$html .= $img;
-			$html .= '</div>';
+			$html .= '<div class="content_rating">'
+				. '<p class="unseen element-invisible" ' . $microdata->property('aggregateRating')->fallback('AggregateRating', '')->display() . '>'
+				. JText::sprintf('PLG_VOTE_USER_RATING', $microdata->setType('AggregateRating')->content($rating)->property('ratingValue')->display(), $microdata->content('5')->property('bestRating')->display())
+				. $microdata->property('ratingCount')->content($ratingCount)->display('meta', true)
+				. $microdata->property('worstRating')->content('0')->display('meta', true)
+				. '</p>'
+				. $img . '</div>';
 
 			if ($view == 'article' && $row->state == 1)
 			{
