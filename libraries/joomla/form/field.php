@@ -887,6 +887,8 @@ abstract class JFormField
 	/**
 	 * Method to get a control group with label and input.
 	 *
+	 * @param   array  $options  Options to be passed into the rendering of the field
+	 *
 	 * @return  string  A string containing the html for the control group
 	 *
 	 * @since   3.2
@@ -899,7 +901,7 @@ abstract class JFormField
 		}
 
 		$hiddenLabel = isset($options['hiddenLabel']) ? $options['hiddenLabel'] : false;
-		
+
 		return JLayoutHelper::render($this->renderLayout, array('input' => $this->getInput(), 'label' => $this->getLabel(), 'hiddenLabel' => $hiddenLabel));
 	}
 }
