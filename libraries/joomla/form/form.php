@@ -629,7 +629,6 @@ class JForm
 	 * @param   string  $name     The name of the field for which to get the value.
 	 * @param   string  $group    The optional dot-separated form group path on which to get the value.
 	 * @param   mixed   $default  The optional default value of the field value is empty.
-	 * @param   array   $options  Any options to be passed into the rendering of the field
 	 *
 	 * @return  string  A string containing the html for the control goup
 	 *
@@ -647,7 +646,6 @@ class JForm
 	 * Method to get all control groups with label and input of a fieldset.
 	 *
 	 * @param   string  $name     The name of the fieldset for which to get the values.
-	 * @param   array   $options  Any options to be passed into the rendering of the field
 	 *
 	 * @return  string  A string containing the html for the control goups
 	 *
