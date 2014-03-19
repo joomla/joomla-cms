@@ -62,7 +62,7 @@ class PlgSystemRemember extends JPlugin
 	/**
 	 * Imports the authentication plugin on user logout to make sure that the cookie is destroyed.
 	 *
-	 * @param   unknown  $options  Unknown value
+	 * @param   array  $options  Array holding options (remember, autoregister, group)
 	 *
 	 * @return  boolean
 	 */
