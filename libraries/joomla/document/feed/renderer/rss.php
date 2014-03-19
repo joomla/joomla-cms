@@ -160,17 +160,18 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		for ($i = 0, $count = count($data->items); $i < $count; $i++)
 		{
 			$itemlink = implode("/", array_map("rawurlencode", explode("/", $data->items[$i]->link)));
+
 			if ((strpos($itemlink, 'http://') === false) && (strpos($itemlink, 'https://') === false))
 			{
-				$itemlink = str_replace(' ', '%20', $itemlink);
+				$itemlink = str_replace(' ', '%20', $url . $itemlink);
 			}
 			$feed .= "		<item>\n";
 			$feed .= "			<title>" . htmlspecialchars(strip_tags($data->items[$i]->title), ENT_COMPAT, 'UTF-8') . "</title>\n";
-			$feed .= "			<link>" . str_replace(' ', '%20', $url . $itemlink ) . "</link>\n";
+			$feed .= "			<link>" . str_replace(' ', '%20', $itemlink ) . "</link>\n";
 
 			if (empty($data->items[$i]->guid) === true)
 			{
-				$feed .= "			<guid isPermaLink=\"true\">" . str_replace(' ', '%20', $url . $itemlink) . "</guid>\n";
+				$feed .= "			<guid isPermaLink=\"true\">" . str_replace(' ', '%20', $itemlink) . "</guid>\n";
 			}
 			else
 			{
