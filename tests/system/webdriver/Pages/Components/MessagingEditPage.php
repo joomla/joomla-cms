@@ -43,7 +43,7 @@ class MessagingEditPage extends AdminEditPage
 	/**
 	 * Array of tabs present on this page
 	 *
-	 * @var    array
+	 * @var   array
 	 * @since  3.2
 	 */
 	public $tabs = array('');
@@ -57,7 +57,8 @@ class MessagingEditPage extends AdminEditPage
 	public $inputFields = array (
 		array('label' => 'Recipient', 'id' => 'jform_user_id_to', 'type' => 'input', 'tab' => ''),
 		array('label' => 'Subject', 'id' => 'jform_subject', 'type' => 'input', 'tab' => ''),
-		array('label' => 'Description', 'id' => 'jform_message_ifr', 'type' => 'textarea', 'tab' => ''),		);
+		array('label' => 'Description', 'id' => 'jform_message_ifr', 'type' => 'textarea', 'tab' => ''),
+		);
 
 }
 
