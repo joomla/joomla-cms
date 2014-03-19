@@ -202,9 +202,8 @@ class PlgFinderCategories extends FinderIndexerAdapter
 				/* TODO: The $item variable does not seem to be used at all
 				$query = clone($this->getStateQuery());
 				$query->where('a.id = ' . (int) $pk);
-				 */
 
-				/* Get the published states.
+				// Get the published states.
 				$this->db->setQuery($query);
 				$item = $this->db->loadObject();
 				*/
