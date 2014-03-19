@@ -37,7 +37,6 @@ class JDocumentRendererRSS extends JDocumentRenderer
      *
      * @since   11.1
      */
-	 
 
     public function encode($url)
     {
