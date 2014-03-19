@@ -160,7 +160,7 @@ class UsersModelLevels extends JModelList
 
 		// Move the row.
 		// TODO: Where clause to restrict category.
-		$table->move($pk);
+		$table->move($direction);
 
 		return true;
 	}
