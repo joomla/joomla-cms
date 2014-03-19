@@ -27,6 +27,31 @@ class JDocumentRendererRSS extends JDocumentRenderer
 	 */
 	protected $_mime = "application/rss+xml";
 
+
+    /**
+     * Convert links in a url from non-ascii to ascii and also handles spaces
+     *
+     * @param   string  $url  The url to be encoded
+     *
+     * @return  string  $url  The encoded url
+     *
+     * @since   11.1
+     */
+
+    public function encode($url)
+    {
+        $https = strpos($url, 'https://')===0;
+        $url = str_replace(['http://','https://'],'',$url);
+        $urlArr = split("/", $url);
+        foreach($urlArr as $key=>$urlPiece)
+        {
+            $urlArr[$key] = rawurlencode($urlPiece);
+        }
+        $url = $https?'https://':'http://';
+        $url .= join('/',$urlArr);
+        return $url ;
+    }
+
 	/**
 	 * Render the feed.
 	 *
@@ -73,17 +98,17 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		$feed .= "	<channel>\n";
 		$feed .= "		<title>" . $feed_title . "</title>\n";
 		$feed .= "		<description><![CDATA[" . $data->description . "]]></description>\n";
-		$feed .= "		<link>" . str_replace(' ', '%20', $url . $data->link) . "</link>\n";
-		$feed .= "		<lastBuildDate>" . htmlspecialchars($now->toRFC822(true), ENT_COMPAT, 'UTF-8') . "</lastBuildDate>\n";
+		$feed .= "		<link>" . $this->encode($url . $data->link) . "</link>\n";
+        $feed .= "		<lastBuildDate>" . htmlspecialchars($now->toRFC822(true), ENT_COMPAT, 'UTF-8') . "</lastBuildDate>\n";
 		$feed .= "		<generator>" . $data->getGenerator() . "</generator>\n";
-		$feed .= '		<atom:link rel="self" type="application/rss+xml" href="' . str_replace(' ', '%20', $url . $syndicationURL) . "\"/>\n";
+        $feed .= '		<atom:link rel="self" type="application/rss+xml" href="' . $this->encode($url . $syndicationURL) . "\"/>\n";
 
 		if ($data->image != null)
 		{
 			$feed .= "		<image>\n";
 			$feed .= "			<url>" . $data->image->url . "</url>\n";
 			$feed .= "			<title>" . htmlspecialchars($data->image->title, ENT_COMPAT, 'UTF-8') . "</title>\n";
-			$feed .= "			<link>" . str_replace(' ', '%20', $data->image->link) . "</link>\n";
+            $feed .= "			<link>" . $this->encode( $data->image->link) . "</link>\n";
 			if ($data->image->width != "")
 			{
 				$feed .= "			<width>" . $data->image->width . "</width>\n";
@@ -160,15 +185,15 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		{
 			if ((strpos($data->items[$i]->link, 'http://') === false) && (strpos($data->items[$i]->link, 'https://') === false))
 			{
-				$data->items[$i]->link = str_replace(' ', '%20', $url . $data->items[$i]->link);
+                $data->items[$i]->link = $this->encode($url . $data->items[$i]->link);
 			}
 			$feed .= "		<item>\n";
 			$feed .= "			<title>" . htmlspecialchars(strip_tags($data->items[$i]->title), ENT_COMPAT, 'UTF-8') . "</title>\n";
-			$feed .= "			<link>" . str_replace(' ', '%20', $data->items[$i]->link) . "</link>\n";
+            $feed .= "			<link>" . $this->encode($data->items[$i]->link) . "</link>\n";
 
 			if (empty($data->items[$i]->guid) === true)
 			{
-				$feed .= "			<guid isPermaLink=\"true\">" . str_replace(' ', '%20', $data->items[$i]->link) . "</guid>\n";
+                $feed .= "			<guid isPermaLink=\"true\">" . $this->encode($data->items[$i]->link) . "</guid>\n";
 			}
 			else
 			{
@@ -248,4 +273,5 @@ class JDocumentRendererRSS extends JDocumentRenderer
 
 		return $text;
 	}
+
 }
