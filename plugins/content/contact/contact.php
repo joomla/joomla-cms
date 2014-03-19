@@ -70,7 +70,7 @@ class PlgContentContact extends JPlugin
 	/**
 	 * Retrieve Contact
 	 *
-	 * @param   int  $created_by  Unknown variable
+	 * @param   int  $created_by  Id of the user who created the content
 	 *
 	 * @return  mixed|null|integer
 	 */
