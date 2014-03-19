@@ -92,7 +92,7 @@ class PlgEditorNone extends JPlugin
 	}
 
 	/**
-	 * No description available
+	 * Inserts html code into the editor
 	 *
 	 * @param   string  $id  The id of the editor field
 	 *
