@@ -54,21 +54,21 @@ $params = $this->state->get('params');
 		</div>
 
 		<hr class="hr-condensed" />
-		<?php echo $this->form->getControlGroup('title'); ?>
-		<?php echo $this->form->getControlGroup('alias'); ?>
-		<?php echo $this->form->getControlGroup('catid'); ?>
-		<?php echo $this->form->getControlGroup('url'); ?>
-		<?php echo $this->form->getControlGroup('tags'); ?>
+		<?php echo $this->form->renderField('title'); ?>
+		<?php echo $this->form->renderField('alias'); ?>
+		<?php echo $this->form->renderField('catid'); ?>
+		<?php echo $this->form->renderField('url'); ?>
+		<?php echo $this->form->renderField('tags'); ?>
 
 		<?php if ($params->get('save_history', 0)) : ?>
-			<?php echo $this->form->getControlGroup('version_note'); ?>
+			<?php echo $this->form->renderField('version_note'); ?>
 		<?php endif; ?>
 
 		<?php if ($this->user->authorise('core.edit.state', 'com_weblinks.weblink')) : ?>
-			<?php echo $this->form->getControlGroup('state'); ?>
+			<?php echo $this->form->renderField('state'); ?>
 		<?php endif; ?>
-		<?php echo $this->form->getControlGroup('language'); ?>
-		<?php echo $this->form->getControlGroup('description'); ?>
+		<?php echo $this->form->renderField('language'); ?>
+		<?php echo $this->form->renderField('description'); ?>
 
 		<input type="hidden" name="return" value="<?php echo $this->return_page;?>" />
 		<input type="hidden" name="task" value="" />
