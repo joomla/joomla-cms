@@ -36,20 +36,20 @@ $saveHistory = $displayData->get('state')->get('params')->get('save_history', 0)
 			</div>
 		<?php endif; ?>
 		<?php if ($published) : ?>
-			<?php echo $displayData->getForm()->getControlGroup('published'); ?>
+			<?php echo $displayData->getForm()->renderField('published'); ?>
 		<?php else : ?>
-			<?php echo $displayData->getForm()->getControlGroup('state'); ?>
+			<?php echo $displayData->getForm()->renderField('state'); ?>
 		<?php endif; ?>
-		<?php echo $displayData->getForm()->getControlGroup('access'); ?>
-		<?php echo $displayData->getForm()->getControlGroup('featured'); ?>
+		<?php echo $displayData->getForm()->renderField('access'); ?>
+		<?php echo $displayData->getForm()->renderField('featured'); ?>
 		<?php if (JLanguageMultilang::isEnabled()) : ?>
-			<?php echo $displayData->getForm()->getControlGroup('language'); ?>
+			<?php echo $displayData->getForm()->renderField('language'); ?>
 		<?php else : ?>
 		<input type="hidden" name="language" value="<?php echo $displayData->getForm()->getValue('language'); ?>" />
 		<?php endif; ?>
-		<?php echo $displayData->getForm()->getControlGroup('tags'); ?>
+		<?php echo $displayData->getForm()->renderField('tags'); ?>
 		<?php if ($saveHistory) : ?>
-			<?php echo $displayData->getForm()->getControlGroup('version_note'); ?>
+			<?php echo $displayData->getForm()->renderField('version_note'); ?>
 		<?php endif; ?>
 	</fieldset>
 </div>
