@@ -74,6 +74,7 @@ class JDocumentRendererAtom extends JDocumentRenderer
 		$feed_title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
 
 		$feed = "<feed xmlns=\"http://www.w3.org/2005/Atom\" ";
+
 		if ($data->language != "")
 		{
 			$feed .= " xml:lang=\"" . $data->language . "\"";
@@ -81,6 +82,7 @@ class JDocumentRendererAtom extends JDocumentRenderer
 		$feed .= ">\n";
 		$feed .= "	<title type=\"text\">" . $feed_title . "</title>\n";
 		$feed .= "	<subtitle type=\"text\">" . htmlspecialchars($data->description, ENT_COMPAT, 'UTF-8') . "</subtitle>\n";
+
 		if (empty($data->category) === false)
 		{
 			if (is_array($data->category))
@@ -98,6 +100,7 @@ class JDocumentRendererAtom extends JDocumentRenderer
 		$feed .= "	<link rel=\"alternate\" type=\"text/html\" href=\"" . $url . "\"/>\n";
 		$feed .= "	<id>" . str_replace(' ', '%20', $data->getBase()) . "</id>\n";
 		$feed .= "	<updated>" . htmlspecialchars($now->toISO8601(true), ENT_COMPAT, 'UTF-8') . "</updated>\n";
+
 		if ($data->editor != "")
 		{
 			$feed .= "	<author>\n";
@@ -113,7 +116,16 @@ class JDocumentRendererAtom extends JDocumentRenderer
 
 		for ($i = 0, $count = count($data->items); $i < $count; $i++)
 		{
-			$itemlink = implode("/", array_map("rawurlencode", explode("/", $data->items[$i]->link)));
+
+			if (mb_check_encoding($data->items[$i]->link, 'ASCII'))
+			{
+				$itemlink = $data->items[$i]->link;
+			}
+			else
+			{
+				$itemlink = implode("/", array_map("rawurlencode", explode("/", $data->items[$i]->link)));
+			}
+
 			$feed .= "	<entry>\n";
 			$feed .= "		<title>" . htmlspecialchars(strip_tags($data->items[$i]->title), ENT_COMPAT, 'UTF-8') . "</title>\n";
 			$feed .= '		<link rel="alternate" type="text/html" href="' . $url . $itemlink . "\"/>\n";
@@ -122,10 +134,12 @@ class JDocumentRendererAtom extends JDocumentRenderer
 			{
 				$data->items[$i]->date = $now->toUnix();
 			}
+
 			$itemDate = JFactory::getDate($data->items[$i]->date);
 			$itemDate->setTimeZone($tz);
 			$feed .= "		<published>" . htmlspecialchars($itemDate->toISO8601(true), ENT_COMPAT, 'UTF-8') . "</published>\n";
 			$feed .= "		<updated>" . htmlspecialchars($itemDate->toISO8601(true), ENT_COMPAT, 'UTF-8') . "</updated>\n";
+
 			if (empty($data->items[$i]->guid) === true)
 			{
 				$feed .= "		<id>" . str_replace(' ', '%20', $url . $itemlink) . "</id>\n";
@@ -145,11 +159,13 @@ class JDocumentRendererAtom extends JDocumentRenderer
 				}
 				$feed .= "		</author>\n";
 			}
+
 			if ($data->items[$i]->description != "")
 			{
 				$feed .= "		<summary type=\"html\">" . htmlspecialchars($data->items[$i]->description, ENT_COMPAT, 'UTF-8') . "</summary>\n";
 				$feed .= "		<content type=\"html\">" . htmlspecialchars($data->items[$i]->description, ENT_COMPAT, 'UTF-8') . "</content>\n";
 			}
+
 			if (empty($data->items[$i]->category) === false)
 			{
 				if (is_array($data->items[$i]->category))
@@ -164,6 +180,7 @@ class JDocumentRendererAtom extends JDocumentRenderer
 					$feed .= "		<category term=\"" . htmlspecialchars($data->items[$i]->category, ENT_COMPAT, 'UTF-8') . "\" />\n";
 				}
 			}
+
 			if ($data->items[$i]->enclosure != null)
 			{
 				$feed .= "		<link rel=\"enclosure\" href=\"" . $data->items[$i]->enclosure->url . "\" type=\""
@@ -171,6 +188,7 @@ class JDocumentRendererAtom extends JDocumentRenderer
 			}
 			$feed .= "	</entry>\n";
 		}
+
 		$feed .= "</feed>\n";
 		return $feed;
 	}

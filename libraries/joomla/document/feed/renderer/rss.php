@@ -68,7 +68,15 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		}
 
 		$feed_title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
-		$datalink = implode("/", array_map("rawurlencode", explode("/", $data->link)));
+
+		if (mb_check_encoding($data->link, 'ASCII'))
+		{
+			$datalink = $data->link;
+		}
+		else
+		{
+			$datalink = implode("/", array_map("rawurlencode", explode("/", $data->link)));
+		}
 
 		$feed = "<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n";
 		$feed .= "	<channel>\n";
@@ -85,43 +93,52 @@ class JDocumentRendererRSS extends JDocumentRenderer
 			$feed .= "			<url>" . $data->image->url . "</url>\n";
 			$feed .= "			<title>" . htmlspecialchars($data->image->title, ENT_COMPAT, 'UTF-8') . "</title>\n";
 			$feed .= "			<link>" . str_replace(' ', '%20', $data->image->link) . "</link>\n";
+
 			if ($data->image->width != "")
 			{
 				$feed .= "			<width>" . $data->image->width . "</width>\n";
 			}
+
 			if ($data->image->height != "")
 			{
 				$feed .= "			<height>" . $data->image->height . "</height>\n";
 			}
+
 			if ($data->image->description != "")
 			{
 				$feed .= "			<description><![CDATA[" . $data->image->description . "]]></description>\n";
 			}
 			$feed .= "		</image>\n";
 		}
+
 		if ($data->language != "")
 		{
 			$feed .= "		<language>" . $data->language . "</language>\n";
 		}
+
 		if ($data->copyright != "")
 		{
 			$feed .= "		<copyright>" . htmlspecialchars($data->copyright, ENT_COMPAT, 'UTF-8') . "</copyright>\n";
 		}
+
 		if ($data->editorEmail != "")
 		{
 			$feed .= "		<managingEditor>" . htmlspecialchars($data->editorEmail, ENT_COMPAT, 'UTF-8') . ' ('
 				. htmlspecialchars($data->editor, ENT_COMPAT, 'UTF-8') . ")</managingEditor>\n";
 		}
+
 		if ($data->webmaster != "")
 		{
 			$feed .= "		<webMaster>" . htmlspecialchars($data->webmaster, ENT_COMPAT, 'UTF-8') . "</webMaster>\n";
 		}
+
 		if ($data->pubDate != "")
 		{
 			$pubDate = JFactory::getDate($data->pubDate);
 			$pubDate->setTimeZone($tz);
 			$feed .= "		<pubDate>" . htmlspecialchars($pubDate->toRFC822(true), ENT_COMPAT, 'UTF-8') . "</pubDate>\n";
 		}
+
 		if (empty($data->category) === false)
 		{
 			if (is_array($data->category))
@@ -136,22 +153,27 @@ class JDocumentRendererRSS extends JDocumentRenderer
 				$feed .= "		<category>" . htmlspecialchars($data->category, ENT_COMPAT, 'UTF-8') . "</category>\n";
 			}
 		}
+
 		if ($data->docs != "")
 		{
 			$feed .= "		<docs>" . htmlspecialchars($data->docs, ENT_COMPAT, 'UTF-8') . "</docs>\n";
 		}
+
 		if ($data->ttl != "")
 		{
 			$feed .= "		<ttl>" . htmlspecialchars($data->ttl, ENT_COMPAT, 'UTF-8') . "</ttl>\n";
 		}
+
 		if ($data->rating != "")
 		{
 			$feed .= "		<rating>" . htmlspecialchars($data->rating, ENT_COMPAT, 'UTF-8') . "</rating>\n";
 		}
+
 		if ($data->skipHours != "")
 		{
 			$feed .= "		<skipHours>" . htmlspecialchars($data->skipHours, ENT_COMPAT, 'UTF-8') . "</skipHours>\n";
 		}
+
 		if ($data->skipDays != "")
 		{
 			$feed .= "		<skipDays>" . htmlspecialchars($data->skipDays, ENT_COMPAT, 'UTF-8') . "</skipDays>\n";
@@ -159,7 +181,15 @@ class JDocumentRendererRSS extends JDocumentRenderer
 
 		for ($i = 0, $count = count($data->items); $i < $count; $i++)
 		{
+
+			if (mb_check_encoding($data->items[$i]->link, 'ASCII'))
+			{
+			$itemlink = $data->items[$i]->link;
+			}
+			else
+			{
 			$itemlink = implode("/", array_map("rawurlencode", explode("/", $data->items[$i]->link)));
+			}
 
 			if ((strpos($itemlink, 'http://') === false) && (strpos($itemlink, 'https://') === false))
 			{
@@ -207,16 +237,19 @@ class JDocumentRendererRSS extends JDocumentRenderer
 					$feed .= "			<category>" . htmlspecialchars($data->items[$i]->category, ENT_COMPAT, 'UTF-8') . "</category>\n";
 				}
 			}
+
 			if ($data->items[$i]->comments != "")
 			{
 				$feed .= "			<comments>" . htmlspecialchars($data->items[$i]->comments, ENT_COMPAT, 'UTF-8') . "</comments>\n";
 			}
+
 			if ($data->items[$i]->date != "")
 			{
 				$itemDate = JFactory::getDate($data->items[$i]->date);
 				$itemDate->setTimeZone($tz);
 				$feed .= "			<pubDate>" . htmlspecialchars($itemDate->toRFC822(true), ENT_COMPAT, 'UTF-8') . "</pubDate>\n";
 			}
+
 			if ($data->items[$i]->enclosure != null)
 			{
 				$feed .= "			<enclosure url=\"";
