@@ -114,15 +114,15 @@ $modMenuId = (int) $this->get('ModMenuId');
 						</p>
 					</td>
 					<td class="center btns">
-						<a class="badge badge-success" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype='.$item->menutype.'&filter_published=1');?>">
+						<a class="badge badge-success" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype='.$item->menutype.'&filter[published]=1');?>">
 							<?php echo $item->count_published; ?></a>
 					</td>
 					<td class="center btns">
-						<a class="badge" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype='.$item->menutype.'&filter_published=0');?>">
+						<a class="badge" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype='.$item->menutype.'&filter[published]=0');?>">
 							<?php echo $item->count_unpublished; ?></a>
 					</td>
 					<td class="center btns">
-						<a class="badge badge-error" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype='.$item->menutype.'&filter_published=-2');?>">
+						<a class="badge badge-error" href="<?php echo JRoute::_('index.php?option=com_menus&view=items&menutype='.$item->menutype.'&filter[published]=-2');?>">
 							<?php echo $item->count_trashed; ?></a>
 					</td>
 					<td class="left">
