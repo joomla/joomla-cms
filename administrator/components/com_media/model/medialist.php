@@ -154,15 +154,15 @@ class MediaModelMedialist extends ConfigModelForm
 							$tmp->type		= @$info[2];
 							$tmp->mime		= @$info['mime'];
 
-							if (($info[0] > 60) || ($info[1] > 60))
+							if (($info[0] > 120) || ($info[1] > 120))
 							{
-								$dimensions = $mediaHelper->imageResize($info[0], $info[1], 60);
-								$tmp->width_60 = $dimensions[0];
-								$tmp->height_60 = $dimensions[1];
+								$dimensions = $mediaHelper->imageResize($info[0], $info[1], 120);
+								$tmp->width_120 = $dimensions[0];
+								$tmp->height_120 = $dimensions[1];
 							}
 							else {
-								$tmp->width_60 = $tmp->width;
-								$tmp->height_60 = $tmp->height;
+								$tmp->width_120 = $tmp->width;
+								$tmp->height_120 = $tmp->height;
 							}
 
 							if (($info[0] > 16) || ($info[1] > 16))

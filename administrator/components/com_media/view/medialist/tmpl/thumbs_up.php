@@ -9,17 +9,19 @@
 
 defined('_JEXEC') or die;
 ?>
-		<li class="imgOutline thumbnail height-80 width-80 center">
-			<div class="imgTotal">
-				<div class="imgBorder">
-					<a class="btn" href="index.php?option=com_media&amp;controller=media.display.medialist&amp;view=medialist&amp;tmpl=component&amp;folder=<?php echo $this->state->get('parent'); ?>" target="folderframe">
-						<i class="icon-arrow-up"></i></a>
+		<li class="span2">
+			<article class="thumbnail center" >
+				<div class="height-100">
+					<div class="imgBorder">
+						<a class="btn btn-link btn-large" href="index.php?option=com_media&amp;controller=media.display.medialist&amp;view=medialist&amp;tmpl=component&amp;folder=<?php echo $this->state->get('parent'); ?>" target="folderframe">
+							<i class="icon-arrow-up"></i></a>
+					</div>
+					<div class="controls">
+						<span>&#160;</span>
+					</div>
+					<div>
+						<a href="index.php?option=com_media&amp;controller=media.display.medialist&amp;view=medialist&amp;tmpl=component&amp;folder=<?php echo $this->state->get('parent'); ?>" target="folderframe">..</a>
+					</div>					
 				</div>
-			</div>
-			<div class="controls">
-				<span>&#160;</span>
-			</div>
-			<div class="imginfoBorder">
-				<a href="index.php?option=com_media&amp;controller=media.display.medialist&amp;view=medialist&amp;tmpl=component&amp;folder=<?php echo $this->state->get('parent'); ?>" target="folderframe">..</a>
-			</div>
+			</article>
 		</li>
