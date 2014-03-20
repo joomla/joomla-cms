@@ -2,11 +2,11 @@
 /**
  * @package    FrameworkOnFramework
  * @subpackage form
- * @copyright  Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @copyright  Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 if (!class_exists('JFormFieldList'))
 {
@@ -275,7 +275,7 @@ class FOFFormFieldList extends JFormFieldList implements FOFFormField
 		if ($order)
 		{
 			jimport('joomla.utilities.arrayhelper');
-			JArrayHelper::sortObjects($sortOptions, $order, $order_dir == 'asc' ? 1 : -1, $order_case_sensitive, false);
+			FOFUtilsArray::sortObjects($sortOptions, $order, $order_dir == 'asc' ? 1 : -1, $order_case_sensitive, false);
 		}
 
 		// Initialise the options
@@ -297,9 +297,7 @@ class FOFFormFieldList extends JFormFieldList implements FOFFormField
 			{
 				$source_file = FOFTemplateUtils::parsePath($source_file, true);
 
-				JLoader::import('joomla.filesystem.file');
-
-				if (JFile::exists($source_file))
+				if (FOFPlatform::getInstance()->getIntegrationObject('filesystem')->fileExists($source_file))
 				{
 					include_once $source_file;
 				}

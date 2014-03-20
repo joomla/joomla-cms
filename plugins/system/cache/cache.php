@@ -18,7 +18,6 @@ defined('_JEXEC') or die;
  */
 class PlgSystemCache extends JPlugin
 {
-
 	var $_cache		= null;
 
 	var $_cache_key	= null;
@@ -115,6 +114,7 @@ class PlgSystemCache extends JPlugin
 		}
 
 		$user = JFactory::getUser();
+
 		if ($user->get('guest'))
 		{
 			// We need to check again here, because auto-login plugins have not been fired before the first aid check.
