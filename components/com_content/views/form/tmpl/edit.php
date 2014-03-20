@@ -78,10 +78,10 @@ if (!$editoroptions)
 
 			<div class="tab-content">
 				<div class="tab-pane active" id="editor">
-					<?php echo $this->form->getControlGroup('title'); ?>
+					<?php echo $this->form->renderField('title'); ?>
 
 					<?php if (is_null($this->item->id)) : ?>
-						<?php echo $this->form->getControlGroup('alias'); ?>
+						<?php echo $this->form->renderField('alias'); ?>
 					<?php endif; ?>
 
 					<?php echo $this->form->getInput('articletext'); ?>
