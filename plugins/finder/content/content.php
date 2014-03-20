@@ -358,7 +358,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 		$a_id = $query->castAsChar('a.id');
 		$case_when_item_alias .= $query->concatenate(array($a_id, 'a.alias'), ':');
 		$case_when_item_alias .= ' ELSE ';
-		$case_when_item_alias .= $a_id.' END as slug';
+		$case_when_item_alias .= $a_id . ' END as slug';
 		$query->select($case_when_item_alias);
 
 		$case_when_category_alias = ' CASE WHEN ';
@@ -367,7 +367,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 		$c_id = $query->castAsChar('c.id');
 		$case_when_category_alias .= $query->concatenate(array($c_id, 'c.alias'), ':');
 		$case_when_category_alias .= ' ELSE ';
-		$case_when_category_alias .= $c_id.' END as catslug';
+		$case_when_category_alias .= $c_id . ' END as catslug';
 		$query->select($case_when_category_alias)
 
 			->select('u.name AS author')

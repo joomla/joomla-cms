@@ -31,6 +31,15 @@ class PlgAuthenticationGMail extends JPlugin
 	 */
 	public function onUserAuthenticate($credentials, $options, &$response)
 	{
+		// Load plugin language
+		$this->loadLanguage();
+
+		// No backend authentication
+		if (JFactory::getApplication()->isAdmin() && !$this->params->get('backendLogin', 0))
+		{
+			return;
+		}
+
 		$success = 0;
 
 		// Check if we have curl or not
@@ -72,7 +81,6 @@ class PlgAuthenticationGMail extends JPlugin
 					$curl = curl_init('https://mail.google.com/mail/feed/atom');
 					curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 					curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, $this->params->get('verifypeer', 1));
-					//curl_setopt($curl, CURLOPT_HEADER, 1);
 					curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
 					curl_setopt($curl, CURLOPT_USERPWD, $credentials['username'] . ':' . $credentials['password']);
 					curl_exec($curl);
@@ -114,27 +122,81 @@ class PlgAuthenticationGMail extends JPlugin
 
 		if ($success)
 		{
-			$response->status		= JAuthentication::STATUS_SUCCESS;
-			$response->error_message = '';
-
 			if (strpos($credentials['username'], '@') === false)
 			{
 				if ($suffix)
 				{
 					// If there is a suffix then we want to apply it
-					$response->email = $credentials['username'] . '@' . $suffix;
+					$email = $credentials['username'] . '@' . $suffix;
 				}
 				else
 				{
 					// If there isn't a suffix just use the default gmail one
-					$response->email = $credentials['username'] . '@gmail.com';
+					$email = $credentials['username'] . '@gmail.com';
 				}
 			}
 			else
 			{
 				// The username looks like an email address (probably is) so use that
-				$response->email = $credentials['username'];
+				$email = $credentials['username'];
 			}
+
+			// Extra security checks with existing local accounts
+			$db = JFactory::getDbo();
+
+			$localUsernameChecks = array(strstr($email, '@', true), $email);
+
+			$query = $db->getQuery(true)
+				->select('id, activation, username, email, block')
+				->from('#__users')
+				->where('username IN(' . implode(',', array_map(array($db, 'quote'), $localUsernameChecks)) . ')'
+					. ' OR email = ' . $db->quote($email)
+				);
+
+			$db->setQuery($query);
+
+			if ($localUsers = $db->loadObjectList())
+			{
+				foreach ($localUsers as $localUser)
+				{
+					// Local user exists with same username but different email address
+					if ($email != $localUser->email)
+					{
+						$response->status        = JAuthentication::STATUS_FAILURE;
+						$response->error_message = JText::sprintf('JGLOBAL_AUTH_FAILED', JText::_('PLG_GMAIL_ERROR_LOCAL_USERNAME_CONFLICT'));
+
+						return;
+					}
+					else
+					{
+						// Existing user disabled locally
+						if ($localUser->block || !empty($localUser->activation))
+						{
+							$response->status        = JAuthentication::STATUS_FAILURE;
+							$response->error_message = JText::_('JGLOBAL_AUTH_ACCESS_DENIED');
+
+							return;
+						}
+
+						// We will always keep the local username for existing accounts
+						$credentials['username'] = $localUser->username;
+
+						break;
+					}
+				}
+			}
+			elseif (JFactory::getApplication()->isAdmin())
+			// We wont' allow backend access without local account
+			{
+				$response->status        = JAuthentication::STATUS_FAILURE;
+				$response->error_message = JText::_('JERROR_LOGIN_DENIED');
+
+				return;
+			}
+
+			$response->status        = JAuthentication::STATUS_SUCCESS;
+			$response->error_message = '';
+			$response->email         = $email;
 
 			// Reset the username to what we ended up using
 			$response->username = $credentials['username'];

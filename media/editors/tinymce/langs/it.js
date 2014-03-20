@@ -172,5 +172,7 @@ tinymce.addI18n('it',{
 "Header 6": "Intestazione 6",
 "Insert Time": "Inserisci ora",
 "Insert nonbreaking space": "Inserisci uno spazio",
-"Toggle blockquote": "Testo quotato"
+"Toggle blockquote": "Testo quotato",
+"The URL you entered seems to be an external link. Do you want to add the required http:\/\/ prefix?": "L'URL inserito sembra essere un collegamento esterno. Vuoi aggiungere il prefisso necessario http:\/\/?",
+"The URL you entered seems to be an email address. Do you want to add the required mailto: prefix?": "L'URL inserito sembra essere un indirizzo email. Vuoi aggiungere il prefisso necessario mailto:?"
 });
