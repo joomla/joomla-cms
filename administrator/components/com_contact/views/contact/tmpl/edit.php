@@ -42,25 +42,25 @@ $assoc = JLanguageAssociations::isEnabled();
 				<div class="row-fluid form-horizontal-desktop">
 					<div class="span6">
 						<div >
-							<?php echo $this->form->getControlGroup('user_id'); ?>
+							<?php echo $this->form->renderField('user_id'); ?>
 						</div>
-						<?php echo $this->form->getControlGroup('image'); ?>
-						<?php echo $this->form->getControlGroup('con_position'); ?>
-						<?php echo $this->form->getControlGroup('email_to'); ?>
-						<?php echo $this->form->getControlGroup('address'); ?>
-						<?php echo $this->form->getControlGroup('suburb'); ?>
-						<?php echo $this->form->getControlGroup('state'); ?>
-						<?php echo $this->form->getControlGroup('postcode'); ?>
-						<?php echo $this->form->getControlGroup('country'); ?>
+						<?php echo $this->form->renderField('image'); ?>
+						<?php echo $this->form->renderField('con_position'); ?>
+						<?php echo $this->form->renderField('email_to'); ?>
+						<?php echo $this->form->renderField('address'); ?>
+						<?php echo $this->form->renderField('suburb'); ?>
+						<?php echo $this->form->renderField('state'); ?>
+						<?php echo $this->form->renderField('postcode'); ?>
+						<?php echo $this->form->renderField('country'); ?>
 					</div>
 					<div class="span6">
-						<?php echo $this->form->getControlGroup('telephone'); ?>
-						<?php echo $this->form->getControlGroup('mobile'); ?>
-						<?php echo $this->form->getControlGroup('fax'); ?>
-						<?php echo $this->form->getControlGroup('webpage'); ?>
-						<?php echo $this->form->getControlGroup('sortname1'); ?>
-						<?php echo $this->form->getControlGroup('sortname2'); ?>
-						<?php echo $this->form->getControlGroup('sortname3'); ?>
+						<?php echo $this->form->renderField('telephone'); ?>
+						<?php echo $this->form->renderField('mobile'); ?>
+						<?php echo $this->form->renderField('fax'); ?>
+						<?php echo $this->form->renderField('webpage'); ?>
+						<?php echo $this->form->renderField('sortname1'); ?>
+						<?php echo $this->form->renderField('sortname2'); ?>
+						<?php echo $this->form->renderField('sortname3'); ?>
 					</div>
 				</div>
 			</div>
@@ -73,7 +73,7 @@ $assoc = JLanguageAssociations::isEnabled();
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'misc', JText::_('JGLOBAL_FIELDSET_MISCELLANEOUS', true)); ?>
 		<div class="row-fluid form-horizontal-desktop">
 				<div class="form-vertical">
-					<?php echo $this->form->getControlGroup('misc'); ?>
+					<?php echo $this->form->renderField('misc'); ?>
 				</div>
 		</div>
 		<?php echo JHtml::_('bootstrap.endTab'); ?>
