@@ -88,30 +88,30 @@ if (!$editoroptions)
 				</div>
 				<?php if ($params->get('show_urls_images_frontend')): ?>
 				<div class="tab-pane" id="images">
-					<?php echo $this->form->getControlGroup('image_intro', 'images'); ?>
-					<?php echo $this->form->getControlGroup('image_intro_alt', 'images'); ?>
-					<?php echo $this->form->getControlGroup('image_intro_caption', 'images'); ?>
-					<?php echo $this->form->getControlGroup('float_intro', 'images'); ?>
-					<?php echo $this->form->getControlGroup('image_fulltext', 'images'); ?>
-					<?php echo $this->form->getControlGroup('image_fulltext_alt', 'images'); ?>
-					<?php echo $this->form->getControlGroup('image_fulltext_caption', 'images'); ?>
-					<?php echo $this->form->getControlGroup('float_fulltext', 'images'); ?>
-					<?php echo $this->form->getControlGroup('urla', 'urls'); ?>
-					<?php echo $this->form->getControlGroup('urlatext', 'urls'); ?>
+					<?php echo $this->form->renderField('image_intro', 'images'); ?>
+					<?php echo $this->form->renderField('image_intro_alt', 'images'); ?>
+					<?php echo $this->form->renderField('image_intro_caption', 'images'); ?>
+					<?php echo $this->form->renderField('float_intro', 'images'); ?>
+					<?php echo $this->form->renderField('image_fulltext', 'images'); ?>
+					<?php echo $this->form->renderField('image_fulltext_alt', 'images'); ?>
+					<?php echo $this->form->renderField('image_fulltext_caption', 'images'); ?>
+					<?php echo $this->form->renderField('float_fulltext', 'images'); ?>
+					<?php echo $this->form->renderField('urla', 'urls'); ?>
+					<?php echo $this->form->renderField('urlatext', 'urls'); ?>
 					<div class="control-group">
 						<div class="controls">
 							<?php echo $this->form->getInput('targeta', 'urls'); ?>
 						</div>
 					</div>
-					<?php echo $this->form->getControlGroup('urlb', 'urls'); ?>
-					<?php echo $this->form->getControlGroup('urlbtext', 'urls'); ?>
+					<?php echo $this->form->renderField('urlb', 'urls'); ?>
+					<?php echo $this->form->renderField('urlbtext', 'urls'); ?>
 					<div class="control-group">
 						<div class="controls">
 							<?php echo $this->form->getInput('targetb', 'urls'); ?>
 						</div>
 					</div>
-					<?php echo $this->form->getControlGroup('urlc', 'urls'); ?>
-					<?php echo $this->form->getControlGroup('urlctext', 'urls'); ?>
+					<?php echo $this->form->renderField('urlc', 'urls'); ?>
+					<?php echo $this->form->renderField('urlctext', 'urls'); ?>
 					<div class="control-group">
 						<div class="controls">
 							<?php echo $this->form->getInput('targetc', 'urls'); ?>
@@ -120,19 +120,19 @@ if (!$editoroptions)
 				</div>
 				<?php endif; ?>
 				<div class="tab-pane" id="publishing">
-					<?php echo $this->form->getControlGroup('catid'); ?>
-					<?php echo $this->form->getControlGroup('tags'); ?>
+					<?php echo $this->form->renderField('catid'); ?>
+					<?php echo $this->form->renderField('tags'); ?>
 					<?php if ($params->get('save_history', 0)) : ?>
-						<?php echo $this->form->getControlGroup('version_note'); ?>
+						<?php echo $this->form->renderField('version_note'); ?>
 					<?php endif; ?>
-					<?php echo $this->form->getControlGroup('created_by_alias'); ?>
+					<?php echo $this->form->renderField('created_by_alias'); ?>
 					<?php if ($this->item->params->get('access-change')) : ?>
-						<?php echo $this->form->getControlGroup('state'); ?>
-						<?php echo $this->form->getControlGroup('featured'); ?>
-						<?php echo $this->form->getControlGroup('publish_up'); ?>
-						<?php echo $this->form->getControlGroup('publish_down'); ?>
+						<?php echo $this->form->renderField('state'); ?>
+						<?php echo $this->form->renderField('featured'); ?>
+						<?php echo $this->form->renderField('publish_up'); ?>
+						<?php echo $this->form->renderField('publish_down'); ?>
 					<?php endif; ?>
-					<?php echo $this->form->getControlGroup('access'); ?>
+					<?php echo $this->form->renderField('access'); ?>
 					<?php if (is_null($this->item->id)):?>
 						<div class="control-group">
 							<div class="control-label">
@@ -144,11 +144,11 @@ if (!$editoroptions)
 					<?php endif; ?>
 				</div>
 				<div class="tab-pane" id="language">
-					<?php echo $this->form->getControlGroup('language'); ?>
+					<?php echo $this->form->renderField('language'); ?>
 				</div>
 				<div class="tab-pane" id="metadata">
-					<?php echo $this->form->getControlGroup('metadesc'); ?>
-					<?php echo $this->form->getControlGroup('metakey'); ?>
+					<?php echo $this->form->renderField('metadesc'); ?>
+					<?php echo $this->form->renderField('metakey'); ?>
 
 					<input type="hidden" name="task" value="" />
 					<input type="hidden" name="return" value="<?php echo $this->return_page; ?>" />
