@@ -2,11 +2,11 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  template
- * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 /**
  * A utility class to load view templates, media files and modules.
@@ -103,14 +103,15 @@ class FOFTemplateUtils
 		// Get the local LESS file
 		$localFile = self::parsePath($path, true);
 
-		JLoader::import('joomla.filesystem.folder');
+		$filesystem   = FOFPlatform::getInstance()->getIntegrationObject('filesystem');
+        $platformDirs = FOFPlatform::getInstance()->getPlatformBaseDirs();
 
 		if (is_null($sanityCheck))
 		{
 			// Make sure the cache directory exists
-			if (!is_dir(JPATH_SITE . '/media/lib_fof/compiled/'))
+			if (!is_dir($platformDirs['public'] . '/media/lib_fof/compiled/'))
 			{
-				$sanityCheck = JFolder::create(JPATH_SITE . '/media/lib_fof/compiled/');
+				$sanityCheck = $filesystem->folderCreate($platformDirs['public'] . '/media/lib_fof/compiled/');
 			}
 			else
 			{
@@ -144,7 +145,7 @@ class FOFTemplateUtils
 		$id = md5(filemtime($localFile) . filectime($localFile) . $localFile);
 
 		// Get the cached file path
-		$cachedPath = JPATH_SITE . '/media/lib_fof/compiled/' . $id . '.css';
+		$cachedPath = $platformDirs['public'] . '/media/lib_fof/compiled/' . $id . '.css';
 
 		// Get the LESS compiler
 		$lessCompiler = new FOFLess;
@@ -173,7 +174,7 @@ class FOFTemplateUtils
 		$lessCompiler->checkedCompile($localFile, $cachedPath);
 
 		// Add the compiled CSS to the page
-		$base_url = rtrim(JUri::base(), '/');
+		$base_url = rtrim(FOFPlatform::getInstance()->URIbase(), '/');
 
 		if (substr($base_url, -14) == '/administrator')
 		{
@@ -206,9 +207,9 @@ class FOFTemplateUtils
 	 * enabled, the browser will follow the fake link instead of processing the onSubmit event; so we
 	 * need a fix.
 	 *
-	 * @param   string   $text   Header text
-	 * @param   string   $field  Field used for sorting
-	 * @param   JObject  $list   Object holding the direction and the ordering field
+	 * @param   string          $text   Header text
+	 * @param   string          $field  Field used for sorting
+	 * @param   FOFUtilsObject  $list   Object holding the direction and the ordering field
 	 *
 	 * @return  string  HTML code for sorting
 	 */
@@ -239,13 +240,15 @@ class FOFTemplateUtils
 	 */
 	public static function parsePath($path, $localFile = false)
 	{
+        $platformDirs = FOFPlatform::getInstance()->getPlatformBaseDirs();
+
 		if ($localFile)
 		{
-			$url = rtrim(JPATH_ROOT, DIRECTORY_SEPARATOR) . '/';
+			$url = rtrim($platformDirs['root'], DIRECTORY_SEPARATOR) . '/';
 		}
 		else
 		{
-			$url = JURI::root();
+			$url = FOFPlatform::getInstance()->URIroot();
 		}
 
 		$altPaths = self::getAltPaths($path);
@@ -254,14 +257,14 @@ class FOFTemplateUtils
 		// If JDEBUG is enabled, prefer that path, else prefer an alternate path if present
 		if (defined('JDEBUG') && JDEBUG && isset($altPaths['debug']))
 		{
-			if (file_exists(JPATH_SITE . '/' . $altPaths['debug']))
+			if (file_exists($platformDirs['public'] . '/' . $altPaths['debug']))
 			{
 				$filePath = $altPaths['debug'];
 			}
 		}
 		elseif (isset($altPaths['alternate']))
 		{
-			if (file_exists(JPATH_SITE . '/' . $altPaths['alternate']))
+			if (file_exists($platformDirs['public'] . '/' . $altPaths['alternate']))
 			{
 				$filePath = $altPaths['alternate'];
 			}
@@ -333,12 +336,12 @@ class FOFTemplateUtils
 		}
 
 		// For CSS and JS files, add a debug path if the supplied file is compressed
-		JLoader::import('joomla.filesystem.file');
-		$ext = JFile::getExt($ret['normal']);
+		$filesystem = FOFPlatform::getInstance()->getIntegrationObject('filesystem');
+		$ext        = $filesystem->getExt($ret['normal']);
 
 		if (in_array($ext, array('css', 'js')))
 		{
-			$file = basename(JFile::stripExt($ret['normal']));
+			$file = basename($filesystem->stripExt($ret['normal']));
 
 			/*
 			 * Detect if we received a file in the format name.min.ext
@@ -356,7 +359,10 @@ class FOFTemplateUtils
 			}
 
 			// Clone the $ret array so we can manipulate the 'normal' path a bit
-			$temp = (array) (clone (object) $ret);
+			$t1 = (object) $ret;
+			$temp = clone $t1;
+			unset($t1);
+			$temp = (array)$temp;
 			$normalPath = explode('/', $temp['normal']);
 			array_pop($normalPath);
 			$normalPath[] = $filename;
@@ -387,8 +393,6 @@ class FOFTemplateUtils
 		{
 			return '';
 		}
-
-		$document = JFactory::getDocument();
 
 		try
 		{
