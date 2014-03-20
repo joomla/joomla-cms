@@ -71,7 +71,7 @@ class PlgSystemRemember extends JPlugin
 		// No remember me for admin
 		if ($this->app->isAdmin())
 		{
-			return false;
+			return true;
 		}
 
 		$cookieName = JUserHelper::getShortHashedUserAgent();
@@ -82,5 +82,7 @@ class PlgSystemRemember extends JPlugin
 			// Make sure authentication group is loaded to process onUserAfterLogout event
 			JPluginHelper::importPlugin('authentication');
 		}
+
+		return true;
 	}
 }
