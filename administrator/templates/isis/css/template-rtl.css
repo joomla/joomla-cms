@@ -6942,6 +6942,9 @@ div.modal.fade.in {
 .icon-credit-2:before {
 	content: "\e287";
 }
+.icon-expired:before {
+	content: "\4b";
+}
 .icon-edit:before {
 	color: #2f96b4;
 }
@@ -6963,6 +6966,7 @@ div.modal.fade.in {
 }
 .icon-featured:before,
 .icon-default:before,
+.icon-expired:before,
 .icon-pending:before {
 	color: #f89406;
 }
