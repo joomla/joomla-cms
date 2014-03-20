@@ -169,15 +169,15 @@ class SearchViewSearch extends JViewLegacy
 				$mbString = extension_loaded('mbstring');
 				if ($mbString)
 				{
-					/* i.e. german umlauts like ä are converted to ae and so
-					$pos calculated with $srow don't match for $row */
+					/* e.g. german umlauts like ä are converted to ae and so
+					$pos calculated with $srow doesn't match for $row */
 					$correctPos = ( mb_strlen($srow) > mb_strlen($row) );
 					$highlighterLen = mb_strlen($hl1 . $hl2);
 				}
 				else
 				{
-					/* i.e. german umlauts like ä are converted to ae and so
-					$pos calculated with $srow don't match for $row */
+					/* e.g. german umlauts like ä are converted to ae and so
+					$pos calculated with $srow desn't match for $row */
 					$correctPos = ( JString::strlen($srow) > JString::strlen($row) );
 					$highlighterLen = JString::strlen($hl1 . $hl2);
 				}
