@@ -229,7 +229,7 @@ class SearchViewSearch extends JViewLegacy
 						}
 					}
 				}
-				if	(count($posCollector))
+				if (count($posCollector))
 				{
 					/* Sort by pos. Easier to handle overlapping highlighter-spans */
 					ksort($posCollector);
@@ -238,36 +238,26 @@ class SearchViewSearch extends JViewLegacy
 					foreach ($posCollector as  $pos => $hlword)
 					{
 						$pos += $cnt * $highlighterLen;
-						if ($mbString)
+						/* avoid overlapping/corrupted highlighter-spans */
+						// TODO $chkOverlap could be used to highlight remaining part
+						// of searchword outside last highlighter-span.
+						// At the moment no additional highlighter is set.
+						$chkOverlap = $pos - $lastHighlighterEnd;
+						if ($chkOverlap >= 0)
 						{
-							$hlwordLen = mb_strlen($hlword);
-							/* avoid overlapping/corrupted highlighter-spans */
-							// TODO $chkOverlap could be used to highlight remaining part
-							// of searchword outside last highlighter-span.
-							// At the moment no additional highlighter is set.
-							$chkOverlap = $pos - $lastHighlighterEnd;
-							if ($chkOverlap >= 0)
+       /* set highlighter around searchword */
+							if ($mbString)
 							{
-								/* set highlighter around searchword */
+								$hlwordLen = mb_strlen($hlword);
 								$row = mb_substr($row, 0, $pos) . $hl1 . mb_substr($row, $pos, $hlwordLen) . $hl2 . mb_substr($row, $pos + $hlwordLen);
-								$cnt++;
-								$lastHighlighterEnd = $pos + $hlwordLen + $highlighterLen;
 							}
-						}
-						else
-						{
-							$hlwordLen = JString::strlen($hlword);
-							/* avoid overlapping/corrupted highlighter-spans */
-							// TODO $chkOverlap could be used to highlight remaining part
-							// of searchword outside last highlighter-span.
-							// At the moment no additional highlighter is set.
-							$chkOverlap = $pos - $lastHighlighterEnd;
-							if ($chkOverlap >= 0)
+							else
 							{
+								$hlwordLen = JString::strlen($hlword);
 								$row = JString::substr($row, 0, $pos) . $hl1 . JString::substr($row, $pos, JString::strlen($hlword)) . $hl2 . JString::substr($row, $pos + JString::strlen($hlword));
-								$cnt++;
-								$lastHighlighterEnd = $pos + $hlwordLen + $highlighterLen;
 							}
+							$cnt++;
+							$lastHighlighterEnd = $pos + $hlwordLen + $highlighterLen;
 						}
 					}
 				}
