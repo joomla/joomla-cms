@@ -184,11 +184,11 @@ class JDocumentRendererRSS extends JDocumentRenderer
 
 			if (mb_check_encoding($data->items[$i]->link, 'ASCII'))
 			{
-			$itemlink = $data->items[$i]->link;
+				$itemlink = $data->items[$i]->link;
 			}
 			else
 			{
-			$itemlink = implode("/", array_map("rawurlencode", explode("/", $data->items[$i]->link)));
+				$itemlink = implode("/", array_map("rawurlencode", explode("/", $data->items[$i]->link)));
 			}
 
 			if ((strpos($itemlink, 'http://') === false) && (strpos($itemlink, 'https://') === false))

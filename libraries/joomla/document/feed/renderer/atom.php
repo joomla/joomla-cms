@@ -153,6 +153,7 @@ class JDocumentRendererAtom extends JDocumentRenderer
 			{
 				$feed .= "		<author>\n";
 				$feed .= "			<name>" . htmlspecialchars($data->items[$i]->author, ENT_COMPAT, 'UTF-8') . "</name>\n";
+
 				if ($data->items[$i]->authorEmail != "")
 				{
 					$feed .= "			<email>" . htmlspecialchars($data->items[$i]->authorEmail, ENT_COMPAT, 'UTF-8') . "</email>\n";
