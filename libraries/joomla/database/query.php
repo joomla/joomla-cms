@@ -1537,13 +1537,13 @@ abstract class JDatabaseQuery
 	 * $query->union($query2)->union($query3)
 	 * $query->union(array($query2, $query3))
 	 *
-	 * @link http://dev.mysql.com/doc/refman/5.0/en/union.html
-	 *
 	 * @param   mixed    $query     The JDatabaseQuery object or string to union.
 	 * @param   boolean  $distinct  True to only return distinct rows from the union.
 	 * @param   string   $glue      The glue by which to join the conditions.
 	 *
 	 * @return  mixed    The JDatabaseQuery object on success or boolean false on failure.
+	 *
+	 * @link http://dev.mysql.com/doc/refman/5.0/en/union.html
 	 *
 	 * @since   12.1
 	 */
@@ -1582,12 +1582,12 @@ abstract class JDatabaseQuery
 	 * Usage:
 	 * $query->unionDistinct('SELECT name FROM  #__foo')
 	 *
-	 * @see     union
-	 *
 	 * @param   mixed   $query  The JDatabaseQuery object or string to union.
 	 * @param   string  $glue   The glue by which to join the conditions.
 	 *
 	 * @return  mixed   The JDatabaseQuery object on success or boolean false on failure.
+	 *
+	 * @see     union
 	 *
 	 * @since   12.1
 	 */
@@ -1815,13 +1815,13 @@ abstract class JDatabaseQuery
 	 * $query->union('SELECT name FROM  #__foo')
 	 * $query->union(array('SELECT name FROM  #__foo','SELECT name FROM  #__bar'))
 	 *
-	 * @see     union
-	 *
 	 * @param   mixed    $query     The JDatabaseQuery object or string to union.
 	 * @param   boolean  $distinct  Not used - ignored.
 	 * @param   string   $glue      Not used - ignored.
 	 *
 	 * @return  mixed    The JDatabaseQuery object on success or boolean false on failure.
+	 *
+	 * @see     union
 	 *
 	 * @since   13.1
 	 */
@@ -1845,4 +1845,3 @@ abstract class JDatabaseQuery
 		return $this;
 	}
 }
-
