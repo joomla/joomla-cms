@@ -26,7 +26,7 @@ abstract class AdminEditPage extends AdminPage
 	 * @var    array
 	 * @since  3.2
 	 */
-	public $tabs = array();
+	public $tabs = null;
 
 	/**
 	 * Array of tab labels for this page
@@ -34,7 +34,15 @@ abstract class AdminEditPage extends AdminPage
 	 * @var    array
 	 * @since  3.2
 	 */
-	public $tabLabels = array();
+	public $tabLabels = null;
+
+	/**
+	 * Name for header fields
+	 *
+	 * @var    string
+	 * @since  3.2
+	 */
+	public $headingLabel = 'Heading';
 
 	/**
 	 * Array of groups for this page. A group is a collapsable slider inside a tab.
@@ -45,7 +53,7 @@ abstract class AdminEditPage extends AdminPage
 	 * @var    array
 	 * @since  3.2
 	 */
-	public $groups = array();
+	public $groups = null;
 
 	/**
 	 * Array of expected id values for toolbar div elements
@@ -59,7 +67,23 @@ abstract class AdminEditPage extends AdminPage
 			'Help' => 'toolbar-help',
 	);
 
-	public $inputFields = array();
+	/**
+	 * Array of associative arrays of input fields for this screen
+	 * 	label => label for the field (string)
+	 * 	id => id of the input field
+	 * 	type => type of field (select, input, textarea, fieldset)
+	 * 	tab => the id of the tab field (or 'heading' if no tab).
+	 *
+	 * @var array
+	 */
+	public $inputFields = null;
+
+	/**
+	 * Array of permissions for this component options screen.
+	 *
+	 * @var array
+	 */
+	public $permissions = null;
 
 	public function __construct(Webdriver $driver, $test, $url = null)
 	{
@@ -78,6 +102,13 @@ abstract class AdminEditPage extends AdminPage
 		}
 	}
 
+	/**
+	 *
+	 * @param array $tabIds
+	 *        	array of tab ids
+	 *
+	 * @return array of std objects for each field
+	 */
 	public function getAllInputFields($tabIds = array())
 	{
 		$return = array();
@@ -87,7 +118,6 @@ abstract class AdminEditPage extends AdminPage
 			$return = $this->getInputFieldsForHeader();
 			foreach ($tabIds as $tabId)
 			{
-
 				$tabLink = $this->driver->findElement(By::xPath("//ul[@class='nav nav-tabs']//a[contains(@href, '" . $tabId . "')]"));
 				$tabLink->click();
 
@@ -104,7 +134,6 @@ abstract class AdminEditPage extends AdminPage
 				{
 					$return = array_merge($return, $this->getInputFieldsForTab($tabId));
 				}
-
 			}
 		}
 		else
@@ -172,6 +201,22 @@ abstract class AdminEditPage extends AdminPage
 
 	}
 
+	public function formatImageElement($imageName)
+	{
+		return "[[Image:$imageName|670px|none]]\n";
+	}
+
+	/**
+	 *
+	 * @param string  $tabId id of tab that contains the field
+	 * @param string  	$label label of the field
+	 * @return mixed    false if no field found, otherwise std object with these fields:
+	 *                       tag = element tag name
+	 *                       id = element id attribute
+	 *                       labelId = id attribute of label for this field
+	 *                       type = type attribute of element
+	 *                       element = WebElement object for the element
+	 */
 	protected function getInputField($tabId, $label)
 	{
 		$object = new stdClass();
@@ -211,6 +256,12 @@ abstract class AdminEditPage extends AdminPage
 		}
 	}
 
+	public function getHelpFileName($componentName)
+	{
+		$name = 'help-' . $this->version . '-' . $componentName . '.txt';
+		return strtolower(str_replace(array('\'', ' / ', ' - ', ' ', '/', ':', '&', '='), array('', '-', '-','-', '', '', '-', '-'), $name));
+	}
+
 	public function getFieldValue($label)
 	{
 		if (($i = $this->getRowNumber($label)) !== false)
@@ -244,13 +295,62 @@ abstract class AdminEditPage extends AdminPage
 		$i = 0;
 		foreach ($options as $option)
 		{
-			$optionText[] = $option->getText();
+			$class = $option->getAttribute('class');
+			if ($text = $option->getText() && strpos($class, 'active-result') !== false)
+			{
+				$optionText[] = "''" . trim($option->getText(), ' -') . "''";
+			}
+
 			if ($i++ > 5)			{
 				$optionText[] = '...';
 				break;
 			}
 		}
 		return $optionText;
+	}
+
+	public function getPermissions($groupId, $permissionsId)
+	{
+		if (!isset($this->permissions))
+		{
+			$result = array();
+			$this->selectTab($permissionsId);
+			$this->driver->findElement(By::xPath("//a[@href='#permission-" . $groupId . "']"))->click();
+			$elements = $this->driver->findElements(By::xPath("//div[@id='permission-" . $groupId . "']//label[@class='hasTooltip']"));
+			foreach ($elements as $element)
+			{
+				$labelId = $element->getAttribute('for');
+				$permission = str_ireplace(array('jform_rules_', '_' . $groupId), '', $labelId);
+				$result[] = $permission;
+			}
+			$this->permissions = $result;
+		}
+		return $this->permissions;
+	}
+
+	public function getPermissionInputFields($groupId, $permissionsId)
+	{
+		$permissions = $this->getPermissions($groupId, $permissionsId);
+		$this->driver->findElement(By::xPath("//a[@href='#permission-" . $groupId . "']"))->click();
+		foreach ($this->permissions as $permission)
+		{
+			$id = 'jform_rules_' . $permission . '_' . $groupId;
+			$label = $this->driver->findElement(By::xPath("//label[@for='" . $id . "']"));
+			$input = $this->driver->findElement(By::id($id));
+			$tip = $label->findElement(By::xPath("//label[@class='hasTooltip'][@for='" . $id . "']"));
+			$tipText = $tip->getAttribute('data-original-title');
+			$object = new stdClass();
+// 			$object->tab = $this->driver->findElement(By::id($permissionsId))->getText();
+			$object->labelText = $label->getText();
+			$object->tipText = $tipText;
+			$object->tag = $input->getTagName();
+			$object->id = $id;
+			$object->type = $input->getAttribute('type');
+
+			$object->element = $input;
+			$result[] = $object;
+		}
+		return $result;
 	}
 
 	protected function getRadioValues(array $values)
@@ -285,15 +385,72 @@ abstract class AdminEditPage extends AdminPage
 		}
 	}
 
+	public function getTabDescription($tabId)
+	{
+		$this->selectTab($tabId);
+		$tabTextElementArray = $this->driver->findElements(By::xPath("//div[contains(@class,'tab-pane active')]//p"));
+
+		if (count($tabTextElementArray) > 0 && ($tabDescription = $tabTextElementArray[0]->getText()))
+		{
+			return $tabDescription;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 	public function getTabIds()
 	{
-		$tabs = $this->driver->findElements(By::xPath("//div[@class='tab-content']/div"));
-		$return = array();
-		foreach ($tabs as $tab)
+		if (!isset($this->tabs))
 		{
-			$return[] = $tab->getAttribute('id');
+			$tabs = $this->driver->findElements(By::xPath("//div[contains(@class,'tab-content')]/div[contains(@class,'tab-pane')][not(contains(@id,'permission-'))]"));
+			$return = array();
+			foreach ($tabs as $tab)
+			{
+				$return[] = $tab->getAttribute('id');
+			}
+			$this->tabs = $return;
 		}
-		return $return;
+		return $this->tabs;
+	}
+
+	public function getTabLabels()
+	{
+		if (!isset($this->tabLabels))
+		{
+			$tabs = $this->driver->findElements(By::xPath("//ul[contains(@class, 'nav-tabs')]/li/a[not(contains(@href,'#permission-'))]"));
+			$return = array();
+			foreach ($tabs as $tab)
+			{
+				if ($text = $tab->getText())
+				{
+					$return[] = $tab->getText('');
+				}
+			}
+			$this->tabLabels = $return;
+		}
+		return $this->tabLabels;
+	}
+
+	public function getTabLabel($tabId)
+	{
+		$result = false;
+		if ($tabId == 'header')
+		{
+			$result = $this->headingLabel;
+		}
+		$tabIds = $this->getTabIds();
+		$index = count($tabIds);
+		$tabLabels = $this->getTabLabels();
+		for ($i = 0; $i < $index; $i++)
+		{
+			if ($tabIds[$i] == $tabId)
+			{
+				$result = $tabLabels[$i];
+			}
+		}
+		return $result;
 	}
 
 	protected function getTextValues(array $values)
@@ -309,13 +466,17 @@ abstract class AdminEditPage extends AdminPage
 
 	public function getToolTip($tabText, $id)
 	{
-		$this->selectTab($tabText);
-		$el = $this->driver->findElement(By::id($id));
-		$test = $this->driver->executeScript("document.getElementById(arguments[0]).fireEvent('mouseenter');", array($id));
-		sleep(1);
-		$tip = $el->findElement(By::xPath("//div[@class='tip-text']"));
-		$tipText = $tip->getText();
-		return str_replace("\n", " ", $tipText);
+		$result = false;
+		$elmentArray = $this->driver->findElements(By::id($id));
+		if (count($elmentArray) == 1)
+		{
+			$tipText = $elmentArray[0]->getAttribute('data-original-title');
+			if ($tipText)
+			{
+				$result = str_replace("\n", " ", $tipText);
+			}
+		}
+		return $result;
 	}
 
 	public function printFieldArray($actualFields)
@@ -328,6 +489,11 @@ abstract class AdminEditPage extends AdminPage
 		}
 	}
 
+	protected function removeLabel($label, $string)
+	{
+		return str_ireplace(array('<strong>' . $label . '</strong>', '<strong> ' . $label . '</strong>','<br />'), array('','',''), $string);
+	}
+
 	public function selectTab($label, $group = null)
 	{
 		if ($label == 'header')
@@ -335,7 +501,7 @@ abstract class AdminEditPage extends AdminPage
 			return;
 		}
 		$this->driver->executeScript("window.scrollTo(0,0)");
-		$el = $this->driver->findElement(By::xPath("//ul[@class='nav nav-tabs']//a[contains(@href, '" . strtolower($label) . "')]"));
+		$el = $this->driver->findElement(By::xPath("//ul[@class='nav nav-tabs']//a[contains(translate(@href, '" . strtoupper($label) . "', '" . strtolower($label) . "'), '" . strtolower($label) . "')]"));
 		$el->click();
 		sleep(1);
 		$el->click();
@@ -471,43 +637,172 @@ abstract class AdminEditPage extends AdminPage
 	}
 
 	/**
-	 * Output help screen for the page.
+	 * Create Wiki text for this edit screen.
+	 * Includes text from tooltips and options.
+	 *
+	 * @param  string  $prefix              Prefix for the screenshot file name
+	 * @param  array   $excludeTabs         Array of tab ids to exclude from the help file (to exclude common tabs).
+	 * @param array $excludeFields        	Array of field ids to exclude from the help file (to exclude common fields in modules)
+	 * @param string $screenshotNameType    "text" = use field text for screenshot (for English file name). "code" = use id and URL to generate file name (for non-English).
+	 *
+	 * @return string boolean
 	 */
-	public function toWikiHelp()
+	public function toWikiHelp($excludeTabs = array(), $excludeFields = array(), $screenshotNameOptions = array())
 	{
-		$inputFields = $this->getAllInputFields($this->getTabIds());
-		$tabs = $this->tabs;
+		$allTabs = $this->getTabIds();
+		$tabs = array_values(array_diff($allTabs, $excludeTabs));
+		$excludedCount = count($excludeTabs);
+
+		$inputFields = $this->getAllInputFields($tabs);
+
 		$helpText = array();
 		foreach ($inputFields as $el)
 		{
-			$this->selectTab($el->tab);
-			$el->labelText = (substr($el->labelText, -2) == ' *') ? substr($el->labelText, 0, -2) : $el->labelText;
-			if ($el->tag == 'fieldset')
+			if (isset($el->tab) && ! in_array($el->tab, $excludeTabs) && ! in_array($el->id, $excludeFields))
 			{
-				$helpText[$el->tab][] = $this->toWikiHelpRadio($el);
-			}
-			elseif ($el->tag == 'select')
-			{
-				$helpText[$el->tab][] = $this->toWikiHelpSelect($el);
-			}
-			else
-			{
-				$helpText[$el->tab][] = "*'''" . $el->labelText . ":''' " . $this->getToolTip($el->tab, $el->id . '-lbl') . "\n";
+				$this->selectTab($el->tab);
+				$el->tabLabel = $this->getTabLabel($el->tab);
+				$el->labelText = (substr($el->labelText, - 2) == ' *') ? substr($el->labelText, 0, - 2) : $el->labelText;
+				if ($el->tag == 'fieldset')
+				{
+					$elHelpText = $this->toWikiHelpRadio($el);
+				}
+				elseif ($el->tag == 'select')
+				{
+					$elHelpText = $this->toWikiHelpSelect($el);
+				}
+				else
+				{
+					$elHelpText = $this->toWikiHelpInput($el);
+				}
+
+				if ($elHelpText)
+				{
+					$helpText[$el->tabLabel][] = $elHelpText;
+				}
 			}
 		}
 
-		foreach ($tabs as $tab)
+		if (! in_array('permissions', $excludeTabs))
 		{
+			$permissionsTextArray = $this->toWikiHelpPermissions();
+			if (is_array($permissionsTextArray))
+			{
+				$helpText[$permissionsTextArray[1]] = $permissionsTextArray[0];
+			}
+		}
+
+		$tabCount = count($tabs);
+		$result = array();
+		for ($i = 0; $i < $tabCount; $i ++)
+		{
+			$tab = $tabs[$i];
 			$tabText = $this->driver->findElement(By::xPath("//a[@href='#" . $tab . "']"))->getText();
 			$result[] = '===' . $tabText . "===\n";
+
+			// Don't do screenshot for first tab, since this is in the main screenshot
+			if ($i > 0)
+			{
+				$screenshotNameOptions['tab'] = $tab;
+				$result[] = $this->formatImageElement($this->getHelpScreenshotName($screenshotNameOptions));
+			}
+
+			// Get any description for tab
+			if ($tabDescription = $this->getTabDescription($tab))
+			{
+				$result[] = $tabDescription . "\n";
+			}
+
 			if (isset($helpText[$tabText]))
 			{
 				$result = array_merge($result, $helpText[$tabText]);
 			}
 		}
-		return implode("", $result);
+		if ($tabCount > 0)
+		{
+			$screenshot = array("==Screenshot==\n");
 
+			// If we are processing the first tab, don't include tab name in screenshot name
+			if (! in_array($allTabs[0], $excludeTabs))
+			{
+				unset($screenshotNameOptions['tab']);
+				$screenshotName = $this->getHelpScreenshotName($screenshotNameOptions);
+			}
+			else
+			{
+				$screenshotNameOptions['tab'] = $tabs[0];
+				$screenshotName = $this->getHelpScreenshotName($screenshotNameOptions);
+			}
+			$screenshot[] = $this->formatImageElement($screenshotName);
+			$screenshot[] = "==Details==\n";
+
+			if (isset($helpText[$this->headingLabel]))
+			{
+				$screenshot = array_merge($screenshot, $helpText[$this->headingLabel]);
+			}
+			$result = array_merge($screenshot, $result);
+		}
+		elseif (!in_array('header', $excludeTabs))
+		{
+			$screenshot = array("==Screenshot==\n");
+			unset($screenshotNameOptions['tab']);
+			$screenshotName = $this->getHelpScreenshotName($screenshotNameOptions);
+			$screenshot[] = $this->formatImageElement($screenshotName);
+			$screenshot[] = "==Details==\n";
+			$result = array_merge($screenshot, $helpText['Heading']);
+		}
+		return implode("", $result);
 	}
+
+	/**
+	 * Prepare wiki text for an input element
+	 * Format is: *'''<label>:''' <tooltip text>
+	 */
+	public function toWikiHelpInput(stdClass $el)
+	{
+		$result = false;
+		if ($toolTipRaw = $this->getToolTip($el->tab, $el->id . '-lbl'))
+		{
+			$toolTip = $this->removeLabel($el->labelText, $toolTipRaw);
+			$result = "*'''" . $el->labelText . ":''' " . $toolTip . "\n";
+		}
+		return $result;
+	}
+
+	/**
+	 * Prepare wiki text for permissions tab
+	 */
+	public function toWikiHelpPermissions()
+	{
+		$result = false;
+		$elArray = $this->driver->findElements(By::xPath("//ul//a[@href='#page-permissions' or @href='#permissions' or @href='#rules']"));
+		if (count($elArray) == 1)
+		{
+			$el = $elArray[0];
+			$el->click();
+			$permissionsText = $el->getText();
+			$permissionsId = $this->driver->findElement(By::xPath("//div[@class = 'tab-pane active']"))->getAttribute('id');
+			$objects = $this->getPermissionInputFields('1', $permissionsId);
+			$helpText = array();
+			foreach ($objects as $object)
+			{
+				$listElement = str_replace('.', '_', $object->id);
+				$optionContainer = $this->driver->findElement(By::xPath("//div[@id='" . $listElement . "_chzn']"));
+				$optionContainer->findElement(By::tagName('a'))->click();
+				$optionList = $optionContainer->findElement(By::tagName('ul'));
+				$optionText = $this->getOptionText($optionList);
+				$toolTip = $object->element->getAttribute('title') . ". " . $object->tipText;
+				$helpText[] = "*'''" . $object->labelText . ":''' (" . implode('/', $optionText) . "). " . $toolTip . "\n";
+				$optionContainer->findElement(By::tagName('a'))->click();
+			}
+			$result = array(
+				$helpText,
+				$permissionsText
+			);
+		}
+		return $result;
+	}
+
 
 	/**
 	 * Prepare wiki text for a radio button group
@@ -515,13 +810,14 @@ abstract class AdminEditPage extends AdminPage
 	 */
 	public function toWikiHelpRadio(stdClass $object)
 	{
+		$toolTip = $this->removeLabel($object->labelText, $this->getToolTip($object->tab, $object->id . '-lbl'));
 		$optionText = array();
 		$options = $object->element->findElements(By::tagName('label'));
 		foreach ($options as $option)
 		{
-			$optionText[] = $option->getText();
+			$optionText[] = "''" . $option->getText() . "''";
 		}
-		return "*'''" . $object->labelText . ":''' (" . implode('/', $optionText) . "). " . $this->getToolTip($object->tab, $object->id . '-lbl'). "\n";
+		return "*'''" . $object->labelText . ":''' (" . implode('/', $optionText) . "). " . $toolTip . "\n";
 	}
 
 	/**
@@ -530,10 +826,20 @@ abstract class AdminEditPage extends AdminPage
 	 */
 	public function toWikiHelpSelect(stdClass $object)
 	{
+		$toolTip = $this->removeLabel($object->labelText, $this->getToolTip($object->tab, $object->labelId));
 		$optionContainer = $this->driver->findElement(By::xPath("//div[@id='" . $object->id . "_chzn']"));
 		$optionContainer->click();
 		$optionList = $optionContainer->findElement(By::tagName('ul'));
 		$optionText = $this->getOptionText($optionList);
-		return "*'''" . $object->labelText . ":''' (" . implode('/', $optionText) . "). " . $this->getToolTip($object->tab, $object->id). "\n";
+		$optionContainer->click();
+		if (count($optionText) > 0)
+		{
+			$result = "*'''" . $object->labelText . ":''' (" . implode('/', $optionText) . "). " . $toolTip . "\n";
+		}
+		else
+		{
+			$result = "*'''" . $object->labelText . ":''' " . $toolTip . "\n";
+		}
+		return $result;
 	}
 }

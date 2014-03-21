@@ -97,11 +97,6 @@ class GlobalConfigurationPage extends AdminEditPage
 
 	public $permissions = array('core.login.site', 'core.login.admin', 'core.login.offline', 'core.admin', 'core.manage', 'core.create', 'core.delete', 'core.edit', 'core.edit.state', 'core.edit.own');
 
-
-
-
-
-
 	public function getPermissionInputFields($groupId)
 	{
 		$this->selectTab('page-permissions');
@@ -114,8 +109,8 @@ class GlobalConfigurationPage extends AdminEditPage
 			$input = $this->driver->findElement(By::id($id));
 			$this->driver->executeScript($this->moveToElementByAttribute, array('for', $id));
 			sleep(1);
-			$tip = $label->findElement(By::xPath("//label[@class='tip'][@for='" . $id . "']"));
-			$tipText = $tip->getAttribute('title');
+			$tip = $label->findElement(By::xPath("//label[@class='hasTooltip'][@for='" . $id . "']"));
+			$tipText = $tip->getAttribute('data-original-title');
 			$object = new stdClass();
 			$object->tab = $this->driver->findElement(By::xPath("//a[@href='#page-permissions']"))->getText();
 			$object->labelText = $label->getText();
@@ -139,98 +134,6 @@ class GlobalConfigurationPage extends AdminEditPage
 			$return[] = $tab->getAttribute('id');
 		}
 		return $return;
-	}
-
-	/**
-	 * Output help screen for the page.
-	 */
-	public function toWikiHelp()
-	{
-		$inputFields = $this->getAllInputFields($this->getTabIds());
-		$tabs = $this->tabs;
-		$helpText = array();
-		foreach ($inputFields as $el)
-		{
-			$this->selectTab($el->tab);
-			$el->labelText = (substr($el->labelText, -2) == ' *') ? substr($el->labelText, 0, -2) : $el->labelText;
-			if ($el->tag == 'fieldset')
-			{
-				$helpText[$el->tab][] = $this->toWikiHelpRadio($el);
-			}
-			elseif ($el->tag == 'select')
-			{
-				$helpText[$el->tab][] = $this->toWikiHelpSelect($el);
-			}
-			else
-			{
-				$helpText[$el->tab][] = "*'''" . $el->labelText . ":''' " . $this->getToolTip($el->tab, $el->id . '-lbl') . "\n";
-			}
-		}
-
-		// Get permissions help just for the public group
-		$permissionsText = $this->driver->findElement(By::xPath("//a[@href='#page-permissions']"))->getText();
-		$helpText[$permissionsText] = $this->toWikiHelpPermissions('1');
-//		$filtersText = $this->driver->findElement(By::id('filters'))->getText();
-//		$helpText[$filtersText] = $this->toWikiHelpFilters('1');
-		foreach ($tabs as $tab)
-		{
-			$tabText = $this->driver->findElement(By::xPath("//a[@href='#" . $tab . "']"))->getText();
-			$result[] = '===' . $tabText . "===\n";
-			if (isset($helpText[$tabText]))
-			{
-				$result = array_merge($result, $helpText[$tabText]);
-			}
-		}
-		return implode("", $result);
-
-	}
-
-
-
-	/**
-	 * Prepare wiki text for permissions tab
-	 *
-	 */
-	public function toWikiHelpPermissions($groupId)
-	{
-		$objects = $this->getPermissionInputFields($groupId);
-		foreach ($objects as $object)
-		{
-			$listElement = str_replace('.', '_', $object->id);
-			$optionContainer = $this->driver->findElement(By::xPath("//div[@id='" . $listElement . "_chzn']"));
-			$optionContainer->findElement(By::tagName('a'))->click();
-			$optionList = $optionContainer->findElement(By::tagName('ul'));
-			$optionText = $this->getOptionText($optionList);
-			$toolTip = $object->element->getAttribute('title') . ". " . $object->tipText;
-			$helpText[] = "*'''" . $object->labelText . ":''' (" . implode('/', $optionText) . "). " . $toolTip . "\n";
-			$optionContainer->findElement(By::tagName('a'))->click();
-		}
-		return $helpText;
-	}
-
-	/**
-	 * Prepare wiki text for filters tab
-	 *
-	 */
-	public function toWikiHelpFilters($groupId)
-	{
-		$el = $this->driver->findElement(By::xPath("//a[contains(@href, '#page-filters')]"));
-		$el->click();
-		$tabText = $el->getText();
-		$heading = $this->driver->findElement(By::xPath("//div[@id='page-filters']//legend"))->getText();
-		$subText = $this->driver->findElement(By::xPath("//div[@id='page-filters']//p"))->getText();
-		$id = "jform_filters" . $groupId . "_filter_type";
-		$toolTip = $this->getToolTip($tabText, $id);
-
-		$subHeading = $this->driver->findElement(By::xPath("//table[@id='filter-config']//th[2]"))->getText();
-		$filterOptions = $this->getOptionText($this->driver->findElement(By::id($id)));
-		sleep(1);
-		$helpText[] = "====" . $heading . "====\n";
-		$helpText[] = $subText . "\n";
-		$helpText[] = "*'''" . $subHeading . ":''' (" . implode("/", $filterOptions) . ")\n";
-		$helpText[] = $toolTip;
-
-		return $helpText;
 	}
 
 	/**

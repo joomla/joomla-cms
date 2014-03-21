@@ -57,6 +57,11 @@ abstract class AdminPage
 	protected $url = null;
 
 	/**
+	 * @var string  This is the version used in naming the help screenshot files.
+	 */
+	protected $version = '3x';
+
+	/**
 	 *
 	 * @var  array of top menu text that is initially visible in all admin menus
 	 */
@@ -251,7 +256,14 @@ abstract class AdminPage
 
 	public function clickMenuByUrl($linkURL, $pageType = 'GenericAdminPage')
 	{
-		$this->driver->get($this->cfg->host . $this->cfg->path . 'administrator/index.php?option=' . $linkURL, 'GlobalConfigPage');
+		if (substr($linkURL, 0, 23) == 'administrator/index.php')
+		{
+			$this->driver->get($this->cfg->host . $this->cfg->path . $linkURL, 'GlobalConfigPage');
+		}
+		else
+		{
+			$this->driver->get($this->cfg->host . $this->cfg->path . 'administrator/index.php?option=' . $linkURL, 'GlobalConfigPage');
+		}
 		return $this->test->getPageObject($pageType);
 	}
 
@@ -298,6 +310,44 @@ abstract class AdminPage
 	public function getErrorMessage()
 	{
 		return $this->driver->findElement(By::xPath("//dd[@class='error message']"))->getText();
+	}
+
+	/**
+	 * Gets the file name for the help screenshot.
+	 *
+	 * @param  array  $options  Associative array as follows:
+	 *                             'prefix' => prefix for the file name
+	 *                             'language' => optional language code for non-English (use component and tabid in name)
+	 *                             'tab' => tab id to append to the file name
+	 *                             'component' => name of the component (for use in non-English file name)
+	 *
+	 * @return string file name.
+	 */
+	public function getHelpScreenshotName($options = array())
+	{
+		$prefix = (isset($options['prefix'])) ? $options['prefix'] : '';
+		$tabId = (isset($options['tab'])) ? $options['tab'] : '';
+		$language = (isset($options['language'])) ? $options['language'] : '';
+		$component = (isset($options['component'])) ? $options['component'] : '';
+
+		if ($language)
+		{
+			$prefix = ($component) ? $prefix . '-' . $component : $prefix;
+			$prefix = ($tabId) ? $prefix . '-' . $tabId : $prefix;
+			$name = 'help-' . $this->version . '-' . $prefix . '-' . $language . '.png';
+		}
+		else
+		{
+			if ($tabId && ($label = $this->getTabLabel($tabId)))
+			{
+				$name = 'help-' . $this->version . '-' . $prefix . '-' . $label . '.png';
+			}
+			else
+			{
+				$name = 'help-' . $this->version . '-' . $prefix . '.png';
+			}
+		}
+		return strtolower(str_replace(array('\'', ' / ', ' - ', ' ', '/', ':', '&', '='), array('', '-', '-','-', '', '', '-', '-'), $name));
 	}
 
 	public function getSystemMessage()
