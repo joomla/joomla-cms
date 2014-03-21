@@ -28,7 +28,7 @@ $params = $this->params;
 					<?php endif; ?>
 				</h2>
 				<?php if ($params->get('show_author') && !empty($item->author )) : ?>
-					<div class="createdby" itemscope itemtype="http://schema.org/Person">
+					<div class="createdby" itemprop="author" itemscope itemtype="http://schema.org/Person">
 					<?php $author = ($item->created_by_alias) ? $item->created_by_alias : $item->author; ?>
 					<?php $author = '<span itemprop="name">' . $author . '</span>'; ?>
 						<?php if (!empty($item->contact_link) && $params->get('link_author') == true) : ?>
@@ -79,7 +79,7 @@ $params = $this->params;
 					<dd>
 						<div class="published">
 							<span class="icon-calendar"></span>
-							<time datetime="<?php echo JHtmlDate($item->publish_up, 'c'); ?>" itemprop="datePublished">
+							<time datetime="<?php echo JHtml::_('date', $item->publish_up, 'c'); ?>" itemprop="datePublished">
 								<?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $item->publish_up, JText::_('DATE_FORMAT_LC3'))); ?>
 							</time>
 						</div>
@@ -91,7 +91,7 @@ $params = $this->params;
 						<dd>
 							<div class="modified">
 								<span class="icon-calendar"></span>
-								<time datetime="<?php echo JHtmlDate($item->modified, 'c'); ?>" itemprop="dateModified">
+								<time datetime="<?php echo JHtml::_('date', $item->modified, 'c'); ?>" itemprop="dateModified">
 									<?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', JHtml::_('date', $item->modified, JText::_('DATE_FORMAT_LC3'))); ?>
 								</time>
 							</div>
@@ -101,7 +101,7 @@ $params = $this->params;
 						<dd>
 							<div class="create">
 								<span class="icon-calendar"></span>
-								<time datetime="<?php echo JHtmlDate($item->created, 'c'); ?>" itemprop="dateCreated">
+								<time datetime="<?php echo JHtml::_('date', $item->created, 'c'); ?>" itemprop="dateCreated">
 									<?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC3'))); ?>
 								</time>
 							</div>
@@ -162,7 +162,7 @@ $params = $this->params;
 						<dd>
 							<div class="published">
 								<span class="icon-calendar"></span>
-								<time datetime="<?php echo JHtmlDate($item->publish_up, 'c'); ?>" itemprop="datePublished">
+								<time datetime="<?php echo JHtml::_('date', $item->publish_up, 'c'); ?>" itemprop="datePublished">
 									<?php echo JText::sprintf('COM_CONTENT_PUBLISHED_DATE_ON', JHtml::_('date', $item->publish_up, JText::_('DATE_FORMAT_LC3'))); ?>
 								</time>
 							</div>
@@ -174,7 +174,7 @@ $params = $this->params;
 					<dd>
 						<div class="create">
 							<span class="icon-calendar"></span>
-							<time datetime="<?php echo JHtmlDate($item->created, 'c'); ?>" itemprop="dateCreated">
+							<time datetime="<?php echo JHtml::_('date', $item->created, 'c'); ?>" itemprop="dateCreated">
 								<?php echo JText::sprintf('COM_CONTENT_CREATED_DATE_ON', JHtml::_('date', $item->modified, JText::_('DATE_FORMAT_LC3'))); ?>
 							</time>
 						</div>
@@ -184,7 +184,7 @@ $params = $this->params;
 					<dd>
 						<div class="modified">
 							<span class="icon-calendar"></span>
-							<time datetime="<?php echo JHtmlDate($item->modified, 'c'); ?>" itemprop="dateModified">
+							<time datetime="<?php echo JHtml::_('date', $item->modified, 'c'); ?>" itemprop="dateModified">
 								<?php echo JText::sprintf('COM_CONTENT_LAST_UPDATED', JHtml::_('date', $item->modified, JText::_('DATE_FORMAT_LC3'))); ?>
 							</time>
 						</div>
