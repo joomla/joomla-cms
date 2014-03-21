@@ -140,20 +140,20 @@ $params = &$this->item->params;
 					<?php endif; ?>
 
 					<?php if ($this->params->get('show_suburb_headings')) : ?>
-						<td class="item-suburb" itemprop="addressLocality">
-							<?php echo $item->suburb; ?>
+						<td class="item-suburb" itemscope itemtype="http://schema.org/PostalAddress">
+							<span itemprop="addressLocality"><?php echo $item->suburb; ?></span>
 						</td>
 					<?php endif; ?>
 
 					<?php if ($this->params->get('show_state_headings')) : ?>
-						<td class="item-state" itemprop="addressRegion">
-							<?php echo $item->state; ?>
+						<td class="item-state" itemscope itemtype="http://schema.org/PostalAddress">
+							<span itemprop="addressRegion"><?php echo $item->state; ?></span>
 						</td>
 					<?php endif; ?>
 
 					<?php if ($this->params->get('show_country_headings')) : ?>
-						<td class="item-state" itemprop="addressCountry">
-							<?php echo $item->country; ?>
+						<td class="item-state" itemscope itemtype="http://schema.org/PostalAddress">
+							<span itemprop="addressCountry"><?php echo $item->country; ?></span>
 						</td>
 					<?php endif; ?>
 				</tr>
