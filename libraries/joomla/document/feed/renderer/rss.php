@@ -69,7 +69,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 
 		$feed_title = htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
 
-		if (mb_check_encoding($data->link, 'ASCII'))
+		if ($data->link = JFilterOutput::stringURLSafe($data->link))
 		{
 			$datalink = $data->link;
 		}
@@ -182,7 +182,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 		for ($i = 0, $count = count($data->items); $i < $count; $i++)
 		{
 
-			if (mb_check_encoding($data->items[$i]->link, 'ASCII'))
+			if ($data->items[$i]->link = JFilterOutput::stringURLSafe($data->items[$i]->link))
 			{
 				$itemlink = $data->items[$i]->link;
 			}
