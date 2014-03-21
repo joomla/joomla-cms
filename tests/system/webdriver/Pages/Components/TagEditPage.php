@@ -49,6 +49,14 @@ class TagEditPage extends AdminEditPage
 	public $tabs = array('details', 'publishing', 'attrib-basic', 'attrib-images');
 
 	/**
+	 * Array of tab labels present on this page
+	 *
+	 * @var    array
+	 * @since  3.2
+	 */
+	public $tabLabels = array('Tag Details', 'Publishing', 'Options', 'Images');
+
+	/**
 	 * Array of all the field Details of the Edit page, along with the ID and tab value they are present on
 	 *
 	 * @var array

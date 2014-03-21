@@ -49,6 +49,14 @@ class WeblinkEditPage extends AdminEditPage
 	public $tabs = array('details', 'images', 'publishing', 'attrib-jbasic');
 
 	/**
+	 * Array of tab labels present on this page
+	 *
+	 * @var    array
+	 * @since  3.2
+	 */
+	public $tabLabels = array('New Web link', 'Images', 'Publishing', 'Options');
+
+	/**
 	 * Array of all the field Details of the Edit page, along with the ID and tab value they are present on
 	 *
 	 * @var array

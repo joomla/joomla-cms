@@ -39,6 +39,14 @@ class BannerEditPage extends AdminEditPage
 	protected $url = 'administrator/index.php?option=com_banners&view=banner&layout=edit';
 
 	/**
+	 * Array of tab labels present on this page
+	 *
+	 * @var    array
+	 * @since  3.2
+	 */
+	public $tabLabels = array('Details', 'Banner Details', 'Publishing');
+
+	/**
 	 * Array of tabs present on this page
 	 *
 	 * @var    array
