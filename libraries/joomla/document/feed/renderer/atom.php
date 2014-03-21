@@ -117,7 +117,7 @@ class JDocumentRendererAtom extends JDocumentRenderer
 		for ($i = 0, $count = count($data->items); $i < $count; $i++)
 		{
 
-			if ($data->items[$i]->link = JFilterOutput::stringURLSafe($data->items[$i]->link))
+			if (mb_check_encoding($data->items[$i]->link, 'ASCII'))
 			{
 				$itemlink = $data->items[$i]->link;
 			}
