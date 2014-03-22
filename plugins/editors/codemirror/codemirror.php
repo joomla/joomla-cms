@@ -21,7 +21,7 @@ class PlgEditorCodemirror extends JPlugin
 	/**
 	 * Base path for editor files
 	 */
-	protected $_basePath = 'media/editors/codemirror/';
+	protected $basePath = 'media/editors/codemirror/';
 
 	/**
 	 * Initialises the Editor.
@@ -31,10 +31,10 @@ class PlgEditorCodemirror extends JPlugin
 	public function onInit()
 	{
 		JHtml::_('behavior.framework');
-		JHtml::_('script', $this->_basePath . 'js/codemirror.js', false, false, false, false);
-		JHtml::_('script', $this->_basePath . 'js/fullscreen.js', false, false, false, false);
-		JHtml::_('stylesheet', $this->_basePath . 'css/codemirror.css');
-		JHtml::_('stylesheet', $this->_basePath . 'css/configuration.css');
+		JHtml::_('script', $this->basePath . 'js/codemirror.js', false, false, false, false);
+		JHtml::_('script', $this->basePath . 'js/fullscreen.js', false, false, false, false);
+		JHtml::_('stylesheet', $this->basePath . 'css/codemirror.css');
+		JHtml::_('stylesheet', $this->basePath . 'css/configuration.css');
 
 		return '';
 	}
@@ -113,11 +113,11 @@ class PlgEditorCodemirror extends JPlugin
 	 * @param   string   $id       An optional ID for the textarea (note: since 1.6). If not supplied the name is used.
 	 * @param   string   $asset    Unused
 	 * @param   object   $author   Unused
-	 * @param   array    $params   Associative array of editor parameters.
+	 * @param   array    $param    Associative array of editor parameters.
 	 *
 	 * @return  string  HTML Output
 	 */
-	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
+	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $param = array())
 	{
 		if (empty($id))
 		{
@@ -153,7 +153,7 @@ class PlgEditorCodemirror extends JPlugin
 					$fold              = true;
 					$matchTags         = false;
 					$matchBrackets     = true;
-					JHtml::_('script', $this->_basePath . 'js/brace-fold.js', false, false, false, false);
+					JHtml::_('script', $this->basePath . 'js/brace-fold.js', false, false, false, false);
 					break;
 
 				case 'ini':
@@ -174,7 +174,7 @@ class PlgEditorCodemirror extends JPlugin
 					$autoCloseTags     = true;
 					$matchTags         = true;
 					$matchBrackets     = false;
-					JHtml::_('script', $this->_basePath . 'js/xml-fold.js', false, false, false, false);
+					JHtml::_('script', $this->basePath . 'js/xml-fold.js', false, false, false, false);
 					break;
 
 				case 'js':
@@ -185,7 +185,7 @@ class PlgEditorCodemirror extends JPlugin
 					$fold              = true;
 					$matchTags         = false;
 					$matchBrackets     = true;
-					JHtml::_('script', $this->_basePath . 'js/brace-fold.js', false, false, false, false);
+					JHtml::_('script', $this->basePath . 'js/brace-fold.js', false, false, false, false);
 					break;
 
 				case 'less':
@@ -196,7 +196,7 @@ class PlgEditorCodemirror extends JPlugin
 					$fold              = true;
 					$matchTags         = false;
 					$matchBrackets     = true;
-					JHtml::_('script', $this->_basePath . 'js/brace-fold.js', false, false, false, false);
+					JHtml::_('script', $this->basePath . 'js/brace-fold.js', false, false, false, false);
 					break;
 
 				case 'php':
@@ -207,8 +207,8 @@ class PlgEditorCodemirror extends JPlugin
 					$fold              = true;
 					$matchTags         = true;
 					$matchBrackets     = true;
-					JHtml::_('script', $this->_basePath . 'js/brace-fold.js', false, false, false, false);
-					JHtml::_('script', $this->_basePath . 'js/xml-fold.js', false, false, false, false);
+					JHtml::_('script', $this->basePath . 'js/brace-fold.js', false, false, false, false);
+					JHtml::_('script', $this->basePath . 'js/xml-fold.js', false, false, false, false);
 					break;
 
 				default:
@@ -227,7 +227,7 @@ class PlgEditorCodemirror extends JPlugin
 		{
 			foreach ($parserFile as $file)
 			{
-				JHtml::_('script', $this->_basePath . 'js/' . $file, false, false, false, false);
+				JHtml::_('script', $this->basePath . 'js/' . $file, false, false, false, false);
 			}
 		}
 
@@ -260,27 +260,27 @@ class PlgEditorCodemirror extends JPlugin
 		if ($this->params->get('matchTags') == "1")
 		{
 			$options->matchTags = $matchTags;
-			JHtml::_('script', $this->_basePath . 'js/matchtags.js', false, false, false, false);
+			JHtml::_('script', $this->basePath . 'js/matchtags.js', false, false, false, false);
 		}
 
 		if ($this->params->get('matchBrackets') == "1")
 		{
 			$options->matchBrackets = $matchBrackets;
-			JHtml::_('script', $this->_basePath . 'js/matchbrackets.js', false, false, false, false);
+			JHtml::_('script', $this->basePath . 'js/matchbrackets.js', false, false, false, false);
 		}
 
 		if ($this->params->get('marker-gutter') == "1")
 		{
 			$options->foldGutter = $fold;
 			$options->gutters = array('CodeMirror-linenumbers', 'CodeMirror-foldgutter', 'breakpoints');
-			JHtml::_('script', $this->_basePath . 'js/foldcode.js', false, false, false, false);
-			JHtml::_('script', $this->_basePath . 'js/foldgutter.js', false, false, false, false);
+			JHtml::_('script', $this->basePath . 'js/foldcode.js', false, false, false, false);
+			JHtml::_('script', $this->basePath . 'js/foldgutter.js', false, false, false, false);
 		}
 
 		if ($this->params->get('theme', '') == 'ambiance')
 		{
 			$options->theme	= 'ambiance';
-			JHtml::_('stylesheet', $this->_basePath . 'css/ambiance.css');
+			JHtml::_('stylesheet', $this->basePath . 'css/ambiance.css');
 		}
 
 		if ($this->params->get('lineWrapping') == "1")

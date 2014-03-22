@@ -129,11 +129,11 @@ class PlgEditorNone extends JPlugin
 	 * @param   string   $id       An optional ID for the textarea (note: since 1.6). If not supplied the name is used.
 	 * @param   string   $asset    The object asset
 	 * @param   object   $author   The author.
-	 * @param   array    $params   Associative array of editor parameters.
+	 * @param   array    $param    Associative array of editor parameters.
 	 *
 	 * @return  string
 	 */
-	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
+	public function onDisplay($name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $param = array())
 	{
 		if (empty($id))
 		{
@@ -152,7 +152,8 @@ class PlgEditorNone extends JPlugin
 		}
 
 		$buttons = $this->_displayButtons($id, $buttons, $asset, $author);
-		$editor  = "<textarea name=\"$name\" id=\"$id\" cols=\"$col\" rows=\"$row\" style=\"width: $width; height: $height;\">$content</textarea>" . $buttons;
+		$editor  = "<textarea name=\"$name\" id=\"$id\" cols=\"$col\" rows=\"$row\" style=\"width: $width; height: $height;\">$content</textarea>"
+			. $buttons;
 
 		return $editor;
 	}
