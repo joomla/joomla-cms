@@ -44,8 +44,6 @@ abstract class JHtmlBatch
 					'id' => 'batch-access'
 				)
 			);
-
-		return implode("\n", $lines);
 	}
 
 	/**
