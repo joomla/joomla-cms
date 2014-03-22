@@ -18,6 +18,13 @@ defined('_JEXEC') or die;
  */
 abstract class ModTagsPopularHelper
 {
+	/**
+	 * get list of popular tags
+	 *
+	 * @param   JRegistry  &$params  module parameters
+	 *
+	 * @return mixed
+	 */
 	public static function getList(&$params)
 	{
 		$db				= JFactory::getDbo();
@@ -42,8 +49,8 @@ abstract class ModTagsPopularHelper
 				array(
 					'MAX(' . $db->quoteName('tag_id') . ') AS tag_id',
 					' COUNT(*) AS count', 'MAX(t.title) AS title',
-					'MAX(' .$db->quoteName('t.access') . ') AS access',
-					'MAX(' .$db->quoteName('t.alias') . ') AS alias'
+					'MAX(' . $db->quoteName('t.access') . ') AS access',
+					'MAX(' . $db->quoteName('t.alias') . ') AS alias'
 				)
 			)
 			->group($db->quoteName(array('tag_id', 'title', 'access', 'alias')))
@@ -62,6 +69,7 @@ abstract class ModTagsPopularHelper
 			{
 				$language = JHelperContent::getCurrentLanguage();
 			}
+
 			$query->where($db->quoteName('t.language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
 		}
 

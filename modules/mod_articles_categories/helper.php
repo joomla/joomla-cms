@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE.'/components/com_content/helpers/route.php';
+require_once JPATH_SITE . '/components/com_content/helpers/route.php';
 
 /**
  * Helper for mod_articles_categories
@@ -19,6 +19,13 @@ require_once JPATH_SITE.'/components/com_content/helpers/route.php';
  */
 abstract class ModArticlesCategoriesHelper
 {
+	/**
+	 * get list of articles
+	 *
+	 * @param   JRegistry  &$params  module parameters
+	 *
+	 * @return array
+	 */
 	public static function getList(&$params)
 	{
 		$options = array();
@@ -30,12 +37,13 @@ abstract class ModArticlesCategoriesHelper
 		if ($category != null)
 		{
 			$items = $category->getChildren();
+
 			if ($params->get('count', 0) > 0 && count($items) > $params->get('count', 0))
 			{
 				$items = array_slice($items, 0, $params->get('count', 0));
 			}
+
 			return $items;
 		}
 	}
-
 }

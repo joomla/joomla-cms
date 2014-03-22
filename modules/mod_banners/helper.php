@@ -18,9 +18,16 @@ defined('_JEXEC') or die;
  */
 class ModBannersHelper
 {
+	/**
+	 * retrieve list of banners
+	 *
+	 * @param   JRegistry  &$params  module parameters
+	 *
+	 * @return  mixed
+	 */
 	public static function &getList(&$params)
 	{
-		JModelLegacy::addIncludePath(JPATH_ROOT.'/components/com_banners/models', 'BannersModel');
+		JModelLegacy::addIncludePath(JPATH_ROOT . '/components/com_banners/models', 'BannersModel');
 		$document	= JFactory::getDocument();
 		$app		= JFactory::getApplication();
 		$keywords	= explode(',', $document->getMetaData('keywords'));
