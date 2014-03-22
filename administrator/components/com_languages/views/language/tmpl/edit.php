@@ -50,6 +50,14 @@ JHtml::_('formbehavior.chosen', 'select');
 			</div>
 			<div class="control-group">
 					<div class="control-label">
+						<?php echo $this->form->getLabel('lang_code'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('lang_code'); ?>
+					</div>
+			</div>
+			<div class="control-group">
+					<div class="control-label">
 						<?php echo $this->form->getLabel('sef'); ?>
 					</div>
 					<div class="controls">
@@ -65,14 +73,6 @@ JHtml::_('formbehavior.chosen', 'select');
 						<span id="flag">
 							<?php echo JHtml::_('image', 'mod_languages/' . $this->form->getValue('image') . '.gif', $this->form->getValue('image'), array('title' => $this->form->getValue('image')), true); ?>
 						</span>
-					</div>
-			</div>
-			<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('lang_code'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('lang_code'); ?>
 					</div>
 			</div>
 			<?php if ($this->canDo->get('core.edit.state')) : ?>
