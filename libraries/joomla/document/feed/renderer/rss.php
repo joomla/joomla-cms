@@ -197,7 +197,7 @@ class JDocumentRendererRSS extends JDocumentRenderer
 			}
 			$feed .= "		<item>\n";
 			$feed .= "			<title>" . htmlspecialchars(strip_tags($data->items[$i]->title), ENT_COMPAT, 'UTF-8') . "</title>\n";
-			$feed .= "			<link>" . str_replace(' ', '%20', $itemlink ) . "</link>\n";
+			$feed .= "			<link>" . str_replace(' ', '%20', $itemlink) . "</link>\n";
 
 			if (empty($data->items[$i]->guid) === true)
 			{
