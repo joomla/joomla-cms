@@ -112,7 +112,7 @@ $params = $this->params;
 						<dd>
 							<div class="hits">
 								<span class="icon-eye-open"></span> 
-								<meta content="UserPageVisits:<?php echo $item->hits; ?>" itemprop="interactionCount" />
+								<meta itemprop="interactionCount" content="UserPageVisits:<?php echo $item->hits; ?>" />
 								<?php echo JText::sprintf('COM_CONTENT_ARTICLE_HITS', $item->hits); ?>
 							</div>
 						</dd>
