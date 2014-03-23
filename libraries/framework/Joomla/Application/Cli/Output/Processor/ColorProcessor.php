@@ -6,12 +6,17 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
+namespace Joomla\Application\Cli\Output\Processor;
+
+use Joomla\Application\Cli\ColorStyle;
+use Joomla\Application\Cli\Output\Stdout;
+
 /**
  * Class ColorProcessor.
  *
  * @since  1.0
  */
-class JApplicationCliOutputColorProcessor implements ProcessorInterface
+class ColorProcessor implements ProcessorInterface
 {
 	/**
 	 * Flag to remove color codes from the output
@@ -61,7 +66,7 @@ class JApplicationCliOutputColorProcessor implements ProcessorInterface
 	 * @param   string      $name   The style name.
 	 * @param   ColorStyle  $style  The color style.
 	 *
-	 * @return  JApplicationCliOutputColorProcessor  Instance of $this to allow chaining.
+	 * @return  ColorProcessor  Instance of $this to allow chaining.
 	 *
 	 * @since   1.0
 	 */
@@ -144,7 +149,7 @@ class JApplicationCliOutputColorProcessor implements ProcessorInterface
 	/**
 	 * Adds predefined color styles to the ColorProcessor object
 	 *
-	 * @return  JApplicationCliOutputStdout  Instance of $this to allow chaining.
+	 * @return  Stdout  Instance of $this to allow chaining.
 	 *
 	 * @since   1.0
 	 */

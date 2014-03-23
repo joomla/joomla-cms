@@ -6,12 +6,17 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
+namespace Joomla\Application\Cli;
+
+use Joomla\Application\Cli\Output\Stdout;
+use Joomla\Application\Cli\Output\Processor\ProcessorInterface;
+
 /**
  * Class CliOutput
  *
  * @since  1.0
  */
-abstract class JApplicationCliOutput
+abstract class CliOutput
 {
 	/**
 	 * Color processing object
@@ -26,7 +31,7 @@ abstract class JApplicationCliOutput
 	 *
 	 * @param   ProcessorInterface  $processor  The output processor.
 	 *
-	 * @return  JApplicationCliOutput  Instance of $this to allow chaining.
+	 * @return  Stdout  Instance of $this to allow chaining.
 	 *
 	 * @since   1.0
 	 */

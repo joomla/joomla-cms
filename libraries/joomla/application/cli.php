@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Application\Cli\CliOutput;
+
 /**
  * Base class for a Joomla! command line application.
  *
@@ -25,8 +27,8 @@ class JApplicationCli extends JApplicationBase
 	protected $config;
 
 	/**
-	 * @var    JApplicationCliOutput  The output type.
-	 * @since  11.1
+	 * @var    CliOutput  The output type.
+	 * @since  3.3
 	 */
 	protected $output;
 
@@ -39,23 +41,23 @@ class JApplicationCli extends JApplicationBase
 	/**
 	 * Class constructor.
 	 *
-	 * @param   mixed  $input       An optional argument to provide dependency injection for the application's
-	 *                              input object.  If the argument is a JInputCli object that object will become
-	 *                              the application's input object, otherwise a default input object is created.
-	 * @param   mixed  $config      An optional argument to provide dependency injection for the application's
-	 *                              config object.  If the argument is a JRegistry object that object will become
-	 *                              the application's config object, otherwise a default config object is created.
-	 * @param   mixed  $dispatcher  An optional argument to provide dependency injection for the application's
-	 *                              event dispatcher.  If the argument is a JEventDispatcher object that object will become
-	 *                              the application's event dispatcher, if it is null then the default event dispatcher
-	 *                              will be created based on the application's loadDispatcher() method.
-	 * @param   array   $options    An array of options. Requires the key 'output' which is the class name for the
-	 *                              output
+	 * @param   mixed      $input       An optional argument to provide dependency injection for the application's
+	 *                                  input object.  If the argument is a JInputCli object that object will become
+	 *                                  the application's input object, otherwise a default input object is created.
+	 * @param   mixed      $config      An optional argument to provide dependency injection for the application's
+	 *                                  config object.  If the argument is a JRegistry object that object will become
+	 *                                  the application's config object, otherwise a default config object is created.
+	 * @param   mixed      $dispatcher  An optional argument to provide dependency injection for the application's
+	 *                                  event dispatcher.  If the argument is a JEventDispatcher object that object will become
+	 *                                  the application's event dispatcher, if it is null then the default event dispatcher
+	 *                                  will be created based on the application's loadDispatcher() method.
+	 * @param   CliOutput  $output      An array of options. Requires the key 'output' which is the class name for the
+	 *                                  output
 	 *
 	 * @see     JApplicationBase::loadDispatcher()
 	 * @since   11.1
 	 */
-	public function __construct(JInputCli $input = null, JRegistry $config = null, JEventDispatcher $dispatcher = null, $options = array())
+	public function __construct(JInputCli $input = null, JRegistry $config = null, JEventDispatcher $dispatcher = null, CliOutput $output = null)
 	{
 		// Close the application if we are not executed from the command line.
 		// @codeCoverageIgnoreStart
@@ -90,7 +92,7 @@ class JApplicationCli extends JApplicationBase
 			$this->config = new JRegistry;
 		}
 
-		$this->output = isset($options['output']) ? new $options['output'] : new JApplicationCliOutputXml;
+		$this->output = ($output instanceof CliOutput) ? $output : new Joomla\Application\Cli\Output\Xml;
 
 		$this->loadDispatcher($dispatcher);
 
@@ -198,7 +200,7 @@ class JApplicationCli extends JApplicationBase
 	 * @param   string   $text  The text to display.
 	 * @param   boolean  $nl    True (default) to append a new line at the end of the output string.
 	 *
-	 * @return  JApplicationCli  Instance of $this to allow chaining.
+	 * @return  CliOutput  Instance of $this to allow chaining.
 	 *
 	 * @codeCoverageIgnore
 	 * @since   11.1
@@ -207,7 +209,11 @@ class JApplicationCli extends JApplicationBase
 	{
 		// To keep b/c for people who are overriding the constructor pre-3.3. You must set this in the
 		// constructor from Joomla 4.0
-		$this->output = isset($options['output']) ? new $options['output'] : new JApplicationCliOutputXml;
+		if (!$this->output instanceof CliOutput)
+		{
+			$this->output = new Joomla\Application\Cli\Output\Xml;
+		}
+
 		$this->output->out($text, $nl);
 
 		return $this;
@@ -216,9 +222,9 @@ class JApplicationCli extends JApplicationBase
 	/**
 	 * Get an output object.
 	 *
-	 * @return  JApplicationCliOutput
+	 * @return  CliOutput
 	 *
-	 * @since   (CMS 3.3)
+	 * @since   3.3
 	 */
 	public function getOutput()
 	{
