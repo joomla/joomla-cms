@@ -206,14 +206,8 @@ class JApplicationCli extends JApplicationBase
 	 */
 	public function out($text = '', $nl = true)
 	{
-		// To keep b/c for people who are overriding the constructor pre-3.3. You must set this in the
-		// constructor from Joomla 4.0
-		if (!$this->output instanceof CliOutput)
-		{
-			$this->output = new Joomla\Application\Cli\Output\Xml;
-		}
-
-		$this->output->out($text, $nl);
+		$output = $this->getOutput();
+		$output->out($text, $nl);
 
 		return $this;
 	}
@@ -227,6 +221,9 @@ class JApplicationCli extends JApplicationBase
 	 */
 	public function getOutput()
 	{
+		// To keep b/c for people who are overriding the constructor pre-3.3. You must set this in the
+		// constructor from Joomla 4.0
+		$this->output = ($this->output instanceof CliOutput) ? $this->output : new Joomla\Application\Cli\Output\Xml;
 		return $this->output;
 	}
 
