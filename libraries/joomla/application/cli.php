@@ -221,9 +221,12 @@ class JApplicationCli extends JApplicationBase
 	 */
 	public function getOutput()
 	{
-		// To keep b/c for people who are overriding the constructor pre-3.3. You must set this in the
-		// constructor from Joomla 4.0
-		$this->output = ($this->output instanceof CliOutput) ? $this->output : new Joomla\Application\Cli\Output\Xml;
+		if (!$this->output)
+		{
+			// In 4.0, this will convert to throwing an exception; until then, we define a default
+			$this->output = new Joomla\Application\Cli\Output\Xml;
+		}
+
 		return $this->output;
 	}
 
