@@ -51,8 +51,7 @@ class JApplicationCli extends JApplicationBase
 	 *                                  event dispatcher.  If the argument is a JEventDispatcher object that object will become
 	 *                                  the application's event dispatcher, if it is null then the default event dispatcher
 	 *                                  will be created based on the application's loadDispatcher() method.
-	 * @param   CliOutput  $output      An array of options. Requires the key 'output' which is the class name for the
-	 *                                  output
+	 * @param   CliOutput  $output      The output handler.
 	 *
 	 * @see     JApplicationBase::loadDispatcher()
 	 * @since   11.1
