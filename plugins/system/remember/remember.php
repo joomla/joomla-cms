@@ -59,12 +59,20 @@ class PlgSystemRemember extends JPlugin
 		return false;
 	}
 
-	public function onUserLogout($options)
+	/**
+	 * Imports the authentication plugin on user logout to make sure that the cookie is destroyed.
+	 *
+	 * @param   array  $user     Holds the user data.
+	 * @param   array  $options  Array holding options (remember, autoregister, group).
+	 *
+	 * @return  boolean
+	 */
+	public function onUserLogout($user, $options)
 	{
 		// No remember me for admin
 		if ($this->app->isAdmin())
 		{
-			return false;
+			return true;
 		}
 
 		$cookieName = JUserHelper::getShortHashedUserAgent();
@@ -75,5 +83,7 @@ class PlgSystemRemember extends JPlugin
 			// Make sure authentication group is loaded to process onUserAfterLogout event
 			JPluginHelper::importPlugin('authentication');
 		}
+
+		return true;
 	}
 }
