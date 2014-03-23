@@ -25,6 +25,12 @@ class JApplicationCli extends JApplicationBase
 	protected $config;
 
 	/**
+	 * @var    JApplicationCliOutput  The output type.
+	 * @since  11.1
+	 */
+	protected $output;
+
+	/**
 	 * @var    JApplicationCli  The application instance.
 	 * @since  11.1
 	 */
@@ -43,11 +49,12 @@ class JApplicationCli extends JApplicationBase
 	 *                              event dispatcher.  If the argument is a JEventDispatcher object that object will become
 	 *                              the application's event dispatcher, if it is null then the default event dispatcher
 	 *                              will be created based on the application's loadDispatcher() method.
+	 * @param   array   $options    An array of options. Requires the key '
 	 *
 	 * @see     JApplicationBase::loadDispatcher()
 	 * @since   11.1
 	 */
-	public function __construct(JInputCli $input = null, JRegistry $config = null, JEventDispatcher $dispatcher = null)
+	public function __construct(JInputCli $input = null, JRegistry $config = null, JEventDispatcher $dispatcher = null, $options = array())
 	{
 		// Close the application if we are not executed from the command line.
 		// @codeCoverageIgnoreStart
@@ -81,6 +88,8 @@ class JApplicationCli extends JApplicationBase
 		{
 			$this->config = new JRegistry;
 		}
+
+		$this->output = isset($options['output']) ? new $options['output'] : new JApplicationCliOutputXml;
 
 		$this->loadDispatcher($dispatcher);
 
@@ -195,9 +204,24 @@ class JApplicationCli extends JApplicationBase
 	 */
 	public function out($text = '', $nl = true)
 	{
-		fwrite(STDOUT, $text . ($nl ? "\n" : null));
+		// To keep b/c for people who are overriding the constructor pre-3.3. You must set this in the
+		// constructor from Joomla 4.0
+		$this->output = isset($options['output']) ? new $options['output'] : new JApplicationCliOutputXml;
+		$this->output->out($text, $nl);
 
 		return $this;
+	}
+
+	/**
+	 * Get an output object.
+	 *
+	 * @return  JApplicationCliOutput
+	 *
+	 * @since   (CMS 3.3)
+	 */
+	public function getOutput()
+	{
+		return $this->output;
 	}
 
 	/**
