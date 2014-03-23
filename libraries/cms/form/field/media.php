@@ -234,7 +234,7 @@ class JFormFieldMedia extends JFormField
 			$script[] = '				$("#" + id + "_preview_empty").hide();';
 			$script[] = '				$("#" + id + "_preview_img").show()';
 			$script[] = '			} else { ';
-			$script[] = '				img.src = ""';
+			$script[] = '				$img.src = ""';
 			$script[] = '				$("#" + id + "_preview_empty").show();';
 			$script[] = '				$("#" + id + "_preview_img").hide();';
 			$script[] = '			} ';
