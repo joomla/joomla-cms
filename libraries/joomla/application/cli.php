@@ -41,22 +41,21 @@ class JApplicationCli extends JApplicationBase
 	/**
 	 * Class constructor.
 	 *
-	 * @param   mixed      $input       An optional argument to provide dependency injection for the application's
-	 *                                  input object.  If the argument is a JInputCli object that object will become
-	 *                                  the application's input object, otherwise a default input object is created.
-	 * @param   mixed      $config      An optional argument to provide dependency injection for the application's
-	 *                                  config object.  If the argument is a JRegistry object that object will become
-	 *                                  the application's config object, otherwise a default config object is created.
-	 * @param   mixed      $dispatcher  An optional argument to provide dependency injection for the application's
-	 *                                  event dispatcher.  If the argument is a JEventDispatcher object that object will become
-	 *                                  the application's event dispatcher, if it is null then the default event dispatcher
-	 *                                  will be created based on the application's loadDispatcher() method.
-	 * @param   CliOutput  $output      The output handler.
+	 * @param   mixed  $input       An optional argument to provide dependency injection for the application's
+	 *                              input object.  If the argument is a JInputCli object that object will become
+	 *                              the application's input object, otherwise a default input object is created.
+	 * @param   mixed  $config      An optional argument to provide dependency injection for the application's
+	 *                              config object.  If the argument is a JRegistry object that object will become
+	 *                              the application's config object, otherwise a default config object is created.
+	 * @param   mixed  $dispatcher  An optional argument to provide dependency injection for the application's
+	 *                              event dispatcher.  If the argument is a JEventDispatcher object that object will become
+	 *                              the application's event dispatcher, if it is null then the default event dispatcher
+	 *                              will be created based on the application's loadDispatcher() method.
 	 *
 	 * @see     JApplicationBase::loadDispatcher()
 	 * @since   11.1
 	 */
-	public function __construct(JInputCli $input = null, JRegistry $config = null, JEventDispatcher $dispatcher = null, CliOutput $output = null)
+	public function __construct(JInputCli $input = null, JRegistry $config = null, JEventDispatcher $dispatcher = null)
 	{
 		// Close the application if we are not executed from the command line.
 		// @codeCoverageIgnoreStart
@@ -90,8 +89,6 @@ class JApplicationCli extends JApplicationBase
 		{
 			$this->config = new JRegistry;
 		}
-
-		$this->output = ($output instanceof CliOutput) ? $output : new Joomla\Application\Cli\Output\Xml;
 
 		$this->loadDispatcher($dispatcher);
 
@@ -223,11 +220,34 @@ class JApplicationCli extends JApplicationBase
 	{
 		if (!$this->output)
 		{
-			// In 4.0, this will convert to throwing an exception; until then, we define a default
-			$this->output = new Joomla\Application\Cli\Output\Xml;
+			// In 4.0, this will convert to throwing an exception and you will expected to
+			// initialize this in the constructor. Until then set a default.
+			$default = new Joomla\Application\Cli\Output\Xml;
+			$this->setOutput($default);
 		}
 
 		return $this->output;
+	}
+
+	/**
+	 * Set an output object.
+	 *
+	 * @return  JApplicationCli  Instance of $this to allow chaining.
+	 *
+	 * @since   3.3
+	 */
+	public function setOutput($output)
+	{
+		if ($output instanceof CliOutput)
+		{
+			$this->output = $output;
+		}
+		else
+		{
+			throw new InvalidArgumentException('Ouput must be an instance of CliOutput');
+		}
+
+		return $this;
 	}
 
 	/**
