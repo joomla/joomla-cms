@@ -112,7 +112,7 @@ class ContentModelArticles extends JModelList
 		$this->setState('filter.tag', $tag);
 
 		// List state information.
-		parent::populateState('a.title', 'asc');
+		parent::populateState('a.id', 'desc');
 
 		// Force a language
 		$forcedLanguage = $app->input->get('forcedLanguage');
