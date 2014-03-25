@@ -125,9 +125,8 @@
 				<option value="0">JNO</option>
 			</field>
 			<field name="show_suggested_query"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				default=""
+				type="list"
+				default="1"
 				validate="options"
 				label="COM_FINDER_SHOW_SUGGESTED_QUERY_LABEL"
 				description="COM_FINDER_SHOW_SUGGESTED_QUERY_DESC">
@@ -136,9 +135,8 @@
 				<option value="0">JNO</option>
 			</field>
 			<field name="show_explained_query"
-				type="radio"
-				class="btn-group btn-group-yesno"
-				default=""
+				type="list"
+				default="1"
 				validate="options"
 				label="COM_FINDER_SHOW_EXPLAINED_QUERY_LABEL"
 				description="COM_FINDER_SHOW_EXPLAINED_QUERY_DESC">
