@@ -80,8 +80,13 @@ class JTableContent extends JTable
 	 *
 	 * @since   11.1
 	 */
-	protected function _getAssetParentId(JTable $table = null, $id = null)
+	protected function _getAssetParentId($table = null, $id = null)
 	{
+		if (!(is_null($table) || get_class($table) == 'JTable'  || is_subclass_of($table, 'JTable')))
+		{
+			throw new Exception(JText::_('JERROR_WRONG_CLASS_TYPE'));
+		}
+
 		$assetId = null;
 
 		// This is a article under a category.

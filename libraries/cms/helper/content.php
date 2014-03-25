@@ -190,8 +190,13 @@ class JHelperContent
 	 *
 	 * @since   3.1
 	 */
-	public function getRowData(JTable $table)
+	public function getRowData($table)
 	{
+		if (!(get_class($table) == 'JTable'  || is_subclass_of($table, 'JTable')))
+		{
+			throw new Exception(JText::_('JERROR_WRONG_CLASS_TYPE'));
+		}
+
 		$data = new JHelper;
 
 		return $data->getRowData($table);

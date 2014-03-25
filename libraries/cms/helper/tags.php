@@ -342,8 +342,13 @@ class JHelperTags extends JHelper
 	 *
 	 * @since   3.1
 	 */
-	public function deleteTagData(JTable $table, $contentItemId)
+	public function deleteTagData($table, $contentItemId)
 	{
+		if (!(get_class($table) == 'JTable'  || is_subclass_of($table, 'JTable')))
+		{
+			throw new Exception(JText::_('JERROR_WRONG_CLASS_TYPE'));
+		}
+
 		$result = $this->unTagItem($contentItemId, $table);
 
 		/**
