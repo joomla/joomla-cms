@@ -19,11 +19,11 @@ defined('_JEXEC') or die;
 class ModFeedHelper
 {
 	/**
-	 * retrieve feed information
+	 * Retrieve feed information
 	 *
-	 * @param   JRegistry  &$params  module parameters
+	 * @param   JRegistry  $params  module parameters
 	 *
-	 * @return   JFeedReader|string
+	 * @return  JFeedReader|string
 	 */
 	public static function getFeed($params)
 	{

@@ -24,7 +24,7 @@ JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_content/models', 'Con
 abstract class ModArticlesPopularHelper
 {
 	/**
-	 * get a list of popular articles from the articles model
+	 * Get a list of popular articles from the articles model
 	 *
 	 * @param   JRegistry  &$params  object holding the models parameters
 	 *

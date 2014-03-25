@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 class ModBannersHelper
 {
 	/**
-	 * retrieve list of banners
+	 * Retrieve list of banners
 	 *
 	 * @param   JRegistry  &$params  module parameters
 	 *

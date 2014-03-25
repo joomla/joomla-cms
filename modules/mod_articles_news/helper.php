@@ -24,7 +24,7 @@ JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_content/models', 'Con
 abstract class ModArticlesNewsHelper
 {
 	/**
-	 * get a list of the latest articles from the article model
+	 * Get a list of the latest articles from the article model
 	 *
 	 * @param   JRegistry  &$params  object holding the models parameters
 	 *

@@ -26,7 +26,7 @@ JModelLegacy::addIncludePath($com_path . '/models', 'ContentModel');
 abstract class ModArticlesCategoryHelper
 {
 	/**
-	 * get a list of articles from a specific category
+	 * Get a list of articles from a specific category
 	 *
 	 * @param   JRegistry  &$params  object holding the models parameters
 	 *
@@ -289,7 +289,7 @@ abstract class ModArticlesCategoryHelper
 	}
 
 	/**
-	 * strips unnecessary tags from the introtext
+	 * Strips unnecessary tags from the introtext
 	 *
 	 * @param   string  $introtext  introtext to sanitize
 	 *
@@ -354,7 +354,7 @@ abstract class ModArticlesCategoryHelper
 	}
 
 	/**
-	 * groups items by field
+	 * Groups items by field
 	 *
 	 * @param   array   $list                        list of items
 	 * @param   string  $fieldName                   name of field that is used for grouping
@@ -402,7 +402,7 @@ abstract class ModArticlesCategoryHelper
 	}
 
 	/**
-	 * groups items by date
+	 * Groups items by date
 	 *
 	 * @param   array   $list                        list of items
 	 * @param   string  $type                        type of grouping
