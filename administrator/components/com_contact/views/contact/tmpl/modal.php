@@ -57,8 +57,8 @@ $assoc = JLanguageAssociations::isEnabled();
 			<div class="span9">
 				<div class="row-fluid form-horizontal-desktop">
 					<div class="span6">
-						<?php echo $this->form->getControlGroup('user_id'); ?>
-						<?php echo $this->form->getControlGroup('image'); ?>
+						<?php echo $this->form->renderField('user_id'); ?>
+						<?php echo $this->form->renderField('image'); ?>
 						<?php echo $this->form->renderField('con_position'); ?>
 						<?php echo $this->form->renderField('email_to'); ?>
 						<?php echo $this->form->renderField('address'); ?>
