@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 class ModStatsHelper
 {
 	/**
-	 * get list of stats
+	 * Get list of stats
 	 *
 	 * @param   JRegistry  &$params  module parameters
 	 *

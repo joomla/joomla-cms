@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 class ModBreadCrumbsHelper
 {
 	/**
-	 * retrieve breadcrumb items
+	 * Retrieve breadcrumb items
 	 *
 	 * @param   JRegistry  &$params  module parameters
 	 *

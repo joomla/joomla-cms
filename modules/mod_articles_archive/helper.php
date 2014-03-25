@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 class ModArchiveHelper
 {
 	/**
-	 * retrieve list of archived articles
+	 * Retrieve list of archived articles
 	 *
 	 * @param   JRegistry  &$params  module parameters
 	 *

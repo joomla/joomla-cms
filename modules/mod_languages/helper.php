@@ -22,7 +22,7 @@ JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/he
 abstract class ModLanguagesHelper
 {
 	/**
-	 * gets a list of available languages
+	 * Gets a list of available languages
 	 *
 	 * @param   JRegistry  &$params  module params
 	 *

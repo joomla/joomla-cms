@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 abstract class ModTagsPopularHelper
 {
 	/**
-	 * get list of popular tags
+	 * Get list of popular tags
 	 *
 	 * @param   JRegistry  &$params  module parameters
 	 *

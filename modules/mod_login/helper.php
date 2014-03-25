@@ -20,10 +20,10 @@ defined('_JEXEC') or die;
 class ModLoginHelper
 {
 	/**
-	 * retrieve the url where the user should be returned after logging in
+	 * Retrieve the url where the user should be returned after logging in
 	 *
-	 * @param   JRegirstry  $params  module parameters
-	 * @param   string      $type    return type
+	 * @param   JRegistry  $params  module parameters
+	 * @param   string     $type    return type
 	 *
 	 * @return string
 	 */
@@ -97,7 +97,7 @@ class ModLoginHelper
 	}
 
 	/**
-	 * returns the current users type
+	 * Returns the current users type
 	 *
 	 * @return string
 	 */
@@ -109,7 +109,7 @@ class ModLoginHelper
 	}
 
 	/**
-	 * get list of available two factor methods
+	 * Get list of available two factor methods
 	 *
 	 * @return array
 	 */

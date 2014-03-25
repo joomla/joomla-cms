@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 class ModRandomImageHelper
 {
 	/**
-	 * retrieves a random image
+	 * Retrieves a random image
 	 *
 	 * @param   JRegistry  &$params  module parameters object
 	 * @param   array      $images   list of images
@@ -74,7 +74,7 @@ class ModRandomImageHelper
 	}
 
 	/**
-	 * retrieves images from a specific folder
+	 * Retrieves images from a specific folder
 	 *
 	 * @param   JRegistry  &$params  module params
 	 * @param   string     $folder   folder to get the images from
@@ -128,7 +128,7 @@ class ModRandomImageHelper
 	}
 
 	/**
-	 * get sanitized folder
+	 * Get sanitized folder
 	 *
 	 * @param   JRegistry  &$params  module params objects
 	 *

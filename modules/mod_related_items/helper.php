@@ -21,7 +21,7 @@ require_once JPATH_SITE . '/components/com_content/helpers/route.php';
 abstract class ModRelatedItemsHelper
 {
 	/**
-	 * get a list of related articles
+	 * Get a list of related articles
 	 *
 	 * @param   JRegistry  &$params  module parameters
 	 *
