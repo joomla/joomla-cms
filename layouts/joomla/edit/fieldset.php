@@ -49,7 +49,7 @@ if ($displayData->get('show_options', 1))
 
 	foreach ($fieldSet as $field)
 	{
-		$html[] = $field->getControlGroup();
+		$html[] = $field->renderField();
 	}
 
 	echo implode('', $html);

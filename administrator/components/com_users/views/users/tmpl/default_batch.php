@@ -38,7 +38,7 @@ JHtml::_('formbehavior.chosen', 'select');
 			</div>
 			<div id="batch-choose-action" class="combo controls">
 				<div class="control-group">
-					<select name="batch[group_id]" class="inputbox" id="batch-group-id">
+					<select name="batch[group_id]" id="batch-group-id">
 						<option value=""><?php echo JText::_('JSELECT') ?></option>
 						<?php echo JHtml::_('select.options', JHtml::_('user.groups')); ?>
 					</select>

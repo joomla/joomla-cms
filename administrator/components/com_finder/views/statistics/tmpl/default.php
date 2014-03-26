@@ -31,7 +31,11 @@ defined('_JEXEC') or die;
 				<?php foreach ($this->data->type_list as $type) :?>
 				<tr>
 					<td>
-						<?php echo $type->type_title;?>
+						<?php
+						$lang_key    = 'PLG_FINDER_STATISTICS_' . str_replace(' ', '_', $type->type_title);
+						$lang_string = JText::_($lang_key);
+						echo ($lang_string == $lang_key) ? $type->type_title : $lang_string;
+						?>
 					</td>
 					<td>
 						<span class="badge badge-info"><?php echo number_format($type->link_count);?></span>

@@ -111,6 +111,15 @@
 				<option value="1">JSHOW</option>
 			</field>
 
+			<field name="show_tags" type="list"
+				label="COM_CONTENT_FIELD_SHOW_CAT_TAGS_LABEL"
+				description="COM_CONTENT_FIELD_SHOW_CAT_TAGS_DESC"
+			>
+				<option value="">JGLOBAL_USE_GLOBAL</option>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
 			<field name="page_subheading" type="text"
 				description="JGLOBAL_SUBHEADING_DESC"
 				label="JGLOBAL_SUBHEADING_LABEL"

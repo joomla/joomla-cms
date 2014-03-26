@@ -100,11 +100,11 @@ class JFormFieldModal_Newsfeed extends JFormField
 		if ((int) $this->value > 0)
 		{
 			$db = JFactory::getDbo();
-			$db->setQuery(
-				'SELECT name' .
-				' FROM #__newsfeeds' .
-				' WHERE id = '.(int) $this->value
-			);
+			$query = $db->getQuery(true)
+				->select($db->quoteName('name'))
+				->from($db->quoteName('#__newsfeeds'))
+				->where($db->quoteName('id') . ' = ' . (int) $this->value);
+			$db->setQuery($query);
 
 			try
 			{

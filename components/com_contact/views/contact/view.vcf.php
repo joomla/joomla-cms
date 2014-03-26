@@ -19,7 +19,14 @@ class ContactViewContact extends JViewLegacy
 
 	protected $item;
 
-	public function display()
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a Error object.
+	 */
+	public function display($tpl = null)
 	{
 		// Get model data.
 		$item = $this->get('Item');
@@ -67,7 +74,7 @@ class ContactViewContact extends JViewLegacy
 
 		$rev = date('c', strtotime($item->modified));
 
-		$app->setHeader('Content-disposition', 'attachment; filename="'.$card_name.'.vcf"', true);
+		JFactory::getApplication()->setHeader('Content-disposition', 'attachment; filename="'.$card_name.'.vcf"', true);
 
 		$vcard = array();
 		$vcard[] .= 'BEGIN:VCARD';
@@ -86,6 +93,5 @@ class ContactViewContact extends JViewLegacy
 		$vcard[]  = 'END:VCARD';
 
 		echo implode("\n", $vcard);
-		return true;
 	}
 }

@@ -83,10 +83,10 @@ class CategoriesModelCategories extends JModelList
 		$search = $this->getUserStateFromRequest($context . '.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$level = $this->getUserStateFromRequest($context . '.filter.level', 'filter_level', 0, 'int');
+		$level = $this->getUserStateFromRequest($context . '.filter.level', 'filter_level');
 		$this->setState('filter.level', $level);
 
-		$access = $this->getUserStateFromRequest($context . '.filter.access', 'filter_access', 0, 'int');
+		$access = $this->getUserStateFromRequest($context . '.filter.access', 'filter_access');
 		$this->setState('filter.access', $access);
 
 		$published = $this->getUserStateFromRequest($context . '.filter.published', 'filter_published', '');

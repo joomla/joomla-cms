@@ -37,10 +37,10 @@ $input = JFactory::getApplication()->input;
 					<legend><?php echo JText::_('COM_MEDIA_DESCFTPTITLE'); ?></legend>
 					<?php echo JText::_('COM_MEDIA_DESCFTP'); ?>
 					<label for="username"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label>
-					<input type="text" id="username" name="username" class="inputbox" size="70" value="" />
+					<input type="text" id="username" name="username" size="70" value="" />
 
 					<label for="password"><?php echo JText::_('JGLOBAL_PASSWORD'); ?></label>
-					<input type="password" id="password" name="password" class="inputbox" size="70" value="" />
+					<input type="password" id="password" name="password" size="70" value="" />
 				</fieldset>
 			</form>
 		<?php endif; ?>
@@ -69,8 +69,8 @@ $input = JFactory::getApplication()->input;
 		<div id="collapseFolder" class="collapse">
 			<form action="index.php?option=com_media&amp;task=folder.create&amp;tmpl=<?php echo $input->getCmd('tmpl', 'index');?>" name="folderForm" id="folderForm" class="form-inline" method="post">
 					<div class="path">
-						<input class="inputbox" type="text" id="folderpath" readonly="readonly" />
-						<input class="inputbox" type="text" id="foldername" name="foldername"  />
+						<input type="text" id="folderpath" readonly="readonly" />
+						<input type="text" id="foldername" name="foldername"  />
 						<input class="update-folder" type="hidden" name="folderbase" id="folderbase" value="<?php echo $this->state->folder; ?>" />
 						<button type="submit" class="btn"><i class="icon-folder-open"></i> <?php echo JText::_('COM_MEDIA_CREATE_FOLDER'); ?></button>
 					</div>

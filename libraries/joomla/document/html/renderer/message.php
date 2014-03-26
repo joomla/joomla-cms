@@ -29,26 +29,32 @@ class JDocumentRendererMessage extends JDocumentRenderer
 	 *
 	 * @since   11.1
 	 */
-	public function render($name, $params = array (), $content = null)
+	public function render($name, $params = array(), $content = null)
 	{
 		$msgList = $this->getData();
-		$buffer = null;
+		$displayData = array(
+			'msgList' => $msgList,
+			'name' => $name,
+			'params' => $params,
+			'content' => $content
+		);
+
 		$app = JFactory::getApplication();
 		$chromePath = JPATH_THEMES . '/' . $app->getTemplate() . '/html/message.php';
-		$itemOverride = false;
 
 		if (file_exists($chromePath))
 		{
 			include_once $chromePath;
-			if (function_exists('renderMessage'))
-			{
-				$itemOverride = true;
-			}
 		}
 
-		$buffer = ($itemOverride) ? renderMessage($msgList) : $this->renderDefaultMessage($msgList);
+		if (function_exists('renderMessage'))
+		{
+			JLog::add('renderMessage() is deprecated. Override system message rendering with layouts instead.', JLog::WARNING, 'deprecated');
 
-		return $buffer;
+			return renderMessage($msgList);
+		}
+
+		return JLayoutHelper::render('joomla.system.message', $displayData);
 	}
 
 	/**
@@ -79,51 +85,5 @@ class JDocumentRendererMessage extends JDocumentRenderer
 		}
 
 		return $lists;
-	}
-
-	/**
-	 * Render the system message if no message template file found
-	 *
-	 * @param   array  $msgList  An array contains system message
-	 *
-	 * @return  string  System message markup
-	 *
-	 * @since   12.2
-	 */
-	private function renderDefaultMessage($msgList)
-	{
-		// Build the return string
-		$buffer = '';
-		$buffer .= "\n<div id=\"system-message-container\">";
-
-		// If messages exist render them
-		if (is_array($msgList))
-		{
-			$buffer .= "\n<div id=\"system-message\">";
-			foreach ($msgList as $type => $msgs)
-			{
-				$buffer .= "\n<div class=\"alert alert-" . $type . "\">";
-
-				// This requires JS so we should add it trough JS. Progressive enhancement and stuff.
-				$buffer .= "<a class=\"close\" data-dismiss=\"alert\">×</a>";
-
-				if (count($msgs))
-				{
-					$buffer .= "\n<h4 class=\"alert-heading\">" . JText::_($type) . "</h4>";
-					$buffer .= "\n<div>";
-					foreach ($msgs as $msg)
-					{
-						$buffer .= "\n\t\t<p>" . $msg . "</p>";
-					}
-					$buffer .= "\n</div>";
-				}
-				$buffer .= "\n</div>";
-			}
-			$buffer .= "\n</div>";
-		}
-
-		$buffer .= "\n</div>";
-
-		return $buffer;
 	}
 }

@@ -15,18 +15,24 @@ JHtml::_('behavior.formvalidation');
 JHtml::_('behavior.combobox');
 JHtml::_('formbehavior.chosen', 'select');
 
-$hasContent = empty($this->item->module) || $this->item->module == 'custom' || $this->item->module == 'mod_custom';
+$hasContent = empty($this->item->module) ||  isset($this->item->xml->customContent);
+$hasContentFieldName = "content";
+
+// For a later improvement
+if ($hasContent)
+{
+	$hasContentFieldName = "content";
+}
 
 // Get Params Fieldsets
 $this->fieldsets = $this->form->getFieldsets('params');
-
 
 $script = "Joomla.submitbutton = function(task)
 	{
 			if (task == 'module.cancel' || document.formvalidator.isValid(document.id('module-form'))) {";
 if ($hasContent)
 {
-	$script .= $this->form->getField('content')->save();
+	$script .= $this->form->getField($hasContentFieldName)->save();
 }
 $script .= "	Joomla.submitform(task, document.getElementById('module-form'));
 				if (self != top)
@@ -101,7 +107,7 @@ JFactory::getDocument()->addScriptDeclaration($script);
 				<?php
 				if ($hasContent)
 				{
-					echo $this->form->getInput('content');
+					echo $this->form->getInput($hasContentFieldName);
 				}
 				$this->fieldset = 'basic';
 				$html = JLayoutHelper::render('joomla.edit.fieldset', $this);

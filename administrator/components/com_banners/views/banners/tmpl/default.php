@@ -166,6 +166,9 @@ $sortFields = $this->getSortFields();
 									<?php else : ?>
 										<?php echo $this->escape($item->name); ?>
 									<?php endif; ?>
+									<span class="small">
+										<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+									</span>
 									<div class="small">
 										<?php echo $this->escape($item->category_title); ?>
 									</div>
@@ -205,8 +208,6 @@ $sortFields = $this->getSortFields();
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
-		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
-		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>

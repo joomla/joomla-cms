@@ -2,11 +2,11 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  table
- * @copyright   Copyright (C) 2010 - 2012 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
-defined('_JEXEC') or die;
+defined('FOF_INCLUDED') or die;
 
 /**
  * Normally this shouldn't be required. Some PHP versions, however, seem to
@@ -31,21 +31,21 @@ if (!interface_exists('JTableInterface', true))
  * @package  FrameworkOnFramework
  * @since    1.0
  */
-class FOFTable extends JObject implements JTableInterface
+class FOFTable extends FOFUtilsObject implements JTableInterface
 {
 	/**
 	 * Cache array for instances
 	 *
 	 * @var    array
 	 */
-	private static $instances = array();
+	protected static $instances = array();
 
 	/**
 	 * Include paths for searching for FOFTable classes.
 	 *
 	 * @var    array
 	 */
-	private static $_includePaths = array();
+	protected static $_includePaths = array();
 
 	/**
 	 * The configuration parameters array
@@ -220,6 +220,21 @@ class FOFTable extends JObject implements JTableInterface
 	protected $default_behaviors = array('tags', 'assets');
 
 	/**
+	 * The relations object of the table. It's lazy-loaded by getRelations().
+	 *
+	 * @var   FOFTableRelations
+	 */
+	protected $_relations = null;
+
+	/**
+	 * The configuration provider's key for this table, e.g. foobar.tables.bar for the #__foobar_bars table. This is set
+	 * automatically by the constructor
+	 *
+	 * @var  string
+	 */
+	protected $_configProviderKey = '';
+
+	/**
 	 * Returns a static object instance of a particular table type
 	 *
 	 * @param   string  $type    The table name
@@ -333,8 +348,9 @@ class FOFTable extends JObject implements JTableInterface
 					array_unshift($searchPaths, $componentPaths['admin'] . '/' . $altPath);
 				}
 
-				JLoader::import('joomla.filesystem.path');
-				$path = JPath::find(
+                $filesystem = FOFPlatform::getInstance()->getIntegrationObject('filesystem');
+
+				$path = $filesystem->pathFind(
 					$searchPaths, strtolower($type) . '.php'
 				);
 
@@ -379,7 +395,7 @@ class FOFTable extends JObject implements JTableInterface
 
 			if (!array_key_exists('db', $config))
 			{
-				$config['db'] = JFactory::getDBO();
+				$config['db'] = FOFPlatform::getInstance()->getDbo();
 			}
 
 			// Assign the correct table alias
@@ -559,7 +575,9 @@ class FOFTable extends JObject implements JTableInterface
 		$type = explode("_", $this->_tbl);
 		$type = $type[count($type) - 1];
 
-		$configKey = $component . '.tables.' . FOFInflector::singularize($type) . '.behaviors';
+		$this->_configProviderKey = $component . '.tables.' . FOFInflector::singularize($type);
+
+		$configKey = $this->_configProviderKey . '.behaviors';
 
 		if (isset($config['behaviors']))
 		{
@@ -592,10 +610,10 @@ class FOFTable extends JObject implements JTableInterface
 			$this->_trackAssets = true;
 		}
 
-		// If the acess property exists, set the default.
+		// If the access property exists, set the default.
 		if (in_array($access_field, $this->getKnownFields()))
 		{
-			$this->$access_field = (int) JFactory::getConfig()->get('access');
+			$this->$access_field = (int) FOFPlatform::getInstance()->getConfig()->get('access');
 		}
 
 		$this->config = $config;
@@ -912,7 +930,7 @@ class FOFTable extends JObject implements JTableInterface
 		// Check that we have a result.
 		if (empty($row))
 		{
-			$result = true;
+			$result = false;
 
 			return $this->onAfterLoad($result);
 		}
@@ -1008,7 +1026,6 @@ class FOFTable extends JObject implements JTableInterface
 		foreach ($fields as $k => $v)
 		{
 			// If the property is not the primary key or private, reset it.
-
 			if ($k != $this->_tbl_key && (strpos($k, '_') !== 0))
 			{
 				$this->$k = $v->Default;
@@ -1020,6 +1037,22 @@ class FOFTable extends JObject implements JTableInterface
 			return false;
 		}
 	}
+
+    /**
+     * Clones the current object, after resetting it
+     *
+     * @return FOFTable
+     */
+    public function getClone()
+    {
+        $clone = clone $this;
+        $clone->reset();
+
+        $key = $this->getKeyName();
+        $clone->$key = null;
+
+        return $clone;
+    }
 
 	/**
 	 * Generic check for whether dependencies exist for this object in the db schema
@@ -1204,7 +1237,7 @@ class FOFTable extends JObject implements JTableInterface
 			$this->$k = null;
 		}
 
-		// Create the object used for inserting/udpating data to the database
+		// Create the object used for inserting/updating data to the database
 		$fields     = $this->getTableFields();
 		$properties = $this->getKnownFields();
 		$keys       = array();
@@ -1473,7 +1506,7 @@ class FOFTable extends JObject implements JTableInterface
             return false;
         }
 
-		$date = JFactory::getDate();
+		$date = FOFPlatform::getInstance()->getDate();
 		$time = $date->toSql();
 
 		$query = $this->_db->getQuery(true)
@@ -1597,7 +1630,7 @@ class FOFTable extends JObject implements JTableInterface
 			$cid = (array) $cid;
 		}
 
-		JArrayHelper::toInteger($cid);
+        FOFUtilsArray::toInteger($cid);
 		$k = $this->_tbl_key;
 
 		if (count($cid) < 1)
@@ -1695,7 +1728,7 @@ class FOFTable extends JObject implements JTableInterface
 			$cid = (array) $cid;
 		}
 
-		JArrayHelper::toInteger($cid);
+        FOFUtilsArray::toInteger($cid);
 		$user_id = (int) $user_id;
 		$publish = (int) $publish;
 		$k       = $this->_tbl_key;
@@ -2330,7 +2363,7 @@ class FOFTable extends JObject implements JTableInterface
 	 */
 	protected function normalizeSelectFields($fields)
 	{
-		$db     = JFactory::getDbo();
+		$db     = FOFPlatform::getInstance()->getDbo();
 		$return = array();
 
 		foreach ($fields as $field)
@@ -2472,9 +2505,9 @@ class FOFTable extends JObject implements JTableInterface
 	protected function onAfterLoad(&$result)
 	{
 		// Call the behaviors
-		$eventRistult = $this->tableDispatcher->trigger('onAfterLoad', array(&$this, &$result));
+		$eventResult = $this->tableDispatcher->trigger('onAfterLoad', array(&$this, &$result));
 
-		if (in_array(false, $eventRistult, true))
+		if (in_array(false, $eventResult, true))
 		{
 			// Behavior failed, return false
 			$result = false;
@@ -2526,8 +2559,8 @@ class FOFTable extends JObject implements JTableInterface
 				{
 					$this->$created_by = FOFPlatform::getInstance()->getUser()->id;
 				}
-				JLoader::import('joomla.utilities.date');
-				$date = new JDate();
+
+				$date = FOFPlatform::getInstance()->getDate('now', null, false);
 
 				$this->$created_on = $date->toSql();
 			}
@@ -2539,8 +2572,8 @@ class FOFTable extends JObject implements JTableInterface
 				{
 					$this->$modified_by = FOFPlatform::getInstance()->getUser()->id;
 				}
-				JLoader::import('joomla.utilities.date');
-				$date = new JDate();
+
+                $date = FOFPlatform::getInstance()->getDate('now', null, false);
 
 				$this->$modified_on = $date->toSql();
 			}
@@ -3579,5 +3612,40 @@ class FOFTable extends JObject implements JTableInterface
 		$alias = $component . '.' . $view;
 
 		return $alias;
+	}
+
+	/**
+	 * Returns the table relations object of the current table, lazy-loading it if necessary
+	 *
+	 * @return  FOFTableRelations
+	 */
+	public function getRelations()
+	{
+		if (is_null($this->_relations))
+		{
+			$this->_relations = new FOFTableRelations($this);
+		}
+
+		return $this->_relations;
+	}
+
+	/**
+	 * Gets a reference to the configuration parameters provider for this table
+	 *
+	 * @return  FOFConfigProvider
+	 */
+	public function getConfigProvider()
+	{
+		return $this->configProvider;
+	}
+
+	/**
+	 * Returns the configuration parameters provider's key for this table
+	 *
+	 * @return  string
+	 */
+	public function getConfigProviderKey()
+	{
+		return $this->_configProviderKey;
 	}
 }
