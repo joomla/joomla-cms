@@ -593,6 +593,14 @@ class JUser extends JObject
 				$this->password_clear = JArrayHelper::getValue($array, 'password', '', 'string');
 
 				$array['password'] = JUserHelper::hashPassword($array['password']);
+
+				// See if the user is reusing the current password
+				if (JUserHelper::verifyPassword($this->password_clear, $this->password))
+				{
+					$this->setError(JText::_('JLIB_USER_ERROR_CANNOT_REUSE_PASSWORD'));
+
+					return false;
+				}
 			}
 			else
 			{

@@ -171,6 +171,13 @@ class UsersModelReset extends JModelForm
 			return false;
 		}
 
+		// See if the user is reusing the current password
+		if (JUserHelper::verifyPassword($data['password1'], $user->password))
+		{
+			$this->setError(JText::_('COM_USERS_ERROR_CANNOT_REUSE_PASSWORD'));
+			return false;
+		}
+
 		// Update the user object.
 		$user->password = JUserHelper::hashPassword($data['password1']);
 		$user->activation = '';
