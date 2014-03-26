@@ -236,16 +236,9 @@ class JApplicationCli extends JApplicationBase
 	 *
 	 * @since   3.3
 	 */
-	public function setOutput($output)
+	public function setOutput(CliOutput $output)
 	{
-		if ($output instanceof CliOutput)
-		{
-			$this->output = $output;
-		}
-		else
-		{
-			throw new InvalidArgumentException('Ouput must be an instance of CliOutput');
-		}
+		$this->output = $output;
 
 		return $this;
 	}
