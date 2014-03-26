@@ -1,22 +1,21 @@
 <?php
 /**
- * @package     Joomla.Platform
- * @subpackage  Registry
+ * Part of the Joomla Framework Registry Package
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('JPATH_PLATFORM') or die;
+namespace Joomla\Registry\Format;
+
+use Joomla\Registry\AbstractRegistryFormat;
 
 /**
- * PHP class format handler for JRegistry
+ * PHP class format handler for Registry
  *
- * @package     Joomla.Platform
- * @subpackage  Registry
- * @since       11.1
+ * @since  1.0
  */
-class JRegistryFormatPHP extends JRegistryFormat
+class Php extends AbstractRegistryFormat
 {
 	/**
 	 * Converts an object into a php class string.
@@ -27,7 +26,7 @@ class JRegistryFormatPHP extends JRegistryFormat
 	 *
 	 * @return  string  Config class formatted string
 	 *
-	 * @since   11.1
+	 * @since   1.0
 	 */
 	public function objectToString($object, $params = array())
 	{
@@ -67,7 +66,7 @@ class JRegistryFormatPHP extends JRegistryFormat
 	 *
 	 * @return  object   Data object.
 	 *
-	 * @since   11.1
+	 * @since   1.0
 	 */
 	public function stringToObject($data, array $options = array())
 	{
@@ -81,7 +80,7 @@ class JRegistryFormatPHP extends JRegistryFormat
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.0
 	 */
 	protected function getArrayString($a)
 	{
