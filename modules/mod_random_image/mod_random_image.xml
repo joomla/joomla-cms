@@ -48,11 +48,6 @@
 					type="text"
 					label="MOD_RANDOM_IMAGE_FIELD_WIDTH_LABEL"
 					description="MOD_RANDOM_IMAGE_FIELD_WIDTH_DESC" />
-				<field
-					name="height"
-					type="text"
-					label="MOD_RANDOM_IMAGE_FIELD_HEIGHT_LABEL"
-					description="MOD_RANDOM_IMAGE_FIELD_HEIGHT_DESC" />
 			</fieldset>
 			<fieldset
 				name="advanced">
